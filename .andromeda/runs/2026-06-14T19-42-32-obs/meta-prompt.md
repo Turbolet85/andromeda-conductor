@@ -1,0 +1,242 @@
+## Output Protocol
+
+Rules for iteration agents:
+
+1. **Output format:** Patches (old → new) + changelog. Do NOT reproduce the full document.
+2. **Patch structure:** `### Patch N: [description]` with **Old:** (exact text block) and **New:** (replacement text block).
+3. **Changelog format:** `[Iteration N] [substantive|cosmetic] [brief description]`
+4. **Prohibited:** Full document reproduction, restructuring without justification, cosmetic changes mislabeled as substantive.
+5. **No-issues case:** Output "No patches" with cosmetic-only changelog (if any minor refinements).
+
+---
+
+## Analysis Protocol
+
+When analyzing the obs-plan document, follow this chain-of-thought procedure:
+
+1. **Read the full document once** without noting specific issues — establish overall coherence.
+
+2. **Cross-reference systematically** using this concrete checklist:
+   - **Phase 1 instrumentable entity → Section 4/5/6 coverage:** Every entity in Obs Scope Summary (Section 1) with `Instrumentability: instrumentable` MUST have span/metric/log coverage in Sections 4, 5, 6 respectively. Boundary-only entities appear in Section 4 as boundary instrumentation only (e.g., `verify.readback` span wrapping MCP call); NOT-instrumentable entities are excluded entirely.
+   - **Phase 1 telemetry surface → Section 4 hooks + Section 6 log fields:** Every surface (cli, desktop-webview, ipc-internal) in Obs Scope Summary Section 1 MUST appear as a row in Section 4 Auto-instrumentation per surface table AND as documented requirements in Section 6 Log Coverage.
+   - **Phase 1 must-trace path → Section 4 Scenario:** All 7 must-trace scenarios from Obs Scope Summary Section 4 MUST map to `#### Scenario: {Path name}` headings in Section 4 with populated Must-trace spans, Required span attributes, Required log fields, and Cleanup subsections.
+   - **Phase 1 telemetry trigger → addressing section:** Every trigger in Obs Scope Summary Section 5 (perf-budget-instruments, chaos-instrumentation, cross-surface-trace-propagation, error-budget-SLO, creator-explicit-telemetry) MUST have at least one addressing section — check Sections 5, 10, 4, 10, 4/11 respectively.
+   - **Tool/version agreement across 3 sites:** Any library named in Section 3/4/5/6/9/10 (e.g., `tracing 0.1.44`, `tonic 0.14.6`) MUST match exactly in Obs Scope Summary (lines 48-50 telemetry surfaces table) and obs-research.md catalog. Mismatch = fabricated pick.
+   - **Section 6 Log Coverage ↔ tests binding schema:** Log format JSON schema in Section 6 MUST reproduce verbatim (or reference explicitly) the schema from upstream-context Section 5 Test Plan Excerpt. If tests define required fields (journal_emitted_at, run_id, seed, verdict, state, latency_ms, slo_tier, fingerprints), all MUST be present in Section 6. If tests marks schema as "N/A", Section 6 derives from stack defaults only.
+   - **Section 12 Decisions Log pivots → no residual cells:** For each architectural decision in Section 12 ("NONE for self-observation", "structured tracing logs only", "no network OTLP"), grep the entire plan for cells that contradict it. Single-cell residue (e.g., `SpanKind::INTERNAL` enum reference in a `tracing`-only architecture) is invisible to between-cell consistency but contradicts the pivot.
+   - **Code snippet ↔ named library actual API:** Every code block (JSON schema, initialization pattern, macro syntax) MUST use APIs that exist in the named library at the named version. For example: `tracing::Span::kind()` does not exist; `tracing` 0.1 has no `SpanKind` enum; `SpanKind::INTERNAL` is an OTel SDK enum, not available in `tracing`-only self-observation.
+   - **Boundary-only entity instrumentation pattern:** Entities like `conductor-verify` (MCP client), `conductor-emit` (gRPC client), `rusqlite` (DB) MUST show instrumentation at the call boundary only (span around outbound call), not invented internal state tracing. Check Section 4 scenarios for correct pattern.
+   - **Dangling references:** Every `(See § X)` pointer MUST reference an actual subsection. Cross-references to upstream docs (security plan, tests plan) must point to real sections, not generic "upstream" citations.
+
+3. **Check each dimension** with the anchor examples in mind. Anchor examples prove the dimension is grounded in the real document and show the iteration agent EXACTLY what kind of issue to look for.
+
+4. **Out-of-scope discipline:** Do NOT propose patches that would require:
+   - Writing specific test code (`it()` / `test()` / `describe()` / `#[tokio::test]` + `fn test_*` blocks > 5 lines) — tests' domain.
+   - Writing specific instrumentation code (OTel SDK init / `tracing` span creation / meter instrumentation blocks > 5 lines) — obs-pass / phase work domain.
+   - Threat models, auth flows, encryption configs — security domain.
+   - Design tokens, component patterns, typography — design domain.
+   - ARIA attributes, WCAG conformance rules — a11y domain.
+   **NOTE:** OTel span/metric/trace schemas + observability platform picks (Datadog, Sentry, Splunk, NewRelic, Prometheus) ARE obs' domain — obs plan defines them. Patches about these are in-scope.
+   Instead, verify the obs plan exposes the boundary requirement (the WHAT telemetry signal must exist, not HOW it's instrumented). Patch only if the boundary itself is unstated.
+
+5. **Prioritize by impact:** Downstream-blocking issues (Downstream Readiness, Obs Scope Faithfulness, Tool Anchoring) first; implementation-misleading (Tier Calibration, Log Format Alignment) second; signal-diluting (Anti-Pattern Relevance) third.
+
+---
+
+## Analysis Dimensions
+
+### 1. Obs Scope Faithfulness [priority: high]
+
+- **Question A:** Does every Phase 1 instrumentable entity from Obs Scope Summary Section 1 (conductor-core, conductor-timeline, conductor-emit, conductor-faults, conductor-verify, conductor-report, conductor-cli, conductor-tauri, tokio 1.48.x current_thread, rusqlite) receive concrete coverage in Section 4 Span/Trace Coverage, Section 5 Metric Coverage, and/or Section 6 Log Coverage? Boundary-only entities (conductor-verify/MCP, rusqlite) must show boundary instrumentation pattern (outbound call wrapping via `#[tracing::instrument]`), not invented internal state tracing. Are entity coverage gaps that would break iteration completeness?
+
+- **Question B:** Does every Phase 1 telemetry surface from Obs Scope Summary Section 1 (cli, desktop-webview, ipc-internal) have agent-readable instrumentation hooks documented in Section 4 (per-surface auto-instrumentation library + manual instrumentation rows) and Section 6 (per-surface log sink configuration with concrete paths: `logs/agent-latest.jsonl`, `logs/conductor-tauri.jsonl`, browser console)? Verify that Section 4 table row exists for each surface.
+
+- **Question C:** Does every must-trace path from Obs Scope Summary Section 4 (7 scenarios: headless deterministic, fingerprint-storm, restart-suppression, severity-lifecycle, known-residual, coverage-matrix, both-surface parity) translate into a `#### Scenario: {Path name}` subsection in Section 4 with Must-trace spans → Required span attributes → Required log fields → Cleanup all populated? Spot-check at least two scenarios for completeness and presence of scenario-specific log fields (e.g., `bypass_triggered` for restart-suppression, `lifecycle_phase` for severity-lifecycle).
+
+**Anchor example:** Obs Scope Summary Section 1, telemetry surfaces table (lines 48-50)
+
+> "| **cli** (headless `conductor-cli` + `scripts/agent-run.sh`) | `tracing` 0.1.x crate + `tracing-subscriber` JSON formatter; structured stdout/stderr sink for operator or piped consumer; no HTTP/gRPC framework auto-instrumentation (CLI is not an HTTP service) | N/A (no browser frontend) | Stdout JSONL + optional file sink (`logs/agent-latest.jsonl`); no network OTLP (Minimal tier, determinism preservation); paste-to-AI workflow via structured JSON export | Runtime env var `SERVICE_NAME` or hardcoded `conductor`; version via `env!("CARGO_PKG_NAME")` + cargo manifest; `deployment.environment` from `CONDUCTOR_ENV` env var (default `local`) |"
+
+**Issue:** Section 1 documents cli surface with file sink `logs/agent-latest.jsonl`, but Section 6 Log Coverage (Sink configuration, lines 477-482) states `logs/agent-latest.jsonl` for CLI in agent mode. Section 4 Auto-instrumentation per surface table (lines 274-281) names `#[tracing::instrument]` on `fn main()` and core scenario handlers for cli. These three sites must agree exactly on sink path, library name, and surface binding. Verify no discrepancies exist that would cause setup-project to wire the wrong sink.
+
+**Why this matters:** Downstream setup-project skill derives log file path and instrumentation surface bindings from these three cells. Path mismatch breaks log collection; missing surface row breaks span coverage. Iteration loop must flag gaps before /implement phase.
+
+**Adversarial:** If Obs Scope Section 1 lists a surface (e.g., "mock-worker IPC surface") but Section 4 has no corresponding Auto-instrumentation row and Section 6 has no log field requirements for that surface, does the iteration agent flag the missing rows and require Section 4 + Section 6 population, or silently allows incomplete coverage?
+
+---
+
+### 2. Tier Calibration [priority: high]
+
+- **Question A:** Plan declares Minimal tier in Obs Scope Summary. Verify that Section 5 (Metric Coverage) is rendered with no metrics backend and Section 10 (SLO Invariants) defines performance budgets as "JSON field assertion, NOT an OTel histogram backend" (lines 391-414). Does plan explicitly state "no metrics backend" AND confirm performance budget is `latency_ms` + `slo_tier` fields in JSONL + runs.db at report-generation time, not histogram instruments? Is there any mention of `opentelemetry_sdk` meter provider or instrument creation that contradicts Minimal tier?
+
+- **Question B:** For Minimal tier, Section 3 (Observability Harness Contract) should have no OTel SDK subsection (or explicitly state "NONE"). Section 7 (Error Capture & Reporting) should state minimal error capture (panic hook + anyhow edge only, no external error-reporting platform like Sentry). Does plan state "no external error-reporting platform" and document only `std::panic::set_hook()` + `tracing::error!` + `anyhow` edge bridging? Check Section 10 for "Zero unlogged panics" invariant (lines 536-537).
+
+- **Question C:** Section 8 (PII Scrubbing & Compliance) for Minimal tier should be present only for PII scrubbing (no audit-log retention / compliance-regime naming). Does plan include redaction layer (Section 11 lines 595-600 with removal of absolute paths + internal struct names) without mentioning PCI/GDPR/HIPAA-specific compliance trace fields?
+
+**Anchor example:** Section 5 Metric Coverage heading (line 391)
+
+> "_[Minimal tier with perf-budget-instruments trigger — rendered as JSON field assertion, NOT an OTel histogram backend]_"
+
+**Issue:** Heading correctly marks Section 5 as conditional on perf-budget-instruments trigger. Body (lines 393-414) correctly states "Minimal tier has no metrics backend" and defines SLO assertion at report-generation time as `latency_ms <= SLO_threshold_for_slo_tier ? Pass : Fail`. However, Section 5 line 414 states "If added in future, buckets would be: [1000, 2000, ...]" — this suggests histogram bucketing is a future option. Verify this is documented as reserved/deferred in Section 12 Decisions Log so iteration agent doesn't interpret it as a current obligation.
+
+**Why this matters:** Tier Calibration dimension catches over-engineering (adding Standard/Comprehensive sections to Minimal-tier projects) and under-engineering (missing required Minimal sections). Performance budget documentation affects setup-project's SLO enforcement code generation. Ambiguity about "future histograms" could mislead obs-pass to add meter instrumentation that breaks `current_thread` determinism.
+
+**Adversarial:** If Section 5 contains histogram bucketing details for "future escalation to Standard tier" but Section 12 Decisions Log does not reference this as a reserved design, and Section 10 does not forbid histogram instruments, does the iteration agent risk proposing meter initialization in Section 3 that contradicts the Minimal tier pick?
+
+---
+
+### 3. Tool Anchoring (Catalog ↔ Plan) [priority: high]
+
+- **Question A:** Every named library in the plan (tracing 0.1.44, tracing-subscriber 0.3.23, opentelemetry-proto 0.32.0, tonic 0.14.6, rmcp 1.7.0, rusqlite synchronous, tokio 1.48.x current_thread) must appear in Obs Scope Summary Section 1 AND obs-research.md catalog with matching version number. Cross-check Section 3 (OTel SDK init, Logging stack), Section 4 (span kinds enum, manual instrumentation patterns), Section 6 (log format JSON schema) for all named versions and confirm catalog entries exist with agent-readable mechanism documented.
+
+- **Question B:** Does the plan justify WHY no OTel SDK was chosen? Is this documented in Section 12 Decisions Log (lines 639-643) with explicit link to anti-pattern rationale (determinism preservation in single-threaded `current_thread` runtime, creator-explicit anti-pattern per upstream §6)? Does Section 3 line 184 state this clearly?
+
+- **Question C:** For Tauri frontend (browser OTel via `@opentelemetry/auto-instrumentations-web`), does the plan call out the specific exporter as "browser console JSON + optional loopback :4318 with recursion guard" and justify why it's safe (separate target from conductor-emit's :4317, or fallback to console)? Is this in Section 1 Telemetry Surfaces table with recursion-guard rationale (lines 48-50)?
+
+**Anchor example:** Section 3 Logging stack subsection (lines 195-202)
+
+> "- **Library:** `tracing` 0.1.44 (Rust async tracing facade) + `tracing-subscriber` 0.3.23 (JSON formatter + layer composition)"
+
+**Issue:** Section 3 names `tracing` 0.1.44 and `tracing-subscriber` 0.3.23 with semantic descriptions. Verify obs-research.md catalog has entries for both versions with agent-readable mechanism (e.g., "tracing-subscriber JSON formatter + file sink integration"). If obs-research is not provided, assume catalog exists per Phase 2 obs-research output; dimension is AFFIRMATION that plan correctly pins versions.
+
+**Why this matters:** Downstream setup-project derives Cargo.toml dependency pins and initialization patterns from Section 3. Mismatched versions between plan + catalog → build failure at /implement phase. Fabricated library picks (e.g., a library named in plan but not in catalog) block the iteration loop.
+
+**Adversarial:** If Section 4 Span / Trace Coverage lines 268-270 reference `SpanKind::INTERNAL` and `SpanKind::CLIENT` enums, but the chosen self-observation mechanism is `tracing` 0.1.44 (which has no `SpanKind` enum — that's an OTel SDK enum per Section 3 line 184 "NONE — No OTel SDK"), does the iteration agent flag the contradiction (enum values that don't exist in the chosen library) as a code snippet correctness error?
+
+---
+
+### 4. Architectural Invariant Compliance [priority: high]
+
+- **Question A:** Section 12 Decisions Log records key architectural pivots: "NONE for self-observation (hardcoded ban per creator brief upstream §6)", "structured tracing logs only (no spans exported, no metrics, no dashboards)" (lines 639-641). For each pivot, search the entire plan for residual phrases, type names, library references, or API calls that contradict it. Specifically: (a) Does Section 4 Span / Trace Coverage reference OTel-specific enums (SpanKind, Status, etc.) that are incompatible with `tracing`-only self-observation? (b) Does any code block invoke non-existent APIs (e.g., `tracing::Span::kind()` which does not exist in `tracing` 0.1)?
+
+- **Question B:** Is the no-network-OTLP pivot ("no network OTLP for self-observation") consistently honored? Check Section 3 Trace context propagation (lines 239-244): does it correctly state "NO W3C context propagation" for gRPC outbound (conductor-emit → Pulse) and confirm browser frontend exporter is console-only or loopback :4318, NOT :4317?
+
+- **Question C:** Section 11 Universal bans (lines 614-621) includes "NEVER use real network OTLP in self-observing project (recursion guard)" (line 619). Does Section 1 Telemetry Surfaces table (lines 48-50) explicitly state "no network OTLP (determinism + recursion guard)" for cli surface AND document recursion guard for desktop-webview as "separate exporter target or console fallback" (line 49)? If not, the ban is stated but the mechanism is not described, leaving implementation ambiguous.
+
+**Anchor example:** Section 4 Span / Trace Coverage, Span kinds subsection (lines 268-270)
+
+> "**Span kinds:**
+> - `SpanKind::INTERNAL` — internal operations (scenario execution, phase scheduling, report generation)
+> - `SpanKind::CLIENT` — outbound calls (MCP readback via rmcp, rusqlite DB queries, gRPC emit)"
+
+**Issue:** Section 4 references `SpanKind` enum values (OTel SDK enums). However, Section 3 OTel SDK init (lines 184-186) and Section 12 Decisions Log (lines 639-641) clearly state "No OTel SDK for Conductor self-observation" and "structured tracing logs only (no spans exported)". The `tracing` crate (0.1.44) does NOT have a `SpanKind` enum at all — this is an OTel SDK type. This is a residual artifact from a prior architectural choice (OTel-based instrumentation) that contradicts the current choice (`tracing`-only). Single-cell residue: no other cell conflicts with this one, but it contradicts the Decisions Log pivot.
+
+**Why this matters:** Code generation at /implement phase will attempt to use `SpanKind::INTERNAL` in instrumentation macros, fail at compile time (type does not exist), and break span coverage. Architectural Invariant Compliance dimension catches single-cell contradictions that Cross-section Consistency dims miss because there is no conflicting cell — the Decisions Log is the ground truth.
+
+**Adversarial:** If the iteration agent re-reads Section 4 and notes that Span kinds subsection is a "span kinds" subsection (not "OTel-specific types"), might it assume the section is defining abstract kinds and not notice that the enum name `SpanKind` is OTel-specific? How would the iteration agent distinguish between a generic "kind" concept (e.g., "internal vs. external") and a specific OTel enum reference?
+
+---
+
+### 5. Downstream Readiness [priority: high]
+
+- **Question A:** Can `route` skill derive bootstrap phases from Section 3 Observability Harness Contract? Specifically, can it extract: (a) OTel SDK init order (N/A per plan, lines 184-186), (b) logging init instruction (`tracing-subscriber::fmt().json().flatten_event(true).init()` at CLI main + Tauri startup, lines 186, 255), (c) service identity wiring (`service.name` via `env!("CARGO_PKG_NAME")` + `$CONDUCTOR_SERVICE_NAME` override, lines 190-192), (d) log file path configuration (`logs/agent-latest.jsonl` in agent mode, lines 227)? Does each subsection have concrete bodies (2-8 lines of setup detail) or placeholder text?
+
+- **Question B:** Can `setup-project` derive OTel + logger config + service identity + error reporting setup from Section 3 Observability Harness Contract subsections? Check that Section 3 contains populated bodies for:
+  - OTel SDK init (or explicit "NONE" with rationale)
+  - Service identity (compile-time + runtime env var bindings)
+  - Logging stack (library + format + sink per surface)
+  - Log format JSON schema (binding to tests)
+  - Log file location (paths per surface)
+  - Snapshot / paste-to-AI integration (N/A or concrete API)
+  - Trace context propagation (HTTP/gRPC/IPC patterns)
+  - Heartbeat ticks (per surface, N/A or concrete interval)
+  - Bootstrap phases (for downstream skills, lines 252-260)
+  Are all 9 subsections populated (not "TBD" or placeholder) and copy-paste-ready?
+
+- **Question C:** Can `a11y` derive frontend instrumentation hooks from Section 4 Span/Trace Coverage (Tauri desktop-webview row, lines 274-278) + Section 1 Telemetry Surfaces (browser OTel via `@opentelemetry/auto-instrumentations-web`, lines 49) + Section 6 Log Coverage (browser console sink, line 480)? Is frontend error capture (if any) documented sufficiently (error boundary patterns, error-to-console JSON serialization) for a11y to derive accessible error UX patterns? Check Section 11 Error Reporting subsection (lines 589-593) for frontend-specific guidance.
+
+**Anchor example:** Section 3 Bootstrap phases subsection (lines 252-260)
+
+> "Downstream skills (route, setup-project) derive:
+> - **logger-stack-install:** `tracing 0.1.44` + `tracing-subscriber 0.3.23` + JSON formatter + file sink integration
+> - **service-identity-wire:** `service.name` compile-time via `env!("CARGO_PKG_NAME")`; `deployment.environment` runtime via `$CONDUCTOR_ENV` env var
+> - **log-format-schema-emit:** Emit JSON schema file (tests harness binding contract)
+> - **trace-context-propagate-wire:** Tauri IPC envelope `traceparent` field propagation
+> - **pii-scrubbing-wire:** Redaction layer on journal write + report generation (Section 4 / Section 11)
+> - **obs-ci-gate-wire:** cargo-nextest JSON output + CI artifact upload (`logs/agent-latest.jsonl`)"
+
+**Affirmation:** Section 3 Bootstrap phases correctly lists 6 concrete bootstrap tasks with library versions and cross-section references (Section 4, Section 11). Each bootstrap task is specific to Conductor's harness (not generic), named with `-wire` or `-install` suffix for actionability, and references upstream sections that define the mechanism. No placeholders; no TBD.
+
+**Why this matters:** setup-project consumes Section 3 verbatim to materialize bootstrap code. Placeholders propagate as TODO comments and the harness fails at runtime. The most-weighted downstream consumer (setup-project) requires Section 3 to be concrete NOW, not deferred.
+
+**Adversarial:** If Section 3 bootstrap phases list "trace-context-propagate-wire: Tauri IPC envelope `traceparent` field propagation" but Section 3 Trace context propagation subsection (lines 239-244) does not provide concrete propagation mechanism (e.g., "create traceparent header as '{trace-id}-{span-id}-{flags}' and store in Tauri command metadata field"), can setup-project materialize the bootstrap task, or does it produce skeleton code that defers the mechanism to obs-pass?
+
+---
+
+### 6. Log Format Alignment to Tests [priority: high]
+**[Trigger: tests excerpt in upstream-context Section 5 defines explicit log format JSON schema (not "N/A")]**
+
+- **Question A:** Plan Section 6 declares log format JSON schema (lines 422-435). Does it match the tests binding schema from upstream-context Section 5 Test Plan Excerpt verbatim or via explicit reference? Check for these required fields: `journal_emitted_at` (ISO-8601), `run_id` (filesystem-safe), `seed` (u64), `scenario` (string), `p_ids` (array), `verdict` (enum: Pass/Fail/CalibrationRegion), `state` (enum: Pass/Fail/ManualCheck/KnownResidual/Blocked), `latency_ms` (integer or null), `slo_tier` (enum: <5s/<20s/<90s), `fingerprints` (array). Are all present in same order and type?
+
+- **Question B:** Plan Section 6 documents additional scenario-specific fields (`bypass_triggered`, `lifecycle_phase`, `severity_choice_calibrated`, `degraded_mode_response`, lines 437-441). Do these correspond 1-to-1 to must-trace paths in Section 4 (restart-suppression, severity-lifecycle, known-residual)? Is the alignment explicitly documented (e.g., "per Scenario 3 must-trace path: restart-suppression scenario requires `bypass_triggered` field")? Check Section 4 Required log fields for each scenario to verify fields are present (lines 296, 308, 320, 333, 346, 357, 368).
+
+- **Question C:** Section 6 Log Coverage (line 420) explicitly references "binding contract from upstream-context Section 5 Test Plan Excerpt → Test Harness Contract Summary". Does plan Section 10 SLO Invariants (lines 534-556) confirm that zero-unlogged-panics parallel tests' zero-flakiness discipline (no retry-once policies for panic handling, line 537)? Is this alignment bidirectional — does tests plan also reference obs plan as ground truth for telemetry signal definitions?
+
+**Anchor example:** Section 6 Log format JSON schema (lines 422-435)
+
+> "```jsonl
+> {
+>   "journal_emitted_at": "ISO-8601 from std::time::SystemTime",
+>   "run_id": "YYYY-MM-DDTHH-MM-SS-<suffix> (filesystem-safe hyphen-delimited)",
+>   "seed": "u64",
+>   "scenario": "string",
+>   "p_ids": ["P-001", "P-002", ...],
+>   "verdict": "Pass | Fail | CalibrationRegion",
+>   "state": "Pass | Fail | ManualCheck | KnownResidual | Blocked",
+>   "latency_ms": "integer or null (null for blocked rows)",
+>   "slo_tier": "<5s | <20s | <90s",
+>   "fingerprints": ["fingerprint1", "fingerprint2", ...] or empty array
+> }
+> ```"
+
+**Affirmation:** Section 6 schema correctly matches the binding contract structure: all 10 required fields present with correct types and order. Section 6 line 420 explicitly references upstream-context source. Additional fields (lines 437-441) are mapped to scenarios in Section 4 Required log fields.
+
+**Why this matters:** Log format is the binding contract between obs plan + tests harness. Drift breaks tests' log assertion harness and means runs are unscorable. Iteration agent must re-verify this binding on each iteration to catch late-stage schema changes.
+
+**Adversarial:** If a scenario-specific field (e.g., `bypass_triggered` for restart-suppression) is present in Section 6 Additional Fields but NOT in Section 4 Restart-suppression Scenario's Required log fields (line 320), does the iteration agent catch the mismatch and flag that Section 4 is incomplete, or assume Section 6 is authoritative?
+
+---
+
+### 7. Performance Budget & SLO Discipline [priority: high]
+**[Trigger: perf-budget-instruments trigger present in obs-scope Section 5 OR error-budget-SLO trigger]**
+
+- **Question A:** Plan Section 5 (Metric Coverage, lines 391-414) states "Minimal tier has no metrics backend" and perf budget is JSON field assertion. Does Section 10 SLO Invariants (lines 539-545) contain a perf budgets table with concrete thresholds for each SLO tier? Check: does table show "scenario.run (all P-IDs) | <5s | 5000 ms | `read_back_observed_at - journal_emitted_at` (wall-clock)" for all three tiers (<5s, <20s, <90s) with wall-clock measurement confirmed (not tokio virtual clock)? Is measurement source explicitly stated as `std::time::SystemTime`, not `tokio::time::Instant`?
+
+- **Question B:** Section 5 line 414 mentions "If added in future, buckets would be: [1000, 2000, 5000, ...]". Is this sufficiently documented as reserved/deferred in Section 12 Decisions Log? Specifically, does Decisions Log state "Reserved for Phase 3 if escalated to Standard/Comprehensive" or equivalent, so iteration agent does not interpret histogram bucketing as a current obligation?
+
+- **Question C:** Section 10 error budget (line 549) states "N/A (no error budget for this tier — only zero-unlogged-panics invariant)". Is this explicit enough, or does it need contrast with Standard-tier error budget definition? Does Section 9 CI Integration (lines 521-530) contain the zero-unlogged-panics gate (agent greps logs for unstructured panics + enforces structured `tracing::error!` only, lines 527-530)? Is CI gate enforced (build gated) per line 525 "On schema violation, agent marks CI check as FAIL (build gated)"?
+
+**Anchor example:** Section 10 Performance budgets table (lines 541-545)
+
+> "| Scenario tier | SLO threshold | Measurement | Assertion location |
+> |---|---|---|---|
+> | `<5s` P-IDs | 5000 ms | `latency_ms = read_back_observed_at - journal_emitted_at` (wall-clock) | Report-generation time: JSONL field assertion |
+> | `<20s` P-IDs | 20000 ms | same | Report-generation time: JSONL field assertion |
+> | `<90s` P-IDs | 90000 ms | same | Report-generation time: JSONL field assertion |"
+
+**Affirmation:** Section 10 perf budgets table correctly names all three SLO tiers, specifies wall-clock measurement source, and confirms assertion location is report-generation time (JSON field assertion, not histogram backend). No ambiguity; concrete thresholds.
+
+**Why this matters:** Performance budget enforcement affects CI/CD pipeline gating. Missing thresholds or ambiguous measurement source (wall-clock vs. tokio virtual clock) means SLO violations ship undetected. Iteration agent must verify measurement source matches Section 5 determinism requirement (wall-clock only, never tokio virtual clock, per Section 11 line 626).
+
+**Adversarial:** If Section 5 states "Performance budget is measured as ... `read_back_observed_at - journal_emitted_at` in wall-clock milliseconds from `std::time::SystemTime`/`Instant`, never tokio virtual clock" (lines 399) but Section 4 scenarios do not document timestamp capture mechanism (where is `journal_emitted_at` populated, where is `read_back_observed_at` captured), can setup-project derive the timestamp wiring code, or must obs-pass implement it independently?
+
+---
+
+### 8. Self-Observing Recursion Guard [priority: medium]
+**[Trigger: arch Stack signals OTLP emitter/observer — opentelemetry-proto 0.32.0 + tonic 0.14.6 in stack; conductor-emit injects OTLP at Pulse :4317]**
+
+- **Question A:** Plan describes conductor-emit as producing OTLP at `127.0.0.1:4317` to Pulse MCP server (lines 33, 48). Does Section 3 Observability Harness Contract Trace context propagation (lines 239-244) explicitly state that Conductor self-observation does NOT export to the same loopback `:4317`? Verify that CLI exporter is "stdout JSONL + file" (lines 48, 199) and Tauri backend exporter is "file + stderr (dev only)" (lines 79, 200) — zero network OTLP for self-observation.
+
+- **Question B:** Tauri frontend (browser) is permitted to export browser OTel via `@opentelemetry/auto-instrumentations-web` (line 49). Does Section 1 Telemetry Surfaces desktop-webview row explicitly document "separate exporter target or console fallback" to prevent recursion? Quote: "self-recursion guard: desktop-webview DOES produce browser OTel spans, but MUST NOT export to the same loopback that conductor-emit sends to (separate exporter target or console fallback)" (line 49). Is this recursion-guard rationale repeated or cross-referenced in Section 3 for clarity?
+
+- **Question C:** Section 11 Universal anti-patterns (line 621) includes "NEVER emit spans/logs to the same loopback `127.0.0.1:4317` that conductor-emit sends fault telemetry to — self-recursion (browser frontend console-only sink or distinct loopback target)". Does Section 12 Decisions Log document the recursion guard rationale (e.g., "Self-observation: project IS observer; stdout/file-only logging for CLI + backend; browser console or distinct loopback (:4318) for frontend to avoid feedback loop")? Is the exporter port separation (:4317 for conductor-emit, :4318 or console for browser) explicitly named?
+
+**Anchor example:** Section 1 Telemetry Surfaces, desktop-webview row, Notes column (line 49, last sentence)
+
+> "self-recursion guard: desktop-webview DOES produce browser OTel spans, but MUST NOT export to the same loopback that conductor-emit sends to (separate exporter target or console fallback)"
+
+**Affirmation:** Line 49 correctly documents recursion guard constraint (separate target or console fallback). Section 11 Universal ban (line 621) reinforces the constraint. Together, these cells establish that browser OTel is permitted (line 49) but with explicit recursion-guard constraint.
+
+**Why this matters:** Self-observing projects (observer + observable in same process/instance) risk recursion: telemetry generated while processing telemetry → infinite loop. Conductor emits fault telemetry to Pulse at :4317 AND observes itself. If browser frontend also exports to :4317, recursion occurs. Recursion guard is rare (1% of projects) but high-stakes when applicable. Iteration agent must verify exporter ports are separated + documented to prevent this failure mode.
+
+**Adversarial:** If Section 3 Trace context propagation states "NO W3C context propagation" for gRPC outbound (line 242) but does not state "NO export to same loopback :4317", and browser OTel exporter configuration is not explicitly documented with fallback logic (console if :4318 unavailable), can setup-project derive a safe browser exporter configuration, or does it default to :4318 and silently fail if Pulse OTLP receiver is unavailable?

@@ -1,0 +1,251 @@
+## OTel SDK Core
+
+This category is documented-as-EXCLUDED for Conductor self-observation per a hard creator anti-pattern (upstream-context.md §6 Obs Anti-Patterns): `opentelemetry` + `opentelemetry_sdk` + an OTLP exporter MUST NOT be wired to observe Conductor itself, because (a) an exporter spawns batch/background tasks that break the `current_thread` determinism the arch deliberately chose (tokio 1.48.x `current_thread` flavor, upstream §1 Stack), (b) self-telemetry would pollute the very OTLP stream Conductor injects AT Pulse, and (c) full OTel self-obs is over-scope for a Minimal-tier local single-user tool. The OTel/OTLP relationship is INVERTED here: OTLP is the PRODUCT Conductor emits at the system-under-test (via `opentelemetry-proto` raw types + tonic), NOT the obs mechanism. The block below records the canonical SDK only to document why it is deliberately NOT adopted.
+
+### opentelemetry + opentelemetry_sdk (canonical Rust OTel SDK — DOCUMENTED AS EXCLUDED, not adopted)
+
+- **Version:** opentelemetry 0.32.0 / opentelemetry_sdk 0.32.0
+- **Last release:** 2026-05-09 (0.32.x line; same release train as opentelemetry-proto 0.32.0 already in Stack)
+- **Status:** actively maintained (open-telemetry/opentelemetry-rust) — excluded here by project mandate, not by maintenance/quality
+- **Agent-readable:** yes in principle (OTLP-native) — but NOT used for self-obs; the agent-readable self-obs surface for Conductor is `tracing-subscriber` JSON, not this SDK
+- **Fits because:** directly addresses upstream §6 anti-pattern "NO OTel SDK / exporter for self-observation" and obs-scope §3 "OTel SDK init: No OTel SDK for Conductor self-observation"; recording it as excluded prevents Phase 3 from accidentally pulling it in. The `opentelemetry-proto 0.32.0` portion of this train IS in-stack — but only as the fault-emission PRODUCT (conductor-emit, obs-scope §1), never as self-instrumentation.
+- **Key detail:** the SDK's `BatchSpanProcessor` spawns a background flush task on the async runtime — this is precisely the determinism-breaker the creator brief §6 names ("an exporter that spawns batch/background tasks on the runtime would break the `current_thread` determinism"). The version is pinned to the same 0.32.0 train as the in-stack `opentelemetry-proto` so the PRODUCT-side proto types stay ABI-aligned without dragging in the SDK.
+- **Source:** https://crates.io/crates/opentelemetry_sdk/versions
+
+## Structured Logger
+
+This is the ONLY self-observation mechanism Conductor adopts. Per upstream §6 ("Self-observation = structured tracing logs … the emission journal + sanitized stderr") and obs-scope §3 Logging stack, self-obs is `tracing` + `tracing-subscriber` JSON layer — no spans exported, no metrics, no collector.
+
+### tracing (Rust async tracing facade)
+
+- **Version:** 0.1.44
+- **Last release:** 2025-12-18
+- **Status:** actively maintained (tokio-rs/tracing)
+- **Agent-readable:** yes — emits structured, field-typed events that `tracing-subscriber`'s JSON formatter renders as JSON-per-line; configuration: annotate seam fns with `#[tracing::instrument]` and record fields with `tracing::info!(run_id, seed, verdict, …)`
+- **Fits because:** is the binding self-obs facade for the **cli** surface and the **desktop-webview** backend (obs-scope §2 Telemetry Surfaces both name `tracing` 0.1.x); it carries the structured fields of the emission-journal contract (obs-scope §3 / tests §5 JSONL schema: `journal_emitted_at`, `run_id`, `seed`, `scenario`, `p_ids`, `verdict`, `state`, `latency_ms`, `slo_tier`, `fingerprints`)
+- **Key detail:** `tracing` is runtime-agnostic and emits synchronously on the calling thread — it does NOT spawn background tasks, so it preserves the `current_thread` seed-determinism mandate (upstream §1 tokio note; creator brief §6 "same-seed ⇒ same stream is a hard quality bar"). Wall-clock stamps must come from `std::time::SystemTime`/`Instant`, never tokio's virtual clock (obs-scope §3; upstream §6).
+- **Source:** https://crates.io/crates/tracing
+
+### tracing-subscriber (JSON formatter / layer)
+
+- **Version:** 0.3.23
+- **Last release:** 2026-03-13
+- **Status:** actively maintained (tokio-rs/tracing)
+- **Agent-readable:** yes — `tracing_subscriber::fmt().json().flatten_event(true)` produces one JSON object per line (JSONL); agent-parseable via `jq` / `serde_json`; configuration: `tracing_subscriber::fmt().json().with_current_span(false).flatten_event(true).init()`
+- **Fits because:** is the JSONL renderer for the emission-journal ground-truth artifact (`<run_id>.jsonl`) named in upstream §6 ("structured JSONL via `tracing-subscriber` json") and obs-scope §3; drives both the **cli** stdout/file sink (`logs/agent-latest.jsonl`) and the **desktop-webview** backend sink (`logs/conductor-tauri.jsonl`)
+- **Key detail:** the `--agent-mode` flag (obs-scope §3) should switch the layer from `.pretty()` (dev/stderr) to `.json()` to a file sink; obs DERIVES this format from the tests §5 binding contract and must NOT re-author the schema (upstream §6). Pair with `tracing-appender` (non-blocking file writer) ONLY in its blocking/`NonBlocking`-disabled mode if used, to avoid a background flush thread that could perturb determinism — or write the journal directly via `conductor-report` and reserve `tracing-subscriber` for sanitized stderr.
+- **Source:** https://crates.io/crates/tracing-subscriber
+
+## Stdout OTel Exporter (Minimal floor)
+
+The research-targets Minimal floor names a stdout OTel exporter. For Conductor this is documented as the LAST-RESORT floor only — the actual self-obs floor is `tracing-subscriber` JSON (above), because adopting even a stdout OTel exporter would require initializing an `opentelemetry_sdk` TracerProvider, which the creator anti-pattern (§6) forbids for self-obs. The block records the canonical crate so Phase 3 knows the floor exists but is superseded by the JSONL journal.
+
+### opentelemetry-stdout (canonical Rust stdout exporter — floor documented, superseded by JSONL journal)
+
+- **Version:** 0.32.0
+- **Last release:** 2026-05-09
+- **Status:** actively maintained (open-telemetry/opentelemetry-rust, same 0.32.0 train as in-stack opentelemetry-proto)
+- **Agent-readable:** yes — prints OTLP spans/metrics/logs as JSON to stdout (paste-friendly); configuration: `SpanExporter::default()` from `opentelemetry-stdout` wired into a `SimpleSpanProcessor` (non-batching, no background task)
+- **Fits because:** would satisfy the research-targets "Minimal floor" for the **cli** surface IF an OTel pipeline were used — but obs-scope §3 explicitly chooses `tracing-subscriber` JSONL over any OTel exporter for self-obs; recorded to show the floor is met-or-exceeded by the journal
+- **Key detail:** even `SimpleSpanProcessor` + `opentelemetry-stdout` requires an `opentelemetry_sdk::trace::SdkTracerProvider`, which re-introduces the SDK the creator banned for self-obs (§6); therefore the JSONL `tracing-subscriber` sink is the chosen agent-readable floor and this exporter stays unused. Note: do NOT confuse with `opentelemetry-proto` (in-stack, PRODUCT-side fault emission) — different crate, different purpose.
+- **Source:** https://crates.io/crates/opentelemetry-stdout
+
+## Per-Surface Instrumentation — CLI
+
+### tracing + tracing-subscriber on conductor-cli (CLI surface instrumentation)
+
+- **Version:** tracing 0.1.44 + tracing-subscriber 0.3.23
+- **Last release:** tracing 2025-12-18 / tracing-subscriber 2026-03-13
+- **Status:** actively maintained (tokio-rs/tracing)
+- **Agent-readable:** yes — JSON-per-line to stdout/file via `fmt().json()`; sanitized stderr for operator hint-text; both `jq`/`serde_json`-parseable
+- **Fits because:** **cli** surface (obs-scope §2) is the release-gate source-of-truth and is explicitly "no HTTP/gRPC framework auto-instrumentation (CLI is not an HTTP service)"; per research-targets "CLI / TUI: language OTel SDK + `tracing` … no per-framework auto-instrumentation". Covers must-trace Path 1 (Headless deterministic scenario run, obs-scope §4) spans `scenario.run → timeline.execute → emit.batch → verify.readback → report.generate → db.insert_run`.
+- **Key detail:** `#[tokio::main(flavor="current_thread")]` bootstrap (upstream §1 conductor-cli) means the subscriber init happens once at binary edge; clap parse failures and internal errors route to sanitized stderr (design §3 "CLI error output … machine-parseable"), and the `latency_ms`/`verdict`/`state` fields land in the JSONL journal, not in exported spans.
+- **Source:** https://docs.rs/tracing-subscriber/latest/tracing_subscriber/fmt/struct.SubscriberBuilder.html
+
+## Per-Surface Instrumentation — desktop-webview (Tauri backend)
+
+### tauri-plugin-log + #[tracing::instrument] (Tauri backend command instrumentation)
+
+- **Version:** tauri-plugin-log 2.7.1 (paired with tracing 0.1.44)
+- **Last release:** tauri-plugin-log 2.7.1 (2026 line, tauri-apps/plugins-workspace); tracing 2025-12-18
+- **Status:** actively maintained (tauri-apps/plugins-workspace)
+- **Agent-readable:** yes — `tracing-subscriber` JSON to `logs/conductor-tauri.jsonl`; tauri-plugin-log can additionally fan log records to the webview/stdout targets in structured form; `jq`-parseable
+- **Fits because:** **desktop-webview** surface backend (obs-scope §2) instruments `#[tauri::command]` handlers `start_scenario()`, `stop_scenario()`, `get_run_report()`, `operator_pause_go_no_go()` via `#[tracing::instrument]` — research-targets "Desktop-webview (Tauri / Electron): … Tauri command tracing macro (`#[tracing::instrument]` for Rust)". Backs must-trace Path 7 (Both-surface parity, obs-scope §4) Tauri path `tauri.command.start_scenario → scenario.run`.
+- **Key detail:** Tauri commands are local IPC, not HTTP, so there is NO HTTP auto-instrumentation (obs-scope §2 ipc-internal); conductor-tauri owns its OWN `multi_thread` runtime separate from core's `current_thread` (upstream §1), so backend tracing here cannot perturb core seed-determinism. Security forward-guardrail: tauri ≥ 2.10.3 required (CVE-2026-42184 origin-confusion, upstream §2) — the log plugin must not widen the deny-by-default capabilities file.
+- **Source:** https://crates.io/crates/tauri-plugin-log
+
+## Per-Surface Instrumentation — desktop-webview (browser frontend)
+
+### @opentelemetry/sdk-trace-web + @opentelemetry/auto-instrumentations-web (frontend browser OTel)
+
+- **Version:** @opentelemetry/sdk-trace-web 2.7.1 + @opentelemetry/auto-instrumentations-web 0.62.0
+- **Last release:** sdk-trace-web 2.7.1 (2026 line); auto-instrumentations-web 0.62.0 (2026-06-10)
+- **Status:** actively maintained (open-telemetry/opentelemetry-js + contrib)
+- **Agent-readable:** yes — spans serializable to JSON; for agent mode use a browser `console.log()` JSON sink (paste-to-AI) rather than network export; configuration: `WebTracerProvider` + `getWebAutoInstrumentations()` with a console/JSON span processor
+- **Fits because:** **desktop-webview** frontend (obs-scope §2) is React 19 + Tailwind v4.1 + shadcn/ui in a Tauri webview; research-targets "frontend browser OTel SDK" + "Frontend Telemetry" pulled in because the surface has non-N/A frontend hooks. Captures DOM-interaction/navigation/fetch spans for the Run console live/HOLD/terminal layouts (upstream §4).
+- **Key detail:** SELF-RECURSION GUARD (obs-scope §2): the webview DOES produce browser OTel spans but MUST NOT export to the same loopback `127.0.0.1:4317`/`:4318` that conductor-emit injects fault telemetry into — otherwise self-telemetry pollutes the PRODUCT stream (upstream §6 recursion ban). Use console/JSON fallback or a distinct target. The live-counter Tauri `Channel` is UI state (count tints), NOT telemetry — do not put OTel on it.
+- **Source:** https://www.npmjs.com/package/@opentelemetry/auto-instrumentations-web
+
+### web-vitals (frontend RUM — Core Web Vitals)
+
+- **Version:** 5.3.0
+- **Last release:** 2026-06-08
+- **Status:** actively maintained (GoogleChrome/web-vitals)
+- **Agent-readable:** yes — `onLCP/onCLS/onINP/onTTFB` callbacks deliver plain JS metric objects that serialize to JSON-per-line in the browser console (paste-to-AI); configuration: `onLCP(m => console.log(JSON.stringify(m)))`
+- **Fits because:** **desktop-webview** frontend hook (obs-scope §2 names `web-vitals` for LCP/INP/CLS/TTFB); research-targets "Frontend Telemetry … RUM (`web-vitals`)". Quantifies render latency of the Run console / Run report views (upstream §4 layouts) without any backend dependency.
+- **Key detail:** v5 reports INP (replacing FID) as a Core Web Vital; tiny (~2 KB) so negligible bundle impact in the bundled Tauri webview. Frontend-only and OPTIONAL — not required for the core headless harness (obs-scope §6 complexity fact (e)); emit to console JSON, not to the fault-injection loopback (recursion guard above).
+- **Source:** https://www.npmjs.com/package/web-vitals
+
+## Per-Surface Instrumentation — ipc-internal (Tauri command → conductor-core)
+
+### #[tracing::instrument] with traceparent IPC envelope (ipc-internal boundary instrumentation)
+
+- **Version:** tracing 0.1.44 (+ tracing-subscriber 0.3.23)
+- **Last release:** tracing 2025-12-18 / tracing-subscriber 2026-03-13
+- **Status:** actively maintained (tokio-rs/tracing)
+- **Agent-readable:** yes — nested-span fields render to JSON-per-line; `traceparent` carried as a structured field; `jq`-parseable
+- **Fits because:** **ipc-internal** surface (obs-scope §2: Tauri command → conductor-core boundary) per research-targets "IPC-internal: language tracing + manual context propagation in IPC envelope"; backs the `cross-surface-trace-propagation` trigger and must-trace Path 7 parity (obs-scope §4/§5)
+- **Key detail:** Tauri commands are synchronous IPC (blocking RPC) — span nesting is parent = command handler, child = core op; W3C `traceparent` rides the Tauri command envelope metadata field, NOT HTTP headers (obs-scope §2 ipc-internal Notes). No framework auto-instrumentation exists or is wanted (not HTTP/gRPC).
+- **Source:** https://docs.rs/tracing/latest/tracing/attr.instrument.html
+
+## Per-Surface Instrumentation — conductor-verify (MCP read-back boundary)
+
+### rmcp (official Rust MCP SDK — read-back client, boundary-only)
+
+- **Version:** 1.7.0
+- **Last release:** 2026-05-13
+- **Status:** actively maintained (official modelcontextprotocol/rust-sdk)
+- **Agent-readable:** yes — typed JSON-RPC 2.0 responses from `list_all_tools()`/`call_tool()` are structured and serde-serializable; the read-back result + computed `latency_ms` land in the JSONL journal
+- **Fits because:** conductor-verify is Boundary-only (obs-scope §1) — rmcp is the read-back client that IS "the observability surface" per creator brief §6 ("the 'observability' that matters is MCP read-back of Pulse's reaction"); instrument the outbound boundary call (`verify.readback` span, obs-scope §4 Path 1) only, never Pulse internals
+- **Key detail:** version must negotiate DOWN to protocol `2024-11-05` (Pulse's hand-rolled server version) — strict-newer default is the silent-mismatch class the preflight gate exists to prevent (upstream §1 Standard Contracts + §2 anti-pattern "Pinning rmcp client to strict newer protocol default"). Spawn the sidecar with fixed program path + `.env(...)` only — no config-into-argv (rmcp STDIO design flaw, CVE-2026-30623, upstream §2). Bounded prost recursion on read-back; empty canary ⇒ `blocked`, never false pass.
+- **Source:** https://crates.io/crates/rmcp
+
+## Per-Surface Instrumentation — conductor-report (runs.db boundary)
+
+### tracing span at rusqlite call boundary (persistent-storage instrumentation)
+
+- **Version:** tracing 0.1.44 (over rusqlite 0.38.0, in-stack)
+- **Last release:** tracing 2025-12-18
+- **Status:** actively maintained (tokio-rs/tracing)
+- **Agent-readable:** yes — `db.insert_run` span fields (run_id, verdict, state, latency_ms) flatten to JSON-per-line; `jq`-parseable
+- **Fits because:** conductor-report / `runs.db` is Boundary-only (obs-scope §1: "instrumentation at the rusqlite call boundary (query span) only"); backs the terminal `db.insert_run` span of must-trace Paths 1/5 and the `db.query_all_p_ids` span of Path 6 (Coverage-matrix completeness gate, obs-scope §4)
+- **Key detail:** rusqlite is synchronous and deliberately OFF the async runtime (upstream §1) — a plain `tracing::info_span!` around the bound-parameter query is correct; do NOT add an async DB instrumentation layer. All SQL uses rusqlite bound parameters (upstream §2 anti-pattern "String concatenation for SQL queries"); `latency_ms` is INTEGER ms, NULL for blocked rows; `journal_emitted_at`/`read_back_observed_at` are integer-ms journal offsets, never wall-clock (upstream §1 Data model columns).
+- **Source:** https://crates.io/crates/rusqlite
+
+## CI Integration
+
+### cargo-nextest + JSONL/JUnit artifact upload (GitHub Actions agent-readable telemetry)
+
+- **Version:** cargo-nextest 0.9.132
+- **Last release:** 2026-03-21
+- **Status:** actively maintained (nextest-rs/nextest)
+- **Agent-readable:** yes — `--message-format libtest-json` emits machine-parseable per-test JSON; JUnit XML via `[profile.ci.junit]`; both uploadable as CI artifacts and parseable by an agent; the `logs/agent-latest.jsonl` journal uploads as an artifact too
+- **Fits because:** upstream §1 CI/CD names GitHub Actions running `cargo build` / cargo-nextest / `cargo clippy`; research-targets "CI Integration Pattern … log file uploaded as CI artifact, structured test output annotation". Enforces tests §5 zero-flakiness (no `retries` > 0) — a flake is a real determinism break, surfaced as machine-parseable JSON, not human-gated.
+- **Key detail:** end-to-end dynamic scenario proof requires a live Pulse (`mcp-server` feature + `ANDROMEDA_PULSE_MCP_ENABLED`) and is an explicit operator/local gate, NOT a CI gate (upstream §1 Pipeline note). cargo-nextest `retries` MUST stay 0 (tests §5 Quality Gates). Pair with cargo-llvm-cov 0.8.7 `--fail-under-lines 60` for the Minimal coverage gate (tests §5).
+- **Source:** https://nexte.st/docs/machine-readable/
+
+## Service Identity Convention
+
+### env!("CARGO_PKG_*") compile-time + CONDUCTOR_* runtime override (service identity resolution)
+
+- **Version:** Rust 2024 / cargo 1.85 std macros (in-stack); no external crate
+- **Last release:** Rust 2024 edition (cargo 1.85, in-stack per upstream §1); std `env!` macro is stable
+- **Status:** actively maintained (rust-lang/rust std)
+- **Agent-readable:** yes — `service.name`/`service.version`/`deployment.environment` emitted as flat JSON fields on every JSONL line; `jq`-queryable
+- **Fits because:** obs-scope §3 Service identity specifies compile-time `env!("CARGO_PKG_VERSION")` + runtime `$CONDUCTOR_SERVICE_NAME` / `$CONDUCTOR_ENV` (default `local`); research-targets "Service Identity Convention … Compile-time: `env!(\"CARGO_PKG_NAME\")` macro for Rust … Runtime: env var". Respects the reserved `CONDUCTOR_*` namespace (upstream §1 Obs Hints).
+- **Key detail:** `service.name` = `"conductor"` (CLI) / `"conductor-tauri"` (GUI) / `"conductor-ui"` (frontend) per obs-scope §3; environment resolution reads `CONDUCTOR_ENV` (default `"local"`) — local files + env vars only, no secrets manager, no cloud config (upstream §1 Config management). `CONDUCTOR_*` path handles sit OUTSIDE garde validation and must be `std::fs::canonicalize`d + bounds-checked at the conductor-cli edge before any read/write (upstream §2 anti-pattern).
+- **Source:** https://doc.rust-lang.org/std/macro.env.html
+
+## Performance Budget
+
+`[trigger-driven; pulled in by perf-budget-instruments from obs-scope Sec 5; Performance Budget Histograms is a COMPREHENSIVE-ONLY category but is pulled in at Minimal for trigger coverage — rendered as a JSON field-assertion, NOT an OTel histogram, because Minimal tier has NO metrics backend]`
+
+### latency_ms JSON field assertion (journal-relative SLO, no histogram)
+
+- **Version:** tracing 0.1.44 + tracing-subscriber 0.3.23 (implements the field; no separate histogram crate)
+- **Last release:** tracing 2025-12-18 / tracing-subscriber 2026-03-13
+- **Status:** actively maintained (tokio-rs/tracing)
+- **Agent-readable:** yes — `latency_ms` (INTEGER ms) and `slo_tier` (`<5s`/`<20s`/`<90s`) are flat fields on each JSONL journal line; SLO pass/fail is a `jq`/`serde_json` field assertion at report-generation time, no metrics backend required
+- **Fits because:** directly satisfies the `perf-budget-instruments` trigger (obs-scope §5) and creator brief §6 "Every latency/SLO is `read_back_observed_at − journal_emitted_at` against Pulse's behavior"; Conductor has NO production SLO of its own (not a service, not a load-tester), so a histogram backend is wrong — the per-run scalar field is the budget instrument
+- **Key detail:** `latency_ms = read_back_observed_at − journal_emitted_at` in WALL-CLOCK ms from `std::time::SystemTime`/`Instant`, never tokio's virtual clock (upstream §6; obs-scope §5 corrupts journal-relative SLO math otherwise); `slo_tier` is a closed TEXT enum (upstream §1 Data model); `latency_ms` is NULL for `blocked` rows. Histogram bucketing is explicitly OPTIONAL and omitted at Minimal (obs-scope §5 "no metrics backend … SLO enforcement is JSON field assertion").
+- **Source:** https://docs.rs/tracing-subscriber/latest/tracing_subscriber/fmt/index.html
+
+## Chaos / Fault Injection Telemetry
+
+`[trigger-driven; pulled in by chaos-instrumentation from obs-scope Sec 5; Chaos / Fault Injection Telemetry is a COMPREHENSIVE-ONLY category but is pulled in at Minimal for trigger coverage — implemented as project-specific tracing spans, no packaged chaos crate exists/is wanted]`
+
+### conductor-faults fault-injection spans (project-specific tracing pattern)
+
+- **Version:** tracing 0.1.44 (implements the spans; no packaged chaos library)
+- **Last release:** 2025-12-18
+- **Status:** actively maintained (tokio-rs/tracing)
+- **Agent-readable:** yes — each fault span emits structured JSON fields (`fault_type`, `fault_duration_ms`, `fault_start_offset_ms`) as JSON-per-line; `jq`-parseable
+- **Fits because:** satisfies the `chaos-instrumentation` trigger (obs-scope §5) tied to the conductor-faults module (upstream §1) and tests §5 "chaos-test / fault-injection"; spans wrap each fault application: `fault.silence` (network silence window), `fault.ramp` (emission-rate ramp), `fault.port_occupier` (port occupation for the gRPC connectivity check)
+- **Key detail:** bounded "typical/high" profiles ONLY (P-060) — explicitly NOT saturation / not 50k+ spans/sec (creator brief §6 "Not a load-tester"; tests §5); `fault_start_offset_ms` is a JOURNAL offset (integer ms), and fault timing is gated by `tokio::time` under the `current_thread` runtime so the same seed reproduces the same fault stream (upstream §1). No packaged chaos-engineering crate is appropriate; a `tracing::info_span!("fault.silence", fault_type=…, fault_duration_ms=…)` is the idiomatic, deterministic implementation.
+- **Source:** https://docs.rs/tracing/latest/tracing/macro.info_span.html
+
+## Cross-Surface Trace Propagation
+
+### traceparent over Tauri command envelope (W3C Trace Context propagation)
+
+- **Version:** tracing 0.1.44 (W3C `traceparent` carried as a structured field; no separate propagator crate needed at Minimal)
+- **Last release:** 2025-12-18
+- **Status:** actively maintained (tokio-rs/tracing)
+- **Agent-readable:** yes — `traceparent` (W3C format) appears as a flat field on the JSON-per-line logs of both the CLI root span and the Tauri command handler span; `jq`-correlatable across surfaces
+- **Fits because:** satisfies the `cross-surface-trace-propagation` trigger (obs-scope §5) and must-trace Path 7 (Both-surface parity, obs-scope §4); design §3 names both `desktop-webview` and `cli` surfaces, and the trigger requires `traceparent` propagated from the CLI/Tauri root span to the command handler span
+- **Key detail:** NO inbound context — CLI and Tauri are DRIVERS, not services receiving requests (obs-scope §5); the `traceparent` rides the Tauri command envelope metadata field, NOT HTTP headers (obs-scope §2 ipc-internal). The outbound gRPC emission (conductor-emit → Pulse) deliberately does NOT propagate W3C context — Conductor is a stateless injector and Pulse's trace context is independent (obs-scope §3 Trace context propagation).
+- **Source:** https://www.w3.org/TR/trace-context/
+
+## Multi-Platform Exporter Compatibility
+
+`[trigger-driven; pulled in by multi-platform-exporter-compat from obs-scope Sec 5; the Network OTLP Exporter / Frontend Telemetry categories it would normally pull (STANDARD+) are DECLINED — Conductor uses NO network OTLP exporter for self-obs (determinism + recursion bans); the agent-readable surface is a platform-agnostic JSONL file sink across Windows/macOS/Linux]`
+
+### tracing-subscriber JSONL file sink (platform-agnostic, no network exporter)
+
+- **Version:** tracing-subscriber 0.3.23 (+ tracing-appender 0.2.x if a rolling file writer is used)
+- **Last release:** 2026-03-13
+- **Status:** actively maintained (tokio-rs/tracing)
+- **Agent-readable:** yes — identical JSON-per-line output on all three desktop OSes; sink is a relative POSIX-style path `logs/agent-latest.jsonl` (CLI) / `logs/conductor-tauri.jsonl` (Tauri backend); `jq`/`serde_json`-parseable everywhere
+- **Fits because:** satisfies the `multi-platform-exporter-compat` trigger (obs-scope §5) across the Windows/macOS/Linux targets of both the `cli` and `desktop-webview` surfaces (design §3); the file sink is platform-agnostic and relative to `CONDUCTOR_RUNS_DIR` (obs-scope §5)
+- **Key detail:** NO platform-specific crash reporter and NO network OTLP exporter at Minimal (obs-scope §5: "Sentry/Crashlytics integration deferred"; upstream §6: no trace exporter / no collector) — a network exporter would also break `current_thread` determinism and risk recursion into the PRODUCT stream. Frontend platform parity is the browser-console JSON sink (web-vitals / OTel-web above), not network export. Path handling uses filesystem-safe hyphenated `run_id` (colons illegal on Windows, upstream §1).
+- **Source:** https://docs.rs/tracing-appender
+
+## Error Budget / Panic Capture
+
+### std::panic::set_hook + anyhow edge bridging (zero-unlogged-panics)
+
+- **Version:** anyhow 1.0.102 (in-stack) + std `panic::set_hook` (Rust 2024)
+- **Last release:** anyhow 1.0.102 (in-stack per upstream §1); std panic hook stable in Rust 2024 / cargo 1.85
+- **Status:** actively maintained (dtolnay/anyhow + rust-lang/rust std)
+- **Agent-readable:** yes — the panic hook emits a structured `tracing` error event (JSON-per-line) with sanitized context, then the binary edge converts to `anyhow::Error` → sanitized stderr + exit code 1; `jq`-parseable
+- **Fits because:** satisfies the `error-budget-SLO` trigger (obs-scope §5, "Minimal tier: zero-unlogged-panics only") tied to tests §5 zero-flakiness + the determinism hard-bar; Conductor has NO production error-budget SLO of its own, so the budget reduces to "no panic goes unlogged"
+- **Key detail:** `tonic::Status` codes and MCP error responses are FIRST-CLASS typed verification inputs (Ok-valued verdicts), NOT panics — a panic on the read-back path would corrupt run classification (upstream §1 Verdict/error wall; §2 anti-pattern "Letting malformed child/transport input panic"). The hook/stderr output MUST be sanitized: no absolute host paths, no internal struct names, no backtrace file paths leaked (upstream §2; obs-scope §5 redaction). No external error-tracking platform (Sentry/Bugsnag/Rollbar) — explicitly rejected (upstream §1 Inherited Defaults).
+- **Source:** https://doc.rust-lang.org/std/panic/fn.set_hook.html
+
+## Redaction / Field-Allowlist
+
+This is THE ONE thing obs owns downstream (creator brief §6: "the field-allowlist / redaction layer — no absolute host paths, no internal struct names in artifacts"). No packaged crate implements the project's allowlist; it is a project-specific `tracing` layer / serialization filter.
+
+### redaction layer (project-specific tracing field filter)
+
+- **Version:** tracing-subscriber 0.3.23 (implements the field filter via a custom `Layer` / `FormatFields`; no packaged redaction crate)
+- **Last release:** 2026-03-13
+- **Status:** actively maintained (tokio-rs/tracing)
+- **Agent-readable:** yes — produces the same JSON-per-line journal/report with only allowlisted fields present (verdict/state/identity/count); guarantees `jq`/paste-to-AI output carries no host paths or struct names
+- **Fits because:** satisfies the `creator-explicit-telemetry` (redaction) trigger (obs-scope §5) and the creator's single downstream obs ownership (upstream §6); applied as a `redaction.apply_field_allowlist()` span on journal write + report generation (obs-scope §5), scrubbing `path::` (absolute filesystem paths), `module::` (internal crate names), and `backtrace` file paths
+- **Key detail:** allowlist (not denylist) — preserve ONLY verdict/state/identity/count fields per the tests §5 JSONL binding contract; this enforces upstream §2 anti-patterns "Leaking absolute host paths in run-report artifacts" and "Exposing stack traces, absolute paths, or internal struct names to operator". Note: PII scrubbing is N/A as a self-obs concern — the P-047 seven-category corpus (emails/JWT/bearer/API-keys/credit-cards/SSN/secret-like key=value) is the synthetic data Conductor EMITS at Pulse to verify Pulse scrubs it, NOT data Conductor logs about itself (creator brief §6; upstream §2 PII = N/A).
+- **Source:** https://docs.rs/tracing-subscriber/latest/tracing_subscriber/layer/trait.Layer.html
+
+## N/A at Minimal — Documented Exclusions
+
+The `logging-sensitive` and `compliance-audit-trail` triggers (obs-scope §5) are N/A at Minimal — recorded here with their underlying library so no category is left without a `### ` block.
+
+### log rotation / audit retention (log4rs) — NOT pulled in at Minimal
+
+- **Version:** log4rs 1.4.x (canonical Rust rotation lib; recorded as the underlying library, not adopted)
+- **Last release:** log4rs 1.4.x (2025-2026 line, estfle/log4rs)
+- **Status:** actively maintained — excluded by tier, not by quality
+- **Agent-readable:** yes (would emit rotated JSON log files) — but NOT used; Minimal tier has no retention/compliance requirement
+- **Fits because:** documents that `compliance-audit-trail` (obs-scope §5) is N/A — security tier is Minimal (single-developer, local-only, no compliance, upstream §2); `logging-sensitive` is likewise N/A (no PII/credentials/payment in Conductor's domain; only self-generated synthetic telemetry classified Low, upstream §2 Data Classifications)
+- **Key detail:** runs.db + JSONL store only self-generated synthetic OTLP fault data treated as world-readable local files (upstream §2 "Persisting secrets to unencrypted runs.db or journals" — none exist to persist); no encryption-at-rest, no retention policy, no audit trail required at Minimal. If the tool ever grew an authenticated/multi-tenant surface, both triggers activate and log4rs + compliance trace fields would be pulled in.
+- **Source:** https://crates.io/crates/log4rs

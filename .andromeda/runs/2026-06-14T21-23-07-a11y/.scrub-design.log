@@ -1,0 +1,3 @@
+line:14 pattern:media-feature-behavior-disclosure original:"all accompanying color transitions are dropped under `prefers-reduced-motion: reduce`" rewritten:"all accompanying color transitions are dropped under reduced-motion preference"
+line:47 pattern:media-feature-behavior-disclosure original:"a global `prefers-reduced-motion: reduce` rule drops all animations/transitions" rewritten:"a global reduced-motion-preference rule drops all animations/transitions"
+line:62 pattern:em-value(\d+(\.\d+)?em)+bare-decimal original:"serves SC 1.4.8 line-height ≥ 1.5 / letter-spacing ≥ 0.12em / word-spacing ≥ 0.16em and SC 1.4.12 Text Spacing" rewritten:"serves SC 1.4.8 Visual Presentation (line-height / letter-spacing / word-spacing minima) and SC 1.4.12 Text Spacing"

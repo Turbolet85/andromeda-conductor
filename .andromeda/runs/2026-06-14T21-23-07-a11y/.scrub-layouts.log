@@ -1,0 +1,1 @@
+No violations found. Layouts excerpt references design tokens by NAME only (`color-focus`, `border-emphasis`) with zero raw values — no hex / px / ms / em / pt / decimal / cubic-bezier / RGB literals, no CSS property declarations, no @media rules, no typeface names. Scrub ran unconditionally per scrub.md scope; 0 rewrites applied.

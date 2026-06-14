@@ -1,0 +1,30 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Edit|MultiEdit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'path=$(jq -r \".tool_input.file_path\" <<< \"$CLAUDE_TOOL_INPUT\"); if echo \"$path\" | grep -qE \"(^|/)(dist|build|[.]next|node_modules|coverage|target|vendor)/\"; then echo \"Blocked: edit to generated directory\"; exit 1; fi'"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|MultiEdit|Write",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash -c 'f=\"$CLAUDE_FILE_PATH\"; case \"$f\" in *.rs) rustfmt \"$f\" 2>/dev/null || true;; esac'"
+          },
+          {
+            "type": "command",
+            "command": "bash -c 'case \"$CLAUDE_FILE_PATH\" in *.rs) cargo clippy --fix --allow-dirty --allow-staged -- -D warnings 2>/dev/null || true;; esac'"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -1,0 +1,148 @@
+## 1. Instrumentation Scope
+
+| Entity | Source | Instrumentability | Reason if not fully instrumentable |
+|--------|--------|-------------------|-------------------------------------|
+| **conductor-core** | Workspace / Modules | Instrumentable | Runtime-agnostic library for scenario execution; produces emission journal and report state; all telemetry sinks controlled by caller (CLI or Tauri) |
+| **conductor-timeline** | Workspace / Modules + Stack (tokio 1.48.x `current_thread` flavor) | Instrumentable | Deterministic seeded phase scheduler; tokio `current_thread` runtime ensures emission ordering is seed-deterministic; instrumentation spans must use wall-clock (`std::time::SystemTime`/`Instant`) not tokio's virtual clock |
+| **conductor-emit** | Workspace / Modules + Stack (opentelemetry-proto 0.32.0, tonic 0.14.6) | Instrumentable | Raw OTLP message construction and gRPC egress to `127.0.0.1:4317`; byte-level fault control for fingerprint identity; instrumentation of outbound gRPC call only (the boundary is the emission itself, not Pulse-side receipt) |
+| **conductor-faults** | Workspace / Modules | Instrumentable | Fault-injection helpers (ramps, silence, port-occupier, fingerprint generation); telemetry surfaces as spans around each fault application phase |
+| **conductor-verify** | Workspace / Modules + Standard Contracts (MCP preflight readiness gate + OTLP egress check) | Boundary-only | MCP read-back client via rmcp 1.7.0; version negotiation and tool presence check are boundary calls to Pulse's MCP server; Pulse-side state untraced (Conductor observes the read-back response, not Pulse's internals) |
+| **conductor-report** | Workspace / Modules + Standard Contracts (Run report envelope) | Instrumentable | JSONL journal per-run emission stream; Markdown run report generation; rusqlite synchronous embedded SQLite (`runs.db`) for run-metadata; instrumentation of journal write, report render, DB insert operations |
+| **conductor-cli** | Workspace / Modules + Design System (cli surface) | Instrumentable | `agent-run` binary entry point; `#[tokio::main(flavor="current_thread")]` CLI bootstrap with anyhow error bridging; CLI argument parsing (clap) and structured output to stdout/stderr |
+| **conductor-tauri** | Workspace / Modules + Design System (desktop-webview surface) + Stack (Tauri 2, React 19) | Instrumentable | Tauri 2 GUI binary with React 19 frontend; `#[tauri::command]` for start/stop/picker/run-report/operator-pause actions; `Channel` for live emission counter streaming backend→frontend; frontend (browser) telemetry via `@opentelemetry/auto-instrumentations-web` + web-vitals |
+| **tokio 1.48.x `current_thread` runtime** | Stack | Instrumentable | Deterministic single-threaded async runtime; zero work-stealing preserves emission ordering as function of seed; instrumentation must respect the runtime's invariant (no background batch tasks in exporters that would break determinism) |
+| **Pulse MCP server** | Standard Contracts (MCP preflight readiness gate + OTLP egress check) | Boundary-only | Third-party observability backend; Conductor acts as MCP client calling `query_incident_list`, `retrieve_report`, `retrieve_telemetry_slice`, `mark_incident_resolved` against pinned `2024-11-05` protocol version; Pulse-side behavior is not instrumentable (Conductor observes read-back responses and SLO timing only) |
+| **rusqlite + libsqlite3-sys (`runs.db`)** | Stack | Boundary-only | Synchronous embedded SQLite with bundled C bindings; raw SQL (no ORM); append-mostly run-metadata storage; instrumentation at the rusqlite call boundary (query span) only; SQLite internal state is not instrumented (C library, outside Rust control) |
+| **cargo build / CI/CD pipeline** | CI/CD Platform | Not-instrumentable | GitHub Actions workflow; build-time verification (`cargo build`, cargo-nextest, cargo clippy); does not run at runtime; observability focus is on the deployed harness binary and headless `scripts/agent-run.sh` execution |
+
+---
+
+## 2. Telemetry Surfaces
+
+| Surface | Backend instrumentation hooks | Frontend instrumentation hooks | Exporter | Service identity | Notes |
+|---------|-------------------------------|-------------------------------|----------|------------------|-------|
+| **cli** (headless `conductor-cli` + `scripts/agent-run.sh`) | `tracing` 0.1.x crate + `tracing-subscriber` JSON formatter; structured stdout/stderr sink for operator or piped consumer; no HTTP/gRPC framework auto-instrumentation (CLI is not an HTTP service) | N/A (no browser frontend) | Stdout JSONL + optional file sink (`logs/agent-latest.jsonl`); no network OTLP (Minimal tier, determinism preservation); paste-to-AI workflow via structured JSON export | Runtime env var `SERVICE_NAME` or hardcoded `conductor`; version via `env!("CARGO_PKG_NAME")` + cargo manifest; `deployment.environment` from `CONDUCTOR_ENV` env var (default `local`) | Agent-driven mode: no OTel SDK for self-observation (determinism constraint); emission journal format is binding contract from tests excerpt § 5 (JSONL with `journal_emitted_at` ISO-8601, `run_id`, `seed`, `scenario`, `p_ids`, `verdict`, `state`, `latency_ms`, `slo_tier`, `fingerprints` fields); all output agent-parseable via `jq` / `serde_json` |
+| **desktop-webview** (Tauri 2 + React 19 + Tailwind + shadcn/ui on Windows/macOS/Linux) | Backend: Tauri command handler spans via `#[tracing::instrument]` on `start_scenario()`, `stop_scenario()`, `get_run_report()`, `operator_pause_go_no_go()`; `tracing-subscriber` structured logs to stderr (pretty in dev, JSON in agent mode); no HTTP framework (Tauri commands are local IPC, not HTTP) | Frontend browser OTel SDK (`opentelemetry-js` 0.50.x or later) + `@opentelemetry/auto-instrumentations-web` (DOM interactions, navigation, fetch) + `web-vitals` (LCP, FID, CLS, TTFB); browser console JSON logger sink for paste-to-AI workflow | Backend stdout (dev) / file (agent mode); Frontend: `opentelemetry-exporter-trace-otlp-http` to loopback `:4318` (if Pulse OTLP receiver running; fallback to stdout-only for agent mode); dual-sink (network + console backup for paste-to-AI) | Compile-time: `env!("CARGO_PKG_NAME")` = `conductor-tauri`; runtime override via `CONDUCTOR_SERVICE_NAME` env var; version from manifest | Tauri `#[tauri::command]` functions are IPC boundaries, not HTTP — instrument via `#[tracing::instrument]` decorator, not HTTP auto-instrumentation; W3C Trace Context propagated via IPC envelope `traceparent` field (Tauri channel metadata); live-counter `Channel` emits unstructured heartbeat data (count tints) to UI state, not telemetry (no OTel on the UI counter channel itself); self-recursion guard: desktop-webview DOES produce browser OTel spans, but MUST NOT export to the same loopback that conductor-emit sends to (separate exporter target or console fallback) |
+| **ipc-internal** (Tauri command → conductor-core boundary) | `#[tracing::instrument]` span on each `#[tauri::command]` handler; trace context in IPC message envelope (`traceparent` field per W3C standard); no framework auto-instrumentation (not HTTP/gRPC) | N/A (IPC is backend-only) | Same as parent surface (cli or desktop-webview depending on entry point) | Inherited from parent surface | Tauri commands are synchronous IPC (blocking RPC); span nesting: parent = command handler, child = core operations triggered; trace context propagation via message envelope metadata (not HTTP headers) |
+
+---
+
+## 3. Observability Harness Specification
+
+**OTel SDK init:** No OTel SDK for Conductor self-observation (creator-explicit anti-pattern from §6 Obs Anti-Patterns: "DO NOT wire `opentelemetry` + `opentelemetry_sdk` + an OTLP exporter to observe Conductor itself"). OTLP is the PRODUCT (fault telemetry emitted AT Pulse via `opentelemetry-proto` raw types + tonic), not the obs mechanism. Self-observation is **structured tracing logs only** (no spans exported, no metrics, no dashboards).
+
+**Service identity:**
+- **CLI:** `service.name` = hardcoded `"conductor"` or runtime `$CONDUCTOR_SERVICE_NAME`; `service.version` = `env!("CARGO_PKG_VERSION")` from `Cargo.toml`; `deployment.environment` = `$CONDUCTOR_ENV` (default `"local"`)
+- **Tauri GUI:** `service.name` = `"conductor-tauri"`; same version/environment resolution as CLI
+- **Frontend (browser in Tauri webview only):** `service.name` = `"conductor-ui"`; version from window global or manifest; environment inherited from backend Tauri env var
+
+**Logging stack:**
+- Library: `tracing` 0.1.x (Rust async tracing facade) + `tracing-subscriber` JSON layer
+- Format: JSONL (one JSON object per line) with schema binding contract from tests excerpt §5:
+  ```jsonl
+  {
+    "journal_emitted_at": "ISO-8601 from std::time::SystemTime",
+    "run_id": "string",
+    "seed": 0,
+    "scenario": "string",
+    "p_ids": ["P-001"],
+    "verdict": "Pass | Fail | CalibrationRegion",
+    "state": "Pass | Fail | ManualCheck | KnownResidual | Blocked",
+    "latency_ms": 0,
+    "slo_tier": "string",
+    "fingerprints": []
+  }
+  ```
+- Sink (CLI): dual (stderr pretty-print in dev mode + file `logs/agent-latest.jsonl` in agent mode); no TTY detection for piped output (ANSI 256-color gating per design excerpt)
+- Sink (Tauri backend): file `logs/conductor-tauri.jsonl` + stderr (dev only)
+- Sink (Tauri frontend): browser console JSON logger (paste-to-AI; no network OTLP exporter for browser to avoid recursion)
+- Agent mode flag: `--agent-mode` CLI flag (sets `CONDUCTOR_AGENT_MODE=1`); forces JSON-only to file, no pretty-print to stderr
+
+**Log format JSON schema:** (Binding contract from tests excerpt §5 — obs aligns to tests, not vice versa)
+```jsonl
+{
+  "journal_emitted_at": "ISO-8601 from std::time::SystemTime",
+  "run_id": "YYYY-MM-DDTHH-MM-SS-<suffix> (filesystem-safe hyphen-delimited)",
+  "seed": "u64",
+  "scenario": "string",
+  "p_ids": ["P-001", "P-002", ...],
+  "verdict": "Pass | Fail | CalibrationRegion",
+  "state": "Pass | Fail | ManualCheck | KnownResidual | Blocked",
+  "latency_ms": "integer or null (null for blocked rows)",
+  "slo_tier": "<5s | <20s | <90s",
+  "fingerprints": ["fingerprint1", "fingerprint2", ...] or empty array
+}
+```
+- No absolute host paths, no internal struct names (security plan §2 anti-pattern: "Leaking absolute host paths in run-report artifacts")
+- Agent-parseable via `jq` and `serde_json`
+
+**Log file location:**
+- CLI: `logs/agent-latest.jsonl` (project root, relative to `CONDUCTOR_RUNS_DIR`) in agent mode; stdout in dev mode
+- Tauri backend: `logs/conductor-tauri.jsonl`
+- Tauri frontend: browser `console.log()` JSON (paste-to-AI; no file persistence for browser context)
+- Paste-to-AI workflow: user pipes CLI output or copies console JSON to Claude Code / Claude web
+
+**Snapshot / paste-to-AI integration:**
+- No Pulse-class OTLP receiver in Conductor's own stack (Pulse is external)
+- Snapshot path: N/A (Minimal tier, no persistent snapshot API)
+- Paste-to-AI surface: structured JSONL logs + sanitized stderr + run report Markdown (per creator brief §6 "Control surface, not a dashboard")
+
+**Trace context propagation:**
+- HTTP: not applicable (no HTTP server in Conductor; OTLP gRPC egress is one-way emission, not request-response with inbound context)
+- gRPC outbound (conductor-emit → Pulse MCP): W3C Trace Context NOT propagated (Conductor is stateless injector; Pulse's own trace context is independent)
+- IPC (Tauri command → conductor-core): W3C Trace Context via Tauri command envelope metadata field `traceparent` (propagated from CLI span parent to command handler span)
+- No cross-surface header propagation (each surface has its own service identity)
+
+**Heartbeat ticks:**
+- CLI (`conductor-cli`): N/A (short-lived per-scenario execution; 5-120s typical run duration; no long-running server)
+- Tauri backend: optional every 30s `conductor.tick` event (active scenario count + emission counter) emitted via Tauri `Channel` to frontend for live UI update; not a telemetry span (unstructured counter data)
+- Tauri frontend: per-scenario emission counter tick via `Channel` (UI state update, not telemetry)
+
+---
+
+## 4. Critical Paths (must-trace)
+
+| Path | Surfaces involved | Must-trace spans | Required log fields | Source |
+|------|-------------------|------------------|-------------------|--------|
+| **Headless deterministic scenario run with MCP read-back verification** | CLI (`conductor-cli`) + ipc-internal (core boundary) + persistent-storage (`runs.db` / JSONL journal) + boundary-only (MCP client to Pulse) | `scenario.run` (root) → `timeline.execute` → `emit.batch` (per emission) → `verify.readback` (MCP call) → `report.generate` → `db.insert_run` (final verdict write) | `trace_id` (W3C), `run_id`, `seed`, `scenario`, `p_ids`, `verdict`, `state`, `latency_ms` (computed: `read_back_observed_at - journal_emitted_at`), `slo_tier`, `fingerprints` (array), `journal_emitted_at` (ISO-8601, wall-clock), `read_back_observed_at` (ISO-8601) | Tests excerpt §5 Critical Path 1 + Creator Brief §6 "Emission journal as ground truth" + "MCP read-back as the observability surface" |
+| **Fingerprint-storm scenario (high-cardinality emission)** | CLI + core + persistent-storage + boundary-only (MCP) | `scenario.run` → `timeline.execute_fingerprint_storm` → `emit.batch` (per P-ID cohort, multiple batches) → `verify.readback_fingerprints` → `report.generate` | `trace_id`, `run_id`, `seed`, `scenario` (= "fingerprint-storm"), `p_ids` (array of all touched P-IDs), `verdict`, `state`, `latency_ms`, `slo_tier`, `fingerprints` (populated array), `journal_emitted_at` | Tests excerpt §5 Critical Path 2 |
+| **Restart-suppression scenario incl. bypass case** | CLI + core + persistent-storage + boundary-only (MCP) | `scenario.run` → `timeline.execute_restart_suppression` → `emit.batch` (canonical path) → `emit.batch` (bypass path, distinct) → `verify.readback_suppression_bypass` → `report.generate` | `trace_id`, `run_id`, `seed`, `scenario` (= "restart-suppression"), `p_ids`, `verdict`, `state`, `latency_ms`, `slo_tier`, `fingerprints`, `journal_emitted_at`, additional field `bypass_triggered` (boolean) to distinguish the two outcomes | Tests excerpt §5 Critical Path 3 + Creator Brief §6 "one bypass case" |
+| **Severity-lifecycle full pass observing auto-resolve + resolution summary** | CLI + core + persistent-storage + boundary-only (MCP) | `scenario.run` → `timeline.execute_severity_lifecycle` → `emit.batch` (per severity transition) → `verify.readback_auto_resolve` → `verify.readback_resolution_summary` → `report.generate` | `trace_id`, `run_id`, `seed`, `scenario` (= "severity-lifecycle"), `p_ids`, `verdict` (should be CalibrationRegion for severity *choice*; Pass/Fail for *timing*), `state`, `latency_ms`, `slo_tier`, `fingerprints`, `journal_emitted_at`, additional fields `lifecycle_phase` (string: "escalation" / "plateau" / "resolution"), `severity_choice_calibrated` (boolean) | Tests excerpt §5 Critical Path 4 + Creator Brief §6 "Assertion-policy split" ("lifecycle timing = hard pass/fail; severity choice = CalibrationRegion") |
+| **Known-residual classification path** | CLI + core + persistent-storage + boundary-only (MCP) | `scenario.run` → `timeline.execute` → `verify.readback_degraded_mode` (MCP call with `degraded_mode=true`) → `report.classify_known_residual` → `db.insert_run` | `trace_id`, `run_id`, `seed`, `scenario` (e.g., P-032), `p_ids`, `verdict`, `state` (should be "KnownResidual", NOT "Fail"), `latency_ms`, `slo_tier`, `fingerprints`, `journal_emitted_at`, additional field `degraded_mode_response` (string or boolean) to indicate MCP read-back surface behavior | Tests excerpt §5 Critical Path 5 + Creator Brief §6 "Known-residual classification" |
+| **Coverage-matrix completeness gate** | CLI (report output) + persistent-storage (`runs.db` query aggregating all runs) | `report.coverage_matrix_generate` → `db.query_all_p_ids` (all 60 P-IDs enumeration) → `report.validate_coverage` | `trace_id`, `p_ids` (array of all 60 P-IDs), `missing_p_ids` (empty array on pass, populated on fail), `coverage_percent` (0-100), `journal_emitted_at` | Tests excerpt §5 Critical Path 6 |
+| **Both-surface parity (headless CLI + Tauri GUI same verdict for same seed)** | CLI + desktop-webview (Tauri command handler) + ipc-internal + persistent-storage + boundary-only (MCP) | CLI path: `scenario.run` (as in Path 1) | Tauri path: `tauri.command.start_scenario` → `scenario.run` (same instrumentation) | `trace_id`, `run_id`, `seed`, `scenario`, `p_ids`, `verdict`, `state`, `latency_ms`, `slo_tier` | Tests excerpt §5 Critical Path 7 + Creator Brief §6 "Both surfaces emit a journal" |
+
+---
+
+## 5. Telemetry Triggers
+
+| Trigger type | Source | Required telemetry signal |
+|--------------|--------|--------------------------|
+| **logging-sensitive** (none enumerated in security plan §2) | Security Plan Excerpt §2 "No logging-sensitive vectors enumerated" | N/A (Minimal tier: no PII, no credentials, no payment data in Conductor's domain; only self-generated synthetic telemetry classified Low) |
+| **compliance-audit-trail** (not applicable) | Security Tier = Minimal (single-developer, local-only, no compliance requirements) | N/A |
+| **perf-budget-instruments** | Creator Brief §6 "SLOs are Pulse's, measured journal-relative" + Tests excerpt §5 SLO tiers ("<5s / <20s / <90s") | OTel histogram for `scenario.latency_ms` bucketed per `slo_tier` ("P-XXX < 5s", "< 20s", "< 90s"); per-run `latency_ms` field in JSONL log (computed: `read_back_observed_at - journal_emitted_at` in wall-clock milliseconds); no metrics backend (Minimal tier) — histogram bucketing is optional; SLO enforcement is JSON field assertion at report-generation time |
+| **chaos-instrumentation** | Tests excerpt §5 Coverage Triggers "chaos-test / fault-injection" + Stack (conductor-faults module) | Fault-injection span per fault application: `fault.silence` (network silence window), `fault.ramp` (emission rate ramp), `fault.port_occupier` (port occupation for gRPC connectivity check); span attributes: `fault_type`, `fault_duration_ms`, `fault_start_offset_ms` (journal offset) |
+| **cross-surface-trace-propagation** | Design System Excerpt §3 (desktop-webview + cli surfaces) + Tests excerpt §5 Critical Path 7 ("Both-surface parity") | W3C Trace Context (`traceparent` field) propagated from CLI root span to Tauri command handler span; no inbound context (CLI/Tauri are drivers, not services receiving requests); Tauri command envelope includes `traceparent` metadata field |
+| **multi-platform-exporter-compat** | Design System Excerpt §3 surfaces (Windows/macOS/Linux on both cli and desktop-webview) | CLI exporter: stdout + file `logs/agent-latest.jsonl` (platform-agnostic POSIX path, relative to `CONDUCTOR_RUNS_DIR`); Tauri desktop exporter: same backend + browser console (frontend); no platform-specific crash reporter (Minimal tier; Sentry/Crashlytics integration deferred to Phase 3 if escalated) |
+| **error-budget-SLO** (Minimal tier: zero-unlogged-panics only) | Tests excerpt §5 Quality Gates "Zero-flakiness statement" + Creator Brief §6 Rigor Hints "determinism hard quality bar" | `std::panic::set_hook()` capture: if panic occurs, emit structured error log with backtrace (if available) and context; convert panic to `anyhow::Error` at binary edge (CLI: exit code 1 + sanitized error to stderr; Tauri: error dialog + return error to command handler) |
+| **creator-explicit-telemetry** | Creator Brief §6 Obs Anti-Patterns "The emission-journal format is owned upstream — obs DERIVES, does not re-author" + "the field-allowlist / redaction layer (no absolute host paths, no internal struct names in artifacts)" | Span for `redaction.apply_field_allowlist()` on journal write + report generation; scrub log fields: remove any `path::` (absolute filesystem paths), `module::` (internal crate names), `backtrace` (if present, sanitize file paths); preserve verdict/state/identity/count fields only |
+
+---
+
+## 6. Observability Tier
+
+**Tier:** **Minimal (0)**
+
+**Justification:**
+
+1. **Module/Surface count:** 8 workspace crates (conductor-core, conductor-timeline, conductor-emit, conductor-faults, conductor-verify, conductor-report, conductor-cli, conductor-tauri) + 2 surfaces (CLI headless + desktop-webview Tauri GUI). Below Standard threshold of 5-15 modules.
+
+2. **Must-trace paths:** 7 critical paths identified (Sections 4), all high-user-impact but tightly scoped to single-scenario execution model. Tests excerpt §5 specifies 7 coverage triggers, not 15+. Matches Minimal boundary.
+
+3. **Security tier:** Minimal (0) — passed variable from Setup step 4. Single-developer, local-only, no cloud, no auth, zero network exposure (loopback-client only), only self-generated synthetic test telemetry (Low data classification). No credentials, PII, payment, health data in Conductor's domain.
+
+4. **Tests tier:** Minimal (0) — cross-input from upstream-context Section 5. Creator Brief §6 mandates "production-grade verification rigor" for determinism and assertion-policy split, but this is achieved via property tests + golden tests + contract tests, not via comprehensive instrumentation. Tests tier matches obs tier.
+
+5. **Complexity facts:** (a) No OTel SDK or exporter for self-observation (creator-explicit anti-pattern §6); (b) no metrics backend, no trace dashboard, no collector; (c) self-observation is structured tracing logs only (JSONL via `tracing-subscriber`) + emission journal (binding contract from tests) + sanitized stderr; (d) paste-to-AI workflow via agent-parseable JSON export (no proprietary APM lock-in); (e) Tauri frontend browser OTel telemetry is frontend-only (optional, not required for core harness). (f) Telemetry triggers: 1 chaos-instrumentation (fault-injection spans) + 1 perf-budget-instruments (SLO histogram bucketing) + 1 cross-surface-trace-propagation (Tauri IPC) + 1 error-budget-SLO (zero-unlogged-panics) + 1 creator-explicit-telemetry (redaction layer) = 5 special triggers, all addressable within Minimal scope.
+
+**Obs harness summary:** `tracing` 0.1.x + `tracing-subscriber` JSON formatter to stdout + file `logs/agent-latest.jsonl`; W3C Trace Context via Tauri IPC envelope; fault-injection spans in conductor-faults module; perf-budget field `latency_ms` and `slo_tier` in JSONL (no histogram metrics backend); browser telemetry (optional, frontend-only); no network OTLP exporter (preserves determinism of `current_thread` runtime, per creator brief §6 rigor hint).

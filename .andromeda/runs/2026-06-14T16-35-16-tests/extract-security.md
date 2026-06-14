@@ -1,0 +1,59 @@
+## 2. Security Plan Excerpt
+
+### Security Tier
+- **Tier:** Minimal (0)
+- **Justification:** "Every signal points to a minimal-tier local utility — a single-developer, local-only, no-cloud, no-multi-tenancy tool with no user accounts (auth "none"), where the only persisted data is self-generated synthetic test telemetry and run-metadata in an embedded SQLite index (`runs.db`) plus on-disk JSONL/Markdown artifacts (no PII/payment/health/credentials owned by Conductor), and there is zero network exposure — Conductor is a loopback gRPC/MCP client with no inbound listener of its own."
+
+### Attack Vectors
+- **Vector 1:** CLI input — seed/scenario flags and `CONDUCTOR_*` env-var overrides on the `agent-run` / `conductor-cli` path. Mitigation: "`std::fs::canonicalize` + explicit type/existence check in `conductor-cli`; reject before any `runs.db`/journal write or manifest read" (path handles sit outside garde struct validation).
+- **Vector 2:** config files (local file parsing) — scenario config (`scenarios/`) + pinned MCP contract manifest (`contracts/`) read from disk. Mitigation: "garde validation at load (`range` rules: error fraction ∈ [0,1], non-negative durations, sane ramp factors; `#[garde(custom)]` cross-field: p50≤p95≤p99, severity-mix sums)".
+- **Vector 3:** Tauri IPC — internal in-app commands (`#[tauri::command]` start/stop/picker/run-report/operator-pause) + one `Channel` for live counters, over the bundled webview→backend boundary. Mitigation: "in-process app boundary (backend↔bundled webview); not network-exposed" — guarded by a deny-by-default minimal capabilities file allowing only the actual commands.
+- **Vector 4:** MCP read-back child-process stdout — Conductor spawns the Pulse MCP server (`andromeda-pulse-mcp`) via `TokioChildProcess` (stdio) and trusts that child's stdout as the read-back source. Mitigation: "preflight readiness gate — negotiated protocol pinned at `2024-11-05`, required-tool presence vs. manifest, data-dir canary round-trip; mismatch/empty ⇒ **blocked** state".
+- **Vector 5:** OTLP/gRPC egress — outbound only to `127.0.0.1:4317` (Pulse's loopback ingest), tonic client. Mitigation: "loopback-only egress; a refused transport surfaces as `Result::Err` (harness fault), not a verdict".
+- **Vector 6 (single deliberate exception):** port bind `:4317` — the port-occupier fault scenario in the `conductor-faults` seam intentionally binds `:4317` to exercise Pulse's reaction. Mitigation: "loopback only; the *sole* case where Conductor opens a port, and it is an intentional in-host fault, not a network listener accepting external input".
+
+(Vectors explicitly enumerated as "none": public API, file upload, OAuth, WebSocket, UGC, webhook — no web framework, no HTTP surface, local-only deployment.)
+
+### Anti-Patterns Rejected
+- **Interactive login on the headless `scripts/agent-run.sh` path** — rejected because: it is agent-driven by design and an auth prompt there would silently break the release gate.
+- **`CONDUCTOR_*` env path handles without `std::fs::canonicalize` + bounds-check** — rejected because: path traversal; these handles sit outside garde's struct validation.
+- **Interpolating `ANDROMEDA_PULSE_DATA_DIR` (or any operator value) into the sidecar argv or a shell string** — rejected because: rmcp STDIO command/argument-injection class (CVE-2026-30623); must pass strictly via `.env(...)` after rejecting injection metacharacters.
+- **Spawning the MCP sidecar from an operator-chosen command** — rejected because: rmcp STDIO design flaw; spawn `andromeda-pulse-mcp` as a fixed hard-coded program path only.
+- **String concatenation / `format!` to build SQL for `runs.db`** — rejected because: must use rusqlite bound parameters even though content is self-generated synthetic data.
+- **Deserializing scenario config without garde validation at load** — rejected because: garde's `range` + `#[garde(custom)]` cross-field rules are the trust boundary; an unvalidated serde deserialize bypasses it.
+- **Decoding prost/protobuf from child stdout without bounded recursion** — rejected because: protobuf-decode DoS lineage (RUSTSEC-2020-0002 / RUSTSEC-2024-0437); an empty canary round-trip must become `blocked`, never a false pass-as-empty.
+- **Deprecated crypto algorithms (MD5, SHA-1, DES, RC4, ECB mode)** — rejected because: any future fingerprint/hash added to `runs.db` or the journal must use a modern hash.
+- **Reading, copying, or decrypting Pulse's encrypted `corpus.db` (P-049)** — rejected because: it is owned and encrypted by Pulse; Conductor only round-trips a canary incident via MCP read-back.
+- **Persisting real secrets/credentials into the unencrypted `runs.db` / JSONL journals** — rejected because: they store only synthetic telemetry and must be treated as world-readable local files.
+- **Disabling TLS verification / downgrading to plaintext on any surface promoted beyond loopback** — rejected because: a non-loopback target must not silently skip transport verification.
+- **Exposing internal error details (stack traces, file paths, library versions, internal struct names) in any response** — rejected because: the `anyhow` edge and run-report artifacts must stay sanitized.
+- **Promoting the `:4317` port-occupier fault bind into a general-purpose inbound listener** — rejected because: it is an intentional in-host fault, not an API surface.
+- **Committing `.env` files or any secret-shaped string to the `conductor-*` workspace** — rejected because: Conductor owns no secrets and that invariant must hold.
+- **Hardcoding credentials in source / putting credentials in URL query strings or argv** — rejected because: there are none to hardcode; the OS keychain reference is Pulse-side.
+- **Introducing a `DATABASE_URL` or cloud-credential env var** — rejected because: the SQLite path is a local file and the tool is local-only.
+- **Logging secrets, tokens, or `Authorization` headers** — rejected because: there are none in Conductor and this keeps it that way if a future integration introduces them.
+- **Letting run-report artifacts (`<run_id>.md`, `runs.db` rows, JSONL journals) leak absolute host paths or internal seam-crate struct names** — rejected because: they are agent-parseable ground truth shared across hosts and must carry verdict/state/identity fields only.
+- **Writing journal/report wall-clock stamps from tokio's virtual clock** — rejected because: a wrong clock source corrupts the ground-truth artifact; use `std::time::SystemTime`/`Instant`.
+- **Spawning the MCP sidecar (or anything) via a shell / `eval`-equivalent with operator-supplied input** — rejected because: rmcp STDIO design flaw (CVE-2026-30623); fixed program path + `.env(...)`, no config-into-argv.
+- **Using the Tauri `shell-open` plugin with scenario-config-derived strings** — rejected because: the unscoped plugin enables RCE via dangerous protocols (`file://`/`smb://`/`nfs://`, CVE-2025-31477 CVSS 9.3); prefer avoiding the plugin entirely.
+- **Embedding remote-origin iframes in the bundled Tauri webview** — rejected because: iframes can bypass origin checks for IPC even in isolation mode (GHSA-57fm-592m-34r7), re-exposing the in-process-only IPC surface.
+- **Shipping Tauri commands without a minimal capabilities file** — rejected because: a permissive default exposes unintended IPC; author deny-by-default capabilities for only the actual commands plus the one live-counter `Channel`.
+- **Pinning the rmcp client to a strict newer protocol default** — rejected because: it must negotiate down to `2024-11-05` (Pulse's hand-rolled server version); a strict-newer default is the silent-mismatch class the preflight exists to prevent.
+- **Following symlinks when changing permissions during crate extraction on a pre-1.94.1 toolchain** — rejected because: tar-rs symlink-chmod flaw in the `cargo build` extraction path (CVE-2026-33056 / RUSTSEC-2026-0033); bump `rust-toolchain.toml` to ≥ 1.94.1.
+- **Running `cargo build --release` or merging without `cargo-audit` (and recommended `cargo-deny`) green** — rejected because: the dependency/supply-chain audit is the Minimal-tier residual-risk control for the `bundled`-SQLite-from-C + OTLP/gRPC/MCP tree.
+- **Letting `Cargo.lock` drift or go uncommitted** — rejected because: it makes the audit scan non-deterministic and lets the bundled SQLite C version float past advisory tracking.
+- **Adding a scenario without a Pulse P-ID, or introducing an inbound network listener of Conductor's own** — rejected because: both violate the architecture's scope law / trust boundary and silently widen the attack surface beyond the loopback-client model.
+- **Letting a malformed child/transport input panic** — rejected because: `tonic::Status` codes and MCP error responses are first-class typed verification inputs routed through the verdict/error wall; a panic on the read-back path corrupts run classification.
+- **Silently downgrading a failed preflight (version mismatch / missing tool / empty canary / keychain read-while-write fault) to pass/fail/manual-check** — rejected because: it must surface as the distinct `blocked` state with the named precondition string, never a false pass.
+- **Adding `unsafe` across the OTLP/gRPC/SQLite FFI boundary without review** — rejected because: the bundled-SQLite C and raw-protobuf/tonic codegen are the FFI surface safe Rust cannot check.
+- **Skipping a research-flagged pinned dependency bump** — rejected because: `tauri` ≥ 2.10.3 (origin-confusion CVE-2026-42184) and toolchain ≥ 1.94.1 (tar-rs) are required bumps over the current 2.10.1 / MSRV 1.88.0 pins.
+
+### Data Classifications
+- **config — declarative scenario config (serde + garde, no DSL)** (low) — stored in `scenarios/` directory (deserialized into owning seam crates) and `contracts/` pinned MCP contract manifest; testability hint: testable (load-time garde validation with `range`/`#[garde(custom)]` rules; transient at load).
+- **test-telemetry / run-metadata (synthetic, not user data)** (low) — stored in `runs/` directory (per-run `<run_id>.jsonl` journal + `<run_id>.md` report) and embedded SQLite `runs.db` index (run_id · seed · scenario · P-IDs · verdict · fingerprints · timestamps); testability hint: testable (self-generated synthetic OTLP fault data, append-mostly on disk; golden tests via cargo-nextest).
+- **credential — none owned by Conductor** (N/A) — stored in N/A for Conductor (the `OsKeychainBackend("com.andromeda.pulse")` reference is Pulse-side, exercised via the spawned sidecar's canary as the same OS user); testability hint: untestable in current harness (out of scope — Conductor never stores, generates, or manages any secret).
+- **PII — none** (N/A) — stored in N/A (no user accounts, no user-supplied content; only synthetic incident/fingerprint data Conductor itself emits); testability hint: N/A.
+- **payment — none** (N/A) — stored in N/A (no payment/billing SDK, no transactions); testability hint: N/A.
+- **health — none** (N/A) — stored in N/A (no medical data in stack or intent); testability hint: N/A.
+
+(Note: Pulse's encrypted-at-rest `corpus.db`, P-049, is out of scope — owned and encrypted by Pulse; Conductor only round-trips a canary incident through it via MCP read-back to prove wiring.)

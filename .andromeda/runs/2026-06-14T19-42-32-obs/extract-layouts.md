@@ -1,0 +1,10 @@
+## 4. Layout Templates Excerpt
+
+### Layout Types per Surface
+
+- **desktop-webview:** Run console (idle), Run console (live), Run console (HOLD), Run report (terminal)
+- **cli:** `conductor run`, `conductor suite`, `conductor report`, `scripts/agent-run.sh` (headless)
+
+### Error Boundary Placement
+
+(No explicit error boundary placement in layouts — Phase 3 will recommend defaults per layout category, typically section-level for dashboards / page-root for forms.)

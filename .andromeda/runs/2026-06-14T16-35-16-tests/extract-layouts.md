@@ -1,0 +1,14 @@
+## 4. Layout Templates Excerpt
+
+### Layout Types per Surface
+
+- **desktop-webview:** Run console (idle), Run console (live), Run console (HOLD), Run report (terminal)
+- **cli:** `conductor run <scenario>`, `conductor suite`, `conductor report <run_id>`, `scripts/agent-run.sh`
+
+### Signature Placements
+
+- **Run console (HOLD) — desktop-webview:** signature element = Heading-role phase line carrying persistent text "HOLD — operator pause" at the frameless titlebar left zone (rationale: "the phase line beside it flips to 'HOLD — operator pause'").
+- **Operator-pause go/no-go dialog — desktop-webview:** signature element = shadcn AlertDialog with persistent header text "HOLD — operator pause" + step index at the dialog header (rationale: "the dialog opens carrying a frozen snapshot of the held count value... so the hold-point is legible at the exact moment of the proceed/abort decision").
+- **`conductor run <scenario>` / `conductor suite` (HOLD) — cli:** signature element = `[HOLD]` ASCII bracket prefix + persistent text "HOLD — operator pause" printed above the `inquire` confirm (rationale: "a bold amber... `HOLD — operator pause` line printed above the proceed/abort confirm... so the signal is never color-alone and survives `NO_COLOR` / piping / screen readers").
+
+(Beyond the HOLD signature text above, layouts use generic role/text selectors — Phase 3 will use role/text/data-testid selectors per layout, e.g. `data-tauri-drag-region` on the titlebar, status text `[PASS]`/`[FAIL]`/`[MANUAL]`/`[RESIDUAL]`/`[BLOCKED]` paired with each lamp, and P-ID Data-role tokens like `P-009`.)

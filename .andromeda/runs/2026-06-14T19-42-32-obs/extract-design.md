@@ -1,0 +1,20 @@
+## 3. Design System Excerpt
+
+### Surfaces
+
+- **desktop-webview** (Windows/macOS/Linux Tauri 2 bundled webview) — Single-station console running React 19 + Tailwind CSS v4.1 + shadcn/ui; browser OTel SDK + web-vitals for frontend telemetry
+- **cli** (Windows/macOS/Linux terminal, headless `conductor-cli`) — Line-oriented source-of-truth via clap + owo-colors + indicatif; stdout-only — no frontend telemetry, ANSI 256-color with TTY-gating for piped output
+
+### Loading / Error / Empty State Patterns
+
+- **Operator-pause go/no-go hold** — visibility: modal dialog (`AlertDialog` on desktop-webview; `inquire` prompt on CLI) — telemetry hook: span around hold-point with frozen-count transition duration + count-tint color change (green → amber over 150ms ease-out) as state-transition marker
+- **Run-in-progress state** — visibility: inline in run-report view area (prose: "Run in progress"; titlebar count/matrix live via Tauri `Channel`) — telemetry hook: span from run start to report completion; no partial verdict shown during run
+- **Run-report empty state** — visibility: inline prose ("No run yet — pick a scenario/suite to begin") — telemetry hook: counter for state-occurrence (zero-result runs)
+- **Coverage-matrix empty state** — visibility: inline prose ("No scenarios loaded") — telemetry hook: counter for scenario-load failure
+
+### User-Facing Error Surfaces
+
+- **Run-report view: `Fail` verdict surface** (location: per-P-ID row in run-report + coverage matrix) — appears for: verdict = `Fail` (test failure, SLO exceeded); recovery affordance: retry scenario/suite — feedback widget candidate: yes (Sentry user-feedback widget on desktop-webview; CLI: sanitized error to stderr with hint-text for operator)
+- **Operator-pause hold prompt** (location: modal dialog on desktop-webview; above `inquire` prompt on CLI) — appears for: pending go/no-go decision before committed timeline step; recovery affordance: Proceed (resume run) / Abort (stop run) — feedback widget candidate: no (user action expected, not an error state)
+- **CLI error output** (location: stderr, sanitized) — appears for: clap parse failures, internal errors (`--debug`/`-v` only); recovery affordance: hint-text with fix — feedback widget candidate: no (machine-parseable, not user-facing UI)
+- **`ManualCheck` checklist** (location: run-report card, per-P-ID row) — appears for: report-state = `ManualCheck` (operator-driven observation awaiting confirmation); recovery affordance: operator ticks y/n checkboxes to resolve items (no programmatic read-back) — feedback widget candidate: no (operator-initiated, not error)

@@ -1,0 +1,26 @@
+## 3. Design System Excerpt
+
+### Surfaces
+
+- **desktop-webview** (desktop / Tauri-2-bundled-webview) — A single-station, frameless, desktop-bound mission-control console (React 19 + Vite SPA + Tailwind v4.1 + shadcn/ui on Tauri 2, Windows/macOS/Linux, no responsive breakpoints) where the operator picks a scenario/suite, watches a live heartbeat count and phase line, answers operator-pause go/no-go holds, and reads the run-report.
+- **cli** (cli / terminal) — A headless, line-oriented `conductor-cli` (`scripts/agent-run.sh`; clap + owo-colors + indicatif + comfy-table + inquire, ANSI 256-color, TTY-gated) that is the source-of-truth and release gate, mirroring the same run flow as colored stdout with the headless path never blocked on an interactive prompt.
+
+### Layout Categories
+
+(No `## Layout Templates` / `## Layout Categories` section exists in the upstream; the categories below are derived from each surface's `### Component Patterns`, which serve as purpose-built layout types — flagged for Phase 1 cross-validation.)
+
+- **Titlebar / heartbeat readout** (the signature paused-count + phase line) — used in: desktop-webview, cli
+- **Confirmation dialog / prompt** (operator-pause go/no-go) — used in: desktop-webview, cli
+- **Dense list / coverage matrix** (single-row-per-P-ID, SLO table) — used in: desktop-webview, cli
+- **Report / detail view** (run-report verdict summary, prose + mono) — used in: desktop-webview, cli
+- **Picker / selection + controls** (scenario/suite picker, start/stop) — used in: desktop-webview, cli
+- **Form / checklist** (operator-checklist for ManualCheck drive+observe) — used in: desktop-webview
+- **Error output** (sanitized stderr) — used in: cli
+
+### Brand Identity Anchors
+
+- **Status text labels** (`Pass` / `Fail` / `HOLD` / `CalibrationRegion` / `Blocked` / `Manual` / `Residual`; CLI ASCII prefixes `[PASS]` / `[FAIL]` / `[HOLD]` / `[BLOCKED]` / `[MANUAL]` / `[RESIDUAL]`) — drives selector for: per-P-ID verdict/report-state result rows (every status lamp/dot is mandatorily paired with a text label per the Color-Only a11y rule, so text/role selectors are reliable; color is never the sole signal).
+- **Mono ID-cyan status tier** (`#7DCFFF` / ANSI 117, JetBrains Mono) — drives selector for: P-ID identifiers (`P-001`..`P-060`), `run_id`, SLO timings, latency_ms, and fingerprints (these mono-rendered IDs anchor selecting/asserting individual coverage-matrix rows and report lines by their P-ID text).
+- **ARIA labels / live regions** (`aria-label` on icon-only titlebar + lamp controls; `aria-live` HOLD/verdict announcements; `role="alertdialog"` on the operator-pause dialog) — drives selector for: titlebar min/close controls, the operator-pause go/no-go dialog, and status-change assertions.
+
+(Beyond the above, no decorative brand tokens are relevant to E2E selector strategy — Phase 3 will use role/text/data-testid selectors.)

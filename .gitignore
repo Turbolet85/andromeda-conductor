@@ -1,0 +1,21 @@
+# .andromeda/ is the Andromeda pipeline's durable route / state / specs / runs — TRACKED, not ignored.
+# (setup-project's first commit captures it; every wrap commits its updates; new-session reads committed state.)
+# Conductor's own ephemeral PRODUCT run-artifacts (scenario journals/reports/runs.db) live at /runs/ —
+# that is the separate, later ignore target (synthetic-PII-corpus journals), handled at setup/impl, NOT here.
+
+# --- Rust (andromeda-setup-project) ---
+/target/
+**/*.rs.bk
+*.iml
+# Cargo.lock IS committed — Conductor is a binary workspace (reproducible builds + deterministic cargo-audit).
+
+# --- Conductor run artifacts (synthetic per-run journals/reports/runs.db — generated, not tracked) ---
+/runs/
+
+# --- Secrets / env (Conductor owns no secrets — guardrail) ---
+.env
+.env.*
+
+# --- Claude Code ---
+.claude/backup/
+.claude/settings.local.json

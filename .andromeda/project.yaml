@@ -1,0 +1,12 @@
+name: Conductor
+created: 2026-06-13T23:50:33Z
+description: "A scenario-driven OTLP fault-injection + verification harness that drives a live Pulse instance through its 60 claimed capabilities (P-001..P-060) on a deterministic seeded timeline and verifies each reaction within its SLO."
+architecture: architecture.md
+security_plan: security-plan.md
+input: input.md
+design_system: design-system.md
+layout_templates: layout-templates.md
+test_plan: test-plan.md
+obs_plan: obs-plan.md
+a11y_plan: a11y-plan.md
+scopes: {}
