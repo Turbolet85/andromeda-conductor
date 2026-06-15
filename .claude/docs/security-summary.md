@@ -37,7 +37,7 @@ See `.claude/rules/security.md` (loads unconditionally — universal).
 ## Critical decisions
 - **Minimal tier** — no compliance triggers; residual risk is supply-chain + input-validation + error-sanitization only.
 - **Subprocess-spawn hardening** is the single most architecture-relevant control (rmcp STDIO injection, CVE-2026-30623).
-- **Required bumps:** toolchain ≥1.94.1 (tar-rs CVE-2026-33056) + `tauri` ≥2.10.3 (origin-confusion CVE-2026-42184).
+- **Version floors:** toolchain ≥1.94.1 (tar-rs CVE-2026-33056) — **done** (1.95.0); `tauri` ≥2.10.3 (origin-confusion CVE-2026-42184) — required bump, dormant until the Tauri GUI (Epoch 9).
 - **Secret-scanning CI gate** is optional/deferred (Conductor owns no secrets; tool selection left to setup/operator).
 
 ---

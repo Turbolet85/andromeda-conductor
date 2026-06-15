@@ -3,7 +3,7 @@
 _Living artifact. Seeded by `/andromeda-setup-project` Phase 6 from arch's Standard Contracts. Reconciled by `/andromeda-wrap-session` P4 — the LIVING block is replaced wholesale with fresh tooling stdout (per `integrity-protocol.md`)._
 
 <!-- METADATA start -->
-**Last reconciled:** 2026-06-15T15:45:15Z
+**Last reconciled:** 2026-06-15T16:42:50Z
 **Tooling:** `cargo public-api --simplified -p <crate>` per workspace member (cargo-public-api 0.51 has no `--workspace` flag — run per lib crate); auto-trait/blanket impls elided for readability
 **Source:** arch.md §Standard Contracts / §Occupied Resources — seed; actual code via tooling — reconcile
 **Maintenance:** wrap-session P4 (living-docs reconcile)
@@ -12,7 +12,7 @@ _Living artifact. Seeded by `/andromeda-setup-project` Phase 6 from arch's Stand
 <!-- LIVING:api-surface start -->
 ## Public API per workspace member (`cargo public-api --simplified`)
 
-- `conductor-core` → the shared type vocabulary + config-validation surface (tool-reconciled this chunk):
+- `conductor-core` → the shared type vocabulary + config-validation surface (verified unchanged this chunk — no source touched; `publish = false` is metadata-only):
   - `pub enum Verdict { Pass, Fail, CalibrationRegion }` — `fn label(&self) -> &'static str`, `fn status_prefix(&self) -> &'static str`
   - `pub enum ReportState { Pass, Fail, ManualCheck, KnownResidual, Blocked }` — `fn label(&self) -> &'static str`, `fn status_prefix(&self) -> &'static str`
   - `pub struct Scenario { name: String, p_ids: Vec<PId>, seed: u64, slo_tier: SloTier }` — `impl garde::Validate`

@@ -1,0 +1,32 @@
+# cargo-deny supply-chain policy — gate established by chunk 2026-06-15-dependency-audit-gate.
+# Stacks atop `cargo audit` (RustSec). Run: cargo deny check advisories bans sources licenses
+# Schema v2 (cargo-deny 0.19.x — v2 is the default; the `version` field is omitted deliberately).
+
+[advisories]
+# All RustSec advisories deny by default. Accepted, non-actionable advisories are listed here
+# WITH a justifying comment — never a silent skip (security-plan §Dependency Security).
+ignore = []
+
+[bans]
+multiple-versions = "warn"        # surface duplicate versions; tighten to "deny" once the tree stabilizes
+wildcards = "deny"
+allow-wildcard-paths = true       # internal crate-per-seam path deps carry no version — expected, not a wildcard risk
+deny = []                         # no disallowed crates yet — extend as the tree grows
+
+[licenses]
+# Permissive allowlist for a local-only personal tool; copyleft / unknown denied.
+# Additive — extend ONLY with licenses actually present in the committed lock.
+allow = [
+    "MIT",
+    "Apache-2.0",
+    "Unicode-3.0",
+    "BSL-1.0",
+]
+confidence-threshold = 0.8
+# The workspace's own conductor-* crates are unpublished — skip license checks for them.
+private = { ignore = true }
+
+[sources]
+unknown-registry = "deny"
+unknown-git = "deny"
+allow-registry = ["https://github.com/rust-lang/crates.io-index"]

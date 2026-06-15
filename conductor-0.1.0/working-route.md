@@ -12,7 +12,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
    ↓
 [2026-06-15-config-validation-surface] Config-validation surface — serde + garde range/cross-field rules, CONDUCTOR_* path-handle canonicalize
    ↓
-Dependency-audit gate — cargo-audit + cargo-deny over the OTLP/gRPC/SQLite tree, committed Cargo.lock
+[2026-06-15-dependency-audit-gate] Dependency-audit gate — cargo-audit + cargo-deny over the OTLP/gRPC/SQLite tree, committed Cargo.lock
    ↓
 Structured logging stack — tracing + tracing-subscriber JSON (no OTel SDK), service-identity fields, std::panic::set_hook capture
    ↓

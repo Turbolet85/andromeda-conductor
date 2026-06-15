@@ -15,6 +15,7 @@ members = [
 version = "0.1.0"
 edition = "2024"
 rust-version = "1.94.1"
+publish = false  # local-only personal tool — no conductor-* crate is ever published to crates.io
 
 [workspace.dependencies]
 # Internal seams (crate-per-seam edges inherit these)
