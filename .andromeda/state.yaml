@@ -1,6 +1,6 @@
 schema_version: 3
-last_wrap: null
+last_wrap: 2026-06-14T23:46:47Z
 living_doc_freshness:
-  dep_tree_reconciled_at: null
-  api_surface_reconciled_at: null
-session_count: 0
+  dep_tree_reconciled_at: 2026-06-14T23:46:47Z
+  api_surface_reconciled_at: 2026-06-14T23:46:47Z
+session_count: 1

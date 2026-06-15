@@ -10,7 +10,7 @@
 
 | Layer | Technology | Role |
 |-------|-----------|------|
-| Language / runtime | Rust 2024 (cargo 1.85, MSRV 1.88.0) | Primary implementation language; Pulse-consistency mandate |
+| Language / runtime | Rust 2024 (cargo 1.85, MSRV 1.94.1) | Primary implementation language; Pulse-consistency mandate |
 | Async runtime | tokio 1.48.x (`current_thread` flavor) | Deterministic single-threaded scheduler for the timeline engine; core-owned runtime |
 | Backend framework | N/A — no web framework | Conductor exposes no HTTP/network service of its own (gRPC client + MCP client + Tauri IPC only) |
 | OTLP emission | opentelemetry-proto 0.32.0 (`gen-tonic` + `trace`/`metrics`/`logs`) | Raw hand-built OTLP message structs (`ExportTraceServiceRequest`/`ResourceSpans`/`Span`/`Status`) for byte-level fault control |
@@ -25,6 +25,7 @@
 | Desktop shell | Tauri 2 (bundler v2.10.x, latest 2.10.1) | Optional GUI control-panel artifact over the same headless core |
 | Validation | serde 1.0.x + garde 0.23.0 | `#[derive(Validate)]` range rules + struct-level custom cross-field invariants for scenario config |
 | Error handling | thiserror 2.0.18 + anyhow 1.0.102 | Typed per-seam error enums in library crates; type-erased `Result` at binary edges |
+| Self-observation | tracing 0.1.44 + tracing-subscriber 0.3.23 | Structured JSON self-observation logs; NOT an OTel SDK (OTLP is the PRODUCT emission); detail in obs-plan §3 |
 | Build / packaging | Cargo workspace, `cargo build --release` + Tauri 2 bundler | Local release binary (source of truth) + optional GUI bundle |
 | CI/CD | GitHub Actions (`cargo build` / nextest / clippy) | Build + test gating only; dynamic scenario proof is a local operator gate |
 | Code quality | clippy + cargo-nextest (optional: cargo-modules, cargo-rail) | Linting, test running, and module-graph auditing |
@@ -155,7 +156,7 @@ When `ready` is false, every dependent auto scenario is emitted into the report 
 
 ## Infrastructure Patterns
 
-**Build system:** Cargo (cargo 1.85, Rust 2024 edition, MSRV 1.88.0). Lint with `cargo clippy`; test with `cargo test` / cargo-nextest (consistent with Pulse's static layer). `bundled` SQLite compiles SQLite C from source (longer cold builds, fully self-contained). tonic 0.14 moved prost codegen to `tonic-prost-build` — build scripts use that crate (budget a small adjustment when mining Pulse's prior-art injectors that predate the split). Optional `cargo-modules` / `cargo-rail` audit the dependency graph.
+**Build system:** Cargo (cargo 1.85, Rust 2024 edition, MSRV 1.94.1). Lint with `cargo clippy`; test with `cargo test` / cargo-nextest (consistent with Pulse's static layer). `bundled` SQLite compiles SQLite C from source (longer cold builds, fully self-contained). tonic 0.14 moved prost codegen to `tonic-prost-build` — build scripts use that crate (budget a small adjustment when mining Pulse's prior-art injectors that predate the split). Optional `cargo-modules` / `cargo-rail` audit the dependency graph.
 
 **Deployment model:** Local-only — `cargo build --release` produces the `conductor-cli` binary run beside Pulse via `scripts/agent-run.sh`; the Tauri 2 bundler (v2.10.x) produces an optional ~3 MB GUI installer. No Docker / Compose / Kubernetes / serverless — Pulse binds loopback `:4317`, so execution is necessarily co-located on the dev host.
 
@@ -165,7 +166,7 @@ When `ready` is false, every dependent auto scenario is emitted into the report 
 conductor/
 ├─ Cargo.toml                 # workspace manifest (members + shared deps)
 ├─ Cargo.lock
-├─ rust-toolchain.toml        # pin Rust 2024 / MSRV 1.88.0
+├─ rust-toolchain.toml        # pin Rust 2024 / MSRV 1.94.1
 ├─ scripts/
 │  └─ agent-run.sh            # headless source-of-truth entrypoint
 ├─ crates/
@@ -206,7 +207,7 @@ conductor/
 
 ## Inherited Defaults
 
-- **Language / runtime:** Rust 2024 (cargo 1.85, MSRV 1.88.0) + tokio 1.48.x `current_thread`.
+- **Language / runtime:** Rust 2024 (cargo 1.85, MSRV 1.94.1) + tokio 1.48.x `current_thread`.
 - **Backend framework:** None — headless Rust core, no HTTP/network service (gRPC client + MCP client + Tauri IPC).
 - **Database:** rusqlite 0.38.0 + `bundled` SQLite 3.51.1 (JSON1), synchronous raw SQL, no ORM/migrations.
 - **Interface style:** OTLP/gRPC egress to `127.0.0.1:4317` (tonic 0.14.6); MCP read-back via rmcp 1.7.0 against Pulse's hand-rolled `2024-11-05` server, version-pinned manifest + preflight canary (`blocked` on mismatch/empty), sidecar spawned with the live Pulse's `ANDROMEDA_PULSE_DATA_DIR`; internal Tauri 2 commands + `Channel`. No REST/GraphQL/tRPC.

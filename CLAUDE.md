@@ -120,4 +120,5 @@ _This section is curated by `/wrap-session`. It accumulates universal (Tier 1) r
 - Journal stamps come from `std::time::SystemTime`/`Instant`, never tokio's virtual clock.
 - Never `cargo build --release` or merge without `cargo-audit` (+ `cargo-deny`) green and a committed, un-drifted `Cargo.lock`.
 - Status is never color-alone — every Verdict/ReportState carries a text label + glyph (desktop) or `[PASS]`/`[FAIL]`/`[HOLD]`/`[BLOCKED]` prefix (cli).
+- 2026-06-14: Andromeda version builds run on a long-lived `build/conductor-<version>` branch; `main` fast-forwards only when the version is tagged complete — the branch unit is the version, not the task (specializes the global feature-branch rule). (confidence 0.8)
 <!-- USER:session-learnings end -->

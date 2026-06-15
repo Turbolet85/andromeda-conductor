@@ -6,7 +6,7 @@ _`[{marker}]` to freeze it (wrap's route-resolve then skips frozen lines); marke
 _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` headers are structural._
 
 ### Epoch 1 — Foundation
-Cargo workspace scaffold — 8 crate-per-seam members, workspace manifest, rust-toolchain pin ≥1.94.1
+[2026-06-14-cargo-workspace-scaffold] Cargo workspace scaffold — 8 crate-per-seam members, workspace manifest, rust-toolchain pin ≥1.94.1
    ↓
 conductor-core shared types — Verdict/ReportState enums, scenario model, verdict/error wall
    ↓

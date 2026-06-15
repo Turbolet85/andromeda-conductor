@@ -3,30 +3,33 @@
 _Living artifact. Seeded by `/andromeda-setup-project` Phase 6 from arch's planned module structure. Reconciled by `/andromeda-wrap-session` P4 — the LIVING block is replaced wholesale with fresh tooling stdout each wrap (per `integrity-protocol.md`)._
 
 <!-- METADATA start -->
-**Last reconciled:** null
-**Tooling:** `cargo modules generate tree` (fallback `cargo tree`)
+**Last reconciled:** 2026-06-14T23:46:47Z
+**Tooling:** `cargo tree --workspace` (the integrity-protocol fallback + canonical crate dependency graph; cargo-modules 0.26 renamed the `generate tree` subcommand, so `cargo tree` is used)
 **Source:** arch.md §Inherited Defaults Workspace crates / §Directory structure — seed; actual code via tooling — reconcile
 **Maintenance:** wrap-session P4 (living-docs reconcile)
 <!-- METADATA end -->
 
 <!-- LIVING:dep-tree start -->
-## Planned modules (initial seed — replaced by tooling output on first reconcile)
+conductor-cli v0.1.0 (crates/conductor-cli)
+└── conductor-core v0.1.0 (crates/conductor-core)
 
-- **`conductor-core`** — runtime-agnostic engine library every other crate depends on (shared `Verdict`/`ReportState` types, scenario model)
-- **`conductor-timeline`** — deterministic seeded phase scheduler on `tokio::time`
-- **`conductor-emit`** — OTLP raw-type emission primitives (opentelemetry-proto + tonic/prost), gRPC egress to `:4317`
-- **`conductor-faults`** — fault helpers (ramps, silence, port-occupier, fingerprint generation)
-- **`conductor-verify`** — MCP read-back client (rmcp over `TokioChildProcess` stdio), preflight gate, verdict logic
-- **`conductor-report`** — JSONL emission journal + Markdown run report + `runs.db` (rusqlite) storage seam
-- **`conductor-cli`** — `agent-run` binary, headless source of truth + release gate
-- **`conductor-tauri`** — Tauri 2 GUI bin (commands + live-counter `Channel`; React 19 webview)
+conductor-core v0.1.0 (crates/conductor-core)
 
-## Planned dependency edges
+conductor-emit v0.1.0 (crates/conductor-emit)
+└── conductor-core v0.1.0 (crates/conductor-core)
 
-- `conductor-core` is the base library; `conductor-timeline` / `-emit` / `-faults` / `-verify` / `-report` each depend on `conductor-core`.
-- `conductor-cli` (bin) and `conductor-tauri` (bin) compose the seam crates into a single process — a forbidden cross-seam dependency simply will not compile (the `Cargo.toml` edges ARE the architecture).
+conductor-faults v0.1.0 (crates/conductor-faults)
+└── conductor-core v0.1.0 (crates/conductor-core)
 
----
+conductor-report v0.1.0 (crates/conductor-report)
+└── conductor-core v0.1.0 (crates/conductor-core)
 
-_(LIVING block content above is the cold-start seed. On the first wrap-session P4 reconcile after code ships, this entire LIVING block is replaced with tooling output. METADATA `Last reconciled` is updated to mark the transition.)_
+conductor-tauri v0.1.0 (crates/conductor-tauri)
+└── conductor-core v0.1.0 (crates/conductor-core)
+
+conductor-timeline v0.1.0 (crates/conductor-timeline)
+└── conductor-core v0.1.0 (crates/conductor-core)
+
+conductor-verify v0.1.0 (crates/conductor-verify)
+└── conductor-core v0.1.0 (crates/conductor-core)
 <!-- LIVING:dep-tree end -->

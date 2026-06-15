@@ -1,0 +1,8 @@
+[package]
+name = "conductor-timeline"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+
+[dependencies]
+conductor-core.workspace = true

@@ -4,7 +4,7 @@ _Mirrors `.andromeda/architecture.md` §Stack and Technologies. Convenience refe
 
 ## Languages & Runtimes
 - **Rust 2024** (cargo 1.85) — primary implementation language; Pulse-consistency mandate.
-- **Toolchain ≥ 1.94.1** (`rust-toolchain.toml`) — bumped from arch's MSRV 1.88.0 to clear tar-rs CVE-2026-33056 (security-plan §Dependency Security).
+- **Build toolchain 1.95.0 · MSRV 1.94.1** (`rust-toolchain.toml` channel + `[workspace.package].rust-version`) — clears tar-rs CVE-2026-33056 (per arch §Stack + security-plan §Dependency Security).
 - **tokio 1.48.x** — `current_thread` flavor (zero work-stealing → deterministic emission ordering).
 
 ## Core Frameworks
