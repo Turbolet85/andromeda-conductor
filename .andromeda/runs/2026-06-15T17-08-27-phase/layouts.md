@@ -1,0 +1,4 @@
+# layouts extract
+
+## No domain coverage
+The structured logging stack chunk (self-observation JSON emission, panic capture, `run_id` threading) is a backend observability layer with no surface layout, wireframe, component placement, focus order, or responsive behavior. Logging is stdout/file data serialization — not a rendered interface element on desktop-webview or cli surfaces.

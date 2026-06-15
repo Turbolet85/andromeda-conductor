@@ -150,6 +150,8 @@ When `ready` is false, every dependent auto scenario is emitted into the report 
 - `CONDUCTOR_SCENARIOS_DIR` — overrides the default `scenarios/` config directory.
 - `CONDUCTOR_CONTRACT_MANIFEST` — overrides the default pinned MCP contract manifest path under `contracts/`.
 - `CONDUCTOR_SEED` — seed override for headless runs (equivalent CLI flag on conductor-cli takes precedence; env supports scripts/agent-run.sh parameterization).
+- `CONDUCTOR_SERVICE_NAME` — overrides the self-observation `service.name` field (default `conductor` / `conductor-tauri`); obs-plan §3.
+- `CONDUCTOR_ENV` — self-observation `deployment.environment` field (default `local`); obs-plan §3.
 - `ANDROMEDA_PULSE_MCP_ENABLED` — Pulse-side flag that gates the live MCP read-back path (operator/local gate); asserted **not** set by Conductor itself.
 - `ANDROMEDA_PULSE_DATA_DIR` — the live Pulse-under-test's data directory. **Conductor MUST propagate it to the spawned `andromeda-pulse-mcp` sidecar** so the sidecar reads the SAME `{data_dir}/corpus/corpus.db` the live Pulse writes; the read-back tools filter incidents by `workspace_root = data_dir` (`crates/mcp-server/src/bin/andromeda-pulse-mcp.rs:74` + `tools.rs:336`), so a mismatch makes every `query_incident_list` come back empty (false pass-as-empty / perpetual blocked). If the live Pulse leaves it unset, Conductor resolves and passes the identical platform default (`%APPDATA%\andromeda-pulse` on Windows · `$XDG_CONFIG_HOME`/`~/.andromeda-pulse` on Linux). The preflight canary verifies the wiring.
 - Pulse-side `mcp-server` cargo feature must be built — a precondition Conductor asserts and reports as the `blocked` precondition string.

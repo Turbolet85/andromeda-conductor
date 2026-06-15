@@ -185,6 +185,7 @@ No HTTP/IPC status *endpoint* exists (no listener). This is the Run-report envel
 - **Format:** structured JSONL — one JSON object per line (arch Test-Relevant Conventions: "per-run JSONL journals stemmed by `run_id`"), emitted by `tracing-subscriber` 0.3.x `format::Json`.
 - **Required fields:** `journal_emitted_at` (ISO-8601 from `std::time::SystemTime` — NOT virtual clock), plus the envelope identity fields (`run_id`, `seed`, `scenario`, `p_ids`, `verdict`, `state`, `latency_ms`, `slo_tier`, `fingerprints`). NO absolute host paths, NO internal struct names (security anti-pattern; asserted by a negative test on the journal).
 - **Agent parsing:** each line parseable with `jq -c` or `serde_json::from_str::<RunReportEnvelope>(line)`; NEVER multi-line — `tracing` JSON flattening serializes everything onto one line.
+- **Self-obs stream is a distinct artifact:** the `tracing` self-observation log stream (stderr / `logs/agent-latest.jsonl`) carries per-line base fields — `timestamp_ms`, `level`, `target`, service-identity (`service.name`/`service.version`/`deployment.environment`), `run_id` — per obs-plan §3. It is SEPARATE from this per-run emission journal (`runs/<run_id>.jsonl`, the SLO ground truth + the Run-report envelope above); the two schemas must not be conflated.
 
 ### PID file
 

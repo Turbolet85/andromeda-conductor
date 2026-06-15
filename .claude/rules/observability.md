@@ -12,7 +12,7 @@ Path-scoped rules for self-observation (structured logging) across the seam crat
 
 ## Logging
 - **Library:** `tracing` + `tracing-subscriber` JSON formatter (`fmt().json().flatten_event(true)`); init at `main`/Tauri startup before any scenario logic.
-- **Format:** JSONL, one object per line. Required fields: `journal_emitted_at` (ISO-8601 from `std::time::SystemTime`), `run_id`, `seed`, `scenario`, `p_ids`, `verdict`, `state`, `latency_ms`, `slo_tier`, `fingerprints` (+ scenario extras like `bypass_triggered`).
+- **Format:** JSONL, one object per line, via a small custom `tracing-subscriber` JSON layer (stock `fmt().json()` cannot emit constant identity fields flat at the top level). Two record shapes: the **self-obs base line** (every line) carries `timestamp_ms` (epoch millis, `std::time`), `level`, `target`, service-identity, `run_id`; the **Run-report envelope** (scenario-result record — emission journal `runs/<run_id>.jsonl`, report seam) carries `journal_emitted_at` (ISO-8601), `run_id`, `seed`, `scenario`, `p_ids`, `verdict`, `state`, `latency_ms`, `slo_tier`, `fingerprints` (+ scenario extras like `bypass_triggered`).
 - **`run_id` is the correlation key on every line** — there is no W3C `trace_id`/`traceparent` (no OTel SDK). Cross-surface parity is asserted by comparing the `runs.db` envelope (same seed ⇒ same verdict/state), not by trace correlation.
 - **Sinks:** cli → stderr (dev) / `logs/agent-latest.jsonl` (`--agent-mode`); Tauri backend → `logs/conductor-tauri.jsonl`; Tauri frontend → browser `console.log` JSON only (NO browser OTLP exporter — recursion guard).
 - Never log in a hot path at `info` (use `trace`/`debug` gated by `RUST_LOG=conductor_timeline=debug`). Never emit multi-line stack traces — serialize to one field.

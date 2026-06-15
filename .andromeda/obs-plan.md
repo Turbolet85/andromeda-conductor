@@ -223,6 +223,8 @@ Additional fields per scenario (e.g., `bypass_triggered`, `lifecycle_phase`, `de
 - Agent-parseable via `jq` and `serde_json`
 - No absolute host paths, no internal struct names (redaction layer in Section 4 / Section 11)
 
+**Two record shapes (clarified 2026-06-15-structured-logging-stack):** the schema block above is the **Run-report envelope** — the scenario-result record (emission journal `runs/<run_id>.jsonl` + `runs.db` row), populated by the report seam (Epoch 6) on scenario-result events. The foundational **self-obs log line** (every `tracing` line; stderr / `logs/agent-latest.jsonl`) carries a smaller base set: `timestamp_ms` (epoch millis from `std::time::SystemTime` — the self-obs line stamp; the envelope's `journal_emitted_at` ISO-8601 remains the SLO-math field), `level`, `target`, the service-identity fields (`service.name` / `service.version` / `deployment.environment`), and `run_id`. Service-identity + `run_id` are on **every** line; the envelope/result fields appear only on the scenario-result record. The implementation uses a small custom `tracing-subscriber` layer (stock `fmt().json()` cannot emit constant identity fields flat at the top level).
+
 ### Log file location
 
 - **CLI:** `logs/agent-latest.jsonl` (project root, relative to `CONDUCTOR_RUNS_DIR`) in agent mode; stdout in dev mode

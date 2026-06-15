@@ -118,6 +118,8 @@ Patterns: Trust boundary).
 
 (See `## Security Anti-Patterns` § Input for input-validation bans.)
 
+The obs service-identity env-handles `CONDUCTOR_SERVICE_NAME` / `CONDUCTOR_ENV` (obs-plan §3) are **non-path string labels** stamped into self-observation JSON log *values* (JSON-escaped by serde_json; no path / SQL / argv exposure); they require **no validation**, unlike the `CONDUCTOR_*` *path* handles in the table above.
+
 ---
 
 ## Data Protection
