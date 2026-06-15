@@ -1,0 +1,34 @@
+# tests extract
+
+## Relevance
+Relevant — config validation is a testable entity per test-scope §1 with garde unit-testable positive/negative cases, plus security-vector coverage triggers.
+
+## Constraints
+- test-scope §1: Scenario-config validation surface is testable via garde valid/invalid fixtures; "load-time garde validation (error fraction ∈ [0,1], non-negative durations, p50≤p95≤p99, severity-mix sums)" assertable at load (per §4 Unit Test Strategy coverage list).
+- test-scope §5 Security-vector-coverage (Trigger 2): negative-tests asserting garde rejects out-of-range config (error fraction outside [0,1], negative durations, p50>p95>p99 ordering violations, severity-mix sum violations) at load; property test over `#[garde(custom)]` cross-field invariants.
+- test-scope §5 Security-vector-coverage (Trigger 1): negative-test asserting `std::fs::canonicalize` + type/existence check rejects path-traversal `CONDUCTOR_*` handles BEFORE any runs.db/journal write.
+- §3 Test Harness Contract (5-command): `run` command runs `cargo nextest run --workspace --profile ci` as the unit gate (CI); validation-reject + path-guard tests fold into `conductor-core` unit suite (`cargo nextest run -p conductor-core`).
+- §4 Unit Test Strategy: test file location in crate-local `#[cfg(test)] mod tests` inside `conductor-core` source or `tests/`; rstest `#[case]` table-driven over garde valid/invalid matrix.
+- §10 Quality Gates (coverage threshold — from Minimal tier): line-coverage floor enforced by `cargo llvm-cov nextest --fail-under-lines`.
+
+## Patterns to follow
+- rstest `#[rstest]` + `#[case]` table-driven positive (well-formed Scenario/PId/SloTier) and negative (malformed P-ID, empty p_ids, out-of-range seed/name) config fixtures; per §4 "table-driven variants (P-ID catalog, garde valid/invalid matrix)".
+- Negative-test assertion pairs: rejection of path-traversal attempts (e.g., `CONDUCTOR_RUNS_DIR="../../../etc"`) + acceptance of valid relative/absolute paths; test both the canonicalize guard and its unit isolation.
+- Property-test over custom garde cross-field rules (once emission-spec fields land in Epoch 2); unit-test the worked example over current identity fields (per scope §3).
+
+## Anti-patterns to avoid
+- Deserializing scenario config without garde validation at load (test-scope §5 Trigger 2 anti-pattern bans this).
+- String concatenation / `format!` to build SQL for `runs.db` (test-scope §5 Trigger 5 bans this; not directly validation's surface, but assertion that all DB access uses rusqlite bound parameters applies to every crate).
+- Pinning the rmcp client to a strict newer protocol default (§5 Trigger 7 — not validation's surface, but contract-test binds).
+
+## Contract bindings
+obs ↔ tests harness: the log-format binding (§3 log format must parse as NDJSON + required fields; validation failures surface in stderr, captured by assert_cmd). Security plan §Input Validation → tests: path-handle guard is a security anti-pattern enforcement (canonicalize + bounds-check before any path use).
+
+## Acceptance criteria contributions
+- "(tests) `cargo nextest run -p conductor-core` passes; includes positive cases (well-formed Scenario/PId with non-empty p_ids, valid P-ID range P-001..P-060) and negative cases (empty p_ids, out-of-range P-ID, malformed P-ID format)."
+- "(tests) Path-traversal negative test: `CONDUCTOR_*` canonicalize + bounds-check rejects `../../../etc` and similar path-traversal attempts; accepts valid paths."
+- "(tests) Custom garde cross-field validator pattern established (worked example over identity fields); property-test skeleton in place for emission-spec rules (Epoch 2 extension)."
+- "(tests) Coverage: new-code line coverage for `conductor-core` validation + path-guard helpers ≥ Minimal-tier threshold (per §10)."
+
+## Relevant amendment history
+(none) — amendment file does not exist; project is fresh.

@@ -10,7 +10,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
    ↓
 [2026-06-15-conductor-core-shared-types] conductor-core shared types — Verdict/ReportState enums, scenario model, verdict/error wall
    ↓
-Config-validation surface — serde + garde range/cross-field rules, CONDUCTOR_* path-handle canonicalize
+[2026-06-15-config-validation-surface] Config-validation surface — serde + garde range/cross-field rules, CONDUCTOR_* path-handle canonicalize
    ↓
 Dependency-audit gate — cargo-audit + cargo-deny over the OTLP/gRPC/SQLite tree, committed Cargo.lock
    ↓

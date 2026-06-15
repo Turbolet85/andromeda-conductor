@@ -13,4 +13,6 @@ becomes a new rule here. Format owned by /andromeda-wrap-session (`references/am
 -->
 
 ## Rules
-_(none yet — grow from escalations + resolved cases)_
+- pattern: a Foundation-epoch chunk uses plain `cargo test` / `#[test]` before the "Test framework + fixtures" chunk installs cargo-nextest / rstest
+  verdict: routine
+  note: test-plan §2/§4 names cargo-nextest as the TARGET runner; interim `cargo test` is build-sequencing, not drift against the test strategy. Confirmed with the user on 2026-06-15 (config-validation-surface wrap); recurred from the prior chunk.

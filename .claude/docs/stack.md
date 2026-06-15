@@ -12,7 +12,7 @@ _Mirrors `.andromeda/architecture.md` §Stack and Technologies. Convenience refe
 - **OTLP emission:** opentelemetry-proto 0.32.0 (`gen-tonic` + trace/metrics/logs) — raw hand-built message structs for byte-level fault control.
 - **gRPC transport:** tonic 0.14.6 + tonic-prost 0.14.6 + prost 0.14 (codegen via `tonic-prost-build`).
 - **MCP read-back client:** rmcp 1.7.0 (`client`), `serve_client()` over `TokioChildProcess` stdio, protocol `2024-11-05`.
-- **Validation:** serde 1.0.x + garde 0.23.0 (`#[derive(Validate)]` range + `#[garde(custom)]` cross-field).
+- **Validation:** serde 1.0.x + garde 0.22.1 (`#[derive(Validate)]` range + `#[garde(custom)]` cross-field).
 - **Serialization:** serde_json 1.0 — canonical-name JSON for the run-report envelope + per-run JSONL journal (serde companion; report-seam runtime dep).
 - **Error handling:** thiserror 2.0.18 (per-seam enums) + anyhow 1.0.102 (binary edges).
 

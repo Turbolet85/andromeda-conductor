@@ -3,7 +3,7 @@
 _Living artifact. Seeded by `/andromeda-setup-project` Phase 6 from arch's Standard Contracts. Reconciled by `/andromeda-wrap-session` P4 — the LIVING block is replaced wholesale with fresh tooling stdout (per `integrity-protocol.md`)._
 
 <!-- METADATA start -->
-**Last reconciled:** 2026-06-15T00:36:47Z
+**Last reconciled:** 2026-06-15T15:45:15Z
 **Tooling:** `cargo public-api --simplified -p <crate>` per workspace member (cargo-public-api 0.51 has no `--workspace` flag — run per lib crate); auto-trait/blanket impls elided for readability
 **Source:** arch.md §Standard Contracts / §Occupied Resources — seed; actual code via tooling — reconcile
 **Maintenance:** wrap-session P4 (living-docs reconcile)
@@ -12,13 +12,14 @@ _Living artifact. Seeded by `/andromeda-setup-project` Phase 6 from arch's Stand
 <!-- LIVING:api-surface start -->
 ## Public API per workspace member (`cargo public-api --simplified`)
 
-- `conductor-core` → the shared type vocabulary (first real public surface; tool-reconciled this chunk):
+- `conductor-core` → the shared type vocabulary + config-validation surface (tool-reconciled this chunk):
   - `pub enum Verdict { Pass, Fail, CalibrationRegion }` — `fn label(&self) -> &'static str`, `fn status_prefix(&self) -> &'static str`
   - `pub enum ReportState { Pass, Fail, ManualCheck, KnownResidual, Blocked }` — `fn label(&self) -> &'static str`, `fn status_prefix(&self) -> &'static str`
-  - `pub struct Scenario { name: String, p_ids: Vec<PId>, seed: u64, slo_tier: SloTier }`
-  - `pub struct PId(pub String)` (serde-`transparent`)
+  - `pub struct Scenario { name: String, p_ids: Vec<PId>, seed: u64, slo_tier: SloTier }` — `impl garde::Validate`
+  - `pub struct PId(pub String)` (serde-`transparent`) — `impl garde::Validate`
   - `pub enum SloTier { Tier5s, Tier20s, Tier90s }` (serde-renamed `<5s`/`<20s`/`<90s`)
-  - `pub enum CoreError { Config(String) }` (`#[non_exhaustive]`, `thiserror::Error`)
+  - `pub enum CoreError { Config(String), Validation(garde::Report) }` (`#[non_exhaustive]`, `thiserror::Error`; `From<garde::Report>` via `#[from]`)
+  - `pub fn resolve_under(base: &Path, candidate: &Path) -> Result<PathBuf>` — the `CONDUCTOR_*` path-handle guard (`std::fs::canonicalize` + bounds-check)
   - `pub type Result<T> = core::result::Result<T, CoreError>`
   - all data types derive `Debug, Clone (+ Copy on the fieldless enums), PartialEq, Eq, Serialize, Deserialize`
 - `conductor-timeline` → `pub mod conductor_timeline` (no public items — placeholder)

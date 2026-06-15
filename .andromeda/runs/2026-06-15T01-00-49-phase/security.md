@@ -1,0 +1,36 @@
+# security extract
+
+## Relevance — partial
+This chunk introduces validation surfaces for operator-supplied config and path handles — core input-validation boundaries that directly touch the threat model's attack surface and the Minimal-tier residual risk class.
+
+## Constraints — domain rules that apply
+1. All scenario config structs (`Scenario`, `PId`, `SloTier`) MUST derive `garde::Validate` with `range` rules and `#[garde(custom)]` cross-field validators co-located in `conductor-core` (security plan §Input Validation; no validation bypass via unvalidated serde deserialize).
+2. `CONDUCTOR_RUNS_DIR` / `CONDUCTOR_SCENARIOS_DIR` / `CONDUCTOR_CONTRACT_MANIFEST` path handles MUST call `std::fs::canonicalize` + explicit existence/type bounds-check at the CLI edge BEFORE any disk I/O, sitting OUTSIDE garde struct validation (security plan §Input Validation, security-research.md serde+garde finding — path handles are edge-validated, not struct-validated).
+3. Validation failures (garde `Report`) MUST become `ConfigError` harness-fault class via `#[from]` into `CoreError`, never a `Verdict` or `ReportState` — the verdict/error wall holds (security plan §Error Handling, arch §Conventions "Error handling").
+4. `ANDROMEDA_PULSE_DATA_DIR` interpolation into the MCP sidecar spawn is banned; validation must reject argument-injection metacharacters before any `.env(...)` builder call (security plan §Input Validation, security plan §Security Anti-Patterns § Input — CVE-2026-30623 rmcp STDIO class).
+5. P-ID format/range rule enforcement: `P-NNN` shape with 001..060 numeric range (no scenario without a P-ID per security plan §Input Validation table, Threat Model Summary § Attack surface).
+6. Cross-field invariants for emission-spec rules (error fraction ∈ [0,1], non-negative durations, p50≤p95≤p99 ordering, severity-mix sums) MUST use the `#[garde(custom)]` pattern established here; the worked example seeds future Epoch-2 extensions (security plan §Input Validation).
+
+## Patterns to follow — existing patterns relevant to implementation
+1. Validation co-location: `#[derive(Validate)]` rules live inline with serde structs in their owning seam crate (`conductor-core`), not in a separate validation module (arch §Established Decisions [Validation Library], Conventions "Config conventions").
+2. Garde `Report` → typed error bridge: validation failure converts via `#[from]` to `CoreError::ConfigError(garde::Report)`, collapsing to `anyhow` only at the `conductor-cli` / `#[tauri::command]` boundaries (arch §Conventions "Error handling").
+3. Boundary guards for path handles: `std::fs::canonicalize` + explicit `metadata()` type check (is_dir/is_file), then bounds-check (reject if outside permitted scope), returning `Result<PathBuf, ConfigError>` (security plan §Input Validation table, entry "Env-var path handles").
+
+## Anti-patterns to avoid — domain bans that apply
+1. NEVER deserialize scenario config without garde validation at load — an unvalidated serde deserialize bypasses the trust boundary (security plan §Security Anti-Patterns § Input, § Universal).
+2. NEVER interpolate `ANDROMEDA_PULSE_DATA_DIR` or any `CONDUCTOR_*` value into argv or shell — pass strictly via `.env(...)` builder, reject metacharacters first (security plan §Security Anti-Patterns § Input, § Code Patterns — rmcp STDIO CVE-2026-30623).
+3. NEVER bypass the path-canonicalize guard for `CONDUCTOR_*` handles — path traversal / symlink attacks require the canonicalize + bounds-check before any file operation (security plan §Security Anti-Patterns § Input).
+
+## Contract bindings — where your domain ties into another
+- **Obs + tests harness**: PII redaction cross-cuts the log/telemetry surfaces added in later epochs; this chunk establishes the config-validation pattern that those surfaces consume (no real PII in scenario fixtures, enforced at fixture creation time — forward-guardrail only, not active this epoch).
+- **CLI edge (Epoch 8)**: Path-canonicalize guard wires into the binary's arg/env parser; `CONDUCTOR_*` precedence rules (CLI flag > env > default) are consumed when the actual flag parser exists.
+- **Report seam (Epoch 6)**: Canonicalized paths from this chunk's guard are the ONLY paths written to `runs.db` / `<run_id>.md` artifacts — sanitization rule enforced at write time (security plan §Error Handling).
+
+## Acceptance criteria contributions — concrete pass/fail checks your domain adds
+1. (security) `cargo build -p conductor-core` compiles with no validation warnings; `cargo test -p conductor-core` green on all new validation unit tests (garde derives present, rules fire as expected).
+2. (security) Unit test for `CONDUCTOR_*` path-canonicalize guard: canonicalize succeeds on a valid in-scope path; rejects traversal attempt (`../../../etc/passwd` → `ConfigError`); rejects out-of-scope absolute path.
+3. (security) Validation-reject test: `Scenario` with empty `p_ids` fails `.validate(&())`; `PId("Q-001")` (malformed format) fails; `PId("P-099")` (out of 001..060 range) fails; valid `PId("P-042")` passes.
+4. (security) `cargo clippy` clean; no `unsafe` blocks introduced in the validation seam.
+
+## Relevant amendment history — prior amendments to your plan touching this chunk's area + why
+(none)
