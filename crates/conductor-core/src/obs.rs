@@ -9,6 +9,7 @@
 use std::io::Write;
 use std::time::{SystemTime, UNIX_EPOCH};
 
+use crate::redact::{is_allowlisted, redact_value};
 use serde_json::{Map, Value};
 use tracing::field::{Field, Visit};
 use tracing::{Event, Subscriber};
@@ -156,7 +157,10 @@ where
         let mut map = Map::new();
         map.insert("timestamp_ms".to_string(), Value::from(unix_millis()));
         map.insert("level".to_string(), Value::from(meta.level().as_str()));
-        map.insert("target".to_string(), Value::from(meta.target()));
+        map.insert(
+            "target".to_string(),
+            Value::from(redact_value(meta.target()).as_ref()),
+        );
         map.insert(
             "service.name".to_string(),
             Value::from(self.identity.service_name.clone()),
@@ -186,27 +190,48 @@ struct JsonVisitor<'a>(&'a mut Map<String, Value>);
 
 impl Visit for JsonVisitor<'_> {
     fn record_bool(&mut self, field: &Field, value: bool) {
-        self.0.insert(field.name().to_string(), Value::from(value));
+        if is_allowlisted(field.name()) {
+            self.0.insert(field.name().to_string(), Value::from(value));
+        }
     }
     fn record_i64(&mut self, field: &Field, value: i64) {
-        self.0.insert(field.name().to_string(), Value::from(value));
+        if is_allowlisted(field.name()) {
+            self.0.insert(field.name().to_string(), Value::from(value));
+        }
     }
     fn record_u64(&mut self, field: &Field, value: u64) {
-        self.0.insert(field.name().to_string(), Value::from(value));
+        if is_allowlisted(field.name()) {
+            self.0.insert(field.name().to_string(), Value::from(value));
+        }
     }
     fn record_f64(&mut self, field: &Field, value: f64) {
-        self.0.insert(field.name().to_string(), Value::from(value));
+        if is_allowlisted(field.name()) {
+            self.0.insert(field.name().to_string(), Value::from(value));
+        }
     }
     fn record_str(&mut self, field: &Field, value: &str) {
-        self.0.insert(field.name().to_string(), Value::from(value));
+        if is_allowlisted(field.name()) {
+            self.0.insert(
+                field.name().to_string(),
+                Value::from(redact_value(value).as_ref()),
+            );
+        }
     }
     fn record_error(&mut self, field: &Field, value: &(dyn std::error::Error + 'static)) {
-        self.0
-            .insert(field.name().to_string(), Value::from(value.to_string()));
+        if is_allowlisted(field.name()) {
+            self.0.insert(
+                field.name().to_string(),
+                Value::from(redact_value(&value.to_string()).as_ref()),
+            );
+        }
     }
     fn record_debug(&mut self, field: &Field, value: &dyn std::fmt::Debug) {
-        self.0
-            .insert(field.name().to_string(), Value::from(format!("{value:?}")));
+        if is_allowlisted(field.name()) {
+            self.0.insert(
+                field.name().to_string(),
+                Value::from(redact_value(&format!("{value:?}")).as_ref()),
+            );
+        }
     }
 }
 
@@ -330,5 +355,43 @@ mod tests {
         assert_eq!(obj["run_id"], Value::from("RUN-PANIC"));
         assert!(obj["panic"].as_str().unwrap().contains("boom-xyz"));
         assert!(obj.contains_key("location"));
+    }
+
+    #[test]
+    fn non_allowlisted_field_is_dropped() {
+        let buf = capture(fixed_identity("RUN-DROP"), || {
+            tracing::info!(secret = "leak", phase = "ok", "m");
+        });
+        let obj = buf.lines()[0].as_object().unwrap().clone();
+        assert!(!obj.contains_key("secret"), "non-allowlisted field must be dropped");
+        assert_eq!(obj["phase"], Value::from("ok"));
+        assert_eq!(obj["message"], Value::from("m"));
+    }
+
+    #[test]
+    fn host_path_in_allowlisted_field_is_redacted() {
+        let buf = capture(fixed_identity("RUN-REDACT"), || {
+            tracing::info!(phase = "open C:\\Users\\turbo\\corpus.db", "m");
+        });
+        let obj = buf.lines()[0].as_object().unwrap().clone();
+        assert_eq!(obj["phase"], Value::from("open <redacted>"));
+    }
+
+    #[test]
+    fn panic_hook_redacts_host_path_in_payload() {
+        let buf = SharedBuf::default();
+        let subscriber =
+            build_subscriber(fixed_identity("RUN-PANIC-PATH"), buf.clone(), EnvFilter::new("info"));
+        let prev = std::panic::take_hook();
+        std::panic::set_hook(Box::new(log_panic));
+        tracing::subscriber::with_default(subscriber, || {
+            let _ = std::panic::catch_unwind(|| panic!("open C:\\Users\\turbo\\corpus.db failed"));
+        });
+        std::panic::set_hook(prev);
+
+        let obj = buf.lines()[0].as_object().unwrap().clone();
+        let panic = obj["panic"].as_str().unwrap();
+        assert!(!panic.contains("C:\\Users"), "host path leaked in panic: {panic}");
+        assert!(panic.contains("<redacted>"), "{panic}");
     }
 }

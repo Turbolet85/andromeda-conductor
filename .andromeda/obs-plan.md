@@ -525,7 +525,7 @@ Additional scenario-specific fields (per obs-scope Section 4 must-trace paths):
 **Log conformance check (obs CI gate):**
 - Agent reads `logs/agent-latest.jsonl` from CI artifacts
 - Validates all log records match binding schema (Section 6): presence of journal_emitted_at, run_id, seed, scenario, p_ids, verdict, state, latency_ms, slo_tier, fingerprints
-- Validates no absolute host paths (`path::` prefix) or internal struct names (`module::` prefix) in any field
+- Validates no absolute host-file paths (drive-letter `X:\` / `/home` / `/Users` / `%APPDATA%` / `~/.cargo` / `.rustup`) in any field; the allowlisted `target` module path (e.g. `conductor_core::obs`) is preserved (a documented identity field, not a leak), and internal struct names are kept out by the field-name allowlist + `Display`-not-`Debug` at the `anyhow` edge — NOT by `module::`-token redaction
 - On schema violation, agent marks CI check as FAIL (build gated)
 
 **Zero-unlogged-panics gate (obs CI gate):**
@@ -588,7 +588,7 @@ SLO enforcement: agent reads runs.db rows post-run and asserts `latency_ms <= sl
 - NEVER skip the `run_id` field — it is the correlation key on every JSONL line (there is no W3C `trace_id`/`span_id`; `tracing` span context is rendered inline by the JSON subscriber)
 - NEVER use multi-line stack traces without one-line serialization — `std::panic::set_hook()` must JSON-serialize backtrace to a single field
 - NEVER log in hot path at `info` level — use `trace` / `debug` gated by `RUST_LOG=conductor_timeline=debug` (opt-in)
-- NEVER leak absolute host paths or internal struct names in logs / run-report / runs.db — redaction layer (Section 4 Fault-injection spans subsection + Section 11 PII Scrubbing subsection) scrubs `path::`, `module::`, `backtrace` file paths
+- NEVER leak absolute host paths or internal struct names in logs / run-report / runs.db — the redaction layer (`conductor-core::redact`, Section 11 PII Scrubbing subsection) masks absolute host-file paths (drive-letter, `/home`, `/Users`, `%APPDATA%`, `~/.cargo`, `.rustup`, backtrace file paths) → `<redacted>`; internal struct names are kept out by the field-name allowlist (non-allowlisted Debug-dumped fields dropped) + `Display`-not-`Debug` at the `anyhow` edge, NOT by blanket `::`-token redaction — the allowlisted `target` module path is preserved
 
 ### Error Reporting
 
@@ -601,7 +601,7 @@ SLO enforcement: agent reads runs.db rows post-run and asserts `latency_ms <= sl
 - NEVER include PII in logs / spans / metrics by default — Conductor owns no PII (only synthetic test telemetry); if a future PII-bearing surface is added, apply allowlist-based field filtering at source
 - NEVER scrub only at sink stage — apply redaction at processor stage (tracing-subscriber layer) so failures upstream don't leak via stderr
 - NEVER hardcode scrubbing rules in single location — redaction layer applies via: (a) tracing-subscriber field filter on JSON formatter, (b) report generation when writing JSONL, (c) runs.db schema validation on insert
-- NEVER skip the field-allowlist / redaction layer — the creator's single obs ownership (upstream §6): preserve ONLY verdict/state/identity/count fields; remove all `path::`, `module::`, `backtrace` paths
+- NEVER skip the field-allowlist / redaction layer — single-location ownership in `conductor-core::redact` (upstream §6): the field-name allowlist permits the identity + `message` + bounded self-obs + reserved Run-report envelope fields and DROPS any other (incl. Debug-dumped struct) field name; the value scrub masks absolute host-file paths (`path::`/`module::`/`backtrace` *file* paths, NOT `::` type tokens) → `<redacted>`; the allowlisted `target` module path is preserved
 
 ### CI
 

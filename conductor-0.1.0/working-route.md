@@ -16,7 +16,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
    ↓
 [2026-06-15-structured-logging-stack] Structured logging stack — tracing + tracing-subscriber JSON (no OTel SDK), service-identity fields, std::panic::set_hook capture
    ↓
-Log + error-boundary redaction — tracing-subscriber field-allowlist + anyhow-edge sanitization (no host-paths/struct-names/stack-traces)
+[2026-06-15-log-error-boundary-redaction] Log + error-boundary redaction — tracing-subscriber field-allowlist + anyhow-edge sanitization (no host-paths/struct-names/stack-traces)
    ↓
 Design-token + typography bundle — Tailwind v4.1 @theme tokens, JetBrains Mono + IBM Plex Sans
    ↓

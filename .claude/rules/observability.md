@@ -25,7 +25,7 @@ Path-scoped rules for self-observation (structured logging) across the seam crat
 - Cover the 7 must-trace critical paths (obs-plan §4); close every span at its phase boundary; instrument MCP read-back / rusqlite / tonic egress with a manual client span (these seams aren't auto-instrumented).
 
 ## Redaction & panics
-- Field-allowlist redaction at the tracing-subscriber processor stage — scrub `path::` (absolute paths), `module::` (struct names), backtrace file paths. Apply at the processor, not just the sink.
+- Field-allowlist + value scrub at the tracing-subscriber processor stage (`conductor-core::redact`), not just the sink: the allowlist DROPS non-allowlisted (incl. Debug-dumped) field names; the scrub masks absolute host-FILE paths (drive-letter, `/home`, `/Users`, `%APPDATA%`, `~/.cargo`, `.rustup`, backtrace file paths) → `<redacted>` — NOT `::`-type tokens. The allowlisted `target` module path is preserved; internal struct names are kept out by the allowlist + `Display`-not-`Debug` at the `anyhow` edge.
 - Zero unlogged panics: `std::panic::set_hook()` → `tracing::error!(panic=…)` (one-line JSON backtrace) → `anyhow::Error` at the binary edge. NEVER a retry-once policy (masks failures).
 
 ## Hard bans

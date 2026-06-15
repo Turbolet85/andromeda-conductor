@@ -27,8 +27,8 @@ _Distilled from `.andromeda/obs-plan.md`. setup-project Phase 3. wrap-session do
 - Emitted as flat per-line JSON fields — NOT OTel resource attributes.
 
 ## Redaction wire
-- Field-allowlist at the tracing-subscriber processor stage (not just the sink) — scrub `path::`, `module::`, backtrace file paths.
-- No PII by architecture (synthetic-only); preserve verdict/state/identity/count fields only.
+- Field-allowlist (drops non-allowlisted field names) + value scrub at the tracing-subscriber processor stage (`conductor-core::redact`), not just the sink — mask absolute host-FILE paths (drive-letter, `/home`, `/Users`, `%APPDATA%`, `~/.cargo`, `.rustup`, backtrace file paths) → `<redacted>`, NOT `::`-type tokens; the allowlisted `target` module path is preserved.
+- No PII by architecture (synthetic-only); the allowlist permits identity + `message` + bounded self-obs + reserved envelope fields; struct names kept out via the allowlist + `Display`-not-`Debug` at the `anyhow` edge.
 
 ## Universal anti-patterns
 - No OTel SDK / `tracing-opentelemetry` / `traceparent` for self-observation; no network OTLP (recursion guard).
