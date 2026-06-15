@@ -9,3 +9,4 @@ marker = {date}-{slug} (e.g. 2026-06-04-otlp-http-ingest), minted at promotion.
 
 ## conductor-0.1.0
 2026-06-14-cargo-workspace-scaffold · complete · Cargo workspace scaffold — 8 crate-per-seam members + toolchain pin ≥1.94.1 · → conductor-0.1.0/chunks/2026-06-14-cargo-workspace-scaffold/
+2026-06-15-conductor-core-shared-types · complete · conductor-core shared types — Verdict/ReportState enums, scenario model, verdict/error wall · → conductor-0.1.0/chunks/2026-06-15-conductor-core-shared-types/

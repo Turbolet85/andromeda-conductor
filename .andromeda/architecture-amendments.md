@@ -11,3 +11,8 @@ _Append-only changelog of amendments to `architecture.md` (the body holds only c
 **Section:** §Stack and Technologies
 **Change:** added a "Self-observation | tracing 0.1.44 + tracing-subscriber 0.3.23" row.
 **Why:** the chunk pinned `tracing` + `tracing-subscriber` in `[workspace.dependencies]` (the obs-plan §3 self-obs stack); arch's Stack table did not list them. NOT an OTel SDK — OTLP remains the PRODUCT emission.
+
+## 2026-06-15-conductor-core-shared-types — serde_json 1.0 registered in §Stack
+**Section:** §Stack and Technologies
+**Change:** added a "Serialization (JSON) | serde_json 1.0" row.
+**Why:** the conductor-core-shared-types chunk added `serde_json = "1.0"` to `[workspace.dependencies]` (canonical-name round-trip tests now; the run-report envelope + per-run JSONL journal consume it at runtime in Epoch 6); arch's §Stack registry did not list it. Cleared by the security drift-detector (audit-green, allowed by §Dependency Security). Cascaded to `.claude/docs/stack.md`. The design proposal (record an implementation note in the Decisions Log) was rejected as non-drift — design-system.md §cli already prescribes the implemented prefixes.

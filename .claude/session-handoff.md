@@ -1,21 +1,22 @@
 # Session Handoff
 
-**Last Updated:** 2026-06-14T23:46:47Z
+**Last Updated:** 2026-06-15T00:36:47Z
 **Branch:** build/conductor-0.1.0
 **Status:** clean
-**Last Commit:** 2026-06-14-cargo-workspace-scaffold — chore: Cargo workspace scaffold (8 crate-per-seam members)
+**Last Commit:** 2026-06-15-conductor-core-shared-types — feat: Verdict/ReportState + scenario model + verdict/error wall
 
 ## Position
-- Done: 2026-06-14-cargo-workspace-scaffold — 8-crate workspace skeleton (6 lib + 2 bin), seam→core edges, toolchain 1.95.0 / MSRV 1.94.1, green build + boot.
-- Next: conductor-core shared types — Verdict/ReportState enums, scenario model, verdict/error wall → run `/andromeda-phase` to promote + plan.
+- Done: 2026-06-15-conductor-core-shared-types — conductor-core shared types: Verdict/ReportState enums, Scenario/PId/SloTier identity model, CoreError verdict/error wall; 10 unit tests green.
+- Next: Config-validation surface — serde + garde range/cross-field rules, CONDUCTOR_* path-handle canonicalize → run `/andromeda-phase` to promote + plan.
 
 ## Work done
-Created the crate-per-seam Cargo workspace (root manifest + centralized `[workspace.dependencies]` pins + `rust-toolchain.toml`), 8 placeholder crates, committed `Cargo.lock`. `cargo build/test --workspace` green; both bins boot.
+Filled conductor-core (was a placeholder) with the shared type vocabulary: `Verdict {Pass,Fail,CalibrationRegion}` + `ReportState {Pass,Fail,ManualCheck,KnownResidual,Blocked}` (canonical-PascalCase serde + `label()`/`status_prefix()` accessors), `Scenario`/`PId`/`SloTier` identity model (serde-only), and `CoreError` (`#[non_exhaustive]` thiserror) establishing the verdict/error wall. Added serde + thiserror deps + serde_json (dev). Gates green: `cargo test -p conductor-core` (10 passed), clippy, `cargo build --workspace`.
 
 ## Drift resolved
-arch §Stack reconciled to implemented reality: MSRV 1.88.0 → 1.94.1 (security CVE-2026-33056 bump, all 4 occurrences) + added the `tracing`/`tracing-subscriber` self-observation row. 2 amendments (`architecture-amendments.md`), 0 escalations.
+1 amendment: arch §Stack gained a "Serialization (JSON) | serde_json 1.0" row (the chunk added serde_json to `[workspace.dependencies]`); cascaded to `.claude/docs/stack.md` + `architecture-amendments.md` sidecar. 0 escalations. 1 design proposal rejected as non-drift (design-system already prescribes the implemented `[PASS]`/…/`[BLOCKED]` prefixes — conformance, not drift). Living docs reconciled (dep-tree, api-surface).
 
 ## Notes
-- Branch policy: the 0.1.0 build runs on `build/conductor-0.1.0`; `main` fast-forwards only when 0.1.0 is tagged complete (curated to CLAUDE.md Tier 1).
-- Toolchain pinned to installed 1.95.0 (MSRV floor 1.94.1 via `rust-version`); cargo-nextest not yet installed (a later Foundation chunk) — gates used `cargo build`/`cargo test`.
+- Key decision: conductor-core stays runtime-agnostic — status enums expose `label()` + ASCII `status_prefix()` ONLY; no color/glyph/ANSI values in core (state→token mapping lives in doc-comments; cli/GUI surfaces bind rendering).
+- Next chunk attaches garde to `Scenario`/`PId` (non-empty `p_ids`, range/cross-field rules), adds `CoreError`'s garde `Report` `#[from]` (the `#[non_exhaustive]` extension point left for it), and `CONDUCTOR_*` path canonicalize.
+- cargo-nextest / rstest still NOT installed (they land in the later Foundation "Test framework + fixtures" chunk) — early chunks use `cargo test -p <crate>` + plain `#[test]`, not `cargo nextest` / `#[rstest]`.
 - Last failed command: none.

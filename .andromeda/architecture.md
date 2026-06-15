@@ -24,6 +24,7 @@
 | Push / real-time | Tauri 2 IPC `Channel` (in-app only) | Streams live emission counters / target status backend→frontend; no native OS toasts |
 | Desktop shell | Tauri 2 (bundler v2.10.x, latest 2.10.1) | Optional GUI control-panel artifact over the same headless core |
 | Validation | serde 1.0.x + garde 0.23.0 | `#[derive(Validate)]` range rules + struct-level custom cross-field invariants for scenario config |
+| Serialization (JSON) | serde_json 1.0 | Canonical-name (de)serialization for the run-report envelope + per-run JSONL journal (serde companion; report-seam runtime dep) |
 | Error handling | thiserror 2.0.18 + anyhow 1.0.102 | Typed per-seam error enums in library crates; type-erased `Result` at binary edges |
 | Self-observation | tracing 0.1.44 + tracing-subscriber 0.3.23 | Structured JSON self-observation logs; NOT an OTel SDK (OTLP is the PRODUCT emission); detail in obs-plan §3 |
 | Build / packaging | Cargo workspace, `cargo build --release` + Tauri 2 bundler | Local release binary (source of truth) + optional GUI bundle |

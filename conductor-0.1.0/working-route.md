@@ -8,7 +8,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
 ### Epoch 1 — Foundation
 [2026-06-14-cargo-workspace-scaffold] Cargo workspace scaffold — 8 crate-per-seam members, workspace manifest, rust-toolchain pin ≥1.94.1
    ↓
-conductor-core shared types — Verdict/ReportState enums, scenario model, verdict/error wall
+[2026-06-15-conductor-core-shared-types] conductor-core shared types — Verdict/ReportState enums, scenario model, verdict/error wall
    ↓
 Config-validation surface — serde + garde range/cross-field rules, CONDUCTOR_* path-handle canonicalize
    ↓
