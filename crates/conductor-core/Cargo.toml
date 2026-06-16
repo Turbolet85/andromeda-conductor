@@ -12,3 +12,8 @@ thiserror.workspace = true
 garde = { workspace = true, features = ["derive"] }
 tracing.workspace = true
 tracing-subscriber.workspace = true
+
+[dev-dependencies]
+rstest.workspace = true
+proptest.workspace = true
+insta.workspace = true

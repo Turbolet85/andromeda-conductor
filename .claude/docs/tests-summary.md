@@ -8,7 +8,7 @@ _Distilled from `.andromeda/test-plan.md`. setup-project Phase 3. wrap-session d
 
 ## Harness contract (§3) — agent-driven, NO daemon
 setup-project Phase 4 materializes `scripts/agent-run.{sh,ps1}`. Enforcement: `.claude/rules/verification-harness.md`.
-- **Test runner:** cargo-nextest 0.9.137 (+ `cargo test --doc`).
+- **Test runner:** cargo-nextest (+ `cargo test --doc`) — zero-retry `ci` profile in `.config/nextest.toml`; the version is a reference floor (test-plan §4).
 - **5-command discipline:** boot (=MCP preflight gate) / run / status / cleanup / logs.
 - **Status endpoint:** none — `status` reads `runs/<run_id>.jsonl` (`jq -e`) or the `runs.db` row (no HTTP/IPC listener).
 - **PID file:** N/A — one-shot CLI, no daemon.

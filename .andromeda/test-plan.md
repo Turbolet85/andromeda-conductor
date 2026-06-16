@@ -224,6 +224,8 @@ _[ALL tiers]_
 **Coverage tool:** cargo-llvm-cov 0.8.7 (`cargo llvm-cov nextest --lcov`) — first-class nextest integration, LCOV/Cobertura/JSON output, `--fail-under-lines` exit-code gate.
 **Coverage target:** see Section 10 Quality Gates for the Minimal-tier threshold.
 
+**Tool-version policy:** the external-CLI tool versions named in this section (cargo-nextest, cargo-llvm-cov) are reference floors, not exact pins — they live outside `Cargo.lock`, so any install that runs the gate green satisfies it (the same floor logic the security-plan applies to cargo-audit / cargo-deny, §Dependency Security). The crate dev-deps (rstest · proptest · insta · assert_cmd · assert_fs · predicates) are caret-resolved with `Cargo.lock` authoritative; their exact resolved versions drift build-to-build and are not pinned in this prose.
+
 **Conventions** (from upstream-context Test-Relevant Conventions):
 - Test file location: crate-local `#[cfg(test)] mod tests` inside each `conductor-<seam>` source file, plus crate-local `tests/` for slower in-crate integration (arch per-seam isolation).
 - Test function naming: snake_case `fn` under `#[test]` / `#[tokio::test]` / rstest `#[rstest]`.

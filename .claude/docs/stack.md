@@ -32,7 +32,7 @@ _Mirrors `.andromeda/architecture.md` §Stack and Technologies. Convenience refe
 - **cli surface:** clap 4.5 + anstream/anstyle + owo-colors 4.x + indicatif 0.18 + comfy-table 7 + inquire 0.7.
 
 ## Development & CI
-- **Test:** cargo-nextest 0.9.137 + cargo test --doc; rstest 0.26, proptest 1.9, insta 1.46, assert_cmd 2 + predicates 3, assert_fs 1; coverage cargo-llvm-cov 0.8.7. Webview E2E: @crabnebula/tauri-driver 2.0.9 + WebdriverIO (Linux + xvfb).
+- **Test:** cargo-nextest (pinned runner; zero-retry `ci` profile in `.config/nextest.toml`) + `cargo test --doc`; dev-test stack rstest 0.26 · proptest 1.x · insta 1.x · assert_cmd 2 · assert_fs 1 · predicates 3; coverage cargo-llvm-cov (needs the `llvm-tools-preview` toolchain component). External CLI-tool versions are reference floors; `Cargo.lock` is authoritative for crate deps (test-plan §4). Webview E2E: @crabnebula/tauri-driver 2.0.9 + WebdriverIO (Linux + xvfb).
 - **Lint/format:** clippy + rustfmt. Module-graph audit: cargo-modules / cargo-rail (optional).
 - **Supply chain:** cargo-audit 0.22.2 + cargo-deny 0.19.8 (`deny.toml`) for the Rust tree; `npm audit` (0-vuln gate) + committed `package-lock.json` for the `conductor-tauri/ui` frontend tree.
 - **A11y:** axe-core 4.12.0 + @axe-core/webdriverio + Lighthouse 13.0.3 + colorjs.io 0.6.1 (operator/local-gated).

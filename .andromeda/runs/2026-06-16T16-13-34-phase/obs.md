@@ -1,0 +1,34 @@
+# obs extract
+
+## Relevance
+Partial — test framework + fixtures + coverage tooling have observability bindings (test-harness contract, CI artifact handling, zero-unlogged-panics gate) but do not implement instrumentation or telemetry endpoints.
+
+## Constraints
+- Test harness must produce machine-parseable output (JUnit for CI; structured JSONL logs) per obs-plan §3 Observability Harness Contract § bootstrap (log-format-schema-emit).
+- `ci` profile in `.config/nextest.toml` is a contract for obs CI gates: `retries = 0` (zero-flakiness invariant per obs-plan §1 "Same scenario+seed ⇒ same stream shape") per scope definition of done.
+- Log conformance CI gate (obs-plan §9 "Validate all log records match binding schema") requires structured JSON output from test runs, upstream dependency for artifact validation.
+- Zero-unlogged-panics gate (obs-plan §10 SLO Invariants) is enforced at CI stage; test framework must permit `std::panic::set_hook()` capture during `cargo-nextest` runs.
+- Coverage gate (obs-plan §10 "cargo-llvm-cov --fail-under-lines 60") requires coverage tooling config; Minimal tier threshold is hardcoded.
+
+## Patterns to follow
+- Dev-dependency installation must preserve `Cargo.lock` commit + no `cargo-audit` / `cargo-deny` red flags (obs-plan §3 bootstrap § "supply-chain-audit"); exemplar tests are the validation vehicle.
+- `assert_cmd` + `assert_fs` tests for CLI-binary paths (CLI surface per obs-plan §1) must validate exit codes + structured output shape (fixture = JSON log schema binding).
+- Exemplar tests per tool (`rstest` / `proptest` / `insta` / `assert_cmd` + `assert_fs`) prove the wiring is functional before domain tests land; snapshot / golden tests (exemplar for `insta`) anticipate obs-plan §4 stream-shape goldens (Epoch 2).
+
+## Anti-patterns to avoid
+- NEVER use nextest `retries > 0` in `ci` profile (breaks determinism invariant per obs-plan §11 Anti-Patterns § "NEVER skip zero-unlogged-panics invariant"; retries mask flakes).
+- NEVER leave panic capture unconfigured (test framework must not swallow panics; `std::panic::set_hook()` is a domain responsibility, not test framework, but framework must not interfere).
+- NEVER skip coverage reporting wiring (coverage gate is a Minimal-tier build gate; omission causes CI failures downstream).
+
+## Contract bindings
+- **obs ↔ tests harness** (obs-plan §3 bootstrap § "test harness contract binds to tests §3"): the `ci` profile + JUnit output are the contract; test-framework chunk does not implement the harness but wires the tool dependencies.
+- **obs ↔ CI** (obs-plan §9): coverage report consumption is downstream of this chunk's cargo-llvm-cov config.
+
+## Acceptance criteria contributions
+- (obs) Test framework CI profile produced: `.config/nextest.toml` with `ci` profile, `retries = 0`, JUnit output format — machine-parseable for CI gates (obs-plan §9).
+- (obs) Coverage tooling wired: `cargo llvm-cov` locally executable; threshold gate (`--fail-under-lines 60`) documented for Epoch-10 CI integration (obs-plan §10 SLO Invariants).
+- (obs) Zero-unlogged-panics guard unblocked: exemplar tests pass with `std::panic::set_hook()` available — test framework does not suppress panics (obs-plan §10 SLO Invariants).
+
+## Relevant amendment history
+- **2026-06-15-structured-logging-stack** (obs-plan-amendments.md): clarified self-obs log line schema (`timestamp_ms`, `level`, `target`, service-identity, `run_id` on every line; envelope/result fields only on scenario-result events). Test-framework chunk does not emit self-obs lines, but exemplar test output (especially `assert_cmd` tests of CLI binary) must validate that domain code will later emit conformant JSONL.
+- **2026-06-15-log-error-boundary-redaction**: redaction model = host-file-path anchor + allowlist + Display-edge (not blanket `::` scrubbing); value scrub must not impact `target` module path field. Test-framework exemplars do not implement redaction, but must not preclude it in domain code.

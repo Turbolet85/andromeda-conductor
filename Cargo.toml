@@ -54,3 +54,11 @@ tracing-subscriber = { version = "0.3.23", features = ["json", "env-filter"] }
 
 # Desktop GUI (Epoch 9; pinned ≥2.10.3 per security CVE-2026-42184, unused until then)
 tauri = "2.10.3"
+
+# Test framework + fixtures (dev-deps only; cargo-nextest + cargo-llvm-cov are external cargo subcommands, not crates)
+rstest = "0.26"
+proptest = "1"
+insta = "1"
+assert_cmd = "2"
+assert_fs = "1"
+predicates = "3"

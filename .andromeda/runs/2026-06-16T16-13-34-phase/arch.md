@@ -1,0 +1,39 @@
+# arch extract
+
+## Relevance
+Partial — chunk establishes test framework tooling (workspace-wide); architecture domain covers workspace crate placement and inherited defaults but defers domain tests to Epochs 2–10.
+
+## Constraints
+- Per arch §Established Decisions, tokio `current_thread` flavor ensures determinism; retries mask flakes and violate "same scenario+seed ⇒ same stream shape" — nextest `retries = 0` mandatory in `ci` profile (arch §Established Decisions [Async Runtime Flavor]).
+- Dev-dependencies must not violate workspace crate-per-seam structure; forbidden cross-seam deps must fail to compile (arch §Established Decisions [Module Boundaries]).
+- All new dev-deps must stay `cargo-audit` / `cargo-deny` green per supply-chain gate (arch §Occupied Resources) and `Cargo.lock` committed + un-drifted (universal release-gate invariant).
+- serde 1.0.x + garde 0.22.1 are the locked validation stack (arch §Stack and Technologies + §Established Decisions [Validation Library]; amendment 2026-06-15 pins garde to 0.22.1 after `garde_derive 0.23.0` proved unregistered).
+- Test-plan §3 5-command harness requires `cargo nextest run --workspace --profile ci` to emit machine-parseable (JUnit) output (arch §Occupied Resources / Standard Contracts / Cross-cutting Patterns).
+
+## Patterns to follow
+- Workspace `[workspace.dependencies]` co-located shared dev-deps, per-crate `[dev-dependencies]` inherit or override (arch §Infrastructure Patterns Build system).
+- Test examples (exemplar/smoke tests) that prove wiring compiles + runs green demonstrate tool integration without adding domain tests (arch §Stack and Technologies / §Established Decisions scope law).
+- Deterministic seeded tests map to proptest (later Epoch-2 determinism-replay harness builds on it); snapshot/golden paths via insta for stream-shape + run-report-envelope validation (future epochs).
+- CLI/binary testing via assert_cmd + assert_fs for `conductor-cli` / agent-run paths (arch §Established Decisions [Headless-drivable core, thin shells]).
+
+## Anti-patterns to avoid
+- No nextest retries (retries mask flakes; determinism invariant forbids them — §Established Decisions [Async Runtime Flavor] + §Established Decisions [Probabilistic-Assertion Policy]).
+- No new env vars beyond the locked `CONDUCTOR_*` namespace (arch §Occupied Resources; chunk is test tooling, not infrastructure).
+
+## Contract bindings
+- Tests harness ↔ obs domain: test framework must not inject logging into deterministic runs; obs-plan §3 defines self-observation stack (tracing 0.1.44 + tracing-subscriber 0.3.23, already registered per amendment 2026-06-10).
+- Tests harness ↔ security domain: dev-deps must clear `cargo-audit` / `cargo-deny`; `Cargo.lock` committed + un-drifted (security-plan §Dependency Security, amendment 2026-06-14 raised MSRV 1.88.0 → 1.94.1 for tar-rs CVE-2026-33056).
+- Tests harness ↔ architecture domain: workspace crate-per-seam boundary + inheritance of determinism/verdict-error wall / journal-relative ground truth (arch §Cross-cutting Patterns §Established Decisions).
+
+## Acceptance criteria contributions
+- (arch) `.config/nextest.toml` `ci` profile defined with `retries = 0` (no flakiness masking) and machine-parseable (JUnit) output format (test-plan §3 + arch §Occupied Resources Standard Contracts).
+- (arch) `cargo nextest run --workspace --profile ci` runs green (active forward from prior session gotcha where profile was absent).
+- (arch) Workspace `[workspace.dependencies]` lists rstest + proptest + insta + assert_cmd + assert_fs + cargo-llvm-cov as pinned dev-stack (arch §Stack and Technologies inherited defaults).
+- (arch) Each tool has a minimal exemplar test (rstest fixture, proptest property, insta snapshot, assert_cmd CLI, assert_fs file) proving wiring compiles + runs (does NOT substitute for domain tests in Epochs 2–10).
+- (arch) `cargo-audit` + `cargo-deny` green; `Cargo.lock` committed (security-plan §Dependency Security + universal release-gate).
+
+## Relevant amendment history
+- **2026-06-14-cargo-workspace-scaffold** — MSRV 1.88.0 → 1.94.1 (tar-rs CVE-2026-33056); cascaded to §Stack · §Infrastructure Patterns · §Inherited Defaults.
+- **2026-06-14-cargo-workspace-scaffold** — tracing 0.1.44 + tracing-subscriber 0.3.23 added to §Stack (self-obs, obs-plan §3); cascaded to §Inherited Defaults.
+- **2026-06-15-config-validation-surface** — garde pinned 0.22.1 (not 0.23.0, whose `derive` is unregistered); field-level `#[garde(custom)]` only; §Established Decisions [Validation Library] documented the cross-field `Context` pattern; cascaded to §Stack · §Inherited Defaults.
+- **2026-06-15-structured-logging-stack** — `CONDUCTOR_SERVICE_NAME` + `CONDUCTOR_ENV` registered in §Occupied Resources; obs-plan §3 integration (test framework must not inject logging into deterministic runs).

@@ -1,0 +1,17 @@
+# cargo-nextest profiles — chunk 2026-06-16-test-framework-fixtures-coverage-tooling.
+# `cargo nextest run --workspace --profile ci` is the machine-parseable release-gate run
+# (test-plan §3 5-command harness · §9 CI integration).
+
+[profile.ci]
+# A flake is a real determinism break, never masked: "same scenario+seed ⇒ same stream shape"
+# (test-plan §2/§10; arch §Async Runtime Flavor). Zero retries is the hard invariant.
+retries = 0
+failure-output = "immediate-final"
+
+[profile.ci.junit]
+# Written to target/nextest/ci/junit.xml — consumed by the Epoch-8/10 CI gates.
+path = "junit.xml"
+
+[profile.default]
+# Determinism is not CI-only — the local default also forbids retries.
+retries = 0
