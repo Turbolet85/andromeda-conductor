@@ -19,3 +19,8 @@
 # --- Claude Code ---
 .claude/backup/
 .claude/settings.local.json
+
+# --- Frontend (crates/conductor-tauri/ui — npm + Vite) ---
+# package-lock.json IS committed (deterministic install + npm-audit reproducibility — mirrors Cargo.lock).
+node_modules/
+crates/conductor-tauri/ui/dist/

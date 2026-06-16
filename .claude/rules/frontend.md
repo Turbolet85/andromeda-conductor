@@ -14,7 +14,8 @@ Path-scoped rules for the Tauri 2 desktop-webview UI. The GUI is convenience onl
 **Authoritative source:** `.andromeda/design-system.md` + `.andromeda/layout-templates.md` (desktop-webview surface). Reference design tokens by NAME; raw values live in design-system.md.
 
 ## Framework & structure
-- React 19.x (Vite SPA; Preact 10.x size fallback) + Tailwind CSS v4.1 (`@theme`, Oxide, static zero-runtime stylesheet) + shadcn/ui (Radix Primitives, locally vendored) + Lucide React icons. Tauri 2 (≥2.10.3) frameless window (`decorations:false`, `data-tauri-drag-region` titlebar).
+- React 19.x (Vite 8.x SPA; Preact 10.x size fallback) + Tailwind CSS v4.1 (Oxide via `@tailwindcss/vite`, static zero-runtime stylesheet) + shadcn/ui (Radix Primitives, locally vendored) + Lucide React icons. Tauri 2 (≥2.10.3) frameless window (`decorations:false`, `data-tauri-drag-region` titlebar).
+- **Design tokens live on `:root`** (`ui/src/styles/tokens.css`), NOT Tailwind `@theme` — v4 `@theme` tree-shakes non-namespace tokens (drops `--space-*`/`--motion-*`/`--ease-*`) and forbids `@media` nesting; keep `@import "tailwindcss"` for the engine. Bind every token by name (`var(--…)`) — never hardcode hex/px (design-system.md §Tokens).
 - **No router, no breakpoints, no browser nav** — the single frameless window IS the surface; the four "screens" (idle / live / HOLD / report) are one window in different run-states. The operator moves by run-state, not routes.
 
 ## Design system (expression 0.3 — functional motion only)

@@ -16,3 +16,8 @@ _Append-only changelog of amendments to `security-plan.md` (the body holds only 
 **Section:** §Input Validation
 **Change:** added a note that `CONDUCTOR_SERVICE_NAME` / `CONDUCTOR_ENV` (obs-plan §3) are non-path string labels stamped into self-obs JSON log *values* (JSON-escaped; no path/SQL/argv exposure) requiring **no** validation — distinct from the `CONDUCTOR_*` *path* handles that canonicalize + bounds-check.
 **Why:** D-security-input (escalate) fired on the two new env-var reads; resolved WITH the user (2026-06-15 wrap) — they are benign labels, not validation boundaries, so a clarifying note (not table rows) closes the gap. D-security-subprocess + D-security-deps cleared (sidecar untouched; `tracing`/`tracing-subscriber` audit + deny green).
+
+## 2026-06-15-design-token-typography-bundle — npm (frontend) supply-chain gate added
+**Section:** §Dependency Security (new Frontend (npm) supply chain paragraph)
+**Change:** added the npm/frontend supply-chain control — `npm audit` clean (0 vulns) + committed `package-lock.json` + vendored fonts (no runtime CDN) for the `crates/conductor-tauri/ui/` tree, which cargo-audit/cargo-deny do not cover; npm advisories drive the same floor discipline as cargo (no rigid dependency allowlist at Minimal tier).
+**Why:** D-security-deps (escalate) fired on the chunk's new npm dependency ecosystem (React 19 / Vite 8 / Tailwind 4.1 / Fontsource / TS); §Dependency Security was cargo-only. Resolved WITH the user (2026-06-15 wrap, all-4 recordings): the npm-audit-clean gate + committed lockfile is the control. Cascaded to `.claude/rules/security.md` + `.claude/docs/security-summary.md`.

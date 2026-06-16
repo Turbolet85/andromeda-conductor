@@ -238,6 +238,7 @@ _[ALL tiers]_
 - **conductor-faults:** ramp/silence/fingerprint generators as pure seeded functions (same seed ⇒ same shape); the `:4317` port-occupier bind/release is a chaos/integration concern (Section 8).
 - **conductor-verify:** verdict logic + preflight state mapping (`ready:false ⇒ blocked`, `degraded_mode ⇒ KnownResidual`, empty canary ⇒ `blocked`) against an rmcp in-process stub.
 - **conductor-report:** Run-report envelope serialization + JSONL journal shape + `runs.db` row mapping (golden-tested via insta, Section 7).
+- **conductor-tauri/ui (frontend SPA):** no Rust/nextest unit tests — the React 19 + Tailwind token bundle is **build-gated** (`tsc --noEmit` + `vite build` + `npm audit` + a `vite preview` render smoke). A JS/TS unit runner is not adopted (GUI is convenience-only — §12 Decisions Log); frontend coverage (webview E2E via tauri-driver) is deferred to Epoch 9. Realized in 2026-06-15-design-token-typography-bundle.
 - **Scenario-config validation surface:** garde `range` + `#[garde(custom)]` cross-field rules with valid/invalid fixtures (also property-tested, Section 7).
 - **Error-handling surface:** thiserror typed per-seam enum mapping + the `anyhow` edge sanitization invariant (no internal details leaked).
 - **Scenario catalog + coverage-matrix:** static assertion that every catalog scenario carries a P-ID and the generated `coverage-matrix.md` enumerates all 60 P-IDs with zero unclassified entries.

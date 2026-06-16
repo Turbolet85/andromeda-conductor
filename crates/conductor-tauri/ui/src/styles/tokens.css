@@ -1,0 +1,128 @@
+@import "tailwindcss";
+
+/* Design tokens — carried verbatim from .andromeda/design-system.md §Surface: desktop-webview §Tokens.
+   Token NAMES + VALUES are the binding contract for Epoch 9 components (`var(--…)`); do not rename.
+   Declared on :root (not Tailwind's @theme): @theme / @theme static tree-shake non-namespace tokens
+   (it dropped all --space-*, three --radius-*, --motion-micro, --ease-quiet), which breaks the
+   "all tokens emit" contract. A plain :root block emits every token deterministically; @import
+   "tailwindcss" above still establishes the Tailwind v4.1 engine for component utilities in Epoch 9. */
+:root {
+  /* Surfaces — dark default */
+  --color-base: #1A1B26;
+  --color-raised-1: #1F2130;
+  --color-raised-2: #24273A;
+  --color-raised-3: #2A2D42;
+  --color-inset: #15161F;
+  /* Status tier (functional — reads as Verdict/ReportState) */
+  --count-nominal: #7EE787;
+  --count-hold: #E3B341;
+  --status-fail: #F85149;
+  --count-blocked: #565F89;
+  --status-manual: #A9B1D6;
+  --status-residual: #9A93A8;
+  /* Reserved mono ID-cyan typographic tier + focus */
+  --color-id-cyan: #7DCFFF;
+  --color-focus: #7DCFFF;
+  /* Text + seams */
+  --text-primary: #C8D0F0;
+  --text-secondary: #A9B1D6;
+  --text-tertiary: #717AA0;
+  --text-muted: #565F89;
+  --border-subtle: #2A2E42;
+  --border-standard: #363B57;
+  --border-emphasis: #565F89;
+  /* Type */
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+  --font-sans: "IBM Plex Sans", ui-sans-serif, sans-serif;
+  /* Spacing base 4px / radius / motion */
+  --space-micro: 2px;
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 12px;
+  --space-lg: 20px;
+  --space-xl: 32px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-full: 9999px;
+  --motion-micro: 150ms;
+  --ease-quiet: cubic-bezier(0, 0, 0.2, 1);
+}
+
+/* Auto mode — light variant follows the OS (same token names/values as design-system.md §Tokens). */
+@media (prefers-color-scheme: light) {
+  :root {
+    --color-base: #F4F5F8;
+    --color-raised-1: #FFFFFF;
+    --color-raised-2: #FBFBFD;
+    --color-raised-3: #FFFFFF;
+    --color-inset: #E9EBF2;
+    --count-nominal: #1A7F37;
+    --count-hold: #9A6700;
+    --status-fail: #CF222E;
+    --count-blocked: #6E7491;
+    --status-manual: #565F89;
+    --status-residual: #6E6478;
+    --color-id-cyan: #0969DA;
+    --color-focus: #0969DA;
+    --text-primary: #1A1B26;
+    --text-secondary: #343B58;
+    --text-tertiary: #565F89;
+    --text-muted: #6E7491;
+    --border-subtle: #D8DBE6;
+    --border-standard: #C4C8D8;
+    --border-emphasis: #9AA0BE;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Typography role tiers — design-system.md §Typography. Mono status tier: ligatures OFF for ID legibility. */
+.type-display {
+  font-family: var(--font-mono);
+  font-size: 28px;
+  font-weight: 500;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  font-feature-settings: "liga" 0, "calt" 0;
+}
+.type-heading {
+  font-family: var(--font-sans);
+  font-size: 18px;
+  font-weight: 600;
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+}
+.type-body {
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+.type-label {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.35;
+  letter-spacing: 0.01em;
+}
+.type-code {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.55;
+  font-feature-settings: "liga" 0, "calt" 0;
+}
+.type-data {
+  font-family: var(--font-mono);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.4;
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "liga" 0, "calt" 0;
+}

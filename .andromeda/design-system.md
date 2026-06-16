@@ -190,10 +190,10 @@ At `0.3`, the following are BANNED: no `framer-motion` / animation libraries (ze
 
 ### Tokens (platform-specific)
 
-Tailwind v4.1 `@theme` CSS custom properties (the `design-tokens-bundle-init` bundle), Auto mode via `@media (prefers-color-scheme)` overrides. Dark is the default block; light follows OS:
+Tailwind v4.1 design tokens, declared on **`:root`** (the `design-tokens-bundle-init` bundle) with `@import "tailwindcss"` loading the engine. Auto mode via `@media (prefers-color-scheme)` overrides; dark is the default block, light follows OS. **NOTE (Tailwind v4):** declare these on plain `:root`, NOT `@theme` — `@theme`/`@theme static` tree-shakes non-namespace tokens (dropping `--space-*` / `--radius-*` / `--motion-*` / `--ease-*`, 11 of 34) and forbids nesting inside `@media`; keep `@import "tailwindcss"` for the engine + utilities. Names + values below are the binding contract:
 
 ```css
-@theme {
+:root {
   /* Surfaces — dark default */
   --color-base: #1A1B26;          --color-raised-1: #1F2130;
   --color-raised-2: #24273A;      --color-raised-3: #2A2D42;
@@ -221,7 +221,7 @@ Tailwind v4.1 `@theme` CSS custom properties (the `design-tokens-bundle-init` bu
   --motion-micro: 150ms; --ease-quiet: cubic-bezier(0,0,0.2,1);
 }
 @media (prefers-color-scheme: light) {
-  @theme {
+  :root {
     --color-base: #F4F5F8;          --color-raised-1: #FFFFFF;
     --color-raised-2: #FBFBFD;      --color-raised-3: #FFFFFF;
     --color-inset: #E9EBF2;

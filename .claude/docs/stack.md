@@ -27,14 +27,14 @@ _Mirrors `.andromeda/architecture.md` §Stack and Technologies. Convenience refe
 - **tracing 0.1.44 + tracing-subscriber 0.3.23** (JSON formatter) — the ONLY self-obs mechanism. No OTel SDK for self-observation (opentelemetry-proto is the PRODUCT fault stream, not self-instrumentation).
 
 ## Frontend (desktop-webview GUI — convenience surface)
-- **React 19.x** (Vite SPA; Preact 10.x size fallback) + **Tailwind CSS v4.1** (`@theme`, Oxide) + **shadcn/ui** (Radix Primitives) + Lucide React icons.
+- **React 19.x** + **Vite 8.0.16** (`@vitejs/plugin-react`; Preact 10.x size fallback) + **Tailwind CSS v4.1** (Oxide via `@tailwindcss/vite`; tokens on `:root`, not `@theme` — v4 tree-shakes non-namespace tokens) + **shadcn/ui** (Radix Primitives) + Lucide React icons. Package manager **npm** (`package-lock.json` committed, `npm audit` gate); SPA under `crates/conductor-tauri/ui/`.
 - **Tauri 2** (≥ 2.10.3 per security-plan) frameless window. Fonts: JetBrains Mono + IBM Plex Sans (self-hosted WOFF2 via Fontsource).
 - **cli surface:** clap 4.5 + anstream/anstyle + owo-colors 4.x + indicatif 0.18 + comfy-table 7 + inquire 0.7.
 
 ## Development & CI
 - **Test:** cargo-nextest 0.9.137 + cargo test --doc; rstest 0.26, proptest 1.9, insta 1.46, assert_cmd 2 + predicates 3, assert_fs 1; coverage cargo-llvm-cov 0.8.7. Webview E2E: @crabnebula/tauri-driver 2.0.9 + WebdriverIO (Linux + xvfb).
 - **Lint/format:** clippy + rustfmt. Module-graph audit: cargo-modules / cargo-rail (optional).
-- **Supply chain:** cargo-audit 0.22.2 + cargo-deny 0.19.8 (`deny.toml`).
+- **Supply chain:** cargo-audit 0.22.2 + cargo-deny 0.19.8 (`deny.toml`) for the Rust tree; `npm audit` (0-vuln gate) + committed `package-lock.json` for the `conductor-tauri/ui` frontend tree.
 - **A11y:** axe-core 4.12.0 + @axe-core/webdriverio + Lighthouse 13.0.3 + colorjs.io 0.6.1 (operator/local-gated).
 - **CI:** GitHub Actions — `cargo build` / nextest / clippy + audit/deny + coverage. Dynamic live-Pulse proof is an operator/local gate, not CI.
 

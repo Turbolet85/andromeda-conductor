@@ -18,7 +18,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
    ↓
 [2026-06-15-log-error-boundary-redaction] Log + error-boundary redaction — tracing-subscriber field-allowlist + anyhow-edge sanitization (no host-paths/struct-names/stack-traces)
    ↓
-Design-token + typography bundle — Tailwind v4.1 @theme tokens, JetBrains Mono + IBM Plex Sans
+[2026-06-15-design-token-typography-bundle] Design-token + typography bundle — Tailwind v4.1 @theme tokens, JetBrains Mono + IBM Plex Sans
    ↓
 Test framework + fixtures + coverage tooling — cargo-nextest, rstest, proptest, insta, assert_cmd/fs, cargo-llvm-cov
    ↓

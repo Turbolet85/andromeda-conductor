@@ -23,6 +23,7 @@
 | AI/ML serving | N/A | Conductor is the test driver; model behavior lives in Pulse (the system under test) |
 | Push / real-time | Tauri 2 IPC `Channel` (in-app only) | Streams live emission counters / target status backend→frontend; no native OS toasts |
 | Desktop shell | Tauri 2 (bundler v2.10.x, latest 2.10.1) | Optional GUI control-panel artifact over the same headless core |
+| Desktop frontend (webview) | React 19.x + Vite 8.0.16 + Tailwind v4.1 (Oxide via `@tailwindcss/vite`) + Fontsource WOFF2; npm | Optional GUI's SPA under `crates/conductor-tauri/ui/` (npm, NOT a Cargo member); design tokens on `:root` (Tailwind v4 `@theme` tree-shakes non-namespace tokens), self-hosted fonts (no CDN); `npm audit` gate + committed `package-lock.json` |
 | Validation | serde 1.0.x + garde 0.22.1 | `#[derive(Validate)]` range rules + `#[garde(custom)]` field validators + cross-field invariants for scenario config |
 | Serialization (JSON) | serde_json 1.0 | Canonical-name (de)serialization for the run-report envelope + per-run JSONL journal (serde companion; report-seam runtime dep) |
 | Error handling | thiserror 2.0.18 + anyhow 1.0.102 | Typed per-seam error enums in library crates; type-erased `Result` at binary edges |
@@ -139,6 +140,8 @@ When `ready` is false, every dependent auto scenario is emitted into the report 
 
 **Crate names (workspace members):** `conductor-core` (the runtime-agnostic engine library every other crate depends on), `conductor-timeline`, `conductor-emit`, `conductor-faults`, `conductor-verify`, `conductor-report`, `conductor-cli`, plus the `conductor-tauri` bin.
 
+**Frontend asset subtree:** `crates/conductor-tauri/ui/` — the optional GUI's Vite + React 19 SPA (npm), NOT a Cargo workspace member (invisible to cargo). Holds the design-token + typography bundle (`src/styles/tokens.css` — 34 `:root` tokens + 6 type-role classes, under `@import "tailwindcss"`). `node_modules/` and the build output `crates/conductor-tauri/ui/dist/` are git-ignored; `package-lock.json` is committed.
+
 **On-disk artifacts / database:**
 - `runs.db` — embedded SQLite index (run_id · seed · scenario · P-IDs · verdict · fingerprints · timestamps).
 - Per-run JSONL emission journal + per-run Markdown run report.
@@ -218,6 +221,7 @@ conductor/
 - **Error handling:** thiserror 2.0.18 typed enums in seam crates + anyhow 1.0.102 at binary edges; verdicts/report states are values, `Err` is harness-only.
 - **Module boundaries:** Crate-per-seam Cargo workspace; forbidden cross-seam deps won't compile.
 - **Deployment:** Local `cargo build --release` + `scripts/agent-run.sh` (source of truth); optional Tauri 2 (v2.10.x) GUI bundle. No cloud/container/serverless.
+- **Frontend (optional GUI):** React 19.x + Vite (≥8.0.16, the npm-audit floor) + Tailwind v4.1 (Oxide) under `crates/conductor-tauri/ui/`; package manager **npm** with `package-lock.json` committed + `npm audit` clean as the gate (parallel to cargo-audit); TypeScript strict; design tokens declared on `:root` (Tailwind v4 `@theme` tree-shakes non-namespace tokens), fonts self-hosted WOFF2 (no CDN).
 - **CI/CD:** GitHub Actions build + test (cargo build / nextest / clippy); dynamic proof is a local operator gate.
 - **Development Style:** agent-driven.
 

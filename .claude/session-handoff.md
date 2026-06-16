@@ -1,23 +1,23 @@
 # Session Handoff
 
-**Last Updated:** 2026-06-15T19:06:37Z
+**Last Updated:** 2026-06-15T22:05:00Z
 **Branch:** build/conductor-0.1.0
 **Status:** clean
-**Last Commit:** 2026-06-15-log-error-boundary-redaction — feat: artifact-hygiene redaction (host-path scrub + field-allowlist + anyhow-free sanitize_error)
+**Last Commit:** 2026-06-15-design-token-typography-bundle — feat: Tailwind v4.1 `:root` token layer + JetBrains Mono / IBM Plex Sans (Vite + React 19 SPA scaffold)
 
 ## Position
-- Done: 2026-06-15-log-error-boundary-redaction — `conductor-core::redact` (`redact_value` host-file-path scrub → `<redacted>`, std-only/no-regex, `Cow::Borrowed` on clean path; `sanitize_error` anyhow-free single-line `Display`; `is_allowlisted` bounded field-name allowlist) wired into the `JsonObsLayer` processor stage (auto-covers the `std::panic` line). **Lean scope (user-approved):** primitive built + tested now; cli/tauri `main` error-edge wiring deferred to Epoch 8. 36/36 nextest (25 prior + 11 new), clippy/audit/deny green, no new dep, lock un-drifted.
-- Next: **Design-token + typography bundle** — Tailwind v4.1 `@theme` tokens, JetBrains Mono + IBM Plex Sans → run `/andromeda-phase` to promote + plan. (First frontend/UI chunk of Epoch 1.)
+- Done: 2026-06-15-design-token-typography-bundle — `crates/conductor-tauri/ui/` Vite + React 19 SPA; **34 design tokens on `:root`** + 6 type-role classes (`tokens.css`), self-hosted Fontsource WOFF2 (no CDN); npm (committed `package-lock.json`, `npm audit` clean). Build/typecheck/audit green; `cargo nextest` 36/36 + clippy clean; browser render smoke ✓. **First frontend chunk of Epoch 1.**
+- Next: **Test framework + fixtures + coverage tooling** — cargo-nextest, rstest, proptest, insta, assert_cmd/fs, cargo-llvm-cov → run `/andromeda-phase` to promote + plan.
 
 ## Work done
-Built the artifact-hygiene redaction layer (obs-plan's `pii-scrubbing-wire`): a std-only `conductor-core::redact` primitive — `redact_value` masks absolute host-FILE paths (drive-letter / `/home` / `/Users` / `%APPDATA%` / `~/.cargo` / `.rustup` / backtrace) → `<redacted>`, anchoring on absolute markers so repo-relative source paths AND the allowlisted `target` module path survive; a bounded field-name allowlist drops unexpected (incl. Debug-dumped) field names; `sanitize_error` renders a single-line scrubbed `Display` (no `Debug`/backtrace), anyhow-free. Wired at the `JsonObsLayer` processor stage. cli boot smoke confirmed `target: conductor_core::obs` preserved (over-redaction edge verified).
+Stood up the frontend design-system foundation under `crates/conductor-tauri/ui/` (npm): the Tailwind v4.1 token layer (34 tokens on `:root`, light + reduced-motion media), the 6-tier typography scale (`.type-*`), and a React 19 token smoke view. Vite was bumped 6→8.0.16 to clear an esbuild advisory; tokens declared on `:root` (not `@theme`) because Tailwind v4 tree-shakes non-namespace tokens. No Rust files touched.
 
 ## Drift resolved
-1 amendment applied · 1 escalation resolved (drift = 0). **D-obs-redaction (escalate)** fired — the redaction deferred from the prior chunk is now implemented; resolved WITH the user: reconcile obs-plan §6 (CI conformance gate) + §11 (Logs · PII Scrubbing) to the implemented host-file-path-anchored model (struct-name guard = field-allowlist drop + `Display`-not-`Debug`; allowlisted `target` preserved), NOT blanket `::`-token redaction. Cascaded to `.claude/rules/observability.md` + `.claude/docs/obs-summary.md`. New `playbook.md` rule (sound redaction-reconciliation = routine). **Rejected** a D-layout-surface false-positive (the self-obs log line is not a UI surface). Other 5 doc-agents clean.
+6 amendments applied · 0 escalations open (drift = 0). The first frontend chunk introduced the npm ecosystem into the specs (user-approved, AskUserQuestion ×3): **security-plan §Dependency Security** (npm-audit gate + committed lockfile + no-CDN), **arch §Stack/§Occupied-Resources/§Inherited-Defaults** (React 19 + Vite 8.0.16 + Tailwind 4.1 + npm + the `ui/` asset layer), **design-system §Tokens** (`@theme`→`:root`, Tailwind v4 tree-shaking), **test-plan §4** (frontend tests deferred to Epoch 9 — routine per playbook). Cascaded to stack.md + security.md/-summary + frontend.md. New **playbook rule #5** (generalized spec-illustration→sound-impl reconciliation = routine). 3 detectors clean (layouts/obs/a11y; the escalate-class D-obs-stack/-redaction did NOT fire — static frontend).
 
 ## Notes
-- **Key decisions (user-approved AskUserQuestion ×2):** lean anyhow-edge (primitive now; cli/tauri wiring → Epoch 8 "Sanitized stderr + agent-mode logging" chunk); scrub-first + bounded allowlist redaction model.
-- **Implementation judgment:** `redact_value` host-file-path-anchored (NOT blanket `::`) to avoid gutting the allowlisted `target` + std type names (`Option::unwrap`) — consistent with §11's "paths". `anyhow` stays OUT of `conductor-core` (sanitizer takes `&dyn std::error::Error`; the Epoch-8 edge feeds its `anyhow::Error`).
-- **Forward gotcha (still active):** use `cargo nextest run --workspace` (default profile) — `--profile ci` errors until the Test-framework chunk creates `.config/nextest.toml`.
-- **Curation:** no new learnings cleared the filters — the redaction model was absorbed into obs-plan §11 / `observability.md` / `obs-summary.md` / playbook. Sub-threshold candidate (noted, not curated): the lean-scope split (build the primitive/seam now, defer surface-wiring to the owning epoch) has now recurred twice (file-sink → Epoch 8; cli-edge → Epoch 8) — may earn a Tier-3 entry if it recurs again.
+- **Key decisions (user-approved AskUserQuestion):** full Vite + React 19 SPA scaffold (over the lean CSS-first option); **npm** package manager (committed `package-lock.json`, `npm audit` gate); record all 4 frontend spec sections; `@theme`→`:root` replacement; add the generalized playbook rule.
+- **Curation:** no new learnings cleared the filters — all absorbed into the spec bodies / rules / playbook during P2 (Filter 1 dedup). The sub-threshold lean-scope-split note did NOT recur (full SPA built, not a seam-deferral).
+- **Forward gotcha (still active):** use `cargo nextest run --workspace` (default profile) — `--profile ci` errors until the **next** chunk (Test framework) creates `.config/nextest.toml`.
+- **Forward note:** the frontend now carries an `npm audit` + `vite build` gate (security-plan §Dep-Security / stack.md §Dev); the upcoming **Base CI** chunk should wire it into GitHub Actions alongside cargo build/nextest/clippy.
 - **Last failed command:** none.
