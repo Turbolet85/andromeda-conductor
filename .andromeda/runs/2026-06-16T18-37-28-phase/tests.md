@@ -1,0 +1,34 @@
+# tests extract
+
+## Relevance
+Partial — the seeded phase scheduler chunk tests the timeline engine's core (determinism + virtual-clock sequencing), which is testable in isolation but excludes emission, journal, fault patterns, and the determinism-replay golden harness (all later chunks).
+
+## Constraints
+- Per test-plan §1: Entity `conductor-timeline` is testable via unit-level cargo-nextest (`cargo nextest run -p conductor-timeline`); determinism is unit-assertable (same seed ⇒ same stream shape) under `tokio::test(flavor="current_thread", start_paused=true)` (test-plan §4).
+- Per test-plan §2: Test pyramid includes **Unit** (bulk of suite) + **Integration** + **E2E** + **Property-based** (via trigger); performance/load explicitly excluded (Creator Brief: "NOT a load-tester"). Minimal tier (§1 Scope Summary).
+- Per test-plan §3: `run` command invokes `cargo nextest run --workspace --profile ci` → JUnit XML (`ci` profile); exit-code semantics: 0 = all Pass, non-zero = hard Fail (not blocked/ManualCheck/KnownResidual).
+- Per test-plan §4: Unit framework is cargo-nextest 0.9.137 (reference floor, not exact pin per amended §4 Tool-version policy); rstest 0.26.1 `#[fixture]` for seeded `conductor-timeline` generator, `#[tokio::test(flavor="current_thread", start_paused=true)]` + `tokio::time::advance` for virtual-clock timing assertions (§4 Fixture pattern).
+- Per test-plan §3 Test data bootstrap: seeded synthetic generation via `conductor-timeline` (no developer-seeded data); rstest `#[case]` table-driven P-ID catalog rows; `rusqlite::Connection::open_in_memory()` per unit test isolation.
+- Per test-plan §1 Coverage triggers: property-test trigger on determinism-replay (fixed scenario+seed reproduces identical emission-journal stream shape across runs — test-plan §1 trigger "Determinism discipline"); property/golden test assertions on `conductor-timeline` under Section 7 (deferred; out-of-scope for this chunk per scope §Boundaries "NOT the determinism-replay/golden harness").
+
+## Patterns to follow
+- Seeded PRNG fixture ownership: all non-deterministic choices (intra-phase jitter, ordering decisions) sourced from a seedable RNG wired to scenario+seed (scope: "seeded PRNG owns every non-deterministic choice"); same seed ⇒ reproducible phase sequence ordering + relative timing (test-plan §4 coverage target on `conductor-timeline`).
+- Virtual-clock testing: `#[tokio::test(flavor="current_thread", start_paused=true)]` + `tokio::time::advance` to prove inter-phase gaps/silence duration match declarations (scope: "inter-phase gaps ... realized with `tokio::time::sleep` ... exact gap/ramp/silence timing"). Prove timing without real `setTimeout` (test-plan §2 Agent-runnable invariants: "deterministic — `#[tokio::test(flavor="current_thread", start_paused=true)]` + `tokio::time::advance`; no real `setTimeout`").
+- Unit-level isolation: `cargo nextest run -p conductor-timeline` only (crate-per-seam isolation, test-plan §4 Conventions).
+
+## Anti-patterns to avoid
+- **No ambient entropy / system-clock scheduling** (scope: "No ambient entropy, no system-clock-derived scheduling decisions"). Seeding must be deterministic-under-test; ban `rand::random()` or system time in the scheduler.
+- **No `.emit()` / journal / OTLP surface** (scope §Boundaries: "NOT emission ... actually span/metric/log emission is Epoch 3"; "NOT the emission journal ... This chunk writes no journal"). Phase boundaries are caller-exposed events only; emission is later.
+- **No `std::time` for sequencing** (scope §Boundaries: "scheduling is tokio-virtual-clock only"); ban `std::time::Instant` / `SystemTime` in the scheduler's phase-advance logic (those are for journals in later chunks).
+
+## Contract bindings
+- obs ↔ tests harness (test-plan §3 Log format binding): the emission journal (runs/<run_id>.jsonl, per-run JSONL artifact, "the left side of every SLO check") is defined by test-plan §3 and flows downstream to obs-plan; this chunk's scheduler does NOT yet write the journal (deferred to chunk 3), so the binding is preparatory (no journal-format constraints apply here).
+
+## Acceptance criteria contributions
+- "(tests) `cargo nextest run -p conductor-timeline` passes (unit tests under `start_paused` prove deterministic phase sequencing: same scenario+seed ⇒ identical advance pattern + virtual-clock gaps land where declared; zero work-stealing on `current_thread`)."
+- "(tests) Coverage: new-code line coverage on `conductor-timeline` ≥ {threshold from §10} (per test-plan §4 coverage target; external-CLI tool versions are reference floors per 2026-06-16 amendment)."
+- "(tests) Seeded PRNG wired such that fixed seed reproduces fixed phase sequence/shape (ordering + relative timing) — asserted via `tokio::time::advance` replay on same seed (test-plan §4 fixture pattern; scope Definition of done #2/#3)."
+- "(tests) No `std::time` or ambient entropy in scheduler logic; no emission surface; crate-per-seam edges clean (`clippy -D warnings` per scope Definition of done #4)."
+
+## Relevant amendment history
+- **2026-06-16-test-framework-fixtures-coverage-tooling** (§4 Unit Test Strategy): cargo-nextest 0.9.137 + cargo-llvm-cov 0.8.7 are now reference *floors* (not exact pins); dev-deps are caret-resolved with `Cargo.lock` authoritative. (Directly applicable: the `run` command via §3 and the coverage gate via §10 — tools are floors, the plan's thresholds are what matter.)

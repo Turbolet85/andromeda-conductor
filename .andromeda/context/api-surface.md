@@ -3,7 +3,7 @@
 _Living artifact. Seeded by `/andromeda-setup-project` Phase 6 from arch's Standard Contracts. Reconciled by `/andromeda-wrap-session` P4 — the LIVING block is replaced wholesale with fresh tooling stdout (per `integrity-protocol.md`)._
 
 <!-- METADATA start -->
-**Last reconciled:** 2026-06-16T18:08:51Z
+**Last reconciled:** 2026-06-16T19:50:40Z
 **Tooling:** `cargo public-api --simplified -p <crate>` per workspace member (cargo-public-api 0.51 has no `--workspace` flag — run per lib crate); auto-trait/blanket impls elided for readability
 **Source:** arch.md §Standard Contracts / §Occupied Resources — seed; actual code via tooling — reconcile
 **Maintenance:** wrap-session P4 (living-docs reconcile)
@@ -27,12 +27,18 @@ _Living artifact. Seeded by `/andromeda-setup-project` Phase 6 from arch's Stand
   - `pub fn sanitize_error(err: &dyn std::error::Error) -> String` — single-line scrubbed `Display` text (no `Debug`/backtrace), anyhow-free; the reusable error-edge sanitizer (cli/tauri edge wires it in Epoch 8)
   - `pub type Result<T> = core::result::Result<T, CoreError>`
   - the data types derive `Debug, Clone (+ Copy on the fieldless enums), PartialEq, Eq, Serialize, Deserialize` (`ServiceIdentity` is `Debug, Clone` only — not a serde/verdict type)
-- `conductor-timeline` → `pub mod conductor_timeline` (no public items — placeholder)
+- `conductor-timeline` → the deterministic seeded phase scheduler (the timeline engine's first real surface):
+  - `pub struct Phase { name: String, gap: Duration }` — `fn new(name: impl Into<String>, gap: Duration) -> Self`
+  - `pub struct PhaseTimeline { phases: Vec<Phase>, jitter: Duration }` — `fn new(phases: Vec<Phase>, jitter: Duration) -> Self` (ordered phase list + symmetric per-gap jitter bound)
+  - `pub struct PhaseTransition { index: usize, name: String, elapsed_ms: u128 }` — a surfaced phase boundary (virtual-ms elapsed)
+  - `pub async fn run_timeline(timeline: &PhaseTimeline, seed: u64) -> Result<Vec<PhaseTransition>, TimelineError>` — sequences the timeline on `tokio::time` under a seeded `ChaCha8Rng`; `#[tracing::instrument(name = "timeline.execute")]`
+  - `pub enum TimelineError { EmptyTimeline }` (`thiserror::Error`, `#[non_exhaustive]`) — harness fault only (verdict/error wall)
+  - the data types derive `Debug, Clone, PartialEq, Eq`
 - `conductor-emit` → `pub mod conductor_emit` (no public items — placeholder)
 - `conductor-faults` → `pub mod conductor_faults` (no public items — placeholder)
 - `conductor-verify` → `pub mod conductor_verify` (no public items — placeholder)
 - `conductor-report` → `pub mod conductor_report` (no public items — placeholder)
 - `conductor-cli`, `conductor-tauri` → binary crates (bin `conductor` / `conductor-tauri`); no public API surface. Both now call `conductor_core::init_observability` at `main` startup (service.name `conductor` / `conductor-tauri`).
 
-The five seam libs remain placeholder surfaces (unchanged this chunk); they populate as their feature chunks land. No IPC methods, HTTP endpoints, or event topics yet.
+The remaining four seam libs (`conductor-emit` · `conductor-faults` · `conductor-verify` · `conductor-report`) stay placeholder surfaces; they populate as their feature chunks land. No IPC methods, HTTP endpoints, or event topics yet.
 <!-- LIVING:api-surface end -->

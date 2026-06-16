@@ -41,3 +41,4 @@ Path-scoped rules for Rust test code (in-crate `#[cfg(test)]` modules + crate-lo
 
 ## Session Additions
 _This section is owned by `/wrap-session`. setup-project preserves content added here on re-run._
+- 2026-06-16: When testing a seeded/deterministic component, assert BOTH directions — same seed ⇒ identical output (reproducibility) AND different seeds ⇒ different output (the seed materially drives the result). Reproducibility alone also passes if the seed is computed-but-never-applied (or applied identically regardless of value); the different-seeds-diverge test is what proves the seed is wired through to the output. Use ≥2 fixed seeds known to diverge over multiple draws — not a single-draw coincidence. (seeded-phase-scheduler chunk)

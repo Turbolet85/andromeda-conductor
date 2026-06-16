@@ -1,0 +1,33 @@
+# security extract
+
+## Relevance
+Partial — this chunk builds the determinism substrate (seeded phase scheduler on virtual clock) but does not touch config validation, emission, or journal writing, so it touches selected input-validation and dependency-security sections only.
+
+## Constraints
+1. PRNG dependency MUST pass `cargo-audit` (and recommended `cargo-deny check advisories/bans`) before merge — the scheduler owns all non-deterministic choice and the RNG is a new supply-chain addition (security plan §Dependency Security; toolchain ≥1.94.1 per RUSTSEC-2026-0033).
+2. Scheduler library MUST use `tokio::time` (virtual clock) exclusively for phase-sequencing sleep/advance; NEVER read `std::time::SystemTime` for scheduling decisions — this honors the determinism contract (same seed ⇒ same shape) and keeps the journal/report `std::time` wall-clock vs scheduler's virtual-clock separation clean (security plan §Anti-Patterns § Logging).
+3. Seed integer input from CLI (`CONDUCTOR_SEED` flag) MUST be parsed at the `conductor-cli` edge via the existing arg parser; type-erased parse failures collapse to `anyhow` at the binary edge per the error-handling model (security plan §Input Validation, CLI arguments row).
+4. Error types returned by the scheduler library MUST be stack-native (typed `thiserror` enums like `PhaseSchedulerError`, not panic-on-error) so the verdict/error wall can route harness faults cleanly (security plan §Error Handling).
+5. The scheduler is a runtime-agnostic library (no CLI/Tauri coupling in its API); `#[tokio::main(flavor="current_thread")]` or `Builder::new_current_thread()` is the caller's responsibility, not the scheduler's (security plan §Threat Model Summary § Attack surface, Trust boundary — crate-per-seam edges stay clean).
+
+## Patterns to follow
+1. Seedable PRNG integrated as a `conductor-timeline` internal type (not exposed in the public API surface); the seed flows from scenario/CLI to the PRNG constructor once at scheduler init (matches the scenario-config seeding discipline planned in the next chunk).
+2. Phase-transition events surface as a clean, enumerated type (`PhaseTransition { phase_id, timestamp_virtual_ms }` or similar) to a caller-provided callback or iterator, keeping the scheduler decoupled from emission/journal concerns (supports both CLI and Tauri driving later).
+3. Unit tests use `tokio::time::pause_time()` to verify deterministic timing without wall-clock assumptions; assertions compare virtual-clock deltas (not absolute system times) across seed iterations.
+
+## Anti-patterns to avoid
+1. NEVER interpolate seed/phase identifiers into SQL, paths, or argv — the scheduler is library-only and produces no I/O; the CLI edge handles all external value sanitization (security plan §Anti-Patterns § Input, Code Patterns).
+2. NEVER read `std::time` or system entropy (ambient randomness) during scheduler sequencing — the seed is the single entropy source (security plan §Anti-Patterns § Logging).
+3. NEVER spawn threads or use `multi_thread` tokio (defeats determinism); `current_thread` is mandatory (security plan §Threat Model Summary § Scope law).
+
+## Contract bindings
+Obs ↔ library (the scheduler's virtual-time-only discipline enables obs § Determinism; but obs does not configure the scheduler — next chunk); Tests ↔ scheduler (unit tests verify deterministic replay using `start_paused`, feeding into the later insta-golden/proptest harness per Epoch-2 chunk 4).
+
+## Acceptance criteria contributions
+1. (security) PRNG dependency audit: `cargo audit` and `cargo deny check advisories bans sources` both pass for the new seedable-RNG crate (or `rand`/`chacha`, if using a standard ecosystem crate).
+2. (security) `tokio::time` usage verified: grep confirms zero `std::time::SystemTime` reads on the scheduler's hot path; `#[cfg(test)]` wall-clock reads in tests are labeled.
+3. (security) Error type verification: all scheduler-library return paths use typed `thiserror` enums (not `anyhow` or `panic!`); the verdict/error wall in the harness routes `Result::Err` cleanly.
+4. (security) Clippy + nextest `ci` green: library code has no `unsafe` or cross-seam-dependency violations (verify with `cargo clippy -p conductor-timeline -- -D warnings`).
+
+## Relevant amendment history
+- **2026-06-15-dependency-audit-gate** — toolchain bumped to 1.94.1 (clears tar-rs symlink-chmod RUSTSEC-2026-0033); cargo-audit 0.22.1 / cargo-deny 0.19.4 are floors (not strict pins); this chunk inherits the dependency-audit gate discipline and MUST run both tools green on the PRNG before merge.

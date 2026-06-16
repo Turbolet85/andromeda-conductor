@@ -1,0 +1,39 @@
+# obs extract
+
+## Relevance
+Partial — the seeded phase scheduler is the determinism substrate; obs surfaces phase transitions to a caller (timeline.execute span), but emission/journal/reports are later chunks.
+
+## Constraints
+- Per §1 Obs Scope Summary: Instrumentation scope for `conductor-timeline` is "Instrumentable" — deterministic seeded phase scheduler on `tokio 1.48.x current_thread` runtime; instrumentation spans must use wall-clock (`std::time::SystemTime`/`Instant`) NOT tokio's virtual clock (per §1 entity row: "wall-clock for obs, virtual for scheduling").
+- Per §3 Logging stack: no OTel SDK for self-observation (creator-explicit anti-pattern); self-obs is `tracing` 0.1.x + `tracing-subscriber` JSON formatter only; determinism preservation forbids background exporters that would break seed-reproducibility.
+- Per §4 Span/Trace Coverage: `timeline.execute` is a must-trace span (child of `scenario.run`); required span attributes are `phase_count` (integer), `emission_count` (integer); must close on scheduler exit; naming convention is `{module}.{operation}` pattern.
+- Per §1 Instrumentation scope: "zero work-stealing preserves emission ordering as function of seed; instrumentation must respect the runtime's invariant (no background batch tasks in exporters that would break determinism)".
+- Per §6 Log Coverage: required fields on every log line are `run_id`, `seed`, `scenario`, `p_ids` (array); additional fields `journal_emitted_at` (ISO-8601 from `std::time::SystemTime`, wall-clock) for SLO measurement; no absolute host paths, no internal struct names (per §11 PII scrubbing / redaction anchor).
+
+## Patterns to follow
+- Per §4 Must-trace Scenario 1 (Headless deterministic scenario run): `scenario.run` (root) → `timeline.execute` → `emit.batch`; the root span opens in scenario bootstrap and closes on final verdict write; `timeline.execute` opens on scheduler entry and closes on scheduler exit with phase-count + emission-count attributes set.
+- Per §3 Service identity: `service.name` hardcoded `"conductor"` or runtime `$CONDUCTOR_SERVICE_NAME`; `service.version` from `env!("CARGO_PKG_VERSION")` (compile-time); `deployment.environment` from `$CONDUCTOR_ENV` (default `"local"`); these fields appear flat on every JSONL log line via custom `tracing-subscriber` layer.
+- Per §2 Naming conventions: span names follow `{module}.{operation}` (e.g., `timeline.execute`); no high-cardinality span names (no per-user-ID, per-trace-ID, per-path-with-user-input).
+- Per §4 Span kinds: `timeline.execute` is an **internal** span (not a client span); child spans (per fault-injection later) will also be internal.
+
+## Anti-patterns to avoid
+- No OTel SDK, no exporter, no `opentelemetry-proto` in this chunk (§1, §3: creator-explicit anti-pattern; PRODUCT OTLP only, not self-obs).
+- No W3C `trace_id`/`traceparent` propagation (§3 Correlation: local single-process harness; correlation within a run is the `run_id` field, not distributed tracing).
+- No background batch tasks or exporters that would break determinism (§1: "no background batch tasks in exporters that would break determinism") — `tracing-subscriber` init must not spawn async workers; use synchronous sinks only (stderr / file).
+- No tokio virtual-clock (`tokio::time::Instant`) for observability timestamps; wall-clock only (`std::time::SystemTime` / `std::time::Instant`).
+
+## Contract bindings
+- **Timeline → Emit seam:** `timeline.execute` span closes at scheduler exit; the next chunk (`conductor-emit`) consumes phase-boundary events and wraps each in an `emit.batch` span (child of `timeline.execute`).
+- **Timeline → Report seam:** phase-boundary events include timing; the report seam (Epoch 6, `conductor-report`) computes `latency_ms = read_back_observed_at - journal_emitted_at` (wall-clock), used for SLO assertion per §5 Metric Coverage.
+- **Timeline → Verify seam:** `verify.readback` is a peer span to `emit.batch`; both are children of `scenario.run`, siblings of `timeline.execute`.
+- **Cross-surface parity (CLI vs Tauri):** both surfaces run the same `timeline.execute` logic; the `run_id` field (set by the surface caller) ties the two runs' logs for parity assertion by `(scenario, seed)` match in `runs.db`.
+
+## Acceptance criteria contributions
+- "(obs) Timeline module emits a `timeline.execute` span with `phase_count` and `emission_count` attributes via `#[tracing::instrument]` on scheduler entry/exit (span opens on scheduler entry, closes on scheduler exit)."
+- "(obs) All JSON log lines from timeline.execute include `run_id`, `seed`, `scenario`, `p_ids` (array), `service.name`, `service.version`, `deployment.environment` as flat fields via custom `tracing-subscriber` layer (no OTel SDK)."
+- "(obs) Timestamps on timeline observability use `std::time::SystemTime` / `std::time::Instant` (wall-clock), never tokio virtual-clock, to preserve SLO measurement accuracy for §5 perf-budget-instruments."
+- "(obs) Scheduler respects `current_thread` runtime determinism invariant: no background exporters, no async worker tasks spawned by `tracing-subscriber` initialization; all sinks are synchronous (stderr / file)."
+
+## Relevant amendment history
+- **2026-06-15-structured-logging-stack:** clarified that self-obs log lines carry base set (`timestamp_ms` epoch millis, `level`, `target`, service-identity, `run_id`) on every line; the Run-report envelope (verdict/state/latency) appears only on scenario-result events. Custom `tracing-subscriber` layer required to emit constant identity fields flat; stock `fmt().json()` insufficient. ✓ relevant: timeline's base log lines must follow this pattern.
+- **2026-06-15-log-error-boundary-redaction:** reconciled redaction model to implemented `conductor-core::redact`: absolute host-file paths → `<redacted>`; struct names kept out by field-name allowlist + `Display` at anyhow edge; allowlisted `target` module path (`module::`-shaped) explicitly preserved (NOT blanket `::`-token redaction). ✓ relevant: timeline spans emit a `target` field (module path); must not be masked by over-aggressive redaction; the allowlist-based approach is the contract.

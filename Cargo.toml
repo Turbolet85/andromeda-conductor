@@ -29,6 +29,10 @@ conductor-report = { path = "crates/conductor-report" }
 # Async runtime — core-owned, current_thread flavor
 tokio = "1.48"
 
+# Seedable PRNG — platform-stable ChaCha algorithm for reproducible timeline jitter
+rand_chacha = "0.9"
+rand_core = "0.9"
+
 # OTLP emission (the PRODUCT fault stream to Pulse :4317)
 opentelemetry-proto = "0.32.0"
 tonic = "0.14.6"

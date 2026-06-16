@@ -1,0 +1,32 @@
+# layouts extract
+
+## Relevance
+Partial — the chunk builds a seeded phase scheduler library (deterministic timing/sequencing); layout is desktop/CLI surface only. This chunk is Epoch 2 infrastructure with no user-facing surface yet.
+
+## Constraints
+Per layout-templates.md:
+- §Primary Surfaces: desktop-webview and cli surface contracts exist; this chunk builds neither. (No layout constraint applies to a library.)
+- §Multi-surface Coordination: once a surface exists that receives phase-boundary events from this scheduler, token mappings (`count-nominal` ANSI 114, etc.) and the Paused-count signature placement must be honored in the event rendering harness (deferred to later chunks).
+- §Signature Placement (Paused-count): the hold-point must surface a frozen count value to both desktop (titlebar + dialog header) and cli (`indicatif` stop + HOLD phase line). This scheduler emits phase-boundary events; the *rendering* of those events with the count tint/freeze is a later concern (Epoch 3+), but the scheduler's event stream must carry enough metadata (phase name, phase boundary timestamp) so that downstream surfaces can compute and display the frozen count at the hold moment.
+
+## Patterns to follow
+- §Phase naming convention: phase identifiers in the scheduler must match the layout's phase-line examples (e.g., `error-baseline-spike`, `restart-suppression`, `fingerprint-storm`, `HOLD — operator pause`). The layout uses these as string labels; the scheduler's phase type must support named phases.
+- §Desktop event stream: phase-boundary events routed via Tauri `Channel` (per layout §IA notes §Live channel: one `Channel` streams live counters / target status). The scheduler's event API must be compatible with async event emission to a Tauri channel.
+- §CLI output structure: phase line prefixes (`→` for nominal, `[HOLD]` for hold) and colored headers route through the same scheduler state; the scheduler must emit phase-boundary events that the CLI's `indicatif`/`comfy-table` rendering can consume without guessing state.
+
+## Anti-patterns to avoid
+- Do NOT emit phase sequences that depend on `std::time::Instant` for scheduling decisions. Layout §IA notes forbid ambient entropy; the scheduler must use `tokio::time` exclusively for sequencing, and seeded RNG for any non-deterministic jitter.
+- Do NOT make the phase scheduler responsible for actual emission, journaling, or credential handling. Layout defers these surfaces intentionally; the scheduler is a timing skeleton only.
+- Do NOT hard-code breakpoints or responsive layout behavior into the scheduler. This chunk is Epoch 2 infrastructure; surface-specific breakpoint logic (if any) belongs in the rendering seams (Epoch 3+).
+
+## Contract bindings
+- **desktop-webview rendering seam** (Epoch 3): the scheduler's phase-boundary events must carry metadata (phase name, timestamp, sequence position) so the Tauri frontend can render the count tint and freeze behavior described in layout §Header (frameless titlebar + Paused-count heartbeat).
+- **cli rendering seam** (Epoch 3): the scheduler's event stream must be consumable by the `conductor-cli` to drive `indicatif` spinner, `comfy-table` coverage updates, and phase-line coloring (→ ANSI 114 for nominal, ANSI 179 for HOLD).
+
+## Acceptance criteria contributions
+- (layouts) Phase-boundary events emitted by the scheduler carry named phase identifiers (e.g., `error-baseline-spike`, `HOLD`) and timestamp so downstream surfaces can render the signature Paused-count hold-point freeze (layout-templates §Header + §Hero / signature output).
+- (layouts) Scheduler uses `tokio::time` for all sequencing decisions; no `std::time` or system-clock entropy in the phase scheduler itself (layout-templates §IA notes §Security guardrails).
+- (layouts) Event stream is runtime-agnostic (compatible with both CLI `#[tokio::main]` and Tauri `Builder::new_current_thread()`) so the same phase sequence runs identically on both surfaces (layout-templates §Multi-surface Coordination).
+
+## Relevant amendment history
+(none)

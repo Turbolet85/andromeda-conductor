@@ -7,3 +7,14 @@ publish.workspace = true
 
 [dependencies]
 conductor-core.workspace = true
+tokio = { workspace = true, features = ["time"] }
+tracing.workspace = true
+thiserror.workspace = true
+rand_chacha.workspace = true
+rand_core.workspace = true
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["test-util", "macros", "rt", "time"] }
+rstest.workspace = true
+proptest.workspace = true
+insta.workspace = true

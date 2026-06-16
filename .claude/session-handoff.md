@@ -1,26 +1,23 @@
 # Session Handoff
 
-**Last Updated:** 2026-06-16T18:08:51Z
+**Last Updated:** 2026-06-16T19:50:40Z
 **Branch:** build/conductor-0.1.0
 **Status:** clean
-**Last Commit:** 2026-06-16-base-ci-agent-run-harness-skeleton — feat: base GitHub Actions CI (windows-latest) dogfooding agent-run + frontend npm gate
+**Last Commit:** 2026-06-16-seeded-phase-scheduler — feat: deterministic seeded phase scheduler (conductor-timeline)
 
 ## Position
-- Done: 2026-06-16-base-ci-agent-run-harness-skeleton — base CI workflow (`.github/workflows/ci.yml`): job `rust` (windows-latest; dogfoods `agent-run.ps1 run` → nextest `ci` + doctest + clippy `-D warnings`; `build --locked`; `cargo audit`/`deny`; `llvm-cov` measure-only) + job `frontend` (`npm ci`/`audit`/`build`). **Closes Epoch 1 — Foundation (9/9).** Gates green locally; 91.97% llvm-cov.
-- Next: **Epoch 2 — Seeded phase scheduler** (current_thread `tokio::time` deterministic phase sequencing) → run `/andromeda-phase`. First Epoch-2 chunk; begins the timeline engine.
+- Done: **2026-06-16-seeded-phase-scheduler** — `conductor-timeline` seeded phase scheduler: sequences an ordered `PhaseTimeline` on `current_thread` `tokio::time` under a seeded `ChaCha8Rng`, applying bounded per-gap jitter so the seed materially shapes timing; surfaces `PhaseTransition` events; `TimelineError` (verdict/error wall). 6/6 tests (`start_paused`), 100% line cov, all gates green. **Opens Epoch 2 (1/4).**
+- Next: **Epoch 2 chunk 2 — "Scenario-config model"** (declarative per-phase emission spec, serde + garde validated; wires `Scenario`→phases into the scheduler) → run `/andromeda-phase` to promote + plan it.
 
 ## Work done
-Added the project's first GitHub Actions workflow (2 jobs, windows-latest), dogfooding the source-of-truth `agent-run` harness for the test/lint leg + wiring `build --locked` / `cargo audit` / `cargo deny` / `cargo llvm-cov` + the frontend `npm audit`/`vite build` gate. Verified the existing `agent-run.{sh,ps1}` run headlessly on both shells (NOT modified — verify-don't-rewrite). No Rust/TS source changed.
+Built the timeline engine's determinism core in `conductor-timeline` (was an empty placeholder): `phase.rs` (Phase/PhaseTimeline/PhaseTransition), `scheduler.rs` (`run_timeline` + seeded-jitter + TimelineError), 6 determinism/bound/clamp tests. Added `rand_chacha`/`rand_core` 0.9 to workspace deps (tokio's first consumer). No CLI/core change (scheduler takes `seed: u64` directly).
 
 ## Drift resolved
-none — all 7 fan-out detectors returned `proposals: []`. The CI workflow is build infra (no code/deps/crates/UI/schema/env-vars), and arch §Infrastructure already describes the CI approach (prior chunk's amendment). 0 amendments · 0 escalations.
+2 routine arch amendments applied: §Stack gained a Determinism-RNG row, §Established Decisions gained `[Determinism RNG]` (ChaCha8Rng + seed_from_u64, platform-stable). 1 escalation dismissed as a **verified false positive** — D-security-deps claimed a missing tauri bump, but `Cargo.toml` already pins `tauri = "2.10.3"` and this chunk never touched it (real new deps audit/deny-green). 1 playbook rule added for that misfire class. Cascade → `.claude/docs/stack.md` (CLAUDE.md no delta). Living docs reconciled (dep-tree via `cargo tree`; api-surface via `cargo-public-api`). **drift = 0.**
 
 ## Notes
-- **Key decisions (user, phase P4):** CI runner = `windows-latest` (arch "dev OS target" + Windows path/SQLite fidelity); test leg = dogfood `agent-run` (CI ↔ local one gate).
-- **Surfaced for setup-project:** `agent-run.ps1` native fail-fast relies on pwsh-7.4+ defaults; CI sets `$PSNativeCommandUseErrorActionPreference=$true` explicitly to stay sound on Windows PowerShell 5.1. The durable fix — explicit `$LASTEXITCODE` checks — belongs in setup-project's Phase-4 generator (the script is generated; a hand-edit would be clobbered on regen).
-- **Deferred learnings (curation < 0.6, self-discovered one-offs):** the PowerShell `$PSNativeCommandUseErrorActionPreference` fail-fast gotcha; the "verify-don't-rewrite setup-project-generated files" insight. Re-surface via `/andromeda-wrap-session --review` if they recur (e.g. Epoch 8 harness wiring).
-- **CI caveat:** gates green LOCALLY; the first real GitHub Actions run happens after this commit is pushed (dynamic Actions proof isn't a local gate).
+- **Key decision (user, phase P4):** seeded **gap jitter** — the seed materially drives stream timing (not merely held), chosen over wire-and-hold / defer. Recorded in arch §Established Decisions.
+- **Curation:** Tier 2 → `.claude/rules/testing.md` — "test a seeded component in BOTH directions (same-seed-reproduces AND different-seeds-diverge); reproducibility alone passes even if the seed is never applied." (your review insight this session.)
+- **Deferred to later Epoch-2 chunks:** insta golden snapshot + proptest sweep (the determinism-replay-harness chunk, #4 — `insta`/`proptest` already wired as dev-deps); `emission_count` span attr (the emit chunk, Epoch 3 — only `phase_count` set now).
+- **Prior-session deferred learnings** (PowerShell `$PSNativeCommandUseErrorActionPreference`, verify-don't-rewrite): did NOT recur this chunk — remain deferred.
 - **Last failed command:** none.
-
-## Session End Status
-Completed normally at 2026-06-16 20:29:06

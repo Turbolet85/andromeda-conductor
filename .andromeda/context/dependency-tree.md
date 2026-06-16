@@ -3,7 +3,7 @@
 _Living artifact. Seeded by `/andromeda-setup-project` Phase 6 from arch's planned module structure. Reconciled by `/andromeda-wrap-session` P4 — the LIVING block is replaced wholesale with fresh tooling stdout (per `integrity-protocol.md`)._
 
 <!-- METADATA start -->
-**Last reconciled:** 2026-06-16T18:08:51Z
+**Last reconciled:** 2026-06-16T19:50:40Z
 **Tooling:** `cargo tree --workspace` (the integrity-protocol fallback + canonical crate dependency graph; cargo-modules 0.26 renamed the `generate tree` subcommand, so `cargo tree` is used)
 **Source:** arch.md §Inherited Defaults Workspace crates / §Directory structure — seed; actual code via tooling — reconcile
 **Maintenance:** wrap-session P4 (living-docs reconcile)
@@ -225,7 +225,22 @@ conductor-tauri v0.1.0 (D:\dev\projects\conductor\crates\conductor-tauri)
 └── conductor-core v0.1.0 (D:\dev\projects\conductor\crates\conductor-core) (*)
 
 conductor-timeline v0.1.0 (D:\dev\projects\conductor\crates\conductor-timeline)
-└── conductor-core v0.1.0 (D:\dev\projects\conductor\crates\conductor-core) (*)
+├── conductor-core v0.1.0 (D:\dev\projects\conductor\crates\conductor-core) (*)
+├── rand_chacha v0.9.0 (*)
+├── rand_core v0.9.5 (*)
+├── thiserror v2.0.18 (*)
+├── tokio v1.52.3
+│   ├── pin-project-lite v0.2.17
+│   └── tokio-macros v2.7.0 (proc-macro)
+│       ├── proc-macro2 v1.0.106 (*)
+│       ├── quote v1.0.45 (*)
+│       └── syn v2.0.117 (*)
+└── tracing v0.1.44 (*)
+[dev-dependencies]
+├── insta v1.48.0 (*)
+├── proptest v1.11.0 (*)
+├── rstest v0.26.1 (*)
+└── tokio v1.52.3 (*)
 
 conductor-verify v0.1.0 (D:\dev\projects\conductor\crates\conductor-verify)
 └── conductor-core v0.1.0 (D:\dev\projects\conductor\crates\conductor-core) (*)

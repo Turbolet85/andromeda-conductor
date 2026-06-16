@@ -6,6 +6,7 @@ _Mirrors `.andromeda/architecture.md` §Stack and Technologies. Convenience refe
 - **Rust 2024** (cargo 1.85) — primary implementation language; Pulse-consistency mandate.
 - **Build toolchain 1.95.0 · MSRV 1.94.1** (`rust-toolchain.toml` channel + `[workspace.package].rust-version`) — clears tar-rs CVE-2026-33056 (per arch §Stack + security-plan §Dependency Security).
 - **tokio 1.48.x** — `current_thread` flavor (zero work-stealing → deterministic emission ordering).
+- **rand_chacha 0.9 (`ChaCha8Rng`) + rand_core 0.9 (`SeedableRng`)** — seedable, platform-stable PRNG; the timeline scheduler's sole non-determinism (seeded per-gap jitter), `seed_from_u64` for cross-platform/version-stable reproducibility.
 
 ## Core Frameworks
 - **No backend/web framework** — Conductor is a gRPC client + MCP client + Tauri IPC host; no HTTP/network service of its own.
