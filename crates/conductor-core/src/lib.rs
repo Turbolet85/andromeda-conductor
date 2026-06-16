@@ -13,6 +13,7 @@
 mod config_path;
 mod error;
 mod obs;
+mod phase_spec;
 mod redact;
 mod report_state;
 mod scenario;
@@ -21,6 +22,7 @@ mod verdict;
 pub use config_path::resolve_under;
 pub use error::{CoreError, Result};
 pub use obs::{init_observability, mint_run_id, ServiceIdentity};
+pub use phase_spec::{EmissionSpec, PhaseSpec, Signal};
 pub use redact::{redact_value, sanitize_error};
 pub use report_state::ReportState;
 pub use scenario::{PId, Scenario, SloTier};

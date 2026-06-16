@@ -1,12 +1,16 @@
-//! The core scenario *identity* model — the shared shape every seam matches on.
+//! The core scenario model — the shared shape every seam matches on.
 //!
-//! Identity skeleton only: name, the Pulse P-ID(s) the scenario exercises, the seed, and its
-//! SLO tier. The declarative per-phase emission spec is a later chunk. garde validation attaches
-//! here: non-empty `p_ids`, the `P-NNN` (001..=060) P-ID format, and a no-duplicate-P-IDs
-//! cross-cutting rule — the structs derive both serde and [`garde::Validate`].
+//! Carries the scenario's identity (name, the Pulse P-ID(s) it exercises, the seed, its SLO tier)
+//! plus the declarative per-phase emission spec: an ordered [`PhaseSpec`] sequence and the
+//! scenario-level jitter bound the seeded timeline scheduler applies. garde validation attaches
+//! here — non-empty `p_ids`, the `P-NNN` (001..=060) P-ID format, no-duplicate P-IDs, a non-empty
+//! phase list (each phase validated via `dive`), and a bounded jitter — and the structs derive
+//! both serde and [`garde::Validate`].
 
 use garde::Validate;
 use serde::{Deserialize, Serialize};
+
+use crate::phase_spec::PhaseSpec;
 
 /// A Pulse capability identifier (`P-001`..`P-060`). Serializes transparently as the bare
 /// string (`"P-009"`); garde enforces the `P-NNN` shape with `NNN` in `001..=060`.
@@ -43,9 +47,11 @@ pub enum SloTier {
     Tier90s,
 }
 
-/// A scenario's identity. Every scenario carries at least one Pulse P-ID — the
-/// "no scenario without a P-ID" law is the non-optional `p_ids` field, enforced non-empty
-/// (and free of duplicates) by garde.
+/// A scenario: its identity plus its declarative per-phase emission spec.
+///
+/// Every scenario carries at least one Pulse P-ID — the "no scenario without a P-ID" law is the
+/// non-optional `p_ids` field, enforced non-empty (and duplicate-free) by garde — and at least one
+/// [`PhaseSpec`] in `phases`, the ordered sequence the timeline scheduler runs.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Validate)]
 pub struct Scenario {
     /// Scenario name (e.g. `"error-baseline-spike"`).
@@ -61,10 +67,34 @@ pub struct Scenario {
     /// The SLO timing tier this scenario's deadline is measured against.
     #[garde(skip)]
     pub slo_tier: SloTier,
+    /// The ordered per-phase emission spec — the declarative timeline the scheduler sequences.
+    /// Required, non-empty; each phase is validated via `dive`.
+    #[garde(length(min = 1), dive)]
+    pub phases: Vec<PhaseSpec>,
+    /// Symmetric per-gap jitter bound (milliseconds) the seeded scheduler may perturb each phase
+    /// gap by; `0` means gaps land exactly as declared. Bounded by garde.
+    #[garde(range(max = crate::phase_spec::MAX_JITTER_MS))]
+    pub jitter_ms: u64,
 }
 
-// garde 0.22.1 has no container-level `custom`, so this lives on the `p_ids` field it concerns —
-// the worked `custom` validator the Epoch-2 emission-spec invariants (p50≤p95≤p99, …) will sit beside.
+impl Scenario {
+    /// Parse and validate a scenario from a TOML document.
+    ///
+    /// Deserializes into a [`Scenario`], then runs garde validation. A TOML parse failure surfaces
+    /// as [`CoreError::Config`](crate::CoreError::Config) and a validation failure as
+    /// [`CoreError::Validation`](crate::CoreError::Validation) — both harness faults (`Err`), never
+    /// a verdict, never a panic. The parse-error text is scrubbed (no host paths) so it is safe to
+    /// surface or log.
+    pub fn from_toml_str(toml: &str) -> crate::Result<Scenario> {
+        let scenario: Scenario =
+            toml::from_str(toml).map_err(|e| crate::CoreError::Config(crate::sanitize_error(&e)))?;
+        scenario.validate()?;
+        Ok(scenario)
+    }
+}
+
+// garde 0.22.1 has no container-level `custom`, so this lives on the `p_ids` field it concerns.
+// The latency-target ordering invariants (p50≤p95≤p99) join it when the Epoch-3 latency spec lands.
 fn no_duplicate_pids(p_ids: &[PId], _ctx: &()) -> garde::Result {
     let mut seen = std::collections::HashSet::with_capacity(p_ids.len());
     for pid in p_ids {
@@ -78,6 +108,7 @@ fn no_duplicate_pids(p_ids: &[PId], _ctx: &()) -> garde::Result {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::phase_spec::{EmissionSpec, Signal, MAX_JITTER_MS};
     use garde::Validate;
 
     fn scenario_with(p_ids: Vec<PId>) -> Scenario {
@@ -86,6 +117,12 @@ mod tests {
             p_ids,
             seed: 424242,
             slo_tier: SloTier::Tier5s,
+            phases: vec![PhaseSpec {
+                name: "baseline".to_string(),
+                gap_ms: 2000,
+                emission: EmissionSpec::default(),
+            }],
+            jitter_ms: 50,
         }
     }
 
@@ -144,5 +181,90 @@ mod tests {
     fn duplicate_p_ids_are_rejected() {
         let s = scenario_with(vec![PId("P-009".to_string()), PId("P-009".to_string())]);
         assert!(s.validate().is_err());
+    }
+
+    #[test]
+    fn empty_phases_is_rejected() {
+        let mut s = scenario_with(vec![PId("P-009".to_string())]);
+        s.phases = Vec::new();
+        assert!(s.validate().is_err());
+    }
+
+    #[test]
+    fn invalid_phase_is_rejected_via_dive() {
+        let mut s = scenario_with(vec![PId("P-009".to_string())]);
+        s.phases = vec![PhaseSpec {
+            name: String::new(), // empty phase name fails PhaseSpec validation
+            gap_ms: 100,
+            emission: EmissionSpec::default(),
+        }];
+        assert!(s.validate().is_err());
+    }
+
+    #[test]
+    fn over_bound_jitter_is_rejected() {
+        let mut s = scenario_with(vec![PId("P-009".to_string())]);
+        s.jitter_ms = MAX_JITTER_MS + 1;
+        assert!(s.validate().is_err());
+    }
+
+    #[test]
+    fn from_toml_str_parses_and_validates() {
+        let toml = r#"
+name = "error-baseline-spike"
+p_ids = ["P-009", "P-010"]
+seed = 424242
+slo_tier = "<5s"
+jitter_ms = 50
+
+[[phases]]
+name = "baseline"
+gap_ms = 2000
+
+[[phases]]
+name = "spike"
+gap_ms = 1000
+"#;
+        let s = Scenario::from_toml_str(toml).expect("valid scenario");
+        assert_eq!(s.name, "error-baseline-spike");
+        assert_eq!(s.phases.len(), 2);
+        // `emission` is omitted in the document, so it defaults.
+        assert_eq!(s.phases[0].emission.signal, Signal::Traces);
+    }
+
+    #[test]
+    fn from_toml_str_rejects_malformed_toml_as_config_error() {
+        let err = Scenario::from_toml_str("name = \"unterminated").unwrap_err();
+        assert!(matches!(err, crate::CoreError::Config(_)));
+    }
+
+    #[test]
+    fn from_toml_str_rejects_invalid_scenario_as_validation_error() {
+        // Well-formed TOML, but empty p_ids fails garde validation.
+        let toml = r#"
+name = "x"
+p_ids = []
+seed = 1
+slo_tier = "<5s"
+jitter_ms = 0
+
+[[phases]]
+name = "p"
+gap_ms = 1
+"#;
+        let err = Scenario::from_toml_str(toml).unwrap_err();
+        assert!(matches!(err, crate::CoreError::Validation(_)));
+    }
+
+    #[test]
+    fn committed_fixture_loads_and_validates() {
+        let path = concat!(
+            env!("CARGO_MANIFEST_DIR"),
+            "/../../scenarios/error-baseline-spike.toml"
+        );
+        let toml = std::fs::read_to_string(path).expect("fixture readable");
+        let s = Scenario::from_toml_str(&toml).expect("fixture valid");
+        assert_eq!(s.name, "error-baseline-spike");
+        assert!(!s.phases.is_empty());
     }
 }

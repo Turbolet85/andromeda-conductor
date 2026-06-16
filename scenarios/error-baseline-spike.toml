@@ -1,0 +1,15 @@
+# P-009 / P-010 — the first scenario fixture (error-baseline-spike).
+# Exercises the config schema end-to-end: deserialize -> garde validate -> PhaseTimeline.
+name = "error-baseline-spike"
+p_ids = ["P-009", "P-010"]
+seed = 424242
+slo_tier = "<5s"
+jitter_ms = 50
+
+[[phases]]
+name = "baseline"
+gap_ms = 2000   # converge the error baseline
+
+[[phases]]
+name = "spike"
+gap_ms = 1000   # inject the error-rate spike

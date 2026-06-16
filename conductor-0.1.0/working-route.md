@@ -27,7 +27,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
 ### Epoch 2 — Timeline engine
 [2026-06-16-seeded-phase-scheduler] Seeded phase scheduler — current_thread tokio::time deterministic phase sequencing
    ↓
-Scenario-config model — declarative per-phase emission spec, serde + garde validated
+[2026-06-16-scenario-config-model] Scenario-config model — declarative per-phase emission spec, serde + garde validated
    ↓
 Emission-journal writer — per-run JSONL, std::time wall-clock stamps, tests/obs-owned schema
    ↓

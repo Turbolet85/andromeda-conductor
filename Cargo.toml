@@ -48,6 +48,7 @@ rusqlite = { version = "0.38.0", features = ["bundled"] }
 # Config validation + errors
 serde = { version = "1.0", features = ["derive"] }
 serde_json = "1.0"
+toml = "0.9"
 garde = "0.22.1"
 thiserror = "2.0.18"
 anyhow = "1.0.102"

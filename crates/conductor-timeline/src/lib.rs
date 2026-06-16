@@ -4,8 +4,10 @@
 //! [`PhaseTimeline`] on `tokio::time`, perturbing each inter-phase gap by a seed-derived bounded
 //! jitter so the same seed reproduces the same emission-stream shape (architecture §Design
 //! Philosophy). It surfaces [`PhaseTransition`] boundaries to its caller and emits nothing — OTLP
-//! emission, the run journal, and the declarative per-phase spec are later seams/chunks.
+//! emission and the run journal are later seams/chunks; a validated `conductor_core::Scenario`'s
+//! phase sequence converts into a `PhaseTimeline` via `From` (the `convert` module).
 
+mod convert;
 mod phase;
 mod scheduler;
 

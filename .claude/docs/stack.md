@@ -15,6 +15,7 @@ _Mirrors `.andromeda/architecture.md` §Stack and Technologies. Convenience refe
 - **MCP read-back client:** rmcp 1.7.0 (`client`), `serve_client()` over `TokioChildProcess` stdio, protocol `2024-11-05`.
 - **Validation:** serde 1.0.x + garde 0.22.1 (`#[derive(Validate)]` range + `#[garde(custom)]` cross-field).
 - **Serialization:** serde_json 1.0 — canonical-name JSON for the run-report envelope + per-run JSONL journal (serde companion; report-seam runtime dep).
+- **Scenario config:** toml 0.9 — declarative TOML scenario files under `scenarios/` (serde-deserialized + garde-validated via `Scenario::from_toml_str`); chosen over JSON for hand-author ergonomics + inline comments (P4 decision); audit/deny-clean.
 - **Error handling:** thiserror 2.0.18 (per-seam enums) + anyhow 1.0.102 (binary edges).
 
 ## Data Storage

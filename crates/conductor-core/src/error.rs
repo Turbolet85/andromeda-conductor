@@ -53,6 +53,12 @@ mod tests {
             p_ids: Vec::new(),
             seed: 0,
             slo_tier: crate::SloTier::Tier5s,
+            phases: vec![crate::PhaseSpec {
+                name: "p".to_string(),
+                gap_ms: 1,
+                emission: crate::EmissionSpec::default(),
+            }],
+            jitter_ms: 0,
         };
         let report = invalid.validate().expect_err("empty scenario must fail validation");
         let err: CoreError = report.into();

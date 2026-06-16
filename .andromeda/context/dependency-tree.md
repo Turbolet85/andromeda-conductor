@@ -3,7 +3,7 @@
 _Living artifact. Seeded by `/andromeda-setup-project` Phase 6 from arch's planned module structure. Reconciled by `/andromeda-wrap-session` P4 — the LIVING block is replaced wholesale with fresh tooling stdout (per `integrity-protocol.md`)._
 
 <!-- METADATA start -->
-**Last reconciled:** 2026-06-16T19:50:40Z
+**Last reconciled:** 2026-06-16T20:48:47Z
 **Tooling:** `cargo tree --workspace` (the integrity-protocol fallback + canonical crate dependency graph; cargo-modules 0.26 renamed the `generate tree` subcommand, so `cargo tree` is used)
 **Source:** arch.md §Inherited Defaults Workspace crates / §Directory structure — seed; actual code via tooling — reconcile
 **Maintenance:** wrap-session P4 (living-docs reconcile)
@@ -47,6 +47,16 @@ conductor-cli v0.1.0 (D:\dev\projects\conductor\crates\conductor-cli)
     │       ├── proc-macro2 v1.0.106 (*)
     │       ├── quote v1.0.45 (*)
     │       └── syn v2.0.117 (*)
+    ├── toml v0.9.12+spec-1.1.0
+    │   ├── serde_core v1.0.228
+    │   ├── serde_spanned v1.1.1
+    │   │   └── serde_core v1.0.228
+    │   ├── toml_datetime v0.7.5+spec-1.1.0
+    │   │   └── serde_core v1.0.228
+    │   ├── toml_parser v1.1.2+spec-1.1.0
+    │   │   └── winnow v1.0.3
+    │   ├── toml_writer v1.1.1+spec-1.1.0
+    │   └── winnow v0.7.15
     ├── tracing v0.1.44
     │   ├── pin-project-lite v0.2.17
     │   ├── tracing-attributes v0.1.31 (proc-macro)
