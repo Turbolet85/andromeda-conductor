@@ -3,7 +3,7 @@
 _Living artifact. Seeded by `/andromeda-setup-project` Phase 6 from arch's planned module structure. Reconciled by `/andromeda-wrap-session` P4 — the LIVING block is replaced wholesale with fresh tooling stdout (per `integrity-protocol.md`)._
 
 <!-- METADATA start -->
-**Last reconciled:** 2026-06-16T20:48:47Z
+**Last reconciled:** 2026-06-16T22:08:39Z
 **Tooling:** `cargo tree --workspace` (the integrity-protocol fallback + canonical crate dependency graph; cargo-modules 0.26 renamed the `generate tree` subcommand, so `cargo tree` is used)
 **Source:** arch.md §Inherited Defaults Workspace crates / §Directory structure — seed; actual code via tooling — reconcile
 **Maintenance:** wrap-session P4 (living-docs reconcile)
@@ -229,7 +229,11 @@ conductor-faults v0.1.0 (D:\dev\projects\conductor\crates\conductor-faults)
 └── conductor-core v0.1.0 (D:\dev\projects\conductor\crates\conductor-core) (*)
 
 conductor-report v0.1.0 (D:\dev\projects\conductor\crates\conductor-report)
-└── conductor-core v0.1.0 (D:\dev\projects\conductor\crates\conductor-core) (*)
+├── conductor-core v0.1.0 (D:\dev\projects\conductor\crates\conductor-core) (*)
+├── serde_json v1.0.150 (*)
+└── thiserror v2.0.18 (*)
+[dev-dependencies]
+└── assert_fs v1.1.4 (*)
 
 conductor-tauri v0.1.0 (D:\dev\projects\conductor\crates\conductor-tauri)
 └── conductor-core v0.1.0 (D:\dev\projects\conductor\crates\conductor-core) (*)

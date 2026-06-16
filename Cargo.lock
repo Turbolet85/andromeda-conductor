@@ -163,7 +163,10 @@ dependencies = [
 name = "conductor-report"
 version = "0.1.0"
 dependencies = [
+ "assert_fs",
  "conductor-core",
+ "serde_json",
+ "thiserror",
 ]
 
 [[package]]

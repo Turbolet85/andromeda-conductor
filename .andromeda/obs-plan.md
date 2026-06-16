@@ -64,6 +64,7 @@ handled via boundary instrumentation only._
   ```jsonl
   {
     "journal_emitted_at": "ISO-8601 from std::time::SystemTime",
+    "read_back_observed_at": "ISO-8601 (null until read-back; null for blocked rows)",
     "run_id": "string",
     "seed": 0,
     "scenario": "string",
@@ -84,6 +85,7 @@ handled via boundary instrumentation only._
 ```jsonl
 {
   "journal_emitted_at": "ISO-8601 from std::time::SystemTime",
+  "read_back_observed_at": "ISO-8601 from std::time::SystemTime (null until read-back; null for blocked rows)",
   "run_id": "YYYY-MM-DDTHH-MM-SS-<suffix> (filesystem-safe hyphen-delimited)",
   "seed": "u64",
   "scenario": "string",
@@ -208,6 +210,7 @@ Schema (binding contract from upstream-context Section 5 Test Plan Excerpt → T
 ```jsonl
 {
   "journal_emitted_at": "ISO-8601 from std::time::SystemTime",
+  "read_back_observed_at": "ISO-8601 from std::time::SystemTime (null until read-back; null for blocked rows)",
   "run_id": "YYYY-MM-DDTHH-MM-SS-<suffix> (filesystem-safe hyphen-delimited)",
   "seed": "u64",
   "scenario": "string",
@@ -426,6 +429,7 @@ latency_ms <= SLO_threshold_for_slo_tier ? Pass : Fail
 ```jsonl
 {
   "journal_emitted_at": "ISO-8601 from std::time::SystemTime",
+  "read_back_observed_at": "ISO-8601 from std::time::SystemTime (null until read-back; null for blocked rows)",
   "run_id": "YYYY-MM-DDTHH-MM-SS-<suffix> (filesystem-safe hyphen-delimited)",
   "seed": "u64",
   "scenario": "string",

@@ -115,6 +115,19 @@ pub fn mint_run_id() -> String {
     )
 }
 
+/// The current UTC instant as a colon-delimited RFC-3339 stamp with a trailing `Z`
+/// (`2026-06-16T21:10:06Z`, seconds precision) from `std::time::SystemTime` — never tokio's virtual
+/// clock. The `journal_emitted_at` source for the run-report envelope (arch §Timestamp formats;
+/// obs-plan §3).
+pub fn now_rfc3339() -> String {
+    let secs = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .map(|d| d.as_secs())
+        .unwrap_or(0);
+    let (y, mo, d, h, mi, s) = civil_from_unix(secs);
+    format!("{y:04}-{mo:02}-{d:02}T{h:02}:{mi:02}:{s:02}Z")
+}
+
 fn unix_millis() -> u64 {
     SystemTime::now()
         .duration_since(UNIX_EPOCH)
@@ -329,6 +342,19 @@ mod tests {
         assert_eq!(id.matches('-').count(), 5, "Y-M-DTH-M-S-mmm: {id}");
         assert!(id.contains('T'), "{id}");
         assert_eq!(id.len(), 23, "{id}");
+    }
+
+    #[test]
+    fn now_rfc3339_is_colon_delimited_z_shape() {
+        let ts = now_rfc3339();
+        // YYYY-MM-DDTHH:MM:SSZ — 20 chars, RFC-3339 Z, time colon-delimited (distinct from the
+        // all-hyphen run_id stem).
+        assert_eq!(ts.len(), 20, "{ts}");
+        assert!(ts.ends_with('Z'), "{ts}");
+        assert_eq!(ts.as_bytes()[10], b'T', "{ts}");
+        let (date, time) = ts[..ts.len() - 1].split_once('T').unwrap();
+        assert_eq!(date.matches('-').count(), 2, "{date}");
+        assert_eq!(time.matches(':').count(), 2, "{time}");
     }
 
     #[test]

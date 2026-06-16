@@ -1,23 +1,22 @@
 # Session Handoff
 
-**Last Updated:** 2026-06-16T20:48:47Z
+**Last Updated:** 2026-06-16T22:08:39Z
 **Branch:** build/conductor-0.1.0
 **Status:** clean
-**Last Commit:** 2026-06-16-scenario-config-model — feat: declarative TOML scenario-config model + Scenario→PhaseTimeline conversion
+**Last Commit:** 2026-06-16-emission-journal-writer — feat: per-run JSONL emission-journal writer (RunRecord 11-field envelope + JournalWriter)
 
 ## Position
-- Done: **2026-06-16-scenario-config-model** — declarative per-phase emission spec (`PhaseSpec`/`EmissionSpec`/`Signal`) added to `Scenario` (serde + garde, TOML loader `from_toml_str`) + `From<&Scenario> for PhaseTimeline` (conductor-core + conductor-timeline). 66/66 tests, new files 100% cov, all gates green. **Epoch 2 (2/4).**
-- Next: **Epoch 2 chunk 3 — "Emission-journal writer"** (per-run JSONL, std::time wall-clock stamps, tests/obs-owned schema) → run `/andromeda-phase` to promote + plan it.
+- Done: **2026-06-16-emission-journal-writer** — per-run JSONL emission-journal writer: `conductor_core::RunRecord` (11-field run-report envelope, schema owner test-plan §3) + `now_rfc3339` (std::time stamper) + `conductor_report::JournalWriter`/`JournalError`. 66/66 tests, all gates green. **Epoch 2 (3/4).**
+- Next: **Epoch 2 chunk 4 — "Determinism-replay harness"** (same scenario+seed ⇒ identical stream shape via insta golden + proptest, tokio start_paused) → run `/andromeda-phase` to promote + plan it.
 
 ## Work done
-Extended `conductor-core::Scenario` with `phases: Vec<PhaseSpec>` + `jitter_ms` (new `phase_spec.rs`: garde-bounded `PhaseSpec`/`EmissionSpec`/`Signal`), added `Scenario::from_toml_str` (parse → `CoreError::Config`, garde → `CoreError::Validation` — the verdict/error wall), and `impl From<&Scenario> for PhaseTimeline` in conductor-timeline (total/deterministic/order-preserving). First fixture `scenarios/error-baseline-spike.toml`. Added `toml = "0.9"` workspace dep.
+Added `RunRecord` (the run-report envelope) + `now_rfc3339` to conductor-core, and `JournalWriter` (create+append `<runs_dir>/<run_id>.jsonl`, never-truncate, flush-per-line) + `JournalError` (thiserror) to conductor-report. `journal_emitted_at`/`read_back_observed_at` from `std::time`. The writer takes a pre-resolved `runs_dir` (`CONDUCTOR_RUNS_DIR` resolution stays at the cli edge); the live call-site is deferred (no verdict producer until verify, Epoch 5).
 
 ## Drift resolved
-1 routine arch amendment: §Stack gained a "Scenario config (TOML) | toml 0.9" row + §Established Decisions gained `[Scenario Config Format]` (TOML over JSON — P4 user decision). Cascaded → `.claude/docs/stack.md` (CLAUDE.md no delta). The other 6 detectors returned `proposals: []` — the 5 escalate-severity ones all cleared (input garde✓, no MCP/sidecar touch, `toml` audit+deny-green with Cargo.lock committed). Living docs reconciled (dep-tree via `cargo tree` — toml subtree; api-surface via `cargo public-api` — new types + conversion). **drift = 0.**
+1 escalation + 3 amendments. **Escalation (`read_back_observed_at`):** the chunk shipped obs-plan §3's 10-field envelope, but the schema OWNER test-plan §3 (+ arch + §6/§7 journal-golden redaction) carry `read_back_observed_at` — user chose **Option A** (11 fields); code fixed (RunRecord +field, re-tested 66/66) + obs-plan §3 realigned (4 envelope copies) + a11y-plan §3 (bind, 2 copies). **Routine:** test-plan §4 golden clarification (exact-assert unit goldens; insta for E2E). **Dismissed:** arch D-arch-resources misfire (library types aren't §Occupied-Resources entries; tracked by api-surface). Cascaded → observability.md + obs-summary.md (envelope field). Sidecars: obs-plan, a11y-plan (created), test-plan. **drift = 0.**
 
 ## Notes
-- **Key decision (user, P4):** scenario config on-disk format = **TOML** (adds the `toml` dep), chosen over JSON — sets the convention for all 60 scenario files. Recorded in arch §Established Decisions [Scenario Config Format].
-- **Deviations (full list in report.md):** `emission` is `#[serde(default)]` → `Traces` (matches the P4-approved TOML preview that omitted it); tests use plain `#[test]` + factory helpers (existing conductor-core style, not rstest); concrete bounds `MAX_GAP_MS=3_600_000` / `MAX_JITTER_MS=60_000` / phase name ≤40.
-- **Deferred to route chunk #4 (determinism-replay harness):** insta golden snapshot + proptest sweep. `EmissionSpec` is `#[non_exhaustive]` so the Epoch-3 emit seam extends it without reshaping the config.
-- **Curation:** no new learnings (toml dep recorded in stack.md/arch → dedup'd; emission-spec forward-compat pattern below the 0.6 confidence threshold).
+- **Key learning (Tier 2 → observability.md):** the Run-report envelope JSONL schema is OWNED by test-plan §3; obs-plan/a11y-plan reproduce it and CAN drift — implement against the owner.
+- **Deviations (full list in report.md):** exact-assert goldens instead of insta (matches the verdict.rs/report_state.rs pattern; insta reserved for the E2E journal/Markdown goldens); no `tracing` instrumentation yet (deferred to `report.generate`, Epoch 6); live timeline call-site deferred (scope.md amended at P5).
+- **Curation:** 1 Tier 2 (schema-ownership). Crate-placement + golden-mechanism candidates dedup'd.
 - **Last failed command:** none.

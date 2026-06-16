@@ -7,3 +7,8 @@ publish.workspace = true
 
 [dependencies]
 conductor-core.workspace = true
+serde_json.workspace = true
+thiserror.workspace = true
+
+[dev-dependencies]
+assert_fs.workspace = true

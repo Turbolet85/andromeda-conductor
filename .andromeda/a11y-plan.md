@@ -95,6 +95,7 @@ Cross-check against security plan excerpt's A11y Compliance Triggers: "No a11y c
   ```jsonl
   {
     "journal_emitted_at": "ISO-8601 from std::time::SystemTime",
+    "read_back_observed_at": "ISO-8601 from std::time::SystemTime (null until read-back; null for blocked rows)",
     "run_id": "YYYY-MM-DDTHH-MM-SS-<suffix> (filesystem-safe hyphen-delimited)",
     "seed": "u64",
     "scenario": "string",
@@ -230,6 +231,7 @@ Binding contract — see upstream-context Section 6 Obs Plan Excerpt → Log For
 ```jsonl
 {
   "journal_emitted_at": "ISO-8601 from std::time::SystemTime",
+  "read_back_observed_at": "ISO-8601 from std::time::SystemTime (null until read-back; null for blocked rows)",
   "run_id": "YYYY-MM-DDTHH-MM-SS-<suffix> (filesystem-safe hyphen-delimited)",
   "seed": "u64",
   "scenario": "string",

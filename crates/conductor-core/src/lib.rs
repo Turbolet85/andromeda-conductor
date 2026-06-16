@@ -1,7 +1,8 @@
 //! Runtime-agnostic engine library — the shared types every Conductor seam depends on.
 //!
 //! `conductor-core` is the dependency root of the workspace. It owns the verification
-//! outcome vocabulary ([`Verdict`] / [`ReportState`]), the scenario identity model
+//! outcome vocabulary ([`Verdict`] / [`ReportState`]) plus the run-report envelope
+//! ([`RunRecord`]) the journal records, the scenario identity model
 //! ([`Scenario`] / [`PId`] / [`SloTier`]) with its garde validation, and the harness-fault
 //! [`CoreError`] — the two halves of the *verdict/error wall* (outcomes are `Ok` values; `Err`
 //! is harness faults only). Beyond those plain data types it exposes one side-effecting
@@ -16,14 +17,16 @@ mod obs;
 mod phase_spec;
 mod redact;
 mod report_state;
+mod run_record;
 mod scenario;
 mod verdict;
 
 pub use config_path::resolve_under;
 pub use error::{CoreError, Result};
-pub use obs::{init_observability, mint_run_id, ServiceIdentity};
+pub use obs::{init_observability, mint_run_id, now_rfc3339, ServiceIdentity};
 pub use phase_spec::{EmissionSpec, PhaseSpec, Signal};
 pub use redact::{redact_value, sanitize_error};
 pub use report_state::ReportState;
+pub use run_record::RunRecord;
 pub use scenario::{PId, Scenario, SloTier};
 pub use verdict::Verdict;
