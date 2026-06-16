@@ -1,0 +1,82 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+  # workflow_dispatch:  # reserved for the future live-Pulse / operator gate (Epoch 10)
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  rust:
+    name: Rust gate (build · test · lint · supply-chain · coverage)
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Toolchain pin + components come from rust-toolchain.toml (channel 1.95.0 >= MSRV 1.94.1;
+      # clippy + llvm-tools-preview). rustup auto-installs it on first use.
+      - name: Install toolchain (rust-toolchain.toml)
+        run: rustup show
+
+      - uses: Swatinem/rust-cache@v2
+
+      # Prebuilt binaries (not cargo-install-from-source) keep the Windows runner fast.
+      - name: Install cargo subcommands
+        uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-nextest,cargo-audit,cargo-deny,cargo-llvm-cov
+
+      # --locked enforces the committed, un-drifted Cargo.lock (security-plan §Dependency Security).
+      - name: Build (locked)
+        run: cargo build --workspace --locked
+
+      # Dogfood the source-of-truth release gate: agent-run `run` = nextest --profile ci (zero-retry,
+      # emits target/nextest/ci/junit.xml) + test --doc + clippy -D warnings. Setting
+      # $PSNativeCommandUseErrorActionPreference makes the script fail-fast on the first native
+      # non-zero exit regardless of the pwsh default (mirrors the .sh `set -e`).
+      - name: Test + lint (dogfood agent-run)
+        shell: pwsh
+        run: |
+          $PSNativeCommandUseErrorActionPreference = $true
+          .\scripts\agent-run.ps1 run
+
+      - name: Supply-chain — cargo audit
+        run: cargo audit
+
+      - name: Supply-chain — cargo deny
+        run: cargo deny check
+
+      # Measure only — the coverage threshold + JUnit/coverage artifact upload are Epoch 10.
+      - name: Coverage (measure only)
+        run: cargo llvm-cov nextest --workspace --profile ci --summary-only
+
+  frontend:
+    name: Frontend gate (npm audit · build)
+    runs-on: windows-latest
+    defaults:
+      run:
+        working-directory: crates/conductor-tauri/ui
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: crates/conductor-tauri/ui/package-lock.json
+
+      - name: Install (clean)
+        run: npm ci
+
+      # 0 vulnerabilities required (security-plan §Dependency Security / Frontend npm).
+      - name: Supply-chain — npm audit
+        run: npm audit
+
+      - name: Build (tsc --noEmit && vite build)
+        run: npm run build

@@ -1,0 +1,37 @@
+# design extract
+
+## Relevance — partial
+This chunk formulates CI automation + a headless entry-point skeleton. The design system prescribes surfaces (desktop-webview + cli) and their brand identity, but CI workflows are non-user-facing build gates. The chunk does NOT render UI, animate, or compose components. However, the `agent-run` harness skeleton is the headless **source-of-truth entrypoint** that will, in later epochs, exercise the CLI surface with ANSI coloring and status prefixes — so the skeleton must establish the dispatch contract that downstream phases will decorate with design tokens.
+
+## Constraints
+1. **CLI tokens for headless output** — per design-system §Surface: cli, `agent-run.sh/ps1` must respect ANSI 256 color mappings, `NO_COLOR` override, and TTY detection; status messages use `[PASS]`/`[FAIL]`/`[HOLD]`/`[BLOCKED]`/`[MANUAL]`/`[RESIDUAL]` ASCII prefixes (never color alone), and `✓`/`✗`/`?`/`~`/`•`/`→` glyphs in TTY only (design-system §Component Patterns #4 + §Platform-Specific Notes). This chunk does not emit colored output yet, but the skeleton MUST establish the command structure to which those tokens will attach.
+2. **Motion + reduce-motion binding** — the signature paused-count hold-point (design-system §Brand Identity + §Motion) will be animated only in later epochs, but the operator-pause go/no-go gate is established here as an `agent-run` command contract; the harness skeleton MUST define the gate's success/failure path so downstream can bind the CSS transitions (150ms ease-out, `prefers-reduced-motion: reduce` override per design-system §Motion).
+3. **Headless vs. interactive TTY discipline** — per design-system §Surface: cli §Platform-Specific Notes, `agent-run` commands MUST check `isatty(stdin)` and NEVER block the agent-driven non-TTY path on an interactive prompt; the skeleton establishes this invariant as a structural rule (design-system §Anti-Patterns / cli).
+4. **No design-token rendering in CI** — GitHub Actions workflows and the harness stub have no UI surface; they execute build commands and return exit codes. Design tokens (colors, typography, spacing, motion) do not apply (per focus guide "backend / API / IPC … out-of-scope").
+5. **Denial of color-alone signaling in CLI messages** — any diagnostic output that signals state MUST pair color with an ASCII prefix (`[PASS]`/`[FAIL]`/`[HOLD]`/`[BLOCKED]`) per design-system §Surface: cli §Anti-Patterns; the skeleton must structure dispatch so coloring can be layered without violating this rule.
+6. **Expression level 0.3** — when populated, `agent-run` status reporting MUST honor the expression-level constraint (design-system §Brand Identity) — no animation library, plain CSS transitions only, `indicatif` spinner STOPS (not hides) on operator-pause; the skeleton leaves room by establishing a clean command contract.
+
+## Patterns to follow
+1. **Headless source-of-truth entrypoint design** — design-system establishes `agent-run.sh/ps1` as "the headless source of truth + release gate"; CLI component patterns (design-system §Surface: cli §Component Patterns) show the 5-command dispatch (boot/run/status/cleanup/logs) translating to terminal output (headers + colored prefixes + tabular `comfy-table` SLO output). The skeleton formalizes this 5-command structure so downstream epochs layer tokens on top.
+2. **TTY-gated ANSI coloring + auto-stripping on pipe** — design-system specifies CLI output must auto-strip ANSI when piped (via `anstream`), honor `NO_COLOR`/`TERM=dumb`, never emit emoji in piped output. The skeleton should establish a logging-helper pattern so future commands respect this without duplicating TTY checks.
+3. **Operator-pause gate as a named command contract** — the signature paused-count hold-point (§Brand Identity) is actuated by the operator-pause go/no-go prompt (§Component Patterns #2 CLI). The skeleton should define a command/exit-code contract that headless `run` can invoke, so downstream decorates it with `inquire` + amber frozen-count logic without re-architecting the command tree.
+4. **Deny-by-default Tauri capabilities** — per design-system §Surface: desktop-webview §Platform-Specific Notes, future Tauri calls must respect security-plan guardrails (deny-by-default `.toml`, no remote-origin iframes, Tauri ≥2.10.3); the skeleton must be designed so future epochs wire those without violating the capabilities envelope.
+
+## Anti-patterns to avoid
+1. **NEVER render or hardcode design tokens in CI workflows** — GitHub Actions YAML is not a UI surface; baking color codes or font stacks into CI task names/messages is out-of-scope.
+2. **NEVER block the headless release-gate path on an interactive prompt** — per design-system §Anti-Patterns / cli; the operator-pause gate (future epoch) MUST skip the prompt in non-TTY mode and record the decision to the artifact (not hang).
+3. **NEVER emit emoji in machine-parseable piped output** — per design-system §Component Patterns #4 (CLI); emoji must be TTY-gated and stripped when piped, leaving only ASCII prefixes.
+
+## Contract bindings
+- **CLI tokenization ↔ obs harness (Epoch 8)** — the 5-command `agent-run` skeleton formalizes the entry-point contract the Epoch-8 obs/measurement harness will call; design tokens (ANSI colors, ASCII status prefixes) apply downstream, but the command structure must be stable + TTY-aware now.
+- **Operator-pause gate ↔ desktop-webview run-report (Epochs 2–6)** — the skeleton reserves a command/exit-code path for the operator-pause go/no-go prompt; desktop-webview binds it to CSS color transitions later (design-system §Motion). The skeleton must not hard-wire the prompt logic now, only the contract.
+- **Security-plan Tauri guardrails ↔ `agent-run` subprocess invocation (Epoch 8+)** — when `agent-run` eventually calls Pulse/MCP, it must respect deny-by-default capabilities + security-plan restrictions; the skeleton's structure must allow future wiring without violating the envelope.
+
+## Acceptance criteria contributions
+1. **(CLI)** `agent-run` skeleton establishes 5-command dispatch (boot/run/status/cleanup/logs) with consistent usage/help across sh and ps1, each resolvable to a handler — Verify both shells return exit 0 on valid commands; dispatch identical across platforms.
+2. **(CLI)** `agent-run` skeleton reserves an isatty-aware contract for the operator-pause gate without blocking the headless path — the skeleton comments the reserved gate + includes a stub; non-TTY runs must not hang.
+3. **(CLI)** No ANSI color codes, design tokens, or emoji hardcoded in CI workflows or harness output at this skeleton stage — `.github/workflows/*.yml` and stub output are plain text.
+4. **(Design)** Skeleton preserves command structure so downstream phases layer tokens (ANSI colors, ASCII prefixes, motion gates) without re-architecting — structure is rigid + documented where tokens will attach.
+
+## Relevant amendment history
+- **2026-06-15-design-token-typography-bundle** (§Surface: desktop-webview / Tokens) — token block moved from Tailwind `@theme` to plain `:root` with `@import "tailwindcss"`; light-mode override now `@media (prefers-color-scheme: light) { :root { … } }`. Why: Tailwind v4 `@theme` tree-shakes non-namespace tokens and cannot nest inside `@media`; shipped `tokens.css` uses `:root` (all 34 tokens emit). **Relevance to this chunk:** does NOT affect scope (CI + CLI harness are non-UI); noted for completeness + future desktop-webview tokenization epochs.

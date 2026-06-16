@@ -22,7 +22,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
    ↓
 [2026-06-16-test-framework-fixtures-coverage-tooling] Test framework + fixtures + coverage tooling — cargo-nextest, rstest, proptest, insta, assert_cmd/fs, cargo-llvm-cov
    ↓
-Base CI + agent-run harness skeleton — GitHub Actions build/nextest/clippy, agent-run.{sh,ps1} stub
+[2026-06-16-base-ci-agent-run-harness-skeleton] Base CI + agent-run harness skeleton — GitHub Actions build/nextest/clippy, agent-run.{sh,ps1} stub
 
 ### Epoch 2 — Timeline engine
 Seeded phase scheduler — current_thread tokio::time deterministic phase sequencing
