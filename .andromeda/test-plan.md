@@ -110,7 +110,7 @@ _[ALL tiers — high-level pyramid + agent-runnable invariants]_
 | Level | Coverage focus | Tier-specific depth |
 |-------|---------------|---------------------|
 | Unit | Pure functions, isolated module logic (per-seam `cargo nextest run -p conductor-<seam>` 0.9.137) | Bulk of suite — every seam crate's pure logic: timeline scheduling, fault generators, garde validation, verdict mapping, envelope serialization |
-| Integration | Cross-module + IPC (rmcp stub stdio, tauri::test mock runtime) + DB (rusqlite `open_in_memory`) | **Included** (integration boundaries present: MCP read-back, runs.db, Tauri IPC) — see Section 5 |
+| Integration | Cross-module + IPC (rmcp stub stdio, tauri::test mock runtime) + OTLP-egress loopback gRPC `TraceService` stub (`tokio-stream` `TcpListenerStream` on ephemeral `127.0.0.1:0`) + DB (rusqlite `open_in_memory`) | **Included** (integration boundaries present: OTLP egress, MCP read-back, runs.db, Tauri IPC) — see Section 5 |
 | E2E | Critical paths via cli (assert_cmd) + desktop-webview (tauri-driver) surfaces | **Included** — all 7 test-scope Sec 4 critical paths; CI-runnable legs (stub MCP) + local-gate legs (live Pulse) — see Section 6 |
 | Property-based | Invariant assertions over random inputs (proptest 1.9.0) | **Included via trigger** — determinism-replay + garde cross-field invariants (test-scope Sec 5 property-test triggers), NOT generic Comprehensive escalation |
 | Performance / Load | Budget assertions on perf-critical paths | **Excluded** — no perf-budget trigger; Creator Brief anti-pattern "NOT a load-tester ... 50k+ spans/sec saturation regimes are explicitly out" |

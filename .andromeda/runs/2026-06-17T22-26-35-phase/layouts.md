@@ -1,0 +1,7 @@
+# layouts extract
+
+## Relevance
+out-of-scope for this chunk
+
+## No domain coverage
+This chunk (Raw OTLP message scaffold, Epoch 3) is a foundational emission-primitive and gRPC transport layer—no UI surface, layout structure, component placement, focus order, or responsive behavior required. The scope explicitly defers all UI integration, preflight gates, and multi-surface coordination to later epochs. Layouts domain applies to desktop-webview and cli surfaces per layout-templates.md §Primary Surfaces; this chunk owns no renderable surface.

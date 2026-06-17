@@ -34,7 +34,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
 [2026-06-17-determinism-replay-harness] Determinism-replay harness — same scenario+seed yields identical stream shape via insta golden + proptest, tokio start_paused
 
 ### Epoch 3 — Emission primitives
-Raw OTLP message scaffold — opentelemetry-proto structs over tonic/prost gRPC egress to :4317
+[2026-06-17-raw-otlp-message-scaffold] Raw OTLP message scaffold — opentelemetry-proto structs over tonic/prost gRPC egress to :4317
    ↓
 Error spans — Status.Code=ERROR with root-vs-child placement (P-005, P-008)
    ↓

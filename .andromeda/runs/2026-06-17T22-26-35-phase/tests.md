@@ -1,0 +1,37 @@
+# tests extract
+
+## Relevance
+relevant — foundational emission-primitive scaffold forms the base for P-005..P-060 emission scenarios; unit + integration tests required at this level.
+
+## Constraints
+- §1 test-scope / entity testability: `conductor-emit` is **partially-testable** (OTLP struct construction + byte-level encoding are unit-testable in isolation; actual gRPC egress to `127.0.0.1:4317` requires a live Pulse ingest listener, which is **local-gate-only, not CI**) per test-plan §1.
+- §2 test-strategy / agent-runnable invariants: every test layer produces machine-parseable output; no human-in-loop verification; deterministic via current-thread tokio testing; self-bootstrapping fixtures via seeded synthetic generation.
+- §4 unit-test-strategy: `conductor-emit` covers OTLP struct construction + byte-level encoding in isolation via `cargo nextest run -p conductor-emit` unit tests; egress liveness is NOT unit-tested (local-gate concern).
+- §5 integration-test-strategy: a loopback gRPC stub (rmcp in-process) is the CI mechanism — tests assert against stub, live egress to `:4317` is local/operator-gated.
+- §3 test-harness-contract §5-command / `run`: scenario invocation syntax and exit-code semantics (0 = all checks pass; non-zero = at least one hard Fail); `blocked`/`ManualCheck`/`KnownResidual` are reported states, NOT process-failure exits.
+- §10 quality-gates: coverage threshold + zero-retry flakiness budget + `cargo audit --deny warnings` + `cargo deny check` + committed `Cargo.lock` + toolchain ≥ 1.94.1.
+
+## Patterns to follow
+- rstest 0.26.1 fixtures: seeded `conductor-timeline` generator for deterministic stream shape (same seed ⇒ same shape); `#[rstest]` + `#[case]` table-driven rows for valid/invalid scenario matrices.
+- Loopback gRPC stub via rmcp over `TokioChildProcess` stdio (NOT live egress in CI) — stub encapsulated as mock for cross-seam integration boundary testing.
+- Exact-string `assert_eq!` golden-locking on serialization output at unit level (canonical line shape matching `verdict.rs`/`report_state.rs` pattern); insta reserved for E2E journal goldens with timestamp/`run_id` redaction.
+- `#[tokio::test(flavor = "current_thread", start_paused = true)]` + `tokio::time::advance` for deterministic timing; no real `setTimeout` or async executor contention.
+
+## Anti-patterns to avoid
+- Deserializing scenario config without garde validation at load — negative tests assert garde rejects out-of-range config (error fraction outside [0,1], negative durations, p50>p95 ordering, severity-mix sum violations).
+- Silently downgrading preflight failure to pass/fail/manual-check — security Vector 4 requires blocked states be surfaced, never silent fallthrough.
+- String concatenation / `format!` to build SQL for `runs.db` — all DB access uses rusqlite bound parameters only.
+
+## Contract bindings
+**obs ↔ tests harness (§3 Log format binding):** the per-run emission journal (`runs/<run_id>.jsonl`) is OTLP ground truth, structured JSONL format defined here (source of truth for obs downstream); the self-obs stream (`logs/agent-latest.jsonl`) with service-identity fields is a **separate artifact** — the two schemas must not be conflated per amendment 2026-06-15-structured-logging-stack.
+
+## Acceptance criteria contributions
+- "(tests) `cargo nextest run -p conductor-emit` passes for new unit tests — OTLP struct construction + byte-level encoding in isolation."
+- "(tests) Coverage: new-code line coverage ≥ threshold (§10) on `conductor-emit` seam."
+- "(tests) Loopback gRPC stub scenario passes in CI; live `:4317` egress verified locally only."
+- "(tests) Integration: rmcp in-process stub asserts transport refusal surfaces as typed `Result::Err`; tonic::Status as typed input, never panic."
+
+## Relevant amendment history
+- **2026-06-15-structured-logging-stack:** the self-obs stream (service-identity fields) is **separate** from the per-run emission journal (SLO ground truth + Run-report envelope) — no conflation of the two schemas in test assertions.
+- **2026-06-16-test-framework-fixtures-coverage-tooling:** cargo-nextest 0.9.137 and cargo-llvm-cov 0.8.7 are reference **floors** (any green-running install satisfies the gate); crate dev-deps caret-resolved with `Cargo.lock` authoritative; proptest 1.9.0+ for determinism property tests.
+- **2026-06-16-emission-journal-writer:** unit serialization goldens use exact-string `assert_eq!` (matching `verdict.rs`/`report_state.rs` canonical pattern); insta reserved for E2E journal goldens with timestamp/`run_id` redaction.

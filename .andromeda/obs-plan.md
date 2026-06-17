@@ -184,7 +184,7 @@ This section specifies the concrete harness pattern for Conductor's deterministi
 
 ### OTel SDK init
 
-- **SDK packages:** NONE — No OTel SDK for Conductor self-observation (creator-explicit mandate per upstream §6). `opentelemetry-proto 0.32.0` is the PRODUCT (fault telemetry emitted AT Pulse), not self-instrumentation.
+- **SDK packages:** NONE *initialized or used* for Conductor self-observation (creator-explicit mandate per upstream §6) — the invariant is **behavioral**: no OTel SDK is ever initialized/used for self-obs (which would spawn batch tasks + break `current_thread` determinism). `opentelemetry-proto 0.32.0` is the PRODUCT (fault telemetry emitted AT Pulse), not self-instrumentation. **Transitive note:** opentelemetry-proto's *default* features pull `opentelemetry` + `opentelemetry_sdk` into the dep tree (dormant — never initialized; audit/deny-green); their mere presence does not violate the invariant. A follow-up will evaluate `default-features = false` on conductor-emit's opentelemetry-proto dep to drop them.
 - **Init order:** Not applicable (no SDK init)
 - **Logging init instead:** `tracing-subscriber::fmt().json().flatten_event(true).init()` at CLI bootstrap (`main` fn) + Tauri backend startup; must complete before any scenario logic
 

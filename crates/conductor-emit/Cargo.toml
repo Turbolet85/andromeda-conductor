@@ -7,3 +7,11 @@ publish.workspace = true
 
 [dependencies]
 conductor-core.workspace = true
+opentelemetry-proto = { workspace = true, features = ["gen-tonic", "trace"] }
+tonic.workspace = true
+thiserror.workspace = true
+tracing.workspace = true
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["macros", "rt", "net"] }
+tokio-stream = { version = "0.1", features = ["net"] }

@@ -29,7 +29,7 @@ Path-scoped rules for self-observation (structured logging) across the seam crat
 - Zero unlogged panics: `std::panic::set_hook()` → `tracing::error!(panic=…)` (one-line JSON backtrace) → `anyhow::Error` at the binary edge. NEVER a retry-once policy (masks failures).
 
 ## Hard bans
-- NEVER introduce an OTel SDK / exporter / `tracing-opentelemetry` / `traceparent` for self-observation (breaks `current_thread` determinism + pollutes the PRODUCT OTLP stream).
+- NEVER introduce an OTel SDK / exporter / `tracing-opentelemetry` / `traceparent` for self-observation (breaks `current_thread` determinism + pollutes the PRODUCT OTLP stream). The ban is on *initializing/using* an SDK for self-obs — a dormant `opentelemetry_sdk` pulled *transitively* by `opentelemetry-proto` (the PRODUCT proto lib) and never initialized is not a violation (a `default-features = false` trim is a tracked follow-up).
 - NEVER export self-obs OTLP — not to `:4317` (the PRODUCT stream) and not to `:4318` (unused/dead). NEVER add Sentry/Datadog/Grafana-only consumption.
 - NEVER stamp the journal from tokio's virtual clock; NEVER leak host paths / struct names into logs / `runs.db` / report.
 

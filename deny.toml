@@ -21,6 +21,7 @@ allow = [
     "Apache-2.0",
     "Unicode-3.0",
     "BSL-1.0",
+    "BSD-3-Clause",  # matchit (axum→tonic gRPC tree); OSI/FSF permissive
 ]
 confidence-threshold = 0.8
 # The workspace's own conductor-* crates are unpublished — skip license checks for them.
