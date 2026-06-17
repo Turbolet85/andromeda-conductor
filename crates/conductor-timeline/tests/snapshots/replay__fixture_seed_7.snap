@@ -1,0 +1,16 @@
+---
+source: crates/conductor-timeline/tests/replay.rs
+expression: transitions
+---
+[
+    PhaseTransition {
+        index: 0,
+        name: "baseline",
+        elapsed_ms: 2049,
+    },
+    PhaseTransition {
+        index: 1,
+        name: "spike",
+        elapsed_ms: 3060,
+    },
+]

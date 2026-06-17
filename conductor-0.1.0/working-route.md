@@ -31,7 +31,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
    ↓
 [2026-06-16-emission-journal-writer] Emission-journal writer — per-run JSONL, std::time wall-clock stamps, tests/obs-owned schema
    ↓
-Determinism-replay harness — same scenario+seed yields identical stream shape via insta golden + proptest, tokio start_paused
+[2026-06-17-determinism-replay-harness] Determinism-replay harness — same scenario+seed yields identical stream shape via insta golden + proptest, tokio start_paused
 
 ### Epoch 3 — Emission primitives
 Raw OTLP message scaffold — opentelemetry-proto structs over tonic/prost gRPC egress to :4317
