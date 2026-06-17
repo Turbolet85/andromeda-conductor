@@ -19,3 +19,6 @@ None — 7/7 fan-out doc-agents returned `proposals: []`. A test-only chunk usin
 - **Curation:** Tier 2 ×2 → `.claude/rules/testing.md` — (1) async-proptest needs a manual paused runtime inside each case (`#[tokio::test]` can't wrap `proptest!`); (2) an unpinned entropy-seeded proptest search is sound under the zero-retry bar (properties are ∀-true; counterexamples persist to `proptest-regressions/`). No Tier 1/3; 1 candidate filtered (env-specific insta-authoring note); no conflicts/deferred.
 - **Key decisions:** proptest search RNG intentionally unpinned; golden captures only `Vec<PhaseTransition>` (never `std::time` journal stamps); snapshots authored via `INSTA_UPDATE=always cargo test` (cargo-insta not installed) then asserted via nextest.
 - **Last failed command:** none.
+
+## Session End Status
+Completed normally at 2026-06-17 22:57:42

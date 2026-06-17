@@ -3,6 +3,10 @@
 # Conductor's own ephemeral PRODUCT run-artifacts (scenario journals/reports/runs.db) live at /runs/ —
 # that is the separate, later ignore target (synthetic-PII-corpus journals), handled at setup/impl, NOT here.
 
+# --- Code-graph cache (the ONE .andromeda/ exception — derived from code, rebuilt by code-graph.py) ---
+/.andromeda/cache/
+scripts/__pycache__/
+
 # --- Rust (andromeda-setup-project) ---
 /target/
 **/*.rs.bk
