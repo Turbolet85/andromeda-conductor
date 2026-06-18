@@ -114,6 +114,25 @@ def refresh():
         f.write(f"done {secs}s {nodes}/{edges}\n")
 
 
+def _append_trace(trace, record):
+    """Accumulate one query-record into the trace (read-append-rewrite).
+    Tolerates an absent file and a legacy bare-result-array (migrates to []-of-records).
+    Assumes SEQUENTIAL single-process invocation (the phase agent issues queries one at a
+    time) — do NOT parallelize the `query` command, or concurrent appends race (re-opens #15)."""
+    prior = []
+    try:
+        with open(trace, encoding="utf-8") as f:
+            existing = json.load(f)
+        if isinstance(existing, list):
+            prior = [r for r in existing
+                     if isinstance(r, dict) and "rows" in r and "result" in r and "db_state" in r]
+    except (OSError, ValueError):
+        prior = []  # absent / corrupt / legacy bare-array -> start fresh (audit artifact: never crash)
+    prior.append(record)
+    with open(trace, "w", encoding="utf-8") as f:
+        json.dump(prior, f, default=str, indent=0)
+
+
 def query(run_dir, marker, sql):
     rt = root()
     os.chdir(rt)
@@ -129,18 +148,24 @@ def query(run_dir, marker, sql):
     except OSError:
         stamp = "none"
     dirty = bool(_git("status", "--porcelain", "--", "*.rs"))
+    db_state = "fresh"
     if (not os.path.exists(db)) or stamp != head or dirty:
         sys.stderr.write("tree-query: DB absent/stale -> regenerating...\n")
-        refresh()
+        db_state = "regenerated"
+        try:
+            refresh()                 # refresh() sys.exit(0)s on tool-missing/stale; keep query alive
+        except SystemExit:
+            pass
         if os.path.exists(db):
             with open(os.path.join(cache, "tree.db.commit"), "w", encoding="utf-8") as f:
                 f.write(head + "\n")
+        else:
+            db_state = "cold-start"
 
-    # Cold-start / refresh-stale: no DB -> empty trace (present-but-empty is valid, != missing).
+    # Cold-start / refresh-stale: no DB -> record an empty consultation (present-but-empty is valid, != missing).
     if not os.path.exists(db):
-        with open(trace, "w", encoding="utf-8") as f:
-            f.write("[]\n")
-        sys.stderr.write("tree-query: no DB (cold-start / refresh stale) - empty trace\n")
+        _append_trace(trace, {"sql": sql, "rows": 0, "result": [], "db_state": "cold-start"})
+        sys.stderr.write("tree-query: no DB (cold-start / refresh stale) - empty result recorded\n")
         return
 
     import duckdb
@@ -149,8 +174,7 @@ def query(run_dir, marker, sql):
     cols = [c[0] for c in con.description] if con.description else []
     con.close()
     results = [dict(zip(cols, r)) for r in rows]
-    with open(trace, "w", encoding="utf-8") as f:
-        json.dump(results, f, default=str, indent=0)
+    _append_trace(trace, {"sql": sql, "rows": len(results), "result": results, "db_state": db_state})
     print(json.dumps(results, default=str, indent=2))
 
 
