@@ -46,7 +46,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
    ↓
 [2026-06-18-multi-service-topology] Multi-service topology — service.name virtual topology + W3C trace propagation (P-008, P-027)
    ↓
-PII payload corpus — seven P-047 categories across spans/logs/exceptions (P-035, P-048)
+[2026-06-18-pii-payload-corpus] PII payload corpus — seven P-047 categories across spans/logs/exceptions (P-035, P-048)
    ↓
 Traffic-rate ramps — halo-breathing emission ramps (P-026)
 

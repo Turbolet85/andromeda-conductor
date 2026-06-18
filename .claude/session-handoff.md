@@ -1,22 +1,22 @@
 # Session Handoff
 
-**Last Updated:** 2026-06-18T19:09:18Z
+**Last Updated:** 2026-06-18T19:53:28Z
 **Branch:** build/conductor-0.1.0
 **Status:** clean
-**Last Commit:** 2026-06-18-multi-service-topology — feat: multi-service topology (conductor-emit, P-008/P-027)
+**Last Commit:** 2026-06-18-pii-payload-corpus — feat: PII payload corpus (conductor-emit, P-035/P-047/P-048)
 
 ## Position
-- Done: **2026-06-18-multi-service-topology** — `conductor-emit/src/topology.rs`: `ServiceTopology` (validated ≥2 distinct services) + `service_topology_request` builder — multiple `service.name` ResourceSpans under one shared seeded `trace_id` with cross-service `parent_span_id` linkage (W3C propagation) + optional cross-service root-vs-deep error placement (P-008/P-027). **Epoch 3 (Emission primitives) 6/8.**
-- Next: **Epoch 3 chunk 7 — "PII payload corpus"** (seven P-047 categories across spans/logs/exceptions, P-035/P-048) → `/andromeda-phase` to promote + plan.
+- Done: **2026-06-18-pii-payload-corpus** — `conductor-emit/src/pii.rs`: `PiiCategory` (7 P-047 categories) + seeded `PiiCorpus` + `pii_trace_request` (span-attributes + `exception`-event carriers) + `pii_logs_request` (body + attributes carrier), embedding synthetic structurally-valid PII across spans/logs/exceptions for Pulse's P-035 scrubber. **Epoch 3 (Emission primitives) 7/8.**
+- Next: **Epoch 3 chunk 8 — "Traffic-rate ramps"** (halo-breathing emission ramps, P-026) → `/andromeda-phase` to promote + plan. (Closes Epoch 3; Epoch 4 — Fault helpers — follows.)
 
 ## Work done
-Added `conductor-emit/src/topology.rs` (11 unit tests) + `tests/multi_service_topology.rs` (loopback `TraceService` stub: ≥2 distinct `service.name` ResourceSpans + shared `trace_id` + cross-service linkage + refused-transport ⇒ `EmitError`); `lib.rs` re-exports `ServiceTopology`/`service_topology_request`. New module composes the shared `pub(crate)` `service_resource`/`gen_id`/`span` primitives + reuses `ErrorPlacement`. No new dep / no new Cargo feature. Gates green first-run: emit 47/47 · workspace 128/128 · clippy `-D` · llvm-cov topology.rs 99.50% / total 96.69% · doctest 0.
+Added `conductor-emit/src/pii.rs` (7 unit tests) + `tests/pii_payload_corpus.rs` (loopback Trace+Logs capture stubs, 3 tests): seeded `ChaCha8Rng` corpus over email/JWT/bearer/API-key/Luhn-PAN/SSN/secret-`key=value`, embedded as span attributes + `exception` event (trace path) and log body+attributes (logs path); `message.rs` gained `pub(crate) span_with_attributes`; `lib.rs` re-exports + module-doc. No new dep / no Cargo.toml change. Gates green first-run: emit 57/57 · workspace 138/138 · clippy `-D` · llvm-cov pii.rs 99.43% / total 97.46% · doctest 0.
 
 ## Drift resolved
-none — 7/7 fan-out detectors returned `proposals: []` (zero drift). The escalate-severity detectors (security input/subprocess/deps, obs stack/redaction) read clean: emit-side self-validating type (no external-input boundary), no sidecar/dep touched, no new self-obs/OTel SDK, no path/struct-name leak.
+none — 7/7 fan-out detectors returned `proposals: []` (zero drift). The escalate-severity detectors read clean: D-security-input (programmatic `u64`/`&str` args — no external-input boundary), D-security-deps (no new dep), D-obs-stack (no OTel SDK), D-obs-redaction (synthetic PII is the deliberate PRODUCT-stream payload, NOT self-obs; egress spans are count-only `skip_all`). The report's product-stream-vs-self-obs disambiguation preempted the D-obs-redaction / D-security-input mis-fire.
 
 ## Notes
-- **Key decisions:** distinct builder in a new `topology.rs` — NOT an extension of `error_trace_request` (its chain length is driven by error depth; topology's is #services). `ServiceTopology` owns `Vec<String>` (avoids a stored-borrow lifetime trap; `Clone`, not `Copy`). One-span-per-service linear chain = minimal model for P-027 (distinct names) + P-008 (cross-service root-vs-deep) + W3C propagation. Out-of-range `DeepChild{depth}` saturates to the deepest service. `ErrorPlacement::depth()` is private to `span_tree` → matched its public variants instead (`span_tree.rs` out-of-scope). No new self-obs span (`emit.batch` covers the multi-`ResourceSpans` export).
-- **Curation:** 0 applied — clean implementation-only session (no user corrections / new deps / conventions). 3 candidates filtered (2 task-specific/low-confidence Rust mechanics · 1 dedup vs the scope-law).
-- **Follow-up (tracked, not a route chunk):** (a) `opentelemetry-proto` `default-features = false` to drop the dormant transitive `opentelemetry_sdk` — **still open** (no `Cargo.toml` change this chunk, so again not the moment). (b) scenario-config garde wiring for `ServiceTopology` — deferred to the scenario epoch.
+- **Key decisions:** two-span trace (root = PII span-attributes carrier OK; child = PII `exception`-event carrier ERROR, parent-linked) keeps each `message.rs` primitive single-purpose; chose the `span_with_attributes` helper (plan's preferred option) over inline `.attributes`; Luhn-valid PAN via computed check digit (unit-tested); log severity left unspecified (PII orthogonal to P-007). Tests use plain `#[test]`+`PiiCategory::all()` loops (conductor-emit has no rstest dev-dep — matched the crate's convention; runner = nextest per spec).
+- **Curation:** 0 applied — clean implementation-only session (no user corrections / new deps / conventions). 4 candidates filtered (1 dedup: product-stream-PII≠self-obs corollary of the existing OTLP invariant · 2 task-specific: two-span/Luhn · 1 low-confidence: per-crate test convention).
+- **Follow-up (tracked, not route chunks):** (a) `opentelemetry-proto` `default-features=false` to drop the dormant transitive `opentelemetry_sdk` — **still open**. (b) scenario-config garde wiring for `PiiCorpus`/`ServiceTopology` — deferred to the scenario epoch (Epoch 7).
 - **Last failed command:** none.

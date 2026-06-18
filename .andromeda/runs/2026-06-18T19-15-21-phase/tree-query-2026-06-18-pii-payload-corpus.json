@@ -1,0 +1,225 @@
+[
+{
+"sql": "SELECT split_part(caller,' ',5) AS caller_desc, split_part(callee,' ',5) AS callee_desc, file, line FROM calls WHERE callee LIKE '%conductor_emit%' AND (callee LIKE '%string_kv%' OR callee LIKE '%span_with_events%' OR callee LIKE '%service_resource%' OR callee LIKE '%gen_id%' OR callee LIKE '%unix_nanos%') ORDER BY callee_desc, file, line",
+"rows": 36,
+"result": [
+{
+"caller_desc": "exception/",
+"callee_desc": "message/service_resource().",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 18
+},
+{
+"caller_desc": "exception/exception_trace_request().",
+"callee_desc": "message/service_resource().",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 145
+},
+{
+"caller_desc": "latency/",
+"callee_desc": "message/service_resource().",
+"file": "crates/conductor-emit/src/latency.rs",
+"line": 15
+},
+{
+"caller_desc": "latency/latency_trace_request().",
+"callee_desc": "message/service_resource().",
+"file": "crates/conductor-emit/src/latency.rs",
+"line": 95
+},
+{
+"caller_desc": "logs/",
+"callee_desc": "message/service_resource().",
+"file": "crates/conductor-emit/src/logs.rs",
+"line": 10
+},
+{
+"caller_desc": "logs/severity_logs_request().",
+"callee_desc": "message/service_resource().",
+"file": "crates/conductor-emit/src/logs.rs",
+"line": 56
+},
+{
+"caller_desc": "message/trace_request().",
+"callee_desc": "message/service_resource().",
+"file": "crates/conductor-emit/src/message.rs",
+"line": 24
+},
+{
+"caller_desc": "span_tree/",
+"callee_desc": "message/service_resource().",
+"file": "crates/conductor-emit/src/span_tree.rs",
+"line": 11
+},
+{
+"caller_desc": "span_tree/error_trace_request().",
+"callee_desc": "message/service_resource().",
+"file": "crates/conductor-emit/src/span_tree.rs",
+"line": 69
+},
+{
+"caller_desc": "topology/",
+"callee_desc": "message/service_resource().",
+"file": "crates/conductor-emit/src/topology.rs",
+"line": 14
+},
+{
+"caller_desc": "topology/service_topology_request().",
+"callee_desc": "message/service_resource().",
+"file": "crates/conductor-emit/src/topology.rs",
+"line": 99
+},
+{
+"caller_desc": "exception/",
+"callee_desc": "message/span_with_events().",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 18
+},
+{
+"caller_desc": "exception/exception_trace_request().",
+"callee_desc": "message/span_with_events().",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 135
+},
+{
+"caller_desc": "message/span().",
+"callee_desc": "message/span_with_events().",
+"file": "crates/conductor-emit/src/message.rs",
+"line": 61
+},
+{
+"caller_desc": "exception/",
+"callee_desc": "message/string_kv().",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 18
+},
+{
+"caller_desc": "exception/exception_event().",
+"callee_desc": "message/string_kv().",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 157
+},
+{
+"caller_desc": "exception/exception_event().",
+"callee_desc": "message/string_kv().",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 158
+},
+{
+"caller_desc": "exception/exception_event().",
+"callee_desc": "message/string_kv().",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 159
+},
+{
+"caller_desc": "message/service_resource().",
+"callee_desc": "message/string_kv().",
+"file": "crates/conductor-emit/src/message.rs",
+"line": 36
+},
+{
+"caller_desc": "exception/",
+"callee_desc": "message/unix_nanos().",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 18
+},
+{
+"caller_desc": "exception/exception_event().",
+"callee_desc": "message/unix_nanos().",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 154
+},
+{
+"caller_desc": "logs/",
+"callee_desc": "message/unix_nanos().",
+"file": "crates/conductor-emit/src/logs.rs",
+"line": 10
+},
+{
+"caller_desc": "logs/log_record().",
+"callee_desc": "message/unix_nanos().",
+"file": "crates/conductor-emit/src/logs.rs",
+"line": 67
+},
+{
+"caller_desc": "message/span_with_events().",
+"callee_desc": "message/unix_nanos().",
+"file": "crates/conductor-emit/src/message.rs",
+"line": 75
+},
+{
+"caller_desc": "message/timed_span().",
+"callee_desc": "message/unix_nanos().",
+"file": "crates/conductor-emit/src/message.rs",
+"line": 101
+},
+{
+"caller_desc": "exception/",
+"callee_desc": "span_tree/gen_id().",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 19
+},
+{
+"caller_desc": "exception/exception_trace_request().",
+"callee_desc": "span_tree/gen_id().",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 133
+},
+{
+"caller_desc": "exception/exception_trace_request().",
+"callee_desc": "span_tree/gen_id().",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 134
+},
+{
+"caller_desc": "latency/",
+"callee_desc": "span_tree/gen_id().",
+"file": "crates/conductor-emit/src/latency.rs",
+"line": 16
+},
+{
+"caller_desc": "latency/latency_trace_request().",
+"callee_desc": "span_tree/gen_id().",
+"file": "crates/conductor-emit/src/latency.rs",
+"line": 80
+},
+{
+"caller_desc": "latency/latency_trace_request().",
+"callee_desc": "span_tree/gen_id().",
+"file": "crates/conductor-emit/src/latency.rs",
+"line": 81
+},
+{
+"caller_desc": "span_tree/error_trace_request().",
+"callee_desc": "span_tree/gen_id().",
+"file": "crates/conductor-emit/src/span_tree.rs",
+"line": 43
+},
+{
+"caller_desc": "span_tree/error_trace_request().",
+"callee_desc": "span_tree/gen_id().",
+"file": "crates/conductor-emit/src/span_tree.rs",
+"line": 48
+},
+{
+"caller_desc": "topology/",
+"callee_desc": "span_tree/gen_id().",
+"file": "crates/conductor-emit/src/topology.rs",
+"line": 15
+},
+{
+"caller_desc": "topology/service_topology_request().",
+"callee_desc": "span_tree/gen_id().",
+"file": "crates/conductor-emit/src/topology.rs",
+"line": 69
+},
+{
+"caller_desc": "topology/service_topology_request().",
+"callee_desc": "span_tree/gen_id().",
+"file": "crates/conductor-emit/src/topology.rs",
+"line": 74
+}
+],
+"db_state": "fresh"
+}
+]

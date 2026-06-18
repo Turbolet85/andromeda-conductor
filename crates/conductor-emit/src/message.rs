@@ -88,6 +88,31 @@ pub(crate) fn span_with_events(
     }
 }
 
+/// As [`span`], but carrying span-level [`KeyValue`] attributes (e.g. a seeded PII payload corpus —
+/// [`crate::pii`]). Timestamps are wall-clock; the seeded determinism lives in the identity bytes.
+pub(crate) fn span_with_attributes(
+    name: &str,
+    trace_id: Vec<u8>,
+    span_id: Vec<u8>,
+    parent_span_id: Vec<u8>,
+    status: Status,
+    attributes: Vec<KeyValue>,
+) -> Span {
+    let now = unix_nanos();
+    Span {
+        trace_id,
+        span_id,
+        parent_span_id,
+        name: name.to_string(),
+        kind: SpanKind::Internal as i32,
+        start_time_unix_nano: now,
+        end_time_unix_nano: now,
+        attributes,
+        status: Some(status),
+        ..Default::default()
+    }
+}
+
 /// As [`span`], but with a caller-supplied duration: `end_time = start_time + duration_nanos` (the
 /// seeded latency-shaping output — [`crate::latency`]). `start` is wall-clock `unix_nanos()`, so the
 /// seed governs the duration, not the absolute stamps (architecture §Cross-cutting Patterns).

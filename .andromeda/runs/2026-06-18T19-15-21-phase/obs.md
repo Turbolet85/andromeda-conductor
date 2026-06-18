@@ -1,0 +1,34 @@
+# obs extract
+
+## Relevance
+Partial — PII corpus is emission-side only; scrub validation is downstream in scenario epoch.
+
+## Constraints
+- No OTel SDK for self-observation; opentelemetry-proto is PRODUCT only (per obs-plan §3 OTel SDK init, §11 Telemetry Strategy)
+- Synthetic PII only; no real or host-derived secrets (per scope "synthetic data only"; obs-plan §11 PII Scrubbing)
+- Seeded corpus generation for determinism — same seed yields identical corpus (per obs-plan §1 Instrumentation scope, deterministic single-threaded invariant; scope "determinism invariant")
+- Payload must be structurally valid for each category so Pulse's scrubber recognizes it (per scope "each payload is structurally valid for its category")
+- Emission spans must use bounded span names only; `emit.batch` already in bounded set (per obs-plan §11 Spans / Traces bounded set §4 Span / Trace Coverage)
+- No unstructured panics — `Result::Err` (EmitError) at boundary, never panic (per obs-plan §10 Zero-unlogged-panics invariant; §11 Error Reporting)
+
+## Patterns to follow
+- Span naming: `{module}.{operation}` (emit.batch for PII-embedded batch egress; per obs-plan §2 naming conventions, §4 Span naming convention)
+- Seeded determinism via `seed_from_u64(seed: u64)` + ChaCha8 (per obs-plan §1 instrumentation scope "seed-deterministic"; scope "seeded corpus generator")
+- Boundary-call wrapper: log PII batch egress (batch index + emission count + result status); MCP read-back on verify side will scrub and return (per obs-plan §6 Boundary-call wrappers)
+
+## Anti-patterns to avoid
+- NEVER leak absolute host paths or internal struct names in emitted payloads (obs-plan §11 Logs PII Scrubbing: redaction layer masks `path::`/`backtrace` file paths → `<redacted>`; internal struct names kept out by allowlist + Display-not-Debug)
+- NEVER use real PII or host-derived data (obs-plan §11 PII Scrubbing: "only synthetic test telemetry"; scope "never real or host-derived PII")
+- NEVER add W3C trace context or OTel SDK usage (obs-plan §11 Spans / Traces; §3 behavioral invariant on SDK non-init)
+
+## Contract bindings
+obs ↔ verify (PII scrub scenario reads back emitted payloads via MCP verify seam to assert Pulse scrubbed each category while preserving surrounding structure; scope "downstream `pii-scrub` scenario, P-035/P-047/P-048"); obs ↔ tests harness (JSONL self-obs log lines + status envelope bind to tests' consumption path per obs-plan §3 Log format JSON schema, §6 Test Harness Contract Summary)
+
+## Acceptance criteria contributions
+- "(obs) Seven PII categories embedded in span/log/exception signal types; each payload structurally valid per category detector."
+- "(obs) PII corpus is seeded + reproducible (same seed ⇒ identical corpus); confirmed by loopback integration test per signal type."
+- "(obs) Self-obs spans on emit.batch (PII-embedded batches) named per bounded set; no high-cardinality attributes."
+- "(obs) No unstructured panics; builder returns `EmitError` on transport fault, never panic."
+
+## Relevant amendment history
+**2026-06-18-severity-logs** — added `emit.logs_batch` to bounded span-name set (P-007 severity-logs chunk); distinguishing logs egress from trace egress. PII corpus touches `emit.batch` (trace spans) — no new span name needed; confirm existing `emit.batch` name is sufficient for PII-embedded trace spans (per obs-plan §11 bounded set: `emit.batch` / `emit.logs_batch` separated).

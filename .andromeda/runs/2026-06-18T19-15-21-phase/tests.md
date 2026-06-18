@@ -1,0 +1,40 @@
+# tests extract
+
+## Relevance
+Partial — this chunk is emission-side only (new `conductor-emit` module); scrub verification and scenario config are deferred; no verdict logic or cross-seam integration.
+
+## Constraints
+- Per test-plan §2 (Test Strategy), the integration-test row includes OTLP-egress loopback gRPC `TraceService` stub on ephemeral `127.0.0.1:0` (via `tokio-stream` `TcpListenerStream`), amended 2026-06-17 — the PII corpus must be testable via this mechanism without binding `:4317`.
+- Per test-plan §3 (Test Harness Contract / 5-command run), the emission journal (`runs/<run_id>.jsonl`) captures all wire traffic as ground truth; PII payloads must reach the journal and be observable for downstream scrub verification.
+- Per test-plan §4 (Unit Test Strategy / conductor-emit), OTLP struct construction + byte-level encoding are unit-testable in isolation; egress liveness is a local-gate concern, not CI.
+- Per test-plan §1 (Test Scope Summary / conductor-emit entity), partial-testable: "OTLP struct construction and byte-level encoding are unit-testable in isolation; actual gRPC egress to `127.0.0.1:4317` requires a live Pulse ingest listener … the egress liveness/transport leg is local-gate-only, not CI."
+- Per test-plan §5 (Coverage Triggers), cross-surface coordination and determinism apply: seeded synthetic PII generation (`seed_from_u64`, ChaCha8) ensures same corpus+seed ⇒ same payload stream (scope.md acceptance).
+- Per test-plan §7 (amended 2026-06-16), unit goldens use exact-string `assert_eq!` for canonical serialization shape (not insta); insta reserved for E2E journal goldens with redaction.
+
+## Patterns to follow
+- **Seeded synthetic generation:** emit-side PII corpus uses deterministic seeding (ChaCha8 per scope.md) to match the `conductor-timeline`/`conductor-faults` pattern — same seed ⇒ reproducible payloads across unit/integration/E2E boundaries.
+- **Loopback gRPC stub + unit encoding golden:** unit tests assert OTLP struct construction (KeyValue, log body, exception fields) via exact `assert_eq!` (matching `conductor-core` serialization goldens); integration tests route the corpus through the tokio-stream loopback gRPC stub and parse received `TraceServiceRequest` to confirm each PII category reaches all three signal types (spans/logs/exceptions).
+- **Self-validating builder + EmitError surface:** the PII request-builder is a type that validates payload structure at construction; egress faults surface as `EmitError` (Result::Err), never panic (per existing emit-module pattern).
+- **rstest table-driven per-category:** unit tests use rstest `#[case]` rows for the seven P-047 categories, exercising both the corpus generator and the cross-signal embedding (e.g. `#[case("email"), #[case("jwt"), …]`).
+
+## Anti-patterns to avoid
+- **Do NOT:** bind `:4317` in tests or use a real Pulse listener; the loopback gRPC stub on ephemeral `127.0.0.1:0` is the CI mechanism.
+- **Do NOT:** generate corpus from host-derived or real PII; fixtures are deterministic synthetics only (scope.md "Synthetic data only").
+- **Do NOT:** defer corpus structure validation to scrubber-side; each payload must be structurally valid for its category at emission time (scope.md "structurally valid for its category so Pulse's scrubber recognizes and redacts it").
+
+## Contract bindings
+- **emit ↔ harness §3:** the emission journal (`runs/<run_id>.jsonl`) carries the OTLP wire payloads as ground truth; PII payloads must be observable in the journal (not redacted at emit time — redaction is Pulse's job, P-035).
+- **emit ↔ timeline/faults:** determinism invariant (seeded generation pattern) ensures same scenario+seed+corpus ⇒ same PII payload stream across runs (matching `conductor-timeline` and `conductor-faults` seeding discipline).
+
+## Acceptance criteria contributions
+- (tests) `cargo nextest run -p conductor-emit` passes with new PII corpus generator and request-builders.
+- (tests) Coverage: new PII module code line coverage ≥ threshold (per test-plan §10, Minimal tier); unit goldens lock serialization shape.
+- (tests) Integration: loopback gRPC stub receives and parses all three signal types (spans, logs, exceptions) with each of the seven P-047 categories embedded.
+- (tests) Determinism: same scenario+seed yields identical PII corpus across runs (property-test via seeded ChaCha8, matching conductor-timeline invariant).
+
+## Relevant amendment history
+- **2026-06-17-raw-otlp-message-scaffold:** OTLP-egress loopback gRPC stub (tokio-stream / ephemeral `127.0.0.1:0`) registered in integration mechanisms (§2); this chunk's integration tests must use this stub, not `:4317`.
+- **2026-06-16-test-framework-fixtures-coverage-tooling:** external-CLI tool versions (cargo-nextest 0.9.137 floor, cargo-llvm-cov 0.8.7 floor) are reference floors; any green-running install satisfies the gate.
+- **2026-06-16-emission-journal-writer:** unit serialization goldens use exact-string `assert_eq!` (not insta); insta reserved for E2E journal goldens (§4 conductor-report bullet, §6/§7 E2E mechanism).
+- **2026-06-15-design-token-typography-bundle:** frontend tests are build-gated (not Rust/nextest unit tests); irrelevant to this chunk.
+- **2026-06-15-structured-logging-stack:** self-obs stream (logs/agent-latest.jsonl) is distinct from emission journal (runs/<run_id>.jsonl); the emit-side PII payloads flow into the emission journal, not self-obs (§3 Log format binding).
