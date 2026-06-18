@@ -77,7 +77,7 @@ pub fn error_trace_request(
     }
 }
 
-fn gen_id<const N: usize>(rng: &mut ChaCha8Rng) -> [u8; N] {
+pub(crate) fn gen_id<const N: usize>(rng: &mut ChaCha8Rng) -> [u8; N] {
     let mut id = [0u8; N];
     rng.fill_bytes(&mut id);
     id

@@ -182,8 +182,8 @@ conductor/
 ├─ crates/
 │  ├─ conductor-core/         # runtime-agnostic engine library (usable outside Tauri)
 │  ├─ conductor-timeline/     # deterministic seeded phase scheduler (tokio::time)
-│  ├─ conductor-emit/         # OTLP raw-type emission primitives (opentelemetry-proto + tonic)
-│  ├─ conductor-faults/       # fault helpers (ramps, silence, port-occupier, fingerprints)
+│  ├─ conductor-emit/         # OTLP raw-type emission primitives + exception events / fingerprint primitive (opentelemetry-proto + tonic)
+│  ├─ conductor-faults/       # fault helpers (ramps, silence, port-occupier, fingerprint-storm)
 │  ├─ conductor-verify/       # MCP read-back client (rmcp), preflight gate, verdict logic
 │  ├─ conductor-report/       # JSONL journal + Markdown report + runs.db (rusqlite) storage seam
 │  ├─ conductor-cli/          # `agent-run` bin (#[tokio::main(flavor="current_thread")] + anyhow)

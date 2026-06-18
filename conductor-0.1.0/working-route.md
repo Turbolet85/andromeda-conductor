@@ -38,7 +38,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
    ↓
 [2026-06-17-error-spans] Error spans — Status.Code=ERROR with root-vs-child placement (P-005, P-008)
    ↓
-Exception events + fingerprint control — identical/path/line variants, line-insensitive fingerprint (P-006, P-017, P-018)
+[2026-06-18-exception-events-fingerprint-control] Exception events + fingerprint control — identical/path/line variants, line-insensitive fingerprint (P-006, P-017, P-018)
    ↓
 Severity logs — SeverityNumber across the 17-boundary (P-007)
    ↓

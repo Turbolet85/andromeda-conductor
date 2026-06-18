@@ -12,7 +12,7 @@ use opentelemetry_proto::tonic::collector::trace::v1::ExportTraceServiceRequest;
 use opentelemetry_proto::tonic::common::v1::{any_value, AnyValue, KeyValue};
 use opentelemetry_proto::tonic::resource::v1::Resource;
 use opentelemetry_proto::tonic::trace::v1::{
-    span::SpanKind, status::StatusCode, ResourceSpans, ScopeSpans, Span, Status,
+    span::{Event, SpanKind}, status::StatusCode, ResourceSpans, ScopeSpans, Span, Status,
 };
 
 /// Default `service.name` resource attribute stamped on emitted spans.
@@ -34,26 +34,44 @@ pub fn trace_request(service_name: &str, span_name: &str) -> ExportTraceServiceR
 
 pub(crate) fn service_resource(service_name: &str) -> Resource {
     Resource {
-        attributes: vec![KeyValue {
-            key: "service.name".to_string(),
-            value: Some(AnyValue {
-                value: Some(any_value::Value::StringValue(service_name.to_string())),
-            }),
-            ..Default::default()
-        }],
+        attributes: vec![string_kv("service.name", service_name)],
         ..Default::default()
     }
 }
 
-/// Build a span with caller-supplied identity, linkage, and status. `parent_span_id` is empty for a
-/// root span. Timestamps are wall-clock (`std::time`): the seeded determinism lives in the identity
-/// bytes, not the clock (architecture §Cross-cutting Patterns — Determinism discipline).
+/// A string-valued OTLP [`KeyValue`] attribute — the only attribute value-type Conductor emits.
+pub(crate) fn string_kv(key: &str, value: &str) -> KeyValue {
+    KeyValue {
+        key: key.to_string(),
+        value: Some(AnyValue {
+            value: Some(any_value::Value::StringValue(value.to_string())),
+        }),
+        ..Default::default()
+    }
+}
+
+/// Build a span with caller-supplied identity, linkage, and status — no span events.
+/// `parent_span_id` is empty for a root span. Delegates to [`span_with_events`].
 pub(crate) fn span(
     name: &str,
     trace_id: Vec<u8>,
     span_id: Vec<u8>,
     parent_span_id: Vec<u8>,
     status: Status,
+) -> Span {
+    span_with_events(name, trace_id, span_id, parent_span_id, status, Vec::new())
+}
+
+/// As [`span`], but carrying span [`Event`]s (e.g. an OTel `exception` event). Timestamps are
+/// wall-clock (`std::time`): the seeded determinism lives in the identity bytes, not the clock
+/// (architecture §Cross-cutting Patterns — Determinism discipline).
+pub(crate) fn span_with_events(
+    name: &str,
+    trace_id: Vec<u8>,
+    span_id: Vec<u8>,
+    parent_span_id: Vec<u8>,
+    status: Status,
+    events: Vec<Event>,
 ) -> Span {
     let now = unix_nanos();
     Span {
@@ -65,6 +83,7 @@ pub(crate) fn span(
         start_time_unix_nano: now,
         end_time_unix_nano: now,
         status: Some(status),
+        events,
         ..Default::default()
     }
 }
@@ -87,7 +106,7 @@ fn ok_span(name: &str) -> Span {
     span(name, vec![1; 16], vec![1; 8], Vec::new(), ok_status())
 }
 
-fn unix_nanos() -> u64 {
+pub(crate) fn unix_nanos() -> u64 {
     SystemTime::now()
         .duration_since(UNIX_EPOCH)
         .map(|d| d.as_nanos() as u64)
