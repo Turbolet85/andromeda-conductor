@@ -21,7 +21,7 @@ Path-scoped rules for self-observation (structured logging) across the seam crat
 - `service.name` = `"conductor"` / `"conductor-tauri"` / `"conductor-ui"` (override `$CONDUCTOR_SERVICE_NAME`); `service.version` = `env!("CARGO_PKG_VERSION")`; `deployment.environment` = `$CONDUCTOR_ENV` (default `local`). Emit as flat per-line JSON fields, NOT OTel resource attributes.
 
 ## Spans (plain `tracing`, rendered as JSON events — no exported traces)
-- Bounded span-name set: `scenario.run`, `timeline.execute*`, `emit.batch`, `verify.readback*`, `report.generate`, `db.insert_run`, `fault.{silence,ramp,port_occupier}`, `tauri.command.*`. Never high-cardinality span names (per-user/per-trace/per-input).
+- Bounded span-name set: `scenario.run`, `timeline.execute*`, `emit.batch`, `emit.logs_batch`, `verify.readback*`, `report.generate`, `db.insert_run`, `fault.{silence,ramp,port_occupier}`, `tauri.command.*`. Never high-cardinality span names (per-user/per-trace/per-input).
 - Cover the 7 must-trace critical paths (obs-plan §4); close every span at its phase boundary; instrument MCP read-back / rusqlite / tonic egress with a manual client span (these seams aren't auto-instrumented).
 
 ## Redaction & panics

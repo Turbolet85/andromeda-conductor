@@ -7,7 +7,7 @@ publish.workspace = true
 
 [dependencies]
 conductor-core.workspace = true
-opentelemetry-proto = { workspace = true, features = ["gen-tonic", "trace"] }
+opentelemetry-proto = { workspace = true, features = ["gen-tonic", "trace", "logs"] }
 tonic.workspace = true
 thiserror.workspace = true
 tracing.workspace = true

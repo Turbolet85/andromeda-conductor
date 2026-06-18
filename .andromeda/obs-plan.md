@@ -576,7 +576,7 @@ SLO enforcement: agent reads runs.db rows post-run and asserts `latency_ms <= sl
 ### Spans / Traces
 
 - NEVER include PII in span attributes — Conductor owns no PII, so this is prevented by architecture (operator IDs / fixture data are synthetic)
-- NEVER use high-cardinality span names (per-user-ID, per-trace-ID, per-path-with-user-input) — bounded span name set: scenario.run, timeline.execute*, emit.batch, verify.readback*, report.generate, db.insert_run, fault.silence/ramp/port_occupier, tauri.command.*
+- NEVER use high-cardinality span names (per-user-ID, per-trace-ID, per-path-with-user-input) — bounded span name set: scenario.run, timeline.execute*, emit.batch, emit.logs_batch, verify.readback*, report.generate, db.insert_run, fault.silence/ramp/port_occupier, tauri.command.*
 - NEVER add W3C trace context (OTel SDK / `tracing-opentelemetry` / `traceparent`) for self-observation — it re-introduces the banned SDK; correlation is the `run_id` field, and both-surface parity is the `runs.db` envelope comparison (same seed ⇒ same verdict/state), not trace continuity
 - NEVER leave dangling spans (forgot to call close/end) — each span closed at its phase boundary (Section 4 Cleanup subsections)
 

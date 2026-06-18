@@ -40,7 +40,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
    ↓
 [2026-06-18-exception-events-fingerprint-control] Exception events + fingerprint control — identical/path/line variants, line-insensitive fingerprint (P-006, P-017, P-018)
    ↓
-Severity logs — SeverityNumber across the 17-boundary (P-007)
+[2026-06-18-severity-logs] Severity logs — SeverityNumber across the 17-boundary (P-007)
    ↓
 Latency shaping — target p50/p95/p99 per operation (P-011, P-012)
    ↓
