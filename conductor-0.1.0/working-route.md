@@ -36,7 +36,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
 ### Epoch 3 — Emission primitives
 [2026-06-17-raw-otlp-message-scaffold] Raw OTLP message scaffold — opentelemetry-proto structs over tonic/prost gRPC egress to :4317
    ↓
-Error spans — Status.Code=ERROR with root-vs-child placement (P-005, P-008)
+[2026-06-17-error-spans] Error spans — Status.Code=ERROR with root-vs-child placement (P-005, P-008)
    ↓
 Exception events + fingerprint control — identical/path/line variants, line-insensitive fingerprint (P-006, P-017, P-018)
    ↓

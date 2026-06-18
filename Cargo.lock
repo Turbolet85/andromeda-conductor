@@ -229,6 +229,8 @@ version = "0.1.0"
 dependencies = [
  "conductor-core",
  "opentelemetry-proto",
+ "rand_chacha",
+ "rand_core",
  "thiserror",
  "tokio",
  "tokio-stream",

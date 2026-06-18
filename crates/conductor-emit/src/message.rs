@@ -2,8 +2,9 @@
 //!
 //! Assembles a well-formed `ExportTraceServiceRequest` field-by-field so the later Epoch-3 fault
 //! chunks have byte-level control over the fields they perturb (status, severity, fingerprint
-//! identity, root-vs-child placement); this scaffold emits the unperturbed `OK` base
-//! (architecture §Established Decisions — OTLP Emission Strategy).
+//! identity, root-vs-child placement); this module owns the shared raw-struct primitives
+//! ([`span`], [`service_resource`], status builders) over which [`crate::span_tree`] composes
+//! multi-span error traces (architecture §Established Decisions — OTLP Emission Strategy).
 
 use std::time::{SystemTime, UNIX_EPOCH};
 
@@ -31,7 +32,7 @@ pub fn trace_request(service_name: &str, span_name: &str) -> ExportTraceServiceR
     }
 }
 
-fn service_resource(service_name: &str) -> Resource {
+pub(crate) fn service_resource(service_name: &str) -> Resource {
     Resource {
         attributes: vec![KeyValue {
             key: "service.name".to_string(),
@@ -44,21 +45,46 @@ fn service_resource(service_name: &str) -> Resource {
     }
 }
 
-fn ok_span(name: &str) -> Span {
+/// Build a span with caller-supplied identity, linkage, and status. `parent_span_id` is empty for a
+/// root span. Timestamps are wall-clock (`std::time`): the seeded determinism lives in the identity
+/// bytes, not the clock (architecture §Cross-cutting Patterns — Determinism discipline).
+pub(crate) fn span(
+    name: &str,
+    trace_id: Vec<u8>,
+    span_id: Vec<u8>,
+    parent_span_id: Vec<u8>,
+    status: Status,
+) -> Span {
     let now = unix_nanos();
     Span {
-        trace_id: vec![1; 16],
-        span_id: vec![1; 8],
+        trace_id,
+        span_id,
+        parent_span_id,
         name: name.to_string(),
         kind: SpanKind::Internal as i32,
         start_time_unix_nano: now,
         end_time_unix_nano: now,
-        status: Some(Status {
-            code: StatusCode::Ok as i32,
-            ..Default::default()
-        }),
+        status: Some(status),
         ..Default::default()
     }
+}
+
+pub(crate) fn ok_status() -> Status {
+    Status {
+        code: StatusCode::Ok as i32,
+        ..Default::default()
+    }
+}
+
+pub(crate) fn error_status(message: &str) -> Status {
+    Status {
+        code: StatusCode::Error as i32,
+        message: message.to_string(),
+    }
+}
+
+fn ok_span(name: &str) -> Span {
+    span(name, vec![1; 16], vec![1; 8], Vec::new(), ok_status())
 }
 
 fn unix_nanos() -> u64 {

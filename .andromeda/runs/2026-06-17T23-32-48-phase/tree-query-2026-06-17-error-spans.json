@@ -1,0 +1,176 @@
+[
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.1.0 error/EmitError#",
+"file": "crates/conductor-emit/src/error.rs",
+"def_line": 10,
+"ref_count": 6
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.1.0 message/DEFAULT_SERVICE_NAME.",
+"file": "crates/conductor-emit/src/message.rs",
+"def_line": 17,
+"ref_count": 5
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.1.0 client/TraceEmitter#",
+"file": "crates/conductor-emit/src/client.rs",
+"def_line": 19,
+"ref_count": 5
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.1.0 message/trace_request().",
+"file": "crates/conductor-emit/src/message.rs",
+"def_line": 20,
+"ref_count": 5
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.1.0 crate/",
+"file": "crates/conductor-emit/src/lib.rs",
+"def_line": 0,
+"ref_count": 3
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.1.0 message/",
+"file": "crates/conductor-emit/src/message.rs",
+"def_line": 0,
+"ref_count": 3
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.1.0 crate/",
+"file": "crates/conductor-emit/tests/egress.rs",
+"def_line": 0,
+"ref_count": 3
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.1.0 error/",
+"file": "crates/conductor-emit/src/error.rs",
+"def_line": 0,
+"ref_count": 3
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.1.0 client/",
+"file": "crates/conductor-emit/src/client.rs",
+"def_line": 0,
+"ref_count": 2
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.1.0 CapturingService#",
+"file": "crates/conductor-emit/tests/egress.rs",
+"def_line": 18,
+"ref_count": 2
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.1.0 CapturingService#last.",
+"file": "crates/conductor-emit/tests/egress.rs",
+"def_line": 19,
+"ref_count": 2
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.1.0 client/TraceEmitter#client.",
+"file": "crates/conductor-emit/src/client.rs",
+"def_line": 20,
+"ref_count": 2
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.1.0 client/impl#[TraceEmitter]connect().",
+"file": "crates/conductor-emit/src/client.rs",
+"def_line": 26,
+"ref_count": 2
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.1.0 error/EmitError#Transport#",
+"file": "crates/conductor-emit/src/error.rs",
+"def_line": 13,
+"ref_count": 1
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.1.0 client/DEFAULT_OTLP_ENDPOINT.",
+"file": "crates/conductor-emit/src/client.rs",
+"def_line": 16,
+"ref_count": 1
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.1.0 client/impl#[TraceEmitter]from_channel().",
+"file": "crates/conductor-emit/src/client.rs",
+"def_line": 32,
+"ref_count": 1
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.1.0 start_stub().",
+"file": "crates/conductor-emit/tests/egress.rs",
+"def_line": 33,
+"ref_count": 1
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.1.0 message/service_resource().",
+"file": "crates/conductor-emit/src/message.rs",
+"def_line": 33,
+"ref_count": 1
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.1.0 client/impl#[TraceEmitter]export().",
+"file": "crates/conductor-emit/src/client.rs",
+"def_line": 40,
+"ref_count": 1
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.1.0 client/count_spans().",
+"file": "crates/conductor-emit/src/client.rs",
+"def_line": 46,
+"ref_count": 1
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.1.0 message/ok_span().",
+"file": "crates/conductor-emit/src/message.rs",
+"def_line": 46,
+"ref_count": 1
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.1.0 message/unix_nanos().",
+"file": "crates/conductor-emit/src/message.rs",
+"def_line": 63,
+"ref_count": 1
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.1.0 error/EmitError#Status#",
+"file": "crates/conductor-emit/src/error.rs",
+"def_line": 16,
+"ref_count": 0
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.1.0 impl#[CapturingService][TraceService]export().",
+"file": "crates/conductor-emit/tests/egress.rs",
+"def_line": 24,
+"ref_count": 0
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.1.0 exports_well_formed_request_to_loopback_stub().",
+"file": "crates/conductor-emit/tests/egress.rs",
+"def_line": 49,
+"ref_count": 0
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.1.0 message/tests/",
+"file": "crates/conductor-emit/src/message.rs",
+"def_line": 71,
+"ref_count": 0
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.1.0 refused_transport_surfaces_emit_error().",
+"file": "crates/conductor-emit/tests/egress.rs",
+"def_line": 72,
+"ref_count": 0
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.1.0 message/tests/builds_one_span_under_service_name().",
+"file": "crates/conductor-emit/src/message.rs",
+"def_line": 75,
+"ref_count": 0
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.1.0 message/tests/span_is_well_formed_ok_status().",
+"file": "crates/conductor-emit/src/message.rs",
+"def_line": 93,
+"ref_count": 0
+}
+]
