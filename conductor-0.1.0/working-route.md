@@ -48,7 +48,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
    ↓
 [2026-06-18-pii-payload-corpus] PII payload corpus — seven P-047 categories across spans/logs/exceptions (P-035, P-048)
    ↓
-Traffic-rate ramps — halo-breathing emission ramps (P-026)
+[2026-06-18-traffic-rate-ramps] Traffic-rate ramps — halo-breathing emission ramps (P-026)
 
 ### Epoch 4 — Fault helpers
 Port-occupier fault — sacrificial :4317 listener before Pulse starts (P-003 ReceiverFailed)
