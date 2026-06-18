@@ -44,7 +44,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
    ↓
 [2026-06-18-latency-shaping] Latency shaping — target p50/p95/p99 per operation (P-011, P-012)
    ↓
-Multi-service topology — service.name virtual topology + W3C trace propagation (P-008, P-027)
+[2026-06-18-multi-service-topology] Multi-service topology — service.name virtual topology + W3C trace propagation (P-008, P-027)
    ↓
 PII payload corpus — seven P-047 categories across spans/logs/exceptions (P-035, P-048)
    ↓

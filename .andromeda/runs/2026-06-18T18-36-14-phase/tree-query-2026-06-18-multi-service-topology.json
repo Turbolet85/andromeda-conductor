@@ -1,0 +1,399 @@
+[
+{
+"sql": "SELECT callee, file, line FROM refs WHERE callee LIKE '%error_trace_request%' OR callee LIKE '%service_resource%' OR callee LIKE '%gen_id%' OR callee LIKE '%/span#' OR callee LIKE '%trace_request%' ORDER BY callee, file, line",
+"rows": 49,
+"result": [
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/exception_trace_request().",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 280
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/exception_trace_request().",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 300
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/exception_trace_request().",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 301
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/exception_trace_request().",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 307
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/exception_trace_request().",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 308
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/exception_trace_request().",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 315
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/exception_trace_request().",
+"file": "crates/conductor-emit/src/lib.rs",
+"line": 19
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/exception_trace_request().",
+"file": "crates/conductor-emit/tests/exception_events.rs",
+"line": 9
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/exception_trace_request().",
+"file": "crates/conductor-emit/tests/exception_events.rs",
+"line": 65
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 latency/latency_trace_request().",
+"file": "crates/conductor-emit/src/latency.rs",
+"line": 226
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 latency/latency_trace_request().",
+"file": "crates/conductor-emit/src/latency.rs",
+"line": 256
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 latency/latency_trace_request().",
+"file": "crates/conductor-emit/src/latency.rs",
+"line": 279
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 latency/latency_trace_request().",
+"file": "crates/conductor-emit/src/latency.rs",
+"line": 280
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 latency/latency_trace_request().",
+"file": "crates/conductor-emit/src/latency.rs",
+"line": 282
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 latency/latency_trace_request().",
+"file": "crates/conductor-emit/src/lib.rs",
+"line": 20
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 latency/latency_trace_request().",
+"file": "crates/conductor-emit/tests/latency_shaping.rs",
+"line": 8
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 latency/latency_trace_request().",
+"file": "crates/conductor-emit/tests/latency_shaping.rs",
+"line": 83
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 message/service_resource().",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 18
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 message/service_resource().",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 145
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 message/service_resource().",
+"file": "crates/conductor-emit/src/latency.rs",
+"line": 15
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 message/service_resource().",
+"file": "crates/conductor-emit/src/latency.rs",
+"line": 95
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 message/service_resource().",
+"file": "crates/conductor-emit/src/logs.rs",
+"line": 10
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 message/service_resource().",
+"file": "crates/conductor-emit/src/logs.rs",
+"line": 56
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 message/service_resource().",
+"file": "crates/conductor-emit/src/message.rs",
+"line": 24
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 message/service_resource().",
+"file": "crates/conductor-emit/src/span_tree.rs",
+"line": 11
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 message/service_resource().",
+"file": "crates/conductor-emit/src/span_tree.rs",
+"line": 69
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 message/trace_request().",
+"file": "crates/conductor-emit/src/lib.rs",
+"line": 22
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 message/trace_request().",
+"file": "crates/conductor-emit/src/message.rs",
+"line": 146
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 message/trace_request().",
+"file": "crates/conductor-emit/src/message.rs",
+"line": 164
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 message/trace_request().",
+"file": "crates/conductor-emit/tests/egress.rs",
+"line": 7
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 message/trace_request().",
+"file": "crates/conductor-emit/tests/egress.rs",
+"line": 56
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 span_tree/error_trace_request().",
+"file": "crates/conductor-emit/src/lib.rs",
+"line": 23
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 span_tree/error_trace_request().",
+"file": "crates/conductor-emit/src/span_tree.rs",
+"line": 115
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 span_tree/error_trace_request().",
+"file": "crates/conductor-emit/src/span_tree.rs",
+"line": 130
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 span_tree/error_trace_request().",
+"file": "crates/conductor-emit/src/span_tree.rs",
+"line": 156
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 span_tree/error_trace_request().",
+"file": "crates/conductor-emit/src/span_tree.rs",
+"line": 157
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 span_tree/error_trace_request().",
+"file": "crates/conductor-emit/src/span_tree.rs",
+"line": 165
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 span_tree/error_trace_request().",
+"file": "crates/conductor-emit/src/span_tree.rs",
+"line": 166
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 span_tree/error_trace_request().",
+"file": "crates/conductor-emit/tests/error_spans.rs",
+"line": 8
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 span_tree/error_trace_request().",
+"file": "crates/conductor-emit/tests/error_spans.rs",
+"line": 59
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 span_tree/error_trace_request().",
+"file": "crates/conductor-emit/tests/error_spans.rs",
+"line": 101
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 span_tree/gen_id().",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 19
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 span_tree/gen_id().",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 133
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 span_tree/gen_id().",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 134
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 span_tree/gen_id().",
+"file": "crates/conductor-emit/src/latency.rs",
+"line": 16
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 span_tree/gen_id().",
+"file": "crates/conductor-emit/src/latency.rs",
+"line": 80
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 span_tree/gen_id().",
+"file": "crates/conductor-emit/src/latency.rs",
+"line": 81
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 span_tree/gen_id().",
+"file": "crates/conductor-emit/src/span_tree.rs",
+"line": 43
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 span_tree/gen_id().",
+"file": "crates/conductor-emit/src/span_tree.rs",
+"line": 48
+}
+],
+"db_state": "regenerated"
+},
+{
+"sql": "SELECT file, line FROM refs WHERE callee LIKE '%span_tree/error_trace_request%' ORDER BY file, line",
+"rows": 10,
+"result": [
+{
+"file": "crates/conductor-emit/src/lib.rs",
+"line": 23
+},
+{
+"file": "crates/conductor-emit/src/span_tree.rs",
+"line": 115
+},
+{
+"file": "crates/conductor-emit/src/span_tree.rs",
+"line": 130
+},
+{
+"file": "crates/conductor-emit/src/span_tree.rs",
+"line": 156
+},
+{
+"file": "crates/conductor-emit/src/span_tree.rs",
+"line": 157
+},
+{
+"file": "crates/conductor-emit/src/span_tree.rs",
+"line": 165
+},
+{
+"file": "crates/conductor-emit/src/span_tree.rs",
+"line": 166
+},
+{
+"file": "crates/conductor-emit/tests/error_spans.rs",
+"line": 8
+},
+{
+"file": "crates/conductor-emit/tests/error_spans.rs",
+"line": 59
+},
+{
+"file": "crates/conductor-emit/tests/error_spans.rs",
+"line": 101
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT callee, file, line FROM refs WHERE callee LIKE '%message/service_resource%' OR callee LIKE '%span_tree/gen_id%' ORDER BY callee, file, line",
+"rows": 17,
+"result": [
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 message/service_resource().",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 18
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 message/service_resource().",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 145
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 message/service_resource().",
+"file": "crates/conductor-emit/src/latency.rs",
+"line": 15
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 message/service_resource().",
+"file": "crates/conductor-emit/src/latency.rs",
+"line": 95
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 message/service_resource().",
+"file": "crates/conductor-emit/src/logs.rs",
+"line": 10
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 message/service_resource().",
+"file": "crates/conductor-emit/src/logs.rs",
+"line": 56
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 message/service_resource().",
+"file": "crates/conductor-emit/src/message.rs",
+"line": 24
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 message/service_resource().",
+"file": "crates/conductor-emit/src/span_tree.rs",
+"line": 11
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 message/service_resource().",
+"file": "crates/conductor-emit/src/span_tree.rs",
+"line": 69
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 span_tree/gen_id().",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 19
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 span_tree/gen_id().",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 133
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 span_tree/gen_id().",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 134
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 span_tree/gen_id().",
+"file": "crates/conductor-emit/src/latency.rs",
+"line": 16
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 span_tree/gen_id().",
+"file": "crates/conductor-emit/src/latency.rs",
+"line": 80
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 span_tree/gen_id().",
+"file": "crates/conductor-emit/src/latency.rs",
+"line": 81
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 span_tree/gen_id().",
+"file": "crates/conductor-emit/src/span_tree.rs",
+"line": 43
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 span_tree/gen_id().",
+"file": "crates/conductor-emit/src/span_tree.rs",
+"line": 48
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT from_crate, to_crate FROM crate_edges WHERE from_crate='conductor-emit' OR to_crate='conductor-emit' ORDER BY from_crate, to_crate",
+"rows": 0,
+"result": [],
+"db_state": "fresh"
+}
+]
