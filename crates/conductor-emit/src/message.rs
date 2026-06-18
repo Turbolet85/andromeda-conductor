@@ -88,6 +88,31 @@ pub(crate) fn span_with_events(
     }
 }
 
+/// As [`span`], but with a caller-supplied duration: `end_time = start_time + duration_nanos` (the
+/// seeded latency-shaping output — [`crate::latency`]). `start` is wall-clock `unix_nanos()`, so the
+/// seed governs the duration, not the absolute stamps (architecture §Cross-cutting Patterns).
+pub(crate) fn timed_span(
+    name: &str,
+    trace_id: Vec<u8>,
+    span_id: Vec<u8>,
+    parent_span_id: Vec<u8>,
+    status: Status,
+    duration_nanos: u64,
+) -> Span {
+    let start = unix_nanos();
+    Span {
+        trace_id,
+        span_id,
+        parent_span_id,
+        name: name.to_string(),
+        kind: SpanKind::Internal as i32,
+        start_time_unix_nano: start,
+        end_time_unix_nano: start.saturating_add(duration_nanos),
+        status: Some(status),
+        ..Default::default()
+    }
+}
+
 pub(crate) fn ok_status() -> Status {
     Status {
         code: StatusCode::Ok as i32,
