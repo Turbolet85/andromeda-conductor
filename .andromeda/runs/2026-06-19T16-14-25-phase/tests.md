@@ -1,0 +1,37 @@
+# tests extract
+
+## Relevance
+Relevant — port-occupier is a unit-testable fault helper exercised at unit level; also triggers chaos-test coverage (§1 trigger) and integration boundary (cross-test isolation / cleanup lifecycle).
+
+## Constraints
+1. Unit-testable fault generator — per §4 "conductor-faults: ramp/silence/fingerprint generators as pure seeded functions"; port-occupier bind/release is a chaos/integration concern per §4 (test-research notes a loopback-port probe).
+2. Loopback-only binding — security/trust-boundary non-negotiable per scope ("Binds `127.0.0.1` exclusively — never `0.0.0.0` or a routable interface"); §11 Universal: "the `:4317` port-occupier is the sole deliberate bind, must release on cleanup, and must never become a general-purpose listener."
+3. Mandatory cleanup / RAII release — per §3 `cleanup` command: "The `:4317` port-occupier fault releases its bind on cleanup" and §5 Integration "Module ↔ module" boundary (setup/teardown per-test fresh); per §7 Test Data per-test isolation ("no shared mutable fixtures across parallel tests"); critical per §10 Zero-flakiness budget ("flaky tests are NOT tolerated … determinism is enforced upstream").
+4. Bind-failure is a typed condition, not a panic — per scope "Faults are values/conditions, not panics — a bind that fails because the port is *already* taken is a typed condition surfaced to the caller, never an `unwrap`."
+5. No scenario-config / garde wiring here — per scope "this is a standalone fault helper exercised in isolation; scenario-config wiring is deferred to the scenario epoch" (Epoch 7).
+6. Cross-platform exclusivity asserted — per scope "The occupier must NOT set reuse flags that would let Pulse co-bind. This is the determinism-critical detail" (Windows/Linux SO_REUSEADDR semantics).
+7. Zero new external dependencies — per scope "No new dependency expected (std/tokio `net` only — to be confirmed in research)" and §10 (committed `Cargo.lock` immutable, `tauri` ≥ 2.10.3 binding).
+
+## Patterns to follow
+1. Fault helper module isolation — per §4 conductor-report golden-test pattern and conductor-emit precedent: "matches the `conductor-emit` module precedent: `rate.rs`/`latency.rs`/`pii.rs`" (new module e.g. `port_occupier.rs`, re-exported from `lib.rs` with module-doc).
+2. Ephemeral-port unit test — per scope (open question) and §8 Mocking: "hand-rolled in-process tonic `TraceServiceServer`…on `127.0.0.1:0` for byte-level egress tests"; applies pattern: "address parameterization + test isolation: default `127.0.0.1:4317`, but unit tests likely bind an **ephemeral `:0`** port (then assert a second bind to *that* address fails, then assert release)."
+3. Dependency injection for transport — per §8 Anti-monkey-patching: "prefer dependency injection … over runtime patching of production code" — if the constructor accepts a `SocketAddr` parameter (defaulting to the real `:4317`), unit tests inject ephemeral `:0` without collision or pre-arrangement.
+
+## Anti-patterns to avoid
+1. NEVER panic on bind failure — per §11 Unit and scope; use `Result<T>` or a typed error condition, never `unwrap()` or `.expect()` on socket bind.
+2. NEVER set `SO_REUSEADDR` or allow socket-option misconfiguration — per scope cross-platform exclusivity detail and §11 Universal "the `:4317` port-occupier…must never become a general-purpose listener" (widening the interface or relaxing exclusivity is forbidden).
+3. NEVER leave a leaked socket on test failure — per §7 Test Data "NEVER skip cleanup between integration tests" and scope "A leaked occupier would silently break the rest of the suite."
+
+## Contract bindings
+- **5-command discipline ↔ cleanup command:** §3 cleanup leg binds to this fault: "The `:4317` port-occupier fault releases its bind on cleanup" — the implementation's `Drop` / explicit release path is the contract.
+- **Test harness ↔ crate-per-seam isolation:** per §4 "Crate-per-seam law: `conductor-faults` must NOT pull in `conductor-emit` or `conductor-timeline` for this primitive" — orthogonal infrastructure boundary.
+- **Determinism / chaos-coverage trigger ↔ integration test boundaries:** per §1 coverage-trigger "chaos-test (fault-injection — but bounded, NOT load) … Required test type: fault-injection scenario tests asserting Pulse's reaction…within SLO — bounded 'typical/high' profiles only"; this chunk *produces* the fault condition; E2E Path verification is Epoch 7 (scenario orchestration).
+
+## Acceptance criteria contributions
+1. "(tests) A `PortOccupier` fault helper in `conductor-faults` binds `127.0.0.1:4317` on construction and releases it deterministically on drop, with loopback-only enforcement (never binds routable interfaces)."
+2. "(tests) Exclusivity property proven: while the occupier holds the address, a second bind to the same address fails, asserted by a unit test on an ephemeral port (zero collision risk, zero flakiness)."
+3. "(tests) Bind-failure surfaces as a typed `Result` condition, not a panic, when the port is already taken (verdict/error wall compliance)."
+4. "(tests) `cargo nextest run -p conductor-faults` passes; clippy `-D warnings`; `cargo llvm-cov` includes port-occupier coverage (≥ 60% line-coverage threshold per §10 Minimal tier)."
+
+## Relevant amendment history
+**2026-06-17-raw-otlp-message-scaffold** — § 2 Test Strategy Integration row added "OTLP-egress loopback gRPC stub…Never binds the real `:4317` (reserved for the Epoch-4 port-occupier)." This chunk IS that Epoch-4 occupier; the amendment flags it explicitly as the sole deliberate `:4317` bind, strengthening the loopback-only + release-on-cleanup invariants.

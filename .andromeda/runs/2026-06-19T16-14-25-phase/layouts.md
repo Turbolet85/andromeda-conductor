@@ -1,0 +1,7 @@
+# layouts extract
+
+## Relevance
+Out-of-scope for this chunk.
+
+## No domain coverage
+The port-occupier fault is an orthogonal infrastructure primitive (socket occupier, RAII lifecycle) that does not create, modify, or render any surface element, wireframe region, component placement, focus order, or responsive behavior. Layouts domain covers desktop-webview, cli, modal/dialog, navigation, and responsive breakpoints — none of which this chunk touches. Per layout-templates §IA notes, Conductor owns no auth/login surfaces and no credential flows; the port-occupier holds a loopback socket and releases it — it is not a UI component or surface concern.

@@ -1,0 +1,13 @@
+[
+{
+"sql": "SELECT 'symbol_in_faults' AS kind, symbol AS detail FROM symbol WHERE crate='conductor-faults' UNION ALL SELECT 'depends_on_faults' AS kind, from_crate AS detail FROM crate_edges WHERE to_crate='conductor-faults' UNION ALL SELECT 'faults_depends_on' AS kind, to_crate AS detail FROM crate_edges WHERE from_crate='conductor-faults'",
+"rows": 1,
+"result": [
+{
+"kind": "symbol_in_faults",
+"detail": "rust-analyzer cargo conductor-faults 0.1.0 crate/"
+}
+],
+"db_state": "fresh"
+}
+]

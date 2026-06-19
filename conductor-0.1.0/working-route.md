@@ -51,7 +51,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
 [2026-06-18-traffic-rate-ramps] Traffic-rate ramps — halo-breathing emission ramps (P-026)
 
 ### Epoch 4 — Fault helpers
-Port-occupier fault — sacrificial :4317 listener before Pulse starts (P-003 ReceiverFailed)
+[2026-06-19-port-occupier-fault] Port-occupier fault — sacrificial :4317 listener before Pulse starts (P-003 ReceiverFailed)
    ↓
 Emission gap/resume — exact gap lengths >20s with resume (P-015 restart detection)
    ↓
