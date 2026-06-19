@@ -5,9 +5,13 @@
 //! *sole* deliberate inbound listener (every other surface is a pure client); loopback-only and released
 //! on cleanup (architecture §Cross-cutting Patterns — Trust boundary). A refused bind is a typed
 //! [`FaultError`] value (`Result::Err`), never a panic — the verdict/error wall.
+//! [`EmissionGap`] (P-015) — an exact-length emission gap that *resumes*; a gap past the 20s threshold
+//! reads as a service restart. An out-of-range gap is a typed [`FaultError`] value, never a panic.
 
 mod error;
+mod gap;
 mod port_occupier;
 
 pub use error::FaultError;
+pub use gap::{EmissionGap, MIN_GAP, MAX_GAP};
 pub use port_occupier::{PortOccupier, OTLP_INGEST_PORT};

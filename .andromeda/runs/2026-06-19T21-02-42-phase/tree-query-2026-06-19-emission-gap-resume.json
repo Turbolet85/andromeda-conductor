@@ -1,0 +1,507 @@
+[
+{
+"sql": "SELECT crate, file, def_line FROM symbol WHERE crate LIKE '%faults%' ORDER BY file, def_line",
+"rows": 25,
+"result": [
+{
+"crate": "conductor-faults",
+"file": "crates/conductor-faults/src/error.rs",
+"def_line": 0
+},
+{
+"crate": "conductor-faults",
+"file": "crates/conductor-faults/src/error.rs",
+"def_line": 13
+},
+{
+"crate": "conductor-faults",
+"file": "crates/conductor-faults/src/error.rs",
+"def_line": 16
+},
+{
+"crate": "conductor-faults",
+"file": "crates/conductor-faults/src/error.rs",
+"def_line": 17
+},
+{
+"crate": "conductor-faults",
+"file": "crates/conductor-faults/src/error.rs",
+"def_line": 19
+},
+{
+"crate": "conductor-faults",
+"file": "crates/conductor-faults/src/error.rs",
+"def_line": 24
+},
+{
+"crate": "conductor-faults",
+"file": "crates/conductor-faults/src/error.rs",
+"def_line": 28
+},
+{
+"crate": "conductor-faults",
+"file": "crates/conductor-faults/src/lib.rs",
+"def_line": 0
+},
+{
+"crate": "conductor-faults",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"def_line": 0
+},
+{
+"crate": "conductor-faults",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"def_line": 14
+},
+{
+"crate": "conductor-faults",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"def_line": 19
+},
+{
+"crate": "conductor-faults",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"def_line": 20
+},
+{
+"crate": "conductor-faults",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"def_line": 21
+},
+{
+"crate": "conductor-faults",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"def_line": 28
+},
+{
+"crate": "conductor-faults",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"def_line": 42
+},
+{
+"crate": "conductor-faults",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"def_line": 47
+},
+{
+"crate": "conductor-faults",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"def_line": 52
+},
+{
+"crate": "conductor-faults",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"def_line": 58
+},
+{
+"crate": "conductor-faults",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"def_line": 0
+},
+{
+"crate": "conductor-faults",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"def_line": 9
+},
+{
+"crate": "conductor-faults",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"def_line": 17
+},
+{
+"crate": "conductor-faults",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"def_line": 27
+},
+{
+"crate": "conductor-faults",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"def_line": 36
+},
+{
+"crate": "conductor-faults",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"def_line": 46
+},
+{
+"crate": "conductor-faults",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"def_line": 55
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT DISTINCT split_part(caller,' ',3) AS from_crate, callee, file, line FROM calls_m WHERE callee LIKE '%faults%' ORDER BY file, line",
+"rows": 60,
+"result": [
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/",
+"file": "crates/conductor-faults/src/error.rs",
+"line": 25
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#Bind#",
+"file": "crates/conductor-faults/src/error.rs",
+"line": 30
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#",
+"file": "crates/conductor-faults/src/error.rs",
+"line": 30
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#Bind#addr.",
+"file": "crates/conductor-faults/src/error.rs",
+"line": 31
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#Bind#source.",
+"file": "crates/conductor-faults/src/error.rs",
+"line": 32
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/",
+"file": "crates/conductor-faults/src/lib.rs",
+"line": 8
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/",
+"file": "crates/conductor-faults/src/lib.rs",
+"line": 9
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/",
+"file": "crates/conductor-faults/src/lib.rs",
+"line": 11
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#",
+"file": "crates/conductor-faults/src/lib.rs",
+"line": 11
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/OTLP_INGEST_PORT.",
+"file": "crates/conductor-faults/src/lib.rs",
+"line": 12
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/",
+"file": "crates/conductor-faults/src/lib.rs",
+"line": 12
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/PortOccupier#",
+"file": "crates/conductor-faults/src/lib.rs",
+"line": 12
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"line": 11
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"line": 11
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 crate/",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"line": 11
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/PortOccupier#",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"line": 24
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"line": 28
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#Bind#",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"line": 31
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"line": 31
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#Bind#source.",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"line": 31
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#Bind#addr.",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"line": 31
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#Bind#source.",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"line": 34
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"line": 34
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#Bind#",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"line": 34
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#Bind#addr.",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"line": 34
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/PortOccupier#addr.",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"line": 36
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/PortOccupier#listener.",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"line": 37
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"line": 42
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/impl#[PortOccupier]occupy().",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"line": 43
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/OTLP_INGEST_PORT.",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"line": 43
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/PortOccupier#addr.",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"line": 48
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/PortOccupier#listener.",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"line": 53
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/PortOccupier#",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"line": 57
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/impl#[PortOccupier]release().",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"line": 59
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 crate/",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"line": 6
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/PortOccupier#",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"line": 6
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"line": 6
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/OTLP_INGEST_PORT.",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"line": 6
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/impl#[PortOccupier]occupy().",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"line": 10
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/PortOccupier#",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"line": 10
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/impl#[PortOccupier]local_addr().",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"line": 11
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/impl#[PortOccupier]occupy().",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"line": 18
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/PortOccupier#",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"line": 18
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/impl#[PortOccupier]local_addr().",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"line": 19
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/impl#[PortOccupier]occupy().",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"line": 28
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/PortOccupier#",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"line": 28
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/impl#[PortOccupier]local_addr().",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"line": 29
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/impl#[PortOccupier]occupy().",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"line": 30
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/PortOccupier#",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"line": 30
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"line": 31
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#Bind#",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"line": 31
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/PortOccupier#",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"line": 37
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/impl#[PortOccupier]occupy().",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"line": 37
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/impl#[PortOccupier]local_addr().",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"line": 38
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/impl#[PortOccupier]release().",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"line": 39
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/impl#[PortOccupier]release().",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"line": 42
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/impl#[PortOccupier]occupy().",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"line": 48
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/PortOccupier#",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"line": 48
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/impl#[PortOccupier]local_addr().",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"line": 49
+},
+{
+"from_crate": "conductor-faults",
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/OTLP_INGEST_PORT.",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"line": 58
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT * FROM crate_edges WHERE from_crate LIKE '%faults%' OR to_crate LIKE '%faults%'",
+"rows": 0,
+"result": [],
+"db_state": "fresh"
+}
+]
