@@ -55,7 +55,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
    ↓
 [2026-06-19-emission-gap-resume] Emission gap/resume — exact gap lengths >20s with resume (P-015 restart detection)
    ↓
-Abrupt-silence fault — permanent emission stop (P-014)
+[2026-06-19-abrupt-silence-fault] Abrupt-silence fault — permanent emission stop (P-014)
    ↓
 Bursty-train pattern — active 5min / quiet 10min repeating (P-013 activity-floor)
 

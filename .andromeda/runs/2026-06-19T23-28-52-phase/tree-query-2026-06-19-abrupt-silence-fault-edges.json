@@ -1,0 +1,8 @@
+[
+{
+"sql": "SELECT from_crate, to_crate FROM crate_edges WHERE from_crate LIKE '%faults%' OR to_crate LIKE '%faults%'",
+"rows": 0,
+"result": [],
+"db_state": "fresh"
+}
+]

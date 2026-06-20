@@ -1,0 +1,249 @@
+[
+{
+"sql": "SELECT symbol, file, def_line FROM symbol WHERE file LIKE '%conductor-faults%' ORDER BY file, def_line",
+"rows": 48,
+"result": [
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 error/",
+"file": "crates/conductor-faults/src/error.rs",
+"def_line": 0
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#",
+"file": "crates/conductor-faults/src/error.rs",
+"def_line": 14
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#Bind#",
+"file": "crates/conductor-faults/src/error.rs",
+"def_line": 17
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#Bind#addr.",
+"file": "crates/conductor-faults/src/error.rs",
+"def_line": 18
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#Bind#source.",
+"file": "crates/conductor-faults/src/error.rs",
+"def_line": 20
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#GapTooShort#min.",
+"file": "crates/conductor-faults/src/error.rs",
+"def_line": 24
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#GapTooShort#gap.",
+"file": "crates/conductor-faults/src/error.rs",
+"def_line": 24
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#GapTooShort#",
+"file": "crates/conductor-faults/src/error.rs",
+"def_line": 24
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#GapTooLong#max.",
+"file": "crates/conductor-faults/src/error.rs",
+"def_line": 27
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#GapTooLong#gap.",
+"file": "crates/conductor-faults/src/error.rs",
+"def_line": 27
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#GapTooLong#",
+"file": "crates/conductor-faults/src/error.rs",
+"def_line": 27
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 error/tests/",
+"file": "crates/conductor-faults/src/error.rs",
+"def_line": 31
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 error/tests/bind_error_displays_its_target_addr_and_chains_the_io_source().",
+"file": "crates/conductor-faults/src/error.rs",
+"def_line": 35
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 error/tests/gap_too_short_displays_the_gap_and_floor().",
+"file": "crates/conductor-faults/src/error.rs",
+"def_line": 47
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 error/tests/gap_too_long_displays_the_gap_and_ceiling().",
+"file": "crates/conductor-faults/src/error.rs",
+"def_line": 59
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 gap/",
+"file": "crates/conductor-faults/src/gap.rs",
+"def_line": 0
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 gap/MIN_GAP.",
+"file": "crates/conductor-faults/src/gap.rs",
+"def_line": 17
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 gap/MAX_GAP.",
+"file": "crates/conductor-faults/src/gap.rs",
+"def_line": 21
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 gap/EmissionGap#",
+"file": "crates/conductor-faults/src/gap.rs",
+"def_line": 26
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 gap/EmissionGap#gap.",
+"file": "crates/conductor-faults/src/gap.rs",
+"def_line": 27
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 gap/impl#[EmissionGap]new().",
+"file": "crates/conductor-faults/src/gap.rs",
+"def_line": 43
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 gap/impl#[EmissionGap]gap().",
+"file": "crates/conductor-faults/src/gap.rs",
+"def_line": 54
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 gap/impl#[EmissionGap]gap_ms().",
+"file": "crates/conductor-faults/src/gap.rs",
+"def_line": 60
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 gap/tests/",
+"file": "crates/conductor-faults/src/gap.rs",
+"def_line": 67
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 gap/tests/accepts_a_gap_above_the_floor().",
+"file": "crates/conductor-faults/src/gap.rs",
+"def_line": 71
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 gap/tests/floor_boundary_is_exclusive().",
+"file": "crates/conductor-faults/src/gap.rs",
+"def_line": 78
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 gap/tests/ceiling_boundary_is_inclusive().",
+"file": "crates/conductor-faults/src/gap.rs",
+"def_line": 84
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 gap/tests/gap_is_preserved_exactly().",
+"file": "crates/conductor-faults/src/gap.rs",
+"def_line": 90
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 gap/tests/distinct_inputs_yield_distinct_gaps().",
+"file": "crates/conductor-faults/src/gap.rs",
+"def_line": 98
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 gap/tests/out_of_range_gaps_return_typed_variants().",
+"file": "crates/conductor-faults/src/gap.rs",
+"def_line": 105
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 crate/",
+"file": "crates/conductor-faults/src/lib.rs",
+"def_line": 0
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"def_line": 0
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/OTLP_INGEST_PORT.",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"def_line": 14
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/PortOccupier#",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"def_line": 19
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/PortOccupier#addr.",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"def_line": 20
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/PortOccupier#listener.",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"def_line": 21
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/impl#[PortOccupier]occupy().",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"def_line": 28
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/impl#[PortOccupier]occupy_default().",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"def_line": 42
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/impl#[PortOccupier]local_addr().",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"def_line": 47
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/impl#[PortOccupier]release().",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"def_line": 52
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/impl#[PortOccupier][Drop]drop().",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"def_line": 58
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 crate/",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"def_line": 0
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 occupies_a_loopback_port_and_reports_its_resolved_addr().",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"def_line": 9
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 a_held_port_rejects_a_second_bind().",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"def_line": 17
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 occupying_a_held_port_is_a_typed_error_not_a_panic().",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"def_line": 27
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 release_frees_the_port_and_is_idempotent().",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"def_line": 36
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 drop_releases_the_port().",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"def_line": 46
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 default_target_is_the_otlp_ingest_port().",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"def_line": 55
+}
+],
+"db_state": "fresh"
+}
+]

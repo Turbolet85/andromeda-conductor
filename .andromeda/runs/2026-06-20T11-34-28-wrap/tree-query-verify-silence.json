@@ -1,0 +1,33 @@
+[
+{
+"sql": "SELECT symbol FROM symbol WHERE file LIKE '%silence.rs%'",
+"rows": 8,
+"result": [
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 silence/"
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 silence/AbruptSilence#"
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 silence/impl#[AbruptSilence]new()."
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 silence/impl#[AbruptSilence]resumes()."
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 silence/tests/"
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 silence/tests/never_resumes()."
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 silence/tests/is_a_copy_value()."
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 silence/tests/construction_is_reproducible()."
+}
+],
+"db_state": "regenerated"
+}
+]
