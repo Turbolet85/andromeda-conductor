@@ -84,7 +84,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
 ### Epoch 7 — Scenario catalog
 [2026-06-21-connection-lifecycle-scenarios] Connection-lifecycle scenarios — Listening/Receiving/Idle/Stalled states with orthogonal port-occupier (P-001..P-004)
    ↓
-Hard-signals scenarios — ERROR/exception/severity-boundary/root-vs-deep checks (P-005..P-008)
+[2026-06-21-hard-signals-scenarios] Hard-signals scenarios — ERROR/exception/severity-boundary/root-vs-deep checks (P-005..P-008)
    ↓
 Error-baseline-spike + latency-regression scenarios — baseline convergence, ramp, candidate persistence (P-009..P-012)
    ↓

@@ -1,0 +1,249 @@
+[
+{
+"sql": "SELECT caller, callee, file, line FROM calls_m WHERE callee LIKE '%from_toml_str%' OR callee LIKE '%ExpectedCheck%' OR callee LIKE '%ComparisonKind%' OR callee LIKE '%ClaimClass%' ORDER BY callee, file LIMIT 40",
+"rows": 40,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 expected/tests/claim_class_serializes_to_canonical_names().",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-core/src/expected.rs",
+"line": 78
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 expected/tests/round_trips_through_json().",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-core/src/expected.rs",
+"line": 111
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 expected/tests/empty_expected_target_is_rejected().",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-core/src/expected.rs",
+"line": 106
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 expected/tests/well_formed_check_validates().",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-core/src/expected.rs",
+"line": 96
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 expected/tests/check().",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-core/src/expected.rs",
+"line": 69
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#class.",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-core/src/expected.rs",
+"line": 59
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 expected/tests/claim_class_serializes_to_canonical_names().",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-core/src/expected.rs",
+"line": 76
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 expected/tests/well_formed_check_validates().",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-core/src/expected.rs",
+"line": 98
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 crate/",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 32
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/expected_check_with_empty_target_is_rejected_via_dive().",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 366
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/expected_checks_round_trip_through_json().",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 353
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 129
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/from_toml_str_parses_an_expected_block().",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 334
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 crate/",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-verify/src/lib.rs",
+"line": 40
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 record/tests/pass_outcome_maps_to_pass_state_and_carries_slo_timing().",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-verify/src/record.rs",
+"line": 73
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 record/tests/bridged_record_serializes_to_exactly_the_eleven_owned_keys().",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-verify/src/record.rs",
+"line": 99
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 record/tests/calibration_region_outcome_maps_to_manual_check().",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-verify/src/record.rs",
+"line": 92
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 record/tests/",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-verify/src/record.rs",
+"line": 52
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 record/tests/record().",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-verify/src/record.rs",
+"line": 59
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 record/tests/bridging_is_deterministic().",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-verify/src/record.rs",
+"line": 116
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 record/tests/fail_outcome_maps_to_fail_state().",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-verify/src/record.rs",
+"line": 84
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 record/tests/outcome().",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-verify/src/record.rs",
+"line": 54
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 slo/tests/count_at_least_floor().",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 109
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 slo/tests/exact_contains_absent_compare_as_expected().",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 100
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 slo/tests/evaluation_is_deterministic().",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 146
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 slo/tests/check().",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 93
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 slo/tests/unmet_count_floor_routes_to_calibration_region_even_when_declared_hard().",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 139
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 slo/tests/exact_contains_absent_compare_as_expected().",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 102
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 slo/tests/exact_contains_absent_compare_as_expected().",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 101
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 slo/tests/count_at_least_floor().",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 111
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 slo/tests/exact_contains_absent_compare_as_expected().",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 99
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 slo/",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 7
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 slo/tests/count_at_least_floor().",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 110
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 slo/evaluate_check().",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 79
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 slo/tests/count_at_least_floor().",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 108
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 slo/tests/hard_check_passes_only_when_matched_and_within_slo().",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 131
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 slo/tests/exact_contains_absent_compare_as_expected().",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 103
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 verdict/tests/classification_is_deterministic().",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 84
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 verdict/",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 9
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 verdict/tests/classification_is_deterministic().",
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 85
+}
+],
+"db_state": "fresh"
+}
+]

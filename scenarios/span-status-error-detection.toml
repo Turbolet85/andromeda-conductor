@@ -1,0 +1,19 @@
+# P-005 — Span Status Error Detection (pulse-capability-spec.md §P-005).
+# Emit spans with explicit Span.Status.Code = ERROR; Pulse surfaces them as candidates within a
+# <500ms-p99 detection budget. Hard signal — deterministic from the first span, no baseline needed.
+# Coverage mode: drive+observe — candidate detection is auto; halo hue / constellation dot is operator-checklist.
+name = "span-status-error-detection"
+p_ids = ["P-005"]
+seed = 4317005
+slo_tier = "<5s"   # detection budget is <500ms p99; the <5s tier covers it
+jitter_ms = 50
+
+[[phases]]
+name = "error-spans"   # emit ERROR-status spans
+gap_ms = 2000
+
+# The error candidate surfaces to the severity classifier (deterministic detection).
+[[expected]]
+kind = "Contains"
+class = "Hard"
+expected = "error"

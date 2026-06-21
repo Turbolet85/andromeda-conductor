@@ -311,6 +311,52 @@ gap_ms = 1
         assert!(!s.expected.is_empty(), "{stem} declares at least one expected check");
     }
 
+    #[rstest]
+    #[case("span-status-error-detection", "P-005")]
+    #[case("exception-event-capture", "P-006")]
+    #[case("high-severity-log-capture", "P-007")]
+    #[case("root-span-error-scope", "P-008")]
+    fn hard_signal_fixtures_load_and_validate(#[case] stem: &str, #[case] p_id: &str) {
+        let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
+        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
+        assert_eq!(s.name, stem);
+        assert_eq!(s.p_ids, vec![PId(p_id.to_string())]);
+        assert!(!s.expected.is_empty(), "{stem} declares at least one expected check");
+    }
+
+    #[test]
+    fn p008_root_span_error_scope_checks_are_calibration_region() {
+        // Root-vs-deep severity weighting is model-side (P-020) per the v2.1 amendment, so P-008's
+        // check is calibration-region (a tendency), never a hard assert.
+        let path =
+            format!("{}/../../scenarios/root-span-error-scope.toml", env!("CARGO_MANIFEST_DIR"));
+        let toml = std::fs::read_to_string(&path).expect("fixture readable");
+        let s = Scenario::from_toml_str(&toml).expect("fixture valid");
+        assert!(
+            s.expected.iter().all(|c| c.class == ClaimClass::CalibrationRegion),
+            "P-008 checks are calibration-region per the v2.1 amendment"
+        );
+    }
+
+    #[test]
+    fn p007_high_severity_log_capture_asserts_both_sides_of_the_boundary() {
+        // The SeverityNumber 17 boundary is two-sided: ERROR/FATAL (>=17) contributes (Contains),
+        // WARN-and-below (<17) does not (Absent).
+        let path =
+            format!("{}/../../scenarios/high-severity-log-capture.toml", env!("CARGO_MANIFEST_DIR"));
+        let toml = std::fs::read_to_string(&path).expect("fixture readable");
+        let s = Scenario::from_toml_str(&toml).expect("fixture valid");
+        assert!(
+            s.expected.iter().any(|c| c.kind == ComparisonKind::Contains),
+            "P-007 asserts the >=17 contribution via Contains"
+        );
+        assert!(
+            s.expected.iter().any(|c| c.kind == ComparisonKind::Absent),
+            "P-007 asserts the <17 non-contribution via Absent"
+        );
+    }
+
     #[test]
     fn from_toml_str_parses_an_expected_block() {
         let toml = r#"

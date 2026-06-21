@@ -1,0 +1,19 @@
+# P-006 — Exception Event Capture (pulse-capability-spec.md §P-006).
+# Emit spans carrying OTel `exception` span events (exception.type / message / stacktrace); Pulse
+# captures and stores them, accessible to the pattern detector (P-017) and the report generator.
+# Hard signal. Exception events ride on trace spans, so the phase emits traces (the default signal).
+name = "exception-event-capture"
+p_ids = ["P-006"]
+seed = 4317006
+slo_tier = "<5s"
+jitter_ms = 50
+
+[[phases]]
+name = "exception-spans"   # spans carrying `exception` events with synthetic stack traces
+gap_ms = 2000
+
+# The captured exception is accessible to the pattern detector / report generator.
+[[expected]]
+kind = "Contains"
+class = "Hard"
+expected = "exception"

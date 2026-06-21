@@ -1,22 +1,26 @@
 # Session Handoff
 
-**Last Updated:** 2026-06-21T22:57:37Z
+**Last Updated:** 2026-06-21T23:42:47Z
 **Branch:** build/conductor-0.1.0
 **Status:** clean
-**Last Commit:** 2026-06-21-connection-lifecycle-scenarios — feat: connection-lifecycle scenarios (P-001..P-004) — 4 scenarios/*.toml + Scenario.expected TOML wiring (conductor-core/timeline)
+**Last Commit:** 2026-06-21-hard-signals-scenarios — feat: hard-signals scenarios (P-005..P-008) — 4 scenarios/*.toml (Hard + P-008 CalibrationRegion) + fixture rstest (conductor-core)
 
 ## Position
-- Done: **2026-06-21-connection-lifecycle-scenarios** — **Epoch 7 (Scenario catalog) ch1/8.** First `scenarios/*.toml` catalog entries (P-001 `receiver-lifecycle-state`, P-002 `last-span-ago-tracking`, P-003 `receiver-failed-port-conflict`, P-004 `orthogonal-health-domains`) + additive `Scenario.expected: Vec<ExpectedCheck>` TOML wiring (`#[serde(default)]` + `#[garde(dive)]`, reusing existing `ExpectedCheck`). Closes carried follow-up (d); `holds` still deferred.
-- Next: **Epoch 7 ch2 — Hard-signals scenarios (P-005..P-008)** → `/andromeda-phase` to promote + plan.
+- Done: **2026-06-21-hard-signals-scenarios** — **Epoch 7 (Scenario catalog) ch2/8.** 4 `scenarios/*.toml` (P-005 `span-status-error-detection`, P-006 `exception-event-capture`, P-007 `high-severity-log-capture`, P-008 `root-span-error-scope`) + a `hard_signal_fixtures_load_and_validate` rstest. P-005/006/007 `class="Hard"`; P-008 `class="CalibrationRegion"` (v2.1 amendment). P-007's two-sided boundary via the existing `ComparisonKind::Absent` + `signal="logs"`. **Zero Rust model change, zero new dependency.**
+- Next: **Epoch 7 ch3 — Error-baseline-spike + latency-regression scenarios (P-009..P-012)** → `/andromeda-phase` to promote + plan.
 
 ## Work done
-3 files MOD (`conductor-core/src/scenario.rs`: +`expected` field +8 tests · `error.rs` + `conductor-timeline/src/convert.rs`: test struct-literals); 4 NEW `scenarios/*.toml` (P-001..P-004). +8 tests, **no new dependency**. Gates: core+timeline 117/117 · workspace **309/309** (301→309) · clippy `-D` clean · doctest 0 · smoke `agent-run.sh status` exit 0 (read-only — no boot-path change). Code-graph 1003n/4161e.
+1 file MOD (`conductor-core/src/scenario.rs`: +`hard_signal_fixtures_load_and_validate` rstest [4 cases] + P-008 calibration-region guard + P-007 two-sided guard, +6 tests); 4 NEW `scenarios/*.toml` (P-005..P-008). **No new dependency, no model change.** Gates: conductor-core 110/110 · workspace **315/315** (309→315) · clippy `-D` clean · doctest 0 · smoke `agent-run.sh run` (release-gate path) exit 0. Code-graph 1006n/4183e.
 
 ## Drift resolved
-1 proposal · **0 applied · 1 routine dismiss + 1 playbook rule appended · 0 escalations** (drift = 0). **arch** D-arch-resources (warning) proposed registering the 4 `scenarios/*.toml` in §Occupied Resources → routine dismiss (`scenarios/` already registered in §Cross-cutting [Config management] + the directory tree; per-file config artifacts are content within a registered directory, not new occupied resources). **Broadened the playbook** (user-approved) so the 7 remaining Epoch-7 scenario chunks don't re-fire. 6/7 detectors clean; all escalate-severity detectors (security-input/subprocess/deps · obs-stack/redaction) clean.
+0 proposals · **drift = 0** — all 7 fan-out doc-agents returned `proposals: []` (cleaner than ch1's 1 routine-dismiss). D-arch-resources did NOT re-fire on the scenario TOMLs (the broadened playbook rule from the connection-lifecycle wrap held). 0 escalations, no cascade (no spec body changed).
 
 ## Notes
-- **Key decisions (P4 AskUserQuestion):** (1) **4 files, one P-ID each** — 1:1 with the spec's distinct verification recipes; (2) **wire `expected` now** — establishes the catalog's declarative read-back shape, closes follow-up (d). `holds` deferred (drive+observe needs no go/no-go; the visual badge is a `ManualCheck` report-state). `ComparisonKind` NOT extended for tolerance windows (P-002 ±1s is the Epoch-8 evaluator's concern). Realization (emit/silence + `:4317` bind + live verify) deferred to the Epoch-8 driver. Per-P-ID params from `refs/pulse-capability-spec.md`.
-- **Curation:** 1 Tier-3 (scenario-catalog scope + `expected` carrier); 0 Tier-1/2. 0 conflicts, 0 deferred.
-- **Follow-up (carried):** (a) `coverage-matrix.md` not yet materialized at repo root (Epoch-8 cli drives it; completeness gate Epoch 10). (b) test-plan §3 ↔ obs-plan §3 two-record-shapes doc-reconcile (still deferred). (c) `report.generate`/coverage obs span → Epoch-8 caller. (d) **CLOSED** — `Scenario.expected` TOML wiring done (`holds` still pending until a scenario gates a non-Conductor step). (e) `opentelemetry-proto default-features=false` trim. (f) Epoch 8/9 coverage/scenario surfaces reuse `coverage_matrix()` + `Lamp::for_record`. (g) **NEW:** the Epoch-8 CLI driver realizes the connection-lifecycle runtime leg — scenario emit/silence on/off, the P-003 port-occupier `:4317` bind, and live MCP verify against `scenario.expected`.
+- **Key decisions:** (1) **catalog shape (P4 AskUserQuestion):** 4 files, one per P-ID (mirrors ch1); P-007 two-sided via `Contains`+`Absent`, P-008 `CalibrationRegion`. (2) **Zero model change (research):** `ComparisonKind::Absent` expresses P-007's negative side; `ClaimClass::CalibrationRegion` + the existing `conductor-verify::slo::evaluate_check` evaluator (already handles all 4 kinds) cover P-008 — chunk is config + tests only. (3) **P-007 emission `signal="logs"`** (signal class is load-bearing); P-005/006/008 use the trace default (ch1 convention; emission realization deferred to Epoch-8).
+- **Curation:** 1 Tier-2 (`verification-harness.md` — smoke a no-boot-path chunk via `agent-run.sh run`, not `status`). Filtered 3 (1 dup catalog-shape · 2 low-confidence: zero-model-change, emission-signal). 0 conflicts, 0 deferred.
+- **Smoke-command correction:** `agent-run.sh status` needs a `<run_id>` (exit 2 without one); used `agent-run.sh run` (release-gate path) — the correct no-boot-path smoke. Plans for the remaining Epoch-7 scenario chunks should list `run`, not `status`.
+- **Follow-up (carried):** (a) `coverage-matrix.md` not yet materialized at repo root (Epoch-8 cli drives it; completeness gate Epoch 10). (b) test-plan §3 ↔ obs-plan §3 two-record-shapes doc-reconcile (still deferred). (c) `report.generate`/coverage obs span → Epoch-8 caller. (e) `opentelemetry-proto default-features=false` trim. (f) Epoch 8/9 coverage/scenario surfaces reuse `coverage_matrix()` + `Lamp::for_record`. (g) Epoch-8 CLI driver realizes the connection-lifecycle + hard-signals runtime legs — scenario emit (error spans / exception events / severity logs / root-vs-child traces), per-check read-back token extraction, live MCP verify against `scenario.expected`.
 - **Last failed command:** none.
+
+## Session End Status
+Completed normally at 2026-06-21T23:42:47Z (wrap committed).

@@ -1,0 +1,31 @@
+# P-007 — High-Severity Log Capture (pulse-capability-spec.md §P-007).
+# Emit OTLP log records across the SeverityNumber 17 boundary: WARN-and-below (<17) must NOT
+# contribute to the hard-signal layer, ERROR/FATAL (>=17) must. Hard signal — the deterministic
+# two-sided boundary, expressed as a Contains (>=17) plus an Absent (<17) check.
+name = "high-severity-log-capture"
+p_ids = ["P-007"]
+seed = 4317007
+slo_tier = "<5s"
+jitter_ms = 50
+
+[[phases]]
+name = "warn-logs"   # SeverityNumber < 17 — below the hard-signal boundary
+gap_ms = 2000
+emission = { signal = "logs" }
+
+[[phases]]
+name = "error-logs"   # SeverityNumber >= 17 (ERROR/FATAL) — contributes to the hard-signal layer
+gap_ms = 2000
+emission = { signal = "logs" }
+
+# ERROR/FATAL (>=17) contributes to the hard-signal layer.
+[[expected]]
+kind = "Contains"
+class = "Hard"
+expected = "ERROR"
+
+# WARN-and-below (<17) does NOT contribute (the negative side of the boundary).
+[[expected]]
+kind = "Absent"
+class = "Hard"
+expected = "WARN"

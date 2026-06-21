@@ -1,0 +1,25 @@
+# P-008 — Root-Span Error Scope Distinction (pulse-capability-spec.md §P-008 + the v2.1 amendment).
+# Emit (a) a trace where only an internal child span carries ERROR (root succeeds), then (b) a trace
+# where child AND root carry ERROR. Root-vs-deep is detected deterministically (parent_span_id IS NULL)
+# and surfaced to the model as a fact; the severity WEIGHTING is model-side (P-020), so the Conductor
+# check is calibration-region (a tendency, not a hard assert): (b) should TEND to >= (a)'s severity.
+# The relative b>=a comparison is the Epoch-8 evaluator's interpretation, not encoded in ComparisonKind.
+name = "root-span-error-scope"
+p_ids = ["P-008"]
+seed = 4317008
+slo_tier = "<5s"
+jitter_ms = 50
+
+[[phases]]
+name = "deep-error"   # (a) internal child span carries ERROR; root span succeeds
+gap_ms = 2000
+
+[[phases]]
+name = "root-error"   # (b) child AND root span carry ERROR
+gap_ms = 2000
+
+# Model-interpretive root-vs-deep severity tendency — calibration-region, routed to ManualCheck.
+[[expected]]
+kind = "Contains"
+class = "CalibrationRegion"
+expected = "error"
