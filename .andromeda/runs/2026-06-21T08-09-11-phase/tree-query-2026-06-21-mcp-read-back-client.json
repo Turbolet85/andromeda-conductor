@@ -1,0 +1,14 @@
+[
+{
+"sql": "SELECT 'verify-def' AS kind, symbol AS a, file AS b FROM symbol WHERE crate LIKE '%verify%' UNION ALL SELECT 'edge-into-verify' AS kind, from_crate AS a, to_crate AS b FROM crate_edges WHERE to_crate LIKE '%verify%' UNION ALL SELECT 'edge-out-of-verify' AS kind, from_crate AS a, to_crate AS b FROM crate_edges WHERE from_crate LIKE '%verify%'",
+"rows": 1,
+"result": [
+{
+"kind": "verify-def",
+"a": "rust-analyzer cargo conductor-verify 0.1.0 crate/",
+"b": "crates/conductor-verify/src/lib.rs"
+}
+],
+"db_state": "fresh"
+}
+]

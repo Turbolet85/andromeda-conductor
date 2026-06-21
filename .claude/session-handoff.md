@@ -1,22 +1,25 @@
 # Session Handoff
 
-**Last Updated:** 2026-06-21T07:35:23Z
+**Last Updated:** 2026-06-21T09:23:27Z
 **Branch:** build/conductor-0.1.0
 **Status:** clean
-**Last Commit:** 2026-06-20-bursty-train-pattern — feat: bursty-train pattern (conductor-faults, P-013)
+**Last Commit:** 2026-06-21-mcp-read-back-client — feat: MCP read-back client (conductor-verify, Epoch 5)
 
 ## Position
-- Done: **2026-06-20-bursty-train-pattern** — `conductor-faults/src/train.rs` (`BurstyTrain`: a *repeating* active/quiet duty-cycle descriptor, canonically 5min/10min; `new(active,quiet) -> Result<Self, FaultError>` validated, infallible `canonical()`/`Default`, `active/quiet/period` + `*_ms`, `is_active_at` phase query; `FaultError` +3 variants `ActiveZero`/`QuietZero`/`WindowTooLong`). The P-013 activity-floor false-positive guard. **Epoch 4 (Fault helpers) COMPLETE — 4/4.**
-- Next: **Epoch 5 (Verification & read-back), chunk 1 — "MCP read-back client"** (rmcp over `TokioChildProcess` stdio, hardened fixed-path sidecar spawn, `.env` data-dir) → `/andromeda-phase` to promote + plan.
+- Done: **2026-06-21-mcp-read-back-client** — `conductor-verify` first functional fill: `ReadbackClient` (rmcp 1.7.0 client over `TokioChildProcess` stdio; hardened fixed-path spawn + `.env` data-dir after metacharacter rejection; negotiate-down to `2024-11-05`; typed surface over the 4 read-back tools + `connect_transport` injection seam) + `VerifyError` (harness-fault wall) + `error`/`spawn`/`client` modules. **Epoch 5 (Verification & read-back) — chunk 1 of 6.**
+- Next: **Epoch 5 chunk 2 — "Preflight readiness gate"** (pinned `2024-11-05` + tool presence + data-dir canary round-trip, `Blocked` on mismatch) → `/andromeda-phase` to promote + plan.
 
 ## Work done
-New `conductor-faults/src/train.rs` (`BurstyTrain` + 3 consts + `new`/`canonical`/`Default` + accessors + `is_active_at` + 8 unit tests + 1 doctest); `error.rs` +3 `FaultError` variants + 3 Display tests; `lib.rs` re-export + crate-doc → 4/4. No new deps; `Cargo.lock` un-drifted. Gates green: faults 29/29 · workspace 175/175 (+11) · clippy `-D` · doctest 3/3 · llvm-cov 98.22% (train.rs 100% lines). 0 fix-loop iterations (clean first pass). Smoke skipped — pure library primitive (timeline/cleanup wiring is Epoch 7/8).
+New `conductor-verify/src/{error,spawn,client}.rs` + `tests/readback.rs`; `Cargo.toml` (rmcp `client`/`transport-child-process`/`transport-io` + tokio/thiserror/tracing/serde_json; dev rmcp `server`/`transport-io` + rstest) + `lib.rs` re-exports. rmcp 1.7.0 first use; `Cargo.lock` +transitive (240 deps), un-drifted. Gates green: conductor-verify 15/15 · workspace 190/190 (+15) · clippy `-D` (pkg+ws) · doctest 0 · `cargo audit` (240 deps) + `cargo deny` clean. 1 fix-loop iteration (clippy `result_large_err` → boxed `VerifyError::Initialize`/`Call`). Smoke skipped — pure library, no boot-path (the live spawn + `boot` preflight are chunk 2).
 
 ## Drift resolved
-none — all 7 fan-out detectors returned `proposals: []` (0 amendments, 0 escalations, 0 spec-body edits, no cascade). The report's Coverage section pre-stated the deferred posture (the `fault.*` span route-sequenced to Epoch 7/8; garde wiring Epoch 7, citing the existing playbook rules), so D-obs-instrumentation / D-security-input / D-arch-resources did NOT over-fire — cleaner than the prior abrupt-silence wrap (which needed 1 escalation→dismiss + a new playbook rule).
+none — all 7 fan-out detectors returned `proposals: []` (0 amendments, 0 escalations, 0 cascade). The arch + security specs already predicted the chunk exactly (conductor-verify, rmcp 1.7.0, the 4 tools, `ANDROMEDA_PULSE_DATA_DIR`, negotiate-down, `.env` hardening), so the chunk implemented the spec faithfully — nothing to amend. (The security agent weighed documenting the `transport-io` feature / dropped `serde`, the obs agent the `run_id` wiring; both correctly concluded no core-invariant drift.)
 
 ## Notes
-- **Key decisions:** P4 "Helper shape" (AskUserQuestion) → **parameterized + validated (`Result`)**. `BurstyTrain::new` joins `EmissionGap`/`PortOccupier` on the `Result`/`FaultError` branch (`AbruptSilence` = infallible; the `Option` anonymous-bound branch is still unused) — the fault-constructor idiom now spans all 4 Epoch-4 helpers. `MAX_WINDOW` = 1h **inclusive**, sized so the *same* helper expresses the Epoch-7 "lunch" duty cycle (60min quiet) — a fixed marker would have forced a second helper. `is_active_at` half-open `[0,active)`/`[active,period)` makes the *repeating* contract testable (the P-013 distinction from P-014 death / P-015 restart).
-- **Curation:** none this session — filtered 3 (1 dup: the three-branch idiom is already in `session-learnings.md` from the abrupt-silence wrap · 1 confidence<0.6: "wrap report pre-stating deferred posture pre-empts over-fires" — a dogfood candidate if it recurs · 1 task-specific: the `MAX_WINDOW`/lunch sizing, captured in the chunk plan/report).
-- **Follow-up (tracked, not route chunks):** (a) `fault.*` bursty-train obs span + timeline/cleanup wiring — Epoch 7/8 (route-sequenced; Epoch 7 "Activity-floor + restart-suppression scenarios — train/lunch/silence, P-013..P-016" carries the scenario wiring). (b) scenario-config garde wiring for all 4 fault helpers (`PortOccupier`/`EmissionGap`/`AbruptSilence`/`BurstyTrain`) — Epoch 7. (c) `opentelemetry-proto default-features=false` (drop dormant `opentelemetry_sdk`) — still open. (d) obs `fault.silence` null/sentinel `fault_duration_ms` for permanent silence — Epoch 7/8.
+- **Key decisions:** P4 "Test depth" (AskUserQuestion) → **in-proc rmcp duplex stub + unit tests**; the real `TokioChildProcess` child-spawn integration test (+ a stub-child binary) is deferred to the preflight/boot chunk, where it is intrinsic to the data-dir canary. `connect()` (live spawn) is compile-verified only; `connect_transport()` is the public transport-injection seam the next chunk + CI `ready:true` leg reuse. Negotiation is *configured* (pass `ClientInfo.with_protocol_version(V_2024_11_05)` as the `serve()` service), not just observed — the rmcp default is `LATEST`.
+- **Curation:** Tier 2 +1 → `verification-harness.md` (the rmcp-1.7.0 client negotiation + `#[non_exhaustive]`-constructor gotcha). Filtered 2 (1 task-specific: the P4 test-depth choice · 1 dup: VerifyError-wall = the existing Tier-1 verdict/error-wall entry).
+- **Follow-up (tracked, not route chunks):** (a) live `TokioChildProcess` child-spawn integration test + a stub-child binary → preflight/boot chunk (route-sequenced). (b) scenario-config garde wiring for the 4 fault helpers — Epoch 7. (c) `opentelemetry-proto default-features=false` (drop dormant `opentelemetry_sdk`) — still open. (d) obs `fault.silence` null/sentinel `fault_duration_ms` — Epoch 7/8.
 - **Last failed command:** none.
+
+## Session End Status
+Wrapped 2026-06-21-mcp-read-back-client at 2026-06-21T09:23:27Z.
