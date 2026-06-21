@@ -1,0 +1,31 @@
+# P-001 — Receiver Lifecycle State (pulse-capability-spec.md §P-001).
+# Drives the connection state machine through the full walk and reads back the terminal state:
+#   Listening (no spans) -> Receiving (first span, within 1s) -> Idle (10-60s quiet) -> Stalled (>60s quiet).
+# Coverage mode: drive+observe — the timing walk is auto; the connection-dot hue is operator-checklist.
+name = "receiver-lifecycle-state"
+p_ids = ["P-001"]
+seed = 4317001
+slo_tier = "<90s"   # the walk reaches Stalled (>60s of accumulated silence)
+jitter_ms = 50
+
+[[phases]]
+name = "listening"   # receivers up, zero spans yet
+gap_ms = 2000
+
+[[phases]]
+name = "receiving"   # emit the first valid span -> Receiving within 1s
+gap_ms = 2000
+
+[[phases]]
+name = "idle"        # stop emitting; 10-60s quiet -> Idle
+gap_ms = 15000
+
+[[phases]]
+name = "stalled"     # further silence -> >60s cumulative -> Stalled
+gap_ms = 50000
+
+# Terminal connection state read back from the receiver state machine.
+[[expected]]
+kind = "Contains"
+class = "Hard"
+expected = "Stalled"

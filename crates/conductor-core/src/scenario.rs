@@ -10,6 +10,7 @@
 use garde::Validate;
 use serde::{Deserialize, Serialize};
 
+use crate::expected::ExpectedCheck;
 use crate::phase_spec::PhaseSpec;
 
 /// A Pulse capability identifier (`P-001`..`P-060`). Serializes transparently as the bare
@@ -87,6 +88,12 @@ pub struct Scenario {
     /// gap by; `0` means gaps land exactly as declared. Bounded by garde.
     #[garde(range(max = crate::phase_spec::MAX_JITTER_MS))]
     pub jitter_ms: u64,
+    /// The declarative per-scenario read-back checks the `conductor-verify` evaluator compares
+    /// observed MCP read-back against. Optional in config (defaults to none — a drive+observe
+    /// scenario may assert only via the operator checklist); each present check validates via `dive`.
+    #[serde(default)]
+    #[garde(dive)]
+    pub expected: Vec<ExpectedCheck>,
 }
 
 impl Scenario {
@@ -120,8 +127,10 @@ fn no_duplicate_pids(p_ids: &[PId], _ctx: &()) -> garde::Result {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::expected::{ClaimClass, ComparisonKind};
     use crate::phase_spec::{EmissionSpec, Signal, MAX_JITTER_MS};
     use garde::Validate;
+    use rstest::rstest;
 
     fn scenario_with(p_ids: Vec<PId>) -> Scenario {
         Scenario {
@@ -135,6 +144,7 @@ mod tests {
                 emission: EmissionSpec::default(),
             }],
             jitter_ms: 50,
+            expected: Vec::new(),
         }
     }
 
@@ -285,5 +295,78 @@ gap_ms = 1
         let s = Scenario::from_toml_str(&toml).expect("fixture valid");
         assert_eq!(s.name, "error-baseline-spike");
         assert!(!s.phases.is_empty());
+    }
+
+    #[rstest]
+    #[case("receiver-lifecycle-state", "P-001")]
+    #[case("last-span-ago-tracking", "P-002")]
+    #[case("receiver-failed-port-conflict", "P-003")]
+    #[case("orthogonal-health-domains", "P-004")]
+    fn connection_lifecycle_fixtures_load_and_validate(#[case] stem: &str, #[case] p_id: &str) {
+        let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
+        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
+        assert_eq!(s.name, stem);
+        assert_eq!(s.p_ids, vec![PId(p_id.to_string())]);
+        assert!(!s.expected.is_empty(), "{stem} declares at least one expected check");
+    }
+
+    #[test]
+    fn from_toml_str_parses_an_expected_block() {
+        let toml = r#"
+name = "x"
+p_ids = ["P-001"]
+seed = 1
+slo_tier = "<5s"
+jitter_ms = 0
+
+[[phases]]
+name = "p"
+gap_ms = 1
+
+[[expected]]
+kind = "Contains"
+class = "Hard"
+expected = "Receiving"
+"#;
+        let s = Scenario::from_toml_str(toml).expect("valid scenario");
+        assert_eq!(s.expected.len(), 1);
+        assert_eq!(s.expected[0].kind, ComparisonKind::Contains);
+        assert_eq!(s.expected[0].class, ClaimClass::Hard);
+        assert_eq!(s.expected[0].expected, "Receiving");
+    }
+
+    #[test]
+    fn expected_defaults_to_empty_when_omitted() {
+        // `#[serde(default)]` — a scenario without an `[[expected]]` block stays valid (and the
+        // pre-existing error-baseline-spike.toml fixture keeps loading).
+        let s = scenario_with(vec![PId("P-009".to_string())]);
+        let json = serde_json::to_string(&s).unwrap();
+        let back: Scenario = serde_json::from_str(&json).unwrap();
+        assert!(back.expected.is_empty());
+    }
+
+    #[test]
+    fn expected_checks_round_trip_through_json() {
+        let mut s = scenario_with(vec![PId("P-001".to_string())]);
+        s.expected = vec![ExpectedCheck {
+            kind: ComparisonKind::Contains,
+            class: ClaimClass::Hard,
+            expected: "Receiving".to_string(),
+        }];
+        let json = serde_json::to_string(&s).unwrap();
+        let back: Scenario = serde_json::from_str(&json).unwrap();
+        assert_eq!(s, back);
+    }
+
+    #[test]
+    fn expected_check_with_empty_target_is_rejected_via_dive() {
+        let mut s = scenario_with(vec![PId("P-001".to_string())]);
+        s.expected = vec![ExpectedCheck {
+            kind: ComparisonKind::Exact,
+            class: ClaimClass::Hard,
+            expected: String::new(),
+        }];
+        assert!(s.validate().is_err());
     }
 }

@@ -82,7 +82,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
 [2026-06-21-coverage-matrix-generator] Coverage-matrix generator — all 60 P-IDs classified auto/drive+observe/static-only
 
 ### Epoch 7 — Scenario catalog
-Connection-lifecycle scenarios — Listening/Receiving/Idle/Stalled states with orthogonal port-occupier (P-001..P-004)
+[2026-06-21-connection-lifecycle-scenarios] Connection-lifecycle scenarios — Listening/Receiving/Idle/Stalled states with orthogonal port-occupier (P-001..P-004)
    ↓
 Hard-signals scenarios — ERROR/exception/severity-boundary/root-vs-deep checks (P-005..P-008)
    ↓

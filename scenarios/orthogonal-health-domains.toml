@@ -1,0 +1,29 @@
+# P-004 — Orthogonal Health Domains (pulse-capability-spec.md §P-004).
+# Emit a high error rate (application unhealthy) then cleanly stop the emitter. The connection dot
+# must transition Receiving -> Idle WITHOUT a false alert state, while the halo independently
+# reflects the error severity — connection state and application health are orthogonal domains.
+name = "orthogonal-health-domains"
+p_ids = ["P-004"]
+seed = 4317004
+slo_tier = "<90s"   # connection transitions Receiving -> Idle (Idle 10-60s)
+jitter_ms = 50
+
+[[phases]]
+name = "error-burst"   # high error rate — application unhealthy
+gap_ms = 3000
+
+[[phases]]
+name = "clean-stop"    # emitter stops cleanly; connection goes Receiving -> Idle
+gap_ms = 15000
+
+# Connection reaches Idle cleanly (no false alert) — the deterministic orthogonality claim.
+[[expected]]
+kind = "Contains"
+class = "Hard"
+expected = "Idle"
+
+# The halo independently reflects error severity — model-interpretive, so calibration-region.
+[[expected]]
+kind = "Contains"
+class = "CalibrationRegion"
+expected = "error"

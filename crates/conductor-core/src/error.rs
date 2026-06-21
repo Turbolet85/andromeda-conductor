@@ -59,6 +59,7 @@ mod tests {
                 emission: crate::EmissionSpec::default(),
             }],
             jitter_ms: 0,
+            expected: Vec::new(),
         };
         let report = invalid.validate().expect_err("empty scenario must fail validation");
         let err: CoreError = report.into();

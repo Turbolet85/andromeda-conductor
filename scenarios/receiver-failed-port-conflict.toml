@@ -1,0 +1,19 @@
+# P-003 — Receiver Failure Surface (pulse-capability-spec.md §P-003).
+# A sacrificial process holds loopback :4317 before Pulse starts, so Pulse's receiver cannot bind;
+# Pulse surfaces ReceiverFailed within 2s. The :4317 bind is driven at run time by the existing
+# conductor-faults port-occupier (Epoch-8 driver) — this config does NOT bind the port itself.
+name = "receiver-failed-port-conflict"
+p_ids = ["P-003"]
+seed = 4317003
+slo_tier = "<5s"   # ReceiverFailed surfaces within 2s
+jitter_ms = 0
+
+[[phases]]
+name = "port-held"   # port-occupier holds :4317; Pulse receiver bind fails
+gap_ms = 2000
+
+# Connection state read back from the receiver failure surface.
+[[expected]]
+kind = "Contains"
+class = "Hard"
+expected = "ReceiverFailed"

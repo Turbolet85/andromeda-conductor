@@ -1,0 +1,184 @@
+[
+{
+"sql": "SELECT s.symbol, s.crate, s.file, s.def_line, COUNT(r.callee) AS refs FROM symbol s LEFT JOIN refs r ON r.callee = s.symbol WHERE s.file LIKE '%scenario.rs' OR s.file LIKE '%phase_spec.rs' OR s.file LIKE '%expected.rs' OR s.file LIKE '%pause.rs' GROUP BY s.symbol, s.crate, s.file, s.def_line HAVING refs > 0 ORDER BY refs DESC LIMIT 25",
+"rows": 25,
+"result": [
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 scenario/SloTier#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/scenario.rs",
+"def_line": 37,
+"refs": 69
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 20,
+"refs": 62
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 crate/",
+"crate": "conductor-core",
+"file": "crates/conductor-core/tests/operator_pause.rs",
+"def_line": 0,
+"refs": 52
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/scenario.rs",
+"def_line": 18,
+"refs": 52
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 expected/ComparisonKind#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 34,
+"refs": 47
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#Hard#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 22,
+"refs": 33
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 scenario/SloTier#Tier5s#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/scenario.rs",
+"def_line": 40,
+"refs": 29
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 pause/Decision#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/pause.rs",
+"def_line": 28,
+"refs": 26
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 scenario/Scenario#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/scenario.rs",
+"def_line": 67,
+"refs": 20
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 pause/HeadlessResolver#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/pause.rs",
+"def_line": 104,
+"refs": 15
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#CalibrationRegion#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 24,
+"refs": 14
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 53,
+"refs": 14
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/EmissionSpec#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"def_line": 44,
+"refs": 13
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 scenario/SloTier#Tier20s#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/scenario.rs",
+"def_line": 43,
+"refs": 13
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 expected/ComparisonKind#Exact#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 36,
+"refs": 12
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/Signal#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"def_line": 61,
+"refs": 11
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 expected/ComparisonKind#CountAtLeast#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 43,
+"refs": 11
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/PhaseSpec#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"def_line": 22,
+"refs": 11
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 pause/resolve_hold().",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/pause.rs",
+"def_line": 136,
+"refs": 10
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 pause/HoldPoint#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/pause.rs",
+"def_line": 54,
+"refs": 10
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/scenario_with().",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/scenario.rs",
+"def_line": 125,
+"refs": 10
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#expected.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 62,
+"refs": 9
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 expected/ComparisonKind#Contains#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 39,
+"refs": 9
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 pause/Decision#NoGo#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/pause.rs",
+"def_line": 32,
+"refs": 9
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 scenario/Scenario#phases.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/scenario.rs",
+"def_line": 84,
+"refs": 9
+}
+],
+"db_state": "fresh"
+}
+]

@@ -1,0 +1,27 @@
+# P-002 — Last-Span-Ago Tracking (pulse-capability-spec.md §P-002).
+# Emit spans at known intervals; the tracker reports elapsed-since-last-span within +/-1s.
+# jitter is 0 so the emission intervals are an exact ground truth for the tracker comparison.
+# The +/-1s numeric tolerance is the Epoch-8 evaluator's concern — ComparisonKind has no tolerance kind.
+name = "last-span-ago-tracking"
+p_ids = ["P-002"]
+seed = 4317002
+slo_tier = "<5s"
+jitter_ms = 0
+
+[[phases]]
+name = "interval-1"
+gap_ms = 2000
+
+[[phases]]
+name = "interval-2"
+gap_ms = 2000
+
+[[phases]]
+name = "interval-3"
+gap_ms = 2000
+
+# The tracker is live (shown in Receiving/Idle/Stalled, hidden in Listening/ReceiverFailed).
+[[expected]]
+kind = "Contains"
+class = "Hard"
+expected = "Receiving"
