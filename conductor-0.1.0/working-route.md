@@ -64,7 +64,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
    ↓
 [2026-06-21-preflight-readiness-gate] Preflight readiness gate — pinned 2024-11-05 + tool presence + data-dir canary, Blocked on mismatch
    ↓
-OTLP egress liveness check — loopback :4317 connectable, refused ⇒ harness Err
+[2026-06-21-otlp-egress-liveness-check] OTLP egress liveness check — loopback :4317 connectable, refused ⇒ harness Err
    ↓
 Verdict + assertion-policy split — hard Pass/Fail vs CalibrationRegion classification
    ↓

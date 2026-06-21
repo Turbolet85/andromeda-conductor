@@ -4,8 +4,12 @@
 
 use std::net::SocketAddr;
 use std::sync::{Arc, Mutex};
+use std::time::Duration;
 
-use conductor_emit::{trace_request, EmitError, TraceEmitter, DEFAULT_SERVICE_NAME};
+use conductor_emit::{
+    probe_egress, trace_request, DEFAULT_CONNECT_TIMEOUT, DEFAULT_SERVICE_NAME, EmitError,
+    TraceEmitter,
+};
 use opentelemetry_proto::tonic::collector::trace::v1::{
     trace_service_server::{TraceService, TraceServiceServer},
     ExportTraceServiceRequest, ExportTraceServiceResponse,
@@ -74,4 +78,25 @@ async fn refused_transport_surfaces_emit_error() {
     // Nothing listens on :1 — connect must fail as a typed EmitError, never panic.
     let result = TraceEmitter::connect("http://127.0.0.1:1").await;
     assert!(matches!(result, Err(EmitError::Transport(_))));
+}
+
+#[tokio::test(flavor = "current_thread")]
+async fn probe_egress_ok_against_connectable_stub() {
+    let (addr, _captured) = start_stub().await;
+    probe_egress(format!("http://{addr}"))
+        .await
+        .expect("probe a connectable loopback stub");
+}
+
+#[tokio::test(flavor = "current_thread")]
+async fn probe_egress_refused_surfaces_emit_error() {
+    // Nothing listens on :1 — the liveness probe must fail as a typed EmitError, never hang or panic.
+    let result = probe_egress("http://127.0.0.1:1").await;
+    assert!(matches!(result, Err(EmitError::Transport(_))));
+}
+
+#[test]
+fn default_connect_timeout_is_bounded_fail_fast() {
+    assert!(DEFAULT_CONNECT_TIMEOUT > Duration::ZERO);
+    assert!(DEFAULT_CONNECT_TIMEOUT <= Duration::from_secs(10));
 }

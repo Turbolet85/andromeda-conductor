@@ -7,7 +7,7 @@
 //! ([`pii_logs_request`]) — shipped over tonic gRPC
 //! [`TraceEmitter`] / [`LogsEmitter`] to Pulse's loopback ingest.
 //! Transport/collector faults are typed [`EmitError`] values (`Result::Err`), never verification
-//! verdicts (the verdict/error wall).
+//! verdicts (the verdict/error wall). The pre-emission egress-liveness gate is [`probe_egress`].
 
 mod client;
 mod error;
@@ -20,7 +20,7 @@ mod rate;
 mod span_tree;
 mod topology;
 
-pub use client::{LogsEmitter, TraceEmitter, DEFAULT_OTLP_ENDPOINT};
+pub use client::{probe_egress, LogsEmitter, TraceEmitter, DEFAULT_CONNECT_TIMEOUT, DEFAULT_OTLP_ENDPOINT};
 pub use error::EmitError;
 pub use exception::{exception_trace_request, fingerprint, ExceptionSpec, FingerprintVariant, Frame};
 pub use latency::{latency_trace_request, LatencyOp, LatencyProfile};

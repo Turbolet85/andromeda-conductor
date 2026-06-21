@@ -1,0 +1,8 @@
+[
+{
+"sql": "SELECT from_crate, to_crate FROM crate_edges WHERE from_crate='conductor-emit' OR to_crate='conductor-emit' ORDER BY 1,2",
+"rows": 0,
+"result": [],
+"db_state": "fresh"
+}
+]
