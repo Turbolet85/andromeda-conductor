@@ -1,0 +1,104 @@
+[
+{
+"sql": "SELECT split_part(callee,' ',3) AS crate, regexp_extract(callee,'[A-Za-z_]+[#.()]*$') AS sym, COUNT(*) n FROM calls_m WHERE callee LIKE '%for_record%' OR callee LIKE '%RunReport%' OR callee LIKE '%status_prefix%' OR callee LIKE '%RunRecord%' GROUP BY 1,2 ORDER BY n DESC LIMIT 30",
+"rows": 19,
+"result": [
+{
+"crate": "conductor-core",
+"sym": "RunRecord#",
+"n": 42
+},
+{
+"crate": "conductor-core",
+"sym": "status_prefix().",
+"n": 15
+},
+{
+"crate": "conductor-report",
+"sym": "RunReport#",
+"n": 14
+},
+{
+"crate": "conductor-core",
+"sym": "scenario.",
+"n": 12
+},
+{
+"crate": "conductor-core",
+"sym": "verdict.",
+"n": 11
+},
+{
+"crate": "conductor-core",
+"sym": "state.",
+"n": 11
+},
+{
+"crate": "conductor-core",
+"sym": "for_record().",
+"n": 10
+},
+{
+"crate": "conductor-report",
+"sym": "render().",
+"n": 10
+},
+{
+"crate": "conductor-core",
+"sym": "run_id.",
+"n": 9
+},
+{
+"crate": "conductor-core",
+"sym": "seed.",
+"n": 9
+},
+{
+"crate": "conductor-core",
+"sym": "journal_emitted_at.",
+"n": 8
+},
+{
+"crate": "conductor-core",
+"sym": "slo_tier.",
+"n": 8
+},
+{
+"crate": "conductor-core",
+"sym": "latency_ms.",
+"n": 8
+},
+{
+"crate": "conductor-core",
+"sym": "fingerprints.",
+"n": 8
+},
+{
+"crate": "conductor-core",
+"sym": "read_back_observed_at.",
+"n": 7
+},
+{
+"crate": "conductor-core",
+"sym": "p_ids.",
+"n": 7
+},
+{
+"crate": "conductor-core",
+"sym": "blocked().",
+"n": 6
+},
+{
+"crate": "conductor-core",
+"sym": "measured().",
+"n": 6
+},
+{
+"crate": "conductor-report",
+"sym": "write().",
+"n": 3
+}
+],
+"db_state": "fresh"
+}
+]

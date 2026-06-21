@@ -14,6 +14,7 @@
 //! ([`resolve_under`]).
 
 mod config_path;
+mod coverage;
 mod error;
 mod expected;
 mod lamp;
@@ -27,6 +28,7 @@ mod scenario;
 mod verdict;
 
 pub use config_path::resolve_under;
+pub use coverage::{CapabilityRow, CoverageMode, coverage_matrix};
 pub use error::{CoreError, Result};
 pub use expected::{ClaimClass, ComparisonKind, ExpectedCheck};
 pub use lamp::Lamp;

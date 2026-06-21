@@ -1,0 +1,35 @@
+# Report — 2026-06-21-coverage-matrix-generator
+
+**Chunk:** Coverage-matrix generator — all 60 P-IDs (P-001..P-060) re-classified into Conductor's auto/drive+observe/static-only modes; zero-gap definition-of-done classification + Markdown render (conductor-core/report)
+**Date:** 2026-06-21T21:57:21Z
+**Commits:** none since last_wrap (implement does not commit; this chunk is uncommitted working-tree changes)
+
+## Changes (structured — detectors read this)
+- **Files:** NEW `crates/conductor-core/src/coverage.rs` · NEW `crates/conductor-report/src/coverage.rs` · MOD `crates/conductor-core/src/lib.rs` (`mod coverage;` + `pub use`) · MOD `crates/conductor-report/src/lib.rs` (`mod coverage;` + `pub use`). (Process artifacts also in the tree: master/working route, chunk folder, run-dirs — not code surfaces.)
+- **Symbols / APIs:** NEW public **library** symbols only — `conductor-core::CoverageMode` (enum; serde per-variant rename `auto`/`drive+observe`/`static-only`; `ALL`, `label()`), `conductor-core::CapabilityRow` (struct: `p_id`/`title`/`category`/`mode`), `conductor-core::coverage_matrix() -> &'static [CapabilityRow]`; `conductor-report::CoverageMatrix` (`render() -> String`, `write(&Path) -> Result<PathBuf, ReportError>`). **No** IPC method / endpoint / event / socket / port / env var.
+- **Crates / modules:** added module `conductor-core::coverage` + `conductor-report::coverage`. No new crate; no crate removed.
+- **Dependencies:** none added · none bumped (core + report already carry serde/serde_json/thiserror/assert_fs).
+- **Schema / config:** none — no runs.db migration, no config key, no violation schema. (A new on-disk artifact format exists: `coverage-matrix.md`, a kebab-case Markdown table `| P-ID | Title | Category | Mode |`; it is NOT the runs.db/JSONL run-report envelope and does not touch test-plan §3 / obs-plan §3.)
+- **Coverage of new surfaces:**
+  - `CoverageMode` + `coverage_matrix()` (code-native 60-row classification model, conductor-core) → validation **n/a** (no external input — committed `static` const table, NOT read from disk at runtime) · instrumentation **n/a** (pure data) · PII **n/a** (static literals; no host paths/struct names) · tests **unit✓** (6: completeness/zero-gaps/no-dups, named static-only anchors, every-mode-present, serde wire+round-trip) · a11y **n/a** (no UI) · tokens **n/a** (no UI)
+  - `CoverageMatrix::render/write` (Markdown artifact generator, conductor-report) → validation **n/a** (no external input; `write` takes a caller-resolved path — path resolution is the deferred Epoch-8 cli-edge concern) · instrumentation **✗ deferred** (a `report.*`/coverage span has no driver until the Epoch-8 cli/timeline caller — same build-sequencing as the deferred `report.generate` span; obs §4 already names `report.generate`) · PII **redacted✓** (no host paths / internal struct names — asserted by `no_host_paths_or_struct_names_leak`) · tests **unit✓** (5: determinism, header/summary format-lock, per-row exact-line, no-leak, overwrite round-trip) · a11y **n/a** (no UI — artifact; the desktop coverage-matrix *view* is Epoch 9) · tokens **n/a** (no UI)
+
+## Deviations from intent
+Plan acceptance criteria all met. Deviations are classification *judgment calls* (the plan set the rules; the assignments are authored here) + one deliberate deferral:
+- **P-050 (Cross-Project Sharing Opt-In) → static-only** — a 7th static-only beyond input.md's 6 named anchors. Justified: local-only *by construction* (127.0.0.1 binding, no network beacon, export-confirm per the audit) → no telemetry dimension Conductor drives. input.md's static-only list is "e.g." (non-exhaustive); the plan AC requires only the 6 named anchors to be static-only — satisfied.
+- **Connection & Health P-001..P-004 → drive+observe** — health states surface on the halo/widget (visual); no MCP tool reads connection state, so operator-confirmed.
+- **Hybrid timing claims** — P-037 (in-app report surface) + P-058 (pipeline self-obs) → drive+observe (the claim is a visual render); P-045 (counter-derivation) → auto (the derivation is MCP-assertable). input.md groups these "via MCP poll timing + operator observation"; split by whether the *claim* itself is programmatically assertable.
+- **`coverage-matrix.md` artifact not materialized at the repo root** — the approved plan scope was the *generator* (render+write+tests, proven via TempDir); the root file is not in research's new-files list and has no driver until the Epoch-8 cli. Materialization + the completeness *gate* is Epoch-10 (working-route "Coverage-matrix completeness gate"). The `write()` is ready; can be driven on request.
+
+## Decisions & corrections
+- **Classify-only at Epoch 6** — user-confirmed (P4 AskUserQuestion): the Epoch-6 matrix is the static classification; **no runs.db read, no Lamp** this chunk. Lamp/status overlay deferred to Epoch 8 (CLI table) / Epoch 9 (desktop view), where run data exists. (`lamp.rs:9` doc already names the coverage matrix a future Lamp consumer.)
+- **Atomic-overwrite write, NOT `create_new`** — `coverage-matrix.md` is a regenerated definition-of-done singleton (not a run_id-stemmed immutable artifact), so the write is `.tmp`→rename overwrite; regeneration must succeed. Intentional divergence from `RunReport::write`. (Corrects the security/tests extracts' borrowed "loud-never-overwrite" assumption.)
+- **Code-native classification** — the 60-row table is a committed Rust `static` (the source of truth), seeded at authoring time from `.andromeda/refs/capability-verification-matrix.json` + input.md §Coverage classification; NOT read from disk at runtime (no new input boundary; keeps render pure).
+- **obs span deferred** — the obs extract proposed a `report.coverage_matrix_generate` span + runs.db `coverage_percent`/`missing_p_ids` columns; declined as build-sequencing (no driver yet), consistent with the deferred `report.generate` span.
+- **Mode rendered as its serde wire word** (`auto`/`drive+observe`/`static-only`), not a `[AUTO]`-style prefix that would collide with the `[PASS]`-style Lamp ASCII.
+
+## Outcome
+- **Acceptance criteria:** all met — 60 P-IDs zero-gap each in exactly one mode (completeness test); pure clock-free render with exact-string format-lock + per-row exact-line + determinism; no host-path/struct-name leak; named static-only anchors pinned; modes re-mapped (not copied) from the Pulse audit; atomic-overwrite write; no new dependency.
+- **Gates green:** `cargo nextest run -p conductor-core -p conductor-report` 125/125 · `cargo nextest run --workspace --profile ci` **301/301** (290 baseline + 11 new) · `cargo clippy --workspace --all-targets -- -D warnings` clean (1 fix iteration: `collapsible_if` → edition-2024 let-chain) · `cargo test --doc` 0.
+- **Smoke:** skipped — boot-path unchanged (library primitive, no driver until Epoch-8 cli). `agent-run.sh status` returned correct usage (needs `<run_id>`; exit 2) — harness intact, non-destructive.
+- **Classification tally:** 40 auto · 13 drive+observe · 7 static-only (locked by the summary-line exact-string test).

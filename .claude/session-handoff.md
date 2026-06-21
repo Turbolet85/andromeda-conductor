@@ -1,22 +1,22 @@
 # Session Handoff
 
-**Last Updated:** 2026-06-21T20:24:57Z
+**Last Updated:** 2026-06-21T22:05:55Z
 **Branch:** build/conductor-0.1.0
 **Status:** clean
-**Last Commit:** 2026-06-21-markdown-run-report — feat: Markdown run report + shared verdict-first Lamp (conductor-report/core, Epoch 6 ch3/4)
+**Last Commit:** 2026-06-21-coverage-matrix-generator — feat: coverage-matrix generator (CoverageMode + 60-row classification + Markdown render, conductor-core/report)
 
 ## Position
-- Done: **2026-06-21-markdown-run-report** — the per-run Markdown run report (`conductor-report::RunReport` render/write to `runs/<run_id>.md`, run_id-stemmed + never-overwrite) over the existing `RunRecord` envelope, plus the shared `conductor-core::Lamp` (`for_record` verdict-first resolver). **Epoch 6 (Run report & persistence) — chunk 3 of 4.**
-- Next: **Coverage-matrix generator** — all 60 P-IDs classified auto/drive+observe/static-only (Epoch 6 ch4/4) → `/andromeda-phase` to promote + plan.
+- Done: **2026-06-21-coverage-matrix-generator** — **Epoch 6 (Run report & persistence) ch4/4 → Epoch 6 COMPLETE.** `conductor-core::CoverageMode` (auto/drive+observe/static-only) + a 60-row code-native classification `static` (`coverage_matrix()`); `conductor-report::CoverageMatrix::render` (pure) + `::write` (atomic overwrite). Classify-only — no runs.db/Lamp this chunk.
+- Next: **Epoch 7 — Scenario catalog** (first markerless: Connection-lifecycle scenarios P-001..P-004) → `/andromeda-phase` to promote + plan.
 
 ## Work done
-4 files: NEW `conductor-core/src/lamp.rs` (`Lamp` enum + `for_record` verdict-first resolver + `status_prefix`/`label`, 5 tests); NEW `conductor-report/src/report.rs` (`RunReport::render` pure + `::write` create_new + `ReportError`, 10 tests); MOD both `lib.rs` (`pub use`). +15 tests, **no new dependency**. Gates: core+report 114/114 · workspace **290/290** · clippy `-D` clean · doctest 0. Code-graph 962n/3824e.
+4 files: NEW `conductor-core/src/coverage.rs` (`CoverageMode` + `CapabilityRow` + 60-row `coverage_matrix()`, 6 tests); NEW `conductor-report/src/coverage.rs` (`CoverageMatrix::render`/`::write` atomic-overwrite + `ReportError` reuse, 5 tests); MOD both `lib.rs`. +11 tests, **no new dependency**. Classification **40 auto · 13 drive+observe · 7 static-only**. Gates: core+report 125/125 · workspace **301/301** · clippy `-D` clean · doctest 0 (1 fix: `collapsible_if`→let-chain). Code-graph 992n/4094e.
 
 ## Drift resolved
-2 warnings (both dismissed → **0 spec amendments**), **1 escalation resolved**. **obs** D-obs-instrumentation (`report.generate` span) → routine dismiss (any-seam-primitive deferred-span rule; the primitive has no driver — span lands with the Epoch-8 caller; recurrence note appended). **tests** D-tests-obs-harness (test-plan §3 two-record-shapes) → escalated → **user chose dismiss** (not this chunk's drift — the chunk renders the existing envelope, touching neither §3; the §3↔obs§3 gap is pre-existing + a carried follow-up); **+1 new playbook rule** (plan↔plan-bind detector firing on a pre-existing untouched gap → dismiss). 5 detectors clean.
+1 proposal · **0 applied · 1 routine dismiss · 0 escalations** (drift = 0). **arch** D-arch-resources (warning) proposed tracing `coverage-matrix.md` to its producing module in §Occupied Resources → routine dismiss (library-symbol over-reach; artifact already registered, chunk added no new occupied resource — established playbook rule, recurred). 6 of 7 detectors clean.
 
 ## Notes
-- **Key decisions:** verdict-first lamp precedence centralized as `conductor-core::Lamp` (coverage-matrix/cli/desktop reuse `Lamp::for_record`, never re-derive); `KnownResidual`/`Blocked` are **state-driven, checked before the verdict arms** (`measured()` always carries a verdict, so a naive verdict-first mis-renders a residual); render is a **pure clock-free fn** → exact-string golden (not `insta`); `write` uses `create_new` (loud never-overwrite); enum wire forms via the existing `serde_json` (no new dep).
-- **Curation:** 1 Tier-3 (lamp precedence + clock-free render seam); filtered 1 dup (serde-wire enums) + 1 low-confidence (create_new). 0 conflicts, 0 deferred.
-- **Follow-up (carried):** (a) **test-plan §3 ↔ obs-plan §3 two-record-shapes doc-reconcile** (re-confirmed deferred this wrap — dedicated pass) · (b) `report.generate` obs span → Epoch 8 cli/timeline caller (joins `db.insert_run` / `hold.wait_resolve` / `fault.*` deferrals) · (c) coverage-matrix ch4 / cli Epoch 8 / desktop Epoch 9 **reuse `Lamp::for_record`** · (d) `Scenario.holds`/`expected` TOML wiring → Epoch 7 · (e) `opentelemetry-proto default-features=false` trim.
+- **Key decisions:** classify-only at Epoch 6 (user-confirmed P4) — no runs.db/Lamp; status overlay + Lamp reuse deferred to Epoch 8 cli table / Epoch 9 desktop view. **Atomic-overwrite write** (regenerated singleton), NOT `create_new` (corrects a borrowed run-report assumption). **Code-native classification** (committed `static`, seeded from refs audit + input.md, not runtime-read). `CoverageMode` is a 3rd axis (distinct from `Verdict` + `ClaimClass`). Classification judgment calls documented: P-050 → static-only (7th, beyond input.md's 6 named anchors); connection-health P-001..P-004 → drive+observe; hybrids P-037/P-058 → drive+observe, P-045 → auto.
+- **Curation:** 2 Tier-3 (coverage-axis classification · artifact write-lifecycle); 0 Tier-1/2. 0 conflicts, 0 deferred.
+- **Follow-up (carried):** (a) **`coverage-matrix.md` not materialized at repo root** — generator ready; the Epoch-8 cli drives it (or on request); completeness gate is Epoch 10. (b) test-plan §3 ↔ obs-plan §3 two-record-shapes doc-reconcile (still deferred — dedicated pass). (c) `report.generate`/coverage obs span → Epoch-8 cli/timeline caller. (d) `Scenario.holds`/`expected` TOML wiring → Epoch 7. (e) `opentelemetry-proto default-features=false` trim. (f) Epoch 8/9 coverage surfaces reuse `coverage_matrix()` + `Lamp::for_record`.
 - **Last failed command:** none.
