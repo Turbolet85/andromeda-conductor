@@ -1,0 +1,81 @@
+[
+{
+"sql": "SELECT name FROM sqlite_master WHERE type='table'",
+"rows": 4,
+"result": [
+{
+"name": "calls_m"
+},
+{
+"name": "defs"
+},
+{
+"name": "occ"
+},
+{
+"name": "wsdef"
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT * FROM defs LIMIT 1",
+"rows": 1,
+"result": [
+{
+"symbol": "rust-analyzer cargo conductor-verify 0.1.0 crate/",
+"file": "crates/conductor-verify/tests/verdict.rs",
+"def_line": 0,
+"enc_start": 0,
+"enc_end": 45
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT * FROM wsdef LIMIT 1",
+"rows": 1,
+"result": [
+{
+"symbol": "rust-analyzer cargo conductor-verify 0.1.0 slo/tests/hard_check_passes_only_when_matched_and_within_slo()."
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT file, COUNT(*) AS refs FROM occ WHERE symbol LIKE '%RunRecord%' GROUP BY file ORDER BY refs DESC",
+"rows": 4,
+"result": [
+{
+"file": "crates/conductor-core/src/run_record.rs",
+"refs": 49
+},
+{
+"file": "crates/conductor-report/src/journal.rs",
+"refs": 18
+},
+{
+"file": "crates/conductor-verify/src/record.rs",
+"refs": 15
+},
+{
+"file": "crates/conductor-core/src/lib.rs",
+"refs": 1
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT * FROM occ LIMIT 1",
+"rows": 1,
+"result": [
+{
+"symbol": "rust-analyzer cargo conductor-verify 0.1.0 crate/",
+"file": "crates/conductor-verify/tests/verdict.rs",
+"line": 0,
+"is_def": true
+}
+],
+"db_state": "fresh"
+}
+]

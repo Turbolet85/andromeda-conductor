@@ -1,0 +1,29 @@
+# Report — 2026-06-21-runs-db-index
+
+**Chunk:** runs.db index — rusqlite bundled-SQLite storage seam: schema bootstrap + bound-parameter RunRecord insert + JSON1 fingerprint arrays, Blocked-row NULL rule (conductor-report)
+**Date:** 2026-06-21T19:09:44Z
+**Commits:** (uncommitted at report time — wrap commits) feat(2026-06-21-runs-db-index): runs.db SQLite index storage seam
+
+## Changes (structured — detectors read this)
+- **Files:** `crates/conductor-report/src/db.rs` (NEW) · `crates/conductor-report/src/lib.rs` (MOD) · `crates/conductor-report/Cargo.toml` (MOD) · `Cargo.lock` (MOD, auto)
+- **Symbols / APIs:** NEW public exports from `conductor-report` — `RunsDb` (`open(&Path)` · `insert(&RunRecord)` · `get(&str,&str) -> Option<RunRecord>`) and `RunsDbError` (`#[non_exhaustive]`: `Io` / `Sqlite` / `Json`). No new IPC / endpoint / socket / port / env var.
+- **Crates / modules:** `conductor-report` gains a `db` module; no new workspace crate, no new cross-seam edge (still depends only on `conductor-core`).
+- **Dependencies:** `rusqlite 0.38.0` (feature `bundled`) becomes a **direct dep of `conductor-report`** — the **first real compile/use** in the workspace (previously declared in `[workspace.dependencies]` but unused). Pulls `libsqlite3-sys 0.36.0` (bundled **SQLite 3.50.4**, JSON1) + tree (`hashlink`, `fallible-iterator`, `fallible-streaming-iterator`, `hashbrown`). **`cargo audit` exit 0** (251 deps, no advisories) · **`cargo deny check advisories bans` ok**. `rusqlite 0.38.0 bundled` is the arch-locked DB choice (§Established Decisions [Database]).
+- **Schema / config:** the `runs` SQLite table in `runs.db` — 11 columns, `PRIMARY KEY (run_id, scenario)` (no synthetic PK). `latency_ms` INTEGER (NULL for blocked); `journal_emitted_at`/`read_back_observed_at` **TEXT RFC-3339** (NULL for blocked); `p_ids`/`fingerprints` JSON1 TEXT arrays; `verdict`/`state`/`slo_tier` TEXT serde wire forms. `seed: u64` stored as bit-cast `INTEGER`. No migration framework (`CREATE TABLE IF NOT EXISTS`).
+- **Coverage of new surfaces:**
+  - `runs.db write (RunsDb::insert/get)` → validation {n/a — consumes a typed `RunRecord`, no external input; the `runs_dir` path is resolved/canonicalized at the cli edge, not here} · instrumentation {✗ — the `db.insert_run` span is route-sequenced to Epoch 8, its live timeline/cli caller; this seam emits no span and pulls no `tracing` dep} · PII {redacted✓ — the `stored_cells_carry_no_host_paths_or_struct_names` test asserts no `C:\`/`/Users/`/`/home/`/`RunRecord`/`RunsDb` in any cell; only synthetic `RunRecord` fields are stored} · tests {unit+integ — 10 tests: in-memory `Connection` round-trips + an `assert_fs::TempDir` file-DB test} · a11y {n/a — no UI} · tokens {n/a — no UI}
+
+## Deviations from intent
+- **Timestamp columns TEXT RFC-3339, not arch §Data-model "integer-ms offsets":** the **P4 user decision** (AskUserQuestion → Option A). The envelope only carries second-precision RFC-3339 + a precomputed `latency_ms`; `latency_ms` IS stored as INTEGER (the value the SLO math consumes — the convention's actual intent), and the two instant columns are TEXT provenance. Dep-free (avoids a date-parser dep). **Deviates from arch §Data-model conventions' explicit "not ISO strings" wording (and the §Standard Contracts cross-reference) → arch body amendment** (the user ratified this at P4 with "records a doc-reconcile note for wrap").
+- **`libsqlite3-sys 0.36.0` / bundled SQLite 3.50.4, vs arch §Stack's stated `libsqlite3-sys 0.38.0` / SQLite 3.51.1:** `rusqlite 0.38.0` pins `libsqlite3-sys 0.36.0` which bundles SQLite 3.50.4 (verified from the bundled `sqlite3.h` + `Cargo.lock`) — not controllable from this chunk. The functional invariant holds (bundled, JSON1 proven by the `json_array_length` test; ≥3.38 floor satisfied). → arch §Stack + §Inherited Defaults factual correction.
+- **`RunsDbError` gained an `Io` variant** (plan named `Sqlite` + `Serialize`): `std::fs::create_dir_all` returns `std::io::Error`, needed to create `runs_dir` before opening — a clean mirror of the sibling `JournalError` (which also carries `Io`). The JSON variant is named `Json` (covers both serialize-on-write and deserialize-on-read of the JSON1 arrays + enum wire forms), not `Serialize`. Cosmetic.
+
+## Decisions & corrections
+- **P4 user decision (timestamps):** store the two instant columns as TEXT RFC-3339 + `latency_ms` as INTEGER (dep-free); deviates from arch wording → arch amendment at wrap (above).
+- **`db.insert_run` obs span deferred to Epoch 8** — `conductor-report` has no `tracing` dep and the sibling `JournalWriter` carries no library-level span; the must-trace OPERATION is the live insert under a run_id-scoped traced caller (cli/timeline), built in Epoch 8. Build-sequencing, mirrors the `hold.wait_resolve`/`fault.*` deferrals.
+- **enum→TEXT via serde wire form** (`serde_json::to_value(v).as_str()`), not a hand match — keeps the stored spelling identical to the JSONL wire form (the `#[serde(rename)]` is the single source of truth).
+
+## Outcome
+- **All 9 plan acceptance criteria met**, each with a passing test: bound-params only (SQL-metacharacter literal-storage test) · Blocked-row NULL rule (`… IS NULL` assertion) · measured round-trip over 2 variant sets · JSON1 `json_array_length` on `p_ids`/`fingerprints` · artifact hygiene · `seed: u64 > i64::MAX` round-trip · duplicate-key → `RunsDbError::Sqlite` · `get` absent → `None` · file-DB via `TempDir`.
+- **Gates green:** `cargo nextest run -p conductor-report` 14/14 · `cargo nextest run --workspace --profile ci` **275/275** (0 skipped; +10 over the 265 baseline) · `cargo clippy -p conductor-report --all-targets -- -D warnings` clean (after 1 needless-borrow fix) · `cargo test --doc -p conductor-report` 0. Supply-chain: `cargo audit` 0 · `cargo deny` ok.
+- **Smoke:** skipped — no boot-path change (library seam; `runs.db` is not reachable from `agent-run.sh` until the Epoch-8 cli wiring).

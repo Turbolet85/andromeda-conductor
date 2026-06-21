@@ -19,7 +19,7 @@ _Mirrors `.andromeda/architecture.md` §Stack and Technologies. Convenience refe
 - **Error handling:** thiserror 2.0.18 (per-seam enums) + anyhow 1.0.102 (binary edges).
 
 ## Data Storage
-- **rusqlite 0.38.0 + libsqlite3-sys 0.38.0** (`bundled` SQLite 3.51.1, JSON1) — synchronous embedded `runs.db` index, raw SQL, no ORM/migrations.
+- **rusqlite 0.38.0 + libsqlite3-sys 0.36.0** (`bundled` SQLite 3.50.4, JSON1) — synchronous embedded `runs.db` index, raw SQL, no ORM/migrations.
 - On-disk artifacts: per-run `<run_id>.jsonl` emission journal + `<run_id>.md` report under `runs/`.
 
 ## Messaging & Events

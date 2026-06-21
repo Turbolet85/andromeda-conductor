@@ -17,7 +17,7 @@
 | OTLP emission | opentelemetry-proto 0.32.0 (`gen-tonic` + `trace`/`metrics`/`logs`) | Raw hand-built OTLP message structs (`ExportTraceServiceRequest`/`ResourceSpans`/`Span`/`Status`) for byte-level fault control |
 | gRPC transport | tonic 0.14.6 + tonic-prost 0.14.6 + prost 0.14 | Ships generated `TraceServiceClient`/`LogsServiceClient` over loopback gRPC |
 | MCP read-back client | rmcp 1.7.0 (`client` feature) | Official Rust MCP SDK; `serve_client()` over `TokioChildProcess` stdio; version negotiation + typed tool calls |
-| Database | rusqlite 0.38.0 + libsqlite3-sys 0.38.0 (`bundled` → SQLite 3.51.1, JSON1) | Synchronous, append-mostly embedded index (`runs.db`), deliberately off the async runtime |
+| Database | rusqlite 0.38.0 + libsqlite3-sys 0.36.0 (`bundled` → SQLite 3.50.4, JSON1) | Synchronous, append-mostly embedded index (`runs.db`), deliberately off the async runtime |
 | ORM / migrations | None — raw SQL in the storage seam | Right altitude for a ~one-table run-metadata index |
 | Message broker | N/A | Single-process; inter-module flow is in-process Rust calls / `tokio::sync::mpsc` at most |
 | Mobile framework | N/A | Desktop-only, host-bound (holds `:4317`, reads local git workspace) |
@@ -71,7 +71,7 @@
 
 **Config conventions:** Declarative scenario config (no scenario DSL) deserialized with serde and bounds-checked with garde at load; validation co-located with the serde structs in their owning seam crates. Durations are non-negative; error fractions ∈ [0,1]; ramp factors validated sane; latency targets enforce p50≤p95≤p99 ordering and severity-mix sums.
 
-**Data model conventions (SQLite / `runs.db`):** Raw SQL, no migration framework; primary index keyed by `run_id` (with `seed`/`scenario`) per the Run-History decision — no synthetic UUID/serial PK is introduced. Timestamps are stored as journal-relative values whose source of truth is the JSONL journal; wall-clock stamps for the journal come from `std::time::SystemTime`/`Instant` (never tokio's virtual clock, which would break journal-relative SLO math). Column types are fixed on first write (no migration framework to coerce later): `latency_ms` is INTEGER milliseconds (NULL for blocked rows); `journal_emitted_at`/`read_back_observed_at` are stored as the same integer-millisecond journal offsets the SLO math consumes, not ISO strings; `slo_tier` is a closed TEXT enum over exactly `<5s`/`<20s`/`<90s`. Fingerprint arrays are stored as a JSON1 TEXT array of fingerprint strings and indexed via SQLite JSON1.
+**Data model conventions (SQLite / `runs.db`):** Raw SQL, no migration framework; primary index keyed by `run_id` (with `seed`/`scenario`) per the Run-History decision — no synthetic UUID/serial PK is introduced. Timestamps are stored as journal-relative values whose source of truth is the JSONL journal; wall-clock stamps for the journal come from `std::time::SystemTime`/`Instant` (never tokio's virtual clock, which would break journal-relative SLO math). Column types are fixed on first write (no migration framework to coerce later): `latency_ms` is INTEGER milliseconds (NULL for blocked rows); `journal_emitted_at`/`read_back_observed_at` are stored as TEXT RFC-3339 (the JSONL envelope's wire form), while the integer-millisecond value the SLO math consumes is the separate `latency_ms` INTEGER column; `slo_tier` is a closed TEXT enum over exactly `<5s`/`<20s`/`<90s`. Fingerprint arrays are stored as a JSON1 TEXT array of fingerprint strings and indexed via SQLite JSON1.
 
 ## Standard Contracts
 
@@ -121,7 +121,7 @@ When `ready` is false, every dependent auto scenario is emitted into the report 
 
 `verdict ∈ {Pass, Fail, CalibrationRegion}`; `state ∈ {Pass, Fail, ManualCheck, KnownResidual, Blocked}`.
 
-**Timestamp formats.** `run_id` uses a filesystem-safe hyphen-delimited stamp (`YYYY-MM-DDTHH-MM-SS-<suffix>`) because it is the `runs.db` primary key and the stem of `<run_id>.jsonl` / the run report — colons are illegal in filenames on the Windows dev host. In-payload instant fields use colon-delimited RFC-3339 (`2026-06-12T21:59:37Z`): `checked_at` in the readiness result, and the human-facing run-report serialization of `journal_emitted_at`/`read_back_observed_at` (whose `runs.db` columns remain the integer-millisecond journal offsets declared in the Data model conventions, not ISO strings). The encodings denote the same instant; only `run_id` is constrained to the hyphen form.
+**Timestamp formats.** `run_id` uses a filesystem-safe hyphen-delimited stamp (`YYYY-MM-DDTHH-MM-SS-<suffix>`) because it is the `runs.db` primary key and the stem of `<run_id>.jsonl` / the run report — colons are illegal in filenames on the Windows dev host. In-payload instant fields use colon-delimited RFC-3339 (`2026-06-12T21:59:37Z`): `checked_at` in the readiness result, and the human-facing run-report serialization of `journal_emitted_at`/`read_back_observed_at` (whose `runs.db` columns are TEXT RFC-3339 per the Data model conventions; the integer-millisecond value the SLO math consumes is the separate `latency_ms` INTEGER column). The encodings denote the same instant; only `run_id` is constrained to the hyphen form.
 
 **Live update channel.** Backend→frontend streaming uses the Tauri 2 IPC `Channel` (live emission counters + target status); there is no SSE/WebSocket/polling HTTP surface.
 
@@ -219,7 +219,7 @@ conductor/
 
 - **Language / runtime:** Rust 2024 (cargo 1.85, MSRV 1.94.1) + tokio 1.48.x `current_thread`.
 - **Backend framework:** None — headless Rust core, no HTTP/network service (gRPC client + MCP client + Tauri IPC).
-- **Database:** rusqlite 0.38.0 + `bundled` SQLite 3.51.1 (JSON1), synchronous raw SQL, no ORM/migrations.
+- **Database:** rusqlite 0.38.0 + `bundled` SQLite 3.50.4 (JSON1), synchronous raw SQL, no ORM/migrations.
 - **Interface style:** OTLP/gRPC egress to `127.0.0.1:4317` (tonic 0.14.6); MCP read-back via rmcp 1.7.0 against Pulse's hand-rolled `2024-11-05` server, version-pinned manifest + preflight canary (`blocked` on mismatch/empty), sidecar spawned with the live Pulse's `ANDROMEDA_PULSE_DATA_DIR`; internal Tauri 2 commands + `Channel`. No REST/GraphQL/tRPC.
 - **Validation:** serde 1.0.x + garde 0.22.1, co-located with structs in owning seam crates.
 - **Error handling:** thiserror 2.0.18 typed enums in seam crates + anyhow 1.0.102 at binary edges; verdicts/report states are values, `Err` is harness-only.

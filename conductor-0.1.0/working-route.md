@@ -75,7 +75,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
 ### Epoch 6 — Run report & persistence
 [2026-06-21-run-report-envelope-serializer] Run-report envelope serializer — canonical shape shared by Markdown + runs.db + JSONL
    ↓
-runs.db index — rusqlite schema, bound-parameter writes, JSON1 fingerprint arrays
+[2026-06-21-runs-db-index] runs.db index — rusqlite schema, bound-parameter writes, JSON1 fingerprint arrays
    ↓
 Markdown run report — per-scenario Pass/Fail/ManualCheck/KnownResidual/Blocked render
    ↓

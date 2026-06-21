@@ -21,3 +21,8 @@ _Append-only changelog of amendments to `security-plan.md` (the body holds only 
 **Section:** §Dependency Security (new Frontend (npm) supply chain paragraph)
 **Change:** added the npm/frontend supply-chain control — `npm audit` clean (0 vulns) + committed `package-lock.json` + vendored fonts (no runtime CDN) for the `crates/conductor-tauri/ui/` tree, which cargo-audit/cargo-deny do not cover; npm advisories drive the same floor discipline as cargo (no rigid dependency allowlist at Minimal tier).
 **Why:** D-security-deps (escalate) fired on the chunk's new npm dependency ecosystem (React 19 / Vite 8 / Tailwind 4.1 / Fontsource / TS); §Dependency Security was cargo-only. Resolved WITH the user (2026-06-15 wrap, all-4 recordings): the npm-audit-clean gate + committed lockfile is the control. Cascaded to `.claude/rules/security.md` + `.claude/docs/security-summary.md`.
+
+## 2026-06-21-runs-db-index — bundled SQLite version corrected to 3.50.4
+**Section:** §Infrastructure (Database)
+**Change:** `bundled` SQLite `3.51.1 → 3.50.4` (noting `via libsqlite3-sys 0.36.0`); rusqlite 0.38.0 unchanged.
+**Why:** mirrors the arch §Stack correction — the runs-db-index chunk's first real `rusqlite 0.38.0 bundled` compile resolves `libsqlite3-sys 0.36.0` → SQLite 3.50.4 (verified from the bundled `sqlite3.h` + `Cargo.lock`); the stated 3.51.1 was assumed. D-security-deps (escalate) cleared: the dep is arch-locked (§Established Decisions [Database]) and audit-green (cargo-audit exit 0 / cargo-deny advisories+bans ok); Cargo.lock committed this chunk. Cascade no-op for the distillations (security-summary.md / rules/security.md carry no bundled-SQLite version — grep-confirmed).

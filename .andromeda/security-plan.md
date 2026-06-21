@@ -82,7 +82,7 @@ Note: `corpus.db` (Pulse's encrypted-at-rest incident corpus, P-049) is **out of
 
 **Infrastructure:**
 - **Hosting:** local-only — `cargo build --release` produces the `conductor-cli` binary run beside Pulse via `scripts/agent-run.sh`; optional Tauri 2 (v2.10.x) ~3 MB GUI bundle. Explicitly "No Docker/Compose/Kubernetes/serverless" (Infrastructure Patterns: Deployment model; Established Decisions: Deployment)
-- **Database:** embedded — rusqlite 0.38.0 with `bundled` SQLite 3.51.1 (JSON1), synchronous raw SQL, in-process `runs.db`; no DB port, no `DATABASE_URL` (Stack: Database; Occupied Resources: Ports + Environment variables)
+- **Database:** embedded — rusqlite 0.38.0 with `bundled` SQLite 3.50.4 (JSON1, via libsqlite3-sys 0.36.0), synchronous raw SQL, in-process `runs.db`; no DB port, no `DATABASE_URL` (Stack: Database; Occupied Resources: Ports + Environment variables)
 - **Networking:** local only — egress is loopback OTLP/gRPC to `127.0.0.1:4317` (`:4318` unused) and a stdio child-process MCP session; no inbound listener, no public/VPN networking. Co-location is forced because Pulse binds loopback `:4317` (Cross-cutting Patterns: Trust boundary; Infrastructure Patterns: Deployment model)
 - **CI/CD:** GitHub Actions on the dev OS target — `cargo build` / cargo-nextest (incl. golden tests) / `cargo clippy`, build + test gating only. Dynamic end-to-end scenario proof requires a live Pulse and is an explicit operator/local gate, not a CI gate (Infrastructure Patterns: CI/CD approach; Established Decisions: CI/CD)
 

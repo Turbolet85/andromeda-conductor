@@ -8,6 +8,16 @@ _This file is entirely wrap-session's territory. `/andromeda-setup-project` crea
 
 ---
 
+## 2026-06-21 — Mapping a typed envelope onto rusqlite (runs.db): u64 bit-cast · serde-wire-form enums · parse OUTSIDE the row closure
+
+Persisting a `conductor-core::RunRecord` as a `runs.db` row (the new `conductor-report::RunsDb` seam) surfaced three rusqlite mapping gotchas worth reusing for the Epoch-7 P-036 recurrence query + the Epoch-8 `status` read. (a) **`u64` overflows the SQLite signed-`INTEGER` (i64) column** — rusqlite's `ToSql for u64` *errors* when the value exceeds `i64::MAX`, so a `seed: u64` must be stored via an `as i64` bit-cast on write and read back `as u64` (lossless; tested against `u64::MAX`), never bound directly. (b) **Store serde enums as their wire string, not a hand `match`** — `Verdict`/`ReportState`/`SloTier` go into TEXT columns via `serde_json::to_value(v)?.as_str()` and come back via `serde_json::from_value(Value::String(s))`, so the stored spelling stays identical to the JSONL `#[serde(rename)]` (`<5s`, `Pass`, …) with the rename as the single source of truth — a parallel match would silently drift if a variant is renamed.
+
+(c) **You cannot parse serde/JSON inside the `query_row` mapping closure** — that closure must return `rusqlite::Error`, but `serde_json::from_str`/`from_value` (the JSON1 array columns `p_ids`/`fingerprints`, plus the enum wire forms) produce your own error type. Read the raw column values into a private `RawRow` struct inside the closure (all `row.get(i)?`), then convert `RawRow -> RunRecord` OUTSIDE the closure where your `Result<_, RunsDbError>` + `?` compose. The `Blocked`-row NULL rule then falls out for free: the envelope's five measurement fields are already `Option`, so `None` binds to SQL `NULL` and a NULL column reads back as `None` — no special-casing.
+
+The `RunsDb` type mirrors its sibling `JournalWriter`: `open(runs_dir: &Path)` takes the already-resolved dir (the cli edge owns `CONDUCTOR_RUNS_DIR`; the seam never reads env), `CREATE TABLE IF NOT EXISTS` bootstrap (no migration framework), bound parameters only, `#[non_exhaustive]` thiserror `RunsDbError` (`Io`/`Sqlite`/`Json`). Note: rusqlite 0.38.0's first real `bundled` compile resolves `libsqlite3-sys 0.36.0` → SQLite **3.50.4** (not the 0.38.0/3.51.1 the specs had assumed — arch §Stack + stack.md corrected this wrap); JSON1 (`json_array_length`) is present and the `≥3.38` floor holds.
+
+---
+
 ## 2026-06-21 — clippy `too_many_arguments` counts `&self`: a 7-arg method still trips `8/7`
 
 Under the `cargo clippy --all-targets -- -D warnings` gate, `clippy::too_many_arguments` counts the `self`/`&self` receiver toward its 7-argument threshold — a method with seven non-self parameters fires `8/7` and fails the gate, exactly like an eight-parameter free function. So a faithful many-field constructor needs `#[allow(clippy::too_many_arguments)]` whether it is an associated fn (`RunRecord::measured`, eleven params) OR a method (`CheckOutcome::to_run_record`, `&self` + seven). Do not assume the receiver is exempt. Pair the allow with a one-line justification (here: the run-report envelope is eleven fields by contract — arch §Standard Contracts). (run-report-envelope-serializer chunk, conductor-core + conductor-verify)
