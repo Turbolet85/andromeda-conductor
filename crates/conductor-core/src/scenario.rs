@@ -47,6 +47,18 @@ pub enum SloTier {
     Tier90s,
 }
 
+impl SloTier {
+    /// The journal-relative deadline bound in milliseconds — the latency a scenario in this tier must
+    /// meet. The tier *is* the tolerance band (architecture §Timing-Tolerance Model).
+    pub fn deadline_ms(self) -> i64 {
+        match self {
+            SloTier::Tier5s => 5_000,
+            SloTier::Tier20s => 20_000,
+            SloTier::Tier90s => 90_000,
+        }
+    }
+}
+
 /// A scenario: its identity plus its declarative per-phase emission spec.
 ///
 /// Every scenario carries at least one Pulse P-ID — the "no scenario without a P-ID" law is the
@@ -131,6 +143,13 @@ mod tests {
         assert_eq!(serde_json::to_string(&SloTier::Tier5s).unwrap(), "\"<5s\"");
         assert_eq!(serde_json::to_string(&SloTier::Tier20s).unwrap(), "\"<20s\"");
         assert_eq!(serde_json::to_string(&SloTier::Tier90s).unwrap(), "\"<90s\"");
+    }
+
+    #[test]
+    fn slo_tier_deadline_ms_maps_the_three_tiers() {
+        assert_eq!(SloTier::Tier5s.deadline_ms(), 5_000);
+        assert_eq!(SloTier::Tier20s.deadline_ms(), 20_000);
+        assert_eq!(SloTier::Tier90s.deadline_ms(), 90_000);
     }
 
     #[test]

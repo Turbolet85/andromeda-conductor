@@ -16,12 +16,16 @@
 //! data-dir canary read-back, each a distinct [`ReadyState`] `Blocked` precondition. And on top of
 //! that: verdict classification ([`classify`] / [`Assessment`]) — the two-state assertion policy that
 //! turns a check's outcome into a `Verdict` (hard `Pass`/`Fail` vs a model-interpretive
-//! `CalibrationRegion`, never hard-failed on exact values).
+//! `CalibrationRegion`, never hard-failed on exact values). And the expected-outcome + SLO timing
+//! layer ([`compare`] / [`evaluate_slo`] / [`evaluate_check`]): it applies a
+//! [`conductor_core::ExpectedCheck`]'s comparison kind to a read-back value and folds in the
+//! journal-relative tier deadline, producing the `matched`/class the classifier consumes.
 
 mod client;
 mod error;
 mod manifest;
 mod preflight;
+mod slo;
 mod spawn;
 mod verdict;
 
@@ -31,7 +35,9 @@ pub use client::{
 };
 pub use error::VerifyError;
 pub use manifest::{ContractManifest, READBACK_TOOLS};
+pub use conductor_core::ClaimClass;
 pub use preflight::{
     CanaryMarker, CanaryOutcome, ReadyState, ToolPresence, preflight_boot, run_preflight,
 };
-pub use verdict::{Assessment, ClaimClass, classify};
+pub use slo::{CheckOutcome, SloOutcome, compare, evaluate_check, evaluate_slo};
+pub use verdict::{Assessment, classify};

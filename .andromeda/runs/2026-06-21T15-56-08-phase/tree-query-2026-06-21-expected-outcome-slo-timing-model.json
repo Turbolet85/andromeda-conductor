@@ -1,0 +1,614 @@
+[
+{
+"sql": "SELECT regexp_replace(callee, '.* ', '') AS sym, file, line FROM calls WHERE callee LIKE '%SloTier%' OR callee LIKE '%classify().%' OR callee LIKE '%Assessment%' OR callee LIKE '%RunRecord%' ORDER BY sym, file, line",
+"rows": 121,
+"result": [
+{
+"sym": "run_record/RunRecord#",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 29
+},
+{
+"sym": "run_record/RunRecord#",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 44
+},
+{
+"sym": "run_record/RunRecord#",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 77
+},
+{
+"sym": "run_record/RunRecord#",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 78
+},
+{
+"sym": "run_record/RunRecord#",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 104
+},
+{
+"sym": "run_record/RunRecord#",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 129
+},
+{
+"sym": "run_record/RunRecord#",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 132
+},
+{
+"sym": "run_record/RunRecord#",
+"file": "crates/conductor-report/src/journal.rs",
+"line": 13
+},
+{
+"sym": "run_record/RunRecord#",
+"file": "crates/conductor-report/src/journal.rs",
+"line": 53
+},
+{
+"sym": "run_record/RunRecord#",
+"file": "crates/conductor-report/src/journal.rs",
+"line": 67
+},
+{
+"sym": "run_record/RunRecord#",
+"file": "crates/conductor-report/src/journal.rs",
+"line": 68
+},
+{
+"sym": "run_record/RunRecord#",
+"file": "crates/conductor-report/src/journal.rs",
+"line": 156
+},
+{
+"sym": "run_record/RunRecord#fingerprints.",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 68
+},
+{
+"sym": "run_record/RunRecord#fingerprints.",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 89
+},
+{
+"sym": "run_record/RunRecord#fingerprints.",
+"file": "crates/conductor-report/src/journal.rs",
+"line": 79
+},
+{
+"sym": "run_record/RunRecord#journal_emitted_at.",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 58
+},
+{
+"sym": "run_record/RunRecord#journal_emitted_at.",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 79
+},
+{
+"sym": "run_record/RunRecord#journal_emitted_at.",
+"file": "crates/conductor-report/src/journal.rs",
+"line": 69
+},
+{
+"sym": "run_record/RunRecord#latency_ms.",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 66
+},
+{
+"sym": "run_record/RunRecord#latency_ms.",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 87
+},
+{
+"sym": "run_record/RunRecord#latency_ms.",
+"file": "crates/conductor-report/src/journal.rs",
+"line": 77
+},
+{
+"sym": "run_record/RunRecord#p_ids.",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 63
+},
+{
+"sym": "run_record/RunRecord#p_ids.",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 84
+},
+{
+"sym": "run_record/RunRecord#p_ids.",
+"file": "crates/conductor-report/src/journal.rs",
+"line": 74
+},
+{
+"sym": "run_record/RunRecord#read_back_observed_at.",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 59
+},
+{
+"sym": "run_record/RunRecord#read_back_observed_at.",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 80
+},
+{
+"sym": "run_record/RunRecord#read_back_observed_at.",
+"file": "crates/conductor-report/src/journal.rs",
+"line": 70
+},
+{
+"sym": "run_record/RunRecord#run_id.",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 60
+},
+{
+"sym": "run_record/RunRecord#run_id.",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 81
+},
+{
+"sym": "run_record/RunRecord#run_id.",
+"file": "crates/conductor-report/src/journal.rs",
+"line": 71
+},
+{
+"sym": "run_record/RunRecord#scenario.",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 62
+},
+{
+"sym": "run_record/RunRecord#scenario.",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 83
+},
+{
+"sym": "run_record/RunRecord#scenario.",
+"file": "crates/conductor-report/src/journal.rs",
+"line": 73
+},
+{
+"sym": "run_record/RunRecord#scenario.",
+"file": "crates/conductor-report/src/journal.rs",
+"line": 115
+},
+{
+"sym": "run_record/RunRecord#seed.",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 61
+},
+{
+"sym": "run_record/RunRecord#seed.",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 82
+},
+{
+"sym": "run_record/RunRecord#seed.",
+"file": "crates/conductor-report/src/journal.rs",
+"line": 72
+},
+{
+"sym": "run_record/RunRecord#slo_tier.",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 67
+},
+{
+"sym": "run_record/RunRecord#slo_tier.",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 88
+},
+{
+"sym": "run_record/RunRecord#slo_tier.",
+"file": "crates/conductor-report/src/journal.rs",
+"line": 78
+},
+{
+"sym": "run_record/RunRecord#state.",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 65
+},
+{
+"sym": "run_record/RunRecord#state.",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 86
+},
+{
+"sym": "run_record/RunRecord#state.",
+"file": "crates/conductor-report/src/journal.rs",
+"line": 76
+},
+{
+"sym": "run_record/RunRecord#verdict.",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 64
+},
+{
+"sym": "run_record/RunRecord#verdict.",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 85
+},
+{
+"sym": "run_record/RunRecord#verdict.",
+"file": "crates/conductor-report/src/journal.rs",
+"line": 75
+},
+{
+"sym": "run_record/impl#[RunRecord]blocked().",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 104
+},
+{
+"sym": "run_record/impl#[RunRecord]blocked().",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 129
+},
+{
+"sym": "run_record/impl#[RunRecord]blocked().",
+"file": "crates/conductor-report/src/journal.rs",
+"line": 156
+},
+{
+"sym": "scenario/SloTier#",
+"file": "crates/conductor-core/src/error.rs",
+"line": 54
+},
+{
+"sym": "scenario/SloTier#",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 30
+},
+{
+"sym": "scenario/SloTier#",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 4
+},
+{
+"sym": "scenario/SloTier#",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 38
+},
+{
+"sym": "scenario/SloTier#",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 55
+},
+{
+"sym": "scenario/SloTier#",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 88
+},
+{
+"sym": "scenario/SloTier#",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 109
+},
+{
+"sym": "scenario/SloTier#",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 129
+},
+{
+"sym": "scenario/SloTier#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 68
+},
+{
+"sym": "scenario/SloTier#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 118
+},
+{
+"sym": "scenario/SloTier#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 130
+},
+{
+"sym": "scenario/SloTier#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 131
+},
+{
+"sym": "scenario/SloTier#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 132
+},
+{
+"sym": "scenario/SloTier#",
+"file": "crates/conductor-report/src/journal.rs",
+"line": 65
+},
+{
+"sym": "scenario/SloTier#",
+"file": "crates/conductor-report/src/journal.rs",
+"line": 78
+},
+{
+"sym": "scenario/SloTier#",
+"file": "crates/conductor-report/src/journal.rs",
+"line": 161
+},
+{
+"sym": "scenario/SloTier#",
+"file": "crates/conductor-timeline/src/convert.rs",
+"line": 31
+},
+{
+"sym": "scenario/SloTier#",
+"file": "crates/conductor-timeline/src/convert.rs",
+"line": 40
+},
+{
+"sym": "scenario/SloTier#Tier20s#",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 109
+},
+{
+"sym": "scenario/SloTier#Tier20s#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 131
+},
+{
+"sym": "scenario/SloTier#Tier20s#",
+"file": "crates/conductor-report/src/journal.rs",
+"line": 161
+},
+{
+"sym": "scenario/SloTier#Tier5s#",
+"file": "crates/conductor-core/src/error.rs",
+"line": 54
+},
+{
+"sym": "scenario/SloTier#Tier5s#",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 88
+},
+{
+"sym": "scenario/SloTier#Tier5s#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 118
+},
+{
+"sym": "scenario/SloTier#Tier5s#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 130
+},
+{
+"sym": "scenario/SloTier#Tier5s#",
+"file": "crates/conductor-report/src/journal.rs",
+"line": 78
+},
+{
+"sym": "scenario/SloTier#Tier5s#",
+"file": "crates/conductor-timeline/src/convert.rs",
+"line": 40
+},
+{
+"sym": "scenario/SloTier#Tier90s#",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 129
+},
+{
+"sym": "scenario/SloTier#Tier90s#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 132
+},
+{
+"sym": "verdict/Assessment#",
+"file": "crates/conductor-verify/src/lib.rs",
+"line": 36
+},
+{
+"sym": "verdict/Assessment#",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 47
+},
+{
+"sym": "verdict/Assessment#",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 65
+},
+{
+"sym": "verdict/Assessment#",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 72
+},
+{
+"sym": "verdict/Assessment#",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 80
+},
+{
+"sym": "verdict/Assessment#",
+"file": "crates/conductor-verify/tests/verdict.rs",
+"line": 3
+},
+{
+"sym": "verdict/Assessment#",
+"file": "crates/conductor-verify/tests/verdict.rs",
+"line": 39
+},
+{
+"sym": "verdict/Assessment#delta.",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 76
+},
+{
+"sym": "verdict/Assessment#delta.",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 84
+},
+{
+"sym": "verdict/Assessment#delta.",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 122
+},
+{
+"sym": "verdict/Assessment#delta.",
+"file": "crates/conductor-verify/tests/verdict.rs",
+"line": 32
+},
+{
+"sym": "verdict/Assessment#delta.",
+"file": "crates/conductor-verify/tests/verdict.rs",
+"line": 33
+},
+{
+"sym": "verdict/Assessment#delta.",
+"file": "crates/conductor-verify/tests/verdict.rs",
+"line": 34
+},
+{
+"sym": "verdict/Assessment#delta.",
+"file": "crates/conductor-verify/tests/verdict.rs",
+"line": 43
+},
+{
+"sym": "verdict/Assessment#expected.",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 75
+},
+{
+"sym": "verdict/Assessment#expected.",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 83
+},
+{
+"sym": "verdict/Assessment#expected.",
+"file": "crates/conductor-verify/tests/verdict.rs",
+"line": 42
+},
+{
+"sym": "verdict/Assessment#observed.",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 74
+},
+{
+"sym": "verdict/Assessment#observed.",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 82
+},
+{
+"sym": "verdict/Assessment#observed.",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 117
+},
+{
+"sym": "verdict/Assessment#observed.",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 118
+},
+{
+"sym": "verdict/Assessment#observed.",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 120
+},
+{
+"sym": "verdict/Assessment#observed.",
+"file": "crates/conductor-verify/tests/verdict.rs",
+"line": 41
+},
+{
+"sym": "verdict/Assessment#verdict.",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 50
+},
+{
+"sym": "verdict/Assessment#verdict.",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 73
+},
+{
+"sym": "verdict/Assessment#verdict.",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 81
+},
+{
+"sym": "verdict/classify().",
+"file": "crates/conductor-verify/src/lib.rs",
+"line": 36
+},
+{
+"sym": "verdict/classify().",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 106
+},
+{
+"sym": "verdict/classify().",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 107
+},
+{
+"sym": "verdict/classify().",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 109
+},
+{
+"sym": "verdict/classify().",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 110
+},
+{
+"sym": "verdict/classify().",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 116
+},
+{
+"sym": "verdict/classify().",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 119
+},
+{
+"sym": "verdict/classify().",
+"file": "crates/conductor-verify/tests/verdict.rs",
+"line": 3
+},
+{
+"sym": "verdict/classify().",
+"file": "crates/conductor-verify/tests/verdict.rs",
+"line": 16
+},
+{
+"sym": "verdict/classify().",
+"file": "crates/conductor-verify/tests/verdict.rs",
+"line": 25
+},
+{
+"sym": "verdict/classify().",
+"file": "crates/conductor-verify/tests/verdict.rs",
+"line": 32
+},
+{
+"sym": "verdict/classify().",
+"file": "crates/conductor-verify/tests/verdict.rs",
+"line": 33
+},
+{
+"sym": "verdict/classify().",
+"file": "crates/conductor-verify/tests/verdict.rs",
+"line": 34
+},
+{
+"sym": "verdict/classify().",
+"file": "crates/conductor-verify/tests/verdict.rs",
+"line": 40
+},
+{
+"sym": "verdict/impl#[Assessment]verdict().",
+"file": "crates/conductor-verify/tests/verdict.rs",
+"line": 16
+},
+{
+"sym": "verdict/impl#[Assessment]verdict().",
+"file": "crates/conductor-verify/tests/verdict.rs",
+"line": 26
+},
+{
+"sym": "verdict/impl#[Assessment]verdict().",
+"file": "crates/conductor-verify/tests/verdict.rs",
+"line": 27
+}
+],
+"db_state": "fresh"
+}
+]

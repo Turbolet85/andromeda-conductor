@@ -7,23 +7,8 @@
 //! exact-value mismatch. The result is an [`Assessment`] value (the verdict + the redacted
 //! observed/expected and a calibration-region delta), never a `Result::Err` — the verdict/error wall.
 
-use conductor_core::{Verdict, redact_value};
+use conductor_core::{ClaimClass, Verdict, redact_value};
 use serde::Serialize;
-
-/// Which side of the probabilistic-assertion policy a claim falls on (architecture
-/// §Probabilistic-Assertion Policy).
-///
-/// Declared up front as a property of the claim, never guessed at runtime: deterministic claims (hard
-/// signals, baseline math, suppression/bypass logic, lifecycle timing) are [`ClaimClass::Hard`];
-/// model-interpretive claims (severity choice, hypothesis quality, the P-008 root-vs-deep weighting)
-/// are [`ClaimClass::CalibrationRegion`] and are never hard-failed on exact values.
-#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
-pub enum ClaimClass {
-    /// A deterministic claim — hard [`Verdict::Pass`]/[`Verdict::Fail`] on its comparison.
-    Hard,
-    /// A model-interpretive claim — reported-for-human, routed to [`Verdict::CalibrationRegion`].
-    CalibrationRegion,
-}
 
 /// The outcome of classifying one check — a value, never an error (the verdict/error wall).
 ///
@@ -91,16 +76,6 @@ pub fn classify(
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    #[test]
-    fn claim_class_serializes_to_canonical_names() {
-        // Locks the wire spelling — an accidental `rename_all` would break it.
-        assert_eq!(serde_json::to_string(&ClaimClass::Hard).unwrap(), "\"Hard\"");
-        assert_eq!(
-            serde_json::to_string(&ClaimClass::CalibrationRegion).unwrap(),
-            "\"CalibrationRegion\""
-        );
-    }
 
     #[test]
     fn classification_is_deterministic() {

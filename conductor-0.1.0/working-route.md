@@ -68,7 +68,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
    ↓
 [2026-06-21-verdict-assertion-policy-split] Verdict + assertion-policy split — hard Pass/Fail vs CalibrationRegion classification
    ↓
-Expected-outcome + SLO timing model — per-scenario expected blocks, tier-scaled tolerance <5s/<20s/<90s   PREREQ: feeds matched/observed/expected into the ClaimClass/classify→Assessment mechanism from verdict-assertion-policy-split (concrete comparison kinds deferred here)
+[2026-06-21-expected-outcome-slo-timing-model] Expected-outcome + SLO timing model — per-scenario expected blocks, tier-scaled tolerance <5s/<20s/<90s   PREREQ: feeds matched/observed/expected into the ClaimClass/classify→Assessment mechanism from verdict-assertion-policy-split (concrete comparison kinds deferred here)
    ↓
 Operator-pause orchestration — go/no-go holds + resume-on-confirm for non-Conductor actions
 

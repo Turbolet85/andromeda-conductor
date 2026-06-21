@@ -1,24 +1,29 @@
 # Session Handoff
 
-**Last Updated:** 2026-06-21T15:37:33Z
+**Last Updated:** 2026-06-21T16:39:43Z
 **Branch:** build/conductor-0.1.0
 **Status:** clean
-**Last Commit:** 2026-06-21-verdict-assertion-policy-split — feat: Verdict + assertion-policy split (conductor-verify, Epoch 5)
+**Last Commit:** 2026-06-21-expected-outcome-slo-timing-model — feat: Expected-outcome + SLO timing model (conductor-core/verify, Epoch 5)
 
 ## Position
-- Done: **2026-06-21-verdict-assertion-policy-split** — two-state assertion-policy classifier in `conductor-verify`: `ClaimClass {Hard, CalibrationRegion}` + `classify(class, matched, observed, expected) → Assessment` (verdict + redacted observed/expected + delta). Hard ⇒ deterministic Pass/Fail; CalibrationRegion ⇒ never hard-fails, captures the delta. Infallible (returns a value; `VerifyError` gained no variant). **Epoch 5 (Verification & read-back) — chunk 4 of 6.**
-- Next: **Epoch 5 chunk 5 — "Expected-outcome + SLO timing model"** (per-scenario expected blocks + tier-scaled tolerance <5s/<20s/<90s) → `/andromeda-phase` to promote + plan. It feeds matched/observed/expected into this chunk's `classify` mechanism (concrete comparison kinds were deferred here).
+- Done: **2026-06-21-expected-outcome-slo-timing-model** — the expected-outcome + SLO timing evaluator feeding `classify`. Core (`expected.rs`): `ComparisonKind {Exact,Contains,Absent,CountAtLeast}` + `ExpectedCheck` (serde+garde) + `ClaimClass` (MOVED here from verify, +`Deserialize`); additive `SloTier::deadline_ms()` → 5/20/90s. Verify (`slo.rs`): `evaluate_slo` (journal-relative `read_back − emitted` i64 ms; within ⇔ ≤ deadline; neg-latency guard), `compare`, `evaluate_check` → `classify` (infallible; unmet sample-floor → CalibrationRegion, never hard-fail). `Scenario`/TOML untouched. **Epoch 5 (Verification & read-back) — chunk 5 of 6.**
+- Next: **Operator-pause orchestration** — go/no-go holds + resume-on-confirm for non-Conductor actions (Epoch 5 chunk 6/6, the last) → `/andromeda-phase` to promote + plan.
 
 ## Work done
-3 files in `conductor-verify`: NEW `src/verdict.rs` (`ClaimClass`/`Assessment`/`classify` + 3 in-module tests), NEW `tests/verdict.rs` (8 integration tests), MOD `src/lib.rs` (`mod verdict` + re-exports + doc reword). Option A (user-confirmed at phase P4: minimal split + delta, deferring concrete comparison kinds + SLO tolerance to the next chunk). Gates green: conductor-verify 35/35 · workspace 213/213 (+11) · clippy `-D` · doctest 0. Star topology preserved (verdict.rs imports only `conductor_core`; code-graph 775n/2661e, crate_edges unchanged). Smoke skipped — pure library, no boot-path (Epoch-8 CLI not built).
+7 files: NEW `conductor-core/src/expected.rs` (ClaimClass move + ComparisonKind + ExpectedCheck + 5 tests) · NEW `conductor-verify/src/slo.rs` (SloOutcome/CheckOutcome/evaluate_slo/compare/evaluate_check + 7 tests) · NEW `conductor-verify/tests/expected_slo.rs` (18 integ tests) · MOD core `lib.rs` (mod expected + re-exports) · MOD core `scenario.rs` (SloTier::deadline_ms + test) · MOD verify `verdict.rs` (drop local ClaimClass → import core; moved-test removed) · MOD verify `lib.rs` (mod slo, ClaimClass re-export from core, evaluator exports). P4 scope = Option 1 (user: core model, evaluator in verify, defer TOML). Gates green: core+verify 127/127 · workspace 243/243 (+30) · clippy `-D` · doctest 0. Star topology preserved (slo.rs imports only conductor_core + crate verdict; code-graph 816n/3024e). Smoke skipped — pure library.
 
 ## Drift resolved
-none — 6/7 doc-detectors returned `proposals: []`; arch's lone D-arch-resources proposal (register `ClaimClass`/`Assessment`/`classify` in §Standard Contracts) dismissed as the established library-symbol over-reach (playbook rule — the run-report envelope's `verdict ∈ {Pass,Fail,CalibrationRegion}` is the real contract, already present + untouched). Drift = 0.
+2 proposals, both DISMISSED with the user (drift=0): (1) arch D-arch-resources proposed registering the new library symbols in §Standard Contracts — the established library-symbol over-reach (recurred on §Standard Contracts as the prior handoff predicted); dismissed + **broadened the D-arch-resources playbook rule** to cover §Standard Contracts (not just §Occupied Resources). (2) tests D-tests-obs-harness proposed clarifying test-plan §3 into "two record shapes" — dismissed as NOT this chunk's drift (no envelope/harness/log-format change; pre-existing test↔obs §3 divergence; test-plan §3 OWNS the envelope). 0 spec-body amendments → cascade no-op. 5/7 detectors returned clean.
 
 ## Notes
-- **Key decisions:** Option A scope (minimal policy-split classifier + delta capture); `classify` infallible (value, never `Result::Err` — verdict/error wall, `VerifyError` unchanged); `delta` is `Some` only for CalibrationRegion (hard Pass/Fail carry `None`); `observed`/`expected` redacted via `conductor_core::redact_value` at capture; `classify` left un-instrumented (pure logic — the must-trace op is the wrapping read-back flow, per the egress-probe precedent).
-- **Curation:** no new learnings (4 candidates, all filtered — 2 dup, 1 task-specific, 1 low-confidence; the chunk applied existing invariants cleanly).
-- **Route:** PREREQ annotation appended to the "Expected-outcome + SLO timing model" entry (the next chunk consumes this `classify` mechanism + picks up the deferred comparison kinds). No trajectory change.
-- **Follow-up (carried, not route chunks):** (a) suite-start orchestration (`probe_egress` before emission, abort on `Err`) → Epoch-8 CLI bootstrap. (b) `opentelemetry-proto default-features=false` trim — still open. (c) obs `fault.silence` sentinel — Epoch 7/8. (d) obs-plan §6 `blocked_precondition` allowlist question — still open. (e) D-arch-resources fired on §Standard Contracts (a variant of the §Occupied Resources library-symbol over-reach rule) — dismissed; broaden the playbook rule's wording if it recurs.
+- **Key decisions:** P4 Option 1 (core data-model + verify evaluator; `ClaimClass`→core re-exported from verify; Scenario/TOML untouched). Evaluator **infallible** — no new `VerifyError` variant (verdict/error wall); the only `Err` is the model's garde load-time validation (`CoreError::Validation`). Comparison set finalized to 4 (Present collapsed into Contains; ordering stays a load-time garde concern). `ExpectedCheck.expected` is a flat `String` + garde `length(min=1)`; `CountAtLeast` floor enforced safely at compare-time (non-numeric → unmet → CalibrationRegion, never a false Pass). Tolerance = tier bound (no separate slack); runtime HW-profile scaler out of scope. `evaluate_slo` takes epoch-millis `i64` (the envelope's integer-ms representation).
+- **Curation:** no new learnings (3 candidates, all filtered — 2 dup/already-in-playbook, 1 low-confidence; the chunk applied existing invariants cleanly).
+- **Route:** no tail edit (next chunk Operator-pause is independent of this chunk). No trajectory change.
+- **Follow-up (carried, not route chunks):**
+  - (a) **NEW — `Scenario.expected` TOML wiring → Epoch 7:** add the optional `expected` field to `Scenario` (the `EmissionSpec` `#[serde(default)]` forward-compat precedent) + fill per-P-ID blocks in `scenarios/*.toml`, consuming `conductor_core::ExpectedCheck` + the verify evaluator.
+  - (b) **NEW — test-plan §3 ↔ obs-plan §3 "two record shapes" divergence:** pre-existing (obs gained the clarification 2026-06-15-structured-logging-stack; test-plan didn't). A future dedicated doc-pass should reconcile — test-plan §3 is the envelope OWNER (obs reproduces), so reconcile toward the owner.
+  - (c) suite-start orchestration (`probe_egress` before emission, abort on `Err`) → Epoch-8 CLI bootstrap.
+  - (d) `opentelemetry-proto default-features=false` trim — still open.
+  - (e) obs `fault.silence` sentinel — Epoch 7/8.
+  - (f) obs-plan §6 `blocked_precondition` allowlist question — still open.
 - **Last failed command:** none.
-```
