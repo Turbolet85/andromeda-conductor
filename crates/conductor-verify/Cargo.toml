@@ -11,7 +11,21 @@ rmcp = { workspace = true, features = ["client", "transport-child-process", "tra
 tokio = { workspace = true, features = ["process", "io-util", "rt", "macros"] }
 thiserror.workspace = true
 tracing.workspace = true
+serde = { workspace = true }
 serde_json.workspace = true
+toml.workspace = true
+
+[features]
+# Builds the `stub_pulse_mcp` test-support binary (an rmcp server over stdio) for the live
+# `TokioChildProcess` child-spawn preflight test. Off by default — the bin never ships in a release.
+stub-server = ["rmcp/server", "tokio/io-std"]
+
+# Test-support stub MCP server (protocol 2024-11-05 + the 4 read-back tools + canary), spawned by
+# `tests/preflight_spawn.rs`. Gated so a default build/clippy never compiles it.
+[[bin]]
+name = "stub_pulse_mcp"
+path = "src/bin/stub_pulse_mcp.rs"
+required-features = ["stub-server"]
 
 [dev-dependencies]
 rmcp = { workspace = true, features = ["client", "server", "transport-io"] }

@@ -27,6 +27,10 @@ pub enum VerifyError {
     /// A read-back tool call (or tool listing) failed at the transport/service layer.
     #[error("MCP read-back call failed")]
     Call(#[source] Box<ServiceError>),
+    /// The pinned MCP contract manifest could not be read, parsed, or failed its bounds check.
+    /// `reason` is pre-sanitized (no host path) so it is safe at the operator edge.
+    #[error("MCP contract manifest invalid: {reason}")]
+    Manifest { reason: String },
 }
 
 #[cfg(test)]

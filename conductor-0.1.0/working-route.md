@@ -62,7 +62,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
 ### Epoch 5 — Verification & read-back
 [2026-06-21-mcp-read-back-client] MCP read-back client — rmcp over TokioChildProcess stdio, hardened fixed-path sidecar spawn (.env data-dir)
    ↓
-Preflight readiness gate — pinned 2024-11-05 + tool presence + data-dir canary, Blocked on mismatch
+[2026-06-21-preflight-readiness-gate] Preflight readiness gate — pinned 2024-11-05 + tool presence + data-dir canary, Blocked on mismatch
    ↓
 OTLP egress liveness check — loopback :4317 connectable, refused ⇒ harness Err
    ↓

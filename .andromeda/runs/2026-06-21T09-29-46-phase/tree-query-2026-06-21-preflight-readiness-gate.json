@@ -1,0 +1,65 @@
+[
+{
+"sql": "SELECT name FROM sqlite_master WHERE type='table' OR type='view' ORDER BY name",
+"rows": 9,
+"result": [
+{
+"name": "calls"
+},
+{
+"name": "calls_m"
+},
+{
+"name": "contains"
+},
+{
+"name": "crate_edges"
+},
+{
+"name": "defs"
+},
+{
+"name": "occ"
+},
+{
+"name": "refs"
+},
+{
+"name": "symbol"
+},
+{
+"name": "wsdef"
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT * FROM crate_edges LIMIT 0",
+"rows": 0,
+"result": [],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT from_crate, to_crate FROM crate_edges WHERE from_crate LIKE 'conductor-%' ORDER BY from_crate, to_crate",
+"rows": 4,
+"result": [
+{
+"from_crate": "conductor-cli",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-report",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-tauri",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-timeline",
+"to_crate": "conductor-core"
+}
+],
+"db_state": "fresh"
+}
+]

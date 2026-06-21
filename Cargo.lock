@@ -322,9 +322,11 @@ dependencies = [
  "conductor-core",
  "rmcp",
  "rstest",
+ "serde",
  "serde_json",
  "thiserror",
  "tokio",
+ "toml",
  "tracing",
 ]
 

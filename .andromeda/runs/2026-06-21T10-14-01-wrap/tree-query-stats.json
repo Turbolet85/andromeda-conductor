@@ -1,0 +1,14 @@
+[
+{
+"sql": "SELECT (SELECT count(*) FROM defs) AS defs, (SELECT count(*) FROM refs) AS refs, (SELECT count(*) FROM crate_edges) AS crate_edges",
+"rows": 1,
+"result": [
+{
+"defs": 749,
+"refs": 2527,
+"crate_edges": 5
+}
+],
+"db_state": "regenerated"
+}
+]
