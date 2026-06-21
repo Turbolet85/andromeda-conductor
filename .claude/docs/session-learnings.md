@@ -8,6 +8,12 @@ _This file is entirely wrap-session's territory. `/andromeda-setup-project` crea
 
 ---
 
+## 2026-06-21 — A public async trait under the `-D warnings` clippy gate: declare RPITIT, not `async fn`
+
+A public trait method written as `async fn` trips the `async_fn_in_trait` lint (callers can't add a `Send`/lifetime bound on the returned future), which fails the `cargo clippy --all-targets -- -D warnings` gate. Declare it with return-position `impl Trait` instead — `fn resolve(&self, hold: &HoldPoint) -> impl Future<Output = Decision>;` — while implementors may still write `async fn` (an `async fn` in an impl satisfies an `-> impl Future` trait method, stable since Rust 1.75). Keep the orchestration **generic** over the trait (`fn resolve_hold<R: PauseResolver>(…)`) rather than `dyn Trait`: this sidesteps the dyn-incompatibility of RPITIT async methods AND avoids pulling in the `async-trait` crate, so a new async abstraction can land in an otherwise sync/dependency-light crate (here `conductor-core`'s `PauseResolver` — the crate's first async surface) with **zero new runtime dependencies** (only a `tokio` dev-dep for the test executor). (operator-pause-orchestration chunk, conductor-core)
+
+---
+
 ## 2026-06-20 — conductor-faults: an *infallible* constructor when a helper has NO failure mode — the third branch of the fault-constructor idiom
 
 The 2026-06-19 entry below split faults-helper construction two ways: a *named domain constraint* → `Result<Self, FaultError>`; an *anonymous pure-value bound* → `Option`. **P-014 `AbruptSilence` is the third branch: no failure mode at all → an infallible `new() -> Self`, with `FaultError` left untouched** — the crate's first infallible helper. Unlike `EmissionGap` (a 20s floor to validate) or `PortOccupier` (a socket to acquire), a *permanent* emission stop has no bound and no resource, so there is nothing to fail on; permanence is modeled as the structural *absence* of a `Duration`, and a positive `resumes() -> bool { false }` accessor makes the no-resume contract testable against `EmissionGap`.

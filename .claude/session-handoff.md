@@ -1,29 +1,28 @@
 # Session Handoff
 
-**Last Updated:** 2026-06-21T16:39:43Z
+**Last Updated:** 2026-06-21T17:31:42Z
 **Branch:** build/conductor-0.1.0
 **Status:** clean
-**Last Commit:** 2026-06-21-expected-outcome-slo-timing-model — feat: Expected-outcome + SLO timing model (conductor-core/verify, Epoch 5)
+**Last Commit:** 2026-06-21-operator-pause-orchestration — feat: Operator-pause orchestration (conductor-core, Epoch 5 — COMPLETE)
 
 ## Position
-- Done: **2026-06-21-expected-outcome-slo-timing-model** — the expected-outcome + SLO timing evaluator feeding `classify`. Core (`expected.rs`): `ComparisonKind {Exact,Contains,Absent,CountAtLeast}` + `ExpectedCheck` (serde+garde) + `ClaimClass` (MOVED here from verify, +`Deserialize`); additive `SloTier::deadline_ms()` → 5/20/90s. Verify (`slo.rs`): `evaluate_slo` (journal-relative `read_back − emitted` i64 ms; within ⇔ ≤ deadline; neg-latency guard), `compare`, `evaluate_check` → `classify` (infallible; unmet sample-floor → CalibrationRegion, never hard-fail). `Scenario`/TOML untouched. **Epoch 5 (Verification & read-back) — chunk 5 of 6.**
-- Next: **Operator-pause orchestration** — go/no-go holds + resume-on-confirm for non-Conductor actions (Epoch 5 chunk 6/6, the last) → `/andromeda-phase` to promote + plan.
+- Done: **2026-06-21-operator-pause-orchestration** — the runtime-agnostic operator-pause hold/resume mechanism in `conductor-core`. NEW `pause.rs`: `HoldPoint` (serde+garde, reuses `PId` via `dive`) · `Decision {Go,NoGo}` · `HoldResolution` (Serialize value, prompt redacted at the artifact edge) · `PauseResolver` (trait, RPITIT `-> impl Future`, no `async-trait` dep) · `HeadlessResolver` (never-block, configurable default) · `resolve_hold<R>` (infallible, generic — no `dyn`). Core gains its FIRST async abstraction, runtime-dep-free (tokio dev-dep only). **Epoch 5 (Verification & read-back) — chunk 6 of 6 → EPOCH COMPLETE.**
+- Next: **Run-report envelope serializer** (Epoch 6 — Run report & persistence, chunk 1/4) — canonical shape shared by Markdown + runs.db + JSONL → `/andromeda-phase` to promote + plan.
 
 ## Work done
-7 files: NEW `conductor-core/src/expected.rs` (ClaimClass move + ComparisonKind + ExpectedCheck + 5 tests) · NEW `conductor-verify/src/slo.rs` (SloOutcome/CheckOutcome/evaluate_slo/compare/evaluate_check + 7 tests) · NEW `conductor-verify/tests/expected_slo.rs` (18 integ tests) · MOD core `lib.rs` (mod expected + re-exports) · MOD core `scenario.rs` (SloTier::deadline_ms + test) · MOD verify `verdict.rs` (drop local ClaimClass → import core; moved-test removed) · MOD verify `lib.rs` (mod slo, ClaimClass re-export from core, evaluator exports). P4 scope = Option 1 (user: core model, evaluator in verify, defer TOML). Gates green: core+verify 127/127 · workspace 243/243 (+30) · clippy `-D` · doctest 0. Star topology preserved (slo.rs imports only conductor_core + crate verdict; code-graph 816n/3024e). Smoke skipped — pure library.
+4 files: NEW `conductor-core/src/pause.rs` (6 types/fns + 9 unit tests) · NEW `conductor-core/tests/operator_pause.rs` (6 async integ tests) · MOD core `lib.rs` (mod pause + 6 re-exports + doc) · MOD core `Cargo.toml` (tokio dev-dep). P4 scope = "Core, async generic" (user). Gates green: core 83/83 · workspace 258/258 (+15) · clippy `-D` · doctest 0. Star topology preserved (pause.rs imports only `crate::{redact_value, scenario::PId}`); code-graph 859n/3169e.
 
 ## Drift resolved
-2 proposals, both DISMISSED with the user (drift=0): (1) arch D-arch-resources proposed registering the new library symbols in §Standard Contracts — the established library-symbol over-reach (recurred on §Standard Contracts as the prior handoff predicted); dismissed + **broadened the D-arch-resources playbook rule** to cover §Standard Contracts (not just §Occupied Resources). (2) tests D-tests-obs-harness proposed clarifying test-plan §3 into "two record shapes" — dismissed as NOT this chunk's drift (no envelope/harness/log-format change; pre-existing test↔obs §3 divergence; test-plan §3 OWNS the envelope). 0 spec-body amendments → cascade no-op. 5/7 detectors returned clean.
+2 proposals, both DISMISSED (drift=0): (1) arch D-arch-resources proposed registering the new library symbols — the established library-symbol over-reach (3rd recurrence; routine dismiss per existing playbook rule, no edit). (2) obs D-obs-instrumentation proposed a `pause.resolve` span for `resolve_hold` — dismissed WITH the user (deferred-span build-sequencing: the must-trace op is the live hold-await under a run = Epoch 8; nothing leaks) + **broadened the playbook deferral rule** from `conductor-faults` to any-seam primitive (faults `fault.*` + core `resolve_hold`/`hold.*`). 5/7 detectors clean. 0 spec-body amendments → cascade no-op.
 
 ## Notes
-- **Key decisions:** P4 Option 1 (core data-model + verify evaluator; `ClaimClass`→core re-exported from verify; Scenario/TOML untouched). Evaluator **infallible** — no new `VerifyError` variant (verdict/error wall); the only `Err` is the model's garde load-time validation (`CoreError::Validation`). Comparison set finalized to 4 (Present collapsed into Contains; ordering stays a load-time garde concern). `ExpectedCheck.expected` is a flat `String` + garde `length(min=1)`; `CountAtLeast` floor enforced safely at compare-time (non-numeric → unmet → CalibrationRegion, never a false Pass). Tolerance = tier bound (no separate slack); runtime HW-profile scaler out of scope. `evaluate_slo` takes epoch-millis `i64` (the envelope's integer-ms representation).
-- **Curation:** no new learnings (3 candidates, all filtered — 2 dup/already-in-playbook, 1 low-confidence; the chunk applied existing invariants cleanly).
-- **Route:** no tail edit (next chunk Operator-pause is independent of this chunk). No trajectory change.
+- **Key decisions:** P4 "Core, async generic" — resolver trait + headless default + primitive in core; native async-fn-in-trait via **RPITIT (declare `-> impl Future`, NOT `async fn`, to dodge `async_fn_in_trait` under `-D warnings`)**; generic over `R` (no `dyn`, no `async-trait` dep). `HoldResolution` mirrors verify `Assessment` (Serialize value, prompt redacted at capture). Resolution infallible (verdict/error wall); the only `Err` = garde-invalid `HoldPoint` at load.
+- **Curation:** 1 Tier-3 learning (RPITIT-for-public-async-trait gotcha → `session-learnings.md`); 3 filtered (2 dup, 1 task-specific).
+- **Route:** no tail edit (Epoch 6 envelope serializer is independent). **Epoch 5 COMPLETE** (6/6).
 - **Follow-up (carried, not route chunks):**
-  - (a) **NEW — `Scenario.expected` TOML wiring → Epoch 7:** add the optional `expected` field to `Scenario` (the `EmissionSpec` `#[serde(default)]` forward-compat precedent) + fill per-P-ID blocks in `scenarios/*.toml`, consuming `conductor_core::ExpectedCheck` + the verify evaluator.
-  - (b) **NEW — test-plan §3 ↔ obs-plan §3 "two record shapes" divergence:** pre-existing (obs gained the clarification 2026-06-15-structured-logging-stack; test-plan didn't). A future dedicated doc-pass should reconcile — test-plan §3 is the envelope OWNER (obs reproduces), so reconcile toward the owner.
-  - (c) suite-start orchestration (`probe_egress` before emission, abort on `Err`) → Epoch-8 CLI bootstrap.
-  - (d) `opentelemetry-proto default-features=false` trim — still open.
-  - (e) obs `fault.silence` sentinel — Epoch 7/8.
-  - (f) obs-plan §6 `blocked_precondition` allowlist question — still open.
+  - (a) **`hold.wait_resolve` span + obs-plan §11 bounded-set amendment → Epoch 8** (when `resolve_hold` is wired into a live run; the broadened playbook deferral rule now covers it).
+  - (b) **`Scenario.holds` config field + per-P-ID hold blocks → Epoch 7** (joins the carried `Scenario.expected` wiring; both fold into the scenario-catalog, `#[serde(default)]` forward-compat precedent).
+  - (c) **`Decision`→`ReportState::ManualCheck` mapping + hold-outcome report surfacing → Epoch 6/8** (holds aren't produced until wired in Epoch 8, so surfacing lands with/after the wiring).
+  - (d) **CLI `inquire` resolver → Epoch 8** (isatty-gated) · **Tauri dialog resolver + paused-count `Channel` → Epoch 9** — both impl `PauseResolver`, driving the same core.
+  - (e) still open from prior chunks: `Scenario.expected` TOML wiring (Epoch 7) · test-plan §3 ↔ obs-plan §3 "two record shapes" doc reconcile (owner = test-plan §3) · suite-start `probe_egress` orchestration (Epoch 8) · `opentelemetry-proto default-features=false` trim · obs-plan §6 `blocked_precondition` allowlist question.
 - **Last failed command:** none.

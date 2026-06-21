@@ -1,0 +1,36 @@
+# obs extract
+
+## Relevance
+Relevant — operator-pause orchestration is a core hold/resume mechanism that integrates with timeline execution and verification seams, both critical-path surfaces under obs instrumentation.
+
+## Constraints
+- Per obs-plan.md §1 Instrumentation scope: `conductor-timeline` + `conductor-verify` are both Instrumentable surfaces; this chunk's orchestration integration point (the open seam question) must preserve determinism under `tokio::time` `current_thread` — wall-clock pause gap only, no perturbation of emission-stream shape (obs-plan.md §4 Must-trace path scenarios, Cleanup subsections).
+- Per obs-plan.md §3 Harness Contract: any new hold-point async orchestration MUST NOT initialize or use an OTel SDK; instrumentation is `tracing` spans only, JSON render via `tracing-subscriber` (behavioral invariant, obs-plan.md §11 Anti-Patterns / Telemetry Strategy).
+- Per obs-plan.md §4 Span / Trace Coverage: any new spans introduced for hold orchestration MUST have low-cardinality names following the `{module}.{operation}` pattern; the bounded span-name set is: `scenario.run`, `timeline.execute*`, `emit.batch`, `emit.logs_batch`, `verify.readback*`, `report.generate`, `db.insert_run`, `fault.*`, `tauri.command.*` — a new hold-orchestration span (if any) must be added to this set as a bounded member.
+- Per obs-plan.md §6 Log Coverage: all hold-point models + go/no-go decision outcomes MUST serialize via structured JSONL with no absolute host paths or internal struct names; the field-allowlist + redaction layer (obs-plan.md §11 PII Scrubbing) applies to any hold-prompt or hold-outcome field entering the logs or runs.db envelope.
+- Per obs-plan.md §10 SLO Invariants: a hold introduces a wall-clock gap; SLO measurement (`latency_ms = read_back_observed_at - journal_emitted_at`) captures the pause wall-clock, NOT seeded virtual time. Tests resolve holds via an auto-resolving stub under tokio `start_paused`; the pause is outside the seeded virtual clock (obs-plan.md §1 Instrumentation scope / conductor-timeline entry).
+- Per obs-plan.md §1 Telemetry triggers: this chunk is NOT a chaos-instrumentation trigger (no fault injection) and NOT a cross-surface-parity trigger (holds are per-surface, not correlative). No new metrics backend or OTel meters introduced.
+
+## Patterns to follow
+- Per obs-plan.md §2 Telemetry signal pyramid (Minimal tier): critical-path spans ONLY (no background task instrumentation); hold-point resolution is a boundary call between timeline/verify and the resolver abstraction; instrument the resolver invocation + await + resume with `#[tracing::instrument]` on the hold-orchestration entry point.
+- Per obs-plan.md §3 Service identity + Log format JSON schema: hold outcomes and prompts must carry `run_id` field on every JSONL line for correlation. If a hold outcome surfaces in a runs.db / JSONL envelope, it follows the same schema binding contract (obs-plan.md §6: journal_emitted_at, run_id, seed, scenario, p_ids, verdict, state, latency_ms, slo_tier, fingerprints + scenario-specific fields).
+- Per obs-plan.md §4 Must-trace path scenarios / Cleanup: if hold orchestration spans are introduced, close them at the phase boundary (hold resolution completion) so dangling spans do not accumulate across the scenario lifetime.
+
+## Anti-patterns to avoid
+- NEVER introduce an OTel SDK for hold-resolver async operations — breaks `current_thread` determinism (obs-plan.md §11 Anti-Patterns / Telemetry Strategy).
+- NEVER use high-cardinality span names for hold-point tracking (e.g. per-hold-ID, per-p_id, per-scenario-variant) — only bounded names (obs-plan.md §11 Anti-Patterns / Spans / Traces); if a new hold-orchestration span is needed, it MUST be a single bounded name like `hold.wait_resolve` (added to the bounded set explicitly).
+- NEVER leak hold-prompt text or hold-outcome values unsanitized into logs or artifacts — the redaction layer (conductor-core::redact) must mask absolute file paths and strip Debug-dumped struct names; hold prompts MUST use Display, not Debug (obs-plan.md §11 Anti-Patterns / Logs + PII Scrubbing).
+
+## Contract bindings
+**obs ↔ tests harness (obs-plan.md §3 Cross-domain bindings to flag):** the hold-resolver abstraction must be test-stubs-able; tests resolve holds via an auto-resolving stub under tokio `start_paused` (scope.md §Determinism preservation). The test harness binding consumes the hold-orchestration's resolver trait / abstraction (the seam coupling point); this chunk ships the headless/agent-mode default that never blocks, the actual resolver implementations (CLI prompt, Tauri dialog) are deferred (Epoch 8/9). **obs ↔ report / verdict (obs-plan.md §1 Telemetry triggers / creator-explicit-telemetry + §6 Log Coverage):** a hold outcome (if `no-go`) may affect verdict classification; the runs.db / JSONL record must capture the outcome as a scenario-specific field (in scope: hold-point value computation; out of scope: report serialization — Epoch 6 owns that).
+
+## Acceptance criteria contributions
+- (obs) Hold-point model is a typed VALUE (serde-round-tripping, no host paths / internal struct names). Any hold prompt or outcome field sanitized via the redaction layer before appearing in logs or artifact envelope.
+- (obs) Same scenario + seed + headless (auto-resolving) resolver ⇒ identical `latency_ms` + recorded hold outcome as a run with no holds (determinism preserved; wall-clock pause captured in journal_emitted_at / read_back_observed_at, not seeded schedule).
+- (obs) Hold-orchestration spans (if introduced) use bounded span names (`hold.wait_resolve` or equivalent, added to obs-plan.md §11 bounded set); each span closes at phase boundary (resolution completion). No dangling spans.
+- (obs) `run_id` field present on every JSONL line in hold-related instrumentation; if hold outcome surfaces in runs.db envelope, it carries the full schema binding contract (journal_emitted_at, read_back_observed_at, run_id, seed, scenario, p_ids, verdict, state, latency_ms, slo_tier, fingerprints).
+
+## Relevant amendment history
+- **2026-06-15-structured-logging-stack:** self-obs base line schema (timestamp_ms, level, target, service.name/version/environment, run_id) on every line; Run-report envelope (journal_emitted_at, read_back_observed_at, + 9 fields) on scenario-result events only. Hold outcomes surface in the envelope (Epoch 6), not the base line; this chunk computes the outcome value, not the envelope serialization.
+- **2026-06-16-emission-journal-writer:** Run-report envelope schema gains `read_back_observed_at` (ISO-8601, null until read-back); `latency_ms = read_back_observed_at − journal_emitted_at`. If a hold outcome is recorded in runs.db, it MUST include both `journal_emitted_at` (hold-point wall-clock start) and `read_back_observed_at` (hold resolution completion wall-clock) so latency math is correct (the pause is captured as wall-clock elapsed, determinism preserved).
+- **2026-06-18-severity-logs:** bounded span-name set updated to include `emit.logs_batch`; pattern is `{module}.{operation}`. If this chunk introduces a hold-orchestration span, update the bounded set in obs-plan.md §11 / Anti-Patterns / Spans / Traces to include the new bounded name (e.g. `hold.wait_resolve`), following the precedent.

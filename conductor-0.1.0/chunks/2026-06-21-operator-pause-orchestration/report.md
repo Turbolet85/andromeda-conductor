@@ -1,0 +1,32 @@
+# Report — 2026-06-21-operator-pause-orchestration
+
+**Chunk:** Operator-pause orchestration — go/no-go holds + resume-on-confirm for non-Conductor actions; runtime-agnostic hold model + resolver abstraction + headless never-block default (conductor-core)
+**Date:** 2026-06-21
+**Commits:** (none yet — this wrap authors the chunk commit; nothing committed since last_wrap 2026-06-21T16:39:43Z)
+
+## Changes (structured — detectors read this)
+- **Files:** NEW `crates/conductor-core/src/pause.rs` · NEW `crates/conductor-core/tests/operator_pause.rs` · MOD `crates/conductor-core/src/lib.rs` · MOD `crates/conductor-core/Cargo.toml` · MOD `Cargo.lock`. (Process artifacts: `conductor-0.1.0/chunks/2026-06-21-operator-pause-orchestration/{scope,research,plan,report}.md`, working-route freeze stamp, master-route `pending` record, phase/wrap run-dirs.)
+- **Symbols / APIs:** new `conductor-core` public exports (all re-exported from `lib.rs`): `Decision` (enum `{Go, NoGo}`, canonical serde + `label()`) · `HoldPoint` (struct: `scenario`/`p_id: PId`/`step`/`prompt`/`allow_no_go`; serde + garde) · `HoldResolution` (struct: `decision`/`scenario`/`p_id`/`prompt`(redacted); Serialize) · `PauseResolver` (trait, `fn resolve(&self,&HoldPoint) -> impl Future<Output=Decision>`) · `HeadlessResolver` (struct + `new`/`proceed`/`abort`) · `resolve_hold<R: PauseResolver>` (async fn → `HoldResolution`). No IPC methods / endpoints / ports / sockets / env vars.
+- **Crates / modules:** `conductor-core` gains module `pause`. No crate added/removed; star topology unchanged (core imports no seam; `pause.rs` imports only `crate::{redact_value, scenario::PId}` + std/serde/garde).
+- **Dependencies:** `conductor-core` gains **`tokio` as a dev-dependency only** (`["rt","macros","test-util","time"]`) — the async-test executor. No runtime dependency added (the async surface is a std `impl Future`, no runtime crate). `Cargo.lock` updated accordingly; cargo-audit/deny posture unchanged (tokio already vetted in the workspace).
+- **Schema / config:** none — no `Scenario`/TOML field, no `runs.db` schema, no config keys, no violation schemas. `ReportState`/`Verdict`/run-report envelope untouched.
+- **Coverage of new surfaces** (library APIs — no external network surface / UI element this chunk):
+  - `HoldPoint` (declarative hold input model) → validation garde✓ (`length(min=1)` on scenario/step/prompt + `dive` on `PId`) · instrumentation n/a · PII redacted✓ (prompt redacted into `HoldResolution` via `redact_value`) · tests unit+integ✓ · a11y n/a (no UI) · tokens n/a
+  - `resolve_hold` / `PauseResolver` / `HeadlessResolver` (orchestration primitive) → validation n/a (consumes a validated `HoldPoint`) · instrumentation ✗ — **no tracing span this chunk (deliberate; `hold.wait_resolve` deferred to Epoch 8 to avoid an obs-plan §11 amendment for an immediately-resolving headless call)** · PII redacted✓ (redacts prompt at the artifact edge) · tests integ✓ (go/no-go · never-block-under-`start_paused` · determinism · both-directions · redaction) · a11y n/a · tokens n/a
+  - `Decision` (outcome enum) → validation n/a · instrumentation n/a · PII n/a · tests unit✓ (canonical PascalCase serde + JSON round-trip + `label`) · a11y n/a (label-only; `[HOLD]` amber rendering reserved to shells) · tokens n/a
+
+## Deviations from intent
+- **tokio dev-dep gained the `time` feature** (plan listed `["rt","macros","test-util"]`). The `headless_never_blocks_under_paused_clock` test uses `#[tokio::test(start_paused = true)]`, which requires the tokio time driver. Justified — the plan under-specified the feature set.
+- **Prompt-redaction test placed in the async integration file** (`tests/operator_pause.rs::prompt_is_redacted_in_the_resolution`) rather than as an in-module sync test (plan Step 4). `HoldResolution` is produced only by the async `resolve_hold`, so exercising the real redaction path is more meaningful than hand-constructing the struct. Coverage equivalent.
+- (Not a deviation — scope boundary, user-confirmed at phase review:) "resume-on-confirm" ships as the await-primitive returning the `Decision`; the literal timeline-resume wiring is Epoch 8 (no run orchestrator exists yet — `run_timeline` is called only by tests). This matches `scope.md`'s open-seam boundary and the approved plan.
+
+## Decisions & corrections
+- **P4 scope decision (user): "Core, async generic"** — `HoldPoint` + `Decision` + `PauseResolver` + `HeadlessResolver` + `resolve_hold` all in `conductor-core`; async via native `impl Future`-in-trait (no `async-trait` dep), generic over `R` (no `dyn`, no boxing). `conductor-core` gains its first async *abstraction* while staying runtime-dependency-free. (Alternatives weighed: trait in `conductor-timeline`; a sync trait deferring async to Epoch 9 — both rejected.)
+- **Technique — avoid the `async_fn_in_trait` lint under `-D warnings`:** declare the public trait method with RPITIT (`fn resolve(&self, …) -> impl Future<Output = Decision>`), NOT `async fn`; implementors still write `async fn`. A generic bound (`R: PauseResolver`) avoids `dyn`/boxing, so no `async-trait` crate is needed.
+- **Technique — prove an async primitive never blocks:** under `#[tokio::test(start_paused = true)]`, a hold that awaited a timer would deadlock; completing with no `tokio::time::advance` proves it consumes zero virtual time (the operator pause is wall-clock-only, outside the seeded clock).
+- **Pattern reused:** redaction happens at the *artifact edge* (`HoldResolution`), not in the in-memory `HoldPoint` — mirrors verify `classify` redacting `observed`/`expected` at capture. `PId` reused for the hold's P-ID (no new identity type).
+
+## Outcome
+- **Acceptance criteria:** met — all types/trait/resolver/primitive in core; no runtime/seam dep added (star topology intact); resolution is a value, never `Err`; headless never blocks (proven under `start_paused`); prompt redacted; `Decision` canonical-serde + round-trip; both-directions determinism; clippy clean (RPITIT); no tracing span / no obs-plan §11 amendment forced.
+- **Gates green:** `cargo clippy --workspace --all-targets -- -D warnings` (clean) · `cargo nextest run --workspace --profile ci` (258/258, 0 skipped; +15) · `cargo test --workspace --doc` (clean) · `cargo nextest run -p conductor-core` (83/83). Fix-loop: 0 iterations (green first run).
+- **Smoke:** skipped — no boot-path change (pure library; no binary/entry-point touched, no `agent-run.sh` in Test Commands).

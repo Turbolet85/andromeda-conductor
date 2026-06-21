@@ -70,7 +70,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
    ↓
 [2026-06-21-expected-outcome-slo-timing-model] Expected-outcome + SLO timing model — per-scenario expected blocks, tier-scaled tolerance <5s/<20s/<90s   PREREQ: feeds matched/observed/expected into the ClaimClass/classify→Assessment mechanism from verdict-assertion-policy-split (concrete comparison kinds deferred here)
    ↓
-Operator-pause orchestration — go/no-go holds + resume-on-confirm for non-Conductor actions
+[2026-06-21-operator-pause-orchestration] Operator-pause orchestration — go/no-go holds + resume-on-confirm for non-Conductor actions
 
 ### Epoch 6 — Run report & persistence
 Run-report envelope serializer — canonical shape shared by Markdown + runs.db + JSONL

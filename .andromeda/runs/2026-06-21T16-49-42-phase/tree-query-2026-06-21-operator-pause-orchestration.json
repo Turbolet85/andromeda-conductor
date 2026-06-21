@@ -1,0 +1,114 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee LIKE '%run_timeline%' ORDER BY file",
+"rows": 21,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-timeline 0.1.0 convert/tests/same_seed_reproduces_transitions_in_phase_order().",
+"file": "crates/conductor-timeline/src/convert.rs",
+"line": 72
+},
+{
+"caller": "rust-analyzer cargo conductor-timeline 0.1.0 convert/tests/",
+"file": "crates/conductor-timeline/src/convert.rs",
+"line": 33
+},
+{
+"caller": "rust-analyzer cargo conductor-timeline 0.1.0 convert/tests/same_seed_reproduces_transitions_in_phase_order().",
+"file": "crates/conductor-timeline/src/convert.rs",
+"line": 73
+},
+{
+"caller": "rust-analyzer cargo conductor-timeline 0.1.0 convert/tests/different_seeds_diverge().",
+"file": "crates/conductor-timeline/src/convert.rs",
+"line": 85
+},
+{
+"caller": "rust-analyzer cargo conductor-timeline 0.1.0 convert/tests/different_seeds_diverge().",
+"file": "crates/conductor-timeline/src/convert.rs",
+"line": 84
+},
+{
+"caller": "rust-analyzer cargo conductor-timeline 0.1.0 crate/",
+"file": "crates/conductor-timeline/src/lib.rs",
+"line": 14
+},
+{
+"caller": "rust-analyzer cargo conductor-timeline 0.1.0 same_seed_reproduces_the_sequence().",
+"file": "crates/conductor-timeline/tests/determinism.rs",
+"line": 25
+},
+{
+"caller": "rust-analyzer cargo conductor-timeline 0.1.0 jitter_never_produces_a_negative_gap().",
+"file": "crates/conductor-timeline/tests/determinism.rs",
+"line": 77
+},
+{
+"caller": "rust-analyzer cargo conductor-timeline 0.1.0 zero_jitter_lands_each_gap_exactly_as_declared().",
+"file": "crates/conductor-timeline/tests/determinism.rs",
+"line": 64
+},
+{
+"caller": "rust-analyzer cargo conductor-timeline 0.1.0 crate/",
+"file": "crates/conductor-timeline/tests/determinism.rs",
+"line": 8
+},
+{
+"caller": "rust-analyzer cargo conductor-timeline 0.1.0 different_seeds_yield_different_shapes().",
+"file": "crates/conductor-timeline/tests/determinism.rs",
+"line": 34
+},
+{
+"caller": "rust-analyzer cargo conductor-timeline 0.1.0 an_empty_timeline_is_a_harness_fault().",
+"file": "crates/conductor-timeline/tests/determinism.rs",
+"line": 88
+},
+{
+"caller": "rust-analyzer cargo conductor-timeline 0.1.0 gaps_stay_within_the_declared_jitter_bound().",
+"file": "crates/conductor-timeline/tests/determinism.rs",
+"line": 42
+},
+{
+"caller": "rust-analyzer cargo conductor-timeline 0.1.0 different_seeds_yield_different_shapes().",
+"file": "crates/conductor-timeline/tests/determinism.rs",
+"line": 33
+},
+{
+"caller": "rust-analyzer cargo conductor-timeline 0.1.0 same_seed_reproduces_the_sequence().",
+"file": "crates/conductor-timeline/tests/determinism.rs",
+"line": 26
+},
+{
+"caller": "rust-analyzer cargo conductor-timeline 0.1.0 crate/",
+"file": "crates/conductor-timeline/tests/replay.rs",
+"line": 42
+},
+{
+"caller": "rust-analyzer cargo conductor-timeline 0.1.0 crate/",
+"file": "crates/conductor-timeline/tests/replay.rs",
+"line": 89
+},
+{
+"caller": "rust-analyzer cargo conductor-timeline 0.1.0 crate/",
+"file": "crates/conductor-timeline/tests/replay.rs",
+"line": 72
+},
+{
+"caller": "rust-analyzer cargo conductor-timeline 0.1.0 crate/",
+"file": "crates/conductor-timeline/tests/replay.rs",
+"line": 33
+},
+{
+"caller": "rust-analyzer cargo conductor-timeline 0.1.0 crate/",
+"file": "crates/conductor-timeline/tests/replay.rs",
+"line": 73
+},
+{
+"caller": "rust-analyzer cargo conductor-timeline 0.1.0 crate/",
+"file": "crates/conductor-timeline/tests/replay.rs",
+"line": 14
+}
+],
+"db_state": "fresh"
+}
+]

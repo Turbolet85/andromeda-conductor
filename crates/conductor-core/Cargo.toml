@@ -15,6 +15,7 @@ tracing.workspace = true
 tracing-subscriber.workspace = true
 
 [dev-dependencies]
+tokio = { workspace = true, features = ["rt", "macros", "test-util", "time"] }
 rstest.workspace = true
 proptest.workspace = true
 insta.workspace = true
