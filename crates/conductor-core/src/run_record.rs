@@ -69,6 +69,42 @@ impl RunRecord {
             fingerprints: None,
         }
     }
+
+    /// Construct a **measured** record — the scenario was driven and read-back observed, so every
+    /// field is populated (the five measurement fields are `Some`, the inverse of
+    /// [`RunRecord::blocked`]). `verdict` and `state` are supplied independently (the envelope never
+    /// flattens them — a producer on the auto-verified path derives `state` from
+    /// [`Verdict::default_report_state`]). `latency_ms` is the journal-relative
+    /// `read_back_observed_at − journal_emitted_at` already in milliseconds — not re-derived from the
+    /// second-precision instant strings.
+    #[allow(clippy::too_many_arguments)] // eleven fields by contract (arch §Standard Contracts)
+    pub fn measured(
+        run_id: impl Into<String>,
+        seed: u64,
+        scenario: impl Into<String>,
+        p_ids: Vec<PId>,
+        verdict: Verdict,
+        state: ReportState,
+        journal_emitted_at: impl Into<String>,
+        read_back_observed_at: impl Into<String>,
+        latency_ms: i64,
+        slo_tier: SloTier,
+        fingerprints: Vec<String>,
+    ) -> Self {
+        Self {
+            journal_emitted_at: Some(journal_emitted_at.into()),
+            read_back_observed_at: Some(read_back_observed_at.into()),
+            run_id: run_id.into(),
+            seed,
+            scenario: scenario.into(),
+            p_ids,
+            verdict: Some(verdict),
+            state,
+            latency_ms: Some(latency_ms),
+            slo_tier,
+            fingerprints: Some(fingerprints),
+        }
+    }
 }
 
 #[cfg(test)]
@@ -76,19 +112,19 @@ mod tests {
     use super::*;
 
     fn measured() -> RunRecord {
-        RunRecord {
-            journal_emitted_at: Some("2026-06-16T21:10:06Z".to_string()),
-            read_back_observed_at: Some("2026-06-16T21:10:07Z".to_string()),
-            run_id: "2026-06-16T21-10-06-abc".to_string(),
-            seed: 424242,
-            scenario: "error-baseline-spike".to_string(),
-            p_ids: vec![PId("P-009".to_string()), PId("P-010".to_string())],
-            verdict: Some(Verdict::Pass),
-            state: ReportState::Pass,
-            latency_ms: Some(1840),
-            slo_tier: SloTier::Tier5s,
-            fingerprints: Some(vec!["fp-1".to_string()]),
-        }
+        RunRecord::measured(
+            "2026-06-16T21-10-06-abc",
+            424242,
+            "error-baseline-spike",
+            vec![PId("P-009".to_string()), PId("P-010".to_string())],
+            Verdict::Pass,
+            ReportState::Pass,
+            "2026-06-16T21:10:06Z",
+            "2026-06-16T21:10:07Z",
+            1840,
+            SloTier::Tier5s,
+            vec!["fp-1".to_string()],
+        )
     }
 
     #[test]
@@ -98,6 +134,18 @@ mod tests {
         let json = serde_json::to_string(&measured()).unwrap();
         let expected = r#"{"journal_emitted_at":"2026-06-16T21:10:06Z","read_back_observed_at":"2026-06-16T21:10:07Z","run_id":"2026-06-16T21-10-06-abc","seed":424242,"scenario":"error-baseline-spike","p_ids":["P-009","P-010"],"verdict":"Pass","state":"Pass","latency_ms":1840,"slo_tier":"<5s","fingerprints":["fp-1"]}"#;
         assert_eq!(json, expected);
+    }
+
+    #[test]
+    fn measured_record_populates_the_five_measurement_fields() {
+        // Inverse of the blocked-row null rule: a measured record nulls nothing.
+        let v: serde_json::Value = serde_json::to_value(measured()).unwrap();
+        assert!(!v["journal_emitted_at"].is_null());
+        assert!(!v["read_back_observed_at"].is_null());
+        assert!(!v["verdict"].is_null());
+        assert!(!v["latency_ms"].is_null());
+        assert!(!v["fingerprints"].is_null());
+        assert_eq!(v["state"], serde_json::json!("Pass"));
     }
 
     #[test]

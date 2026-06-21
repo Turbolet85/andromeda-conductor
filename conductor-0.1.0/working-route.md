@@ -73,7 +73,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
 [2026-06-21-operator-pause-orchestration] Operator-pause orchestration — go/no-go holds + resume-on-confirm for non-Conductor actions
 
 ### Epoch 6 — Run report & persistence
-Run-report envelope serializer — canonical shape shared by Markdown + runs.db + JSONL
+[2026-06-21-run-report-envelope-serializer] Run-report envelope serializer — canonical shape shared by Markdown + runs.db + JSONL
    ↓
 runs.db index — rusqlite schema, bound-parameter writes, JSON1 fingerprint arrays
    ↓

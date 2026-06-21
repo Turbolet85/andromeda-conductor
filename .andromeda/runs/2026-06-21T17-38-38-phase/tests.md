@@ -1,0 +1,37 @@
+# tests extract
+
+## Relevance
+Partial — the chunk builds the canonical envelope struct (serialization contract), not full end-to-end wiring or the runs.db writer or Markdown renderer.
+
+## Constraints
+- Per test-plan §1 / §3, the Run-report envelope is the serialized contract shared by Markdown report, runs.db row, and JSONL journal — this chunk IS the canonical realization of that shape.
+- Per test-plan §3 (Status endpoint shape), the envelope structure is fixed: `run_id` (filesystem-safe hyphen stamp), `seed` (u64), `scenario`, `p_ids` (array), `verdict ∈ {Pass,Fail,CalibrationRegion}`, `state ∈ {Pass,Fail,ManualCheck,KnownResidual,Blocked}`, `latency_ms` (nullable), `slo_tier` (closed enum `<5s`/`<20s`/`<90s`), `journal_emitted_at`/`read_back_observed_at` (ISO-8601), `fingerprints` (array).
+- Per test-plan §3 (Blocked-row null rule), a `Blocked` envelope populates only identity fields; verdict/journal_emitted_at/read_back_observed_at/latency_ms/fingerprints serialize as JSON `null` — never phantom values.
+- Per test-plan §3 (Artifact hygiene), no absolute host paths or internal struct/field names leak into serialized form; canonical-name serde required.
+- Per test-plan §4 (conductor-report bullet) / amendments 2026-06-16, unit serialization goldens use exact-string `assert_eq!` (matching `verdict.rs`/`report_state.rs` pattern); insta is reserved for E2E journal-golden with redaction.
+- Per test-plan §3 / amendments 2026-06-15, the per-run emission journal (`runs/<run_id>.jsonl`) is DISTINCT from self-obs stream (stderr/`logs/agent-latest.jsonl`); envelope does not carry service-identity fields.
+
+## Patterns to follow
+- Reuse conductor-core `Verdict` and `ReportState` enums (already defined upstream per scope boundary); this chunk *consumes & serializes* outcomes, not classifying logic.
+- Golden unit assertion via exact-string `assert_eq!` on the canonical serialized form (matching conductor-core pattern).
+- Null-safety on `Blocked` state: verify that nullable fields are truly `null` in JSON / NULL in runs.db (not zero/empty string).
+- Timestamp representation: `run_id` uses hyphens (PK + artifact stem); payload instants use colon-delimited RFC-3339 in JSON; runs.db mapping (chunk 2) may use integer offsets but envelope doesn't preclude it.
+
+## Anti-patterns to avoid
+- NEVER leak absolute host paths or internal `conductor-report` struct names into serialized JSON (test via golden + a negative assertion on the JSON output).
+- NEVER add `Blocked` envelope fields with phantom zero/empty values instead of `null` — a golden test asserts true nulls.
+- NEVER conflate the per-run emission journal schema with the self-obs stream schema (distinct artifacts; envelope belongs to emission journal only, per amendment 2026-06-15).
+
+## Contract bindings
+- **Run report envelope** (arch Standard Contracts) — this chunk IS that contract; bounded to obs §Log format / self-obs stream (distinct, per amendment); downstream to runs.db writer (chunk 2) and Markdown renderer (chunk 3).
+- **Verdict/ReportState reuse** — consumes upstream conductor-core types; no new classification logic.
+
+## Acceptance criteria contributions
+- "(tests) Canonical envelope struct serializes to JSON with exact field mapping per test-plan §3 Status endpoint shape — golden via `assert_eq!`."
+- "(tests) `Blocked` state populates only identity fields; verdict/latency_ms/fingerprints/timestamps serialize as JSON `null` (verified by golden)."
+- "(tests) Serialized form carries no absolute host paths, no internal struct names — verified by negative assertion on the JSON output."
+- "(tests) Envelope timestamp fields use RFC-3339 colon-delimited format; `run_id` is hyphen-delimited (matches artifact-stem naming)."
+
+## Relevant amendment history
+- **2026-06-15-structured-logging-stack:** noted that per-run emission journal (`runs/<run_id>.jsonl`) is DISTINCT from self-obs stream; envelope belongs to emission journal only, not self-obs. No envelope field changes, only clarified cross-reference to obs-plan §3.
+- **2026-06-16-emission-journal-writer:** clarified that conductor-report unit goldens use exact-string `assert_eq!` (not insta); insta is reserved for E2E journal-golden with run_id/timestamp redaction. Envelope serialization golden is unit-level exact-assert.

@@ -19,12 +19,15 @@
 //! `CalibrationRegion`, never hard-failed on exact values). And the expected-outcome + SLO timing
 //! layer ([`compare`] / [`evaluate_slo`] / [`evaluate_check`]): it applies a
 //! [`conductor_core::ExpectedCheck`]'s comparison kind to a read-back value and folds in the
-//! journal-relative tier deadline, producing the `matched`/class the classifier consumes.
+//! journal-relative tier deadline, producing the `matched`/class the classifier consumes. And
+//! finally the producer bridge ([`CheckOutcome::to_run_record`]) — folding a fully-evaluated outcome
+//! into the canonical [`conductor_core::RunRecord`] the Epoch-6 report seam persists.
 
 mod client;
 mod error;
 mod manifest;
 mod preflight;
+mod record;
 mod slo;
 mod spawn;
 mod verdict;

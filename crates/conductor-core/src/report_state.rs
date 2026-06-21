@@ -13,8 +13,9 @@ pub enum ReportState {
     Pass,
     /// Auto-verified check failed. `[FAIL]`.
     Fail,
-    /// Visual/operator-checklist claim with no programmatic read-back — terminal, awaits a
-    /// human go/no-go. `[MANUAL]`.
+    /// Terminal, awaits a human go/no-go: either an auto-measured but model-interpretive
+    /// (calibration-region) check, or a visual/operator-checklist claim with no programmatic
+    /// read-back. `[MANUAL]`.
     ManualCheck,
     /// Deviation matches a pre-accepted residual (e.g. a `degraded_mode` report),
     /// distinguished from a real `Fail`. `[RESIDUAL]`.

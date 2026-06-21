@@ -2,6 +2,8 @@
 
 use serde::{Deserialize, Serialize};
 
+use crate::ReportState;
+
 /// The outcome of a single verification check.
 ///
 /// Deterministic claims are hard [`Verdict::Pass`]/[`Verdict::Fail`]; model-interpretive
@@ -41,6 +43,19 @@ impl Verdict {
             Verdict::CalibrationRegion => "[HOLD]",
         }
     }
+
+    /// The default run-report state for the auto-verified path. `Pass`/`Fail` pass straight through;
+    /// a `CalibrationRegion` ([HOLD]) check is auto-measured but model-interpretive, so it lands in
+    /// [`ReportState::ManualCheck`] — terminal, awaiting a human (arch §Probabilistic-Assertion
+    /// Policy). The envelope carries `verdict` and `state` independently, so a producer with a
+    /// context-specific state (e.g. a `degraded_mode` residual) sets it directly; this is the default.
+    pub fn default_report_state(self) -> ReportState {
+        match self {
+            Verdict::Pass => ReportState::Pass,
+            Verdict::Fail => ReportState::Fail,
+            Verdict::CalibrationRegion => ReportState::ManualCheck,
+        }
+    }
 }
 
 #[cfg(test)]
@@ -75,5 +90,16 @@ mod tests {
             assert!(!v.label().is_empty());
             assert!(v.status_prefix().starts_with('[') && v.status_prefix().ends_with(']'));
         }
+    }
+
+    #[test]
+    fn default_report_state_maps_each_verdict() {
+        use crate::ReportState;
+        assert_eq!(Verdict::Pass.default_report_state(), ReportState::Pass);
+        assert_eq!(Verdict::Fail.default_report_state(), ReportState::Fail);
+        assert_eq!(
+            Verdict::CalibrationRegion.default_report_state(),
+            ReportState::ManualCheck
+        );
     }
 }

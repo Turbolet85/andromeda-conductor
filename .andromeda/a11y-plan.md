@@ -424,10 +424,10 @@ For each foreground/background token pair from upstream-context Section 3:
 | Display label (DOM text) | obs `verdict` enum | obs `state` enum |
 |--------------------------|--------------------|------------------|
 | `Pass` | `Pass` | `Pass` |
-| `HOLD` | `CalibrationRegion` | (n/a — verdict-only; carried by the `CalibrationRegion` verdict, NOT the `ManualCheck` state, which is the `Manual` label's; do not join HOLD on `state`) |
+| `HOLD` | `CalibrationRegion` | `ManualCheck` (the default `CalibrationRegion → ManualCheck` mapping) — but the LAMP is chosen **verdict-first**: `verdict == CalibrationRegion` ⇒ HOLD lamp regardless of `state`. Identify/join HOLD on the `verdict`, never on `state` (a `ManualCheck` state with NO verdict is the `Manual` lamp). |
 | `Fail` | `Fail` | `Fail` |
 | `Blocked` | (n/a — no verdict) | `Blocked` |
-| `Manual` | (n/a — no verdict) | `ManualCheck` |
+| `Manual` | (n/a — no verdict; a `ManualCheck` state WITH `verdict == CalibrationRegion` is the HOLD lamp, not Manual) | `ManualCheck` |
 | `Residual` | (n/a — no verdict) | `KnownResidual` |
 
 - **Tokens:** `--count-nominal` (success / `Pass`) / `--count-hold` (warning / `CalibrationRegion` / HOLD) / `--status-fail` (error / `Fail`) / `--count-blocked` (info / `Blocked`) / `--status-manual` (info/manual / `Manual`) / `--status-residual` (info/residual / `Residual`).
