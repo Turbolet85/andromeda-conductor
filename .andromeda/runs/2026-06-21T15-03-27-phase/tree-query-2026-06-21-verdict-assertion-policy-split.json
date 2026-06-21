@@ -1,0 +1,188 @@
+[
+{
+"sql": "SELECT split_part(symbol,' ',5) AS desc, crate, file, def_line FROM symbol WHERE symbol LIKE '%Verdict%' ORDER BY file, def_line",
+"rows": 6,
+"result": [
+{
+"desc": "verdict/Verdict#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/verdict.rs",
+"def_line": 13
+},
+{
+"desc": "verdict/Verdict#Pass#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/verdict.rs",
+"def_line": 15
+},
+{
+"desc": "verdict/Verdict#Fail#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/verdict.rs",
+"def_line": 17
+},
+{
+"desc": "verdict/Verdict#CalibrationRegion#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/verdict.rs",
+"def_line": 20
+},
+{
+"desc": "verdict/impl#[Verdict]label().",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/verdict.rs",
+"def_line": 26
+},
+{
+"desc": "verdict/impl#[Verdict]status_prefix().",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/verdict.rs",
+"def_line": 36
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT DISTINCT file, line FROM refs WHERE callee LIKE '%Verdict%' ORDER BY file, line",
+"rows": 34,
+"result": [
+{
+"file": "crates/conductor-core/src/error.rs",
+"line": 41
+},
+{
+"file": "crates/conductor-core/src/error.rs",
+"line": 42
+},
+{
+"file": "crates/conductor-core/src/lib.rs",
+"line": 31
+},
+{
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 4
+},
+{
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 32
+},
+{
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 85
+},
+{
+"file": "crates/conductor-core/src/verdict.rs",
+"line": 23
+},
+{
+"file": "crates/conductor-core/src/verdict.rs",
+"line": 28
+},
+{
+"file": "crates/conductor-core/src/verdict.rs",
+"line": 29
+},
+{
+"file": "crates/conductor-core/src/verdict.rs",
+"line": 30
+},
+{
+"file": "crates/conductor-core/src/verdict.rs",
+"line": 38
+},
+{
+"file": "crates/conductor-core/src/verdict.rs",
+"line": 39
+},
+{
+"file": "crates/conductor-core/src/verdict.rs",
+"line": 40
+},
+{
+"file": "crates/conductor-core/src/verdict.rs",
+"line": 51
+},
+{
+"file": "crates/conductor-core/src/verdict.rs",
+"line": 52
+},
+{
+"file": "crates/conductor-core/src/verdict.rs",
+"line": 55
+},
+{
+"file": "crates/conductor-core/src/verdict.rs",
+"line": 62
+},
+{
+"file": "crates/conductor-core/src/verdict.rs",
+"line": 64
+},
+{
+"file": "crates/conductor-core/src/verdict.rs",
+"line": 71
+},
+{
+"file": "crates/conductor-core/src/verdict.rs",
+"line": 72
+},
+{
+"file": "crates/conductor-core/src/verdict.rs",
+"line": 73
+},
+{
+"file": "crates/conductor-core/src/verdict.rs",
+"line": 74
+},
+{
+"file": "crates/conductor-core/src/verdict.rs",
+"line": 75
+},
+{
+"file": "crates/conductor-core/tests/toolchain_smoke.rs",
+"line": 4
+},
+{
+"file": "crates/conductor-core/tests/toolchain_smoke.rs",
+"line": 9
+},
+{
+"file": "crates/conductor-core/tests/toolchain_smoke.rs",
+"line": 10
+},
+{
+"file": "crates/conductor-core/tests/toolchain_smoke.rs",
+"line": 11
+},
+{
+"file": "crates/conductor-core/tests/toolchain_smoke.rs",
+"line": 12
+},
+{
+"file": "crates/conductor-core/tests/toolchain_smoke.rs",
+"line": 13
+},
+{
+"file": "crates/conductor-core/tests/toolchain_smoke.rs",
+"line": 39
+},
+{
+"file": "crates/conductor-core/tests/toolchain_smoke.rs",
+"line": 40
+},
+{
+"file": "crates/conductor-core/tests/toolchain_smoke.rs",
+"line": 41
+},
+{
+"file": "crates/conductor-report/src/journal.rs",
+"line": 65
+},
+{
+"file": "crates/conductor-report/src/journal.rs",
+"line": 75
+}
+],
+"db_state": "fresh"
+}
+]
