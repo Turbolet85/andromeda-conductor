@@ -77,7 +77,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
    ↓
 [2026-06-21-runs-db-index] runs.db index — rusqlite schema, bound-parameter writes, JSON1 fingerprint arrays
    ↓
-Markdown run report — per-scenario Pass/Fail/ManualCheck/KnownResidual/Blocked render
+[2026-06-21-markdown-run-report] Markdown run report — per-scenario Pass/Fail/ManualCheck/KnownResidual/Blocked render
    ↓
 Coverage-matrix generator — all 60 P-IDs classified auto/drive+observe/static-only
 

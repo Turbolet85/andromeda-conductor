@@ -16,6 +16,7 @@
 mod config_path;
 mod error;
 mod expected;
+mod lamp;
 mod obs;
 mod pause;
 mod phase_spec;
@@ -28,6 +29,7 @@ mod verdict;
 pub use config_path::resolve_under;
 pub use error::{CoreError, Result};
 pub use expected::{ClaimClass, ComparisonKind, ExpectedCheck};
+pub use lamp::Lamp;
 pub use obs::{init_observability, mint_run_id, now_rfc3339, ServiceIdentity};
 pub use pause::{Decision, HeadlessResolver, HoldPoint, HoldResolution, PauseResolver, resolve_hold};
 pub use phase_spec::{EmissionSpec, PhaseSpec, Signal};

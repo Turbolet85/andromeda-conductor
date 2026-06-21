@@ -1,22 +1,22 @@
 # Session Handoff
 
-**Last Updated:** 2026-06-21T19:09:44Z
+**Last Updated:** 2026-06-21T20:24:57Z
 **Branch:** build/conductor-0.1.0
 **Status:** clean
-**Last Commit:** 2026-06-21-runs-db-index — feat: runs.db SQLite index storage seam (conductor-report, Epoch 6 ch2/4)
+**Last Commit:** 2026-06-21-markdown-run-report — feat: Markdown run report + shared verdict-first Lamp (conductor-report/core, Epoch 6 ch3/4)
 
 ## Position
-- Done: **2026-06-21-runs-db-index** — the `runs.db` cross-run SQLite index (`RunsDb` in conductor-report): `CREATE TABLE IF NOT EXISTS` schema bootstrap + bound-parameter `RunRecord` insert + JSON1 `p_ids`/`fingerprints` arrays + Blocked-row NULL rule + a minimal `get` read. **Epoch 6 (Run report & persistence) — chunk 2 of 4.**
-- Next: **Markdown run report** — per-scenario Pass/Fail/ManualCheck/KnownResidual/Blocked render (Epoch 6 ch3/4) → `/andromeda-phase` to promote + plan.
+- Done: **2026-06-21-markdown-run-report** — the per-run Markdown run report (`conductor-report::RunReport` render/write to `runs/<run_id>.md`, run_id-stemmed + never-overwrite) over the existing `RunRecord` envelope, plus the shared `conductor-core::Lamp` (`for_record` verdict-first resolver). **Epoch 6 (Run report & persistence) — chunk 3 of 4.**
+- Next: **Coverage-matrix generator** — all 60 P-IDs classified auto/drive+observe/static-only (Epoch 6 ch4/4) → `/andromeda-phase` to promote + plan.
 
 ## Work done
-3 files: NEW `conductor-report/src/db.rs` (`RunsDb` open/insert/get · `RunsDbError` Io/Sqlite/Json · private `RawRow` · 10 tests); MOD `lib.rs` (`mod db` + `pub use`); MOD `Cargo.toml` (+`rusqlite` — first real `bundled` compile). +10 tests. Gates green: report 14/14 · workspace **275/275** · clippy `-D` (1 needless-borrow fix) · doctest 0 · cargo-audit 0 · cargo-deny ok. Code-graph 913n/3475e.
+4 files: NEW `conductor-core/src/lamp.rs` (`Lamp` enum + `for_record` verdict-first resolver + `status_prefix`/`label`, 5 tests); NEW `conductor-report/src/report.rs` (`RunReport::render` pure + `::write` create_new + `ReportError`, 10 tests); MOD both `lib.rs` (`pub use`). +15 tests, **no new dependency**. Gates: core+report 114/114 · workspace **290/290** · clippy `-D` clean · doctest 0. Code-graph 962n/3824e.
 
 ## Drift resolved
-3 amendments, **0 escalations**. **arch ×2** — §Stack/§Inherited-Defaults: `libsqlite3-sys 0.38.0→0.36.0` + bundled `SQLite 3.51.1→3.50.4` (the resolved lock; routine doc-alignment, audit-green); §Data-model/§Standard-Contracts: runs.db instant columns are **TEXT RFC-3339** (was "integer-ms offsets, not ISO strings"), `latency_ms` is the INTEGER the SLO math consumes (P4 user decision; SLO-math invariant preserved). **security-plan ×1** — §Database SQLite 3.50.4 (mirror). Cascade: `stack.md` version row updated (CLAUDE.md / security-summary / timestamp-detail = grep-confirmed no-ops). obs `db.insert_run`-deferral proposal **dismissed** per the any-seam-primitive playbook rule (enumeration extended to `conductor-report [db.insert_run]`). 4 detectors clean.
+2 warnings (both dismissed → **0 spec amendments**), **1 escalation resolved**. **obs** D-obs-instrumentation (`report.generate` span) → routine dismiss (any-seam-primitive deferred-span rule; the primitive has no driver — span lands with the Epoch-8 caller; recurrence note appended). **tests** D-tests-obs-harness (test-plan §3 two-record-shapes) → escalated → **user chose dismiss** (not this chunk's drift — the chunk renders the existing envelope, touching neither §3; the §3↔obs§3 gap is pre-existing + a carried follow-up); **+1 new playbook rule** (plan↔plan-bind detector firing on a pre-existing untouched gap → dismiss). 5 detectors clean.
 
 ## Notes
-- **Key decisions:** P4 timestamp = TEXT instants + INTEGER `latency_ms` (dep-free; deviated from arch wording → reconciled this wrap). `RunsDb` mirrors `JournalWriter` (already-resolved `runs_dir` in; cli edge owns `CONDUCTOR_RUNS_DIR`). PK `(run_id, scenario)` + plain INSERT (loud dup error). `seed: u64` via `as i64` bit-cast. enum→TEXT via serde wire form (no hand-match drift).
-- **Curation:** 1 Tier-3 (rusqlite envelope-mapping gotchas: u64 bit-cast · serde-wire-form enums · parse OUTSIDE the row closure). Version corrections deduped as spec-truth; 0 conflicts / 0 deferred.
-- **Follow-up (carried):** (a) `db.insert_run` obs span → Epoch 8 (joins `hold.wait_resolve` / `fault.*` deferrals) · (b) cross-run query surface (latency/percentile + P-036 JSON1 fingerprint recurrence) → Epoch 7 scenarios / Epoch 8 status (`get` is the seed) · (c) **verdict-first lamp precedence** must be honored at the lamp render — Markdown report (next chunk), coverage-matrix (ch4), cli (Epoch 8), desktop (Epoch 9) · (d) `Scenario.holds`/`Scenario.expected` TOML wiring → Epoch 7 · (e) `Decision→ReportState` for operator holds → Epoch 6/8 · CLI `inquire` resolver → Epoch 8 · Tauri dialog resolver → Epoch 9 · suite-start `probe_egress` orchestration → Epoch 8 · `opentelemetry-proto default-features=false` trim · test-plan §3 ↔ obs-plan §3 doc reconcile.
+- **Key decisions:** verdict-first lamp precedence centralized as `conductor-core::Lamp` (coverage-matrix/cli/desktop reuse `Lamp::for_record`, never re-derive); `KnownResidual`/`Blocked` are **state-driven, checked before the verdict arms** (`measured()` always carries a verdict, so a naive verdict-first mis-renders a residual); render is a **pure clock-free fn** → exact-string golden (not `insta`); `write` uses `create_new` (loud never-overwrite); enum wire forms via the existing `serde_json` (no new dep).
+- **Curation:** 1 Tier-3 (lamp precedence + clock-free render seam); filtered 1 dup (serde-wire enums) + 1 low-confidence (create_new). 0 conflicts, 0 deferred.
+- **Follow-up (carried):** (a) **test-plan §3 ↔ obs-plan §3 two-record-shapes doc-reconcile** (re-confirmed deferred this wrap — dedicated pass) · (b) `report.generate` obs span → Epoch 8 cli/timeline caller (joins `db.insert_run` / `hold.wait_resolve` / `fault.*` deferrals) · (c) coverage-matrix ch4 / cli Epoch 8 / desktop Epoch 9 **reuse `Lamp::for_record`** · (d) `Scenario.holds`/`expected` TOML wiring → Epoch 7 · (e) `opentelemetry-proto default-features=false` trim.
 - **Last failed command:** none.
