@@ -1,0 +1,552 @@
+[
+{
+"sql": "SELECT type,name FROM sqlite_master WHERE type IN ('table','view') ORDER BY type,name",
+"rows": 9,
+"result": [
+{
+"type": "table",
+"name": "calls_m"
+},
+{
+"type": "table",
+"name": "defs"
+},
+{
+"type": "table",
+"name": "occ"
+},
+{
+"type": "table",
+"name": "wsdef"
+},
+{
+"type": "view",
+"name": "calls"
+},
+{
+"type": "view",
+"name": "contains"
+},
+{
+"type": "view",
+"name": "crate_edges"
+},
+{
+"type": "view",
+"name": "refs"
+},
+{
+"type": "view",
+"name": "symbol"
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT * FROM defs LIMIT 1",
+"rows": 1,
+"result": [
+{
+"symbol": "rust-analyzer cargo conductor-verify 0.1.0 crate/",
+"file": "crates/conductor-verify/src/lib.rs",
+"def_line": 0,
+"enc_start": 0,
+"enc_end": 1
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT * FROM symbol WHERE file LIKE '%conductor-faults%' LIMIT 3",
+"rows": 3,
+"result": [
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 crate/",
+"crate": "conductor-faults",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"def_line": 0
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 occupies_a_loopback_port_and_reports_its_resolved_addr().",
+"crate": "conductor-faults",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"def_line": 9
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 a_held_port_rejects_a_second_bind().",
+"crate": "conductor-faults",
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"def_line": 17
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT * FROM refs LIMIT 2",
+"rows": 2,
+"result": [
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 crate/",
+"file": "crates/conductor-timeline/tests/replay.rs",
+"line": 13
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/Scenario#",
+"file": "crates/conductor-timeline/tests/replay.rs",
+"line": 13
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT * FROM crate_edges LIMIT 3",
+"rows": 3,
+"result": [
+{
+"from_crate": "conductor-tauri",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-cli",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-report",
+"to_crate": "conductor-core"
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT file, line, callee FROM refs WHERE callee LIKE '%FaultError%' ORDER BY file, line",
+"rows": 41,
+"result": [
+{
+"file": "crates/conductor-faults/src/error.rs",
+"line": 37,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#Bind#"
+},
+{
+"file": "crates/conductor-faults/src/error.rs",
+"line": 37,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#"
+},
+{
+"file": "crates/conductor-faults/src/error.rs",
+"line": 38,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#Bind#addr."
+},
+{
+"file": "crates/conductor-faults/src/error.rs",
+"line": 39,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#Bind#source."
+},
+{
+"file": "crates/conductor-faults/src/error.rs",
+"line": 48,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#GapTooShort#"
+},
+{
+"file": "crates/conductor-faults/src/error.rs",
+"line": 48,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#"
+},
+{
+"file": "crates/conductor-faults/src/error.rs",
+"line": 49,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#GapTooShort#gap."
+},
+{
+"file": "crates/conductor-faults/src/error.rs",
+"line": 50,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#GapTooShort#min."
+},
+{
+"file": "crates/conductor-faults/src/error.rs",
+"line": 60,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#GapTooLong#"
+},
+{
+"file": "crates/conductor-faults/src/error.rs",
+"line": 60,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#"
+},
+{
+"file": "crates/conductor-faults/src/error.rs",
+"line": 61,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#GapTooLong#gap."
+},
+{
+"file": "crates/conductor-faults/src/error.rs",
+"line": 62,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#GapTooLong#max."
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 13,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#"
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 43,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#"
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 45,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#GapTooShort#min."
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 45,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#"
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 45,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#GapTooShort#"
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 45,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#GapTooShort#gap."
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 48,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#"
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 48,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#GapTooLong#"
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 48,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#GapTooLong#gap."
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 48,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#GapTooLong#max."
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 108,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#"
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 108,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#GapTooShort#"
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 112,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#"
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 112,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#GapTooLong#"
+},
+{
+"file": "crates/conductor-faults/src/lib.rs",
+"line": 18,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#"
+},
+{
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"line": 11,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#"
+},
+{
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"line": 28,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#"
+},
+{
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"line": 31,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#Bind#source."
+},
+{
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"line": 31,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#Bind#addr."
+},
+{
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"line": 31,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#Bind#"
+},
+{
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"line": 31,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#"
+},
+{
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"line": 34,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#Bind#source."
+},
+{
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"line": 34,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#"
+},
+{
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"line": 34,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#Bind#addr."
+},
+{
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"line": 34,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#Bind#"
+},
+{
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"line": 42,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#"
+},
+{
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"line": 6,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#"
+},
+{
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"line": 31,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#Bind#"
+},
+{
+"file": "crates/conductor-faults/tests/port_occupier.rs",
+"line": 31,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 error/FaultError#"
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT from_crate FROM crate_edges WHERE to_crate='conductor-faults'",
+"rows": 0,
+"result": [],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT to_crate FROM crate_edges WHERE from_crate='conductor-faults'",
+"rows": 0,
+"result": [],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT file, line, callee FROM refs WHERE callee LIKE '%EmissionGap%' OR callee LIKE '%AbruptSilence%' ORDER BY file, line",
+"rows": 39,
+"result": [
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 30,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 gap/EmissionGap#"
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 50,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 gap/EmissionGap#gap."
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 55,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 gap/EmissionGap#gap."
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 62,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 gap/EmissionGap#gap."
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 72,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 gap/impl#[EmissionGap]new()."
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 72,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 gap/EmissionGap#"
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 73,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 gap/impl#[EmissionGap]gap()."
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 74,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 gap/impl#[EmissionGap]gap_ms()."
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 79,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 gap/impl#[EmissionGap]new()."
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 79,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 gap/EmissionGap#"
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 80,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 gap/impl#[EmissionGap]new()."
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 80,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 gap/EmissionGap#"
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 85,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 gap/impl#[EmissionGap]new()."
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 85,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 gap/EmissionGap#"
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 86,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 gap/EmissionGap#"
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 86,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 gap/impl#[EmissionGap]new()."
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 93,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 gap/EmissionGap#"
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 93,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 gap/impl#[EmissionGap]new()."
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 93,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 gap/impl#[EmissionGap]gap()."
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 99,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 gap/EmissionGap#"
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 99,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 gap/impl#[EmissionGap]new()."
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 100,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 gap/EmissionGap#"
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 100,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 gap/impl#[EmissionGap]new()."
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 107,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 gap/EmissionGap#"
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 107,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 gap/impl#[EmissionGap]new()."
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 111,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 gap/impl#[EmissionGap]new()."
+},
+{
+"file": "crates/conductor-faults/src/gap.rs",
+"line": 111,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 gap/EmissionGap#"
+},
+{
+"file": "crates/conductor-faults/src/lib.rs",
+"line": 19,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 gap/EmissionGap#"
+},
+{
+"file": "crates/conductor-faults/src/lib.rs",
+"line": 21,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 silence/AbruptSilence#"
+},
+{
+"file": "crates/conductor-faults/src/silence.rs",
+"line": 17,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 silence/AbruptSilence#"
+},
+{
+"file": "crates/conductor-faults/src/silence.rs",
+"line": 45,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 silence/impl#[AbruptSilence]resumes()."
+},
+{
+"file": "crates/conductor-faults/src/silence.rs",
+"line": 45,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 silence/impl#[AbruptSilence]new()."
+},
+{
+"file": "crates/conductor-faults/src/silence.rs",
+"line": 45,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 silence/AbruptSilence#"
+},
+{
+"file": "crates/conductor-faults/src/silence.rs",
+"line": 50,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 silence/impl#[AbruptSilence]new()."
+},
+{
+"file": "crates/conductor-faults/src/silence.rs",
+"line": 50,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 silence/AbruptSilence#"
+},
+{
+"file": "crates/conductor-faults/src/silence.rs",
+"line": 59,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 silence/impl#[AbruptSilence]new()."
+},
+{
+"file": "crates/conductor-faults/src/silence.rs",
+"line": 59,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 silence/AbruptSilence#"
+},
+{
+"file": "crates/conductor-faults/src/silence.rs",
+"line": 60,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 silence/impl#[AbruptSilence]new()."
+},
+{
+"file": "crates/conductor-faults/src/silence.rs",
+"line": 60,
+"callee": "rust-analyzer cargo conductor-faults 0.1.0 silence/AbruptSilence#"
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT crate, file, def_line FROM symbol WHERE symbol ILIKE '%bursty%' OR symbol ILIKE '%BurstyTrain%' OR (symbol ILIKE '%train%' AND symbol NOT ILIKE '%constrain%')",
+"rows": 0,
+"result": [],
+"db_state": "fresh"
+}
+]

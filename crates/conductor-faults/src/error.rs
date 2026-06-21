@@ -26,6 +26,15 @@ pub enum FaultError {
     /// An emission-gap duration above the sanity ceiling.
     #[error("emission gap {gap:?} exceeds the {max:?} ceiling")]
     GapTooLong { gap: Duration, max: Duration },
+    /// A bursty-train active window of zero — a zero active window is permanent silence (P-014's domain).
+    #[error("bursty-train active window is zero")]
+    ActiveZero,
+    /// A bursty-train quiet window of zero — a zero quiet window is continuous emission, not bursty.
+    #[error("bursty-train quiet window is zero")]
+    QuietZero,
+    /// A bursty-train active/quiet window above the sanity ceiling.
+    #[error("bursty-train window {window:?} exceeds the {max:?} ceiling")]
+    WindowTooLong { window: Duration, max: Duration },
 }
 
 #[cfg(test)]
@@ -63,5 +72,33 @@ mod tests {
             max: Duration::from_secs(3_600),
         };
         assert_eq!(err.to_string(), "emission gap 7200s exceeds the 3600s ceiling");
+    }
+
+    #[test]
+    fn active_zero_displays() {
+        assert_eq!(
+            FaultError::ActiveZero.to_string(),
+            "bursty-train active window is zero"
+        );
+    }
+
+    #[test]
+    fn quiet_zero_displays() {
+        assert_eq!(
+            FaultError::QuietZero.to_string(),
+            "bursty-train quiet window is zero"
+        );
+    }
+
+    #[test]
+    fn window_too_long_displays_the_window_and_ceiling() {
+        let err = FaultError::WindowTooLong {
+            window: Duration::from_secs(7_200),
+            max: Duration::from_secs(3_600),
+        };
+        assert_eq!(
+            err.to_string(),
+            "bursty-train window 7200s exceeds the 3600s ceiling"
+        );
     }
 }

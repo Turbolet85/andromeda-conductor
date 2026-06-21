@@ -57,7 +57,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
    ↓
 [2026-06-19-abrupt-silence-fault] Abrupt-silence fault — permanent emission stop (P-014)
    ↓
-Bursty-train pattern — active 5min / quiet 10min repeating (P-013 activity-floor)
+[2026-06-20-bursty-train-pattern] Bursty-train pattern — active 5min / quiet 10min repeating (P-013 activity-floor)
 
 ### Epoch 5 — Verification & read-back
 MCP read-back client — rmcp over TokioChildProcess stdio, hardened fixed-path sidecar spawn (.env data-dir)
