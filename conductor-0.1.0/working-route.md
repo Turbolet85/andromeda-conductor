@@ -92,7 +92,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
    ↓
 [2026-06-22-fingerprint-storm-scenarios] Fingerprint-storm scenarios — identity/path/line-variant fingerprints, storm cue thresholds (P-017, P-018)
    ↓
-Severity-lifecycle scenarios — tiered inputs, auto-resolve, ack-retrigger, per-tier SLO (P-019..P-023, P-059, P-060)
+[2026-06-22-severity-lifecycle-scenarios] Severity-lifecycle scenarios — tiered inputs, auto-resolve, ack-retrigger, per-tier SLO (P-019..P-023, P-059, P-060)
    ↓
 Constellation + context-grounding scenarios — service dot/hue/stability, git commits/recurrence, P-032 known-residual (P-025..P-027, P-036)
    ↓

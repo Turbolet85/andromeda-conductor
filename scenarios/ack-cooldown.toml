@@ -1,0 +1,50 @@
+# P-023 — Acknowledge Cool-Down (pulse-capability-spec.md §P-023). Severity-calibration family.
+#   P-023 — after a user acknowledges an incident, a 5-minute cool-down applies: re-detection of the SAME
+#     incident kind-and-scope WITHIN the window does NOT create a new active incident (but is recorded in
+#     corpus); re-detection AFTER the window creates a new incident. Cool-down is per kind-and-scope, not
+#     global. The cool-down window logic is DETERMINISTIC -> Hard.
+# Trigger -> acknowledge -> retrigger-within -> wait-past-cooldown -> retrigger-after. The acknowledge step
+# and the within-window suppression are realized by the Epoch-8 driver from the phase names; gap_ms are
+# spec-faithful (the 5-min cool-down window).
+# Q2 decision (phase P4): "acknowledge" has no clear tool in the pinned four-tool MCP contract
+# (mark_incident_resolved = resolve, not ack), AND the within-window (no new) vs after-window (new) outcomes
+# CONTRADICT on the incident token under the single-read-back evaluator. So this file asserts only the
+# drivable AFTER-window leg (a new incident DOES form -> the run carries >= 2 incidents) as Hard; the
+# within-window SUPPRESSION + the ack mechanism + corpus-records-the-within-occurrence are DECLARE-ONLY
+# (Epoch-8 calibration points). This mirrors the activity-floor precedent: assert the provable side.
+# Epoch-8 calibration points: whether mark_incident_resolved serves as the ack action; the within-window
+# no-new-incident suppression; the corpus-records-within leg; the 5-min cool-down window.
+# Coverage mode: drive+observe — the after-window new incident is auto (MCP read-back, Hard); the ack action
+# + the within-window suppression are operator-checklist / declare-only until Epoch-8.
+name = "ack-cooldown"
+p_ids = ["P-023"]
+seed = 4317023
+slo_tier = "<20s"   # the incident surfacing tier; the 5-min cool-down is phase timing, not the SLO budget
+jitter_ms = 50
+
+[[phases]]
+name = "trigger-incident"   # establish an active incident of a given kind-and-scope
+gap_ms = 4000
+
+[[phases]]
+name = "acknowledge"   # the user acknowledges the incident -> starts the 5-min cool-down (declare-only: ack mechanism)
+gap_ms = 2000
+
+[[phases]]
+name = "retrigger-within-cooldown"   # re-emit the SAME kind WITHIN 5min -> no new active incident, corpus-only (declare-only)
+gap_ms = 60000
+
+[[phases]]
+name = "wait-past-cooldown"   # let the 5-min cool-down window elapse
+gap_ms = 300000
+
+[[phases]]
+name = "retrigger-after-cooldown"   # re-emit AFTER the window -> a NEW incident forms
+gap_ms = 4000
+
+# P-023 — after the cool-down elapses, the re-detection forms a NEW incident, so the run carries at least
+# two incidents for the kind (the original + the post-cool-down one); the within-window retrigger added none.
+[[expected]]
+kind = "CountAtLeast"
+class = "Hard"
+expected = "2"

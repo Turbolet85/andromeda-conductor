@@ -1,0 +1,63 @@
+# P-022 / P-059 — Auto-Resolution and Lifecycle + Active-Incident Interpretation Continuity
+# (pulse-capability-spec.md §P-022 / §P-059). Severity-calibration + pipeline family: one incident lifecycle.
+#   P-022 auto-resolution — when the underlying detection signal is not re-emitted for 120s, Pulse
+#     transitions the active incident to Resolved and attaches a resolution summary (P-059). A subsequent
+#     same-fingerprint detection creates a NEW incident rather than reopening the Resolved one (subject to
+#     the P-023 cool-down). The 120s transition + new-not-reopen are DETERMINISTIC lifecycle timing -> Hard.
+#   P-059 continuity — while active (severity >= Suggested, not Resolved), each cadence digest produces its
+#     OWN interpretation (exempt from last-write-wins replacement); on resolution a "How this resolved"
+#     summary is generated. "Multiple interpretation updates over the lifecycle" is model-interpretive ->
+#     calibration-region.
+# Trigger then CEASE: the cease is the conductor-faults abrupt-silence / emission-gap lever; the Epoch-8
+# driver realizes the trigger / sustain / cease / retrigger from the phase names. gap_ms are spec-faithful
+# (10-min sustain, 120s resolve window); the Epoch-8 live run owns any compression.
+# Epoch-8 calibration points: the "Resolved" status token + the "resolution summary" continuity token are
+# inferred (Contains substring-tolerant); CountAtLeast "2" counts two distinct incidents for the same
+# fingerprint (the new-not-reopen); the model-mediated interpretation count.
+# Coverage mode: drive+observe — the Resolved transition + new-not-reopen are auto (MCP read-back, Hard);
+# the resolution-summary quality + multiple-interpretation count are calibration-region / operator-checklist.
+name = "incident-auto-resolution"
+p_ids = ["P-022", "P-059"]
+seed = 4317022
+slo_tier = "<90s"   # a long lifecycle scenario; the 120s + 10-min windows are phase timing, not the SLO budget
+jitter_ms = 50
+
+[[phases]]
+name = "trigger-error-spike"   # establish an active incident (a sustained error-rate spike)
+gap_ms = 5000
+
+[[phases]]
+name = "sustain-10min"   # P-059: a sustained incident accrues multiple interpretation updates over its lifecycle
+gap_ms = 600000
+
+[[phases]]
+name = "cease-signal"   # stop emitting the underlying signal (the abrupt-silence lever)
+gap_ms = 1000
+
+[[phases]]
+name = "wait-auto-resolve-120s"   # 120s with no re-emission -> P-022 transitions the incident to Resolved
+gap_ms = 120000
+
+[[phases]]
+name = "retrigger-same-fp"   # re-emit the same fingerprint -> a NEW incident, NOT a reopen of the Resolved one
+gap_ms = 5000
+
+# P-022 — the incident auto-transitions to Resolved after the 120s no-signal window (deterministic timing).
+[[expected]]
+kind = "Contains"
+class = "Hard"
+expected = "Resolved"
+
+# P-022 — new-not-reopen: the post-resolution same-fingerprint detection forms a SECOND distinct incident,
+# so the run carries at least two incidents for the fingerprint (not one reopened).
+[[expected]]
+kind = "CountAtLeast"
+class = "Hard"
+expected = "2"
+
+# P-059 — the Resolved incident carries a resolution summary synthesising its lifecycle. Model-interpretive
+# (interpretation quality), so calibration-region, routed to ManualCheck.
+[[expected]]
+kind = "Contains"
+class = "CalibrationRegion"
+expected = "resolution summary"

@@ -1,0 +1,34 @@
+# P-019 / P-020 / P-021 / P-060 — Three-Tier Severity (Curious) + Model Decision + Attention Cues + Tiered Priority
+# (pulse-capability-spec.md §P-019 / §P-020 / §P-021 / §P-060). Severity-calibration family: the Curious tier.
+#   P-019 Curious — the model considers this worth recording for pattern learning but NOT warranting
+#     interruption (appears only in the Findings dropdown collapsed section). Model-driven (P-020).
+#   P-020 — the model retains discretion to DISMISS a low-severity cue as transient noise; a dismissed cue
+#     yields no user-visible incident, which is correct behaviour, not a bug. So a missed "Curious" token
+#     routes to ManualCheck (calibration-region), never Fail.
+#   P-021 — a weak/transient attention cue feeds the model; below the model's surfacing bar it stays
+#     Curious (or is dismissed).
+#   P-060 Tier-3 — baseline cadence regardless of cue state produces the ambient interpretation rhythm with
+#     an SLO of <90s. The slo_tier below realizes Tier-3.
+# A weak, transient signal is the Tier-3 input that tends to Curious. The Epoch-8 driver realizes the weak
+# magnitude from the phase name.
+# Declare-only: the model's discretion to dismiss (P-020) — a no-incident outcome is correct; the
+# calibration-region check never hard-fails on it.
+# Epoch-8 calibration points: the "Curious" tier token is inferred (Contains substring-tolerant); the <90s
+# Tier-3 baseline cadence; the model-mediated surfacing-or-dismissal.
+# Coverage mode: drive+observe — the chosen tier (or dismissal) is auto (MCP read-back, calibration-region);
+# the Findings-dropdown collapsed placement is operator-checklist.
+name = "severity-tier-curious"
+p_ids = ["P-019", "P-020", "P-021", "P-060"]
+seed = 4317021
+slo_tier = "<90s"   # P-060 Tier-3: baseline cadence, ambient interpretation rhythm (<90s)
+jitter_ms = 50
+
+[[phases]]
+name = "weak-transient-cue"   # a weak, transient signal below the surfacing bar -> tends Curious (or dismissed)
+gap_ms = 6000
+
+# P-019/P-020 — the model records the weak signal at the Curious tier (or dismisses it). Calibration-region.
+[[expected]]
+kind = "Contains"
+class = "CalibrationRegion"
+expected = "Curious"

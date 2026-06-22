@@ -515,6 +515,122 @@ gap_ms = 1
         );
     }
 
+    #[rstest]
+    #[case("severity-tier-autonomous", &["P-019", "P-020", "P-060"])]
+    #[case("severity-tier-suggested", &["P-019", "P-020", "P-021", "P-060"])]
+    #[case("severity-tier-curious", &["P-019", "P-020", "P-021", "P-060"])]
+    #[case("incident-auto-resolution", &["P-022", "P-059"])]
+    #[case("ack-cooldown", &["P-023"])]
+    fn severity_lifecycle_fixtures_load_and_validate(#[case] stem: &str, #[case] p_ids: &[&str]) {
+        let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
+        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
+        assert_eq!(s.name, stem);
+        let want: Vec<PId> = p_ids.iter().map(|p| PId(p.to_string())).collect();
+        assert_eq!(s.p_ids, want);
+        assert!(!s.expected.is_empty(), "{stem} declares at least one expected check");
+    }
+
+    #[rstest]
+    #[case("severity-tier-autonomous", "Autonomous")]
+    #[case("severity-tier-suggested", "Suggested")]
+    #[case("severity-tier-curious", "Curious")]
+    fn severity_tier_scenarios_assert_their_tier_as_calibration_region(
+        #[case] stem: &str,
+        #[case] tier: &str,
+    ) {
+        // P-019/P-020: the severity TIER choice is model-driven, so each tier scenario asserts its tier
+        // token as a calibration-region tendency (Contains) routed to ManualCheck — never a hard match.
+        let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
+        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
+        assert!(
+            s.expected.iter().all(|c| c.class == ClaimClass::CalibrationRegion),
+            "{stem} severity-choice checks are calibration-region (model-driven per P-020)"
+        );
+        assert!(
+            s.expected.iter().any(|c| c.kind == ComparisonKind::Contains && c.expected == tier),
+            "{stem} asserts the {tier} tier via Contains"
+        );
+    }
+
+    #[test]
+    fn incident_auto_resolution_asserts_resolved_and_new_not_reopen_hard() {
+        // P-022: the 120s auto-resolution transition (Contains "Resolved") and the new-not-reopen
+        // (CountAtLeast 2 distinct incidents) are deterministic lifecycle timing -> Hard. P-059's
+        // resolution-summary continuity is model-interpretive -> CalibrationRegion (so this file is mixed).
+        let path =
+            format!("{}/../../scenarios/incident-auto-resolution.toml", env!("CARGO_MANIFEST_DIR"));
+        let toml = std::fs::read_to_string(&path).expect("fixture readable");
+        let s = Scenario::from_toml_str(&toml).expect("fixture valid");
+        assert!(
+            s.expected.iter().any(|c| c.kind == ComparisonKind::Contains
+                && c.class == ClaimClass::Hard
+                && c.expected == "Resolved"),
+            "P-022 asserts the Resolved transition via Hard Contains"
+        );
+        assert!(
+            s.expected
+                .iter()
+                .any(|c| c.kind == ComparisonKind::CountAtLeast && c.class == ClaimClass::Hard),
+            "P-022 asserts new-not-reopen via Hard CountAtLeast"
+        );
+        assert!(
+            s.expected.iter().any(|c| c.class == ClaimClass::CalibrationRegion),
+            "P-059 interpretation continuity is calibration-region"
+        );
+    }
+
+    #[test]
+    fn ack_cooldown_asserts_new_incident_after_via_hard_count_at_least() {
+        // P-023: only the drivable after-cool-down leg is asserted -> a new incident forms after the 5-min
+        // window, so the run carries >= 2 incidents (CountAtLeast 2, Hard). The within-window suppression +
+        // the ack mechanism are declare-only (Epoch-8), per the phase P4 Q2 decision.
+        let path = format!("{}/../../scenarios/ack-cooldown.toml", env!("CARGO_MANIFEST_DIR"));
+        let toml = std::fs::read_to_string(&path).expect("fixture readable");
+        let s = Scenario::from_toml_str(&toml).expect("fixture valid");
+        assert!(
+            s.expected.iter().all(|c| c.class == ClaimClass::Hard),
+            "ack-cooldown's asserted leg (after-window new incident) is Hard"
+        );
+        assert!(
+            s.expected
+                .iter()
+                .any(|c| c.kind == ComparisonKind::CountAtLeast && c.expected == "2"),
+            "P-023 asserts the after-cool-down new incident via CountAtLeast 2"
+        );
+    }
+
+    #[test]
+    fn severity_lifecycle_suite_is_mixed_class() {
+        // The first mixed-class family: severity choice (P-019/P-020) is CalibrationRegion; lifecycle
+        // timing (P-022/P-023) + tier routing (P-060) is Hard. Assert the SUITE exercises BOTH classes
+        // (every prior family guard was all-Hard).
+        let stems = [
+            "severity-tier-autonomous",
+            "severity-tier-suggested",
+            "severity-tier-curious",
+            "incident-auto-resolution",
+            "ack-cooldown",
+        ];
+        let mut checks = Vec::new();
+        for stem in stems {
+            let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
+            let toml =
+                std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+            let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
+            checks.extend(s.expected);
+        }
+        assert!(
+            checks.iter().any(|c| c.class == ClaimClass::Hard),
+            "the severity-lifecycle suite carries at least one Hard check"
+        );
+        assert!(
+            checks.iter().any(|c| c.class == ClaimClass::CalibrationRegion),
+            "the severity-lifecycle suite carries at least one CalibrationRegion check"
+        );
+    }
+
     #[test]
     fn from_toml_str_parses_an_expected_block() {
         let toml = r#"

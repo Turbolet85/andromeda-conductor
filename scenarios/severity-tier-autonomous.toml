@@ -1,0 +1,35 @@
+# P-019 / P-020 / P-060 — Three-Tier Severity (Autonomous) + Model-Driven Decision + Tiered Priority
+# (pulse-capability-spec.md §P-019 / §P-020 / §P-060). Severity-calibration family: the Autonomous tier.
+#   P-019 Autonomous — the model is highly confident this is a real problem (prominent halo shift +
+#     counter increment + top-of-dropdown). The tier CHOICE is model-driven (P-020), so it is asserted
+#     calibration-region (a tendency), never a hard match on the exact tier.
+#   P-020 — the LLM is the SOLE user-facing severity mechanism; it takes hard-signal candidates
+#     (P-005..P-008) + context and returns tier + confidence + justification, retaining full discretion.
+#     "Not a deterministic classifier" — Conductor tests the calibration region, not exact values.
+#   P-060 Tier-1 — a hard signal triggers immediate inference with an end-to-end SLO of <5s. The slo_tier
+#     below realizes Tier-1; the latency MEASUREMENT is the Epoch-8 live run.
+# A hard-signal stimulus (ERROR span) is the Tier-1 / high-confidence input that tends to Autonomous.
+# EmissionSpec carries no magnitude field, so the Epoch-8 driver realizes the calibrated stimulus from
+# the phase name (the catalog precedent).
+# Declare-only: P-019 monotonicity — escalation across tiers is permitted, DE-escalation is not (once
+# Autonomous it stays until resolved); a multi-read-back temporal property the Epoch-8 evaluator owns.
+# Epoch-8 calibration points: the "Autonomous" tier token is inferred (the spec uses prose; Contains is
+# substring-tolerant); the <5s Tier-1 end-to-end latency; the model-mediated surfacing.
+# Coverage mode: drive+observe — the chosen tier in incident metadata is auto (MCP read-back, calibration-
+# region); the halo magnitude + counter + dropdown placement are operator-checklist.
+name = "severity-tier-autonomous"
+p_ids = ["P-019", "P-020", "P-060"]
+seed = 4317019
+slo_tier = "<5s"   # P-060 Tier-1: a hard signal triggers immediate inference (<5s end-to-end)
+jitter_ms = 50
+
+[[phases]]
+name = "hard-signal-error"   # an ERROR-status span: the high-confidence Tier-1 candidate -> tends Autonomous
+gap_ms = 2000
+
+# P-019/P-020 — the model surfaces the high-confidence candidate at the Autonomous tier. Model-interpretive
+# (the model retains discretion), so calibration-region, routed to ManualCheck.
+[[expected]]
+kind = "Contains"
+class = "CalibrationRegion"
+expected = "Autonomous"

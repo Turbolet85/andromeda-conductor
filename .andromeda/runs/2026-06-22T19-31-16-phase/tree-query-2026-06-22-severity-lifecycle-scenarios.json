@@ -1,0 +1,314 @@
+[
+{
+"sql": "SELECT callee, file, line FROM refs WHERE callee LIKE '%ExpectedCheck%' ORDER BY file, line;",
+"rows": 61,
+"result": [
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#",
+"file": "crates/conductor-core/src/expected.rs",
+"line": 69
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#expected.",
+"file": "crates/conductor-core/src/expected.rs",
+"line": 70
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#class.",
+"file": "crates/conductor-core/src/expected.rs",
+"line": 70
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#kind.",
+"file": "crates/conductor-core/src/expected.rs",
+"line": 70
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#",
+"file": "crates/conductor-core/src/expected.rs",
+"line": 70
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#",
+"file": "crates/conductor-core/src/expected.rs",
+"line": 113
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 32
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 12
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 95
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#class.",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 351
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#kind.",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 355
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#kind.",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 359
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#class.",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 373
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#kind.",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 387
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#kind.",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 391
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#class.",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 425
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#kind.",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 439
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#kind.",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 454
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#class.",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 482
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#kind.",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 497
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#expected.",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 497
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#expected.",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 512
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#kind.",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 512
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#kind.",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 537
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#class.",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 538
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#expected.",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 539
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 555
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#kind.",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 556
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#class.",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 557
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#expected.",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 558
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 568
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#kind.",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 569
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#class.",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 570
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#expected.",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 571
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#",
+"file": "crates/conductor-verify/src/record.rs",
+"line": 52
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#",
+"file": "crates/conductor-verify/src/record.rs",
+"line": 55
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#kind.",
+"file": "crates/conductor-verify/src/record.rs",
+"line": 55
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#class.",
+"file": "crates/conductor-verify/src/record.rs",
+"line": 55
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#expected.",
+"file": "crates/conductor-verify/src/record.rs",
+"line": 55
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 7
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 36
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#kind.",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 37
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#expected.",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 38
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#expected.",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 39
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#expected.",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 40
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#expected.",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 42
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 68
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#kind.",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 78
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#class.",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 81
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#expected.",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 84
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 93
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#expected.",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 94
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#class.",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 94
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#kind.",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 94
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 94
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#",
+"file": "crates/conductor-verify/tests/expected_slo.rs",
+"line": 2
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#",
+"file": "crates/conductor-verify/tests/expected_slo.rs",
+"line": 6
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#",
+"file": "crates/conductor-verify/tests/expected_slo.rs",
+"line": 7
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#expected.",
+"file": "crates/conductor-verify/tests/expected_slo.rs",
+"line": 7
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#class.",
+"file": "crates/conductor-verify/tests/expected_slo.rs",
+"line": 7
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#kind.",
+"file": "crates/conductor-verify/tests/expected_slo.rs",
+"line": 7
+}
+],
+"db_state": "fresh"
+}
+]
