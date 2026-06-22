@@ -1,0 +1,38 @@
+# P-011 / P-012 — Per-Operation Latency Baseline + Latency Regression Detection
+# (pulse-capability-spec.md §3). Statistical-anomaly family: a baseline -> ramp timeline carrying
+# both P-IDs (latency = span duration, so both phases emit the trace default).
+#   P-011 baseline — streaming p50/p95/p99 per (service.name + operation), t-digest, 5-min window;
+#     boundary is the <50-sample floor (an operation under the floor is excluded from regression detection).
+#   P-012 regression — current p99 >= 2.5x baseline p99 with >= 60s persistence; errors weighted
+#     independently from latency. Recipe: establish baseline over 90s, ramp to 3x p99 for 90s.
+# Both checks class="Hard" — baseline math + threshold detection are deterministic; the model-side
+# severity (P-020) is a later chunk, not asserted here.
+# Epoch-8 calibration points: the "LatencyRegression" candidate token is inferred (the spec uses
+# lowercase prose; Contains is substring-tolerant), and slo_tier "<20s" is a declared bucket the
+# journal-relative measurement may retune.
+# Coverage mode: drive+observe — regression detection is auto (MCP read-back); constellation dot is operator-checklist.
+name = "latency-regression"
+p_ids = ["P-011", "P-012"]
+seed = 4317011
+slo_tier = "<20s"   # P-012 has no explicit p99 budget; the 60s-persistence signal warrants the middle tier
+jitter_ms = 50
+
+[[phases]]
+name = "baseline"
+gap_ms = 90000   # 90s — converge the per-operation latency percentile baseline (P-011)
+
+[[phases]]
+name = "ramp"
+gap_ms = 90000   # 90s at 3x p99 — exceeds the 60s persistence threshold (P-012)
+
+# P-011 — the latency baseline accumulated past its >=50-sample floor (the sample-count floor).
+[[expected]]
+kind = "CountAtLeast"
+class = "Hard"
+expected = "50"
+
+# P-012 — the regression surfaces a LatencyRegression candidate (inferred token; Epoch-8 calibration point).
+[[expected]]
+kind = "Contains"
+class = "Hard"
+expected = "LatencyRegression"

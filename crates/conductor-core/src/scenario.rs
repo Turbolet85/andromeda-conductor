@@ -325,6 +325,43 @@ gap_ms = 1
         assert!(!s.expected.is_empty(), "{stem} declares at least one expected check");
     }
 
+    #[rstest]
+    #[case("error-baseline-spike", &["P-009", "P-010"])]
+    #[case("latency-regression", &["P-011", "P-012"])]
+    fn statistical_anomaly_fixtures_load_and_validate(#[case] stem: &str, #[case] p_ids: &[&str]) {
+        let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
+        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
+        assert_eq!(s.name, stem);
+        let want: Vec<PId> = p_ids.iter().map(|p| PId(p.to_string())).collect();
+        assert_eq!(s.p_ids, want);
+        assert!(!s.expected.is_empty(), "{stem} declares at least one expected check");
+    }
+
+    #[rstest]
+    #[case("error-baseline-spike")]
+    #[case("latency-regression")]
+    fn statistical_anomaly_checks_are_hard_with_floor_and_candidate(#[case] stem: &str) {
+        // P-009..P-012 are deterministic baseline-math + threshold-detection, so every check is Hard
+        // (no CalibrationRegion, unlike P-008). Each scenario pairs a CountAtLeast sample-count floor
+        // (the baseline P-ID) with a Contains detection candidate (the detection P-ID).
+        let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
+        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
+        assert!(
+            s.expected.iter().all(|c| c.class == ClaimClass::Hard),
+            "{stem} checks are all Hard (deterministic baseline-math + threshold-detection)"
+        );
+        assert!(
+            s.expected.iter().any(|c| c.kind == ComparisonKind::CountAtLeast),
+            "{stem} asserts the sample-count floor via CountAtLeast"
+        );
+        assert!(
+            s.expected.iter().any(|c| c.kind == ComparisonKind::Contains),
+            "{stem} asserts the detection candidate via Contains"
+        );
+    }
+
     #[test]
     fn p008_root_span_error_scope_checks_are_calibration_region() {
         // Root-vs-deep severity weighting is model-side (P-020) per the v2.1 amendment, so P-008's

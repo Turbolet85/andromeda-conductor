@@ -86,7 +86,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
    ↓
 [2026-06-21-hard-signals-scenarios] Hard-signals scenarios — ERROR/exception/severity-boundary/root-vs-deep checks (P-005..P-008)
    ↓
-Error-baseline-spike + latency-regression scenarios — baseline convergence, ramp, candidate persistence (P-009..P-012)
+[2026-06-22-error-baseline-spike-latency-regression-scenarios] Error-baseline-spike + latency-regression scenarios — baseline convergence, ramp, candidate persistence (P-009..P-012)
    ↓
 Activity-floor + restart-suppression scenarios — train/lunch/silence, restart gap, suppression/bypass triple (P-013..P-016, P-057)
    ↓

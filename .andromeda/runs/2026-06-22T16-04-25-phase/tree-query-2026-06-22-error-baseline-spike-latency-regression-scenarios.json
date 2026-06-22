@@ -1,0 +1,59 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls_m WHERE callee LIKE '%from_toml_str%' ORDER BY file LIMIT 20",
+"rows": 10,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/from_toml_str_rejects_invalid_scenario_as_validation_error().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 283
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/p008_root_span_error_scope_checks_are_calibration_region().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 334
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/committed_fixture_loads_and_validates().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 294
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/connection_lifecycle_fixtures_load_and_validate().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 307
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/p007_high_severity_log_capture_asserts_both_sides_of_the_boundary().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 348
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/from_toml_str_rejects_malformed_toml_as_config_error().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 265
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/hard_signal_fixtures_load_and_validate().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 321
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/from_toml_str_parses_and_validates().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 256
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/from_toml_str_parses_an_expected_block().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 377
+},
+{
+"caller": "rust-analyzer cargo conductor-timeline 0.1.0 fixture_timeline().",
+"file": "crates/conductor-timeline/tests/replay.rs",
+"line": 25
+}
+],
+"db_state": "fresh"
+}
+]

@@ -6,11 +6,11 @@ expression: transitions
     PhaseTransition {
         index: 0,
         name: "baseline",
-        elapsed_ms: 2028,
+        elapsed_ms: 90028,
     },
     PhaseTransition {
         index: 1,
         name: "spike",
-        elapsed_ms: 3075,
+        elapsed_ms: 150075,
     },
 ]
