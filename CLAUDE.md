@@ -48,7 +48,7 @@ Conductor is a desktop control-panel app (Tauri 2) over a headless-drivable Rust
 |---|---|
 | Architecture decisions | `.andromeda/architecture.md` |
 | Build plan / chunk route | `.andromeda/master-route.md` · `conductor-0.1.0/working-route.md` |
-| Code map / impact (symbols · callers · crate deps) | `.andromeda/cache/tree.db` — query via `scripts/code-graph.py query` |
+| Code map / impact (symbols · callers · crate deps) | `.andromeda/cache/tree.db` — query via `scripts/code-graph.py query`; schema + templates in `scripts/code-graph-cookbook.md` |
 | MCP read-back contract + preflight gate | `.andromeda/architecture.md` §Standard Contracts |
 | Run-report envelope | `.andromeda/architecture.md` §Standard Contracts · `.andromeda/test-plan.md` §3 |
 | Scenario config validation | `.andromeda/security-plan.md` §Input Validation |
