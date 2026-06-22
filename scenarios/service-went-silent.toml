@@ -1,0 +1,28 @@
+# P-014 — Service Went Silent Detection (pulse-capability-spec.md §P-014).
+# A previously-active service that goes silent past its 95th-percentile quiet (minimum 30s) emits a
+# ServiceWentSilent attention cue. Recipe: a FRESH service (no learned quiet pattern yet) emits 5min
+# of consistent activity, then stops abruptly — the cue surfaces at the 30s minimum.
+# The abrupt stop is the conductor-faults abrupt-silence-fault lever, applied by the Epoch-8 driver
+# from the "silence" phase name. The cue is the deterministic (Hard) signal; the model's resulting
+# incident is P-020 discretion (a later severity-lifecycle chunk), not asserted here.
+# Coverage mode: drive+observe — the cue is auto (MCP read-back); the dimmed constellation dot is
+# operator-checklist.
+name = "service-went-silent"
+p_ids = ["P-014"]
+seed = 4317014
+slo_tier = "<90s"   # the cue surfaces at ~30s, past the <20s tier
+jitter_ms = 50
+
+[[phases]]
+name = "active"
+gap_ms = 300000   # 5min consistent activity — fresh-service baseline (no learned quiet pattern)
+
+[[phases]]
+name = "silence"
+gap_ms = 35000   # abrupt stop; >30s of silence -> ServiceWentSilent at the 30s minimum
+
+# P-014 — the silence cue surfaces.
+[[expected]]
+kind = "Contains"
+class = "Hard"
+expected = "ServiceWentSilent"

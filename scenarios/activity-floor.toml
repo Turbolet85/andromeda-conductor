@@ -1,0 +1,48 @@
+# P-013 — Service Activity Floor Learning (pulse-capability-spec.md §P-013).
+# Pulse learns a per-service activity histogram and SUPPRESSES ServiceWentSilent when the current
+# quiet falls within the learned normal pattern. Recipe: train a bursty cadence (active 5min /
+# quiet 10min, repeating), then a 30-min developer-on-lunch quiet must raise NO ServiceWentSilent.
+# The bursty cadence is the conductor-faults bursty-train-pattern lever, applied by the Epoch-8
+# driver from the phase names (this config only times + labels the phases — it binds nothing).
+# Cold-start: ServiceWentSilent is universally suppressed for the first 60min/service while the
+# histogram bootstraps; the durations here are representative — the Epoch-8 live run owns the
+# spec-faithful convergence (and any compression of the ~90-min total).
+# OUT of scope: the spec's "restart Pulse mid-training, verify histogram restoration" leg —
+# Conductor does not manage the Pulse process.
+# Coverage mode: drive+observe — the no-false-silent guard is auto (MCP read-back absence); the
+# constellation dot is operator-checklist.
+name = "activity-floor"
+p_ids = ["P-013"]
+seed = 4317013
+slo_tier = "<90s"   # a long-window scenario; the lunch is a non-event (no positive-event latency)
+jitter_ms = 50
+
+[[phases]]
+name = "train-active-1"
+gap_ms = 300000   # 5min active burst
+
+[[phases]]
+name = "train-quiet-1"
+gap_ms = 600000   # 10min quiet
+
+[[phases]]
+name = "train-active-2"
+gap_ms = 300000
+
+[[phases]]
+name = "train-quiet-2"
+gap_ms = 600000
+
+[[phases]]
+name = "train-active-3"
+gap_ms = 300000   # histogram converges on the 5/10 cadence
+
+[[phases]]
+name = "lunch"
+gap_ms = 1800000   # 30min quiet — within the learned pattern, so NO ServiceWentSilent
+
+# P-013 — no ServiceWentSilent candidate during the expected (learned) quiet window.
+[[expected]]
+kind = "Absent"
+class = "Hard"
+expected = "ServiceWentSilent"

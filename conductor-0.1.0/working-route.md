@@ -88,7 +88,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
    ↓
 [2026-06-22-error-baseline-spike-latency-regression-scenarios] Error-baseline-spike + latency-regression scenarios — baseline convergence, ramp, candidate persistence (P-009..P-012)
    ↓
-Activity-floor + restart-suppression scenarios — train/lunch/silence, restart gap, suppression/bypass triple (P-013..P-016, P-057)
+[2026-06-22-activity-floor-restart-suppression-scenarios] Activity-floor + restart-suppression scenarios — train/lunch/silence, restart gap, suppression/bypass triple (P-013..P-016, P-057)
    ↓
 Fingerprint-storm scenarios — identity/path/line-variant fingerprints, storm cue thresholds (P-017, P-018)
    ↓

@@ -1,0 +1,67 @@
+# P-015 / P-016 / P-057 — Restart detection -> surgical suppression -> dual-condition bypass
+# (pulse-capability-spec.md §P-015 / §P-016 / §P-057). One restart-anchored timeline.
+#   P-015 restart — a per-service stream gap >20s followed by resume emits a RestartEvent <=2s.
+#   P-016 suppression — for 60s after the RestartEvent, ONLY short-persistence (<30s) ErrorRateSpike
+#     candidates are suppressed; a sustained (>=30s persistence) spike still SURFACES (surgical).
+#   P-057 bypass — suppression is overridden when relative magnitude >=10x baseline OR absolute error
+#     rate >=5%. Triple: 8x/3% stays suppressed (neither); 12x/4% surfaces (relative); 6x/7% surfaces
+#     (absolute).
+# The gap/resume is the conductor-faults emission-gap-resume lever; the per-phase error magnitude +
+# rate (8x/3% ...) and the suppress/surface intent are realized by the Epoch-8 driver from the phase
+# names (this config only times + labels the phases — EmissionSpec carries no magnitude field).
+# Declare-only legs: the suppressed phases (suppressed-15s-burst, bypass-suppressed-8x-3pct) carry NO
+# [[expected]] check — an Absent "ErrorRateSpike" would contradict the surfaced sustained/bypass
+# spikes in the same read-back; the Epoch-8 evaluator scopes suppression by time-window/magnitude.
+# Epoch-8 calibration points: the P-057 Report bypass annotation ("Bypassed restart suppression due
+# to: relative_magnitude=... / absolute_error_rate=..."); the per-leg magnitudes; the <20s tier.
+# Coverage mode: drive+observe — RestartEvent + surfaced ErrorRateSpike are auto (MCP read-back);
+# the halo hue + bypass annotation are operator-checklist.
+name = "restart-suppression"
+p_ids = ["P-015", "P-016", "P-057"]
+seed = 4317015
+slo_tier = "<20s"   # RestartEvent <=2s fits; the persistence-gated surface is the Epoch-8 calibration point
+jitter_ms = 50
+
+[[phases]]
+name = "baseline"
+gap_ms = 30000   # consistent traffic + error baseline (the relative-magnitude reference)
+
+[[phases]]
+name = "restart-gap"
+gap_ms = 25000   # 25s stream gap (>20s) -> restart on resume
+
+[[phases]]
+name = "resume"
+gap_ms = 2000   # resume emission -> RestartEvent <=2s (P-015)
+
+[[phases]]
+name = "suppressed-15s-burst"
+gap_ms = 15000   # 15s transient burst, <30s persistence -> suppressed (P-016, declare-only)
+
+[[phases]]
+name = "sustained-60s"
+gap_ms = 60000   # 60s sustained -> surfaces after the 30s persistence threshold (P-016)
+
+[[phases]]
+name = "bypass-suppressed-8x-3pct"
+gap_ms = 15000   # 8x rel / 3% abs -> below both thresholds -> suppressed (P-057, declare-only)
+
+[[phases]]
+name = "bypass-relative-12x-4pct"
+gap_ms = 15000   # 12x rel / 4% abs -> relative-bypass surfaces (P-057)
+
+[[phases]]
+name = "bypass-absolute-6x-7pct"
+gap_ms = 15000   # 6x rel / 7% abs -> absolute-bypass surfaces (P-057)
+
+# P-015 — the restart fires.
+[[expected]]
+kind = "Contains"
+class = "Hard"
+expected = "RestartEvent"
+
+# P-016 surgical-surface + P-057 relative/absolute bypass — the surfaced ErrorRateSpike.
+[[expected]]
+kind = "Contains"
+class = "Hard"
+expected = "ErrorRateSpike"

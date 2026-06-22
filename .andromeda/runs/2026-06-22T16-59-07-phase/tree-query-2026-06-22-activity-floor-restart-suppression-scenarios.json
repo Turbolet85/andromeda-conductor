@@ -1,0 +1,156 @@
+[
+{
+"sql": "SELECT s.symbol AS sym, s.crate, s.file, s.def_line, count(r.callee) AS refs FROM symbol s LEFT JOIN refs r ON r.callee = s.symbol WHERE s.symbol LIKE '%ComparisonKind%' OR s.symbol LIKE '%ExpectedCheck%' OR s.symbol LIKE '%PhaseSpec%' OR s.symbol LIKE '%Scenario#%' GROUP BY 1,2,3,4 ORDER BY refs DESC LIMIT 25",
+"rows": 21,
+"result": [
+{
+"sym": "rust-analyzer cargo conductor-core 0.1.0 expected/ComparisonKind#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 34,
+"refs": 55
+},
+{
+"sym": "rust-analyzer cargo conductor-core 0.1.0 scenario/Scenario#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/scenario.rs",
+"def_line": 68,
+"refs": 29
+},
+{
+"sym": "rust-analyzer cargo conductor-core 0.1.0 scenario/Scenario#expected.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/scenario.rs",
+"def_line": 95,
+"refs": 19
+},
+{
+"sym": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 53,
+"refs": 18
+},
+{
+"sym": "rust-analyzer cargo conductor-core 0.1.0 expected/ComparisonKind#Contains#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 39,
+"refs": 13
+},
+{
+"sym": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#kind.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 56,
+"refs": 13
+},
+{
+"sym": "rust-analyzer cargo conductor-core 0.1.0 expected/ComparisonKind#Exact#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 36,
+"refs": 13
+},
+{
+"sym": "rust-analyzer cargo conductor-core 0.1.0 expected/ComparisonKind#CountAtLeast#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 43,
+"refs": 12
+},
+{
+"sym": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#expected.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 62,
+"refs": 12
+},
+{
+"sym": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/PhaseSpec#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"def_line": 22,
+"refs": 11
+},
+{
+"sym": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#class.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 59,
+"refs": 10
+},
+{
+"sym": "rust-analyzer cargo conductor-core 0.1.0 scenario/Scenario#phases.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/scenario.rs",
+"def_line": 85,
+"refs": 9
+},
+{
+"sym": "rust-analyzer cargo conductor-core 0.1.0 scenario/Scenario#name.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/scenario.rs",
+"def_line": 71,
+"refs": 9
+},
+{
+"sym": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/PhaseSpec#emission.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"def_line": 35,
+"refs": 7
+},
+{
+"sym": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/PhaseSpec#name.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"def_line": 26,
+"refs": 7
+},
+{
+"sym": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/PhaseSpec#gap_ms.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"def_line": 30,
+"refs": 7
+},
+{
+"sym": "rust-analyzer cargo conductor-core 0.1.0 expected/ComparisonKind#Absent#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 41,
+"refs": 7
+},
+{
+"sym": "rust-analyzer cargo conductor-core 0.1.0 scenario/Scenario#p_ids.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/scenario.rs",
+"def_line": 75,
+"refs": 6
+},
+{
+"sym": "rust-analyzer cargo conductor-core 0.1.0 scenario/Scenario#seed.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/scenario.rs",
+"def_line": 78,
+"refs": 6
+},
+{
+"sym": "rust-analyzer cargo conductor-core 0.1.0 scenario/Scenario#jitter_ms.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/scenario.rs",
+"def_line": 89,
+"refs": 5
+},
+{
+"sym": "rust-analyzer cargo conductor-core 0.1.0 scenario/Scenario#slo_tier.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/scenario.rs",
+"def_line": 81,
+"refs": 3
+}
+],
+"db_state": "fresh"
+}
+]

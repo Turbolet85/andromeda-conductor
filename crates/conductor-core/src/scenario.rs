@@ -394,6 +394,69 @@ gap_ms = 1
         );
     }
 
+    #[rstest]
+    #[case("activity-floor", &["P-013"])]
+    #[case("service-went-silent", &["P-014"])]
+    #[case("restart-suppression", &["P-015", "P-016", "P-057"])]
+    fn activity_floor_and_restart_suppression_fixtures_load_and_validate(
+        #[case] stem: &str,
+        #[case] p_ids: &[&str],
+    ) {
+        let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
+        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
+        assert_eq!(s.name, stem);
+        let want: Vec<PId> = p_ids.iter().map(|p| PId(p.to_string())).collect();
+        assert_eq!(s.p_ids, want);
+        assert!(!s.expected.is_empty(), "{stem} declares at least one expected check");
+    }
+
+    #[rstest]
+    #[case("activity-floor")]
+    #[case("service-went-silent")]
+    #[case("restart-suppression")]
+    fn activity_floor_and_restart_suppression_checks_are_all_hard(#[case] stem: &str) {
+        // Activity-floor + restart-suppression are deterministic suppression/bypass + lifecycle
+        // timing, so every check is Hard (arch §Probabilistic-Assertion Policy); the model-interpretive
+        // severity that consumes these cues is P-020, a later severity-lifecycle chunk.
+        let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
+        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
+        assert!(
+            s.expected.iter().all(|c| c.class == ClaimClass::Hard),
+            "{stem} checks are all Hard (suppression/bypass logic + lifecycle timing)"
+        );
+    }
+
+    #[test]
+    fn activity_floor_asserts_the_learned_quiet_via_absent() {
+        // P-013's false-positive guard is an ABSENCE — no ServiceWentSilent during the learned quiet
+        // (the same kind P-007 uses for its <17 non-contribution); P-014's death cue is its presence
+        // counterpart in a separate scenario, since Absent + Contains of one token cannot coexist.
+        let path = format!("{}/../../scenarios/activity-floor.toml", env!("CARGO_MANIFEST_DIR"));
+        let toml = std::fs::read_to_string(&path).expect("fixture readable");
+        let s = Scenario::from_toml_str(&toml).expect("fixture valid");
+        assert!(
+            s.expected.iter().any(|c| c.kind == ComparisonKind::Absent),
+            "P-013 asserts the no-false-silent guard via Absent"
+        );
+    }
+
+    #[rstest]
+    #[case("service-went-silent")]
+    #[case("restart-suppression")]
+    fn presence_scenarios_assert_a_surfaced_incident_via_contains(#[case] stem: &str) {
+        // P-014 (death cue) and P-015/P-016/P-057 (RestartEvent + surfaced ErrorRateSpike) are
+        // presence checks; the suppressed legs are declare-only (Epoch-8 evaluator-owned).
+        let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
+        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
+        assert!(
+            s.expected.iter().any(|c| c.kind == ComparisonKind::Contains),
+            "{stem} asserts a surfaced incident via Contains"
+        );
+    }
+
     #[test]
     fn from_toml_str_parses_an_expected_block() {
         let toml = r#"
