@@ -94,7 +94,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
    ↓
 [2026-06-22-severity-lifecycle-scenarios] Severity-lifecycle scenarios — tiered inputs, auto-resolve, ack-retrigger, per-tier SLO (P-019..P-023, P-059, P-060)
    ↓
-Constellation + context-grounding scenarios — service dot/hue/stability, git commits/recurrence, P-032 known-residual (P-025..P-027, P-036)
+[2026-06-22-constellation-context-grounding-scenarios] Constellation + context-grounding scenarios — service dot/hue/stability, git commits/recurrence, P-032 known-residual (P-025..P-027, P-036)
    ↓
 Scrub/pipeline/degraded/report-surface scenarios — PII scrub, cadence/hot-reload, model-off, render-timing (P-035, P-037, P-045, P-047..P-056)
 

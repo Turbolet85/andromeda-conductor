@@ -1,0 +1,25 @@
+# P-026 — Halo Breathing Encoding (pulse-capability-spec.md §P-026). Constellation family: the breathing surface.
+#   P-026 — a service's halo BREATHES with its throughput: the halo's pulse rate/amplitude tracks the
+#     emission rate, so a rising/falling traffic rate is visible as a faster/slower breathing rhythm. The
+#     breathing render is Pulse's; Conductor drives the time-varying emission rate (the conductor-emit
+#     rate.rs ramp/breathing primitive, already built). A visual/operator-checklist claim.
+# Coverage mode: drive+observe — no programmatic read-back of a breathing animation, so NO expected check:
+#   DRIVE the rate profile, the operator confirms the breathing rhythm via the checklist (the ManualCheck
+#   path — empty `expected`).
+# Epoch-8/10 calibration points: the rate→breathing mapping; the operator-checklist item wording ("halo
+#   breathing rate tracks throughput?"); the rate.rs ramp/breathing curve parameters.
+name = "halo-breathing-encoding"
+p_ids = ["P-026"]
+seed = 4317026
+slo_tier = "<20s"   # a throughput-trend observation (breathing tracks a rate ramp), not an instant signal
+jitter_ms = 50
+
+[[phases]]
+name = "rate-ramp-up"   # rising emission rate → the halo breathes faster (conductor-emit rate.rs ramp)
+gap_ms = 5000
+
+[[phases]]
+name = "rate-ramp-down"   # falling emission rate → the halo breathes slower
+gap_ms = 5000
+
+# Operator-checklist (drive+observe): no [[expected]] block — the breathing rhythm is operator-verified.

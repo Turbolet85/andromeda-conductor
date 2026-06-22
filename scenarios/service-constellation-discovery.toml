@@ -1,0 +1,27 @@
+# P-027 — Service Constellation Auto-Discovery (pulse-capability-spec.md §P-027). Constellation family: the topology surface.
+#   P-027 — Pulse auto-discovers services from the telemetry stream and renders each as a dot in the service
+#     constellation. A newly-appearing service.name surfaces as a new dot (≤5s, matrix-delegated); dot
+#     POSITIONS stay stable across a Pulse restart; the layout caps at >20 services. Conductor drives a
+#     multi-service service.name topology (the conductor-emit topology.rs primitive, already built). The
+#     constellation render is Pulse's — a visual/operator-checklist claim.
+# Coverage mode: drive+observe — no programmatic read-back of the rendered constellation, so NO expected
+#   check: DRIVE the topology, the operator confirms the dots via the checklist (the ManualCheck path —
+#   empty `expected`).
+# Declare-only (operator-checklist / Epoch-8): stable dot positions ACROSS a Pulse restart (a cross-restart
+#   visual-stability property Conductor does not drive); the >20-service cap layout behaviour; the ≤5s
+#   new-dot latency MEASUREMENT.
+name = "service-constellation-discovery"
+p_ids = ["P-027"]
+seed = 4317027
+slo_tier = "<5s"   # a newly-appearing service.name surfaces as a dot within ≤5s (delegated) — the fast tier
+jitter_ms = 50
+
+[[phases]]
+name = "two-service-topology"   # an initial multi-service trace → two constellation dots
+gap_ms = 3000
+
+[[phases]]
+name = "new-service-appears"   # a new service.name enters the stream → a new dot surfaces (≤5s)
+gap_ms = 3000
+
+# Operator-checklist (drive+observe): no [[expected]] block — the constellation dots are operator-verified.

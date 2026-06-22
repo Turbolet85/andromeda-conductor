@@ -1,0 +1,32 @@
+# P-032 — Project Context Grounding (pulse-capability-spec.md §P-032). Context-grounding family: the git-context surface.
+#   P-032 — when an incident forms inside a real git workspace, Pulse's incident Report grounds it in
+#     project context: the Report's context section surfaces the last-5 git commits (so a regression can be
+#     correlated to recent changes). Conductor drives the incident; the report-context retrieval is Pulse's.
+#   KNOWN-RESIDUAL (the catalog's first): Pulse's production `recent_commits` producer is a STUB until
+#     v0.3.0, so the context section comes back empty/placeholder — a pre-accepted deviation, NOT a Fail.
+#     Conductor is its DESIGNATED DETECTOR (input.md §Coverage context-grounding row): the deviation matches
+#     a documented residual, so it reports KnownResidual.
+# Coverage mode: auto (MCP read-back of the Report context), BUT declare-only this chunk: the expected
+#   last-commit token is live-git-environment-specific (only the real workspace's HEAD~0..4 at run time),
+#   and the Fail→KnownResidual ROUTING against the residual registry is the Epoch-8 evaluator's job. So NO
+#   [[expected]] block here; the scenario DRIVES the incident and DOCUMENTS the residual.
+# Environment: runs inside a real git workspace with known recent commits (an operator / Epoch-10
+#   live-proof precondition).
+# Epoch-8/10 calibration points: the residual-registry entry (P-032 → KnownResidual until Pulse v0.3.0);
+#   the last-5-commits context token; the report-context population latency.
+name = "project-context-grounding"
+p_ids = ["P-032"]
+seed = 4317032
+slo_tier = "<20s"   # report-context population is a diagnostic-generation latency, not an instant signal
+jitter_ms = 50
+
+[[phases]]
+name = "establish-git-context"   # nominal traffic inside the real git workspace (known recent commits)
+gap_ms = 3000
+
+[[phases]]
+name = "trigger-incident"   # an error-state incident → Pulse generates a Report (context: last-5 commits)
+gap_ms = 3000
+
+# KnownResidual (declare-only): no [[expected]] block. The expected last-5-commits token is live-environment-
+# specific, and the Fail→KnownResidual routing (recent_commits stub until v0.3.0) is Epoch-8 evaluator-owned.

@@ -689,4 +689,86 @@ expected = "Receiving"
         }];
         assert!(s.validate().is_err());
     }
+
+    #[rstest]
+    #[case("halo-hue-encoding", &["P-025"])]
+    #[case("halo-breathing-encoding", &["P-026"])]
+    #[case("service-constellation-discovery", &["P-027"])]
+    #[case("project-context-grounding", &["P-032"])]
+    #[case("cross-incident-recurrence", &["P-036"])]
+    fn constellation_context_grounding_fixtures_load_and_validate(
+        #[case] stem: &str,
+        #[case] p_ids: &[&str],
+    ) {
+        let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
+        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
+        assert_eq!(s.name, stem);
+        let want: Vec<PId> = p_ids.iter().map(|p| PId(p.to_string())).collect();
+        assert_eq!(s.p_ids, want);
+        // NB: unlike every prior family loader, this one does NOT assert `!expected.is_empty()` — the
+        // operator-checklist / declare-only members carry an empty expected (asserted below).
+    }
+
+    #[rstest]
+    #[case("halo-hue-encoding")]
+    #[case("halo-breathing-encoding")]
+    #[case("service-constellation-discovery")]
+    #[case("project-context-grounding")]
+    fn constellation_and_p032_are_operator_checklist_declare_only(#[case] stem: &str) {
+        // The catalog's first operator-checklist / declare-only members. A DriveObserve constellation claim
+        // (P-025/026/027) has NO programmatic read-back (the hue/breathing/dots are operator-verified), and
+        // P-032's KnownResidual routing is Epoch-8-owned — both declare an EMPTY `expected`, which routes to
+        // verdict None -> Lamp::Manual (the inversion of every prior family's "declares at least one check").
+        let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
+        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
+        assert!(
+            s.expected.is_empty(),
+            "{stem} is operator-checklist / declare-only (empty expected -> ManualCheck/KnownResidual downstream)"
+        );
+    }
+
+    #[test]
+    fn cross_incident_recurrence_asserts_previously_seen_via_hard_contains() {
+        // P-036: a fingerprint recurring across two runs surfaces "Previously seen" from the runs.db
+        // cross-run index — a deterministic index lookup -> Hard Contains (the one auto-assertable check in
+        // the family). The "Previously seen" token is inferred (substring-tolerant), an Epoch-8 calibration point.
+        let path =
+            format!("{}/../../scenarios/cross-incident-recurrence.toml", env!("CARGO_MANIFEST_DIR"));
+        let toml = std::fs::read_to_string(&path).expect("fixture readable");
+        let s = Scenario::from_toml_str(&toml).expect("fixture valid");
+        assert!(
+            s.expected.iter().any(|c| c.kind == ComparisonKind::Contains
+                && c.class == ClaimClass::Hard
+                && c.expected == "Previously seen"),
+            "P-036 asserts the recurrence reference via Hard Contains \"Previously seen\""
+        );
+    }
+
+    #[test]
+    fn constellation_context_grounding_suite_has_operator_checklist_members() {
+        // The first family that is NOT all-non-empty: the constellation trio + P-032 declare nothing
+        // (-> ManualCheck/KnownResidual downstream) while P-036 carries a Hard check. Assert the SUITE
+        // exercises BOTH shapes (every prior family had every scenario carry at least one expected check).
+        let empty_stems = [
+            "halo-hue-encoding",
+            "halo-breathing-encoding",
+            "service-constellation-discovery",
+            "project-context-grounding",
+        ];
+        let has_empty = empty_stems.iter().any(|stem| {
+            let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
+            let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+            Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}")).expected.is_empty()
+        });
+        let recurrence_path =
+            format!("{}/../../scenarios/cross-incident-recurrence.toml", env!("CARGO_MANIFEST_DIR"));
+        let recurrence = Scenario::from_toml_str(
+            &std::fs::read_to_string(&recurrence_path).expect("fixture readable"),
+        )
+        .expect("fixture valid");
+        assert!(has_empty, "the suite carries operator-checklist (empty-expected) members");
+        assert!(!recurrence.expected.is_empty(), "P-036 (cross-incident-recurrence) carries a Hard check");
+    }
 }

@@ -1,0 +1,27 @@
+# P-025 — Halo Hue Encoding (pulse-capability-spec.md §P-025). Constellation family: the hue surface.
+#   P-025 — a service's halo HUE encodes its health: as the error/health state shifts, Pulse shifts the
+#     halo's hue (toward burgundy under error pressure). The hue render is Pulse's; Conductor drives the
+#     error-state-shaped stream that moves it. The ≤2s pipeline latency to the hue shift is matrix-delegated
+#     to Conductor's emission (input.md §Coverage constellation row); the visual hue is operator-checklist.
+# Coverage mode: drive+observe — there is NO programmatic read-back of a rendered hue, so this scenario
+#   declares NO expected check: it DRIVES the stimulus and the operator confirms the hue shift via the
+#   generated checklist (the ManualCheck / operator-checklist path — empty `expected` → verdict None →
+#   Lamp::Manual). The catalog's first member of this path.
+# Epoch-8/10 calibration points: the ≤2s hue-shift pipeline-latency MEASUREMENT; the operator-checklist
+#   item wording ("halo shifted toward burgundy under error pressure?").
+name = "halo-hue-encoding"
+p_ids = ["P-025"]
+seed = 4317025
+slo_tier = "<5s"   # the hue shift tracks the error-state pipeline (≤2s, delegated) — the fast tier
+jitter_ms = 50
+
+[[phases]]
+name = "healthy-baseline"   # nominal traffic: the service halo sits at its healthy hue
+gap_ms = 3000
+
+[[phases]]
+name = "error-pressure"   # an error-state-shaped stream → Pulse shifts the halo hue (operator observes)
+gap_ms = 3000
+
+# Operator-checklist (drive+observe): no [[expected]] block. The hue render is verified by the operator,
+# not by MCP read-back — the empty expected routes the check to ManualCheck downstream.

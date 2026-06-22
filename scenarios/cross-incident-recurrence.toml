@@ -1,0 +1,33 @@
+# P-036 — Cross-Incident Pattern Reference (pulse-capability-spec.md §P-036). Context-grounding family: the recurrence surface.
+#   P-036 — when a fingerprint that was SEEN IN A PRIOR SESSION recurs, Pulse's incident Report references
+#     the prior occurrence ("Previously seen"), grounding the new incident in cross-incident history. The
+#     cross-run memory is Conductor's runs.db fingerprint index (arch §Run-History Persistence); the
+#     reference render is Pulse's.
+#   Recurrence is realized by running THIS scenario TWICE with the same seed: same seed → same fingerprint →
+#     the SECOND run's read-back finds the first run's fingerprint in the cross-run index and surfaces
+#     "Previously seen". Deterministic (an index lookup, not a model judgement) → Hard.
+# Coverage mode: auto — the "Previously seen" reference is programmatic (runs.db cross-run fingerprint index
+#   + MCP read-back). Asserted Hard via Contains.
+# Epoch-8/10 calibration points: the "Previously seen" reference token is INFERRED (the spec uses prose;
+#   Contains is substring-tolerant — the RetryStorm / LatencyRegression / Resolved precedent); the run-twice
+#   harness that populates the cross-run index; the recurrence-reference latency.
+name = "cross-incident-recurrence"
+p_ids = ["P-036"]
+seed = 4317036
+slo_tier = "<20s"   # the recurrence reference surfaces in the generated Report (a diagnostic latency)
+jitter_ms = 50
+
+[[phases]]
+name = "fingerprinted-incident"   # emit a fingerprinted exception → an incident with a stable fingerprint
+gap_ms = 3000
+
+[[phases]]
+name = "recur-same-fingerprint"   # re-emit the same fingerprint → on the SECOND run the index says "Previously seen"
+gap_ms = 3000
+
+# P-036 — the recurring fingerprint's Report references the prior occurrence. A deterministic cross-run
+# index lookup → Hard. The "Previously seen" token is inferred (Contains is substring-tolerant).
+[[expected]]
+kind = "Contains"
+class = "Hard"
+expected = "Previously seen"
