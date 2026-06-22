@@ -457,6 +457,64 @@ gap_ms = 1
         );
     }
 
+    #[rstest]
+    #[case("fingerprint-storm", &["P-017", "P-018"])]
+    #[case("fingerprint-distinct", &["P-017"])]
+    fn fingerprint_storm_fixtures_load_and_validate(#[case] stem: &str, #[case] p_ids: &[&str]) {
+        let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
+        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
+        assert_eq!(s.name, stem);
+        let want: Vec<PId> = p_ids.iter().map(|p| PId(p.to_string())).collect();
+        assert_eq!(s.p_ids, want);
+        assert!(!s.expected.is_empty(), "{stem} declares at least one expected check");
+    }
+
+    #[rstest]
+    #[case("fingerprint-storm")]
+    #[case("fingerprint-distinct")]
+    fn fingerprint_storm_checks_are_all_hard(#[case] stem: &str) {
+        // Fingerprint identity (deterministic hash) + storm-count detection are Hard; the
+        // 6->Suggested/12->Autonomous severity escalation is model-side (P-020), declared-only.
+        let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
+        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
+        assert!(
+            s.expected.iter().all(|c| c.class == ClaimClass::Hard),
+            "{stem} checks are all Hard (fingerprint identity + storm-count detection)"
+        );
+    }
+
+    #[test]
+    fn fingerprint_storm_asserts_the_storm_via_contains() {
+        // P-018: the same-fp triple stormed past the floor surfaces a RetryStorm (Contains); the
+        // distinct-fp guard is its Absent counterpart in a separate scenario (one token, opposite outcome).
+        let path = format!("{}/../../scenarios/fingerprint-storm.toml", env!("CARGO_MANIFEST_DIR"));
+        let toml = std::fs::read_to_string(&path).expect("fixture readable");
+        let s = Scenario::from_toml_str(&toml).expect("fixture valid");
+        assert!(
+            s.expected
+                .iter()
+                .any(|c| c.kind == ComparisonKind::Contains && c.expected == "RetryStorm"),
+            "fingerprint-storm asserts the storm via Contains RetryStorm"
+        );
+    }
+
+    #[test]
+    fn fingerprint_distinct_asserts_no_aggregation_via_absent() {
+        // P-017: type/frame variants are DISTINCT fingerprints, so sub-floor counts never aggregate
+        // into a storm — the no-false-aggregation guard (the Absent side of the same RetryStorm token).
+        let path = format!("{}/../../scenarios/fingerprint-distinct.toml", env!("CARGO_MANIFEST_DIR"));
+        let toml = std::fs::read_to_string(&path).expect("fixture readable");
+        let s = Scenario::from_toml_str(&toml).expect("fixture valid");
+        assert!(
+            s.expected
+                .iter()
+                .any(|c| c.kind == ComparisonKind::Absent && c.expected == "RetryStorm"),
+            "fingerprint-distinct asserts no-aggregation via Absent RetryStorm"
+        );
+    }
+
     #[test]
     fn from_toml_str_parses_an_expected_block() {
         let toml = r#"

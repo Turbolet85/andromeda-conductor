@@ -1,0 +1,38 @@
+# P-017 — Exception Fingerprinting (distinctness guard) (pulse-capability-spec.md §P-017).
+# The negative side of P-017: a fingerprint is SENSITIVE to exception type + stack-frame function, so
+# a type-variant and a frame-variant each produce a DIFFERENT fingerprint from the base. Emitting the
+# base + type-variant + frame-variant, each kept BELOW the 5x storm floor, yields THREE distinct
+# fingerprints, none of which reaches the P-018 threshold -> NO storm. If fingerprinting wrongly merged
+# them (type/frame-INsensitive), the combined count would cross the floor and storm — so the ABSENCE of
+# a RetryStorm is the proof that the distinct sites were not collapsed. The Absent counterpart to
+# fingerprint-storm's Contains (one token, opposite outcome -> a separate, outcome-coherent file).
+# The variants are the conductor-emit FingerprintVariant primitive (TypeVariant / FrameVariant); the
+# sub-floor per-fingerprint counts live in the phase names (EmissionSpec carries no count field), so
+# the Epoch-8 driver realizes them.
+# Epoch-8 calibration points: the inferred "RetryStorm" token (here, its absence); the sub-floor (<5x)
+# per-fingerprint counts; the <20s tier.
+# Coverage mode: drive+observe — the no-false-aggregation guard is auto (MCP read-back absence).
+name = "fingerprint-distinct"
+p_ids = ["P-017"]
+seed = 4317018
+slo_tier = "<20s"   # the no-storm confirmation window (calibration point)
+jitter_ms = 50
+
+[[phases]]
+name = "base-4x"
+gap_ms = 10000   # base fingerprint, 4 occurrences — below the 5x storm floor
+
+[[phases]]
+name = "type-variant-4x"
+gap_ms = 10000   # different exception TYPE -> a DISTINCT fingerprint, 4 occurrences (sub-floor)
+
+[[phases]]
+name = "frame-variant-4x"
+gap_ms = 10000   # different stack-FRAME function -> a DISTINCT fingerprint, 4 occurrences (sub-floor)
+
+# P-017 — three distinct fingerprints, each sub-floor, never aggregate into a storm (the distinctness
+# guard: type/frame variants are NOT collapsed into one fingerprint).
+[[expected]]
+kind = "Absent"
+class = "Hard"
+expected = "RetryStorm"

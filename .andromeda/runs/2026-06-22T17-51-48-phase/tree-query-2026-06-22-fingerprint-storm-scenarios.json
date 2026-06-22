@@ -1,0 +1,218 @@
+[
+{
+"sql": "SELECT table_name FROM information_schema.tables ORDER BY 1;",
+"rows": 9,
+"result": [
+{
+"table_name": "calls"
+},
+{
+"table_name": "calls_m"
+},
+{
+"table_name": "contains"
+},
+{
+"table_name": "crate_edges"
+},
+{
+"table_name": "defs"
+},
+{
+"table_name": "occ"
+},
+{
+"table_name": "refs"
+},
+{
+"table_name": "symbol"
+},
+{
+"table_name": "wsdef"
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT column_name FROM information_schema.columns WHERE table_name='symbol' ORDER BY ordinal_position;",
+"rows": 4,
+"result": [
+{
+"column_name": "symbol"
+},
+{
+"column_name": "crate"
+},
+{
+"column_name": "file"
+},
+{
+"column_name": "def_line"
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT column_name FROM information_schema.columns WHERE table_name='refs' ORDER BY ordinal_position;",
+"rows": 3,
+"result": [
+{
+"column_name": "callee"
+},
+{
+"column_name": "file"
+},
+{
+"column_name": "line"
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT s.symbol, s.crate, s.file, s.def_line, (SELECT COUNT(*) FROM refs r WHERE r.callee = s.symbol) AS refcount FROM symbol s WHERE (s.symbol LIKE '%Scenario%' OR s.symbol LIKE '%ExpectedCheck%' OR s.symbol LIKE '%ComparisonKind%' OR s.symbol LIKE '%FingerprintVariant%' OR s.symbol LIKE '%ClaimClass%') AND s.crate LIKE 'conductor%' ORDER BY refcount DESC LIMIT 20;",
+"rows": 20,
+"result": [
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 20,
+"refcount": 69
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 expected/ComparisonKind#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 34,
+"refcount": 57
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#Hard#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 22,
+"refcount": 38
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 scenario/Scenario#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/scenario.rs",
+"def_line": 68,
+"refcount": 33
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 scenario/Scenario#expected.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/scenario.rs",
+"def_line": 95,
+"refcount": 23
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 53,
+"refcount": 18
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/scenario.rs",
+"def_line": 106,
+"refcount": 16
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#kind.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 56,
+"refcount": 15
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#CalibrationRegion#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 24,
+"refcount": 15
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 expected/ComparisonKind#Contains#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 39,
+"refcount": 14
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 expected/ComparisonKind#Exact#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 36,
+"refcount": 13
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#",
+"crate": "conductor-emit",
+"file": "crates/conductor-emit/src/exception.rs",
+"def_line": 69,
+"refcount": 12
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 expected/ComparisonKind#CountAtLeast#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 43,
+"refcount": 12
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#expected.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 62,
+"refcount": 12
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 expected/ExpectedCheck#class.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 59,
+"refcount": 11
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 scenario/Scenario#name.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/scenario.rs",
+"def_line": 71,
+"refcount": 10
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 scenario/Scenario#phases.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/scenario.rs",
+"def_line": 85,
+"refcount": 9
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 expected/ComparisonKind#Absent#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 41,
+"refcount": 8
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 scenario/Scenario#p_ids.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/scenario.rs",
+"def_line": 75,
+"refcount": 7
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 scenario/Scenario#seed.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/scenario.rs",
+"def_line": 78,
+"refcount": 6
+}
+],
+"db_state": "fresh"
+}
+]

@@ -1,0 +1,41 @@
+# P-017 / P-018 — Exception Fingerprinting + Retry Storm Detection
+# (pulse-capability-spec.md §P-017 / §P-018). Pattern-recognition family: one storm timeline.
+#   P-017 fingerprint — a stable hash over exception.type + the first 3 normalized stack frames,
+#     INSENSITIVE to source path + line (amended clause (c)) but SENSITIVE to type + frame function.
+#     P-017 has no direct user signal — it is identifier infrastructure FOR P-018, so it is verified
+#     THROUGH the storm: the identical / path-variant / line-variant triple all share ONE fingerprint,
+#     so a mixed-variant storm counts toward a SINGLE threshold.
+#   P-018 storm — the same fingerprint occurring >=5x in a 30s rolling window emits an attention cue
+#     (default hint Suggested); >=10x escalates the default hint to Autonomous. Conductor injects 6
+#     then 12. Detection operates on fingerprint identity, not type identity alone.
+# The variant triple is the conductor-emit FingerprintVariant primitive; EmissionSpec carries no
+# occurrence-count field, so the Epoch-8 driver realizes the per-phase count + variant mix from the
+# phase names (the restart-suppression precedent).
+# Declare-only: the 6->Suggested / 12->Autonomous severity is MODEL-determined (final severity per
+# P-020, the model may dismiss/adjust), so only the deterministic RetryStorm detection is asserted;
+# the escalation is recorded in the phase names for the Epoch-8 evaluator + the P-020/P-021 chunk.
+# Epoch-8 calibration points: the "RetryStorm" candidate token is inferred (the spec uses prose;
+# Contains is substring-tolerant); the 30s-window emission cadence; the <20s tier; the model-mediated
+# surfacing of the resulting incident.
+# Coverage mode: drive+observe — RetryStorm detection is auto (MCP read-back); the storm-state
+# constellation dot + cumulative-severity halo are operator-checklist.
+name = "fingerprint-storm"
+p_ids = ["P-017", "P-018"]
+seed = 4317017
+slo_tier = "<20s"   # storm detection has no explicit p99 budget; the middle tier covers it (calibration point)
+jitter_ms = 50
+
+[[phases]]
+name = "storm-same-fp-6x"
+gap_ms = 12000   # 6 occurrences of the same-fp triple (identical/path/line) within the window -> Suggested
+
+[[phases]]
+name = "storm-same-fp-12x"
+gap_ms = 12000   # continue the SAME fingerprint to 12 within the 30s window -> escalates to Autonomous
+
+# P-018 — the same-fingerprint storm surfaces a RetryStorm candidate (the deterministic detection;
+# the Suggested->Autonomous severity is model-side, declare-only above).
+[[expected]]
+kind = "Contains"
+class = "Hard"
+expected = "RetryStorm"
