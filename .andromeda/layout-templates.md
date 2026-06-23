@@ -173,7 +173,8 @@ Every status above is **paired with an ASCII text prefix** (`[PASS]` / `[HOLD]` 
 - **`conductor run <scenario>`** — drive one scenario: colored phase headers → live `indicatif` heartbeat → `inquire` operator-pause holds (interactive TTY only) → per-P-ID verdict lines → `comfy-table` SLO summary → run-report path.
 - **`conductor suite`** — drive the full coverage suite across P-001..P-060, MCP preflight readiness gate first, then the same run flow, ending in the dense coverage table.
 - **`conductor report <run_id>`** — re-print a stored run report from `runs.db` / the Markdown artifact, pipe-friendly.
-- **`scripts/agent-run.sh`** — the headless, agent-driven source-of-truth path: same engine, TTY-gated so artifacts stay clean and the operator-pause is **never** blocked on an interactive prompt.
+- **`conductor preflight [--json]`** — the MCP readiness gate (the `agent-run boot` entrypoint): emits the `ReadyState` JSON (or a `[PASS]`/`[BLOCKED]` line) and exits 0 iff `ready:true`, non-zero on a Blocked precondition.
+- **`scripts/agent-run.sh`** — the headless, agent-driven source-of-truth path (the 5-command `boot`/`run`/`status`/`cleanup`/`logs` harness; `run` takes `--unit`/`--integration`/`--e2e` stage flags, default = the full bundled gate): same engine, TTY-gated so artifacts stay clean and the operator-pause is **never** blocked on an interactive prompt.
 
 ### Output structure — `conductor run <scenario>`
 

@@ -13,7 +13,7 @@ use std::time::{SystemTime, UNIX_EPOCH};
 use anyhow::Context as _;
 use conductor_core::{
     HeadlessResolver, HoldPoint, ReportState, RunRecord, Scenario, Signal, Verdict, now_rfc3339,
-    resolve_hold,
+    redact_value, resolve_hold,
 };
 use conductor_emit::{
     DEFAULT_OTLP_ENDPOINT, DEFAULT_SERVICE_NAME, LogsEmitter, Severity, TraceEmitter, probe_egress,
@@ -21,7 +21,8 @@ use conductor_emit::{
 };
 use conductor_timeline::{PhaseTimeline, PhaseTransition, run_timeline};
 use conductor_verify::{
-    CanaryMarker, ContractManifest, ReadbackClient, evaluate_check, run_preflight,
+    CanaryMarker, CanaryOutcome, ContractManifest, ReadbackClient, ReadyState, ToolPresence,
+    evaluate_check, run_preflight,
 };
 
 /// The suite-wide preflight outcome — established once, reused by every scenario in a run.
@@ -55,6 +56,44 @@ pub async fn preflight(manifest_path: &Path) -> anyhow::Result<Preflight> {
         tracing::info!("preflight blocked: readiness gate not satisfied");
     }
     Ok(Preflight { client: Some(client), ready })
+}
+
+/// The full readiness result for the `conductor preflight` verb — the serializable arch readiness
+/// shape (arch §Standard Contracts). Reuses the hardened `ReadbackClient::connect` + `run_preflight`;
+/// an unreachable read-back path yields a Blocked `ReadyState`, never an `Err`.
+pub async fn readiness(manifest_path: &Path) -> anyhow::Result<ReadyState> {
+    let data_dir = std::env::var_os("ANDROMEDA_PULSE_DATA_DIR").map(PathBuf::from);
+    let data_dir_str = data_dir.as_ref().map(|p| p.display().to_string()).unwrap_or_default();
+    let manifest = ContractManifest::load(manifest_path).context("load MCP contract manifest")?;
+    let canary = CanaryMarker::new("conductor-canary");
+    match ReadbackClient::connect(data_dir).await {
+        Ok(client) => Ok(run_preflight(&client, &manifest, &canary, &data_dir_str).await?),
+        Err(_) => {
+            tracing::info!("preflight blocked: MCP read-back path unreachable");
+            Ok(unreachable_state(&manifest, &data_dir_str))
+        }
+    }
+}
+
+/// The Blocked `ReadyState` for an unreachable read-back path — mirrors `preflight_boot`'s Err arm
+/// (the canonical precondition is arch §Standard Contracts).
+fn unreachable_state(manifest: &ContractManifest, data_dir: &str) -> ReadyState {
+    const UNREACHABLE_PRECONDITION: &str =
+        "mcp-server cargo feature + ANDROMEDA_PULSE_MCP_ENABLED + ANDROMEDA_PULSE_DATA_DIR == live Pulse's data-dir";
+    ReadyState {
+        ready: false,
+        negotiated_protocol_version: None,
+        expected_protocol_version: manifest.expected_protocol_version.clone(),
+        required_tools: manifest
+            .required_tools
+            .iter()
+            .map(|name| (name.clone(), ToolPresence::Absent))
+            .collect(),
+        data_dir: redact_value(data_dir).into_owned(),
+        canary_round_trip: CanaryOutcome::Skipped,
+        blocked_precondition: Some(UNREACHABLE_PRECONDITION.to_string()),
+        checked_at: now_rfc3339(),
+    }
 }
 
 /// Drive one scenario to its [`RunRecord`]: Blocked when the gate is not ready, else the coarse

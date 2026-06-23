@@ -36,5 +36,6 @@ async fn dispatch(cli: Cli, run_id: &str) -> anyhow::Result<ExitCode> {
         Commands::Run { target, seed } => commands::run(&target, seed, &paths, run_id).await,
         Commands::Suite { filter, seed } => commands::suite(filter.as_deref(), seed, &paths, run_id).await,
         Commands::Report { run_id: requested } => commands::report(requested.as_deref(), &paths),
+        Commands::Preflight { json } => commands::preflight(json, &paths).await,
     }
 }

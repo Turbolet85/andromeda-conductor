@@ -16,6 +16,12 @@ fn copy_scenario(dir: &TempDir, stem: &str) {
     dir.child(format!("scenarios/{stem}.toml")).write_str(&toml).unwrap();
 }
 
+fn copy_manifest(dir: &TempDir) {
+    let src = format!("{}/../../contracts/mcp-contract.toml", env!("CARGO_MANIFEST_DIR"));
+    let toml = std::fs::read_to_string(&src).unwrap_or_else(|e| panic!("read mcp-contract.toml: {e}"));
+    dir.child("contracts/mcp-contract.toml").write_str(&toml).unwrap();
+}
+
 /// A `conductor` command rooted at `dir` with the read-back path forced unreachable.
 fn conductor(dir: &TempDir) -> Command {
     let mut cmd = Command::cargo_bin("conductor").expect("conductor binary builds");
@@ -36,7 +42,7 @@ fn blocked_state(dir: &TempDir) -> serde_json::Value {
 }
 
 #[test]
-fn help_lists_the_three_verbs() {
+fn help_lists_the_verbs() {
     Command::cargo_bin("conductor")
         .unwrap()
         .arg("--help")
@@ -45,7 +51,8 @@ fn help_lists_the_three_verbs() {
         .stdout(
             predicate::str::contains("run")
                 .and(predicate::str::contains("suite"))
-                .and(predicate::str::contains("report")),
+                .and(predicate::str::contains("report"))
+                .and(predicate::str::contains("preflight")),
         );
 }
 
@@ -113,4 +120,21 @@ fn report_renders_the_latest_run() {
         .assert()
         .success()
         .stdout(predicate::str::contains("Run report").and(predicate::str::contains("[BLOCKED]")));
+}
+
+#[test]
+fn preflight_json_blocks_without_pulse_and_exits_nonzero() {
+    let dir = TempDir::new().unwrap();
+    copy_manifest(&dir);
+
+    let assert = conductor(&dir).args(["preflight", "--json"]).assert().failure();
+    let stdout = String::from_utf8(assert.get_output().stdout.clone()).unwrap();
+    let state: serde_json::Value = serde_json::from_str(stdout.trim()).expect("preflight emits json");
+
+    assert_eq!(state["ready"], serde_json::json!(false), "no live Pulse ⇒ not ready");
+    assert!(state["blocked_precondition"].is_string(), "a blocked gate names its precondition");
+    assert!(
+        !stdout.contains(dir.path().to_str().unwrap()),
+        "the readiness json must not leak the host path"
+    );
 }

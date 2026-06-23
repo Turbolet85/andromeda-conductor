@@ -101,7 +101,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
 ### Epoch 8 — CLI surface
 [2026-06-23-conductor-run-suite-report-verbs] conductor run/suite/report verbs — clap CLI over current_thread bootstrap
    ↓
-5-command agent-run harness — boot=preflight, run=nextest+scenarios, status=runs.db/JSONL read, cleanup=idempotent, logs=journal (.sh + .ps1)
+[2026-06-23-5-command-agent-run-harness] 5-command agent-run harness — boot=preflight, run=nextest+scenarios, status=runs.db/JSONL read, cleanup=idempotent, logs=journal (.sh + .ps1)
    ↓
 Line-oriented output rendering — owo-colors/indicatif/comfy-table status lines + coverage table
    ↓

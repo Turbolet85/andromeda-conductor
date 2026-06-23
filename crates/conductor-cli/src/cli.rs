@@ -34,4 +34,10 @@ pub enum Commands {
         /// The run_id to render; the newest run when omitted.
         run_id: Option<String>,
     },
+    /// Run the MCP readiness preflight gate (the `agent-run boot` entrypoint).
+    Preflight {
+        /// Emit the full readiness result as JSON.
+        #[arg(long)]
+        json: bool,
+    },
 }

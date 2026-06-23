@@ -1,9 +1,11 @@
 //! The three verb handlers + their shared persist / render / exit-code helpers.
 
+mod preflight;
 mod report;
 mod run;
 mod suite;
 
+pub use preflight::preflight;
 pub use report::report;
 pub use run::run;
 pub use suite::suite;
