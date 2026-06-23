@@ -30,6 +30,7 @@
 | Scenario config (TOML) | toml 0.9 | Declarative scenario config (de)serialization from `scenarios/*.toml` via serde (`Scenario::from_toml_str`); hand-author-ergonomic format chosen over JSON (P4 decision); audit/deny-clean |
 | Error handling | thiserror 2.0.18 + anyhow 1.0.102 | Typed per-seam error enums in library crates; type-erased `Result` at binary edges |
 | CLI argument parsing | clap 4 (`derive`) | Declarative `conductor run`/`suite`/`report` verb surface over the `current_thread` bootstrap (`conductor-cli`); `derive` macros for the `Cli`/`Commands` structs |
+| Terminal output rendering | owo-colors 4 + indicatif 0.17 + comfy-table 7 | `conductor-cli` presentation layer (Epoch 8): tty-gated status-line color (never color-alone), run/suite progress spinner, results + 60-P-ID coverage tables |
 | Self-observation | tracing 0.1.44 + tracing-subscriber 0.3.23 | Structured JSON self-observation logs; NOT an OTel SDK (OTLP is the PRODUCT emission); detail in obs-plan §3 |
 | Build / packaging | Cargo workspace, `cargo build --release` + Tauri 2 bundler | Local release binary (source of truth) + optional GUI bundle |
 | CI/CD | GitHub Actions (`cargo build` / nextest / clippy) | Build + test gating only; dynamic scenario proof is a local operator gate |

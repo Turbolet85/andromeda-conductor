@@ -4,8 +4,9 @@ use std::process::ExitCode;
 
 use crate::paths::Paths;
 use crate::pipeline;
+use crate::render;
 
-use super::{exit_code, persist, print_record};
+use super::{exit_code, persist};
 
 pub async fn suite(
     filter: Option<&str>,
@@ -19,13 +20,16 @@ pub async fn suite(
     }
 
     let preflight = pipeline::preflight(&paths.manifest_path).await?;
+    let progress = render::spinner(scenarios.len());
     let mut records = Vec::with_capacity(scenarios.len());
     for scenario in &scenarios {
         let record = pipeline::execute_scenario(&preflight, scenario, run_id).await?;
-        print_record(&record);
+        progress.inc(1);
         records.push(record);
     }
+    progress.finish_and_clear();
 
     persist(&paths.runs_dir, run_id, &records)?;
+    println!("{}", render::results_table(&records));
     Ok(exit_code(&records))
 }

@@ -1,10 +1,12 @@
 //! The three verb handlers + their shared persist / render / exit-code helpers.
 
+mod coverage;
 mod preflight;
 mod report;
 mod run;
 mod suite;
 
+pub use coverage::coverage;
 pub use preflight::preflight;
 pub use report::report;
 pub use run::run;
@@ -29,9 +31,9 @@ fn persist(runs_dir: &Path, run_id: &str, records: &[RunRecord]) -> anyhow::Resu
     Ok(())
 }
 
-/// Print one plain status line — the ASCII lamp prefix (color is ch3) so status is never color-alone.
+/// Print one status line — the verdict-first lamp prefix (tty-gated color over it) + the scenario name.
 fn print_record(record: &RunRecord) {
-    println!("{} {}", Lamp::for_record(record).status_prefix(), record.scenario);
+    println!("{}", crate::render::status_line(record));
 }
 
 /// Exit non-zero only on a hard `Fail`; every other reported state exits 0 (test-plan §1).

@@ -20,6 +20,9 @@ tokio = { workspace = true, features = ["macros", "rt"] }
 anyhow.workspace = true
 tracing.workspace = true
 serde_json.workspace = true
+owo-colors.workspace = true
+indicatif.workspace = true
+comfy-table.workspace = true
 
 [dev-dependencies]
 assert_cmd.workspace = true

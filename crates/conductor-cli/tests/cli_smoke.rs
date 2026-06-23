@@ -52,7 +52,8 @@ fn help_lists_the_verbs() {
             predicate::str::contains("run")
                 .and(predicate::str::contains("suite"))
                 .and(predicate::str::contains("report"))
-                .and(predicate::str::contains("preflight")),
+                .and(predicate::str::contains("preflight"))
+                .and(predicate::str::contains("coverage")),
         );
 }
 
@@ -137,4 +138,34 @@ fn preflight_json_blocks_without_pulse_and_exits_nonzero() {
         !stdout.contains(dir.path().to_str().unwrap()),
         "the readiness json must not leak the host path"
     );
+}
+
+#[test]
+fn coverage_lists_all_sixty_pids() {
+    Command::cargo_bin("conductor")
+        .unwrap()
+        .arg("coverage")
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("P-001").and(predicate::str::contains("P-060")));
+}
+
+#[test]
+fn coverage_write_regenerates_the_matrix_file() {
+    let dir = TempDir::new().unwrap();
+    Command::cargo_bin("conductor")
+        .unwrap()
+        .current_dir(dir.path())
+        .args(["coverage", "--write"])
+        .assert()
+        .success();
+    dir.child("coverage-matrix.md").assert(predicate::path::exists());
+}
+
+#[test]
+fn piped_coverage_output_carries_no_ansi_escapes() {
+    // assert_cmd pipes the child's stdout (not a tty) ⇒ color is stripped ⇒ no escape bytes.
+    let assert = Command::cargo_bin("conductor").unwrap().arg("coverage").assert().success();
+    let stdout = String::from_utf8(assert.get_output().stdout.clone()).unwrap();
+    assert!(!stdout.contains('\u{1b}'), "piped output must carry no ANSI escapes");
 }

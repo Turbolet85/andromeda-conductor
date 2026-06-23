@@ -5,9 +5,9 @@ use std::process::ExitCode;
 
 use anyhow::Context as _;
 use conductor_core::RunRecord;
-use conductor_report::RunReport;
 
 use crate::paths::Paths;
+use crate::render;
 
 pub fn report(run_id: Option<&str>, paths: &Paths) -> anyhow::Result<ExitCode> {
     let run_id = match run_id {
@@ -15,7 +15,9 @@ pub fn report(run_id: Option<&str>, paths: &Paths) -> anyhow::Result<ExitCode> {
         None => latest_run_id(&paths.runs_dir)?.context("no runs found to report")?,
     };
     let records = read_journal(&paths.runs_dir, &run_id)?;
-    print!("{}", RunReport::render(&run_id, &records));
+    println!("Run report {}", render::paint(&run_id, render::ID_CYAN));
+    println!();
+    println!("{}", render::results_table(&records));
     Ok(ExitCode::SUCCESS)
 }
 

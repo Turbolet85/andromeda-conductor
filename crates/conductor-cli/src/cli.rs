@@ -1,4 +1,4 @@
-//! The clap verb surface — `conductor run` / `suite` / `report`.
+//! The clap verb surface — `conductor run` / `suite` / `report` / `preflight` / `coverage`.
 
 use clap::{Parser, Subcommand};
 
@@ -39,5 +39,11 @@ pub enum Commands {
         /// Emit the full readiness result as JSON.
         #[arg(long)]
         json: bool,
+    },
+    /// Render the 60-P-ID coverage matrix (the definition-of-done classification).
+    Coverage {
+        /// Regenerate `coverage-matrix.md` at the repo root.
+        #[arg(long)]
+        write: bool,
     },
 }

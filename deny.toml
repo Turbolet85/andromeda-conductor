@@ -5,7 +5,12 @@
 [advisories]
 # All RustSec advisories deny by default. Accepted, non-actionable advisories are listed here
 # WITH a justifying comment — never a silent skip (security-plan §Dependency Security).
-ignore = []
+ignore = [
+    # number_prefix 0.4.0 (indicatif 0.17 → conductor-cli progress rendering): UNMAINTAINED, not a
+    # vulnerability; "No safe upgrade is available" (RUSTSEC-2025-0119). A tiny, stable byte-count
+    # formatter behind the standard progress crate — non-actionable accepted advisory.
+    "RUSTSEC-2025-0119",
+]
 
 [bans]
 multiple-versions = "warn"        # surface duplicate versions; tighten to "deny" once the tree stabilizes
@@ -22,6 +27,7 @@ allow = [
     "Unicode-3.0",
     "BSL-1.0",
     "BSD-3-Clause",  # matchit (axum→tonic gRPC tree); OSI/FSF permissive
+    "Zlib",          # foldhash (rusqlite→hashbrown→foldhash 0.2.0); OSI-approved + FSF Free/Libre, permissive
 ]
 confidence-threshold = 0.8
 # The workspace's own conductor-* crates are unpublished — skip license checks for them.

@@ -1,0 +1,13 @@
+[
+{
+"sql": "SELECT (SELECT COUNT(*) FROM symbol) AS nodes, (SELECT COUNT(*) FROM refs) AS refs;",
+"rows": 1,
+"result": [
+{
+"nodes": 1129,
+"refs": 4935
+}
+],
+"db_state": "regenerated"
+}
+]

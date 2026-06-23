@@ -103,7 +103,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
    ↓
 [2026-06-23-5-command-agent-run-harness] 5-command agent-run harness — boot=preflight, run=nextest+scenarios, status=runs.db/JSONL read, cleanup=idempotent, logs=journal (.sh + .ps1)
    ↓
-Line-oriented output rendering — owo-colors/indicatif/comfy-table status lines + coverage table
+[2026-06-23-line-oriented-output-rendering] Line-oriented output rendering — owo-colors/indicatif/comfy-table status lines + coverage table
    ↓
 isatty-gated operator-pause — inquire confirm + paused-count spinner mirror, headless never blocks
    ↓

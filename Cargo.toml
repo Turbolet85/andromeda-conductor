@@ -56,6 +56,11 @@ anyhow = "1.0.102"
 # CLI argument parsing (conductor-cli verbs)
 clap = { version = "4", features = ["derive"] }
 
+# CLI line-oriented output rendering (conductor-cli, Epoch 8) — color is gated on a tty; status is never color-alone
+owo-colors = "4"
+indicatif = "0.17"
+comfy-table = "7"
+
 # Self-observation — tracing JSON only (NO OTel SDK)
 tracing = "0.1.44"
 tracing-subscriber = { version = "0.3.23", features = ["json", "env-filter"] }

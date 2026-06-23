@@ -7,18 +7,27 @@
 
 use std::process::ExitCode;
 
+use conductor_core::Lamp;
+
 use crate::paths::Paths;
 use crate::pipeline;
+use crate::render;
 
 pub async fn preflight(json: bool, paths: &Paths) -> anyhow::Result<ExitCode> {
     let state = pipeline::readiness(&paths.manifest_path).await?;
     if json {
         println!("{}", serde_json::to_string(&state)?);
     } else if state.ready {
-        println!("[PASS] preflight ready");
+        println!(
+            "{} preflight ready",
+            render::paint(Lamp::Pass.status_prefix(), render::lamp_code(Lamp::Pass))
+        );
     } else {
         let precondition = state.blocked_precondition.as_deref().unwrap_or("not ready");
-        println!("[BLOCKED] preflight — {precondition}");
+        println!(
+            "{} preflight — {precondition}",
+            render::paint(Lamp::Blocked.status_prefix(), render::lamp_code(Lamp::Blocked))
+        );
     }
     Ok(if state.ready { ExitCode::SUCCESS } else { ExitCode::FAILURE })
 }

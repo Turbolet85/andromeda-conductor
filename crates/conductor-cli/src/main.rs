@@ -13,6 +13,7 @@ mod cli;
 mod commands;
 mod paths;
 mod pipeline;
+mod render;
 
 use cli::{Cli, Commands};
 
@@ -37,5 +38,6 @@ async fn dispatch(cli: Cli, run_id: &str) -> anyhow::Result<ExitCode> {
         Commands::Suite { filter, seed } => commands::suite(filter.as_deref(), seed, &paths, run_id).await,
         Commands::Report { run_id: requested } => commands::report(requested.as_deref(), &paths),
         Commands::Preflight { json } => commands::preflight(json, &paths).await,
+        Commands::Coverage { write } => commands::coverage(write),
     }
 }

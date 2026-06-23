@@ -157,7 +157,7 @@ Single-line status strip pinned to the window bottom: height `space-sm`, top sea
 
 ## Surface: cli
 
-**Tooling context:** clap 4.5 (`conductor-cli` / `scripts/agent-run.sh`) + `anstream`/`anstyle` + `owo-colors` 4.x (styling, TTY-gated) + `indicatif` 0.18 (live counters / spinner) + `comfy-table` 7 (P-001..P-060 SLO tables) + `inquire` 0.7 (operator-pause prompts). Line-oriented (ratatui full-TUI deliberately omitted).
+**Tooling context:** clap 4.5 (`conductor-cli` / `scripts/agent-run.sh`) + `anstream`/`anstyle` + `owo-colors` 4.x (styling, TTY-gated) + `indicatif` 0.17 (live counters / spinner) + `comfy-table` 7 (P-001..P-060 SLO tables) + `inquire` 0.7 (operator-pause prompts). Line-oriented (ratatui full-TUI deliberately omitted).
 
 **Expression level (this surface):** 0.3 — colored headers, dimmed metadata, `indicatif` honest progress (spinner appears only after ~200ms), `comfy-table` SLO tables. No cursor manipulation, no full-screen redraw, no animate-to-100%. Motion is honest progress feedback, never live-redrawn dashboard animation (per design-system Motion).
 
@@ -172,8 +172,9 @@ Every status above is **paired with an ASCII text prefix** (`[PASS]` / `[HOLD]` 
 
 - **`conductor run <scenario>`** — drive one scenario: colored phase headers → live `indicatif` heartbeat → `inquire` operator-pause holds (interactive TTY only) → per-P-ID verdict lines → `comfy-table` SLO summary → run-report path.
 - **`conductor suite`** — drive the full coverage suite across P-001..P-060, MCP preflight readiness gate first, then the same run flow, ending in the dense coverage table.
-- **`conductor report <run_id>`** — re-print a stored run report from `runs.db` / the Markdown artifact, pipe-friendly.
+- **`conductor report <run_id>`** — re-print a stored run as a colored `comfy-table` results view (reads the per-run JSONL journal; the on-disk `<run_id>.md` artifact stays Markdown), pipe-friendly.
 - **`conductor preflight [--json]`** — the MCP readiness gate (the `agent-run boot` entrypoint): emits the `ReadyState` JSON (or a `[PASS]`/`[BLOCKED]` line) and exits 0 iff `ready:true`, non-zero on a Blocked precondition.
+- **`conductor coverage [--write]`** — render the static 60-P-ID coverage matrix (`coverage_matrix()` — P-ID / title / category / mode, the definition-of-done classification) as a `comfy-table`; `--write` regenerates `coverage-matrix.md` at the repo root.
 - **`scripts/agent-run.sh`** — the headless, agent-driven source-of-truth path (the 5-command `boot`/`run`/`status`/`cleanup`/`logs` harness; `run` takes `--unit`/`--integration`/`--e2e` stage flags, default = the full bundled gate): same engine, TTY-gated so artifacts stay clean and the operator-pause is **never** blocked on an interactive prompt.
 
 ### Output structure — `conductor run <scenario>`
