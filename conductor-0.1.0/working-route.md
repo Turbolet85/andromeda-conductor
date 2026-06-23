@@ -96,7 +96,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
    ↓
 [2026-06-22-constellation-context-grounding-scenarios] Constellation + context-grounding scenarios — service dot/hue/stability, git commits/recurrence, P-032 known-residual (P-025..P-027, P-036)
    ↓
-Scrub/pipeline/degraded/report-surface scenarios — PII scrub, cadence/hot-reload, model-off, render-timing (P-035, P-037, P-045, P-047..P-056)
+[2026-06-23-scrub-pipeline-degraded-report-surface-scenarios] Scrub/pipeline/degraded/report-surface scenarios — PII scrub, cadence/hot-reload, model-off, render-timing (P-035, P-037, P-045, P-047..P-056)
 
 ### Epoch 8 — CLI surface
 conductor run/suite/report verbs — clap CLI over current_thread bootstrap

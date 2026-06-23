@@ -1,0 +1,32 @@
+# P-045 — Counter Derivation from Corpus (pulse-capability-spec.md §P-045). Report-surface family: the findings counter.
+#   P-045 — the findings counter is DERIVED on demand from the corpus: it shows the count of unread active
+#     incidents and refreshes within 1s of the next refresh event. Conductor drives a known number of unread
+#     active incidents; the counter must reflect at least that many.
+# The count is deterministic (count of unread/active incidents = the incidents Conductor drove), so this is a
+#   Hard CountAtLeast on the read-back incident list (query_incident_list). The <=1s refresh TIMING is an
+#   Epoch-8 measurement (the tier declares the budget; no content token for the latency).
+# Coverage mode: auto (MCP read-back of query_incident_list).
+name = "findings-counter-refresh"
+p_ids = ["P-045"]
+seed = 4317045
+slo_tier = "<5s"   # the counter refreshes within 1s of the next refresh event; the <5s tier covers it
+jitter_ms = 50
+
+[[phases]]
+name = "incident-1"   # first unread active incident
+gap_ms = 2000
+
+[[phases]]
+name = "incident-2"   # second
+gap_ms = 2000
+
+[[phases]]
+name = "incident-3"   # third — the counter must derive >= 3 unread active incidents
+gap_ms = 2000
+
+# P-045 — the counter derives at least the three unread active incidents Conductor drove (a deterministic
+# corpus-query count). The <=1s refresh latency is the Epoch-8 measurement (declared via the SLO tier).
+[[expected]]
+kind = "CountAtLeast"
+class = "Hard"
+expected = "3"

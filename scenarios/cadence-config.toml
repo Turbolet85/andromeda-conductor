@@ -1,0 +1,25 @@
+# P-052 — Cadence Configuration (pulse-capability-spec.md §P-052). Pipeline-ops family: the cadence surface.
+#   P-052 — the distillation pipeline's cadence intervals (baseline / accelerated / reflection) are
+#     configurable without restart; a known cadence config makes the L4 invocation rate match the configured
+#     interval. Conductor drives a steady workload; the OPERATOR sets a known cadence config during a go/no-go
+#     hold (Conductor does not manage Pulse's config — scope law). The L4-invocation-rate match is an Epoch-8
+#     measurement with no standalone content token, so NO expected check (operator-config + deferred measurement).
+# Coverage mode: auto (MCP read-back), declare-only this chunk — the rate-match measurement is Epoch-8-owned.
+# Epoch-8/10 calibration points: the cadence config values (baseline 60s / accelerated 20s / reflection
+#   1800s); the L4-invocation-rate match measurement; the operator action wording (set [triage.cadence]).
+name = "cadence-config"
+p_ids = ["P-052"]
+seed = 4317052
+slo_tier = "<20s"   # a pipeline-throughput-trend observation, not an instant signal
+jitter_ms = 50
+
+[[phases]]
+name = "steady-workload-baseline"   # nominal steady traffic; the operator sets the baseline cadence
+gap_ms = 5000
+
+[[phases]]
+name = "steady-workload-accelerated"   # the operator switches to the accelerated cadence (no restart)
+gap_ms = 5000
+
+# Declare-only: no [[expected]] block — the operator sets the cadence config and the L4-invocation-rate match
+# is the Epoch-8 measurement (no content token for an invocation rate).

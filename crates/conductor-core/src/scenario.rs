@@ -771,4 +771,136 @@ expected = "Receiving"
         assert!(has_empty, "the suite carries operator-checklist (empty-expected) members");
         assert!(!recurrence.expected.is_empty(), "P-036 (cross-incident-recurrence) carries a Hard check");
     }
+
+    #[rstest]
+    #[case("pii-scrub", &["P-035", "P-047", "P-048"])]
+    #[case("report-render-surface", &["P-037"])]
+    #[case("findings-counter-refresh", &["P-045"])]
+    #[case("cadence-config", &["P-052"])]
+    #[case("threshold-hot-reload", &["P-055", "P-056"])]
+    #[case("degraded-mode-report", &["P-053"])]
+    fn scrub_pipeline_degraded_fixtures_load_and_validate(#[case] stem: &str, #[case] p_ids: &[&str]) {
+        let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
+        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
+        assert_eq!(s.name, stem);
+        let want: Vec<PId> = p_ids.iter().map(|p| PId(p.to_string())).collect();
+        assert_eq!(s.p_ids, want);
+        // Mixed-shape family (Hard + declare-only), so — like the constellation loader — no blanket
+        // `!expected.is_empty()` assertion here; the per-shape guards below carry the precise checks.
+    }
+
+    #[rstest]
+    #[case("report-render-surface")]
+    #[case("cadence-config")]
+    #[case("degraded-mode-report")]
+    fn report_surface_cadence_degraded_are_declare_only(#[case] stem: &str) {
+        // P-037 (operator-checklist render), P-052 (operator-set cadence, deferred measurement), and P-053
+        // (degraded_mode KnownResidual — producer-assigned downstream) declare an EMPTY `expected`.
+        let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
+        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
+        assert!(
+            s.expected.is_empty(),
+            "{stem} is declare-only (empty expected -> ManualCheck/KnownResidual downstream)"
+        );
+    }
+
+    #[test]
+    fn pii_scrub_asserts_scrub_via_hard_absent_and_structure_via_contains() {
+        // P-035/047/048: the seeded PiiCorpus carries stable category sentinels (`@example.com`, `sk_live_`,
+        // `Bearer `, `password=`) that appear in read-back ONLY if scrubbing failed -> Hard Absent. A distinct
+        // Contains token proves structure is preserved (P-035). All checks are Hard (deterministic scrub).
+        let path = format!("{}/../../scenarios/pii-scrub.toml", env!("CARGO_MANIFEST_DIR"));
+        let s = Scenario::from_toml_str(&std::fs::read_to_string(&path).expect("fixture readable"))
+            .expect("fixture valid");
+        assert!(
+            s.expected.iter().all(|c| c.class == ClaimClass::Hard),
+            "pii-scrub checks are all Hard (deterministic PII scrub)"
+        );
+        assert!(
+            s.expected.iter().any(|c| c.kind == ComparisonKind::Absent),
+            "pii-scrub asserts the raw-PII scrub via Absent sentinels"
+        );
+        assert!(
+            s.expected.iter().any(|c| c.kind == ComparisonKind::Contains),
+            "pii-scrub asserts structure preserved via a distinct Contains marker"
+        );
+        // Absent and Contains must never share a token (a same-token pair contradicts on one read-back).
+        let absent: Vec<&str> = s
+            .expected
+            .iter()
+            .filter(|c| c.kind == ComparisonKind::Absent)
+            .map(|c| c.expected.as_str())
+            .collect();
+        assert!(
+            s.expected
+                .iter()
+                .filter(|c| c.kind == ComparisonKind::Contains)
+                .all(|c| !absent.contains(&c.expected.as_str())),
+            "no Contains token equals an Absent token (they would contradict on one read-back)"
+        );
+    }
+
+    #[test]
+    fn findings_counter_and_threshold_reload_carry_their_hard_checks() {
+        // P-045 findings counter = len(query_incident_list | unread/active) -> deterministic Hard CountAtLeast.
+        let counter_path =
+            format!("{}/../../scenarios/findings-counter-refresh.toml", env!("CARGO_MANIFEST_DIR"));
+        let counter = Scenario::from_toml_str(
+            &std::fs::read_to_string(&counter_path).expect("fixture readable"),
+        )
+        .expect("fixture valid");
+        assert!(
+            counter
+                .expected
+                .iter()
+                .any(|c| c.kind == ComparisonKind::CountAtLeast && c.class == ClaimClass::Hard),
+            "P-045 asserts the findings count via Hard CountAtLeast"
+        );
+        // P-056 prospective-only -> Hard Absent (the pre-change baseline raises no retroactive cue); the P-055
+        // <2s hot-reload timing is the declare-only leg (Epoch-8 measurement, no content token).
+        let reload_path =
+            format!("{}/../../scenarios/threshold-hot-reload.toml", env!("CARGO_MANIFEST_DIR"));
+        let reload = Scenario::from_toml_str(
+            &std::fs::read_to_string(&reload_path).expect("fixture readable"),
+        )
+        .expect("fixture valid");
+        assert!(
+            reload
+                .expected
+                .iter()
+                .any(|c| c.kind == ComparisonKind::Absent && c.class == ClaimClass::Hard),
+            "P-056 asserts prospective-only application via Hard Absent (no retroactive cue)"
+        );
+    }
+
+    #[test]
+    fn scrub_pipeline_degraded_suite_mixes_hard_and_declare_only() {
+        // Like the constellation family, this catalog family carries BOTH shapes: Hard auto members
+        // (pii-scrub / findings-counter / threshold-hot-reload) and declare-only members (report-render /
+        // cadence / degraded-mode). Assert the SUITE exercises both.
+        let stems = [
+            "pii-scrub",
+            "report-render-surface",
+            "findings-counter-refresh",
+            "cadence-config",
+            "threshold-hot-reload",
+            "degraded-mode-report",
+        ];
+        let shapes: Vec<bool> = stems
+            .iter()
+            .map(|stem| {
+                let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
+                let toml = std::fs::read_to_string(&path)
+                    .unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+                Scenario::from_toml_str(&toml)
+                    .unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"))
+                    .expected
+                    .is_empty()
+            })
+            .collect();
+        assert!(shapes.iter().any(|empty| *empty), "the suite carries declare-only (empty-expected) members");
+        assert!(shapes.iter().any(|empty| !*empty), "the suite carries Hard (non-empty-expected) members");
+    }
 }

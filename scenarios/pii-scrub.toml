@@ -1,0 +1,60 @@
+# P-035 / P-047 / P-048 — Anonymized Telemetry Excerpts + PII Scrubbing at Ingestion + No Raw OTLP
+# Attribute Values Stored (pulse-capability-spec.md §P-035/§P-047/§P-048). PII-scrub family: one PII-laden
+# workload, one outcome — every seeded value scrubbed, structure preserved.
+#   P-047 — pattern-based scrubbing of all seven categories (email / JWT / bearer / API key / credit-card
+#     PAN / SSN / secret key=value) at ingestion; the raw value never lands in the corpus.
+#   P-048 — the corpus stores no raw OTLP attribute VALUES, only anonymized fingerprints + structural
+#     metadata; the same negative assertion read back from the corpus rather than the Report.
+#   P-035 — the Report's telemetry excerpts are included AFTER anonymization (span timing/structure kept,
+#     values scrubbed) — the positive "structure preserved" side.
+# Drive: the conductor-emit PiiCorpus (seeded synthetic values per category) across spans (P-035 excerpts)
+#   and logs; the emitter binding is Epoch-8, this config declares the workload + the scrub expectation.
+# The seeded values vary by seed, but each category has a STABLE sentinel substring that appears in read-back
+#   ONLY if scrubbing failed: `@example.com` (email), `sk_live_` (API key), `Bearer ` (bearer), `password=`
+#   (secret key=value) — grounded in conductor-emit/src/pii.rs `generate()`. Absent on those is a clean Hard
+#   negative. The `Contains` structural marker (`user.email`, a retained `field_key` per P-048) is inferred
+#   (substring-tolerant) — an Epoch-8 calibration point (the exact surviving-structure token is the evaluator's).
+# Coverage mode: auto (MCP read-back of the scrubbed Report excerpts + corpus).
+name = "pii-scrub"
+p_ids = ["P-035", "P-047", "P-048"]
+seed = 4317035
+slo_tier = "<5s"   # scrubbing is an ingestion-time transform on the hard-signal path
+jitter_ms = 50
+
+[[phases]]
+name = "emit-pii-spans"   # PII embedded across span attributes (P-035 excerpts / P-047 categories)
+gap_ms = 2000
+
+[[phases]]
+name = "emit-pii-logs"   # the same categories across log records (P-047 / P-048 corpus storage)
+gap_ms = 2000
+emission = { signal = "logs" }
+
+# P-047 / P-048 — the raw seeded values are scrubbed: their stable category sentinels are ABSENT from the
+# read-back (Report excerpts + corpus). Each sentinel is a distinct token, so no Absent/Contains conflict.
+[[expected]]
+kind = "Absent"
+class = "Hard"
+expected = "@example.com"
+
+[[expected]]
+kind = "Absent"
+class = "Hard"
+expected = "sk_live_"
+
+[[expected]]
+kind = "Absent"
+class = "Hard"
+expected = "Bearer "
+
+[[expected]]
+kind = "Absent"
+class = "Hard"
+expected = "password="
+
+# P-035 — structure preserved: the anonymized excerpt retains the attribute KEY (structural metadata) while
+# the VALUE is scrubbed. `user.email` is the email category's retained field_key (inferred; Epoch-8 calibration).
+[[expected]]
+kind = "Contains"
+class = "Hard"
+expected = "user.email"

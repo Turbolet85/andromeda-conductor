@@ -1,0 +1,36 @@
+# P-055 / P-056 — Configuration Hot Reload + Prospective Threshold Application (pulse-capability-spec.md
+# §P-055/§P-056). Pipeline-ops family: one operator threshold hot-reload, observed two ways.
+#   P-055 — an operational-parameter change (here a detection threshold) applies within 2s WITHOUT restart.
+#     The <2s reload latency is an Epoch-8 measurement (the tier declares the budget; no content token) — the
+#     declare-only leg.
+#   P-056 — the threshold change applies PROSPECTIVELY only: no retroactive re-evaluation of the accumulated
+#     pre-change baseline, so the pre-change window raises NO retroactive cue -> a Hard Absent. (The opt-in
+#     backfill that WOULD re-surface it is a Pulse-side Settings action, out of scope.)
+# Recipe: a baseline phase accumulates under the old threshold; the OPERATOR hot-reloads the threshold during
+#   a go/no-go hold; the post-reload phase runs under the new threshold. Conductor does not mutate Pulse's
+#   config (scope law) — the reload is the operator action.
+# `RetroactiveReeval` is the inferred no-fire token (substring-tolerant) — an Epoch-8 calibration point; it is
+#   the RETROACTIVE marker (never a prospective candidate type), so it cannot collide with a legitimately
+#   surfaced post-reload candidate.
+# Coverage mode: auto (MCP read-back); the P-056 prospective-only leg is the auto-assertable Hard check.
+name = "threshold-hot-reload"
+p_ids = ["P-055", "P-056"]
+seed = 4317055
+slo_tier = "<5s"   # the hot-reload budget is <2s; the <5s tier covers it
+jitter_ms = 50
+
+[[phases]]
+name = "pre-reload-baseline"   # traffic accumulates under the OLD threshold (the pre-change baseline)
+gap_ms = 3000
+
+[[phases]]
+name = "post-reload"   # operator hot-reloaded the threshold (<2s, no restart); new threshold applies forward
+gap_ms = 3000
+
+# P-056 — prospective-only: the pre-change baseline is NOT retroactively re-evaluated, so no retroactive
+# threshold cue surfaces (a Hard Absent). The P-055 <2s reload timing is the declare-only leg (Epoch-8
+# measurement, no content token).
+[[expected]]
+kind = "Absent"
+class = "Hard"
+expected = "RetroactiveReeval"

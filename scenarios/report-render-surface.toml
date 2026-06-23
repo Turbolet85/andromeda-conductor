@@ -1,0 +1,24 @@
+# P-037 — In-App Report Surface (pulse-capability-spec.md §P-037). Report-surface family: the render surface.
+#   P-037 — an incident's Report renders in a dedicated in-app surface within 2s, with keyboard navigation
+#     and section collapse. The render + keyboard UX is Pulse's desktop surface; Conductor drives the
+#     incident that produces the Report. A visual/operator-checklist claim (no programmatic read-back of a
+#     render time or keyboard focus), so NO expected check — the operator confirms via the checklist.
+# Coverage mode: drive+observe — DRIVE the incident, the operator opens the Report surface and confirms the
+#   <2s render + keyboard nav + section collapse (the ManualCheck path — empty `expected`).
+# Epoch-8/10 calibration points: the <2s render-latency MEASUREMENT (the tier only declares the budget); the
+#   operator-checklist item wording ("Report renders < 2s? keyboard-navigable? sections collapse?").
+name = "report-render-surface"
+p_ids = ["P-037"]
+seed = 4317037
+slo_tier = "<5s"   # the render budget is <2s; the <5s tier covers it
+jitter_ms = 50
+
+[[phases]]
+name = "establish-traffic"   # nominal traffic so a Report has telemetry to render
+gap_ms = 3000
+
+[[phases]]
+name = "trigger-incident"   # an incident → Pulse generates a Report the operator opens in-app
+gap_ms = 3000
+
+# Operator-checklist (drive+observe): no [[expected]] block — the <2s render + keyboard nav are operator-verified.

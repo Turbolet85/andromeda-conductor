@@ -1,0 +1,31 @@
+# P-053 — Fallback Model Tier (pulse-capability-spec.md §P-053). Degraded-mode family: the model-off / fallback surface.
+#   P-053 — below the primary hardware envelope, Pulse runs a fallback model tier (3-4B params) producing
+#     reduced-quality Reports (fewer hypotheses, shorter investigation steps), explicitly annotated. The same
+#     hard signals (P-005..P-008) still surface (as Suggested severity, per P-020); the Report structure
+#     matches the reduced contract.
+# Drive: the same hard-signal workload; the OPERATOR disables the model / selects the fallback tier during a
+#   go/no-go hold (Conductor does not manage Pulse's model — scope law).
+# KNOWN-RESIDUAL: a `retrieve_report` result returned under `degraded_mode` is a PRE-ACCEPTED residual
+#   (architecture.md §Standard Contracts lists it explicitly) — the reduced Report is expected, NOT a Fail.
+#   Like P-032, the scenario model has no `state` field (ReportState is producer-assigned), so this DECLARES
+#   + DOCUMENTS the residual with an empty `expected`; the Fail→KnownResidual routing against the residual
+#   registry is the Epoch-8 evaluator's job.
+# Coverage mode: auto (MCP read-back of retrieve_report(degraded_mode=true)), declare-only this chunk.
+# Epoch-8/10 calibration points: the degraded_mode read-back wiring; the reduced-contract assertions (hard
+#   signals present as Suggested, hypotheses/steps reduced + annotated); the residual-registry entry.
+name = "degraded-mode-report"
+p_ids = ["P-053"]
+seed = 4317053
+slo_tier = "<20s"   # a Report-generation latency under the fallback tier, not an instant signal
+jitter_ms = 50
+
+[[phases]]
+name = "hard-signal-workload"   # error-state traffic that produces hard signals (P-005..P-008)
+gap_ms = 3000
+
+[[phases]]
+name = "degraded-readback"   # operator has disabled the model / set the fallback tier; the Report is reduced
+gap_ms = 3000
+
+# KnownResidual (declare-only): no [[expected]] block. retrieve_report(degraded_mode=true) returns a reduced
+# Report — a pre-accepted residual (arch §Standard Contracts); the Fail→KnownResidual routing is Epoch-8-owned.
