@@ -8,6 +8,14 @@ _This file is entirely wrap-session's territory. `/andromeda-setup-project` crea
 
 ---
 
+## 2026-06-23 — CLI operator-pause resolver: enum dispatch over a non-object-safe trait
+
+`conductor_core::PauseResolver::resolve` returns `-> impl Future<Output = Decision>` (RPITIT), which is NOT object-safe — a `&dyn PauseResolver` will not compile. So the CLI dispatches a fixed `CliResolver { Interactive(PromptResolver), Headless(HeadlessResolver) }` enum (in `conductor-cli::pause`) that impls `PauseResolver` by `match`-ing each arm to its inner resolver's `.resolve(hold).await`. `CliResolver::select(Option<ProgressBar>)` is the isatty gate — interactive only when BOTH `std::io::stdin()` and `stdout()` are `.is_terminal()` (the same `IsTerminal` primitive `render::stdout_color()` uses); off-tty it returns `Headless(HeadlessResolver::proceed())` so the agent path is never gated on a prompt.
+
+The `Interactive(PromptResolver)` variant carries the live `Option<ProgressBar>` (the suite spinner; `run` passes `None`) and wraps the `inquire::Confirm` in `ProgressBar::suspend(…)` so the heartbeat freezes at its current count during the prompt, then resumes. The `[HOLD]` phase-line (`render::hold_line`, amber `lamp_code(Lamp::Hold)=179`, prefix always present) + the confirm both emit to **stderr**, keeping STDOUT the machine-parseable results table. `resolve` is infallible, so an `inquire` cancel/interrupt collapses to `Decision::NoGo` (when `allow_no_go`, else `Go`) via a catch-all arm. The Epoch-9 Tauri go/no-go dialog will extend the SAME enum + `Decision` vocabulary — a third arm, not a parallel mechanism.
+
+---
+
 ## 2026-06-23 — conductor-cli line-oriented render seam (owo-colors + indicatif + comfy-table)
 
 The `conductor-cli::render` seam colorizes the existing `Lamp` projection (`Lamp::for_record` / `status_prefix` / `label` from conductor-core — the single status-truth source, never reclassified) and renders comfy-tables. Status is never color-alone: the ASCII `[PASS]`/`[FAIL]`/`[HOLD]`/`[MANUAL]`/`[RESIDUAL]`/`[BLOCKED]` prefix is always present; color is a tty-gated overlay.

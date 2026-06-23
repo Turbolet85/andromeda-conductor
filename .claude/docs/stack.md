@@ -31,7 +31,7 @@ _Mirrors `.andromeda/architecture.md` §Stack and Technologies. Convenience refe
 ## Frontend (desktop-webview GUI — convenience surface)
 - **React 19.x** + **Vite 8.0.16** (`@vitejs/plugin-react`; Preact 10.x size fallback) + **Tailwind CSS v4.1** (Oxide via `@tailwindcss/vite`; tokens on `:root`, not `@theme` — v4 tree-shakes non-namespace tokens) + **shadcn/ui** (Radix Primitives) + Lucide React icons. Package manager **npm** (`package-lock.json` committed, `npm audit` gate); SPA under `crates/conductor-tauri/ui/`.
 - **Tauri 2** (≥ 2.10.3 per security-plan) frameless window. Fonts: JetBrains Mono + IBM Plex Sans (self-hosted WOFF2 via Fontsource).
-- **cli surface:** clap 4.5 + anstream/anstyle + owo-colors 4.x + indicatif 0.17 + comfy-table 7 + inquire 0.7.
+- **cli surface:** clap 4.5 + anstream/anstyle + owo-colors 4.x + indicatif 0.17 + comfy-table 7 + inquire 0.9.
 
 ## Development & CI
 - **Test:** cargo-nextest (pinned runner; zero-retry `ci` profile in `.config/nextest.toml`) + `cargo test --doc`; dev-test stack rstest 0.26 · proptest 1.x · insta 1.x · assert_cmd 2 · assert_fs 1 · predicates 3; coverage cargo-llvm-cov (needs the `llvm-tools-preview` toolchain component). External CLI-tool versions are reference floors; `Cargo.lock` is authoritative for crate deps (test-plan §4). Webview E2E: @crabnebula/tauri-driver 2.0.9 + WebdriverIO (Linux + xvfb).

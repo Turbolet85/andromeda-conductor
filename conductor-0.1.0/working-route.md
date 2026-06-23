@@ -105,9 +105,9 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
    ↓
 [2026-06-23-line-oriented-output-rendering] Line-oriented output rendering — owo-colors/indicatif/comfy-table status lines + coverage table
    ↓
-isatty-gated operator-pause — inquire confirm + paused-count spinner mirror, headless never blocks
+[2026-06-23-isatty-gated-operator-pause] isatty-gated operator-pause — inquire confirm + paused-count spinner mirror, headless never blocks
    ↓
-Sanitized stderr + agent-mode logging — error:/hint: format, JSON-to-file journal
+Sanitized stderr + agent-mode logging — error:/hint: format, JSON-to-file journal   PREREQ: wire the new --agent-mode flag into `CliResolver::select()` (force the Headless resolver when set) — isatty-gated-operator-pause gated the operator-pause resolver on `IsTerminal` only
 
 ### Epoch 9 — Desktop control panel
 Frameless window shell — Tauri 2 decorations:false drag-region titlebar, deny-by-default capabilities ≥2.10.3

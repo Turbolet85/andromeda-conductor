@@ -23,6 +23,7 @@ serde_json.workspace = true
 owo-colors.workspace = true
 indicatif.workspace = true
 comfy-table.workspace = true
+inquire.workspace = true
 
 [dev-dependencies]
 assert_cmd.workspace = true

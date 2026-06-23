@@ -12,6 +12,7 @@ use conductor_core::{init_observability, mint_run_id, sanitize_error};
 mod cli;
 mod commands;
 mod paths;
+mod pause;
 mod pipeline;
 mod render;
 

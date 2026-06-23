@@ -12,8 +12,8 @@ use std::time::{SystemTime, UNIX_EPOCH};
 
 use anyhow::Context as _;
 use conductor_core::{
-    HeadlessResolver, HoldPoint, ReportState, RunRecord, Scenario, Signal, Verdict, now_rfc3339,
-    redact_value, resolve_hold,
+    HoldPoint, ReportState, RunRecord, Scenario, Signal, Verdict, now_rfc3339, redact_value,
+    resolve_hold,
 };
 use conductor_emit::{
     DEFAULT_OTLP_ENDPOINT, DEFAULT_SERVICE_NAME, LogsEmitter, Severity, TraceEmitter, probe_egress,
@@ -24,6 +24,8 @@ use conductor_verify::{
     CanaryMarker, CanaryOutcome, ContractManifest, ReadbackClient, ReadyState, ToolPresence,
     evaluate_check, run_preflight,
 };
+
+use crate::pause::CliResolver;
 
 /// The suite-wide preflight outcome — established once, reused by every scenario in a run.
 pub struct Preflight {
@@ -102,6 +104,7 @@ pub async fn execute_scenario(
     pf: &Preflight,
     scenario: &Scenario,
     run_id: &str,
+    resolver: &CliResolver,
 ) -> anyhow::Result<RunRecord> {
     if !pf.ready {
         return Ok(RunRecord::blocked(
@@ -138,7 +141,7 @@ pub async fn execute_scenario(
             prompt: "Observe the operator-checklist claim for this scenario".to_string(),
             allow_no_go: true,
         };
-        let resolution = resolve_hold(&HeadlessResolver::proceed(), &hold).await;
+        let resolution = resolve_hold(resolver, &hold).await;
         tracing::debug!("operator-checklist hold resolved headless: {}", resolution.decision.label());
         return Ok(manual_record(
             scenario,

@@ -15,7 +15,7 @@ use std::io::IsTerminal;
 use std::time::Duration;
 
 use comfy_table::{Cell, Color, ContentArrangement, Table, presets};
-use conductor_core::{Lamp, RunRecord, coverage_matrix};
+use conductor_core::{HoldPoint, Lamp, RunRecord, coverage_matrix};
 use indicatif::{ProgressBar, ProgressDrawTarget, ProgressStyle};
 use owo_colors::{OwoColorize, XtermColors};
 
@@ -49,6 +49,13 @@ pub fn paint(text: &str, code: u8) -> String {
 /// One colored status line — the verdict-first lamp prefix + the scenario name (the `run` per-check line).
 pub fn status_line(record: &RunRecord) -> String {
     status_line_styled(record, stdout_color())
+}
+
+/// The operator-pause hold phase-line — the `[HOLD]` signature (amber overlay, prefix always
+/// present) with the hold's scenario / P-ID / step. Rendered above the interactive prompt (the CLI
+/// mirror of the desktop titlebar hold signature).
+pub fn hold_line(hold: &HoldPoint) -> String {
+    hold_line_styled(hold, stdout_color())
 }
 
 /// The per-run results table — one row per check, the blocked row em-dashing its never-measured cells.
@@ -93,6 +100,11 @@ fn paint_styled(text: &str, code: u8, color: bool) -> String {
 fn status_line_styled(record: &RunRecord, color: bool) -> String {
     let lamp = Lamp::for_record(record);
     format!("{} {}", paint_styled(lamp.status_prefix(), lamp_code(lamp), color), record.scenario)
+}
+
+fn hold_line_styled(hold: &HoldPoint, color: bool) -> String {
+    let prefix = paint_styled(Lamp::Hold.status_prefix(), lamp_code(Lamp::Hold), color);
+    format!("{prefix} — operator pause · {} · {} · {}", hold.scenario, hold.p_id.0, hold.step)
 }
 
 fn results_table_styled(records: &[RunRecord], color: bool) -> String {
@@ -166,7 +178,7 @@ fn fingerprints(fps: &Option<Vec<String>>) -> String {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use conductor_core::{PId, ReportState, SloTier, Verdict};
+    use conductor_core::{HoldPoint, PId, ReportState, SloTier, Verdict};
 
     fn measured(scenario: &str, verdict: Verdict, state: ReportState) -> RunRecord {
         RunRecord::measured(
@@ -250,5 +262,30 @@ mod tests {
         for leak in ["C:\\", "/Users/", "/home/", "RunRecord", "Lamp", "CapabilityRow", "RunsDb"] {
             assert!(!out.contains(leak), "leaked {leak:?}");
         }
+    }
+
+    fn hold() -> HoldPoint {
+        HoldPoint {
+            scenario: "restart-suppression".to_string(),
+            p_id: PId("P-015".to_string()),
+            step: "restart-pulse".to_string(),
+            prompt: "Restart the Pulse process, then confirm".to_string(),
+            allow_no_go: true,
+        }
+    }
+
+    #[test]
+    fn hold_line_plain_keeps_prefix_without_escapes() {
+        let line = hold_line_styled(&hold(), false);
+        assert!(line.starts_with("[HOLD] "), "{line}");
+        assert!(line.contains("restart-suppression") && line.contains("P-015"), "{line}");
+        assert!(!line.contains('\u{1b}'), "plain hold line must carry no escape bytes: {line:?}");
+    }
+
+    #[test]
+    fn hold_line_colored_overlays_escapes_on_the_prefix() {
+        let line = hold_line_styled(&hold(), true);
+        assert!(line.contains("[HOLD]"), "{line}");
+        assert!(line.contains('\u{1b}'), "colored hold line must carry an escape: {line:?}");
     }
 }

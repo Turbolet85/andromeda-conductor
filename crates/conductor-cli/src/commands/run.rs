@@ -3,6 +3,7 @@
 use std::process::ExitCode;
 
 use crate::paths::Paths;
+use crate::pause::CliResolver;
 use crate::pipeline;
 
 use super::{exit_code, persist, print_record};
@@ -15,7 +16,8 @@ pub async fn run(
 ) -> anyhow::Result<ExitCode> {
     let scenario = paths.load_scenario(target, seed)?;
     let preflight = pipeline::preflight(&paths.manifest_path).await?;
-    let records = [pipeline::execute_scenario(&preflight, &scenario, run_id).await?];
+    let resolver = CliResolver::select(None);
+    let records = [pipeline::execute_scenario(&preflight, &scenario, run_id, &resolver).await?];
 
     persist(&paths.runs_dir, run_id, &records)?;
     print_record(&records[0]);

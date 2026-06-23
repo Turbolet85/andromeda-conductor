@@ -61,6 +61,9 @@ owo-colors = "4"
 indicatif = "0.17"
 comfy-table = "7"
 
+# CLI interactive operator-pause prompt (conductor-cli, Epoch 8 ch4) — isatty-gated; the headless path never blocks
+inquire = "0.9"
+
 # Self-observation — tracing JSON only (NO OTel SDK)
 tracing = "0.1.44"
 tracing-subscriber = { version = "0.3.23", features = ["json", "env-filter"] }

@@ -3,6 +3,7 @@
 use std::process::ExitCode;
 
 use crate::paths::Paths;
+use crate::pause::CliResolver;
 use crate::pipeline;
 use crate::render;
 
@@ -21,9 +22,10 @@ pub async fn suite(
 
     let preflight = pipeline::preflight(&paths.manifest_path).await?;
     let progress = render::spinner(scenarios.len());
+    let resolver = CliResolver::select(Some(progress.clone()));
     let mut records = Vec::with_capacity(scenarios.len());
     for scenario in &scenarios {
-        let record = pipeline::execute_scenario(&preflight, scenario, run_id).await?;
+        let record = pipeline::execute_scenario(&preflight, scenario, run_id, &resolver).await?;
         progress.inc(1);
         records.push(record);
     }
