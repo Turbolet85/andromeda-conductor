@@ -1,24 +1,116 @@
-//! CLI smoke exemplar — proves the assert_cmd + assert_fs + predicates wiring against the
-//! `conductor` binary. The bin only initializes self-observation and exits 0 today; the real
-//! agent-run verbs land in Epoch 8 (test-plan §4).
+//! CLI E2E smoke — the verb surface + the no-Pulse `Blocked` spine, driven via `assert_cmd`.
+//!
+//! Each invocation forces the read-back path unreachable (an injection-metacharacter
+//! `ANDROMEDA_PULSE_DATA_DIR`, rejected before any spawn) so the run deterministically reaches the
+//! `Blocked` envelope on any host without spawning the live Pulse sidecar (the measured leg is
+//! operator-gated — Epoch-10).
 
 use assert_cmd::Command;
 use assert_fs::prelude::*;
+use assert_fs::TempDir;
 use predicates::prelude::*;
 
-#[test]
-fn conductor_binary_exits_success() {
-    Command::cargo_bin("conductor")
-        .expect("conductor binary builds")
-        .assert()
-        .success();
+fn copy_scenario(dir: &TempDir, stem: &str) {
+    let src = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
+    let toml = std::fs::read_to_string(&src).unwrap_or_else(|e| panic!("read {stem}.toml: {e}"));
+    dir.child(format!("scenarios/{stem}.toml")).write_str(&toml).unwrap();
+}
+
+/// A `conductor` command rooted at `dir` with the read-back path forced unreachable.
+fn conductor(dir: &TempDir) -> Command {
+    let mut cmd = Command::cargo_bin("conductor").expect("conductor binary builds");
+    cmd.current_dir(dir.path());
+    cmd.env("ANDROMEDA_PULSE_DATA_DIR", "pulse;injection");
+    cmd
+}
+
+fn blocked_state(dir: &TempDir) -> serde_json::Value {
+    let runs = std::fs::read_dir(dir.path().join("runs")).expect("runs dir exists");
+    let journal = runs
+        .flatten()
+        .map(|e| e.path())
+        .find(|p| p.extension().and_then(|x| x.to_str()) == Some("jsonl"))
+        .expect("a journal was written");
+    let text = std::fs::read_to_string(journal).unwrap();
+    serde_json::from_str(text.lines().next().expect("a journal line")).unwrap()
 }
 
 #[test]
-fn tempdir_journal_fixture_round_trips() {
-    let dir = assert_fs::TempDir::new().expect("create temp dir");
-    let journal = dir.child("runs/424242.jsonl");
-    journal.touch().expect("touch journal fixture");
-    journal.assert(predicate::path::exists());
-    dir.close().expect("close temp dir");
+fn help_lists_the_three_verbs() {
+    Command::cargo_bin("conductor")
+        .unwrap()
+        .arg("--help")
+        .assert()
+        .success()
+        .stdout(
+            predicate::str::contains("run")
+                .and(predicate::str::contains("suite"))
+                .and(predicate::str::contains("report")),
+        );
+}
+
+#[test]
+fn no_subcommand_is_a_usage_error() {
+    Command::cargo_bin("conductor").unwrap().assert().failure();
+}
+
+#[test]
+fn run_by_name_blocks_without_pulse_and_exits_zero() {
+    let dir = TempDir::new().unwrap();
+    copy_scenario(&dir, "error-baseline-spike");
+
+    conductor(&dir)
+        .args(["run", "error-baseline-spike"])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("[BLOCKED]").and(predicate::str::contains("error-baseline-spike")));
+
+    let record = blocked_state(&dir);
+    assert_eq!(record["state"], serde_json::json!("Blocked"));
+    assert_eq!(record["scenario"], serde_json::json!("error-baseline-spike"));
+    assert!(record["verdict"].is_null(), "a blocked row carries no verdict");
+}
+
+#[test]
+fn run_resolves_a_scenario_by_p_id() {
+    let dir = TempDir::new().unwrap();
+    copy_scenario(&dir, "error-baseline-spike");
+
+    conductor(&dir)
+        .args(["run", "P-009"])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("error-baseline-spike"));
+}
+
+#[test]
+fn run_with_unknown_target_is_an_error() {
+    let dir = TempDir::new().unwrap();
+    copy_scenario(&dir, "error-baseline-spike");
+
+    conductor(&dir).args(["run", "no-such-scenario"]).assert().failure();
+}
+
+#[test]
+fn suite_runs_the_catalog_and_exits_zero() {
+    let dir = TempDir::new().unwrap();
+    copy_scenario(&dir, "error-baseline-spike");
+    copy_scenario(&dir, "latency-regression");
+
+    conductor(&dir).args(["suite"]).assert().success().stdout(
+        predicate::str::contains("error-baseline-spike").and(predicate::str::contains("latency-regression")),
+    );
+}
+
+#[test]
+fn report_renders_the_latest_run() {
+    let dir = TempDir::new().unwrap();
+    copy_scenario(&dir, "error-baseline-spike");
+
+    conductor(&dir).args(["run", "error-baseline-spike"]).assert().success();
+    conductor(&dir)
+        .args(["report"])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("Run report").and(predicate::str::contains("[BLOCKED]")));
 }

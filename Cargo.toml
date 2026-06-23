@@ -53,6 +53,9 @@ garde = "0.22.1"
 thiserror = "2.0.18"
 anyhow = "1.0.102"
 
+# CLI argument parsing (conductor-cli verbs)
+clap = { version = "4", features = ["derive"] }
+
 # Self-observation — tracing JSON only (NO OTel SDK)
 tracing = "0.1.44"
 tracing-subscriber = { version = "0.3.23", features = ["json", "env-filter"] }

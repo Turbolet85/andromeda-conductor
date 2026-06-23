@@ -99,7 +99,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
 [2026-06-23-scrub-pipeline-degraded-report-surface-scenarios] Scrub/pipeline/degraded/report-surface scenarios — PII scrub, cadence/hot-reload, model-off, render-timing (P-035, P-037, P-045, P-047..P-056)
 
 ### Epoch 8 — CLI surface
-conductor run/suite/report verbs — clap CLI over current_thread bootstrap
+[2026-06-23-conductor-run-suite-report-verbs] conductor run/suite/report verbs — clap CLI over current_thread bootstrap
    ↓
 5-command agent-run harness — boot=preflight, run=nextest+scenarios, status=runs.db/JSONL read, cleanup=idempotent, logs=journal (.sh + .ps1)
    ↓

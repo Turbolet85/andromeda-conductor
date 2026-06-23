@@ -1,0 +1,29 @@
+[
+{
+"sql": "SELECT from_crate, to_crate FROM crate_edges WHERE to_crate LIKE 'conductor-%' OR from_crate LIKE 'conductor-%' ORDER BY from_crate, to_crate;",
+"rows": 5,
+"result": [
+{
+"from_crate": "conductor-cli",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-report",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-tauri",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-timeline",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-verify",
+"to_crate": "conductor-core"
+}
+],
+"db_state": "fresh"
+}
+]
