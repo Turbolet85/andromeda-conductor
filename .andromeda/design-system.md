@@ -162,6 +162,14 @@ All motion decisions flow from the expression level set in Brand Identity. At `0
 - Entrance animations: **none** (expression < 0.5) — the console and coverage matrix render in place, no staggered reveals.
 - Scroll effects: **none** (expression < 0.7).
 
+**Motion tokens** (CSS custom properties on `:root` — bound by `var(--…)` name, never a raw ms/curve):
+
+| Token | Value | Usage |
+|-------|-------|-------|
+| motion-micro | 150ms | Micro-interactions (hover/focus) + the count-tint state transition (nominal → hold → blocked) |
+| motion-heartbeat | 1600ms | The Paused-count's live heartbeat period — the gentle opacity breath whose **halt** is the hold-point signature (value-ticking on the count arrives with the Epoch-9 live-counter `Channel`; until then the breath is the live signal) |
+| ease-quiet | cubic-bezier(0, 0, 0.2, 1) | The quiet `ease-out` for every transition (no overshoot, no spring) |
+
 **High-impact moments** (max 1 at this expression level):
 The **Paused-count hold-point** (the signature) — when the operator-pause go/no-go prompt fires, the count's tick interval HALTS in place (the value freezes exactly) and the count text-color transitions nominal-green → hold-amber over a single 150ms CSS color transition (the phase line simultaneously swaps to "HOLD — operator pause" in amber). On proceed the tick resumes from the frozen value with a green color transition back; on abort the count stops and color-transitions to blocked slate-violet and dims. This is the *only* choreographed moment, and it is choreographed by the **absence** of motion — the freeze is the event. CLI mirror: the `indicatif` spinner **stops (not hides)** at the hold with a colored `owo-colors` "HOLD" phase line above the `inquire` prompt.
 

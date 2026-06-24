@@ -112,11 +112,11 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
 ### Epoch 9 — Desktop control panel
 [2026-06-24-frameless-window-shell] Frameless window shell — Tauri 2 decorations:false drag-region titlebar, deny-by-default capabilities ≥2.10.3   CARRY: wire the Tauri backend's `logs/conductor-tauri.jsonl` file sink via the new `conductor_core::ObsSink` enum (the agent-mode-logging chunk parameterized `init_observability(…, sink)`; `conductor-tauri/main.rs` currently passes `ObsSink::Stderr` — extend `ObsSink` or add a backend-file variant, obs-plan §3)
    ↓
-Paused-count hold-point signature — frozen heartbeat freeze/tint/resume in titlebar
+[2026-06-24-paused-count-hold-point-signature] Paused-count hold-point signature — frozen heartbeat freeze/tint/resume in titlebar
    ↓
 Scenario/suite picker + start/stop — shadcn Command/Select with run controls
    ↓
-Live-counter Channel stream — Tauri Channel backend-to-frontend emission counters + target status
+Live-counter Channel stream — Tauri Channel backend-to-frontend emission counters + target status   CARRY: retire the DEV-only run-state cycler (App `useState<RunState>` + `import.meta.env.DEV` backtick) and drive the EXISTING `Titlebar runState` prop from this Channel — paused-count-hold-point-signature shipped the prop contract + idle/live/hold/aborted heartbeat/freeze/tint rendering
    ↓
 Component primitives library — six status-lamp variants + dialog scaffold + operator-checklist primitive
    ↓

@@ -19,6 +19,38 @@
 .titlebar__count {
   margin-inline-start: auto;
   color: var(--count-nominal);
+  transition: color var(--motion-micro) var(--ease-quiet);
+}
+
+/* Paused-count hold-point signature (design-system §Signature): heartbeat while live, frozen + tinted on
+   hold, motionless dim on abort. The reduced-motion drop is global (tokens.css). */
+@keyframes titlebar-heartbeat {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.55;
+  }
+}
+
+.titlebar__count--idle {
+  color: var(--count-nominal);
+}
+
+.titlebar__count--live {
+  color: var(--count-nominal);
+  animation: titlebar-heartbeat var(--motion-heartbeat) var(--ease-quiet) infinite;
+}
+
+.titlebar__count--hold {
+  color: var(--count-hold);
+  animation: none;
+}
+
+.titlebar__count--aborted {
+  color: var(--count-blocked);
+  animation: none;
 }
 
 .titlebar__controls {

@@ -1,5 +1,2 @@
-# Python deps for the SCIP → DuckDB code-graph pipeline (scripts/code-graph.py).
-# Install: pip install -r scripts/requirements.txt
-# (rust-analyzer provides the SCIP index; these drive the query/refresh layer.)
 duckdb
 protobuf

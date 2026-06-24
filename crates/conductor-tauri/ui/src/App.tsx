@@ -1,4 +1,7 @@
-import Titlebar from './components/Titlebar'
+import { useEffect, useState } from 'react'
+import Titlebar, { type RunState } from './components/Titlebar'
+
+const DEV_CYCLE: readonly RunState[] = ['idle', 'live', 'hold', 'live', 'aborted']
 
 const STATUS_TIERS = [
   { label: 'Pass', token: '--count-nominal' },
@@ -27,6 +30,22 @@ const SURFACES = [
 ] as const
 
 export default function App() {
+  const [runState, setRunState] = useState<RunState>('live')
+
+  // DEV-only: cycle the titlebar run-state to exercise the hold-point signature
+  // (idle → live → hold → live → aborted) until the live Channel lands (Epoch 9 ch4).
+  useEffect(() => {
+    if (!import.meta.env.DEV) return
+    let i = 0
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== '`') return
+      i = (i + 1) % DEV_CYCLE.length
+      setRunState(DEV_CYCLE[i])
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
+
   return (
     <div
       style={{
@@ -38,7 +57,7 @@ export default function App() {
         fontFamily: 'var(--font-sans)',
       }}
     >
-      <Titlebar />
+      <Titlebar runState={runState} count="00:00:00" />
 
       <main
         style={{
