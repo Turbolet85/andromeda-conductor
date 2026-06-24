@@ -14,6 +14,7 @@ pub async fn suite(
     seed: Option<u64>,
     paths: &Paths,
     run_id: &str,
+    agent_mode: bool,
 ) -> anyhow::Result<ExitCode> {
     let scenarios = paths.load_all_scenarios(filter, seed)?;
     if scenarios.is_empty() {
@@ -22,7 +23,7 @@ pub async fn suite(
 
     let preflight = pipeline::preflight(&paths.manifest_path).await?;
     let progress = render::spinner(scenarios.len());
-    let resolver = CliResolver::select(Some(progress.clone()));
+    let resolver = CliResolver::select(Some(progress.clone()), agent_mode);
     let mut records = Vec::with_capacity(scenarios.len());
     for scenario in &scenarios {
         let record = pipeline::execute_scenario(&preflight, scenario, run_id, &resolver).await?;

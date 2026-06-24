@@ -65,15 +65,33 @@ pub enum CliResolver {
 }
 
 impl CliResolver {
-    /// The isatty gate: an interactive `inquire` prompt only when BOTH stdin and stdout are a
-    /// terminal (the prompt reads stdin, draws on stdout); otherwise the headless never-block
-    /// default — the same `IsTerminal` primitive `render::stdout_color()` uses.
-    pub fn select(spinner: Option<ProgressBar>) -> Self {
-        if std::io::stdin().is_terminal() && std::io::stdout().is_terminal() {
-            CliResolver::Interactive(PromptResolver { spinner })
-        } else {
-            CliResolver::Headless(HeadlessResolver::proceed())
+    /// The agent-mode + isatty gate: an interactive `inquire` prompt only when NOT in agent mode AND
+    /// BOTH stdin and stdout are a terminal (the prompt reads stdin, draws on stdout); otherwise the
+    /// headless never-block default. `--agent-mode` forces Headless regardless of the tty (the
+    /// release-gate-never-blocks invariant) — an OR-override on the same `IsTerminal` primitive
+    /// `render::stdout_color()` uses.
+    pub fn select(spinner: Option<ProgressBar>, agent_mode: bool) -> Self {
+        match resolve_kind(agent_mode, std::io::stdin().is_terminal(), std::io::stdout().is_terminal()) {
+            Kind::Interactive => CliResolver::Interactive(PromptResolver { spinner }),
+            Kind::Headless => CliResolver::Headless(HeadlessResolver::proceed()),
         }
+    }
+}
+
+/// Which resolver [`CliResolver::select`] picks — factored out as a pure decision so both arms test
+/// deterministically without a pty (the `render::*_styled(color)` testable-core pattern).
+enum Kind {
+    Interactive,
+    Headless,
+}
+
+/// `Headless` when agent mode is forced OR either stream is not a terminal; `Interactive` only when
+/// attended on both streams.
+fn resolve_kind(agent_mode: bool, stdin_tty: bool, stdout_tty: bool) -> Kind {
+    if agent_mode || !stdin_tty || !stdout_tty {
+        Kind::Headless
+    } else {
+        Kind::Interactive
     }
 }
 
@@ -105,7 +123,22 @@ mod tests {
     fn select_off_tty_is_headless() {
         // The test harness captures stdin/stdout (not a terminal) ⇒ the never-block default — the
         // headless invariant the agent path depends on.
-        assert!(matches!(CliResolver::select(None), CliResolver::Headless(_)));
+        assert!(matches!(CliResolver::select(None, false), CliResolver::Headless(_)));
+    }
+
+    #[test]
+    fn select_agent_mode_is_headless() {
+        // `--agent-mode` forces the never-block default — the release-gate-never-blocks invariant.
+        assert!(matches!(CliResolver::select(None, true), CliResolver::Headless(_)));
+    }
+
+    #[test]
+    fn resolve_kind_agent_mode_overrides_an_attended_tty() {
+        // The override that matters: even with BOTH streams a terminal, agent mode → Headless.
+        assert!(matches!(resolve_kind(true, true, true), Kind::Headless));
+        assert!(matches!(resolve_kind(false, true, true), Kind::Interactive));
+        assert!(matches!(resolve_kind(false, false, true), Kind::Headless));
+        assert!(matches!(resolve_kind(false, true, false), Kind::Headless));
     }
 
     #[tokio::test(flavor = "current_thread")]

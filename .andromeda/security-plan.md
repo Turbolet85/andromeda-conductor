@@ -118,7 +118,7 @@ Patterns: Trust boundary).
 
 (See `## Security Anti-Patterns` § Input for input-validation bans.)
 
-The obs service-identity env-handles `CONDUCTOR_SERVICE_NAME` / `CONDUCTOR_ENV` (obs-plan §3) are **non-path string labels** stamped into self-observation JSON log *values* (JSON-escaped by serde_json; no path / SQL / argv exposure); they require **no validation**, unlike the `CONDUCTOR_*` *path* handles in the table above.
+The obs service-identity env-handles `CONDUCTOR_SERVICE_NAME` / `CONDUCTOR_ENV` (obs-plan §3) are **non-path string labels** stamped into self-observation JSON log *values* (JSON-escaped by serde_json; no path / SQL / argv exposure), and `CONDUCTOR_AGENT_MODE` is a **non-path boolean trigger** (only its presence is read — `agent_mode = --agent-mode flag || env-set`; the value is unused, never stamped into a log or interpolated into a path); all three require **no validation**, unlike the `CONDUCTOR_*` *path* handles in the table above. (The agent-mode log path `logs/agent-latest.jsonl` is itself derived from `CONDUCTOR_RUNS_DIR` through the same `resolve_under` traversal guard as the other artifact handles — not from `CONDUCTOR_AGENT_MODE`.)
 
 ---
 

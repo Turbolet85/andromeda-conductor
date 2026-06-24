@@ -79,7 +79,7 @@ handled via boundary instrumentation only._
 - Sink (CLI): dual (stderr pretty-print in dev mode + file `logs/agent-latest.jsonl` in agent mode); no TTY detection for piped output (ANSI 256-color gating per design excerpt)
 - Sink (Tauri backend): file `logs/conductor-tauri.jsonl` + stderr (dev only)
 - Sink (Tauri frontend): browser console JSON logger (paste-to-AI; no network OTLP exporter for browser to avoid recursion)
-- Agent mode flag: `--agent-mode` CLI flag (sets `CONDUCTOR_AGENT_MODE=1`); forces JSON-only to file, no pretty-print to stderr
+- Agent mode flag: `--agent-mode` CLI flag (or the `CONDUCTOR_AGENT_MODE` env the harness exports — a read-only trigger Conductor READS as `flag || env-set`, never writes); forces JSON-only to file, no pretty-print to stderr
 
 **Log format JSON schema:** (Binding contract from tests excerpt §5 — obs aligns to tests, not vice versa)
 ```jsonl
@@ -202,7 +202,7 @@ This section specifies the concrete harness pattern for Conductor's deterministi
 - **Sink (CLI):** dual (stderr pretty-print in dev mode, file `logs/agent-latest.jsonl` in `--agent-mode`); no TTY detection
 - **Sink (Tauri backend):** file `logs/conductor-tauri.jsonl` + stderr (dev only)
 - **Sink (Tauri frontend):** browser `console.log(JSON.stringify(event))` sink; no network export (recursion guard)
-- **Agent-mode flag:** `--agent-mode` CLI flag forces JSON-only to file, no pretty-print; sets `CONDUCTOR_AGENT_MODE=1` env var internally
+- **Agent-mode flag:** `--agent-mode` CLI flag forces JSON-only to file, no pretty-print; agent mode is triggered by the flag OR the `CONDUCTOR_AGENT_MODE` env — a **read-only trigger** (`agent_mode = flag || env-set`) Conductor never WRITES (avoiding edition-2024 `unsafe std::env::set_var`; the harness/operator exports it). Observable mode is identical to "sets it internally"
 
 ### Log format JSON schema
 

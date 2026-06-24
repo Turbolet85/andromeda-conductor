@@ -65,6 +65,16 @@ impl Paths {
     }
 }
 
+/// The agent-mode self-obs log path — `logs/agent-latest.jsonl` as a sibling of the runs dir, moving
+/// with `CONDUCTOR_RUNS_DIR` (obs-plan §3). Resolved through the same `resolve_under` traversal guard
+/// the artifact handles use; not a `Paths` method because obs init runs before `Paths::resolve`.
+pub fn agent_log_path() -> anyhow::Result<PathBuf> {
+    let base = std::env::current_dir().context("resolve current directory")?;
+    let runs_dir = resolve_handle(&base, "CONDUCTOR_RUNS_DIR", "runs")?;
+    let logs_dir = runs_dir.parent().map(Path::to_path_buf).unwrap_or(base).join("logs");
+    Ok(logs_dir.join("agent-latest.jsonl"))
+}
+
 fn resolve_handle(base: &Path, var: &str, default: &str) -> anyhow::Result<PathBuf> {
     let candidate = std::env::var(var).unwrap_or_else(|_| default.to_string());
     Ok(resolve_under(base, Path::new(&candidate))?)

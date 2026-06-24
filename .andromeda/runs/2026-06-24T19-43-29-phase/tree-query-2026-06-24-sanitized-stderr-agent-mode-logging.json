@@ -1,0 +1,41 @@
+[
+{
+"sql": "SELECT name FROM sqlite_master WHERE type='table';",
+"rows": 4,
+"result": [
+{
+"name": "calls_m"
+},
+{
+"name": "defs"
+},
+{
+"name": "occ"
+},
+{
+"name": "wsdef"
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT * FROM defs LIMIT 1;",
+"rows": 1,
+"result": [
+{
+"symbol": "rust-analyzer cargo conductor-verify 0.1.0 crate/",
+"file": "crates/conductor-verify/tests/verdict.rs",
+"def_line": 0,
+"enc_start": 0,
+"enc_end": 45
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT callee, caller, file, line FROM calls_m WHERE callee IN ('init_observability','select','sanitize_error','execute_scenario','build_subscriber') ORDER BY callee, file;",
+"rows": 0,
+"result": [],
+"db_state": "fresh"
+}
+]

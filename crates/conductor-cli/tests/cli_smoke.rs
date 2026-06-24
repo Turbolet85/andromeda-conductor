@@ -92,11 +92,47 @@ fn run_resolves_a_scenario_by_p_id() {
 }
 
 #[test]
-fn run_with_unknown_target_is_an_error() {
+fn run_with_unknown_target_is_a_sanitized_error_with_a_hint() {
     let dir = TempDir::new().unwrap();
     copy_scenario(&dir, "error-baseline-spike");
 
-    conductor(&dir).args(["run", "no-such-scenario"]).assert().failure();
+    let assert = conductor(&dir).args(["run", "no-such-scenario"]).assert().failure();
+    let stderr = String::from_utf8(assert.get_output().stderr.clone()).unwrap();
+    assert!(stderr.contains("error:"), "the edge renders an error: label: {stderr}");
+    assert!(stderr.contains("hint:"), "the edge renders a hint: line: {stderr}");
+    assert!(
+        !stderr.contains(dir.path().to_str().unwrap()),
+        "the sanitized edge must not leak the host path: {stderr}"
+    );
+}
+
+#[test]
+fn agent_mode_routes_self_obs_to_the_log_file_not_stderr() {
+    let dir = TempDir::new().unwrap();
+    copy_scenario(&dir, "error-baseline-spike");
+
+    let assert = conductor(&dir)
+        .args(["run", "error-baseline-spike", "--agent-mode"])
+        .assert()
+        .success();
+
+    // The self-obs JSON stream went to logs/agent-latest.jsonl (sibling of runs/), not stderr.
+    let log = dir.child("logs/agent-latest.jsonl");
+    log.assert(predicate::path::exists());
+    let body = std::fs::read_to_string(log.path()).unwrap();
+    let first: serde_json::Value =
+        serde_json::from_str(body.lines().next().expect("a self-obs line")).unwrap();
+    assert!(first.get("run_id").is_some(), "every self-obs line carries run_id: {first}");
+    assert!(body.contains("observability initialized"), "the startup line went to the file");
+
+    let stderr = String::from_utf8(assert.get_output().stderr.clone()).unwrap();
+    assert!(
+        !stderr.contains("observability initialized"),
+        "agent mode keeps the self-obs JSON off stderr: {stderr}"
+    );
+
+    // The Blocked envelope is still persisted — the self-obs sink is a distinct artifact.
+    assert_eq!(blocked_state(&dir)["state"], serde_json::json!("Blocked"));
 }
 
 #[test]

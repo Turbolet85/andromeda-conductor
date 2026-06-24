@@ -151,6 +151,7 @@ When `ready` is false, every dependent auto scenario is emitted into the report 
 **On-disk artifacts / database:**
 - `runs.db` — embedded SQLite index (run_id · seed · scenario · P-IDs · verdict · fingerprints · timestamps).
 - Per-run JSONL emission journal + per-run Markdown run report.
+- `logs/agent-latest.jsonl` — the self-observation `tracing` JSON stream in agent mode (`--agent-mode`); a SEPARATE artifact + schema from the per-run emission journal, written as a sibling of the runs dir (moves with `CONDUCTOR_RUNS_DIR`), truncated per invocation (the `-latest` name).
 - `coverage-matrix.md` — all 60 P-IDs classified.
 - Pinned MCP contract manifest file.
 
@@ -161,6 +162,7 @@ When `ready` is false, every dependent auto scenario is emitted into the report 
 - `CONDUCTOR_SEED` — seed override for headless runs (equivalent CLI flag on conductor-cli takes precedence; env supports scripts/agent-run.sh parameterization).
 - `CONDUCTOR_SERVICE_NAME` — overrides the self-observation `service.name` field (default `conductor` / `conductor-tauri`); obs-plan §3.
 - `CONDUCTOR_ENV` — self-observation `deployment.environment` field (default `local`); obs-plan §3.
+- `CONDUCTOR_AGENT_MODE` — read-only trigger for agent mode (routes the self-obs JSON stream to `logs/agent-latest.jsonl` and forces the operator-pause to never block). Set by the `--agent-mode` CLI flag OR exported by `scripts/agent-run.{sh,ps1}`; Conductor READS it (`agent_mode = flag || env-set`) and main never WRITES it — avoiding edition-2024 `unsafe std::env::set_var` — so the observable mode matches obs-plan §3 without the write. obs-plan §3.
 - `CONDUCTOR_PREFLIGHT_TIMEOUT` — preflight readiness-gate timeout in seconds (default `30`), read by `scripts/agent-run.{sh,ps1}` `boot` wrapping `conductor preflight`.
 - `ANDROMEDA_PULSE_MCP_ENABLED` — Pulse-side flag that gates the live MCP read-back path (operator/local gate); asserted **not** set by Conductor itself.
 - `ANDROMEDA_PULSE_DATA_DIR` — the live Pulse-under-test's data directory. **Conductor MUST propagate it to the spawned `andromeda-pulse-mcp` sidecar** so the sidecar reads the SAME `{data_dir}/corpus/corpus.db` the live Pulse writes; the read-back tools filter incidents by `workspace_root = data_dir` (`crates/mcp-server/src/bin/andromeda-pulse-mcp.rs:74` + `tools.rs:336`), so a mismatch makes every `query_incident_list` come back empty (false pass-as-empty / perpetual blocked). If the live Pulse leaves it unset, Conductor resolves and passes the identical platform default (`%APPDATA%\andromeda-pulse` on Windows · `$XDG_CONFIG_HOME`/`~/.andromeda-pulse` on Linux). The preflight canary verifies the wiring.

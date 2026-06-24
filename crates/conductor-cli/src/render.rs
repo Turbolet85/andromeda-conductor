@@ -27,6 +27,9 @@ const ABSENT: &str = "—";
 /// decoration (design-system §Surface: cli / Tokens).
 pub const ID_CYAN: u8 = 117;
 
+/// The muted grey (xterm 246) for the de-emphasized `hint:` label on the error edge.
+const HINT_GREY: u8 = 246;
+
 /// A check's lamp → its xterm-256 color (design-system §Surface: cli / Tokens; layout-templates
 /// §Multi-surface coordination).
 pub fn lamp_code(lamp: Lamp) -> u8 {
@@ -44,6 +47,14 @@ pub fn lamp_code(lamp: Lamp) -> u8 {
 /// content always stands alone (status is never color-alone).
 pub fn paint(text: &str, code: u8) -> String {
     paint_styled(text, code, stdout_color())
+}
+
+/// The sanitized operator error edge: `error: <short>` + `hint: <fix>` on two lines (design-system
+/// §cli "Error output"). Color is a tty-gated overlay on the `error:`/`hint:` labels (gated on
+/// stderr, where the edge is printed); piped / `NO_COLOR` / agent stderr is plain ASCII — the labels
+/// are the color-independent signal.
+pub fn error_block(error_msg: &str, hint: &str) -> String {
+    error_block_styled(error_msg, hint, stderr_color())
 }
 
 /// One colored status line — the verdict-first lamp prefix + the scenario name (the `run` per-check line).
@@ -93,8 +104,22 @@ fn stdout_color() -> bool {
         && std::env::var("TERM").map_or(true, |t| t != "dumb")
 }
 
+/// `true` when stderr should carry color — the error edge is printed to stderr, so it gates on
+/// stderr's tty (mirrors [`stdout_color`] for the other stream).
+fn stderr_color() -> bool {
+    std::io::stderr().is_terminal()
+        && std::env::var_os("NO_COLOR").is_none()
+        && std::env::var("TERM").map_or(true, |t| t != "dumb")
+}
+
 fn paint_styled(text: &str, code: u8, color: bool) -> String {
     if color { text.color(XtermColors::from(code)).to_string() } else { text.to_string() }
+}
+
+fn error_block_styled(error_msg: &str, hint: &str, color: bool) -> String {
+    let error_label = paint_styled("error:", lamp_code(Lamp::Fail), color);
+    let hint_label = paint_styled("hint:", HINT_GREY, color);
+    format!("{error_label} {error_msg}\n{hint_label} {hint}")
 }
 
 fn status_line_styled(record: &RunRecord, color: bool) -> String {
@@ -219,6 +244,22 @@ mod tests {
         // the ASCII prefix survives under color (never color-alone) and color was applied
         assert!(line.contains("[PASS]"), "{line}");
         assert!(line.contains('\u{1b}'), "colored line must carry an escape: {line:?}");
+    }
+
+    #[test]
+    fn error_block_plain_has_labels_without_escapes() {
+        let block = error_block_styled("no scenario matches \"x\"", "pass a P-ID like P-009", false);
+        assert!(block.starts_with("error: no scenario matches"), "{block}");
+        assert!(block.contains("\nhint: pass a P-ID"), "{block}");
+        assert!(!block.contains('\u{1b}'), "piped error edge must carry no escape bytes: {block:?}");
+    }
+
+    #[test]
+    fn error_block_colored_overlays_escapes_on_the_labels() {
+        let block = error_block_styled("boom", "try --debug", true);
+        // the ASCII labels survive under color (never color-alone) and color was applied
+        assert!(block.contains("error:") && block.contains("hint:"), "{block}");
+        assert!(block.contains('\u{1b}'), "colored error edge must carry an escape: {block:?}");
     }
 
     #[test]

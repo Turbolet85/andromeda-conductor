@@ -303,7 +303,7 @@ Header style: bold + ANSI 117 (ID-cyan) for section titles; metadata dimmed. Sta
 
 4. **Verdict / report-state lines.** Per-P-ID result printed in place: `✓ P-009  Pass   1840ms <5s` (green) / `✗ P-014  Fail   …` (ANSI 203 red, no blink) / `? P-035  Manual  halo→burgundy? · no OS toast?` (ANSI 146 lavender — `[MANUAL]`, an operator-checklist item with no machine verdict; TTY: `inquire` y/n, headless: recorded unconfirmed) / `~ P-032  Residual  recent_commits stub → v0.3.0` (ANSI 246 muted — `[RESIDUAL]`, a pre-accepted gap, never red) / `• P-022  Blocked  mcp-server feature + ANDROMEDA_PULSE_MCP_ENABLED + matching data-dir` (ANSI 60 violet). Color is always paired with the text prefix (`[PASS]`/`[FAIL]`/`[MANUAL]`/`[RESIDUAL]`/`[BLOCKED]`/…) for NO_COLOR + screen-reader friendliness.
 
-5. **Error output.** To stderr, sanitized (no absolute host paths / internal struct names / stack traces per security plan): `error: <short>` + contextual detail + `hint: <fix>`. Never colorized when piped; stack traces only under `--debug`/`-v`.
+5. **Error output.** To stderr, sanitized (no absolute host paths / internal struct names / stack traces per security plan): `error: <short>` + contextual detail + `hint: <fix>`. The `error:` label reuses Fail red (ANSI 203), `hint:` the Residual mute (ANSI 246) — tty-gated on stderr (its own `IsTerminal` gate, distinct from the stdout gate), never new colors. Never colorized when piped; the ASCII `error:`/`hint:` labels always stand (never color-alone); stack traces only under `--debug`/`-v`.
 
 ### Navigation Pattern
 

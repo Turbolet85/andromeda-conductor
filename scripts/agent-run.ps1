@@ -53,7 +53,8 @@ switch ($args[0]) {
                 & $Cargo clippy --workspace --all-targets -- -D warnings
                 if ($env:SCENARIO) {
                     $seed = if ($env:SEED) { $env:SEED } else { '424242' }
-                    & $Cargo run -q -p conductor-cli --bin conductor -- run $env:SCENARIO --seed $seed
+                    # --agent-mode: JSON self-obs to logs/agent-latest.jsonl + never block on an operator pause.
+                    & $Cargo run -q -p conductor-cli --bin conductor -- run $env:SCENARIO --seed $seed --agent-mode
                 }
                 break
             }

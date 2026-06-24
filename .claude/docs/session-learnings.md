@@ -8,6 +8,14 @@ _This file is entirely wrap-session's territory. `/andromeda-setup-project` crea
 
 ---
 
+## 2026-06-24 — Edition-2024 makes `std::env::set_var` unsafe; read env handles as triggers instead
+
+Rust **edition 2024** marks `std::env::set_var` / `remove_var` as `unsafe` (mutating the process environment is not thread-safe). So a spec that says a CLI flag "sets `CONDUCTOR_AGENT_MODE=1` internally" (obs-plan §3) should NOT be implemented by writing the env from `main`. The shipped pattern (agent-mode logging chunk, decision D4): treat the env var as a **read-only trigger** — `let agent_mode = cli.agent_mode || std::env::var_os("CONDUCTOR_AGENT_MODE").is_some();` — and thread the resolved `bool` to the consumers (the obs sink selection + `CliResolver::select(…, agent_mode)`). The harness/operator exports the env OR passes the flag; `main` never writes it. Observable mode is identical, no `unsafe`, and the bool is unit-testable via a pure `resolve_kind(agent_mode, stdin_tty, stdout_tty)` (the `render::*_styled(color)` testable-core pattern). When a spec says a flag "sets" an env var, prefer this read-and-thread shape and reconcile the spec wording at wrap.
+
+A related obs gotcha from the same chunk: `tracing_subscriber`'s `build_subscriber<W: MakeWriter>` is generic, but `set_global_default` takes ONE concrete subscriber — you cannot `if agent { build(file) } else { build(stderr) }` (the two `W` types differ). Unify the sinks behind an `ObsWriter { Stderr, File(Arc<Mutex<File>>) }` enum that impls `MakeWriter`, dispatching per-line (the 2026-06-23 `CliResolver` enum-dispatch theme applied to writer-type unification). Open the agent file with create+truncate (the `-latest` name) and fall back to `Stderr` on open failure so startup logging never blocks.
+
+---
+
 ## 2026-06-23 — CLI operator-pause resolver: enum dispatch over a non-object-safe trait
 
 `conductor_core::PauseResolver::resolve` returns `-> impl Future<Output = Decision>` (RPITIT), which is NOT object-safe — a `&dyn PauseResolver` will not compile. So the CLI dispatches a fixed `CliResolver { Interactive(PromptResolver), Headless(HeadlessResolver) }` enum (in `conductor-cli::pause`) that impls `PauseResolver` by `match`-ing each arm to its inner resolver's `.resolve(hold).await`. `CliResolver::select(Option<ProgressBar>)` is the isatty gate — interactive only when BOTH `std::io::stdin()` and `stdout()` are `.is_terminal()` (the same `IsTerminal` primitive `render::stdout_color()` uses); off-tty it returns `Headless(HeadlessResolver::proceed())` so the agent path is never gated on a prompt.

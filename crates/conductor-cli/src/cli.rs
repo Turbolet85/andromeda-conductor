@@ -6,6 +6,12 @@ use clap::{Parser, Subcommand};
 #[derive(Parser)]
 #[command(name = "conductor", version, about)]
 pub struct Cli {
+    /// Agent mode: route self-obs JSON to `logs/agent-latest.jsonl` and never block on an operator pause.
+    #[arg(long, global = true)]
+    pub agent_mode: bool,
+    /// Print the full (unsanitized) error chain to stderr on failure.
+    #[arg(long, short = 'v', global = true)]
+    pub debug: bool,
     #[command(subcommand)]
     pub command: Commands,
 }

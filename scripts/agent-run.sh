@@ -56,8 +56,9 @@ case "${1:-}" in
         "$CARGO" test --workspace --doc
         "$CARGO" clippy --workspace --all-targets -- -D warnings
         # Optional scenario leg: SCENARIO=<name|P-ID> SEED=<n> scripts/agent-run.sh run
+        # --agent-mode: JSON self-obs to logs/agent-latest.jsonl + never block on an operator pause.
         if [ -n "${SCENARIO:-}" ]; then
-          "$CARGO" run -q -p conductor-cli --bin conductor -- run "$SCENARIO" --seed "${SEED:-424242}"
+          "$CARGO" run -q -p conductor-cli --bin conductor -- run "$SCENARIO" --seed "${SEED:-424242}" --agent-mode
         fi
         ;;
       *) echo "usage: $0 run [--unit|--integration|--e2e]" >&2; exit 2 ;;
