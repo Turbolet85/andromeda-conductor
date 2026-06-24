@@ -49,6 +49,12 @@ _Documented architectural traps from `.andromeda/architecture.md` + the 6 specia
 **Fix if broken:** Release the bind; verify `TcpListener::bind("127.0.0.1:4317")` succeeds post-cleanup.
 **References:** architecture.md §Cross-cutting Patterns (Trust boundary); security-plan Vector 6; test-plan §3 (cleanup).
 
+## Tauri generate_context! resolves ui/dist at compile time
+**What breaks:** `conductor-tauri`'s `tauri::generate_context!` reads `tauri.conf.json`'s `build.frontendDist` (`ui/dist`) at COMPILE time — so any workspace `cargo build`/`nextest`/`clippy` that compiles `conductor-tauri` FAILS if the webview bundle isn't built first (`ui/dist` is git-ignored → regenerated per environment). A bare `cargo build` does NOT run `beforeBuildCommand` (only the Tauri CLI does).
+**How to avoid:** Build the frontend (`npm run build` in `crates/conductor-tauri/ui`) before the cargo gate — wired as the `ensure_frontend` step in `scripts/agent-run.{sh,ps1}` (the `run` verb) + the CI Rust job. Also gitignore `crates/conductor-tauri/gen/` (tauri-build regenerates it each compile) and keep valid `bundle.icon` files present (PNG + ICO — `generate_context!` validates them at compile time).
+**Fix if broken:** Run the frontend build, then re-run the cargo gate.
+**References:** architecture.md §Infrastructure Patterns (Build system); `.claude/rules/frontend.md`.
+
 ## Related
 - Runtime-discovered learnings → `.claude/docs/session-learnings.md` (curated by `/wrap-session`).
 - Path-specific rules → `.claude/rules/*.md`. Decision rationale → `.andromeda/architecture.md` §Established Decisions.
