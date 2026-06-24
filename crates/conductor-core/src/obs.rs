@@ -54,18 +54,19 @@ impl ServiceIdentity {
 }
 
 /// Where the self-observation JSON stream is written: the default operator-facing `stderr`, or a
-/// `logs/agent-latest.jsonl` file in `--agent-mode` (obs-plan §3 dual sink). The agent file keeps the
-/// machine stream off stderr, so a piped agent reads a clean stderr (the `error:`/`hint:` summary only).
+/// truncating JSON file (the cli's `logs/agent-latest.jsonl` in `--agent-mode`, the Tauri backend's
+/// `logs/conductor-tauri.jsonl`) — obs-plan §3 dual sink. A file sink keeps the machine stream off
+/// stderr, so a piped agent reads a clean stderr (the `error:`/`hint:` summary only).
 #[derive(Debug, Clone)]
 pub enum ObsSink {
     Stderr,
-    AgentFile(PathBuf),
+    File(PathBuf),
 }
 
 /// Install the global `tracing` JSON subscriber over `sink` + the panic hook, then emit a startup
 /// line. Call once at binary startup, before any other logic. Returns the resolved identity (its
 /// `run_id` is the run's correlation key). The first install in a process wins; a later call leaves
-/// the global subscriber untouched. Infallible: an `AgentFile` that cannot be opened falls back to
+/// the global subscriber untouched. Infallible: a `File` sink that cannot be opened falls back to
 /// stderr (startup logging is best-effort, never a hard failure).
 pub fn init_observability(
     default_service_name: &str,
@@ -84,28 +85,28 @@ pub fn init_observability(
     identity
 }
 
-/// Resolve an [`ObsSink`] to its writer, falling back to stderr when the agent log file cannot be
-/// opened — startup logging never blocks on a sink failure.
+/// Resolve an [`ObsSink`] to its writer, falling back to stderr when the log file cannot be opened —
+/// startup logging never blocks on a sink failure.
 fn resolve_writer(sink: ObsSink) -> ObsWriter {
     match sink {
         ObsSink::Stderr => ObsWriter::Stderr,
-        ObsSink::AgentFile(path) => match open_agent_file(&path) {
+        ObsSink::File(path) => match open_log_file(&path) {
             Ok(file) => ObsWriter::File(Arc::new(Mutex::new(file))),
             Err(_) => ObsWriter::Stderr,
         },
     }
 }
 
-/// Create the parent directory and open (truncating) the agent log file — it holds the latest
-/// invocation's self-obs stream (the `-latest` name).
-fn open_agent_file(path: &Path) -> std::io::Result<File> {
+/// Create the parent directory and open (truncating) the self-obs log file — it holds the latest
+/// invocation's stream (the `-latest` name).
+fn open_log_file(path: &Path) -> std::io::Result<File> {
     if let Some(parent) = path.parent() {
         std::fs::create_dir_all(parent)?;
     }
     OpenOptions::new().create(true).write(true).truncate(true).open(path)
 }
 
-/// The self-observation sink writer — stderr, or a shared agent-log file handle.
+/// The self-observation sink writer — stderr, or a shared log-file handle.
 enum ObsWriter {
     Stderr,
     File(Arc<Mutex<File>>),
@@ -497,11 +498,11 @@ mod tests {
     }
 
     #[test]
-    fn agent_file_sink_writes_redacted_json_to_the_file() {
+    fn file_sink_writes_redacted_json_to_the_file() {
         let dir = std::env::temp_dir().join(format!("conductor-obs-{}", std::process::id()));
         let _ = std::fs::remove_dir_all(&dir);
         let path = dir.join("logs").join("agent-latest.jsonl");
-        let writer = resolve_writer(ObsSink::AgentFile(path.clone()));
+        let writer = resolve_writer(ObsSink::File(path.clone()));
         assert!(matches!(writer, ObsWriter::File(_)), "a creatable path yields a file sink");
         let subscriber = build_subscriber(fixed_identity("RUN-FILE"), writer, EnvFilter::new("info"));
         tracing::subscriber::with_default(subscriber, || {
@@ -515,7 +516,7 @@ mod tests {
     }
 
     #[test]
-    fn agent_file_sink_falls_back_to_stderr_when_unopenable() {
+    fn file_sink_falls_back_to_stderr_when_unopenable() {
         // A path whose parent is a regular file cannot be created → the infallible stderr fallback.
         let base = std::env::temp_dir().join(format!("conductor-obs-fallback-{}", std::process::id()));
         let _ = std::fs::remove_dir_all(&base);
@@ -523,7 +524,7 @@ mod tests {
         let blocking_file = base.join("not-a-dir");
         std::fs::write(&blocking_file, b"x").unwrap();
         let unopenable = blocking_file.join("logs").join("agent-latest.jsonl");
-        assert!(matches!(resolve_writer(ObsSink::AgentFile(unopenable)), ObsWriter::Stderr));
+        assert!(matches!(resolve_writer(ObsSink::File(unopenable)), ObsWriter::Stderr));
         let _ = std::fs::remove_dir_all(&base);
     }
 }

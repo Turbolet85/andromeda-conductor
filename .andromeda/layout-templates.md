@@ -31,7 +31,7 @@ The four are **one surface in different run states**, not four routes — the fr
 ```
 +==========================================================+  <- frameless titlebar, data-tauri-drag-region
 |  error-baseline-spike            00:00:00          _  X  |  <- phase line (Heading) | count (Display, count-nominal, dormant) | min/close (Lucide, icon size grid, accessible name derived by a11y)
-+==========================================================+     titlebar height space-lg, border-subtle seam, no shadow
++==========================================================+     titlebar height space-xl, border-subtle seam, no shadow
 |  [ Scenario / suite v ]   [ Start ]   [ Stop ]           |  <- control row: shadcn Command/Select (color-raised-2) + Buttons (radius-sm); padding space-sm
 +----------------------------------------------------------+
 |  COVERAGE  P-001..P-060        60 loaded   0 measured     |  <- matrix header strip (Label) | counts (Data, color-id-cyan); gap space-md
@@ -94,7 +94,7 @@ The four are **one surface in different run states**, not four routes — the fr
 
 ### Component — Header (frameless titlebar + Paused-count heartbeat)
 
-Flex row across the full window top, `data-tauri-drag-region`, titlebar height `space-lg`, internal cluster gaps `space-xs`, bottom seam `1px` `border-subtle` (no shadow — borders-only depth). Three zones:
+Flex row across the full window top, `data-tauri-drag-region`, titlebar height `space-xl` (32px — `space-lg` (20px) cannot contain the `Heading`-tier phase line + the window-control glyphs; reconciled to the shipped value), internal cluster gaps `space-xs`, bottom seam `1px` `border-subtle` (no shadow — borders-only depth). Three zones:
 
 - **Left — phase line** (Heading role): the named operational segment (`error-baseline-spike`, `fingerprint-storm`, `HOLD — operator pause`) in `text-primary`; flips to `count-hold` on the operator-pause.
 - **Center — the count** (Display role, tabular figures): the run heartbeat in `count-nominal`. **Default** ticks in place. **Hold** the tick interval halts, value frozen, color → `count-hold` over `motion-micro` `ease-quiet`. **Abort** → `count-blocked`, dimmed. The flip from ticking to frozen is announced to assistive tech (a11y derives the live-region attribute); the count change is dropped under reduced-motion preference.

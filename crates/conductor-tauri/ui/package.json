@@ -12,6 +12,7 @@
   "dependencies": {
     "@fontsource/ibm-plex-sans": "^5.0.0",
     "@fontsource/jetbrains-mono": "^5.0.0",
+    "@tauri-apps/api": "^2.0.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   },

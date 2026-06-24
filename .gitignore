@@ -28,3 +28,6 @@ scripts/__pycache__/
 # package-lock.json IS committed (deterministic install + npm-audit reproducibility — mirrors Cargo.lock).
 node_modules/
 crates/conductor-tauri/ui/dist/
+
+# --- Tauri (crates/conductor-tauri — tauri-build regenerates gen/schemas/ on every compile) ---
+crates/conductor-tauri/gen/

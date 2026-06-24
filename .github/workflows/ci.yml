@@ -32,6 +32,20 @@ jobs:
         with:
           tool: cargo-nextest,cargo-audit,cargo-deny,cargo-llvm-cov
 
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: crates/conductor-tauri/ui/package-lock.json
+
+      # conductor-tauri's generate_context! resolves build.frontendDist (ui/dist) at compile time, so
+      # the webview bundle must exist before the workspace build compiles conductor-tauri (Epoch 9).
+      - name: Build frontend bundle (ui/dist)
+        working-directory: crates/conductor-tauri/ui
+        run: |
+          npm ci
+          npm run build
+
       # --locked enforces the committed, un-drifted Cargo.lock (security-plan §Dependency Security).
       - name: Build (locked)
         run: cargo build --workspace --locked

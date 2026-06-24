@@ -8,6 +8,14 @@ _This file is entirely wrap-session's territory. `/andromeda-setup-project` crea
 
 ---
 
+## 2026-06-24 — A full debug build of the workspace + Tauri tree needs ~33–37 GB of disk
+
+Standing up `conductor-tauri` as a real Tauri 2 app pulls in the full Tauri/wry/tao/webview2-com/windows-* tree (hundreds of crates). A from-scratch `cargo nextest run --workspace` (all test binaries, `debuginfo=2`) drives `target/` to ~33–37 GB — `target/debug/incremental` alone reached ~14 GB. On a near-full disk this surfaces mid-compile as `rustc-LLVM ERROR: IO failure on output stream: no space on device` / `os error 112` / `STATUS_ACCESS_VIOLATION` (rustc crashing as it fails to write), NOT a code error.
+
+Recovery: `cargo clean` frees the whole `target/` (then a full recompile); or delete the regenerable `target/debug/incremental`. The destructive-command guard blocks a raw `rm -rf target/...`, so `cargo clean` is the blessed, non-`rm` way to reclaim the space. The individual gates (per-crate nextest, targeted clippy, `cargo build -p conductor-tauri`, deny/audit) each fit — it's the *combined* full-workspace test compile that exhausts the disk. Budget the headroom before a from-scratch Tauri build.
+
+---
+
 ## 2026-06-24 — Edition-2024 makes `std::env::set_var` unsafe; read env handles as triggers instead
 
 Rust **edition 2024** marks `std::env::set_var` / `remove_var` as `unsafe` (mutating the process environment is not thread-safe). So a spec that says a CLI flag "sets `CONDUCTOR_AGENT_MODE=1` internally" (obs-plan §3) should NOT be implemented by writing the env from `main`. The shipped pattern (agent-mode logging chunk, decision D4): treat the env var as a **read-only trigger** — `let agent_mode = cli.agent_mode || std::env::var_os("CONDUCTOR_AGENT_MODE").is_some();` — and thread the resolved `bool` to the consumers (the obs sink selection + `CliResolver::select(…, agent_mode)`). The harness/operator exports the env OR passes the flag; `main` never writes it. Observable mode is identical, no `unsafe`, and the bool is unit-testable via a pure `resolve_kind(agent_mode, stdin_tty, stdout_tty)` (the `render::*_styled(color)` testable-core pattern). When a spec says a flag "sets" an env var, prefer this read-and-thread shape and reconcile the spec wording at wrap.

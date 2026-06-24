@@ -19,7 +19,15 @@ set -euo pipefail
 
 CARGO="${CARGO:-cargo}"
 RUNS_DIR="${CONDUCTOR_RUNS_DIR:-runs}"
+UI_DIR="crates/conductor-tauri/ui"
 PREFLIGHT_TIMEOUT_SEC="${CONDUCTOR_PREFLIGHT_TIMEOUT:-30}"
+
+# conductor-tauri's generate_context! resolves build.frontendDist (ui/dist) at COMPILE time, so the
+# webview bundle must exist before any workspace cargo build/nextest/clippy compiles conductor-tauri
+# (Epoch 9 frameless-window-shell). Install deps only when missing; always rebuild the bundle.
+ensure_frontend() {
+  ( cd "$UI_DIR" && { [ -d node_modules ] || npm ci; } && npm run build )
+}
 
 # A run_id is a filesystem-safe hyphen-delimited stamp; reject anything else before it reaches a path
 # join or a sqlite3 statement (security-plan §Input Validation — no string-concat SQL on raw input).
@@ -48,10 +56,11 @@ case "${1:-}" in
   run)
     # Stage flags partition the CI gate (test-plan §9); no flag = the full bundled gate.
     case "${2:-}" in
-      --unit)        "$CARGO" nextest run --workspace --profile ci ;;
-      --integration) "$CARGO" nextest run --workspace --profile ci -E 'kind(test)' ;;
+      --unit)        ensure_frontend; "$CARGO" nextest run --workspace --profile ci ;;
+      --integration) ensure_frontend; "$CARGO" nextest run --workspace --profile ci -E 'kind(test)' ;;
       --e2e)         "$CARGO" nextest run -p conductor-cli --profile ci ;;
       "")
+        ensure_frontend
         "$CARGO" nextest run --workspace --profile ci
         "$CARGO" test --workspace --doc
         "$CARGO" clippy --workspace --all-targets -- -D warnings

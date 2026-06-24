@@ -29,8 +29,8 @@ _Mirrors `.andromeda/architecture.md` §Stack and Technologies. Convenience refe
 - **tracing 0.1.44 + tracing-subscriber 0.3.23** (JSON formatter) — the ONLY self-obs mechanism. No OTel SDK for self-observation (opentelemetry-proto is the PRODUCT fault stream, not self-instrumentation).
 
 ## Frontend (desktop-webview GUI — convenience surface)
-- **React 19.x** + **Vite 8.0.16** (`@vitejs/plugin-react`; Preact 10.x size fallback) + **Tailwind CSS v4.1** (Oxide via `@tailwindcss/vite`; tokens on `:root`, not `@theme` — v4 tree-shakes non-namespace tokens) + **shadcn/ui** (Radix Primitives) + Lucide React icons. Package manager **npm** (`package-lock.json` committed, `npm audit` gate); SPA under `crates/conductor-tauri/ui/`.
-- **Tauri 2** (≥ 2.10.3 per security-plan) frameless window. Fonts: JetBrains Mono + IBM Plex Sans (self-hosted WOFF2 via Fontsource).
+- **React 19.x** + **Vite 8.0.16** (`@vitejs/plugin-react`; Preact 10.x size fallback) + **Tailwind CSS v4.1** (Oxide via `@tailwindcss/vite`; tokens on `:root`, not `@theme` — v4 tree-shakes non-namespace tokens) + **shadcn/ui** (Radix Primitives) + Lucide React icons + **`@tauri-apps/api`** (window/IPC client). Package manager **npm** (`package-lock.json` committed, `npm audit` gate); SPA under `crates/conductor-tauri/ui/`.
+- **Tauri 2** (≥ 2.10.3 per security-plan; resolves 2.11.x) frameless window (`decorations:false`) via **`tauri-build`** — `generate_context!` resolves `ui/dist` at COMPILE time, so the frontend builds before any workspace cargo compile of `conductor-tauri` (the `ensure_frontend` step in `agent-run.{sh,ps1}` + CI). Fonts: JetBrains Mono + IBM Plex Sans (self-hosted WOFF2 via Fontsource).
 - **cli surface:** clap 4.5 + anstream/anstyle + owo-colors 4.x + indicatif 0.17 + comfy-table 7 + inquire 0.9.
 
 ## Development & CI

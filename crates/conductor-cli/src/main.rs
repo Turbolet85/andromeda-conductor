@@ -44,7 +44,7 @@ async fn main() -> ExitCode {
 /// stderr if the path can't be resolved), else stderr.
 fn obs_sink(agent_mode: bool) -> ObsSink {
     if agent_mode {
-        paths::agent_log_path().map(ObsSink::AgentFile).unwrap_or(ObsSink::Stderr)
+        paths::agent_log_path().map(ObsSink::File).unwrap_or(ObsSink::Stderr)
     } else {
         ObsSink::Stderr
     }

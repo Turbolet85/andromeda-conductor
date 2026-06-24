@@ -1,0 +1,61 @@
+/* Frameless drag-region titlebar (banner landmark). Tokens by name — design-system.md §Tokens;
+   reduced-motion is honored globally in tokens.css. */
+.titlebar {
+  display: flex;
+  align-items: center;
+  gap: var(--space-md);
+  height: var(--space-xl);
+  padding: 0 var(--space-md);
+  background: var(--color-raised-1);
+  border-bottom: 1px solid var(--border-subtle);
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.titlebar__label {
+  color: var(--text-secondary);
+}
+
+.titlebar__count {
+  margin-inline-start: auto;
+  color: var(--count-nominal);
+}
+
+.titlebar__controls {
+  display: flex;
+  gap: var(--space-xs);
+}
+
+.titlebar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--space-lg);
+  height: var(--space-lg);
+  border: none;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 13px;
+  line-height: 1;
+  cursor: pointer;
+  transition:
+    background var(--motion-micro) var(--ease-quiet),
+    color var(--motion-micro) var(--ease-quiet);
+}
+
+.titlebar-btn:hover {
+  background: var(--color-raised-2);
+  color: var(--text-primary);
+}
+
+.titlebar-btn--close:hover {
+  background: var(--status-fail);
+  color: var(--color-base);
+}
+
+.titlebar-btn:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: -2px;
+}

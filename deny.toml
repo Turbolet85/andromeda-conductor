@@ -10,6 +10,36 @@ ignore = [
     # vulnerability; "No safe upgrade is available" (RUSTSEC-2025-0119). A tiny, stable byte-count
     # formatter behind the standard progress crate — non-actionable accepted advisory.
     "RUSTSEC-2025-0119",
+
+    # --- Tauri 2 desktop-GUI tree (Epoch 9 frameless-window-shell, `tauri` 2.11.x) ---
+    # Every entry below is `unmaintained`, NOT a vulnerability, with no safe upgrade — transitive deps
+    # of Tauri we do not control (security-plan §Dependency Security: justified, never a silent skip).
+    #
+    # rust-unic family via `urlpattern` → `tauri-utils`: the whole open-i18n/rust-unic project is
+    # unmaintained (advisory-db#2414); tauri-utils has not migrated off it yet.
+    "RUSTSEC-2025-0075",  # unic-char-range
+    "RUSTSEC-2025-0080",  # unic-common
+    "RUSTSEC-2025-0081",  # unic-char-property
+    "RUSTSEC-2025-0098",  # unic-ucd-version
+    "RUSTSEC-2025-0100",  # unic-ucd-ident
+    #
+    # gtk-rs GTK3 bindings (all "no longer maintained"): the LINUX webview deps of wry/tao. Conductor
+    # is Windows-host-bound (webview2 path) — these never compile on the Windows target, and wry has no
+    # GTK4 successor wired through yet. Non-vulnerable, no action available.
+    "RUSTSEC-2024-0411",
+    "RUSTSEC-2024-0412",
+    "RUSTSEC-2024-0413",
+    "RUSTSEC-2024-0414",
+    "RUSTSEC-2024-0415",
+    "RUSTSEC-2024-0416",
+    "RUSTSEC-2024-0417",
+    "RUSTSEC-2024-0418",
+    "RUSTSEC-2024-0419",
+    "RUSTSEC-2024-0420",
+    #
+    # proc-macro-error: unmaintained build-time proc-macro helper (transitive via the Tauri macro
+    # tree); compile-time only, no runtime/shipped surface.
+    "RUSTSEC-2024-0370",
 ]
 
 [bans]
@@ -28,6 +58,9 @@ allow = [
     "BSL-1.0",
     "BSD-3-Clause",  # matchit (axum→tonic gRPC tree); OSI/FSF permissive
     "Zlib",          # foldhash (rusqlite→hashbrown→foldhash 0.2.0); OSI-approved + FSF Free/Libre, permissive
+    # --- Tauri 2 desktop-GUI tree (Epoch 9 frameless-window-shell) ---
+    "MPL-2.0",       # option-ext (dirs→dirs-sys) + others in the Tauri tree; OSI + FSF, weak FILE-level copyleft — using as a dependency imposes no copyleft on Conductor's own code
+    "Apache-2.0 WITH LLVM-exception",  # Tauri 2 tree; Apache-2.0 plus the LLVM linking exception, OSI/FSF permissive
 ]
 confidence-threshold = 0.8
 # The workspace's own conductor-* crates are unpublished — skip license checks for them.

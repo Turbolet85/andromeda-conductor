@@ -12,7 +12,22 @@ Set-StrictMode -Version Latest
 
 $Cargo = if ($env:CARGO) { $env:CARGO } else { 'cargo' }
 $RunsDir = if ($env:CONDUCTOR_RUNS_DIR) { $env:CONDUCTOR_RUNS_DIR } else { 'runs' }
+$UiDir = 'crates/conductor-tauri/ui'
 $Arg1 = if ($args.Count -ge 2) { $args[1] } else { '' }
+
+# conductor-tauri's generate_context! resolves build.frontendDist (ui/dist) at COMPILE time, so the
+# webview bundle must exist before any workspace cargo build/nextest/clippy compiles conductor-tauri.
+function Invoke-EnsureFrontend {
+    Push-Location $UiDir
+    try {
+        if (-not (Test-Path 'node_modules')) {
+            & npm ci
+            if ($LASTEXITCODE -ne 0) { throw "npm ci failed ($LASTEXITCODE)" }
+        }
+        & npm run build
+        if ($LASTEXITCODE -ne 0) { throw "npm run build failed ($LASTEXITCODE)" }
+    } finally { Pop-Location }
+}
 
 # A run_id is a filesystem-safe hyphen-delimited stamp; reject anything else before it reaches a path
 # join or a sqlite3 statement (security-plan §Input Validation — no string-concat SQL on raw input).
@@ -44,10 +59,11 @@ switch ($args[0]) {
     'run' {
         # Stage flags partition the CI gate (test-plan §9); no flag = the full bundled gate.
         switch ($Arg1) {
-            '--unit'        { & $Cargo nextest run --workspace --profile ci; break }
-            '--integration' { & $Cargo nextest run --workspace --profile ci -E 'kind(test)'; break }
+            '--unit'        { Invoke-EnsureFrontend; & $Cargo nextest run --workspace --profile ci; break }
+            '--integration' { Invoke-EnsureFrontend; & $Cargo nextest run --workspace --profile ci -E 'kind(test)'; break }
             '--e2e'         { & $Cargo nextest run -p conductor-cli --profile ci; break }
             '' {
+                Invoke-EnsureFrontend
                 & $Cargo nextest run --workspace --profile ci
                 & $Cargo test --workspace --doc
                 & $Cargo clippy --workspace --all-targets -- -D warnings

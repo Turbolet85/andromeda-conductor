@@ -1,0 +1,152 @@
+[
+{
+"sql": "SELECT callee, file, line FROM refs WHERE callee LIKE '%ObsSink%' ORDER BY file, line",
+"rows": 21,
+"result": [
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 obs/ObsSink#",
+"file": "crates/conductor-cli/src/main.rs",
+"line": 9
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 obs/ObsSink#",
+"file": "crates/conductor-cli/src/main.rs",
+"line": 44
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 obs/ObsSink#",
+"file": "crates/conductor-cli/src/main.rs",
+"line": 46
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 obs/ObsSink#AgentFile#",
+"file": "crates/conductor-cli/src/main.rs",
+"line": 46
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 obs/ObsSink#",
+"file": "crates/conductor-cli/src/main.rs",
+"line": 46
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 obs/ObsSink#Stderr#",
+"file": "crates/conductor-cli/src/main.rs",
+"line": 46
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 obs/ObsSink#",
+"file": "crates/conductor-cli/src/main.rs",
+"line": 48
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 obs/ObsSink#Stderr#",
+"file": "crates/conductor-cli/src/main.rs",
+"line": 48
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 obs/ObsSink#",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 34
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 obs/ObsSink#",
+"file": "crates/conductor-core/src/obs.rs",
+"line": 72
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 obs/ObsSink#",
+"file": "crates/conductor-core/src/obs.rs",
+"line": 88
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 obs/ObsSink#",
+"file": "crates/conductor-core/src/obs.rs",
+"line": 90
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 obs/ObsSink#Stderr#",
+"file": "crates/conductor-core/src/obs.rs",
+"line": 90
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 obs/ObsSink#",
+"file": "crates/conductor-core/src/obs.rs",
+"line": 91
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 obs/ObsSink#AgentFile#",
+"file": "crates/conductor-core/src/obs.rs",
+"line": 91
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 obs/ObsSink#",
+"file": "crates/conductor-core/src/obs.rs",
+"line": 503
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 obs/ObsSink#AgentFile#",
+"file": "crates/conductor-core/src/obs.rs",
+"line": 503
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 obs/ObsSink#",
+"file": "crates/conductor-core/src/obs.rs",
+"line": 525
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 obs/ObsSink#AgentFile#",
+"file": "crates/conductor-core/src/obs.rs",
+"line": 525
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 obs/ObsSink#",
+"file": "crates/conductor-tauri/src/main.rs",
+"line": 3
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 obs/ObsSink#Stderr#",
+"file": "crates/conductor-tauri/src/main.rs",
+"line": 3
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee LIKE '%init_observability%' ORDER BY file, line",
+"rows": 4,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-cli 0.1.0 crate/",
+"file": "crates/conductor-cli/src/main.rs",
+"line": 9
+},
+{
+"caller": "rust-analyzer cargo conductor-cli 0.1.0 main().",
+"file": "crates/conductor-cli/src/main.rs",
+"line": 28
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 crate/",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 34
+},
+{
+"caller": "rust-analyzer cargo conductor-tauri 0.1.0 main().",
+"file": "crates/conductor-tauri/src/main.rs",
+"line": 3
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT from_crate, to_crate FROM crate_edges WHERE to_crate = 'conductor-tauri' OR from_crate = 'conductor-tauri'",
+"rows": 1,
+"result": [
+{
+"from_crate": "conductor-tauri",
+"to_crate": "conductor-core"
+}
+],
+"db_state": "fresh"
+}
+]
