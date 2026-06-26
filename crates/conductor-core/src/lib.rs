@@ -25,6 +25,7 @@ mod redact;
 mod report_state;
 mod run_record;
 mod scenario;
+mod scenario_catalog;
 mod verdict;
 
 pub use config_path::resolve_under;
@@ -39,4 +40,7 @@ pub use redact::{redact_value, sanitize_error};
 pub use report_state::ReportState;
 pub use run_record::RunRecord;
 pub use scenario::{PId, Scenario, SloTier};
+pub use scenario_catalog::{
+    list_scenarios, scenario_files, validate_selection, ScenarioSummary, SUITE_SELECTION,
+};
 pub use verdict::Verdict;

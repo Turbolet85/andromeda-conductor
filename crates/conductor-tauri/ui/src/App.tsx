@@ -1,39 +1,28 @@
 import { useEffect, useState } from 'react'
+import { invoke } from '@tauri-apps/api/core'
 import Titlebar, { type RunState } from './components/Titlebar'
+import ScenarioPicker, { type ScenarioSummary } from './components/ScenarioPicker'
+import RunControls from './components/RunControls'
 
 const DEV_CYCLE: readonly RunState[] = ['idle', 'live', 'hold', 'live', 'aborted']
 
-const STATUS_TIERS = [
-  { label: 'Pass', token: '--count-nominal' },
-  { label: 'HOLD', token: '--count-hold' },
-  { label: 'Fail', token: '--status-fail' },
-  { label: 'Blocked', token: '--count-blocked' },
-  { label: 'Manual', token: '--status-manual' },
-  { label: 'Residual', token: '--status-residual' },
-] as const
-
-const TYPE_TIERS = [
-  { role: 'Display', cls: 'type-display' },
-  { role: 'Heading', cls: 'type-heading' },
-  { role: 'Body', cls: 'type-body' },
-  { role: 'Label', cls: 'type-label' },
-  { role: 'Code', cls: 'type-code' },
-  { role: 'Data', cls: 'type-data' },
-] as const
-
-const SURFACES = [
-  '--color-base',
-  '--color-raised-1',
-  '--color-raised-2',
-  '--color-raised-3',
-  '--color-inset',
-] as const
-
 export default function App() {
-  const [runState, setRunState] = useState<RunState>('live')
+  const [runState, setRunState] = useState<RunState>('idle')
+  const [scenarios, setScenarios] = useState<ScenarioSummary[]>([])
+  const [selection, setSelection] = useState<string | null>(null)
+  const [loading, setLoading] = useState(true)
+  const [loadError, setLoadError] = useState<string | null>(null)
+  const [actionError, setActionError] = useState<string | null>(null)
 
-  // DEV-only: cycle the titlebar run-state to exercise the hold-point signature
-  // (idle → live → hold → live → aborted) until the live Channel lands (Epoch 9 ch4).
+  useEffect(() => {
+    invoke<ScenarioSummary[]>('list_scenarios')
+      .then(setScenarios)
+      .catch((e) => setLoadError(String(e)))
+      .finally(() => setLoading(false))
+  }, [])
+
+  // DEV-only: cycle the titlebar run-state (incl. `hold`, which start/stop don't produce) to exercise
+  // the ch2 hold-point signature until the live Channel lands (Epoch 9 ch4).
   useEffect(() => {
     if (!import.meta.env.DEV) return
     let i = 0
@@ -45,6 +34,27 @@ export default function App() {
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
   }, [])
+
+  const running = runState === 'live'
+
+  const start = async () => {
+    if (!selection) return
+    setActionError(null)
+    try {
+      setRunState(await invoke<RunState>('start_run', { selection }))
+    } catch (e) {
+      setActionError(String(e))
+    }
+  }
+
+  const stop = async () => {
+    setActionError(null)
+    try {
+      setRunState(await invoke<RunState>('stop_run'))
+    } catch (e) {
+      setActionError(String(e))
+    }
+  }
 
   return (
     <div
@@ -69,56 +79,43 @@ export default function App() {
           gap: 'var(--space-lg)',
         }}
       >
-        <div
-          className="type-display"
-          style={{ color: 'var(--count-nominal)', fontVariantNumeric: 'tabular-nums' }}
-        >
-          00:00:00 · step 0
-        </div>
+        <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
+          <h2 className="type-heading" style={{ margin: 0 }}>
+            Scenario / suite
+          </h2>
+          {loading ? (
+            <p className="type-body" style={{ color: 'var(--text-tertiary)' }}>
+              Loading scenarios…
+            </p>
+          ) : loadError ? (
+            <p className="type-body" role="alert" style={{ color: 'var(--status-fail)' }}>
+              Could not load scenarios: {loadError}
+            </p>
+          ) : scenarios.length === 0 ? (
+            <p className="type-body" style={{ color: 'var(--text-tertiary)' }}>
+              No scenarios found.
+            </p>
+          ) : (
+            <ScenarioPicker scenarios={scenarios} selection={selection} onSelect={setSelection} />
+          )}
+        </section>
 
-        <section style={{ display: 'flex', gap: 'var(--space-md)', flexWrap: 'wrap' }}>
-          {STATUS_TIERS.map(({ label, token }) => (
-            <span
-              key={label}
-              style={{ display: 'inline-flex', alignItems: 'center', gap: 'var(--space-xs)' }}
+        <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
+          <RunControls
+            canStart={selection !== null}
+            running={running}
+            onStart={start}
+            onStop={stop}
+          />
+          {actionError ? (
+            <p
+              className="type-body"
+              role="alert"
+              style={{ color: 'var(--status-fail)', margin: 0 }}
             >
-              <span
-                aria-hidden="true"
-                style={{
-                  width: 12,
-                  height: 12,
-                  borderRadius: 'var(--radius-full)',
-                  background: `var(${token})`,
-                }}
-              />
-              <span className="type-label" style={{ color: `var(${token})` }}>
-                {label}
-              </span>
-            </span>
-          ))}
-        </section>
-
-        <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-xs)' }}>
-          {TYPE_TIERS.map(({ role, cls }) => (
-            <div key={role} className={cls}>
-              {role} — the quick brown fox · P-001 · 1840ms
-            </div>
-          ))}
-        </section>
-
-        <section style={{ display: 'flex', gap: 'var(--space-sm)' }}>
-          {SURFACES.map((token) => (
-            <div
-              key={token}
-              style={{
-                width: 64,
-                height: 40,
-                borderRadius: 'var(--radius-md)',
-                background: `var(${token})`,
-                border: '1px solid var(--border-subtle)',
-              }}
-            />
-          ))}
+              {actionError}
+            </p>
+          ) : null}
         </section>
       </main>
     </div>

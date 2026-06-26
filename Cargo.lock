@@ -642,6 +642,7 @@ dependencies = [
  "conductor-core",
  "tauri",
  "tauri-build",
+ "tracing",
 ]
 
 [[package]]

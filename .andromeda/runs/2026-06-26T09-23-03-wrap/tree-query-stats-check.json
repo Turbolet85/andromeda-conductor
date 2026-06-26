@@ -1,0 +1,13 @@
+[
+{
+"sql": "SELECT (SELECT count(*) FROM symbol) AS nodes, (SELECT count(*) FROM calls) AS call_edges;",
+"rows": 1,
+"result": [
+{
+"nodes": 1211,
+"call_edges": 5174
+}
+],
+"db_state": "regenerated"
+}
+]

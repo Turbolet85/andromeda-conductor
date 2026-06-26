@@ -1,0 +1,66 @@
+/* Scenario/suite picker (shadcn Command over cmdk). Tokens by name — design-system.md §Tokens /
+   §Component Patterns §5; reduced-motion honored globally in tokens.css. Borders-only depth. */
+.picker {
+  display: flex;
+  flex-direction: column;
+  max-height: 340px;
+  background: var(--color-raised-2);
+  border: 1px solid var(--border-standard);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+}
+
+.picker__input {
+  padding: var(--space-sm) var(--space-md);
+  background: var(--color-inset);
+  color: var(--text-primary);
+  border: none;
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.picker__input::placeholder {
+  color: var(--text-muted);
+}
+
+.picker__input:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: -2px;
+}
+
+.picker__list {
+  overflow-y: auto;
+  padding: var(--space-xs);
+}
+
+.picker__empty {
+  padding: var(--space-md);
+  color: var(--text-tertiary);
+}
+
+.picker__item {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--space-md);
+  padding: var(--space-sm) var(--space-md);
+  border-left: 2px solid transparent;
+  border-radius: var(--radius-sm);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: background var(--motion-micro) var(--ease-quiet);
+}
+
+/* cmdk active descendant (keyboard / pointer focus) — distinct from the committed choice below. */
+.picker__item[data-selected='true'] {
+  background: var(--color-raised-3);
+}
+
+/* Committed choice — border-emphasis + the " · selected" text label (never color alone). */
+.picker__item[aria-current='true'] {
+  border-left-color: var(--border-emphasis);
+}
+
+.picker__meta {
+  color: var(--color-id-cyan);
+  white-space: nowrap;
+}

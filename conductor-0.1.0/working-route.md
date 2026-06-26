@@ -114,9 +114,9 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
    ↓
 [2026-06-24-paused-count-hold-point-signature] Paused-count hold-point signature — frozen heartbeat freeze/tint/resume in titlebar
    ↓
-Scenario/suite picker + start/stop — shadcn Command/Select with run controls
+[2026-06-25-scenario-suite-picker-start-stop] Scenario/suite picker + start/stop — shadcn Command/Select with run controls
    ↓
-Live-counter Channel stream — Tauri Channel backend-to-frontend emission counters + target status   CARRY: retire the DEV-only run-state cycler (App `useState<RunState>` + `import.meta.env.DEV` backtick) and drive the EXISTING `Titlebar runState` prop from this Channel — paused-count-hold-point-signature shipped the prop contract + idle/live/hold/aborted heartbeat/freeze/tint rendering
+Live-counter Channel stream — Tauri Channel backend-to-frontend emission counters + target status   CARRY: retire the DEV-only run-state cycler (App `useState<RunState>` + `import.meta.env.DEV` backtick) and drive the EXISTING `Titlebar runState` prop from this Channel — paused-count-hold-point-signature shipped the prop contract + idle/live/hold/aborted heartbeat/freeze/tint rendering   CARRY: scenario-suite-picker-start-stop (ch3, option-A control scaffold) deferred real run EXECUTION + the pipeline-to-library extraction here — move `conductor-cli`'s bin-local `pipeline.rs` (preflight/execute_scenario/coarse_emit) into a library (conductor-core or a new conductor-run crate), generalize `&CliResolver` → a trait object, stand up a core-owned `current_thread` runtime under Tauri, so `start_run` drives a real `RunRecord` (Blocked w/o live Pulse) persisting runs.db/journal (CLI↔Tauri parity = test-plan Path 7); ch3 shipped the picker + `list_scenarios`/`start_run`/`stop_run` command surface + `RunPhase` lifecycle only. Also: ch3 wired start/stop → `setRunState` directly — reconcile that with the cycler-retire above
    ↓
 Component primitives library — six status-lamp variants + dialog scaffold + operator-checklist primitive
    ↓

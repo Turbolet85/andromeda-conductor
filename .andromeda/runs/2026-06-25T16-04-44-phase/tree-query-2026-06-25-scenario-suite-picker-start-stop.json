@@ -1,0 +1,42 @@
+[
+{
+"sql": "SELECT from_crate, to_crate FROM crate_edges WHERE to_crate = 'conductor-tauri' OR from_crate = 'conductor-tauri' ORDER BY from_crate, to_crate;",
+"rows": 1,
+"result": [
+{
+"from_crate": "conductor-tauri",
+"to_crate": "conductor-core"
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee LIKE '%execute_scenario%' ORDER BY file, line;",
+"rows": 2,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-cli 0.1.0 commands/run/run().",
+"file": "crates/conductor-cli/src/commands/run.rs",
+"line": 20
+},
+{
+"caller": "rust-analyzer cargo conductor-cli 0.1.0 commands/suite/suite().",
+"file": "crates/conductor-cli/src/commands/suite.rs",
+"line": 28
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee LIKE '%load_all_scenarios%' ORDER BY file, line;",
+"rows": 1,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-cli 0.1.0 commands/suite/suite().",
+"file": "crates/conductor-cli/src/commands/suite.rs",
+"line": 18
+}
+],
+"db_state": "fresh"
+}
+]

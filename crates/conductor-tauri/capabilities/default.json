@@ -1,6 +1,6 @@
 {
   "identifier": "default",
-  "description": "Deny-by-default ACL (security-plan §Tauri GUI): the frameless main window may drag, minimize, and close — nothing else. Later-chunk command permissions (start/stop, picker, run-report, operator-pause, live-counter Channel) are added with their commands.",
+  "description": "Deny-by-default ACL (security-plan §Tauri GUI): the frameless main window may drag, minimize, and close. App-defined commands (list_scenarios/start_run/stop_run, ch3) are registered via invoke_handler and need no core/plugin permission, so this allowlist stays exactly the three window capabilities; later run-report/operator-pause/live-counter Channel surfaces add only the core/plugin permissions they require.",
   "windows": ["main"],
   "permissions": [
     "core:window:allow-start-dragging",

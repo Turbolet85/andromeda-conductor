@@ -7,7 +7,7 @@
 use std::path::{Path, PathBuf};
 
 use anyhow::Context as _;
-use conductor_core::{Scenario, resolve_under};
+use conductor_core::{Scenario, resolve_under, scenario_files};
 
 /// The resolved artifact + config locations for a CLI invocation.
 pub struct Paths {
@@ -45,13 +45,7 @@ impl Paths {
         filter: Option<&str>,
         seed: Option<u64>,
     ) -> anyhow::Result<Vec<Scenario>> {
-        let mut files: Vec<PathBuf> = std::fs::read_dir(&self.scenarios_dir)
-            .context("read scenarios directory")?
-            .flatten()
-            .map(|e| e.path())
-            .filter(|p| p.extension().and_then(|x| x.to_str()) == Some("toml"))
-            .collect();
-        files.sort();
+        let files = scenario_files(&self.scenarios_dir)?;
 
         let mut scenarios = Vec::new();
         for path in files {

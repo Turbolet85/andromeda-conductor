@@ -1,0 +1,41 @@
+/* Start/stop run controls — semantic buttons. Disabled state is the native `disabled` attribute +
+   muted text (never color alone). Tokens by name; reduced-motion honored globally in tokens.css. */
+.run-controls {
+  display: flex;
+  gap: var(--space-sm);
+}
+
+.run-btn {
+  padding: var(--space-sm) var(--space-lg);
+  background: var(--color-raised-2);
+  color: var(--text-primary);
+  border: 1px solid var(--border-standard);
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition:
+    background var(--motion-micro) var(--ease-quiet),
+    color var(--motion-micro) var(--ease-quiet);
+}
+
+.run-btn:hover:not(:disabled) {
+  background: var(--color-raised-3);
+}
+
+.run-btn:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 1px;
+}
+
+.run-btn:disabled {
+  color: var(--text-muted);
+  border-color: var(--border-subtle);
+  cursor: not-allowed;
+}
+
+.run-btn--start:not(:disabled) {
+  color: var(--count-nominal);
+}
+
+.run-btn--stop:not(:disabled) {
+  color: var(--status-fail);
+}

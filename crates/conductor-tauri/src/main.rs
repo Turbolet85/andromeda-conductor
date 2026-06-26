@@ -8,12 +8,21 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 use std::path::{Path, PathBuf};
+use std::sync::Mutex;
 
 use conductor_core::{init_observability, resolve_under, ObsSink};
+
+mod commands;
 
 fn main() {
     init_observability("conductor-tauri", None, obs_sink());
     tauri::Builder::default()
+        .manage(Mutex::new(commands::RunPhase::default()))
+        .invoke_handler(tauri::generate_handler![
+            commands::list_scenarios,
+            commands::start_run,
+            commands::stop_run,
+        ])
         .run(tauri::generate_context!())
         .expect("error while running conductor-tauri");
 }

@@ -11,3 +11,4 @@ tauri-build = { workspace = true }
 [dependencies]
 conductor-core.workspace = true
 tauri = { workspace = true }
+tracing.workspace = true
