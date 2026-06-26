@@ -7,6 +7,7 @@ members = [
     "crates/conductor-faults",
     "crates/conductor-verify",
     "crates/conductor-report",
+    "crates/conductor-run",
     "crates/conductor-cli",
     "crates/conductor-tauri",
 ]
@@ -25,6 +26,7 @@ conductor-emit = { path = "crates/conductor-emit" }
 conductor-faults = { path = "crates/conductor-faults" }
 conductor-verify = { path = "crates/conductor-verify" }
 conductor-report = { path = "crates/conductor-report" }
+conductor-run = { path = "crates/conductor-run" }
 
 # Async runtime — core-owned, current_thread flavor
 tokio = "1.48"

@@ -1,0 +1,20 @@
+[package]
+name = "conductor-run"
+version.workspace = true
+edition.workspace = true
+rust-version.workspace = true
+publish.workspace = true
+
+[dependencies]
+conductor-core.workspace = true
+conductor-timeline.workspace = true
+conductor-emit.workspace = true
+conductor-verify.workspace = true
+conductor-report.workspace = true
+anyhow.workspace = true
+tracing.workspace = true
+serde = { workspace = true }
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["macros", "rt"] }
+assert_fs.workspace = true

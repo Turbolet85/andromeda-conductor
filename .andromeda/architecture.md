@@ -144,7 +144,7 @@ When `ready` is false, every dependent auto scenario is emitted into the report 
 - Conductor Tauri app (GUI bin) — optional control panel.
 - Launched child process: Pulse MCP server (`andromeda-pulse-mcp`) via `TokioChildProcess` (stdio), gated on its `mcp-server` feature, **spawned with `ANDROMEDA_PULSE_DATA_DIR` set to the live Pulse's data-dir** so it reads the same corpus (the established `.env(...)` spawn pattern in Pulse's `tests/sidecar_subprocess.rs`).
 
-**Crate names (workspace members):** `conductor-core` (the runtime-agnostic engine library every other crate depends on), `conductor-timeline`, `conductor-emit`, `conductor-faults`, `conductor-verify`, `conductor-report`, `conductor-cli`, plus the `conductor-tauri` bin.
+**Crate names (workspace members):** `conductor-core` (the runtime-agnostic engine library every other crate depends on), `conductor-timeline`, `conductor-emit`, `conductor-faults`, `conductor-verify`, `conductor-report`, `conductor-run` (the run composition root library — preflight + scenario execution + `persist` + the live-counter run driver — sitting above the seams and below both bins, shared by them), `conductor-cli`, plus the `conductor-tauri` bin.
 
 **Frontend asset subtree:** `crates/conductor-tauri/ui/` — the optional GUI's Vite + React 19 SPA (npm), NOT a Cargo workspace member (invisible to cargo). Holds the design-token + typography bundle (`src/styles/tokens.css` — 34 `:root` tokens + 6 type-role classes, under `@import "tailwindcss"`). `node_modules/` and the build output `crates/conductor-tauri/ui/dist/` are git-ignored; `package-lock.json` is committed.
 
@@ -192,6 +192,7 @@ conductor/
 │  ├─ conductor-faults/       # fault helpers (ramps, silence, port-occupier, fingerprint-storm)
 │  ├─ conductor-verify/       # MCP read-back client (rmcp), preflight gate, verdict logic
 │  ├─ conductor-report/       # JSONL journal + Markdown report + runs.db (rusqlite) storage seam
+│  ├─ conductor-run/          # run composition root lib (preflight + execute_scenario + persist + live-counter drive_run) — shared by both bins
 │  ├─ conductor-cli/          # `agent-run` bin (#[tokio::main(flavor="current_thread")] + anyhow)
 │  └─ conductor-tauri/        # Tauri 2 GUI bin (commands + Channel; owns its own runtime)
 ├─ scenarios/                 # declarative scenario config (serde + garde), one per P-ID

@@ -571,10 +571,8 @@ dependencies = [
  "clap",
  "comfy-table",
  "conductor-core",
- "conductor-emit",
  "conductor-report",
- "conductor-timeline",
- "conductor-verify",
+ "conductor-run",
  "indicatif",
  "inquire",
  "owo-colors",
@@ -636,12 +634,30 @@ dependencies = [
 ]
 
 [[package]]
+name = "conductor-run"
+version = "0.1.0"
+dependencies = [
+ "anyhow",
+ "assert_fs",
+ "conductor-core",
+ "conductor-emit",
+ "conductor-report",
+ "conductor-timeline",
+ "conductor-verify",
+ "serde",
+ "tokio",
+ "tracing",
+]
+
+[[package]]
 name = "conductor-tauri"
 version = "0.1.0"
 dependencies = [
  "conductor-core",
+ "conductor-run",
  "tauri",
  "tauri-build",
+ "tokio",
  "tracing",
 ]
 

@@ -1,0 +1,38 @@
+# security extract
+
+## Relevance
+Partial — the chunk operationalizes a new Tauri IPC `Channel` for backend→frontend live-update streaming (a pre-architectured threat boundary per §Threat Model Summary). The payload is synthetic telemetry (emission counters + target status), not accepting external input, so no new input validation boundary is introduced.
+
+## Constraints
+1. Per security plan §Threat Model Summary: Tauri IPC `Channel` is in-process-only, bundled webview, never network-exposed; capability entries in `crates/conductor-tauri/capabilities/*.json` must explicitly allow the Channel receiver/sender under deny-by-default (§Security Anti-Patterns § Code Patterns: "NEVER ship Tauri commands without a minimal capabilities file").
+2. Per §Error Handling: `start_run` now drives real pipeline execution; all errors MUST sanitize at the `#[tauri::command]` boundary — no absolute paths (`CONDUCTOR_*` directories, `ANDROMEDA_PULSE_DATA_DIR`), internal seam struct names, or stack traces in return values; failures route through the verdict/error wall (harness faults via `Result::Err` ≠ verdicts).
+3. Per §Data Protection: the Channel payload (live counters + target status) and persisted run artifacts MUST NOT leak absolute host paths or internal struct/field names; emission records streamed to `runs.db` or JSONL journals are agent-parseable ground truth shared across hosts.
+4. Per §Dependency Security: any external dependencies introduced in the extracted pipeline library MUST pass `cargo-audit ≥0.22.1` + `cargo-deny ≥0.19.4` (audit tool minimums, RustSec DB runtime-fetched; `Cargo.lock` committed); the extracted lib operates under the existing supply-chain audit gate (§CI integration).
+5. Per §Security Anti-Patterns § Universal: "NEVER let `Cargo.lock` drift or go uncommitted" — if the pipeline extraction introduces new or upgraded deps, they MUST lock deterministically.
+
+## Patterns to follow
+1. Per §Threat Model Summary § Vector Tauri IPC: the Channel is the first operationalized live-update surface, in-process only (bundled webview). Emit counter snapshots as batched serde-serialized payloads with typed structures; no per-message custom protocols (architecture Real-time Strategy decision: "without per-message JSON overhead").
+2. Per scope Determinism preserved: the core-owned `current_thread` tokio runtime (not Tauri's multi_thread shell) anchors pipeline execution; same scenario+seed produces the same live-counter stream shape, enabling reproducible test ground truth.
+3. Per scope (live-counter stream contract): the Channel is backend-generated synthetic telemetry only; emit counter structures carrying identity fields (`run_id`, `seed`, scenario metadata) + live counters (spans/logs/exceptions emitted), never operator-supplied input.
+
+## Anti-patterns to avoid
+1. NEVER ship the live-counter Channel without explicit capability-file declarations in `crates/conductor-tauri/capabilities/*.json` (§Anti-Patterns § Code Patterns); deny-by-default applies equally to Channels as to commands.
+2. NEVER expose absolute paths (`CONDUCTOR_*`, `ANDROMEDA_PULSE_DATA_DIR`) or internal seam crate struct names in Channel payloads, error returns, or persisted artifacts (§Anti-Patterns § Logging + §Error Handling).
+3. NEVER introduce interactive operator-pause logic into the Tauri resolver beyond headless-equivalent default; the interactive pause dialog and live pause bridge are later Epoch-9 chunks (scope boundary: "no live interactive operator-pause leg").
+
+## Contract bindings
+- **Tauri IPC `Channel` surface** ↔ **`crates/conductor-tauri/capabilities/*.json`** — Channel must be declared in deny-by-default allow-list; error sanitization at `#[tauri::command]` boundary remains mandatory.
+- **Pipeline extraction library (conductor-core / conductor-run)** ↔ **dep-audit CI gate** — any new external dependencies MUST clear `cargo audit` + `cargo-deny` before merge (§Dependency Security § CI integration).
+- **Real run execution (`start_run`)** ↔ **test-plan Path 7 (CLI↔Tauri parity)** — error messages and `RunRecord` persistence MUST match the CLI path; parity is the regression test.
+- **npm frontend dependencies (Tauri bundled)** ↔ **npm-audit CI gate** — any new/updated npm packages must keep `npm audit` clean (0 vulns); `package-lock.json` committed (§Dependency Security § Frontend (npm) supply chain).
+
+## Acceptance criteria contributions
+1. (security) Tauri capabilities files declare the live-counter Channel in allow-list; `cargo tauri build` succeeds without capability warnings.
+2. (security) `start_run` error handling — grep confirms no leaked absolute paths or internal struct names in returned error payloads.
+3. (security) `cargo audit` + `cargo-deny check` pass with any new deps in the extracted pipeline library; `Cargo.lock` committed.
+4. (security) `npm audit` returns 0 vulnerabilities for any Tauri/frontend package updates; `package-lock.json` committed.
+
+## Relevant amendment history
+- **2026-06-15-dependency-audit-gate** — sets minimum floor expectations (`cargo-audit` ≥0.22.1, `cargo-deny` ≥0.19.4, `Cargo.lock` committed) for the dependency-audit gate; the extracted pipeline library MUST satisfy these.
+- **2026-06-15-design-token-typography-bundle** — documents npm/frontend supply-chain control (`npm audit clean` + committed `package-lock.json`); Tauri GUI deps fall under this gate.
+- **2026-06-23-line-oriented-output-rendering** — records accepted deny.toml exceptions (`number_prefix` RUSTSEC-2025-0119 + `Zlib` license); the extracted library must inherit these if it depends on the same transitive tree (indicatif, rusqlite).

@@ -8,9 +8,9 @@
 use std::process::ExitCode;
 
 use conductor_core::Lamp;
+use conductor_run as pipeline;
 
 use crate::paths::Paths;
-use crate::pipeline;
 use crate::render;
 
 pub async fn preflight(json: bool, paths: &Paths) -> anyhow::Result<ExitCode> {

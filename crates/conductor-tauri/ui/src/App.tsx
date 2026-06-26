@@ -1,13 +1,27 @@
 import { useEffect, useState } from 'react'
-import { invoke } from '@tauri-apps/api/core'
+import { invoke, Channel } from '@tauri-apps/api/core'
 import Titlebar, { type RunState } from './components/Titlebar'
 import ScenarioPicker, { type ScenarioSummary } from './components/ScenarioPicker'
 import RunControls from './components/RunControls'
 
-const DEV_CYCLE: readonly RunState[] = ['idle', 'live', 'hold', 'live', 'aborted']
+type RunStage = 'progress' | 'blocked' | 'done' | 'aborted'
+interface RunEvent {
+  stage: RunStage
+  count: number
+}
+
+// The live Channel stage drives the titlebar run-state: a scenario completing keeps it `live`, the
+// terminal stages (`blocked`/`done`) settle to `idle`, and `aborted` dims it.
+const STATE_FOR_STAGE: Record<RunStage, RunState> = {
+  progress: 'live',
+  blocked: 'idle',
+  done: 'idle',
+  aborted: 'aborted',
+}
 
 export default function App() {
   const [runState, setRunState] = useState<RunState>('idle')
+  const [count, setCount] = useState('00:00:00')
   const [scenarios, setScenarios] = useState<ScenarioSummary[]>([])
   const [selection, setSelection] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
@@ -21,28 +35,22 @@ export default function App() {
       .finally(() => setLoading(false))
   }, [])
 
-  // DEV-only: cycle the titlebar run-state (incl. `hold`, which start/stop don't produce) to exercise
-  // the ch2 hold-point signature until the live Channel lands (Epoch 9 ch4).
-  useEffect(() => {
-    if (!import.meta.env.DEV) return
-    let i = 0
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key !== '`') return
-      i = (i + 1) % DEV_CYCLE.length
-      setRunState(DEV_CYCLE[i])
-    }
-    window.addEventListener('keydown', onKey)
-    return () => window.removeEventListener('keydown', onKey)
-  }, [])
-
   const running = runState === 'live'
 
   const start = async () => {
     if (!selection) return
     setActionError(null)
+    const channel = new Channel<RunEvent>()
+    channel.onmessage = (event) => {
+      setCount(String(event.count))
+      setRunState(STATE_FOR_STAGE[event.stage])
+    }
     try {
-      setRunState(await invoke<RunState>('start_run', { selection }))
+      setRunState('live')
+      setCount('0')
+      await invoke('start_run', { selection, onEvent: channel })
     } catch (e) {
+      setRunState('idle')
       setActionError(String(e))
     }
   }
@@ -50,7 +58,8 @@ export default function App() {
   const stop = async () => {
     setActionError(null)
     try {
-      setRunState(await invoke<RunState>('stop_run'))
+      await invoke('stop_run')
+      setRunState('aborted')
     } catch (e) {
       setActionError(String(e))
     }
@@ -67,7 +76,7 @@ export default function App() {
         fontFamily: 'var(--font-sans)',
       }}
     >
-      <Titlebar runState={runState} count="00:00:00" />
+      <Titlebar runState={runState} count={count} />
 
       <main
         style={{

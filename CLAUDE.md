@@ -9,7 +9,7 @@ Conductor is a desktop control-panel app (Tauri 2) over a headless-drivable Rust
 **Stack:** Rust 2024 workspace (tokio `current_thread`) · OTLP via opentelemetry-proto/tonic to `127.0.0.1:4317` · MCP read-back via rmcp · rusqlite/`bundled` SQLite index · optional Tauri 2 + React 19 GUI · local-only, no network service of its own.
 
 **Key directories:**
-- `crates/` — the 8 crate-per-seam workspace members (core + timeline/emit/faults/verify/report + cli/tauri bins)
+- `crates/` — the 9 crate-per-seam workspace members (core + timeline/emit/faults/verify/report + run + cli/tauri bins)
 - `scenarios/` — declarative scenario config (serde + garde), one per Pulse P-ID
 - `contracts/` — pinned MCP contract manifest
 - `runs/` — per-run JSONL journal + Markdown report + `runs.db` SQLite index
@@ -24,6 +24,7 @@ Conductor is a desktop control-panel app (Tauri 2) over a headless-drivable Rust
 - **`conductor-faults`** — fault helpers: ramps, silence, port-occupier, fingerprint-storm fault (the per-exception fingerprint primitive lives in `conductor-emit`).
 - **`conductor-verify`** — MCP read-back client (rmcp over `TokioChildProcess` stdio), preflight gate, verdict logic.
 - **`conductor-report`** — JSONL emission journal + Markdown run report + `runs.db` (rusqlite) storage seam.
+- **`conductor-run`** — run composition root library (preflight + scenario execution + `persist` + the live-counter `drive_run`) shared by both bins.
 - **`conductor-cli`** — `agent-run` binary, headless source of truth + release gate.
 - **`conductor-tauri`** — Tauri 2 GUI bin (commands + live-counter `Channel`; React 19 webview).
 <!-- GENERATED:setup:modules end -->

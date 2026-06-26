@@ -2,9 +2,10 @@
 
 use std::process::ExitCode;
 
+use conductor_run as pipeline;
+
 use crate::paths::Paths;
 use crate::pause::CliResolver;
-use crate::pipeline;
 
 use super::{exit_code, persist, print_record};
 

@@ -11,10 +11,8 @@ path = "src/main.rs"
 
 [dependencies]
 conductor-core.workspace = true
-conductor-timeline.workspace = true
-conductor-emit.workspace = true
-conductor-verify.workspace = true
 conductor-report.workspace = true
+conductor-run.workspace = true
 clap.workspace = true
 tokio = { workspace = true, features = ["macros", "rt"] }
 anyhow.workspace = true

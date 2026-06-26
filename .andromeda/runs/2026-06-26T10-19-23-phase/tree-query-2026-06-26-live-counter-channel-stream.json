@@ -1,0 +1,348 @@
+[
+{
+"sql": "SELECT symbol, file, def_line FROM symbol WHERE file LIKE '%pipeline.rs%' ORDER BY def_line",
+"rows": 13,
+"result": [
+{
+"symbol": "rust-analyzer cargo conductor-cli 0.1.0 pipeline/",
+"file": "crates/conductor-cli/src/pipeline.rs",
+"def_line": 0
+},
+{
+"symbol": "rust-analyzer cargo conductor-cli 0.1.0 pipeline/Preflight#",
+"file": "crates/conductor-cli/src/pipeline.rs",
+"def_line": 30
+},
+{
+"symbol": "rust-analyzer cargo conductor-cli 0.1.0 pipeline/Preflight#client.",
+"file": "crates/conductor-cli/src/pipeline.rs",
+"def_line": 31
+},
+{
+"symbol": "rust-analyzer cargo conductor-cli 0.1.0 pipeline/Preflight#ready.",
+"file": "crates/conductor-cli/src/pipeline.rs",
+"def_line": 32
+},
+{
+"symbol": "rust-analyzer cargo conductor-cli 0.1.0 pipeline/preflight().",
+"file": "crates/conductor-cli/src/pipeline.rs",
+"def_line": 38
+},
+{
+"symbol": "rust-analyzer cargo conductor-cli 0.1.0 pipeline/readiness().",
+"file": "crates/conductor-cli/src/pipeline.rs",
+"def_line": 65
+},
+{
+"symbol": "rust-analyzer cargo conductor-cli 0.1.0 pipeline/unreachable_state().",
+"file": "crates/conductor-cli/src/pipeline.rs",
+"def_line": 81
+},
+{
+"symbol": "rust-analyzer cargo conductor-cli 0.1.0 pipeline/UNREACHABLE_PRECONDITION.",
+"file": "crates/conductor-cli/src/pipeline.rs",
+"def_line": 82
+},
+{
+"symbol": "rust-analyzer cargo conductor-cli 0.1.0 pipeline/execute_scenario().",
+"file": "crates/conductor-cli/src/pipeline.rs",
+"def_line": 102
+},
+{
+"symbol": "rust-analyzer cargo conductor-cli 0.1.0 pipeline/coarse_emit().",
+"file": "crates/conductor-cli/src/pipeline.rs",
+"def_line": 172
+},
+{
+"symbol": "rust-analyzer cargo conductor-cli 0.1.0 pipeline/manual_record().",
+"file": "crates/conductor-cli/src/pipeline.rs",
+"def_line": 200
+},
+{
+"symbol": "rust-analyzer cargo conductor-cli 0.1.0 pipeline/severity_rank().",
+"file": "crates/conductor-cli/src/pipeline.rs",
+"def_line": 222
+},
+{
+"symbol": "rust-analyzer cargo conductor-cli 0.1.0 pipeline/now_ms().",
+"file": "crates/conductor-cli/src/pipeline.rs",
+"def_line": 230
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee LIKE '%execute_scenario%' OR callee LIKE '%coarse_emit%' OR callee LIKE '%run_pipeline%' ORDER BY file, line",
+"rows": 3,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-cli 0.1.0 commands/run/run().",
+"file": "crates/conductor-cli/src/commands/run.rs",
+"line": 20
+},
+{
+"caller": "rust-analyzer cargo conductor-cli 0.1.0 commands/suite/suite().",
+"file": "crates/conductor-cli/src/commands/suite.rs",
+"line": 28
+},
+{
+"caller": "rust-analyzer cargo conductor-cli 0.1.0 pipeline/execute_scenario().",
+"file": "crates/conductor-cli/src/pipeline.rs",
+"line": 125
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT callee, file, line FROM refs WHERE callee LIKE '%CliResolver%' ORDER BY file, line",
+"rows": 30,
+"result": [
+{
+"callee": "rust-analyzer cargo conductor-cli 0.1.0 pause/CliResolver#",
+"file": "crates/conductor-cli/src/commands/run.rs",
+"line": 5
+},
+{
+"callee": "rust-analyzer cargo conductor-cli 0.1.0 pause/CliResolver#",
+"file": "crates/conductor-cli/src/commands/run.rs",
+"line": 19
+},
+{
+"callee": "rust-analyzer cargo conductor-cli 0.1.0 pause/impl#[CliResolver]select().",
+"file": "crates/conductor-cli/src/commands/run.rs",
+"line": 19
+},
+{
+"callee": "rust-analyzer cargo conductor-cli 0.1.0 pause/CliResolver#",
+"file": "crates/conductor-cli/src/commands/suite.rs",
+"line": 5
+},
+{
+"callee": "rust-analyzer cargo conductor-cli 0.1.0 pause/impl#[CliResolver]select().",
+"file": "crates/conductor-cli/src/commands/suite.rs",
+"line": 25
+},
+{
+"callee": "rust-analyzer cargo conductor-cli 0.1.0 pause/CliResolver#",
+"file": "crates/conductor-cli/src/commands/suite.rs",
+"line": 25
+},
+{
+"callee": "rust-analyzer cargo conductor-cli 0.1.0 pause/CliResolver#",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 66
+},
+{
+"callee": "rust-analyzer cargo conductor-cli 0.1.0 pause/CliResolver#",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 74
+},
+{
+"callee": "rust-analyzer cargo conductor-cli 0.1.0 pause/CliResolver#Interactive#",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 74
+},
+{
+"callee": "rust-analyzer cargo conductor-cli 0.1.0 pause/CliResolver#",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 75
+},
+{
+"callee": "rust-analyzer cargo conductor-cli 0.1.0 pause/CliResolver#Headless#",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 75
+},
+{
+"callee": "rust-analyzer cargo conductor-cli 0.1.0 pause/CliResolver#",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 97
+},
+{
+"callee": "rust-analyzer cargo conductor-cli 0.1.0 pause/CliResolver#",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 100
+},
+{
+"callee": "rust-analyzer cargo conductor-cli 0.1.0 pause/CliResolver#Interactive#",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 100
+},
+{
+"callee": "rust-analyzer cargo conductor-cli 0.1.0 pause/CliResolver#",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 101
+},
+{
+"callee": "rust-analyzer cargo conductor-cli 0.1.0 pause/CliResolver#Headless#",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 101
+},
+{
+"callee": "rust-analyzer cargo conductor-cli 0.1.0 pause/CliResolver#Headless#",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 125
+},
+{
+"callee": "rust-analyzer cargo conductor-cli 0.1.0 pause/CliResolver#",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 125
+},
+{
+"callee": "rust-analyzer cargo conductor-cli 0.1.0 pause/CliResolver#",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 125
+},
+{
+"callee": "rust-analyzer cargo conductor-cli 0.1.0 pause/impl#[CliResolver]select().",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 125
+},
+{
+"callee": "rust-analyzer cargo conductor-cli 0.1.0 pause/impl#[CliResolver]select().",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 131
+},
+{
+"callee": "rust-analyzer cargo conductor-cli 0.1.0 pause/CliResolver#",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 131
+},
+{
+"callee": "rust-analyzer cargo conductor-cli 0.1.0 pause/CliResolver#Headless#",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 131
+},
+{
+"callee": "rust-analyzer cargo conductor-cli 0.1.0 pause/CliResolver#",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 131
+},
+{
+"callee": "rust-analyzer cargo conductor-cli 0.1.0 pause/CliResolver#",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 145
+},
+{
+"callee": "rust-analyzer cargo conductor-cli 0.1.0 pause/CliResolver#Headless#",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 145
+},
+{
+"callee": "rust-analyzer cargo conductor-cli 0.1.0 pause/CliResolver#",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 151
+},
+{
+"callee": "rust-analyzer cargo conductor-cli 0.1.0 pause/CliResolver#Headless#",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 151
+},
+{
+"callee": "rust-analyzer cargo conductor-cli 0.1.0 pause/CliResolver#",
+"file": "crates/conductor-cli/src/pipeline.rs",
+"line": 27
+},
+{
+"callee": "rust-analyzer cargo conductor-cli 0.1.0 pause/CliResolver#",
+"file": "crates/conductor-cli/src/pipeline.rs",
+"line": 106
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT callee, file, line FROM refs WHERE callee LIKE '%PauseResolver%' ORDER BY file, line",
+"rows": 9,
+"result": [
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 pause/PauseResolver#",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 15
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 pause/PauseResolver#",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 28
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 pause/PauseResolver#",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 97
+},
+{
+"callee": "rust-analyzer cargo conductor-cli 0.1.0 pause/impl#[PromptResolver][PauseResolver]resolve().",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 100
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 pause/impl#[HeadlessResolver][PauseResolver]resolve().",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 101
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 pause/PauseResolver#",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 36
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 pause/PauseResolver#",
+"file": "crates/conductor-core/src/pause.rs",
+"line": 125
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 pause/PauseResolver#",
+"file": "crates/conductor-core/src/pause.rs",
+"line": 136
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 pause/PauseResolver#resolve().",
+"file": "crates/conductor-core/src/pause.rs",
+"line": 137
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT from_crate, to_crate FROM crate_edges WHERE to_crate IN ('conductor-cli','conductor-tauri','conductor-core') OR from_crate IN ('conductor-tauri','conductor-cli')",
+"rows": 9,
+"result": [
+{
+"from_crate": "conductor-verify",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-cli",
+"to_crate": "conductor-verify"
+},
+{
+"from_crate": "conductor-cli",
+"to_crate": "conductor-timeline"
+},
+{
+"from_crate": "conductor-tauri",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-cli",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-report",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-cli",
+"to_crate": "conductor-report"
+},
+{
+"from_crate": "conductor-cli",
+"to_crate": "conductor-emit"
+},
+{
+"from_crate": "conductor-timeline",
+"to_crate": "conductor-core"
+}
+],
+"db_state": "fresh"
+}
+]

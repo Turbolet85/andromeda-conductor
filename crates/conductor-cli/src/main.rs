@@ -13,7 +13,6 @@ mod cli;
 mod commands;
 mod paths;
 mod pause;
-mod pipeline;
 mod render;
 
 use cli::{Cli, Commands};
