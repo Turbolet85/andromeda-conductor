@@ -23,6 +23,7 @@ mod pause;
 mod phase_spec;
 mod redact;
 mod report_state;
+mod run_journal;
 mod run_record;
 mod scenario;
 mod scenario_catalog;
@@ -38,6 +39,7 @@ pub use pause::{Decision, HeadlessResolver, HoldPoint, HoldResolution, PauseReso
 pub use phase_spec::{EmissionSpec, PhaseSpec, Signal};
 pub use redact::{redact_value, sanitize_error};
 pub use report_state::ReportState;
+pub use run_journal::{latest_run_id, read_run_journal};
 pub use run_record::RunRecord;
 pub use scenario::{PId, Scenario, SloTier};
 pub use scenario_catalog::{

@@ -1,0 +1,12 @@
+/* Operator-checklist view — the OperatorChecklist primitive + an unticked-count footer roll-up
+   (design-system §Component Patterns §7). Borders-only; tokens by name. */
+.checklist-view {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.checklist-view__footer {
+  margin: 0;
+  color: var(--text-tertiary);
+}

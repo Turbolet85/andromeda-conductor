@@ -15,8 +15,8 @@ use std::sync::Arc;
 use std::time::Instant;
 
 use conductor_core::{
-    mint_run_id, resolve_under, sanitize_error, validate_selection, CapabilityRow, Scenario,
-    ScenarioSummary, SUITE_SELECTION,
+    mint_run_id, resolve_under, sanitize_error, validate_selection, CapabilityRow, RunRecord,
+    Scenario, ScenarioSummary, SUITE_SELECTION,
 };
 use conductor_run::{RunEvent, RunStage};
 use tauri::ipc::Channel;
@@ -106,6 +106,42 @@ pub fn coverage_matrix() -> Result<Vec<CapabilityRow>, String> {
         "listed coverage matrix"
     );
     Ok(rows)
+}
+
+/// The persisted run report (read-only) — the per-scenario `RunRecord`s of a run's JSONL journal, the
+/// desktop twin of `conductor report` / the Markdown report. `run_id` defaults to the latest run; a
+/// supplied id is `resolve_under`-guarded against traversal before any read (security-plan §Input
+/// Validation). An absent/empty runs dir yields an empty list (the webview renders "No run yet"),
+/// never an error. Single-sources `conductor_core::read_run_journal`; the envelope is never re-authored.
+#[tauri::command]
+pub fn run_report(run_id: Option<String>) -> Result<Vec<RunRecord>, String> {
+    let _span = tracing::info_span!("tauri.command.run_report").entered();
+    let started = Instant::now();
+    let dir = runs_dir()?;
+    let id = match run_id {
+        Some(id) => {
+            resolve_under(&dir, Path::new(&format!("{id}.jsonl"))).map_err(|e| sanitize_error(&e))?;
+            id
+        }
+        None => match conductor_core::latest_run_id(&dir).map_err(|e| sanitize_error(&e))? {
+            Some(id) => id,
+            None => {
+                tracing::info!(
+                    count = 0,
+                    latency_ms = started.elapsed().as_millis() as u64,
+                    "no run to report"
+                );
+                return Ok(Vec::new());
+            }
+        },
+    };
+    let records = conductor_core::read_run_journal(&dir, &id).map_err(|e| sanitize_error(&e))?;
+    tracing::info!(
+        count = records.len(),
+        latency_ms = started.elapsed().as_millis() as u64,
+        "read run report"
+    );
+    Ok(records)
 }
 
 #[tauri::command]

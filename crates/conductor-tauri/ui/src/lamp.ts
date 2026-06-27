@@ -38,3 +38,20 @@ export function lampForRecord(state: ReportState, verdict: Verdict | null): Lamp
   if (state === 'Pass') return 'Pass'
   return 'Fail'
 }
+
+// Mirrors conductor-core/src/run_record.rs `RunRecord` — the 11-field run-report envelope in
+// declaration order. The five measurement fields are nullable (a Blocked row emits them as JSON null).
+// Reuses the Verdict / ReportState unions above; never re-spell the wire forms in TS.
+export interface RunRecord {
+  journal_emitted_at: string | null
+  read_back_observed_at: string | null
+  run_id: string
+  seed: number
+  scenario: string
+  p_ids: string[]
+  verdict: Verdict | null
+  state: ReportState
+  latency_ms: number | null
+  slo_tier: string
+  fingerprints: string[] | null
+}

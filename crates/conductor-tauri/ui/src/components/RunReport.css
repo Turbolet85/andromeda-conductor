@@ -1,0 +1,70 @@
+/* Run report — per-scenario verdict lines of a run's JSONL journal (the desktop twin of the Markdown
+   run report / the CLI results table). Borders-only depth (no shadows); tokens by name; reduced-motion
+   honored globally in tokens.css. A Blocked row renders — in its measurement columns (never the
+   failure red — Blocked is "never measured", not a Fail). Mirrors CoverageMatrix.css. */
+.report {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.report__summary {
+  color: var(--color-id-cyan);
+}
+
+.report__scroll {
+  max-height: 480px;
+  overflow-y: auto;
+  background: var(--color-raised-1);
+  border: 1px solid var(--border-standard);
+  border-radius: var(--radius-md);
+}
+
+.report__scroll:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: -2px;
+}
+
+.report__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.report__table thead th {
+  position: sticky;
+  top: 0;
+  padding: var(--space-sm) var(--space-md);
+  text-align: left;
+  background: var(--color-raised-2);
+  color: var(--text-tertiary);
+  border-bottom: 1px solid var(--border-standard);
+}
+
+.report__row {
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.report__row:last-child {
+  border-bottom: none;
+}
+
+.report__row td {
+  padding: var(--space-md);
+  vertical-align: baseline;
+}
+
+.report__pid {
+  color: var(--color-id-cyan);
+  white-space: nowrap;
+}
+
+.report__scenario {
+  color: var(--text-primary);
+}
+
+.report__latency,
+.report__slo,
+.report__fp {
+  color: var(--text-secondary);
+  white-space: nowrap;
+}

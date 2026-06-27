@@ -1,9 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { invoke, Channel } from '@tauri-apps/api/core'
 import Titlebar, { type RunState } from './components/Titlebar'
 import ScenarioPicker, { type ScenarioSummary } from './components/ScenarioPicker'
 import RunControls from './components/RunControls'
 import CoverageMatrix, { type CapabilityRow } from './components/CoverageMatrix'
+import RunReport from './components/RunReport'
+import { type RunRecord } from './lamp'
 
 type RunStage = 'progress' | 'blocked' | 'done' | 'aborted'
 interface RunEvent {
@@ -31,6 +33,9 @@ export default function App() {
   const [coverage, setCoverage] = useState<CapabilityRow[]>([])
   const [coverageError, setCoverageError] = useState<string | null>(null)
   const [coverageLoading, setCoverageLoading] = useState(true)
+  const [report, setReport] = useState<RunRecord[]>([])
+  const [reportError, setReportError] = useState<string | null>(null)
+  const [reportLoading, setReportLoading] = useState(true)
 
   useEffect(() => {
     invoke<ScenarioSummary[]>('list_scenarios')
@@ -46,6 +51,21 @@ export default function App() {
       .finally(() => setCoverageLoading(false))
   }, [])
 
+  // The run report is re-read whenever a run settles (a terminal Channel stage) so the GUI closes the
+  // run→report loop; `initial` gates the one-shot loading prose so refreshes don't flash it.
+  const loadReport = useCallback((initial = false) => {
+    invoke<RunRecord[]>('run_report')
+      .then(setReport)
+      .catch((e) => setReportError(String(e)))
+      .finally(() => {
+        if (initial) setReportLoading(false)
+      })
+  }, [])
+
+  useEffect(() => {
+    loadReport(true)
+  }, [loadReport])
+
   const running = runState === 'live'
 
   const start = async () => {
@@ -55,6 +75,7 @@ export default function App() {
     channel.onmessage = (event) => {
       setCount(String(event.count))
       setRunState(STATE_FOR_STAGE[event.stage])
+      if (event.stage !== 'progress') loadReport()
     }
     try {
       setRunState('live')
@@ -156,6 +177,27 @@ export default function App() {
             </p>
           ) : (
             <CoverageMatrix rows={coverage} />
+          )}
+        </section>
+
+        <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
+          <h2 className="type-heading" style={{ margin: 0 }}>
+            Run report
+          </h2>
+          {reportLoading ? (
+            <p className="type-body" style={{ color: 'var(--text-tertiary)' }}>
+              Loading run report…
+            </p>
+          ) : reportError ? (
+            <p className="type-body" role="alert" style={{ color: 'var(--status-fail)' }}>
+              Could not load run report: {reportError}
+            </p>
+          ) : report.length === 0 ? (
+            <p className="type-body" style={{ color: 'var(--text-tertiary)' }}>
+              No run yet
+            </p>
+          ) : (
+            <RunReport records={report} />
           )}
         </section>
       </main>
