@@ -139,9 +139,9 @@ Severity-lifecycle full pass — auto-resolve + resolution-summary observed via 
    ↓
 Cross-surface parity proof — CLI vs Tauri identical envelope for the same seed
    ↓
-Obs CI conformance gate — agent-latest.jsonl upload + log-schema conformance + zero-unlogged-panics check
+[2026-06-27-obs-ci-conformance-gate] Obs CI conformance gate — agent-latest.jsonl upload + log-schema conformance + zero-unlogged-panics check
    ↓
-A11y CI gate + violation JSON — axe/contrast/keyboard PASS/FAIL into obs envelope, service-tagged
+A11y CI gate + violation JSON — axe/contrast/keyboard PASS/FAIL into obs envelope, service-tagged   CARRY (from 2026-06-27-obs-ci-conformance-gate): reuse the concrete ci.yml obs-gate scaffold this chunk landed — the `shell: bash` gate-step idiom (jq/grep assertions + `::error::` annotation + non-zero exit) + the `actions/upload-artifact@v4` `if: always()` upload — to emit axe/contrast/keyboard PASS/FAIL into the obs envelope; the violation JSON is Conductor's OWN artifact, so the redaction boundary applies (unlike a third-party tool's output). NOTE: unlike the obs gate (Windows-doable), the a11y harness that PRODUCES the violations is display-gated (Linux+xvfb), so this is NOT a Windows-only pull-forward.
    ↓
 Coverage-matrix completeness gate — 60 P-IDs zero-gap, all CI gates green (definition of done)
    ↓

@@ -109,6 +109,56 @@ jobs:
           name: test-results
           path: target/nextest/ci/junit.xml
 
+      # Obs CI conformance gate (Epoch 10 — obs-plan §9/§10). Produce Conductor's OWN self-observation
+      # artifact in CI, assert it conforms to the self-obs base schema + the redaction boundary + zero
+      # unlogged panics, then upload it. CI-config only — the obs sink it asserts is unchanged.
+      # ANDROMEDA_PULSE_DATA_DIR carries an injection metacharacter → conductor-verify rejects it BEFORE any
+      # sidecar spawn → a Blocked envelope (exit 0); init_observability still writes every self-obs line to
+      # logs/agent-latest.jsonl (the hermetic no-live-Pulse lever; cli_smoke.rs precedent). No Pulse needed.
+      - name: Obs conformance — produce agent-latest.jsonl (no-Pulse Blocked run)
+        shell: bash
+        env:
+          ANDROMEDA_PULSE_DATA_DIR: 'pulse;injection'
+        run: |
+          mkdir -p logs
+          # Capture stderr too: an UNSTRUCTURED panic (a bypassed set_hook) lands on stderr, not the JSON
+          # file sink, so the zero-unlogged-panics gate greps both (obs-plan §9).
+          cargo run -q -p conductor-cli --bin conductor -- run error-baseline-spike --seed 424242 --agent-mode 2> logs/producer-stderr.log
+
+      # Assert the self-obs BASE-line schema (obs-plan §3 "two record shapes" — NOT the run-report envelope,
+      # which lives in runs/<run_id>.jsonl), the redaction boundary (no absolute host path; anchors mirror
+      # conductor-core::redact::is_host_path_token — `::` module paths are NOT flagged), and zero unlogged
+      # panics (obs-plan §10). shell: bash for fail-fast multi-command (mirrors the flakiness-budget gate).
+      - name: Obs conformance + zero-unlogged-panics gate
+        shell: bash
+        run: |
+          log=logs/agent-latest.jsonl
+          test -s "$log" || { echo "::error file=$log::self-obs artifact missing or empty"; exit 1; }
+          # (a) every line carries the 7 required self-obs base fields (obs-plan §3/§6)
+          while IFS= read -r line; do
+            [ -n "$line" ] || continue
+            printf '%s' "$line" | jq -e '.timestamp_ms and .level and .target and .["service.name"] and .["service.version"] and .["deployment.environment"] and .run_id' >/dev/null \
+              || { echo "::error file=$log::self-obs line missing a required base field"; exit 1; }
+          done < "$log"
+          # (b) redaction boundary — no absolute host path leaked (anchors mirror conductor-core::redact)
+          if grep -nE '([A-Za-z]:[\\/]|/home/|/Users/|\\Users\\|/root/|%APPDATA%|%USERPROFILE%|%LOCALAPPDATA%|\$HOME|~/|\.cargo[\\/]|\.rustup[\\/])' "$log"; then
+            echo "::error file=$log::absolute host path leaked into the self-obs artifact (redaction boundary)"; exit 1
+          fi
+          # (c) zero unlogged panics — grep the JSON sink AND the captured producer stderr (obs-plan §9):
+          # an unstructured backtrace (bypassed set_hook) lands on stderr, not the file. Only a structured
+          # tracing::error!(panic=…) JSON line is acceptable (obs-plan §10).
+          if grep -nE '^thread.*panicked' "$log" logs/producer-stderr.log; then
+            echo "::error::unstructured panic backtrace found (zero-unlogged-panics gate)"; exit 1
+          fi
+          echo "obs conformance + zero-unlogged-panics: PASS ($(wc -l < "$log") lines checked)"
+
+      - name: Upload obs self-observation artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: obs-conformance
+          path: logs/agent-latest.jsonl
+
   frontend:
     name: Frontend gate (npm audit · build)
     runs-on: windows-latest

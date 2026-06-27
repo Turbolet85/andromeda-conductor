@@ -528,7 +528,7 @@ Additional scenario-specific fields (per obs-scope Section 4 must-trace paths):
 
 **Log conformance check (obs CI gate):**
 - Agent reads `logs/agent-latest.jsonl` from CI artifacts
-- Validates all log records match binding schema (Section 6): presence of journal_emitted_at, run_id, seed, scenario, p_ids, verdict, state, latency_ms, slo_tier, fingerprints
+- Validates every log line carries the **§3 self-obs base-line schema** (`timestamp_ms`, `level`, `target`, `service.name`, `service.version`, `deployment.environment`, `run_id`) — NOT the Section-6 run-report ENVELOPE (`journal_emitted_at`/`seed`/`scenario`/`p_ids`/`verdict`/`state`/`latency_ms`/`slo_tier`/`fingerprints`), which is the scenario-RESULT record in `runs/<run_id>.jsonl` and gets its own (not-yet-built) conformance gate. `agent-latest.jsonl` is the per-line self-obs stream; the two record shapes are distinct (§3 line 229 "two record shapes")
 - Validates no absolute host-file paths (drive-letter `X:\` / `/home` / `/Users` / `%APPDATA%` / `~/.cargo` / `.rustup`) in any field; the allowlisted `target` module path (e.g. `conductor_core::obs`) is preserved (a documented identity field, not a leak), and internal struct names are kept out by the field-name allowlist + `Display`-not-`Debug` at the `anyhow` edge — NOT by `module::`-token redaction
 - On schema violation, agent marks CI check as FAIL (build gated)
 

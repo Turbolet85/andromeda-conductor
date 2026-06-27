@@ -1,0 +1,47 @@
+# security extract
+
+## Relevance
+Relevant — the chunk implements the CI security gate for observability conformance + redaction boundary enforcement, asserts the no-unlogged-panics SLO at the artifact level, and gates log content against the error-handling contract.
+
+## Constraints
+1. Conformance gate MUST reject `logs/agent-latest.jsonl` lines missing required base fields (`timestamp_ms`, `level`, `target`, service-identity fields, `run_id`) or containing leaked absolute host paths/internal struct names (security plan §Error Handling).
+
+2. Zero-unlogged-panics gate MUST reject any `^thread.*panicked` unstructured backtraces; all panics MUST route through `std::panic::set_hook` → `tracing::error!(panic=…)` structured JSON only (security plan §Error Handling).
+
+3. CI gate MUST verify the redaction boundary on `agent-latest.jsonl`: no drive-letter paths (`X:\`), Unix paths (`/home`, `/Users`), env-path expansions (`%APPDATA%`, `~/.cargo`, `.rustup`), or `ANDROMEDA_PULSE_DATA_DIR` strings, and no internal seam-crate struct/field names in any field except the allowlisted `target` module path (security plan §Error Handling, §Logging anti-pattern "NEVER let run-report artifacts leak absolute host paths").
+
+4. Artifact upload MUST capture Conductor's own `logs/agent-latest.jsonl` exclusively (distinct from third-party artifacts like `lcov.info`, which fall outside the redaction boundary) to enforce the error-handling contract (security plan §Error Handling "Run-report artifact sanitization").
+
+5. Any new CI dependencies added for the conformance-check tooling MUST pass `cargo-audit` ≥ 0.22 (+ recommended `cargo-deny` ≥ 0.19) with the advisory gate green (security plan §Dependency Security "CI integration", §Bootstrap phases).
+
+## Patterns to follow
+1. Conformance validation MUST use typed JSON deserialization (serde) to preserve the allowlisted identity fields while catching path/struct-name leaks; do not use regex string-matching (security plan §Error Handling, §Input Validation).
+
+2. CI gate MUST emit clear FAIL semantics on any schema violation or redaction boundary breach, and PASS only on full conformance + zero-unlogged-panics (security plan §Error Handling "External responses... sanitized").
+
+3. The panic-capture assertion inherits the `std::panic::set_hook` instrumentation invariant from the seam-level obs sink; CI gate observes and enforces that invariant held (security plan §Error Handling "error-to-verdict routing").
+
+## Anti-patterns to avoid
+1. NEVER expose absolute host paths (canonicalized `CONDUCTOR_*` directories, `ANDROMEDA_PULSE_DATA_DIR`, drive prefixes, `.rustup`, `.cargo` paths) or internal struct/field names in any log field of `agent-latest.jsonl` (security plan §Logging anti-pattern "NEVER let run-report artifacts leak absolute host paths").
+
+2. NEVER allow unstructured `^thread.*panicked` panic backtraces in the artifact — the gate MUST fail on presence, signaling breach of the panic capture instrumentation (security plan §Logging anti-pattern "NEVER let a malformed child/transport input panic").
+
+3. NEVER use tokio's virtual clock source (use `std::time::SystemTime`/`Instant` instead) in log timestamps — wrong clock sources corrupt SLO math and ground-truth integrity (security plan §Logging anti-pattern "NEVER write the journal/report wall-clock stamps from tokio's virtual clock").
+
+## Contract bindings
+**obs-plan §3/§6/§9/§10/§11** — This chunk implements obs-plan §9 (CI conformance gate) + §10 (zero-unlogged-panics SLO), asserting the self-obs base schema (§3 "two record shapes" + §6 "log coverage").
+**test-plan §9/§10** — Sibling CI-gate conventions; same scaffold + gate-step pattern.
+
+## Acceptance criteria contributions
+1. (security) Conformance gate FAILS the build on missing required fields, leaked absolute host paths, or internal struct-name leaks; PASSES on allowlisted module-path identity field (`target`).
+
+2. (security) Zero-unlogged-panics gate FAILS on any `^thread.*panicked` unstructured backtraces in `logs/agent-latest.jsonl` or captured stderr; PASSES when only `tracing::error!(panic=…)` JSON events are present.
+
+3. (security) Any new CI dependencies MUST pass `cargo-audit` (and optionally `cargo-deny`) with exit 0; no new Rust/npm advisories introduced.
+
+4. (security) `logs/agent-latest.jsonl` is uploaded as a CI artifact (`actions/upload-artifact@v4` with `if: always()`) capturing Conductor's own self-observation stream exclusively.
+
+## Relevant amendment history
+**2026-06-15-structured-logging-stack** — obs service-identity env-handles (`CONDUCTOR_SERVICE_NAME`, `CONDUCTOR_ENV`) documented as non-path string labels (JSON-escaped, no validation required); establishes the identity fields that the conformance gate MUST verify are present on every line (security plan §Input Validation).
+
+**2026-06-24-sanitized-stderr-agent-mode-logging** — `CONDUCTOR_AGENT_MODE` documented as non-path boolean trigger; agent-mode log path `logs/agent-latest.jsonl` derives from `CONDUCTOR_RUNS_DIR` through the `resolve_under` traversal guard, ensuring artifact location is hardened (security plan §Input Validation). Directly supports this chunk's production of `logs/agent-latest.jsonl` in CI agent-mode run.

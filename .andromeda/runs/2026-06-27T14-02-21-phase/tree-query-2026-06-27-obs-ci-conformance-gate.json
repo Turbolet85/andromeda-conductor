@@ -1,0 +1,34 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee LIKE '%init_observability%' ORDER BY file, line;",
+"rows": 5,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-cli 0.1.0 crate/",
+"file": "crates/conductor-cli/src/main.rs",
+"line": 9
+},
+{
+"caller": "rust-analyzer cargo conductor-cli 0.1.0 main().",
+"file": "crates/conductor-cli/src/main.rs",
+"line": 27
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 crate/",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 36
+},
+{
+"caller": "rust-analyzer cargo conductor-tauri 0.1.0 crate/",
+"file": "crates/conductor-tauri/src/main.rs",
+"line": 11
+},
+{
+"caller": "rust-analyzer cargo conductor-tauri 0.1.0 main().",
+"file": "crates/conductor-tauri/src/main.rs",
+"line": 17
+}
+],
+"db_state": "fresh"
+}
+]
