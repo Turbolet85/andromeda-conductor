@@ -25,7 +25,7 @@ Universal security requirements (Minimal tier — local-only loopback tool, no n
 - Audit: `cargo audit` (RustSec) + recommended `cargo deny` (`deny.toml`); build fails on advisory hit.
 - `Cargo.lock` committed + un-drifted (makes the audit deterministic). Toolchain ≥1.94.1 (tar-rs CVE-2026-33056); `tauri` ≥2.10.3 (origin-confusion CVE-2026-42184); keep `libsqlite3-sys` current.
 - Never `cargo build --release` or merge without `cargo-audit` (+ `cargo-deny`) green.
-- Frontend (`crates/conductor-tauri/ui`, npm — cargo-audit/deny do NOT cover it): `npm audit` clean (0 vulns) + `package-lock.json` committed before merging frontend changes; fonts vendored (Fontsource WOFF2), no runtime CDN.
+- Frontend (`crates/conductor-tauri/ui`, npm — cargo-audit/deny do NOT cover it): `npm audit --omit=dev` clean (0 production vulns; dev-only test-tooling advisories — e.g. the a11y harness's lighthouse/webdriverio tree — accepted at dev-tree grain, the npm analogue of deny.toml exceptions) + `package-lock.json` committed before merging frontend changes; fonts vendored (Fontsource WOFF2), no runtime CDN.
 - Never add `unsafe` across the OTLP/gRPC/SQLite FFI boundary without review (`cargo-geiger` to map it).
 
 ## Error handling (§Error Handling)

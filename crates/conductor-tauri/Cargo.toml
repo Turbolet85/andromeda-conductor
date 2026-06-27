@@ -15,3 +15,10 @@ serde = { workspace = true }
 tauri = { workspace = true }
 tokio = { workspace = true, features = ["rt", "sync"] }
 tracing.workspace = true
+
+[dev-dependencies]
+# GUI-integration test harness (Epoch 9 ch9): tauri::test mock-runtime + Path-7 parity.
+tauri = { workspace = true, features = ["test"] }
+tokio = { workspace = true, features = ["rt", "sync", "macros"] }
+assert_fs = { workspace = true }
+serde_json = { workspace = true }

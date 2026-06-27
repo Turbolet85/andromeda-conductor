@@ -229,3 +229,143 @@ pub fn stop_run(state: tauri::State<'_, RunControl>) -> Result<(), String> {
     tracing::info!("run stop requested");
     Ok(())
 }
+
+#[cfg(test)]
+mod tests {
+    //! GUI-integration tests (Epoch 9 ch9). The `tauri::test` mock-runtime exercises the synchronous
+    //! command contracts through the real IPC dispatch; the Path-7 leg proves cross-surface envelope
+    //! parity. The live `start_run` background-thread `Channel` frame *sequence* + the real-webview
+    //! axe/keyboard sweep are display-gated (Linux+xvfb + live Pulse — a11y-plan §3.5, test-plan §6).
+    use super::*;
+    use conductor_core::{read_run_journal, HeadlessResolver, ReportState};
+    use tauri::ipc::{CallbackFn, InvokeBody};
+    use tauri::test::{get_ipc_response, mock_builder, mock_context, noop_assets, INVOKE_KEY};
+    use tauri::webview::InvokeRequest;
+    use tauri::{Manager, WebviewUrl, WebviewWindowBuilder};
+
+    type MockApp = tauri::App<tauri::test::MockRuntime>;
+    type MockWindow = tauri::WebviewWindow<tauri::test::MockRuntime>;
+
+    fn test_app() -> MockApp {
+        mock_builder()
+            .manage(RunControl::default())
+            .manage(crate::pause::HoldGate::default())
+            .invoke_handler(tauri::generate_handler![
+                list_scenarios,
+                coverage_matrix,
+                run_report,
+                start_run,
+                stop_run,
+                crate::pause::resolve_operator_hold,
+            ])
+            .build(mock_context(noop_assets()))
+            .expect("mock app builds with the full command handler")
+    }
+
+    fn main_window(app: &MockApp) -> MockWindow {
+        WebviewWindowBuilder::new(app, "main", WebviewUrl::default())
+            .build()
+            .expect("mock webview builds")
+    }
+
+    fn invoke(window: &MockWindow, cmd: &str, body: InvokeBody) -> tauri::ipc::InvokeResponseBody {
+        get_ipc_response(
+            window,
+            InvokeRequest {
+                cmd: cmd.into(),
+                callback: CallbackFn(0),
+                error: CallbackFn(1),
+                url: "http://tauri.localhost".parse().unwrap(),
+                body,
+                headers: Default::default(),
+                invoke_key: INVOKE_KEY.to_string(),
+            },
+        )
+        .unwrap_or_else(|e| panic!("command `{cmd}` dispatched with an error: {e}"))
+    }
+
+    #[test]
+    fn mock_app_registers_the_full_command_surface() {
+        // The mock runtime accepts manage(...) + the generate_handler! list — the GUI-integration
+        // harness foundation (test-plan §5). A build failure here means a command/state mismatch.
+        let _app = test_app();
+    }
+
+    #[test]
+    fn coverage_matrix_command_returns_all_sixty_pids() {
+        let app = test_app();
+        let window = main_window(&app);
+        // CapabilityRow is Serialize-only (a command return, never read back), so assert on the JSON
+        // shape rather than deserializing the concrete type.
+        let rows: serde_json::Value = invoke(&window, "coverage_matrix", InvokeBody::default())
+            .deserialize()
+            .expect("coverage rows deserialize");
+        assert_eq!(
+            rows.as_array().map(|a| a.len()),
+            Some(60),
+            "all P-001..P-060 surface through the IPC dispatch"
+        );
+    }
+
+    #[test]
+    fn run_report_command_returns_a_well_formed_record_list() {
+        let app = test_app();
+        let window = main_window(&app);
+        // No run_id arg ⇒ latest; an absent/empty runs dir yields [] ("No run yet"), never an error.
+        let _records: Vec<RunRecord> = invoke(&window, "run_report", InvokeBody::Json(serde_json::json!({})))
+            .deserialize()
+            .expect("run_report returns a Vec<RunRecord>");
+    }
+
+    #[test]
+    fn stop_run_command_sets_the_cooperative_abort_flag() {
+        let app = test_app();
+        let window = main_window(&app);
+        let _ = invoke(&window, "stop_run", InvokeBody::Json(serde_json::json!({})));
+        assert!(
+            app.state::<RunControl>().abort.load(Ordering::SeqCst),
+            "stop_run flips the cooperative abort flag the run thread polls"
+        );
+    }
+
+    #[tokio::test(flavor = "current_thread")]
+    async fn path7_tauri_persists_the_same_blocked_envelope_as_the_cli() {
+        // Cross-surface parity (test-plan §6 Path 7): the Tauri crate drives the SAME conductor_run
+        // composition the start_run thread runs (preflight → drive_run → persist) and must persist the
+        // identical Blocked envelope the CLI's cli_smoke proves — same scenario+seed. The live
+        // start_run thread/Channel frame stream is the display-gated leg (a11y-plan §3.5).
+        let dir = assert_fs::TempDir::new().unwrap();
+        let manifest = format!("{}/../../contracts/mcp-contract.toml", env!("CARGO_MANIFEST_DIR"));
+        let toml = std::fs::read_to_string(format!(
+            "{}/../../scenarios/error-baseline-spike.toml",
+            env!("CARGO_MANIFEST_DIR")
+        ))
+        .unwrap();
+        let scenario = Scenario::from_toml_str(&toml).unwrap();
+
+        // SAFETY: nextest runs each test in its own process; set before any runtime/thread reads env.
+        // The injection metachar forces the read-back path unreachable (rejected pre-spawn) — the
+        // host-independent Blocked lever cli_smoke uses via the child .env (security-plan §Input Validation).
+        unsafe { std::env::set_var("ANDROMEDA_PULSE_DATA_DIR", "pulse;injection") };
+
+        let pf = conductor_run::preflight(Path::new(&manifest)).await.unwrap();
+        conductor_run::drive_run(
+            &pf,
+            std::slice::from_ref(&scenario),
+            "run-path7",
+            dir.path(),
+            &HeadlessResolver::proceed(),
+            |_| {},
+            || false,
+        )
+        .await
+        .expect("the blocked spine is infallible");
+
+        let records = read_run_journal(dir.path(), "run-path7").expect("the journal was persisted");
+        assert_eq!(records.len(), 1);
+        assert!(matches!(records[0].state, ReportState::Blocked), "no live Pulse ⇒ Blocked");
+        assert!(records[0].verdict.is_none(), "a blocked row carries no verdict");
+        assert_eq!(records[0].seed, scenario.seed);
+        assert_eq!(records[0].scenario, scenario.name);
+    }
+}

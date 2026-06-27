@@ -107,6 +107,10 @@ pub fn resolve_operator_hold(
 mod tests {
     use super::*;
     use conductor_core::PId;
+    use tauri::ipc::{CallbackFn, InvokeBody};
+    use tauri::test::{get_ipc_response, mock_builder, mock_context, noop_assets, INVOKE_KEY};
+    use tauri::webview::InvokeRequest;
+    use tauri::{Manager, WebviewUrl, WebviewWindowBuilder};
 
     fn hold() -> HoldPoint {
         HoldPoint {
@@ -150,5 +154,39 @@ mod tests {
         gate.arm(tx);
         drop(gate.slot.lock().unwrap().take());
         assert_eq!(rx.await.unwrap_or(Decision::NoGo), Decision::NoGo);
+    }
+
+    #[tokio::test(flavor = "current_thread")]
+    async fn resolve_operator_hold_command_delivers_the_decision() {
+        // The ch8 deferred leg: the `resolve_operator_hold` COMMAND through the real IPC dispatch +
+        // managed-`State` extraction (the bridge core `HoldGate::{arm,deliver}` is covered above). A
+        // pre-armed managed gate receives the operator's `Go` via the dispatched command (test-plan §5).
+        let app = mock_builder()
+            .manage(HoldGate::default())
+            .invoke_handler(tauri::generate_handler![resolve_operator_hold])
+            .build(mock_context(noop_assets()))
+            .expect("mock app builds");
+        let window = WebviewWindowBuilder::new(&app, "main", WebviewUrl::default())
+            .build()
+            .expect("mock webview builds");
+
+        let (tx, rx) = oneshot::channel();
+        app.state::<HoldGate>().arm(tx);
+
+        get_ipc_response(
+            &window,
+            InvokeRequest {
+                cmd: "resolve_operator_hold".into(),
+                callback: CallbackFn(0),
+                error: CallbackFn(1),
+                url: "http://tauri.localhost".parse().unwrap(),
+                body: InvokeBody::Json(serde_json::json!({ "decision": "Go" })),
+                headers: Default::default(),
+                invoke_key: INVOKE_KEY.to_string(),
+            },
+        )
+        .expect("resolve_operator_hold dispatches");
+
+        assert_eq!(rx.await.unwrap(), Decision::Go, "the dispatched command delivered the operator's Go");
     }
 }

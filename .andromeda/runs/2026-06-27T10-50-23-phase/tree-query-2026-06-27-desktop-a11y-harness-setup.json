@@ -1,0 +1,104 @@
+[
+{
+"sql": "SELECT from_crate, to_crate FROM crate_edges WHERE to_crate = 'conductor-tauri' OR from_crate = 'conductor-tauri' ORDER BY from_crate, to_crate;",
+"rows": 2,
+"result": [
+{
+"from_crate": "conductor-tauri",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-tauri",
+"to_crate": "conductor-run"
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT symbol, crate, file FROM symbol WHERE symbol LIKE '%start_run%' OR symbol LIKE '%stop_run%' OR symbol LIKE '%run_report%' OR symbol LIKE '%resolve_operator_hold%' OR symbol LIKE '%HoldGate%' OR symbol LIKE '%TauriResolver%' OR symbol LIKE '%drive_run%' ORDER BY crate, file;",
+"rows": 16,
+"result": [
+{
+"symbol": "rust-analyzer cargo conductor-run 0.1.0 drive_run().",
+"crate": "conductor-run",
+"file": "crates/conductor-run/src/lib.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-run 0.1.0 tests/drive_run_streams_progress_then_blocked_and_persists().",
+"crate": "conductor-run",
+"file": "crates/conductor-run/src/lib.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-run 0.1.0 tests/drive_run_honors_abort_before_the_first_scenario().",
+"crate": "conductor-run",
+"file": "crates/conductor-run/src/lib.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-tauri 0.1.0 commands/run_report().",
+"crate": "conductor-tauri",
+"file": "crates/conductor-tauri/src/commands.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-tauri 0.1.0 commands/start_run().",
+"crate": "conductor-tauri",
+"file": "crates/conductor-tauri/src/commands.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-tauri 0.1.0 commands/stop_run().",
+"crate": "conductor-tauri",
+"file": "crates/conductor-tauri/src/commands.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-tauri 0.1.0 pause/HoldGate#",
+"crate": "conductor-tauri",
+"file": "crates/conductor-tauri/src/pause.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-tauri 0.1.0 pause/HoldGate#slot.",
+"crate": "conductor-tauri",
+"file": "crates/conductor-tauri/src/pause.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-tauri 0.1.0 pause/impl#[HoldGate]arm().",
+"crate": "conductor-tauri",
+"file": "crates/conductor-tauri/src/pause.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-tauri 0.1.0 pause/impl#[HoldGate]deliver().",
+"crate": "conductor-tauri",
+"file": "crates/conductor-tauri/src/pause.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-tauri 0.1.0 pause/TauriResolver#",
+"crate": "conductor-tauri",
+"file": "crates/conductor-tauri/src/pause.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-tauri 0.1.0 pause/TauriResolver#gate.",
+"crate": "conductor-tauri",
+"file": "crates/conductor-tauri/src/pause.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-tauri 0.1.0 pause/TauriResolver#on_hold.",
+"crate": "conductor-tauri",
+"file": "crates/conductor-tauri/src/pause.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-tauri 0.1.0 pause/impl#[TauriResolver]new().",
+"crate": "conductor-tauri",
+"file": "crates/conductor-tauri/src/pause.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-tauri 0.1.0 pause/impl#[TauriResolver][PauseResolver]resolve().",
+"crate": "conductor-tauri",
+"file": "crates/conductor-tauri/src/pause.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-tauri 0.1.0 pause/resolve_operator_hold().",
+"crate": "conductor-tauri",
+"file": "crates/conductor-tauri/src/pause.rs"
+}
+],
+"db_state": "fresh"
+}
+]

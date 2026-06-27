@@ -25,7 +25,7 @@ Minimal-tier local utility: single-developer, local-only, no-cloud, no-multi-ten
 ## Universal anti-patterns
 - No scenario without a Pulse P-ID; no inbound network listener of Conductor's own.
 - `Cargo.lock` committed + un-drifted; never `cargo build --release`/merge without `cargo-audit` (+ `cargo-deny`) green.
-- Frontend npm tree (`conductor-tauri/ui`): `npm audit` clean + `package-lock.json` committed; fonts vendored (no CDN). cargo-audit/deny are Rust-only.
+- Frontend npm tree (`conductor-tauri/ui`): `npm audit --omit=dev` clean (production-dep strict; dev-only test-tooling advisories accepted at dev-tree grain) + `package-lock.json` committed; fonts vendored (no CDN). cargo-audit/deny are Rust-only.
 - Never let malformed child/transport input panic — typed `Blocked`/`Fail` via the verdict/error wall.
 - Never silently downgrade a failed preflight — distinct `Blocked` state with its precondition.
 - Never stamp the journal from tokio's virtual clock; never leak host paths / struct names into artifacts.

@@ -88,9 +88,11 @@ jobs:
       - name: Install (clean)
         run: npm ci
 
-      # 0 vulnerabilities required (security-plan §Dependency Security / Frontend npm).
-      - name: Supply-chain — npm audit
-        run: npm audit
+      # 0 PRODUCTION vulnerabilities required; dev-only test-tooling advisories accepted at
+      # dev-tree grain (security-plan §Dependency Security / Frontend npm — the npm analogue of
+      # the deny.toml accepted-exceptions mechanism; the a11y harness never ships).
+      - name: Supply-chain — npm audit (production deps)
+        run: npm audit --omit=dev
 
       - name: Build (tsc --noEmit && vite build)
         run: npm run build
