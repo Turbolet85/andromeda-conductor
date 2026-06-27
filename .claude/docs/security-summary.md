@@ -20,7 +20,7 @@ Minimal-tier local utility: single-developer, local-only, no-cloud, no-multi-ten
 |---|---|---|
 | config (low) | `scenarios/*` + `contracts/` manifest | garde-validated at load; operator-authored local files |
 | test-telemetry / run-metadata (low, synthetic) | `runs.db`, `<run_id>.jsonl`, `<run_id>.md` | world-readable local files; no confidentiality requirement |
-| credential / PII / payment / health | none owned by Conductor | N/A — Pulse's encrypted `corpus.db` is out of scope (SUT-owned) |
+| credential / PII / payment / health | none owned by Conductor | N/A — Pulse's `corpus.db` (plaintext SQLite, P-049 not active live) is out of scope (SUT-owned) |
 
 ## Universal anti-patterns
 - No scenario without a Pulse P-ID; no inbound network listener of Conductor's own.

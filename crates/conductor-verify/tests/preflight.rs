@@ -8,12 +8,10 @@ mod common;
 use common::{StubConfig, serve_stub};
 use conductor_core::ReportState;
 use conductor_verify::{
-    CanaryMarker, CanaryOutcome, ContractManifest, MARK_INCIDENT_RESOLVED, QUERY_INCIDENT_LIST,
-    READBACK_TOOLS, RETRIEVE_REPORT, RETRIEVE_TELEMETRY_SLICE, ReadbackClient, ReadyState,
-    ToolPresence, run_preflight,
+    CanaryMarker, CanaryOutcome, CanaryPoll, ContractManifest, MARK_INCIDENT_RESOLVED,
+    QUERY_INCIDENT_LIST, READBACK_TOOLS, RETRIEVE_REPORT, RETRIEVE_TELEMETRY_SLICE, ReadbackClient,
+    ReadyState, ToolPresence, run_preflight,
 };
-
-const CANARY: &str = "conductor-canary-7f3a";
 
 fn manifest() -> ContractManifest {
     let path =
@@ -23,9 +21,10 @@ fn manifest() -> ContractManifest {
 
 async fn drive_with(config: StubConfig, manifest: ContractManifest) -> ReadyState {
     let (client_io, server_io) = tokio::io::duplex(4096);
+    let canary = CanaryMarker::new(config.canary.clone(), config.canary_fingerprint.clone());
     let server = tokio::spawn(serve_stub(server_io, config));
     let client = ReadbackClient::connect_transport(client_io).await.expect("client connects");
-    let ready = run_preflight(&client, &manifest, &CanaryMarker::new(CANARY), "/test/data-dir")
+    let ready = run_preflight(&client, &manifest, &canary, "/test/data-dir", CanaryPoll::immediate())
         .await
         .expect("preflight runs");
     drop(client);
@@ -130,4 +129,26 @@ async fn a_canary_call_error_is_blocked_distinctly_from_an_empty_corpus() {
     let precondition = ready.blocked_precondition.expect("a precondition");
     assert!(precondition.contains("MCP read-back call failed"), "{precondition}");
     assert!(!precondition.contains("incident not found"), "{precondition}");
+}
+
+#[tokio::test(flavor = "current_thread")]
+async fn a_fingerprint_mismatch_is_blocked() {
+    // An incident is present, but its telemetry slice carries a different fingerprint than the bridge
+    // emitted — fidelity fails (no false pass on a stale / foreign incident; titles are scrubbed, so
+    // only the fingerprint proves the round-trip).
+    let (client_io, server_io) = tokio::io::duplex(4096);
+    let server = tokio::spawn(serve_stub(server_io, StubConfig::default()));
+    let client = ReadbackClient::connect_transport(client_io).await.expect("client connects");
+    let canary = CanaryMarker::new("ConductorCanary_x", "deadbeefdeadbeef");
+    let ready = run_preflight(&client, &manifest(), &canary, "/test/data-dir", CanaryPoll::immediate())
+        .await
+        .expect("preflight runs");
+    drop(client);
+    server.abort();
+
+    assert!(!ready.ready);
+    assert_eq!(ready.report_state(), ReportState::Blocked);
+    assert_eq!(ready.canary_round_trip, CanaryOutcome::Failed);
+    let precondition = ready.blocked_precondition.expect("a precondition");
+    assert!(precondition.contains("fingerprint not found"), "{precondition}");
 }

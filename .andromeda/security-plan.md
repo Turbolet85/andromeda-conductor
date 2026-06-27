@@ -35,7 +35,7 @@ _Justification: Every signal points to a minimal-tier local utility — a single
   - **Where:** `runs/` directory (per-run `<run_id>.jsonl` journal + `<run_id>.md` report) and embedded SQLite `runs.db` (Occupied Resources: On-disk artifacts; Established Decisions: Run-History Persistence)
   - **Volume:** aggregate, persisted on disk (append-mostly); content is self-generated synthetic OTLP fault data (spans/metrics/logs Conductor emits), not user-derived
 
-- **Type:** credential — **none owned by Conductor.** A keychain reference appears (`OsKeychainBackend("com.andromeda.pulse")`, Standard Contracts readiness gate), but it belongs to Pulse (the system under test): the sidecar opens Pulse's encrypted `corpus.db` via the OS keychain as the *same OS user*. Conductor does not store, generate, or manage any secret; the architecture states explicitly "No secrets, no `DATABASE_URL`, no cloud credentials" (Cross-cutting Patterns: Trust boundary; Occupied Resources: Environment variables — "no secrets/cloud env vars (local-only tool)")
+- **Type:** credential — **none owned by Conductor.** A keychain reference appears (`OsKeychainBackend("com.andromeda.pulse")`, Standard Contracts readiness gate), but it belongs to Pulse (the system under test): the sidecar opens Pulse's `corpus.db` (plaintext SQLite — the P-049 encrypted-at-rest assumption proved wrong when verified live 2026-06-27; the `OsKeychainBackend` reference is Pulse-side and not exercised for corpus access) as the *same OS user*. Conductor does not store, generate, or manage any secret; the architecture states explicitly "No secrets, no `DATABASE_URL`, no cloud credentials" (Cross-cutting Patterns: Trust boundary; Occupied Resources: Environment variables — "no secrets/cloud env vars (local-only tool)")
   - **Where:** N/A for Conductor (OS keychain access is Pulse-side, exercised via the spawned sidecar's canary)
   - **Volume:** N/A
 
@@ -43,7 +43,7 @@ _Justification: Every signal points to a minimal-tier local utility — a single
 - **Type:** payment — **none.** Stack lists no payment/billing SDK (no Stripe etc.); Project Intent describes no transactions.
 - **Type:** health — **none.** No medical data in Stack or Intent.
 
-Note: `corpus.db` (Pulse's encrypted-at-rest incident corpus, P-049) is **out of scope** — it is owned and encrypted by Pulse; Conductor only round-trips a canary incident through it via MCP read-back to prove wiring (Standard Contracts readiness gate).
+Note: `corpus.db` (Pulse's incident corpus — **plaintext SQLite**, NOT encrypted-at-rest; the P-049 encryption assumption proved wrong live 2026-06-27) is **out of scope** — owned by Pulse (the SUT); Conductor only reads it via MCP read-back to prove wiring and never persists/exfiltrates it (Standard Contracts readiness gate).
 
 **Attack surface:**
 
@@ -87,7 +87,7 @@ Note: `corpus.db` (Pulse's encrypted-at-rest incident corpus, P-049) is **out of
 - **CI/CD:** GitHub Actions on the dev OS target — `cargo build` / cargo-nextest (incl. golden tests) / `cargo clippy`, build + test gating only. Dynamic end-to-end scenario proof requires a live Pulse and is an explicit operator/local gate, not a CI gate (Infrastructure Patterns: CI/CD approach; Established Decisions: CI/CD)
 
 **Compliance triggers:**
-None — no compliance-regulated data detected. No payment data → no PCI DSS; no EU personal data / no user accounts → no GDPR; no health/medical data → no HIPAA; no children's data → no COPPA. The only persisted data is self-generated synthetic test telemetry and run metadata (`runs.db`, JSONL journals); Pulse's encrypted `corpus.db` is out of scope and owned by the SUT.
+None — no compliance-regulated data detected. No payment data → no PCI DSS; no EU personal data / no user accounts → no GDPR; no health/medical data → no HIPAA; no children's data → no COPPA. The only persisted data is self-generated synthetic test telemetry and run metadata (`runs.db`, JSONL journals); Pulse's `corpus.db` (plaintext SQLite, P-049 encryption not active live) is out of scope and owned by the SUT.
 
 This tier is the SINGLE SOURCE OF TRUTH for how much security rigor downstream
 skills (security-pass per phase + cross-cutting reads from design / tests /
@@ -141,10 +141,10 @@ boundary, so TLS / HSTS / certificate pinning are N/A (adding them would
 contradict the loopback-only Minimal model).
 
 **Encryption at rest is out of scope for Conductor.** Pulse's `corpus.db` is
-encrypted at rest by Pulse (P-049) and opened by the sidecar via the OS keychain
-(`OsKeychainBackend("com.andromeda.pulse")`) as the same OS user — Conductor only
-round-trips a canary incident through it to prove wiring; it never stores or
-manages that encryption (Standard Contracts: Readiness gate).
+**plaintext SQLite** — the P-049 "encrypted at rest via `OsKeychainBackend`"
+assumption proved WRONG when verified live (2026-06-27), so the keychain-failure
+canary mode does not apply. Conductor only reads the corpus via MCP read-back to
+prove wiring and never persists or exfiltrates it (Standard Contracts: Readiness gate).
 
 _Per template: for Minimal tier the At-rest / Key-management / Data-lifecycle
 subsections are omitted — no sensitive data is stored and there is no key
@@ -305,7 +305,7 @@ added (e.g. a remote-controllable mode), these bans apply._
 ### Data Protection
 
 - NEVER use deprecated crypto algorithms (MD5, SHA-1, DES, RC4, ECB mode) — if any fingerprint/hash is ever added to `runs.db` or the journal, use a modern hash.
-- NEVER attempt to read, copy, or decrypt Pulse's encrypted `corpus.db` (P-049) — it is owned and encrypted by Pulse and opened by the sidecar via the OS keychain as the same OS user; Conductor only round-trips a canary incident through MCP read-back (Standard Contracts: Readiness gate).
+- NEVER have Conductor's production code directly open, copy, or exfiltrate Pulse's `corpus.db` (plaintext SQLite — P-049 encryption not active live; corpus access is via MCP read-back ONLY) — it is owned by Pulse (the SUT); never persist its content into Conductor artifacts (Standard Contracts: Readiness gate).
 - NEVER persist real secrets or credentials into the unencrypted `runs.db` / JSONL journals — they store only self-generated synthetic telemetry; treat them as world-readable local files.
 - NEVER disable TLS verification or downgrade to plaintext on any surface that is ever promoted beyond loopback — today egress is `127.0.0.1:4317` loopback-only, but a non-loopback target must not silently skip transport verification.
 

@@ -4,12 +4,14 @@
 //! client's `connect_command` stdio path is exercised end to end. Built only under the `stub-server`
 //! feature — never part of a release build.
 
-use conductor_verify::{QUERY_INCIDENT_LIST, READBACK_TOOLS};
+use conductor_verify::{QUERY_INCIDENT_LIST, READBACK_TOOLS, RETRIEVE_TELEMETRY_SLICE};
 use serde_json::{Value, json};
 use tokio::io::{AsyncBufReadExt, AsyncWriteExt, BufReader};
 
 /// Must match `tests/preflight_spawn.rs`'s expected canary marker.
 const CANARY: &str = "conductor-canary-7f3a";
+/// Must match `tests/preflight_spawn.rs`'s expected canary fingerprint (the fidelity carrier).
+const CANARY_FP: &str = "0123456789abcdef";
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
@@ -55,7 +57,7 @@ fn stub_result(method: &str, req: &Value) -> Value {
             if name == QUERY_INCIDENT_LIST {
                 json!({
                     "items": [ {
-                        "incident_id": 1,
+                        "id": 1,
                         "status": "active",
                         "severity": "high",
                         "title": CANARY,
@@ -63,6 +65,13 @@ fn stub_result(method: &str, req: &Value) -> Value {
                     } ],
                     "total": 1,
                     "next_cursor": Value::Null,
+                })
+            } else if name == RETRIEVE_TELEMETRY_SLICE {
+                json!({
+                    "incident_id": 1,
+                    "span_refs": ["span-0"],
+                    "fingerprint_refs": [CANARY_FP],
+                    "timestamps_unix_nano": [0],
                 })
             } else {
                 json!({ "ok": true })

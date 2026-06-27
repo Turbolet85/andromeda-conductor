@@ -41,7 +41,7 @@ pub use error::VerifyError;
 pub use manifest::{ContractManifest, READBACK_TOOLS};
 pub use conductor_core::ClaimClass;
 pub use preflight::{
-    CanaryMarker, CanaryOutcome, ReadyState, ToolPresence, preflight_boot, run_preflight,
+    CanaryMarker, CanaryOutcome, CanaryPoll, ReadyState, ToolPresence, preflight_boot, run_preflight,
 };
 pub use slo::{CheckOutcome, SloOutcome, compare, evaluate_check, evaluate_slo};
 pub use verdict::{Assessment, classify};

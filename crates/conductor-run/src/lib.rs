@@ -25,14 +25,15 @@ use conductor_core::{
     redact_value, resolve_hold,
 };
 use conductor_emit::{
-    DEFAULT_OTLP_ENDPOINT, DEFAULT_SERVICE_NAME, LogsEmitter, Severity, TraceEmitter, probe_egress,
-    severity_logs_request, trace_request,
+    DEFAULT_OTLP_ENDPOINT, DEFAULT_SERVICE_NAME, ExceptionSpec, Frame, LogsEmitter, Severity,
+    TraceEmitter, exception_trace_request, fingerprint, probe_egress, severity_logs_request,
+    trace_request,
 };
 use conductor_report::{JournalWriter, RunReport, RunsDb};
 use conductor_timeline::{PhaseTimeline, PhaseTransition, run_timeline};
 use conductor_verify::{
-    CanaryMarker, CanaryOutcome, ContractManifest, ReadbackClient, ReadyState, ToolPresence,
-    evaluate_check, run_preflight,
+    CanaryMarker, CanaryOutcome, CanaryPoll, ContractManifest, ReadbackClient, ReadyState,
+    ToolPresence, evaluate_check, run_preflight,
 };
 
 /// The suite-wide preflight outcome — established once, reused by every scenario in a run.
@@ -56,16 +57,11 @@ pub async fn preflight(manifest_path: &Path) -> anyhow::Result<Preflight> {
         }
     };
 
-    let manifest = ContractManifest::load(manifest_path).context("load MCP contract manifest")?;
-    let canary = CanaryMarker::new("conductor-canary");
-    let ready = run_preflight(&client, &manifest, &canary, &data_dir_str)
-        .await
-        .map(|state| state.ready)
-        .unwrap_or(false);
-    if !ready {
+    let state = canary_gate(&client, manifest_path, &data_dir_str).await?;
+    if !state.ready {
         tracing::info!("preflight blocked: readiness gate not satisfied");
     }
-    Ok(Preflight { client: Some(client), ready })
+    Ok(Preflight { client: Some(client), ready: state.ready })
 }
 
 /// The full readiness result for the `conductor preflight` verb — the serializable arch readiness
@@ -74,12 +70,12 @@ pub async fn preflight(manifest_path: &Path) -> anyhow::Result<Preflight> {
 pub async fn readiness(manifest_path: &Path) -> anyhow::Result<ReadyState> {
     let data_dir = std::env::var_os("ANDROMEDA_PULSE_DATA_DIR").map(PathBuf::from);
     let data_dir_str = data_dir.as_ref().map(|p| p.display().to_string()).unwrap_or_default();
-    let manifest = ContractManifest::load(manifest_path).context("load MCP contract manifest")?;
-    let canary = CanaryMarker::new("conductor-canary");
     match ReadbackClient::connect(data_dir).await {
-        Ok(client) => Ok(run_preflight(&client, &manifest, &canary, &data_dir_str).await?),
+        Ok(client) => canary_gate(&client, manifest_path, &data_dir_str).await,
         Err(_) => {
             tracing::info!("preflight blocked: MCP read-back path unreachable");
+            let manifest =
+                ContractManifest::load(manifest_path).context("load MCP contract manifest")?;
             Ok(unreachable_state(&manifest, &data_dir_str))
         }
     }
@@ -102,6 +98,87 @@ fn unreachable_state(manifest: &ContractManifest, data_dir: &str) -> ReadyState 
         data_dir: redact_value(data_dir).into_owned(),
         canary_round_trip: CanaryOutcome::Skipped,
         blocked_precondition: Some(UNREACHABLE_PRECONDITION.to_string()),
+        checked_at: now_rfc3339(),
+    }
+}
+
+/// Identical-fingerprint canary exceptions emitted as the storm — over Pulse's `>=5 in 30s` retry-storm
+/// floor (P-018) so the gate's incident is raised deterministically.
+const CANARY_STORM_COUNT: u64 = 6;
+
+/// Emit the canary fingerprint-storm, then run the readiness gate over it. Emission failure (OTLP
+/// egress down) is a Blocked precondition, never a harness `Err`; a missing / invalid manifest IS a
+/// harness fault. Shared by [`preflight`] + [`readiness`].
+async fn canary_gate(
+    client: &ReadbackClient,
+    manifest_path: &Path,
+    data_dir_str: &str,
+) -> anyhow::Result<ReadyState> {
+    let manifest = ContractManifest::load(manifest_path).context("load MCP contract manifest")?;
+    let canary = match emit_canary().await {
+        Ok(canary) => canary,
+        Err(e) => {
+            tracing::info!(
+                "preflight blocked: canary emission failed ({})",
+                redact_value(&e.to_string())
+            );
+            return Ok(canary_blocked_state(&manifest, data_dir_str));
+        }
+    };
+    Ok(run_preflight(client, &manifest, &canary, data_dir_str, canary_poll()).await?)
+}
+
+/// Emit a unique fingerprint-storm to Pulse's loopback ingest and return the [`CanaryMarker`] the gate
+/// asserts reads back. The marker is unique per preflight (a stale corpus can't satisfy the gate on a
+/// prior run's canary); the fingerprint — computed to match Pulse's derivation — is the fidelity
+/// carrier (Pulse scrubs incident titles). Each occurrence carries a distinct span identity but the
+/// same fingerprint, so Pulse counts a storm (security-plan §Threat Model).
+async fn emit_canary() -> anyhow::Result<CanaryMarker> {
+    let marker = format!("ConductorCanary_{}", now_ms());
+    let spec = ExceptionSpec::new(
+        marker.clone(),
+        "conductor preflight canary",
+        vec![Frame::new("conductor::run::preflight_canary", "conductor-run/src/lib.rs", 1)],
+    );
+    let fp = fingerprint(&spec);
+    let base = now_ms() as u64;
+    let mut traces = TraceEmitter::connect(DEFAULT_OTLP_ENDPOINT).await?;
+    for i in 0..CANARY_STORM_COUNT {
+        traces
+            .export(exception_trace_request(DEFAULT_SERVICE_NAME, base.wrapping_add(i), &spec))
+            .await?;
+    }
+    Ok(CanaryMarker::new(marker, fp))
+}
+
+/// The canary poll budget, derived from `CONDUCTOR_PREFLIGHT_TIMEOUT` (seconds, default 30) — one
+/// attempt per second so the gate waits out Pulse's storm-detection + ingest latency before Blocking.
+fn canary_poll() -> CanaryPoll {
+    let secs = std::env::var("CONDUCTOR_PREFLIGHT_TIMEOUT")
+        .ok()
+        .and_then(|v| v.parse::<u64>().ok())
+        .unwrap_or(30)
+        .max(1);
+    CanaryPoll { attempts: secs as u32, interval: std::time::Duration::from_secs(1) }
+}
+
+/// The Blocked `ReadyState` when the canary cannot be emitted (OTLP egress to `:4317` unreachable) — a
+/// distinct precondition from an unreachable read-back path, never a false pass.
+fn canary_blocked_state(manifest: &ContractManifest, data_dir: &str) -> ReadyState {
+    ReadyState {
+        ready: false,
+        negotiated_protocol_version: None,
+        expected_protocol_version: manifest.expected_protocol_version.clone(),
+        required_tools: manifest
+            .required_tools
+            .iter()
+            .map(|name| (name.clone(), ToolPresence::Absent))
+            .collect(),
+        data_dir: redact_value(data_dir).into_owned(),
+        canary_round_trip: CanaryOutcome::Skipped,
+        blocked_precondition: Some(
+            "canary emission failed: OTLP egress to 127.0.0.1:4317 unreachable".to_string(),
+        ),
         checked_at: now_rfc3339(),
     }
 }

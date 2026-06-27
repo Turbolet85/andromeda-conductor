@@ -1,10 +1,12 @@
 //! The MCP `initialize` preflight readiness gate (arch §Standard Contracts).
 //!
 //! Three assertions over a [`ReadbackClient`] — protocol-version pin, required-tool presence, and a
-//! data-dir canary read-back — each producing a distinct [`ReportState::Blocked`] precondition on
-//! failure (never a silent downgrade; the preflight-integrity invariant). The canary's *emission* is
-//! the caller's job (the Epoch-8 cli suite runner); this gate asserts only that the known canary
-//! reads back from the shared corpus, proving the `ANDROMEDA_PULSE_DATA_DIR` wiring.
+//! data-dir canary round-trip — each producing a distinct [`ReportState::Blocked`] precondition on
+//! failure (never a silent downgrade; the preflight-integrity invariant). The canary's *emission* (a
+//! unique fingerprint-storm) is the composition root's job (`conductor-run`); this gate asserts the
+//! storm read back — Pulse raised an incident whose telemetry slice carries the emitted **fingerprint**
+//! (titles are scrubbed, so fidelity is on the fingerprint) — proving the `ANDROMEDA_PULSE_DATA_DIR`
+//! corpus wiring end to end.
 
 use std::collections::BTreeMap;
 
@@ -34,16 +36,35 @@ pub enum CanaryOutcome {
     Skipped,
 }
 
-/// The known canary incident the upstream emitter stamped into the live Pulse's corpus; the gate
-/// asserts `query_incident_list` returns an incident bearing this marker.
+/// The canary the bridge emitted (a unique fingerprint-storm). The gate asserts the live Pulse raised
+/// an incident whose telemetry slice carries this `fingerprint`; `marker` is the unique
+/// `exception.type` the storm bore (identity / logging only — Pulse scrubs incident titles, so
+/// fidelity is on the fingerprint, not the marker).
 #[derive(Debug, Clone)]
 pub struct CanaryMarker {
     pub marker: String,
+    pub fingerprint: String,
 }
 
 impl CanaryMarker {
-    pub fn new(marker: impl Into<String>) -> Self {
-        Self { marker: marker.into() }
+    pub fn new(marker: impl Into<String>, fingerprint: impl Into<String>) -> Self {
+        Self { marker: marker.into(), fingerprint: fingerprint.into() }
+    }
+}
+
+/// How long the canary leg waits for Pulse to ingest the storm and raise the incident before reporting
+/// `Blocked` — bounded so the gate never hangs. `immediate` (one attempt, no wait) is the deterministic
+/// in-process / stub-child test budget; the live caller derives attempts from `CONDUCTOR_PREFLIGHT_TIMEOUT`.
+#[derive(Debug, Clone, Copy)]
+pub struct CanaryPoll {
+    pub attempts: u32,
+    pub interval: std::time::Duration,
+}
+
+impl CanaryPoll {
+    /// A single attempt with no wait — deterministic for the stub tests (no real-clock dependency).
+    pub fn immediate() -> Self {
+        Self { attempts: 1, interval: std::time::Duration::ZERO }
     }
 }
 
@@ -87,6 +108,7 @@ pub async fn run_preflight(
     manifest: &ContractManifest,
     canary: &CanaryMarker,
     data_dir: &str,
+    poll: CanaryPoll,
 ) -> Result<ReadyState, VerifyError> {
     let checked_at = now_rfc3339();
     let data_dir = redact_value(data_dir).into_owned();
@@ -122,25 +144,11 @@ pub async fn run_preflight(
     let tools_ok =
         tools_unverifiable.is_none() && required_tools.values().all(|p| *p == ToolPresence::Present);
 
-    let canary_result = client.query_incident_list(None).await;
-    // A genuine call/transport/JSON-RPC error must NOT be reported as "incident not found" — it is a
-    // distinct precondition (the masking this chunk fixes). `message` is hidden by Display, so surface
-    // it (redacted) here only for the precondition string.
-    let canary_call_error = canary_result.as_ref().err().map(|e| match e {
-        VerifyError::JsonRpc { message, .. } => redact_value(message).into_owned(),
-        other => redact_value(&other.to_string()).into_owned(),
-    });
-    let canary_round_trip = match &canary_result {
-        Ok(value) => {
-            let body = serde_json::to_string(value).unwrap_or_default();
-            if body.contains(&canary.marker) {
-                CanaryOutcome::Ok
-            } else {
-                CanaryOutcome::Failed
-            }
-        }
-        Err(_) => CanaryOutcome::Failed,
-    };
+    // Fidelity is on the emitted fingerprint, not a title substring (Pulse scrubs titles): poll
+    // `query_incident_list` for the storm's incident, then assert the fingerprint reads back from its
+    // telemetry slice. A genuine call/transport/JSON-RPC error stays distinct from "not found yet" (the
+    // masking this chunk's prerequisite fixed); both fold into the precondition cascade below.
+    let (canary_round_trip, canary_call_error, canary_detail) = poll_canary(client, canary, poll).await;
 
     let blocked_precondition = if !version_ok {
         Some(format!(
@@ -159,7 +167,9 @@ pub async fn run_preflight(
     } else if let Some(reason) = canary_call_error {
         Some(format!("MCP read-back call failed: {reason}"))
     } else if canary_round_trip != CanaryOutcome::Ok {
-        Some("canary round-trip failed: incident not found in corpus".to_string())
+        Some(canary_detail.unwrap_or_else(|| {
+            "canary round-trip failed: incident not found in corpus".to_string()
+        }))
     } else {
         None
     };
@@ -191,9 +201,10 @@ pub async fn preflight_boot(
     manifest: &ContractManifest,
     canary: &CanaryMarker,
     data_dir: &str,
+    poll: CanaryPoll,
 ) -> Result<ReadyState, VerifyError> {
     match ReadbackClient::connect_command(command).await {
-        Ok(client) => run_preflight(&client, manifest, canary, data_dir).await,
+        Ok(client) => run_preflight(&client, manifest, canary, data_dir, poll).await,
         Err(e) => {
             tracing::info!(
                 state = ReportState::Blocked.label(),
@@ -216,4 +227,99 @@ pub async fn preflight_boot(
             })
         }
     }
+}
+
+/// The canary fidelity outcome for one read-back attempt.
+enum CanaryFidelity {
+    /// The emitted fingerprint read back from an incident's telemetry slice.
+    Ok,
+    /// No incident yet, or none carrying the fingerprint — retryable within the poll budget.
+    NotYet(String),
+    /// A read-back call/transport/JSON-RPC error — not retryable (its own precondition).
+    CallError(String),
+}
+
+/// Poll the canary fidelity check within the [`CanaryPoll`] budget, returning the
+/// `(outcome, call_error, not-found detail)` the precondition cascade consumes. Only the "not yet" case
+/// retries (Pulse ingest latency); a call error surfaces immediately.
+async fn poll_canary(
+    client: &ReadbackClient,
+    canary: &CanaryMarker,
+    poll: CanaryPoll,
+) -> (CanaryOutcome, Option<String>, Option<String>) {
+    let attempts = poll.attempts.max(1);
+    let mut last_detail = "canary round-trip failed: incident not found in corpus".to_string();
+    for attempt in 0..attempts {
+        match assert_canary(client, canary).await {
+            CanaryFidelity::Ok => return (CanaryOutcome::Ok, None, None),
+            CanaryFidelity::CallError(reason) => return (CanaryOutcome::Failed, Some(reason), None),
+            CanaryFidelity::NotYet(detail) => {
+                last_detail = detail;
+                if attempt + 1 < attempts {
+                    tokio::time::sleep(poll.interval).await;
+                }
+            }
+        }
+    }
+    (CanaryOutcome::Failed, None, Some(last_detail))
+}
+
+/// One canary fidelity attempt: find the storm's incident and assert its telemetry slice carries the
+/// emitted fingerprint (titles are scrubbed, so the fingerprint is the fidelity carrier).
+async fn assert_canary(client: &ReadbackClient, canary: &CanaryMarker) -> CanaryFidelity {
+    let list = match client.query_incident_list(None).await {
+        Ok(value) => value,
+        Err(e) => return CanaryFidelity::CallError(call_error_reason(&e)),
+    };
+    let ids = incident_ids(&list);
+    if ids.is_empty() {
+        return CanaryFidelity::NotYet(
+            "canary round-trip failed: incident not found in corpus".to_string(),
+        );
+    }
+    for id in ids {
+        match client.retrieve_telemetry_slice(Some(serde_json::json!({ "incident_id": id }))).await {
+            Ok(slice) => {
+                if fingerprint_refs(&slice).iter().any(|fp| fp == &canary.fingerprint) {
+                    return CanaryFidelity::Ok;
+                }
+            }
+            Err(e) => return CanaryFidelity::CallError(call_error_reason(&e)),
+        }
+    }
+    CanaryFidelity::NotYet("canary fingerprint not found in telemetry slice".to_string())
+}
+
+/// The redacted reason for a read-back call error — `JsonRpc` hides its server message behind `Display`,
+/// so surface it (redacted) only here for the precondition string.
+fn call_error_reason(e: &VerifyError) -> String {
+    match e {
+        VerifyError::JsonRpc { message, .. } => redact_value(message).into_owned(),
+        other => redact_value(&other.to_string()).into_owned(),
+    }
+}
+
+/// The incident ids in a `query_incident_list` result (`{items:[{id,…}]}`; tolerant of the stub's
+/// `incident_id` item key).
+fn incident_ids(list: &serde_json::Value) -> Vec<i64> {
+    list.get("items")
+        .and_then(serde_json::Value::as_array)
+        .map(|items| {
+            items
+                .iter()
+                .filter_map(|it| {
+                    it.get("id").or_else(|| it.get("incident_id")).and_then(serde_json::Value::as_i64)
+                })
+                .collect()
+        })
+        .unwrap_or_default()
+}
+
+/// The fingerprint reference strings in a `retrieve_telemetry_slice` result (`{fingerprint_refs:[…]}`).
+fn fingerprint_refs(slice: &serde_json::Value) -> Vec<String> {
+    slice
+        .get("fingerprint_refs")
+        .and_then(serde_json::Value::as_array)
+        .map(|refs| refs.iter().filter_map(|r| r.as_str().map(str::to_string)).collect())
+        .unwrap_or_default()
 }

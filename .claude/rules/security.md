@@ -7,7 +7,7 @@ Universal security requirements (Minimal tier — local-only loopback tool, no n
 ## Secrets
 - Conductor owns NO secrets — never introduce one. Never commit `.env*`, `*.p12`, `*.pem`, `*.cer`.
 - No `DATABASE_URL` or cloud-credential env vars — the SQLite path is a local file. Only the non-secret `CONDUCTOR_*` and Pulse-side `ANDROMEDA_*` env handles exist.
-- The OS keychain reference (`OsKeychainBackend("com.andromeda.pulse")`) is Pulse-side — never read, store, copy, or embed keychain material; never attempt to decrypt Pulse's `corpus.db`.
+- The OS keychain reference (`OsKeychainBackend("com.andromeda.pulse")`) is Pulse-side — never read, store, copy, or embed keychain material. Pulse's `corpus.db` is plaintext SQLite (P-049 encryption not active live, verified 2026-06-27) — Conductor's production code reads it via MCP read-back ONLY, never directly opens/copies/exfiltrates it.
 
 ## Input validation (§Input Validation)
 - Validate ALL scenario config at load with garde (`range` + `#[garde(custom)]` cross-field: error fraction ∈ [0,1], non-negative durations, p50≤p95≤p99, severity-mix sums). An unvalidated serde deserialize bypasses the trust boundary.

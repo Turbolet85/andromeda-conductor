@@ -16,6 +16,9 @@ pub struct StubConfig {
     /// call-error-vs-empty distinction the preflight catch-all fix introduces.
     pub query_errors: bool,
     pub canary: String,
+    /// The fingerprint `retrieve_telemetry_slice` reports in `fingerprint_refs` — the fidelity carrier
+    /// the canary leg asserts (titles are scrubbed, so the fingerprint, not the title, proves the round-trip).
+    pub canary_fingerprint: String,
 }
 
 impl Default for StubConfig {
@@ -34,6 +37,7 @@ impl Default for StubConfig {
             canary_in_corpus: true,
             query_errors: false,
             canary: "conductor-canary-7f3a".to_string(),
+            canary_fingerprint: "0123456789abcdef".to_string(),
         }
     }
 }
@@ -57,8 +61,9 @@ where
             continue; // notification — no response
         };
         let method = req.get("method").and_then(Value::as_str).unwrap_or("");
-        let calls_query = method == "tools/call"
-            && req.pointer("/params/name").and_then(Value::as_str) == Some("query_incident_list");
+        let tool = req.pointer("/params/name").and_then(Value::as_str);
+        let calls_query = method == "tools/call" && tool == Some("query_incident_list");
+        let calls_slice = method == "tools/call" && tool == Some("retrieve_telemetry_slice");
 
         let resp = if config.query_errors && calls_query {
             json!({
@@ -82,7 +87,7 @@ where
                     if config.canary_in_corpus {
                         json!({
                             "items": [ {
-                                "incident_id": 1,
+                                "id": 1,
                                 "status": "active",
                                 "severity": "high",
                                 "title": config.canary,
@@ -95,6 +100,12 @@ where
                         json!({ "items": [], "total": 0, "next_cursor": Value::Null })
                     }
                 }
+                "tools/call" if calls_slice => json!({
+                    "incident_id": 1,
+                    "span_refs": ["span-0"],
+                    "fingerprint_refs": [config.canary_fingerprint],
+                    "timestamps_unix_nano": [0],
+                }),
                 "tools/call" => json!({ "ok": true }),
                 _ => json!({}),
             };

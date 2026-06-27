@@ -5,86 +5,220 @@ edit during an /implement run._
 
 ## Metadata
 - **Marker:** 2026-06-27-live-pulse-e2e-proof · **Version:** conductor-0.1.0 · **Generated:** 2026-06-27
-- **Scope decision (P4):** *Bridge + all 5 families* — canary bridge + faithful emit/extract + per-family calibration for all five (user-selected).
+- **Scope decision (P4):** *Bridge + 2 families* — canary bridge + the faithful emit/extract framework +
+  live verification of **fingerprint-storm** and **error-baseline-spike**. The other three families
+  (restart-suppression, pii-scrub, connection-lifecycle) **defer to a fast-follow sibling chunk** that reuses
+  this framework (tracked as a new markerless working-route entry).
+- **Re-promote:** supersedes the rolled-back prior plan — read-back now works (hand-rolled JSON-RPC, not rmcp);
+  the canary proves fidelity via **fingerprint** (`retrieve_telemetry_slice.fingerprint_refs`), not a title echo
+  (Pulse scrubs titles).
 
 ## Goal
-Close the emit→Pulse→read-back→verdict loop against a **live Pulse** for the first time. Today every seam is unit/golden/stub-tested but `conductor preflight` against a live Pulse comes back `Blocked` on the canary round-trip, and `execute_scenario` is deliberately *coarse* (one signal/phase + a literal `"incidents-listed"` read-back, `conductor-run/src/lib.rs:137`). This chunk (1) wires the **canary bridge** that flips live preflight to `ready: true`, then (2) makes the five headline families genuinely **MCP-verified** end to end.
+Close the emit→Pulse→read-back→verdict loop against a **live Pulse** for the first time. Today `conductor
+preflight` against live Pulse returns `Blocked` for one reason only — **nothing emits the canary**, so the gate
+finds an empty corpus ("incident not found in corpus"; the call itself parses, post-adapter). `execute_scenario`
+is also deliberately *coarse*: one signal/phase (`coarse_emit`, `conductor-run/src/lib.rs:182`) + the literal
+`"incidents-listed"` read-back (`lib.rs:138-141`). This chunk (1) wires the **canary bridge** that flips live
+preflight to `ready:true`, (2) replaces the coarse spine with a **faithful emit/extract framework**, and (3)
+proves that framework live on **two** families.
 
-The **canary bridge** is the core unblocker. `run_preflight` already asserts a canary reads back from the corpus, but its doc comment (`preflight.rs:5-7`) defers the *emission* to "the Epoch-8 cli suite runner" — which was never built, so nothing stamps the canary into Pulse first. The bridge emits a known, **unique** canary incident (conductor-emit), bounded-polls until Pulse ingests it, and asserts **content fidelity** on read-back — proving the `ANDROMEDA_PULSE_DATA_DIR` workspace wiring end to end (tool presence alone never proved corpus visibility; per arch §Standard Contracts + §Read-Back Dependency Posture). Every failure mode stays a distinct `Blocked` precondition, never a silent downgrade or panic (security-plan §Threat Model + the verdict/error wall).
+The **canary bridge** is the core unblocker. `run_preflight` (`conductor-verify/src/preflight.rs:85`) already
+asserts a canary reads back, but its doc comment (`preflight.rs:5-7`) defers the *emission* to "the Epoch-8 cli
+suite runner" — never built — and its fidelity check is a dead title substring `body.contains(&canary.marker)`
+(`preflight.rs:136`). Since Pulse **scrubs incident titles**, fidelity moves to the **fingerprint**: emit a
+unique-per-preflight fingerprint-**storm** (≥5 identical-fingerprint exceptions in the 30s window, no baseline)
+via `conductor-emit`'s `exception_trace_request` + `fingerprint` (`conductor-emit/src/exception.rs:128,115`),
+bounded-poll `query_incident_list` until Pulse raises the incident, then assert the emitted fingerprint appears
+in `retrieve_telemetry_slice.fingerprint_refs` (`client.rs:143`). This proves the `ANDROMEDA_PULSE_DATA_DIR`
+corpus wiring end to end (tool presence + a parsing call never proved corpus *visibility*; arch §Standard
+Contracts + §Read-Back Dependency Posture). Every failure mode stays a distinct `Blocked` precondition, never a
+silent downgrade or panic (security-plan §Threat Model + the verdict/error wall).
 
-With preflight ready, the five families (`error-baseline-spike` / `fingerprint-storm` / `restart-suppression` / `pii-scrub` / `connection-lifecycle`) drive their seeded timelines, emit their **faithful** scenario signals, extract the real observed token from MCP read-back, and classify verdict-first into the canonical states — deterministic claims hard Pass/Fail, model-interpretive claims CalibrationRegion→ManualCheck (never hard-failed on exact values; arch §Probabilistic-Assertion Policy). The bridge orchestration lands in `conductor-run` (the composition root that already depends on **both** `conductor-emit` and `conductor-verify`, `lib.rs:27-36`) — **zero new crate edge**; putting the emit inside `conductor-verify` would add a forbidden `verify → emit` seam edge.
+The bridge orchestration lands in `conductor-run` — the composition root that already depends on **both**
+`conductor-emit` and `conductor-verify` (`lib.rs:27,33`) — so it adds **zero new crate edge** (putting the emit
+inside `conductor-verify` would create a forbidden `verify → emit` edge). With preflight ready, the faithful
+framework drives `fingerprint-storm` and `error-baseline-spike` through their seeded timelines, emits their real
+scenario signals, extracts the observed token from read-back, and classifies verdict-first — deterministic
+claims hard Pass/Fail, model-interpretive claims CalibrationRegion→ManualCheck, never hard-failed on exact values
+(arch §Probabilistic-Assertion Policy).
 
 ## Implementation Steps
 
 ### Stage 0 — Canary bridge (the unblocker; flips live preflight `ready`)
-1. **Unique canary marker.** Replace the static `CanaryMarker::new("conductor-canary")` (`conductor-run/src/lib.rs:60,78`) with a per-preflight unique marker derived from run/seed/timestamp, so a persistent live corpus can't yield a stale-corpus false-positive (a prior run's canary satisfying the gate without a fresh emit). Per security-plan §Threat Model (unique fingerprint) + research Q2.
-2. **Canary incident emission.** Emit a known canary incident bearing the marker via conductor-emit (reuse `exception_trace_request` / `error_trace_request`, or a small dedicated `canary_trace_request(marker)` helper if cleaner), placing the marker where the live Pulse surfaces it in `query_incident_list`. Confirm the exact carrier field against live Pulse at implement (service.name vs exception type/message vs incident title — research Q3).
-3. **Bridge orchestration in `conductor-run`.** In `preflight()` + `readiness()`, after `ReadbackClient::connect`: emit the canary → **bounded poll** of `query_incident_list` until the marker reads back or `CONDUCTOR_PREFLIGHT_TIMEOUT` elapses (default 30s; arch §Occupied Resources) → then classify ready. De-duplicate the two near-identical fns (and retire the `UNREACHABLE_PRECONDITION` dup at `lib.rs:91` against the verify constant). Keep `preflight()`/`readiness()` **signatures stable** — callers (`commands/{run,suite,preflight}.rs`, Tauri `start_run`) unaffected.
-4. **Content-fidelity check (`conductor-verify/preflight.rs`).** Upgrade the canary leg from `body.contains(&canary.marker)` (`preflight.rs:129`) to parse the listed incident and assert it **is** the emitted one (content fidelity), with a bounded ingest retry. Name the distinct failure preconditions (`canary-corpus-visibility-timeout` / `canary-content-fidelity-mismatch`) per layout-templates §cli. Correct the now-stale "emission is the caller's job (unbuilt)" doc comment.
-5. **Verdict/error wall.** Emit/poll/fidelity failures route to `CanaryOutcome::Failed` → `ReportState::Blocked` with the named precondition — never `Result::Err`, never a panic (security-plan §Error Handling; preflight.rs already returns `Ok(ReadyState)` on Blocked, l.163).
+1. **Unique canary marker → unique fingerprint.** Replace the static `CanaryMarker::new("conductor-canary")`
+   (`conductor-run/src/lib.rs:60,78`) with a per-preflight unique marker (run/seed/timestamp) embedded in a
+   **fingerprint-significant** field (the `ExceptionSpec.exception_type`, e.g. `ConductorCanary_<unique>`) so the
+   computed `fingerprint(&spec)` is unique per preflight — a persistent live corpus can't satisfy the gate on a
+   prior run's canary (stale-corpus false positive; security-plan §Threat Model unique-fingerprint + research Q2).
+2. **Canary fingerprint-storm emission.** In `conductor-run`, build the canary `ExceptionSpec` + compute its
+   `fingerprint`, then emit it ≥5× rapidly within the 30s window via `exception_trace_request` over a
+   `TraceEmitter` (`conductor-emit` — reuse, or a small `canary.rs` helper if cleaner). No `conductor-faults`
+   helper exists or is needed — the storm is N identical-fingerprint exceptions (research §faults).
+3. **Bridge orchestration in `conductor-run`.** In `preflight()` + `readiness()`, after
+   `ReadbackClient::connect`: emit the canary storm → **bounded poll** `query_incident_list` until an incident
+   appears or `CONDUCTOR_PREFLIGHT_TIMEOUT` (default 30s; arch §Occupied Resources) elapses → then `run_preflight`
+   asserts fingerprint fidelity. De-duplicate the two near-identical fns + the `UNREACHABLE_PRECONDITION` dup
+   (`lib.rs:91` vs verify's `preflight.rs:78`). Keep `preflight()`/`readiness()` **signatures stable** — callers
+   `pipeline::{preflight,readiness}` (conductor-cli `commands/{run,suite,preflight}.rs`) + Tauri `start_run`
+   (`conductor-tauri/src/commands.rs:197`) unaffected (code-graph: zero cross-crate blast).
+4. **Content-fidelity check (`conductor-verify/src/preflight.rs`).** Upgrade the canary leg from
+   `body.contains(&canary.marker)` (`preflight.rs:136`) to: pull the incident from the poll, call
+   `retrieve_telemetry_slice`, assert the emitted fingerprint ∈ `fingerprint_refs` (`client.rs:143`). Add a
+   bounded ingest retry. Name the distinct preconditions (`canary-corpus-visibility-timeout` /
+   `canary-fingerprint-mismatch`) per layout-templates §cli. `CanaryMarker` carries the expected fingerprint (a
+   constructor-site change, not a type redesign). Correct the stale `preflight.rs:5-7` doc comment.
+5. **Verdict/error wall.** Emit/poll/fidelity failures route to `CanaryOutcome::Failed` → `ReportState::Blocked`
+   with the named precondition — never `Result::Err`, never a panic (`preflight.rs` already returns
+   `Ok(ReadyState)` on Blocked, l.172; security-plan §Error Handling).
 
 ### Stage 1 — Faithful emission + read-back framework (replaces the coarse spine)
-6. **Faithful emission dispatch.** Replace `coarse_emit` (`lib.rs:182`, one signal/phase) with a scenario-faithful dispatcher mapping each phase to the correct conductor-emit primitive — `error_trace_request` / `exception_trace_request` / `latency_trace_request` / `rate_trace_request` / `severity_logs_request` / `pii_trace_request`+`pii_logs_request` / `service_topology_request`, and the `conductor-faults` port-occupier for connection-lifecycle's ReceiverFailed. Stays seed-deterministic (same scenario+seed ⇒ same stream shape).
-7. **Faithful observed extraction.** Replace the literal `"incidents-listed"` read-back (`lib.rs:138-141`) with real per-check observed-token extraction from `query_incident_list` / `retrieve_report` / `retrieve_telemetry_slice`, feeding the **existing** `evaluate_check` → `classify` machinery (`conductor-verify`) unchanged. Preserve the `execute_scenario` signature.
+6. **Faithful emission dispatch.** Replace `coarse_emit` (`lib.rs:182`, one signal/phase) with a scenario-faithful
+   dispatcher mapping each phase to the correct `conductor-emit` primitive — for the two in-scope families:
+   `error_trace_request` (baseline) + a fingerprint-storm via `exception_trace_request`/`FingerprintVariant`
+   (`conductor-emit/src/lib.rs:25,31`). Build the dispatcher so the deferred families (latency/rate/severity/pii/
+   topology/port-occupier) slot in by extension, not rewrite. Stays seed-deterministic (same scenario+seed ⇒ same
+   stream shape).
+7. **Faithful observed extraction.** Replace the literal `"incidents-listed"` (`lib.rs:138-141`) with real
+   per-check observed-token extraction from `query_incident_list` / `retrieve_telemetry_slice`, feeding the
+   **existing** `evaluate_check`→`classify` (`conductor-verify`) unchanged. Preserve the `execute_scenario`
+   signature (callers `pipeline::execute_scenario` run.rs:22 / suite.rs:30, `drive_run` lib.rs:315).
 
-### Stage 2 — Per-family faithful verification + live calibration (all 5)
-8. Wire faithful emit + observed extraction so each family's **existing** `expected` checks (authored Epoch 7) classify against the live Pulse:
-   - **error-baseline-spike** (P-009..P-012) — baseline→ramp error spans; extract `ErrorRateSpike` candidate + the ≥-sample floor (Hard).
-   - **fingerprint-storm** (P-017/P-018) — identical/path/line exception variants aggregate past the storm floor; extract the storm-cue/threshold token (Hard); model severity stays declare-only/CalibrationRegion.
-   - **restart-suppression** (P-015/P-016/P-057) — gap→restart + surgical suppression/bypass; extract restart + bypass-surfaced tokens (Hard; suppressed leg declare-only).
-   - **pii-scrub** (P-035/P-047/P-048) — PII corpus; assert the stable scrubbed-affix **Absent** + the retained structural token **Contains** (Hard).
-   - **connection-lifecycle** (P-001..P-004) — Listening/Receiving/Idle/Stalled walk + orthogonal port-occupier ReceiverFailed (`receiver-lifecycle-state.toml` + `receiver-failed-port-conflict.toml`).
-9. **Live recalibration.** Where authored tokens/SLO tiers were inferred "Epoch-8/10 calibration points" (testing.md), reconcile them to the live Pulse's observed values in the 5 TOMLs. Deterministic legs stay `Hard`; model-interpretive legs stay `CalibrationRegion`→ManualCheck (never hard-failed on exact values; arch §Probabilistic-Assertion Policy). Re-baseline any seed-named determinism goldens the timing edits touch (testing.md 2026-06-22 — goldens are seed-named, not scenario-named).
+### Stage 2 — Two-family faithful verification + live calibration
+8. Wire faithful emit + extraction so each in-scope family's **existing** `expected` checks (authored Epoch 7)
+   classify against live Pulse:
+   - **fingerprint-storm** (P-017/P-018, `scenarios/fingerprint-storm.toml`) — the identical/path/line variants
+     aggregate past the storm floor; extract the `RetryStorm` candidate token (Hard, already `Contains "RetryStorm"`);
+     the 6→Suggested/12→Autonomous severity stays model-side declare-only/CalibrationRegion.
+   - **error-baseline-spike** (P-009..P-012, `scenarios/error-baseline-spike.toml`) — baseline→ramp error spans;
+     extract the `ErrorRateSpike` candidate + the ≥-sample-count floor (Hard; the unmet floor softens to
+     calibration at evaluation time per testing.md 2026-06-22).
+9. **Live recalibration.** Where authored tokens / SLO tiers were inferred "Epoch-8/10 calibration points"
+   (testing.md), reconcile them to the live Pulse's observed values in the two TOMLs. Deterministic legs stay
+   `Hard`; model-interpretive legs stay `CalibrationRegion`→ManualCheck (never hard-failed; arch §Probabilistic-
+   Assertion Policy). Re-baseline any seed-named determinism goldens the timing edits touch
+   (`crates/conductor-timeline/tests/snapshots/replay__fixture_seed_<N>.snap` — seed-named, not scenario-named;
+   testing.md 2026-06-22).
 
 ### Stage 3 — Evidence, tests, invariants
-10. **Evidence artifacts.** Each family run persists JSONL journal + `runs.db` row + Markdown report with journal-relative latency (`read_back_observed_at − journal_emitted_at`), RFC-3339 TEXT stamps + INTEGER `latency_ms`, tier-scaled SLO, verdict-first lamp; no host-path/struct-name leakage (obs-plan §6 + security-plan §Error Handling). Reuse `persist()` (`lib.rs:247`).
-11. **Tests.** Extend the rmcp stub (`stub_pulse_mcp.rs`) + `tests/preflight.rs`/`preflight_spawn.rs` for the emit-then-read content-fidelity shape; keep the hermetic CLI Blocked-leg E2E (`ANDROMEDA_PULSE_DATA_DIR=pulse;injection`, testing.md 2026-06-23). The **live 5-family leg is operator/local-gated (`workflow_dispatch`), NOT a CI gate** (test-plan §9) — CI keeps the stub + Blocked spine. Determinism goldens assert same seed ⇒ identical faithful stream shape.
-12. **Self-obs.** Instrument the canary round-trip + faithful emit/read-back on bounded spans (`verify.readback.*`, `emit.batch`; obs-plan §4); zero unlogged panics (`std::panic::set_hook`).
+10. **Evidence artifacts.** Each family run persists JSONL journal + `runs.db` row + Markdown report via `persist()`
+    (`lib.rs:247`) with journal-relative latency (`read_back_observed_at − journal_emitted_at`), RFC-3339 TEXT
+    stamps + INTEGER `latency_ms`, tier-scaled SLO, verdict-first lamp; no host-path/struct-name leakage (obs-plan
+    §6 + security-plan §Error Handling).
+11. **Tests.** Extend the **hand-rolled JSON-RPC stubs** (`conductor-verify/src/bin/stub_pulse_mcp.rs` +
+    `tests/common/mod.rs`) — NOT an rmcp stub (rmcp was removed; the tests/test-plan distillations that still say
+    "rmcp stub" are stale, handoff follow-up) — so `retrieve_telemetry_slice` returns `{…,fingerprint_refs:[<fp>]}`
+    and `StubConfig` gains a `canary_fingerprint` knob; keep `query_incident_list` returning an incident with a
+    generic/scrubbed title. Extend `tests/preflight.rs` (+ `preflight_spawn.rs`) for the emit-then-read
+    fingerprint-fidelity shape + the new Blocked preconditions. Keep the hermetic CLI Blocked-leg E2E
+    (`ANDROMEDA_PULSE_DATA_DIR=pulse;injection`, testing.md 2026-06-23). The **live 2-family leg is operator/local-
+    gated (`workflow_dispatch`), NOT a CI gate** (test-plan §9) — CI keeps the stub + Blocked spine. Determinism
+    goldens assert same seed ⇒ identical faithful stream shape.
+12. **Self-obs.** Instrument the canary round-trip + faithful emit/read-back on the bounded low-cardinality spans
+    (`verify.readback.*`, `emit.batch`; obs-plan §4) — never per-marker span names; zero unlogged panics
+    (`std::panic::set_hook`).
+
+### Deferred (fast-follow sibling chunk — NOT this chunk)
+- Live faithful verification of **restart-suppression** (P-015/P-016/P-057), **pii-scrub** (P-035/P-047/P-048),
+  **connection-lifecycle** (P-001..P-004 + the `PortOccupier` fault). The framework (Stage 1) + the canary bridge
+  land here; the sibling reuses them and live-calibrates the four remaining TOMLs
+  (`restart-suppression`, `pii-scrub`, `receiver-lifecycle-state`, `receiver-failed-port-conflict`).
 
 ## Codebase touchpoints
 ### New files
-- `crates/conductor-emit/src/canary.rs` — *optional* known-canary-incident emitter (`canary_trace_request(marker)`), `pub use`d from `conductor-emit`; only if a dedicated helper reads cleaner than reusing `exception_trace_request`/`error_trace_request`.
-- `crates/conductor-run/src/canary.rs` — *optional* emit→bounded-poll→fidelity orchestration extracted from `lib.rs` if it grows unwieldy (currently 417 lines).
+- `crates/conductor-emit/src/canary.rs` — *optional* known-canary builder (`canary_spec(marker) ->
+  (ExceptionSpec, String)` or `canary_trace_request`), `pub use`d from `conductor-emit`; only if a dedicated
+  helper reads cleaner than constructing an `ExceptionSpec` with a unique marker + `fingerprint` inline.
+- `crates/conductor-run/src/canary.rs` — *optional* emit→bounded-poll→fidelity orchestration extracted from
+  `lib.rs` (417 lines) if it grows unwieldy.
 ### Files to modify
-- `crates/conductor-run/src/lib.rs` — `preflight()`+`readiness()`: unique marker + emit + bounded poll, de-duped; `execute_scenario()`: faithful emit + real observed extraction (preserve all three signatures).
-- `crates/conductor-verify/src/preflight.rs` — content-fidelity canary check + bounded ingest retry + named preconditions; correct the stale doc comment.
-- `crates/conductor-emit/src/exception.rs` (or `span_tree.rs`) — minimal hook if the canary reuses an existing emitter with a marker field.
-- `scenarios/error-baseline-spike.toml`, `scenarios/fingerprint-storm.toml`, `scenarios/restart-suppression.toml`, `scenarios/pii-scrub.toml`, `scenarios/receiver-lifecycle-state.toml`, `scenarios/receiver-failed-port-conflict.toml` — live-calibrate inferred tokens / SLO tiers.
-- `crates/conductor-verify/src/bin/stub_pulse_mcp.rs`, `crates/conductor-verify/tests/preflight.rs`, `crates/conductor-verify/tests/preflight_spawn.rs` — emit-then-read + content-fidelity fixtures.
+- `crates/conductor-run/src/lib.rs` — `preflight()`+`readiness()`: unique marker + fingerprint-storm emit +
+  bounded poll, de-duped; `execute_scenario()`: faithful emit dispatcher + real observed extraction (preserve
+  all four signatures — `preflight`/`readiness`/`execute_scenario`/`drive_run`).
+- `crates/conductor-verify/src/preflight.rs` — fingerprint-fidelity canary check (`retrieve_telemetry_slice.
+  fingerprint_refs`) + bounded ingest retry + named preconditions; `CanaryMarker` carries the expected
+  fingerprint; correct the stale doc comment.
+- `crates/conductor-emit/src/exception.rs` (or `src/lib.rs`) — minimal hook only if a dedicated canary helper is
+  added (`pub use`); the `fingerprint`/`exception_trace_request`/`ExceptionSpec` surface already suffices.
+- `scenarios/fingerprint-storm.toml`, `scenarios/error-baseline-spike.toml` — live-calibrate inferred tokens /
+  SLO tiers (deterministic legs stay `Hard`).
+- `crates/conductor-verify/src/bin/stub_pulse_mcp.rs`, `crates/conductor-verify/tests/common/mod.rs` —
+  `retrieve_telemetry_slice` → `fingerprint_refs` shape + `canary_fingerprint` knob.
+- `crates/conductor-verify/tests/preflight.rs`, `crates/conductor-verify/tests/preflight_spawn.rs` —
+  emit-then-read fingerprint-fidelity fixtures + the new Blocked preconditions.
 
 ## Test Commands
 ```bash
 # unit (the seams this chunk changes)
 cargo nextest run -p conductor-verify -p conductor-run -p conductor-emit
+# the conductor-verify spawn/stub leg (the hand-rolled JSON-RPC stub)
+cargo nextest run -p conductor-verify --features stub-server
 # workspace gate (the release-gate spine)
 cargo nextest run --workspace --profile ci && cargo test --workspace --doc && cargo clippy --workspace --all-targets -- -D warnings
 # smoke — boot-path IS touched: live preflight must flip to ready (live Pulse on :4317, ANDROMEDA_PULSE_MCP_ENABLED=true)
 bash scripts/agent-run.sh boot
-# live 5-family E2E + read the envelope (OPERATOR/LOCAL gate — never a CI gate, test-plan §9)
-conductor suite --seed 424242   # or: conductor run <family> --seed <s>
+# live 2-family E2E + read the envelope (OPERATOR/LOCAL gate — never a CI gate, test-plan §9)
+conductor run fingerprint-storm --seed 4317017 && conductor run error-baseline-spike --seed 424242
 bash scripts/agent-run.sh status <run_id>
 ```
 
 ## Acceptance Criteria
-- (arch) `conductor preflight` against live Pulse → `ready: true` with a passing canary round-trip (emit → `query_incident_list` → content-fidelity); was `Blocked` — the Blocked-extinction proof (per arch §Standard Contracts).
-- (arch) All five families land **non-Blocked**, verdict-first report states per claim class (deterministic→Pass/Fail; model-interpretive→ManualCheck) conforming to the default `Verdict→ReportState` mapping (per arch §Probabilistic-Assertion Policy).
-- (security) Canary asserts **content fidelity**, not a bare substring; emit/poll/fidelity/version/tool/keychain failures route to a **distinct `Blocked` precondition** with named reason — no panic, no false pass (per security-plan §Threat Model + §Anti-Patterns §Universal).
-- (security) `ANDROMEDA_PULSE_DATA_DIR` injection-validated before spawn; sidecar from the fixed hard-coded path via `.env` only (per security-plan §Anti-Patterns §Input).
-- (obs) Canary round-trip + faithful emit/read-back instrumented on bounded spans; each run writes JSONL+`runs.db`+Markdown with journal-relative latency + RFC-3339/INTEGER-ms fields; zero unlogged panics; no host-path/struct-name leakage (per obs-plan §4/§6).
-- (tests) Same scenario+seed ⇒ identical faithful emission stream shape; the live 5-family leg is operator/local-gated, never a CI gate; the hermetic Blocked-leg E2E stays green (per test-plan §9/§11).
-- (design/layouts) Preflight + verdict lines render verdict-first with paired ASCII prefix (`[PASS]`/`[BLOCKED]`), `Blocked` ≠ red, named precondition surfaced (per design-system §Surface: cli + layout-templates §cli).
-- (a11y) Report envelope fields (`journal_emitted_at`, `read_back_observed_at`, `verdict`, `state`, `slo_tier`, `fingerprints`) present + correctly typed (per a11y-plan §3 / obs §6).
-- (tests) `cargo nextest run --workspace --profile ci` returns 0; `cargo clippy --workspace --all-targets -- -D warnings` clean.
+- (arch) `conductor preflight` against live Pulse → `ready:true` with a passing canary round-trip (emit
+  fingerprint-storm → `query_incident_list` → `retrieve_telemetry_slice.fingerprint_refs` fidelity); was
+  `Blocked` — the Blocked-extinction proof (arch §Standard Contracts).
+- (arch) The canary uses the **fingerprint-storm** path (emit via `conductor-emit::fingerprint`, read back via
+  `fingerprint_refs`) — no title echo, since Pulse scrubs titles; bridge in `conductor-run`, **zero new crate
+  edge** (arch §Established Decisions [MCP Read-Back Client] + research §Graph impact).
+- (arch/tests) Both in-scope families (`fingerprint-storm`, `error-baseline-spike`) land **non-Blocked**,
+  verdict-first report states per claim class (deterministic→Pass/Fail; model-interpretive→ManualCheck)
+  conforming to the default `Verdict→ReportState` mapping (arch §Probabilistic-Assertion Policy).
+- (security) Canary asserts **fingerprint content fidelity**, not a bare substring; emit/poll/fidelity/version/
+  tool/keychain failures route to a **distinct `Blocked` precondition** with named reason — no panic, no false
+  pass (security-plan §Threat Model + §Anti-Patterns §Universal).
+- (security) `ANDROMEDA_PULSE_DATA_DIR` injection-validated before spawn; sidecar from the fixed hard-coded path
+  via `.env` only; MCP read-back decode never panics on malformed child stdout (security-plan §Anti-Patterns §Input
+  + §Input Validation).
+- (obs) Canary round-trip + faithful emit/read-back instrumented on bounded low-cardinality spans; each run writes
+  JSONL+`runs.db`+Markdown with journal-relative latency + RFC-3339/INTEGER-ms fields; zero unlogged panics; no
+  host-path/struct-name leakage (obs-plan §4/§6).
+- (tests) Same scenario+seed ⇒ identical faithful emission stream shape; the live 2-family leg is operator/local-
+  gated, never a CI gate; the hermetic Blocked-leg E2E stays green; seed-named determinism goldens re-baselined if
+  timing edits touch them (test-plan §9/§11, testing.md 2026-06-22).
+- (design/layouts) Preflight + verdict lines render verdict-first with paired ASCII prefix
+  (`[PASS]`/`[BLOCKED]`), `Blocked` ≠ red, named precondition surfaced (design-system §Surface: cli +
+  layout-templates §cli).
+- (a11y) Report envelope keeps the obs §6 11-field schema; verdict-first lamp (HOLD when
+  `verdict==CalibrationRegion`); state tokens carry text label + glyph, never color-alone (a11y-plan §3/§6).
+- (tests) `cargo nextest run --workspace --profile ci` returns 0; `cargo clippy --workspace --all-targets -- -D
+  warnings` clean.
 
 ## Provenance
-- Spec anchors: arch §Standard Contracts · §Read-Back Dependency Posture · §Probabilistic-Assertion Policy · §Timing-Tolerance Model · §Occupied Resources; security-plan §Threat Model · §Input Validation · §Error Handling · §Anti-Patterns; test-plan §1 · §3 · §6 · §9 · §11; obs-plan §3 · §4 · §6; design-system §Surface: cli; layout-templates §cli; a11y-plan §3.
-- Research files inspected: `conductor-verify/src/{preflight,client,lib}.rs`, `conductor-run/src/lib.rs`, `conductor-emit/src/lib.rs`, `conductor-verify/src/bin/stub_pulse_mcp.rs`, `conductor-cli/src/commands/preflight.rs`. Code-graph trace: `.andromeda/runs/2026-06-27T18-34-20-phase/tree-query-2026-06-27-live-pulse-e2e-proof.json`.
+- Spec anchors: arch §Standard Contracts · §Read-Back Dependency Posture · §Probabilistic-Assertion Policy ·
+  §Timing-Tolerance Model · §Occupied Resources; security-plan §Threat Model · §Input Validation · §Error Handling
+  · §Anti-Patterns; test-plan §1 · §3 · §6 · §9 · §11; obs-plan §3 · §4 · §6; design-system §Surface: cli;
+  layout-templates §Surface: cli; a11y-plan §3 · §6.
+- Research files inspected: `conductor-verify/src/{preflight,client,bin/stub_pulse_mcp}.rs`,
+  `conductor-verify/tests/common/mod.rs`, `conductor-run/src/lib.rs`,
+  `conductor-emit/src/{lib,exception}.rs`, `conductor-faults/src/lib.rs`, `contracts/mcp-contract.toml`,
+  `scenarios/fingerprint-storm.toml`. Code-graph trace:
+  `.andromeda/runs/2026-06-27T21-30-45-phase/tree-query-2026-06-27-live-pulse-e2e-proof.json`.
 
 ## Implementation notes
-- **Seam discipline:** the bridge lives in `conductor-run` (already `→ conductor-emit` + `→ conductor-verify`, `lib.rs:27-36`) — adding emit to `conductor-verify` would create a forbidden `verify → emit` edge. Zero new crate edge.
-- **Order sensitivity:** the canary MUST emit *before* the read-back; the bounded poll absorbs Pulse's ingest latency. Do not assume synchronous ingest.
-- **Stale-corpus trap:** without a unique-per-preflight marker, a persistent live corpus passes the gate on a prior run's canary — defeating the wiring proof. Make it unique.
-- **Live field carrier (Q3):** the exact Pulse field that echoes the marker in `query_incident_list` is confirmed against the live instance at implement (the user has run it live).
-- **Determinism goldens are seed-named** (`crates/conductor-timeline/tests/snapshots/replay__fixture_seed_<N>.snap`) — a scenario-name grep misses them; grep the fixture seeds too (testing.md 2026-06-22).
-- **Signatures stable:** `preflight()`/`readiness()`/`execute_scenario()` keep their signatures so `commands/{run,suite,preflight}.rs` + Tauri `start_run` need no change (code-graph: zero cross-crate blast).
-- **CI vs live:** CI keeps the rmcp stub + hermetic Blocked spine green; the live 5-family proof is the local/operator gate (test-plan §9). Don't wire the live leg as a CI gate.
+- **Seam discipline:** the bridge lives in `conductor-run` (already `→ conductor-emit` + `→ conductor-verify`,
+  `lib.rs:27,33`) — adding emit to `conductor-verify` would create a forbidden `verify → emit` edge. Zero new
+  crate edge.
+- **Order sensitivity:** the canary storm MUST emit *before* the read-back; the bounded poll absorbs Pulse's
+  ingest latency. Do not assume synchronous ingest. The storm (≥5 identical-fp exceptions) + the poll must both
+  fit inside `CONDUCTOR_PREFLIGHT_TIMEOUT` (30s) and the storm's own 30s detection window.
+- **Fingerprint match is the live confirm (research Q2):** the fidelity check needs Pulse's fingerprint to equal
+  `conductor-emit::fingerprint(&spec)` byte-exact. Confirm against live Pulse at implement; if not exact, fall
+  back to incident-exists + non-empty `fingerprint_refs` + run-to-run stability (still proves corpus wiring,
+  weaker fidelity — note it in the run report).
+- **Exact read-back carrier (research Q3):** `retrieve_telemetry_slice.fingerprint_refs` per `client.rs:142`;
+  confirm the live shape (incident id sourced from the `query_incident_list` poll).
+- **Stale rmcp distillations:** `verification-harness.md`/`tests-summary.md`/`test-plan.md` still say "rmcp stub"
+  in places — the stub is hand-rolled JSON-RPC (`stub_pulse_mcp` + `tests/common/mod.rs`); use the real files,
+  not the stale wording (handoff follow-up; a body reconcile defers to the next test-plan-touching cascade).
+- **Signatures stable:** `preflight()`/`readiness()`/`execute_scenario()`/`drive_run()` keep their signatures so
+  conductor-cli `pipeline::*` + Tauri `start_run` need no change (code-graph: zero cross-crate blast).
+- **Determinism goldens are seed-named** (`replay__fixture_seed_<N>.snap`) — a scenario-name grep misses them;
+  grep the fixture seeds (4317017, 424242) too.
