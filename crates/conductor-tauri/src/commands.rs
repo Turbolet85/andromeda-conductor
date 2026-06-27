@@ -15,8 +15,8 @@ use std::sync::Arc;
 use std::time::Instant;
 
 use conductor_core::{
-    mint_run_id, resolve_under, sanitize_error, validate_selection, Scenario, ScenarioSummary,
-    SUITE_SELECTION,
+    mint_run_id, resolve_under, sanitize_error, validate_selection, CapabilityRow, Scenario,
+    ScenarioSummary, SUITE_SELECTION,
 };
 use conductor_run::{RunEvent, RunStage};
 use tauri::ipc::Channel;
@@ -89,6 +89,23 @@ pub fn list_scenarios() -> Result<Vec<ScenarioSummary>, String> {
 
 fn list_scenarios_impl(dir: &Path) -> Result<Vec<ScenarioSummary>, String> {
     conductor_core::list_scenarios(dir).map_err(|e| sanitize_error(&e))
+}
+
+/// The 60-P-ID capability coverage classification (read-only) — the desktop twin of `conductor
+/// coverage` / `coverage-matrix.md`. The view single-sources `conductor_core::coverage_matrix()`;
+/// it never re-authors the table. Infallible (a `static`, no IO), but kept `Result` for a uniform
+/// command surface with `list_scenarios`.
+#[tauri::command]
+pub fn coverage_matrix() -> Result<Vec<CapabilityRow>, String> {
+    let _span = tracing::info_span!("tauri.command.coverage_matrix").entered();
+    let started = Instant::now();
+    let rows = conductor_core::coverage_matrix().to_vec();
+    tracing::info!(
+        count = rows.len(),
+        latency_ms = started.elapsed().as_millis() as u64,
+        "listed coverage matrix"
+    );
+    Ok(rows)
 }
 
 #[tauri::command]

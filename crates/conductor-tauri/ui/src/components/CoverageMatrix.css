@@ -1,0 +1,81 @@
+/* Coverage matrix — the dense single-row-per-P-ID wall of all 60 capabilities (design-system.md
+   §Component Patterns §3: Linear instrument-panel density, NOT a KPI-card grid). Borders-only depth
+   (no shadows); tokens by name; reduced-motion honored globally in tokens.css. */
+.cov {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.cov__summary {
+  color: var(--color-id-cyan);
+}
+
+.cov__scroll {
+  max-height: 480px;
+  overflow-y: auto;
+  background: var(--color-raised-1);
+  border: 1px solid var(--border-standard);
+  border-radius: var(--radius-md);
+}
+
+.cov__scroll:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: -2px;
+}
+
+.cov__table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.cov__table thead th {
+  position: sticky;
+  top: 0;
+  padding: var(--space-sm) var(--space-md);
+  text-align: left;
+  background: var(--color-raised-2);
+  color: var(--text-tertiary);
+  border-bottom: 1px solid var(--border-standard);
+}
+
+.cov__row {
+  border-bottom: 1px solid var(--border-subtle);
+}
+
+.cov__row:last-child {
+  border-bottom: none;
+}
+
+.cov__row td {
+  padding: var(--space-md);
+  vertical-align: baseline;
+}
+
+.cov__pid {
+  color: var(--color-id-cyan);
+  white-space: nowrap;
+}
+
+.cov__cap {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-micro);
+}
+
+.cov__title {
+  color: var(--text-primary);
+}
+
+.cov__cat {
+  color: var(--text-tertiary);
+}
+
+.cov__mode {
+  color: var(--text-secondary);
+  white-space: nowrap;
+}
+
+.cov__unrun {
+  color: var(--text-tertiary);
+}

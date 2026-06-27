@@ -44,7 +44,7 @@ impl CoverageMode {
 
 /// One capability row: the P-ID, its Pulse title + category, and the Conductor verification mode.
 /// `&'static str`-backed so the table is a `static` with no allocation and no runtime IO.
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
 pub struct CapabilityRow {
     /// The Pulse capability id, `P-001`..`P-060`.
     pub p_id: &'static str,

@@ -19,3 +19,22 @@ export const LAMP_META: Record<Lamp, LampMeta> = {
 }
 
 export const LAMP_ORDER: Lamp[] = ['Pass', 'Fail', 'Hold', 'Manual', 'Residual', 'Blocked']
+
+// Mirrors conductor-core's Verdict / ReportState (the run-report envelope's two independent fields).
+export type Verdict = 'Pass' | 'Fail' | 'CalibrationRegion'
+export type ReportState = 'Pass' | 'Fail' | 'ManualCheck' | 'KnownResidual' | 'Blocked'
+
+// Verdict-first lamp projection — byte-mirror of conductor-core/src/lamp.rs `Lamp::for_record`,
+// arm-for-arm. Blocked / KnownResidual are state-driven and precede the verdict (a measured residual
+// still carries a verdict, which must not override the accepted-residual signal); otherwise the
+// verdict drives (CalibrationRegion → Hold), with a verdict-less check falling back to its state.
+export function lampForRecord(state: ReportState, verdict: Verdict | null): Lamp {
+  if (state === 'Blocked') return 'Blocked'
+  if (state === 'KnownResidual') return 'Residual'
+  if (verdict === 'Pass') return 'Pass'
+  if (verdict === 'Fail') return 'Fail'
+  if (verdict === 'CalibrationRegion') return 'Hold'
+  if (state === 'ManualCheck') return 'Manual'
+  if (state === 'Pass') return 'Pass'
+  return 'Fail'
+}

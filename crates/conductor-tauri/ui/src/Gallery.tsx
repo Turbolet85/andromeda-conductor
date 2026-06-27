@@ -2,7 +2,25 @@ import { useState } from 'react'
 import StatusLamp from './components/StatusLamp'
 import OperatorPauseDialog from './components/OperatorPauseDialog'
 import OperatorChecklist, { type ChecklistItem } from './components/OperatorChecklist'
-import { LAMP_ORDER } from './lamp'
+import CoverageMatrix, { type CapabilityRow } from './components/CoverageMatrix'
+import { LAMP_ORDER, lampForRecord, type Lamp } from './lamp'
+
+const SAMPLE_ROWS: CapabilityRow[] = [
+  { p_id: 'P-005', title: 'Span Status Error Detection', category: 'Hard Signal Detection', mode: 'auto' },
+  {
+    p_id: 'P-001',
+    title: 'Receiver Lifecycle State',
+    category: 'Connection & Health Awareness',
+    mode: 'drive+observe',
+  },
+  { p_id: 'P-049', title: 'Encryption at Rest', category: 'Privacy & Trust', mode: 'static-only' },
+]
+
+// Exercises lampForRecord (verdict-first): P-005 measured Pass, P-001 Blocked; P-049 omitted ⇒ "Not yet run".
+const SAMPLE_LAMPS: Record<string, Lamp> = {
+  'P-005': lampForRecord('Pass', 'Pass'),
+  'P-001': lampForRecord('Blocked', null),
+}
 
 // DEV-only render-all gallery for visual + type inspection of the component primitives. Mounted from
 // main.tsx behind `import.meta.env.DEV` (+ #gallery); tree-shaken from the production bundle.
@@ -81,6 +99,13 @@ export default function Gallery() {
           Operator checklist
         </h2>
         <OperatorChecklist items={items} onToggle={toggle} />
+      </section>
+
+      <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-md)' }}>
+        <h2 className="type-label" style={{ margin: 0, color: 'var(--text-tertiary)' }}>
+          Coverage matrix
+        </h2>
+        <CoverageMatrix rows={SAMPLE_ROWS} lamps={SAMPLE_LAMPS} />
       </section>
     </div>
   )

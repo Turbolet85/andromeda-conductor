@@ -1,0 +1,39 @@
+# tests extract
+
+## Relevance
+Partial — frontend component with deferred GUI integration tests; build gates apply now.
+
+## Constraints
+- Frontend build gates required: `tsc --noEmit` + `vite build` + `npm audit` + `vite preview` render smoke per §4 amendment 2026-06-15-design-token-typography-bundle
+- Design-system text-pairing rule (per §1 Test Scope Summary, desktop-webview surface): every lamp mandatorily paired with text label; color never sole signal — ensures reliable E2E selectors per §6
+- StatusLamp reuse discipline (per chunk scope §2 CARRY): reuse existing `StatusLamp` primitive + `ui/src/lamp.ts` LAMP_META byte-consistent with `conductor-core/src/lamp.rs` — don't re-spell
+- Verdict-first lamp projection semantics (per chunk scope §2): RunRecord→Lamp follows `conductor-core::Lamp::for_record` precedence (CalibrationRegion renders HOLD, not Manual) — conductor-core owns this vocabulary, UI consumes only
+- No new Verdict/ReportState/Lamp model changes (per chunk scope Out of scope) — lamp vocabulary consumed, never redefined
+- Coverage-matrix completeness assertion (per §1 Critical paths, §6 E2E scenario): all 60 P-IDs enumerated with zero unclassified entries; missing P-XXX is a defect
+- TypeScript strict mode (per chunk scope boundaries): no `any`, functional components + hooks; `tsc --noEmit` in the gate
+
+## Patterns to follow
+- StatusLamp component reuse: consume existing `StatusLamp` + LAMP_META; mirror conductor-core spellings, don't re-author (chunk §2 CARRY)
+- Design-token sourced styling (chunk scope boundaries): Tailwind v4.1 + shadcn/ui token system consistently
+- Never-color-alone encoding (§1 Design System, §6 E2E): text + role + glyph for every lamp signal; E2E selectors will rely on text/role pairing when tauri-driver tests land in ch9
+- Frontend build-gate pattern (§4): all frontend code passes `tsc` + `vite` + `npm audit` before merge
+
+## Anti-patterns to avoid
+- Don't re-spell lamp palette/glyph/label from conductor-core in UI (chunk scope); byte-mirror via LAMP_META instead
+- Don't color-code lamps without text labels (violates Design System never-color-alone rule, breaks §6 E2E selector reliability)
+- Don't add scenarios/P-IDs without Pulse alignment (§11 Universal anti-pattern)
+
+## Contract bindings
+- **design-system** ↔ **tests:** layout-templates.md defines lamp encoding rules (text + glyph + role), color tokens, a11y compliance, signature placements; tauri-driver E2E will assert these per §6
+- **conductor-core** ↔ **tests:** `Lamp::for_record` owns verdict-first projection semantics; coverage-matrix generator owns P-ID auto/drive+observe/static classification — UI consumes, never redefines
+- **conductor-tauri/ui** ↔ **tests:** StatusLamp + LAMP_META consumed; if live-data option chosen, read-only `#[tauri::command]` projects latest RunRecord per P-ID from runs.db (Rust gate: nextest + clippy green, `Cargo.lock` un-drifted)
+
+## Acceptance criteria contributions
+- (tests) Frontend build gates pass: `tsc --noEmit`, `vite build`, `npm audit` 0 findings
+- (tests) StatusLamp reused without re-spelling (byte-consistent with conductor-core LAMP_META)
+- (tests) All 60 P-IDs rendered with text-paired verdict/state lamps (never color-alone), verdict-first projection (CalibrationRegion→HOLD, not Manual)
+- (tests) Coverage-matrix completeness: all 60 P-IDs enumerated with zero unclassified entries (static assertion or checklist per plan)
+
+## Relevant amendment history
+- **2026-06-15-design-token-typography-bundle** (§4 Unit Test Strategy): Frontend tests build-gated (`tsc --noEmit` + `vite build` + `npm audit` + `vite preview` render smoke), Rust unit tests deferred to Epoch 9. Establishes build-gate pattern for this chunk's frontend code.
+- **2026-06-26-live-counter-channel-stream** (§5 Integration, §6 E2E): GUI integration + cross-surface parity (both-surface-parity critical path) deferred to tauri-driver ch9 harness. Confirms this chunk delivers the UI component; full tauri-driver E2E assertion lands in ch9, not here.
