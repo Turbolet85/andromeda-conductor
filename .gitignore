@@ -16,6 +16,9 @@ scripts/__pycache__/
 # --- Conductor run artifacts (synthetic per-run journals/reports/runs.db — generated, not tracked) ---
 /runs/
 
+# --- Self-observation logs (ephemeral, truncated per invocation — agent-latest.jsonl / conductor-tauri.jsonl, the sibling of /runs/) ---
+/logs/
+
 # --- Secrets / env (Conductor owns no secrets — guardrail) ---
 .env
 .env.*
