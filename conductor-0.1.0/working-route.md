@@ -118,13 +118,13 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
    ↓
 [2026-06-26-live-counter-channel-stream] Live-counter Channel stream — Tauri Channel backend-to-frontend emission counters + target status   CARRY: retire the DEV-only run-state cycler (App `useState<RunState>` + `import.meta.env.DEV` backtick) and drive the EXISTING `Titlebar runState` prop from this Channel — paused-count-hold-point-signature shipped the prop contract + idle/live/hold/aborted heartbeat/freeze/tint rendering   CARRY: scenario-suite-picker-start-stop (ch3, option-A control scaffold) deferred real run EXECUTION + the pipeline-to-library extraction here — move `conductor-cli`'s bin-local `pipeline.rs` (preflight/execute_scenario/coarse_emit) into a library (conductor-core or a new conductor-run crate), generalize `&CliResolver` → a trait object, stand up a core-owned `current_thread` runtime under Tauri, so `start_run` drives a real `RunRecord` (Blocked w/o live Pulse) persisting runs.db/journal (CLI↔Tauri parity = test-plan Path 7); ch3 shipped the picker + `list_scenarios`/`start_run`/`stop_run` command surface + `RunPhase` lifecycle only. Also: ch3 wired start/stop → `setRunState` directly — reconcile that with the cycler-retire above
    ↓
-Component primitives library — six status-lamp variants + dialog scaffold + operator-checklist primitive
+[2026-06-26-component-primitives-library] Component primitives library — six status-lamp variants + dialog scaffold + operator-checklist primitive
    ↓
-Coverage-matrix view — dense single-row-per-P-ID list with verdict/report-state lamps
+Coverage-matrix view — dense single-row-per-P-ID list with verdict/report-state lamps   CARRY: reuse the `StatusLamp` primitive (`ui/src/components/StatusLamp.tsx`, from component-primitives-library) for the per-P-ID lamps — mirror conductor-core `lamp.rs` spellings via `ui/src/lamp.ts` `LAMP_META`, don't re-spell; project each RunRecord → Lamp the verdict-first way `conductor-core::Lamp::for_record` does
    ↓
-Run-report + operator-checklist views — verdict lines + ManualCheck induced-state checklist
+Run-report + operator-checklist views — verdict lines + ManualCheck induced-state checklist   CARRY: reuse `StatusLamp` (verdict lines) + `OperatorChecklist` (controlled `items` + `onToggle`; native-checkbox induced-state rows) from component-primitives-library — don't rebuild them
    ↓
-Operator-pause go/no-go dialog — AlertDialog gating each committed timeline step
+Operator-pause go/no-go dialog — AlertDialog gating each committed timeline step   CARRY: the `OperatorPauseDialog` scaffold (Radix AlertDialog — controlled `open`/`onOpenChange` + title/body/Proceed/Abort slots + `allowNoGo`, focus-trap/Escape/restore) SHIPS from component-primitives-library — ch8 WIRES it (drive `open`/`onProceed`/`onAbort` from a `HoldPoint` + the operator-pause command), doesn't rebuild it
    ↓
 Desktop a11y harness setup — axe/Lighthouse/colorjs.io over tauri-driver, shadcn/Radix ARIA binding, token-pair contrast   CARRY: the deferred GUI-integration tests from 2026-06-26-live-counter-channel-stream land with this harness — `tauri::test` mock-runtime command/Channel-frame tests for `start_run`/`stop_run` + the hermetic cross-surface-parity leg (Path 7: Tauri mock-runtime vs CLI subprocess, identical runs.db envelope); deferred because the background-thread Channel stream isn't deterministically assertable in-process (zero-retry bar) and the run logic is already unit-covered in `conductor-run::drive_run` + the `cli_smoke` parity E2E
    ↓

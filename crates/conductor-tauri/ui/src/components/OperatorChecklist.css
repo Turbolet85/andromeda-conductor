@@ -1,0 +1,51 @@
+/* Operator-checklist primitive — the ManualCheck / drive-observe path (design-system.md §Component
+   Patterns §7). Native checkbox per row (implicit aria-checked + Space-toggle); the checkbox accent
+   is the neutral-lavender --status-manual, NOT the verdict triad (ManualCheck sits outside it).
+   Card rows; tokens by name. */
+.checklist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-sm);
+}
+
+.checklist__row {
+  background: var(--color-raised-1);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+.checklist__label {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-sm);
+  padding: var(--space-md);
+  cursor: pointer;
+}
+
+.checklist__checkbox {
+  margin-block-start: var(--space-micro);
+  accent-color: var(--status-manual);
+  cursor: pointer;
+}
+
+.checklist__checkbox:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.checklist__text {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-micro);
+}
+
+.checklist__induced {
+  color: var(--text-primary);
+}
+
+.checklist__observation {
+  color: var(--text-secondary);
+}

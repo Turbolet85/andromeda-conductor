@@ -158,7 +158,7 @@ All motion decisions flow from the expression level set in Brand Identity. At `0
 
 **This project's values:**
 - Micro-interactions (hover, focus): 150ms ease-out — control hover background lift, focus-ring fade-in.
-- Transitions (panel open, dialog open): 200ms fade for the operator-pause dialog; in-place status-light color transition (green → amber → red → slate-violet) at 150ms ease-out.
+- Transitions (panel open, dialog open): 150ms fade (`--motion-micro`) for the operator-pause dialog; in-place status-light color transition (green → amber → red → slate-violet) at 150ms ease-out.
 - Entrance animations: **none** (expression < 0.5) — the console and coverage matrix render in place, no staggered reveals.
 - Scroll effects: **none** (expression < 0.7).
 
@@ -252,7 +252,7 @@ Tailwind v4.1 design tokens, declared on **`:root`** (the `design-tokens-bundle-
 
 1. **Frameless titlebar + Paused-count heartbeat (signature, primary placement).** `decorations: false`; a `data-tauri-drag-region` bar hosts the phase line (IBM Plex Sans 600, 18px) on the left and the count (JetBrains Mono 500, 28px, tabular-nums, `--count-nominal`) center, with min/close Lucide controls right (16px, `aria-label`-ed, hover lift 150ms). **Default:** count ticks green in place. **Hold:** count interval halts, value frozen, color → `--count-hold` over 150ms, phase line → "HOLD — operator pause" amber, `aria-live="assertive"` announces the flip. **Abort:** count → `--count-blocked`, dimmed. No drag-region pointer cursor leaking into controls.
 
-2. **Operator-pause go/no-go dialog.** shadcn/ui `AlertDialog` (Radix), `--color-raised-3` fill, `1px solid --border-subtle`, `--radius-lg`, 200ms fade entrance. Two actions: **Proceed** (primary, `--count-nominal` accent) and **Abort** (`--status-fail` text). `role="alertdialog"`; gates every committed timeline step (Confirmation Dialogs guideline). **Loading:** Proceed disables + shows in-flight state during the async step (Loading Buttons — prevents double-commit). Focus trapped; visible `--color-focus` ring.
+2. **Operator-pause go/no-go dialog.** shadcn/ui `AlertDialog` (Radix), `--color-raised-3` fill, `1px solid --border-subtle`, `--radius-lg`, 150ms fade entrance (`--motion-micro`). Two actions: **Proceed** (primary, `--count-nominal` accent) and **Abort** (`--status-fail` text). `role="alertdialog"`; gates every committed timeline step (Confirmation Dialogs guideline). **Loading:** Proceed disables + shows in-flight state during the async step (Loading Buttons — prevents double-commit). Focus trapped; visible `--color-focus` ring.
 
 3. **Coverage matrix (dense single-row-per-P-ID).** NOT a KPI-card grid (Rejected Default) — a single-row-per-P-ID list (Linear instrument-panel density), 12px row padding, `1px --border-subtle` dividers, no shadows. Each row: status-lamp glyph (the 6-state verdict/report-state lamp in #4 — filled dot for a measured verdict · hollow ring `Blocked` · neutral checkbox `ManualCheck` · muted dashed dot `KnownResidual`) + label + P-ID (`P-037`, JetBrains Mono, `--color-id-cyan`) + SLO tier + latency_ms (mono, ID-cyan). **States:** selected row → `--border-emphasis` left edge; hover → `--color-raised-1` lift. **Empty:** "No scenarios loaded" prose, not a gray placeholder. Virtual-scroll for the full 60-row wall.
 

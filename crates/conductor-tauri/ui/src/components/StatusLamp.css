@@ -1,0 +1,25 @@
+/* Status lamp — the desktop projection of conductor-core's six-way Lamp. The glyph carries the
+   per-state token color (inline var, single-sourced from lamp.ts LAMP_META.token); the text label
+   is the never-color-alone discriminator (always present). Tokens by name — design-system.md §Tokens. */
+.lamp {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+}
+
+.lamp__glyph {
+  line-height: 1;
+  font-size: 14px;
+}
+
+.lamp__label {
+  color: var(--text-primary);
+}
+
+.lamp--sm .lamp__glyph {
+  font-size: 11px;
+}
+
+.lamp--sm .lamp__label {
+  font-size: 11px;
+}

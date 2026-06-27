@@ -1,0 +1,102 @@
+/* Operator-pause dialog scaffold — Radix AlertDialog styled by token (design-system.md §Component
+   Patterns §2). Radix supplies role="alertdialog" + aria-modal + focus-trap + Escape + focus-restore;
+   this file is presentation only. The fade animations drop under the global prefers-reduced-motion
+   rule in tokens.css (the resting opacity/transform values remain). */
+.dialog__overlay {
+  position: fixed;
+  inset: 0;
+  background: var(--color-inset);
+  opacity: 0.65;
+  animation: dialog-overlay-in var(--motion-micro) var(--ease-quiet);
+}
+
+@keyframes dialog-overlay-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 0.65;
+  }
+}
+
+.dialog__content {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: min(440px, calc(100vw - var(--space-xl) * 2));
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+  padding: var(--space-lg);
+  background: var(--color-raised-3);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  animation: dialog-content-in var(--motion-micro) var(--ease-quiet);
+}
+
+@keyframes dialog-content-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -48%);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%);
+  }
+}
+
+.dialog__title {
+  margin: 0;
+  color: var(--text-primary);
+}
+
+.dialog__body {
+  margin: 0;
+  color: var(--text-secondary);
+}
+
+.dialog__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-sm);
+  margin-block-start: var(--space-sm);
+}
+
+.dialog__btn {
+  font-family: var(--font-sans);
+  font-size: 12px;
+  font-weight: 500;
+  padding: var(--space-xs) var(--space-md);
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border-standard);
+  background: transparent;
+  color: var(--text-primary);
+  cursor: pointer;
+  transition:
+    background var(--motion-micro) var(--ease-quiet),
+    border-color var(--motion-micro) var(--ease-quiet);
+}
+
+.dialog__btn--proceed {
+  border-color: var(--count-nominal);
+  color: var(--count-nominal);
+}
+
+.dialog__btn--proceed:hover {
+  background: var(--color-raised-2);
+}
+
+.dialog__btn--abort {
+  color: var(--text-secondary);
+}
+
+.dialog__btn--abort:hover {
+  background: var(--color-raised-2);
+  color: var(--text-primary);
+}
+
+.dialog__btn:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: -2px;
+}
