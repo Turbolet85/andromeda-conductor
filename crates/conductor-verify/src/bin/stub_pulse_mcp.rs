@@ -1,60 +1,73 @@
-//! Test-support stub MCP server: protocol `2024-11-05`, the four read-back tools, and a canary
-//! incident on `query_incident_list`, served over stdio. Spawned as a real child process by
-//! `tests/preflight_spawn.rs` so the preflight gate's `TokioChildProcess` path is exercised end to
-//! end. Built only under the `stub-server` feature — never part of a release build.
-
-use std::sync::Arc;
-
-use rmcp::ErrorData as McpError;
-use rmcp::ServerHandler;
-use rmcp::ServiceExt;
-use rmcp::model::{
-    CallToolRequestParams, CallToolResult, Content, Implementation, ListToolsResult,
-    PaginatedRequestParams, ProtocolVersion, ServerCapabilities, ServerInfo, Tool,
-};
-use rmcp::service::{RequestContext, RoleServer};
+//! Test-support stub: a hand-rolled line-delimited JSON-RPC server over stdio that mimics Pulse's
+//! RAW `tools/call` result shapes (no MCP `{content:[…]}` envelope) + a canary incident on
+//! `query_incident_list`. Spawned as a real child by `tests/preflight_spawn.rs` so the read-back
+//! client's `connect_command` stdio path is exercised end to end. Built only under the `stub-server`
+//! feature — never part of a release build.
 
 use conductor_verify::{QUERY_INCIDENT_LIST, READBACK_TOOLS};
+use serde_json::{Value, json};
+use tokio::io::{AsyncBufReadExt, AsyncWriteExt, BufReader};
 
 /// Must match `tests/preflight_spawn.rs`'s expected canary marker.
 const CANARY: &str = "conductor-canary-7f3a";
 
-#[derive(Clone)]
-struct StubPulse;
-
-impl ServerHandler for StubPulse {
-    fn get_info(&self) -> ServerInfo {
-        ServerInfo::new(ServerCapabilities::builder().enable_tools().build())
-            .with_protocol_version(ProtocolVersion::V_2024_11_05)
-            .with_server_info(Implementation::new("stub-pulse", "0.0.0"))
-    }
-
-    async fn list_tools(
-        &self,
-        _request: Option<PaginatedRequestParams>,
-        _context: RequestContext<RoleServer>,
-    ) -> Result<ListToolsResult, McpError> {
-        let schema = Arc::new(serde_json::Map::new());
-        let tools = READBACK_TOOLS.iter().map(|n| Tool::new(*n, "stub", schema.clone())).collect();
-        Ok(ListToolsResult::with_all_items(tools))
-    }
-
-    async fn call_tool(
-        &self,
-        request: CallToolRequestParams,
-        _context: RequestContext<RoleServer>,
-    ) -> Result<CallToolResult, McpError> {
-        let body = if request.name == QUERY_INCIDENT_LIST {
-            format!("[{{\"incident\":\"{CANARY}\"}}]")
-        } else {
-            "ok".to_string()
+#[tokio::main(flavor = "current_thread")]
+async fn main() {
+    let mut lines = BufReader::new(tokio::io::stdin()).lines();
+    let mut stdout = tokio::io::stdout();
+    while let Ok(Some(line)) = lines.next_line().await {
+        if line.trim().is_empty() {
+            continue;
+        }
+        let Ok(req) = serde_json::from_str::<Value>(&line) else {
+            continue;
         };
-        Ok(CallToolResult::success(vec![Content::text(body)]))
+        // Notifications (no id) get no response — matches Pulse's sidecar.
+        let Some(id) = req.get("id").cloned() else {
+            continue;
+        };
+        let method = req.get("method").and_then(Value::as_str).unwrap_or("");
+        let resp = json!({ "jsonrpc": "2.0", "id": id, "result": stub_result(method, &req) });
+        let Ok(mut out) = serde_json::to_string(&resp) else {
+            continue;
+        };
+        out.push('\n');
+        if stdout.write_all(out.as_bytes()).await.is_err() || stdout.flush().await.is_err() {
+            break;
+        }
     }
 }
 
-#[tokio::main(flavor = "current_thread")]
-async fn main() {
-    let running = StubPulse.serve(rmcp::transport::stdio()).await.expect("stub server init");
-    let _ = running.waiting().await;
+/// Pulse's RAW result shapes (the un-enveloped payload as the JSON-RPC `result`).
+fn stub_result(method: &str, req: &Value) -> Value {
+    match method {
+        "initialize" => json!({
+            "protocolVersion": "2024-11-05",
+            "capabilities": { "tools": {} },
+            "serverInfo": { "name": "stub-pulse", "version": "0.0.0" },
+        }),
+        "tools/list" => {
+            let tools: Vec<Value> = READBACK_TOOLS.iter().map(|n| json!({ "name": n })).collect();
+            json!({ "tools": tools })
+        }
+        "tools/call" => {
+            let name = req.pointer("/params/name").and_then(Value::as_str).unwrap_or("");
+            if name == QUERY_INCIDENT_LIST {
+                json!({
+                    "items": [ {
+                        "incident_id": 1,
+                        "status": "active",
+                        "severity": "high",
+                        "title": CANARY,
+                        "opened_at_unix_nano": 0,
+                    } ],
+                    "total": 1,
+                    "next_cursor": Value::Null,
+                })
+            } else {
+                json!({ "ok": true })
+            }
+        }
+        _ => json!({}),
+    }
 }

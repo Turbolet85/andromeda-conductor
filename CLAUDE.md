@@ -6,7 +6,7 @@
 <!-- GENERATED:setup:overview start -->
 Conductor is a desktop control-panel app (Tauri 2) over a headless-drivable Rust core — a scenario-driven OTLP fault-injection + verification harness that drives a live Pulse instance through its 60 claimed capabilities (P-001..P-060) on a deterministic seeded timeline and verifies each reaction within its SLO (programmatically via MCP read-back where one exists, via an operator checklist for visual claims). Personal/local: solo developer, no cloud, runs beside a real Pulse on the dev host.
 
-**Stack:** Rust 2024 workspace (tokio `current_thread`) · OTLP via opentelemetry-proto/tonic to `127.0.0.1:4317` · MCP read-back via rmcp · rusqlite/`bundled` SQLite index · optional Tauri 2 + React 19 GUI · local-only, no network service of its own.
+**Stack:** Rust 2024 workspace (tokio `current_thread`) · OTLP via opentelemetry-proto/tonic to `127.0.0.1:4317` · MCP read-back via a hand-rolled JSON-RPC client · rusqlite/`bundled` SQLite index · optional Tauri 2 + React 19 GUI · local-only, no network service of its own.
 
 **Key directories:**
 - `crates/` — the 9 crate-per-seam workspace members (core + timeline/emit/faults/verify/report + run + cli/tauri bins)
@@ -22,7 +22,7 @@ Conductor is a desktop control-panel app (Tauri 2) over a headless-drivable Rust
 - **`conductor-timeline`** — deterministic seeded phase scheduler on `tokio::time`.
 - **`conductor-emit`** — OTLP raw-type emission primitives (opentelemetry-proto + tonic/prost), gRPC egress to `:4317`; exception events + the fingerprint primitive.
 - **`conductor-faults`** — fault helpers: ramps, silence, port-occupier, fingerprint-storm fault (the per-exception fingerprint primitive lives in `conductor-emit`).
-- **`conductor-verify`** — MCP read-back client (rmcp over `TokioChildProcess` stdio), preflight gate, verdict logic.
+- **`conductor-verify`** — MCP read-back client (hand-rolled JSON-RPC over the sidecar's stdio), preflight gate, verdict logic.
 - **`conductor-report`** — JSONL emission journal + Markdown run report + `runs.db` (rusqlite) storage seam.
 - **`conductor-run`** — run composition root library (preflight + scenario execution + `persist` + the live-counter `drive_run`) shared by both bins.
 - **`conductor-cli`** — `agent-run` binary, headless source of truth + release gate.

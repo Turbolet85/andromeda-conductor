@@ -7,7 +7,6 @@
 
 use std::path::{Path, PathBuf};
 
-use rmcp::transport::ConfigureCommandExt;
 use tokio::process::Command;
 
 use crate::error::VerifyError;
@@ -78,9 +77,9 @@ fn validate_no_injection(dir: &Path) -> Result<(), VerifyError> {
 /// Build the hardened sidecar command: the fixed program + the validated data-dir passed only via
 /// `.env(...)`. The caller hands the result to `TokioChildProcess`.
 pub(crate) fn build_command(data_dir: &Path) -> Command {
-    Command::new(PULSE_MCP_PROGRAM).configure(|cmd| {
-        cmd.env(DATA_DIR_ENV, data_dir);
-    })
+    let mut command = Command::new(PULSE_MCP_PROGRAM);
+    command.env(DATA_DIR_ENV, data_dir);
+    command
 }
 
 #[cfg(test)]

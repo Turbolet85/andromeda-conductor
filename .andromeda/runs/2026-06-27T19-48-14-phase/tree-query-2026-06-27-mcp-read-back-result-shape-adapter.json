@@ -1,0 +1,44 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee LIKE '%call_tool%' OR callee LIKE '%query_incident_list%' OR callee LIKE '%retrieve_report%' OR callee LIKE '%retrieve_telemetry_slice%' OR callee LIKE '%mark_incident_resolved%' ORDER BY file, line;",
+"rows": 7,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 execute_scenario().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 137
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 client/impl#[ReadbackClient]query_incident_list().",
+"file": "crates/conductor-verify/src/client.rs",
+"line": 101
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 client/impl#[ReadbackClient]retrieve_report().",
+"file": "crates/conductor-verify/src/client.rs",
+"line": 109
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 client/impl#[ReadbackClient]retrieve_telemetry_slice().",
+"file": "crates/conductor-verify/src/client.rs",
+"line": 117
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 client/impl#[ReadbackClient]mark_incident_resolved().",
+"file": "crates/conductor-verify/src/client.rs",
+"line": 125
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 preflight/run_preflight().",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 125
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 negotiates_down_to_2024_11_05_and_round_trips_the_tool_surface().",
+"file": "crates/conductor-verify/tests/readback.rs",
+"line": 77
+}
+],
+"db_state": "fresh"
+}
+]

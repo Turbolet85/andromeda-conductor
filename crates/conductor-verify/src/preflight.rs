@@ -8,9 +8,8 @@
 
 use std::collections::BTreeMap;
 
-use rmcp::service::RoleClient;
-use rmcp::transport::IntoTransport;
 use serde::Serialize;
+use tokio::process::Command;
 
 use conductor_core::{ReportState, now_rfc3339, redact_value};
 
@@ -93,7 +92,7 @@ pub async fn run_preflight(
     let data_dir = redact_value(data_dir).into_owned();
     let expected = manifest.expected_protocol_version.clone();
 
-    let negotiated = client.negotiated_protocol_version().map(|v| v.as_str().to_string());
+    let negotiated = client.negotiated_protocol_version().map(|v| v.to_string());
     let version_ok = negotiated.as_deref() == Some(expected.as_str());
 
     let (required_tools, tools_unverifiable): (BTreeMap<String, ToolPresence>, Option<String>) =
@@ -103,7 +102,7 @@ pub async fn run_preflight(
                     .required_tools
                     .iter()
                     .map(|name| {
-                        let present = tools.iter().any(|t| t.name == name.as_str());
+                        let present = tools.iter().any(|t| t == name);
                         let presence =
                             if present { ToolPresence::Present } else { ToolPresence::Absent };
                         (name.clone(), presence)
@@ -123,16 +122,24 @@ pub async fn run_preflight(
     let tools_ok =
         tools_unverifiable.is_none() && required_tools.values().all(|p| *p == ToolPresence::Present);
 
-    let canary_round_trip = match client.query_incident_list(None).await {
-        Ok(result) if result.is_error != Some(true) => {
-            let body = serde_json::to_string(&result.content).unwrap_or_default();
+    let canary_result = client.query_incident_list(None).await;
+    // A genuine call/transport/JSON-RPC error must NOT be reported as "incident not found" — it is a
+    // distinct precondition (the masking this chunk fixes). `message` is hidden by Display, so surface
+    // it (redacted) here only for the precondition string.
+    let canary_call_error = canary_result.as_ref().err().map(|e| match e {
+        VerifyError::JsonRpc { message, .. } => redact_value(message).into_owned(),
+        other => redact_value(&other.to_string()).into_owned(),
+    });
+    let canary_round_trip = match &canary_result {
+        Ok(value) => {
+            let body = serde_json::to_string(value).unwrap_or_default();
             if body.contains(&canary.marker) {
                 CanaryOutcome::Ok
             } else {
                 CanaryOutcome::Failed
             }
         }
-        _ => CanaryOutcome::Failed,
+        Err(_) => CanaryOutcome::Failed,
     };
 
     let blocked_precondition = if !version_ok {
@@ -149,6 +156,8 @@ pub async fn run_preflight(
             .map(|(name, _)| name.as_str())
             .collect();
         Some(format!("required tool(s) absent: {}", absent.join(", ")))
+    } else if let Some(reason) = canary_call_error {
+        Some(format!("MCP read-back call failed: {reason}"))
     } else if canary_round_trip != CanaryOutcome::Ok {
         Some("canary round-trip failed: incident not found in corpus".to_string())
     } else {
@@ -177,17 +186,13 @@ pub async fn run_preflight(
 /// harness `Err`. The entrypoint the Epoch-8 `conductor preflight` verb and the live child-spawn test
 /// both drive.
 #[tracing::instrument(name = "verify.readback.preflight_boot", skip_all)]
-pub async fn preflight_boot<T, E, A>(
-    transport: T,
+pub async fn preflight_boot(
+    command: Command,
     manifest: &ContractManifest,
     canary: &CanaryMarker,
     data_dir: &str,
-) -> Result<ReadyState, VerifyError>
-where
-    T: IntoTransport<RoleClient, E, A>,
-    E: std::error::Error + Send + Sync + 'static,
-{
-    match ReadbackClient::connect_transport(transport).await {
+) -> Result<ReadyState, VerifyError> {
+    match ReadbackClient::connect_command(command).await {
         Ok(client) => run_preflight(&client, manifest, canary, data_dir).await,
         Err(e) => {
             tracing::info!(

@@ -25,6 +25,7 @@
 
 mod client;
 mod error;
+mod jsonrpc;
 mod manifest;
 mod preflight;
 mod record;

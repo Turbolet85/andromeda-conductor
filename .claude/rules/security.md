@@ -13,12 +13,12 @@ Universal security requirements (Minimal tier — local-only loopback tool, no n
 - Validate ALL scenario config at load with garde (`range` + `#[garde(custom)]` cross-field: error fraction ∈ [0,1], non-negative durations, p50≤p95≤p99, severity-mix sums). An unvalidated serde deserialize bypasses the trust boundary.
 - `CONDUCTOR_*` path handles sit OUTSIDE garde — `std::fs::canonicalize` + bounds-check at the `conductor-cli` edge before any `runs.db`/journal write or manifest read (path traversal).
 - `runs.db`: rusqlite BOUND parameters only — never `format!`/string-concatenated SQL, even for synthetic data.
-- Bound prost/protobuf decode on the MCP read-back path — no unbounded recursion; an empty/malformed canary ⇒ `Blocked`, never a false pass.
+- Bound the line-delimited JSON-RPC decode on the MCP read-back path (serde_json is recursion-limited + a soft per-line size bound) — an empty/malformed/errored canary ⇒ `Blocked`, never a false pass.
 
 ## Subprocess & MCP (§Security Anti-Patterns)
 - Spawn `andromeda-pulse-mcp` from a FIXED hard-coded program path only — never an operator-chosen command.
-- Pass `ANDROMEDA_PULSE_DATA_DIR` strictly via the `.env(...)` builder after rejecting injection metacharacters — never interpolate into argv or a shell (rmcp STDIO injection class, CVE-2026-30623).
-- The rmcp client MUST negotiate DOWN to `2024-11-05` (Pulse's hand-rolled server version) — never pin a strict newer default.
+- Pass `ANDROMEDA_PULSE_DATA_DIR` strictly via the `.env(...)` builder after rejecting injection metacharacters — never interpolate into argv or a shell (MCP-sidecar STDIO injection class, CVE-2026-30623).
+- The read-back client MUST negotiate DOWN to `2024-11-05` (read from the `initialize` result; Pulse's hand-rolled server version) — never pin a strict newer default.
 - Never silently downgrade a failed preflight (version mismatch / missing tool / empty canary / keychain read-while-write) — surface the distinct `Blocked` state with its named precondition.
 
 ## Dependencies (§Dependency Security)

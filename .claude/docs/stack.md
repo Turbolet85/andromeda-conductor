@@ -12,7 +12,7 @@ _Mirrors `.andromeda/architecture.md` §Stack and Technologies. Convenience refe
 - **No backend/web framework** — Conductor is a gRPC client + MCP client + Tauri IPC host; no HTTP/network service of its own.
 - **OTLP emission:** opentelemetry-proto 0.32.0 (`gen-tonic` + trace/metrics/logs) — raw hand-built message structs for byte-level fault control.
 - **gRPC transport:** tonic 0.14.6 + tonic-prost 0.14.6 + prost 0.14 (codegen via `tonic-prost-build`).
-- **MCP read-back client:** rmcp 1.7.0 (`client`), `serve_client()` over `TokioChildProcess` stdio, protocol `2024-11-05`.
+- **MCP read-back client:** hand-rolled line-delimited JSON-RPC over tokio child stdio (rmcp removed 2026-06-27 — Pulse's `tools/call` is non-MCP-compliant); protocol `2024-11-05` read from the `initialize` result; raw `serde_json::Value` tool results.
 - **Validation:** serde 1.0.x + garde 0.22.1 (`#[derive(Validate)]` range + `#[garde(custom)]` cross-field).
 - **Serialization:** serde_json 1.0 — canonical-name JSON for the run-report envelope + per-run JSONL journal (serde companion; report-seam runtime dep).
 - **Scenario config:** toml 0.9 — declarative TOML scenario files under `scenarios/` (serde-deserialized + garde-validated via `Scenario::from_toml_str`); chosen over JSON for hand-author ergonomics + inline comments (P4 decision); audit/deny-clean.
