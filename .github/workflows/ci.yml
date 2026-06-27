@@ -50,6 +50,17 @@ jobs:
       - name: Build (locked)
         run: cargo build --workspace --locked
 
+      # Flakiness budget — assert the determinism invariant at the CI level, not the local file alone:
+      # any non-zero `retries` (count or backoff-map) in the nextest config fails the gate
+      # (test-plan §10 zero-flakiness; arch §Cross-cutting Patterns determinism discipline).
+      - name: Flakiness budget (assert zero-retry)
+        shell: bash
+        run: |
+          if grep -nE '^[[:space:]]*retries[[:space:]]*=[[:space:]]*([1-9]|\{)' .config/nextest.toml; then
+            echo "::error file=.config/nextest.toml::non-zero retries configured — the zero-flakiness budget forbids retries (test-plan §10)"
+            exit 1
+          fi
+
       # Dogfood the source-of-truth release gate: agent-run `run` = nextest --profile ci (zero-retry,
       # emits target/nextest/ci/junit.xml) + test --doc + clippy -D warnings. Setting
       # $PSNativeCommandUseErrorActionPreference makes the script fail-fast on the first native
@@ -66,9 +77,37 @@ jobs:
       - name: Supply-chain — cargo deny
         run: cargo deny check
 
-      # Measure only — the coverage threshold + JUnit/coverage artifact upload are Epoch 10.
-      - name: Coverage (measure only)
-        run: cargo llvm-cov nextest --workspace --profile ci --summary-only
+      # Coverage gate (Epoch 10): instrumented re-run → LCOV + Cobertura reports → the binding
+      # line-coverage floor. test-plan §10: Minimal tier line >= 60% (--fail-under-lines 60),
+      # excluding integration-test / fixture / stub code under crates/*/tests/. The workspace has no
+      # in-tree OTLP codegen — opentelemetry-proto is an external crate llvm-cov already excludes.
+      - name: Coverage (collect instrumented)
+        run: cargo llvm-cov nextest --workspace --profile ci --no-report
+
+      - name: Coverage (LCOV + Cobertura reports)
+        shell: bash
+        run: |
+          cargo llvm-cov report --lcov --output-path lcov.info --ignore-filename-regex '[\\/]tests[\\/]'
+          cargo llvm-cov report --cobertura --output-path coverage.xml --ignore-filename-regex '[\\/]tests[\\/]'
+
+      - name: Coverage (line-floor gate — test-plan §10, >= 60%)
+        run: cargo llvm-cov report --fail-under-lines 60 --ignore-filename-regex '[\\/]tests[\\/]'
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: |
+            lcov.info
+            coverage.xml
+
+      - name: Upload test results (JUnit)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-results
+          path: target/nextest/ci/junit.xml
 
   frontend:
     name: Frontend gate (npm audit · build)
