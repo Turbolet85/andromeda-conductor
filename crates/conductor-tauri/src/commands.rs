@@ -21,6 +21,8 @@ use conductor_core::{
 use conductor_run::{RunEvent, RunStage};
 use tauri::ipc::Channel;
 
+use crate::pause::{HoldGate, HoldPrompt, TauriResolver};
+
 /// The managed run-lifecycle handle. `abort` is the cooperative stop flag the background run thread
 /// polls between scenarios (the GUI stop button); the frontend renders the run state from the live
 /// `Channel`, so the backend keeps no phase mirror.
@@ -148,7 +150,9 @@ pub fn run_report(run_id: Option<String>) -> Result<Vec<RunRecord>, String> {
 pub fn start_run(
     selection: String,
     on_event: Channel<RunEvent>,
+    on_hold: Channel<HoldPrompt>,
     state: tauri::State<'_, RunControl>,
+    hold_gate: tauri::State<'_, HoldGate>,
 ) -> Result<(), String> {
     let _span = tracing::info_span!("tauri.command.start_run").entered();
     let dir = scenarios_dir()?;
@@ -161,8 +165,11 @@ pub fn start_run(
     let run_id = mint_run_id();
     let abort = state.abort.clone();
     abort.store(false, Ordering::SeqCst);
+    let resolver = TauriResolver::new(hold_gate.inner().clone(), on_hold);
     tracing::info!(run_id = %run_id, "run starting (background)");
-    std::thread::spawn(move || run_thread(scenarios, run_id, runs_dir, manifest, abort, on_event));
+    std::thread::spawn(move || {
+        run_thread(scenarios, run_id, runs_dir, manifest, abort, resolver, on_event)
+    });
     Ok(())
 }
 
@@ -175,6 +182,7 @@ fn run_thread(
     runs_dir: PathBuf,
     manifest: PathBuf,
     abort: Arc<AtomicBool>,
+    resolver: TauriResolver,
     on_event: Channel<RunEvent>,
 ) {
     let runtime = match tokio::runtime::Builder::new_current_thread().enable_all().build() {
@@ -197,11 +205,16 @@ fn run_thread(
         let emit = |event| {
             let _ = on_event.send(event);
         };
-        let result =
-            conductor_run::drive_run(&preflight, &scenarios, &run_id, &runs_dir, emit, || {
-                abort.load(Ordering::SeqCst)
-            })
-            .await;
+        let result = conductor_run::drive_run(
+            &preflight,
+            &scenarios,
+            &run_id,
+            &runs_dir,
+            &resolver,
+            emit,
+            || abort.load(Ordering::SeqCst),
+        )
+        .await;
         if let Err(err) = result {
             tracing::error!("run failed: {}", sanitize_error(&*err));
             let _ = on_event.send(RunEvent { stage: RunStage::Aborted, count: 0 });

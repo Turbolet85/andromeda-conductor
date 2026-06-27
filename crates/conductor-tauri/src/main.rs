@@ -12,17 +12,20 @@ use std::path::{Path, PathBuf};
 use conductor_core::{init_observability, resolve_under, ObsSink};
 
 mod commands;
+mod pause;
 
 fn main() {
     init_observability("conductor-tauri", None, obs_sink());
     tauri::Builder::default()
         .manage(commands::RunControl::default())
+        .manage(pause::HoldGate::default())
         .invoke_handler(tauri::generate_handler![
             commands::list_scenarios,
             commands::coverage_matrix,
             commands::run_report,
             commands::start_run,
             commands::stop_run,
+            pause::resolve_operator_hold,
         ])
         .run(tauri::generate_context!())
         .expect("error while running conductor-tauri");

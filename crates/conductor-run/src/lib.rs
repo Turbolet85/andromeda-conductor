@@ -21,8 +21,8 @@ use anyhow::Context as _;
 use serde::Serialize;
 
 use conductor_core::{
-    HeadlessResolver, HoldPoint, PauseResolver, ReportState, RunRecord, Scenario, Signal, Verdict,
-    now_rfc3339, redact_value, resolve_hold,
+    HoldPoint, PauseResolver, ReportState, RunRecord, Scenario, Signal, Verdict, now_rfc3339,
+    redact_value, resolve_hold,
 };
 use conductor_emit::{
     DEFAULT_OTLP_ENDPOINT, DEFAULT_SERVICE_NAME, LogsEmitter, Severity, TraceEmitter, probe_egress,
@@ -282,25 +282,28 @@ pub enum RunStage {
     Aborted,
 }
 
-/// Drive `scenarios` to their [`RunRecord`]s on the headless resolver, persisting the run once and
+/// Drive `scenarios` to their [`RunRecord`]s through `resolver`, persisting the run once and
 /// streaming a [`RunEvent`] per scenario through `emit`; `should_abort` is polled between scenarios
 /// (the GUI's stop button). The terminal stage is `Blocked` when every record blocked (the no-live-
-/// Pulse spine), else `Done`. The headless resolver never blocks — the GUI run is never gated on a
-/// prompt (the live operator-pause dialog is a later chunk). The faithful per-emission counter is the
+/// Pulse spine), else `Done`. Generic over the resolver (`PauseResolver::resolve` returns
+/// `impl Future`, so never `dyn`) — the GUI shell passes its `TauriResolver` to gate the
+/// operator-checklist holds on the live-Pulse path; the agent/test path passes a
+/// [`conductor_core::HeadlessResolver`] that never blocks. The faithful per-emission counter is the
 /// Epoch-10 bridge; `count` here ticks per scenario.
-pub async fn drive_run<E, A>(
+pub async fn drive_run<R, E, A>(
     pf: &Preflight,
     scenarios: &[Scenario],
     run_id: &str,
     runs_dir: &Path,
+    resolver: &R,
     mut emit: E,
     should_abort: A,
 ) -> anyhow::Result<Vec<RunRecord>>
 where
+    R: PauseResolver,
     E: FnMut(RunEvent),
     A: Fn() -> bool,
 {
-    let resolver = HeadlessResolver::proceed();
     emit(RunEvent { stage: RunStage::Progress, count: 0 });
     let mut records = Vec::with_capacity(scenarios.len());
     for scenario in scenarios {
@@ -309,7 +312,7 @@ where
             emit(RunEvent { stage: RunStage::Aborted, count: records.len() as u64 });
             return Ok(records);
         }
-        records.push(execute_scenario(pf, scenario, run_id, &resolver).await?);
+        records.push(execute_scenario(pf, scenario, run_id, resolver).await?);
         emit(RunEvent { stage: RunStage::Progress, count: records.len() as u64 });
     }
     persist(runs_dir, run_id, &records)?;
@@ -325,6 +328,7 @@ where
 #[cfg(test)]
 mod tests {
     use super::*;
+    use conductor_core::HeadlessResolver;
 
     /// A blocked-gate `Preflight` (no connected client) — the no-live-Pulse spine, constructed
     /// directly so the test needs neither a sidecar nor an env handle.
@@ -371,6 +375,7 @@ mod tests {
             &[fixture(7)],
             "run-drive",
             dir.path(),
+            &HeadlessResolver::proceed(),
             |ev| events.push(ev),
             || false,
         )
@@ -399,6 +404,7 @@ mod tests {
             &[fixture(7)],
             "run-abort",
             dir.path(),
+            &HeadlessResolver::proceed(),
             |ev| events.push(ev),
             || true,
         )

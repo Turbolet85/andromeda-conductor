@@ -112,6 +112,7 @@ const SAMPLE_RECORDS: RunRecord[] = [
 // main.tsx behind `import.meta.env.DEV` (+ #gallery); tree-shaken from the production bundle.
 export default function Gallery() {
   const [dialogOpen, setDialogOpen] = useState(false)
+  const [lastDecision, setLastDecision] = useState<string | null>(null)
   const [items, setItems] = useState<ChecklistItem[]>([
     {
       id: 'restart',
@@ -170,13 +171,24 @@ export default function Gallery() {
         >
           Open dialog
         </button>
+        {lastDecision ? (
+          <p className="type-body" role="status" style={{ margin: 0, color: 'var(--text-tertiary)' }}>
+            Last decision: {lastDecision}
+          </p>
+        ) : null}
         <OperatorPauseDialog
           open={dialogOpen}
           onOpenChange={setDialogOpen}
-          title="Operator pause — restart-suppression"
-          body="Restart the Pulse process, then confirm the RestartEvent was observed before proceeding."
-          onProceed={() => setDialogOpen(false)}
-          onAbort={() => setDialogOpen(false)}
+          title="P-025 — observe-hue"
+          body="Observe the constellation hue for this scenario, then proceed or abort."
+          onProceed={() => {
+            setLastDecision('Go')
+            setDialogOpen(false)
+          }}
+          onAbort={() => {
+            setLastDecision('No-Go')
+            setDialogOpen(false)
+          }}
         />
       </section>
 

@@ -1,16 +1,25 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import { invoke, Channel } from '@tauri-apps/api/core'
 import Titlebar, { type RunState } from './components/Titlebar'
 import ScenarioPicker, { type ScenarioSummary } from './components/ScenarioPicker'
 import RunControls from './components/RunControls'
 import CoverageMatrix, { type CapabilityRow } from './components/CoverageMatrix'
 import RunReport from './components/RunReport'
+import OperatorPauseDialog from './components/OperatorPauseDialog'
 import { type RunRecord } from './lamp'
 
 type RunStage = 'progress' | 'blocked' | 'done' | 'aborted'
 interface RunEvent {
   stage: RunStage
   count: number
+}
+
+// The backend HoldPrompt projection (conductor-tauri pause.rs) — the operator-pause dialog renders
+// these fields; the decision posts back via the resolve_operator_hold command.
+interface HoldPrompt {
+  title: string
+  body: string
+  allow_no_go: boolean
 }
 
 // The live Channel stage drives the titlebar run-state: a scenario completing keeps it `live`, the
@@ -36,6 +45,8 @@ export default function App() {
   const [report, setReport] = useState<RunRecord[]>([])
   const [reportError, setReportError] = useState<string | null>(null)
   const [reportLoading, setReportLoading] = useState(true)
+  const [holdPrompt, setHoldPrompt] = useState<HoldPrompt | null>(null)
+  const pendingHold = useRef(false)
 
   useEffect(() => {
     invoke<ScenarioSummary[]>('list_scenarios')
@@ -68,6 +79,20 @@ export default function App() {
 
   const running = runState === 'live'
 
+  // Deliver the operator's go/no-go to the awaiting backend hold. Idempotent via a ref: the controlled
+  // Radix dialog fires onProceed/onAbort AND onOpenChange(false) for a single action.
+  const resolveHold = async (decision: 'Go' | 'NoGo') => {
+    if (!pendingHold.current) return
+    pendingHold.current = false
+    setHoldPrompt(null)
+    setRunState('live')
+    try {
+      await invoke('resolve_operator_hold', { decision })
+    } catch (e) {
+      setActionError(String(e))
+    }
+  }
+
   const start = async () => {
     if (!selection) return
     setActionError(null)
@@ -77,10 +102,16 @@ export default function App() {
       setRunState(STATE_FOR_STAGE[event.stage])
       if (event.stage !== 'progress') loadReport()
     }
+    const holdChannel = new Channel<HoldPrompt>()
+    holdChannel.onmessage = (prompt) => {
+      pendingHold.current = true
+      setHoldPrompt(prompt)
+      setRunState('hold')
+    }
     try {
       setRunState('live')
       setCount('0')
-      await invoke('start_run', { selection, onEvent: channel })
+      await invoke('start_run', { selection, onEvent: channel, onHold: holdChannel })
     } catch (e) {
       setRunState('idle')
       setActionError(String(e))
@@ -201,6 +232,18 @@ export default function App() {
           )}
         </section>
       </main>
+
+      <OperatorPauseDialog
+        open={holdPrompt !== null}
+        onOpenChange={(open) => {
+          if (!open) void resolveHold('NoGo')
+        }}
+        title={holdPrompt?.title ?? ''}
+        body={holdPrompt?.body ?? ''}
+        allowNoGo={holdPrompt?.allow_no_go ?? true}
+        onProceed={() => void resolveHold('Go')}
+        onAbort={() => void resolveHold('NoGo')}
+      />
     </div>
   )
 }
