@@ -22,8 +22,17 @@ fn copy_manifest(dir: &TempDir) {
     dir.child("contracts/mcp-contract.toml").write_str(&toml).unwrap();
 }
 
-/// A `conductor` command rooted at `dir` with the read-back path forced unreachable.
+fn copy_capability_manifest(dir: &TempDir) {
+    let src = format!("{}/../../contracts/pulse-capabilities.toml", env!("CARGO_MANIFEST_DIR"));
+    let toml =
+        std::fs::read_to_string(&src).unwrap_or_else(|e| panic!("read pulse-capabilities.toml: {e}"));
+    dir.child("contracts/pulse-capabilities.toml").write_str(&toml).unwrap();
+}
+
+/// A `conductor` command rooted at `dir` with the read-back path forced unreachable. Every scenario
+/// load checks its P-IDs against the capability manifest, so a repo-shaped root always carries one.
 fn conductor(dir: &TempDir) -> Command {
+    copy_capability_manifest(dir);
     let mut cmd = Command::cargo_bin("conductor").expect("conductor binary builds");
     cmd.current_dir(dir.path());
     cmd.env("ANDROMEDA_PULSE_DATA_DIR", "pulse;injection");

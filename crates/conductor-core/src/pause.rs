@@ -203,7 +203,9 @@ mod tests {
     #[test]
     fn malformed_p_id_is_rejected_via_dive() {
         let mut h = hold("do the thing");
-        h.p_id = PId("P-999".to_string());
+        // Shape-malformed, not merely absent from the SUT set: garde validates the P-NNN shape and
+        // the capability manifest owns membership, so only a bad shape fails here.
+        h.p_id = PId("P-99".to_string());
         assert!(h.validate().is_err());
     }
 

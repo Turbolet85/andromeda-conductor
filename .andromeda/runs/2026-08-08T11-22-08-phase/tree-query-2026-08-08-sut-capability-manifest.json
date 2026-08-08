@@ -1,0 +1,843 @@
+[
+{
+"sql": "SELECT callee, file, line FROM refs WHERE callee LIKE '%PId%' ORDER BY file, line LIMIT 40",
+"rows": 40,
+"result": [
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 109
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 114
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-cli/src/render.rs",
+"line": 205
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-cli/src/render.rs",
+"line": 212
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-cli/src/render.rs",
+"line": 228
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-cli/src/render.rs",
+"line": 310
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-core/src/lamp.rs",
+"line": 78
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-core/src/lamp.rs",
+"line": 87
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-core/src/lamp.rs",
+"line": 143
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 43
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-core/src/pause.rs",
+"line": 22
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-core/src/pause.rs",
+"line": 60
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-core/src/pause.rs",
+"line": 83
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-core/src/pause.rs",
+"line": 153
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-core/src/pause.rs",
+"line": 205
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-core/src/run_journal.rs",
+"line": 51
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-core/src/run_journal.rs",
+"line": 70
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-core/src/run_journal.rs",
+"line": 111
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 4
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 30
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 54
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 84
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 118
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 118
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 156
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 177
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 75
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 116
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 134
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 166
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 166
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 176
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 176
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 187
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 195
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 203
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 210
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 210
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 216
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/PId#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 223
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT from_crate, to_crate FROM crate_edges WHERE to_crate = 'conductor-core' ORDER BY from_crate",
+"rows": 6,
+"result": [
+{
+"from_crate": "conductor-cli",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-report",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-run",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-tauri",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-timeline",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-verify",
+"to_crate": "conductor-core"
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT callee, file, line FROM refs WHERE callee LIKE '%pid_format%' ORDER BY file, line",
+"rows": 1,
+"result": [
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/pid_format().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 19
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee LIKE '%from_toml_str%' ORDER BY file, line",
+"rows": 41,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-cli 0.1.0 paths/load_one().",
+"file": "crates/conductor-cli/src/paths.rs",
+"line": 78
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/from_toml_str_parses_and_validates().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 256
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/from_toml_str_rejects_malformed_toml_as_config_error().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 265
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/from_toml_str_rejects_invalid_scenario_as_validation_error().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 283
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/committed_fixture_loads_and_validates().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 294
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/connection_lifecycle_fixtures_load_and_validate().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 307
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/hard_signal_fixtures_load_and_validate().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 321
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/statistical_anomaly_fixtures_load_and_validate().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 333
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/statistical_anomaly_checks_are_hard_with_floor_and_candidate().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 349
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/p008_root_span_error_scope_checks_are_calibration_region().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 371
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/p007_high_severity_log_capture_asserts_both_sides_of_the_boundary().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 385
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/activity_floor_and_restart_suppression_fixtures_load_and_validate().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 406
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/activity_floor_and_restart_suppression_checks_are_all_hard().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 423
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/activity_floor_asserts_the_learned_quiet_via_absent().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 437
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/presence_scenarios_assert_a_surfaced_incident_via_contains().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 452
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/fingerprint_storm_fixtures_load_and_validate().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 465
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/fingerprint_storm_checks_are_all_hard().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 480
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/fingerprint_storm_asserts_the_storm_via_contains().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 493
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/fingerprint_distinct_asserts_no_aggregation_via_absent().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 508
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/severity_lifecycle_fixtures_load_and_validate().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 526
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/severity_tier_scenarios_assert_their_tier_as_calibration_region().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 545
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/incident_auto_resolution_asserts_resolved_and_new_not_reopen_hard().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 564
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/ack_cooldown_asserts_new_incident_after_via_hard_count_at_least().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 590
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/severity_lifecycle_suite_is_mixed_class().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 620
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/from_toml_str_parses_an_expected_block().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 651
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/constellation_context_grounding_fixtures_load_and_validate().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 704
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/constellation_and_p032_are_operator_checklist_declare_only().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 724
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/cross_incident_recurrence_asserts_previously_seen_via_hard_contains().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 739
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/constellation_context_grounding_suite_has_operator_checklist_members().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 762
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/constellation_context_grounding_suite_has_operator_checklist_members().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 766
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/scrub_pipeline_degraded_fixtures_load_and_validate().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 784
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/report_surface_cadence_degraded_are_declare_only().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 801
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/pii_scrub_asserts_scrub_via_hard_absent_and_structure_via_contains().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 814
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/findings_counter_and_threshold_reload_carry_their_hard_checks().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 849
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/findings_counter_and_threshold_reload_carry_their_hard_checks().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 864
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/scrub_pipeline_degraded_suite_mixes_hard_and_declare_only().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 896
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario_catalog/list_scenarios().",
+"file": "crates/conductor-core/src/scenario_catalog.rs",
+"line": 46
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 tests/fixture().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 419
+},
+{
+"caller": "rust-analyzer cargo conductor-tauri 0.1.0 commands/load_toml().",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 78
+},
+{
+"caller": "rust-analyzer cargo conductor-tauri 0.1.0 commands/tests/path7_tauri_persists_the_same_blocked_envelope_as_the_cli().",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 343
+},
+{
+"caller": "rust-analyzer cargo conductor-timeline 0.1.0 fixture_timeline().",
+"file": "crates/conductor-timeline/tests/replay.rs",
+"line": 25
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT callee, file, line FROM refs WHERE callee LIKE '%from_toml_str%' ORDER BY file, line",
+"rows": 41,
+"result": [
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-cli/src/paths.rs",
+"line": 78
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 256
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 265
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 283
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 294
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 307
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 321
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 333
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 349
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 371
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 385
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 406
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 423
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 437
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 452
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 465
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 480
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 493
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 508
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 526
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 545
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 564
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 590
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 620
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 651
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 704
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 724
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 739
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 762
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 766
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 784
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 801
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 814
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 849
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 864
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 896
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario_catalog.rs",
+"line": 46
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 419
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 78
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 343
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-timeline/tests/replay.rs",
+"line": 25
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT DISTINCT file FROM calls WHERE callee LIKE '%from_toml_str%' ORDER BY file",
+"rows": 6,
+"result": [
+{
+"file": "crates/conductor-cli/src/paths.rs"
+},
+{
+"file": "crates/conductor-core/src/scenario.rs"
+},
+{
+"file": "crates/conductor-core/src/scenario_catalog.rs"
+},
+{
+"file": "crates/conductor-run/src/lib.rs"
+},
+{
+"file": "crates/conductor-tauri/src/commands.rs"
+},
+{
+"file": "crates/conductor-timeline/tests/replay.rs"
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT DISTINCT file FROM refs WHERE callee LIKE '%PId%' ORDER BY file",
+"rows": 16,
+"result": [
+{
+"file": "crates/conductor-cli/src/pause.rs"
+},
+{
+"file": "crates/conductor-cli/src/render.rs"
+},
+{
+"file": "crates/conductor-core/src/lamp.rs"
+},
+{
+"file": "crates/conductor-core/src/lib.rs"
+},
+{
+"file": "crates/conductor-core/src/pause.rs"
+},
+{
+"file": "crates/conductor-core/src/run_journal.rs"
+},
+{
+"file": "crates/conductor-core/src/run_record.rs"
+},
+{
+"file": "crates/conductor-core/src/scenario.rs"
+},
+{
+"file": "crates/conductor-core/src/scenario_catalog.rs"
+},
+{
+"file": "crates/conductor-core/tests/operator_pause.rs"
+},
+{
+"file": "crates/conductor-report/src/db.rs"
+},
+{
+"file": "crates/conductor-report/src/journal.rs"
+},
+{
+"file": "crates/conductor-report/src/report.rs"
+},
+{
+"file": "crates/conductor-tauri/src/pause.rs"
+},
+{
+"file": "crates/conductor-timeline/src/convert.rs"
+},
+{
+"file": "crates/conductor-verify/src/record.rs"
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT count(*) AS n FROM refs WHERE callee LIKE '%PId%'",
+"rows": 1,
+"result": [
+{
+"n": 82
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT file, count(*) AS n FROM refs WHERE callee LIKE '%PId%' AND file NOT LIKE '%scenario.rs' GROUP BY file ORDER BY file",
+"rows": 15,
+"result": [
+{
+"file": "crates/conductor-cli/src/pause.rs",
+"n": 2
+},
+{
+"file": "crates/conductor-cli/src/render.rs",
+"n": 4
+},
+{
+"file": "crates/conductor-core/src/lamp.rs",
+"n": 3
+},
+{
+"file": "crates/conductor-core/src/lib.rs",
+"n": 1
+},
+{
+"file": "crates/conductor-core/src/pause.rs",
+"n": 5
+},
+{
+"file": "crates/conductor-core/src/run_journal.rs",
+"n": 3
+},
+{
+"file": "crates/conductor-core/src/run_record.rs",
+"n": 8
+},
+{
+"file": "crates/conductor-core/src/scenario_catalog.rs",
+"n": 2
+},
+{
+"file": "crates/conductor-core/tests/operator_pause.rs",
+"n": 2
+},
+{
+"file": "crates/conductor-report/src/db.rs",
+"n": 5
+},
+{
+"file": "crates/conductor-report/src/journal.rs",
+"n": 3
+},
+{
+"file": "crates/conductor-report/src/report.rs",
+"n": 5
+},
+{
+"file": "crates/conductor-tauri/src/pause.rs",
+"n": 2
+},
+{
+"file": "crates/conductor-timeline/src/convert.rs",
+"n": 2
+},
+{
+"file": "crates/conductor-verify/src/record.rs",
+"n": 3
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT line FROM calls WHERE callee LIKE '%from_toml_str%' AND file LIKE '%paths.rs' ",
+"rows": 1,
+"result": [
+{
+"line": 78
+}
+],
+"db_state": "fresh"
+}
+]

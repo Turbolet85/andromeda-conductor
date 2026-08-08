@@ -9,7 +9,7 @@ use std::path::{Path, PathBuf};
 
 use serde::Serialize;
 
-use crate::{CoreError, PId, Scenario, SloTier};
+use crate::{CapabilityManifest, CoreError, PId, Scenario, SloTier};
 
 /// Sentinel selection meaning "the whole catalog" — the picker's suite entry. Distinct from any
 /// scenario name (no scenario is named with leading underscores).
@@ -39,12 +39,15 @@ pub fn scenario_files(dir: &Path) -> crate::Result<Vec<PathBuf>> {
 /// Read + validate every scenario in `dir`, returning identity summaries (catalog file order). A
 /// malformed scenario is a harness fault (`Err`) — the picker shows the operator a real error, never
 /// a silently truncated list.
-pub fn list_scenarios(dir: &Path) -> crate::Result<Vec<ScenarioSummary>> {
+pub fn list_scenarios(
+    dir: &Path,
+    capabilities: &CapabilityManifest,
+) -> crate::Result<Vec<ScenarioSummary>> {
     let mut summaries = Vec::new();
     for path in scenario_files(dir)? {
         let text = std::fs::read_to_string(&path)
             .map_err(|e| CoreError::Config(format!("read scenario file: {e}")))?;
-        let scenario = Scenario::from_toml_str(&text)?;
+        let scenario = Scenario::from_toml_str_with(&text, capabilities)?;
         summaries.push(ScenarioSummary {
             name: scenario.name,
             p_ids: scenario.p_ids,
@@ -68,10 +71,14 @@ pub fn validate_selection(catalog: &[ScenarioSummary], selection: &str) -> bool 
 mod tests {
     use super::*;
 
-    /// The committed catalog at the workspace root — the real fixture (every entry must parse).
+    /// The committed catalog at the workspace root — the real fixture (every entry must parse and
+    /// every P-ID it names must be one the committed capability manifest claims).
     fn catalog() -> Vec<ScenarioSummary> {
-        let dir = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../../scenarios");
-        list_scenarios(&dir).expect("the committed scenario catalog parses")
+        let root = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../..");
+        let capabilities = CapabilityManifest::load(&root.join("contracts/pulse-capabilities.toml"))
+            .expect("the committed capability manifest loads");
+        list_scenarios(&root.join("scenarios"), &capabilities)
+            .expect("the committed scenario catalog parses")
     }
 
     #[test]

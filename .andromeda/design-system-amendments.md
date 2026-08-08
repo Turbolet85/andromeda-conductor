@@ -21,3 +21,8 @@ _Append-only changelog of amendments to `design-system.md` (the body holds only 
 **Section:** §Motion (This project's values) + §Component Patterns §2 (Operator-pause go/no-go dialog)
 **Change:** The operator-pause dialog fade is `--motion-micro` (150ms), not a literal 200ms — both the §Motion "This project's values" transitions line and the §Component-Patterns §2 dialog entry now read "150ms fade (`--motion-micro`)". The generic expression-scale ceiling is untouched (§Motion "200ms fades at most" + the `0.3-0.4 → 200ms fade` reference row remain — 150ms still satisfies "at most 200ms").
 **Why:** D-design-tokens (warning). The component-primitives chunk shipped `OperatorPauseDialog` (Radix AlertDialog) with `animation: … var(--motion-micro)` because no 200ms token exists in `tokens.css` (only `--motion-micro: 150ms`); tokens-by-name forbids a raw 200ms literal, so the spec's aspirational 200ms is unrealizable as written. Routine spec-illustration → sound-impl reconciliation (the `@theme`→`:root` / `--motion-heartbeat` precedents) — the never-color-alone + token-bound invariants hold (report Coverage tokens ✓). Cascade: design-summary.md / rules/{frontend,a11y}.md carry no fade-duration literal → no-op.
+
+## 2026-08-08-sut-capability-manifest — De-hardcoded P-ID range in token-usage examples
+**Section:** §Color Palette (Primary) · §Typography (Data row) · §Surface: cli ANSI map · §Brand Identity
+**Change:** Mono status-tier / ANSI-117 usage examples name "P-IDs" instead of the fixed `P-001..P-060` range.
+**Why:** Illustrative examples carried the superseded range; no token, hex or type-role changed.

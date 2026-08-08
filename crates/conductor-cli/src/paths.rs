@@ -7,34 +7,43 @@
 use std::path::{Path, PathBuf};
 
 use anyhow::Context as _;
-use conductor_core::{Scenario, resolve_under, scenario_files};
+use conductor_core::{CapabilityManifest, Scenario, resolve_under, scenario_files};
 
 /// The resolved artifact + config locations for a CLI invocation.
 pub struct Paths {
     pub scenarios_dir: PathBuf,
     pub runs_dir: PathBuf,
     pub manifest_path: PathBuf,
+    pub capability_manifest_path: PathBuf,
 }
 
 impl Paths {
-    /// Resolve the three handles against the current directory, applying the `CONDUCTOR_*` overrides.
+    /// Resolve the handles against the current directory, applying the `CONDUCTOR_*` overrides. The
+    /// capability manifest is a fixed in-repo path (no override), guarded the same way.
     pub fn resolve() -> anyhow::Result<Self> {
         let base = std::env::current_dir().context("resolve current directory")?;
         Ok(Self {
             scenarios_dir: resolve_handle(&base, "CONDUCTOR_SCENARIOS_DIR", "scenarios")?,
             runs_dir: resolve_handle(&base, "CONDUCTOR_RUNS_DIR", "runs")?,
             manifest_path: resolve_handle(&base, "CONDUCTOR_CONTRACT_MANIFEST", "contracts/mcp-contract.toml")?,
+            capability_manifest_path: resolve_under(&base, &CapabilityManifest::default_path())?,
         })
+    }
+
+    /// The SUT capability set every scenario this invocation loads is checked against.
+    fn capabilities(&self) -> anyhow::Result<CapabilityManifest> {
+        Ok(CapabilityManifest::load(&self.capability_manifest_path)?)
     }
 
     /// Resolve a `run` target — a scenario name (`<name>.toml`) or a Pulse P-ID — to a seeded scenario.
     pub fn load_scenario(&self, target: &str, seed: Option<u64>) -> anyhow::Result<Scenario> {
+        let capabilities = self.capabilities()?;
         if let Ok(by_name) = resolve_under(&self.scenarios_dir, Path::new(&format!("{target}.toml")))
             && by_name.is_file()
         {
-            return Ok(apply_seed(load_one(&by_name)?, seed));
+            return Ok(apply_seed(load_one(&by_name, &capabilities)?, seed));
         }
-        let by_pid = find_by_pid(&self.scenarios_dir, target)?
+        let by_pid = find_by_pid(&self.scenarios_dir, target, &capabilities)?
             .with_context(|| format!("no scenario matches \"{target}\" (by name or P-ID)"))?;
         Ok(apply_seed(by_pid, seed))
     }
@@ -46,6 +55,7 @@ impl Paths {
         seed: Option<u64>,
     ) -> anyhow::Result<Vec<Scenario>> {
         let files = scenario_files(&self.scenarios_dir)?;
+        let capabilities = self.capabilities()?;
 
         let mut scenarios = Vec::new();
         for path in files {
@@ -53,7 +63,7 @@ impl Paths {
             if filter.is_some_and(|f| !stem.contains(f)) {
                 continue;
             }
-            scenarios.push(apply_seed(load_one(&path)?, seed));
+            scenarios.push(apply_seed(load_one(&path, &capabilities)?, seed));
         }
         Ok(scenarios)
     }
@@ -74,18 +84,22 @@ fn resolve_handle(base: &Path, var: &str, default: &str) -> anyhow::Result<PathB
     Ok(resolve_under(base, Path::new(&candidate))?)
 }
 
-fn load_one(path: &Path) -> anyhow::Result<Scenario> {
+fn load_one(path: &Path, capabilities: &CapabilityManifest) -> anyhow::Result<Scenario> {
     let text = std::fs::read_to_string(path).context("read scenario file")?;
-    Ok(Scenario::from_toml_str(&text)?)
+    Ok(Scenario::from_toml_str_with(&text, capabilities)?)
 }
 
-fn find_by_pid(dir: &Path, pid: &str) -> anyhow::Result<Option<Scenario>> {
+fn find_by_pid(
+    dir: &Path,
+    pid: &str,
+    capabilities: &CapabilityManifest,
+) -> anyhow::Result<Option<Scenario>> {
     for entry in std::fs::read_dir(dir).context("read scenarios directory")?.flatten() {
         let path = entry.path();
         if path.extension().and_then(|x| x.to_str()) != Some("toml") {
             continue;
         }
-        if let Ok(scenario) = load_one(&path)
+        if let Ok(scenario) = load_one(&path, capabilities)
             && scenario.p_ids.iter().any(|p| p.0 == pid)
         {
             return Ok(Some(scenario));

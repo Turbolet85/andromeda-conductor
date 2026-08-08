@@ -15,8 +15,8 @@ use std::sync::Arc;
 use std::time::Instant;
 
 use conductor_core::{
-    mint_run_id, resolve_under, sanitize_error, validate_selection, CapabilityRow, RunRecord,
-    Scenario, ScenarioSummary, SUITE_SELECTION,
+    mint_run_id, resolve_under, sanitize_error, validate_selection, CapabilityManifest,
+    CapabilityRow, RunRecord, Scenario, ScenarioSummary, SUITE_SELECTION,
 };
 use conductor_run::{RunEvent, RunStage};
 use tauri::ipc::Channel;
@@ -51,32 +51,50 @@ fn manifest_path() -> Result<PathBuf, String> {
     resolve_handle("CONDUCTOR_CONTRACT_MANIFEST", "contracts/mcp-contract.toml")
 }
 
+/// The SUT capability set every loaded scenario's P-IDs are checked against. A fixed in-repo path
+/// (no `CONDUCTOR_*` override), resolved through the same traversal guard as the other handles; a
+/// missing or malformed manifest is a harness fault.
+fn capabilities() -> Result<CapabilityManifest, String> {
+    let base = std::env::current_dir().map_err(|e| sanitize_error(&e))?;
+    let path = resolve_under(&base, &CapabilityManifest::default_path())
+        .map_err(|e| sanitize_error(&e))?;
+    CapabilityManifest::load(&path).map_err(|e| sanitize_error(&e))
+}
+
 /// Resolve a validated picker selection (a scenario name or the suite sentinel) to its scenarios.
-fn resolve_selection(dir: &Path, selection: &str) -> Result<Vec<Scenario>, String> {
+fn resolve_selection(
+    dir: &Path,
+    selection: &str,
+    capabilities: &CapabilityManifest,
+) -> Result<Vec<Scenario>, String> {
     if selection == SUITE_SELECTION {
-        load_all(dir)
+        load_all(dir, capabilities)
     } else {
-        Ok(vec![load_one(dir, selection)?])
+        Ok(vec![load_one(dir, selection, capabilities)?])
     }
 }
 
-fn load_all(dir: &Path) -> Result<Vec<Scenario>, String> {
+fn load_all(dir: &Path, capabilities: &CapabilityManifest) -> Result<Vec<Scenario>, String> {
     let files = conductor_core::scenario_files(dir).map_err(|e| sanitize_error(&e))?;
     let mut scenarios = Vec::new();
     for path in files {
-        scenarios.push(load_toml(&path)?);
+        scenarios.push(load_toml(&path, capabilities)?);
     }
     Ok(scenarios)
 }
 
-fn load_one(dir: &Path, name: &str) -> Result<Scenario, String> {
+fn load_one(
+    dir: &Path,
+    name: &str,
+    capabilities: &CapabilityManifest,
+) -> Result<Scenario, String> {
     let path = resolve_under(dir, Path::new(&format!("{name}.toml"))).map_err(|e| sanitize_error(&e))?;
-    load_toml(&path)
+    load_toml(&path, capabilities)
 }
 
-fn load_toml(path: &Path) -> Result<Scenario, String> {
+fn load_toml(path: &Path, capabilities: &CapabilityManifest) -> Result<Scenario, String> {
     let text = std::fs::read_to_string(path).map_err(|e| sanitize_error(&e))?;
-    Scenario::from_toml_str(&text).map_err(|e| sanitize_error(&e))
+    Scenario::from_toml_str_with(&text, capabilities).map_err(|e| sanitize_error(&e))
 }
 
 #[tauri::command]
@@ -84,13 +102,16 @@ pub fn list_scenarios() -> Result<Vec<ScenarioSummary>, String> {
     let _span = tracing::info_span!("tauri.command.list_scenarios").entered();
     let started = Instant::now();
     let dir = scenarios_dir()?;
-    let summaries = list_scenarios_impl(&dir)?;
+    let summaries = list_scenarios_impl(&dir, &capabilities()?)?;
     tracing::info!(count = summaries.len(), latency_ms = started.elapsed().as_millis() as u64, "listed scenarios");
     Ok(summaries)
 }
 
-fn list_scenarios_impl(dir: &Path) -> Result<Vec<ScenarioSummary>, String> {
-    conductor_core::list_scenarios(dir).map_err(|e| sanitize_error(&e))
+fn list_scenarios_impl(
+    dir: &Path,
+    capabilities: &CapabilityManifest,
+) -> Result<Vec<ScenarioSummary>, String> {
+    conductor_core::list_scenarios(dir, capabilities).map_err(|e| sanitize_error(&e))
 }
 
 /// The 60-P-ID capability coverage classification (read-only) — the desktop twin of `conductor
@@ -156,10 +177,11 @@ pub fn start_run(
 ) -> Result<(), String> {
     let _span = tracing::info_span!("tauri.command.start_run").entered();
     let dir = scenarios_dir()?;
-    if !validate_selection(&list_scenarios_impl(&dir)?, &selection) {
+    let capabilities = capabilities()?;
+    if !validate_selection(&list_scenarios_impl(&dir, &capabilities)?, &selection) {
         return Err("unknown scenario or suite selection".to_string());
     }
-    let scenarios = resolve_selection(&dir, &selection)?;
+    let scenarios = resolve_selection(&dir, &selection, &capabilities)?;
     let runs_dir = runs_dir()?;
     let manifest = manifest_path()?;
     let run_id = mint_run_id();

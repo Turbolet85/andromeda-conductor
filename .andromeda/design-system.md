@@ -29,7 +29,7 @@ The cool, blue-cast calm of a single-operator mission-control console watching o
 ### Core Colors
 | Role | Value (dark default) | Light variant | Usage | Domain anchor |
 |------|------|------|-------|---------------|
-| Primary | `#7DCFFF` (mono ID cyan) | `#0969DA` | Focus rings, active control highlight, the reserved mono status-tier color (count / P-001..P-060 / run_id / SLO timings / fingerprints) | Linear's "monospace-as-a-typographic-tier" made a color — the Coverage matrix + Fingerprint identity; "blue focus" mapped to the ID-cyan tier (industry-rules) |
+| Primary | `#7DCFFF` (mono ID cyan) | `#0969DA` | Focus rings, active control highlight, the reserved mono status-tier color (count / P-IDs / run_id / SLO timings / fingerprints) | Linear's "monospace-as-a-typographic-tier" made a color — the Coverage matrix + Fingerprint identity; "blue focus" mapped to the ID-cyan tier (industry-rules) |
 | Secondary | `#A9B1D6` (journal line-text) | `#343B58` | UI prose, phase-line label text, run-report body rows, dimmed metadata | The Tokyo-Night foreground grey-lavender — the readable-but-recessive Emission journal / Run report artifact text tier |
 | Accent | `#7EE787` (nominal green) | `#1A7F37` | The count/heartbeat tint while on-timeline, the `Pass` verdict lamp | The k9s "healthy" status tier — Count / heartbeat alive + Verdict `Pass`; accent-as-status, never accent-as-brand |
 
@@ -74,7 +74,7 @@ The cool, blue-cast calm of a single-operator mission-control console watching o
 
 ## Typography
 
-**Rationale:** Tied to the exploration's `typography-stack-install` spec and library-shortlist pairing #1, made literal. **JetBrains Mono** is the reserved *status tier* — not "mono everywhere" (an explicitly Rejected Default) but mono-as-a-typographic-tier (Linear's discipline): the count/heartbeat, P-001..P-060, run_id stamps, SLO timings, and fingerprints. Its even, legible glyphs (ligatures OFF for ID legibility) make the frozen count read as a precise instrument readout. **IBM Plex Sans** carries the phase line and all prose — the sanctioned humanist-grotesque replacement for Linear's banned Inter (similar metrics, self-hostable). Both are self-hosted WOFF2 via Fontsource — no runtime CDN, satisfying Minimal-tier offline hardening. Inter / Roboto / Arial / Helvetica / system-ui are banned as primary faces.
+**Rationale:** Tied to the exploration's `typography-stack-install` spec and library-shortlist pairing #1, made literal. **JetBrains Mono** is the reserved *status tier* — not "mono everywhere" (an explicitly Rejected Default) but mono-as-a-typographic-tier (Linear's discipline): the count/heartbeat, P-IDs, run_id stamps, SLO timings, and fingerprints. Its even, legible glyphs (ligatures OFF for ID legibility) make the frozen count read as a precise instrument readout. **IBM Plex Sans** carries the phase line and all prose — the sanctioned humanist-grotesque replacement for Linear's banned Inter (similar metrics, self-hostable). Both are self-hosted WOFF2 via Fontsource — no runtime CDN, satisfying Minimal-tier offline hardening. Inter / Roboto / Arial / Helvetica / system-ui are banned as primary faces.
 
 | Role | Font | Weight | Size | Tracking | Usage |
 |------|------|--------|------|----------|-------|
@@ -83,7 +83,7 @@ The cool, blue-cast calm of a single-operator mission-control console watching o
 | Body | IBM Plex Sans | 400 | 14px / 1.5 | `0` | Run-report prose, dialog copy, descriptions |
 | Label | IBM Plex Sans | 500 | 12px / 1.35 | `0.01em` | Form labels, button text, menu items, picker rows |
 | Code | JetBrains Mono | 400 | 13px / 1.55 | `0` | JSONL emission-journal block, file paths, scenario config snippets |
-| Data | JetBrains Mono | 500 | 13px / 1.4 | tabular-nums | P-001..P-060, run_id, SLO timings (`<5s`/`<20s`/`<90s`), latency_ms, fingerprints, coverage-matrix columns — rendered in mono ID cyan (`#7DCFFF`) |
+| Data | JetBrains Mono | 500 | 13px / 1.4 | tabular-nums | P-IDs, run_id, SLO timings (`<5s`/`<20s`/`<90s`), latency_ms, fingerprints, coverage-matrix columns — rendered in mono ID cyan (`#7DCFFF`) |
 
 **Loading:** Self-hosted WOFF2 via `@fontsource/jetbrains-mono` + `@fontsource/ibm-plex-sans`, locally vendored into the Tauri bundle (no Google Fonts / CDN at runtime — Minimal-tier offline hardening). Fallback stack: `"JetBrains Mono", ui-monospace, monospace` for the mono tier; `"IBM Plex Sans", ui-sans-serif, sans-serif` for prose.
 
@@ -281,7 +281,7 @@ Single-station console, no router/breakpoints: the frameless window IS the surfa
 
 **Platform:** Windows / macOS / Linux terminal — headless `conductor-cli` (`scripts/agent-run.sh`), the source of truth + release gate. Line-oriented (ratatui full-TUI deliberately omitted).
 
-**Toolkit / Framework:** clap 4.5 + `anstream`/`anstyle` + `owo-colors` 4.x (styling, TTY-gated) + `indicatif` 0.18 (live counters / spinner) + `comfy-table` 7 (P-001..P-060 SLO tables) + `inquire` 0.7 (operator-pause prompts).
+**Toolkit / Framework:** clap 4.5 + `anstream`/`anstyle` + `owo-colors` 4.x (styling, TTY-gated) + `indicatif` 0.18 (live counters / spinner) + `comfy-table` 7 (P-ID SLO tables) + `inquire` 0.7 (operator-pause prompts).
 
 ### Tokens (platform-specific)
 
@@ -295,7 +295,7 @@ Fail red       #F85149  → ANSI 203      (Fail — no blink)
 Blocked violet #565F89  → ANSI 60       (Blocked — never measured)
 Manual lavender#A9B1D6  → ANSI 146      (ManualCheck — awaiting operator; paired with [MANUAL] + ? glyph)
 Residual mute  #9A93A8  → ANSI 246      (KnownResidual — pre-accepted gap; paired with [RESIDUAL] + ~ glyph)
-Mono ID cyan   #7DCFFF  → ANSI 117      (P-001..P-060 / run_id / SLO timings / fingerprints)
+Mono ID cyan   #7DCFFF  → ANSI 117      (P-IDs / run_id / SLO timings / fingerprints)
 Journal text   #A9B1D6  → ANSI 146      (report rows / dimmed metadata)
 ```
 

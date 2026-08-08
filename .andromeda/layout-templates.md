@@ -34,11 +34,11 @@ The four are **one surface in different run states**, not four routes — the fr
 +==========================================================+     titlebar height space-xl, border-subtle seam, no shadow
 |  [ Scenario / suite v ]   [ Start ]   [ Stop ]           |  <- control row: shadcn Command/Select (color-raised-2) + Buttons (radius-sm); padding space-sm
 +----------------------------------------------------------+
-|  COVERAGE  P-001..P-060        60 loaded   0 measured     |  <- matrix header strip (Label) | counts (Data, color-id-cyan); gap space-md
+|  COVERAGE  (manifest set)      82 loaded   0 measured     |  <- matrix header strip (Label) | counts (Data, color-id-cyan); gap space-md
 |  · P-001  span-status-error      <5s    —     not run     |
 |  · P-002  baseline-error-rate    <20s   —     not run     |  <- dense single-row-per-P-ID list (NOT KPI cards)
 |  · P-003  fingerprint-identity   <5s    —     not run     |     row padding space-md, border-subtle dividers, radius-md container
-|  …  (virtual-scroll, all 60 rows)                         |     lamp glyph + label + P-ID(Data,color-id-cyan) + slo_tier + latency
+|  …  (virtual-scroll, one row per manifest capability)     |     lamp glyph + label + P-ID(Data,color-id-cyan) + slo_tier + latency
 +----------------------------------------------------------+
 |  RUN REPORT                                               |  <- run-report card (color-raised-1, radius-md, border-subtle)
 |  No run yet — pick a scenario/suite to begin.             |  <- empty state prose (Body, text-tertiary) — NOT a gray skeleton
@@ -56,7 +56,7 @@ The four are **one surface in different run states**, not four routes — the fr
 +==========================================================+     count interval halted — value does not advance, does not blank
 |  [ Scenario / suite v ]   [ Start ]   [ Stop ]           |     (controls inert behind the focus-trapped dialog)
 +----------------------------------------------------------+
-|  COVERAGE  P-001..P-060   step 14 HOLD   9 measured       |  <- matrix header echoes frozen step-index in count-hold (signature reinforcement)
+|  COVERAGE  (manifest set) step 14 HOLD   9 measured       |  <- matrix header echoes frozen step-index in count-hold (signature reinforcement)
 |  ✓ P-009  error-baseline-spike   <5s   1840ms  Pass       |  <- resolved rows keep their verdict lamp + text
 |  ⊙ P-014  restart-suppression    <20s    —     …          |     ⊙ = next-step row about to commit (the gated one)
 | ┌──────────────────────────────────────────────────────┐ |
@@ -157,7 +157,7 @@ Single-line status strip pinned to the window bottom: height `space-sm`, top sea
 
 ## Surface: cli
 
-**Tooling context:** clap 4.5 (`conductor-cli` / `scripts/agent-run.sh`) + `anstream`/`anstyle` + `owo-colors` 4.x (styling, TTY-gated) + `indicatif` 0.17 (live counters / spinner) + `comfy-table` 7 (P-001..P-060 SLO tables) + `inquire` 0.7 (operator-pause prompts). Line-oriented (ratatui full-TUI deliberately omitted).
+**Tooling context:** clap 4.5 (`conductor-cli` / `scripts/agent-run.sh`) + `anstream`/`anstyle` + `owo-colors` 4.x (styling, TTY-gated) + `indicatif` 0.17 (live counters / spinner) + `comfy-table` 7 (P-ID SLO tables) + `inquire` 0.7 (operator-pause prompts). Line-oriented (ratatui full-TUI deliberately omitted).
 
 **Expression level (this surface):** 0.3 — colored headers, dimmed metadata, `indicatif` honest progress (spinner appears only after ~200ms), `comfy-table` SLO tables. No cursor manipulation, no full-screen redraw, no animate-to-100%. Motion is honest progress feedback, never live-redrawn dashboard animation (per design-system Motion).
 
@@ -171,7 +171,7 @@ Every status above is **paired with an ASCII text prefix** (`[PASS]` / `[HOLD]` 
 ### Primary screens (commands)
 
 - **`conductor run <scenario>`** — drive one scenario: colored phase headers → live `indicatif` heartbeat → `inquire` operator-pause holds (interactive TTY only) → per-P-ID verdict lines → `comfy-table` SLO summary → run-report path.
-- **`conductor suite`** — drive the full coverage suite across P-001..P-060, MCP preflight readiness gate first, then the same run flow, ending in the dense coverage table.
+- **`conductor suite`** — drive the full coverage suite across the manifest’s accepted set, MCP preflight readiness gate first, then the same run flow, ending in the dense coverage table.
 - **`conductor report <run_id>`** — re-print a stored run as a colored `comfy-table` results view (reads the per-run JSONL journal; the on-disk `<run_id>.md` artifact stays Markdown), pipe-friendly.
 - **`conductor preflight [--json]`** — the MCP readiness gate (the `agent-run boot` entrypoint): emits the `ReadyState` JSON (or a `[PASS]`/`[BLOCKED]` line) and exits 0 iff `ready:true`, non-zero on a Blocked precondition.
 - **`conductor coverage [--write]`** — render the static 60-P-ID coverage matrix (`coverage_matrix()` — P-ID / title / category / mode, the definition-of-done classification) as a `comfy-table`; `--write` regenerates `coverage-matrix.md` at the repo root.
@@ -206,7 +206,7 @@ run report → runs/2026-06-14T13-02-….md                     <- terminator: a
 
 ```
 $ conductor suite --seed 424242
-CONDUCTOR  suite  P-001..P-060  seed 424242                 <- header (bold + ANSI 117); width detected dynamically
+CONDUCTOR  suite  (manifest set)  seed 424242                 <- header (bold + ANSI 117); width detected dynamically
 preflight  protocol 2024-11-05  tools 4/4  canary ok        <- [OK] readiness gate before any scenario trusts read-back
 
   P-ID    scenario               state      slo    latency  fingerprints   <- comfy-table 6 cols; header row dim; widths from terminal

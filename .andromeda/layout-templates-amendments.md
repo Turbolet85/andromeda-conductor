@@ -16,3 +16,8 @@ _Append-only changelog of amendments to `layout-templates.md` (the body holds on
 **Section:** §Wireframe (Run console idle) · §Component — Header (frameless titlebar)
 **Change:** reconciled the titlebar height `space-lg` (20px) → `space-xl` (32px) in both the idle-console wireframe annotation and the Component-Header spec; `space-lg` cannot contain the `Heading`-tier (18px) phase line + the window-control glyphs.
 **Why:** D-layout-surface (warning). The frameless titlebar + window controls ARE already documented in §Component-Header (so the surface invariant holds) — only the height drifted: the implementation shipped `space-xl` because 20px is too short for the 18px heading + 20px controls (report Deviations). Routine per the spec-illustration→sound-impl reconcile rule (the doc tracks the shipped value). No cascade — layout-templates has no specialist-summary doc; the height is webview-scoped but does not change the frontend.md rule (which binds tokens by name, not component heights).
+
+## 2026-08-08-sut-capability-manifest — De-hardcoded cli coverage range labels
+**Section:** §Surface: desktop-webview wireframes (coverage header strip) · §Surface: cli (`conductor suite` header, Primary screens)
+**Change:** `COVERAGE P-001..P-060` / `CONDUCTOR suite P-001..P-060` range labels and the "all 60 rows" virtual-scroll note now name the manifest's accepted set.
+**Why:** Layout labels must not name a span wider or narrower than the rendered row set, which is now manifest-sourced.

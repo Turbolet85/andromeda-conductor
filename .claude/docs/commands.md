@@ -16,7 +16,7 @@ _Complete command reference from `.andromeda/architecture.md` + `Cargo.toml` + t
 
 ## Scenario runs (`conductor-cli`)
 - `conductor run <scenario|P-ID> --seed <s>` — drive one scenario.
-- `conductor suite --seed <s>` — drive the full P-001..P-060 catalog (preflight first).
+- `conductor suite --seed <s>` — drive the full catalog, over the SUT capability manifest's accepted set (preflight first).
 - `conductor report <run_id>` — re-print a stored run report (pipe-friendly).
 - Env: `CONDUCTOR_RUNS_DIR`, `CONDUCTOR_SCENARIOS_DIR`, `CONDUCTOR_CONTRACT_MANIFEST`, `CONDUCTOR_SEED`. Live read-back needs Pulse's `mcp-server` feature + `ANDROMEDA_PULSE_MCP_ENABLED` + matching `ANDROMEDA_PULSE_DATA_DIR`.
 

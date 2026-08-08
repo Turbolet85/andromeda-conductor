@@ -4,7 +4,7 @@
 
 ## Overview
 <!-- GENERATED:setup:overview start -->
-Conductor is a desktop control-panel app (Tauri 2) over a headless-drivable Rust core — a scenario-driven OTLP fault-injection + verification harness that drives a live Pulse instance through its 60 claimed capabilities (P-001..P-060) on a deterministic seeded timeline and verifies each reaction within its SLO (programmatically via MCP read-back where one exists, via an operator checklist for visual claims). Personal/local: solo developer, no cloud, runs beside a real Pulse on the dev host.
+Conductor is a desktop control-panel app (Tauri 2) over a headless-drivable Rust core — a scenario-driven OTLP fault-injection + verification harness that drives a live Pulse instance through its claimed capabilities (the SUT capability manifest's accepted set) on a deterministic seeded timeline and verifies each reaction within its SLO (programmatically via MCP read-back where one exists, via an operator checklist for visual claims). Personal/local: solo developer, no cloud, runs beside a real Pulse on the dev host.
 
 **Stack:** Rust 2024 workspace (tokio `current_thread`) · OTLP via opentelemetry-proto/tonic to `127.0.0.1:4317` · MCP read-back via a hand-rolled JSON-RPC client · rusqlite/`bundled` SQLite index · optional Tauri 2 + React 19 GUI · local-only, no network service of its own.
 
@@ -32,6 +32,7 @@ Conductor is a desktop control-panel app (Tauri 2) over a headless-drivable Rust
 ## Critical Warnings (universal invariants)
 <!-- GENERATED:setup:warnings start -->
 - **Scope law + trust boundary:** every scenario carries a Pulse P-ID; Conductor opens NO inbound listener of its own — the `:4317` port-occupier is the sole deliberate bind (released on cleanup). Never widen beyond the loopback gRPC/MCP-client model.
+- **Accepted capability set is DATA:** which P-IDs a scenario may name comes from `contracts/pulse-capabilities.toml`, never a compile-time constant — garde asserts the `P-NNN` shape, the manifest asserts membership. A malformed/absent manifest is a `CoreError` harness fault with a named reason: never `Blocked`, never a silent widen. Re-aiming at a newer Pulse is a manifest edit, not a code change.
 - **Verdict/error wall:** verification outcomes are typed VALUES (`Verdict`/`ReportState` as `Ok`); `Result::Err` is harness-faults only. Malformed child/transport input (`tonic::Status`, MCP errors) becomes a typed `Blocked`/`Fail`, never a panic.
 - **Preflight integrity:** never silently downgrade a failed MCP preflight (protocol≠`2024-11-05` / missing tool / empty canary) — surface the distinct `Blocked` state with its named precondition.
 - **Supply chain:** keep `Cargo.lock` committed + un-drifted; never `cargo build --release` or merge without `cargo-audit` (+ `cargo-deny`) green; hold toolchain ≥1.94.1 and `tauri` ≥2.10.3.
@@ -62,7 +63,7 @@ Conductor is a desktop control-panel app (Tauri 2) over a headless-drivable Rust
 | Observability / log JSON schema | `.andromeda/obs-plan.md` §3 / §6 |
 | WCAG / a11y harness | `.andromeda/a11y-plan.md` §3 |
 | Determinism discipline | `.andromeda/architecture.md` §Cross-cutting Patterns |
-| Coverage matrix (60 P-IDs) | `.andromeda/input.md` §Coverage classification |
+| Coverage matrix (manifest set) | `contracts/pulse-capabilities.toml` · `.andromeda/input.md` §Coverage classification |
 | Agent harness commands | `scripts/agent-run.sh` · `.claude/rules/verification-harness.md` |
 | Stack / versions | `.claude/docs/stack.md` |
 | Conventions | `.claude/docs/conventions.md` |
@@ -121,4 +122,5 @@ _This section is curated by `/wrap-session`. It accumulates universal (Tier 1) r
 - Never `cargo build --release` or merge without `cargo-audit` (+ `cargo-deny`) green and a committed, un-drifted `Cargo.lock`.
 - Status is never color-alone — every Verdict/ReportState carries a text label + glyph (desktop) or `[PASS]`/`[FAIL]`/`[HOLD]`/`[BLOCKED]` prefix (cli).
 - 2026-06-14: Andromeda version builds run on a long-lived `build/conductor-<version>` branch; `main` fast-forwards only when the version is tagged complete — the branch unit is the version, not the task (specializes the global feature-branch rule). (confidence 0.8)
+- 2026-08-08: The code-graph is authoritative on call sites — read it correctly rather than distrusting it. SCIP matches by DESCRIPTOR (`%from_toml_str%`, never `Type::method`, which matches nothing); a row count belongs to the query that produced it; and a `LIMIT`-ed or `head`-ed view is never the result — the run-dir trace's `rows` field is. Grep OVER-counts call sites (it also matches the definition, test-fn names and doc comments); graph lines are 0-indexed, grep's are 1-indexed. (confidence 0.9)
 <!-- USER:session-learnings end -->

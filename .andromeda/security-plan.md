@@ -29,7 +29,7 @@ _Justification: Every signal points to a minimal-tier local utility — a single
 
 - **Type:** config — declarative scenario config (serde + garde, no DSL)
   - **Where:** `scenarios/` directory, deserialized into the owning seam crates; `contracts/` pinned MCP contract manifest (Conventions: Config conventions; Occupied Resources: On-disk artifacts)
-  - **Volume:** aggregate (one config file per Pulse P-ID, P-001..P-060), transient at load
+  - **Volume:** aggregate (one config file per Pulse P-ID, over the SUT capability manifest's accepted set), transient at load
 
 - **Type:** test-telemetry / run-metadata (synthetic, not user data) — emission journals, run reports, and the `runs.db` index (run_id · seed · scenario · P-IDs · verdict · fingerprints · timestamps)
   - **Where:** `runs/` directory (per-run `<run_id>.jsonl` journal + `<run_id>.md` report) and embedded SQLite `runs.db` (Occupied Resources: On-disk artifacts; Established Decisions: Run-History Persistence)

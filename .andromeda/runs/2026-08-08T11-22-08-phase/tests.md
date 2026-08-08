@@ -1,0 +1,43 @@
+# tests extract
+
+## Relevance
+Relevant — a new on-disk parsed input at a trust boundary inside `conductor-core`, landing squarely on the unit + negative-test tier this plan owns (offline, fully CI-verifiable).
+
+## Constraints
+- Tier is Minimal (0) **augmented with the §1 coverage triggers**, and two of them fire here: security-vector-coverage for config-file parsing (garde-at-load negative tests) and for `CONDUCTOR_*` path handles (canonicalize + bounds-check *before* any read). Per test-plan §1 Coverage triggers — this chunk cannot ship with happy-path tests only.
+- This lands at the unit tier of `conductor-core`: crate-local `#[cfg(test)] mod tests` in the source file (plus crate-local `tests/` only if it needs a slower cross-file leg), snake_case `#[test]`/`#[rstest]` fns, run via `cargo nextest run -p conductor-core`. Per test-plan §2 (directory + naming conventions) and §4 (Conventions).
+- The scenario-config validation surface is a named unit-test entity: garde `range`/`#[garde(custom)]` rules exercised with a **valid + invalid fixture matrix**, table-driven via rstest `#[case]` rows, with a property test over the cross-field invariants. Per test-plan §4 (What unit tests cover) + §1 (property-test trigger).
+- Whichever side of the verdict/error wall the malformed manifest lands on (scope Q1) is binding on the assertions: `Blocked` is a **reported envelope state, not a non-zero exit**, while a harness fault is `Result::Err`/non-zero — and a failed precondition may never be silently downgraded to pass/fail/manual-check. Per test-plan §3 (`run` exit-code semantics; `boot` readiness signal) + §11 E2E (stack-specific).
+- Determinism is a hard bar: sourcing the accepted set from a committed artifact must produce identical outcomes run-to-run; manifest fixtures are **committed declarative files** (per-suite lifecycle) or per-test `assert_fs::TempDir`, never developer-seeded mutable state. Per test-plan §2 (agent-runnable invariants) + §7 (Seed strategies / Self-bootstrapping requirement).
+- Gates that must stay green: `--fail-under-lines 60` (lines ≥60%, branch ≥50% informational on stable, fn ≥70%), zero nextest `retries`, clippy `-D warnings` + fmt, `cargo audit --deny warnings` + `cargo deny check`, un-drifted committed `Cargo.lock`. Per test-plan §10 + §9 (Build failure conditions).
+- External-CLI tool versions named in the plan (cargo-nextest, cargo-llvm-cov) are **floors, not exact pins**; crate dev-deps are caret-resolved with `Cargo.lock` authoritative. Per test-plan §4 (Tool-version policy).
+
+## Patterns to follow
+- `D:/dev/projects/conductor/crates/conductor-verify/src/manifest.rs` — the closest in-repo precedent: a versioned on-disk manifest with `default_path()` → `load(&Path)` → `validate()`, whose `#[cfg(test)]` module covers load-the-committed-artifact, missing-file-is-a-fault, empty-version-rejected, dropped-required-entry-rejected. Mirrors test-plan §5's pinned-contract-manifest contract test; reuse this four-test shape for the SUT capability manifest.
+- `D:/dev/projects/conductor/crates/conductor-core/src/config_path.rs` — `resolve_under()` plus its accepts-in-scope / rejects-parent-traversal / rejects-out-of-scope-absolute tests. If the manifest gets a `CONDUCTOR_*` override handle (scope Q3), this is the exact negative-test shape test-plan §1 Vector-1 demands.
+- `D:/dev/projects/conductor/crates/conductor-core/src/scenario.rs` (test module ~:180-210) — the existing table-driven good/bad P-ID loops; the superseded `"P-061"` case sits in the bad-list array. Re-key these tables to the manifest-sourced set rather than deleting the coverage, and upgrade to rstest `#[case]` rows per test-plan §4 (fixture pattern).
+- `D:/dev/projects/conductor/crates/conductor-core/src/coverage.rs` tests (`matrix_has_exactly_sixty_capabilities`, `p_ids_are_contiguous_p001_to_p060_zero_gaps_no_dups`) — the static-universe assertion pattern, and the concrete tests pinning "60". Whatever the plan decides on scope Q2, these are the tests that move or stay.
+- Canonical-serialization goldens at unit level use exact-string `assert_eq!` (the `verdict.rs`/`report_state.rs`/`scenario.rs` pattern); insta is reserved for the E2E journal golden. Per test-plan §4 (conductor-report bullet, as amended).
+
+## Anti-patterns to avoid
+- Never assert on implementation details — private parse helpers, internal struct fields, or the manifest's in-memory representation. Assert the public validation outcome and the named-precondition/error surface. Per test-plan §11 § Unit.
+- Never introduce shared mutable or unseeded test state — no test writing into `.andromeda/refs/`, no non-deterministic generator without seed control; per-test `TempDir` or committed fixtures only. Per test-plan §11 § Test Data.
+- Never hand-roll a fake loader/parser to stand in for the real one, and never treat a `Blocked` outcome as a non-zero process exit. Per test-plan §11 § Test Strategy (over-mocking) + § E2E (stack-specific).
+
+## Contract bindings
+- **tests ↔ arch (verdict/error wall, scope Q1):** the assertion shape is downstream of that decision — `Blocked` ⇒ exit 0 + envelope `state="Blocked"` carrying the named precondition string; harness fault ⇒ `CoreError`/`Result::Err` + non-zero. Per test-plan §3 + §11.
+- **tests ↔ obs (§3 log-format binding):** if the precondition is journaled, it flows through the emission-journal envelope (`runs/<run_id>.jsonl`), NOT the self-obs stream; the manifest path must not leak as an absolute host path or internal struct name — obs owns the redaction allowlist, this plan asserts the boundary via a negative test. Per test-plan §3 (Log format; log-format-bind-with-obs).
+- **tests ↔ security (§1 Vectors 1–2):** garde-at-load for the parsed manifest; `canonicalize` + bounds-check before any read if an override handle is added.
+- **tests ↔ v2-03 (coverage classification):** test-plan §4 (Scenario catalog + coverage-matrix bullet) and §6 (Coverage-matrix completeness gate scenario) both currently assert the P-001..P-060 universe. The scope Q2 boundary decision determines whether those assertions re-key here or in `v2-03`; either way this chunk must leave `coverage.rs`'s existing tests green or explicitly hand them over.
+
+## Acceptance criteria contributions
+- (tests) `cargo nextest run -p conductor-core` and `cargo nextest run --workspace --profile ci` pass; the superseded `"P-061"`-must-be-rejected case in `scenario.rs` is replaced by manifest-keyed cases — an in-manifest capability validates, an absent one is rejected with a message naming the manifest rather than a hardcoded range (§4, §11 § Unit).
+- (tests) Negative tests cover malformed / absent / unparseable manifest → the named precondition, never a panic, a silent widen, or a silent pass; plus a path-traversal/out-of-base rejection test if an override handle exists (§1 Coverage triggers, §11 § Unit).
+- (tests) Coverage gate green: `cargo llvm-cov nextest --lcov --fail-under-lines 60` with new-code line coverage ≥ 60%; zero nextest retries configured; clippy `-D warnings`, fmt, `cargo audit --deny warnings` + `cargo deny check` green, `Cargo.lock` un-drifted (§9, §10).
+- (tests) Determinism check: the same scenario+seed produces an identical validation outcome/stream shape across repeated runs with the set sourced from disk; manifest fixtures are committed declarative files or per-test `TempDir`, no developer-seeded state (§2, §7).
+
+## Relevant amendment history
+- **2026-06-16-test-framework-fixtures-coverage-tooling** (§4) — external-CLI tool versions reframed as floors after a D-tests-framework warning fired on resolved-vs-named version drift while all gates ran green. Applies here: do not treat §4's nextest/llvm-cov numbers as exact pins in the chunk's gate commands.
+- **2026-06-16-emission-journal-writer** (§4, conductor-report bullet) — unit serialization goldens use exact-string `assert_eq!`, insta stays the E2E mechanism; the amendment explicitly names `conductor-core`'s `scenario.rs` as part of the established canonical-serialization golden pattern. Applies if this chunk golden-locks any manifest or precondition serialization at unit level.
+- **2026-06-15-structured-logging-stack** (§3, Log format) — the `tracing` self-obs stream is a SEPARATE artifact from the per-run emission journal; the two schemas must not be conflated. Applies if the named precondition is emitted to a log as well as the envelope.
+- No prior amendment has touched the P-ID universe or the 001..=060 bound — this chunk is the first to move it, so there is no precedent constraining the re-keying beyond the §1/§4/§6 "all 60 P-IDs" assertions noted under Contract bindings.

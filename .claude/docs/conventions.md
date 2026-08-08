@@ -9,7 +9,7 @@ _Extracted from `.andromeda/architecture.md` §Conventions + §Data model conven
 - Directory layout: `crates/` (8 seam crates) · `scenarios/` (one config per P-ID) · `contracts/` (pinned MCP manifest) · `runs/` (journals + reports + `runs.db`) · `scripts/` (`agent-run.{sh,ps1}`). See architecture.md §Infrastructure Patterns for the full tree.
 
 ## Identifier & scenario naming
-- Scenarios are keyed by Pulse capability P-ID (P-001..P-060) — **"no scenario without a P-ID."**
+- Scenarios are keyed by Pulse capability P-ID, drawn from the SUT capability manifest's accepted set (`contracts/pulse-capabilities.toml`) — **"no scenario without a P-ID."**
 - Crate prefix `conductor-*` is the reserved namespace.
 
 ## Data model conventions (SQLite / `runs.db`)

@@ -21,7 +21,7 @@ setup-project Phase 4 materializes `scripts/agent-run.{sh,ps1}`. Enforcement: `.
 - **Restart-suppression incl. bypass** — suppression is hard Pass/Fail; bypass case reports its distinct outcome.
 - **Severity-lifecycle full pass** — auto-resolve + resolution summary; timing hard, severity choice = CalibrationRegion.
 - **Known-residual (P-032)** — `state=KnownResidual` (not Fail) from a `degraded_mode` read-back.
-- **Coverage-matrix completeness** — all 60 P-IDs, zero gaps (DoD).
+- **Coverage-matrix completeness** — every capability in the SUT capability manifest, zero gaps (DoD).
 - **Cross-surface parity** — Tauri-launched vs headless identical envelope for the same seed.
 
 ## Quality gates (§10)

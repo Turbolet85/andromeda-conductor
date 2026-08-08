@@ -3,33 +3,44 @@
 //! Carries the scenario's identity (name, the Pulse P-ID(s) it exercises, the seed, its SLO tier)
 //! plus the declarative per-phase emission spec: an ordered [`PhaseSpec`] sequence and the
 //! scenario-level jitter bound the seeded timeline scheduler applies. garde validation attaches
-//! here — non-empty `p_ids`, the `P-NNN` (001..=060) P-ID format, no-duplicate P-IDs, a non-empty
-//! phase list (each phase validated via `dive`), and a bounded jitter — and the structs derive
-//! both serde and [`garde::Validate`].
+//! here — non-empty `p_ids`, the `P-NNN` P-ID shape, no-duplicate P-IDs, a non-empty phase list
+//! (each phase validated via `dive`), and a bounded jitter — and the structs derive both serde and
+//! [`garde::Validate`].
+//!
+//! Validation is two-layered: **garde checks the document's own shape**, and
+//! [`Scenario::check_capabilities`] checks its P-IDs against the SUT's actual capability set (the
+//! [`CapabilityManifest`](crate::CapabilityManifest)). The accepted set used to be the compile-time
+//! range `001..=060` here; it is data now, so re-aiming Conductor at a newer Pulse is a manifest
+//! edit. [`Scenario::from_toml_str_with`] is the production load path that applies both layers.
 
 use garde::Validate;
 use serde::{Deserialize, Serialize};
 
+use crate::capability_manifest::CapabilityManifest;
 use crate::expected::ExpectedCheck;
 use crate::phase_spec::PhaseSpec;
 
-/// A Pulse capability identifier (`P-001`..`P-060`). Serializes transparently as the bare
-/// string (`"P-009"`); garde enforces the `P-NNN` shape with `NNN` in `001..=060`.
+/// A Pulse capability identifier (`P-NNN`). Serializes transparently as the bare string
+/// (`"P-009"`); garde enforces the shape, the capability manifest enforces membership.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Validate)]
 #[serde(transparent)]
 pub struct PId(#[garde(custom(pid_format))] pub String);
 
-/// garde field rule: accept `P-` followed by exactly three ASCII digits whose value is `1..=60`.
-fn pid_format(value: &str, _ctx: &()) -> garde::Result {
-    let in_range = value
+/// Whether `value` has the `P-` + exactly-three-ASCII-digits shape. Shared with the capability
+/// manifest's own bounds check so both sides agree on what a well-formed id looks like.
+pub(crate) fn is_pid_shaped(value: &str) -> bool {
+    value
         .strip_prefix("P-")
-        .filter(|rest| rest.len() == 3 && rest.bytes().all(|b| b.is_ascii_digit()))
-        .and_then(|rest| rest.parse::<u16>().ok())
-        .is_some_and(|n| (1..=60).contains(&n));
-    if in_range {
+        .is_some_and(|rest| rest.len() == 3 && rest.bytes().all(|b| b.is_ascii_digit()))
+}
+
+/// garde field rule: accept the `P-NNN` shape. Whether that id is one the SUT actually claims is a
+/// separate question, answered against the capability manifest at load — not by a range baked here.
+fn pid_format(value: &str, _ctx: &()) -> garde::Result {
+    if is_pid_shaped(value) {
         Ok(())
     } else {
-        Err(garde::Error::new("expected P-NNN with NNN in 001..=060"))
+        Err(garde::Error::new("expected P-NNN with NNN three ASCII digits"))
     }
 }
 
@@ -97,18 +108,46 @@ pub struct Scenario {
 }
 
 impl Scenario {
-    /// Parse and validate a scenario from a TOML document.
+    /// Parse and shape-validate a scenario from a TOML document.
     ///
     /// Deserializes into a [`Scenario`], then runs garde validation. A TOML parse failure surfaces
     /// as [`CoreError::Config`](crate::CoreError::Config) and a validation failure as
     /// [`CoreError::Validation`](crate::CoreError::Validation) — both harness faults (`Err`), never
     /// a verdict, never a panic. The parse-error text is scrubbed (no host paths) so it is safe to
     /// surface or log.
+    ///
+    /// This checks the document against itself only. Every production load path uses
+    /// [`from_toml_str_with`](Self::from_toml_str_with), which additionally checks each P-ID against
+    /// the SUT capability manifest.
     pub fn from_toml_str(toml: &str) -> crate::Result<Scenario> {
         let scenario: Scenario =
             toml::from_str(toml).map_err(|e| crate::CoreError::Config(crate::sanitize_error(&e)))?;
         scenario.validate()?;
         Ok(scenario)
+    }
+
+    /// The production load path: shape-validate, then reject any P-ID the SUT does not claim.
+    pub fn from_toml_str_with(
+        toml: &str,
+        capabilities: &CapabilityManifest,
+    ) -> crate::Result<Scenario> {
+        let scenario = Scenario::from_toml_str(toml)?;
+        scenario.check_capabilities(capabilities)?;
+        Ok(scenario)
+    }
+
+    /// Reject any `p_ids` entry absent from the SUT capability manifest. The error names the
+    /// manifest and the Pulse release it was captured from, never a hardcoded range.
+    pub fn check_capabilities(&self, capabilities: &CapabilityManifest) -> crate::Result<()> {
+        for pid in &self.p_ids {
+            if !capabilities.accepts(&pid.0) {
+                return Err(crate::CoreError::Config(format!(
+                    "scenario {:?}: P-ID {:?} is not in the capability manifest for Pulse {}",
+                    self.name, pid.0, capabilities.sut_version
+                )));
+            }
+        }
+        Ok(())
     }
 }
 
@@ -190,20 +229,56 @@ mod tests {
         assert!(s.validate().is_err());
     }
 
-    #[test]
-    fn malformed_or_out_of_range_p_ids_are_rejected() {
-        for bad in ["Q-001", "P-99", "P-099", "P-000", "P-0600", "P-061", "p-001", "P-01a"] {
-            let s = scenario_with(vec![PId(bad.to_string())]);
-            assert!(s.validate().is_err(), "{bad} should fail P-ID validation");
+    fn test_manifest(capabilities: &[&str]) -> CapabilityManifest {
+        CapabilityManifest {
+            sut_version: "v0.3.0".to_string(),
+            captured_at: "2026-08-08".to_string(),
+            capabilities: capabilities.iter().map(|s| s.to_string()).collect(),
         }
     }
 
     #[test]
-    fn boundary_p_ids_are_accepted() {
-        for ok in ["P-001", "P-009", "P-060"] {
-            let s = scenario_with(vec![PId(ok.to_string())]);
-            assert!(s.validate().is_ok(), "{ok} should pass P-ID validation");
+    fn malformed_p_ids_fail_the_shape_check() {
+        for bad in ["Q-001", "P-99", "P-0600", "p-001", "P-01a", "P-", ""] {
+            let s = scenario_with(vec![PId(bad.to_string())]);
+            assert!(s.validate().is_err(), "{bad} should fail the P-NNN shape check");
         }
+    }
+
+    #[test]
+    fn well_shaped_p_ids_pass_the_shape_check_whatever_the_sut_claims() {
+        // The shape layer no longer encodes a range: P-061 was hard-rejected until 0.2.0, and
+        // P-099 / P-000 are well-shaped but outside the SUT set — membership is the manifest's job.
+        for ok in ["P-001", "P-060", "P-061", "P-082", "P-099", "P-000"] {
+            let s = scenario_with(vec![PId(ok.to_string())]);
+            assert!(s.validate().is_ok(), "{ok} should pass the P-NNN shape check");
+        }
+    }
+
+    #[test]
+    fn capability_membership_is_checked_against_the_manifest() {
+        let m = test_manifest(&["P-001", "P-061"]);
+        assert!(scenario_with(vec![PId("P-061".to_string())]).check_capabilities(&m).is_ok());
+
+        for absent in ["P-099", "P-000", "P-060"] {
+            let s = scenario_with(vec![PId(absent.to_string())]);
+            let err = s.check_capabilities(&m).unwrap_err().to_string();
+            assert!(err.contains("capability manifest"), "must name the manifest: {err}");
+            assert!(!err.contains("001..=060"), "must not name a hardcoded range: {err}");
+        }
+    }
+
+    #[test]
+    fn from_toml_str_with_accepts_an_in_manifest_id_and_rejects_an_absent_one() {
+        let doc = |pid: &str| {
+            format!(
+                "name = \"m\"\np_ids = [\"{pid}\"]\nseed = 1\nslo_tier = \"<5s\"\njitter_ms = 0\n\
+                 [[phases]]\nname = \"p1\"\ngap_ms = 100\n"
+            )
+        };
+        let m = test_manifest(&["P-074"]);
+        assert!(Scenario::from_toml_str_with(&doc("P-074"), &m).is_ok());
+        assert!(Scenario::from_toml_str_with(&doc("P-001"), &m).is_err());
     }
 
     #[test]

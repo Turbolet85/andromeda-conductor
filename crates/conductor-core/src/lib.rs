@@ -13,6 +13,7 @@
 //! identically; otherwise no I/O beyond the single sync `std::fs` path-handle guard
 //! ([`resolve_under`]).
 
+mod capability_manifest;
 mod config_path;
 mod coverage;
 mod error;
@@ -29,6 +30,7 @@ mod scenario;
 mod scenario_catalog;
 mod verdict;
 
+pub use capability_manifest::CapabilityManifest;
 pub use config_path::resolve_under;
 pub use coverage::{CapabilityRow, CoverageMode, coverage_matrix};
 pub use error::{CoreError, Result};

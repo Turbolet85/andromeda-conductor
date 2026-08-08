@@ -1,0 +1,424 @@
+{
+  "schema_version": 1,
+  "version": "conductor-0.2.0",
+  "source": "intent",
+  "id_scheme": "{vN}-NN",
+  "capabilities": [
+    {
+      "id": "v2-01",
+      "title": "SUT capability manifest",
+      "requirement": "The accepted capability set tracks the SUT via a versioned artifact under refs/, so a Pulse release is a data update rather than a code change.",
+      "observed_gap": "crates/conductor-core/src/scenario.rs:23-33 validates P-NNN with (1..=60).contains(&n) and returns \"expected P-NNN with NNN in 001..=060\"; the unit test at :195 asserts \"P-061\" MUST be rejected. Pulse's ledger now reaches P-082, so a scenario naming P-074 fails garde validation at load.",
+      "verification": {
+        "method": "unit",
+        "acceptance": "A scenario naming any capability present in contracts/pulse-capabilities.toml validates at load; one absent from it is rejected with a message naming the manifest rather than a hardcoded range; a malformed, absent or unparseable manifest produces a typed harness fault carrying a named reason — never a silent widen back to a hardcoded range, never a silent pass, never a panic. Adding a future Pulse release requires editing only the manifest artifact, with no Rust source change.",
+        "ref": "crates/conductor-core/src/scenario.rs::tests::from_toml_str_with_accepts_an_in_manifest_id_and_rejects_an_absent_one; crates/conductor-core/src/scenario.rs::tests::capability_membership_is_checked_against_the_manifest; crates/conductor-core/src/capability_manifest.rs::tests::loads_and_bounds_checks_the_committed_manifest; crates/conductor-core/src/capability_manifest.rs::tests::missing_file_is_a_harness_fault; crates/conductor-core/src/capability_manifest.rs::tests::load_failure_message_never_contains_the_path",
+        "status": "verified"
+      },
+      "chunk": "2026-08-08-sut-capability-manifest"
+    },
+    {
+      "id": "v2-02",
+      "title": "SUT-drift check",
+      "requirement": "A check fails loudly when the SUT advances past what Conductor knows, rather than silently accepting a stale capability universe.",
+      "observed_gap": "Nothing in the repo detects that Pulse has advanced: the accepted set is a compile-time constant and the coverage universe is frozen, so 22 new Pulse capabilities (P-061..P-082) went unnoticed across a 41-day pause.",
+      "verification": {
+        "method": "unit",
+        "acceptance": "When the manifest carries capabilities the classification does not cover, the check fails naming the unknown ids; when manifest and classification are in sync it passes.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-03",
+      "title": "Current-SUT capability classification",
+      "requirement": "Every current Pulse capability is classified auto / drive+observe / static-only / not-Conductor's, with the not-Conductor's boundary recorded as a deliberate decision.",
+      "observed_gap": "crates/conductor-core/src/coverage.rs enumerates exactly P-001..P-060; the scenario catalog's maximum is P-060; 0.1.0's definition of done reads \"all 60 P-IDs classified, zero gaps\". Nothing in the repo knows P-061..P-082 exist.",
+      "verification": {
+        "method": "unit",
+        "acceptance": "Every capability in the manifest carries exactly one of the four classifications with zero unclassified entries, and the not-Conductor's set is explicitly enumerated (Pulse's UI capabilities plus its own tooling) rather than implied by absence.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-04",
+      "title": "In-lane SUT-capability scenarios",
+      "requirement": "The capabilities that fall squarely in Conductor's lane are covered by scenarios, proving Pulse P-067, P-072 and P-079.",
+      "observed_gap": "No scenario exists for any capability above P-060, so the in-lane subset of Pulse's v0.3.0 work (live service truth, Investigate result, single-sourced workspace key) has no Conductor coverage at all.",
+      "verification": {
+        "method": "dynamic-external",
+        "acceptance": "Scenarios keyed to P-067, P-072 and P-079 each drive a live Pulse and yield a non-blocked verdict via MCP read-back, with journal and runs.db evidence per scenario.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-05",
+      "title": "Interpretation-correctness posture",
+      "requirement": "A recorded decision on whether 0.2.0 carries a real-model correctness leg or explicitly defers it with a named owner, so determinism never silently redefines what the harness proves.",
+      "observed_gap": "With ANDROMEDA_PULSE_L4_DETERMINISTIC=true the canned L4Output replaces the model, so every live leg 0.2.0 plans exercises the plumbing and never the interpretation — while Pulse's own positioning memo names interpretation-correctness the single most important test in all of Pulse.",
+      "verification": {
+        "method": "manual",
+        "acceptance": "EITHER a real-model correctness leg exists and passes (deterministic mode OFF, a known root cause injected, the top hypothesis asserted to identify it) OR a deferral is recorded naming its owner and stating that \"Conductor green\" does not mean interpretation is trustworthy. Absence of both fails.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-06",
+      "title": "SUT load-envelope constraint",
+      "requirement": "Scenario durations and storm profiles stay inside the SUT's proven-good envelope, with the constraint recorded where scenario authors will see it.",
+      "observed_gap": "Pulse records that the DuckDB append path stalls after ~10 minutes of sustained 10k/s storm plus deterministic L4 — ingest keeps receiving while duckdb.append stops, so viz.query.traces returns 0 rows and no new incidents form until restart. Conductor's whole method is sustained shaped load.",
+      "verification": {
+        "method": "unit",
+        "acceptance": "Every scenario's storm profile and duration is asserted inside the recorded envelope, and the envelope is documented at the scenario-authoring surface rather than only in a plan.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-07",
+      "title": "Over-envelope run flagged environment-suspect",
+      "requirement": "A run exceeding the SUT's proven-good envelope is reported as environment-suspect rather than as a Pulse failure.",
+      "observed_gap": "Nothing distinguishes a Pulse defect from a run that drove the SUT past its known-good envelope, so a long storm run would misreport the SUT.",
+      "verification": {
+        "method": "integration",
+        "acceptance": "A run whose profile exceeds the envelope produces an environment-suspect classification distinct from Fail, and its report names the envelope breach as the cause.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-08",
+      "title": "Faithful per-phase emission dispatcher",
+      "requirement": "A per-phase dispatcher over the conductor-emit primitives emits each scenario's declared shape, extensible to the deferred families.",
+      "observed_gap": "conductor-run::coarse_emit sends one signal per phase; it cannot shape the per-family telemetry the scenarios describe.",
+      "verification": {
+        "method": "unit",
+        "acceptance": "For each scenario family, the emitted stream matches the phase's declared emission spec (rate, error fraction, severity mix, exception/fingerprint shape) rather than a single signal per phase.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-09",
+      "title": "Real per-check read-back extraction",
+      "requirement": "Per-check observed values are extracted from query_incident_list / retrieve_telemetry_slice and fed to the existing evaluate_check to classify path unchanged, with execute_scenario's signature preserved.",
+      "observed_gap": "execute_scenario writes the literal token \"incidents-listed\" as the observed value, so evaluate_check grades a placeholder rather than the SUT's actual response.",
+      "verification": {
+        "method": "integration",
+        "acceptance": "Each check's observed value comes from the named corpus tools and drives evaluate_check to classify unchanged; a degraded_mode read-back maps to KnownResidual; execute_scenario's public signature is unchanged.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-10",
+      "title": "Live ready:true preflight",
+      "requirement": "A live preflight against a real Pulse in deterministic-L4 mode reaches ready:true, recorded with its journal and runs.db evidence.",
+      "observed_gap": "No run has ever produced live ready:true; the headline acceptance of the 0.1.0 e2e chunk was never achieved — live preflight returns Blocked: incident not found in corpus.",
+      "verification": {
+        "method": "dynamic-external",
+        "acceptance": "conductor preflight against a live deterministic-L4 Pulse returns ready:true, and the run's JSONL journal plus runs.db row are retained as the evidence pointer.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-11",
+      "title": "fingerprint-storm family live-proven",
+      "requirement": "The fingerprint-storm family emits faithfully, reads back through MCP and yields a verified expected outcome, proving Pulse P-017/P-018 plus P-074's exactly-one-incident claim.",
+      "observed_gap": "Only the canary path has touched a live Pulse; the fingerprint-storm family has never been driven end-to-end, and P-074 was verified by Pulse's own integration test only.",
+      "verification": {
+        "method": "dynamic-external",
+        "acceptance": "The identity triple resolves to one fingerprint and the type/frame variants to distinct ones; storm cue thresholds surface their expected cues; a sustained identical-fingerprint storm yields exactly ONE incident. Authored tokens and SLO tiers re-calibrated where live behavior proves them wrong.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-12",
+      "title": "error-baseline-spike family live-proven",
+      "requirement": "The error-baseline-spike family emits faithfully, reads back through MCP and yields a verified expected outcome, proving Pulse P-009..P-012.",
+      "observed_gap": "Only the canary path has touched a live Pulse; error-baseline-spike has never been driven end-to-end.",
+      "verification": {
+        "method": "dynamic-external",
+        "acceptance": "Baseline convergence holds within tolerance over the sample floors, the ramp produces a candidate after its persistence window, and the read-back verdict is non-blocked within the scenario's SLO tier.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-13",
+      "title": "restart-suppression family live-proven",
+      "requirement": "The restart-suppression family emits faithfully, reads back through MCP and yields a verified expected outcome including one bypass case, proving Pulse P-015/P-016/P-057.",
+      "observed_gap": "Only the canary path has touched a live Pulse; restart-suppression and its bypass case have never been driven end-to-end.",
+      "verification": {
+        "method": "dynamic-external",
+        "acceptance": "A gap-and-resume produces a restart event within SLO, the suppression window suppresses what it must and surfaces what it must, and at least one bypass case reports its expected distinct outcome as a hard pass/fail.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-14",
+      "title": "pii-scrub family live-proven",
+      "requirement": "The pii-scrub family emits faithfully, reads back through MCP and yields a verified expected outcome, proving Pulse P-035/P-047/P-048.",
+      "observed_gap": "Only the canary path has touched a live Pulse; pii-scrub has never been driven end-to-end.",
+      "verification": {
+        "method": "dynamic-external",
+        "acceptance": "All seven PII categories emitted across spans, logs and exceptions read back scrubbed in both corpus and report excerpts with structure preserved; verdicts are recorded without persisting excerpt content into Conductor artifacts.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-15",
+      "title": "connection-lifecycle family live-proven",
+      "requirement": "The connection-lifecycle family emits faithfully, reads back through MCP and yields a verified expected outcome including the PortOccupier fault, proving Pulse P-001..P-004.",
+      "observed_gap": "Only the canary path has touched a live Pulse; connection-lifecycle and the port-occupier leg have never been driven end-to-end.",
+      "verification": {
+        "method": "dynamic-external",
+        "acceptance": "The Listening/Receiving/Idle/Stalled walk produces each expected state transition within its SLO, and the :4317 port-occupier drives the receiver-failed state and releases its bind on cleanup.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-16",
+      "title": "severity-lifecycle full pass",
+      "requirement": "One full severity-lifecycle pass observes auto-resolve and the resolution summary via read-back.",
+      "observed_gap": "Auto-resolve and the resolution summary have never been observed via read-back.",
+      "verification": {
+        "method": "dynamic-external",
+        "acceptance": "A full pass observes auto-resolve firing and a resolution summary through MCP read-back; lifecycle timing is asserted hard pass/fail while severity choice is asserted as CalibrationRegion, never hard-failed on exact values.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-17",
+      "title": "Workspace-key divergence detected",
+      "requirement": "Conductor detects an app/sidecar workspace-key mismatch and fails with a named precondition rather than an opaque Blocked; the real fix stays Pulse-side.",
+      "observed_gap": "Incidents are filtered WHERE workspace = ?1; pulse-app derives that key via resolve_workspace_for_incidents (the detected project root) while the sidecar always uses data_dir, so if pulse-app launches anywhere the detector recognises, query_incident_list returns zero rows and preflight reports the opaque Blocked: incident not found in corpus even with deterministic L4 on.",
+      "verification": {
+        "method": "integration",
+        "acceptance": "A simulated app/sidecar key mismatch produces a distinct named precondition (not the generic corpus Blocked), and the precondition string carries no absolute host path. The live two-launch check (repo root vs marker-less temp dir) is run once and its verdict recorded.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-18",
+      "title": "Machine-checked Pulse run contract",
+      "requirement": "A recorded, reproducible run contract that preflight asserts and whose unmet terms it names; doubles as the verification of Pulse P-073.",
+      "observed_gap": "Nothing in this repo states how a verifiable Pulse must be launched; conductor-verify/src/spawn.rs:18 passes only ANDROMEDA_PULSE_DATA_DIR, and there are zero references to Pulse's deterministic mode anywhere in the tree.",
+      "verification": {
+        "method": "integration",
+        "acceptance": "Preflight asserts the contract terms — ANDROMEDA_PULSE_L4_DETERMINISTIC set on the launched pulse-app (not the sidecar) and both sides resolving the same data dir — and names each unmet term individually; the contract is recorded in-repo and reproducible.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-19",
+      "title": "Sub-5s budget representation and per-check latency",
+      "requirement": "Budgets below the closed 5s/20s/90s tier set are representable, and latency is measured per check rather than as the coarse whole-loop delta.",
+      "observed_gap": "SloTier is a closed three-value set — 5s/20s/90s (crates/conductor-core/src/scenario.rs:36-61) — and the only latency recorded is the coarse whole-loop observed_ms - emitted_ms (conductor-run/src/lib.rs:208), not per-check.",
+      "verification": {
+        "method": "unit",
+        "acceptance": "A scenario can declare a sub-5s budget and it round-trips through config, verdict and the run-report envelope; each check carries its own latency_ms rather than sharing the run's whole-loop value.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-20",
+      "title": "Four delegated timing budgets return real Pass/Fail",
+      "requirement": "P-025 halo hue at or under 2s, P-027 constellation discovery at or under 5s, P-037 report render at or under 2s and P-045 counter refresh at or under 1s each yield a real Pass/Fail at its actual value rather than a ManualCheck, closing Pulse P-075.",
+      "observed_gap": "All four scenarios currently carry empty expected blocks (DriveObserve / ManualCheck); only P-027's 5s budget fits the closed tier set, so the other three are structurally unassertable.",
+      "verification": {
+        "method": "dynamic-external",
+        "acceptance": "Against a live Pulse each of the four capabilities produces a Pass or Fail measured at its real budget (2s/5s/2s/1s), not a ManualCheck; the run artifact is quotable as Pulse P-075's external evidence reference.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-21",
+      "title": "Conductor's own verification ledger",
+      "requirement": "0.2.0 carries a verification-matrix.json tracking Conductor's own delivery, with the v2-NN and P-NNN id spaces kept visibly separate.",
+      "observed_gap": "conductor-0.1.0/ predates the verification-matrix feature, so every matrix step in every skill is a noted no-op there; Conductor's own delivery has never been coverage-tracked. The 60 Pulse P-IDs in coverage.rs and scenarios/*.toml are a different mechanism, tracking the SUT's capabilities.",
+      "verification": {
+        "method": "by-construction",
+        "acceptance": "verification-matrix.json exists with exactly one entry per requirements.md capability, ids unique; no P-NNN appears in an id position anywhere in the matrix (Pulse P-IDs occur only inside acceptance text).",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-22",
+      "title": "Desktop a11y sweep asserted",
+      "requirement": "The shipped, display-gated real-webview specs run on Linux+xvfb against a live Pulse and assert zero axe violations, token-pair contrast, and keyboard-trap escape plus focus order across the four accessible paths, without re-authoring the harness.",
+      "observed_gap": "The harness and the real-webview specs shipped at 2026-06-27-desktop-a11y-harness-setup (crates/conductor-tauri/ui/wdio.conf.ts + ui/test/a11y/*.e2e.ts, DISPLAY-gated); they have never been executed.",
+      "verification": {
+        "method": "a11y",
+        "acceptance": "An operator-gated run against a live Pulse yields zero axe violations, every named token pair meeting its required ratio, six-state not-color-alone holding, keyboard-trap escape and focus restoration working, and all transitions dropped under reduced-motion — across the four accessible paths. The harness is run, not re-authored.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-23",
+      "title": "Screen-reader manual spec",
+      "requirement": "An NVDA/VoiceOver manual pass spec accompanies the automated sweep.",
+      "observed_gap": "No screen-reader pass spec exists; the a11y plan requires manual SR verification as supplemental to the automated baseline and no artifact carries it.",
+      "verification": {
+        "method": "manual",
+        "acceptance": "A per-state pass spec exists for the four run states listing each must-announce item with its expected screen-reader output, and one operator pass is recorded against it.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-24",
+      "title": "A11y CI gate and violation JSON",
+      "requirement": "Axe, contrast and keyboard PASS/FAIL is emitted as service-tagged violation JSON and gated in CI, with the redaction boundary applied to Conductor's own violation artifact.",
+      "observed_gap": "A11y results do not reach the obs envelope and no gate consumes them.",
+      "verification": {
+        "method": "a11y",
+        "acceptance": "The same specs run on Linux+xvfb WITHOUT a live Pulse and any violation fails the gate with a non-zero exit; the emitted violation JSON conforms to the obs-plan log schema (itself the verbatim binding from the test plan's harness contract), carries service identity, and leaks no absolute host path.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-25",
+      "title": "Cross-surface envelope parity",
+      "requirement": "CLI and Tauri produce an identical envelope for the same seed.",
+      "observed_gap": "CLI and Tauri share a core but their envelopes have never been compared for the same seed.",
+      "verification": {
+        "method": "integration",
+        "acceptance": "For one scenario and seed, the Tauri-launched run and the headless run write identical verdict, state and seed to the same runs.db, and each writes its own emission journal.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-26",
+      "title": "Coverage completeness gate",
+      "requirement": "A gate fails on any gap in the classification of the current SUT capability set, with all CI gates green.",
+      "observed_gap": "The P-IDs are classified in code but nothing fails when a gap appears; the stated definition of done was never enforced.",
+      "verification": {
+        "method": "unit",
+        "acceptance": "The gate enumerates the CURRENT SUT capability set from the manifest (not a hardcoded 60) and exits non-zero when any capability is unclassified; a deliberately removed classification reproduces the failure.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-27",
+      "title": "Release build and bundle",
+      "requirement": "cargo build --release plus a Tauri 2 bundle ship with a final SLO verification pass.",
+      "observed_gap": "No release build, no bundle.",
+      "verification": {
+        "method": "manual",
+        "acceptance": "A release binary and a Tauri 2 bundle are produced with cargo-audit and cargo-deny green and Cargo.lock un-drifted, and a final SLO verification pass is recorded against the shipped artifact.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-28",
+      "title": "Stale rmcp wording reconciled",
+      "requirement": "test-plan.md, tests-summary.md and verification-harness.md describe the hand-rolled JSON-RPC client that replaced rmcp.",
+      "observed_gap": "Stale rmcp wording survives in the test-plan.md body, tests-summary.md line 44 and verification-harness.md around lines 18 and 33 — rmcp was removed in favour of the hand-rolled client on 2026-06-27.",
+      "verification": {
+        "method": "by-construction",
+        "acceptance": "No rmcp claim describing Conductor's current read-back client remains in the three named documents; each describes the hand-rolled line-delimited JSON-RPC client.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-29",
+      "title": "Operator pause and checklist exercised live",
+      "requirement": "The operator-pause hold and the operator-checklist live items both fire during the live legs.",
+      "observed_gap": "Operator-pause has never fired live, and the operator-checklist live items were gated behind the now-resolved verification-posture decision.",
+      "verification": {
+        "method": "manual",
+        "acceptance": "During a live run an operator-pause hold fires and is resolved by a real Proceed or Abort activation, the count freezes at its exact hold value (neither blanking nor continuing) and resumes on decision, and at least one ManualCheck checklist item renders with its induced state and expected observation.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-30",
+      "title": "Live per-P-ID verdict lamps",
+      "requirement": "The coverage view carries live per-P-ID verdict lamps.",
+      "observed_gap": "The coverage view lacks live per-P-ID verdict lamps — rows show classification only, with no run outcome.",
+      "verification": {
+        "method": "webview",
+        "acceptance": "After a run, coverage rows render each capability's actual verdict state with its text label and glyph (never color alone), and a capability with no run record renders a distinct not-yet-run treatment rather than a failure treatment.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-31",
+      "title": "scenario.run root obs span",
+      "requirement": "A scenario.run root span anchors the self-observation trace.",
+      "observed_gap": "There is no scenario.run root obs span, so the must-trace paths have leaf spans with no root correlation.",
+      "verification": {
+        "method": "unit",
+        "acceptance": "A scenario run emits scenario.run as the root span carrying run_id, seed, scenario and p_ids, with the timeline, emit, verify, report and db child spans nested beneath it and closing at their phase boundaries.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-32",
+      "title": "Dormant dependency maintenance",
+      "requirement": "indicatif 0.17 to 0.18 and the opentelemetry-proto default-features=false trim land inside a polish chunk rather than as chunks of their own.",
+      "observed_gap": "Both items have been carried as dormant maintenance across the whole of 0.1.0 without landing.",
+      "verification": {
+        "method": "by-construction",
+        "acceptance": "indicatif resolves at 0.18 with the operator-pause spinner still stopping in place (never hiding, never animating to completion), opentelemetry-proto builds with default-features=false, Cargo.lock is un-drifted and cargo-audit plus cargo-deny stay green.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    }
+  ]
+}

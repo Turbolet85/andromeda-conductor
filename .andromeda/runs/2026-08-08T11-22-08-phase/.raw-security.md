@@ -1,0 +1,41 @@
+# security extract
+
+## Relevance
+Relevant — this chunk adds a new on-disk parsed input at a trust boundary (the SUT capability manifest) plus a possible new `CONDUCTOR_*` path handle, both squarely inside §Input Validation / §Error Handling.
+
+## Constraints
+1. The capability manifest is a **new boundary input and MUST be validated at load** — parse + bounds-check the accepted P-ID set (well-formed `P-NNN`, non-empty, no duplicates/garbage), mirroring the pinned-manifest row (security plan §Input Validation, "Pinned MCP contract manifest" row).
+2. A malformed / absent / unparseable manifest **MUST surface a named precondition and never silently downgrade** to pass, to an empty set, or to the old hardcoded `1..=60` fallback (security plan §Input Validation manifest row "mismatch ⇒ blocked, never silent downgrade"; §Security Anti-Patterns → Universal, "NEVER silently downgrade a failed preflight… it MUST surface as the distinct `blocked` state with the named precondition string").
+3. **No panic on malformed input** — the failure travels as a typed `thiserror` enum through the verdict/error wall (`Result::Err` for harness fault vs an `Ok(state)` value), collapsing to `anyhow` only at the `conductor-cli` / `#[tauri::command]` edge (security plan §Error Handling; §Anti-Patterns → Universal, "NEVER let a malformed… input panic").
+4. If the manifest gets its own `CONDUCTOR_*` override handle (scope open question 3), it **MUST get `std::fs::canonicalize` + bounds-check at the cli edge, OUTSIDE garde struct validation** — path handles are explicitly not a garde surface (security plan §Input Validation, env-var path-handles row; §Anti-Patterns → Input bullet 1). If it stays a fixed in-repo path, no env read may be added quietly.
+5. The manifest-derived accepted set **must remain inside the validating deserialize boundary** — a serde deserialize that bypasses the validator is banned (security plan §Anti-Patterns → Input, "NEVER deserialize scenario config without garde validation at load"; garde 0.22.1 per §Input Validation).
+6. **Error text and any artifact/log line must not leak absolute host paths or internal seam-crate struct names** — including the manifest's own resolved path in the load-failure message (security plan §Error Handling "External responses" + "Run-report artifact sanitization"; §Anti-Patterns → Logging bullets 2–3).
+7. Scope law holds: the P-ID space stays the **SUT's** (`P-NNN`), no scenario without a P-ID, and no new inbound surface is introduced by making the set data-sourced (security plan §Anti-Patterns → Universal bullet 3). Any new parse dependency must clear the audit gate with `Cargo.lock` committed/un-drifted (§Dependency Security; §Anti-Patterns → Universal bullets 1–2).
+
+## Patterns to follow
+- `D:\dev\projects\conductor\crates\conductor-verify\src\manifest.rs` — the shipped pinned-manifest precedent this chunk should mirror: read → parse → private `validate()` bounds-check → typed `Manifest { reason }` fault, with the error string carrying `e.kind()` and **never the path** (`// never the path itself — io::Error's Display leaks it (artifact hygiene)`), plus tests for missing-file / empty-field / dropped-required-entry.
+- `D:\dev\projects\conductor\crates\conductor-core\src\config_path.rs` — `resolve_under(base, candidate)`: the already-shipped traversal guard (rejects absolute, `..`, and symlink escape; never silently clamps). Reuse it for any manifest path handle rather than authoring a second guard (security plan §Input Validation env-path row).
+- Typed per-seam error enums collapsing to `anyhow` only at the binary/IPC edge — `CoreError::Config` is the in-crate precedent for a `conductor-core` load fault (security plan §Error Handling).
+- Named-precondition strings on the readiness/blocked path (the preflight gate's distinct precondition per failure mode) — the model for "malformed manifest reports `blocked`" if the plan lands on that side of the wall (security plan §Threat Model → MCP read-back trust boundary; §Anti-Patterns → Universal bullet 5).
+
+## Anti-patterns to avoid
+- **Silent widening or silent fallback**: no `unwrap_or_default()`, no "manifest missing ⇒ keep `1..=60`", no empty-set-accepts-nothing-quietly (security plan §Anti-Patterns → Universal bullet 5; §Input Validation, "never silent downgrade").
+- **Un-guarded path handle**: never read a `CONDUCTOR_*` manifest override and use it without canonicalize + bounds-check at the cli edge (security plan §Anti-Patterns → Input bullet 1).
+- **Leaky diagnostics**: never format the absolute manifest path, a `Debug` dump of the manifest struct, or a stack trace into stderr / the run report / `runs.db` (security plan §Anti-Patterns → Logging bullets 2–3).
+
+## Contract bindings
+- **Verdict/error wall (arch, scope open question 1):** security does not pick the side — both `CoreError::Config` (`Err`) and a reported `Blocked` satisfy the bans — but security **forbids the third option** (silent pass / silent widen / panic) and requires the chosen side to carry a named precondition string. Arch owns the choice; security owns the "named, non-silent, non-panicking" requirement.
+- **Obs §Redaction:** the manifest-load failure string flows into the `tracing` JSON layer, so it must survive the `conductor-core::redact` field-allowlist + host-path scrub without needing the scrub to save it (`.claude/rules/observability.md` §Redaction; security plan §Error Handling).
+- **Tests §CI Integration:** the malformed/absent/empty-manifest cases are test bodies (tests' domain) but the required *case set* is security's; the audit gate stays a job in the single existing workflow, not a new one (security plan §Dependency Security → CI integration).
+
+## Acceptance criteria contributions
+1. **(security)** Malformed, absent, and empty/unparseable manifest each produce a named precondition (typed error or `Blocked` per the arch decision) — verified by tests; no panic/`unwrap`, and no code path falls back to a hardcoded P-ID range or an implicit empty accept-set.
+2. **(security)** No manifest-load error message, log line, or run artifact contains an absolute host path or an internal struct name — mirror `ContractManifest::load`'s `e.kind()` treatment; a test asserts the failure message does not contain the resolved path.
+3. **(security)** If a `CONDUCTOR_*` manifest override handle is introduced, it resolves through `conductor_core::config_path::resolve_under` (or an equivalent canonicalize + bounds-check) at the cli edge with `..` / absolute / symlink-escape rejection tests; if it is a fixed in-repo path, the plan states that explicitly and no env read is added.
+4. **(security)** `cargo audit` exit 0, `cargo deny check advisories bans sources licenses` ok, and `Cargo.lock` committed + un-drifted (prefer the in-tree `serde`/`toml` parsers — a new parse dependency must be justified and audit-green).
+
+## Relevant amendment history
+- **2026-06-15-config-validation-surface** — pinned garde 0.23.0 → 0.22.1 and restated the split this chunk must honour: garde `#[derive(Validate)]` + `#[garde(custom)]` at load for struct content, while `CONDUCTOR_*` **path** handles canonicalize + bounds-check at the edge, OUTSIDE garde. Directly governs the P-ID validator surface being re-pointed here.
+- **2026-06-24-sanitized-stderr-agent-mode-logging** — established that a derived artifact path goes through the same shipped `resolve_under` guard rather than a new one, and that consuming shipped-hardened infra is a documentation/alignment matter (playbook rule), not a new boundary. Precedent for reusing `resolve_under` if the manifest gains a handle.
+- **2026-06-27-mcp-read-back-result-shape-adapter** — reconciled the contract-manifest boundary row (the version assert now reads the `initialize` result) while explicitly preserving every invariant: bounded decode, typed faults through the verdict/error wall, no panic, mismatch ⇒ `blocked`. This is the live precedent the route line ("malformed reporting blocked") points at.
+- **2026-06-15-dependency-audit-gate** — audit-tool versions are minimum floors (cargo-audit ≥ 0.22 / cargo-deny ≥ 0.19), external CLI tools not lockable; the real signal is a fresh advisory DB plus a committed, un-drifted `Cargo.lock`. Applies if this chunk adds any parse dependency.
