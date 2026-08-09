@@ -22,7 +22,7 @@ Path-scoped rules for the Tauri 2 desktop-webview UI. The GUI is convenience onl
 - Ground is cool Tokyo-Night slate `--color-base`; color is functional status (Verdict/ReportState), never decoration or mood. Borders-only depth (`--border-subtle` seams, NO drop shadows / `backdrop-filter`).
 - Typography: JetBrains Mono is the reserved STATUS tier (count / P-IDs / run_id / SLO timings / fingerprints, `--color-id-cyan`); IBM Plex Sans for phase line + prose. Self-hosted WOFF2 via Fontsource — no runtime CDN.
 - Signature: the **Paused-count hold-point** — the titlebar count freezes at the hold value, tints `--count-nominal`→`--count-hold`, resumes on proceed / dims `--count-blocked` on abort. The absence of motion is the event.
-- Coverage matrix is a dense single-row-per-P-ID list (Linear instrument-panel density), NOT a KPI-card grid.
+- Coverage matrix is a dense single-row-per-P-ID list (Linear instrument-panel density), NOT a KPI-card grid. Its Mode cell's out-of-scope value is recessive via `var(--status-residual)` — never `--status-fail`/`--count-blocked` (the latter shares its hex with `--text-muted`, so a plain dim reads as `Blocked`), and never a seventh lamp; the label carries the signal.
 
 ## Live data
 - One Tauri `Channel` streams live counters / target status backend→frontend — no polling/SSE/URL surface. Conductor MUST NOT emit native OS toasts (that's Pulse behavior it observes via the operator checklist).

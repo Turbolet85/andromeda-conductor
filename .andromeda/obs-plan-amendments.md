@@ -41,3 +41,8 @@ _Append-only changelog of amendments to `obs-plan.md` (the body holds only curre
 **Section:** §4 Span/Trace Coverage (coverage-matrix completeness gate) · §1 must-trace table
 **Change:** `db.query_all_p_ids`'s `p_id_count_expected` and the `p_ids` log field name the manifest's capability count/set rather than the literal 60.
 **Why:** Same SUT-advance reversal: the span spec asserted a fixed 60 the accepted set no longer defines.
+
+## 2026-08-09-out-of-scope-classification-treatment — coverage_percent's denominator pinned to the in-scope count
+**Section:** §4 Span/Trace Coverage — Scenario: Coverage-matrix completeness gate
+**Change:** added denominator semantics to the gate's attributes: `p_id_count_expected` is the FULL manifest capability count, while `coverage_percent` is computed over the **in-scope** count (the manifest set minus the out-of-Conductor's-remit rows). Both stay manifest-derived, never literals.
+**Why:** the chunk's roll-up now renders that split on all three surfaces, which pre-binds `coverage_percent`'s meaning for the not-yet-built Epoch-6 completeness gate; without recording it the gate's 82-row expectation and the shipped 66-row in-scope denominator could diverge unnoticed. Detector D-obs-instrumentation; the pre-binding was an explicit operator decision at /andromeda-phase P4.

@@ -295,6 +295,13 @@ Fail red       #F85149  → ANSI 203      (Fail — no blink)
 Blocked violet #565F89  → ANSI 60       (Blocked — never measured)
 Manual lavender#A9B1D6  → ANSI 146      (ManualCheck — awaiting operator; paired with [MANUAL] + ? glyph)
 Residual mute  #9A93A8  → ANSI 246      (KnownResidual — pre-accepted gap; paired with [RESIDUAL] + ~ glyph)
+                                        ALSO the shared recessive tier for two NON-lamp uses: the `hint:`
+                                        stderr label (Component Pattern 5) and the coverage-matrix
+                                        out-of-scope Mode cell (`not-conductors`) — webview binds the same
+                                        pair by name as `var(--status-residual)`. Neither is a lamp state:
+                                        the always-rendered text label carries the signal, the tint only
+                                        de-emphasizes. Markdown, having no color channel, uses emphasis
+                                        (`_not-conductors_`) as the surface-adapted counterpart.
 Mono ID cyan   #7DCFFF  → ANSI 117      (P-IDs / run_id / SLO timings / fingerprints)
 Journal text   #A9B1D6  → ANSI 146      (report rows / dimmed metadata)
 ```
@@ -307,7 +314,7 @@ Header style: bold + ANSI 117 (ID-cyan) for section titles; metadata dimmed. Sta
 
 2. **Operator-pause prompt.** `inquire` proceed/abort confirm, gated behind an `isatty` check. **The headless path is NEVER blocked on an interactive prompt** — when stdin is not a TTY (agent-driven `agent-run.sh`), the prompt is skipped per the configured non-interactive policy and the decision is recorded to the artifact; an interactive operator gets the colored confirm. Proceed/abort decision logged to the run report.
 
-3. **Coverage-matrix / SLO table.** `comfy-table` 6 columns: P-ID (ANSI 117 cyan) · scenario · `state` (`[PASS]`/`[HOLD]`/`[FAIL]`/`[BLOCKED]` colored prefix) · `slo_tier` (`<5s`/`<20s`/`<90s`) · `latency_ms` (cyan, right-aligned) · fingerprints. Width detected dynamically from the terminal (never hardcoded). A `Blocked` row carries the named precondition string; measurement columns render as `—`/null, never a red error.
+3. **Results / SLO table** (the `run` + `suite` per-check table). `comfy-table` 6 columns: P-ID (ANSI 117 cyan) · scenario · `state` (`[PASS]`/`[HOLD]`/`[FAIL]`/`[BLOCKED]` colored prefix) · `slo_tier` (`<5s`/`<20s`/`<90s`) · `latency_ms` (cyan, right-aligned) · fingerprints. Width detected dynamically from the terminal (never hardcoded). A `Blocked` row carries the named precondition string; measurement columns render as `—`/null, never a red error. **The coverage matrix is a SEPARATE, narrower table** — `conductor coverage` renders 4 columns (P-ID · Title · Category · Mode), carries no verdict/state column and therefore no bracket prefix, and terminates in a roll-up caption (§cli Primary screens).
 
 4. **Verdict / report-state lines.** Per-P-ID result printed in place: `✓ P-009  Pass   1840ms <5s` (green) / `✗ P-014  Fail   …` (ANSI 203 red, no blink) / `? P-035  Manual  halo→burgundy? · no OS toast?` (ANSI 146 lavender — `[MANUAL]`, an operator-checklist item with no machine verdict; TTY: `inquire` y/n, headless: recorded unconfirmed) / `~ P-032  Residual  recent_commits stub → v0.3.0` (ANSI 246 muted — `[RESIDUAL]`, a pre-accepted gap, never red) / `• P-022  Blocked  mcp-server feature + ANDROMEDA_PULSE_MCP_ENABLED + matching data-dir` (ANSI 60 violet). Color is always paired with the text prefix (`[PASS]`/`[FAIL]`/`[MANUAL]`/`[RESIDUAL]`/`[BLOCKED]`/…) for NO_COLOR + screen-reader friendliness.
 

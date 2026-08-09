@@ -32,7 +32,7 @@ impl CoverageMatrix {
         let _ = writeln!(out, "|---|---|---|---|");
         for r in rows {
             let _ =
-                writeln!(out, "| `{}` | {} | {} | {} |", r.p_id, r.title, r.category, r.mode.label());
+                writeln!(out, "| `{}` | {} | {} | {} |", r.p_id, r.title, r.category, mode_cell(r.mode));
         }
         out
     }
@@ -58,14 +58,37 @@ impl CoverageMatrix {
     }
 }
 
-/// The per-mode tally in fixed [`CoverageMode::ALL`] order (deterministic — no map iteration).
-fn summary_line(rows: &[CapabilityRow]) -> String {
-    let mut line = format!("**Capabilities** {}", rows.len());
-    for mode in CoverageMode::ALL {
-        let n = rows.iter().filter(|r| r.mode == mode).count();
-        let _ = write!(line, " · {n} {}", mode.label());
+/// The Mode cell. Markdown carries no color channel, so the out-of-scope row's recessive treatment is
+/// emphasis — the surface-adapted counterpart of `--status-residual` / xterm 246 (design-system
+/// §Surface: cli / Tokens). The label always renders, so the classification survives as plain text.
+fn mode_cell(mode: CoverageMode) -> String {
+    match mode {
+        CoverageMode::NotConductors => format!("_{}_", mode.label()),
+        _ => mode.label().to_string(),
     }
-    line
+}
+
+/// The roll-up: the full row count, the in-scope subtotal with its per-mode breakdown in fixed
+/// [`CoverageMode::ALL`] order (deterministic — no map iteration), then the out-of-scope count as its
+/// own token. Rows outside Conductor's remit were never in play, so folding them into an
+/// undifferentiated denominator would read as unmeasured work; the per-mode counts still sum to the
+/// row count.
+fn summary_line(rows: &[CapabilityRow]) -> String {
+    let count = |mode: CoverageMode| rows.iter().filter(|r| r.mode == mode).count();
+    let mut in_scope = String::new();
+    for mode in CoverageMode::ALL.iter().filter(|m| **m != CoverageMode::NotConductors) {
+        if !in_scope.is_empty() {
+            in_scope.push_str(" · ");
+        }
+        let _ = write!(in_scope, "{} {}", count(*mode), mode.label());
+    }
+    let out = count(CoverageMode::NotConductors);
+    format!(
+        "**Capabilities** {} · {} in scope ({in_scope}) · {out} {}",
+        rows.len(),
+        rows.len() - out,
+        CoverageMode::NotConductors.label(),
+    )
 }
 
 #[cfg(test)]
@@ -100,8 +123,22 @@ mod tests {
         ];
         assert_eq!(
             summary_line(&rows),
-            "**Capabilities** 4 · 2 auto · 1 drive+observe · 0 static-only · 1 not-conductors"
+            "**Capabilities** 4 · 3 in scope (2 auto · 1 drive+observe · 0 static-only) · 1 not-conductors"
         );
+    }
+
+    /// The roll-up arithmetic is total-minus-out-of-scope, so the degenerate sets must not underflow
+    /// or divide (obs-plan §10 — zero unlogged panics).
+    #[test]
+    fn summary_line_holds_on_degenerate_row_sets() {
+        assert_eq!(summary_line(&[]), "**Capabilities** 0 · 0 in scope (0 auto · 0 drive+observe · 0 static-only) · 0 not-conductors");
+        let all_out = [CapabilityRow {
+            p_id: "P-061",
+            title: "t",
+            category: "c",
+            mode: CoverageMode::NotConductors,
+        }];
+        assert_eq!(summary_line(&all_out), "**Capabilities** 1 · 0 in scope (0 auto · 0 drive+observe · 0 static-only) · 1 not-conductors");
     }
 
     #[test]
@@ -132,13 +169,29 @@ mod tests {
         let md = CoverageMatrix::render();
         for r in coverage_matrix() {
             let expected =
-                format!("| `{}` | {} | {} | {} |", r.p_id, r.title, r.category, r.mode.label());
+                format!("| `{}` | {} | {} | {} |", r.p_id, r.title, r.category, mode_cell(r.mode));
             assert!(md.contains(&expected), "missing exact row: {expected}");
         }
         assert_eq!(
             md.lines().filter(|l| l.starts_with("| `P-")).count(),
             coverage_matrix().len()
         );
+    }
+
+    /// Out-of-scope is a statement about REMIT, not about outcome: an unverified-by-choice row must
+    /// never borrow the `Fail` or `Blocked` vocabulary, and it carries no precondition slot (the
+    /// four-column shape has none). Its own label is what distinguishes it.
+    #[test]
+    fn out_of_scope_rows_never_read_as_fail_or_blocked() {
+        let md = CoverageMatrix::render();
+        for banned in ["[FAIL]", "[BLOCKED]", "[PASS]", "[HOLD]"] {
+            assert!(!md.contains(banned), "coverage matrix carries verdict vocabulary {banned:?}");
+        }
+        let cell = mode_cell(CoverageMode::NotConductors);
+        let rendered = md.lines().filter(|l| l.starts_with("| `P-") && l.contains(&cell)).count();
+        let classified =
+            coverage_matrix().iter().filter(|r| r.mode == CoverageMode::NotConductors).count();
+        assert_eq!(rendered, classified, "every out-of-scope row carries the treated Mode cell");
     }
 
     #[test]

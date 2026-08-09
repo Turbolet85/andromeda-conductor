@@ -359,8 +359,9 @@ Downstream skills (route, setup-project) derive:
 - **Must-trace spans:** `report.coverage_matrix_generate` → `db.query_all_p_ids` (manifest-set enumeration) → `report.validate_coverage`
 - **Required span attributes:**
   - `report.coverage_matrix_generate`: (none, gate-level operation)
-  - `db.query_all_p_ids`: `p_id_count_found`, `p_id_count_expected` (the manifest’s capability count)
+  - `db.query_all_p_ids`: `p_id_count_found`, `p_id_count_expected` (the manifest’s capability count — the FULL accepted set)
   - `report.validate_coverage`: `coverage_percent` (0-100), `missing_count`
+- **Denominator semantics (load-bearing — the two counts are NOT the same set):** `p_id_count_expected` is the full manifest capability count, whereas `coverage_percent` is computed over the **in-scope** count — the manifest set minus the rows classified out-of-Conductor's-remit. The shipped coverage roll-up already renders this split on all three surfaces (`conductor_report::coverage::summary_line` / `conductor_cli::render::coverage_summary`), so the gate must adopt the same denominator or the two silently disagree. Both counts stay manifest-derived; neither is ever a literal.
 - **Required log fields:** `p_ids` (the manifest set), `missing_p_ids` (empty array on pass), `coverage_percent`, `journal_emitted_at`
 - **Cleanup:** Report generation span closes on validation completion; DB query closes on result return; coverage validation span closes on assertion
 

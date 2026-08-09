@@ -17,10 +17,19 @@ export interface CapabilityRow {
 // no capability silently uncounted). Mirrors conductor-core CoverageMode::ALL's order.
 const MODES: CoverageMode[] = ['auto', 'drive+observe', 'static-only', 'not-conductors']
 
+const OUT_OF_SCOPE: CoverageMode = 'not-conductors'
+
+// The roll-up: the full row count, the in-scope subtotal with its per-mode breakdown, then the
+// out-of-scope count as its own token. Rows outside Conductor's remit were never in play, so folding
+// them into an undifferentiated denominator would read as unmeasured work. Mirrors the Markdown +
+// cli roll-up shape.
 function tally(rows: CapabilityRow[]): string {
   const by = (m: CoverageMode) => rows.filter((r) => r.mode === m).length
-  const parts = MODES.map((m) => `${by(m)} ${m}`).join(' · ')
-  return `${rows.length} capabilities · ${parts}`
+  const inScope = MODES.filter((m) => m !== OUT_OF_SCOPE)
+    .map((m) => `${by(m)} ${m}`)
+    .join(' · ')
+  const out = by(OUT_OF_SCOPE)
+  return `${rows.length} capabilities · ${rows.length - out} in scope (${inScope}) · ${out} ${OUT_OF_SCOPE}`
 }
 
 // The dense single-row-per-P-ID coverage wall (design-system §Component Patterns §3 — instrument-panel
@@ -65,7 +74,15 @@ export default function CoverageMatrix({
                     <span className="cov__title type-label">{r.title}</span>
                     <span className="cov__cat type-label">{r.category}</span>
                   </td>
-                  <td className="cov__mode type-data">{r.mode}</td>
+                  <td
+                    className={
+                      r.mode === OUT_OF_SCOPE
+                        ? 'cov__mode cov__mode--out-of-scope type-data'
+                        : 'cov__mode type-data'
+                    }
+                  >
+                    {r.mode}
+                  </td>
                   <td className="cov__status">
                     {lamp ? (
                       <StatusLamp lamp={lamp} size="sm" />

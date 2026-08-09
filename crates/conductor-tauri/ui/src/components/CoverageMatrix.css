@@ -1,6 +1,7 @@
-/* Coverage matrix — the dense single-row-per-P-ID wall of all 60 capabilities (design-system.md
-   §Component Patterns §3: Linear instrument-panel density, NOT a KPI-card grid). Borders-only depth
-   (no shadows); tokens by name; reduced-motion honored globally in tokens.css. */
+/* Coverage matrix — the dense single-row-per-P-ID wall over the SUT capability manifest's accepted
+   set (design-system.md §Component Patterns §3: Linear instrument-panel density, NOT a KPI-card
+   grid). Borders-only depth (no shadows); tokens by name; reduced-motion honored globally in
+   tokens.css. */
 .cov {
   display: flex;
   flex-direction: column;
@@ -74,6 +75,13 @@
 .cov__mode {
   color: var(--text-secondary);
   white-space: nowrap;
+}
+
+/* Outside Conductor's remit by standing non-goal — recessive, never an outcome. Deliberately NOT
+   --status-fail or --count-blocked; the latter is the same hex as --text-muted, so a plain "dim it"
+   treatment would read as Blocked. The mode label itself is the signal (never color-alone). */
+.cov__mode--out-of-scope {
+  color: var(--status-residual);
 }
 
 .cov__unrun {

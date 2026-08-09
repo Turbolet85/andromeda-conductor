@@ -29,7 +29,7 @@ Enforcement: `.claude/rules/a11y.md`.
 7. **violation-json-emission-wire** — JSON aligned to obs §6, service-tagged.
 
 ## Universal anti-patterns
-- Never convey state by color alone — six lamps each carry text label + glyph.
+- Never convey state by color alone — six lamps each carry text label + glyph. The six-label assertion keys on the LAMP labels: a token-tinted non-lamp element (the coverage out-of-scope Mode cell reusing `--status-residual`) is a classification, not a seventh state — its own label is its signal.
 - Never claim WCAG conformance without machine-verifiable evidence (axe/colorjs.io/Lighthouse JSON).
 - Never ARIA on non-semantic HTML; never keyboard traps; never `outline:none` without a `:focus-visible` replacement.
 - Never stand up a second browser-automation stack for a11y; manual SR is supplemental only.

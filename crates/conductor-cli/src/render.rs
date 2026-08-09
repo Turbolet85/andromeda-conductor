@@ -15,7 +15,7 @@ use std::io::IsTerminal;
 use std::time::Duration;
 
 use comfy_table::{Cell, Color, ContentArrangement, Table, presets};
-use conductor_core::{HoldPoint, Lamp, RunRecord, coverage_matrix};
+use conductor_core::{CoverageMode, HoldPoint, Lamp, RunRecord, coverage_matrix};
 use indicatif::{ProgressBar, ProgressDrawTarget, ProgressStyle};
 use owo_colors::{OwoColorize, XtermColors};
 
@@ -29,6 +29,12 @@ pub const ID_CYAN: u8 = 117;
 
 /// The muted grey (xterm 246) for the de-emphasized `hint:` label on the error edge.
 const HINT_GREY: u8 = 246;
+
+/// The Residual-mute tier (xterm 246 ↔ `--status-residual`, design-system §Surface: cli / Tokens)
+/// carrying the out-of-scope Mode cell — a second non-lamp reuse of the tier, as `hint:` above is the
+/// first. Deliberately NOT the fail (203) or blocked (60) code: out-of-scope is a statement about
+/// remit, not an outcome, and the `not-conductors` label is the signal the tint only de-emphasizes.
+const OUT_OF_SCOPE_MUTE: u8 = 246;
 
 /// A check's lamp → its xterm-256 color (design-system §Surface: cli / Tokens; layout-templates
 /// §Multi-surface coordination).
@@ -78,6 +84,13 @@ pub fn results_table(records: &[RunRecord]) -> String {
 /// classification; carries no per-run lamp).
 pub fn coverage_table() -> String {
     coverage_table_styled(stdout_color())
+}
+
+/// The coverage roll-up beneath the table — the full row count, the in-scope subtotal with its
+/// per-mode breakdown, and the out-of-scope count as its own muted token. Rows outside Conductor's
+/// remit were never in play, so an undifferentiated denominator would read as unmeasured work.
+pub fn coverage_summary() -> String {
+    coverage_summary_styled(stdout_color())
 }
 
 /// A live per-scenario progress spinner on stderr, hidden when stderr is not a terminal (so piped /
@@ -159,15 +172,46 @@ fn coverage_table_styled(color: bool) -> String {
         .load_preset(presets::UTF8_FULL)
         .set_content_arrangement(ContentArrangement::Disabled)
         .set_header(vec!["P-ID", "Title", "Category", "Mode"]);
+    // comfy-table runs its OWN tty probe and silently drops cell styling when stdout is captured, so
+    // without this the one `stdout_color()` decision this module documents would not actually govern
+    // the table. A no-op in production (`color` is only true when stdout is already a tty).
+    if color {
+        table.enforce_styling();
+    }
     for r in coverage_matrix() {
+        let mode = Cell::new(r.mode.label());
+        let mode = if r.mode == CoverageMode::NotConductors {
+            tint(mode, OUT_OF_SCOPE_MUTE, color)
+        } else {
+            mode
+        };
         table.add_row(vec![
             tint(Cell::new(r.p_id), ID_CYAN, color),
             Cell::new(r.title),
             Cell::new(r.category),
-            Cell::new(r.mode.label()),
+            mode,
         ]);
     }
     table.to_string()
+}
+
+fn coverage_summary_styled(color: bool) -> String {
+    let rows = coverage_matrix();
+    let count = |mode: CoverageMode| rows.iter().filter(|r| r.mode == mode).count();
+    let mut in_scope = String::new();
+    for mode in CoverageMode::ALL.iter().filter(|m| **m != CoverageMode::NotConductors) {
+        if !in_scope.is_empty() {
+            in_scope.push_str(" · ");
+        }
+        in_scope.push_str(&format!("{} {}", count(*mode), mode.label()));
+    }
+    let out = count(CoverageMode::NotConductors);
+    let out_token = paint_styled(
+        &format!("{out} {}", CoverageMode::NotConductors.label()),
+        OUT_OF_SCOPE_MUTE,
+        color,
+    );
+    format!("{} capabilities · {} in scope ({in_scope}) · {out_token}", rows.len(), rows.len() - out)
 }
 
 /// Apply an xterm-256 foreground to a cell when color is enabled (comfy-table's own styling, so widths
@@ -293,12 +337,60 @@ mod tests {
         assert!(!table.contains('\u{1b}'));
     }
 
+    /// Never color-alone, on the cell this chunk tints: the label stands on its own when color is
+    /// off, and color is only an overlay when it is on (design-system §Surface: cli).
+    #[test]
+    fn out_of_scope_mode_cell_plain_keeps_its_label_without_escapes() {
+        let table = coverage_table_styled(false);
+        assert!(table.contains(CoverageMode::NotConductors.label()), "{table}");
+        assert!(!table.contains('\u{1b}'), "piped coverage table must carry no escape bytes");
+    }
+
+    #[test]
+    fn out_of_scope_mode_cell_colored_overlays_the_residual_mute() {
+        let table = coverage_table_styled(true);
+        assert!(table.contains(CoverageMode::NotConductors.label()), "{table}");
+        assert!(
+            table.contains(&format!("\u{1b}[38;5;{OUT_OF_SCOPE_MUTE}m")),
+            "the out-of-scope cell must carry the residual-mute tint"
+        );
+    }
+
+    /// Out-of-scope is a statement about REMIT, not an outcome — the coverage surfaces must never
+    /// borrow the fail (203) or blocked (60) code, nor the bracket verdict vocabulary.
+    #[test]
+    fn coverage_surfaces_never_read_as_fail_or_blocked() {
+        let out = format!("{}{}", coverage_table_styled(true), coverage_summary_styled(true));
+        for banned in ["[FAIL]", "[BLOCKED]", "[PASS]", "[HOLD]"] {
+            assert!(!out.contains(banned), "coverage surface carries verdict vocabulary {banned:?}");
+        }
+        for code in [lamp_code(Lamp::Fail), lamp_code(Lamp::Blocked)] {
+            let escape = format!("\u{1b}[38;5;{code}m");
+            assert!(!out.contains(&escape), "coverage surface carries the {code} status color");
+        }
+    }
+
+    /// The roll-up separates remit from outcome, and the per-mode counts still account for every row.
+    #[test]
+    fn coverage_summary_splits_the_in_scope_denominator() {
+        let summary = coverage_summary_styled(false);
+        let rows = conductor_core::coverage_matrix();
+        let out = rows.iter().filter(|r| r.mode == CoverageMode::NotConductors).count();
+        assert!(summary.starts_with(&format!("{} capabilities · {} in scope (", rows.len(), rows.len() - out)), "{summary}");
+        assert!(summary.ends_with(&format!("· {out} {}", CoverageMode::NotConductors.label())), "{summary}");
+        let summed: usize =
+            CoverageMode::ALL.iter().map(|m| rows.iter().filter(|r| r.mode == *m).count()).sum();
+        assert_eq!(summed, rows.len(), "every capability is counted exactly once");
+        assert!(!summary.contains('\u{1b}'), "piped summary must carry no escape bytes");
+    }
+
     #[test]
     fn renders_leak_no_host_paths_or_struct_names() {
         let out = format!(
-            "{}{}",
+            "{}{}{}",
             results_table_styled(&[measured("ok", Verdict::Pass, ReportState::Pass), blocked("blk")], false),
             coverage_table_styled(false),
+            coverage_summary_styled(false),
         );
         for leak in ["C:\\", "/Users/", "/home/", "RunRecord", "Lamp", "CapabilityRow", "RunsDb"] {
             assert!(!out.contains(leak), "leaked {leak:?}");
