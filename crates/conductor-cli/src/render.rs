@@ -15,7 +15,7 @@ use std::io::IsTerminal;
 use std::time::Duration;
 
 use comfy_table::{Cell, Color, ContentArrangement, Table, presets};
-use conductor_core::{CoverageMode, HoldPoint, Lamp, RunRecord, coverage_matrix};
+use conductor_core::{CoverageMode, HoldPoint, Lamp, RunRecord, UNBACKED_AUTO, coverage_matrix};
 use indicatif::{ProgressBar, ProgressDrawTarget, ProgressStyle};
 use owo_colors::{OwoColorize, XtermColors};
 
@@ -204,6 +204,11 @@ fn coverage_summary_styled(color: bool) -> String {
             in_scope.push_str(" · ");
         }
         in_scope.push_str(&format!("{} {}", count(*mode), mode.label()));
+        // Qualifies the auto term — auto claims no scenario yet backs (conductor_core::UNBACKED_AUTO,
+        // held to the catalog by check_scenario_backing). A qualifier, never a fifth summand.
+        if *mode == CoverageMode::Auto && !UNBACKED_AUTO.is_empty() {
+            in_scope.push_str(&format!(" ({} unbacked)", UNBACKED_AUTO.len()));
+        }
     }
     let out = count(CoverageMode::NotConductors);
     let out_token = paint_styled(

@@ -29,7 +29,7 @@ _Distilled from `.andromeda/design-system.md` + `.andromeda/layout-templates.md`
 ## Component patterns
 - **Frameless titlebar + paused-count heartbeat** — the signature's primary placement (freezes/tints/resumes).
 - **Operator-pause go/no-go dialog** — shadcn `AlertDialog`, gates every committed timeline step.
-- **Coverage matrix** — dense single-row-per-P-ID list (NOT a KPI-card grid), virtual-scrolled; its Mode cell renders one of four classifications, the out-of-scope one recessive via `--status-residual` ↔ ANSI 246 ↔ Markdown emphasis (never `--status-fail`/`--count-blocked`, and never a lamp).
+- **Coverage matrix** — dense single-row-per-P-ID list (NOT a KPI-card grid), virtual-scrolled; its Mode cell renders one of four classifications, the out-of-scope one recessive via `--status-residual` ↔ ANSI 246 ↔ Markdown emphasis (never `--status-fail`/`--count-blocked`, and never a lamp). Its roll-up caption qualifies the auto term with `(N unbacked)` — plain text, no token, a qualifier on that summand and never a fifth one, omitted at zero.
 - **Verdict/report-state lamp** — six visually distinct treatments (`Pass`/`CalibrationRegion`/`Fail` filled dots · `Blocked` hollow ring · `Manual` checkbox · `Residual` dashed dot), always text-paired. The lamp tokens are the lamps' — but `--status-residual` is also the shared recessive tier for two NON-lamp uses (the cli `hint:` label, the out-of-scope Mode cell).
 - **Operator-checklist** — the `ManualCheck` render (induced state + expected observation, ticked y/n) — the drive+observe surface.
 

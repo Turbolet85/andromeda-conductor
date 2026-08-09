@@ -34,7 +34,7 @@ mod verdict;
 pub use capability_manifest::CapabilityManifest;
 pub use config_path::resolve_under;
 pub use coverage::{CapabilityRow, CoverageMode, coverage_matrix};
-pub use drift::{KNOWN_UNCLASSIFIED, check_sut_drift};
+pub use drift::{KNOWN_UNCLASSIFIED, UNBACKED_AUTO, check_scenario_backing, check_sut_drift};
 pub use error::{CoreError, Result};
 pub use expected::{ClaimClass, ComparisonKind, ExpectedCheck};
 pub use lamp::Lamp;

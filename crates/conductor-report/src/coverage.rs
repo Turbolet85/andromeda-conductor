@@ -11,7 +11,7 @@ use std::fmt::Write as _;
 use std::fs;
 use std::path::{Path, PathBuf};
 
-use conductor_core::{CapabilityRow, CoverageMode, coverage_matrix};
+use conductor_core::{CapabilityRow, CoverageMode, UNBACKED_AUTO, coverage_matrix};
 
 use crate::ReportError;
 
@@ -26,7 +26,7 @@ impl CoverageMatrix {
         let mut out = String::new();
         let _ = writeln!(out, "# Coverage matrix");
         let _ = writeln!(out);
-        let _ = writeln!(out, "{}", summary_line(rows));
+        let _ = writeln!(out, "{}", summary_line(rows, UNBACKED_AUTO.len()));
         let _ = writeln!(out);
         let _ = writeln!(out, "| P-ID | Title | Category | Mode |");
         let _ = writeln!(out, "|---|---|---|---|");
@@ -73,7 +73,13 @@ fn mode_cell(mode: CoverageMode) -> String {
 /// own token. Rows outside Conductor's remit were never in play, so folding them into an
 /// undifferentiated denominator would read as unmeasured work; the per-mode counts still sum to the
 /// row count.
-fn summary_line(rows: &[CapabilityRow]) -> String {
+///
+/// `unbacked` qualifies the auto term — how many of those claims no scenario yet backs
+/// (`conductor_core::UNBACKED_AUTO`, held to the catalog by `check_scenario_backing`). It is a
+/// QUALIFIER, never a fifth summand: an auto row with no scenario is still classified auto, so
+/// counting it separately would break the sum. Passed in rather than read from the const so this stays
+/// a pure function of its arguments (the format golden fixes a synthetic set).
+fn summary_line(rows: &[CapabilityRow], unbacked: usize) -> String {
     let count = |mode: CoverageMode| rows.iter().filter(|r| r.mode == mode).count();
     let mut in_scope = String::new();
     for mode in CoverageMode::ALL.iter().filter(|m| **m != CoverageMode::NotConductors) {
@@ -81,6 +87,9 @@ fn summary_line(rows: &[CapabilityRow]) -> String {
             in_scope.push_str(" · ");
         }
         let _ = write!(in_scope, "{} {}", count(*mode), mode.label());
+        if *mode == CoverageMode::Auto && unbacked > 0 {
+            let _ = write!(in_scope, " ({unbacked} unbacked)");
+        }
     }
     let out = count(CoverageMode::NotConductors);
     format!(
@@ -122,8 +131,13 @@ mod tests {
             },
         ];
         assert_eq!(
-            summary_line(&rows),
+            summary_line(&rows, 0),
             "**Capabilities** 4 · 3 in scope (2 auto · 1 drive+observe · 0 static-only) · 1 not-conductors"
+        );
+        // The unbacked qualifier binds to the auto term and leaves the summands untouched.
+        assert_eq!(
+            summary_line(&rows, 1),
+            "**Capabilities** 4 · 3 in scope (2 auto (1 unbacked) · 1 drive+observe · 0 static-only) · 1 not-conductors"
         );
     }
 
@@ -131,14 +145,14 @@ mod tests {
     /// or divide (obs-plan §10 — zero unlogged panics).
     #[test]
     fn summary_line_holds_on_degenerate_row_sets() {
-        assert_eq!(summary_line(&[]), "**Capabilities** 0 · 0 in scope (0 auto · 0 drive+observe · 0 static-only) · 0 not-conductors");
+        assert_eq!(summary_line(&[], 0), "**Capabilities** 0 · 0 in scope (0 auto · 0 drive+observe · 0 static-only) · 0 not-conductors");
         let all_out = [CapabilityRow {
             p_id: "P-061",
             title: "t",
             category: "c",
             mode: CoverageMode::NotConductors,
         }];
-        assert_eq!(summary_line(&all_out), "**Capabilities** 1 · 0 in scope (0 auto · 0 drive+observe · 0 static-only) · 1 not-conductors");
+        assert_eq!(summary_line(&all_out, 0), "**Capabilities** 1 · 0 in scope (0 auto · 0 drive+observe · 0 static-only) · 1 not-conductors");
     }
 
     #[test]
@@ -148,7 +162,7 @@ mod tests {
         let mut lines = md.lines();
         assert_eq!(lines.next(), Some("# Coverage matrix"));
         assert_eq!(lines.next(), Some(""));
-        assert_eq!(lines.next(), Some(summary_line(rows).as_str()));
+        assert_eq!(lines.next(), Some(summary_line(rows, UNBACKED_AUTO.len()).as_str()));
         assert_eq!(lines.next(), Some(""));
         assert_eq!(lines.next(), Some("| P-ID | Title | Category | Mode |"));
         assert_eq!(lines.next(), Some("|---|---|---|---|"));
@@ -161,7 +175,26 @@ mod tests {
         let summed: usize =
             CoverageMode::ALL.iter().map(|m| rows.iter().filter(|r| r.mode == *m).count()).sum();
         assert_eq!(summed, rows.len());
-        assert!(summary_line(rows).starts_with(&format!("**Capabilities** {}", rows.len())));
+        assert!(
+            summary_line(rows, UNBACKED_AUTO.len())
+                .starts_with(&format!("**Capabilities** {}", rows.len()))
+        );
+    }
+
+    /// The unbacked count qualifies the auto term rather than joining the breakdown — the per-mode
+    /// summands must still account for every row once the qualifier is stripped.
+    #[test]
+    fn the_unbacked_qualifier_is_not_a_fifth_summand() {
+        let rows = coverage_matrix();
+        let auto = rows.iter().filter(|r| r.mode == CoverageMode::Auto).count();
+        let line = summary_line(rows, UNBACKED_AUTO.len());
+        assert!(
+            line.contains(&format!("{auto} auto ({} unbacked)", UNBACKED_AUTO.len())),
+            "the qualifier must bind to the auto term: {line}"
+        );
+        let summed: usize =
+            CoverageMode::ALL.iter().map(|m| rows.iter().filter(|r| r.mode == *m).count()).sum();
+        assert_eq!(summed, rows.len(), "the qualifier must not disturb the summands");
     }
 
     #[test]

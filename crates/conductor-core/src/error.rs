@@ -24,6 +24,12 @@ pub enum CoreError {
     /// past what Conductor has classified, or a classified capability lost its manifest backing.
     #[error("SUT capability drift: {0}")]
     SutDrift(String),
+    /// An `Auto`-classified capability claims programmatic verification that no scenario provides, or
+    /// the pinned ledger of such claims no longer matches the catalog. Conductor's own coverage
+    /// integrity — distinct from [`CoreError::SutDrift`], which tracks the SUT's ledger moving past
+    /// the classification.
+    #[error("unbacked coverage claim: {0}")]
+    UnbackedCoverage(String),
 }
 
 /// `conductor-core`'s harness-fault result alias: `Ok` carries a value (often a verification

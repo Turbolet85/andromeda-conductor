@@ -21,7 +21,7 @@ setup-project Phase 4 materializes `scripts/agent-run.{sh,ps1}`. Enforcement: `.
 - **Restart-suppression incl. bypass** — suppression is hard Pass/Fail; bypass case reports its distinct outcome.
 - **Severity-lifecycle full pass** — auto-resolve + resolution summary; timing hard, severity choice = CalibrationRegion.
 - **Known-residual (P-032)** — `state=KnownResidual` (not Fail) from a `degraded_mode` read-back.
-- **Coverage-matrix completeness** — every capability in the SUT capability manifest, zero gaps (DoD).
+- **Coverage-matrix completeness** — every capability in the SUT capability manifest, zero gaps (DoD). Second axis: `check_scenario_backing` asserts every `Auto`-classified capability has a scenario naming it, exact-set against the `UNBACKED_AUTO` pin (fails on a new unbacked claim, pin rot, or a pin that lost its `Auto` mode).
 - **Cross-surface parity** — Tauri-launched vs headless identical envelope for the same seed.
 
 ## Quality gates (§10)

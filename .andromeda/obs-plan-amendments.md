@@ -46,3 +46,8 @@ _Append-only changelog of amendments to `obs-plan.md` (the body holds only curre
 **Section:** §4 Span/Trace Coverage — Scenario: Coverage-matrix completeness gate
 **Change:** added denominator semantics to the gate's attributes: `p_id_count_expected` is the FULL manifest capability count, while `coverage_percent` is computed over the **in-scope** count (the manifest set minus the out-of-Conductor's-remit rows). Both stay manifest-derived, never literals.
 **Why:** the chunk's roll-up now renders that split on all three surfaces, which pre-binds `coverage_percent`'s meaning for the not-yet-built Epoch-6 completeness gate; without recording it the gate's 82-row expectation and the shipped 66-row in-scope denominator could diverge unnoticed. Detector D-obs-instrumentation; the pre-binding was an explicit operator decision at /andromeda-phase P4.
+
+## 2026-08-09-interpretation-correctness-posture — coverage roll-up auto term carries a derived unbacked qualifier
+**Section:** §4 (coverage-matrix completeness gate — denominator semantics)
+**Change:** recorded that the roll-up's auto term additionally carries a derived `(N unbacked)` qualifier read from `conductor_core::UNBACKED_AUTO`; it qualifies the auto count rather than joining the breakdown, so the per-mode summands still sum to the row count and a gate reading these fields must not treat it as a fifth mode.
+**Why:** the chunk shipped the qualifier on all three roll-up surfaces the gate's denominator semantics already govern. Self-raised — the obs detector returned clean.

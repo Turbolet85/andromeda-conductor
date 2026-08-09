@@ -131,6 +131,22 @@ pub fn coverage_matrix() -> Result<Vec<CapabilityRow>, String> {
     Ok(rows)
 }
 
+/// The capabilities classified `auto` that no scenario backs (read-only) — the webview half of the
+/// coverage roll-up's unbacked qualifier. Single-sources `conductor_core::UNBACKED_AUTO`, which
+/// `check_scenario_backing` holds to the committed catalog; the webview never mirrors the ledger in TS.
+#[tauri::command]
+pub fn unbacked_auto() -> Result<Vec<String>, String> {
+    let _span = tracing::info_span!("tauri.command.unbacked_auto").entered();
+    let started = Instant::now();
+    let ids: Vec<String> = conductor_core::UNBACKED_AUTO.iter().map(|s| s.to_string()).collect();
+    tracing::info!(
+        count = ids.len(),
+        latency_ms = started.elapsed().as_millis() as u64,
+        "listed unbacked auto claims"
+    );
+    Ok(ids)
+}
+
 /// The persisted run report (read-only) — the per-scenario `RunRecord`s of a run's JSONL journal, the
 /// desktop twin of `conductor report` / the Markdown report. `run_id` defaults to the latest run; a
 /// supplied id is `resolve_under`-guarded against traversal before any read (security-plan §Input
@@ -275,6 +291,7 @@ mod tests {
             .invoke_handler(tauri::generate_handler![
                 list_scenarios,
                 coverage_matrix,
+                unbacked_auto,
                 run_report,
                 start_run,
                 stop_run,
@@ -327,6 +344,18 @@ mod tests {
             Some(conductor_core::coverage_matrix().len()),
             "every classified capability surfaces through the IPC dispatch"
         );
+    }
+
+    #[test]
+    fn unbacked_auto_command_returns_the_core_ledger() {
+        let app = test_app();
+        let window = main_window(&app);
+        let ids: Vec<String> = invoke(&window, "unbacked_auto", InvokeBody::default())
+            .deserialize()
+            .expect("unbacked ids deserialize");
+        // The webview reads the ledger through IPC rather than mirroring it in TS, so the count the
+        // roll-up qualifier renders is conductor-core's, not a copy that can drift.
+        assert_eq!(ids, conductor_core::UNBACKED_AUTO.to_vec());
     }
 
     #[test]

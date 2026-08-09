@@ -23,10 +23,14 @@ const OUT_OF_SCOPE: CoverageMode = 'not-conductors'
 // out-of-scope count as its own token. Rows outside Conductor's remit were never in play, so folding
 // them into an undifferentiated denominator would read as unmeasured work. Mirrors the Markdown +
 // cli roll-up shape.
-function tally(rows: CapabilityRow[]): string {
+//
+// `unbacked` qualifies the auto term — auto claims no scenario yet backs. It comes from the
+// `unbacked_auto` command (conductor-core's ledger, held to the catalog by check_scenario_backing),
+// never a TS copy. A qualifier, never a fifth summand: those rows are still classified auto.
+function tally(rows: CapabilityRow[], unbacked: number): string {
   const by = (m: CoverageMode) => rows.filter((r) => r.mode === m).length
   const inScope = MODES.filter((m) => m !== OUT_OF_SCOPE)
-    .map((m) => `${by(m)} ${m}`)
+    .map((m) => (m === 'auto' && unbacked > 0 ? `${by(m)} ${m} (${unbacked} unbacked)` : `${by(m)} ${m}`))
     .join(' · ')
   const out = by(OUT_OF_SCOPE)
   return `${rows.length} capabilities · ${rows.length - out} in scope (${inScope}) · ${out} ${OUT_OF_SCOPE}`
@@ -39,13 +43,15 @@ function tally(rows: CapabilityRow[]): string {
 export default function CoverageMatrix({
   rows,
   lamps,
+  unbacked = 0,
 }: {
   rows: CapabilityRow[]
   lamps?: Record<string, Lamp>
+  unbacked?: number
 }) {
   return (
     <section className="cov" aria-label="Capability coverage matrix">
-      <header className="cov__summary type-data">{tally(rows)}</header>
+      <header className="cov__summary type-data">{tally(rows, unbacked)}</header>
       <div className="cov__scroll" tabIndex={0} role="group" aria-label="Coverage rows">
         <table className="cov__table">
           <thead>

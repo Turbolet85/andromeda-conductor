@@ -56,3 +56,8 @@ _Append-only changelog of amendments to `security-plan.md` (the body holds only 
 **Section:** §Input Validation · §Data Classification (scenario-config volume)
 **Change:** Registered `contracts/pulse-capabilities.toml` as an external-input boundary validated at load (non-empty version/date/set, `P-NNN` shape per id, no duplicates; read faults carry `e.kind()` only, never the path; fixed path through `resolve_under`, no `CONDUCTOR_*` override). Scenario-config volume no longer names P-001..P-060.
 **Why:** The chunk added a new runtime-parsed config artifact; §Input Validation enumerates every such surface and omitted it.
+
+## 2026-08-09-interpretation-correctness-posture — advisory-DATABASE fault distinguished from tool fault
+**Section:** §Dependency Security (Audit tool; Bootstrap phases dep-audit-tooling-install)
+**Change:** installed `cargo-audit` recorded as 0.22.2; added the two-fault split — a TOOL fault is remedied by raising the floor, an advisory-DATABASE fault (the RustSec DB itself unparseable) is remedied by a bounded wait with the audit↔deny overlap VERIFIED green, never a floor raise, never a `deny.toml` ignore, never a CI edit.
+**Why:** empirically established this chunk — `duplicate advisory ID: RUSTSEC-2026-0244` failed byte-identically on 0.22.1 and on the latest published 0.22.2, so the prescribed floor-raise was unexecutable and would have looked like compliance while changing nothing.

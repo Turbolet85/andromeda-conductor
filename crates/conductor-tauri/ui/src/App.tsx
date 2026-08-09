@@ -42,6 +42,7 @@ export default function App() {
   const [coverage, setCoverage] = useState<CapabilityRow[]>([])
   const [coverageError, setCoverageError] = useState<string | null>(null)
   const [coverageLoading, setCoverageLoading] = useState(true)
+  const [unbacked, setUnbacked] = useState(0)
   const [report, setReport] = useState<RunRecord[]>([])
   const [reportError, setReportError] = useState<string | null>(null)
   const [reportLoading, setReportLoading] = useState(true)
@@ -60,6 +61,14 @@ export default function App() {
       .then(setCoverage)
       .catch((e) => setCoverageError(String(e)))
       .finally(() => setCoverageLoading(false))
+  }, [])
+
+  // The unbacked-auto ledger qualifies the roll-up's auto term. A failure leaves it at 0 — the
+  // qualifier disappears rather than the matrix, which is the honest degrade for a roll-up annotation.
+  useEffect(() => {
+    invoke<string[]>('unbacked_auto')
+      .then((ids) => setUnbacked(ids.length))
+      .catch(() => setUnbacked(0))
   }, [])
 
   // The run report is re-read whenever a run settles (a terminal Channel stage) so the GUI closes the
@@ -207,7 +216,7 @@ export default function App() {
               No coverage data.
             </p>
           ) : (
-            <CoverageMatrix rows={coverage} />
+            <CoverageMatrix rows={coverage} unbacked={unbacked} />
           )}
         </section>
 

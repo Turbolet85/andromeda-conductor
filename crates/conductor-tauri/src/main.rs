@@ -22,6 +22,7 @@ fn main() {
         .invoke_handler(tauri::generate_handler![
             commands::list_scenarios,
             commands::coverage_matrix,
+            commands::unbacked_auto,
             commands::run_report,
             commands::start_run,
             commands::stop_run,

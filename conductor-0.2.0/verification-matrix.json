@@ -62,12 +62,12 @@
       "requirement": "A recorded decision on whether 0.2.0 carries a real-model correctness leg or explicitly defers it with a named owner, so determinism never silently redefines what the harness proves.",
       "observed_gap": "With ANDROMEDA_PULSE_L4_DETERMINISTIC=true the canned L4Output replaces the model, so every live leg 0.2.0 plans exercises the plumbing and never the interpretation — while Pulse's own positioning memo names interpretation-correctness the single most important test in all of Pulse.",
       "verification": {
-        "method": "manual",
-        "acceptance": "EITHER a real-model correctness leg exists and passes (deterministic mode OFF, a known root cause injected, the top hypothesis asserted to identify it) OR a deferral is recorded naming its owner and stating that \"Conductor green\" does not mean interpretation is trustworthy. Absence of both fails.",
-        "ref": null,
-        "status": "planned"
+        "method": "unit",
+        "acceptance": "EITHER a real-model correctness leg exists and passes (deterministic mode OFF, a known root cause injected, the top hypothesis asserted to identify it) OR a deferral is recorded naming its owner and stating that \"Conductor green\" does not mean interpretation is trustworthy. Absence of both fails. Realized via the deferral branch (operator decision, 2026-08-09): conductor_core::UNBACKED_AUTO pins the Auto-classified capabilities that have no verifying scenario, its doc comment names the interpretation cluster P-031/P-033/P-034/P-044, states that \"Conductor green\" does not mean interpretation is trustworthy, and names a conductor-0.3.0 entry as the owner; check_scenario_backing holds that set to the pin by exact-set equality under cargo nextest, failing on a new unbacked Auto row, a rotted pin, or a pin that lost its backing.",
+        "ref": "crates/conductor-core/src/drift.rs::tests::the_committed_catalog_matches_the_unbacked_ledger; crates/conductor-core/src/drift.rs::tests::an_auto_row_with_no_scenario_outside_the_ledger_is_a_fault; crates/conductor-core/src/drift.rs::tests::a_ledger_entry_a_scenario_now_names_is_a_fault; crates/conductor-core/src/drift.rs::tests::a_ledger_entry_no_longer_auto_classified_is_a_fault; crates/conductor-core/src/drift.rs::tests::only_auto_rows_need_scenario_backing; crates/conductor-core/src/drift.rs::tests::backing_message_names_identity_without_host_paths_or_type_names; crates/conductor-report/src/coverage.rs::tests::the_unbacked_qualifier_is_not_a_fifth_summand; crates/conductor-tauri/src/commands.rs::tests::unbacked_auto_command_returns_the_core_ledger; by-construction: the deferral text (interpretation cluster, the \"Conductor green\" caveat, and the conductor-0.3.0 owner) is the doc comment on conductor_core::UNBACKED_AUTO, which the gate above holds to the committed catalog by exact-set equality",
+        "status": "verified"
       },
-      "chunk": null
+      "chunk": "2026-08-09-interpretation-correctness-posture"
     },
     {
       "id": "v2-06",

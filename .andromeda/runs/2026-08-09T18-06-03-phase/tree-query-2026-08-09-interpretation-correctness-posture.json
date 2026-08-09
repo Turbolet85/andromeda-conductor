@@ -1,0 +1,87 @@
+[
+{
+"sql": "SELECT symbol, crate, file, def_line FROM symbol WHERE symbol LIKE '%coverage_matrix%' OR symbol LIKE '%CoverageMode%' OR symbol LIKE '%check_sut_drift%' OR symbol LIKE '%CalibrationRegion%' ORDER BY crate, file",
+"rows": 13,
+"result": [
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 coverage/CoverageMode#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/coverage.rs",
+"def_line": 15
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 coverage/CoverageMode#Auto#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/coverage.rs",
+"def_line": 19
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 coverage/CoverageMode#DriveObserve#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/coverage.rs",
+"def_line": 23
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 coverage/CoverageMode#StaticOnly#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/coverage.rs",
+"def_line": 27
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 coverage/CoverageMode#NotConductors#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/coverage.rs",
+"def_line": 34
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 coverage/impl#[CoverageMode]ALL.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/coverage.rs",
+"def_line": 39
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 coverage/impl#[CoverageMode]label().",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/coverage.rs",
+"def_line": 47
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 coverage/coverage_matrix().",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/coverage.rs",
+"def_line": 74
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 drift/check_sut_drift().",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/drift.rs",
+"def_line": 46
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 expected/ClaimClass#CalibrationRegion#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 24
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 verdict/Verdict#CalibrationRegion#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/verdict.rs",
+"def_line": 22
+},
+{
+"symbol": "rust-analyzer cargo conductor-tauri 0.1.0 commands/coverage_matrix().",
+"crate": "conductor-tauri",
+"file": "crates/conductor-tauri/src/commands.rs",
+"def_line": 121
+},
+{
+"symbol": "rust-analyzer cargo conductor-tauri 0.1.0 commands/tests/coverage_matrix_command_returns_every_classified_pid().",
+"crate": "conductor-tauri",
+"file": "crates/conductor-tauri/src/commands.rs",
+"def_line": 316
+}
+],
+"db_state": "fresh"
+}
+]

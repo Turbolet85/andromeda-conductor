@@ -32,7 +32,7 @@ Conductor is a desktop control-panel app (Tauri 2) over a headless-drivable Rust
 ## Critical Warnings (universal invariants)
 <!-- GENERATED:setup:warnings start -->
 - **Scope law + trust boundary:** every scenario carries a Pulse P-ID; Conductor opens NO inbound listener of its own — the `:4317` port-occupier is the sole deliberate bind (released on cleanup). Never widen beyond the loopback gRPC/MCP-client model.
-- **Accepted capability set is DATA:** which P-IDs a scenario may name comes from `contracts/pulse-capabilities.toml`, never a compile-time constant — garde asserts the `P-NNN` shape, the manifest asserts membership. A malformed/absent manifest is a `CoreError` harness fault with a named reason: never `Blocked`, never a silent widen. The coverage *classification* stays code-native, held set-equal to the manifest by `check_sut_drift` — so re-aiming at a newer Pulse is a manifest edit **plus** a classification row, never a silent gap.
+- **Accepted capability set is DATA:** which P-IDs a scenario may name comes from `contracts/pulse-capabilities.toml`, never a compile-time constant — garde asserts the `P-NNN` shape, the manifest asserts membership. A malformed/absent manifest is a `CoreError` harness fault with a named reason: never `Blocked`, never a silent widen. The coverage *classification* stays code-native, held set-equal to the manifest by `check_sut_drift` — so re-aiming at a newer Pulse is a manifest edit **plus** a classification row, never a silent gap. A second gate sits on a different axis: `check_scenario_backing` holds `UNBACKED_AUTO` (the `Auto` claims no scenario names) to exact-set equality against the catalog, so classifying a capability `Auto` can no longer stand in for verifying it.
 - **Verdict/error wall:** verification outcomes are typed VALUES (`Verdict`/`ReportState` as `Ok`); `Result::Err` is harness-faults only. Malformed child/transport input (`tonic::Status`, MCP errors) becomes a typed `Blocked`/`Fail`, never a panic.
 - **Preflight integrity:** never silently downgrade a failed MCP preflight (protocol≠`2024-11-05` / missing tool / empty canary) — surface the distinct `Blocked` state with its named precondition.
 - **Supply chain:** keep `Cargo.lock` committed + un-drifted; never `cargo build --release` or merge without `cargo-audit` (+ `cargo-deny`) green; hold toolchain ≥1.94.1 and `tauri` ≥2.10.3.
@@ -49,7 +49,7 @@ Conductor is a desktop control-panel app (Tauri 2) over a headless-drivable Rust
 | Topic | Source |
 |---|---|
 | Architecture decisions | `.andromeda/architecture.md` |
-| Build plan / chunk route | `.andromeda/master-route.md` · `conductor-0.1.0/working-route.md` |
+| Build plan / chunk route | `.andromeda/master-route.md` · the active version's `working-route.md` (master-route's last `## {project}-{version}` heading) |
 | Code map / impact (symbols · callers · crate deps) | `.andromeda/cache/tree.db` — query via `scripts/code-graph.py query`; schema + templates in `scripts/code-graph-cookbook.md` |
 | MCP read-back contract + preflight gate | `.andromeda/architecture.md` §Standard Contracts |
 | Run-report envelope | `.andromeda/architecture.md` §Standard Contracts · `.andromeda/test-plan.md` §3 |
