@@ -22,13 +22,13 @@ use crate::{CapabilityManifest, CapabilityRow, CoreError};
 /// (arch §Established Decisions [Accepted Capability Set]) — nothing here widens or narrows what a
 /// scenario may name, and an id listed below is still fully accepted at scenario load.
 ///
-/// Retirement owner: the `v2-03` Current-SUT coverage classification chunk empties this list once it
-/// classifies these capabilities. The ledger cannot outlive its truth — [`check_sut_drift`] fails on an
-/// entry that has since been classified, so shrinking it is forced rather than remembered.
-pub const KNOWN_UNCLASSIFIED: &[&str] = &[
-    "P-061", "P-062", "P-063", "P-064", "P-065", "P-066", "P-067", "P-068", "P-069", "P-070", "P-071",
-    "P-072", "P-073", "P-074", "P-075", "P-076", "P-077", "P-078", "P-079", "P-080", "P-081", "P-082",
-];
+/// **Empty since the `v2-03` Current-SUT coverage classification chunk**, which classified the twenty-two
+/// ids (`P-061`..`P-082`) this ledger was minted to record. [`check_sut_drift`] therefore degenerates to
+/// the plain zero-drift assertion: every accepted id is classified, and every classified id is accepted.
+/// Should Pulse's ledger advance again, prefer classifying the new ids over re-populating this list —
+/// a non-empty ledger is a debt, and the gate fails on an entry that has since been classified, so it
+/// can only ever shrink under compulsion.
+pub const KNOWN_UNCLASSIFIED: &[&str] = &[];
 
 /// Compare the accepted capability set against the coverage classification.
 ///

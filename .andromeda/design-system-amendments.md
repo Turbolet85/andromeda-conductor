@@ -26,3 +26,8 @@ _Append-only changelog of amendments to `design-system.md` (the body holds only 
 **Section:** §Color Palette (Primary) · §Typography (Data row) · §Surface: cli ANSI map · §Brand Identity
 **Change:** Mono status-tier / ANSI-117 usage examples name "P-IDs" instead of the fixed `P-001..P-060` range.
 **Why:** Illustrative examples carried the superseded range; no token, hex or type-role changed.
+
+## 2026-08-09-current-sut-coverage-classification — De-hardcoded the last two literal-60 prose counts
+**Section:** §Brand Identity (Domain anchors) · §Surface: desktop-webview → Component Patterns 3 (Coverage matrix)
+**Change:** "the dense single-row-per-P-ID wall of all 60 capabilities" now reads "over the manifest's accepted capability set"; "Virtual-scroll for the full 60-row wall" now reads "for the full wall (one row per manifest capability)". Wording only — no token, hex, or type-role changed.
+**Why:** The coverage classification widened from 60 to 82 rows this chunk, so both counts were stale. These are the two prose sites the 2026-08-08 de-hardcoding sweep missed while correcting the token-usage examples — same rationale, same de-hardcode-don't-substitute treatment (name the set, never the new literal). The edits landed at /implement (see this chunk's report §Deviations 1); this entry is the history half that flow owed. Cascade: `.claude/docs/design-summary.md` + `.claude/rules/frontend.md`.

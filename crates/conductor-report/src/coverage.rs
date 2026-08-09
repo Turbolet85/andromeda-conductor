@@ -1,7 +1,7 @@
 //! The coverage-matrix Markdown artifact.
 //!
-//! Renders the `conductor-core` [`coverage_matrix`] classification (all sixty P-IDs) into
-//! `coverage-matrix.md` — Conductor's definition-of-done artifact. The render is a pure function of
+//! Renders the `conductor-core` [`coverage_matrix`] classification (every capability the SUT capability
+//! manifest accepts) into `coverage-matrix.md` — Conductor's definition-of-done artifact. The render is a pure function of
 //! the committed classification (no clock, no IO), so the artifact is byte-identical across runs
 //! (exact-string golden-testable, like [`RunReport`](crate::RunReport)). Unlike the per-run report
 //! (run_id-stemmed, `create_new`, never-overwrite), `coverage-matrix.md` is a single **regenerated**
@@ -78,19 +78,53 @@ mod tests {
         assert_eq!(CoverageMatrix::render(), CoverageMatrix::render());
     }
 
+    /// The summary line's FORMAT, locked exactly over a fixed synthetic set — so the shape stays
+    /// golden-tested without baking the live capability count (which the manifest owns).
+    #[test]
+    fn summary_line_format_is_exact() {
+        let rows = [
+            CapabilityRow { p_id: "P-001", title: "t", category: "c", mode: CoverageMode::Auto },
+            CapabilityRow { p_id: "P-002", title: "t", category: "c", mode: CoverageMode::Auto },
+            CapabilityRow {
+                p_id: "P-003",
+                title: "t",
+                category: "c",
+                mode: CoverageMode::DriveObserve,
+            },
+            CapabilityRow {
+                p_id: "P-004",
+                title: "t",
+                category: "c",
+                mode: CoverageMode::NotConductors,
+            },
+        ];
+        assert_eq!(
+            summary_line(&rows),
+            "**Capabilities** 4 · 2 auto · 1 drive+observe · 0 static-only · 1 not-conductors"
+        );
+    }
+
     #[test]
     fn renders_title_summary_and_table_header() {
+        let rows = coverage_matrix();
         let md = CoverageMatrix::render();
         let mut lines = md.lines();
         assert_eq!(lines.next(), Some("# Coverage matrix"));
         assert_eq!(lines.next(), Some(""));
-        assert_eq!(
-            lines.next(),
-            Some("**Capabilities** 60 · 40 auto · 13 drive+observe · 7 static-only")
-        );
+        assert_eq!(lines.next(), Some(summary_line(rows).as_str()));
         assert_eq!(lines.next(), Some(""));
         assert_eq!(lines.next(), Some("| P-ID | Title | Category | Mode |"));
         assert_eq!(lines.next(), Some("|---|---|---|---|"));
+    }
+
+    /// The per-mode counts must account for every row — no capability silently uncounted.
+    #[test]
+    fn summary_counts_sum_to_the_row_count() {
+        let rows = coverage_matrix();
+        let summed: usize =
+            CoverageMode::ALL.iter().map(|m| rows.iter().filter(|r| r.mode == *m).count()).sum();
+        assert_eq!(summed, rows.len());
+        assert!(summary_line(rows).starts_with(&format!("**Capabilities** {}", rows.len())));
     }
 
     #[test]
@@ -101,15 +135,25 @@ mod tests {
                 format!("| `{}` | {} | {} | {} |", r.p_id, r.title, r.category, r.mode.label());
             assert!(md.contains(&expected), "missing exact row: {expected}");
         }
-        assert_eq!(md.lines().filter(|l| l.starts_with("| `P-")).count(), 60);
+        assert_eq!(
+            md.lines().filter(|l| l.starts_with("| `P-")).count(),
+            coverage_matrix().len()
+        );
     }
 
     #[test]
     fn no_host_paths_or_struct_names_leak() {
         let md = CoverageMatrix::render();
-        for leak in
-            ["C:\\", "/Users/", "/home/", "CoverageMatrix", "CapabilityRow", "CoverageMode", "coverage_matrix"]
-        {
+        for leak in [
+            "C:\\",
+            "/Users/",
+            "/home/",
+            "CoverageMatrix",
+            "CapabilityRow",
+            "CoverageMode",
+            "coverage_matrix",
+            "NotConductors",
+        ] {
             assert!(!md.contains(leak), "leaked {leak:?}");
         }
     }

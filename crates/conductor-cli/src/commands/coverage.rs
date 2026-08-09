@@ -1,4 +1,4 @@
-//! `conductor coverage [--write]` — render the 60-P-ID coverage matrix; `--write` regenerates
+//! `conductor coverage [--write]` — render the capability coverage matrix; `--write` regenerates
 //! `coverage-matrix.md` at the repo root (the definition-of-done artifact).
 
 use std::path::Path;

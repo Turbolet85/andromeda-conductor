@@ -46,7 +46,7 @@ pub enum Commands {
         #[arg(long)]
         json: bool,
     },
-    /// Render the 60-P-ID coverage matrix (the definition-of-done classification).
+    /// Render the capability coverage matrix (the definition-of-done classification).
     Coverage {
         /// Regenerate `coverage-matrix.md` at the repo root.
         #[arg(long)]

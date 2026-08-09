@@ -8,6 +8,16 @@ _This file is entirely wrap-session's territory. `/andromeda-setup-project` crea
 
 ---
 
+## 2026-08-09 — A baked count inside an illustrative sample is the same stale-derived-fact class as one in prose
+
+When a chunk invalidates a derived fact (here: the coverage classification widening from 60 to 82 capabilities), the de-hardcoding sweep must reach **sample output and wireframe captions**, not just prose. Illustrative status is not an exemption — a reader takes a number from a sample exactly as readily as from a sentence, and leaving one behind recreates the very self-contradiction the sweep exists to remove. `layout-templates.md` had already been half-swept on 2026-08-08: its coverage header strip (`:37`) read "82 loaded (manifest set)" while the component prose (`:121`) still said "the full 60-row wall" — the document contradicted itself for a full version cycle because the earlier pass treated the two as different classes.
+
+The sharper trap is **coupled facts inside one sample**. The suite-run caption baked two numbers that had to agree: a per-state tally (`55 Pass · 1 Calib · 1 Fail · 1 Manual · 1 Residual · 1 Blocked`) and a step denominator (`step 60/60`), the first summing to the second. Fixing only the denominator would have left the sample internally inconsistent — strictly worse than the stale total it replaced, because an inconsistent example teaches nothing and reads as a typo. Fix such a caption as a unit and verify the arithmetic afterward (`77+1+1+1+1+1 = 82 = denominator`), and prefer the form a sibling passage already established (`(manifest set) 82 loaded`) so one convention governs the file.
+
+Practical sweep note: grep the *class*, not one phrasing — `60-P-ID`, `all 60`, `60-row`, `P-001\.\.P-060`, `60/60` each found different sites, and the eventual inventory (11 code sites + 6 spec sites) was roughly triple what the initial reading suggested. Guard the false positives explicitly: `Lamp::Blocked => 60` is an ANSI color code and `--fail-under-lines 60` is a coverage percentage, neither a capability count.
+
+---
+
 ## 2026-08-09 — Trace fidelity is not just the count: honoring `rows` while reconstructing composition from a truncated view
 
 The Tier-1 code-graph rule already says a `head`-ed or `LIMIT`-ed view is never the result — the run-dir trace's `rows` field is. There is a subtler way to break it that satisfies the letter of that rule: take the **count** from the trace, then reconstruct the **composition** from the truncated console output you happened to see. The count is right, the claim built on it is wrong, and nothing about the output looks suspicious.

@@ -114,7 +114,7 @@ fn list_scenarios_impl(
     conductor_core::list_scenarios(dir, capabilities).map_err(|e| sanitize_error(&e))
 }
 
-/// The 60-P-ID capability coverage classification (read-only) — the desktop twin of `conductor
+/// The capability coverage classification (read-only) — the desktop twin of `conductor
 /// coverage` / `coverage-matrix.md`. The view single-sources `conductor_core::coverage_matrix()`;
 /// it never re-authors the table. Infallible (a `static`, no IO), but kept `Result` for a uniform
 /// command surface with `list_scenarios`.
@@ -314,7 +314,7 @@ mod tests {
     }
 
     #[test]
-    fn coverage_matrix_command_returns_all_sixty_pids() {
+    fn coverage_matrix_command_returns_every_classified_pid() {
         let app = test_app();
         let window = main_window(&app);
         // CapabilityRow is Serialize-only (a command return, never read back), so assert on the JSON
@@ -324,8 +324,8 @@ mod tests {
             .expect("coverage rows deserialize");
         assert_eq!(
             rows.as_array().map(|a| a.len()),
-            Some(60),
-            "all P-001..P-060 surface through the IPC dispatch"
+            Some(conductor_core::coverage_matrix().len()),
+            "every classified capability surfaces through the IPC dispatch"
         );
     }
 

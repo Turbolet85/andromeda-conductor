@@ -118,11 +118,12 @@ Expression rationale: this is the design-system's single High-impact moment, and
 
 ### Component — Primary content block 1 (coverage matrix — dense single-row-per-P-ID)
 
-NOT a KPI-card grid (explicit Rejected Default) — a single dense list, Linear instrument-panel density: `color-raised-1` container, `radius-md`, `1px` `border-subtle` row dividers, row padding `space-md`, no shadows. Virtual-scroll for the full 60-row wall (P-001..P-060). Each row, left to right:
+NOT a KPI-card grid (explicit Rejected Default) — a single dense list, Linear instrument-panel density: `color-raised-1` container, `radius-md`, `1px` `border-subtle` row dividers, row padding `space-md`, no shadows. Virtual-scroll for the full wall — one row per capability in the manifest's accepted set. Each row, left to right:
 
 - **Status-lamp glyph** — the 6-state verdict/report-state lamp: filled dot for a measured verdict (`Pass`/`CalibrationRegion`/`Fail`) · hollow ring `Blocked` (never measured) · neutral checkbox `ManualCheck` (awaiting operator) · muted dashed dot `KnownResidual` (pre-accepted gap). `radius-full` at the icon size grid.
 - **Scenario label** (Body role, `text-secondary`).
 - **P-ID** (Data role, `color-id-cyan`) — e.g. `P-037`.
+- **Mode** (Data role) — the definition-of-done classification, rendered as text in exactly one of four values: `auto` · `drive+observe` · `static-only` · `not-Conductor's` (the last = outside Conductor's remit by standing non-goal, verified by the SUT's own suites). Never color-only; the header-strip tally counts all four, summing to the row count. The cli `conductor coverage` table mirrors the same four values as text.
 - **slo_tier** (Data role) — `<5s` / `<20s` / `<90s`.
 - **latency_ms** (Data role, `color-id-cyan`, right-aligned).
 
@@ -174,7 +175,7 @@ Every status above is **paired with an ASCII text prefix** (`[PASS]` / `[HOLD]` 
 - **`conductor suite`** — drive the full coverage suite across the manifest’s accepted set, MCP preflight readiness gate first, then the same run flow, ending in the dense coverage table.
 - **`conductor report <run_id>`** — re-print a stored run as a colored `comfy-table` results view (reads the per-run JSONL journal; the on-disk `<run_id>.md` artifact stays Markdown), pipe-friendly.
 - **`conductor preflight [--json]`** — the MCP readiness gate (the `agent-run boot` entrypoint): emits the `ReadyState` JSON (or a `[PASS]`/`[BLOCKED]` line) and exits 0 iff `ready:true`, non-zero on a Blocked precondition.
-- **`conductor coverage [--write]`** — render the static 60-P-ID coverage matrix (`coverage_matrix()` — P-ID / title / category / mode, the definition-of-done classification) as a `comfy-table`; `--write` regenerates `coverage-matrix.md` at the repo root.
+- **`conductor coverage [--write]`** — render the static capability-coverage matrix over the manifest's accepted set (`coverage_matrix()` — P-ID / title / category / mode, the definition-of-done classification) as a `comfy-table`; `--write` regenerates `coverage-matrix.md` at the repo root.
 - **`scripts/agent-run.sh`** — the headless, agent-driven source-of-truth path (the 5-command `boot`/`run`/`status`/`cleanup`/`logs` harness; `run` takes `--unit`/`--integration`/`--e2e` stage flags, default = the full bundled gate): same engine, TTY-gated so artifacts stay clean and the operator-pause is **never** blocked on an interactive prompt.
 
 ### Output structure — `conductor run <scenario>`
@@ -219,7 +220,7 @@ preflight  protocol 2024-11-05  tools 4/4  canary ok        <- [OK] readiness ga
   P-022   port-occupier          [BLOCKED]  —      —        —              <- measurement cols render — / null, never a red error
                                                                              precondition carried in the [BLOCKED] row’s detail
 
-  coverage  55 Pass · 1 Calib · 1 Fail · 1 Manual · 1 Residual · 1 Blocked  ·  step 60/60 done    <- summary caption; each count in its status-color map
+  coverage  77 Pass · 1 Calib · 1 Fail · 1 Manual · 1 Residual · 1 Blocked  ·  step 82/82 (manifest set) done   <- summary caption; each count in its status-color map; the per-state counts sum to the step denominator, which is the manifest's accepted set (as in the header strip above)
 ```
 
 ### Component — Header / banner

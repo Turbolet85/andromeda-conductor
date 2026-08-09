@@ -3,7 +3,7 @@ import type { Lamp } from '../lamp'
 import './CoverageMatrix.css'
 
 // Mirrors conductor-core CoverageMode's serde wire spellings (coverage.rs) — the command returns these.
-export type CoverageMode = 'auto' | 'drive+observe' | 'static-only'
+export type CoverageMode = 'auto' | 'drive+observe' | 'static-only' | 'not-conductors'
 
 // Mirrors conductor-core CapabilityRow (the `coverage_matrix` command's row shape).
 export interface CapabilityRow {
@@ -13,9 +13,14 @@ export interface CapabilityRow {
   mode: CoverageMode
 }
 
+// Every mode is counted, so the per-mode counts always sum to rows.length (a11y-plan §4, SC 4.1.3 —
+// no capability silently uncounted). Mirrors conductor-core CoverageMode::ALL's order.
+const MODES: CoverageMode[] = ['auto', 'drive+observe', 'static-only', 'not-conductors']
+
 function tally(rows: CapabilityRow[]): string {
   const by = (m: CoverageMode) => rows.filter((r) => r.mode === m).length
-  return `${rows.length} capabilities · ${by('auto')} auto · ${by('drive+observe')} drive+observe · ${by('static-only')} static-only`
+  const parts = MODES.map((m) => `${by(m)} ${m}`).join(' · ')
+  return `${rows.length} capabilities · ${parts}`
 }
 
 // The dense single-row-per-P-ID coverage wall (design-system §Component Patterns §3 — instrument-panel

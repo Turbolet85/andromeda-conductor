@@ -186,13 +186,12 @@ fn preflight_json_blocks_without_pulse_and_exits_nonzero() {
 }
 
 #[test]
-fn coverage_lists_all_sixty_pids() {
-    Command::cargo_bin("conductor")
-        .unwrap()
-        .arg("coverage")
-        .assert()
-        .success()
-        .stdout(predicate::str::contains("P-001").and(predicate::str::contains("P-060")));
+fn coverage_lists_every_classified_pid() {
+    let assert = Command::cargo_bin("conductor").unwrap().arg("coverage").assert().success();
+    let stdout = String::from_utf8(assert.get_output().stdout.clone()).unwrap();
+    for row in conductor_core::coverage_matrix() {
+        assert!(stdout.contains(row.p_id), "missing {} in coverage output", row.p_id);
+    }
 }
 
 #[test]

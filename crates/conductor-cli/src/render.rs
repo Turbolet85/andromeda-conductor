@@ -74,8 +74,8 @@ pub fn results_table(records: &[RunRecord]) -> String {
     results_table_styled(records, stdout_color())
 }
 
-/// The static coverage matrix — all sixty P-IDs by mode (the definition-of-done classification; carries
-/// no per-run lamp).
+/// The static coverage matrix — every accepted capability by mode (the definition-of-done
+/// classification; carries no per-run lamp).
 pub fn coverage_table() -> String {
     coverage_table_styled(stdout_color())
 }
@@ -285,10 +285,10 @@ mod tests {
     }
 
     #[test]
-    fn coverage_table_renders_all_sixty_pids() {
+    fn coverage_table_renders_every_classified_pid() {
         let table = coverage_table_styled(false);
-        for n in 1..=60 {
-            assert!(table.contains(&format!("P-{n:03}")), "missing P-{n:03}");
+        for row in conductor_core::coverage_matrix() {
+            assert!(table.contains(row.p_id), "missing {}", row.p_id);
         }
         assert!(!table.contains('\u{1b}'));
     }
