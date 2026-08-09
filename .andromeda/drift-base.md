@@ -69,6 +69,12 @@ for the report to carry it (extend report-template) — never re-derive from git
   check: agent-read — if the report adds a UI surface or region, confirm it maps to a §Wireframe entry; an undocumented surface is drift.
   severity: warning
 
+- id: D-layout-derived-count
+  doc: layout-templates
+  invariant: a count / range / qualifier the doc states in a sample caption, wireframe or selector label matches the value the chunk's code now produces.
+  check: agent-read — for each entry in the report's `Counts / qualifiers this chunk moved` bullet, grep the doc for the OLD value in a caption / sample / wireframe / token label; a hit is drift (the doc bakes a value the code no longer produces). Prose naming the SET rather than a literal is correct and NOT a hit — the fix is always to name the set or update the sample, never to substitute a fresh literal that re-stales.
+  severity: warning
+
 # — test-plan —
 - id: D-tests-coverage
   doc: test-plan
@@ -86,6 +92,12 @@ for the report to carry it (extend report-template) — never re-derive from git
   doc: test-plan
   invariant: the 5-command harness / envelope shape / JSONL log format stays consistent between test-plan §3 and obs-plan §3.
   check: agent-read — if the report changes the harness, status-read, or log format, confirm §3 ↔ obs-plan §3 still agree; a one-sided change is drift.
+  severity: warning
+
+- id: D-tests-derived-count
+  doc: test-plan
+  invariant: a count / range / qualifier the doc states in a selector label, fixture count or tier table matches the value the chunk's code now produces.
+  check: agent-read — for each entry in the report's `Counts / qualifiers this chunk moved` bullet, grep the doc for the OLD value in a selector label / fixture count / tier table; a hit is drift (the doc bakes a value the code no longer produces). Prose naming the SET rather than a literal is correct and NOT a hit — the fix is always to name the set or update the sample, never to substitute a fresh literal that re-stales.
   severity: warning
 
 # — obs-plan —

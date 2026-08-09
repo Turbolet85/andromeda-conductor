@@ -1,0 +1,35 @@
+# P-072 — Investigate Actions Functional (Pulse v0.3.0, AI-debug climax).
+#   P-072 — the Investigate action on a surfaced incident produces a real L4-backed result rather than a
+#     dead control or an empty panel. Conductor drives a fault severe enough that an incident forms and
+#     becomes investigable; the operator triggers Investigate in Pulse's UI and confirms a real result
+#     comes back. Triggering the action is Pulse's UI surface — "no UI automation of Pulse" is a standing
+#     non-goal, which is why this is drive+observe and not auto.
+# Coverage mode: drive+observe — Conductor drives the stimulus that makes an incident investigable; the
+#   operator performs the action and confirms the result (empty `expected` → verdict None → Lamp::Manual).
+# Declare-only, both with named owners:
+#   - the RESULT'S QUALITY (does the L4 answer actually identify the cause) is the recorded `v2-05`
+#     interpretation deferral: under deterministic L4 the pipeline carries a canned L4Output, so a green
+#     leg proves the plumbing and never the interpretation. Owner: a conductor-0.3.0 entry.
+#   - `retrieve_report` read-back of the produced result awaits real per-check extraction (`v2-09`);
+#     until then execute_scenario grades against a placeholder, so an expected check here would assert
+#     nothing about P-072.
+name = "investigate-actions-functional"
+p_ids = ["P-072"]
+seed = 4317072
+slo_tier = "<90s"   # an incident must form through the L2 cue → L3 digest → L4 pipeline — the slow tier
+jitter_ms = 50
+
+[[phases]]
+name = "baseline"   # nominal traffic: no incident, nothing to investigate
+gap_ms = 3000
+
+[[phases]]
+name = "fault-injection"   # a sustained error-shaped stream drives an incident that becomes investigable
+gap_ms = 20000
+
+[[phases]]
+name = "hold-for-investigate"   # traffic quiets so the incident is stable while the operator investigates
+gap_ms = 12000
+
+# Operator-checklist (drive+observe): no [[expected]] block. The operator triggers Investigate and confirms
+# a real L4-backed result returns; the empty expected routes the check to ManualCheck downstream.

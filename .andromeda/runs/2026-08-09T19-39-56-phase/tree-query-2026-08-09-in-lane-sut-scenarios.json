@@ -1,0 +1,121 @@
+[
+{
+"sql": "SELECT callee, file, line FROM refs WHERE callee LIKE '%UNBACKED_AUTO%' ORDER BY file, line;",
+"rows": 13,
+"result": [
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 drift/UNBACKED_AUTO.",
+"file": "crates/conductor-cli/src/render.rs",
+"line": 17
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 drift/UNBACKED_AUTO.",
+"file": "crates/conductor-cli/src/render.rs",
+"line": 208
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 drift/UNBACKED_AUTO.",
+"file": "crates/conductor-cli/src/render.rs",
+"line": 209
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 drift/UNBACKED_AUTO.",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 310
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 drift/UNBACKED_AUTO.",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 36
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 drift/UNBACKED_AUTO.",
+"file": "crates/conductor-report/src/coverage.rs",
+"line": 13
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 drift/UNBACKED_AUTO.",
+"file": "crates/conductor-report/src/coverage.rs",
+"line": 28
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 drift/UNBACKED_AUTO.",
+"file": "crates/conductor-report/src/coverage.rs",
+"line": 164
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 drift/UNBACKED_AUTO.",
+"file": "crates/conductor-report/src/coverage.rs",
+"line": 178
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 drift/UNBACKED_AUTO.",
+"file": "crates/conductor-report/src/coverage.rs",
+"line": 189
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 drift/UNBACKED_AUTO.",
+"file": "crates/conductor-report/src/coverage.rs",
+"line": 191
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 drift/UNBACKED_AUTO.",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 140
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 drift/UNBACKED_AUTO.",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 357
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee LIKE '%check_scenario_backing%' ORDER BY file, line;",
+"rows": 8,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 drift/tests/the_committed_catalog_matches_the_unbacked_ledger().",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 310
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 drift/tests/an_auto_row_with_no_scenario_outside_the_ledger_is_a_fault().",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 317
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 drift/tests/a_ledger_entry_a_scenario_now_names_is_a_fault().",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 328
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 drift/tests/a_ledger_entry_no_longer_auto_classified_is_a_fault().",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 340
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 drift/tests/a_fully_backed_classification_with_an_empty_ledger_passes().",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 351
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 drift/tests/only_auto_rows_need_scenario_backing().",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 364
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 drift/tests/backing_message_names_identity_without_host_paths_or_type_names().",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 370
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 crate/",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 36
+}
+],
+"db_state": "fresh"
+}
+]

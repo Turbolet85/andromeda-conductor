@@ -1,0 +1,35 @@
+# P-067 — Live-Only Service Truth (Pulse v0.3.0, State honesty & legibility). The first catalog entry
+#   above P-060.
+#   P-067 — the constellation shows only currently-LIVE services: a persisted registry entry for a
+#     service that has stopped emitting is hidden or marked historical, and recency labels stay honest
+#     rather than implying a dead service is still reporting. Conductor drives a multi-service topology
+#     in which one service.name falls silent while the others keep emitting, so a stale registry row is
+#     distinguishable from a live one. The registry render is Pulse's.
+# Coverage mode: drive+observe — there is NO programmatic read-back of the rendered service registry, so
+#   this scenario declares NO expected check: it DRIVES the divergence between live and stale services and
+#   the operator confirms the surface via the generated checklist (empty `expected` → verdict None →
+#   Lamp::Manual, the ManualCheck / operator-checklist path).
+# Declare-only: the "hidden vs marked historical" treatment choice (Pulse's render decision, not a
+#   Conductor-drivable distinction); the recency-label WORDING; the latency from last-span to the
+#   historical mark (a delegated timing measurement, Epoch-4).
+name = "live-only-service-truth"
+p_ids = ["P-067"]
+seed = 4317067
+slo_tier = "<20s"   # the registry must age a service out past the live window — the middle tier (calibration point)
+jitter_ms = 50
+
+[[phases]]
+name = "three-services-live"   # three service.names emitting together: three live registry entries
+gap_ms = 3000
+
+[[phases]]
+name = "one-service-stops"   # one service.name stops emitting; the other two continue
+gap_ms = 12000
+
+[[phases]]
+name = "survivors-still-live"   # the remaining two keep emitting → the stopped one must read as stale, not live
+gap_ms = 3000
+
+# Operator-checklist (drive+observe): no [[expected]] block. Whether the stopped service is hidden or
+# marked historical — and whether its recency label stays honest — is verified by the operator, not by MCP
+# read-back; the empty expected routes the check to ManualCheck downstream.

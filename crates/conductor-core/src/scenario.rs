@@ -978,4 +978,79 @@ expected = "Receiving"
         assert!(shapes.iter().any(|empty| *empty), "the suite carries declare-only (empty-expected) members");
         assert!(shapes.iter().any(|empty| !*empty), "the suite carries Hard (non-empty-expected) members");
     }
+
+    #[rstest]
+    #[case("live-only-service-truth", &["P-067"])]
+    #[case("investigate-actions-functional", &["P-072"])]
+    #[case("constellation-severity-live-wiring", &["P-079"])]
+    fn in_lane_sut_fixtures_load_and_validate(#[case] stem: &str, #[case] p_ids: &[&str]) {
+        // The catalog's first entries above P-060 — expressible only because the accepted set is manifest
+        // data rather than the superseded compile-time bound.
+        let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
+        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
+        assert_eq!(s.name, stem);
+        let want: Vec<PId> = p_ids.iter().map(|p| PId(p.to_string())).collect();
+        assert_eq!(s.p_ids, want);
+    }
+
+    #[rstest]
+    #[case("live-only-service-truth")]
+    #[case("investigate-actions-functional")]
+    fn in_lane_drive_observe_members_are_operator_checklist(#[case] stem: &str) {
+        // P-067's registry render and P-072's Investigate action are both DriveObserve: no programmatic
+        // read-back, and triggering the action is Pulse UI (a standing non-goal). Empty expected → verdict
+        // None → Lamp::Manual.
+        let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
+        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
+        assert!(
+            s.expected.is_empty(),
+            "{stem} is drive+observe (empty expected -> ManualCheck downstream)"
+        );
+    }
+
+    #[test]
+    fn constellation_severity_live_wiring_asserts_incident_visibility_via_hard_count_floor() {
+        // P-079: incidents are filtered by the workspace key, so a diverged app/sidecar key returns zero
+        // rows. The floor asserts the storm's incident is visible through read-back AT ALL — deliberately
+        // not a candidate token, which belongs to fingerprint-storm (one outcome per token).
+        let path = format!(
+            "{}/../../scenarios/constellation-severity-live-wiring.toml",
+            env!("CARGO_MANIFEST_DIR")
+        );
+        let toml = std::fs::read_to_string(&path).expect("fixture readable");
+        let s = Scenario::from_toml_str(&toml).expect("fixture valid");
+        assert!(
+            s.expected.iter().any(|c| c.kind == ComparisonKind::CountAtLeast
+                && c.class == ClaimClass::Hard
+                && c.expected == "1"),
+            "P-079 asserts incident visibility via a Hard CountAtLeast \"1\""
+        );
+    }
+
+    #[test]
+    fn in_lane_sut_suite_mixes_operator_checklist_and_auto() {
+        // The in-lane family spans two coverage modes — two DriveObserve members and one Auto member — so
+        // the suite must exercise both shapes, like the constellation and scrub families before it.
+        let stems = [
+            "live-only-service-truth",
+            "investigate-actions-functional",
+            "constellation-severity-live-wiring",
+        ];
+        let shapes: Vec<bool> = stems
+            .iter()
+            .map(|stem| {
+                let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
+                let toml = std::fs::read_to_string(&path)
+                    .unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+                Scenario::from_toml_str(&toml)
+                    .unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"))
+                    .expected
+                    .is_empty()
+            })
+            .collect();
+        assert!(shapes.iter().any(|empty| *empty), "the suite carries drive+observe members");
+        assert!(shapes.iter().any(|empty| !*empty), "the suite carries an auto member");
+    }
 }

@@ -1,0 +1,40 @@
+# P-079 — Constellation Severity Live-Wiring (Pulse v0.3.0, Operator-surfaced).
+#   P-079 — Pulse reconciled the incident workspace key (the resolver's data_dir vs the producer's
+#     detected project root) so per-service severity and the incidents panel light up under a live storm.
+#     The externally observable consequence is single-sourcing: incidents are filtered `WHERE workspace = ?`,
+#     so when the app and the MCP sidecar disagree on that key, query_incident_list returns ZERO rows and a
+#     run reproduces `Blocked: incident not found in corpus` even with deterministic L4 on.
+# Coverage mode: auto — Conductor drives the storm AND asserts the reaction through MCP read-back. The
+#   per-service severity RENDER is Pulse's, but incident VISIBILITY to the sidecar is read-back-observable,
+#   and visibility is exactly what a diverged key destroys.
+# The asserted check is a count floor, deliberately not a candidate token: "RetryStorm" belongs to
+#   fingerprint-storm.toml, and asserting it here would make this scenario go red for storm-detection
+#   reasons unrelated to the workspace key (the outcome-coherence discipline — one outcome per token).
+# Declare-only: the per-service severity render and the incidents-panel lighting (operator-checklist);
+#   which candidate type the storm surfaces (fingerprint-storm's, P-018).
+# Calibration points: the count floor of 1 is the minimum that distinguishes "visible" from "invisible"
+#   rather than a modelled incident count; the <20s tier tracks storm detection, not the L4 cadence.
+name = "constellation-severity-live-wiring"
+p_ids = ["P-079"]
+seed = 4317079
+slo_tier = "<20s"   # tracks storm detection through to a corpus-visible incident — the middle tier (calibration point)
+jitter_ms = 50
+
+[[phases]]
+name = "quiet-baseline"   # nominal traffic: no incident in the corpus yet
+gap_ms = 3000
+
+[[phases]]
+name = "identical-fingerprint-storm"   # a sustained same-fingerprint storm drives an incident into the corpus
+gap_ms = 15000
+
+[[phases]]
+name = "storm-sustained"   # the storm continues so the incident is durable when read-back queries the corpus
+gap_ms = 12000
+
+# P-079 — the storm's incident is visible through read-back AT ALL. A diverged workspace key (app on the
+# detected root, sidecar on data_dir) returns zero rows here, which is the whole capability under test.
+[[expected]]
+kind = "CountAtLeast"
+class = "Hard"
+expected = "1"

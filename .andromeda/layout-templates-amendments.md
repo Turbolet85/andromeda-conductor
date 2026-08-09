@@ -36,3 +36,8 @@ _Append-only changelog of amendments to `layout-templates.md` (the body holds on
 **Section:** §Surface: cli → Primary screens (`conductor coverage [--write]`)
 **Change:** the roll-up caption literal now reads `… 66 in scope (43 auto (11 unbacked) · 16 drive+observe · 7 static-only) …`; the parenthetical qualifies the auto term only, is never a fifth summand, is plain text with no new token/ANSI/colour, is omitted at zero, and reaches the webview via the coverage matrix's `unbacked` prop (sourced from the `unbacked_auto` command, never mirrored in TypeScript).
 **Why:** the chunk shipped the qualifier on all three surfaces; the documented caption still showed the pre-qualifier shape.
+
+## 2026-08-09-in-lane-sut-scenarios — coverage roll-up caption: 11 → 10 unbacked
+**Section:** Surface: cli → Primary screens → `conductor coverage [--write]`
+**Change:** the quoted roll-up caption literal now reads `82 capabilities · 66 in scope (43 auto (10 unbacked) · 16 drive+observe · 7 static-only) · 16 not-conductors`. Only the qualifier moved; the surrounding rules (qualifies the auto term only, never a fifth summand, manifest-derived never a literal, plain text with no token/ANSI/colour, omitted at zero, identical on all three surfaces via the `unbacked` prop) are unchanged.
+**Why:** the chunk named `P-079` in `constellation-severity-live-wiring.toml`, so `conductor_core::UNBACKED_AUTO` shrank 11 → 10 and every surface now renders `(10 unbacked)` — verified live via `conductor coverage`. The doc's sample caption still showed the pre-chunk value. Detector-raised (D-layout-surface) off the report's `Counts / qualifiers this chunk moved` bullet.

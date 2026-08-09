@@ -16,6 +16,14 @@ The sharper trap is **coupled facts inside one sample**. The suite-run caption b
 
 Practical sweep note: grep the *class*, not one phrasing — `60-P-ID`, `all 60`, `60-row`, `P-001\.\.P-060`, `60/60` each found different sites, and the eventual inventory (11 code sites + 6 spec sites) was roughly triple what the initial reading suggested. Guard the false positives explicitly: `Lamp::Blocked => 60` is an ANSI color code and `--fail-under-lines 60` is a coverage percentage, neither a capability count.
 
+**Extended 2026-08-09 (in-lane-sut-scenarios) — the class reached recurrence #3 and is now machine-detected.** Three consecutive chunks staled a documented derived value with no drift-base invariant covering it (out-of-scope treatment ×2, then `UNBACKED_AUTO` 11 → 10 staling `layout-templates:178`'s caption *and* `test-plan:306`'s `P-001..P-060` selector range). Three things generalize from closing it:
+
+**A detector needs a fact to bind to.** The class was invisible because the report had no bullet for it — the structural families (Files / Symbols / Crates / Dependencies / Schema) describe *what was added*, never *which documented derived value moved*. Adding a `Counts / qualifiers this chunk moved` bullet to the report is what let `D-layout-surface` fire; its proposal rationale cites that exact bullet. The report↔detector contract is load-bearing in both directions: extend the report first, then the detector has something to read. Two detectors now cover it (`D-layout-derived-count`, `D-tests-derived-count`) — drift-base scopes one detector to one doc, so a cross-doc invariant costs one entry per doc.
+
+**The fix is to name the SET, never substitute a fresh literal.** `P-001..P-060` → "the manifest's accepted set", not → `P-001..P-082`. A new literal is the same bug with a later expiry date, and it re-stales on the next SUT release. This is why the two leaf distillations needed *no* edit this time: `design-summary.md` and `tests-summary.md` had already been written to name the mechanism (`(N unbacked)`, "the `UNBACKED_AUTO` pin") rather than the value, so re-derivation produced identical text. Prose naming the set is correct and must not be "fixed".
+
+**A doc-agent can see a finding and decline to raise it.** The test-plan detector *found* the stale `P-001..P-060` range and wrote, in prose after its `proposals: []`, that it was "not what any of my three invariants guard". It was right — and the finding survived only because that trailing prose was read before the strip step discarded it. When a detector returns clean but explains itself, read the explanation: a scoped agent correctly refusing to exceed its remit is reporting a gap in the *detector set*, not an absence of drift.
+
 ---
 
 ## 2026-08-09 — Trace fidelity is not just the count: honoring `rows` while reconstructing composition from a truncated view

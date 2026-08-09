@@ -303,7 +303,7 @@ _[Included — cli + desktop-webview surfaces are agent-drivable.]_
 
 (Skip surfaces flagged "untestable" in test-scope Section 1: live Pulse + encrypted `corpus.db`, `OsKeychainBackend`, `drive+observe` human visual judgment, `static-only` Pulse capabilities — no driver assigned.)
 
-**Selector strategy:** role/text/data-testid + brand anchors (upstream-context Layout Templates Signature Placements + Design System brand anchors) — text-paired status labels `[PASS]`/`[FAIL]`/`[HOLD]`/`[MANUAL]`/`[RESIDUAL]`/`[BLOCKED]` (color never sole signal, so text/role selectors are reliable per the Color-Only a11y rule), `role="alertdialog"` on the operator-pause dialog, `aria-live` HOLD/verdict announcements, signature heading text "HOLD — operator pause", and mono P-ID tokens (`P-001`..`P-060`) for coverage-matrix/report rows. NO xpath, NO hashed-CSS-class selectors.
+**Selector strategy:** role/text/data-testid + brand anchors (upstream-context Layout Templates Signature Placements + Design System brand anchors) — text-paired status labels `[PASS]`/`[FAIL]`/`[HOLD]`/`[MANUAL]`/`[RESIDUAL]`/`[BLOCKED]` (color never sole signal, so text/role selectors are reliable per the Color-Only a11y rule), `role="alertdialog"` on the operator-pause dialog, `aria-live` HOLD/verdict announcements, signature heading text "HOLD — operator pause", and mono P-ID tokens (the manifest's accepted set) for coverage-matrix/report rows. NO xpath, NO hashed-CSS-class selectors.
 
 **Critical path scenarios** (translated from test-scope Section 4):
 

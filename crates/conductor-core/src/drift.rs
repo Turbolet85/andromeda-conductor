@@ -55,11 +55,11 @@ pub const KNOWN_UNCLASSIFIED: &[&str] = &[];
 /// identifies it, which needs both real per-check read-back extraction and a non-deterministic live leg
 /// that can never be a CI gate. **Owner: a conductor-0.3.0 entry.**
 ///
-/// The remaining seven retire as their scenarios land; `P-073`/`P-074`/`P-079` are already owned by the
-/// in-lane SUT-scenarios entry.
+/// The remaining six retire as their scenarios land. `P-073` is owned by the Pulse-run-contract entry and
+/// `P-074` by the fingerprint-storm live-proof entry; `P-079` left this ledger when
+/// `constellation-severity-live-wiring` named it.
 pub const UNBACKED_AUTO: &[&str] = &[
     "P-031", "P-033", "P-034", "P-039", "P-041", "P-042", "P-043", "P-044", "P-073", "P-074",
-    "P-079",
 ];
 
 /// Compare the accepted capability set against the coverage classification.

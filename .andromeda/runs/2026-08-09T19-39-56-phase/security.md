@@ -1,0 +1,42 @@
+# security extract
+
+## Relevance
+Partial — no new external-input boundary, no dependency delta, no secret/auth surface; the live security obligations are scenario-config validation at load, the artifact/error sanitization posture of the roll-up surfaces, and the standing dependency-audit gate under the carried advisory-DB bounded wait.
+
+## Constraints
+- The three new `scenarios/*.toml` MUST be deserialized through the validating path — serde + garde `#[derive(Validate)]` `range` rules plus `#[garde(custom)]` cross-field rules co-located with the structs in their owning seam crate; a failed `Report` becomes `ConfigError` (harness fault), never a verdict (per security-plan.md §Input Validation, scenario-config row).
+- P-ID membership against `contracts/pulse-capabilities.toml` is an input-validation boundary, not a convenience check: the manifest is validated at load (non-empty version/date/set, `P-NNN` shape, no duplicates) via a fixed path through `resolve_under` with no `CONDUCTOR_*` override; read faults carry `e.kind()` only, never the path (per security-plan.md §Input Validation, capability-manifest boundary as amended 2026-08-08).
+- "No scenario without a P-ID" is a security-scope law, not just an architectural one — every new TOML must carry a P-ID accepted by the manifest, and no scenario may widen the surface toward an inbound listener of Conductor's own (per security-plan.md §Security Anti-Patterns → Universal).
+- The `[[expected]]`-bearing `Auto` scenario (P-079) must route read-back faults through the verdict/error wall as typed values: JSON-RPC errors, decode faults, and empty canary round-trips become `blocked`/typed `VerifyError`, never a panic and never a false pass-as-empty (per security-plan.md §Input Validation, MCP read-back child-stdout row; §Security Anti-Patterns → Input).
+- The `DriveObserve` scenarios' ManualCheck/operator-checklist output and the three coverage roll-up surfaces (Markdown report · CLI table · webview) must not leak absolute host paths (canonicalized `CONDUCTOR_*` dirs, `ANDROMEDA_PULSE_DATA_DIR`), stack traces, or internal seam-crate struct/field names — they are cross-host agent-parseable ground truth carrying verdict/state/identity fields only (per security-plan.md §Error Handling, run-report artifact sanitization; §Security Anti-Patterns → Logging).
+- `cargo audit` stays red on an advisory-DATABASE fault, so the remedy at this chunk's gates is the bounded wait alone with `cargo deny check advisories bans licenses sources` VERIFIED actually green as the overlapping signal — no floor raise, no `deny.toml` ignore, no CI edit, no silent accept (per security-plan.md §Dependency Security, two-fault split).
+- Any `runs.db` write touched while reconciling the unbacked qualifier must use rusqlite bound parameters — never `format!`/concatenated SQL, even for self-generated synthetic content (per security-plan.md §Input Validation, `runs.db` row; §Security Anti-Patterns → Input).
+
+## Patterns to follow
+- `scenarios/service-constellation-discovery.toml` is the shipped `DriveObserve`/ManualCheck precedent — reuse its already-validated struct shape so P-067 and P-072 add no new deserialization surface.
+- The existing `resolve_under` traversal guard is the shipped control for every artifact/config path handle; scenario and manifest reads reuse it rather than introducing a new path resolution.
+- Typed `thiserror` enums (`ConfigError`, `VerifyError`, `ContractMismatch`) stay module-internal and collapse to `anyhow` only at the `conductor-cli` edge — the load-failure path for the new TOMLs follows this existing collapse.
+- The verdict/error wall pattern: verification outcomes are `Ok(Verdict/ReportState)` values, `Result::Err` is reserved for harness faults — the P-079 expectation evaluation must honor this split.
+- Accepted-exception discipline for dependency gates lives in `deny.toml` with a justifying comment (RUSTSEC-2025-0119 `number_prefix`, `Zlib` for `foldhash`) — the mechanism exists and is unchanged; nothing new to add this chunk.
+
+## Anti-patterns to avoid
+- NEVER deserialize a scenario config without garde validation at load — an unvalidated `serde` deserialize bypasses the trust boundary (per security-plan.md §Security Anti-Patterns → Input).
+- NEVER silently downgrade a failed preflight or an empty read-back to pass/fail/manual-check — it must surface as the distinct `blocked` state with the named precondition string (per security-plan.md §Security Anti-Patterns → Universal).
+- NEVER add a `deny.toml` ignore, raise the audit-tool floor, or edit CI to make the red `cargo audit` look green — the fault is upstream advisory data, so any of these would be compliance theater (per security-plan.md §Dependency Security, two-fault split).
+
+## Contract bindings
+- **Roll-up sanitization ↔ obs**: the `(N unbacked)` derived qualifier renders on the same three coverage surfaces the obs plan owns (obs-plan §4 denominator semantics); the sanitization rule (no absolute paths / internal struct names) applies to those surfaces per security-plan.md §Error Handling.
+- **Dependency gate ↔ tests §CI Integration**: the `cargo audit` + `cargo deny check` steps are jobs in the single existing GitHub Actions workflow (build / nextest / clippy) per security-plan.md §Dependency Security → CI integration; the PREREQ's bounded wait is executed at this chunk's gates, not by a CI change.
+- **Capability-manifest validation ↔ arch scope law**: `Scenario::check_capabilities` is simultaneously the architecture's "no scenario without a P-ID" law and the security input boundary per security-plan.md §Input Validation.
+
+## Acceptance criteria contributions
+- (security) All three new `scenarios/*.toml` load through the garde-validating path and a deliberately malformed variant (out-of-range error fraction or violated p50≤p95≤p99) is rejected as `ConfigError`, not accepted or panicked — per security-plan.md §Input Validation (scenario-config row) and §Security Anti-Patterns → Input.
+- (security) Every new scenario's P-ID is asserted against `contracts/pulse-capabilities.toml`'s accepted set at load, and an unknown/malformed id fails loudly with the read fault carrying `e.kind()` only (never the path) — per security-plan.md §Input Validation (capability-manifest boundary, 2026-08-08 amendment) and §Security Anti-Patterns → Universal (scope law).
+- (security) No coverage roll-up surface (Markdown report · CLI table · webview) or ManualCheck checklist output emitted by the new scenarios contains an absolute host path, stack trace, or internal seam-crate struct/field name — grep the produced artifacts for the canonicalized `CONDUCTOR_*` / `ANDROMEDA_PULSE_DATA_DIR` roots — per security-plan.md §Error Handling (run-report artifact sanitization) and §Security Anti-Patterns → Logging.
+- (security) `cargo deny check advisories bans licenses sources` is run and observed green (output recorded, not assumed), and `cargo audit` is re-run with its result recorded as still-red-on-advisory-DB or the deferral closed if it now parses; no floor raise, `deny.toml` ignore, or CI edit was made — per security-plan.md §Dependency Security (two-fault split, bounded wait + verified overlap) and §Security Anti-Patterns → Universal.
+
+## Relevant amendment history
+- `2026-08-09-interpretation-correctness-posture` — §Dependency Security gained the TOOL-fault vs advisory-DATABASE-fault split; the immediately prior chunk proved `duplicate advisory ID: RUSTSEC-2026-0244` reproduces byte-identically on 0.22.1 and the latest 0.22.2, so a floor raise is unexecutable. This is the direct source of this chunk's PREREQ bounded-wait annotation.
+- `2026-08-08-sut-capability-manifest` — registered `contracts/pulse-capabilities.toml` as a validated external-input boundary (shape/duplicate/empty checks, `resolve_under` fixed path, no `CONDUCTOR_*` override) and dropped the P-001..P-060 enumeration from the scenario-config volume. This chunk's three new P-IDs (all > P-060) ride exactly that boundary.
+- `2026-06-15-config-validation-surface` — garde pinned 0.22.1 (0.23.0 unbuildable); the validation contract itself unchanged. Relevant because the three new scenario TOMLs are validated by that pinned garde.
+- `2026-06-23-line-oriented-output-rendering` — recorded the accepted `deny.toml` exceptions (RUSTSEC-2025-0119 ignore + `Zlib` license allow) and noted the `foldhash` license failure was pre-existing on HEAD's lock. Relevant context for confirming `cargo deny check` green here is genuine rather than newly suppressed.
