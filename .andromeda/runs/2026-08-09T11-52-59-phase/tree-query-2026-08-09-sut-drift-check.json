@@ -1,0 +1,550 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee LIKE '%coverage_matrix%' ORDER BY file, line;",
+"rows": 13,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-cli 0.1.0 render/",
+"file": "crates/conductor-cli/src/render.rs",
+"line": 17
+},
+{
+"caller": "rust-analyzer cargo conductor-cli 0.1.0 render/coverage_table_styled().",
+"file": "crates/conductor-cli/src/render.rs",
+"line": 161
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 coverage/tests/matrix_has_exactly_sixty_capabilities().",
+"file": "crates/conductor-core/src/coverage.rs",
+"line": 141
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 coverage/tests/p_ids_are_contiguous_p001_to_p060_zero_gaps_no_dups().",
+"file": "crates/conductor-core/src/coverage.rs",
+"line": 146
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 coverage/tests/named_static_only_anchors_are_static_only().",
+"file": "crates/conductor-core/src/coverage.rs",
+"line": 162
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 coverage/tests/every_mode_is_represented().",
+"file": "crates/conductor-core/src/coverage.rs",
+"line": 171
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 crate/",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 34
+},
+{
+"caller": "rust-analyzer cargo conductor-report 0.1.0 coverage/",
+"file": "crates/conductor-report/src/coverage.rs",
+"line": 13
+},
+{
+"caller": "rust-analyzer cargo conductor-report 0.1.0 coverage/impl#[CoverageMatrix]render().",
+"file": "crates/conductor-report/src/coverage.rs",
+"line": 24
+},
+{
+"caller": "rust-analyzer cargo conductor-report 0.1.0 coverage/tests/every_capability_renders_as_an_exact_row().",
+"file": "crates/conductor-report/src/coverage.rs",
+"line": 98
+},
+{
+"caller": "rust-analyzer cargo conductor-tauri 0.1.0 commands/coverage_matrix().",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 124
+},
+{
+"caller": "rust-analyzer cargo conductor-tauri 0.1.0 commands/tests/test_app().",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 276
+},
+{
+"caller": "rust-analyzer cargo conductor-tauri 0.1.0 main().",
+"file": "crates/conductor-tauri/src/main.rs",
+"line": 23
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT callee, file, line FROM refs WHERE callee LIKE '%CapabilityManifest%' ORDER BY file, line;",
+"rows": 75,
+"result": [
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#",
+"file": "crates/conductor-cli/src/paths.rs",
+"line": 9
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#",
+"file": "crates/conductor-cli/src/paths.rs",
+"line": 28
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/impl#[CapabilityManifest]default_path().",
+"file": "crates/conductor-cli/src/paths.rs",
+"line": 28
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#",
+"file": "crates/conductor-cli/src/paths.rs",
+"line": 33
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#",
+"file": "crates/conductor-cli/src/paths.rs",
+"line": 34
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/impl#[CapabilityManifest]load().",
+"file": "crates/conductor-cli/src/paths.rs",
+"line": 34
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#",
+"file": "crates/conductor-cli/src/paths.rs",
+"line": 86
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#",
+"file": "crates/conductor-cli/src/paths.rs",
+"line": 94
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 27
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/impl#[CapabilityManifest]validate().",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 43
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#capabilities.",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 45
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#sut_version.",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 47
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#capabilities.",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 54
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#sut_version.",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 58
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#captured_at.",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 61
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#capabilities.",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 64
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#capabilities.",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 67
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#capabilities.",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 68
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 92
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 93
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#sut_version.",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 94
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#captured_at.",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 95
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#capabilities.",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 96
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/impl#[CapabilityManifest]load().",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 102
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 102
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#sut_version.",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 103
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/impl#[CapabilityManifest]accepts().",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 104
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/impl#[CapabilityManifest]accepts().",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 105
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/impl#[CapabilityManifest]accepts().",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 106
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/impl#[CapabilityManifest]accepts().",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 107
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/impl#[CapabilityManifest]accepts().",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 108
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/impl#[CapabilityManifest]accepts().",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 109
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 114
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/impl#[CapabilityManifest]load().",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 114
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 121
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/impl#[CapabilityManifest]load().",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 121
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 132
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#sut_version.",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 132
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/impl#[CapabilityManifest]validate().",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 132
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 136
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#captured_at.",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 136
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/impl#[CapabilityManifest]validate().",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 136
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/impl#[CapabilityManifest]validate().",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 139
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/impl#[CapabilityManifest]validate().",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 144
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/impl#[CapabilityManifest]validate().",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 145
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/impl#[CapabilityManifest]validate().",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 146
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/impl#[CapabilityManifest]accepts().",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 152
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/impl#[CapabilityManifest]accepts().",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 153
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/impl#[CapabilityManifest]accepts().",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 154
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 32
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 18
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 131
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 140
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/impl#[CapabilityManifest]accepts().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 142
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#sut_version.",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 145
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 231
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 232
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#sut_version.",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 233
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#captured_at.",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 234
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#capabilities.",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 235
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#",
+"file": "crates/conductor-core/src/scenario_catalog.rs",
+"line": 11
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#",
+"file": "crates/conductor-core/src/scenario_catalog.rs",
+"line": 43
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/impl#[CapabilityManifest]load().",
+"file": "crates/conductor-core/src/scenario_catalog.rs",
+"line": 77
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#",
+"file": "crates/conductor-core/src/scenario_catalog.rs",
+"line": 77
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 17
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 56
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/impl#[CapabilityManifest]default_path().",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 58
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 58
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/impl#[CapabilityManifest]load().",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 60
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 60
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 67
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 76
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 88
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 94
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/CapabilityManifest#",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 111
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee LIKE '%accepts%' ORDER BY file, line;",
+"rows": 10,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/tests/loads_and_bounds_checks_the_committed_manifest().",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 104
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/tests/loads_and_bounds_checks_the_committed_manifest().",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 105
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/tests/loads_and_bounds_checks_the_committed_manifest().",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 106
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/tests/loads_and_bounds_checks_the_committed_manifest().",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 107
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/tests/loads_and_bounds_checks_the_committed_manifest().",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 108
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/tests/loads_and_bounds_checks_the_committed_manifest().",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 109
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/tests/accepts_only_ids_in_the_set().",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 152
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/tests/accepts_only_ids_in_the_set().",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 153
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 capability_manifest/tests/accepts_only_ids_in_the_set().",
+"file": "crates/conductor-core/src/capability_manifest.rs",
+"line": 154
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 scenario/impl#[Scenario]check_capabilities().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 142
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT symbol, crate, file FROM symbol WHERE symbol LIKE '%drift%';",
+"rows": 0,
+"result": [],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT DISTINCT from_crate, to_crate FROM crate_edges WHERE to_crate = 'conductor-core' OR from_crate = 'conductor-core';",
+"rows": 6,
+"result": [
+{
+"from_crate": "conductor-run",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-cli",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-tauri",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-report",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-timeline",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-verify",
+"to_crate": "conductor-core"
+}
+],
+"db_state": "fresh"
+}
+]

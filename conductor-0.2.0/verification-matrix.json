@@ -24,11 +24,11 @@
       "observed_gap": "Nothing in the repo detects that Pulse has advanced: the accepted set is a compile-time constant and the coverage universe is frozen, so 22 new Pulse capabilities (P-061..P-082) went unnoticed across a 41-day pause.",
       "verification": {
         "method": "unit",
-        "acceptance": "When the manifest carries capabilities the classification does not cover, the check fails naming the unknown ids; when manifest and classification are in sync it passes.",
-        "ref": null,
-        "status": "planned"
+        "acceptance": "When the manifest carries capabilities the classification does not cover beyond an explicitly pinned known-gap ledger, the check fails naming the unknown ids; when the observed gap matches the pin exactly — and no classified row lacks manifest backing — it passes. A pinned id that has since been classified is itself a failure, so the ledger cannot rot. With an empty pin the check is a plain zero-drift assertion, proven by test in this chunk and the state v2-03 leaves it in.",
+        "ref": "crates/conductor-core/src/drift.rs::tests::committed_artifacts_match_the_known_gap; crates/conductor-core/src/drift.rs::tests::an_accepted_id_outside_the_known_gap_is_drift; crates/conductor-core/src/drift.rs::tests::a_known_gap_entry_that_is_now_classified_is_drift; crates/conductor-core/src/drift.rs::tests::a_classified_id_the_manifest_dropped_is_drift; crates/conductor-core/src/drift.rs::tests::in_sync_with_an_empty_known_gap_passes",
+        "status": "verified"
       },
-      "chunk": null
+      "chunk": "2026-08-09-sut-drift-check"
     },
     {
       "id": "v2-03",

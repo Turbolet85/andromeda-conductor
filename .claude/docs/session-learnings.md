@@ -8,6 +8,16 @@ _This file is entirely wrap-session's territory. `/andromeda-setup-project` crea
 
 ---
 
+## 2026-08-09 — Trace fidelity is not just the count: honoring `rows` while reconstructing composition from a truncated view
+
+The Tier-1 code-graph rule already says a `head`-ed or `LIMIT`-ed view is never the result — the run-dir trace's `rows` field is. There is a subtler way to break it that satisfies the letter of that rule: take the **count** from the trace, then reconstruct the **composition** from the truncated console output you happened to see. The count is right, the claim built on it is wrong, and nothing about the output looks suspicious.
+
+Concretely: a `crate_edges` query with the canonical bidirectional predicate (`WHERE to_crate = 'X' OR from_crate = 'X'`) returned 6 rows. The visible tail showed five inbound edges, so the sixth was inferred to be outbound — plausible, since the query asks for both directions. In fact all six were inbound and the sixth was simply above the window; the crate imports no workspace crate at all. **A bidirectional `OR` predicate does not imply both directions are populated.**
+
+Read the trace's `result` array for composition, not only its `rows` scalar for arity — and when a claim rests on a direction, a subset, or a grouping, derive it from the result set, never from what scrolled past. The stakes are not cosmetic: a plan is `/andromeda-implement`'s input and the wrap report inherits whatever number stands in it, so a wrong split propagates into the permanent record. Corollary for writing it down: state the split explicitly ("6 rows, all inbound, zero outbound") rather than a bare count with an illustrative list, which invites the next reader to re-derive the same wrong inference.
+
+---
+
 ## 2026-06-27 — Live-Pulse E2E reference: the Pulse MCP read-back surface + the run recipe
 
 Verified live against the running Pulse this session (operator findings + direct probes):

@@ -16,6 +16,7 @@
 mod capability_manifest;
 mod config_path;
 mod coverage;
+mod drift;
 mod error;
 mod expected;
 mod lamp;
@@ -33,6 +34,7 @@ mod verdict;
 pub use capability_manifest::CapabilityManifest;
 pub use config_path::resolve_under;
 pub use coverage::{CapabilityRow, CoverageMode, coverage_matrix};
+pub use drift::{KNOWN_UNCLASSIFIED, check_sut_drift};
 pub use error::{CoreError, Result};
 pub use expected::{ClaimClass, ComparisonKind, ExpectedCheck};
 pub use lamp::Lamp;

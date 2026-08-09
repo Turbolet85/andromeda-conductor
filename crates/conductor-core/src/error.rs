@@ -20,6 +20,10 @@ pub enum CoreError {
     /// is trusted, never a [`crate::Verdict`]/[`crate::ReportState`].
     #[error("config validation failed: {0}")]
     Validation(#[from] garde::Report),
+    /// The SUT capability manifest and the coverage classification disagree — Pulse's ledger moved
+    /// past what Conductor has classified, or a classified capability lost its manifest backing.
+    #[error("SUT capability drift: {0}")]
+    SutDrift(String),
 }
 
 /// `conductor-core`'s harness-fault result alias: `Ok` carries a value (often a verification
