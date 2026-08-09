@@ -16,7 +16,7 @@ _Mirrors `.andromeda/architecture.md` §Stack and Technologies. Convenience refe
 - **Validation:** serde 1.0.x + garde 0.22.1 (`#[derive(Validate)]` range + `#[garde(custom)]` cross-field).
 - **Serialization:** serde_json 1.0 — canonical-name JSON for the run-report envelope + per-run JSONL journal (serde companion; report-seam runtime dep).
 - **Scenario config:** toml 0.9 — declarative TOML scenario files under `scenarios/` (serde-deserialized + garde-validated via `Scenario::from_toml_str`); chosen over JSON for hand-author ergonomics + inline comments (P4 decision); audit/deny-clean.
-- **Error handling:** thiserror 2.0.18 (per-seam enums) + anyhow 1.0.102 (binary edges).
+- **Error handling:** thiserror 2.0.18 (per-seam enums) + anyhow 1.0.104 (binary edges).
 
 ## Data Storage
 - **rusqlite 0.38.0 + libsqlite3-sys 0.36.0** (`bundled` SQLite 3.50.4, JSON1) — synchronous embedded `runs.db` index, raw SQL, no ORM/migrations.

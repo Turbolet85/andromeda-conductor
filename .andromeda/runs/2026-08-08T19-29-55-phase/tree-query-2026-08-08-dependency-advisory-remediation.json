@@ -1,0 +1,159 @@
+[
+{
+"sql": "SELECT symbol, crate, file, def_line FROM symbol WHERE symbol LIKE '%redact%' ORDER BY file, def_line",
+"rows": 25,
+"result": [
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 obs/tests/host_path_in_allowlisted_field_is_redacted().",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/obs.rs",
+"def_line": 473
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 obs/tests/panic_hook_redacts_host_path_in_payload().",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/obs.rs",
+"def_line": 482
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 obs/tests/file_sink_writes_redacted_json_to_the_file().",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/obs.rs",
+"def_line": 500
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 redact/",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/redact.rs",
+"def_line": 0
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 redact/REDACTED.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/redact.rs",
+"def_line": 14
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 redact/ALLOWLISTED_FIELDS.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/redact.rs",
+"def_line": 20
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 redact/is_allowlisted().",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/redact.rs",
+"def_line": 49
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 redact/redact_value().",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/redact.rs",
+"def_line": 62
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 redact/sanitize_error().",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/redact.rs",
+"def_line": 98
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 redact/is_host_path_token().",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/redact.rs",
+"def_line": 103
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 redact/tests/",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/redact.rs",
+"def_line": 126
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 redact/tests/benign_value_is_borrowed_unchanged().",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/redact.rs",
+"def_line": 130
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 redact/tests/repo_relative_source_path_is_kept().",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/redact.rs",
+"def_line": 139
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 redact/tests/windows_absolute_host_path_is_masked().",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/redact.rs",
+"def_line": 147
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 redact/tests/posix_home_paths_are_masked().",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/redact.rs",
+"def_line": 155
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 redact/tests/cargo_and_env_expansion_paths_are_masked().",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/redact.rs",
+"def_line": 162
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 redact/tests/module_and_type_names_are_not_over_redacted().",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/redact.rs",
+"def_line": 168
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 redact/tests/allowlist_membership().",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/redact.rs",
+"def_line": 178
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 redact/tests/SyntheticError#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/redact.rs",
+"def_line": 187
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 redact/tests/impl#[SyntheticError][Display]fmt().",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/redact.rs",
+"def_line": 190
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 redact/tests/sanitize_error_is_single_line_and_host_path_free().",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/redact.rs",
+"def_line": 201
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 prompt_is_redacted_in_the_resolution().",
+"crate": "conductor-core",
+"file": "crates/conductor-core/tests/operator_pause.rs",
+"def_line": 52
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 redact_value_is_idempotent().",
+"crate": "conductor-core",
+"file": "crates/conductor-core/tests/toolchain_smoke.rs",
+"def_line": 28
+},
+{
+"symbol": "rust-analyzer cargo conductor-verify 0.1.0 verdict/tests/observed_and_expected_are_redacted().",
+"crate": "conductor-verify",
+"file": "crates/conductor-verify/src/verdict.rs",
+"def_line": 90
+},
+{
+"symbol": "rust-analyzer cargo conductor-verify 0.1.0 observed_with_host_path_is_redacted_in_assessment().",
+"crate": "conductor-verify",
+"file": "crates/conductor-verify/tests/expected_slo.rs",
+"def_line": 74
+}
+],
+"db_state": "fresh"
+}
+]

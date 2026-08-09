@@ -10,7 +10,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
    ↓
 SUT-drift check — loud failure when Pulse's ledger advances past the capability set Conductor knows   CARRY: the accepted set now ships as `contracts/pulse-capabilities.toml` (`sut_version`/`captured_at`/`capabilities[]`) with `CapabilityManifest::load` + `accepts` — build the drift check over THAT, don't re-source it
    ↓
-Dependency advisory remediation — crossbeam-epoch ≥0.9.20 and quick-xml ≥0.41 through the Tauri tree, restoring cargo-audit and cargo-deny green
+[2026-08-08-dependency-advisory-remediation] Dependency advisory remediation — crossbeam-epoch ≥0.9.20 and quick-xml ≥0.41 through the Tauri tree, restoring cargo-audit and cargo-deny green
    ↓
 Current-SUT coverage classification — capabilities in the manifest as auto, drive+observe, static-only or not-Conductor's, the boundary a recorded decision   CARRY: `coverage.rs` is a `&'static str` `[CapabilityRow; 60]` documented "no runtime IO" — manifest-sourcing it is a representation change, and its two exactly-sixty tests move with it
    ↓
@@ -79,6 +79,6 @@ Run-report envelope conformance gate — every run journal row schema-complete a
    ↓
 Coverage completeness gate — zero-gap classification over the current SUT set with every CI gate green
    ↓
-Dependency polish — indicatif bump preserving the stop-in-place hold spinner, plus opentelemetry-proto default-features trim
+Dependency polish — indicatif bump preserving the stop-in-place hold spinner, plus opentelemetry-proto default-features trim   CARRY (from 2026-08-08-dependency-advisory-remediation): three PRE-EXISTING doc-vs-artifact gaps, none introduced by that chunk, all dismissed there under playbook:46 — arch §Stack/§Established Decisions/§Inherited Defaults name `tokio 1.48.x` (architecture.md:14, :41, :229) while the lock resolves **1.52.3**; arch §Stack/§Inherited Defaults name Tauri `v2.10.x / latest 2.10.1` (:26, :236) while it resolves **2.11.3**; and `deny.toml` carries 17 `[advisories] ignore` + 8 `[licenses] allow` entries while security-plan §Dependency Security's Accepted-exceptions paragraph names exactly one of each (`number_prefix` / RUSTSEC-2025-0119 and the `Zlib` allow). Reconcile the docs to the resolved artifacts here, where the dependency surface is already open
    ↓
 Release build and bundle — release binary plus Tauri 2 bundle with a final SLO verification pass

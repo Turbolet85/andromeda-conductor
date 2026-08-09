@@ -41,9 +41,6 @@ tonic = "0.14.6"
 tonic-prost = "0.14.6"
 prost = "0.14"
 
-# MCP read-back client
-rmcp = "1.7.0"
-
 # Storage — embedded SQLite index (bundled compiles SQLite C from source)
 rusqlite = { version = "0.38.0", features = ["bundled"] }
 
@@ -53,7 +50,7 @@ serde_json = "1.0"
 toml = "0.9"
 garde = "0.22.1"
 thiserror = "2.0.18"
-anyhow = "1.0.102"
+anyhow = "1.0.104"
 
 # CLI argument parsing (conductor-cli verbs)
 clap = { version = "4", features = ["derive"] }

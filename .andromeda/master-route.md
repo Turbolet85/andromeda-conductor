@@ -72,3 +72,4 @@ marker = {date}-{slug} (e.g. 2026-06-04-otlp-http-ingest), minted at promotion.
 
 ## conductor-0.2.0
 2026-08-08-sut-capability-manifest · complete · SUT capability manifest — versioned refs/ artifact as the accepted P-ID source replacing the compile-time 001..=060 bound; malformed/absent surfaces a named precondition, so a Pulse release is a data update not a code change (conductor-core, v2-01) · → conductor-0.2.0/chunks/2026-08-08-sut-capability-manifest/
+2026-08-08-dependency-advisory-remediation · complete · Dependency advisory remediation — lock-only bumps clearing RUSTSEC-2026-0194/-0195 (quick-xml→0.41.0, lever is plist 1.10.0 — no Tauri bump), -0204 (crossbeam-epoch→0.9.20, a dev-dep path) and the deny-only unsound -0190 (anyhow→1.0.104), restoring cargo-audit + cargo-deny green (Cargo.lock) · → conductor-0.2.0/chunks/2026-08-08-dependency-advisory-remediation/
