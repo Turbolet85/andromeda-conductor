@@ -16,7 +16,8 @@ use std::time::Instant;
 
 use conductor_core::{
     mint_run_id, resolve_under, sanitize_error, validate_selection, CapabilityManifest,
-    CapabilityRow, RunRecord, Scenario, ScenarioSummary, SUITE_SELECTION,
+    CapabilityRow, EnvelopeStatus, LoadEnvelope, RunRecord, Scenario, ScenarioSummary,
+    SUITE_SELECTION,
 };
 use conductor_run::{RunEvent, RunStage};
 use tauri::ipc::Channel;
@@ -59,6 +60,16 @@ fn capabilities() -> Result<CapabilityManifest, String> {
     let path = resolve_under(&base, &CapabilityManifest::default_path())
         .map_err(|e| sanitize_error(&e))?;
     CapabilityManifest::load(&path).map_err(|e| sanitize_error(&e))
+}
+
+/// The pinned SUT load envelope a run is judged against. A fixed in-repo path (no `CONDUCTOR_*`
+/// override), resolved through the same traversal guard; a missing or malformed envelope is a
+/// harness fault, never a silently unjudged run.
+fn load_envelope() -> Result<LoadEnvelope, String> {
+    let base = std::env::current_dir().map_err(|e| sanitize_error(&e))?;
+    let path =
+        resolve_under(&base, &LoadEnvelope::default_path()).map_err(|e| sanitize_error(&e))?;
+    LoadEnvelope::load(&path).map_err(|e| sanitize_error(&e))
 }
 
 /// Resolve a validated picker selection (a scenario name or the suite sentinel) to its scenarios.
@@ -200,13 +211,14 @@ pub fn start_run(
     let scenarios = resolve_selection(&dir, &selection, &capabilities)?;
     let runs_dir = runs_dir()?;
     let manifest = manifest_path()?;
+    let envelope = conductor_run::classify_run(&load_envelope()?, &scenarios);
     let run_id = mint_run_id();
     let abort = state.abort.clone();
     abort.store(false, Ordering::SeqCst);
     let resolver = TauriResolver::new(hold_gate.inner().clone(), on_hold);
-    tracing::info!(run_id = %run_id, "run starting (background)");
+    tracing::info!(run_id = %run_id, envelope = envelope.label(), "run starting (background)");
     std::thread::spawn(move || {
-        run_thread(scenarios, run_id, runs_dir, manifest, abort, resolver, on_event)
+        run_thread(scenarios, run_id, runs_dir, manifest, envelope, abort, resolver, on_event)
     });
     Ok(())
 }
@@ -214,11 +226,14 @@ pub fn start_run(
 /// The background run driver — a core-owned `current_thread` runtime that drives the pipeline and
 /// streams progress. A terminal `Aborted` event is always sent on a harness fault so the webview
 /// never hangs on a half-finished run.
+#[allow(clippy::too_many_arguments)] // the owned inputs the background thread takes across the
+// std::thread boundary; each is moved, so a bundling struct would only rename the same list
 fn run_thread(
     scenarios: Vec<Scenario>,
     run_id: String,
     runs_dir: PathBuf,
     manifest: PathBuf,
+    envelope: EnvelopeStatus,
     abort: Arc<AtomicBool>,
     resolver: TauriResolver,
     on_event: Channel<RunEvent>,
@@ -248,6 +263,7 @@ fn run_thread(
             &scenarios,
             &run_id,
             &runs_dir,
+            &envelope,
             &resolver,
             emit,
             || abort.load(Ordering::SeqCst),
@@ -405,6 +421,7 @@ mod tests {
             std::slice::from_ref(&scenario),
             "run-path7",
             dir.path(),
+            &EnvelopeStatus::InEnvelope,
             &HeadlessResolver::proceed(),
             |_| {},
             || false,

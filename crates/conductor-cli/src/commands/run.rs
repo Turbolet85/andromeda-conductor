@@ -17,11 +17,16 @@ pub async fn run(
     agent_mode: bool,
 ) -> anyhow::Result<ExitCode> {
     let scenario = paths.load_scenario(target, seed)?;
+    let envelope =
+        pipeline::classify_run(&paths.load_envelope()?, std::slice::from_ref(&scenario));
     let preflight = pipeline::preflight(&paths.manifest_path).await?;
     let resolver = CliResolver::select(None, agent_mode);
     let records = [pipeline::execute_scenario(&preflight, &scenario, run_id, &resolver).await?];
 
-    persist(&paths.runs_dir, run_id, &records)?;
+    persist(&paths.runs_dir, run_id, &records, &envelope)?;
+    if let Some(caption) = crate::render::envelope_caption(&envelope) {
+        println!("{caption}");
+    }
     print_record(&records[0]);
     Ok(exit_code(&records))
 }

@@ -185,6 +185,13 @@ $ conductor run error-baseline-spike --seed 424242
 CONDUCTOR  run error-baseline-spike  seed 424242           <- header: bold + ANSI 117 (color-id-cyan map) title; metadata dimmed (ANSI 146)
 preflight  protocol 2024-11-05  tools 4/4  canary ok        <- readiness line; identifiers in ANSI 117; [OK] prefix carries it for NO_COLOR
 
+[ENVIRONMENT-SUSPECT] scenario "…" runs 900s, over the      <- run-level load-envelope caption: printed ONCE per run, above the
+  proven-good envelope ceiling of 600s (Pulse v0.3.0, …)       verdict lines it qualifies; ANSI 246 (Residual-mute reuse, no new
+  — this run's read-back is not evidence about the SUT         entry). A run-level QUALIFIER, not a lamp and not a ReportState:
+                                                               it rides OUTSIDE the lamp column (the `not-conductors` Mode-cell
+                                                               precedent) and alters no per-check state. The ASCII bracket label
+                                                               is always printed, so it survives NO_COLOR/piping. OMITTED
+                                                               ENTIRELY when the run is in-envelope or pinned exempt.
 → phase  error-baseline-spike                               <- phase line (→ prefix + ANSI 114, count-nominal map)
 ⠹ 00:01:47  step 14/27  emitted 318 spans                   <- indicatif heartbeat: count + step + live counter (spinner after ~200ms)
 
@@ -257,6 +264,8 @@ Per-P-ID result printed in place, one line each, color always paired with an ASC
 - `? P-035  Manual  halo→burgundy? · no OS toast?` — `[MANUAL]`, ANSI 146 (neutral lavender) — an operator-checklist item (no programmatic read-back; TTY: `inquire` y/n, headless: recorded unconfirmed), never a machine verdict.
 - `~ P-032  Residual  recent_commits stub → v0.3.0` — `[RESIDUAL]`, ANSI 246 (muted) — a measured, pre-accepted gap, **never red**.
 - `• P-022  Blocked  mcp-server feature + ANDROMEDA_PULSE_MCP_ENABLED + matching data-dir` — `[BLOCKED]`, ANSI 60 (`count-blocked` mapping), with the named precondition; measurement fields render `—` / null.
+
+Those six are the complete set of **per-P-ID verdict / report-state** bracket labels, and the lamp set is closed at six. cli stdout additionally carries one **run-level, non-lamp** bracket label — `[ENVIRONMENT-SUSPECT]`, ANSI 246 — the SUT-load-envelope caption printed once per run outside the lamp column (the `not-conductors` Mode-cell precedent in §Primary content block 1). It qualifies the run rather than reporting a check, so it is neither a seventh lamp nor a sixth `ReportState`; a parser keying on state labels should read the per-P-ID set plus that qualifier.
 
 P-IDs, `run_id`, slo_tier, latency_ms, and fingerprints render in the ID-cyan mapping (ANSI 117); report body / dimmed metadata in ANSI 146 (the journal-text mapping). This is the supporting verdict-convention mirrored from desktop, line-oriented.
 

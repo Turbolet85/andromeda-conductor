@@ -11,6 +11,7 @@ Universal security requirements (Minimal tier — local-only loopback tool, no n
 
 ## Input validation (§Input Validation)
 - Validate ALL scenario config at load with garde (`range` + `#[garde(custom)]` cross-field: error fraction ∈ [0,1], non-negative durations, p50≤p95≤p99, severity-mix sums). An unvalidated serde deserialize bypasses the trust boundary.
+- Committed SUT-facing manifests read at a fixed path (`contracts/pulse-capabilities.toml` · `contracts/pulse-load-envelope.toml`) are bounds-checked at load and resolved via `default_path()` → `resolve_under` with deliberately NO `CONDUCTOR_*` override; read faults carry `e.kind()` only (never the path), and absent/malformed is a hard harness fault — never defaulted, never a silent widen.
 - `CONDUCTOR_*` path handles sit OUTSIDE garde — `std::fs::canonicalize` + bounds-check at the `conductor-cli` edge before any `runs.db`/journal write or manifest read (path traversal).
 - `runs.db`: rusqlite BOUND parameters only — never `format!`/string-concatenated SQL, even for synthetic data.
 - Bound the line-delimited JSON-RPC decode on the MCP read-back path (serde_json is recursion-limited + a soft per-line size bound) — an empty/malformed/errored canary ⇒ `Blocked`, never a false pass.

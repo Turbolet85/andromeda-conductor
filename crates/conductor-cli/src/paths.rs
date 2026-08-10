@@ -7,7 +7,9 @@
 use std::path::{Path, PathBuf};
 
 use anyhow::Context as _;
-use conductor_core::{CapabilityManifest, Scenario, resolve_under, scenario_files};
+use conductor_core::{
+    CapabilityManifest, LoadEnvelope, Scenario, resolve_under, scenario_files,
+};
 
 /// The resolved artifact + config locations for a CLI invocation.
 pub struct Paths {
@@ -15,6 +17,7 @@ pub struct Paths {
     pub runs_dir: PathBuf,
     pub manifest_path: PathBuf,
     pub capability_manifest_path: PathBuf,
+    pub load_envelope_path: PathBuf,
 }
 
 impl Paths {
@@ -27,12 +30,19 @@ impl Paths {
             runs_dir: resolve_handle(&base, "CONDUCTOR_RUNS_DIR", "runs")?,
             manifest_path: resolve_handle(&base, "CONDUCTOR_CONTRACT_MANIFEST", "contracts/mcp-contract.toml")?,
             capability_manifest_path: resolve_under(&base, &CapabilityManifest::default_path())?,
+            load_envelope_path: resolve_under(&base, &LoadEnvelope::default_path())?,
         })
     }
 
     /// The SUT capability set every scenario this invocation loads is checked against.
     fn capabilities(&self) -> anyhow::Result<CapabilityManifest> {
         Ok(CapabilityManifest::load(&self.capability_manifest_path)?)
+    }
+
+    /// The pinned load envelope this invocation's run is judged against. A fixed in-repo path (no
+    /// `CONDUCTOR_*` override), guarded the same way as the capability manifest.
+    pub fn load_envelope(&self) -> anyhow::Result<LoadEnvelope> {
+        Ok(LoadEnvelope::load(&self.load_envelope_path)?)
     }
 
     /// Resolve a `run` target — a scenario name (`<name>.toml`) or a Pulse P-ID — to a seeded scenario.

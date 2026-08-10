@@ -12,7 +12,7 @@
 
 use std::path::Path;
 
-use conductor_core::RunRecord;
+use conductor_core::{EnvelopeStatus, RunRecord};
 use rusqlite::{Connection, OptionalExtension};
 
 const SCHEMA: &str = "CREATE TABLE IF NOT EXISTS runs (
@@ -28,6 +28,11 @@ const SCHEMA: &str = "CREATE TABLE IF NOT EXISTS runs (
     slo_tier              TEXT    NOT NULL,
     fingerprints          TEXT,
     PRIMARY KEY (run_id, scenario)
+);
+CREATE TABLE IF NOT EXISTS run_envelope (
+    run_id                TEXT    NOT NULL PRIMARY KEY,
+    classification        TEXT    NOT NULL,
+    cause                 TEXT
 );";
 
 /// A harness fault from the runs.db storage seam — never a verification outcome (the verdict/error
@@ -98,6 +103,40 @@ impl RunsDb {
             ],
         )?;
         Ok(())
+    }
+
+    /// Persist a run's standing against the SUT load envelope — one row per run, in its own table.
+    ///
+    /// Deliberately NOT a column on `runs`: the qualifier is run-level, and the eleven-column check
+    /// row plus its `(run_id, scenario)` key stay exactly as they are, so `state` remains the closed
+    /// five-variant set (arch §Standard Contracts). A repeat `run_id` raises the PK constraint as an
+    /// `Err`, never a silent clobber.
+    pub fn insert_envelope(
+        &self,
+        run_id: &str,
+        status: &EnvelopeStatus,
+    ) -> Result<(), RunsDbError> {
+        self.conn.execute(
+            "INSERT INTO run_envelope (run_id, classification, cause) VALUES (?1, ?2, ?3)",
+            rusqlite::params![run_id, status.label(), status.cause()],
+        )?;
+        Ok(())
+    }
+
+    /// Read back a run's envelope standing — `None` if the run recorded none.
+    pub fn get_envelope(&self, run_id: &str) -> Result<Option<EnvelopeStatus>, RunsDbError> {
+        let row = self
+            .conn
+            .query_row(
+                "SELECT cause FROM run_envelope WHERE run_id = ?1",
+                rusqlite::params![run_id],
+                |row| row.get::<_, Option<String>>(0),
+            )
+            .optional()?;
+        Ok(row.map(|cause| match cause {
+            Some(cause) => EnvelopeStatus::EnvironmentSuspect(cause),
+            None => EnvelopeStatus::InEnvelope,
+        }))
     }
 
     /// Read back the row for `(run_id, scenario)`, reconstructing the [`RunRecord`] — `None` if absent.
@@ -198,6 +237,65 @@ mod tests {
     use super::*;
     use assert_fs::TempDir;
     use conductor_core::{PId, ReportState, SloTier, Verdict};
+
+    /// The run-level qualifier round-trips through its own table, in both variants.
+    #[test]
+    fn envelope_status_round_trips_per_run() {
+        let db = RunsDb::open_in_memory().unwrap();
+        let suspect = EnvelopeStatus::EnvironmentSuspect(
+            "scenario \"activity-floor\" runs 3900s, over the ceiling of 600s".to_string(),
+        );
+        db.insert_envelope("run-suspect", &suspect).unwrap();
+        db.insert_envelope("run-ok", &EnvelopeStatus::InEnvelope).unwrap();
+
+        assert_eq!(db.get_envelope("run-suspect").unwrap(), Some(suspect));
+        assert_eq!(db.get_envelope("run-ok").unwrap(), Some(EnvelopeStatus::InEnvelope));
+        assert_eq!(db.get_envelope("no-such-run").unwrap(), None, "an unrecorded run reads None");
+    }
+
+    #[test]
+    fn a_duplicate_envelope_insert_is_a_harness_error_not_a_clobber() {
+        let db = RunsDb::open_in_memory().unwrap();
+        db.insert_envelope("run-1", &EnvelopeStatus::InEnvelope).unwrap();
+        assert!(db.insert_envelope("run-1", &EnvelopeStatus::InEnvelope).is_err());
+    }
+
+    /// The qualifier lives in its own table precisely so the check row's contract is untouched:
+    /// eleven columns, `(run_id, scenario)` key, `state` still the closed five-variant set.
+    #[test]
+    fn the_runs_table_contract_is_unchanged_by_the_envelope_table() {
+        let db = RunsDb::open_in_memory().unwrap();
+        let columns: Vec<String> = db
+            .conn
+            .prepare("SELECT name FROM pragma_table_info('runs')")
+            .unwrap()
+            .query_map([], |r| r.get::<_, String>(0))
+            .unwrap()
+            .map(Result::unwrap)
+            .collect();
+        assert_eq!(
+            columns,
+            [
+                "run_id",
+                "seed",
+                "scenario",
+                "p_ids",
+                "verdict",
+                "state",
+                "journal_emitted_at",
+                "read_back_observed_at",
+                "latency_ms",
+                "slo_tier",
+                "fingerprints",
+            ],
+            "the eleven-column envelope contract must not move"
+        );
+
+        // and a check row still round-trips beside a recorded run-level qualifier
+        db.insert(&measured("run-1", "s")).unwrap();
+        db.insert_envelope("run-1", &EnvelopeStatus::EnvironmentSuspect("over".to_string())).unwrap();
+        assert_eq!(db.get("run-1", "s").unwrap().unwrap().state, ReportState::Pass);
+    }
 
     fn measured(run_id: &str, scenario: &str) -> RunRecord {
         RunRecord::measured(

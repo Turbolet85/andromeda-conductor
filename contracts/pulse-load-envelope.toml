@@ -1,0 +1,50 @@
+# Pinned SUT load envelope — the proven-good storm bounds scenario authors must stay inside
+# (arch §Occupied Resources; intent §Theme 1 F4).
+#
+# Pulse's DuckDB append path stalls after sustained high-rate storm: ingest keeps receiving while
+# `duckdb.append` stops, so `viz.query.traces` returns 0 rows and no new incidents form until
+# restart. Conductor's whole method is sustained shaped load, so the harness can induce that stall
+# itself — and a run that does is NOT evidence about Pulse. Such a run is classified
+# environment-suspect, never Fail.
+#
+# PROVENANCE. These terms are a TRANSCRIBED SUT record, not a Conductor measurement. Nothing under
+# `.andromeda/refs/` (Pulse's capability spec, MCP contract, or v0.2.0 audit) carries the stall;
+# intent §Theme 1 F4 is the record we have. Treat a term as authoritative only as far as that record
+# is, and re-transcribe when Pulse publishes its own.
+#
+# A read / parse / bounds failure is a harness fault, never a verdict and never a silent widening.
+
+sut_version = "v0.3.0"
+captured_at = "2026-08-09"
+provenance = "intent §Theme 1 F4 — transcribed SUT record, not a Conductor measurement"
+
+[envelope]
+# DECLARED, NOT DERIVABLE. The committed scenario model carries no rate or occurrence-count field
+# (`PhaseSpec` is name + gap_ms + `EmissionSpec{signal}`), so no gate can assert these two terms
+# today — they are recorded so an author sees the real bound, and are owed to the Epoch-2 "Faithful
+# emission dispatcher" entry, which introduces the per-phase shaping term that makes them derivable.
+max_sustained_rate_spans_per_s = 10000
+max_sustained_storm_ms = 600000
+
+# THE DERIVABLE PROXY — the term `check_load_envelope` actually asserts. A scenario's duration is the
+# sum of its per-phase `gap_ms`, which is committed data. It is a proxy because elapsed time is not
+# storm time: a scenario may sit here legitimately while emitting nothing (see the exemptions).
+max_scenario_duration_ms = 600000
+
+# Exemptions — scenarios over the duration proxy whose time is deliberately IDLE, so they never
+# approach the sustained-storm regime the envelope actually bounds. Held to EXACT-SET equality in
+# both directions by `check_load_envelope`: an exemption whose scenario is now inside the envelope
+# fails as ledger rot, and one naming no catalog scenario fails as a lost subject. It can only
+# shrink under compulsion.
+#
+# Both retire at the Epoch-2 "Faithful emission dispatcher" entry: once per-phase intensity is
+# derivable the gate should assert EMITTING-phase duration, under which each of these passes on its
+# own merits and needs no exemption.
+
+[[exempt]]
+scenario = "activity-floor"
+reason = "50 of its 65 minutes are deliberate quiet gaps (10 + 10 + 30 min); the scenario's whole point is idleness, and P-013 requires the long learned-pattern window"
+
+[[exempt]]
+scenario = "incident-auto-resolution"
+reason = "a 731s lifecycle wait for the P-022 120s auto-resolve plus its observation window; the elapsed time is waiting, not sustained emission"

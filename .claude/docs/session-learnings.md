@@ -267,6 +267,23 @@ Applies to every future garde validation surface (Epoch-2 `Scenario-config model
 
 ---
 
+## 2026-08-10 — A deferral is only real once it has an owned channel
+
+A deferral recorded as report prose is not owned by anything: nothing re-reads a chunk report, so the
+obligation evaporates at the next wrap. The owned channels are (a) a `CARRY:` pin appended to the
+markerless working-route entry that owns the surface the work belongs to, or (b) a `.andromeda/residuals.md`
+append when no in-version entry owns it — check the markerless tail FIRST, because a residual entry is the
+cross-version escape hatch, not the default. The pin travels with the entry, so `/andromeda-phase` folds it
+into `scope.md` at promotion and it cannot be silently skipped.
+
+Two live confirmations of the cost of getting this wrong. The `sut-load-envelope` chunk deferred a webview
+banner with the consequence "a GUI user sees no envelope signal" — real user-visible behavior that would
+have been invisible to every later chunk had it stayed in the report. And dismissing a drift proposal in the
+same wrap surfaced that the playbook's own deferred-span entries promised `db.insert_run` / `report.generate`
+spans would land "with the Epoch-8 cli/timeline caller" — Epoch 8 completed and they never did, because that
+deferral lived in a playbook `note` rather than on a route entry. A `note` explains a dismissal; it does not
+own the work.
+
 ## Entry format
 
 ```

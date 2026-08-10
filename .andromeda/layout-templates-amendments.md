@@ -41,3 +41,8 @@ _Append-only changelog of amendments to `layout-templates.md` (the body holds on
 **Section:** Surface: cli → Primary screens → `conductor coverage [--write]`
 **Change:** the quoted roll-up caption literal now reads `82 capabilities · 66 in scope (43 auto (10 unbacked) · 16 drive+observe · 7 static-only) · 16 not-conductors`. Only the qualifier moved; the surrounding rules (qualifies the auto term only, never a fifth summand, manifest-derived never a literal, plain text with no token/ANSI/colour, omitted at zero, identical on all three surfaces via the `unbacked` prop) are unchanged.
 **Why:** the chunk named `P-079` in `constellation-severity-live-wiring.toml`, so `conductor_core::UNBACKED_AUTO` shrank 11 → 10 and every surface now renders `(10 unbacked)` — verified live via `conductor coverage`. The doc's sample caption still showed the pre-chunk value. Detector-raised (D-layout-surface) off the report's `Counts / qualifiers this chunk moved` bullet.
+
+## 2026-08-09-sut-load-envelope — cli run-level load-envelope caption
+**Section:** §Surface: cli — Output structure (`conductor run`) · Component — verdict / report-state lines
+**Change:** The `conductor run` wireframe now shows the run-level `[ENVIRONMENT-SUSPECT]` caption above the verdict lines (ANSI 246, no new entry; ASCII label always printed; omitted when in-envelope or exempt), and the verdict-line list now states that its six entries are the closed per-P-ID set while stdout additionally carries that run-level non-lamp qualifier.
+**Why:** The chunk landed a new cli output element that no wireframe showed, and the six-label enumeration read as the complete stdout label set. Named the set + flagged the qualifier; the lamp set stays six and `ReportState` stays five.

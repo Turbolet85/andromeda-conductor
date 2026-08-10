@@ -1,3 +1,7 @@
+# LOAD ENVELOPE — this scenario's total duration is asserted against the proven-good SUT bounds in
+# `contracts/pulse-load-envelope.toml` (the terms and any exemption live there, never copied here).
+# A run over the envelope reports ENVIRONMENT-SUSPECT, not Fail — the harness drove it, not Pulse.
+
 # P-007 — High-Severity Log Capture (pulse-capability-spec.md §P-007).
 # Emit OTLP log records across the SeverityNumber 17 boundary: WARN-and-below (<17) must NOT
 # contribute to the hard-signal layer, ERROR/FATAL (>=17) must. Hard signal — the deterministic

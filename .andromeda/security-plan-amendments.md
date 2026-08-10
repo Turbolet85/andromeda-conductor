@@ -61,3 +61,8 @@ _Append-only changelog of amendments to `security-plan.md` (the body holds only 
 **Section:** §Dependency Security (Audit tool; Bootstrap phases dep-audit-tooling-install)
 **Change:** installed `cargo-audit` recorded as 0.22.2; added the two-fault split — a TOOL fault is remedied by raising the floor, an advisory-DATABASE fault (the RustSec DB itself unparseable) is remedied by a bounded wait with the audit↔deny overlap VERIFIED green, never a floor raise, never a `deny.toml` ignore, never a CI edit.
 **Why:** empirically established this chunk — `duplicate advisory ID: RUSTSEC-2026-0244` failed byte-identically on 0.22.1 and on the latest published 0.22.2, so the prescribed floor-raise was unexecutable and would have looked like compliance while changing nothing.
+
+## 2026-08-09-sut-load-envelope — committed SUT-facing manifests registered as an input boundary
+**Section:** §Input Validation (boundary table)
+**Change:** Added one boundary row covering both committed SUT-facing manifests read at a fixed path — `contracts/pulse-capabilities.toml` and `contracts/pulse-load-envelope.toml` — with their per-artifact validation, the fixed `default_path()` → `resolve_under` resolution with deliberately no `CONDUCTOR_*` override, `e.kind()`-only read faults, and absent/malformed as a hard fault never defaulted.
+**Why:** The chunk added the load envelope, a new runtime-parsed committed artifact, and §Input Validation enumerates every external-input surface. Registering it surfaced that the capability manifest's own row — recorded as landed in this sidecar on 2026-08-08 — was absent from the body, so the row covers both rather than leaving a sibling boundary undocumented.

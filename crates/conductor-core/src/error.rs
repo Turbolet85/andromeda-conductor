@@ -30,6 +30,12 @@ pub enum CoreError {
     /// the classification.
     #[error("unbacked coverage claim: {0}")]
     UnbackedCoverage(String),
+    /// The committed scenario catalog and the pinned SUT load envelope disagree — a scenario drove
+    /// past the proven-good bounds without an exemption, or the exemption ledger no longer matches
+    /// the catalog. Conductor's own scenario-authoring integrity; a *run* that exceeds the envelope
+    /// is an [`EnvelopeStatus`](crate::EnvelopeStatus) value, never this fault.
+    #[error("load envelope violation: {0}")]
+    LoadEnvelope(String),
 }
 
 /// `conductor-core`'s harness-fault result alias: `Ok` carries a value (often a verification

@@ -1,3 +1,7 @@
+# LOAD ENVELOPE — this scenario's total duration is asserted against the proven-good SUT bounds in
+# `contracts/pulse-load-envelope.toml` (the terms and any exemption live there, never copied here).
+# A run over the envelope reports ENVIRONMENT-SUSPECT, not Fail — the harness drove it, not Pulse.
+
 # P-005 — Span Status Error Detection (pulse-capability-spec.md §P-005).
 # Emit spans with explicit Span.Status.Code = ERROR; Pulse surfaces them as candidates within a
 # <500ms-p99 detection budget. Hard signal — deterministic from the first span, no baseline needed.

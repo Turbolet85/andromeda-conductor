@@ -11,7 +11,7 @@ Conductor is a desktop control-panel app (Tauri 2) over a headless-drivable Rust
 **Key directories:**
 - `crates/` — the 9 crate-per-seam workspace members (core + timeline/emit/faults/verify/report + run + cli/tauri bins)
 - `scenarios/` — declarative scenario config (serde + garde), one per Pulse P-ID
-- `contracts/` — pinned MCP contract manifest
+- `contracts/` — pinned MCP contract manifest + the SUT capability manifest + the SUT load envelope
 - `runs/` — per-run JSONL journal + Markdown report + `runs.db` SQLite index
 - `scripts/` — `agent-run.{sh,ps1}` headless source-of-truth entrypoint
 <!-- GENERATED:setup:overview end -->

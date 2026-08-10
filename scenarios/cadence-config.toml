@@ -1,3 +1,7 @@
+# LOAD ENVELOPE — this scenario's total duration is asserted against the proven-good SUT bounds in
+# `contracts/pulse-load-envelope.toml` (the terms and any exemption live there, never copied here).
+# A run over the envelope reports ENVIRONMENT-SUSPECT, not Fail — the harness drove it, not Pulse.
+
 # P-052 — Cadence Configuration (pulse-capability-spec.md §P-052). Pipeline-ops family: the cadence surface.
 #   P-052 — the distillation pipeline's cadence intervals (baseline / accelerated / reflection) are
 #     configurable without restart; a known cadence config makes the L4 invocation rate match the configured

@@ -6,7 +6,7 @@ _Extracted from `.andromeda/architecture.md` §Conventions + §Data model conven
 - snake_case Rust source files and identifiers (Rust convention).
 - Crates named `conductor-<seam>` (kebab-case crate names, snake_case module paths).
 - On-disk artifacts use kebab-case Markdown filenames (e.g. `coverage-matrix.md`, the run report) and per-run JSONL journals stemmed by `run_id`.
-- Directory layout: `crates/` (8 seam crates) · `scenarios/` (one config per P-ID) · `contracts/` (pinned MCP manifest) · `runs/` (journals + reports + `runs.db`) · `scripts/` (`agent-run.{sh,ps1}`). See architecture.md §Infrastructure Patterns for the full tree.
+- Directory layout: `crates/` (8 seam crates) · `scenarios/` (one config per P-ID) · `contracts/` (pinned MCP manifest + SUT capability manifest + SUT load envelope) · `runs/` (journals + reports + `runs.db`) · `scripts/` (`agent-run.{sh,ps1}`). See architecture.md §Infrastructure Patterns for the full tree.
 
 ## Identifier & scenario naming
 - Scenarios are keyed by Pulse capability P-ID, drawn from the SUT capability manifest's accepted set (`contracts/pulse-capabilities.toml`) — **"no scenario without a P-ID."**

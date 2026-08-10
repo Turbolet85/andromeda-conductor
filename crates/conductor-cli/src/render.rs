@@ -15,7 +15,9 @@ use std::io::IsTerminal;
 use std::time::Duration;
 
 use comfy_table::{Cell, Color, ContentArrangement, Table, presets};
-use conductor_core::{CoverageMode, HoldPoint, Lamp, RunRecord, UNBACKED_AUTO, coverage_matrix};
+use conductor_core::{
+    CoverageMode, EnvelopeStatus, HoldPoint, Lamp, RunRecord, UNBACKED_AUTO, coverage_matrix,
+};
 use indicatif::{ProgressBar, ProgressDrawTarget, ProgressStyle};
 use owo_colors::{OwoColorize, XtermColors};
 
@@ -35,6 +37,12 @@ const HINT_GREY: u8 = 246;
 /// first. Deliberately NOT the fail (203) or blocked (60) code: out-of-scope is a statement about
 /// remit, not an outcome, and the `not-conductors` label is the signal the tint only de-emphasizes.
 const OUT_OF_SCOPE_MUTE: u8 = 246;
+
+/// The Residual-mute tier once more, for the run-level environment-suspect caption — a third
+/// non-lamp reuse of 246, no new palette entry. Deliberately NOT fail (203) or blocked (60):
+/// an over-envelope run is a statement about whether the run could be evidence, not an outcome,
+/// and the `[ENVIRONMENT-SUSPECT]` label is the signal the tint only de-emphasizes.
+const ENVELOPE_SUSPECT_MUTE: u8 = 246;
 
 /// A check's lamp → its xterm-256 color (design-system §Surface: cli / Tokens; layout-templates
 /// §Multi-surface coordination).
@@ -73,6 +81,15 @@ pub fn status_line(record: &RunRecord) -> String {
 /// mirror of the desktop titlebar hold signature).
 pub fn hold_line(hold: &HoldPoint) -> String {
     hold_line_styled(hold, stdout_color())
+}
+
+/// The run-level load-envelope caption, or `None` for an in-envelope run (which needs no caveat).
+///
+/// Printed above the run's results because it qualifies every row beneath it — it says whether this
+/// run could be evidence at all, not how a check went. The `[ENVIRONMENT-SUSPECT]` bracket label is
+/// always present, so the signal survives `NO_COLOR` and piping (design-system §Surface: cli).
+pub fn envelope_caption(status: &EnvelopeStatus) -> Option<String> {
+    envelope_caption_styled(status, stdout_color())
 }
 
 /// The per-run results table — one row per check, the blocked row em-dashing its never-measured cells.
@@ -143,6 +160,12 @@ fn status_line_styled(record: &RunRecord, color: bool) -> String {
 fn hold_line_styled(hold: &HoldPoint, color: bool) -> String {
     let prefix = paint_styled(Lamp::Hold.status_prefix(), lamp_code(Lamp::Hold), color);
     format!("{prefix} — operator pause · {} · {} · {}", hold.scenario, hold.p_id.0, hold.step)
+}
+
+fn envelope_caption_styled(status: &EnvelopeStatus, color: bool) -> Option<String> {
+    let cause = status.cause()?;
+    let label = paint_styled(&format!("[{}]", status.label()), ENVELOPE_SUSPECT_MUTE, color);
+    Some(format!("{label} {cause}"))
 }
 
 fn results_table_styled(records: &[RunRecord], color: bool) -> String {
@@ -278,6 +301,43 @@ mod tests {
             vec![PId("P-003".to_string())],
             SloTier::Tier20s,
         )
+    }
+
+    fn suspect() -> EnvelopeStatus {
+        EnvelopeStatus::EnvironmentSuspect(
+            "scenario \"activity-floor\" runs 3900s, over the proven-good envelope ceiling of 600s"
+                .to_string(),
+        )
+    }
+
+    #[test]
+    fn envelope_caption_is_absent_for_an_in_envelope_run() {
+        assert!(envelope_caption_styled(&EnvelopeStatus::InEnvelope, false).is_none());
+        assert!(envelope_caption_styled(&EnvelopeStatus::InEnvelope, true).is_none());
+    }
+
+    #[test]
+    fn envelope_caption_plain_keeps_the_label_without_escapes() {
+        let line = envelope_caption_styled(&suspect(), false).expect("a suspect run captions");
+        assert!(line.starts_with("[ENVIRONMENT-SUSPECT] "), "{line}");
+        assert!(line.contains("activity-floor"), "the cause names the scenario: {line}");
+        assert!(!line.contains('\u{1b}'), "plain caption must carry no escape bytes: {line:?}");
+    }
+
+    #[test]
+    fn envelope_caption_colored_overlays_escapes_on_the_label() {
+        let line = envelope_caption_styled(&suspect(), true).expect("a suspect run captions");
+        assert!(line.contains("[ENVIRONMENT-SUSPECT]"), "{line}");
+        assert!(line.contains('\u{1b}'), "colored caption must carry an escape: {line:?}");
+    }
+
+    /// The caption reuses the Residual-mute tier — never the fail or blocked code, because an
+    /// over-envelope run is a statement about attribution, not an outcome.
+    #[test]
+    fn envelope_caption_is_not_painted_fail_or_blocked() {
+        assert_eq!(ENVELOPE_SUSPECT_MUTE, OUT_OF_SCOPE_MUTE, "reuse the existing tier, add no entry");
+        assert_ne!(ENVELOPE_SUSPECT_MUTE, lamp_code(Lamp::Fail));
+        assert_ne!(ENVELOPE_SUSPECT_MUTE, lamp_code(Lamp::Blocked));
     }
 
     #[test]

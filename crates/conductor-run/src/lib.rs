@@ -21,8 +21,8 @@ use anyhow::Context as _;
 use serde::Serialize;
 
 use conductor_core::{
-    HoldPoint, PauseResolver, ReportState, RunRecord, Scenario, Signal, Verdict, now_rfc3339,
-    redact_value, resolve_hold,
+    EnvelopeStatus, HoldPoint, LoadEnvelope, PauseResolver, ReportState, RunRecord, Scenario,
+    Signal, Verdict, now_rfc3339, redact_value, resolve_hold,
 };
 use conductor_emit::{
     DEFAULT_OTLP_ENDPOINT, DEFAULT_SERVICE_NAME, ExceptionSpec, Frame, LogsEmitter, Severity,
@@ -321,15 +321,38 @@ fn now_ms() -> i64 {
 /// Persist a run's records across the three artifacts: the JSONL journal (append), the `runs.db`
 /// index (one row per scenario), and a single Markdown report for the run. Shared by both shells so
 /// the CLI and the GUI write an identical envelope for the same scenario+seed (test-plan Path 7).
-pub fn persist(runs_dir: &Path, run_id: &str, records: &[RunRecord]) -> anyhow::Result<()> {
+pub fn persist(
+    runs_dir: &Path,
+    run_id: &str,
+    records: &[RunRecord],
+    envelope: &EnvelopeStatus,
+) -> anyhow::Result<()> {
     let mut journal = JournalWriter::create(runs_dir, run_id)?;
     let db = RunsDb::open(runs_dir)?;
     for record in records {
         journal.append(record)?;
         db.insert(record)?;
     }
-    RunReport::write(runs_dir, run_id, records)?;
+    db.insert_envelope(run_id, envelope)?;
+    RunReport::write(runs_dir, run_id, records, envelope)?;
     Ok(())
+}
+
+/// Judge a run against the pinned SUT load envelope, before it is driven.
+///
+/// A run is environment-suspect if ANY of its scenarios breaches the envelope: the qualifier is
+/// about whether the run could be evidence at all, and one over-envelope scenario is enough to
+/// stall the SUT's append path for the rest of it. Scenarios are judged in catalog order, so the
+/// reported cause is deterministic.
+///
+/// This is a VALUE on every path — never an `Err`. Driving the SUT too hard is an outcome about the
+/// run, not a Conductor fault (arch §Cross-cutting Patterns "Verdict/error wall").
+pub fn classify_run(envelope: &LoadEnvelope, scenarios: &[Scenario]) -> EnvelopeStatus {
+    scenarios
+        .iter()
+        .map(|s| envelope.classify(s))
+        .find(EnvelopeStatus::is_suspect)
+        .unwrap_or(EnvelopeStatus::InEnvelope)
 }
 
 /// A live run-progress event streamed to the GUI (the Tauri `Channel` payload). `count` is the number
@@ -367,11 +390,14 @@ pub enum RunStage {
 /// operator-checklist holds on the live-Pulse path; the agent/test path passes a
 /// [`conductor_core::HeadlessResolver`] that never blocks. The faithful per-emission counter is the
 /// Epoch-10 bridge; `count` here ticks per scenario.
+#[allow(clippy::too_many_arguments)] // one parameter per distinct run input; bundling them would
+// hide the run-level envelope standing behind a struct both shells would have to construct anyway
 pub async fn drive_run<R, E, A>(
     pf: &Preflight,
     scenarios: &[Scenario],
     run_id: &str,
     runs_dir: &Path,
+    envelope: &EnvelopeStatus,
     resolver: &R,
     mut emit: E,
     should_abort: A,
@@ -385,14 +411,14 @@ where
     let mut records = Vec::with_capacity(scenarios.len());
     for scenario in scenarios {
         if should_abort() {
-            persist(runs_dir, run_id, &records)?;
+            persist(runs_dir, run_id, &records, envelope)?;
             emit(RunEvent { stage: RunStage::Aborted, count: records.len() as u64 });
             return Ok(records);
         }
         records.push(execute_scenario(pf, scenario, run_id, resolver).await?);
         emit(RunEvent { stage: RunStage::Progress, count: records.len() as u64 });
     }
-    persist(runs_dir, run_id, &records)?;
+    persist(runs_dir, run_id, &records, envelope)?;
     let stage = if records.iter().all(|r| matches!(r.state, ReportState::Blocked)) {
         RunStage::Blocked
     } else {
@@ -418,6 +444,126 @@ mod tests {
             "name = \"blocked-fixture\"\np_ids = [\"P-001\"]\nseed = {seed}\nslo_tier = \"<5s\"\njitter_ms = 0\n[[phases]]\nname = \"p1\"\ngap_ms = 100\n"
         );
         Scenario::from_toml_str(&toml).expect("fixture scenario validates")
+    }
+
+    fn named_fixture(name: &str, gap_ms: u64) -> Scenario {
+        let toml = format!(
+            "name = \"{name}\"\np_ids = [\"P-001\"]\nseed = 1\nslo_tier = \"<5s\"\njitter_ms = 0\n[[phases]]\nname = \"p1\"\ngap_ms = {gap_ms}\n"
+        );
+        Scenario::from_toml_str(&toml).expect("fixture scenario validates")
+    }
+
+    fn test_envelope(ceiling_ms: u64, exempt: &[(&str, &str)]) -> LoadEnvelope {
+        LoadEnvelope {
+            sut_version: "v0.3.0".to_string(),
+            captured_at: "2026-08-09".to_string(),
+            provenance: "test".to_string(),
+            envelope: conductor_core::EnvelopeTerms {
+                max_sustained_rate_spans_per_s: 10_000,
+                max_sustained_storm_ms: 600_000,
+                max_scenario_duration_ms: ceiling_ms,
+            },
+            exempt: exempt
+                .iter()
+                .map(|(scenario, reason)| conductor_core::Exemption {
+                    scenario: scenario.to_string(),
+                    reason: reason.to_string(),
+                })
+                .collect(),
+        }
+    }
+
+    #[test]
+    fn classify_run_flags_the_first_breaching_scenario_deterministically() {
+        let envelope = test_envelope(1_000, &[("idle-long", "deliberate quiet")]);
+
+        assert_eq!(
+            classify_run(&envelope, &[named_fixture("a", 500), named_fixture("b", 900)]),
+            EnvelopeStatus::InEnvelope
+        );
+        assert_eq!(
+            classify_run(&envelope, &[named_fixture("idle-long", 9_000)]),
+            EnvelopeStatus::InEnvelope,
+            "a pinned exemption keeps the run in-envelope"
+        );
+        assert_eq!(classify_run(&envelope, &[]), EnvelopeStatus::InEnvelope);
+
+        let suite = [named_fixture("ok", 500), named_fixture("first-breach", 5_000), named_fixture("second-breach", 9_000)];
+        let status = classify_run(&envelope, &suite);
+        let cause = status.cause().expect("a breaching suite names its cause");
+        assert!(cause.contains("first-breach"), "catalog order decides the reported cause: {cause}");
+        assert!(!cause.contains("second-breach"), "only the first breach is reported: {cause}");
+    }
+
+    /// `v2-07` — an over-envelope run is classified environment-suspect, distinct from `Fail`, and
+    /// the classification round-trips through all three artifacts with the breach named as the cause.
+    #[tokio::test(flavor = "current_thread")]
+    async fn an_over_envelope_run_is_environment_suspect_not_fail() {
+        let dir = assert_fs::TempDir::new().unwrap();
+        let scenario = named_fixture("over-envelope-fixture", 900_000);
+        let envelope = classify_run(&test_envelope(600_000, &[]), std::slice::from_ref(&scenario));
+        assert!(envelope.is_suspect(), "the fixture must breach for this test to mean anything");
+
+        let records = drive_run(
+            &blocked_preflight(),
+            std::slice::from_ref(&scenario),
+            "run-envelope",
+            dir.path(),
+            &envelope,
+            &HeadlessResolver::proceed(),
+            |_| {},
+            || false,
+        )
+        .await
+        .expect("an envelope breach is never a harness Err");
+
+        // distinct from Fail: the qualifier never rewrites a check state
+        assert!(records.iter().all(|r| r.state != ReportState::Fail), "no row became a Fail");
+        assert!(records.iter().all(|r| r.state == ReportState::Blocked), "states are unchanged");
+
+        // the runs.db round-trip, read through a bound-parameter query
+        let db = RunsDb::open(dir.path()).expect("runs.db opens");
+        assert_eq!(db.get_envelope("run-envelope").unwrap(), Some(envelope.clone()));
+
+        // the Markdown report names the breach as the cause
+        let md = std::fs::read_to_string(dir.path().join("run-envelope.md")).unwrap();
+        assert!(md.contains("[ENVIRONMENT-SUSPECT]"), "{md}");
+        assert!(md.contains("over-envelope-fixture"), "the report names the breaching scenario: {md}");
+        assert!(!md.contains("[FAIL]"), "an envelope breach never renders as Fail: {md}");
+
+        // the JSONL journal is untouched by the run-level qualifier (eleven per-check fields)
+        let journal = std::fs::read_to_string(dir.path().join("run-envelope.jsonl")).unwrap();
+        assert!(journal.contains("\"Blocked\""), "the journal keeps its own envelope: {journal}");
+        assert!(
+            !journal.contains("ENVIRONMENT-SUSPECT"),
+            "the run-level qualifier does not leak into the per-check journal: {journal}"
+        );
+    }
+
+    #[tokio::test(flavor = "current_thread")]
+    async fn an_in_envelope_run_records_its_standing_too() {
+        let dir = assert_fs::TempDir::new().unwrap();
+        drive_run(
+            &blocked_preflight(),
+            &[fixture(7)],
+            "run-in-env",
+            dir.path(),
+            &EnvelopeStatus::InEnvelope,
+            &HeadlessResolver::proceed(),
+            |_| {},
+            || false,
+        )
+        .await
+        .unwrap();
+
+        let db = RunsDb::open(dir.path()).unwrap();
+        assert_eq!(
+            db.get_envelope("run-in-env").unwrap(),
+            Some(EnvelopeStatus::InEnvelope),
+            "every run records a standing, so an absent row means a bug, not an in-envelope run"
+        );
+        let md = std::fs::read_to_string(dir.path().join("run-in-env.md")).unwrap();
+        assert!(!md.contains("ENVIRONMENT-SUSPECT"), "{md}");
     }
 
     #[tokio::test(flavor = "current_thread")]
@@ -452,6 +598,7 @@ mod tests {
             &[fixture(7)],
             "run-drive",
             dir.path(),
+            &EnvelopeStatus::InEnvelope,
             &HeadlessResolver::proceed(),
             |ev| events.push(ev),
             || false,
@@ -481,6 +628,7 @@ mod tests {
             &[fixture(7)],
             "run-abort",
             dir.path(),
+            &EnvelopeStatus::InEnvelope,
             &HeadlessResolver::proceed(),
             |ev| events.push(ev),
             || true,

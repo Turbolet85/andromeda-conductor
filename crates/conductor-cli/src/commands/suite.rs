@@ -22,6 +22,7 @@ pub async fn suite(
         anyhow::bail!("no scenarios found to run");
     }
 
+    let envelope = pipeline::classify_run(&paths.load_envelope()?, &scenarios);
     let preflight = pipeline::preflight(&paths.manifest_path).await?;
     let progress = render::spinner(scenarios.len());
     let resolver = CliResolver::select(Some(progress.clone()), agent_mode);
@@ -33,7 +34,10 @@ pub async fn suite(
     }
     progress.finish_and_clear();
 
-    persist(&paths.runs_dir, run_id, &records)?;
+    persist(&paths.runs_dir, run_id, &records, &envelope)?;
+    if let Some(caption) = render::envelope_caption(&envelope) {
+        println!("{caption}");
+    }
     println!("{}", render::results_table(&records));
     Ok(exit_code(&records))
 }

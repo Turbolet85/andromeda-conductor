@@ -56,3 +56,8 @@ _Append-only changelog of amendments to `test-plan.md` (the body holds only curr
 **Section:** §6 E2E / Selector strategy
 **Change:** the coverage-matrix/report row selector anchor now reads "mono P-ID tokens (the manifest's accepted set)" instead of the literal range "(`P-001`..`P-060`)".
 **Why:** this chunk lands the first catalog entries above P-060 (P-067, P-072, P-079), so a selector strategy keyed on `P-001..P-060` no longer covers the coverage-matrix rows it creates. Named the SET rather than substituting `P-001..P-082`, per the de-hardcode precedent established by 2026-08-08-sut-capability-manifest — a new literal re-stales on the next SUT release. Self-raised at wrap validation (no detector covers the class; the fan-out's tests agent observed it and declined to raise it as outside its three invariants) — which is what motivated the two `D-*-derived-count` detectors added to drift-base this same chunk.
+
+## 2026-08-09-sut-load-envelope — cli status-label enumerations name the set + the non-lamp qualifier
+**Section:** §1 Surfaces under test (cli Signal) · §6 E2E cli driver row + Selector strategy
+**Change:** All three cli status-label enumerations now present the six bracket labels as the closed per-P-ID lamp/report-state set and record `[ENVIRONMENT-SUSPECT]` as a run-level non-lamp qualifier cli selectors must expect.
+**Why:** The chunk added a seventh bracket label to cli stdout while the three enumerations read as exhaustive; a selector strategy assuming only six would mis-parse an over-envelope run.

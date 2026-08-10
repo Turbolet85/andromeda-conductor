@@ -1,3 +1,7 @@
+# LOAD ENVELOPE — this scenario's total duration is asserted against the proven-good SUT bounds in
+# `contracts/pulse-load-envelope.toml` (the terms and any exemption live there, never copied here).
+# A run over the envelope reports ENVIRONMENT-SUSPECT, not Fail — the harness drove it, not Pulse.
+
 # P-025 — Halo Hue Encoding (pulse-capability-spec.md §P-025). Constellation family: the hue surface.
 #   P-025 — a service's halo HUE encodes its health: as the error/health state shifts, Pulse shifts the
 #     halo's hue (toward burgundy under error pressure). The hue render is Pulse's; Conductor drives the

@@ -295,18 +295,20 @@ Fail red       #F85149  → ANSI 203      (Fail — no blink)
 Blocked violet #565F89  → ANSI 60       (Blocked — never measured)
 Manual lavender#A9B1D6  → ANSI 146      (ManualCheck — awaiting operator; paired with [MANUAL] + ? glyph)
 Residual mute  #9A93A8  → ANSI 246      (KnownResidual — pre-accepted gap; paired with [RESIDUAL] + ~ glyph)
-                                        ALSO the shared recessive tier for two NON-lamp uses: the `hint:`
-                                        stderr label (Component Pattern 5) and the coverage-matrix
-                                        out-of-scope Mode cell (`not-conductors`) — webview binds the same
-                                        pair by name as `var(--status-residual)`. Neither is a lamp state:
-                                        the always-rendered text label carries the signal, the tint only
-                                        de-emphasizes. Markdown, having no color channel, uses emphasis
-                                        (`_not-conductors_`) as the surface-adapted counterpart.
+                                        ALSO the shared recessive tier for every NON-lamp use — currently
+                                        the `hint:` stderr label (Component Pattern 5), the coverage-matrix
+                                        out-of-scope Mode cell (`not-conductors`), and the run-level
+                                        `[ENVIRONMENT-SUSPECT]` load-envelope caption — webview binds the
+                                        same pair by name as `var(--status-residual)`. None is a lamp
+                                        state: the always-rendered text label carries the signal, the tint
+                                        only de-emphasizes. Markdown, having no color channel, uses
+                                        emphasis (`_not-conductors_`) or the bracket label in a blockquote
+                                        as the surface-adapted counterpart.
 Mono ID cyan   #7DCFFF  → ANSI 117      (P-IDs / run_id / SLO timings / fingerprints)
 Journal text   #A9B1D6  → ANSI 146      (report rows / dimmed metadata)
 ```
 
-Header style: bold + ANSI 117 (ID-cyan) for section titles; metadata dimmed. Status prefixes are ASCII text + color (never color alone): `[PASS]` / `[HOLD]` / `[FAIL]` / `[MANUAL]` / `[RESIDUAL]` / `[BLOCKED]` and `✓`/`✗`/`?`/`~`/`•`/`→` (TTY only — never emoji in machine-parseable piped output; `?` = `ManualCheck` awaiting operator, `~` = `KnownResidual` pre-accepted gap).
+Header style: bold + ANSI 117 (ID-cyan) for section titles; metadata dimmed. Status prefixes are ASCII text + color (never color alone) — the closed per-P-ID set `[PASS]` / `[HOLD]` / `[FAIL]` / `[MANUAL]` / `[RESIDUAL]` / `[BLOCKED]`, plus the run-level non-lamp `[ENVIRONMENT-SUSPECT]` load-envelope caption (ANSI 246, outside the lamp column) and `✓`/`✗`/`?`/`~`/`•`/`→` (TTY only — never emoji in machine-parseable piped output; `?` = `ManualCheck` awaiting operator, `~` = `KnownResidual` pre-accepted gap).
 
 ### Component Patterns
 
@@ -316,7 +318,7 @@ Header style: bold + ANSI 117 (ID-cyan) for section titles; metadata dimmed. Sta
 
 3. **Results / SLO table** (the `run` + `suite` per-check table). `comfy-table` 6 columns: P-ID (ANSI 117 cyan) · scenario · `state` (`[PASS]`/`[HOLD]`/`[FAIL]`/`[BLOCKED]` colored prefix) · `slo_tier` (`<5s`/`<20s`/`<90s`) · `latency_ms` (cyan, right-aligned) · fingerprints. Width detected dynamically from the terminal (never hardcoded). A `Blocked` row carries the named precondition string; measurement columns render as `—`/null, never a red error. **The coverage matrix is a SEPARATE, narrower table** — `conductor coverage` renders 4 columns (P-ID · Title · Category · Mode), carries no verdict/state column and therefore no bracket prefix, and terminates in a roll-up caption (§cli Primary screens).
 
-4. **Verdict / report-state lines.** Per-P-ID result printed in place: `✓ P-009  Pass   1840ms <5s` (green) / `✗ P-014  Fail   …` (ANSI 203 red, no blink) / `? P-035  Manual  halo→burgundy? · no OS toast?` (ANSI 146 lavender — `[MANUAL]`, an operator-checklist item with no machine verdict; TTY: `inquire` y/n, headless: recorded unconfirmed) / `~ P-032  Residual  recent_commits stub → v0.3.0` (ANSI 246 muted — `[RESIDUAL]`, a pre-accepted gap, never red) / `• P-022  Blocked  mcp-server feature + ANDROMEDA_PULSE_MCP_ENABLED + matching data-dir` (ANSI 60 violet). Color is always paired with the text prefix (`[PASS]`/`[FAIL]`/`[MANUAL]`/`[RESIDUAL]`/`[BLOCKED]`/…) for NO_COLOR + screen-reader friendliness.
+4. **Verdict / report-state lines.** Per-P-ID result printed in place: `✓ P-009  Pass   1840ms <5s` (green) / `✗ P-014  Fail   …` (ANSI 203 red, no blink) / `? P-035  Manual  halo→burgundy? · no OS toast?` (ANSI 146 lavender — `[MANUAL]`, an operator-checklist item with no machine verdict; TTY: `inquire` y/n, headless: recorded unconfirmed) / `~ P-032  Residual  recent_commits stub → v0.3.0` (ANSI 246 muted — `[RESIDUAL]`, a pre-accepted gap, never red) / `• P-022  Blocked  mcp-server feature + ANDROMEDA_PULSE_MCP_ENABLED + matching data-dir` (ANSI 60 violet). Color is always paired with the text prefix (`[PASS]`/`[FAIL]`/`[MANUAL]`/`[RESIDUAL]`/`[BLOCKED]`/…) for NO_COLOR + screen-reader friendliness. A run whose profile breaches the SUT load envelope additionally prints the run-level `[ENVIRONMENT-SUSPECT]` caption once, above these lines — a qualifier on the run, never a seventh lamp or a sixth `ReportState`.
 
 5. **Error output.** To stderr, sanitized (no absolute host paths / internal struct names / stack traces per security plan): `error: <short>` + contextual detail + `hint: <fix>`. The `error:` label reuses Fail red (ANSI 203), `hint:` the Residual mute (ANSI 246) — tty-gated on stderr (its own `IsTerminal` gate, distinct from the stdout gate), never new colors. Never colorized when piped; the ASCII `error:`/`hint:` labels always stand (never color-alone); stack traces only under `--debug`/`-v`.
 

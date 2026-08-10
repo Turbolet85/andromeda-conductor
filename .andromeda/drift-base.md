@@ -131,3 +131,9 @@ for the report to carry it (extend report-template) — never re-derive from git
   invariant: the a11y violation JSON schema stays consistent with obs §6 (the structured-log envelope a11y emits to).
   check: agent-read — if the report changes the a11y violation schema or the obs log schema, confirm the two still match; a divergence is drift.
   severity: warning
+
+- id: D-design-derived-count
+  doc: design-system
+  invariant: a count / range / qualifier the doc states in a palette row, ANSI-map entry, token label or reuse tally matches the value the chunk's code now produces.
+  check: agent-read — for each entry in the report's `Counts / qualifiers this chunk moved` bullet, grep the doc for the OLD value in a palette row / ANSI-map entry / token label / reuse tally; a hit is drift (the doc bakes a value the code no longer produces). Prose naming the SET rather than a literal is correct and NOT a hit — the fix is always to name the set or update the sample, never to substitute a fresh literal that re-stales.
+  severity: warning

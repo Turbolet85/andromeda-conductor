@@ -1,3 +1,7 @@
+# LOAD ENVELOPE — this scenario's total duration is asserted against the proven-good SUT bounds in
+# `contracts/pulse-load-envelope.toml` (the terms and any exemption live there, never copied here).
+# A run over the envelope reports ENVIRONMENT-SUSPECT, not Fail — the harness drove it, not Pulse.
+
 # P-014 — Service Went Silent Detection (pulse-capability-spec.md §P-014).
 # A previously-active service that goes silent past its 95th-percentile quiet (minimum 30s) emits a
 # ServiceWentSilent attention cue. Recipe: a FRESH service (no learned quiet pattern yet) emits 5min

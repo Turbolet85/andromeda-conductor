@@ -20,6 +20,7 @@ mod drift;
 mod error;
 mod expected;
 mod lamp;
+mod load_envelope;
 mod obs;
 mod pause;
 mod phase_spec;
@@ -38,6 +39,10 @@ pub use drift::{KNOWN_UNCLASSIFIED, UNBACKED_AUTO, check_scenario_backing, check
 pub use error::{CoreError, Result};
 pub use expected::{ClaimClass, ComparisonKind, ExpectedCheck};
 pub use lamp::Lamp;
+pub use load_envelope::{
+    EnvelopeStatus, EnvelopeTerms, Exemption, LoadEnvelope, check_load_envelope,
+    scenario_duration_ms,
+};
 pub use obs::{init_observability, mint_run_id, now_rfc3339, ObsSink, ServiceIdentity};
 pub use pause::{Decision, HeadlessResolver, HoldPoint, HoldResolution, PauseResolver, resolve_hold};
 pub use phase_spec::{EmissionSpec, PhaseSpec, Signal};
