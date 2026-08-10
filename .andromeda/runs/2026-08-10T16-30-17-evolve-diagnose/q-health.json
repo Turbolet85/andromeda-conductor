@@ -1,0 +1,39 @@
+{
+ "epoch": "Epoch 1 — Foundation: re-aim at the SUT",
+ "records": 225,
+ "step": 111,
+ "friction": 114,
+ "unparseable": 0,
+ "chunks": [
+  "2026-08-08-dependency-advisory-remediation",
+  "2026-08-08-sut-capability-manifest",
+  "2026-08-09-current-sut-coverage-classification",
+  "2026-08-09-in-lane-sut-scenarios",
+  "2026-08-09-interpretation-correctness-posture",
+  "2026-08-09-out-of-scope-classification-treatment",
+  "2026-08-09-sut-drift-check",
+  "2026-08-09-sut-load-envelope"
+ ],
+ "coverage_gaps": [],
+ "new_session_records": 7,
+ "untyped_total": 29,
+ "untyped_by_step": {
+  "andromeda-phase/distill": 2,
+  "andromeda-phase/plan": 4,
+  "andromeda-wrap-session/gates": 1,
+  "andromeda-new-session/orientation": 5,
+  "andromeda-phase/take-up": 4,
+  "andromeda-phase/validate": 2,
+  "andromeda-implement/code": 2,
+  "andromeda-implement/fix-loop": 2,
+  "andromeda-implement/smoke": 2,
+  "andromeda-wrap-session/curation": 1,
+  "andromeda-wrap-session/report": 1,
+  "andromeda-phase/research": 2,
+  "andromeda-wrap-session/reconcile": 1
+ },
+ "problem_fact_fill": {
+  "filled": 40,
+  "of": 111
+ }
+}

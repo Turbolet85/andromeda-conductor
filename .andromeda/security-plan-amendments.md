@@ -66,3 +66,15 @@ _Append-only changelog of amendments to `security-plan.md` (the body holds only 
 **Section:** §Input Validation (boundary table)
 **Change:** Added one boundary row covering both committed SUT-facing manifests read at a fixed path — `contracts/pulse-capabilities.toml` and `contracts/pulse-load-envelope.toml` — with their per-artifact validation, the fixed `default_path()` → `resolve_under` resolution with deliberately no `CONDUCTOR_*` override, `e.kind()`-only read faults, and absent/malformed as a hard fault never defaulted.
 **Why:** The chunk added the load envelope, a new runtime-parsed committed artifact, and §Input Validation enumerates every external-input surface. Registering it surfaced that the capability manifest's own row — recorded as landed in this sidecar on 2026-08-08 — was absent from the body, so the row covers both rather than leaving a sibling boundary undocumented.
+
+## 2026-08-10-workspace-key-divergence-probe — preflight never-downgrade ban: four named preconditions
+**Section:** §Security Anti-Patterns → Universal (the "NEVER silently downgrade a failed preflight" bullet)
+**Change:** The bullet's cause enumeration now names the gate's FOUR named preconditions (version mismatch /
+missing tool / canary fingerprint absent / app-sidecar workspace-key agreement), each required to surface as
+its own distinct `blocked` precondition string — explicitly never the generic corpus-empty string. The stale
+**keychain read-while-write** cause was removed from the enumeration and replaced by an explicit statement
+that it does NOT apply (the P-049 encrypted-at-rest assumption was disproved live; `corpus.db` is plaintext).
+**Why:** the bullet cites `(Standard Contracts: Readiness gate)` verbatim, so it is a cross-master citation of
+the passage amended this chunk — cascade step 2 folds such fixes into the same pass. The keychain half had
+been stale since the 2026-06-27 arch corpus-access correction, which `architecture.md` §Standard Contracts
+already records; the security master had never been reconciled to it.

@@ -1,0 +1,42 @@
+# obs extract
+
+## Relevance
+Partial — the chunk's code deliverable (a new named `Blocked` precondition string that lands in logs, run report, and `runs.db`) is squarely obs-governed for redaction, log shape, and span placement; the two-launch live probe is obs-governed only for how its verdict is recorded.
+
+## Constraints
+- The precondition string is an artifact-bound value: absolute host-FILE paths (drive-letter, `/home`, `/Users`, `%APPDATA%`, `~/.cargo`, `.rustup`, backtrace paths) must be masked `<redacted>` at the **processor stage** (`conductor-core::redact`), never scrubbed only at the sink; internal struct names are excluded by the field-name allowlist + `Display`-not-`Debug` at the `anyhow` edge, NOT by `::`-token redaction (per obs-plan §11 Anti-Patterns → Logs, PII Scrubbing).
+- Detection of the divergence must produce a typed `Blocked` verification value — never a `Result::Err`, never a panic on the read-back/transport path; every panic that does occur is captured by `std::panic::set_hook()` → one-line `tracing::error!` (per obs-plan §11 Anti-Patterns → Error Reporting; §10 SLO Invariants, zero-unlogged-panics).
+- No new span name may be minted: the bounded set is `scenario.run`, `timeline.execute*`, `emit.batch`, `emit.logs_batch`, `verify.readback*`, `report.generate`, `db.insert_run`, `fault.*`, `tauri.command.*` — divergence detection belongs inside the existing `verify.readback*` manual client span for the conductor-verify seam (per obs-plan §11 Anti-Patterns → Spans/Traces; §4 auto-instrumentation table, conductor-verify row).
+- The MCP read-back boundary is a must-log event: method name + `latency_ms` + error (if any) + canary-check result, at `info` for the boundary summary / state transition and `warn` for a recoverable-degraded outcome (per obs-plan §6 Boundary-call wrappers; §6 Log levels mapping).
+- A `Blocked` Run-report envelope row carries identity fields only — `latency_ms` and `read_back_observed_at` are `null` for blocked rows (per obs-plan §3 Log format JSON schema; §6 Log Coverage).
+- All output stays structured and agent-parseable: never unstructured stderr text, never a human-only note; the two-launch verdict must land in a `jq`/`serde_json`-readable form on the paste-to-AI surface (per obs-plan §2 Agent-readable invariants; §11 Anti-Patterns → Logs).
+- Sidecar spawn instrumentation must not disturb the `.env(...)`-only invariant: `ANDROMEDA_PULSE_DATA_DIR` is never argv, and its value never becomes a logged field (per obs-plan §11 Project-specific bans).
+
+## Patterns to follow
+- `D:\dev\projects\conductor\crates\conductor-verify\src\preflight.rs:105` — `#[tracing::instrument(name = "verify.readback.preflight", skip_all)]`: a bounded-set-conforming span name plus `skip_all` so no struct is Debug-dumped into fields. The new detection rides this existing span; extend the precondition cascade inside it rather than adding instrumentation.
+- `D:\dev\projects\conductor\crates\conductor-verify\src\preflight.rs:179` — the single blocked boundary line `tracing::info!(state = ReportState::Blocked.label(), "preflight blocked: {precondition}")`. A new precondition value gets its log coverage for free through this line; a second bespoke log statement would duplicate the boundary event.
+- `D:\dev\projects\conductor\crates\conductor-verify\src\preflight.rs:295` — `call_error_reason()` applying `redact_value(...)` before a string becomes a precondition. This is the established host-path-free precondition pattern; a divergence string derived from any path-bearing value must go through the same scrub rather than hand-formatting.
+- `D:\dev\projects\conductor\crates\conductor-verify\src\preflight.rs:97` — `UNREACHABLE_PRECONDITION` as a named `const` with a doc comment citing arch §Standard Contracts. Add the new value as a sibling named const, keeping the precondition set enumerable and low-cardinality.
+- The existing three-leg precondition cascade (version mismatch · missing tool · empty canary, `preflight.rs:150-189`) — the new leg folds in as a fourth branch, preserving `ready = blocked_precondition.is_none()`.
+
+## Anti-patterns to avoid
+- Never embed the two derived workspace keys (the detected project root and the `data_dir`) as literal paths in the precondition string, a log field, or the report — that is exactly the absolute-host-path leak the §9 conformance gate fails the build on (per obs-plan §11 Anti-Patterns → Logs; §9 Log conformance check).
+- Never surface the divergence as a `Result::Err`, a `panic!`, or a retry-once around the read-back — a masked failure violates the verdict/error wall and the zero-unlogged-panics invariant (per obs-plan §11 Anti-Patterns → Error Reporting; §10).
+- Never emit the two-launch probe result as free-form stderr prose or a per-path span name — unstructured stderr and high-cardinality span names are both banned (per obs-plan §11 Anti-Patterns → Logs, Spans/Traces).
+
+## Contract bindings
+- **obs ↔ tests harness:** `blocked_precondition` rides the readiness result the `agent-run boot` command consumes and the `Blocked` envelope the `status` command reads; the envelope JSONL schema is OWNED by test-plan §3 (obs-plan §3/§6 reproduce it and can drift) — implement the blocked-row field nullity against the owner, not the reproduction.
+- **obs ↔ security:** the no-absolute-host-paths artifact rule is enforced obs-side at the `conductor-core::redact` processor stage and binds security's §Error handling / artifact-hygiene invariant that the scope already cites; the `.env(...)`-only sidecar spawn ban is mirrored in obs-plan §11 Project-specific bans.
+- **obs ↔ CI:** the §9 `logs/agent-latest.jsonl` conformance gate (no absolute host-file paths in any field) and the zero-unlogged-panics grep both gate this chunk's new string and its detection path.
+
+## Acceptance criteria contributions
+- The new named `Blocked` precondition string contains no absolute host path in the readiness JSON, the run report, `runs.db`, or any log line — proven by passing the value through `conductor-core::redact`'s value scrub rather than by hand-formatting (per obs-plan §11 Anti-Patterns → Logs / PII Scrubbing, §9 Log conformance check).
+- Divergence detection produces the typed `Blocked` readiness value with `ready:false`; no `Err` and no panic on this path, and `logs/agent-latest.jsonl` + stderr contain no `^thread.*panicked` line (per obs-plan §10 SLO Invariants; §9 Zero-unlogged-panics gate).
+- The blocked leg logs exactly one boundary line at `info` carrying `state=Blocked` plus the precondition, emitted inside the existing `verify.readback*` span — no new span name is introduced (per obs-plan §6 Boundary-call wrappers; §11 Anti-Patterns → Spans/Traces).
+- Any envelope row written for this condition populates identity fields only, with `latency_ms` and `read_back_observed_at` null (per obs-plan §3 Log format JSON schema).
+
+## Relevant amendment history
+- **2026-06-15-log-error-boundary-redaction** (§6 conformance / §11 Logs, PII Scrubbing) — the redaction model was reconciled to the implemented `conductor-core::redact`: the value scrub anchors on absolute host-FILE paths → `<redacted>`, NOT `::`-type tokens; struct names are excluded by the field-name allowlist + `Display`-not-`Debug`; the allowlisted `target` module path is preserved. Directly governs this chunk's "no absolute host path" precondition string — a blanket `::` redaction to satisfy the scope's wording would be the over-redaction this amendment ruled out.
+- **2026-06-16-emission-journal-writer** (§3/§6 envelope) — `read_back_observed_at` added as the envelope's 2nd field, explicitly null for blocked rows; the envelope is 11 fields and its OWNER is test-plan §3, not obs-plan's reproduction. Sets the blocked-row field shape this chunk's new `Blocked` outcome must produce.
+- **2026-06-27-obs-ci-conformance-gate** (§9) — the `agent-latest.jsonl` gate validates the §3 self-obs base-line schema (`timestamp_ms`/`level`/`target`/service-identity/`run_id`), not the §6 envelope; the two record shapes are distinct and the envelope's own gate is not yet built. Matters because the precondition string surfaces on both shapes — the CI host-path check that will catch a leak runs against the self-obs stream.
+- **2026-06-15-structured-logging-stack** (§3) — established the two record shapes (self-obs base line vs Run-report envelope) and the custom `tracing-subscriber` layer; the prerequisite framing for the two bullets above.

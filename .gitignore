@@ -34,3 +34,8 @@ crates/conductor-tauri/ui/dist/
 
 # --- Tauri (crates/conductor-tauri — tauri-build regenerates gen/schemas/ on every compile) ---
 crates/conductor-tauri/gen/
+
+# --- SUT fallout: Pulse emits Specta/TauRPC bindings relative to ITS cwd, so any live probe launching
+# pulse-app from this root writes /ui/src/bindings/ here. Foreign artifacts, never Conductor's; the
+# root /ui/ is unrelated to the GUI's crates/conductor-tauri/ui/. Recurrence-proof for every future arm.
+/ui/

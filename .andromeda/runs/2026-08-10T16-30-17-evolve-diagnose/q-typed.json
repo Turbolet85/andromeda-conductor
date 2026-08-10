@@ -1,0 +1,1480 @@
+[
+ {
+  "key": "andromeda-wrap-session/reconcile/ambiguity.playbook-no-match",
+  "skill": "andromeda-wrap-session",
+  "step": "reconcile",
+  "type": "ambiguity.playbook-no-match",
+  "n": 4,
+  "step_runs": 8,
+  "rate": 0.5,
+  "weight": 18,
+  "score": 72,
+  "chunks": [
+   "2026-08-08-sut-capability-manifest",
+   "2026-08-09-current-sut-coverage-classification",
+   "2026-08-09-interpretation-correctness-posture",
+   "2026-08-09-sut-load-envelope"
+  ],
+  "impact": {
+   "dlg": 4,
+   "halts": 3
+  },
+  "above_threshold": true,
+  "cases": [
+   {
+    "chunk": "2026-08-08-sut-capability-manifest",
+    "what": "The chunk reverses a locked spec constant because the SUT ADVANCED past it (Pulse shipped P-061..P-082), but playbook rule 27 - the only reversal rule - is scoped to a tech choice that proved UNWORKABLE against the real system. The shape fit (escalate once to ratify, then lockstep-reconcile consequential mentions as routine) but the cause did not, so the match was by judgment rather than by rule. This class will recur immediately: v2-02 (drift check) and v2-03 (coverage classification) both touch the same boundary in Epoch 1.",
+    "impact": {
+     "dialogue_rounds": 1
+    },
+    "evidence": "playbook rule 27 pattern clause: a tech choice that proved unworkable against the real system"
+   },
+   {
+    "chunk": "2026-08-09-current-sut-coverage-classification",
+    "what": "D-layout-surface proposed documenting a coverage-matrix Mode cell that has been undocumented since 2026-06-27; the playbook's seven not-this-chunks-drift dismiss rules all scope to dependency, library-symbol, deferred-span or plan-to-plan-bind detectors, none to a doc-vs-shipped surface omission, so it escalated by unease and the operator overrode the recommended carry",
+    "impact": {
+     "dialogue_rounds": 1,
+     "halted": 1
+    },
+    "evidence": null
+   },
+   {
+    "chunk": "2026-08-09-interpretation-correctness-posture",
+    "what": "D-security-input reproduced the established command-name over-reach misfire, but every rule in that dismiss family is scoped to arch registries, so no rule matched a security-plan target and an escalate-severity proposal had to go to the operator. Resolved in 1 round: dismiss plus a new rule extending the family to security-plan Threat Model's attack-surface enumeration",
+    "impact": {
+     "dialogue_rounds": 1,
+     "halted": 1
+    },
+    "evidence": null
+   },
+   {
+    "chunk": "2026-08-09-sut-load-envelope",
+    "what": "D-security-input (severity escalate) had no matching playbook rule — the nearest, the 2026-06-23 consuming-shipped-infra dismiss rule, is explicitly preconditioned on the chunk adding NO new external-input boundary, and this chunk added one. Escalated, resolved in one round, and closed by appending a rule for the class.",
+    "impact": {
+     "halted": 1,
+     "dialogue_rounds": 1
+    },
+    "evidence": null
+   }
+  ]
+ },
+ {
+  "key": "andromeda-phase/plan/ambiguity.scope-question",
+  "skill": "andromeda-phase",
+  "step": "plan",
+  "type": "ambiguity.scope-question",
+  "n": 3,
+  "step_runs": 8,
+  "rate": 0.38,
+  "weight": 7,
+  "score": 21,
+  "chunks": [
+   "2026-08-09-current-sut-coverage-classification",
+   "2026-08-09-in-lane-sut-scenarios",
+   "2026-08-09-sut-drift-check"
+  ],
+  "impact": {
+   "dlg": 3
+  },
+  "above_threshold": true,
+  "cases": [
+   {
+    "chunk": "2026-08-09-sut-drift-check",
+    "what": "Two scope questions asked in one round. Q1 (gate hardness) was genuinely the operator's call — the materials actively conflict: the working entry demands a loud failure, test-plan §10/§11 forbids a red or skipped gate, and the committed tree makes a plain assertion red; no artifact resolves it. Q2 (surface) was materials-answerable — verification-matrix v2-02 declares method:unit and the Epoch-6 working-route entry already owns the coverage completeness gate — and was asked anyway because it decides whether the design/layouts cli constraints bind at all.",
+    "impact": {
+     "dialogue_rounds": 1
+    },
+    "evidence": "P4 AskUserQuestion; both recommendations accepted"
+   },
+   {
+    "chunk": "2026-08-09-current-sut-coverage-classification",
+    "what": "Two scope-ambiguity questions asked in one round: the representation choice was genuinely the operator's (the CARRY framed it as open and the specs only leaned), while the lane-mode split had materials pulling both ways — three of P-075's four aggregated budgets are already drive+observe in the shipped table, but intent section 7 says the budgets must return real Pass/Fail",
+    "impact": {
+     "dialogue_rounds": 1
+    },
+    "evidence": null
+   },
+   {
+    "chunk": "2026-08-09-in-lane-sut-scenarios",
+    "what": "Two scope questions asked in one round. The P-079 check shape was genuinely the operator's call (the materials constrained the read-back surface but not the token/kind). The P-072 shape was largely determined by the materials already — DriveObserve classification, the shipped empty-expected precedent, the no-UI-automation non-goal and the v2-05 interpretation deferral all pointed one way; only intent §4 F2's phrase 'candidate drive+observe via report read-back' created the doubt.",
+    "impact": {
+     "dialogue_rounds": 1
+    },
+    "evidence": null
+   }
+  ]
+ },
+ {
+  "key": "andromeda-phase/distill/retry.distiller-respawn",
+  "skill": "andromeda-phase",
+  "step": "distill",
+  "type": "retry.distiller-respawn",
+  "n": 3,
+  "step_runs": 8,
+  "rate": 0.38,
+  "weight": 6,
+  "score": 18,
+  "chunks": [
+   "2026-08-09-current-sut-coverage-classification",
+   "2026-08-09-in-lane-sut-scenarios",
+   "2026-08-09-sut-drift-check"
+  ],
+  "impact": {
+   "retries": 5
+  },
+  "above_threshold": true,
+  "cases": [
+   {
+    "chunk": "2026-08-09-sut-drift-check",
+    "what": "security and obs both failed per-extract check 3 (Anchors) on identical grounds — Constraints were anchored but every/most Acceptance-criteria bullets carried no plan section anchor; both passed on one respawn naming the check. Side effect worth keeping: the obs retry GENERALIZED away a concrete constraint its first attempt carried (that missing_p_ids / coverage_percent / sut_version / captured_at are absent from redact::ALLOWLISTED_FIELDS and would be silently dropped), so the raw twin holds a fact the accepted extract does not.",
+    "impact": {
+     "retries": 2
+    },
+    "evidence": "fan-out.md validation check 3; both raw twins preserved in the run dir"
+   },
+   {
+    "chunk": "2026-08-09-current-sut-coverage-classification",
+    "what": "security and design both failed per-extract check 3 (Anchors) the same way — Constraints correctly anchored but every Acceptance bullet citing no plan section; both passed on one retry with the check named in the prompt",
+    "impact": {
+     "retries": 2
+    },
+    "evidence": ".andromeda/runs/2026-08-09T13-25-14-phase/"
+   },
+   {
+    "chunk": "2026-08-09-in-lane-sut-scenarios",
+    "what": "The security distiller's first return anchored every Constraints bullet but no Acceptance-criteria bullet, failing per-extract check 3 (Anchors); re-spawned once with the check named and the retry passed.",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": ".andromeda/runs/2026-08-09T19-39-56-phase/.raw-security.md"
+   }
+  ]
+ },
+ {
+  "key": "andromeda-phase/validate/contract.matrix-claim",
+  "skill": "andromeda-phase",
+  "step": "validate",
+  "type": "contract.matrix-claim",
+  "n": 4,
+  "step_runs": 8,
+  "rate": 0.5,
+  "weight": 3,
+  "score": 12,
+  "chunks": [
+   "2026-08-09-in-lane-sut-scenarios",
+   "2026-08-09-out-of-scope-classification-treatment",
+   "2026-08-09-sut-drift-check",
+   "2026-08-09-sut-load-envelope"
+  ],
+  "impact": {
+   "dlg": 1,
+   "extra": 3,
+   "defer": 1
+  },
+  "above_threshold": true,
+  "cases": [
+   {
+    "chunk": "2026-08-09-sut-drift-check",
+    "what": "v2-02's acceptance needed refinement not for affordance honesty but because a P4 operator decision changed what the cap's pass condition means: the pinned known-gap ledger makes the check pass while the manifest still carries 22 ids the classification lacks, which the route-authored wording called a failure. Left unrefined, wrap's coverage gate would have flipped the cap to verified against a condition the chunk deliberately does not satisfy.",
+    "impact": {},
+    "evidence": "verification-matrix.json#v2-02 acceptance, before/after the P5 link"
+   },
+   {
+    "chunk": "2026-08-09-out-of-scope-classification-treatment",
+    "what": "no capability in the version verification matrix corresponds to this route entry: all 29 unclaimed acceptances were read and none is satisfied in full by a visual-treatment chunk, so 0 caps were linked and v2-30 Live per-P-ID verdict lamps was recorded as partially advanced in plan.md provenance instead (its second clause, a no-run-record row must not render a failure treatment, overlaps this chunk's negative guarantee while its first clause needs the Epoch-5 verdict join)",
+    "impact": {
+     "extra_reads": 2
+    },
+    "evidence": "conductor-0.2.0/chunks/2026-08-09-out-of-scope-classification-treatment/plan.md"
+   },
+   {
+    "chunk": "2026-08-09-in-lane-sut-scenarios",
+    "what": "The chunk's sole matching capability v2-04 has a dynamic-external acceptance requiring a live-Pulse non-blocked verdict via MCP read-back, which depends on v2-08/v2-09/v2-10 in Epoch 2; the chunk authors the catalog those legs will later prove. Deliberated whether to refine the acceptance to what this chunk can satisfy, and rejected that as weakening the ledger to claim credit — left chunk:null per the multi-chunk rule and cited it in plan provenance, so this Epoch-1 chunk links zero caps and coverage stays 4/32.",
+    "impact": {
+     "deferred": 1
+    },
+    "evidence": null
+   },
+   {
+    "chunk": "2026-08-09-sut-load-envelope",
+    "what": "v2-06's route-authored acceptance ('storm profile AND duration is asserted inside the envelope') rests on an assumption research falsified — the committed model has no rate field — so the claim decision needed the matrix contract re-read mid-validation to confirm that a partial cap leaves chunk:null rather than having its acceptance refined downward to become linkable.",
+    "impact": {
+     "extra_reads": 1,
+     "dialogue_rounds": 1
+    },
+    "evidence": null
+   }
+  ]
+ },
+ {
+  "key": "andromeda-implement/fix-loop/tooling.environmental",
+  "skill": "andromeda-implement",
+  "step": "fix-loop",
+  "type": "tooling.environmental",
+  "n": 3,
+  "step_runs": 8,
+  "rate": 0.38,
+  "weight": 3,
+  "score": 9,
+  "chunks": [
+   "2026-08-08-sut-capability-manifest",
+   "2026-08-09-out-of-scope-classification-treatment",
+   "2026-08-09-sut-load-envelope"
+  ],
+  "impact": {
+   "retries": 2,
+   "defer": 1
+  },
+  "above_threshold": true,
+  "cases": [
+   {
+    "chunk": "2026-08-08-sut-capability-manifest",
+    "what": "cargo audit and cargo deny check advisories are RED on a dependency tree byte-identical to HEAD. Four advisories (RUSTSEC-2026-0190, -0194, -0195, -0204) were published 2026-06-29 to 2026-07-06, during the 41-day pause since the last session, against crossbeam-epoch 0.9.18 and quick-xml 0.39.4 (two rated 7.5 high). This chunk added no dependency and Cargo.lock is un-drifted, so the gate went red with no code change - a standing repo-health gate that decays with wall-clock time rather than with the diff. Fixing needs transitive bumps through the tauri tree (quick-xml 0.39 to 0.41 is a major), which is out of scope and would drift the lock this chunk asserts un-drifted.",
+    "impact": {
+     "iterations": 0,
+     "soft_exit": 0
+    },
+    "evidence": "cargo deny check advisories FAILED; git diff --quiet Cargo.lock clean; advisory dates all after the 2026-06-28 session end"
+   },
+   {
+    "chunk": "2026-08-09-out-of-scope-classification-treatment",
+    "what": "cargo audit exits 1 with error loading advisory database: parse error: duplicate advisory ID RUSTSEC-2026-0244, both on a fresh fetch and with -n against the cached clone, so the RustSec database itself will not parse; not attributable to this chunk (zero dependency delta, Cargo.lock and package-lock.json both un-drifted) and the overlapping signal is intact since cargo deny check reports advisories bans licenses sources all ok, so continuation was chosen over a soft-exit",
+    "impact": {
+     "retries": 2
+    },
+    "evidence": "cargo audit exit=1; cargo audit -n exit=1; cargo deny check advisories ok"
+   },
+   {
+    "chunk": "2026-08-09-sut-load-envelope",
+    "what": "cargo audit failed a FIFTH consecutive time with the byte-identical 'error loading advisory database: parse error: duplicate advisory ID: RUSTSEC-2026-0244' (true exit 1). Advisory-DATABASE fault with nothing to raise a floor to; remedy stayed the bounded wait, with cargo deny check OBSERVED green (advisories/bans/licenses/sources ok, exit 0) as the overlapping signal.",
+    "impact": {
+     "deferred": 1
+    },
+    "evidence": null
+   }
+  ]
+ },
+ {
+  "key": "andromeda-wrap-session/report/contract.detector-fact-gap",
+  "skill": "andromeda-wrap-session",
+  "step": "report",
+  "type": "contract.detector-fact-gap",
+  "n": 8,
+  "step_runs": 8,
+  "rate": 1.0,
+  "weight": 1,
+  "score": 8,
+  "chunks": [
+   "2026-08-08-dependency-advisory-remediation",
+   "2026-08-08-sut-capability-manifest",
+   "2026-08-09-current-sut-coverage-classification",
+   "2026-08-09-in-lane-sut-scenarios",
+   "2026-08-09-interpretation-correctness-posture",
+   "2026-08-09-out-of-scope-classification-treatment",
+   "2026-08-09-sut-load-envelope"
+  ],
+  "impact": {
+   "extra": 1
+  },
+  "above_threshold": true,
+  "cases": [
+   {
+    "chunk": "2026-08-08-sut-capability-manifest",
+    "what": "A negative API fact had no natural Changes bullet: an env handle (CONDUCTOR_CAPABILITY_MANIFEST) was written during implementation and then deliberately reverted. The template Symbols/APIs bullet lists new-or-changed surfaces, so a thing that briefly existed and was withdrawn has no home - yet it is exactly what an env-namespace detector would want to know did NOT land. Folded into the Symbols bullet as an explicit none-added note. Same shape applies to the reverted-decision class generally.",
+    "impact": {
+     "extra_reads": 0
+    },
+    "evidence": "report Changes > Symbols/APIs, Env vars line"
+   },
+   {
+    "chunk": "2026-08-08-dependency-advisory-remediation",
+    "what": "Two detector-relevant facts had no natural home in the Changes section and were placed under Decisions & corrections: that the wrap amendment surface for the anyhow move is architecture.md only (security-plan carries no anyhow version), and that the deny.toml-vs-security-plan accepted-exceptions count gap is pre-existing and not introduced by this chunk. The report template states detectors must be able to run against the Changes section alone, so a detector parsing only Changes would miss both and could mis-target an amendment or over-fire on the pre-existing gap",
+    "impact": {},
+    "evidence": "report.md Decisions & corrections bullets 4 and 5; the anyhow version move itself IS in Changes/Dependencies so the arch proposal will target correctly"
+   },
+   {
+    "chunk": "2026-08-09-current-sut-coverage-classification",
+    "what": "The Changes Files bullet assumes code paths, but three of this chunk's changed files are SPEC MASTERS — a fact family the template has no bullet for and that detectors must see, since it is precisely what makes the sidecar entries owed; carried as a flagged sub-bullet plus a Deviations entry rather than a normal file listing",
+    "impact": {
+     "extra_reads": 0
+    },
+    "evidence": null
+   },
+   {
+    "chunk": "2026-08-09-out-of-scope-classification-treatment",
+    "what": "this is the first wrap under the plan-shape where implement authors no amendments and the plan records them as Expected amendments, and the report template has no slot for that fact family: the four pending doc-directions had to be carried in a new top-level section so the P2 detectors can find them from the report alone, per the operator directive that the report must carry what the detectors need",
+    "impact": {
+     "extra_reads": 0
+    },
+    "evidence": "conductor-0.2.0/chunks/2026-08-09-out-of-scope-classification-treatment/report.md"
+   },
+   {
+    "chunk": "2026-08-09-interpretation-correctness-posture",
+    "what": "the Coverage-of-new-surfaces row vocabulary is three-valued (checkmark / cross / n-a) with no slot for 'assertable in principle, unrunnable in this environment' - the a11y flag for the roll-up qualifier is exactly that (display-gated Linux+xvfb harness on a Windows host), so it had to be written as prose instead of a flag; a detector keying on the flag values cannot distinguish it from an unasserted surface",
+    "impact": {},
+    "evidence": null
+   },
+   {
+    "chunk": "2026-08-09-interpretation-correctness-posture",
+    "what": "a dev CLI TOOL version change (cargo-audit 0.22.1 to 0.22.2) has no natural Changes bullet - it is neither a repo dependency nor a config key, yet it is supply-chain-relevant. Filed under Dependencies with an explicit not-a-repo-artifact note so a detector reading 'Dependencies: NONE added' does not mis-read the tool upgrade as a lockfile change",
+    "impact": {},
+    "evidence": null
+   },
+   {
+    "chunk": "2026-08-09-in-lane-sut-scenarios",
+    "what": "The report template's standard Changes families (Files / Symbols / Crates / Dependencies / Schema / Coverage-of-new-surfaces) have no natural home for 'a documented derived COUNT or qualifier changed value' — the exact fact a detector needs to catch a spec baking that count in a sample caption. Invoked the template's extend-the-bullets rule and added a 'Counts / qualifiers this chunk moved' family, ahead of any drift-base detector that consumes it. Third consecutive chunk where this fact class went undetected.",
+    "impact": {},
+    "evidence": null
+   },
+   {
+    "chunk": "2026-08-09-sut-load-envelope",
+    "what": "The derived-count class recurred on design-system.md (its Color Palette entry bakes 'two NON-lamp uses' of ANSI 246, which this chunk moves to three), but the two shipped derived-count detectors are scoped to layout-templates and test-plan only — drift-base scopes one detector to one doc, so design-system has no detector bound to the Counts bullet and would starve on this fact.",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": null
+   }
+  ]
+ },
+ {
+  "key": "andromeda-wrap-session/curation/ambiguity.filter-borderline",
+  "skill": "andromeda-wrap-session",
+  "step": "curation",
+  "type": "ambiguity.filter-borderline",
+  "n": 8,
+  "step_runs": 8,
+  "rate": 1.0,
+  "weight": 1,
+  "score": 8,
+  "chunks": [
+   "2026-08-08-sut-capability-manifest",
+   "2026-08-09-current-sut-coverage-classification",
+   "2026-08-09-in-lane-sut-scenarios",
+   "2026-08-09-interpretation-correctness-posture",
+   "2026-08-09-out-of-scope-classification-treatment",
+   "2026-08-09-sut-drift-check",
+   "2026-08-09-sut-load-envelope"
+  ],
+  "impact": {
+   "defer": 5
+  },
+  "above_threshold": true,
+  "cases": [
+   {
+    "chunk": "2026-08-08-sut-capability-manifest",
+    "what": "Three candidates scored roughly 0.4 on Filter 4 and were rejected, but each is load-bearing for the NEXT chunks: garde dive propagates Context so a validation context forces onto every dived-into type (decided this chunk design); a CLI TempDir-rooted E2E must carry every repo-shaped artifact the binary now reads; and a supply-chain gate can go red with zero code change because it decays with wall-clock time as the advisory DB updates. The rubric has no positive signal for a hard-won gotcha that CHANGED a design - it credits user corrections, repetition and always/never language, none of which a self-discovered constraint has. All three were routed to the handoff instead, which is arguably their right home, but the filter rejected them for absence of social signal rather than lack of value.",
+    "impact": {
+     "deferred": 3
+    },
+    "evidence": "Filter 4 positive-signal list: user correction +0.4, repetition +0.3, always/never +0.3, explicit request +0.5, new dep +0.2, technical detail +0.2"
+   },
+   {
+    "chunk": "2026-08-09-sut-drift-check",
+    "what": "Two candidates sat at filter edges. (Filter 1) The trace-fidelity learning overlaps an existing Tier-1 entry that already states a head-ed view is never the result; judged distinct because the new content is the partial-honoring failure mode (count taken from the trace, composition inferred from the truncated view) plus the bidirectional-OR inference, but it sits near the Jaccard edge. (Filter 3 + Filter 4) The pinned-ledger learning is adjacent to testing.md's standing 'never lower the coverage threshold to pass'; judged not a conflict because the subject differs (recording work owed at full precision with an anti-rot mechanism vs weakening an assertion), and the distinction was written into the entry so it cannot be misread — it also scored exactly at the 0.6 threshold.",
+    "impact": {},
+    "evidence": "CLAUDE.md USER:session-learnings 2026-08-08 code-graph entry; testing.md Quality gates section"
+   },
+   {
+    "chunk": "2026-08-09-current-sut-coverage-classification",
+    "what": "The two-file SUT capability ledger finding (P-061..P-078 in Pulse's requirements.md, P-079..P-082 only in its verification-matrix.json) scored about 0.2 on Filter 4 — a specific technical detail with no user correction, repetition or always-never framing behind it — so it was rejected despite being the discovery most likely to cost a future re-aiming session real time; it survives only in the committed chunk report",
+    "impact": {
+     "deferred": 1
+    },
+    "evidence": null
+   },
+   {
+    "chunk": "2026-08-09-out-of-scope-classification-treatment",
+    "what": "a durable gotcha discovered BY a real gate failure (comfy-table runs its own tty probe and drops cell styling under captured stdout, which had made a negative colour assertion vacuously true) scored only 0.2 on Filter 4 and was rejected: the positive-signal list rewards user corrections, repetition and always/never language, but has no slot for discovered-by-a-failing-gate, which was this candidate's entire evidence; the score was left honest rather than inflated to clear 0.6",
+    "impact": {
+     "deferred": 1
+    },
+    "evidence": "render::tests::out_of_scope_mode_cell_colored_overlays_the_residual_mute"
+   },
+   {
+    "chunk": "2026-08-09-out-of-scope-classification-treatment",
+    "what": "the surviving candidate sat over Filter 1's bag-of-tokens dedup bar against two existing security.md entries (shared vocabulary: cargo audit, cargo deny, deny.toml, advisory) yet was kept, because its PRECONDITION is disjoint from theirs - they prescribe a justified deny.toml entry when a new dep pulls a non-actionable item, this one forbids that route when the dependency delta is zero; the call was made by reading preconditions, which a mechanical Jaccard would have missed in the rejecting direction",
+    "impact": {
+     "iterations": 0
+    },
+    "evidence": ".claude/rules/security.md Session Additions 2026-06-23 / 2026-06-24 vs 2026-08-09"
+   },
+   {
+    "chunk": "2026-08-09-interpretation-correctness-posture",
+    "what": "two real technical gotchas scored below the 0.6 confidence bar and were dropped: pass a derived global count into a pure render fn as a PARAMETER rather than reading the const, or its synthetic-set format golden renders nonsense (scored ~0.2); and registering a Tauri command is always a 3-site change (commands.rs + main.rs generate_handler! + the caller), which caused this chunk's out-of-scope-file deviation (scored ~0.0). Both are anticipate-and-avoid engineering facts with no user correction and no repetition, which the rubric's positive signals do not reward - the same shape as last chunk's dropped comfy-table tty-probe gotcha. Third occurrence of a useful-but-unscorable candidate class",
+    "impact": {},
+    "evidence": null
+   },
+   {
+    "chunk": "2026-08-09-in-lane-sut-scenarios",
+    "what": "The Filter-4 confidence rubric has no positive signal for a convention the ORCHESTRATOR discovered and verified against the codebase. The scenario seed convention 4317<PPP> (the seed encodes the primary P-ID) was derived by sweeping all 31 committed scenario files and used to pick three new seeds, but scores only +0.2 ('specific technical detail with context') against a 0.6 threshold — every other positive signal keys on user correction, in-session repetition, or an explicit request. Rejected as scored, though the fact is undocumented and load-bearing for every future scenario chunk.",
+    "impact": {},
+    "evidence": null
+   },
+   {
+    "chunk": "2026-08-09-sut-load-envelope",
+    "what": "Two borderline calls. (1) Filter 1 on the exemption-ledger candidate: token overlap with the 2026-08-09 testing.md ledger entry was well over 0.7, but it names a blocker the matched entry lacks (an axis structurally un-derivable from the model, and exemptions carrying reasons rather than bare ids) — resolved as an additive-facet in-place extension, not a sibling. (2) Filter 4 on the sidecar-recorded-but-unapplied-amendment finding: scored about 0.2 with only the specific-technical-detail signal, so rejected on confidence even though it is a genuinely novel failure mode — it is captured operationally in the new playbook rule's note instead, where it actually fires.",
+    "impact": {},
+    "evidence": null
+   }
+  ]
+ },
+ {
+  "key": "andromeda-implement/code/input.plan-step-ambiguous",
+  "skill": "andromeda-implement",
+  "step": "code",
+  "type": "input.plan-step-ambiguous",
+  "n": 2,
+  "step_runs": 8,
+  "rate": 0.25,
+  "weight": 3,
+  "score": 6,
+  "chunks": [
+   "2026-08-08-sut-capability-manifest",
+   "2026-08-09-out-of-scope-classification-treatment"
+  ],
+  "impact": {
+   "dlg": 1,
+   "extra": 3
+  },
+  "above_threshold": 0,
+  "cases": [
+   {
+    "chunk": "2026-08-08-sut-capability-manifest",
+    "what": "Plan step 4 (re-source pid_format so the accepted set comes from the manifest) is unsatisfiable together with the plan Implementation-notes constraints (PId shape fixed, from_toml_str signature fixed, only scenario.rs/lib.rs/error.rs in scope). Root cause the plan missed: garde dive propagates Context, so giving Scenario a capability-set context forces it onto PId, PhaseSpec, EmissionSpec and ExpectedCheck plus ~20 test call sites - and conductor-core has no way to resolve contracts/pulse-capabilities.toml itself because path resolution lives at the binary edge by convention. Blocked all code writing until an operator decision.",
+    "impact": {
+     "dialogue_rounds": 1,
+     "extra_reads": 3
+    },
+    "evidence": "paths.rs:21-28 Paths::resolve resolves every manifest path against current_dir at the CLI edge"
+   },
+   {
+    "chunk": "2026-08-09-out-of-scope-classification-treatment",
+    "what": "plan step 2 required a Markdown Mode-cell treatment but named no mechanism (Markdown has no color channel, and the step said only textual only, consistent with the label the other surfaces print); resolved by inference to Markdown emphasis as the surface-adapted counterpart of the residual-mute tint rather than surfaced, and reported as a deviation",
+    "impact": {
+     "iterations": 0,
+     "dialogue_rounds": 0
+    },
+    "evidence": "conductor-0.2.0/chunks/2026-08-09-out-of-scope-classification-treatment/plan.md"
+   }
+  ]
+ },
+ {
+  "key": "andromeda-phase/plan/input.research-thin",
+  "skill": "andromeda-phase",
+  "step": "plan",
+  "type": "input.research-thin",
+  "n": 4,
+  "step_runs": 8,
+  "rate": 0.5,
+  "weight": 1,
+  "score": 4,
+  "chunks": [
+   "2026-08-08-sut-capability-manifest",
+   "2026-08-09-interpretation-correctness-posture",
+   "2026-08-09-sut-drift-check",
+   "2026-08-09-sut-load-envelope"
+  ],
+  "impact": {
+   "extra": 7
+  },
+  "above_threshold": true,
+  "cases": [
+   {
+    "chunk": "2026-08-08-sut-capability-manifest",
+    "what": "research.md named Scenario::from_toml_str and flagged the signature-stability question as open question 3 for P4, but did not enumerate its callers - the single fact that decides it. Synthesis had to run an additional impact query and a grep cross-check before the plan could state its hard constraint. A research open question that defers a decision should carry the evidence the decision needs.",
+    "impact": {
+     "extra_reads": 2
+    },
+    "evidence": "research.md Open questions item 3"
+   },
+   {
+    "chunk": "2026-08-09-sut-drift-check",
+    "what": "research.md listed lib.rs as the only file to modify because P3 never read the error surface; at synthesis the drift condition needed a named CoreError variant, forcing a mid-P4 read of error.rs (which turned out to be #[non_exhaustive] with a doc explicitly inviting later-chunk extension) and adding error.rs to the plan's touchpoints.",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": "research.md Files-to-modify vs plan.md Codebase touchpoints"
+   },
+   {
+    "chunk": "2026-08-09-interpretation-correctness-posture",
+    "what": "research necessarily precedes the P4 scope-ambiguity dialogue, so on a branch-dependent chunk the decisive implementation facts can only be gathered once the branch is chosen - research.md listed Files-to-modify as branch-dependent candidates and 2 greps ran during P4 synthesis to settle them (check_sut_drift call sites, ScenarioSummary fields). Structural to the phase ordering, not a defect in the research pass",
+    "impact": {
+     "extra_reads": 2
+    },
+    "evidence": null
+   },
+   {
+    "chunk": "2026-08-09-sut-load-envelope",
+    "what": "Two facts the Implementation Steps needed were absent from research.md and had to be read during synthesis: the runs.db table schema (to decide the run-level qualifier's carrier, step 6) and the ui package.json a11y script name (for Test Commands).",
+    "impact": {
+     "extra_reads": 2
+    },
+    "evidence": null
+   }
+  ]
+ },
+ {
+  "key": "andromeda-phase/validate/contract.mechanical-check",
+  "skill": "andromeda-phase",
+  "step": "validate",
+  "type": "contract.mechanical-check",
+  "n": 3,
+  "step_runs": 8,
+  "rate": 0.38,
+  "weight": 1,
+  "score": 3,
+  "chunks": [
+   "2026-08-08-sut-capability-manifest",
+   "2026-08-09-current-sut-coverage-classification",
+   "2026-08-09-interpretation-correctness-posture"
+  ],
+  "impact": {
+   "extra": 1
+  },
+  "above_threshold": true,
+  "cases": [
+   {
+    "chunk": "2026-08-08-sut-capability-manifest",
+    "what": "Mechanical check 4 fires a UI-gate WARN on a chunk with no UI. Its heuristic is (layout OR a11y OR design extract non-empty) AND a detectable headful self-verify exists AND no ui-smoke in Test Commands. All three held here, but the three extracts were non-empty only because they constrain the ERROR-MESSAGE vocabulary (Blocked token, stderr error/hint shape) - each states explicitly that the chunk creates no assertable surface, and a11y contributed an acceptance criterion saying no axe/contrast/keyboard gate is expected. The modify-set is entirely .rs and .toml with zero webview files, which the check does not consult even though checks 6 and 7 both already compute exactly that predicate for their own exemptions.",
+    "impact": {
+     "dialogue_rounds": 0,
+     "iterations": 0
+    },
+    "evidence": "validation.md check 4 vs checks 6 and 7 which key their exemptions on the modify-set language surface"
+   },
+   {
+    "chunk": "2026-08-09-current-sut-coverage-classification",
+    "what": "Mechanical check 4's UI-gate rule WARNs when a UI/visual chunk omits a headful self-verify, but this project's only such harness is display-gated to Linux+xvfb with a live Pulse and is deliberately outside the always-on gate, so the WARN fires on every frontend-touching chunk on this host and can only ever be answered with a recorded skip",
+    "impact": {
+     "extra_reads": 0
+    },
+    "evidence": null
+   },
+   {
+    "chunk": "2026-08-09-interpretation-correctness-posture",
+    "what": "mechanical check 4 caught an acceptance criterion asserting the Markdown coverage roll-up with no listed invocation that produces it - the CLI coverage verb was listed but only its --write form emits coverage-matrix.md. Fixed in-step by verifying the flag exists (cli.rs:50-53) and adding the producing command; without the check /implement would have had to improvise a producer or declare the criterion met unproven",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": null
+   }
+  ]
+ },
+ {
+  "key": "andromeda-implement/code/tooling.hook-friction",
+  "skill": "andromeda-implement",
+  "step": "code",
+  "type": "tooling.hook-friction",
+  "n": 3,
+  "step_runs": 8,
+  "rate": 0.38,
+  "weight": 1,
+  "score": 3,
+  "chunks": [
+   "2026-08-08-sut-capability-manifest",
+   "2026-08-09-current-sut-coverage-classification",
+   "2026-08-09-interpretation-correctness-posture"
+  ],
+  "impact": {
+   "extra": 3
+  },
+  "above_threshold": true,
+  "cases": [
+   {
+    "chunk": "2026-08-08-sut-capability-manifest",
+    "what": "A multi-file signature change produces a cascade of post-write rust-analyzer diagnostics that are artifacts of edit ORDER, not real defects - six batches fired here (unresolved import capability_manifest before lib.rs was edited; expected-N-arguments on every call site between changing a callee and its callers; a stale scenario_catalog.rs:77 error for an edit that had already landed). cargo check --all-targets on the same tree was completely clean. The diagnostics arrive with the authority of compiler output and would send a less careful run chasing phantom errors mid-refactor.",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": "6 new-diagnostics batches during the edit sequence vs a clean cargo check -p conductor-core -p conductor-cli --all-targets"
+   },
+   {
+    "chunk": "2026-08-09-current-sut-coverage-classification",
+    "what": "rust-analyzer diagnostics fired twice against a mid-edit state rather than the settled file: once reporting the 60-vs-82 array length between the type change and the rows landing, and once reporting a genuine borrow error that was real and fixed; the first was a stale read that a direct row-count check disproved",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": null
+   },
+   {
+    "chunk": "2026-08-09-interpretation-correctness-posture",
+    "what": "the PostToolUse rust-analyzer diagnostics lagged the edits, reporting E0061/E0107 at line numbers already fixed by later edits in the same sequence; needed a grep over the call sites to establish the real state rather than trusting the reported errors",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": null
+   }
+  ]
+ },
+ {
+  "key": "andromeda-implement/smoke/tooling.headless-skip",
+  "skill": "andromeda-implement",
+  "step": "smoke",
+  "type": "tooling.headless-skip",
+  "n": 3,
+  "step_runs": 8,
+  "rate": 0.38,
+  "weight": 1,
+  "score": 3,
+  "chunks": [
+   "2026-08-09-current-sut-coverage-classification",
+   "2026-08-09-interpretation-correctness-posture",
+   "2026-08-09-sut-load-envelope"
+  ],
+  "impact": {
+   "defer": 3
+  },
+  "above_threshold": true,
+  "cases": [
+   {
+    "chunk": "2026-08-09-current-sut-coverage-classification",
+    "what": "The chunk changed a webview component (CoverageMatrix.tsx union plus tally) but the only headful self-verify is display-gated to Linux with xvfb and a live Pulse, so no real-webview assertion ran on this Windows host; the tally change is exactly the kind a render assertion would cover",
+    "impact": {
+     "deferred": 1
+    },
+    "evidence": null
+   },
+   {
+    "chunk": "2026-08-09-interpretation-correctness-posture",
+    "what": "the webview change (roll-up qualifier in CoverageMatrix.tsx + App.tsx wiring) got no headful assertion: the axe/contrast/keyboard harness is display-gated to Linux+xvfb, so on the Windows dev host the only proof the UI leg has is npm run build tsc typecheck plus the Rust-side command test",
+    "impact": {
+     "deferred": 1
+    },
+    "evidence": null
+   },
+   {
+    "chunk": "2026-08-09-sut-load-envelope",
+    "what": "The plan listed 'npm --prefix crates/conductor-tauri/ui run a11y' as the chunk's standing UI gate, but the webview banner was deferred so UI source delta is zero and ui/dist is byte-identical to its last green run; the wdio/axe harness is also display-gated to Linux+xvfb and cannot run on this Windows host. Skip recorded, never a silent pass.",
+    "impact": {
+     "deferred": 1
+    },
+    "evidence": null
+   }
+  ]
+ },
+ {
+  "key": "andromeda-wrap-session/reconcile/contract.cascade-miss",
+  "skill": "andromeda-wrap-session",
+  "step": "reconcile",
+  "type": "contract.cascade-miss",
+  "n": 3,
+  "step_runs": 8,
+  "rate": 0.38,
+  "weight": 1,
+  "score": 3,
+  "chunks": [
+   "2026-08-09-current-sut-coverage-classification",
+   "2026-08-09-interpretation-correctness-posture",
+   "2026-08-09-sut-load-envelope"
+  ],
+  "impact": {
+   "extra": 3
+  },
+  "above_threshold": true,
+  "cases": [
+   {
+    "chunk": "2026-08-09-current-sut-coverage-classification",
+    "what": "The W12 cross-master citation grep found a staleness no detector reported — test-plan.md:39's Source clause quotes arch as saying '60 claimed capabilities P-001..P-060', wording arch stopped carrying on 2026-08-08 — because a detector reads only its own doc against the report and cannot see that another master quotes it",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": null
+   },
+   {
+    "chunk": "2026-08-09-interpretation-correctness-posture",
+    "what": "SECOND consecutive chunk where the detectors under-ran the plan's Expected-amendments list: 2 of 6 amendments (test-plan section 6 scenario-backing leg, obs-plan section 4 unbacked qualifier) were self-raised by validation check 5, not proposed. Same cause both times - no drift-base invariant covers an EXISTING documented element gaining a treatment or qualifier; the test-plan agent proposed section 5 and never reached section 6, the obs agent returned entirely clean. A third recurrence makes this a detector gap worth filling",
+    "impact": {},
+    "evidence": null
+   },
+   {
+    "chunk": "2026-08-09-sut-load-envelope",
+    "what": "security-plan-amendments.md records that 2026-08-08-sut-capability-manifest registered contracts/pulse-capabilities.toml as a §Input Validation boundary row, but no such row exists in the body — the §Data Classification half of that amendment landed and the boundary-table half did not. Found only because this chunk edited the same table; the applied row was widened to cover both manifests.",
+    "impact": {
+     "extra_reads": 2
+    },
+    "evidence": null
+   }
+  ]
+ },
+ {
+  "key": "andromeda-implement/fix-loop/ambiguity.scope-pressure",
+  "skill": "andromeda-implement",
+  "step": "fix-loop",
+  "type": "ambiguity.scope-pressure",
+  "n": 1,
+  "step_runs": 8,
+  "rate": 0.12,
+  "weight": 3,
+  "score": 3,
+  "chunks": [
+   "2026-08-08-sut-capability-manifest"
+  ],
+  "impact": {
+   "iters": 2
+  },
+  "above_threshold": false,
+  "cases": [
+   {
+    "chunk": "2026-08-08-sut-capability-manifest",
+    "what": "Trigger 3 near-fired twice and continuation was chosen both times. Both failures were in files outside the operator-approved six: conductor-core/src/pause.rs (a HoldPoint test whose fixture PId(P-999) relied on the removed range) and conductor-cli/tests/cli_smoke.rs (its TempDir root carried no contracts/pulse-capabilities.toml). Each was judged an in-scope mechanical consequence of the approved change rather than new work - one fixture token and one copy helper mirroring the existing copy_manifest - and each preserved the test intent rather than weakening it. Net file count 6 approved to 8 actual.",
+    "impact": {
+     "iterations": 2
+    },
+    "evidence": "pause.rs:206 fixture and cli_smoke.rs conductor() helper"
+   }
+  ]
+ },
+ {
+  "key": "andromeda-phase/validate/contract.intent-divergence",
+  "skill": "andromeda-phase",
+  "step": "validate",
+  "type": "contract.intent-divergence",
+  "n": 1,
+  "step_runs": 8,
+  "rate": 0.12,
+  "weight": 3,
+  "score": 3,
+  "chunks": [
+   "2026-08-09-current-sut-coverage-classification"
+  ],
+  "impact": {
+   "dlg": 1
+  },
+  "above_threshold": false,
+  "cases": [
+   {
+    "chunk": "2026-08-09-current-sut-coverage-classification",
+    "what": "Three val-1 intent-incomplete amendments to scope.md rather than one: two from research (P-075/P-076 settled by the SUT's own matrix; the literal-60 surface being 11 code sites not 2) and one from the operator at review, who folded in a third stale doc site the layouts distiller had explicitly judged optional",
+    "impact": {
+     "dialogue_rounds": 1
+    },
+    "evidence": null
+   }
+  ]
+ },
+ {
+  "key": "andromeda-wrap-session/reconcile/contract.false-positive-proposal",
+  "skill": "andromeda-wrap-session",
+  "step": "reconcile",
+  "type": "contract.false-positive-proposal",
+  "n": 2,
+  "step_runs": 8,
+  "rate": 0.25,
+  "weight": 1,
+  "score": 2,
+  "chunks": [
+   "2026-08-08-sut-capability-manifest",
+   "2026-08-09-sut-load-envelope"
+  ],
+  "impact": {
+   "extra": 2
+  },
+  "above_threshold": 0,
+  "cases": [
+   {
+    "chunk": "2026-08-08-sut-capability-manifest",
+    "what": "D-obs-instrumentation proposed carving a run_id-may-be-null exception into obs-plan §3/§9/§11 for pre-run boundary lines, claiming the capability-manifest load line has no run_id. FALSE: run_id is minted at obs init before any manifest load and the custom subscriber layer injects it on every line - the actual emitted line carries the complete §3 base schema including run_id, verified by running the binary and parsing the line. The detector inferred absence from the report listing only the fields I explicitly SET (count), not the layer-injected ones. Applying it would have weakened a live invariant and made the §9 conformance gate accept null run_ids. Second agent-proposed the-spec-or-tool-is-wrong claim this session to fail empirical checking.",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": "emitted line: {\"count\":83,...,\"run_id\":\"2026-08-08T13-53-58-524\",\"target\":\"conductor_core::capability_manifest\",...} - §3 base schema complete"
+   },
+   {
+    "chunk": "2026-08-09-sut-load-envelope",
+    "what": "D-obs-instrumentation proposed flagging RunsDb::insert_envelope as an uninstrumented rusqlite write on obs Critical Path 1; dismissed because crates/conductor-report/src/ contains zero tracing calls, so db.insert_run and report.generate are equally unspanned and the chunk introduced no asymmetry.",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": null
+   }
+  ]
+ },
+ {
+  "key": "andromeda-new-session/orientation/input.handoff-git-mismatch",
+  "skill": "andromeda-new-session",
+  "step": "orientation",
+  "type": "input.handoff-git-mismatch",
+  "n": 2,
+  "step_runs": 7,
+  "rate": 0.29,
+  "weight": 1,
+  "score": 2,
+  "chunks": [],
+  "impact": {
+   "extra": 3
+  },
+  "above_threshold": 0,
+  "cases": [
+   {
+    "chunk": null,
+    "what": "Handoff Branch field says build/conductor-0.2.0 but git is on build/conductor-0.1.0 and no 0.2.0 branch exists locally or on origin — the conductor-0.2.0 chunk 2026-08-08-sut-capability-manifest was committed onto the 0.1.0 branch; the divergence is outside the documented anomaly set (multi-pending / half-promote), so classifying it and choosing how to surface it required judgment and no priority-ladder rung covers it",
+    "impact": {
+     "extra_reads": 2
+    },
+    "evidence": "git branch -a shows only build/conductor-0.1.0 + remotes/origin/build/conductor-0.1.0"
+   },
+   {
+    "chunk": null,
+    "what": "Handoff Notes state the branch 'still has no upstream' with a push recipe, but git resolves @{u} to origin/build/conductor-0.2.0 at dd15dc3 with HEAD 1 ahead - the branch was pushed and the note went stale",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": "git rev-parse --abbrev-ref @{u} -> origin/build/conductor-0.2.0; git rev-list --count @{u}..HEAD -> 1"
+   }
+  ]
+ },
+ {
+  "key": "andromeda-phase/distill/contract.binding-contradiction",
+  "skill": "andromeda-phase",
+  "step": "distill",
+  "type": "contract.binding-contradiction",
+  "n": 2,
+  "step_runs": 8,
+  "rate": 0.25,
+  "weight": 1,
+  "score": 2,
+  "chunks": [
+   "2026-08-09-out-of-scope-classification-treatment",
+   "2026-08-09-sut-drift-check"
+  ],
+  "impact": {},
+  "above_threshold": 0,
+  "cases": [
+   {
+    "chunk": "2026-08-09-sut-drift-check",
+    "what": "layouts Constraint 2 requires any printed drift status to pair color with an ASCII bracket prefix [PASS]/[BLOCKED]/[FAIL], while design Constraint 5 and Acceptance 3 ban the Verdict/ReportState vocabulary for a harness-side drift failure. Judged reconcilable rather than a true cross-plan contradiction (layouts' own Anti-pattern 1 agrees with design), so neither was respawned; resolution carried to P4 synthesis — never-color-alone holds, the register is error:/hint: rather than the verdict triad.",
+    "impact": {
+     "retries": 0
+    },
+    "evidence": "fan-out.md aggregate check C (orchestrator judges in P4)"
+   },
+   {
+    "chunk": "2026-08-09-out-of-scope-classification-treatment",
+    "what": "aggregate check C surfaced two soft cross-domain tensions resolved by domain authority without a re-spawn: arch acceptance criterion 4 conditionally permits a new :root token while design constraint 2 bans minting one outright, and a11y asks for a distinguishable out-of-scope glyph while design bans a new glyph tier (compatible once read as Mode-cell glyph versus lamp glyph)",
+    "impact": {
+     "retries": 0,
+     "dialogue_rounds": 0
+    },
+    "evidence": ".andromeda/runs/2026-08-09T14-51-25-phase/"
+   }
+  ]
+ },
+ {
+  "key": "andromeda-wrap-session/reconcile/contract.proposal-format",
+  "skill": "andromeda-wrap-session",
+  "step": "reconcile",
+  "type": "contract.proposal-format",
+  "n": 2,
+  "step_runs": 8,
+  "rate": 0.25,
+  "weight": 1,
+  "score": 2,
+  "chunks": [
+   "2026-08-09-in-lane-sut-scenarios",
+   "2026-08-09-sut-drift-check"
+  ],
+  "impact": {
+   "extra": 4
+  },
+  "above_threshold": 0,
+  "cases": [
+   {
+    "chunk": "2026-08-09-sut-drift-check",
+    "what": "The doc-agent return contract admits only proposals, so a detector that finds a REAL pre-existing gap outside this chunk's Changes has no sanctioned channel for it — four detectors (arch, design-system, layout-templates, obs-plan) had to smuggle their findings out as prose commentary after the YAML, which the strip step is instructed to discard. All four verified true by grep: architecture.md:33 '60-P-ID coverage tables'; design-system.md:7,:257 'all 60 capabilities'/'full 60-row wall'; layout-templates.md:37 '82 loaded' contradicting :121 'full 60-row wall (P-001..P-060)' within one doc; obs-plan.md:25,:645 '8 workspace crates' against the actual 9. Preserved in fanout-results.md and pinned as route CARRYs rather than lost.",
+    "impact": {
+     "extra_reads": 4
+    },
+    "evidence": "4 detector returns carried non-proposal findings as trailing prose; verified by grep before disposition"
+   },
+   {
+    "chunk": "2026-08-09-in-lane-sut-scenarios",
+    "what": "5 of 7 doc-agents returned prose commentary outside the YAML block despite the prompt's 'Return ONLY YAML' instruction — four appended an evaluation narrative after the block (arch, security, design, a11y) and one put a preamble before it (tests). All 7 parsed cleanly after stripping; none failed. Notably the tests agent's trailing prose carried a real finding it declined to raise (test-plan §6's P-001..P-060 selector range), which would have been lost had stripping discarded it unread.",
+    "impact": {},
+    "evidence": ".andromeda/runs/2026-08-09T20-30-00-wrap/fanout-results.md"
+   }
+  ]
+ },
+ {
+  "key": "andromeda-wrap-session/curation/ambiguity.tier-routing",
+  "skill": "andromeda-wrap-session",
+  "step": "curation",
+  "type": "ambiguity.tier-routing",
+  "n": 2,
+  "step_runs": 8,
+  "rate": 0.25,
+  "weight": 1,
+  "score": 2,
+  "chunks": [
+   "2026-08-09-current-sut-coverage-classification",
+   "2026-08-09-sut-drift-check"
+  ],
+  "impact": {
+   "defer": 3
+  },
+  "above_threshold": 0,
+  "cases": [
+   {
+    "chunk": "2026-08-09-sut-drift-check",
+    "what": "The trace-fidelity learning's natural home was Tier 1 — it sharpens an existing Tier-1 entry on the same subject — but appending a near-sibling to the always-loaded block would duplicate the headline for marginal gain, so tiebreakers 2 (prefer lower context cost) and 4 (multi-sentence explanation) demoted it to Tier 3. The consequence worth noting: the Tier-1 line still carries only the original, weaker formulation, and nothing links it to the Tier-3 elaboration.",
+    "impact": {},
+    "evidence": "curation-tier-decision.md tiebreakers 2 and 4"
+   },
+   {
+    "chunk": "2026-08-09-current-sut-coverage-classification",
+    "what": "Three of the session's strongest conventions were operator rulings about the Andromeda pipeline itself — spec masters must not be plan touchpoints, an empty proposal set still owes sidecar entries, and the citation grep anchors on the diff — none of which have a home in the project ecosystem the tiers write to, so all three were filtered as tool-level rather than routed",
+    "impact": {
+     "deferred": 3
+    },
+    "evidence": null
+   }
+  ]
+ },
+ {
+  "key": "andromeda-phase/research/input.extract-signal-gap",
+  "skill": "andromeda-phase",
+  "step": "research",
+  "type": "input.extract-signal-gap",
+  "n": 2,
+  "step_runs": 8,
+  "rate": 0.25,
+  "weight": 1,
+  "score": 2,
+  "chunks": [
+   "2026-08-09-current-sut-coverage-classification",
+   "2026-08-09-out-of-scope-classification-treatment"
+  ],
+  "impact": {
+   "extra": 6
+  },
+  "above_threshold": 0,
+  "cases": [
+   {
+    "chunk": "2026-08-09-current-sut-coverage-classification",
+    "what": "The chunk's central input — titles and categories for the 22 new capabilities — exists in neither the repo nor any spec, so no extract could signal it; it took 4 searches across the SUT's own repository, and the last four ids (P-079..P-082) were absent from Pulse's requirements.md entirely, recoverable only from its verification-matrix.json because they were minted mid-build as operator-surfaced caps",
+    "impact": {
+     "extra_reads": 4
+    },
+    "evidence": null
+   },
+   {
+    "chunk": "2026-08-09-out-of-scope-classification-treatment",
+    "what": "two layouts-extract signals pointed at surfaces that do not exist as described and each cost a verification read: a keep-exactly-6-columns constraint for the 4-column conductor coverage table (layout-templates.md:246 conflates it with the results table, design-system.md:310 repeats the conflation), and a footer status strip contentinfo landmark that App.tsx does not render (the desktop roll-up is the cov__summary header inside CoverageMatrix)",
+    "impact": {
+     "extra_reads": 2
+    },
+    "evidence": "conductor-0.2.0/chunks/2026-08-09-out-of-scope-classification-treatment/research.md"
+   }
+  ]
+ },
+ {
+  "key": "andromeda-implement/code/input.research-files-wrong",
+  "skill": "andromeda-implement",
+  "step": "code",
+  "type": "input.research-files-wrong",
+  "n": 2,
+  "step_runs": 8,
+  "rate": 0.25,
+  "weight": 1,
+  "score": 2,
+  "chunks": [
+   "2026-08-09-interpretation-correctness-posture",
+   "2026-08-09-sut-load-envelope"
+  ],
+  "impact": {
+   "extra": 6
+  },
+  "above_threshold": 0,
+  "cases": [
+   {
+    "chunk": "2026-08-09-interpretation-correctness-posture",
+    "what": "the plan Files-to-modify list missed both wiring sites a new Tauri command needs - main.rs generate_handler! and App.tsx invoke - while listing CoverageMatrix.css for a stale-comment sweep the prior chunk had already done. Net: 8 files touched against a 8-entry list, 2 of them unlisted and 1 listed entry untouched",
+    "impact": {
+     "extra_reads": 2
+    },
+    "evidence": null
+   },
+   {
+    "chunk": "2026-08-09-sut-load-envelope",
+    "what": "research.md's Files-to-modify listed the seam files but not the callers threading the new run-level value: conductor-cli/src/commands/run.rs, commands/suite.rs, paths.rs and conductor-tauri/src/commands.rs each had to change for the plan's own steps 5-7 to work.",
+    "impact": {
+     "extra_reads": 4
+    },
+    "evidence": null
+   }
+  ]
+ },
+ {
+  "key": "andromeda-wrap-session/gates/tooling.gate-deferral",
+  "skill": "andromeda-wrap-session",
+  "step": "gates",
+  "type": "tooling.gate-deferral",
+  "n": 2,
+  "step_runs": 8,
+  "rate": 0.25,
+  "weight": 1,
+  "score": 2,
+  "chunks": [
+   "2026-08-09-in-lane-sut-scenarios",
+   "2026-08-09-sut-load-envelope"
+  ],
+  "impact": {
+   "defer": 3
+  },
+  "above_threshold": 0,
+  "cases": [
+   {
+    "chunk": "2026-08-09-in-lane-sut-scenarios",
+    "what": "The light gate reproduced implement's cargo audit red identically (exit 1, duplicate advisory ID: RUSTSEC-2026-0244) — the FIFTH consecutive red across the chunk lifecycle. Honored as the standing bounded wait rather than a light-gate failure: it is present in the report's Outcome table and Decisions, and was pinned at P5 as the next entry's PREREQ, so the assert-every-deferral rule is satisfied. cargo deny check was re-run and observed green (all four classes) as the overlapping signal.",
+    "impact": {
+     "deferred": 1
+    },
+    "evidence": "commit 7c0c531"
+   },
+   {
+    "chunk": "2026-08-09-sut-load-envelope",
+    "what": "Two gates honored as deferrals at the light gate rather than re-run: cargo audit (FIFTH consecutive advisory-DATABASE parse failure, bounded wait, cargo deny check observed green as the overlapping signal) and npm run a11y (ui/dist byte-identical to its last green run so it proves nothing new, and the wdio/axe harness is display-gated to Linux+xvfb). Both recorded, neither silent.",
+    "impact": {
+     "deferred": 2
+    },
+    "evidence": null
+   }
+  ]
+ },
+ {
+  "key": "andromeda-wrap-session/gates/tooling.commit-mechanics",
+  "skill": "andromeda-wrap-session",
+  "step": "gates",
+  "type": "tooling.commit-mechanics",
+  "n": 1,
+  "step_runs": 8,
+  "rate": 0.12,
+  "weight": 2,
+  "score": 2,
+  "chunks": [
+   "2026-08-08-dependency-advisory-remediation"
+  ],
+  "impact": {
+   "retries": 1
+  },
+  "above_threshold": false,
+  "cases": [
+   {
+    "chunk": "2026-08-08-dependency-advisory-remediation",
+    "what": "P6 wrote the handoff's Branch field from the Setup-time git reading instead of re-reading git at write time, and the operator had switched branches mid-session (reflog: checkout build/conductor-0.1.0 -> build/conductor-0.2.0, acting on the divergence the new-session dashboard flagged), so the committed handoff named the wrong branch. Caught only because a post-commit ahead-count check returned 'no upstream' where Setup had returned 1, which did not add up. Required amending the chunk commit and re-stamping tree.db.commit, since the post-commit SHA stamp had been written against the pre-amend SHA",
+    "impact": {
+     "retries": 1
+    },
+    "evidence": "git reflog 0088133 HEAD@{2026-08-08 21:27:14 +0200}: checkout: moving from build/conductor-0.1.0 to build/conductor-0.2.0; commit 65a7365 amended to 2cdec9e"
+   }
+  ]
+ },
+ {
+  "key": "andromeda-phase/plan/retry.synthesis-rework",
+  "skill": "andromeda-phase",
+  "step": "plan",
+  "type": "retry.synthesis-rework",
+  "n": 1,
+  "step_runs": 8,
+  "rate": 0.12,
+  "weight": 2,
+  "score": 2,
+  "chunks": [
+   "2026-08-09-out-of-scope-classification-treatment"
+  ],
+  "impact": {
+   "iters": 1
+  },
+  "above_threshold": false,
+  "cases": [
+   {
+    "chunk": "2026-08-09-out-of-scope-classification-treatment",
+    "what": "the AskUserQuestion preview I authored for the roll-up question showed the webview line as 16 not-Conductor's while the Markdown and CLI lines showed the wire spelling not-conductors; the inconsistency was caught while writing plan.md and resolved to the single label() spelling on all three surfaces, with the override recorded in Implementation notes and surfaced at the P5 review",
+    "impact": {
+     "iterations": 1,
+     "dialogue_rounds": 0
+    },
+    "evidence": "conductor-0.2.0/chunks/2026-08-09-out-of-scope-classification-treatment/plan.md"
+   }
+  ]
+ },
+ {
+  "key": "andromeda-implement/fix-loop/retry.fix-iterations",
+  "skill": "andromeda-implement",
+  "step": "fix-loop",
+  "type": "retry.fix-iterations",
+  "n": 1,
+  "step_runs": 8,
+  "rate": 0.12,
+  "weight": 2,
+  "score": 2,
+  "chunks": [
+   "2026-08-09-out-of-scope-classification-treatment"
+  ],
+  "impact": {
+   "iters": 1
+  },
+  "above_threshold": false,
+  "cases": [
+   {
+    "chunk": "2026-08-09-out-of-scope-classification-treatment",
+    "what": "the colored-path assertion on the newly tinted comfy-table Mode cell failed because comfy-table applies its own internal tty probe and drops cell styling when stdout is captured, so the module's documented single stdout_color decision did not in fact govern table styling; fixed by making that flag authoritative via enforce_styling rather than by weakening the assertion",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": "render::tests::out_of_scope_mode_cell_colored_overlays_the_residual_mute"
+   }
+  ]
+ },
+ {
+  "key": "andromeda-phase/research/input.cookbook-gap",
+  "skill": "andromeda-phase",
+  "step": "research",
+  "type": "input.cookbook-gap",
+  "n": 1,
+  "step_runs": 8,
+  "rate": 0.12,
+  "weight": 2,
+  "score": 2,
+  "chunks": [
+   "2026-08-09-sut-load-envelope"
+  ],
+  "impact": {
+   "reform": 1
+  },
+  "above_threshold": false,
+  "cases": [
+   {
+    "chunk": "2026-08-09-sut-load-envelope",
+    "what": "Canonical IMPACT query 1 returned 204 rows; stdout flooded and had to be tail-truncated, and the cookbook carries no aggregate/spread shape (GROUP BY file) for a high-row impact target, so the spread query was composed off-cookbook.",
+    "impact": {
+     "reformulations": 1
+    },
+    "evidence": ".andromeda/runs/2026-08-09T20-58-29-phase/tree-query-2026-08-09-sut-load-envelope.json"
+   }
+  ]
+ },
+ {
+  "key": "andromeda-implement/fix-loop/contract.test-expectation",
+  "skill": "andromeda-implement",
+  "step": "fix-loop",
+  "type": "contract.test-expectation",
+  "n": 1,
+  "step_runs": 8,
+  "rate": 0.12,
+  "weight": 2,
+  "score": 2,
+  "chunks": [
+   "2026-08-09-sut-load-envelope"
+  ],
+  "impact": {
+   "iters": 1
+  },
+  "above_threshold": false,
+  "cases": [
+   {
+    "chunk": "2026-08-09-sut-load-envelope",
+    "what": "cli_smoke builds a temp repo-shaped root copying in exactly the contracts the CLI needs; the new required load-envelope artifact made 5 smoke tests fail with 'could not read load envelope (NotFound)'. Fixed by completing the fixture (copy_load_envelope) rather than defaulting the envelope, which would have been a silent downgrade.",
+    "impact": {
+     "iterations": 1
+    },
+    "evidence": null
+   }
+  ]
+ },
+ {
+  "key": "andromeda-phase/take-up/ambiguity.version-derivation",
+  "skill": "andromeda-phase",
+  "step": "take-up",
+  "type": "ambiguity.version-derivation",
+  "n": 1,
+  "step_runs": 8,
+  "rate": 0.12,
+  "weight": 1,
+  "score": 1,
+  "chunks": [
+   "2026-08-08-sut-capability-manifest"
+  ],
+  "impact": {},
+  "above_threshold": false,
+  "cases": [
+   {
+    "chunk": "2026-08-08-sut-capability-manifest",
+    "what": "The first promotion of a NEW version cannot derive its active version from the documented rule: route leaves master untouched so the new version has no heading, and master last-heading therefore points at the previous version whose working-route still carries superseded markerless entries. Taking that answer would have promoted a retired 0.1.0 entry. Resolved without dialogue from promotion.md create-the-version-heading-if-absent plus the just-completed route run. The rule and the route/phase handshake disagree structurally at exactly one point per version.",
+    "impact": {
+     "dialogue_rounds": 0,
+     "extra_reads": 0
+    },
+    "evidence": "master-route.md heading scan: only ## conductor-0.1.0 present before this promotion"
+   }
+  ]
+ },
+ {
+  "key": "andromeda-phase/research/ambiguity.scope-boundary",
+  "skill": "andromeda-phase",
+  "step": "research",
+  "type": "ambiguity.scope-boundary",
+  "n": 1,
+  "step_runs": 8,
+  "rate": 0.12,
+  "weight": 1,
+  "score": 1,
+  "chunks": [
+   "2026-08-08-sut-capability-manifest"
+  ],
+  "impact": {
+   "extra": 1
+  },
+  "above_threshold": false,
+  "cases": [
+   {
+    "chunk": "2026-08-08-sut-capability-manifest",
+    "what": "The manifest location was under-determined at scope-authoring time. scope.md took the intent wording (a versioned artifact under refs/) at face value; the arch distiller then flagged that .andromeda/refs/ is a planning-docs subtree absent from the arch directory tree and holding nothing runtime-parsed, while contracts/ is the registered runtime-read config root already holding the only other runtime-parsed manifest. Research confirmed both directory states. The result is a new-file path that cannot be settled without an operator decision, carried to P4 as open question 2.",
+    "impact": {
+     "extra_reads": 1,
+     "dialogue_rounds": 0
+    },
+    "evidence": "contracts/ holds only mcp-contract.toml; .andromeda/refs/ holds 4 Pulse-authored planning documents, none parsed at runtime"
+   }
+  ]
+ },
+ {
+  "key": "andromeda-wrap-session/route-resolve/ambiguity.trajectory-halt",
+  "skill": "andromeda-wrap-session",
+  "step": "route-resolve",
+  "type": "ambiguity.trajectory-halt",
+  "n": 1,
+  "step_runs": 8,
+  "rate": 0.12,
+  "weight": 1,
+  "score": 1,
+  "chunks": [
+   "2026-08-08-dependency-advisory-remediation"
+  ],
+  "impact": {
+   "extra": 2
+  },
+  "above_threshold": false,
+  "cases": [
+   {
+    "chunk": "2026-08-08-dependency-advisory-remediation",
+    "what": "The three pre-existing doc gaps had no exact owner entry on the route: they are a doc-reconcile job, and the nearest markerless entry (Epoch 6 Dependency polish) is about dependency VERSION work rather than documentation. The call was between halting to propose a dedicated doc-reconcile chunk (trajectory, HALT + dialogue) and pinning a CARRY to the nearest-subject existing entry (factual, auto). Chose the CARRY because the entry will already have the manifest/lock/deny.toml surface open, so the reconcile lands where the artifacts are being read anyway",
+    "impact": {
+     "extra_reads": 2
+    },
+    "evidence": "route-resolve.md gradient table - Carry-forward row (factual, AUTO) vs New-chunk-ahead row (trajectory, HALT); the two extra reads re-verified the distiller's tokio/tauri claims against architecture.md and Cargo.lock first-hand before propagating them into the route"
+   }
+  ]
+ },
+ {
+  "key": "andromeda-phase/take-up/input.working-entry-thin",
+  "skill": "andromeda-phase",
+  "step": "take-up",
+  "type": "input.working-entry-thin",
+  "n": 1,
+  "step_runs": 8,
+  "rate": 0.12,
+  "weight": 1,
+  "score": 1,
+  "chunks": [
+   "2026-08-09-sut-drift-check"
+  ],
+  "impact": {
+   "extra": 3
+  },
+  "above_threshold": false,
+  "cases": [
+   {
+    "chunk": "2026-08-09-sut-drift-check",
+    "what": "The working entry names an external check ('when Pulse's ledger advances past the capability set Conductor knows') while the matrix acceptance for the same capability specifies an internal artifact-vs-artifact check (manifest ids the classification does not cover); disambiguating required reading the matrix, requirements.md and intent F1, and the scope still records it as a boundary rather than resolving it.",
+    "impact": {
+     "extra_reads": 3
+    },
+    "evidence": "verification-matrix.json#v2-02 acceptance vs the Epoch 1 working entry"
+   }
+  ]
+ },
+ {
+  "key": "andromeda-phase/take-up/contract.promotion-mechanics",
+  "skill": "andromeda-phase",
+  "step": "take-up",
+  "type": "contract.promotion-mechanics",
+  "n": 1,
+  "step_runs": 8,
+  "rate": 0.12,
+  "weight": 1,
+  "score": 1,
+  "chunks": [
+   "2026-08-09-sut-drift-check"
+  ],
+  "impact": {
+   "extra": 1
+  },
+  "above_threshold": false,
+  "cases": [
+   {
+    "chunk": "2026-08-09-sut-drift-check",
+    "what": "promotion.md specifies the 4-write order but is silent on line endings; master-route.md is CRLF on this Windows host, so a naive append would have produced a mixed-ending file. Detected by inspecting the tail bytes and appended with CRLF; the 4-write order itself executed exactly as specified with no collision and no seed placeholder.",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": "od -c tail of master-route.md showed trailing CR LF"
+   }
+  ]
+ },
+ {
+  "key": "andromeda-new-session/orientation/tooling.health-false-red",
+  "skill": "andromeda-new-session",
+  "step": "orientation",
+  "type": "tooling.health-false-red",
+  "n": 1,
+  "step_runs": 7,
+  "rate": 0.14,
+  "weight": 1,
+  "score": 1,
+  "chunks": [],
+  "impact": {},
+  "above_threshold": false,
+  "cases": [
+   {
+    "chunk": null,
+    "what": "Check 4 (rule frontmatter): .claude/rules/security.md carries no frontmatter block at all, which reads as a missing-frontmatter red; the file's own header documents it as deliberate (universal rule, loads unconditionally, no paths: key), so it passed without an extra read",
+    "impact": {
+     "extra_reads": 0
+    },
+    "evidence": null
+   }
+  ]
+ },
+ {
+  "key": "andromeda-phase/distill/contract.extract-format",
+  "skill": "andromeda-phase",
+  "step": "distill",
+  "type": "contract.extract-format",
+  "n": 1,
+  "step_runs": 8,
+  "rate": 0.12,
+  "weight": 1,
+  "score": 1,
+  "chunks": [
+   "2026-08-09-current-sut-coverage-classification"
+  ],
+  "impact": {},
+  "above_threshold": false,
+  "cases": [
+   {
+    "chunk": "2026-08-09-current-sut-coverage-classification",
+    "what": "The Anchors check specifies the form 'per {plan} §…' but returns varied: two omitted the anchor entirely on Acceptance (failed), and arch cited plan-plus-section without the literal 'per' — passing that one was an orchestrator judgment call the check text does not settle",
+    "impact": {
+     "extra_reads": 0
+    },
+    "evidence": null
+   }
+  ]
+ },
+ {
+  "key": "andromeda-phase/plan/input.extracts-conflict",
+  "skill": "andromeda-phase",
+  "step": "plan",
+  "type": "input.extracts-conflict",
+  "n": 1,
+  "step_runs": 8,
+  "rate": 0.12,
+  "weight": 1,
+  "score": 1,
+  "chunks": [
+   "2026-08-09-current-sut-coverage-classification"
+  ],
+  "impact": {
+   "extra": 1
+  },
+  "above_threshold": false,
+  "cases": [
+   {
+    "chunk": "2026-08-09-current-sut-coverage-classification",
+    "what": "The layouts extract asserted 'the cli coverage/SLO table is exactly 6 columns' as one constraint, conflating two different tables — render.rs:161 shows the coverage table is 4 columns (P-ID/Title/Category/Mode) while :140 shows the run/SLO table is 6; caught by reading the source at synthesis, and the acceptance criterion was written to name both correctly",
+    "impact": {
+     "extra_reads": 1
+    },
+    "evidence": null
+   }
+  ]
+ },
+ {
+  "key": "andromeda-implement/fix-loop/contract.spec-reality-gap",
+  "skill": "andromeda-implement",
+  "step": "fix-loop",
+  "type": "contract.spec-reality-gap",
+  "n": 1,
+  "step_runs": 8,
+  "rate": 0.12,
+  "weight": 1,
+  "score": 1,
+  "chunks": [
+   "2026-08-09-interpretation-correctness-posture"
+  ],
+  "impact": {},
+  "above_threshold": false,
+  "cases": [
+   {
+    "chunk": "2026-08-09-interpretation-correctness-posture",
+    "what": "security.md 2026-08-09 and security-plan Dependency Security prescribe raising the cargo-audit FLOOR to the fixed release when the advisory-db parse failure persists, but the fault is in the DATA (duplicate RUSTSEC-2026-0244 in RustSec advisory-db), not the tool: 0.22.1 and the latest 0.22.2 fail byte-identically, so no fixed release exists to raise a floor to. Surfaced, not authored; cargo deny check stayed green across all four classes as the overlapping signal, with zero dependency delta and both lockfiles un-drifted",
+    "impact": {
+     "iterations": 0
+    },
+    "evidence": "cargo audit 0.22.1 exit 1; cargo install cargo-audit 0.22.2; cargo audit 0.22.2 exit 1, same message; cargo deny check advisories bans licenses sources exit 0"
+   }
+  ]
+ },
+ {
+  "key": "andromeda-implement/fix-loop/tooling.gate-deferral",
+  "skill": "andromeda-implement",
+  "step": "fix-loop",
+  "type": "tooling.gate-deferral",
+  "n": 1,
+  "step_runs": 8,
+  "rate": 0.12,
+  "weight": 1,
+  "score": 1,
+  "chunks": [
+   "2026-08-09-in-lane-sut-scenarios"
+  ],
+  "impact": {
+   "defer": 1
+  },
+  "above_threshold": false,
+  "cases": [
+   {
+    "chunk": "2026-08-09-in-lane-sut-scenarios",
+    "what": "cargo audit exited 1 for the FOURTH consecutive chunk with the same advisory-database parse error (duplicate advisory ID: RUSTSEC-2026-0244) on cargo-audit 0.22.2, against a zero-dependency-delta chunk with both lockfiles un-drifted. Trigger 2 (environmental) near-fired; continuation was chosen because the governing rule classifies this as a bounded wait with cargo deny check as the overlapping signal, which was run and OBSERVED green (advisories ok, bans ok, licenses ok, sources ok, exit 0) rather than assumed. No floor raise, no deny.toml ignore, no CI edit.",
+    "impact": {
+     "deferred": 1
+    },
+    "evidence": "cargo-audit-audit 0.22.2, exit 1"
+   }
+  ]
+ },
+ {
+  "key": "andromeda-wrap-session/route-resolve/contract.carry-no-owner",
+  "skill": "andromeda-wrap-session",
+  "step": "route-resolve",
+  "type": "contract.carry-no-owner",
+  "n": 1,
+  "step_runs": 8,
+  "rate": 0.12,
+  "weight": 1,
+  "score": 1,
+  "chunks": [
+   "2026-08-09-in-lane-sut-scenarios"
+  ],
+  "impact": {},
+  "above_threshold": false,
+  "cases": [
+   {
+    "chunk": "2026-08-09-in-lane-sut-scenarios",
+    "what": "v2-04 (the capability this chunk partially advances) has no routed entry that obviously satisfies its acceptance — it needs the three in-lane scenarios to yield live non-blocked verdicts, but Epoch 3's five live-proof families are fingerprint-storm / error-baseline-spike / restart-suppression / pii-scrub / connection-lifecycle, and Epoch 2's 'First live green preflight' scopes to ready:true rather than to verifying these three. Considered a CARRY pin and a trajectory halt; took neither, because phase owns chunk-assignment and the matrix's version-done gate catches a still-unclaimed cap at version end. Noted in the handoff instead.",
+    "impact": {},
+    "evidence": null
+   }
+  ]
+ }
+]

@@ -99,6 +99,17 @@ impl ReadyState {
 const UNREACHABLE_PRECONDITION: &str =
     "mcp-server cargo feature + ANDROMEDA_PULSE_MCP_ENABLED + ANDROMEDA_PULSE_DATA_DIR == live Pulse's data-dir";
 
+/// The named precondition for a corpus that returns no incidents at all (arch §Standard Contracts).
+/// A workspace-key divergence and a genuinely empty corpus are indistinguishable on the wire — the
+/// sidecar keys its query on `ANDROMEDA_PULSE_DATA_DIR` while `pulse-app` keys incidents on its
+/// detected workspace root, so a divergence returns zero rows forever — hence both causes are named
+/// and neither is claimed as measured.
+const WORKSPACE_KEY_PRECONDITION: &str = "pulse-app and the spawned MCP sidecar must resolve the same incident workspace key — the sidecar keys on ANDROMEDA_PULSE_DATA_DIR, pulse-app on its detected workspace root — or Pulse raised no incident for the canary";
+
+/// The named precondition when incidents exist but none carries the emitted fingerprint — a fidelity
+/// failure, distinct from an empty corpus (arch §Standard Contracts).
+const CANARY_FINGERPRINT_PRECONDITION: &str = "canary fingerprint not found in telemetry slice";
+
 /// Run the three readiness assertions over an already-connected client. Returns `Ok(ReadyState)` for
 /// every readiness outcome (including `Blocked`); MCP call failures are caught into the relevant
 /// `Blocked` leg — never propagated as `Err`, never a panic (the verdict/error wall).
@@ -148,7 +159,7 @@ pub async fn run_preflight(
     // `query_incident_list` for the storm's incident, then assert the fingerprint reads back from its
     // telemetry slice. A genuine call/transport/JSON-RPC error stays distinct from "not found yet" (the
     // masking this chunk's prerequisite fixed); both fold into the precondition cascade below.
-    let (canary_round_trip, canary_call_error, canary_detail) = poll_canary(client, canary, poll).await;
+    let (canary_round_trip, canary_call_error, canary_cause) = poll_canary(client, canary, poll).await;
 
     let blocked_precondition = if !version_ok {
         Some(format!(
@@ -167,9 +178,7 @@ pub async fn run_preflight(
     } else if let Some(reason) = canary_call_error {
         Some(format!("MCP read-back call failed: {reason}"))
     } else if canary_round_trip != CanaryOutcome::Ok {
-        Some(canary_detail.unwrap_or_else(|| {
-            "canary round-trip failed: incident not found in corpus".to_string()
-        }))
+        Some(canary_cause.unwrap_or(NotFound::EmptyCorpus).precondition().to_string())
     } else {
         None
     };
@@ -229,39 +238,58 @@ pub async fn preflight_boot(
     }
 }
 
+/// Why the canary was not found — the two causes the precondition cascade keeps apart.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum NotFound {
+    /// The corpus returned no incidents at all.
+    EmptyCorpus,
+    /// Incidents exist, but none carries the emitted fingerprint.
+    FingerprintAbsent,
+}
+
+impl NotFound {
+    /// The named precondition this cause surfaces (arch §Standard Contracts).
+    fn precondition(self) -> &'static str {
+        match self {
+            Self::EmptyCorpus => WORKSPACE_KEY_PRECONDITION,
+            Self::FingerprintAbsent => CANARY_FINGERPRINT_PRECONDITION,
+        }
+    }
+}
+
 /// The canary fidelity outcome for one read-back attempt.
 enum CanaryFidelity {
     /// The emitted fingerprint read back from an incident's telemetry slice.
     Ok,
     /// No incident yet, or none carrying the fingerprint — retryable within the poll budget.
-    NotYet(String),
+    NotYet(NotFound),
     /// A read-back call/transport/JSON-RPC error — not retryable (its own precondition).
     CallError(String),
 }
 
 /// Poll the canary fidelity check within the [`CanaryPoll`] budget, returning the
-/// `(outcome, call_error, not-found detail)` the precondition cascade consumes. Only the "not yet" case
+/// `(outcome, call_error, not-found cause)` the precondition cascade consumes. Only the "not yet" case
 /// retries (Pulse ingest latency); a call error surfaces immediately.
 async fn poll_canary(
     client: &ReadbackClient,
     canary: &CanaryMarker,
     poll: CanaryPoll,
-) -> (CanaryOutcome, Option<String>, Option<String>) {
+) -> (CanaryOutcome, Option<String>, Option<NotFound>) {
     let attempts = poll.attempts.max(1);
-    let mut last_detail = "canary round-trip failed: incident not found in corpus".to_string();
+    let mut last_cause = NotFound::EmptyCorpus;
     for attempt in 0..attempts {
         match assert_canary(client, canary).await {
             CanaryFidelity::Ok => return (CanaryOutcome::Ok, None, None),
             CanaryFidelity::CallError(reason) => return (CanaryOutcome::Failed, Some(reason), None),
-            CanaryFidelity::NotYet(detail) => {
-                last_detail = detail;
+            CanaryFidelity::NotYet(cause) => {
+                last_cause = cause;
                 if attempt + 1 < attempts {
                     tokio::time::sleep(poll.interval).await;
                 }
             }
         }
     }
-    (CanaryOutcome::Failed, None, Some(last_detail))
+    (CanaryOutcome::Failed, None, Some(last_cause))
 }
 
 /// One canary fidelity attempt: find the storm's incident and assert its telemetry slice carries the
@@ -273,9 +301,7 @@ async fn assert_canary(client: &ReadbackClient, canary: &CanaryMarker) -> Canary
     };
     let ids = incident_ids(&list);
     if ids.is_empty() {
-        return CanaryFidelity::NotYet(
-            "canary round-trip failed: incident not found in corpus".to_string(),
-        );
+        return CanaryFidelity::NotYet(NotFound::EmptyCorpus);
     }
     for id in ids {
         match client.retrieve_telemetry_slice(Some(serde_json::json!({ "incident_id": id }))).await {
@@ -287,7 +313,7 @@ async fn assert_canary(client: &ReadbackClient, canary: &CanaryMarker) -> Canary
             Err(e) => return CanaryFidelity::CallError(call_error_reason(&e)),
         }
     }
-    CanaryFidelity::NotYet("canary fingerprint not found in telemetry slice".to_string())
+    CanaryFidelity::NotYet(NotFound::FingerprintAbsent)
 }
 
 /// The redacted reason for a read-back call error — `JsonRpc` hides its server message behind `Display`,

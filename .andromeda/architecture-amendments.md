@@ -141,3 +141,18 @@ _Append-only changelog of amendments to `architecture.md` (the body holds only c
 **Section:** §Occupied Resources (On-disk artifacts) · §Infrastructure Patterns (directory tree) · §Stack (ORM row) · §Established Decisions [ORM]
 **Change:** Registered `contracts/pulse-load-envelope.toml` as a committed on-disk artifact (terms + provenance + exemption ledger; fixed `LoadEnvelope::default_path()` through `resolve_under`, no `CONDUCTOR_*` override; only the duration term asserted, rate terms declared-not-derivable). Extended the `runs.db` bullet to its two tables (`runs` per-check + the additive run-level `run_envelope`) and restated the [ORM] / §Stack qualifier from "~one indexed table" to a small fixed set of hand-written tables. Directory-tree `contracts/` comment now names three manifests.
 **Why:** The chunk landed a third committed contracts artifact and a second runs.db table; §Occupied Resources enumerates committed artifacts, and the one-table qualifier no longer matched. The no-ORM decision itself is unchanged.
+
+## 2026-08-10-workspace-key-divergence-probe — readiness gate: a fourth named precondition
+**Section:** §Standard Contracts — Readiness gate (the `ready:false` paragraph)
+**Change:** The gate's named-precondition set is stated as FOUR (was three): protocol version-mismatch ·
+required-tool absence · emitted fingerprint absent from an existing incident · **app/sidecar workspace-key
+agreement**. The fourth is emitted on a zero-incident `query_incident_list`, which is byte-identical on the
+wire to a workspace-key divergence (the sidecar keys on `ANDROMEDA_PULSE_DATA_DIR`, `pulse-app` on its
+detected workspace root), so the string names the key agreement AND "Pulse raised no incident" as the two
+candidate causes rather than claiming a measurement Conductor cannot make — read-back exposes no second key
+(`query_incident_list` takes no arguments). Also states that every precondition string is host-path-free
+(`data_dir` redacted).
+**Why:** the chunk replaced the opaque `canary round-trip failed: incident not found in corpus` with the
+named precondition, verified by four `conductor-verify` test legs and three live `conductor preflight --json`
+runs. Pulse-side mechanics confirmed first-hand (`corpus/src/contract.rs:628` · `pulse-app/src/main.rs:688-693`
+· `mcp-server/src/bin/andromeda-pulse-mcp.rs:74`).

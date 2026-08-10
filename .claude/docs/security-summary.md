@@ -11,7 +11,7 @@ Minimal-tier local utility: single-developer, local-only, no-cloud, no-multi-ten
 - CLI args + `CONDUCTOR_*` env path handles → `std::fs::canonicalize` + bounds-check at the CLI edge (outside garde).
 - Scenario config files → garde `range` + `#[garde(custom)]` validation at load (the trust boundary).
 - Tauri IPC → deny-by-default capabilities; no `shell-open` with derived strings; no remote-origin iframes.
-- MCP child stdout (trusted-child) → preflight gate (version/tools/canary) + bounded prost decode; empty canary ⇒ `Blocked`.
+- MCP child stdout (trusted-child) → preflight gate (version/tools/canary) + bounded prost decode; empty canary ⇒ `Blocked` under one of the gate's four named preconditions (a zero-incident corpus names the app-sidecar workspace-key agreement, never a generic string).
 - OTLP/gRPC egress → loopback `:4317` only; refused transport ⇒ `Result::Err` (harness fault), not a verdict.
 - Port-occupier `:4317` bind → the SOLE deliberate bind, an intentional in-host fault (P-003), released on cleanup.
 

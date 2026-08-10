@@ -6,7 +6,7 @@
 mod common;
 
 use common::{StubConfig, serve_stub};
-use conductor_core::ReportState;
+use conductor_core::{ReportState, redact_value};
 use conductor_verify::{
     CanaryMarker, CanaryOutcome, CanaryPoll, ContractManifest, MARK_INCIDENT_RESOLVED,
     QUERY_INCIDENT_LIST, READBACK_TOOLS, RETRIEVE_REPORT, RETRIEVE_TELEMETRY_SLICE, ReadbackClient,
@@ -107,14 +107,20 @@ async fn ready_state_serializes_to_the_readiness_envelope() {
 }
 
 #[tokio::test(flavor = "current_thread")]
-async fn an_empty_canary_is_blocked() {
+async fn an_empty_canary_names_the_workspace_key_precondition() {
+    // A corpus that returns zero incidents is byte-identical on the wire to an app/sidecar
+    // workspace-key divergence, which returns zero rows forever — so the precondition names the key
+    // agreement AND the no-incident cause, replacing the opaque "incident not found in corpus".
     let config = StubConfig { canary_in_corpus: false, ..StubConfig::default() };
     let ready = drive(config).await;
     assert!(!ready.ready);
     assert_eq!(ready.report_state(), ReportState::Blocked);
     assert_eq!(ready.canary_round_trip, CanaryOutcome::Failed);
     let precondition = ready.blocked_precondition.expect("a precondition");
-    assert!(precondition.contains("incident not found"), "{precondition}");
+    assert!(precondition.contains("same incident workspace key"), "{precondition}");
+    assert!(precondition.contains("ANDROMEDA_PULSE_DATA_DIR"), "{precondition}");
+    assert!(precondition.contains("raised no incident"), "{precondition}");
+    assert!(!precondition.contains("incident not found in corpus"), "{precondition}");
 }
 
 #[tokio::test(flavor = "current_thread")]
@@ -128,7 +134,7 @@ async fn a_canary_call_error_is_blocked_distinctly_from_an_empty_corpus() {
     assert_eq!(ready.canary_round_trip, CanaryOutcome::Failed);
     let precondition = ready.blocked_precondition.expect("a precondition");
     assert!(precondition.contains("MCP read-back call failed"), "{precondition}");
-    assert!(!precondition.contains("incident not found"), "{precondition}");
+    assert!(!precondition.contains("workspace key"), "{precondition}");
 }
 
 #[tokio::test(flavor = "current_thread")]
@@ -151,4 +157,23 @@ async fn a_fingerprint_mismatch_is_blocked() {
     assert_eq!(ready.canary_round_trip, CanaryOutcome::Failed);
     let precondition = ready.blocked_precondition.expect("a precondition");
     assert!(precondition.contains("fingerprint not found"), "{precondition}");
+    // The two not-found causes must stay distinguishable: incidents ARE present here, so this is a
+    // fidelity failure, never the workspace-key/no-incident precondition.
+    assert!(!precondition.contains("workspace key"), "{precondition}");
+}
+
+#[tokio::test(flavor = "current_thread")]
+async fn a_blocked_precondition_carries_no_absolute_host_path() {
+    // The invariant is the value scrub, not a `::`-token filter: `redact_value` masks absolute
+    // host-FILE paths, so a precondition it leaves byte-identical carries none (obs-plan §11
+    // Anti-Patterns → Logs, PII Scrubbing).
+    for config in [
+        StubConfig { canary_in_corpus: false, ..StubConfig::default() },
+        StubConfig { query_errors: true, ..StubConfig::default() },
+    ] {
+        let ready = drive(config).await;
+        let precondition = ready.blocked_precondition.expect("a precondition");
+        assert_eq!(redact_value(&precondition).as_ref(), precondition.as_str(), "{precondition}");
+        assert!(!precondition.contains("/test/data-dir"), "{precondition}");
+    }
 }

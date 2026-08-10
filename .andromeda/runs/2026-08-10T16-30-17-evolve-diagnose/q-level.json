@@ -1,0 +1,177 @@
+{
+ "epoch": "Epoch 1 — Foundation: re-aim at the SUT",
+ "pass_a_note_themes": [
+  {
+   "theme": "B1 no channel carries a forward constraint, so every step hand-authors prohibitions into whatever artifact it owns",
+   "n": 9,
+   "solution": "prohibition",
+   "natures": [
+    "process",
+    "product-logic"
+   ],
+   "above_threshold": true,
+   "fact_indices": [
+    1,
+    3,
+    18,
+    20,
+    21,
+    27,
+    28,
+    32,
+    34
+   ],
+   "steps": [
+    "phase/research",
+    "phase/plan x4",
+    "phase/take-up",
+    "implement/code",
+    "wrap-session/report"
+   ]
+  },
+  {
+   "theme": "B2 a reference's literal prescription did not fit the situation, so the step deviated to serve its intent",
+   "n": 8,
+   "solution": "workaround",
+   "natures": [
+    "process",
+    "environment"
+   ],
+   "above_threshold": true,
+   "fact_indices": [
+    0,
+    5,
+    12,
+    16,
+    17,
+    19,
+    24,
+    25
+   ],
+   "steps": [
+    "phase/take-up",
+    "new-session/orientation",
+    "wrap-session/curation",
+    "wrap-session/reconcile",
+    "phase/research",
+    "wrap-session/report x2"
+   ]
+  },
+  {
+   "theme": "B3 Git-Bash-on-Windows invocation mechanics silently mangled or truncated the intended command",
+   "n": 4,
+   "solution": "workaround",
+   "natures": [
+    "environment",
+    "process"
+   ],
+   "above_threshold": true,
+   "fact_indices": [
+    7,
+    9,
+    11,
+    26
+   ],
+   "steps": [
+    "phase/research x2",
+    "implement/fix-loop",
+    "implement/smoke"
+   ]
+  },
+  {
+   "theme": "B4 an input the step needs is read outside its scheduled position or remit",
+   "n": 3,
+   "solution": "removed-cause/workaround",
+   "natures": [
+    "process"
+   ],
+   "above_threshold": true,
+   "fact_indices": [
+    6,
+    8,
+    17
+   ],
+   "steps": [
+    "phase/take-up",
+    "phase/plan",
+    "new-session/orientation"
+   ]
+  },
+  {
+   "theme": "OBS remit-widening to remove a cause at more sites than the step's own scope named",
+   "n": 3,
+   "solution": "removed-cause",
+   "natures": [
+    "process"
+   ],
+   "above_threshold": true,
+   "fact_indices": [
+    4,
+    15,
+    23
+   ],
+   "steps": [
+    "wrap-session/reconcile",
+    "phase/validate",
+    "implement/smoke"
+   ]
+  }
+ ],
+ "pass_b_signatures": {
+  "band_aid": [
+   "B1",
+   "B2",
+   "B3",
+   "B4"
+  ],
+  "chronic_degrade": [
+   {
+    "id": "C1",
+    "what": "the headful UI/a11y self-verify never ran once in the epoch",
+    "evidence": "tooling.headless-skip n=3 + 2 deferred/environment facts; 8 chunks, 0 runs, 0 halts"
+   },
+   {
+    "id": "C2",
+    "what": "cargo audit red on 5 consecutive chunks, deferred each time, never halted",
+    "evidence": "tooling.environmental n=3, tooling.gate-deferral n=3, 1 unresolved/environment fact proving the prescribed floor-raise unexecutable"
+   }
+  ],
+  "deferred_forever": [
+   {
+    "id": "D1",
+    "what": "gate-deferral count accumulates monotonically with zero closure records",
+    "evidence": "gates deferred per chunk = 0,0,0,0,1,1,1,2; deferral-open signals on the last 3 chunks; no closure in any later gates record"
+   },
+   {
+    "id": "D2",
+    "what": "db.insert_run / report.generate spans promised for 0.1.0 Epoch 8, still absent",
+    "evidence": "deferred/process fact at sut-load-envelope reconcile; conductor-report has zero tracing calls"
+   }
+  ],
+  "override": [
+   {
+    "id": "O1",
+    "what": "solution: overridden x3, all nature=process",
+    "evidence": "operator blocked apply at review over a plan citation; operator widened research Files-to-modify 3->6; operator directed sidecar instance-repair regardless of the proposal set"
+   }
+  ]
+ },
+ "outcomes": {
+  "ok": 105,
+  "halted-resolved": 5,
+  "ok-degraded": 1
+ },
+ "solution_counts": {
+  "workaround": 19,
+  "prohibition": 9,
+  "removed-cause": 7,
+  "deferred": 6,
+  "overridden": 3,
+  "unresolved": 1
+ },
+ "nature_counts": {
+  "process": 33,
+  "environment": 10,
+  "product-logic": 2
+ }
+}

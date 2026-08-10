@@ -1,0 +1,336 @@
+{
+ "epoch": "Epoch 1 — Foundation: re-aim at the SUT",
+ "untyped_total": 29,
+ "clusters": [
+  {
+   "theme": "U1 reference-contract conflict: the friction ledger is \"never read\" yet a nudge must read it",
+   "n": 3,
+   "above_threshold": true,
+   "proposed_type": "contract.reference-conflict",
+   "note": "Same conflict reported at three separate session starts, by the same step, never resolved between them.",
+   "steps": [
+    "new-session/orientation"
+   ],
+   "chunks": [],
+   "cases": [
+    {
+     "chunk": null,
+     "skill": "andromeda-new-session",
+     "step": "orientation",
+     "what": "Contract conflict: evolve-system.md says the friction log is append-only and must never be read, but new-session's evolve-nudge precondition ('friction-log.ndjson carries records for it') can only be evaluated by reading it — so deriving the nudge required reading a file the same system forbids reading.",
+     "impact": {
+      "extra_reads": 1
+     }
+    },
+    {
+     "chunk": null,
+     "skill": "andromeda-new-session",
+     "step": "orientation",
+     "what": "evolve-system.md mandates the friction log is append-only and 'never load prior records', while new-session's evolve-nudge condition requires knowing whether friction-log.ndjson carries records for a candidate epoch - evaluating the nudge meant reading it (144 records across 2 epochs). Latent contradiction: here the frozen-entries condition failed for both candidate epochs anyway, so the read was avoidable by short-circuit ordering, but on a fully-frozen complete epoch the read is unavoidable",
+     "impact": {
+      "extra_reads": 1
+     }
+    },
+    {
+     "chunk": null,
+     "skill": "andromeda-new-session",
+     "step": "orientation",
+     "what": "Two references disagree on reading the friction file: evolve-system.md says append-only, never read it or load prior records, while new-session's evolve-nudge condition requires checking whether friction-log.ndjson carries records for a completed epoch. Resolved by an aggregate epoch/count tally (no record content loaded).",
+     "impact": {
+      "extra_reads": 1
+     }
+    }
+   ]
+  },
+  {
+   "theme": "U2 a reference misdescribes its own mechanism (phantom variable · loose guard · off-by-a-phase window · wrong field path)",
+   "n": 5,
+   "above_threshold": true,
+   "proposed_type": "contract.reference-misdescribes-mechanism",
+   "note": "Five distinct sites: fan-out.md {output_path} (x2), the pending-exists grep guard, the report Commits window, the matrix status field path.",
+   "steps": [
+    "new-session/orientation",
+    "phase/distill",
+    "phase/take-up",
+    "wrap-session/report"
+   ],
+   "chunks": [
+    "2026-08-08-sut-capability-manifest",
+    "2026-08-09-current-sut-coverage-classification",
+    "2026-08-09-interpretation-correctness-posture",
+    "2026-08-09-sut-drift-check"
+   ],
+   "cases": [
+    {
+     "chunk": "2026-08-08-sut-capability-manifest",
+     "skill": "andromeda-phase",
+     "step": "distill",
+     "what": "fan-out.md lists {output_path} among the variables to substitute but the distiller prompt body never references it, while the body does contain {plan} and {section} inside the quoted citation-format example - which are illustrative, not variables. The mandated self-check for unsubstituted braces therefore needs a judgment call in both directions on every run: one listed variable with no slot, two slots that must be left alone. Cost nothing here (agents cited correctly) but the check cannot be applied literally as written.",
+     "impact": {
+      "retries": 0,
+      "dialogue_rounds": 0
+     }
+    },
+    {
+     "chunk": "2026-08-09-sut-drift-check",
+     "skill": "andromeda-wrap-session",
+     "step": "report",
+     "what": "The report's Commits field is sourced from 'commit subjects since state.yaml.last_wrap', but wrap writes last_wrap in P6 and commits in P7 — so the previous chunk's commit always falls inside the window and a literal reading would attribute it to the chunk being wrapped. Caught by checking the commit subject against the chunk marker; the report states the chunk has no commits yet and names 2cdec9e as the prior chunk's.",
+     "impact": {}
+    },
+    {
+     "chunk": "2026-08-09-current-sut-coverage-classification",
+     "skill": "andromeda-phase",
+     "step": "take-up",
+     "what": "The pending-exists Setup guard is prone to a false positive: master-route.md carries a template legend line ({status: pending|complete}) containing the literal word 'pending', so a plain grep for it returns a hit on a master with zero pending records; a second precise grep was needed to clear the guard",
+     "impact": {
+      "extra_reads": 1
+     }
+    },
+    {
+     "chunk": "2026-08-09-interpretation-correctness-posture",
+     "skill": "andromeda-phase",
+     "step": "distill",
+     "what": "fan-out.md's substitution list names {output_path} among the variables to substitute, but the distiller prompt template contains no {output_path} placeholder — the self-check for unsubstituted braces passed regardless and the orchestrator writes the extract files itself; absorbed at zero cost, flagged as a reference-file inconsistency",
+     "impact": {}
+    },
+    {
+     "chunk": null,
+     "skill": "andromeda-new-session",
+     "step": "orientation",
+     "what": "Coverage probe read status as a top-level capability field per the skill body's 'chunk:null & status:planned' shorthand; the matrix nests it at verification.status, so the first parse returned 32 rows with status None and had to be reformulated.",
+     "impact": {
+      "reformulations": 1
+     }
+    }
+   ]
+  },
+  {
+   "theme": "U3 a count or claim derived from a non-authoritative view reaches a decision or the user",
+   "n": 7,
+   "above_threshold": true,
+   "proposed_type": "contract.derived-from-nonauthoritative-view",
+   "note": "Truncated console views, hand-rolled regex/dict derivations, and citations to documents that do not hold the fact. Two were caught only by the operator; one required a public retraction.",
+   "steps": [
+    "implement/code",
+    "phase/plan",
+    "phase/research",
+    "phase/validate"
+   ],
+   "chunks": [
+    "2026-08-08-dependency-advisory-remediation",
+    "2026-08-08-sut-capability-manifest",
+    "2026-08-09-current-sut-coverage-classification",
+    "2026-08-09-interpretation-correctness-posture",
+    "2026-08-09-sut-drift-check"
+   ],
+   "cases": [
+    {
+     "chunk": "2026-08-08-sut-capability-manifest",
+     "skill": "andromeda-phase",
+     "step": "plan",
+     "what": "The code-graph calls view SILENTLY UNDER-REPORTS cross-crate call sites. Querying callers of Scenario::from_toml_str returned 1 production caller (conductor-cli/paths.rs:78) plus in-file test callers; a grep cross-check found 5 production call sites across 4 crates, missing conductor-core/scenario_catalog.rs:47, conductor-run/src/lib.rs:420, conductor-tauri/src/commands.rs:79 and :344, and conductor-timeline/tests/replay.rs:26. Had the graph been trusted, the plan would have concluded a signature change was cheap and set a wrong constraint on a keystone chunk. A zero-rows result is documented as a real finding; a LOW-but-nonzero rows result has no such guidance and reads as authoritative.",
+     "impact": {
+      "extra_reads": 2,
+      "reformulations": 0
+     }
+    },
+    {
+     "chunk": "2026-08-08-sut-capability-manifest",
+     "skill": "andromeda-phase",
+     "step": "plan",
+     "what": "RETRACTION - the earlier claim that the code-graph calls view under-reports cross-crate call sites is FALSE and must not reach curation. The trace shows q4 calls and q5 refs each returned 41 rows for from_toml_str, db_state=fresh, across 6 files in 5 crates; the rows=1 belonged to q3 (pid_format). The 1 was produced by piping q4 output through head -30, which cut 41 records to 10, leaving conductor-cli/paths.rs as the only visible non-test caller - then attributing that to the graph. The same habit corrupted the PId finding: q1 carried a self-imposed LIMIT 40 and returned exactly 40, which was read as the complete set and written up as no references outside the test module; the true count is 82 refs across 16 files in 6 crates. grep did not beat the graph - grep over-counts (pub fn definition, 4 test-function names, 1 doc comment). The real friction is an orchestrator reading a self-truncated view as a result set and blaming the tool. Operator caught it before apply. Artifacts corrected: research.md Graph impact (with an inline correction note), plan.md Implementation notes and Provenance; the generalized grep-before-trusting-the-graph directive was removed and replaced with the narrow true lesson (SCIP matches by descriptor; attribute a row count to its query; never read a LIMIT-ed or head-ed view as the result; graph lines are 0-indexed vs grep 1-indexed).",
+     "impact": {
+      "iterations": 1,
+      "dialogue_rounds": 1
+     }
+    },
+    {
+     "chunk": "2026-08-08-dependency-advisory-remediation",
+     "skill": "andromeda-phase",
+     "step": "validate",
+     "what": "plan.md reached review with two citations pointing at documents that do not hold the cited fact, both caught by the operator, neither catchable by any mechanical check. (a) The wrap-amendment note said security-plan carries derived anyhow gate wording and must be amended in lockstep - carried verbatim from the arch extract, which reads only architecture.md and was therefore speculating about a document outside its remit; verification found 10 anyhow hits in security-plan and zero carrying a version. (b) An acceptance criterion cited security-plan section Accepted exceptions for the count 17, merging an artifact-derived number (deny.toml) with a spec-derived rule under one citation; that section names exactly 1 ignore + 1 allow. Consequence under drift=0 would have been an amendment aimed at a non-existent target, or spec churn authoring version wording into an already-correct document",
+     "impact": {
+      "dialogue_rounds": 1,
+      "iterations": 3
+     }
+    },
+    {
+     "chunk": "2026-08-08-dependency-advisory-remediation",
+     "skill": "andromeda-implement",
+     "step": "code",
+     "what": "The lock-delta verification script keyed a dict by package NAME, but Cargo.lock legitimately holds the same name at multiple versions, so duplicate names collapsed and the comparison reported a self-contradictory result: 559 packages before vs 514 after alongside 'ADDED: none, REMOVED: none'. Caught by the impossible arithmetic and redone as a multiset diff over name+version pairs plus git diff as the authority, which showed the true delta (559 pairs unchanged in count, exactly 4 swapped). A name-keyed comparison silently under-reports lock changes and must not be used to verify a lock-only chunk",
+     "impact": {
+      "retries": 1
+     }
+    },
+    {
+     "chunk": "2026-08-09-sut-drift-check",
+     "skill": "andromeda-phase",
+     "step": "validate",
+     "what": "A graph-impact citation reached the user review factually wrong: the crate_edges row COUNT was taken correctly from the trace (6) but the direction SPLIT was reconstructed from a tail-truncated console view, inferring an outbound edge that does not exist (all 6 rows are inbound; conductor-run was outside the visible window). Honouring the trace for counts but not for content is the same failure as reading a truncated view as the result. No active validation check catches this — validation.md §7 explicitly defers the citation-resolve gate to a future escalation rung — so the operator's review was the only thing between the error and implement's input. Corrected at 4 sites across plan.md and research.md.",
+     "impact": {
+      "dialogue_rounds": 1
+     }
+    },
+    {
+     "chunk": "2026-08-09-current-sut-coverage-classification",
+     "skill": "andromeda-phase",
+     "step": "research",
+     "what": "The tests extract's literal-60 inventory was correct but not complete: a first-hand grep found 8 further doc/help sites it did not list, one of which (cli.rs:49) is user-visible clap help text rather than a comment, plus a false positive to guard (render.rs:42 Lamp::Blocked => 60 is an ANSI color code)",
+     "impact": {
+      "extra_reads": 1
+     }
+    },
+    {
+     "chunk": "2026-08-09-interpretation-correctness-posture",
+     "skill": "andromeda-phase",
+     "step": "research",
+     "what": "a hand-written regex over coverage.rs undercounted Auto rows as 42; the true count is 43 (82 rows total). Caught only by cross-checking against the roll-up the prior chunk shipped, then re-derived with a stricter parse - a derived count that no independent number contradicted would have entered research.md and the plan silently",
+     "impact": {
+      "reformulations": 2
+     }
+    }
+   ]
+  },
+  {
+   "theme": "U4 an invocation's own mechanics silently aborted or misdirected the work",
+   "n": 3,
+   "above_threshold": true,
+   "proposed_type": "tooling.invocation-mechanics",
+   "note": "&&-chain wholesale abort on an expected-absent optional path; heredoc backslash mangling on Git-Bash/Windows; a cargo tree -e filter hiding the real edge behind a misleading hint.",
+   "steps": [
+    "implement/smoke",
+    "new-session/orientation",
+    "phase/take-up"
+   ],
+   "chunks": [
+    "2026-08-08-dependency-advisory-remediation"
+   ],
+   "cases": [
+    {
+     "chunk": null,
+     "skill": "andromeda-new-session",
+     "step": "orientation",
+     "what": "A single && -chained health-probe batch aborted wholesale (exit 2) on an expected-absent OPTIONAL path (the CLAUDE.md two-location pre-flight probes .claude/CLAUDE.md, which does not exist here), discarding the remaining checks in the batch; re-run with ; separators",
+     "impact": {
+      "retries": 1
+     }
+    },
+    {
+     "chunk": "2026-08-08-dependency-advisory-remediation",
+     "skill": "andromeda-phase",
+     "step": "take-up",
+     "what": "cargo tree -i crossbeam-epoch -e normal,build printed 'nothing to print' plus a hint to try --target all, misdirecting diagnosis toward a target-platform cause; the actual cause was the -e normal,build filter excluding the dev edge (assert_fs). Re-ran without -e to find the path",
+     "impact": {
+      "reformulations": 1
+     }
+    },
+    {
+     "chunk": "2026-08-08-dependency-advisory-remediation",
+     "skill": "andromeda-implement",
+     "step": "smoke",
+     "what": "Backslash sequences do not survive a quoted bash heredoc into Python in this Git-Bash-on-Windows path: a host-path regex failed twice with an incomplete-escape error on \\U, a raw string did not fix it, and the reported error position did not correspond to any backslash in the intended pattern. The same hazard then corrupted two friction-log appends built as shell-quoted JSON (bare \\U reaching the file as an invalid JSON escape) and again broke the first repair attempt. Only building every backslash with chr(92) worked",
+     "impact": {
+      "retries": 3
+     }
+    }
+   ]
+  },
+  {
+   "theme": "U5 an acceptance criterion or decision input is misrouted in time or remit",
+   "n": 3,
+   "above_threshold": true,
+   "proposed_type": "contract.input-misrouted",
+   "note": "The matrix decides a P4 choice but is read at P5; an obs acceptance names an artifact the chosen mechanism never produces; a criterion cites evidence no listed Test Command emits.",
+   "steps": [
+    "implement/fix-loop",
+    "phase/plan"
+   ],
+   "chunks": [
+    "2026-08-08-dependency-advisory-remediation",
+    "2026-08-09-interpretation-correctness-posture"
+   ],
+   "cases": [
+    {
+     "chunk": "2026-08-08-dependency-advisory-remediation",
+     "skill": "andromeda-phase",
+     "step": "plan",
+     "what": "A verification-matrix capability (v2-28, stale rmcp wording) bore directly on a P4 scope decision, but the matrix is in no distiller's input set and not in research's remit, and the skill schedules its read at P5 step 4 AFTER the decision it informs; a keyword-filtered grep over the matrix missed v2-28 and only an unfiltered listing of all 32 titles surfaced it. Knowing v2-28 is scoped to three DOCUMENTS reversed the premise of the rmcp option from 'a later chunk owns this' to 'no acceptance would catch a manifest line'",
+     "impact": {
+      "reformulations": 1,
+      "extra_reads": 2
+     }
+    },
+    {
+     "chunk": "2026-08-08-dependency-advisory-remediation",
+     "skill": "andromeda-implement",
+     "step": "fix-loop",
+     "what": "An acceptance criterion referenced evidence no Test Command produces: the obs criterion asserts logs/agent-latest.jsonl carries the 7 base fields, is host-path-free and panic-free, but the plan's listed gates are agent-run.sh run (which emits that artifact only when SCENARIO is set) and agent-run.sh status. Verifying it required choosing an unlisted producer - an explicit --agent-mode run - at the smoke step",
+     "impact": {
+      "extra_reads": 1
+     }
+    },
+    {
+     "chunk": "2026-08-09-interpretation-correctness-posture",
+     "skill": "andromeda-phase",
+     "step": "plan",
+     "what": "obs acceptance contribution 1 requires the posture be machine-parseable from an obs artifact via jq/serde_json, but the chosen mechanism is a Rust const plus a nextest gate (not an obs artifact) and the coverage roll-up is Markdown text (not JSON) - no option literally satisfies it. Resolved by carrying the derived count onto all three roll-up surfaces, satisfying the intent rather than the letter; P2's aggregate checks cannot catch an AC that no design can literally meet",
+     "impact": {
+      "dialogue_rounds": 0
+     }
+    }
+   ]
+  }
+ ],
+ "unclustered_singletons": [
+  {
+   "i": 3,
+   "chunk": "2026-08-08-sut-capability-manifest",
+   "step": "wrap-session/gates",
+   "what": "The chunk plan Test Commands (the light gate) passed green while cargo audit and cargo deny check advisories were RED on four live advisories, two rat"
+  },
+  {
+   "i": 5,
+   "chunk": "2026-08-08-dependency-advisory-remediation",
+   "step": "phase/take-up",
+   "what": "Working entry AND handoff both stated a wrong remediation mechanism (not thin — specific and incorrect): RUSTSEC-2026-0190 attributed to crossbeam-epo"
+  },
+  {
+   "i": 12,
+   "chunk": "2026-08-08-dependency-advisory-remediation",
+   "step": "wrap-session/curation",
+   "what": "Filter 4's signal set structurally caps a purely agent-discovered learning below the apply threshold. Every large positive signal is user-sourced (exp"
+  },
+  {
+   "i": 18,
+   "chunk": "2026-08-09-current-sut-coverage-classification",
+   "step": "implement/code",
+   "what": "A post-edit residual sweep found two stale-60 sites outside the plan's Files-to-modify — test-plan.md:78 asserting the matrix enumerates all 60 P-IDs,"
+  },
+  {
+   "i": 19,
+   "chunk": "2026-08-09-current-sut-coverage-classification",
+   "step": "implement/fix-loop",
+   "what": "Functionally verifying the rendered artifact required running 'conductor coverage --write', which created coverage-matrix.md at the repo root — a neve"
+  },
+  {
+   "i": 20,
+   "chunk": "2026-08-09-out-of-scope-classification-treatment",
+   "step": "implement/smoke",
+   "what": "verifying the Markdown coverage surface requires generating coverage-matrix.md at the repo root, but that file's fate is an unresolved decision owned "
+  },
+  {
+   "i": 21,
+   "chunk": "2026-08-09-out-of-scope-classification-treatment",
+   "step": "wrap-session/reconcile",
+   "what": "the report named four Expected amendments in a dedicated section and the fan-out surfaced only two: no detector invariant covers an EXISTING documente"
+  },
+  {
+   "i": 27,
+   "chunk": "2026-08-09-in-lane-sut-scenarios",
+   "step": "phase/take-up",
+   "what": "One P-ID carries two different names across the project's own artifacts — the working-route entry and intent.md call P-079 'single-sourced workspace k"
+  }
+ ]
+}
