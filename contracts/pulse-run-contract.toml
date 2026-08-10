@@ -1,0 +1,61 @@
+# Pinned Pulse run contract — the launch conditions under which a live Pulse can actually be verified
+# (arch §Standard Contracts; intent §Theme 3 F11).
+#
+# Two of these terms were believed sufficient and are not. The 2026-08-10 workspace-key probe ran with
+# deterministic L4 confirmed active and a shared data dir, and still recorded `cues_emitted: 0` with the
+# service in baseline bootstrap — no incident formed under any workspace key. The storm shape was never
+# the gap either: the canary already emits 6 identical-fingerprint exceptions, over Pulse's `>=5 in 30s`
+# retry-storm floor. What was missing is that the canary storm is the canary service's FIRST traffic, so
+# Pulse holds no baseline for it and the L2 cue evaluator never considers it. `[incident_formation]` is
+# the answer: warm the service out of bootstrap first, then storm, then wait out the digest cadence.
+#
+# PROVENANCE. The SUT-side terms are a TRANSCRIBED record, not a Conductor measurement. Treat a term as
+# authoritative only as far as that record is, and re-transcribe when Pulse publishes its own.
+#
+# A read / parse / bounds failure is a harness fault, never a verdict and never a silent widening.
+
+sut_version = "v0.3.0"
+captured_at = "2026-08-10"
+provenance = "intent §Theme 3 F11 + the 2026-08-10-workspace-key-divergence-probe live evidence — transcribed SUT record, not a Conductor measurement"
+
+# What the harness must do for an incident to be able to form at all. These are Conductor's own
+# obligations, satisfied by construction, so they are parameters rather than checks.
+[incident_formation]
+# Benign pre-roll carrying the canary service out of Pulse's baseline bootstrap before the counted
+# storm. Without it the storm is the service's first traffic and the cue evaluator never sees it.
+warmup_ms = 45000
+warmup_emissions = 3
+# The canary poll floor. L3's digest cadence alone is 20-60s with L4 behind it, so the shipped 30s
+# default could expire before an incident exists even once a cue fires. The probe used 90.
+min_canary_poll_seconds = 90
+
+[[term]]
+id = "l4-deterministic"
+statement = "the launched pulse-app must run with ANDROMEDA_PULSE_L4_DETERMINISTIC=true, so the canned L4Output replaces the Llama-3.2-3B inference and the live legs are reproducible"
+check = "shell-declaration"
+env = "ANDROMEDA_PULSE_L4_DETERMINISTIC"
+causes = "either the launching shell never declared it, or pulse-app was started from a different environment than Conductor's — Conductor reads only its own environment and cannot inspect a process it does not launch"
+
+[[term]]
+id = "shared-data-dir"
+statement = "pulse-app and the spawned MCP sidecar must resolve the same data dir, since incidents are filtered on the workspace column derived from it"
+check = "declared-not-observable"
+causes = "Conductor propagates its own resolved data dir to the sidecar via the process env builder, but pulse-app's side is the operator's and read-back exposes no second key — query_incident_list takes no arguments"
+
+[[term]]
+id = "sidecar-built"
+statement = "the andromeda-pulse-mcp sidecar must be built and resolvable on PATH before any arm of a live probe means anything"
+check = "asserted"
+causes = "an unbuilt sidecar fails connect and surfaces the read-back-unreachable precondition upstream of this gate, so reaching term evaluation at all proves it"
+
+[[term]]
+id = "incident-formation"
+statement = "the canary service must leave baseline bootstrap before the counted storm, and the poll budget must outlast Pulse's L3 digest cadence"
+check = "asserted"
+causes = "the harness satisfies this itself through the [incident_formation] parameters above"
+
+[[term]]
+id = "load-envelope"
+statement = "the warm-up and poll budget together must stay inside the proven-good bounds in contracts/pulse-load-envelope.toml"
+check = "asserted"
+causes = "checked statically against the committed envelope — an over-envelope preflight would induce the DuckDB append stall it is meant to avoid"

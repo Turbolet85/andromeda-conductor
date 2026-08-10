@@ -14,6 +14,8 @@ conductor-report.workspace = true
 anyhow.workspace = true
 tracing.workspace = true
 serde = { workspace = true }
+# the run contract's warm-up window paces its pre-roll emissions (conductor-core::RunContract)
+tokio = { workspace = true, features = ["time"] }
 
 [dev-dependencies]
 tokio = { workspace = true, features = ["macros", "rt"] }

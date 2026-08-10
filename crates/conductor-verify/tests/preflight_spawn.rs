@@ -6,6 +6,7 @@
 
 use tokio::process::Command;
 
+use conductor_core::RunContractStatus;
 use conductor_verify::{CanaryMarker, CanaryPoll, ContractManifest, preflight_boot};
 
 const CANARY: &str = "conductor-canary-7f3a";
@@ -25,6 +26,7 @@ async fn live_child_spawn_preflight_is_ready() {
     let ready = preflight_boot(
         command,
         &manifest(),
+        &RunContractStatus::satisfied(),
         &CanaryMarker::new(CANARY, CANARY_FP),
         "/test/data-dir",
         CanaryPoll::immediate(),

@@ -61,3 +61,8 @@ _Append-only changelog of amendments to `test-plan.md` (the body holds only curr
 **Section:** §1 Surfaces under test (cli Signal) · §6 E2E cli driver row + Selector strategy
 **Change:** All three cli status-label enumerations now present the six bracket labels as the closed per-P-ID lamp/report-state set and record `[ENVIRONMENT-SUSPECT]` as a run-level non-lamp qualifier cli selectors must expect.
 **Why:** The chunk added a seventh bracket label to cli stdout while the three enumerations read as exhaustive; a selector strategy assuming only six would mis-parse an over-envelope run.
+
+## 2026-08-10-pulse-run-contract — `boot` timeout restated under the run contract's floor
+**Section:** §3 Test Harness Contract → 5-command implementation → `boot`
+**Change:** the flat `Timeout: 30s` became `CONDUCTOR_PREFLIGHT_TIMEOUT` seconds (default 30) raised to the run contract's effective floor (`contracts/pulse-run-contract.toml` `[incident_formation].min_canary_poll_seconds`, which must outlast Pulse's L3 digest cadence), so the live-Pulse leg must allow at least that floor. The stub leg still completes in <1s because it drives `CanaryPoll::immediate()` — no real clock.
+**Why:** the chunk made the floor real in `canary_poll()`, so a spec stating a flat 30s budget now describes a value the code will not honour for the live leg. One-sided by construction: obs-plan §3 carries no preflight budget, and the shared envelope/log-format sides are untouched (envelope still 11 fields, `ReportState` five, `LAMP_META` six). Detector-raised (D-tests-obs-harness).

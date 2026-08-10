@@ -234,10 +234,11 @@
       "verification": {
         "method": "integration",
         "acceptance": "Preflight asserts the contract terms — ANDROMEDA_PULSE_L4_DETERMINISTIC set on the launched pulse-app (not the sidecar) and both sides resolving the same data dir — and names each unmet term individually; the contract is recorded in-repo and reproducible.",
-        "ref": null,
-        "status": "planned"
+        "ref": "crates/conductor-verify/tests/preflight.rs::an_unmet_run_contract_term_is_blocked_and_named_individually (+ an_unmet_term_skips_the_canary_rather_than_reporting_its_symptom, a_satisfied_contract_leaves_the_other_legs_deciding, a_blocked_precondition_carries_no_absolute_host_path); contract recorded + reproducible: crates/conductor-core/src/run_contract.rs::tests::{loads_and_bounds_checks_the_committed_contract, only_a_shell_declaration_term_can_be_unmet, the_committed_preflight_budget_stays_inside_the_committed_load_envelope}",
+        "status": "verified"
       },
-      "chunk": null
+      "chunk": "2026-08-10-pulse-run-contract",
+      "notes": "PREMISE-CORRECTION (2026-08-10, chunk 2026-08-10-pulse-run-contract). The acceptance prose reads as though preflight ASSERTS both named terms. Only one is assertable, and the acceptance text is deliberately left unedited as the record of what was ASKED. WHAT IS ASSERTED: ANDROMEDA_PULSE_L4_DETERMINISTIC, through a shell-declaration proxy — Conductor reads its OWN environment, the shell that also launches pulse-app — shipped as check = \"shell-declaration\" in contracts/pulse-run-contract.toml, the only check kind that can block. WHAT IS NOT: 'both sides resolving the same data dir'. Conductor propagates its resolved data dir to the sidecar via the .env(...) builder, so the sidecar half is guaranteed by construction, but pulse-app's half is structurally unobservable — the exact limit v2-17's notes established, since dispatch_query_incident_list takes no arguments (crates/mcp-server/src/tools.rs:174,336), Pulse never logs the incident workspace key, and corpus.db is out of bounds by rule. That term therefore ships as check = \"declared-not-observable\" with its causes recorded: it is stated so an operator can satisfy it, and it never blocks, because blocking on it would assert a measurement Conductor cannot make. CONSEQUENCE: 'preflight asserts the contract terms' holds for every term Conductor can honestly observe, and the artifact itself carries the distinction per-term rather than leaving a reader to infer it. The coverage flip stands on the refs, not on the prose. Same channel as v2-17: intent.md and requirements.md are immutable records of what was asked and are deliberately unedited; this ledger entry is the correction channel."
     },
     {
       "id": "v2-19",

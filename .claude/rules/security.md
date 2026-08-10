@@ -11,7 +11,8 @@ Universal security requirements (Minimal tier — local-only loopback tool, no n
 
 ## Input validation (§Input Validation)
 - Validate ALL scenario config at load with garde (`range` + `#[garde(custom)]` cross-field: error fraction ∈ [0,1], non-negative durations, p50≤p95≤p99, severity-mix sums). An unvalidated serde deserialize bypasses the trust boundary.
-- Committed SUT-facing manifests read at a fixed path (`contracts/pulse-capabilities.toml` · `contracts/pulse-load-envelope.toml`) are bounds-checked at load and resolved via `default_path()` → `resolve_under` with deliberately NO `CONDUCTOR_*` override; read faults carry `e.kind()` only (never the path), and absent/malformed is a hard harness fault — never defaulted, never a silent widen.
+- Committed SUT-facing manifests read at a fixed path (`contracts/pulse-capabilities.toml` · `contracts/pulse-load-envelope.toml` · `contracts/pulse-run-contract.toml`) are bounds-checked at load and resolved via `default_path()` → `resolve_under` with deliberately NO `CONDUCTOR_*` override; read faults carry `e.kind()` only (never the path), and absent/malformed is a hard harness fault — never defaulted, never a silent widen.
+- `ANDROMEDA_PULSE_L4_DETERMINISTIC` is a declaration-only READ with nothing to validate — Conductor tests whether its OWN environment affirmatively declares it (the run contract's `shell-declaration` proxy) and the value never becomes a path, an argv element, or a log value.
 - `CONDUCTOR_*` path handles sit OUTSIDE garde — `std::fs::canonicalize` + bounds-check at the `conductor-cli` edge before any `runs.db`/journal write or manifest read (path traversal).
 - `runs.db`: rusqlite BOUND parameters only — never `format!`/string-concatenated SQL, even for synthetic data.
 - Bound the line-delimited JSON-RPC decode on the MCP read-back path (serde_json is recursion-limited + a soft per-line size bound) — an empty/malformed/errored canary ⇒ `Blocked`, never a false pass.
@@ -20,7 +21,7 @@ Universal security requirements (Minimal tier — local-only loopback tool, no n
 - Spawn `andromeda-pulse-mcp` from a FIXED hard-coded program path only — never an operator-chosen command.
 - Pass `ANDROMEDA_PULSE_DATA_DIR` strictly via the `.env(...)` builder after rejecting injection metacharacters — never interpolate into argv or a shell (MCP-sidecar STDIO injection class, CVE-2026-30623).
 - The read-back client MUST negotiate DOWN to `2024-11-05` (read from the `initialize` result; Pulse's hand-rolled server version) — never pin a strict newer default.
-- Never silently downgrade a failed preflight — each of the gate's FOUR named preconditions (version mismatch / missing tool / canary fingerprint absent / app-sidecar workspace-key agreement) surfaces the distinct `Blocked` state with its own named precondition string, never the generic corpus-empty one. The keychain read-while-write mode does NOT apply (`corpus.db` is plaintext; the P-049 assumption was disproved live).
+- Never silently downgrade a failed preflight — each of the gate's FIVE named preconditions (version mismatch / missing tool / canary fingerprint absent / app-sidecar workspace-key agreement / unmet run-contract terms) surfaces the distinct `Blocked` state with its own named precondition string, never the generic corpus-empty one. The run-contract arm composes ONE string naming each unmet term individually with its causes; a term true-or-false entirely on the SUT's side is `declared-not-observable` and never blocks. The keychain read-while-write mode does NOT apply (`corpus.db` is plaintext; the P-049 assumption was disproved live).
 
 ## Dependencies (§Dependency Security)
 - Audit: `cargo audit` (RustSec) + recommended `cargo deny` (`deny.toml`); build fails on advisory hit.

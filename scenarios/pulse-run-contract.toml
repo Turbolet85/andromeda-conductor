@@ -1,0 +1,50 @@
+# LOAD ENVELOPE — this scenario's total duration is asserted against the proven-good SUT bounds in
+# `contracts/pulse-load-envelope.toml` (the terms and any exemption live there, never copied here).
+# A run over the envelope reports ENVIRONMENT-SUSPECT, not Fail — the harness drove it, not Pulse.
+
+# P-073 — Deterministic env-gated L4 mode (Pulse v0.3.0, AI-debug climax).
+#   P-073 — `ANDROMEDA_PULSE_L4_DETERMINISTIC=true` swaps a canned `L4Output` for the Llama-3.2-3B
+#     inference, which is what makes any live leg reproducible at all. The externally observable
+#     consequence is that an incident forms REPRODUCIBLY: with the mode off, whether the 3B model
+#     surfaces the storm is non-deterministic and was never cleanly reproduced even in Pulse's own dev.
+# Coverage mode: auto — Conductor drives the storm AND asserts the reaction through MCP read-back.
+#   The launch condition itself is asserted upstream, at the preflight gate, against the recorded
+#   `contracts/pulse-run-contract.toml`; this scenario is the reaction half.
+# The asserted check is a count floor, deliberately not a candidate token: "RetryStorm" belongs to
+#   fingerprint-storm.toml, and asserting it here would make this scenario go red for storm-detection
+#   reasons unrelated to the deterministic mode (the outcome-coherence discipline — one outcome per token).
+# WARM-UP IS LOAD-BEARING. The `baseline-warm-up` phase is not padding: a brand-new service has no
+#   baseline in Pulse, so the L2 cue evaluator never considers it and a storm emitted as the service's
+#   first traffic produces `cues_emitted: 0` — verified live on 2026-08-10
+#   (`chunks/2026-08-10-workspace-key-divergence-probe/two-launch-verdict.md`). The same window is
+#   recorded as `[incident_formation].warmup_ms` in the run contract and applied by the preflight canary.
+# Declare-only: that the L4 output is the CANNED one rather than an inference — no read-back surface
+#   exposes which produced it, and the per-check extraction that could compare hypothesis text is a
+#   later entry's (v2-09). Deterministic mode's REPRODUCIBILITY is what this scenario asserts.
+# Calibration points: the count floor of 1 is the minimum that distinguishes "an incident formed" from
+#   "none did" rather than a modelled incident count; the <90s tier tracks the L3 digest cadence
+#   (20-60s) with L4 behind it, not storm detection.
+name = "pulse-run-contract"
+p_ids = ["P-073"]
+seed = 4317073
+slo_tier = "<90s"   # the digest cadence plus L4, not storm detection — the slowest tier (calibration point)
+jitter_ms = 50
+
+[[phases]]
+name = "baseline-warm-up"   # benign traffic carrying the service out of Pulse's baseline bootstrap
+gap_ms = 45000
+
+[[phases]]
+name = "identical-fingerprint-storm"   # the counted storm, now against an established baseline
+gap_ms = 15000
+
+[[phases]]
+name = "digest-window"   # hold while L3's 20-60s digest cadence and L4 behind it produce the incident
+gap_ms = 60000
+
+# P-073 — under deterministic L4 an incident forms reproducibly. With the mode off this same stimulus
+# is a coin flip on the 3B model, which is exactly why the mode is a launch condition and not a detail.
+[[expected]]
+kind = "CountAtLeast"
+class = "Hard"
+expected = "1"

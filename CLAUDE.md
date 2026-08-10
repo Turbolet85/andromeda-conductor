@@ -11,7 +11,7 @@ Conductor is a desktop control-panel app (Tauri 2) over a headless-drivable Rust
 **Key directories:**
 - `crates/` — the 9 crate-per-seam workspace members (core + timeline/emit/faults/verify/report + run + cli/tauri bins)
 - `scenarios/` — declarative scenario config (serde + garde), one per Pulse P-ID
-- `contracts/` — pinned MCP contract manifest + the SUT capability manifest + the SUT load envelope
+- `contracts/` — pinned MCP contract manifest + the SUT capability manifest + the SUT load envelope + the SUT run contract
 - `runs/` — per-run JSONL journal + Markdown report + `runs.db` SQLite index
 - `scripts/` — `agent-run.{sh,ps1}` headless source-of-truth entrypoint
 <!-- GENERATED:setup:overview end -->
@@ -34,7 +34,7 @@ Conductor is a desktop control-panel app (Tauri 2) over a headless-drivable Rust
 - **Scope law + trust boundary:** every scenario carries a Pulse P-ID; Conductor opens NO inbound listener of its own — the `:4317` port-occupier is the sole deliberate bind (released on cleanup). Never widen beyond the loopback gRPC/MCP-client model.
 - **Accepted capability set is DATA:** which P-IDs a scenario may name comes from `contracts/pulse-capabilities.toml`, never a compile-time constant — garde asserts the `P-NNN` shape, the manifest asserts membership. A malformed/absent manifest is a `CoreError` harness fault with a named reason: never `Blocked`, never a silent widen. The coverage *classification* stays code-native, held set-equal to the manifest by `check_sut_drift` — so re-aiming at a newer Pulse is a manifest edit **plus** a classification row, never a silent gap. A second gate sits on a different axis: `check_scenario_backing` holds `UNBACKED_AUTO` (the `Auto` claims no scenario names) to exact-set equality against the catalog, so classifying a capability `Auto` can no longer stand in for verifying it.
 - **Verdict/error wall:** verification outcomes are typed VALUES (`Verdict`/`ReportState` as `Ok`); `Result::Err` is harness-faults only. Malformed child/transport input (`tonic::Status`, MCP errors) becomes a typed `Blocked`/`Fail`, never a panic.
-- **Preflight integrity:** never silently downgrade a failed MCP preflight — each of the gate's FOUR named preconditions (protocol≠`2024-11-05` / missing tool / canary fingerprint absent / app-sidecar workspace-key agreement) surfaces the distinct `Blocked` state with its own host-path-free string, never the generic corpus-empty one.
+- **Preflight integrity:** never silently downgrade a failed MCP preflight — each of the gate's FIVE named preconditions (protocol≠`2024-11-05` / missing tool / canary fingerprint absent / app-sidecar workspace-key agreement / unmet run-contract terms) surfaces the distinct `Blocked` state with its own host-path-free string, never the generic corpus-empty one. A contract term whose truth lives on the SUT's side is recorded `declared-not-observable` and never blocks — blocking on it would claim a measurement Conductor cannot make.
 - **Supply chain:** keep `Cargo.lock` committed + un-drifted; never `cargo build --release` or merge without `cargo-audit` (+ `cargo-deny`) green; hold toolchain ≥1.94.1 and `tauri` ≥2.10.3.
 - **Subprocess hardening:** spawn `andromeda-pulse-mcp` from a fixed hard-coded path; pass `ANDROMEDA_PULSE_DATA_DIR` only via `.env(...)` after rejecting injection metacharacters — never into argv/shell.
 - **Artifact hygiene:** never leak absolute host paths or internal struct names into logs / run-report / `runs.db` — sanitize at the `anyhow` edge + the tracing-subscriber field-allowlist.

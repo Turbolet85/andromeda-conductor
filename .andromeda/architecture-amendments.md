@@ -156,3 +156,18 @@ candidate causes rather than claiming a measurement Conductor cannot make — re
 named precondition, verified by four `conductor-verify` test legs and three live `conductor preflight --json`
 runs. Pulse-side mechanics confirmed first-hand (`corpus/src/contract.rs:628` · `pulse-app/src/main.rs:688-693`
 · `mcp-server/src/bin/andromeda-pulse-mcp.rs:74`).
+
+## 2026-08-10-pulse-run-contract — the run contract registered as the fourth `contracts/` manifest
+**Section:** §Occupied Resources — On-disk artifacts (+ the `contracts/` line in the §Infrastructure Patterns directory tree)
+**Change:** registered `contracts/pulse-run-contract.toml` — the pinned Pulse run contract (`sut_version` · `captured_at` · `provenance` · an `[incident_formation]` table · a `[[term]]` list), runtime-read and bounds-checked at load, resolved from a fixed `RunContract::default_path()` through `resolve_under` with deliberately NO `CONDUCTOR_*` override handle. The entry records what each `check` kind MEANS as a statement about what Conductor can honestly know — `shell-declaration` (observable in Conductor's own environment, the only kind that can block), `asserted` (satisfied by construction), `declared-not-observable` (true on the SUT's side with no read-back surface, recorded but never blocking, because blocking would claim a measurement). The directory-tree comment moved from three manifests to four.
+**Why:** the chunk landed the artifact; §Occupied Resources enumerates each `contracts/` manifest individually (the `pulse-capabilities` / `pulse-load-envelope` precedent), so a fourth left unregistered is an unregistered resource. Detector-raised (D-arch-resources) off the report's Files + Schema/config bullets.
+
+## 2026-08-10-pulse-run-contract — preflight timeout floor + the L4 declaration Conductor reads
+**Section:** §Occupied Resources — Environment variables
+**Change:** `CONDUCTOR_PREFLIGHT_TIMEOUT` keeps its default of 30 but now carries a run-contract-derived effective FLOOR (`[incident_formation].min_canary_poll_seconds`) it cannot sit below, because the bare default is shorter than Pulse's own L3 digest cadence; the env handle still overrides upward. Added `ANDROMEDA_PULSE_L4_DETERMINISTIC` — Pulse-side, asserted not set by Conductor, but now READ in Conductor's own environment as the contract's shell-declaration proxy, with an absent declaration surfacing as an unmet term naming both candidate causes rather than a claimed measurement of `pulse-app`.
+**Why:** the chunk made both changes real; the registry stated the bare 30s default and did not list the L4 var at all. Detector-raised (D-arch-resources) off the report's env-vars bullet.
+
+## 2026-08-10-pulse-run-contract — readiness gate: a fifth named precondition
+**Section:** §Standard Contracts — Readiness gate
+**Change:** the gate's named preconditions are FIVE, adding **unmet run-contract terms**. That arm composes ONE string naming each unmet term individually (its condition and its candidate causes) and sits after the tool checks but BEFORE the canary arms, skipping the canary poll rather than paying it — an unmet launch condition explains a failed canary, so surfacing the canary symptom first sends the operator to the wrong cause, and under the raised poll floor it would spend the whole budget doing so.
+**Why:** the chunk added the arm; the section stated FOUR. The ordering rationale is recorded because the preceding workspace-key probe hit exactly that failure mode — it blocked for the no-incident reason while the real blocker sat upstream. Detector-raised (D-arch-resources) off the report's Counts/qualifiers bullet + Deviation 4.

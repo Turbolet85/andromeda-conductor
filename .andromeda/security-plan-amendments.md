@@ -78,3 +78,13 @@ that it does NOT apply (the P-049 encrypted-at-rest assumption was disproved liv
 the passage amended this chunk — cascade step 2 folds such fixes into the same pass. The keychain half had
 been stale since the 2026-06-27 arch corpus-access correction, which `architecture.md` §Standard Contracts
 already records; the security master had never been reconciled to it.
+
+## 2026-08-10-pulse-run-contract — the run contract as a third committed input boundary
+**Section:** §Input Validation (boundary table)
+**Change:** extended the committed-SUT-facing-manifest row to `contracts/pulse-run-contract.toml`, naming its bounds (non-empty identity/provenance, non-empty and unique-id `[[term]]` list, every term carrying a statement AND its causes, non-zero `min_canary_poll_seconds`, no warm-up window with zero emissions, every `shell-declaration` term naming the env var it observes) and its controls (explicit `validate()` in `conductor-core`, fixed `default_path()` through `resolve_under`, no `CONDUCTOR_*` override, `e.kind()`-only read faults, absent/malformed a hard harness fault). Added a row for `ANDROMEDA_PULSE_L4_DETERMINISTIC` as a declaration-only read with nothing to validate — the value never becomes a path, an argv element, or a log value.
+**Why:** §Input Validation is an exhaustive enumeration of external-input surfaces and the chunk added one (the playbook rule of 2026-08-10 governs this class as routine-apply). Per that rule's own trap note, the body was grepped rather than the sidecar trusted: both sibling manifests were already present in the body, so no widening beyond the new artifact was owed. Detector-raised (D-security-input).
+
+## 2026-08-10-pulse-run-contract — never-downgrade ban restated over five preconditions
+**Section:** §Security Anti-Patterns → Universal
+**Change:** the bullet's enumeration names FIVE preconditions, adding unmet run-contract terms, and records that the run-contract arm composes one string naming each unmet term individually with its causes — and that a term whose truth lives on the SUT's side is recorded `declared-not-observable` and never blocks, because blocking on it would assert a measurement Conductor cannot make.
+**Why:** the chunk moved the count; the bullet verbatim-enumerates the set, so it goes stale on every addition. The never-claim-a-measurement clause carries over the v2-17 precedent the preceding chunk established. Detector-raised (D-security-subprocess).

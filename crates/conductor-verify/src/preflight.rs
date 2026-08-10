@@ -1,8 +1,9 @@
 //! The MCP `initialize` preflight readiness gate (arch §Standard Contracts).
 //!
-//! Three assertions over a [`ReadbackClient`] — protocol-version pin, required-tool presence, and a
-//! data-dir canary round-trip — each producing a distinct [`ReportState::Blocked`] precondition on
-//! failure (never a silent downgrade; the preflight-integrity invariant). The canary's *emission* (a
+//! Four assertions over a [`ReadbackClient`] — protocol-version pin, required-tool presence, the
+//! recorded run contract's terms, and a data-dir canary round-trip — each producing a distinct
+//! [`ReportState::Blocked`] precondition on failure (never a silent downgrade; the
+//! preflight-integrity invariant). The canary's *emission* (a
 //! unique fingerprint-storm) is the composition root's job (`conductor-run`); this gate asserts the
 //! storm read back — Pulse raised an incident whose telemetry slice carries the emitted **fingerprint**
 //! (titles are scrubbed, so fidelity is on the fingerprint) — proving the `ANDROMEDA_PULSE_DATA_DIR`
@@ -13,7 +14,7 @@ use std::collections::BTreeMap;
 use serde::Serialize;
 use tokio::process::Command;
 
-use conductor_core::{ReportState, now_rfc3339, redact_value};
+use conductor_core::{ReportState, RunContractStatus, now_rfc3339, redact_value};
 
 use crate::client::ReadbackClient;
 use crate::error::VerifyError;
@@ -110,6 +111,22 @@ const WORKSPACE_KEY_PRECONDITION: &str = "pulse-app and the spawned MCP sidecar 
 /// failure, distinct from an empty corpus (arch §Standard Contracts).
 const CANARY_FINGERPRINT_PRECONDITION: &str = "canary fingerprint not found in telemetry slice";
 
+/// The named precondition when the recorded run contract's terms are not satisfied (arch §Standard
+/// Contracts). Each unmet term is named individually, carrying its condition AND its candidate
+/// causes: Conductor launches no Pulse process, so a term about `pulse-app` is reported as a
+/// condition to satisfy, never as a measurement Conductor cannot make.
+const RUN_CONTRACT_PRECONDITION: &str = "unmet run-contract terms";
+
+/// Compose the run-contract precondition, naming each unmet term individually.
+fn run_contract_precondition(contract: &RunContractStatus) -> String {
+    let terms: Vec<String> = contract
+        .unmet()
+        .iter()
+        .map(|t| format!("[{}] {} — {}", t.id, t.statement, t.causes))
+        .collect();
+    format!("{RUN_CONTRACT_PRECONDITION}: {}", terms.join("; "))
+}
+
 /// Run the three readiness assertions over an already-connected client. Returns `Ok(ReadyState)` for
 /// every readiness outcome (including `Blocked`); MCP call failures are caught into the relevant
 /// `Blocked` leg — never propagated as `Err`, never a panic (the verdict/error wall).
@@ -117,6 +134,7 @@ const CANARY_FINGERPRINT_PRECONDITION: &str = "canary fingerprint not found in t
 pub async fn run_preflight(
     client: &ReadbackClient,
     manifest: &ContractManifest,
+    contract: &RunContractStatus,
     canary: &CanaryMarker,
     data_dir: &str,
     poll: CanaryPoll,
@@ -159,7 +177,13 @@ pub async fn run_preflight(
     // `query_incident_list` for the storm's incident, then assert the fingerprint reads back from its
     // telemetry slice. A genuine call/transport/JSON-RPC error stays distinct from "not found yet" (the
     // masking this chunk's prerequisite fixed); both fold into the precondition cascade below.
-    let (canary_round_trip, canary_call_error, canary_cause) = poll_canary(client, canary, poll).await;
+    // An unmet launch condition explains a failed canary, so polling first would spend the whole
+    // budget only to report the downstream symptom — the failure mode the workspace-key probe hit.
+    let (canary_round_trip, canary_call_error, canary_cause) = if contract.is_satisfied() {
+        poll_canary(client, canary, poll).await
+    } else {
+        (CanaryOutcome::Skipped, None, None)
+    };
 
     let blocked_precondition = if !version_ok {
         Some(format!(
@@ -175,6 +199,8 @@ pub async fn run_preflight(
             .map(|(name, _)| name.as_str())
             .collect();
         Some(format!("required tool(s) absent: {}", absent.join(", ")))
+    } else if !contract.is_satisfied() {
+        Some(run_contract_precondition(contract))
     } else if let Some(reason) = canary_call_error {
         Some(format!("MCP read-back call failed: {reason}"))
     } else if canary_round_trip != CanaryOutcome::Ok {
@@ -208,12 +234,13 @@ pub async fn run_preflight(
 pub async fn preflight_boot(
     command: Command,
     manifest: &ContractManifest,
+    contract: &RunContractStatus,
     canary: &CanaryMarker,
     data_dir: &str,
     poll: CanaryPoll,
 ) -> Result<ReadyState, VerifyError> {
     match ReadbackClient::connect_command(command).await {
-        Ok(client) => run_preflight(&client, manifest, canary, data_dir, poll).await,
+        Ok(client) => run_preflight(&client, manifest, contract, canary, data_dir, poll).await,
         Err(e) => {
             tracing::info!(
                 state = ReportState::Blocked.label(),

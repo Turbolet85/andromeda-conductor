@@ -1,0 +1,510 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee LIKE '%run_preflight%' ORDER BY file, line;",
+"rows": 7,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 crate/",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 35
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 canary_gate().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 127
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 crate/",
+"file": "crates/conductor-verify/src/lib.rs",
+"line": 43
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 preflight/preflight_boot().",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 215
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 crate/",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 12
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 drive_with().",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 26
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 a_fingerprint_mismatch_is_blocked().",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 148
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee LIKE '%preflight_boot%' ORDER BY file, line;",
+"rows": 2,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 crate/",
+"file": "crates/conductor-verify/src/lib.rs",
+"line": 43
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 crate/",
+"file": "crates/conductor-verify/tests/preflight_spawn.rs",
+"line": 8
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT callee, file, line FROM refs WHERE callee LIKE '%ReadyState%' ORDER BY file, line;",
+"rows": 81,
+"result": [
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#ready.",
+"file": "crates/conductor-cli/src/commands/preflight.rs",
+"line": 19
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#blocked_precondition.",
+"file": "crates/conductor-cli/src/commands/preflight.rs",
+"line": 25
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#ready.",
+"file": "crates/conductor-cli/src/commands/preflight.rs",
+"line": 31
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 34
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#ready.",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 60
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#ready.",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 63
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 69
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 85
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 88
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#ready.",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 89
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#negotiated_protocol_version.",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 90
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#expected_protocol_version.",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 91
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#required_tools.",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 92
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#data_dir.",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 97
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#canary_round_trip.",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 98
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#blocked_precondition.",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 99
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#checked_at.",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 100
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 115
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 166
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 167
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#ready.",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 168
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#negotiated_protocol_version.",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 169
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#expected_protocol_version.",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 170
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#required_tools.",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 171
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#data_dir.",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 176
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#canary_round_trip.",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 177
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#blocked_precondition.",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 178
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#checked_at.",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 181
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#",
+"file": "crates/conductor-verify/src/lib.rs",
+"line": 43
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 85
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#ready.",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 88
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 122
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 190
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#ready.",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 191
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#negotiated_protocol_version.",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 192
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#expected_protocol_version.",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 193
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#required_tools.",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 194
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#data_dir.",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 195
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#canary_round_trip.",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 196
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#blocked_precondition.",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 197
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#checked_at.",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 198
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 213
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 222
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#ready.",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 223
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#negotiated_protocol_version.",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 224
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#expected_protocol_version.",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 225
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#required_tools.",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 226
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#data_dir.",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 231
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#canary_round_trip.",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 232
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#blocked_precondition.",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 233
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#checked_at.",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 234
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 12
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 21
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 34
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#ready.",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 41
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#blocked_precondition.",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 41
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/impl#[ReadyState]report_state().",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 42
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#negotiated_protocol_version.",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 43
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#canary_round_trip.",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 44
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#required_tools.",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 45
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#blocked_precondition.",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 46
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#ready.",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 58
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/impl#[ReadyState]report_state().",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 59
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#blocked_precondition.",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 60
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#ready.",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 77
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/impl#[ReadyState]report_state().",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 78
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#required_tools.",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 79
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#blocked_precondition.",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 80
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#ready.",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 115
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/impl#[ReadyState]report_state().",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 116
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#canary_round_trip.",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 117
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#blocked_precondition.",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 118
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#ready.",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 131
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/impl#[ReadyState]report_state().",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 132
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#canary_round_trip.",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 133
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#blocked_precondition.",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 134
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#ready.",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 154
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/impl#[ReadyState]report_state().",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 155
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#canary_round_trip.",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 156
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#blocked_precondition.",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 157
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#blocked_precondition.",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 174
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT from_crate, to_crate FROM crate_edges WHERE to_crate = 'conductor-verify' OR from_crate = 'conductor-verify';",
+"rows": 3,
+"result": [
+{
+"from_crate": "conductor-verify",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-run",
+"to_crate": "conductor-verify"
+},
+{
+"from_crate": "conductor-cli",
+"to_crate": "conductor-verify"
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT symbol, crate, file FROM symbol WHERE symbol LIKE '%RunContract%' OR symbol LIKE '%run_contract%';",
+"rows": 0,
+"result": [],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee LIKE '%emit_canary%' ORDER BY file, line;",
+"rows": 1,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 canary_gate().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 117
+}
+],
+"db_state": "fresh"
+}
+]

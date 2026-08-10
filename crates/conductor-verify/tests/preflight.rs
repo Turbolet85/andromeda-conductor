@@ -6,12 +6,30 @@
 mod common;
 
 use common::{StubConfig, serve_stub};
-use conductor_core::{ReportState, redact_value};
+use conductor_core::{ReportState, RunContractStatus, UnmetTerm, redact_value};
 use conductor_verify::{
     CanaryMarker, CanaryOutcome, CanaryPoll, ContractManifest, MARK_INCIDENT_RESOLVED,
     QUERY_INCIDENT_LIST, READBACK_TOOLS, RETRIEVE_REPORT, RETRIEVE_TELEMETRY_SLICE, ReadbackClient,
     ReadyState, ToolPresence, run_preflight,
 };
+
+/// A contract whose terms are all satisfied — the shape every pre-existing leg assumes, so the
+/// run-contract arm never masks the leg under test.
+fn satisfied() -> RunContractStatus {
+    RunContractStatus::satisfied()
+}
+
+/// A contract with one unmet shell-declaration term, mirroring the committed `l4-deterministic`.
+fn unmet_l4() -> RunContractStatus {
+    RunContractStatus::from_unmet(vec![UnmetTerm {
+        id: "l4-deterministic".to_string(),
+        statement: "the launched pulse-app must run with ANDROMEDA_PULSE_L4_DETERMINISTIC=true"
+            .to_string(),
+        causes: "either the launching shell never declared it, or pulse-app was started from a \
+                 different environment than Conductor's"
+            .to_string(),
+    }])
+}
 
 fn manifest() -> ContractManifest {
     let path =
@@ -19,21 +37,32 @@ fn manifest() -> ContractManifest {
     ContractManifest::load(&path).expect("pinned manifest loads")
 }
 
-async fn drive_with(config: StubConfig, manifest: ContractManifest) -> ReadyState {
+async fn drive_with(
+    config: StubConfig,
+    manifest: ContractManifest,
+    contract: RunContractStatus,
+) -> ReadyState {
     let (client_io, server_io) = tokio::io::duplex(4096);
     let canary = CanaryMarker::new(config.canary.clone(), config.canary_fingerprint.clone());
     let server = tokio::spawn(serve_stub(server_io, config));
     let client = ReadbackClient::connect_transport(client_io).await.expect("client connects");
-    let ready = run_preflight(&client, &manifest, &canary, "/test/data-dir", CanaryPoll::immediate())
-        .await
-        .expect("preflight runs");
+    let ready = run_preflight(
+        &client,
+        &manifest,
+        &contract,
+        &canary,
+        "/test/data-dir",
+        CanaryPoll::immediate(),
+    )
+    .await
+    .expect("preflight runs");
     drop(client);
     server.abort();
     ready
 }
 
 async fn drive(config: StubConfig) -> ReadyState {
-    drive_with(config, manifest()).await
+    drive_with(config, manifest(), satisfied()).await
 }
 
 #[tokio::test(flavor = "current_thread")]
@@ -55,7 +84,7 @@ async fn wrong_protocol_version_is_blocked() {
         expected_protocol_version: "9999-12-31".to_string(),
         required_tools: READBACK_TOOLS.iter().map(|s| s.to_string()).collect(),
     };
-    let ready = drive_with(StubConfig::default(), manifest).await;
+    let ready = drive_with(StubConfig::default(), manifest, satisfied()).await;
     assert!(!ready.ready);
     assert_eq!(ready.report_state(), ReportState::Blocked);
     let precondition = ready.blocked_precondition.expect("a precondition");
@@ -146,9 +175,16 @@ async fn a_fingerprint_mismatch_is_blocked() {
     let server = tokio::spawn(serve_stub(server_io, StubConfig::default()));
     let client = ReadbackClient::connect_transport(client_io).await.expect("client connects");
     let canary = CanaryMarker::new("ConductorCanary_x", "deadbeefdeadbeef");
-    let ready = run_preflight(&client, &manifest(), &canary, "/test/data-dir", CanaryPoll::immediate())
-        .await
-        .expect("preflight runs");
+    let ready = run_preflight(
+        &client,
+        &manifest(),
+        &satisfied(),
+        &canary,
+        "/test/data-dir",
+        CanaryPoll::immediate(),
+    )
+    .await
+    .expect("preflight runs");
     drop(client);
     server.abort();
 
@@ -160,6 +196,41 @@ async fn a_fingerprint_mismatch_is_blocked() {
     // The two not-found causes must stay distinguishable: incidents ARE present here, so this is a
     // fidelity failure, never the workspace-key/no-incident precondition.
     assert!(!precondition.contains("workspace key"), "{precondition}");
+}
+
+#[tokio::test(flavor = "current_thread")]
+async fn an_unmet_run_contract_term_is_blocked_and_named_individually() {
+    // The launch condition is reported as a condition to satisfy with its candidate causes — never
+    // as a measurement of pulse-app, which Conductor does not launch and cannot inspect.
+    let ready = drive_with(StubConfig::default(), manifest(), unmet_l4()).await;
+    assert!(!ready.ready);
+    assert_eq!(ready.report_state(), ReportState::Blocked);
+    let precondition = ready.blocked_precondition.expect("a precondition");
+    assert!(precondition.contains("unmet run-contract terms"), "{precondition}");
+    assert!(precondition.contains("[l4-deterministic]"), "the term is named: {precondition}");
+    assert!(precondition.contains("ANDROMEDA_PULSE_L4_DETERMINISTIC"), "{precondition}");
+    assert!(precondition.contains("cannot inspect") || precondition.contains("environment"),
+        "the candidate causes ride with the condition: {precondition}");
+}
+
+#[tokio::test(flavor = "current_thread")]
+async fn an_unmet_term_skips_the_canary_rather_than_reporting_its_symptom() {
+    // An unmet launch condition explains a failed canary, so the gate must not spend the poll budget
+    // and then surface the downstream symptom — the failure mode the workspace-key probe hit.
+    let ready = drive_with(StubConfig::default(), manifest(), unmet_l4()).await;
+    assert_eq!(ready.canary_round_trip, CanaryOutcome::Skipped);
+    let precondition = ready.blocked_precondition.expect("a precondition");
+    assert!(!precondition.contains("workspace key"), "{precondition}");
+    assert!(!precondition.contains("fingerprint not found"), "{precondition}");
+}
+
+#[tokio::test(flavor = "current_thread")]
+async fn a_satisfied_contract_leaves_the_other_legs_deciding() {
+    // The new arm must not mask the legs beneath it: with every term satisfied the gate reaches the
+    // canary exactly as before.
+    let ready = drive_with(StubConfig::default(), manifest(), satisfied()).await;
+    assert!(ready.ready, "blocked: {:?}", ready.blocked_precondition);
+    assert_eq!(ready.canary_round_trip, CanaryOutcome::Ok);
 }
 
 #[tokio::test(flavor = "current_thread")]
@@ -176,4 +247,11 @@ async fn a_blocked_precondition_carries_no_absolute_host_path() {
         assert_eq!(redact_value(&precondition).as_ref(), precondition.as_str(), "{precondition}");
         assert!(!precondition.contains("/test/data-dir"), "{precondition}");
     }
+
+    // The run-contract arm is held to the same invariant: its terms are operator-facing prose and
+    // must never carry a host path into the readiness envelope.
+    let ready = drive_with(StubConfig::default(), manifest(), unmet_l4()).await;
+    let precondition = ready.blocked_precondition.expect("a precondition");
+    assert_eq!(redact_value(&precondition).as_ref(), precondition.as_str(), "{precondition}");
+    assert!(!precondition.contains("/test/data-dir"), "{precondition}");
 }

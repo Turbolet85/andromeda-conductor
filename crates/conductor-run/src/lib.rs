@@ -21,8 +21,9 @@ use anyhow::Context as _;
 use serde::Serialize;
 
 use conductor_core::{
-    EnvelopeStatus, HoldPoint, LoadEnvelope, PauseResolver, ReportState, RunRecord, Scenario,
-    Signal, Verdict, now_rfc3339, redact_value, resolve_hold,
+    EnvelopeStatus, HoldPoint, LoadEnvelope, PauseResolver, ReportState, RunContract,
+    RunContractStatus, RunRecord, Scenario, Signal, Verdict, now_rfc3339, redact_value,
+    resolve_hold, resolve_under,
 };
 use conductor_emit::{
     DEFAULT_OTLP_ENDPOINT, DEFAULT_SERVICE_NAME, ExceptionSpec, Frame, LogsEmitter, Severity,
@@ -115,7 +116,11 @@ async fn canary_gate(
     data_dir_str: &str,
 ) -> anyhow::Result<ReadyState> {
     let manifest = ContractManifest::load(manifest_path).context("load MCP contract manifest")?;
-    let canary = match emit_canary().await {
+    let contract = load_run_contract().context("load Pulse run contract")?;
+    let status = observe_run_contract(&contract);
+    // An unmet launch condition means no incident can form, so the warm-up would only spend its
+    // window to reach the same block — emit the storm, skip the wait.
+    let canary = match emit_canary(&contract, status.is_satisfied()).await {
         Ok(canary) => canary,
         Err(e) => {
             tracing::info!(
@@ -125,7 +130,38 @@ async fn canary_gate(
             return Ok(canary_blocked_state(&manifest, data_dir_str));
         }
     };
-    Ok(run_preflight(client, &manifest, &canary, data_dir_str, canary_poll()).await?)
+    Ok(run_preflight(client, &manifest, &status, &canary, data_dir_str, canary_poll(&contract))
+        .await?)
+}
+
+/// Resolve + load the recorded run contract. A fixed in-repo path with no `CONDUCTOR_*` override,
+/// guarded the same way as the capability manifest and load envelope; a read / parse / bounds
+/// failure is a harness fault, never a silent default.
+fn load_run_contract() -> anyhow::Result<RunContract> {
+    let base = std::env::current_dir().context("resolve current directory")?;
+    let path = resolve_under(&base, &RunContract::default_path())?;
+    Ok(RunContract::load(&path)?)
+}
+
+/// Evaluate the contract against what Conductor can honestly observe: declarations in its OWN
+/// environment — the shell that also launches `pulse-app`. Never a claim about `pulse-app` itself.
+fn observe_run_contract(contract: &RunContract) -> RunContractStatus {
+    let declared = contract
+        .observed_env()
+        .into_iter()
+        .filter(|name| declares(name))
+        .map(str::to_string)
+        .collect();
+    contract.evaluate(&declared)
+}
+
+/// Whether an env var carries an affirmative declaration. Presence alone is not enough — an
+/// explicit `false` declares the opposite of the term it would otherwise satisfy.
+fn declares(name: &str) -> bool {
+    std::env::var(name).is_ok_and(|v| {
+        let v = v.trim().to_ascii_lowercase();
+        v == "true" || v == "1"
+    })
 }
 
 /// Emit a unique fingerprint-storm to Pulse's loopback ingest and return the [`CanaryMarker`] the gate
@@ -133,7 +169,7 @@ async fn canary_gate(
 /// prior run's canary); the fingerprint — computed to match Pulse's derivation — is the fidelity
 /// carrier (Pulse scrubs incident titles). Each occurrence carries a distinct span identity but the
 /// same fingerprint, so Pulse counts a storm (security-plan §Threat Model).
-async fn emit_canary() -> anyhow::Result<CanaryMarker> {
+async fn emit_canary(contract: &RunContract, warm_up: bool) -> anyhow::Result<CanaryMarker> {
     let marker = format!("ConductorCanary_{}", now_ms());
     let spec = ExceptionSpec::new(
         marker.clone(),
@@ -143,6 +179,9 @@ async fn emit_canary() -> anyhow::Result<CanaryMarker> {
     let fp = fingerprint(&spec);
     let base = now_ms() as u64;
     let mut traces = TraceEmitter::connect(DEFAULT_OTLP_ENDPOINT).await?;
+    if warm_up {
+        warm_up_canary_service(&mut traces, contract).await?;
+    }
     for i in 0..CANARY_STORM_COUNT {
         traces
             .export(exception_trace_request(DEFAULT_SERVICE_NAME, base.wrapping_add(i), &spec))
@@ -151,13 +190,38 @@ async fn emit_canary() -> anyhow::Result<CanaryMarker> {
     Ok(CanaryMarker::new(marker, fp))
 }
 
+/// Carry the canary service out of Pulse's baseline bootstrap before the counted storm, with benign
+/// non-error spans spread across the contract's warm-up window. Without it the storm is the
+/// service's first-ever traffic, Pulse holds no baseline for it, and the L2 cue evaluator never
+/// considers it — the `cues_emitted: 0` the 2026-08-10 workspace-key probe recorded.
+async fn warm_up_canary_service(
+    traces: &mut TraceEmitter,
+    contract: &RunContract,
+) -> anyhow::Result<()> {
+    let terms = &contract.incident_formation;
+    if terms.warmup_ms == 0 || terms.warmup_emissions == 0 {
+        return Ok(());
+    }
+    let gap = std::time::Duration::from_millis(terms.warmup_ms / u64::from(terms.warmup_emissions));
+    tracing::info!(count = terms.warmup_emissions, "warming the canary service out of bootstrap");
+    for _ in 0..terms.warmup_emissions {
+        traces.export(trace_request(DEFAULT_SERVICE_NAME, "canary-warmup")).await?;
+        tokio::time::sleep(gap).await;
+    }
+    Ok(())
+}
+
 /// The canary poll budget, derived from `CONDUCTOR_PREFLIGHT_TIMEOUT` (seconds, default 30) — one
 /// attempt per second so the gate waits out Pulse's storm-detection + ingest latency before Blocking.
-fn canary_poll() -> CanaryPoll {
+/// The contract's floor raises it: L3's digest cadence alone is 20-60s with L4 behind it, so the
+/// bare default could expire before an incident exists even once a cue fires. The env handle still
+/// overrides upward; it can no longer sit below the SUT-derived floor.
+fn canary_poll(contract: &RunContract) -> CanaryPoll {
     let secs = std::env::var("CONDUCTOR_PREFLIGHT_TIMEOUT")
         .ok()
         .and_then(|v| v.parse::<u64>().ok())
         .unwrap_or(30)
+        .max(contract.incident_formation.min_canary_poll_seconds)
         .max(1);
     CanaryPoll { attempts: secs as u32, interval: std::time::Duration::from_secs(1) }
 }
