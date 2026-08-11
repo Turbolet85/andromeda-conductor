@@ -20,6 +20,35 @@ use conductor_core::{EnvelopeStatus, Lamp, RunRecord, Verdict};
 /// The render of a measurement field that a blocked row never carries (the blocked-row null rule).
 const ABSENT: &str = "—";
 
+/// The distinct values across `records`, first-seen order, comma-joined. For the single-scenario run
+/// obs-plan §4 Critical Path 1 describes, this is exactly that record's own value; a suite is
+/// summarized without inventing a severity ranking the report seam does not own.
+fn join_distinct(values: impl Iterator<Item = String>) -> String {
+    let mut seen: Vec<String> = Vec::new();
+    for value in values {
+        if !seen.contains(&value) {
+            seen.push(value);
+        }
+    }
+    seen.join(",")
+}
+
+/// The `report.generate` span's `verdict` field — canonical serde-wire names, never
+/// [`Verdict::label`] (which renders `CalibrationRegion` as `HOLD`); a blocked row's absent verdict
+/// renders `null`, matching the envelope's JSON.
+fn verdict_field(records: &[RunRecord]) -> String {
+    join_distinct(records.iter().map(|record| match record.verdict {
+        Some(verdict) => format!("{verdict:?}"),
+        None => "null".to_string(),
+    }))
+}
+
+/// The `report.generate` span's `state` field — canonical serde-wire names, never the
+/// `ReportState::label` human form (which renders `ManualCheck` as `Manual`).
+fn state_field(records: &[RunRecord]) -> String {
+    join_distinct(records.iter().map(|record| format!("{:?}", record.state)))
+}
+
 /// A harness fault from the run-report writer — never a verification outcome (the verdict/error
 /// wall). `#[non_exhaustive]` so later report-seam chunks extend the fault surface.
 #[derive(Debug, thiserror::Error)]
@@ -40,6 +69,15 @@ impl RunReport {
     /// `runs_dir` is the already-resolved artifact directory (the cli edge applies
     /// `CONDUCTOR_RUNS_DIR`). The file is opened `create_new`, so a pre-existing `<run_id>.md` is an
     /// `Err`, never a silent clobber (run_id-stemmed, never overwritten).
+    ///
+    /// Carries the `report.generate` span (obs-plan §4 Critical Path 1). It is a run-scoped sibling
+    /// of `scenario.run`, not a child: `persist` is called alongside `execute_scenario`, so the two
+    /// correlate by `run_id` rather than by nesting.
+    #[tracing::instrument(
+        name = "report.generate",
+        skip_all,
+        fields(verdict = %verdict_field(records), state = %state_field(records))
+    )]
     pub fn write(
         runs_dir: &Path,
         run_id: &str,
@@ -221,6 +259,40 @@ mod tests {
             vec![PId("P-003".to_string())],
             SloTier::Tier20s,
         )
+    }
+
+    #[test]
+    fn span_fields_use_canonical_wire_names_not_human_labels() {
+        // The a11y lamp -> journal-row join keys on the serde spelling; `label()` would render
+        // these as "HOLD" and "Manual" (a11y-plan §6 State-naming crosswalk).
+        let records = [measured("severity-choice", Verdict::CalibrationRegion, ReportState::ManualCheck)];
+        assert_eq!(verdict_field(&records), "CalibrationRegion");
+        assert_eq!(state_field(&records), "ManualCheck");
+    }
+
+    #[test]
+    fn span_fields_of_a_single_scenario_run_are_that_records_values() {
+        let records = [measured("error-baseline-spike", Verdict::Pass, ReportState::Pass)];
+        assert_eq!(verdict_field(&records), "Pass");
+        assert_eq!(state_field(&records), "Pass");
+    }
+
+    #[test]
+    fn a_blocked_rows_absent_verdict_renders_null() {
+        let records = [blocked("port-occupier")];
+        assert_eq!(verdict_field(&records), "null");
+        assert_eq!(state_field(&records), "Blocked");
+    }
+
+    #[test]
+    fn span_fields_of_a_suite_are_distinct_first_seen_values() {
+        let records = [
+            measured("a", Verdict::Pass, ReportState::Pass),
+            measured("b", Verdict::Fail, ReportState::Fail),
+            measured("c", Verdict::Pass, ReportState::Pass),
+        ];
+        assert_eq!(verdict_field(&records), "Pass,Fail");
+        assert_eq!(state_field(&records), "Pass,Fail");
     }
 
     #[test]

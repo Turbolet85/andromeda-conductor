@@ -1,0 +1,142 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee LIKE '%execute_scenario%' ORDER BY file, line;",
+"rows": 7,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-cli 0.1.0 commands/run/run().",
+"file": "crates/conductor-cli/src/commands/run.rs",
+"line": 23
+},
+{
+"caller": "rust-analyzer cargo conductor-cli 0.1.0 commands/suite/suite().",
+"file": "crates/conductor-cli/src/commands/suite.rs",
+"line": 30
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 drive_run().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 481
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 tests/execute_scenario_blocks_when_gate_not_ready().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 635
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 tests/blocked_envelope_is_seed_identified().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 648
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 tests/blocked_envelope_is_seed_identified().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 649
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 tests/blocked_envelope_is_seed_identified().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 651
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee LIKE '%conductor-run%persist%' ORDER BY file, line;",
+"rows": 7,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-cli 0.1.0 commands/",
+"file": "crates/conductor-cli/src/commands/mod.rs",
+"line": 17
+},
+{
+"caller": "rust-analyzer cargo conductor-cli 0.1.0 commands/run/",
+"file": "crates/conductor-cli/src/commands/run.rs",
+"line": 9
+},
+{
+"caller": "rust-analyzer cargo conductor-cli 0.1.0 commands/run/run().",
+"file": "crates/conductor-cli/src/commands/run.rs",
+"line": 25
+},
+{
+"caller": "rust-analyzer cargo conductor-cli 0.1.0 commands/suite/",
+"file": "crates/conductor-cli/src/commands/suite.rs",
+"line": 10
+},
+{
+"caller": "rust-analyzer cargo conductor-cli 0.1.0 commands/suite/suite().",
+"file": "crates/conductor-cli/src/commands/suite.rs",
+"line": 36
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 drive_run().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 477
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 drive_run().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 484
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee LIKE '%drive_run%' ORDER BY file, line;",
+"rows": 6,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 tests/an_over_envelope_run_is_environment_suspect_not_fail().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 570
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 tests/an_in_envelope_run_records_its_standing_too().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 609
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 tests/drive_run_streams_progress_then_blocked_and_persists().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 659
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 tests/drive_run_honors_abort_before_the_first_scenario().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 689
+},
+{
+"caller": "rust-analyzer cargo conductor-tauri 0.1.0 commands/run_thread().",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 260
+},
+{
+"caller": "rust-analyzer cargo conductor-tauri 0.1.0 commands/tests/path7_tauri_persists_the_same_blocked_envelope_as_the_cli().",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 418
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT from_crate, to_crate FROM crate_edges WHERE to_crate = 'conductor-report' OR from_crate = 'conductor-report';",
+"rows": 3,
+"result": [
+{
+"from_crate": "conductor-report",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-cli",
+"to_crate": "conductor-report"
+},
+{
+"from_crate": "conductor-run",
+"to_crate": "conductor-report"
+}
+],
+"db_state": "fresh"
+}
+]

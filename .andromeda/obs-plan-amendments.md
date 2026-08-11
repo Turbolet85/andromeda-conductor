@@ -51,3 +51,18 @@ _Append-only changelog of amendments to `obs-plan.md` (the body holds only curre
 **Section:** §4 (coverage-matrix completeness gate — denominator semantics)
 **Change:** recorded that the roll-up's auto term additionally carries a derived `(N unbacked)` qualifier read from `conductor_core::UNBACKED_AUTO`; it qualifies the auto count rather than joining the breakdown, so the per-mode summands still sum to the row count and a gate reading these fields must not treat it as a fifth mode.
 **Why:** the chunk shipped the qualifier on all three roll-up surfaces the gate's denominator semantics already govern. Self-raised — the obs detector returned clean.
+
+## 2026-08-10-scenario-run-root-span-tree — the root's cleanup no longer claims the report-seam spans as descendants
+**Section:** §4 Span/Trace Coverage — Critical Path 1 Cleanup · Known-residual classification path Cleanup
+**Change:** both Cleanup lines dropped "Root `scenario.run` closes on `db.insert_run` completion". The root now opens per-scenario at the composition root (`conductor-run::execute_scenario`) and closes when that scenario returns; `report.generate` / `db.insert_run` are recorded as run-scoped SIBLINGS correlated by `run_id`, not descendants. Both sections landed.
+**Why:** the chunk built the chain and the code-graph proved the claim unachievable — `persist` is called ALONGSIDE `execute_scenario` at all three production sites (`run.rs:23`/`:25`, `suite.rs:30`/`:36`, `drive_run() lib.rs:481`/`:485`), and under a suite one `persist` serves N scenarios whose roots have already closed, so no single `scenario.run` can contain `db.insert_run`. Detector D-obs-instrumentation; root placement was an operator decision at /andromeda-phase P4.
+
+## 2026-08-10-scenario-run-root-span-tree — Tauri command-span names reconciled to the shipped handlers
+**Section:** §1 Harness contract (desktop-webview row) · §4 Both-surface parity path · §4 cross-surface correlation note
+**Change:** `start_scenario()` / `stop_scenario()` / `get_run_report()` / `operator_pause_go_no_go()` → the shipped `start_run()` / `stop_run()` / `run_report()` / `resolve_operator_hold()`, and the two `tauri.command.start_scenario` span references → `tauri.command.start_run`.
+**Why:** PRE-EXISTING drift this chunk did not introduce, surfaced at /andromeda-phase P2 when the obs distiller faithfully reproduced a name that matches no shipped handler. §11's bounded set uses the `tauri.command.*` wildcard, so no invariant was violated — only the illustrative names were false. Fixed here because it sits in the same sections this chunk amended; raised by the orchestrator (no detector proposed it) under the plan's Expected-amendments list and an explicit operator directive.
+
+## 2026-08-10-scenario-run-root-span-tree — the self-obs line's span-lifecycle variant recorded
+**Section:** §3 Log format JSON schema (two record shapes)
+**Change:** recorded that the custom layer emits the self-obs line in two variants over the same base set — the event line, and the span-lifecycle line adding `span` / `span_event` (`new` | `close`) / optional `parent` plus the span's allowlisted attributes on `new` — so a §4 span materializes as real lines. The two-record-shapes split (self-obs line vs Run-report envelope) is unaffected.
+**Why:** the lateral test-plan §3 ↔ obs-plan §3 bind. test-plan §3 OWNS the JSONL format and gained the variant this chunk shipped; leaving obs §3 unamended would be exactly the one-sided change D-tests-obs-harness guards. Before this chunk the layer implemented only `on_event`, so no span emitted anything at all.

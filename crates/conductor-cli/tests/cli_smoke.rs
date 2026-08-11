@@ -153,6 +153,52 @@ fn agent_mode_routes_self_obs_to_the_log_file_not_stderr() {
     assert_eq!(blocked_state(&dir)["state"], serde_json::json!("Blocked"));
 }
 
+/// The must-trace span chain reaches the real artifact (obs-plan §4 Critical Path 1). On this
+/// no-Pulse spine the gate blocks before the timeline, so `timeline.execute` / `emit.batch` /
+/// `verify.readback*` never run — their nesting beneath the root is proven at the layer's own tier
+/// (`conductor_core::obs`), and the live chain is the operator-gated leg.
+#[test]
+fn a_run_emits_the_scenario_run_root_and_the_report_seam_spans() {
+    let dir = TempDir::new().unwrap();
+    copy_scenario(&dir, "error-baseline-spike");
+
+    conductor(&dir).args(["run", "error-baseline-spike", "--agent-mode"]).assert().success();
+
+    let body = std::fs::read_to_string(dir.child("logs/agent-latest.jsonl").path()).unwrap();
+    let lines: Vec<serde_json::Value> =
+        body.lines().map(|l| serde_json::from_str(l).expect("each line is JSON")).collect();
+
+    let record = |span: &str, event: &str| {
+        lines
+            .iter()
+            .find(|l| l["span"] == serde_json::json!(span) && l["span_event"] == serde_json::json!(event))
+            .unwrap_or_else(|| panic!("no {event} record for span {span} in:\n{body}"))
+            .clone()
+    };
+
+    let root = record("scenario.run", "new");
+    assert_eq!(root["seed"], serde_json::json!(424242));
+    assert_eq!(root["scenario"], serde_json::json!("error-baseline-spike"));
+    assert_eq!(root["p_ids"], serde_json::json!("P-009,P-010"));
+    record("scenario.run", "close");
+
+    // The report seam's two spans correlate to the same run by run_id, not by nesting.
+    let generate = record("report.generate", "new");
+    let insert = record("db.insert_run", "new");
+    assert_eq!(generate["state"], serde_json::json!("Blocked"));
+    assert_eq!(generate["verdict"], serde_json::json!("null"));
+    assert_eq!(insert["row_count"], serde_json::json!(1));
+    assert_eq!(generate["run_id"], root["run_id"]);
+    assert_eq!(insert["run_id"], root["run_id"]);
+
+    // Artifact hygiene: no span record leaks a host path (security-plan §Error Handling).
+    for line in lines.iter().filter(|l| l.get("span").is_some()) {
+        let text = line.to_string();
+        assert!(!text.contains(":\\\\"), "host path in a span record: {text}");
+        assert!(!text.contains("/Users/"), "host path in a span record: {text}");
+    }
+}
+
 #[test]
 fn suite_runs_the_catalog_and_exits_zero() {
     let dir = TempDir::new().unwrap();

@@ -27,12 +27,22 @@ const ALLOWLISTED_FIELDS: &[&str] = &[
     "service.version",
     "deployment.environment",
     "run_id",
+    // span-lifecycle record keys (obs-plan §4) — also inserted directly by the layer
+    "span",
+    "span_event",
+    "parent",
     // event message + bounded self-obs event/span fields (obs-plan §6)
     "message",
     "phase",
     "count",
     "panic",
     "location",
+    // span attributes carried by the must-trace chain (obs-plan §4 Critical Path 1)
+    "row_count",
+    "phase_count",
+    "emission_count",
+    "record_count",
+    "mcp_tool",
     // reserved Run-report envelope fields (obs-plan §6; emitted by the Epoch-6 writers)
     "journal_emitted_at",
     "read_back_observed_at",

@@ -250,6 +250,23 @@ fn canary_blocked_state(manifest: &ContractManifest, data_dir: &str) -> ReadySta
 /// Drive one scenario to its [`RunRecord`]: Blocked when the gate is not ready, else the coarse
 /// live measured path (emit → read-back → classify). Generic over the resolver — the CLI passes its
 /// `CliResolver`, the GUI a [`HeadlessResolver`] — so the run pipeline carries no shell dependency.
+///
+/// Carries the `scenario.run` root span (obs-plan §4 Critical Path 1). It sits here, at the
+/// composition root, because all three production paths funnel through this fn — so `timeline.execute`,
+/// `emit.batch` and `verify.readback*` nest beneath it identically headless and under Tauri.
+/// `report.generate` / `db.insert_run` are NOT descendants: [`persist`] is a sibling of this fn, and
+/// under a suite one `persist` serves N scenarios whose spans have already closed — they correlate by
+/// `run_id` instead.
+#[tracing::instrument(
+    name = "scenario.run",
+    skip_all,
+    fields(
+        run_id = %run_id,
+        seed = scenario.seed,
+        scenario = %scenario.name,
+        p_ids = %scenario.p_ids.iter().map(|p| p.0.as_str()).collect::<Vec<_>>().join(","),
+    )
+)]
 pub async fn execute_scenario<R: PauseResolver>(
     pf: &Preflight,
     scenario: &Scenario,

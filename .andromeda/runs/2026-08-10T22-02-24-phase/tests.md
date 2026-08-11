@@ -1,0 +1,44 @@
+# tests extract
+
+## Relevance
+Relevant — the chunk adds instrumentation whose only proof is emitted JSON, so verification tier, harness log-format ownership, and the redaction negative test all bind here.
+
+## Constraints
+- Test tier is **Minimal (0)** and the 7 critical paths are a closed maximum — this chunk gets unit/integration coverage at the `conductor-run` + `conductor-report` seams, NOT an 8th E2E critical path (per test-plan.md §1 Test Scope Summary, §6 "7 scenarios — the maximum").
+- Coverage lands per-seam: crate-local `#[cfg(test)] mod tests` plus crate-local `tests/`, snake_case `#[test]`/`#[tokio::test]`/`#[rstest]` fns, run via `cargo nextest run -p conductor-<seam>` (per test-plan.md §2 Test directory + naming conventions, §4 Conventions).
+- The new spans belong to the **self-obs stream** (`logs/agent-latest.jsonl` / `logs/conductor-tauri.jsonl`), which is a *separate artifact* from the per-run emission journal / Run-report envelope; assertions must not conflate the two schemas, and the envelope's field set stays untouched (per test-plan.md §3 Log format → "Self-obs stream is a distinct artifact"). This matches the chunk's own "no engine/verdict model change" boundary.
+- test-plan.md is the **source of truth for the JSONL log format**; obs owns only the field-allowlist/redaction layer downstream, and this plan asserts that boundary via a negative test — every new span attribute (`run_id`, `seed`, `scenario`, `p_ids`, `verdict`, `state`, `row_count`) must clear it (per test-plan.md §3 Bootstrap phases → `log-format-bind-with-obs`).
+- Zero-flakiness budget: no nextest `retries`, quarantine-and-fix on a single flake; span-ordering assertions must key on explicit signals (a written JSONL line, envelope `state`, exit code), never `sleep(N)` or real elapsed wall-clock (per test-plan.md §10 Zero-flakiness budget, §11 E2E).
+- The workspace line-coverage gate (`--fail-under-lines 60`, plus branch ≥50 / function ≥70 informational on stable) is binding and must not be lowered — relevant because `conductor-report` currently carries no `tracing` code paths at all (per test-plan.md §10 Coverage thresholds).
+- Any NEW dev-dependency introduced to capture spans in-process must be registered in the plan's test stack rather than appearing only in `Cargo.toml` (per test-plan.md §2 Integration row + §4 Tool-version policy; precedent in the 2026-06-17 amendment below).
+
+## Patterns to follow
+- **Shipped agent-mode self-obs file-sink assertion** — `crates/conductor-cli/tests/cli_smoke.rs::agent_mode_routes_self_obs_to_the_log_file_not_stderr` parses the first line of `logs/agent-latest.jsonl` and asserts base fields plus "not on stderr". This is the scaffold the scope's `[inferred]` verification note points at; extend it for parent/child span linkage instead of adding a harness (per test-plan.md §3 `logs`, §6 cli driver row).
+- **CLI subprocess sandbox** — `assert_cmd` `Command::cargo_bin("conductor")` + `assert_fs::TempDir` with `CONDUCTOR_RUNS_DIR`, stdin closed, `TempDir` drop as cleanup (per test-plan.md §3 Per-test isolation, §6 cli driver row).
+- **conductor-report unit tier** — rstest `#[fixture]`/`#[case]`/`#[once]` over `rusqlite::Connection::open_in_memory()` for the `db.insert_run` / `report.generate` sites; never a hand-rolled SQL fake, and `runs.db` access stays bound-parameter only (per test-plan.md §5 Module↔DB row, §7 Seed strategies, §11 Integration).
+- **Golden discipline split** — canonical line shape locked by exact-string `assert_eq!` at unit level; insta reserved for E2E journal goldens with `run_id`/timestamp redaction, CI in fail-don't-write mode (per test-plan.md §4 conductor-report bullet, §7 Golden artifacts).
+- **Existing CI obs conformance gate** — `.github/workflows/ci.yml` already produces a no-Pulse Blocked run and greps every `logs/agent-latest.jsonl` line for required base fields + host-path leakage; new span fields flow through it without CI edits (per test-plan.md §9 Pipeline structure; the chunk's own "does not build the obs CI conformance gate" boundary).
+
+## Anti-patterns to avoid
+- NEVER assert on implementation details (private fns, span-builder internals) — assert the observable emitted JSON lines and the public seam API (per test-plan.md §11 Unit).
+- NEVER synchronize span-ordering assertions with `sleep(N)` or a real wall-clock duration, and never stamp ground-truth artifacts from tokio's virtual clock (per test-plan.md §11 E2E, §11 Unit, §11 Test Data).
+- NEVER let a new span attribute carry an absolute host path or an internal seam-crate struct name into the artifact — the sanitization assertion is a hard bar, not advisory (per test-plan.md §3 Status endpoint shape, §11 via the redaction negative test).
+
+## Contract bindings
+- **tests §3 Log format ⇄ obs-plan §3/§4** — test-plan owns the JSONL format; obs owns the field-allowlist/redaction layer, and test-plan asserts that boundary with a negative test. This chunk's new span attributes cross it (scope: "The redaction boundary").
+- **tests §3 `logs` command ⇄ dual self-obs sinks** — `logs/agent-latest.jsonl` (cli/agent mode) and `logs/conductor-tauri.jsonl` (Tauri backend) are both registered sinks; a root span in the shared `conductor-run` composition root must be assertable on both (per test-plan.md §3 Self-obs stream is a distinct artifact).
+- **tests §9/§10 ⇄ security-plan §Dependency Security** — the chunk's carried `cargo audit` PREREQ maps onto a test-plan build-failure condition (`cargo audit --deny warnings` + `cargo deny check` green, un-drifted `Cargo.lock`); the overlapping `cargo deny check` signal is the one this plan treats as binding (per test-plan.md §9 Build failure conditions, §10).
+- **tests §5 ⇄ Tauri/GUI leg** — the CLI↔Tauri parity the scope claims "for free" is asserted at the `conductor-run` unit tier + the `cli_smoke` parity E2E; the GUI-side leg stays deferred to the Epoch-9 tauri-driver harness chunk (per test-plan.md §5 Deferred to the GUI test-harness leg).
+
+## Acceptance criteria contributions
+- (tests) `cargo nextest run -p conductor-run -p conductor-report` and the workspace `cargo nextest run --workspace --profile ci` pass with the new span tests (per test-plan.md §3 `run` / §4 Framework).
+- (tests) A negative test over a real agent-mode run's `logs/agent-latest.jsonl` asserts the new span fields carry no absolute host path and no internal struct name, and that span records stay out of the Run-report envelope schema (per test-plan.md §3 Bootstrap phases → `log-format-bind-with-obs`).
+- (tests) Workspace line coverage stays ≥ 60% under `cargo llvm-cov nextest --fail-under-lines 60` with the newly instrumented `conductor-report` paths covered (per test-plan.md §10 Coverage thresholds).
+- (tests) `cargo audit --deny warnings` result recorded and `cargo deny check` green, `Cargo.lock` un-drifted — no threshold lowered and no gate skipped (per test-plan.md §9 Build failure conditions / §10 Build failure conditions).
+
+## Relevant amendment history
+- **2026-06-15-structured-logging-stack** (§3 Log format) — established that the `tracing` self-obs stream is a SEPARATE artifact from the per-run emission journal; the two schemas must not be conflated. Directly governs where this chunk's span records land. Raised by `D-tests-obs-harness` on new flat self-obs fields; resolved as a clarifying cross-reference, not an envelope field addition — the same disposition this chunk's new span attributes should take.
+- **2026-06-24-frameless-window-shell** (§3 Self-obs stream is a distinct artifact) — added `logs/conductor-tauri.jsonl` to the sink list once the Tauri backend sink went live, reconciling §3 with obs-plan §3's dual-surface table. Why it matters here: a root span in the shared composition root must hold on both sinks, so the dual-sink half of that reconcile is already settled.
+- **2026-06-16-emission-journal-writer** (§4 conductor-report bullet) — fixed the golden mechanism split for exactly the crate this chunk instruments: exact-string `assert_eq!` at unit level, insta reserved for E2E with redaction. Raised by `D-tests-framework`; follow it rather than reaching for insta at the `conductor-report` unit tier.
+- **2026-06-17-raw-otlp-message-scaffold** (§2 Integration row) — precedent that a new dev-dep absent from any spec inventory fires `D-arch-decisions` and its correct home is the test-plan dev-test stack. Applies if this chunk adds an in-process span-capture dev-dep to `conductor-run`/`conductor-report`.
+- **2026-06-26-live-counter-channel-stream** (§5) — deferred the GUI `Channel`-frame/parity leg to the Epoch-9 tauri-driver harness because background-thread streaming assertions flake against the zero-retry bar; run logic is covered at the `conductor-run` unit tier + the `cli_smoke` parity E2E. Sets where this chunk's CLI↔Tauri span parity is proven (and where it is not).

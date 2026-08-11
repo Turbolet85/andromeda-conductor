@@ -8,6 +8,18 @@ _This file is entirely wrap-session's territory. `/andromeda-setup-project` crea
 
 ---
 
+## 2026-08-11 — On Windows, an unstated text encoding silently corrupts what you read and crashes what you print
+
+Python on this host defaults to the **cp1252** locale encoding for both file IO and stdout, and Andromeda's artifacts are em-dash- and arrow-dense (`—` in every epoch header and route line, `↓` as the working-route separator, `→` in every master record). Three distinct failures came from that in one session, each with a different signature:
+
+- **Reading** `friction-log.ndjson` with a bare `open()` mis-decoded every record written with `ensure_ascii=False`, while records written with `ensure_ascii=True` decoded fine. A tally keyed on the epoch label therefore split one epoch into two phantom keys (28 + 31 for a single 59-record epoch) — the data was pristine; the reader invented the split. This nearly became a false "the telemetry is corrupted" finding, and the "fix" would have damaged a healthy file.
+- **Printing** a working-route line raised `UnicodeEncodeError: 'charmap' codec can't encode character '↓'` and killed the command outright — the loud, harmless failure of the three.
+- **Writing** through a `python - <<'PY'` heredoc mangles non-ASCII in transit, because the bytes cross the shell before the interpreter sees them.
+
+The discipline: pass `encoding="utf-8"` explicitly on every `open()`, set `PYTHONIOENCODING=utf-8` when a script prints project text, and write non-ASCII as `\uXXXX` escapes in an ASCII-only source file run **by path** rather than piping a heredoc. When a result looks like data corruption, verify by **codepoint** (`ord(ch)`) before believing it — a lossy display and a lossy file are indistinguishable in a terminal, and only one of them is a real problem.
+
+---
+
 ## 2026-08-09 — A baked count inside an illustrative sample is the same stale-derived-fact class as one in prose
 
 When a chunk invalidates a derived fact (here: the coverage classification widening from 60 to 82 capabilities), the de-hardcoding sweep must reach **sample output and wireframe captions**, not just prose. Illustrative status is not an exemption — a reader takes a number from a sample exactly as readily as from a sentence, and leaving one behind recreates the very self-contradiction the sweep exists to remove. `layout-templates.md` had already been half-swept on 2026-08-08: its coverage header strip (`:37`) read "82 loaded (manifest set)" while the component prose (`:121`) still said "the full 60-row wall" — the document contradicted itself for a full version cycle because the earlier pass treated the two as different classes.

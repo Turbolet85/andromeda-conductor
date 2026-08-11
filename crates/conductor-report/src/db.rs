@@ -74,6 +74,12 @@ impl RunsDb {
     /// Blocked-row NULL rule, arch §Standard Contracts); `p_ids` / `fingerprints` are stored as JSON1
     /// TEXT arrays; `seed` is bit-cast to the signed-`INTEGER` column. A duplicate `(run_id, scenario)`
     /// raises the PK constraint as an `Err` — never a silent clobber.
+    ///
+    /// Carries the `db.insert_run` span (obs-plan §4 Critical Path 1) — a Client-kind span, since
+    /// rusqlite is a synchronous boundary off the async runtime. `row_count` is the one row this
+    /// statement writes; the field is set at span creation because the layer records span attributes
+    /// on the `new` record.
+    #[tracing::instrument(name = "db.insert_run", skip_all, fields(row_count = 1))]
     pub fn insert(&self, record: &RunRecord) -> Result<(), RunsDbError> {
         let p_ids = serde_json::to_string(&record.p_ids)?;
         let fingerprints = record.fingerprints.as_ref().map(serde_json::to_string).transpose()?;

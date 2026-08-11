@@ -15,10 +15,12 @@ use std::time::{SystemTime, UNIX_EPOCH};
 use crate::redact::{is_allowlisted, redact_value};
 use serde_json::{Map, Value};
 use tracing::field::{Field, Visit};
+use tracing::span::{Attributes, Id};
 use tracing::{Event, Subscriber};
 use tracing_subscriber::filter::LevelFilter;
 use tracing_subscriber::fmt::MakeWriter;
 use tracing_subscriber::layer::{Context, Layer, SubscriberExt};
+use tracing_subscriber::registry::LookupSpan;
 use tracing_subscriber::{EnvFilter, Registry};
 
 /// Service identity stamped as flat fields on every self-observation log line (obs-plan §3).
@@ -236,19 +238,19 @@ struct JsonObsLayer<W> {
     make_writer: W,
 }
 
-impl<S, W> Layer<S> for JsonObsLayer<W>
+impl<W> JsonObsLayer<W>
 where
-    S: Subscriber,
     W: for<'w> MakeWriter<'w> + 'static,
 {
-    fn on_event(&self, event: &Event<'_>, _ctx: Context<'_, S>) {
-        let meta = event.metadata();
+    /// The flat identity block every self-obs line carries (obs-plan §3) — shared by the event and
+    /// span-lifecycle records so the two shapes never drift apart.
+    fn base_map(&self, level: &str, target: &str) -> Map<String, Value> {
         let mut map = Map::new();
         map.insert("timestamp_ms".to_string(), Value::from(unix_millis()));
-        map.insert("level".to_string(), Value::from(meta.level().as_str()));
+        map.insert("level".to_string(), Value::from(level));
         map.insert(
             "target".to_string(),
-            Value::from(redact_value(meta.target()).as_ref()),
+            Value::from(redact_value(target).as_ref()),
         );
         map.insert(
             "service.name".to_string(),
@@ -266,12 +268,55 @@ where
             "run_id".to_string(),
             Value::from(self.identity.run_id.clone()),
         );
-        event.record(&mut JsonVisitor(&mut map));
+        map
+    }
 
+    fn write_line(&self, map: Map<String, Value>) {
         let mut line = serde_json::to_vec(&Value::Object(map)).unwrap_or_else(|_| b"{}".to_vec());
         line.push(b'\n');
         let mut writer = self.make_writer.make_writer();
         let _ = writer.write_all(&line);
+    }
+}
+
+impl<S, W> Layer<S> for JsonObsLayer<W>
+where
+    S: Subscriber + for<'lookup> LookupSpan<'lookup>,
+    W: for<'w> MakeWriter<'w> + 'static,
+{
+    fn on_event(&self, event: &Event<'_>, _ctx: Context<'_, S>) {
+        let meta = event.metadata();
+        let mut map = self.base_map(meta.level().as_str(), meta.target());
+        event.record(&mut JsonVisitor(&mut map));
+        self.write_line(map);
+    }
+
+    /// Emit the span's `new` record: identity + the span's name, its parent's name, and its own
+    /// attributes (allowlist-gated like any event field). Spans are plain `tracing` nesting rendered
+    /// as JSON events — there is no OTel SDK and no `traceparent`; `run_id` remains the correlation
+    /// key (obs-plan §3 / §4).
+    fn on_new_span(&self, attrs: &Attributes<'_>, id: &Id, ctx: Context<'_, S>) {
+        let Some(span) = ctx.span(id) else { return };
+        let meta = span.metadata();
+        let mut map = self.base_map(meta.level().as_str(), meta.target());
+        map.insert("span".to_string(), Value::from(meta.name()));
+        map.insert("span_event".to_string(), Value::from("new"));
+        if let Some(parent) = span.parent() {
+            map.insert("parent".to_string(), Value::from(parent.name()));
+        }
+        attrs.record(&mut JsonVisitor(&mut map));
+        self.write_line(map);
+    }
+
+    /// Emit the span's `close` record, so every opened span is observably closed at its phase
+    /// boundary and no span dangles on either the success or the error path (obs-plan §4 Cleanup).
+    fn on_close(&self, id: Id, ctx: Context<'_, S>) {
+        let Some(span) = ctx.span(&id) else { return };
+        let meta = span.metadata();
+        let mut map = self.base_map(meta.level().as_str(), meta.target());
+        map.insert("span".to_string(), Value::from(meta.name()));
+        map.insert("span_event".to_string(), Value::from("close"));
+        self.write_line(map);
     }
 }
 
@@ -513,6 +558,79 @@ mod tests {
         assert_eq!(line["run_id"], Value::from("RUN-FILE"));
         assert_eq!(line["phase"], Value::from("open <redacted>"), "file sink inherits processor redaction");
         let _ = std::fs::remove_dir_all(&dir);
+    }
+
+    /// Find the one record for `span` with lifecycle `event`.
+    fn span_record<'a>(lines: &'a [Value], span: &str, event: &str) -> &'a Map<String, Value> {
+        lines
+            .iter()
+            .filter_map(Value::as_object)
+            .find(|o| o.get("span") == Some(&Value::from(span)) && o.get("span_event") == Some(&Value::from(event)))
+            .unwrap_or_else(|| panic!("no {event} record for span {span}"))
+    }
+
+    #[test]
+    fn a_span_emits_new_and_close_records_carrying_its_attributes() {
+        let buf = capture(fixed_identity("RUN-SPAN"), || {
+            let span = tracing::info_span!(
+                "scenario.run",
+                seed = 424242u64,
+                scenario = "error-baseline-spike"
+            );
+            let _entered = span.enter();
+        });
+        let lines = buf.lines();
+
+        let new = span_record(&lines, "scenario.run", "new");
+        assert_eq!(new["seed"], Value::from(424242u64));
+        assert_eq!(new["scenario"], Value::from("error-baseline-spike"));
+        assert_eq!(new["run_id"], Value::from("RUN-SPAN"));
+        assert_eq!(new["level"], Value::from("INFO"));
+        assert!(new.contains_key("timestamp_ms"));
+
+        // Every opened span closes — no dangling spans (obs-plan §4 Cleanup).
+        span_record(&lines, "scenario.run", "close");
+    }
+
+    #[test]
+    fn a_child_span_records_its_parent_so_the_tree_reconstructs() {
+        let buf = capture(fixed_identity("RUN-NEST"), || {
+            let root = tracing::info_span!("scenario.run");
+            let _root = root.enter();
+            let child = tracing::info_span!("timeline.execute", phase_count = 4u64);
+            let _child = child.enter();
+        });
+        let lines = buf.lines();
+
+        let child = span_record(&lines, "timeline.execute", "new");
+        assert_eq!(child["parent"], Value::from("scenario.run"));
+        assert_eq!(child["phase_count"], Value::from(4u64));
+
+        let root = span_record(&lines, "scenario.run", "new");
+        assert!(!root.contains_key("parent"), "the root span has no parent");
+    }
+
+    #[test]
+    fn a_non_allowlisted_span_attribute_is_dropped() {
+        let buf = capture(fixed_identity("RUN-SPAN-DROP"), || {
+            let span = tracing::info_span!("scenario.run", secret = "leak", seed = 7u64);
+            let _entered = span.enter();
+        });
+        let lines = buf.lines();
+        let new = span_record(&lines, "scenario.run", "new");
+        assert!(!new.contains_key("secret"), "the allowlist gates span attributes too");
+        assert_eq!(new["seed"], Value::from(7u64));
+    }
+
+    #[test]
+    fn a_host_path_in_a_span_attribute_is_redacted() {
+        let buf = capture(fixed_identity("RUN-SPAN-REDACT"), || {
+            let span = tracing::info_span!("scenario.run", scenario = "C:\\Users\\turbo\\corpus.db");
+            let _entered = span.enter();
+        });
+        let lines = buf.lines();
+        let new = span_record(&lines, "scenario.run", "new");
+        assert_eq!(new["scenario"], Value::from("<redacted>"));
     }
 
     #[test]
