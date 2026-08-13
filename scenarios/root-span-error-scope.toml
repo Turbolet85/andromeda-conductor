@@ -17,10 +17,20 @@ jitter_ms = 50
 [[phases]]
 name = "deep-error"   # (a) internal child span carries ERROR; root span succeeds
 gap_ms = 2000
+[phases.emission]
+kind = "error"
+occurrences = 4
+depth = 3   # the error sits on a descendant; every ancestor stays OK
+error_percent = 100
 
 [[phases]]
 name = "root-error"   # (b) child AND root span carry ERROR
 gap_ms = 2000
+[phases.emission]
+kind = "error"
+occurrences = 4
+depth = 0   # the error is on the root span itself
+error_percent = 100
 
 # Model-interpretive root-vs-deep severity tendency — calibration-region, routed to ManualCheck.
 [[expected]]

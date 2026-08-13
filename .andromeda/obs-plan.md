@@ -635,7 +635,7 @@ SLO enforcement: agent reads runs.db rows post-run and asserts `latency_ms <= sl
 - NEVER use tokio's virtual clock (`tokio::time::Instant`) for journal timestamps — wall-clock only (`std::time::SystemTime`), preserves journal-relative SLO math
 - NEVER pass `ANDROMEDA_PULSE_DATA_DIR` via argv to sidecar spawn — must use `.env(...)` builder (injection metacharacter ban, upstream §2)
 - NEVER allow panic on malformed MCP read-back (protobuf decode failure) — bounded prost recursion + empty canary ⇒ `blocked`, never false pass
-- NEVER skip garde validation on scenario config deserialization — `range` + cross-field rules enforce error fraction ∈ [0,1], p50≤p95≤p99, severity-mix sum constraints
+- NEVER skip garde validation on scenario config deserialization — `range` + cross-field rules enforce a bounded error fraction (shipped as `error_percent` ∈ 0..=100), p50≤p95≤p99, severity-mix sum constraints; a nested spec field must `dive`, never `skip` (a skipped struct is never descended into, so its rules never run)
 
 ---
 

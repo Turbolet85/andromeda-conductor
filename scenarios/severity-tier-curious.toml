@@ -30,6 +30,10 @@ jitter_ms = 50
 [[phases]]
 name = "weak-transient-cue"   # a weak, transient signal below the surfacing bar -> tends Curious (or dismissed)
 gap_ms = 6000
+[phases.emission]
+kind = "error"
+occurrences = 10
+error_percent = 10   # weak and transient — barely above the ambient rate
 
 # P-019/P-020 — the model records the weak signal at the Curious tier (or dismisses it). Calibration-region.
 [[expected]]

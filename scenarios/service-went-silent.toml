@@ -20,10 +20,16 @@ jitter_ms = 50
 [[phases]]
 name = "active"
 gap_ms = 300000   # 5min consistent activity — fresh-service baseline (no learned quiet pattern)
+[phases.emission]
+kind = "plain"
+occurrences = 60
 
 [[phases]]
 name = "silence"
 gap_ms = 35000   # abrupt stop; >30s of silence -> ServiceWentSilent at the 30s minimum
+[phases.emission]
+kind = "plain"
+occurrences = 0   # the abrupt stop: no resume, the P-014 activity-floor lever
 
 # P-014 — the silence cue surfaces.
 [[expected]]

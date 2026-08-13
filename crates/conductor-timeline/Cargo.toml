@@ -18,3 +18,5 @@ tokio = { workspace = true, features = ["test-util", "macros", "rt", "time"] }
 rstest.workspace = true
 proptest.workspace = true
 insta.workspace = true
+# reads back the self-obs JSONL line the subscriber actually wrote (obs-plan §4 CP1)
+serde_json.workspace = true

@@ -25,14 +25,26 @@ jitter_ms = 50
 [[phases]]
 name = "three-services-live"   # three service.names emitting together: three live registry entries
 gap_ms = 3000
+[phases.emission]
+kind = "topology"
+occurrences = 3
+services = ["checkout-api", "payments-worker", "ledger-sync"]
 
 [[phases]]
 name = "one-service-stops"   # one service.name stops emitting; the other two continue
 gap_ms = 12000
+[phases.emission]
+kind = "topology"
+occurrences = 6
+services = ["checkout-api", "payments-worker"]   # ledger-sync absent — it must age out of the live set
 
 [[phases]]
 name = "survivors-still-live"   # the remaining two keep emitting → the stopped one must read as stale, not live
 gap_ms = 3000
+[phases.emission]
+kind = "topology"
+occurrences = 3
+services = ["checkout-api", "payments-worker"]
 
 # Operator-checklist (drive+observe): no [[expected]] block. Whether the stopped service is hidden or
 # marked historical — and whether its recency label stays honest — is verified by the operator, not by MCP

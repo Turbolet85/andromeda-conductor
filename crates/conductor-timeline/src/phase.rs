@@ -2,8 +2,9 @@
 //!
 //! Just enough structure to drive deterministic sequencing — an ordered list of named phases, each
 //! with a base inter-phase gap, plus the bound on the seed-derived jitter that perturbs each gap.
-//! The declarative per-phase *emission* spec is a later seam/chunk; these types carry timing only,
-//! never what a phase emits (architecture §Design Philosophy).
+//! A phase also carries the COUNT of emissions it declares, so the scheduler can pace them across
+//! the gap and report the total; it never carries what those emissions contain — the shape stays in
+//! the config model and the wire types stay in `conductor-emit` (architecture §Design Philosophy).
 
 use std::time::Duration;
 
@@ -18,12 +19,20 @@ pub struct Phase {
     pub name: String,
     /// Base inter-phase gap before this phase's boundary (perturbed by the timeline's jitter bound).
     pub gap: Duration,
+    /// How many emissions this phase declares — the scheduler paces this many hook calls across the
+    /// gap. `0` is a deliberate silence window: the gap elapses and nothing is emitted.
+    pub emissions: u32,
 }
 
 impl Phase {
-    /// Construct a phase from its label and base gap.
+    /// Construct a phase from its label and base gap, declaring a single emission.
     pub fn new(name: impl Into<String>, gap: Duration) -> Self {
-        Self { name: name.into(), gap }
+        Self { name: name.into(), gap, emissions: 1 }
+    }
+
+    /// Construct a phase declaring `emissions` emissions across its gap.
+    pub fn emitting(name: impl Into<String>, gap: Duration, emissions: u32) -> Self {
+        Self { name: name.into(), gap, emissions }
     }
 }
 
@@ -43,6 +52,13 @@ impl PhaseTimeline {
     /// Construct a timeline from its ordered phases and a symmetric jitter bound.
     pub fn new(phases: Vec<Phase>, jitter: Duration) -> Self {
         Self { phases, jitter }
+    }
+
+    /// Total emissions this timeline declares — the sum of its phases' counts. Derivable without
+    /// running the scenario, which is what lets `timeline.execute` carry `emission_count` as a span
+    /// attribute computed at span open (obs-plan §4 Critical Path 1).
+    pub fn total_emissions(&self) -> u64 {
+        self.phases.iter().map(|p| u64::from(p.emissions)).sum()
     }
 }
 

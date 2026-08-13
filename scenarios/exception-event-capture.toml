@@ -15,6 +15,10 @@ jitter_ms = 50
 [[phases]]
 name = "exception-spans"   # spans carrying `exception` events with synthetic stack traces
 gap_ms = 2000
+[phases.emission]
+kind = "exception"
+occurrences = 4
+variants = ["identical"]
 
 # The captured exception is accessible to the pattern detector / report generator.
 [[expected]]

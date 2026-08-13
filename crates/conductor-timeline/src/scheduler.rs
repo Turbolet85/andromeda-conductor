@@ -24,18 +24,65 @@ pub enum TimelineError {
     /// The timeline carried no phases — there is nothing to sequence.
     #[error("timeline has no phases to sequence")]
     EmptyTimeline,
+    /// The caller's emission hook failed. The scheduler owns timing only, so the cause is opaque
+    /// here and stays a harness fault all the way to the binary edge.
+    #[error("emission failed at phase {phase_index}")]
+    Emission {
+        /// Zero-based ordinal of the phase whose emission failed.
+        phase_index: usize,
+        /// The hook's own error.
+        #[source]
+        source: Box<dyn std::error::Error + Send + Sync>,
+    },
+}
+
+/// Where in the timeline an emission falls — handed to the hook so a caller can look up the phase's
+/// declared shape without the scheduler ever knowing what a shape is.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct EmissionPoint {
+    /// Zero-based ordinal of the phase within the timeline.
+    pub phase_index: usize,
+    /// Zero-based ordinal of this emission within its phase (`0..phase.emissions`).
+    pub occurrence: u32,
 }
 
 /// Sequence `timeline` deterministically under `seed`, returning its ordered phase boundaries.
 ///
 /// Awaits each phase's seed-jittered gap on `tokio::time` (the virtual clock — drive it with
-/// `start_paused` in tests), then records a [`PhaseTransition`]. Pure timing: nothing is emitted.
-/// Returns [`TimelineError::EmptyTimeline`] when there are no phases.
-#[tracing::instrument(name = "timeline.execute", skip(timeline), fields(phase_count = timeline.phases.len()))]
+/// `start_paused` in tests), then records a [`PhaseTransition`]. Emits nothing — see
+/// [`run_timeline_with`] for the emitting form. Returns [`TimelineError::EmptyTimeline`] when there
+/// are no phases.
 pub async fn run_timeline(
     timeline: &PhaseTimeline,
     seed: u64,
 ) -> Result<Vec<PhaseTransition>, TimelineError> {
+    run_timeline_with(timeline, seed, async |_| Ok::<(), std::convert::Infallible>(())).await
+}
+
+/// Sequence `timeline` deterministically under `seed`, calling `on_emit` for each declared emission.
+///
+/// A phase's emissions are paced evenly ACROSS its jittered gap — the phase's slice of the timeline
+/// is where its traffic lands, rather than arriving in a burst after the whole timeline has elapsed.
+/// This is what lets a windowed SUT detector (an N-in-30s storm cue, a 20s silence floor) observe
+/// the shape the scenario declares. A phase declaring zero emissions simply sleeps its gap.
+///
+/// Total elapsed time per phase is exactly the jittered gap either way, and the seeded draw sequence
+/// is one per phase as before, so the transition stream is unchanged by the emission count.
+/// `on_emit`'s error becomes [`TimelineError::Emission`]; the scheduler gains no emit dependency.
+#[tracing::instrument(
+    name = "timeline.execute",
+    skip(timeline, on_emit),
+    fields(phase_count = timeline.phases.len(), emission_count = timeline.total_emissions())
+)]
+pub async fn run_timeline_with<F, E>(
+    timeline: &PhaseTimeline,
+    seed: u64,
+    mut on_emit: F,
+) -> Result<Vec<PhaseTransition>, TimelineError>
+where
+    F: AsyncFnMut(EmissionPoint) -> Result<(), E>,
+    E: std::error::Error + Send + Sync + 'static,
+{
     if timeline.phases.is_empty() {
         return Err(TimelineError::EmptyTimeline);
     }
@@ -47,7 +94,17 @@ pub async fn run_timeline(
 
     for (index, phase) in timeline.phases.iter().enumerate() {
         let effective = jittered_gap(phase.gap, bound_ms, &mut rng);
-        tokio::time::sleep(effective).await;
+        for (slice, occurrence) in paced_slices(effective, phase.emissions) {
+            tokio::time::sleep(slice).await;
+            if let Some(occurrence) = occurrence {
+                on_emit(EmissionPoint { phase_index: index, occurrence })
+                    .await
+                    .map_err(|e| TimelineError::Emission {
+                        phase_index: index,
+                        source: Box::new(e),
+                    })?;
+            }
+        }
         elapsed = elapsed.saturating_add(effective);
         transitions.push(PhaseTransition {
             index,
@@ -57,6 +114,27 @@ pub async fn run_timeline(
     }
 
     Ok(transitions)
+}
+
+/// Split `gap` into one sleep per declared emission, the last slice absorbing the integer-division
+/// remainder so the slices always sum to exactly `gap`. Zero emissions yields the whole gap with no
+/// emission point, so a silence phase still costs its full duration.
+fn paced_slices(gap: Duration, emissions: u32) -> Vec<(Duration, Option<u32>)> {
+    if emissions == 0 {
+        return vec![(gap, None)];
+    }
+    let total_ns = gap.as_nanos();
+    let slice_ns = total_ns / u128::from(emissions);
+    (0..emissions)
+        .map(|i| {
+            let ns = if i == emissions - 1 {
+                total_ns - slice_ns * u128::from(emissions - 1)
+            } else {
+                slice_ns
+            };
+            (Duration::from_nanos(ns as u64), Some(i))
+        })
+        .collect()
 }
 
 /// Perturb `base` by a seed-derived delta in `[-bound_ms, +bound_ms]`, clamped at zero. The draw is

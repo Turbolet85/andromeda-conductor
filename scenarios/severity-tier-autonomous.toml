@@ -30,6 +30,10 @@ jitter_ms = 50
 [[phases]]
 name = "hard-signal-error"   # an ERROR-status span: the high-confidence Tier-1 candidate -> tends Autonomous
 gap_ms = 2000
+[phases.emission]
+kind = "error"
+occurrences = 8
+error_percent = 100   # unambiguous hard signal — every emission errors
 
 # P-019/P-020 — the model surfaces the high-confidence candidate at the Autonomous tier. Model-interpretive
 # (the model retains discretion), so calibration-region, routed to ManualCheck.

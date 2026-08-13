@@ -21,9 +21,21 @@ jitter_ms = 50
 [[phases]]
 name = "rate-ramp-up"   # rising emission rate → the halo breathes faster (conductor-emit rate.rs ramp)
 gap_ms = 5000
+[phases.emission]
+kind = "ramp"
+occurrences = 1
+from_rate = 5
+to_rate = 50
+windows = 20
 
 [[phases]]
 name = "rate-ramp-down"   # falling emission rate → the halo breathes slower
 gap_ms = 5000
+[phases.emission]
+kind = "ramp"
+occurrences = 1
+from_rate = 50
+to_rate = 5
+windows = 20
 
 # Operator-checklist (drive+observe): no [[expected]] block — the breathing rhythm is operator-verified.

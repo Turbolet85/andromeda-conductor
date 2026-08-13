@@ -15,6 +15,10 @@ jitter_ms = 50
 [[phases]]
 name = "error-spans"   # emit ERROR-status spans
 gap_ms = 2000
+[phases.emission]
+kind = "error"
+occurrences = 6
+error_percent = 100
 
 # The error candidate surfaces to the severity classifier (deterministic detection).
 [[expected]]

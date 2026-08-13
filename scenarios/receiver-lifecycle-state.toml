@@ -15,18 +15,30 @@ jitter_ms = 50
 [[phases]]
 name = "listening"   # receivers up, zero spans yet
 gap_ms = 2000
+[phases.emission]
+kind = "plain"
+occurrences = 0   # Listening is defined by the absence of any span
 
 [[phases]]
 name = "receiving"   # emit the first valid span -> Receiving within 1s
 gap_ms = 2000
+[phases.emission]
+kind = "plain"
+occurrences = 4
 
 [[phases]]
 name = "idle"        # stop emitting; 10-60s quiet -> Idle
 gap_ms = 15000
+[phases.emission]
+kind = "plain"
+occurrences = 0
 
 [[phases]]
 name = "stalled"     # further silence -> >60s cumulative -> Stalled
 gap_ms = 50000
+[phases.emission]
+kind = "plain"
+occurrences = 0
 
 # Terminal connection state read back from the receiver state machine.
 [[expected]]

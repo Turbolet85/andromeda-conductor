@@ -24,10 +24,18 @@ jitter_ms = 50
 [[phases]]
 name = "fingerprinted-incident"   # emit a fingerprinted exception → an incident with a stable fingerprint
 gap_ms = 3000
+[phases.emission]
+kind = "exception"
+occurrences = 6   # clears Pulse's >=5-in-30s storm floor so an incident actually forms
+variants = ["identical"]
 
 [[phases]]
 name = "recur-same-fingerprint"   # re-emit the same fingerprint → on the SECOND run the index says "Previously seen"
 gap_ms = 3000
+[phases.emission]
+kind = "exception"
+occurrences = 6
+variants = ["identical"]
 
 # P-036 — the recurring fingerprint's Report references the prior occurrence. A deterministic cross-run
 # index lookup → Hard. The "Previously seen" token is inferred (Contains is substring-tolerant).

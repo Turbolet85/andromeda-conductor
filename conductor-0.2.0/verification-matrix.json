@@ -102,11 +102,12 @@
       "observed_gap": "conductor-run::coarse_emit sends one signal per phase; it cannot shape the per-family telemetry the scenarios describe.",
       "verification": {
         "method": "unit",
-        "acceptance": "For each scenario family, the emitted stream matches the phase's declared emission spec (rate, error fraction, severity mix, exception/fingerprint shape) rather than a single signal per phase.",
-        "ref": null,
-        "status": "planned"
+        "acceptance": "Each scenario family's phases declare their shape in EmissionSpec (garde-validated at load), and against the loopback tonic TraceService/LogsService stub on an ephemeral 127.0.0.1:0 port the dispatcher's emitted stream matches that declaration per phase — occurrence count, signal class, and the family's shape parameters (exception/fingerprint variant mix, severity mix, latency percentiles, PII categories, error placement + error fraction, rate curve) — rather than a single signal per phase; emissions occur at their phase's boundary during the timeline walk rather than in a burst after it; and all 35 committed scenarios/*.toml still validate at load.",
+        "ref": "crates/conductor-run/tests/dispatch_wire.rs (per-family wire assertions vs the loopback tonic stub) + crates/conductor-timeline/tests/pacing.rs::emissions_land_inside_their_own_phase_window (emission timing) + crates/conductor-core/src/phase_spec.rs::tests::unrealizable_shapes_are_rejected_at_load (garde at load) + conductor-core catalog load tests (all 35 scenarios validate)",
+        "status": "verified"
       },
-      "chunk": null
+      "chunk": "2026-08-11-faithful-emission-dispatcher",
+      "notes": "CONCRETIZED at 2026-08-11-faithful-emission-dispatcher phase P5 (contract §Acceptance lifecycle). The prior acceptance presumed a declared emission spec carrying rate / error fraction / severity mix / exception-fingerprint shape; research proved EmissionSpec carries exactly one field (signal) at crates/conductor-core/src/phase_spec.rs:45, that only 3 of 35 scenario TOMLs declare even that, and that the intended shape is encoded in phase names by a convention scenarios/fingerprint-storm.toml documents. The chunk BUILDS that declaration, so the acceptance is concretized rather than corrected: all four original terms are kept, the verification mechanism is named, and two properties are added (emission timing inside the phase window; the committed catalog still load-validates). Operator resolved three forks at P4: declarative EmissionSpec fields; emit during the timeline walk; all families in one chunk."
     },
     {
       "id": "v2-09",

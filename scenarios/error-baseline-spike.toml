@@ -21,10 +21,18 @@ jitter_ms = 50
 [[phases]]
 name = "baseline"
 gap_ms = 90000   # 90s — converge the per-service error-rate baseline (P-009)
+[phases.emission]
+kind = "error"
+occurrences = 60   # >= the P-009 10-span/min sample floor over 90s
+error_percent = 10   # the baseline error rate the spike is measured against
 
 [[phases]]
 name = "spike"
 gap_ms = 60000   # 60s at 3.5x baseline — exceeds the 30s persistence threshold (P-010)
+[phases.emission]
+kind = "error"
+occurrences = 40
+error_percent = 35   # 3.5x the 10% baseline
 
 # P-009 — the error-rate baseline accumulated past its >=10-span/min sample-count floor. A met floor
 # is a hard pass; CountAtLeast routes to the calibration region only when UNMET (verify::slo).

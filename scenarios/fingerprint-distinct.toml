@@ -25,14 +25,26 @@ jitter_ms = 50
 [[phases]]
 name = "base-4x"
 gap_ms = 10000   # base fingerprint, 4 occurrences — below the 5x storm floor
+[phases.emission]
+kind = "exception"
+occurrences = 4
+variants = ["identical"]
 
 [[phases]]
 name = "type-variant-4x"
 gap_ms = 10000   # different exception TYPE -> a DISTINCT fingerprint, 4 occurrences (sub-floor)
+[phases.emission]
+kind = "exception"
+occurrences = 4
+variants = ["type"]
 
 [[phases]]
 name = "frame-variant-4x"
 gap_ms = 10000   # different stack-FRAME function -> a DISTINCT fingerprint, 4 occurrences (sub-floor)
+[phases.emission]
+kind = "exception"
+occurrences = 4
+variants = ["frame"]
 
 # P-017 — three distinct fingerprints, each sub-floor, never aggregate into a storm (the distinctness
 # guard: type/frame variants are NOT collapsed into one fingerprint).

@@ -29,34 +29,64 @@ jitter_ms = 50
 [[phases]]
 name = "baseline"
 gap_ms = 30000   # consistent traffic + error baseline (the relative-magnitude reference)
+[phases.emission]
+kind = "error"
+occurrences = 30
+error_percent = 1   # the 1% absolute baseline the bypass phases are measured against
 
 [[phases]]
 name = "restart-gap"
 gap_ms = 25000   # 25s stream gap (>20s) -> restart on resume
+[phases.emission]
+kind = "plain"
+occurrences = 0   # the gap IS the fault: no emission for the phase's whole duration
 
 [[phases]]
 name = "resume"
 gap_ms = 2000   # resume emission -> RestartEvent <=2s (P-015)
+[phases.emission]
+kind = "plain"
+occurrences = 2
 
 [[phases]]
 name = "suppressed-15s-burst"
 gap_ms = 15000   # 15s transient burst, <30s persistence -> suppressed (P-016, declare-only)
+[phases.emission]
+kind = "error"
+occurrences = 15
+error_percent = 20
 
 [[phases]]
 name = "sustained-60s"
 gap_ms = 60000   # 60s sustained -> surfaces after the 30s persistence threshold (P-016)
+[phases.emission]
+kind = "error"
+occurrences = 60
+error_percent = 20
 
 [[phases]]
 name = "bypass-suppressed-8x-3pct"
 gap_ms = 15000   # 8x rel / 3% abs -> below both thresholds -> suppressed (P-057, declare-only)
+[phases.emission]
+kind = "error"
+occurrences = 25
+error_percent = 8   # 8x the 1% baseline, 3% absolute floor not cleared
 
 [[phases]]
 name = "bypass-relative-12x-4pct"
 gap_ms = 15000   # 12x rel / 4% abs -> relative-bypass surfaces (P-057)
+[phases.emission]
+kind = "error"
+occurrences = 25
+error_percent = 12
 
 [[phases]]
 name = "bypass-absolute-6x-7pct"
 gap_ms = 15000   # 6x rel / 7% abs -> absolute-bypass surfaces (P-057)
+[phases.emission]
+kind = "error"
+occurrences = 25
+error_percent = 7
 
 # P-015 — the restart fires.
 [[expected]]

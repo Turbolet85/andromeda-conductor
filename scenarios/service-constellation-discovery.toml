@@ -23,9 +23,17 @@ jitter_ms = 50
 [[phases]]
 name = "two-service-topology"   # an initial multi-service trace → two constellation dots
 gap_ms = 3000
+[phases.emission]
+kind = "topology"
+occurrences = 3
+services = ["checkout-api", "payments-worker"]
 
 [[phases]]
 name = "new-service-appears"   # a new service.name enters the stream → a new dot surfaces (≤5s)
 gap_ms = 3000
+[phases.emission]
+kind = "topology"
+occurrences = 3
+services = ["checkout-api", "payments-worker", "ledger-sync"]   # the third dot
 
 # Operator-checklist (drive+observe): no [[expected]] block — the constellation dots are operator-verified.

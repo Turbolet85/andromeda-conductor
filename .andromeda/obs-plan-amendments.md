@@ -66,3 +66,7 @@ _Append-only changelog of amendments to `obs-plan.md` (the body holds only curre
 **Section:** §3 Log format JSON schema (two record shapes)
 **Change:** recorded that the custom layer emits the self-obs line in two variants over the same base set — the event line, and the span-lifecycle line adding `span` / `span_event` (`new` | `close`) / optional `parent` plus the span's allowlisted attributes on `new` — so a §4 span materializes as real lines. The two-record-shapes split (self-obs line vs Run-report envelope) is unaffected.
 **Why:** the lateral test-plan §3 ↔ obs-plan §3 bind. test-plan §3 OWNS the JSONL format and gained the variant this chunk shipped; leaving obs §3 unamended would be exactly the one-sided change D-tests-obs-harness guards. Before this chunk the layer implemented only `on_event`, so no span emitted anything at all.
+## 2026-08-11-faithful-emission-dispatcher — scenario-config validation ban restated
+**Section:** §11 Anti-Patterns (project-specific bans)
+**Change:** The never-skip-garde-validation ban now names the shipped error-fraction encoding (`error_percent` ∈ 0..=100) and adds that a nested spec field must `dive`, never `skip` — a skipped struct is never descended into, so its rules never run.
+**Why:** Cross-master citation fold: the ban quoted `error fraction ∈ [0,1]`, a bound the shipped model does not carry in that form, and the chunk's `#[garde(skip)]` finding gave the ban a concrete failure mode it did not previously name.

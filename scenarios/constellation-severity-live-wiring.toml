@@ -27,14 +27,25 @@ jitter_ms = 50
 [[phases]]
 name = "quiet-baseline"   # nominal traffic: no incident in the corpus yet
 gap_ms = 3000
+[phases.emission]
+kind = "plain"
+occurrences = 3
 
 [[phases]]
 name = "identical-fingerprint-storm"   # a sustained same-fingerprint storm drives an incident into the corpus
 gap_ms = 15000
+[phases.emission]
+kind = "exception"
+occurrences = 12   # well past Pulse's >=5-in-30s retry-storm floor
+variants = ["identical"]
 
 [[phases]]
 name = "storm-sustained"   # the storm continues so the incident is durable when read-back queries the corpus
 gap_ms = 12000
+[phases.emission]
+kind = "exception"
+occurrences = 10
+variants = ["identical"]
 
 # P-079 — the storm's incident is visible through read-back AT ALL. A diverged workspace key (app on the
 # detected root, sidecar on data_dir) returns zero rows here, which is the whole capability under test.

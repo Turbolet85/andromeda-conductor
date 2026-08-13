@@ -1,0 +1,183 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee LIKE '%coarse_emit%' ORDER BY file, line;",
+"rows": 1,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 execute_scenario().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 292
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee LIKE '%execute_scenario%' ORDER BY file, line;",
+"rows": 7,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-cli 0.1.0 commands/run/run().",
+"file": "crates/conductor-cli/src/commands/run.rs",
+"line": 23
+},
+{
+"caller": "rust-analyzer cargo conductor-cli 0.1.0 commands/suite/suite().",
+"file": "crates/conductor-cli/src/commands/suite.rs",
+"line": 30
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 drive_run().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 498
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 tests/execute_scenario_blocks_when_gate_not_ready().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 652
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 tests/blocked_envelope_is_seed_identified().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 665
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 tests/blocked_envelope_is_seed_identified().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 666
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 tests/blocked_envelope_is_seed_identified().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 668
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT callee, file, line FROM refs WHERE callee LIKE '%EmissionSpec%' ORDER BY file, line;",
+"rows": 21,
+"result": [
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/EmissionSpec#",
+"file": "crates/conductor-core/src/error.rs",
+"line": 74
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/EmissionSpec#",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 48
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/EmissionSpec#",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 280
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/EmissionSpec#",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 337
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/EmissionSpec#",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 35
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/EmissionSpec#",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 50
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/EmissionSpec#signal.",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 53
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/EmissionSpec#",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 79
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/EmissionSpec#",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 114
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/EmissionSpec#signal.",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 114
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/EmissionSpec#",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 115
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/impl#[EmissionSpec]new().",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 115
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/EmissionSpec#signal.",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 115
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/EmissionSpec#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 169
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/EmissionSpec#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 182
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/EmissionSpec#",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 302
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/EmissionSpec#signal.",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 335
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/EmissionSpec#signal.",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 346
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/EmissionSpec#",
+"file": "crates/conductor-timeline/src/convert.rs",
+"line": 31
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/EmissionSpec#",
+"file": "crates/conductor-timeline/src/convert.rs",
+"line": 45
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/EmissionSpec#",
+"file": "crates/conductor-timeline/src/convert.rs",
+"line": 50
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT from_crate, to_crate FROM crate_edges WHERE from_crate = 'conductor-timeline' OR to_crate = 'conductor-timeline' ORDER BY from_crate, to_crate;",
+"rows": 2,
+"result": [
+{
+"from_crate": "conductor-run",
+"to_crate": "conductor-timeline"
+},
+{
+"from_crate": "conductor-timeline",
+"to_crate": "conductor-core"
+}
+],
+"db_state": "fresh"
+}
+]

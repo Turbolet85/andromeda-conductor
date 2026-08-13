@@ -15,12 +15,20 @@ jitter_ms = 50
 [[phases]]
 name = "warn-logs"   # SeverityNumber < 17 — below the hard-signal boundary
 gap_ms = 2000
-emission = { signal = "logs" }
+[phases.emission]
+signal = "logs"
+kind = "severity"
+occurrences = 4
+severities = [13, 16]   # WARN..WARN4, the high side of the boundary
 
 [[phases]]
 name = "error-logs"   # SeverityNumber >= 17 (ERROR/FATAL) — contributes to the hard-signal layer
 gap_ms = 2000
-emission = { signal = "logs" }
+[phases.emission]
+signal = "logs"
+kind = "severity"
+occurrences = 4
+severities = [17, 21]   # ERROR and FATAL, the error-grade side
 
 # ERROR/FATAL (>=17) contributes to the hard-signal layer.
 [[expected]]

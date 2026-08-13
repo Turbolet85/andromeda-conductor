@@ -13,9 +13,13 @@
 //! the `Ok` path — never an error, because "we drove the SUT too hard" is an outcome about the run,
 //! not a Conductor failure (arch §Cross-cutting Patterns "Verdict/error wall").
 //!
-//! Only the duration term is asserted. The rate terms are recorded but **not derivable**: the
-//! committed model carries no rate or occurrence-count field, so nothing could honestly compare
-//! against them. That gap is stated in the artifact and owed to the per-phase emission dispatcher.
+//! Only the duration term is asserted. The rate terms are now **derivable but not yet asserted**:
+//! `EmissionSpec::occurrences` (the per-phase emission dispatcher) supplies the occurrence count the
+//! model previously lacked, so a rate CAN be computed per phase. Turning that into a gate is a
+//! separate change with its own blast radius — it would re-scope `check_load_envelope` from total
+//! duration to emitting-phase duration and retire both exemptions, which the artifact records as the
+//! intended end state. Until then the model's per-phase occurrence bound is what keeps an absurd
+//! declared rate unexpressible, and this gap is stated rather than silently widened.
 
 use std::collections::BTreeSet;
 use std::path::{Path, PathBuf};
@@ -42,13 +46,13 @@ pub struct LoadEnvelope {
     pub exempt: Vec<Exemption>,
 }
 
-/// The envelope's bounds. Two are declared-only; one is the assertable proxy.
+/// The envelope's bounds. Two are derivable-but-unasserted; one is the assertable proxy.
 #[derive(Debug, Clone, PartialEq, Eq, Deserialize)]
 pub struct EnvelopeTerms {
-    /// Sustained emission rate the SUT tolerates. **Declared, not derivable** — the scenario model
-    /// has no rate field, so no gate reads this today.
+    /// Sustained emission rate the SUT tolerates. **Derivable, not yet asserted** — the model now
+    /// carries `EmissionSpec::occurrences`, so a per-phase rate is computable; no gate reads it yet.
     pub max_sustained_rate_spans_per_s: u64,
-    /// How long the SUT tolerates that rate. **Declared, not derivable** for the same reason.
+    /// How long the SUT tolerates that rate. **Derivable, not yet asserted** for the same reason.
     pub max_sustained_storm_ms: u64,
     /// The assertable proxy: a scenario's total duration, the sum of its per-phase `gap_ms`. A proxy
     /// because elapsed time is not storm time — hence [`LoadEnvelope::exempt`].

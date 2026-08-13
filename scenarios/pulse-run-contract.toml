@@ -33,14 +33,24 @@ jitter_ms = 50
 [[phases]]
 name = "baseline-warm-up"   # benign traffic carrying the service out of Pulse's baseline bootstrap
 gap_ms = 45000
+[phases.emission]
+kind = "plain"
+occurrences = 30   # sustained benign traffic — what establishes the baseline the storm departs from
 
 [[phases]]
 name = "identical-fingerprint-storm"   # the counted storm, now against an established baseline
 gap_ms = 15000
+[phases.emission]
+kind = "exception"
+occurrences = 12
+variants = ["identical"]
 
 [[phases]]
 name = "digest-window"   # hold while L3's 20-60s digest cadence and L4 behind it produce the incident
 gap_ms = 60000
+[phases.emission]
+kind = "plain"
+occurrences = 0   # the hold is deliberate quiet: the pipeline works on what the storm already delivered
 
 # P-073 — under deterministic L4 an incident forms reproducibly. With the mode off this same stimulus
 # is a coin flip on the 3B model, which is exactly why the mode is a launch condition and not a detail.

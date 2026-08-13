@@ -5,8 +5,8 @@
 //! order, and the scenario's `jitter_ms` becomes the timeline's symmetric jitter bound. Conversion
 //! is infallible: garde guarantees a non-empty, in-bounds phase list before this runs, and an empty
 //! timeline is still caught downstream by [`run_timeline`](crate::run_timeline). The per-phase
-//! emission descriptor is not consumed here (the timeline carries timing only); it rides in the
-//! config model for the Epoch-3 emission seam.
+//! emission COUNT crosses over (the scheduler paces that many hook calls across the gap); the
+//! emission SHAPE does not — it stays in the config model, and the dispatcher reads it there.
 
 use std::time::Duration;
 
@@ -19,7 +19,13 @@ impl From<&Scenario> for PhaseTimeline {
         let phases = scenario
             .phases
             .iter()
-            .map(|spec| Phase::new(spec.name.clone(), Duration::from_millis(spec.gap_ms)))
+            .map(|spec| {
+                Phase::emitting(
+                    spec.name.clone(),
+                    Duration::from_millis(spec.gap_ms),
+                    spec.emission.occurrences,
+                )
+            })
             .collect();
         PhaseTimeline::new(phases, Duration::from_millis(scenario.jitter_ms))
     }

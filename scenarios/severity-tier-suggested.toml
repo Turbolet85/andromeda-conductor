@@ -29,6 +29,10 @@ jitter_ms = 50
 [[phases]]
 name = "medium-cue-error-rate"   # an error-rate-spike attention cue at the Suggested-hint magnitude
 gap_ms = 4000
+[phases.emission]
+kind = "error"
+occurrences = 12
+error_percent = 40   # a partial error rate — the medium-confidence magnitude
 
 # P-019/P-020 — the model surfaces the medium-confidence cue at the Suggested tier. Calibration-region.
 [[expected]]

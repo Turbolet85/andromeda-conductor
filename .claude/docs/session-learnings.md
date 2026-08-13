@@ -272,6 +272,8 @@ Conductor pins **garde 0.22.1**, not the arch's original 0.23.0: `garde_derive 0
 - `derive` is **not** a default feature — the edge must be `garde = { workspace = true, features = ["derive"] }`, or `#[derive(Validate)]` / the `#[garde(...)]` helper attribute won't resolve ("cannot find derive macro `Validate`").
 - `Validate::validate(&self)` takes **no** context argument (returns `Result<(), garde::Report>`); call `.validate()`, not `.validate(&())`, for the default `()` context. The error type is `garde::Report`, bridged into `CoreError` via `#[from]`.
 - `#[garde(custom(fn))]` is **field-level only** — there is no container/struct-level `custom` in 0.22.1 (it errors "unrecognized attribute"). A whole-list invariant rides on the one field it concerns (e.g. no-duplicate-P-IDs on `p_ids`); invariants spanning *distinct* fields (p50≤p95≤p99, severity-mix sums — the Epoch-2 emission spec) need garde's `Context` pattern or a manual `Validate` impl.
+  - **Extended 2026-08-11 (faithful-emission-dispatcher): the predicted `Context` pattern was not needed — model the co-varying fields into ONE field first.** The emission spec's cross-field invariants (p50≤p95≤p99, severity ∈ 1..=24, breathing amplitude < center, ≥2 distinct topology services) all live inside a single `EmissionShape` enum whose variants own their own parameters, so one field-level `#[garde(custom)]` on that field validates every one of them. Reach for `Context` only when the invariant genuinely spans fields that cannot be co-located — restructuring the data is cheaper than threading a context, and threading one would have forced it onto `PId`/`PhaseSpec`/`EmissionSpec` and changed their public API.
+  - **`#[garde(skip)]` on a nested struct is a silent hole, not a no-op.** garde never descends into a skipped field, so the nested type's own rules — however carefully written — never execute. `PhaseSpec.emission` was `skip` from the config-model chunk until this one, meaning every rule the specs claimed for the emission spec was unreachable. Use `dive`; a rule that cannot run is worse than an absent one, because the spec reads as covered.
 
 Applies to every future garde validation surface (Epoch-2 `Scenario-config model` especially). See arch §Established Decisions [Validation Library] for the pinned-version decision.
 
@@ -295,6 +297,28 @@ same wrap surfaced that the playbook's own deferred-span entries promised `db.in
 spans would land "with the Epoch-8 cli/timeline caller" — Epoch 8 completed and they never did, because that
 deferral lived in a playbook `note` rather than on a route entry. A `note` explains a dismissal; it does not
 own the work.
+
+## 2026-08-11 — Emission timing is load-bearing: a phase's traffic must land inside its own window
+
+Conductor drives a SUT whose detectors are **windowed** — Pulse's L2 retry-storm cue needs >=5 identical
+fingerprints inside a rolling 30s, P-015 needs a >=20s silence gap, P-013 learns a quiet *pattern*. A harness
+that emits the right SHAPE at the wrong TIME therefore proves nothing, and the failure is invisible from the
+emit seam: every primitive's own tests pass, because each builds a correct payload.
+
+The shipped `coarse_emit` had exactly this defect. `run_timeline` slept every phase gap and RETURNED, and only
+then did emission run — so `fingerprint-storm` produced ~24s of silence followed by two spans emitted
+back-to-back, and no windowed detector could ever have fired. The scenario's declared timing was computed,
+elapsed, and then discarded.
+
+The fix is structural, not a tuning knob: the scheduler drives emission through a caller-supplied per-boundary
+hook, and a phase's declared occurrences are paced ACROSS that phase's own jittered gap. Two properties make it
+safe — total elapsed per phase is unchanged (the seeded jitter draw stays one per phase, so the transition
+stream and its determinism goldens are byte-identical), and the timeline crate gains no dependency on the emit
+seam (the hook is generic). A phase declaring zero occurrences is a real silence window: the gap still elapses
+and nothing is sent, which is how the activity-floor and restart families express quiet without a fault helper.
+
+Corollary for any future emission work: if you are ever tempted to collect a stream and flush it after the
+timing loop, the SUT sees one burst. Emit at the boundary.
 
 ## Entry format
 

@@ -28,11 +28,19 @@ jitter_ms = 50
 [[phases]]
 name = "emit-pii-spans"   # PII embedded across span attributes (P-035 excerpts / P-047 categories)
 gap_ms = 2000
+[phases.emission]
+kind = "pii"
+occurrences = 2
+categories = ["email", "jwt", "bearer", "api_key", "credit_card", "ssn", "secret_key_value"]
 
 [[phases]]
 name = "emit-pii-logs"   # the same categories across log records (P-047 / P-048 corpus storage)
 gap_ms = 2000
-emission = { signal = "logs" }
+[phases.emission]
+signal = "logs"
+kind = "pii"
+occurrences = 2
+categories = ["email", "jwt", "bearer", "api_key", "credit_card", "ssn", "secret_key_value"]
 
 # P-047 / P-048 — the raw seeded values are scrubbed: their stable category sentinels are ABSENT from the
 # read-back (Report excerpts + corpus). Each sentinel is a distinct token, so no Absent/Contains conflict.

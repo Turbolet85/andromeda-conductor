@@ -24,10 +24,26 @@ jitter_ms = 50
 [[phases]]
 name = "baseline"
 gap_ms = 90000   # 90s — converge the per-operation latency percentile baseline (P-011)
+[phases.emission]
+kind = "latency"
+occurrences = 3
+operation = "checkout"
+p50_ms = 100
+p95_ms = 400
+p99_ms = 800
+samples = 60   # 3 x 60 clears the P-011 >=50-sample exclusion floor
 
 [[phases]]
 name = "ramp"
 gap_ms = 90000   # 90s at 3x p99 — exceeds the 60s persistence threshold (P-012)
+[phases.emission]
+kind = "latency"
+occurrences = 3
+operation = "checkout"
+p50_ms = 300
+p95_ms = 1200
+p99_ms = 2400   # 3x the baseline p99 — the regression magnitude
+samples = 60
 
 # P-011 — the latency baseline accumulated past its >=50-sample floor (the sample-count floor).
 [[expected]]

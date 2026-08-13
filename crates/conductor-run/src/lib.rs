@@ -3,11 +3,11 @@
 //! Drives one scenario (or a suite) to its [`RunRecord`]s. The MCP preflight gate is the pivot: when
 //! the read-back path is unreachable or not ready, the scenario short-circuits to a `Blocked` record
 //! (never a silent downgrade — arch §Read-Back Dependency Posture). On a ready gate it drives the
-//! seeded timeline, coarse-emits per phase signal, reads back, and classifies. Both `conductor-cli`
-//! (the release gate) and `conductor-tauri` (the GUI) call this identically — the "headless-drivable
-//! core, thin shells" split (arch §Design Philosophy). The faithful per-scenario emission + per-check
-//! read-back extraction are Epoch-10 ("Live-Pulse E2E proof"); here they are coarse (the CI-tested
-//! spine is the Blocked path).
+//! seeded timeline with the per-phase [`dispatch`]er attached, so each phase's declared emission
+//! shape reaches the wire inside that phase's own window, then reads back and classifies. Both
+//! `conductor-cli` (the release gate) and `conductor-tauri` (the GUI) call this identically — the
+//! "headless-drivable core, thin shells" split (arch §Design Philosophy). The per-check read-back
+//! extraction is still coarse (the CI-tested spine is the Blocked path).
 //!
 //! The resolver is generic ([`execute_scenario`]`<R: PauseResolver>`) — the CLI passes its interactive
 //! `CliResolver`, the GUI the core [`HeadlessResolver`] — never a trait object
@@ -22,16 +22,18 @@ use serde::Serialize;
 
 use conductor_core::{
     EnvelopeStatus, HoldPoint, LoadEnvelope, PauseResolver, ReportState, RunContract,
-    RunContractStatus, RunRecord, Scenario, Signal, Verdict, now_rfc3339, redact_value,
-    resolve_hold, resolve_under,
+    RunContractStatus, RunRecord, Scenario, Verdict, now_rfc3339, redact_value, resolve_hold,
+    resolve_under,
 };
 use conductor_emit::{
-    DEFAULT_OTLP_ENDPOINT, DEFAULT_SERVICE_NAME, ExceptionSpec, Frame, LogsEmitter, Severity,
-    TraceEmitter, exception_trace_request, fingerprint, probe_egress, severity_logs_request,
-    trace_request,
+    DEFAULT_OTLP_ENDPOINT, DEFAULT_SERVICE_NAME, ExceptionSpec, Frame, TraceEmitter,
+    exception_trace_request, fingerprint, probe_egress, trace_request,
 };
 use conductor_report::{JournalWriter, RunReport, RunsDb};
-use conductor_timeline::{PhaseTimeline, PhaseTransition, run_timeline};
+use conductor_timeline::{PhaseTimeline, run_timeline_with};
+
+mod dispatch;
+pub use dispatch::{DispatchError, Dispatcher};
 use conductor_verify::{
     CanaryMarker, CanaryOutcome, CanaryPoll, ContractManifest, ReadbackClient, ReadyState,
     ToolPresence, evaluate_check, run_preflight,
@@ -289,8 +291,12 @@ pub async fn execute_scenario<R: PauseResolver>(
     let emitted_ms = now_ms();
     let journal_emitted_at = now_rfc3339();
     let timeline = PhaseTimeline::from(scenario);
-    let transitions = run_timeline(&timeline, scenario.seed).await.context("timeline scheduling")?;
-    coarse_emit(scenario, &transitions).await?;
+    let mut dispatcher = Dispatcher::connect(scenario, DEFAULT_OTLP_ENDPOINT)
+        .await
+        .context("OTLP emission egress")?;
+    run_timeline_with(&timeline, scenario.seed, async |point| dispatcher.dispatch(point).await)
+        .await
+        .context("timeline scheduling")?;
 
     // Coarse read-back: the faithful per-check observed-extraction is the Epoch-10 bridge.
     let observed = match client.query_incident_list(None).await {
@@ -334,33 +340,6 @@ pub async fn execute_scenario<R: PauseResolver>(
         read_back_observed_at,
         Vec::new(),
     ))
-}
-
-/// Emit one coarse OTLP signal per phase boundary — the Epoch-10 proof makes this scenario-faithful.
-async fn coarse_emit(scenario: &Scenario, transitions: &[PhaseTransition]) -> anyhow::Result<()> {
-    let mut traces = TraceEmitter::connect(DEFAULT_OTLP_ENDPOINT).await?;
-    let mut logs: Option<LogsEmitter> = None;
-    for transition in transitions {
-        let signal = scenario
-            .phases
-            .get(transition.index)
-            .map(|p| p.emission.signal)
-            .unwrap_or(Signal::Traces);
-        match signal {
-            Signal::Logs => {
-                let emitter = match logs.as_mut() {
-                    Some(emitter) => emitter,
-                    None => logs.insert(LogsEmitter::connect(DEFAULT_OTLP_ENDPOINT).await?),
-                };
-                let severity = Severity::new(9).expect("9 is a valid SeverityNumber");
-                emitter.export(severity_logs_request(DEFAULT_SERVICE_NAME, &[severity])).await?;
-            }
-            Signal::Traces | Signal::Metrics => {
-                traces.export(trace_request(DEFAULT_SERVICE_NAME, &transition.name)).await?;
-            }
-        }
-    }
-    Ok(())
 }
 
 /// An operator-checklist / declare-only scenario yields a verdict-less `ManualCheck` record

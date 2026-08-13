@@ -639,8 +639,12 @@ dependencies = [
  "conductor-report",
  "conductor-timeline",
  "conductor-verify",
+ "opentelemetry-proto",
  "serde",
+ "thiserror 2.0.18",
  "tokio",
+ "tokio-stream",
+ "tonic",
  "tracing",
 ]
 
@@ -669,6 +673,7 @@ dependencies = [
  "rand_chacha",
  "rand_core",
  "rstest",
+ "serde_json",
  "thiserror 2.0.18",
  "tokio",
  "tracing",

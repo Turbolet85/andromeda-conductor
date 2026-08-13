@@ -26,7 +26,8 @@ _Extracted from `.andromeda/architecture.md` §Conventions + §Data model conven
 - The verdict/error wall: `enum Verdict { Pass, Fail, CalibrationRegion }` and `enum ReportState { Pass, Fail, ManualCheck, KnownResidual, Blocked }` are returned as `Ok(...)`; `Result::Err` means a harness fault (config parse, transport down, MCP unreachable). `tonic::Status` codes + MCP error responses are first-class verification inputs, never panics.
 
 ## Config conventions
-- Declarative scenario config (no DSL), serde-deserialized + garde-validated at load, co-located with the serde structs in their owning seam crate. Durations non-negative; error fractions ∈ [0,1]; ramp factors sane; p50≤p95≤p99; severity-mix sums.
+- Declarative scenario config (no DSL), serde-deserialized + garde-validated at load, co-located with the serde structs in their owning seam crate, diving into nested spec structs rather than skipping them. Durations non-negative; a bounded error fraction (shipped as an integer `error_percent` ∈ 0..=100); bounded per-phase `occurrences`; ramp factors sane; p50≤p95≤p99; severity-mix sums.
+- A phase's emission shape is declared data — `EmissionSpec { signal, occurrences, shape }` with a `kind` discriminator selecting its emit-primitive family; `occurrences: 0` is a deliberate silence window, and the dispatcher paces a phase's emissions across that phase's own gap.
 - Conductor config handles live under the reserved `CONDUCTOR_*` env namespace; precedence is files over env defaults, CLI flags over env.
 
 ## Logging

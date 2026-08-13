@@ -29,22 +29,40 @@ jitter_ms = 50
 [[phases]]
 name = "trigger-error-spike"   # establish an active incident (a sustained error-rate spike)
 gap_ms = 5000
+[phases.emission]
+kind = "exception"
+occurrences = 8   # past the storm floor so an incident actually forms
+variants = ["identical"]
 
 [[phases]]
 name = "sustain-10min"   # P-059: a sustained incident accrues multiple interpretation updates over its lifecycle
 gap_ms = 600000
+[phases.emission]
+kind = "exception"
+occurrences = 60
+variants = ["identical"]
 
 [[phases]]
 name = "cease-signal"   # stop emitting the underlying signal (the abrupt-silence lever)
 gap_ms = 1000
+[phases.emission]
+kind = "plain"
+occurrences = 0
 
 [[phases]]
 name = "wait-auto-resolve-120s"   # 120s with no re-emission -> P-022 transitions the incident to Resolved
 gap_ms = 120000
+[phases.emission]
+kind = "plain"
+occurrences = 0   # the silence IS the auto-resolve condition
 
 [[phases]]
 name = "retrigger-same-fp"   # re-emit the same fingerprint -> a NEW incident, NOT a reopen of the Resolved one
 gap_ms = 5000
+[phases.emission]
+kind = "exception"
+occurrences = 8
+variants = ["identical"]
 
 # P-022 — the incident auto-transitions to Resolved after the 120s no-signal window (deterministic timing).
 [[expected]]

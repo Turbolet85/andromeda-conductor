@@ -12,11 +12,16 @@ conductor-emit.workspace = true
 conductor-verify.workspace = true
 conductor-report.workspace = true
 anyhow.workspace = true
+thiserror.workspace = true
 tracing.workspace = true
 serde = { workspace = true }
 # the run contract's warm-up window paces its pre-roll emissions (conductor-core::RunContract)
 tokio = { workspace = true, features = ["time"] }
 
 [dev-dependencies]
-tokio = { workspace = true, features = ["macros", "rt"] }
+tokio = { workspace = true, features = ["macros", "rt", "net", "test-util"] }
 assert_fs.workspace = true
+# the loopback OTLP stub the dispatcher's per-family wire assertions capture against (test-plan §2)
+opentelemetry-proto.workspace = true
+tonic.workspace = true
+tokio-stream = { version = "0.1", features = ["net"] }
