@@ -639,6 +639,7 @@ dependencies = [
  "conductor-report",
  "conductor-timeline",
  "conductor-verify",
+ "insta",
  "opentelemetry-proto",
  "serde",
  "thiserror 2.0.18",

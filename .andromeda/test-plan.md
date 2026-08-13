@@ -388,7 +388,7 @@ _[ALL tiers]_
 | Randomized data | proptest 1.9.0 strategies with seed control; counterexamples persisted to `proptest-regressions/` | seeded per test, replayed deterministically |
 | Synthetic telemetry stream | seeded `conductor-timeline` generator (`#[fixture]`); same scenario+seed ⇒ same stream shape | seeded per test |
 | Time-sensitive data | tokio `start_paused = true` + `tokio::time::advance` (scheduling only); journal stamps from `std::time::SystemTime` | injected per test |
-| Golden artifacts | insta 1.46.1 JSON snapshots of the Run-report envelope + JSONL journal (redacting `run_id`/`journal_emitted_at`/`read_back_observed_at`) | committed; CI fail-don't-write |
+| Golden artifacts | insta snapshots in two families: the **envelope/journal** goldens (Run-report envelope + JSONL journal, redacting `run_id`/`journal_emitted_at`/`read_back_observed_at`) and the **seeded stream** goldens committed per-crate under `<crate>/tests/snapshots/`, one file per test-file family × seed (`replay__*` transitions · `pacing__*` emission stream · `dispatch_wire__*` dispatched-wire projection). Stream goldens carry no wall-clock field to redact — the dispatch-tier projection EXCLUDES every `*_time_unix_nano` rather than masking it | committed; CI fail-don't-write (never `cargo insta review`) |
 
 **Self-bootstrapping requirement:**
 - Tests MUST seed their own data via the seeded `conductor-timeline` generator and rstest fixtures — NO "developer pre-populates `runs.db`" (test-scope Sec 3: "no developer-seeded DB").

@@ -513,15 +513,17 @@ mod tests {
         Scenario::from_toml_str(&toml).expect("fixture scenario validates")
     }
 
-    fn test_envelope(ceiling_ms: u64, exempt: &[(&str, &str)]) -> LoadEnvelope {
+    /// `storm_ms` drives the asserted per-phase sustained-storm window; `named_fixture` builds a
+    /// single emitting phase, so its gap is the storm.
+    fn test_envelope(storm_ms: u64, exempt: &[(&str, &str)]) -> LoadEnvelope {
         LoadEnvelope {
             sut_version: "v0.3.0".to_string(),
             captured_at: "2026-08-09".to_string(),
             provenance: "test".to_string(),
             envelope: conductor_core::EnvelopeTerms {
                 max_sustained_rate_spans_per_s: 10_000,
-                max_sustained_storm_ms: 600_000,
-                max_scenario_duration_ms: ceiling_ms,
+                max_sustained_storm_ms: storm_ms,
+                max_scenario_duration_ms: 600_000,
             },
             exempt: exempt
                 .iter()

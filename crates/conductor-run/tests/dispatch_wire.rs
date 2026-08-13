@@ -102,6 +102,56 @@ fn all_spans(reqs: &[ExportTraceServiceRequest]) -> Vec<opentelemetry_proto::ton
         .collect()
 }
 
+fn hex(bytes: &[u8]) -> String {
+    bytes.iter().map(|b| format!("{b:02x}")).collect()
+}
+
+/// One dispatched span reduced to identity, linkage and outcome. Every `*_time_unix_nano` field is
+/// deliberately absent: those come from `SystemTime::now()`, so the seed governs what is here and
+/// the clock governs what is not (test-plan §7; obs-plan §5).
+#[derive(Debug)]
+#[allow(dead_code)] // read by insta's Debug rendering, never by test code
+struct SpanShape {
+    batch: usize,
+    name: String,
+    trace_id: String,
+    span_id: String,
+    parent_span_id: String,
+    status: i32,
+    events: Vec<String>,
+    attribute_keys: Vec<String>,
+}
+
+/// The captured trace stream as an ordered shape-projection — the golden's subject.
+fn span_shapes(reqs: &[ExportTraceServiceRequest]) -> Vec<SpanShape> {
+    reqs.iter()
+        .enumerate()
+        .flat_map(|(batch, req)| {
+            all_spans(std::slice::from_ref(req)).into_iter().map(move |s| SpanShape {
+                batch,
+                name: s.name.clone(),
+                trace_id: hex(&s.trace_id),
+                span_id: hex(&s.span_id),
+                parent_span_id: hex(&s.parent_span_id),
+                status: s.status.as_ref().map_or(0, |st| st.code),
+                events: s.events.iter().map(|e| e.name.clone()).collect(),
+                attribute_keys: s.attributes.iter().map(|kv| kv.key.clone()).collect(),
+            })
+        })
+        .collect()
+}
+
+/// The committed `fingerprint-storm` fixture — the same run `conductor-timeline`'s pacing golden
+/// freezes one altitude below.
+fn storm_fixture() -> Scenario {
+    let toml = std::fs::read_to_string(concat!(
+        env!("CARGO_MANIFEST_DIR"),
+        "/../../scenarios/fingerprint-storm.toml"
+    ))
+    .expect("fixture readable");
+    Scenario::from_toml_str(&toml).expect("fixture valid")
+}
+
 fn service_names(reqs: &[ExportTraceServiceRequest]) -> Vec<String> {
     reqs.iter()
         .flat_map(|r| r.resource_spans.iter())
@@ -365,4 +415,23 @@ async fn the_same_seed_reproduces_the_same_stream() {
     other.seed = 999;
     let (c, _) = drive_scenario!(other);
     assert_ne!(ids(&a), ids(&c), "a different seed diverges");
+}
+
+/// Freeze what the dispatcher actually puts on the wire for the committed storm fixture. The test
+/// above proves the stream is stable WITHIN a run; this is the on-disk tripwire that catches a
+/// shape→primitive regression ACROSS commits, which no in-run comparison can see.
+#[tokio::test(flavor = "current_thread", start_paused = true)]
+async fn the_committed_storm_fixture_stream_is_frozen() {
+    let scenario = storm_fixture();
+    let (traces, logs) = drive_scenario!(scenario);
+    assert!(logs.is_empty(), "an exception-shaped fixture opens no logs batch");
+    insta::assert_debug_snapshot!("storm_stream_seed_4317017", span_shapes(&traces));
+}
+
+#[tokio::test(flavor = "current_thread", start_paused = true)]
+async fn the_committed_storm_fixture_stream_is_frozen_at_an_alternate_seed() {
+    let mut scenario = storm_fixture();
+    scenario.seed = 7;
+    let (traces, _) = drive_scenario!(scenario);
+    insta::assert_debug_snapshot!("storm_stream_seed_7", span_shapes(&traces));
 }

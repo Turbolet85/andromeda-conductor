@@ -19,32 +19,31 @@ captured_at = "2026-08-09"
 provenance = "intent §Theme 1 F4 — transcribed SUT record, not a Conductor measurement"
 
 [envelope]
-# DECLARED, NOT DERIVABLE. The committed scenario model carries no rate or occurrence-count field
-# (`PhaseSpec` is name + gap_ms + `EmissionSpec{signal}`), so no gate can assert these two terms
-# today — they are recorded so an author sees the real bound, and are owed to the Epoch-2 "Faithful
-# emission dispatcher" entry, which introduces the per-phase shaping term that makes them derivable.
+# THE ASSERTED TERMS, judged PER EMITTING PHASE. `EmissionSpec::occurrences` made both computable:
+# a phase's rate is its occurrences over its gap, and its storm window is that gap. A phase declaring
+# zero occurrences is quiet, not storm, so it is not judged at all.
 max_sustained_rate_spans_per_s = 10000
 max_sustained_storm_ms = 600000
 
-# THE DERIVABLE PROXY — the term `check_load_envelope` actually asserts. A scenario's duration is the
-# sum of its per-phase `gap_ms`, which is committed data. It is a proxy because elapsed time is not
-# storm time: a scenario may sit here legitimately while emitting nothing (see the exemptions).
+# RECORDED, NOT ASSERTED. A scenario's total duration is the sum of its per-phase gaps. It is not a
+# load bound: elapsed time is not storm time, and summing bursts separated by quiet describes no load
+# the SUT ever sees. Kept so an author sees the whole-run scale, and read by the run contract's
+# preflight-budget check.
 max_scenario_duration_ms = 600000
 
-# Exemptions — scenarios over the duration proxy whose time is deliberately IDLE, so they never
-# approach the sustained-storm regime the envelope actually bounds. Held to EXACT-SET equality in
-# both directions by `check_load_envelope`: an exemption whose scenario is now inside the envelope
-# fails as ledger rot, and one naming no catalog scenario fails as a lost subject. It can only
-# shrink under compulsion.
+# Exemptions — scenarios that breach an asserted term for a recorded reason. Held to EXACT-SET
+# equality in both directions by `check_load_envelope`: an exemption whose scenario is now inside the
+# envelope fails as ledger rot, and one naming no catalog scenario fails as a lost subject. It can
+# only shrink under compulsion.
 #
-# Both retire at the Epoch-2 "Faithful emission dispatcher" entry: once per-phase intensity is
-# derivable the gate should assert EMITTING-phase duration, under which each of these passes on its
-# own merits and needs no exemption.
-
-[[exempt]]
-scenario = "activity-floor"
-reason = "50 of its 65 minutes are deliberate quiet gaps (10 + 10 + 30 min); the scenario's whole point is idleness, and P-013 requires the long learned-pattern window"
-
-[[exempt]]
-scenario = "incident-auto-resolution"
-reason = "a 731s lifecycle wait for the P-022 120s auto-resolve plus its observation window; the elapsed time is waiting, not sustained emission"
+# THE LEDGER IS EMPTY. Both prior entries retired at the Epoch-2 "Dispatcher determinism goldens"
+# entry, when the gate moved onto the per-phase sustained terms — every catalog scenario now passes
+# unaided (longest single emitting phase 600s; peak rate 4/s).
+#
+# It retired one entry later than this file predicted, and by a different term. The prediction was
+# that asserting SUMMED emitting-phase duration would suffice; measured, it does not — `activity-floor`
+# sums to 900s of emitting time and `incident-auto-resolution` to 610s, so both would still breach and
+# the summed re-scope would change no verdict. Summing disjoint bursts is not *sustained*:
+# `activity-floor`'s three 300s bursts sit between 10-minute quiets, which is what its own exemption
+# reason called idleness. Bounding the longest single emitting window is what the stall described at
+# the top of this file actually needs.

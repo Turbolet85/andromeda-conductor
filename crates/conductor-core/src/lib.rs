@@ -42,7 +42,7 @@ pub use expected::{ClaimClass, ComparisonKind, ExpectedCheck};
 pub use lamp::Lamp;
 pub use load_envelope::{
     EnvelopeStatus, EnvelopeTerms, Exemption, LoadEnvelope, check_load_envelope,
-    scenario_duration_ms,
+    scenario_duration_ms, sustained_storm_ms,
 };
 pub use obs::{init_observability, mint_run_id, now_rfc3339, ObsSink, ServiceIdentity};
 pub use pause::{Decision, HeadlessResolver, HoldPoint, HoldResolution, PauseResolver, resolve_hold};

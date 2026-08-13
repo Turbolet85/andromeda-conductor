@@ -8,9 +8,11 @@
 
 use std::time::Duration;
 
+use conductor_core::Scenario;
 use conductor_timeline::{
     EmissionPoint, Phase, PhaseTimeline, TimelineError, run_timeline, run_timeline_with,
 };
+use proptest::prelude::*;
 
 #[derive(Debug, thiserror::Error)]
 #[error("hook refused")]
@@ -18,6 +20,20 @@ struct HookRefused;
 
 fn timeline(phases: Vec<Phase>) -> PhaseTimeline {
     PhaseTimeline::new(phases, Duration::ZERO)
+}
+
+/// The committed `fingerprint-storm` fixture as a runtime timeline, plus its declared seed. Read
+/// through the same parse → convert pipeline `replay.rs` freezes the transition stream through, so
+/// the two goldens describe the same run from different altitudes.
+fn fixture_timeline() -> (PhaseTimeline, u64) {
+    let toml = std::fs::read_to_string(concat!(
+        env!("CARGO_MANIFEST_DIR"),
+        "/../../scenarios/fingerprint-storm.toml"
+    ))
+    .expect("fixture readable");
+    let scenario = Scenario::from_toml_str(&toml).expect("fixture valid");
+    let seed = scenario.seed;
+    (PhaseTimeline::from(&scenario), seed)
 }
 
 /// Each emission stamped with the virtual millisecond it fired at.
@@ -116,4 +132,92 @@ async fn a_failing_hook_surfaces_as_a_harness_fault_naming_its_phase() {
         other => panic!("expected an Emission fault, got {other:?}"),
     }
     assert_eq!(calls, 2, "the run stops at the failing emission");
+}
+
+/// Ties the emission golden to `replay.rs`'s transition golden: they describe ONE run, so a phase's
+/// last emission sits on that phase's reported boundary — within the timer's resolution.
+///
+/// `paced_slices` divides a gap into sub-millisecond slices, and `tokio::time` rounds each sleep up
+/// to its 1ms tick, so a phase's emissions consume up to one extra millisecond EACH beyond the gap
+/// and the excess carries forward. The reported `elapsed_ms` is unaffected (it sums the jittered
+/// gaps, never the clock), so the two streams drift apart by a bounded amount rather than disagreeing.
+/// Asserting that bound is what catches a real pacing regression; asserting equality would be false.
+#[tokio::test(flavor = "current_thread", start_paused = true)]
+async fn each_phase_last_emission_sits_on_its_boundary_within_timer_resolution() {
+    let (tl, seed) = fixture_timeline();
+    let transitions = run_timeline(&tl, seed).await.expect("non-empty timeline");
+    let stream = stamped(&tl, seed).await;
+
+    let mut emissions_so_far = 0u128;
+    for transition in &transitions {
+        emissions_so_far += u128::from(tl.phases[transition.index].emissions);
+        let last = stream
+            .iter()
+            .filter(|(p, _)| p.phase_index == transition.index)
+            .map(|(_, ms)| *ms)
+            .max()
+            .expect("every phase in this fixture emits");
+
+        assert!(
+            last >= transition.elapsed_ms,
+            "phase {} last emission {last} precedes its boundary {}",
+            transition.index,
+            transition.elapsed_ms
+        );
+        assert!(
+            last <= transition.elapsed_ms + emissions_so_far,
+            "phase {} overshoot {} exceeds one tick per emission so far ({emissions_so_far})",
+            transition.index,
+            last - transition.elapsed_ms
+        );
+    }
+}
+
+/// Freeze the absolute emission stream the committed storm fixture produces — the on-disk tripwire
+/// for pacing/ordering drift. `replay.rs` freezes the same run's phase BOUNDARIES; a change that
+/// moves emissions within their windows leaves that golden byte-identical and moves this one.
+#[tokio::test(flavor = "current_thread", start_paused = true)]
+async fn fixture_emission_stream_is_frozen() {
+    let (tl, seed) = fixture_timeline();
+    insta::assert_debug_snapshot!("fixture_emission_stream_seed_4317017", stamped(&tl, seed).await);
+}
+
+#[tokio::test(flavor = "current_thread", start_paused = true)]
+async fn fixture_emission_stream_is_frozen_at_an_alternate_seed() {
+    // A contrasting seed, so seed-SENSITIVITY of the emission stream is pinned too, not just one
+    // shape (the pairing `replay.rs` established for the transition stream).
+    let (tl, _) = fixture_timeline();
+    insta::assert_debug_snapshot!("fixture_emission_stream_seed_7", stamped(&tl, 7).await);
+}
+
+proptest! {
+    /// Generalize the goldens across the seed space: whatever the seed, replaying it reproduces the
+    /// same emission stream. `#[tokio::test]` cannot wrap a `proptest!` block, so each case owns its
+    /// paused runtime and the assertion happens outside the future.
+    #[test]
+    fn the_emission_stream_replays_identically_under_any_seed(seed in any::<u64>()) {
+        let (tl, _) = fixture_timeline();
+        let rt = tokio::runtime::Builder::new_current_thread()
+            .enable_time()
+            .start_paused(true)
+            .build()
+            .expect("paused runtime builds");
+        let first = rt.block_on(stamped(&tl, seed));
+        let second = rt.block_on(stamped(&tl, seed));
+        prop_assert_eq!(first, second, "same timeline + seed must replay one emission stream");
+    }
+
+    /// The declared occurrence total is what fires, for every seed — jitter moves WHEN an emission
+    /// lands, never HOW MANY there are.
+    #[test]
+    fn the_declared_occurrence_total_is_seed_independent(seed in any::<u64>()) {
+        let (tl, _) = fixture_timeline();
+        let rt = tokio::runtime::Builder::new_current_thread()
+            .enable_time()
+            .start_paused(true)
+            .build()
+            .expect("paused runtime builds");
+        let stream = rt.block_on(stamped(&tl, seed));
+        prop_assert_eq!(stream.len() as u64, tl.total_emissions());
+    }
 }

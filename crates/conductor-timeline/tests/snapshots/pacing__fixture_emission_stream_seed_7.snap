@@ -1,0 +1,132 @@
+---
+source: crates/conductor-timeline/tests/pacing.rs
+expression: "stamped(&tl, 7).await"
+---
+[
+    (
+        EmissionPoint {
+            phase_index: 0,
+            occurrence: 0,
+        },
+        2009,
+    ),
+    (
+        EmissionPoint {
+            phase_index: 0,
+            occurrence: 1,
+        },
+        4018,
+    ),
+    (
+        EmissionPoint {
+            phase_index: 0,
+            occurrence: 2,
+        },
+        6027,
+    ),
+    (
+        EmissionPoint {
+            phase_index: 0,
+            occurrence: 3,
+        },
+        8036,
+    ),
+    (
+        EmissionPoint {
+            phase_index: 0,
+            occurrence: 4,
+        },
+        10045,
+    ),
+    (
+        EmissionPoint {
+            phase_index: 0,
+            occurrence: 5,
+        },
+        12054,
+    ),
+    (
+        EmissionPoint {
+            phase_index: 1,
+            occurrence: 0,
+        },
+        13055,
+    ),
+    (
+        EmissionPoint {
+            phase_index: 1,
+            occurrence: 1,
+        },
+        14056,
+    ),
+    (
+        EmissionPoint {
+            phase_index: 1,
+            occurrence: 2,
+        },
+        15057,
+    ),
+    (
+        EmissionPoint {
+            phase_index: 1,
+            occurrence: 3,
+        },
+        16058,
+    ),
+    (
+        EmissionPoint {
+            phase_index: 1,
+            occurrence: 4,
+        },
+        17059,
+    ),
+    (
+        EmissionPoint {
+            phase_index: 1,
+            occurrence: 5,
+        },
+        18060,
+    ),
+    (
+        EmissionPoint {
+            phase_index: 1,
+            occurrence: 6,
+        },
+        19061,
+    ),
+    (
+        EmissionPoint {
+            phase_index: 1,
+            occurrence: 7,
+        },
+        20062,
+    ),
+    (
+        EmissionPoint {
+            phase_index: 1,
+            occurrence: 8,
+        },
+        21063,
+    ),
+    (
+        EmissionPoint {
+            phase_index: 1,
+            occurrence: 9,
+        },
+        22064,
+    ),
+    (
+        EmissionPoint {
+            phase_index: 1,
+            occurrence: 10,
+        },
+        23065,
+    ),
+    (
+        EmissionPoint {
+            phase_index: 1,
+            occurrence: 11,
+        },
+        24066,
+    ),
+]

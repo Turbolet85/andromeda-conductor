@@ -1,0 +1,43 @@
+# security extract
+
+## Relevance
+Partial — the golden/replay test surface is out of domain, but the chunk's `cargo audit` PREREQ and the load-envelope contract/exemption-ledger CARRY are both squarely in-domain.
+
+## Constraints
+- The eleventh `cargo audit` re-check is an **advisory-DATABASE fault**, not a tool fault: remedy is the bounded wait alone — re-run, record the true exit code, and **verify** `cargo deny check advisories bans licenses sources` actually ran green rather than assuming it (per security-plan §Dependency Security, two-fault split).
+- `contracts/pulse-load-envelope.toml` is a registered external-input boundary: after the (a)+(b) re-scope, `LoadEnvelope::validate()` must still reject empty `sut_version`/`captured_at`/`provenance`, non-positive `[envelope]` terms, and any duplicate or reason-less `[[exempt]]` entry; absent/malformed stays a hard harness fault, **never defaulted and never silently widened** (per security-plan §Input Validation, committed SUT-facing manifests row).
+- The envelope manifest resolves from a fixed `default_path()` through `resolve_under` with deliberately **no `CONDUCTOR_*` override handle** — the re-scope must not introduce one, and read faults keep carrying `e.kind()` only, never the path (per security-plan §Input Validation, committed SUT-facing manifests row).
+- Retiring both `[[exempt]]` entries narrows the pinned-exception ledger, which is a tightening, not a widening — the EXACT-SET gate must remain failing-closed in all three directions after the change; a green gate achieved by loosening `validate()` or the ledger semantics is not acceptable (per security-plan §Input Validation, "never silently widened").
+- Committed goldens are cross-host artifacts: they must carry no absolute host path (canonicalized `CONDUCTOR_RUNS_DIR` / `CONDUCTOR_SCENARIOS_DIR` / `ANDROMEDA_PULSE_DATA_DIR`) and no secret-shaped string (per security-plan §Error Handling, run-report artifact sanitization; §Secret Management, no-secrets invariant).
+- If the emission-stream golden requires any new (even dev-) dependency, `Cargo.lock` stays committed and the audit/deny gate must be re-run over the changed tree before the chunk closes (per security-plan §Dependency Security, Pinning + CI integration).
+- Clock-source discipline splits by artifact: the golden freezes virtual-clock (`start_paused`) offsets, while journal/report wall-clock stamps must still come from `std::time` — freezing the emission stream must not migrate a report/journal stamp onto the virtual clock (per security-plan §Security Anti-Patterns → Logging, clock-source bullet).
+
+## Patterns to follow
+- The bounded-wait record shape already used ten times: re-run on the installed tool, capture the byte-identical `duplicate advisory ID: RUSTSEC-2026-0244` + true exit 1, and pair it with the verified-green `cargo deny check` overlap as the standing coverage signal (per security-plan §Dependency Security).
+- The standing-basis check before re-pinning: confirm the audit *surface* is unchanged — `Cargo.lock` diff shows zero new `[[package]]` — rather than asserting a test-only chunk moved nothing (per security-plan §Dependency Security; scope explicitly says verify rather than assume).
+- Manifest loading pattern already shipped in `D:\dev\projects\conductor\crates\conductor-core\src\load_envelope.rs`: `default_path()` → `resolve_under` → `e.kind()`-only read error → explicit `validate()` before use; the re-scope extends the judgement, not the load path (per security-plan §Input Validation).
+- The deny.toml accepted-exceptions mechanism exists for *non-actionable advisories and permissive licenses only* (`number_prefix` RUSTSEC-2025-0119, `Zlib`) — it is not the tool for this DB fault (per security-plan §Dependency Security, Accepted exceptions).
+
+## Anti-patterns to avoid
+- NEVER raise the cargo-audit floor, add a `deny.toml` ignore, or edit CI to get past the RUSTSEC-2026-0244 duplicate-id fault — a floor raise is unexecutable here and would look like compliance while changing nothing (per security-plan §Dependency Security; §Security Anti-Patterns → Universal).
+- NEVER let `Cargo.lock` drift or go uncommitted while touching the workspace — it makes the audit/deny scan non-deterministic (per security-plan §Security Anti-Patterns → Universal).
+- NEVER embed an absolute host path, internal env-handle value, or `std::time` wall-clock stamp inside a committed golden — goldens are shared, agent-parseable committed artifacts (per security-plan §Security Anti-Patterns → Logging).
+
+## Contract bindings
+- **CI security gate ↔ tests §CI Integration:** the audit/deny job lives in the single existing `.github/workflows/ci.yml` pipeline; this chunk records a re-check result and must not modify that workflow (per security-plan §Dependency Security, CI integration).
+- **Committed goldens/fixtures ↔ tests:** fixture hygiene (no host paths, no secret-shaped strings) is enforced in the test-owned snapshot files; Conductor owns no PII, so the usual no-real-PII-in-fixtures binding is trivially satisfied (per security-plan §Threat Model Summary, data classification "PII — none").
+- **Load-envelope exemption ledger ↔ arch §Occupied Resources + `contracts/pulse-load-envelope.toml:40-42`:** the (c) reconcile must land the contract sentence, the arch wording, and `load_envelope.rs` doc comment in the same commit as (a)+(b), since the security boundary description and the enforced boundary must not diverge (per security-plan §Input Validation).
+
+## Acceptance criteria contributions
+- (security) `cargo audit` re-run this chunk with its true exit code recorded, AND `cargo deny check advisories bans licenses sources` observed exit 0 — the overlap verified, not assumed (per security-plan §Dependency Security).
+- (security) No floor raise, no new `deny.toml` ignore, and no `.github/workflows/` edit in this chunk's diff; `Cargo.lock` committed with zero new `[[package]]` entries (per security-plan §Dependency Security; §Security Anti-Patterns → Universal).
+- (security) After the exempt-ledger retirement, `LoadEnvelope::validate()` still rejects empty identity/provenance, non-positive envelope terms, and reason-less/duplicate exemptions, and `check_load_envelope` still fails closed on `unpinned` / `rotted` / `lost_subject` (per security-plan §Input Validation, committed SUT-facing manifests row).
+- (security) Grep of the new + existing committed goldens and the re-scoped envelope code shows no absolute host path, no `CONDUCTOR_*`-derived path value, and no new operator-steerable path override handle (per security-plan §Error Handling, run-report artifact sanitization; §Input Validation, no `CONDUCTOR_*` override).
+
+## Relevant amendment history
+- **2026-08-09-interpretation-correctness-posture** (§Dependency Security) — established the TOOL-fault vs advisory-DATABASE-fault split empirically after RUSTSEC-2026-0244 failed byte-identically on 0.22.1 and 0.22.2; this is the governing precedent for this chunk's PREREQ and the reason the remedy is a bounded wait, not a floor raise.
+- **2026-06-15-dependency-audit-gate** (§Dependency Security, §Bootstrap phases) — reframed the cargo-audit/cargo-deny versions as minimum **floors** with actuals recorded, because these are unlockable external CLI tools; a green run at or above the floor satisfies the gate, so no version escalation is owed here.
+- **2026-08-09-sut-load-envelope** (§Input Validation) — registered `contracts/pulse-load-envelope.toml` as an input boundary with exactly the validation terms this chunk's CARRY edits (positive envelope terms, no duplicate or reason-less exempt entry, fixed path, no `CONDUCTOR_*` override); that row is the thing the (c) reconcile must stay consistent with.
+- **2026-08-10-pulse-run-contract** (§Input Validation) — extended the same committed-manifest row to a third artifact and reaffirmed the "grep the body rather than trust the sidecar" discipline before amending it; relevant if the (c) reconcile touches that row.
+- **2026-06-23-line-oriented-output-rendering** (§Dependency Security) — recorded the two justified `deny.toml` exceptions; noted here only to mark the boundary of that mechanism (non-actionable advisories / permissive licenses), which does not cover this chunk's DB fault.
+- **2026-08-11-faithful-emission-dispatcher** (§Input Validation, §Anti-Patterns Input) — the immediately preceding chunk widened the scenario-config boundary to `[phases.emission]` and mandated `dive` never `skip`; this chunk freezes that dispatcher's output, so the `dive` annotations on `PhaseSpec.emission` and its nested spec structs must not regress even incidentally.

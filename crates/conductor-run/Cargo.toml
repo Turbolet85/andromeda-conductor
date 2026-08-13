@@ -25,3 +25,5 @@ assert_fs.workspace = true
 opentelemetry-proto.workspace = true
 tonic.workspace = true
 tokio-stream = { version = "0.1", features = ["net"] }
+# freezes the dispatched stream's shape-projection (test-plan §7 Golden artifacts)
+insta.workspace = true

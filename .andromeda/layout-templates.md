@@ -185,9 +185,12 @@ $ conductor run error-baseline-spike --seed 424242
 CONDUCTOR  run error-baseline-spike  seed 424242           <- header: bold + ANSI 117 (color-id-cyan map) title; metadata dimmed (ANSI 146)
 preflight  protocol 2024-11-05  tools 4/4  canary ok        <- readiness line; identifiers in ANSI 117; [OK] prefix carries it for NO_COLOR
 
-[ENVIRONMENT-SUSPECT] scenario "…" runs 900s, over the      <- run-level load-envelope caption: printed ONCE per run, above the
-  proven-good envelope ceiling of 600s (Pulse v0.3.0, …)       verdict lines it qualifies; ANSI 246 (Residual-mute reuse, no new
-  — this run's read-back is not evidence about the SUT         entry). A run-level QUALIFIER, not a lamp and not a ReportState:
+[ENVIRONMENT-SUSPECT] scenario "…" phase "…" sustains        <- run-level load-envelope caption: printed ONCE per run, above the
+  emission longer than the proven-good storm window of …s      verdict lines it qualifies; ANSI 246 (Residual-mute reuse, no new
+  (Pulse v0.3.0, …) — this run's read-back is not evidence     entry). Names the breaching EMITTING PHASE and which sustained
+  about the SUT                                                term it left (storm window / sustained rate — the asserted pair;
+                                                               whole-scenario duration is recorded, not asserted).
+                                                               A run-level QUALIFIER, not a lamp and not a ReportState:
                                                                it rides OUTSIDE the lamp column (the `not-conductors` Mode-cell
                                                                precedent) and alters no per-check state. The ASCII bracket label
                                                                is always printed, so it survives NO_COLOR/piping. OMITTED

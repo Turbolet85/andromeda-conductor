@@ -7,19 +7,28 @@
 //! an over-envelope run says nothing about Pulse. This module is the attribution boundary.
 //!
 //! Two surfaces, on different axes. [`check_load_envelope`] is the static gate: every committed
-//! scenario sits inside the envelope's duration term or is an exact-set pinned exemption — a harness
+//! scenario sits inside the envelope's sustained terms or is an exact-set pinned exemption — a harness
 //! fault ([`CoreError::LoadEnvelope`]) when not, mirroring [`check_sut_drift`](crate::check_sut_drift).
 //! [`LoadEnvelope::classify`] is the per-run judgment, returning an [`EnvelopeStatus`] **value** on
 //! the `Ok` path — never an error, because "we drove the SUT too hard" is an outcome about the run,
-//! not a Conductor failure (arch §Cross-cutting Patterns "Verdict/error wall").
+//! not a Conductor failure (arch §Cross-cutting Patterns "Verdict/error wall"). Both read the same
+//! `phase_breach`, so the gate and the run-level caption can never mean different things.
 //!
-//! Only the duration term is asserted. The rate terms are now **derivable but not yet asserted**:
-//! `EmissionSpec::occurrences` (the per-phase emission dispatcher) supplies the occurrence count the
-//! model previously lacked, so a rate CAN be computed per phase. Turning that into a gate is a
-//! separate change with its own blast radius — it would re-scope `check_load_envelope` from total
-//! duration to emitting-phase duration and retire both exemptions, which the artifact records as the
-//! intended end state. Until then the model's per-phase occurrence bound is what keeps an absurd
-//! declared rate unexpressible, and this gap is stated rather than silently widened.
+//! **What is asserted, and why it changed.** The two sustained terms are now the asserted ones,
+//! judged PER EMITTING PHASE: no phase declaring occurrences may run longer than
+//! `max_sustained_storm_ms`, nor emit faster than `max_sustained_rate_spans_per_s`.
+//! `EmissionSpec::occurrences` is what made both computable. Whole-scenario duration is recorded but
+//! no longer asserted.
+//!
+//! The artifact predicted a different landing — that asserting SUMMED emitting-phase duration would
+//! let both exemptions retire on their own merits. Measured across the committed catalog it does not:
+//! `activity-floor` sums to 900s of emitting time and `incident-auto-resolution` to 610s, so both
+//! stay over a 600s ceiling and the summed re-scope changes no verdict. The cause is that summing
+//! disjoint bursts is not *sustained* — `activity-floor`'s three 300s bursts are separated by 10-minute
+//! quiets, which is exactly what its exemption reason said made it idle. Bounding the longest single
+//! emitting window instead matches the stall the envelope actually describes, and under it every
+//! catalog scenario passes unaided (longest emitting phase 600s; peak rate 4/s against 10000/s), so
+//! the exemption ledger is empty rather than merely smaller.
 
 use std::collections::BTreeSet;
 use std::path::{Path, PathBuf};
@@ -46,20 +55,23 @@ pub struct LoadEnvelope {
     pub exempt: Vec<Exemption>,
 }
 
-/// The envelope's bounds. Two are derivable-but-unasserted; one is the assertable proxy.
+/// The envelope's bounds. The two sustained terms are asserted per emitting phase; the whole-scenario
+/// duration is recorded but no longer read by a gate.
 #[derive(Debug, Clone, PartialEq, Eq, Deserialize)]
 pub struct EnvelopeTerms {
-    /// Sustained emission rate the SUT tolerates. **Derivable, not yet asserted** — the model now
-    /// carries `EmissionSpec::occurrences`, so a per-phase rate is computable; no gate reads it yet.
+    /// Sustained emission rate the SUT tolerates. **Asserted** per emitting phase: a phase's rate is
+    /// its `occurrences` over its `gap_ms`, which `EmissionSpec::occurrences` made computable.
     pub max_sustained_rate_spans_per_s: u64,
-    /// How long the SUT tolerates that rate. **Derivable, not yet asserted** for the same reason.
+    /// How long the SUT tolerates that rate. **Asserted** against the longest single emitting phase —
+    /// one continuous window, because a storm interrupted by quiet is not a sustained one.
     pub max_sustained_storm_ms: u64,
-    /// The assertable proxy: a scenario's total duration, the sum of its per-phase `gap_ms`. A proxy
-    /// because elapsed time is not storm time — hence [`LoadEnvelope::exempt`].
+    /// A scenario's total declared duration. **Recorded, not asserted**: elapsed time is not storm
+    /// time, and summing bursts separated by quiet describes no load the SUT ever sees.
     pub max_scenario_duration_ms: u64,
 }
 
-/// One pinned exemption: a scenario over the duration proxy whose time is idle rather than storm.
+/// One pinned exemption: a scenario whose storm bounds are breached for a recorded reason. The
+/// committed ledger is empty — every catalog scenario passes the asserted terms on its own merits.
 #[derive(Debug, Clone, PartialEq, Eq, Deserialize)]
 pub struct Exemption {
     /// The exempt scenario's name, matching its `name` field in `scenarios/*.toml`.
@@ -110,9 +122,69 @@ impl EnvelopeStatus {
 }
 
 /// A scenario's total declared duration: the sum of its per-phase base gaps. Saturating, so a
-/// pathological config cannot wrap (garde already bounds each gap).
+/// pathological config cannot wrap (garde already bounds each gap). Recorded for reporting; the
+/// envelope no longer asserts against it (see [`EnvelopeTerms::max_scenario_duration_ms`]).
 pub fn scenario_duration_ms(scenario: &Scenario) -> u64 {
     scenario.phases.iter().fold(0u64, |acc, p| acc.saturating_add(p.gap_ms))
+}
+
+/// A scenario's sustained-storm window: the longest single EMITTING phase. A phase declaring zero
+/// occurrences is quiet, not storm, so it never contributes — which is why disjoint bursts separated
+/// by quiet do not accumulate into one.
+pub fn sustained_storm_ms(scenario: &Scenario) -> u64 {
+    scenario
+        .phases
+        .iter()
+        .filter(|p| p.emission.occurrences > 0)
+        .map(|p| p.gap_ms)
+        .max()
+        .unwrap_or(0)
+}
+
+/// Which envelope term an emitting phase breaks. Named so the gate and the per-run judgment can
+/// never describe the same breach differently.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum BreachTerm {
+    Storm,
+    Rate,
+}
+
+/// The first emitting phase outside the envelope, in declaration order.
+struct PhaseBreach<'a> {
+    phase: &'a str,
+    term: BreachTerm,
+}
+
+/// Whether an emitting phase sustains more than `max_rate` emissions per second.
+///
+/// Compared as `occurrences * 1000 > max_rate * gap_ms` — exact integer math, no division and no
+/// float, so the bound behaves identically on every host. A zero-length window declaring emissions
+/// is an unbounded rate and always breaches.
+fn phase_rate_exceeds(occurrences: u32, gap_ms: u64, max_rate: u64) -> bool {
+    if gap_ms == 0 {
+        return true;
+    }
+    u64::from(occurrences).saturating_mul(1_000) > max_rate.saturating_mul(gap_ms)
+}
+
+/// The single source of "is this scenario inside the envelope?", shared by [`check_load_envelope`]
+/// and [`LoadEnvelope::classify`] so the static gate and the per-run judgment cannot diverge.
+///
+/// Only emitting phases are judged: a silence window costs elapsed time but places no load.
+fn phase_breach<'a>(terms: &EnvelopeTerms, scenario: &'a Scenario) -> Option<PhaseBreach<'a>> {
+    scenario.phases.iter().filter(|p| p.emission.occurrences > 0).find_map(|p| {
+        if p.gap_ms > terms.max_sustained_storm_ms {
+            Some(PhaseBreach { phase: &p.name, term: BreachTerm::Storm })
+        } else if phase_rate_exceeds(
+            p.emission.occurrences,
+            p.gap_ms,
+            terms.max_sustained_rate_spans_per_s,
+        ) {
+            Some(PhaseBreach { phase: &p.name, term: BreachTerm::Rate })
+        } else {
+            None
+        }
+    })
 }
 
 impl LoadEnvelope {
@@ -144,8 +216,8 @@ impl LoadEnvelope {
         self.exempt.iter().any(|e| e.scenario == scenario_name)
     }
 
-    /// Judge one scenario for a run. An exempt scenario is in-envelope by pin; otherwise its total
-    /// declared duration is compared against the assertable proxy.
+    /// Judge one scenario for a run. An exempt scenario is in-envelope by pin; otherwise each of its
+    /// emitting phases is judged against the sustained-storm and sustained-rate terms.
     ///
     /// Returns a VALUE on the `Ok` path in every case — an envelope breach is an outcome, never a
     /// harness fault.
@@ -153,19 +225,34 @@ impl LoadEnvelope {
         if self.is_exempt(&scenario.name) {
             return EnvelopeStatus::InEnvelope;
         }
-        let duration = scenario_duration_ms(scenario);
-        if duration <= self.envelope.max_scenario_duration_ms {
+        let Some(breach) = phase_breach(&self.envelope, scenario) else {
             return EnvelopeStatus::InEnvelope;
-        }
+        };
         EnvelopeStatus::EnvironmentSuspect(format!(
-            "scenario {:?} runs {}s, over the proven-good envelope ceiling of {}s (Pulse {}, captured {}) — \
-             this run's read-back is not evidence about the SUT",
+            "scenario {:?} phase {:?} {} (Pulse {}, captured {}) — this run's read-back is not \
+             evidence about the SUT",
             scenario.name,
-            duration / 1000,
-            self.envelope.max_scenario_duration_ms / 1000,
+            breach.phase,
+            self.breach_detail(breach.term),
             self.sut_version,
             self.captured_at,
         ))
+    }
+
+    /// The human-readable half of a breach cause: which proven-good bound the phase left, in prose.
+    /// Field names stay out of it — an operator-facing string names bounds, not struct members
+    /// (security-plan §Error Handling).
+    fn breach_detail(&self, term: BreachTerm) -> String {
+        match term {
+            BreachTerm::Storm => format!(
+                "sustains emission longer than the proven-good storm window of {}s",
+                self.envelope.max_sustained_storm_ms / 1000
+            ),
+            BreachTerm::Rate => format!(
+                "emits faster than the proven-good sustained rate of {}/s",
+                self.envelope.max_sustained_rate_spans_per_s
+            ),
+        }
     }
 
     fn validate(&self) -> crate::Result<()> {
@@ -209,23 +296,22 @@ impl LoadEnvelope {
 
 /// Compare the committed scenario catalog against the load envelope.
 ///
-/// `Ok(())` iff every scenario sits inside the envelope's duration term or is pinned exempt
-/// **exactly**. Three conditions each make it a fault, and they are disjoint:
+/// `Ok(())` iff every scenario's emitting phases sit inside the envelope's sustained terms, or the
+/// scenario is pinned exempt **exactly**. Three conditions each make it a fault, and they are
+/// disjoint:
 ///
-/// - a scenario over the duration term that no exemption pins — the catalog drifted out of bounds;
+/// - a scenario over a sustained term that no exemption pins — the catalog drifted out of bounds;
 /// - an exemption whose scenario is now inside the envelope — the ledger rotted and must shrink;
 /// - an exemption naming no scenario in the catalog — the pin lost its subject.
 ///
-/// Only the duration term participates: the rate terms are declared-not-derivable (see the module
-/// doc), so asserting against them would be theatre. The message names scenarios plus the envelope's
-/// release and capture date, so a red gate says which bound moved and what is owed.
+/// Judged per emitting phase, via the same [`phase_breach`] the per-run judgment reads, so the gate
+/// and the caption can never disagree. The message names scenarios plus the envelope's release and
+/// capture date, so a red gate says which bound moved and what is owed.
 pub fn check_load_envelope(envelope: &LoadEnvelope, catalog: &[Scenario]) -> crate::Result<()> {
-    let ceiling = envelope.envelope.max_scenario_duration_ms;
-
     let names: BTreeSet<&str> = catalog.iter().map(|s| s.name.as_str()).collect();
     let over: BTreeSet<&str> = catalog
         .iter()
-        .filter(|s| scenario_duration_ms(s) > ceiling)
+        .filter(|s| phase_breach(&envelope.envelope, s).is_some())
         .map(|s| s.name.as_str())
         .collect();
     let pinned: BTreeSet<&str> = envelope.exempt.iter().map(|e| e.scenario.as_str()).collect();
@@ -251,9 +337,11 @@ fn envelope_message(
     let mut findings = Vec::new();
     if !unpinned.is_empty() {
         findings.push(format!(
-            "{} over the {}s ceiling and not exempt ({}) — shorten them or pin an exemption with its reason",
+            "{} over the proven-good storm bounds ({}s sustained at {}/s) and not exempt ({}) — \
+             shorten the emitting phase, slow it, or pin an exemption with its reason",
             unpinned.len(),
-            envelope.envelope.max_scenario_duration_ms / 1000,
+            envelope.envelope.max_sustained_storm_ms / 1000,
+            envelope.envelope.max_sustained_rate_spans_per_s,
             unpinned.join(", ")
         ));
     }
@@ -307,15 +395,16 @@ mod tests {
             .collect()
     }
 
-    fn envelope(ceiling_ms: u64, exempt: &[(&str, &str)]) -> LoadEnvelope {
+    /// `storm_ms` drives the term the gate actually asserts — the per-phase sustained-storm window.
+    fn envelope(storm_ms: u64, exempt: &[(&str, &str)]) -> LoadEnvelope {
         LoadEnvelope {
             sut_version: "v0.3.0".to_string(),
             captured_at: "2026-08-09".to_string(),
             provenance: "test".to_string(),
             envelope: EnvelopeTerms {
                 max_sustained_rate_spans_per_s: 10_000,
-                max_sustained_storm_ms: 600_000,
-                max_scenario_duration_ms: ceiling_ms,
+                max_sustained_storm_ms: storm_ms,
+                max_scenario_duration_ms: 600_000,
             },
             exempt: exempt
                 .iter()
@@ -327,19 +416,28 @@ mod tests {
         }
     }
 
+    /// Every phase emits once, so a gap alone decides the storm window.
     fn scenario(name: &str, gaps: &[u64]) -> Scenario {
+        paced(name, &gaps.iter().map(|g| (*g, 1)).collect::<Vec<_>>())
+    }
+
+    /// `(gap_ms, occurrences)` per phase — `occurrences: 0` declares a silence window.
+    fn paced(name: &str, phases: &[(u64, u32)]) -> Scenario {
         Scenario {
             name: name.to_string(),
             p_ids: vec![PId("P-001".to_string())],
             seed: 1,
             slo_tier: SloTier::Tier5s,
-            phases: gaps
+            phases: phases
                 .iter()
                 .enumerate()
-                .map(|(i, gap_ms)| PhaseSpec {
+                .map(|(i, (gap_ms, occurrences))| PhaseSpec {
                     name: format!("phase-{i}"),
                     gap_ms: *gap_ms,
-                    emission: EmissionSpec::default(),
+                    emission: EmissionSpec {
+                        occurrences: *occurrences,
+                        ..EmissionSpec::default()
+                    },
                 })
                 .collect(),
             jitter_ms: 0,
@@ -351,12 +449,102 @@ mod tests {
     fn loads_and_bounds_checks_the_committed_envelope() {
         let e = LoadEnvelope::load(&committed_path()).expect("committed envelope loads");
         assert_eq!(e.sut_version, "v0.3.0");
-        assert!(e.envelope.max_scenario_duration_ms > 0);
+        assert!(e.envelope.max_sustained_storm_ms > 0);
+        assert!(e.envelope.max_sustained_rate_spans_per_s > 0);
         assert!(
             !e.provenance.trim().is_empty(),
             "the envelope must say where its terms came from"
         );
-        assert!(e.is_exempt("activity-floor"), "the deliberate-quiet scenario is pinned");
+        assert!(
+            e.exempt.is_empty(),
+            "the ledger retired when the gate moved onto the per-phase sustained terms; a new \
+             entry needs its reason and a note on why the scenario cannot be shortened"
+        );
+    }
+
+    /// The regression guard for the correction this term landed with: three emitting bursts
+    /// separated by quiet are three storms, not one 900s storm. Summing them would put
+    /// `activity-floor` over a ceiling it is comfortably inside.
+    #[test]
+    fn the_storm_window_is_the_longest_emitting_phase_not_the_sum_of_them() {
+        let e = envelope(600_000, &[]);
+        let bursty = paced(
+            "bursty",
+            &[(300_000, 60), (600_000, 0), (300_000, 60), (600_000, 0), (300_000, 60)],
+        );
+        assert_eq!(sustained_storm_ms(&bursty), 300_000);
+        assert_eq!(scenario_duration_ms(&bursty), 2_100_000, "elapsed time is far larger");
+        assert_eq!(e.classify(&bursty), EnvelopeStatus::InEnvelope);
+        check_load_envelope(&e, &[bursty]).expect("disjoint bursts are not one sustained storm");
+    }
+
+    #[test]
+    fn a_silence_phase_is_never_storm_however_long_it_runs() {
+        let e = envelope(1_000, &[]);
+        let quiet = paced("quiet", &[(9_000, 0), (500, 1)]);
+        assert_eq!(sustained_storm_ms(&quiet), 500, "only emitting phases count");
+        assert_eq!(e.classify(&quiet), EnvelopeStatus::InEnvelope);
+    }
+
+    #[test]
+    fn an_emitting_phase_faster_than_the_rate_term_is_a_breach() {
+        let e = envelope(600_000, &[]);
+        // 500 emissions across 1ms is 500_000/s, far over the 10_000/s term.
+        let hot = paced("hot", &[(1, 500)]);
+        let suspect = e.classify(&hot);
+        assert!(suspect.is_suspect(), "an over-rate phase leaves the envelope");
+        let cause = suspect.cause().expect("a suspect run names its cause");
+        assert!(cause.contains("phase-0"), "the offending phase is named: {cause}");
+        assert!(cause.contains("faster than"), "the rate term is named: {cause}");
+    }
+
+    #[test]
+    fn a_zero_length_emitting_phase_is_an_unbounded_rate() {
+        let e = envelope(600_000, &[]);
+        assert!(e.classify(&paced("instant", &[(0, 1)])).is_suspect());
+        assert_eq!(
+            e.classify(&paced("instant-but-quiet", &[(0, 0)])),
+            EnvelopeStatus::InEnvelope,
+            "a zero-length silence declares no load at all"
+        );
+    }
+
+    #[test]
+    fn the_rate_bound_is_exclusive_at_its_boundary() {
+        let e = envelope(600_000, &[]);
+        // 10_000 emissions across exactly 1s is the term itself, not over it.
+        assert_eq!(e.classify(&paced("at", &[(1_000, 10_000)])), EnvelopeStatus::InEnvelope);
+        assert!(e.classify(&paced("over", &[(1_000, 10_001)])).is_suspect());
+    }
+
+    /// The bound is documented where scenario authors actually work, not only in a plan: every
+    /// committed scenario carries the pointer header at its top.
+    #[test]
+    fn every_committed_scenario_points_authors_at_the_envelope() {
+        let files = crate::scenario_files(&scenarios_dir()).expect("the committed catalog enumerates");
+        assert!(!files.is_empty(), "the catalog is not empty");
+        for path in &files {
+            let text = std::fs::read_to_string(path).expect("scenario file reads");
+            let stem = path.file_stem().and_then(|s| s.to_str()).unwrap_or("<scenario>");
+            assert!(
+                text.contains("LOAD ENVELOPE"),
+                "scenario {stem:?} carries no envelope pointer for its author"
+            );
+        }
+    }
+
+    /// One basis, one meaning: the static gate and the per-run judgment must agree scenario by
+    /// scenario, or a run could be gate-green and captioned environment-suspect at once.
+    #[test]
+    fn the_gate_and_the_per_run_judgment_agree_across_the_committed_catalog() {
+        let e = LoadEnvelope::load(&committed_path()).expect("committed envelope loads");
+        for scenario in committed_catalog() {
+            assert_eq!(
+                e.classify(&scenario),
+                EnvelopeStatus::InEnvelope,
+                "the gate passes the committed catalog, so no scenario may classify as suspect"
+            );
+        }
     }
 
     /// The live gate: every committed scenario is inside the committed envelope or exactly pinned.
@@ -396,12 +584,15 @@ mod tests {
 
     #[test]
     fn rejects_a_zero_term() {
-        let mut e = envelope(600_000, &[]);
-        e.envelope.max_scenario_duration_ms = 0;
-        assert!(matches!(e.validate(), Err(CoreError::Config(_))));
-        let mut e = envelope(600_000, &[]);
-        e.envelope.max_sustained_rate_spans_per_s = 0;
-        assert!(matches!(e.validate(), Err(CoreError::Config(_))));
+        for mutate in [
+            |e: &mut LoadEnvelope| e.envelope.max_scenario_duration_ms = 0,
+            |e: &mut LoadEnvelope| e.envelope.max_sustained_rate_spans_per_s = 0,
+            |e: &mut LoadEnvelope| e.envelope.max_sustained_storm_ms = 0,
+        ] {
+            let mut e = envelope(600_000, &[]);
+            mutate(&mut e);
+            assert!(matches!(e.validate(), Err(CoreError::Config(_))));
+        }
     }
 
     #[test]
@@ -490,11 +681,17 @@ mod tests {
         }
     }
 
+    /// A phase sitting exactly ON the storm ceiling is inside it. `incident-auto-resolution`'s
+    /// 600s `sustain-10min` phase is that case in the committed catalog, so an inclusive comparison
+    /// here would red the gate on a scenario the bound admits.
     #[test]
-    fn boundary_duration_is_inside_the_envelope() {
-        let e = envelope(1_000, &[]);
-        assert_eq!(e.classify(&scenario("exact", &[1_000])), EnvelopeStatus::InEnvelope);
-        assert!(e.classify(&scenario("over", &[1_001])).is_suspect());
+    fn a_phase_exactly_at_the_storm_ceiling_is_inside_the_envelope() {
+        let e = envelope(600_000, &[]);
+        assert_eq!(
+            e.classify(&paced("exact", &[(600_000, 60)])),
+            EnvelopeStatus::InEnvelope
+        );
+        assert!(e.classify(&paced("over", &[(600_001, 60)])).is_suspect());
     }
 
     #[test]
