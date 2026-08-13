@@ -1,58 +1,61 @@
 # Session Handoff
 
-**Last Updated:** 2026-08-13T20:12:01Z
-**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **10 ahead** after this chunk commit)
+**Last Updated:** 2026-08-13T23:05:49Z
+**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **11 ahead** after this chunk commit)
 **Status:** clean
-**Last Commit:** 2026-08-13-per-check-read-back-extraction — the harness stops grading a placeholder and starts grading Pulse
+**Last Commit:** 2026-08-13-first-live-green-preflight — the live leg ran, and the mechanism meant to make it green is disproved
 
 ## Position
-- Done: **2026-08-13-per-check-read-back-extraction** — `execute_scenario` no longer substitutes the literal
-  `"incidents-listed"`; each check is graded on a value derived per its `ComparisonKind` from
-  `query_incident_list` + `retrieve_report` + `retrieve_telemetry_slice`, `evaluate_check`/`classify` unchanged.
-  A degraded read-back sets `state = KnownResidual` with the verdict preserved; `fingerprints` is populated.
-- Next: **First live green preflight** — `/andromeda-phase` to promote + plan. It carries the **PREREQ**
-  (`cargo audit`, thirteenth) and a new **CARRY** on the extraction's silent live-failure mode.
+- Done: **2026-08-13-first-live-green-preflight** — the `boot` budget now derives from the run contract in
+  BOTH shells (was 30s in `.sh`, absent in `.ps1`, against a ~135s run), a shape witness logs each read-back
+  tool's observed key set, and the three-arm live probe was re-run and recorded.
+- Next: **Canary fingerprint-feed capture** — `/andromeda-phase` to promote + plan. Newly inserted at the end
+  of Epoch 2 by operator decision; it is the one open Conductor-side piece and needs no incident.
 
 ## Work done
-1 new module (`conductor-verify/src/extract.rs`) + 5 modified files. Gates green in **2 fix-loop iterations**:
-workspace `--profile ci` **574/574** (+16) zero retries, doctest 7 suites ok, `clippy -D warnings` clean,
-`cargo deny check` all four classes ok. Smoke ✓ — `SCENARIO=degraded-mode-report agent-run.sh run` → `[BLOCKED]`
-exit 0, artifacts confirmed fresh against a pre-run UTC marker, leak scan clean with every emitted field
-allowlisted. `Cargo.lock` moved **zero lines**; no new dependency, no new crate, no new crate edge.
+5 files (2 harness scripts + `extract.rs` + `preflight.rs` + `tests/readback.rs`), 0 new files, `Cargo.lock`
+**zero lines**. Gates green in **1 iteration**: workspace `--profile ci` **577/577** (+3) zero retries,
+doctest 7 suites, `clippy -D warnings` clean, `cargo deny` all four classes ok. Smoke ✓ on BOTH shells —
+`boot` exit 1 in 4s/1s with stdout identical modulo `checked_at`, closing a `.sh`/`.ps1` parity gap.
+**Live leg (operator-gated, 3 arms, 135s each):** every arm `ready:false` on the workspace-key precondition
+for its *no-incident* cause; protocol negotiated, all four tools present, `data_dir` redacted, zero panics.
 
 ## Drift resolved
-7 detectors → **1 amendment on 1 master**, **0 escalations**, 0 open. obs-plan ×1 (§1 CP5 row + §4:
-`verify.readback_degraded_mode` → `verify.readback.observe`, the `degraded_mode_requested`/`response_received`
-attributes retired, the allowlist constraint stated, `mcp_method` → `mcp_tool`). Six masters clean. Cascade:
-both obs leaves re-computed and already current; both lateral binds unaffected; cross-master grep for every
-retired wording clean. Full record: `.andromeda/runs/2026-08-13T19-58-45-wrap/fanout-results.md`.
+7 detectors → **5 amendments on 4 masters**, **0 escalations**, 0 open. arch §Occupied Resources (warm-up
+claim measured false) · test-plan §3 `boot` Timeout (two derived budgets) · security-plan §Auth model +
+§Input Validation (MCP_ENABLED locus; shell-side contract readers) · obs-plan §6 (boundary log gains the key
+set). The obs one was **not proposed by its detector** — main raised it under the expected-amendments floor.
+Cascade re-derived 2 leaf bodies; the citation grep hit exactly 1 preserve-verbatim curation home and routed
+it to P3. Full record: `.andromeda/runs/2026-08-13T22-48-53-wrap/fanout-results.md`.
 
 ## Notes
-- **Two spec premises were false, and the SUT's own source is what showed it.** `architecture.md` and
-  `scenarios/degraded-mode-report.toml` both phrase `retrieve_report` as taking `degraded_mode`; Pulse computes
-  it (`parsed_l4.is_none()`) and RETURNS it, taking `{incident_id}` only. `query_incident_list` takes no
-  arguments at all. An existence check passes for both readings — only reading the dispatch separates them.
-- **`retrieve_report` had ZERO workspace call sites** before this chunk despite being pinned in
-  `contracts/mcp-contract.toml` and asserted present at every preflight. This chunk is its first caller.
-- **The extraction is stub-proven only, and its live failure mode is SILENT** — the readers degrade to empty on
-  an unexpected shape rather than erroring, so a live key mismatch reads as an ordinary `Blocked`. Carried onto
-  the next entry with the concrete check (diff one raw response's keys against `extract.rs`'s expectations
-  before trusting any measured verdict).
-- **One plan acceptance criterion was over-strong and deliberately not implemented** ("only the two
-  KNOWN-RESIDUAL declarers can reach `KnownResidual`"): degradation is a property of the SUT's response, not of
-  the scenario, and `architecture.md:60` already scopes it response-side — so no amendment was owed and the
-  deviation record is its complete trail. What is tested is the real risk: an undegraded read-back still renders
-  the declare-only rows `ManualCheck`.
-- **The reconcile caught its own over-correction.** Applying the single proposal verbatim would have left the
-  retired wording standing at the §1 table row, and the first fix then deleted `degraded_mode_response` — an
-  ENVELOPE scenario extra written by the report seam, not a span attribute governed by the tracing allowlist.
-  Both resolved in-pass; the two-record-shapes distinction is now stated inline in obs-plan §4.
-- **`cargo audit` — THIRTEENTH red, silent re-pin** under the L5 ratification (origin
+- **The headline result is a falsification, not a green.** `[incident_formation]`'s warm-up cannot work:
+  Pulse gates cue evaluation on `BootstrapState::Ready`, needing **3,600s per service, wall-clock**
+  (`activity_floor.rs:33`, `cue/evaluate.rs:164`), and `baseline_state` persists 0 rows so every restart
+  resets the anchor. `warmup_ms = 45000` is short by **80×** and unfixable by its own knobs — and the term is
+  declared `check = "asserted"`, so the gate meant to guard it passes it unconditionally.
+- **F10 is still unconfirmed**, for the second attempt. No incident forms under any cwd, so the workspace-key
+  axis stayed unexercised. The three arms did establish cwd-invariance experimentally, and `incidents` holds
+  **0 rows in total** — proving the empty read-back is genuine emptiness, not key filtering.
+- **The `\\?\` question is answered from SOURCE, not measured** (labelled as such in the evidence): the app
+  keys on a canonicalized path (`detect.rs:31` → `digest_runtime.rs:114`), the sidecar on the raw string, so
+  they cannot be byte-equal on Windows from any launch position.
+- **Key-diff: one third retired.** `query_incident_list` matched the committed baseline exactly.
+  `retrieve_report` + `retrieve_telemetry_slice` were never reached (both need a non-empty corpus) — carried
+  onto `fingerprint-storm live proof`, the first corpus-bearing live proof.
+- **The operator recipe is FIVE items, not four** — `ANDROMEDA_PULSE_MCP_ENABLED=true` must be in Conductor's
+  own environment (inherited by the sidecar; `spawn.rs` passes only the data dir). The first arm-1 attempt ran
+  without it and was discarded. Pinned on the next entry, with the `spawn.rs` design question left undecided.
+- **Fix-scope, kept separable:** 3 Pulse-side pieces (bootstrap reachability · workspace-key alignment ·
+  nothing else assumed) + 1 open Conductor-side question (the fingerprint feed), which the new route entry
+  now owns. Piece 2 is invisible until piece 1 lands.
+- **`cargo audit` — FIFTEENTH red, silent re-pin** under the L5 ratification (origin
   `2026-08-08-sut-capability-manifest`). Byte-identical `duplicate advisory ID: RUSTSEC-2026-0244` on 0.22.2,
-  true exit 1 — advisory-DATABASE fault. The standing basis held **stronger than at any prior pin** and was
-  re-verified literally: `Cargo.lock` un-drifted at **zero lines**, `cargo deny` green as the overlap.
-- **Curation:** T1 0 new · **1 in-place extension** (the verify-against-the-artifact entry gained a DIRECTION
-  facet — a spec can name every participant correctly and still invert who supplies the value) · T2 0 · T3 1
-  (git-status counts). Filtered 3. No conflicts, no deferrals.
-- **Verification matrix:** `v2-09` **verified**. Coverage **11/32**.
+  true exit 1 — advisory-DATABASE fault. Basis re-verified literally: `Cargo.lock` un-drifted at **zero
+  lines**, `cargo deny` green as the overlap.
+- **Curation:** T1 0 · **T2 2 in-place extensions** (verification-harness — the warm-up prescription it
+  carried is falsified; testing.md — third occurrence of measure-the-mechanism-before-you-write, sharpened by
+  a `check = "asserted"` term that cannot catch its own falsity) · T3 0. Filtered 3. No conflicts, no deferrals.
+- **Verification matrix:** `v2-10` **declined, stays pooled** (`chunk:null`) — no arm reached `ready:true`;
+  its `notes` gained the evidence pointer. Coverage **11/32**, unchanged by design.
 - **Last failed command:** none.

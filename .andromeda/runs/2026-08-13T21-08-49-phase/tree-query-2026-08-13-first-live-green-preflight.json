@@ -1,0 +1,375 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee LIKE '%run_preflight%' ORDER BY file, line;",
+"rows": 7,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 crate/",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 39
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 canary_gate().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 135
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 crate/",
+"file": "crates/conductor-verify/src/lib.rs",
+"line": 50
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 preflight/preflight_boot().",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 243
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 crate/",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 12
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 drive_with().",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 48
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 a_fingerprint_mismatch_is_blocked().",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 177
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee LIKE '%observe%' ORDER BY file, line;",
+"rows": 38,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 lamp/tests/rec().",
+"file": "crates/conductor-core/src/lamp.rs",
+"line": 83
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 run_contract/tests/loads_and_bounds_checks_the_committed_contract().",
+"file": "crates/conductor-core/src/run_contract.rs",
+"line": 301
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 run_record/impl#[RunRecord]blocked().",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 59
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 run_record/impl#[RunRecord]measured().",
+"file": "crates/conductor-core/src/run_record.rs",
+"line": 95
+},
+{
+"caller": "rust-analyzer cargo conductor-report 0.1.0 db/impl#[RunsDb]insert().",
+"file": "crates/conductor-report/src/db.rs",
+"line": 104
+},
+{
+"caller": "rust-analyzer cargo conductor-report 0.1.0 db/impl#[RunsDb]get().",
+"file": "crates/conductor-report/src/db.rs",
+"line": 165
+},
+{
+"caller": "rust-analyzer cargo conductor-report 0.1.0 db/impl#[RawRow]into_record().",
+"file": "crates/conductor-report/src/db.rs",
+"line": 201
+},
+{
+"caller": "rust-analyzer cargo conductor-report 0.1.0 db/impl#[RawRow]into_record().",
+"file": "crates/conductor-report/src/db.rs",
+"line": 201
+},
+{
+"caller": "rust-analyzer cargo conductor-report 0.1.0 journal/tests/measured().",
+"file": "crates/conductor-report/src/journal.rs",
+"line": 70
+},
+{
+"caller": "rust-analyzer cargo conductor-report 0.1.0 report/scenario_block().",
+"file": "crates/conductor-report/src/report.rs",
+"line": 147
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 crate/",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 39
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 canary_gate().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 122
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 observe_run_contract().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 152
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 execute_scenario().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 301
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 execute_scenario().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 346
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 manual_record().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 395
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 tests/a_measured_row_keeps_its_verdict_when_degradation_overrides_the_state().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 590
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 extract/tests/count_at_least_reads_the_evidence_count_as_a_bare_decimal().",
+"file": "crates/conductor-verify/src/extract.rs",
+"line": 198
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 extract/tests/substring_kinds_read_the_composed_text().",
+"file": "crates/conductor-verify/src/extract.rs",
+"line": 208
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 crate/",
+"file": "crates/conductor-verify/src/lib.rs",
+"line": 46
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 verdict/classify().",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 59
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 verdict/classify().",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 67
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 verdict/tests/observed_and_expected_are_redacted().",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 92
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 verdict/tests/observed_and_expected_are_redacted().",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 93
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 verdict/tests/observed_and_expected_are_redacted().",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 95
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 observed_with_host_path_is_redacted_in_assessment().",
+"file": "crates/conductor-verify/tests/expected_slo.rs",
+"line": 77
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 observed_with_host_path_is_redacted_in_assessment().",
+"file": "crates/conductor-verify/tests/expected_slo.rs",
+"line": 78
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 crate/",
+"file": "crates/conductor-verify/tests/readback.rs",
+"line": 10
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 observe_with().",
+"file": "crates/conductor-verify/tests/readback.rs",
+"line": 20
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 observation_composes_list_fields_and_report_markdown().",
+"file": "crates/conductor-verify/tests/readback.rs",
+"line": 57
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 count_at_least_grades_the_evidence_count_not_the_text().",
+"file": "crates/conductor-verify/tests/readback.rs",
+"line": 72
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 count_at_least_grades_the_evidence_count_not_the_text().",
+"file": "crates/conductor-verify/tests/readback.rs",
+"line": 78
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 count_at_least_grades_the_evidence_count_not_the_text().",
+"file": "crates/conductor-verify/tests/readback.rs",
+"line": 80
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 degraded_report_is_observed_as_the_pre_accepted_residual().",
+"file": "crates/conductor-verify/tests/readback.rs",
+"line": 86
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 empty_corpus_is_never_a_gradable_observation().",
+"file": "crates/conductor-verify/tests/readback.rs",
+"line": 97
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 a_call_error_is_a_typed_value_never_a_panic().",
+"file": "crates/conductor-verify/tests/readback.rs",
+"line": 103
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 a_malformed_result_shape_degrades_to_empty_rather_than_panicking().",
+"file": "crates/conductor-verify/tests/readback.rs",
+"line": 115
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 assessment_carries_observed_expected_and_delta().",
+"file": "crates/conductor-verify/tests/verdict.rs",
+"line": 41
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT symbol, crate, file, def_line FROM symbol WHERE symbol LIKE '%canary%' OR symbol LIKE '%warm%' OR symbol LIKE '%incident_formation%' ORDER BY file, def_line;",
+"rows": 18,
+"result": [
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 run_contract/RunContract#incident_formation.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/run_contract.rs",
+"def_line": 38
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 run_contract/IncidentFormation#warmup_ms.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/run_contract.rs",
+"def_line": 49
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 run_contract/IncidentFormation#warmup_emissions.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/run_contract.rs",
+"def_line": 51
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 run_contract/IncidentFormation#min_canary_poll_seconds.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/run_contract.rs",
+"def_line": 53
+},
+{
+"symbol": "rust-analyzer cargo conductor-run 0.1.0 canary_gate().",
+"crate": "conductor-run",
+"file": "crates/conductor-run/src/lib.rs",
+"def_line": 115
+},
+{
+"symbol": "rust-analyzer cargo conductor-run 0.1.0 emit_canary().",
+"crate": "conductor-run",
+"file": "crates/conductor-run/src/lib.rs",
+"def_line": 174
+},
+{
+"symbol": "rust-analyzer cargo conductor-run 0.1.0 warm_up_canary_service().",
+"crate": "conductor-run",
+"file": "crates/conductor-run/src/lib.rs",
+"def_line": 199
+},
+{
+"symbol": "rust-analyzer cargo conductor-run 0.1.0 canary_poll().",
+"crate": "conductor-run",
+"file": "crates/conductor-run/src/lib.rs",
+"def_line": 221
+},
+{
+"symbol": "rust-analyzer cargo conductor-run 0.1.0 canary_blocked_state().",
+"crate": "conductor-run",
+"file": "crates/conductor-run/src/lib.rs",
+"def_line": 233
+},
+{
+"symbol": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ReadyState#canary_round_trip.",
+"crate": "conductor-verify",
+"file": "crates/conductor-verify/src/preflight.rs",
+"def_line": 82
+},
+{
+"symbol": "rust-analyzer cargo conductor-verify 0.1.0 preflight/poll_canary().",
+"crate": "conductor-verify",
+"file": "crates/conductor-verify/src/preflight.rs",
+"def_line": 300
+},
+{
+"symbol": "rust-analyzer cargo conductor-verify 0.1.0 preflight/assert_canary().",
+"crate": "conductor-verify",
+"file": "crates/conductor-verify/src/preflight.rs",
+"def_line": 324
+},
+{
+"symbol": "rust-analyzer cargo conductor-verify 0.1.0 common/StubConfig#canary_in_corpus.",
+"crate": "conductor-verify",
+"file": "crates/conductor-verify/tests/common/mod.rs",
+"def_line": 13
+},
+{
+"symbol": "rust-analyzer cargo conductor-verify 0.1.0 common/StubConfig#canary.",
+"crate": "conductor-verify",
+"file": "crates/conductor-verify/tests/common/mod.rs",
+"def_line": 17
+},
+{
+"symbol": "rust-analyzer cargo conductor-verify 0.1.0 common/StubConfig#canary_fingerprint.",
+"crate": "conductor-verify",
+"file": "crates/conductor-verify/tests/common/mod.rs",
+"def_line": 20
+},
+{
+"symbol": "rust-analyzer cargo conductor-verify 0.1.0 an_empty_canary_names_the_workspace_key_precondition().",
+"crate": "conductor-verify",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"def_line": 138
+},
+{
+"symbol": "rust-analyzer cargo conductor-verify 0.1.0 a_canary_call_error_is_blocked_distinctly_from_an_empty_corpus().",
+"crate": "conductor-verify",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"def_line": 155
+},
+{
+"symbol": "rust-analyzer cargo conductor-verify 0.1.0 an_unmet_term_skips_the_canary_rather_than_reporting_its_symptom().",
+"crate": "conductor-verify",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"def_line": 216
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT from_crate, to_crate FROM crate_edges WHERE to_crate = 'conductor-verify' OR from_crate = 'conductor-verify';",
+"rows": 3,
+"result": [
+{
+"from_crate": "conductor-cli",
+"to_crate": "conductor-verify"
+},
+{
+"from_crate": "conductor-verify",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-run",
+"to_crate": "conductor-verify"
+}
+],
+"db_state": "fresh"
+}
+]

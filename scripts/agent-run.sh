@@ -20,7 +20,32 @@ set -euo pipefail
 CARGO="${CARGO:-cargo}"
 RUNS_DIR="${CONDUCTOR_RUNS_DIR:-runs}"
 UI_DIR="crates/conductor-tauri/ui"
-PREFLIGHT_TIMEOUT_SEC="${CONDUCTOR_PREFLIGHT_TIMEOUT:-30}"
+RUN_CONTRACT="contracts/pulse-run-contract.toml"
+
+# Read a bare `key = <integer>` term from the pinned run contract. A missing term is fatal, never
+# defaulted: a silently-defaulted budget is how the wrapper came to be shorter than the run it guards.
+run_contract_term() {
+  local key="$1" value
+  value="$(sed -n "s/^[[:space:]]*${key}[[:space:]]*=[[:space:]]*\([0-9][0-9]*\).*/\1/p" "$RUN_CONTRACT" | head -1)"
+  if [ -z "$value" ]; then
+    echo "boot: ${key} not found in ${RUN_CONTRACT}" >&2
+    exit 2
+  fi
+  printf '%s' "$value"
+}
+
+# The `boot` wall-clock budget. CONDUCTOR_PREFLIGHT_TIMEOUT is the in-process canary POLL budget, which
+# the contract's floor raises; the warm-up pre-roll runs BEFORE that poll starts, so a wrapper set to the
+# poll alone kills the run mid-poll. Budget = warm-up + poll + margin (test-plan §3, contract
+# [incident_formation]).
+preflight_budget_sec() {
+  local warmup_ms poll_floor poll
+  warmup_ms="$(run_contract_term warmup_ms)"
+  poll_floor="$(run_contract_term min_canary_poll_seconds)"
+  poll="${CONDUCTOR_PREFLIGHT_TIMEOUT:-$poll_floor}"
+  [ "$poll" -ge "$poll_floor" ] || poll="$poll_floor"
+  printf '%s' "$(( warmup_ms / 1000 + poll + 30 ))"
+}
 
 # conductor-tauri's generate_context! resolves build.frontendDist (ui/dist) at COMPILE time, so the
 # webview bundle must exist before any workspace cargo build/nextest/clippy compiles conductor-tauri
@@ -50,7 +75,7 @@ case "${1:-}" in
     # downgrade). With no live Pulse this is ready:false — so the CI gate dogfoods `run`, not `boot`;
     # the live-Pulse leg needs Pulse's mcp-server feature + ANDROMEDA_PULSE_MCP_ENABLED + a matching
     # ANDROMEDA_PULSE_DATA_DIR.
-    timeout "${PREFLIGHT_TIMEOUT_SEC}" "$CARGO" run -q -p conductor-cli --bin conductor -- preflight --json
+    timeout "$(preflight_budget_sec)" "$CARGO" run -q -p conductor-cli --bin conductor -- preflight --json
     ;;
 
   run)

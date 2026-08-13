@@ -108,6 +108,44 @@ async fn a_call_error_is_a_typed_value_never_a_panic() {
     assert!(reason.contains("corpus unavailable"), "redacted server reason: {reason}");
 }
 
+/// The committed baseline the live key-diff compares against. `observe`'s readers degrade to empty on
+/// an unrecognized shape rather than erroring, so a live field-name divergence is SILENT — it reads
+/// downstream as an ordinary empty corpus. Pinning the expected key set here is what lets a live run
+/// state "no divergence" as a comparison rather than an assumption; the run's `read-back shape:` lines
+/// carry the observed sets to diff against these.
+#[tokio::test(flavor = "current_thread")]
+async fn the_read_back_key_sets_are_pinned_as_the_live_diff_baseline() {
+    let (client_io, server_io) = tokio::io::duplex(4096);
+    let server = tokio::spawn(serve_stub(server_io, StubConfig::default()));
+    let client = ReadbackClient::connect_transport(client_io)
+        .await
+        .expect("client connects to the stub");
+
+    let keys = |v: &serde_json::Value| {
+        let mut k: Vec<String> =
+            v.as_object().expect("a raw object result").keys().cloned().collect();
+        k.sort();
+        k
+    };
+
+    // `incident_ids` reads `items[].id`; `list_text` reads each item's status/severity/title.
+    let list = client.query_incident_list(None).await.expect("query_incident_list");
+    assert_eq!(keys(&list), ["items", "next_cursor", "total"]);
+
+    let args = Some(serde_json::json!({ "incident_id": 1 }));
+
+    // `observe` reads `markdown` into the graded text and `degraded_mode` into the residual flag.
+    let report = client.retrieve_report(args.clone()).await.expect("retrieve_report");
+    assert_eq!(keys(&report), ["degraded_mode", "markdown"]);
+
+    // `observe` counts `span_refs` as evidence; the canary's fidelity rides `fingerprint_refs`.
+    let slice = client.retrieve_telemetry_slice(args).await.expect("retrieve_telemetry_slice");
+    assert_eq!(keys(&slice), ["fingerprint_refs", "incident_id", "span_refs", "timestamps_unix_nano"]);
+
+    drop(client);
+    server.abort();
+}
+
 #[tokio::test(flavor = "current_thread")]
 async fn a_malformed_result_shape_degrades_to_empty_rather_than_panicking() {
     let config = StubConfig { malformed_results: true, ..StubConfig::default() };

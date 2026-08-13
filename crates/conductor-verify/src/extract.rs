@@ -78,16 +78,23 @@ pub async fn observe(client: &ReadbackClient) -> Outcome {
         Ok(value) => value,
         Err(e) => return Outcome::CallFailed(call_error_reason(&e)),
     };
+    // Before the empty-corpus return: on a diverged workspace key this is the ONLY live shape any
+    // read-back witnesses, and it is the load-bearing one — `incident_ids` coming back empty is what
+    // makes every downstream reader silently empty.
+    log_observed_keys("query_incident_list", &list);
     let ids = incident_ids(&list);
     if ids.is_empty() {
         return Outcome::EmptyCorpus;
     }
 
     let mut observation = Observation { text: list_text(&list), ..Observation::default() };
-    for id in &ids {
+    for (i, id) in ids.iter().enumerate() {
         let args = Some(serde_json::json!({ "incident_id": id }));
         match client.retrieve_report(args.clone()).await {
             Ok(report) => {
+                if i == 0 {
+                    log_observed_keys("retrieve_report", &report);
+                }
                 if let Some(markdown) = report.get("markdown").and_then(Value::as_str) {
                     push_segment(&mut observation.text, markdown);
                 }
@@ -100,6 +107,9 @@ pub async fn observe(client: &ReadbackClient) -> Outcome {
         }
         match client.retrieve_telemetry_slice(args).await {
             Ok(slice) => {
+                if i == 0 {
+                    log_observed_keys("retrieve_telemetry_slice", &slice);
+                }
                 observation.evidence_count += string_array(&slice, "span_refs").len();
                 observation.fingerprints.extend(fingerprint_refs(&slice));
             }
@@ -170,6 +180,25 @@ fn string_array(value: &Value, key: &str) -> Vec<String> {
         .unwrap_or_default()
 }
 
+/// The top-level object key names of a raw tool result, sorted; empty for anything else. The shape
+/// witness for a live read-back: the readers above degrade to empty on an unrecognized shape rather
+/// than erroring, so without this a live key mismatch is indistinguishable from an empty corpus.
+pub(crate) fn top_level_keys(value: &Value) -> Vec<String> {
+    let Some(map) = value.as_object() else {
+        return Vec::new();
+    };
+    let mut keys: Vec<String> = map.keys().cloned().collect();
+    keys.sort();
+    keys
+}
+
+/// Record a tool result's observed key set. The names ride the message rather than a field: a
+/// non-allowlisted field name is dropped at the processor stage and would vanish silently
+/// (obs-plan §4). Key names are Pulse's schema, never corpus content (security-plan §Data Protection).
+pub(crate) fn log_observed_keys(tool: &str, value: &Value) {
+    tracing::info!("read-back shape: {tool} returned keys [{}]", top_level_keys(value).join(", "));
+}
+
 /// The redacted reason for a read-back call error — `JsonRpc` hides its server message behind
 /// `Display`, so surface it (redacted) only here for the precondition string.
 pub(crate) fn call_error_reason(e: &VerifyError) -> String {
@@ -235,6 +264,27 @@ mod tests {
     fn incident_ids_accepts_either_item_key() {
         assert_eq!(incident_ids(&json!({ "items": [{ "id": 7 }] })), vec![7]);
         assert_eq!(incident_ids(&json!({ "items": [{ "incident_id": 9 }] })), vec![9]);
+    }
+
+    #[test]
+    fn top_level_keys_are_sorted_and_shape_tolerant() {
+        let slice = json!({ "span_refs": [], "fingerprint_refs": [], "incident_id": 1 });
+        assert_eq!(top_level_keys(&slice), ["fingerprint_refs", "incident_id", "span_refs"]);
+        for not_an_object in [json!([]), json!("text"), json!(7), Value::Null] {
+            assert!(top_level_keys(&not_an_object).is_empty());
+        }
+    }
+
+    #[test]
+    fn top_level_keys_witness_a_shape_the_readers_would_silently_miss() {
+        // The exact failure the witness exists for: a renamed key leaves every reader empty, which is
+        // indistinguishable downstream from an empty corpus — but the key set still names it.
+        let renamed = json!({ "items": [{ "id": 1 }], "total": 1 });
+        let diverged = json!({ "incidents": [{ "id": 1 }], "total": 1 });
+        assert_eq!(incident_ids(&diverged), Vec::<i64>::new());
+        assert_eq!(incident_ids(&renamed), vec![1]);
+        assert_ne!(top_level_keys(&diverged), top_level_keys(&renamed));
+        assert_eq!(top_level_keys(&diverged), ["incidents", "total"]);
     }
 
     #[test]

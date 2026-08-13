@@ -14,6 +14,29 @@ $Cargo = if ($env:CARGO) { $env:CARGO } else { 'cargo' }
 $RunsDir = if ($env:CONDUCTOR_RUNS_DIR) { $env:CONDUCTOR_RUNS_DIR } else { 'runs' }
 $UiDir = 'crates/conductor-tauri/ui'
 $Arg1 = if ($args.Count -ge 2) { $args[1] } else { '' }
+$RunContract = 'contracts/pulse-run-contract.toml'
+
+# Read a bare `key = <integer>` term from the pinned run contract. A missing term is fatal, never
+# defaulted: a silently-defaulted budget is how the wrapper came to be shorter than the run it guards.
+function Get-RunContractTerm([string]$Key) {
+    foreach ($line in Get-Content -Path $RunContract) {
+        if ($line -match "^\s*$Key\s*=\s*(\d+)") { return [int]$Matches[1] }
+    }
+    [Console]::Error.WriteLine("boot: $Key not found in $RunContract")
+    exit 2
+}
+
+# The `boot` wall-clock budget. CONDUCTOR_PREFLIGHT_TIMEOUT is the in-process canary POLL budget, which
+# the contract's floor raises; the warm-up pre-roll runs BEFORE that poll starts, so a wrapper set to the
+# poll alone kills the run mid-poll. Budget = warm-up + poll + margin (test-plan §3, contract
+# [incident_formation]).
+function Get-PreflightBudgetSec {
+    $warmupMs = Get-RunContractTerm 'warmup_ms'
+    $pollFloor = Get-RunContractTerm 'min_canary_poll_seconds'
+    $poll = if ($env:CONDUCTOR_PREFLIGHT_TIMEOUT) { [int]$env:CONDUCTOR_PREFLIGHT_TIMEOUT } else { $pollFloor }
+    if ($poll -lt $pollFloor) { $poll = $pollFloor }
+    [int]([math]::Floor($warmupMs / 1000) + $poll + 30)
+}
 
 # conductor-tauri's generate_context! resolves build.frontendDist (ui/dist) at COMPILE time, so the
 # webview bundle must exist before any workspace cargo build/nextest/clippy compiles conductor-tauri.
@@ -54,7 +77,16 @@ switch ($args[0]) {
     'boot' {
         # ready:true ⇒ exit 0; ready:false ⇒ non-zero (gate). With no live Pulse this is ready:false —
         # so the CI gate dogfoods `run`, not `boot`. The live-Pulse leg needs Pulse's mcp-server feature.
-        & $Cargo run -q -p conductor-cli --bin conductor -- preflight --json
+        $budget = Get-PreflightBudgetSec
+        $p = Start-Process -FilePath $Cargo -NoNewWindow -PassThru -ArgumentList @(
+            'run', '-q', '-p', 'conductor-cli', '--bin', 'conductor', '--', 'preflight', '--json')
+        if (-not $p.WaitForExit($budget * 1000)) {
+            [Console]::Error.WriteLine("boot: preflight exceeded the ${budget}s budget - terminating")
+            $p.Kill()
+            $p.WaitForExit()
+            exit 124
+        }
+        exit $p.ExitCode
     }
     'run' {
         # Stage flags partition the CI gate (test-plan §9); no flag = the full bundled gate.

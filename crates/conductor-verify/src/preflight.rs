@@ -18,7 +18,7 @@ use conductor_core::{ReportState, RunContractStatus, now_rfc3339, redact_value};
 
 use crate::client::ReadbackClient;
 use crate::error::VerifyError;
-use crate::extract::{call_error_reason, fingerprint_refs, incident_ids};
+use crate::extract::{call_error_reason, fingerprint_refs, incident_ids, log_observed_keys};
 use crate::manifest::ContractManifest;
 
 /// Whether a required read-back tool was advertised by the server.
@@ -305,8 +305,9 @@ async fn poll_canary(
 ) -> (CanaryOutcome, Option<String>, Option<NotFound>) {
     let attempts = poll.attempts.max(1);
     let mut last_cause = NotFound::EmptyCorpus;
+    let mut witness = ShapeWitness::default();
     for attempt in 0..attempts {
-        match assert_canary(client, canary).await {
+        match assert_canary(client, canary, &mut witness).await {
             CanaryFidelity::Ok => return (CanaryOutcome::Ok, None, None),
             CanaryFidelity::CallError(reason) => return (CanaryOutcome::Failed, Some(reason), None),
             CanaryFidelity::NotYet(cause) => {
@@ -320,13 +321,41 @@ async fn poll_canary(
     (CanaryOutcome::Failed, None, Some(last_cause))
 }
 
+/// One-shot shape witnesses for the poll loop. Each tool's key set is recorded the FIRST time it
+/// answers — not once per attempt, which would emit one identical line per second of the poll budget,
+/// and not on attempt 0 only, which would never witness a tool first reached late in the poll.
+#[derive(Default)]
+struct ShapeWitness {
+    list: bool,
+    slice: bool,
+}
+
+impl ShapeWitness {
+    fn list(&mut self, value: &serde_json::Value) {
+        if !std::mem::replace(&mut self.list, true) {
+            log_observed_keys("query_incident_list", value);
+        }
+    }
+
+    fn slice(&mut self, value: &serde_json::Value) {
+        if !std::mem::replace(&mut self.slice, true) {
+            log_observed_keys("retrieve_telemetry_slice", value);
+        }
+    }
+}
+
 /// One canary fidelity attempt: find the storm's incident and assert its telemetry slice carries the
 /// emitted fingerprint (titles are scrubbed, so the fingerprint is the fidelity carrier).
-async fn assert_canary(client: &ReadbackClient, canary: &CanaryMarker) -> CanaryFidelity {
+async fn assert_canary(
+    client: &ReadbackClient,
+    canary: &CanaryMarker,
+    witness: &mut ShapeWitness,
+) -> CanaryFidelity {
     let list = match client.query_incident_list(None).await {
         Ok(value) => value,
         Err(e) => return CanaryFidelity::CallError(call_error_reason(&e)),
     };
+    witness.list(&list);
     let ids = incident_ids(&list);
     if ids.is_empty() {
         return CanaryFidelity::NotYet(NotFound::EmptyCorpus);
@@ -334,6 +363,7 @@ async fn assert_canary(client: &ReadbackClient, canary: &CanaryMarker) -> Canary
     for id in ids {
         match client.retrieve_telemetry_slice(Some(serde_json::json!({ "incident_id": id }))).await {
             Ok(slice) => {
+                witness.slice(&slice);
                 if fingerprint_refs(&slice).iter().any(|fp| fp == &canary.fingerprint) {
                     return CanaryFidelity::Ok;
                 }

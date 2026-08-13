@@ -1,0 +1,42 @@
+# layouts extract
+
+## Relevance
+Partial — the chunk exercises and records the **cli** surface only (`conductor preflight [--json]` + the `agent-run boot` wrapper); no desktop-webview region, wireframe, or focus-order work is touched.
+
+## Constraints
+- The `conductor preflight [--json]` verb's documented shape is fixed and this chunk is its first live exercise: emit the `ReadyState` JSON **or** a `[PASS]`/`[BLOCKED]` line, exit 0 iff `ready:true`, non-zero on a Blocked precondition (per layout-templates.md §Surface: cli — Primary screens).
+- Every status token must be paired with its ASCII bracket prefix (`[PASS]`/`[BLOCKED]`/`[OK]`) so the readiness signal is never color-alone and survives `NO_COLOR` / piping / screen readers (per layout-templates.md §Surface: cli — Signature placement, and §Component — Header / banner).
+- Pipe discipline governs the three-arm probe capture: raw artifact data (the `--json` envelope) on **stdout**, human messages on **stderr**, ANSI auto-stripped when not a TTY, no emoji in machine-parseable output (per layout-templates.md §Surface: cli — IA notes, Pipe discipline).
+- A blocked preflight renders as the `[BLOCKED]` line (ANSI 60 / `count-blocked` mapping) carrying its **named precondition string**, with measurement fields as `—` / null — never a red error, because `Blocked` was never measured (per layout-templates.md §Surface: cli — Component — Primary content block 2).
+- Error output is stderr-only and sanitized — no absolute host paths, internal struct names, or stack traces; shape is `error: <short>` + detail + `hint: <fix>` (per layout-templates.md §Surface: cli — Component — Footer / terminator + error output). This is the layout-level enforcement of the chunk's "cwd by role, `data_dir` redacted" hygiene boundary.
+- The headless invariant holds for `agent-run boot`: interactive `inquire` prompts check `isatty` first and the agent-driven source-of-truth path is **never** gated on a prompt (per layout-templates.md §Surface: cli — IA notes, Headless invariant).
+- Output structure is a parsed contract — downstream agents key on it, so adding a bracket label or a table column without a `--format` flag is a breaking change; the per-P-ID label set is **closed at six** plus the one run-level `[ENVIRONMENT-SUSPECT]` qualifier (per layout-templates.md §Surface: cli — IA notes, Command model; §Component — Primary content block 2).
+
+## Patterns to follow
+- The **precondition-carrying Blocked line** already templated with this chunk's exact precondition family (`mcp-server feature + ANDROMEDA_PULSE_MCP_ENABLED + matching data-dir`): bullet prefix + `[BLOCKED]` + precondition on the indented detail line (per layout-templates.md §Surface: cli — Component — Primary content block 2).
+- The **preflight readiness line** in the command header — protocol version · tool count · canary result, identifiers in the ID-cyan mapping, `[OK]`/`[BLOCKED]` prefix carrying it without color — is the existing rendering for what the live leg measures (per layout-templates.md §Surface: cli — Component — Header / banner; §Output structure `conductor run`).
+- **Dual-mode verb output** (machine JSON under `--json`, single human line otherwise) as the existing convention for capturing each probe arm's `ready` / `blocked_precondition` (per layout-templates.md §Surface: cli — Primary screens).
+- The **terminator line naming the artifact destination** (`run report → runs/<run_id>.md`, dimmed, un-colorized when piped) is the pattern for pointing at the `runs/` JSONL + `<run_id>.md` evidence this chunk's acceptance names (per layout-templates.md §Surface: cli — Component — Footer / terminator + error output).
+- **Run-level qualifier riding outside the lamp column** (the `[ENVIRONMENT-SUSPECT]` / `not-conductors` Mode-cell precedent) is the sanctioned way to surface a run-qualifying condition without minting a new state (per layout-templates.md §Surface: cli — Component — Primary content block 2).
+
+## Anti-patterns to avoid
+- Do **not** render a blocked live preflight as a red/error state or let a transport failure print a stack trace to stdout — `Blocked` ≠ red, and errors are sanitized stderr only (per layout-templates.md §Surface: cli — Component — Primary content block 2; §Component — Footer / terminator + error output).
+- Do **not** mint a seventh bracket label / lamp state or a new table column for a live finding (key-diff mismatch, warm-up outcome) — the per-P-ID set is closed and downstream agents parse the shape (per layout-templates.md §Surface: cli — Component — Primary content block 2; §IA notes, Command model).
+- Do **not** introduce an interactive prompt, spinner-dependent, or color-only signal on the `agent-run boot` path — headless output must stay ASCII-prefixed, prompt-free and ANSI-stripped (per layout-templates.md §Surface: cli — IA notes, Headless invariant + Pipe discipline).
+
+## Contract bindings
+- **layouts ↔ verify/engine (verdict-error wall):** the layout rule "`[BLOCKED]` carries its named precondition, measurement cols render `—`/null, never a red error" is the surface form of the chunk's `Ok(Blocked)`-not-panic boundary — the engine must supply a precondition string for every blocked arm or the documented line cannot render.
+- **layouts ↔ security/artifact hygiene:** §Component — Footer / terminator + error output (sanitized stderr, no absolute host paths) is the layout-level carrier of the chunk's "cwd named by role, `data_dir` redacted in the readiness envelope" rule; the same rule constrains what the appended `two-launch-verdict.md` arms may quote from stdout/stderr.
+- **layouts ↔ a11y / NO_COLOR:** the ASCII bracket-prefix pairing is stated in layouts as a requirement; a11y derives conformance from it (per layout-templates.md §Surface: cli — Signature placement, closing note).
+- **layouts ↔ tests/harness:** `agent-run boot` is documented here as the preflight entrypoint, so any live-leg procedure must not convert that documented gate entrypoint into one that requires a live Pulse (layout side of the chunk's "not a CI gate" boundary).
+
+## Acceptance criteria contributions
+- (layouts) `conductor preflight --json` emits the `ReadyState` JSON on stdout parseable when piped, human messages on stderr, exit 0 iff `ready:true` and non-zero on a Blocked precondition (per layout-templates.md §Surface: cli — Primary screens).
+- (layouts) Each recorded probe arm's blocked result renders as a `[BLOCKED]`-prefixed line carrying its named precondition, with measurement fields `—`/null and no red-error or panic rendering (per layout-templates.md §Surface: cli — Component — Primary content block 2).
+- (layouts) Non-TTY invocation (`agent-run boot`, piped capture) strips ANSI, honors `NO_COLOR`/`TERM=dumb`, emits no emoji, and blocks on no interactive prompt (per layout-templates.md §Surface: cli — IA notes, Pipe discipline + Headless invariant).
+- (layouts) The live leg adds no new bracket label, no new table column, and no unsanitized path/struct name to cli output — the parsed stdout shape is unchanged from the shipped preflight contract (per layout-templates.md §Surface: cli — IA notes, Command model; §Component — Footer / terminator + error output).
+
+## Relevant amendment history
+- **2026-06-23-5-command-agent-run-harness** — registered `conductor preflight [--json]` in §cli Primary screens as the readiness gate / `agent-run boot` entrypoint (exits 0 iff `ready:true`, else non-zero), and named the `agent-run.sh` 5-command set + `run` stage flags. Directly this chunk's surface: the exit-code and output contract being exercised live was fixed by that entry, so the live leg must conform to it rather than redefine it.
+- **2026-08-09-sut-load-envelope** (adjacent precedent) — added the run-level `[ENVIRONMENT-SUSPECT]` qualifier *outside* the lamp column and explicitly re-stated the six per-P-ID labels as a closed set. Why it matters here: it is the standing precedent for surfacing a new run-qualifying condition (e.g. a warm-up/key-divergence finding) without adding a state.
+- **2026-08-13-dispatcher-determinism-goldens** (adjacent precedent) — re-based the `[ENVIRONMENT-SUSPECT]` sample caption to name the term *set* instead of baking a duration literal, per the detector's guidance that a replacement literal simply re-stales. Why it matters here: if this chunk documents a live-run procedure with sample cli output, sample values must name roles/terms, not baked literals or absolute paths.

@@ -491,7 +491,7 @@ Additional scenario-specific fields (per obs-scope Section 4 must-trace paths):
 - Agent-mode flag: `--agent-mode` forces JSON-only to file
 
 **Boundary-call wrappers (must-log events):**
-- MCP readback (`verify.readback`): log method name (query_incident_list / retrieve_report / mark_incident_resolved) + latency_ms + error (if any) + canary-check result
+- MCP readback (`verify.readback`): log tool name (query_incident_list / retrieve_report / retrieve_telemetry_slice / mark_incident_resolved) + latency_ms + error (if any) + canary-check result + the **observed key set** of each raw tool result (the shape witness — the readers degrade to empty on an unrecognized shape rather than erroring, so without it a live field-name divergence is indistinguishable from an empty corpus). Key NAMES only, never values, and carried on the `message` field: a field name outside the allowlist is dropped at the processor stage, so a dedicated attribute would emit nothing
 - gRPC emit (`emit.batch`): log batch index + emission count + result status (OK / error)
 - DB insert (`db.insert_run`): log row count (1) + run_id + verdict + state
 - Report generation (`report.generate`): log final verdict + state + fingerprint count

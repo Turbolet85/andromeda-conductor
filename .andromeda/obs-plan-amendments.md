@@ -92,3 +92,8 @@ and returns it in the result (`andromeda-pulse/crates/mcp-server/src/tools.rs:37
 `ALLOWLISTED_FIELDS`, so a built attribute would emit nothing. The shipped span field is `mcp_tool`
 (`conductor-verify/src/client.rs:125`). Routine per playbook:28 (spec-illustration → sound-impl) and
 playbook:88 (operationalizing surfaces the spec's own stale field-list).
+
+## 2026-08-13-first-live-green-preflight — read-back boundary log gains the shape witness
+**Section:** §6 Boundary-call wrappers (must-log events)
+**Change:** The MCP-readback must-log set gains the observed KEY SET of each raw tool result, and the tool list is completed with `retrieve_telemetry_slice`. Key names only, never values, carried on the `message` field because a field name outside the allowlist is dropped at the processor stage.
+**Why:** The extraction readers degrade to empty on an unrecognized shape rather than erroring, so without the witness a live field-name divergence is indistinguishable from an empty corpus. First live leg confirmed the witness works: `query_incident_list returned keys [items, next_cursor, total]`, matching the committed baseline exactly.
