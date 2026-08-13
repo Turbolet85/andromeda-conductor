@@ -131,7 +131,7 @@ handled via boundary instrumentation only._
 | **Fingerprint-storm scenario (high-cardinality emission)** | CLI + core + persistent-storage + boundary-only (MCP) | `scenario.run` → `timeline.execute_fingerprint_storm` → `emit.batch` (per P-ID cohort, multiple batches) → `verify.readback_fingerprints` → `report.generate` | `run_id`, `seed`, `scenario` (= "fingerprint-storm"), `p_ids` (array of all touched P-IDs), `verdict`, `state`, `latency_ms`, `slo_tier`, `fingerprints` (populated array), `journal_emitted_at` | Tests excerpt §5 Critical Path 2 |
 | **Restart-suppression scenario incl. bypass case** | CLI + core + persistent-storage + boundary-only (MCP) | `scenario.run` → `timeline.execute_restart_suppression` → `emit.batch` (canonical path) → `emit.batch` (bypass path, distinct) → `verify.readback_suppression_bypass` → `report.generate` | `run_id`, `seed`, `scenario` (= "restart-suppression"), `p_ids`, `verdict`, `state`, `latency_ms`, `slo_tier`, `fingerprints`, `journal_emitted_at`, additional field `bypass_triggered` (boolean) to distinguish the two outcomes | Tests excerpt §5 Critical Path 3 + Creator Brief §6 "one bypass case" |
 | **Severity-lifecycle full pass observing auto-resolve + resolution summary** | CLI + core + persistent-storage + boundary-only (MCP) | `scenario.run` → `timeline.execute_severity_lifecycle` → `emit.batch` (per severity transition) → `verify.readback_auto_resolve` → `verify.readback_resolution_summary` → `report.generate` | `run_id`, `seed`, `scenario` (= "severity-lifecycle"), `p_ids`, `verdict` (should be CalibrationRegion for severity *choice*; Pass/Fail for *timing*), `state`, `latency_ms`, `slo_tier`, `fingerprints`, `journal_emitted_at`, additional fields `lifecycle_phase` (string: "escalation" / "plateau" / "resolution"), `severity_choice_calibrated` (boolean) | Tests excerpt §5 Critical Path 4 + Creator Brief §6 "Assertion-policy split" ("lifecycle timing = hard pass/fail; severity choice = CalibrationRegion") |
-| **Known-residual classification path** | CLI + core + persistent-storage + boundary-only (MCP) | `scenario.run` → `timeline.execute` → `verify.readback_degraded_mode` (MCP call with `degraded_mode=true`) → `report.classify_known_residual` → `db.insert_run` | `run_id`, `seed`, `scenario` (e.g., P-032), `p_ids`, `verdict`, `state` (should be "KnownResidual", NOT "Fail"), `latency_ms`, `slo_tier`, `fingerprints`, `journal_emitted_at`, additional field `degraded_mode_response` (string or boolean) to indicate MCP read-back surface behavior | Tests excerpt §5 Critical Path 5 + Creator Brief §6 "Known-residual classification" |
+| **Known-residual classification path** | CLI + core + persistent-storage + boundary-only (MCP) | `scenario.run` → `timeline.execute` → `verify.readback.observe` (the read-back pass whose `retrieve_report` result REPORTS `degraded_mode`) → `report.classify_known_residual` → `db.insert_run` | `run_id`, `seed`, `scenario` (e.g., P-032), `p_ids`, `verdict`, `state` (should be "KnownResidual", NOT "Fail"), `latency_ms`, `slo_tier`, `fingerprints`, `journal_emitted_at` | Tests excerpt §5 Critical Path 5 + Creator Brief §6 "Known-residual classification" |
 | **Coverage-matrix completeness gate** | CLI (report output) + persistent-storage (`runs.db` query aggregating all runs) | `report.coverage_matrix_generate` → `db.query_all_p_ids` (manifest-set enumeration) → `report.validate_coverage` | `p_ids` (array of the manifest set), `missing_p_ids` (empty array on pass, populated on fail), `coverage_percent` (0-100), `journal_emitted_at` | Tests excerpt §5 Critical Path 6 |
 | **Both-surface parity (headless CLI + Tauri GUI same verdict for same seed)** | CLI + desktop-webview (Tauri command handler) + ipc-internal + persistent-storage + boundary-only (MCP) | CLI path: `scenario.run` (as in Path 1) | Tauri path: `tauri.command.start_run` → `scenario.run` (same instrumentation) | `run_id`, `seed`, `scenario`, `p_ids`, `verdict`, `state`, `latency_ms`, `slo_tier` | Tests excerpt §5 Critical Path 7 + Creator Brief §6 "Both surfaces emit a journal" |
 
@@ -297,7 +297,7 @@ Downstream skills (route, setup-project) derive:
   - `scenario.run`: `run_id`, `seed`, `scenario`, `p_ids` (array)
   - `timeline.execute`: `phase_count`, `emission_count`
   - `emit.batch`: `emission_count`, `p_id_count`
-  - `verify.readback`: `mcp_method` (string: "query_incident_list" / "retrieve_report"), `latency_ms`
+  - `verify.readback`: `mcp_tool` (string: "query_incident_list" / "retrieve_report"), `latency_ms`
   - `report.generate`: `verdict`, `state`
   - `db.insert_run`: `row_count` (1)
 - **Required log fields:** `run_id`, `seed`, `scenario`, `p_ids`, `verdict`, `state`, `latency_ms`, `slo_tier`, `fingerprints`, `journal_emitted_at`, `read_back_observed_at`
@@ -311,7 +311,7 @@ Downstream skills (route, setup-project) derive:
   - `scenario.run`: `run_id`, `seed`, `scenario` (= "fingerprint-storm"), `p_ids` (all touched P-IDs)
   - `timeline.execute_fingerprint_storm`: `p_id_count`, `batch_count`
   - `emit.batch`: `batch_index`, `fingerprints_in_batch`
-  - `verify.readback_fingerprints`: `mcp_method`, `latency_ms`, `fingerprints_matched_count`
+  - `verify.readback_fingerprints`: `mcp_tool`, `latency_ms`, `fingerprints_matched_count`
 - **Required log fields:** `run_id`, `seed`, `scenario`, `p_ids`, `verdict`, `state`, `latency_ms`, `slo_tier`, `fingerprints` (populated), `journal_emitted_at`
 - **Cleanup:** Root `scenario.run` closes on final `report.generate` completion; emit batches close on each flush; verify spans close on MCP response receipt
 
@@ -343,15 +343,15 @@ Downstream skills (route, setup-project) derive:
 #### Scenario: Known-residual classification path
 
 - **Surfaces involved:** CLI + core + persistent-storage + boundary-only (MCP)
-- **Must-trace spans:** `scenario.run` → `timeline.execute` → `verify.readback_degraded_mode` (MCP call with `degraded_mode=true`) → `report.classify_known_residual` → `db.insert_run`
-- **Required span attributes:**
+- **Must-trace spans:** `scenario.run` → `timeline.execute` → `verify.readback.observe` (the read-back pass whose `retrieve_report` result REPORTS `degraded_mode`) → `report.classify_known_residual` → `db.insert_run`
+- **Required span attributes** (a span attribute must be a name in `conductor-core::redact::ALLOWLISTED_FIELDS` — the processor stage drops any other field, so an attribute outside the allowlist emits nothing):
   - `scenario.run`: `run_id`, `seed`, `scenario`, `p_ids`
   - `timeline.execute`: standard phase count
-  - `verify.readback_degraded_mode`: `degraded_mode_requested`, `response_received`
+  - `verify.readback.observe`: `count` (incidents read); the degraded signal is OBSERVED, not requested — Pulse computes `degraded_mode` (`parsed_l4.is_none()`) and returns it in the `retrieve_report` result, so there is no request-side attribute to record. It rides a `warn`-level line on the allowlisted `message` field
   - `report.classify_known_residual`: `classification_result` (string: "KnownResidual")
   - `db.insert_run`: `state_written` (= "KnownResidual")
-- **Required log fields:** `run_id`, `seed`, `scenario`, `p_ids`, `verdict`, `state` ("KnownResidual"), `latency_ms`, `slo_tier`, `fingerprints`, `journal_emitted_at`, `degraded_mode_response`
-- **Cleanup:** Root `scenario.run` closes when the scenario returns (`db.insert_run` is a run-scoped sibling reached through `persist`, correlated by `run_id` — see Critical Path 1 Cleanup); degraded-mode verify closes on MCP response; classification span closes on state determination
+- **Required log fields:** `run_id`, `seed`, `scenario`, `p_ids`, `verdict`, `state` ("KnownResidual"), `latency_ms`, `slo_tier`, `fingerprints`, `journal_emitted_at`, `read_back_observed_at` — the same eleven-field envelope every other critical path carries (test-plan §3 owns it) — plus the scenario extra `degraded_mode_response` (§3 Additional fields per scenario). Note the two record shapes differ in what governs them: an envelope extra is written by the report seam, whereas a SPAN attribute must be allowlisted (above)
+- **Cleanup:** Root `scenario.run` closes when the scenario returns (`db.insert_run` is a run-scoped sibling reached through `persist`, correlated by `run_id` — see Critical Path 1 Cleanup); the read-back pass closes on MCP response; classification span closes on state determination
 
 #### Scenario: Coverage-matrix completeness gate
 

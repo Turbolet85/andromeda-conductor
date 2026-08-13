@@ -70,3 +70,25 @@ _Append-only changelog of amendments to `obs-plan.md` (the body holds only curre
 **Section:** §11 Anti-Patterns (project-specific bans)
 **Change:** The never-skip-garde-validation ban now names the shipped error-fraction encoding (`error_percent` ∈ 0..=100) and adds that a nested spec field must `dive`, never `skip` — a skipped struct is never descended into, so its rules never run.
 **Why:** Cross-master citation fold: the ban quoted `error fraction ∈ [0,1]`, a bound the shipped model does not carry in that form, and the chunk's `#[garde(skip)]` finding gave the ban a concrete failure mode it did not previously name.
+
+## 2026-08-13-per-check-read-back-extraction — degraded read-back is OBSERVED, not requested
+**Section:** §1 Critical paths (Known-residual row) · §4 Span/Trace Coverage (CP1 `verify.readback`,
+Fingerprint-storm `verify.readback_fingerprints`, CP5 Known-residual classification path)
+**Change:** CP5's must-trace span `verify.readback_degraded_mode` (MCP call with `degraded_mode=true`) →
+`verify.readback.observe` (the read-back pass whose `retrieve_report` result REPORTS `degraded_mode`), at both
+the §1 table row and the §4 scenario. Its required attributes `degraded_mode_requested` / `response_received`
+are retired: the degraded signal is observed, not requested, and rides a `warn` line on the allowlisted
+`message` field. §4's Required-span-attributes heading now states the constraint that a span attribute must be
+a name in `conductor-core::redact::ALLOWLISTED_FIELDS` or the processor stage drops it. `mcp_method` →
+`mcp_tool` on both `verify.readback` and `verify.readback_fingerprints`. CP5's Required log fields gained the
+missing `read_back_observed_at` (the eleven-field envelope every other critical path carries) and keep the
+scenario extra `degraded_mode_response`, with a note that the two record shapes are governed differently — an
+envelope extra by the report seam, a span attribute by the allowlist.
+**Why:** the chunk is `retrieve_report`'s FIRST caller in the workspace (code-graph: 0 prior call sites), so it
+is the chunk that operationalizes this path and whose current truth now includes its real behavior. Two
+artifact-verified disqualifiers for the old wording: Pulse computes `degraded_mode` as `parsed_l4.is_none()`
+and returns it in the result (`andromeda-pulse/crates/mcp-server/src/tools.rs:372,380`), so
+`degraded_mode_requested` describes a call Conductor cannot make; and neither retired attribute name is in
+`ALLOWLISTED_FIELDS`, so a built attribute would emit nothing. The shipped span field is `mcp_tool`
+(`conductor-verify/src/client.rs:125`). Routine per playbook:28 (spec-illustration → sound-impl) and
+playbook:88 (operationalizing surfaces the spec's own stale field-list).

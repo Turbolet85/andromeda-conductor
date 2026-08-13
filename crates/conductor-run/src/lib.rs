@@ -6,8 +6,9 @@
 //! seeded timeline with the per-phase [`dispatch`]er attached, so each phase's declared emission
 //! shape reaches the wire inside that phase's own window, then reads back and classifies. Both
 //! `conductor-cli` (the release gate) and `conductor-tauri` (the GUI) call this identically — the
-//! "headless-drivable core, thin shells" split (arch §Design Philosophy). The per-check read-back
-//! extraction is still coarse (the CI-tested spine is the Blocked path).
+//! "headless-drivable core, thin shells" split (arch §Design Philosophy). Read-back is per-check:
+//! `conductor_verify::observe` composes one pass over the corpus tools and each check grades against
+//! the value its `ComparisonKind` reads.
 //!
 //! The resolver is generic ([`execute_scenario`]`<R: PauseResolver>`) — the CLI passes its interactive
 //! `CliResolver`, the GUI the core [`HeadlessResolver`] — never a trait object
@@ -35,8 +36,8 @@ use conductor_timeline::{PhaseTimeline, run_timeline_with};
 mod dispatch;
 pub use dispatch::{DispatchError, Dispatcher};
 use conductor_verify::{
-    CanaryMarker, CanaryOutcome, CanaryPoll, ContractManifest, ReadbackClient, ReadyState,
-    ToolPresence, evaluate_check, run_preflight,
+    CanaryMarker, CanaryOutcome, CanaryPoll, ContractManifest, Observation, ReadBackOutcome,
+    ReadbackClient, ReadyState, ToolPresence, evaluate_check, observe, run_preflight,
 };
 
 /// The suite-wide preflight outcome — established once, reused by every scenario in a run.
@@ -298,10 +299,21 @@ pub async fn execute_scenario<R: PauseResolver>(
         .await
         .context("timeline scheduling")?;
 
-    // Coarse read-back: the faithful per-check observed-extraction is the Epoch-10 bridge.
-    let observed = match client.query_incident_list(None).await {
-        Ok(_) => "incidents-listed".to_string(),
-        Err(_) => String::new(),
+    let observation = match observe(client).await {
+        ReadBackOutcome::Observed(observation) => observation,
+        // Nothing to grade against. An `Absent` check would pass trivially on an empty observation,
+        // so an unusable read-back is Blocked, never a measured record (security-plan §Anti-Patterns
+        // → Input: never a false pass-as-empty).
+        ReadBackOutcome::EmptyCorpus | ReadBackOutcome::CallFailed(_) => {
+            tracing::info!("scenario blocked: read-back yielded no gradable observation");
+            return Ok(RunRecord::blocked(
+                run_id,
+                scenario.seed,
+                &scenario.name,
+                scenario.p_ids.clone(),
+                scenario.slo_tier,
+            ));
+        }
     };
     let observed_ms = now_ms();
     let read_back_observed_at = now_rfc3339();
@@ -322,34 +334,62 @@ pub async fn execute_scenario<R: PauseResolver>(
             journal_emitted_at,
             read_back_observed_at,
             observed_ms - emitted_ms,
+            &observation,
         ));
     }
 
     let chosen = scenario
         .expected
         .iter()
-        .map(|check| evaluate_check(check, &observed, scenario.slo_tier, emitted_ms, observed_ms))
+        .map(|check| {
+            evaluate_check(
+                check,
+                &observation.observed_for(check.kind),
+                scenario.slo_tier,
+                emitted_ms,
+                observed_ms,
+            )
+        })
         .max_by_key(|outcome| severity_rank(outcome.assessment.verdict))
         .expect("expected is non-empty");
-    Ok(chosen.to_run_record(
+    let mut record = chosen.to_run_record(
         run_id,
         scenario.seed,
         &scenario.name,
         scenario.p_ids.clone(),
         journal_emitted_at,
         read_back_observed_at,
-        Vec::new(),
-    ))
+        observation.fingerprints.clone(),
+    );
+    record.state = state_for(&observation, record.state);
+    Ok(record)
+}
+
+/// The report state a read-back earns: a degraded response is the pre-accepted residual
+/// (arch §Standard Contracts), overriding the state it would otherwise carry.
+///
+/// It overrides the STATE only — `verdict` is what was measured and stays independent, which is what
+/// lets `Lamp::for_record` render the row verdict-first while still marking it residual. Degradation
+/// is a property of the SUT's response, not of the scenario, so it applies wherever it is observed.
+fn state_for(observation: &Observation, measured: ReportState) -> ReportState {
+    if observation.degraded { ReportState::KnownResidual } else { measured }
 }
 
 /// An operator-checklist / declare-only scenario yields a verdict-less `ManualCheck` record
 /// (`Lamp::for_record` maps `(ManualCheck, None) → Manual`).
+///
+/// A degraded read-back overrides the state to `KnownResidual` — the pre-accepted residual
+/// (arch §Standard Contracts). The two states are distinct terminals: `ManualCheck` awaits a human,
+/// `KnownResidual` records a measured, already-accepted deviation. The verdict stays `None` either
+/// way: a declare-only scenario asserts nothing, so degradation changes what the row MEANS, not what
+/// it measured.
 fn manual_record(
     scenario: &Scenario,
     run_id: &str,
     journal_emitted_at: String,
     read_back_observed_at: String,
     latency_ms: i64,
+    observation: &Observation,
 ) -> RunRecord {
     RunRecord {
         journal_emitted_at: Some(journal_emitted_at),
@@ -359,10 +399,10 @@ fn manual_record(
         scenario: scenario.name.clone(),
         p_ids: scenario.p_ids.clone(),
         verdict: None,
-        state: ReportState::ManualCheck,
+        state: state_for(observation, ReportState::ManualCheck),
         latency_ms: Some(latency_ms),
         slo_tier: scenario.slo_tier,
-        fingerprints: Some(Vec::new()),
+        fingerprints: Some(observation.fingerprints.clone()),
     }
 }
 
@@ -497,6 +537,90 @@ mod tests {
     /// directly so the test needs neither a sidecar nor an env handle.
     fn blocked_preflight() -> Preflight {
         Preflight { client: None, ready: false }
+    }
+
+    fn observation(degraded: bool) -> Observation {
+        Observation {
+            text: "active\nRetryStorm".to_string(),
+            evidence_count: 6,
+            degraded,
+            fingerprints: vec!["fp-1".to_string()],
+        }
+    }
+
+    #[test]
+    fn a_degraded_read_back_overrides_the_state_and_leaves_the_verdict_alone() {
+        // Every state a measured row can carry is overridden to the residual...
+        for measured in [ReportState::Pass, ReportState::Fail, ReportState::ManualCheck] {
+            assert_eq!(state_for(&observation(true), measured), ReportState::KnownResidual);
+        }
+        // ...and an undegraded read-back changes nothing.
+        for measured in [ReportState::Pass, ReportState::Fail, ReportState::ManualCheck] {
+            assert_eq!(state_for(&observation(false), measured), measured);
+        }
+    }
+
+    #[test]
+    fn an_operator_checklist_row_stays_manual_check_on_an_undegraded_read_back() {
+        // The regression guard: routing degraded_mode must not sweep the declare-only scenarios
+        // (7 of the 9 empty-`expected` catalog entries are operator-checklist, not residual).
+        let r = manual_record(
+            &fixture(1),
+            "2026-08-13T00-00-00-abc",
+            "2026-08-13T00:00:00Z".to_string(),
+            "2026-08-13T00:00:01Z".to_string(),
+            1_000,
+            &observation(false),
+        );
+        assert_eq!(r.state, ReportState::ManualCheck);
+        assert_eq!(r.verdict, None);
+        assert_eq!(r.fingerprints, Some(vec!["fp-1".to_string()]));
+    }
+
+    #[test]
+    fn a_measured_row_keeps_its_verdict_when_degradation_overrides_the_state() {
+        use conductor_core::{ClaimClass, ComparisonKind, ExpectedCheck, PId, SloTier};
+
+        let check = ExpectedCheck {
+            kind: ComparisonKind::Contains,
+            class: ClaimClass::Hard,
+            expected: "RetryStorm".to_string(),
+        };
+        let o = observation(true);
+        let outcome =
+            evaluate_check(&check, &o.observed_for(check.kind), SloTier::Tier5s, 0, 1_000);
+        let mut record = outcome.to_run_record(
+            "2026-08-13T00-00-00-abc",
+            1,
+            "degraded-fixture",
+            vec![PId("P-053".to_string())],
+            "2026-08-13T00:00:00Z",
+            "2026-08-13T00:00:01Z",
+            o.fingerprints.clone(),
+        );
+        record.state = state_for(&o, record.state);
+
+        // The state says "pre-accepted residual"; the verdict still says what was measured. Keeping
+        // them independent is what lets the report render verdict-first over a residual row.
+        assert_eq!(record.verdict, Some(Verdict::Pass));
+        assert_eq!(record.state, ReportState::KnownResidual);
+        assert_eq!(record.fingerprints, Some(vec!["fp-1".to_string()]));
+    }
+
+    #[test]
+    fn a_declare_only_row_under_a_degraded_read_back_is_residual_not_manual() {
+        // P-053's routing: an empty-`expected` scenario never reaches `evaluate_check`, so the
+        // record-level assignment is the only path that can mark it residual at all.
+        let r = manual_record(
+            &fixture(1),
+            "2026-08-13T00-00-00-abc",
+            "2026-08-13T00:00:00Z".to_string(),
+            "2026-08-13T00:00:01Z".to_string(),
+            1_000,
+            &observation(true),
+        );
+        assert_eq!(r.state, ReportState::KnownResidual);
+        assert_eq!(r.verdict, None, "a declare-only scenario asserts nothing — no verdict is invented");
     }
 
     fn fixture(seed: u64) -> Scenario {

@@ -22,9 +22,15 @@
 //! journal-relative tier deadline, producing the `matched`/class the classifier consumes. And
 //! finally the producer bridge ([`CheckOutcome::to_run_record`]) — folding a fully-evaluated outcome
 //! into the canonical [`conductor_core::RunRecord`] the Epoch-6 report seam persists.
+//!
+//! On top of all of it: per-check read-back extraction ([`observe`] / [`Observation`]) — one pass over
+//! the corpus tools composing the values each check's `ComparisonKind` grades against, replacing the
+//! placeholder token the run seam used to substitute. An empty corpus or a failed call is a
+//! [`ReadBackOutcome`] variant the run seam maps to `Blocked`, never a graded pass.
 
 mod client;
 mod error;
+mod extract;
 mod jsonrpc;
 mod manifest;
 mod preflight;
@@ -38,6 +44,7 @@ pub use client::{
     ReadbackClient,
 };
 pub use error::VerifyError;
+pub use extract::{Observation, Outcome as ReadBackOutcome, observe};
 pub use manifest::{ContractManifest, READBACK_TOOLS};
 pub use conductor_core::ClaimClass;
 pub use preflight::{

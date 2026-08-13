@@ -117,11 +117,12 @@
       "observed_gap": "execute_scenario writes the literal token \"incidents-listed\" as the observed value, so evaluate_check grades a placeholder rather than the SUT's actual response.",
       "verification": {
         "method": "integration",
-        "acceptance": "Each check's observed value comes from the named corpus tools and drives evaluate_check to classify unchanged; a degraded_mode read-back maps to KnownResidual; execute_scenario's public signature is unchanged.",
-        "ref": null,
-        "status": "planned"
+        "acceptance": "Against the JSON-RPC stub, each ExpectedCheck is graded on an observed value derived from the query_incident_list / retrieve_report / retrieve_telemetry_slice results per its ComparisonKind (text kinds on the composed observation, CountAtLeast on the evidence count), reaching evaluate_check to classify with both functions unmodified; a retrieve_report result carrying degraded_mode: true yields RunRecord.state == KnownResidual with the measured verdict preserved; and execute_scenario's public signature is unchanged, proven by its three production call sites compiling untouched.",
+        "ref": "crates/conductor-verify/tests/readback.rs::count_at_least_grades_the_evidence_count_not_the_text, ::observation_composes_list_fields_and_report_markdown, ::degraded_report_is_observed_as_the_pre_accepted_residual; crates/conductor-run/src/lib.rs::tests::a_measured_row_keeps_its_verdict_when_degradation_overrides_the_state, ::a_declare_only_row_under_a_degraded_read_back_is_residual_not_manual",
+        "status": "verified"
       },
-      "chunk": null
+      "chunk": "2026-08-13-per-check-read-back-extraction",
+      "notes": "Concretized at /andromeda-phase P5 (2026-08-13). Two premises the prior acceptance rested on were verified against the live SUT (andromeda-pulse crates/mcp-server/src/tools.rs) and came back different from the specs' phrasing: retrieve_report takes {incident_id} only and RETURNS degraded_mode: bool (computed as parsed_l4.is_none() at tools.rs:372), so degraded_mode is observed, never requested — arch and scenarios/degraded-mode-report.toml both phrase it as an argument; and query_incident_list takes no arguments at all. The concrete acceptance therefore names the response-side observation. Scope decisions taken at P5 review: per-check resolution derives from ComparisonKind (no scenario-model change — ExpectedCheck carries no selector), degraded_mode routes at record level so it reaches P-053 whose expected block is empty, and fingerprints is populated from retrieve_telemetry_slice.fingerprint_refs."
     },
     {
       "id": "v2-10",

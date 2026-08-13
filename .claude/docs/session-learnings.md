@@ -8,6 +8,17 @@ _This file is entirely wrap-session's territory. `/andromeda-setup-project` crea
 
 ---
 
+## 2026-08-13 — Report counts come from `git status`, not from a running tally
+
+The operator's standing practice for the wrap report: derive the chunk's file counts from `git status` at
+wrap time rather than from a tally accumulated across the session. A running tally drifts whenever a file is
+touched twice, added then reverted, or created by a step that also creates bookkeeping — and that tally is
+what the report's Changes bullet and the console summary both quote. `git status` is the one view that
+cannot disagree with what is about to be committed.
+
+Cross-check the derived number against the implement report's own table before quoting it (this chunk:
+6 source/test files + the verification matrix + bookkeeping, consistent across both).
+
 ## 2026-08-11 — On Windows, an unstated text encoding silently corrupts what you read and crashes what you print
 
 Python on this host defaults to the **cp1252** locale encoding for both file IO and stdout, and Andromeda's artifacts are em-dash- and arrow-dense (`—` in every epoch header and route line, `↓` as the working-route separator, `→` in every master record). Three distinct failures came from that in one session, each with a different signature:

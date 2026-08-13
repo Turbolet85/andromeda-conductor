@@ -18,6 +18,7 @@ use conductor_core::{ReportState, RunContractStatus, now_rfc3339, redact_value};
 
 use crate::client::ReadbackClient;
 use crate::error::VerifyError;
+use crate::extract::{call_error_reason, fingerprint_refs, incident_ids};
 use crate::manifest::ContractManifest;
 
 /// Whether a required read-back tool was advertised by the server.
@@ -343,36 +344,5 @@ async fn assert_canary(client: &ReadbackClient, canary: &CanaryMarker) -> Canary
     CanaryFidelity::NotYet(NotFound::FingerprintAbsent)
 }
 
-/// The redacted reason for a read-back call error — `JsonRpc` hides its server message behind `Display`,
-/// so surface it (redacted) only here for the precondition string.
-fn call_error_reason(e: &VerifyError) -> String {
-    match e {
-        VerifyError::JsonRpc { message, .. } => redact_value(message).into_owned(),
-        other => redact_value(&other.to_string()).into_owned(),
-    }
-}
-
-/// The incident ids in a `query_incident_list` result (`{items:[{id,…}]}`; tolerant of the stub's
-/// `incident_id` item key).
-fn incident_ids(list: &serde_json::Value) -> Vec<i64> {
-    list.get("items")
-        .and_then(serde_json::Value::as_array)
-        .map(|items| {
-            items
-                .iter()
-                .filter_map(|it| {
-                    it.get("id").or_else(|| it.get("incident_id")).and_then(serde_json::Value::as_i64)
-                })
-                .collect()
-        })
-        .unwrap_or_default()
-}
-
-/// The fingerprint reference strings in a `retrieve_telemetry_slice` result (`{fingerprint_refs:[…]}`).
-fn fingerprint_refs(slice: &serde_json::Value) -> Vec<String> {
-    slice
-        .get("fingerprint_refs")
-        .and_then(serde_json::Value::as_array)
-        .map(|refs| refs.iter().filter_map(|r| r.as_str().map(str::to_string)).collect())
-        .unwrap_or_default()
-}
+// `call_error_reason` / `incident_ids` / `fingerprint_refs` live in `crate::extract` — the canary and
+// the per-check extraction read the same Pulse shapes, so they read them through one definition.
