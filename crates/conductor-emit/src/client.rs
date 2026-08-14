@@ -6,6 +6,7 @@
 //! the OTLP-egress liveness surface at this layer, made explicit by the [`probe_egress`] gate — and
 //! a collector-returned `tonic::Status` is a typed input, never a panic (the verdict/error wall).
 
+use std::collections::BTreeSet;
 use std::time::Duration;
 
 use opentelemetry_proto::tonic::collector::logs::v1::{
@@ -66,9 +67,47 @@ impl TraceEmitter {
     /// Export one trace request. A collector-returned error status surfaces as [`EmitError::Status`].
     #[tracing::instrument(name = "emit.batch", skip_all, fields(emission_count = count_spans(&request)))]
     pub async fn export(&mut self, request: ExportTraceServiceRequest) -> Result<(), EmitError> {
+        tracing::debug!("wire shape: {}", wire_shape(&request));
         self.client.export(request).await?;
         Ok(())
     }
+}
+
+/// The observed structure of an outgoing trace request — span count, spans a receiver would skip for
+/// a missing id, and the distinct event / event-attribute key NAMES carried.
+///
+/// Key names only, never values (obs-plan §6 boundary wrappers): a receiver that degrades to empty on
+/// an unrecognized shape makes a divergence indistinguishable from emptiness, so the emitting side
+/// records what it actually put on the wire. Sets are ordered, so the same batch renders identically.
+fn wire_shape(request: &ExportTraceServiceRequest) -> String {
+    let mut spans = 0u64;
+    let mut missing_ids = 0u64;
+    let mut event_names = BTreeSet::new();
+    let mut attr_keys = BTreeSet::new();
+
+    for span in request
+        .resource_spans
+        .iter()
+        .flat_map(|rs| rs.scope_spans.iter())
+        .flat_map(|ss| ss.spans.iter())
+    {
+        spans += 1;
+        if span.trace_id.is_empty() || span.span_id.is_empty() {
+            missing_ids += 1;
+        }
+        for event in &span.events {
+            event_names.insert(event.name.as_str());
+            for kv in &event.attributes {
+                attr_keys.insert(kv.key.as_str());
+            }
+        }
+    }
+
+    format!(
+        "spans={spans} spans_missing_ids={missing_ids} event_names=[{}] event_attr_keys=[{}]",
+        event_names.into_iter().collect::<Vec<_>>().join(","),
+        attr_keys.into_iter().collect::<Vec<_>>().join(","),
+    )
 }
 
 fn count_spans(request: &ExportTraceServiceRequest) -> u64 {

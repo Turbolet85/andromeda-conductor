@@ -477,11 +477,18 @@ Additional scenario-specific fields (per obs-scope Section 4 must-trace paths):
 |---|---|---|
 | conductor-cli | info | `RUST_LOG=info` (default) |
 | conductor-tauri | info | `RUST_LOG=info` |
-| conductor-timeline | debug | `RUST_LOG=conductor_timeline=debug` (opt-in) |
-| conductor-emit | info | `RUST_LOG=info` |
+| conductor-timeline | debug | `RUST_LOG=info,conductor_timeline=debug` (opt-in) |
+| conductor-emit | info (`debug` for the `emit.batch` wire-shape witness) | `RUST_LOG=info,conductor_emit=debug` (opt-in) |
 | conductor-verify | info | `RUST_LOG=info` |
 | conductor-report | info | `RUST_LOG=info` |
-| conductor-faults | info | `RUST_LOG=conductor_faults=info` (opt-in) |
+| conductor-faults | info | `RUST_LOG=info,conductor_faults=info` (opt-in) |
+
+**A per-target directive REPLACES the default, it does not add to it** (measured 2026-08-14): a bare
+`RUST_LOG=conductor_emit=debug` filters every other target OUT — the rest of this table's `info` crates go
+dark and the self-obs stream carries the opted-in target alone, which fails the CLI's own agent-mode
+self-obs test. Always pair the global level with the target directive (`info,{crate}=debug`), and never set
+either form for a run that also executes the test suite — the environment reaches the runner's child
+processes.
 
 **Sink configuration:**
 - Dual sink (CLI): stderr pretty-print in dev, file `logs/agent-latest.jsonl` in `--agent-mode`
@@ -492,7 +499,7 @@ Additional scenario-specific fields (per obs-scope Section 4 must-trace paths):
 
 **Boundary-call wrappers (must-log events):**
 - MCP readback (`verify.readback`): log tool name (query_incident_list / retrieve_report / retrieve_telemetry_slice / mark_incident_resolved) + latency_ms + error (if any) + canary-check result + the **observed key set** of each raw tool result (the shape witness — the readers degrade to empty on an unrecognized shape rather than erroring, so without it a live field-name divergence is indistinguishable from an empty corpus). Key NAMES only, never values, and carried on the `message` field: a field name outside the allowlist is dropped at the processor stage, so a dedicated attribute would emit nothing
-- gRPC emit (`emit.batch`): log batch index + emission count + result status (OK / error)
+- gRPC emit (`emit.batch`): log batch index + emission count + result status (OK / error) + the **wire-shape witness** — the observed span count, the count of spans a receiver would skip for a missing `trace_id`/`span_id`, and the distinct event / event-attribute KEY NAMES of the outbound request, never values, ordered so the same batch renders identically. Emitted at `debug` inside the existing `#[instrument]` span (§11 bans `info` on a hot path) and carried on the already-allowlisted `message` field, so it needs no new allowlist entry. The emitting-side twin of the `verify.readback` key-set witness above: a receiver that degrades to empty on an unrecognized shape makes a divergence indistinguishable from emptiness, so the sender records what it actually put on the wire.
 - DB insert (`db.insert_run`): log row count (1) + run_id + verdict + state
 - Report generation (`report.generate`): log final verdict + state + fingerprint count
 - Redaction (`redaction.apply_field_allowlist`): log redaction warnings if any absolute paths or struct names were scrubbed
@@ -592,7 +599,7 @@ SLO enforcement: agent reads runs.db rows post-run and asserts `latency_ms <= sl
 - NEVER use unstructured stderr text — agent can't parse fields; all output MUST be structured JSON-per-line or sanitized stderr with machine-parseable hints
 - NEVER skip the `run_id` field — it is the correlation key on every JSONL line (there is no W3C `trace_id`/`span_id`; `tracing` span context is rendered inline by the JSON subscriber)
 - NEVER use multi-line stack traces without one-line serialization — `std::panic::set_hook()` must JSON-serialize backtrace to a single field
-- NEVER log in hot path at `info` level — use `trace` / `debug` gated by `RUST_LOG=conductor_timeline=debug` (opt-in)
+- NEVER log in hot path at `info` level — use `trace` / `debug` gated by `RUST_LOG=info,{crate}=debug` (opt-in; the global level must be paired with the target directive, which replaces rather than adds — §3 per-module levels)
 - NEVER leak absolute host paths or internal struct names in logs / run-report / runs.db — the redaction layer (`conductor-core::redact`, Section 11 PII Scrubbing subsection) masks absolute host-file paths (drive-letter, `/home`, `/Users`, `%APPDATA%`, `~/.cargo`, `.rustup`, backtrace file paths) → `<redacted>`; internal struct names are kept out by the field-name allowlist (non-allowlisted Debug-dumped fields dropped) + `Display`-not-`Debug` at the `anyhow` edge, NOT by blanket `::`-token redaction — the allowlisted `target` module path is preserved
 
 ### Error Reporting

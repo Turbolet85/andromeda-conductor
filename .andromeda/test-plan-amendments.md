@@ -85,3 +85,13 @@ _Append-only changelog of amendments to `test-plan.md` (the body holds only curr
 **Section:** §3 Test Harness Contract — 5-command implementation → `boot` (Timeout)
 **Change:** Timeout now names TWO budgets, both derived: the in-process canary poll (`CONDUCTOR_PREFLIGHT_TIMEOUT` raised to `[incident_formation].min_canary_poll_seconds`, unchanged) and the wall-clock wrapper `agent-run.{sh,ps1}` `boot` applies, which both shells now derive per invocation as `warmup_ms/1000 + poll + margin`. A missing contract term is a hard exit 2; a lowered env value clamps up to the floor. Stated as the derivation rule, no literal.
 **Why:** The wrapper was a fixed 30s in `.sh` and absent in `.ps1`, while the in-process budget is ~135s (45s warm-up + >=90s poll) — the wrapper killed every live run before the warm-up finished, and the two shells disagreed. Predicted as an expected amendment in the chunk plan.
+
+## 2026-08-14-canary-fingerprint-feed-capture — the event-line variant named by set, not by level literals
+**Section:** §3 Test Harness Contract → Log format ("Self-obs stream is a distinct artifact")
+**Change:** the event-line variant is now described as any `tracing` event record (`message` plus its
+allowlisted fields) at whatever level obs-plan §11's policy assigns that call site, rather than as "an
+`info!`/`error!` record".
+**Why:** the chunk shipped the first `debug`-level self-obs line (the `emit.batch` wire-shape witness, at
+`debug` because §11 bans `info` on a hot path), which the old two-level enumeration excluded — a one-sided
+test-plan §3 ↔ obs-plan §3 divergence, since obs-plan §3 never enumerated levels. Naming the set rather than
+substituting a fresh literal keeps it from re-staling.

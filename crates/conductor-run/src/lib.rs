@@ -108,7 +108,36 @@ fn unreachable_state(manifest: &ContractManifest, data_dir: &str) -> ReadyState 
 
 /// Identical-fingerprint canary exceptions emitted as the storm — over Pulse's `>=5 in 30s` retry-storm
 /// floor (P-018) so the gate's incident is raised deterministically.
-const CANARY_STORM_COUNT: u64 = 6;
+pub const CANARY_STORM_COUNT: u64 = 6;
+
+/// The canary's synthetic exception. `marker` is the unique-per-preflight `exception.type`, which is
+/// what makes the fingerprint unique to this run (a stale corpus cannot satisfy the gate on a prior
+/// run's canary); the frame path is relative by construction.
+pub fn canary_spec(marker: &str) -> ExceptionSpec {
+    ExceptionSpec::new(
+        marker,
+        "conductor preflight canary",
+        vec![Frame::new("conductor::run::preflight_canary", "conductor-run/src/lib.rs", 1)],
+    )
+}
+
+/// Emit the canary storm through `traces` — [`CANARY_STORM_COUNT`] occurrences seeded from `base`, so
+/// each carries a DISTINCT span identity while the fingerprint, a pure function of content, stays
+/// identical across all of them. The transport is injected rather than fixed at
+/// [`DEFAULT_OTLP_ENDPOINT`], so this exact emission loop is assertable against an ephemeral loopback
+/// stub instead of only against a live Pulse.
+pub async fn emit_canary_storm(
+    traces: &mut TraceEmitter,
+    spec: &ExceptionSpec,
+    base: u64,
+) -> anyhow::Result<()> {
+    for i in 0..CANARY_STORM_COUNT {
+        traces
+            .export(exception_trace_request(DEFAULT_SERVICE_NAME, base.wrapping_add(i), spec))
+            .await?;
+    }
+    Ok(())
+}
 
 /// Emit the canary fingerprint-storm, then run the readiness gate over it. Emission failure (OTLP
 /// egress down) is a Blocked precondition, never a harness `Err`; a missing / invalid manifest IS a
@@ -174,22 +203,14 @@ fn declares(name: &str) -> bool {
 /// same fingerprint, so Pulse counts a storm (security-plan §Threat Model).
 async fn emit_canary(contract: &RunContract, warm_up: bool) -> anyhow::Result<CanaryMarker> {
     let marker = format!("ConductorCanary_{}", now_ms());
-    let spec = ExceptionSpec::new(
-        marker.clone(),
-        "conductor preflight canary",
-        vec![Frame::new("conductor::run::preflight_canary", "conductor-run/src/lib.rs", 1)],
-    );
+    let spec = canary_spec(&marker);
     let fp = fingerprint(&spec);
     let base = now_ms() as u64;
     let mut traces = TraceEmitter::connect(DEFAULT_OTLP_ENDPOINT).await?;
     if warm_up {
         warm_up_canary_service(&mut traces, contract).await?;
     }
-    for i in 0..CANARY_STORM_COUNT {
-        traces
-            .export(exception_trace_request(DEFAULT_SERVICE_NAME, base.wrapping_add(i), &spec))
-            .await?;
-    }
+    emit_canary_storm(&mut traces, &spec, base).await?;
     Ok(CanaryMarker::new(marker, fp))
 }
 

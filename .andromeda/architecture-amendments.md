@@ -185,3 +185,18 @@ runs. Pulse-side mechanics confirmed first-hand (`corpus/src/contract.rs:628` ·
 **Section:** Occupied Resources — `contracts/pulse-run-contract.toml`
 **Change:** The claim that the warm-up pre-roll "carries the canary service out of Pulse's baseline bootstrap before the counted storm" is recorded as measured FALSE by the first live leg, with the mechanism: Pulse gates cue evaluation on `BootstrapState::Ready` (`cue/evaluate.rs:164`), which needs `now − first_observed_unix_nanos ≥ BOOTSTRAP_WINDOW_SECONDS = 3_600` per service wall-clock (`baseline/activity_floor.rs:33,173-183`), while `baseline_state` holds 0 rows so each launch resets the anchor. `warmup_ms = 45000` is short by 80x and unfixable by its own knobs; the `check = "asserted"` term cannot catch its own falsity. The underlying diagnosis (no baseline ⇒ the cue evaluator never considers the service) is unchanged — only the remedy is disproved, and the fix is Pulse-side.
 **Why:** Three arms of the live probe, all blocked for the no-incident cause with `cues_emitted: 0` and `services_ready: 0` throughout; `incidents` 0 rows in total. Evidence: `chunks/2026-08-10-workspace-key-divergence-probe/two-launch-verdict.md` §Re-run — 2026-08-13.
+
+## 2026-08-14-canary-fingerprint-feed-capture — a second Pulse-side gap on the canary path
+**Section:** §Occupied Resources (`contracts/pulse-run-contract.toml`)
+**Change:** recorded beside the warm-up falsification: Conductor's storm reaches the wire with its `exception`
+events intact and Pulse receives and counts all nine spans, yet the fingerprint table stays empty — so the gap
+lies inside Pulse between OTLP ingest receipt and the per-span-event fingerprint observer, a REGION rather than
+a named defect. Also records how to read that telemetry: `tracked_fingerprints_count` is a 60s-windowed gauge
+over DISTINCT fingerprints sampled after eviction (a working six-occurrence identical-fingerprint storm reads
+1, never 6), and the window-immune discriminators are the cumulative `storms_detected_total` /
+`fingerprints_evicted_total`.
+**Why:** the chunk's capture settled its fork. The finding bears directly on the run contract's
+`[incident_formation]` premise — the canary storm is emitted to raise an incident, and the feed that would
+raise it never engages — so it belongs beside the warm-up falsification the same section already carries.
+Evidence: 31 tick lines across three arms, twelve inside the retention window, all counters zero; `span_count`
+verified as a cumulative counter in the SUT's source rather than inferred from its shape.

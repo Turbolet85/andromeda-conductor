@@ -97,3 +97,17 @@ playbook:88 (operationalizing surfaces the spec's own stale field-list).
 **Section:** §6 Boundary-call wrappers (must-log events)
 **Change:** The MCP-readback must-log set gains the observed KEY SET of each raw tool result, and the tool list is completed with `retrieve_telemetry_slice`. Key names only, never values, carried on the `message` field because a field name outside the allowlist is dropped at the processor stage.
 **Why:** The extraction readers degrade to empty on an unrecognized shape rather than erroring, so without the witness a live field-name divergence is indistinguishable from an empty corpus. First live leg confirmed the witness works: `query_incident_list returned keys [items, next_cursor, total]`, matching the committed baseline exactly.
+
+## 2026-08-14-canary-fingerprint-feed-capture — emit.batch wire-shape witness + the additive RUST_LOG form
+**Section:** §6 Log Coverage (Boundary-call wrappers) · §3 Harness Contract (Per-module log levels) · §11 Anti-Patterns
+**Change:** §6's `emit.batch` must-log list now records the wire-shape witness — observed span count, spans a
+receiver would skip for a missing `trace_id`/`span_id`, and the distinct event / event-attribute KEY NAMES of
+the outbound request (names only, ordered), emitted at `debug` inside the existing `#[instrument]` span and
+carried on the already-allowlisted `message` field, so it needs no new allowlist entry. Separately, the §3
+per-module level table and the §11 hot-path rule now state the ADDITIVE form `RUST_LOG=info,{crate}=debug`:
+a bare per-target directive replaces the default rather than adding to it.
+**Why:** the chunk added the witness as the emitting-side twin of the `verify.readback` key-set witness — a
+receiver that degrades to empty on an unrecognized shape makes a divergence indistinguishable from emptiness,
+which is the ambiguity this chunk existed to resolve. The RUST_LOG correction was measured, not inferred: the
+bare form fails the CLI's own agent-mode self-obs test while `info,conductor_emit=debug` passes, and the old
+table was internally inconsistent under literal use (it would silence the very crates it sets to `info`).

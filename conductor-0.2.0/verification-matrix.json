@@ -149,7 +149,8 @@
         "ref": null,
         "status": "planned"
       },
-      "chunk": null
+      "chunk": null,
+      "notes": "2026-08-14-canary-fingerprint-feed-capture DECLINED this cap and it stays pooled: that chunk diagnoses why Pulse's storm detector tracked zero fingerprints, which is answerable without an incident, while this acceptance needs the family scenarios driven end-to-end and read back through MCP — an incident Pulse's 3,600s-per-service BootstrapState::Ready gate still prevents. The chunk partially advances the cap by removing the fingerprint-feed blocker and is cited in its plan.md provenance. Evidence carried forward for the next claiming chunk: Pulse's tracked_fingerprints_count is a 60s-windowed gauge over DISTINCT fingerprints sampled every 15s after eviction, so a working six-occurrence identical-fingerprint storm reads 1, never 6 — do not author an acceptance expecting 6. The latched discriminators are storms_detected_total and fingerprints_evicted_total on the same tick line; both read 0 across every sample of the three-arm probe, including a tick postdating arm 3's entire canary window."
     },
     {
       "id": "v2-12",
