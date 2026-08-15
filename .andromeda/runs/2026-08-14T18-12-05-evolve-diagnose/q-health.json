@@ -1,0 +1,189 @@
+{
+  "epoch": "conductor-0.2.0 | Epoch 2",
+  "records": 220,
+  "step": 112,
+  "friction": 108,
+  "unparseable_whole_ledger": 0,
+  "chunks": [
+    "2026-08-10-pulse-run-contract",
+    "2026-08-10-scenario-run-root-span-tree",
+    "2026-08-10-workspace-key-divergence-probe",
+    "2026-08-11-faithful-emission-dispatcher",
+    "2026-08-13-dispatcher-determinism-goldens",
+    "2026-08-13-first-live-green-preflight",
+    "2026-08-13-per-check-read-back-extraction",
+    "2026-08-14-canary-fingerprint-feed-capture"
+  ],
+  "coverage": {
+    "2026-08-10-pulse-run-contract": {
+      "andromeda-phase": {
+        "got": 5,
+        "expected": 5,
+        "missing": []
+      },
+      "andromeda-implement": {
+        "got": 3,
+        "expected": 3,
+        "missing": []
+      },
+      "andromeda-wrap-session": {
+        "got": 5,
+        "expected": 5,
+        "missing": []
+      }
+    },
+    "2026-08-10-scenario-run-root-span-tree": {
+      "andromeda-phase": {
+        "got": 5,
+        "expected": 5,
+        "missing": []
+      },
+      "andromeda-implement": {
+        "got": 3,
+        "expected": 3,
+        "missing": []
+      },
+      "andromeda-wrap-session": {
+        "got": 5,
+        "expected": 5,
+        "missing": []
+      }
+    },
+    "2026-08-10-workspace-key-divergence-probe": {
+      "andromeda-phase": {
+        "got": 5,
+        "expected": 5,
+        "missing": []
+      },
+      "andromeda-implement": {
+        "got": 3,
+        "expected": 3,
+        "missing": []
+      },
+      "andromeda-wrap-session": {
+        "got": 5,
+        "expected": 5,
+        "missing": []
+      }
+    },
+    "2026-08-11-faithful-emission-dispatcher": {
+      "andromeda-phase": {
+        "got": 5,
+        "expected": 5,
+        "missing": []
+      },
+      "andromeda-implement": {
+        "got": 3,
+        "expected": 3,
+        "missing": []
+      },
+      "andromeda-wrap-session": {
+        "got": 5,
+        "expected": 5,
+        "missing": []
+      }
+    },
+    "2026-08-13-dispatcher-determinism-goldens": {
+      "andromeda-phase": {
+        "got": 5,
+        "expected": 5,
+        "missing": []
+      },
+      "andromeda-implement": {
+        "got": 3,
+        "expected": 3,
+        "missing": []
+      },
+      "andromeda-wrap-session": {
+        "got": 5,
+        "expected": 5,
+        "missing": []
+      }
+    },
+    "2026-08-13-first-live-green-preflight": {
+      "andromeda-phase": {
+        "got": 5,
+        "expected": 5,
+        "missing": []
+      },
+      "andromeda-implement": {
+        "got": 3,
+        "expected": 3,
+        "missing": []
+      },
+      "andromeda-wrap-session": {
+        "got": 5,
+        "expected": 5,
+        "missing": []
+      }
+    },
+    "2026-08-13-per-check-read-back-extraction": {
+      "andromeda-phase": {
+        "got": 5,
+        "expected": 5,
+        "missing": []
+      },
+      "andromeda-implement": {
+        "got": 3,
+        "expected": 3,
+        "missing": []
+      },
+      "andromeda-wrap-session": {
+        "got": 5,
+        "expected": 5,
+        "missing": []
+      }
+    },
+    "2026-08-14-canary-fingerprint-feed-capture": {
+      "andromeda-phase": {
+        "got": 5,
+        "expected": 5,
+        "missing": []
+      },
+      "andromeda-implement": {
+        "got": 3,
+        "expected": 3,
+        "missing": []
+      },
+      "andromeda-wrap-session": {
+        "got": 5,
+        "expected": 5,
+        "missing": []
+      }
+    }
+  },
+  "new_session_records": 15,
+  "untyped_by_step": {
+    "andromeda-phase/take-up": 3,
+    "andromeda-phase/research": 4,
+    "andromeda-implement/code": 3,
+    "andromeda-implement/smoke": 5,
+    "andromeda-wrap-session/reconcile": 5,
+    "andromeda-phase/plan": 2,
+    "andromeda-implement/fix-loop": 2,
+    "andromeda-new-session/orientation": 6,
+    "andromeda-wrap-session/route-resolve": 2,
+    "andromeda-phase/validate": 2
+  },
+  "typed_by_step": {
+    "andromeda-new-session/orientation": 1,
+    "andromeda-phase/plan": 7,
+    "andromeda-phase/validate": 5,
+    "andromeda-implement/code": 8,
+    "andromeda-implement/fix-loop": 12,
+    "andromeda-wrap-session/report": 5,
+    "andromeda-wrap-session/curation": 10,
+    "andromeda-wrap-session/route-resolve": 3,
+    "andromeda-wrap-session/gates": 5,
+    "andromeda-phase/take-up": 1,
+    "andromeda-phase/research": 4,
+    "andromeda-implement/smoke": 5,
+    "andromeda-wrap-session/reconcile": 7,
+    "andromeda-phase/distill": 1
+  },
+  "problem_fill": {
+    "step_records_with_facts": 45,
+    "step_records": 112,
+    "total_problem_facts": 53
+  }
+}

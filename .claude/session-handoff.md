@@ -1,62 +1,56 @@
 # Session Handoff
 
-**Last Updated:** 2026-08-14T17:05:10Z
-**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **12 ahead** after this chunk commit)
+**Last Updated:** 2026-08-15T21:54:34Z
+**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **13 ahead** after this commit)
 **Status:** clean
-**Last Commit:** 2026-08-14-canary-fingerprint-feed-capture — spans arrive intact and are counted; nothing reaches Pulse's fingerprint observer
+**Last Commit:** chore(route) — operator-requested adaptation, 0-pending wrap (no chunk wrapped)
 
 ## Position
-- Done: **2026-08-14-canary-fingerprint-feed-capture** — the canary path gained its first wire-tier test, the
-  `emit.batch` boundary gained a wire-shape witness, and the three-arm tick series was transcribed from the
-  frozen Pulse log. **Epoch 2 — Live-path enablement is COMPLETE.**
-- Next: **Fault-application spans** (first markerless entry, opens Epoch 3) — `/andromeda-phase` to promote +
-  plan. **But read the trajectory note below first: every live entry in Epoch 3+ is now blocked Pulse-side.**
+- Done: **no chunk this session** — a 0-pending route adaptation. The last completed chunk is still
+  **2026-08-14-canary-fingerprint-feed-capture**; master-route untouched (nothing to flip).
+- Next: **Canary storm inside Pulse's Autonomous band** — the NEW first markerless entry in Epoch 3.
+  `/andromeda-phase` to promote + plan. It is no longer blocked Pulse-side.
 
 ## Work done
-7 modified · 3 new (counts from `git status`), `Cargo.lock` **zero lines**. Gates green in **1 iteration**:
-workspace `--profile ci` **581/581** (+4) zero retries, doctest 3 across 7 suites, `clippy -D warnings` clean,
-`cargo deny` all four classes exit 0. Smoke ✓ — `agent-run run` exit 0, plus a `SCENARIO=`-gated leg producing
-`[BLOCKED] fingerprint-storm` at exit 0 with a fresh artifact.
+Inserted ONE entry at the head of Epoch 3 and moved the audit PREREQ onto it (compact standing form, 18th
+pin, origin preserved). Curation applied 2 of 4 candidates. No code, no specs, no master-route, no matrix.
 
 ## Drift resolved
-7 detectors → **4 amendments on 3 masters**, **0 escalations**, 0 open. obs-plan §6 (the `emit.batch` witness)
-· obs-plan §3+§11 (the additive `RUST_LOG=info,{crate}=debug` form) · test-plan §3 (event line named by set,
-not by level literals) · architecture §Occupied Resources (the second Pulse-side gap). **Two of the four came
-from outside the detectors**: arch from the expected-amendments floor (second consecutive chunk), and the
-obs RUST_LOG one from the cascade's citation grep. Full record:
-`.andromeda/runs/2026-08-14T16-51-43-wrap/fanout-results.md`.
+none — no chunk ran, so P1 report / P2 reconcile / P4 code-graph / P7 gates did not execute. Drift = 0 by
+construction on this path.
 
 ## Notes
-- **The chunk's question is settled and handed off.** Conductor's storm reaches the wire with its `exception`
-  events intact — asserted on spans a collector actually received. Pulse receives and counts all nine spans
-  (`span_count` is a cumulative `fetch_add`, verified in source: `1 → 2 → 3 → 9` and holding, every arm). Its
-  fingerprint table stays empty across **31 tick lines, three arms, twelve samples INSIDE the 60s window**,
-  both cumulative counters 0. Spans arrive; nothing reaches the fingerprint observer.
-- **THE TRAJECTORY CALL IS OPEN AND YOURS.** Every Epoch-3+ live entry now waits on **three** named Pulse-side
-  pieces: (a) a test-mode bootstrap override or baseline persistence (the 3,600s per-service wall-clock gate),
-  (b) workspace-key alignment incl. canonicalize-vs-raw `\\?\`, (c) the ingest→fingerprint-observer gap, newly
-  measured. Piece (c) is a **region inside Pulse, not a named defect** — Conductor cannot see into that path.
-  Switching to Pulse to clear these is a live option; this wrap presents it and does not decide it. No route
-  edit encodes it. Cross-project pointers:
-  `chunks/2026-08-10-workspace-key-divergence-probe/two-launch-verdict.md` §Re-run · and
-  `chunks/2026-08-14-canary-fingerprint-feed-capture/fingerprint-feed-verdict.md`.
-- **A metric-reading correction worth carrying:** `tracked_fingerprints_count` is a 60s-windowed gauge over
-  DISTINCT fingerprints sampled at a 15s tick AFTER eviction — a working six-occurrence identical-fingerprint
-  storm reads **1, never 6**, and a late sample reads 0 on a healthy path. The window-immune discriminators
-  are the cumulative counters beside it. A windowed gauge cannot witness an event's absence.
-- **`RUST_LOG` form matters:** a bare `conductor_emit=debug` filters every OTHER target out and fails the
-  CLI's own agent-mode self-obs test. Use `info,conductor_emit=debug`, and never with a run that also
-  executes the test suite (the env reaches nextest's children).
-- **`cargo audit` — SIXTEENTH red, silent re-pin** under the L5 ratification (origin
-  `2026-08-08-sut-capability-manifest`). Byte-identical `duplicate advisory ID: RUSTSEC-2026-0244` on 0.22.2,
-  true exit 1 — advisory-DATABASE fault. Basis re-verified literally: `Cargo.lock` **zero lines**, 0 new
-  `[[package]]`, `cargo deny` true exit 0 as the overlap.
-- **Curation:** T1 0 · **T2 3 as two in-place extensions** of `verification-harness.md` (the recipe block
-  gains a sixth item + the corrected `RUST_LOG` form; the host-preconditions block gains "an unreachable
-  sidecar means the canary never emits, so a MISSING witness line is leg-never-ran evidence, not wire
-  evidence"; plus the gauge-vs-cumulative diagnostic rule) · T3 0. Filtered 0, deferred 0, no conflicts.
-- **Verification matrix:** 0 caps claimed — the coverage gate is a correct no-op. `v2-11` stays pooled
-  (`chunk:null`) with a partial-advance `notes` line. Coverage **11/32**, unchanged by design.
-- **Route:** 2 factual tail edits — the 17th audit PREREQ onto `Fault-application spans`, and a CARRY pinning
-  the fingerprint-observer gap onto `fingerprint-storm live proof` (the first family that depends on the feed).
+- **Pulse is settled and proven.** Four chunks since the switch: fingerprint feed healthy with permanent
+  counters; F10 observed then FIXED (the app publishes its workspace key under the data dir, the sidecar
+  reads it — decryption confirmed through Conductor's own preflight instrument); corpus key custody
+  restored (boot-2 decrypts boot-1, 13 to 0); incident path measured healthy end to end (5 suggested,
+  10 autonomous, 2 rows on two fresh dirs). **The last preflight-green blocker is Conductor's own constant.**
+- **The new entry's substance, verified first-hand this session against both repos' source.**
+  `CANARY_STORM_COUNT = 6` (`crates/conductor-run/src/lib.rs:111`) sits in Pulse's Suggested band and the
+  Tier-1 coordinator accepts ONLY Autonomous cues, so no incident ever forms. **Three dictated premises were
+  corrected before they froze into the CARRY:** the two module paths are `crates/triage/src/pattern/storm.rs`
+  (`:73`, `:78`) and `crates/triage/src/cadence/coordinator.rs:390`; the emit test is
+  `count >= autonomous_threshold` (`:245`) so **TEN SUFFICE, not eleven** — the margin floor moved by one;
+  and `DEFAULT_DETECTION_SUB_WINDOW_SECONDS = 30` (`:69`) bounds it from above (the count must land inside
+  ONE 30s window). The exact margin is the PLAN's judgment.
+- **The scenario does NOT move.** `scenarios/fingerprint-storm.toml` is already two-phase by design
+  (6 then 12); only the preflight canary constant changes. Its doc comment (`lib.rs:109-110`) carries the
+  now-insufficient rationale and must move WITH the constant. Tests: `tests/canary_wire.rs:20,101,130,182`.
+- **Pinned on the entry for its own wrap:** the `architecture.md:174` expected amendment (the false
+  "read-back tools filter incidents by the `workspace` column") and two verdict-doc closures
+  (two-launch-verdict §Re-run arm-zero; fingerprint-feed-verdict §5), citing Pulse evidence paths only.
+- **`v2-10` stays pooled** (`chunk:null`, CONCRETIZATION DECLINED). All three causes its note names are
+  dissolved Pulse-side, so it becomes **claimable at the new entry's phase P5** if research confirms
+  `ready:true` is provable — the decline note's own re-claim path, never retroactive. Coverage **11/32**,
+  unchanged by design. No BLOCKED-ON annotation anywhere (the dissolved block was never pinned).
+- **`cargo audit` — SEVENTEENTH red, re-verified not echoed.** Byte-identical `duplicate advisory ID:
+  RUSTSEC-2026-0244` on 0.22.2, true exit 1 — advisory-DATABASE fault, no floor to raise. Basis re-checked
+  literally: `Cargo.lock` **zero lines** vs HEAD; overlap `cargo deny check` **true exit 0** (all four
+  classes). Same upstream fault reached Pulse the same day — one event, two projects.
+- **Curation:** T1 1 (in-place extension of the 2026-08-09 citation rule: an operator's mid-session
+  directive carries citations too, and dictation is where they drift) - T3 1 (evolve-diagnose run dirs are
+  audit-trail class at the wrap dirt-check) - filtered 2 as task-specific. No conflicts, none deferred.
+- **Operator ruling recorded:** an untracked `/andromeda-evolve-diagnose` run dir sits outside the wrap
+  dirt-check's three-file bookkeeping set and triggered its HALT; ruled **audit-trail class**, absorbed into
+  this commit. The T3 entry keeps the next 0-pending wrap from re-asking.
 - **Last failed command:** none.

@@ -1,0 +1,1058 @@
+{
+  "hypotheses": 55,
+  "cross_chunk_patterns": [
+    {
+      "producer": "andromeda-phase/research",
+      "artifact": "research",
+      "consumer": "andromeda-implement/code",
+      "chunks": [
+        "2026-08-10-pulse-run-contract",
+        "2026-08-10-scenario-run-root-span-tree",
+        "2026-08-10-workspace-key-divergence-probe",
+        "2026-08-11-faithful-emission-dispatcher",
+        "2026-08-13-dispatcher-determinism-goldens",
+        "2026-08-14-canary-fingerprint-feed-capture"
+      ],
+      "n_chunks": 6,
+      "n_hypotheses": 9,
+      "signalled_producer": true,
+      "cases": [
+        {
+          "chunk": "2026-08-10-workspace-key-divergence-probe",
+          "artifact": "research",
+          "producer": "andromeda-phase/research",
+          "consumer": "andromeda-implement/code",
+          "anchor": "input-friction",
+          "friction_type": "input.plan-step-ambiguous",
+          "consumer_note": "the plan said 'leave the five shipped legs untouched' while two of them (an_empty_canary_is_blocked, a_canary_call_error_is_blocked_distinctly_from_an_empty_corpus) assert the exac",
+          "producer_signals": [
+            "unresolved-questions"
+          ],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "UNTYPED"
+          ],
+          "evidence_lines": [
+            233,
+            241
+          ]
+        },
+        {
+          "chunk": "2026-08-10-pulse-run-contract",
+          "artifact": "research",
+          "producer": "andromeda-phase/research",
+          "consumer": "andromeda-implement/code",
+          "anchor": "consumed-quality",
+          "consumer_verdict": "thin",
+          "consumer_note": "all 7 modify paths existed and all 3 new paths were genuinely new, but the boundary list omitted crates/conductor-run/Cargo.toml, which the plan's own step 5 required",
+          "producer_signals": [
+            "unresolved-questions"
+          ],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "input.extract-signal-gap",
+            "UNTYPED"
+          ],
+          "evidence_lines": [
+            260,
+            268
+          ]
+        },
+        {
+          "chunk": "2026-08-10-pulse-run-contract",
+          "artifact": "research",
+          "producer": "andromeda-phase/research",
+          "consumer": "andromeda-implement/code",
+          "anchor": "input-friction",
+          "friction_type": "input.research-files-wrong",
+          "consumer_note": "the plan's step 5 mandates a warm-up WAIT inside conductor-run/src/lib.rs, but neither research's Files-to-modify nor the plan's touchpoints listed crates/conductor-run/Cargo.toml,",
+          "producer_signals": [
+            "unresolved-questions"
+          ],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "input.extract-signal-gap",
+            "UNTYPED"
+          ],
+          "evidence_lines": [
+            260,
+            269
+          ]
+        },
+        {
+          "chunk": "2026-08-10-pulse-run-contract",
+          "artifact": "research",
+          "producer": "andromeda-phase/research",
+          "consumer": "andromeda-implement/code",
+          "anchor": "input-friction",
+          "friction_type": "input.plan-step-ambiguous",
+          "consumer_note": "step 3 prescribed that the binary edge resolve and load the contract path, citing load_envelope.rs's never-this-module rule, but the two conductor-run entrypoints it flows through ",
+          "producer_signals": [
+            "unresolved-questions"
+          ],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "input.extract-signal-gap",
+            "UNTYPED"
+          ],
+          "evidence_lines": [
+            260,
+            270
+          ]
+        },
+        {
+          "chunk": "2026-08-10-scenario-run-root-span-tree",
+          "artifact": "research",
+          "producer": "andromeda-phase/research",
+          "consumer": "andromeda-implement/code",
+          "anchor": "input-friction",
+          "friction_type": "input.conventions-gap",
+          "consumer_note": "The plan required report.generate to carry verdict/state 'drawn from the typed values' but neither plan nor research said HOW to stringify them, and the obvious accessor is a trap:",
+          "producer_signals": [
+            "unresolved-questions"
+          ],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "input.extract-signal-gap"
+          ],
+          "evidence_lines": [
+            293,
+            300
+          ]
+        },
+        {
+          "chunk": "2026-08-11-faithful-emission-dispatcher",
+          "artifact": "research",
+          "producer": "andromeda-phase/research",
+          "consumer": "andromeda-implement/code",
+          "anchor": "consumed-quality",
+          "consumer_verdict": "thin",
+          "consumer_note": "Files-to-modify named crates/conductor-emit/tests/ for the dispatcher's wire assertions, which is impossible — conductor-emit does not depend on conductor-run; the tests went to crates/conductor-run/tests/",
+          "producer_signals": [
+            "unresolved-questions"
+          ],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "input.extract-signal-gap"
+          ],
+          "evidence_lines": [
+            322,
+            329
+          ]
+        },
+        {
+          "chunk": "2026-08-11-faithful-emission-dispatcher",
+          "artifact": "research",
+          "producer": "andromeda-phase/research",
+          "consumer": "andromeda-implement/code",
+          "anchor": "input-friction",
+          "friction_type": "input.research-files-wrong",
+          "consumer_note": "research.md and plan.md both listed crates/conductor-emit/tests/ as the home for the dispatcher's per-family wire assertions, but the dispatcher lives in conductor-run and conducto",
+          "producer_signals": [
+            "unresolved-questions"
+          ],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "input.extract-signal-gap"
+          ],
+          "evidence_lines": [
+            322,
+            330
+          ]
+        },
+        {
+          "chunk": "2026-08-13-dispatcher-determinism-goldens",
+          "artifact": "research",
+          "producer": "andromeda-phase/research",
+          "consumer": "andromeda-implement/code",
+          "anchor": "consumed-quality",
+          "consumer_verdict": "thin",
+          "consumer_note": "all 4 listed modify paths existed and the conditional 5th was needed, but the boundary list omitted two enablers the listed work requires: conductor-run/Cargo.toml and conductor-core/src/lib.rs",
+          "producer_signals": [
+            "unresolved-questions",
+            "premise-falsified"
+          ],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "input.cookbook-gap",
+            "UNTYPED"
+          ],
+          "evidence_lines": [
+            354,
+            361
+          ]
+        },
+        {
+          "chunk": "2026-08-14-canary-fingerprint-feed-capture",
+          "artifact": "research",
+          "producer": "andromeda-phase/research",
+          "consumer": "andromeda-implement/code",
+          "anchor": "input-friction",
+          "friction_type": "input.plan-step-ambiguous",
+          "consumer_note": "The plan's step-3 seam (extract request construction to a function yielding the requests) could not compile: conductor-run has opentelemetry-proto only as a dev-dependency and cond",
+          "producer_signals": [
+            "unresolved-questions"
+          ],
+          "producer_outcome": "ok",
+          "producer_frictions": [],
+          "evidence_lines": [
+            430,
+            435
+          ]
+        }
+      ]
+    },
+    {
+      "producer": "andromeda-phase/take-up",
+      "artifact": "scope",
+      "consumer": "andromeda-phase/plan",
+      "chunks": [
+        "2026-08-10-pulse-run-contract",
+        "2026-08-10-scenario-run-root-span-tree",
+        "2026-08-10-workspace-key-divergence-probe",
+        "2026-08-11-faithful-emission-dispatcher",
+        "2026-08-13-dispatcher-determinism-goldens"
+      ],
+      "n_chunks": 5,
+      "n_hypotheses": 6,
+      "signalled_producer": true,
+      "cases": [
+        {
+          "chunk": "2026-08-10-workspace-key-divergence-probe",
+          "artifact": "scope",
+          "producer": "andromeda-phase/take-up",
+          "consumer": "andromeda-phase/plan",
+          "anchor": "consumed-quality",
+          "consumer_verdict": "wrong",
+          "consumer_note": "repeats the intent's marker-less-temp-dir interim-unblock claim, which research falsified; plan step 1 explicitly overrides that sentence and names research as authoritative",
+          "producer_signals": [
+            "scope-inferred",
+            "carry-folded"
+          ],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "UNTYPED"
+          ],
+          "evidence_lines": [
+            230,
+            235
+          ]
+        },
+        {
+          "chunk": "2026-08-10-pulse-run-contract",
+          "artifact": "scope",
+          "producer": "andromeda-phase/take-up",
+          "consumer": "andromeda-phase/plan",
+          "anchor": "consumed-quality",
+          "consumer_verdict": "thin",
+          "consumer_note": "Term C named the storm shape as the missing contract content; research found emit_canary already emits 6 same-fingerprint exceptions over the >=5/30s floor, so the term was true about Pulse but already satisfied. The operative lever is baseline bootstrap of a brand-new canary service, which the scope did not name",
+          "producer_signals": [
+            "scope-inferred",
+            "carry-folded"
+          ],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "input.working-entry-thin"
+          ],
+          "evidence_lines": [
+            257,
+            263
+          ]
+        },
+        {
+          "chunk": "2026-08-10-scenario-run-root-span-tree",
+          "artifact": "scope",
+          "producer": "andromeda-phase/take-up",
+          "consumer": "andromeda-phase/plan",
+          "anchor": "consumed-quality",
+          "consumer_verdict": "wrong",
+          "consumer_note": "asserted the three shipped spans 'are emitted'; research falsified it (they emit nothing). Amended at P5 as intent-incomplete",
+          "producer_signals": [
+            "scope-inferred",
+            "carry-folded"
+          ],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "UNTYPED"
+          ],
+          "evidence_lines": [
+            289,
+            295
+          ]
+        },
+        {
+          "chunk": "2026-08-11-faithful-emission-dispatcher",
+          "artifact": "scope",
+          "producer": "andromeda-phase/take-up",
+          "consumer": "andromeda-phase/plan",
+          "anchor": "input-friction",
+          "friction_type": "input.research-thin",
+          "consumer_note": "plan.md step 1 enumerates 8 emission-shape variants with their per-family parameters (fingerprint variant mix, severity mix, p50/p95/p99, PII categories, error placement + fraction",
+          "producer_signals": [
+            "scope-inferred",
+            "carry-folded"
+          ],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "UNTYPED"
+          ],
+          "evidence_lines": [
+            319,
+            325
+          ]
+        },
+        {
+          "chunk": "2026-08-11-faithful-emission-dispatcher",
+          "artifact": "scope",
+          "producer": "andromeda-phase/take-up",
+          "consumer": "andromeda-phase/plan",
+          "anchor": "input-friction",
+          "friction_type": "input.extracts-conflict",
+          "consumer_note": "A tension P2's check C surfaced only as a unilateral binding turned out to be substantive at synthesis: layouts requires the emission tally to be ONE number shared with the cli ind",
+          "producer_signals": [
+            "scope-inferred",
+            "carry-folded"
+          ],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "UNTYPED"
+          ],
+          "evidence_lines": [
+            319,
+            326
+          ]
+        },
+        {
+          "chunk": "2026-08-13-dispatcher-determinism-goldens",
+          "artifact": "scope",
+          "producer": "andromeda-phase/take-up",
+          "consumer": "andromeda-phase/plan",
+          "anchor": "consumed-quality",
+          "consumer_verdict": "wrong",
+          "consumer_note": "its CARRY section, folded verbatim from the working entry at promotion, asserted a premise P3 disproved; amended in-flight via the sanctioned intent-incomplete path with a PREMISE-CORRECTION section",
+          "producer_signals": [
+            "scope-inferred",
+            "carry-folded"
+          ],
+          "producer_outcome": "ok",
+          "producer_frictions": [],
+          "evidence_lines": [
+            352,
+            357
+          ]
+        }
+      ]
+    },
+    {
+      "producer": "andromeda-phase/plan",
+      "artifact": "plan",
+      "consumer": "andromeda-implement/code",
+      "chunks": [
+        "2026-08-10-pulse-run-contract",
+        "2026-08-10-scenario-run-root-span-tree",
+        "2026-08-10-workspace-key-divergence-probe",
+        "2026-08-11-faithful-emission-dispatcher",
+        "2026-08-14-canary-fingerprint-feed-capture"
+      ],
+      "n_chunks": 5,
+      "n_hypotheses": 7,
+      "signalled_producer": true,
+      "cases": [
+        {
+          "chunk": "2026-08-10-workspace-key-divergence-probe",
+          "artifact": "plan",
+          "producer": "andromeda-phase/plan",
+          "consumer": "andromeda-implement/code",
+          "anchor": "consumed-quality",
+          "consumer_verdict": "thin",
+          "consumer_note": "step 5 prescribed a StubConfig knob for the fingerprint-absent cause that shipped tests already drive via a mismatched CanaryMarker (tests/preflight.rs:134); and 'leave the five shipped legs untouched' conflicted with the fact that two of them pin the very string being replaced",
+          "producer_signals": [],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "ambiguity.scope-question"
+          ],
+          "evidence_lines": [
+            235,
+            239
+          ]
+        },
+        {
+          "chunk": "2026-08-10-workspace-key-divergence-probe",
+          "artifact": "plan",
+          "producer": "andromeda-phase/plan",
+          "consumer": "andromeda-implement/code",
+          "anchor": "input-friction",
+          "friction_type": "input.plan-step-ambiguous",
+          "consumer_note": "the plan said 'leave the five shipped legs untouched' while two of them (an_empty_canary_is_blocked, a_canary_call_error_is_blocked_distinctly_from_an_empty_corpus) assert the exac",
+          "producer_signals": [],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "ambiguity.scope-question"
+          ],
+          "evidence_lines": [
+            235,
+            241
+          ]
+        },
+        {
+          "chunk": "2026-08-10-pulse-run-contract",
+          "artifact": "plan",
+          "producer": "andromeda-phase/plan",
+          "consumer": "andromeda-implement/code",
+          "anchor": "input-friction",
+          "friction_type": "input.research-files-wrong",
+          "consumer_note": "the plan's step 5 mandates a warm-up WAIT inside conductor-run/src/lib.rs, but neither research's Files-to-modify nor the plan's touchpoints listed crates/conductor-run/Cargo.toml,",
+          "producer_signals": [],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "ambiguity.scope-question",
+            "UNTYPED"
+          ],
+          "evidence_lines": [
+            263,
+            269
+          ]
+        },
+        {
+          "chunk": "2026-08-10-pulse-run-contract",
+          "artifact": "plan",
+          "producer": "andromeda-phase/plan",
+          "consumer": "andromeda-implement/code",
+          "anchor": "input-friction",
+          "friction_type": "input.plan-step-ambiguous",
+          "consumer_note": "step 3 prescribed that the binary edge resolve and load the contract path, citing load_envelope.rs's never-this-module rule, but the two conductor-run entrypoints it flows through ",
+          "producer_signals": [],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "ambiguity.scope-question",
+            "UNTYPED"
+          ],
+          "evidence_lines": [
+            263,
+            270
+          ]
+        },
+        {
+          "chunk": "2026-08-10-scenario-run-root-span-tree",
+          "artifact": "plan",
+          "producer": "andromeda-phase/plan",
+          "consumer": "andromeda-implement/code",
+          "anchor": "input-friction",
+          "friction_type": "input.conventions-gap",
+          "consumer_note": "The plan required report.generate to carry verdict/state 'drawn from the typed values' but neither plan nor research said HOW to stringify them, and the obvious accessor is a trap:",
+          "producer_signals": [],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "ambiguity.scope-question"
+          ],
+          "evidence_lines": [
+            295,
+            300
+          ]
+        },
+        {
+          "chunk": "2026-08-11-faithful-emission-dispatcher",
+          "artifact": "plan",
+          "producer": "andromeda-phase/plan",
+          "consumer": "andromeda-implement/code",
+          "anchor": "input-friction",
+          "friction_type": "input.research-files-wrong",
+          "consumer_note": "research.md and plan.md both listed crates/conductor-emit/tests/ as the home for the dispatcher's per-family wire assertions, but the dispatcher lives in conductor-run and conducto",
+          "producer_signals": [],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "input.research-thin",
+            "input.extracts-conflict"
+          ],
+          "evidence_lines": [
+            324,
+            330
+          ]
+        },
+        {
+          "chunk": "2026-08-14-canary-fingerprint-feed-capture",
+          "artifact": "plan",
+          "producer": "andromeda-phase/plan",
+          "consumer": "andromeda-implement/code",
+          "anchor": "input-friction",
+          "friction_type": "input.plan-step-ambiguous",
+          "consumer_note": "The plan's step-3 seam (extract request construction to a function yielding the requests) could not compile: conductor-run has opentelemetry-proto only as a dev-dependency and cond",
+          "producer_signals": [
+            "conditional-step"
+          ],
+          "producer_outcome": "ok",
+          "producer_frictions": [],
+          "evidence_lines": [
+            431,
+            435
+          ]
+        }
+      ]
+    },
+    {
+      "producer": "andromeda-phase/take-up",
+      "artifact": "scope",
+      "consumer": "andromeda-implement/code",
+      "chunks": [
+        "2026-08-10-pulse-run-contract",
+        "2026-08-10-scenario-run-root-span-tree",
+        "2026-08-10-workspace-key-divergence-probe",
+        "2026-08-11-faithful-emission-dispatcher",
+        "2026-08-14-canary-fingerprint-feed-capture"
+      ],
+      "n_chunks": 5,
+      "n_hypotheses": 6,
+      "signalled_producer": true,
+      "cases": [
+        {
+          "chunk": "2026-08-10-workspace-key-divergence-probe",
+          "artifact": "scope",
+          "producer": "andromeda-phase/take-up",
+          "consumer": "andromeda-implement/code",
+          "anchor": "input-friction",
+          "friction_type": "input.plan-step-ambiguous",
+          "consumer_note": "the plan said 'leave the five shipped legs untouched' while two of them (an_empty_canary_is_blocked, a_canary_call_error_is_blocked_distinctly_from_an_empty_corpus) assert the exac",
+          "producer_signals": [
+            "scope-inferred",
+            "carry-folded"
+          ],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "UNTYPED"
+          ],
+          "evidence_lines": [
+            230,
+            241
+          ]
+        },
+        {
+          "chunk": "2026-08-10-pulse-run-contract",
+          "artifact": "scope",
+          "producer": "andromeda-phase/take-up",
+          "consumer": "andromeda-implement/code",
+          "anchor": "input-friction",
+          "friction_type": "input.research-files-wrong",
+          "consumer_note": "the plan's step 5 mandates a warm-up WAIT inside conductor-run/src/lib.rs, but neither research's Files-to-modify nor the plan's touchpoints listed crates/conductor-run/Cargo.toml,",
+          "producer_signals": [
+            "scope-inferred",
+            "carry-folded"
+          ],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "input.working-entry-thin"
+          ],
+          "evidence_lines": [
+            257,
+            269
+          ]
+        },
+        {
+          "chunk": "2026-08-10-pulse-run-contract",
+          "artifact": "scope",
+          "producer": "andromeda-phase/take-up",
+          "consumer": "andromeda-implement/code",
+          "anchor": "input-friction",
+          "friction_type": "input.plan-step-ambiguous",
+          "consumer_note": "step 3 prescribed that the binary edge resolve and load the contract path, citing load_envelope.rs's never-this-module rule, but the two conductor-run entrypoints it flows through ",
+          "producer_signals": [
+            "scope-inferred",
+            "carry-folded"
+          ],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "input.working-entry-thin"
+          ],
+          "evidence_lines": [
+            257,
+            270
+          ]
+        },
+        {
+          "chunk": "2026-08-10-scenario-run-root-span-tree",
+          "artifact": "scope",
+          "producer": "andromeda-phase/take-up",
+          "consumer": "andromeda-implement/code",
+          "anchor": "input-friction",
+          "friction_type": "input.conventions-gap",
+          "consumer_note": "The plan required report.generate to carry verdict/state 'drawn from the typed values' but neither plan nor research said HOW to stringify them, and the obvious accessor is a trap:",
+          "producer_signals": [
+            "scope-inferred",
+            "carry-folded"
+          ],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "UNTYPED"
+          ],
+          "evidence_lines": [
+            289,
+            300
+          ]
+        },
+        {
+          "chunk": "2026-08-11-faithful-emission-dispatcher",
+          "artifact": "scope",
+          "producer": "andromeda-phase/take-up",
+          "consumer": "andromeda-implement/code",
+          "anchor": "input-friction",
+          "friction_type": "input.research-files-wrong",
+          "consumer_note": "research.md and plan.md both listed crates/conductor-emit/tests/ as the home for the dispatcher's per-family wire assertions, but the dispatcher lives in conductor-run and conducto",
+          "producer_signals": [
+            "scope-inferred",
+            "carry-folded"
+          ],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "UNTYPED"
+          ],
+          "evidence_lines": [
+            319,
+            330
+          ]
+        },
+        {
+          "chunk": "2026-08-14-canary-fingerprint-feed-capture",
+          "artifact": "scope",
+          "producer": "andromeda-phase/take-up",
+          "consumer": "andromeda-implement/code",
+          "anchor": "input-friction",
+          "friction_type": "input.plan-step-ambiguous",
+          "consumer_note": "The plan's step-3 seam (extract request construction to a function yielding the requests) could not compile: conductor-run has opentelemetry-proto only as a dev-dependency and cond",
+          "producer_signals": [
+            "scope-inferred",
+            "carry-folded"
+          ],
+          "producer_outcome": "ok",
+          "producer_frictions": [],
+          "evidence_lines": [
+            428,
+            435
+          ]
+        }
+      ]
+    },
+    {
+      "producer": "andromeda-phase/validate",
+      "artifact": "scope",
+      "consumer": "andromeda-implement/code",
+      "chunks": [
+        "2026-08-10-pulse-run-contract",
+        "2026-08-10-scenario-run-root-span-tree",
+        "2026-08-10-workspace-key-divergence-probe",
+        "2026-08-11-faithful-emission-dispatcher",
+        "2026-08-14-canary-fingerprint-feed-capture"
+      ],
+      "n_chunks": 5,
+      "n_hypotheses": 6,
+      "signalled_producer": true,
+      "cases": [
+        {
+          "chunk": "2026-08-10-workspace-key-divergence-probe",
+          "artifact": "scope",
+          "producer": "andromeda-phase/validate",
+          "consumer": "andromeda-implement/code",
+          "anchor": "input-friction",
+          "friction_type": "input.plan-step-ambiguous",
+          "consumer_note": "the plan said 'leave the five shipped legs untouched' while two of them (an_empty_canary_is_blocked, a_canary_call_error_is_blocked_distinctly_from_an_empty_corpus) assert the exac",
+          "producer_signals": [],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "contract.mechanical-check"
+          ],
+          "evidence_lines": [
+            237,
+            241
+          ]
+        },
+        {
+          "chunk": "2026-08-10-pulse-run-contract",
+          "artifact": "scope",
+          "producer": "andromeda-phase/validate",
+          "consumer": "andromeda-implement/code",
+          "anchor": "input-friction",
+          "friction_type": "input.research-files-wrong",
+          "consumer_note": "the plan's step 5 mandates a warm-up WAIT inside conductor-run/src/lib.rs, but neither research's Files-to-modify nor the plan's touchpoints listed crates/conductor-run/Cargo.toml,",
+          "producer_signals": [],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "contract.intent-divergence"
+          ],
+          "evidence_lines": [
+            266,
+            269
+          ]
+        },
+        {
+          "chunk": "2026-08-10-pulse-run-contract",
+          "artifact": "scope",
+          "producer": "andromeda-phase/validate",
+          "consumer": "andromeda-implement/code",
+          "anchor": "input-friction",
+          "friction_type": "input.plan-step-ambiguous",
+          "consumer_note": "step 3 prescribed that the binary edge resolve and load the contract path, citing load_envelope.rs's never-this-module rule, but the two conductor-run entrypoints it flows through ",
+          "producer_signals": [],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "contract.intent-divergence"
+          ],
+          "evidence_lines": [
+            266,
+            270
+          ]
+        },
+        {
+          "chunk": "2026-08-10-scenario-run-root-span-tree",
+          "artifact": "scope",
+          "producer": "andromeda-phase/validate",
+          "consumer": "andromeda-implement/code",
+          "anchor": "input-friction",
+          "friction_type": "input.conventions-gap",
+          "consumer_note": "The plan required report.generate to carry verdict/state 'drawn from the typed values' but neither plan nor research said HOW to stringify them, and the obvious accessor is a trap:",
+          "producer_signals": [],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "contract.matrix-claim"
+          ],
+          "evidence_lines": [
+            297,
+            300
+          ]
+        },
+        {
+          "chunk": "2026-08-11-faithful-emission-dispatcher",
+          "artifact": "scope",
+          "producer": "andromeda-phase/validate",
+          "consumer": "andromeda-implement/code",
+          "anchor": "input-friction",
+          "friction_type": "input.research-files-wrong",
+          "consumer_note": "research.md and plan.md both listed crates/conductor-emit/tests/ as the home for the dispatcher's per-family wire assertions, but the dispatcher lives in conductor-run and conducto",
+          "producer_signals": [],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "contract.intent-divergence"
+          ],
+          "evidence_lines": [
+            327,
+            330
+          ]
+        },
+        {
+          "chunk": "2026-08-14-canary-fingerprint-feed-capture",
+          "artifact": "scope",
+          "producer": "andromeda-phase/validate",
+          "consumer": "andromeda-implement/code",
+          "anchor": "input-friction",
+          "friction_type": "input.plan-step-ambiguous",
+          "consumer_note": "The plan's step-3 seam (extract request construction to a function yielding the requests) could not compile: conductor-run has opentelemetry-proto only as a dev-dependency and cond",
+          "producer_signals": [
+            "amended"
+          ],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "contract.intent-divergence"
+          ],
+          "evidence_lines": [
+            432,
+            435
+          ]
+        }
+      ]
+    },
+    {
+      "producer": "andromeda-phase/take-up",
+      "artifact": "scope",
+      "consumer": "andromeda-phase/validate",
+      "chunks": [
+        "2026-08-10-pulse-run-contract",
+        "2026-08-10-scenario-run-root-span-tree",
+        "2026-08-10-workspace-key-divergence-probe",
+        "2026-08-11-faithful-emission-dispatcher"
+      ],
+      "n_chunks": 4,
+      "n_hypotheses": 4,
+      "signalled_producer": true,
+      "cases": [
+        {
+          "chunk": "2026-08-10-workspace-key-divergence-probe",
+          "artifact": "scope",
+          "producer": "andromeda-phase/take-up",
+          "consumer": "andromeda-phase/validate",
+          "anchor": "consumed-quality",
+          "consumer_verdict": "wrong",
+          "consumer_note": "val-1 classified intent-incomplete: scope carried the intent's marker-less-temp-dir premise that research falsified; amended in two places rather than re-planning",
+          "producer_signals": [
+            "scope-inferred",
+            "carry-folded"
+          ],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "UNTYPED"
+          ],
+          "evidence_lines": [
+            230,
+            237
+          ]
+        },
+        {
+          "chunk": "2026-08-10-pulse-run-contract",
+          "artifact": "scope",
+          "producer": "andromeda-phase/take-up",
+          "consumer": "andromeda-phase/validate",
+          "anchor": "consumed-quality",
+          "consumer_verdict": "thin",
+          "consumer_note": "val-1 found one divergence, classified intent-incomplete and amended rather than re-planned",
+          "producer_signals": [
+            "scope-inferred",
+            "carry-folded"
+          ],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "input.working-entry-thin"
+          ],
+          "evidence_lines": [
+            257,
+            266
+          ]
+        },
+        {
+          "chunk": "2026-08-10-scenario-run-root-span-tree",
+          "artifact": "scope",
+          "producer": "andromeda-phase/take-up",
+          "consumer": "andromeda-phase/validate",
+          "anchor": "consumed-quality",
+          "consumer_verdict": "wrong",
+          "consumer_note": "val-1 divergence: plan added a conductor-core layer change scope never named",
+          "producer_signals": [
+            "scope-inferred",
+            "carry-folded"
+          ],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "UNTYPED"
+          ],
+          "evidence_lines": [
+            289,
+            297
+          ]
+        },
+        {
+          "chunk": "2026-08-11-faithful-emission-dispatcher",
+          "artifact": "scope",
+          "producer": "andromeda-phase/take-up",
+          "consumer": "andromeda-phase/validate",
+          "anchor": "consumed-quality",
+          "consumer_verdict": "thin",
+          "consumer_note": "omitted conductor-timeline from its surfaces list — val-1 classified intent-incomplete and amended it",
+          "producer_signals": [
+            "scope-inferred",
+            "carry-folded"
+          ],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "UNTYPED"
+          ],
+          "evidence_lines": [
+            319,
+            327
+          ]
+        }
+      ]
+    },
+    {
+      "producer": "andromeda-phase/plan",
+      "artifact": "plan",
+      "consumer": "andromeda-implement/smoke",
+      "chunks": [
+        "2026-08-10-workspace-key-divergence-probe",
+        "2026-08-11-faithful-emission-dispatcher",
+        "2026-08-13-dispatcher-determinism-goldens",
+        "2026-08-14-canary-fingerprint-feed-capture"
+      ],
+      "n_chunks": 4,
+      "n_hypotheses": 4,
+      "signalled_producer": true,
+      "cases": [
+        {
+          "chunk": "2026-08-10-workspace-key-divergence-probe",
+          "artifact": "plan",
+          "producer": "andromeda-phase/plan",
+          "consumer": "andromeda-implement/smoke",
+          "anchor": "consumed-quality",
+          "consumer_verdict": "thin",
+          "consumer_note": "Test Commands listed the three-arm probe but omitted its hard precondition — the andromeda-pulse-mcp sidecar binary, which was neither built nor on PATH; without it every arm would have returned the unreachable precondition and proved nothing about the workspace key",
+          "producer_signals": [],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "ambiguity.scope-question"
+          ],
+          "evidence_lines": [
+            235,
+            244
+          ]
+        },
+        {
+          "chunk": "2026-08-11-faithful-emission-dispatcher",
+          "artifact": "plan",
+          "producer": "andromeda-phase/plan",
+          "consumer": "andromeda-implement/smoke",
+          "anchor": "consumed-quality",
+          "consumer_verdict": "wrong",
+          "consumer_note": "Test Commands listed the bare `agent-run.sh run` as the producer for the emission_count criterion, but the scenario leg is gated on a SCENARIO= env prefix, so the bare verb runs only nextest/doctest/clippy and leaves logs/agent-latest.jsonl untouched",
+          "producer_signals": [],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "input.research-thin",
+            "input.extracts-conflict"
+          ],
+          "evidence_lines": [
+            324,
+            335
+          ]
+        },
+        {
+          "chunk": "2026-08-13-dispatcher-determinism-goldens",
+          "artifact": "plan",
+          "producer": "andromeda-phase/plan",
+          "consumer": "andromeda-implement/smoke",
+          "anchor": "consumed-quality",
+          "consumer_verdict": "thin",
+          "consumer_note": "Test Commands listed the bare agent-run.sh run, which does not fire the scenario leg — and this chunk changes classify_run, a runtime path only that leg exercises",
+          "producer_signals": [
+            "premise-corrected"
+          ],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "ambiguity.scope-question"
+          ],
+          "evidence_lines": [
+            357,
+            367
+          ]
+        },
+        {
+          "chunk": "2026-08-14-canary-fingerprint-feed-capture",
+          "artifact": "plan",
+          "producer": "andromeda-phase/plan",
+          "consumer": "andromeda-implement/smoke",
+          "anchor": "consumed-quality",
+          "consumer_verdict": "wrong",
+          "consumer_note": "live-leg recipe item 6 prescribes RUST_LOG=conductor_emit=debug; measured, that bare directive filters every other target out and fails the CLI's own agent-mode self-obs test. The correct filter is RUST_LOG=info,conductor_emit=debug",
+          "producer_signals": [
+            "conditional-step"
+          ],
+          "producer_outcome": "ok",
+          "producer_frictions": [],
+          "evidence_lines": [
+            431,
+            438
+          ]
+        }
+      ]
+    },
+    {
+      "producer": "andromeda-phase/distill",
+      "artifact": "extracts",
+      "consumer": "andromeda-phase/research",
+      "chunks": [
+        "2026-08-10-pulse-run-contract",
+        "2026-08-10-scenario-run-root-span-tree",
+        "2026-08-11-faithful-emission-dispatcher",
+        "2026-08-13-dispatcher-determinism-goldens"
+      ],
+      "n_chunks": 4,
+      "n_hypotheses": 5,
+      "signalled_producer": true,
+      "cases": [
+        {
+          "chunk": "2026-08-10-pulse-run-contract",
+          "artifact": "extracts",
+          "producer": "andromeda-phase/distill",
+          "consumer": "andromeda-phase/research",
+          "anchor": "input-friction",
+          "friction_type": "input.extract-signal-gap",
+          "consumer_note": "no extract named crates/conductor-run/src/lib.rs, yet it holds two of the four full ReadyState struct-literal constructions plus the entire canary emission path (emit_canary, canar",
+          "producer_signals": [
+            "binding-unilateral"
+          ],
+          "producer_outcome": "ok",
+          "producer_frictions": [],
+          "evidence_lines": [
+            259,
+            261
+          ]
+        },
+        {
+          "chunk": "2026-08-10-scenario-run-root-span-tree",
+          "artifact": "extracts",
+          "producer": "andromeda-phase/distill",
+          "consumer": "andromeda-phase/research",
+          "anchor": "consumed-quality",
+          "consumer_verdict": "thin",
+          "consumer_note": "7/7 formally strong and the obs allowlist signal paid off directly, but all 7 described obs-plan target state as if it were current -- none flagged that no span is observable today",
+          "producer_signals": [],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "input.spec-source-gap"
+          ],
+          "evidence_lines": [
+            291,
+            293
+          ]
+        },
+        {
+          "chunk": "2026-08-10-scenario-run-root-span-tree",
+          "artifact": "extracts",
+          "producer": "andromeda-phase/distill",
+          "consumer": "andromeda-phase/research",
+          "anchor": "input-friction",
+          "friction_type": "input.extract-signal-gap",
+          "consumer_note": "No extract predicted the chunk's central blocker: JsonObsLayer implements only on_event, never on_new_span/on_close and never walks the span context, so the three shipped spans emi",
+          "producer_signals": [],
+          "producer_outcome": "ok",
+          "producer_frictions": [
+            "input.spec-source-gap"
+          ],
+          "evidence_lines": [
+            291,
+            294
+          ]
+        },
+        {
+          "chunk": "2026-08-11-faithful-emission-dispatcher",
+          "artifact": "extracts",
+          "producer": "andromeda-phase/distill",
+          "consumer": "andromeda-phase/research",
+          "anchor": "input-friction",
+          "friction_type": "input.extract-signal-gap",
+          "consumer_note": "The obs extract asserted the span topology was 'already fixed by the prior chunk' and framed the CARRY's two options (implement on_record vs compute-before-open) as the live fork, ",
+          "producer_signals": [
+            "binding-unilateral"
+          ],
+          "producer_outcome": "ok",
+          "producer_frictions": [],
+          "evidence_lines": [
+            321,
+            323
+          ]
+        },
+        {
+          "chunk": "2026-08-13-dispatcher-determinism-goldens",
+          "artifact": "extracts",
+          "producer": "andromeda-phase/distill",
+          "consumer": "andromeda-phase/research",
+          "anchor": "input-friction",
+          "friction_type": "input.cookbook-gap",
+          "consumer_note": "the impact query for scenario_duration_ms returned 16 rows because the descriptor LIKE also matched the struct field max_scenario_duration_ms, which CONTAINS the function name; nar",
+          "producer_signals": [
+            "history-informed"
+          ],
+          "producer_outcome": "ok",
+          "producer_frictions": [],
+          "evidence_lines": [
+            353,
+            355
+          ]
+        }
+      ]
+    }
+  ]
+}

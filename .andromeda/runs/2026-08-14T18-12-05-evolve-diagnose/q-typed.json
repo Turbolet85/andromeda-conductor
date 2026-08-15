@@ -1,0 +1,1718 @@
+[
+  {
+    "key": "andromeda-phase/plan/ambiguity.scope-question",
+    "skill": "andromeda-phase",
+    "step": "plan",
+    "type": "ambiguity.scope-question",
+    "n": 5,
+    "step_runs": 8,
+    "rate": 0.62,
+    "chunks": [
+      "2026-08-10-pulse-run-contract",
+      "2026-08-10-scenario-run-root-span-tree",
+      "2026-08-10-workspace-key-divergence-probe",
+      "2026-08-13-dispatcher-determinism-goldens",
+      "2026-08-13-per-check-read-back-extraction"
+    ],
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 5,
+    "halted": 0,
+    "soft_exit": 0,
+    "extra_reads": 0,
+    "weight": 11,
+    "score": 55,
+    "above_threshold": true,
+    "cases": [
+      {
+        "chunk": "2026-08-10-workspace-key-divergence-probe",
+        "what": "detection approach could not be settled from the materials — research proved Conductor cannot OBSERVE the app-side key (no tool argument, no log, corpus off-limits), leaving a genuine operator trade-off between naming the condition, predicting it from Conductor's own cwd, and declaring an expected key via a new CONDUCTOR_* handle; asked with the first marked Recommended and it was taken. A second question in the same round (probe arms) traces to the already-recorded research finding, not to a separate ambiguity",
+        "impact": {
+          "dialogue_rounds": 1
+        },
+        "evidence": null,
+        "artifacts": [
+          "conductor-0.2.0/chunks/2026-08-10-workspace-key-divergence-probe/plan.md"
+        ]
+      },
+      {
+        "chunk": "2026-08-10-pulse-run-contract",
+        "what": "two scope questions asked in one round. The L4-observation fork was genuinely the operator's call (specs constrain it but permit both answers). The P-073-backing fork had already been leaned on decisively by an artifact: UNBACKED_AUTO's own doc comment at drift.rs:53-62 names this entry as P-073's owner and says the remaining six retire as their scenarios land — it was asked anyway because v2-18's acceptance pulls the other way and the answer changes commit scope",
+        "impact": {
+          "dialogue_rounds": 1
+        },
+        "evidence": null,
+        "artifacts": [
+          "crates/conductor-core/src/drift.rs",
+          "conductor-0.2.0/verification-matrix.json"
+        ]
+      },
+      {
+        "chunk": "2026-08-10-scenario-run-root-span-tree",
+        "what": "Two scope-ambiguity questions asked in one round, both genuinely the operator's call rather than answerable from the materials: how far the chunk goes into the subscriber layer (a cost/scope judgment -- the materials prove the layer change is necessary for observability but not that this chunk should own it), and where the root span lives (three defensible designs with different amendment costs -- composition-root vs CLI-edge vs a new run-level span name outside obs-plan's bounded set). Both recommendations were accepted",
+        "impact": {
+          "dialogue_rounds": 1
+        },
+        "evidence": "phase P4 AskUserQuestion; both answers recorded in scope.md",
+        "artifacts": [
+          "plan.md",
+          "research.md"
+        ]
+      },
+      {
+        "chunk": "2026-08-13-dispatcher-determinism-goldens",
+        "what": "three scope questions in one round: the envelope term after its premise was falsified (genuinely the operator's call), the golden tier (materials leaned dispatch-tier but coverage-vs-size was a judgment), and whether LoadEnvelope::classify re-scopes with the gate (materials leaned strongly toward both, but the CARRY named only the gate so overriding it silently would have been wrong)",
+        "impact": {
+          "dialogue_rounds": 1
+        },
+        "evidence": null,
+        "artifacts": [
+          "conductor-0.2.0/chunks/2026-08-13-dispatcher-determinism-goldens/plan.md"
+        ]
+      },
+      {
+        "chunk": "2026-08-13-per-check-read-back-extraction",
+        "what": "3 scope-ambiguity questions in 1 dialogue round. Only one (whether to populate the fingerprints envelope field) was genuinely undecidable from the materials — a chunk-size call neither the working entry nor v2-09 states. The other two were determinable: composed-for-all-kinds is provably broken because CountAtLeast parses observed as i64, and per-check-only degraded routing provably misses P-053 whose expected block is empty. Both were still put to the operator because a wrong pick degrades silently rather than failing.",
+        "impact": {
+          "dialogue_rounds": 1
+        },
+        "evidence": null,
+        "artifacts": [
+          "plan.md",
+          "research.md"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "andromeda-wrap-session/route-resolve/ambiguity.trajectory-halt",
+    "skill": "andromeda-wrap-session",
+    "step": "route-resolve",
+    "type": "ambiguity.trajectory-halt",
+    "n": 2,
+    "step_runs": 8,
+    "rate": 0.25,
+    "chunks": [
+      "2026-08-10-workspace-key-divergence-probe",
+      "2026-08-13-first-live-green-preflight"
+    ],
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 2,
+    "halted": 2,
+    "soft_exit": 0,
+    "extra_reads": 0,
+    "weight": 11,
+    "score": 22,
+    "above_threshold": true,
+    "cases": [
+      {
+        "chunk": "2026-08-10-workspace-key-divergence-probe",
+        "what": "one trajectory halt, class new-chunk-ahead-vs-pin: the orphaned conductor-report spans (zero tracing:: calls across five source files against obs-plan section 4 Critical Path 1 mandating report.generate and db.insert_run) needed an owner, with three viable dispositions — a dedicated chunk, a CARRY pin, or a 0.3.0 residual — and the gradient forbids auto-deciding; resolved in one round to a CARRY on the Epoch-2 span-tree entry, whose scope now explicitly covers the report seam. Notable: this deferral had already outlived its promised Epoch-8 owner while tracked only in a playbook note field, which is not an owning channel",
+        "impact": {
+          "dialogue_rounds": 1,
+          "halted": 1
+        },
+        "evidence": null,
+        "artifacts": [
+          "conductor-0.2.0/working-route.md",
+          ".andromeda/playbook.md",
+          ".andromeda/obs-plan.md"
+        ]
+      },
+      {
+        "chunk": "2026-08-13-first-live-green-preflight",
+        "what": "Every Epoch-3+ live entry blocked on the same three Pulse-side pieces, so the tail could not be adapted factually — the question was whether to insert Conductor-side work, advance the non-live entries, or leave for Pulse. Halted with three options; operator chose inserting a Canary fingerprint-feed capture entry, which is the one open Conductor-side piece and is answerable without an incident (needs pulse-app running, not a corpus).",
+        "impact": {
+          "dialogue_rounds": 1,
+          "halted": 1
+        },
+        "evidence": null,
+        "artifacts": [
+          "conductor-0.2.0/working-route.md"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "andromeda-wrap-session/reconcile/contract.cascade-miss",
+    "skill": "andromeda-wrap-session",
+    "step": "reconcile",
+    "type": "contract.cascade-miss",
+    "n": 4,
+    "step_runs": 8,
+    "rate": 0.5,
+    "chunks": [
+      "2026-08-10-scenario-run-root-span-tree",
+      "2026-08-11-faithful-emission-dispatcher",
+      "2026-08-13-first-live-green-preflight",
+      "2026-08-13-per-check-read-back-extraction"
+    ],
+    "iterations": 1,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 1,
+    "halted": 0,
+    "soft_exit": 0,
+    "extra_reads": 2,
+    "weight": 4,
+    "score": 16,
+    "above_threshold": true,
+    "cases": [
+      {
+        "chunk": "2026-08-10-scenario-run-root-span-tree",
+        "what": "Two facts in the amendment set were reachable only by orchestrator first-hand grep, not by the fan-out. (1) obs-plan carried the SAME falsified cleanup claim twice -- §4 CP1 (:304) and the Known-residual path (:354) -- and D-obs-instrumentation proposed only the first, so applying the proposal verbatim would have left an identical false statement 50 lines below. (2) The plan's second Expected amendment (stale Tauri command names) was proposed by NO detector; the obs agent explicitly excluded it as pre-existing, which is the correct reading of its own rule, so only the expected-amendments reconciliation check caught it. Both argue the same thing: a detector proposes from the report and stops at the first instance, while the doc may repeat the claim",
+        "impact": {
+          "extra_reads": 2
+        },
+        "evidence": ".andromeda/runs/2026-08-11T15-45-25-wrap/fanout-results.md (edits A2 and B are both orchestrator-raised)",
+        "artifacts": [
+          "obs-plan.md",
+          "drift-base.md"
+        ]
+      },
+      {
+        "chunk": "2026-08-11-faithful-emission-dispatcher",
+        "what": "The cascade's cross-master grep found the amended wording 'error fraction in [0,1]' verbatim in FIVE masters (architecture x2, security-plan x3, obs-plan x1, test-plan x2) plus two distillations, where the single D-arch-decisions proposal named only architecture — a five-fold under-proposal that a verbatim single-proposal apply would have left standing. The operator approved folding all 8 sites; grep verified zero residual hits.",
+        "impact": {
+          "dialogue_rounds": 1
+        },
+        "evidence": ".andromeda/runs/2026-08-13T16-43-31-wrap/fanout-results.md",
+        "artifacts": [
+          ".andromeda/architecture.md",
+          ".andromeda/security-plan.md",
+          ".andromeda/obs-plan.md",
+          ".andromeda/test-plan.md"
+        ]
+      },
+      {
+        "chunk": "2026-08-13-per-check-read-back-extraction",
+        "what": "Applying the proposal as written would have shipped an internally inconsistent obs-plan: the retired CP5 span wording was duplicated verbatim at the §1 table row, and the orchestrator's own over-correction then deleted an envelope scenario extra (degraded_mode_response) that two other sections still define. Both surfaced only from the cascade's same-master grep and a context read of the surviving sites. The distinction that resolved it — span attributes are governed by conductor-core::redact ALLOWLISTED_FIELDS while envelope extras are written by the report seam — is obs-plan's own two-record-shapes rule, and is now stated inline where the confusion occurred.",
+        "impact": {
+          "iterations": 1
+        },
+        "evidence": null,
+        "artifacts": [
+          "obs-plan.md"
+        ]
+      },
+      {
+        "chunk": "2026-08-13-first-live-green-preflight",
+        "what": "The obs-plan detector returned a bare proposals: [] with no evidence, missing the obs-plan §6 amendment the chunk plan had listed as an expected amendment (the read-back boundary-call must-log set gaining the observed-key-set line). Main raised it under the expected-amendments floor check, which is exactly the blind class that check exists for — an existing enumeration gaining an item. The same return also left the §6 tool list missing retrieve_telemetry_slice, folded into the same amendment.",
+        "impact": {},
+        "evidence": null,
+        "artifacts": [
+          ".andromeda/obs-plan.md",
+          "conductor-0.2.0/chunks/2026-08-13-first-live-green-preflight/plan.md"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "andromeda-phase/validate/contract.intent-divergence",
+    "skill": "andromeda-phase",
+    "step": "validate",
+    "type": "contract.intent-divergence",
+    "n": 3,
+    "step_runs": 8,
+    "rate": 0.38,
+    "chunks": [
+      "2026-08-10-pulse-run-contract",
+      "2026-08-11-faithful-emission-dispatcher",
+      "2026-08-14-canary-fingerprint-feed-capture"
+    ],
+    "iterations": 1,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 1,
+    "halted": 0,
+    "soft_exit": 0,
+    "extra_reads": 0,
+    "weight": 4,
+    "score": 12,
+    "above_threshold": true,
+    "cases": [
+      {
+        "chunk": "2026-08-10-pulse-run-contract",
+        "what": "validation-1 found the plan diverging from scope Term C: the scope named the >=5-same-fingerprint-in-30s storm shape as the contract content to add, the plan recorded it as already satisfied by emit_canary and redirected the term to a bootstrap warm-up plus a poll-budget floor. Classified intent-incomplete (research justified the divergence), so scope.md was amended in place per validation.md rather than sending the run back to P4",
+        "impact": {
+          "iterations": 0
+        },
+        "evidence": "conductor-0.2.0/chunks/2026-08-10-pulse-run-contract/research.md",
+        "artifacts": [
+          "conductor-0.2.0/chunks/2026-08-10-pulse-run-contract/scope.md",
+          "conductor-0.2.0/chunks/2026-08-10-pulse-run-contract/plan.md"
+        ]
+      },
+      {
+        "chunk": "2026-08-11-faithful-emission-dispatcher",
+        "what": "Validation-1 found the plan modifies conductor-timeline (scheduler hook, Phase occurrence count, convert.rs) while scope.md's surfaces list named only conductor-run, conductor-emit, conductor-core/phase_spec and scenarios/*.toml. Classified intent-incomplete rather than defect: the scope was written at P1 assuming the dispatcher could shape emission entirely from conductor-run, and only research plus the operator's emit-during-the-walk decision at P4 made the timeline crate a touchpoint. Scope amended, run proceeded without a re-plan.",
+        "impact": {
+          "iterations": 0
+        },
+        "evidence": null,
+        "artifacts": [
+          "conductor-0.2.0/chunks/2026-08-11-faithful-emission-dispatcher/scope.md"
+        ]
+      },
+      {
+        "chunk": "2026-08-14-canary-fingerprint-feed-capture",
+        "what": "The val-1 intent-incomplete amendment was itself wrong and needed re-amending: it inferred from the windowed-gauge finding that the observed zero was consistent with a fully working path, without checking two-launch-verdict.md:187-189, which already recorded fingerprints_evicted_total 0 across every sample — the latched signal that refutes the inference. Caught by operator input (an arm-3 tick line postdating that arm's canary window with both cumulative counters at 0), not by self-check against the in-repo artifact.",
+        "impact": {
+          "dialogue_rounds": 1,
+          "iterations": 1
+        },
+        "evidence": "conductor-0.2.0/chunks/2026-08-10-workspace-key-divergence-probe/two-launch-verdict.md:187-189",
+        "artifacts": [
+          "conductor-0.2.0/chunks/2026-08-14-canary-fingerprint-feed-capture/scope.md",
+          "conductor-0.2.0/chunks/2026-08-14-canary-fingerprint-feed-capture/research.md",
+          "conductor-0.2.0/chunks/2026-08-14-canary-fingerprint-feed-capture/plan.md"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "andromeda-wrap-session/curation/ambiguity.filter-borderline",
+    "skill": "andromeda-wrap-session",
+    "step": "curation",
+    "type": "ambiguity.filter-borderline",
+    "n": 8,
+    "step_runs": 8,
+    "rate": 1.0,
+    "chunks": [
+      "2026-08-10-pulse-run-contract",
+      "2026-08-10-scenario-run-root-span-tree",
+      "2026-08-10-workspace-key-divergence-probe",
+      "2026-08-11-faithful-emission-dispatcher",
+      "2026-08-13-dispatcher-determinism-goldens",
+      "2026-08-13-first-live-green-preflight",
+      "2026-08-14-canary-fingerprint-feed-capture"
+    ],
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "extra_reads": 0,
+    "weight": 1,
+    "score": 8,
+    "above_threshold": true,
+    "cases": [
+      {
+        "chunk": "2026-08-10-workspace-key-divergence-probe",
+        "what": "two survivors scored EXACTLY 0.6, the Filter-4 threshold (probe host-preconditions; the two-cause honesty pattern), so both sat on the accept/reject line; Filter 5's cap of 3 then forced a tiebreak between them at equal confidence, resolved on prevents-recurrence over explains-rationale, deferring the second to the handoff. Separately Tier routing for the immutable-intent rule had no path-scoped rule file to fall back to, so tiebreaker 2 (prefer lower context cost) lost to decision-tree step 1",
+        "impact": {
+          "deferred": 1
+        },
+        "evidence": null,
+        "artifacts": [
+          "CLAUDE.md",
+          ".claude/rules/verification-harness.md",
+          ".claude/rules/security.md"
+        ]
+      },
+      {
+        "chunk": "2026-08-10-pulse-run-contract",
+        "what": "one candidate was rejected as a Filter-1 duplicate against a target the filter does not name: the declared-not-observable rule had already been written into rules/security.md's MAIN BODY by this same wrap's cascade, not into any Session Additions block, so a literal reading of Filter 1 (which loads CLAUDE.md session-learnings, rules Session Additions, and docs/session-learnings.md) would have missed it and minted a redundant entry beside content the cascade had just landed",
+        "impact": {},
+        "evidence": null,
+        "artifacts": [
+          ".claude/rules/security.md"
+        ]
+      },
+      {
+        "chunk": "2026-08-10-scenario-run-root-span-tree",
+        "what": "Filter 4's 'Repeated pattern (3+ instances in session): +0.3' does not define the GRAIN of an instance -- same artifact, same mechanism, or same failure class across artifacts? The session's most consequential learning (a spec describes target state, so verify it against the artifact before planning on it) scored 0.5 and was headed for rejection under the narrow reading, then 0.8 under the class reading, where five distinct artifacts each asserted a reality that did not hold: the seven extracts, scope.md, a lockfile prediction, a matrix acceptance, and an obs-plan cleanup clause. The grain choice alone decided whether the chunk's central finding survived curation. A second candidate (a drift detector stops at the first instance of a claim the doc repeats) sat at 0.5 under both readings and was rejected",
+        "impact": {
+          "extra_reads": 0
+        },
+        "evidence": "wrap P3; 2 borderline calls, both Filter 4",
+        "artifacts": [
+          "curation-tier-decision.md",
+          "CLAUDE.md"
+        ]
+      },
+      {
+        "chunk": "2026-08-11-faithful-emission-dispatcher",
+        "what": "The serde-flatten gotcha (an internally-tagged enum requires its `kind` tag whenever the flattened table exists, so `kind = \"plain\"` must be explicit) scored 0.2 on Filter 4 — one technical-detail signal, no correction, no repetition — and was rejected, despite having cost a real fix-loop iteration and being a durable trap for the next flattened-enum config field. The filter scores emphasis and repetition, which a first-occurrence mechanical gotcha cannot accrue; there was a live temptation to smuggle it in as an extension of the adjacent garde entry rather than let it drop.",
+        "impact": {},
+        "evidence": null,
+        "artifacts": [
+          ".claude/docs/session-learnings.md"
+        ]
+      },
+      {
+        "chunk": "2026-08-11-faithful-emission-dispatcher",
+        "what": "The garde skip-vs-dive finding was rejected at Filter 1 as a duplicate — but only because the P2 amendment had ALREADY written it into rules/security.md's generated region minutes earlier. Ordering decided the outcome: had curation run before reconcile, the same candidate would have been a high-confidence new Tier-2 entry. It survives as spec-derived rule text rather than a curated learning, which is the better home, but nothing in the filter made that the reason.",
+        "impact": {},
+        "evidence": null,
+        "artifacts": [
+          ".claude/rules/security.md",
+          ".andromeda/security-plan.md"
+        ]
+      },
+      {
+        "chunk": "2026-08-13-dispatcher-determinism-goldens",
+        "what": "the tokio timer-granularity gotcha (paced sub-millisecond slices round up to the 1ms tick, so emissions overshoot their phase window by up to one tick each and equality assertions against a boundary are false) scored 0.5 against the 0.6 Filter-4 threshold — specific-technical-detail-with-context plus a debatable never-assert-equality directive signal — and was rejected on the reasoning that it is already durably encoded twice, in the permanent test's doc comment and in the route CARRY; a different curator could defensibly have applied it to rules/testing.md",
+        "impact": {},
+        "evidence": null,
+        "artifacts": [
+          ".claude/rules/testing.md",
+          "crates/conductor-timeline/tests/pacing.rs"
+        ]
+      },
+      {
+        "chunk": "2026-08-13-first-live-green-preflight",
+        "what": "A high-value SUT fact — corpus.db carries no span or exception table, so received spans never persist and a span-level post-mortem is structurally impossible — scored only ~0.2 on Filter 4 (specific-technical-detail alone; no explicit user correction, no repetition, no always/never framing) and was rejected despite being exactly the kind of dead end a future agent would repeat. Resolved by confirming it is preserved outside curation (the two-launch-verdict re-run section and the route fix-scope pin), so the filter arithmetic and the retention outcome disagreed without anything being lost.",
+        "impact": {},
+        "evidence": null,
+        "artifacts": [
+          ".claude/docs/session-learnings.md"
+        ]
+      },
+      {
+        "chunk": "2026-08-14-canary-fingerprint-feed-capture",
+        "what": "The gauge-vs-cumulative learning brushed Filter 3 (conflict): the existing verification-harness clause instructs diagnosing via tracked_fingerprints_count, and the new learning says that metric alone cannot carry the diagnosis — readable as use-X vs X-is-insufficient. Judged a refinement under Filter 1's additive-facet tie-breaker rather than a conflict needing user review, and the refinement was made explicit in the extension text so the superseded instruction does not stand alone.",
+        "impact": {
+          "iterations": 0
+        },
+        "evidence": null,
+        "artifacts": [
+          ".claude/rules/verification-harness.md"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "andromeda-implement/fix-loop/contract.spec-reality-gap",
+    "skill": "andromeda-implement",
+    "step": "fix-loop",
+    "type": "contract.spec-reality-gap",
+    "n": 4,
+    "step_runs": 8,
+    "rate": 0.5,
+    "chunks": [
+      "2026-08-10-pulse-run-contract",
+      "2026-08-11-faithful-emission-dispatcher",
+      "2026-08-13-dispatcher-determinism-goldens",
+      "2026-08-13-per-check-read-back-extraction"
+    ],
+    "iterations": 1,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "extra_reads": 0,
+    "weight": 2,
+    "score": 8,
+    "above_threshold": true,
+    "cases": [
+      {
+        "chunk": "2026-08-10-pulse-run-contract",
+        "what": "v2-18's acceptance reads as though preflight asserts BOTH named terms, but only one is assertable: the L4 declaration is observable in Conductor's own shell, while the shared-data-dir term is structurally unobservable on pulse-app's side — the same limit v2-17's own notes establish, since query_incident_list takes no arguments. The shipped contract records that term as declared-not-observable with its causes rather than asserting it. No gate detected this; it is an acceptance-wording nuance for wrap's reconcile, and nothing was authored",
+        "impact": {},
+        "evidence": null,
+        "artifacts": [
+          "conductor-0.2.0/verification-matrix.json",
+          "contracts/pulse-run-contract.toml"
+        ]
+      },
+      {
+        "chunk": "2026-08-11-faithful-emission-dispatcher",
+        "what": "contracts/pulse-load-envelope.toml:40-42 states that both [[exempt]] entries and the switch from total-duration to emitting-phase-duration assertion 'retire at the Epoch-2 Faithful emission dispatcher entry' — this chunk — while plan.md step 8 explicitly directs NOT to add that assertion here because it would re-scope check_load_envelope and touch the exemption ledger's exact-set equality. Followed the plan, corrected only the derivability wording, and left both exemptions standing; the contract's own instruction is unfulfilled and surfaced rather than authored.",
+        "impact": {
+          "deferred": 1
+        },
+        "evidence": null,
+        "artifacts": [
+          "contracts/pulse-load-envelope.toml",
+          "crates/conductor-core/src/load_envelope.rs",
+          "conductor-0.2.0/chunks/2026-08-11-faithful-emission-dispatcher/plan.md"
+        ]
+      },
+      {
+        "chunk": "2026-08-13-dispatcher-determinism-goldens",
+        "what": "SURFACED not authored: scheduler.rs documents that a phase's total elapsed time is exactly its jittered gap, which holds for the reported PhaseTransition stream but not for clock consumption — paced_slices divides a gap into sub-millisecond slices and tokio::time rounds each sleep up to its 1ms tick, so a phase's emissions overshoot its window by up to one tick EACH and the excess carries forward (measured: phase 0 boundary 12010ms, its last emission 12012ms with 6 emissions). Out of scope by the chunk's own boundary, which excludes changing pacing behaviour; the bound is now asserted by a permanent test instead",
+        "impact": {
+          "iterations": 1
+        },
+        "evidence": "crates/conductor-timeline/tests/pacing.rs::each_phase_last_emission_sits_on_its_boundary_within_timer_resolution",
+        "artifacts": [
+          "crates/conductor-timeline/src/scheduler.rs",
+          "crates/conductor-timeline/tests/pacing.rs"
+        ]
+      },
+      {
+        "chunk": "2026-08-13-per-check-read-back-extraction",
+        "what": "Second, smaller gap on the same surface as the phase-step one: obs-plan §4 names span attributes for the degraded read-back path (degraded_mode_requested, response_received) that are absent from conductor-core::redact's ALLOWLISTED_FIELDS, so building them as written would emit nothing — a non-allowlisted field is dropped at the processor stage. Pointer only; surfaced for wrap's reconcile, nothing authored.",
+        "impact": {},
+        "evidence": null,
+        "artifacts": [
+          "obs-plan.md",
+          "crates/conductor-core/src/redact.rs"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "andromeda-implement/fix-loop/contract.test-expectation",
+    "skill": "andromeda-implement",
+    "step": "fix-loop",
+    "type": "contract.test-expectation",
+    "n": 2,
+    "step_runs": 8,
+    "rate": 0.25,
+    "chunks": [
+      "2026-08-13-dispatcher-determinism-goldens",
+      "2026-08-13-per-check-read-back-extraction"
+    ],
+    "iterations": 3,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "extra_reads": 0,
+    "weight": 4,
+    "score": 8,
+    "above_threshold": false,
+    "cases": [
+      {
+        "chunk": "2026-08-13-dispatcher-determinism-goldens",
+        "what": "two tests I authored this chunk asserted things that are not true and were corrected to assert the truth rather than the code being changed to match: the rate-breach fixture used 10 emissions in 1ms believing it far exceeded 10000/s when it is exactly 10000/s (at the bound, not over), and a new cross-stream invariant asserted a phase's last emission lands EXACTLY on its boundary when the timer's 1ms granularity makes it land up to one tick per emission later",
+        "impact": {
+          "iterations": 2
+        },
+        "evidence": null,
+        "artifacts": [
+          "crates/conductor-core/src/load_envelope.rs",
+          "crates/conductor-timeline/tests/pacing.rs"
+        ]
+      },
+      {
+        "chunk": "2026-08-13-per-check-read-back-extraction",
+        "what": "The single red gate was not product code: the new stub knob's match arm sat after the per-tool query arm, so 'every tools/call result is malformed' left the incident list well-formed and the pass returned Observed with empty detail fields instead of EmptyCorpus. Confirmed the readers had degraded exactly as designed BEFORE touching anything (the never-change-a-test-to-match-buggy-code check), then moved the arm ahead of the per-tool arms so the knob means what its doc says.",
+        "impact": {
+          "iterations": 1
+        },
+        "evidence": null,
+        "artifacts": [
+          "crates/conductor-verify/tests/common/mod.rs",
+          "crates/conductor-verify/tests/readback.rs"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "andromeda-implement/smoke/retry.smoke-reentry",
+    "skill": "andromeda-implement",
+    "step": "smoke",
+    "type": "retry.smoke-reentry",
+    "n": 2,
+    "step_runs": 8,
+    "rate": 0.25,
+    "chunks": [
+      "2026-08-13-first-live-green-preflight",
+      "2026-08-14-canary-fingerprint-feed-capture"
+    ],
+    "iterations": 1,
+    "retries": 2,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "extra_reads": 0,
+    "weight": 4,
+    "score": 8,
+    "above_threshold": false,
+    "cases": [
+      {
+        "chunk": "2026-08-13-first-live-green-preflight",
+        "what": "The recorded four-item operator recipe for the live leg omits ANDROMEDA_PULSE_MCP_ENABLED=true in Conductors own environment; without it the spawned sidecar starts and immediately exits (env_var_mcp_enabled false, feature_flag_enabled true) and every arm measures the read-back-unreachable path. Arm 1 ran once against that and was discarded, then re-run after the flag was added.",
+        "impact": {
+          "retries": 1
+        },
+        "evidence": null,
+        "artifacts": [
+          "conductor-0.2.0/chunks/2026-08-10-workspace-key-divergence-probe/two-launch-verdict.md"
+        ]
+      },
+      {
+        "chunk": "2026-08-14-canary-fingerprint-feed-capture",
+        "what": "Running the smoke with the plan-prescribed RUST_LOG=conductor_emit=debug failed an existing CLI self-obs test: a bare target directive suppresses every other target, so the agent-mode artifact carried no info-level self-obs lines. Isolated across three filter forms (absent = pass, bare = fail, info,conductor_emit=debug = pass) and corrected in the test and the verdict doc recipe.",
+        "impact": {
+          "retries": 1,
+          "iterations": 1
+        },
+        "evidence": null,
+        "artifacts": [
+          "crates/conductor-cli/tests/cli_smoke.rs",
+          "crates/conductor-run/tests/canary_wire.rs",
+          "conductor-0.2.0/chunks/2026-08-14-canary-fingerprint-feed-capture/fingerprint-feed-verdict.md"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "andromeda-implement/code/input.plan-step-ambiguous",
+    "skill": "andromeda-implement",
+    "step": "code",
+    "type": "input.plan-step-ambiguous",
+    "n": 3,
+    "step_runs": 8,
+    "rate": 0.38,
+    "chunks": [
+      "2026-08-10-pulse-run-contract",
+      "2026-08-10-workspace-key-divergence-probe",
+      "2026-08-14-canary-fingerprint-feed-capture"
+    ],
+    "iterations": 1,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "extra_reads": 2,
+    "weight": 2,
+    "score": 6,
+    "above_threshold": true,
+    "cases": [
+      {
+        "chunk": "2026-08-10-workspace-key-divergence-probe",
+        "what": "the plan said 'leave the five shipped legs untouched' while two of them (an_empty_canary_is_blocked, a_canary_call_error_is_blocked_distinctly_from_an_empty_corpus) assert the exact string the chunk replaces; judged in-scope and updated their assertions rather than soft-exiting, since the file is in Files-to-modify and an assertion pinning a replaced string must move",
+        "impact": {},
+        "evidence": null,
+        "artifacts": [
+          "crates/conductor-verify/tests/preflight.rs"
+        ]
+      },
+      {
+        "chunk": "2026-08-10-pulse-run-contract",
+        "what": "step 3 prescribed that the binary edge resolve and load the contract path, citing load_envelope.rs's never-this-module rule, but the two conductor-run entrypoints it flows through take no contract path and every edge that could supply one sits outside the plan's Files-to-modify — the instruction was unachievable within the chunk's own scope",
+        "impact": {
+          "extra_reads": 1
+        },
+        "evidence": null,
+        "artifacts": [
+          "crates/conductor-run/src/lib.rs",
+          "crates/conductor-cli/src/paths.rs"
+        ]
+      },
+      {
+        "chunk": "2026-08-14-canary-fingerprint-feed-capture",
+        "what": "The plan's step-3 seam (extract request construction to a function yielding the requests) could not compile: conductor-run has opentelemetry-proto only as a dev-dependency and conductor-emit re-exports none of the proto request types, so the return type is unnameable from that crate. Written, caught by the rustc diagnostic, and rewritten as transport injection in one iteration.",
+        "impact": {
+          "iterations": 1,
+          "extra_reads": 1
+        },
+        "evidence": null,
+        "artifacts": [
+          "crates/conductor-run/src/lib.rs",
+          "crates/conductor-run/Cargo.toml",
+          "crates/conductor-emit/src/lib.rs"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "andromeda-implement/fix-loop/tooling.environmental",
+    "skill": "andromeda-implement",
+    "step": "fix-loop",
+    "type": "tooling.environmental",
+    "n": 2,
+    "step_runs": 8,
+    "rate": 0.25,
+    "chunks": [
+      "2026-08-13-first-live-green-preflight",
+      "2026-08-14-canary-fingerprint-feed-capture"
+    ],
+    "iterations": 2,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "extra_reads": 4,
+    "weight": 3,
+    "score": 6,
+    "above_threshold": false,
+    "cases": [
+      {
+        "chunk": "2026-08-13-first-live-green-preflight",
+        "what": "cargo audit failed for the FOURTEENTH consecutive chunk with a byte-identical advisory-DATABASE parse error (duplicate advisory ID RUSTSEC-2026-0244) on cargo-audit 0.22.2, the latest published, so no tool floor exists to raise to. Deferred since 2026-08-08-sut-capability-manifest under the operator L5 ratification; remedy is the bounded wait alone. Standing basis re-verified literally: Cargo.lock moved zero lines and cargo deny check ran green on all four classes as the overlapping signal.",
+        "impact": {
+          "iterations": 1
+        },
+        "evidence": null,
+        "artifacts": [
+          "Cargo.lock",
+          "deny.toml"
+        ]
+      },
+      {
+        "chunk": "2026-08-14-canary-fingerprint-feed-capture",
+        "what": "An artifact-backed acceptance criterion was pinned to logs/agent-latest.jsonl, but no invocation available outside the operator-gated live leg can produce a witness line in it — the emission path short-circuits to Blocked before any export when preflight is not ready. Closed the underlying risk with an added dogfood test over a real self-obs artifact instead, and left the named-artifact half explicitly pending.",
+        "impact": {
+          "extra_reads": 4,
+          "iterations": 1
+        },
+        "evidence": null,
+        "artifacts": [
+          "crates/conductor-run/tests/canary_wire.rs",
+          "crates/conductor-core/src/obs.rs",
+          "crates/conductor-run/src/lib.rs"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "andromeda-wrap-session/gates/tooling.gate-deferral",
+    "skill": "andromeda-wrap-session",
+    "step": "gates",
+    "type": "tooling.gate-deferral",
+    "n": 5,
+    "step_runs": 8,
+    "rate": 0.62,
+    "chunks": [
+      "2026-08-10-pulse-run-contract",
+      "2026-08-10-scenario-run-root-span-tree",
+      "2026-08-10-workspace-key-divergence-probe",
+      "2026-08-11-faithful-emission-dispatcher",
+      "2026-08-13-dispatcher-determinism-goldens"
+    ],
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "extra_reads": 0,
+    "weight": 1,
+    "score": 5,
+    "above_threshold": true,
+    "cases": [
+      {
+        "chunk": "2026-08-10-workspace-key-divergence-probe",
+        "what": "the cargo-audit deferral reached its SIXTH consecutive re-check and was ratified at P5 under the L5 age trigger, so it now re-pins silently; the light gate honored it by re-running cargo deny check (exit 0, all four classes) as the verified overlapping signal instead of treating the red audit as a chunk defect — zero dependency delta, both lockfiles un-drifted",
+        "impact": {
+          "deferred": 1
+        },
+        "evidence": "cargo audit 0.22.2 exit 1 duplicate advisory ID RUSTSEC-2026-0244; cargo deny check exit 0",
+        "artifacts": [
+          "conductor-0.2.0/working-route.md",
+          ".claude/rules/security.md"
+        ]
+      },
+      {
+        "chunk": "2026-08-10-pulse-run-contract",
+        "what": "cargo audit is red for the seventh consecutive chunk with a byte-identical advisory-database parse failure (duplicate advisory ID RUSTSEC-2026-0244, true exit 1 on 0.22.2, the latest published). Honored as the standing bounded wait: no floor raise, no deny.toml ignore, no CI edit, cargo deny check verified green as the overlapping signal, and re-pinned as PREREQ 8 carrying its original origin marker so the chain age stays visible. Silent under the operator's L5 ratification, so no HALT this wrap",
+        "impact": {
+          "deferred": 1
+        },
+        "evidence": null,
+        "artifacts": [
+          "conductor-0.2.0/working-route.md"
+        ]
+      },
+      {
+        "chunk": "2026-08-10-scenario-run-root-span-tree",
+        "what": "cargo audit red at the wrap light gate too (ninth consecutive re-check overall), reproducing implement's result byte-identically: exit 1, 'duplicate advisory ID: RUSTSEC-2026-0244' on 0.22.2. Carried forward as a route PREREQ with its rationale wording CHANGED by operator directive: the standing basis is now 'audit surface unchanged (no new [[package]]) + cargo deny verified green', no longer 'zero dependency delta', because this chunk genuinely moved the dependency tree. Worth recording as a distinct event from implement's: it shows the deferral's JUSTIFICATION can decay independently of the deferral itself, and that a re-pin which merely repeats prior wording would have shipped a rationale that had quietly become false",
+        "impact": {
+          "deferred": 1
+        },
+        "evidence": "wrap P7 light gate + P5 re-pin",
+        "artifacts": [
+          "conductor-0.2.0/working-route.md",
+          "playbook.md"
+        ]
+      },
+      {
+        "chunk": "2026-08-11-faithful-emission-dispatcher",
+        "what": "cargo audit re-run at the light gate and exited 1 for the tenth consecutive chunk — byte-identical duplicate advisory ID RUSTSEC-2026-0244 on 0.22.2, an advisory-DATABASE fault with no released version able to read it. Honored as the operator-ratified bounded wait (origin 2026-08-08-sut-capability-manifest, L5-ratified at the 2026-08-10 wrap, re-pinning silently), with cargo deny check green (exit 0, all four classes) as the verified overlapping signal. Re-pinned to the next markerless entry as the eleventh check.",
+        "impact": {
+          "deferred": 1
+        },
+        "evidence": null,
+        "artifacts": [
+          "Cargo.lock",
+          "conductor-0.2.0/working-route.md"
+        ]
+      },
+      {
+        "chunk": "2026-08-13-dispatcher-determinism-goldens",
+        "what": "the cargo-audit supply-chain gate re-pinned for the TWELFTH consecutive chunk, deferred since 2026-08-08-sut-capability-manifest — byte-identical duplicate advisory ID RUSTSEC-2026-0244 on 0.22.2, the latest published, so the fault is committed data in the RustSec advisory database and no released tool version can read it; the bounded wait continues with cargo deny verified exit 0 as the overlapping signal and the standing basis re-verified literally this chunk (Cargo.lock moved 1 line, an insta edge inside an existing package entry, zero new [[package]])",
+        "impact": {
+          "deferred": 1
+        },
+        "evidence": null,
+        "artifacts": [
+          "Cargo.lock",
+          "conductor-0.2.0/working-route.md",
+          ".andromeda/playbook.md"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "andromeda-implement/fix-loop/tooling.gate-deferral",
+    "skill": "andromeda-implement",
+    "step": "fix-loop",
+    "type": "tooling.gate-deferral",
+    "n": 4,
+    "step_runs": 8,
+    "rate": 0.5,
+    "chunks": [
+      "2026-08-10-scenario-run-root-span-tree",
+      "2026-08-10-workspace-key-divergence-probe",
+      "2026-08-11-faithful-emission-dispatcher",
+      "2026-08-13-per-check-read-back-extraction"
+    ],
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "extra_reads": 0,
+    "weight": 1,
+    "score": 4,
+    "above_threshold": true,
+    "cases": [
+      {
+        "chunk": "2026-08-10-workspace-key-divergence-probe",
+        "what": "cargo audit red for the SIXTH consecutive chunk, byte-identical 'error loading advisory database: parse error: duplicate advisory ID: RUSTSEC-2026-0244', true exit 1 on 0.22.2 (the latest published, so no floor to raise); zero dependency delta and both lockfiles un-drifted, and cargo deny check observed green (advisories/bans/licenses/sources, true exit 0) as the overlapping signal — bounded wait extended per security-plan Dependency Security",
+        "impact": {
+          "deferred": 1
+        },
+        "evidence": "cargo audit 0.22.2 exit 1; cargo deny check exit 0",
+        "artifacts": [
+          "Cargo.lock",
+          "deny.toml"
+        ]
+      },
+      {
+        "chunk": "2026-08-10-scenario-run-root-span-tree",
+        "what": "cargo audit red for the EIGHTH consecutive chunk, deferred since 2026-08-08-sut-capability-manifest: exit 1 with a byte-identical 'error loading advisory database: parse error: duplicate advisory ID: RUSTSEC-2026-0244' on 0.22.2, the latest published. An advisory-DATABASE fault with no released version able to read it, so the floor raise the original rule prescribed remains unexecutable. Unlike the prior seven this chunk DID change the dependency tree (a tracing edge on conductor-report), but the Cargo.lock delta is one line inside an existing package entry and adds no new [[package]], so the audit surface is unchanged. cargo deny check verified green as the overlapping signal (advisories, bans, licenses, sources all ok). Bounded wait continued under the operator's L5 ratification -- no floor raise, no deny.toml ignore, no CI edit",
+        "impact": {
+          "deferred": 1
+        },
+        "evidence": "implement P2 gate 6; cargo-audit-audit 0.22.2",
+        "artifacts": [
+          "Cargo.lock",
+          "deny.toml"
+        ]
+      },
+      {
+        "chunk": "2026-08-11-faithful-emission-dispatcher",
+        "what": "cargo audit red for the TENTH consecutive chunk, deferred since 2026-08-08-sut-capability-manifest and operator-ratified under the L5 age trigger: byte-identical 'duplicate advisory ID: RUSTSEC-2026-0244' on 0.22.2, true exit 1, an advisory-DATABASE fault with nothing to raise a floor to. cargo deny check verified green (exit 0, all four classes) as the overlapping signal. The standing basis held literally this time: Cargo.lock gained 4 lines, all dependency edges inside conductor-run's existing package entry, with ZERO new [[package]] entries.",
+        "impact": {
+          "deferred": 1
+        },
+        "evidence": null,
+        "artifacts": [
+          "Cargo.lock"
+        ]
+      },
+      {
+        "chunk": "2026-08-13-per-check-read-back-extraction",
+        "what": "cargo audit red for the TWELFTH consecutive chunk, deferred since 2026-08-08-sut-capability-manifest under the operator's 2026-08-10 L5 ratification. Byte-identical advisory-DATABASE fault (duplicate advisory ID: RUSTSEC-2026-0244), true exit 1. Standing basis re-verified literally rather than echoed: Cargo.lock is un-drifted at ZERO lines this chunk (stronger than the prior chunk's 1-line move), so audit SURFACE is unchanged, and cargo deny check returned true exit 0 with advisories/bans/licenses/sources all ok as the overlapping signal.",
+        "impact": {
+          "deferred": 1
+        },
+        "evidence": null,
+        "artifacts": [
+          "Cargo.lock",
+          "deny.toml"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "andromeda-wrap-session/report/contract.detector-fact-gap",
+    "skill": "andromeda-wrap-session",
+    "step": "report",
+    "type": "contract.detector-fact-gap",
+    "n": 4,
+    "step_runs": 8,
+    "rate": 0.5,
+    "chunks": [
+      "2026-08-10-pulse-run-contract",
+      "2026-08-10-workspace-key-divergence-probe",
+      "2026-08-13-dispatcher-determinism-goldens",
+      "2026-08-13-first-live-green-preflight"
+    ],
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "extra_reads": 1,
+    "weight": 1,
+    "score": 4,
+    "above_threshold": true,
+    "cases": [
+      {
+        "chunk": "2026-08-10-workspace-key-divergence-probe",
+        "what": "a SUT-side binary built as a live-probe precondition (andromeda-pulse-mcp) has no natural Changes bullet — it is not a Conductor dev tool and not a lockfile dependency, so it was recorded as a NOTE under Dev-tool versions rather than minting a bullet; a detector keying on build preconditions of the system under test would not find it",
+        "impact": {},
+        "evidence": null,
+        "artifacts": [
+          "conductor-0.2.0/chunks/2026-08-10-workspace-key-divergence-probe/report.md",
+          ".andromeda/drift-base.md"
+        ]
+      },
+      {
+        "chunk": "2026-08-10-pulse-run-contract",
+        "what": "the report carries three moved derived counts, but the derived-count detectors exist only for layout-templates, test-plan and design-system. Two of this chunk's three moves are stated in architecture.md (precondition set 4-to-5, contracts manifest count 3-to-4) and one in obs-plan.md (the N-unbacked caption), and none of those three docs has a derived-count detector — so the fact is reported correctly and simply has no reader for those docs",
+        "impact": {},
+        "evidence": null,
+        "artifacts": [
+          ".andromeda/drift-base.md",
+          "conductor-0.2.0/chunks/2026-08-10-pulse-run-contract/report.md"
+        ]
+      },
+      {
+        "chunk": "2026-08-13-dispatcher-determinism-goldens",
+        "what": "this chunk moved a qualifier the three derived-count detectors structurally cannot see: which envelope TERM is asserted inverted (rate+storm now asserted, whole-scenario duration no longer), and all three detectors' check fields say to grep the doc for an OLD literal value in a caption/sample/wireframe/tally — a term-set inversion has no old literal to grep, so the stale arch prose at architecture.md:160 would go undetected; recorded under the Counts/qualifiers bullet anyway and carried explicitly as an expected amendment",
+        "impact": {
+          "extra_reads": 1
+        },
+        "evidence": null,
+        "artifacts": [
+          ".andromeda/drift-base.md",
+          ".andromeda/architecture.md",
+          "conductor-0.2.0/chunks/2026-08-13-dispatcher-determinism-goldens/report.md"
+        ]
+      },
+      {
+        "chunk": "2026-08-13-first-live-green-preflight",
+        "what": "The chunks headline outcome is a spec claim DISPROVED BY MEASUREMENT (the [incident_formation] warm-up, 45s against a 3600s gate), and no stock Changes bullet family carries that shape — the nearest, Spec-master edits, is for edits APPLIED via the sanctioned flow, and this was surfaced-not-applied. Invoked the extend-the-bullets rule and added a Falsified spec claim bullet carrying the measured facts and source citations so the P2 detectors can see it.",
+        "impact": {},
+        "evidence": null,
+        "artifacts": [
+          "conductor-0.2.0/chunks/2026-08-13-first-live-green-preflight/report.md",
+          ".andromeda/drift-base.md"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "andromeda-implement/smoke/tooling.harness-friction",
+    "skill": "andromeda-implement",
+    "step": "smoke",
+    "type": "tooling.harness-friction",
+    "n": 2,
+    "step_runs": 8,
+    "rate": 0.25,
+    "chunks": [
+      "2026-08-10-pulse-run-contract",
+      "2026-08-11-faithful-emission-dispatcher"
+    ],
+    "iterations": 0,
+    "retries": 1,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "extra_reads": 0,
+    "weight": 2,
+    "score": 4,
+    "above_threshold": false,
+    "cases": [
+      {
+        "chunk": "2026-08-10-pulse-run-contract",
+        "what": "the chunk's own changed surface is unreachable from any local smoke: the new run-contract cascade arm sits inside run_preflight, which only executes once ReadbackClient::connect succeeds, and andromeda-pulse-mcp is not on PATH in this session — so the binary returns the read-back-unreachable precondition before the arm is consulted. Verified the surrounding path instead (CLI gate exit code, envelope shape, coverage caption) and left the arm's end-to-end proof to the operator-gated live leg",
+        "impact": {
+          "deferred": 1
+        },
+        "evidence": "conductor-0.2.0/chunks/2026-08-10-pulse-run-contract/plan.md step 7",
+        "artifacts": [
+          "crates/conductor-verify/src/preflight.rs",
+          "scripts/agent-run.sh"
+        ]
+      },
+      {
+        "chunk": "2026-08-11-faithful-emission-dispatcher",
+        "what": "scripts/agent-run.sh `run` makes its scenario leg optional behind a SCENARIO= env prefix, so a plan that lists the bare verb as an artifact producer silently exercises no scenario at all; the first smoke pass produced an agent-latest.jsonl six hours stale from the previous chunk and only the file mtime revealed it.",
+        "impact": {
+          "retries": 1
+        },
+        "evidence": null,
+        "artifacts": [
+          "scripts/agent-run.sh"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "andromeda-phase/research/input.extract-signal-gap",
+    "skill": "andromeda-phase",
+    "step": "research",
+    "type": "input.extract-signal-gap",
+    "n": 3,
+    "step_runs": 8,
+    "rate": 0.38,
+    "chunks": [
+      "2026-08-10-pulse-run-contract",
+      "2026-08-10-scenario-run-root-span-tree",
+      "2026-08-11-faithful-emission-dispatcher"
+    ],
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "extra_reads": 9,
+    "weight": 1,
+    "score": 3,
+    "above_threshold": true,
+    "cases": [
+      {
+        "chunk": "2026-08-10-pulse-run-contract",
+        "what": "no extract named crates/conductor-run/src/lib.rs, yet it holds two of the four full ReadyState struct-literal constructions plus the entire canary emission path (emit_canary, canary_poll, CANARY_STORM_COUNT) — the files that decide this chunk's cost model. It was reached from the graph's run_preflight caller set, not from any extract signal; the seven extracts point at conductor-verify and conductor-core only",
+        "impact": {
+          "extra_reads": 1
+        },
+        "evidence": ".andromeda/runs/2026-08-10T20-19-40-phase/tree-query-2026-08-10-pulse-run-contract.json",
+        "artifacts": [
+          "crates/conductor-run/src/lib.rs"
+        ]
+      },
+      {
+        "chunk": "2026-08-10-scenario-run-root-span-tree",
+        "what": "No extract predicted the chunk's central blocker: JsonObsLayer implements only on_event, never on_new_span/on_close and never walks the span context, so the three shipped spans emit zero output and the committed logs/agent-latest.jsonl contains 0 occurrences of timeline.execute/emit.batch/verify.readback. The obs extract cited those spans as the in-tree exemplar to follow, which reads as confirmation that spans work. Distillers read specs, and the spec describes target state -- so a target-vs-current gap is invisible to fan-out by construction and only direct reading plus checking the real artifact caught it. It roughly doubles the chunk's true surface (subscriber-layer capability, not three annotations)",
+        "impact": {
+          "extra_reads": 3
+        },
+        "evidence": "phase P3; graph trace .andromeda/runs/2026-08-10T22-02-24-phase/tree-query-2026-08-10-scenario-run-root-span-tree.json",
+        "artifacts": [
+          "crates/conductor-core/src/obs.rs",
+          "logs/agent-latest.jsonl",
+          "obs-plan.md"
+        ]
+      },
+      {
+        "chunk": "2026-08-11-faithful-emission-dispatcher",
+        "what": "The obs extract asserted the span topology was 'already fixed by the prior chunk' and framed the CARRY's two options (implement on_record vs compute-before-open) as the live fork, but code shows run_timeline returns — closing timeline.execute — before coarse_emit is ever called, so emit.batch is a SIBLING and neither CARRY option can put emission_count on that span. The distiller could not have caught it: it reads only its spec plus sidecar and scope, so it faithfully propagated obs-plan §4 CP1's parent-to-child chain. Second consecutive chunk where a spec-derived claim about code reality was falsified only at the research step.",
+        "impact": {
+          "extra_reads": 5
+        },
+        "evidence": "conductor-0.2.0/chunks/2026-08-11-faithful-emission-dispatcher/research.md",
+        "artifacts": [
+          ".andromeda/obs-plan.md",
+          "crates/conductor-run/src/lib.rs",
+          "crates/conductor-timeline/src/scheduler.rs"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "andromeda-phase/validate/contract.mechanical-check",
+    "skill": "andromeda-phase",
+    "step": "validate",
+    "type": "contract.mechanical-check",
+    "n": 1,
+    "step_runs": 8,
+    "rate": 0.12,
+    "chunks": [
+      "2026-08-10-workspace-key-divergence-probe"
+    ],
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 1,
+    "halted": 0,
+    "soft_exit": 0,
+    "extra_reads": 0,
+    "weight": 3,
+    "score": 3,
+    "above_threshold": false,
+    "cases": [
+      {
+        "chunk": "2026-08-10-workspace-key-divergence-probe",
+        "what": "the plan's Expected-amendments note directed a correction at two immutable route-owned files (intent.md, requirements.md) and no gate catches that — mechanical check 2's spec-master guard scans only the Files-to-modify set, so an unsanctioned amendment TARGET named in prose passes every check; it took an operator review round to catch",
+        "impact": {
+          "dialogue_rounds": 1
+        },
+        "evidence": null,
+        "artifacts": [
+          "conductor-0.2.0/chunks/2026-08-10-workspace-key-divergence-probe/plan.md",
+          "conductor-0.2.0/verification-matrix.json"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "andromeda-phase/validate/contract.matrix-claim",
+    "skill": "andromeda-phase",
+    "step": "validate",
+    "type": "contract.matrix-claim",
+    "n": 1,
+    "step_runs": 8,
+    "rate": 0.12,
+    "chunks": [
+      "2026-08-10-scenario-run-root-span-tree"
+    ],
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 1,
+    "halted": 0,
+    "soft_exit": 0,
+    "extra_reads": 0,
+    "weight": 3,
+    "score": 3,
+    "above_threshold": false,
+    "cases": [
+      {
+        "chunk": "2026-08-10-scenario-run-root-span-tree",
+        "what": "Faced with a matrix acceptance the code-graph had disproved (v2-31: report and db spans 'nested beneath' a root that structurally cannot contain them), the planner proposed REFINING the acceptance text at claim time. That is outside the only sanctioned acceptance-refinement class -- verification-matrix-contract §Affordance honesty -- and the operator corrected it to the note-only channel v2-18 received for the structurally identical case at 2026-08-10-pulse-run-contract. The contract names ONE refinement class and is silent on 'premise disproved', so the gap is real: a second class is proposed and awaiting a founder ruling (P6), and until then the two entries must share one channel or the ledger becomes inconsistent. Note the standing Tier-1 rule already prescribes the note-only treatment; it was not applied unprompted",
+        "impact": {
+          "dialogue_rounds": 1
+        },
+        "evidence": "phase P5 review round; v2-31 notes now mirror v2-18's PREMISE-CORRECTION shape",
+        "artifacts": [
+          "conductor-0.2.0/verification-matrix.json",
+          "verification-matrix-contract.md",
+          "plan.md"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "andromeda-wrap-session/reconcile/ambiguity.playbook-no-match",
+    "skill": "andromeda-wrap-session",
+    "step": "reconcile",
+    "type": "ambiguity.playbook-no-match",
+    "n": 1,
+    "step_runs": 8,
+    "rate": 0.12,
+    "chunks": [
+      "2026-08-11-faithful-emission-dispatcher"
+    ],
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 1,
+    "halted": 0,
+    "soft_exit": 0,
+    "extra_reads": 0,
+    "weight": 3,
+    "score": 3,
+    "above_threshold": false,
+    "cases": [
+      {
+        "chunk": "2026-08-11-faithful-emission-dispatcher",
+        "what": "D-security-input's escalate-severity proposal to widen the scenario-config row had no squarely-matching playbook rule: the 2026-06-23 consuming-shipped-infra dismiss rule's precondition (chunk adds NO new external-input boundary) was unmet, and the 2026-08-10 apply rule is scoped to a NEW committed contracts/ artifact rather than a widened existing row. Escalated to the operator, who approved applying both halves including the dive-never-skip mandate.",
+        "impact": {
+          "dialogue_rounds": 1
+        },
+        "evidence": null,
+        "artifacts": [
+          ".andromeda/playbook.md",
+          ".andromeda/security-plan.md"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "andromeda-implement/code/input.research-files-wrong",
+    "skill": "andromeda-implement",
+    "step": "code",
+    "type": "input.research-files-wrong",
+    "n": 2,
+    "step_runs": 8,
+    "rate": 0.25,
+    "chunks": [
+      "2026-08-10-pulse-run-contract",
+      "2026-08-11-faithful-emission-dispatcher"
+    ],
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "extra_reads": 3,
+    "weight": 1,
+    "score": 2,
+    "above_threshold": false,
+    "cases": [
+      {
+        "chunk": "2026-08-10-pulse-run-contract",
+        "what": "the plan's step 5 mandates a warm-up WAIT inside conductor-run/src/lib.rs, but neither research's Files-to-modify nor the plan's touchpoints listed crates/conductor-run/Cargo.toml, where tokio sat as a dev-dependency only — a timer was unreachable from library code until the manifest gained the dependency",
+        "impact": {
+          "extra_reads": 1
+        },
+        "evidence": null,
+        "artifacts": [
+          "crates/conductor-run/Cargo.toml",
+          "conductor-0.2.0/chunks/2026-08-10-pulse-run-contract/research.md"
+        ]
+      },
+      {
+        "chunk": "2026-08-11-faithful-emission-dispatcher",
+        "what": "research.md and plan.md both listed crates/conductor-emit/tests/ as the home for the dispatcher's per-family wire assertions, but the dispatcher lives in conductor-run and conductor-emit has no dependency on it, so those tests cannot compile there. Created crates/conductor-run/tests/dispatch_wire.rs instead, which required mirroring three dev-deps (opentelemetry-proto, tonic, tokio-stream) plus tokio's test-util feature into conductor-run.",
+        "impact": {
+          "extra_reads": 2
+        },
+        "evidence": null,
+        "artifacts": [
+          "conductor-0.2.0/chunks/2026-08-11-faithful-emission-dispatcher/research.md",
+          "crates/conductor-run/tests/dispatch_wire.rs"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "andromeda-implement/code/ambiguity.scope-pressure",
+    "skill": "andromeda-implement",
+    "step": "code",
+    "type": "ambiguity.scope-pressure",
+    "n": 2,
+    "step_runs": 8,
+    "rate": 0.25,
+    "chunks": [
+      "2026-08-11-faithful-emission-dispatcher",
+      "2026-08-13-dispatcher-determinism-goldens"
+    ],
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "extra_reads": 2,
+    "weight": 1,
+    "score": 2,
+    "above_threshold": false,
+    "cases": [
+      {
+        "chunk": "2026-08-11-faithful-emission-dispatcher",
+        "what": "Three edits sat outside the plan's Files-to-modify list and were judged in-scope helpers rather than soft-exits: crates/conductor-run/Cargo.toml (the thiserror edge the typed DispatchError needs, plus test dev-deps), and the lib.rs re-export lines in conductor-core and conductor-timeline for types the listed files create. Each is the owning crate of listed work and unreachable without it.",
+        "impact": {},
+        "evidence": null,
+        "artifacts": [
+          "crates/conductor-run/Cargo.toml",
+          "crates/conductor-core/src/lib.rs",
+          "crates/conductor-timeline/src/lib.rs"
+        ]
+      },
+      {
+        "chunk": "2026-08-13-dispatcher-determinism-goldens",
+        "what": "two needed edits sat outside the research boundary lists and the gray-area judgment ran both times: the insta dev-dep on conductor-run (plan step 2 mandates an insta golden in that crate, so the dep is the direct enabler) and the lib.rs re-export of the newly added sustained_storm_ms (otherwise dead_code in a private module); proceeded as in-scope helpers rather than soft-exiting, both reported",
+        "impact": {
+          "extra_reads": 2
+        },
+        "evidence": null,
+        "artifacts": [
+          "crates/conductor-run/Cargo.toml",
+          "crates/conductor-core/src/lib.rs"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "andromeda-wrap-session/reconcile/tooling.environmental",
+    "skill": "andromeda-wrap-session",
+    "step": "reconcile",
+    "type": "tooling.environmental",
+    "n": 1,
+    "step_runs": 8,
+    "rate": 0.12,
+    "chunks": [
+      "2026-08-10-pulse-run-contract"
+    ],
+    "iterations": 0,
+    "retries": 1,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "extra_reads": 0,
+    "weight": 2,
+    "score": 2,
+    "above_threshold": false,
+    "cases": [
+      {
+        "chunk": "2026-08-10-pulse-run-contract",
+        "what": "four quoted heredocs chained in one bash invocation to append the sidecars died at parse time with unexpected EOF looking for a matching quote, so none of the four ran. Rewritten as four scratchpad files plus cat appends, which the code-writing shell discipline already prescribes over heredocs",
+        "impact": {
+          "retries": 1
+        },
+        "evidence": null,
+        "artifacts": [
+          ".andromeda/architecture-amendments.md",
+          ".andromeda/security-plan-amendments.md",
+          ".andromeda/layout-templates-amendments.md",
+          ".andromeda/test-plan-amendments.md"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "andromeda-implement/smoke/contract.spec-reality-gap",
+    "skill": "andromeda-implement",
+    "step": "smoke",
+    "type": "contract.spec-reality-gap",
+    "n": 1,
+    "step_runs": 8,
+    "rate": 0.12,
+    "chunks": [
+      "2026-08-11-faithful-emission-dispatcher"
+    ],
+    "iterations": 0,
+    "retries": 1,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "extra_reads": 0,
+    "weight": 2,
+    "score": 2,
+    "above_threshold": false,
+    "cases": [
+      {
+        "chunk": "2026-08-11-faithful-emission-dispatcher",
+        "what": "The chunk's own obs acceptance criterion required timeline.execute's phase_count and emission_count to appear on a JSONL line in logs/agent-latest.jsonl, which is unreachable in this chunk's scope: execute_scenario short-circuits to Blocked at the preflight gate BEFORE the timeline runs, so with no live ready:true Pulse the span never opens and the artifact carries only verify.readback.connect, scenario.run, db.insert_run and report.generate. Satisfied the criterion's substance instead with crates/conductor-timeline/tests/obs_span.rs, which installs the real File sink, runs the timeline and reads the emitted record back — proving the attribute survives to a line rather than merely sitting in fields(...). The artifact location in the criterion was the mis-specification, not the requirement.",
+        "impact": {
+          "retries": 1
+        },
+        "evidence": null,
+        "artifacts": [
+          "conductor-0.2.0/chunks/2026-08-11-faithful-emission-dispatcher/plan.md",
+          "logs/agent-latest.jsonl",
+          "crates/conductor-timeline/tests/obs_span.rs"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "andromeda-phase/research/input.cookbook-gap",
+    "skill": "andromeda-phase",
+    "step": "research",
+    "type": "input.cookbook-gap",
+    "n": 1,
+    "step_runs": 8,
+    "rate": 0.12,
+    "chunks": [
+      "2026-08-13-dispatcher-determinism-goldens"
+    ],
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 1,
+    "dialogue_rounds": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "extra_reads": 0,
+    "weight": 2,
+    "score": 2,
+    "above_threshold": false,
+    "cases": [
+      {
+        "chunk": "2026-08-13-dispatcher-determinism-goldens",
+        "what": "the impact query for scenario_duration_ms returned 16 rows because the descriptor LIKE also matched the struct field max_scenario_duration_ms, which CONTAINS the function name; narrowing to 'load_envelope/scenario_duration_ms' gave the true 6, so the un-narrowed result would have over-stated the blast radius by 10 sites",
+        "impact": {
+          "reformulations": 1
+        },
+        "evidence": ".andromeda/runs/2026-08-13T17-25-00-phase/tree-query-2026-08-13-dispatcher-determinism-goldens.json",
+        "artifacts": [
+          "scripts/code-graph-cookbook.md",
+          "crates/conductor-core/src/load_envelope.rs"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "andromeda-wrap-session/curation/contract.marker-write",
+    "skill": "andromeda-wrap-session",
+    "step": "curation",
+    "type": "contract.marker-write",
+    "n": 1,
+    "step_runs": 8,
+    "rate": 0.12,
+    "chunks": [
+      "2026-08-13-per-check-read-back-extraction"
+    ],
+    "iterations": 1,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "extra_reads": 0,
+    "weight": 2,
+    "score": 2,
+    "above_threshold": false,
+    "cases": [
+      {
+        "chunk": "2026-08-13-per-check-read-back-extraction",
+        "what": "Tier 3 entry was appended to the file's end instead of inserted at the top, landing after the trailing Entry-format and Tier-classification meta sections. Cause: the phase names two required references and only curation-tier-decision.md was read before writing — the placement rule (insert at TOP, reverse chronological) lives in the other one, curation-guide.md. Caught by reading the skipped reference after the fact and corrected in place.",
+        "impact": {
+          "iterations": 1
+        },
+        "evidence": null,
+        "artifacts": [
+          ".claude/docs/session-learnings.md",
+          "curation-guide.md"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "andromeda-new-session/orientation/input.handoff-git-mismatch",
+    "skill": "andromeda-new-session",
+    "step": "orientation",
+    "type": "input.handoff-git-mismatch",
+    "n": 1,
+    "step_runs": 8,
+    "rate": 0.12,
+    "chunks": [],
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "extra_reads": 1,
+    "weight": 1,
+    "score": 1,
+    "above_threshold": false,
+    "cases": [
+      {
+        "chunk": null,
+        "what": "handoff Status: clean while git carried three uncommitted entries; two (session-handoff.md, friction-log.ndjson) are the session-state contract's named expected-transient bookkeeping, but the third — an untracked .andromeda/runs/2026-08-10T16-30-17-evolve-diagnose/ dir from a between-session founder-invoked diagnosis — is not in that enumeration, so classifying it as expected-transient rather than dirty-work took judgment plus a read of session-state-contract.md",
+        "impact": {
+          "extra_reads": 1
+        },
+        "evidence": null,
+        "artifacts": [
+          "session-handoff.md",
+          "session-state-contract.md",
+          ".andromeda/runs/2026-08-10T16-30-17-evolve-diagnose/"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "andromeda-phase/take-up/input.working-entry-thin",
+    "skill": "andromeda-phase",
+    "step": "take-up",
+    "type": "input.working-entry-thin",
+    "n": 1,
+    "step_runs": 8,
+    "rate": 0.12,
+    "chunks": [
+      "2026-08-10-pulse-run-contract"
+    ],
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "extra_reads": 4,
+    "weight": 1,
+    "score": 1,
+    "above_threshold": false,
+    "cases": [
+      {
+        "chunk": "2026-08-10-pulse-run-contract",
+        "what": "the working entry named two contract terms; the preceding chunk's own evidence shows both were satisfied and still produced no incident, so the entry's stated scope under-described the contract. The three missing terms (incident-formation viability, sidecar-built, load-envelope ceiling) were supplied by operator directive at invocation rather than carried by the route artifact",
+        "impact": {
+          "dialogue_rounds": 0,
+          "extra_reads": 4
+        },
+        "evidence": "conductor-0.2.0/chunks/2026-08-10-workspace-key-divergence-probe/two-launch-verdict.md",
+        "artifacts": [
+          "conductor-0.2.0/working-route.md",
+          "conductor-0.2.0/chunks/2026-08-10-pulse-run-contract/scope.md"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "andromeda-wrap-session/route-resolve/contract.carry-no-owner",
+    "skill": "andromeda-wrap-session",
+    "step": "route-resolve",
+    "type": "contract.carry-no-owner",
+    "n": 1,
+    "step_runs": 8,
+    "rate": 0.12,
+    "chunks": [
+      "2026-08-10-pulse-run-contract"
+    ],
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "extra_reads": 0,
+    "weight": 1,
+    "score": 1,
+    "above_threshold": false,
+    "cases": [
+      {
+        "chunk": "2026-08-10-pulse-run-contract",
+        "what": "the arm-3 CARRY needed a new owner entry because its previous owner is the chunk that just completed. The route grammar has no move operation — a CARRY is appended to a target entry and nothing records that it MIGRATED, so the re-pin reads as freshly discovered work unless its text says otherwise. Written with an explicit re-pinned-from clause to preserve that lineage by prose alone",
+        "impact": {},
+        "evidence": null,
+        "artifacts": [
+          "conductor-0.2.0/working-route.md"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "andromeda-phase/distill/input.spec-source-gap",
+    "skill": "andromeda-phase",
+    "step": "distill",
+    "type": "input.spec-source-gap",
+    "n": 1,
+    "step_runs": 8,
+    "rate": 0.12,
+    "chunks": [
+      "2026-08-10-scenario-run-root-span-tree"
+    ],
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "extra_reads": 1,
+    "weight": 1,
+    "score": 1,
+    "above_threshold": false,
+    "cases": [
+      {
+        "chunk": "2026-08-10-scenario-run-root-span-tree",
+        "what": "obs-plan names four Tauri command spans that do not exist: start_scenario / stop_scenario / get_run_report / operator_pause_go_no_go (\\u00a71 line 49, \\u00a74 line 136, line 373) vs the shipped tauri.command.start_run / stop_run / run_report / resolve_operator_hold. The obs distiller faithfully reproduced the stale name into its Contract-bindings section, so the extract was correct-to-source and wrong-to-reality. The \\u00a711 bounded span-name set uses the tauri.command.* wildcard, so no invariant is violated -- only the illustrative names drifted. Surfaced for wrap reconcile; not this chunk's to fix",
+        "impact": {
+          "extra_reads": 1
+        },
+        "evidence": "phase P2 validation; grep obs-plan.md vs grep tracing::info_span! crates/conductor-tauri/src/",
+        "artifacts": [
+          "obs-plan.md",
+          "crates/conductor-tauri/src/commands.rs"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "andromeda-implement/code/input.conventions-gap",
+    "skill": "andromeda-implement",
+    "step": "code",
+    "type": "input.conventions-gap",
+    "n": 1,
+    "step_runs": 8,
+    "rate": 0.12,
+    "chunks": [
+      "2026-08-10-scenario-run-root-span-tree"
+    ],
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "extra_reads": 2,
+    "weight": 1,
+    "score": 1,
+    "above_threshold": false,
+    "cases": [
+      {
+        "chunk": "2026-08-10-scenario-run-root-span-tree",
+        "what": "The plan required report.generate to carry verdict/state 'drawn from the typed values' but neither plan nor research said HOW to stringify them, and the obvious accessor is a trap: Verdict::label()/ReportState::label() are documented human labels that render CalibrationRegion as 'HOLD' and ManualCheck as 'Manual', which would have silently broken the a11y lamp-to-journal-row join the acceptance names. Settled by reading verdict.rs / report_state.rs and the db.rs value_as_wire precedent, then using the canonical Debug spelling, locked by a dedicated test. Also unstated: how to summarize N records for a run-scoped span -- resolved as distinct-first-seen rather than inventing a severity ranking the report seam does not own",
+        "impact": {
+          "extra_reads": 2
+        },
+        "evidence": "implement P1; test span_fields_use_canonical_wire_names_not_human_labels",
+        "artifacts": [
+          "crates/conductor-core/src/verdict.rs",
+          "crates/conductor-core/src/report_state.rs",
+          "crates/conductor-report/src/report.rs"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "andromeda-wrap-session/curation/ambiguity.tier-routing",
+    "skill": "andromeda-wrap-session",
+    "step": "curation",
+    "type": "ambiguity.tier-routing",
+    "n": 1,
+    "step_runs": 8,
+    "rate": 0.12,
+    "chunks": [
+      "2026-08-10-scenario-run-root-span-tree"
+    ],
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "extra_reads": 0,
+    "weight": 1,
+    "score": 1,
+    "above_threshold": false,
+    "cases": [
+      {
+        "chunk": "2026-08-10-scenario-run-root-span-tree",
+        "what": "The cp1252 encoding learning is directive-shaped ('always pass encoding=utf-8'), which the tier tree routes to Tier 1/2, but its scope is ad-hoc tooling rather than any project path -- no .claude/rules/* file covers it and creating one would have been forced. Demoted to Tier 3 via the Tier 2 fallback chain step 3, per 'better to over-route to Tier 3 than to invent weakly-scoped rule files'",
+        "impact": {},
+        "evidence": "wrap P3 tier routing; 1 demotion",
+        "artifacts": [
+          ".claude/docs/session-learnings.md"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "andromeda-phase/plan/input.research-thin",
+    "skill": "andromeda-phase",
+    "step": "plan",
+    "type": "input.research-thin",
+    "n": 1,
+    "step_runs": 8,
+    "rate": 0.12,
+    "chunks": [
+      "2026-08-11-faithful-emission-dispatcher"
+    ],
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "extra_reads": 0,
+    "weight": 1,
+    "score": 1,
+    "above_threshold": false,
+    "cases": [
+      {
+        "chunk": "2026-08-11-faithful-emission-dispatcher",
+        "what": "plan.md step 1 enumerates 8 emission-shape variants with their per-family parameters (fingerprint variant mix, severity mix, p50/p95/p99, PII categories, error placement + fraction, rate curve), but research only captured the primitives' EXPORT names from conductor-emit/src/lib.rs:23-32 — no primitive's actual constructor or field surface was read, so those parameter lists rest on export names plus scenario-TOML prose and /implement must confirm each against the real signature.",
+        "impact": {
+          "extra_reads": 0
+        },
+        "evidence": null,
+        "artifacts": [
+          "crates/conductor-emit/src/lib.rs",
+          "conductor-0.2.0/chunks/2026-08-11-faithful-emission-dispatcher/plan.md"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "andromeda-phase/plan/input.extracts-conflict",
+    "skill": "andromeda-phase",
+    "step": "plan",
+    "type": "input.extracts-conflict",
+    "n": 1,
+    "step_runs": 8,
+    "rate": 0.12,
+    "chunks": [
+      "2026-08-11-faithful-emission-dispatcher"
+    ],
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "extra_reads": 0,
+    "weight": 1,
+    "score": 1,
+    "above_threshold": false,
+    "cases": [
+      {
+        "chunk": "2026-08-11-faithful-emission-dispatcher",
+        "what": "A tension P2's check C surfaced only as a unilateral binding turned out to be substantive at synthesis: layouts requires the emission tally to be ONE number shared with the cli indicatif heartbeat and forbids a second independent tally, while the obs idiom (compute in the fields position at span open) forces timeline.execute's emission_count to be the DECLARED total, not the live-observed one. Resolved by making the split explicit — declared total on timeline.execute, observed per-batch on emit.batch — but the plan does not reconcile that split against the heartbeat, which this chunk does not modify.",
+        "impact": {},
+        "evidence": null,
+        "artifacts": [
+          ".andromeda/runs/2026-08-11T21-24-43-phase/layouts.md",
+          ".andromeda/runs/2026-08-11T21-24-43-phase/obs.md"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "andromeda-wrap-session/report/recall.change-reconstruction",
+    "skill": "andromeda-wrap-session",
+    "step": "report",
+    "type": "recall.change-reconstruction",
+    "n": 1,
+    "step_runs": 8,
+    "rate": 0.12,
+    "chunks": [
+      "2026-08-11-faithful-emission-dispatcher"
+    ],
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "extra_reads": 1,
+    "weight": 1,
+    "score": 1,
+    "above_threshold": false,
+    "cases": [
+      {
+        "chunk": "2026-08-11-faithful-emission-dispatcher",
+        "what": "The P4 implement console reported 20 migrated scenario TOMLs and three out-of-plan files; git status shows 23 and four. The undercount came from narrating counts from memory of the edit sequence rather than reading the diffstat — the operator caught both before the report was authored, and detectors read the Changes section as the sole source of what changed.",
+        "impact": {
+          "extra_reads": 1
+        },
+        "evidence": null,
+        "artifacts": [
+          "conductor-0.2.0/chunks/2026-08-11-faithful-emission-dispatcher/report.md"
+        ]
+      }
+    ]
+  },
+  {
+    "key": "andromeda-wrap-session/reconcile/input.report-insufficient",
+    "skill": "andromeda-wrap-session",
+    "step": "reconcile",
+    "type": "input.report-insufficient",
+    "n": 1,
+    "step_runs": 8,
+    "rate": 0.12,
+    "chunks": [
+      "2026-08-13-dispatcher-determinism-goldens"
+    ],
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "extra_reads": 0,
+    "weight": 1,
+    "score": 1,
+    "above_threshold": false,
+    "cases": [
+      {
+        "chunk": "2026-08-13-dispatcher-determinism-goldens",
+        "what": "the report's Counts/qualifiers bullet enumerated which docs state the moved value and missed one: layout-templates.md:188-190 bakes the old whole-scenario caption literal (runs 900s over a 600s ceiling) that classify can no longer produce; the layouts detector found it anyway and flagged the report's inventory as incomplete, so the miss cost no coverage but the bullet was authored from a grep that searched for exemption-count and derivability wording rather than for the caption text",
+        "impact": {},
+        "evidence": ".andromeda/runs/2026-08-13T18-25-00-wrap/fanout-results.md",
+        "artifacts": [
+          "conductor-0.2.0/chunks/2026-08-13-dispatcher-determinism-goldens/report.md",
+          ".andromeda/layout-templates.md"
+        ]
+      }
+    ]
+  }
+]

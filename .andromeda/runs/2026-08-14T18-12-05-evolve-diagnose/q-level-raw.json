@@ -1,0 +1,278 @@
+{
+  "chronic_degrade_tooling": {
+    "tooling.hook-friction": {
+      "E1": 3
+    },
+    "tooling.environmental": {
+      "E1": 3,
+      "E2": 3
+    },
+    "tooling.commit-mechanics": {
+      "E1": 1
+    },
+    "tooling.health-false-red": {
+      "E1": 1
+    },
+    "tooling.headless-skip": {
+      "E1": 3
+    },
+    "tooling.gate-deferral": {
+      "E1": 3,
+      "E2": 9
+    },
+    "tooling.harness-friction": {
+      "E2": 2
+    }
+  },
+  "deferred_forever": {
+    "facts": [
+      {
+        "epoch": "E1",
+        "chunk": "2026-08-08-sut-capability-manifest",
+        "step": "andromeda-phase/validate",
+        "note": "v2-01 requirement field still carries the intent wording a versioned artifact under refs/ while the decided location is contracts/. Left unchanged and surfaced ",
+        "line": 13
+      },
+      {
+        "epoch": "E1",
+        "chunk": "2026-08-09-current-sut-coverage-classification",
+        "step": "andromeda-implement/smoke",
+        "note": "the headful UI self-verify cannot run on this Windows dev host (display-gated harness), so the webview change was proven by tsc --noEmit and the mock-runtime IP",
+        "line": 107
+      },
+      {
+        "epoch": "E1",
+        "chunk": "2026-08-09-out-of-scope-classification-treatment",
+        "step": "andromeda-wrap-session/gates",
+        "note": "cargo audit was left red and excluded from the light gate as an operator-directed bounded deferral: the RustSec advisory database will not parse (duplicate advi",
+        "line": 144
+      },
+      {
+        "epoch": "E1",
+        "chunk": "2026-08-09-interpretation-correctness-posture",
+        "step": "andromeda-implement/smoke",
+        "note": "the chunk touched a UI surface (CoverageMatrix.tsx, App.tsx) and a headful self-verify exists (the wdio/axe/colorjs harness), but it is display-gated to Linux+x",
+        "line": 163
+      },
+      {
+        "epoch": "E1",
+        "chunk": "2026-08-09-interpretation-correctness-posture",
+        "step": "andromeda-wrap-session/gates",
+        "note": "cargo audit stayed red on the external advisory-DB data fault and was NOT treated as a light-gate failure (playbook external-decay rule, routine); cargo deny ch",
+        "line": 174
+      },
+      {
+        "epoch": "E1",
+        "chunk": "2026-08-09-sut-load-envelope",
+        "step": "andromeda-wrap-session/reconcile",
+        "note": "Dismissing D-obs-instrumentation surfaced that the playbook's 2026-06-20/21 deferred-span entries promised db.insert_run and report.generate spans would land 'w",
+        "line": 219
+      },
+      {
+        "epoch": "E2",
+        "chunk": "2026-08-10-workspace-key-divergence-probe",
+        "step": "andromeda-wrap-session/gates",
+        "note": "cargo audit left red at the light gate under the ratified bounded wait (sixth consecutive advisory-DATABASE fault, byte-identical on the latest 0.22.2), with ca",
+        "line": 254
+      }
+    ],
+    "signals": [
+      {
+        "epoch": "E1",
+        "chunk": "2026-08-09-interpretation-correctness-posture",
+        "step": "andromeda-wrap-session/gates",
+        "artifact": "git-state",
+        "line": 174
+      },
+      {
+        "epoch": "E1",
+        "chunk": "2026-08-09-in-lane-sut-scenarios",
+        "step": "andromeda-implement/fix-loop",
+        "artifact": "matrix",
+        "line": 187
+      },
+      {
+        "epoch": "E1",
+        "chunk": "2026-08-09-in-lane-sut-scenarios",
+        "step": "andromeda-wrap-session/gates",
+        "artifact": "git-state",
+        "line": 198
+      },
+      {
+        "epoch": "E1",
+        "chunk": "2026-08-09-sut-load-envelope",
+        "step": "andromeda-implement/fix-loop",
+        "artifact": "matrix",
+        "line": 212
+      },
+      {
+        "epoch": "E1",
+        "chunk": "2026-08-09-sut-load-envelope",
+        "step": "andromeda-wrap-session/gates",
+        "artifact": "git-state",
+        "line": 226
+      },
+      {
+        "epoch": "E2",
+        "chunk": "2026-08-10-workspace-key-divergence-probe",
+        "step": "andromeda-implement/fix-loop",
+        "artifact": "matrix",
+        "line": 242
+      },
+      {
+        "epoch": "E2",
+        "chunk": "2026-08-10-workspace-key-divergence-probe",
+        "step": "andromeda-wrap-session/gates",
+        "artifact": "git-state",
+        "line": 254
+      },
+      {
+        "epoch": "E2",
+        "chunk": "2026-08-10-pulse-run-contract",
+        "step": "andromeda-implement/smoke",
+        "artifact": "conversation",
+        "line": 274
+      },
+      {
+        "epoch": "E2",
+        "chunk": "2026-08-10-pulse-run-contract",
+        "step": "andromeda-wrap-session/gates",
+        "artifact": "git-state",
+        "line": 285
+      },
+      {
+        "epoch": "E2",
+        "chunk": "2026-08-10-scenario-run-root-span-tree",
+        "step": "andromeda-implement/fix-loop",
+        "artifact": "matrix",
+        "line": 302
+      },
+      {
+        "epoch": "E2",
+        "chunk": "2026-08-10-scenario-run-root-span-tree",
+        "step": "andromeda-wrap-session/gates",
+        "artifact": "git-state",
+        "line": 314
+      },
+      {
+        "epoch": "E2",
+        "chunk": "2026-08-11-faithful-emission-dispatcher",
+        "step": "andromeda-implement/fix-loop",
+        "artifact": "matrix",
+        "line": 332
+      },
+      {
+        "epoch": "E2",
+        "chunk": "2026-08-11-faithful-emission-dispatcher",
+        "step": "andromeda-wrap-session/gates",
+        "artifact": "git-state",
+        "line": 348
+      },
+      {
+        "epoch": "E2",
+        "chunk": "2026-08-13-dispatcher-determinism-goldens",
+        "step": "andromeda-wrap-session/gates",
+        "artifact": "git-state",
+        "line": 377
+      },
+      {
+        "epoch": "E2",
+        "chunk": "2026-08-14-canary-fingerprint-feed-capture",
+        "step": "andromeda-implement/fix-loop",
+        "artifact": "source",
+        "line": 436
+      },
+      {
+        "epoch": "E2",
+        "chunk": "2026-08-14-canary-fingerprint-feed-capture",
+        "step": "andromeda-wrap-session/gates",
+        "artifact": "git-state",
+        "line": 447
+      }
+    ],
+    "counts_by_step": {
+      "E1/andromeda-implement/smoke": 3,
+      "E1/andromeda-wrap-session/gates": 5,
+      "E1/andromeda-implement/fix-loop": 2,
+      "E2/andromeda-implement/fix-loop": 7,
+      "E2/andromeda-wrap-session/gates": 7,
+      "E2/andromeda-implement/smoke": 2
+    }
+  },
+  "ok_degraded": [
+    {
+      "epoch": "E1",
+      "chunk": "2026-08-09-out-of-scope-classification-treatment",
+      "step": "andromeda-implement/fix-loop"
+    }
+  ],
+  "override_by_step": {
+    "andromeda-phase/validate": [
+      {
+        "epoch": "E1",
+        "chunk": "2026-08-08-sut-capability-manifest",
+        "note": "the operator blocked apply at the review prompt and directed correction of a factual misattribution in plan.md before approving; corrections were appl"
+      },
+      {
+        "epoch": "E2",
+        "chunk": "2026-08-10-workspace-key-divergence-probe",
+        "note": "operator took review and corrected the plan's Expected-amendments routing: it named conductor-0.2.0/intent.md F10 and requirements.md v2-17 as reconci"
+      },
+      {
+        "epoch": "E2",
+        "chunk": "2026-08-10-scenario-run-root-span-tree",
+        "note": "the operator took `review` to override the proposed matrix-claim channel: the plan had proposed REFINING v2-31's acceptance text at claim time, and th"
+      }
+    ],
+    "andromeda-implement/code": [
+      {
+        "epoch": "E1",
+        "chunk": "2026-08-08-sut-capability-manifest",
+        "note": "the operator widened research Files-to-modify from 3 to 6 after the plan-vs-reality conflict was surfaced, choosing to wire the three load edges rathe"
+      }
+    ],
+    "andromeda-wrap-session/reconcile": [
+      {
+        "epoch": "E1",
+        "chunk": "2026-08-09-current-sut-coverage-classification",
+        "note": "the operator directed the instance repair before this wrap ran — sidecar entries owed on the did-this-body-change trigger regardless of the proposal s"
+      },
+      {
+        "epoch": "E2",
+        "chunk": "2026-08-13-dispatcher-determinism-goldens",
+        "note": "operator directive 2 set the outcome of validation check 5 in advance: the scheduler.rs doc-comment expected-amendment was ruled out of amendment flow"
+      },
+      {
+        "epoch": "E2",
+        "chunk": "2026-08-13-first-live-green-preflight",
+        "note": "the falsified-mechanism class is now on its second occurrence (load-envelope prediction, then [incident_formation]) and amendment-flow prescribes prop"
+      }
+    ],
+    "andromeda-wrap-session/route-resolve": [
+      {
+        "epoch": "E2",
+        "chunk": "2026-08-10-workspace-key-divergence-probe",
+        "note": "the L5 age trigger prescribes a HALT into dialogue at the third consecutive re-pin; the operator pre-supplied the ratification in the wrap invocation,"
+      },
+      {
+        "epoch": "E2",
+        "chunk": "2026-08-13-dispatcher-determinism-goldens",
+        "note": "operator directive 2 chose route-resolve as the channel for the scheduler.rs doc-comment gap after ruling it out of amendment flow, so a CARRY was pin"
+      }
+    ],
+    "andromeda-wrap-session/report": [
+      {
+        "epoch": "E2",
+        "chunk": "2026-08-13-dispatcher-determinism-goldens",
+        "note": "the operator's wrap directives pre-settled two things the phases would otherwise decide: directive 1 fixed the Changes basis as git status, and direct"
+      }
+    ],
+    "andromeda-wrap-session/gates": [
+      {
+        "epoch": "E2",
+        "chunk": "2026-08-13-dispatcher-determinism-goldens",
+        "note": "operator directives 3 and 4 pre-settled this step: the audit re-pin proceeds silently under the standing L5 ratification rather than re-halting, and t"
+      }
+    ]
+  }
+}

@@ -8,6 +8,22 @@ _This file is entirely wrap-session's territory. `/andromeda-setup-project` crea
 
 ---
 
+## 2026-08-15 — evolve-diagnose run dirs are audit-trail class at the wrap dirt-check
+
+`/andromeda-wrap-session`'s Setup dirt-check names exactly three expected-transient bookkeeping members
+(`session-handoff.md`, `state.yaml`, `.andromeda/friction-log.ndjson`). A founder-invoked
+`/andromeda-evolve-diagnose` therefore leaves an untracked run dir under `.andromeda/runs/` that falls
+outside the named set and reads as "anything else dirty → HALT + ask" at the next 0-pending wrap.
+
+The operator's standing ruling: these are **audit-trail class** — absorb them into the wrap commit rather
+than halting. The HALT exists to stop unattributable *work* landing without a marker; a diagnosis run dir
+is telemetry output (explicitly not project state per the evolve system reference) living in the same
+`.andromeda/runs/` tree that wrap's own run dir occupies and `git add -A` sweeps every wrap.
+
+Applies to any 0-pending wrap following an evolve-diagnose invocation.
+
+---
+
 ## 2026-08-13 — Report counts come from `git status`, not from a running tally
 
 The operator's standing practice for the wrap report: derive the chunk's file counts from `git status` at
