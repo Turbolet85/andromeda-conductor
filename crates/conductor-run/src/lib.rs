@@ -106,9 +106,13 @@ fn unreachable_state(manifest: &ContractManifest, data_dir: &str) -> ReadyState 
     }
 }
 
-/// Identical-fingerprint canary exceptions emitted as the storm — over Pulse's `>=5 in 30s` retry-storm
-/// floor (P-018) so the gate's incident is raised deterministically.
-pub const CANARY_STORM_COUNT: u64 = 6;
+/// Identical-fingerprint canary exceptions emitted as the storm. Clearing Pulse's retry-storm cue floor
+/// (P-018) is NOT sufficient: the floor only raises a Suggested cue, and Pulse's Tier-1 coordinator
+/// accepts Autonomous cues alone (triage `cadence/coordinator.rs`), so a storm in the Suggested band
+/// forms no incident and the gate can never reach `ready:true`. Sized with headroom over triage's
+/// `DEFAULT_AUTONOMOUS_THRESHOLD` (`pattern/storm.rs`), which is compared with `>=`, and small enough
+/// that the unpaced burst lands well inside one `DEFAULT_DETECTION_SUB_WINDOW_SECONDS`.
+pub const CANARY_STORM_COUNT: u64 = 12;
 
 /// The canary's synthetic exception. `marker` is the unique-per-preflight `exception.type`, which is
 /// what makes the fingerprint unique to this run (a stale corpus cannot satisfy the gate on a prior

@@ -1,0 +1,34 @@
+[
+{
+"sql": "SELECT callee, file, line FROM refs WHERE callee LIKE '%CANARY_STORM_COUNT%' ORDER BY file, line;",
+"rows": 5,
+"result": [
+{
+"callee": "rust-analyzer cargo conductor-run 0.1.0 CANARY_STORM_COUNT.",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 133
+},
+{
+"callee": "rust-analyzer cargo conductor-run 0.1.0 CANARY_STORM_COUNT.",
+"file": "crates/conductor-run/tests/canary_wire.rs",
+"line": 19
+},
+{
+"callee": "rust-analyzer cargo conductor-run 0.1.0 CANARY_STORM_COUNT.",
+"file": "crates/conductor-run/tests/canary_wire.rs",
+"line": 100
+},
+{
+"callee": "rust-analyzer cargo conductor-run 0.1.0 CANARY_STORM_COUNT.",
+"file": "crates/conductor-run/tests/canary_wire.rs",
+"line": 129
+},
+{
+"callee": "rust-analyzer cargo conductor-run 0.1.0 CANARY_STORM_COUNT.",
+"file": "crates/conductor-run/tests/canary_wire.rs",
+"line": 181
+}
+],
+"db_state": "regenerated"
+}
+]

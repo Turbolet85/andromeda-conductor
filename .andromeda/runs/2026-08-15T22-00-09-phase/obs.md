@@ -1,0 +1,42 @@
+# obs extract
+
+## Relevance
+Partial — obs governs the live preflight leg's evidence stream (witness lines, log levels, redaction); the constant/doc-comment/test edits and the two verdict-doc closures add no new instrumentation surface.
+
+## Constraints
+- Obs tier is Minimal: self-observation is `tracing` + `tracing-subscriber` JSON only; no OTel SDK is ever initialized for self-obs, and the only OTLP Conductor speaks is the PRODUCT fault stream at `:4317` — which is exactly what the raised canary storm rides (per `.andromeda/obs-plan.md` §1 Obs Scope Summary, §3 OTel SDK init).
+- The `emit.batch` boundary log must carry the wire-shape witness — observed span count, count of spans a receiver would skip for a missing `trace_id`/`span_id`, and the distinct event / event-attribute KEY NAMES (names only, never values, ordered so the same batch renders identically) — emitted at `debug` inside the existing `#[instrument]` span and carried on the already-allowlisted `message` field, needing no new allowlist entry (per obs-plan §6 Boundary-call wrappers). Whether the shipped canary emission path already emits this witness, and whether its span count tracks `CANARY_STORM_COUNT` rather than a literal, is research's question.
+- `RUST_LOG` must use the additive form `info,{crate}=debug`; a bare per-target directive REPLACES the default and silences every other target, and it must never be set on an invocation that also runs the test suite (per obs-plan §3 Per-module log levels; §11 Logs). This is the plan-side authority for the scope's host-precondition 6.
+- The `verify.readback` must-log set requires tool name + `latency_ms` + error + **canary-check result** + the observed key set of each raw tool result, because the extraction readers degrade to empty on an unrecognized shape (per obs-plan §6 Boundary-call wrappers) — this is the preflight gate's own evidence line, and a missing witness must be readable as leg-never-ran rather than wire divergence.
+- Any span attribute must be a name in `conductor-core::redact::ALLOWLISTED_FIELDS` or the processor stage drops it and it emits nothing; extra detail therefore rides the allowlisted `message` field (per obs-plan §4 Required-span-attributes constraint; §11 PII Scrubbing). If the plan wants the raised count visible on a span, this rule governs how.
+- Journal/timing evidence is wall-clock `std::time::SystemTime`/`Instant` only, never tokio's virtual clock (per obs-plan §11 Project-specific bans; §5 Metric Coverage). The one-30s-window arithmetic the scope requires stated must be reasoned in that clock, and latency stays a JSON field assertion — no histogram instrument (per obs-plan §5, §10).
+- The live leg's artifacts must carry no absolute host-file paths (fresh data dir, out-of-repo `pulse-app` cwd) and every self-obs line must carry the §3 base set (`timestamp_ms`, `level`, `target`, `service.name`/`service.version`/`deployment.environment`, `run_id`) — redaction applies at the processor stage in `conductor-core::redact`, not at the sink (per obs-plan §9 Log conformance check; §11 Logs / PII Scrubbing).
+
+## Patterns to follow
+- The paired witness pattern: emitting-side `emit.batch` key-name witness and receiving-side `verify.readback` key-set witness, both key names only on `message` — the established idiom for making a shape divergence distinguishable from emptiness (obs-plan §6).
+- Two record shapes: the per-line self-obs stream (`logs/agent-latest.jsonl`, base set above) is distinct from the Run-report envelope (`runs/<run_id>.jsonl` + `runs.db`, 11 fields). Live-leg evidence is read from the self-obs stream (obs-plan §3 "Two record shapes").
+- Span-lifecycle line variant: the custom layer emits `span` / `span_event` (`new` | `close`) / optional `parent` lines, so a §4 span materializes as real lines — the mechanism that makes "witness line absent ⇒ leg never ran" a readable inference (obs-plan §3 log-format block).
+- Manual `#[tracing::instrument]` at seams with `{module}.{operation}` naming; no auto-instrumentation for the gRPC emit client (obs-plan §2 Naming conventions; §4 Auto-instrumentation per surface).
+- Consume the single-location redaction layer (`conductor-core::redact` field allowlist + value scrub) rather than adding a second scrub site (obs-plan §11 PII Scrubbing).
+
+## Anti-patterns to avoid
+- Never log in the hot path at `info` — a larger canary burst must not become per-emission `info` lines; use `debug`/`trace` gated by the additive `RUST_LOG` form (obs-plan §11 Logs).
+- Never add a new or count-parameterized span name; the canary path stays on the bounded set (`emit.batch`, `verify.readback*`, …) and never introduces W3C trace context or an OTel SDK/exporter to observe the live leg (obs-plan §11 Spans/Traces, Telemetry Strategy).
+- Never let the live leg's absolute host paths (data dir, launch cwd, backtrace file paths) reach logs, run-report artifacts, or pasted evidence (obs-plan §11 Logs / PII Scrubbing).
+
+## Contract bindings
+- **obs ↔ tests:** test-plan §3 owns the JSONL log format and the harness contract; obs aligns to it (obs-plan §3, §6 headers). This chunk edits `crates/conductor-run/tests/canary_wire.rs`, and obs-plan §3's per-module log-level rule forbids exporting `RUST_LOG` on any invocation that also runs the test suite — a constraint tests must honor on the same invocation.
+- **obs ↔ security:** the redaction layer is the shared surface — no absolute host paths / internal struct names in the live-leg evidence (obs-plan §11 PII Scrubbing; security plan §Logging & Monitoring).
+- **obs ↔ CI:** obs-plan §9 lists the `cargo-audit`/`cargo-deny` supply-chain report as a telemetry artifact and §10 names it a build-failure condition; the chunk's PREREQ re-check feeds that stream, but the scope bans CI edits, so obs contributes no CI change here.
+
+## Acceptance criteria contributions
+- The live `boot` leg runs with the additive `RUST_LOG=info,conductor_emit=debug` (never bare, never on a test-suite invocation), and the `emit.batch` witness line is present at `debug` (per `.andromeda/obs-plan.md` §3 Per-module log levels + §6 Boundary-call wrappers).
+- The `emit.batch` wire-shape witness reports an observed span count consistent with the raised `CANARY_STORM_COUNT`, with key NAMES only and no values (per `.andromeda/obs-plan.md` §6 Boundary-call wrappers).
+- The preflight read-back line carries tool name + `latency_ms` + canary-check result + the observed key set of each raw tool result, so a `ready:true`/not-ready outcome is attributable to wire shape rather than an empty corpus (per `.andromeda/obs-plan.md` §6 Boundary-call wrappers).
+- Live-leg artifacts (`logs/agent-latest.jsonl` and any pasted excerpt) contain no absolute host-file paths and every line carries the §3 self-obs base schema (`timestamp_ms`, `level`, `target`, service identity, `run_id`) (per `.andromeda/obs-plan.md` §9 Log conformance check + §11 Logs).
+
+## Relevant amendment history
+- **2026-08-14-canary-fingerprint-feed-capture** (§6 Boundary-call wrappers · §3 Per-module log levels · §11) — added the `emit.batch` wire-shape witness (emitting-side twin of the read-back key-set witness) on this exact canary path, and corrected the `RUST_LOG` guidance to the additive `info,{crate}=debug` form after measuring that the bare directive fails the CLI's own agent-mode self-obs test. Directly governs this chunk's host-precondition 6 and its evidence-reading trap.
+- **2026-08-13-first-live-green-preflight** (§6 Boundary-call wrappers) — the MCP read-back must-log set gained the observed key set of each raw tool result plus `retrieve_telemetry_slice`, because the readers degrade to empty on an unrecognized shape; the first live leg confirmed the witness against the committed baseline. This chunk's live leg reuses that path.
+- **2026-08-13-per-check-read-back-extraction** (§1 Critical paths · §4 Span/Trace Coverage) — established that a span attribute must be in `conductor-core::redact::ALLOWLISTED_FIELDS` or it emits nothing, retired request-side degraded-mode attributes in favor of observed signals on `message`, and fixed the shipped span field name to `mcp_tool`. Constrains how any new canary detail could be surfaced.
+- **2026-08-10-scenario-run-root-span-tree** (§3 log-format block) — recorded the span-lifecycle line variant (`span` / `span_event` / `parent`), which is what makes an absent `emit.batch` line legible as evidence at all.
