@@ -79,7 +79,9 @@ impl<'a> Dispatcher<'a> {
                     self.logs().await?.export(request).await?;
                 }
                 Signal::Traces | Signal::Metrics => {
-                    self.traces.export(trace_request(DEFAULT_SERVICE_NAME, &phase.name)).await?;
+                    self.traces
+                        .export(trace_request(DEFAULT_SERVICE_NAME, seed, &phase.name))
+                        .await?;
                 }
             },
             EmissionShape::Error { depth, error_percent } => {
@@ -92,7 +94,7 @@ impl<'a> Dispatcher<'a> {
                     };
                     error_trace_request(DEFAULT_SERVICE_NAME, seed, placement, ERROR_MESSAGE)
                 } else {
-                    trace_request(DEFAULT_SERVICE_NAME, &phase.name)
+                    trace_request(DEFAULT_SERVICE_NAME, seed, &phase.name)
                 };
                 self.traces.export(request).await?;
             }

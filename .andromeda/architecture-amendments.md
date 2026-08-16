@@ -205,3 +205,56 @@ verified as a cumulative counter in the SUT's source rather than inferred from i
 **Section:** §Occupied Resources (`contracts/pulse-run-contract.toml`) · §Established Decisions [Read-Back Dependency Posture]
 **Change:** Five edits across two sections. §Occupied Resources: (1) the `BootstrapState::Ready` gate is scoped to the **baseline-derived cue families** — `cue/evaluate.rs:164` is the only such gate in `crates/triage/` and sits inside `evaluate_service_went_silent`, while the RetryStorm path consults no baseline (`pattern/storm.rs:245-285`); (2) "reaching a live incident requires a Pulse-side change (bootstrap override / `baseline_state`)" is retired as measured-false and replaced by the **tier band** — `CANARY_STORM_COUNT = 6` sat in `5 <= 6 < DEFAULT_AUTONOMOUS_THRESHOLD = 10` with Tier-1 Autonomous-only (`cadence/coordinator.rs:390`), raised to 12 by this chunk; (3) the second Pulse-side gap is **un-retired and sharpened** from "a region, not a named defect" to producer-dependent and localized between OTLP ingest receipt and buffer span-event enumeration, on the `buffer.tick` trio (`span_events_seen` / `observer_invocations` / `fingerprints_computed` all 0 across 15 ticks, `rows_ingested: 1` against `span_count: 15`); (4) the windowed-gauge reading instruction no longer names the retired six-occurrence size, and the span-count figures are dated (nine at the 2026-08-14 capture, 15 = 3 warm-up + 12 storm at the 2026-08-15 leg). §Established Decisions [Read-Back Dependency Posture]: (5) the write-path's `≥5 same fingerprint / 30s` now states that the floor raises a **Suggested** cue and only `≥10` reaches the Autonomous band Tier-1 requires — the duplicate occurrence of the claim edit (2) retires.
 **Why:** The chunk's live leg measured all three. The citation `evaluate.rs:164` was correct throughout and only its cue-family attribution was wrong, so the doc taught a Pulse-side blocker that measurement disproves — while the gap that IS live had been predicted retired. Evidence: `conductor-0.2.0/chunks/2026-08-15-canary-storm-autonomous-band/report.md`; `andromeda-pulse-0.3.0/chunks/2026-08-15-tier-1-incident-path-investigation/evidence/premise-check.md`.
+
+## 2026-08-15-canary-spans-pulse-fingerprints — the fingerprint-derivation match claim measured false
+**Section:** §Established Decisions [Read-Back Dependency Posture]
+**Change:** The parenthetical "the fingerprint — computed to match Pulse's derivation — is the fidelity
+carrier, not a title echo" is retired. The body now keeps the fidelity-carrier role (Pulse scrubs titles, so
+the fingerprint and not a title echo is what carries fidelity) and states plainly that the fingerprint is
+**NOT** currently computed to match Pulse's derivation, naming both: Conductor computes FNV-1a 64-bit
+rendered as 16 hex chars over `exception_type` + each frame's `function`
+(`conductor-emit/src/exception.rs:115-123`); Pulse computes blake3 truncated to 16 bytes over
+`exception_type` + `\0` + `normalize_stacktrace(stacktrace)` and reads it back as an 8-char hex prefix of the
+first 4 bytes (`andromeda-pulse crates/buffer/src/fingerprint.rs:79-110`, HEAD `d090314`). Equality is
+impossible by WIDTH alone, so the canary round-trip's final precondition fails BY CONSTRUCTION even when
+every upstream stage succeeds; aligning the derivations is owned by the successor route entry.
+**Why:** this chunk's live leg (`run_id 2026-08-16T08-17-48-786`) drove the canary all the way through
+ingest, buffer append, fingerprinting, Autonomous-tier storm detection and incident formation, and still
+ended `ready:false` at `canary fingerprint not found in telemetry slice` — which isolated the last
+precondition and made the mismatch measurable for the first time. The claim was unreachable until now: no
+canary span had ever survived to be fingerprinted. Evidence:
+`conductor-0.2.0/chunks/2026-08-15-canary-spans-pulse-fingerprints/evidence/leg-verdict.md` §3.
+
+## 2026-08-15-canary-spans-pulse-fingerprints — the readiness gate's round-trip annotated (duplicate occurrence)
+**Section:** §Standard Contracts (Readiness gate)
+**Change:** The restated canary round-trip ("assert its fingerprint reads back … to prove the
+data-dir/workspace wiring end-to-end") now carries the caveat that this assertion cannot currently succeed
+for a reason that is not a wiring fault — the two derivations differ in algorithm, input and width — so the
+gate ends `ready:false` at this last precondition even when every upstream stage is proven, and a
+`canary fingerprint not found in telemetry slice` block must be read as a derivation mismatch rather than
+as broken data-dir/workspace wiring.
+**Why:** the per-occurrence sweep for the retired claim found this second, independent restatement of the
+round-trip's proving power. A single-site apply at §Established Decisions would have left §Standard
+Contracts still teaching that a failed round-trip implicates the wiring — the precise misreading the
+2026-08-16 leg disproves. `dependent-of: D-arch-decisions`.
+
+## 2026-08-15-canary-spans-pulse-fingerprints — the second ingest-to-fingerprint gap CLOSED, cause Conductor-side
+**Section:** §Occupied Resources (`contracts/pulse-run-contract.toml`)
+**Change:** The "SECOND, independent **Pulse-side** gap … **This gap is NOT closed**" passage is replaced.
+The gap is recorded CLOSED (2026-08-16) and its cause reattributed to **Conductor's own side**: Pulse's
+`spans` table is `PRIMARY KEY (trace_id, span_id)` (`andromeda-pulse crates/buffer/src/schema.rs:38`) while
+Conductor's `ok_span` stamped a CONSTANT `vec![1; 16]` / `vec![1; 8]` identity on every call, so every
+warm-up span after the first violated the key and was logged-and-skipped — exactly the observed
+producer-dependence, since `inject_demo`'s per-sequence ids never collide. The shared builder carried the
+same defect through the scenario dispatcher (`dispatch.rs:82`, `:95`), not the canary alone. The fixed leg's
+numbers are recorded (27 `duckdb.append` lines with zero `reject_reason`, trio `12/12/12`,
+`rows_ingested: 15`, `storms_detected_total: 2` with `severity_hint: "autonomous"` at `occurrence_count: 10`,
+incident formed), together with one explicit limit: why the storm's 12 DISTINCT-id spans also appended zero
+rows on the prior leg was never observed, so the appender-poisoning reading stays **inferred, not proven**.
+The trailing telemetry-reading sentence is re-based to carry both directions — the same cumulative
+discriminators reading 0 on the broken path and `2`/`1` on the fixed one, with `tracked_fingerprints_count`
+still sampling 0 on a healthy late tick.
+**Why:** the plan's `Expected amendments (wrap)` named this paragraph, and no detector proposed it — the
+orchestrator raised it at Validate check 5 as the chunk's coverage floor. The section asserted a Pulse-side
+gap that was neither Pulse-side nor open, which would have mis-aimed the successor chunk's research.
+Evidence: `conductor-0.2.0/chunks/2026-08-15-canary-spans-pulse-fingerprints/evidence/leg-verdict.md`.

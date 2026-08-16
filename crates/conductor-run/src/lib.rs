@@ -114,6 +114,19 @@ fn unreachable_state(manifest: &ContractManifest, data_dir: &str) -> ReadyState 
 /// that the unpaced burst lands well inside one `DEFAULT_DETECTION_SUB_WINDOW_SECONDS`.
 pub const CANARY_STORM_COUNT: u64 = 12;
 
+/// Seed for the `i`-th canary storm occurrence — ascending from `base`.
+pub fn canary_storm_seed(base: u64, i: u64) -> u64 {
+    base.wrapping_add(i)
+}
+
+/// Seed for the `i`-th canary warm-up emission — DESCENDING from `base` while
+/// [`canary_storm_seed`] ascends, so the two ranges cannot overlap. Span identity is a function of
+/// the seed, and a receiver keying its span store on `(trace_id, span_id)` drops a repeat instead of
+/// storing it, so an overlap would silently cost the storm an occurrence.
+pub fn canary_warmup_seed(base: u64, i: u32) -> u64 {
+    base.wrapping_sub(u64::from(i) + 1)
+}
+
 /// The canary's synthetic exception. `marker` is the unique-per-preflight `exception.type`, which is
 /// what makes the fingerprint unique to this run (a stale corpus cannot satisfy the gate on a prior
 /// run's canary); the frame path is relative by construction.
@@ -137,7 +150,7 @@ pub async fn emit_canary_storm(
 ) -> anyhow::Result<()> {
     for i in 0..CANARY_STORM_COUNT {
         traces
-            .export(exception_trace_request(DEFAULT_SERVICE_NAME, base.wrapping_add(i), spec))
+            .export(exception_trace_request(DEFAULT_SERVICE_NAME, canary_storm_seed(base, i), spec))
             .await?;
     }
     Ok(())
@@ -212,7 +225,7 @@ async fn emit_canary(contract: &RunContract, warm_up: bool) -> anyhow::Result<Ca
     let base = now_ms() as u64;
     let mut traces = TraceEmitter::connect(DEFAULT_OTLP_ENDPOINT).await?;
     if warm_up {
-        warm_up_canary_service(&mut traces, contract).await?;
+        warm_up_canary_service(&mut traces, contract, base).await?;
     }
     emit_canary_storm(&mut traces, &spec, base).await?;
     Ok(CanaryMarker::new(marker, fp))
@@ -225,6 +238,7 @@ async fn emit_canary(contract: &RunContract, warm_up: bool) -> anyhow::Result<Ca
 async fn warm_up_canary_service(
     traces: &mut TraceEmitter,
     contract: &RunContract,
+    base: u64,
 ) -> anyhow::Result<()> {
     let terms = &contract.incident_formation;
     if terms.warmup_ms == 0 || terms.warmup_emissions == 0 {
@@ -232,8 +246,9 @@ async fn warm_up_canary_service(
     }
     let gap = std::time::Duration::from_millis(terms.warmup_ms / u64::from(terms.warmup_emissions));
     tracing::info!(count = terms.warmup_emissions, "warming the canary service out of bootstrap");
-    for _ in 0..terms.warmup_emissions {
-        traces.export(trace_request(DEFAULT_SERVICE_NAME, "canary-warmup")).await?;
+    for i in 0..terms.warmup_emissions {
+        let seed = canary_warmup_seed(base, i);
+        traces.export(trace_request(DEFAULT_SERVICE_NAME, seed, "canary-warmup")).await?;
         tokio::time::sleep(gap).await;
     }
     Ok(())

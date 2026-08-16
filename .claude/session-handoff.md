@@ -1,61 +1,69 @@
 # Session Handoff
 
-**Last Updated:** 2026-08-15T23:01:26Z
-**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **14 ahead** after this chunk commit)
+**Last Updated:** 2026-08-16T08:44:00Z
+**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **15 ahead** after this chunk commit)
 **Status:** clean
-**Last Commit:** 2026-08-15-canary-storm-autonomous-band — the constant fix landed and its own live leg
-disproved the premise it rested on
+**Last Commit:** 2026-08-15-canary-spans-pulse-fingerprints — the constant span identity fixed, the
+ingest-to-fingerprint gap closed on a live leg, and the next blocker named by construction
 
 ## Position
-- Done: **2026-08-15-canary-storm-autonomous-band** — `CANARY_STORM_COUNT` 6 to 12 with its doc comment
-  rewritten off the reasoning that went stale, the bootstrap misattribution corrected across two arch
-  sections, the live leg run in full, and `v2-10` un-claimed clean on the measurement.
-- Next: **Canary spans that Pulse fingerprints** — the NEW first markerless entry in Epoch 3, which
-  inherits the preflight-green blocker role. `/andromeda-phase` to promote + plan.
+- Done: **2026-08-15-canary-spans-pulse-fingerprints** — Pulse's `spans` PK vs `ok_span`'s constant
+  identity found and fixed, the live leg measured the whole feed alive, and the fingerprint-derivation
+  mismatch isolated as the remaining preflight-green blocker.
+- Next: **Canary fingerprint derivation aligned** — the NEW first markerless entry in Epoch 3, third
+  generation of the preflight-green blocker (count → primary key → derivation). `/andromeda-phase` to
+  promote + plan.
 
 ## Work done
-Counts from `git status`: **12 changed**. One source edit (`crates/conductor-run/src/lib.rs` — the constant
-and its doc comment); `canary_wire.rs` correctly needed **no** edit (all four sites already symbolic).
-Gates green in **1 iteration**: workspace `--profile ci` **581/581** zero retries, doctest 3 across 7
-suites, `clippy -D warnings` clean. `Cargo.lock` **zero lines**.
+Counts from `git status`: **12 changed** at entry. Five source files (+121/−15): `message.rs` seeded
+`ok_span`/`trace_request` identity, `dispatch.rs` threaded the existing per-occurrence `emission_seed`,
+`lib.rs` gained `canary_storm_seed`/`canary_warmup_seed` with disjoint ranges, `canary_wire.rs` gained the
+union-identity assertion, `egress.rs` a call-site update. **Zero dependencies added; `Cargo.lock` zero
+lines.** Gates green in **1 iteration**: workspace `--profile ci` **584/584** zero retries (581 before,
++3 tests), doctest exit 0, `clippy -D warnings` clean.
 
 ## Drift resolved
-7 detectors, **6 proposals all from arch**, six docs clean. **5 applied on 2 arch sections**, 1 dismissed,
-1 escalation raised and resolved, **0 open**. Applied: the `BootstrapState::Ready` gate scoped to the
-baseline-derived cue families - the retired Pulse-side-change blocker replaced by the tier band - the
-second gap **un-retired** and sharpened - the windowed-gauge reading instruction taken off the retired
-six-occurrence size - and the duplicate occurrence at §Established Decisions line 60 (the write-path's
-`>=5` floor) fixed with it. Dismissed: a proposal to record an exception to a pattern arch never states as
-a decision (grep-verified). Cascade: no other master cites the retired wording, leaves recompute to no
-change, one rules-file chain routed to curation. Full record:
-`.andromeda/runs/2026-08-15T22-39-33-wrap/fanout-results.md`.
+7 doc-agents / 18 detectors, **2 proposals (both arch), 6 docs clean**. **3 amendments applied, all in
+`architecture.md`, 0 escalations.** §Established Decisions [Read-Back Dependency Posture] — the
+"computed to match Pulse's derivation" parenthetical retired, both derivations named, failure recorded as
+BY CONSTRUCTION. §Standard Contracts — the round-trip annotated (`dependent-of`): a failed round-trip is a
+derivation mismatch, not broken wiring. §Occupied Resources — the second gap recorded **CLOSED** with its
+cause reattributed from "Pulse-side" to Conductor's own constant span identity, plus the telemetry-reading
+sentence re-based to carry both directions. The plan's `Expected amendments` entry was raised by **Validate
+check 5** (no detector proposed it). Cascade: no other master carries the retired wording; both leaf
+re-derivations recomputed to no change; the `.claude/rules/verification-harness.md` hit was routed to
+curation, never cascade-edited. Full record:
+`.andromeda/runs/2026-08-16T08-29-25-wrap/fanout-results.md`.
 
 ## Notes
-- **The chunk's central premise was disproved by its own proof, and that is the headline.** The count fix
-  is correct and complete — the raised storm reaches Pulse intact (`span_count: 15` = 3 warm-up + 12
-  storm) — but it was **necessary and not sufficient**. `incidents: 0`, no storm detected at any tier.
-- **The `buffer.tick` trio names the failure class**: across 15 identical ticks `span_events_seen: 0`,
-  `observer_invocations: 0`, `fingerprints_computed: 0`, `rows_ingested: 1` against `span_count: 15`.
-  `observer_invocations: 0` means the observer is **never invoked**, not invoked-and-empty — the gap sits
-  between **OTLP ingest receipt and buffer span-event enumeration**, upstream of fingerprinting, and it is
-  **producer-dependent** (`inject_demo`'s spans fingerprint as `c33df842`; the canary's do not). The open
-  question is no longer where the gap is but **what differs between those two producers' spans**.
-- **The bootstrap gate was MISATTRIBUTED, not outgrown.** `cue/evaluate.rs:164` is the only such gate in
-  `crates/triage/` and sits inside `evaluate_service_went_silent` (the P-014 silence cue); the RetryStorm
-  path consults no baseline. Pulse forms incidents with `baseline_state` at 0 rows. Two specs and a
-  matrix note taught the opposite for two chunks.
-- **`v2-10` is back in the pool** (`chunk:null`, `planned`, acceptance unchanged and unweakened) with the
-  full measurement in its `notes`. Coverage **11/32**, unchanged — the coverage gate was a clean no-op,
-  not a HALT. Claimable again only on a leg that actually reaches `ready:true`.
-- **`cargo audit` — 18th red, re-verified not echoed**, and re-pinned as the **19th** on the new entry
-  with its origin preserved. Byte-identical `duplicate advisory ID: RUSTSEC-2026-0244`; `Cargo.lock` zero
-  lines; overlap `cargo deny check` true exit 0 across all four classes.
-- **Curation:** T1 1 (dissolving every NAMED blocker does not establish none remains — claim on what a
-  leg measured, never on an argument that the known obstacles are gone) - T2 1 (the
-  `verification-harness.md` chain extended in place with all three corrections plus the trio-reading rule
-  and the `storms_detected_total` presence-not-tier fix) - T3 0 - filtered 2. `.claude/rules/testing.md`
-  was checked and needs nothing: its 80x arithmetic and `asserted`-check-kind lesson are both still true.
-- **Route:** 1 new entry ahead of the family proofs + the audit re-pin. The master record's desc was
-  rewritten to describe actuals (operator directive) rather than carried through verbatim, because the
-  promoted desc claimed an incident forms and preflight reaches `ready:true`.
+- **The fix is proven on Pulse's own telemetry, not on Conductor's.** Live leg
+  `run_id 2026-08-16T08-17-48-786`, fresh data dir, deterministic L4: **27 `duckdb.append` lines, ZERO
+  `reject_reason`** (3 warm-up + 12 storm spans + 12 span_events). The `buffer.tick` trio went **`0/0/0` →
+  `12/12/12`**, `rows_ingested` **1 → 15**, `storms_detected_total` **0 → 2** including
+  `severity_hint: "autonomous"` at `occurrence_count: 10` — the canary cleared Pulse's Autonomous band for
+  the first time — and an incident formed (`item_id: 1`).
+- **Preflight still `ready:false`, now at the LAST precondition** — `canary fingerprint not found in
+  telemetry slice`. Conductor derives FNV-1a 64-bit → 16 hex over type + frame functions; Pulse derives
+  blake3 truncated to 16 bytes over type + NUL + normalized stacktrace, read back as an 8-char prefix.
+  **Equality is impossible by WIDTH alone** — it fails by construction, and is owned by the next entry.
+- **`v2-10` stays pooled** (`chunk:null`, `planned`) — the decline was deterministic and final for this
+  chunk; it claims at the successor entry on a leg reaching `ready:true`, with this chunk's
+  `evidence/leg-verdict.md` as the recorded basis. Coverage **11/32**, unchanged; the coverage gate was a
+  clean no-op (this chunk claimed nothing).
+- **Honesty register held:** the prior leg's storm-zero-append explanation stays **inferred, not measured** —
+  that leg captured no `duckdb.append` lines and its data dir no longer exists (searched; no
+  `agent-latest.jsonl.2026-08-15` anywhere).
+- **`cargo audit` — 20th red**, byte-identical `duplicate advisory ID: RUSTSEC-2026-0244`, true exit 1;
+  overlap `cargo deny check` **true exit 0** across all four classes. Re-pinned as the **21st** on the new
+  entry in compact ratified form. Its basis will CHANGE next chunk if the hashing dependency lands, which
+  restores the full pin form.
+- **Live-leg recipe correction:** `pulse-app` is a Windows GUI-subsystem binary — a console tee yields
+  **0 bytes**. Its real sink is `{data_dir}/logs/agent-latest.jsonl.<date>`, harvested post-leg.
+- **Curation:** T1 1 · T2 2 · T3 0 (filtered 2), all in-place **extensions**, no new siblings. T1 gained a
+  REPRESENTATION axis (algorithm/input/width) beside the existing direction/arity one; the
+  `verification-harness.md` chain had its now-false "producer-dependent Pulse-side gap" corrected in place;
+  the artifact-freshness entry gained the `agent-run.sh status` facet.
+- **Deferred (not applied):** the Plain-trace dispatch path has **no stream-golden coverage** — the exact
+  path that carried the catalog-wide defect. Pinned as a CARRY on the `error-baseline-spike live proof`
+  entry per operator scoping, not minted as a rule.
 - **Last failed command:** none.

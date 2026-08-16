@@ -10,14 +10,18 @@
 //! (`crates/buffer/src/appender.rs`): a non-empty `trace_id`/`span_id` (a span missing either is
 //! skipped outright) and an `exception` event carrying `exception.type` / `exception.message` /
 //! `exception.stacktrace`, since a `None`/empty `exception.type` yields no fingerprint at all.
+//!
+//! They also mirror what Pulse's span STORE requires: `spans` is `PRIMARY KEY (trace_id, span_id)`
+//! (`crates/buffer/src/schema.rs`), so a repeated identity is rejected at the receiver rather than
+//! stored — a loss an events-intact assertion cannot see, because every span still arrives.
 
 use std::collections::BTreeSet;
 use std::net::SocketAddr;
 use std::sync::{Arc, Mutex};
 
 use conductor_core::{ObsSink, init_observability};
-use conductor_emit::{DEFAULT_SERVICE_NAME, TraceEmitter, fingerprint};
-use conductor_run::{CANARY_STORM_COUNT, canary_spec, emit_canary_storm};
+use conductor_emit::{DEFAULT_SERVICE_NAME, TraceEmitter, fingerprint, trace_request};
+use conductor_run::{CANARY_STORM_COUNT, canary_spec, canary_warmup_seed, emit_canary_storm};
 use opentelemetry_proto::tonic::collector::trace::v1::{
     ExportTraceServiceRequest, ExportTraceServiceResponse,
     trace_service_server::{TraceService, TraceServiceServer},
@@ -145,6 +149,56 @@ async fn storm_carries_distinct_span_identity_under_one_fingerprint() {
         fingerprint(&canary_spec(marker)),
         fingerprint(&canary_spec(marker)),
         "the fingerprint is a pure function of content"
+    );
+}
+
+/// The WHOLE canary emission — warm-up pre-roll and counted storm — through one collector. The two
+/// legs are built by different emitters off one `base`, so only a union assertion can catch them
+/// sharing an identity; a collision costs the storm occurrences it believes it sent, and every span
+/// still arrives, so no events-intact check would notice.
+#[tokio::test(flavor = "current_thread")]
+async fn the_whole_canary_emission_carries_unique_span_identity() {
+    const WARMUP_EMISSIONS: u32 = 3;
+    let base = 9_001_u64;
+
+    let (addr, traces) = start_stub().await;
+    let mut emitter = TraceEmitter::connect(format!("http://{addr}"))
+        .await
+        .expect("connect to loopback stub");
+
+    for i in 0..WARMUP_EMISSIONS {
+        let seed = canary_warmup_seed(base, i);
+        emitter
+            .export(trace_request(DEFAULT_SERVICE_NAME, seed, "canary-warmup"))
+            .await
+            .expect("emit a warm-up span");
+    }
+    let spec = canary_spec("ConductorCanary_union");
+    emit_canary_storm(&mut emitter, &spec, base).await.expect("emit the canary storm");
+
+    let received = traces.lock().unwrap().clone();
+    let spans: Vec<Span> = received
+        .iter()
+        .flat_map(|r| r.resource_spans.iter())
+        .flat_map(|rs| rs.scope_spans.iter())
+        .flat_map(|ss| ss.spans.iter())
+        .cloned()
+        .collect();
+
+    let expected = u64::from(WARMUP_EMISSIONS) + CANARY_STORM_COUNT;
+    assert_eq!(spans.len() as u64, expected, "every emitted span must reach the collector");
+
+    for span in &spans {
+        assert_eq!(span.trace_id.len(), 16, "trace_id must be 16 bytes to satisfy the receiver");
+        assert_eq!(span.span_id.len(), 8, "span_id must be 8 bytes to satisfy the receiver");
+    }
+
+    let identities: BTreeSet<(Vec<u8>, Vec<u8>)> =
+        spans.iter().map(|s| (s.trace_id.clone(), s.span_id.clone())).collect();
+    assert_eq!(
+        identities.len() as u64,
+        expected,
+        "warm-up and storm must never share a (trace_id, span_id) — the receiver keys on that pair"
     );
 }
 

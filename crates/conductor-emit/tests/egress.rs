@@ -58,7 +58,7 @@ async fn exports_well_formed_request_to_loopback_stub() {
         .await
         .expect("connect to loopback stub");
     emitter
-        .export(trace_request(DEFAULT_SERVICE_NAME, "scaffold-span"))
+        .export(trace_request(DEFAULT_SERVICE_NAME, 1, "scaffold-span"))
         .await
         .expect("export to loopback stub");
 

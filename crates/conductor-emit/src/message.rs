@@ -14,17 +14,26 @@ use opentelemetry_proto::tonic::resource::v1::Resource;
 use opentelemetry_proto::tonic::trace::v1::{
     span::{Event, SpanKind}, status::StatusCode, ResourceSpans, ScopeSpans, Span, Status,
 };
+use rand_chacha::ChaCha8Rng;
+use rand_core::SeedableRng;
+
+use crate::span_tree::gen_id;
 
 /// Default `service.name` resource attribute stamped on emitted spans.
 pub const DEFAULT_SERVICE_NAME: &str = "conductor";
 
 /// Build a single well-formed OTLP trace export request: one `OK` span under `service_name`.
-pub fn trace_request(service_name: &str, span_name: &str) -> ExportTraceServiceRequest {
+///
+/// Span identity is a deterministic function of `seed`, matching the sibling builders
+/// ([`crate::exception::exception_trace_request`], [`crate::span_tree::error_trace_request`]). Each
+/// call MUST be given a distinct seed: a receiver may key its span store on
+/// `(trace_id, span_id)`, so a repeated identity is silently dropped there rather than stored.
+pub fn trace_request(service_name: &str, seed: u64, span_name: &str) -> ExportTraceServiceRequest {
     ExportTraceServiceRequest {
         resource_spans: vec![ResourceSpans {
             resource: Some(service_resource(service_name)),
             scope_spans: vec![ScopeSpans {
-                spans: vec![ok_span(span_name)],
+                spans: vec![ok_span(seed, span_name)],
                 ..Default::default()
             }],
             ..Default::default()
@@ -152,8 +161,11 @@ pub(crate) fn error_status(message: &str) -> Status {
     }
 }
 
-fn ok_span(name: &str) -> Span {
-    span(name, vec![1; 16], vec![1; 8], Vec::new(), ok_status())
+fn ok_span(seed: u64, name: &str) -> Span {
+    let mut rng = ChaCha8Rng::seed_from_u64(seed);
+    let trace_id = gen_id::<16>(&mut rng).to_vec();
+    let span_id = gen_id::<8>(&mut rng).to_vec();
+    span(name, trace_id, span_id, Vec::new(), ok_status())
 }
 
 pub(crate) fn unix_nanos() -> u64 {
@@ -169,7 +181,7 @@ mod tests {
 
     #[test]
     fn builds_one_span_under_service_name() {
-        let req = trace_request(DEFAULT_SERVICE_NAME, "baseline");
+        let req = trace_request(DEFAULT_SERVICE_NAME, 7, "baseline");
         assert_eq!(req.resource_spans.len(), 1);
         let rs = &req.resource_spans[0];
         let attrs = &rs.resource.as_ref().unwrap().attributes;
@@ -187,7 +199,7 @@ mod tests {
 
     #[test]
     fn span_is_well_formed_ok_status() {
-        let req = trace_request(DEFAULT_SERVICE_NAME, "baseline");
+        let req = trace_request(DEFAULT_SERVICE_NAME, 7, "baseline");
         let span = &req.resource_spans[0].scope_spans[0].spans[0];
         assert_eq!(span.name, "baseline");
         assert_eq!(span.trace_id.len(), 16);
@@ -195,5 +207,28 @@ mod tests {
         assert_eq!(span.kind, SpanKind::Internal as i32);
         assert_eq!(span.status.as_ref().unwrap().code, StatusCode::Ok as i32);
         assert!(span.end_time_unix_nano >= span.start_time_unix_nano);
+    }
+
+    fn identity_of(req: &ExportTraceServiceRequest) -> (Vec<u8>, Vec<u8>) {
+        let span = &req.resource_spans[0].scope_spans[0].spans[0];
+        (span.trace_id.clone(), span.span_id.clone())
+    }
+
+    #[test]
+    fn same_seed_reproduces_identity_and_distinct_seeds_diverge() {
+        let a = identity_of(&trace_request(DEFAULT_SERVICE_NAME, 99, "op"));
+        let b = identity_of(&trace_request(DEFAULT_SERVICE_NAME, 99, "op"));
+        let c = identity_of(&trace_request(DEFAULT_SERVICE_NAME, 100, "op"));
+        assert_eq!(a, b, "same seed must reproduce the same span identity");
+        assert_ne!(a, c, "distinct seeds must yield distinct span identity");
+        assert_ne!(a.0, c.0, "trace_id must be seed-driven");
+        assert_ne!(a.1, c.1, "span_id must be seed-driven");
+    }
+
+    #[test]
+    fn identity_is_distinct_across_a_run_of_seeds() {
+        let ids: std::collections::HashSet<_> =
+            (0..64).map(|s| identity_of(&trace_request(DEFAULT_SERVICE_NAME, s, "op"))).collect();
+        assert_eq!(ids.len(), 64, "each seed must yield a unique (trace_id, span_id)");
     }
 }
