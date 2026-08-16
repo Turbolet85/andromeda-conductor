@@ -58,6 +58,7 @@ allow = [
     "BSL-1.0",
     "BSD-3-Clause",  # matchit (axum→tonic gRPC tree); OSI/FSF permissive
     "Zlib",          # foldhash (rusqlite→hashbrown→foldhash 0.2.0); OSI-approved + FSF Free/Libre, permissive
+    "BSD-2-Clause",  # arrayref (conductor-emit→blake3); OSI-approved + FSF Free/Libre, permissive
     # --- Tauri 2 desktop-GUI tree (Epoch 9 frameless-window-shell) ---
     "MPL-2.0",       # option-ext (dirs→dirs-sys) + others in the Tauri tree; OSI + FSF, weak FILE-level copyleft — using as a dependency imposes no copyleft on Conductor's own code
     "Apache-2.0 WITH LLVM-exception",  # Tauri 2 tree; Apache-2.0 plus the LLVM linking exception, OSI/FSF permissive

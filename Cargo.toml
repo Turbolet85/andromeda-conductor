@@ -41,6 +41,10 @@ tonic = "0.14.6"
 tonic-prost = "0.14.6"
 prost = "0.14"
 
+# Exception-fingerprint hashing — Pulse's own derivation, adopted so Conductor's expected fingerprint
+# predicts how Pulse actually groups exceptions (pin matches the SUT's)
+blake3 = "1"
+
 # Storage — embedded SQLite index (bundled compiles SQLite C from source)
 rusqlite = { version = "0.38.0", features = ["bundled"] }
 

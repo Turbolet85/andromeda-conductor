@@ -171,6 +171,22 @@ pub(crate) fn fingerprint_refs(slice: &Value) -> Vec<String> {
     string_array(slice, "fingerprint_refs")
 }
 
+/// The incident open-stamps in a `query_incident_list` result, in unix nanos. Pulse sources the field
+/// from the corpus row's own `created_unix_nano` (`crates/mcp-server/src/tools.rs:412`), so it is the
+/// store's write stamp rather than a value serialized into the payload at write time.
+///
+/// An item missing or carrying an unreadable stamp contributes NOTHING — the caller compares against a
+/// floor, so a dropped entry reads as not-fresh. That direction is deliberate: the other readers here
+/// degrade to empty on an unrecognized shape, and an absent stamp must never read as satisfied.
+pub(crate) fn opened_at_unix_nanos(list: &Value) -> Vec<i64> {
+    list.get("items")
+        .and_then(Value::as_array)
+        .map(|items| {
+            items.iter().filter_map(|it| it.get("opened_at_unix_nano").and_then(Value::as_i64)).collect()
+        })
+        .unwrap_or_default()
+}
+
 /// The string entries of a named array field — absent or malformed degrades to empty, never an error.
 fn string_array(value: &Value, key: &str) -> Vec<String> {
     value

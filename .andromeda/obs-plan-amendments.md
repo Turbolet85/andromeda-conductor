@@ -111,3 +111,14 @@ receiver that degrades to empty on an unrecognized shape makes a divergence indi
 which is the ambiguity this chunk existed to resolve. The RUST_LOG correction was measured, not inferred: the
 bare form fails the CLI's own agent-mode self-obs test while `info,conductor_emit=debug` passes, and the old
 table was internally inconsistent under literal use (it would silence the very crates it sets to `info`).
+
+## 2026-08-16-canary-fingerprint-derivation-aligned — fingerprint match count is not computable
+**Section:** §4 Span / Trace Coverage (Fingerprint-storm scenario → required span attributes)
+**Change:** `verify.readback_fingerprints`'s `fingerprints_matched_count` becomes
+`fingerprints_read_back_count` — a count of what read-back returned, with a note that an emitted-vs-read-back
+MATCH is not computable because Pulse exposes no read-back surface carrying its own computed fingerprint
+(`fingerprint_refs` is L4-authored and `[]` under deterministic L4; `span_events.fingerprint` has zero reads
+in `mcp-server`).
+**Why:** a required span attribute defined as a match count between two values that never meet is
+uninstrumentable as written; measured 2026-08-16 and confirmed live (`retrieve_telemetry_slice` returned
+`result_count: 0` on a healthy leg, envelope `fingerprints: []`).

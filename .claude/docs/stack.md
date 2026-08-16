@@ -19,6 +19,7 @@ _Mirrors `.andromeda/architecture.md` §Stack and Technologies. Convenience refe
 - **Error handling:** thiserror 2.0.18 (per-seam enums) + anyhow 1.0.104 (binary edges).
 
 ## Data Storage
+- **blake3 1.8.6** (`blake3 = "1"`) — exception-fingerprint derivation in `conductor-emit`; a NORMAL (non-dev) dep, version-matched to Pulse's own pin because Conductor recomputes the SUT's derivation, not its own
 - **rusqlite 0.38.0 + libsqlite3-sys 0.36.0** (`bundled` SQLite 3.50.4, JSON1) — synchronous embedded `runs.db` index, raw SQL, no ORM/migrations.
 - On-disk artifacts: per-run `<run_id>.jsonl` emission journal + `<run_id>.md` report under `runs/`.
 

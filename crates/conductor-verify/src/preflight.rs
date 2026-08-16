@@ -3,11 +3,15 @@
 //! Four assertions over a [`ReadbackClient`] — protocol-version pin, required-tool presence, the
 //! recorded run contract's terms, and a data-dir canary round-trip — each producing a distinct
 //! [`ReportState::Blocked`] precondition on failure (never a silent downgrade; the
-//! preflight-integrity invariant). The canary's *emission* (a
-//! unique fingerprint-storm) is the composition root's job (`conductor-run`); this gate asserts the
-//! storm read back — Pulse raised an incident whose telemetry slice carries the emitted **fingerprint**
-//! (titles are scrubbed, so fidelity is on the fingerprint) — proving the `ANDROMEDA_PULSE_DATA_DIR`
-//! corpus wiring end to end.
+//! preflight-integrity invariant). The canary's *emission* (a unique fingerprint-storm) is the
+//! composition root's job (`conductor-run`); this gate asserts the storm read back — Pulse opened an
+//! incident AFTER the storm was emitted — proving the `ANDROMEDA_PULSE_DATA_DIR` corpus wiring end to
+//! end and attributing the incident to this run rather than to residue.
+//!
+//! Freshness carries the assertion because no read-back field varies with the emitted payload: titles
+//! are scrubbed, and `retrieve_telemetry_slice.fingerprint_refs` — the former carrier — is populated
+//! from the L4 model's `evidence_refs`, which the deterministic-L4 fixture pins to `[]`. Pulse's own
+//! computed fingerprint lands in a `span_events` column no MCP tool reads.
 
 use std::collections::BTreeMap;
 
@@ -18,7 +22,7 @@ use conductor_core::{ReportState, RunContractStatus, now_rfc3339, redact_value};
 
 use crate::client::ReadbackClient;
 use crate::error::VerifyError;
-use crate::extract::{call_error_reason, fingerprint_refs, incident_ids, log_observed_keys};
+use crate::extract::{call_error_reason, incident_ids, log_observed_keys, opened_at_unix_nanos};
 use crate::manifest::ContractManifest;
 
 /// Whether a required read-back tool was advertised by the server.
@@ -38,19 +42,34 @@ pub enum CanaryOutcome {
     Skipped,
 }
 
-/// The canary the bridge emitted (a unique fingerprint-storm). The gate asserts the live Pulse raised
-/// an incident whose telemetry slice carries this `fingerprint`; `marker` is the unique
-/// `exception.type` the storm bore (identity / logging only — Pulse scrubs incident titles, so
-/// fidelity is on the fingerprint, not the marker).
+/// The canary the bridge emitted (a unique fingerprint-storm). The gate asserts the live Pulse opened
+/// an incident AFTER `emitted_at_unix_nano` — the storm's own emission instant, so the incident is
+/// attributable to this run rather than to corpus residue.
+///
+/// `marker` (the unique `exception.type`) and `fingerprint` are carried for identity and logging only.
+/// Neither can serve as the fidelity carrier: Pulse scrubs incident titles, and
+/// `retrieve_telemetry_slice.fingerprint_refs` is populated from the L4 model's `evidence_refs`
+/// (`pulse-app/src/inference_runtime.rs:684-701`), which the deterministic-L4 fixture pins to `[]`
+/// (`pulse-app/src/deterministic_inference.rs:35`) — Pulse's own computed fingerprint reaches no
+/// read-back surface at all.
 #[derive(Debug, Clone)]
 pub struct CanaryMarker {
     pub marker: String,
     pub fingerprint: String,
+    pub emitted_at_unix_nano: i64,
 }
 
 impl CanaryMarker {
-    pub fn new(marker: impl Into<String>, fingerprint: impl Into<String>) -> Self {
-        Self { marker: marker.into(), fingerprint: fingerprint.into() }
+    pub fn new(
+        marker: impl Into<String>,
+        fingerprint: impl Into<String>,
+        emitted_at_unix_nano: i64,
+    ) -> Self {
+        Self {
+            marker: marker.into(),
+            fingerprint: fingerprint.into(),
+            emitted_at_unix_nano,
+        }
     }
 }
 
@@ -108,9 +127,10 @@ const UNREACHABLE_PRECONDITION: &str =
 /// and neither is claimed as measured.
 const WORKSPACE_KEY_PRECONDITION: &str = "pulse-app and the spawned MCP sidecar must resolve the same incident workspace key — the sidecar keys on ANDROMEDA_PULSE_DATA_DIR, pulse-app on its detected workspace root — or Pulse raised no incident for the canary";
 
-/// The named precondition when incidents exist but none carries the emitted fingerprint — a fidelity
-/// failure, distinct from an empty corpus (arch §Standard Contracts).
-const CANARY_FINGERPRINT_PRECONDITION: &str = "canary fingerprint not found in telemetry slice";
+/// The named precondition when incidents exist but every one predates the canary's emission — the
+/// corpus is reachable and non-empty, yet this run's storm raised nothing, so read-back would be
+/// grading residue (arch §Standard Contracts). Distinct from an empty corpus.
+const CANARY_STALE_CORPUS_PRECONDITION: &str = "no incident opened after the canary storm was emitted — every incident in the corpus predates it, so Pulse did not raise one for this run";
 
 /// The named precondition when the recorded run contract's terms are not satisfied (arch §Standard
 /// Contracts). Each unmet term is named individually, carrying its condition AND its candidate
@@ -271,8 +291,8 @@ pub async fn preflight_boot(
 enum NotFound {
     /// The corpus returned no incidents at all.
     EmptyCorpus,
-    /// Incidents exist, but none carries the emitted fingerprint.
-    FingerprintAbsent,
+    /// Incidents exist, but every one predates the canary's emission.
+    StaleCorpus,
 }
 
 impl NotFound {
@@ -280,16 +300,16 @@ impl NotFound {
     fn precondition(self) -> &'static str {
         match self {
             Self::EmptyCorpus => WORKSPACE_KEY_PRECONDITION,
-            Self::FingerprintAbsent => CANARY_FINGERPRINT_PRECONDITION,
+            Self::StaleCorpus => CANARY_STALE_CORPUS_PRECONDITION,
         }
     }
 }
 
 /// The canary fidelity outcome for one read-back attempt.
 enum CanaryFidelity {
-    /// The emitted fingerprint read back from an incident's telemetry slice.
+    /// An incident opened after the canary storm was emitted.
     Ok,
-    /// No incident yet, or none carrying the fingerprint — retryable within the poll budget.
+    /// No incident yet, or none newer than the storm — retryable within the poll budget.
     NotYet(NotFound),
     /// A read-back call/transport/JSON-RPC error — not retryable (its own precondition).
     CallError(String),
@@ -321,13 +341,15 @@ async fn poll_canary(
     (CanaryOutcome::Failed, None, Some(last_cause))
 }
 
-/// One-shot shape witnesses for the poll loop. Each tool's key set is recorded the FIRST time it
-/// answers — not once per attempt, which would emit one identical line per second of the poll budget,
-/// and not on attempt 0 only, which would never witness a tool first reached late in the poll.
+/// One-shot shape witness for the poll loop: the tool's key set is recorded the FIRST time it answers
+/// — not once per attempt, which would emit one identical line per second of the poll budget, and not
+/// on attempt 0 only, which would never witness an answer first reached late in the poll.
+///
+/// Only `query_incident_list` is witnessed here; the canary no longer calls
+/// `retrieve_telemetry_slice`, whose shape witness lives on the per-check extraction path.
 #[derive(Default)]
 struct ShapeWitness {
     list: bool,
-    slice: bool,
 }
 
 impl ShapeWitness {
@@ -336,16 +358,17 @@ impl ShapeWitness {
             log_observed_keys("query_incident_list", value);
         }
     }
-
-    fn slice(&mut self, value: &serde_json::Value) {
-        if !std::mem::replace(&mut self.slice, true) {
-            log_observed_keys("retrieve_telemetry_slice", value);
-        }
-    }
 }
 
-/// One canary fidelity attempt: find the storm's incident and assert its telemetry slice carries the
-/// emitted fingerprint (titles are scrubbed, so the fingerprint is the fidelity carrier).
+/// One canary fidelity attempt: assert the corpus carries an incident opened AFTER the storm was
+/// emitted, which proves both that the sidecar reads the live Pulse's corpus and that this run's storm
+/// raised something — the two facts the gate exists to establish.
+///
+/// Freshness, not payload identity, is the carrier because no read-back field varies with what
+/// Conductor emitted: titles are scrubbed, and every L4-authored field (`title` / `severity` /
+/// `fingerprint` / `evidence_refs`) is a fixture constant under the deterministic-L4 mode a verifiable
+/// Pulse runs in. The honest limit is that a concurrent unrelated incident inside the poll window
+/// would also satisfy this.
 async fn assert_canary(
     client: &ReadbackClient,
     canary: &CanaryMarker,
@@ -356,23 +379,14 @@ async fn assert_canary(
         Err(e) => return CanaryFidelity::CallError(call_error_reason(&e)),
     };
     witness.list(&list);
-    let ids = incident_ids(&list);
-    if ids.is_empty() {
+    if incident_ids(&list).is_empty() {
         return CanaryFidelity::NotYet(NotFound::EmptyCorpus);
     }
-    for id in ids {
-        match client.retrieve_telemetry_slice(Some(serde_json::json!({ "incident_id": id }))).await {
-            Ok(slice) => {
-                witness.slice(&slice);
-                if fingerprint_refs(&slice).iter().any(|fp| fp == &canary.fingerprint) {
-                    return CanaryFidelity::Ok;
-                }
-            }
-            Err(e) => return CanaryFidelity::CallError(call_error_reason(&e)),
-        }
+    if opened_at_unix_nanos(&list).iter().any(|opened| *opened > canary.emitted_at_unix_nano) {
+        return CanaryFidelity::Ok;
     }
-    CanaryFidelity::NotYet(NotFound::FingerprintAbsent)
+    CanaryFidelity::NotYet(NotFound::StaleCorpus)
 }
 
-// `call_error_reason` / `incident_ids` / `fingerprint_refs` live in `crate::extract` — the canary and
+// `call_error_reason` / `incident_ids` / `opened_at_unix_nanos` live in `crate::extract` — the canary and
 // the per-check extraction read the same Pulse shapes, so they read them through one definition.

@@ -1,14 +1,17 @@
 //! Exception span events + path/line-insensitive fingerprint control (P-006, P-017, P-018).
 //!
 //! Builds an OTLP trace carrying one error span with an OTel `exception` span event
-//! (`exception.type` / `exception.message` / `exception.stacktrace`), and computes the fingerprint
-//! Conductor expects Pulse to derive from that exception's content. Per the amended P-017 clause (c)
-//! the fingerprint is insensitive to source PATH and LINE but sensitive to exception TYPE and stack
-//! FRAME functions: identical / path-variant / line-variant ⇒ the same fingerprint; type-variant /
-//! frame-variant ⇒ a different one. Span identity is seeded ([`crate::span_tree`]'s `ChaCha8Rng`
-//! discipline); the fingerprint is a pure function of content (not the seed) and stable across
-//! platforms/versions — so NOT `std::hash::DefaultHasher` (architecture §Established Decisions —
-//! Determinism RNG).
+//! (`exception.type` / `exception.message` / `exception.stacktrace`), and recomputes the fingerprint
+//! Pulse derives from that exception's content — Pulse's own derivation, over the same preimage the
+//! wire carries, so the expectation predicts how the SUT actually groups exceptions.
+//!
+//! Identity is LINE-insensitive and TYPE/FRAME-sensitive, with two bounds inherited from Pulse's
+//! normalization: only the first [`NORMALIZED_FRAMES`] frames contribute, and only ABSOLUTE paths are
+//! stripped — a relative `file` stays fingerprint-significant. Both narrow the amended P-017 clause
+//! (c), which claimed unqualified path-insensitivity across all frames.
+//!
+//! Span identity is seeded ([`crate::span_tree`]'s `ChaCha8Rng` discipline); the fingerprint is a pure
+//! function of content (not the seed) and stable across platforms/versions.
 
 use opentelemetry_proto::tonic::collector::trace::v1::ExportTraceServiceRequest;
 use opentelemetry_proto::tonic::trace::v1::span::Event;
@@ -20,8 +23,17 @@ use crate::message::{error_status, service_resource, span_with_events, string_kv
 use crate::span_tree::gen_id;
 
 /// Upper bound on the stack-frame count a single exception contributes to the rendered stacktrace
-/// and the fingerprint input (bounded output — security-plan §Input Validation).
+/// (bounded output — security-plan §Input Validation). The FINGERPRINT input is bounded far tighter,
+/// by [`NORMALIZED_FRAMES`].
 pub const MAX_FRAMES: usize = 64;
+
+/// Frames that reach the fingerprint preimage after normalization — Pulse hashes only this many
+/// leading stack lines, so frames past it are invisible to exception identity.
+pub const NORMALIZED_FRAMES: usize = 3;
+
+/// Width of the fingerprint Pulse stores and Conductor expects: blake3 truncated to 16 bytes,
+/// rendered as 32 lowercase hex chars.
+pub const FINGERPRINT_BYTES: usize = 16;
 
 /// One synthetic stack frame. `function` is fingerprint-significant; `file` and `line` are
 /// deliberately fingerprint-INSENSITIVE (carried for the rendered stacktrace only).
@@ -109,17 +121,29 @@ impl FingerprintVariant {
     }
 }
 
-/// The fingerprint Conductor expects Pulse to derive from `spec` — a path+line-INSENSITIVE,
-/// type+frame-SENSITIVE identity over the exception content. A pure function of content (not the RNG
-/// seed), stable across platforms/versions (FNV-1a, never `DefaultHasher`).
+/// The fingerprint Pulse derives from `spec` — Pulse's own derivation, recomputed here over the same
+/// preimage the wire carries, so Conductor's expectation predicts how Pulse actually groups
+/// exceptions. blake3 over `exception_type` + a NUL separator + the normalized stacktrace, truncated
+/// to [`FINGERPRINT_BYTES`] and rendered lowercase hex. A pure function of content (not the RNG seed).
+///
+/// Two identity narrowings follow from the normalization and are deliberate, not incidental: only the
+/// first [`NORMALIZED_FRAMES`] frames contribute, and only ABSOLUTE paths are stripped — a relative
+/// `file` is part of the identity. See [`normalize_stacktrace`].
+///
+/// Source of truth: `andromeda-pulse crates/buffer/src/fingerprint.rs`
+/// (`compute_exception_fingerprint`), transcribed — Pulse is the SUT, so its derivation is the fact
+/// and this is the expectation of it.
 pub fn fingerprint(spec: &ExceptionSpec) -> String {
-    let mut h = Fnv1a::new();
-    h.update(spec.exception_type.as_bytes());
-    for frame in spec.frames.iter().take(MAX_FRAMES) {
-        h.update(b"\n");
-        h.update(frame.function.as_bytes());
+    let mut hasher = blake3::Hasher::new();
+    hasher.update(spec.exception_type.as_bytes());
+    hasher.update(b"\0");
+    hasher.update(normalize_stacktrace(&render_stacktrace(spec)).as_bytes());
+    let hash = hasher.finalize();
+    let mut out = String::with_capacity(FINGERPRINT_BYTES * 2);
+    for byte in &hash.as_bytes()[..FINGERPRINT_BYTES] {
+        out.push_str(&format!("{byte:02x}"));
     }
-    format!("{:016x}", h.finish())
+    out
 }
 
 /// Build an OTLP trace export of a single root error span carrying an OTel `exception` span event
@@ -171,28 +195,112 @@ fn render_stacktrace(spec: &ExceptionSpec) -> String {
     out
 }
 
-/// FNV-1a (64-bit) — a fixed, platform/version-stable hash (unlike the SipHash-based
-/// `DefaultHasher`), so identical exception content yields the same fingerprint on any host.
-struct Fnv1a(u64);
-
-impl Fnv1a {
-    const OFFSET: u64 = 0xcbf2_9ce4_8422_2325;
-    const PRIME: u64 = 0x0000_0100_0000_01b3;
-
-    fn new() -> Self {
-        Self(Self::OFFSET)
-    }
-
-    fn update(&mut self, bytes: &[u8]) {
-        for &b in bytes {
-            self.0 ^= u64::from(b);
-            self.0 = self.0.wrapping_mul(Self::PRIME);
+/// Normalize a rendered stacktrace for fingerprint stability across hosts: keep the first
+/// [`NORMALIZED_FRAMES`] non-empty lines, normalize each, join with `\n`.
+///
+/// The frame bound is what makes the same proximate failure surface hash alike however deep the rest
+/// of the stack goes — and it is why frame-sensitivity reaches only that far.
+fn normalize_stacktrace(raw: &str) -> String {
+    let mut frames: Vec<String> = Vec::with_capacity(NORMALIZED_FRAMES);
+    for line in raw.lines() {
+        let trimmed = line.trim();
+        if trimmed.is_empty() {
+            continue;
+        }
+        frames.push(normalize_frame(trimmed));
+        if frames.len() >= NORMALIZED_FRAMES {
+            break;
         }
     }
+    frames.join("\n")
+}
 
-    fn finish(&self) -> u64 {
-        self.0
+/// Strip the host-varying parts of one frame line: absolute paths (Unix `/…` or Windows `C:\…`), hex
+/// memory addresses (`0x…`), and `:line(:col)` suffixes. A RELATIVE path is left intact and therefore
+/// remains fingerprint-significant.
+fn normalize_frame(line: &str) -> String {
+    let mut out = String::with_capacity(line.len());
+    let bytes = line.as_bytes();
+    let mut i = 0;
+    while i < bytes.len() {
+        if is_hex_address_start(bytes, i) {
+            i = skip_hex_address(bytes, i);
+            continue;
+        }
+        if is_absolute_path_start(bytes, i) {
+            i = skip_absolute_path(bytes, i);
+            continue;
+        }
+        if bytes[i] == b':' && i + 1 < bytes.len() && bytes[i + 1].is_ascii_digit() {
+            i = skip_line_number_suffix(bytes, i);
+            continue;
+        }
+        out.push(bytes[i] as char);
+        i += 1;
     }
+    while out.ends_with(' ') {
+        out.pop();
+    }
+    out
+}
+
+fn is_hex_address_start(bytes: &[u8], i: usize) -> bool {
+    i + 2 < bytes.len()
+        && bytes[i] == b'0'
+        && (bytes[i + 1] == b'x' || bytes[i + 1] == b'X')
+        && bytes[i + 2].is_ascii_hexdigit()
+}
+
+fn skip_hex_address(bytes: &[u8], mut i: usize) -> usize {
+    i += 2;
+    while i < bytes.len() && bytes[i].is_ascii_hexdigit() {
+        i += 1;
+    }
+    i
+}
+
+fn is_absolute_path_start(bytes: &[u8], i: usize) -> bool {
+    if bytes[i] == b'/' && i + 1 < bytes.len() && is_path_char(bytes[i + 1]) {
+        return true;
+    }
+    i + 2 < bytes.len()
+        && bytes[i].is_ascii_alphabetic()
+        && bytes[i + 1] == b':'
+        && (bytes[i + 2] == b'\\' || bytes[i + 2] == b'/')
+}
+
+fn skip_absolute_path(bytes: &[u8], mut i: usize) -> usize {
+    if i + 2 < bytes.len()
+        && bytes[i].is_ascii_alphabetic()
+        && bytes[i + 1] == b':'
+        && (bytes[i + 2] == b'\\' || bytes[i + 2] == b'/')
+    {
+        i += 3;
+    } else {
+        i += 1;
+    }
+    while i < bytes.len() && is_path_char(bytes[i]) {
+        i += 1;
+    }
+    i
+}
+
+fn is_path_char(b: u8) -> bool {
+    b.is_ascii_alphanumeric() || matches!(b, b'/' | b'\\' | b'_' | b'-' | b'.' | b'~')
+}
+
+fn skip_line_number_suffix(bytes: &[u8], mut i: usize) -> usize {
+    i += 1;
+    while i < bytes.len() && bytes[i].is_ascii_digit() {
+        i += 1;
+    }
+    if i < bytes.len() && bytes[i] == b':' && i + 1 < bytes.len() && bytes[i + 1].is_ascii_digit() {
+        i += 1;
+        while i < bytes.len() && bytes[i].is_ascii_digit() {
+            i += 1;
+        }
+    }
+    i
 }
 
 #[cfg(test)]
@@ -241,20 +349,26 @@ mod tests {
     }
 
     #[test]
-    fn same_fingerprint_triple_matches_the_base() {
+    fn line_insensitive_variants_match_the_base() {
         let b = base();
         let fp = fingerprint(&b);
-        for variant in [
-            FingerprintVariant::Identical,
-            FingerprintVariant::PathVariant,
-            FingerprintVariant::LineVariant,
-        ] {
+        for variant in [FingerprintVariant::Identical, FingerprintVariant::LineVariant] {
             assert_eq!(
                 fingerprint(&variant.derive(&b)),
                 fp,
-                "{variant:?} must keep the fingerprint (amended P-017 clause (c))"
+                "{variant:?} must keep the fingerprint"
             );
         }
+    }
+
+    /// Pulse's normalization strips only ABSOLUTE paths, and Conductor's frames are relative by
+    /// construction (`stacktrace_carries_no_absolute_host_path`), so a path variant is a real
+    /// identity change to the SUT — narrowing the amended P-017 clause (c), which claimed
+    /// unqualified path-insensitivity.
+    #[test]
+    fn relative_path_is_fingerprint_significant() {
+        let b = base();
+        assert_ne!(fingerprint(&FingerprintVariant::PathVariant.derive(&b)), fingerprint(&b));
     }
 
     #[test]
@@ -268,6 +382,28 @@ mod tests {
                 "{variant:?} must change the fingerprint"
             );
         }
+    }
+
+    /// The second narrowing: only the first `NORMALIZED_FRAMES` frames reach the preimage, so a frame
+    /// past that bound is invisible to identity however much it changes.
+    #[test]
+    fn frames_past_the_normalized_bound_do_not_change_the_fingerprint() {
+        let mut deep = base();
+        while deep.frames.len() < NORMALIZED_FRAMES {
+            deep.frames.push(Frame::new("conductor::worker::pad", "src/worker.rs", 1));
+        }
+        let fp = fingerprint(&deep);
+
+        let mut beyond = deep.clone();
+        beyond.frames.push(Frame::new("conductor::worker::invisible", "src/other.rs", 99));
+        assert_eq!(fingerprint(&beyond), fp);
+    }
+
+    #[test]
+    fn fingerprint_is_pulse_width_lowercase_hex() {
+        let fp = fingerprint(&base());
+        assert_eq!(fp.len(), FINGERPRINT_BYTES * 2);
+        assert!(fp.chars().all(|c| c.is_ascii_digit() || ('a'..='f').contains(&c)));
     }
 
     #[test]

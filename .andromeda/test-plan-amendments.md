@@ -95,3 +95,26 @@ allowlisted fields) at whatever level obs-plan §11's policy assigns that call s
 `debug` because §11 bans `info` on a hot path), which the old two-level enumeration excluded — a one-sided
 test-plan §3 ↔ obs-plan §3 divergence, since obs-plan §3 never enumerated levels. Naming the set rather than
 substituting a fresh literal keeps it from re-staling.
+
+## 2026-08-16-canary-fingerprint-derivation-aligned — canary boundary re-aimed to incident freshness
+**Section:** §5 Integration Test Strategy (Cross-module patterns covered)
+**Change:** Splits the old combined bullet: `query_incident_list` now carries the canary round-trip (an
+incident opened after the emission stamp ⇒ proceed; empty corpus, only-older incidents, or a missing stamp ⇒
+`blocked`), covered by the fresh / stale / stamp-absent stub legs; `retrieve_telemetry_slice` /
+`retrieve_report` move to a separate per-check read-back bullet, which the canary no longer calls.
+**Why:** the canary's tool and predicate both changed. The split is deliberate — the tools are still called by
+per-check extraction, so removing them entirely would have introduced new drift rather than removing it.
+
+## 2026-08-16-canary-fingerprint-derivation-aligned — ipc-internal Signal predicate updated
+**Section:** §1 Test Scope Summary (Surfaces under test → ipc-internal)
+**Change:** The Signal clause's "canary round-trip non-empty" becomes "canary round-trip observing an incident
+opened after the emission stamp". The pinned required-tool list is left intact.
+**Why:** same retired predicate restated in the surfaces table; non-emptiness is no longer sufficient, since a
+corpus of only older incidents must block.
+
+## 2026-08-16-canary-fingerprint-derivation-aligned — preflight state mapping widened
+**Section:** §4 Unit Test Strategy (What unit tests cover → conductor-verify)
+**Change:** "empty canary ⇒ `blocked`" widens to "an empty corpus OR a stale one — no incident newer than the
+canary's emission stamp — ⇒ `blocked`".
+**Why:** a non-empty but wholly pre-dating corpus now blocks too; the old mapping under-described the
+assertion the stub legs make.

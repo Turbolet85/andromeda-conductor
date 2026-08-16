@@ -214,10 +214,13 @@ fn declares(name: &str) -> bool {
 }
 
 /// Emit a unique fingerprint-storm to Pulse's loopback ingest and return the [`CanaryMarker`] the gate
-/// asserts reads back. The marker is unique per preflight (a stale corpus can't satisfy the gate on a
-/// prior run's canary); the fingerprint — computed to match Pulse's derivation — is the fidelity
-/// carrier (Pulse scrubs incident titles). Each occurrence carries a distinct span identity but the
-/// same fingerprint, so Pulse counts a storm (security-plan §Threat Model).
+/// asserts against. Each occurrence carries a distinct span identity but the same fingerprint, so Pulse
+/// counts a storm (security-plan §Threat Model).
+///
+/// The gate's carrier is the marker's emission STAMP, taken after any warm-up and immediately before
+/// the counted storm, so only an incident opened past that instant satisfies it. Neither the marker
+/// nor the fingerprint can carry it: Pulse scrubs incident titles, and its computed fingerprint
+/// reaches no read-back surface (`fingerprint_refs` is L4-authored and empty under deterministic L4).
 async fn emit_canary(contract: &RunContract, warm_up: bool) -> anyhow::Result<CanaryMarker> {
     let marker = format!("ConductorCanary_{}", now_ms());
     let spec = canary_spec(&marker);
@@ -227,14 +230,17 @@ async fn emit_canary(contract: &RunContract, warm_up: bool) -> anyhow::Result<Ca
     if warm_up {
         warm_up_canary_service(&mut traces, contract, base).await?;
     }
+    let emitted_at = now_unix_nanos();
     emit_canary_storm(&mut traces, &spec, base).await?;
-    Ok(CanaryMarker::new(marker, fp))
+    Ok(CanaryMarker::new(marker, fp, emitted_at))
 }
 
-/// Carry the canary service out of Pulse's baseline bootstrap before the counted storm, with benign
-/// non-error spans spread across the contract's warm-up window. Without it the storm is the
-/// service's first-ever traffic, Pulse holds no baseline for it, and the L2 cue evaluator never
-/// considers it — the `cues_emitted: 0` the 2026-08-10 workspace-key probe recorded.
+/// Spread benign non-error spans across the contract's warm-up window before the counted storm.
+///
+/// Its recorded purpose — carrying the service out of Pulse's baseline bootstrap — is DISPROVED twice
+/// over: that gate needs 3,600s per service wall-clock, which no seconds-scale pre-roll reaches, and
+/// the canary's RetryStorm path consults no baseline at all, so it never crossed that gate. Retained
+/// because it is harmless and gives the service prior traffic; it is not what makes the canary work.
 async fn warm_up_canary_service(
     traces: &mut TraceEmitter,
     contract: &RunContract,
@@ -456,6 +462,12 @@ fn severity_rank(verdict: Verdict) -> u8 {
 
 fn now_ms() -> i64 {
     SystemTime::now().duration_since(UNIX_EPOCH).map(|d| d.as_millis() as i64).unwrap_or(0)
+}
+
+/// Wall-clock unix nanos — the unit Pulse stamps `opened_at_unix_nano` in, so the canary's emission
+/// instant compares directly against it. `std::time`, never the virtual clock.
+fn now_unix_nanos() -> i64 {
+    SystemTime::now().duration_since(UNIX_EPOCH).map(|d| d.as_nanos() as i64).unwrap_or(0)
 }
 
 /// Persist a run's records across the three artifacts: the JSONL journal (append), the `runs.db`

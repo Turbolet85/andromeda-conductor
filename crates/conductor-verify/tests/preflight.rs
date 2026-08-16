@@ -13,6 +13,10 @@ use conductor_verify::{
     ReadyState, ToolPresence, run_preflight,
 };
 
+/// The canary's emission instant for the stub legs. The default stub reports `i64::MAX`, so every
+/// pre-existing leg sees a FRESH incident and the freshness carrier never masks the leg under test.
+const CANARY_EMITTED_AT: i64 = 1_700_000_000_000_000_000;
+
 /// A contract whose terms are all satisfied — the shape every pre-existing leg assumes, so the
 /// run-contract arm never masks the leg under test.
 fn satisfied() -> RunContractStatus {
@@ -43,7 +47,8 @@ async fn drive_with(
     contract: RunContractStatus,
 ) -> ReadyState {
     let (client_io, server_io) = tokio::io::duplex(4096);
-    let canary = CanaryMarker::new(config.canary.clone(), config.canary_fingerprint.clone());
+    let canary =
+        CanaryMarker::new(config.canary.clone(), config.canary_fingerprint.clone(), CANARY_EMITTED_AT);
     let server = tokio::spawn(serve_stub(server_io, config));
     let client = ReadbackClient::connect_transport(client_io).await.expect("client connects");
     let ready = run_preflight(
@@ -167,35 +172,32 @@ async fn a_canary_call_error_is_blocked_distinctly_from_an_empty_corpus() {
 }
 
 #[tokio::test(flavor = "current_thread")]
-async fn a_fingerprint_mismatch_is_blocked() {
-    // An incident is present, but its telemetry slice carries a different fingerprint than the bridge
-    // emitted — fidelity fails (no false pass on a stale / foreign incident; titles are scrubbed, so
-    // only the fingerprint proves the round-trip).
-    let (client_io, server_io) = tokio::io::duplex(4096);
-    let server = tokio::spawn(serve_stub(server_io, StubConfig::default()));
-    let client = ReadbackClient::connect_transport(client_io).await.expect("client connects");
-    let canary = CanaryMarker::new("ConductorCanary_x", "deadbeefdeadbeef");
-    let ready = run_preflight(
-        &client,
-        &manifest(),
-        &satisfied(),
-        &canary,
-        "/test/data-dir",
-        CanaryPoll::immediate(),
-    )
-    .await
-    .expect("preflight runs");
-    drop(client);
-    server.abort();
+async fn a_corpus_of_only_older_incidents_is_blocked() {
+    // Incidents ARE present, but every one predates the canary's emission — read-back would be grading
+    // residue, so the gate blocks rather than passing on a stale/foreign incident.
+    let config = StubConfig { opened_at_unix_nano: Some(CANARY_EMITTED_AT - 1), ..Default::default() };
+    let ready = drive_with(config, manifest(), satisfied()).await;
 
     assert!(!ready.ready);
     assert_eq!(ready.report_state(), ReportState::Blocked);
     assert_eq!(ready.canary_round_trip, CanaryOutcome::Failed);
     let precondition = ready.blocked_precondition.expect("a precondition");
-    assert!(precondition.contains("fingerprint not found"), "{precondition}");
+    assert!(precondition.contains("predates"), "{precondition}");
     // The two not-found causes must stay distinguishable: incidents ARE present here, so this is a
-    // fidelity failure, never the workspace-key/no-incident precondition.
+    // staleness failure, never the workspace-key/no-incident precondition.
     assert!(!precondition.contains("workspace key"), "{precondition}");
+}
+
+#[tokio::test(flavor = "current_thread")]
+async fn an_incident_missing_its_open_stamp_is_blocked() {
+    // The readers degrade to empty on shape, so an absent stamp must read as NOT-fresh. Reading it as
+    // satisfied would be the false-green this carrier exists to remove.
+    let config = StubConfig { opened_at_unix_nano: None, ..Default::default() };
+    let ready = drive_with(config, manifest(), satisfied()).await;
+
+    assert!(!ready.ready);
+    assert_eq!(ready.canary_round_trip, CanaryOutcome::Failed);
+    assert!(ready.blocked_precondition.expect("a precondition").contains("predates"));
 }
 
 #[tokio::test(flavor = "current_thread")]
@@ -221,7 +223,7 @@ async fn an_unmet_term_skips_the_canary_rather_than_reporting_its_symptom() {
     assert_eq!(ready.canary_round_trip, CanaryOutcome::Skipped);
     let precondition = ready.blocked_precondition.expect("a precondition");
     assert!(!precondition.contains("workspace key"), "{precondition}");
-    assert!(!precondition.contains("fingerprint not found"), "{precondition}");
+    assert!(!precondition.contains("predates"), "{precondition}");
 }
 
 #[tokio::test(flavor = "current_thread")]

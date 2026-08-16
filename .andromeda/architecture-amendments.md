@@ -258,3 +258,50 @@ still sampling 0 on a healthy late tick.
 orchestrator raised it at Validate check 5 as the chunk's coverage floor. The section asserted a Pulse-side
 gap that was neither Pulse-side nor open, which would have mis-aimed the successor chunk's research.
 Evidence: `conductor-0.2.0/chunks/2026-08-15-canary-spans-pulse-fingerprints/evidence/leg-verdict.md`.
+
+## 2026-08-16-canary-fingerprint-derivation-aligned — Stack gains a hashing row
+**Section:** §Stack and Technologies
+**Change:** New `Hashing / digest` row — blake3 1.8.6 (`blake3 = "1"` in `[workspace.dependencies]`), a NORMAL
+(non-dev) dep of `conductor-emit`, version-matched to the SUT's own pin under the Pulse-consistency mandate;
+Conductor's first hashing dependency, pulling `arrayref`/`arrayvec`/`constant_time_eq`/`cpufeatures`.
+**Why:** the chunk adopts Pulse's own fingerprint derivation, so the algorithm is the SUT's choice rather than
+Conductor's; the registry carried no hashing row at all, and a test-scoped dep cannot back a shipped signature.
+
+## 2026-08-16-canary-fingerprint-derivation-aligned — Read-Back Dependency Posture reversed (canary carrier)
+**Section:** §Established Decisions [Read-Back Dependency Posture]
+**Change:** The canary no longer asserts the emitted fingerprint reads back via
+`retrieve_telemetry_slice.fingerprint_refs`; it asserts Pulse opened an incident AFTER the storm's emission
+instant, and reached `ready:true` for the first time on 2026-08-16. Records why the old carrier could never
+work (the field is fed from the L4 model's `evidence_refs`, pinned `[]` under deterministic L4; Pulse's own
+fingerprint lands in a `span_events` column no MCP tool reads), that Conductor's fingerprint now IS Pulse's
+derivation (blake3, 32 hex, first 3 normalized frames), its two identity narrowings, and the causation-in-time
+limit of freshness. The superseded FNV-1a/width-mismatch rationale is retired from the body to here.
+**Why:** ratified as a locked-decision reversal (playbook 2026-06-27 rule) — the live SUT's field provenance
+contradicted the decision's mechanism, measured at P3 and confirmed on the 2026-08-16 leg. The decision's
+invariants (prove data-dir/workspace wiring before any scenario trusts read-back; never a silent downgrade)
+hold via the replacement; only the carrier changed.
+
+## 2026-08-16-canary-fingerprint-derivation-aligned — Readiness-gate contract re-based (duplicate occurrence)
+**Section:** §Standard Contracts (Readiness gate paragraph)
+**Change:** The round-trip description moves off the fingerprint assertion onto incident freshness, the
+by-construction-failure caveat is retired, and a staleness block is documented as "corpus reachable, this run
+raised nothing" rather than "wiring broken".
+**Why:** the same retired claim restated at a second independent site; a single-site apply at §Established
+Decisions would have left §Standard Contracts teaching an unreachable gate — the duplicate-occurrence lesson
+this project recorded at the predecessor chunk, applied in the inverse direction.
+
+## 2026-08-16-canary-fingerprint-derivation-aligned — third named precondition renamed (duplicate occurrence)
+**Section:** §Standard Contracts (the gate's named preconditions are FIVE)
+**Change:** The third of the five preconditions changes from "the emitted fingerprint absent from an existing
+incident" to "no incident opened after the canary storm was emitted"; the COUNT stays FIVE and the arms'
+ordering is unchanged.
+**Why:** third restatement of the retired precondition, in an enumeration a prose-only apply would not reach.
+Mirrors `NotFound::FingerprintAbsent` → `NotFound::StaleCorpus` in the code.
+
+## 2026-08-16-canary-fingerprint-derivation-aligned — deny.toml exceptions no longer Tauri-only
+**Section:** §Infrastructure Patterns (Build system)
+**Change:** The accepted-license note records that `BSD-2-Clause` entered for `arrayref` (via
+`conductor-emit`→`blake3`), the first cargo-side exception from outside the Tauri tree, and separates
+`cargo deny` (green) from `cargo audit` (red on an external advisory-DB fault).
+**Why:** the prose attributed every accepted license to the Tauri tree, which this chunk's dependency made
+false; conflating the two gates' states would also misread the supply-chain posture.

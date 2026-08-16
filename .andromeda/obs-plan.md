@@ -311,7 +311,7 @@ Downstream skills (route, setup-project) derive:
   - `scenario.run`: `run_id`, `seed`, `scenario` (= "fingerprint-storm"), `p_ids` (all touched P-IDs)
   - `timeline.execute_fingerprint_storm`: `p_id_count`, `batch_count`
   - `emit.batch`: `batch_index`, `fingerprints_in_batch`
-  - `verify.readback_fingerprints`: `mcp_tool`, `latency_ms`, `fingerprints_matched_count`
+  - `verify.readback_fingerprints`: `mcp_tool`, `latency_ms`, `fingerprints_read_back_count` — a COUNT of what read-back returned, not a match count: Pulse exposes no read-back surface carrying its own computed fingerprint (`fingerprint_refs` is fed from the L4 model's `evidence_refs`, pinned `[]` under deterministic L4; `span_events.fingerprint` has zero reads in `mcp-server`), so an emitted-vs-read-back match is not computable (measured 2026-08-16)
 - **Required log fields:** `run_id`, `seed`, `scenario`, `p_ids`, `verdict`, `state`, `latency_ms`, `slo_tier`, `fingerprints` (populated), `journal_emitted_at`
 - **Cleanup:** Root `scenario.run` closes on final `report.generate` completion; emit batches close on each flush; verify spans close on MCP response receipt
 

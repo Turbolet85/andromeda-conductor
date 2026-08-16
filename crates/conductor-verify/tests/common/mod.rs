@@ -16,9 +16,13 @@ pub struct StubConfig {
     /// call-error-vs-empty distinction the preflight catch-all fix introduces.
     pub query_errors: bool,
     pub canary: String,
-    /// The fingerprint `retrieve_telemetry_slice` reports in `fingerprint_refs` — the fidelity carrier
-    /// the canary leg asserts (titles are scrubbed, so the fingerprint, not the title, proves the round-trip).
+    /// The fingerprint `retrieve_telemetry_slice` reports in `fingerprint_refs`. NOT the canary's
+    /// carrier — Pulse populates that field from the L4 model's `evidence_refs`, never from its own
+    /// computed fingerprint; kept because the per-check extraction still reads it.
     pub canary_fingerprint: String,
+    /// The `opened_at_unix_nano` each listed incident reports — the canary leg's carrier. `None` omits
+    /// the field entirely, which must read as not-fresh rather than as satisfied.
+    pub opened_at_unix_nano: Option<i64>,
     /// The `markdown` body `retrieve_report` returns — the per-check extraction grades substring
     /// checks against it (Pulse's six-section Diagnostic Report).
     pub report_markdown: String,
@@ -50,6 +54,7 @@ impl Default for StubConfig {
             query_errors: false,
             canary: "conductor-canary-7f3a".to_string(),
             canary_fingerprint: "0123456789abcdef".to_string(),
+            opened_at_unix_nano: Some(i64::MAX),
             report_markdown: "## Diagnostic Report\nRetryStorm detected on checkout-service.\n"
                 .to_string(),
             report_degraded: false,
@@ -106,17 +111,16 @@ where
                 "tools/call" if config.malformed_results => json!({ "unexpected": "shape" }),
                 "tools/call" if calls_query => {
                     if config.canary_in_corpus {
-                        json!({
-                            "items": [ {
-                                "id": 1,
-                                "status": "active",
-                                "severity": "high",
-                                "title": config.canary,
-                                "opened_at_unix_nano": 0,
-                            } ],
-                            "total": 1,
-                            "next_cursor": Value::Null,
-                        })
+                        let mut item = json!({
+                            "id": 1,
+                            "status": "active",
+                            "severity": "high",
+                            "title": config.canary,
+                        });
+                        if let Some(opened) = config.opened_at_unix_nano {
+                            item["opened_at_unix_nano"] = json!(opened);
+                        }
+                        json!({ "items": [item], "total": 1, "next_cursor": Value::Null })
                     } else {
                         json!({ "items": [], "total": 0, "next_cursor": Value::Null })
                     }

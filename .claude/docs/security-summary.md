@@ -40,7 +40,7 @@ See `.claude/rules/security.md` (loads unconditionally — universal).
 - **Minimal tier** — no compliance triggers; residual risk is supply-chain + input-validation + error-sanitization only.
 - **Subprocess-spawn hardening** is the single most architecture-relevant control (MCP-sidecar STDIO injection, CVE-2026-30623).
 - **Version floors:** toolchain ≥1.94.1 (tar-rs CVE-2026-33056) — **done** (1.95.0); `tauri` ≥2.10.3 (origin-confusion CVE-2026-42184) — required bump, dormant until the Tauri GUI (Epoch 9).
-- **External decay forks on the fault:** a TOOL fault (scanner too old / fixed bug) → raise the floor; an advisory-DATABASE fault (the RustSec DB itself won't parse, so no release can read it) → floor-raising is unexecutable, so it's a bounded wait with the audit↔deny overlap verified green. Prove which by re-running the latest published tool.
+- **External decay forks on the fault:** a TOOL fault (scanner too old / fixed bug) → raise the floor; an advisory-DATABASE fault (the RustSec DB itself won't parse, so no release can read it) → floor-raising is unexecutable, so it's a bounded wait with the audit↔deny overlap verified green. Prove which by re-running the latest published tool. **A new dependency MAY land during that wait, but only on a `cargo deny check advisories bans licenses sources` verified green over the NEW lockfile** — deny is then the sole coverage, and the deferral stops resting on "no dependency delta".
 - **Secret-scanning CI gate** is optional/deferred (Conductor owns no secrets; tool selection left to setup/operator).
 
 ---

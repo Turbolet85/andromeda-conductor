@@ -97,3 +97,45 @@ already records; the security master had never been reconciled to it.
 **Section:** Threat Model Summary §Auth model (Reason) · §Input Validation (committed SUT-facing manifests row)
 **Change:** (1) `ANDROMEDA_PULSE_MCP_ENABLED` must be present in Conductor's OWN process environment, where the operator exports it and the sidecar receives it by inheritance — `spawn.rs` passes only the data dir via `.env(...)`, so inheritance is the sole channel; absent it the sidecar starts and immediately exits and every read-back measures the unreachable path. Conductor still never sets it itself. (2) The manifests row records that `pulse-run-contract.toml` now has readers outside `conductor-core` — the two harness scripts parse `warmup_ms` + `min_canary_poll_seconds` under the same never-defaulted rule (missing term ⇒ hard exit 2; a lowered env value clamps up to the contract floor).
 **Why:** Verified live 2026-08-13 — the first arm ran without the flag, measured the read-back-unreachable path and was discarded. The four-item operator recipe omitted it. The shell-side reader is a genuinely new external-input boundary this chunk added.
+
+## 2026-08-16-canary-fingerprint-derivation-aligned — third preflight precondition renamed
+**Section:** §Security Anti-Patterns → Universal (never-silently-downgrade ban)
+**Change:** In the FIVE-precondition enumeration, "canary fingerprint absent" becomes "no incident opened
+after the canary storm was emitted"; count and never-downgrade rule unchanged.
+**Why:** the fingerprint precondition could never pass at any width (`fingerprint_refs` carries no
+Pulse-computed fingerprint), so the ban named a precondition that no longer exists; the distinct-blocked-state
+requirement it enforces is unchanged and now attaches to the freshness arm.
+
+## 2026-08-16-canary-fingerprint-derivation-aligned — child-stdout row states the freshness assertion
+**Section:** §Input Validation (MCP read-back child stdout row)
+**Change:** The canary clause becomes: asserts an incident opened after the emission stamp
+(`extract::opened_at_unix_nanos` vs `CanaryMarker.emitted_at_unix_nano`); an absent or unparseable stamp
+contributes nothing and reads as NOT-fresh ⇒ `blocked`, never a false pass.
+**Why:** the row asserted an identity claim the gate no longer makes. The degrade DIRECTION is the security-
+relevant half and is now explicit: the other readers degrade to empty on shape, but a missing stamp must never
+read as satisfied.
+
+## 2026-08-16-canary-fingerprint-derivation-aligned — third accepted deny.toml exception recorded
+**Section:** §Dependency Security (Accepted exceptions)
+**Change:** Adds the `BSD-2-Clause` allow for `arrayref` (via `conductor-emit`→`blake3`) beside the
+`number_prefix` ignore and the `Zlib` allow, and states that `deny.toml` itself is the authority on the full
+set while reconciling the two is carried by the `Dependency polish` route entry.
+**Why:** the paragraph read as an exhaustive list and did not authorize the license this chunk's dependency
+needs. The authority note prevents a future reader treating the (known-incomplete) prose as the allowlist.
+
+## 2026-08-16-canary-fingerprint-derivation-aligned — admitting a dependency under a red audit
+**Section:** §Dependency Security (advisory-DATABASE fault bullet)
+**Change:** States the admission condition explicitly — a dependency delta MAY land while the advisory DB
+cannot be parsed, but only on a `cargo deny check advisories bans licenses sources` VERIFIED green over the
+NEW `Cargo.lock`, with the deferral's basis no longer resting on "no dependency delta".
+**Why:** the bounded wait was justified partly by a static tree, a precondition this chunk broke. Left
+unstated, the doc would assert an audit-green admission condition its own shipped dependency does not meet,
+and the next chunk would re-derive the case from scratch.
+
+## 2026-08-16-canary-fingerprint-derivation-aligned — deprecated-crypto ban is now active
+**Section:** §Security Anti-Patterns → Data Protection
+**Change:** Retires the hypothetical "if any fingerprint/hash is ever added" framing — Conductor ships a
+blake3 derivation (first 16 bytes / 32 hex), the FNV-1a derivation is removed, and the run-report
+`fingerprints[]` column is noted as read-back-fed, never fed from that derivation.
+**Why:** the ban described a future possibility that this chunk made present; anchoring it to the shipped
+derivation makes it enforceable rather than aspirational.
