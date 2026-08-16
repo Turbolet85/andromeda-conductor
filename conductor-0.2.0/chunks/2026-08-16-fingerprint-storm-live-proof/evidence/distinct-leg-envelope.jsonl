@@ -1,0 +1,1 @@
+{"journal_emitted_at":"2026-08-16T13:44:36Z","read_back_observed_at":"2026-08-16T13:45:06Z","run_id":"2026-08-16T13-43-50-255","seed":4317018,"scenario":"fingerprint-distinct","p_ids":["P-017"],"verdict":"Fail","state":"KnownResidual","latency_ms":30192,"slo_tier":"<20s","fingerprints":[]}

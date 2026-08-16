@@ -1,0 +1,354 @@
+[
+{
+"sql": "SELECT callee, file, line FROM refs WHERE callee LIKE '%FingerprintVariant%' ORDER BY file, line",
+"rows": 69,
+"result": [
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/FingerprintVariantSpec#",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 49
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/FingerprintVariantSpec#",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 118
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/FingerprintVariantSpec#Identical#",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 340
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/FingerprintVariantSpec#",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 340
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/FingerprintVariantSpec#Identical#",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 432
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/FingerprintVariantSpec#",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 432
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/FingerprintVariantSpec#Path#",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 433
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/FingerprintVariantSpec#",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 433
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/FingerprintVariantSpec#Line#",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 434
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/FingerprintVariantSpec#",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 434
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 94
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#Identical#",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 101
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 101
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#PathVariant#",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 102
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 102
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#LineVariant#",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 107
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 107
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#TypeVariant#",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 112
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 112
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#FrameVariant#",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 113
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 113
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#LineVariant#",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 354
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 354
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#Identical#",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 354
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 354
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/impl#[FingerprintVariant]derive().",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 356
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/impl#[FingerprintVariant]derive().",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 370
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#PathVariant#",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 370
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 370
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#FrameVariant#",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 377
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 377
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#TypeVariant#",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 377
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 377
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/impl#[FingerprintVariant]derive().",
+"file": "crates/conductor-emit/src/exception.rs",
+"line": 379
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#",
+"file": "crates/conductor-emit/src/lib.rs",
+"line": 24
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/FingerprintVariantSpec#",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 12
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 14
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/impl#[FingerprintVariant]derive().",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 102
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 215
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/FingerprintVariantSpec#",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 215
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#Identical#",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 217
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 217
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/FingerprintVariantSpec#Identical#",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 217
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/FingerprintVariantSpec#",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 217
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#PathVariant#",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 218
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 218
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/FingerprintVariantSpec#Path#",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 218
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/FingerprintVariantSpec#",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 218
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#LineVariant#",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 219
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 219
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/FingerprintVariantSpec#Line#",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 219
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/FingerprintVariantSpec#",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 219
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 220
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/FingerprintVariantSpec#Type#",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 220
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/FingerprintVariantSpec#",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 220
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#TypeVariant#",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 220
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#FrameVariant#",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 221
+},
+{
+"callee": "rust-analyzer cargo conductor-emit 0.1.0 exception/FingerprintVariant#",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 221
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/FingerprintVariantSpec#Frame#",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 221
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/FingerprintVariantSpec#",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 221
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/FingerprintVariantSpec#",
+"file": "crates/conductor-run/tests/dispatch_wire.rs",
+"line": 12
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/FingerprintVariantSpec#",
+"file": "crates/conductor-run/tests/dispatch_wire.rs",
+"line": 238
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/FingerprintVariantSpec#Identical#",
+"file": "crates/conductor-run/tests/dispatch_wire.rs",
+"line": 238
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/FingerprintVariantSpec#Path#",
+"file": "crates/conductor-run/tests/dispatch_wire.rs",
+"line": 239
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/FingerprintVariantSpec#",
+"file": "crates/conductor-run/tests/dispatch_wire.rs",
+"line": 239
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/FingerprintVariantSpec#Line#",
+"file": "crates/conductor-run/tests/dispatch_wire.rs",
+"line": 240
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/FingerprintVariantSpec#",
+"file": "crates/conductor-run/tests/dispatch_wire.rs",
+"line": 240
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/FingerprintVariantSpec#Identical#",
+"file": "crates/conductor-run/tests/dispatch_wire.rs",
+"line": 402
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/FingerprintVariantSpec#",
+"file": "crates/conductor-run/tests/dispatch_wire.rs",
+"line": 402
+}
+],
+"db_state": "fresh"
+}
+]

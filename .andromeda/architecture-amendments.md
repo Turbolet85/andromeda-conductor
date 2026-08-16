@@ -305,3 +305,20 @@ Mirrors `NotFound::FingerprintAbsent` → `NotFound::StaleCorpus` in the code.
 `cargo deny` (green) from `cargo audit` (red on an external advisory-DB fault).
 **Why:** the prose attributed every accepted license to the Tauri tree, which this chunk's dependency made
 false; conflating the two gates' states would also misread the supply-chain posture.
+
+## 2026-08-16-fingerprint-storm-live-proof — RBDP path narrowing corrected to the leading segment
+**Section:** §Established Decisions [Read-Back Dependency Posture]
+**Change:** the SECOND identity narrowing — recorded by the `2026-08-16-canary-fingerprint-derivation-aligned`
+entry above as "`normalize_frame` strips absolute paths only, so a RELATIVE-path change is
+identity-significant" — is RETIRED by measurement and replaced: of a frame's `file` only the **LEADING PATH
+SEGMENT** is identity-significant, because `is_absolute_path_start` fires on ANY `/` followed by a path char
+(not merely a leading one) and `skip_absolute_path` then consumes everything from the first slash. So
+`src/worker.rs` ≡ `src/anything/else.rs` are ONE identity, `other/worker.rs` is another, and a leading `/`
+erases the segment entirely. The narrowing COUNT stays two; the P-017 clause (c) qualifier now runs through
+the leading segment, NOT through relative-vs-absolute.
+**Why:** the chunk reshaped `FingerprintVariant::PathVariant` to vary the path BELOW its leading segment
+(adding `RelativePathVariant` for the significant half) after the planned absolute-path mechanism measured
+false — base normalized to `at fn (src)`, the absolute variant to `at fn ()`. Byte-verified identical in
+`andromeda-pulse crates/buffer/src/fingerprint.rs:139-218` at HEAD `d090314`, so this is the SUT's semantics,
+not a transcription drift; pinned by `exception.rs::only_the_leading_path_segment_reaches_the_preimage`. The
+prior entry is left as written (sidecars are append-only) — this entry is the supersession record.

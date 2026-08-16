@@ -27,3 +27,5 @@ tonic.workspace = true
 tokio-stream = { version = "0.1", features = ["net"] }
 # freezes the dispatched stream's shape-projection (test-plan §7 Golden artifacts)
 insta.workspace = true
+# parses Pulse's own JSONL log lines in the live-leg storm harvest (test-only; Pulse is the SUT)
+serde_json.workspace = true

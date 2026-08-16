@@ -2,16 +2,28 @@
 # `contracts/pulse-load-envelope.toml` (the terms and any exemption live there, never copied here).
 # A run over the envelope reports ENVIRONMENT-SUSPECT, not Fail — the harness drove it, not Pulse.
 
-# P-017 / P-018 — Exception Fingerprinting + Retry Storm Detection
-# (pulse-capability-spec.md §P-017 / §P-018). Pattern-recognition family: one storm timeline.
-#   P-017 fingerprint — a stable hash over exception.type + the first 3 normalized stack frames,
-#     INSENSITIVE to source path + line (amended clause (c)) but SENSITIVE to type + frame function.
+# P-017 / P-018 / P-074 — Exception Fingerprinting + Retry Storm Detection + Tier-1 incident path
+# (pulse-capability-spec.md §P-017 / §P-018 / §P-074). Pattern-recognition family: one storm timeline.
+#   P-017 fingerprint — blake3 over exception.type + NUL + the normalized stacktrace, truncated to 16
+#     bytes (Pulse's own derivation, recomputed in conductor-emit). Two narrowings measured against the
+#     SUT, both narrower than the amended clause (c): only the first 3 normalized frames contribute,
+#     and of a frame's path only its LEADING SEGMENT does — normalization strips everything from the
+#     first `/`, so `src/worker.rs` and `src/anything/else.rs` are one identity. Identity is therefore
+#     insensitive to a path below its leading segment and to line, but SENSITIVE to that leading
+#     segment, to type, and to frame function.
 #     P-017 has no direct user signal — it is identifier infrastructure FOR P-018, so it is verified
-#     THROUGH the storm: the identical / path-variant / line-variant triple all share ONE fingerprint,
-#     so a mixed-variant storm counts toward a SINGLE threshold.
+#     THROUGH the storm: the identical / path-variant / line-variant triple share ONE fingerprint
+#     BECAUSE the path variant perturbs the path BELOW its leading segment (stripped before hashing)
+#     and the line variant a line (dropped with the `:line` suffix), so a mixed-variant storm counts
+#     toward a SINGLE threshold. Changing the leading segment would NOT — that is `RelativePath`,
+#     asserted at unit tier.
 #   P-018 storm — the same fingerprint occurring >=5x in a 30s rolling window emits an attention cue
 #     (default hint Suggested); >=10x escalates the default hint to Autonomous. Conductor injects 6
-#     then 12. Detection operates on fingerprint identity, not type identity alone.
+#     then 12, all one fingerprint: 6 at the first phase boundary clears Suggested, 18 cumulative
+#     clears Autonomous (both phases pace inside the 30s sub-window). Detection operates on fingerprint
+#     identity, not type identity alone.
+#   P-074 Tier-1 incident path — one sustained single-fingerprint storm coalesces into exactly ONE
+#     incident rather than one per occurrence; asserted live on incident count + freshness.
 # The variant triple is the conductor-emit FingerprintVariant primitive. The per-phase count + variant
 # mix are DECLARED below (`[phases.emission]`) and paced across the phase's gap by the dispatcher; the
 # phase names restate them for legibility only.
@@ -24,14 +36,19 @@
 # Coverage mode: drive+observe — RetryStorm detection is auto (MCP read-back); the storm-state
 # constellation dot + cumulative-severity halo are operator-checklist.
 name = "fingerprint-storm"
-p_ids = ["P-017", "P-018"]
+p_ids = ["P-017", "P-018", "P-074"]
 seed = 4317017
-slo_tier = "<20s"   # storm detection has no explicit p99 budget; the middle tier covers it (calibration point)
+# RE-CALIBRATED from "<20s" against measured live behaviour (2026-08-16 legs). `latency_ms` is
+# `read_back_observed_at - journal_emitted_at`, and this scenario's own emission window is ~24s (two
+# 12000ms phases) before read-back cadence is added — so no live run of this shape can land under 20s.
+# Measured 24257ms here and 30192ms on the distinct sibling. The middle tier was structurally
+# unattainable, not merely tight.
+slo_tier = "<90s"
 jitter_ms = 50
 
 [[phases]]
 name = "storm-same-fp-6x"
-gap_ms = 12000   # 6 occurrences of the same-fp triple (identical/path/line) within the window -> Suggested
+gap_ms = 12000   # 6 occurrences of the same-fp triple (identical/sub-segment-path/line) -> Suggested
 [phases.emission]
 kind = "exception"
 occurrences = 6
@@ -39,15 +56,26 @@ variants = ["identical", "path", "line"]
 
 [[phases]]
 name = "storm-same-fp-12x"
-gap_ms = 12000   # continue the SAME fingerprint to 12 within the 30s window -> escalates to Autonomous
+gap_ms = 12000   # 12 more of the SAME fingerprint -> 18 cumulative in-window, escalating to Autonomous
 [phases.emission]
 kind = "exception"
 occurrences = 12
 variants = ["identical", "path", "line"]
 
-# P-018 — the same-fingerprint storm surfaces a RetryStorm candidate (the deterministic detection;
-# the Suggested->Autonomous severity is model-side, declare-only above).
-[[expected]]
-kind = "Contains"
-class = "Hard"
-expected = "RetryStorm"
+# P-018 — DECLARE-ONLY, and the reason is structural rather than a deferral.
+#
+# This scenario used to assert `Contains "RetryStorm"` against MCP read-back. Measured live on
+# 2026-08-16: `retrieve_report` returns `degraded_mode: true` PERMANENTLY under deterministic L4 —
+# `degraded_mode` is computed as `parsed_l4.is_none()`, and the deterministic fixture is never parsed
+# as an L4 output — so the returned `markdown` is a degraded report carrying no scenario-specific
+# token. A read-back token check is therefore STRUCTURALLY UNGRADEABLE in this mode, not merely
+# failing: it joins the `evidence_refs: []` limitation (Pulse exposes no read-back field that varies
+# with what Conductor emitted).
+#
+# The assertion moved to the surface that DOES carry it — Pulse's own `triage.pattern.storm.detected`
+# lines, harvested per leg — where the token's real analogue is `cue_kind = "retry_storm"` beside the
+# `severity_hint` / `occurrence_count` / `fingerprint_hex` this family grades on. See
+# `crates/conductor-run/tests/storm_harvest.rs` and the chunk's `evidence/leg-verdict.md`.
+#
+# An empty `expected` routes to verdict None -> ManualCheck (the drive+observe path), which is honest:
+# nothing this scenario claims is gradeable through read-back under deterministic L4.

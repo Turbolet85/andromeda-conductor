@@ -533,7 +533,7 @@ gap_ms = 1
     }
 
     #[rstest]
-    #[case("fingerprint-storm", &["P-017", "P-018"])]
+    #[case("fingerprint-storm", &["P-017", "P-018", "P-074"])]
     #[case("fingerprint-distinct", &["P-017"])]
     fn fingerprint_storm_fixtures_load_and_validate(#[case] stem: &str, #[case] p_ids: &[&str]) {
         let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
@@ -542,52 +542,36 @@ gap_ms = 1
         assert_eq!(s.name, stem);
         let want: Vec<PId> = p_ids.iter().map(|p| PId(p.to_string())).collect();
         assert_eq!(s.p_ids, want);
-        assert!(!s.expected.is_empty(), "{stem} declares at least one expected check");
     }
 
+    /// Both fingerprint scenarios are DECLARE-ONLY as of the 2026-08-16 live legs: `retrieve_report`
+    /// returns `degraded_mode: true` permanently under deterministic L4, so a read-back token check is
+    /// structurally ungradeable — the `Absent` side would even pass vacuously. The assertions moved to
+    /// Pulse's own `triage.pattern.storm.detected` lines (`conductor-run/tests/storm_harvest.rs`), and
+    /// an empty `expected` correctly routes these to ManualCheck rather than a false green.
     #[rstest]
     #[case("fingerprint-storm")]
     #[case("fingerprint-distinct")]
-    fn fingerprint_storm_checks_are_all_hard(#[case] stem: &str) {
-        // Fingerprint identity (deterministic hash) + storm-count detection are Hard; the
-        // 6->Suggested/12->Autonomous severity escalation is model-side (P-020), declared-only.
+    fn fingerprint_scenarios_are_declare_only_after_the_degraded_read_back_finding(#[case] stem: &str) {
         let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
         let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
         let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
         assert!(
-            s.expected.iter().all(|c| c.class == ClaimClass::Hard),
-            "{stem} checks are all Hard (fingerprint identity + storm-count detection)"
+            s.expected.is_empty(),
+            "{stem} declares no read-back check — the harvest surface carries them"
         );
     }
 
-    #[test]
-    fn fingerprint_storm_asserts_the_storm_via_contains() {
-        // P-018: the same-fp triple stormed past the floor surfaces a RetryStorm (Contains); the
-        // distinct-fp guard is its Absent counterpart in a separate scenario (one token, opposite outcome).
-        let path = format!("{}/../../scenarios/fingerprint-storm.toml", env!("CARGO_MANIFEST_DIR"));
-        let toml = std::fs::read_to_string(&path).expect("fixture readable");
-        let s = Scenario::from_toml_str(&toml).expect("fixture valid");
-        assert!(
-            s.expected
-                .iter()
-                .any(|c| c.kind == ComparisonKind::Contains && c.expected == "RetryStorm"),
-            "fingerprint-storm asserts the storm via Contains RetryStorm"
-        );
-    }
-
-    #[test]
-    fn fingerprint_distinct_asserts_no_aggregation_via_absent() {
-        // P-017: type/frame variants are DISTINCT fingerprints, so sub-floor counts never aggregate
-        // into a storm — the no-false-aggregation guard (the Absent side of the same RetryStorm token).
-        let path = format!("{}/../../scenarios/fingerprint-distinct.toml", env!("CARGO_MANIFEST_DIR"));
-        let toml = std::fs::read_to_string(&path).expect("fixture readable");
-        let s = Scenario::from_toml_str(&toml).expect("fixture valid");
-        assert!(
-            s.expected
-                .iter()
-                .any(|c| c.kind == ComparisonKind::Absent && c.expected == "RetryStorm"),
-            "fingerprint-distinct asserts no-aggregation via Absent RetryStorm"
-        );
+    /// The re-calibration the live legs forced: `latency_ms` spans the scenario's own emission window,
+    /// which is ~24s (storm) and ~30s (distinct), so `<20s` was unattainable by construction.
+    #[rstest]
+    #[case("fingerprint-storm")]
+    #[case("fingerprint-distinct")]
+    fn fingerprint_scenarios_carry_the_recalibrated_tier(#[case] stem: &str) {
+        let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
+        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
+        assert_eq!(s.slo_tier, SloTier::Tier90s, "{stem} re-calibrated to the <90s tier");
     }
 
     #[rstest]

@@ -217,6 +217,7 @@ fn wire_variant(spec: FingerprintVariantSpec) -> FingerprintVariant {
     match spec {
         FingerprintVariantSpec::Identical => FingerprintVariant::Identical,
         FingerprintVariantSpec::Path => FingerprintVariant::PathVariant,
+        FingerprintVariantSpec::RelativePath => FingerprintVariant::RelativePathVariant,
         FingerprintVariantSpec::Line => FingerprintVariant::LineVariant,
         FingerprintVariantSpec::Type => FingerprintVariant::TypeVariant,
         FingerprintVariantSpec::Frame => FingerprintVariant::FrameVariant,

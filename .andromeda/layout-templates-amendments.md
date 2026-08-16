@@ -56,3 +56,15 @@ _Append-only changelog of amendments to `layout-templates.md` (the body holds on
 **Section:** §Surface: cli — Output structure `conductor run <scenario>` (the caption sample)
 **Change:** The sample caption no longer bakes the whole-scenario literal (`runs 900s, over the proven-good envelope ceiling of 600s`); it now names the breaching EMITTING PHASE and which sustained term it left (storm window / sustained rate — the asserted pair), noting whole-scenario duration is recorded rather than asserted. Placement, ANSI 246 reuse, always-printed ASCII bracket, run-level-qualifier status and the omitted-when-in-envelope rule are unchanged.
 **Why:** `LoadEnvelope::classify` now judges per emitting phase against the two sustained terms, so the old sample described a caption the code can no longer produce. Named the term SET rather than substituting a fresh duration literal, per the detector's own guidance that a replacement literal simply re-stales.
+
+## 2026-08-16-fingerprint-storm-live-proof — coverage roll-up caption DE-LITERALIZED
+**Section:** §Surface: cli — Primary screens (`conductor coverage [--write]`)
+**Change:** the sample roll-up caption's baked unbacked count becomes the placeholder form —
+`43 auto (N unbacked)` instead of `43 auto (9 unbacked)`. The surrounding rules are unchanged (qualifies the
+auto term only, never a fifth summand, plain text, omitted at zero, same shape on all three surfaces).
+**Why:** the chunk named `P-074` in `scenarios/fingerprint-storm.toml`, shrinking
+`conductor_core::UNBACKED_AUTO` 9 → 8 — the THIRD time this same literal went stale (11 → 10 at
+`in-lane-sut-scenarios`, 10 → 9 at `pulse-run-contract`), each prior fix substituting a fresh literal that
+re-staled. The line's own prose already declares "every number manifest-derived (never a literal)", so the
+sample contradicted the rule stated beside it. De-literalizing ends the recurrence; founder-approved at this
+wrap, with a playbook rule appended for the class.

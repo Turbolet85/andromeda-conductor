@@ -11,15 +11,18 @@
 # a RetryStorm is the proof that the distinct sites were not collapsed. The Absent counterpart to
 # fingerprint-storm's Contains (one token, opposite outcome -> a separate, outcome-coherent file).
 # The variants are the conductor-emit FingerprintVariant primitive (TypeVariant / FrameVariant); the
-# sub-floor per-fingerprint counts live in the phase names (EmissionSpec carries no count field), so
-# the Epoch-8 driver realizes them.
+# sub-floor per-fingerprint counts are DECLARED below (`[phases.emission].occurrences`) and paced by
+# the dispatcher — the phase names restate them for legibility only.
 # Epoch-8 calibration points: the inferred "RetryStorm" token (here, its absence); the sub-floor (<5x)
 # per-fingerprint counts; the <20s tier.
 # Coverage mode: drive+observe — the no-false-aggregation guard is auto (MCP read-back absence).
 name = "fingerprint-distinct"
 p_ids = ["P-017"]
 seed = 4317018
-slo_tier = "<20s"   # the no-storm confirmation window (calibration point)
+# RE-CALIBRATED from "<20s" against the measured live leg (2026-08-16): latency_ms spans
+# read_back_observed_at - journal_emitted_at, and this scenario's three 10000ms phases emit for ~30s
+# before read-back cadence. Measured 30192ms. See fingerprint-storm.toml for the shared basis.
+slo_tier = "<90s"
 jitter_ms = 50
 
 [[phases]]
@@ -46,9 +49,14 @@ kind = "exception"
 occurrences = 4
 variants = ["frame"]
 
-# P-017 — three distinct fingerprints, each sub-floor, never aggregate into a storm (the distinctness
-# guard: type/frame variants are NOT collapsed into one fingerprint).
-[[expected]]
-kind = "Absent"
-class = "Hard"
-expected = "RetryStorm"
+# P-017 — DECLARE-ONLY, for the same structural reason as its `Contains` counterpart.
+#
+# The `Absent "RetryStorm"` read-back check is ungradeable under deterministic L4: `retrieve_report`
+# returns `degraded_mode: true` permanently, so its `markdown` carries no scenario-specific token and
+# an absence proves nothing about aggregation. Worse than the Contains side — an `Absent` on text that
+# can never contain the token passes vacuously, which is a false green rather than a false red.
+#
+# The distinctness guard moved to the harvest surface, where absence IS meaningful: three sub-floor
+# fingerprints must raise NO `triage.pattern.storm.detected` line at all in the leg window. Measured
+# 2026-08-16 — zero scenario storm lines; had type/frame variants merged, the combined 12 would have
+# crossed the >=5 floor and stormed. See `crates/conductor-run/tests/storm_harvest.rs`.

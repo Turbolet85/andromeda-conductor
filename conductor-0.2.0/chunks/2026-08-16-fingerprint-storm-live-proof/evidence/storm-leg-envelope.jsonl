@@ -1,0 +1,1 @@
+{"journal_emitted_at":"2026-08-16T13:40:59Z","read_back_observed_at":"2026-08-16T13:41:23Z","run_id":"2026-08-16T13-40-13-572","seed":4317017,"scenario":"fingerprint-storm","p_ids":["P-017","P-018","P-074"],"verdict":"Fail","state":"KnownResidual","latency_ms":24257,"slo_tier":"<20s","fingerprints":[]}

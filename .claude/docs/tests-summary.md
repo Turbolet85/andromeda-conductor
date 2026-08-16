@@ -17,7 +17,7 @@ setup-project Phase 4 materializes `scripts/agent-run.{sh,ps1}`. Enforcement: `.
 
 ## E2E coverage (§6 — 7 critical paths)
 - **Headless scenario + MCP read-back** (`error-baseline-spike`) — exit 0 + `runs.db` verdict/state + journal + read-back; same-seed replay.
-- **Fingerprint-storm** — fingerprints populated; read-back within SLO.
+- **Fingerprint-storm** — envelope `fingerprints` present but `[]` under deterministic L4; read-back token checks declare-only (permanent `degraded_mode`); the live proof is the test-only harvest of Pulse's `triage.pattern.storm.detected` line at the `conductor-run` unit tier.
 - **Restart-suppression incl. bypass** — suppression is hard Pass/Fail; bypass case reports its distinct outcome.
 - **Severity-lifecycle full pass** — auto-resolve + resolution summary; timing hard, severity choice = CalibrationRegion.
 - **Known-residual (P-032)** — `state=KnownResidual` (not Fail) from a `degraded_mode` read-back.

@@ -118,3 +118,15 @@ corpus of only older incidents must block.
 canary's emission stamp — ⇒ `blocked`".
 **Why:** a non-empty but wholly pre-dating corpus now blocks too; the old mapping under-described the
 assertion the stub legs make.
+
+## 2026-08-16-fingerprint-storm-live-proof — fingerprint-storm verification signal re-based on the harvest
+**Section:** §6 E2E Test Strategy (Scenario: Fingerprint-storm) + §1 Test Scope Summary (Critical paths, the
+same restatement)
+**Change:** the envelope's `fingerprints` field is PRESENT but expected `[]` under deterministic L4 (fed
+solely from `fingerprint_refs`, which the L4 fixture pins empty); the scenario's read-back token checks are
+DECLARE-ONLY because `retrieve_report` is permanently `degraded_mode` in this mode; the live proof is the
+test-only harvest of Pulse's `triage.pattern.storm.detected` line asserted at the `conductor-run` unit tier.
+**Why:** measured on two live legs (2026-08-16) — both returned `fingerprints: []`, `Contains "RetryStorm"`
+always failed and `Absent "RetryStorm"` passed VACUOUSLY against text that cannot carry the token. Both
+sections restated the identical claim, so a §6-only apply would have left it standing in the critical-paths
+table.

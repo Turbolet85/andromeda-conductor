@@ -151,3 +151,14 @@ entry above), and claiming a parent the code cannot produce repeats what the 202
 corrected. (d) at `debug` the spans are invisible under the default INFO filter, so the chunk's own
 acceptance — the spans appearing on emitted lines — could not hold without a `RUST_LOG` opt-in; every sibling
 span is `info`, and one span per phase is not the hot path §11's ban targets.
+
+## 2026-08-16-fingerprint-storm-live-proof — fingerprint-storm `fingerprints` no longer "populated"
+**Section:** §4 Span/Trace Coverage (Fingerprint-storm Required log fields) + §1 Obs Scope Summary
+(critical-paths table, the same restatement)
+**Change:** `fingerprints` (populated) → present, MAY BE EMPTY: under deterministic L4 it is fed solely from
+`fingerprint_refs`, which the fixture pins `[]`. Storm identity is evidenced by `fingerprints_read_back_count`
+and the test-only harvest surface, never by a populated envelope array.
+**Why:** measured 2026-08-16 — both live legs returned `fingerprints: []`. §4's own
+`verify.readback_fingerprints` bullet already recorded `fingerprint_refs` as pinned empty, so the
+Required-log-fields line contradicted the bullet above it and demanded an unsatisfiable field on a must-trace
+path.
