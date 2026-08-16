@@ -122,3 +122,32 @@ in `mcp-server`).
 **Why:** a required span attribute defined as a match count between two values that never meet is
 uninstrumentable as written; measured 2026-08-16 and confirmed live (`retrieve_telemetry_slice` returned
 `result_count: 0` on a healthy leg, envelope `fingerprints: []`).
+
+## 2026-08-16-fault-application-spans — fault spans open where the faults actually are
+**Section:** §4 Span / Trace Coverage (Fault-injection spans — heading, the three attribute lists, and the
+placement paragraph) · §1 Obs Scope Summary (instrumentation-scope `conductor-faults` row · telemetry-trigger
+`chaos-instrumentation` row) · §6 Log Coverage (log-levels table `info` + `debug` rows, plus a why-note)
+**Change:** four corrections, all measured this chunk.
+(a) PLACEMENT — "Each fault span wraps the fault application phase in conductor-faults" is retired. The
+run-path faults are declarative phase data (`EmissionSpec { occurrences: 0 }` and `EmissionShape::Ramp`), so
+`fault.silence` / `fault.ramp` open from a caller-supplied per-phase hook (`run_timeline_observed` /
+`PhaseWindow`, fault semantics + the `std::time` journal basis supplied by `conductor-run`), created but NOT
+entered so `emit.batch` keeps `timeline.execute` as its parent. Only `fault.port_occupier` opens inside
+`conductor-faults`, at its RAII bind site. The §1 crate row was realigned in the same pass.
+(b) `ramp_factor` — range corrected from `0.0-1.0` to **−1.0..1.0**, defined as the normalized signed slope
+`(to_rate − from_rate) / max(from_rate, to_rate)`, so a rise and a fall are distinguishable.
+(c) `fault.port_occupier` — attribute set narrowed to `fault_type` + `port` (neither the duration nor the
+journal offset is knowable at bind time, and the layer records attributes on `new` alone), the realized hold
+witnessed on the allowlisted `message` field at `debug` on release, and its `timeline.execute` parentage
+recorded as CONDITIONAL — no run path drives the occupier yet. The §1 trigger row was realigned with it.
+(d) LOG LEVEL — fault-span lifecycle moved from the `debug` row to `info`, with the reasoning recorded
+beneath the table.
+**Why:** (a) the code-graph returns 0 crate edges for `conductor-faults` in either direction and 0 references
+to its fault types from outside the crate, so a span placed there fires on no scenario run. (b) the shipped
+`EmissionShape::Ramp` carries `from_rate`/`to_rate`/`windows` integers — no 0.0-1.0 quantity exists to read;
+the signed form was the operator's decision at the chunk's phase P4. (c) an attribute that cannot be computed
+at the only moment the layer reads attributes is uninstrumentable as written (the 2026-08-16 precedent one
+entry above), and claiming a parent the code cannot produce repeats what the 2026-08-10 root-span cleanup
+corrected. (d) at `debug` the spans are invisible under the default INFO filter, so the chunk's own
+acceptance — the spans appearing on emitted lines — could not hold without a `RUST_LOG` opt-in; every sibling
+span is `info`, and one span per phase is not the hot path §11's ban targets.

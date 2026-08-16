@@ -1,0 +1,41 @@
+# security extract
+
+## Relevance
+Partial — no auth/secrets/PII/external-input surface, but the chunk emits new self-observation log fields and touches the dependency gate, so §Security Anti-Patterns (Logging) + §Dependency Security apply.
+
+## Constraints
+- The five new span attributes land in `logs/agent-latest.jsonl`, an agent-parseable artifact shared across hosts; security-plan §Security Anti-Patterns → Logging bans leaking absolute host paths (canonicalized `CONDUCTOR_*` dirs, `ANDROMEDA_PULSE_DATA_DIR`) or internal seam-crate struct/field names into it. `fault_type` must stay a bounded label, and `port` an integer — never a path or a `Debug`-rendered internal struct.
+- `fault_start_offset_ms` and `fault_duration_ms` MUST derive from `std::time::SystemTime`/`Instant`, never tokio's virtual clock — security-plan §Security Anti-Patterns → Logging states a wrong clock source corrupts the ground-truth artifact. This is a hard requirement, not a preference; the chunk's own boundary asserts the same basis, and whether the fault sites currently read a tokio clock is research's question.
+- The chunk's PREREQ falls under security-plan §Dependency Security (advisory-DATABASE fault bullet): the RustSec DB fault is remedied by a bounded re-check per chunk with the audit↔deny overlap **VERIFIED** green — never a floor raise, never a `deny.toml` ignore, never a CI edit. Re-pin only after re-measuring; do not assume the prior chunk's measurement.
+- If instrumenting `conductor-faults` adds a `tracing` (or `tracing-core`) edge that moves `Cargo.lock`, security-plan §Dependency Security requires the admission condition: a dependency delta may land under a red audit **only** on `cargo deny check advisories bans licenses sources` verified green over the NEW lock, since deny is then the sole coverage for added packages. Whether `tracing` is already a locked workspace package (zero-delta) or a genuinely new one is research's question, and it decides which rule applies.
+- `Cargo.lock` must stay committed and un-drifted per security-plan §Security Anti-Patterns → Universal — drift makes the audit/deny scan non-deterministic.
+- Instrumenting `PortOccupier` must not alter its bind/hold/release: security-plan §Security Anti-Patterns → API forbids promoting the deliberate `:4317` fault bind into anything resembling an inbound listener, and §Threat Model Summary § Attack surface records it as the *sole* port bind exception. The chunk's "no new fault behavior" boundary is the security-relevant half here.
+- No new external-input boundary is expected: the span values derive from already-validated scenario config (security-plan §Input Validation, scenario-config row — `[phases.emission]` `kind`/`occurrences`/per-shape cross-field rules under garde, `dive` never `skip`). If the `ramp_factor` derivation reads any field outside that validated surface, or a new `CONDUCTOR_*` handle appears, §Input Validation's exhaustive enumeration is owed a new row.
+
+## Patterns to follow
+- The `redact.rs` tracing-field allowlist is a deny-by-default control in the shape security-plan §Security Anti-Patterns → Logging assumes — extend it with exactly the five new names and nothing broader; a widened or wildcard entry converts a bounded artifact surface into an unbounded one.
+- Bounded label sets over free-form strings: `fault_type` should carry the same closed-vocabulary discipline the plan applies to `blocked` precondition strings (§Security Anti-Patterns → Universal), so the artifact stays machine-parseable rather than absorbing arbitrary text.
+- Errors on the instrumentation path stay module-internal `thiserror` typed values, collapsing to `anyhow` only at the `conductor-cli` edge, with no absolute path in the message (security-plan §Error Handling).
+- `logs/agent-latest.jsonl` is derived from `CONDUCTOR_RUNS_DIR` through the existing `resolve_under` traversal guard (security-plan §Input Validation, non-path env-handle note) — reuse that resolution rather than composing the path independently.
+
+## Anti-patterns to avoid
+- Never emit an absolute host path, `Debug`-formatted internal struct, or seam-crate field name into a fault span attribute (security-plan §Security Anti-Patterns → Logging).
+- Never source a journal/report timestamp or offset from tokio's virtual clock (security-plan §Security Anti-Patterns → Logging).
+- Never resolve a red `cargo audit` by raising a tool floor, adding a `deny.toml` ignore, or editing CI when the fault is the advisory DB itself (security-plan §Dependency Security; §Security Anti-Patterns → Universal forbids the release gate proceeding on an unverified supply-chain signal).
+
+## Contract bindings
+- **Redaction allowlist ↔ obs plan:** the five attribute names are a joint deliverable — obs owns the span/field schema (`obs-plan.md:379-393`, bounded name set `:587`), security owns the artifact-hygiene rule that no allowlisted field may carry a path or internal identifier (security-plan §Security Anti-Patterns → Logging). A field that obs specifies but the allowlist omits is dropped silently; a field the allowlist admits but that carries a path violates the security ban.
+- **CI gate ↔ tests plan:** the obs-conformance gate reading `logs/agent-latest.jsonl` and the dependency gate (`cargo audit` / `cargo deny`) live in the one existing workflow, security gate as a job (security-plan §Dependency Security, CI integration).
+
+## Acceptance criteria contributions
+- (security) `cargo deny check advisories bans licenses sources` run and observed green over the committed `Cargo.lock` this chunk ships — verified output recorded, never assumed; `cargo audit` re-measured and its deferral re-pinned with the stated basis, with no floor raise, no `deny.toml` ignore, no CI edit (per security-plan §Dependency Security).
+- (security) No new span attribute emitted to `logs/agent-latest.jsonl` contains an absolute host path or an internal seam-crate struct/field name — grep the produced artifact for the canonicalized `CONDUCTOR_*` roots and for Rust type names (per security-plan §Security Anti-Patterns → Logging).
+- (security) `fault_start_offset_ms` / `fault_duration_ms` are computed from `std::time`, not `tokio::time`'s virtual clock — verifiable by inspecting the clock source at each of the three instrumentation sites (per security-plan §Security Anti-Patterns → Logging).
+- (security) `Cargo.lock` is committed and un-drifted after the chunk, and the port-occupier's bind/hold/release lifecycle is unchanged by instrumentation — no additional bind or listener introduced (per security-plan §Security Anti-Patterns → Universal and → API).
+
+## Relevant amendment history
+- `2026-06-24-sanitized-stderr-agent-mode-logging` — established that `logs/agent-latest.jsonl` (this chunk's target artifact) derives its path from `CONDUCTOR_RUNS_DIR` through the shipped `resolve_under` guard, and that `CONDUCTOR_AGENT_MODE` is a presence-only, non-path, no-validation handle. Relevant because it fixes the artifact's path provenance so this chunk owes no new path-validation row.
+- `2026-06-15-structured-logging-stack` — the prior self-obs logging chunk; recorded `CONDUCTOR_SERVICE_NAME`/`CONDUCTOR_ENV` as non-path log *values* requiring no validation. Sets the precedent that new self-obs fields are log-value surfaces, not input boundaries — the applicable ban is artifact hygiene, not garde.
+- `2026-08-16-canary-fingerprint-derivation-aligned` (admitting a dependency under a red audit) — created the exact condition the chunk's PREREQ now inherits: the deferral can no longer rest on "no dependency delta", so a verified-green deny run is the sole coverage. Directly governs how a new `tracing` edge in `conductor-faults` may land.
+- `2026-08-09-interpretation-correctness-posture` — introduced the TOOL-fault vs advisory-DATABASE-fault split that classifies this chunk's `duplicate advisory ID: RUSTSEC-2026-0244` failure and rules out a floor raise as the remedy.
+- `2026-08-11-faithful-emission-dispatcher` — widened the scenario-config boundary to `[phases.emission]` (including the ramp shape's cross-field rules) and mandated `dive` never `skip`. Relevant because `ramp_factor` must be derived from that already-validated shape; if its derivation reaches outside it, §Input Validation is owed an update.

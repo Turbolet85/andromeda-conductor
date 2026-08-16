@@ -1,75 +1,70 @@
 # Session Handoff
 
-**Last Updated:** 2026-08-16T10:12:00Z
-**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **16 ahead** after this chunk commit)
+**Last Updated:** 2026-08-16T12:08:00Z
+**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **17 ahead** after this chunk commit)
 **Status:** clean
-**Last Commit:** 2026-08-16-canary-fingerprint-derivation-aligned — the derivation aligned, the canary
-re-aimed onto incident freshness, and preflight reached `ready:true` for the first time
+**Last Commit:** 2026-08-16-fault-application-spans — the three fault spans open where the faults actually
+are, and the spec said conductor-faults
 
 ## Position
-- Done: **2026-08-16-canary-fingerprint-derivation-aligned** — the chunk's own premise was falsified at
-  research, the goal kept and the mechanism changed, and the live leg measured the gate green.
-- Next: **Fault-application spans** — the first markerless entry in Epoch 3 (silence / ramp / port-occupier
-  phases observable beneath the timeline span). `/andromeda-phase` to promote + plan.
+- Done: **2026-08-16-fault-application-spans** — `fault.silence` / `fault.ramp` / `fault.port_occupier` now
+  emit; the obvious reading of obs-plan §4 turned out to be unreachable and the spec moved to measured truth.
+- Next: **fingerprint-storm live proof** — identity triple, storm cue thresholds and exactly-one-incident
+  coalescing (P-017, P-018, P-074). `/andromeda-phase` to promote + plan.
 
 ## Work done
-9 source/config files + `Cargo.lock`, 0 new files. `exception.rs` swapped FNV-1a-over-frame-functions for
-**Pulse's own derivation** (blake3 over `exception_type` + `\0` + the normalized stacktrace, first 16 bytes →
-32 hex), porting Pulse's `normalize_stacktrace`/`normalize_frame` semantics and deleting `Fnv1a`.
-`preflight.rs` re-aimed `assert_canary` onto **incident freshness**, `extract.rs` gained
-`opened_at_unix_nanos`, `conductor-run` gained the `std::time` emission stamp and lost both stale doc twins.
-`blake3 = "1"` landed as a NORMAL dep; `deny.toml` gained one justified `BSD-2-Clause` allow.
-Gates green in 2 iterations: workspace `--profile ci` **588/588** zero retries (584 before, +4), doctest 0,
-`clippy -D warnings` clean, `cargo deny` true exit 0 across all four classes.
+8 source/config files + `Cargo.lock`, 0 new source files, +436/−17. `conductor-timeline` gained a per-phase
+observer (`run_timeline_observed` + `PhaseWindow`); `run_timeline_with` keeps its signature and delegates,
+with `timeline.execute` moved onto the new fn so exactly one span is emitted. `conductor-run` classifies a
+phase as silence/ramp and builds the span (`classify_fault` · `ramp_factor` · `fault_span`), created but
+NEVER entered so `emit.batch` keeps `timeline.execute` as its parent. `conductor-faults` took its first
+`tracing` dep and holds `fault.port_occupier` across `occupy`→`release`. Five names appended to
+`ALLOWLISTED_FIELDS` (31 → 36) — without them every attribute drops silently. Gates green in 2 iterations:
+workspace `--profile ci` **597/597** zero retries (588 before, +9), doctest 0, `clippy -D warnings` clean,
+`cargo deny` true exit 0 across all four classes, goldens byte-unchanged.
 
 ## Drift resolved
-7 doc-agents / 18 detectors, **16 proposals · 14 applied · 2 rejected · 2 escalations resolved**.
-Amendments: `architecture.md` ×5 (Stack hashing row · [Read-Back Dependency Posture] rewritten ·
-§Standard Contracts prose · its FIVE-precondition enumeration · Build-system deny.toml note),
-`security-plan.md` ×5, `test-plan.md` ×3, `obs-plan.md` ×1. Both escalations were operator-ratified: the
-locked-decision reversal (playbook line 97) and a NEW playbook rule for admitting a dependency under a red
-audit. **Two obs proposals were REJECTED** — they would have removed `retrieve_telemetry_slice` from
-Conductor's client tool lists, but only the canary stopped calling it while per-check extraction still does;
-the `dependent-of` pair was rejected atomically and the report gap that misled them was closed. Cascade:
-CLAUDE.md warnings + `stack.md` + `rules/security.md` + `security-summary.md` re-derived; preserve-verbatim
-homes routed to curation. Full record: `.andromeda/runs/2026-08-16T09-59-45-wrap/fanout-results.md`.
+7 doc-agents / 18 detectors, **6 proposals · 6 applied · 0 rejected · 0 escalations** — the tightest wrap of
+the version. All six are obs-plan (§4 ×3 + §1 ×2 + §6 ×1), two of them `dependent-of` duplicates the fan-out
+caught restating the same claim in §1's tables. Cascade: `rules/observability.md` gained a fault-span
+placement + level bullet; `obs-summary.md` recomputed with **no delta**; a grep of all seven masters and the
+three preserve-verbatim curation homes for the retired wording returned **zero hits**. Full record:
+`.andromeda/runs/2026-08-16T11-53-35-wrap/fanout-results.md`.
 
 ## Notes
-- **`ready:true` — the first green preflight in the project's history.** Live leg against Pulse at HEAD
-  `d090314`, fresh data dir, deterministic L4 confirmed active. The re-aimed precondition fired visibly:
-  `query_incident_list` `result_count: 0` → `1` across one second, with Pulse's incident-persist line at
-  `09:52:27.074Z` after the storm emitted at `09:52:26.9`. Pulse-side: 27 `duckdb.append`, **zero**
-  `reject_reason`, `severity_hint: "autonomous"` at `occurrence_count: 10`.
-- **`v2-10` CLAIMED and verified — coverage 11/32 → 12/32.** It needed two arms: `preflight` is a gate and
-  writes no artifacts, so a scenario leg produced the evidence — `runs/2026-08-16T09-54-12-950.jsonl` +
-  the `runs.db` row with **`verdict: "Pass"`, `state: "KnownResidual"`, `latency_ms: 2153`**, the first run
-  record carrying a non-null verdict and a real journal-relative SLO measurement.
-- **The chunk's premise was falsified and the goal kept.** `fingerprint_refs` carries the L4 model's
-  `evidence_refs` (`[]` under deterministic L4) and `span_events` has zero reads in `mcp-server`, so
-  Conductor's fingerprint has **no read-back surface at any width** — no derivation could have opened that
-  precondition. Aligning still shipped, on its own merit: Conductor's expectation now predicts how Pulse
-  actually GROUPS exceptions.
-- **P-017 clause (c) is falsified on TWO axes** — only the first 3 normalized lines contribute, and
-  `normalize_frame` strips ABSOLUTE paths only, so a relative-path change is identity-significant. Verified
-  at wrap that **no spec master states the claim**; the live statements were source (fixed) and
-  `scenarios/fingerprint-storm.toml`'s header prose, which is CARRIED on the `fingerprint-storm live proof`
-  entry — that entry also now owns re-deriving the identity triple, since `PathVariant` no longer matches.
-- **`cargo audit` — 22nd red**, byte-identical `duplicate advisory ID: RUSTSEC-2026-0244`, true exit 1.
-  **Re-pinned in FULL form: the basis CHANGED** — `Cargo.lock` moved, so "no dependency delta" is no longer
-  available and `cargo deny` is the sole coverage for the added packages. security-plan and a new playbook
-  rule now state the admission condition.
-- **Honesty register held:** freshness proves causation-in-time, not payload identity (a concurrent incident
-  in the poll window would satisfy the gate), and the adopted derivation was never compared against a
-  Pulse-computed fingerprint — none is observable. Both recorded in `evidence/leg-verdict.md` and arch.
-- **Curation:** T1 1 · T2 2 · T3 0 (filtered 1), all in-place extensions. T1 gained a **PROVENANCE** axis
-  (who produces the value) beside direction/arity/representation. Plus **3 cascade-routed corrections** of
-  entries the measurement made false: `verification-harness.md`, `rules/testing.md` ("a stable hash makes it
-  match the SUT's" — false), `docs/session-learnings.md` ("fidelity rides the fingerprint" — false).
-- **A truncated grep nearly invalidated the leg:** `grep … | head -6` suggested only the sidecar reads
-  `ANDROMEDA_PULSE_DATA_DIR`; `resolve_data_dir` shows `pulse-app` reads it FIRST. Had it stood, the two
-  processes would have used different data dirs and the leg would have measured nothing.
-- **Instance note for the next Pulse visit** (recorded, no cross-repo edit): deterministic-L4 zeroing
-  `evidence_refs` (`deterministic_inference.rs:35`) is a Pulse-side improvement candidate — a representative
-  canned `evidence_refs` would restore payload-identity assertions for any verifier. File alongside the
-  PK-coupling observation.
+- **The chunk's spec was wrong about where its own work goes, and the graph proved it.** obs-plan §4 said
+  each fault span "wraps the fault application phase in `conductor-faults`" — but that crate is an ISLAND:
+  0 crate edges in either direction, 0 references to `PortOccupier`/`AbruptSilence`/`EmissionGap`/
+  `BurstyTrain` from outside itself. Silence and ramp are declarative phase data (`occurrences: 0` /
+  `EmissionShape::Ramp`), so the spans had to open from the run path. Instrumenting where the spec said
+  would have put them on a path no scenario run reaches.
+- **`ramp_factor` had no computable source** — spec said float 0.0–1.0, the shape carries three integers.
+  Shipped as the normalized SIGNED slope `(to−from)/max(from,to)`, −1.0..1.0, so a rise and a fall are
+  distinguishable (operator decision at P4). obs-plan §4 amended.
+- **`fault.port_occupier` ships parentless, deliberately.** No run path applies the occupier, so its
+  `timeline.execute` parentage is recorded CONDITIONAL rather than claimed. It carries `fault_type` + `port`
+  only (nothing else is knowable at bind time); the realized hold is witnessed on `message` at `debug`.
+- **A fourth spec claim was surfaced by /implement and dispositioned here:** obs-plan §6 assigned "fault
+  application" to `debug`, but the spans ship at `info` — every sibling span is `info`, and at `debug` they
+  are invisible under the default filter, so the chunk's own acceptance could not hold. Table amended with
+  the reasoning recorded beneath it.
+- **No capability claimed.** `v2-15` was considered and declined; its `notes` now record that no
+  port-occupier driver exists anywhere, so its claiming chunk must WRITE one. That finding is also pinned as
+  a CARRY on the `connection-lifecycle live proof` entry.
+- **`cargo audit` — 23rd red**, byte-identical `duplicate advisory ID: RUSTSEC-2026-0244`, true exit 1.
+  Re-pinned COMPACT with the basis re-verified: `Cargo.lock` moved (+2 lines) but both were dependency EDGES
+  inside `conductor-faults`' existing entry with **zero new `[[package]]`**, so the audit surface is
+  unchanged; `cargo deny` verified green as the overlap.
+- **Curation: T1 0 · T2 1 · T3 0** (3 filtered). The operator's freshness candidate scored over Filter 1's
+  bar against an entry the previous chunk extended the same morning, so it landed as an in-place additive
+  extension carrying the two genuinely new facets: a bare `status` passes every phase-P5 mechanical check
+  when the plan asserts at the test tier, and MINT-THEN-READ is the positive procedure.
+- **Heads-up (not acted on):** `playbook.md`'s 2026-06-20 deferred-span rule names `fault.silence` /
+  `fault.ramp` / `fault.port_occupier` as deferred build-sequencing. The rule is not false — its fault-span
+  half is simply spent now that the spans emit — but a future wrap could misapply it to dismiss a genuine
+  fault-span proposal. Playbook is an operated artifact, not a spec master, so it was flagged rather than
+  edited.
+- **Honest limit on the smoke:** a Pulse-free run emits NO fault span, because `execute_scenario` returns
+  Blocked before the timeline. The smoke's artifact confirms it — zero `fault.*` AND no `timeline.execute`.
+  The artifact-level sighting belongs to the live-proof entries.
 - **Last failed command:** none.

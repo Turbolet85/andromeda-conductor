@@ -22,16 +22,16 @@ use anyhow::Context as _;
 use serde::Serialize;
 
 use conductor_core::{
-    EnvelopeStatus, HoldPoint, LoadEnvelope, PauseResolver, ReportState, RunContract,
-    RunContractStatus, RunRecord, Scenario, Verdict, now_rfc3339, redact_value, resolve_hold,
-    resolve_under,
+    EmissionShape, EmissionSpec, EnvelopeStatus, HoldPoint, LoadEnvelope, PauseResolver, ReportState,
+    RunContract, RunContractStatus, RunRecord, Scenario, Verdict, now_rfc3339, redact_value,
+    resolve_hold, resolve_under,
 };
 use conductor_emit::{
     DEFAULT_OTLP_ENDPOINT, DEFAULT_SERVICE_NAME, ExceptionSpec, Frame, TraceEmitter,
     exception_trace_request, fingerprint, probe_egress, trace_request,
 };
 use conductor_report::{JournalWriter, RunReport, RunsDb};
-use conductor_timeline::{PhaseTimeline, run_timeline_with};
+use conductor_timeline::{PhaseTimeline, PhaseWindow, run_timeline_observed};
 
 mod dispatch;
 pub use dispatch::{DispatchError, Dispatcher};
@@ -341,9 +341,14 @@ pub async fn execute_scenario<R: PauseResolver>(
     let mut dispatcher = Dispatcher::connect(scenario, DEFAULT_OTLP_ENDPOINT)
         .await
         .context("OTLP emission egress")?;
-    run_timeline_with(&timeline, scenario.seed, async |point| dispatcher.dispatch(point).await)
-        .await
-        .context("timeline scheduling")?;
+    run_timeline_observed(
+        &timeline,
+        scenario.seed,
+        |window| fault_span(scenario, &window, emitted_ms),
+        async |point| dispatcher.dispatch(point).await,
+    )
+    .await
+    .context("timeline scheduling")?;
 
     let observation = match observe(client).await {
         ReadBackOutcome::Observed(observation) => observation,
@@ -462,6 +467,79 @@ fn severity_rank(verdict: Verdict) -> u8 {
 
 fn now_ms() -> i64 {
     SystemTime::now().duration_since(UNIX_EPOCH).map(|d| d.as_millis() as i64).unwrap_or(0)
+}
+
+/// Which fault a phase applies, if any — the classification behind the `fault.*` spans.
+#[derive(Debug, Clone, Copy, PartialEq)]
+enum FaultKind {
+    /// A deliberate silence window: the phase declares no emissions and its gap simply elapses.
+    Silence,
+    /// A traffic ramp, carrying its normalized signed slope.
+    Ramp { factor: f64 },
+}
+
+impl FaultKind {
+    /// The bounded `fault_type` label (obs-plan §4).
+    fn label(self) -> &'static str {
+        match self {
+            Self::Silence => "silence",
+            Self::Ramp { .. } => "ramp",
+        }
+    }
+}
+
+/// Classify a phase's declared emission as a fault application. Only the two kinds the run path can
+/// apply are classified — `Breathing` is a sibling rate curve with no reserved span name, and the
+/// port-occupier is instrumented where it binds (obs-plan §11 bounds the span-name set).
+fn classify_fault(emission: &EmissionSpec) -> Option<FaultKind> {
+    if emission.occurrences == 0 {
+        return Some(FaultKind::Silence);
+    }
+    match emission.shape {
+        EmissionShape::Ramp { from_rate, to_rate, .. } => {
+            Some(FaultKind::Ramp { factor: ramp_factor(from_rate, to_rate) })
+        }
+        _ => None,
+    }
+}
+
+/// A ramp's normalized signed slope: negative when the rate falls, `0.0` when it is flat, and ±1.0
+/// at the extreme. Direction is part of the value, so a read of the log tells a rise from a fall.
+fn ramp_factor(from_rate: u32, to_rate: u32) -> f64 {
+    let peak = from_rate.max(to_rate);
+    if peak == 0 {
+        return 0.0;
+    }
+    (f64::from(to_rate) - f64::from(from_rate)) / f64::from(peak)
+}
+
+/// The `fault.*` span for a phase that applies one, held by the scheduler for that phase's window.
+///
+/// Created, never entered: entering it would re-parent every `emit.batch` raised during the phase
+/// onto the fault span, and obs-plan §4 Critical Path 1 nests those beneath `timeline.execute`. The
+/// offset is journal-relative against the run's `std::time` emission stamp, never the virtual clock.
+fn fault_span(scenario: &Scenario, window: &PhaseWindow<'_>, emitted_ms: i64) -> Option<tracing::Span> {
+    let emission = &scenario.phases.get(window.index)?.emission;
+    let kind = classify_fault(emission)?;
+    let fault_type = kind.label();
+    let fault_duration_ms = window.gap.as_millis() as u64;
+    let fault_start_offset_ms = now_ms().saturating_sub(emitted_ms).max(0) as u64;
+
+    Some(match kind {
+        FaultKind::Silence => tracing::info_span!(
+            "fault.silence",
+            fault_type,
+            fault_duration_ms,
+            fault_start_offset_ms
+        ),
+        FaultKind::Ramp { factor } => tracing::info_span!(
+            "fault.ramp",
+            fault_type,
+            fault_duration_ms,
+            fault_start_offset_ms,
+            ramp_factor = factor
+        ),
+    })
 }
 
 /// Wall-clock unix nanos — the unit Pulse stamps `opened_at_unix_nano` in, so the canary's emission
@@ -875,5 +953,47 @@ mod tests {
         .unwrap();
         assert!(records.is_empty(), "an immediate abort runs no scenario");
         assert_eq!(events.last().unwrap().stage, RunStage::Aborted);
+    }
+
+    fn emission(occurrences: u32, shape: EmissionShape) -> EmissionSpec {
+        EmissionSpec::shaped(conductor_core::Signal::Traces, occurrences, shape)
+    }
+
+    #[test]
+    fn a_zero_occurrence_phase_classifies_as_silence_whatever_its_shape() {
+        assert_eq!(classify_fault(&emission(0, EmissionShape::Plain)), Some(FaultKind::Silence));
+        assert_eq!(
+            classify_fault(&emission(0, EmissionShape::Ramp { from_rate: 1, to_rate: 9, windows: 3 })),
+            Some(FaultKind::Silence),
+            "a declared silence is silence even under a ramp shape — the gap is what elapses"
+        );
+    }
+
+    #[test]
+    fn only_the_two_run_path_faults_classify() {
+        assert_eq!(
+            classify_fault(&emission(4, EmissionShape::Ramp { from_rate: 10, to_rate: 100, windows: 5 })),
+            Some(FaultKind::Ramp { factor: 0.9 })
+        );
+        assert_eq!(classify_fault(&emission(4, EmissionShape::Plain)), None);
+        assert_eq!(
+            classify_fault(&emission(4, EmissionShape::Breathing {
+                center_rate: 50,
+                amplitude: 10,
+                period_windows: 2,
+                windows: 4,
+            })),
+            None,
+            "breathing is a sibling rate curve with no reserved span name (obs-plan §11)"
+        );
+    }
+
+    #[test]
+    fn the_ramp_factor_carries_direction_and_steepness() {
+        assert_eq!(ramp_factor(10, 100), 0.9);
+        assert_eq!(ramp_factor(100, 10), -0.9, "a falling ramp is distinguishable from a rising one");
+        assert_eq!(ramp_factor(90, 100), 0.1);
+        assert_eq!(ramp_factor(50, 50), 0.0);
+        assert_eq!(ramp_factor(0, 0), 0.0, "the degenerate declaration yields a value, never a panic");
     }
 }

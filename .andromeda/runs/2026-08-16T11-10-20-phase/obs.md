@@ -1,0 +1,45 @@
+# obs extract
+
+## Relevance
+Relevant — this chunk is a direct obs-domain deliverable: the §4 fault-injection spans (chaos-instrumentation trigger, obs-plan §1 Telemetry triggers).
+
+## Constraints
+- The three span names and their attribute sets are fixed by spec, not open design: `fault.silence` (`fault_type`, `fault_duration_ms`, `fault_start_offset_ms`), `fault.ramp` (+ `ramp_factor`, float 0.0–1.0), `fault.port_occupier` (+ `port`, int) — per obs-plan §4 "Fault-injection spans" and §1 Telemetry triggers (chaos-instrumentation). §4 also scopes the instrumentation to bounded "typical/high" profiles only (P-060 SLO checks), explicitly NOT saturation.
+- Span parentage and lifetime are mandated: each fault span wraps its fault-application phase as a **child of `timeline.execute`** and closes on fault release (duration expiry) — per obs-plan §4 (Fault-injection spans, closing paragraph); §11 Spans/Traces additionally bans dangling spans.
+- A span attribute must be a name in `conductor-core::redact::ALLOWLISTED_FIELDS` or the processor stage drops it silently, so an attribute outside the allowlist emits nothing — per obs-plan §4 (Required-span-attributes constraint, stated at the Known-residual path) and §11 PII Scrubbing ("NEVER skip the field-allowlist"; redaction at processor stage, single-location ownership in `conductor-core::redact`). Whether the five attribute names are already allowlisted is research's question.
+- Self-observation mechanism is `tracing` spans rendered as JSON log lines only — no OTel SDK, no OTLP export on any port, no W3C `trace_id`/`traceparent`; correlation is the `run_id` field — per obs-plan §3 (OTel SDK init; Correlation) and §11 Universal.
+- Every emitted line must carry the §3 self-obs base set (`timestamp_ms`, `level`, `target`, `service.name`/`service.version`/`deployment.environment`, `run_id`); a §4 span materializes as **span-lifecycle lines** adding `span`, `span_event` (`new` | `close`), optional `parent`, and the span's allowlisted attributes **on the `new` line** — per obs-plan §3 "Log format JSON schema / two record shapes". This is what makes attributes knowable-at-open load-bearing (the scope's `fault_duration_ms` inference).
+- Timestamp basis: `fault_start_offset_ms` is journal-relative, and journal timestamps are wall-clock `std::time::SystemTime` — obs-plan §11 Project-specific bans forbids tokio's virtual clock (`tokio::time::Instant`) for journal timestamps; §4 separately requires the fault *timing gate* itself to use `tokio::time` under `current_thread` for seed-reproducibility (two different clocks, two different jobs).
+- Log level for fault application is `debug` (internal control flow) with `conductor-faults` base `info` and additive opt-in `RUST_LOG=info,conductor_faults=info` — per obs-plan §6 Log levels + Per-module log levels, and §11 Logs ("NEVER log in hot path at `info`"; the per-target directive REPLACES the default).
+
+## Patterns to follow
+- `{module}.{operation}` span naming with manual `#[tracing::instrument]` at seams — obs-plan §2 Naming conventions + §4 auto-instrumentation table (no auto-instrumentation anywhere in Conductor; every span is hand-placed).
+- Span materialization through the custom `tracing-subscriber` layer (stock `fmt().json()` cannot emit constant identity fields flat) — obs-plan §3 two record shapes; the layer's `new`/`close` variant is the only route by which these spans become lines.
+- Correlation-by-`run_id` rather than by nesting where nesting is not achievable — obs-plan §4 Critical Path 1 Cleanup (report-seam spans are run-scoped siblings). Relevant if research finds a fault phase executing outside `timeline.execute`'s span, contrary to §4's mandated parentage.
+- The witness-on-`message` pattern: a value with no allowlisted attribute name is carried on the already-allowlisted `message` field at `debug` inside the existing `#[instrument]` span — obs-plan §6 Boundary-call wrappers (`emit.batch` wire-shape witness, `verify.readback` key-set witness).
+
+## Anti-patterns to avoid
+- No span name outside the bounded set (`scenario.run`, `timeline.execute*`, `emit.batch`, `emit.logs_batch`, `verify.readback*`, `report.generate`, `db.insert_run`, `fault.silence`/`ramp`/`port_occupier`, `tauri.command.*`) and no high-cardinality names — obs-plan §11 Spans/Traces.
+- No `info`-level logging on the fault hot path, and no over-instrumentation of inner-loop phases (profile first) — obs-plan §11 Telemetry Strategy + §11 Logs.
+- No OTel SDK, exporter, `tracing-opentelemetry`, or `traceparent` introduced to carry these spans; no self-obs OTLP to `:4317` or `:4318` — obs-plan §11 Telemetry Strategy, Spans/Traces, Universal.
+
+## Contract bindings
+- **obs ↔ tests harness:** the self-obs line format (including the span-lifecycle variant these spans emit) is owned by test-plan §3; obs-plan §3 aligns to it, not vice versa. Any change to line shape is a two-sided change.
+- **obs ↔ CI gate:** obs-plan §9 requires the `logs/agent-latest.jsonl` conformance gate to validate the §3 self-obs base-line schema (not the §6 run-report envelope) and to reject absolute host-file paths on any field — the new span lines pass through that gate.
+- **obs ↔ security (logging):** the field-name allowlist + value scrub in `conductor-core::redact` is the shared guard (obs-plan §11 PII Scrubbing / Logs); adding attribute names to the allowlist is an edit to that shared surface.
+- **obs ↔ arch/timeline determinism:** obs-plan §1 (conductor-timeline row) requires instrumentation spans to use wall-clock stamps and to not perturb the `current_thread` seeded ordering.
+
+## Acceptance criteria contributions
+- All three fault spans appear in `logs/agent-latest.jsonl` as span-lifecycle lines (`span_event: new` then `close`) with `parent` resolving beneath `timeline.execute`, and their specified attributes present on the `new` line (per obs-plan §4 Fault-injection spans + §3 Log format JSON schema / two record shapes).
+- Every fault span attribute name (`fault_type`, `fault_duration_ms`, `fault_start_offset_ms`, `ramp_factor`, `port`) is present in `conductor-core::redact::ALLOWLISTED_FIELDS`, verified by an emitted line actually carrying the value rather than silently dropping it (per obs-plan §4 Required-span-attributes constraint + §11 PII Scrubbing).
+- No span name outside the bounded set is introduced, and every fault span closes on fault release with no dangling span (per obs-plan §11 Spans/Traces).
+- `logs/agent-latest.jsonl` still passes the §9 log-conformance gate after the new lines: base schema on every line, no absolute host-file paths, no unstructured panic lines (per obs-plan §9 Log conformance check + Zero-unlogged-panics gate).
+
+## Relevant amendment history
+- **2026-08-10-scenario-run-root-span-tree — self-obs span-lifecycle variant recorded (§3).** Directly load-bearing: before that chunk the custom layer implemented only `on_event`, so no span emitted anything at all; this chunk's spans are visible only via the `new`/`close` variant and only for allowlisted attributes recorded at open.
+- **2026-08-10-scenario-run-root-span-tree — root cleanup no longer claims report-seam spans as descendants (§4).** Precedent for what to do when the code graph disproves a spec'd parentage claim: record the real relation and correlate by `run_id`. Relevant to the scope's inferred finding that fault phases may not execute where the spans were assumed to live.
+- **2026-08-13-per-check-read-back-extraction — allowlist constraint added to §4's Required-span-attributes heading.** Its precipitating failure was exactly this chunk's hazard: two spec'd attribute names were not in `ALLOWLISTED_FIELDS`, so a built attribute would have emitted nothing. Also retired attributes describing calls the code cannot make.
+- **2026-08-16-canary-fingerprint-derivation-aligned — a required span attribute whose value is not computable is uninstrumentable as written (§4).** Precedent that applies straight to the scope's `[inferred]` `ramp_factor` gap (spec names a 0.0–1.0 float; shipped shape carries `from_rate`/`to_rate`/`windows`): derivation must be defined and the plan amended, not guessed.
+- **2026-08-14-canary-fingerprint-feed-capture — witness at `debug` on the allowlisted `message` field; additive `RUST_LOG=info,{crate}=debug` form (§3/§6/§11).** Supplies both the fallback carrier for any un-allowlistable value and the measured correction governing how `conductor-faults`' opt-in level must be set.
+- **2026-06-18-severity-logs — `emit.logs_batch` added to the bounded span-name set (§11).** Precedent for admitting a conforming span name; note the three fault names are already reserved in that set, so this chunk should require no §11 amendment.
+- **2026-06-15-log-error-boundary-redaction — redaction model reconciled to the implemented `conductor-core::redact` (§6/§11).** Establishes that the field-name allowlist (not `::`-token redaction) is the struct-name guard and that it is the single-location owner any new attribute name must go through.

@@ -8,6 +8,7 @@
 //! typed [`FaultError`], never a panic.
 
 use std::net::{Ipv4Addr, SocketAddr, TcpListener};
+use std::time::Instant;
 
 use crate::error::FaultError;
 
@@ -20,6 +21,9 @@ pub const OTLP_INGEST_PORT: u16 = 4317;
 pub struct PortOccupier {
     addr: SocketAddr,
     listener: Option<TcpListener>,
+    /// The `fault.port_occupier` span, open for exactly as long as the bind is held (obs-plan §4).
+    span: Option<tracing::Span>,
+    held_since: Instant,
 }
 
 impl PortOccupier {
@@ -33,9 +37,18 @@ impl PortOccupier {
         let addr = listener
             .local_addr()
             .map_err(|source| FaultError::Bind { addr: requested, source })?;
+        // Created, never entered — the span brackets the hold in the self-obs stream; only the two
+        // values knowable at bind time ride it (obs-plan §4; the layer records attributes on `new`).
+        let span = tracing::info_span!(
+            "fault.port_occupier",
+            fault_type = "port_occupier",
+            port = addr.port()
+        );
         Ok(Self {
             addr,
             listener: Some(listener),
+            span: Some(span),
+            held_since: Instant::now(),
         })
     }
 
@@ -50,8 +63,16 @@ impl PortOccupier {
     }
 
     /// Release the port by dropping the held socket. Idempotent — a second call is a no-op.
+    ///
+    /// The realized hold rides the allowlisted `message` field rather than a span attribute: it is
+    /// knowable only here, and the subscriber records span attributes on `new` alone (obs-plan §6).
     pub fn release(&mut self) {
         self.listener = None;
+        if let Some(span) = self.span.take() {
+            span.in_scope(|| {
+                tracing::debug!("port occupier released after {}ms", self.held_since.elapsed().as_millis());
+            });
+        }
     }
 }
 

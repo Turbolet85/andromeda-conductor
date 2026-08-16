@@ -622,6 +622,72 @@ mod tests {
         assert_eq!(new["seed"], Value::from(7u64));
     }
 
+    /// Every fault-span attribute obs-plan §4 names must survive the allowlist on the `new` line.
+    /// The hazard is silent: a name the allowlist omits is dropped with no error, so a producer
+    /// asserting only that the span exists would pass while emitting nothing.
+    #[test]
+    fn the_fault_spans_carry_their_specified_attributes_past_the_allowlist() {
+        let buf = capture(fixed_identity("RUN-FAULT"), || {
+            let silence = tracing::info_span!(
+                "fault.silence",
+                fault_type = "silence",
+                fault_duration_ms = 35_000u64,
+                fault_start_offset_ms = 12_010u64
+            );
+            let _silence = silence.enter();
+            drop(_silence);
+            let ramp = tracing::info_span!(
+                "fault.ramp",
+                fault_type = "ramp",
+                fault_duration_ms = 30_000u64,
+                fault_start_offset_ms = 47_020u64,
+                ramp_factor = 0.9f64
+            );
+            let _ramp = ramp.enter();
+            drop(_ramp);
+            let occupier = tracing::info_span!(
+                "fault.port_occupier",
+                fault_type = "port_occupier",
+                port = 4317u64
+            );
+            let _occupier = occupier.enter();
+        });
+        let lines = buf.lines();
+
+        let silence = span_record(&lines, "fault.silence", "new");
+        assert_eq!(silence["fault_type"], Value::from("silence"));
+        assert_eq!(silence["fault_duration_ms"], Value::from(35_000u64));
+        assert_eq!(silence["fault_start_offset_ms"], Value::from(12_010u64));
+
+        let ramp = span_record(&lines, "fault.ramp", "new");
+        assert_eq!(ramp["ramp_factor"], Value::from(0.9f64));
+        assert_eq!(ramp["fault_duration_ms"], Value::from(30_000u64));
+
+        let occupier = span_record(&lines, "fault.port_occupier", "new");
+        assert_eq!(occupier["port"], Value::from(4317u64));
+
+        // Every opened fault span closes on release — no dangling spans (obs-plan §11).
+        for span in ["fault.silence", "fault.ramp", "fault.port_occupier"] {
+            span_record(&lines, span, "close");
+        }
+    }
+
+    #[test]
+    fn a_non_allowlisted_fault_attribute_is_still_dropped() {
+        let buf = capture(fixed_identity("RUN-FAULT-DROP"), || {
+            let span = tracing::info_span!(
+                "fault.silence",
+                fault_type = "silence",
+                fault_reason = "C:\\Users\\turbo\\corpus.db"
+            );
+            let _entered = span.enter();
+        });
+        let lines = buf.lines();
+        let new = span_record(&lines, "fault.silence", "new");
+        assert!(!new.contains_key("fault_reason"), "the allowlist admits exactly the named five");
+        assert_eq!(new["fault_type"], Value::from("silence"));
+    }
+
     #[test]
     fn a_host_path_in_a_span_attribute_is_redacted() {
         let buf = capture(fixed_identity("RUN-SPAN-REDACT"), || {

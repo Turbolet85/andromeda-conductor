@@ -31,7 +31,7 @@ handled via boundary instrumentation only._
 | **conductor-core** | Workspace / Modules | Instrumentable | Runtime-agnostic library for scenario execution; produces emission journal and report state; all telemetry sinks controlled by caller (CLI or Tauri) |
 | **conductor-timeline** | Workspace / Modules + Stack (tokio 1.48.x `current_thread` flavor) | Instrumentable | Deterministic seeded phase scheduler; tokio `current_thread` runtime ensures emission ordering is seed-deterministic; instrumentation spans must use wall-clock (`std::time::SystemTime`/`Instant`) not tokio's virtual clock |
 | **conductor-emit** | Workspace / Modules + Stack (opentelemetry-proto 0.32.0, tonic 0.14.6) | Instrumentable | Raw OTLP message construction and gRPC egress to `127.0.0.1:4317`; byte-level fault control for fingerprint identity; instrumentation of outbound gRPC call only (the boundary is the emission itself, not Pulse-side receipt) |
-| **conductor-faults** | Workspace / Modules | Instrumentable | Fault-injection helpers (ramps, silence, port-occupier, fingerprint generation); telemetry surfaces as spans around each fault application phase |
+| **conductor-faults** | Workspace / Modules | Instrumentable | Fault-injection helpers (ramps, silence, port-occupier, fingerprint generation); telemetry surfaces as `fault.port_occupier` around this crate's own RAII hold. The declarative silence/ramp faults are instrumented from `conductor-run`'s per-phase hook, not here — see §4 Fault-injection spans |
 | **conductor-verify** | Workspace / Modules + Standard Contracts (MCP preflight readiness gate + OTLP egress check) | Boundary-only | MCP read-back client via rmcp 1.7.0; version negotiation and tool presence check are boundary calls to Pulse's MCP server; Pulse-side state untraced (Conductor observes the read-back response, not Pulse's internals) |
 | **conductor-report** | Workspace / Modules + Standard Contracts (Run report envelope) | Instrumentable | JSONL journal per-run emission stream; Markdown run report generation; rusqlite synchronous embedded SQLite (`runs.db`) for run-metadata; instrumentation of journal write, report render, DB insert operations |
 | **conductor-cli** | Workspace / Modules + Design System (cli surface) | Instrumentable | `agent-run` binary entry point; `#[tokio::main(flavor="current_thread")]` CLI bootstrap with anyhow error bridging; CLI argument parsing (clap) and structured output to stdout/stderr |
@@ -142,7 +142,7 @@ handled via boundary instrumentation only._
 | **logging-sensitive** (none enumerated in security plan §2) | Security Plan Excerpt §2 "No logging-sensitive vectors enumerated" | N/A (Minimal tier: no PII, no credentials, no payment data in Conductor's domain; only self-generated synthetic telemetry classified Low) |
 | **compliance-audit-trail** (not applicable) | Security Tier = Minimal (single-developer, local-only, no compliance requirements) | N/A |
 | **perf-budget-instruments** | Creator Brief §6 "SLOs are Pulse's, measured journal-relative" + Tests excerpt §5 SLO tiers ("<5s / <20s / <90s") | OTel histogram for `scenario.latency_ms` bucketed per `slo_tier` ("P-XXX < 5s", "< 20s", "< 90s"); per-run `latency_ms` field in JSONL log (computed: `read_back_observed_at - journal_emitted_at` in wall-clock milliseconds); no metrics backend (Minimal tier) — histogram bucketing is optional; SLO enforcement is JSON field assertion at report-generation time |
-| **chaos-instrumentation** | Tests excerpt §5 Coverage Triggers "chaos-test / fault-injection" + Stack (conductor-faults module) | Fault-injection span per fault application: `fault.silence` (network silence window), `fault.ramp` (emission rate ramp), `fault.port_occupier` (port occupation for gRPC connectivity check); span attributes: `fault_type`, `fault_duration_ms`, `fault_start_offset_ms` (journal offset) |
+| **chaos-instrumentation** | Tests excerpt §5 Coverage Triggers "chaos-test / fault-injection" + Stack (conductor-faults module) | Fault-injection span per fault application: `fault.silence` (network silence window), `fault.ramp` (emission rate ramp), `fault.port_occupier` (port occupation for gRPC connectivity check); span attributes: `fault_type` on all three, plus `fault_duration_ms` + `fault_start_offset_ms` (journal offset) on the run-path silence/ramp spans, `ramp_factor` on the ramp, and `port` on the occupier (which carries neither duration nor offset at open) — per-span sets in §4 Fault-injection spans |
 | **cross-surface-parity (NOT trace propagation)** | Design System Excerpt §3 (desktop-webview + cli surfaces) + Tests excerpt §5 Critical Path 7 ("Both-surface parity") | parity is the `runs.db` envelope comparison (same seed ⇒ same verdict/state/seed across the two surfaces) — NOT a W3C trace correlation; no OTel SDK, no `traceparent`; each surface tags its JSON lines with `run_id`, and the two runs are matched by `(scenario, seed)` |
 | **multi-platform-exporter-compat** | Design System Excerpt §3 surfaces (Windows/macOS/Linux on both cli and desktop-webview) | CLI exporter: stdout + file `logs/agent-latest.jsonl` (platform-agnostic POSIX path, relative to `CONDUCTOR_RUNS_DIR`); Tauri desktop exporter: same backend + browser console (frontend); no platform-specific crash reporter (Minimal tier; Sentry/Crashlytics integration deferred to Phase 3 if escalated) |
 | **error-budget-SLO** (Minimal tier: zero-unlogged-panics only) | Tests excerpt §5 Quality Gates "Zero-flakiness statement" + Creator Brief §6 Rigor Hints "determinism hard quality bar" | `std::panic::set_hook()` capture: if panic occurs, emit structured error log with backtrace (if available) and context; convert panic to `anyhow::Error` at binary edge (CLI: exit code 1 + sanitized error to stderr; Tauri: error dialog + return error to command handler) |
@@ -376,21 +376,21 @@ Downstream skills (route, setup-project) derive:
 - **Required log fields:** `run_id` (per-surface; the two runs are matched by `(scenario, seed)`, NOT by a shared trace), `seed`, `scenario`, `p_ids`, `verdict`, `state`, `latency_ms`, `slo_tier` — parity = identical `verdict`/`state` for the same seed across both surfaces
 - **Cleanup:** CLI root closes on CLI run completion; Tauri command handler root closes on IPC response return; both paths' scenario spans close after report generation; both write to `runs.db` with identical envelope (seed + verdict + state)
 
-#### Fault-injection spans (conductor-faults — chaos-instrumentation trigger, obs-scope §5)
+#### Fault-injection spans (chaos-instrumentation trigger, obs-scope §5)
 
 Bounded "typical/high" profiles ONLY (P-060 SLO checks); explicitly NOT saturation (50k+ spans/sec).
 
 - **Fault.silence span** (network silence window)
-  - Attributes: `fault_type` = "silence", `fault_duration_ms` (integer), `fault_start_offset_ms` (journal offset)
+  - Attributes: `fault_type` = "silence", `fault_duration_ms` (integer — the phase's effective jittered gap, known at span open), `fault_start_offset_ms` (journal offset)
   - Timing: gated by `tokio::time` under `current_thread` runtime for seed-reproducibility
 - **Fault.ramp span** (emission rate ramp)
-  - Attributes: `fault_type` = "ramp", `fault_duration_ms`, `fault_start_offset_ms`, `ramp_factor` (float: 0.0-1.0)
+  - Attributes: `fault_type` = "ramp", `fault_duration_ms`, `fault_start_offset_ms`, `ramp_factor` (float, **−1.0..1.0**) — the normalized SIGNED slope `(to_rate − from_rate) / max(from_rate, to_rate)` over `EmissionShape::Ramp`'s integer `from_rate`/`to_rate`, so direction rides in the value (a rise and a fall of equal steepness are distinguishable). The shape carries no 0.0–1.0 quantity for this attribute to have been.
   - Timing: gated by `tokio::time`
 - **Fault.port_occupier span** (port occupation for gRPC connectivity check)
-  - Attributes: `fault_type` = "port_occupier", `fault_duration_ms`, `fault_start_offset_ms`, `port` (integer: 4317 for loopback)
-  - Timing: gated by `tokio::time`
+  - Attributes: `fault_type` = "port_occupier", `port` (integer: 4317 for loopback) — **these two only**. Neither `fault_duration_ms` nor `fault_start_offset_ms` is knowable when the bind is taken (the hold has no declared window and there is no journal basis at that site), and the layer records span attributes on the `new` record alone, so the realized hold is witnessed on the allowlisted `message` field at `debug` when the RAII guard releases.
+  - Timing: RAII — the span opens at `occupy()` and closes at `release()`/`Drop`.
 
-Each fault span wraps the fault application phase in conductor-faults; spans are children of the `timeline.execute` span for the scenario. Fault spans close on fault release (duration expiry).
+**Where each span opens** (measured 2026-08-16): the run-path faults are DECLARATIVE phase data, not calls into `conductor-faults` — silence is `EmissionSpec { occurrences: 0 }` and ramp is `EmissionShape::Ramp`. So `fault.silence` and `fault.ramp` open from a caller-supplied per-phase hook (`conductor-timeline`'s `run_timeline_observed` / `PhaseWindow`, with `conductor-run` supplying the fault semantics and the `std::time` journal basis), and they are **created but not entered** — entering would re-parent every `emit.batch` raised in that phase onto the fault span, which Critical Path 1 nests beneath `timeline.execute`. Both are children of `timeline.execute` and close at the phase boundary. `fault.port_occupier` is the one span that opens inside `conductor-faults`, at its RAII bind site; **its `timeline.execute` parentage is CONDITIONAL** — no run path applies the occupier today, so it currently opens parentless (the driver is owned by the connection-lifecycle live-proof entry, `verification-matrix.json#v2-15`).
 
 ---
 
@@ -467,9 +467,11 @@ Additional scenario-specific fields (per obs-scope Section 4 must-trace paths):
 |-------|----------|
 | `error` | Panic capture + unrecoverable harness faults (e.g., MCP protocol mismatch, tonic gRPC connection refused) |
 | `warn` | Recoverable errors (e.g., MCP call timeout, degraded-mode response) |
-| `info` | Boundary call summaries (emit batch flush, verify readback completion, report generation) + state transitions (run start, verdict classification) + redaction warnings |
-| `debug` | Internal control flow (timeline phase scheduling, fault application) |
+| `info` | Boundary call summaries (emit batch flush, verify readback completion, report generation) + state transitions (run start, verdict classification) + redaction warnings + **fault-span lifecycle** (`fault.silence` / `fault.ramp` / `fault.port_occupier` open+close) |
+| `debug` | Internal control flow (timeline phase scheduling); the port-occupier's realized-hold witness at release |
 | `trace` | Per-record processing detail (individual span events) |
+
+**Why fault-span lifecycle is `info`, not `debug`** (measured 2026-08-16): the three fault spans are siblings of `scenario.run` / `timeline.execute` / `emit.batch`, all of which are `info` via `#[tracing::instrument]`; at `debug` they are invisible under the subscriber's default INFO filter, so a fault phase would leave no trace without a `RUST_LOG` opt-in. One span per phase is not a hot path, so §11's `no-info-in-hot-path` ban is unaffected — the ban targets per-record inner loops, which is what `trace` is for. Fault APPLICATION detail (the realized hold) stays `debug`.
 
 **Per-module log levels:**
 

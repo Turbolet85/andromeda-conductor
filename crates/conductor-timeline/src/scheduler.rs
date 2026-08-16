@@ -36,6 +36,21 @@ pub enum TimelineError {
     },
 }
 
+/// A phase's window, handed to the phase observer as the phase opens.
+///
+/// Carries the phase's ordinal, its label, and the *effective* (jittered) gap it will occupy — the
+/// declared window, known before the phase's first sleep. The caller decides what, if anything, that
+/// means; the scheduler stays shape-blind (see [`Phase`](crate::Phase)).
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct PhaseWindow<'a> {
+    /// Zero-based ordinal of the phase within the timeline.
+    pub index: usize,
+    /// The phase's stable label.
+    pub name: &'a str,
+    /// The seed-jittered gap this phase will occupy.
+    pub gap: Duration,
+}
+
 /// Where in the timeline an emission falls — handed to the hook so a caller can look up the phase's
 /// declared shape without the scheduler ever knowing what a shape is.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -66,22 +81,46 @@ pub async fn run_timeline(
 /// This is what lets a windowed SUT detector (an N-in-30s storm cue, a 20s silence floor) observe
 /// the shape the scenario declares. A phase declaring zero emissions simply sleeps its gap.
 ///
-/// Total elapsed time per phase is exactly the jittered gap either way, and the seeded draw sequence
-/// is one per phase as before, so the transition stream is unchanged by the emission count.
+/// The reported `PhaseTransition` stream is unchanged by the emission count: each phase's boundary
+/// still lands at the cumulative jittered gap, and the seeded draw sequence is still one per phase.
+/// (Clock CONSUMPTION differs — `tokio::time` rounds each sub-millisecond slice up to its 1ms tick
+/// and the excess carries forward, bounded per phase by
+/// `tests/pacing.rs::each_phase_last_emission_sits_on_its_boundary_within_timer_resolution`.)
 /// `on_emit`'s error becomes [`TimelineError::Emission`]; the scheduler gains no emit dependency.
-#[tracing::instrument(
-    name = "timeline.execute",
-    skip(timeline, on_emit),
-    fields(phase_count = timeline.phases.len(), emission_count = timeline.total_emissions())
-)]
 pub async fn run_timeline_with<F, E>(
     timeline: &PhaseTimeline,
     seed: u64,
+    on_emit: F,
+) -> Result<Vec<PhaseTransition>, TimelineError>
+where
+    F: AsyncFnMut(EmissionPoint) -> Result<(), E>,
+    E: std::error::Error + Send + Sync + 'static,
+{
+    run_timeline_observed(timeline, seed, |_| (), on_emit).await
+}
+
+/// Sequence `timeline` as [`run_timeline_with`] does, additionally calling `on_phase` as each phase
+/// opens and holding its return value for that phase's duration.
+///
+/// The observer receives the phase's [`PhaseWindow`] and returns any value; the scheduler keeps it
+/// alive until the phase's boundary and drops it there. That value is opaque here — the scheduler
+/// owns timing, so what a phase MEANS (a fault window, a quiet stretch) stays the caller's, and the
+/// caller supplies any wall-clock basis of its own.
+#[tracing::instrument(
+    name = "timeline.execute",
+    skip(timeline, on_phase, on_emit),
+    fields(phase_count = timeline.phases.len(), emission_count = timeline.total_emissions())
+)]
+pub async fn run_timeline_observed<'t, F, E, O, G>(
+    timeline: &'t PhaseTimeline,
+    seed: u64,
+    mut on_phase: O,
     mut on_emit: F,
 ) -> Result<Vec<PhaseTransition>, TimelineError>
 where
     F: AsyncFnMut(EmissionPoint) -> Result<(), E>,
     E: std::error::Error + Send + Sync + 'static,
+    O: FnMut(PhaseWindow<'t>) -> G,
 {
     if timeline.phases.is_empty() {
         return Err(TimelineError::EmptyTimeline);
@@ -94,6 +133,7 @@ where
 
     for (index, phase) in timeline.phases.iter().enumerate() {
         let effective = jittered_gap(phase.gap, bound_ms, &mut rng);
+        let held = on_phase(PhaseWindow { index, name: &phase.name, gap: effective });
         for (slice, occurrence) in paced_slices(effective, phase.emissions) {
             tokio::time::sleep(slice).await;
             if let Some(occurrence) = occurrence {
@@ -105,6 +145,7 @@ where
                     })?;
             }
         }
+        drop(held);
         elapsed = elapsed.saturating_add(effective);
         transitions.push(PhaseTransition {
             index,

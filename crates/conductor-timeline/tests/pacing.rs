@@ -10,7 +10,8 @@ use std::time::Duration;
 
 use conductor_core::Scenario;
 use conductor_timeline::{
-    EmissionPoint, Phase, PhaseTimeline, TimelineError, run_timeline, run_timeline_with,
+    EmissionPoint, Phase, PhaseTimeline, TimelineError, run_timeline, run_timeline_observed,
+    run_timeline_with,
 };
 use proptest::prelude::*;
 
@@ -188,6 +189,92 @@ async fn fixture_emission_stream_is_frozen_at_an_alternate_seed() {
     // shape (the pairing `replay.rs` established for the transition stream).
     let (tl, _) = fixture_timeline();
     insta::assert_debug_snapshot!("fixture_emission_stream_seed_7", stamped(&tl, 7).await);
+}
+
+/// The phase observer fires once per phase, in order, INCLUDING a phase that declares no emissions —
+/// the case `on_emit` can never reach, and the whole reason the hook exists (obs-plan §4).
+#[tokio::test(flavor = "current_thread", start_paused = true)]
+async fn the_phase_observer_fires_once_per_phase_including_a_silent_one() {
+    let tl = timeline(vec![
+        Phase::emitting("storm", Duration::from_secs(2), 3),
+        Phase::emitting("quiet", Duration::from_secs(1), 0),
+        Phase::emitting("resume", Duration::from_secs(1), 2),
+    ]);
+    let seen = std::cell::RefCell::new(Vec::new());
+
+    run_timeline_observed(
+        &tl,
+        7,
+        |window| seen.borrow_mut().push((window.index, window.name.to_string(), window.gap)),
+        async |_: EmissionPoint| Ok::<(), HookRefused>(()),
+    )
+    .await
+    .expect("non-empty timeline");
+
+    let observed = seen.into_inner();
+    assert_eq!(
+        observed,
+        vec![
+            (0, "storm".to_string(), Duration::from_secs(2)),
+            (1, "quiet".to_string(), Duration::from_secs(1)),
+            (2, "resume".to_string(), Duration::from_secs(1)),
+        ],
+        "one call per phase, in declared order, carrying the effective gap"
+    );
+}
+
+/// The observer's value is held for exactly its phase: dropped before the NEXT phase opens, so a
+/// span it returns brackets that phase's window rather than outliving it (obs-plan §11: no dangling).
+#[tokio::test(flavor = "current_thread", start_paused = true)]
+async fn the_observed_value_is_dropped_at_its_own_phase_boundary() {
+    let events = std::rc::Rc::new(std::cell::RefCell::new(Vec::new()));
+
+    struct Guard(usize, std::rc::Rc<std::cell::RefCell<Vec<String>>>);
+    impl Drop for Guard {
+        fn drop(&mut self) {
+            self.1.borrow_mut().push(format!("drop {}", self.0));
+        }
+    }
+
+    let tl = timeline(vec![
+        Phase::emitting("a", Duration::from_secs(1), 1),
+        Phase::emitting("b", Duration::from_secs(1), 0),
+    ]);
+    let log = std::rc::Rc::clone(&events);
+    run_timeline_observed(
+        &tl,
+        7,
+        |window| {
+            log.borrow_mut().push(format!("open {}", window.index));
+            Guard(window.index, std::rc::Rc::clone(&log))
+        },
+        async |_: EmissionPoint| Ok::<(), HookRefused>(()),
+    )
+    .await
+    .expect("non-empty timeline");
+
+    assert_eq!(
+        events.borrow().as_slice(),
+        ["open 0", "drop 0", "open 1", "drop 1"],
+        "each phase's value closes before the next opens"
+    );
+}
+
+/// The observing form leaves the transition stream identical to the plain one — instrumentation
+/// must not move a boundary (test-plan §7 goldens; architecture §Determinism discipline).
+#[tokio::test(flavor = "current_thread", start_paused = true)]
+async fn observing_does_not_move_the_transition_stream() {
+    let (tl, seed) = fixture_timeline();
+    let plain = run_timeline(&tl, seed).await.expect("non-empty timeline");
+    let observed = run_timeline_observed(
+        &tl,
+        seed,
+        |window| window.index,
+        async |_: EmissionPoint| Ok::<(), HookRefused>(()),
+    )
+    .await
+    .expect("non-empty timeline");
+    assert_eq!(plain, observed);
 }
 
 proptest! {

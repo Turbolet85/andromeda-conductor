@@ -43,6 +43,12 @@ const ALLOWLISTED_FIELDS: &[&str] = &[
     "emission_count",
     "record_count",
     "mcp_tool",
+    // fault-application span attributes (obs-plan §4 Fault-injection spans)
+    "fault_type",
+    "fault_duration_ms",
+    "fault_start_offset_ms",
+    "ramp_factor",
+    "port",
     // reserved Run-report envelope fields (obs-plan §6; emitted by the Epoch-6 writers)
     "journal_emitted_at",
     "read_back_observed_at",

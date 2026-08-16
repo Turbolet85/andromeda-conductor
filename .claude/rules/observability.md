@@ -22,6 +22,7 @@ Path-scoped rules for self-observation (structured logging) across the seam crat
 
 ## Spans (plain `tracing`, rendered as JSON events — no exported traces)
 - Bounded span-name set: `scenario.run`, `timeline.execute*`, `emit.batch`, `emit.logs_batch`, `verify.readback*`, `report.generate`, `db.insert_run`, `fault.{silence,ramp,port_occupier}`, `tauri.command.*`. Never high-cardinality span names (per-user/per-trace/per-input).
+- **Fault spans open where the fault actually is, at `info` like every sibling span** (obs-plan §4): `fault.silence`/`fault.ramp` come from `conductor-timeline`'s per-phase observer hook (`run_timeline_observed`/`PhaseWindow`) with `conductor-run` supplying the fault semantics and the `std::time` journal basis — silence and ramp are declarative phase data, NOT calls into `conductor-faults`. Create them, never ENTER them: entering re-parents that phase's `emit.batch` onto the fault span. `fault.port_occupier` is the one that lives in `conductor-faults` (RAII: opens at `occupy()`, closes at `release()`/`Drop`), carries `fault_type` + `port` only, and has no `timeline.execute` parent until a driver applies it.
 - Cover the 7 must-trace critical paths (obs-plan §4); close every span at its phase boundary; instrument MCP read-back / rusqlite / tonic egress with a manual client span (these seams aren't auto-instrumented).
 
 ## Redaction & panics
