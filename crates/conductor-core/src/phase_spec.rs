@@ -145,10 +145,11 @@ pub enum EmissionShape {
 pub enum FingerprintVariantSpec {
     /// Identical to the base ⇒ same fingerprint.
     Identical,
-    /// Different source path below an unchanged leading segment ⇒ same fingerprint (normalization
-    /// keeps only that segment).
+    /// Different source path below an unchanged leading segment ⇒ different fingerprint —
+    /// normalization preserves a relative path in full, so it is significant at every depth.
     Path,
-    /// Different LEADING path segment ⇒ different fingerprint (the one significant part of a path).
+    /// Different LEADING path segment ⇒ different fingerprint. Differs from [`Self::Path`] only in
+    /// where the path changes.
     RelativePath,
     /// Different source line ⇒ same fingerprint (line-insensitive).
     Line,

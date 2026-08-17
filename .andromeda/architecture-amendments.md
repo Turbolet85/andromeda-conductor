@@ -322,3 +322,24 @@ false — base normalized to `at fn (src)`, the absolute variant to `at fn ()`. 
 `andromeda-pulse crates/buffer/src/fingerprint.rs:139-218` at HEAD `d090314`, so this is the SUT's semantics,
 not a transcription drift; pinned by `exception.rs::only_the_leading_path_segment_reaches_the_preimage`. The
 prior entry is left as written (sidecars are append-only) — this entry is the supersession record.
+
+## 2026-08-17-fingerprint-semantics-token-leading — P-017 narrowings 2 → 1; normalization is token-leading
+**Section:** §Established Decisions [Read-Back Dependency Posture]
+**Change:** the leading-path-segment narrowing is RETIRED and the clause now states TOKEN-LEADING
+normalization — `is_absolute_path_start` guarded by `is_token_boundary`, so a relative path is preserved in
+full and is identity-significant at EVERY depth (`src/worker.rs`, `src/anything/else.rs`, `other/worker.rs`
+are three distinct identities) while a token-leading absolute path is stripped to nothing
+(`at handler(/usr/lib/thing.rs:10)` → `at handler()`), which differs from every surviving relative path. The
+insensitive axes are named as LINE and HEX ADDRESSES. The first-`NORMALIZED_FRAMES = 3` narrowing survives,
+so the count goes two → one. The pin moves from the retired
+`exception.rs::only_the_leading_path_segment_reaches_the_preimage` to
+`::relative_paths_are_significant_at_every_depth` + `::token_leading_absolute_paths_normalize_to_the_same_empty_form`.
+The transcription citations are de-literalized to function names and re-based from HEAD `d090314` to `efabe8e`.
+**Why:** the SUT changed its normalization between the two HEADs, so the wording recorded at
+`2026-08-16-fingerprint-storm-live-proof` (immediately below) measured FALSE at `efabe8e` — evidence: Pulse's
+own `compute_differs_for_relative_paths_differing_below_leading_segment`,
+`normalize_stacktrace_preserves_relative_paths_in_full` and `normalize_stacktrace_strips_only_absolute_paths`,
+reproduced Conductor-side by the new pinning tests. The consequence the clause now records is the one nothing
+in this repo could have caught: because Conductor had transcribed the PRE-guard scanner, its `fingerprint()`
+was returning a different value than Pulse's for every slash-bearing path — including the committed base
+fixture — and every gate stayed green over it, because they assert Conductor against Conductor.

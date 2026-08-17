@@ -5,18 +5,19 @@
 # P-017 / P-018 / P-074 — Exception Fingerprinting + Retry Storm Detection + Tier-1 incident path
 # (pulse-capability-spec.md §P-017 / §P-018 / §P-074). Pattern-recognition family: one storm timeline.
 #   P-017 fingerprint — blake3 over exception.type + NUL + the normalized stacktrace, truncated to 16
-#     bytes (Pulse's own derivation, recomputed in conductor-emit). Two narrowings measured against the
-#     SUT, both narrower than the amended clause (c): only the first 3 normalized frames contribute,
-#     and of a frame's path only its LEADING SEGMENT does — normalization strips everything from the
-#     first `/`, so `src/worker.rs` and `src/anything/else.rs` are one identity. Identity is therefore
-#     insensitive to a path below its leading segment and to line, but SENSITIVE to that leading
-#     segment, to type, and to frame function.
+#     bytes (Pulse's own derivation, recomputed in conductor-emit, transcribed at SUT HEAD efabe8e).
+#     Pulse normalizes TOKEN-LEADING: a path token counts as absolute only where a token starts, so a
+#     RELATIVE path survives in full and is significant at EVERY depth (`src/a.rs` and `src/b/c.rs`
+#     are distinct faults), while a token-leading absolute path is stripped to nothing. One narrowing
+#     survives beside it: only the first 3 normalized frames contribute. Identity is therefore
+#     insensitive to LINE alone, and sensitive to path, type and frame function.
 #     P-017 has no direct user signal — it is identifier infrastructure FOR P-018, so it is verified
-#     THROUGH the storm: the identical / path-variant / line-variant triple share ONE fingerprint
-#     BECAUSE the path variant perturbs the path BELOW its leading segment (stripped before hashing)
-#     and the line variant a line (dropped with the `:line` suffix), so a mixed-variant storm counts
-#     toward a SINGLE threshold. Changing the leading segment would NOT — that is `RelativePath`,
-#     asserted at unit tier.
+#     THROUGH the storm: the identical / line-variant PAIR shares ONE fingerprint because the line
+#     variant perturbs only a line (dropped with the `:line(:col)` suffix), so a mixed-variant storm
+#     counts toward a SINGLE threshold. NO path variation can join them — under token-leading a
+#     relative change diverges at any depth and an absolute one normalizes to the empty form, which
+#     differs from every surviving relative path. Both `Path` and `RelativePath` are therefore
+#     different-fingerprint variants, asserted at unit tier.
 #   P-018 storm — the same fingerprint occurring >=5x in a 30s rolling window emits an attention cue
 #     (default hint Suggested); >=10x escalates the default hint to Autonomous. Conductor injects 6
 #     then 12, all one fingerprint: 6 at the first phase boundary clears Suggested, 18 cumulative
@@ -24,7 +25,7 @@
 #     identity, not type identity alone.
 #   P-074 Tier-1 incident path — one sustained single-fingerprint storm coalesces into exactly ONE
 #     incident rather than one per occurrence; asserted live on incident count + freshness.
-# The variant triple is the conductor-emit FingerprintVariant primitive. The per-phase count + variant
+# The variant pair is the conductor-emit FingerprintVariant primitive. The per-phase count + variant
 # mix are DECLARED below (`[phases.emission]`) and paced across the phase's gap by the dispatcher; the
 # phase names restate them for legibility only.
 # Declare-only: the 6->Suggested / 12->Autonomous severity is MODEL-determined (final severity per
@@ -48,11 +49,11 @@ jitter_ms = 50
 
 [[phases]]
 name = "storm-same-fp-6x"
-gap_ms = 12000   # 6 occurrences of the same-fp triple (identical/sub-segment-path/line) -> Suggested
+gap_ms = 12000   # 6 occurrences of the same-fp pair (identical/line) -> Suggested
 [phases.emission]
 kind = "exception"
 occurrences = 6
-variants = ["identical", "path", "line"]
+variants = ["identical", "line"]
 
 [[phases]]
 name = "storm-same-fp-12x"
@@ -60,7 +61,7 @@ gap_ms = 12000   # 12 more of the SAME fingerprint -> 18 cumulative in-window, e
 [phases.emission]
 kind = "exception"
 occurrences = 12
-variants = ["identical", "path", "line"]
+variants = ["identical", "line"]
 
 # P-018 — DECLARE-ONLY, and the reason is structural rather than a deferral.
 #

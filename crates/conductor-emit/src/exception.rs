@@ -1,15 +1,15 @@
-//! Exception span events + path/line-insensitive fingerprint control (P-006, P-017, P-018).
+//! Exception span events + line-insensitive fingerprint control (P-006, P-017, P-018).
 //!
 //! Builds an OTLP trace carrying one error span with an OTel `exception` span event
 //! (`exception.type` / `exception.message` / `exception.stacktrace`), and recomputes the fingerprint
 //! Pulse derives from that exception's content — Pulse's own derivation, over the same preimage the
 //! wire carries, so the expectation predicts how the SUT actually groups exceptions.
 //!
-//! Identity is LINE-insensitive and TYPE/FRAME-sensitive, with two bounds inherited from Pulse's
-//! normalization: only the first [`NORMALIZED_FRAMES`] frames contribute, and of a `file` only the
-//! LEADING PATH SEGMENT does — everything from the first `/` is stripped, so `src/worker.rs` and
-//! `src/anything/else.rs` are one identity while `other/worker.rs` is another. Both narrow the
-//! amended P-017 clause (c), which claimed unqualified path-insensitivity across all frames.
+//! Identity is LINE-insensitive and TYPE/FRAME/PATH-sensitive. Pulse normalizes TOKEN-LEADING: a path
+//! token counts as absolute only where a token starts, so a RELATIVE path is preserved in full and is
+//! significant at every depth (`src/a.rs` and `src/b/c.rs` are distinct faults), while a token-leading
+//! absolute path is stripped to nothing. One bound survives beside it: only the first
+//! [`NORMALIZED_FRAMES`] frames reach the preimage.
 //!
 //! Span identity is seeded ([`crate::span_tree`]'s `ChaCha8Rng` discipline); the fingerprint is a pure
 //! function of content (not the seed) and stable across platforms/versions.
@@ -36,26 +36,14 @@ pub const NORMALIZED_FRAMES: usize = 3;
 /// rendered as 32 lowercase hex chars.
 pub const FINGERPRINT_BYTES: usize = 16;
 
-/// The leading path segment is the ONLY fingerprint-significant part of a `file`.
-///
-/// Measured against Pulse's own `normalize_frame` (byte-identical to the transcription below):
-/// `is_absolute_path_start` fires on ANY `/` followed by a path char — not just a leading one — and
-/// `skip_absolute_path` then consumes the whole path-char run. So `src/worker.rs` normalizes to
-/// `src`, `src/anything/else.rs` normalizes to `src` too, and a leading `/` erases the segment
-/// entirely. Identity therefore turns on the segment before the first `/`, and nothing after it.
-fn leading_path_segment(file: &str) -> &str {
-    file.split('/').next().unwrap_or(file)
-}
-
-/// One synthetic stack frame. `function` is fingerprint-significant, `line` is not, and of `file`
-/// only its leading path segment is — see [`leading_path_segment`].
+/// One synthetic stack frame. `function` and `file` are fingerprint-significant; `line` is not.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Frame {
     /// Fully-qualified function/method signature (fingerprint-significant).
     pub function: String,
-    /// Source file / module path. Only its LEADING SEGMENT is fingerprint-significant — everything
-    /// from the first `/` is stripped by normalization, and a leading `/` erases it entirely.
-    /// Conductor's own frames stay relative (`stacktrace_carries_no_absolute_host_path`).
+    /// Source file / module path, fingerprint-significant at EVERY depth — normalization preserves a
+    /// relative path in full and strips only a TOKEN-LEADING absolute one, to nothing. Conductor's
+    /// own frames stay relative (`stacktrace_carries_no_absolute_host_path`).
     pub file: String,
     /// Source line number (fingerprint-insensitive — normalization drops the `:line(:col)` suffix).
     pub line: u32,
@@ -96,11 +84,12 @@ impl ExceptionSpec {
 pub enum FingerprintVariant {
     /// Identical to the base ⇒ SAME fingerprint.
     Identical,
-    /// Same frames + lines, a different source path per frame BENEATH the same leading segment
-    /// ⇒ SAME fingerprint — normalization keeps only [`leading_path_segment`].
+    /// Same frames + lines, a different source path per frame BELOW its leading segment
+    /// ⇒ DIFFERENT fingerprint — relative path structure is significant at every depth.
     PathVariant,
-    /// Same frames + lines, a different LEADING path segment per frame ⇒ DIFFERENT fingerprint —
-    /// that segment is the one part of a `file` identity retains.
+    /// Same frames + lines, a different LEADING path segment per frame ⇒ DIFFERENT fingerprint.
+    /// Distinct from [`FingerprintVariant::PathVariant`] only in WHERE the path differs; together
+    /// the two witness that identity turns on the whole relative path, not one segment of it.
     RelativePathVariant,
     /// Same frames + paths, different LINE per frame ⇒ SAME fingerprint (line-insensitive).
     LineVariant,
@@ -112,19 +101,18 @@ pub enum FingerprintVariant {
 
 impl FingerprintVariant {
     /// Derive a variant exception from `base` by applying this transformation. The same-fingerprint
-    /// variants perturb only fingerprint-insensitive fields (a path below its leading segment / a
-    /// line); the different-fingerprint variants perturb a significant field (the leading path
-    /// segment / type / frame function).
+    /// variants perturb only a fingerprint-insensitive field (the line); the different-fingerprint
+    /// variants perturb a significant one (any part of the path / the type / a frame function).
     pub fn derive(self, base: &ExceptionSpec) -> ExceptionSpec {
         let mut spec = base.clone();
         match self {
             FingerprintVariant::Identical => {}
-            // Vary the path BENEATH its leading segment: normalization drops everything from the
-            // first `/`, so the preimage is unchanged while the emitted `file` genuinely differs.
-            // Stays relative, so `stacktrace_carries_no_absolute_host_path` still holds.
+            // Vary the path BELOW its leading segment. Both path variants stay relative, so
+            // `stacktrace_carries_no_absolute_host_path` still holds.
             FingerprintVariant::PathVariant => {
                 for (i, frame) in spec.frames.iter_mut().enumerate() {
-                    frame.file = format!("{}/variant_{i}/module.rs", leading_path_segment(&frame.file));
+                    let head = frame.file.split('/').next().unwrap_or(&frame.file).to_owned();
+                    frame.file = format!("{head}/variant_{i}/module.rs");
                 }
             }
             FingerprintVariant::RelativePathVariant => {
@@ -153,13 +141,12 @@ impl FingerprintVariant {
 /// exceptions. blake3 over `exception_type` + a NUL separator + the normalized stacktrace, truncated
 /// to [`FINGERPRINT_BYTES`] and rendered lowercase hex. A pure function of content (not the RNG seed).
 ///
-/// Two identity narrowings follow from the normalization and are deliberate, not incidental: only the
-/// first [`NORMALIZED_FRAMES`] frames contribute, and of a `file` only [`leading_path_segment`] does.
-/// See [`normalize_stacktrace`].
+/// One identity narrowing follows from the normalization and is deliberate, not incidental: only the
+/// first [`NORMALIZED_FRAMES`] frames contribute. See [`normalize_stacktrace`].
 ///
 /// Source of truth: `andromeda-pulse crates/buffer/src/fingerprint.rs`
-/// (`compute_exception_fingerprint`), transcribed — Pulse is the SUT, so its derivation is the fact
-/// and this is the expectation of it.
+/// (`compute_exception_fingerprint`), transcribed at HEAD `efabe8e` — Pulse is the SUT, so its
+/// derivation is the fact and this is the expectation of it.
 pub fn fingerprint(spec: &ExceptionSpec) -> String {
     let mut hasher = blake3::Hasher::new();
     hasher.update(spec.exception_type.as_bytes());
@@ -242,12 +229,12 @@ fn normalize_stacktrace(raw: &str) -> String {
     frames.join("\n")
 }
 
-/// Strip the host-varying parts of one frame line: paths (Unix `/…` or Windows `C:\…`), hex memory
-/// addresses (`0x…`), and `:line(:col)` suffixes.
+/// Strip the host-varying parts of one frame line: TOKEN-LEADING absolute paths (Unix `/…` or
+/// Windows `C:\…`), hex memory addresses (`0x…`), and `:line(:col)` suffixes.
 ///
-/// Note `is_absolute_path_start` fires on ANY `/` followed by a path char, not only a leading one,
-/// so a RELATIVE path is stripped from its first `/` onward and only its leading segment survives —
-/// `src/worker.rs` becomes `src`. Transcribed from Pulse's `normalize_frame`, which is byte-identical.
+/// Only an absolute path is stripped, and only where a token starts (see [`is_token_boundary`]); a
+/// relative path such as `src/worker.rs` is identity-significant and survives in full. Transcribed
+/// from Pulse's `normalize_frame`, which is byte-identical.
 fn normalize_frame(line: &str) -> String {
     let mut out = String::with_capacity(line.len());
     let bytes = line.as_bytes();
@@ -289,7 +276,18 @@ fn skip_hex_address(bytes: &[u8], mut i: usize) -> usize {
     i
 }
 
+/// A path token counts as ABSOLUTE only when it STARTS a token — position 0, or preceded by a
+/// non-path byte. Without this precondition the Unix arm fires on every `/`, and since
+/// [`is_path_char`] admits `/`, [`skip_absolute_path`] then swallows the remainder of the token so
+/// only the leading segment survives, making `src/a.rs` and `src/b/c.rs` one identity.
+fn is_token_boundary(bytes: &[u8], i: usize) -> bool {
+    i == 0 || !is_path_char(bytes[i - 1])
+}
+
 fn is_absolute_path_start(bytes: &[u8], i: usize) -> bool {
+    if !is_token_boundary(bytes, i) {
+        return false;
+    }
     if bytes[i] == b'/' && i + 1 < bytes.len() && is_path_char(bytes[i + 1]) {
         return true;
     }
@@ -382,11 +380,7 @@ mod tests {
     fn same_fingerprint_variants_match_the_base() {
         let b = base();
         let fp = fingerprint(&b);
-        for variant in [
-            FingerprintVariant::Identical,
-            FingerprintVariant::PathVariant,
-            FingerprintVariant::LineVariant,
-        ] {
+        for variant in [FingerprintVariant::Identical, FingerprintVariant::LineVariant] {
             assert_eq!(
                 fingerprint(&variant.derive(&b)),
                 fp,
@@ -395,43 +389,72 @@ mod tests {
         }
     }
 
-    /// A change to the LEADING path segment is a real identity change to the SUT — narrowing the
-    /// amended P-017 clause (c), which claimed unqualified path-insensitivity. `PathVariant` models
-    /// the insensitive half (a change below that segment) above.
+    /// Under token-leading normalization a relative path is preserved in full, so BOTH path variants
+    /// change identity — they differ only in where the path differs, and together they witness that
+    /// the whole relative path is significant, not one segment of it.
     #[test]
-    fn relative_path_is_fingerprint_significant() {
+    fn both_path_variants_are_fingerprint_significant() {
         let b = base();
-        assert_ne!(
-            fingerprint(&FingerprintVariant::RelativePathVariant.derive(&b)),
-            fingerprint(&b)
-        );
-    }
-
-    /// What makes `PathVariant` a same-fingerprint variant: the emitted `file` genuinely differs,
-    /// it keeps the base's leading segment (the only significant part), and it stays RELATIVE so
-    /// `stacktrace_carries_no_absolute_host_path` keeps holding for every scenario that drives it.
-    #[test]
-    fn the_path_variant_differs_below_an_unchanged_leading_segment() {
-        let b = base();
-        let derived = FingerprintVariant::PathVariant.derive(&b);
-        for (before, after) in b.frames.iter().zip(&derived.frames) {
-            assert_ne!(before.file, after.file, "the emitted path must actually change");
-            assert_eq!(leading_path_segment(&before.file), leading_path_segment(&after.file));
-            assert!(!after.file.starts_with('/'), "must stay relative: {}", after.file);
+        let fp = fingerprint(&b);
+        for variant in
+            [FingerprintVariant::PathVariant, FingerprintVariant::RelativePathVariant]
+        {
+            assert_ne!(
+                fingerprint(&variant.derive(&b)),
+                fp,
+                "{variant:?} must change the fingerprint"
+            );
         }
-        let st = string_attr(&exception_trace_request("svc", 7, &derived), "exception.stacktrace");
-        assert!(!st.contains("C:\\") && !st.contains("/Users/") && !st.contains("/home/"), "{st}");
     }
 
-    /// The normalization fact both path variants turn on, pinned directly: identity keeps the
-    /// leading segment and drops everything from the first `/`.
+    /// Both path variants stay RELATIVE, so `stacktrace_carries_no_absolute_host_path` keeps holding
+    /// for every scenario that drives them.
     #[test]
-    fn only_the_leading_path_segment_reaches_the_preimage() {
-        let one = ExceptionSpec::new("E", "m", vec![Frame::new("f", "src/a/deep.rs", 1)]);
-        let two = ExceptionSpec::new("E", "m", vec![Frame::new("f", "src/b/other.rs", 9)]);
-        let three = ExceptionSpec::new("E", "m", vec![Frame::new("f", "other/a/deep.rs", 1)]);
-        assert_eq!(fingerprint(&one), fingerprint(&two));
-        assert_ne!(fingerprint(&one), fingerprint(&three));
+    fn path_variants_emit_a_changed_relative_path() {
+        let b = base();
+        for variant in
+            [FingerprintVariant::PathVariant, FingerprintVariant::RelativePathVariant]
+        {
+            let derived = variant.derive(&b);
+            for (before, after) in b.frames.iter().zip(&derived.frames) {
+                assert_ne!(before.file, after.file, "the emitted path must actually change");
+                assert!(!after.file.starts_with('/'), "must stay relative: {}", after.file);
+            }
+            let st =
+                string_attr(&exception_trace_request("svc", 7, &derived), "exception.stacktrace");
+            assert!(!st.contains("C:\\") && !st.contains("/Users/") && !st.contains("/home/"), "{st}");
+        }
+    }
+
+    /// The normalization fact the redraw turns on, pinned directly against Pulse's own axis tests: a
+    /// relative path is significant at EVERY depth, and a token-leading absolute path is stripped to
+    /// nothing (so it cannot collide with any surviving relative path).
+    #[test]
+    fn relative_paths_are_significant_at_every_depth() {
+        let at = |file: &str| {
+            fingerprint(&ExceptionSpec::new("E", "m", vec![Frame::new("f", file, 1)]))
+        };
+        assert_ne!(at("src/a.rs"), at("src/b/c.rs"), "differing below the leading segment");
+        assert_ne!(at("src/a.rs"), at("other/a.rs"), "differing at the leading segment");
+        assert_ne!(at("src/a.rs"), at("/src/a.rs"), "a token-leading absolute is stripped away");
+    }
+
+    /// A token-leading absolute path normalizes to nothing, so two DIFFERENT absolute paths collapse
+    /// to one identity — the axis Conductor cannot use, because its own frames must stay relative.
+    #[test]
+    fn token_leading_absolute_paths_normalize_to_the_same_empty_form() {
+        assert_eq!(
+            normalize_stacktrace("at handler(/usr/lib/thing.rs:10)"),
+            "at handler()"
+        );
+        assert_eq!(
+            normalize_stacktrace("at handler(C:\\proj\\thing.rs:10)"),
+            "at handler()"
+        );
+        assert_eq!(
+            normalize_stacktrace("at handler(src/b/c.rs:10)"),
+            "at handler(src/b/c.rs)"
+        );
     }
 
     #[test]
