@@ -162,3 +162,8 @@ and the test-only harvest surface, never by a populated envelope array.
 `verify.readback_fingerprints` bullet already recorded `fingerprint_refs` as pinned empty, so the
 Required-log-fields line contradicted the bullet above it and demanded an unsatisfiable field on a must-trace
 path.
+
+## 2026-08-18-error-baseline-spike-live-proof — fingerprints MAY-BE-EMPTY-under-L4 superseded (three sites)
+**Section:** §4 Fingerprint-storm Required log fields · §4 verify.readback_fingerprints bullet · §1 critical-paths table Fingerprint-storm row
+**Change:** "MAY BE EMPTY / pinned `[]` under deterministic L4" retired at all three sites — the fixture's `evidence_refs` now populates `fingerprint_refs` with a constant `det-*` triple (measured 2026-08-18, SUT HEAD `efabe8e`); the emitted-vs-read-back match stays non-computable (payload-invariant fixture constants), `fingerprints_read_back_count` + the harvest surface stay the storm-identity evidence.
+**Why:** Leg A's envelope measured the 3 det-* refs live; the 2026-08-16 amendment's supporting fact (emptiness) is superseded while its conclusion (no identity carrier) stands. Chunk report + leg-verdict.

@@ -57,7 +57,7 @@ The four are **one surface in different run states**, not four routes — the fr
 |  [ Scenario / suite v ]   [ Start ]   [ Stop ]           |     (controls inert behind the focus-trapped dialog)
 +----------------------------------------------------------+
 |  COVERAGE  (manifest set) step 14 HOLD   9 measured       |  <- matrix header echoes frozen step-index in count-hold (signature reinforcement)
-|  ✓ P-009  error-baseline-spike   <5s   1840ms  Pass       |  <- resolved rows keep their verdict lamp + text
+|  ✓ P-009  error-baseline-spike  <90s   1840ms  Pass       |  <- resolved rows keep their verdict lamp + text
 |  ⊙ P-014  restart-suppression    <20s    —     …          |     ⊙ = next-step row about to commit (the gated one)
 | ┌──────────────────────────────────────────────────────┐ |
 | │  HOLD — operator pause                  step 14 · 00:01:47 │  <- dialog (shadcn AlertDialog, color-raised-3, radius-lg)
@@ -78,7 +78,7 @@ The four are **one surface in different run states**, not four routes — the fr
 |  run complete                    00:03:12          _  X  |  <- phase line at rest (Heading) | count settled (Display, count-nominal)
 +==========================================================+
 |  RUN REPORT   run_id 2026-06-14T13-02-… · seed 424242     |  <- card header: run_id (Data, color-id-cyan); border-subtle seam
-|  ✓ P-009  error-baseline-spike  Pass   1840ms  <5s        |  <- verdict line: lamp + label + verdict text + latency_ms(Data) + slo_tier(Data)
+|  ✓ P-009  error-baseline-spike  Pass   1840ms  <90s       |  <- verdict line: lamp + label + verdict text + latency_ms(Data) + slo_tier(Data)
 |  ✓ P-010  baseline-error-rate   Pass   2210ms  <20s       |
 |  ⚠ P-008  root-vs-deep-weight    CalibrationRegion  <20s   |  <- amber lamp + text (count-hold) — never silently a Fail
 |  ✗ P-014  restart-suppression   Fail   4120ms  <5s        |  <- red lamp + text (status-fail), motionless — no flash
@@ -201,7 +201,7 @@ preflight  protocol 2024-11-05  tools 4/4  canary ok        <- readiness line; i
 [HOLD] HOLD — operator pause   step 14 · 00:01:47           <- spinner STOPPED in place; bold ANSI 179 (count-hold map); frozen count as text
 ? Commit next timeline step: restart-suppression? (y/N)     <- inquire confirm (TTY only); headless path skips per non-interactive policy
                                                                signature placement #2 — frozen value printed above the prompt
-✓ P-009  error-baseline-spike  Pass   1840ms <5s            <- verdict line: ✓ + [PASS] + ANSI 114; P-ID/latency/slo in ANSI 117
+✓ P-009  error-baseline-spike  Pass   1840ms <90s           <- verdict line: ✓ + [PASS] + ANSI 114; P-ID/latency/slo in ANSI 117
 ✗ P-014  restart-suppression   Fail   4120ms <5s            <- ✗ + [FAIL] + ANSI 203 (status-fail map), no blink
 ? P-035  pii-scrub             Manual                       <- ? + [MANUAL] + ANSI 146; operator-checklist (TTY: inquire y/n; headless: recorded unconfirmed)
     observe: halo shifted toward burgundy?  ·  no OS toast appeared?
@@ -222,7 +222,7 @@ preflight  protocol 2024-11-05  tools 4/4  canary ok        <- [OK] readiness ga
 
   P-ID    scenario               state      slo    latency  fingerprints   <- comfy-table 6 cols; header row dim; widths from terminal
   ─────────────────────────────────────────────────────────────────────
-  P-009   error-baseline-spike   [PASS]     <5s    1840ms   a3f9c1b…       <- [PASS] ANSI 114; P-ID + latency + fp in ANSI 117
+  P-009   error-baseline-spike   [PASS]    <90s    1840ms   a3f9c1b…       <- [PASS] ANSI 114; P-ID + latency + fp in ANSI 117
   P-008   root-vs-deep-weight    [HOLD]     <20s   2980ms   b2e4d0a…       <- CalibrationRegion → [HOLD] ANSI 179, not a Fail
   P-014   restart-suppression    [FAIL]     <5s    4120ms   c1a3e22…       <- [FAIL] ANSI 203, no blink
   P-035   pii-scrub              [MANUAL]   —      —        —              <- [MANUAL] ANSI 146; operator-checklist (observe halo/toast), no machine verdict
@@ -261,7 +261,7 @@ The **`run` + `suite` per-check table.** `comfy-table` with exactly **6 columns*
 
 Per-P-ID result printed in place, one line each, color always paired with an ASCII prefix:
 
-- `✓ P-009  Pass   1840ms <5s` — `[PASS]`, ANSI 114 (`count-nominal` mapping).
+- `✓ P-009  Pass   1840ms <90s` — `[PASS]`, ANSI 114 (`count-nominal` mapping).
 - `⚠ P-008  CalibrationRegion  <20s` — `[HOLD]`, ANSI 179 (`count-hold` mapping) — the calibration-region bucket, never silently a Fail.
 - `✗ P-014  Fail  4120ms <5s` — `[FAIL]`, ANSI 203 (`status-fail` mapping), **no blink**.
 - `? P-035  Manual  halo→burgundy? · no OS toast?` — `[MANUAL]`, ANSI 146 (neutral lavender) — an operator-checklist item (no programmatic read-back; TTY: `inquire` y/n, headless: recorded unconfirmed), never a machine verdict.

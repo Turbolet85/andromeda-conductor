@@ -41,3 +41,8 @@ _Append-only changelog of amendments to `design-system.md` (the body holds only 
 **Section:** §Color Palette (Residual-mute entry)
 **Change:** The ANSI 246 ↔ `var(--status-residual)` entry now names the recessive tier's non-lamp uses as a SET (the `hint:` stderr label, the out-of-scope Mode cell, and the run-level `[ENVIRONMENT-SUSPECT]` load-envelope caption) rather than a literal count, and records the Markdown counterpart for the new one.
 **Why:** The chunk added a third non-lamp reuse while the body stated "two NON-lamp uses". Named the set rather than substituting a fresh literal that would re-stale on the fourth.
+
+## 2026-08-18-error-baseline-spike-live-proof — cli Pattern 4 sample tier de-literalized
+**Section:** Surface: cli / Component Patterns #4
+**Change:** The `P-009 … 1840ms <5s` sample now renders `<slo_tier>` drawn from the scenario's declared value (closed `<5s`/`<20s`/`<90s` set) — never a baked per-scenario literal.
+**Why:** error-baseline-spike re-declared `<5s` → `<90s` this chunk; placeholder-over-literal per the derived-count rule so the sample cannot re-stale.

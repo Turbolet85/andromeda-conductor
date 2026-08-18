@@ -9,13 +9,19 @@
 #     <10-span/min floor (a service under the floor is excluded from spike detection).
 #   P-010 spike — short-term (30s) error rate >= 3.0x baseline with >= 30s persistence, detection
 #     <2s p99. Recipe: establish baseline over 90s, ramp to 3.5x for 60s.
-# Both checks class="Hard" — baseline math + threshold detection are deterministic; the model-side
-# severity that consumes the cue is P-020 (a later chunk), not asserted here.
-# Coverage mode: drive+observe — candidate detection is auto (MCP read-back); halo hue / constellation dot is operator-checklist.
+# The read-back checks are RETIRED TO DECLARE-ONLY (2026-08-18-error-baseline-spike-live-proof; the
+# v2-11 disposition, settled per surface at SUT HEAD efabe8e) — the live assertions grade at the
+# harvest tier instead: crates/conductor-run/tests/baseline_harvest.rs over Pulse's own
+# `triage.cue.emit` line (kind "error_rate_spike" · priority "suggested" · magnitude >= 3.0 ·
+# confidence >= 0.7 · the P-057 absolute-arm witness suppression_bypassed = true at 0.35 absolute).
+# Coverage mode: drive+observe — candidate detection is auto (harvest tier); halo hue / constellation dot is operator-checklist.
 name = "error-baseline-spike"
 p_ids = ["P-009", "P-010"]
 seed = 424242
-slo_tier = "<5s"   # P-010 detection budget is <2s p99; the <5s tier covers it
+slo_tier = "<90s"  # re-declared from <5s (2026-08-18): whole-run latency_ms spans the 150s emission
+                   # window + read-back and exceeds every tier by construction; <90s is the closest
+                   # honest bucket (the v2-11 precedent). Per-check latency — where P-010's <2s p99
+                   # detection budget would actually be gradeable — is owned by v2-19.
 jitter_ms = 50
 
 [[phases]]
@@ -34,15 +40,17 @@ kind = "error"
 occurrences = 40
 error_percent = 35   # 3.5x the 10% baseline
 
-# P-009 — the error-rate baseline accumulated past its >=10-span/min sample-count floor. A met floor
-# is a hard pass; CountAtLeast routes to the calibration region only when UNMET (verify::slo).
-[[expected]]
-kind = "CountAtLeast"
-class = "Hard"
-expected = "10"
-
-# P-010 — the spike surfaces an ErrorRateSpike candidate (the spec-confirmed candidate type).
-[[expected]]
-kind = "Contains"
-class = "Hard"
-expected = "ErrorRateSpike"
+# DECLARE-ONLY — no [[expected]] blocks. Both prior checks were structurally ungradeable under
+# deterministic L4 and are retired rather than left as a false signal:
+#   CountAtLeast "10" (P-009 floor) graded the observation's evidence count, which reads
+#   retrieve_telemetry_slice.span_refs = Incident.evidence_refs.span_ids — a field no producer ever
+#   populates (Vec::new() at creation), so it read a permanent 0: a forever-CalibrationRegion
+#   measuring nothing about the SUT's sample accounting.
+#   Contains "ErrorRateSpike" (P-010 candidate) graded composed read-back text that cannot carry a
+#   cue kind on any surface: an open incident's report renders the DEGRADED branch
+#   (resolution_summary_text is attached only at resolution) whose content is fixture constants, and
+#   no report branch renders a cue kind at all — the Contains could only hard-Fail forever.
+# The sample floor is proven by cue EXISTENCE (Pulse's evaluator skips below-floor snapshots), and
+# the candidate by the harvested `triage.cue.emit` line — see the header. The empty expected list
+# routes this scenario to the declare-only/operator path (ManualCheck; KnownResidual under the
+# degraded read-back), never a vacuous pass.

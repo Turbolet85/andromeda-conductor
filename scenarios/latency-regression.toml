@@ -9,16 +9,19 @@
 #     boundary is the <50-sample floor (an operation under the floor is excluded from regression detection).
 #   P-012 regression — current p99 >= 2.5x baseline p99 with >= 60s persistence; errors weighted
 #     independently from latency. Recipe: establish baseline over 90s, ramp to 3x p99 for 90s.
-# Both checks class="Hard" — baseline math + threshold detection are deterministic; the model-side
-# severity (P-020) is a later chunk, not asserted here.
-# Epoch-8 calibration points: the "LatencyRegression" candidate token is inferred (the spec uses
-# lowercase prose; Contains is substring-tolerant), and slo_tier "<20s" is a declared bucket the
-# journal-relative measurement may retune.
-# Coverage mode: drive+observe — regression detection is auto (MCP read-back); constellation dot is operator-checklist.
+# The read-back checks are RETIRED TO DECLARE-ONLY (2026-08-18-error-baseline-spike-live-proof; the
+# v2-11 disposition, settled per surface at SUT HEAD efabe8e) — the live assertions grade at the
+# harvest tier instead: crates/conductor-run/tests/baseline_harvest.rs over Pulse's own
+# `triage.cue.emit` line (kind "latency_regression" · priority "suggested" · magnitude >= 3.0 ·
+# confidence >= 0.7). The old "LatencyRegression" token was an inferred spelling; Pulse's real one is
+# snake_case on a surface the read-back never renders.
+# Coverage mode: drive+observe — regression detection is auto (harvest tier); constellation dot is operator-checklist.
 name = "latency-regression"
 p_ids = ["P-011", "P-012"]
 seed = 4317011
-slo_tier = "<20s"   # P-012 has no explicit p99 budget; the 60s-persistence signal warrants the middle tier
+slo_tier = "<90s"  # re-declared from <20s (2026-08-18): whole-run latency_ms spans the 180s emission
+                   # window + read-back and exceeds every tier by construction; <90s is the closest
+                   # honest bucket (the v2-11 precedent). Per-check latency is owned by v2-19.
 jitter_ms = 50
 
 [[phases]]
@@ -45,14 +48,15 @@ p95_ms = 1200
 p99_ms = 2400   # 3x the baseline p99 — the regression magnitude
 samples = 60
 
-# P-011 — the latency baseline accumulated past its >=50-sample floor (the sample-count floor).
-[[expected]]
-kind = "CountAtLeast"
-class = "Hard"
-expected = "50"
-
-# P-012 — the regression surfaces a LatencyRegression candidate (inferred token; Epoch-8 calibration point).
-[[expected]]
-kind = "Contains"
-class = "Hard"
-expected = "LatencyRegression"
+# DECLARE-ONLY — no [[expected]] blocks. Both prior checks were structurally ungradeable under
+# deterministic L4 and are retired rather than left as a false signal:
+#   CountAtLeast "50" (P-011 floor) graded the observation's evidence count, which reads
+#   retrieve_telemetry_slice.span_refs = Incident.evidence_refs.span_ids — a field no producer ever
+#   populates, so it read a permanent 0 (a forever-CalibrationRegion measuring nothing).
+#   Contains "LatencyRegression" (P-012 candidate) graded composed read-back text that cannot carry
+#   a cue kind on any surface (open incidents render the degraded, fixture-constant report branch;
+#   no branch renders a cue kind).
+# The >=50-sample floor is proven by cue EXISTENCE (the evaluator skips below-floor operations), and
+# the regression candidate by the harvested `triage.cue.emit` line — see the header. The empty
+# expected list routes this scenario to the declare-only/operator path (ManualCheck; KnownResidual
+# under the degraded read-back), never a vacuous pass.

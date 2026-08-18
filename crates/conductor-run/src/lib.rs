@@ -225,6 +225,10 @@ async fn emit_canary(contract: &RunContract, warm_up: bool) -> anyhow::Result<Ca
     let marker = format!("ConductorCanary_{}", now_ms());
     let spec = canary_spec(&marker);
     let fp = fingerprint(&spec);
+    // Message-borne (the key-set-witness channel): the value must reach the self-obs artifact so a
+    // live leg can compare it against the 8-hex prefix Pulse's storm line carries — the one surface
+    // where the transcribed derivation meets Pulse's own (architecture §Read-Back Dependency Posture).
+    tracing::info!("canary fingerprint computed {fp}");
     let base = now_ms() as u64;
     let mut traces = TraceEmitter::connect(DEFAULT_OTLP_ENDPOINT).await?;
     if warm_up {

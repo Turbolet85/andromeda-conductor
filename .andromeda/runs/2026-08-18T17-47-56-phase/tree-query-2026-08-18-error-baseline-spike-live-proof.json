@@ -1,0 +1,121 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee LIKE '%evaluate_check%' ORDER BY file, line",
+"rows": 18,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 crate/",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 39
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 execute_scenario().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 395
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 tests/a_measured_row_keeps_its_verdict_when_degradation_overrides_the_state().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 720
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 crate/",
+"file": "crates/conductor-verify/src/lib.rs",
+"line": 52
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 record/tests/",
+"file": "crates/conductor-verify/src/record.rs",
+"line": 51
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 record/tests/outcome().",
+"file": "crates/conductor-verify/src/record.rs",
+"line": 56
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 slo/tests/hard_check_passes_only_when_matched_and_within_slo().",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 132
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 slo/tests/hard_check_passes_only_when_matched_and_within_slo().",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 133
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 slo/tests/hard_check_passes_only_when_matched_and_within_slo().",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 134
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 slo/tests/unmet_count_floor_routes_to_calibration_region_even_when_declared_hard().",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 140
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 slo/tests/evaluation_is_deterministic().",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 147
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 slo/tests/evaluation_is_deterministic().",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 148
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 crate/",
+"file": "crates/conductor-verify/tests/expected_slo.rs",
+"line": 3
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 hard_pass_requires_match_and_within_slo().",
+"file": "crates/conductor-verify/tests/expected_slo.rs",
+"line": 49
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 calibration_region_check_never_hard_fails().",
+"file": "crates/conductor-verify/tests/expected_slo.rs",
+"line": 60
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 determinism_same_inputs_same_outcome().",
+"file": "crates/conductor-verify/tests/expected_slo.rs",
+"line": 68
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 determinism_same_inputs_same_outcome().",
+"file": "crates/conductor-verify/tests/expected_slo.rs",
+"line": 69
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 observed_with_host_path_is_redacted_in_assessment().",
+"file": "crates/conductor-verify/tests/expected_slo.rs",
+"line": 76
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT symbol, crate, file FROM symbol WHERE symbol LIKE '%harvest%'",
+"rows": 3,
+"result": [
+{
+"symbol": "rust-analyzer cargo conductor-run 0.1.0 harvest_since().",
+"crate": "conductor-run",
+"file": "crates/conductor-run/tests/storm_harvest.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-run 0.1.0 tests/storm_harvest().",
+"crate": "conductor-run",
+"file": "crates/conductor-run/tests/storm_harvest.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-run 0.1.0 tests/a_sub_floor_harvest_carries_no_storm_line().",
+"crate": "conductor-run",
+"file": "crates/conductor-run/tests/storm_harvest.rs"
+}
+],
+"db_state": "fresh"
+}
+]

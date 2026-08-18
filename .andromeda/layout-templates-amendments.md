@@ -68,3 +68,8 @@ auto term only, never a fifth summand, plain text, omitted at zero, same shape o
 re-staled. The line's own prose already declares "every number manifest-derived (never a literal)", so the
 sample contradicted the rule stated beside it. De-literalizing ends the recurrence; founder-approved at this
 wrap, with a playbook rule appended for the class.
+
+## 2026-08-18-error-baseline-spike-live-proof — P-009 sample tier <5s → <90s (five sites)
+**Section:** desktop-webview wireframes (Run console HOLD · Run report terminal) · cli Output structure (`conductor run` · `conductor suite`) · cli Primary content block 2
+**Change:** Every P-009 error-baseline-spike sample row's slo_tier cell updated `<5s` → `<90s` (five sites, one sweep). Set-naming prose lines untouched (correct as written).
+**Why:** The scenario TOML re-declared its tier this chunk (whole-run latency exceeds every tier by construction; `<90s` is the closest honest bucket, the v2-11 precedent).

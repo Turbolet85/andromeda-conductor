@@ -410,31 +410,29 @@ gap_ms = 1
         assert_eq!(s.name, stem);
         let want: Vec<PId> = p_ids.iter().map(|p| PId(p.to_string())).collect();
         assert_eq!(s.p_ids, want);
-        assert!(!s.expected.is_empty(), "{stem} declares at least one expected check");
+        assert!(
+            s.expected.is_empty(),
+            "{stem} is declare-only — its read-back checks retired because no surface can carry \
+             them under deterministic L4; the live assertions grade at the harvest tier \
+             (conductor-run/tests/baseline_harvest.rs)"
+        );
     }
 
     #[rstest]
     #[case("error-baseline-spike")]
     #[case("latency-regression")]
-    fn statistical_anomaly_checks_are_hard_with_floor_and_candidate(#[case] stem: &str) {
-        // P-009..P-012 are deterministic baseline-math + threshold-detection, so every check is Hard
-        // (no CalibrationRegion, unlike P-008). Each scenario pairs a CountAtLeast sample-count floor
-        // (the baseline P-ID) with a Contains detection candidate (the detection P-ID).
+    fn statistical_anomaly_fixtures_are_declare_only_at_the_harvest_tier(#[case] stem: &str) {
+        // The prior all-Hard floor+candidate checks were structurally ungradeable: CountAtLeast read
+        // an evidence count no producer populates, and Contains graded text that cannot carry a cue
+        // kind on any read-back surface. Both retired to declare-only; the family's live assertions
+        // moved to Pulse's own `triage.cue.emit` line. The tier is pinned at the re-declared <90s —
+        // whole-run latency spans the emission window and exceeds every tier by construction, so
+        // <90s is the closest honest bucket (per-check latency is v2-19's).
         let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
         let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
         let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
-        assert!(
-            s.expected.iter().all(|c| c.class == ClaimClass::Hard),
-            "{stem} checks are all Hard (deterministic baseline-math + threshold-detection)"
-        );
-        assert!(
-            s.expected.iter().any(|c| c.kind == ComparisonKind::CountAtLeast),
-            "{stem} asserts the sample-count floor via CountAtLeast"
-        );
-        assert!(
-            s.expected.iter().any(|c| c.kind == ComparisonKind::Contains),
-            "{stem} asserts the detection candidate via Contains"
-        );
+        assert!(s.expected.is_empty(), "{stem} carries no gradeable read-back check");
+        assert_eq!(s.slo_tier, SloTier::Tier90s, "{stem} pins the re-declared tier");
     }
 
     #[test]

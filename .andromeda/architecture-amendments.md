@@ -343,3 +343,8 @@ reproduced Conductor-side by the new pinning tests. The consequence the clause n
 in this repo could have caught: because Conductor had transcribed the PRE-guard scanner, its `fingerprint()`
 was returning a different value than Pulse's for every slash-bearing path — including the committed base
 fixture — and every gate stayed green over it, because they assert Conductor against Conductor.
+
+## 2026-08-18-error-baseline-spike-live-proof — deterministic-L4 evidence_refs de-vacuumed; envelope sample re-tiered
+**Section:** Established Decisions [Read-Back Dependency Posture] · Standard Contracts (readiness gate + run-report envelope sample)
+**Change:** The "fixture pins `evidence_refs` to `[]`" claim retired at both arch sites — the SUT's deterministic fixture now populates a constant `det-*` triple (measured live 2026-08-18, SUT HEAD `efabe8e`); freshness-carrier conclusion unchanged, its supporting fact re-based from emptiness to payload-invariance. The envelope sample re-tiered `<5s` → `<90s` with a note that the error-baseline-spike family ships declare-only (live rows `verdict: null` / `state: KnownResidual`).
+**Why:** Leg A's envelope carried the 3 `det-*` refs (`runs/2026-08-18T18-47-32-786.jsonl`); both TOMLs re-declared `<90s` and retired their checks under the family re-calibration clause. Chunk report + `evidence/leg-verdict.md`.

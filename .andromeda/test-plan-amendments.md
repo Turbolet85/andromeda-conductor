@@ -130,3 +130,8 @@ test-only harvest of Pulse's `triage.pattern.storm.detected` line asserted at th
 always failed and `Absent "RetryStorm"` passed VACUOUSLY against text that cannot carry the token. Both
 sections restated the identical claim, so a §6-only apply would have left it standing in the critical-paths
 table.
+
+## 2026-08-18-error-baseline-spike-live-proof — §6/§1 error-baseline-spike signal re-based; fingerprints [] pin retired
+**Section:** §6 Scenario: error-baseline-spike + §1 Critical Path 1 · §6 Scenario: Fingerprint-storm + §1 Critical Path 2
+**Change:** The error-baseline-spike verification signal re-based from exit-0/`[PASS]`/`verdict=Pass`/`state=Pass` to the declare-only reality: `[RESIDUAL]`, `verdict` null / `state=KnownResidual`, live claim graded at the harvest tier (`triage.cue.emit` via `baseline_harvest.rs`) — both sites. The `fingerprints` expected-`[]` pin retired at both sites: the field is SUT-populated under deterministic L4 (constant `det-*` triple, payload-invariant, measured 2026-08-18 at SUT HEAD `efabe8e`); the harvest, never the array, stays the proof.
+**Why:** Measured on leg A (row KnownResidual; envelope carried the 3 det-* refs); the family's checks retired because no read-back surface can carry them (degraded report renders fixture constants; evidence count reads an unpopulated `span_ids`). Chunk report §Spec claims disproved.

@@ -435,3 +435,23 @@ async fn the_committed_storm_fixture_stream_is_frozen_at_an_alternate_seed() {
     let (traces, _) = drive_scenario!(scenario);
     insta::assert_debug_snapshot!("storm_stream_seed_7", span_shapes(&traces));
 }
+
+/// The committed `error-baseline-spike` fixture — the Error shape's stream golden, covering the
+/// majority-plain slots (`dispatch.rs`'s non-error branch) that only occurrence-count tests
+/// asserted before the constant-span-identity collision showed what that class of coverage misses.
+fn error_baseline_fixture() -> Scenario {
+    let toml = std::fs::read_to_string(concat!(
+        env!("CARGO_MANIFEST_DIR"),
+        "/../../scenarios/error-baseline-spike.toml"
+    ))
+    .expect("fixture readable");
+    Scenario::from_toml_str(&toml).expect("fixture valid")
+}
+
+#[tokio::test(flavor = "current_thread", start_paused = true)]
+async fn the_committed_error_baseline_fixture_stream_is_frozen() {
+    let scenario = error_baseline_fixture();
+    let (traces, logs) = drive_scenario!(scenario);
+    assert!(logs.is_empty(), "an error-shaped fixture opens no logs batch");
+    insta::assert_debug_snapshot!("error_baseline_stream_seed_424242", span_shapes(&traces));
+}
