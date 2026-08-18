@@ -348,3 +348,8 @@ fixture — and every gate stayed green over it, because they assert Conductor a
 **Section:** Established Decisions [Read-Back Dependency Posture] · Standard Contracts (readiness gate + run-report envelope sample)
 **Change:** The "fixture pins `evidence_refs` to `[]`" claim retired at both arch sites — the SUT's deterministic fixture now populates a constant `det-*` triple (measured live 2026-08-18, SUT HEAD `efabe8e`); freshness-carrier conclusion unchanged, its supporting fact re-based from emptiness to payload-invariance. The envelope sample re-tiered `<5s` → `<90s` with a note that the error-baseline-spike family ships declare-only (live rows `verdict: null` / `state: KnownResidual`).
 **Why:** Leg A's envelope carried the 3 `det-*` refs (`runs/2026-08-18T18-47-32-786.jsonl`); both TOMLs re-declared `<90s` and retired their checks under the family re-calibration clause. Chunk report + `evidence/leg-verdict.md`.
+
+## 2026-08-18-restart-suppression-live-proof — canary service identity registered
+**Section:** §Occupied Resources — Service / process names
+**Change:** Registered the two emitted OTLP `service.name` identities: `conductor` (`DEFAULT_SERVICE_NAME`, the scenario dispatcher) and `conductor-canary` (`CANARY_SERVICE_NAME`, the preflight canary's warm-up + storm), with the rationale for the split (preflight runs inside every scenario leg; Pulse keys `persistence_seconds` = cumulative samples and error-rate EWMAs per service).
+**Why:** The chunk split the canary off the dispatcher's identity so preflight traffic cannot age a scenario's young-sample suppression window; the wire-visible identity was previously unregistered (report §Symbols/APIs, Deviation 2).

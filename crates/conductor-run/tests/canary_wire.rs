@@ -20,8 +20,10 @@ use std::net::SocketAddr;
 use std::sync::{Arc, Mutex};
 
 use conductor_core::{ObsSink, init_observability};
-use conductor_emit::{DEFAULT_SERVICE_NAME, TraceEmitter, fingerprint, trace_request};
-use conductor_run::{CANARY_STORM_COUNT, canary_spec, canary_warmup_seed, emit_canary_storm};
+use conductor_emit::{TraceEmitter, fingerprint, trace_request};
+use conductor_run::{
+    CANARY_SERVICE_NAME, CANARY_STORM_COUNT, canary_spec, canary_warmup_seed, emit_canary_storm,
+};
 use opentelemetry_proto::tonic::collector::trace::v1::{
     ExportTraceServiceRequest, ExportTraceServiceResponse,
     trace_service_server::{TraceService, TraceServiceServer},
@@ -169,7 +171,7 @@ async fn the_whole_canary_emission_carries_unique_span_identity() {
     for i in 0..WARMUP_EMISSIONS {
         let seed = canary_warmup_seed(base, i);
         emitter
-            .export(trace_request(DEFAULT_SERVICE_NAME, seed, "canary-warmup"))
+            .export(trace_request(CANARY_SERVICE_NAME, seed, "canary-warmup"))
             .await
             .expect("emit a warm-up span");
     }
@@ -285,7 +287,7 @@ async fn storm_is_attributed_to_the_canary_service() {
                     any_value::Value::StringValue(s) => Some(s.clone()),
                     _ => None,
                 });
-            assert_eq!(service.as_deref(), Some(DEFAULT_SERVICE_NAME));
+            assert_eq!(service.as_deref(), Some(CANARY_SERVICE_NAME));
         }
     }
 }

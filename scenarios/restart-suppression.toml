@@ -3,99 +3,129 @@
 # A run over the envelope reports ENVIRONMENT-SUSPECT, not Fail — the harness drove it, not Pulse.
 
 # P-015 / P-016 / P-057 — Restart detection -> surgical suppression -> dual-condition bypass
-# (pulse-capability-spec.md §P-015 / §P-016 / §P-057). One restart-anchored timeline.
-#   P-015 restart — a per-service stream gap >20s followed by resume emits a RestartEvent <=2s.
-#   P-016 suppression — for 60s after the RestartEvent, ONLY short-persistence (<30s) ErrorRateSpike
-#     candidates are suppressed; a sustained (>=30s persistence) spike still SURFACES (surgical).
-#   P-057 bypass — suppression is overridden when relative magnitude >=10x baseline OR absolute error
-#     rate >=5%. Triple: 8x/3% stays suppressed (neither); 12x/4% surfaces (relative); 6x/7% surfaces
-#     (absolute).
-# The gap/resume is the conductor-faults emission-gap-resume lever; the per-phase error magnitude +
-# rate (8x/3% ...) and the suppress/surface intent are realized by the Epoch-8 driver from the phase
-# names (this config only times + labels the phases — EmissionSpec carries no magnitude field).
-# Declare-only legs: the suppressed phases (suppressed-15s-burst, bypass-suppressed-8x-3pct) carry NO
-# [[expected]] check — an Absent "ErrorRateSpike" would contradict the surfaced sustained/bypass
-# spikes in the same read-back; the Epoch-8 evaluator scopes suppression by time-window/magnitude.
-# Epoch-8 calibration points: the P-057 Report bypass annotation ("Bypassed restart suppression due
-# to: relative_magnitude=... / absolute_error_rate=..."); the per-leg magnitudes; the <20s tier.
-# Coverage mode: drive+observe — RestartEvent + surfaced ErrorRateSpike are auto (MCP read-back);
-# the halo hue + bypass annotation are operator-checklist.
+# (pulse-capability-spec.md §P-015 / §P-016 / §P-057), RE-SHAPED 2026-08-18 against the SUT's
+# MEASURED semantics at HEAD efabe8e (chunks/2026-08-18-restart-suppression-live-proof/research.md):
+#   - `persistence_seconds` IS the service's cumulative sample count (cue/evaluate.rs:55), not spike
+#     duration — suppression-eligibility and bypass-attribution exist ONLY while this service holds
+#     10..29 samples, once, in its first ~30 spans. Phases pace ~1 span/s so samples track seconds.
+#   - Errors FRONT-LOAD per phase (dispatch is_error_occurrence: the first ceil(pct*occ/100)
+#     occurrences), so short error-PULSE phases place error clusters at exact sample offsets.
+#   - `short_term_error_rate` is a 30s-window EWMA (alpha ~1/30): one error ~= a 3.3% pulse decaying
+#     ~3.3%/span; the cue floor is 3 x max(long-EWMA, 0.01) ~= 3% on this young service.
+#   - The relative-magnitude bypass arm (>10x) is UNREACHABLE for error cues at the SUT's shipped
+#     constants: alpha_short/alpha_long = (1/30)/(1/300) = 10 = the bypass multiplier, and the 0.01
+#     baseline floor caps the transient peak at ~9.7x (3 consecutive errors). The live P-057 claim is
+#     the ABSOLUTE arm + the neither-condition suppressed case; the relative arm is recorded
+#     unreachable-by-construction (next-Pulse-visit intake).
+#   - The preflight canary emits under its own CANARY_SERVICE_NAME, so this service is born at
+#     phase 1 with the young-sample window intact.
+# Timeline (samples ~= cumulative spans for this service):
+#   pre-gap-observation s1-7    prior traffic RestartDetector needs (first observation never emits)
+#   restart-gap         25s     gap > the 20s threshold; the declared silence window (fault.silence)
+#   resume              s8-9    RestartEvent #1 on the first resume span; 60s suppression window opens
+#   suppressed-pulse    s10-19  1 error at s10: short ~3.3% (>3% floor, <5% bypass bar) -> cues at
+#                               s10..13 DROPPED (window active, persistence<30, not bypassed): P-016
+#   absolute-pulse      s20-31  2 errors at s20-21: short ~8.6%, mag ~8.6 <= 10 -> cues KEPT with
+#                               BypassTrigger reason=absolute_error_rate while samples < 30: P-057
+#   surgical-carry      s32-51  plain; short decays 8.6% -> 3%: cues at samples >= 30 with abs < 5%
+#                               are PLAIN KEPT — the drop(<30) -> keep(>=30) surgical crossing: P-016
+#   second-gap+resume-2         RestartEvent #2 (P-015 repeatability; its window is inert by design —
+#                               nothing is suppression-eligible at samples >= 30)
+#   keeper-filler       s55-88  carries samples toward confidence saturation (conf = samples/100)
+#   autonomous-keeper   s89-118 12 errors at s89-100: short ~33%, mag ~6, conf >= 0.9, persistence
+#                               >= 30 -> AUTONOMOUS cues -> the Tier-1 incident that keeps the corpus
+#                               alive for a non-Blocked read-back (30s auto-resolve ticks measured
+#                               fatal to an idle canary incident across ~180s)
+#
+# DECLARE-ONLY — no [[expected]] blocks. Both prior Contains checks ("RestartEvent" /
+# "ErrorRateSpike") were structurally ungradeable under deterministic L4 and are retired rather than
+# left as a false signal: an open incident's report renders the DEGRADED branch
+# (resolution_summary_text is attached only at resolution) whose content is fixture constants, no
+# report branch renders a cue kind at all, and Pulse's own spelling is snake_case — both could only
+# hard-Fail forever. The live assertions grade at the harvest tier over Pulse's own tracing lines
+# (conductor-run/tests/restart_harvest.rs): triage.pattern.restart_emit (P-015),
+# triage.cue.suppression_check drop evidence with no leaked emit (the suppressed half — the tick
+# line's cues_suppressed/bypass_triggered counters read "<redacted>" live: Pulse's default-deny
+# allowlist predates the chunk-#63 fields; measured 2026-08-18, next-visit intake), the
+# persistence-30 crossing kept cues (the surgical half), and triage.cue.suppression_bypass
+# reason=absolute_error_rate (the P-057 absolute arm). The empty expected list routes this scenario
+# to the declare-only/operator path (ManualCheck; KnownResidual under the degraded read-back), never
+# a vacuous pass. Coverage mode: the halo hue remains operator-checklist.
 name = "restart-suppression"
 p_ids = ["P-015", "P-016", "P-057"]
 seed = 4317015
-slo_tier = "<20s"   # RestartEvent <=2s fits; the persistence-gated surface is the Epoch-8 calibration point
+slo_tier = "<90s"   # whole-run latency spans the ~180s emission window; <90s is the honest bucket (v2-11/v2-12 precedent)
 jitter_ms = 50
 
 [[phases]]
-name = "baseline"
-gap_ms = 30000   # consistent traffic + error baseline (the relative-magnitude reference)
+name = "pre-gap-observation"
+gap_ms = 7000
 [phases.emission]
-kind = "error"
-occurrences = 30
-error_percent = 1   # the 1% absolute baseline the bypass phases are measured against
+kind = "plain"
+occurrences = 7
 
 [[phases]]
 name = "restart-gap"
-gap_ms = 25000   # 25s stream gap (>20s) -> restart on resume
+gap_ms = 25000   # > the 20s restart threshold; the gap IS the fault (occurrences 0 = silence window)
 [phases.emission]
 kind = "plain"
-occurrences = 0   # the gap IS the fault: no emission for the phase's whole duration
+occurrences = 0
 
 [[phases]]
 name = "resume"
-gap_ms = 2000   # resume emission -> RestartEvent <=2s (P-015)
+gap_ms = 2000   # first resume span -> RestartEvent #1 (ingest hot path); suppression window opens
 [phases.emission]
 kind = "plain"
 occurrences = 2
 
 [[phases]]
-name = "suppressed-15s-burst"
-gap_ms = 15000   # 15s transient burst, <30s persistence -> suppressed (P-016, declare-only)
+name = "suppressed-pulse"
+gap_ms = 10000
 [phases.emission]
 kind = "error"
-occurrences = 15
-error_percent = 20
+occurrences = 10
+error_percent = 10   # exactly 1 front-loaded error: the 3.3% short-EWMA pulse the drop band needs
 
 [[phases]]
-name = "sustained-60s"
-gap_ms = 60000   # 60s sustained -> surfaces after the 30s persistence threshold (P-016)
+name = "absolute-pulse"
+gap_ms = 12000
 [phases.emission]
 kind = "error"
-occurrences = 60
-error_percent = 20
+occurrences = 12
+error_percent = 16   # exactly 2 front-loaded errors: ~8.6% short-EWMA > 5% bar at mag <= 10
 
 [[phases]]
-name = "bypass-suppressed-8x-3pct"
-gap_ms = 15000   # 8x rel / 3% abs -> below both thresholds -> suppressed (P-057, declare-only)
+name = "surgical-carry"
+gap_ms = 20000   # decay lane: kept cues cross persistence 30 while abs falls below the 5% bar
 [phases.emission]
-kind = "error"
-occurrences = 25
-error_percent = 8   # 8x the 1% baseline, 3% absolute floor not cleared
+kind = "plain"
+occurrences = 20
 
 [[phases]]
-name = "bypass-relative-12x-4pct"
-gap_ms = 15000   # 12x rel / 4% abs -> relative-bypass surfaces (P-057)
+name = "second-gap"
+gap_ms = 25000   # second >20s gap for the P-015 repeat witness
 [phases.emission]
-kind = "error"
-occurrences = 25
-error_percent = 12
+kind = "plain"
+occurrences = 0
 
 [[phases]]
-name = "bypass-absolute-6x-7pct"
-gap_ms = 15000   # 6x rel / 7% abs -> absolute-bypass surfaces (P-057)
+name = "resume-2"
+gap_ms = 2000
+[phases.emission]
+kind = "plain"
+occurrences = 2
+
+[[phases]]
+name = "keeper-filler"
+gap_ms = 34000
+[phases.emission]
+kind = "plain"
+occurrences = 34
+
+[[phases]]
+name = "autonomous-keeper"
+gap_ms = 30000
 [phases.emission]
 kind = "error"
-occurrences = 25
-error_percent = 7
-
-# P-015 — the restart fires.
-[[expected]]
-kind = "Contains"
-class = "Hard"
-expected = "RestartEvent"
-
-# P-016 surgical-surface + P-057 relative/absolute bypass — the surfaced ErrorRateSpike.
-[[expected]]
-kind = "Contains"
-class = "Hard"
-expected = "ErrorRateSpike"
+occurrences = 30
+error_percent = 40   # 12 front-loaded errors: short ~33%, mag ~6 at conf >= 0.9, persistence >= 30

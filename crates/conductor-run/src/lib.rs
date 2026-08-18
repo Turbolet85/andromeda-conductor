@@ -27,7 +27,7 @@ use conductor_core::{
     resolve_hold, resolve_under,
 };
 use conductor_emit::{
-    DEFAULT_OTLP_ENDPOINT, DEFAULT_SERVICE_NAME, ExceptionSpec, Frame, TraceEmitter,
+    DEFAULT_OTLP_ENDPOINT, ExceptionSpec, Frame, TraceEmitter,
     exception_trace_request, fingerprint, probe_egress, trace_request,
 };
 use conductor_report::{JournalWriter, RunReport, RunsDb};
@@ -114,6 +114,13 @@ fn unreachable_state(manifest: &ContractManifest, data_dir: &str) -> ReadyState 
 /// that the unpaced burst lands well inside one `DEFAULT_DETECTION_SUB_WINDOW_SECONDS`.
 pub const CANARY_STORM_COUNT: u64 = 12;
 
+/// The canary's own service identity — deliberately DISTINCT from the dispatcher's scenario
+/// service. Pulse keys `persistence_seconds` (the service's cumulative sample count,
+/// `andromeda-pulse crates/triage/src/cue/evaluate.rs:55` at HEAD `efabe8e`) and its error-rate
+/// EWMAs per service, so a shared identity would age every scenario's suppression semantics and
+/// inflate its baseline denominator with preflight storm traffic before phase 1 ever emits.
+pub const CANARY_SERVICE_NAME: &str = "conductor-canary";
+
 /// Seed for the `i`-th canary storm occurrence — ascending from `base`.
 pub fn canary_storm_seed(base: u64, i: u64) -> u64 {
     base.wrapping_add(i)
@@ -150,7 +157,7 @@ pub async fn emit_canary_storm(
 ) -> anyhow::Result<()> {
     for i in 0..CANARY_STORM_COUNT {
         traces
-            .export(exception_trace_request(DEFAULT_SERVICE_NAME, canary_storm_seed(base, i), spec))
+            .export(exception_trace_request(CANARY_SERVICE_NAME, canary_storm_seed(base, i), spec))
             .await?;
     }
     Ok(())
@@ -220,7 +227,7 @@ fn declares(name: &str) -> bool {
 /// The gate's carrier is the marker's emission STAMP, taken after any warm-up and immediately before
 /// the counted storm, so only an incident opened past that instant satisfies it. Neither the marker
 /// nor the fingerprint can carry it: Pulse scrubs incident titles, and its computed fingerprint
-/// reaches no read-back surface (`fingerprint_refs` is L4-authored and empty under deterministic L4).
+/// reaches no read-back surface (`fingerprint_refs` is L4-authored and payload-invariant under deterministic L4 — a constant `det-*` triple).
 async fn emit_canary(contract: &RunContract, warm_up: bool) -> anyhow::Result<CanaryMarker> {
     let marker = format!("ConductorCanary_{}", now_ms());
     let spec = canary_spec(&marker);
@@ -258,7 +265,7 @@ async fn warm_up_canary_service(
     tracing::info!(count = terms.warmup_emissions, "warming the canary service out of bootstrap");
     for i in 0..terms.warmup_emissions {
         let seed = canary_warmup_seed(base, i);
-        traces.export(trace_request(DEFAULT_SERVICE_NAME, seed, "canary-warmup")).await?;
+        traces.export(trace_request(CANARY_SERVICE_NAME, seed, "canary-warmup")).await?;
         tokio::time::sleep(gap).await;
     }
     Ok(())

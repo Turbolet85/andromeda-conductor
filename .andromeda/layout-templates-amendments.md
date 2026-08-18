@@ -73,3 +73,8 @@ wrap, with a playbook rule appended for the class.
 **Section:** desktop-webview wireframes (Run console HOLD · Run report terminal) · cli Output structure (`conductor run` · `conductor suite`) · cli Primary content block 2
 **Change:** Every P-009 error-baseline-spike sample row's slo_tier cell updated `<5s` → `<90s` (five sites, one sweep). Set-naming prose lines untouched (correct as written).
 **Why:** The scenario TOML re-declared its tier this chunk (whole-run latency exceeds every tier by construction; `<90s` is the closest honest bucket, the v2-11 precedent).
+
+## 2026-08-18-restart-suppression-live-proof — restart-suppression sample tiers de-literalized (five sites)
+**Section:** §Wireframe — Run console (HOLD) · §Wireframe — Run report (terminal) · §cli Output structure `conductor run` · §cli Output structure `conductor suite` · §cli Component — Primary content block 2
+**Change:** All five restart-suppression sample rows drop their pinned tier literals (`<20s` in the HOLD wireframe; `<5s` in the other four) for the set-named `<slo_tier>` placeholder; the HOLD row and block-2 example now state the cell renders the scenario's TOML-declared value from the closed `<5s`/`<20s`/`<90s` set.
+**Why:** The chunk re-declared `restart-suppression`'s `slo_tier` `<20s` → `<90s`; the five sites disagreed with each other AND with the shipped value (report §Counts/qualifiers moved) — the de-literalization ends the re-staling class per the derived-count rule (the P-009 sweep precedent, extended to placeholder form).

@@ -8,6 +8,17 @@ _This file is entirely wrap-session's territory. `/andromeda-setup-project` crea
 
 ---
 
+## 2026-08-18 — Host-shell probe discipline (three same-day bites)
+Three Git-Bash-on-Windows traps each cost a redo cycle in one session. (1) A pipeline's `$?` is the
+LAST command's — `cargo audit 2>&1 | tail` reports tail's 0; capture true exits standalone
+(`cmd > file; RC=$?`). (2) `$TMPDIR` is unset in this shell — `> "$TMPDIR/x"` becomes `/x`
+(permission denied); always use the session scratchpad path. (3) The persistent shell's cwd can
+drift silently (one sweep round ran empty relative globs from inside `.andromeda/`); prefix
+root-sensitive compound commands with an explicit `cd <repo-root> &&` or use absolute paths, and
+treat a failing `cd` beside succeeding bare-name reads as the tell.
+
+---
+
 ## 2026-08-15 — evolve-diagnose run dirs are audit-trail class at the wrap dirt-check
 
 `/andromeda-wrap-session`'s Setup dirt-check names exactly three expected-transient bookkeeping members

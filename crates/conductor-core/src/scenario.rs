@@ -470,8 +470,7 @@ gap_ms = 1
     #[rstest]
     #[case("activity-floor", &["P-013"])]
     #[case("service-went-silent", &["P-014"])]
-    #[case("restart-suppression", &["P-015", "P-016", "P-057"])]
-    fn activity_floor_and_restart_suppression_fixtures_load_and_validate(
+    fn activity_floor_and_silence_fixtures_load_and_validate(
         #[case] stem: &str,
         #[case] p_ids: &[&str],
     ) {
@@ -487,18 +486,37 @@ gap_ms = 1
     #[rstest]
     #[case("activity-floor")]
     #[case("service-went-silent")]
-    #[case("restart-suppression")]
-    fn activity_floor_and_restart_suppression_checks_are_all_hard(#[case] stem: &str) {
-        // Activity-floor + restart-suppression are deterministic suppression/bypass + lifecycle
-        // timing, so every check is Hard (arch §Probabilistic-Assertion Policy); the model-interpretive
-        // severity that consumes these cues is P-020, a later severity-lifecycle chunk.
+    fn activity_floor_and_silence_checks_are_all_hard(#[case] stem: &str) {
+        // Activity-floor + service-went-silent are deterministic lifecycle timing, so every check is
+        // Hard (arch §Probabilistic-Assertion Policy); the model-interpretive severity that consumes
+        // these cues is P-020, a later severity-lifecycle chunk. restart-suppression left this set
+        // 2026-08-18 — declare-only at the harvest tier (its own test below).
         let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
         let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
         let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
         assert!(
             s.expected.iter().all(|c| c.class == ClaimClass::Hard),
-            "{stem} checks are all Hard (suppression/bypass logic + lifecycle timing)"
+            "{stem} checks are all Hard (lifecycle timing)"
         );
+    }
+
+    /// Re-shaped 2026-08-18 against the SUT's measured semantics at HEAD `efabe8e`:
+    /// `persistence_seconds` is the service's cumulative SAMPLE COUNT
+    /// (`andromeda-pulse crates/triage/src/cue/evaluate.rs:55`), not spike duration, and no report
+    /// branch renders a cue kind under deterministic L4 — so both Contains checks retired to
+    /// declare-only and the live assertions grade at the harvest tier
+    /// (`conductor-run/tests/restart_harvest.rs`). The tier is the re-declared <90s (whole-run
+    /// latency spans the ~180s emission window; the v2-11/v2-12 honesty-bucket precedent).
+    #[test]
+    fn restart_suppression_is_declare_only_at_the_harvest_tier() {
+        let path = format!("{}/../../scenarios/restart-suppression.toml", env!("CARGO_MANIFEST_DIR"));
+        let toml = std::fs::read_to_string(&path).expect("restart-suppression.toml readable");
+        let s = Scenario::from_toml_str(&toml).expect("restart-suppression.toml valid");
+        assert_eq!(s.name, "restart-suppression");
+        let want: Vec<PId> = ["P-015", "P-016", "P-057"].iter().map(|p| PId(p.to_string())).collect();
+        assert_eq!(s.p_ids, want);
+        assert!(s.expected.is_empty(), "restart-suppression carries no gradeable read-back check");
+        assert_eq!(s.slo_tier, SloTier::Tier90s, "restart-suppression pins the re-declared tier");
     }
 
     #[test]
@@ -517,10 +535,10 @@ gap_ms = 1
 
     #[rstest]
     #[case("service-went-silent")]
-    #[case("restart-suppression")]
     fn presence_scenarios_assert_a_surfaced_incident_via_contains(#[case] stem: &str) {
-        // P-014 (death cue) and P-015/P-016/P-057 (RestartEvent + surfaced ErrorRateSpike) are
-        // presence checks; the suppressed legs are declare-only (Epoch-8 evaluator-owned).
+        // P-014 (death cue) is a presence check. restart-suppression left this set 2026-08-18: its
+        // Contains tokens were structurally ungradeable under deterministic L4 — declare-only at
+        // the harvest tier (restart_suppression_is_declare_only_at_the_harvest_tier).
         let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
         let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
         let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));

@@ -100,9 +100,14 @@ switch ($args[0]) {
                 & $Cargo test --workspace --doc
                 & $Cargo clippy --workspace --all-targets -- -D warnings
                 if ($env:SCENARIO) {
-                    $seed = if ($env:SEED) { $env:SEED } else { '424242' }
                     # --agent-mode: JSON self-obs to logs/agent-latest.jsonl + never block on an operator pause.
-                    & $Cargo run -q -p conductor-cli --bin conductor -- run $env:SCENARIO --seed $seed --agent-mode
+                    # --seed rides ONLY an explicitly set SEED — files-over-env-defaults precedence
+                    # (arch §Config management): the TOML-declared seed governs when SEED is unset.
+                    if ($env:SEED) {
+                        & $Cargo run -q -p conductor-cli --bin conductor -- run $env:SCENARIO --seed $env:SEED --agent-mode
+                    } else {
+                        & $Cargo run -q -p conductor-cli --bin conductor -- run $env:SCENARIO --agent-mode
+                    }
                 }
                 break
             }

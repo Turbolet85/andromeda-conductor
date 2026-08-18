@@ -129,7 +129,7 @@ handled via boundary instrumentation only._
 |------|-------------------|------------------|-------------------|--------|
 | **Headless deterministic scenario run with MCP read-back verification** | CLI (`conductor-cli`) + ipc-internal (core boundary) + persistent-storage (`runs.db` / JSONL journal) + boundary-only (MCP client to Pulse) | `scenario.run` (root) → `timeline.execute` → `emit.batch` (per emission) → `verify.readback` (MCP call) → `report.generate` → `db.insert_run` (final verdict write) | `run_id`, `seed`, `scenario`, `p_ids`, `verdict`, `state`, `latency_ms` (computed: `read_back_observed_at - journal_emitted_at`), `slo_tier`, `fingerprints` (array), `journal_emitted_at` (ISO-8601, wall-clock), `read_back_observed_at` (ISO-8601) | Tests excerpt §5 Critical Path 1 + Creator Brief §6 "Emission journal as ground truth" + "MCP read-back as the observability surface" |
 | **Fingerprint-storm scenario (high-cardinality emission)** | CLI + core + persistent-storage + boundary-only (MCP) | `scenario.run` → `timeline.execute_fingerprint_storm` → `emit.batch` (per P-ID cohort, multiple batches) → `verify.readback_fingerprints` → `report.generate` | `run_id`, `seed`, `scenario` (= "fingerprint-storm"), `p_ids` (array of all touched P-IDs), `verdict`, `state`, `latency_ms`, `slo_tier`, `fingerprints` (array, populated under deterministic L4 from `evidence_refs`-fed `fingerprint_refs` — payload-invariant fixture constants; see §4), `journal_emitted_at` | Tests excerpt §5 Critical Path 2 |
-| **Restart-suppression scenario incl. bypass case** | CLI + core + persistent-storage + boundary-only (MCP) | `scenario.run` → `timeline.execute_restart_suppression` → `emit.batch` (canonical path) → `emit.batch` (bypass path, distinct) → `verify.readback_suppression_bypass` → `report.generate` | `run_id`, `seed`, `scenario` (= "restart-suppression"), `p_ids`, `verdict`, `state`, `latency_ms`, `slo_tier`, `fingerprints`, `journal_emitted_at`, additional field `bypass_triggered` (boolean) to distinguish the two outcomes | Tests excerpt §5 Critical Path 3 + Creator Brief §6 "one bypass case" |
+| **Restart-suppression scenario incl. bypass case** | CLI + core + persistent-storage + boundary-only (MCP) | `scenario.run` → `timeline.execute` (+ two `fault.silence` children, one per gap phase, created-not-entered) → `emit.batch` → `verify.readback*` → `report.generate` | the standard eleven-field envelope — `run_id`, `seed`, `scenario` (= "restart-suppression"), `p_ids`, `verdict` (null — declare-only), `state` (= "KnownResidual" under the degraded read-back), `latency_ms`, `slo_tier` (`<90s`), `fingerprints`, `journal_emitted_at`, `read_back_observed_at`; NO `bypass_triggered` extra — suppression/bypass evidence grades at the harvest tier over Pulse's own tracing lines (`restart_harvest.rs`) | Tests excerpt §5 Critical Path 3 + Creator Brief §6 "one bypass case"; re-based 2026-08-18 (declare-only landing) |
 | **Severity-lifecycle full pass observing auto-resolve + resolution summary** | CLI + core + persistent-storage + boundary-only (MCP) | `scenario.run` → `timeline.execute_severity_lifecycle` → `emit.batch` (per severity transition) → `verify.readback_auto_resolve` → `verify.readback_resolution_summary` → `report.generate` | `run_id`, `seed`, `scenario` (= "severity-lifecycle"), `p_ids`, `verdict` (should be CalibrationRegion for severity *choice*; Pass/Fail for *timing*), `state`, `latency_ms`, `slo_tier`, `fingerprints`, `journal_emitted_at`, additional fields `lifecycle_phase` (string: "escalation" / "plateau" / "resolution"), `severity_choice_calibrated` (boolean) | Tests excerpt §5 Critical Path 4 + Creator Brief §6 "Assertion-policy split" ("lifecycle timing = hard pass/fail; severity choice = CalibrationRegion") |
 | **Known-residual classification path** | CLI + core + persistent-storage + boundary-only (MCP) | `scenario.run` → `timeline.execute` → `verify.readback.observe` (the read-back pass whose `retrieve_report` result REPORTS `degraded_mode`) → `report.classify_known_residual` → `db.insert_run` | `run_id`, `seed`, `scenario` (e.g., P-032), `p_ids`, `verdict`, `state` (should be "KnownResidual", NOT "Fail"), `latency_ms`, `slo_tier`, `fingerprints`, `journal_emitted_at` | Tests excerpt §5 Critical Path 5 + Creator Brief §6 "Known-residual classification" |
 | **Coverage-matrix completeness gate** | CLI (report output) + persistent-storage (`runs.db` query aggregating all runs) | `report.coverage_matrix_generate` → `db.query_all_p_ids` (manifest-set enumeration) → `report.validate_coverage` | `p_ids` (array of the manifest set), `missing_p_ids` (empty array on pass, populated on fail), `coverage_percent` (0-100), `journal_emitted_at` | Tests excerpt §5 Critical Path 6 |
@@ -222,7 +222,7 @@ Schema (binding contract from upstream-context Section 5 Test Plan Excerpt → T
   "fingerprints": ["fingerprint1", "fingerprint2", ...] or empty array
 }
 ```
-Additional fields per scenario (e.g., `bypass_triggered`, `lifecycle_phase`, `degraded_mode_response`).
+Additional fields per scenario (e.g., `lifecycle_phase`, `degraded_mode_response`).
 - Agent-parseable via `jq` and `serde_json`
 - No absolute host paths, no internal struct names (redaction layer in Section 4 / Section 11)
 
@@ -318,14 +318,12 @@ Downstream skills (route, setup-project) derive:
 #### Scenario: Restart-suppression scenario incl. bypass case
 
 - **Surfaces involved:** CLI + core + persistent-storage + boundary-only (MCP)
-- **Must-trace spans:** `scenario.run` → `timeline.execute_restart_suppression` → `emit.batch` (canonical path) → `emit.batch` (bypass path, distinct) → `verify.readback_suppression_bypass` → `report.generate`
+- **Must-trace spans:** `scenario.run` → `timeline.execute` with two `fault.silence` children (one per gap phase, created-not-entered, lifecycle at `info` — measured offsets 7006ms/76436ms on the 2026-08-18 leg) → `emit.batch` → `verify.readback*` → `report.generate`. The family-specific chain previously mandated here (`timeline.execute_restart_suppression` / per-path `emit.batch` `path_type` / `verify.readback_suppression_bypass`) was never built and is RETIRED — the scenario landed declare-only and no bypass read-back call exists.
 - **Required span attributes:**
   - `scenario.run`: `run_id`, `seed`, `scenario` (= "restart-suppression"), `p_ids`
-  - `timeline.execute_restart_suppression`: `canonical_path_taken`, `bypass_path_taken`
-  - `emit.batch`: `path_type` (string: "canonical" / "bypass")
-  - `verify.readback_suppression_bypass`: `bypass_verdict_received`
-- **Required log fields:** `run_id`, `seed`, `scenario`, `p_ids`, `verdict`, `state`, `latency_ms`, `slo_tier`, `fingerprints`, `journal_emitted_at`, `bypass_triggered` (boolean)
-- **Cleanup:** Root `scenario.run` closes on report completion; emit batches (canonical and bypass) close independently; verify closes on MCP response; final verdict written to `db.insert_run`
+  - `fault.silence`: `fault_type`, `fault_duration_ms`, `fault_start_offset_ms` (the allowlisted fault attributes)
+- **Required log fields:** the standard eleven-field envelope — `verdict` null (declare-only), `state` "KnownResidual" under the degraded read-back; NO `bypass_triggered` extra. Suppression/bypass evidence lives in PULSE's own tracing lines, graded at the harvest tier (`conductor-run/tests/restart_harvest.rs`): the per-cue `triage.cue.suppression_check` + emit-absence pair carries the drop evidence (the `triage.cue.tick` `cues_suppressed`/`bypass_triggered` counters read `"<redacted>"` live — Pulse's default-deny allowlist predates the chunk-#63 fields), and suppression-eligibility is the service's young cumulative-sample window (`persistence_seconds` = samples, `cue/evaluate.rs:55` at HEAD `efabe8e`), not a time property of the spike.
+- **Cleanup:** Root `scenario.run` closes on report completion; `fault.silence` children close with their phase windows; final verdict written to `db.insert_run`
 
 #### Scenario: Severity-lifecycle full pass observing auto-resolve + resolution summary
 
@@ -444,7 +442,6 @@ latency_ms <= SLO_threshold_for_slo_tier ? Pass : Fail
 ```
 
 Additional scenario-specific fields (per obs-scope Section 4 must-trace paths):
-- `bypass_triggered` (boolean, restart-suppression scenario)
 - `lifecycle_phase` (string: "escalation" / "plateau" / "resolution", severity-lifecycle)
 - `severity_choice_calibrated` (boolean, severity-lifecycle)
 - `degraded_mode_response` (string or boolean, known-residual path)

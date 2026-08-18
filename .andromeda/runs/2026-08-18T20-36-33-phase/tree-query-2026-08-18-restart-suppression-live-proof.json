@@ -1,0 +1,54 @@
+[
+{
+"sql": "SELECT symbol, crate, file FROM symbol WHERE symbol LIKE '%restart%' OR symbol LIKE '%Restart%'",
+"rows": 2,
+"result": [
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/activity_floor_and_restart_suppression_fixtures_load_and_validate().",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/scenario.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 scenario/tests/activity_floor_and_restart_suppression_checks_are_all_hard().",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/scenario.rs"
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT from_crate, to_crate FROM crate_edges WHERE to_crate = 'conductor-run' OR from_crate = 'conductor-run'",
+"rows": 7,
+"result": [
+{
+"from_crate": "conductor-run",
+"to_crate": "conductor-emit"
+},
+{
+"from_crate": "conductor-tauri",
+"to_crate": "conductor-run"
+},
+{
+"from_crate": "conductor-cli",
+"to_crate": "conductor-run"
+},
+{
+"from_crate": "conductor-run",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-run",
+"to_crate": "conductor-report"
+},
+{
+"from_crate": "conductor-run",
+"to_crate": "conductor-verify"
+},
+{
+"from_crate": "conductor-run",
+"to_crate": "conductor-timeline"
+}
+],
+"db_state": "fresh"
+}
+]

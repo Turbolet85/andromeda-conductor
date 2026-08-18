@@ -1,0 +1,9 @@
+{
+  "run_id": "2026-08-18T21-40-46-519",
+  "seed": 4317015,
+  "scenario": "restart-suppression",
+  "verdict": null,
+  "state": "KnownResidual",
+  "latency_ms": 168192,
+  "slo_tier": "<90s"
+}

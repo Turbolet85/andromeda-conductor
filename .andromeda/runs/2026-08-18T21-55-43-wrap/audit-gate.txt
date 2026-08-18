@@ -1,0 +1,2 @@
+    Fetching advisory database from `https://github.com/RustSec/advisory-db.git`
+error: error loading advisory database: parse error: duplicate advisory ID: RUSTSEC-2026-0244

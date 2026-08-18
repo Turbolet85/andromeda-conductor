@@ -89,10 +89,16 @@ case "${1:-}" in
         "$CARGO" nextest run --workspace --profile ci
         "$CARGO" test --workspace --doc
         "$CARGO" clippy --workspace --all-targets -- -D warnings
-        # Optional scenario leg: SCENARIO=<name|P-ID> SEED=<n> scripts/agent-run.sh run
+        # Optional scenario leg: SCENARIO=<name|P-ID> [SEED=<n>] scripts/agent-run.sh run
         # --agent-mode: JSON self-obs to logs/agent-latest.jsonl + never block on an operator pause.
+        # --seed rides ONLY an explicitly set SEED — files-over-env-defaults precedence (arch
+        # §Config management): the TOML-declared seed governs when SEED is unset.
         if [ -n "${SCENARIO:-}" ]; then
-          "$CARGO" run -q -p conductor-cli --bin conductor -- run "$SCENARIO" --seed "${SEED:-424242}" --agent-mode
+          if [ -n "${SEED:-}" ]; then
+            "$CARGO" run -q -p conductor-cli --bin conductor -- run "$SCENARIO" --seed "$SEED" --agent-mode
+          else
+            "$CARGO" run -q -p conductor-cli --bin conductor -- run "$SCENARIO" --agent-mode
+          fi
         fi
         ;;
       *) echo "usage: $0 run [--unit|--integration|--e2e]" >&2; exit 2 ;;
