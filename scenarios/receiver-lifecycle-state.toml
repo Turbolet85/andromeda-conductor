@@ -3,45 +3,49 @@
 # A run over the envelope reports ENVIRONMENT-SUSPECT, not Fail — the harness drove it, not Pulse.
 
 # P-001 — Receiver Lifecycle State (pulse-capability-spec.md §P-001).
-# Drives the connection state machine through the full walk and reads back the terminal state:
+# Drives the connection state machine through the full walk:
 #   Listening (no spans) -> Receiving (first span, within 1s) -> Idle (10-60s quiet) -> Stalled (>60s quiet).
 # Coverage mode: drive+observe — the timing walk is auto; the connection-dot hue is operator-checklist.
+#
+# DECLARE-ONLY (measured, chunk 2026-08-19-connection-lifecycle-live-proof): connection state reaches
+# NO MCP read-back surface — Pulse's FSM surfaces only via the TauRPC current_state resolver, the
+# connection-state broadcast and tracing lines — so the former Hard `Contains "Stalled"` check was
+# structurally ungradeable under deterministic L4 (leg A measured the structural fail). The live claim
+# grades at the harvest tier (crates/conductor-run/tests/connection_harvest.rs) over Pulse's own
+# `connection.state.transition` ledger. NOTE (measured leg B1): the preflight warm-up paces spans
+# ~15s apart, so the pre-phase ledger oscillates Receiving <-> Idle across the 10s threshold and
+# the state at phase start is Receiving (the poll exits fast after the storm); the walk's own tail
+# is Receiving -> Idle (lag ~10.8s) -> Stalled (lag ~60.8s) — both threshold crossings, in order.
 name = "receiver-lifecycle-state"
 p_ids = ["P-001"]
 seed = 4317001
-slo_tier = "<90s"   # the walk reaches Stalled (>60s of accumulated silence)
+slo_tier = "<90s"   # latency ≈ scenario duration; leg B1 measured 69184 ms (leg A 69169 ms)
 jitter_ms = 50
 
 [[phases]]
-name = "listening"   # receivers up, zero spans yet
+name = "listening"   # receivers up, zero spans (live: the state is already past Listening — see NOTE)
 gap_ms = 2000
 [phases.emission]
 kind = "plain"
-occurrences = 0   # Listening is defined by the absence of any span
+occurrences = 0
 
 [[phases]]
-name = "receiving"   # emit the first valid span -> Receiving within 1s
+name = "receiving"   # emit the first spans -> Receiving within 1s
 gap_ms = 2000
 [phases.emission]
 kind = "plain"
 occurrences = 4
 
 [[phases]]
-name = "idle"        # stop emitting; 10-60s quiet -> Idle
+name = "idle"        # stop emitting; >=10s quiet -> Idle
 gap_ms = 15000
 [phases.emission]
 kind = "plain"
 occurrences = 0
 
 [[phases]]
-name = "stalled"     # further silence -> >60s cumulative -> Stalled
+name = "stalled"     # further silence -> >=60s cumulative -> Stalled
 gap_ms = 50000
 [phases.emission]
 kind = "plain"
 occurrences = 0
-
-# Terminal connection state read back from the receiver state machine.
-[[expected]]
-kind = "Contains"
-class = "Hard"
-expected = "Stalled"

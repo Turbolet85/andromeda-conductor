@@ -139,3 +139,8 @@ blake3 derivation (first 16 bytes / 32 hex), the FNV-1a derivation is removed, a
 `fingerprints[]` column is noted as read-back-fed, never fed from that derivation.
 **Why:** the ban described a future possibility that this chunk made present; anchoring it to the shipped
 derivation makes it enforceable rather than aspirational.
+
+## 2026-08-19-connection-lifecycle-live-proof — `[phases.fault]` registered at the scenario-config boundary
+**Section:** Input Validation (scenario-config row) · Threat Model Summary (attack-surface config-files vector) · Security Anti-Patterns (Input ban)
+**Change:** All three enumerations of the scenario-config trust boundary now carry the `[phases.fault]` block: closed `FaultKindSpec` kind enum (unknown kind = deserialize error), `dive` never `skip` on `PhaseSpec.fault`, the scenario-level `fault_phases_are_silent` (fault ⇒ occurrences 0), and the deliberate NO-port-in-config rule (private builder parameter only — no operator-steerable bind target).
+**Why:** The chunk added a new operator-authored config surface that shipped fully validated (report §Coverage: garde✓); the plan's emission-only enumerations would have left a later `#[garde(skip)]` on `fault` violating no written mandate.

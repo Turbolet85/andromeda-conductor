@@ -35,9 +35,9 @@ The four are **one surface in different run states**, not four routes — the fr
 |  [ Scenario / suite v ]   [ Start ]   [ Stop ]           |  <- control row: shadcn Command/Select (color-raised-2) + Buttons (radius-sm); padding space-sm
 +----------------------------------------------------------+
 |  COVERAGE  (manifest set)      82 loaded   0 measured     |  <- matrix header strip (Label) | counts (Data, color-id-cyan); gap space-md
-|  · P-001  span-status-error      <5s    —     not run     |
-|  · P-002  baseline-error-rate    <20s   —     not run     |  <- dense single-row-per-P-ID list (NOT KPI cards)
-|  · P-003  fingerprint-identity   <5s    —     not run     |     row padding space-md, border-subtle dividers, radius-md container
+|  · P-001  span-status-error      <slo_tier>  —  not run   |
+|  · P-002  baseline-error-rate    <slo_tier>  —  not run   |  <- dense single-row-per-P-ID list (NOT KPI cards)
+|  · P-003  fingerprint-identity   <slo_tier>  —  not run   |     row padding space-md, border-subtle dividers, radius-md container
 |  …  (virtual-scroll, one row per manifest capability)     |     lamp glyph + label + P-ID(Data,color-id-cyan) + slo_tier + latency
 +----------------------------------------------------------+
 |  RUN REPORT                                               |  <- run-report card (color-raised-1, radius-md, border-subtle)

@@ -3,21 +3,49 @@
 # A run over the envelope reports ENVIRONMENT-SUSPECT, not Fail — the harness drove it, not Pulse.
 
 # P-003 — Receiver Failure Surface (pulse-capability-spec.md §P-003).
-# A sacrificial process holds loopback :4317 before Pulse starts, so Pulse's receiver cannot bind;
-# Pulse surfaces ReceiverFailed within 2s. The :4317 bind is driven at run time by the existing
-# conductor-faults port-occupier (Epoch-8 driver) — this config does NOT bind the port itself.
+# The conductor-faults port-occupier holds loopback :4317 so Pulse's receiver cannot bind; Pulse
+# surfaces ReceiverFailed (reason bind_failed). The bind is driven by the [phases.fault] declaration
+# below — the run path binds at the port-held phase's open and the phase-boundary drop releases it.
+#
+# DECLARE-ONLY (measured, chunk 2026-08-19-connection-lifecycle-live-proof): connection state reaches
+# no MCP read-back surface (see receiver-lifecycle-state.toml), so the former Hard
+# `Contains "ReceiverFailed"` check was structurally ungradeable under deterministic L4 (leg A
+# measured the structural fail; the same leg measured the occupy-vs-live-Pulse AddrInUse -> harness
+# Err policy). The live claim grades at the harvest tier
+# (crates/conductor-run/tests/connection_harvest.rs).
+#
+# LIVE-LEG CHOREOGRAPHY (the only single-run shape that lets the occupier drive a live
+# ReceiverFailed — preflight needs Pulse UP, Pulse holds :4317, and Pulse never retries a failed
+# bind; recovery is a pulse-app restart):
+#   pre-conflict (20s): operator STOPS pulse-app on this cue
+#   port-held   (40s): the occupier binds :4317 at phase open; operator STARTS pulse-app into the
+#                      conflict -> ReceiverFailed (trigger_reason bind_failed)
+#   recovery    (15s): the boundary drop released the bind; operator RESTARTS pulse-app -> bound
 name = "receiver-failed-port-conflict"
 p_ids = ["P-003"]
 seed = 4317003
-slo_tier = "<5s"   # ReceiverFailed surfaces within 2s
+slo_tier = "<90s"   # latency ≈ scenario duration; leg B4 measured 75074 ms
 jitter_ms = 0
 
 [[phases]]
-name = "port-held"   # port-occupier holds :4317; Pulse receiver bind fails
-gap_ms = 2000
+name = "pre-conflict"
+gap_ms = 20000
+[phases.emission]
+kind = "plain"
+occurrences = 0
 
-# Connection state read back from the receiver failure surface.
-[[expected]]
-kind = "Contains"
-class = "Hard"
-expected = "ReceiverFailed"
+[[phases]]
+name = "port-held"
+gap_ms = 40000
+[phases.emission]
+kind = "plain"
+occurrences = 0
+[phases.fault]
+kind = "port_occupier"
+
+[[phases]]
+name = "recovery"
+gap_ms = 15000
+[phases.emission]
+kind = "plain"
+occurrences = 0

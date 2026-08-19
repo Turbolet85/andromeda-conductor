@@ -47,7 +47,8 @@ pub use load_envelope::{
 pub use obs::{init_observability, mint_run_id, now_rfc3339, ObsSink, ServiceIdentity};
 pub use pause::{Decision, HeadlessResolver, HoldPoint, HoldResolution, PauseResolver, resolve_hold};
 pub use phase_spec::{
-    EmissionShape, EmissionSpec, FingerprintVariantSpec, PhaseSpec, PiiCategorySpec, Signal,
+    EmissionShape, EmissionSpec, FaultKindSpec, FaultSpec, FingerprintVariantSpec, PhaseSpec,
+    PiiCategorySpec, Signal,
 };
 pub use redact::{redact_value, sanitize_error};
 pub use report_state::ReportState;

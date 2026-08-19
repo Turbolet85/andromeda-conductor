@@ -358,3 +358,13 @@ fixture — and every gate stayed green over it, because they assert Conductor a
 **Section:** Standard Contracts — Run report envelope (per scenario check)
 **Change:** The declare-only note now names BOTH families — error-baseline-spike (retired 2026-08-18) and pii-scrub (retired 2026-08-19) — shipping zero [[expected]] checks because no read-back surface can carry them under deterministic L4, their live rows landing verdict: null / state: KnownResidual under the degraded read-back with the live claims graded at the harvest tier.
 **Why:** The chunk retired all five pii-scrub checks after leg A measured the vacuous-Absent / structural-fail-Contains behavior the sources predicted (run 2026-08-19T20-37-25-933); the note previously named error-baseline-spike only. Sole arch occurrence (agent grep verified).
+
+## 2026-08-19-connection-lifecycle-live-proof — declare-only family list re-based to the full six
+**Section:** Standard Contracts — Run report envelope (declare-only note)
+**Change:** The note now names all SIX declare-only families (fingerprint-storm · error-baseline-spike · latency-regression · restart-suppression · pii-scrub · the connection family's four TOMLs) instead of the two it had grown incrementally.
+**Why:** The connection family retired declare-only this chunk (all four `[[expected]]` checks → 0, measured structurally ungradeable — connection state reaches no MCP read-back surface); the incremental two-name list under-stated the standing set.
+
+## 2026-08-19-connection-lifecycle-live-proof — the per-phase fault model + driver registered
+**Section:** Conventions — Config conventions · Established Decisions [Validation Library] · Occupied Resources — Crate names · Infrastructure Patterns — directory tree
+**Change:** Registered the optional `[phases.fault]` declared-data table (`PhaseSpec.fault: Option<FaultSpec>`, closed `FaultKindSpec::PortOccupier`, garde dive, fault ⇒ occurrences 0 via `fault_phases_are_silent`); the cross-field-invariant enumeration gains the silence rule (field-level one altitude up, like `no_duplicate_pids`); conductor-run's registry entry + tree comment gain the fault-phase occupier guard and the new `conductor-run → conductor-faults` edge (conductor-faults' first consumer).
+**Why:** The chunk shipped the port-occupier driver as declared phase data over the guard-generic timeline hook; the config surface, the invariant and the crate edge were unregistered (report §Symbols/APIs · §Crates/modules · §Schema/config).

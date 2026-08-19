@@ -1,6 +1,16 @@
 # Session Learnings
 
 _This file is curated by `/wrap-session`. Learnings captured here are too detailed or specific for CLAUDE.md but worth preserving as reference material for future sessions._
+## 2026-08-19 — Wireframe sample rows bind by P-ID, not by their scenario-name column
+
+The layout-templates idle-console sample rows pair P-ID labels with FICTIONAL scenario names (e.g. `P-003
+fingerprint-identity`), so a derived-value reader keyed on scenario names concludes "other scenarios,
+untouched" while the P-ID-labeled tier cell bakes a value a chunk just moved. Treat the P-ID as the binding
+key for sample-staleness checks. The drift agent under-ran exactly this way this wrap; the
+expected-amendments floor (validate check 5) caught it, and the rows are now de-literalized to `<slo_tier>`.
+
+---
+
 
 _Entries are added in reverse chronological order (newest first). Each entry has an ISO date, short title, and body._
 

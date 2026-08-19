@@ -90,7 +90,7 @@ fn scenario(phase: PhaseSpec) -> Scenario {
 }
 
 fn phase(gap_ms: u64, emission: EmissionSpec) -> PhaseSpec {
-    PhaseSpec { name: "under-test".to_string(), gap_ms, emission }
+    PhaseSpec { name: "under-test".to_string(), gap_ms, emission, fault: None }
 }
 
 /// Spans across every captured trace request.

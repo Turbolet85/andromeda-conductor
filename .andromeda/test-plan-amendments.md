@@ -145,3 +145,8 @@ table.
 **Section:** §6 Headless deterministic scenario run (Cleanup parenthetical) + §1 Critical paths closing note (the two-site rule)
 **Change:** Both sites now split the parenthetical — connection-lifecycle stays an auto-scenario instance of Path 1; pii-scrub is DECLARE-ONLY (all five [[expected]] read-back checks retired, measurement in the scenario TOML header; row lands verdict null / state KnownResidual, non-Blocked) with the live scrub claim graded at the harvest tier in crates/conductor-run/tests/pii_harvest.rs (the storm/baseline/restart_harvest precedent).
 **Why:** Report Counts bullet: [[expected]] 5 -> 0; a single-site apply would leave the twin asserting the retired read-back-graded shape (the two-site rule established at the error-baseline re-base). The other two pii-scrub mentions (:62 run-verb list, :148 scenario-invocation list) name it only as an invocable scenario and stay true — verified this wrap.
+
+## 2026-08-19-connection-lifecycle-live-proof — connection-lifecycle re-based auto-scenario → DECLARE-ONLY (two sites)
+**Section:** §1 Test Scope Summary (critical-paths closing note) · §6 E2E Scenario 1 (Cleanup parenthetical)
+**Change:** Both sites now state the connection family as DECLARE-ONLY instances of Path 1's pattern — zero read-back-graded checks, rows landing `verdict` null / `state=KnownResidual` non-Blocked — with the live walk/conflict claims graded at the harvest tier in `crates/conductor-run/tests/connection_harvest.rs` (the fifth harvest).
+**Why:** Measured this chunk (leg A structural fail; legs B1–B4 the shipped shape): connection state reaches no MCP read-back surface, so the family's four Contains checks retired. The two-site rule applied in one pass (the error-baseline precedent).

@@ -22,14 +22,15 @@ use anyhow::Context as _;
 use serde::Serialize;
 
 use conductor_core::{
-    EmissionShape, EmissionSpec, EnvelopeStatus, HoldPoint, LoadEnvelope, PauseResolver, ReportState,
-    RunContract, RunContractStatus, RunRecord, Scenario, Verdict, now_rfc3339, redact_value,
-    resolve_hold, resolve_under,
+    EmissionShape, EmissionSpec, EnvelopeStatus, FaultKindSpec, HoldPoint, LoadEnvelope,
+    PauseResolver, ReportState, RunContract, RunContractStatus, RunRecord, Scenario, Verdict,
+    now_rfc3339, redact_value, resolve_hold, resolve_under,
 };
 use conductor_emit::{
     DEFAULT_OTLP_ENDPOINT, ExceptionSpec, Frame, TraceEmitter,
     exception_trace_request, fingerprint, probe_egress, trace_request,
 };
+use conductor_faults::{FaultError, OTLP_INGEST_PORT, PortOccupier};
 use conductor_report::{JournalWriter, RunReport, RunsDb};
 use conductor_timeline::{PhaseTimeline, PhaseWindow, run_timeline_observed};
 
@@ -352,14 +353,21 @@ pub async fn execute_scenario<R: PauseResolver>(
     let mut dispatcher = Dispatcher::connect(scenario, DEFAULT_OTLP_ENDPOINT)
         .await
         .context("OTLP emission egress")?;
+    let mut occupy_failure: Option<FaultError> = None;
     run_timeline_observed(
         &timeline,
         scenario.seed,
-        |window| fault_span(scenario, &window, emitted_ms),
+        |window| phase_guard(scenario, &window, emitted_ms, OTLP_INGEST_PORT, &mut occupy_failure),
         async |point| dispatcher.dispatch(point).await,
     )
     .await
     .context("timeline scheduling")?;
+    if let Some(refused) = occupy_failure {
+        // The declared fault never applied, so no record exists to grade — a harness fault, never a
+        // row (ratified at phase P4: Err after the timeline; the observer hook is infallible).
+        return Err(anyhow::Error::new(refused))
+            .context("the fault-declared phase could not apply its port occupier");
+    }
 
     let observation = match observe(client).await {
         ReadBackOutcome::Observed(observation) => observation,
@@ -551,6 +559,41 @@ fn fault_span(scenario: &Scenario, window: &PhaseWindow<'_>, emitted_ms: i64) ->
             ramp_factor = factor
         ),
     })
+}
+
+/// What the scheduler holds for one phase's window: the phase's `fault.*` span, and the port
+/// occupier when the phase declares one. The boundary drop IS the RAII release (obs-plan §4) —
+/// both fields exist only to be held, hence the underscores.
+struct PhaseGuard {
+    _span: Option<tracing::Span>,
+    _occupier: Option<PortOccupier>,
+}
+
+/// Build the value held for `window`. A fault-declaring phase binds its occupier here, at phase
+/// open; a refused bind is recorded into `failure` — the observer hook is infallible by design, so
+/// the harness fault surfaces after the timeline completes, never as a panic or a silent row.
+/// `occupier_port` is a parameter so tests bind `:0` (never the real ingest port — test-plan §10);
+/// the production call site passes [`OTLP_INGEST_PORT`].
+fn phase_guard(
+    scenario: &Scenario,
+    window: &PhaseWindow<'_>,
+    emitted_ms: i64,
+    occupier_port: u16,
+    failure: &mut Option<FaultError>,
+) -> PhaseGuard {
+    let occupier = scenario.phases.get(window.index).and_then(|p| p.fault).and_then(|fault| {
+        match fault.kind {
+            FaultKindSpec::PortOccupier => match PortOccupier::occupy(occupier_port) {
+                Ok(occupier) => Some(occupier),
+                Err(refused) => {
+                    tracing::error!("port occupier could not bind: the port is already held");
+                    failure.get_or_insert(refused);
+                    None
+                }
+            },
+        }
+    });
+    PhaseGuard { _span: fault_span(scenario, window, emitted_ms), _occupier: occupier }
 }
 
 /// Wall-clock unix nanos — the unit Pulse stamps `opened_at_unix_nano` in, so the canary's emission
@@ -776,6 +819,75 @@ mod tests {
             "name = \"{name}\"\np_ids = [\"P-001\"]\nseed = 1\nslo_tier = \"<5s\"\njitter_ms = 0\n[[phases]]\nname = \"p1\"\ngap_ms = {gap_ms}\n"
         );
         Scenario::from_toml_str(&toml).expect("fixture scenario validates")
+    }
+
+    /// A single fault-declaring silence phase — the port-conflict shape.
+    fn occupier_fixture() -> Scenario {
+        let toml = "name = \"occupier-fixture\"\np_ids = [\"P-003\"]\nseed = 3\nslo_tier = \"<90s\"\njitter_ms = 0\n[[phases]]\nname = \"port-held\"\ngap_ms = 100\n[phases.emission]\nkind = \"plain\"\noccurrences = 0\n[phases.fault]\nkind = \"port_occupier\"\n";
+        Scenario::from_toml_str(toml).expect("fixture scenario validates")
+    }
+
+    #[test]
+    fn a_fault_phase_guard_binds_and_its_drop_releases() {
+        let scenario = occupier_fixture();
+        let window =
+            PhaseWindow { index: 0, name: "port-held", gap: std::time::Duration::from_millis(100) };
+        let mut failure = None;
+        let guard = phase_guard(&scenario, &window, 0, 0, &mut failure);
+        assert!(failure.is_none(), "an ephemeral bind succeeds");
+        let addr = guard._occupier.as_ref().expect("the fault phase binds an occupier").local_addr();
+        assert!(std::net::TcpListener::bind(addr).is_err(), "held while the guard lives");
+        drop(guard);
+        std::net::TcpListener::bind(addr).expect("the boundary drop released the bind");
+    }
+
+    #[test]
+    fn a_plain_phase_guard_carries_no_occupier() {
+        let scenario = fixture(7);
+        let window =
+            PhaseWindow { index: 0, name: "p1", gap: std::time::Duration::from_millis(100) };
+        let mut failure = None;
+        let guard = phase_guard(&scenario, &window, 0, 0, &mut failure);
+        assert!(guard._occupier.is_none(), "no fault declaration, no bind");
+        assert!(failure.is_none());
+    }
+
+    #[test]
+    fn a_refused_occupy_is_captured_for_the_post_timeline_check() {
+        let held = PortOccupier::occupy(0).expect("pre-hold an ephemeral port");
+        let port = held.local_addr().port();
+        let scenario = occupier_fixture();
+        let window =
+            PhaseWindow { index: 0, name: "port-held", gap: std::time::Duration::from_millis(100) };
+        let mut failure = None;
+        let guard = phase_guard(&scenario, &window, 0, port, &mut failure);
+        assert!(guard._occupier.is_none(), "the held port refuses the second bind");
+        assert!(matches!(failure, Some(FaultError::Bind { .. })), "captured, not panicked");
+        drop(held);
+    }
+
+    /// The ratified occupy-failure policy's mechanics: the hook is infallible, the timeline
+    /// completes, and the captured failure survives to the post-timeline check.
+    #[tokio::test(flavor = "current_thread", start_paused = true)]
+    async fn occupy_failure_is_captured_across_the_timeline_and_surfaces_after() {
+        let held = PortOccupier::occupy(0).expect("pre-hold an ephemeral port");
+        let port = held.local_addr().port();
+        let scenario = occupier_fixture();
+        let timeline = PhaseTimeline::from(&scenario);
+        let mut failure = None;
+        run_timeline_observed(
+            &timeline,
+            scenario.seed,
+            |window| phase_guard(&scenario, &window, 0, port, &mut failure),
+            async |_| Ok::<(), std::convert::Infallible>(()),
+        )
+        .await
+        .expect("a refused bind is not a scheduling error — the timeline completes");
+        assert!(
+            matches!(failure, Some(FaultError::Bind { .. })),
+            "the failure survives to the post-timeline check"
+        );
+        drop(held);
     }
 
     /// `storm_ms` drives the asserted per-phase sustained-storm window; `named_fixture` builds a

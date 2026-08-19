@@ -50,11 +50,13 @@ mod tests {
                     name: "baseline".to_string(),
                     gap_ms: 2000,
                     emission: EmissionSpec::default(),
+                    fault: None,
                 },
                 PhaseSpec {
                     name: "spike".to_string(),
                     gap_ms: 1000,
                     emission: EmissionSpec::default(),
+                    fault: None,
                 },
             ],
             jitter_ms: 200,

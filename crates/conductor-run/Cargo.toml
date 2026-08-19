@@ -9,6 +9,8 @@ publish.workspace = true
 conductor-core.workspace = true
 conductor-timeline.workspace = true
 conductor-emit.workspace = true
+# the port-occupier driver: a fault-declared phase binds/releases the occupier for its window
+conductor-faults.workspace = true
 conductor-verify.workspace = true
 conductor-report.workspace = true
 anyhow.workspace = true

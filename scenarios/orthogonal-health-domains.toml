@@ -6,28 +6,31 @@
 # Emit a high error rate (application unhealthy) then cleanly stop the emitter. The connection dot
 # must transition Receiving -> Idle WITHOUT a false alert state, while the halo independently
 # reflects the error severity — connection state and application health are orthogonal domains.
+# The halo half stays operator-checklist (drive+observe).
+#
+# DECLARE-ONLY (measured, chunk 2026-08-19-connection-lifecycle-live-proof): connection state reaches
+# no MCP read-back surface (see receiver-lifecycle-state.toml), so the former `Contains "Idle"`
+# (Hard) and `Contains "error"` (CalibrationRegion) checks were structurally ungradeable under
+# deterministic L4 (leg A measured the structural fail). The live claim grades at the harvest tier:
+# Receiving -> Idle during clean-stop with NO ReceiverFailed transition anywhere in the leg window
+# (the no-false-alert negative), the error burst notwithstanding.
 name = "orthogonal-health-domains"
 p_ids = ["P-004"]
 seed = 4317004
-slo_tier = "<90s"   # connection transitions Receiving -> Idle (Idle 10-60s)
+slo_tier = "<90s"   # latency ≈ scenario duration; leg B3 measured 18188 ms (kept over <20s — 9% margin is too thin for the closed set)
 jitter_ms = 50
 
 [[phases]]
-name = "error-burst"   # high error rate — application unhealthy
+name = "error-burst"   # a real high error rate — application unhealthy while the connection is fine
 gap_ms = 3000
+[phases.emission]
+kind = "error"
+occurrences = 10
+error_percent = 100
 
 [[phases]]
-name = "clean-stop"    # emitter stops cleanly; connection goes Receiving -> Idle
+name = "clean-stop"    # emitter stops cleanly; >=10s quiet -> Receiving -> Idle, no alert state
 gap_ms = 15000
-
-# Connection reaches Idle cleanly (no false alert) — the deterministic orthogonality claim.
-[[expected]]
-kind = "Contains"
-class = "Hard"
-expected = "Idle"
-
-# The halo independently reflects error severity — model-interpretive, so calibration-region.
-[[expected]]
-kind = "Contains"
-class = "CalibrationRegion"
-expected = "error"
+[phases.emission]
+kind = "plain"
+occurrences = 0

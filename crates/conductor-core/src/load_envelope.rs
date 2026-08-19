@@ -438,6 +438,7 @@ mod tests {
                         occurrences: *occurrences,
                         ..EmissionSpec::default()
                     },
+                    fault: None,
                 })
                 .collect(),
             jitter_ms: 0,

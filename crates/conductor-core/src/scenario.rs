@@ -93,7 +93,7 @@ pub struct Scenario {
     pub slo_tier: SloTier,
     /// The ordered per-phase emission spec — the declarative timeline the scheduler sequences.
     /// Required, non-empty; each phase is validated via `dive`.
-    #[garde(length(min = 1), dive)]
+    #[garde(length(min = 1), dive, custom(crate::phase_spec::fault_phases_are_silent))]
     pub phases: Vec<PhaseSpec>,
     /// Symmetric per-gap jitter bound (milliseconds) the seeded scheduler may perturb each phase
     /// gap by; `0` means gaps land exactly as declared. Bounded by garde.
@@ -167,7 +167,7 @@ fn no_duplicate_pids(p_ids: &[PId], _ctx: &()) -> garde::Result {
 mod tests {
     use super::*;
     use crate::expected::{ClaimClass, ComparisonKind};
-    use crate::phase_spec::{EmissionSpec, Signal, MAX_JITTER_MS};
+    use crate::phase_spec::{EmissionSpec, FaultKindSpec, FaultSpec, Signal, MAX_JITTER_MS};
     use garde::Validate;
     use rstest::rstest;
 
@@ -181,6 +181,7 @@ mod tests {
                 name: "baseline".to_string(),
                 gap_ms: 2000,
                 emission: EmissionSpec::default(),
+                fault: None,
             }],
             jitter_ms: 50,
             expected: Vec::new(),
@@ -301,8 +302,18 @@ mod tests {
             name: String::new(), // empty phase name fails PhaseSpec validation
             gap_ms: 100,
             emission: EmissionSpec::default(),
+            fault: None,
         }];
         assert!(s.validate().is_err());
+    }
+
+    #[test]
+    fn a_fault_phase_that_emits_is_rejected_at_scenario_level() {
+        let mut s = scenario_with(vec![PId("P-003".to_string())]);
+        s.phases[0].fault = Some(FaultSpec { kind: FaultKindSpec::PortOccupier });
+        assert!(s.validate().is_err(), "the default one-plain-trace emission violates the silence invariant");
+        s.phases[0].emission.occurrences = 0;
+        assert!(s.validate().is_ok(), "a silent fault phase validates");
     }
 
     #[test]
@@ -377,13 +388,40 @@ gap_ms = 1
     #[case("last-span-ago-tracking", "P-002")]
     #[case("receiver-failed-port-conflict", "P-003")]
     #[case("orthogonal-health-domains", "P-004")]
-    fn connection_lifecycle_fixtures_load_and_validate(#[case] stem: &str, #[case] p_id: &str) {
+    fn connection_lifecycle_fixtures_are_declare_only_at_the_harvest_tier(
+        #[case] stem: &str,
+        #[case] p_id: &str,
+    ) {
         let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
         let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
         let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
         assert_eq!(s.name, stem);
         assert_eq!(s.p_ids, vec![PId(p_id.to_string())]);
-        assert!(!s.expected.is_empty(), "{stem} declares at least one expected check");
+        assert!(
+            s.expected.is_empty(),
+            "{stem} is declare-only — connection state reaches no MCP read-back surface (Pulse's \
+             FSM surfaces only via the TauRPC resolver, the broadcast topic and tracing lines), so \
+             the family's Contains checks were structurally ungradeable under deterministic L4; \
+             the live claims grade at the harvest tier (conductor-run/tests/connection_harvest.rs)"
+        );
+    }
+
+    /// The port-conflict scenario is the catalog's one fault-declaring member: the occupier rides
+    /// the port-held phase, and every phase is a silence window (the choreography emits nothing —
+    /// during the hold nothing real listens on the egress target).
+    #[test]
+    fn receiver_failed_port_conflict_declares_the_occupier_fault() {
+        let path = concat!(
+            env!("CARGO_MANIFEST_DIR"),
+            "/../../scenarios/receiver-failed-port-conflict.toml"
+        );
+        let toml = std::fs::read_to_string(path).expect("fixture readable");
+        let s = Scenario::from_toml_str(&toml).expect("fixture valid");
+        let fault_phases: Vec<_> = s.phases.iter().filter(|p| p.fault.is_some()).collect();
+        assert_eq!(fault_phases.len(), 1, "exactly one fault-declaring phase");
+        assert_eq!(fault_phases[0].name, "port-held");
+        assert_eq!(fault_phases[0].fault, Some(FaultSpec { kind: FaultKindSpec::PortOccupier }));
+        assert!(s.phases.iter().all(|p| p.emission.occurrences == 0), "every phase is silent");
     }
 
     #[rstest]

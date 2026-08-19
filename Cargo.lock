@@ -665,6 +665,7 @@ dependencies = [
  "assert_fs",
  "conductor-core",
  "conductor-emit",
+ "conductor-faults",
  "conductor-report",
  "conductor-timeline",
  "conductor-verify",

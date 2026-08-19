@@ -44,6 +44,46 @@ pub struct PhaseSpec {
     #[serde(default)]
     #[garde(dive)]
     pub emission: EmissionSpec,
+    /// A fault this phase applies for its window, declaratively (the port-occupier hold). Absent on
+    /// every ordinary phase. A fault-declaring phase must also be a silence window — asserted at the
+    /// scenario level (`fault_phases_are_silent`), since garde customs are field-level.
+    #[serde(default)]
+    #[garde(dive)]
+    pub fault: Option<FaultSpec>,
+}
+
+/// A fault applied for one phase's window — declared data, like the emission spec. The run path
+/// drives the named `conductor-faults` helper for exactly the phase's scheduler-held window.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize, Validate)]
+pub struct FaultSpec {
+    /// Which fault helper this phase applies. Closed set — the enum is the validation.
+    #[garde(skip)]
+    pub kind: FaultKindSpec,
+}
+
+/// The fault helpers a phase may declare (core-local mirror of `conductor-faults`, like the
+/// emission-shape mirrors above).
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum FaultKindSpec {
+    /// The `:4317` port-occupier — Conductor's sole deliberate inbound bind, held for the window
+    /// and RAII-released at the phase boundary.
+    PortOccupier,
+}
+
+/// A fault-declaring phase must be a silence window: while the occupier holds the egress port
+/// nothing real listens there, so a declared emission would land in the occupier, never Pulse.
+/// Field-level on `Scenario::phases` (garde 0.22.1 has no container-level `custom`) — the same
+/// altitude trick as [`shape_is_realizable`], one level up.
+pub(crate) fn fault_phases_are_silent(phases: &[PhaseSpec], _ctx: &()) -> garde::Result {
+    for phase in phases {
+        if phase.fault.is_some() && phase.emission.occurrences != 0 {
+            return Err(garde::Error::new(
+                "a fault-declaring phase must be a silence window (occurrences = 0)",
+            ));
+        }
+    }
+    Ok(())
 }
 
 /// A declarative description of a phase's emission: how many, and of what shape.
@@ -276,6 +316,7 @@ mod tests {
             name: name.to_string(),
             gap_ms,
             emission: EmissionSpec::default(),
+            fault: None,
         }
     }
 
@@ -326,6 +367,7 @@ mod tests {
             name: "under-test".to_string(),
             gap_ms: 2000,
             emission: EmissionSpec::shaped(Signal::Traces, occurrences, shape),
+            fault: None,
         }
     }
 
@@ -448,5 +490,45 @@ mod tests {
         let spec: PhaseSpec =
             toml::from_str("name = \"baseline\"\ngap_ms = 2000\n").expect("parses");
         assert_eq!(spec.emission, EmissionSpec::default());
+        assert_eq!(spec.fault, None, "no fault table declares no fault");
+    }
+
+    #[test]
+    fn a_fault_table_parses_to_the_declared_kind() {
+        let toml = r#"
+            name = "port-held"
+            gap_ms = 40000
+            [emission]
+            kind = "plain"
+            occurrences = 0
+            [fault]
+            kind = "port_occupier"
+        "#;
+        let spec: PhaseSpec = toml::from_str(toml).expect("parses");
+        assert_eq!(spec.fault, Some(FaultSpec { kind: FaultKindSpec::PortOccupier }));
+        assert!(spec.validate().is_ok());
+    }
+
+    #[test]
+    fn an_unknown_fault_kind_is_rejected_at_parse() {
+        let toml = r#"
+            name = "port-held"
+            gap_ms = 40000
+            [fault]
+            kind = "chaos_monkey"
+        "#;
+        assert!(toml::from_str::<PhaseSpec>(toml).is_err());
+    }
+
+    #[test]
+    fn a_fault_phase_that_emits_is_rejected_by_the_silence_invariant() {
+        let mut emitting = phase("port-held", 40000);
+        emitting.fault = Some(FaultSpec { kind: FaultKindSpec::PortOccupier });
+        assert_eq!(emitting.emission.occurrences, 1, "the default emission is one plain trace");
+        assert!(fault_phases_are_silent(std::slice::from_ref(&emitting), &()).is_err());
+
+        emitting.emission.occurrences = 0;
+        assert!(fault_phases_are_silent(std::slice::from_ref(&emitting), &()).is_ok());
+        assert!(fault_phases_are_silent(&[], &()).is_ok(), "no phases, nothing to violate");
     }
 }

@@ -73,6 +73,7 @@ mod tests {
                 name: "p".to_string(),
                 gap_ms: 1,
                 emission: crate::EmissionSpec::default(),
+                fault: None,
             }],
             jitter_ms: 0,
             expected: Vec::new(),
