@@ -187,11 +187,12 @@
       "observed_gap": "Only the canary path has touched a live Pulse; pii-scrub has never been driven end-to-end.",
       "verification": {
         "method": "dynamic-external",
-        "acceptance": "All seven PII categories emitted across spans, logs and exceptions read back scrubbed in both corpus and report excerpts with structure preserved; verdicts are recorded without persisting excerpt content into Conductor artifacts.",
-        "ref": null,
-        "status": "planned"
+        "acceptance": "The pii-scrub leg proves live ingestion of all three carriers (spans / exception events / logs): duckdb.append rows_appended match the emitted counts with zero PK-collision drops, and the preflight incident forms. Scrub semantics are byte-verified at SUT HEAD (whole-field [REDACTED:{category}] at persistence; 6/7 category recall — bare sk_live_ gap recorded as SUT intake). The 5 read-back checks are retired declare-only WITH the measurement recorded (vacuous Absent / structural-fail Contains, source-proven payload-invariant tools). No raw excerpt value appears in any Conductor artifact or committed pin (sentinel-absence negative).",
+        "ref": "crates/conductor-run/tests/pii_harvest.rs (live ingestion witnesses over pinned verbatim leg lines from run 2026-08-19T20-42-57-839: spans 2x2 / span_events 1x2 / log_records 7x2 zero-drop + the canary suggested@5->autonomous@10 ladder + the 33-needle sentinel-absence negative) + crates/conductor-emit/src/pii.rs::tests::log_records_carry_distinct_strictly_increasing_stamps (the PK-collision fix, proven live on both legs) + crates/conductor-core/src/scenario.rs::tests::pii_scrub_is_declare_only_with_the_measurement_recorded (the declare-only retirement with the leg-A measurement in the TOML header)",
+        "status": "verified"
       },
-      "chunk": null
+      "chunk": "2026-08-19-pii-scrub-live-proof",
+      "notes": "PREMISE-CORRECTION (2026-08-19 phase P5, operator-ratified claim+reword): the original read-back outcome is unattainable under deterministic L4 + the 4-tool corpus surface — source-proven at SUT HEAD efabe8e (span attributes never stored, buffer schema; scrubbed value-bearing fields live in the in-memory buffer no corpus tool reads; retrieve_telemetry_slice projects only evidence_refs, tools.rs:422-443; retrieve_report renders only L4-fixture/incident fields). Acceptance concretized to the achievable live proof (ingestion witnesses + source-pinned scrub semantics + declare-only retirement + hygiene negative); evidence: chunks/2026-08-19-pii-scrub-live-proof/research.md, The central measurement section. SUT intake riding the chunk: bare sk_live_ recall gap; no external scrub observability; log_records PK drop semantics."
     },
     {
       "id": "v2-15",

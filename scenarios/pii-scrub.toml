@@ -4,29 +4,36 @@
 
 # P-035 / P-047 / P-048 — Anonymized Telemetry Excerpts + PII Scrubbing at Ingestion + No Raw OTLP
 # Attribute Values Stored (pulse-capability-spec.md §P-035/§P-047/§P-048). PII-scrub family: one PII-laden
-# workload, one outcome — every seeded value scrubbed, structure preserved.
-#   P-047 — pattern-based scrubbing of all seven categories (email / JWT / bearer / API key / credit-card
-#     PAN / SSN / secret key=value) at ingestion; the raw value never lands in the corpus.
-#   P-048 — the corpus stores no raw OTLP attribute VALUES, only anonymized fingerprints + structural
-#     metadata; the same negative assertion read back from the corpus rather than the Report.
-#   P-035 — the Report's telemetry excerpts are included AFTER anonymization (span timing/structure kept,
-#     values scrubbed) — the positive "structure preserved" side.
-# Drive: the conductor-emit PiiCorpus (seeded synthetic values per category) across spans (P-035 excerpts)
-#   and logs; the emitter binding is Epoch-8, this config declares the workload + the scrub expectation.
-# The seeded values vary by seed, but each category has a STABLE sentinel substring that appears in read-back
-#   ONLY if scrubbing failed: `@example.com` (email), `sk_live_` (API key), `Bearer ` (bearer), `password=`
-#   (secret key=value) — grounded in conductor-emit/src/pii.rs `generate()`. Absent on those is a clean Hard
-#   negative. The `Contains` structural marker (`user.email`, a retained `field_key` per P-048) is inferred
-#   (substring-tolerant) — an Epoch-8 calibration point (the exact surviving-structure token is the evaluator's).
-# Coverage mode: auto (MCP read-back of the scrubbed Report excerpts + corpus).
+# workload driven across all three carriers — span attributes + an `exception` event (spans phase) and
+# log-record body + attribute (logs phase) — by the conductor-emit PiiCorpus (seeded synthetic values per
+# category; per-occurrence corpus AND span identity via the dispatcher's emission_seed).
+#
+# DECLARE-ONLY (retired 2026-08-19, measurement recorded): NO MCP read-back surface varies with the
+# emitted payload under deterministic L4, so no [[expected]] check can grade scrubbing here.
+#   Source-proven at SUT HEAD efabe8e: the `spans` table stores NO attributes and `log_records` has no
+#   attribute column (P-048 holds BY SCHEMA for attributes; buffer schema.rs); the scrubbed value-bearing
+#   fields (exception message/stacktrace, log body, template content) live in the in-memory buffer no
+#   corpus tool reads; `retrieve_telemetry_slice` projects only the incident's evidence_refs
+#   (mcp-server tools.rs:422-443) and `retrieve_report` renders only L4-fixture/incident fields.
+#   Measured live (run 2026-08-19T20-37-25-933, checks still intact on that leg): the four Absent
+#   sentinels (`@example.com` / `sk_live_` / `Bearer ` / `password=`) passed VACUOUSLY, the Contains
+#   "user.email" structure marker failed STRUCTURALLY -> verdict Fail, state KnownResidual under the
+#   degraded read-back; fingerprints were the payload-invariant det-* triple. A vacuous green is not
+#   evidence (the fingerprint-storm precedent), so the checks retire rather than stand.
+# The live claim grades at the HARVEST tier instead (crates/conductor-run/tests/pii_harvest.rs): all
+# three carriers measured ingested via Pulse's own duckdb.append lines (spans 2x2 / span_events 1x2 /
+# log_records 7x2 — zero PK-collision drops), with scrub semantics byte-verified at SUT source
+# (security scrubber.rs: whole-field [REDACTED:{category}] markers at persistence; 6/7 category recall —
+# the bare `sk_live_` provider-key shape matches no catalog pattern, recorded as SUT-visit intake).
+# The row lands ManualCheck -> KnownResidual under the degraded read-back (producer-assigned downstream).
 name = "pii-scrub"
 p_ids = ["P-035", "P-047", "P-048"]
 seed = 4317035
-slo_tier = "<5s"   # scrubbing is an ingestion-time transform on the hard-signal path
+slo_tier = "<5s"   # measured 4098 ms journal-relative on the 2026-08-19 leg — the tier holds
 jitter_ms = 50
 
 [[phases]]
-name = "emit-pii-spans"   # PII embedded across span attributes (P-035 excerpts / P-047 categories)
+name = "emit-pii-spans"   # PII embedded across span attributes + an exception event (P-035 / P-047)
 gap_ms = 2000
 [phases.emission]
 kind = "pii"
@@ -41,32 +48,3 @@ signal = "logs"
 kind = "pii"
 occurrences = 2
 categories = ["email", "jwt", "bearer", "api_key", "credit_card", "ssn", "secret_key_value"]
-
-# P-047 / P-048 — the raw seeded values are scrubbed: their stable category sentinels are ABSENT from the
-# read-back (Report excerpts + corpus). Each sentinel is a distinct token, so no Absent/Contains conflict.
-[[expected]]
-kind = "Absent"
-class = "Hard"
-expected = "@example.com"
-
-[[expected]]
-kind = "Absent"
-class = "Hard"
-expected = "sk_live_"
-
-[[expected]]
-kind = "Absent"
-class = "Hard"
-expected = "Bearer "
-
-[[expected]]
-kind = "Absent"
-class = "Hard"
-expected = "password="
-
-# P-035 — structure preserved: the anonymized excerpt retains the attribute KEY (structural metadata) while
-# the VALUE is scrubbed. `user.email` is the email category's retained field_key (inferred; Epoch-8 calibration).
-[[expected]]
-kind = "Contains"
-class = "Hard"
-expected = "user.email"

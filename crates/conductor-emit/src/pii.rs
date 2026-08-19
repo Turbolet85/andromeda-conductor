@@ -2,9 +2,10 @@
 //! P-047 categories (email, JWT, bearer token, API key, credit-card PAN, SSN, secret `key=value`),
 //! plus builders that embed the corpus across all three OTLP signal types — span attributes and an
 //! `exception` span event ([`pii_trace_request`]) and log-record body + attributes
-//! ([`pii_logs_request`]). The downstream `pii-scrub` scenario reads these back via MCP and asserts
-//! Pulse scrubbed each category while preserving surrounding structure (P-035 / P-047 / P-048);
-//! scrub verification is NOT this module's concern. Values are synthetic fixtures by construction —
+//! ([`pii_logs_request`]). The downstream `pii-scrub` scenario drives these at Pulse
+//! (P-035 / P-047 / P-048; declare-only — no MCP read-back surface varies with the payload under
+//! deterministic L4, so the live claim grades on Pulse's own ingestion telemetry at the harvest
+//! tier); scrub verification is NOT this module's concern. Values are synthetic fixtures by construction —
 //! never host- or env-derived — and a deterministic function of the seed (architecture §Established
 //! Decisions — Determinism RNG): the same seed reproduces the same corpus.
 
@@ -165,15 +166,20 @@ pub fn pii_trace_request(
 }
 
 /// Build an OTLP logs request with one [`LogRecord`] per selected category, each embedding the
-/// category's value in BOTH the record body and an attribute (the "logs" carrier).
+/// category's value in BOTH the record body and an attribute (the "logs" carrier). Records carry
+/// strictly increasing `time_unix_nano` stamps (one base reading + a per-record offset): Pulse's
+/// `log_records` table keys on `(ts_unix_nano, resource_hash, severity_number)`, so same-severity
+/// records sharing one nanosecond would silently drop at ingestion (logged-and-skipped).
 pub fn pii_logs_request(
     service_name: &str,
     corpus: &PiiCorpus,
     categories: &[PiiCategory],
 ) -> ExportLogsServiceRequest {
+    let base = unix_nanos();
     let log_records = categories
         .iter()
-        .map(|c| pii_log_record(*c, corpus.value(*c)))
+        .enumerate()
+        .map(|(i, c)| pii_log_record(*c, corpus.value(*c), base + i as u64))
         .collect();
     ExportLogsServiceRequest {
         resource_logs: vec![ResourceLogs {
@@ -212,11 +218,10 @@ fn pii_exception_event(corpus: &PiiCorpus, categories: &[PiiCategory]) -> Event 
     }
 }
 
-fn pii_log_record(category: PiiCategory, value: &str) -> LogRecord {
-    let now = unix_nanos();
+fn pii_log_record(category: PiiCategory, value: &str, stamp_unix_nano: u64) -> LogRecord {
     LogRecord {
-        time_unix_nano: now,
-        observed_time_unix_nano: now,
+        time_unix_nano: stamp_unix_nano,
+        observed_time_unix_nano: stamp_unix_nano,
         body: Some(AnyValue {
             value: Some(any_value::Value::StringValue(format!(
                 "request payload: {value}"
@@ -493,6 +498,22 @@ mod tests {
                     .any(|kv| kv.key == category.field_key() && string_value(kv) == value),
                 "log attribute missing {category:?}"
             );
+        }
+    }
+
+    #[test]
+    fn log_records_carry_distinct_strictly_increasing_stamps() {
+        let corpus = PiiCorpus::seeded(7);
+        let req = pii_logs_request("svc", &corpus, &PiiCategory::all());
+        let records = &req.resource_logs[0].scope_logs[0].log_records;
+        let stamps: Vec<u64> = records.iter().map(|r| r.time_unix_nano).collect();
+        assert!(
+            stamps.windows(2).all(|w| w[0] < w[1]),
+            "stamps must be strictly increasing so no two same-severity records share Pulse's \
+             (ts_unix_nano, resource_hash, severity_number) primary key: {stamps:?}"
+        );
+        for record in records {
+            assert_eq!(record.time_unix_nano, record.observed_time_unix_nano);
         }
     }
 }

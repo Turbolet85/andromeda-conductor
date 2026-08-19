@@ -1,0 +1,9 @@
+{
+  "run_id": "2026-08-19T20-42-57-839",
+  "seed": 4317035,
+  "scenario": "pii-scrub",
+  "verdict": null,
+  "state": "KnownResidual",
+  "latency_ms": 4115,
+  "slo_tier": "<5s"
+}

@@ -1,0 +1,244 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee LIKE '%PiiCorpus%' ORDER BY file, line",
+"rows": 47,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 crate/",
+"file": "crates/conductor-emit/src/lib.rs",
+"line": 28
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 91
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/impl#[PiiCorpus]seeded().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 105
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/impl#[PiiCorpus]seeded().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 105
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/impl#[PiiCorpus]seed().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 110
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/impl#[PiiCorpus]value().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 115
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/pii_trace_request().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 125
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/pii_trace_request().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 128
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/pii_trace_request().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 135
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/pii_logs_request().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 170
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/pii_logs_request().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 175
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/pii_exception_event().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 189
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/pii_exception_event().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 192
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/pii_exception_event().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 199
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/tests/each_category_value_is_structurally_valid().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 328
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/tests/each_category_value_is_structurally_valid().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 328
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/tests/each_category_value_is_structurally_valid().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 330
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/tests/same_seed_reproduces_identical_corpus().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 363
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/tests/same_seed_reproduces_identical_corpus().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 363
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/tests/different_seeds_diverge().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 368
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/tests/different_seeds_diverge().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 368
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/tests/different_seeds_diverge().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 369
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/tests/different_seeds_diverge().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 369
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/tests/different_seeds_diverge().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 373
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/tests/different_seeds_diverge().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 375
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/tests/different_seeds_diverge().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 376
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/tests/trace_request_shape_is_seed_deterministic().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 420
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/tests/trace_request_shape_is_seed_deterministic().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 420
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/tests/trace_request_shape_is_seed_deterministic().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 425
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/tests/trace_request_shape_is_seed_deterministic().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 425
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/tests/trace_carries_span_attributes_and_an_exception_event().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 431
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/tests/trace_carries_span_attributes_and_an_exception_event().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 431
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/tests/trace_carries_span_attributes_and_an_exception_event().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 444
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/tests/trace_carries_span_attributes_and_an_exception_event().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 465
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/tests/logs_request_embeds_each_value_in_body_and_attribute().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 476
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/tests/logs_request_embeds_each_value_in_body_and_attribute().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 476
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 pii/tests/logs_request_embeds_each_value_in_body_and_attribute().",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 482
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 crate/",
+"file": "crates/conductor-emit/tests/pii_payload_corpus.rs",
+"line": 9
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 ships_pii_corpus_across_spans_and_exceptions().",
+"file": "crates/conductor-emit/tests/pii_payload_corpus.rs",
+"line": 98
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 ships_pii_corpus_across_spans_and_exceptions().",
+"file": "crates/conductor-emit/tests/pii_payload_corpus.rs",
+"line": 98
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 ships_pii_corpus_across_spans_and_exceptions().",
+"file": "crates/conductor-emit/tests/pii_payload_corpus.rs",
+"line": 126
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 ships_pii_corpus_through_logs().",
+"file": "crates/conductor-emit/tests/pii_payload_corpus.rs",
+"line": 137
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 ships_pii_corpus_through_logs().",
+"file": "crates/conductor-emit/tests/pii_payload_corpus.rs",
+"line": 137
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 ships_pii_corpus_through_logs().",
+"file": "crates/conductor-emit/tests/pii_payload_corpus.rs",
+"line": 167
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 dispatch/",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 15
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 dispatch/impl#[`Dispatcher<'a>`]dispatch().",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 124
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 dispatch/impl#[`Dispatcher<'a>`]dispatch().",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 124
+}
+],
+"db_state": "fresh"
+}
+]

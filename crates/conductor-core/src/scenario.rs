@@ -882,38 +882,18 @@ expected = "Receiving"
     }
 
     #[test]
-    fn pii_scrub_asserts_scrub_via_hard_absent_and_structure_via_contains() {
-        // P-035/047/048: the seeded PiiCorpus carries stable category sentinels (`@example.com`, `sk_live_`,
-        // `Bearer `, `password=`) that appear in read-back ONLY if scrubbing failed -> Hard Absent. A distinct
-        // Contains token proves structure is preserved (P-035). All checks are Hard (deterministic scrub).
+    fn pii_scrub_is_declare_only_with_the_measurement_recorded() {
+        // Retired 2026-08-19 (run 2026-08-19T20-37-25-933): no MCP read-back surface varies with the
+        // emitted payload under deterministic L4, so the four Absent sentinels passed VACUOUSLY and the
+        // Contains structure marker failed STRUCTURALLY — the checks graded nothing (the
+        // fingerprint-storm vacuous-green precedent). The live claim grades at the harvest tier
+        // (conductor-run/tests/pii_harvest.rs); scrub semantics are byte-verified at SUT source.
         let path = format!("{}/../../scenarios/pii-scrub.toml", env!("CARGO_MANIFEST_DIR"));
         let s = Scenario::from_toml_str(&std::fs::read_to_string(&path).expect("fixture readable"))
             .expect("fixture valid");
         assert!(
-            s.expected.iter().all(|c| c.class == ClaimClass::Hard),
-            "pii-scrub checks are all Hard (deterministic PII scrub)"
-        );
-        assert!(
-            s.expected.iter().any(|c| c.kind == ComparisonKind::Absent),
-            "pii-scrub asserts the raw-PII scrub via Absent sentinels"
-        );
-        assert!(
-            s.expected.iter().any(|c| c.kind == ComparisonKind::Contains),
-            "pii-scrub asserts structure preserved via a distinct Contains marker"
-        );
-        // Absent and Contains must never share a token (a same-token pair contradicts on one read-back).
-        let absent: Vec<&str> = s
-            .expected
-            .iter()
-            .filter(|c| c.kind == ComparisonKind::Absent)
-            .map(|c| c.expected.as_str())
-            .collect();
-        assert!(
-            s.expected
-                .iter()
-                .filter(|c| c.kind == ComparisonKind::Contains)
-                .all(|c| !absent.contains(&c.expected.as_str())),
-            "no Contains token equals an Absent token (they would contradict on one read-back)"
+            s.expected.is_empty(),
+            "pii-scrub is declare-only (empty expected -> ManualCheck/KnownResidual downstream)"
         );
     }
 
@@ -953,8 +933,9 @@ expected = "Receiving"
     #[test]
     fn scrub_pipeline_degraded_suite_mixes_hard_and_declare_only() {
         // Like the constellation family, this catalog family carries BOTH shapes: Hard auto members
-        // (pii-scrub / findings-counter / threshold-hot-reload) and declare-only members (report-render /
-        // cadence / degraded-mode). Assert the SUITE exercises both.
+        // (findings-counter / threshold-hot-reload) and declare-only members (pii-scrub — retired
+        // 2026-08-19, measurement in its TOML header — / report-render / cadence / degraded-mode).
+        // Assert the SUITE exercises both.
         let stems = [
             "pii-scrub",
             "report-render-surface",

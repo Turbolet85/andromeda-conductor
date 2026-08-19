@@ -353,3 +353,8 @@ fixture — and every gate stayed green over it, because they assert Conductor a
 **Section:** §Occupied Resources — Service / process names
 **Change:** Registered the two emitted OTLP `service.name` identities: `conductor` (`DEFAULT_SERVICE_NAME`, the scenario dispatcher) and `conductor-canary` (`CANARY_SERVICE_NAME`, the preflight canary's warm-up + storm), with the rationale for the split (preflight runs inside every scenario leg; Pulse keys `persistence_seconds` = cumulative samples and error-rate EWMAs per service).
 **Why:** The chunk split the canary off the dispatcher's identity so preflight traffic cannot age a scenario's young-sample suppression window; the wire-visible identity was previously unregistered (report §Symbols/APIs, Deviation 2).
+
+## 2026-08-19-pii-scrub-live-proof — declare-only family note gains pii-scrub
+**Section:** Standard Contracts — Run report envelope (per scenario check)
+**Change:** The declare-only note now names BOTH families — error-baseline-spike (retired 2026-08-18) and pii-scrub (retired 2026-08-19) — shipping zero [[expected]] checks because no read-back surface can carry them under deterministic L4, their live rows landing verdict: null / state: KnownResidual under the degraded read-back with the live claims graded at the harvest tier.
+**Why:** The chunk retired all five pii-scrub checks after leg A measured the vacuous-Absent / structural-fail-Contains behavior the sources predicted (run 2026-08-19T20-37-25-933); the note previously named error-baseline-spike only. Sole arch occurrence (agent grep verified).
