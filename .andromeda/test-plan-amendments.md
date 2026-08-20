@@ -185,3 +185,15 @@ table.
 **Section:** §12 Test Decisions Log
 **Change:** Added the 2026-08-20 entry recording the instrument adoption, the measured run-discipline findings, the `declares` accepted-deliberate classification, and the runner-portability gate.
 **Why:** The tool's adoption and the classification ruling are decisions future chunks must not re-litigate.
+
+## 2026-08-20-read-back-seam-survivors-closed — cargo-mutants exit code carries no verdict
+
+**Section:** §4 Unit Test Strategy → Mutation instrument
+**Change:** Recorded the second half of cargo-mutants' exit-code semantics — the exit code carries no verdict in EITHER direction: `Found 0 mutants to test` is a no-op at exit 0 (already recorded), and a NON-zero exit reflects surviving/timeout CLASSES rather than run failure. Gate on the tallies read out of `mutants.out/` (`missed.txt` empty + the named survivors present in `caught.txt`), never on the exit code.
+**Why:** Measured this chunk: **exit 3** on a scoped run that fully met its acceptance — 51 mutants, 0 missed, all five named survivors killed — with the non-zero owed entirely to two pre-existing timeouts. §4 previously recorded only the exit-0 direction, which implies by omission that a non-zero exit IS a failure; a reader following §4 alone would have inverted this chunk's verdict.
+
+## 2026-08-20-read-back-seam-survivors-closed — decisions-log exit-code restatement
+
+**Section:** §12 Test Decisions Log → `2026-08-20` Mutation instrument adopted, Run-discipline bullet
+**Change:** Extended the run-discipline bullet's exit-code parenthetical to carry both directions, naming the measured exit-3 case and its chunk.
+**Why:** §12 restates §4's run discipline and carried only the exit-0 half, so a single-site apply to §4 would have left the one-sided claim standing in the decisions log — the duplicate-occurrence sweep the reconcile pass exists to prevent.

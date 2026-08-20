@@ -1,58 +1,63 @@
 # Session Handoff
 
-**Last Updated:** 2026-08-20T22:12:40Z
-**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **27 ahead** after this chunk commit)
+**Last Updated:** 2026-08-20T23:21:35Z
+**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **28 ahead** after this chunk commit)
 **Status:** clean
-**Last Commit:** 2026-08-20-verifier-self-hardening — the verifier's own machinery gained the assertions
-it was missing, and the six it will never have got a reason instead
+**Last Commit:** 2026-08-20-read-back-seam-survivors-closed — every audit-surfaced survivor is now killed
+or accepted-deliberate, and the exit code that said otherwise turned out to carry no verdict
 
 ## Position
-- Done: **2026-08-20-verifier-self-hardening** — Conductor's asserting machinery hardened. **22 named
-  mutation survivors dispositioned: 16 killed + 6 classified accepted-deliberate.** `conductor-run/src/lib.rs`
-  survivors measured **27 → 21** (delta exactly the six journal stamps); `conductor-verify`'s two audited files
-  scored **33 caught / 5 missed / 11 unviable / 2 timeout** with zero missed among targeted sites. The
-  runner-portability defect is fixed at the cause. nextest **661 → 669** zero-retry.
-- Next: **Read-back seam survivors closed** — the new Epoch-4 entry, inserted ahead of severity-lifecycle:
-  the five out-of-family survivors (`jsonrpc.rs:41:22` ×2 id-counter · `:65:9` notify · `preflight.rs:357`
-  ShapeWitness ×2). `/andromeda-phase` to promote + plan. It carries the **34th audit PREREQ** in
-  PROBE-AUTO-SATISFY form.
+- Done: **2026-08-20-read-back-seam-survivors-closed** — the five out-of-family survivors killed.
+  Scoped mutants **33 caught / 5 missed → 38 caught / 0 missed** (11 unviable, 2 timeout unchanged);
+  `38 = 33 + 5`, so exactly the named five flipped and the previously-killed set stayed dead, each verified
+  literally in `caught.txt` with `missed.txt` empty. nextest **669 → 673**; `conductor-verify` **92 → 96**.
+  **Zero fix-loop iterations, zero gate deferrals.**
+- Next: **severity-lifecycle live proof** — auto-resolve and resolution summary observed through read-back
+  (P-019..P-023, P-059, P-060). `/andromeda-phase` to promote + plan. It carries the **35th audit PREREQ**
+  in PROBE-AUTO-SATISFY form with the basis re-derived to the post-`assert_fs` lock.
 
 ## Work done
-Two new test binaries (`canary_obs_witness.rs`, `jsonrpc_line_bound.rs`) + 6 tests added across
-`preflight.rs` (3) and `conductor-run/src/lib.rs`'s test module (3, **test-module only** — touchpoints widened
-by founder ruling). `conductor-cli` lost its unused `tracing` dep (`Cargo.lock` −1 line, **zero packages
-added or removed**); `conductor-verify` dev-dep gained tokio `test-util`; `.gitignore` +2 (`mutants.out/`).
-Gates: nextest **669/669** · both crates green under `cargo test` (the portability criterion's own evidence) ·
-clippy · doctests · scoped `cargo mutants` both crates · CLI boots, 36/36 cli tests.
+Three observation gaps closed, not five bugs: the stub ECHOES the request id (so a mutated counter is
+answered as agreeably as a correct one — the id SEQUENCE is the only witness), `notify`'s one call site
+discards its result by design (so only the wire witnesses it), and `ShapeWitness::list`'s sole effect is one
+`tracing` line (so it needs the self-obs artifact and **three** answering attempts to discriminate). Landed
+as an additive `WireLog` recorder + decoy knob in `tests/common/mod.rs`, two new test binaries
+(`jsonrpc_correlation.rs`, `readback_shape_witness.rs` — the latter alone in its binary per test-plan §11),
+and `assert_fs` as a `conductor-verify` dev-dep. No production source, no `pub(crate)` widened.
 
 ## Drift resolved
-7 doc-agents / 18 detectors: **5 clean · 11 proposals → 6 applied · 5 rejected · 4 escalations resolved with
-the operator · 0 open.** All six amendments are test-plan (§4 cargo-mutants registration + `cargo test -p` as
-a runner-portability gate · §9 scoped mutation as an operator instrument · §10 survivor-disposition rule ·
-§11 Integration process-global-singleton ban · §12 decisions entry), 5 sidecar entries.
-**Rejected:** all 3 obs proposals — they rest on a mis-citation (obs-plan §4's **cli** row names the `tracing`
-crate + subscriber; the `#[tracing::instrument]` mandate is on the desktop-webview/ipc-internal rows), the
-**second occurrence this session**, so a `playbook.md` rule was appended. Also rejected 2 test-plan §11 edits
-that would have WEAKENED standing bans (replacing the golden-test clause; carving a real-time exception the
-ban already grants). Record: `.andromeda/runs/2026-08-20T21-45-00-wrap/fanout-results.md`.
+7 doc-agents / 18 detectors: **6 docs clean · 1 with proposals · 2 amendments applied · 1 escalation
+resolved with the operator · 0 open.** Both amendments are test-plan (§4 Mutation instrument + its §12
+decisions-log restatement, caught by the duplicate-occurrence sweep): cargo-mutants' exit code carries no
+verdict in either direction — gate on the tallies. Cascaded to `.claude/rules/testing.md` +
+`.claude/docs/tests-summary.md`; cross-master sweep found no other citation.
+**Escalation:** `playbook.md`'s dependency-under-red-audit rule triggered FULL pin form on "a real
+`Cargo.lock` delta" while the route PREREQ narrowed it to "a delta that ADMITS a package" — this chunk landed
+exactly in the gap. Operator chose *sharpen to match*: the form now keys on package admission, with the
+deny-green verification an explicit precondition of the compact path.
+Record: `.andromeda/runs/2026-08-20T23-05-37-wrap/fanout-results.md`.
 
 ## Notes
-- **No capability claimed, none flipped** — coverage stays **17/32 verified · 15 unclaimed**. This is a
-  test-integrity chunk; every unclaimed cap needs a live Pulse leg and this chunk drives none.
-- **`declares` ×6 are accepted-deliberate, not debt.** `.claude/rules/testing.md` (2026-08-10) prescribes
-  reading env at the caller so the edge stays thin and both branches test with no `unsafe` env mutation.
-  Killing them needs `unsafe set_var` in a shared-process module — the exact hazard this chunk removed. The
-  edge was **not** restructured. Recorded in test-plan §10 + §12.
-- **Curation: T1 0 · T2 1 · T3 0** (filtered 4). Added to `testing.md`: a magnitude bound alone cannot prove a
-  helper READS a clock — assert magnitude + cross-helper agreement + advance across a REAL pause. Three
-  rejections were dedup-against-generated-body: this wrap's own cascade had just written them.
-- **Mutation tooling traps now recorded** (test-plan §4, `rules/testing.md`): `-f` resolves from the
-  **workspace root**, `--test-tool=nextest` is required, and **`Found 0 mutants to test` exits 0** — a silent
-  no-op indistinguishable from a clean pass.
-- **Audit-ledger items for the next boundary's audit:** the `stub_pulse_mcp` mutation-scope exclusion; the
-  `declares` accepted-deliberate classification with its rule citation; and that `c-mutation-*.json`'s
-  `command` field omitted `--test-tool=nextest` while §B3 claimed it was recorded there (measured this chunk).
-- **Audit PREREQ:** 33rd discharged in FULL form (the lock moved, so the compact basis was re-derived); the
-  34th rides the new entry in PROBE-AUTO-SATISFY form with that re-derived basis stated once.
+- **No capability claimed, none flipped** — coverage stays **17/32 verified · 15 unclaimed**. Every unclaimed
+  cap needs a live Pulse leg, an a11y/webview surface, or another route entry's work; this chunk drove none.
+- **The 2 TIMEOUTs are unchanged, and that is the plainly-recorded negative.** The plan speculated a
+  closing stub might convert `jsonrpc.rs:49:30` for free; measurement says it did not. Operator-ratified as
+  observe-and-report, so it failed nothing. **Audit-ledger item for the next boundary's audit** — along with
+  the still-open item that `c-mutation-conductor-verify.json`'s `command` field omits `--test-tool=nextest`
+  while code-audit §B3 claims it is recorded there. Neither has a route entry to own it: their owner is the
+  audit instrument, not a chunk.
+- **34th audit pin discharged in COMPACT form, entitlement re-derived not assumed.** The lock moved (one
+  added `assert_fs` dev-edge line) but admitted **zero packages**, verified by diff; `cargo deny check
+  advisories bans licenses sources` observed true exit 0 over the post-change lock. The **pure**
+  auto-satisfy first fire is expected at the 35th, on a zero-delta chunk.
+- **Curation: T1 0 · T2 1 · T3 1 extension** (filtered 2). `testing.md` gained the killing-assertion design
+  rule (echo-stub blindness + the one-shot-needs-three-observations shape); the 2026-08-18 host-shell entry
+  was extended **in place** with the empty-pattern failure mode. Dedup-rejected the cargo-mutants exit-code
+  fact — this wrap's own cascade had just written it into `testing.md`'s generated body.
+- **A documented trap re-fired.** The unset-variable redirect that cost a launch is already written up
+  verbatim as trap (2) in that same 2026-08-18 entry. Recorded as a retrieval signal, not an authoring gap.
+- **A verification step printed a false green and was self-caught**: a failed command substitution yielded an
+  empty grep pattern, so the five-survivor check confirmed all five while testing nothing. Re-verified with
+  literal patterns. This is what the curation extension now warns about.
 - **Live-leg housekeeping** still open: ten leg dirs under `%TEMP%/pulse-legs/`.
 - **Last failed command:** none.

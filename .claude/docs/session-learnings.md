@@ -46,6 +46,21 @@ drift silently (one sweep round ran empty relative globs from inside `.andromeda
 root-sensitive compound commands with an explicit `cd <repo-root> &&` or use absolute paths, and
 treat a failing `cd` beside succeeding bare-name reads as the tell.
 
+**Extended 2026-08-20 — the family's worst form is not a redo cycle but a FALSE GREEN, and trap (2)
+recurred.** Two more bites, plus the same unset-variable redirect this entry already documents (it was
+hit again anyway — the trap is cheap to re-hit, so prefer a literal scratchpad path over any variable).
+(4) **A broken command substitution yields an EMPTY pattern, and an empty pattern matches
+everything.** A verification loop built its needle with `$(… | sed …)`; the `sed` failed, the
+substitution returned empty, and `grep -qF ""` matched every line — so the check printed a
+confirmation for all five items while testing nothing. It was visible only because `sed` printed its
+own error beside the green lines. Build verification needles as LITERALS, or assert the needle is
+non-empty before using it; a probe whose failure mode is "passes vacuously" is worse than one that
+errors. (5) An existence probe over several paths (`ls A B || echo missing`) exits non-zero when ANY
+path is absent, so it reports the missing branch even when the path you cared about exists — check
+one path per probe, or suffix `|| true` and read the output rather than the exit. The through-line
+for all five: a shell default turns a partially-wrong command into a confidently-wrong ANSWER, so
+the probe itself needs verifying whenever its result will be reported as evidence.
+
 ---
 
 ## 2026-08-15 — evolve-diagnose run dirs are audit-trail class at the wrap dirt-check

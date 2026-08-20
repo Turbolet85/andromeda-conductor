@@ -1,0 +1,238 @@
+[
+{
+"sql": "SELECT callee, file, line FROM refs WHERE callee LIKE '%JsonRpcSession%' OR callee LIKE '%ShapeWitness%' OR callee LIKE '%log_observed_keys%' OR callee LIKE '%connect_transport%' OR callee LIKE '%poll_canary%' OR callee LIKE '%assert_canary%' ORDER BY file, line",
+"rows": 42,
+"result": [
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 jsonrpc/JsonRpcSession#",
+"file": "crates/conductor-verify/src/client.rs",
+"line": 18
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 jsonrpc/JsonRpcSession#",
+"file": "crates/conductor-verify/src/client.rs",
+"line": 34
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 jsonrpc/impl#[JsonRpcSession]new().",
+"file": "crates/conductor-verify/src/client.rs",
+"line": 63
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 jsonrpc/JsonRpcSession#",
+"file": "crates/conductor-verify/src/client.rs",
+"line": 63
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 jsonrpc/impl#[JsonRpcSession]new().",
+"file": "crates/conductor-verify/src/client.rs",
+"line": 75
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 jsonrpc/JsonRpcSession#",
+"file": "crates/conductor-verify/src/client.rs",
+"line": 75
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 jsonrpc/JsonRpcSession#",
+"file": "crates/conductor-verify/src/client.rs",
+"line": 82
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 jsonrpc/impl#[JsonRpcSession]request().",
+"file": "crates/conductor-verify/src/client.rs",
+"line": 88
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 jsonrpc/impl#[JsonRpcSession]notify().",
+"file": "crates/conductor-verify/src/client.rs",
+"line": 92
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 jsonrpc/impl#[JsonRpcSession]request().",
+"file": "crates/conductor-verify/src/client.rs",
+"line": 109
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 jsonrpc/impl#[JsonRpcSession]request().",
+"file": "crates/conductor-verify/src/client.rs",
+"line": 127
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 extract/log_observed_keys().",
+"file": "crates/conductor-verify/src/extract.rs",
+"line": 83
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 extract/log_observed_keys().",
+"file": "crates/conductor-verify/src/extract.rs",
+"line": 95
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 extract/log_observed_keys().",
+"file": "crates/conductor-verify/src/extract.rs",
+"line": 110
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 jsonrpc/JsonRpcSession#",
+"file": "crates/conductor-verify/src/jsonrpc.rs",
+"line": 27
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 jsonrpc/JsonRpcSession#next_id.",
+"file": "crates/conductor-verify/src/jsonrpc.rs",
+"line": 32
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 jsonrpc/JsonRpcSession#writer.",
+"file": "crates/conductor-verify/src/jsonrpc.rs",
+"line": 32
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 jsonrpc/JsonRpcSession#reader.",
+"file": "crates/conductor-verify/src/jsonrpc.rs",
+"line": 32
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 jsonrpc/JsonRpcSession#next_id.",
+"file": "crates/conductor-verify/src/jsonrpc.rs",
+"line": 39
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 jsonrpc/JsonRpcSession#next_id.",
+"file": "crates/conductor-verify/src/jsonrpc.rs",
+"line": 40
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 jsonrpc/impl#[JsonRpcSession]write_message().",
+"file": "crates/conductor-verify/src/jsonrpc.rs",
+"line": 42
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 jsonrpc/impl#[JsonRpcSession]read_line().",
+"file": "crates/conductor-verify/src/jsonrpc.rs",
+"line": 44
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 jsonrpc/impl#[JsonRpcSession]write_message().",
+"file": "crates/conductor-verify/src/jsonrpc.rs",
+"line": 65
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 jsonrpc/JsonRpcSession#writer.",
+"file": "crates/conductor-verify/src/jsonrpc.rs",
+"line": 72
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 jsonrpc/JsonRpcSession#writer.",
+"file": "crates/conductor-verify/src/jsonrpc.rs",
+"line": 73
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 jsonrpc/JsonRpcSession#reader.",
+"file": "crates/conductor-verify/src/jsonrpc.rs",
+"line": 77
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 extract/log_observed_keys().",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 24
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/poll_canary().",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 203
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ShapeWitness#",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 327
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/assert_canary().",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 329
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ShapeWitness#",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 354
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ShapeWitness#list.",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 356
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 extract/log_observed_keys().",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 357
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/ShapeWitness#",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 374
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 preflight/impl#[ShapeWitness]list().",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 380
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 client/impl#[ReadbackClient]connect_transport().",
+"file": "crates/conductor-verify/tests/jsonrpc_line_bound.rs",
+"line": 45
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 client/impl#[ReadbackClient]connect_transport().",
+"file": "crates/conductor-verify/tests/jsonrpc_line_bound.rs",
+"line": 62
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 client/impl#[ReadbackClient]connect_transport().",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 52
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 client/impl#[ReadbackClient]connect_transport().",
+"file": "crates/conductor-verify/tests/preflight.rs",
+"line": 242
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 client/impl#[ReadbackClient]connect_transport().",
+"file": "crates/conductor-verify/tests/readback.rs",
+"line": 17
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 client/impl#[ReadbackClient]connect_transport().",
+"file": "crates/conductor-verify/tests/readback.rs",
+"line": 31
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 client/impl#[ReadbackClient]connect_transport().",
+"file": "crates/conductor-verify/tests/readback.rs",
+"line": 119
+}
+],
+"db_state": "fresh"
+},
+{
+"sql": "SELECT from_crate, to_crate FROM crate_edges WHERE to_crate = 'conductor-verify' OR from_crate = 'conductor-verify'",
+"rows": 3,
+"result": [
+{
+"from_crate": "conductor-cli",
+"to_crate": "conductor-verify"
+},
+{
+"from_crate": "conductor-verify",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-run",
+"to_crate": "conductor-verify"
+}
+],
+"db_state": "fresh"
+}
+]

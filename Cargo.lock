@@ -714,6 +714,7 @@ dependencies = [
 name = "conductor-verify"
 version = "0.1.0"
 dependencies = [
+ "assert_fs",
  "conductor-core",
  "rstest",
  "serde",

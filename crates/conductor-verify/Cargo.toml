@@ -31,3 +31,5 @@ required-features = ["stub-server"]
 tokio = { workspace = true, features = ["rt", "macros", "io-util", "time", "test-util"] }
 serde_json.workspace = true
 rstest.workspace = true
+# temp sink for the self-obs artifact the read-back key-set witness reads back (test-plan §11)
+assert_fs.workspace = true

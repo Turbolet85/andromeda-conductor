@@ -4,8 +4,47 @@
 //! `.claude/rules/testing.md`: mock Pulse over an in-process stub; never fake its reaction as a verdict.
 #![allow(dead_code)]
 
+use std::sync::{Arc, Mutex};
+
 use serde_json::{Value, json};
 use tokio::io::{AsyncBufReadExt, AsyncRead, AsyncWrite, AsyncWriteExt, BufReader};
+
+/// The tool name carried by a stale decoy response, so a client that pairs it to the wrong request
+/// says so in its own return value rather than merely reading a different line.
+pub const DECOY_TOOL: &str = "stale-decoy-tool";
+
+/// One line the stub read off the wire, in arrival order.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum WireEntry {
+    Request { id: i64, method: String },
+    Notification { method: String },
+}
+
+/// What the stub observed on the wire. Cloneable, because `StubConfig` moves into [`serve_stub`] and
+/// the test needs to keep its end — and because for a notification there is nothing else to observe:
+/// the client discards `notify`'s result at its single call site by design.
+#[derive(Clone, Default)]
+pub struct WireLog(Arc<Mutex<Vec<WireEntry>>>);
+
+impl WireLog {
+    pub fn entries(&self) -> Vec<WireEntry> {
+        self.0.lock().expect("wire log lock").clone()
+    }
+
+    pub fn request_ids(&self) -> Vec<i64> {
+        self.entries()
+            .into_iter()
+            .filter_map(|entry| match entry {
+                WireEntry::Request { id, .. } => Some(id),
+                WireEntry::Notification { .. } => None,
+            })
+            .collect()
+    }
+
+    fn push(&self, entry: WireEntry) {
+        self.0.lock().expect("wire log lock").push(entry);
+    }
+}
 
 /// Configurable stub behavior, one knob per readiness leg.
 pub struct StubConfig {
@@ -35,6 +74,14 @@ pub struct StubConfig {
     /// When set, every `tools/call` result is a well-formed JSON value of the WRONG shape — the
     /// readers must degrade to empty rather than panicking.
     pub malformed_results: bool,
+    /// When set, every line the stub reads is recorded in arrival order. The stub ECHOES the id it
+    /// received, so it answers any id sequence equally well — the recorded sequence is the only
+    /// witness that ids advance at all.
+    pub wire_log: Option<WireLog>,
+    /// Emit a stale `id: 1` decoy response immediately BEFORE the real answer to the Nth request
+    /// (1-based, notifications excluded). A client whose ids advance skips it on id mismatch; one
+    /// whose id never leaves 1 pairs it to a later request.
+    pub decoy_before_nth_request: Option<u32>,
 }
 
 impl Default for StubConfig {
@@ -60,8 +107,20 @@ impl Default for StubConfig {
             report_degraded: false,
             span_ref_count: 1,
             malformed_results: false,
+            wire_log: None,
+            decoy_before_nth_request: None,
         }
     }
+}
+
+async fn write_line<W>(writer: &mut W, value: &Value) -> std::io::Result<()>
+where
+    W: AsyncWrite + Unpin,
+{
+    let mut out = serde_json::to_string(value).map_err(std::io::Error::other)?;
+    out.push('\n');
+    writer.write_all(out.as_bytes()).await?;
+    writer.flush().await
 }
 
 /// Serve the stub over a duplex half until the client closes it. Drives the same line-delimited
@@ -72,6 +131,7 @@ where
 {
     let (reader, mut writer) = tokio::io::split(io);
     let mut lines = BufReader::new(reader).lines();
+    let mut request_index: u32 = 0;
     while let Ok(Some(line)) = lines.next_line().await {
         if line.trim().is_empty() {
             continue;
@@ -79,10 +139,29 @@ where
         let Ok(req) = serde_json::from_str::<Value>(&line) else {
             continue;
         };
+        let method_name = req.get("method").and_then(Value::as_str).unwrap_or("").to_string();
         let Some(id) = req.get("id").cloned() else {
+            if let Some(log) = &config.wire_log {
+                log.push(WireEntry::Notification { method: method_name });
+            }
             continue; // notification — no response
         };
-        let method = req.get("method").and_then(Value::as_str).unwrap_or("");
+        request_index += 1;
+        if let Some(log) = &config.wire_log {
+            let observed = id.as_i64().unwrap_or(i64::MIN);
+            log.push(WireEntry::Request { id: observed, method: method_name.clone() });
+        }
+        if config.decoy_before_nth_request == Some(request_index) {
+            let decoy = json!({
+                "jsonrpc": "2.0",
+                "id": 1,
+                "result": { "tools": [{ "name": DECOY_TOOL }] },
+            });
+            if write_line(&mut writer, &decoy).await.is_err() {
+                break;
+            }
+        }
+        let method = method_name.as_str();
         let tool = req.pointer("/params/name").and_then(Value::as_str);
         let calls_query = method == "tools/call" && tool == Some("query_incident_list");
         let calls_slice = method == "tools/call" && tool == Some("retrieve_telemetry_slice");
@@ -145,11 +224,7 @@ where
             json!({ "jsonrpc": "2.0", "id": id, "result": result })
         };
 
-        let Ok(mut out) = serde_json::to_string(&resp) else {
-            break;
-        };
-        out.push('\n');
-        if writer.write_all(out.as_bytes()).await.is_err() || writer.flush().await.is_err() {
+        if write_line(&mut writer, &resp).await.is_err() {
             break;
         }
     }
