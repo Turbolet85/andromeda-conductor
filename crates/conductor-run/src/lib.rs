@@ -1193,4 +1193,52 @@ mod tests {
         assert_eq!(ramp_factor(50, 50), 0.0);
         assert_eq!(ramp_factor(0, 0), 0.0, "the degenerate declaration yields a value, never a panic");
     }
+
+    /// A wall-clock instant comfortably before this code existed, and one far past any plausible run.
+    /// Both helpers end `unwrap_or(0)`, so a stamp that collapses to a small constant is
+    /// indistinguishable from the genuine pre-epoch error path by sign alone — the assertion has to
+    /// be on MAGNITUDE, which is what the journal-relative SLO arithmetic actually depends on.
+    const PLAUSIBLE_FLOOR_MS: i64 = 1_700_000_000_000;
+    const PLAUSIBLE_CEILING_MS: i64 = 4_000_000_000_000;
+
+    #[test]
+    fn the_journal_stamp_helpers_read_plausible_wall_clock_instants() {
+        let ms = now_ms();
+        assert!(
+            (PLAUSIBLE_FLOOR_MS..PLAUSIBLE_CEILING_MS).contains(&ms),
+            "now_ms must be epoch MILLIS from std::time, not a constant or a unit slip: {ms}"
+        );
+
+        let nanos = now_unix_nanos();
+        assert!(
+            (PLAUSIBLE_FLOOR_MS * 1_000_000..PLAUSIBLE_CEILING_MS * 1_000_000).contains(&nanos),
+            "now_unix_nanos must be epoch NANOS from std::time, not a constant or a unit slip: {nanos}"
+        );
+    }
+
+    #[test]
+    fn the_two_journal_stamp_helpers_denote_the_same_instant() {
+        // Mutation replaces one helper at a time, so holding the pair to each other kills a mutant in
+        // EITHER even where its own magnitude bound might be met: they read the same clock moments
+        // apart and must agree once reduced to a common unit.
+        let ms = now_ms();
+        let nanos = now_unix_nanos();
+        let skew_ms = (nanos / 1_000_000 - ms).abs();
+        assert!(
+            skew_ms < 5_000,
+            "the two stamps must denote one instant in different units; skew {skew_ms}ms \
+             (ms={ms}, nanos={nanos})"
+        );
+    }
+
+    #[test]
+    fn the_journal_stamp_advances_across_a_real_pause() {
+        // A stamp frozen at any constant satisfies both bounds above forever. Only movement across a
+        // genuine wall-clock wait proves the helper reads the clock on every call — and this must be
+        // `std::thread::sleep`, never tokio's virtual clock, which the journal basis may not use.
+        let before = now_unix_nanos();
+        std::thread::sleep(std::time::Duration::from_millis(2));
+        let after = now_unix_nanos();
+        assert!(after > before, "the stamp must advance across a real pause: {before} -> {after}");
+    }
 }

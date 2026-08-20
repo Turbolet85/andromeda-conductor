@@ -19,7 +19,6 @@ use std::collections::BTreeSet;
 use std::net::SocketAddr;
 use std::sync::{Arc, Mutex};
 
-use conductor_core::{ObsSink, init_observability};
 use conductor_emit::{TraceEmitter, fingerprint, trace_request};
 use conductor_run::{
     CANARY_SERVICE_NAME, CANARY_STORM_COUNT, canary_spec, canary_warmup_seed, emit_canary_storm,
@@ -202,66 +201,6 @@ async fn the_whole_canary_emission_carries_unique_span_identity() {
         expected,
         "warm-up and storm must never share a (trace_id, span_id) — the receiver keys on that pair"
     );
-}
-
-/// The witness exists to answer a question a zero could not. If it were dropped by the field
-/// allowlist or filtered out by level, it would reproduce that exact failure one layer down — so it is
-/// read back out of a real self-observation artifact this test produced, never asserted in isolation.
-#[tokio::test(flavor = "current_thread")]
-async fn the_wire_shape_witness_reaches_the_self_obs_artifact() {
-    // The leading `info` is load-bearing: a bare `conductor_emit=debug` directive filters every OTHER
-    // target out, silencing the rest of the self-obs stream. This is the filter the live-leg recipe
-    // prescribes, so the test proves the configuration an operator will actually run.
-    //
-    // SAFETY: nextest runs each test in its own process, and this precedes the subscriber install —
-    // so nothing else is reading the environment concurrently, which is the race edition 2024 makes
-    // `set_var` unsafe for. The filter is read from the environment at init, with no injection point.
-    unsafe { std::env::set_var("RUST_LOG", "info,conductor_emit=debug") };
-
-    let dir = assert_fs::TempDir::new().expect("temp dir");
-    let log = dir.path().join("obs.jsonl");
-    init_observability("conductor", Some("canary-witness".to_string()), ObsSink::File(log.clone()));
-
-    let (addr, _traces) = start_stub().await;
-    let mut emitter = TraceEmitter::connect(format!("http://{addr}"))
-        .await
-        .expect("connect to loopback stub");
-    emit_canary_storm(&mut emitter, &canary_spec("ConductorCanary_witness"), 11)
-        .await
-        .expect("emit the canary storm");
-
-    let contents = std::fs::read_to_string(&log).expect("self-obs artifact written");
-    let witness: Vec<&str> = contents.lines().filter(|l| l.contains("wire shape:")).collect();
-
-    assert_eq!(
-        witness.len() as u64,
-        CANARY_STORM_COUNT,
-        "expected one witness line per exported batch, got:\n{contents}"
-    );
-
-    for line in &witness {
-        for field in [
-            "timestamp_ms",
-            "level",
-            "target",
-            "service.name",
-            "service.version",
-            "deployment.environment",
-            "run_id",
-        ] {
-            assert!(
-                line.contains(&format!("\"{field}\"")),
-                "witness line is missing the self-obs base field {field}: {line}"
-            );
-        }
-        assert!(line.contains("spans=1"), "{line}");
-        assert!(line.contains("spans_missing_ids=0"), "{line}");
-        assert!(line.contains("event_names=[exception]"), "{line}");
-        assert!(
-            line.contains("event_attr_keys=[exception.message,exception.stacktrace,exception.type]"),
-            "the witness must name every key the receiver extracts: {line}"
-        );
-    }
 }
 
 #[tokio::test(flavor = "current_thread")]

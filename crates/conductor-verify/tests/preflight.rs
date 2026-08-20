@@ -201,6 +201,72 @@ async fn an_incident_missing_its_open_stamp_is_blocked() {
 }
 
 #[tokio::test(flavor = "current_thread")]
+async fn an_incident_opened_at_exactly_the_emission_stamp_is_blocked() {
+    // The boundary itself. Freshness is STRICTLY after the storm's emission instant, so an incident
+    // sharing the stamp is not attributable to this run — it is the same instant, not a later one.
+    // The older/absent legs above pass under a `>=` comparison too; only this one separates them.
+    let config = StubConfig { opened_at_unix_nano: Some(CANARY_EMITTED_AT), ..Default::default() };
+    let ready = drive_with(config, manifest(), satisfied()).await;
+
+    assert!(!ready.ready, "an equal stamp is not AFTER the emission instant");
+    assert_eq!(ready.canary_round_trip, CanaryOutcome::Failed);
+    assert!(ready.blocked_precondition.expect("a precondition").contains("predates"));
+}
+
+#[tokio::test(flavor = "current_thread")]
+async fn an_incident_one_nanosecond_after_the_emission_stamp_is_fresh() {
+    // The other side of the same boundary: the smallest representable step past the stamp must pass,
+    // so the comparison cannot be tightened without this leg failing.
+    let config =
+        StubConfig { opened_at_unix_nano: Some(CANARY_EMITTED_AT + 1), ..Default::default() };
+    let ready = drive_with(config, manifest(), satisfied()).await;
+
+    assert!(ready.ready, "one nanosecond after the emission instant IS fresh");
+    assert_eq!(ready.canary_round_trip, CanaryOutcome::Ok);
+}
+
+#[tokio::test(flavor = "current_thread", start_paused = true)]
+async fn the_poll_loop_sleeps_between_attempts_but_not_after_the_last() {
+    // The retry guard is timing-observable ONLY: every mutation of it leaves `poll_canary`'s return
+    // value untouched and changes just how many intervals elapse. So the sleep COUNT is the assertion.
+    // Virtual time under `start_paused` (the workspace idiom — auto-advance, no manual `advance`),
+    // never real elapsed wall-clock, which test-plan §11 bans in a scheduling test.
+    const ATTEMPTS: u32 = 3;
+    let interval = std::time::Duration::from_secs(1);
+
+    // A corpus that never goes fresh, so the loop always spends its full attempt budget.
+    let config = StubConfig { canary_in_corpus: false, ..Default::default() };
+    let (client_io, server_io) = tokio::io::duplex(4096);
+    let canary =
+        CanaryMarker::new(config.canary.clone(), config.canary_fingerprint.clone(), CANARY_EMITTED_AT);
+    let server = tokio::spawn(serve_stub(server_io, config));
+    let client = ReadbackClient::connect_transport(client_io).await.expect("client connects");
+
+    let started = tokio::time::Instant::now();
+    let ready = run_preflight(
+        &client,
+        &manifest(),
+        &satisfied(),
+        &canary,
+        "/test/data-dir",
+        CanaryPoll { attempts: ATTEMPTS, interval },
+    )
+    .await
+    .expect("preflight runs");
+    let elapsed = started.elapsed();
+
+    drop(client);
+    server.abort();
+
+    assert!(!ready.ready, "the corpus never goes fresh, so the gate must block");
+    assert_eq!(
+        elapsed,
+        interval * (ATTEMPTS - 1),
+        "a {ATTEMPTS}-attempt budget sleeps between attempts and never after the last"
+    );
+}
+
+#[tokio::test(flavor = "current_thread")]
 async fn an_unmet_run_contract_term_is_blocked_and_named_individually() {
     // The launch condition is reported as a condition to satisfy with its candidate causes — never
     // as a measurement of pulse-app, which Conductor does not launch and cannot inspect.

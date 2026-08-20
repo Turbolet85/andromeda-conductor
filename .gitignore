@@ -39,3 +39,9 @@ crates/conductor-tauri/gen/
 # pulse-app from this root writes /ui/src/bindings/ here. Foreign artifacts, never Conductor's; the
 # root /ui/ is unrelated to the GUI's crates/conductor-tauri/ui/. Recurrence-proof for every future arm.
 /ui/
+
+# --- cargo-mutants scratch output. Written to the repo root by any bare `cargo mutants` invocation
+# (the audit skill redirects to its run dir with --output; an ad-hoc scoped re-run does not), and it is
+# ~40 files of tool state, never Conductor's artifact — an unignored run rides the next `git add -A`.
+mutants.out/
+mutants.out.old/

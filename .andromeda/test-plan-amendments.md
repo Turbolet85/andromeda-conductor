@@ -155,3 +155,33 @@ table.
 **Section:** §Test Anti-Patterns (stack-specific)
 **Change:** The cross-master citation of security-plan's sidecar-spawn ban now reads "a fixed hard-coded program NAME resolved through the inherited `PATH`" instead of "a fixed hard-coded path".
 **Why:** Cascade edge — test-plan cited security-plan as saying something it no longer says after the 2026-08-20 spawn-wording amendment (the shipped constant is a program NAME, PATH-resolved). The negative-test mandate itself is unchanged.
+
+## 2026-08-20-verifier-self-hardening — cargo-mutants registered + runner portability made a gate
+
+**Section:** §4 Unit Test Strategy (Framework · Mutation instrument · Tool-version policy)
+**Change:** Registered cargo-mutants 27.1.0 as an operator/local mutation instrument with its run discipline (workspace-root `-f` paths, mandatory `--test-tool=nextest`, `Found 0 mutants to test` is a NO-OP never a pass, gitignored output) and added it to the floors-not-pins list. Also named `cargo test -p <crate>` a standing runner-portability gate beside nextest.
+**Why:** The chunk used the instrument as its acceptance evidence and measured that the package-relative `-f` form reports zero mutants at exit 0 — indistinguishable from a clean run. Runner portability became an acceptance criterion because only the shared-process runner exposes a test relying on nextest's per-test process for isolation.
+
+## 2026-08-20-verifier-self-hardening — scoped mutation recorded as an operator instrument
+
+**Section:** §9 CI Integration (after Live-Pulse scenarios)
+**Change:** Recorded the scoped mutation audit on the same footing as the live-Pulse leg — per-chunk, against the touched crates, never a blocking CI stage — and stated that the stage table is CI's complete inventory, not a chunk's.
+**Why:** The chunk ran the instrument for acceptance while §9's stage table registers only Lint / Supply-chain / Unit / Doctest / Integration / E2E / Coverage / Quality, so the table could be read as the full set of checks a chunk owes.
+
+## 2026-08-20-verifier-self-hardening — mutation-survivor disposition + runner-dependence as flakiness
+
+**Section:** §10 Quality Gates & Coverage Targets (Zero-flakiness budget)
+**Change:** Added mutation-survivor disposition as a non-blocking audit-tier rule — every named survivor ends killed OR classified accepted-deliberate against a cited rule — explicitly not a numeric threshold; and recorded that a runner-dependent result is a determinism break to fix at the cause.
+**Why:** The chunk dispositioned 22 named survivors as 16 killed + 6 accepted-deliberate (the `declares` edge, per testing.md 2026-08-10), and the score moved only as a consequence.
+
+## 2026-08-20-verifier-self-hardening — process-global singleton isolation ban
+
+**Section:** §11 Test Anti-Patterns → Integration
+**Change:** New ban — never rely on nextest's per-test process to isolate a test from a process-global first-install-wins singleton (`init_observability`); give it its own test binary rather than serializing the file.
+**Why:** Measured: the wire-shape witness passed alone and under `--test-threads=1`, failing only alongside its four `emit_canary_storm` siblings — concurrent interference against the global subscriber, which a per-test temp FILE cannot isolate. Serializing was rejected as hiding the defect (§10).
+
+## 2026-08-20-verifier-self-hardening — decisions-log entry
+
+**Section:** §12 Test Decisions Log
+**Change:** Added the 2026-08-20 entry recording the instrument adoption, the measured run-discipline findings, the `declares` accepted-deliberate classification, and the runner-portability gate.
+**Why:** The tool's adoption and the classification ruling are decisions future chunks must not re-litigate.

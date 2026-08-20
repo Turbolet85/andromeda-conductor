@@ -1,0 +1,54 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee LIKE '%declares%' OR callee LIKE '%now_ms%' OR callee LIKE '%now_unix_nanos%' OR callee LIKE '%assert_canary%' OR callee LIKE '%poll_canary%' ORDER BY file, line",
+"rows": 9,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 observe_run_contract().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 208
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 emit_canary().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 232
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 emit_canary().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 239
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 emit_canary().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 244
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 crate/",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 349
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 crate/",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 390
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 fault_span().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 573
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 preflight/run_preflight().",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 203
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 preflight/poll_canary().",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 329
+}
+],
+"db_state": "fresh"
+}
+]

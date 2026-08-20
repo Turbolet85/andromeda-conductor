@@ -28,6 +28,6 @@ path = "src/bin/stub_pulse_mcp.rs"
 required-features = ["stub-server"]
 
 [dev-dependencies]
-tokio = { workspace = true, features = ["rt", "macros", "io-util", "time"] }
+tokio = { workspace = true, features = ["rt", "macros", "io-util", "time", "test-util"] }
 serde_json.workspace = true
 rstest.workspace = true

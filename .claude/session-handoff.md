@@ -1,56 +1,58 @@
 # Session Handoff
 
-**Last Updated:** 2026-08-20T20:23:09Z
-**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **26 ahead** after this
-adaptation commit)
+**Last Updated:** 2026-08-20T22:12:40Z
+**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **27 ahead** after this chunk commit)
 **Status:** clean
-**Last Commit:** chore(route): operator-requested adaptation — 0-pending wrap
+**Last Commit:** 2026-08-20-verifier-self-hardening — the verifier's own machinery gained the assertions
+it was missing, and the six it will never have got a reason instead
 
 ## Position
-- Done: **no chunk wrapped** — this was a 0-pending route-adaptation wrap at the Epoch-3 boundary.
-  The last completed chunk remains `2026-08-20-latency-regression-re-proof`.
-- Next: **Verifier self-hardening** — the new HEAD of Epoch 4, inserted ahead of severity-lifecycle
-  by founder ruling. `/andromeda-phase` to promote + plan. The entry carries its full freight
-  (survivor coordinates, acceptance shape, out-of-scope rulings) plus the **33rd** `cargo audit`
-  PREREQ, so the phase directive should shrink to nothing.
+- Done: **2026-08-20-verifier-self-hardening** — Conductor's asserting machinery hardened. **22 named
+  mutation survivors dispositioned: 16 killed + 6 classified accepted-deliberate.** `conductor-run/src/lib.rs`
+  survivors measured **27 → 21** (delta exactly the six journal stamps); `conductor-verify`'s two audited files
+  scored **33 caught / 5 missed / 11 unviable / 2 timeout** with zero missed among targeted sites. The
+  runner-portability defect is fixed at the cause. nextest **661 → 669** zero-retry.
+- Next: **Read-back seam survivors closed** — the new Epoch-4 entry, inserted ahead of severity-lifecycle:
+  the five out-of-family survivors (`jsonrpc.rs:41:22` ×2 id-counter · `:65:9` notify · `preflight.rs:357`
+  ShapeWitness ×2). `/andromeda-phase` to promote + plan. It carries the **34th audit PREREQ** in
+  PROBE-AUTO-SATISFY form.
 
 ## Work done
-Route-adaptation only — **no code, no spec, no matrix change**. `conductor-0.2.0/working-route.md`
-gained one new markerless entry at the head of Epoch 4 and severity-lifecycle lost its PREREQ block
-(the pin migrated); diff is exactly **3 insertions / 1 deletion**, no frozen `[marker]` line touched,
-the whole remaining tail byte-identical per the ANCHOR. Curation added one Tier-3 entry. The commit
-also absorbs the expected-transient bookkeeping the Epoch-3 boundary left in the tree
-(`friction-log.ndjson`, the prior handoff, `code-metrics.ndjson`, and the evolve-diagnose +
-code-audit run dirs).
+Two new test binaries (`canary_obs_witness.rs`, `jsonrpc_line_bound.rs`) + 6 tests added across
+`preflight.rs` (3) and `conductor-run/src/lib.rs`'s test module (3, **test-module only** — touchpoints widened
+by founder ruling). `conductor-cli` lost its unused `tracing` dep (`Cargo.lock` −1 line, **zero packages
+added or removed**); `conductor-verify` dev-dep gained tokio `test-util`; `.gitignore` +2 (`mutants.out/`).
+Gates: nextest **669/669** · both crates green under `cargo test` (the portability criterion's own evidence) ·
+clippy · doctests · scoped `cargo mutants` both crates · CLI boots, 36/36 cli tests.
 
 ## Drift resolved
-Not applicable — P2 does not run on the 0-pending path (no chunk report to reconcile against, no
-detectors fired). Drift stands where the last chunk wrap left it: **0 open**.
+7 doc-agents / 18 detectors: **5 clean · 11 proposals → 6 applied · 5 rejected · 4 escalations resolved with
+the operator · 0 open.** All six amendments are test-plan (§4 cargo-mutants registration + `cargo test -p` as
+a runner-portability gate · §9 scoped mutation as an operator instrument · §10 survivor-disposition rule ·
+§11 Integration process-global-singleton ban · §12 decisions entry), 5 sidecar entries.
+**Rejected:** all 3 obs proposals — they rest on a mis-citation (obs-plan §4's **cli** row names the `tracing`
+crate + subscriber; the `#[tracing::instrument]` mandate is on the desktop-webview/ipc-internal rows), the
+**second occurrence this session**, so a `playbook.md` rule was appended. Also rejected 2 test-plan §11 edits
+that would have WEAKENED standing bans (replacing the golden-test clause; carving a real-time exception the
+ban already grants). Record: `.andromeda/runs/2026-08-20T21-45-00-wrap/fanout-results.md`.
 
 ## Notes
-- **Three dictated coordinates were corrected against the audit artifacts before landing** — the
-  directive's own "re-verify at take-up" rule, applied at authoring time:
-  1. **Pin ordinal 34th → 33rd** (operator-ratified in dialogue). The ordinal numbers the
-     *forthcoming* probe: `2026-08-20-latency-regression-re-proof` discharged the **32nd**, and no
-     probe fires on a 0-pending wrap, so the inserted chunk simply becomes the one that runs #33.
-     severity-lifecycle inherits #34 whenever it is taken up.
-  2. **`declares` scope** — the directive said every preflight precondition reads through it; §B1
-     says *a NAMED* precondition. Worded to the artifact.
-  3. **§B3 cause** — the process-global obs sink is ranked **SUSPECTED-not-proven** by the audit, so
-     the entry directs confirming the cause before fixing rather than asserting it.
-- **Audit-pin chain unbroken** at 33, now in the ratified compact form carrying its
-  **PROBE-AUTO-SATISFY signature** (`cargo audit` true exit 1 + first line
-  `duplicate advisory ID: RUSTSEC-2026-0244` + `cargo deny` true exit 0). Reproduce it
-  byte-identically → record `probe unchanged, 33rd consecutive`, no basis re-authoring. ANY
-  deviation restores the full form.
-- **Curation: T1 0 · T2 0 · T3 1** (filtered 2, both Filter-1 duplicates). Added: *A standing
-  PREREQ's ordinal counts probes, not the entry it rides*. Rejected: the cp1252/`PYTHONIOENCODING`
-  gotcha (already recorded verbatim at `session-learnings.md:61-67`) and the dictated-coordinate
-  rule (CLAUDE.md's standing 2026-08-09/08-15 entry — which is what caught this drift).
-- **Flip-compaction did NOT run** — by design, the no-op path never reaches P7's sweep. The
-  working-route stays fat; the one-time backfill of the 28 complete lines fires at the next CHUNK
-  wrap.
-- **Coverage untouched** — 17/32 verified · 15 unclaimed. No matrix write this wrap.
-- **Live-leg housekeeping** still open: ten leg dirs under `%TEMP%/pulse-legs/` await a one-sweep
-  cleanup.
+- **No capability claimed, none flipped** — coverage stays **17/32 verified · 15 unclaimed**. This is a
+  test-integrity chunk; every unclaimed cap needs a live Pulse leg and this chunk drives none.
+- **`declares` ×6 are accepted-deliberate, not debt.** `.claude/rules/testing.md` (2026-08-10) prescribes
+  reading env at the caller so the edge stays thin and both branches test with no `unsafe` env mutation.
+  Killing them needs `unsafe set_var` in a shared-process module — the exact hazard this chunk removed. The
+  edge was **not** restructured. Recorded in test-plan §10 + §12.
+- **Curation: T1 0 · T2 1 · T3 0** (filtered 4). Added to `testing.md`: a magnitude bound alone cannot prove a
+  helper READS a clock — assert magnitude + cross-helper agreement + advance across a REAL pause. Three
+  rejections were dedup-against-generated-body: this wrap's own cascade had just written them.
+- **Mutation tooling traps now recorded** (test-plan §4, `rules/testing.md`): `-f` resolves from the
+  **workspace root**, `--test-tool=nextest` is required, and **`Found 0 mutants to test` exits 0** — a silent
+  no-op indistinguishable from a clean pass.
+- **Audit-ledger items for the next boundary's audit:** the `stub_pulse_mcp` mutation-scope exclusion; the
+  `declares` accepted-deliberate classification with its rule citation; and that `c-mutation-*.json`'s
+  `command` field omitted `--test-tool=nextest` while §B3 claimed it was recorded there (measured this chunk).
+- **Audit PREREQ:** 33rd discharged in FULL form (the lock moved, so the compact basis was re-derived); the
+  34th rides the new entry in PROBE-AUTO-SATISFY form with that re-derived basis stated once.
+- **Live-leg housekeeping** still open: ten leg dirs under `%TEMP%/pulse-legs/`.
 - **Last failed command:** none.

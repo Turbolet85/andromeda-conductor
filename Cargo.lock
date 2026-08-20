@@ -599,7 +599,6 @@ dependencies = [
  "predicates",
  "serde_json",
  "tokio",
- "tracing",
 ]
 
 [[package]]

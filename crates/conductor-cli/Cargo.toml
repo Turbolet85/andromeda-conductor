@@ -16,7 +16,6 @@ conductor-run.workspace = true
 clap.workspace = true
 tokio = { workspace = true, features = ["macros", "rt"] }
 anyhow.workspace = true
-tracing.workspace = true
 serde_json.workspace = true
 owo-colors.workspace = true
 indicatif.workspace = true
