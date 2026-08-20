@@ -1,0 +1,156 @@
+{
+ "pct": 3.6775428363106086,
+ "duplicated_lines": 807,
+ "total_lines": 21944,
+ "clones": 79,
+ "top": [
+  [
+   "conductor-emit/tests/error_spans.rs",
+   "conductor-emit/tests/exception_events.rs",
+   44
+  ],
+  [
+   "conductor-emit/tests/egress.rs",
+   "conductor-emit/tests/traffic_rate_ramps.rs",
+   42
+  ],
+  [
+   "conductor-emit/tests/egress.rs",
+   "conductor-emit/tests/error_spans.rs",
+   39
+  ],
+  [
+   "conductor-emit/tests/egress.rs",
+   "conductor-emit/tests/multi_service_topology.rs",
+   38
+  ],
+  [
+   "conductor-emit/tests/egress.rs",
+   "conductor-emit/tests/latency_shaping.rs",
+   36
+  ],
+  [
+   "conductor-emit/src/latency.rs",
+   "conductor-emit/src/rate.rs",
+   17
+  ],
+  [
+   "conductor-core/src/scenario.rs",
+   "conductor-core/src/scenario.rs",
+   15
+  ],
+  [
+   "conductor-emit/src/latency.rs",
+   "conductor-emit/src/rate.rs",
+   15
+  ],
+  [
+   "conductor-emit/src/span_tree.rs",
+   "conductor-emit/src/topology.rs",
+   15
+  ],
+  [
+   "conductor-core/src/run_record.rs",
+   "conductor-report/src/db.rs",
+   14
+  ]
+ ],
+ "by_unit_duplicated_lines": {
+  "conductor-emit": 994,
+  "conductor-core": 339,
+  "conductor-report": 44,
+  "conductor-run": 202,
+  "conductor-verify": 112,
+  "conductor-cli": 37,
+  "conductor-timeline": 30,
+  "conductor-tauri": 14
+ },
+ "split": {
+  "both_test": {
+   "pairs": 35,
+   "lines": 452
+  },
+  "both_src": {
+   "pairs": 37,
+   "lines": 366
+  },
+  "mixed": {
+   "pairs": 7,
+   "lines": 68
+  }
+ },
+ "top_src_only": [
+  [
+   "conductor-emit/src/latency.rs",
+   "conductor-emit/src/rate.rs",
+   17
+  ],
+  [
+   "conductor-core/src/scenario.rs",
+   "conductor-core/src/scenario.rs",
+   15
+  ],
+  [
+   "conductor-emit/src/latency.rs",
+   "conductor-emit/src/rate.rs",
+   15
+  ],
+  [
+   "conductor-emit/src/span_tree.rs",
+   "conductor-emit/src/topology.rs",
+   15
+  ],
+  [
+   "conductor-core/src/run_record.rs",
+   "conductor-report/src/db.rs",
+   14
+  ],
+  [
+   "conductor-core/src/scenario.rs",
+   "conductor-core/src/scenario.rs",
+   14
+  ],
+  [
+   "conductor-emit/src/logs.rs",
+   "conductor-emit/src/pii.rs",
+   14
+  ],
+  [
+   "conductor-run/src/lib.rs",
+   "conductor-verify/src/preflight.rs",
+   14
+  ],
+  [
+   "conductor-core/src/capability_manifest.rs",
+   "conductor-core/src/drift.rs",
+   13
+  ],
+  [
+   "conductor-emit/src/latency.rs",
+   "conductor-emit/src/span_tree.rs",
+   13
+  ]
+ ],
+ "by_format": {
+  "rust": {
+   "percentage": 3.877570632327503,
+   "duplicatedLines": 807,
+   "lines": 20812,
+   "clones": 79
+  },
+  "tsx": {
+   "percentage": 0.0,
+   "duplicatedLines": 0,
+   "lines": 945,
+   "clones": 0
+  },
+  "typescript": {
+   "percentage": 0.0,
+   "duplicatedLines": 0,
+   "lines": 187,
+   "clones": 0
+  }
+ },
+ "tool": "jscpd 5.0.16",
+ "command": "jscpd crates --format \"rust,typescript,tsx\" --ignore \"**/target/**,**/node_modules/**,**/dist/**\" --reporters json"
+}

@@ -1,0 +1,135 @@
+{
+ "unit": "conductor-verify",
+ "mutants": 134,
+ "caught": 81,
+ "missed": 28,
+ "timeout": 2,
+ "unviable": 23,
+ "score": 72.97,
+ "survivors": [
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:18:5",
+   "replace main with ()"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:37:60",
+   "replace || with && in main"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:45:5",
+   "replace stub_result -> Value with Default::default()"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:46:9",
+   "delete match arm \"initialize\" in stub_result"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:51:9",
+   "delete match arm \"tools/list\" in stub_result"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:55:9",
+   "delete match arm \"tools/call\" in stub_result"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:57:21",
+   "replace == with != in stub_result"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:69:28",
+   "replace == with != in stub_result"
+  ],
+  [
+   "crates/conductor-verify/src/client.rs:149:9",
+   "replace ReadbackClient::mark_incident_resolved -> Result<Value, VerifyError> with Ok(Default::default())"
+  ],
+  [
+   "crates/conductor-verify/src/extract.rs:95:22",
+   "replace == with != in observe"
+  ],
+  [
+   "crates/conductor-verify/src/extract.rs:110:22",
+   "replace == with != in observe"
+  ],
+  [
+   "crates/conductor-verify/src/extract.rs:215:5",
+   "replace log_observed_keys with ()"
+  ],
+  [
+   "crates/conductor-verify/src/jsonrpc.rs:18:41",
+   "replace * with +"
+  ],
+  [
+   "crates/conductor-verify/src/jsonrpc.rs:18:34",
+   "replace * with +"
+  ],
+  [
+   "crates/conductor-verify/src/jsonrpc.rs:41:22",
+   "replace += with -= in JsonRpcSession::request"
+  ],
+  [
+   "crates/conductor-verify/src/jsonrpc.rs:41:22",
+   "replace += with *= in JsonRpcSession::request"
+  ],
+  [
+   "crates/conductor-verify/src/jsonrpc.rs:65:9",
+   "replace JsonRpcSession::notify -> Result<(), VerifyError> with Ok(())"
+  ],
+  [
+   "crates/conductor-verify/src/jsonrpc.rs:79:27",
+   "replace match guard line.len() > MAX_LINE_BYTES with false in JsonRpcSession::read_line"
+  ],
+  [
+   "crates/conductor-verify/src/jsonrpc.rs:79:38",
+   "replace > with == in JsonRpcSession::read_line"
+  ],
+  [
+   "crates/conductor-verify/src/jsonrpc.rs:79:38",
+   "replace > with >= in JsonRpcSession::read_line"
+  ],
+  [
+   "crates/conductor-verify/src/manifest.rs:35:9",
+   "replace ContractManifest::default_path -> PathBuf with Default::default()"
+  ],
+  [
+   "crates/conductor-verify/src/preflight.rs:335:32",
+   "replace < with == in poll_canary"
+  ],
+  [
+   "crates/conductor-verify/src/preflight.rs:335:32",
+   "replace < with > in poll_canary"
+  ],
+  [
+   "crates/conductor-verify/src/preflight.rs:335:32",
+   "replace < with <= in poll_canary"
+  ],
+  [
+   "crates/conductor-verify/src/preflight.rs:335:28",
+   "replace + with * in poll_canary"
+  ],
+  [
+   "crates/conductor-verify/src/preflight.rs:357:9",
+   "replace ShapeWitness::list with ()"
+  ],
+  [
+   "crates/conductor-verify/src/preflight.rs:357:12",
+   "delete ! in ShapeWitness::list"
+  ],
+  [
+   "crates/conductor-verify/src/preflight.rs:385:64",
+   "replace > with >= in assert_canary"
+  ]
+ ],
+ "timeouts": [
+  [
+   "crates/conductor-verify/src/jsonrpc.rs:49:30",
+   "replace != with == in JsonRpcSession::request"
+  ],
+  [
+   "crates/conductor-verify/src/jsonrpc.rs:70:9",
+   "replace JsonRpcSession::write_message -> Result<(), VerifyError> with Ok(())"
+  ]
+ ],
+ "tool": "cargo-mutants 27.1.0",
+ "command": "cargo mutants -p conductor-verify --output {run_dir}/mutants-conductor-verify --jobs 2"
+}

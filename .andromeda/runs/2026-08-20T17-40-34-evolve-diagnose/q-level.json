@@ -1,0 +1,603 @@
+{
+ "epoch": "Epoch 3 - Live proof: the five families",
+ "total_problem_facts": 77,
+ "solution_census": {
+  "workaround": 46,
+  "overridden": 6,
+  "prohibition": 7,
+  "deferred": 9,
+  "removed-cause": 8,
+  "unresolved": 1
+ },
+ "nature_census": {
+  "process": 43,
+  "resources": 5,
+  "environment": 26,
+  "product-logic": 3
+ },
+ "pass_a_note_themes": {
+  "bash-transport-payload-limits": {
+   "n_total": 13,
+   "n_workaround_or_prohibition": 13,
+   "natures": {
+    "resources": 2,
+    "environment": 10,
+    "process": 1
+   },
+   "solutions": {
+    "workaround": 13
+   },
+   "chunks": [
+    "2026-08-18-error-baseline-spike-live-proof",
+    "2026-08-18-restart-suppression-live-proof",
+    "2026-08-19-connection-lifecycle-live-proof",
+    "2026-08-19-pii-scrub-live-proof",
+    "2026-08-20-latency-regression-re-proof"
+   ],
+   "steps": [
+    "implement/fix-loop",
+    "new-session/orientation",
+    "phase/distill",
+    "phase/research",
+    "phase/take-up",
+    "phase/validate"
+   ],
+   "threshold_met": true,
+   "facts": [
+    {
+     "chunk": null,
+     "skill": "new-session",
+     "step": "orientation",
+     "idx": 1,
+     "nature": "resources",
+     "solution": "workaround",
+     "note": "working-route.md tail read overflowed the tool-result size cap and persisted to a file; pivoted to a grep-based structural view of entry heads to find the marker boundary"
+    },
+    {
+     "chunk": "2026-08-18-error-baseline-spike-live-proof",
+     "skill": "phase",
+     "step": "distill",
+     "idx": 0,
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "persisting the 7 extracts per the Bash-first directive via quoted heredocs failed for the 6 largest (~10KB+) commands - shell transport truncated/corrupted them into unmatched-quote parse errors; re-wrote those 6 via the Write tool, batch-renamed via one mv"
+    },
+    {
+     "chunk": "2026-08-18-restart-suppression-live-proof",
+     "skill": "phase",
+     "step": "distill",
+     "idx": 0,
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "saving the 13KB arch extract via a quoted bash heredoc failed to parse (unexpected EOF mid-content \u2014 heredoc never opened under the auto-mode Bash path); switched to the dedicated Write tool for all 7 extract files"
+    },
+    {
+     "chunk": null,
+     "skill": "new-session",
+     "step": "orientation",
+     "idx": 0,
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "two read bundles overflowed the tool-result size cap into persisted previews (5 references 35KB; working-route+ls 70KB) and one recovery read re-overflowed; recovered via chunked sed reads of the persisted files plus targeted grep/awk re-queries of the source files"
+    },
+    {
+     "chunk": "2026-08-19-pii-scrub-live-proof",
+     "skill": "phase",
+     "step": "distill",
+     "idx": 0,
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "two ~12KB quoted-heredoc extract saves failed bash parse (unexpected EOF looking for matching quote); all 7 extracts saved via the dedicated Write tool instead \u2014 agent returns themselves were clean"
+    },
+    {
+     "chunk": "2026-08-19-pii-scrub-live-proof",
+     "skill": "phase",
+     "step": "validate",
+     "idx": 0,
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "inline-python heredoc lost a backslash in transit (a backslash-u literal became a unicode-escape SyntaxError); matrix edit re-run as a scratchpad script by path"
+    },
+    {
+     "chunk": "2026-08-19-pii-scrub-live-proof",
+     "skill": "implement",
+     "step": "fix-loop",
+     "idx": 1,
+     "nature": "process",
+     "solution": "workaround",
+     "note": "first full-gate read was tail-30-truncated (own pipeline) hiding the nextest summary; re-ran workspace nextest standalone to a file and read the true Summary (639/639)"
+    },
+    {
+     "chunk": null,
+     "skill": "new-session",
+     "step": "orientation",
+     "idx": 0,
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "3 setup reads (skill refs, routes, matrix) overflowed the tool-result size limit and were re-extracted via sed from persisted-output files"
+    },
+    {
+     "chunk": "2026-08-19-connection-lifecycle-live-proof",
+     "skill": "phase",
+     "step": "take-up",
+     "idx": 0,
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "the Setup working-route cat overflowed the tool-result limit into a persisted file; the taken-up entry was re-extracted from the repo file via awk instead"
+    },
+    {
+     "chunk": "2026-08-19-connection-lifecycle-live-proof",
+     "skill": "phase",
+     "step": "distill",
+     "idx": 0,
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "the Bash spawn layer rejected a 3-heredoc save (ENAMETOOLONG ~35KB) and truncated two ~10KB single-heredoc saves mid-stream (unterminated-quote EOF); extract saves fell back to the Write tool"
+    },
+    {
+     "chunk": null,
+     "skill": "new-session",
+     "step": "orientation",
+     "idx": 0,
+     "nature": "resources",
+     "solution": "workaround",
+     "note": "cat of working-route.md (71KB, CARRY-heavy) overflowed the tool-output cap; position re-derived via grep of epoch headers + markerless lines"
+    },
+    {
+     "chunk": "2026-08-20-latency-regression-re-proof",
+     "skill": "phase",
+     "step": "distill",
+     "idx": 0,
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "a ~12KB quoted-heredoc Bash write of the arch extract failed to parse in Git Bash (unexpected EOF / unmatched quote); extract persistence switched to the Write tool for all 7 files"
+    },
+    {
+     "chunk": "2026-08-20-latency-regression-re-proof",
+     "skill": "phase",
+     "step": "research",
+     "idx": 0,
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "a combined read batch overflowed the tool-output cap (36.5KB persisted); re-issued as targeted seds for the needed ranges"
+    }
+   ]
+  },
+  "cp1252-console-encoding": {
+   "n_total": 5,
+   "n_workaround_or_prohibition": 5,
+   "natures": {
+    "process": 1,
+    "environment": 4
+   },
+   "solutions": {
+    "workaround": 5
+   },
+   "chunks": [
+    "2026-08-16-fingerprint-storm-live-proof",
+    "2026-08-17-fingerprint-semantics-token-leading"
+   ],
+   "steps": [
+    "phase/research",
+    "phase/take-up",
+    "wrap-session/gates",
+    "wrap-session/route-resolve"
+   ],
+   "threshold_met": true,
+   "facts": [
+    {
+     "chunk": "2026-08-16-fingerprint-storm-live-proof",
+     "skill": "phase",
+     "step": "research",
+     "idx": 0,
+     "nature": "process",
+     "solution": "workaround",
+     "note": "codebase-research shell discipline says inline Python should become a scratchpad file run by path; used inline python -c throughout and, when one invocation died on the host's cp1252 stdout encoding, worked around it with PYTHONIOENCODING=utf-8 rather than moving to a scratchpad file"
+    },
+    {
+     "chunk": null,
+     "skill": "wrap-session",
+     "step": "route-resolve",
+     "idx": 0,
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "the route edit was written as a UTF-8-explicit script file instead of the inline python -c used everywhere else this session; the host console's cp1252 stdout default raised UnicodeEncodeError on the route's arrow and em-dash characters when inspecting the lines to edit"
+    },
+    {
+     "chunk": "2026-08-17-fingerprint-semantics-token-leading",
+     "skill": "phase",
+     "step": "take-up",
+     "idx": 0,
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "the working-entry stamp and master append were written through a UTF-8-explicit script file rather than in-place edits; second occurrence this session of the host console's cp1252 default making route/master text unsafe to round-trip through stdout. No redo cycle this time - the workaround was reached directly."
+    },
+    {
+     "chunk": "2026-08-17-fingerprint-semantics-token-leading",
+     "skill": "wrap-session",
+     "step": "route-resolve",
+     "idx": 0,
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "third occurrence this session of writing a route edit as a UTF-8-explicit script file instead of in-place edits, because the host console's cp1252 default cannot round-trip the route's em-dashes and arrows through stdout"
+    },
+    {
+     "chunk": "2026-08-17-fingerprint-semantics-token-leading",
+     "skill": "wrap-session",
+     "step": "gates",
+     "idx": 0,
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "fourth occurrence this session of writing an edit as a UTF-8-explicit script file instead of in-place edits - here the master flip - because the host console's cp1252 default cannot round-trip the route grammar's middot and arrow characters through stdout"
+    }
+   ]
+  },
+  "harness-invocation-routed-around": {
+   "n_total": 5,
+   "n_workaround_or_prohibition": 5,
+   "natures": {
+    "process": 5
+   },
+   "solutions": {
+    "workaround": 5
+   },
+   "chunks": [
+    "2026-08-15-canary-spans-pulse-fingerprints",
+    "2026-08-16-fault-application-spans",
+    "2026-08-19-connection-lifecycle-live-proof",
+    "2026-08-19-pii-scrub-live-proof",
+    "2026-08-20-latency-regression-re-proof"
+   ],
+   "steps": [
+    "implement/fix-loop",
+    "implement/smoke"
+   ],
+   "threshold_met": true,
+   "facts": [
+    {
+     "chunk": "2026-08-15-canary-spans-pulse-fingerprints",
+     "skill": "implement",
+     "step": "smoke",
+     "idx": 1,
+     "nature": "process",
+     "solution": "workaround",
+     "note": "agent-run.sh status returned exit 0 on a stale prior-chunk envelope; applied the artifact-freshness rule and rejected it as evidence rather than reading the exit code as a pass"
+    },
+    {
+     "chunk": "2026-08-16-fault-application-spans",
+     "skill": "implement",
+     "step": "smoke",
+     "idx": 0,
+     "nature": "process",
+     "solution": "workaround",
+     "note": "drove the smoke as SCENARIO=service-went-silent agent-run.sh run rather than the plan's bare status verb, because a bare status exits 0 on a prior chunk's residue and would have proven nothing about this run"
+    },
+    {
+     "chunk": "2026-08-19-pii-scrub-live-proof",
+     "skill": "implement",
+     "step": "fix-loop",
+     "idx": 0,
+     "nature": "process",
+     "solution": "workaround",
+     "note": "legs invoked via the harness run-verb leg branch command line directly instead of two full agent-run.sh run wrappers \u2014 keeps each subprocess bounded and avoids double full-gate; identical command line, full bundle ran once after"
+    },
+    {
+     "chunk": "2026-08-19-connection-lifecycle-live-proof",
+     "skill": "implement",
+     "step": "fix-loop",
+     "idx": 0,
+     "nature": "process",
+     "solution": "workaround",
+     "note": "the plan-listed boot-and-run pairing was replaced by direct conductor.exe run per leg \u2014 boot fires its own canary whose open incident dedupe-blocks the run canary on the same dir"
+    },
+    {
+     "chunk": "2026-08-20-latency-regression-re-proof",
+     "skill": "implement",
+     "step": "smoke",
+     "idx": 1,
+     "nature": "process",
+     "solution": "workaround",
+     "note": "the plan listed `agent-run.sh boot` then `run` as separate Test Commands; drove `conductor.exe run --agent-mode` directly instead, because boot fires its own preflight canary whose OPEN incident dedupe-blocks the run canary on the same data dir (the standing 2026-08-19 rule, same plan defect the prior chunk recorded)"
+    }
+   ]
+  },
+  "files-to-modify-under-enumerated": {
+   "n_total": 3,
+   "n_workaround_or_prohibition": 2,
+   "natures": {
+    "process": 3
+   },
+   "solutions": {
+    "workaround": 2,
+    "removed-cause": 1
+   },
+   "chunks": [
+    "2026-08-15-canary-spans-pulse-fingerprints",
+    "2026-08-16-fault-application-spans",
+    "2026-08-17-fingerprint-semantics-token-leading"
+   ],
+   "steps": [
+    "implement/code",
+    "phase/plan"
+   ],
+   "threshold_met": false,
+   "facts": [
+    {
+     "chunk": "2026-08-15-canary-spans-pulse-fingerprints",
+     "skill": "implement",
+     "step": "code",
+     "idx": 0,
+     "nature": "process",
+     "solution": "workaround",
+     "note": "edited crates/conductor-emit/tests/egress.rs, which is outside the plan's and research's Files-to-modify lists; judged in-scope as a mechanical one-argument call-site update in the same crate as the changed builder, compile-forced by the signature change the plan chose as its enumeration mechanism"
+    },
+    {
+     "chunk": "2026-08-16-fault-application-spans",
+     "skill": "implement",
+     "step": "code",
+     "idx": 0,
+     "nature": "process",
+     "solution": "workaround",
+     "note": "edited crates/conductor-timeline/src/lib.rs, which the plan's Files-to-modify did not list, to re-export run_timeline_observed and PhaseWindow \u2014 judged the in-scope gray area (a new public item is unusable unexported) rather than a soft-exit"
+    },
+    {
+     "chunk": "2026-08-17-fingerprint-semantics-token-leading",
+     "skill": "phase",
+     "step": "plan",
+     "idx": 0,
+     "nature": "process",
+     "solution": "removed-cause",
+     "note": "research.md was edited mid-synthesis to drop .andromeda/architecture.md from Files-to-modify and record why it is not a touchpoint; fixing an already-written upstream artifact is outside P4's planned work, but leaving it would have routed a spec-master amendment through /implement and bypassed the amendment flow"
+    }
+   ]
+  },
+  "template-has-no-slot": {
+   "n_total": 2,
+   "n_workaround_or_prohibition": 2,
+   "natures": {
+    "process": 2
+   },
+   "solutions": {
+    "workaround": 2
+   },
+   "chunks": [
+    "2026-08-16-fault-application-spans"
+   ],
+   "steps": [
+    "phase/plan",
+    "phase/research"
+   ],
+   "threshold_met": false,
+   "facts": [
+    {
+     "chunk": "2026-08-16-fault-application-spans",
+     "skill": "phase",
+     "step": "research",
+     "idx": 1,
+     "nature": "process",
+     "solution": "workaround",
+     "note": "research.md gained a Verification-matrix bearing section outside the documented template, because the P5 matrix step needs the no-capability-claimable finding recorded and the template has no slot for it"
+    },
+    {
+     "chunk": "2026-08-16-fault-application-spans",
+     "skill": "phase",
+     "step": "plan",
+     "idx": 0,
+     "nature": "process",
+     "solution": "workaround",
+     "note": "a 'No capability is linked' paragraph was written inside Acceptance Criteria, outside the template's shape, so the P5 matrix step's finding travels with the plan rather than only in research.md"
+    }
+   ]
+  },
+  "named-reference-not-read": {
+   "n_total": 5,
+   "n_workaround_or_prohibition": 5,
+   "natures": {
+    "process": 5
+   },
+   "solutions": {
+    "workaround": 5
+   },
+   "chunks": [
+    "2026-08-15-canary-spans-pulse-fingerprints"
+   ],
+   "steps": [
+    "implement/smoke",
+    "new-session/orientation"
+   ],
+   "threshold_met": true,
+   "facts": [
+    {
+     "chunk": null,
+     "skill": "new-session",
+     "step": "orientation",
+     "idx": 0,
+     "nature": "process",
+     "solution": "workaround",
+     "note": "inferred verification-matrix.json's schema by probing the file instead of reading references/verification-matrix-contract.md; status and chunk sit under verification.status, so the first two probes reported status=None for all 32 entries before the third read the real field"
+    },
+    {
+     "chunk": "2026-08-15-canary-spans-pulse-fingerprints",
+     "skill": "implement",
+     "step": "smoke",
+     "idx": 1,
+     "nature": "process",
+     "solution": "workaround",
+     "note": "agent-run.sh status returned exit 0 on a stale prior-chunk envelope; applied the artifact-freshness rule and rejected it as evidence rather than reading the exit code as a pass"
+    },
+    {
+     "chunk": null,
+     "skill": "new-session",
+     "step": "orientation",
+     "idx": 0,
+     "nature": "process",
+     "solution": "workaround",
+     "note": "derived the verification-matrix schema by inspecting the JSON instead of reading the named verification-matrix-contract.md reference first; the flat-status assumption returned 32 nulls and was recovered by two shape-inspection passes"
+    },
+    {
+     "chunk": null,
+     "skill": "new-session",
+     "step": "orientation",
+     "idx": 0,
+     "nature": "process",
+     "solution": "workaround",
+     "note": "Check 2 verified by pairing GENERATED/USER start-end markers directly from a CLAUDE.md grep instead of reading the named references/section-markers.md parser reference; same verdict (10 pairs balanced, no orphans)"
+    },
+    {
+     "chunk": null,
+     "skill": "new-session",
+     "step": "orientation",
+     "idx": 1,
+     "nature": "process",
+     "solution": "workaround",
+     "note": "matrix coverage extracted by ad-hoc python probing instead of consulting references/verification-matrix-contract.md for the schema; cost 2 re-runs to locate the status field"
+    }
+   ]
+  },
+  "pulse-open-incident-dedupe": {
+   "n_total": 3,
+   "n_workaround_or_prohibition": 3,
+   "natures": {
+    "environment": 1,
+    "process": 2
+   },
+   "solutions": {
+    "workaround": 3
+   },
+   "chunks": [
+    "2026-08-16-fingerprint-storm-live-proof",
+    "2026-08-19-connection-lifecycle-live-proof",
+    "2026-08-20-latency-regression-re-proof"
+   ],
+   "steps": [
+    "implement/fix-loop",
+    "implement/smoke"
+   ],
+   "threshold_met": true,
+   "facts": [
+    {
+     "chunk": "2026-08-16-fingerprint-storm-live-proof",
+     "skill": "implement",
+     "step": "smoke",
+     "idx": 0,
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "first storm leg blocked because Pulse deduped its canary incident against the boot leg's still-open one; waited for auto-resolve (~5 min) and re-ran rather than resolving the incident via mark_incident_resolved, which would have had Conductor mutate SUT state mid-leg"
+    },
+    {
+     "chunk": "2026-08-19-connection-lifecycle-live-proof",
+     "skill": "implement",
+     "step": "fix-loop",
+     "idx": 0,
+     "nature": "process",
+     "solution": "workaround",
+     "note": "the plan-listed boot-and-run pairing was replaced by direct conductor.exe run per leg \u2014 boot fires its own canary whose open incident dedupe-blocks the run canary on the same dir"
+    },
+    {
+     "chunk": "2026-08-20-latency-regression-re-proof",
+     "skill": "implement",
+     "step": "smoke",
+     "idx": 1,
+     "nature": "process",
+     "solution": "workaround",
+     "note": "the plan listed `agent-run.sh boot` then `run` as separate Test Commands; drove `conductor.exe run --agent-mode` directly instead, because boot fires its own preflight canary whose OPEN incident dedupe-blocks the run canary on the same data dir (the standing 2026-08-19 rule, same plan defect the prior chunk recorded)"
+    }
+   ]
+  },
+  "tail-swallows-true-result": {
+   "n_total": 2,
+   "n_workaround_or_prohibition": 2,
+   "natures": {
+    "process": 2
+   },
+   "solutions": {
+    "workaround": 2
+   },
+   "chunks": [
+    "2026-08-15-canary-spans-pulse-fingerprints",
+    "2026-08-19-pii-scrub-live-proof"
+   ],
+   "steps": [
+    "implement/fix-loop"
+   ],
+   "threshold_met": false,
+   "facts": [
+    {
+     "chunk": "2026-08-15-canary-spans-pulse-fingerprints",
+     "skill": "implement",
+     "step": "fix-loop",
+     "idx": 1,
+     "nature": "process",
+     "solution": "workaround",
+     "note": "the first cargo audit invocation was piped to tail, so the reported exit code was tail's (0) and not cargo audit's (1); re-ran redirected to a file with an explicit exit check to get the true status, per the documented shell discipline"
+    },
+    {
+     "chunk": "2026-08-19-pii-scrub-live-proof",
+     "skill": "implement",
+     "step": "fix-loop",
+     "idx": 1,
+     "nature": "process",
+     "solution": "workaround",
+     "note": "first full-gate read was tail-30-truncated (own pipeline) hiding the nextest summary; re-ran workspace nextest standalone to a file and read the true Summary (639/639)"
+    }
+   ]
+  }
+ },
+ "pass_b_signatures": {
+  "deferred_forever": {
+   "signature": "deferred-forever",
+   "subject": "cargo-audit standing deferral (RUSTSEC-2026-0244 advisory-DATABASE parse fault)",
+   "tooling.gate-deferral_by_epoch": {
+    "E1": 3,
+    "E2": 9,
+    "E3": 8
+   },
+   "consecutive_chunks_at_epoch_end": 33,
+   "closure_appears": false,
+   "operator_ratified": true,
+   "ratified_at": "2026-08-10-workspace-key-divergence-probe"
+  },
+  "chronic_degrade": {
+   "signature": "chronic-degrade",
+   "a_host_shell_mechanisms_by_epoch": {
+    "heredoc-write-fail": {
+     "E1": 3,
+     "E2": 9,
+     "E3": 12
+    },
+    "cp1252-stdout": {
+     "E1": 0,
+     "E2": 6,
+     "E3": 7
+    },
+    "tool-output-cap": {
+     "E1": 0,
+     "E2": 4,
+     "E3": 8
+    },
+    "tail-swallows-result": {
+     "E1": 1,
+     "E2": 1,
+     "E3": 4
+    },
+    "cwd-drift-TMPDIR": {
+     "E1": 0,
+     "E2": 1,
+     "E3": 5
+    }
+   },
+   "note": "the tooling.host-shell TYPE first appears 2026-08-16 (Epoch-3 deploy) so its E1=0/E2=0 is ERA not evidence; the MECHANISMS recur across all three epochs and grow",
+   "b_implement_smoke_ok_degraded": {
+    "n": 5,
+    "cause": "live leg could not run (pulse-app not running / andromeda-pulse-mcp absent from PATH / the three ANDROMEDA_PULSE_* vars unset)",
+    "ever_halted": false
+   }
+  },
+  "override": {
+   "signature": "override",
+   "n_overridden_facts": 6,
+   "same_rule_recurrence": "none at n>=3; route-resolve carries 2 overrides across 2 chunks but on DIFFERENT rules (desc-verbatim flip; trajectory-edit halt)",
+   "threshold_met": false
+  }
+ }
+}

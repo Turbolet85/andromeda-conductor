@@ -1,0 +1,115 @@
+{
+ "line": 92.26,
+ "branch": null,
+ "function": 87.98,
+ "lines_hit": 7829,
+ "lines_found": 8486,
+ "branches_hit": 0,
+ "branches_found": 0,
+ "functions_hit": 1215,
+ "functions_found": 1381,
+ "files": 65,
+ "per_unit": {
+  "conductor-cli": {
+   "pct": 89.02,
+   "hit": 543,
+   "found": 610
+  },
+  "conductor-core": {
+   "pct": 95.87,
+   "hit": 2949,
+   "found": 3076
+  },
+  "conductor-emit": {
+   "pct": 97.47,
+   "hit": 1655,
+   "found": 1698
+  },
+  "conductor-faults": {
+   "pct": 98.3,
+   "hit": 231,
+   "found": 235
+  },
+  "conductor-report": {
+   "pct": 99.5,
+   "hit": 793,
+   "found": 797
+  },
+  "conductor-run": {
+   "pct": 79.68,
+   "hit": 651,
+   "found": 817
+  },
+  "conductor-tauri": {
+   "pct": 52.64,
+   "hit": 219,
+   "found": 416
+  },
+  "conductor-timeline": {
+   "pct": 100.0,
+   "hit": 148,
+   "found": 148
+  },
+  "conductor-verify": {
+   "pct": 92.89,
+   "hit": 640,
+   "found": 689
+  }
+ },
+ "weakest": [
+  [
+   "D:/dev/projects/conductor/crates/conductor-tauri/src/main.rs",
+   0.0,
+   21
+  ],
+  [
+   "D:/dev/projects/conductor/crates/conductor-tauri/src/commands.rs",
+   44.18,
+   292
+  ],
+  [
+   "D:/dev/projects/conductor/crates/conductor-cli/src/pause.rs",
+   66.2,
+   71
+  ],
+  [
+   "D:/dev/projects/conductor/crates/conductor-run/src/lib.rs",
+   79.67,
+   659
+  ],
+  [
+   "D:/dev/projects/conductor/crates/conductor-run/src/dispatch.rs",
+   79.75,
+   158
+  ],
+  [
+   "D:/dev/projects/conductor/crates/conductor-verify/src/client.rs",
+   80.3,
+   66
+  ],
+  [
+   "D:/dev/projects/conductor/crates/conductor-core/src/report_state.rs",
+   81.82,
+   44
+  ],
+  [
+   "D:/dev/projects/conductor/crates/conductor-verify/src/jsonrpc.rs",
+   84.62,
+   52
+  ],
+  [
+   "D:/dev/projects/conductor/crates/conductor-verify/src/manifest.rs",
+   85.94,
+   64
+  ],
+  [
+   "D:/dev/projects/conductor/crates/conductor-emit/src/client.rs",
+   86.08,
+   79
+  ]
+ ],
+ "gate_threshold_in_docs": 60,
+ "tool": "cargo-llvm-cov 0.8.5",
+ "command": "cargo llvm-cov nextest --workspace --lcov --output-path {run_dir}/lcov.info",
+ "tests": "661 run, 661 passed, 0 skipped"
+}

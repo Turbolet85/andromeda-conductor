@@ -1,0 +1,121 @@
+{
+ "scope": "crates/**/*.rs + crates/conductor-tauri/ui/src/**/*.{ts,tsx}",
+ "totals": {
+  "loc": 16543,
+  "files": 118,
+  "units": 9
+ },
+ "file_p50": 88,
+ "file_p90": 347,
+ "file_max": 898,
+ "over_800": 2,
+ "top": [
+  [
+   "./crates/conductor-run/src/lib.rs",
+   898
+  ],
+  [
+   "./crates/conductor-core/src/scenario.rs",
+   850
+  ],
+  [
+   "./crates/conductor-core/src/obs.rs",
+   597
+  ],
+  [
+   "./crates/conductor-core/src/load_envelope.rs",
+   535
+  ],
+  [
+   "./crates/conductor-emit/src/pii.rs",
+   436
+  ],
+  [
+   "./crates/conductor-emit/src/exception.rs",
+   410
+  ],
+  [
+   "./crates/conductor-run/tests/dispatch_wire.rs",
+   403
+  ],
+  [
+   "./crates/conductor-core/src/phase_spec.rs",
+   390
+  ],
+  [
+   "./crates/conductor-report/src/db.rs",
+   370
+  ],
+  [
+   "./crates/conductor-report/src/report.rs",
+   364
+  ]
+ ],
+ "per_unit_loc": {
+  "conductor-run": 2807,
+  "conductor-core": 4489,
+  "conductor-emit": 2817,
+  "conductor-report": 1069,
+  "conductor-cli": 1004,
+  "conductor-tauri": 1413,
+  "conductor-verify": 1825,
+  "conductor-timeline": 669,
+  "conductor-faults": 450
+ },
+ "languages_all_repo": {
+  "CSS": {
+   "code": 549,
+   "files": 10
+  },
+  "HTML": {
+   "code": 15,
+   "files": 1
+  },
+  "JSON": {
+   "code": 10901,
+   "files": 9
+  },
+  "Markdown": {
+   "code": 0,
+   "files": 373
+  },
+  "PowerShell": {
+   "code": 112,
+   "files": 1
+  },
+  "Python": {
+   "code": 243,
+   "files": 2
+  },
+  "Rust": {
+   "code": 15651,
+   "files": 104
+  },
+  "Shell": {
+   "code": 93,
+   "files": 1
+  },
+  "SQL": {
+   "code": 28,
+   "files": 1
+  },
+  "Plain Text": {
+   "code": 0,
+   "files": 1
+  },
+  "TOML": {
+   "code": 1234,
+   "files": 51
+  },
+  "TSX": {
+   "code": 851,
+   "files": 12
+  },
+  "TypeScript": {
+   "code": 131,
+   "files": 5
+  }
+ },
+ "tool": "tokei 14.0.0",
+ "command": "tokei --output json"
+}

@@ -1,0 +1,279 @@
+{
+ "epoch": "Epoch 3 - Live proof: the five families",
+ "records": 296,
+ "step": 159,
+ "friction": 137,
+ "unparseable": 0,
+ "chunks": [
+  "2026-08-15-canary-spans-pulse-fingerprints",
+  "2026-08-15-canary-storm-autonomous-band",
+  "2026-08-16-canary-fingerprint-derivation-aligned",
+  "2026-08-16-fault-application-spans",
+  "2026-08-16-fingerprint-storm-live-proof",
+  "2026-08-17-fingerprint-semantics-token-leading",
+  "2026-08-18-error-baseline-spike-live-proof",
+  "2026-08-18-restart-suppression-live-proof",
+  "2026-08-19-connection-lifecycle-live-proof",
+  "2026-08-19-pii-scrub-live-proof",
+  "2026-08-20-latency-regression-re-proof"
+ ],
+ "chunk_count": 11,
+ "coverage_gaps": [],
+ "new_session_steps": 5,
+ "chunkless_steps": 13,
+ "untyped_by_step": {
+  "andromeda-phase/take-up": {
+   "friction": 3,
+   "untyped": 0
+  },
+  "andromeda-phase/research": {
+   "friction": 11,
+   "untyped": 0
+  },
+  "andromeda-phase/validate": {
+   "friction": 7,
+   "untyped": 1
+  },
+  "andromeda-implement/fix-loop": {
+   "friction": 14,
+   "untyped": 1
+  },
+  "andromeda-implement/smoke": {
+   "friction": 10,
+   "untyped": 1
+  },
+  "andromeda-wrap-session/report": {
+   "friction": 2,
+   "untyped": 0
+  },
+  "andromeda-wrap-session/reconcile": {
+   "friction": 10,
+   "untyped": 1
+  },
+  "andromeda-wrap-session/curation": {
+   "friction": 7,
+   "untyped": 2
+  },
+  "andromeda-wrap-session/route-resolve": {
+   "friction": 7,
+   "untyped": 3
+  },
+  "andromeda-wrap-session/gates": {
+   "friction": 7,
+   "untyped": 2
+  },
+  "andromeda-new-session/orientation": {
+   "friction": 8,
+   "untyped": 4
+  },
+  "andromeda-implement/code": {
+   "friction": 5,
+   "untyped": 0
+  },
+  "andromeda-phase/distill": {
+   "friction": 5,
+   "untyped": 0
+  },
+  "andromeda-phase/plan": {
+   "friction": 5,
+   "untyped": 0
+  },
+  "new-session/orientation": {
+   "friction": 7,
+   "untyped": 4
+  },
+  "phase/distill": {
+   "friction": 5,
+   "untyped": 0
+  },
+  "phase/validate": {
+   "friction": 3,
+   "untyped": 2
+  },
+  "implement/fix-loop": {
+   "friction": 9,
+   "untyped": 3
+  },
+  "wrap-session/curation": {
+   "friction": 1,
+   "untyped": 1
+  },
+  "implement/code": {
+   "friction": 4,
+   "untyped": 0
+  },
+  "wrap-session/reconcile": {
+   "friction": 3,
+   "untyped": 1
+  },
+  "phase/plan": {
+   "friction": 1,
+   "untyped": 0
+  },
+  "implement/smoke": {
+   "friction": 1,
+   "untyped": 0
+  },
+  "wrap-session/report": {
+   "friction": 1,
+   "untyped": 0
+  },
+  "wrap-session/route-resolve": {
+   "friction": 1,
+   "untyped": 0
+  }
+ },
+ "untyped_total": 26,
+ "problem_fill": {
+  "steps_with_facts": 60,
+  "steps": 159,
+  "total_facts": 77
+ },
+ "id_fill": {
+  "post_boundary": 106,
+  "post_boundary_with_id": 106,
+  "pre_boundary": 190
+ },
+ "outcomes": {
+  "ok": 147,
+  "ok-degraded": 6,
+  "halted-resolved": 6
+ },
+ "retraction": {
+  "retractors": 1,
+  "retracted": 0,
+  "unresolvable": [
+   {
+    "reason": "prose-form-pre-boundary",
+    "by": null,
+    "record_line": 12,
+    "record_ts": "2026-08-08T12:56:12Z",
+    "record_epoch": "Epoch 1 - Foundation: re-aim at the SUT",
+    "record_chunk": "2026-08-08-sut-capability-manifest",
+    "note": "the untyped code-graph-under-reports record and the first problem-block entry on the plan step record, both appended earlier at this step"
+   }
+  ],
+  "note": "sole retractor is the pre-2026-08-18 prose form (id:null, prose retracts string); unresolvable BY DESIGN; targets Epoch 1, so Epoch 3 exclusion sets are empty"
+ },
+ "boundaries_applying": [
+  "deviation scan live (all Epoch-3 records post-date it)",
+  "Universal types live from deploy date",
+  "id + schema-d retracts required from 2026-08-18 (epoch spans the boundary)"
+ ],
+ "normalization_note": "TWO fold axes required, not one: the documented dash fold in epoch labels, AND a skill-label fold (andromeda-* -> bare) that switched at 2026-08-18 mid-epoch. Unfolded, the skill split produced 5 phantom zero-coverage chunks and fragmented every (skill,step,type) group into two sub-threshold halves. diagnosis-pass.md documents only the dash fold.",
+ "step_records_per_chunk": {
+  "2026-08-15-canary-storm-autonomous-band": {
+   "phase": 5,
+   "implement": 3,
+   "wrap-session": 5
+  },
+  "2026-08-15-canary-spans-pulse-fingerprints": {
+   "phase": 5,
+   "implement": 4,
+   "wrap-session": 5
+  },
+  "2026-08-16-canary-fingerprint-derivation-aligned": {
+   "phase": 5,
+   "implement": 3,
+   "wrap-session": 5
+  },
+  "2026-08-16-fault-application-spans": {
+   "phase": 5,
+   "implement": 3,
+   "wrap-session": 5
+  },
+  "2026-08-16-fingerprint-storm-live-proof": {
+   "phase": 5,
+   "implement": 5,
+   "wrap-session": 5
+  },
+  "2026-08-17-fingerprint-semantics-token-leading": {
+   "phase": 5,
+   "implement": 3,
+   "wrap-session": 5
+  },
+  "2026-08-18-error-baseline-spike-live-proof": {
+   "phase": 5,
+   "implement": 3,
+   "wrap-session": 5
+  },
+  "2026-08-18-restart-suppression-live-proof": {
+   "phase": 5,
+   "implement": 3,
+   "wrap-session": 5
+  },
+  "2026-08-19-pii-scrub-live-proof": {
+   "phase": 5,
+   "implement": 3,
+   "wrap-session": 5
+  },
+  "2026-08-19-connection-lifecycle-live-proof": {
+   "phase": 5,
+   "implement": 3,
+   "wrap-session": 5
+  },
+  "2026-08-20-latency-regression-re-proof": {
+   "phase": 5,
+   "implement": 3,
+   "wrap-session": 5
+  }
+ },
+ "untyped_by_step_folded": {
+  "phase/take-up": {
+   "friction": 3,
+   "untyped": 0
+  },
+  "phase/research": {
+   "friction": 11,
+   "untyped": 0
+  },
+  "phase/validate": {
+   "friction": 10,
+   "untyped": 3
+  },
+  "implement/fix-loop": {
+   "friction": 23,
+   "untyped": 4
+  },
+  "implement/smoke": {
+   "friction": 11,
+   "untyped": 1
+  },
+  "wrap-session/report": {
+   "friction": 3,
+   "untyped": 0
+  },
+  "wrap-session/reconcile": {
+   "friction": 13,
+   "untyped": 2
+  },
+  "wrap-session/curation": {
+   "friction": 8,
+   "untyped": 3
+  },
+  "wrap-session/route-resolve": {
+   "friction": 8,
+   "untyped": 3
+  },
+  "wrap-session/gates": {
+   "friction": 7,
+   "untyped": 2
+  },
+  "new-session/orientation": {
+   "friction": 15,
+   "untyped": 8
+  },
+  "implement/code": {
+   "friction": 9,
+   "untyped": 0
+  },
+  "phase/distill": {
+   "friction": 10,
+   "untyped": 0
+  },
+  "phase/plan": {
+   "friction": 6,
+   "untyped": 0
+  }
+ }
+}

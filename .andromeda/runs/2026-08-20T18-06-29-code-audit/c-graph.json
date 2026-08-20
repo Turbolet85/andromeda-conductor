@@ -1,0 +1,243 @@
+{
+ "cycles": 0,
+ "cycle_paths": [],
+ "cross_unit_edges": 16,
+ "fan_out": [
+  [
+   "conductor-run",
+   6
+  ],
+  [
+   "conductor-cli",
+   4
+  ],
+  [
+   "conductor-tauri",
+   2
+  ],
+  [
+   "conductor-report",
+   1
+  ],
+  [
+   "conductor-faults",
+   1
+  ],
+  [
+   "conductor-timeline",
+   1
+  ],
+  [
+   "conductor-verify",
+   1
+  ]
+ ],
+ "fan_in_top": [
+  [
+   "conductor-core crate/",
+   104
+  ],
+  [
+   "conductor-core scenario/Scenario#",
+   93
+  ],
+  [
+   "conductor-core scenario/PId#",
+   78
+  ],
+  [
+   "conductor-core report_state/ReportState#",
+   75
+  ],
+  [
+   "conductor-core verdict/Verdict#",
+   71
+  ],
+  [
+   "conductor-core scenario/SloTier#",
+   65
+  ],
+  [
+   "conductor-core run_record/RunRecord#",
+   56
+  ],
+  [
+   "conductor-core error/CoreError#",
+   54
+  ],
+  [
+   "conductor-core expected/ClaimClass#",
+   50
+  ],
+  [
+   "conductor-core scenario/impl#[Scenario]from_toml_str().",
+   46
+  ],
+  [
+   "conductor-core expected/ComparisonKind#",
+   44
+  ],
+  [
+   "conductor-core verdict/Verdict#Pass#",
+   40
+  ],
+  [
+   "conductor-core coverage/CoverageMode#",
+   39
+  ],
+  [
+   "conductor-core scenario/Scenario#expected.",
+   37
+  ],
+  [
+   "conductor-core load_envelope/EnvelopeStatus#",
+   37
+  ],
+  [
+   "conductor-verify error/VerifyError#",
+   36
+  ],
+  [
+   "conductor-core report_state/ReportState#Pass#",
+   35
+  ],
+  [
+   "conductor-core capability_manifest/CapabilityManifest#",
+   35
+  ],
+  [
+   "conductor-core pause/Decision#",
+   33
+  ],
+  [
+   "conductor-core expected/ClaimClass#Hard#",
+   33
+  ]
+ ],
+ "edge_completeness": {
+  "declared_normal": 16,
+  "declared_incl_dev_build": 16,
+  "graph_edges": 16,
+  "missing_from_graph": [
+   [
+    "conductor-emit",
+    "conductor-core"
+   ]
+  ],
+  "extra_in_graph": [
+   [
+    "conductor-cli",
+    "conductor-verify"
+   ]
+  ],
+  "interpretation": "crate_edges is SYMBOL-REFERENCE derived, not manifest derived. conductor-emit declares conductor-core but references it only in a rustdoc intra-doc link (error.rs:5), so no symbol edge exists. conductor-cli carries a symbol edge to conductor-verify with no manifest entry and no source reference (re-export attribution through conductor-run). Both graphs are acyclic, so the zero-cycle headline holds under either reading."
+ },
+ "all_edges": [
+  [
+   "conductor-cli",
+   "conductor-core"
+  ],
+  [
+   "conductor-cli",
+   "conductor-report"
+  ],
+  [
+   "conductor-cli",
+   "conductor-run"
+  ],
+  [
+   "conductor-cli",
+   "conductor-verify"
+  ],
+  [
+   "conductor-faults",
+   "conductor-core"
+  ],
+  [
+   "conductor-report",
+   "conductor-core"
+  ],
+  [
+   "conductor-run",
+   "conductor-core"
+  ],
+  [
+   "conductor-run",
+   "conductor-emit"
+  ],
+  [
+   "conductor-run",
+   "conductor-faults"
+  ],
+  [
+   "conductor-run",
+   "conductor-report"
+  ],
+  [
+   "conductor-run",
+   "conductor-timeline"
+  ],
+  [
+   "conductor-run",
+   "conductor-verify"
+  ],
+  [
+   "conductor-tauri",
+   "conductor-core"
+  ],
+  [
+   "conductor-tauri",
+   "conductor-run"
+  ],
+  [
+   "conductor-timeline",
+   "conductor-core"
+  ],
+  [
+   "conductor-verify",
+   "conductor-core"
+  ]
+ ],
+ "tool": "tree.db via scripts/code-graph.py query",
+ "command": "python scripts/code-graph.py query {run_dir} code-audit \"<canonical SQL>\"",
+ "manifest_graph": {
+  "units": 9,
+  "edges": 16,
+  "cycles": 0,
+  "declared": {
+   "conductor-cli": [
+    "conductor-core",
+    "conductor-report",
+    "conductor-run"
+   ],
+   "conductor-core": [],
+   "conductor-emit": [
+    "conductor-core"
+   ],
+   "conductor-faults": [
+    "conductor-core"
+   ],
+   "conductor-report": [
+    "conductor-core"
+   ],
+   "conductor-run": [
+    "conductor-core",
+    "conductor-emit",
+    "conductor-faults",
+    "conductor-report",
+    "conductor-timeline",
+    "conductor-verify"
+   ],
+   "conductor-tauri": [
+    "conductor-core",
+    "conductor-run"
+   ],
+   "conductor-timeline": [
+    "conductor-core"
+   ],
+   "conductor-verify": [
+    "conductor-core"
+   ]
+  }
+ }
+}

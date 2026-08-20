@@ -1,0 +1,91 @@
+{
+ "zero_ref_candidates": 31,
+ "query_note": "filtered on the SYMBOL path, not the file path: Rust inline #[cfg(test)] mod tests puts the marker in the symbol (pause/tests/...), so a file-path filter alone leaves inline test fns in. Unfiltered total is 672; file-path-filtered is 508; both are misleading.",
+ "by_class": {
+  "trait-impl (runtime/trait dispatch)": 17,
+  "free fn / other": 2,
+  "enum variant (derive/#[from] constructed)": 6,
+  "inherent method": 6
+ },
+ "false_positive_classes_named": [
+  "trait-impl methods invoked by trait dispatch (tracing Visit/Layer, MakeWriter, Write, Drop, PauseResolver)",
+  "enum error variants constructed by #[from]/derive rather than a named call"
+ ],
+ "residual_after_classing": [
+  [
+   "conductor-emit latency/impl#[LatencyProfile]p99_ms().",
+   "crates/conductor-emit/src/latency.rs"
+  ],
+  [
+   "conductor-emit latency/impl#[LatencyProfile]p50_ms().",
+   "crates/conductor-emit/src/latency.rs"
+  ],
+  [
+   "conductor-emit latency/impl#[LatencyProfile]p95_ms().",
+   "crates/conductor-emit/src/latency.rs"
+  ],
+  [
+   "conductor-faults port_occupier/impl#[PortOccupier]occupy_default().",
+   "crates/conductor-faults/src/port_occupier.rs"
+  ],
+  [
+   "conductor-verify client/impl#[ReadbackClient]mark_incident_resolved().",
+   "crates/conductor-verify/src/client.rs"
+  ],
+  [
+   "conductor-verify manifest/impl#[ContractManifest]default_path().",
+   "crates/conductor-verify/src/manifest.rs"
+  ],
+  [
+   "conductor-core phase_spec/default_occurrences().",
+   "crates/conductor-core/src/phase_spec.rs"
+  ],
+  [
+   "conductor-verify preflight/RUN_CONTRACT_PRECONDITION.",
+   "crates/conductor-verify/src/preflight.rs"
+  ]
+ ],
+ "top": [
+  [
+   "conductor-cli pause/impl#[CliResolver][PauseResolver]resolve().",
+   "crates/conductor-cli/src/pause.rs"
+  ],
+  [
+   "conductor-core obs/impl#[`JsonVisitor<'_>`][Visit]record_i64().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "conductor-core obs/impl#[`JsonVisitor<'_>`][Visit]record_u64().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "conductor-core obs/impl#[`JsonObsLayer<W>`][`Layer<S>`]on_new_span().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "conductor-core obs/impl#[ObsWriter][`MakeWriter<'a>`]Writer#",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "conductor-core obs/impl#[`JsonVisitor<'_>`][Visit]record_error().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "conductor-core obs/impl#[`JsonVisitor<'_>`][Visit]record_f64().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "conductor-core obs/impl#[`JsonObsLayer<W>`][`Layer<S>`]on_close().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "conductor-core obs/impl#[`JsonVisitor<'_>`][Visit]record_bool().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "conductor-core obs/impl#[ObsWriter][`MakeWriter<'a>`]make_writer().",
+   "crates/conductor-core/src/obs.rs"
+  ]
+ ],
+ "tool": "tree.db via scripts/code-graph.py query + cargo-machete 0.9.2"
+}

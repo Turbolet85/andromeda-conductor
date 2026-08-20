@@ -1,0 +1,358 @@
+{
+ "epoch": "Epoch 3 - Live proof: the five families",
+ "anchors": [
+  {
+   "kind": "quality",
+   "chunk": "2026-08-15-canary-storm-autonomous-band",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "artifact": "report",
+   "quality": "thin",
+   "note": "one bullet under-filled: Counts/qualifiers moved said none when the canary count 6->12 is a documented derived value arch:161 states in prose. The arch detector found it under Symbols/APIs anyway and proposed both stale sites; bullet corrected during this phase. Every other family was sufficient - three docs independently navigated it to the right conclusion.",
+   "ln": 470
+  },
+  {
+   "kind": "quality",
+   "chunk": "2026-08-15-canary-spans-pulse-fingerprints",
+   "skill": "implement",
+   "step": "code",
+   "artifact": "research",
+   "quality": "thin",
+   "note": "the Files-to-modify boundary list under-enumerated one compile-forced caller, crates/conductor-emit/tests/egress.rs:61; the P3 code-graph query returned the conductor-run call sites but not this crate-local integration test",
+   "ln": 487
+  },
+  {
+   "kind": "quality",
+   "chunk": "2026-08-16-canary-fingerprint-derivation-aligned",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "artifact": "report",
+   "quality": "thin",
+   "note": "sufficient for 5 of 7 docs, but the assert_canary bullet did not say another caller of retrieve_telemetry_slice remains, which drove two obs proposals that would have introduced drift; corrected at validation",
+   "ln": 521
+  },
+  {
+   "kind": "quality",
+   "chunk": "2026-08-16-fault-application-spans",
+   "skill": "implement",
+   "step": "smoke",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "Test Commands listed a bare 'agent-run.sh status', whose producing leg is conditional \u2014 status with no run of its own reads the newest journal on disk, which was the previous chunk's 09:54 run; the smoke was driven in the firing form SCENARIO=service-went-silent agent-run.sh run instead",
+   "ln": 549
+  },
+  {
+   "kind": "quality",
+   "chunk": null,
+   "skill": "new-session",
+   "step": "orientation",
+   "artifact": "health-inputs",
+   "quality": "thin",
+   "note": "check 4 wording assumes every rule file HAS frontmatter; security.md deliberately has none",
+   "ln": 561
+  },
+  {
+   "kind": "quality",
+   "chunk": "2026-08-16-fingerprint-storm-live-proof",
+   "skill": "implement",
+   "step": "code",
+   "artifact": "research",
+   "quality": "thin",
+   "note": "the Files-to-modify list omitted conductor-core/src/scenario.rs, whose rstest case pins the fixture's exact p_ids and therefore had to move with the intended p_ids change",
+   "ln": 584
+  },
+  {
+   "kind": "quality",
+   "chunk": "2026-08-16-fingerprint-storm-live-proof",
+   "skill": "implement",
+   "step": "fix-loop",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "Test Commands ran exactly as written, but the plan's step-1 mechanism (an ABSOLUTE path yields the same fingerprint) is falsified by the shipped normalizer; the goal held and the mechanism was corrected",
+   "ln": 586
+  },
+  {
+   "kind": "quality",
+   "chunk": "2026-08-16-fingerprint-storm-live-proof",
+   "skill": "implement",
+   "step": "fix-loop",
+   "artifact": "research",
+   "quality": "thin",
+   "note": "research verified that an absolute path is STRIPPED but not that stripping yields equality with a relative-path base \u2014 the half that decided the design",
+   "ln": 586
+  },
+  {
+   "kind": "quality",
+   "chunk": "2026-08-18-restart-suppression-live-proof",
+   "skill": "implement",
+   "step": "code",
+   "artifact": "plan",
+   "quality": "wrong",
+   "note": "phase-design premises falsified pre-write: persistence=samples, shared canary service identity, relative arm unreachable, bypass label literals",
+   "ln": 674
+  },
+  {
+   "kind": "quality",
+   "chunk": "2026-08-18-restart-suppression-live-proof",
+   "skill": "implement",
+   "step": "code",
+   "artifact": "research",
+   "quality": "thin",
+   "note": "mapped detector/suppression/emitter but missed cue/evaluate.rs:55 (persistence=samples) and the shared DEFAULT_SERVICE_NAME identity",
+   "ln": 674
+  },
+  {
+   "kind": "input-friction",
+   "chunk": "2026-08-15-canary-storm-autonomous-band",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "artifact": null,
+   "type": "input.report-insufficient",
+   "what": "The report's Counts/qualifiers-moved bullet said none, but the canary occurrence count 6->12 IS a documented derived value: architecture.md:161 states it in prose (a working six-occurrence storm reads 1, never 6) and carries a span-count figure the leg superseded. The value was filed only under Symbols/APIs. The arch detector caught both stale sites regardless, so the report contract degraded gracefully rather than starving the detector - but a derived-count detector keying strictly on that bullet would have missed it.",
+   "ln": 472
+  },
+  {
+   "kind": "input-friction",
+   "chunk": "2026-08-15-canary-spans-pulse-fingerprints",
+   "skill": "implement",
+   "step": "code",
+   "artifact": null,
+   "type": "input.research-files-wrong",
+   "what": "the P3 code-graph impact query for trace_request returned the conductor-run call sites (dispatch.rs:82, :95 and lib.rs:236) but omitted crates/conductor-emit/tests/egress.rs:61, a crate-local integration-test caller in the same crate as the changed builder; the omission surfaced only as a rustc E0061 during the edit burst and forced a gray-area in-scope judgment against the research boundary list",
+   "ln": 488
+  },
+  {
+   "kind": "input-friction",
+   "chunk": "2026-08-16-canary-fingerprint-derivation-aligned",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "artifact": null,
+   "type": "input.report-insufficient",
+   "what": "The report's Symbols bullet recorded that assert_canary no longer calls retrieve_telemetry_slice without stating that per-check extraction still calls it, which is exactly the fact two obs proposals needed; the report is the detectors' sole input so the omission read as a full retirement of the tool",
+   "ln": 523
+  },
+  {
+   "kind": "input-friction",
+   "chunk": "2026-08-16-fault-application-spans",
+   "skill": "phase",
+   "step": "plan",
+   "artifact": null,
+   "type": "input.research-thin",
+   "what": "research.md listed conductor-run/src/lib.rs 300-370 as inspected but did not record the consequence of its Blocked early-return at :325 \u2014 that a Pulse-free run never reaches the timeline, so the chunk's artifact-level acceptance ('spans appear in logs/agent-latest.jsonl') is unproducible by any command the plan can list; the fact was in the window and cost no re-read, but it reshaped every acceptance criterion at synthesis time.",
+   "ln": 541
+  },
+  {
+   "kind": "input-friction",
+   "chunk": "2026-08-16-fault-application-spans",
+   "skill": "implement",
+   "step": "code",
+   "artifact": null,
+   "type": "input.conventions-gap",
+   "what": "neither plan nor research stated how a crate outside conductor-core asserts a span it emits (the capture/span_record helpers are #[cfg(test)]-private to conductor-core); a tracing-subscriber dev-dependency was added to conductor-faults, then reverted after reading conductor-timeline/tests/obs_span.rs showed the project's actual convention \u2014 init_observability with an ObsSink::File and reading the JSONL back.",
+   "ln": 545
+  },
+  {
+   "kind": "input-friction",
+   "chunk": "2026-08-16-fingerprint-storm-live-proof",
+   "skill": "phase",
+   "step": "take-up",
+   "artifact": null,
+   "type": "input.carry-context-gap",
+   "what": "The 2026-08-13-first-live-green-preflight CARRY calls the live-leg recipe a five-item operator recipe while the operator's phase directive calls it six items; the CARRY points at another working entry for the recipe itself, so the count could not be settled at scope time and was deferred to P3 with a guard",
+   "ln": 567
+  },
+  {
+   "kind": "input-friction",
+   "chunk": "2026-08-16-fingerprint-storm-live-proof",
+   "skill": "phase",
+   "step": "plan",
+   "artifact": null,
+   "type": "input.extracts-conflict",
+   "what": "a conflict P2's aggregate check C flagged but could not settle surfaced again at synthesis: design and layouts both bind cli color/text pairing to a11y's use-of-color criterion while the a11y extract bans treating cli as accessibility-assertable; resolved by letting a11y govern its own domain, so the plan carries design's ASCII-prefix criterion as a design criterion and attaches no a11y gate to cli output",
+   "ln": 579
+  },
+  {
+   "kind": "input-friction",
+   "chunk": "2026-08-16-fingerprint-storm-live-proof",
+   "skill": "implement",
+   "step": "code",
+   "artifact": null,
+   "type": "input.research-files-wrong",
+   "what": "conductor-core/src/scenario.rs was not in the plan's Files to modify, but its rstest case fingerprint_storm_fixtures_load_and_validate asserts the fixture's exact p_ids list, so adding P-074 to the scenario necessarily moved it; judged in-scope under the gray-area rule (a guard co-located in a crate already in the modify set, asserting the very fixture the chunk intentionally changed) rather than soft-exited",
+   "ln": 585
+  },
+  {
+   "kind": "input-friction",
+   "chunk": null,
+   "skill": "wrap-session",
+   "step": "route-resolve",
+   "artifact": null,
+   "type": "input.outcome-unclear",
+   "what": "Whether Pulse's det-L4 de-vacuuming reverses the pinned ungradeable-read-back CARRY was not settleable from this seat: the documented fix populates evidence_refs (reaching fingerprint_refs and the Report Evidence section) while degraded_mode is computed from resolution_summary_text, a different field. The CARRY was scoped to state what is settled and what is not, rather than reversing it or leaving the blanket claim standing.",
+   "ln": 618
+  },
+  {
+   "kind": "input-friction",
+   "chunk": "2026-08-17-fingerprint-semantics-token-leading",
+   "skill": "phase",
+   "step": "plan",
+   "artifact": null,
+   "type": "input.extracts-conflict",
+   "what": "The arch extract stated the architecture.md P-017 clause edit is /implement's work, which contradicts the plan-template discipline that spec masters are NEVER touchpoints. P2's aggregate check C compares distiller-to-distiller bindings only, so a distiller-versus-template conflict is outside what it can catch by construction. Resolved in favour of the template - its reasoning is concrete (no sidecar history, no playbook validation, and the cascade walks only applied amendments) - and research.md was corrected before plan synthesis continued.",
+   "ln": 628
+  },
+  {
+   "kind": "input-friction",
+   "chunk": "2026-08-20-latency-regression-re-proof",
+   "skill": "wrap-session",
+   "step": "report",
+   "artifact": null,
+   "type": "input.deviations-unjustified",
+   "what": "a material out-of-plan change (the phase re-shape: plan 200occ x 20 samples ~20/s + 10x1 spikes; shipped 180x50 = 50 spans/s + 24x1) was disclosed in the Files/Changes surface but omitted from the implement report Deviations section, and was added at wrap only on operator direction \u2014 the SECOND CONSECUTIVE chunk with this omission shape (the pii chunk disclosed a scenario.rs change in Files and omitted it from Deviations), so it is a recurring authoring gap rather than a one-off",
+   "ln": 743
+  }
+ ],
+ "chains": [
+  {
+   "chunk": "2026-08-15-canary-storm-autonomous-band",
+   "artifact": "report",
+   "producer": "wrap-session/report",
+   "producer_outcome": "ok",
+   "producer_signals": [],
+   "producer_frictions": [
+    "contract.narrow-basis-claim"
+   ],
+   "consumer": "wrap-session/reconcile",
+   "quality": "thin",
+   "note": "one bullet under-filled: Counts/qualifiers moved said none when the canary count 6->12 is a documented derived value arch:161 states in prose. The arch detector found it under Symbols/APIs anyway and proposed both stale sites; bullet corrected during this phase. Every other family was sufficient - three docs independently navigated it to the right conclusion."
+  },
+  {
+   "chunk": "2026-08-15-canary-spans-pulse-fingerprints",
+   "artifact": "research",
+   "producer": "phase/research",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions"
+   ],
+   "producer_frictions": [
+    "contract.premise-falsified"
+   ],
+   "consumer": "implement/code",
+   "quality": "thin",
+   "note": "the Files-to-modify boundary list under-enumerated one compile-forced caller, crates/conductor-emit/tests/egress.rs:61; the P3 code-graph query returned the conductor-run call sites but not this crate-local integration test"
+  },
+  {
+   "chunk": "2026-08-16-canary-fingerprint-derivation-aligned",
+   "artifact": "report",
+   "producer": "wrap-session/report",
+   "producer_outcome": "ok",
+   "producer_signals": [],
+   "producer_frictions": [],
+   "consumer": "wrap-session/reconcile",
+   "quality": "thin",
+   "note": "sufficient for 5 of 7 docs, but the assert_canary bullet did not say another caller of retrieve_telemetry_slice remains, which drove two obs proposals that would have introduced drift; corrected at validation"
+  },
+  {
+   "chunk": "2026-08-16-fault-application-spans",
+   "artifact": "plan",
+   "producer": "phase/plan",
+   "producer_outcome": "ok",
+   "producer_signals": [],
+   "producer_frictions": [
+    "input.research-thin"
+   ],
+   "consumer": "implement/smoke",
+   "quality": "thin",
+   "note": "Test Commands listed a bare 'agent-run.sh status', whose producing leg is conditional \u2014 status with no run of its own reads the newest journal on disk, which was the previous chunk's 09:54 run; the smoke was driven in the firing form SCENARIO=service-went-silent agent-run.sh run instead"
+  },
+  {
+   "chunk": "2026-08-16-fingerprint-storm-live-proof",
+   "artifact": "research",
+   "producer": "phase/research",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions"
+   ],
+   "producer_frictions": [
+    "contract.premise-falsified",
+    "contract.premise-falsified",
+    "contract.narrow-basis-claim",
+    "tooling.host-shell",
+    "contract.narrow-basis-claim"
+   ],
+   "consumer": "implement/code",
+   "quality": "thin",
+   "note": "the Files-to-modify list omitted conductor-core/src/scenario.rs, whose rstest case pins the fixture's exact p_ids and therefore had to move with the intended p_ids change"
+  },
+  {
+   "chunk": "2026-08-16-fingerprint-storm-live-proof",
+   "artifact": "plan",
+   "producer": "phase/plan",
+   "producer_outcome": "ok",
+   "producer_signals": [],
+   "producer_frictions": [
+    "ambiguity.scope-question",
+    "input.extracts-conflict"
+   ],
+   "consumer": "implement/fix-loop",
+   "quality": "thin",
+   "note": "Test Commands ran exactly as written, but the plan's step-1 mechanism (an ABSOLUTE path yields the same fingerprint) is falsified by the shipped normalizer; the goal held and the mechanism was corrected"
+  },
+  {
+   "chunk": "2026-08-16-fingerprint-storm-live-proof",
+   "artifact": "research",
+   "producer": "phase/research",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions"
+   ],
+   "producer_frictions": [
+    "contract.premise-falsified",
+    "contract.premise-falsified",
+    "contract.narrow-basis-claim",
+    "tooling.host-shell",
+    "contract.narrow-basis-claim"
+   ],
+   "consumer": "implement/fix-loop",
+   "quality": "thin",
+   "note": "research verified that an absolute path is STRIPPED but not that stripping yields equality with a relative-path base \u2014 the half that decided the design"
+  },
+  {
+   "chunk": "2026-08-18-restart-suppression-live-proof",
+   "artifact": "plan",
+   "producer": "phase/plan",
+   "producer_outcome": "ok",
+   "producer_signals": [],
+   "producer_frictions": [],
+   "consumer": "implement/code",
+   "quality": "wrong",
+   "note": "phase-design premises falsified pre-write: persistence=samples, shared canary service identity, relative arm unreachable, bypass label literals"
+  },
+  {
+   "chunk": "2026-08-18-restart-suppression-live-proof",
+   "artifact": "research",
+   "producer": "phase/research",
+   "producer_outcome": "ok",
+   "producer_signals": [],
+   "producer_frictions": [],
+   "consumer": "implement/code",
+   "quality": "thin",
+   "note": "mapped detector/suppression/emitter but missed cue/evaluate.rs:55 (persistence=samples) and the shared DEFAULT_SERVICE_NAME identity"
+  }
+ ],
+ "recurring_shapes": [
+  {
+   "producer": "phase/research",
+   "artifact": "research",
+   "consumer": "implement/code",
+   "n": 3
+  },
+  {
+   "producer": "wrap-session/report",
+   "artifact": "report",
+   "consumer": "wrap-session/reconcile",
+   "n": 2
+  }
+ ],
+ "heuristics": "anchor on consumed[].quality in thin|wrong|missing or input.* friction; join same-chunk producer by produced[].artifact; no transitive chains, no scoring"
+}

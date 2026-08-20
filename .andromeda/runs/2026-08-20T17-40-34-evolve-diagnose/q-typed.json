@@ -1,0 +1,1541 @@
+{
+ "epoch": "Epoch 3 - Live proof: the five families",
+ "by_skill_step_type": [
+  {
+   "key": "phase/distill/tooling.host-shell",
+   "skill": "phase",
+   "step": "distill",
+   "type": "tooling.host-shell",
+   "n": 5,
+   "weight": 18,
+   "impact": {
+    "iterations": 0,
+    "retries": 12,
+    "reformulations": 1,
+    "dialogue_rounds": 0,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 11,
+   "rate": 0.455,
+   "chunks": [
+    "2026-08-18-error-baseline-spike-live-proof",
+    "2026-08-18-restart-suppression-live-proof",
+    "2026-08-19-connection-lifecycle-live-proof",
+    "2026-08-19-pii-scrub-live-proof",
+    "2026-08-20-latency-regression-re-proof"
+   ],
+   "threshold": "n>=3"
+  },
+  {
+   "key": "implement/fix-loop/contract.spec-reality-gap",
+   "skill": "implement",
+   "step": "fix-loop",
+   "type": "contract.spec-reality-gap",
+   "n": 8,
+   "weight": 14,
+   "impact": {
+    "iterations": 5,
+    "retries": 0,
+    "reformulations": 1,
+    "dialogue_rounds": 0,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 1
+   },
+   "step_runs": 12,
+   "rate": 0.667,
+   "chunks": [
+    "2026-08-16-canary-fingerprint-derivation-aligned",
+    "2026-08-16-fault-application-spans",
+    "2026-08-16-fingerprint-storm-live-proof",
+    "2026-08-18-error-baseline-spike-live-proof",
+    "2026-08-18-restart-suppression-live-proof",
+    "2026-08-19-connection-lifecycle-live-proof",
+    "2026-08-20-latency-regression-re-proof"
+   ],
+   "threshold": "n>=3"
+  },
+  {
+   "key": "implement/code/contract.premise-falsified",
+   "skill": "implement",
+   "step": "code",
+   "type": "contract.premise-falsified",
+   "n": 4,
+   "weight": 9,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 3,
+    "dialogue_rounds": 1,
+    "extra_reads": 1,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 11,
+   "rate": 0.364,
+   "chunks": [
+    "2026-08-18-restart-suppression-live-proof"
+   ],
+   "threshold": "n>=3"
+  },
+  {
+   "key": "phase/plan/ambiguity.scope-question",
+   "skill": "phase",
+   "step": "plan",
+   "type": "ambiguity.scope-question",
+   "n": 3,
+   "weight": 9,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 3,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 11,
+   "rate": 0.273,
+   "chunks": [
+    "2026-08-16-canary-fingerprint-derivation-aligned",
+    "2026-08-16-fingerprint-storm-live-proof",
+    "2026-08-19-pii-scrub-live-proof"
+   ],
+   "threshold": "n>=3"
+  },
+  {
+   "key": "wrap-session/reconcile/ambiguity.playbook-no-match",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "type": "ambiguity.playbook-no-match",
+   "n": 2,
+   "weight": 6,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 2,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 11,
+   "rate": 0.182,
+   "chunks": [
+    "2026-08-16-canary-fingerprint-derivation-aligned",
+    "2026-08-16-fingerprint-storm-live-proof"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "wrap-session/gates/tooling.gate-deferral",
+   "skill": "wrap-session",
+   "step": "gates",
+   "type": "tooling.gate-deferral",
+   "n": 5,
+   "weight": 5,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 5
+   },
+   "step_runs": 12,
+   "rate": 0.417,
+   "chunks": [
+    "2026-08-15-canary-storm-autonomous-band",
+    "2026-08-16-canary-fingerprint-derivation-aligned",
+    "2026-08-16-fault-application-spans",
+    "2026-08-16-fingerprint-storm-live-proof"
+   ],
+   "threshold": "n>=3"
+  },
+  {
+   "key": "phase/research/contract.premise-falsified",
+   "skill": "phase",
+   "step": "research",
+   "type": "contract.premise-falsified",
+   "n": 5,
+   "weight": 5,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 25,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 11,
+   "rate": 0.455,
+   "chunks": [
+    "2026-08-15-canary-spans-pulse-fingerprints",
+    "2026-08-16-canary-fingerprint-derivation-aligned",
+    "2026-08-16-fault-application-spans",
+    "2026-08-16-fingerprint-storm-live-proof"
+   ],
+   "threshold": "n>=3"
+  },
+  {
+   "key": "new-session/orientation/tooling.health-false-red",
+   "skill": "new-session",
+   "step": "orientation",
+   "type": "tooling.health-false-red",
+   "n": 4,
+   "weight": 4,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 2,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 10,
+   "rate": 0.4,
+   "chunks": [],
+   "threshold": "n>=3"
+  },
+  {
+   "key": "implement/fix-loop/tooling.environmental",
+   "skill": "implement",
+   "step": "fix-loop",
+   "type": "tooling.environmental",
+   "n": 3,
+   "weight": 4,
+   "impact": {
+    "iterations": 1,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 1
+   },
+   "step_runs": 12,
+   "rate": 0.25,
+   "chunks": [
+    "2026-08-15-canary-storm-autonomous-band",
+    "2026-08-16-canary-fingerprint-derivation-aligned",
+    "2026-08-18-error-baseline-spike-live-proof"
+   ],
+   "threshold": "n>=3"
+  },
+  {
+   "key": "new-session/orientation/tooling.host-shell",
+   "skill": "new-session",
+   "step": "orientation",
+   "type": "tooling.host-shell",
+   "n": 3,
+   "weight": 4,
+   "impact": {
+    "iterations": 0,
+    "retries": 1,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 2,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 10,
+   "rate": 0.3,
+   "chunks": [],
+   "threshold": "n>=3"
+  },
+  {
+   "key": "phase/validate/contract.intent-divergence",
+   "skill": "phase",
+   "step": "validate",
+   "type": "contract.intent-divergence",
+   "n": 2,
+   "weight": 4,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 1,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 11,
+   "rate": 0.182,
+   "chunks": [
+    "2026-08-16-canary-fingerprint-derivation-aligned",
+    "2026-08-16-fault-application-spans"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "phase/research/contract.narrow-basis-claim",
+   "skill": "phase",
+   "step": "research",
+   "type": "contract.narrow-basis-claim",
+   "n": 2,
+   "weight": 4,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 1,
+    "extra_reads": 3,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 11,
+   "rate": 0.182,
+   "chunks": [
+    "2026-08-16-fingerprint-storm-live-proof"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "implement/smoke/contract.premise-falsified",
+   "skill": "implement",
+   "step": "smoke",
+   "type": "contract.premise-falsified",
+   "n": 3,
+   "weight": 3,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 2
+   },
+   "step_runs": 13,
+   "rate": 0.231,
+   "chunks": [
+    "2026-08-15-canary-storm-autonomous-band",
+    "2026-08-16-fingerprint-storm-live-proof"
+   ],
+   "threshold": "n>=3"
+  },
+  {
+   "key": "wrap-session/reconcile/contract.cascade-miss",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "type": "contract.cascade-miss",
+   "n": 3,
+   "weight": 3,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 3,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 11,
+   "rate": 0.273,
+   "chunks": [
+    "2026-08-15-canary-spans-pulse-fingerprints",
+    "2026-08-16-fault-application-spans",
+    "2026-08-16-fingerprint-storm-live-proof"
+   ],
+   "threshold": "n>=3"
+  },
+  {
+   "key": "implement/fix-loop/tooling.gate-deferral",
+   "skill": "implement",
+   "step": "fix-loop",
+   "type": "tooling.gate-deferral",
+   "n": 3,
+   "weight": 3,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 3
+   },
+   "step_runs": 12,
+   "rate": 0.25,
+   "chunks": [
+    "2026-08-16-fault-application-spans",
+    "2026-08-16-fingerprint-storm-live-proof",
+    "2026-08-17-fingerprint-semantics-token-leading"
+   ],
+   "threshold": "n>=3"
+  },
+  {
+   "key": "wrap-session/curation/ambiguity.filter-borderline",
+   "skill": "wrap-session",
+   "step": "curation",
+   "type": "ambiguity.filter-borderline",
+   "n": 3,
+   "weight": 3,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 12,
+   "rate": 0.25,
+   "chunks": [
+    "2026-08-16-fault-application-spans",
+    "2026-08-17-fingerprint-semantics-token-leading"
+   ],
+   "threshold": "n>=3"
+  },
+  {
+   "key": "phase/validate/contract.mechanical-check",
+   "skill": "phase",
+   "step": "validate",
+   "type": "contract.mechanical-check",
+   "n": 2,
+   "weight": 3,
+   "impact": {
+    "iterations": 1,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 11,
+   "rate": 0.182,
+   "chunks": [
+    "2026-08-15-canary-storm-autonomous-band",
+    "2026-08-17-fingerprint-semantics-token-leading"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "implement/code/input.research-files-wrong",
+   "skill": "implement",
+   "step": "code",
+   "type": "input.research-files-wrong",
+   "n": 2,
+   "weight": 3,
+   "impact": {
+    "iterations": 1,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 1,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 11,
+   "rate": 0.182,
+   "chunks": [
+    "2026-08-15-canary-spans-pulse-fingerprints",
+    "2026-08-16-fingerprint-storm-live-proof"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "phase/plan/input.extracts-conflict",
+   "skill": "phase",
+   "step": "plan",
+   "type": "input.extracts-conflict",
+   "n": 2,
+   "weight": 3,
+   "impact": {
+    "iterations": 1,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 11,
+   "rate": 0.182,
+   "chunks": [
+    "2026-08-16-fingerprint-storm-live-proof",
+    "2026-08-17-fingerprint-semantics-token-leading"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "phase/validate/ambiguity.review-cycles",
+   "skill": "phase",
+   "step": "validate",
+   "type": "ambiguity.review-cycles",
+   "n": 1,
+   "weight": 3,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 1,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 11,
+   "rate": 0.091,
+   "chunks": [
+    "2026-08-15-canary-storm-autonomous-band"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "wrap-session/report/contract.narrow-basis-claim",
+   "skill": "wrap-session",
+   "step": "report",
+   "type": "contract.narrow-basis-claim",
+   "n": 1,
+   "weight": 3,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 1,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 11,
+   "rate": 0.091,
+   "chunks": [
+    "2026-08-15-canary-storm-autonomous-band"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "phase/distill/retry.distiller-respawn",
+   "skill": "phase",
+   "step": "distill",
+   "type": "retry.distiller-respawn",
+   "n": 1,
+   "weight": 3,
+   "impact": {
+    "iterations": 0,
+    "retries": 2,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 11,
+   "rate": 0.091,
+   "chunks": [
+    "2026-08-16-fault-application-spans"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "phase/validate/contract.matrix-claim",
+   "skill": "phase",
+   "step": "validate",
+   "type": "contract.matrix-claim",
+   "n": 1,
+   "weight": 3,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 1,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 11,
+   "rate": 0.091,
+   "chunks": [
+    "2026-08-16-fingerprint-storm-live-proof"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "implement/fix-loop/tooling.host-shell",
+   "skill": "implement",
+   "step": "fix-loop",
+   "type": "tooling.host-shell",
+   "n": 1,
+   "weight": 3,
+   "impact": {
+    "iterations": 0,
+    "retries": 2,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 12,
+   "rate": 0.083,
+   "chunks": [
+    "2026-08-18-restart-suppression-live-proof"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "wrap-session/reconcile/contract.spec-reality-gap",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "type": "contract.spec-reality-gap",
+   "n": 1,
+   "weight": 3,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 1,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 11,
+   "rate": 0.091,
+   "chunks": [
+    "2026-08-20-latency-regression-re-proof"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "phase/take-up/contract.premise-falsified",
+   "skill": "phase",
+   "step": "take-up",
+   "type": "contract.premise-falsified",
+   "n": 2,
+   "weight": 2,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 1,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 1
+   },
+   "step_runs": 11,
+   "rate": 0.182,
+   "chunks": [
+    "2026-08-15-canary-storm-autonomous-band",
+    "2026-08-16-fingerprint-storm-live-proof"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "phase/research/contract.structural-blind-spot",
+   "skill": "phase",
+   "step": "research",
+   "type": "contract.structural-blind-spot",
+   "n": 2,
+   "weight": 2,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 7,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 11,
+   "rate": 0.182,
+   "chunks": [
+    "2026-08-15-canary-storm-autonomous-band",
+    "2026-08-16-canary-fingerprint-derivation-aligned"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "wrap-session/reconcile/contract.false-positive-proposal",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "type": "contract.false-positive-proposal",
+   "n": 2,
+   "weight": 2,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 11,
+   "rate": 0.182,
+   "chunks": [
+    "2026-08-15-canary-storm-autonomous-band",
+    "2026-08-16-canary-fingerprint-derivation-aligned"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "wrap-session/reconcile/input.report-insufficient",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "type": "input.report-insufficient",
+   "n": 2,
+   "weight": 2,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 11,
+   "rate": 0.182,
+   "chunks": [
+    "2026-08-15-canary-storm-autonomous-band",
+    "2026-08-16-canary-fingerprint-derivation-aligned"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "wrap-session/curation/ambiguity.tier-routing",
+   "skill": "wrap-session",
+   "step": "curation",
+   "type": "ambiguity.tier-routing",
+   "n": 2,
+   "weight": 2,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 12,
+   "rate": 0.167,
+   "chunks": [
+    "2026-08-15-canary-storm-autonomous-band"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "implement/fix-loop/contract.premise-falsified",
+   "skill": "implement",
+   "step": "fix-loop",
+   "type": "contract.premise-falsified",
+   "n": 2,
+   "weight": 2,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 2,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 12,
+   "rate": 0.167,
+   "chunks": [
+    "2026-08-15-canary-spans-pulse-fingerprints",
+    "2026-08-16-fingerprint-storm-live-proof"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "implement/smoke/tooling.harness-friction",
+   "skill": "implement",
+   "step": "smoke",
+   "type": "tooling.harness-friction",
+   "n": 2,
+   "weight": 2,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 1,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 13,
+   "rate": 0.154,
+   "chunks": [
+    "2026-08-15-canary-spans-pulse-fingerprints",
+    "2026-08-16-fault-application-spans"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "phase/distill/contract.binding-contradiction",
+   "skill": "phase",
+   "step": "distill",
+   "type": "contract.binding-contradiction",
+   "n": 2,
+   "weight": 2,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 11,
+   "rate": 0.182,
+   "chunks": [
+    "2026-08-16-canary-fingerprint-derivation-aligned",
+    "2026-08-16-fingerprint-storm-live-proof"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "wrap-session/route-resolve/contract.narrow-basis-claim",
+   "skill": "wrap-session",
+   "step": "route-resolve",
+   "type": "contract.narrow-basis-claim",
+   "n": 2,
+   "weight": 2,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 2,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 12,
+   "rate": 0.167,
+   "chunks": [
+    "2026-08-17-fingerprint-semantics-token-leading",
+    "2026-08-20-latency-regression-re-proof"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "phase/distill/contract.extract-format",
+   "skill": "phase",
+   "step": "distill",
+   "type": "contract.extract-format",
+   "n": 1,
+   "weight": 2,
+   "impact": {
+    "iterations": 0,
+    "retries": 1,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 11,
+   "rate": 0.091,
+   "chunks": [
+    "2026-08-16-fault-application-spans"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "implement/code/input.conventions-gap",
+   "skill": "implement",
+   "step": "code",
+   "type": "input.conventions-gap",
+   "n": 1,
+   "weight": 2,
+   "impact": {
+    "iterations": 1,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 1,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 11,
+   "rate": 0.091,
+   "chunks": [
+    "2026-08-16-fault-application-spans"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "phase/research/tooling.host-shell",
+   "skill": "phase",
+   "step": "research",
+   "type": "tooling.host-shell",
+   "n": 1,
+   "weight": 2,
+   "impact": {
+    "iterations": 0,
+    "retries": 1,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 11,
+   "rate": 0.091,
+   "chunks": [
+    "2026-08-16-fingerprint-storm-live-proof"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "wrap-session/route-resolve/tooling.host-shell",
+   "skill": "wrap-session",
+   "step": "route-resolve",
+   "type": "tooling.host-shell",
+   "n": 1,
+   "weight": 2,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 1,
+    "dialogue_rounds": 0,
+    "extra_reads": 1,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 12,
+   "rate": 0.083,
+   "chunks": [],
+   "threshold": null
+  },
+  {
+   "key": "phase/research/retry.query-reformulation",
+   "skill": "phase",
+   "step": "research",
+   "type": "retry.query-reformulation",
+   "n": 1,
+   "weight": 2,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 1,
+    "dialogue_rounds": 0,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 11,
+   "rate": 0.091,
+   "chunks": [
+    "2026-08-17-fingerprint-semantics-token-leading"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "wrap-session/reconcile/tooling.host-shell",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "type": "tooling.host-shell",
+   "n": 1,
+   "weight": 2,
+   "impact": {
+    "iterations": 0,
+    "retries": 1,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 11,
+   "rate": 0.091,
+   "chunks": [
+    "2026-08-18-restart-suppression-live-proof"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "phase/validate/tooling.host-shell",
+   "skill": "phase",
+   "step": "validate",
+   "type": "tooling.host-shell",
+   "n": 1,
+   "weight": 2,
+   "impact": {
+    "iterations": 0,
+    "retries": 1,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 11,
+   "rate": 0.091,
+   "chunks": [
+    "2026-08-19-pii-scrub-live-proof"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "implement/smoke/tooling.host-shell",
+   "skill": "implement",
+   "step": "smoke",
+   "type": "tooling.host-shell",
+   "n": 1,
+   "weight": 2,
+   "impact": {
+    "iterations": 0,
+    "retries": 1,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 13,
+   "rate": 0.077,
+   "chunks": [
+    "2026-08-20-latency-regression-re-proof"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "implement/smoke/contract.spec-reality-gap",
+   "skill": "implement",
+   "step": "smoke",
+   "type": "contract.spec-reality-gap",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 3,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 13,
+   "rate": 0.077,
+   "chunks": [
+    "2026-08-15-canary-spans-pulse-fingerprints"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "implement/code/ambiguity.scope-pressure",
+   "skill": "implement",
+   "step": "code",
+   "type": "ambiguity.scope-pressure",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 11,
+   "rate": 0.091,
+   "chunks": [
+    "2026-08-16-canary-fingerprint-derivation-aligned"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "implement/smoke/tooling.headless-skip",
+   "skill": "implement",
+   "step": "smoke",
+   "type": "tooling.headless-skip",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 1
+   },
+   "step_runs": 13,
+   "rate": 0.077,
+   "chunks": [
+    "2026-08-16-canary-fingerprint-derivation-aligned"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "phase/plan/input.research-thin",
+   "skill": "phase",
+   "step": "plan",
+   "type": "input.research-thin",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 11,
+   "rate": 0.091,
+   "chunks": [
+    "2026-08-16-fault-application-spans"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "wrap-session/report/contract.detector-fact-gap",
+   "skill": "wrap-session",
+   "step": "report",
+   "type": "contract.detector-fact-gap",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 2,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 11,
+   "rate": 0.091,
+   "chunks": [
+    "2026-08-16-fault-application-spans"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "wrap-session/route-resolve/ambiguity.filter-borderline",
+   "skill": "wrap-session",
+   "step": "route-resolve",
+   "type": "ambiguity.filter-borderline",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 1,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 12,
+   "rate": 0.083,
+   "chunks": [
+    "2026-08-16-fault-application-spans"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "phase/take-up/input.carry-context-gap",
+   "skill": "phase",
+   "step": "take-up",
+   "type": "input.carry-context-gap",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 1
+   },
+   "step_runs": 11,
+   "rate": 0.091,
+   "chunks": [
+    "2026-08-16-fingerprint-storm-live-proof"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "phase/distill/contract.narrow-basis-claim",
+   "skill": "phase",
+   "step": "distill",
+   "type": "contract.narrow-basis-claim",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 1
+   },
+   "step_runs": 11,
+   "rate": 0.091,
+   "chunks": [
+    "2026-08-16-fingerprint-storm-live-proof"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "implement/fix-loop/contract.matrix-claim",
+   "skill": "implement",
+   "step": "fix-loop",
+   "type": "contract.matrix-claim",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 1
+   },
+   "step_runs": 12,
+   "rate": 0.083,
+   "chunks": [
+    "2026-08-16-fingerprint-storm-live-proof"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "implement/smoke/tooling.environmental",
+   "skill": "implement",
+   "step": "smoke",
+   "type": "tooling.environmental",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 1
+   },
+   "step_runs": 13,
+   "rate": 0.077,
+   "chunks": [
+    "2026-08-16-fingerprint-storm-live-proof"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "implement/smoke/contract.matrix-claim",
+   "skill": "implement",
+   "step": "smoke",
+   "type": "contract.matrix-claim",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 1
+   },
+   "step_runs": 13,
+   "rate": 0.077,
+   "chunks": [
+    "2026-08-16-fingerprint-storm-live-proof"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "wrap-session/route-resolve/input.outcome-unclear",
+   "skill": "wrap-session",
+   "step": "route-resolve",
+   "type": "input.outcome-unclear",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 2,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 12,
+   "rate": 0.083,
+   "chunks": [],
+   "threshold": null
+  },
+  {
+   "key": "implement/code/tooling.hook-friction",
+   "skill": "implement",
+   "step": "code",
+   "type": "tooling.hook-friction",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 11,
+   "rate": 0.091,
+   "chunks": [
+    "2026-08-17-fingerprint-semantics-token-leading"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "implement/fix-loop/contract.narrow-basis-claim",
+   "skill": "implement",
+   "step": "fix-loop",
+   "type": "contract.narrow-basis-claim",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 12,
+   "rate": 0.083,
+   "chunks": [
+    "2026-08-17-fingerprint-semantics-token-leading"
+   ],
+   "threshold": null
+  },
+  {
+   "key": "wrap-session/report/input.deviations-unjustified",
+   "skill": "wrap-session",
+   "step": "report",
+   "type": "input.deviations-unjustified",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 0,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "step_runs": 11,
+   "rate": 0.091,
+   "chunks": [
+    "2026-08-20-latency-regression-re-proof"
+   ],
+   "threshold": null
+  }
+ ],
+ "universal_by_type": [
+  {
+   "type": "tooling.host-shell",
+   "n": 14,
+   "weight": 35,
+   "impact": {
+    "iterations": 0,
+    "retries": 19,
+    "reformulations": 2,
+    "dialogue_rounds": 0,
+    "extra_reads": 3,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "steps": [
+    "implement/fix-loop",
+    "implement/smoke",
+    "new-session/orientation",
+    "phase/distill",
+    "phase/research",
+    "phase/validate",
+    "wrap-session/reconcile",
+    "wrap-session/route-resolve"
+   ],
+   "chunks": [
+    "2026-08-16-fingerprint-storm-live-proof",
+    "2026-08-18-error-baseline-spike-live-proof",
+    "2026-08-18-restart-suppression-live-proof",
+    "2026-08-19-connection-lifecycle-live-proof",
+    "2026-08-19-pii-scrub-live-proof",
+    "2026-08-20-latency-regression-re-proof"
+   ],
+   "threshold": "n>=3"
+  },
+  {
+   "type": "contract.premise-falsified",
+   "n": 16,
+   "weight": 21,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 3,
+    "dialogue_rounds": 1,
+    "extra_reads": 29,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 3
+   },
+   "steps": [
+    "implement/code",
+    "implement/fix-loop",
+    "implement/smoke",
+    "phase/research",
+    "phase/take-up"
+   ],
+   "chunks": [
+    "2026-08-15-canary-spans-pulse-fingerprints",
+    "2026-08-15-canary-storm-autonomous-band",
+    "2026-08-16-canary-fingerprint-derivation-aligned",
+    "2026-08-16-fault-application-spans",
+    "2026-08-16-fingerprint-storm-live-proof",
+    "2026-08-18-restart-suppression-live-proof"
+   ],
+   "threshold": "n>=3"
+  },
+  {
+   "type": "contract.narrow-basis-claim",
+   "n": 7,
+   "weight": 11,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 2,
+    "extra_reads": 5,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 1
+   },
+   "steps": [
+    "implement/fix-loop",
+    "phase/distill",
+    "phase/research",
+    "wrap-session/report",
+    "wrap-session/route-resolve"
+   ],
+   "chunks": [
+    "2026-08-15-canary-storm-autonomous-band",
+    "2026-08-16-fingerprint-storm-live-proof",
+    "2026-08-17-fingerprint-semantics-token-leading",
+    "2026-08-20-latency-regression-re-proof"
+   ],
+   "threshold": "n>=3"
+  },
+  {
+   "type": "contract.structural-blind-spot",
+   "n": 2,
+   "weight": 2,
+   "impact": {
+    "iterations": 0,
+    "retries": 0,
+    "reformulations": 0,
+    "dialogue_rounds": 0,
+    "extra_reads": 7,
+    "halted": 0,
+    "soft_exit": 0,
+    "deferred": 0
+   },
+   "steps": [
+    "phase/research"
+   ],
+   "chunks": [
+    "2026-08-15-canary-storm-autonomous-band",
+    "2026-08-16-canary-fingerprint-derivation-aligned"
+   ],
+   "threshold": null
+  }
+ ],
+ "denominators": {
+  "phase/take-up": 11,
+  "phase/distill": 11,
+  "phase/research": 11,
+  "phase/plan": 11,
+  "phase/validate": 11,
+  "implement/code": 11,
+  "implement/fix-loop": 12,
+  "implement/smoke": 13,
+  "wrap-session/report": 11,
+  "wrap-session/reconcile": 11,
+  "wrap-session/curation": 12,
+  "wrap-session/route-resolve": 12,
+  "wrap-session/gates": 12,
+  "new-session/orientation": 10
+ },
+ "thresholds": "n>=3 in-epoch, or n>=2 with halt/soft_exit impact",
+ "weight_formula": "1 + iterations + retries + reformulations + 2*dialogue_rounds + 3*halted + 3*soft_exit"
+}

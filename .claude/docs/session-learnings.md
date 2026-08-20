@@ -1,6 +1,25 @@
 # Session Learnings
 
 _This file is curated by `/wrap-session`. Learnings captured here are too detailed or specific for CLAUDE.md but worth preserving as reference material for future sessions._
+## 2026-08-20 — A standing PREREQ's ordinal counts probes, not the entry it rides
+
+A gate deferral pinned as `PREREQ: re-check {gate} — Nth consecutive` numbers the FORTHCOMING probe, so
+N is a position in the measurement chain, not a property of the route entry holding the pin. When a new
+chunk is inserted ahead of the pin's current holder, the pin MOVES but its number does not advance — the
+inserted chunk simply becomes the one that runs probe N. Advancing it would claim a probe that never ran
+and leave a gap in the very chain the ratification rule reads for age.
+
+The chain is recoverable from the artifacts rather than from the pin: each chunk's report records the
+ordinal it discharged, so the next pin is always last-discharged + 1. Re-derive it there whenever the tail
+is reshaped — an ordinal dictated in a route directive is a hypothesis like any other coordinate, and this
+one arrived off by one against a chain the reports settled unambiguously.
+
+Applies whenever route-resolve inserts, reorders, or re-owns a markerless entry that carries a standing
+PREREQ — the pin's ORIGIN marker preserves its age, and its ordinal preserves its count; the two travel
+independently.
+
+---
+
 ## 2026-08-19 — Wireframe sample rows bind by P-ID, not by their scenario-name column
 
 The layout-templates idle-console sample rows pair P-ID labels with FICTIONAL scenario names (e.g. `P-003

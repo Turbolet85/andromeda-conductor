@@ -1,0 +1,81 @@
+{
+ "cyclomatic_p50": 1.0,
+ "cyclomatic_p90": 4.0,
+ "cognitive_p50": 0.0,
+ "cognitive_p90": 1.0,
+ "over_ceiling": 6,
+ "ceiling": 15,
+ "ceiling_metric": "cognitive",
+ "functions": 1732,
+ "files": 104,
+ "max": {
+  "fn": "shape_is_realizable",
+  "file": "crates/conductor-core/src/phase_spec.rs",
+  "val": 31.0
+ },
+ "top": [
+  [
+   "shape_is_realizable",
+   "crates/conductor-core/src/phase_spec.rs",
+   31.0,
+   30.0
+  ],
+  [
+   "serve_stub",
+   "crates/conductor-verify/tests/common/mod.rs",
+   27.0,
+   26.0
+  ],
+  [
+   "validate",
+   "crates/conductor-core/src/run_contract.rs",
+   18.0,
+   16.0
+  ],
+  [
+   "observe",
+   "crates/conductor-verify/src/extract.rs",
+   17.0,
+   13.0
+  ],
+  [
+   "dispatch",
+   "crates/conductor-run/src/dispatch.rs",
+   16.0,
+   47.0
+  ],
+  [
+   "run_preflight",
+   "crates/conductor-verify/src/preflight.rs",
+   16.0,
+   20.0
+  ],
+  [
+   "is_host_path_token",
+   "crates/conductor-core/src/redact.rs",
+   15.0,
+   18.0
+  ],
+  [
+   "validate",
+   "crates/conductor-core/src/load_envelope.rs",
+   13.0,
+   9.0
+  ],
+  [
+   "redact_value",
+   "crates/conductor-core/src/redact.rs",
+   13.0,
+   9.0
+  ],
+  [
+   "service_topology_request",
+   "crates/conductor-emit/src/topology.rs",
+   12.0,
+   8.0
+  ]
+ ],
+ "tool": "rust-code-analysis-cli 0.0.25",
+ "command": "rust-code-analysis-cli --metrics -O json -o {run_dir}/rca -p crates",
+ "note": "percentiles are nearest-rank over per-function sums; TS/TSX not covered by this tool (lizard available, web surface is 1132 lines)"
+}

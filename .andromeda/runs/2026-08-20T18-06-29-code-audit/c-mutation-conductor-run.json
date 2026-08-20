@@ -1,0 +1,126 @@
+{
+ "unit": "conductor-run",
+ "mutants": 91,
+ "caught": 40,
+ "missed": 28,
+ "timeout": 0,
+ "unviable": 23,
+ "score": 58.82,
+ "survivors": [
+  [
+   "crates/conductor-run/src/lib.rs:66:8",
+   "delete ! in preflight"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:206:5",
+   "replace observe_run_contract -> RunContractStatus with Default::default()"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:218:5",
+   "replace declares -> bool with true"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:218:5",
+   "replace declares -> bool with false"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:220:21",
+   "replace || with && in declares"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:220:26",
+   "replace == with != in declares"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:220:11",
+   "replace == with != in declares"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:261:5",
+   "replace warm_up_canary_service -> anyhow::Result<()> with Ok(())"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:262:29",
+   "replace || with && in warm_up_canary_service"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:262:24",
+   "replace == with != in warm_up_canary_service"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:262:55",
+   "replace == with != in warm_up_canary_service"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:265:64",
+   "replace / with % in warm_up_canary_service"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:265:64",
+   "replace / with * in warm_up_canary_service"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:378:27",
+   "delete field degraded from struct Observation expression in execute_scenario"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:409:25",
+   "replace - with + in execute_scenario"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:409:25",
+   "replace - with / in execute_scenario"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:509:5",
+   "replace severity_rank -> u8 with 0"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:509:5",
+   "replace severity_rank -> u8 with 1"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:517:5",
+   "replace now_ms -> i64 with 0"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:517:5",
+   "replace now_ms -> i64 with 1"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:517:5",
+   "replace now_ms -> i64 with -1"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:532:9",
+   "replace FaultKind::label -> &'static str with \"\""
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:532:9",
+   "replace FaultKind::label -> &'static str with \"xyzzy\""
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:570:5",
+   "replace fault_span -> Option<tracing::Span> with None"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:631:5",
+   "replace now_unix_nanos -> i64 with 0"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:631:5",
+   "replace now_unix_nanos -> i64 with 1"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:631:5",
+   "replace now_unix_nanos -> i64 with -1"
+  ],
+  [
+   "crates/conductor-run/src/dispatch.rs:163:26",
+   "replace == with != in Dispatcher<'a>::dispatch"
+  ]
+ ],
+ "timeouts": [],
+ "tool": "cargo-mutants 27.1.0",
+ "command": "cargo mutants -p conductor-run --output {run_dir}/mutants-conductor-run --jobs 2"
+}
