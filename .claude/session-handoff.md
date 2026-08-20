@@ -1,53 +1,63 @@
 # Session Handoff
 
-**Last Updated:** 2026-08-19T23:31:30Z
-**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **24 ahead** after this chunk commit)
+**Last Updated:** 2026-08-20T17:28:00Z
+**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **25 ahead** after this chunk commit)
 **Status:** clean
-**Last Commit:** 2026-08-19-connection-lifecycle-live-proof — the driver landed as declared phase data,
-every witness measured on six live legs, and the family retired declare-only at the harvest tier
+**Last Commit:** 2026-08-20-latency-regression-re-proof — the cue count went 0 → 31 because the anomaly
+stopped becoming the history it was judged against, and the two-pulse shape took the rotation phase out of play
 
 ## Position
-- Done: **2026-08-19-connection-lifecycle-live-proof** — the port-occupier driver shipped
-  (`[phases.fault]` + `PhaseGuard` over the guard-generic hook; run→faults edge, zero new external
-  crates); six fresh-dir legs: A1 measured the structural grading (verdict Fail/KnownResidual, 69169 ms),
-  A2 the ratified occupy-failure Err path (exit 1, NO row), B1–B4 the shipped declare-only rows
-  (69184 · 6079 · 18188 · 75074 ms, all non-Blocked KnownResidual, TOML seeds); B4's first mid-scenario
-  choreography bound :4317 into a live `Listening→ReceiverFailed (receiver bind failed)` at ERROR inside
-  the hold, release proven by the SUT's own rebind; `fault.port_occupier` measured beneath
-  `timeline.execute`; 7-test `connection_harvest.rs` pins it all; **v2-15 verified** (refined at the
-  coverage gate: the "recovery transition" sub-clause reworded to the measured process-replacement
-  mechanism — operator-pre-ratified premise-correction).
-- Next: **latency-regression re-proof** (P-011/P-012) — `/andromeda-phase` to promote + plan. It carries
-  the v2-12 latency CARRY (two measured obstacles: t-digest window absorption + canary auto-resolve) and
-  the **32nd audit PREREQ** (compact ratified form; basis RE-DERIVED this chunk: the zero-dep-delta
-  footing ENDED — lock delta = one member-dep line, zero new external crates; audit true exit 1
-  byte-identical; deny true exit 0 over the NEW lock).
+- Done: **2026-08-20-latency-regression-re-proof** — P-011/P-012 proven live at the harvest tier.
+  **31 `latency_regression` cues (27 suggested, magnitude 3.50–3.68, confidence 1.0, `scope "operation"`,
+  bypass true), first at +13s into spike-a, BOTH pulses firing** — against ZERO from the shipped 90/90 ramp.
+  The re-shape is a dense 180s baseline (50 spans/s) → thin 40s/24-span pulse → 110s refill → second pulse
+  150s later (≡30s mod the 60s rotation). Row `verdict null` / `KnownResidual` / `latency_ms 373784` /
+  `<90s` / TOML seed 4317011, exit 0 `[RESIDUAL]`. Ingestion clean (`rows_appended: 50` every dispatch,
+  zero PK drops); zero false positives in either baseline. **Epoch 3 CLOSED** (0 markerless entries left).
+- Next: **severity-lifecycle live proof** (P-019..P-023, P-059, P-060) — `/andromeda-phase` to promote +
+  plan. It carries the **33rd audit PREREQ** (compact ratified form; basis re-verified: the zero-dep-delta
+  footing RETURNED — lock byte-untouched — audit red byte-identical, deny green over the current lock).
 
 ## Work done
-Chunk surface: `phase_spec.rs` fault model (+ scenario-level `fault_phases_are_silent`) · 13 literal-site
-threads · run→faults edge + `PhaseGuard`/`phase_guard` + post-timeline Err (P4-ratified) · 4 family TOMLs
-declare-only with measured tiers · catalog guards re-based · NEW `connection_harvest.rs` (7 tests, verbatim
-leg-B4 pins) · leg-verdict evidence. Gates: nextest **655/655** zero-retry · doctests · clippy · bundle
-exit 0 · deny TRUE exit 0 over the new lock · audit 31st consecutive red (byte-identical RUSTSEC-2026-0244,
-probed standalone).
+Chunk surface: `scenarios/latency-regression.toml` re-shaped 2 → 4 phases + header re-based to the measured
+60s-rotation mechanism (the stale "5-min window" claim retired) · `conductor-run/src/lib.rs` gained
+`route_read_back`/`ReadBack` (crate-private) landing a declare-only empty read-back as the auto-resolve
+residual instead of Blocked, + 4 unit tests · `baseline_harvest.rs` fixture made kind-faithful
+(`scope`/`absolute_value`) + 2 verbatim leg-pin tests · `evidence/leg-verdict.md`. Gates: nextest
+**661/661** zero-retry (655 → 661) · doctests · clippy · deny TRUE exit 0 · audit **32nd consecutive red**
+(byte-identical RUSTSEC-2026-0244) · `status` read back the minted run_id. Zero dependency delta.
 
 ## Drift resolved
-7 doc-agents / 18 detectors, **12 amendments applied (11 proposed + 1 orchestrator-raised under the
-expected-amendments floor) · 0 escalations open · 0 false positives** (arch ×5 incl. the six-family
-declare-only note + the fault model/edge registration · security ×3 `[phases.fault]` boundary registration ·
-test-plan ×2 two-site connection re-base · obs §4 CONDITIONAL→measured-real · layouts sample tiers
-de-literalized). Cascade: 3 leaves re-derived (CLAUDE.md Modules line · rules/security boundary enumeration ·
-rules/observability occupier parentage); masters/homes/summaries grep-clean. The v2-15 sub-clause
-premise-disproof resolved at the P7 coverage gate per the wrap directives (reword + PREMISE-CORRECTION note).
-Record: `.andromeda/runs/2026-08-19T23-10-30-wrap/fanout-results.md`.
+7 doc-agents / 18 detectors: 5 clean, **7 amendments applied · 2 escalations resolved with the operator ·
+0 open · 0 false positives.** arch ×3 (the second route to KnownResidual + the six-family sentence widened
+to name both routes + the load envelope's rate term recorded as DISPATCHES/s). security-plan ×2
+(**escalated + operator-ratified**): the sidecar-spawn ban had said "fixed hard-coded program PATH" since
+2026-06-14 while the shipped constant is a program NAME resolved through `PATH` — re-worded at both
+occurrences and `PATH` named as a spawn-resolution input. Cascade: 2 cross-master citations re-based
+(test-plan · obs-plan, each with a sidecar) + 2 leaves re-derived (`rules/security.md` · CLAUDE.md);
+security-plan's Decisions Log left as immutable history. Record:
+`.andromeda/runs/2026-08-20T17-10-10-wrap/fanout-results.md`.
 
 ## Notes
-- **v2-15 verified (refined)** — coverage now **17/32 verified · 15 unclaimed**.
-- **Curation: T1 1 · T2 1 · T3 1** (filtered 4: 3 repo-derivable, 1 one-off). T1: the premise-correction
-  learning gained the sub-clause-grain instance. T2: verification-harness gained the three live-leg recipe
-  extensions (boot-before-run dedupe · repo-relative `CONDUCTOR_*` handles · self-obs choreography cues).
-- **`cargo audit`** — 31st consecutive red this chunk; the **32nd pin rides latency-regression-re-proof**
-  with the basis re-derived (origin `2026-08-08-sut-capability-manifest` unchanged). Close the moment it parses.
-- **Live-leg housekeeping**: six leg dirs under `%TEMP%/pulse-legs/2026-08-20T*` (+ the two prior 2026-08-19
-  dirs) — one-sweep cleanup whenever convenient, per the standing convention.
+- **No capability claimed, none flipped** — coverage stays **17/32 verified · 15 unclaimed**. The
+  routed-forward latency half lives inside the already-`verified` v2-12, whose `notes` gained an ADDENDUM
+  recording this entry's proof (31 cues, two-pulse design, evidence pointer).
+- **Curation: T1 0 · T2 2 · T3 0** (filtered 3: boot-before-run already recorded · `persistence_seconds`
+  sample-count is known Pulse-visit intake #6 · the report-Deviations gap is tooling telemetry, not a
+  project learning). T2: `testing.md` gained the rotation-phase extension (model the window's ROTATION, not
+  just the anomaly size — the floor reads a resetting current-window count, so two pulses half a cycle
+  apart take the uncontrollable phase out of play); `verification-harness.md` gained the `[BLOCKED]`-in-~0s
+  diagnostic (a live leg that blocks instantly is a sidecar PATH-resolution failure until proven otherwise).
+- **The auto-resolve arm shipped UNEXERCISED live** — the canary's own error-rate cues refreshed the
+  incident past its 120s idle timeout, so the row reached KnownResidual by the degraded route. Unit-tier
+  coverage stands (3 arms pinned); arch records the limit. Not evidence the new arm fires.
+- **Load-envelope rate term** — `max_sustained_rate_spans_per_s` counts dispatches/s, not wire spans/s
+  (50× divergence here, still ~200× under the bound). SURFACED-not-authored; owner pinned as a CARRY on the
+  Epoch-6 *Coverage completeness gate* entry.
+- **Route directive correction:** the 33rd audit PREREQ was directed onto "the first Epoch-4 markerless
+  entry (which carries BLOCKED-ON)" — verified: the first entry (*severity-lifecycle*) carries no
+  annotation; the BLOCKED-ON is on *Delegated timing budgets*. The pin landed on *severity-lifecycle*,
+  correct per the next-markerless rule.
+- **Live-leg housekeeping**: ten leg dirs under `%TEMP%/pulse-legs/` (two 2026-08-19, eight 2026-08-20) —
+  one-sweep cleanup whenever convenient.
 - **Last failed command:** none.

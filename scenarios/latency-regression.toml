@@ -3,12 +3,29 @@
 # A run over the envelope reports ENVIRONMENT-SUSPECT, not Fail — the harness drove it, not Pulse.
 
 # P-011 / P-012 — Per-Operation Latency Baseline + Latency Regression Detection
-# (pulse-capability-spec.md §3). Statistical-anomaly family: a baseline -> ramp timeline carrying
-# both P-IDs (latency = span duration, so both phases emit the trace default).
-#   P-011 baseline — streaming p50/p95/p99 per (service.name + operation), t-digest, 5-min window;
+# (pulse-capability-spec.md §3). Statistical-anomaly family: a dense baseline carrying both P-IDs
+# (latency = span duration, so every phase emits the trace default).
+#   P-011 baseline — streaming p50/p95/p99 per (service.name + operation), t-digest;
 #     boundary is the <50-sample floor (an operation under the floor is excluded from regression detection).
-#   P-012 regression — current p99 >= 2.5x baseline p99 with >= 60s persistence; errors weighted
-#     independently from latency. Recipe: establish baseline over 90s, ramp to 3x p99 for 90s.
+#   P-012 regression — short-window p99 >= 2.5x the long-window p99 baseline.
+#
+# SHAPE — measured against the SUT at HEAD efabe8e, superseding the 90s-baseline/90s-ramp recipe that
+# fired ZERO cues (2026-08-18 leg B). What "accumulated history" means is not a 5-minute window: the
+# long baseline is a t-digest PAIR read as union(current, previous) rotating every 60s on pulse-app's
+# persist tick, while the short read is current-only on a 15s pair. Three consequences shape this file:
+#   (a) the anomaly must stay under ~1% of the union's samples, so the spike is a THIN pulse (24 spans)
+#       against a DENSE baseline (50 spans/s) — a ramp contributing half the window raises its own
+#       denominator and can never cross the 2.5x threshold;
+#   (b) the >=50-sample floor and the confidence (samples/100) both read the LONG pair's CURRENT-window
+#       count, which resets at every 60s rotation — so a pulse landing just after a rotation cannot
+#       clear the floor, and one landing just before it loses the window mid-pulse;
+#   (c) that rotation phase is anchored to pulse-app's own clock and is NOT controllable from here.
+# Hence TWO pulses 150s apart (= 30s mod the 60s rotation): their rotation phases always differ by 30s,
+# so at most one can fall in the ~small dead zone at either end and the leg never rides a coin flip.
+# Predicted cue (from the SUT's own constants): magnitude ~3.8-4.0 (short p99 ~3100 over a ~800 baseline),
+# confidence 1.0, priority "suggested" (Autonomous needs >=5x), scope "operation",
+# suppression_bypassed true (absolute arm: >1000ms).
+#
 # The read-back checks are RETIRED TO DECLARE-ONLY (2026-08-18-error-baseline-spike-live-proof; the
 # v2-11 disposition, settled per surface at SUT HEAD efabe8e) — the live assertions grade at the
 # harvest tier instead: crates/conductor-run/tests/baseline_harvest.rs over Pulse's own
@@ -19,34 +36,61 @@
 name = "latency-regression"
 p_ids = ["P-011", "P-012"]
 seed = 4317011
-slo_tier = "<90s"  # re-declared from <20s (2026-08-18): whole-run latency_ms spans the 180s emission
+slo_tier = "<90s"  # re-declared from <20s (2026-08-18): whole-run latency_ms spans the emission
                    # window + read-back and exceeds every tier by construction; <90s is the closest
                    # honest bucket (the v2-11 precedent). Per-check latency is owned by v2-19.
 jitter_ms = 50
 
 [[phases]]
 name = "baseline"
-gap_ms = 90000   # 90s — converge the per-operation latency percentile baseline (P-011)
+gap_ms = 180000   # 180s at 50 spans/s — three rotations of dense history, so the union the spike is
+                  # judged against is full and its p99 has converged on the declared profile (P-011)
 [phases.emission]
 kind = "latency"
-occurrences = 3
+occurrences = 180
 operation = "checkout"
 p50_ms = 100
 p95_ms = 400
 p99_ms = 800
-samples = 60   # 3 x 60 clears the P-011 >=50-sample exclusion floor
+samples = 50   # 50 spans per second: the >=50-sample floor re-clears ~1s after every rotation
 
 [[phases]]
-name = "ramp"
-gap_ms = 90000   # 90s at 3x p99 — exceeds the 60s persistence threshold (P-012)
+name = "spike-a"
+gap_ms = 40000   # 40s — the first thin pulse (P-012)
 [phases.emission]
 kind = "latency"
-occurrences = 3
+occurrences = 24
 operation = "checkout"
-p50_ms = 300
-p95_ms = 1200
-p99_ms = 2400   # 3x the baseline p99 — the regression magnitude
-samples = 60
+p50_ms = 3000
+p95_ms = 3100
+p99_ms = 3200   # ~4x the baseline p99 — over the 2.5x threshold, under the 5x Autonomous bar
+samples = 1     # one span per second: 24 spans total, ~0.8% of the union — the anomaly stays
+                # short relative to accumulated history instead of becoming the history
+
+[[phases]]
+name = "baseline-b"
+gap_ms = 110000   # 110s — refill the union with clean history (the first pulse rotates out) and
+                  # place the second pulse 150s after the first, i.e. 30s into the rotation cycle
+[phases.emission]
+kind = "latency"
+occurrences = 110
+operation = "checkout"
+p50_ms = 100
+p95_ms = 400
+p99_ms = 800
+samples = 50
+
+[[phases]]
+name = "spike-b"
+gap_ms = 40000   # 40s — the second pulse, half a rotation out of phase with the first
+[phases.emission]
+kind = "latency"
+occurrences = 24
+operation = "checkout"
+p50_ms = 3000
+p95_ms = 3100
+p99_ms = 3200
+samples = 1
 
 # DECLARE-ONLY — no [[expected]] blocks. Both prior checks were structurally ungradeable under
 # deterministic L4 and are retired rather than left as a false signal:
@@ -58,5 +102,8 @@ samples = 60
 #   no branch renders a cue kind).
 # The >=50-sample floor is proven by cue EXISTENCE (the evaluator skips below-floor operations), and
 # the regression candidate by the harvested `triage.cue.emit` line — see the header. The empty
-# expected list routes this scenario to the declare-only/operator path (ManualCheck; KnownResidual
-# under the degraded read-back), never a vacuous pass.
+# expected list routes this scenario to the declare-only/operator path, and its row lands
+# KnownResidual: this family's cues top out at Suggested, Tier-2 cadence cycles are skipped on a
+# cpu-primary host, so no incident forms from the scenario itself and the canary incident idles out
+# (120s auto-resolve) across the emission window — an empty active list at read-back is Pulse's own
+# lifecycle, not an unmet precondition. Never a vacuous pass: nothing here is graded.

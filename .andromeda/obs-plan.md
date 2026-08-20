@@ -637,7 +637,7 @@ SLO enforcement: agent reads runs.db rows post-run and asserts `latency_ms <= sl
 
 ### Project-specific bans
 
-- NEVER spawn an MCP sidecar via shell with operator-supplied input — fixed program path + `.env(...)` only (CVE-2026-30623 rmcp STDIO flaw, upstream §2)
+- NEVER spawn an MCP sidecar via shell with operator-supplied input — fixed hard-coded program NAME resolved through the inherited `PATH` + `.env(...)` only (CVE-2026-30623 rmcp STDIO flaw, upstream §2)
 - NEVER use tokio's virtual clock (`tokio::time::Instant`) for journal timestamps — wall-clock only (`std::time::SystemTime`), preserves journal-relative SLO math
 - NEVER pass `ANDROMEDA_PULSE_DATA_DIR` via argv to sidecar spawn — must use `.env(...)` builder (injection metacharacter ban, upstream §2)
 - NEVER allow panic on malformed MCP read-back (protobuf decode failure) — bounded prost recursion + empty canary ⇒ `blocked`, never false pass

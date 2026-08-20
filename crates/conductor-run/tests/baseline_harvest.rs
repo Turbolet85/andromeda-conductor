@@ -157,9 +157,16 @@ mod tests {
     /// Source-derived line shape (`andromeda-pulse crates/triage/src/cue/emitter.rs:194-205` at HEAD
     /// `efabe8e`), mirroring the captured storm-line format — to be re-pinned VERBATIM from the live
     /// leg's capture, per the storm-harvest precedent.
+    ///
+    /// `scope` and `absolute_value` are kind-dependent at the source: the error path is service-scoped
+    /// and carries an error RATE, the latency path is operation-scoped (`scope_id` = the operation
+    /// name) and carries a LATENCY IN MILLISECONDS (`cue/evaluate.rs:85-140`).
     fn cue_line(kind: &str, priority: &str, magnitude: f64, confidence: f64, bypassed: bool) -> String {
+        let latency = kind == "latency_regression";
+        let scope = if latency { "operation" } else { "service" };
+        let absolute_value = if latency { 3100.0 } else { 0.35 };
         format!(
-            r#"{{"fields":{{"absolute_value":0.35,"confidence":{confidence},"kind":"{kind}","magnitude":{magnitude},"persistence_seconds":100,"priority":"{priority}","scope":"service","suppression_bypassed":{bypassed}}},"level":"INFO","message":"attention cue emitted","target":"triage.cue.emit","timestamp":"2026-08-18T00:00:00.000Z"}}"#
+            r#"{{"fields":{{"absolute_value":{absolute_value},"confidence":{confidence},"kind":"{kind}","magnitude":{magnitude},"persistence_seconds":100,"priority":"{priority}","scope":"{scope}","suppression_bypassed":{bypassed}}},"level":"INFO","message":"attention cue emitted","target":"triage.cue.emit","timestamp":"2026-08-18T00:00:00.000Z"}}"#
         )
     }
 
@@ -217,6 +224,10 @@ mod tests {
         let cue = cue_fired(&observed, "latency_regression").expect("cue fired");
         assert_eq!(convergence_witness(cue), Ok(()));
         assert_eq!(suggested_tier(cue), Ok(()));
+        // The latency cue is OPERATION-scoped, and its bypass rides the absolute arm (>1000ms),
+        // not the error path's rate arm.
+        assert_eq!(cue.scope, "operation");
+        assert_eq!(absolute_bypass_witness(cue), Ok(()));
     }
 
     #[test]
@@ -337,5 +348,50 @@ mod tests {
         let pulse = pulse_storm_fingerprints(&[captured_storm_line()]);
         assert_eq!(pulse.len(), 1);
         assert_eq!(canary_prefix_equality(&conductor, &pulse[0]), Ok(()));
+    }
+
+    /// VERBATIM from the 2026-08-20 latency leg (run `2026-08-20T16-52-49-662`), the first pulse's
+    /// suggested cue. The shipped 90s/90s ramp fired ZERO of these; a thin 24-span pulse against a
+    /// dense baseline fires them because the anomaly stays short relative to accumulated history.
+    fn captured_latency_pulse_a_line() -> String {
+        r#"{"fields":{"absolute_value":3024.0,"confidence":1.0,"deployment.environment":"production","kind":"latency_regression","magnitude":3.5738645956440993,"persistence_seconds":118,"priority":"suggested","scope":"operation","service.name":"com.andromeda.pulse","service.version":"0.1.0","suppression_bypassed":true},"level":"INFO","message":"attention cue emitted","target":"triage.cue.emit","timestamp":"2026-08-20T16:57:20.140Z"}"#.to_owned()
+    }
+
+    /// VERBATIM from the same leg, the SECOND pulse — placed 150s after the first, i.e. half the
+    /// long-window rotation cycle out of phase. Both pulses landing is what makes the leg's result
+    /// independent of the rotation phase, which is anchored to pulse-app's clock and uncontrollable
+    /// from the scenario.
+    fn captured_latency_pulse_b_line() -> String {
+        r#"{"fields":{"absolute_value":3073.0,"confidence":1.0,"deployment.environment":"production","kind":"latency_regression","magnitude":3.670714712323313,"persistence_seconds":1022,"priority":"suggested","scope":"operation","service.name":"com.andromeda.pulse","service.version":"0.1.0","suppression_bypassed":true},"level":"INFO","message":"attention cue emitted","target":"triage.cue.emit","timestamp":"2026-08-20T16:59:47.152Z"}"#.to_owned()
+    }
+
+    #[test]
+    fn the_latency_leg_capture_satisfies_every_latency_predicate() {
+        for line in [captured_latency_pulse_a_line(), captured_latency_pulse_b_line()] {
+            let observed = parse_cue_emitted(&[line]);
+            let cue = cue_fired(&observed, "latency_regression").expect("cue fired");
+            assert_eq!(convergence_witness(cue), Ok(()));
+            assert_eq!(suggested_tier(cue), Ok(()));
+            assert_eq!(absolute_bypass_witness(cue), Ok(()));
+            // Operation-scoped, unlike the service-scoped error path — and the bypass rides the
+            // absolute latency arm (>1000ms), not a magnitude over the 10x relative arm.
+            assert_eq!(cue.scope, "operation");
+            assert!(cue.absolute_value > 1000.0, "{}", cue.absolute_value);
+            // Suggested, never Autonomous: the declared 4x profile stays under the 5x bar, so the
+            // family's tier ceiling is a property of the scenario's own shape.
+            assert!(cue.magnitude < 5.0, "{}", cue.magnitude);
+        }
+    }
+
+    #[test]
+    fn the_two_latency_pulses_are_distinct_observations() {
+        // `persistence_seconds` is a SAMPLE COUNT, and it resets when the long t-digest pair
+        // rotates. The two pulses reporting counts an order of magnitude apart is the measured
+        // evidence that they landed on opposite sides of a rotation — the thing the 150s offset
+        // was chosen to guarantee.
+        let a = &parse_cue_emitted(&[captured_latency_pulse_a_line()])[0];
+        let b = &parse_cue_emitted(&[captured_latency_pulse_b_line()])[0];
+        assert_ne!(a.persistence_seconds, b.persistence_seconds);
+        assert!(a.persistence_seconds < b.persistence_seconds);
     }
 }

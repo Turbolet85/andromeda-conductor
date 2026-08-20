@@ -150,3 +150,8 @@ table.
 **Section:** §1 Test Scope Summary (critical-paths closing note) · §6 E2E Scenario 1 (Cleanup parenthetical)
 **Change:** Both sites now state the connection family as DECLARE-ONLY instances of Path 1's pattern — zero read-back-graded checks, rows landing `verdict` null / `state=KnownResidual` non-Blocked — with the live walk/conflict claims graded at the harvest tier in `crates/conductor-run/tests/connection_harvest.rs` (the fifth harvest).
 **Why:** Measured this chunk (leg A structural fail; legs B1–B4 the shipped shape): connection state reaches no MCP read-back surface, so the family's four Contains checks retired. The two-site rule applied in one pass (the error-baseline precedent).
+
+## 2026-08-20-latency-regression-re-proof — sidecar-spawn citation re-based
+**Section:** §Test Anti-Patterns (stack-specific)
+**Change:** The cross-master citation of security-plan's sidecar-spawn ban now reads "a fixed hard-coded program NAME resolved through the inherited `PATH`" instead of "a fixed hard-coded path".
+**Why:** Cascade edge — test-plan cited security-plan as saying something it no longer says after the 2026-08-20 spawn-wording amendment (the shipped constant is a program NAME, PATH-resolved). The negative-test mandate itself is unchanged.

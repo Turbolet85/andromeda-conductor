@@ -547,7 +547,7 @@ _[ALL tiers — single source of truth for all test bans]_
 - NEVER over-stub (you stop testing real behavior) — the cli release-gate scenarios run the real binary via assert_cmd.
 - NEVER monkey-patch production code at runtime — use DI (rmcp transport injection, tokio built-in virtual clock, ephemeral-port tonic server).
 - **(stack-specific)** NEVER force-fit wiremock-rs onto the gRPC OTLP egress — `tonic` is gRPC, not HTTP/1; use an in-process tonic test server or turmoil; reserve wiremock for any future HTTP surface only.
-- **(stack-specific)** NEVER interpolate `ANDROMEDA_PULSE_DATA_DIR` (or any operator value) into the sidecar argv/shell — pass strictly via `.env(...)` after rejecting injection metacharacters; spawn `andromeda-pulse-mcp` as a fixed hard-coded path (rmcp STDIO injection class CVE-2026-30623); a negative test asserts argv-injection rejection.
+- **(stack-specific)** NEVER interpolate `ANDROMEDA_PULSE_DATA_DIR` (or any operator value) into the sidecar argv/shell — pass strictly via `.env(...)` after rejecting injection metacharacters; spawn `andromeda-pulse-mcp` as a fixed hard-coded program NAME resolved through the inherited `PATH` (rmcp STDIO injection class CVE-2026-30623); a negative test asserts argv-injection rejection.
 
 ### CI
 

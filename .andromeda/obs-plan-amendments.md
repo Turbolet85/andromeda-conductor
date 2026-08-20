@@ -177,3 +177,8 @@ path.
 **Section:** §4 Span / Trace Coverage — Fault-injection spans ("Where each span opens")
 **Change:** The occupier span IS a child of `timeline.execute` — measured live on the conflict leg (span_event `new`+`close`, `parent: "timeline.execute"`, attributes exactly `fault_type` + `port`); `conductor-run`'s `phase_guard` drives it for a fault-declared phase's window and the RAII release is the scheduler's boundary drop.
 **Why:** The 2026-08-16 amendment recorded the parentage CONDITIONAL because no driver existed; the v2-15 driver shipped this chunk and leg B4 measured the condition real (report §Spec claims disproved item 3; verbatim lines in the chunk leg-verdict).
+
+## 2026-08-20-latency-regression-re-proof — sidecar-spawn citation re-based
+**Section:** §Obs Anti-Patterns
+**Change:** The cross-master citation of security-plan's sidecar-spawn ban now reads "fixed hard-coded program NAME resolved through the inherited `PATH` + `.env(...)` only" instead of "fixed program path + `.env(...)` only".
+**Why:** Cascade edge — obs-plan cited security-plan's retired wording after the 2026-08-20 spawn-wording amendment. The ban's substance (never a shell with operator-supplied input) is unchanged.

@@ -369,12 +369,15 @@ pub async fn execute_scenario<R: PauseResolver>(
             .context("the fault-declared phase could not apply its port occupier");
     }
 
-    let observation = match observe(client).await {
-        ReadBackOutcome::Observed(observation) => observation,
-        // Nothing to grade against. An `Absent` check would pass trivially on an empty observation,
-        // so an unusable read-back is Blocked, never a measured record (security-plan §Anti-Patterns
-        // → Input: never a false pass-as-empty).
-        ReadBackOutcome::EmptyCorpus | ReadBackOutcome::CallFailed(_) => {
+    let observation = match route_read_back(observe(client).await, scenario.expected.is_empty()) {
+        ReadBack::Graded(observation) => observation,
+        ReadBack::AutoResolved => {
+            tracing::info!(
+                "declare-only read-back empty: no active incident outlived the emission window"
+            );
+            Observation { degraded: true, ..Observation::default() }
+        }
+        ReadBack::Blocked => {
             tracing::info!("scenario blocked: read-back yielded no gradable observation");
             return Ok(RunRecord::blocked(
                 run_id,
@@ -433,6 +436,32 @@ pub async fn execute_scenario<R: PauseResolver>(
     );
     record.state = state_for(&observation, record.state);
     Ok(record)
+}
+
+/// What one read-back outcome means for THIS scenario — a value in every case (the verdict/error
+/// wall), decided without touching the client so both arms stay testable.
+#[derive(Debug, PartialEq)]
+enum ReadBack {
+    /// The corpus held incidents: grade against what they carried.
+    Graded(Observation),
+    /// A declare-only scenario found no active incident. After a green gate — whose canary proved
+    /// this run reaches the corpus — an emptied active list is Pulse's own auto-resolve lifecycle
+    /// outliving nothing, not an unmet precondition, and a scenario that grades nothing cannot pass
+    /// falsely on it. The pre-accepted residual.
+    AutoResolved,
+    /// Nothing gradable and no residual to claim: a named precondition, never a measured row. A
+    /// scenario carrying checks stays here because an `Absent` check would pass trivially on an
+    /// empty observation, and a failed call stays here whatever the scenario declares
+    /// (security-plan §Anti-Patterns → Input: never a false pass-as-empty).
+    Blocked,
+}
+
+fn route_read_back(outcome: ReadBackOutcome, declare_only: bool) -> ReadBack {
+    match outcome {
+        ReadBackOutcome::Observed(observation) => ReadBack::Graded(observation),
+        ReadBackOutcome::EmptyCorpus if declare_only => ReadBack::AutoResolved,
+        ReadBackOutcome::EmptyCorpus | ReadBackOutcome::CallFailed(_) => ReadBack::Blocked,
+    }
 }
 
 /// The report state a read-back earns: a degraded response is the pre-accepted residual
@@ -742,6 +771,51 @@ mod tests {
         for measured in [ReportState::Pass, ReportState::Fail, ReportState::ManualCheck] {
             assert_eq!(state_for(&observation(false), measured), measured);
         }
+    }
+
+    #[test]
+    fn a_declare_only_empty_read_back_routes_to_the_auto_resolve_residual() {
+        assert_eq!(route_read_back(ReadBackOutcome::EmptyCorpus, true), ReadBack::AutoResolved);
+
+        // What the arm hands the declare-only path, and the row it earns: measured, pre-accepted,
+        // verdict-less — never the Blocked row a missing precondition would produce.
+        let r = manual_record(
+            &fixture(1),
+            "2026-08-20T00-00-00-abc",
+            "2026-08-20T00:00:00Z".to_string(),
+            "2026-08-20T00:00:03Z".to_string(),
+            3_000,
+            &Observation { degraded: true, ..Observation::default() },
+        );
+        assert_eq!(r.state, ReportState::KnownResidual);
+        assert_eq!(r.verdict, None);
+        assert_eq!(r.fingerprints, Some(vec![]));
+        assert_eq!(r.latency_ms, Some(3_000));
+    }
+
+    #[test]
+    fn a_checks_bearing_empty_read_back_stays_blocked() {
+        // The false-pass guard: an `Absent` check would grade trivially true against an empty
+        // observation, so only a scenario that grades NOTHING may claim the residual.
+        assert_eq!(route_read_back(ReadBackOutcome::EmptyCorpus, false), ReadBack::Blocked);
+    }
+
+    #[test]
+    fn a_failed_read_back_call_stays_blocked_even_for_a_declare_only_scenario() {
+        // Transport trouble is not a pre-accepted residual, whatever the scenario declares.
+        let failed = ReadBackOutcome::CallFailed("transport refused".to_string());
+        assert_eq!(route_read_back(failed.clone(), true), ReadBack::Blocked);
+        assert_eq!(route_read_back(failed, false), ReadBack::Blocked);
+    }
+
+    #[test]
+    fn a_populated_corpus_grades_whatever_the_scenario_declares() {
+        let o = observation(false);
+        assert_eq!(
+            route_read_back(ReadBackOutcome::Observed(o.clone()), true),
+            ReadBack::Graded(o.clone())
+        );
+        assert_eq!(route_read_back(ReadBackOutcome::Observed(o.clone()), false), ReadBack::Graded(o));
     }
 
     #[test]
