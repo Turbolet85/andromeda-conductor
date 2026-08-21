@@ -61,8 +61,10 @@ pub enum SloTier {
 
 impl SloTier {
     /// The journal-relative deadline bound in milliseconds — the latency a scenario in this tier must
-    /// meet. The tier *is* the tolerance band (architecture §Timing-Tolerance Model).
-    pub fn deadline_ms(self) -> i64 {
+    /// meet. The tier *is* the tolerance band (architecture §Timing-Tolerance Model), and the floor a
+    /// per-check `budget_ms` sits beneath. `const` so the budget ceiling derives from the ladder
+    /// itself rather than re-pinning a literal.
+    pub const fn deadline_ms(self) -> i64 {
         match self {
             SloTier::Tier5s => 5_000,
             SloTier::Tier20s => 20_000,
@@ -123,6 +125,7 @@ impl Scenario {
         let scenario: Scenario =
             toml::from_str(toml).map_err(|e| crate::CoreError::Config(crate::sanitize_error(&e)))?;
         scenario.validate()?;
+        scenario.check_budgets()?;
         Ok(scenario)
     }
 
@@ -144,6 +147,31 @@ impl Scenario {
                 return Err(crate::CoreError::Config(format!(
                     "scenario {:?}: P-ID {:?} is not in the capability manifest for Pulse {}",
                     self.name, pid.0, capabilities.sut_version
+                )));
+            }
+        }
+        Ok(())
+    }
+
+    /// Reject any per-check `budget_ms` that exceeds this scenario's own `slo_tier` deadline.
+    ///
+    /// A budget is declared BENEATH its tier, so one above it is incoherent — the check would be
+    /// held to a looser bound than the tier it sits in. Raised at load as a harness fault, never a
+    /// verdict (the verdict/error wall).
+    ///
+    /// Lives outside garde for the same reason [`check_capabilities`](Self::check_capabilities)
+    /// does: garde 0.22.1's `custom` is field-level and receives only its own field, so a rule
+    /// spanning `expected` and `slo_tier` has no field to sit on, and giving `Scenario` a garde
+    /// `Context` would change its public `validate()` surface and every nested spec's along with it
+    /// (architecture §Established Decisions [Accepted Capability Set]).
+    pub fn check_budgets(&self) -> crate::Result<()> {
+        let deadline_ms = self.slo_tier.deadline_ms();
+        for (index, check) in self.expected.iter().enumerate() {
+            let Some(budget_ms) = check.budget_ms else { continue };
+            if i64::from(budget_ms) > deadline_ms {
+                return Err(crate::CoreError::Config(format!(
+                    "scenario {:?}: expected check {} declares budget_ms {} above its {:?} tier deadline of {}ms",
+                    self.name, index, budget_ms, self.slo_tier, deadline_ms
                 )));
             }
         }
@@ -804,10 +832,128 @@ expected = "Receiving"
             kind: ComparisonKind::Contains,
             class: ClaimClass::Hard,
             expected: "Receiving".to_string(),
+            budget_ms: None,
         }];
         let json = serde_json::to_string(&s).unwrap();
         let back: Scenario = serde_json::from_str(&json).unwrap();
         assert_eq!(s, back);
+    }
+
+    /// A scenario at `tier` whose single check declares `budget_ms`.
+    fn scenario_budgeted(tier: SloTier, budget_ms: Option<u32>) -> Scenario {
+        let mut s = scenario_with(vec![PId("P-001".to_string())]);
+        s.slo_tier = tier;
+        s.expected = vec![ExpectedCheck {
+            kind: ComparisonKind::Contains,
+            class: ClaimClass::Hard,
+            expected: "Receiving".to_string(),
+            budget_ms,
+        }];
+        s
+    }
+
+    #[rstest]
+    #[case(SloTier::Tier5s, Some(4_999))]
+    #[case(SloTier::Tier5s, Some(5_000))] // the boundary is coherent — beneath means ≤
+    #[case(SloTier::Tier20s, Some(2_000))]
+    #[case(SloTier::Tier90s, Some(1))]
+    #[case(SloTier::Tier5s, None)] // undeclared inherits the tier
+    fn a_budget_at_or_under_its_tier_is_accepted(
+        #[case] tier: SloTier,
+        #[case] budget_ms: Option<u32>,
+    ) {
+        assert!(scenario_budgeted(tier, budget_ms).check_budgets().is_ok());
+    }
+
+    #[rstest]
+    #[case(SloTier::Tier5s, 5_001)]
+    #[case(SloTier::Tier5s, 20_000)]
+    #[case(SloTier::Tier20s, 20_001)]
+    #[case(SloTier::Tier90s, 90_001)]
+    fn a_budget_above_its_tier_is_a_harness_fault_naming_the_check(
+        #[case] tier: SloTier,
+        #[case] budget_ms: u32,
+    ) {
+        let err = scenario_budgeted(tier, Some(budget_ms)).check_budgets().unwrap_err();
+        assert!(matches!(err, crate::CoreError::Config(_)), "a harness fault, never a verdict");
+        let msg = err.to_string();
+        assert!(msg.contains("check 0"), "names the offending check: {msg}");
+        assert!(msg.contains(&budget_ms.to_string()), "names the declared budget: {msg}");
+    }
+
+    #[test]
+    fn the_budget_rule_runs_at_the_toml_load_path() {
+        // The rule sits outside garde (it spans `expected` and `slo_tier`), so its ONLY guard is
+        // `from_toml_str` calling it — this is what proves the load path actually applies it.
+        let toml = r#"
+name = "budget-over-tier"
+p_ids = ["P-001"]
+seed = 1
+slo_tier = "<5s"
+jitter_ms = 0
+
+[[phases]]
+name = "p1"
+gap_ms = 1000
+
+[[expected]]
+kind = "Contains"
+class = "Hard"
+expected = "Receiving"
+budget_ms = 9000
+"#;
+        let err = Scenario::from_toml_str(toml).unwrap_err();
+        assert!(matches!(err, crate::CoreError::Config(_)));
+        assert!(err.to_string().contains("9000"), "{err}");
+    }
+
+    #[test]
+    fn a_within_tier_budget_survives_the_toml_round_trip() {
+        let toml = r#"
+name = "budget-ok"
+p_ids = ["P-001"]
+seed = 1
+slo_tier = "<20s"
+jitter_ms = 0
+
+[[phases]]
+name = "p1"
+gap_ms = 1000
+
+[[expected]]
+kind = "Contains"
+class = "Hard"
+expected = "Receiving"
+budget_ms = 2000
+
+[[expected]]
+kind = "Absent"
+class = "Hard"
+expected = "WARN"
+"#;
+        let s = Scenario::from_toml_str(toml).expect("a budget beneath its tier loads");
+        assert_eq!(s.expected[0].budget_ms, Some(2_000));
+        assert_eq!(s.expected[1].budget_ms, None, "an undeclared budget stays absent");
+        assert_eq!(s.expected[0].effective_deadline_ms(s.slo_tier), 2_000);
+        assert_eq!(s.expected[1].effective_deadline_ms(s.slo_tier), s.slo_tier.deadline_ms());
+    }
+
+    #[test]
+    fn the_committed_catalog_declares_budgets_within_its_tiers() {
+        // Every shipped scenario must still load — the field is additive, so this is the guard that
+        // adding it broke none of them.
+        for path in crate::scenario_files(std::path::Path::new("../../scenarios")).unwrap() {
+            let toml = std::fs::read_to_string(&path).unwrap();
+            let s = Scenario::from_toml_str(&toml)
+                .unwrap_or_else(|e| panic!("{}: {e}", path.display()));
+            for check in &s.expected {
+                assert!(
+                    check.effective_deadline_ms(s.slo_tier) <= s.slo_tier.deadline_ms(),
+                    "{}: a check's effective deadline escaped its tier",
+                    s.name
+                );
+            }
+        }
     }
 
     #[test]
@@ -817,6 +963,7 @@ expected = "Receiving"
             kind: ComparisonKind::Exact,
             class: ClaimClass::Hard,
             expected: String::new(),
+            budget_ms: None,
         }];
         assert!(s.validate().is_err());
     }

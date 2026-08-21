@@ -198,3 +198,8 @@ ZERO occurrences in `crates/`; read-back is one `verify.readback.observe` pass, 
 family landed declare-only so no per-phase or severity-calibration extra is written. The auto-resolve witness
 had to move because `triage.incident.auto_resolve.tick`'s counters read `"<redacted>"` on the wire (Pulse's
 default-deny allowlist predates them). Same retirement class as the restart-suppression re-base.
+
+## 2026-08-21-per-check-latency-measurement — Second report-seam journal line shape
+**Section:** Section 3 Harness Contract -> Log format (two record shapes)
+**Change:** Recorded the report seam's SECOND journal line shape — the per-check `CheckRecord` — as a finer GRAIN beneath the envelope, never an extension of it; format owned by test-plan Section 3; neither report-seam shape passes through the span-attribute allowlist.
+**Why:** Raised by the orchestrator at validate check 5 (the plan's expected-amendment floor). obs Section 3 reproduces the owner's journal format and the D-tests-obs-harness bind is two-sided, so the owner's amendment must land here too. It also records why `redact.rs` needed no admission: the field allowlist governs the self-obs line only.

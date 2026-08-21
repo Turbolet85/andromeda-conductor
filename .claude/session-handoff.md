@@ -1,78 +1,82 @@
 # Session Handoff
 
-**Last Updated:** 2026-08-21T09:56:39Z
-**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **29 ahead** after this chunk commit)
+**Last Updated:** 2026-08-21T11:20:18Z
+**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **30 ahead** after this chunk commit)
 **Status:** clean
-**Last Commit:** 2026-08-21-severity-lifecycle-live-proof — auto-resolve proved itself on Pulse's own ledger,
-and the two witnesses the plan named turned out to be the wrong ones
+**Last Commit:** 2026-08-21-per-check-latency-measurement — a budget beneath the tier made the per-check half
+real, and the read-back's arity decided what "per-check" could mean
 
 ## Position
-- Done: **2026-08-21-severity-lifecycle-live-proof** — five fresh-dir live legs at SUT HEAD `efabe8e`, all
-  exit 0, all rows `verdict: null` / `KnownResidual`. **P-022 auto-resolve PROVEN at the predicted instant**
-  (created 09:00:28.046 → active set emptied 09:02:45.671 = **137.6s**, inside the 120s window + 30s tick),
-  with **new-not-reopen** as an independent second proof (same fingerprint `12dcd67b` → `created=true,
-  deduped=false`; Pulse dedups against the ACTIVE set alone). Ingestion lossless: `span_count` **189** =
-  15 canary + 12 trigger + 150 dilution + 12 retrigger. **v2-16 verified** (refined — see below).
-- Next: **Per-check latency measurement** — sub-5s budgets beneath the closed `slo_tier` set, per-check
-  `latency_ms` in the run-report envelope. `/andromeda-phase` to promote + plan. It carries the **36th audit
-  PREREQ** in PROBE-AUTO-SATISFY form, basis re-verified to a ZERO-dependency-delta chunk.
+- Done: **2026-08-21-per-check-latency-measurement** — an optional per-check `budget_ms` on `[[expected]]`
+  (garde-bounded, cross-checked against its scenario's `slo_tier` at load), and every graded check now
+  persists its own outcome at a new `(run_id, scenario, check_index)` grain instead of only the
+  `max_by_key`-chosen worst. **v2-19 verified** (acceptance refined — see below). Gates 719/719, zero
+  deferrals; smoke mint-then-read confirmed the new table bootstraps and a Blocked row writes ZERO check rows.
+- Next: **Delegated timing budgets proven** — halo hue, constellation discovery, report render and counter
+  refresh at real values (P-025/P-027/P-037/P-045). `/andromeda-phase` to promote + plan. **Expect a Setup
+  HALT:** that entry carries a standing `BLOCKED-ON` (three of its four capabilities have no timing
+  observable on EITHER side — Pulse must build them first), so phase will ask take-it-or-skip. That dialogue
+  is the designed path, not an anomaly. It also carries the **37th audit PREREQ**.
 
 ## Work done
-Zero production-source change. The delta is five scenario TOMLs (re-shaped so the SUT is actually reachable,
-then retired declare-only with the measurement in each header), one new harvest binary
-(`crates/conductor-run/tests/severity_harvest.rs`, 16 tests), and the five-leg evidence trail. The re-shape is
-what made the proof possible: trigger/retrigger 8 → **12** exceptions (8 sat in Pulse's 5..10 dead band and
-formed nothing), plus a **150-span OK dilution tail** so the sample-driven 30s error EWMA falls under the cue
-threshold BEFORE silence — without it the EWMA freezes high and every tick re-fires a cue that refreshes
-`updated_at`, so the 120s idle window never elapses. The three tier files separate by CONFIDENCE alone
-(identical magnitude curves 3.330 → 6.549 → 9.661; only the baseline sample count differs), which measured
-autonomous / suggested / curious on legs B / C / D.
+Zero new dependencies (`Cargo.toml`/`Cargo.lock` byte-untouched). 13 source files, +745/−77.
 
-**The `AutoResolved` arm fired live for the first time** (leg E) — the arm 2026-08-20 shipped unit-pinned and
-unexercised. `ack-cooldown` forms no incident of its own, so only the canary's exists; its cues are `curious`
-and Tier-1 accepts Autonomous alone, so nothing refreshed it, and it auto-resolved 128.4s in, leaving ~4
-minutes of empty list before read-back (`result_count: 0`, envelope `fingerprints: []`).
+The shape was decided by a P3 measurement: `observe()` runs **once** per scenario and composes **one**
+`Observation`, so per-check `latency_ms` values are equal by construction — a genuinely per-check *instant*
+would mean re-architecting read-back into per-check calls. The operator chose per-check **budgets** at P4,
+making the DEADLINE the differentiator; that is what makes the per-check half non-vacuous, and a test pins
+exactly it (two checks, one instant, different budgets → different verdicts).
 
-Gates: workspace nextest **673 → 693**, `conductor-run` **95 → 111**, both runners green, clippy + doctests
-clean, zero retries, **zero gate deferrals**. Smoke: `agent-run.sh status <this run's id>` (mint-then-read).
+The second half turned out to be the larger win: `.max_by_key(severity_rank)` was **discarding N−1 check
+outcomes entirely** — they reached no sink at all. All N now persist.
 
 ## Drift resolved
-7 doc-agents / 18 detectors: **4 docs clean · 3 with proposals · 10 amendments applied · 1 escalation
-resolved with the operator · 0 open.** arch 2 (the `AutoResolved` arm is no longer "unexercised live";
-declare-only families **6 → 7**) · test-plan 3 (§6 + §1 CP4 twin re-based to declare-only + harvest tier, and
-the §6 Steps line no longer invokes `conductor run severity-lifecycle` — **no scenario carries that name**) ·
-obs-plan 4 (CP4's family-specific span chain RETIRED as never-built — all four names plus
-`auto_resolve_triggered`/`summary_received` measure **zero** occurrences in `crates/`; `lifecycle_phase` /
-`severity_choice_calibrated` dropped at all three sites).
-**Escalation:** the plan queued "correct the P-022 sample-row label" in layout-templates; verification found
-the mismatch **systemic** — 13 sites across 5 P-IDs (P-001/P-002/P-003/P-014/P-022), all contradicting
-`coverage_matrix` + the catalog. No detector could propose it (both layout detectors key on NEW surfaces or
-MOVED counts). Operator chose the full sweep. Labels only — no wireframe, state, token or lamp moved.
-Record: `.andromeda/runs/2026-08-21T09-50-00-wrap/fanout-results.md`.
+7 doc-agents / 18 detectors: **3 docs clean · 4 with proposals · 20 amendments applied · 0 escalations ·
+0 open.** arch **9** (the widest single-doc set this version: `runs.db` registered as three tables, the
+"per-check index" label moved off `runs` onto `run_check`, `CheckRecord` registered as a second shared
+shape, `budget_ms` registered as declarable config, nullability qualified per table, the garde
+sibling-boundary recorded, the Stack row narrowed, the load-error mapping corrected to three-way, and the
+tier deadline recorded as a CEILING) · security **4** (one atomic `dependent-of` group) · tests **5** ·
+layouts **1** · obs **1 raised by the orchestrator at check 5**.
+- **obs returned clean but the plan's expected-amendment floor caught it:** obs §3 REPRODUCES the journal
+  format test-plan §3 OWNS, and D-tests-obs-harness is explicitly two-sided, so the owner's amendment had
+  to land on the reproduction too. No detector invariant covers "my reproduction of another doc's owned
+  format went stale" — the floor is what backstops that blind class.
+- **a11y clean and correctly so:** the envelope it reproduces verbatim at two sites is byte-unchanged, so
+  the predicted amendment legitimately did not apply. Recorded with its reason rather than forced.
+- **One false-positive rejected (check 4):** security's §Threat Model proposal instructed applying in
+  lockstep with a verbatim mirror `threat-assessment.md` — that file does not exist in this repo. The
+  lockstep clause was dropped; the substantiated half applied.
+- Cascade: retired-wording sweep across all 7 masters + the 3 preserve-verbatim homes + the 2 judgment
+  bases found zero stale duplicates; 5 leaves re-derived. **CLAUDE.md needed none** (130/200).
+- Record: `.andromeda/runs/2026-08-21T11-05-00-wrap/fanout-results.md`.
 
 ## Notes
-- **v2-16 verified with BOTH contradicted sub-clauses refined** (the v2-15 sub-clause precedent; PREMISE-
-  CORRECTION notes carry the measurements). The outcome is proven STRONGER than the original wording, so
-  never-weaken holds: (a) the hard witness moved off `triage.incident.auto_resolve.tick` — its
-  `resolved_count`/`evaluated_count`/`duration_ms` render `"<redacted>"`, so it proves the observer RAN, never
-  that it resolved — onto the unredacted `incidents.list_active.request` `item_count` transition; (b) the
-  read-back-absence clause is scoped to what leg E proves (`result_count: 0`), because on leg A read-back
-  returned **2** incidents where the in-app ledger showed **1**.
-- **Coverage 17/32 → 18/32 verified · 14 unclaimed.** v2-16 is this chunk's only claim.
-- **3 SUT intake items recorded** (report §SUT intake — Pulse-side, deliberately NOT scoped into Conductor):
-  the corpus/in-app active-list divergence after auto-resolve (NEW); `auto_resolve.tick`'s redacted counters
-  (EXTENDS intake #7); the resolution summary being structurally unreachable under det-L4 (NEW, ratified at
-  phase P5 — nothing constructs `DigestKind::ResolutionSummary` and the fixture pins the flag false).
-- **35th audit PREREQ discharged in the PURE auto-satisfy form** the 34th predicted — the first such fire.
-  `cargo audit` exit 1 with `duplicate advisory ID: RUSTSEC-2026-0244`; `cargo deny` exit 0; lock byte-
-  untouched. Record: `probe unchanged, 35th consecutive`. The 36th is pinned on the next entry.
-- **Curation: T1 0 · T2 3 · T3 1** (filtered 2). `verification-harness.md` gained a new entry on reading a
-  live Pulse capture (pre-leg line count is NOT zero — `pulse-app` logs ~2.2k boot lines before the receiver
-  opens; cue lines carry no service identity so attribute by `persistence_seconds`; an aggregate count series
-  cannot attribute a DROP, so pair against the EMPTYING). `testing.md` got two in-place extensions: the
-  readable-field rule gained its "the witness MOVES" half, and the 2026-06-22 mixed-class family guard is
-  retired (the family now carries no checks at all).
-- **A stale doc comment survives in `baseline_harvest.rs`** ("under a FRESH data dir 0 is correct by
-  construction") — falsified this chunk. The LESSON is curated; the comment itself is a one-line fix for
-  whichever chunk next touches the harvest tests. Not route-pinned (no natural owner entry).
+- **v2-19 verified with its two MECHANISM descriptors refined** (operator-directed; the v2-15/v2-16
+  sub-clause precedent, smallest instance yet). Both were authored at this chunk's own P5 *before* the code
+  was read: "garde-validated one altitude up on `Scenario::expected`" → `Scenario::check_budgets()` from the
+  `from_toml_str` load path (garde 0.22.1's field-level `custom` receives `(&field, &())` and cannot see the
+  sibling `slo_tier`); "`CoreError::Validation`" → `CoreError::Config` (`Validation` is `#[from]
+  garde::Report` and carries no hand-written message). All four numbered OUTCOME assertions hold and are
+  test-proven, so never-weaken holds trivially. PREMISE-CORRECTION in `notes`.
+- **Coverage 18/32 → 19/32 verified · 13 unclaimed.** v2-19 is this chunk's only claim.
+- **36th audit PREREQ discharged in the PURE auto-satisfy form** — the second such fire. Signature
+  byte-identical (`cargo audit` exit 1 on `duplicate advisory ID: RUSTSEC-2026-0244`; `cargo deny` exit 0;
+  lock untouched). Record: `probe unchanged, 36th consecutive`. The 37th is pinned on the next entry.
+- **A code gap is CARRIED, not fixed here:** `agent-run.{sh,ps1}` `cleanup` deletes from `runs` alone, so it
+  now orphans `run_check` rows (this chunk's) and `run_envelope` rows (pre-existing since
+  `2026-08-09-sut-load-envelope`). The CONTRACT was corrected at this wrap (test-plan §3 +
+  `rules/verification-harness.md` name all three tables); the CODE fix is pinned as a `CARRY` on the
+  Epoch-6 *Run-report envelope conformance gate* entry. Wrap writes no code.
+- **Curation: T1 1 new + 1 extended · T2 1 extended** (filtered 3: 2 duplicates, 1 task-specific). The new
+  T1 entry is *a tool reporting success is not the same as the write landing* — three separate silent
+  corruptions this session (printf backslash collapse, subagent HTML-escaping of the `<5s` tokens in all 7
+  extracts, a scripted `str.replace` NO-MATCHing twice while printing success), each caught only by an
+  independent read-back. The two duplicates were rejected against text **this wrap's own cascade** had
+  written minutes earlier.
+- **The code-graph has gaps worth knowing:** it holds no symbol row for `execute_scenario` or `persist`
+  though both exist and are called, and a loose `LIKE '%persist%'` returned ~29 rows that were almost all
+  `persistence_seconds` bleed from harvest tests. Those caller lists in `research.md` are grep-derived and
+  labelled. Refreshed clean this wrap (2205 nodes / 10393 edges).
+- **No SUT intake this chunk** (Conductor-local) — the queue stays 13 + one extension.
 - **Last failed command:** none.

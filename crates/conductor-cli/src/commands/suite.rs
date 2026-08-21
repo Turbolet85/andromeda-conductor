@@ -27,14 +27,16 @@ pub async fn suite(
     let progress = render::spinner(scenarios.len());
     let resolver = CliResolver::select(Some(progress.clone()), agent_mode);
     let mut records = Vec::with_capacity(scenarios.len());
+    let mut checks = Vec::new();
     for scenario in &scenarios {
-        let record = pipeline::execute_scenario(&preflight, scenario, run_id, &resolver).await?;
+        let outcome = pipeline::execute_scenario(&preflight, scenario, run_id, &resolver).await?;
         progress.inc(1);
-        records.push(record);
+        records.push(outcome.record);
+        checks.extend(outcome.checks);
     }
     progress.finish_and_clear();
 
-    persist(&paths.runs_dir, run_id, &records, &envelope)?;
+    persist(&paths.runs_dir, run_id, &records, &checks, &envelope)?;
     if let Some(caption) = render::envelope_caption(&envelope) {
         println!("{caption}");
     }

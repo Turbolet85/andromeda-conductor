@@ -12,7 +12,7 @@
 
 use std::path::Path;
 
-use conductor_core::{EnvelopeStatus, RunRecord};
+use conductor_core::{CheckRecord, EnvelopeStatus, RunRecord};
 use rusqlite::{Connection, OptionalExtension};
 
 const SCHEMA: &str = "CREATE TABLE IF NOT EXISTS runs (
@@ -33,6 +33,18 @@ CREATE TABLE IF NOT EXISTS run_envelope (
     run_id                TEXT    NOT NULL PRIMARY KEY,
     classification        TEXT    NOT NULL,
     cause                 TEXT
+);
+CREATE TABLE IF NOT EXISTS run_check (
+    run_id                TEXT    NOT NULL,
+    scenario              TEXT    NOT NULL,
+    check_index           INTEGER NOT NULL,
+    kind                  TEXT    NOT NULL,
+    verdict               TEXT    NOT NULL,
+    state                 TEXT    NOT NULL,
+    latency_ms            INTEGER NOT NULL,
+    deadline_ms           INTEGER NOT NULL,
+    budget_ms             INTEGER,
+    PRIMARY KEY (run_id, scenario, check_index)
 );";
 
 /// A harness fault from the runs.db storage seam — never a verification outcome (the verdict/error
@@ -109,6 +121,83 @@ impl RunsDb {
             ],
         )?;
         Ok(())
+    }
+
+    /// Persist one graded check as a row in the per-check table.
+    ///
+    /// Deliberately its own table rather than columns on `runs`: the qualifier is CHECK-level while
+    /// `runs` is keyed `(run_id, scenario)`, so folding it in would either change that key or widen
+    /// the eleven-column contract — both of which the envelope pins (arch §Standard Contracts). The
+    /// `run_envelope` split is the same reasoning at run-level grain. `latency_ms`/`deadline_ms` are
+    /// NOT NULL because only a MEASURED check produces a row at all; `budget_ms` is NULL when the
+    /// check inherits its scenario's tier. A duplicate `(run_id, scenario, check_index)` raises the
+    /// PK constraint as an `Err`, never a silent clobber.
+    #[tracing::instrument(name = "db.insert_run", skip_all, fields(row_count = 1))]
+    pub fn insert_check(&self, check: &CheckRecord) -> Result<(), RunsDbError> {
+        let kind = value_as_wire(serde_json::to_value(check.kind)?);
+        let verdict = value_as_wire(serde_json::to_value(check.verdict)?);
+        let state = value_as_wire(serde_json::to_value(check.state)?);
+        self.conn.execute(
+            "INSERT INTO run_check
+                (run_id, scenario, check_index, kind, verdict, state,
+                 latency_ms, deadline_ms, budget_ms)
+             VALUES (?1, ?2, ?3, ?4, ?5, ?6, ?7, ?8, ?9)",
+            rusqlite::params![
+                check.run_id,
+                check.scenario,
+                check.check_index as i64,
+                kind,
+                verdict,
+                state,
+                check.latency_ms,
+                check.deadline_ms,
+                check.budget_ms.map(i64::from),
+            ],
+        )?;
+        Ok(())
+    }
+
+    /// Read back every graded check for `(run_id, scenario)`, in declaration order.
+    pub fn checks_for(
+        &self,
+        run_id: &str,
+        scenario: &str,
+    ) -> Result<Vec<CheckRecord>, RunsDbError> {
+        let mut stmt = self.conn.prepare(
+            "SELECT run_id, scenario, check_index, kind, verdict, state,
+                    latency_ms, deadline_ms, budget_ms
+             FROM run_check WHERE run_id = ?1 AND scenario = ?2 ORDER BY check_index",
+        )?;
+        let rows = stmt
+            .query_map(rusqlite::params![run_id, scenario], |row| {
+                Ok((
+                    row.get::<_, String>(0)?,
+                    row.get::<_, String>(1)?,
+                    row.get::<_, i64>(2)?,
+                    row.get::<_, String>(3)?,
+                    row.get::<_, String>(4)?,
+                    row.get::<_, String>(5)?,
+                    row.get::<_, i64>(6)?,
+                    row.get::<_, i64>(7)?,
+                    row.get::<_, Option<i64>>(8)?,
+                ))
+            })?
+            .collect::<Result<Vec<_>, _>>()?;
+        rows.into_iter()
+            .map(|(run_id, scenario, check_index, kind, verdict, state, latency, deadline, budget)| {
+                Ok(CheckRecord {
+                    run_id,
+                    scenario,
+                    check_index: check_index as usize,
+                    kind: serde_json::from_value(serde_json::Value::String(kind))?,
+                    verdict: serde_json::from_value(serde_json::Value::String(verdict))?,
+                    state: serde_json::from_value(serde_json::Value::String(state))?,
+                    latency_ms: latency,
+                    deadline_ms: deadline,
+                    budget_ms: budget.map(|b| b as u32),
+                })
+            })
+            .collect()
     }
 
     /// Persist a run's standing against the SUT load envelope — one row per run, in its own table.
@@ -229,6 +318,7 @@ fn value_as_wire(value: serde_json::Value) -> String {
     }
 }
 
+
 #[cfg(test)]
 impl RunsDb {
     fn open_in_memory() -> Result<Self, RunsDbError> {
@@ -301,6 +391,70 @@ mod tests {
         db.insert(&measured("run-1", "s")).unwrap();
         db.insert_envelope("run-1", &EnvelopeStatus::EnvironmentSuspect("over".to_string())).unwrap();
         assert_eq!(db.get("run-1", "s").unwrap().unwrap().state, ReportState::Pass);
+    }
+
+    fn check_record(check_index: usize, budget_ms: Option<u32>) -> CheckRecord {
+        CheckRecord {
+            run_id: "run-1".to_string(),
+            scenario: "s".to_string(),
+            check_index,
+            kind: conductor_core::ComparisonKind::Contains,
+            verdict: Verdict::Pass,
+            state: ReportState::Pass,
+            latency_ms: 1840,
+            deadline_ms: budget_ms.map_or(5_000, i64::from),
+            budget_ms,
+        }
+    }
+
+    #[test]
+    fn check_rows_round_trip_in_declaration_order() {
+        let db = RunsDb::open_in_memory().unwrap();
+        let rows = [check_record(0, Some(2_000)), check_record(1, None)];
+        for row in &rows {
+            db.insert_check(row).unwrap();
+        }
+        let back = db.checks_for("run-1", "s").unwrap();
+        assert_eq!(back, rows, "kind/verdict/state wire forms and budgets survive the round trip");
+        assert_eq!(back[0].budget_ms, Some(2_000));
+        assert_eq!(back[1].budget_ms, None, "an inherited budget stores NULL, reads back None");
+    }
+
+    #[test]
+    fn a_duplicate_check_key_is_an_err_never_a_clobber() {
+        let db = RunsDb::open_in_memory().unwrap();
+        db.insert_check(&check_record(0, None)).unwrap();
+        assert!(db.insert_check(&check_record(0, None)).is_err());
+    }
+
+    #[test]
+    fn checks_for_is_empty_when_a_scenario_graded_nothing() {
+        // A blocked row and a declare-only scenario write no check rows at all — the per-check
+        // grain never synthesizes a value for something that was never measured.
+        let db = RunsDb::open_in_memory().unwrap();
+        db.insert(&RunRecord::blocked(
+            "run-1",
+            7,
+            "declare-only",
+            vec![PId("P-003".to_string())],
+            SloTier::Tier20s,
+        ))
+        .unwrap();
+        assert!(db.checks_for("run-1", "declare-only").unwrap().is_empty());
+    }
+
+    #[test]
+    fn the_runs_row_keeps_its_eleven_columns_beside_the_new_table() {
+        let db = RunsDb::open_in_memory().unwrap();
+        let cols: Vec<String> = db
+            .conn
+            .prepare("SELECT name FROM pragma_table_info('runs')")
+            .unwrap()
+            .query_map([], |r| r.get(0))
+            .unwrap()
+            .collect::<Result<_, _>>()
+            .unwrap();
+        assert_eq!(cols.len(), 11, "the per-check grain went to its own table: {cols:?}");
     }
 
     fn measured(run_id: &str, scenario: &str) -> RunRecord {

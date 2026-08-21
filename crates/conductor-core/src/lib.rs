@@ -38,7 +38,7 @@ pub use config_path::resolve_under;
 pub use coverage::{CapabilityRow, CoverageMode, coverage_matrix};
 pub use drift::{KNOWN_UNCLASSIFIED, UNBACKED_AUTO, check_scenario_backing, check_sut_drift};
 pub use error::{CoreError, Result};
-pub use expected::{ClaimClass, ComparisonKind, ExpectedCheck};
+pub use expected::{ClaimClass, ComparisonKind, ExpectedCheck, MAX_BUDGET_MS};
 pub use lamp::Lamp;
 pub use load_envelope::{
     EnvelopeStatus, EnvelopeTerms, Exemption, LoadEnvelope, check_load_envelope,
@@ -56,7 +56,7 @@ pub use run_contract::{
     CheckKind, ContractTerm, IncidentFormation, RunContract, RunContractStatus, UnmetTerm,
 };
 pub use run_journal::{latest_run_id, read_run_journal};
-pub use run_record::RunRecord;
+pub use run_record::{CheckRecord, RunRecord};
 pub use scenario::{PId, Scenario, SloTier};
 pub use scenario_catalog::{
     list_scenarios, scenario_files, validate_selection, ScenarioSummary, SUITE_SELECTION,

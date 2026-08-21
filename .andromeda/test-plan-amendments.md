@@ -214,3 +214,28 @@ work: `triage.incident.auto_resolve.tick` renders its counters as `"<redacted>"`
 observer ran), and P-059's resolution summary is unreachable under deterministic L4 (zero
 `DigestKind::ResolutionSummary` constructors; the canned fixture pins `is_resolution_summary` false) — zero
 such lines appeared across all five legs.
+
+## 2026-08-21-per-check-latency-measurement — Journal carries two report-seam line shapes
+**Section:** Section 3 Test Harness Contract -> Log format (Agent parsing)
+**Change:** The journal is recorded as carrying TWO report-seam line shapes — the envelope line (unchanged) and the per-check `CheckRecord` line (9 keys) — and a typed parse must DISCRIMINATE rather than assert every line deserializes as `RunReportEnvelope`.
+**Why:** The chunk added `CheckRecord` lines to `runs/<run_id>.jsonl`, pinned by `journal.rs::check_line_is_its_own_parseable_shape_beside_the_envelope`. test-plan Section 3 OWNS this format, so leaving it would make the change one-sided against obs-plan Section 3.
+
+## 2026-08-21-per-check-latency-measurement — Status endpoint shape scoped to the envelope grain
+**Section:** Section 3 Test Harness Contract -> Status endpoint shape
+**Change:** 'each JSONL journal line' narrowed to the envelope line / `runs` row, with per-check detail named as a separate finer grain (`run_check`, read via `RunsDb::checks_for`).
+**Why:** The envelope field count is explicitly unmoved while a new grain now shares the journal.
+
+## 2026-08-21-per-check-latency-measurement — Agent-runnable invariants qualified
+**Section:** Section 2 Test Strategy -> Agent-runnable invariants
+**Change:** The machine-parseable-output bullet qualified so the envelope assertion targets the envelope line specifically.
+**Why:** Same retired claim as the Section 3 primary: a `CheckRecord` line will not deserialize as `RunReportEnvelope`.
+
+## 2026-08-21-per-check-latency-measurement — E2E journal signal targets the envelope line
+**Section:** Section 6 E2E -> Headless deterministic scenario run, Verification signal
+**Change:** The journal assertion targets the envelope LINE, with any per-check lines parsing to the per-check shape.
+**Why:** A file-wide parse-to-envelope assertion is now a false negative on any run that emits check rows.
+
+## 2026-08-21-per-check-latency-measurement — Cleanup covers every table a run writes
+**Section:** Section 3 Test Harness Contract -> cleanup (body + verification)
+**Change:** Teardown extended past `runs` to `DELETE FROM run_check` and `DELETE FROM run_envelope` (bound parameters), with matching count-zero verifications.
+**Why:** The chunk added `run_check`; Section 3 named only `runs`, so cleanup was neither complete nor verifiable for a run that wrote check rows. `run_envelope` was already uncovered — a pre-existing gap the contract closes at the same time; the CODE fix in scripts/agent-run.{sh,ps1} is carried to its owner entry at route-resolve.

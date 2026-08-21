@@ -149,3 +149,23 @@ derivation makes it enforceable rather than aspirational.
 **Section:** §Security Anti-Patterns → Input (+ its restatement in → Code Patterns)
 **Change:** Re-worded the sidecar-spawn ban from "a fixed, hard-coded program path only" to "a fixed, hard-coded program NAME resolved through the inherited `PATH` (never a config-derived or operator-supplied command string)", and named `PATH` as a spawn-resolution input — the environment selects WHICH binary the fixed name resolves to. Added the measured diagnostic: a `PATH` entry split on a drive-letter colon resolved the sidecar nowhere and the run reported `[BLOCKED]` in ~0s, indistinguishable at row level from a genuine SUT-side gate failure. Both occurrences (→ Input, → Code Patterns) updated together; the immutable Security Decisions Log entry is left as historical record.
 **Why:** `crates/conductor-verify/src/spawn.rs` pins `PULSE_MCP_PROGRAM = "andromeda-pulse-mcp"` — a program NAME whose own doc comment says "resolved from `PATH`" — so the ban's wording overstated the control while its INTENT (never operator-chosen; a compile-time constant) held and is preserved. Pre-existing gap, surfaced by this chunk's live leg failure; operator-ratified at the wrap escalation (2026-08-20).
+
+## 2026-08-21-per-check-latency-measurement — budget_ms + the load-path check arm
+**Section:** Input Validation -> scenario-config row
+**Change:** The what-to-validate cell gains `[[expected]].budget_ms` (garde `range(min = 1, max = MAX_BUDGET_MS)`), and the How cell records the load-path `Scenario::check_*()` arm as the sanctioned co-equal mechanism for sibling-reading cross-field rules, faulting as `CoreError::Config`.
+**Why:** The chunk added a new external-input key whose cross-field rule garde 0.22.1 structurally cannot express; the row mandated `#[garde(custom)]`, so an auditor would read a validated boundary as unvalidated, or 'fix' it into an unbuildable validator.
+
+## 2026-08-21-per-check-latency-measurement — Input ban names both arms
+**Section:** Security Anti-Patterns -> Input
+**Change:** The scenario-config ban now names both arms (garde `range`/`dive` AND the load-path `check_*()` checks) and adds the carve-out that a SIBLING-reading invariant must NOT be written as `#[garde(custom)]` — it would look enforced while never testing the invariant.
+**Why:** Duplicate occurrence of the retired claim; left unamended, the shipped `check_budgets` boundary would read as a ban violation at the next audit.
+
+## 2026-08-21-per-check-latency-measurement — Bootstrap phase requires the load-path arm
+**Section:** Bootstrap phases -> input-validation-library-install
+**Change:** Confirmation extended to require every sibling-reading cross-field rule ship as a `Scenario::check_*()` from `from_toml_str`, with a test pinning that the load path invokes it.
+**Why:** Third restatement; as written the phase mandated a check that cannot be satisfied for sibling-spanning rules.
+
+## 2026-08-21-per-check-latency-measurement — Threat-model trust boundary records the load-path arm
+**Section:** Threat Model Summary -> Attack surface (config files)
+**Change:** Trust boundary records the load-path `check_*()` arm and the budget rule beside the `#[garde(custom)]` examples.
+**Why:** Fourth occurrence of the same retired claim. NOTE: the detector proposed applying this in lockstep with a verbatim mirror `threat-assessment.md`; that file does NOT exist in this repo, so the mirror clause was dropped as unsubstantiated (validate check 4 — absence needs evidence).

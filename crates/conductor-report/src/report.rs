@@ -15,7 +15,7 @@ use std::fs::{self, OpenOptions};
 use std::io::Write as _;
 use std::path::{Path, PathBuf};
 
-use conductor_core::{EnvelopeStatus, Lamp, RunRecord, Verdict};
+use conductor_core::{CheckRecord, EnvelopeStatus, Lamp, RunRecord, Verdict};
 
 /// The render of a measurement field that a blocked row never carries (the blocked-row null rule).
 const ABSENT: &str = "—";
@@ -82,18 +82,24 @@ impl RunReport {
         runs_dir: &Path,
         run_id: &str,
         records: &[RunRecord],
+        checks: &[CheckRecord],
         envelope: &EnvelopeStatus,
     ) -> Result<PathBuf, ReportError> {
         fs::create_dir_all(runs_dir)?;
         let path = runs_dir.join(format!("{run_id}.md"));
         let mut file = OpenOptions::new().write(true).create_new(true).open(&path)?;
-        file.write_all(Self::render(run_id, records, envelope).as_bytes())?;
+        file.write_all(Self::render(run_id, records, checks, envelope).as_bytes())?;
         Ok(path)
     }
 
     /// Render the run report to a Markdown string — a pure function of its inputs (no clock, no IO),
     /// so the artifact is byte-identical for a fixed record set.
-    pub fn render(run_id: &str, records: &[RunRecord], envelope: &EnvelopeStatus) -> String {
+    pub fn render(
+        run_id: &str,
+        records: &[RunRecord],
+        checks: &[CheckRecord],
+        envelope: &EnvelopeStatus,
+    ) -> String {
         let mut out = String::new();
         let _ = writeln!(out, "# Run report `{run_id}`");
         let _ = writeln!(out);
@@ -103,7 +109,7 @@ impl RunReport {
         }
         let _ = writeln!(out, "{}", summary_line(records));
         for rec in records {
-            let _ = write!(out, "\n{}", scenario_block(rec));
+            let _ = write!(out, "\n{}", scenario_block(rec, checks));
         }
         out
     }
@@ -137,7 +143,7 @@ fn summary_line(records: &[RunRecord]) -> String {
 
 /// One per-scenario detail section, led by the verdict-first lamp; measurement fields collapse to
 /// `ABSENT` for a blocked row.
-fn scenario_block(rec: &RunRecord) -> String {
+fn scenario_block(rec: &RunRecord, checks: &[CheckRecord]) -> String {
     let lamp = Lamp::for_record(rec);
     let p_ids = rec.p_ids.iter().map(|p| format!("`{}`", p.0)).collect::<Vec<_>>().join(", ");
     let mut block = String::new();
@@ -147,7 +153,18 @@ fn scenario_block(rec: &RunRecord) -> String {
     let _ = writeln!(block, "- **Latency** {} · **SLO tier** `{}`", latency(rec.latency_ms), wire(serde_json::to_value(rec.slo_tier)));
     let _ = writeln!(block, "- **Emitted** {} · **Observed** {}", instant(&rec.journal_emitted_at), instant(&rec.read_back_observed_at));
     let _ = writeln!(block, "- **Fingerprints** {}", fingerprints(&rec.fingerprints));
+    for check in checks.iter().filter(|c| c.run_id == rec.run_id && c.scenario == rec.scenario) {
+        let _ = writeln!(block, "  - check {} `{}` — {} · {} against {}", check.check_index, wire(serde_json::to_value(check.kind)), wire(serde_json::to_value(check.verdict)), latency(Some(check.latency_ms)), budget(check));
+    }
     block
+}
+
+/// How a check's deadline is described: its own declared budget, or the tier it inherited.
+fn budget(check: &CheckRecord) -> String {
+    match check.budget_ms {
+        Some(_) => format!("its `{}ms` budget", check.deadline_ms),
+        None => format!("the scenario tier's `{}ms`", check.deadline_ms),
+    }
 }
 
 /// The run's seed when every record shares it (the run invariant), else `None` (omitted).
@@ -299,7 +316,7 @@ mod tests {
     fn calibration_renders_hold_not_manual() {
         let md = RunReport::render(
             "R",
-            &[measured("severity-choice", Verdict::CalibrationRegion, ReportState::ManualCheck)], &OK_ENV,
+            &[measured("severity-choice", Verdict::CalibrationRegion, ReportState::ManualCheck)], &[], &OK_ENV,
         );
         assert!(md.contains("## [HOLD] severity-choice"), "{md}");
         assert!(!md.contains("[MANUAL]"), "{md}");
@@ -309,7 +326,7 @@ mod tests {
     fn known_residual_renders_residual_even_with_a_verdict() {
         let md = RunReport::render(
             "R",
-            &[measured("degraded-report", Verdict::Fail, ReportState::KnownResidual)], &OK_ENV,
+            &[measured("degraded-report", Verdict::Fail, ReportState::KnownResidual)], &[], &OK_ENV,
         );
         assert!(md.contains("## [RESIDUAL] degraded-report"), "{md}");
         assert!(!md.contains("[FAIL]"), "{md}");
@@ -322,7 +339,7 @@ mod tests {
             &[
                 measured("ok", Verdict::Pass, ReportState::Pass),
                 measured("bad", Verdict::Fail, ReportState::Fail),
-            ], &OK_ENV,
+            ], &[], &OK_ENV,
         );
         assert!(md.contains("## [PASS] ok"), "{md}");
         assert!(md.contains("## [FAIL] bad"), "{md}");
@@ -330,7 +347,7 @@ mod tests {
 
     #[test]
     fn blocked_row_shows_identity_and_tier_with_measurement_fields_em_dashed() {
-        let md = RunReport::render("R", &[blocked("port-occupier")], &OK_ENV);
+        let md = RunReport::render("R", &[blocked("port-occupier")], &[], &OK_ENV);
         assert!(md.contains("## [BLOCKED] port-occupier"), "{md}");
         // identity + slo_tier + state stay populated
         assert!(md.contains("`P-003`"), "{md}");
@@ -359,7 +376,7 @@ mod tests {
             SloTier::Tier5s,
             vec![],
         );
-        let md = RunReport::render("R", &[rec], &OK_ENV);
+        let md = RunReport::render("R", &[rec], &[], &OK_ENV);
         assert!(md.contains("**Fingerprints** (none)"), "{md}");
     }
 
@@ -371,7 +388,7 @@ mod tests {
                 measured("ok", Verdict::Pass, ReportState::Pass),
                 measured("hold", Verdict::CalibrationRegion, ReportState::ManualCheck),
                 blocked("blk"),
-            ], &OK_ENV,
+            ], &[], &OK_ENV,
         );
         assert!(md.contains("**Checks** 3"), "{md}");
         assert!(md.contains("1 [PASS]"), "{md}");
@@ -382,14 +399,14 @@ mod tests {
 
     #[test]
     fn an_in_envelope_run_renders_no_banner() {
-        let md = RunReport::render("R", &[measured("ok", Verdict::Pass, ReportState::Pass)], &OK_ENV);
+        let md = RunReport::render("R", &[measured("ok", Verdict::Pass, ReportState::Pass)], &[], &OK_ENV);
         assert!(!md.contains("ENVIRONMENT-SUSPECT"), "an in-envelope run needs no caveat: {md}");
         assert!(!md.contains("IN-ENVELOPE"), "nor a redundant all-clear: {md}");
     }
 
     #[test]
     fn a_suspect_run_banners_the_breach_above_the_tally() {
-        let md = RunReport::render("R", &[measured("ok", Verdict::Pass, ReportState::Pass)], &suspect());
+        let md = RunReport::render("R", &[measured("ok", Verdict::Pass, ReportState::Pass)], &[], &suspect());
         assert!(md.contains("[ENVIRONMENT-SUSPECT]"), "the label carries the signal: {md}");
         assert!(md.contains("activity-floor"), "the cause names the breaching scenario: {md}");
         assert!(md.contains("3900s"), "the cause names the realized duration: {md}");
@@ -407,8 +424,8 @@ mod tests {
             measured("ok", Verdict::Pass, ReportState::Pass),
             blocked("blk"),
         ];
-        let plain = RunReport::render("R", &records, &OK_ENV);
-        let flagged = RunReport::render("R", &records, &suspect());
+        let plain = RunReport::render("R", &records, &[], &OK_ENV);
+        let flagged = RunReport::render("R", &records, &[], &suspect());
 
         assert!(flagged.contains("## [PASS] ok"), "{flagged}");
         assert!(flagged.contains("## [BLOCKED] blk"), "{flagged}");
@@ -420,7 +437,7 @@ mod tests {
 
     #[test]
     fn the_banner_leaks_no_host_path_or_struct_name() {
-        let md = RunReport::render("R", &[blocked("blk")], &suspect());
+        let md = RunReport::render("R", &[blocked("blk")], &[], &suspect());
         for leak in ["C:\\", "/Users/", "/home/", "EnvelopeStatus", "LoadEnvelope", "RunRecord"] {
             assert!(!md.contains(leak), "leaked {leak:?}: {md}");
         }
@@ -430,14 +447,14 @@ mod tests {
     fn render_is_deterministic() {
         let records =
             [measured("ok", Verdict::Pass, ReportState::Pass), blocked("blk")];
-        assert_eq!(RunReport::render("R", &records, &OK_ENV), RunReport::render("R", &records, &OK_ENV));
+        assert_eq!(RunReport::render("R", &records, &[], &OK_ENV), RunReport::render("R", &records, &[], &OK_ENV));
     }
 
     #[test]
     fn no_host_paths_or_struct_names_leak() {
         let md = RunReport::render(
             "2026-06-16T21-10-06-abc",
-            &[measured("ok", Verdict::Pass, ReportState::Pass), blocked("blk")], &OK_ENV,
+            &[measured("ok", Verdict::Pass, ReportState::Pass), blocked("blk")], &[], &OK_ENV,
         );
         for leak in
             ["C:\\", "/Users/", "/home/", "RunRecord", "RunReport", "Lamp", "ReportState", "RunsDb"]
@@ -451,9 +468,9 @@ mod tests {
         let dir = TempDir::new().unwrap();
         let run_id = "2026-06-16T21-10-06-abc";
         let records = [measured("ok", Verdict::Pass, ReportState::Pass)];
-        let path = RunReport::write(dir.path(), run_id, &records, &OK_ENV).unwrap();
+        let path = RunReport::write(dir.path(), run_id, &records, &[], &OK_ENV).unwrap();
         assert_eq!(path, dir.path().join("2026-06-16T21-10-06-abc.md"));
-        assert_eq!(std::fs::read_to_string(&path).unwrap(), RunReport::render(run_id, &records, &OK_ENV));
+        assert_eq!(std::fs::read_to_string(&path).unwrap(), RunReport::render(run_id, &records, &[], &OK_ENV));
     }
 
     #[test]
@@ -461,10 +478,10 @@ mod tests {
         let dir = TempDir::new().unwrap();
         let run_id = "2026-06-16T21-10-06-abc";
         let records = [measured("ok", Verdict::Pass, ReportState::Pass)];
-        RunReport::write(dir.path(), run_id, &records, &OK_ENV).unwrap();
+        RunReport::write(dir.path(), run_id, &records, &[], &OK_ENV).unwrap();
         // a second write for the same run_id is a loud Err (create_new), never a clobber
         assert!(matches!(
-            RunReport::write(dir.path(), run_id, &records, &OK_ENV),
+            RunReport::write(dir.path(), run_id, &records, &[], &OK_ENV),
             Err(ReportError::Io(_))
         ));
     }

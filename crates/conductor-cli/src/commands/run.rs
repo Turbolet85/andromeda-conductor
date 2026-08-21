@@ -21,9 +21,10 @@ pub async fn run(
         pipeline::classify_run(&paths.load_envelope()?, std::slice::from_ref(&scenario));
     let preflight = pipeline::preflight(&paths.manifest_path).await?;
     let resolver = CliResolver::select(None, agent_mode);
-    let records = [pipeline::execute_scenario(&preflight, &scenario, run_id, &resolver).await?];
+    let outcome = pipeline::execute_scenario(&preflight, &scenario, run_id, &resolver).await?;
+    let records = [outcome.record];
 
-    persist(&paths.runs_dir, run_id, &records, &envelope)?;
+    persist(&paths.runs_dir, run_id, &records, &outcome.checks, &envelope)?;
     if let Some(caption) = crate::render::envelope_caption(&envelope) {
         println!("{caption}");
     }

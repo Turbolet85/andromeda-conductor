@@ -1,437 +1,438 @@
 {
- "schema_version": 1,
- "version": "conductor-0.2.0",
- "source": "intent",
- "id_scheme": "{vN}-NN",
- "capabilities": [
-  {
-   "id": "v2-01",
-   "title": "SUT capability manifest",
-   "requirement": "The accepted capability set tracks the SUT via a versioned artifact under refs/, so a Pulse release is a data update rather than a code change.",
-   "observed_gap": "crates/conductor-core/src/scenario.rs:23-33 validates P-NNN with (1..=60).contains(&n) and returns \"expected P-NNN with NNN in 001..=060\"; the unit test at :195 asserts \"P-061\" MUST be rejected. Pulse's ledger now reaches P-082, so a scenario naming P-074 fails garde validation at load.",
-   "verification": {
-    "method": "unit",
-    "acceptance": "A scenario naming any capability present in contracts/pulse-capabilities.toml validates at load; one absent from it is rejected with a message naming the manifest rather than a hardcoded range; a malformed, absent or unparseable manifest produces a typed harness fault carrying a named reason — never a silent widen back to a hardcoded range, never a silent pass, never a panic. Adding a future Pulse release requires editing only the manifest artifact, with no Rust source change.",
-    "ref": "crates/conductor-core/src/scenario.rs::tests::from_toml_str_with_accepts_an_in_manifest_id_and_rejects_an_absent_one; crates/conductor-core/src/scenario.rs::tests::capability_membership_is_checked_against_the_manifest; crates/conductor-core/src/capability_manifest.rs::tests::loads_and_bounds_checks_the_committed_manifest; crates/conductor-core/src/capability_manifest.rs::tests::missing_file_is_a_harness_fault; crates/conductor-core/src/capability_manifest.rs::tests::load_failure_message_never_contains_the_path",
-    "status": "verified"
-   },
-   "chunk": "2026-08-08-sut-capability-manifest"
-  },
-  {
-   "id": "v2-02",
-   "title": "SUT-drift check",
-   "requirement": "A check fails loudly when the SUT advances past what Conductor knows, rather than silently accepting a stale capability universe.",
-   "observed_gap": "Nothing in the repo detects that Pulse has advanced: the accepted set is a compile-time constant and the coverage universe is frozen, so 22 new Pulse capabilities (P-061..P-082) went unnoticed across a 41-day pause.",
-   "verification": {
-    "method": "unit",
-    "acceptance": "When the manifest carries capabilities the classification does not cover beyond an explicitly pinned known-gap ledger, the check fails naming the unknown ids; when the observed gap matches the pin exactly — and no classified row lacks manifest backing — it passes. A pinned id that has since been classified is itself a failure, so the ledger cannot rot. With an empty pin the check is a plain zero-drift assertion, proven by test in this chunk and the state v2-03 leaves it in.",
-    "ref": "crates/conductor-core/src/drift.rs::tests::committed_artifacts_match_the_known_gap; crates/conductor-core/src/drift.rs::tests::an_accepted_id_outside_the_known_gap_is_drift; crates/conductor-core/src/drift.rs::tests::a_known_gap_entry_that_is_now_classified_is_drift; crates/conductor-core/src/drift.rs::tests::a_classified_id_the_manifest_dropped_is_drift; crates/conductor-core/src/drift.rs::tests::in_sync_with_an_empty_known_gap_passes",
-    "status": "verified"
-   },
-   "chunk": "2026-08-09-sut-drift-check"
-  },
-  {
-   "id": "v2-03",
-   "title": "Current-SUT capability classification",
-   "requirement": "Every current Pulse capability is classified auto / drive+observe / static-only / not-Conductor's, with the not-Conductor's boundary recorded as a deliberate decision.",
-   "observed_gap": "crates/conductor-core/src/coverage.rs enumerates exactly P-001..P-060; the scenario catalog's maximum is P-060; 0.1.0's definition of done reads \"all 60 P-IDs classified, zero gaps\". Nothing in the repo knows P-061..P-082 exist.",
-   "verification": {
-    "method": "unit",
-    "acceptance": "Every capability in the manifest carries exactly one of the four classifications with zero unclassified entries, and the not-Conductor's set is explicitly enumerated (Pulse's UI capabilities plus its own tooling) rather than implied by absence.",
-    "ref": "crates/conductor-core/src/coverage.rs::tests::matrix_covers_every_accepted_capability; crates/conductor-core/src/coverage.rs::tests::the_out_of_remit_set_is_explicitly_enumerated; crates/conductor-core/src/coverage.rs::tests::the_in_lane_capabilities_are_classified_verifiable; crates/conductor-core/src/coverage.rs::tests::p_ids_are_well_formed_sorted_and_unique; crates/conductor-core/src/coverage.rs::tests::every_row_carries_a_title_and_category; crates/conductor-core/src/coverage.rs::tests::not_conductors_wire_spelling_is_stable; crates/conductor-core/src/drift.rs::tests::committed_artifacts_match_the_known_gap",
-    "status": "verified"
-   },
-   "chunk": "2026-08-09-current-sut-coverage-classification"
-  },
-  {
-   "id": "v2-04",
-   "title": "In-lane SUT-capability scenarios",
-   "requirement": "The capabilities that fall squarely in Conductor's lane are covered by scenarios, proving Pulse P-067, P-072 and P-079.",
-   "observed_gap": "No scenario exists for any capability above P-060, so the in-lane subset of Pulse's v0.3.0 work (live service truth, Investigate result, single-sourced workspace key) has no Conductor coverage at all.",
-   "verification": {
-    "method": "dynamic-external",
-    "acceptance": "Scenarios keyed to P-067, P-072 and P-079 each drive a live Pulse and yield a non-blocked verdict via MCP read-back, with journal and runs.db evidence per scenario.",
-    "ref": null,
-    "status": "planned"
-   },
-   "chunk": null
-  },
-  {
-   "id": "v2-05",
-   "title": "Interpretation-correctness posture",
-   "requirement": "A recorded decision on whether 0.2.0 carries a real-model correctness leg or explicitly defers it with a named owner, so determinism never silently redefines what the harness proves.",
-   "observed_gap": "With ANDROMEDA_PULSE_L4_DETERMINISTIC=true the canned L4Output replaces the model, so every live leg 0.2.0 plans exercises the plumbing and never the interpretation — while Pulse's own positioning memo names interpretation-correctness the single most important test in all of Pulse.",
-   "verification": {
-    "method": "unit",
-    "acceptance": "EITHER a real-model correctness leg exists and passes (deterministic mode OFF, a known root cause injected, the top hypothesis asserted to identify it) OR a deferral is recorded naming its owner and stating that \"Conductor green\" does not mean interpretation is trustworthy. Absence of both fails. Realized via the deferral branch (operator decision, 2026-08-09): conductor_core::UNBACKED_AUTO pins the Auto-classified capabilities that have no verifying scenario, its doc comment names the interpretation cluster P-031/P-033/P-034/P-044, states that \"Conductor green\" does not mean interpretation is trustworthy, and names a conductor-0.3.0 entry as the owner; check_scenario_backing holds that set to the pin by exact-set equality under cargo nextest, failing on a new unbacked Auto row, a rotted pin, or a pin that lost its backing.",
-    "ref": "crates/conductor-core/src/drift.rs::tests::the_committed_catalog_matches_the_unbacked_ledger; crates/conductor-core/src/drift.rs::tests::an_auto_row_with_no_scenario_outside_the_ledger_is_a_fault; crates/conductor-core/src/drift.rs::tests::a_ledger_entry_a_scenario_now_names_is_a_fault; crates/conductor-core/src/drift.rs::tests::a_ledger_entry_no_longer_auto_classified_is_a_fault; crates/conductor-core/src/drift.rs::tests::only_auto_rows_need_scenario_backing; crates/conductor-core/src/drift.rs::tests::backing_message_names_identity_without_host_paths_or_type_names; crates/conductor-report/src/coverage.rs::tests::the_unbacked_qualifier_is_not_a_fifth_summand; crates/conductor-tauri/src/commands.rs::tests::unbacked_auto_command_returns_the_core_ledger; by-construction: the deferral text (interpretation cluster, the \"Conductor green\" caveat, and the conductor-0.3.0 owner) is the doc comment on conductor_core::UNBACKED_AUTO, which the gate above holds to the committed catalog by exact-set equality",
-    "status": "verified"
-   },
-   "chunk": "2026-08-09-interpretation-correctness-posture"
-  },
-  {
-   "id": "v2-06",
-   "title": "SUT load-envelope constraint",
-   "requirement": "Scenario durations and storm profiles stay inside the SUT's proven-good envelope, with the constraint recorded where scenario authors will see it.",
-   "observed_gap": "Pulse records that the DuckDB append path stalls after ~10 minutes of sustained 10k/s storm plus deterministic L4 — ingest keeps receiving while duckdb.append stops, so viz.query.traces returns 0 rows and no new incidents form until restart. Conductor's whole method is sustained shaped load.",
-   "verification": {
-    "method": "unit",
-    "acceptance": "`check_load_envelope` asserts, for every scenario in the committed catalog, that no emitting phase exceeds `max_sustained_storm_ms` and no emitting phase's rate (`occurrences / (gap_ms/1000)`) exceeds `max_sustained_rate_spans_per_s`, with the `[[exempt]]` ledger EMPTY and still held to exact-set equality in all three directions (`unpinned`/`rotted`/`lost_subject`); `LoadEnvelope::classify` judges a run on the same basis, so the static gate and the per-run judgment never measure different things; and the bounds stay recorded in `contracts/pulse-load-envelope.toml` with the per-scenario LOAD ENVELOPE header present in all 35 `scenarios/*.toml`. Proven by `cargo nextest run -p conductor-core`.",
-    "ref": "crates/conductor-core/src/load_envelope.rs::tests::the_committed_catalog_matches_the_committed_envelope; crates/conductor-core/src/load_envelope.rs::tests::loads_and_bounds_checks_the_committed_envelope; crates/conductor-core/src/load_envelope.rs::tests::the_storm_window_is_the_longest_emitting_phase_not_the_sum_of_them; crates/conductor-core/src/load_envelope.rs::tests::a_phase_exactly_at_the_storm_ceiling_is_inside_the_envelope; crates/conductor-core/src/load_envelope.rs::tests::an_emitting_phase_faster_than_the_rate_term_is_a_breach; crates/conductor-core/src/load_envelope.rs::tests::the_rate_bound_is_exclusive_at_its_boundary; crates/conductor-core/src/load_envelope.rs::tests::a_silence_phase_is_never_storm_however_long_it_runs; crates/conductor-core/src/load_envelope.rs::tests::a_zero_length_emitting_phase_is_an_unbounded_rate; crates/conductor-core/src/load_envelope.rs::tests::an_over_envelope_scenario_outside_the_ledger_is_a_fault; crates/conductor-core/src/load_envelope.rs::tests::a_ledger_entry_now_inside_the_envelope_is_a_fault; crates/conductor-core/src/load_envelope.rs::tests::a_ledger_entry_no_scenario_names_is_a_fault; crates/conductor-core/src/load_envelope.rs::tests::the_gate_and_the_per_run_judgment_agree_across_the_committed_catalog; crates/conductor-core/src/load_envelope.rs::tests::every_committed_scenario_points_authors_at_the_envelope; crates/conductor-run/src/lib.rs::tests::classify_run_flags_the_first_breaching_scenario_deterministically",
-    "status": "verified"
-   },
-   "chunk": "2026-08-13-dispatcher-determinism-goldens",
-   "notes": "PREMISE-CORRECTION (2026-08-13, phase P3 research). `contracts/pulse-load-envelope.toml:40-42` and the working-route CARRY both recorded that asserting SUMMED emitting-phase duration would let both `[[exempt]]` entries retire on their own merits. Measured across all 35 committed scenarios against the 600000 ms ceiling, both remain over on that basis (activity-floor 900000, incident-auto-resolution 610000), so the summed re-scope is a no-op on the gate's verdict and retiring the exemptions under it would turn the gate red. Cause: activity-floor's three train-active phases are 300000 ms each and genuinely emit, but are separated by 10-minute quiets -- summing disjoint bursts is not 'sustained', which is what its own exemption reason said. Resolved by asserting the envelope's own prose instead: a PER-PHASE joint bound (sustained-storm duration + rate). Catalog-wide the longest single emitting phase is 600000 ms (exactly at the ceiling, not over) and the highest per-phase rate is 4.00 spans/s against the 10000 spans/s term, so zero phases breach and the ledger genuinely retires to []. Operator-approved at the phase P5 review. The acceptance above is the normal claim-exit concretization of the standing outcome, not an absorption of the disproved premise -- the outcome text itself was never falsified. Evidence: conductor-0.2.0/chunks/2026-08-13-dispatcher-determinism-goldens/research.md (Open questions 1) and conductor-0.2.0/chunks/2026-08-13-dispatcher-determinism-goldens/scope.md (PREMISE-CORRECTION)."
-  },
-  {
-   "id": "v2-07",
-   "title": "Over-envelope run flagged environment-suspect",
-   "requirement": "A run exceeding the SUT's proven-good envelope is reported as environment-suspect rather than as a Pulse failure.",
-   "observed_gap": "Nothing distinguishes a Pulse defect from a run that drove the SUT past its known-good envelope, so a long storm run would misreport the SUT.",
-   "verification": {
-    "method": "integration",
-    "acceptance": "A run whose profile exceeds the envelope produces an environment-suspect classification distinct from Fail, and its report names the envelope breach as the cause.",
-    "ref": "crates/conductor-run/src/lib.rs::tests::an_over_envelope_run_is_environment_suspect_not_fail; crates/conductor-report/src/report.rs::tests::a_suspect_run_banners_the_breach_above_the_tally; crates/conductor-report/src/db.rs::tests::envelope_status_round_trips_per_run",
-    "status": "verified"
-   },
-   "chunk": "2026-08-09-sut-load-envelope"
-  },
-  {
-   "id": "v2-08",
-   "title": "Faithful per-phase emission dispatcher",
-   "requirement": "A per-phase dispatcher over the conductor-emit primitives emits each scenario's declared shape, extensible to the deferred families.",
-   "observed_gap": "conductor-run::coarse_emit sends one signal per phase; it cannot shape the per-family telemetry the scenarios describe.",
-   "verification": {
-    "method": "unit",
-    "acceptance": "Each scenario family's phases declare their shape in EmissionSpec (garde-validated at load), and against the loopback tonic TraceService/LogsService stub on an ephemeral 127.0.0.1:0 port the dispatcher's emitted stream matches that declaration per phase — occurrence count, signal class, and the family's shape parameters (exception/fingerprint variant mix, severity mix, latency percentiles, PII categories, error placement + error fraction, rate curve) — rather than a single signal per phase; emissions occur at their phase's boundary during the timeline walk rather than in a burst after it; and all 35 committed scenarios/*.toml still validate at load.",
-    "ref": "crates/conductor-run/tests/dispatch_wire.rs (per-family wire assertions vs the loopback tonic stub) + crates/conductor-timeline/tests/pacing.rs::emissions_land_inside_their_own_phase_window (emission timing) + crates/conductor-core/src/phase_spec.rs::tests::unrealizable_shapes_are_rejected_at_load (garde at load) + conductor-core catalog load tests (all 35 scenarios validate)",
-    "status": "verified"
-   },
-   "chunk": "2026-08-11-faithful-emission-dispatcher",
-   "notes": "CONCRETIZED at 2026-08-11-faithful-emission-dispatcher phase P5 (contract §Acceptance lifecycle). The prior acceptance presumed a declared emission spec carrying rate / error fraction / severity mix / exception-fingerprint shape; research proved EmissionSpec carries exactly one field (signal) at crates/conductor-core/src/phase_spec.rs:45, that only 3 of 35 scenario TOMLs declare even that, and that the intended shape is encoded in phase names by a convention scenarios/fingerprint-storm.toml documents. The chunk BUILDS that declaration, so the acceptance is concretized rather than corrected: all four original terms are kept, the verification mechanism is named, and two properties are added (emission timing inside the phase window; the committed catalog still load-validates). Operator resolved three forks at P4: declarative EmissionSpec fields; emit during the timeline walk; all families in one chunk."
-  },
-  {
-   "id": "v2-09",
-   "title": "Real per-check read-back extraction",
-   "requirement": "Per-check observed values are extracted from query_incident_list / retrieve_telemetry_slice and fed to the existing evaluate_check to classify path unchanged, with execute_scenario's signature preserved.",
-   "observed_gap": "execute_scenario writes the literal token \"incidents-listed\" as the observed value, so evaluate_check grades a placeholder rather than the SUT's actual response.",
-   "verification": {
-    "method": "integration",
-    "acceptance": "Against the JSON-RPC stub, each ExpectedCheck is graded on an observed value derived from the query_incident_list / retrieve_report / retrieve_telemetry_slice results per its ComparisonKind (text kinds on the composed observation, CountAtLeast on the evidence count), reaching evaluate_check to classify with both functions unmodified; a retrieve_report result carrying degraded_mode: true yields RunRecord.state == KnownResidual with the measured verdict preserved; and execute_scenario's public signature is unchanged, proven by its three production call sites compiling untouched.",
-    "ref": "crates/conductor-verify/tests/readback.rs::count_at_least_grades_the_evidence_count_not_the_text, ::observation_composes_list_fields_and_report_markdown, ::degraded_report_is_observed_as_the_pre_accepted_residual; crates/conductor-run/src/lib.rs::tests::a_measured_row_keeps_its_verdict_when_degradation_overrides_the_state, ::a_declare_only_row_under_a_degraded_read_back_is_residual_not_manual",
-    "status": "verified"
-   },
-   "chunk": "2026-08-13-per-check-read-back-extraction",
-   "notes": "Concretized at /andromeda-phase P5 (2026-08-13). Two premises the prior acceptance rested on were verified against the live SUT (andromeda-pulse crates/mcp-server/src/tools.rs) and came back different from the specs' phrasing: retrieve_report takes {incident_id} only and RETURNS degraded_mode: bool (computed as parsed_l4.is_none() at tools.rs:372), so degraded_mode is observed, never requested — arch and scenarios/degraded-mode-report.toml both phrase it as an argument; and query_incident_list takes no arguments at all. The concrete acceptance therefore names the response-side observation. Scope decisions taken at P5 review: per-check resolution derives from ComparisonKind (no scenario-model change — ExpectedCheck carries no selector), degraded_mode routes at record level so it reaches P-053 whose expected block is empty, and fingerprints is populated from retrieve_telemetry_slice.fingerprint_refs."
-  },
-  {
-   "id": "v2-10",
-   "title": "Live ready:true preflight",
-   "requirement": "A live preflight against a real Pulse in deterministic-L4 mode reaches ready:true, recorded with its journal and runs.db evidence.",
-   "observed_gap": "No run has ever produced live ready:true; the headline acceptance of the 0.1.0 e2e chunk was never achieved — live preflight returns Blocked: incident not found in corpus.",
-   "verification": {
-    "method": "dynamic-external",
-    "acceptance": "conductor preflight against a live deterministic-L4 Pulse returns ready:true, and the run's JSONL journal plus runs.db row are retained as the evidence pointer.",
-    "ref": "live leg 2026-08-16: `conductor preflight` ready:true exit 0 against pulse-app at HEAD d090314 with ANDROMEDA_PULSE_L4_DETERMINISTIC=true (run_id 2026-08-16T09-51-41-829); evidence pointer runs/2026-08-16T09-54-12-950.jsonl + the runs.db row (verdict Pass, state KnownResidual, latency_ms 2153) + conductor-0.2.0/chunks/2026-08-16-canary-fingerprint-derivation-aligned/evidence/leg-verdict.md",
-    "status": "verified"
-   },
-   "chunk": "2026-08-16-canary-fingerprint-derivation-aligned",
-   "notes": "CLAIMED AND VERIFIED at 2026-08-16-canary-fingerprint-derivation-aligned. Two prior chunks declined this claim; both declines were honest and both are now superseded by measurement. NOTES RE-BASED on the 2026-08-16 legs: the 'second independent unknown' the prior decline recorded (the storm's 12 distinct-seeded-id spans appending zero rows) is RESOLVED — with the constant-span-identity fix in place the appender is healthy, measured as 27 duckdb.append lines with ZERO reject_reason, rows_ingested 15 and the buffer.tick trio at 12/12/12; the earlier zero-append reading was a downstream effect of the same primary-key collision, not a separate defect. WHAT ACTUALLY UNBLOCKED THE CLAIM was neither the fingerprint derivation nor the append path: retrieve_telemetry_slice.fingerprint_refs is populated from the L4 model's evidence_refs (pulse-app/src/inference_runtime.rs:684-701), pinned to [] by the deterministic-L4 fixture (deterministic_inference.rs:35), while Pulse's computed fingerprint lands in span_events.fingerprint which no MCP tool reads — so the old canary assertion was unsatisfiable at any width and no derivation work could have opened it. The gate was re-aimed onto incident freshness (opened_at_unix_nano, sourced from the corpus row's created_unix_nano at mcp-server/tools.rs:412, compared against a std::time emission stamp) and reached ready:true, canary_round_trip ok, exit 0. Acceptance was premise-checked unchanged at the P5 claim — it never rested on the falsified fingerprint premise — and both of its clauses are satisfied by artifacts this session produced: the boot leg for ready:true, and a scenario leg for the journal + runs.db row, because conductor preflight is a gate and writes neither. HONEST LIMIT recorded with the claim: freshness proves causation-in-time, not payload identity — a concurrent unrelated incident inside the poll window would satisfy it, and under deterministic L4 no stronger claim exists because every L4-authored field is a fixture constant. Evidence: conductor-0.2.0/chunks/2026-08-16-canary-fingerprint-derivation-aligned/evidence/leg-verdict.md."
-  },
-  {
-   "id": "v2-11",
-   "title": "fingerprint-storm family live-proven",
-   "requirement": "The fingerprint-storm family emits faithfully, reads back through MCP and yields a verified expected outcome, proving Pulse P-017/P-018 plus P-074's exactly-one-incident claim.",
-   "observed_gap": "Only the canary path has touched a live Pulse; the fingerprint-storm family has never been driven end-to-end, and P-074 was verified by Pulse's own integration test only.",
-   "verification": {
-    "method": "dynamic-external",
-    "acceptance": "On an operator-gated live leg against a deterministic-L4 Pulse, driving BOTH family scenarios separated by more than Pulse's 60s storm-retention window (they share a base fingerprint): (1) IDENTITY — fingerprint-storm's identical/path/line triple yields a SINGLE fingerprint_hex across all 18 occurrences, harvested from Pulse's storm-detected log line (the only read surface carrying it; fingerprint_refs is L4-authored and pinned empty under deterministic L4); (2) DISTINCTNESS — fingerprint-distinct's base/type-variant/frame-variant phases yield three distinct fingerprints each held below the >=5 cue floor, storms_detected_total stays 0 and its Absent \"RetryStorm\" check holds; (3) THRESHOLDS — severity_hint passes suggested and reaches autonomous at occurrence_count >= 10; (4) COALESCING — query_incident_list returns exactly ONE incident whose opened_at_unix_nano post-dates the storm's emission stamp. The <20s slo_tier and the authored \"RetryStorm\" token are re-calibrated against the leg's measured values where live behavior proves them wrong. The envelope's fingerprints[] is NOT asserted: it is fed solely by fingerprint_refs, which the deterministic-L4 chain pins empty.",
-    "ref": "live legs on a fresh data dir per leg, graded by crates/conductor-run/tests/storm_harvest.rs predicates (single_fingerprint / tier_ladder_reached_autonomous / retry_storm_surfaced / no_storm_surfaced): conductor run fingerprint-storm --seed 4317017 and conductor run fingerprint-distinct --seed 4317018; evidence at conductor-0.2.0/chunks/2026-08-16-fingerprint-storm-live-proof/evidence/leg-verdict.md",
-    "status": "verified"
-   },
-   "chunk": "2026-08-16-fingerprint-storm-live-proof",
-   "notes": "2026-08-14-canary-fingerprint-feed-capture DECLINED this cap and it stays pooled: that chunk diagnoses why Pulse's storm detector tracked zero fingerprints, which is answerable without an incident, while this acceptance needs the family scenarios driven end-to-end and read back through MCP — an incident Pulse's 3,600s-per-service BootstrapState::Ready gate still prevents. The chunk partially advances the cap by removing the fingerprint-feed blocker and is cited in its plan.md provenance. Evidence carried forward for the next claiming chunk: Pulse's tracked_fingerprints_count is a 60s-windowed gauge over DISTINCT fingerprints sampled every 15s after eviction, so a working six-occurrence identical-fingerprint storm reads 1, never 6 — do not author an acceptance expecting 6. The latched discriminators are storms_detected_total and fingerprints_evicted_total on the same tick line; both read 0 across every sample of the three-arm probe, including a tick postdating arm 3's entire canary window. 2026-08-16-fingerprint-storm-live-proof CLAIMS this cap and concretized the acceptance at phase P5. Two concretization facts worth recording. (a) The scenario as previously authored could not prove the outcome: under the shipped blake3 derivation PathVariant diverged, so the declared triple produced TWO fingerprints, neither phase boundary landed where its name claimed, and the path fingerprint raised an unnamed second Suggested cue. The chunk re-shapes PathVariant to an ABSOLUTE-path change (stripped by normalize_frame) so the triple genuinely shares one fingerprint, with a new RelativePath member carrying the relative-path significance the reshape retires. (b) The acceptance's distinctness clause lives in a SECOND scenario (fingerprint-distinct.toml), so the leg drives both rather than demoting that half to unit tier — operator decision at the phase P5 review. PREMISE-CORRECTION (2026-08-16, measured on the live legs): this acceptance's \">60s separation\" clause is INSUFFICIENT on its own for same-dir back-to-back legs. It is correct about Pulse's 60s storm-retention window, but a second independent mechanism also blocks a second leg — Pulse dedupes a new incident against any OPEN incident and NOT by fingerprint (the canary's exception_type is ConductorCanary_{now_ms}, unique per run and therefore a distinct fingerprint, and it deduped anyway), so the first storm leg returned Blocked with 'no incident opened after the canary storm was emitted'. On a shared dir the only cure is auto-resolve at roughly five minutes; the graded re-run used a FRESH DATA DIR PER LEG, which dissolves both hazards. The acceptance text stands; this records what it under-specified. The dedupe semantics are a Pulse product-design question (Pulse-visit candidate #4), not a Conductor defect. Also measured: retrieve_report returns degraded_mode:true PERMANENTLY under deterministic L4, so the scenarios' Contains/Absent 'RetryStorm' read-back checks were structurally ungradeable (the Absent side passed vacuously); they are retired to declare-only and their assertions moved to the harvest surface, and slo_tier was re-calibrated <20s -> <90s because latency_ms spans the scenario's own ~24s/~30s emission window. Both were performed under this acceptance's own re-calibration clause."
-  },
-  {
-   "id": "v2-12",
-   "title": "error-baseline-spike family live-proven",
-   "requirement": "The error-baseline-spike family emits faithfully, reads back through MCP and yields a verified expected outcome, proving Pulse P-009..P-012.",
-   "observed_gap": "Only the canary path has touched a live Pulse; error-baseline-spike has never been driven end-to-end.",
-   "verification": {
-    "method": "dynamic-external",
-    "acceptance": "On an operator-gated live leg against a deterministic-L4 Pulse — fresh data dir, the six-item recipe — the error-baseline-spike scenario (P-009/P-010) is driven end-to-end and proven at the harvest tier: its harvested triage.cue.emit line names error_rate_spike at magnitude >= 3.0 and confidence >= 0.7 (cue existence proves the sample floor by the evaluator's own below-floor skip; magnitude is the live baseline-relative ratio, i.e. baseline convergence), firing in the spike window at priority 'suggested' with suppression_bypassed=true (the P-057 absolute arm); and the leg's runs.db row plus runs/<run_id>.jsonl envelope is non-Blocked — KnownResidual under the degraded read-back — with latency_ms recorded and slo_tier re-declared <90s. The read-back token checks are retired to declare-only (no read-back surface can carry them under deterministic L4). The LATENCY half (P-011/P-012) is premise-disproved under the shipped shape and routed forward to the Epoch-3 'latency-regression re-proof' working-route entry (see notes — the refine-with-evidence resolution). Graded by crates/conductor-run/tests/baseline_harvest.rs predicates pinned to the leg's verbatim captured lines; evidence at conductor-0.2.0/chunks/2026-08-18-error-baseline-spike-live-proof/evidence/leg-verdict.md.",
-    "ref": "crates/conductor-run/tests/baseline_harvest.rs::tests::the_leg_a_capture_satisfies_every_error_spike_predicate + ::the_leg_a_capture_proves_the_canary_prefix_equality (verbatim leg-A pins); live leg A run_id 2026-08-18T18-47-32-786 (row KnownResidual, journal + runs.db retained) + evidence/leg-verdict.md",
-    "status": "verified"
-   },
-   "chunk": "2026-08-18-error-baseline-spike-live-proof",
-   "notes": "CONCRETIZED at 2026-08-18-error-baseline-spike-live-proof phase P5 (contract §Acceptance lifecycle), operator-approved with one MARKED NARROWING. P3 research settled the prior acceptance's read-back premises against the SUT source at HEAD efabe8e: (a) neither authored token can reach any read-back surface — during a leg every incident is OPEN, so resolution_summary_text is None and retrieve_report renders the DEGRADED branch (fixture constants, no cue kind on any branch; degraded_mode = parse(resolution_summary_text).is_none(), crates/mcp-server/src/tools.rs:374-378); (b) CountAtLeast grades evidence_count = span_refs count = incident.evidence_refs.span_ids.len() = 0 by construction (span_ids = Vec::new() at creation, no writer — pulse-app/src/inference_runtime.rs:733); (c) both cues top out at Suggested tier (magnitudes 3.5x/3.0x vs the >=5x + conf >=0.9 Autonomous bar, crates/triage/src/cue/classify.rs:23) and Tier-2 cycles are skipped wholesale on cpu-primary (cadence/coordinator.rs:154-172), so NO incident forms from this family on this host — the acceptance's 'candidate' is the CUE, proven on triage.cue.emit (cue/emitter.rs:194-205), with the canary incident keeping the corpus non-empty. The token checks therefore retire to declare-only (the v2-11 disposition, now with per-surface evidence). NARROWING (operator-approved 2026-08-18): the outcome's 'within the scenario's SLO tier' clause is asserted as non-blocked + recorded latency_ms with both TOMLs re-declared <90s — whole-run latency (~150-180s emission windows; emitted_ms is stamped before the timeline at conductor-run/src/lib.rs:338) exceeds every tier deadline (max 90_000 ms) by construction, and real per-check latency is owned by v2-19. Full evidence chain: conductor-0.2.0/chunks/2026-08-18-error-baseline-spike-live-proof/research.md. PREMISE-CORRECTION + REFINE-WITH-EVIDENCE (2026-08-18 wrap, operator-directed; contract §Acceptance lifecycle). Leg B DISPROVED the latency half as concretized: (a) zero latency_regression cues are possible under the shipped 90/90 shape — the long-window t-digest p99 absorbs a ramp contributing ~half the window (threshold ~ long*2.5 ~ 6000ms vs short ~ 2400ms), a category error in the research model (a windowed percentile is not a slow EWMA); (b) the canary incident auto-resolved across the 180s benign window (30s resolver ticks), so the read-back honestly Blocked (run 2026-08-18T18-53-50-494; the harness-forced seed 424242 is recorded on the row). Resolution: the acceptance REFINED to the measured-provable error half — never weakening that half, every original clause holds there (convergence via magnitude/confidence, floors via the evaluator gate, candidate via the cue line, non-blocked via the KnownResidual row, plus the P-057 bypass witness and the canary prefix-equality MATCH bf2c0bf8 measured on the same leg) — and the latency half routed FORWARD to the new Epoch-3 'latency-regression re-proof' entry carrying both obstacles as its CARRY; v2-19 separately owns per-check latency. Leg B's Blocked row is retained as the disproof evidence. Evidence: evidence/leg-verdict.md (both legs) + report.md. FORWARD-POINTER RESOLVED (2026-08-20-latency-regression-re-proof): the LATENCY half this entry routed forward is now PROVEN live at the harvest tier, at that entry, not this one — no claim is made here and this capability's status is unchanged. Measured: 31 `triage.cue.emit` lines of kind `latency_regression` (27 suggested, magnitude 3.50-3.68 over a ~805-847ms baseline, confidence 1.0, scope `operation`, suppression_bypassed true via the >1000ms absolute arm), first at +13s into the first pulse, BOTH pulses firing - against ZERO under the 90/90 shape this entry disproved. Both obstacles dissolved by shape, not by threshold: (a) window absorption, by keeping the anomaly ~0.3% of the union (a 24-span pulse against a 180s/50-spans-per-second baseline); (b) the rotation phase - measured real, `persistence_seconds` resetting 2456 -> 68 mid-leg - by placing two pulses 150s apart (= 30s mod the 60s cycle) so at most one can land in a dead zone. Row: verdict null / KnownResidual / latency_ms 373784 / <90s / TOML seed 4317011. Evidence: conductor-0.2.0/chunks/2026-08-20-latency-regression-re-proof/evidence/leg-verdict.md."
-  },
-  {
-   "id": "v2-13",
-   "title": "restart-suppression family live-proven",
-   "requirement": "The restart-suppression family emits faithfully, reads back through MCP and yields a verified expected outcome including one bypass case, proving Pulse P-015/P-016/P-057.",
-   "observed_gap": "Only the canary path has touched a live Pulse; restart-suppression and its bypass case have never been driven end-to-end.",
-   "verification": {
-    "method": "dynamic-external",
-    "acceptance": "On the operator-gated live leg against a deterministic-L4 Pulse — fresh data dir, the six-item recipe, NO SEED override (the TOML-declared seed 4317015 governs; the run envelope records it) — the re-shaped restart-suppression scenario (P-015/P-016/P-057) is driven end-to-end and proven at the harvest tier as hard predicates in the CI-runnable crates/conductor-run/tests/restart_harvest.rs over verbatim leg captures pinned from run 2026-08-18T21-40-46-519 (SUT HEAD efabe8e): (P-015) triage.pattern.restart_emit fires twice — once per gap/resume cycle — each with gap_seconds > 20; (P-016 suppressed half) an in-window, not-bypassed triage.cue.suppression_check exists below the 30 persistence cutoff with NO matching triage.cue.emit — persistence_seconds is the SUT's cumulative per-service sample count (cue/evaluate.rs:55), the scenario paces ~1 span/s so samples track seconds, and the tick line's cues_suppressed/bypass_triggered counters are redacted live and carry no evidence; (P-016 surgical half) the same service's cues are plain-kept (emitted, not bypassed) at persistence >= 30 — the drop-then-keep crossing; (P-057) a triage.cue.suppression_bypass trigger carries Pulse's own reason label absolute plus a kept young cue with suppression_bypassed=true — the absolute arm; the relative-magnitude arm is unreachable for error cues at shipped SUT constants (alpha_short/alpha_long = 10 = the bypass multiplier; the 0.01 baseline floor caps the young-service peak at ~9.7x) and is deliberately not asserted; and an autonomous-tier error_rate_spike cue (magnitude >= 5, confidence >= 0.9, persistence >= 30) witnesses the Tier-1 incident former. The leg's runs.db row plus runs/<run_id>.jsonl envelope is non-Blocked — KnownResidual under the degraded read-back, verdict null — with latency_ms recorded and slo_tier re-declared <90s. Both read-back token checks are retired to declare-only (no read-back surface renders a cue kind under deterministic L4).",
-    "ref": "crates/conductor-run/tests/restart_harvest.rs::tests::the_pinned_leg_lines_parse_and_satisfy_every_witness + ::the_pinned_observations_carry_the_measured_values (verbatim captures, live run 2026-08-18T21-40-46-519) + crates/conductor-core/src/scenario.rs::tests::restart_suppression_is_declare_only_at_the_harvest_tier",
-    "status": "verified"
-   },
-   "chunk": "2026-08-18-restart-suppression-live-proof",
-   "notes": "PREMISE-CORRECTION at the 2026-08-18-restart-suppression-live-proof wrap (refine-with-evidence, operator-ratified — the v2-12 precedent): the phase-P5 concretization rested on four premises measurement disproved while every substantive witness PASSED live — (1) persistence-as-spike-duration: Pulse computes persistence_seconds = cumulative per-service samples (cue/evaluate.rs:55), so suppression-eligibility and bypass-attribution exist only in a service's first 30 samples; (2) the bypass reason labels are absolute/relative (BypassReason::label, suppression.rs:22-27), not absolute_error_rate/relative_magnitude; (3) the tick-counter clause graded an unreadable surface (cues_suppressed/bypass_triggered read <redacted> live — Pulse's default-deny allowlist predates the chunk-#63 fields); (4) the relative-magnitude arm is unreachable for error cues at shipped constants (alpha-ratio = multiplier = 10; the 0.01 floor caps the peak at ~9.7x). Acceptance refined to the measured witnesses; the outcome's substance (restart event + surgical suppression + one attributable bypass case as hard pass/fail) is intact at the harvest tier. Evidence: chunks/2026-08-18-restart-suppression-live-proof/evidence/leg-verdict.md (run 2026-08-18T21-40-46-519). ORIGINAL CONCRETIZATION NOTE (phase P5, retained): Concretized at 2026-08-18-restart-suppression-live-proof phase P5 (claim-exit invariant): the shipped TOML encoding was measured live-unrealizable at SUT HEAD efabe8e (the suppressed legs' absolute rates clear the 0.05 absolute-bypass bar; the bypass triple sat outside the 60s window), and a pure relative-only bypass is arithmetically impossible at integer error_percent — the relative arm is witnessed by Pulse's relative_magnitude short-circuit label. Evidence: chunks/2026-08-18-restart-suppression-live-proof/research.md §Key findings 2-4."
-  },
-  {
-   "id": "v2-14",
-   "title": "pii-scrub family live-proven",
-   "requirement": "The pii-scrub family emits faithfully, reads back through MCP and yields a verified expected outcome, proving Pulse P-035/P-047/P-048.",
-   "observed_gap": "Only the canary path has touched a live Pulse; pii-scrub has never been driven end-to-end.",
-   "verification": {
-    "method": "dynamic-external",
-    "acceptance": "The pii-scrub leg proves live ingestion of all three carriers (spans / exception events / logs): duckdb.append rows_appended match the emitted counts with zero PK-collision drops, and the preflight incident forms. Scrub semantics are byte-verified at SUT HEAD (whole-field [REDACTED:{category}] at persistence; 6/7 category recall — bare sk_live_ gap recorded as SUT intake). The 5 read-back checks are retired declare-only WITH the measurement recorded (vacuous Absent / structural-fail Contains, source-proven payload-invariant tools). No raw excerpt value appears in any Conductor artifact or committed pin (sentinel-absence negative).",
-    "ref": "crates/conductor-run/tests/pii_harvest.rs (live ingestion witnesses over pinned verbatim leg lines from run 2026-08-19T20-42-57-839: spans 2x2 / span_events 1x2 / log_records 7x2 zero-drop + the canary suggested@5->autonomous@10 ladder + the 33-needle sentinel-absence negative) + crates/conductor-emit/src/pii.rs::tests::log_records_carry_distinct_strictly_increasing_stamps (the PK-collision fix, proven live on both legs) + crates/conductor-core/src/scenario.rs::tests::pii_scrub_is_declare_only_with_the_measurement_recorded (the declare-only retirement with the leg-A measurement in the TOML header)",
-    "status": "verified"
-   },
-   "chunk": "2026-08-19-pii-scrub-live-proof",
-   "notes": "PREMISE-CORRECTION (2026-08-19 phase P5, operator-ratified claim+reword): the original read-back outcome is unattainable under deterministic L4 + the 4-tool corpus surface — source-proven at SUT HEAD efabe8e (span attributes never stored, buffer schema; scrubbed value-bearing fields live in the in-memory buffer no corpus tool reads; retrieve_telemetry_slice projects only evidence_refs, tools.rs:422-443; retrieve_report renders only L4-fixture/incident fields). Acceptance concretized to the achievable live proof (ingestion witnesses + source-pinned scrub semantics + declare-only retirement + hygiene negative); evidence: chunks/2026-08-19-pii-scrub-live-proof/research.md, The central measurement section. SUT intake riding the chunk: bare sk_live_ recall gap; no external scrub observability; log_records PK drop semantics."
-  },
-  {
-   "id": "v2-15",
-   "title": "connection-lifecycle family live-proven",
-   "requirement": "The connection-lifecycle family emits faithfully, reads back through MCP and yields a verified expected outcome including the PortOccupier fault, proving Pulse P-001..P-004.",
-   "observed_gap": "Only the canary path has touched a live Pulse; connection-lifecycle and the port-occupier leg have never been driven end-to-end.",
-   "verification": {
-    "method": "dynamic-external",
-    "acceptance": "The four family scenarios complete on fresh-dir live legs against a deterministic-L4 Pulse, each exiting 0 with a non-Blocked declare-only row (ManualCheck, or KnownResidual under degraded read-back) and journal + runs.db evidence. Pulse's own connection.state.transition lines witness the walk ledger — boot-time Listening->Receiving, then Stalled->Receiving->Idle->Stalled across the walk phases with last_span_ago_ms straddling the 10s/60s thresholds — and on the port-conflict leg the ->ReceiverFailed transition carries trigger_reason=bind_failed at error level while Conductor's PortOccupier held :4317 via the PhaseSpec.fault-driven guard; after the phase-boundary RAII release a relaunched pulse-app logs 'OTLP gRPC receiver bound' — recovery is a process replacement (bind status is per-process; the failed instance dies in ReceiverFailed while the fresh one boots its own FSM), so the release is proven by the SUT's own successful rebind. The fault.port_occupier span rides the driven leg's self-obs (new+close beneath timeline.execute), and connection_harvest.rs pins these witnesses verbatim, grading them as hard predicates in CI.",
-    "ref": "crates/conductor-run/tests/connection_harvest.rs::the_walk_ledger_crosses_both_thresholds_in_order; ::the_tracker_reports_elapsed_within_the_poller_tick_of_truth; ::the_conflict_leg_witnesses_receiver_failed_while_the_occupier_held; ::the_release_is_proven_by_the_suts_own_rebind; ::no_false_alert_off_the_conflict_leg; crates/conductor-run/src/lib.rs::tests::a_fault_phase_guard_binds_and_its_drop_releases; ::occupy_failure_is_captured_across_the_timeline_and_surfaces_after; live legs A1/A2/B1-B4 2026-08-19T22:38-22:52Z (chunks/2026-08-19-connection-lifecycle-live-proof/evidence/leg-verdict.md)",
-    "status": "verified"
-   },
-   "chunk": "2026-08-19-connection-lifecycle-live-proof",
-   "notes": "DECLINED at 2026-08-16-fault-application-spans (phase P5, contract Acceptance lifecycle). That chunk instruments the three obs-plan-4 fault spans and considered claiming this cap through the port-occupier half of the acceptance; it cannot, and stays pooled: this acceptance needs the Listening/Receiving/Idle/Stalled walk driven end-to-end against a live Pulse with each transition read back within its SLO, which a headless SUT-free instrumentation chunk does not do. ONE FINDING THE CLAIMING CHUNK SHOULD NOT RE-DERIVE: there is no port-occupier driver anywhere. The code-graph returns 0 crate edges for conductor-faults in either direction and 0 references to PortOccupier / AbruptSilence / EmissionGap / BurstyTrain from outside that crate, so the \"Epoch-8 driver\" named in scenarios/receiver-failed-port-conflict.toml:8 does not exist and the port-held phase currently emits one plain span. Driving the receiver-failed state therefore means WIRING the occupier into the run path first, not merely running the scenario. Evidence: conductor-0.2.0/chunks/2026-08-16-fault-application-spans/research.md (Graph impact) and .andromeda/runs/2026-08-16T11-10-20-phase/tree-query-2026-08-16-fault-application-spans.json. Ride-along: the fault.port_occupier span now exists at the occupy/release RAII site with fault_type + port, proven by a conductor-faults test only; it acquires its timeline.execute parent when that driver lands, which is this cap's chunk to do. PREMISE-CORRECTION (2026-08-19 phase P4 fork + P5 preview, operator-ratified claim+reword — the v2-14 phase-time shape): the requirement's 'reads back through MCP' clause is structurally unsatisfiable — Pulse's connection FSM surfaces only via the TauRPC connection.current_state resolver, the pulse://stream/connection-state broadcast, and tracing lines (connection.state.transition / app.boot.otlp.grpc.bind / connection.tick); no mcp-server tool carries connection state (every 'Connection' in tools.rs is duckdb::Connection), and Observation.text composes incident-list + report text only (conductor-verify/src/extract.rs), so the family's four Hard Contains checks (Stalled / Receiving / ReceiverFailed / Idle+error) cannot grade against any read-back surface under deterministic L4. Acceptance concretized to the achievable live proof: harvest-tier grading over Pulse's own FSM/bind lines with the four TOMLs retired declare-only and the structural measurement recorded on leg A (the fingerprint-storm / error-baseline / pii-scrub precedent). Evidence: chunks/2026-08-19-connection-lifecycle-live-proof/research.md §Files inspected + §Key run-path facts (SUT: crates/ingest/src/connection.rs, pulse-app/src/connection_router.rs, crates/mcp-server/src/tools.rs). PREMISE-CORRECTION (2026-08-19 wrap, coverage gate, operator-pre-ratified in the wrap directives — the sub-clause grain): the concretized acceptance's descriptor 'with a recovery transition' measured structurally unsatisfiable on leg B4 — bind status is per-process and recovery is a process replacement, so no FSM transition out of ReceiverFailed exists to log; the outcome mechanism the same sentence names (the SUT's own successful rebind, pinned in connection_harvest.rs) measured intact, so the descriptor was reworded to the measured mechanism with the outcome unweakened. Evidence: chunks/2026-08-19-connection-lifecycle-live-proof/evidence/leg-verdict.md (the B4 bind-line chronology + the process-replacement note)."
-  },
-  {
-   "id": "v2-16",
-   "title": "severity-lifecycle full pass",
-   "requirement": "One full severity-lifecycle pass observes auto-resolve and the resolution summary via read-back.",
-   "observed_gap": "Auto-resolve and the resolution summary have never been observed via read-back.",
-   "verification": {
-    "method": "dynamic-external",
-    "acceptance": "On fresh-dir live legs at SUT HEAD efabe8e: auto-resolve proven HARD on Pulse's own ledger — the scenario's incident leaves the active set within the 120s no-reemission window plus the 30s AutoResolveObserver tick, witnessed by the unredacted incidents.list_active.request item_count transition (measured: created 09:00:28.046, active set emptied 09:02:45.671 = 137.6s, inside the 150s bound and at the FIRST tick past the window) — and the post-resolve same-fingerprint retrigger forms a NEW incident (created=true, deduped=false), which is an independent resolution proof because Pulse dedups against the ACTIVE set alone. Read-back corroborates the emptied lifecycle where read-back can carry it: on a leg whose scenario re-opens nothing, query_incident_list returns zero and the declare-only route takes the pre-accepted auto-resolve residual (measured on leg E, ack-cooldown, result_count 0 — the first live exercise of that arm). Severity choice is graded CalibrationRegion at the cue tier — each tier leg's measured cue-priority band recorded, never hard-failed on exact values (measured: autonomous / suggested / curious on legs B / C / D, separated by confidence = samples/100 at identical magnitude). The resolution-summary clause is premise-corrected (see notes): its measured ABSENCE under deterministic L4 is harvest-witnessed and recorded as SUT intake. Family checks retire declare-only with measurements in the TOML headers; rows land verdict:null/KnownResidual; severity_harvest.rs pins the leg lines green under both runners.",
-    "ref": "crates/conductor-run/tests/severity_harvest.rs",
-    "status": "verified"
-   },
-   "chunk": "2026-08-21-severity-lifecycle-live-proof",
-   "notes": "PREMISE-CORRECTION (ratified at phase P5, 2026-08-21): the requirement's 'resolution summary via read-back' clause is unobservable under deterministic L4 at SUT HEAD efabe8e — nothing constructs DigestKind::ResolutionSummary (triage/contract.rs:275 is its sole declaration; every other reference is a match arm) and the canned fixture pins is_resolution_summary:false, the only two triggers of attach_resolution_summary_to_incident (inference_runtime.rs:147-150). Measured live: ZERO lines naming resolution_summary across all five legs. Recorded as SUT intake, not weakened away.\n\nPREMISE-CORRECTION #2 (wrap, 2026-08-21 — two witness sub-clauses refined against measurement, the v2-15 sub-clause precedent; the OUTCOME is proven STRONGER, never weakened): (a) the phase-time wording named 'hard pass/fail from the harvested auto_resolve.tick + lifecycle lines'. Measured false as a witness: triage.incident.auto_resolve.tick renders resolved_count / evaluated_count / duration_ms as the literal string \"<redacted>\" (Pulse's observer field allowlist predates those fields), so the tick proves the observer RAN and can never prove it RESOLVED anything, and no lifecycle line is logged at all (the transition is a broadcast). The hard witness is re-aimed to the unredacted incidents.list_active.request item_count transition, which measured 137.6s — a tighter bound than the original wording asserted. (b) the wording also claimed the final active-only list 'no longer carries the resolved one'. On leg A read-back returned 2 incidents where pulse-app's own in-app ledger showed 1 at the same instant; they agreed pre-resolution and diverged only after the two auto-resolutions, so absence is NOT assertable through read-back there. The clause is scoped to what leg E proves — an empty active list read back as result_count 0 on a scenario that re-opens nothing — and leg A's corpus/in-app divergence is RECORDED as SUT intake rather than silently absorbed. Evidence: conductor-0.2.0/chunks/2026-08-21-severity-lifecycle-live-proof/evidence/leg-verdict.md; pinned by crates/conductor-run/tests/severity_harvest.rs."
-  },
-  {
-   "id": "v2-17",
-   "title": "Workspace-key divergence detected",
-   "requirement": "Conductor detects an app/sidecar workspace-key mismatch and fails with a named precondition rather than an opaque Blocked; the real fix stays Pulse-side.",
-   "observed_gap": "Incidents are filtered WHERE workspace = ?1; pulse-app derives that key via resolve_workspace_for_incidents (the detected project root) while the sidecar always uses data_dir, so if pulse-app launches anywhere the detector recognises, query_incident_list returns zero rows and preflight reports the opaque Blocked: incident not found in corpus even with deterministic L4 on.",
-   "verification": {
-    "method": "integration",
-    "acceptance": "A simulated app/sidecar key mismatch (the stub's empty-corpus arm — a diverged key and an empty corpus are byte-identical on the wire) produces a distinct named precondition, not the generic corpus Blocked, returned as Ok(Blocked); the precondition string carries no absolute host path; and a fingerprint-miss leg proves the two not-found causes stay distinguishable. The live launch probe is run once across three arms — cwd = the Conductor repo root, cwd = a marker-less temp dir, cwd = the data dir itself — with each arm's ready and blocked_precondition recorded in the chunk's two-launch-verdict.md.",
-    "ref": "crates/conductor-verify/tests/preflight.rs::an_empty_canary_names_the_workspace_key_precondition (+ a_fingerprint_mismatch_is_blocked, a_canary_call_error_is_blocked_distinctly_from_an_empty_corpus, a_blocked_precondition_carries_no_absolute_host_path); live probe evidence: conductor-0.2.0/chunks/2026-08-10-workspace-key-divergence-probe/two-launch-verdict.md",
-    "status": "verified"
-   },
-   "chunk": "2026-08-10-workspace-key-divergence-probe",
-   "notes": "PREMISE-CORRECTION (2026-08-10, chunk 2026-08-10-workspace-key-divergence-probe). CONFIRMED first-hand against the Pulse source: incidents filter WHERE workspace = ?1 (crates/corpus/src/contract.rs:628); pulse-app keys on the detected root via resolve_workspace_for_incidents (pulse-app/src/main.rs:688-693 -> digest_runtime.rs:109-127); the sidecar keys on data_dir (crates/mcp-server/src/bin/andromeda-pulse-mcp.rs:74, under a parity comment stale since Pulse's P-079). FALSIFIED: the premise that a marker-less temp dir makes pulse-app fall back to data_dir. workspace_detector::detect (crates/workspace-detector/src/detect.rs:21-57) records the .andromeda marker and VCS as FIELDS on the returned context, not success conditions, and errors only on a traversal component or a non-existent path — so detection succeeds for virtually any real cwd, a marker-less temp dir keys to that temp dir, and the data_dir fallback is effectively unreachable from a normal launch. Consequences: no cwd-based interim unblock is known to exist, and the probe gains a third arm (cwd == the data dir — the only position where the two keys could agree, itself in doubt because Windows canonicalize returns the \\\\?\\ verbatim prefix while the sidecar uses the raw data_dir string). ALSO ESTABLISHED: Conductor cannot OBSERVE the app-side key — dispatch_query_incident_list takes no arguments (crates/mcp-server/src/tools.rs:174,336), Pulse never logs incident_workspace_key, and corpus.db is out of bounds by rule — so the deliverable is a named precondition stating the condition and both candidate causes, never a claimed measurement. intent.md and requirements.md are immutable records of what was ASKED and are deliberately unedited; this ledger entry is the correction channel."
-  },
-  {
-   "id": "v2-18",
-   "title": "Machine-checked Pulse run contract",
-   "requirement": "A recorded, reproducible run contract that preflight asserts and whose unmet terms it names; doubles as the verification of Pulse P-073.",
-   "observed_gap": "Nothing in this repo states how a verifiable Pulse must be launched; conductor-verify/src/spawn.rs:18 passes only ANDROMEDA_PULSE_DATA_DIR, and there are zero references to Pulse's deterministic mode anywhere in the tree.",
-   "verification": {
-    "method": "integration",
-    "acceptance": "Preflight asserts the contract terms — ANDROMEDA_PULSE_L4_DETERMINISTIC set on the launched pulse-app (not the sidecar) and both sides resolving the same data dir — and names each unmet term individually; the contract is recorded in-repo and reproducible.",
-    "ref": "crates/conductor-verify/tests/preflight.rs::an_unmet_run_contract_term_is_blocked_and_named_individually (+ an_unmet_term_skips_the_canary_rather_than_reporting_its_symptom, a_satisfied_contract_leaves_the_other_legs_deciding, a_blocked_precondition_carries_no_absolute_host_path); contract recorded + reproducible: crates/conductor-core/src/run_contract.rs::tests::{loads_and_bounds_checks_the_committed_contract, only_a_shell_declaration_term_can_be_unmet, the_committed_preflight_budget_stays_inside_the_committed_load_envelope}",
-    "status": "verified"
-   },
-   "chunk": "2026-08-10-pulse-run-contract",
-   "notes": "PREMISE-CORRECTION (2026-08-10, chunk 2026-08-10-pulse-run-contract). The acceptance prose reads as though preflight ASSERTS both named terms. Only one is assertable, and the acceptance text is deliberately left unedited as the record of what was ASKED. WHAT IS ASSERTED: ANDROMEDA_PULSE_L4_DETERMINISTIC, through a shell-declaration proxy — Conductor reads its OWN environment, the shell that also launches pulse-app — shipped as check = \"shell-declaration\" in contracts/pulse-run-contract.toml, the only check kind that can block. WHAT IS NOT: 'both sides resolving the same data dir'. Conductor propagates its resolved data dir to the sidecar via the .env(...) builder, so the sidecar half is guaranteed by construction, but pulse-app's half is structurally unobservable — the exact limit v2-17's notes established, since dispatch_query_incident_list takes no arguments (crates/mcp-server/src/tools.rs:174,336), Pulse never logs the incident workspace key, and corpus.db is out of bounds by rule. That term therefore ships as check = \"declared-not-observable\" with its causes recorded: it is stated so an operator can satisfy it, and it never blocks, because blocking on it would assert a measurement Conductor cannot make. CONSEQUENCE: 'preflight asserts the contract terms' holds for every term Conductor can honestly observe, and the artifact itself carries the distinction per-term rather than leaving a reader to infer it. The coverage flip stands on the refs, not on the prose. Same channel as v2-17: intent.md and requirements.md are immutable records of what was asked and are deliberately unedited; this ledger entry is the correction channel."
-  },
-  {
-   "id": "v2-19",
-   "title": "Sub-5s budget representation and per-check latency",
-   "requirement": "Budgets below the closed 5s/20s/90s tier set are representable, and latency is measured per check rather than as the coarse whole-loop delta.",
-   "observed_gap": "SloTier is a closed three-value set — 5s/20s/90s (crates/conductor-core/src/scenario.rs:36-61) — and the only latency recorded is the coarse whole-loop observed_ms - emitted_ms (conductor-run/src/lib.rs:208), not per-check.",
-   "verification": {
-    "method": "unit",
-    "acceptance": "A scenario can declare a sub-5s budget and it round-trips through config, verdict and the run-report envelope; each check carries its own latency_ms rather than sharing the run's whole-loop value.",
-    "ref": null,
-    "status": "planned"
-   },
-   "chunk": null
-  },
-  {
-   "id": "v2-20",
-   "title": "Four delegated timing budgets return real Pass/Fail",
-   "requirement": "P-025 halo hue at or under 2s, P-027 constellation discovery at or under 5s, P-037 report render at or under 2s and P-045 counter refresh at or under 1s each yield a real Pass/Fail at its actual value rather than a ManualCheck, closing Pulse P-075.",
-   "observed_gap": "All four scenarios currently carry empty expected blocks (DriveObserve / ManualCheck); only P-027's 5s budget fits the closed tier set, so the other three are structurally unassertable.",
-   "verification": {
-    "method": "dynamic-external",
-    "acceptance": "Against a live Pulse each of the four capabilities produces a Pass or Fail measured at its real budget (2s/5s/2s/1s), not a ManualCheck; the run artifact is quotable as Pulse P-075's external evidence reference.",
-    "ref": null,
-    "status": "planned"
-   },
-   "chunk": null
-  },
-  {
-   "id": "v2-21",
-   "title": "Conductor's own verification ledger",
-   "requirement": "0.2.0 carries a verification-matrix.json tracking Conductor's own delivery, with the v2-NN and P-NNN id spaces kept visibly separate.",
-   "observed_gap": "conductor-0.1.0/ predates the verification-matrix feature, so every matrix step in every skill is a noted no-op there; Conductor's own delivery has never been coverage-tracked. The 60 Pulse P-IDs in coverage.rs and scenarios/*.toml are a different mechanism, tracking the SUT's capabilities.",
-   "verification": {
-    "method": "by-construction",
-    "acceptance": "verification-matrix.json exists with exactly one entry per requirements.md capability, ids unique; no P-NNN appears in an id position anywhere in the matrix (Pulse P-IDs occur only inside acceptance text).",
-    "ref": null,
-    "status": "planned"
-   },
-   "chunk": null
-  },
-  {
-   "id": "v2-22",
-   "title": "Desktop a11y sweep asserted",
-   "requirement": "The shipped, display-gated real-webview specs run on Linux+xvfb against a live Pulse and assert zero axe violations, token-pair contrast, and keyboard-trap escape plus focus order across the four accessible paths, without re-authoring the harness.",
-   "observed_gap": "The harness and the real-webview specs shipped at 2026-06-27-desktop-a11y-harness-setup (crates/conductor-tauri/ui/wdio.conf.ts + ui/test/a11y/*.e2e.ts, DISPLAY-gated); they have never been executed.",
-   "verification": {
-    "method": "a11y",
-    "acceptance": "An operator-gated run against a live Pulse yields zero axe violations, every named token pair meeting its required ratio, six-state not-color-alone holding, keyboard-trap escape and focus restoration working, and all transitions dropped under reduced-motion — across the four accessible paths. The harness is run, not re-authored.",
-    "ref": null,
-    "status": "planned"
-   },
-   "chunk": null
-  },
-  {
-   "id": "v2-23",
-   "title": "Screen-reader manual spec",
-   "requirement": "An NVDA/VoiceOver manual pass spec accompanies the automated sweep.",
-   "observed_gap": "No screen-reader pass spec exists; the a11y plan requires manual SR verification as supplemental to the automated baseline and no artifact carries it.",
-   "verification": {
-    "method": "manual",
-    "acceptance": "A per-state pass spec exists for the four run states listing each must-announce item with its expected screen-reader output, and one operator pass is recorded against it.",
-    "ref": null,
-    "status": "planned"
-   },
-   "chunk": null
-  },
-  {
-   "id": "v2-24",
-   "title": "A11y CI gate and violation JSON",
-   "requirement": "Axe, contrast and keyboard PASS/FAIL is emitted as service-tagged violation JSON and gated in CI, with the redaction boundary applied to Conductor's own violation artifact.",
-   "observed_gap": "A11y results do not reach the obs envelope and no gate consumes them.",
-   "verification": {
-    "method": "a11y",
-    "acceptance": "The same specs run on Linux+xvfb WITHOUT a live Pulse and any violation fails the gate with a non-zero exit; the emitted violation JSON conforms to the obs-plan log schema (itself the verbatim binding from the test plan's harness contract), carries service identity, and leaks no absolute host path.",
-    "ref": null,
-    "status": "planned"
-   },
-   "chunk": null
-  },
-  {
-   "id": "v2-25",
-   "title": "Cross-surface envelope parity",
-   "requirement": "CLI and Tauri produce an identical envelope for the same seed.",
-   "observed_gap": "CLI and Tauri share a core but their envelopes have never been compared for the same seed.",
-   "verification": {
-    "method": "integration",
-    "acceptance": "For one scenario and seed, the Tauri-launched run and the headless run write identical verdict, state and seed to the same runs.db, and each writes its own emission journal.",
-    "ref": null,
-    "status": "planned"
-   },
-   "chunk": null
-  },
-  {
-   "id": "v2-26",
-   "title": "Coverage completeness gate",
-   "requirement": "A gate fails on any gap in the classification of the current SUT capability set, with all CI gates green.",
-   "observed_gap": "The P-IDs are classified in code but nothing fails when a gap appears; the stated definition of done was never enforced.",
-   "verification": {
-    "method": "unit",
-    "acceptance": "The gate enumerates the CURRENT SUT capability set from the manifest (not a hardcoded 60) and exits non-zero when any capability is unclassified; a deliberately removed classification reproduces the failure.",
-    "ref": null,
-    "status": "planned"
-   },
-   "chunk": null
-  },
-  {
-   "id": "v2-27",
-   "title": "Release build and bundle",
-   "requirement": "cargo build --release plus a Tauri 2 bundle ship with a final SLO verification pass.",
-   "observed_gap": "No release build, no bundle.",
-   "verification": {
-    "method": "manual",
-    "acceptance": "A release binary and a Tauri 2 bundle are produced with cargo-audit and cargo-deny green and Cargo.lock un-drifted, and a final SLO verification pass is recorded against the shipped artifact.",
-    "ref": null,
-    "status": "planned"
-   },
-   "chunk": null
-  },
-  {
-   "id": "v2-28",
-   "title": "Stale rmcp wording reconciled",
-   "requirement": "test-plan.md, tests-summary.md and verification-harness.md describe the hand-rolled JSON-RPC client that replaced rmcp.",
-   "observed_gap": "Stale rmcp wording survives in the test-plan.md body, tests-summary.md line 44 and verification-harness.md around lines 18 and 33 — rmcp was removed in favour of the hand-rolled client on 2026-06-27.",
-   "verification": {
-    "method": "by-construction",
-    "acceptance": "No rmcp claim describing Conductor's current read-back client remains in the three named documents; each describes the hand-rolled line-delimited JSON-RPC client.",
-    "ref": null,
-    "status": "planned"
-   },
-   "chunk": null
-  },
-  {
-   "id": "v2-29",
-   "title": "Operator pause and checklist exercised live",
-   "requirement": "The operator-pause hold and the operator-checklist live items both fire during the live legs.",
-   "observed_gap": "Operator-pause has never fired live, and the operator-checklist live items were gated behind the now-resolved verification-posture decision.",
-   "verification": {
-    "method": "manual",
-    "acceptance": "During a live run an operator-pause hold fires and is resolved by a real Proceed or Abort activation, the count freezes at its exact hold value (neither blanking nor continuing) and resumes on decision, and at least one ManualCheck checklist item renders with its induced state and expected observation.",
-    "ref": null,
-    "status": "planned"
-   },
-   "chunk": null
-  },
-  {
-   "id": "v2-30",
-   "title": "Live per-P-ID verdict lamps",
-   "requirement": "The coverage view carries live per-P-ID verdict lamps.",
-   "observed_gap": "The coverage view lacks live per-P-ID verdict lamps — rows show classification only, with no run outcome.",
-   "verification": {
-    "method": "webview",
-    "acceptance": "After a run, coverage rows render each capability's actual verdict state with its text label and glyph (never color alone), and a capability with no run record renders a distinct not-yet-run treatment rather than a failure treatment.",
-    "ref": null,
-    "status": "planned"
-   },
-   "chunk": null
-  },
-  {
-   "id": "v2-31",
-   "title": "scenario.run root obs span",
-   "requirement": "A scenario.run root span anchors the self-observation trace.",
-   "observed_gap": "There is no scenario.run root obs span, so the must-trace paths have leaf spans with no root correlation.",
-   "verification": {
-    "method": "unit",
-    "acceptance": "A scenario run emits scenario.run as the root span carrying run_id, seed, scenario and p_ids, with the timeline, emit, verify, report and db child spans nested beneath it and closing at their phase boundaries.",
-    "ref": "crates/conductor-cli/tests/cli_smoke.rs::a_run_emits_the_scenario_run_root_and_the_report_seam_spans; crates/conductor-core/src/obs.rs::tests::a_span_emits_new_and_close_records_carrying_its_attributes; crates/conductor-core/src/obs.rs::tests::a_child_span_records_its_parent_so_the_tree_reconstructs; crates/conductor-core/src/obs.rs::tests::a_non_allowlisted_span_attribute_is_dropped; crates/conductor-core/src/obs.rs::tests::a_host_path_in_a_span_attribute_is_redacted; crates/conductor-report/src/report.rs::tests::span_fields_use_canonical_wire_names_not_human_labels; crates/conductor-report/src/report.rs::tests::a_blocked_rows_absent_verdict_renders_null; crates/conductor-report/src/report.rs::tests::span_fields_of_a_single_scenario_run_are_that_records_values; crates/conductor-report/src/report.rs::tests::span_fields_of_a_suite_are_distinct_first_seen_values",
-    "status": "verified"
-   },
-   "chunk": "2026-08-10-scenario-run-root-span-tree",
-   "notes": "PREMISE-CORRECTION (2026-08-10, chunk 2026-08-10-scenario-run-root-span-tree). The acceptance prose reads as though the report and db spans can be NESTED BENEATH the scenario.run root. They cannot, and the acceptance text is deliberately left unedited as the record of what was ASKED. WHAT IS ACHIEVABLE: scenario.run is per-scenario at the composition root (conductor-run::execute_scenario, lib.rs:253), parenting timeline.execute, emit.batch and verify.readback* -- one instrumentation site serving all three production paths. WHAT IS NOT: report.generate and db.insert_run nested beneath that root. The code-graph shows persist() is a SIBLING of execute_scenario, called by execute_scenario's own callers at all three production sites -- conductor-cli commands/run/run() (run.rs:23 execute, :25 persist), conductor-cli commands/suite/suite() (suite.rs:30 execute, :36 persist), and conductor-run drive_run() (lib.rs:481 execute, :485 persist, plus a second persist at :478 on the abort path). Under suite and drive_run a SINGLE persist serves N scenarios whose spans have already closed, so no one scenario.run can contain db.insert_run. The two terminal spans are therefore emitted at the persist boundary and correlated by run_id, which the subscriber layer already stamps flat on every line (obs.rs:265-268). ALSO CORRECTED: the observed_gap says the must-trace paths have 'leaf spans with no root correlation'. Verified at P3 that the shipped spans emit NOTHING -- JsonObsLayer (obs.rs:239-276) implements only on_event, never on_new_span/on_close, and binds its Context as unused _ctx; the committed logs/agent-latest.jsonl contains 0 occurrences of timeline.execute, emit.batch or verify.readback. The gap was not missing correlation but missing span emission entirely, which is why this chunk also lands the subscriber-layer capability and widens the conductor-core::redact allowlist (row_count, phase_count, emission_count, record_count, mcp_tool would otherwise be dropped at the processor stage). CHANNEL: note-only, matching v2-18's treatment at 2026-08-10-pulse-run-contract. Refining the acceptance text was considered and rejected -- the only sanctioned acceptance-refinement class today is affordance honesty; 'premise disproved' is a proposed second class awaiting the founder's P6 ruling, at which point v2-18 and v2-31 take the same retroactive treatment under one rule. The coverage flip stands on the ref proving the achievable shape."
-  },
-  {
-   "id": "v2-32",
-   "title": "Dormant dependency maintenance",
-   "requirement": "indicatif 0.17 to 0.18 and the opentelemetry-proto default-features=false trim land inside a polish chunk rather than as chunks of their own.",
-   "observed_gap": "Both items have been carried as dormant maintenance across the whole of 0.1.0 without landing.",
-   "verification": {
-    "method": "by-construction",
-    "acceptance": "indicatif resolves at 0.18 with the operator-pause spinner still stopping in place (never hiding, never animating to completion), opentelemetry-proto builds with default-features=false, Cargo.lock is un-drifted and cargo-audit plus cargo-deny stay green.",
-    "ref": null,
-    "status": "planned"
-   },
-   "chunk": null
-  }
- ]
+  "schema_version": 1,
+  "version": "conductor-0.2.0",
+  "source": "intent",
+  "id_scheme": "{vN}-NN",
+  "capabilities": [
+    {
+      "id": "v2-01",
+      "title": "SUT capability manifest",
+      "requirement": "The accepted capability set tracks the SUT via a versioned artifact under refs/, so a Pulse release is a data update rather than a code change.",
+      "observed_gap": "crates/conductor-core/src/scenario.rs:23-33 validates P-NNN with (1..=60).contains(&n) and returns \"expected P-NNN with NNN in 001..=060\"; the unit test at :195 asserts \"P-061\" MUST be rejected. Pulse's ledger now reaches P-082, so a scenario naming P-074 fails garde validation at load.",
+      "verification": {
+        "method": "unit",
+        "acceptance": "A scenario naming any capability present in contracts/pulse-capabilities.toml validates at load; one absent from it is rejected with a message naming the manifest rather than a hardcoded range; a malformed, absent or unparseable manifest produces a typed harness fault carrying a named reason — never a silent widen back to a hardcoded range, never a silent pass, never a panic. Adding a future Pulse release requires editing only the manifest artifact, with no Rust source change.",
+        "ref": "crates/conductor-core/src/scenario.rs::tests::from_toml_str_with_accepts_an_in_manifest_id_and_rejects_an_absent_one; crates/conductor-core/src/scenario.rs::tests::capability_membership_is_checked_against_the_manifest; crates/conductor-core/src/capability_manifest.rs::tests::loads_and_bounds_checks_the_committed_manifest; crates/conductor-core/src/capability_manifest.rs::tests::missing_file_is_a_harness_fault; crates/conductor-core/src/capability_manifest.rs::tests::load_failure_message_never_contains_the_path",
+        "status": "verified"
+      },
+      "chunk": "2026-08-08-sut-capability-manifest"
+    },
+    {
+      "id": "v2-02",
+      "title": "SUT-drift check",
+      "requirement": "A check fails loudly when the SUT advances past what Conductor knows, rather than silently accepting a stale capability universe.",
+      "observed_gap": "Nothing in the repo detects that Pulse has advanced: the accepted set is a compile-time constant and the coverage universe is frozen, so 22 new Pulse capabilities (P-061..P-082) went unnoticed across a 41-day pause.",
+      "verification": {
+        "method": "unit",
+        "acceptance": "When the manifest carries capabilities the classification does not cover beyond an explicitly pinned known-gap ledger, the check fails naming the unknown ids; when the observed gap matches the pin exactly — and no classified row lacks manifest backing — it passes. A pinned id that has since been classified is itself a failure, so the ledger cannot rot. With an empty pin the check is a plain zero-drift assertion, proven by test in this chunk and the state v2-03 leaves it in.",
+        "ref": "crates/conductor-core/src/drift.rs::tests::committed_artifacts_match_the_known_gap; crates/conductor-core/src/drift.rs::tests::an_accepted_id_outside_the_known_gap_is_drift; crates/conductor-core/src/drift.rs::tests::a_known_gap_entry_that_is_now_classified_is_drift; crates/conductor-core/src/drift.rs::tests::a_classified_id_the_manifest_dropped_is_drift; crates/conductor-core/src/drift.rs::tests::in_sync_with_an_empty_known_gap_passes",
+        "status": "verified"
+      },
+      "chunk": "2026-08-09-sut-drift-check"
+    },
+    {
+      "id": "v2-03",
+      "title": "Current-SUT capability classification",
+      "requirement": "Every current Pulse capability is classified auto / drive+observe / static-only / not-Conductor's, with the not-Conductor's boundary recorded as a deliberate decision.",
+      "observed_gap": "crates/conductor-core/src/coverage.rs enumerates exactly P-001..P-060; the scenario catalog's maximum is P-060; 0.1.0's definition of done reads \"all 60 P-IDs classified, zero gaps\". Nothing in the repo knows P-061..P-082 exist.",
+      "verification": {
+        "method": "unit",
+        "acceptance": "Every capability in the manifest carries exactly one of the four classifications with zero unclassified entries, and the not-Conductor's set is explicitly enumerated (Pulse's UI capabilities plus its own tooling) rather than implied by absence.",
+        "ref": "crates/conductor-core/src/coverage.rs::tests::matrix_covers_every_accepted_capability; crates/conductor-core/src/coverage.rs::tests::the_out_of_remit_set_is_explicitly_enumerated; crates/conductor-core/src/coverage.rs::tests::the_in_lane_capabilities_are_classified_verifiable; crates/conductor-core/src/coverage.rs::tests::p_ids_are_well_formed_sorted_and_unique; crates/conductor-core/src/coverage.rs::tests::every_row_carries_a_title_and_category; crates/conductor-core/src/coverage.rs::tests::not_conductors_wire_spelling_is_stable; crates/conductor-core/src/drift.rs::tests::committed_artifacts_match_the_known_gap",
+        "status": "verified"
+      },
+      "chunk": "2026-08-09-current-sut-coverage-classification"
+    },
+    {
+      "id": "v2-04",
+      "title": "In-lane SUT-capability scenarios",
+      "requirement": "The capabilities that fall squarely in Conductor's lane are covered by scenarios, proving Pulse P-067, P-072 and P-079.",
+      "observed_gap": "No scenario exists for any capability above P-060, so the in-lane subset of Pulse's v0.3.0 work (live service truth, Investigate result, single-sourced workspace key) has no Conductor coverage at all.",
+      "verification": {
+        "method": "dynamic-external",
+        "acceptance": "Scenarios keyed to P-067, P-072 and P-079 each drive a live Pulse and yield a non-blocked verdict via MCP read-back, with journal and runs.db evidence per scenario.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-05",
+      "title": "Interpretation-correctness posture",
+      "requirement": "A recorded decision on whether 0.2.0 carries a real-model correctness leg or explicitly defers it with a named owner, so determinism never silently redefines what the harness proves.",
+      "observed_gap": "With ANDROMEDA_PULSE_L4_DETERMINISTIC=true the canned L4Output replaces the model, so every live leg 0.2.0 plans exercises the plumbing and never the interpretation — while Pulse's own positioning memo names interpretation-correctness the single most important test in all of Pulse.",
+      "verification": {
+        "method": "unit",
+        "acceptance": "EITHER a real-model correctness leg exists and passes (deterministic mode OFF, a known root cause injected, the top hypothesis asserted to identify it) OR a deferral is recorded naming its owner and stating that \"Conductor green\" does not mean interpretation is trustworthy. Absence of both fails. Realized via the deferral branch (operator decision, 2026-08-09): conductor_core::UNBACKED_AUTO pins the Auto-classified capabilities that have no verifying scenario, its doc comment names the interpretation cluster P-031/P-033/P-034/P-044, states that \"Conductor green\" does not mean interpretation is trustworthy, and names a conductor-0.3.0 entry as the owner; check_scenario_backing holds that set to the pin by exact-set equality under cargo nextest, failing on a new unbacked Auto row, a rotted pin, or a pin that lost its backing.",
+        "ref": "crates/conductor-core/src/drift.rs::tests::the_committed_catalog_matches_the_unbacked_ledger; crates/conductor-core/src/drift.rs::tests::an_auto_row_with_no_scenario_outside_the_ledger_is_a_fault; crates/conductor-core/src/drift.rs::tests::a_ledger_entry_a_scenario_now_names_is_a_fault; crates/conductor-core/src/drift.rs::tests::a_ledger_entry_no_longer_auto_classified_is_a_fault; crates/conductor-core/src/drift.rs::tests::only_auto_rows_need_scenario_backing; crates/conductor-core/src/drift.rs::tests::backing_message_names_identity_without_host_paths_or_type_names; crates/conductor-report/src/coverage.rs::tests::the_unbacked_qualifier_is_not_a_fifth_summand; crates/conductor-tauri/src/commands.rs::tests::unbacked_auto_command_returns_the_core_ledger; by-construction: the deferral text (interpretation cluster, the \"Conductor green\" caveat, and the conductor-0.3.0 owner) is the doc comment on conductor_core::UNBACKED_AUTO, which the gate above holds to the committed catalog by exact-set equality",
+        "status": "verified"
+      },
+      "chunk": "2026-08-09-interpretation-correctness-posture"
+    },
+    {
+      "id": "v2-06",
+      "title": "SUT load-envelope constraint",
+      "requirement": "Scenario durations and storm profiles stay inside the SUT's proven-good envelope, with the constraint recorded where scenario authors will see it.",
+      "observed_gap": "Pulse records that the DuckDB append path stalls after ~10 minutes of sustained 10k/s storm plus deterministic L4 — ingest keeps receiving while duckdb.append stops, so viz.query.traces returns 0 rows and no new incidents form until restart. Conductor's whole method is sustained shaped load.",
+      "verification": {
+        "method": "unit",
+        "acceptance": "`check_load_envelope` asserts, for every scenario in the committed catalog, that no emitting phase exceeds `max_sustained_storm_ms` and no emitting phase's rate (`occurrences / (gap_ms/1000)`) exceeds `max_sustained_rate_spans_per_s`, with the `[[exempt]]` ledger EMPTY and still held to exact-set equality in all three directions (`unpinned`/`rotted`/`lost_subject`); `LoadEnvelope::classify` judges a run on the same basis, so the static gate and the per-run judgment never measure different things; and the bounds stay recorded in `contracts/pulse-load-envelope.toml` with the per-scenario LOAD ENVELOPE header present in all 35 `scenarios/*.toml`. Proven by `cargo nextest run -p conductor-core`.",
+        "ref": "crates/conductor-core/src/load_envelope.rs::tests::the_committed_catalog_matches_the_committed_envelope; crates/conductor-core/src/load_envelope.rs::tests::loads_and_bounds_checks_the_committed_envelope; crates/conductor-core/src/load_envelope.rs::tests::the_storm_window_is_the_longest_emitting_phase_not_the_sum_of_them; crates/conductor-core/src/load_envelope.rs::tests::a_phase_exactly_at_the_storm_ceiling_is_inside_the_envelope; crates/conductor-core/src/load_envelope.rs::tests::an_emitting_phase_faster_than_the_rate_term_is_a_breach; crates/conductor-core/src/load_envelope.rs::tests::the_rate_bound_is_exclusive_at_its_boundary; crates/conductor-core/src/load_envelope.rs::tests::a_silence_phase_is_never_storm_however_long_it_runs; crates/conductor-core/src/load_envelope.rs::tests::a_zero_length_emitting_phase_is_an_unbounded_rate; crates/conductor-core/src/load_envelope.rs::tests::an_over_envelope_scenario_outside_the_ledger_is_a_fault; crates/conductor-core/src/load_envelope.rs::tests::a_ledger_entry_now_inside_the_envelope_is_a_fault; crates/conductor-core/src/load_envelope.rs::tests::a_ledger_entry_no_scenario_names_is_a_fault; crates/conductor-core/src/load_envelope.rs::tests::the_gate_and_the_per_run_judgment_agree_across_the_committed_catalog; crates/conductor-core/src/load_envelope.rs::tests::every_committed_scenario_points_authors_at_the_envelope; crates/conductor-run/src/lib.rs::tests::classify_run_flags_the_first_breaching_scenario_deterministically",
+        "status": "verified"
+      },
+      "chunk": "2026-08-13-dispatcher-determinism-goldens",
+      "notes": "PREMISE-CORRECTION (2026-08-13, phase P3 research). `contracts/pulse-load-envelope.toml:40-42` and the working-route CARRY both recorded that asserting SUMMED emitting-phase duration would let both `[[exempt]]` entries retire on their own merits. Measured across all 35 committed scenarios against the 600000 ms ceiling, both remain over on that basis (activity-floor 900000, incident-auto-resolution 610000), so the summed re-scope is a no-op on the gate's verdict and retiring the exemptions under it would turn the gate red. Cause: activity-floor's three train-active phases are 300000 ms each and genuinely emit, but are separated by 10-minute quiets -- summing disjoint bursts is not 'sustained', which is what its own exemption reason said. Resolved by asserting the envelope's own prose instead: a PER-PHASE joint bound (sustained-storm duration + rate). Catalog-wide the longest single emitting phase is 600000 ms (exactly at the ceiling, not over) and the highest per-phase rate is 4.00 spans/s against the 10000 spans/s term, so zero phases breach and the ledger genuinely retires to []. Operator-approved at the phase P5 review. The acceptance above is the normal claim-exit concretization of the standing outcome, not an absorption of the disproved premise -- the outcome text itself was never falsified. Evidence: conductor-0.2.0/chunks/2026-08-13-dispatcher-determinism-goldens/research.md (Open questions 1) and conductor-0.2.0/chunks/2026-08-13-dispatcher-determinism-goldens/scope.md (PREMISE-CORRECTION)."
+    },
+    {
+      "id": "v2-07",
+      "title": "Over-envelope run flagged environment-suspect",
+      "requirement": "A run exceeding the SUT's proven-good envelope is reported as environment-suspect rather than as a Pulse failure.",
+      "observed_gap": "Nothing distinguishes a Pulse defect from a run that drove the SUT past its known-good envelope, so a long storm run would misreport the SUT.",
+      "verification": {
+        "method": "integration",
+        "acceptance": "A run whose profile exceeds the envelope produces an environment-suspect classification distinct from Fail, and its report names the envelope breach as the cause.",
+        "ref": "crates/conductor-run/src/lib.rs::tests::an_over_envelope_run_is_environment_suspect_not_fail; crates/conductor-report/src/report.rs::tests::a_suspect_run_banners_the_breach_above_the_tally; crates/conductor-report/src/db.rs::tests::envelope_status_round_trips_per_run",
+        "status": "verified"
+      },
+      "chunk": "2026-08-09-sut-load-envelope"
+    },
+    {
+      "id": "v2-08",
+      "title": "Faithful per-phase emission dispatcher",
+      "requirement": "A per-phase dispatcher over the conductor-emit primitives emits each scenario's declared shape, extensible to the deferred families.",
+      "observed_gap": "conductor-run::coarse_emit sends one signal per phase; it cannot shape the per-family telemetry the scenarios describe.",
+      "verification": {
+        "method": "unit",
+        "acceptance": "Each scenario family's phases declare their shape in EmissionSpec (garde-validated at load), and against the loopback tonic TraceService/LogsService stub on an ephemeral 127.0.0.1:0 port the dispatcher's emitted stream matches that declaration per phase — occurrence count, signal class, and the family's shape parameters (exception/fingerprint variant mix, severity mix, latency percentiles, PII categories, error placement + error fraction, rate curve) — rather than a single signal per phase; emissions occur at their phase's boundary during the timeline walk rather than in a burst after it; and all 35 committed scenarios/*.toml still validate at load.",
+        "ref": "crates/conductor-run/tests/dispatch_wire.rs (per-family wire assertions vs the loopback tonic stub) + crates/conductor-timeline/tests/pacing.rs::emissions_land_inside_their_own_phase_window (emission timing) + crates/conductor-core/src/phase_spec.rs::tests::unrealizable_shapes_are_rejected_at_load (garde at load) + conductor-core catalog load tests (all 35 scenarios validate)",
+        "status": "verified"
+      },
+      "chunk": "2026-08-11-faithful-emission-dispatcher",
+      "notes": "CONCRETIZED at 2026-08-11-faithful-emission-dispatcher phase P5 (contract §Acceptance lifecycle). The prior acceptance presumed a declared emission spec carrying rate / error fraction / severity mix / exception-fingerprint shape; research proved EmissionSpec carries exactly one field (signal) at crates/conductor-core/src/phase_spec.rs:45, that only 3 of 35 scenario TOMLs declare even that, and that the intended shape is encoded in phase names by a convention scenarios/fingerprint-storm.toml documents. The chunk BUILDS that declaration, so the acceptance is concretized rather than corrected: all four original terms are kept, the verification mechanism is named, and two properties are added (emission timing inside the phase window; the committed catalog still load-validates). Operator resolved three forks at P4: declarative EmissionSpec fields; emit during the timeline walk; all families in one chunk."
+    },
+    {
+      "id": "v2-09",
+      "title": "Real per-check read-back extraction",
+      "requirement": "Per-check observed values are extracted from query_incident_list / retrieve_telemetry_slice and fed to the existing evaluate_check to classify path unchanged, with execute_scenario's signature preserved.",
+      "observed_gap": "execute_scenario writes the literal token \"incidents-listed\" as the observed value, so evaluate_check grades a placeholder rather than the SUT's actual response.",
+      "verification": {
+        "method": "integration",
+        "acceptance": "Against the JSON-RPC stub, each ExpectedCheck is graded on an observed value derived from the query_incident_list / retrieve_report / retrieve_telemetry_slice results per its ComparisonKind (text kinds on the composed observation, CountAtLeast on the evidence count), reaching evaluate_check to classify with both functions unmodified; a retrieve_report result carrying degraded_mode: true yields RunRecord.state == KnownResidual with the measured verdict preserved; and execute_scenario's public signature is unchanged, proven by its three production call sites compiling untouched.",
+        "ref": "crates/conductor-verify/tests/readback.rs::count_at_least_grades_the_evidence_count_not_the_text, ::observation_composes_list_fields_and_report_markdown, ::degraded_report_is_observed_as_the_pre_accepted_residual; crates/conductor-run/src/lib.rs::tests::a_measured_row_keeps_its_verdict_when_degradation_overrides_the_state, ::a_declare_only_row_under_a_degraded_read_back_is_residual_not_manual",
+        "status": "verified"
+      },
+      "chunk": "2026-08-13-per-check-read-back-extraction",
+      "notes": "Concretized at /andromeda-phase P5 (2026-08-13). Two premises the prior acceptance rested on were verified against the live SUT (andromeda-pulse crates/mcp-server/src/tools.rs) and came back different from the specs' phrasing: retrieve_report takes {incident_id} only and RETURNS degraded_mode: bool (computed as parsed_l4.is_none() at tools.rs:372), so degraded_mode is observed, never requested — arch and scenarios/degraded-mode-report.toml both phrase it as an argument; and query_incident_list takes no arguments at all. The concrete acceptance therefore names the response-side observation. Scope decisions taken at P5 review: per-check resolution derives from ComparisonKind (no scenario-model change — ExpectedCheck carries no selector), degraded_mode routes at record level so it reaches P-053 whose expected block is empty, and fingerprints is populated from retrieve_telemetry_slice.fingerprint_refs."
+    },
+    {
+      "id": "v2-10",
+      "title": "Live ready:true preflight",
+      "requirement": "A live preflight against a real Pulse in deterministic-L4 mode reaches ready:true, recorded with its journal and runs.db evidence.",
+      "observed_gap": "No run has ever produced live ready:true; the headline acceptance of the 0.1.0 e2e chunk was never achieved — live preflight returns Blocked: incident not found in corpus.",
+      "verification": {
+        "method": "dynamic-external",
+        "acceptance": "conductor preflight against a live deterministic-L4 Pulse returns ready:true, and the run's JSONL journal plus runs.db row are retained as the evidence pointer.",
+        "ref": "live leg 2026-08-16: `conductor preflight` ready:true exit 0 against pulse-app at HEAD d090314 with ANDROMEDA_PULSE_L4_DETERMINISTIC=true (run_id 2026-08-16T09-51-41-829); evidence pointer runs/2026-08-16T09-54-12-950.jsonl + the runs.db row (verdict Pass, state KnownResidual, latency_ms 2153) + conductor-0.2.0/chunks/2026-08-16-canary-fingerprint-derivation-aligned/evidence/leg-verdict.md",
+        "status": "verified"
+      },
+      "chunk": "2026-08-16-canary-fingerprint-derivation-aligned",
+      "notes": "CLAIMED AND VERIFIED at 2026-08-16-canary-fingerprint-derivation-aligned. Two prior chunks declined this claim; both declines were honest and both are now superseded by measurement. NOTES RE-BASED on the 2026-08-16 legs: the 'second independent unknown' the prior decline recorded (the storm's 12 distinct-seeded-id spans appending zero rows) is RESOLVED — with the constant-span-identity fix in place the appender is healthy, measured as 27 duckdb.append lines with ZERO reject_reason, rows_ingested 15 and the buffer.tick trio at 12/12/12; the earlier zero-append reading was a downstream effect of the same primary-key collision, not a separate defect. WHAT ACTUALLY UNBLOCKED THE CLAIM was neither the fingerprint derivation nor the append path: retrieve_telemetry_slice.fingerprint_refs is populated from the L4 model's evidence_refs (pulse-app/src/inference_runtime.rs:684-701), pinned to [] by the deterministic-L4 fixture (deterministic_inference.rs:35), while Pulse's computed fingerprint lands in span_events.fingerprint which no MCP tool reads — so the old canary assertion was unsatisfiable at any width and no derivation work could have opened it. The gate was re-aimed onto incident freshness (opened_at_unix_nano, sourced from the corpus row's created_unix_nano at mcp-server/tools.rs:412, compared against a std::time emission stamp) and reached ready:true, canary_round_trip ok, exit 0. Acceptance was premise-checked unchanged at the P5 claim — it never rested on the falsified fingerprint premise — and both of its clauses are satisfied by artifacts this session produced: the boot leg for ready:true, and a scenario leg for the journal + runs.db row, because conductor preflight is a gate and writes neither. HONEST LIMIT recorded with the claim: freshness proves causation-in-time, not payload identity — a concurrent unrelated incident inside the poll window would satisfy it, and under deterministic L4 no stronger claim exists because every L4-authored field is a fixture constant. Evidence: conductor-0.2.0/chunks/2026-08-16-canary-fingerprint-derivation-aligned/evidence/leg-verdict.md."
+    },
+    {
+      "id": "v2-11",
+      "title": "fingerprint-storm family live-proven",
+      "requirement": "The fingerprint-storm family emits faithfully, reads back through MCP and yields a verified expected outcome, proving Pulse P-017/P-018 plus P-074's exactly-one-incident claim.",
+      "observed_gap": "Only the canary path has touched a live Pulse; the fingerprint-storm family has never been driven end-to-end, and P-074 was verified by Pulse's own integration test only.",
+      "verification": {
+        "method": "dynamic-external",
+        "acceptance": "On an operator-gated live leg against a deterministic-L4 Pulse, driving BOTH family scenarios separated by more than Pulse's 60s storm-retention window (they share a base fingerprint): (1) IDENTITY — fingerprint-storm's identical/path/line triple yields a SINGLE fingerprint_hex across all 18 occurrences, harvested from Pulse's storm-detected log line (the only read surface carrying it; fingerprint_refs is L4-authored and pinned empty under deterministic L4); (2) DISTINCTNESS — fingerprint-distinct's base/type-variant/frame-variant phases yield three distinct fingerprints each held below the >=5 cue floor, storms_detected_total stays 0 and its Absent \"RetryStorm\" check holds; (3) THRESHOLDS — severity_hint passes suggested and reaches autonomous at occurrence_count >= 10; (4) COALESCING — query_incident_list returns exactly ONE incident whose opened_at_unix_nano post-dates the storm's emission stamp. The <20s slo_tier and the authored \"RetryStorm\" token are re-calibrated against the leg's measured values where live behavior proves them wrong. The envelope's fingerprints[] is NOT asserted: it is fed solely by fingerprint_refs, which the deterministic-L4 chain pins empty.",
+        "ref": "live legs on a fresh data dir per leg, graded by crates/conductor-run/tests/storm_harvest.rs predicates (single_fingerprint / tier_ladder_reached_autonomous / retry_storm_surfaced / no_storm_surfaced): conductor run fingerprint-storm --seed 4317017 and conductor run fingerprint-distinct --seed 4317018; evidence at conductor-0.2.0/chunks/2026-08-16-fingerprint-storm-live-proof/evidence/leg-verdict.md",
+        "status": "verified"
+      },
+      "chunk": "2026-08-16-fingerprint-storm-live-proof",
+      "notes": "2026-08-14-canary-fingerprint-feed-capture DECLINED this cap and it stays pooled: that chunk diagnoses why Pulse's storm detector tracked zero fingerprints, which is answerable without an incident, while this acceptance needs the family scenarios driven end-to-end and read back through MCP — an incident Pulse's 3,600s-per-service BootstrapState::Ready gate still prevents. The chunk partially advances the cap by removing the fingerprint-feed blocker and is cited in its plan.md provenance. Evidence carried forward for the next claiming chunk: Pulse's tracked_fingerprints_count is a 60s-windowed gauge over DISTINCT fingerprints sampled every 15s after eviction, so a working six-occurrence identical-fingerprint storm reads 1, never 6 — do not author an acceptance expecting 6. The latched discriminators are storms_detected_total and fingerprints_evicted_total on the same tick line; both read 0 across every sample of the three-arm probe, including a tick postdating arm 3's entire canary window. 2026-08-16-fingerprint-storm-live-proof CLAIMS this cap and concretized the acceptance at phase P5. Two concretization facts worth recording. (a) The scenario as previously authored could not prove the outcome: under the shipped blake3 derivation PathVariant diverged, so the declared triple produced TWO fingerprints, neither phase boundary landed where its name claimed, and the path fingerprint raised an unnamed second Suggested cue. The chunk re-shapes PathVariant to an ABSOLUTE-path change (stripped by normalize_frame) so the triple genuinely shares one fingerprint, with a new RelativePath member carrying the relative-path significance the reshape retires. (b) The acceptance's distinctness clause lives in a SECOND scenario (fingerprint-distinct.toml), so the leg drives both rather than demoting that half to unit tier — operator decision at the phase P5 review. PREMISE-CORRECTION (2026-08-16, measured on the live legs): this acceptance's \">60s separation\" clause is INSUFFICIENT on its own for same-dir back-to-back legs. It is correct about Pulse's 60s storm-retention window, but a second independent mechanism also blocks a second leg — Pulse dedupes a new incident against any OPEN incident and NOT by fingerprint (the canary's exception_type is ConductorCanary_{now_ms}, unique per run and therefore a distinct fingerprint, and it deduped anyway), so the first storm leg returned Blocked with 'no incident opened after the canary storm was emitted'. On a shared dir the only cure is auto-resolve at roughly five minutes; the graded re-run used a FRESH DATA DIR PER LEG, which dissolves both hazards. The acceptance text stands; this records what it under-specified. The dedupe semantics are a Pulse product-design question (Pulse-visit candidate #4), not a Conductor defect. Also measured: retrieve_report returns degraded_mode:true PERMANENTLY under deterministic L4, so the scenarios' Contains/Absent 'RetryStorm' read-back checks were structurally ungradeable (the Absent side passed vacuously); they are retired to declare-only and their assertions moved to the harvest surface, and slo_tier was re-calibrated <20s -> <90s because latency_ms spans the scenario's own ~24s/~30s emission window. Both were performed under this acceptance's own re-calibration clause."
+    },
+    {
+      "id": "v2-12",
+      "title": "error-baseline-spike family live-proven",
+      "requirement": "The error-baseline-spike family emits faithfully, reads back through MCP and yields a verified expected outcome, proving Pulse P-009..P-012.",
+      "observed_gap": "Only the canary path has touched a live Pulse; error-baseline-spike has never been driven end-to-end.",
+      "verification": {
+        "method": "dynamic-external",
+        "acceptance": "On an operator-gated live leg against a deterministic-L4 Pulse — fresh data dir, the six-item recipe — the error-baseline-spike scenario (P-009/P-010) is driven end-to-end and proven at the harvest tier: its harvested triage.cue.emit line names error_rate_spike at magnitude >= 3.0 and confidence >= 0.7 (cue existence proves the sample floor by the evaluator's own below-floor skip; magnitude is the live baseline-relative ratio, i.e. baseline convergence), firing in the spike window at priority 'suggested' with suppression_bypassed=true (the P-057 absolute arm); and the leg's runs.db row plus runs/<run_id>.jsonl envelope is non-Blocked — KnownResidual under the degraded read-back — with latency_ms recorded and slo_tier re-declared <90s. The read-back token checks are retired to declare-only (no read-back surface can carry them under deterministic L4). The LATENCY half (P-011/P-012) is premise-disproved under the shipped shape and routed forward to the Epoch-3 'latency-regression re-proof' working-route entry (see notes — the refine-with-evidence resolution). Graded by crates/conductor-run/tests/baseline_harvest.rs predicates pinned to the leg's verbatim captured lines; evidence at conductor-0.2.0/chunks/2026-08-18-error-baseline-spike-live-proof/evidence/leg-verdict.md.",
+        "ref": "crates/conductor-run/tests/baseline_harvest.rs::tests::the_leg_a_capture_satisfies_every_error_spike_predicate + ::the_leg_a_capture_proves_the_canary_prefix_equality (verbatim leg-A pins); live leg A run_id 2026-08-18T18-47-32-786 (row KnownResidual, journal + runs.db retained) + evidence/leg-verdict.md",
+        "status": "verified"
+      },
+      "chunk": "2026-08-18-error-baseline-spike-live-proof",
+      "notes": "CONCRETIZED at 2026-08-18-error-baseline-spike-live-proof phase P5 (contract §Acceptance lifecycle), operator-approved with one MARKED NARROWING. P3 research settled the prior acceptance's read-back premises against the SUT source at HEAD efabe8e: (a) neither authored token can reach any read-back surface — during a leg every incident is OPEN, so resolution_summary_text is None and retrieve_report renders the DEGRADED branch (fixture constants, no cue kind on any branch; degraded_mode = parse(resolution_summary_text).is_none(), crates/mcp-server/src/tools.rs:374-378); (b) CountAtLeast grades evidence_count = span_refs count = incident.evidence_refs.span_ids.len() = 0 by construction (span_ids = Vec::new() at creation, no writer — pulse-app/src/inference_runtime.rs:733); (c) both cues top out at Suggested tier (magnitudes 3.5x/3.0x vs the >=5x + conf >=0.9 Autonomous bar, crates/triage/src/cue/classify.rs:23) and Tier-2 cycles are skipped wholesale on cpu-primary (cadence/coordinator.rs:154-172), so NO incident forms from this family on this host — the acceptance's 'candidate' is the CUE, proven on triage.cue.emit (cue/emitter.rs:194-205), with the canary incident keeping the corpus non-empty. The token checks therefore retire to declare-only (the v2-11 disposition, now with per-surface evidence). NARROWING (operator-approved 2026-08-18): the outcome's 'within the scenario's SLO tier' clause is asserted as non-blocked + recorded latency_ms with both TOMLs re-declared <90s — whole-run latency (~150-180s emission windows; emitted_ms is stamped before the timeline at conductor-run/src/lib.rs:338) exceeds every tier deadline (max 90_000 ms) by construction, and real per-check latency is owned by v2-19. Full evidence chain: conductor-0.2.0/chunks/2026-08-18-error-baseline-spike-live-proof/research.md. PREMISE-CORRECTION + REFINE-WITH-EVIDENCE (2026-08-18 wrap, operator-directed; contract §Acceptance lifecycle). Leg B DISPROVED the latency half as concretized: (a) zero latency_regression cues are possible under the shipped 90/90 shape — the long-window t-digest p99 absorbs a ramp contributing ~half the window (threshold ~ long*2.5 ~ 6000ms vs short ~ 2400ms), a category error in the research model (a windowed percentile is not a slow EWMA); (b) the canary incident auto-resolved across the 180s benign window (30s resolver ticks), so the read-back honestly Blocked (run 2026-08-18T18-53-50-494; the harness-forced seed 424242 is recorded on the row). Resolution: the acceptance REFINED to the measured-provable error half — never weakening that half, every original clause holds there (convergence via magnitude/confidence, floors via the evaluator gate, candidate via the cue line, non-blocked via the KnownResidual row, plus the P-057 bypass witness and the canary prefix-equality MATCH bf2c0bf8 measured on the same leg) — and the latency half routed FORWARD to the new Epoch-3 'latency-regression re-proof' entry carrying both obstacles as its CARRY; v2-19 separately owns per-check latency. Leg B's Blocked row is retained as the disproof evidence. Evidence: evidence/leg-verdict.md (both legs) + report.md. FORWARD-POINTER RESOLVED (2026-08-20-latency-regression-re-proof): the LATENCY half this entry routed forward is now PROVEN live at the harvest tier, at that entry, not this one — no claim is made here and this capability's status is unchanged. Measured: 31 `triage.cue.emit` lines of kind `latency_regression` (27 suggested, magnitude 3.50-3.68 over a ~805-847ms baseline, confidence 1.0, scope `operation`, suppression_bypassed true via the >1000ms absolute arm), first at +13s into the first pulse, BOTH pulses firing - against ZERO under the 90/90 shape this entry disproved. Both obstacles dissolved by shape, not by threshold: (a) window absorption, by keeping the anomaly ~0.3% of the union (a 24-span pulse against a 180s/50-spans-per-second baseline); (b) the rotation phase - measured real, `persistence_seconds` resetting 2456 -> 68 mid-leg - by placing two pulses 150s apart (= 30s mod the 60s cycle) so at most one can land in a dead zone. Row: verdict null / KnownResidual / latency_ms 373784 / <90s / TOML seed 4317011. Evidence: conductor-0.2.0/chunks/2026-08-20-latency-regression-re-proof/evidence/leg-verdict.md."
+    },
+    {
+      "id": "v2-13",
+      "title": "restart-suppression family live-proven",
+      "requirement": "The restart-suppression family emits faithfully, reads back through MCP and yields a verified expected outcome including one bypass case, proving Pulse P-015/P-016/P-057.",
+      "observed_gap": "Only the canary path has touched a live Pulse; restart-suppression and its bypass case have never been driven end-to-end.",
+      "verification": {
+        "method": "dynamic-external",
+        "acceptance": "On the operator-gated live leg against a deterministic-L4 Pulse — fresh data dir, the six-item recipe, NO SEED override (the TOML-declared seed 4317015 governs; the run envelope records it) — the re-shaped restart-suppression scenario (P-015/P-016/P-057) is driven end-to-end and proven at the harvest tier as hard predicates in the CI-runnable crates/conductor-run/tests/restart_harvest.rs over verbatim leg captures pinned from run 2026-08-18T21-40-46-519 (SUT HEAD efabe8e): (P-015) triage.pattern.restart_emit fires twice — once per gap/resume cycle — each with gap_seconds > 20; (P-016 suppressed half) an in-window, not-bypassed triage.cue.suppression_check exists below the 30 persistence cutoff with NO matching triage.cue.emit — persistence_seconds is the SUT's cumulative per-service sample count (cue/evaluate.rs:55), the scenario paces ~1 span/s so samples track seconds, and the tick line's cues_suppressed/bypass_triggered counters are redacted live and carry no evidence; (P-016 surgical half) the same service's cues are plain-kept (emitted, not bypassed) at persistence >= 30 — the drop-then-keep crossing; (P-057) a triage.cue.suppression_bypass trigger carries Pulse's own reason label absolute plus a kept young cue with suppression_bypassed=true — the absolute arm; the relative-magnitude arm is unreachable for error cues at shipped SUT constants (alpha_short/alpha_long = 10 = the bypass multiplier; the 0.01 baseline floor caps the young-service peak at ~9.7x) and is deliberately not asserted; and an autonomous-tier error_rate_spike cue (magnitude >= 5, confidence >= 0.9, persistence >= 30) witnesses the Tier-1 incident former. The leg's runs.db row plus runs/<run_id>.jsonl envelope is non-Blocked — KnownResidual under the degraded read-back, verdict null — with latency_ms recorded and slo_tier re-declared <90s. Both read-back token checks are retired to declare-only (no read-back surface renders a cue kind under deterministic L4).",
+        "ref": "crates/conductor-run/tests/restart_harvest.rs::tests::the_pinned_leg_lines_parse_and_satisfy_every_witness + ::the_pinned_observations_carry_the_measured_values (verbatim captures, live run 2026-08-18T21-40-46-519) + crates/conductor-core/src/scenario.rs::tests::restart_suppression_is_declare_only_at_the_harvest_tier",
+        "status": "verified"
+      },
+      "chunk": "2026-08-18-restart-suppression-live-proof",
+      "notes": "PREMISE-CORRECTION at the 2026-08-18-restart-suppression-live-proof wrap (refine-with-evidence, operator-ratified — the v2-12 precedent): the phase-P5 concretization rested on four premises measurement disproved while every substantive witness PASSED live — (1) persistence-as-spike-duration: Pulse computes persistence_seconds = cumulative per-service samples (cue/evaluate.rs:55), so suppression-eligibility and bypass-attribution exist only in a service's first 30 samples; (2) the bypass reason labels are absolute/relative (BypassReason::label, suppression.rs:22-27), not absolute_error_rate/relative_magnitude; (3) the tick-counter clause graded an unreadable surface (cues_suppressed/bypass_triggered read <redacted> live — Pulse's default-deny allowlist predates the chunk-#63 fields); (4) the relative-magnitude arm is unreachable for error cues at shipped constants (alpha-ratio = multiplier = 10; the 0.01 floor caps the peak at ~9.7x). Acceptance refined to the measured witnesses; the outcome's substance (restart event + surgical suppression + one attributable bypass case as hard pass/fail) is intact at the harvest tier. Evidence: chunks/2026-08-18-restart-suppression-live-proof/evidence/leg-verdict.md (run 2026-08-18T21-40-46-519). ORIGINAL CONCRETIZATION NOTE (phase P5, retained): Concretized at 2026-08-18-restart-suppression-live-proof phase P5 (claim-exit invariant): the shipped TOML encoding was measured live-unrealizable at SUT HEAD efabe8e (the suppressed legs' absolute rates clear the 0.05 absolute-bypass bar; the bypass triple sat outside the 60s window), and a pure relative-only bypass is arithmetically impossible at integer error_percent — the relative arm is witnessed by Pulse's relative_magnitude short-circuit label. Evidence: chunks/2026-08-18-restart-suppression-live-proof/research.md §Key findings 2-4."
+    },
+    {
+      "id": "v2-14",
+      "title": "pii-scrub family live-proven",
+      "requirement": "The pii-scrub family emits faithfully, reads back through MCP and yields a verified expected outcome, proving Pulse P-035/P-047/P-048.",
+      "observed_gap": "Only the canary path has touched a live Pulse; pii-scrub has never been driven end-to-end.",
+      "verification": {
+        "method": "dynamic-external",
+        "acceptance": "The pii-scrub leg proves live ingestion of all three carriers (spans / exception events / logs): duckdb.append rows_appended match the emitted counts with zero PK-collision drops, and the preflight incident forms. Scrub semantics are byte-verified at SUT HEAD (whole-field [REDACTED:{category}] at persistence; 6/7 category recall — bare sk_live_ gap recorded as SUT intake). The 5 read-back checks are retired declare-only WITH the measurement recorded (vacuous Absent / structural-fail Contains, source-proven payload-invariant tools). No raw excerpt value appears in any Conductor artifact or committed pin (sentinel-absence negative).",
+        "ref": "crates/conductor-run/tests/pii_harvest.rs (live ingestion witnesses over pinned verbatim leg lines from run 2026-08-19T20-42-57-839: spans 2x2 / span_events 1x2 / log_records 7x2 zero-drop + the canary suggested@5->autonomous@10 ladder + the 33-needle sentinel-absence negative) + crates/conductor-emit/src/pii.rs::tests::log_records_carry_distinct_strictly_increasing_stamps (the PK-collision fix, proven live on both legs) + crates/conductor-core/src/scenario.rs::tests::pii_scrub_is_declare_only_with_the_measurement_recorded (the declare-only retirement with the leg-A measurement in the TOML header)",
+        "status": "verified"
+      },
+      "chunk": "2026-08-19-pii-scrub-live-proof",
+      "notes": "PREMISE-CORRECTION (2026-08-19 phase P5, operator-ratified claim+reword): the original read-back outcome is unattainable under deterministic L4 + the 4-tool corpus surface — source-proven at SUT HEAD efabe8e (span attributes never stored, buffer schema; scrubbed value-bearing fields live in the in-memory buffer no corpus tool reads; retrieve_telemetry_slice projects only evidence_refs, tools.rs:422-443; retrieve_report renders only L4-fixture/incident fields). Acceptance concretized to the achievable live proof (ingestion witnesses + source-pinned scrub semantics + declare-only retirement + hygiene negative); evidence: chunks/2026-08-19-pii-scrub-live-proof/research.md, The central measurement section. SUT intake riding the chunk: bare sk_live_ recall gap; no external scrub observability; log_records PK drop semantics."
+    },
+    {
+      "id": "v2-15",
+      "title": "connection-lifecycle family live-proven",
+      "requirement": "The connection-lifecycle family emits faithfully, reads back through MCP and yields a verified expected outcome including the PortOccupier fault, proving Pulse P-001..P-004.",
+      "observed_gap": "Only the canary path has touched a live Pulse; connection-lifecycle and the port-occupier leg have never been driven end-to-end.",
+      "verification": {
+        "method": "dynamic-external",
+        "acceptance": "The four family scenarios complete on fresh-dir live legs against a deterministic-L4 Pulse, each exiting 0 with a non-Blocked declare-only row (ManualCheck, or KnownResidual under degraded read-back) and journal + runs.db evidence. Pulse's own connection.state.transition lines witness the walk ledger — boot-time Listening->Receiving, then Stalled->Receiving->Idle->Stalled across the walk phases with last_span_ago_ms straddling the 10s/60s thresholds — and on the port-conflict leg the ->ReceiverFailed transition carries trigger_reason=bind_failed at error level while Conductor's PortOccupier held :4317 via the PhaseSpec.fault-driven guard; after the phase-boundary RAII release a relaunched pulse-app logs 'OTLP gRPC receiver bound' — recovery is a process replacement (bind status is per-process; the failed instance dies in ReceiverFailed while the fresh one boots its own FSM), so the release is proven by the SUT's own successful rebind. The fault.port_occupier span rides the driven leg's self-obs (new+close beneath timeline.execute), and connection_harvest.rs pins these witnesses verbatim, grading them as hard predicates in CI.",
+        "ref": "crates/conductor-run/tests/connection_harvest.rs::the_walk_ledger_crosses_both_thresholds_in_order; ::the_tracker_reports_elapsed_within_the_poller_tick_of_truth; ::the_conflict_leg_witnesses_receiver_failed_while_the_occupier_held; ::the_release_is_proven_by_the_suts_own_rebind; ::no_false_alert_off_the_conflict_leg; crates/conductor-run/src/lib.rs::tests::a_fault_phase_guard_binds_and_its_drop_releases; ::occupy_failure_is_captured_across_the_timeline_and_surfaces_after; live legs A1/A2/B1-B4 2026-08-19T22:38-22:52Z (chunks/2026-08-19-connection-lifecycle-live-proof/evidence/leg-verdict.md)",
+        "status": "verified"
+      },
+      "chunk": "2026-08-19-connection-lifecycle-live-proof",
+      "notes": "DECLINED at 2026-08-16-fault-application-spans (phase P5, contract Acceptance lifecycle). That chunk instruments the three obs-plan-4 fault spans and considered claiming this cap through the port-occupier half of the acceptance; it cannot, and stays pooled: this acceptance needs the Listening/Receiving/Idle/Stalled walk driven end-to-end against a live Pulse with each transition read back within its SLO, which a headless SUT-free instrumentation chunk does not do. ONE FINDING THE CLAIMING CHUNK SHOULD NOT RE-DERIVE: there is no port-occupier driver anywhere. The code-graph returns 0 crate edges for conductor-faults in either direction and 0 references to PortOccupier / AbruptSilence / EmissionGap / BurstyTrain from outside that crate, so the \"Epoch-8 driver\" named in scenarios/receiver-failed-port-conflict.toml:8 does not exist and the port-held phase currently emits one plain span. Driving the receiver-failed state therefore means WIRING the occupier into the run path first, not merely running the scenario. Evidence: conductor-0.2.0/chunks/2026-08-16-fault-application-spans/research.md (Graph impact) and .andromeda/runs/2026-08-16T11-10-20-phase/tree-query-2026-08-16-fault-application-spans.json. Ride-along: the fault.port_occupier span now exists at the occupy/release RAII site with fault_type + port, proven by a conductor-faults test only; it acquires its timeline.execute parent when that driver lands, which is this cap's chunk to do. PREMISE-CORRECTION (2026-08-19 phase P4 fork + P5 preview, operator-ratified claim+reword — the v2-14 phase-time shape): the requirement's 'reads back through MCP' clause is structurally unsatisfiable — Pulse's connection FSM surfaces only via the TauRPC connection.current_state resolver, the pulse://stream/connection-state broadcast, and tracing lines (connection.state.transition / app.boot.otlp.grpc.bind / connection.tick); no mcp-server tool carries connection state (every 'Connection' in tools.rs is duckdb::Connection), and Observation.text composes incident-list + report text only (conductor-verify/src/extract.rs), so the family's four Hard Contains checks (Stalled / Receiving / ReceiverFailed / Idle+error) cannot grade against any read-back surface under deterministic L4. Acceptance concretized to the achievable live proof: harvest-tier grading over Pulse's own FSM/bind lines with the four TOMLs retired declare-only and the structural measurement recorded on leg A (the fingerprint-storm / error-baseline / pii-scrub precedent). Evidence: chunks/2026-08-19-connection-lifecycle-live-proof/research.md §Files inspected + §Key run-path facts (SUT: crates/ingest/src/connection.rs, pulse-app/src/connection_router.rs, crates/mcp-server/src/tools.rs). PREMISE-CORRECTION (2026-08-19 wrap, coverage gate, operator-pre-ratified in the wrap directives — the sub-clause grain): the concretized acceptance's descriptor 'with a recovery transition' measured structurally unsatisfiable on leg B4 — bind status is per-process and recovery is a process replacement, so no FSM transition out of ReceiverFailed exists to log; the outcome mechanism the same sentence names (the SUT's own successful rebind, pinned in connection_harvest.rs) measured intact, so the descriptor was reworded to the measured mechanism with the outcome unweakened. Evidence: chunks/2026-08-19-connection-lifecycle-live-proof/evidence/leg-verdict.md (the B4 bind-line chronology + the process-replacement note)."
+    },
+    {
+      "id": "v2-16",
+      "title": "severity-lifecycle full pass",
+      "requirement": "One full severity-lifecycle pass observes auto-resolve and the resolution summary via read-back.",
+      "observed_gap": "Auto-resolve and the resolution summary have never been observed via read-back.",
+      "verification": {
+        "method": "dynamic-external",
+        "acceptance": "On fresh-dir live legs at SUT HEAD efabe8e: auto-resolve proven HARD on Pulse's own ledger — the scenario's incident leaves the active set within the 120s no-reemission window plus the 30s AutoResolveObserver tick, witnessed by the unredacted incidents.list_active.request item_count transition (measured: created 09:00:28.046, active set emptied 09:02:45.671 = 137.6s, inside the 150s bound and at the FIRST tick past the window) — and the post-resolve same-fingerprint retrigger forms a NEW incident (created=true, deduped=false), which is an independent resolution proof because Pulse dedups against the ACTIVE set alone. Read-back corroborates the emptied lifecycle where read-back can carry it: on a leg whose scenario re-opens nothing, query_incident_list returns zero and the declare-only route takes the pre-accepted auto-resolve residual (measured on leg E, ack-cooldown, result_count 0 — the first live exercise of that arm). Severity choice is graded CalibrationRegion at the cue tier — each tier leg's measured cue-priority band recorded, never hard-failed on exact values (measured: autonomous / suggested / curious on legs B / C / D, separated by confidence = samples/100 at identical magnitude). The resolution-summary clause is premise-corrected (see notes): its measured ABSENCE under deterministic L4 is harvest-witnessed and recorded as SUT intake. Family checks retire declare-only with measurements in the TOML headers; rows land verdict:null/KnownResidual; severity_harvest.rs pins the leg lines green under both runners.",
+        "ref": "crates/conductor-run/tests/severity_harvest.rs",
+        "status": "verified"
+      },
+      "chunk": "2026-08-21-severity-lifecycle-live-proof",
+      "notes": "PREMISE-CORRECTION (ratified at phase P5, 2026-08-21): the requirement's 'resolution summary via read-back' clause is unobservable under deterministic L4 at SUT HEAD efabe8e — nothing constructs DigestKind::ResolutionSummary (triage/contract.rs:275 is its sole declaration; every other reference is a match arm) and the canned fixture pins is_resolution_summary:false, the only two triggers of attach_resolution_summary_to_incident (inference_runtime.rs:147-150). Measured live: ZERO lines naming resolution_summary across all five legs. Recorded as SUT intake, not weakened away.\n\nPREMISE-CORRECTION #2 (wrap, 2026-08-21 — two witness sub-clauses refined against measurement, the v2-15 sub-clause precedent; the OUTCOME is proven STRONGER, never weakened): (a) the phase-time wording named 'hard pass/fail from the harvested auto_resolve.tick + lifecycle lines'. Measured false as a witness: triage.incident.auto_resolve.tick renders resolved_count / evaluated_count / duration_ms as the literal string \"<redacted>\" (Pulse's observer field allowlist predates those fields), so the tick proves the observer RAN and can never prove it RESOLVED anything, and no lifecycle line is logged at all (the transition is a broadcast). The hard witness is re-aimed to the unredacted incidents.list_active.request item_count transition, which measured 137.6s — a tighter bound than the original wording asserted. (b) the wording also claimed the final active-only list 'no longer carries the resolved one'. On leg A read-back returned 2 incidents where pulse-app's own in-app ledger showed 1 at the same instant; they agreed pre-resolution and diverged only after the two auto-resolutions, so absence is NOT assertable through read-back there. The clause is scoped to what leg E proves — an empty active list read back as result_count 0 on a scenario that re-opens nothing — and leg A's corpus/in-app divergence is RECORDED as SUT intake rather than silently absorbed. Evidence: conductor-0.2.0/chunks/2026-08-21-severity-lifecycle-live-proof/evidence/leg-verdict.md; pinned by crates/conductor-run/tests/severity_harvest.rs."
+    },
+    {
+      "id": "v2-17",
+      "title": "Workspace-key divergence detected",
+      "requirement": "Conductor detects an app/sidecar workspace-key mismatch and fails with a named precondition rather than an opaque Blocked; the real fix stays Pulse-side.",
+      "observed_gap": "Incidents are filtered WHERE workspace = ?1; pulse-app derives that key via resolve_workspace_for_incidents (the detected project root) while the sidecar always uses data_dir, so if pulse-app launches anywhere the detector recognises, query_incident_list returns zero rows and preflight reports the opaque Blocked: incident not found in corpus even with deterministic L4 on.",
+      "verification": {
+        "method": "integration",
+        "acceptance": "A simulated app/sidecar key mismatch (the stub's empty-corpus arm — a diverged key and an empty corpus are byte-identical on the wire) produces a distinct named precondition, not the generic corpus Blocked, returned as Ok(Blocked); the precondition string carries no absolute host path; and a fingerprint-miss leg proves the two not-found causes stay distinguishable. The live launch probe is run once across three arms — cwd = the Conductor repo root, cwd = a marker-less temp dir, cwd = the data dir itself — with each arm's ready and blocked_precondition recorded in the chunk's two-launch-verdict.md.",
+        "ref": "crates/conductor-verify/tests/preflight.rs::an_empty_canary_names_the_workspace_key_precondition (+ a_fingerprint_mismatch_is_blocked, a_canary_call_error_is_blocked_distinctly_from_an_empty_corpus, a_blocked_precondition_carries_no_absolute_host_path); live probe evidence: conductor-0.2.0/chunks/2026-08-10-workspace-key-divergence-probe/two-launch-verdict.md",
+        "status": "verified"
+      },
+      "chunk": "2026-08-10-workspace-key-divergence-probe",
+      "notes": "PREMISE-CORRECTION (2026-08-10, chunk 2026-08-10-workspace-key-divergence-probe). CONFIRMED first-hand against the Pulse source: incidents filter WHERE workspace = ?1 (crates/corpus/src/contract.rs:628); pulse-app keys on the detected root via resolve_workspace_for_incidents (pulse-app/src/main.rs:688-693 -> digest_runtime.rs:109-127); the sidecar keys on data_dir (crates/mcp-server/src/bin/andromeda-pulse-mcp.rs:74, under a parity comment stale since Pulse's P-079). FALSIFIED: the premise that a marker-less temp dir makes pulse-app fall back to data_dir. workspace_detector::detect (crates/workspace-detector/src/detect.rs:21-57) records the .andromeda marker and VCS as FIELDS on the returned context, not success conditions, and errors only on a traversal component or a non-existent path — so detection succeeds for virtually any real cwd, a marker-less temp dir keys to that temp dir, and the data_dir fallback is effectively unreachable from a normal launch. Consequences: no cwd-based interim unblock is known to exist, and the probe gains a third arm (cwd == the data dir — the only position where the two keys could agree, itself in doubt because Windows canonicalize returns the \\\\?\\ verbatim prefix while the sidecar uses the raw data_dir string). ALSO ESTABLISHED: Conductor cannot OBSERVE the app-side key — dispatch_query_incident_list takes no arguments (crates/mcp-server/src/tools.rs:174,336), Pulse never logs incident_workspace_key, and corpus.db is out of bounds by rule — so the deliverable is a named precondition stating the condition and both candidate causes, never a claimed measurement. intent.md and requirements.md are immutable records of what was ASKED and are deliberately unedited; this ledger entry is the correction channel."
+    },
+    {
+      "id": "v2-18",
+      "title": "Machine-checked Pulse run contract",
+      "requirement": "A recorded, reproducible run contract that preflight asserts and whose unmet terms it names; doubles as the verification of Pulse P-073.",
+      "observed_gap": "Nothing in this repo states how a verifiable Pulse must be launched; conductor-verify/src/spawn.rs:18 passes only ANDROMEDA_PULSE_DATA_DIR, and there are zero references to Pulse's deterministic mode anywhere in the tree.",
+      "verification": {
+        "method": "integration",
+        "acceptance": "Preflight asserts the contract terms — ANDROMEDA_PULSE_L4_DETERMINISTIC set on the launched pulse-app (not the sidecar) and both sides resolving the same data dir — and names each unmet term individually; the contract is recorded in-repo and reproducible.",
+        "ref": "crates/conductor-verify/tests/preflight.rs::an_unmet_run_contract_term_is_blocked_and_named_individually (+ an_unmet_term_skips_the_canary_rather_than_reporting_its_symptom, a_satisfied_contract_leaves_the_other_legs_deciding, a_blocked_precondition_carries_no_absolute_host_path); contract recorded + reproducible: crates/conductor-core/src/run_contract.rs::tests::{loads_and_bounds_checks_the_committed_contract, only_a_shell_declaration_term_can_be_unmet, the_committed_preflight_budget_stays_inside_the_committed_load_envelope}",
+        "status": "verified"
+      },
+      "chunk": "2026-08-10-pulse-run-contract",
+      "notes": "PREMISE-CORRECTION (2026-08-10, chunk 2026-08-10-pulse-run-contract). The acceptance prose reads as though preflight ASSERTS both named terms. Only one is assertable, and the acceptance text is deliberately left unedited as the record of what was ASKED. WHAT IS ASSERTED: ANDROMEDA_PULSE_L4_DETERMINISTIC, through a shell-declaration proxy — Conductor reads its OWN environment, the shell that also launches pulse-app — shipped as check = \"shell-declaration\" in contracts/pulse-run-contract.toml, the only check kind that can block. WHAT IS NOT: 'both sides resolving the same data dir'. Conductor propagates its resolved data dir to the sidecar via the .env(...) builder, so the sidecar half is guaranteed by construction, but pulse-app's half is structurally unobservable — the exact limit v2-17's notes established, since dispatch_query_incident_list takes no arguments (crates/mcp-server/src/tools.rs:174,336), Pulse never logs the incident workspace key, and corpus.db is out of bounds by rule. That term therefore ships as check = \"declared-not-observable\" with its causes recorded: it is stated so an operator can satisfy it, and it never blocks, because blocking on it would assert a measurement Conductor cannot make. CONSEQUENCE: 'preflight asserts the contract terms' holds for every term Conductor can honestly observe, and the artifact itself carries the distinction per-term rather than leaving a reader to infer it. The coverage flip stands on the refs, not on the prose. Same channel as v2-17: intent.md and requirements.md are immutable records of what was asked and are deliberately unedited; this ledger entry is the correction channel."
+    },
+    {
+      "id": "v2-19",
+      "title": "Sub-5s budget representation and per-check latency",
+      "requirement": "Budgets below the closed 5s/20s/90s tier set are representable, and latency is measured per check rather than as the coarse whole-loop delta.",
+      "observed_gap": "SloTier is a closed three-value set — 5s/20s/90s (crates/conductor-core/src/scenario.rs:36-61) — and the only latency recorded is the coarse whole-loop observed_ms - emitted_ms (conductor-run/src/lib.rs:208), not per-check.",
+      "verification": {
+        "method": "unit",
+        "acceptance": "On `cargo nextest run -p conductor-core -p conductor-verify -p conductor-run -p conductor-report` (and the same suites under `cargo test -p <crate>`), four assertions hold. (1) BUDGET — an `[[expected]]` check may declare `budget_ms` beneath its scenario's `slo_tier`, round-tripping TOML -> serde -> garde -> `evaluate_check` -> the persisted envelope, with a budget exceeding its tier's `deadline_ms()` rejected at load as `CoreError::Config` (a harness fault, never a verdict) by `Scenario::check_budgets()` invoked from the `from_toml_str` load path — the structural sibling of `check_capabilities`. (2) PER-CHECK GRADING — every check's outcome, not only the `max_by_key(severity_rank)`-chosen worst, is persisted at a `(run_id, scenario, check_index)` grain carrying its own `latency_ms`, its own effective deadline (`budget_ms` when declared, else the tier's) and its own verdict, across the JSONL journal, `runs.db` and the Markdown run report. (3) NON-VACUITY — a two-check fixture sharing ONE observation instant but declaring different budgets yields DIFFERENT timing verdicts. (4) NULL DISCIPLINE — declare-only scenarios (zero `[[expected]]`) and blocked rows emit ZERO per-check rows, while `RunRecord` keeps exactly its eleven fields in declaration order and `slo_tier` its closed `<5s`/`<20s`/`<90s` set.",
+        "ref": "conductor-core/src/scenario.rs::the_budget_rule_runs_at_the_toml_load_path · ::a_budget_above_its_tier_is_a_harness_fault_naming_the_check · ::a_within_tier_budget_survives_the_toml_round_trip · ::the_committed_catalog_declares_budgets_within_its_tiers · conductor-core/src/expected.rs::a_declared_budget_overrides_the_tier · ::an_absent_budget_falls_back_to_the_scenario_tier · conductor-verify/src/slo.rs::two_checks_sharing_one_instant_reach_different_verdicts_on_their_budgets · ::a_budget_can_fail_a_check_its_tier_would_have_passed · conductor-run/src/lib.rs::every_check_survives_the_collapse_not_just_the_worst · conductor-report/src/db.rs::check_rows_round_trip_in_declaration_order · ::checks_for_is_empty_when_a_scenario_graded_nothing · ::the_runs_row_keeps_its_eleven_columns_beside_the_new_table · conductor-report/src/journal.rs::check_line_is_its_own_parseable_shape_beside_the_envelope",
+        "status": "verified"
+      },
+      "chunk": "2026-08-21-per-check-latency-measurement",
+      "notes": "PREMISE-CORRECTION (ratified at phase P5, 2026-08-21): the acceptance's original clause 'each check carries its own latency_ms rather than sharing the run's whole-loop value' — and the requirement's 'latency is measured per check rather than as the coarse whole-loop delta' — both presuppose that each check can be timed independently. Measured false at phase P3: conductor-verify/src/extract.rs composes ONE Observation per scenario from a single observe() pass (conductor-run/src/lib.rs:371), and Observation::observed_for hands each check a PROJECTION of it (text for Exact/Contains/Absent, evidence_count for CountAtLeast, extract.rs:53-62). With one observation instant per scenario the per-check latency VALUES are necessarily equal; genuinely per-check instants would require per-check read-back calls — a read-back-architecture change outside a method:unit capability, multiplying MCP round-trips per scenario. The outcome is preserved and STRENGTHENED, never weakened: the per-check DEADLINE becomes the differentiator (operator-selected at phase P4 over a scenario-level budget, which would have left the per-check timing half uniform), and all N check outcomes are now persisted where previously N-1 were discarded entirely at the max_by_key collapse in conductor-run/src/lib.rs:414-437 — so the coarse whole-loop delta the requirement objects to is no longer the only thing a check is graded on. requirement is immutable and stays untouched.\n\nPREMISE-CORRECTION (ratified at wrap, 2026-08-21 — two MECHANISM descriptors refined against measurement; the v2-15/v2-16 sub-clause precedent, smallest instance yet). Both descriptors were authored at this chunk's own phase P5, BEFORE the code was read, and implement surfaced both rather than setting `implemented` silently. (a) \"garde-validated one altitude up on `Scenario::expected`\" is structurally impossible: garde 0.22.1's field-level `custom` receives `(&field, &())` and cannot see a SIBLING field, so a rule spanning `expected` and `slo_tier` has no field to sit on; it ships as `Scenario::check_budgets()` invoked from `from_toml_str` (scenario.rs:128/:167), the shape `check_capabilities` already uses. The one-altitude-up route (`fault_phases_are_silent`) works only for an invariant contained WITHIN the lifted field. (b) \"`CoreError::Validation` at load\" cannot carry the message: error.rs:22 pins that variant as `#[from] garde::Report`; the fault is `CoreError::Config`, the same harness-fault class its sibling check raises. NEVER-WEAKEN holds trivially — only the mechanism prose moved. All four numbered OUTCOME assertions stand unchanged and are test-proven by the 13-test `ref`, and the asserted property (an over-tier budget is rejected AT LOAD as a harness fault, never a verdict) is exactly what ships. The specs now state the shipped mechanism too (architecture.md [Validation Library] + [Scenario Config Format]; security-plan ×4)."
+    },
+    {
+      "id": "v2-20",
+      "title": "Four delegated timing budgets return real Pass/Fail",
+      "requirement": "P-025 halo hue at or under 2s, P-027 constellation discovery at or under 5s, P-037 report render at or under 2s and P-045 counter refresh at or under 1s each yield a real Pass/Fail at its actual value rather than a ManualCheck, closing Pulse P-075.",
+      "observed_gap": "All four scenarios currently carry empty expected blocks (DriveObserve / ManualCheck); only P-027's 5s budget fits the closed tier set, so the other three are structurally unassertable.",
+      "verification": {
+        "method": "dynamic-external",
+        "acceptance": "Against a live Pulse each of the four capabilities produces a Pass or Fail measured at its real budget (2s/5s/2s/1s), not a ManualCheck; the run artifact is quotable as Pulse P-075's external evidence reference.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-21",
+      "title": "Conductor's own verification ledger",
+      "requirement": "0.2.0 carries a verification-matrix.json tracking Conductor's own delivery, with the v2-NN and P-NNN id spaces kept visibly separate.",
+      "observed_gap": "conductor-0.1.0/ predates the verification-matrix feature, so every matrix step in every skill is a noted no-op there; Conductor's own delivery has never been coverage-tracked. The 60 Pulse P-IDs in coverage.rs and scenarios/*.toml are a different mechanism, tracking the SUT's capabilities.",
+      "verification": {
+        "method": "by-construction",
+        "acceptance": "verification-matrix.json exists with exactly one entry per requirements.md capability, ids unique; no P-NNN appears in an id position anywhere in the matrix (Pulse P-IDs occur only inside acceptance text).",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-22",
+      "title": "Desktop a11y sweep asserted",
+      "requirement": "The shipped, display-gated real-webview specs run on Linux+xvfb against a live Pulse and assert zero axe violations, token-pair contrast, and keyboard-trap escape plus focus order across the four accessible paths, without re-authoring the harness.",
+      "observed_gap": "The harness and the real-webview specs shipped at 2026-06-27-desktop-a11y-harness-setup (crates/conductor-tauri/ui/wdio.conf.ts + ui/test/a11y/*.e2e.ts, DISPLAY-gated); they have never been executed.",
+      "verification": {
+        "method": "a11y",
+        "acceptance": "An operator-gated run against a live Pulse yields zero axe violations, every named token pair meeting its required ratio, six-state not-color-alone holding, keyboard-trap escape and focus restoration working, and all transitions dropped under reduced-motion — across the four accessible paths. The harness is run, not re-authored.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-23",
+      "title": "Screen-reader manual spec",
+      "requirement": "An NVDA/VoiceOver manual pass spec accompanies the automated sweep.",
+      "observed_gap": "No screen-reader pass spec exists; the a11y plan requires manual SR verification as supplemental to the automated baseline and no artifact carries it.",
+      "verification": {
+        "method": "manual",
+        "acceptance": "A per-state pass spec exists for the four run states listing each must-announce item with its expected screen-reader output, and one operator pass is recorded against it.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-24",
+      "title": "A11y CI gate and violation JSON",
+      "requirement": "Axe, contrast and keyboard PASS/FAIL is emitted as service-tagged violation JSON and gated in CI, with the redaction boundary applied to Conductor's own violation artifact.",
+      "observed_gap": "A11y results do not reach the obs envelope and no gate consumes them.",
+      "verification": {
+        "method": "a11y",
+        "acceptance": "The same specs run on Linux+xvfb WITHOUT a live Pulse and any violation fails the gate with a non-zero exit; the emitted violation JSON conforms to the obs-plan log schema (itself the verbatim binding from the test plan's harness contract), carries service identity, and leaks no absolute host path.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-25",
+      "title": "Cross-surface envelope parity",
+      "requirement": "CLI and Tauri produce an identical envelope for the same seed.",
+      "observed_gap": "CLI and Tauri share a core but their envelopes have never been compared for the same seed.",
+      "verification": {
+        "method": "integration",
+        "acceptance": "For one scenario and seed, the Tauri-launched run and the headless run write identical verdict, state and seed to the same runs.db, and each writes its own emission journal.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-26",
+      "title": "Coverage completeness gate",
+      "requirement": "A gate fails on any gap in the classification of the current SUT capability set, with all CI gates green.",
+      "observed_gap": "The P-IDs are classified in code but nothing fails when a gap appears; the stated definition of done was never enforced.",
+      "verification": {
+        "method": "unit",
+        "acceptance": "The gate enumerates the CURRENT SUT capability set from the manifest (not a hardcoded 60) and exits non-zero when any capability is unclassified; a deliberately removed classification reproduces the failure.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-27",
+      "title": "Release build and bundle",
+      "requirement": "cargo build --release plus a Tauri 2 bundle ship with a final SLO verification pass.",
+      "observed_gap": "No release build, no bundle.",
+      "verification": {
+        "method": "manual",
+        "acceptance": "A release binary and a Tauri 2 bundle are produced with cargo-audit and cargo-deny green and Cargo.lock un-drifted, and a final SLO verification pass is recorded against the shipped artifact.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-28",
+      "title": "Stale rmcp wording reconciled",
+      "requirement": "test-plan.md, tests-summary.md and verification-harness.md describe the hand-rolled JSON-RPC client that replaced rmcp.",
+      "observed_gap": "Stale rmcp wording survives in the test-plan.md body, tests-summary.md line 44 and verification-harness.md around lines 18 and 33 — rmcp was removed in favour of the hand-rolled client on 2026-06-27.",
+      "verification": {
+        "method": "by-construction",
+        "acceptance": "No rmcp claim describing Conductor's current read-back client remains in the three named documents; each describes the hand-rolled line-delimited JSON-RPC client.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-29",
+      "title": "Operator pause and checklist exercised live",
+      "requirement": "The operator-pause hold and the operator-checklist live items both fire during the live legs.",
+      "observed_gap": "Operator-pause has never fired live, and the operator-checklist live items were gated behind the now-resolved verification-posture decision.",
+      "verification": {
+        "method": "manual",
+        "acceptance": "During a live run an operator-pause hold fires and is resolved by a real Proceed or Abort activation, the count freezes at its exact hold value (neither blanking nor continuing) and resumes on decision, and at least one ManualCheck checklist item renders with its induced state and expected observation.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-30",
+      "title": "Live per-P-ID verdict lamps",
+      "requirement": "The coverage view carries live per-P-ID verdict lamps.",
+      "observed_gap": "The coverage view lacks live per-P-ID verdict lamps — rows show classification only, with no run outcome.",
+      "verification": {
+        "method": "webview",
+        "acceptance": "After a run, coverage rows render each capability's actual verdict state with its text label and glyph (never color alone), and a capability with no run record renders a distinct not-yet-run treatment rather than a failure treatment.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v2-31",
+      "title": "scenario.run root obs span",
+      "requirement": "A scenario.run root span anchors the self-observation trace.",
+      "observed_gap": "There is no scenario.run root obs span, so the must-trace paths have leaf spans with no root correlation.",
+      "verification": {
+        "method": "unit",
+        "acceptance": "A scenario run emits scenario.run as the root span carrying run_id, seed, scenario and p_ids, with the timeline, emit, verify, report and db child spans nested beneath it and closing at their phase boundaries.",
+        "ref": "crates/conductor-cli/tests/cli_smoke.rs::a_run_emits_the_scenario_run_root_and_the_report_seam_spans; crates/conductor-core/src/obs.rs::tests::a_span_emits_new_and_close_records_carrying_its_attributes; crates/conductor-core/src/obs.rs::tests::a_child_span_records_its_parent_so_the_tree_reconstructs; crates/conductor-core/src/obs.rs::tests::a_non_allowlisted_span_attribute_is_dropped; crates/conductor-core/src/obs.rs::tests::a_host_path_in_a_span_attribute_is_redacted; crates/conductor-report/src/report.rs::tests::span_fields_use_canonical_wire_names_not_human_labels; crates/conductor-report/src/report.rs::tests::a_blocked_rows_absent_verdict_renders_null; crates/conductor-report/src/report.rs::tests::span_fields_of_a_single_scenario_run_are_that_records_values; crates/conductor-report/src/report.rs::tests::span_fields_of_a_suite_are_distinct_first_seen_values",
+        "status": "verified"
+      },
+      "chunk": "2026-08-10-scenario-run-root-span-tree",
+      "notes": "PREMISE-CORRECTION (2026-08-10, chunk 2026-08-10-scenario-run-root-span-tree). The acceptance prose reads as though the report and db spans can be NESTED BENEATH the scenario.run root. They cannot, and the acceptance text is deliberately left unedited as the record of what was ASKED. WHAT IS ACHIEVABLE: scenario.run is per-scenario at the composition root (conductor-run::execute_scenario, lib.rs:253), parenting timeline.execute, emit.batch and verify.readback* -- one instrumentation site serving all three production paths. WHAT IS NOT: report.generate and db.insert_run nested beneath that root. The code-graph shows persist() is a SIBLING of execute_scenario, called by execute_scenario's own callers at all three production sites -- conductor-cli commands/run/run() (run.rs:23 execute, :25 persist), conductor-cli commands/suite/suite() (suite.rs:30 execute, :36 persist), and conductor-run drive_run() (lib.rs:481 execute, :485 persist, plus a second persist at :478 on the abort path). Under suite and drive_run a SINGLE persist serves N scenarios whose spans have already closed, so no one scenario.run can contain db.insert_run. The two terminal spans are therefore emitted at the persist boundary and correlated by run_id, which the subscriber layer already stamps flat on every line (obs.rs:265-268). ALSO CORRECTED: the observed_gap says the must-trace paths have 'leaf spans with no root correlation'. Verified at P3 that the shipped spans emit NOTHING -- JsonObsLayer (obs.rs:239-276) implements only on_event, never on_new_span/on_close, and binds its Context as unused _ctx; the committed logs/agent-latest.jsonl contains 0 occurrences of timeline.execute, emit.batch or verify.readback. The gap was not missing correlation but missing span emission entirely, which is why this chunk also lands the subscriber-layer capability and widens the conductor-core::redact allowlist (row_count, phase_count, emission_count, record_count, mcp_tool would otherwise be dropped at the processor stage). CHANNEL: note-only, matching v2-18's treatment at 2026-08-10-pulse-run-contract. Refining the acceptance text was considered and rejected -- the only sanctioned acceptance-refinement class today is affordance honesty; 'premise disproved' is a proposed second class awaiting the founder's P6 ruling, at which point v2-18 and v2-31 take the same retroactive treatment under one rule. The coverage flip stands on the ref proving the achievable shape."
+    },
+    {
+      "id": "v2-32",
+      "title": "Dormant dependency maintenance",
+      "requirement": "indicatif 0.17 to 0.18 and the opentelemetry-proto default-features=false trim land inside a polish chunk rather than as chunks of their own.",
+      "observed_gap": "Both items have been carried as dormant maintenance across the whole of 0.1.0 without landing.",
+      "verification": {
+        "method": "by-construction",
+        "acceptance": "indicatif resolves at 0.18 with the operator-pause spinner still stopping in place (never hiding, never animating to completion), opentelemetry-proto builds with default-features=false, Cargo.lock is un-drifted and cargo-audit plus cargo-deny stay green.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    }
+  ]
 }

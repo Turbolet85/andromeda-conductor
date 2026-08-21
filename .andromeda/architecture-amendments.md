@@ -403,3 +403,48 @@ det-L4 fixture pins one severity and no corpus tool renders a tier word; `query_
 so a resolved incident leaves the surface; `CountAtLeast` grades `span_refs` the incident producer writes
 empty; no ack tool exists in the four-tool contract). All five live rows landed `verdict: null` /
 `state: KnownResidual`.
+
+## 2026-08-21-per-check-latency-measurement — runs.db is three tables
+**Section:** Occupied Resources -> On-disk artifacts (runs.db)
+**Change:** `runs.db` registered as THREE tables — `runs` (scenario grain, 11 columns, PK `(run_id, scenario)`), `run_envelope` (run grain), and NEW `run_check`, the per-check index keyed `(run_id, scenario, check_index)` with `latency_ms`/`deadline_ms` NOT NULL and `budget_ms` NULL on inherit; blocked/declare-only scenarios write zero rows.
+**Why:** The chunk landed the `run_check` table (`db.rs:37`); the bullet said 'two tables', leaving the new persistence resource unregistered. The smoke leg read back `tables: ['runs','run_envelope','run_check']`.
+
+## 2026-08-21-per-check-latency-measurement — ORM table roster + per-check-index label
+**Section:** Established Decisions -> [ORM] None — raw SQL
+**Change:** Table roster updated to three, and the 'per-check index' label moved off `runs` onto `run_check`, whose grain it now actually is.
+**Why:** The same roster is restated here; a single-site apply would have left the two-table claim and the mis-attributed label alive.
+
+## 2026-08-21-per-check-latency-measurement — CheckRecord registered as a second shared shape
+**Section:** Standard Contracts -> Run report envelope
+**Change:** Registered the per-check `CheckRecord` (9 keys) as a SECOND shared artifact shape beside the eleven-field envelope, riding the JSONL journal, the `run_check` table and the Markdown report's indented detail line; the envelope is byte-unchanged, and blocked/declare-only scenarios emit zero check records.
+**Why:** Section Standard Contracts declares itself the registry of shared shapes and carried only the envelope; the chunk added a second one that three surfaces depend on.
+
+## 2026-08-21-per-check-latency-measurement — budget_ms registered as declarable config
+**Section:** Conventions -> Config conventions
+**Change:** Registered the optional `[[expected]].budget_ms` key (integer ms, `#[serde(default)]`, garde `range(min = 1, max = MAX_BUDGET_MS)` with the ceiling DERIVED from `SloTier::Tier90s.deadline_ms()`), cross-checked against the scenario's own `slo_tier` at load by `Scenario::check_budgets()`; no committed TOML declares one.
+**Why:** This paragraph enumerates the declarable scenario-config surface; the chunk's new external input appeared nowhere in it.
+
+## 2026-08-21-per-check-latency-measurement — Nullability qualified per table
+**Section:** Conventions -> Data model conventions (SQLite / runs.db)
+**Change:** Nullability qualified PER TABLE: `runs.latency_ms` stays NULL-for-blocked, while `run_check.latency_ms`/`deadline_ms` are NOT NULL (an ungraded check emits no row at all) and `run_check.budget_ms` is NULL on inherit.
+**Why:** The unqualified 'NULL for blocked rows' claim contradicted the new table's NOT NULL columns once Occupied Resources registered it.
+
+## 2026-08-21-per-check-latency-measurement — Sibling-spanning invariants cannot be garde validators
+**Section:** Established Decisions -> [Validation Library] serde 1.0.x + garde 0.22.1
+**Change:** Recorded the THIRD route and its structural boundary: the one-altitude-up `custom` covers only invariants contained WITHIN the lifted field, because a field-level `custom` receives `(&field, &())` and sees no SIBLING; a sibling-spanning invariant ships as a load-path method invoked from `from_toml_str` (`check_capabilities`, now joined by `check_budgets`).
+**Why:** The chunk measured the plan's `#[garde(custom)]`-on-`Scenario::expected` design structurally impossible; the decision enumerated only the Context pattern or one-altitude-up, neither of which the shipped rule uses.
+
+## 2026-08-21-per-check-latency-measurement — Stack validation row narrowed
+**Section:** Stack and Technologies -> Validation row
+**Change:** Row narrowed to the garde-EXPRESSIBLE cross-field invariants, naming the load-path `Scenario::check_*()` route for sibling-spanning ones.
+**Why:** The Stack table restated the retired claim that garde carries all cross-field scenario-config invariants, which the [Validation Library] amendment corrects.
+
+## 2026-08-21-per-check-latency-measurement — Load-error mapping is three-way
+**Section:** Established Decisions -> [Scenario Config Format] TOML on disk
+**Change:** Load-error mapping corrected to THREE-way: `CoreError::Config` on a parse failure OR a non-garde load-path check failure, `CoreError::Validation` only on a garde failure (it is `#[from] garde::Report` and cannot carry a hand-written message).
+**Why:** The chunk's budget fault raises `CoreError::Config`; the two-way mapping as written was contradicted by it.
+
+## 2026-08-21-per-check-latency-measurement — Tier deadline recorded as a ceiling
+**Section:** Established Decisions -> [Timing-Tolerance Model]
+**Change:** The tier deadline recorded as a CEILING: a check may declare sub-tier `budget_ms` and is graded against a per-check effective deadline; `evaluate_slo` takes `deadline_ms`, `SloOutcome` carries it, and every check persists its own latency/deadline/verdict. Because the corpus is observed ONCE per scenario, per-check latencies are equal by construction and the DEADLINE is what separates their verdicts.
+**Why:** The decision defined the deadline solely from the tier; acceptance (1) and (3) prove the sub-tier budget round-trips and separates two checks sharing one observation instant.

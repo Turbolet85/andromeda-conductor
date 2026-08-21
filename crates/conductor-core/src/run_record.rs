@@ -107,6 +107,45 @@ impl RunRecord {
     }
 }
 
+/// One expected-check outcome inside a scenario's run — the per-check grain beside the
+/// scenario-level [`RunRecord`].
+///
+/// A scenario's row keeps the worst check's verdict (the lamp is chosen verdict-first), which used
+/// to be the ONLY outcome that survived: the run seam graded every check and then discarded all but
+/// the most severe. This record is where the rest land, so a reader can see that check 1 failed
+/// while check 2 passed, and against which bound each was judged.
+///
+/// `latency_ms` is the same journal-relative measurement the scenario row carries, because the
+/// corpus is observed ONCE per scenario and every check grades a projection of that one observation
+/// — so `deadline_ms` is what separates two checks' timing verdicts, never the latency.
+///
+/// Only measured scenarios produce these: a blocked row and a declare-only scenario (zero
+/// `[[expected]]`) emit none at all, never a synthesized value for something never measured
+/// (arch §Standard Contracts).
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub struct CheckRecord {
+    /// The run this check belongs to — the `runs/<run_id>.jsonl` stem.
+    pub run_id: String,
+    /// The scenario that declared the check.
+    pub scenario: String,
+    /// The check's ordinal position in the scenario's `expected` list — its stable key, since an
+    /// `ExpectedCheck` carries no name.
+    pub check_index: usize,
+    /// The comparison the check applied — serialized to its canonical wire name.
+    pub kind: crate::ComparisonKind,
+    /// The machine verdict for this check alone.
+    pub verdict: Verdict,
+    /// This check's terminal report state.
+    pub state: ReportState,
+    /// Journal-relative latency in milliseconds — shared with the scenario row by construction.
+    pub latency_ms: i64,
+    /// The deadline this check was actually judged against: its own `budget_ms` when declared, else
+    /// its scenario tier's.
+    pub deadline_ms: i64,
+    /// The budget the check declared, or `None` when it inherits its scenario's tier.
+    pub budget_ms: Option<u32>,
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

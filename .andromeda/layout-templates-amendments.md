@@ -97,3 +97,8 @@ the port-occupier is P-003's `receiver-failed-port-conflict`, and P-014 is Servi
 `restart-suppression.toml` names P-015/P-016/P-057. Raised at wrap Validate check 5 (the chunk plan queued the
 P-022 site; verification found the mismatch systemic) and resolved with the operator, who chose the full sweep
 over the plan's literal one-site scope. Labels, not layout: no wireframe, state, token or lamp changed.
+
+## 2026-08-21-per-check-latency-measurement — Per-check detail region in the Markdown run report
+**Section:** Surface: cli -> Component — Primary content block 2
+**Change:** Documented the `runs/<run_id>.md` per-check detail region: one indented line per expected check under its P-ID verdict line, carrying that check's kind, verdict, latency and the deadline it was judged against — explicitly no new column, no new bracket label (the lamp set stays closed at six), no new ANSI/token entry, with stdout and the 6-column results table unchanged.
+**Why:** The chunk added a rendered region layout-templates owns; the doc templated the run report as one line per P-ID and named `<run_id>.md` only as a destination.

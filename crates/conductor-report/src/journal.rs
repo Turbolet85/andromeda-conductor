@@ -11,7 +11,7 @@ use std::fs::{self, File, OpenOptions};
 use std::io::{BufWriter, Write};
 use std::path::Path;
 
-use conductor_core::RunRecord;
+use conductor_core::{CheckRecord, RunRecord};
 
 /// A harness fault from the journal writer — never a verification outcome (the verdict/error wall).
 /// `#[non_exhaustive]` so later report-seam chunks extend the fault surface.
@@ -53,6 +53,18 @@ impl JournalWriter {
     /// Append one `record` as a single JSON line, then flush.
     pub fn append(&mut self, record: &RunRecord) -> Result<(), JournalError> {
         serde_json::to_writer(&mut self.writer, record)?;
+        self.writer.write_all(b"\n")?;
+        self.writer.flush()?;
+        Ok(())
+    }
+
+    /// Append one per-check record as a single JSON line, then flush.
+    ///
+    /// A distinct record shape from the eleven-field envelope, on the same journal: the envelope
+    /// rows carry the scenario grain, these carry the check grain behind them. Only measured checks
+    /// are appended — a blocked or declare-only scenario contributes none.
+    pub fn append_check(&mut self, check: &CheckRecord) -> Result<(), JournalError> {
+        serde_json::to_writer(&mut self.writer, check)?;
         self.writer.write_all(b"\n")?;
         self.writer.flush()?;
         Ok(())
@@ -147,6 +159,45 @@ mod tests {
                 "run_id", "scenario", "seed", "slo_tier", "state", "verdict",
             ]
         );
+    }
+
+    #[test]
+    fn check_line_is_its_own_parseable_shape_beside_the_envelope() {
+        let dir = TempDir::new().unwrap();
+        let run_id = "2026-06-16T21-10-06-chk";
+        let mut w = JournalWriter::create(dir.path(), run_id).unwrap();
+        w.append(&measured(run_id)).unwrap();
+        w.append_check(&CheckRecord {
+            run_id: run_id.to_string(),
+            scenario: "error-baseline-spike".to_string(),
+            check_index: 0,
+            kind: conductor_core::ComparisonKind::Contains,
+            verdict: Verdict::Pass,
+            state: ReportState::Pass,
+            latency_ms: 1840,
+            deadline_ms: 2000,
+            budget_ms: Some(2000),
+        })
+        .unwrap();
+
+        let lines = read_lines(&dir, run_id);
+        assert_eq!(lines.len(), 2, "the check rides the same journal as its scenario row");
+        let env: serde_json::Value = serde_json::from_str(&lines[0]).unwrap();
+        assert_eq!(env.as_object().unwrap().len(), 11, "the envelope shape is untouched");
+
+        let chk: serde_json::Value = serde_json::from_str(&lines[1]).unwrap();
+        let mut keys: Vec<&str> = chk.as_object().unwrap().keys().map(String::as_str).collect();
+        keys.sort_unstable();
+        assert_eq!(
+            keys,
+            [
+                "budget_ms", "check_index", "deadline_ms", "kind", "latency_ms", "run_id",
+                "scenario", "state", "verdict",
+            ]
+        );
+        assert_eq!(chk["kind"], serde_json::json!("Contains"));
+        assert!(!lines[1].contains("CheckRecord"), "no internal struct name leaks: {}", lines[1]);
+        assert!(!lines[1].contains("C:\\") && !lines[1].contains("/Users/"), "{}", lines[1]);
     }
 
     #[test]

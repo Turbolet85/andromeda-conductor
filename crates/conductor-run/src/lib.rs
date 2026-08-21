@@ -22,9 +22,9 @@ use anyhow::Context as _;
 use serde::Serialize;
 
 use conductor_core::{
-    EmissionShape, EmissionSpec, EnvelopeStatus, FaultKindSpec, HoldPoint, LoadEnvelope,
-    PauseResolver, ReportState, RunContract, RunContractStatus, RunRecord, Scenario, Verdict,
-    now_rfc3339, redact_value, resolve_hold, resolve_under,
+    CheckRecord, EmissionShape, EmissionSpec, EnvelopeStatus, FaultKindSpec, HoldPoint,
+    LoadEnvelope, PauseResolver, ReportState, RunContract, RunContractStatus, RunRecord, Scenario,
+    Verdict, now_rfc3339, redact_value, resolve_hold, resolve_under,
 };
 use conductor_emit::{
     DEFAULT_OTLP_ENDPOINT, ExceptionSpec, Frame, TraceEmitter,
@@ -333,15 +333,15 @@ pub async fn execute_scenario<R: PauseResolver>(
     scenario: &Scenario,
     run_id: &str,
     resolver: &R,
-) -> anyhow::Result<RunRecord> {
+) -> anyhow::Result<ScenarioOutcome> {
     if !pf.ready {
-        return Ok(RunRecord::blocked(
+        return Ok(ScenarioOutcome::without_checks(RunRecord::blocked(
             run_id,
             scenario.seed,
             &scenario.name,
             scenario.p_ids.clone(),
             scenario.slo_tier,
-        ));
+        )));
     }
     let client = pf.client.as_ref().expect("a ready gate implies a connected client");
 
@@ -379,13 +379,13 @@ pub async fn execute_scenario<R: PauseResolver>(
         }
         ReadBack::Blocked => {
             tracing::info!("scenario blocked: read-back yielded no gradable observation");
-            return Ok(RunRecord::blocked(
+            return Ok(ScenarioOutcome::without_checks(RunRecord::blocked(
                 run_id,
                 scenario.seed,
                 &scenario.name,
                 scenario.p_ids.clone(),
                 scenario.slo_tier,
-            ));
+            )));
         }
     };
     let observed_ms = now_ms();
@@ -401,17 +401,20 @@ pub async fn execute_scenario<R: PauseResolver>(
         };
         let resolution = resolve_hold(resolver, &hold).await;
         tracing::debug!("operator-checklist hold resolved headless: {}", resolution.decision.label());
-        return Ok(manual_record(
+        return Ok(ScenarioOutcome::without_checks(manual_record(
             scenario,
             run_id,
             journal_emitted_at,
             read_back_observed_at,
             observed_ms - emitted_ms,
             &observation,
-        ));
+        )));
     }
 
-    let chosen = scenario
+    // Every check is graded, not just the worst: the collapse below picks the scenario ROW, while
+    // each outcome also lands as its own `CheckRecord`. They share one latency by construction —
+    // the corpus is observed once — so a check's own `budget_ms` is what can separate its verdict.
+    let outcomes: Vec<_> = scenario
         .expected
         .iter()
         .map(|check| {
@@ -423,6 +426,17 @@ pub async fn execute_scenario<R: PauseResolver>(
                 observed_ms,
             )
         })
+        .collect();
+    let checks = outcomes
+        .iter()
+        .zip(scenario.expected.iter())
+        .enumerate()
+        .map(|(index, (outcome, check))| {
+            outcome.to_check_record(run_id, &scenario.name, index, check)
+        })
+        .collect();
+    let chosen = outcomes
+        .iter()
         .max_by_key(|outcome| severity_rank(outcome.assessment.verdict))
         .expect("expected is non-empty");
     let mut record = chosen.to_run_record(
@@ -435,7 +449,26 @@ pub async fn execute_scenario<R: PauseResolver>(
         observation.fingerprints.clone(),
     );
     record.state = state_for(&observation, record.state);
-    Ok(record)
+    Ok(ScenarioOutcome { record, checks })
+}
+
+/// A scenario's run outcome: the envelope row plus the per-check records behind it.
+///
+/// `checks` is empty for a blocked row and for a declare-only scenario — neither graded anything, so
+/// there is nothing per-check to record (arch §Standard Contracts).
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct ScenarioOutcome {
+    /// The scenario-level envelope row — the worst check's verdict, lamp chosen verdict-first.
+    pub record: RunRecord,
+    /// Each expected check's own outcome, in the scenario's declaration order.
+    pub checks: Vec<CheckRecord>,
+}
+
+impl ScenarioOutcome {
+    /// A row with no per-check grain behind it.
+    fn without_checks(record: RunRecord) -> Self {
+        Self { record, checks: Vec::new() }
+    }
 }
 
 /// What one read-back outcome means for THIS scenario — a value in every case (the verdict/error
@@ -632,12 +665,17 @@ fn now_unix_nanos() -> i64 {
 }
 
 /// Persist a run's records across the three artifacts: the JSONL journal (append), the `runs.db`
-/// index (one row per scenario), and a single Markdown report for the run. Shared by both shells so
-/// the CLI and the GUI write an identical envelope for the same scenario+seed (test-plan Path 7).
+/// index (one row per scenario, plus one row per graded check), and a single Markdown report for the
+/// run. Shared by both shells so the CLI and the GUI write an identical envelope for the same
+/// scenario+seed (test-plan Path 7).
+///
+/// `checks` carries the per-check grain behind the rows; it is empty when nothing was graded (a
+/// blocked run, or an all-declare-only suite).
 pub fn persist(
     runs_dir: &Path,
     run_id: &str,
     records: &[RunRecord],
+    checks: &[CheckRecord],
     envelope: &EnvelopeStatus,
 ) -> anyhow::Result<()> {
     let mut journal = JournalWriter::create(runs_dir, run_id)?;
@@ -646,8 +684,12 @@ pub fn persist(
         journal.append(record)?;
         db.insert(record)?;
     }
+    for check in checks {
+        journal.append_check(check)?;
+        db.insert_check(check)?;
+    }
     db.insert_envelope(run_id, envelope)?;
-    RunReport::write(runs_dir, run_id, records, envelope)?;
+    RunReport::write(runs_dir, run_id, records, checks, envelope)?;
     Ok(())
 }
 
@@ -722,16 +764,19 @@ where
 {
     emit(RunEvent { stage: RunStage::Progress, count: 0 });
     let mut records = Vec::with_capacity(scenarios.len());
+    let mut checks = Vec::new();
     for scenario in scenarios {
         if should_abort() {
-            persist(runs_dir, run_id, &records, envelope)?;
+            persist(runs_dir, run_id, &records, &checks, envelope)?;
             emit(RunEvent { stage: RunStage::Aborted, count: records.len() as u64 });
             return Ok(records);
         }
-        records.push(execute_scenario(pf, scenario, run_id, resolver).await?);
+        let outcome = execute_scenario(pf, scenario, run_id, resolver).await?;
+        records.push(outcome.record);
+        checks.extend(outcome.checks);
         emit(RunEvent { stage: RunStage::Progress, count: records.len() as u64 });
     }
-    persist(runs_dir, run_id, &records, envelope)?;
+    persist(runs_dir, run_id, &records, &checks, envelope)?;
     let stage = if records.iter().all(|r| matches!(r.state, ReportState::Blocked)) {
         RunStage::Blocked
     } else {
@@ -836,6 +881,56 @@ mod tests {
     }
 
     #[test]
+    fn every_check_survives_the_collapse_not_just_the_worst() {
+        use conductor_core::{ClaimClass, ComparisonKind, ExpectedCheck, SloTier};
+
+        // Two checks, one observation instant, different budgets: the worst verdict governs the
+        // scenario ROW, while both outcomes still reach the per-check grain. Before this chunk the
+        // passing check was discarded at `max_by_key` and reached no sink at all.
+        let checks = [
+            ExpectedCheck {
+                kind: ComparisonKind::Contains,
+                class: ClaimClass::Hard,
+                expected: "RetryStorm".to_string(),
+                budget_ms: Some(500),
+            },
+            ExpectedCheck {
+                kind: ComparisonKind::Contains,
+                class: ClaimClass::Hard,
+                expected: "RetryStorm".to_string(),
+                budget_ms: Some(4_000),
+            },
+        ];
+        let o = observation(false);
+        let (emitted, observed) = (0, 1_000);
+        let outcomes: Vec<_> = checks
+            .iter()
+            .map(|c| evaluate_check(c, &o.observed_for(c.kind), SloTier::Tier90s, emitted, observed))
+            .collect();
+        let records: Vec<_> = outcomes
+            .iter()
+            .zip(checks.iter())
+            .enumerate()
+            .map(|(i, (out, c))| out.to_check_record("r", "two-check", i, c))
+            .collect();
+
+        assert_eq!(records.len(), 2, "both checks recorded, not just the surviving one");
+        assert_eq!(records[0].check_index, 0);
+        assert_eq!(records[1].check_index, 1);
+        assert_eq!(records[0].latency_ms, records[1].latency_ms, "one observation, one latency");
+        assert_eq!(records[0].verdict, Verdict::Fail, "1000ms missed its 500ms budget");
+        assert_eq!(records[1].verdict, Verdict::Pass, "1000ms met its 4000ms budget");
+        assert_eq!(records[0].deadline_ms, 500);
+        assert_eq!(records[1].deadline_ms, 4_000);
+
+        let worst = outcomes
+            .iter()
+            .max_by_key(|out| severity_rank(out.assessment.verdict))
+            .unwrap();
+        assert_eq!(worst.assessment.verdict, Verdict::Fail, "the row still carries the worst");
+    }
+
+    #[test]
     fn a_measured_row_keeps_its_verdict_when_degradation_overrides_the_state() {
         use conductor_core::{ClaimClass, ComparisonKind, ExpectedCheck, PId, SloTier};
 
@@ -843,6 +938,7 @@ mod tests {
             kind: ComparisonKind::Contains,
             class: ClaimClass::Hard,
             expected: "RetryStorm".to_string(),
+            budget_ms: None,
         };
         let o = observation(true);
         let outcome =
@@ -1081,15 +1177,17 @@ mod tests {
 
     #[tokio::test(flavor = "current_thread")]
     async fn execute_scenario_blocks_when_gate_not_ready() {
-        let record =
+        let outcome =
             execute_scenario(&blocked_preflight(), &fixture(7), "run-test", &HeadlessResolver::proceed())
                 .await
                 .expect("the blocked path is infallible");
+        let record = outcome.record;
         assert!(matches!(record.state, ReportState::Blocked));
         assert!(record.verdict.is_none(), "a blocked row carries no verdict");
         assert!(record.journal_emitted_at.is_none() && record.latency_ms.is_none());
         assert_eq!(record.seed, 7);
         assert_eq!(record.scenario, "blocked-fixture");
+        assert!(outcome.checks.is_empty(), "a blocked row grades nothing, so it records no checks");
     }
 
     #[tokio::test(flavor = "current_thread")]
@@ -1099,7 +1197,7 @@ mod tests {
         let b = execute_scenario(&pf, &fixture(7), "r", &HeadlessResolver::proceed()).await.unwrap();
         assert_eq!(a, b, "same scenario+seed ⇒ identical blocked envelope");
         let c = execute_scenario(&pf, &fixture(9), "r", &HeadlessResolver::proceed()).await.unwrap();
-        assert_ne!(a.seed, c.seed, "the seed materially identifies the envelope");
+        assert_ne!(a.record.seed, c.record.seed, "the seed materially identifies the envelope");
     }
 
     #[tokio::test(flavor = "current_thread")]

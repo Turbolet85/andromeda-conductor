@@ -1,0 +1,46 @@
+# obs extract
+
+## Relevance
+Relevant — the chunk changes the two fields obs owns end-to-end (`latency_ms`, `slo_tier`/budget) inside the Run-report envelope, plus the redaction allowlist.
+
+## Constraints
+- The performance budget is a **JSON field assertion, not an instrument**: `latency_ms` + `slo_tier` carried in the JSONL journal and `runs.db`, compared at report-generation time (`latency_ms <= threshold ? Pass : Fail`). A sub-5s budget must land as serialized envelope data + a comparison, not as a new metrics path (per obs-plan §5 Metric Coverage; §10 SLO Invariants & Telemetry Budgets).
+- Latency measurement basis is **wall-clock only** — `std::time::SystemTime`/`Instant`, never `tokio::time::Instant` — because the plan defines SLO math as journal-relative. Any per-check instant pair inherits this (per obs-plan §5 Metric Coverage; §11 Project-specific bans).
+- `latency_ms` is specified as `read_back_observed_at − journal_emitted_at`, integer-or-null (null for blocked rows), and `slo_tier` as the closed enum `<5s | <20s | <90s` (per obs-plan §3 Log format JSON schema; §6 Log Coverage; §10). The envelope is a **binding contract obs DERIVES and does not re-author** (per obs-plan §1 telemetry-trigger `creator-explicit-telemetry`) — so a per-check latency shape is a coordinated envelope change, not an obs-local one.
+- **Two record shapes are distinct**: the eleven-field Run-report envelope (`runs/<run_id>.jsonl` + `runs.db`, written by the report seam) vs the self-obs base line (`timestamp_ms`/`level`/`target`/service identity/`run_id`) on every `tracing` line. A per-check latency field belongs to the scenario-result record; it must not be assumed present on `agent-latest.jsonl` lines (per obs-plan §3 Log format JSON schema — two record shapes).
+- Any **new field name is governed by the allowlist**: a span attribute must be a name in `conductor-core::redact::ALLOWLISTED_FIELDS` or the processor stage drops it and the attribute emits nothing; the redaction layer stays single-location-owned in `conductor-core::redact` (per obs-plan §4 Required-span-attributes constraint; §11 PII Scrubbing). This is exactly the `redact.rs:60-61` touch the scope lists.
+- If per-check timing introduces any new span, it must follow `{module}.{operation}` and stay inside the **bounded span-name set** (`scenario.run`, `timeline.execute*`, `emit.batch`, `emit.logs_batch`, `verify.readback*`, `report.generate`, `db.insert_run`, `fault.*`, `tauri.command.*`); a new conforming member requires an amendment (per obs-plan §4 Span naming convention; §11 Spans / Traces).
+- Scenario-config deserialization must keep garde validation intact — `range` + cross-field rules, and a nested spec field must `dive`, never `skip` (a skipped struct is never descended into) (per obs-plan §11 Project-specific bans). This binds directly to the chunk's `[inferred]` "budget ≤ its tier's `deadline_ms()`" cross-field invariant.
+
+## Patterns to follow
+- **SLO-as-field-assertion at the report seam** — thresholds evaluated when the record is generated, `state` reflecting the violation, no exporter involved (per obs-plan §10 Performance budgets; §5).
+- **Envelope written by the report seam; self-obs line unchanged** — the custom `tracing-subscriber` layer emits event lines and span-lifecycle lines (`span`/`span_event`/`parent` + allowlisted attributes on `new` only); result fields ride the scenario-result record (per obs-plan §3 two record shapes).
+- **Allowlist-or-`message`** — where a detail cannot justify an allowlist entry, it is carried on the already-allowlisted `message` field (the `verify.readback` key-set witness and the `emit.batch` wire-shape witness both use this) (per obs-plan §6 Boundary-call wrappers).
+- **The `verify.readback` boundary wrapper already mandates logging tool name + `latency_ms` + error per read-back call** (per obs-plan §6 Boundary-call wrappers; §4 CP1 `verify.readback` attributes). Whether the shipped code already records a per-call/per-check instant pair there — and thus whether per-check latency is a plumbing change or a new measurement — is research's question.
+
+## Anti-patterns to avoid
+- NEVER introduce an OTel metrics backend / `opentelemetry_sdk` meter / histogram instrument for per-check or sub-5s timing — Minimal tier has no metrics backend and a meter re-introduces the banned SDK + background tasks (per obs-plan §11 Metrics; §5 histogram bucketing explicitly not implemented).
+- NEVER use tokio's virtual clock for journal/latency timestamps (per obs-plan §11 Project-specific bans).
+- NEVER define a soft SLO budget with no enforcement — a declared budget must be evaluated at report-generation time (per obs-plan §11 SLO).
+
+## Contract bindings
+- **Run-report envelope ↔ tests §3** — test-plan §3 OWNS the JSONL envelope schema; obs §3/§6 reproduce it. Changing what `latency_ms` means or adding a per-check carrier is the two-sided change D-tests-obs-harness guards; obs must not be amended alone.
+- **Envelope ↔ arch §Standard Contracts / §Data model conventions** — `slo_tier` is pinned as a closed TEXT enum and `runs.db` column types are fixed on first write; the scope's open fork 1 (row-per-check vs sub-structure) is decided against those, with the obs-side requirement that the eleven-field envelope stays honest.
+- **New field names ↔ security / redaction** — admission to `conductor-core::redact::ALLOWLISTED_FIELDS` is the deliberate act; no absolute host paths or internal struct names may enter logs, run report, or `runs.db` (per obs-plan §11 PII Scrubbing).
+- **§9 CI conformance gate** — the shipped gate validates the §3 self-obs base schema over `logs/agent-latest.jsonl`, NOT the envelope; the envelope's own conformance gate is recorded as not-yet-built, so an envelope-field addition gains no automatic CI coverage (per obs-plan §9 Log conformance check).
+
+## Acceptance criteria contributions
+- (obs) Per-check latency is measured from wall-clock instants (`std::time::SystemTime`/`Instant`), never `tokio::time` (per obs-plan §11 Project-specific bans / §5 Metric Coverage).
+- (obs) No OTel meter, histogram, or metrics exporter is introduced; the sub-5s budget is enforced as a field assertion at report-generation time and is hard, not advisory (per obs-plan §5 Metric Coverage / §10 Performance budgets / §11 Metrics + SLO).
+- (obs) Every new field name emitted as a span attribute is present in `conductor-core::redact::ALLOWLISTED_FIELDS` (or the value is carried on the allowlisted `message` field), and no new field leaks an absolute host path or internal struct name (per obs-plan §4 Required-span-attributes constraint / §11 PII Scrubbing).
+- (obs) The self-obs base line (`timestamp_ms`/`level`/`target`/service identity/`run_id`) is unchanged by the envelope change, and any new span name conforms to `{module}.{operation}` within the bounded set (per obs-plan §3 two record shapes / §11 Spans / Traces).
+
+## Relevant amendment history
+- **2026-08-13-per-check-read-back-extraction** (§1 CP5, §4) — the nearest sibling work. It established the standing constraint that a span attribute outside `ALLOWLISTED_FIELDS` emits nothing (two attributes were retired for that reason) and renamed `mcp_method` → `mcp_tool`. Why it matters here: the same allowlist gate governs any per-check latency attribute this chunk adds.
+- **2026-06-16-emission-journal-writer** (§3, §6) — the envelope gained `read_back_observed_at` (now eleven fields) after obs-plan was found to be the lone doc omitting it; `latency_ms` was re-pinned as `read_back_observed_at − journal_emitted_at`, and the escalation resolved by realigning obs to the schema OWNER (test-plan §3). Why: this is the precedent that envelope shape changes are owner-led and cross-plan.
+- **2026-06-15-structured-logging-stack** + **2026-08-10-scenario-run-root-span-tree** (§3) — established/extended the two-record-shapes split and the span-lifecycle line variant; the second was explicitly justified as the lateral test-plan §3 ↔ obs-plan §3 bind. Why: a per-check field must be placed on the correct record shape.
+- **2026-06-15-log-error-boundary-redaction** (§6, §11) — pinned the redaction model to the implemented `conductor-core::redact` (field-name allowlist drops non-allowlisted names; value scrub targets absolute host-FILE paths; `target` preserved). Why: the chunk touches `redact.rs` directly.
+- **2026-06-27-obs-ci-conformance-gate** (§9) — the CI gate asserts the §3 base schema, not the §6 envelope; the envelope gate is not-yet-built. Why: bounds what CI will/won't catch on an envelope change.
+- **2026-06-18-severity-logs** (§11 bounded set) — precedent for admitting a new conforming span name (`emit.logs_batch`) by amendment rather than treating it as a violation.
+- **2026-08-11-faithful-emission-dispatcher** (§11 project-specific bans) — restated the garde ban with the shipped encoding and added "a nested spec field must `dive`, never `skip`". Why: the chunk adds a cross-field budget-vs-tier rule on a nested scenario-config field.
+- Note: **2026-08-20-latency-regression-re-proof** is title-adjacent but not in this area — it re-based the security-plan sidecar-spawn citation in §Obs Anti-Patterns, nothing about latency fields.

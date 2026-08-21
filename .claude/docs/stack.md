@@ -13,7 +13,7 @@ _Mirrors `.andromeda/architecture.md` §Stack and Technologies. Convenience refe
 - **OTLP emission:** opentelemetry-proto 0.32.0 (`gen-tonic` + trace/metrics/logs) — raw hand-built message structs for byte-level fault control.
 - **gRPC transport:** tonic 0.14.6 + tonic-prost 0.14.6 + prost 0.14 (codegen via `tonic-prost-build`).
 - **MCP read-back client:** hand-rolled line-delimited JSON-RPC over tokio child stdio (rmcp removed 2026-06-27 — Pulse's `tools/call` is non-MCP-compliant); protocol `2024-11-05` read from the `initialize` result; raw `serde_json::Value` tool results.
-- **Validation:** serde 1.0.x + garde 0.22.1 (`#[derive(Validate)]` range + `#[garde(custom)]` cross-field).
+- **Validation:** serde 1.0.x + garde 0.22.1 (`#[derive(Validate)]` range + `#[garde(custom)]` field/cross-field). A cross-field rule that must read a SIBLING field cannot be a garde validator under 0.22.1 (`custom` receives `(&field, &())`) — it ships as a load-path `Scenario::check_*()` called from `from_toml_str`.
 - **Serialization:** serde_json 1.0 — canonical-name JSON for the run-report envelope + per-run JSONL journal (serde companion; report-seam runtime dep).
 - **Scenario config:** toml 0.9 — declarative TOML scenario files under `scenarios/` (serde-deserialized + garde-validated via `Scenario::from_toml_str`); chosen over JSON for hand-author ergonomics + inline comments (P4 decision); audit/deny-clean.
 - **Error handling:** thiserror 2.0.18 (per-seam enums) + anyhow 1.0.104 (binary edges).

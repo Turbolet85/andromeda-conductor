@@ -7,7 +7,7 @@
 //! (the verdict/error wall). `Assessment.observed`/`expected`/`delta` are Assessment-internal and
 //! never reach the eleven-field envelope.
 
-use conductor_core::{PId, RunRecord};
+use conductor_core::{CheckRecord, ExpectedCheck, PId, RunRecord};
 
 use crate::slo::CheckOutcome;
 
@@ -44,6 +44,32 @@ impl CheckOutcome {
             fingerprints,
         )
     }
+
+    /// Project this outcome into its per-check envelope record.
+    ///
+    /// The scenario row keeps only the worst check; this is where the others land. `check` supplies
+    /// what the outcome does not carry — the comparison kind and the declared budget — and
+    /// `check_index` is the check's ordinal in the scenario's `expected` list, its stable key.
+    pub fn to_check_record(
+        &self,
+        run_id: impl Into<String>,
+        scenario: impl Into<String>,
+        check_index: usize,
+        check: &ExpectedCheck,
+    ) -> CheckRecord {
+        let verdict = self.assessment.verdict;
+        CheckRecord {
+            run_id: run_id.into(),
+            scenario: scenario.into(),
+            check_index,
+            kind: check.kind,
+            verdict,
+            state: verdict.default_report_state(),
+            latency_ms: self.slo.latency_ms,
+            deadline_ms: self.slo.deadline_ms,
+            budget_ms: check.budget_ms,
+        }
+    }
 }
 
 #[cfg(test)]
@@ -53,7 +79,7 @@ mod tests {
     use conductor_core::{ClaimClass, ComparisonKind, ExpectedCheck, ReportState, SloTier, Verdict};
 
     fn outcome(class: ClaimClass, observed: &str) -> CheckOutcome {
-        let check = ExpectedCheck { kind: ComparisonKind::Exact, class, expected: "ok".to_string() };
+        let check = ExpectedCheck { kind: ComparisonKind::Exact, class, expected: "ok".to_string(), budget_ms: None };
         evaluate_check(&check, observed, SloTier::Tier5s, 0, 1_000)
     }
 

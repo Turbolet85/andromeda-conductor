@@ -272,6 +272,8 @@ Those six are the complete set of **per-P-ID verdict / report-state** bracket la
 
 P-IDs, `run_id`, slo_tier, latency_ms, and fingerprints render in the ID-cyan mapping (ANSI 117); report body / dimmed metadata in ANSI 146 (the journal-text mapping). This is the supporting verdict-convention mirrored from desktop, line-oriented.
 
+**Per-check detail region (`runs/<run_id>.md`).** Beneath each P-ID verdict line the Markdown run report carries one INDENTED plain-text line per expected check — that check's ordinal, its comparison kind, its own verdict, its own `latency_ms`, and the deadline it was judged against (its declared budget, or the scenario tier's when it inherits). It is the indented-detail-line precedent (the `Blocked` precondition string, the `KnownResidual` note), applied to the per-check grain: **no new column, no new bracket label — the lamp set stays closed at six — and no new ANSI or token entry.** cli stdout and the 6-column results/SLO table are unchanged; a scenario that graded nothing (blocked, or declare-only) contributes no such line.
+
 ### Component — Footer / terminator + error output
 
 - **Terminator:** a single closing line naming the artifact destination — `run report → runs/<run_id>.md` — in the dimmed mapping (ANSI 146), the path left un-colorized when piped. No persistent footer between commands; terminal scroll is the natural footer.

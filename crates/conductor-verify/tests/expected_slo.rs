@@ -5,7 +5,7 @@ use conductor_verify::{compare, evaluate_check, evaluate_slo};
 use rstest::rstest;
 
 fn check(kind: ComparisonKind, class: ClaimClass, expected: &str) -> ExpectedCheck {
-    ExpectedCheck { kind, class, expected: expected.to_string() }
+    ExpectedCheck { kind, class, expected: expected.to_string(), budget_ms: None }
 }
 
 #[rstest]
@@ -39,7 +39,7 @@ fn slo_tier_deadline_matrix(
     #[case] observed: i64,
     #[case] within: bool,
 ) {
-    let o = evaluate_slo(tier, emitted, observed);
+    let o = evaluate_slo(tier.deadline_ms(), emitted, observed);
     assert_eq!(o.within_tolerance, within);
     assert_eq!(o.latency_ms, observed - emitted);
 }
