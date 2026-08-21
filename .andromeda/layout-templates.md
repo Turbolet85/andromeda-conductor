@@ -35,9 +35,9 @@ The four are **one surface in different run states**, not four routes — the fr
 |  [ Scenario / suite v ]   [ Start ]   [ Stop ]           |  <- control row: shadcn Command/Select (color-raised-2) + Buttons (radius-sm); padding space-sm
 +----------------------------------------------------------+
 |  COVERAGE  (manifest set)      82 loaded   0 measured     |  <- matrix header strip (Label) | counts (Data, color-id-cyan); gap space-md
-|  · P-001  span-status-error      <slo_tier>  —  not run   |
-|  · P-002  baseline-error-rate    <slo_tier>  —  not run   |  <- dense single-row-per-P-ID list (NOT KPI cards)
-|  · P-003  fingerprint-identity   <slo_tier>  —  not run   |     row padding space-md, border-subtle dividers, radius-md container
+|  · P-005  span-status-error      <slo_tier>  —  not run   |
+|  · P-009  baseline-error-rate    <slo_tier>  —  not run   |  <- dense single-row-per-P-ID list (NOT KPI cards)
+|  · P-017  fingerprint-identity   <slo_tier>  —  not run   |     row padding space-md, border-subtle dividers, radius-md container
 |  …  (virtual-scroll, one row per manifest capability)     |     lamp glyph + label + P-ID(Data,color-id-cyan) + slo_tier + latency
 +----------------------------------------------------------+
 |  RUN REPORT                                               |  <- run-report card (color-raised-1, radius-md, border-subtle)
@@ -58,7 +58,7 @@ The four are **one surface in different run states**, not four routes — the fr
 +----------------------------------------------------------+
 |  COVERAGE  (manifest set) step 14 HOLD   9 measured       |  <- matrix header echoes frozen step-index in count-hold (signature reinforcement)
 |  ✓ P-009  error-baseline-spike  <90s   1840ms  Pass       |  <- resolved rows keep their verdict lamp + text
-|  ⊙ P-014  restart-suppression  <slo_tier>  —   …          |     ⊙ = next-step row about to commit (the gated one); tier cell = the scenario's TOML-declared slo_tier (one of <5s/<20s/<90s)
+|  ⊙ P-015  restart-suppression  <slo_tier>  —   …          |     ⊙ = next-step row about to commit (the gated one); tier cell = the scenario's TOML-declared slo_tier (one of <5s/<20s/<90s)
 | ┌──────────────────────────────────────────────────────┐ |
 | │  HOLD — operator pause                  step 14 · 00:01:47 │  <- dialog (shadcn AlertDialog, color-raised-3, radius-lg)
 | │  Commit next timeline step: restart-suppression?      │ |     header echoes the frozen count (Display, count-hold) — signature placement #2
@@ -81,11 +81,11 @@ The four are **one surface in different run states**, not four routes — the fr
 |  ✓ P-009  error-baseline-spike  Pass   1840ms  <90s       |  <- verdict line: lamp + label + verdict text + latency_ms(Data) + slo_tier(Data)
 |  ✓ P-010  baseline-error-rate   Pass   2210ms  <20s       |
 |  ⚠ P-008  root-vs-deep-weight    CalibrationRegion  <20s   |  <- amber lamp + text (count-hold) — never silently a Fail
-|  ✗ P-014  restart-suppression   Fail   4120ms  <slo_tier> |  <- red lamp + text (status-fail), motionless — no flash
+|  ✗ P-015  restart-suppression   Fail   4120ms  <slo_tier> |  <- red lamp + text (status-fail), motionless — no flash
 |  ☐ P-035  pii-scrub             Manual  halo→burgundy?     |  <- checkbox glyph (status-manual, neutral) — operator-checklist item, NOT a machine verdict
 |  ⊘ P-032  context-grounding     Residual                  |  <- dashed muted lamp (status-residual) — pre-accepted gap, NEVER red
 |     residual: recent_commits producer stub until v0.3.0   |  <- KnownResidual note (Body, text-tertiary); P-032 the first instance
-|  ○ P-022  port-occupier         Blocked  —                |  <- hollow ring (count-blocked) + named precondition string below
+|  ○ P-003  port-occupier         Blocked  —                |  <- hollow ring (count-blocked) + named precondition string below
 |     precondition: mcp-server feature + ANDROMEDA_PULSE_…   |  <- Blocked precondition (Body, text-tertiary); measurement cols render — / null
 +----------------------------------------------------------+
 |  conductor · 3 Pass · 1 Calib · 1 Fail · 1 Manual · 1 Residual · 1 Blocked | <- footer roll-up (Label, text-tertiary); each count token in its status color
@@ -202,12 +202,12 @@ preflight  protocol 2024-11-05  tools 4/4  canary ok        <- readiness line; i
 ? Commit next timeline step: restart-suppression? (y/N)     <- inquire confirm (TTY only); headless path skips per non-interactive policy
                                                                signature placement #2 — frozen value printed above the prompt
 ✓ P-009  error-baseline-spike  Pass   1840ms <90s           <- verdict line: ✓ + [PASS] + ANSI 114; P-ID/latency/slo in ANSI 117
-✗ P-014  restart-suppression   Fail   4120ms <slo_tier>     <- ✗ + [FAIL] + ANSI 203 (status-fail map), no blink
+✗ P-015  restart-suppression   Fail   4120ms <slo_tier>     <- ✗ + [FAIL] + ANSI 203 (status-fail map), no blink
 ? P-035  pii-scrub             Manual                       <- ? + [MANUAL] + ANSI 146; operator-checklist (TTY: inquire y/n; headless: recorded unconfirmed)
     observe: halo shifted toward burgundy?  ·  no OS toast appeared?
 ~ P-032  context-grounding     Residual                     <- ~ + [RESIDUAL] + ANSI 246; pre-accepted gap, NEVER red
     residual: recent_commits producer stub until v0.3.0 (known)
-• P-022  port-occupier         Blocked                      <- • + [BLOCKED] + ANSI 60 (count-blocked map) + precondition below
+• P-003  port-occupier         Blocked                      <- • + [BLOCKED] + ANSI 60 (count-blocked map) + precondition below
     precondition: mcp-server feature + ANDROMEDA_PULSE_MCP_ENABLED + matching data-dir
 
 run report → runs/2026-06-14T13-02-….md                     <- terminator: artifact path (ANSI 146 dim, path not colorized when piped)
@@ -224,10 +224,10 @@ preflight  protocol 2024-11-05  tools 4/4  canary ok        <- [OK] readiness ga
   ─────────────────────────────────────────────────────────────────────
   P-009   error-baseline-spike   [PASS]    <90s    1840ms   a3f9c1b…       <- [PASS] ANSI 114; P-ID + latency + fp in ANSI 117
   P-008   root-vs-deep-weight    [HOLD]     <20s   2980ms   b2e4d0a…       <- CalibrationRegion → [HOLD] ANSI 179, not a Fail
-  P-014   restart-suppression    [FAIL]  <slo_tier>  4120ms c1a3e22…       <- [FAIL] ANSI 203, no blink
+  P-015   restart-suppression    [FAIL]  <slo_tier>  4120ms c1a3e22…       <- [FAIL] ANSI 203, no blink
   P-035   pii-scrub              [MANUAL]   —      —        —              <- [MANUAL] ANSI 146; operator-checklist (observe halo/toast), no machine verdict
   P-032   context-grounding      [RESIDUAL] <90s   —        —              <- [RESIDUAL] ANSI 246; recent_commits stub until v0.3.0, never red
-  P-022   port-occupier          [BLOCKED]  —      —        —              <- measurement cols render — / null, never a red error
+  P-003   port-occupier          [BLOCKED]  —      —        —              <- measurement cols render — / null, never a red error
                                                                              precondition carried in the [BLOCKED] row’s detail
 
   coverage  77 Pass · 1 Calib · 1 Fail · 1 Manual · 1 Residual · 1 Blocked  ·  step 82/82 (manifest set) done   <- summary caption; each count in its status-color map; the per-state counts sum to the step denominator, which is the manifest's accepted set (as in the header strip above)
@@ -263,10 +263,10 @@ Per-P-ID result printed in place, one line each, color always paired with an ASC
 
 - `✓ P-009  Pass   1840ms <90s` — `[PASS]`, ANSI 114 (`count-nominal` mapping).
 - `⚠ P-008  CalibrationRegion  <20s` — `[HOLD]`, ANSI 179 (`count-hold` mapping) — the calibration-region bucket, never silently a Fail.
-- `✗ P-014  Fail  4120ms <slo_tier>` — `[FAIL]`, ANSI 203 (`status-fail` mapping), **no blink** (the tier cell renders the scenario's TOML-declared value from the closed set).
+- `✗ P-015  Fail  4120ms <slo_tier>` — `[FAIL]`, ANSI 203 (`status-fail` mapping), **no blink** (the tier cell renders the scenario's TOML-declared value from the closed set).
 - `? P-035  Manual  halo→burgundy? · no OS toast?` — `[MANUAL]`, ANSI 146 (neutral lavender) — an operator-checklist item (no programmatic read-back; TTY: `inquire` y/n, headless: recorded unconfirmed), never a machine verdict.
 - `~ P-032  Residual  recent_commits stub → v0.3.0` — `[RESIDUAL]`, ANSI 246 (muted) — a measured, pre-accepted gap, **never red**.
-- `• P-022  Blocked  mcp-server feature + ANDROMEDA_PULSE_MCP_ENABLED + matching data-dir` — `[BLOCKED]`, ANSI 60 (`count-blocked` mapping), with the named precondition; measurement fields render `—` / null.
+- `• P-003  Blocked  mcp-server feature + ANDROMEDA_PULSE_MCP_ENABLED + matching data-dir` — `[BLOCKED]`, ANSI 60 (`count-blocked` mapping), with the named precondition; measurement fields render `—` / null.
 
 Those six are the complete set of **per-P-ID verdict / report-state** bracket labels, and the lamp set is closed at six. cli stdout additionally carries one **run-level, non-lamp** bracket label — `[ENVIRONMENT-SUSPECT]`, ANSI 246 — the SUT-load-envelope caption printed once per run outside the lamp column (the `not-conductors` Mode-cell precedent in §Primary content block 1). It qualifies the run rather than reporting a check, so it is neither a seventh lamp nor a sixth `ReportState`; a parser keying on state labels should read the per-P-ID set plus that qualifier.
 

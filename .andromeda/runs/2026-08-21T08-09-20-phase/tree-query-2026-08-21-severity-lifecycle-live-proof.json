@@ -1,0 +1,44 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee LIKE '%route_read_back%' ORDER BY file, line",
+"rows": 7,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 execute_scenario().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 371
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 tests/a_declare_only_empty_read_back_routes_to_the_auto_resolve_residual().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 777
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 tests/a_checks_bearing_empty_read_back_stays_blocked().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 799
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 tests/a_failed_read_back_call_stays_blocked_even_for_a_declare_only_scenario().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 806
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 tests/a_failed_read_back_call_stays_blocked_even_for_a_declare_only_scenario().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 807
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 tests/a_populated_corpus_grades_whatever_the_scenario_declares().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 814
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 tests/a_populated_corpus_grades_whatever_the_scenario_declares().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 817
+}
+],
+"db_state": "fresh"
+}
+]

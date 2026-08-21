@@ -197,3 +197,20 @@ table.
 **Section:** §12 Test Decisions Log → `2026-08-20` Mutation instrument adopted, Run-discipline bullet
 **Change:** Extended the run-discipline bullet's exit-code parenthetical to carry both directions, naming the measured exit-3 case and its chunk.
 **Why:** §12 restates §4's run discipline and carried only the exit-0 half, so a single-site apply to §4 would have left the one-sided claim standing in the decisions log — the duplicate-occurrence sweep the reconcile pass exists to prevent.
+## 2026-08-21-severity-lifecycle-live-proof — severity-lifecycle re-based to declare-only + the harvest tier
+
+**Section:** §6 E2E Test Strategy — Scenario: Severity-lifecycle full pass · §1 Test Scope Summary — Critical
+Path 4 (the two-site rule) · §5 Integration Test Strategy — `mark_incident_resolved` bullet
+**Change:** the family grades declare-only (five rows, `verdict` null / `state` "KnownResidual", exit 0) with
+the live auto-resolve claim asserted HARD at the harvest tier in
+`crates/conductor-run/tests/severity_harvest.rs` — on the instant Pulse's active set EMPTIES
+(`incidents.list_active.request` `item_count`) against the 120s window + 30s observer tick, plus the
+same-fingerprint retrigger reading `created=true, deduped=false`. The §6 Steps line no longer invokes
+`conductor run severity-lifecycle --seed <s>`: no scenario carries that name (the family is five separately
+named TOMLs) and `--seed` rides only an explicitly set `SEED` per §3. `mark_incident_resolved` no longer
+claims a severity-lifecycle resolution-summary read-back — it has no production call site.
+**Why:** measured across five fresh-dir live legs at SUT HEAD `efabe8e`. Two witnesses the doc mandated do not
+work: `triage.incident.auto_resolve.tick` renders its counters as `"<redacted>"` (proving only that the
+observer ran), and P-059's resolution summary is unreachable under deterministic L4 (zero
+`DigestKind::ResolutionSummary` constructors; the canned fixture pins `is_resolution_summary` false) — zero
+such lines appeared across all five legs.

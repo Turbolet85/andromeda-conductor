@@ -4,23 +4,29 @@
 
 # P-019 / P-020 / P-060 — Three-Tier Severity (Autonomous) + Model-Driven Decision + Tiered Priority
 # (pulse-capability-spec.md §P-019 / §P-020 / §P-060). Severity-calibration family: the Autonomous tier.
-#   P-019 Autonomous — the model is highly confident this is a real problem (prominent halo shift +
-#     counter increment + top-of-dropdown). The tier CHOICE is model-driven (P-020), so it is asserted
-#     calibration-region (a tendency), never a hard match on the exact tier.
-#   P-020 — the LLM is the SOLE user-facing severity mechanism; it takes hard-signal candidates
-#     (P-005..P-008) + context and returns tier + confidence + justification, retaining full discretion.
-#     "Not a deterministic classifier" — Conductor tests the calibration region, not exact values.
-#   P-060 Tier-1 — a hard signal triggers immediate inference with an end-to-end SLO of <5s. The slo_tier
-#     below realizes Tier-1; the latency MEASUREMENT is the Epoch-8 live run.
-# A hard-signal stimulus (ERROR span) is the Tier-1 / high-confidence input that tends to Autonomous.
-# EmissionSpec carries no magnitude field, so the Epoch-8 driver realizes the calibrated stimulus from
-# the phase name (the catalog precedent).
-# Declare-only: P-019 monotonicity — escalation across tiers is permitted, DE-escalation is not (once
-# Autonomous it stays until resolved); a multi-read-back temporal property the Epoch-8 evaluator owns.
-# Epoch-8 calibration points: the "Autonomous" tier token is inferred (the spec uses prose; Contains is
-# substring-tolerant); the <5s Tier-1 end-to-end latency; the model-mediated surfacing.
-# Coverage mode: drive+observe — the chosen tier in incident metadata is auto (MCP read-back, calibration-
-# region); the halo magnitude + counter + dropdown placement are operator-checklist.
+#   P-019 Autonomous — the model is highly confident this is a real problem. The tier CHOICE is
+#     model-driven (P-020), so it is asserted calibration-region (a tendency), never a hard match.
+#   P-060 Tier-1 — a hard signal triggers immediate inference with an end-to-end SLO of <5s.
+#
+# DECLARE-ONLY (2026-08-21-severity-lifecycle-live-proof) — the `Contains "Autonomous"` read-back check was
+# retired against TWO independent measured grounds at SUT HEAD efabe8e:
+#   (1) FIXTURE-PINNED: under deterministic L4 every L4-authored field is a constant. The canned output
+#       pins `severity: "autonomous"` for EVERY incident, so the token cannot discriminate this scenario
+#       from any other — a green would have proven the fixture, not the tier choice.
+#   (2) VOCABULARY-DISJOINT: the tier words never reach a read-back surface anyway. `query_incident_list`
+#       renders severity through Pulse's own mapping onto `info|warn|error|critical` (autonomous -> Error
+#       -> the string "error") and status as a lowercase label; no corpus tool emits "Autonomous".
+# The tier ladder is therefore graded where it is REAL — at the cue tier, over Pulse's own
+# `priority_tier_label` lines ("autonomous"/"suggested"/"curious"), pinned in
+# `crates/conductor-run/tests/severity_harvest.rs`. This file drives the stimulus that reaches that band.
+#
+# PHASE SHAPE — the Autonomous band is reached by MAGNITUDE + CONFIDENCE, both derived from SUT constants:
+#   `classify_priority` requires magnitude >= 5.0 AND confidence >= 0.9 AND persistence >= 30, where
+#   confidence = samples/100 (capped) and persistence IS the sample count. So the baseline phase exists to
+#   buy confidence: 90 OK spans put confidence at 0.9 before the spike starts. The spike then clears
+#   magnitude — the error-rate cue fires at short-EWMA >= max(long, 0.01) x 3.0, and 30 error spans drive
+#   the 30s EWMA (alpha 0.0333) far past it. The shipped shape (8 errors, no baseline) could reach neither:
+#   it sat under the 10-sample evaluation floor for most of its life and never bought confidence at all.
 name = "severity-tier-autonomous"
 p_ids = ["P-019", "P-020", "P-060"]
 seed = 4317019
@@ -28,16 +34,16 @@ slo_tier = "<5s"   # P-060 Tier-1: a hard signal triggers immediate inference (<
 jitter_ms = 50
 
 [[phases]]
-name = "hard-signal-error"   # an ERROR-status span: the high-confidence Tier-1 candidate -> tends Autonomous
-gap_ms = 2000
+name = "converge-baseline"   # 90 OK samples -> confidence 0.9, the Autonomous gate's second term
+gap_ms = 90000
+[phases.emission]
+kind = "plain"
+occurrences = 90
+
+[[phases]]
+name = "hard-signal-error-spike"   # unambiguous errors -> short EWMA far past the 3x threshold
+gap_ms = 30000
 [phases.emission]
 kind = "error"
-occurrences = 8
+occurrences = 30
 error_percent = 100   # unambiguous hard signal — every emission errors
-
-# P-019/P-020 — the model surfaces the high-confidence candidate at the Autonomous tier. Model-interpretive
-# (the model retains discretion), so calibration-region, routed to ManualCheck.
-[[expected]]
-kind = "Contains"
-class = "CalibrationRegion"
-expected = "Autonomous"

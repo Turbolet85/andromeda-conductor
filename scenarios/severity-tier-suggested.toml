@@ -4,38 +4,42 @@
 
 # P-019 / P-020 / P-021 / P-060 — Three-Tier Severity (Suggested) + Model Decision + Attention Cues + Tiered Priority
 # (pulse-capability-spec.md §P-019 / §P-020 / §P-021 / §P-060). Severity-calibration family: the Suggested tier.
-#   P-019 Suggested — the model believes this likely represents a problem but with reservations (surfaces
-#     quietly: counter increment, minimal halo impact). Model-driven (P-020), asserted calibration-region.
-#   P-021 attention cue — a threshold detector over baseline/pattern data emits a cue (the detected
-#     condition, affected scope, deviation magnitude) into the model's context; the cue has NO user surface
-#     of its own and never becomes an incident by itself. Verified THROUGH P-020 (the model's surfaced
-#     incident references the cue in its evidence).
-#   P-060 Tier-2 — a medium-confidence cue (confidence 0.7-0.85) triggers accelerated cadence, scheduling
-#     the next inference within 20s. The slo_tier below realizes Tier-2.
-# A medium-confidence error-rate-spike cue is the Tier-2 input that tends to Suggested (the cue's default
-# severity hint). The Epoch-8 driver realizes the cue magnitude from the phase name.
-# Declare-only: the P-021 cue -> model -> incident path (cues are internal infrastructure with no surface),
-# verified through the surfaced incident at Epoch-8.
-# Epoch-8 calibration points: the "Suggested" tier token is inferred (Contains substring-tolerant); the
-# 0.7-0.85 confidence band; the <20s Tier-2 cadence; the model-mediated surfacing.
-# Coverage mode: drive+observe — the chosen tier is auto (MCP read-back, calibration-region); the quiet
-# halo + counter behaviour are operator-checklist.
+#   P-019 Suggested — the model believes this likely represents a problem but with reservations.
+#     Model-driven (P-020), asserted calibration-region.
+#   P-021 attention cue — a threshold detector over baseline data emits a cue carrying the condition,
+#     scope and deviation magnitude; the cue has NO user surface of its own.
+#   P-060 Tier-2 — a medium-confidence cue triggers accelerated cadence (<20s).
+#
+# DECLARE-ONLY (2026-08-21-severity-lifecycle-live-proof) — the `Contains "Suggested"` read-back check was
+# retired on the same two measured grounds as the Autonomous file: the deterministic-L4 fixture pins ONE
+# severity for every incident, and the read-back vocabulary (`info|warn|error|critical`) never carries a
+# tier word at all. The ladder grades at the cue tier over Pulse's own `priority_tier_label` lines
+# (`crates/conductor-run/tests/severity_harvest.rs`).
+#
+# PHASE SHAPE — Suggested is reached by holding CONFIDENCE inside its band, which is what separates this
+# file from the Autonomous one. `classify_priority` takes Autonomous only at confidence >= 0.9 and
+# Suggested at magnitude >= 3.0 with confidence >= 0.7, where confidence = samples/100. So the baseline is
+# deliberately SHORT (70 samples = 0.70) and the spike deliberately BRIEF (12 more, ending near 0.82), so
+# the run stays under the 0.9 gate for its whole life while magnitude clears 3.0 easily — the error-rate
+# cue's own fire condition is >= 3x baseline, so any cue that fires here is at least Suggested. The
+# shipped shape (12 spans at 40% error, no baseline) never accumulated the samples to be evaluated.
 name = "severity-tier-suggested"
 p_ids = ["P-019", "P-020", "P-021", "P-060"]
 seed = 4317020
-slo_tier = "<20s"   # P-060 Tier-2: a medium-confidence cue (conf 0.7-0.85) -> accelerated cadence (<20s)
+slo_tier = "<20s"   # P-060 Tier-2: a medium-confidence cue -> accelerated cadence (<20s)
 jitter_ms = 50
 
 [[phases]]
-name = "medium-cue-error-rate"   # an error-rate-spike attention cue at the Suggested-hint magnitude
-gap_ms = 4000
+name = "short-baseline"   # 70 OK samples -> confidence 0.70: over the Suggested floor, under the Autonomous gate
+gap_ms = 70000
+[phases.emission]
+kind = "plain"
+occurrences = 70
+
+[[phases]]
+name = "medium-cue-error-rate"   # a brief spike: magnitude clears 3x while confidence stays under 0.9
+gap_ms = 12000
 [phases.emission]
 kind = "error"
 occurrences = 12
-error_percent = 40   # a partial error rate — the medium-confidence magnitude
-
-# P-019/P-020 — the model surfaces the medium-confidence cue at the Suggested tier. Calibration-region.
-[[expected]]
-kind = "Contains"
-class = "CalibrationRegion"
-expected = "Suggested"
+error_percent = 100   # the magnitude comes from the spike being SHORT, not partial

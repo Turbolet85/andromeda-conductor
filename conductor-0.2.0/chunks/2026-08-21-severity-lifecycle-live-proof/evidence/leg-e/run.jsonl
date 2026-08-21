@@ -1,0 +1,1 @@
+{"journal_emitted_at":"2026-08-21T09:16:47Z","read_back_observed_at":"2026-08-21T09:22:57Z","run_id":"2026-08-21T09-16-01-488","seed":4317023,"scenario":"ack-cooldown","p_ids":["P-023"],"verdict":null,"state":"KnownResidual","latency_ms":370001,"slo_tier":"<20s","fingerprints":[]}

@@ -5,22 +5,25 @@
 # P-019 / P-020 / P-021 / P-060 — Three-Tier Severity (Curious) + Model Decision + Attention Cues + Tiered Priority
 # (pulse-capability-spec.md §P-019 / §P-020 / §P-021 / §P-060). Severity-calibration family: the Curious tier.
 #   P-019 Curious — the model considers this worth recording for pattern learning but NOT warranting
-#     interruption (appears only in the Findings dropdown collapsed section). Model-driven (P-020).
+#     interruption. Model-driven (P-020).
 #   P-020 — the model retains discretion to DISMISS a low-severity cue as transient noise; a dismissed cue
-#     yields no user-visible incident, which is correct behaviour, not a bug. So a missed "Curious" token
-#     routes to ManualCheck (calibration-region), never Fail.
-#   P-021 — a weak/transient attention cue feeds the model; below the model's surfacing bar it stays
-#     Curious (or is dismissed).
-#   P-060 Tier-3 — baseline cadence regardless of cue state produces the ambient interpretation rhythm with
-#     an SLO of <90s. The slo_tier below realizes Tier-3.
-# A weak, transient signal is the Tier-3 input that tends to Curious. The Epoch-8 driver realizes the weak
-# magnitude from the phase name.
-# Declare-only: the model's discretion to dismiss (P-020) — a no-incident outcome is correct; the
-# calibration-region check never hard-fails on it.
-# Epoch-8 calibration points: the "Curious" tier token is inferred (Contains substring-tolerant); the <90s
-# Tier-3 baseline cadence; the model-mediated surfacing-or-dismissal.
-# Coverage mode: drive+observe — the chosen tier (or dismissal) is auto (MCP read-back, calibration-region);
-# the Findings-dropdown collapsed placement is operator-checklist.
+#     yields no user-visible incident, which is correct behaviour, not a bug.
+#   P-060 Tier-3 — baseline cadence produces the ambient interpretation rhythm (<90s).
+#
+# DECLARE-ONLY (2026-08-21-severity-lifecycle-live-proof) — the `Contains "Curious"` read-back check was
+# retired on the same two measured grounds as its two siblings: the deterministic-L4 fixture pins ONE
+# severity for every incident, and no corpus tool renders a tier word (`info|warn|error|critical` only).
+# The ladder grades at the cue tier over Pulse's own `priority_tier_label` lines
+# (`crates/conductor-run/tests/severity_harvest.rs`).
+#
+# PHASE SHAPE — Curious is the RESIDUAL band, and reaching it deliberately is subtler than the other two:
+# a cue only exists at all once short-EWMA >= 3x baseline, so magnitude >= 3.0 is already true of every
+# cue that fires. What makes a cue Curious is therefore failing the Suggested gate's OTHER term —
+# confidence >= 0.7, i.e. 70 samples. So this file keeps its sample count deliberately LOW: 20 baseline
+# samples plus a 6-span spike ends near confidence 0.26, under the Suggested floor for its whole life,
+# while still clearing the 10-sample minimum the evaluator needs to consider the service at all. The
+# shipped shape (10 spans at 10% error) produced a single error span — below the evaluation floor, and
+# too weak to raise the EWMA past the 3x fire condition, so no cue of any tier could form.
 name = "severity-tier-curious"
 p_ids = ["P-019", "P-020", "P-021", "P-060"]
 seed = 4317021
@@ -28,15 +31,16 @@ slo_tier = "<90s"   # P-060 Tier-3: baseline cadence, ambient interpretation rhy
 jitter_ms = 50
 
 [[phases]]
-name = "weak-transient-cue"   # a weak, transient signal below the surfacing bar -> tends Curious (or dismissed)
+name = "minimal-baseline"   # 20 OK samples: past the 10-sample evaluation floor, far under the 0.7 confidence gate
+gap_ms = 20000
+[phases.emission]
+kind = "plain"
+occurrences = 20
+
+[[phases]]
+name = "weak-transient-cue"   # a brief spike: the cue fires, but at confidence ~0.26 it lands Curious
 gap_ms = 6000
 [phases.emission]
 kind = "error"
-occurrences = 10
-error_percent = 10   # weak and transient — barely above the ambient rate
-
-# P-019/P-020 — the model records the weak signal at the Curious tier (or dismisses it). Calibration-region.
-[[expected]]
-kind = "Contains"
-class = "CalibrationRegion"
-expected = "Curious"
+occurrences = 6
+error_percent = 100   # weakness here is the low SAMPLE COUNT, not a partial error rate

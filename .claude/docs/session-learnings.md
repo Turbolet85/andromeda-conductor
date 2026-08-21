@@ -415,3 +415,9 @@ This file is **Tier 3 — on-demand**. Claude reads it when explicitly needed (d
 - **Tier 1** (always loaded) — universal safety rules in `CLAUDE.md` `USER:session-learnings` (critical, short).
 - **Tier 2** (path-triggered) — directives in `.claude/rules/*.md` `## Session Additions` (loaded when matching files touched).
 - **Tier 3** (on-demand) — this file (detailed reference, lazy-read).
+
+## Live Pulse captures are dominated by UI render telemetry (2026-08-21)
+
+A full `pulse-app` leg capture is far larger than the evidence in it. The severity-lifecycle leg A slice was 138,065 lines / 48 MB, of which **128,820 were `metric.webgpu.frame_duration_ms`** — the Tauri webview's per-frame render metric, emitted continuously for the whole leg regardless of what the scenario drives. Filtering to the six load-bearing targets (`triage.pattern.storm.detected` · `interpretation.incident.created` · `triage.incident.auto_resolve.tick` · `triage.cue.emit` · `incidents.list_active.request` · `triage.incident.persist`, plus `ingest.tick` for the ingestion witness) took the same leg to 71 lines / 22 KB, and five legs of committed evidence to 502 KB total.
+
+Consequence for evidence hygiene: a raw slice is not committable, and the filter is not a convenience — collapse the identical repeats too (the canary's frozen cue repeats every second, and `item_count` polls ~1,341 times per leg with only a handful of transitions). Keep transitions, drop steady state.

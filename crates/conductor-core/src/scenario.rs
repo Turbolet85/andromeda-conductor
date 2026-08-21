@@ -167,7 +167,9 @@ fn no_duplicate_pids(p_ids: &[PId], _ctx: &()) -> garde::Result {
 mod tests {
     use super::*;
     use crate::expected::{ClaimClass, ComparisonKind};
-    use crate::phase_spec::{EmissionSpec, FaultKindSpec, FaultSpec, Signal, MAX_JITTER_MS};
+    use crate::phase_spec::{
+        EmissionShape, EmissionSpec, FaultKindSpec, FaultSpec, Signal, MAX_JITTER_MS,
+    };
     use garde::Validate;
     use rstest::rstest;
 
@@ -628,6 +630,12 @@ gap_ms = 1
         assert_eq!(s.slo_tier, SloTier::Tier90s, "{stem} re-calibrated to the <90s tier");
     }
 
+    fn severity_fixture(stem: &str) -> Scenario {
+        let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
+        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"))
+    }
+
     #[rstest]
     #[case("severity-tier-autonomous", &["P-019", "P-020", "P-060"])]
     #[case("severity-tier-suggested", &["P-019", "P-020", "P-021", "P-060"])]
@@ -635,112 +643,122 @@ gap_ms = 1
     #[case("incident-auto-resolution", &["P-022", "P-059"])]
     #[case("ack-cooldown", &["P-023"])]
     fn severity_lifecycle_fixtures_load_and_validate(#[case] stem: &str, #[case] p_ids: &[&str]) {
-        let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
-        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
-        let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
+        let s = severity_fixture(stem);
         assert_eq!(s.name, stem);
         let want: Vec<PId> = p_ids.iter().map(|p| PId(p.to_string())).collect();
         assert_eq!(s.p_ids, want);
-        assert!(!s.expected.is_empty(), "{stem} declares at least one expected check");
     }
 
+    /// The whole family is DECLARE-ONLY as of the 2026-08-21 live legs, on grounds measured per file:
+    /// the deterministic-L4 fixture pins ONE severity for every incident and no corpus tool renders a
+    /// tier word (the three tier files); `query_incident_list` returns the ACTIVE set only, so a resolved
+    /// incident leaves the surface rather than arriving with a status token, and `CountAtLeast` grades
+    /// `span_refs` that Pulse's incident producer writes empty (`incident-auto-resolution`); no ack tool
+    /// exists in the four-tool contract (`ack-cooldown`). The claims moved to Pulse's own ledger lines
+    /// (`conductor-run/tests/severity_harvest.rs`); an empty `expected` routes these to ManualCheck
+    /// rather than a false green. Superseded: the mixed-class suite guard — the suite now carries no
+    /// checks at all, which is the property worth pinning.
     #[rstest]
-    #[case("severity-tier-autonomous", "Autonomous")]
-    #[case("severity-tier-suggested", "Suggested")]
-    #[case("severity-tier-curious", "Curious")]
-    fn severity_tier_scenarios_assert_their_tier_as_calibration_region(
-        #[case] stem: &str,
-        #[case] tier: &str,
-    ) {
-        // P-019/P-020: the severity TIER choice is model-driven, so each tier scenario asserts its tier
-        // token as a calibration-region tendency (Contains) routed to ManualCheck — never a hard match.
-        let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
-        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
-        let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
+    #[case("severity-tier-autonomous")]
+    #[case("severity-tier-suggested")]
+    #[case("severity-tier-curious")]
+    #[case("incident-auto-resolution")]
+    #[case("ack-cooldown")]
+    fn severity_lifecycle_family_is_declare_only(#[case] stem: &str) {
         assert!(
-            s.expected.iter().all(|c| c.class == ClaimClass::CalibrationRegion),
-            "{stem} severity-choice checks are calibration-region (model-driven per P-020)"
-        );
-        assert!(
-            s.expected.iter().any(|c| c.kind == ComparisonKind::Contains && c.expected == tier),
-            "{stem} asserts the {tier} tier via Contains"
+            severity_fixture(stem).expected.is_empty(),
+            "{stem} declares no read-back check — the harvest surface carries them"
         );
     }
 
-    #[test]
-    fn incident_auto_resolution_asserts_resolved_and_new_not_reopen_hard() {
-        // P-022: the 120s auto-resolution transition (Contains "Resolved") and the new-not-reopen
-        // (CountAtLeast 2 distinct incidents) are deterministic lifecycle timing -> Hard. P-059's
-        // resolution-summary continuity is model-interpretive -> CalibrationRegion (so this file is mixed).
-        let path =
-            format!("{}/../../scenarios/incident-auto-resolution.toml", env!("CARGO_MANIFEST_DIR"));
-        let toml = std::fs::read_to_string(&path).expect("fixture readable");
-        let s = Scenario::from_toml_str(&toml).expect("fixture valid");
-        assert!(
-            s.expected.iter().any(|c| c.kind == ComparisonKind::Contains
-                && c.class == ClaimClass::Hard
-                && c.expected == "Resolved"),
-            "P-022 asserts the Resolved transition via Hard Contains"
+    /// Each tier file reaches its band through the SUT's `classify_priority` gates, and the term that
+    /// separates the three is CONFIDENCE = samples/100: Autonomous needs >= 0.9, Suggested >= 0.7, and
+    /// Curious is what remains once a cue fires at all (the fire condition is already magnitude >= 3x).
+    /// So the baseline occurrence count IS the tier selector — pin it, or a later edit "simplifying" the
+    /// baselines away silently collapses all three files onto the same band.
+    #[rstest]
+    #[case("severity-tier-autonomous", 90)]
+    #[case("severity-tier-suggested", 70)]
+    #[case("severity-tier-curious", 20)]
+    fn severity_tier_baselines_select_their_confidence_band(#[case] stem: &str, #[case] samples: u32) {
+        let s = severity_fixture(stem);
+        let baseline = &s.phases[0];
+        assert_eq!(
+            baseline.emission.occurrences, samples,
+            "{stem}'s baseline buys the sample count its band needs"
         );
-        assert!(
-            s.expected
-                .iter()
-                .any(|c| c.kind == ComparisonKind::CountAtLeast && c.class == ClaimClass::Hard),
-            "P-022 asserts new-not-reopen via Hard CountAtLeast"
+        assert_eq!(
+            baseline.emission.shape,
+            EmissionShape::Plain,
+            "{stem}'s baseline is OK spans — an error there would move the very rate the spike measures"
         );
+        let spike = s.phases.last().expect("a tier scenario carries a spike phase");
         assert!(
-            s.expected.iter().any(|c| c.class == ClaimClass::CalibrationRegion),
-            "P-059 interpretation continuity is calibration-region"
-        );
-    }
-
-    #[test]
-    fn ack_cooldown_asserts_new_incident_after_via_hard_count_at_least() {
-        // P-023: only the drivable after-cool-down leg is asserted -> a new incident forms after the 5-min
-        // window, so the run carries >= 2 incidents (CountAtLeast 2, Hard). The within-window suppression +
-        // the ack mechanism are declare-only (Epoch-8), per the phase P4 Q2 decision.
-        let path = format!("{}/../../scenarios/ack-cooldown.toml", env!("CARGO_MANIFEST_DIR"));
-        let toml = std::fs::read_to_string(&path).expect("fixture readable");
-        let s = Scenario::from_toml_str(&toml).expect("fixture valid");
-        assert!(
-            s.expected.iter().all(|c| c.class == ClaimClass::Hard),
-            "ack-cooldown's asserted leg (after-window new incident) is Hard"
-        );
-        assert!(
-            s.expected
-                .iter()
-                .any(|c| c.kind == ComparisonKind::CountAtLeast && c.expected == "2"),
-            "P-023 asserts the after-cool-down new incident via CountAtLeast 2"
+            matches!(spike.emission.shape, EmissionShape::Error { error_percent: 100, .. }),
+            "{stem}'s spike is unambiguous errors; its band comes from the sample count, not a partial rate"
         );
     }
 
+    /// The two properties that make the auto-resolve leg REACHABLE, both measured live: the storm phases
+    /// must clear Pulse's Autonomous threshold (>= 10 same fingerprints in the 60s window — 8 sat in the
+    /// dead band and formed nothing), and a dilution tail of OK spans must follow the storm so the
+    /// SAMPLE-driven 30s error EWMA falls under the cue threshold before the silence starts. Without the
+    /// tail the EWMA freezes high and every tick re-fires a cue that refreshes `updated_at`, so the 120s
+    /// idle window never elapses and auto-resolve cannot happen at all.
     #[test]
-    fn severity_lifecycle_suite_is_mixed_class() {
-        // The first mixed-class family: severity choice (P-019/P-020) is CalibrationRegion; lifecycle
-        // timing (P-022/P-023) + tier routing (P-060) is Hard. Assert the SUITE exercises BOTH classes
-        // (every prior family guard was all-Hard).
-        let stems = [
-            "severity-tier-autonomous",
-            "severity-tier-suggested",
-            "severity-tier-curious",
-            "incident-auto-resolution",
-            "ack-cooldown",
-        ];
-        let mut checks = Vec::new();
-        for stem in stems {
-            let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
-            let toml =
-                std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
-            let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
-            checks.extend(s.expected);
+    fn incident_auto_resolution_drives_a_reachable_lifecycle() {
+        let s = severity_fixture("incident-auto-resolution");
+        let storms: Vec<_> = s
+            .phases
+            .iter()
+            .filter(|p| matches!(p.emission.shape, EmissionShape::Exception { .. }))
+            .collect();
+        assert_eq!(storms.len(), 2, "a trigger storm and a retrigger storm");
+        for p in &storms {
+            assert!(
+                p.emission.occurrences >= 12,
+                "{} clears the Autonomous storm threshold (>= 10)",
+                p.name
+            );
         }
+        let dilution = s
+            .phases
+            .iter()
+            .find(|p| p.emission.shape == EmissionShape::Plain && p.emission.occurrences > 0)
+            .expect("a dilution tail of OK spans follows the trigger storm");
         assert!(
-            checks.iter().any(|c| c.class == ClaimClass::Hard),
-            "the severity-lifecycle suite carries at least one Hard check"
+            dilution.emission.occurrences >= 120,
+            "the tail decays the 30s EWMA (alpha 0.0333) under the 3x threshold before silence"
         );
+        let wait = s
+            .phases
+            .iter()
+            .filter(|p| p.emission.occurrences == 0)
+            .map(|p| p.gap_ms)
+            .max()
+            .expect("a silence window");
         assert!(
-            checks.iter().any(|c| c.class == ClaimClass::CalibrationRegion),
-            "the severity-lifecycle suite carries at least one CalibrationRegion check"
+            wait >= 150_000,
+            "the idle wait outlasts the 120s no-reemission window plus the 30s observer tick"
+        );
+    }
+
+    /// `ack-cooldown` keeps its five phases as the record of the intended drive shape even though no
+    /// acknowledge tool exists to drive them — the connection-family precedent. Pinning the phase names
+    /// keeps that record from being quietly deleted as dead weight while P-023 is still classified Auto.
+    #[test]
+    fn ack_cooldown_keeps_its_drive_shape_on_record() {
+        let s = severity_fixture("ack-cooldown");
+        let names: Vec<&str> = s.phases.iter().map(|p| p.name.as_str()).collect();
+        assert_eq!(
+            names,
+            [
+                "trigger-incident",
+                "acknowledge",
+                "retrigger-within-cooldown",
+                "wait-past-cooldown",
+                "retrigger-after-cooldown"
+            ]
         );
     }
 

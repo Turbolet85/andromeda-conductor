@@ -182,3 +182,19 @@ path.
 **Section:** §Obs Anti-Patterns
 **Change:** The cross-master citation of security-plan's sidecar-spawn ban now reads "fixed hard-coded program NAME resolved through the inherited `PATH` + `.env(...)` only" instead of "fixed program path + `.env(...)` only".
 **Why:** Cascade edge — obs-plan cited security-plan's retired wording after the 2026-08-20 spawn-wording amendment. The ban's substance (never a shell with operator-supplied input) is unchanged.
+## 2026-08-21-severity-lifecycle-live-proof — CP4's family-specific span chain retired as never-built
+
+**Section:** §4 Span / Trace Coverage — Scenario: Severity-lifecycle full pass · §1 Obs Scope Summary —
+critical-paths row 4 · §6 Log Coverage — additional scenario-specific fields · §3 Harness Contract — the
+additional-fields example
+**Change:** the mandated chain (`timeline.execute_severity_lifecycle` / per-transition `emit.batch`
+`severity_level`+`phase` / `verify.readback_auto_resolve` / `verify.readback_resolution_summary`) is RETIRED
+as never-built and replaced by the shipped one (`scenario.run` → `timeline.execute` → `emit.batch` →
+`verify.readback*` → `report.generate`); the envelope is the standard eleven fields with `verdict` null and
+`state` "KnownResidual", with the `lifecycle_phase` / `severity_choice_calibrated` extras removed at all three
+sites that named them. The lifecycle evidence is recorded as living in Pulse's own lines at the harvest tier.
+**Why:** measured 2026-08-21 — all four span names plus `auto_resolve_triggered` / `summary_received` have
+ZERO occurrences in `crates/`; read-back is one `verify.readback.observe` pass, not a per-claim call; and the
+family landed declare-only so no per-phase or severity-calibration extra is written. The auto-resolve witness
+had to move because `triage.incident.auto_resolve.tick`'s counters read `"<redacted>"` on the wire (Pulse's
+default-deny allowlist predates them). Same retirement class as the restart-suppression re-base.

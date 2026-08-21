@@ -83,3 +83,17 @@ wrap, with a playbook rule appended for the class.
 **Section:** §Wireframe — Run console (idle), the three P-ID sample rows
 **Change:** The `P-001`/`P-002`/`P-003` sample rows' tier cells read `<slo_tier>` instead of baked `<5s`/`<20s` literals (the row-61 precedent form).
 **Why:** This chunk re-declared two family tiers (`P-003`'s scenario `<5s`→`<90s`, `P-002`'s `<5s`→`<20s`); the P-003-labeled sample baked the old `<5s`. De-literalize, never re-pin a fresh literal (the 2026-08-18 restart-suppression precedent; raised by the orchestrator under the plan's expected-amendments floor).
+## 2026-08-21-severity-lifecycle-live-proof — sample-row P-ID labels corrected against the coverage classification
+
+**Section:** §Wireframe (coverage list · run-report card) · §cli Output structure · §cli Component — Primary
+content block 2 · the per-P-ID prose lines
+**Change:** every mislabeled sample row's P-ID now matches the scenario named beside it —
+`span-status-error` P-001 → P-005, `baseline-error-rate` P-002 → P-009, `fingerprint-identity` P-003 → P-017,
+`restart-suppression` P-014 → P-015 (5 sites), `port-occupier` P-022 → P-003 (4 sites). P-009 / P-032 / P-035
+were already correct and are untouched.
+**Why:** the pairings contradicted the authoritative coverage classification (`conductor-core::coverage_matrix`)
+and the committed scenario catalog — P-022 is Auto-Resolution and Lifecycle (this chunk's own subject) while
+the port-occupier is P-003's `receiver-failed-port-conflict`, and P-014 is Service Went Silent while
+`restart-suppression.toml` names P-015/P-016/P-057. Raised at wrap Validate check 5 (the chunk plan queued the
+P-022 site; verification found the mismatch systemic) and resolved with the operator, who chose the full sweep
+over the plan's literal one-site scope. Labels, not layout: no wireframe, state, token or lamp changed.

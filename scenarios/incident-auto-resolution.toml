@@ -5,81 +5,80 @@
 # P-022 / P-059 — Auto-Resolution and Lifecycle + Active-Incident Interpretation Continuity
 # (pulse-capability-spec.md §P-022 / §P-059). Severity-calibration + pipeline family: one incident lifecycle.
 #   P-022 auto-resolution — when the underlying detection signal is not re-emitted for 120s, Pulse
-#     transitions the active incident to Resolved and attaches a resolution summary (P-059). A subsequent
-#     same-fingerprint detection creates a NEW incident rather than reopening the Resolved one (subject to
-#     the P-023 cool-down). The 120s transition + new-not-reopen are DETERMINISTIC lifecycle timing -> Hard.
-#   P-059 continuity — while active (severity >= Suggested, not Resolved), each cadence digest produces its
-#     OWN interpretation (exempt from last-write-wins replacement); on resolution a "How this resolved"
-#     summary is generated. "Multiple interpretation updates over the lifecycle" is model-interpretive ->
-#     calibration-region.
-# Trigger then CEASE: the cease is the conductor-faults abrupt-silence / emission-gap lever; the Epoch-8
-# driver realizes the trigger / sustain / cease / retrigger from the phase names. gap_ms are spec-faithful
-# (10-min sustain, 120s resolve window); the Epoch-8 live run owns any compression.
-# Epoch-8 calibration points: the "Resolved" status token + the "resolution summary" continuity token are
-# inferred (Contains substring-tolerant); CountAtLeast "2" counts two distinct incidents for the same
-# fingerprint (the new-not-reopen); the model-mediated interpretation count.
-# Coverage mode: drive+observe — the Resolved transition + new-not-reopen are auto (MCP read-back, Hard);
-# the resolution-summary quality + multiple-interpretation count are calibration-region / operator-checklist.
+#     transitions the active incident to Resolved. A subsequent same-fingerprint detection creates a NEW
+#     incident rather than reopening the Resolved one.
+#   P-059 continuity — while active, each cadence digest produces its own interpretation; on resolution a
+#     resolution summary is generated.
+#
+# DECLARE-ONLY (2026-08-21-severity-lifecycle-live-proof) — the three read-back checks this file used to
+# carry were retired, each against a MEASURED ground at SUT HEAD efabe8e, never a softened assertion:
+#   (1) `Contains "Resolved"` — `query_incident_list` returns the ACTIVE set only (the sidecar calls
+#       `load_active_incidents`), so a resolved incident LEAVES the observed surface instead of arriving
+#       on it carrying a status token. Auto-resolve's observable is ABSENCE from the list plus the NEW
+#       incident the retrigger forms; no substring on any read-back surface can carry it.
+#   (2) `CountAtLeast "2"` — the evaluator grades CountAtLeast against `evidence_count`, summed from
+#       `retrieve_telemetry_slice.span_refs`, and Pulse's incident producer writes `span_ids: Vec::new()`.
+#       Observed is therefore always "0" whatever the lifecycle did: a mis-aimed instrument, not a
+#       property in doubt. New-not-reopen itself HOLDS at source (dedup searches the ACTIVE set only, so
+#       a resolved incident is never matched and a new row is created) and is graded at the harvest tier.
+#   (3) `Contains "resolution summary"` — unreachable under deterministic L4: the summary attaches only on
+#       `DigestKind::ResolutionSummary` or an L4 output whose `is_resolution_summary` is true, and nothing
+#       in the SUT constructs that digest kind while the canned fixture pins the flag false. The mechanism
+#       exists SUT-side but no run in the mode every verifiable leg uses can reach it — recorded as SUT
+#       intake, and as the PREMISE-CORRECTION on v2-16.
+# The live claims grade at the harvest tier over Pulse's own ledger lines
+# (`crates/conductor-run/tests/severity_harvest.rs`); this file drives the stimulus.
+#
+# PHASE SHAPE — derived from the SUT's own constants, not from the spec's prose timings:
+#   trigger/retrigger carry 12 identical-fingerprint exceptions, clearing the storm detector's Autonomous
+#     threshold (>=10 in the 60s window; Tier-1 digests accept Autonomous cues alone), because 8 sat in
+#     the 5..10 dead band — cue floor cleared, Autonomous band missed, no incident.
+#   `dilute-error-rate` is what makes auto-resolve REACHABLE: the error-rate cue compares a 30s EWMA
+#     (alpha 0.0333) against max(long-term, base_error_rate 0.01) x 3.0, and the EWMA is SAMPLE-driven, so
+#     an emission that simply stops freezes it high and every subsequent tick re-fires a cue that refreshes
+#     the incident's `updated_at` — the 375-cue mechanism measured on 2026-08-20 that held auto-resolve off
+#     indefinitely. 150 OK spans decay the short EWMA to ~0.006 against a ~0.07 threshold, so cues cease
+#     BEFORE the silence starts and the idle window can actually run.
+#   `wait-auto-resolve` is 165s = the 120s no-reemission window + the 30s observer tick + margin.
 name = "incident-auto-resolution"
 p_ids = ["P-022", "P-059"]
 seed = 4317022
-slo_tier = "<90s"   # a long lifecycle scenario; the 120s + 10-min windows are phase timing, not the SLO budget
+slo_tier = "<90s"   # a long lifecycle scenario; the 120s window is phase timing, not the SLO budget
 jitter_ms = 50
 
 [[phases]]
-name = "trigger-error-spike"   # establish an active incident (a sustained error-rate spike)
-gap_ms = 5000
+name = "trigger-exception-storm"   # 12 identical fingerprints inside the 60s window -> the Autonomous band
+gap_ms = 24000
 [phases.emission]
 kind = "exception"
-occurrences = 8   # past the storm floor so an incident actually forms
+occurrences = 12
 variants = ["identical"]
 
 [[phases]]
-name = "sustain-10min"   # P-059: a sustained incident accrues multiple interpretation updates over its lifecycle
-gap_ms = 600000
+name = "dilute-error-rate"   # OK spans drive the sample-driven short EWMA below threshold so cues cease
+gap_ms = 150000
 [phases.emission]
-kind = "exception"
-occurrences = 60
-variants = ["identical"]
+kind = "plain"
+occurrences = 150
 
 [[phases]]
-name = "cease-signal"   # stop emitting the underlying signal (the abrupt-silence lever)
+name = "cease-signal"   # the underlying signal stops; nothing refreshes the incident from here
 gap_ms = 1000
 [phases.emission]
 kind = "plain"
 occurrences = 0
 
 [[phases]]
-name = "wait-auto-resolve-120s"   # 120s with no re-emission -> P-022 transitions the incident to Resolved
-gap_ms = 120000
+name = "wait-auto-resolve"   # 120s no-reemission window + the 30s AutoResolveObserver tick + margin
+gap_ms = 165000
 [phases.emission]
 kind = "plain"
 occurrences = 0   # the silence IS the auto-resolve condition
 
 [[phases]]
-name = "retrigger-same-fp"   # re-emit the same fingerprint -> a NEW incident, NOT a reopen of the Resolved one
-gap_ms = 5000
+name = "retrigger-same-fingerprint"   # the same fingerprint again -> a NEW incident, not a reopen
+gap_ms = 24000
 [phases.emission]
 kind = "exception"
-occurrences = 8
+occurrences = 12
 variants = ["identical"]
-
-# P-022 — the incident auto-transitions to Resolved after the 120s no-signal window (deterministic timing).
-[[expected]]
-kind = "Contains"
-class = "Hard"
-expected = "Resolved"
-
-# P-022 — new-not-reopen: the post-resolution same-fingerprint detection forms a SECOND distinct incident,
-# so the run carries at least two incidents for the fingerprint (not one reopened).
-[[expected]]
-kind = "CountAtLeast"
-class = "Hard"
-expected = "2"
-
-# P-059 — the Resolved incident carries a resolution summary synthesising its lifecycle. Model-interpretive
-# (interpretation quality), so calibration-region, routed to ManualCheck.
-[[expected]]
-kind = "Contains"
-class = "CalibrationRegion"
-expected = "resolution summary"

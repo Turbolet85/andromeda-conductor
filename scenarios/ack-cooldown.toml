@@ -5,21 +5,27 @@
 # P-023 — Acknowledge Cool-Down (pulse-capability-spec.md §P-023). Severity-calibration family.
 #   P-023 — after a user acknowledges an incident, a 5-minute cool-down applies: re-detection of the SAME
 #     incident kind-and-scope WITHIN the window does NOT create a new active incident (but is recorded in
-#     corpus); re-detection AFTER the window creates a new incident. Cool-down is per kind-and-scope, not
-#     global. The cool-down window logic is DETERMINISTIC -> Hard.
-# Trigger -> acknowledge -> retrigger-within -> wait-past-cooldown -> retrigger-after. The acknowledge step
-# and the within-window suppression are realized by the Epoch-8 driver from the phase names; gap_ms are
-# spec-faithful (the 5-min cool-down window).
-# Q2 decision (phase P4): "acknowledge" has no clear tool in the pinned four-tool MCP contract
-# (mark_incident_resolved = resolve, not ack), AND the within-window (no new) vs after-window (new) outcomes
-# CONTRADICT on the incident token under the single-read-back evaluator. So this file asserts only the
-# drivable AFTER-window leg (a new incident DOES form -> the run carries >= 2 incidents) as Hard; the
-# within-window SUPPRESSION + the ack mechanism + corpus-records-the-within-occurrence are DECLARE-ONLY
-# (Epoch-8 calibration points). This mirrors the activity-floor precedent: assert the provable side.
-# Epoch-8 calibration points: whether mark_incident_resolved serves as the ack action; the within-window
-# no-new-incident suppression; the corpus-records-within leg; the 5-min cool-down window.
-# Coverage mode: drive+observe — the after-window new incident is auto (MCP read-back, Hard); the ack action
-# + the within-window suppression are operator-checklist / declare-only until Epoch-8.
+#     corpus); re-detection AFTER the window creates a new incident. Cool-down is per kind-and-scope.
+#
+# DECLARE-ONLY (2026-08-21-severity-lifecycle-live-proof). This file previously asserted the after-window
+# leg as Hard (`CountAtLeast "2"`). That check was retired against THREE measured grounds, each
+# independently sufficient — the file's own P4-era note had already recorded the first:
+#   (1) NO ACK MECHANISM. The pinned four-tool MCP contract carries no acknowledge action, and
+#       `mark_incident_resolved` is a RESOLVE write (it sets status resolved), not an ack — so the
+#       `acknowledge` phase below cannot be driven at all, and the cool-down it starts never begins.
+#       Acknowledgement is a user action in Pulse's own UI; nothing Conductor can reach drives it.
+#   (2) MIS-AIMED INSTRUMENT. `CountAtLeast` grades against `evidence_count`, summed from
+#       `retrieve_telemetry_slice.span_refs`, and Pulse's incident producer writes `span_ids: Vec::new()`.
+#       Observed is always "0" whatever the cool-down did — the check could never have passed, and its
+#       failure would have said nothing about P-023.
+#   (3) NO STIMULUS. The five phases below declare no `[phases.emission]` table at all, and the spec
+#       default is ONE PLAIN TRACE per phase — so this scenario emits five OK spans over ~6 minutes and
+#       forms no incident of any kind. The phases were authored as drive documentation for an Epoch-8
+#       driver that would realize them from the phase names; that driver reads emission data, not names.
+# The phases are KEPT VERBATIM as the record of the intended drive shape (the connection-family
+# precedent), and P-023 stays classified Auto with this scenario naming it, so the coverage gates keep
+# asserting the gap rather than letting it be forgotten. Closing it needs a Pulse-side ack surface —
+# recorded as SUT intake, not as work this chunk can do.
 name = "ack-cooldown"
 p_ids = ["P-023"]
 seed = 4317023
@@ -31,11 +37,11 @@ name = "trigger-incident"   # establish an active incident of a given kind-and-s
 gap_ms = 4000
 
 [[phases]]
-name = "acknowledge"   # the user acknowledges the incident -> starts the 5-min cool-down (declare-only: ack mechanism)
+name = "acknowledge"   # the user acknowledges the incident -> starts the 5-min cool-down (no drivable tool: see (1))
 gap_ms = 2000
 
 [[phases]]
-name = "retrigger-within-cooldown"   # re-emit the SAME kind WITHIN 5min -> no new active incident, corpus-only (declare-only)
+name = "retrigger-within-cooldown"   # re-emit the SAME kind WITHIN 5min -> no new active incident, corpus-only
 gap_ms = 60000
 
 [[phases]]
@@ -45,10 +51,3 @@ gap_ms = 300000
 [[phases]]
 name = "retrigger-after-cooldown"   # re-emit AFTER the window -> a NEW incident forms
 gap_ms = 4000
-
-# P-023 — after the cool-down elapses, the re-detection forms a NEW incident, so the run carries at least
-# two incidents for the kind (the original + the post-cool-down one); the within-window retrigger added none.
-[[expected]]
-kind = "CountAtLeast"
-class = "Hard"
-expected = "2"

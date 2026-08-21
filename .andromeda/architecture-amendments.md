@@ -381,3 +381,25 @@ fixture — and every gate stayed green over it, because they assert Conductor a
 **Section:** §Occupied Resources — `contracts/pulse-load-envelope.toml`
 **Change:** Recorded that `max_sustained_rate_spans_per_s` is computed `occurrences / gap_ms` — DISPATCHES per second, not wire spans — so a `Latency`/`Ramp` phase multiplies it by `samples`/`windows` (50 wire spans/s counted as 1/s at the shipped `latency-regression` shape, a 50× divergence, still ~200× under the bound); no verdict moves and the gate/caption shared basis is unaffected, but the term as named misdescribes what it bounds. Marked SURFACED-not-authored with the fix owned by a working-route entry.
 **Why:** The chunk's re-shape measured the divergence and widened it 50×; recording it keeps a known gap from being silently re-discovered, while the fix (count `occurrences × samples`, or rename the term) stays owned rather than smuggled into a doc edit.
+## 2026-08-21-severity-lifecycle-live-proof — the AutoResolved arm fired live, and the declare-only registry grew to seven
+
+**Section:** §Established Decisions [Read-Back Dependency Posture]
+**Change:** `route_read_back`'s `AutoResolved` arm is no longer recorded as "unexercised live so far" — it
+first fired LIVE on 2026-08-21 (leg E, `ack-cooldown`): a scenario forming no incident of its own leaves only
+the preflight canary's, whose cues are `curious`, and the Tier-1 coordinator accepts Autonomous alone, so
+nothing refreshed it; it auto-resolved on schedule and left ~4 minutes of empty active list before read-back
+(`query_incident_list` → `result_count: 0`, envelope `fingerprints: []`).
+**Why:** the 2026-08-20 leg recorded an honest limit — the canary's error-rate cues kept refreshing its
+incident — and inferred the list could not empty. Measurement retires the inference while keeping the
+observation: cues refresh an incident only through a digest of the SAME identity, which a `curious` cue never
+triggers. The arm was exercised, not modified (zero production-source delta this chunk).
+
+**Section:** §Standard Contracts — Run report envelope (per scenario check)
+**Change:** the declare-only family registry reads SEVEN, adding the severity-lifecycle family
+(`incident-auto-resolution` · `severity-tier-autonomous` · `severity-tier-suggested` · `severity-tier-curious`
+· `ack-cooldown`, 2026-08-21).
+**Why:** all five family TOMLs now carry zero `[[expected]]`, each retirement against a measured ground (the
+det-L4 fixture pins one severity and no corpus tool renders a tier word; `query_incident_list` is active-only
+so a resolved incident leaves the surface; `CountAtLeast` grades `span_refs` the incident producer writes
+empty; no ack tool exists in the four-tool contract). All five live rows landed `verdict: null` /
+`state: KnownResidual`.
