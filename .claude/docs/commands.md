@@ -8,10 +8,10 @@ _Complete command reference from `.andromeda/architecture.md` + `Cargo.toml` + t
 - `cargo tauri build` — optional Tauri 2 GUI bundle (~3 MB; convenience only).
 
 ## Agent harness (source of truth — `scripts/agent-run.{sh,ps1}`)
-- `agent-run.sh boot` — MCP preflight readiness gate (`conductor preflight --json`): protocol `2024-11-05` + tool presence + data-dir canary. `ready:false` ⇒ dependent scenarios `Blocked`.
-- `agent-run.sh run [--unit|--integration|--e2e]` — nextest + doctest + clippy + scenario runs.
+- `agent-run.sh boot` — MCP preflight readiness gate (`conductor preflight --json`): protocol `2024-11-05` + required-tool presence + the run-contract terms + the canary round-trip. `ready:false` ⇒ dependent scenarios `Blocked` under whichever of the gate's FIVE named preconditions applies (version mismatch · missing tool · no incident opened after the canary storm · app-sidecar workspace-key agreement · unmet run-contract terms) — never a generic string. The wrapper's wall-clock budget is DERIVED per invocation from `contracts/pulse-run-contract.toml` (`warmup_ms/1000 + min_canary_poll_seconds + margin`); a missing term is a hard exit 2, and a lowered `CONDUCTOR_PREFLIGHT_TIMEOUT` clamps UP to the contract floor, never down. **`boot` writes NO run artifacts** — no journal, no `runs.db` row, no `agent-latest.jsonl` refresh; a criterion needing those requires a SCENARIO leg.
+- `agent-run.sh run [--unit|--integration|--e2e]` — nextest + doctest + clippy + scenario runs. Scenario leg: `SCENARIO=<name|P-ID> [SEED=<n>] agent-run.sh run` — `--seed` is appended ONLY when `SEED` is explicitly set (otherwise the TOML-declared seed governs).
 - `agent-run.sh status <run_id>` — read the Run-report envelope from `runs/<run_id>.jsonl` / `runs.db`.
-- `agent-run.sh cleanup <run_id>` — remove run artifacts + `runs.db` row + release `:4317`; idempotent.
+- `agent-run.sh cleanup <run_id>` — remove run artifacts + the run's rows in **all three `runs.db` tables** (`runs`, `run_check`, `run_envelope` — teardown covers every table a run writes, or cleanup leaves orphans) + release `:4317`; idempotent (file-absence is not an error; a zero-row `DELETE` succeeds).
 - `agent-run.sh logs <run_id>` — tail the emission journal + sanitized stderr.
 
 ## Scenario runs (`conductor-cli`)

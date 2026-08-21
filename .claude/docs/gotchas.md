@@ -8,13 +8,19 @@ _Documented architectural traps from `.andromeda/architecture.md` + the 6 specia
 ## Gotchas
 
 ## MCP protocol must negotiate DOWN to 2024-11-05
-**What breaks:** Pulse's MCP server is hand-rolled JSON-RPC speaking the older `2024-11-05` protocol with a minimal `capabilities` object; a strict newer-version rmcp client default silently mismatches and read-back fails (the exact silent-mismatch class the preflight exists to catch).
-**How to avoid:** Pin the expected version at `2024-11-05` in the `contracts/` manifest; the rmcp client negotiates down and tolerates minimal capabilities; the preflight asserts the negotiated version.
+**What breaks:** Pulse's MCP server is hand-rolled JSON-RPC speaking the older `2024-11-05` protocol with a minimal `capabilities` object; pinning a strict newer protocol default silently mismatches and read-back fails (the exact silent-mismatch class the preflight exists to catch).
+**How to avoid:** Pin the expected version at `2024-11-05` in the `contracts/` manifest and READ the negotiated one from the `initialize` result — Conductor's client is hand-rolled line-delimited JSON-RPC (rmcp removed 2026-06-27), so there is no client-library default to drift from; the preflight asserts the negotiated version.
 **Fix if broken:** Surface as `Blocked` with the named precondition — never a silent pass.
 **References:** architecture.md §Established Decisions [MCP Read-Back Client] / §Standard Contracts; `crates/mcp-server/src/jsonrpc.rs:7` (Pulse).
 
+## Pulse's `tools/call` is non-MCP-compliant — expect a RAW result
+**What breaks:** Pulse's sidecar returns the raw tool payload as the JSON-RPC `result`, with no `{content:[…]}` envelope. A typed MCP SDK deserializes that into `ServerResult` and rejects it as `UnexpectedResponse` on *every* live call — which is exactly why rmcp 1.7.0 was removed on 2026-06-27 (it exposes no raw-result escape).
+**How to avoid:** Keep the read-back client hand-rolled (`conductor-verify/src/jsonrpc.rs` + `client.rs`) and keep tool results as raw `serde_json::Value`. Test stubs must be faithful to the raw shape, or they will pass against a shape the live sidecar never sends.
+**Fix if broken:** Do not re-introduce a typed MCP SDK on this seam.
+**References:** architecture.md §Established Decisions [MCP Read-Back Client].
+
 ## Data-dir mismatch ⇒ silently-empty read-back
-**What breaks:** The sidecar filters incidents by `workspace_root = data_dir`; if `ANDROMEDA_PULSE_DATA_DIR` passed to the spawned `andromeda-pulse-mcp` ≠ the live Pulse's, every `query_incident_list` comes back empty (false pass-as-empty / perpetual blocked).
+**What breaks:** The sidecar filters incidents by the corpus `workspace` column (= data_dir — **not** a `workspace_root` column); if `ANDROMEDA_PULSE_DATA_DIR` passed to the spawned `andromeda-pulse-mcp` ≠ the live Pulse's, every `query_incident_list` comes back empty (false pass-as-empty / perpetual blocked). The sidecar keys on `ANDROMEDA_PULSE_DATA_DIR` while `pulse-app` keys incidents on its *detected workspace root*, so a divergence returns zero rows forever — and that is byte-identical on the wire to "Pulse raised no incident", which is why the preflight names both candidate causes rather than claiming a measurement Conductor cannot make.
 **How to avoid:** Propagate the live Pulse's `ANDROMEDA_PULSE_DATA_DIR` to the sidecar via `.env(...)`; if Pulse leaves it unset, resolve the identical platform default. The preflight canary round-trips a known incident to prove the wiring before any scenario trusts read-back.
 **Fix if broken:** Correct the data-dir; re-run the canary.
 **References:** architecture.md §Occupied Resources (Environment variables) / §Standard Contracts (readiness gate); `refs/pulse-mcp-contract.md`.

@@ -1,0 +1,24 @@
+[
+{
+"sql": "SELECT count(*) AS symbols FROM symbol",
+"rows": 1,
+"result": [
+{
+"symbols": 2189
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT count(*) AS symbols FROM symbol",
+"rows": 1,
+"result": [
+{
+"symbols": 247
+}
+],
+"db_state": "fresh",
+"plane": "ts"
+}
+]

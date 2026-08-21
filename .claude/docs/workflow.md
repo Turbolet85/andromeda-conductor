@@ -18,7 +18,7 @@ This project was planned with the Andromeda greenfield pipeline.
 4. `/andromeda-setup-project` — this CLAUDE.md ecosystem + harness + operational artifacts.
 
 **Per chunk (main build loop):**
-1. `/andromeda-phase` — promote + plan the next chunk from `conductor-0.1.0/working-route.md` (mints its `[marker]`, appends to `master-route.md`).
+1. `/andromeda-phase` — promote + plan the next chunk from the active version's `working-route.md` (`{project}-{version}/working-route.md`, resolved from `master-route.md`'s last `## {project}-{version}` heading; mints its `[marker]`, appends to `master-route.md`).
 2. Implement the chunk — write code + tests; drive via `scripts/agent-run.sh`.
 3. Verify end-to-end (the chunk is not done until the harness is green and behavior is confirmed).
 4. Repeat for the next pending chunk.
@@ -26,7 +26,7 @@ This project was planned with the Andromeda greenfield pipeline.
 The "where am I" cursor is **derived** from `master-route.md`'s last `complete` marker (not stored in state.yaml).
 
 ## Daily session lifecycle
-- **Start:** `/new-session` (when available) — reads `session-handoff.md`, shows the Andromeda dashboard + the 14 health checks, proposes the next action. If a fresh invocation, read `.claude/session-handoff.md` manually.
+- **Start:** `/andromeda-new-session` — reads `session-handoff.md` + the lean `state.yaml`, runs the 14 health checks, derives position (master-route's last `complete` + the working-route's first markerless entry) and the verification-matrix coverage, then proposes the next action and waits. On a brand-new invocation, read `.claude/session-handoff.md` manually — the SessionStart hook injects it on resume/compact but not on a fresh start.
 - **During:** follow the current chunk's plan; edit → test → iterate; when corrected, the learning is captured at wrap.
 - **End / milestone:** `/wrap-session` — commits work, overwrites `session-handoff.md`, reconciles the living docs, curates learnings into the right tier (CLAUDE.md `USER:session-learnings` / `.claude/rules/* ## Session Additions` / `.claude/docs/session-learnings.md`).
 
