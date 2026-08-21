@@ -7,8 +7,23 @@
 #     incidents and refreshes within 1s of the next refresh event. Conductor drives a known number of unread
 #     active incidents; the counter must reflect at least that many.
 # The count is deterministic (count of unread/active incidents = the incidents Conductor drove), so this is a
-#   Hard CountAtLeast on the read-back incident list (query_incident_list). The <=1s refresh TIMING is an
-#   Epoch-8 measurement (the tier declares the budget; no content token for the latency).
+#   Hard CountAtLeast on the read-back incident list (query_incident_list). THAT CHECK GRADES THE COUNT, NOT
+#   THE TIMING — the two claims are orthogonal and the check below is untouched by the timing work.
+# DELEGATED TIMING (≤1s) — measurable since SUT HEAD `f0c38f5`, graded at the HARVEST tier.
+#   Pulse emits `metric.findings.counter_refresh_ms` carrying `duration_ms`, behind its own exact allowlist
+#   leaf, and persists it to `{data_dir}/logs/agent-latest.jsonl.<date>`. NO MCP tool reads that stream, so
+#   the bound is graded over a live-leg capture in the conductor-run harvest test — never by an
+#   `[[expected]]` check, and never through `budget_ms` (which grades Conductor's own MCP round-trip, not a
+#   Pulse-internal duration). The observable fires inside the findings re-poll (`FINDINGS_REPOLL_MS` = 1000),
+#   continuously and unprompted — no operator action, only a running Pulse with its window open.
+#   Note this scenario CARRIES an `[[expected]]` check, so unlike the other three delegated-timing scenarios
+#   it is not declare-only. Measured 2026-08-21 (correcting the pre-leg prediction that it would therefore land
+#   `Blocked`): its live leg landed `verdict = CalibrationRegion` / `state = KnownResidual`. Two mechanisms,
+#   neither of which is the declare-only auto-resolve arm — the read-back SUCCEEDED but came back under
+#   `degraded_mode` (deterministic L4 makes every read-back degraded), which is the pre-accepted residual
+#   route to KnownResidual and is NOT gated on declare-only; and the unmet `CountAtLeast` floor routes to
+#   CalibrationRegion rather than failing, because a sample floor never hard-fails. `Blocked` needs a
+#   read-back FAILURE or an empty list, which this leg did not produce.
 # Coverage mode: auto (MCP read-back of query_incident_list).
 name = "findings-counter-refresh"
 p_ids = ["P-045"]

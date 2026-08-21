@@ -1,0 +1,43 @@
+# design extract
+
+## Relevance
+Partial — the chunk's substance is measurement/grading logic, but its deliverable (the graded outcome + recorded basis) renders through cli verdict/report-state lines, the results/SLO table, the coverage-matrix Mode cell, and the markdown run report, all of which the design plan governs.
+
+## Constraints
+- The run-report row must carry BOTH a 3-valued `Verdict` and a 5-valued `ReportState`, and the three non-verdict outcomes (`Blocked`, `ManualCheck`, `KnownResidual`) must never collapse into `Fail`; `KnownResidual` renders muted/dashed with an "expected until {named fix}" note and `Blocked` carries its named precondition string with measurement columns as `—`/null, never a red error (per design-system §Color Palette — Verdict (3) vs ReportState (5) note; §Surface: cli / Component Patterns #3). This directly governs the scope's open premise (a) harvest tier vs (b) programmatic surface: whichever tier P3 lands, the unreachable-measurement outcome must land on the correct one of these treatments, not on `Fail`.
+- Any status Conductor prints must pair color with an ASCII label from the closed set `[PASS]`/`[HOLD]`/`[FAIL]`/`[MANUAL]`/`[RESIDUAL]`/`[BLOCKED]` (glyphs `✓`/`✗`/`?`/`~`/`•`/`→`, TTY-only), never color alone, never emoji in piped output (per design-system §Surface: cli / Tokens; §Anti-Patterns / Per-Surface Bans — cli).
+- The `slo_tier` cell must render the scenario's *declared* value from the closed `<5s`/`<20s`/`<90s` set — never a baked per-scenario literal (per design-system §Surface: cli / Component Patterns #4). Three of this chunk's four budgets (≤2s, ≤2s, ≤1s) fall outside that closed set while `budget_ms` grades a different quantity; how a `budget_ms`-graded row occupies (or does not occupy) the tier column, and whether the shipped table already distinguishes them, is research's question.
+- No new color, ANSI entry, lamp state, or `ReportState` value may be introduced for this chunk's outcomes — the six lamp states are closed; run-scoped qualifiers ride as a caption using an existing recessive tier (the `[ENVIRONMENT-SUSPECT]` precedent), not as a seventh lamp (per design-system §Surface: cli / Tokens — Residual-mute entry; §Color Palette).
+- Mono ID cyan (ANSI 117 / `var(--color-id-cyan)`) is the reserved status tier for P-IDs, run_id, SLO timings, `latency_ms`, and fingerprints — any measured duration this chunk newly surfaces belongs to that tier, never a generic accent (per design-system §Typography — Data row; §Surface: cli / Tokens).
+- If a budget's grading resolves to the operator-checklist (`ManualCheck`) shape — the scope's third open premise about a human-operated Pulse window — it must render as induced-state + expected-observation y/n outside the green/amber/red triad (`?` / `[MANUAL]`, ANSI 146 / `--status-manual`), and the headless `agent-run.sh` path must never block on the `inquire` prompt (isatty-gated; unconfirmed items recorded) (per design-system §Surface: cli / Component Patterns #2 and #4; §Surface: desktop-webview / Component Patterns #7).
+- The coverage matrix is a SEPARATE narrower table (P-ID · Title · Category · Mode) with no verdict/state column and therefore no bracket prefix; an out-of-scope Mode cell uses the existing Residual-mute pair (ANSI 246 ↔ `var(--status-residual)`), with the always-rendered text label carrying the signal (per design-system §Surface: cli / Component Patterns #3). Applies if the four P-IDs' Mode classification changes.
+
+## Patterns to follow
+- The cli per-P-ID verdict/report-state line shape from §Surface: cli / Component Patterns #4 — glyph + P-ID (ID cyan) + state word + measurement + note, printed in place, motionless.
+- The results/SLO table shape from §Surface: cli / Component Patterns #3 — `comfy-table`, width detected dynamically from the terminal, never hardcoded; unmeasured cells `—`.
+- The `[ENVIRONMENT-SUSPECT]` run-level caption pattern (§Surface: cli / Tokens + Component Patterns #4) — a once-per-run qualifier printed above the lines in the recessive tier. Timing budgets graded under a breached load envelope are exactly the case this caption exists for.
+- Token reuse over token addition — the Residual-mute tier's documented history of absorbing new recessive uses (`hint:` label, out-of-scope Mode cell, load-envelope caption) with zero new palette entries (per design-system §Surface: cli / Tokens — Residual-mute entry).
+- Markdown, having no color channel, uses emphasis or the bracket label in a blockquote as the surface-adapted counterpart — the required treatment for the chunk's recorded-basis artifact (per design-system §Surface: cli / Tokens).
+
+## Anti-patterns to avoid
+- Never conflate "no result yet" / "never measured" / "pre-accepted gap" with `Fail` — graying them alike or showing `Blocked` as a red error is a named Rejected Default (per design-system §Anti-Patterns / Rejected Defaults).
+- Never signal a state by color alone, and never emit ANSI without checking `NO_COLOR` / `TERM` / pipe status (per design-system §Anti-Patterns / Per-Surface Bans — cli).
+- Never introduce a fresh literal where a set can be named — the de-hardcode-don't-substitute rule that has already fired three times on this plan (per design-system §Surface: cli / Component Patterns #4; amendment history below).
+
+## Contract bindings
+- **design ↔ a11y**: the color+label pairing and `NO_COLOR` behavior bind to a11y §Use of Color (SC 1.4.1) — the ASCII bracket prefix is the not-color-alone mechanism.
+- **design ↔ architecture**: §Color Palette's Verdict/ReportState note defers to arch's run-report envelope for the row carrying both values; if this chunk touches `CheckRecord`, the pairing is arch's contract and design only governs its rendering.
+- **design ↔ cli/agent harness (tests)**: §Surface: cli Platform-Specific Notes requires the headless source-of-truth path never be gated on an `inquire` prompt — binds to whatever the tests/harness plan mandates for `agent-run.sh`.
+- **design ↔ webview**: `var(--status-residual)` / `--status-manual` are the by-name webview halves of the cli ANSI 246 / 146 pair; a report-state change for these four P-IDs must bind the same pair on both surfaces (per design-system §Surface: cli / Tokens).
+
+## Acceptance criteria contributions
+- Every state this chunk renders carries its ASCII label/glyph from the closed set alongside any color, and output degrades correctly under `NO_COLOR`/piped stdout (per design-system §Surface: cli / Component Patterns #4).
+- Any budget that cannot be honestly measured renders as `KnownResidual` (`~`/`[RESIDUAL]`, ANSI 246, carrying "expected until {named fix}") or `Blocked` (`•`/`[BLOCKED]`, named precondition, measurement cells `—`) — never as a red `Fail` (per design-system §Color Palette — Verdict vs ReportState note).
+- Zero new colors, ANSI map entries, lamp states, or `ReportState` values are added; all status output binds existing tokens by name (per design-system §Surface: cli / Tokens; §Self-Validation Protocol — Token Test).
+- The `slo_tier` cell for each of the four scenarios renders a declared value from the closed set (or is explicitly absent), with no per-scenario literal baked into the renderer (per design-system §Surface: cli / Component Patterns #4).
+
+## Relevant amendment history
+- **2026-08-18-error-baseline-spike-live-proof** — §Surface: cli Component Patterns #4: the sample line's tier was de-literalized to `<slo_tier>` drawn from the scenario's declared closed-set value, because a scenario re-declared `<5s` → `<90s`. Directly this chunk's area: four scenarios whose budgets (≤2s/≤5s/≤2s/≤1s) mostly fall outside that closed set, graded by a different instrument (`budget_ms`).
+- **2026-08-09-out-of-scope-classification-treatment** — §Surface: cli Tokens + Component Patterns #3: recorded the Residual-mute tier's reuse on the coverage-matrix out-of-scope Mode cell, and retitled Pattern #3 to disambiguate the 6-column results/SLO table from the separate 4-column `conductor coverage` table. Relevant because the scope names coverage-matrix classification for the four P-IDs "if their mode changes."
+- **2026-08-09-sut-load-envelope** — §Color Palette: the Residual-mute tier absorbed the run-level `[ENVIRONMENT-SUSPECT]` load-envelope caption as a run qualifier, explicitly not a seventh lamp. Relevant precedent for how a load-sensitive timing run reports environment doubt.
+- **2026-08-08-sut-capability-manifest** and **2026-08-09-current-sut-coverage-classification** — established the plan-wide "name the set, never the new literal" de-hardcoding rule across §Color Palette / §Typography / §cli ANSI map / Coverage-matrix prose.

@@ -448,3 +448,18 @@ empty; no ack tool exists in the four-tool contract). All five live rows landed 
 **Section:** Established Decisions -> [Timing-Tolerance Model]
 **Change:** The tier deadline recorded as a CEILING: a check may declare sub-tier `budget_ms` and is graded against a per-check effective deadline; `evaluate_slo` takes `deadline_ms`, `SloOutcome` carries it, and every check persists its own latency/deadline/verdict. Because the corpus is observed ONCE per scenario, per-check latencies are equal by construction and the DEADLINE is what separates their verdicts.
 **Why:** The decision defined the deadline solely from the tier; acceptance (1) and (3) prove the sub-tier budget round-trips and separates two checks sharing one observation instant.
+
+## 2026-08-21-delegated-timing-budgets-proven — Declare-only family count SEVEN→EIGHT
+**Section:** Standard Contracts -> Run report envelope
+**Change:** Count raised to EIGHT and the delegated-timing family registered (`halo-hue-encoding` · `service-constellation-discovery` · `report-render-surface`, 2026-08-21), each zero `[[expected]]` landing `KnownResidual` with its live claim graded at the harvest tier; `findings-counter-refresh` explicitly excluded because it carries one `[[expected]]`.
+**Why:** The chunk live-proved the three as declare-only harvest-graded rows (all four legs exit 0, `[RESIDUAL]`), making them an eighth family by that sentence's own definition, and this is the only arch section enumerating them.
+
+## 2026-08-21-delegated-timing-budgets-proven — Checks-bearing ⇒ Blocked narrowed to the auto-resolve route
+**Section:** Established Decisions -> [Read-Back Dependency Posture]
+**Change:** The confinement now binds the auto-resolve/empty-active-list route ALONE: a checks-bearing scenario is excluded from THAT route (an empty list leaves it `Blocked`) and every read-back call FAILURE still lands `Blocked` unconditionally — but the degraded-read-back route is NOT gated on declare-only, so a checks-bearing scenario reaches `KnownResidual` through it, an unmet `CountAtLeast` floor grading `CalibrationRegion` rather than failing.
+**Why:** Measured false as written on leg D — `findings-counter-refresh` carries one `[[expected]]` and landed `verdict: CalibrationRegion` / `state: KnownResidual`, not `Blocked`.
+
+## 2026-08-21-delegated-timing-budgets-proven — Duplicate Blocked claim narrowed in step
+**Section:** Standard Contracts -> Run report envelope (closing sentence)
+**Change:** Restated so the unconditional `Blocked` guarantee covers read-back call failures only, while a checks-bearing scenario is excluded from the auto-resolve route alone and can still reach `KnownResidual` via the degraded read-back, cross-referencing [Read-Back Dependency Posture].
+**Why:** The same retired claim was restated here, in a paragraph spanning BOTH routes to `KnownResidual`, so a single-site apply would have left it standing as a global guarantee.

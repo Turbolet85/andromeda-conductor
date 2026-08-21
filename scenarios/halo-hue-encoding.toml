@@ -11,8 +11,32 @@
 #   declares NO expected check: it DRIVES the stimulus and the operator confirms the hue shift via the
 #   generated checklist (the ManualCheck / operator-checklist path — empty `expected` → verdict None →
 #   Lamp::Manual). The catalog's first member of this path.
-# Epoch-8/10 calibration points: the ≤2s hue-shift pipeline-latency MEASUREMENT; the operator-checklist
-#   item wording ("halo shifted toward burgundy under error pressure?").
+# DELEGATED TIMING (≤2s) — measurable since SUT HEAD `f0c38f5`, graded at the HARVEST tier.
+#   Pulse emits `metric.constellation.hue_update_ms` carrying `duration_ms` + `severity_tier`, behind its own
+#   exact allowlist leaf, and persists it to `{data_dir}/logs/agent-latest.jsonl.<date>`. NO MCP tool reads
+#   that stream, so the bound is graded over a live-leg capture in the conductor-run harvest test — never by
+#   an `[[expected]]` check, and never through `budget_ms` (which grades
+#   `read_back_observed_at − journal_emitted_at`, Conductor's own MCP round-trip, not a Pulse-internal
+#   duration — binding one to the other would be a category error).
+#   BUDGET DISPROVED (measured 2026-08-21, two independent legs: 35581ms and 36705ms against 2000ms — 18x).
+#   The <=2s bound is NOT attainable on this observable as this scenario drives it, for two measured reasons.
+#   (1) This scenario declares NO `[phases.emission]` blocks, so it drives no error-shaped stream and causes
+#   no severity tier change of its own — both samples carry `severity_tier = "autonomous"` and follow the
+#   PREFLIGHT CANARY's incident by under a second, so neither is this scenario's. (2) The fire site computes
+#   `now - item.last_seen_unix_nano`: it measures how STALE the service's telemetry was when its hue changed,
+#   not how long the hue update took. A service that stops emitting before the tier flips (the canary storms,
+#   then goes quiet through the 90s canary-poll floor) therefore reports Pulse's own incident-formation
+#   latency — L2 cue -> L3 digest at a 20-60s cadence -> L4 — which no <=2s budget can survive. The same
+#   formula reads 702ms for `metric.constellation.discovery_ms` precisely because discovery fires while
+#   `last_seen` is still fresh. Attaining the bound needs a scenario that keeps emitting THROUGH incident
+#   formation; that is a scenario redesign, routed forward as its own entry, not a header edit here.
+#   SURFACE CORRECTION (measured at Pulse HEAD, capability semantic UNCHANGED): the Halo State Pulse canvas
+#   has no production render site, so the severity→hue semantic lives on the CONSTELLATION DOT
+#   (`severityToHueFraction`, `pulse-app/ui/src/widget/constellation-types.ts`) and `hue_update_ms` measures
+#   THAT. The observable fires on a severity TIER CHANGE, driven by this scenario's error-pressure phase —
+#   no operator action is needed for it to fire, only a running Pulse with its window open.
+# Epoch-8/10 calibration points: the operator-checklist item wording ("hue shifted toward burgundy under
+#   error pressure?").
 name = "halo-hue-encoding"
 p_ids = ["P-025"]
 seed = 4317025

@@ -1,0 +1,13 @@
+[
+{
+"sql": "SELECT count(*) AS n FROM symbol",
+"rows": 1,
+"result": [
+{
+"n": 2196
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

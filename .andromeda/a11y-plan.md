@@ -429,7 +429,7 @@ For each foreground/background token pair from upstream-context Section 3:
 | `Fail` | `Fail` | `Fail` |
 | `Blocked` | (n/a — no verdict) | `Blocked` |
 | `Manual` | (n/a — no verdict; a `ManualCheck` state WITH `verdict == CalibrationRegion` is the HOLD lamp, not Manual) | `ManualCheck` |
-| `Residual` | (n/a — no verdict) | `KnownResidual` |
+| `Residual` | (n/a — no verdict; a `KnownResidual` state WITH `verdict == CalibrationRegion` is the HOLD lamp, not Residual — verdict-first) | `KnownResidual` |
 
 - **Tokens:** `--count-nominal` (success / `Pass`) / `--count-hold` (warning / `CalibrationRegion` / HOLD) / `--status-fail` (error / `Fail`) / `--count-blocked` (info / `Blocked`) / `--status-manual` (info/manual / `Manual`) / `--status-residual` (info/residual / `Residual`).
 - **WCAG SC:** SC 1.4.1 Use of Color (A — six states not conveyed by color alone; each carries a text label + glyph supplement: `Pass`+filled-dot / `HOLD`+amber-filled-lamp+phase-line-swap / `Fail`+filled-lamp-motionless / `Blocked`+hollow-ring / `Manual`+checkbox-glyph / `Residual`+dashed-ring).

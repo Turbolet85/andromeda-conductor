@@ -1,89 +1,78 @@
 # Session Handoff
 
-**Last Updated:** 2026-08-21T17:22:30Z
-**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **32 ahead** after this wrap commit)
+**Last Updated:** 2026-08-21T19:20:00Z
+**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **33 ahead** after this wrap commit)
 **Status:** clean
-**Last Commit:** `chore(route): operator-requested adaptation — 0-pending wrap` (preceded by `3db219b`
-setup-project re-run)
+**Last Commit:** `feat(2026-08-21-delegated-timing-budgets-proven): three delegated budgets measured live, and the fourth's premise measured false`
 
 ## Position
-- Done: **no chunk** — this was a 0-pending adaptation wrap. The substantive work of the session was the
-  **`/andromeda-setup-project` re-run (`3db219b`)**, which found and closed a live tooling break and 13
-  distillation-tier cascade gaps. `2026-08-21-per-check-latency-measurement` remains the last completed
-  chunk; **v2-19 verified · coverage 19/32 · 13 unclaimed** (all unchanged — this wrap claimed nothing).
-- Next: **`/andromeda-phase` on "Delegated timing budgets proven"** (P-025/P-027/P-037/P-045). **The
-  external block is CLEARED** — expect a NORMAL promotion, not the Setup HALT the previous handoff
-  predicted. Its coordinates are the four metric names in the entry's `CONTEXT` annotation. Then
-  **Operator-pause and checklist live firing**; those two close **Epoch 4** → the boundary stack
-  (`/andromeda-evolve-diagnose` + code-audit trend run #2).
+- Done: **`2026-08-21-delegated-timing-budgets-proven`** — v2-20 verified (REFINED to three budgets,
+  operator-ratified) · **coverage 20/32 · 12 unclaimed**.
+- Next: **`/andromeda-phase` on "Operator-pause and checklist live firing"** — the LAST markerless entry in
+  Epoch 4. It carries the re-pinned **38th** `cargo audit` PREREQ. Completing it closes Epoch 4 → the
+  boundary stack (`/andromeda-evolve-diagnose` + code-audit trend run #2).
 
-## Context correction (supersedes the prior handoff — it predated both events)
-- **The Pulse visit is DONE.** Pulse chunk `2026-08-21-delegated-timing-observables` (Pulse `624e26a`)
-  shipped the three missing timing observables; Pulse then absorbed the code-graph template (`f0c38f5`)
-  and parked. Next there: PII scrubber recall. Coordinates verified at Pulse `f0c38f5` / Conductor
-  `3db219b`.
-- **The standing `BLOCKED-ON` is therefore retired**, exactly as its own text prescribed
-  ("clear when those observables ship"). The prior handoff's "Expect a Setup HALT" is void.
+## Work done
+Four live legs against a real Pulse (HEAD `f0c38f5`), fresh data dir + `pulse-app` restart each, window
+open. Three delegated budgets measured and graded HARD at real values; the fourth measured 18× over for a
+structural reason and was routed forward.
 
-## Work done — the setup re-run (`3db219b`)
-**A live tooling break, found via a dead pointer row.** `scripts/code-graph.py` was the original 196-line
-single-plane version resolving `.andromeda/cache/tree.db` — a path that no longer exists, since the cache
-moved to a per-plane layout (`cache/rust/`, `cache/ts/`). Every `query` would have found no DB, declared it
-stale, and **silently rebuilt in the retired flat layout**. Its own sentinel proved the drift: a two-line
-per-plane format the shipped script cannot produce. Updated all three drift-tracked files from template
-(backed up; cookbook tail preserved) and proved it end-to-end — both planes query at `db_state: fresh`.
-Health check 11 verifies PRESENCE only, and no check covers pointer rows at all, so nothing could have
-caught it.
+| Cap | Measured | Budget | Verdict |
+|---|---|---|---|
+| P-027 constellation discovery | 702.4 ms @ `discovered_count: 3` (leg B) | ≤5000 ms | PASS |
+| P-037 report render | 1 / 0 ms (leg C, both `degraded_mode`) | ≤2000 ms | PASS |
+| P-045 counter refresh | worst 7.0 ms of 269 in-window samples (leg D) | ≤1000 ms | PASS |
+| P-025 hue update | 35581 ms, 36705 ms | ≤2000 ms | **premise disproved** |
 
-**13 cascade-gap corrections**, each a leaf diverged from a CORRECT master: `conventions.md` ×5 (crate
-count 8→9, rmcp→hand-rolled JSON-RPC, timestamp storage stated INVERTED from arch, three-table `runs.db`,
-`[phases.fault]` + `budget_ms`) · `gotchas.md` ×2 (rmcp negotiation, `workspace_root`→`workspace` column) ·
-`commands.md` (cleanup: three tables) · `tests-summary.md` (`run_check`/`CheckRecord`/`budget_ms`) ·
-`workflow.md` (version-agnostic route path) · **`verification-harness.md`, `testing.md` and
-`code-reviewer.md`, which named `rmcp` — absent from `Cargo.toml` and `Cargo.lock` — instead of the real
-`stub_pulse_mcp`.** That last group is the sharpest: three auto-loading Tier-2 surfaces pointing agents at
-a crate not in the tree.
+Landed: `crates/conductor-run/tests/delegated_timing_harvest.rs` (12 tests — extraction + grading, the
+leg captures pinned verbatim, and the `value`-vs-`duration_ms` divergence pinned BOTH positively and as a
+negative test); four scenario TOML headers; `v2-20` refined + `verified`.
+
+**P-025's disproof, in one line:** `metric.constellation.hue_update_ms` computes
+`now − item.last_seen_unix_nano` — staleness at the tier change, not update latency — so a service that
+goes quiet before the flip reports Pulse's own L2→L3(20-60 s)→L4 formation path; and
+`halo-hue-encoding.toml` declares zero `[phases.emission]`, so both samples were the preflight canary's.
+The identical formula passed at 702 ms for `discovery_ms`, which fires while `last_seen` is fresh.
 
 ## Drift resolved
-**N/A — no fan-out.** This is the 0-pending path: P1 (report), P2 (drift detection) and the P7 gates do not
-run, because there is no chunk to detect drift against. The doc-tier reconciliation that WOULD have been
-P2's work was performed at the setup re-run instead, against the masters directly.
+**5 amendments · 2 escalations · both resolved with the operator.**
+- `architecture.md` ×3 — declare-only family count **SEVEN→EIGHT** with the delegated-timing family
+  registered; and the "checks-bearing ⇒ `Blocked`" claim narrowed at **both** sites (:65 primary + :130
+  dependent, applied atomically) after leg D measured it false: only read-back FAILURES are unconditionally
+  `Blocked`; the degraded-read-back route is not declare-only-gated.
+- `a11y-plan.md` ×1 — §6 crosswalk `Residual` row now records that `KnownResidual` + `CalibrationRegion`
+  is the HOLD lamp (verdict-first).
+- `obs-plan.md` ×1 — delegated-timing harvest recorded under the **Known-residual scenario detail block**,
+  deliberately NOT as an 8th §4 critical-path row (see Notes).
+- Declined with reason (operator-ratified): the plan's expected `test-plan` §6/§1 amendment — §6 is
+  explicitly capped ("7 scenarios — the test-scope Section 4 maximum"), and arch owns the family inventory.
 
-## Route edits (P5 — 3 operator-requested adaptations, all factual→AUTO)
-1. **External block CLEARED** on *Delegated timing budgets proven*, replaced by a `CONTEXT` annotation
-   carrying the chunk's coordinates: `metric.report.render_ms` (P-037, pre-existing) ·
-   `metric.constellation.hue_update_ms` (P-025) · `metric.constellation.discovery_ms` (P-027) ·
-   `metric.findings.counter_refresh_ms` (P-045) — each a `telemetry.frontend` procedure behind an EXACT
-   allowlist leaf, firing proven by Pulse webview tests (positive + paired negative). Evidence: cite the
-   Pulse chunk's report + its P-075 `notes`; never copy.
-2. **`PREMISE` annotation** on the same entry (research premise, not a task): the Halo State Pulse canvas
-   is **ORPHANED** at Pulse HEAD (zero non-test JSX, verified twice) — the severity→hue semantic lives on
-   the **constellation DOT**, and `hue_update_ms` measures THAT, while `halo-hue-encoding.toml:27` still
-   grades the hue by operator observation in halo wording. Expect a premise refine at the chunk; the
-   capability semantic is UNCHANGED. **The canvas's fate is Pulse's own entry — never scope it here.**
-3. **Stale-count CARRY extended** on *Dependency polish*: `test-plan.md:25` also says "8 workspace crates"
-   — a **third** site the CARRY (naming `obs-plan` :25/:645) would have left stale. Surfaced at the setup
-   re-run.
-
-**The 37th audit PREREQ stands byte-unchanged** (verified: signature + `RUSTSEC-2026-0244` intact). `h2`
-here is already 0.4.16, so Pulse's new 8th owned ID (RUSTSEC-2026-0258) never enters this repo's set —
-expect the probe signature byte-identical.
+## Route edits (P5)
+1. **New Epoch-6 entry** (trajectory, operator-placed before *Dependency polish*): *Halo hue budget
+   re-driven* — an error stream sustained through incident formation (P-025), carrying the measured
+   mechanism, the attribution correction, and the `max_sustained_storm_ms` interaction to size against.
+2. **38th `cargo audit` PREREQ re-pinned** to *Operator-pause and checklist live firing*, origin and chain
+   age preserved, basis re-verified (this chunk admitted ZERO packages). The pin now also names the
+   capture-before-pipe trap.
 
 ## Notes
-- **Code-graph: first live in-wrap MULTI-PLANE build, and it worked.** Two-line sentinel as predicted:
-  `rust ok 27s 2196/10179` · `ts ok 1s 247/377`. No SKIP lines, no `.refresh-stale`. Querying now REQUIRES
-  a plane argument (two are detected): `code-graph.py query <run_dir> <marker> "<sql>" <rust|ts>`.
-- **Curation: 2 Tier-1 EXTENSIONS, 0 new siblings.** (a) the citation-attribution entry gained an
-  OWNERSHIP axis — when a distillation and its master disagree, attribute before fixing, because the two
-  stale kinds need opposite treatment; (b) the verify-the-artifact entry gained the presence-vs-currency
-  facet — a check can pass because it verifies the wrong property. Filtered: 1 better-homed (per-plane
-  query mechanics belong in `scripts/code-graph-cookbook.md`, already updated), plus task-specific
-  symbol counts / SHAs. **No conflicts, no deferrals.** CLAUDE.md 130/200.
-- **Deliberately NOT corrected** (leaves faithfully inheriting owned-stale masters): `obs-summary.md`
-  "8 crates" (CARRY-owned) and `tests-summary.md` "rmcp stub" as a §8 mocking fact (route-owned). Fixing a
-  leaf ahead of its master mints a fresh divergence; they self-heal at the next cascade.
-- **Watch at the next promotion:** the cleared entry no longer contains the block token anywhere in the
-  file (verified 0 occurrences) — a near-miss this wrap was naming the token in prose, which would have
-  false-HALTed phase Setup on the very next promotion.
-- **No SUT intake this wrap** — the queue stays 13 + one extension.
+- **The 37th audit probe auto-satisfied in the PURE form** (third such fire): true exit 1 on
+  `duplicate advisory ID: RUSTSEC-2026-0244`, `cargo deny` true exit 0, zero dependency delta.
+- **Two near-misses worth carrying forward.** (a) The audit probe was first read through `| head`, so `$?`
+  reported the pipeline's last stage (0), which reads as a signature DEVIATION — capture the status before
+  any pipe when the status IS the evidence. (b) The obs amendment first landed as an 8th row in §4's
+  critical-path table, silently moving a count that feeds the Minimal-tier justification (obs-plan :25/:647/
+  :575 and `rules/observability.md:26` all state 7). Caught by the cascade leaf-recompute, **not** by any
+  detector — drift-base has derived-count detectors for layout/tests/design but **none for obs or arch**.
+- **A detector caught a real gate omission:** the tests agent noticed `cargo test -p conductor-run` (the §4
+  runner-portability leg) was absent from the report's Outcome. Run and green before P7.
+- **Curation: 2 Tier-1 EXTENSIONS + 1 Tier-2.** The verification-axes entry gained a **seventh axis,
+  QUANTITY** (an observable can exist, fire, carry the right field, and still measure something other than
+  the budget assumes); the verify-the-artifact entry gained the exit-code-through-a-pipe facet;
+  `verification-harness.md` gained the id-transition firing rule. Filtered 3. CLAUDE.md **130/200**.
+- **P-037 fires without an operator click** — the effect keys on `incidentId` transitioning, which Pulse's
+  UI does by auto-selecting; the operator supplies the visual confirmation, not the sample.
+- **Leg C ran twice**: the first incident auto-resolved (9 ticks) before it could be opened. Re-running on
+  the same dir is safe once the active set is empty and the 60 s storm window has passed.
+- **No SUT intake this wrap.** No gate deferral outstanding.
 - **Last failed command:** none.

@@ -9,8 +9,26 @@
 #     render time or keyboard focus), so NO expected check — the operator confirms via the checklist.
 # Coverage mode: drive+observe — DRIVE the incident, the operator opens the Report surface and confirms the
 #   <2s render + keyboard nav + section collapse (the ManualCheck path — empty `expected`).
-# Epoch-8/10 calibration points: the <2s render-latency MEASUREMENT (the tier only declares the budget); the
-#   operator-checklist item wording ("Report renders < 2s? keyboard-navigable? sections collapse?").
+# DELEGATED TIMING (≤2s) — measurable at SUT HEAD `f0c38f5`, graded at the HARVEST tier.
+#   Pulse emits `metric.report.render_ms` and persists it to `{data_dir}/logs/agent-latest.jsonl.<date>`.
+#   NOTE THE FIELD NAME: this leaf carries the duration in `value` (plus `section_count` + `degraded_mode`),
+#   NOT in `duration_ms` like the three constellation/findings leaves — a reader assuming a uniform field
+#   silently misses this one. NO MCP tool reads that stream (`dispatch_retrieve_report` builds the report
+#   inside the sidecar and never calls `incidents_router.rs`), so the bound is graded over a live-leg
+#   capture in the conductor-run harvest test — never by an `[[expected]]` check, and never through
+#   `budget_ms` (which grades Conductor's own MCP round-trip, not a Pulse-internal duration).
+#   FIRING CONDITION (measured 2026-08-21, correcting a pre-leg premise): the leaf emits on
+#   `incidents.get_report`, called from a `useEffect` keyed on `incidentId` — it fires when that id
+#   TRANSITIONS, which Pulse's own UI does by auto-selecting a newly-formed incident. An operator click is
+#   therefore NOT required for the sample: measured on three legs, every render line was auto-fired, and an
+#   operator opening the already-selected incident produced NO further line (the id never changed, so the
+#   effect never re-ran). What the operator still supplies is the drive+observe VISUAL confirmation.
+#   Note also WHAT the number is: it is logged in `incidents_router.rs` after `incidents.get_report returned`,
+#   so it is the backend report-BUILD duration, not the webview's paint time — and every sample so far carries
+#   `degraded_mode = true` (deterministic L4 leaves interpretation pending), i.e. the cheaper six-section
+#   degraded build. At 0-1ms against a 2000ms budget neither caveat can move the verdict.
+# Epoch-8/10 calibration points: the operator-checklist item wording ("Report renders < 2s? keyboard-
+#   navigable? sections collapse?").
 name = "report-render-surface"
 p_ids = ["P-037"]
 seed = 4317037

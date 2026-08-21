@@ -11,9 +11,16 @@
 # Coverage mode: drive+observe — no programmatic read-back of the rendered constellation, so NO expected
 #   check: DRIVE the topology, the operator confirms the dots via the checklist (the ManualCheck path —
 #   empty `expected`).
+# DELEGATED TIMING (≤5s) — measurable since SUT HEAD `f0c38f5`, graded at the HARVEST tier.
+#   Pulse emits `metric.constellation.discovery_ms` carrying `duration_ms` + `discovered_count`, behind its
+#   own exact allowlist leaf, and persists it to `{data_dir}/logs/agent-latest.jsonl.<date>`. NO MCP tool
+#   reads that stream, so the bound is graded over a live-leg capture in the conductor-run harvest test —
+#   never by an `[[expected]]` check, and never through `budget_ms` (which grades Conductor's own MCP
+#   round-trip, not a Pulse-internal duration). The observable fires when a new service enters the stream,
+#   which is exactly this scenario's second phase — no operator action, only a running Pulse with its
+#   window open.
 # Declare-only (operator-checklist / Epoch-8): stable dot positions ACROSS a Pulse restart (a cross-restart
-#   visual-stability property Conductor does not drive); the >20-service cap layout behaviour; the ≤5s
-#   new-dot latency MEASUREMENT.
+#   visual-stability property Conductor does not drive); the >20-service cap layout behaviour.
 name = "service-constellation-discovery"
 p_ids = ["P-027"]
 seed = 4317027
