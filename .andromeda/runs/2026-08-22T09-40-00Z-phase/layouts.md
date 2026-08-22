@@ -1,0 +1,43 @@
+# layouts extract
+
+## Relevance
+Relevant — the chunk fires the layout signature itself (Paused-count hold-point) plus the `ManualCheck` operator-checklist render, on the cli surface primarily and the desktop-webview surface secondarily.
+
+## Constraints
+- The held count must **stop in place at its exact value** — not hidden, not animated to 100%, not blanked, not advanced — and the stop *is* the signature; per `layout-templates` §Surface: cli → Component — Hero / signature output (primary mirror) and §Surface: desktop-webview → Component — Header (frameless titlebar + Paused-count heartbeat). Whether the shipped `bar.suspend(...)` path already satisfies "resumes on decision" without a blank frame is research's question.
+- A bold hold-amber `HOLD — operator pause` phase line carrying the **frozen count as text** must print **above** the `inquire` proceed/abort confirm — the frozen value legible at the decision point, not only in the stopped spinner; per §Surface: cli → Signature placement #2 and §Surface: cli → Output structure `conductor run <scenario>`.
+- Interactive `inquire` prompts must always be `isatty`-gated and the agent-driven source-of-truth path must **never** block on a prompt; per §Surface: cli → IA notes (Headless invariant) and §Component — Hero / signature output. This is a layout invariant, so the attended live leg is necessarily an operator-driven invocation outside the agent harness — the plan does not license relaxing the gate to make the live leg reachable.
+- A `ManualCheck` item renders as an **induced state** (what Conductor drove) paired with an **expected observation** the operator ticks y/n, in the neutral `status-manual` register — never the green/amber/red verdict triad, because there is no machine verdict; per §Component — Operator-checklist (the `ManualCheck` render — drive+observe surface). The cli mirror is the indented `observe:` line beneath the `? P-0NN … Manual` verdict line; per §Surface: cli → Output structure `conductor run` and §cli Component — Primary content block 2. Whether the shipped Rust path already emits per-scenario induced/observation text on either surface is research's question.
+- The per-P-ID label/lamp set is **closed at six** (`[PASS]`/`[HOLD]`/`[FAIL]`/`[MANUAL]`/`[RESIDUAL]`/`[BLOCKED]`); new grain rides as indented plain text or an out-of-lamp-column qualifier — no new column, no new bracket label, no new token/ANSI entry; per §cli Component — Primary content block 2 and §cli IA notes (Command model: adding a table column without a `--format` flag is a breaking change for downstream parsers).
+- Ticking resolves the item's **verdict** while its **report-state stays `ManualCheck`**, and the footer roll-up must surface the **unticked count** so an incomplete manual pass never reads as a finished run; per §Component — Operator-checklist and §Component — Footer (status strip).
+- `KnownResidual` / `verdict: null` rows (the expected shape of the declare-only legs under deterministic L4) render as the **muted dashed lamp + note, never red, never downgraded to Fail**; per §Component — Primary content block 2 (Distinct non-result states) and §cli Component — Primary content block 2 (`~ … [RESIDUAL]`).
+
+## Patterns to follow
+- **Indented-detail-line precedent**: added grain hangs under its P-ID verdict line as plain indented text (the `Blocked` precondition string, the `KnownResidual` note, the `observe:` line, the per-check detail region) rather than widening the table; per §cli Component — Primary content block 2.
+- **Out-of-lamp-column qualifier precedent**: `[ENVIRONMENT-SUSPECT]` (run-level) and the `not-conductors` Mode cell show how a new signal is carried without becoming a seventh lamp state; per §cli Component — Primary content block 2 and §Component — Primary content block 1.
+- **Signature reinforcement #3**: while held, the `comfy-table` summary caption (cli) / coverage-matrix header strip (webview) echoes the frozen step-index in the hold register; per §Surface: cli Signature placement and §Surface: desktop-webview Signature placement.
+- **Adapted-not-forked multi-surface rule**: the same checklist wording/state reads identically in shape across webview card, cli line and the Markdown artifact, tokens matched by name (`status-manual`, `count-hold`); per §cli IA notes (Multi-surface coordination) and §desktop-webview IA notes.
+- **Desktop go/no-go dialog shape** (if the webview leg is exercised): shadcn `AlertDialog`, frozen-count snapshot in the header, Proceed disables into an in-flight state on commit; per §Component — Hero / signature section (operator-pause go/no-go dialog).
+
+## Anti-patterns to avoid
+- Spinner **hide** or **animate-to-100%** at the hold, or a desktop count that blanks/keeps ticking — the absence of motion is the event, not a substitute animation; per §cli Component — Hero / signature output and §Component — Header.
+- A seventh lamp state / new bracket label / new results-table column introduced to carry checklist data; per §cli Component — Primary content block 2.
+- `alert()` / `confirm()` / `prompt()` on the webview — the styled `AlertDialog` is the only modal; per §desktop-webview IA notes. And on cli: color-only status without its ASCII bracket prefix; per §Surface: cli Signature placement (closing paragraph).
+
+## Contract bindings
+- **Focus trap + Escape/restore** on the operator-pause dialog and the keyboard-first Space-toggles-a-row checklist bind to a11y §Modal focus trap / §Focus Order; layouts states the requirement, a11y derives the attributes (per §Component — Hero / signature section, §Component — Operator-checklist).
+- **HOLD-flip and verdict-change announcements** bind to a11y's live-region derivation; layouts mandates that the freeze and any resolution be announced (per §Component — Header, §Component — Primary content block 2).
+- **ASCII-prefix pairing** is layouts' stated requirement from which `NO_COLOR` / piping / screen-reader compliance derives (per §Surface: cli Signature placement).
+- **Token names only** (`count-hold`, `status-manual`, `status-residual`, ANSI 179/146/246) — hex/ANSI values are design's; per §Notes in the Decisions Log.
+
+## Acceptance criteria contributions
+- (layouts) At the live attended hold the cli heartbeat count stops in place at its exact value — not hidden, not animated to 100%, not blanked — and resumes on the decision (per `layout-templates` §Surface: cli → Component — Hero / signature output).
+- (layouts) A bold hold-amber `HOLD — operator pause` line carrying the frozen count as text prints above the `inquire` proceed/abort confirm (per `layout-templates` §Surface: cli → Signature placement #2 / Output structure `conductor run <scenario>`).
+- (layouts) The exercised `ManualCheck` item renders its induced state and its expected observation as a neutral `status-manual` tick affordance, never the verdict triad, and its report-state stays `ManualCheck` after ticking (per `layout-templates` §Component — Operator-checklist).
+- (layouts) The checklist wiring adds no lamp state, bracket label, table column or token — new grain rides as an indented detail line (per `layout-templates` §Surface: cli → Component — Primary content block 2).
+
+## Relevant amendment history
+- **2026-08-21-per-check-latency-measurement** — established the indented per-check detail region in `runs/<run_id>.md`, explicitly "no new column, no new bracket label — the lamp set stays closed at six — and no new ANSI or token entry." This is the nearest precedent for this chunk's part (3): induced/observation becoming rendered data without widening any table.
+- **2026-08-09-sut-load-envelope** — registered `[ENVIRONMENT-SUSPECT]` as a run-level, non-lamp qualifier riding outside the lamp column, and pinned that the six per-P-ID labels are the closed set. Why it matters here: it is the sanctioned shape for anything the checklist wiring might want to say that is not a per-check verdict.
+- **2026-08-09-out-of-scope-classification-treatment** — the "adapted per surface, never forked; label always rendered so it survives `NO_COLOR`" treatment rule, plus the results-vs-coverage 6-vs-4 column split that must not be re-conflated if checklist data touches either table.
+- **2026-08-21-severity-lifecycle-live-proof** — sample-row P-IDs were swept to match the authoritative `coverage_matrix` classification. Relevant because this chunk's scope corrects P-ID pairings again (`halo-breathing-encoding` carries P-026, not P-025); any sample-row edit here must match the classification, and per **2026-08-18-restart-suppression-live-proof** / **2026-08-19-connection-lifecycle-live-proof** / **2026-08-16-fingerprint-storm-live-proof**, de-literalize rather than re-pin a fresh literal.

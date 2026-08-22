@@ -20,7 +20,7 @@ use garde::Validate;
 use serde::{Deserialize, Serialize};
 
 use crate::redact_value;
-use crate::scenario::PId;
+use crate::scenario::{ChecklistItem, PId};
 
 /// An operator's go/no-go answer to a [`HoldPoint`]. Closed set; serializes to its canonical
 /// PascalCase name. A [`Decision`] is always a value (the verdict/error wall) — a [`Decision::NoGo`]
@@ -68,6 +68,12 @@ pub struct HoldPoint {
     /// Whether a [`Decision::NoGo`] is an offered outcome (a go-only confirmation sets this false).
     #[garde(skip)]
     pub allow_no_go: bool,
+    /// The scenario's declared operator-checklist items, each an induced state paired with the
+    /// observation to confirm. Empty when the scenario declares none — the hold then carries only
+    /// `prompt`, which is the shape every pre-checklist scenario keeps.
+    #[serde(default)]
+    #[garde(dive)]
+    pub checklist: Vec<ChecklistItem>,
 }
 
 /// The recorded outcome of resolving a [`HoldPoint`] — a value the Epoch-6 run-report writers
@@ -78,6 +84,9 @@ pub struct HoldPoint {
 pub struct HoldResolution {
     /// The operator's (or headless default's) decision.
     pub decision: Decision,
+    /// Which resolver answered ([`PauseResolver::kind`]) — what makes a recorded resolution able to
+    /// distinguish a real attended activation from the headless default.
+    pub resolver_kind: &'static str,
     /// The scenario the hold belonged to.
     pub scenario: String,
     /// The Pulse capability the hold gated.
@@ -93,6 +102,13 @@ pub struct HoldResolution {
 /// Declared with `-> impl Future` rather than `async fn` so the public trait does not trip the
 /// `async_fn_in_trait` lint; implementors may write `async fn`.
 pub trait PauseResolver {
+    /// A short, stable label for HOW this resolver answers — the witness that separates a real
+    /// attended activation from the headless default when a resolution is recorded.
+    ///
+    /// Hand-chosen, never a type name: an internal struct name must not reach a log line
+    /// (security-plan §Error Handling), which rules out `std::any::type_name`.
+    fn kind(&self) -> &'static str;
+
     /// Answer `hold` with a [`Decision`].
     fn resolve(&self, hold: &HoldPoint) -> impl Future<Output = Decision>;
 }
@@ -124,6 +140,10 @@ impl HeadlessResolver {
 }
 
 impl PauseResolver for HeadlessResolver {
+    fn kind(&self) -> &'static str {
+        "headless"
+    }
+
     async fn resolve(&self, _hold: &HoldPoint) -> Decision {
         self.default
     }
@@ -138,6 +158,7 @@ pub async fn resolve_hold<R: PauseResolver>(resolver: &R, hold: &HoldPoint) -> H
     let decision = resolver.resolve(hold).await;
     HoldResolution {
         decision,
+        resolver_kind: resolver.kind(),
         scenario: hold.scenario.clone(),
         p_id: hold.p_id.clone(),
         prompt: redact_value(&hold.prompt).into_owned(),
@@ -155,6 +176,7 @@ mod tests {
             step: "restart-pulse".to_string(),
             prompt: prompt.to_string(),
             allow_no_go: true,
+            checklist: Vec::new(),
         }
     }
 

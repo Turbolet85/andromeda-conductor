@@ -45,8 +45,8 @@ handled via boundary instrumentation only._
 
 | Surface | Backend instrumentation hooks | Frontend instrumentation hooks | Exporter | Service identity | Notes |
 |---------|-------------------------------|-------------------------------|----------|------------------|-------|
-| **cli** (headless `conductor-cli` + `scripts/agent-run.sh`) | `tracing` 0.1.x crate + `tracing-subscriber` JSON formatter; structured stdout/stderr sink for operator or piped consumer; no HTTP/gRPC framework auto-instrumentation (CLI is not an HTTP service) | N/A (no browser frontend) | Stdout JSONL + optional file sink (`logs/agent-latest.jsonl`); no network OTLP (Minimal tier, determinism preservation); paste-to-AI workflow via structured JSON export | Runtime env var `SERVICE_NAME` or hardcoded `conductor`; version via `env!("CARGO_PKG_NAME")` + cargo manifest; `deployment.environment` from `CONDUCTOR_ENV` env var (default `local`) | Agent-driven mode: no OTel SDK for self-observation (determinism constraint); emission journal format is binding contract from tests excerpt § 5 (JSONL with `journal_emitted_at` ISO-8601, `run_id`, `seed`, `scenario`, `p_ids`, `verdict`, `state`, `latency_ms`, `slo_tier`, `fingerprints` fields); all output agent-parseable via `jq` / `serde_json` |
-| **desktop-webview** (Tauri 2 + React 19 + Tailwind + shadcn/ui on Windows/macOS/Linux) | Backend: Tauri command handler spans on `start_run()`, `stop_run()`, `run_report()`, `resolve_operator_hold()`; `tracing-subscriber` structured logs to stderr (pretty in dev, JSON in agent mode); no HTTP framework (Tauri commands are local IPC, not HTTP) | Frontend: **console JSON logging only** — NO OTel JS SDK, NO `auto-instrumentations-web`, NO browser OTLP exporter (recursion + determinism guard); optional `web-vitals` numbers go to `console.log(JSON…)` for paste-to-AI, never exported | Backend stdout (dev) / file (agent mode); Frontend: browser `console.log` JSON only — NO network OTLP exporter, NO `:4318` (Pulse is gRPC `:4317`-only, `:4318` is unused per arch — exporting there is both a recursion trap and a dead port) | Compile-time: `env!("CARGO_PKG_NAME")` = `conductor-tauri`; runtime override via `CONDUCTOR_SERVICE_NAME` env var; version from manifest | Tauri `#[tauri::command]` functions are IPC boundaries, not HTTP — instrument via `#[tracing::instrument]` (plain `tracing` spans → JSON log events, no OTel SDK); cross-surface correlation is the **`run_id`** envelope field (NOT a W3C `traceparent`); both-surface parity is asserted by comparing the `runs.db` envelope (same seed ⇒ same verdict/state), not by trace correlation; live-counter `Channel` emits unstructured heartbeat data (count tints) to UI state, not telemetry; **recursion guard: the frontend produces NO OTel spans and NO OTLP export — console JSON only** (the only OTLP in Conductor is the PRODUCT fault stream `conductor-emit` sends at Pulse on `:4317`) |
+| **cli** (headless `conductor-cli` + `scripts/agent-run.sh`) | `tracing` 0.1.x crate + `tracing-subscriber` JSON formatter; structured stderr sink (file under `--agent-mode`) for operator or piped consumer; no HTTP/gRPC framework auto-instrumentation (CLI is not an HTTP service) | N/A (no browser frontend) | Stderr JSONL + file sink in agent mode (`logs/agent-latest.jsonl`); no network OTLP (Minimal tier, determinism preservation); paste-to-AI workflow via structured JSON export | Runtime env var `SERVICE_NAME` or hardcoded `conductor`; version via `env!("CARGO_PKG_NAME")` + cargo manifest; `deployment.environment` from `CONDUCTOR_ENV` env var (default `local`) | Agent-driven mode: no OTel SDK for self-observation (determinism constraint); emission journal format is binding contract from tests excerpt § 5 (JSONL with `journal_emitted_at` ISO-8601, `run_id`, `seed`, `scenario`, `p_ids`, `verdict`, `state`, `latency_ms`, `slo_tier`, `fingerprints` fields); all output agent-parseable via `jq` / `serde_json` |
+| **desktop-webview** (Tauri 2 + React 19 + Tailwind + shadcn/ui on Windows/macOS/Linux) | Backend: Tauri command handler spans on `start_run()`, `stop_run()`, `run_report()`, `resolve_operator_hold()`; `tracing-subscriber` structured JSON logs to `logs/conductor-tauri.jsonl` (stderr only as an open-failure fallback); no HTTP framework (Tauri commands are local IPC, not HTTP) | Frontend: **console JSON logging only** — NO OTel JS SDK, NO `auto-instrumentations-web`, NO browser OTLP exporter (recursion + determinism guard); optional `web-vitals` numbers go to `console.log(JSON…)` for paste-to-AI, never exported | Backend file `logs/conductor-tauri.jsonl` (unconditional; stderr fallback); Frontend: browser `console.log` JSON only — NO network OTLP exporter, NO `:4318` (Pulse is gRPC `:4317`-only, `:4318` is unused per arch — exporting there is both a recursion trap and a dead port) | Compile-time: `env!("CARGO_PKG_NAME")` = `conductor-tauri`; runtime override via `CONDUCTOR_SERVICE_NAME` env var; version from manifest | Tauri `#[tauri::command]` functions are IPC boundaries, not HTTP — instrument via `#[tracing::instrument]` (plain `tracing` spans → JSON log events, no OTel SDK); cross-surface correlation is the **`run_id`** envelope field (NOT a W3C `traceparent`); both-surface parity is asserted by comparing the `runs.db` envelope (same seed ⇒ same verdict/state), not by trace correlation; live-counter `Channel` emits unstructured heartbeat data (count tints) to UI state, not telemetry; **recursion guard: the frontend produces NO OTel spans and NO OTLP export — console JSON only** (the only OTLP in Conductor is the PRODUCT fault stream `conductor-emit` sends at Pulse on `:4317`) |
 | **ipc-internal** (Tauri command → conductor-core boundary) | `#[tracing::instrument]` span on each `#[tauri::command]` handler; the IPC envelope carries the **`run_id`** (correlation key — NOT a W3C `traceparent`); no framework auto-instrumentation (not HTTP/gRPC) | N/A (IPC is backend-only) | Same as parent surface (cli or desktop-webview depending on entry point) | Inherited from parent surface | Tauri commands are synchronous IPC (blocking RPC); span nesting: parent = command handler, child = core operations (a plain `tracing` span hierarchy rendered as JSON log events — no OTel SDK, no W3C trace context); the envelope carries `run_id` as the correlation key |
 
 **Observability harness specification:**
@@ -76,10 +76,10 @@ handled via boundary instrumentation only._
     "fingerprints": []
   }
   ```
-- Sink (CLI): dual (stderr pretty-print in dev mode + file `logs/agent-latest.jsonl` in agent mode); no TTY detection for piped output (ANSI 256-color gating per design excerpt)
-- Sink (Tauri backend): file `logs/conductor-tauri.jsonl` + stderr (dev only)
+- Sink (CLI): JSON to stderr in dev / non-agent mode, JSON to file `logs/agent-latest.jsonl` in agent mode (one writer at a time, never pretty-printed); no TTY detection for piped output (ANSI 256-color gating per design excerpt)
+- Sink (Tauri backend): file `logs/conductor-tauri.jsonl` unconditionally; stderr only as an open-failure fallback
 - Sink (Tauri frontend): browser console JSON logger (paste-to-AI; no network OTLP exporter for browser to avoid recursion)
-- Agent mode flag: `--agent-mode` CLI flag (or the `CONDUCTOR_AGENT_MODE` env the harness exports — a read-only trigger Conductor READS as `flag || env-set`, never writes); forces JSON-only to file, no pretty-print to stderr
+- Agent mode flag: `--agent-mode` CLI flag (or the `CONDUCTOR_AGENT_MODE` env the harness exports — a read-only trigger Conductor READS as `flag || env-set`, never writes); redirects the JSON stream from stderr to the file (a WRITER switch — the format is JSON either way)
 
 **Log format JSON schema:** (Binding contract from tests excerpt §5 — obs aligns to tests, not vice versa)
 ```jsonl
@@ -101,7 +101,7 @@ handled via boundary instrumentation only._
 - Agent-parseable via `jq` and `serde_json`
 
 **Log file location:**
-- CLI: `logs/agent-latest.jsonl` (project root, relative to `CONDUCTOR_RUNS_DIR`) in agent mode; stdout in dev mode
+- CLI: `logs/agent-latest.jsonl` (project root, relative to `CONDUCTOR_RUNS_DIR`) in agent mode; stderr in dev / non-agent mode
 - Tauri backend: `logs/conductor-tauri.jsonl`
 - Tauri frontend: browser `console.log()` JSON (paste-to-AI; no file persistence for browser context)
 - Paste-to-AI workflow: user pipes CLI output or copies console JSON to Claude Code / Claude web
@@ -144,7 +144,7 @@ handled via boundary instrumentation only._
 | **perf-budget-instruments** | Creator Brief §6 "SLOs are Pulse's, measured journal-relative" + Tests excerpt §5 SLO tiers ("<5s / <20s / <90s") | OTel histogram for `scenario.latency_ms` bucketed per `slo_tier` ("P-XXX < 5s", "< 20s", "< 90s"); per-run `latency_ms` field in JSONL log (computed: `read_back_observed_at - journal_emitted_at` in wall-clock milliseconds); no metrics backend (Minimal tier) — histogram bucketing is optional; SLO enforcement is JSON field assertion at report-generation time |
 | **chaos-instrumentation** | Tests excerpt §5 Coverage Triggers "chaos-test / fault-injection" + Stack (conductor-faults module) | Fault-injection span per fault application: `fault.silence` (network silence window), `fault.ramp` (emission rate ramp), `fault.port_occupier` (port occupation for gRPC connectivity check); span attributes: `fault_type` on all three, plus `fault_duration_ms` + `fault_start_offset_ms` (journal offset) on the run-path silence/ramp spans, `ramp_factor` on the ramp, and `port` on the occupier (which carries neither duration nor offset at open) — per-span sets in §4 Fault-injection spans |
 | **cross-surface-parity (NOT trace propagation)** | Design System Excerpt §3 (desktop-webview + cli surfaces) + Tests excerpt §5 Critical Path 7 ("Both-surface parity") | parity is the `runs.db` envelope comparison (same seed ⇒ same verdict/state/seed across the two surfaces) — NOT a W3C trace correlation; no OTel SDK, no `traceparent`; each surface tags its JSON lines with `run_id`, and the two runs are matched by `(scenario, seed)` |
-| **multi-platform-exporter-compat** | Design System Excerpt §3 surfaces (Windows/macOS/Linux on both cli and desktop-webview) | CLI exporter: stdout + file `logs/agent-latest.jsonl` (platform-agnostic POSIX path, relative to `CONDUCTOR_RUNS_DIR`); Tauri desktop exporter: same backend + browser console (frontend); no platform-specific crash reporter (Minimal tier; Sentry/Crashlytics integration deferred to Phase 3 if escalated) |
+| **multi-platform-exporter-compat** | Design System Excerpt §3 surfaces (Windows/macOS/Linux on both cli and desktop-webview) | CLI exporter: stderr + file `logs/agent-latest.jsonl` (platform-agnostic POSIX path, relative to `CONDUCTOR_RUNS_DIR`); Tauri desktop exporter: same backend + browser console (frontend); no platform-specific crash reporter (Minimal tier; Sentry/Crashlytics integration deferred to Phase 3 if escalated) |
 | **error-budget-SLO** (Minimal tier: zero-unlogged-panics only) | Tests excerpt §5 Quality Gates "Zero-flakiness statement" + Creator Brief §6 Rigor Hints "determinism hard quality bar" | `std::panic::set_hook()` capture: if panic occurs, emit structured error log with backtrace (if available) and context; convert panic to `anyhow::Error` at binary edge (CLI: exit code 1 + sanitized error to stderr; Tauri: error dialog + return error to command handler) |
 | **creator-explicit-telemetry** | Creator Brief §6 Obs Anti-Patterns "The emission-journal format is owned upstream — obs DERIVES, does not re-author" + "the field-allowlist / redaction layer (no absolute host paths, no internal struct names in artifacts)" | Span for `redaction.apply_field_allowlist()` on journal write + report generation; scrub log fields: remove any `path::` (absolute filesystem paths), `module::` (internal crate names), `backtrace` (if present, sanitize file paths); preserve verdict/state/identity/count fields only |
 
@@ -199,10 +199,10 @@ This section specifies the concrete harness pattern for Conductor's deterministi
 
 - **Library:** `tracing` 0.1.44 (Rust async tracing facade) + `tracing-subscriber` 0.3.23 (JSON formatter + layer composition)
 - **Format:** JSONL (one JSON object per line) with schema from tests binding contract (Section 6)
-- **Sink (CLI):** dual (stderr pretty-print in dev mode, file `logs/agent-latest.jsonl` in `--agent-mode`); no TTY detection
-- **Sink (Tauri backend):** file `logs/conductor-tauri.jsonl` + stderr (dev only)
+- **Sink (CLI):** JSON to stderr in dev / non-agent mode, JSON to file `logs/agent-latest.jsonl` under `--agent-mode` — a WRITER choice, never a format choice (one `JsonObsLayer` over every writer); no TTY detection
+- **Sink (Tauri backend):** file `logs/conductor-tauri.jsonl` unconditionally; stderr only as an open-failure fallback
 - **Sink (Tauri frontend):** browser `console.log(JSON.stringify(event))` sink; no network export (recursion guard)
-- **Agent-mode flag:** `--agent-mode` CLI flag forces JSON-only to file, no pretty-print; agent mode is triggered by the flag OR the `CONDUCTOR_AGENT_MODE` env — a **read-only trigger** (`agent_mode = flag || env-set`) Conductor never WRITES (avoiding edition-2024 `unsafe std::env::set_var`; the harness/operator exports it). Observable mode is identical to "sets it internally"
+- **Agent-mode flag:** `--agent-mode` CLI flag redirects the JSON stream from stderr to the file (the format is JSON either way); agent mode is triggered by the flag OR the `CONDUCTOR_AGENT_MODE` env — a **read-only trigger** (`agent_mode = flag || env-set`) Conductor never WRITES (avoiding edition-2024 `unsafe std::env::set_var`; the harness/operator exports it). Observable mode is identical to "sets it internally"
 
 ### Log format JSON schema
 
@@ -230,7 +230,7 @@ Additional fields per scenario (e.g., `degraded_mode_response`).
 
 ### Log file location
 
-- **CLI:** `logs/agent-latest.jsonl` (project root, relative to `CONDUCTOR_RUNS_DIR`) in agent mode; stdout in dev mode
+- **CLI:** `logs/agent-latest.jsonl` (project root, relative to `CONDUCTOR_RUNS_DIR`) in agent mode; stderr in dev / non-agent mode
 - **Tauri backend:** `logs/conductor-tauri.jsonl`
 - **Tauri frontend:** browser console JSON (paste-to-AI; no file persistence)
 - **Rotation:** N/A — Minimal tier, no retention/compliance requirement; logs are paste-to-AI artifacts, not persisted archives
@@ -240,13 +240,13 @@ Additional fields per scenario (e.g., `degraded_mode_response`).
 
 - **Snapshot path:** N/A (Minimal tier, no persistent OTLP snapshot API; Pulse is external)
 - **Snapshot trigger:** N/A
-- **Paste-to-AI surface:** structured JSONL logs (`logs/agent-latest.jsonl` or stdout tail) + sanitized stderr + run report Markdown (per creator brief §6 "Control surface, not a dashboard")
+- **Paste-to-AI surface:** structured JSONL logs (`logs/agent-latest.jsonl` or a stderr tail) + sanitized stderr + run report Markdown (per creator brief §6 "Control surface, not a dashboard")
 
 ### Correlation (no distributed tracing)
 
 - **No W3C trace context anywhere** — no OTel SDK generates `trace_id`/`traceparent`; a local single-process harness doesn't need it. Within a run, the `tracing` span hierarchy + the `run_id` field correlate the lines.
 - **HTTP:** N/A (no HTTP server).
-- **gRPC outbound (conductor-emit → Pulse):** no context propagated. **The only OTLP Conductor speaks is the PRODUCT fault stream to Pulse on `:4317`; self-observation NEVER exports OTLP at all** (no SDK, no exporter, no `:4318` — `:4318` is unused per arch, exporting there is both a recursion trap and a dead port). Self-obs is stdout/file JSON only.
+- **gRPC outbound (conductor-emit → Pulse):** no context propagated. **The only OTLP Conductor speaks is the PRODUCT fault stream to Pulse on `:4317`; self-observation NEVER exports OTLP at all** (no SDK, no exporter, no `:4318` — `:4318` is unused per arch, exporting there is both a recursion trap and a dead port). Self-obs is stderr/file JSON only.
 - **IPC (Tauri command → conductor-core):** the envelope carries the **`run_id`** (correlation), not a `traceparent`; the command-handler `tracing` span is the parent of the core-operation spans.
 - **Internal async (tokio `current_thread`):** `tracing::Span::current()` within the single-threaded runtime preserves span context automatically; no cross-task boundary.
 
@@ -485,8 +485,8 @@ either form for a run that also executes the test suite — the environment reac
 processes.
 
 **Sink configuration:**
-- Dual sink (CLI): stderr pretty-print in dev, file `logs/agent-latest.jsonl` in `--agent-mode`
-- Dual sink (Tauri backend): file `logs/conductor-tauri.jsonl` + stderr (dev only)
+- Sink (CLI): JSON to stderr in dev / non-agent mode, JSON to file `logs/agent-latest.jsonl` in `--agent-mode`
+- Sink (Tauri backend): file `logs/conductor-tauri.jsonl` unconditionally; stderr only as an open-failure fallback
 - Console sink (Tauri frontend): `console.log()` JSON
 - File rotation: N/A (paste-to-AI artifacts, no retention policy)
 - Agent-mode flag: `--agent-mode` forces JSON-only to file
@@ -624,11 +624,11 @@ SLO enforcement: agent reads runs.db rows post-run and asserts `latency_ms <= sl
 ### Universal (agent-driven specific)
 
 - NEVER use proprietary APM as ONLY exporter (Datadog APM SDK / NewRelic agent) — vendor schemas break paste-to-AI workflows
-- NEVER use dashboards-only obs (Grafana / Kibana as sole consumption) — every signal MUST have agent-readable consumption path (stdout JSONL / runs.db / run report Markdown)
+- NEVER use dashboards-only obs (Grafana / Kibana as sole consumption) — every signal MUST have agent-readable consumption path (stderr JSONL / runs.db / run report Markdown)
 - NEVER use human-review-gated log analysis without machine-parseable export — agent reads artifacts, not ops dashboards
-- NEVER use real network OTLP in self-observing project (recursion guard) — Conductor IS an observer = stdout/file-only logging mandatory; no network OTLP exporter for self-observation
+- NEVER use real network OTLP in self-observing project (recursion guard) — Conductor IS an observer = stderr/file-only logging mandatory; no network OTLP exporter for self-observation
 - NEVER hardcode service identity — use `env!("CARGO_PKG_NAME")` + `$CONDUCTOR_SERVICE_NAME` override
-- NEVER export any self-observation OTLP — not to `:4317` (the PRODUCT fault stream) and not to `:4318` (unused/dead per arch); self-obs is stdout/file/console JSON only, on every surface including the browser frontend (which produces NO OTel spans at all)
+- NEVER export any self-observation OTLP — not to `:4317` (the PRODUCT fault stream) and not to `:4318` (unused/dead per arch); self-obs is stderr/file/console JSON only, on every surface including the browser frontend (which produces NO OTel spans at all)
 
 ### Project-specific bans
 
@@ -648,7 +648,7 @@ SLO enforcement: agent reads runs.db rows post-run and asserts `latency_ms <= sl
 - **Key decisions:**
   - **OTel SDK:** NONE for self-observation (hardcoded ban per creator brief upstream §6); `opentelemetry-proto 0.32.0` + `tonic 0.14.6` remain as PRODUCT (fault injection), not self-instrumentation
   - **Structured Logger:** `tracing 0.1.44` + `tracing-subscriber 0.3.23` JSON formatter (only self-obs mechanism); no OTel SDK init; wall-clock timestamps from `std::time::SystemTime`/`Instant`
-  - **Exporter:** stdout JSONL (CLI dev mode) + file `logs/agent-latest.jsonl` (CLI agent mode) + file `logs/conductor-tauri.jsonl` (Tauri backend) + browser console JSON (Tauri frontend); no network OTLP (determinism + recursion guard); paste-to-AI via agent-parseable JSON (no proprietary APM lock-in)
+  - **Exporter:** stderr JSONL (CLI dev / non-agent mode) + file `logs/agent-latest.jsonl` (CLI agent mode) + file `logs/conductor-tauri.jsonl` (Tauri backend) + browser console JSON (Tauri frontend); no network OTLP (determinism + recursion guard); paste-to-AI via agent-parseable JSON (no proprietary APM lock-in) _(corrected 2026-08-22 — the shipped exporter was never stdout; the original claim was false at source. See §3 Logging stack.)_
   - **Metrics:** No metrics backend (Minimal tier); performance budget is JSON field assertion (`latency_ms` + `slo_tier`) in JSONL + runs.db. Histogram bucketing (Section 5) is reserved for Phase 3 if escalated to Standard tier; not a Phase 1 obligation.
   - **Error reporting:** `std::panic::set_hook()` + `anyhow` edge bridging; no external error-reporting platform at Minimal
 - **Open questions:** None — all scope fully addressed by obs-research catalog (all libraries named in Phase 2); no research gaps or deferred decisions

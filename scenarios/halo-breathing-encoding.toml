@@ -39,3 +39,9 @@ to_rate = 5
 windows = 20
 
 # Operator-checklist (drive+observe): no [[expected]] block — the breathing rhythm is operator-verified.
+
+# Operator-checklist item — the induced half restates this scenario's OWN declared ramp (unlike its
+# P-025 sibling, this one really does drive the stimulus it asks about).
+[[checklist]]
+induced = "emission rate ramped 5 -> 50 spans/s across 20 windows, then back down to 5"
+observation = "halo breathing rate tracks throughput?"

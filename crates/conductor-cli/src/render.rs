@@ -469,6 +469,7 @@ mod tests {
             step: "restart-pulse".to_string(),
             prompt: "Restart the Pulse process, then confirm".to_string(),
             allow_no_go: true,
+            checklist: Vec::new(),
         }
     }
 

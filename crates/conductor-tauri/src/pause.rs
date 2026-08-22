@@ -12,7 +12,7 @@
 
 use std::sync::{Arc, Mutex};
 
-use conductor_core::{Decision, HoldPoint, PauseResolver};
+use conductor_core::{ChecklistItem, Decision, HoldPoint, PauseResolver};
 use serde::Serialize;
 use tauri::ipc::Channel;
 use tokio::sync::oneshot;
@@ -27,6 +27,9 @@ pub struct HoldPrompt {
     pub body: String,
     /// Whether a no-go (Abort) is an offered outcome.
     pub allow_no_go: bool,
+    /// The scenario's declared checklist items — each an induced state paired with the observation
+    /// to confirm. Empty when the scenario declares none, and the dialog then renders `body` alone.
+    pub checklist: Vec<ChecklistItem>,
 }
 
 impl HoldPrompt {
@@ -35,6 +38,7 @@ impl HoldPrompt {
             title: format!("{} — {}", hold.p_id.0, hold.step),
             body: hold.prompt.clone(),
             allow_no_go: hold.allow_no_go,
+            checklist: hold.checklist.clone(),
         }
     }
 }
@@ -77,6 +81,10 @@ impl TauriResolver {
 }
 
 impl PauseResolver for TauriResolver {
+    fn kind(&self) -> &'static str {
+        "tauri-dialog"
+    }
+
     async fn resolve(&self, hold: &HoldPoint) -> Decision {
         let (tx, rx) = oneshot::channel();
         self.gate.arm(tx);
@@ -119,6 +127,10 @@ mod tests {
             step: "observe-hue".to_string(),
             prompt: "Observe the constellation hue for this scenario".to_string(),
             allow_no_go: true,
+            checklist: vec![ChecklistItem {
+                induced: "error-pressure stream driven through phase 2".to_string(),
+                observation: "hue shifted toward burgundy under error pressure?".to_string(),
+            }],
         }
     }
 
@@ -128,6 +140,26 @@ mod tests {
         assert_eq!(prompt.title, "P-025 — observe-hue");
         assert_eq!(prompt.body, "Observe the constellation hue for this scenario");
         assert!(prompt.allow_no_go);
+        // The projection carries the declared items verbatim — it never re-authors the hold, so a
+        // dialog row's text is the scenario's own declaration (design-system §Component Patterns 7).
+        assert_eq!(prompt.checklist, hold().checklist);
+        assert_eq!(prompt.checklist[0].induced, "error-pressure stream driven through phase 2");
+        assert_eq!(
+            prompt.checklist[0].observation,
+            "hue shifted toward burgundy under error pressure?"
+        );
+    }
+
+    #[test]
+    fn hold_prompt_serializes_the_checklist_for_the_webview() {
+        // The items reach the dialog over the existing Channel<HoldPrompt>, so the SERIALIZED shape
+        // is the real contract the webview reads — a field the derive dropped would be invisible to
+        // every Rust-side assertion above.
+        let json = serde_json::to_value(HoldPrompt::from_hold(&hold())).expect("prompt serializes");
+        let items = json["checklist"].as_array().expect("checklist serializes as an array");
+        assert_eq!(items.len(), 1);
+        assert_eq!(items[0]["induced"], "error-pressure stream driven through phase 2");
+        assert_eq!(items[0]["observation"], "hue shifted toward burgundy under error pressure?");
     }
 
     #[tokio::test(flavor = "current_thread")]

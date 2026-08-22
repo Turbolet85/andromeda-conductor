@@ -398,9 +398,19 @@ pub async fn execute_scenario<R: PauseResolver>(
             step: "operator-checklist".to_string(),
             prompt: "Observe the operator-checklist claim for this scenario".to_string(),
             allow_no_go: true,
+            checklist: scenario.checklist.clone(),
         };
         let resolution = resolve_hold(resolver, &hold).await;
-        tracing::debug!("operator-checklist hold resolved headless: {}", resolution.decision.label());
+        // `info`, not `debug`: a hold resolution is a state transition (obs-plan §6), and the
+        // default filter is INFO — a debug line is no witness at all. The resolver kind comes from
+        // the resolution rather than being assumed, so the line stays true under an attended
+        // resolver; both ride the allowlisted `message` field (obs-plan §4).
+        tracing::info!(
+            "operator-checklist hold resolved by {}: {} ({} checklist item(s))",
+            resolution.resolver_kind,
+            resolution.decision.label(),
+            hold.checklist.len()
+        );
         return Ok(ScenarioOutcome::without_checks(manual_record(
             scenario,
             run_id,

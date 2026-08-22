@@ -169,3 +169,8 @@ derivation makes it enforceable rather than aspirational.
 **Section:** Threat Model Summary -> Attack surface (config files)
 **Change:** Trust boundary records the load-path `check_*()` arm and the budget rule beside the `#[garde(custom)]` examples.
 **Why:** Fourth occurrence of the same retired claim. NOTE: the detector proposed applying this in lockstep with a verbatim mirror `threat-assessment.md`; that file does NOT exist in this repo, so the mirror clause was dropped as unsubstantiated (validate check 4 — absence needs evidence).
+
+## 2026-08-22-operator-pause-and-checklist-live-firing — `[[checklist]]` registered at the scenario-config boundary
+**Section:** Input Validation → scenario-config row (both the what-to-validate and the how columns) · Threat Model Summary → Attack surface, config-files trust boundary
+**Change:** Added the `[[checklist]]` block to the enumerated scenario-config boundary — `Scenario.checklist: Vec<ChecklistItem>`, `#[serde(default)]`, `dive` never `skip`, both text halves bounded by `MAX_CHECKLIST_TEXT` (200) — and extended the sibling-spanning load-path enumeration from the pair (`check_capabilities`; `check_budgets`) to three by naming `check_checklist`, at both the §Input Validation site and its verbatim Threat-Model restatement.
+**Why:** §Input Validation is an exhaustive enumeration of external-input surfaces; the chunk added one with its controls already present (garde dive + bounds + load-path rule), so only the registry lagged. The two-rule `check_*()` list was restated identically in §Threat Model, so a single-site apply would have left it stale.

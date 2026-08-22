@@ -443,6 +443,7 @@ mod tests {
                 .collect(),
             jitter_ms: 0,
             expected: Vec::new(),
+            checklist: Vec::new(),
         }
     }
 

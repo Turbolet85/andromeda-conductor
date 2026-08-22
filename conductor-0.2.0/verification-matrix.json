@@ -390,10 +390,10 @@
       "verification": {
         "method": "manual",
         "acceptance": "During a live run an operator-pause hold fires and is resolved by a real Proceed or Abort activation, the count freezes at its exact hold value (neither blanking nor continuing) and resumes on decision, and at least one ManualCheck checklist item renders with its induced state and expected observation.",
-        "ref": null,
-        "status": "planned"
+        "ref": "crates/conductor-run/tests/operator_pause_harvest.rs::live_leg::every_live_resolution_came_from_the_dialog_never_the_headless_default; crates/conductor-run/tests/operator_pause_harvest.rs::live_leg::both_decision_arms_were_exercised_live; crates/conductor-run/tests/operator_pause_harvest.rs::live_leg::every_hold_carried_its_scenarios_declared_item; crates/conductor-run/tests/operator_pause_harvest.rs::live_leg::the_frozen_count_sequence_is_recorded; crates/conductor-run/tests/operator_pause_harvest.rs::live_leg::a_no_go_is_indistinguishable_from_a_go_in_the_record; crates/conductor-run/tests/operator_pause_harvest.rs::live_leg::the_operators_wait_is_excluded_from_the_measured_latency",
+        "status": "verified"
       },
-      "chunk": null
+      "chunk": "2026-08-22-operator-pause-and-checklist-live-firing"
     },
     {
       "id": "v2-30",

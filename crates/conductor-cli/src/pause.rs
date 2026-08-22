@@ -27,6 +27,10 @@ pub struct PromptResolver {
 }
 
 impl PauseResolver for PromptResolver {
+    fn kind(&self) -> &'static str {
+        "cli-interactive"
+    }
+
     async fn resolve(&self, hold: &HoldPoint) -> Decision {
         let render_and_prompt = || {
             eprintln!("{}", render::hold_line(hold));
@@ -96,6 +100,13 @@ fn resolve_kind(agent_mode: bool, stdin_tty: bool, stdout_tty: bool) -> Kind {
 }
 
 impl PauseResolver for CliResolver {
+    fn kind(&self) -> &'static str {
+        match self {
+            CliResolver::Interactive(r) => r.kind(),
+            CliResolver::Headless(r) => r.kind(),
+        }
+    }
+
     async fn resolve(&self, hold: &HoldPoint) -> Decision {
         match self {
             CliResolver::Interactive(r) => r.resolve(hold).await,
@@ -116,6 +127,7 @@ mod tests {
             step: "restart-pulse".to_string(),
             prompt: "Restart the Pulse process, then confirm".to_string(),
             allow_no_go: true,
+            checklist: Vec::new(),
         }
     }
 

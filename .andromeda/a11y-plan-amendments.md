@@ -21,3 +21,8 @@ _Append-only changelog of amendments to `a11y-plan.md` (the body holds only curr
 **Section:** §6 Visual Design Verification -> State color tokens -> state-naming crosswalk, `Residual` row
 **Change:** The `Residual` row's obs `verdict` cell now records that a `KnownResidual` state carrying `verdict == CalibrationRegion` is the HOLD lamp, not Residual (verdict-first) — mirroring the `Manual` row's existing disambiguation.
 **Why:** Leg D produced exactly that governed combination (`CalibrationRegion` + `KnownResidual`), which the row's bare "(n/a — no verdict)" denied; a downstream join from a Residual lamp back to its journal row would have missed a real state.
+
+## 2026-08-22-operator-pause-and-checklist-live-firing — the HOLD focus trap now contains the checklist rows
+**Section:** §3 Focus-management harness pattern · §3 Keyboard harness dialog sequence · §4 ARIA pattern catalog (operator-pause dialog keyboard contract; operator-checklist row) · §5 Keyboard Navigation (run-console-HOLD focus order; focus-trap bullet)
+**Change:** Six sites updated from a Proceed/Abort-only trap composition to one that also contains the operator-checklist `checkbox` rows when the hold declares items: Tab/Shift+Tab cycles across the rows then the actions, Space toggles a focused row, `aria-checked` per row, unticked roll-up announced. The §4 checklist row records the second render site and the sibling-of-`Description` placement rule.
+**Why:** The chunk renders interactive rows inside the HOLD `alertdialog`; every one of these sites restated the retired trap composition. The axe/WebdriverIO assertion for the new shape stays deferred (Linux+xvfb only) and NO WCAG conformance is claimed from this chunk.

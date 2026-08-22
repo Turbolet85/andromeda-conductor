@@ -1,0 +1,250 @@
+[
+{
+"sql": "SELECT symbol, crate, file, def_line FROM symbol WHERE symbol LIKE '%resolve_hold%' OR symbol LIKE '%HoldPoint%' OR symbol LIKE '%PauseResolver%' OR symbol LIKE '%CliResolver%' OR symbol LIKE '%HeadlessResolver%' ORDER BY crate, file",
+"rows": 22,
+"result": [
+{
+"symbol": "rust-analyzer cargo conductor-cli 0.1.0 pause/impl#[PromptResolver][PauseResolver]resolve().",
+"crate": "conductor-cli",
+"file": "crates/conductor-cli/src/pause.rs",
+"def_line": 29
+},
+{
+"symbol": "rust-analyzer cargo conductor-cli 0.1.0 pause/CliResolver#",
+"crate": "conductor-cli",
+"file": "crates/conductor-cli/src/pause.rs",
+"def_line": 61
+},
+{
+"symbol": "rust-analyzer cargo conductor-cli 0.1.0 pause/CliResolver#Interactive#",
+"crate": "conductor-cli",
+"file": "crates/conductor-cli/src/pause.rs",
+"def_line": 62
+},
+{
+"symbol": "rust-analyzer cargo conductor-cli 0.1.0 pause/CliResolver#Headless#",
+"crate": "conductor-cli",
+"file": "crates/conductor-cli/src/pause.rs",
+"def_line": 63
+},
+{
+"symbol": "rust-analyzer cargo conductor-cli 0.1.0 pause/impl#[CliResolver]select().",
+"crate": "conductor-cli",
+"file": "crates/conductor-cli/src/pause.rs",
+"def_line": 72
+},
+{
+"symbol": "rust-analyzer cargo conductor-cli 0.1.0 pause/impl#[CliResolver][PauseResolver]resolve().",
+"crate": "conductor-cli",
+"file": "crates/conductor-cli/src/pause.rs",
+"def_line": 98
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 pause/HoldPoint#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/pause.rs",
+"def_line": 54
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 pause/HoldPoint#scenario.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/pause.rs",
+"def_line": 57
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 pause/HoldPoint#p_id.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/pause.rs",
+"def_line": 60
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 pause/HoldPoint#step.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/pause.rs",
+"def_line": 63
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 pause/HoldPoint#prompt.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/pause.rs",
+"def_line": 66
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 pause/HoldPoint#allow_no_go.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/pause.rs",
+"def_line": 69
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 pause/PauseResolver#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/pause.rs",
+"def_line": 94
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 pause/PauseResolver#resolve().",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/pause.rs",
+"def_line": 96
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 pause/HeadlessResolver#",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/pause.rs",
+"def_line": 104
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 pause/HeadlessResolver#default.",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/pause.rs",
+"def_line": 105
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 pause/impl#[HeadlessResolver]new().",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/pause.rs",
+"def_line": 110
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 pause/impl#[HeadlessResolver]proceed().",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/pause.rs",
+"def_line": 115
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 pause/impl#[HeadlessResolver]abort().",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/pause.rs",
+"def_line": 120
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 pause/impl#[HeadlessResolver][PauseResolver]resolve().",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/pause.rs",
+"def_line": 126
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 pause/resolve_hold().",
+"crate": "conductor-core",
+"file": "crates/conductor-core/src/pause.rs",
+"def_line": 136
+},
+{
+"symbol": "rust-analyzer cargo conductor-tauri 0.1.0 pause/impl#[TauriResolver][PauseResolver]resolve().",
+"crate": "conductor-tauri",
+"file": "crates/conductor-tauri/src/pause.rs",
+"def_line": 79
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee LIKE '%/resolve_hold().%' OR callee LIKE '%[CliResolver]select().%' OR callee LIKE '%/spinner().%' ORDER BY file, line",
+"rows": 20,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-cli 0.1.0 commands/run/run().",
+"file": "crates/conductor-cli/src/commands/run.rs",
+"line": 22
+},
+{
+"caller": "rust-analyzer cargo conductor-cli 0.1.0 commands/suite/suite().",
+"file": "crates/conductor-cli/src/commands/suite.rs",
+"line": 26
+},
+{
+"caller": "rust-analyzer cargo conductor-cli 0.1.0 commands/suite/suite().",
+"file": "crates/conductor-cli/src/commands/suite.rs",
+"line": 27
+},
+{
+"caller": "rust-analyzer cargo conductor-cli 0.1.0 pause/tests/",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 109
+},
+{
+"caller": "rust-analyzer cargo conductor-cli 0.1.0 pause/tests/select_off_tty_is_headless().",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 125
+},
+{
+"caller": "rust-analyzer cargo conductor-cli 0.1.0 pause/tests/select_agent_mode_is_headless().",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 131
+},
+{
+"caller": "rust-analyzer cargo conductor-cli 0.1.0 pause/tests/headless_variant_proceeds().",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 146
+},
+{
+"caller": "rust-analyzer cargo conductor-cli 0.1.0 pause/tests/headless_variant_can_decline().",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 152
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 crate/",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 47
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 crate/",
+"file": "crates/conductor-core/tests/operator_pause.rs",
+"line": 2
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 headless_proceed_resolves_to_go().",
+"file": "crates/conductor-core/tests/operator_pause.rs",
+"line": 16
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 headless_abort_resolves_to_no_go().",
+"file": "crates/conductor-core/tests/operator_pause.rs",
+"line": 22
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 resolver_choice_drives_the_decision().",
+"file": "crates/conductor-core/tests/operator_pause.rs",
+"line": 29
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 resolver_choice_drives_the_decision().",
+"file": "crates/conductor-core/tests/operator_pause.rs",
+"line": 30
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 resolution_is_deterministic().",
+"file": "crates/conductor-core/tests/operator_pause.rs",
+"line": 37
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 resolution_is_deterministic().",
+"file": "crates/conductor-core/tests/operator_pause.rs",
+"line": 38
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 headless_never_blocks_under_paused_clock().",
+"file": "crates/conductor-core/tests/operator_pause.rs",
+"line": 47
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.1.0 prompt_is_redacted_in_the_resolution().",
+"file": "crates/conductor-core/tests/operator_pause.rs",
+"line": 53
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 crate/",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 26
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 execute_scenario().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 401
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

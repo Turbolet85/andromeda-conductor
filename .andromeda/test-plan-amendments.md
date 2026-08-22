@@ -239,3 +239,8 @@ such lines appeared across all five legs.
 **Section:** Section 3 Test Harness Contract -> cleanup (body + verification)
 **Change:** Teardown extended past `runs` to `DELETE FROM run_check` and `DELETE FROM run_envelope` (bound parameters), with matching count-zero verifications.
 **Why:** The chunk added `run_check`; Section 3 named only `runs`, so cleanup was neither complete nor verifiable for a run that wrote check rows. `run_envelope` was already uncovered — a pre-existing gap the contract closes at the same time; the CODE fix in scripts/agent-run.{sh,ps1} is carried to its owner entry at route-resolve.
+
+## 2026-08-22-operator-pause-and-checklist-live-firing — the never-blocks property re-tiered from the cli E2E leg to the unit tier
+**Section:** §1 Test Scope Summary → cli surface Notes · §6 E2E Test Strategy → drivers-per-surface, cli row
+**Change:** The stdin-closed cli leg is now recorded as proving no-hang / exit-0 ONLY. With no live Pulse the preflight blocks and `execute_scenario` returns on the Blocked spine before the hold, so the leg never reaches an interactive prompt; the never-blocks property is attributed to the unit tier (`headless_never_blocks_under_paused_clock`; `resolve_kind_agent_mode_overrides_an_attended_tty`). Applied at both sites, which stated the claim identically.
+**Why:** Measured false this chunk — a fresh `agent-latest.jsonl` carried ZERO resolution witnesses and ended at `preflight blocked: MCP read-back path unreachable`, so the leg's green proved something narrower than the doc claimed.

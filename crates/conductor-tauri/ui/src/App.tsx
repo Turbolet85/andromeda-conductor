@@ -6,6 +6,7 @@ import RunControls from './components/RunControls'
 import CoverageMatrix, { type CapabilityRow } from './components/CoverageMatrix'
 import RunReport from './components/RunReport'
 import OperatorPauseDialog from './components/OperatorPauseDialog'
+import { type ChecklistItem } from './components/OperatorChecklist'
 import { type RunRecord } from './lamp'
 
 type RunStage = 'progress' | 'blocked' | 'done' | 'aborted'
@@ -20,6 +21,15 @@ interface HoldPrompt {
   title: string
   body: string
   allow_no_go: boolean
+  checklist: HoldChecklistItem[]
+}
+
+// One declared operator-checklist item as the backend projects it (conductor-core ChecklistItem):
+// what Conductor drove, and the observation to confirm. The tick state is the webview's own — the
+// backend declares the pair, the operator records the answer.
+interface HoldChecklistItem {
+  induced: string
+  observation: string
 }
 
 // The live Channel stage drives the titlebar run-state: a scenario completing keeps it `live`, the
@@ -47,6 +57,7 @@ export default function App() {
   const [reportError, setReportError] = useState<string | null>(null)
   const [reportLoading, setReportLoading] = useState(true)
   const [holdPrompt, setHoldPrompt] = useState<HoldPrompt | null>(null)
+  const [tickedItems, setTickedItems] = useState<string[]>([])
   const pendingHold = useRef(false)
 
   useEffect(() => {
@@ -88,6 +99,18 @@ export default function App() {
 
   const running = runState === 'live'
 
+  // The declared pair comes from the backend; `checked` is the webview's own record of what the
+  // operator has confirmed. Index-keyed because a declared item carries no identity of its own.
+  const checklistItems: ChecklistItem[] = (holdPrompt?.checklist ?? []).map((item, index) => ({
+    id: String(index),
+    induced: item.induced,
+    observation: item.observation,
+    checked: tickedItems.includes(String(index)),
+  }))
+
+  const toggleChecklistItem = (id: string, checked: boolean) =>
+    setTickedItems((prev) => (checked ? [...prev, id] : prev.filter((x) => x !== id)))
+
   // Deliver the operator's go/no-go to the awaiting backend hold. Idempotent via a ref: the controlled
   // Radix dialog fires onProceed/onAbort AND onOpenChange(false) for a single action.
   const resolveHold = async (decision: 'Go' | 'NoGo') => {
@@ -115,6 +138,7 @@ export default function App() {
     holdChannel.onmessage = (prompt) => {
       pendingHold.current = true
       setHoldPrompt(prompt)
+      setTickedItems([])
       setRunState('hold')
     }
     try {
@@ -249,6 +273,8 @@ export default function App() {
         }}
         title={holdPrompt?.title ?? ''}
         body={holdPrompt?.body ?? ''}
+        checklist={checklistItems}
+        onChecklistToggle={toggleChecklistItem}
         allowNoGo={holdPrompt?.allow_no_go ?? true}
         onProceed={() => void resolveHold('Go')}
         onAbort={() => void resolveHold('NoGo')}

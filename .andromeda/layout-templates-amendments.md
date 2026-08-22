@@ -102,3 +102,8 @@ over the plan's literal one-site scope. Labels, not layout: no wireframe, state,
 **Section:** Surface: cli -> Component — Primary content block 2
 **Change:** Documented the `runs/<run_id>.md` per-check detail region: one indented line per expected check under its P-ID verdict line, carrying that check's kind, verdict, latency and the deadline it was judged against — explicitly no new column, no new bracket label (the lamp set stays closed at six), no new ANSI/token entry, with stdout and the 6-column results table unchanged.
 **Why:** The chunk added a rendered region layout-templates owns; the doc templated the run report as one line per P-ID and named `<run_id>.md` only as a destination.
+
+## 2026-08-22-operator-pause-and-checklist-live-firing — operator-checklist rows inside the HOLD dialog
+**Section:** Surface: desktop-webview → Wireframe Run console (HOLD) · Component — Hero / signature section (operator-pause dialog) · Component — Operator-checklist
+**Change:** The HOLD wireframe and the dialog's part list now carry a checklist-rows region between Body and Actions, present only when the hold point declares `[[checklist]]` items and rendered as a SIBLING of the dialog's `Description` (never nested inside it). The Operator-checklist component's "distinct from the operator-pause go/no-go dialog" framing was narrowed: the same primitive renders in two contexts, and the distinction is context (items shown at the hold vs a past observation in the report), not component.
+**Why:** The chunk projects declared items into `OperatorPauseDialog`; the doc enumerated the dialog as exactly Header/Body/Actions and asserted the checklist primitive was distinct from it, both of which the shipped surface retires.

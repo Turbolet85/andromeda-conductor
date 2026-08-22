@@ -86,6 +86,7 @@ fn scenario(phase: PhaseSpec) -> Scenario {
         phases: vec![phase],
         jitter_ms: 0,
         expected: Vec::new(),
+        checklist: Vec::new(),
     }
 }
 

@@ -73,6 +73,25 @@ impl SloTier {
     }
 }
 
+/// One operator-checklist item: what Conductor drove, and the observation the operator confirms.
+///
+/// The pair is a contract, not free prose (design-system §Surface: desktop-webview / Component
+/// Patterns 7; a11y-plan §1 Critical paths requires each item expose both texts as accessible
+/// content), so both halves are required and bounded — they render as one dialog row.
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Validate)]
+pub struct ChecklistItem {
+    /// What Conductor drove — the induced state the observation is judged against.
+    #[garde(length(min = 1, max = MAX_CHECKLIST_TEXT))]
+    pub induced: String,
+    /// The expected observation the operator confirms or declines.
+    #[garde(length(min = 1, max = MAX_CHECKLIST_TEXT))]
+    pub observation: String,
+}
+
+/// Upper bound on a [`ChecklistItem`] text half — each renders as one dialog row, so an unbounded
+/// string is a render defect rather than a useful declaration.
+pub const MAX_CHECKLIST_TEXT: usize = 200;
+
 /// A scenario: its identity plus its declarative per-phase emission spec.
 ///
 /// Every scenario carries at least one Pulse P-ID — the "no scenario without a P-ID" law is the
@@ -107,6 +126,13 @@ pub struct Scenario {
     #[serde(default)]
     #[garde(dive)]
     pub expected: Vec<ExpectedCheck>,
+    /// The operator-checklist items this scenario's hold renders. Optional (defaults to none — a
+    /// scenario declaring none keeps the generic hold prompt); each item validates via `dive`.
+    /// Only meaningful on a scenario that takes the operator-checklist path, which
+    /// [`check_checklist`](Self::check_checklist) enforces against the `expected` sibling.
+    #[serde(default)]
+    #[garde(dive)]
+    pub checklist: Vec<ChecklistItem>,
 }
 
 impl Scenario {
@@ -126,6 +152,7 @@ impl Scenario {
             toml::from_str(toml).map_err(|e| crate::CoreError::Config(crate::sanitize_error(&e)))?;
         scenario.validate()?;
         scenario.check_budgets()?;
+        scenario.check_checklist()?;
         Ok(scenario)
     }
 
@@ -177,6 +204,28 @@ impl Scenario {
         }
         Ok(())
     }
+
+    /// Reject a declared `checklist` on a scenario that also declares `expected` checks.
+    ///
+    /// A checklist item is rendered by the operator-checklist hold, which a scenario reaches only by
+    /// declaring NO expected checks (`conductor-run`'s firing site keys on `expected.is_empty()`), so
+    /// items on a checks-bearing scenario would never render — a silent no-op rather than a
+    /// declaration. Raised at load as a harness fault, never a verdict.
+    ///
+    /// Lives outside garde for the same reason [`check_budgets`](Self::check_budgets) does: the rule
+    /// spans `checklist` and its sibling `expected`, and garde 0.22.1's `custom` is field-level and
+    /// receives only its own field (architecture §Established Decisions [Validation Library]).
+    pub fn check_checklist(&self) -> crate::Result<()> {
+        if !self.checklist.is_empty() && !self.expected.is_empty() {
+            return Err(crate::CoreError::Config(format!(
+                "scenario {:?}: declares {} checklist item(s) beside {} expected check(s) — the checklist renders only on the operator-checklist path, which a scenario declaring expected checks never takes",
+                self.name,
+                self.checklist.len(),
+                self.expected.len()
+            )));
+        }
+        Ok(())
+    }
 }
 
 // garde 0.22.1 has no container-level `custom`, so this lives on the `p_ids` field it concerns.
@@ -215,6 +264,7 @@ mod tests {
             }],
             jitter_ms: 50,
             expected: Vec::new(),
+            checklist: Vec::new(),
         }
     }
 

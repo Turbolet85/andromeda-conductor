@@ -53,3 +53,12 @@ gap_ms = 3000
 
 # Operator-checklist (drive+observe): no [[expected]] block. The hue render is verified by the operator,
 # not by MCP read-back — the empty expected routes the check to ManualCheck downstream.
+
+# Operator-checklist item — rendered as a row in the hold dialog (design-system §Surface:
+# desktop-webview / Component Patterns 7). The induced half is deliberately honest that this
+# scenario declares NO [phases.emission] of its own, so the only error pressure in the window is the
+# preflight canary's; driving P-025 properly is the Epoch-6 "Halo hue budget re-driven" entry, not
+# this declaration. Observing this item does NOT claim P-025.
+[[checklist]]
+induced = "error-pressure phase window; this scenario declares no emission of its own (the preflight canary's storm is the only error pressure)"
+observation = "hue shifted toward burgundy under error pressure?"

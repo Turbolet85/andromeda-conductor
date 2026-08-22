@@ -61,6 +61,7 @@ mod tests {
             ],
             jitter_ms: 200,
             expected: Vec::new(),
+            checklist: Vec::new(),
         }
     }
 

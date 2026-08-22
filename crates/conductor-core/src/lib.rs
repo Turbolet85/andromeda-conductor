@@ -57,7 +57,7 @@ pub use run_contract::{
 };
 pub use run_journal::{latest_run_id, read_run_journal};
 pub use run_record::{CheckRecord, RunRecord};
-pub use scenario::{PId, Scenario, SloTier};
+pub use scenario::{ChecklistItem, MAX_CHECKLIST_TEXT, PId, Scenario, SloTier};
 pub use scenario_catalog::{
     list_scenarios, scenario_files, validate_selection, ScenarioSummary, SUITE_SELECTION,
 };

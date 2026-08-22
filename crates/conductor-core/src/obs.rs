@@ -1,6 +1,6 @@
 //! Self-observation logging — the `tracing` JSON stack.
 //!
-//! Conductor's self-observation is structured `tracing` JSON to stdout/file ONLY; it uses **no
+//! Conductor's self-observation is structured `tracing` JSON to stderr/file ONLY; it uses **no
 //! OpenTelemetry SDK** (the sole OTLP Conductor speaks is the PRODUCT fault stream to Pulse
 //! `:4317`, a separate path — obs-plan §11). [`init_observability`] installs the global subscriber
 //! plus a panic hook so every emitted line is one flat JSON object carrying the service identity

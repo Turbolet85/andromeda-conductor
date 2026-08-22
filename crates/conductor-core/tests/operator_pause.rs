@@ -9,6 +9,7 @@ fn hold(prompt: &str) -> HoldPoint {
         step: "restart-pulse".to_string(),
         prompt: prompt.to_string(),
         allow_no_go: true,
+        checklist: Vec::new(),
     }
 }
 
