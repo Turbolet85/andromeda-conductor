@@ -1,0 +1,143 @@
+[
+ {
+  "id": "2026-08-20T22:12:40Z-b",
+  "chunk": "2026-08-20-verifier-self-hardening",
+  "skill": "wrap-session",
+  "step": "route-resolve",
+  "what": "the trajectory edit (a new chunk ahead) normally HALTS into dialogue, but the operator pre-authorized it in the invocation directives under a standing ruling, so route-resolve applied it with zero dialogue rounds \u2014 the halt was satisfied ahead of the phase rather than skipped, which is worth distinguishing in the ledger from a trajectory applied unilaterally",
+  "impact": {
+   "dialogue_rounds": 0
+  },
+  "artifacts": [
+   "conductor-0.2.0/working-route.md"
+  ],
+  "evidence": null
+ },
+ {
+  "id": "2026-08-20T22:09:50Z-b",
+  "chunk": "2026-08-20-verifier-self-hardening",
+  "skill": "wrap-session",
+  "step": "gates",
+  "what": "the flip-compaction fired for the first time and did the one-time backfill in the same sweep: 28 complete-record lines compacted (27 legacy + this chunk own), route-archive.md born with 28 verbatim entries, working-route 76790 -> 18201 bytes, marker<->archive set-equality 28/28, zero unrecognized freight left in place, and the live tail byte-intact \u2014 one atomic rewrite plus one archive append as specified",
+  "impact": {},
+  "artifacts": [
+   "conductor-0.2.0/working-route.md",
+   "conductor-0.2.0/route-archive.md"
+  ],
+  "evidence": null
+ },
+ {
+  "id": "2026-08-20T22:58:46Z-d",
+  "chunk": "2026-08-20-read-back-seam-survivors-closed",
+  "skill": "implement",
+  "step": "fix-loop",
+  "what": "cargo-mutants exited 3 on a run that fully met its acceptance - 0 missed, all five named survivors killed - because two PRE-EXISTING timeouts remain in the same files. The project rules record the trap in one direction only (Found 0 mutants exits 0, a no-op that reads as a pass); this is the converse, a complete success reading as a non-zero failure. Anything gating on the exit code rather than the tallies would invert this chunk verdict.",
+  "impact": {},
+  "artifacts": [
+   "mutants.out/timeout.txt"
+  ],
+  "evidence": "scoped mutants run, implement P2, this session"
+ },
+ {
+  "id": "2026-08-20T23:19:03Z-b",
+  "chunk": "2026-08-20-read-back-seam-survivors-closed",
+  "skill": "wrap-session",
+  "step": "curation",
+  "what": "The unset-variable redirect hit at implement P2 is ALREADY documented verbatim in docs/session-learnings.md 2026-08-18 as trap (2), including the exact failure (an unset var makes the redirect target /x, permission denied) and the exact remedy (use the session scratchpad path). The lesson existed, was correct, and did not prevent its own recurrence one session later - the corpus is authored but not consulted at the moment of risk. Recorded because it is a RETRIEVAL signal rather than an authoring gap: writing the entry a third time would not help.",
+  "impact": {
+   "retries": 1
+  },
+  "artifacts": [
+   ".claude/docs/session-learnings.md"
+  ],
+  "evidence": "wrap P3 dedup pass against the 2026-08-18 host-shell entry"
+ },
+ {
+  "id": "2026-08-21T11:22:40Z-b",
+  "chunk": "2026-08-21-per-check-latency-measurement",
+  "skill": "wrap-session",
+  "step": "curation",
+  "what": "Two of six candidates were rejected as duplicates specifically because THIS wrap's own cascade had just written the same facts into rule-file generated BODIES (rules/security.md gained the garde-sibling rule, rules/verification-harness.md the cleanup table list) minutes earlier in the same run \u2014 so the dedup pass had to treat freshly-cascaded body text as an existing entry, which is exactly the DEDUP-REJECT-ONLY scope the filter carves out",
+  "impact": {
+   "extra_reads": 2
+  },
+  "artifacts": [
+   ".claude/rules/security.md",
+   ".claude/rules/verification-harness.md"
+  ],
+  "evidence": "a naive dedup against only the three curation homes would have minted near-duplicate Session Additions entries that the next cascade re-derivation would then contradict"
+ },
+ {
+  "id": "2026-08-21T17:22:14Z-b",
+  "chunk": null,
+  "skill": "wrap-session",
+  "step": "route-resolve",
+  "what": "clearing an external-dependency block nearly left its own flag token behind: the replacement CONTEXT annotation named the flag in prose, so the literal token survived a clear that had structurally removed it. The route grammar uses a bare ALL-CAPS token as a structural flag, so prose ABOUT the flag is indistinguishable from the flag itself to any consumer that greps for it \u2014 and phase Setup HALTs on promoting a blocked entry, so a false HALT on the very next promotion was the failure mode. Caught by a post-write assertion and reworded to avoid the token entirely",
+  "impact": {
+   "reformulations": 1
+  },
+  "artifacts": [
+   "conductor-0.2.0/working-route.md"
+  ],
+  "evidence": null
+ },
+ {
+  "id": "2026-08-21T19:01:57Z-b",
+  "chunk": "2026-08-21-delegated-timing-budgets-proven",
+  "skill": "wrap-session",
+  "step": "report",
+  "what": "wrap-session was invoked on a chunk whose /implement had SOFT-EXITED (environmental), leaving its claimed capability v2-20 at ref:null/status:planned. The loop has no sanctioned path for that state: running the phases in order would have spent a 7-agent fan-out and a full curation pass only to hit a mandated HALT at the P7 coverage gate, and the P1 report authored first would have been falsified by whichever release valve the operator then chose. Resolved by halting BEFORE P1 to put the two contract-sanctioned valves to the operator, then \u2014 on their ruling to run the legs \u2014 performing the remaining IMPLEMENT work (four live legs, verbatim fixtures, assertions, gate re-runs, matrix ref+implemented) inside the wrap invocation before entering P1. That is a deliberate reorder of a skill that forbids reordering; it was the only route to a commit, but the loop currently makes it an unscripted judgment call rather than a defined transition.",
+  "impact": {
+   "halted": 1,
+   "dialogue_rounds": 2
+  },
+  "artifacts": [
+   "conductor-0.2.0/verification-matrix.json",
+   "crates/conductor-run/tests/delegated_timing_harvest.rs"
+  ],
+  "evidence": "conductor-0.2.0/chunks/2026-08-21-delegated-timing-budgets-proven/report.md"
+ },
+ {
+  "id": "2026-08-22T09:50:33Z-b",
+  "chunk": "2026-08-22-operator-pause-and-checklist-live-firing",
+  "skill": "phase",
+  "step": "research",
+  "what": "One of four batched scope-closure Edits failed to match because the old_string reproduced the paragraph with the line wrap in a different position than the file held; the other three in the same batch applied. Resolved by grepping the exact stored text and re-issuing that one edit. The tool errored rather than silently no-matching, so the miss was visible immediately.",
+  "impact": {
+   "retries": 1,
+   "extra_reads": 1
+  },
+  "artifacts": [
+   "conductor-0.2.0/chunks/2026-08-22-operator-pause-and-checklist-live-firing/scope.md"
+  ],
+  "evidence": null
+ },
+ {
+  "id": "2026-08-22T12:41:15Z-b",
+  "chunk": "2026-08-22-operator-pause-and-checklist-live-firing",
+  "skill": "wrap-session",
+  "step": "route-resolve",
+  "what": "The freeze-contract self-check produced a false alarm that cost one extra read to clear. Asserting P5 touched no frozen line by grepping the working-route diff for a bracketed-marker prefix returns a hit on the CURRENT chunk own phase-time stamp, which /andromeda-phase wrote at promotion and which is therefore in the diff against HEAD through no action of the wrap. A diff-based frozen-line assertion has to exclude the wrapping chunk own marker, or read the hunk headers and compare line numbers against the edits actually made, which is what settled it here.",
+  "impact": {
+   "extra_reads": 1
+  },
+  "artifacts": [
+   "conductor-0.2.0/working-route.md"
+  ],
+  "evidence": null
+ },
+ {
+  "id": "2026-08-22T12:46:12Z-b",
+  "chunk": "2026-08-22-operator-pause-and-checklist-live-firing",
+  "skill": "wrap-session",
+  "step": "gates",
+  "what": "The evolve-nudge derived condition (no proposals.md NAMES that epoch) nearly suppressed a nudge that should fire. The 2026-08-20 diagnosis contains the string Epoch 4 twice, but both are incidental references inside findings about other epochs (recorded in Epoch 4; across 4 consecutive epochs), and that run predates this epoch completion by three of its five entries. A bare name-match proxy for has-been-diagnosed reads a passing mention as a diagnosis; resolved by reading the two hits rather than counting them.",
+  "impact": {
+   "extra_reads": 1
+  },
+  "artifacts": [
+   ".andromeda/runs/2026-08-20T17-40-34-evolve-diagnose/proposals.md"
+  ],
+  "evidence": null
+ }
+]

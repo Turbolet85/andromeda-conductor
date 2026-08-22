@@ -1,0 +1,9 @@
+{
+ "line": 92.62,
+ "branch": null,
+ "lines_found": 8943,
+ "lines_hit": 8283,
+ "branches_found": 0,
+ "branches_hit": 0,
+ "command": "cargo llvm-cov nextest --workspace --lcov"
+}

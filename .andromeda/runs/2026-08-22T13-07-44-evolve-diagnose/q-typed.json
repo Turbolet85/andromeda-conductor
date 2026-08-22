@@ -1,0 +1,1450 @@
+{
+ "per_step_type": [
+  {
+   "key": "implement/fix-loop/tooling.host-shell",
+   "skill": "implement",
+   "step": "fix-loop",
+   "type": "tooling.host-shell",
+   "n": 4,
+   "weight": 9,
+   "rate": 0.67,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-20-read-back-seam-survivors-closed",
+    "2026-08-21-delegated-timing-budgets-proven",
+    "2026-08-21-per-check-latency-measurement"
+   ],
+   "impact": {
+    "retries": 5
+   },
+   "above_threshold": true,
+   "ids": [
+    "2026-08-20T22:58:46Z-b",
+    "2026-08-20T22:58:46Z-c",
+    "2026-08-21T10:57:18Z-f",
+    "2026-08-21T18:20:31Z-b"
+   ],
+   "whats": [
+    "The first mutation-gate launch redirected to an UNSET shell variable. With no set -u, the shell expanded it to empty and the redirect became /mutants.log, which failed Permission denied - so cargo-mutants never started while the background task still reported a normal failed-command completion. Caught from the output text, relaunched against the literal scratchpad path.",
+    "The five-survivor verification built its grep pattern through a command substitution whose sed failed on an unterminated expression. The substitution yielded EMPTY, so grep -qF matched every line unconditionally and the check printed CAUGHT for all five while having tested nothing - a VACUOUS all-pass. Visible only because sed printed its own error beside the green lines. Re-verified with literal patterns against caught.txt (lines 5/6/8/34/35) and against an empty missed.txt.",
+    "A scratchpad python .replace pass silently NO-MATCHED twice on multi-line call sites (RunReport::render's own body, and the trailing-comma '], &OK_ENV,' form), reporting success while leaving the edits unmade; both were caught only by the next cargo check, and str.replace has no failure mode to detect",
+    "The PREREQ auto-satisfy signature turns on cargo audit exiting exactly 1, but the first probe ran it piped into head, so the captured $? was the exit of head (0) and printed AUDIT_EXIT=0 \u2014 a value that reads as a DEVIATION from the pinned signature and would have needlessly restored the full re-check form, or mis-reported the probe outcome. Re-derived by capturing the output into a variable and reading $? before any pipe: true exit 1 with the byte-exact diagnostic, so the probe auto-satisfied as the 37th consecutive. Shell semantics, not a cargo behaviour: $? after a pipeline reports the LAST stage."
+   ]
+  },
+  {
+   "key": "phase/validate/contract.narrow-basis-claim",
+   "skill": "phase",
+   "step": "validate",
+   "type": "contract.narrow-basis-claim",
+   "n": 1,
+   "weight": 7,
+   "rate": 0.17,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-22-operator-pause-and-checklist-live-firing"
+   ],
+   "impact": {
+    "iterations": 2,
+    "dialogue_rounds": 2
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-22T10:46:19Z-b"
+   ],
+   "whats": [
+    "The Expected-amendments site enumeration was stated too narrowly TWICE, by two different mechanisms, and neither would have surfaced without an independent re-derivation. (1) The pretty axis was authored as two sections from a pattern requiring the literal string pretty-print, which missed the site wording it pretty in dev; the operator corrected it to three, and a case-insensitive sweep then showed six, because two further hits the grep DID return were dropped without disposition. (2) The stdout axis was offered as six sites and the sweep found a seventh, the section 12 Decisions Log exporter line, which is the decisions-of-record entry for the sink. Root shape: a site count inherits the narrowness of the pattern that produced it, and hits a pattern returns still need an explicit disposition rather than silent filtering. Settled by sweeping case-insensitively across synonyms over seven documents plus the source and dispositioning all 17 obs-plan hits including the eleven needing no change."
+   ]
+  },
+  {
+   "key": "phase/take-up/tooling.host-shell",
+   "skill": "phase",
+   "step": "take-up",
+   "type": "tooling.host-shell",
+   "n": 3,
+   "weight": 6,
+   "rate": 0.5,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-20-read-back-seam-survivors-closed",
+    "2026-08-20-verifier-self-hardening",
+    "2026-08-21-per-check-latency-measurement"
+   ],
+   "impact": {
+    "retries": 3,
+    "extra_reads": 2
+   },
+   "above_threshold": true,
+   "ids": [
+    "2026-08-20T20:38:28Z-c",
+    "2026-08-20T22:24:00Z-b",
+    "2026-08-21T10:19:56Z-b"
+   ],
+   "whats": [
+    "writing scope.md through a quoted bash heredoc failed with unexpected EOF while looking for matching single quote despite the delimiter being quoted; the markdown body (inline code spans, escaped table pipes, apostrophes) tripped the shell parser and nothing partial was written",
+    "A quoted heredoc (<<QUOTED-EOF) carrying ~105 lines of markdown into cat > scope.md aborted at parse time with unexpected EOF while looking for matching single-quote and wrote nothing; the terminator was not recognised, so the body consumed the rest of the command list. Same-shell python heredocs of similar size parsed fine immediately before and after.",
+    "A cat heredoc with a single-quoted delimiter carrying a ~110-line Markdown document (backticks, pipe tables, apostrophes) failed at bash parse time with unexpected EOF while looking for a matching quote; the whole compound command aborted before its leading mkdir ran, so no partial file was left and the document was re-authored through the Write tool"
+   ]
+  },
+  {
+   "key": "wrap-session/reconcile/ambiguity.escalation-rounds",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "type": "ambiguity.escalation-rounds",
+   "n": 1,
+   "weight": 6,
+   "rate": 0.17,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-21-severity-lifecycle-live-proof"
+   ],
+   "impact": {
+    "dialogue_rounds": 1,
+    "halted": 1
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-21T10:05:00Z-b"
+   ],
+   "whats": [
+    "the plans expected-amendment for the layout P-022 label had no detector able to propose it (both layout detectors key on NEW surfaces or MOVED counts, never on an existing sample rows factual correctness), and the chunk report does not substantiate a doc-label fix, so check 5 forced an escalation; verification also found the mismatch systemic (13 sites, 5 distinct P-IDs) rather than the single site the plan predicted"
+   ]
+  },
+  {
+   "key": "phase/distill/contract.extract-format",
+   "skill": "phase",
+   "step": "distill",
+   "type": "contract.extract-format",
+   "n": 4,
+   "weight": 5,
+   "rate": 0.67,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-20-verifier-self-hardening",
+    "2026-08-21-delegated-timing-budgets-proven",
+    "2026-08-21-per-check-latency-measurement",
+    "2026-08-22-operator-pause-and-checklist-live-firing"
+   ],
+   "impact": {
+    "extra_reads": 0,
+    "reformulations": 0,
+    "iterations": 1
+   },
+   "above_threshold": true,
+   "ids": [
+    "2026-08-20T20:48:19Z-c",
+    "2026-08-21T10:27:18Z-b",
+    "2026-08-21T17:57:38Z-b",
+    "2026-08-22T09:46:47Z-b"
+   ],
+   "whats": [
+    "the tests extract cited its Constraints anchors inline (test-plan \u00a710 (Zero-flakiness budget) requires ...) rather than in the trailing (per {plan} \u00a7...) form the format note examples show; check 3 is satisfied in substance since every bullet names an identifiable plan anchor and its Acceptance bullets do use the trailing form, so it was judged a pass rather than a re-spawn",
+    "Every one of the 7 returned extracts arrived with angle brackets HTML-escaped (&lt;/&gt;), corrupting the closed tier set the chunk is about (<5s/<20s/<90s) plus generic types and path templates (Option<FaultSpec>, conductor-<seam>, cargo test -p <crate>, <run_id>.md); un-escaping was applied at strip time on all 7 before persisting, and none of the 5 named per-extract checks tests for it",
+    "The subagent return transport HTML-escaped < > and & in 5 of 7 extracts (design, security, layouts, obs, tests), mangling load-bearing tokens: the closed slo_tier set <5s/<20s/<90s, the garde 0.22.1 signature (&field, &()), <slo_tier>, <run_id>, <redacted>, <name>, <family>. Stripping itself was clean in all 7 (no preamble, no trailing commentary), so this sat outside the five named per-extract checks and passed every one of them. Caught by reading the returned text; repaired by a uniform entity decode on save. This is a REPEAT of the same defect already recorded in CLAUDE.md session learnings for a prior 7-distiller run.",
+    "The subagent transport HTML-escaped < > and & in 5 of the 7 returned extracts (layouts, design, security, a11y, tests); arch and obs were unaffected only because they happened to contain no such characters. Detected on read, repaired by decoding before persistence, and the 5 raw twins regenerated by re-encoding. Recurrence of the failure already recorded as a session learning on 2026-08-21."
+   ]
+  },
+  {
+   "key": "implement/smoke/tooling.headless-skip",
+   "skill": "implement",
+   "step": "smoke",
+   "type": "tooling.headless-skip",
+   "n": 2,
+   "weight": 5,
+   "rate": 0.33,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-21-delegated-timing-budgets-proven",
+    "2026-08-22-operator-pause-and-checklist-live-firing"
+   ],
+   "impact": {
+    "soft_exit": 1,
+    "deferred": 1
+   },
+   "above_threshold": true,
+   "ids": [
+    "2026-08-21T18:22:11Z-b",
+    "2026-08-22T11:03:12Z-b"
+   ],
+   "whats": [
+    "The chunks deliverable is gated on an operator-attended live proof that no automated step can complete: three of the four observables fire only from a running Pulse WEBVIEW (useEffect on dots/items, and a 1000ms findings re-poll) so they need the GUI window open, and the fourth (metric.report.render_ms) fires only on incidents.get_report, i.e. only when a human opens an incident Report. An implement run on an unattended host can therefore reach green gates but can never reach the chunk acceptance, no matter how complete the code is.",
+    "This chunk lands a webview surface (a checklist rendered inside the operator-pause dialog) on a host that cannot exercise any webview: no DISPLAY and tauri-driver absent from PATH despite @crabnebula/tauri-driver sitting in package.json devDependencies. The Rust-side contract is fully covered (the HoldPrompt projection and its serialized shape are unit-pinned), but nothing here proves the dialog actually renders the rows \u2014 that is deferred to the operator attended leg, and no WCAG conformance is claimed."
+   ]
+  },
+  {
+   "key": "wrap-session/reconcile/contract.false-positive-proposal",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "type": "contract.false-positive-proposal",
+   "n": 2,
+   "weight": 4,
+   "rate": 0.33,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-20-verifier-self-hardening",
+    "2026-08-21-per-check-latency-measurement"
+   ],
+   "impact": {
+    "dialogue_rounds": 1,
+    "extra_reads": 1
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-20T22:04:38Z-b",
+    "2026-08-21T11:16:55Z-b"
+   ],
+   "whats": [
+    "D-obs-instrumentation returned 3 proposals (1 primary + 2 dependent-of) all resting on the premise that obs-plan \u00a74 cli row mandates #[tracing::instrument] on fn main(); the row (line 48) actually names the tracing crate plus a tracing-subscriber JSON formatter, and the instrument mandate sits on the desktop-webview (:49) and ipc-internal (:50) rows about #[tauri::command] handlers \u2014 the SECOND occurrence of this exact mis-attribution in one session, the first being the phase-time obs distiller, so a playbook rule was proposed and operator-approved to classify the third",
+    "security-plan's fourth proposal (\u00a7Threat Model Summary) asserted that section is a VERBATIM copy of a sibling `threat-assessment.md` and instructed the orchestrator to apply the edit in lockstep with that source; the file does not exist anywhere in the repo, so the lockstep clause was dropped and only the substantiated half applied"
+   ]
+  },
+  {
+   "key": "wrap-session/curation/ambiguity.filter-borderline",
+   "skill": "wrap-session",
+   "step": "curation",
+   "type": "ambiguity.filter-borderline",
+   "n": 3,
+   "weight": 3,
+   "rate": 0.38,
+   "step_runs": 8,
+   "chunks": [
+    "2026-08-20-verifier-self-hardening"
+   ],
+   "impact": {
+    "reformulations": 0
+   },
+   "above_threshold": true,
+   "ids": [
+    "2026-08-20T20:23:09Z-b",
+    "2026-08-20T22:09:15Z-b",
+    "2026-08-21T17:19:28Z-b"
+   ],
+   "whats": [
+    "two candidates sat on a filter edge: the surviving pin-ordinal learning scored EXACTLY 0.6 at Filter 4 (measurement +0.4, technical-detail-with-context +0.2 \u2014 one signal either way flips it), and the dictated-coordinate candidate was an arguable Filter 1 additive-facet call (chain arithmetic is a facet the standing CLAUDE.md entry lacks) resolved as duplicate on the ground that the existing rule is what CAUGHT the drift, so the rule working as written is not evidence it is incomplete",
+    "three of the four rejections turned on Filter 1 dedup-reject-only against a GENERATED body this same wrap had written minutes earlier (the cascade put runner-portability, the process-global-singleton ban and the mutation tooling discipline into rules/testing.md), so the candidates were real learnings that arrived already-recorded by a different channel \u2014 the clause exists for exactly this and fired three times in one pass, which is worth noting as a load pattern rather than a defect",
+    "Filter 1 routed a candidate to in-place EXTENSION of an existing Tier-1 entry on conceptual-family grounds while its measured token overlap was almost certainly under the 0.7 bar \u2014 the vocabularies differ (distillation/master/ownership vs citation/document/grep) though the failure class is the same; the additive-facet tie-breaker decided it, not the similarity metric"
+   ]
+  },
+  {
+   "key": "wrap-session/curation/ambiguity.tier-routing",
+   "skill": "wrap-session",
+   "step": "curation",
+   "type": "ambiguity.tier-routing",
+   "n": 3,
+   "weight": 3,
+   "rate": 0.38,
+   "step_runs": 8,
+   "chunks": [
+    "2026-08-22-operator-pause-and-checklist-live-firing"
+   ],
+   "impact": {
+    "deferred": 1
+   },
+   "above_threshold": true,
+   "ids": [
+    "2026-08-20T20:23:09Z-c",
+    "2026-08-21T17:19:28Z-c",
+    "2026-08-22T12:39:40Z-c"
+   ],
+   "whats": [
+    "the sole survivor is an imperative about route-tail edits, which reads Tier 2, but no rule file paths: scope covers .andromeda/ or the version dir working-route and minting .claude/rules/route.md for one convention was forced \u2014 demoted to Tier 3 per the fallback chain",
+    "a surviving candidate (per-plane code-graph query mechanics) had no correct home in any curation tier \u2014 its real home is scripts/code-graph-cookbook.md, a setup-owned doc outside the tier system, so it was dropped as better-homed rather than demoted to Tier 3; the dedup filter reads the three tiers only and would not have caught the duplication",
+    "The operator directive nominated the leg-scenarios convention for Tier 3, but Filter 1 dedup matched an existing Tier-2 entry (verification-harness.md live-leg recipe clause b) already stating that a leg needing variant TOMLs serves them from an in-repo untracked dir. The candidate named the payoff and the index-to-duration mechanism that entry lacked, so the additive-facet tie-breaker applied: amend in place at the SAME tier rather than mint a Tier-3 sibling. Routed to Tier 2 against the directive nomination, which also lands it where it auto-loads on the harness paths."
+   ]
+  },
+  {
+   "key": "implement/fix-loop/contract.spec-reality-gap",
+   "skill": "implement",
+   "step": "fix-loop",
+   "type": "contract.spec-reality-gap",
+   "n": 2,
+   "weight": 3,
+   "rate": 0.33,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-21-per-check-latency-measurement",
+    "2026-08-21-severity-lifecycle-live-proof"
+   ],
+   "impact": {
+    "iterations": 1
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-21T09:35:00Z-c",
+    "2026-08-21T10:57:18Z-e"
+   ],
+   "whats": [
+    "the v2-16 acceptance concretized at phase P5 names two mechanisms measurement contradicts: triage.incident.auto_resolve.tick carries its counters as the literal string <redacted> so it cannot grade a resolution, and the corpus-backed read-back returned 2 incidents where the in-app ledger showed 1, so read-back cannot witness the resolved incidents absence; both OUTCOMES are proven by other witnesses (item_count transition, created/deduped discriminator, and leg E read-back result_count 0)",
+    "Two MECHANISM descriptors inside v2-19's own concretized acceptance are contradicted by the shipped reality \u2014 it names CoreError::Validation (structurally impossible: that variant is #[from] garde::Report) and 'a validator on Scenario::expected' (garde field-level custom cannot read slo_tier); the acceptance's four numbered OUTCOME assertions all hold and are proven, so the cap was set implemented and the descriptor gap is surfaced for wrap rather than silently absorbed"
+   ]
+  },
+  {
+   "key": "implement/fix-loop/contract.test-expectation",
+   "skill": "implement",
+   "step": "fix-loop",
+   "type": "contract.test-expectation",
+   "n": 2,
+   "weight": 3,
+   "rate": 0.33,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-21-severity-lifecycle-live-proof",
+    "2026-08-22-operator-pause-and-checklist-live-firing"
+   ],
+   "impact": {
+    "iterations": 1,
+    "extra_reads": 2
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-21T09:35:00Z-d",
+    "2026-08-22T11:01:59Z-b"
+   ],
+   "whats": [
+    "the first harvest assertion paired the scenarios creation instant with the FIRST active-count drop, which is the preflight canarys own resolution 21s earlier (107629ms vs 137625ms); the count series carries no incident identity, so the bound is only attributable against the instant the set EMPTIES",
+    "The headless regression gate proves less than its name and its plan annotation claim. It exits 0 without hanging, but with no live Pulse the preflight blocks and execute_scenario returns on the Blocked spine before ever reaching the hold \u2014 verified by reading this-run artifacts rather than the exit code: logs/agent-latest.jsonl was fresh (mtime inside the run) and contained zero occurrences of the resolution witness, with preflight blocked: MCP read-back path unreachable as the last message. So the never-blocks-when-unattended property is NOT what this gate measured; it is proven at the unit tier instead (conductor-core/tests/operator_pause.rs::headless_never_blocks_under_paused_clock and conductor-cli/src/pause.rs::resolve_kind_agent_mode_overrides_an_attended_tty)."
+   ]
+  },
+  {
+   "key": "wrap-session/reconcile/contract.cascade-miss",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "type": "contract.cascade-miss",
+   "n": 2,
+   "weight": 3,
+   "rate": 0.33,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-21-delegated-timing-budgets-proven",
+    "2026-08-21-per-check-latency-measurement"
+   ],
+   "impact": {
+    "retries": 1
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-21T11:16:55Z-c",
+    "2026-08-21T19:14:51Z-c"
+   ],
+   "whats": [
+    "obs-plan returned `proposals: []` on a change the plan's Expected-amendments list had predicted for it \u2014 the detector reasoned correctly that the ENVELOPE was unmoved, but obs \u00a73 reproduces the journal FORMAT that test-plan \u00a73 owns, and the owner's amendment adding a second report-seam line shape had to land on the reproduction too or the two-sided D-tests-obs-harness bind would drift one-sided",
+    "Reverting the mis-placed obs-plan table row consumed the WRONG newline: the Edit removed the break AFTER the inserted row rather than before it, silently joining the Severity-lifecycle and Known-residual rows into one line and dropping Known-residual from the rendered table. The edit tool reported success and the row count read 6 instead of the expected 7, which is the only reason it surfaced; a count that had happened to land on 7 would have shipped a corrupted table. Fixed by restoring the row break and re-verifying the file byte-identical to HEAD before re-applying."
+   ]
+  },
+  {
+   "key": "new-session/orientation/contract.narrow-basis-claim",
+   "skill": "new-session",
+   "step": "orientation",
+   "type": "contract.narrow-basis-claim",
+   "n": 1,
+   "weight": 3,
+   "rate": 0.12,
+   "step_runs": 8,
+   "chunks": [],
+   "impact": {
+    "extra_reads": 2,
+    "reformulations": 2
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-20T17:37:44Z-b"
+   ],
+   "whats": [
+    "Coverage was first computed against a guessed matrix schema path and returned verified=0 of 32; caught only because the handoff independently stated 17/32, then re-derived from the real path (status nested inside verification)"
+   ]
+  },
+  {
+   "key": "wrap-session/route-resolve/contract.premise-falsified",
+   "skill": "wrap-session",
+   "step": "route-resolve",
+   "type": "contract.premise-falsified",
+   "n": 1,
+   "weight": 3,
+   "rate": 0.12,
+   "step_runs": 8,
+   "chunks": [],
+   "impact": {
+    "dialogue_rounds": 1,
+    "extra_reads": 5
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-20T20:20:57Z-b"
+   ],
+   "whats": [
+    "three dictated coordinates in the operator route directive drifted from their source artifact and were corrected before landing: the audit-pin ordinal (dictated 34th; the chain says 33rd \u2014 the last report discharged the 32nd and the ordinal numbers the forthcoming probe, not the entry it sits on), the declares survivor scope (dictated every preflight precondition reads through it; B1 says a NAMED precondition), and the B3 runner-portability cause (dictated as fact; B3 ranks the process-global-sink shape SUSPECTED-not-proven)"
+   ]
+  },
+  {
+   "key": "wrap-session/reconcile/ambiguity.playbook-no-match",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "type": "ambiguity.playbook-no-match",
+   "n": 1,
+   "weight": 3,
+   "rate": 0.17,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-20-verifier-self-hardening"
+   ],
+   "impact": {
+    "dialogue_rounds": 1
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-20T22:04:38Z-c"
+   ],
+   "whats": [
+    "three test-plan proposals had no playbook rule and split on direction once examined: two would have WEAKENED standing \u00a711 bans (replacing the golden-test clause on the virtual-clock stamp ban; carving a real-time exception the ban already grants in its own second clause) and were rejected, while the third ADDED a measured anti-pattern ban and was applied \u2014 the weaken-vs-add axis is what decided them, and no rule expresses it"
+   ]
+  },
+  {
+   "key": "phase/research/tooling.graph-unavailable",
+   "skill": "phase",
+   "step": "research",
+   "type": "tooling.graph-unavailable",
+   "n": 1,
+   "weight": 3,
+   "rate": 0.17,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-21-per-check-latency-measurement"
+   ],
+   "impact": {
+    "reformulations": 2,
+    "extra_reads": 2
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-21T10:31:51Z-b"
+   ],
+   "whats": [
+    "SELECT ... FROM symbol WHERE symbol LIKE '%execute_scenario%' returned 0 rows for a function that demonstrably exists and is called at four production sites, and the tightened descriptor '%/persist().%' likewise returned 0 \u2014 a partial index gap (not cold-start, not stale: db_state read fresh on every query) that removed graph backing from exactly the caller-threading enumeration the reference names as must-come-from-the-graph"
+   ]
+  },
+  {
+   "key": "phase/plan/ambiguity.scope-question",
+   "skill": "phase",
+   "step": "plan",
+   "type": "ambiguity.scope-question",
+   "n": 1,
+   "weight": 3,
+   "rate": 0.17,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-21-per-check-latency-measurement"
+   ],
+   "impact": {
+    "dialogue_rounds": 1
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-21T10:40:31Z-b"
+   ],
+   "whats": [
+    "One recommended-first question was put to the operator on whether the sub-5s budget is declared per-check or per-scenario; the materials could NOT have settled it, because the two governing artifacts point opposite ways \u2014 the working-route entry says 'sub-5s budgets' (plural, leaning per-check) while the matrix acceptance says 'A scenario can declare a sub-5s budget' (singular, scenario-subject) \u2014 and the choice decides whether the per-check timing half is non-vacuous at all"
+   ]
+  },
+  {
+   "key": "phase/validate/contract.matrix-claim",
+   "skill": "phase",
+   "step": "validate",
+   "type": "contract.matrix-claim",
+   "n": 1,
+   "weight": 3,
+   "rate": 0.17,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-21-per-check-latency-measurement"
+   ],
+   "impact": {
+    "dialogue_rounds": 1
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-21T10:40:31Z-d"
+   ],
+   "whats": [
+    "v2-19's acceptance clause 'each check carries its own latency_ms rather than sharing the run's whole-loop value' is literally unattainable \u2014 one observe() pass per scenario means one observation instant, so per-check latency values are necessarily equal \u2014 so the claim required concretizing the acceptance to a per-check DEADLINE differentiator plus a PREMISE-CORRECTION note, rather than either claiming it as written or declining"
+   ]
+  },
+  {
+   "key": "wrap-session/curation/tooling.host-shell",
+   "skill": "wrap-session",
+   "step": "curation",
+   "type": "tooling.host-shell",
+   "n": 1,
+   "weight": 3,
+   "rate": 0.12,
+   "step_runs": 8,
+   "chunks": [
+    "2026-08-22-operator-pause-and-checklist-live-firing"
+   ],
+   "impact": {
+    "retries": 2
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-22T12:39:40Z-b"
+   ],
+   "whats": [
+    "Host-shell escape semantics bit twice in one step, in opposite directions, on the same Windows path literal. Writing: a quoted heredoc still collapsed the doubled backslashes so Python saw an invalid escape sequence \u2014 fixed by moving the write to a scratchpad file authored with the Write tool. Verifying: the read-back grep pattern was passed unquoted-for-BRE so GNU grep interpreted the W, S and b escapes as classes rather than literals, returning ZERO matches against a file that did contain the string \u2014 a FALSE NEGATIVE that would have read as a failed write. Settled with grep -F. The in-script read-back assertion, which never passed through a shell pattern, was the check that was actually trustworthy."
+   ]
+  },
+  {
+   "key": "phase/distill/input.spec-source-gap",
+   "skill": "phase",
+   "step": "distill",
+   "type": "input.spec-source-gap",
+   "n": 2,
+   "weight": 2,
+   "rate": 0.33,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-20-read-back-seam-survivors-closed",
+    "2026-08-20-verifier-self-hardening"
+   ],
+   "impact": {},
+   "above_threshold": false,
+   "ids": [
+    "2026-08-20T20:48:19Z-b",
+    "2026-08-20T22:30:45Z-b"
+   ],
+   "whats": [
+    "the tests distiller found cargo-mutants registered nowhere in test-plan (\u00a74 tool inventory and floors policy, \u00a79 pipeline stages, \u00a710 gates, \u00a712 decisions log all silent), so the chunk operator-set acceptance instrument \u2014 a scoped mutation re-run with --test-tool=nextest and stub_pulse_mcp excluded \u2014 is an out-of-plan tool; whether it becomes a standing gate is a wrap-time plan-amendment question the extract correctly declined to assume",
+    "The tests extract faithfully reported test-plan 5/8 as mandating the MCP sidecar be exercised through an injected rmcp stub transport, while the arch extract reported the 2026-06-27 decision REVERSAL that removed rmcp entirely for a hand-rolled JSON-RPC client. The distiller was correct to state its plan mandate; the spec source names a mechanism that no longer exists. Already owned by the Epoch-5 working-route entry whose text says with the stale rmcp wording reconciled, so not newly deferred and not fixable here (phase is read-only on specs)."
+   ]
+  },
+  {
+   "key": "phase/validate/contract.intent-divergence",
+   "skill": "phase",
+   "step": "validate",
+   "type": "contract.intent-divergence",
+   "n": 2,
+   "weight": 2,
+   "rate": 0.33,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-20-verifier-self-hardening",
+    "2026-08-21-delegated-timing-budgets-proven"
+   ],
+   "impact": {
+    "iterations": 0
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-20T21:04:12Z-c",
+    "2026-08-21T18:10:42Z-b"
+   ],
+   "whats": [
+    "val-1 classified intent-incomplete, not defect: the plan applies the own-test-binary isolation remedy to the declares matrix as well as the witness test, which scope had stated only for the witness; justified by the measured mechanism (both manipulate process env or install the global subscriber), so scope was amended to the generalized rule rather than the plan narrowed",
+    "P3 scope premise closure amended the [inferred] BULLETS but left scope.md internally inconsistent: its Surfaces/contracts-touched section still named four surfaces the same measurement had just removed from the chunk (run-report envelope, CheckRecord, the conductor-verify verdict path, coverage-matrix classification). val-1 caught it and classified intent-incomplete. The gap is in the closure protocol itself \u2014 codebase-research.md \u00a7Scope premise closure directs the author to re-read the tagged bullets only, and says nothing about the other scope sections DERIVED from those premises, so a scope whose surfaces list was authored from a now-falsified premise passes the closure untouched."
+   ]
+  },
+  {
+   "key": "implement/code/input.conventions-gap",
+   "skill": "implement",
+   "step": "code",
+   "type": "input.conventions-gap",
+   "n": 2,
+   "weight": 2,
+   "rate": 0.4,
+   "step_runs": 5,
+   "chunks": [
+    "2026-08-20-verifier-self-hardening",
+    "2026-08-21-per-check-latency-measurement"
+   ],
+   "impact": {
+    "extra_reads": 3
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-20T21:14:37Z-c",
+    "2026-08-21T10:57:18Z-c"
+   ],
+   "whats": [
+    "the paused-clock step could not compile until conductor-verify gained tokio test-util in dev-dependencies; neither plan nor research named it, and the convention was recovered by reading the two crates that already use start_paused (conductor-run and conductor-core both list test-util in their dev-dependency feature sets)",
+    "Two conventions the plan and research did not state had to be read from neighbouring code: CoreError::Validation is #[from] garde::Report and cannot carry a hand-written message (so the budget fault uses CoreError::Config, matching check_capabilities), and conductor-report does not depend on serde directly, so a generic wire_as_value helper would not compile and the three enum conversions were inlined the way into_record already does it"
+   ]
+  },
+  {
+   "key": "implement/fix-loop/ambiguity.scope-pressure",
+   "skill": "implement",
+   "step": "fix-loop",
+   "type": "ambiguity.scope-pressure",
+   "n": 2,
+   "weight": 2,
+   "rate": 0.33,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-20-verifier-self-hardening"
+   ],
+   "impact": {
+    "deferred": 2
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-20T21:19:11Z-b",
+    "2026-08-20T21:40:24Z-a"
+   ],
+   "whats": [
+    "steps 3 and 7 needed crates/conductor-run/src/lib.rs, a source file outside the research lists, because Preflight has no public constructor and conductor-run exposes no command-injection seam; the gray-area call was made AGAINST proceeding \u2014 declares additionally needs unsafe env writes inside a shared-process test module, which contradicts this chunk own runner-portability thesis and the standing testing.md rule that env is read at the caller so tests need no env mutation, so both families were left undone and surfaced rather than silently absorbed",
+    "the surfaced scope question was resolved by founder ruling rather than by iteration: touchpoints widened to the in-crate test module for the stamps (three tests \u2014 magnitude bounds, a cross-unit agreement check between the two helpers, and advance-across-a-real-pause \u2014 killing all six, measured 3/0 and 3/0), while the six declares survivors were classified accepted-deliberate on the standing testing.md 2026-08-10 rule that env is read at the caller so the thin edge stays untested by design"
+   ]
+  },
+  {
+   "key": "implement/code/tooling.hook-friction",
+   "skill": "implement",
+   "step": "code",
+   "type": "tooling.hook-friction",
+   "n": 2,
+   "weight": 2,
+   "rate": 0.4,
+   "step_runs": 5,
+   "chunks": [
+    "2026-08-20-read-back-seam-survivors-closed",
+    "2026-08-21-delegated-timing-budgets-proven"
+   ],
+   "impact": {
+    "extra_reads": 0
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-20T22:51:35Z-b",
+    "2026-08-21T18:17:53Z-b"
+   ],
+   "whats": [
+    "One PostToolUse diagnostic burst fired mid-edit against a partially-applied state: E0063 missing struct fields wire_log and decoy_before_nth_request at tests/common/mod.rs:89, reported after the StubConfig field edit landed and before the Default-impl edit that supplies them. Exactly the mid-burst noise the code-writing discipline anticipates; it cleared on the next edit and the end-of-burst cargo check -p conductor-verify --tests was clean. No hook failed or fought the edit loop.",
+    "The PostToolUse rust-analyzer hook reported unlinked-file on the newly written crates/conductor-run/tests/delegated_timing_harvest.rs (\"not included anywhere in the module tree\"). It is a false positive for this file class: cargo compiles every tests/*.rs as its own integration-test binary with no module-tree entry, so the diagnostic fires on every new integration test by construction and names no real defect. Informational only \u2014 it did not fight the edit loop and required no change."
+   ]
+  },
+  {
+   "key": "wrap-session/route-resolve/tooling.host-shell",
+   "skill": "wrap-session",
+   "step": "route-resolve",
+   "type": "tooling.host-shell",
+   "n": 1,
+   "weight": 2,
+   "rate": 0.12,
+   "step_runs": 8,
+   "chunks": [],
+   "impact": {
+    "retries": 1
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-20T20:20:57Z-c"
+   ],
+   "whats": [
+    "python stdout defaulted to cp1252 on this host, so printing the applied route text back for verification raised UnicodeEncodeError on U+2193 and truncated the check mid-loop; the atomic write itself was unaffected (explicit encoding=utf-8)"
+   ]
+  },
+  {
+   "key": "phase/research/tooling.host-shell",
+   "skill": "phase",
+   "step": "research",
+   "type": "tooling.host-shell",
+   "n": 1,
+   "weight": 2,
+   "rate": 0.17,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-20-verifier-self-hardening"
+   ],
+   "impact": {
+    "retries": 1
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-20T20:53:20Z-c"
+   ],
+   "whats": [
+    "the premise-closing measurement ran as cargo test ... | tail -40, so the reported exit code was tail_s (0) rather than cargo_s; the background-task notification announced exit code 0 for a run whose test actually FAILED, which read as the exact opposite of the truth until the captured output was opened and the pipeline semantics recognised"
+   ]
+  },
+  {
+   "key": "phase/validate/contract.mechanical-check",
+   "skill": "phase",
+   "step": "validate",
+   "type": "contract.mechanical-check",
+   "n": 1,
+   "weight": 2,
+   "rate": 0.17,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-20-verifier-self-hardening"
+   ],
+   "impact": {
+    "retries": 1
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-20T21:04:12Z-b"
+   ],
+   "whats": [
+    "check 2 FAILED on the Expected-amendments clause: one of the two entries named the audit ledger record, which is not among the seven spec masters, and the check requires such a correction be re-homed to the channel that owns it; rewritten as an implementer instruction for the next code-audit run, with the \u00a7B1 and \u00a7B3 discrepancies left where they were already corrected in scope.md"
+   ]
+  },
+  {
+   "key": "implement/fix-loop/tooling.environmental",
+   "skill": "implement",
+   "step": "fix-loop",
+   "type": "tooling.environmental",
+   "n": 1,
+   "weight": 2,
+   "rate": 0.17,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-20-verifier-self-hardening"
+   ],
+   "impact": {
+    "retries": 1
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-20T21:19:11Z-c"
+   ],
+   "whats": [
+    "cargo-mutants -f resolves paths from the workspace root, not the package, so the plan form (-f src/jsonrpc.rs under -p conductor-verify) reported Found 0 mutants to test with only a WARN \u2014 a silent no-op that would have read as a clean run had the tallies not been checked; re-running with crates/conductor-verify/src/... matched 51"
+   ]
+  },
+  {
+   "key": "new-session/orientation/contract.schema-assumed",
+   "skill": "new-session",
+   "step": "orientation",
+   "type": "contract.schema-assumed",
+   "n": 1,
+   "weight": 2,
+   "rate": 0.12,
+   "step_runs": 8,
+   "chunks": [],
+   "impact": {
+    "extra_reads": 1,
+    "reformulations": 1
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-21T10:11:12Z-b"
+   ],
+   "whats": [
+    "The markerless-tail scan guessed a list-item line format (numbered / dash / asterisk bullets) instead of reading the grammar the working-route header documents; it returned an EMPTY set, a plausible wrong value that maps onto ladder rung 5 (version complete) rather than erroring, and took one structural re-read to correct"
+   ]
+  },
+  {
+   "key": "new-session/orientation/tooling.host-shell",
+   "skill": "new-session",
+   "step": "orientation",
+   "type": "tooling.host-shell",
+   "n": 1,
+   "weight": 2,
+   "rate": 0.12,
+   "step_runs": 8,
+   "chunks": [],
+   "impact": {
+    "retries": 1,
+    "extra_reads": 1
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-21T10:11:12Z-c"
+   ],
+   "whats": [
+    "The prescribed printf '%s' append collapsed doubled backslashes to single ones inside the record payload, so a regex quoted in the what-field became invalid JSON escapes and the line did not parse; the failed partial write was dropped and the record re-appended through a UTF-8 json.dumps writer instead"
+   ]
+  },
+  {
+   "key": "phase/research/retry.query-reformulation",
+   "skill": "phase",
+   "step": "research",
+   "type": "retry.query-reformulation",
+   "n": 1,
+   "weight": 2,
+   "rate": 0.17,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-21-per-check-latency-measurement"
+   ],
+   "impact": {
+    "reformulations": 1
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-21T10:31:51Z-c"
+   ],
+   "whats": [
+    "The first persist impact query used the loose predicate callee LIKE '%persist%' and returned about 29 rows, nearly all FALSE POSITIVES matching persistence_seconds \u2014 the Pulse cue field the three harvest-test binaries parse \u2014 which would have listed roughly 25 unrelated test files as threading sites had the descriptor not been tightened and cross-checked"
+   ]
+  },
+  {
+   "key": "phase/research/tooling.output-cap-overflow",
+   "skill": "phase",
+   "step": "research",
+   "type": "tooling.output-cap-overflow",
+   "n": 1,
+   "weight": 2,
+   "rate": 0.17,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-21-per-check-latency-measurement"
+   ],
+   "impact": {
+    "reformulations": 1,
+    "extra_reads": 1
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-21T10:31:51Z-d"
+   ],
+   "whats": [
+    "The unaggregated SloTier/deadline_ms refs query returned 150 rows and its stdout was clipped by the tail used to view it; recovery was to read the trace's authoritative rows field and re-issue the query as a GROUP BY file aggregation, a shape the cookbook carries no canonical example for"
+   ]
+  },
+  {
+   "key": "wrap-session/gates/tooling.host-shell",
+   "skill": "wrap-session",
+   "step": "gates",
+   "type": "tooling.host-shell",
+   "n": 1,
+   "weight": 2,
+   "rate": 0.14,
+   "step_runs": 7,
+   "chunks": [
+    "2026-08-21-per-check-latency-measurement"
+   ],
+   "impact": {
+    "retries": 1
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-21T11:26:10Z-b"
+   ],
+   "whats": [
+    "A clippy gate probe captured grep's exit status instead of clippy's (`cargo clippy ... | grep -cE '^(error|warning)'; echo $?` reports 1 when grep finds ZERO matches \u2014 the healthy outcome), so a green gate momentarily read as exit 1; re-run bare with output to /dev/null it returned true exit 0"
+   ]
+  },
+  {
+   "key": "phase/take-up/contract.narrow-basis-claim",
+   "skill": "phase",
+   "step": "take-up",
+   "type": "contract.narrow-basis-claim",
+   "n": 1,
+   "weight": 2,
+   "rate": 0.17,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-21-delegated-timing-budgets-proven"
+   ],
+   "impact": {
+    "reformulations": 1,
+    "extra_reads": 1
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-21T17:48:55Z-b"
+   ],
+   "whats": [
+    "Stated the three Pulse frontend timing procedures had NO production callers, from a grep whose include-set surfaced only crates/ui-bridge/src/telemetry.rs; a broader UI-tree search then found real call sites (ConstellationCanvas.tsx:106 and :152, use-findings.ts:58) reached through a camelCase TS wrapper layer (frame-metrics.ts) the first pattern could not match. The absence claim would have inverted the chunk premise had it reached scope."
+   ]
+  },
+  {
+   "key": "phase/plan/input.extracts-conflict",
+   "skill": "phase",
+   "step": "plan",
+   "type": "input.extracts-conflict",
+   "n": 1,
+   "weight": 2,
+   "rate": 0.17,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-22-operator-pause-and-checklist-live-firing"
+   ],
+   "impact": {
+    "iterations": 1
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-22T09:56:44Z-b"
+   ],
+   "whats": [
+    "a11y and tests pull opposite ways on the webview checklist surface and P2 aggregate check C did not catch it: a11y-plan names the operator-checklist a must-be-accessible path with a mandated shape, while test-plan \u00a75 defers the webview render leg to the Epoch-9 tauri-driver chunk and the axe/wdio harness is display-gated to Linux+xvfb, so it cannot run on this host. Not a content contradiction but an ownership/scheduling one, invisible to a reciprocity check because each extract is internally consistent. Resolved at synthesis by separating the claim from the verification: v2-29 method is manual, so the operator confirms the render and no WCAG conformance is claimed, leaving the machine a11y verification owed exactly as it already was."
+   ]
+  },
+  {
+   "key": "new-session/orientation/tooling.health-false-red",
+   "skill": "new-session",
+   "step": "orientation",
+   "type": "tooling.health-false-red",
+   "n": 1,
+   "weight": 1,
+   "rate": 0.12,
+   "step_runs": 8,
+   "chunks": [],
+   "impact": {
+    "extra_reads": 1
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-20T17:37:44Z-c"
+   ],
+   "whats": [
+    "Check 4 structural probe flagged .claude/rules/security.md as NO-FRONTMATTER; inspection showed it is deliberately frontmatter-free (unconditional-load rule, stated in the file), and the criterion is that frontmatter parses as YAML, so absent frontmatter is a pass"
+   ]
+  },
+  {
+   "key": "new-session/orientation/tooling.output-cap-overflow",
+   "skill": "new-session",
+   "step": "orientation",
+   "type": "tooling.output-cap-overflow",
+   "n": 1,
+   "weight": 1,
+   "rate": 0.12,
+   "step_runs": 8,
+   "chunks": [],
+   "impact": {
+    "extra_reads": 1
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-20T20:12:25Z-b"
+   ],
+   "whats": [
+    "cat of conductor-0.2.0/working-route.md (head -150) returned 72.4KB and was capped to a persisted file; recovered by an awk structural pass extracting epoch headers + markerless lines truncated to 180 chars"
+   ]
+  },
+  {
+   "key": "new-session/orientation/input.handoff-git-mismatch",
+   "skill": "new-session",
+   "step": "orientation",
+   "type": "input.handoff-git-mismatch",
+   "n": 1,
+   "weight": 1,
+   "rate": 0.12,
+   "step_runs": 8,
+   "chunks": [],
+   "impact": {
+    "extra_reads": 0
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-20T20:12:25Z-c"
+   ],
+   "whats": [
+    "handoff declares Status: clean while the tree carries 5 entries \u2014 2 documented expected-transient (friction-log append, handoff Session-End rewrite) and 3 post-wrap founder-invoked outputs the session-state contract does not name (code-metrics.ndjson, an evolve-diagnose run dir, a code-audit run dir, all stamped after the 17:28 wrap)"
+   ]
+  },
+  {
+   "key": "phase/take-up/input.carry-context-gap",
+   "skill": "phase",
+   "step": "take-up",
+   "type": "input.carry-context-gap",
+   "n": 1,
+   "weight": 1,
+   "rate": 0.17,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-20-verifier-self-hardening"
+   ],
+   "impact": {
+    "extra_reads": 4
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-20T20:38:28Z-b"
+   ],
+   "whats": [
+    "the CARRY located every work item correctly but described two of them wrongly, caught only by reading source: the preflight.rs:335 family is a retry last-attempt guard (poll_canary computes no deadline at all) not poll-deadline arithmetic, which changes the killing shape from an outcome assertion to a timing one; and the prescribed per-test temp obs sink is ALREADY present in the failing test, so the real cause is the process-global subscriber (first-install-wins) plus an unsafe RUST_LOG set_var, not the sink path. Both descriptors were transcribed from the audit proposals text one step earlier in this same session, so the phrasing propagated author-to-author without anyone reading the code"
+   ]
+  },
+  {
+   "key": "phase/research/input.extract-signal-gap",
+   "skill": "phase",
+   "step": "research",
+   "type": "input.extract-signal-gap",
+   "n": 1,
+   "weight": 1,
+   "rate": 0.17,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-20-verifier-self-hardening"
+   ],
+   "impact": {
+    "extra_reads": 2
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-20T20:53:20Z-b"
+   ],
+   "whats": [
+    "the obs extract asserted that obs-plan \u00a74 cli row requires manual #[tracing::instrument] on fn main() and core scenario handlers, which would have made the unused-tracing rider a spec breach and forced an operator fork; grepping obs-plan showed the cli row (:48) names only the tracing crate plus a tracing-subscriber JSON formatter, and every #[tracing::instrument] mandate sits on the desktop-webview (:49) and ipc-internal (:50) rows about #[tauri::command] handlers \u2014 a mis-citation onto a different surface, not an absence, and conductor-cli satisfies its actual row through conductor_core::init_observability at main.rs:28"
+   ]
+  },
+  {
+   "key": "phase/plan/contract.narrow-basis-claim",
+   "skill": "phase",
+   "step": "plan",
+   "type": "contract.narrow-basis-claim",
+   "n": 1,
+   "weight": 1,
+   "rate": 0.17,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-20-verifier-self-hardening"
+   ],
+   "impact": {
+    "extra_reads": 2
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-20T20:59:01Z-b"
+   ],
+   "whats": [
+    "two claims the code-audit makes about its OWN artifacts failed re-derivation against those artifacts: \u00a7B1 introduces its table as all 28 survivors but enumerates 27, omitting :206:5 observe_run_contract -> Default::default() (the wrapper of the declares family it was describing); and \u00a7B3 states the --test-tool=nextest re-run is recorded in both c-mutation-*.json command fields, where those fields read cargo mutants -p CRATE --output ... --jobs 2 with no such flag, so replaying the recorded form reproduces the cargo test abort rather than the scores. Both surfaced only by reading the JSON the prose cites"
+   ]
+  },
+  {
+   "key": "phase/plan/input.research-thin",
+   "skill": "phase",
+   "step": "plan",
+   "type": "input.research-thin",
+   "n": 1,
+   "weight": 1,
+   "rate": 0.17,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-20-verifier-self-hardening"
+   ],
+   "impact": {
+    "extra_reads": 4
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-20T20:59:01Z-c"
+   ],
+   "whats": [
+    "research carried the right file list and closed all three premises but never enumerated the survivor families from the authoritative c-mutation-*.json, inheriting the counts from the scope table instead; synthesis needed four extra reads (declares enclosing fn, conductor-run public surface, the audit mutation command, the full survivor lists) and the JSON then corrected declares 5 to 6 and MAX_LINE_BYTES 3 to 5 \u2014 the latter changing the test design, since only an at-limit-accepted case kills the two constant-expression mutants"
+   ]
+  },
+  {
+   "key": "implement/code/input.research-files-wrong",
+   "skill": "implement",
+   "step": "code",
+   "type": "input.research-files-wrong",
+   "n": 1,
+   "weight": 1,
+   "rate": 0.2,
+   "step_runs": 5,
+   "chunks": [
+    "2026-08-20-verifier-self-hardening"
+   ],
+   "impact": {
+    "extra_reads": 6
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-20T21:14:37Z-b"
+   ],
+   "whats": [
+    "research and the plan named crates/conductor-run/tests/* and a new tests/jsonrpc_line_bound.rs as the homes for all five killing-test families, but visibility decides reachability and was never checked: JsonRpcSession is pub(crate) (reachable only because ReadbackClient::connect_transport happens to be pub), while declares/observe_run_contract and execute_scenario are reachable only in-crate because Preflight has no public constructor \u2014 lib.rs already carries a blocked_preflight() helper and four execute_scenario/drive_run tests inside its own cfg(test) module for exactly that reason"
+   ]
+  },
+  {
+   "key": "phase/plan/contract.premise-falsified",
+   "skill": "phase",
+   "step": "plan",
+   "type": "contract.premise-falsified",
+   "n": 1,
+   "weight": 1,
+   "rate": 0.17,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-20-read-back-seam-survivors-closed"
+   ],
+   "impact": {
+    "dialogue_rounds": 0
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-20T22:41:06Z-b"
+   ],
+   "whats": [
+    "The taken-up CARRY states the id-counter kill must break response-to-request CORRELATION, not just arithmetic. Discovered at P3 and resolved at P4: against the shipped stub, which ECHOES the id it received (tests/common/mod.rs:145), correlation CANNOT break under either mutant - -= sends id 0 and is answered with id 0, *= sends id 1 and is answered with id 1, both pairing correctly - so the literal mechanism the CARRY names kills neither. Resolved keep-the-goal-change-the-mechanism: a recorded id-SEQUENCE assertion is load-bearing (kills both), with a stale-decoy line added as the semantic correlation complement (kills *= only)."
+   ]
+  },
+  {
+   "key": "wrap-session/report/tooling.host-shell",
+   "skill": "wrap-session",
+   "step": "report",
+   "type": "tooling.host-shell",
+   "n": 1,
+   "weight": 1,
+   "rate": 0.17,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-20-read-back-seam-survivors-closed"
+   ],
+   "impact": {},
+   "above_threshold": false,
+   "ids": [
+    "2026-08-20T23:07:08Z-b"
+   ],
+   "whats": [
+    "An existence probe written as ls A B || echo not-ready printed the not-ready branch even though A existed, because ls exits non-zero on the MISSING second path. Third distinct shell-probe misfire this session (after the unset-variable redirect and the empty-grep-pattern), all the same family: a shell default turning a partially-true probe into a wrong-but-successful-looking answer. Caught immediately here because the existing path was printed on the line above."
+   ]
+  },
+  {
+   "key": "wrap-session/route-resolve/contract.carry-no-owner",
+   "skill": "wrap-session",
+   "step": "route-resolve",
+   "type": "contract.carry-no-owner",
+   "n": 1,
+   "weight": 1,
+   "rate": 0.12,
+   "step_runs": 8,
+   "chunks": [
+    "2026-08-20-read-back-seam-survivors-closed"
+   ],
+   "impact": {},
+   "above_threshold": false,
+   "ids": [
+    "2026-08-20T23:20:53Z-b"
+   ],
+   "whats": [
+    "The two surviving mutation TIMEOUTs are an in-version follow-up whose owner is the next boundary code AUDIT - an operator instrument, not a route entry - so there is no markerless entry to pin a CARRY to, and residuals.md is scoped to future-VERSION follow-ups. Routed to the handoff as an audit-ledger item, following the precedent the previous wrap set for the same shape (that wrap parked three such items the same way). Second occurrence: the route grammar has no slot for work owned by an instrument rather than by an entry."
+   ]
+  },
+  {
+   "key": "phase/research/contract.narrow-basis-claim",
+   "skill": "phase",
+   "step": "research",
+   "type": "contract.narrow-basis-claim",
+   "n": 1,
+   "weight": 1,
+   "rate": 0.17,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-21-severity-lifecycle-live-proof"
+   ],
+   "impact": {
+    "extra_reads": 1
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-21T09:12:00Z-b"
+   ],
+   "whats": [
+    "a caller-count claim (rows: 10) was authored into research.md from a tail-truncated query printout instead of the trace rows field; re-derivation read 7"
+   ]
+  },
+  {
+   "key": "implement/code/input.plan-step-ambiguous",
+   "skill": "implement",
+   "step": "code",
+   "type": "input.plan-step-ambiguous",
+   "n": 1,
+   "weight": 1,
+   "rate": 0.2,
+   "step_runs": 5,
+   "chunks": [
+    "2026-08-21-per-check-latency-measurement"
+   ],
+   "impact": {
+    "extra_reads": 1
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-21T10:57:18Z-b"
+   ],
+   "whats": [
+    "Plan step 2 specified the budget-vs-tier invariant as a #[garde(custom(...))] on Scenario::expected, but garde 0.22.1's field-level custom receives only (&field, &()) and cannot see the sibling slo_tier field, so the rule structurally cannot be a garde validator; shipped instead as Scenario::check_budgets() called from from_toml_str, the exact shape of its structural sibling check_capabilities"
+   ]
+  },
+  {
+   "key": "wrap-session/curation/recall.dedup-vs-cascade",
+   "skill": "wrap-session",
+   "step": "curation",
+   "type": "recall.dedup-vs-cascade",
+   "n": 1,
+   "weight": 1,
+   "rate": 0.12,
+   "step_runs": 8,
+   "chunks": [
+    "2026-08-21-per-check-latency-measurement"
+   ],
+   "impact": {
+    "extra_reads": 2
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-21T11:22:40Z-b"
+   ],
+   "whats": [
+    "Two of six candidates were rejected as duplicates specifically because THIS wrap's own cascade had just written the same facts into rule-file generated BODIES (rules/security.md gained the garde-sibling rule, rules/verification-harness.md the cleanup table list) minutes earlier in the same run \u2014 so the dedup pass had to treat freshly-cascaded body text as an existing entry, which is exactly the DEDUP-REJECT-ONLY scope the filter carves out"
+   ]
+  },
+  {
+   "key": "wrap-session/gates/tooling.commit-mechanics",
+   "skill": "wrap-session",
+   "step": "gates",
+   "type": "tooling.commit-mechanics",
+   "n": 1,
+   "weight": 1,
+   "rate": 0.14,
+   "step_runs": 7,
+   "chunks": [],
+   "impact": {
+    "extra_reads": 0
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-21T17:24:49Z-b"
+   ],
+   "whats": [
+    "Setup creates the wrap run dir unconditionally, but the 0-pending path writes no artifact into it (fanout-results.md is P2's, and P2 does not run) \u2014 git cannot stage an empty directory, so the run dir silently would not have existed in the commit at all, leaving that wrap with no audit trail under .andromeda/runs/"
+   ]
+  },
+  {
+   "key": "phase/research/input.cookbook-gap",
+   "skill": "phase",
+   "step": "research",
+   "type": "input.cookbook-gap",
+   "n": 1,
+   "weight": 1,
+   "rate": 0.17,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-21-delegated-timing-budgets-proven"
+   ],
+   "impact": {
+    "extra_reads": 2
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-21T18:01:46Z-b"
+   ],
+   "whats": [
+    "A canonical IMPACT query on calls for effective_deadline_ms returned 0 rows at db_state fresh; the cookbook-prescribed Q4 re-probe CONFIRMED the symbol is indexed, which by the cookbook makes 0 rows a real leaf finding \u2014 but a grep cross-check found a genuine production caller at conductor-verify/src/slo.rs:84 inside evaluate_check. The calls edge is simply absent from a fresh rust-plane DB. The cookbook reading protocol names only two cases (confirmed-indexed = real finding, or index gap = symbol absent) and has no third case for symbol-indexed-but-edge-missing, so following it exactly would have yielded a false leaf conclusion on the very symbol this chunk turns on."
+   ]
+  },
+  {
+   "key": "wrap-session/reconcile/contract.structural-blind-spot",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "type": "contract.structural-blind-spot",
+   "n": 1,
+   "weight": 1,
+   "rate": 0.17,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-21-delegated-timing-budgets-proven"
+   ],
+   "impact": {
+    "halted": 0
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-21T19:14:51Z-b"
+   ],
+   "whats": [
+    "drift-base ships derived-count detectors for layout-templates, test-plan and design-system but NOT for obs-plan or architecture, so an amendment that moves a count in either of those masters is invisible to the fan-out by construction. This chunk moved counts in BOTH: the arch declare-only family count (SEVEN->EIGHT, caught only because the report author listed it in the Counts/qualifiers-moved bullet) and, transiently, the obs-plan \u00a74 critical-path count (caught only by the cascade leaf-recompute against .claude/rules/observability.md:26). No amount of correct detector execution would have surfaced either."
+   ]
+  },
+  {
+   "key": "phase/take-up/input.working-entry-thin",
+   "skill": "phase",
+   "step": "take-up",
+   "type": "input.working-entry-thin",
+   "n": 1,
+   "weight": 1,
+   "rate": 0.17,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-22-operator-pause-and-checklist-live-firing"
+   ],
+   "impact": {
+    "extra_reads": 1
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-22T09:37:13Z-b"
+   ],
+   "whats": [
+    "Both the working entry and the v2-29 matrix acceptance say the count freezes without naming a surface; the answer (the CLI suite spinner, since commands/run.rs passes spinner None and only commands/suite.rs passes Some) came from a codebase trace during scope expansion rather than from either stated artifact."
+   ]
+  },
+  {
+   "key": "wrap-session/report/recall.change-reconstruction",
+   "skill": "wrap-session",
+   "step": "report",
+   "type": "recall.change-reconstruction",
+   "n": 1,
+   "weight": 1,
+   "rate": 0.17,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-22-operator-pause-and-checklist-live-firing"
+   ],
+   "impact": {
+    "extra_reads": 2
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-22T12:19:45Z-b"
+   ],
+   "whats": [
+    "The Counts/qualifiers bullet could not be filled from session knowledge: asserting none required proving that no master, rule file or doc bakes a workspace test total (the chunk moved it 730 -> 746), plus re-reading architecture.md Conventions to confirm its No committed scenario TOML declares one clause scopes to budget_ms rather than to declarative keys generally. Two greps to convert a bare none into the templates required none \u2014 verified form."
+   ]
+  },
+  {
+   "key": "wrap-session/reconcile/contract.narrow-basis-claim",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "type": "contract.narrow-basis-claim",
+   "n": 1,
+   "weight": 1,
+   "rate": 0.17,
+   "step_runs": 6,
+   "chunks": [
+    "2026-08-22-operator-pause-and-checklist-live-firing"
+   ],
+   "impact": {
+    "extra_reads": 1
+   },
+   "above_threshold": false,
+   "ids": [
+    "2026-08-22T12:35:53Z-b"
+   ],
+   "whats": [
+    "THIRD under-count of the same enumeration this session, and the first caught by something other than a human re-derivation. The plan Expected-amendments table set a 17-site coverage floor for the obs-plan sink axis, built from two case-insensitive patterns (pretty, stdout). The obs detector found 21: lines 80, 203, 489 and 492 state the same false premise as stderr (dev only) for the Tauri backend, a third wording containing NEITHER pattern, so both greps were structurally blind to it. The floor behaved correctly as a MINIMUM and the semantic reader exceeded it. Root shape unchanged from the two earlier instances: a pattern-built count is bounded by the author imagination of how a claim can be phrased."
+   ]
+  }
+ ],
+ "universal_by_type": [
+  {
+   "type": "tooling.host-shell",
+   "n": 13,
+   "weight": 27,
+   "steps": [
+    "implement/fix-loop",
+    "new-session/orientation",
+    "phase/research",
+    "phase/take-up",
+    "wrap-session/curation",
+    "wrap-session/gates",
+    "wrap-session/report",
+    "wrap-session/route-resolve"
+   ],
+   "chunks": [
+    "2026-08-20-read-back-seam-survivors-closed",
+    "2026-08-20-verifier-self-hardening",
+    "2026-08-21-delegated-timing-budgets-proven",
+    "2026-08-21-per-check-latency-measurement",
+    "2026-08-22-operator-pause-and-checklist-live-firing"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-08-20T20:20:57Z-c",
+    "2026-08-20T20:38:28Z-c",
+    "2026-08-20T20:53:20Z-c",
+    "2026-08-20T22:24:00Z-b",
+    "2026-08-20T22:58:46Z-b",
+    "2026-08-20T22:58:46Z-c",
+    "2026-08-20T23:07:08Z-b",
+    "2026-08-21T10:11:12Z-c",
+    "2026-08-21T10:19:56Z-b",
+    "2026-08-21T10:57:18Z-f",
+    "2026-08-21T11:26:10Z-b",
+    "2026-08-21T18:20:31Z-b",
+    "2026-08-22T12:39:40Z-b"
+   ],
+   "whats": [
+    "python stdout defaulted to cp1252 on this host, so printing the applied route text back for verification raised UnicodeEncodeError on U+2193 and truncated the check mid-loop; the atomic write itself was unaffected (explicit encoding=utf-8)",
+    "writing scope.md through a quoted bash heredoc failed with unexpected EOF while looking for matching single quote despite the delimiter being quoted; the markdown body (inline code spans, escaped table pipes, apostrophes) tripped the shell parser and nothing partial was written",
+    "the premise-closing measurement ran as cargo test ... | tail -40, so the reported exit code was tail_s (0) rather than cargo_s; the background-task notification announced exit code 0 for a run whose test actually FAILED, which read as the exact opposite of the truth until the captured output was opened and the pipeline semantics recognised",
+    "A quoted heredoc (<<QUOTED-EOF) carrying ~105 lines of markdown into cat > scope.md aborted at parse time with unexpected EOF while looking for matching single-quote and wrote nothing; the terminator was not recognised, so the body consumed the rest of the command list. Same-shell python heredocs of similar size parsed fine immediately before and after.",
+    "The first mutation-gate launch redirected to an UNSET shell variable. With no set -u, the shell expanded it to empty and the redirect became /mutants.log, which failed Permission denied - so cargo-mutants never started while the background task still reported a normal failed-command completion. Caught from the output text, relaunched against the literal scratchpad path.",
+    "The five-survivor verification built its grep pattern through a command substitution whose sed failed on an unterminated expression. The substitution yielded EMPTY, so grep -qF matched every line unconditionally and the check printed CAUGHT for all five while having tested nothing - a VACUOUS all-pass. Visible only because sed printed its own error beside the green lines. Re-verified with literal patterns against caught.txt (lines 5/6/8/34/35) and against an empty missed.txt.",
+    "An existence probe written as ls A B || echo not-ready printed the not-ready branch even though A existed, because ls exits non-zero on the MISSING second path. Third distinct shell-probe misfire this session (after the unset-variable redirect and the empty-grep-pattern), all the same family: a shell default turning a partially-true probe into a wrong-but-successful-looking answer. Caught immediately here because the existing path was printed on the line above.",
+    "The prescribed printf '%s' append collapsed doubled backslashes to single ones inside the record payload, so a regex quoted in the what-field became invalid JSON escapes and the line did not parse; the failed partial write was dropped and the record re-appended through a UTF-8 json.dumps writer instead",
+    "A cat heredoc with a single-quoted delimiter carrying a ~110-line Markdown document (backticks, pipe tables, apostrophes) failed at bash parse time with unexpected EOF while looking for a matching quote; the whole compound command aborted before its leading mkdir ran, so no partial file was left and the document was re-authored through the Write tool",
+    "A scratchpad python .replace pass silently NO-MATCHED twice on multi-line call sites (RunReport::render's own body, and the trailing-comma '], &OK_ENV,' form), reporting success while leaving the edits unmade; both were caught only by the next cargo check, and str.replace has no failure mode to detect",
+    "A clippy gate probe captured grep's exit status instead of clippy's (`cargo clippy ... | grep -cE '^(error|warning)'; echo $?` reports 1 when grep finds ZERO matches \u2014 the healthy outcome), so a green gate momentarily read as exit 1; re-run bare with output to /dev/null it returned true exit 0",
+    "The PREREQ auto-satisfy signature turns on cargo audit exiting exactly 1, but the first probe ran it piped into head, so the captured $? was the exit of head (0) and printed AUDIT_EXIT=0 \u2014 a value that reads as a DEVIATION from the pinned signature and would have needlessly restored the full re-check form, or mis-reported the probe outcome. Re-derived by capturing the output into a variable and reading $? before any pipe: true exit 1 with the byte-exact diagnostic, so the probe auto-satisfied as the 37th consecutive. Shell semantics, not a cargo behaviour: $? after a pipeline reports the LAST stage.",
+    "Host-shell escape semantics bit twice in one step, in opposite directions, on the same Windows path literal. Writing: a quoted heredoc still collapsed the doubled backslashes so Python saw an invalid escape sequence \u2014 fixed by moving the write to a scratchpad file authored with the Write tool. Verifying: the read-back grep pattern was passed unquoted-for-BRE so GNU grep interpreted the W, S and b escapes as classes rather than literals, returning ZERO matches against a file that did contain the string \u2014 a FALSE NEGATIVE that would have read as a failed write. Settled with grep -F. The in-script read-back assertion, which never passed through a shell pattern, was the check that was actually trustworthy."
+   ]
+  },
+  {
+   "type": "contract.narrow-basis-claim",
+   "n": 6,
+   "weight": 15,
+   "steps": [
+    "new-session/orientation",
+    "phase/plan",
+    "phase/research",
+    "phase/take-up",
+    "phase/validate",
+    "wrap-session/reconcile"
+   ],
+   "chunks": [
+    "2026-08-20-verifier-self-hardening",
+    "2026-08-21-delegated-timing-budgets-proven",
+    "2026-08-21-severity-lifecycle-live-proof",
+    "2026-08-22-operator-pause-and-checklist-live-firing"
+   ],
+   "above_threshold": true,
+   "ids": [
+    "2026-08-20T17:37:44Z-b",
+    "2026-08-20T20:59:01Z-b",
+    "2026-08-21T09:12:00Z-b",
+    "2026-08-21T17:48:55Z-b",
+    "2026-08-22T10:46:19Z-b",
+    "2026-08-22T12:35:53Z-b"
+   ],
+   "whats": [
+    "Coverage was first computed against a guessed matrix schema path and returned verified=0 of 32; caught only because the handoff independently stated 17/32, then re-derived from the real path (status nested inside verification)",
+    "two claims the code-audit makes about its OWN artifacts failed re-derivation against those artifacts: \u00a7B1 introduces its table as all 28 survivors but enumerates 27, omitting :206:5 observe_run_contract -> Default::default() (the wrapper of the declares family it was describing); and \u00a7B3 states the --test-tool=nextest re-run is recorded in both c-mutation-*.json command fields, where those fields read cargo mutants -p CRATE --output ... --jobs 2 with no such flag, so replaying the recorded form reproduces the cargo test abort rather than the scores. Both surfaced only by reading the JSON the prose cites",
+    "a caller-count claim (rows: 10) was authored into research.md from a tail-truncated query printout instead of the trace rows field; re-derivation read 7",
+    "Stated the three Pulse frontend timing procedures had NO production callers, from a grep whose include-set surfaced only crates/ui-bridge/src/telemetry.rs; a broader UI-tree search then found real call sites (ConstellationCanvas.tsx:106 and :152, use-findings.ts:58) reached through a camelCase TS wrapper layer (frame-metrics.ts) the first pattern could not match. The absence claim would have inverted the chunk premise had it reached scope.",
+    "The Expected-amendments site enumeration was stated too narrowly TWICE, by two different mechanisms, and neither would have surfaced without an independent re-derivation. (1) The pretty axis was authored as two sections from a pattern requiring the literal string pretty-print, which missed the site wording it pretty in dev; the operator corrected it to three, and a case-insensitive sweep then showed six, because two further hits the grep DID return were dropped without disposition. (2) The stdout axis was offered as six sites and the sweep found a seventh, the section 12 Decisions Log exporter line, which is the decisions-of-record entry for the sink. Root shape: a site count inherits the narrowness of the pattern that produced it, and hits a pattern returns still need an explicit disposition rather than silent filtering. Settled by sweeping case-insensitively across synonyms over seven documents plus the source and dispositioning all 17 obs-plan hits including the eleven needing no change.",
+    "THIRD under-count of the same enumeration this session, and the first caught by something other than a human re-derivation. The plan Expected-amendments table set a 17-site coverage floor for the obs-plan sink axis, built from two case-insensitive patterns (pretty, stdout). The obs detector found 21: lines 80, 203, 489 and 492 state the same false premise as stderr (dev only) for the Tauri backend, a third wording containing NEITHER pattern, so both greps were structurally blind to it. The floor behaved correctly as a MINIMUM and the semantic reader exceeded it. Root shape unchanged from the two earlier instances: a pattern-built count is bounded by the author imagination of how a claim can be phrased."
+   ]
+  },
+  {
+   "type": "contract.premise-falsified",
+   "n": 2,
+   "weight": 4,
+   "steps": [
+    "phase/plan",
+    "wrap-session/route-resolve"
+   ],
+   "chunks": [
+    "2026-08-20-read-back-seam-survivors-closed"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-08-20T20:20:57Z-b",
+    "2026-08-20T22:41:06Z-b"
+   ],
+   "whats": [
+    "three dictated coordinates in the operator route directive drifted from their source artifact and were corrected before landing: the audit-pin ordinal (dictated 34th; the chain says 33rd \u2014 the last report discharged the 32nd and the ordinal numbers the forthcoming probe, not the entry it sits on), the declares survivor scope (dictated every preflight precondition reads through it; B1 says a NAMED precondition), and the B3 runner-portability cause (dictated as fact; B3 ranks the process-global-sink shape SUSPECTED-not-proven)",
+    "The taken-up CARRY states the id-counter kill must break response-to-request CORRELATION, not just arithmetic. Discovered at P3 and resolved at P4: against the shipped stub, which ECHOES the id it received (tests/common/mod.rs:145), correlation CANNOT break under either mutant - -= sends id 0 and is answered with id 0, *= sends id 1 and is answered with id 1, both pairing correctly - so the literal mechanism the CARRY names kills neither. Resolved keep-the-goal-change-the-mechanism: a recorded id-SEQUENCE assertion is load-bearing (kills both), with a stale-decoy line added as the semantic correlation complement (kills *= only)."
+   ]
+  },
+  {
+   "type": "contract.structural-blind-spot",
+   "n": 1,
+   "weight": 1,
+   "steps": [
+    "wrap-session/reconcile"
+   ],
+   "chunks": [
+    "2026-08-21-delegated-timing-budgets-proven"
+   ],
+   "above_threshold": false,
+   "ids": [
+    "2026-08-21T19:14:51Z-b"
+   ],
+   "whats": [
+    "drift-base ships derived-count detectors for layout-templates, test-plan and design-system but NOT for obs-plan or architecture, so an amendment that moves a count in either of those masters is invisible to the fan-out by construction. This chunk moved counts in BOTH: the arch declare-only family count (SEVEN->EIGHT, caught only because the report author listed it in the Counts/qualifiers-moved bullet) and, transiently, the obs-plan \u00a74 critical-path count (caught only by the cascade leaf-recompute against .claude/rules/observability.md:26). No amount of correct detector execution would have surfaced either."
+   ]
+  }
+ ]
+}

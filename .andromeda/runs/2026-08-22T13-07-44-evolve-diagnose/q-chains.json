@@ -1,0 +1,751 @@
+{
+ "anchors": [
+  {
+   "kind": "friction",
+   "id": "2026-08-20T20:12:25Z-c",
+   "chunk": null,
+   "consumer": "new-session/orientation",
+   "artifact": null,
+   "what": "handoff declares Status: clean while the tree carries 5 entries \u2014 2 documented expected-transient (friction-log append, handoff Session-End rewrite) and 3 post-wrap founder-invoked outputs the session-state contract does not name (code-metrics.ndjson, an evolve-diagnose run dir, a code-audit run dir, all stamped after the 17:28 wrap)",
+   "artifacts": [
+    ".claude/session-handoff.md",
+    ".andromeda/runs/2026-08-20T17-40-34-evolve-diagnose",
+    ".andromeda/runs/2026-08-20T18-06-29-code-audit",
+    ".andromeda/code-metrics.ndjson"
+   ]
+  },
+  {
+   "kind": "friction",
+   "id": "2026-08-20T20:38:28Z-b",
+   "chunk": "2026-08-20-verifier-self-hardening",
+   "consumer": "phase/take-up",
+   "artifact": null,
+   "what": "the CARRY located every work item correctly but described two of them wrongly, caught only by reading source: the preflight.rs:335 family is a retry last-attempt guard (poll_canary computes no deadline at all) not poll-deadline arithmetic, which changes the killing shape from an outcome assertion to a timing one; and the prescribed per-test temp obs sink is ALREADY present in the failing test, so the real cause is the process-global subscriber (first-install-wins) plus an unsafe RUST_LOG set_var, not the sink path. Both descriptors were transcribed from the audit proposals text one step earlier in this same session, so the phrasing propagated author-to-author without anyone reading the code",
+   "artifacts": [
+    "conductor-0.2.0/working-route.md",
+    "conductor-0.2.0/chunks/2026-08-20-verifier-self-hardening/scope.md",
+    "crates/conductor-verify/src/preflight.rs",
+    "crates/conductor-run/tests/canary_wire.rs"
+   ]
+  },
+  {
+   "kind": "friction",
+   "id": "2026-08-20T20:48:19Z-b",
+   "chunk": "2026-08-20-verifier-self-hardening",
+   "consumer": "phase/distill",
+   "artifact": null,
+   "what": "the tests distiller found cargo-mutants registered nowhere in test-plan (\u00a74 tool inventory and floors policy, \u00a79 pipeline stages, \u00a710 gates, \u00a712 decisions log all silent), so the chunk operator-set acceptance instrument \u2014 a scoped mutation re-run with --test-tool=nextest and stub_pulse_mcp excluded \u2014 is an out-of-plan tool; whether it becomes a standing gate is a wrap-time plan-amendment question the extract correctly declined to assume",
+   "artifacts": [
+    ".andromeda/test-plan.md",
+    ".andromeda/runs/2026-08-20T20-30-00-phase/tests.md"
+   ]
+  },
+  {
+   "kind": "friction",
+   "id": "2026-08-20T20:53:20Z-b",
+   "chunk": "2026-08-20-verifier-self-hardening",
+   "consumer": "phase/research",
+   "artifact": null,
+   "what": "the obs extract asserted that obs-plan \u00a74 cli row requires manual #[tracing::instrument] on fn main() and core scenario handlers, which would have made the unused-tracing rider a spec breach and forced an operator fork; grepping obs-plan showed the cli row (:48) names only the tracing crate plus a tracing-subscriber JSON formatter, and every #[tracing::instrument] mandate sits on the desktop-webview (:49) and ipc-internal (:50) rows about #[tauri::command] handlers \u2014 a mis-citation onto a different surface, not an absence, and conductor-cli satisfies its actual row through conductor_core::init_observability at main.rs:28",
+   "artifacts": [
+    ".andromeda/runs/2026-08-20T20-30-00-phase/obs.md",
+    ".andromeda/obs-plan.md",
+    "crates/conductor-cli/src/main.rs"
+   ]
+  },
+  {
+   "kind": "friction",
+   "id": "2026-08-20T20:59:01Z-c",
+   "chunk": "2026-08-20-verifier-self-hardening",
+   "consumer": "phase/plan",
+   "artifact": null,
+   "what": "research carried the right file list and closed all three premises but never enumerated the survivor families from the authoritative c-mutation-*.json, inheriting the counts from the scope table instead; synthesis needed four extra reads (declares enclosing fn, conductor-run public surface, the audit mutation command, the full survivor lists) and the JSON then corrected declares 5 to 6 and MAX_LINE_BYTES 3 to 5 \u2014 the latter changing the test design, since only an at-limit-accepted case kills the two constant-expression mutants",
+   "artifacts": [
+    "conductor-0.2.0/chunks/2026-08-20-verifier-self-hardening/research.md",
+    "conductor-0.2.0/chunks/2026-08-20-verifier-self-hardening/scope.md"
+   ]
+  },
+  {
+   "kind": "friction",
+   "id": "2026-08-20T21:14:37Z-b",
+   "chunk": "2026-08-20-verifier-self-hardening",
+   "consumer": "implement/code",
+   "artifact": null,
+   "what": "research and the plan named crates/conductor-run/tests/* and a new tests/jsonrpc_line_bound.rs as the homes for all five killing-test families, but visibility decides reachability and was never checked: JsonRpcSession is pub(crate) (reachable only because ReadbackClient::connect_transport happens to be pub), while declares/observe_run_contract and execute_scenario are reachable only in-crate because Preflight has no public constructor \u2014 lib.rs already carries a blocked_preflight() helper and four execute_scenario/drive_run tests inside its own cfg(test) module for exactly that reason",
+   "artifacts": [
+    "conductor-0.2.0/chunks/2026-08-20-verifier-self-hardening/research.md",
+    "crates/conductor-run/src/lib.rs",
+    "crates/conductor-verify/src/jsonrpc.rs"
+   ]
+  },
+  {
+   "kind": "friction",
+   "id": "2026-08-20T21:14:37Z-c",
+   "chunk": "2026-08-20-verifier-self-hardening",
+   "consumer": "implement/code",
+   "artifact": null,
+   "what": "the paused-clock step could not compile until conductor-verify gained tokio test-util in dev-dependencies; neither plan nor research named it, and the convention was recovered by reading the two crates that already use start_paused (conductor-run and conductor-core both list test-util in their dev-dependency feature sets)",
+   "artifacts": [
+    "crates/conductor-verify/Cargo.toml"
+   ]
+  },
+  {
+   "kind": "friction",
+   "id": "2026-08-20T22:30:45Z-b",
+   "chunk": "2026-08-20-read-back-seam-survivors-closed",
+   "consumer": "phase/distill",
+   "artifact": null,
+   "what": "The tests extract faithfully reported test-plan 5/8 as mandating the MCP sidecar be exercised through an injected rmcp stub transport, while the arch extract reported the 2026-06-27 decision REVERSAL that removed rmcp entirely for a hand-rolled JSON-RPC client. The distiller was correct to state its plan mandate; the spec source names a mechanism that no longer exists. Already owned by the Epoch-5 working-route entry whose text says with the stale rmcp wording reconciled, so not newly deferred and not fixable here (phase is read-only on specs).",
+   "artifacts": [
+    ".andromeda/test-plan.md",
+    ".andromeda/runs/2026-08-20T22-17-49-phase/tests.md",
+    ".andromeda/runs/2026-08-20T22-17-49-phase/arch.md"
+   ]
+  },
+  {
+   "kind": "friction",
+   "id": "2026-08-21T10:57:18Z-b",
+   "chunk": "2026-08-21-per-check-latency-measurement",
+   "consumer": "implement/code",
+   "artifact": null,
+   "what": "Plan step 2 specified the budget-vs-tier invariant as a #[garde(custom(...))] on Scenario::expected, but garde 0.22.1's field-level custom receives only (&field, &()) and cannot see the sibling slo_tier field, so the rule structurally cannot be a garde validator; shipped instead as Scenario::check_budgets() called from from_toml_str, the exact shape of its structural sibling check_capabilities",
+   "artifacts": [
+    "crates/conductor-core/src/scenario.rs"
+   ]
+  },
+  {
+   "kind": "friction",
+   "id": "2026-08-21T10:57:18Z-c",
+   "chunk": "2026-08-21-per-check-latency-measurement",
+   "consumer": "implement/code",
+   "artifact": null,
+   "what": "Two conventions the plan and research did not state had to be read from neighbouring code: CoreError::Validation is #[from] garde::Report and cannot carry a hand-written message (so the budget fault uses CoreError::Config, matching check_capabilities), and conductor-report does not depend on serde directly, so a generic wire_as_value helper would not compile and the three enum conversions were inlined the way into_record already does it",
+   "artifacts": [
+    "crates/conductor-core/src/error.rs",
+    "crates/conductor-report/src/db.rs"
+   ]
+  },
+  {
+   "kind": "friction",
+   "id": "2026-08-21T18:01:46Z-b",
+   "chunk": "2026-08-21-delegated-timing-budgets-proven",
+   "consumer": "phase/research",
+   "artifact": null,
+   "what": "A canonical IMPACT query on calls for effective_deadline_ms returned 0 rows at db_state fresh; the cookbook-prescribed Q4 re-probe CONFIRMED the symbol is indexed, which by the cookbook makes 0 rows a real leaf finding \u2014 but a grep cross-check found a genuine production caller at conductor-verify/src/slo.rs:84 inside evaluate_check. The calls edge is simply absent from a fresh rust-plane DB. The cookbook reading protocol names only two cases (confirmed-indexed = real finding, or index gap = symbol absent) and has no third case for symbol-indexed-but-edge-missing, so following it exactly would have yielded a false leaf conclusion on the very symbol this chunk turns on.",
+   "artifacts": [
+    "scripts/code-graph-cookbook.md",
+    ".andromeda/cache/rust/tree.db",
+    "crates/conductor-verify/src/slo.rs"
+   ]
+  },
+  {
+   "kind": "friction",
+   "id": "2026-08-22T09:37:13Z-b",
+   "chunk": "2026-08-22-operator-pause-and-checklist-live-firing",
+   "consumer": "phase/take-up",
+   "artifact": null,
+   "what": "Both the working entry and the v2-29 matrix acceptance say the count freezes without naming a surface; the answer (the CLI suite spinner, since commands/run.rs passes spinner None and only commands/suite.rs passes Some) came from a codebase trace during scope expansion rather than from either stated artifact.",
+   "artifacts": [
+    "conductor-0.2.0/working-route.md",
+    "conductor-0.2.0/verification-matrix.json",
+    "crates/conductor-cli/src/commands/suite.rs",
+    "crates/conductor-cli/src/commands/run.rs"
+   ]
+  },
+  {
+   "kind": "friction",
+   "id": "2026-08-22T09:56:44Z-b",
+   "chunk": "2026-08-22-operator-pause-and-checklist-live-firing",
+   "consumer": "phase/plan",
+   "artifact": null,
+   "what": "a11y and tests pull opposite ways on the webview checklist surface and P2 aggregate check C did not catch it: a11y-plan names the operator-checklist a must-be-accessible path with a mandated shape, while test-plan \u00a75 defers the webview render leg to the Epoch-9 tauri-driver chunk and the axe/wdio harness is display-gated to Linux+xvfb, so it cannot run on this host. Not a content contradiction but an ownership/scheduling one, invisible to a reciprocity check because each extract is internally consistent. Resolved at synthesis by separating the claim from the verification: v2-29 method is manual, so the operator confirms the render and no WCAG conformance is claimed, leaving the machine a11y verification owed exactly as it already was.",
+   "artifacts": [
+    ".andromeda/runs/2026-08-22T09-40-00Z-phase/a11y.md",
+    ".andromeda/runs/2026-08-22T09-40-00Z-phase/tests.md",
+    "conductor-0.2.0/chunks/2026-08-22-operator-pause-and-checklist-live-firing/plan.md"
+   ]
+  },
+  {
+   "kind": "step-consumed",
+   "id": "2026-08-20T20:48:19Z-a",
+   "chunk": "2026-08-20-verifier-self-hardening",
+   "consumer": "phase/distill",
+   "artifact": "spec:test-plan",
+   "quality": "thin",
+   "note": "formally adequate, but carries no registration for cargo-mutants \u2014 the tool this chunk acceptance depends on is absent from \u00a74 tool inventory, \u00a79 pipeline, \u00a710 gates and \u00a712 decisions"
+  },
+  {
+   "kind": "step-consumed",
+   "id": "2026-08-20T20:59:01Z-a",
+   "chunk": "2026-08-20-verifier-self-hardening",
+   "consumer": "phase/plan",
+   "artifact": "research",
+   "quality": "thin",
+   "note": "file list and premise closures were right, but it took the scope table survivor counts on trust instead of enumerating from the authoritative c-mutation-*.json \u2014 four extra reads at synthesis, and the JSON then corrected two family sizes"
+  },
+  {
+   "kind": "step-consumed",
+   "id": "2026-08-20T21:14:37Z-a",
+   "chunk": "2026-08-20-verifier-self-hardening",
+   "consumer": "implement/code",
+   "artifact": "plan",
+   "quality": "wrong",
+   "note": "steps 3 and 7 prescribe locations that are provably unreachable: they name new integration-test files driving readiness()/execute_scenario, but conductor-run exposes no command-injection seam and Preflight has no public constructor, so neither is drivable from outside the crate"
+  },
+  {
+   "kind": "step-consumed",
+   "id": "2026-08-20T21:14:37Z-a",
+   "chunk": "2026-08-20-verifier-self-hardening",
+   "consumer": "implement/code",
+   "artifact": "research",
+   "quality": "thin",
+   "note": "boundary-list verdict: the Files-to-modify list was right for steps 1/2/4/5/6/8 but never checked VISIBILITY of the targets, which is what makes steps 3 and 7 unreachable; it also missed that conductor-verify lacked tokio test-util"
+  },
+  {
+   "kind": "step-consumed",
+   "id": "2026-08-20T21:19:11Z-a",
+   "chunk": "2026-08-20-verifier-self-hardening",
+   "consumer": "implement/fix-loop",
+   "artifact": "plan",
+   "quality": "wrong",
+   "note": "Test Commands ran as written EXCEPT the two mutation lines: -f takes workspace-root-relative paths, so the plan form matched 0 mutants, and --exclude for the stub was never needed once the run was scoped by file"
+  },
+  {
+   "kind": "step-consumed",
+   "id": "2026-08-20T21:19:11Z-a",
+   "chunk": "2026-08-20-verifier-self-hardening",
+   "consumer": "implement/fix-loop",
+   "artifact": "research",
+   "quality": "thin",
+   "note": null
+  },
+  {
+   "kind": "step-consumed",
+   "id": "2026-08-20T22:04:38Z-a",
+   "chunk": "2026-08-20-verifier-self-hardening",
+   "consumer": "wrap-session/reconcile",
+   "artifact": "wrap-playbook",
+   "quality": "thin",
+   "note": "no rule covered adding a NEW anti-pattern ban from a measured defect, nor the recurring obs cli-row mis-attribution; the latter is now a rule"
+  },
+  {
+   "kind": "step-consumed",
+   "id": "2026-08-20T23:16:12Z-a",
+   "chunk": "2026-08-20-read-back-seam-survivors-closed",
+   "consumer": "wrap-session/reconcile",
+   "artifact": "wrap-playbook",
+   "quality": "thin",
+   "note": "no rule covers a chunk measuring a tool semantics and the plan recording it - judged routine on operator direction plus report substantiation rather than on a rule; and its dependency-under-red-audit rule contradicted the route PREREQ, which is the escalation below"
+  },
+  {
+   "kind": "step-consumed",
+   "id": "2026-08-21T09:35:00Z-a",
+   "chunk": "2026-08-21-severity-lifecycle-live-proof",
+   "consumer": "implement/code",
+   "artifact": "research",
+   "quality": "thin",
+   "note": "the Files-to-modify list omitted crates/conductor-core/src/scenario.rs, which holds five catalog guard tests that DATA-PIN the retired checks \u2014 the codebase-research caller-threading note names that class (tests pinning a changed artifact data) but the list did not carry it"
+  },
+  {
+   "kind": "step-consumed",
+   "id": "2026-08-21T10:05:00Z-a",
+   "chunk": "2026-08-21-severity-lifecycle-live-proof",
+   "consumer": "wrap-session/reconcile",
+   "artifact": "spec:layout-templates",
+   "quality": "wrong",
+   "note": "13 sample-row sites paired P-IDs with the wrong scenario labels against coverage_matrix + the catalog; pre-existing (last touched 2026-08-19), not introduced here"
+  },
+  {
+   "kind": "step-consumed",
+   "id": "2026-08-21T10:05:00Z-a",
+   "chunk": "2026-08-21-severity-lifecycle-live-proof",
+   "consumer": "wrap-session/reconcile",
+   "artifact": "drift-base",
+   "quality": "thin",
+   "note": "the layout mismatch sits in a known blind class \u2014 D-layout-surface fires only on NEW surfaces, D-layout-derived-count only on moved counts, so an existing sample rows factual wrongness is unreachable by either"
+  },
+  {
+   "kind": "step-consumed",
+   "id": "2026-08-21T10:31:51Z-a",
+   "chunk": "2026-08-21-per-check-latency-measurement",
+   "consumer": "phase/research",
+   "artifact": "tree-db",
+   "quality": "thin",
+   "note": "db_state fresh throughout and authoritative for SloTier/deadline_ms (150 refs/18 files), evaluate_slo, evaluate_check, to_run_record and crate_edges \u2014 but carries NO symbol row for execute_scenario or persist, so the caller-threading list for those two is grep-derived"
+  },
+  {
+   "kind": "step-consumed",
+   "id": "2026-08-21T17:19:28Z-a",
+   "chunk": null,
+   "consumer": "wrap-session/curation",
+   "artifact": "report",
+   "quality": "missing",
+   "note": "no chunk report exists on the 0-pending path"
+  },
+  {
+   "kind": "step-consumed",
+   "id": "2026-08-21T17:22:14Z-a",
+   "chunk": null,
+   "consumer": "wrap-session/route-resolve",
+   "artifact": "report",
+   "quality": "missing",
+   "note": "0-pending path \u2014 no chunk report; the operator directive supplied the outcome basis and the evidence coordinates"
+  },
+  {
+   "kind": "step-consumed",
+   "id": "2026-08-21T17:24:49Z-a",
+   "chunk": null,
+   "consumer": "wrap-session/gates",
+   "artifact": "plan",
+   "quality": "missing",
+   "note": "0-pending path: no chunk plan exists, so the light gate did not run \u2014 not a no-op non-code chunk, the phase itself is not executed on this path"
+  },
+  {
+   "kind": "step-consumed",
+   "id": "2026-08-21T18:01:46Z-a",
+   "chunk": "2026-08-21-delegated-timing-budgets-proven",
+   "consumer": "phase/research",
+   "artifact": "cookbook",
+   "quality": "thin",
+   "note": "its zero-rows protocol names two cases (confirmed-indexed = real finding, vs index gap) but not the third one that actually occurred: symbol indexed AND caller present AND the calls edge missing"
+  },
+  {
+   "kind": "step-consumed",
+   "id": "2026-08-21T18:01:46Z-a",
+   "chunk": "2026-08-21-delegated-timing-budgets-proven",
+   "consumer": "phase/research",
+   "artifact": "tree-db",
+   "quality": "wrong",
+   "note": "3 queries, plane=rust, db_state=fresh on all three; the impact query returned 0 callers for effective_deadline_ms while a real production caller exists at conductor-verify/src/slo.rs:84"
+  },
+  {
+   "kind": "step-consumed",
+   "id": "2026-08-21T18:10:42Z-a",
+   "chunk": "2026-08-21-delegated-timing-budgets-proven",
+   "consumer": "phase/validate",
+   "artifact": "scope",
+   "quality": "thin",
+   "note": "val-1 classified intent-incomplete: the Surfaces/contracts-touched section was written pre-closure and still named the run-report envelope, CheckRecord, the conductor-verify verdict path and the coverage-matrix classification, all of which P3 measurement removed from the chunk. Amended at val-1"
+  },
+  {
+   "kind": "step-consumed",
+   "id": "2026-08-22T09:37:13Z-a",
+   "chunk": "2026-08-22-operator-pause-and-checklist-live-firing",
+   "consumer": "phase/take-up",
+   "artifact": "working-entry",
+   "quality": "thin",
+   "note": "names the frozen count with no surface; which count can freeze was settled by tracing suite.rs:28 (Some(progress)) vs run.rs:23 (None), not by any stated artifact"
+  },
+  {
+   "kind": "step-consumed",
+   "id": "2026-08-22T11:01:59Z-a",
+   "chunk": "2026-08-22-operator-pause-and-checklist-live-firing",
+   "consumer": "implement/fix-loop",
+   "artifact": "research",
+   "quality": "thin",
+   "note": "the Test companions list named the class (tests that PIN the changed data) but enumerated only 4 sites; adding a field to Scenario and HoldPoint forced 5 further crate-local fixture files research never listed"
+  },
+  {
+   "kind": "step-consumed",
+   "id": "2026-08-22T12:35:53Z-a",
+   "chunk": "2026-08-22-operator-pause-and-checklist-live-firing",
+   "consumer": "wrap-session/reconcile",
+   "artifact": "wrap-playbook",
+   "quality": "thin",
+   "note": "no rule covered a NEW declarative KEY inside an already-registered scenario-config artifact \u2014 the nearest is scoped to new artifacts under contracts/. Resolved routine-by-precedent (4th of the class) and the gap closed by an approved rule."
+  }
+ ],
+ "chains": [
+  {
+   "chunk": "2026-08-20-verifier-self-hardening",
+   "artifact": "research",
+   "producer": "phase/research",
+   "producer_id": "2026-08-20T20:53:20Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions"
+   ],
+   "producer_frictions": [
+    "input.extract-signal-gap",
+    "tooling.host-shell"
+   ],
+   "consumer": "phase/plan",
+   "consumer_id": "2026-08-20T20:59:01Z-a",
+   "quality": "thin",
+   "note": "file list and premise closures were right, but it took the scope table survivor counts on trust instead of enumerating from the authoritative c-mutation-*.json \u2014 four extra reads at synthesis, and the JSON then corrected two family sizes"
+  },
+  {
+   "chunk": "2026-08-20-verifier-self-hardening",
+   "artifact": "plan",
+   "producer": "phase/plan",
+   "producer_id": "2026-08-20T20:59:01Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [],
+   "producer_frictions": [
+    "contract.narrow-basis-claim",
+    "input.research-thin"
+   ],
+   "consumer": "implement/code",
+   "consumer_id": "2026-08-20T21:14:37Z-a",
+   "quality": "wrong",
+   "note": "steps 3 and 7 prescribe locations that are provably unreachable: they name new integration-test files driving readiness()/execute_scenario, but conductor-run exposes no command-injection seam and Preflight has no public constructor, so neither is drivable from outside the crate"
+  },
+  {
+   "chunk": "2026-08-20-verifier-self-hardening",
+   "artifact": "research",
+   "producer": "phase/research",
+   "producer_id": "2026-08-20T20:53:20Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions"
+   ],
+   "producer_frictions": [
+    "input.extract-signal-gap",
+    "tooling.host-shell"
+   ],
+   "consumer": "implement/code",
+   "consumer_id": "2026-08-20T21:14:37Z-a",
+   "quality": "thin",
+   "note": "boundary-list verdict: the Files-to-modify list was right for steps 1/2/4/5/6/8 but never checked VISIBILITY of the targets, which is what makes steps 3 and 7 unreachable; it also missed that conductor-verify lacked tokio test-util"
+  },
+  {
+   "chunk": "2026-08-20-verifier-self-hardening",
+   "artifact": "plan",
+   "producer": "phase/plan",
+   "producer_id": "2026-08-20T20:59:01Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [],
+   "producer_frictions": [
+    "contract.narrow-basis-claim",
+    "input.research-thin"
+   ],
+   "consumer": "implement/fix-loop",
+   "consumer_id": "2026-08-20T21:19:11Z-a",
+   "quality": "wrong",
+   "note": "Test Commands ran as written EXCEPT the two mutation lines: -f takes workspace-root-relative paths, so the plan form matched 0 mutants, and --exclude for the stub was never needed once the run was scoped by file"
+  },
+  {
+   "chunk": "2026-08-20-verifier-self-hardening",
+   "artifact": "research",
+   "producer": "phase/research",
+   "producer_id": "2026-08-20T20:53:20Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions"
+   ],
+   "producer_frictions": [
+    "input.extract-signal-gap",
+    "tooling.host-shell"
+   ],
+   "consumer": "implement/fix-loop",
+   "consumer_id": "2026-08-20T21:19:11Z-a",
+   "quality": "thin",
+   "note": null
+  },
+  {
+   "chunk": "2026-08-21-severity-lifecycle-live-proof",
+   "artifact": "research",
+   "producer": "phase/research",
+   "producer_id": "2026-08-21T09:12:00Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions"
+   ],
+   "producer_frictions": [
+    "contract.narrow-basis-claim"
+   ],
+   "consumer": "implement/code",
+   "consumer_id": "2026-08-21T09:35:00Z-a",
+   "quality": "thin",
+   "note": "the Files-to-modify list omitted crates/conductor-core/src/scenario.rs, which holds five catalog guard tests that DATA-PIN the retired checks \u2014 the codebase-research caller-threading note names that class (tests pinning a changed artifact data) but the list did not carry it"
+  },
+  {
+   "chunk": "2026-08-21-delegated-timing-budgets-proven",
+   "artifact": "scope",
+   "producer": "phase/take-up",
+   "producer_id": "2026-08-21T17:48:55Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "scope-inferred",
+    "carry-folded"
+   ],
+   "producer_frictions": [
+    "contract.narrow-basis-claim"
+   ],
+   "consumer": "phase/validate",
+   "consumer_id": "2026-08-21T18:10:42Z-a",
+   "quality": "thin",
+   "note": "val-1 classified intent-incomplete: the Surfaces/contracts-touched section was written pre-closure and still named the run-report envelope, CheckRecord, the conductor-verify verdict path and the coverage-matrix classification, all of which P3 measurement removed from the chunk. Amended at val-1"
+  },
+  {
+   "chunk": "2026-08-21-delegated-timing-budgets-proven",
+   "artifact": "scope",
+   "producer": "phase/research",
+   "producer_id": "2026-08-21T18:01:46Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "premise-corrected"
+   ],
+   "producer_frictions": [
+    "input.cookbook-gap"
+   ],
+   "consumer": "phase/validate",
+   "consumer_id": "2026-08-21T18:10:42Z-a",
+   "quality": "thin",
+   "note": "val-1 classified intent-incomplete: the Surfaces/contracts-touched section was written pre-closure and still named the run-report envelope, CheckRecord, the conductor-verify verdict path and the coverage-matrix classification, all of which P3 measurement removed from the chunk. Amended at val-1"
+  },
+  {
+   "chunk": "2026-08-22-operator-pause-and-checklist-live-firing",
+   "artifact": "research",
+   "producer": "phase/research",
+   "producer_id": "2026-08-22T09:50:33Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions"
+   ],
+   "producer_frictions": [
+    "UNTYPED"
+   ],
+   "consumer": "implement/fix-loop",
+   "consumer_id": "2026-08-22T11:01:59Z-a",
+   "quality": "thin",
+   "note": "the Test companions list named the class (tests that PIN the changed data) but enumerated only 4 sites; adding a field to Scenario and HoldPoint forced 5 further crate-local fixture files research never listed"
+  }
+ ],
+ "shapes": [
+  {
+   "producer": "phase/research",
+   "artifact": "research",
+   "consumer": "implement/code",
+   "chunks": [
+    "2026-08-20-verifier-self-hardening",
+    "2026-08-21-severity-lifecycle-live-proof"
+   ],
+   "n": 2,
+   "cases": [
+    {
+     "chunk": "2026-08-20-verifier-self-hardening",
+     "artifact": "research",
+     "producer": "phase/research",
+     "producer_id": "2026-08-20T20:53:20Z-a",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "unresolved-questions"
+     ],
+     "producer_frictions": [
+      "input.extract-signal-gap",
+      "tooling.host-shell"
+     ],
+     "consumer": "implement/code",
+     "consumer_id": "2026-08-20T21:14:37Z-a",
+     "quality": "thin",
+     "note": "boundary-list verdict: the Files-to-modify list was right for steps 1/2/4/5/6/8 but never checked VISIBILITY of the targets, which is what makes steps 3 and 7 unreachable; it also missed that conductor-verify lacked tokio test-util"
+    },
+    {
+     "chunk": "2026-08-21-severity-lifecycle-live-proof",
+     "artifact": "research",
+     "producer": "phase/research",
+     "producer_id": "2026-08-21T09:12:00Z-a",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "unresolved-questions"
+     ],
+     "producer_frictions": [
+      "contract.narrow-basis-claim"
+     ],
+     "consumer": "implement/code",
+     "consumer_id": "2026-08-21T09:35:00Z-a",
+     "quality": "thin",
+     "note": "the Files-to-modify list omitted crates/conductor-core/src/scenario.rs, which holds five catalog guard tests that DATA-PIN the retired checks \u2014 the codebase-research caller-threading note names that class (tests pinning a changed artifact data) but the list did not carry it"
+    }
+   ]
+  },
+  {
+   "producer": "phase/research",
+   "artifact": "research",
+   "consumer": "implement/fix-loop",
+   "chunks": [
+    "2026-08-20-verifier-self-hardening",
+    "2026-08-22-operator-pause-and-checklist-live-firing"
+   ],
+   "n": 2,
+   "cases": [
+    {
+     "chunk": "2026-08-20-verifier-self-hardening",
+     "artifact": "research",
+     "producer": "phase/research",
+     "producer_id": "2026-08-20T20:53:20Z-a",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "unresolved-questions"
+     ],
+     "producer_frictions": [
+      "input.extract-signal-gap",
+      "tooling.host-shell"
+     ],
+     "consumer": "implement/fix-loop",
+     "consumer_id": "2026-08-20T21:19:11Z-a",
+     "quality": "thin",
+     "note": null
+    },
+    {
+     "chunk": "2026-08-22-operator-pause-and-checklist-live-firing",
+     "artifact": "research",
+     "producer": "phase/research",
+     "producer_id": "2026-08-22T09:50:33Z-a",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "unresolved-questions"
+     ],
+     "producer_frictions": [
+      "UNTYPED"
+     ],
+     "consumer": "implement/fix-loop",
+     "consumer_id": "2026-08-22T11:01:59Z-a",
+     "quality": "thin",
+     "note": "the Test companions list named the class (tests that PIN the changed data) but enumerated only 4 sites; adding a field to Scenario and HoldPoint forced 5 further crate-local fixture files research never listed"
+    }
+   ]
+  },
+  {
+   "producer": "phase/research",
+   "artifact": "research",
+   "consumer": "phase/plan",
+   "chunks": [
+    "2026-08-20-verifier-self-hardening"
+   ],
+   "n": 1,
+   "cases": [
+    {
+     "chunk": "2026-08-20-verifier-self-hardening",
+     "artifact": "research",
+     "producer": "phase/research",
+     "producer_id": "2026-08-20T20:53:20Z-a",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "unresolved-questions"
+     ],
+     "producer_frictions": [
+      "input.extract-signal-gap",
+      "tooling.host-shell"
+     ],
+     "consumer": "phase/plan",
+     "consumer_id": "2026-08-20T20:59:01Z-a",
+     "quality": "thin",
+     "note": "file list and premise closures were right, but it took the scope table survivor counts on trust instead of enumerating from the authoritative c-mutation-*.json \u2014 four extra reads at synthesis, and the JSON then corrected two family sizes"
+    }
+   ]
+  },
+  {
+   "producer": "phase/plan",
+   "artifact": "plan",
+   "consumer": "implement/code",
+   "chunks": [
+    "2026-08-20-verifier-self-hardening"
+   ],
+   "n": 1,
+   "cases": [
+    {
+     "chunk": "2026-08-20-verifier-self-hardening",
+     "artifact": "plan",
+     "producer": "phase/plan",
+     "producer_id": "2026-08-20T20:59:01Z-a",
+     "producer_outcome": "ok",
+     "producer_signals": [],
+     "producer_frictions": [
+      "contract.narrow-basis-claim",
+      "input.research-thin"
+     ],
+     "consumer": "implement/code",
+     "consumer_id": "2026-08-20T21:14:37Z-a",
+     "quality": "wrong",
+     "note": "steps 3 and 7 prescribe locations that are provably unreachable: they name new integration-test files driving readiness()/execute_scenario, but conductor-run exposes no command-injection seam and Preflight has no public constructor, so neither is drivable from outside the crate"
+    }
+   ]
+  },
+  {
+   "producer": "phase/plan",
+   "artifact": "plan",
+   "consumer": "implement/fix-loop",
+   "chunks": [
+    "2026-08-20-verifier-self-hardening"
+   ],
+   "n": 1,
+   "cases": [
+    {
+     "chunk": "2026-08-20-verifier-self-hardening",
+     "artifact": "plan",
+     "producer": "phase/plan",
+     "producer_id": "2026-08-20T20:59:01Z-a",
+     "producer_outcome": "ok",
+     "producer_signals": [],
+     "producer_frictions": [
+      "contract.narrow-basis-claim",
+      "input.research-thin"
+     ],
+     "consumer": "implement/fix-loop",
+     "consumer_id": "2026-08-20T21:19:11Z-a",
+     "quality": "wrong",
+     "note": "Test Commands ran as written EXCEPT the two mutation lines: -f takes workspace-root-relative paths, so the plan form matched 0 mutants, and --exclude for the stub was never needed once the run was scoped by file"
+    }
+   ]
+  },
+  {
+   "producer": "phase/take-up",
+   "artifact": "scope",
+   "consumer": "phase/validate",
+   "chunks": [
+    "2026-08-21-delegated-timing-budgets-proven"
+   ],
+   "n": 1,
+   "cases": [
+    {
+     "chunk": "2026-08-21-delegated-timing-budgets-proven",
+     "artifact": "scope",
+     "producer": "phase/take-up",
+     "producer_id": "2026-08-21T17:48:55Z-a",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "scope-inferred",
+      "carry-folded"
+     ],
+     "producer_frictions": [
+      "contract.narrow-basis-claim"
+     ],
+     "consumer": "phase/validate",
+     "consumer_id": "2026-08-21T18:10:42Z-a",
+     "quality": "thin",
+     "note": "val-1 classified intent-incomplete: the Surfaces/contracts-touched section was written pre-closure and still named the run-report envelope, CheckRecord, the conductor-verify verdict path and the coverage-matrix classification, all of which P3 measurement removed from the chunk. Amended at val-1"
+    }
+   ]
+  },
+  {
+   "producer": "phase/research",
+   "artifact": "scope",
+   "consumer": "phase/validate",
+   "chunks": [
+    "2026-08-21-delegated-timing-budgets-proven"
+   ],
+   "n": 1,
+   "cases": [
+    {
+     "chunk": "2026-08-21-delegated-timing-budgets-proven",
+     "artifact": "scope",
+     "producer": "phase/research",
+     "producer_id": "2026-08-21T18:01:46Z-a",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "premise-corrected"
+     ],
+     "producer_frictions": [
+      "input.cookbook-gap"
+     ],
+     "consumer": "phase/validate",
+     "consumer_id": "2026-08-21T18:10:42Z-a",
+     "quality": "thin",
+     "note": "val-1 classified intent-incomplete: the Surfaces/contracts-touched section was written pre-closure and still named the run-report envelope, CheckRecord, the conductor-verify verdict path and the coverage-matrix classification, all of which P3 measurement removed from the chunk. Amended at val-1"
+    }
+   ]
+  }
+ ]
+}

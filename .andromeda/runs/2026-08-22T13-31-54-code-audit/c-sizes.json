@@ -1,0 +1,52 @@
+{
+ "label": "head",
+ "population": "Rust .rs files under crates/ (tokei, gitignore-respecting)",
+ "files": 111,
+ "loc": 17518,
+ "file_p50": 104,
+ "file_p90": 360,
+ "file_max": 1012,
+ "over_800": 2,
+ "top": [
+  [
+   "crates/conductor-run/src/lib.rs",
+   1012
+  ],
+  [
+   "crates/conductor-core/src/scenario.rs",
+   1001
+  ],
+  [
+   "crates/conductor-core/src/obs.rs",
+   597
+  ],
+  [
+   "crates/conductor-core/src/load_envelope.rs",
+   536
+  ],
+  [
+   "crates/conductor-report/src/db.rs",
+   504
+  ],
+  [
+   "crates/conductor-run/tests/severity_harvest.rs",
+   468
+  ],
+  [
+   "crates/conductor-emit/src/pii.rs",
+   436
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs",
+   410
+  ],
+  [
+   "crates/conductor-run/tests/dispatch_wire.rs",
+   404
+  ],
+  [
+   "crates/conductor-core/src/phase_spec.rs",
+   390
+  ]
+ ]
+}

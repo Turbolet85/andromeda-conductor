@@ -1,0 +1,361 @@
+{
+ "epoch": "Epoch 4 - Lifecycle & delegated timing",
+ "records": 176,
+ "step": 90,
+ "friction": 86,
+ "unparseable_whole_ledger": 0,
+ "chunks": [
+  "2026-08-20-read-back-seam-survivors-closed",
+  "2026-08-20-verifier-self-hardening",
+  "2026-08-21-delegated-timing-budgets-proven",
+  "2026-08-21-per-check-latency-measurement",
+  "2026-08-21-severity-lifecycle-live-proof",
+  "2026-08-22-operator-pause-and-checklist-live-firing"
+ ],
+ "per_chunk": {
+  "2026-08-20-read-back-seam-survivors-closed": {
+   "step_records": 13,
+   "by_skill": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 5
+   },
+   "expected": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 5,
+    "new-session": 1
+   },
+   "gaps": {},
+   "extra": {},
+   "steps_fired": [
+    "implement/code",
+    "implement/fix-loop",
+    "implement/smoke",
+    "phase/distill",
+    "phase/plan",
+    "phase/research",
+    "phase/take-up",
+    "phase/validate",
+    "wrap-session/curation",
+    "wrap-session/gates",
+    "wrap-session/reconcile",
+    "wrap-session/report",
+    "wrap-session/route-resolve"
+   ]
+  },
+  "2026-08-20-verifier-self-hardening": {
+   "step_records": 13,
+   "by_skill": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 5
+   },
+   "expected": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 5,
+    "new-session": 1
+   },
+   "gaps": {},
+   "extra": {},
+   "steps_fired": [
+    "implement/code",
+    "implement/fix-loop",
+    "implement/smoke",
+    "phase/distill",
+    "phase/plan",
+    "phase/research",
+    "phase/take-up",
+    "phase/validate",
+    "wrap-session/curation",
+    "wrap-session/gates",
+    "wrap-session/reconcile",
+    "wrap-session/report",
+    "wrap-session/route-resolve"
+   ]
+  },
+  "2026-08-21-delegated-timing-budgets-proven": {
+   "step_records": 13,
+   "by_skill": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 5
+   },
+   "expected": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 5,
+    "new-session": 1
+   },
+   "gaps": {},
+   "extra": {},
+   "steps_fired": [
+    "implement/code",
+    "implement/fix-loop",
+    "implement/smoke",
+    "phase/distill",
+    "phase/plan",
+    "phase/research",
+    "phase/take-up",
+    "phase/validate",
+    "wrap-session/curation",
+    "wrap-session/gates",
+    "wrap-session/reconcile",
+    "wrap-session/report",
+    "wrap-session/route-resolve"
+   ]
+  },
+  "2026-08-21-per-check-latency-measurement": {
+   "step_records": 13,
+   "by_skill": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 5
+   },
+   "expected": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 5,
+    "new-session": 1
+   },
+   "gaps": {},
+   "extra": {},
+   "steps_fired": [
+    "implement/code",
+    "implement/fix-loop",
+    "implement/smoke",
+    "phase/distill",
+    "phase/plan",
+    "phase/research",
+    "phase/take-up",
+    "phase/validate",
+    "wrap-session/curation",
+    "wrap-session/gates",
+    "wrap-session/reconcile",
+    "wrap-session/report",
+    "wrap-session/route-resolve"
+   ]
+  },
+  "2026-08-21-severity-lifecycle-live-proof": {
+   "step_records": 13,
+   "by_skill": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 5
+   },
+   "expected": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 5,
+    "new-session": 1
+   },
+   "gaps": {},
+   "extra": {},
+   "steps_fired": [
+    "implement/code",
+    "implement/fix-loop",
+    "implement/smoke",
+    "phase/distill",
+    "phase/plan",
+    "phase/research",
+    "phase/take-up",
+    "phase/validate",
+    "wrap-session/curation",
+    "wrap-session/gates",
+    "wrap-session/reconcile",
+    "wrap-session/report",
+    "wrap-session/route-resolve"
+   ]
+  },
+  "2026-08-22-operator-pause-and-checklist-live-firing": {
+   "step_records": 12,
+   "by_skill": {
+    "phase": 5,
+    "implement": 2,
+    "wrap-session": 5
+   },
+   "expected": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 5,
+    "new-session": 1
+   },
+   "gaps": {
+    "implement": 1
+   },
+   "extra": {},
+   "steps_fired": [
+    "implement/fix-loop",
+    "implement/smoke",
+    "phase/distill",
+    "phase/plan",
+    "phase/research",
+    "phase/take-up",
+    "phase/validate",
+    "wrap-session/curation",
+    "wrap-session/gates",
+    "wrap-session/reconcile",
+    "wrap-session/report",
+    "wrap-session/route-resolve"
+   ]
+  }
+ },
+ "null_chunk_step_records": [
+  {
+   "id": "2026-08-20T17:37:44Z-a",
+   "skill": "new-session",
+   "step": "orientation"
+  },
+  {
+   "id": "2026-08-20T20:12:25Z-a",
+   "skill": "new-session",
+   "step": "orientation"
+  },
+  {
+   "id": "2026-08-20T20:20:57Z-a",
+   "skill": "wrap-session",
+   "step": "route-resolve"
+  },
+  {
+   "id": "2026-08-20T20:23:09Z-a",
+   "skill": "wrap-session",
+   "step": "curation"
+  },
+  {
+   "id": "2026-08-20T22:15:08Z-a",
+   "skill": "new-session",
+   "step": "orientation"
+  },
+  {
+   "id": "2026-08-21T08:04:09Z-a",
+   "skill": "new-session",
+   "step": "orientation"
+  },
+  {
+   "id": "2026-08-21T10:11:12Z-a",
+   "skill": "new-session",
+   "step": "orientation"
+  },
+  {
+   "id": "2026-08-21T15:56:03Z-a",
+   "skill": "new-session",
+   "step": "orientation"
+  },
+  {
+   "id": "2026-08-21T17:19:28Z-a",
+   "skill": "wrap-session",
+   "step": "curation"
+  },
+  {
+   "id": "2026-08-21T17:22:14Z-a",
+   "skill": "wrap-session",
+   "step": "route-resolve"
+  },
+  {
+   "id": "2026-08-21T17:24:49Z-a",
+   "skill": "wrap-session",
+   "step": "gates"
+  },
+  {
+   "id": "2026-08-21T17:31:21Z-a",
+   "skill": "new-session",
+   "step": "orientation"
+  },
+  {
+   "id": "2026-08-22T09:31:47Z-a",
+   "skill": "new-session",
+   "step": "orientation"
+  }
+ ],
+ "untyped_total": 10,
+ "untyped_rate_overall": 0.116,
+ "untyped_by_step": {
+  "wrap-session/route-resolve": [
+   3,
+   6
+  ],
+  "wrap-session/gates": [
+   2,
+   4
+  ],
+  "implement/fix-loop": [
+   1,
+   12
+  ],
+  "wrap-session/curation": [
+   2,
+   9
+  ],
+  "wrap-session/report": [
+   1,
+   3
+  ],
+  "phase/research": [
+   1,
+   8
+  ]
+ },
+ "friction_by_step": {
+  "new-session/orientation": 6,
+  "wrap-session/route-resolve": 6,
+  "wrap-session/curation": 9,
+  "phase/take-up": 6,
+  "phase/distill": 6,
+  "phase/research": 8,
+  "phase/plan": 5,
+  "phase/validate": 5,
+  "implement/code": 6,
+  "implement/fix-loop": 12,
+  "wrap-session/reconcile": 8,
+  "wrap-session/gates": 4,
+  "wrap-session/report": 3,
+  "implement/smoke": 2
+ },
+ "step_runs": {
+  "new-session/orientation": 8,
+  "wrap-session/route-resolve": 8,
+  "wrap-session/curation": 8,
+  "phase/take-up": 6,
+  "phase/distill": 6,
+  "phase/research": 6,
+  "phase/plan": 6,
+  "phase/validate": 6,
+  "implement/code": 5,
+  "implement/fix-loop": 6,
+  "implement/smoke": 6,
+  "wrap-session/report": 6,
+  "wrap-session/reconcile": 6,
+  "wrap-session/gates": 7
+ },
+ "problem_fact_fill": "36/90",
+ "problem_facts_total": 38,
+ "problem_fact_solutions": {
+  "workaround": 23,
+  "overridden": 2,
+  "deferred": 6,
+  "removed-cause": 6,
+  "unresolved": 1
+ },
+ "problem_fact_natures": {
+  "process": 18,
+  "resources": 2,
+  "environment": 18
+ },
+ "outcomes": {
+  "ok": 78,
+  "halted-resolved": 6,
+  "ok-degraded": 4,
+  "soft-exit": 2
+ },
+ "id_fill": "176/176",
+ "excluded_by_retraction": {
+  "friction_ids": [],
+  "problem_blocks": [
+   [
+    "2026-08-20T21:14:37Z-a",
+    null
+   ]
+  ]
+ }
+}

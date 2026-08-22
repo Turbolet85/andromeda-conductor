@@ -1,0 +1,31 @@
+{
+ "head_after_test_exclusion": 36,
+ "head_minus_entry_points": 33,
+ "implied_baseline": 31,
+ "recorded_baseline": 31,
+ "match": true,
+ "new_members": [
+  [
+   "pause/impl#[TauriResolver][PauseResolver]kind().",
+   "crates/conductor-tauri/src/pause.rs"
+  ],
+  [
+   "pause/impl#[CliResolver][PauseResolver]kind().",
+   "crates/conductor-cli/src/pause.rs"
+  ]
+ ],
+ "entry_points_excluded": [
+  [
+   "main().",
+   "crates/conductor-tauri/build.rs"
+  ],
+  [
+   "main().",
+   "crates/conductor-tauri/src/main.rs"
+  ],
+  [
+   "main().",
+   "crates/conductor-cli/src/main.rs"
+  ]
+ ]
+}

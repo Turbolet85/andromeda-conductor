@@ -18,6 +18,16 @@ Applies whenever route-resolve inserts, reorders, or re-owns a markerless entry 
 PREREQ — the pin's ORIGIN marker preserves its age, and its ordinal preserves its count; the two travel
 independently.
 
+**Extended 2026-08-22 (boundary adaptation): a THIRD thing travels with a moved pin — its SEPARATOR — and
+the wrong one silently converts a live obligation into stale freight.** The migrating pin had been attached
+to its previous holder by a SINGLE space. Flip-compaction strips an annotation only when its introducer sits
+behind two-or-more whitespace or a space-middot-space, so at one space the pin is invisible to the strip: it
+would have survived into the frozen historical record as exactly the stale-truth bait compaction exists to
+remove, and no gate covers that. Re-attach a moved annotation with the conventional three-space separator
+the CARRY pins on the same lines already use. The general form: when a tail reshape moves an annotation,
+ORIGIN carries its age, ORDINAL carries its count, and SEPARATOR carries its eligibility to be cleaned up
+later — check all three, because only the first two are visible in the text you are moving.
+
 ---
 
 ## 2026-08-19 — Wireframe sample rows bind by P-ID, not by their scenario-name column

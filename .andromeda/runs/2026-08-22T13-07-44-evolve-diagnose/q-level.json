@@ -1,0 +1,522 @@
+{
+ "pass_a_themes": [
+  {
+   "theme": "T1-prescribed-shell-write-idiom",
+   "n": 12,
+   "signature": "band-aid",
+   "obstacle": "the shell-write idiom the references prescribe (quoted heredoc / .tmp-then-rename / cat > $TMPDIR) cannot carry a Markdown or code payload on this host: parse-time unexpected-EOF, collapsed backslashes, or an unset TMPDIR resolving to a root path",
+   "routed_to": "the Write/Edit tool, or a scratchpad file invoked by path",
+   "natures": [
+    "environment",
+    "process"
+   ],
+   "solutions": [
+    "removed-cause",
+    "workaround"
+   ],
+   "steps": [
+    "implement/code",
+    "phase/distill",
+    "phase/plan",
+    "phase/research",
+    "phase/take-up",
+    "phase/validate",
+    "wrap-session/curation",
+    "wrap-session/report"
+   ],
+   "chunks": [
+    "2026-08-20-read-back-seam-survivors-closed",
+    "2026-08-20-verifier-self-hardening",
+    "2026-08-21-per-check-latency-measurement",
+    "2026-08-21-severity-lifecycle-live-proof",
+    "2026-08-22-operator-pause-and-checklist-live-firing",
+    "None"
+   ],
+   "facts": [
+    {
+     "id": "2026-08-20T20:38:28Z-a",
+     "chunk": "2026-08-20-verifier-self-hardening",
+     "step": "phase/take-up",
+     "index": 0,
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "the scope.md bash heredoc died with unexpected EOF while looking for matching quote \u2014 the shell mis-parsed the markdown body; fell back to the Write tool, which the auto-mode directive allows when Bash genuinely cannot do the job"
+    },
+    {
+     "id": "2026-08-20T22:24:00Z-a",
+     "chunk": "2026-08-20-read-back-seam-survivors-closed",
+     "step": "phase/take-up",
+     "index": 0,
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "the session directive prescribes Bash for file writes; a quoted heredoc writing the ~105-line scope.md failed with unexpected EOF while looking for matching quote and created no file, so the write fell back to the Write tool - python heredocs in the same shell worked before and after"
+    },
+    {
+     "id": "2026-08-20T22:36:33Z-a",
+     "chunk": "2026-08-20-read-back-seam-survivors-closed",
+     "step": "phase/research",
+     "index": 0,
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "codebase-research.md prescribes an atomic .tmp-then-rename shell write for research.md; both document writes and the 5 scope edits used the Write/Edit tools instead, routing around the heredoc parse failure measured at P1 rather than re-attempting it"
+    },
+    {
+     "id": "2026-08-20T22:41:06Z-a",
+     "chunk": "2026-08-20-read-back-seam-survivors-closed",
+     "step": "phase/plan",
+     "index": 0,
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "plan-template.md prescribes an atomic .tmp-then-rename write for plan.md; used the Write tool instead - third consecutive document write routing around the P1 heredoc parse failure rather than re-attempting the prescribed shell idiom"
+    },
+    {
+     "id": "2026-08-20T22:45:43Z-a",
+     "chunk": "2026-08-20-read-back-seam-survivors-closed",
+     "step": "phase/validate",
+     "index": 0,
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "the two val-1 scope amendments used the Edit tool rather than a shell write; fourth occurrence this run of routing around the P1 heredoc parse failure"
+    },
+    {
+     "id": "2026-08-20T23:07:08Z-a",
+     "chunk": "2026-08-20-read-back-seam-survivors-closed",
+     "step": "wrap-session/report",
+     "index": 0,
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "the wrap constraints state atomic writes as .tmp-then-rename; report.md was written with the Write tool instead, continuing the routing-around of the heredoc parse failure measured at phase P1"
+    },
+    {
+     "id": "2026-08-21T09:12:00Z-a",
+     "chunk": "2026-08-21-severity-lifecycle-live-proof",
+     "step": "phase/research",
+     "index": 0,
+     "nature": "process",
+     "solution": "workaround",
+     "note": "inline-python heredoc for the scope amendment died on shell quoting (the documented trap) \u2014 moved to a scratchpad file run by path"
+    },
+    {
+     "id": "2026-08-21T10:19:56Z-a",
+     "chunk": "2026-08-21-per-check-latency-measurement",
+     "step": "phase/take-up",
+     "index": 0,
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "scope.md was written with the Write tool instead of the session-directed Bash path \u2014 a cat heredoc with a single-quoted delimiter died at shell parse time (unexpected EOF looking for a matching quote) and created nothing, so the fallback was the alternative tool"
+    },
+    {
+     "id": "2026-08-21T10:57:18Z-a",
+     "chunk": "2026-08-21-per-check-latency-measurement",
+     "step": "implement/code",
+     "index": 0,
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "the scratchpad helper script could not be written by the documented `cat > $TMPDIR/...` route because TMPDIR is unset in this Git Bash; it was authored via the Write tool at the explicit scratchpad path instead"
+    },
+    {
+     "id": "2026-08-21T17:19:28Z-a",
+     "chunk": null,
+     "step": "wrap-session/curation",
+     "index": 0,
+     "nature": "process",
+     "solution": "workaround",
+     "note": "tier writes used the harness Edit tool rather than the prescribed .tmp-then-rename atomic write; the standing Tier-1 guidance prefers the dedicated write tool over shell interpolation for structured content, so the two documented mechanisms conflict"
+    },
+    {
+     "id": "2026-08-22T09:46:47Z-a",
+     "chunk": "2026-08-22-operator-pause-and-checklist-live-firing",
+     "step": "phase/distill",
+     "index": 0,
+     "nature": "environment",
+     "solution": "removed-cause",
+     "note": "the extract validator was first written as an inline heredoc guarded by a $TMPDIR probe; TMPDIR was empty so the probe resolved to /val.py and exited Permission denied, short-circuiting the block before python ran. Re-run as a scratchpad file invoked by path, which is the discipline the research reference already prescribes for inline Python."
+    },
+    {
+     "id": "2026-08-22T12:39:40Z-a",
+     "chunk": "2026-08-22-operator-pause-and-checklist-live-firing",
+     "step": "wrap-session/curation",
+     "index": 0,
+     "nature": "environment",
+     "solution": "removed-cause",
+     "note": "The Tier-2 append was first written as an inline quoted heredoc; the shell collapsed its doubled backslashes so Python raised SyntaxWarning: invalid escape sequence on the Windows path literal. Re-authored via the Write tool into a scratchpad file run by path \u2014 the discipline the references already prescribe for non-trivial inline Python \u2014 with a raw string and a read-back assertion on the path."
+    }
+   ]
+  },
+  {
+   "theme": "T2-code-graph-answers-grep-decides",
+   "n": 3,
+   "signature": "band-aid",
+   "obstacle": "the code-graph, named as the first instrument for impact, returned a wrong or absent answer (a closure call site, an unindexed symbol, a false leaf on an indexed one)",
+   "routed_to": "grep, with the basis relabelled grep-derived in research.md",
+   "natures": [
+    "environment",
+    "process"
+   ],
+   "solutions": [
+    "workaround"
+   ],
+   "steps": [
+    "phase/plan",
+    "phase/research"
+   ],
+   "chunks": [
+    "2026-08-20-verifier-self-hardening",
+    "2026-08-21-delegated-timing-budgets-proven",
+    "2026-08-21-per-check-latency-measurement"
+   ],
+   "facts": [
+    {
+     "id": "2026-08-20T20:59:01Z-a",
+     "chunk": "2026-08-20-verifier-self-hardening",
+     "step": "phase/plan",
+     "index": 0,
+     "nature": "process",
+     "solution": "workaround",
+     "note": "the code-graph returned no caller row for declares because its only call site sits inside a closure (.filter(|name| declares(name))), so the caller chain to the public readiness() entry was resolved by direct grep instead of the graph"
+    },
+    {
+     "id": "2026-08-21T10:31:51Z-a",
+     "chunk": "2026-08-21-per-check-latency-measurement",
+     "step": "phase/research",
+     "index": 0,
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "codebase-research.md requires the caller-threading list come FROM THE GRAPH RESULT, not from memory; the graph holds no symbol row for execute_scenario or persist, so those two caller lists were enumerated by grep instead and labelled as grep-derived in research.md"
+    },
+    {
+     "id": "2026-08-21T18:01:46Z-a",
+     "chunk": "2026-08-21-delegated-timing-budgets-proven",
+     "step": "phase/research",
+     "index": 0,
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "the code-graph was the intended first instrument for impact and returned a false leaf (0 callers on an indexed symbol that has a real caller), so the impact basis was re-derived with grep and every impact statement in research.md is recorded as resting on the grep basis rather than the graph"
+    }
+   ]
+  },
+  {
+   "theme": "T7-evidence-twin-convention-vs-purpose",
+   "n": 3,
+   "signature": "band-aid",
+   "obstacle": "an evidence-trace convention applied to the letter would have produced a misleading or empty artifact (near-duplicate raw twins, a re-encoded file wearing the name of a raw record, an unstageable empty run dir)",
+   "routed_to": "a substituted single-artifact form authored by hand that run",
+   "natures": [
+    "process"
+   ],
+   "solutions": [
+    "removed-cause",
+    "workaround"
+   ],
+   "steps": [
+    "phase/distill",
+    "wrap-session/gates",
+    "wrap-session/reconcile"
+   ],
+   "chunks": [
+    "2026-08-20-read-back-seam-survivors-closed",
+    "2026-08-21-delegated-timing-budgets-proven",
+    "None"
+   ],
+   "facts": [
+    {
+     "id": "2026-08-20T23:16:12Z-a",
+     "chunk": "2026-08-20-read-back-seam-survivors-closed",
+     "step": "wrap-session/reconcile",
+     "index": 0,
+     "nature": "process",
+     "solution": "workaround",
+     "note": "amendment-flow keeps a raw twin for any doc whose return needed stripping OR carried proposals; five clean returns carried evaluation notes after their YAML and so qualified, but a twin each would have been near-duplicate - their evidence was consolidated into fanout-results.md instead and only the proposal-carrying test-plan twin was written"
+    },
+    {
+     "id": "2026-08-21T17:24:49Z-a",
+     "chunk": null,
+     "step": "wrap-session/gates",
+     "index": 0,
+     "nature": "process",
+     "solution": "removed-cause",
+     "note": "the Setup-created wrap run dir would have left NO trace in the commit \u2014 the 0-pending path produces no fanout-results.md and git cannot stage an empty directory; wrote an adaptation-record.md into it so the audit trail survives"
+    },
+    {
+     "id": "2026-08-21T17:57:38Z-a",
+     "chunk": "2026-08-21-delegated-timing-budgets-proven",
+     "step": "phase/distill",
+     "index": 0,
+     "nature": "process",
+     "solution": "workaround",
+     "note": "fan-out.md requires a .raw-{specialty}.md twin whenever the return was modified on save; the transport HTML-escaped 5 of 7 returns and the decode counted as a modification, but no per-specialty raw twins were persisted \u2014 a single .raw-NOTE.md recording the exact uniform delta was written instead, because a re-encoded file would be a reconstruction wearing the name of a raw record"
+    }
+   ]
+  },
+  {
+   "theme": "T4-named-contract-not-read-schema-probed",
+   "n": 2,
+   "signature": "below-threshold-in-passA (n=2); see proposal P3 for the 4-record view",
+   "obstacle": "the skill body names a contract reference as the basis for a read; the artifact was opened directly and its schema inferred instead",
+   "routed_to": "a fallback key chain / a top-level lookup of a nested field",
+   "natures": [
+    "process"
+   ],
+   "solutions": [
+    "workaround"
+   ],
+   "steps": [
+    "new-session/orientation"
+   ],
+   "chunks": [
+    "None"
+   ],
+   "facts": [
+    {
+     "id": "2026-08-20T17:37:44Z-a",
+     "chunk": null,
+     "step": "new-session/orientation",
+     "index": 0,
+     "nature": "process",
+     "solution": "workaround",
+     "note": "Phase 1 step 5 names references/verification-matrix-contract.md as the basis for the coverage read; read verification-matrix.json directly and inferred its schema instead, so status (nested under verification) was looked up at top level"
+    },
+    {
+     "id": "2026-08-21T08:04:09Z-a",
+     "chunk": null,
+     "step": "new-session/orientation",
+     "index": 0,
+     "nature": "process",
+     "solution": "workaround",
+     "note": "verification-matrix-contract.md was not read; the matrix container key was inferred with a fallback chain (capabilities|entries|root) in the counting script, against the body constraint read the contract never probe the schema \u2014 the resulting 32/17/15 cross-check identically against the handoff figures, so the probe cost no redo cycle"
+    }
+   ]
+  },
+  {
+   "theme": "T6-plan-file-list-forced-wider",
+   "n": 2,
+   "signature": "below-threshold-in-passA (n=2); see chain X1",
+   "obstacle": "the plan's Files-to-modify set omitted companions the change class forces mechanically (guard tests data-pinning the retired shape; every literal of a struct that gained a field)",
+   "routed_to": "continuation past the declared set, recorded rather than soft-exited",
+   "natures": [
+    "process"
+   ],
+   "solutions": [
+    "workaround"
+   ],
+   "steps": [
+    "implement/code",
+    "implement/fix-loop"
+   ],
+   "chunks": [
+    "2026-08-21-severity-lifecycle-live-proof",
+    "2026-08-22-operator-pause-and-checklist-live-firing"
+   ],
+   "facts": [
+    {
+     "id": "2026-08-21T09:35:00Z-a",
+     "chunk": "2026-08-21-severity-lifecycle-live-proof",
+     "step": "implement/code",
+     "index": 0,
+     "nature": "process",
+     "solution": "workaround",
+     "note": "edited crates/conductor-core/src/scenario.rs though research did not list it \u2014 the guard tests assert the very [[expected]] blocks steps 2-4 retire, so retiring without moving them leaves an incoherent tree; judged the same edit rather than a new concern (gray-area call made toward in-scope, recorded rather than soft-exited)"
+    },
+    {
+     "id": "2026-08-22T11:01:59Z-a",
+     "chunk": "2026-08-22-operator-pause-and-checklist-live-firing",
+     "step": "implement/fix-loop",
+     "index": 0,
+     "nature": "process",
+     "solution": "workaround",
+     "note": "Edited 5 files outside the plans Files-to-modify \u2014 conductor-core/src/error.rs, conductor-core/src/load_envelope.rs, conductor-timeline/src/convert.rs, conductor-run/tests/dispatch_wire.rs, conductor-cli/src/render.rs \u2014 each a mechanical checklist: Vec::new() addition to a test fixture. Continuation chosen over the out-of-scope soft-exit because adding a struct field forces every literal by construction, all five are crate-local fixtures of the exact class research named, and a re-plan would produce the identical list plus these."
+    }
+   ]
+  },
+  {
+   "theme": "T5-literal-form-check-vs-compliant-content",
+   "n": 1,
+   "signature": "below-threshold-in-passA (n=1); the same mechanism carries the untyped cluster U1 (n=3) \u2014 counted there, cited here",
+   "obstacle": "a documented check keyed on a literal form (the trailing per-{plan} \u00a7 anchor) flags content that satisfies it in substance",
+   "routed_to": "accepted substance over letter rather than respawning the distiller",
+   "natures": [
+    "process"
+   ],
+   "solutions": [
+    "workaround"
+   ],
+   "steps": [
+    "phase/distill"
+   ],
+   "chunks": [
+    "2026-08-21-severity-lifecycle-live-proof"
+   ],
+   "facts": [
+    {
+     "id": "2026-08-21T08:29:00Z-a",
+     "chunk": "2026-08-21-severity-lifecycle-live-proof",
+     "step": "phase/distill",
+     "index": 0,
+     "nature": "process",
+     "solution": "workaround",
+     "note": "the documented anchor check keys on the literal per-{plan}-\u00a7 form; three extracts carried real \u00a7anchors in other grammatical positions, so the check as written flags compliant content \u2014 accepted substance over letter instead of respawning"
+    }
+   ]
+  },
+  {
+   "theme": "T8-host-resource-ceiling",
+   "n": 2,
+   "signature": "below-threshold (n=2)",
+   "obstacle": "a host/tool ceiling made the direct route unusable (tool-result size cap on a whole-file read; a ~4-minute gate over the foreground Bash ceiling)",
+   "routed_to": "a structural filter / a backgrounded run redirected to the scratchpad",
+   "natures": [
+    "environment",
+    "resources"
+   ],
+   "solutions": [
+    "workaround"
+   ],
+   "steps": [
+    "implement/fix-loop",
+    "new-session/orientation"
+   ],
+   "chunks": [
+    "2026-08-20-read-back-seam-survivors-closed",
+    "None"
+   ],
+   "facts": [
+    {
+     "id": "2026-08-20T20:12:25Z-a",
+     "chunk": null,
+     "step": "new-session/orientation",
+     "index": 0,
+     "nature": "resources",
+     "solution": "workaround",
+     "note": "reading working-route.md whole (cat | head -150) exceeded the tool-result size cap and was persisted to a file instead of returned; re-extracted the markerless boundary with an awk structural filter rather than reading the persisted dump"
+    },
+    {
+     "id": "2026-08-20T22:58:46Z-a",
+     "chunk": "2026-08-20-read-back-seam-survivors-closed",
+     "step": "implement/fix-loop",
+     "index": 0,
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "the scoped mutation gate needs ~4 minutes, over the foreground Bash tool ceiling, so it ran as a backgrounded command with its output redirected to the scratchpad rather than as a normal foreground gate"
+    }
+   ]
+  }
+ ],
+ "unclustered_passA_facts": [
+  {
+   "id": "2026-08-20T20:20:57Z-a",
+   "chunk": null,
+   "step": "wrap-session/route-resolve",
+   "index": 0,
+   "nature": "environment",
+   "solution": "workaround",
+   "note": "the verification print of the applied route text died on cp1252 stdout (UnicodeEncodeError on the route separator U+2193) while the file itself had been written correctly as utf-8; re-ran the read-back with PYTHONIOENCODING=utf-8"
+  },
+  {
+   "id": "2026-08-21T09:12:00Z-a",
+   "chunk": "2026-08-21-severity-lifecycle-live-proof",
+   "step": "phase/research",
+   "index": 1,
+   "nature": "process",
+   "solution": "removed-cause",
+   "note": "wrote rows:10 into research.md from a tail-clipped query view; re-derived from the trace rows field (7) and corrected \u2014 the exact clipped-view trap the cookbook warns about, self-caught at the evolve checkpoint"
+  },
+  {
+   "id": "2026-08-21T19:14:51Z-a",
+   "chunk": "2026-08-21-delegated-timing-budgets-proven",
+   "step": "wrap-session/reconcile",
+   "index": 0,
+   "nature": "process",
+   "solution": "removed-cause",
+   "note": "The obs amendment first landed as an 8th row in the \u00a74 critical-path TABLE, which silently moved a derived count: the table is the fixed 7-path set that obs-plan .25/.647/.575 and .claude/rules/observability.md:26 all state as 7, and it feeds the Minimal-tier justification. Caught during the cascade leaf-recompute, not by any detector \u2014 obs has no derived-count detector, unlike layout/tests/design. Reverted the table to byte-identical-with-HEAD and re-placed the record in the Known-residual scenario detail block, which adds no path; the sidecar entry was then rewritten because it claimed a table row the body no longer showed"
+  },
+  {
+   "id": "2026-08-22T10:46:19Z-a",
+   "chunk": "2026-08-22-operator-pause-and-checklist-live-firing",
+   "step": "phase/validate",
+   "index": 0,
+   "nature": "process",
+   "solution": "removed-cause",
+   "note": "The review opened a SECOND stale axis (stdout) beyond the chunk goal, and the scope call was explicitly delegated. Folded it in rather than deferring: took the whole obs-plan stdout axis into this chunk Expected amendments, and took the source twin crates/conductor-core/src/obs.rs:3 into the modify-set although the chunk otherwise never touches obs.rs \u2014 because correcting :49 alone would leave the master asserting both stdout and not-stdout, and leave the source contradicting the freshly corrected spec. CLAUDE.md:41 carries the same false stream but was deliberately NOT taken: it sits in a GENERATED block whose owner is the master, so hand-editing the leaf would mint a divergence."
+  }
+ ],
+ "pass_b_signatures": [
+  {
+   "signature": "band-aid",
+   "theme": "T1-prescribed-shell-write-idiom",
+   "in_epoch_facts": 12,
+   "prior_epoch_facts": 16,
+   "prior_epochs": [
+    "Epoch 1",
+    "Epoch 2",
+    "Epoch 3"
+   ],
+   "hypothesis": "the cause is a reference-vs-host conflict in the pipeline (and, at wrap/curation, a conflict between two DOCUMENTED mechanisms); the fixes so far are 28 per-chunk local re-routings"
+  },
+  {
+   "signature": "band-aid",
+   "theme": "T2-code-graph-answers-grep-decides",
+   "in_epoch_facts": 3,
+   "prior_epoch_facts": 2,
+   "prior_epochs": [
+    "Epoch 1"
+   ],
+   "hypothesis": "the cause is indexer/query coverage in the code-graph pipeline; the fixes are per-chunk grep substitutions plus one plan-level prohibition"
+  },
+  {
+   "signature": "band-aid",
+   "theme": "T7-evidence-twin-convention-vs-purpose",
+   "in_epoch_facts": 3,
+   "prior_epoch_facts": 0,
+   "hypothesis": "the cause is a convention stated in artifact-count terms rather than evidence-purpose terms; each run re-derives the substitution by hand"
+  },
+  {
+   "signature": "chronic-degrade",
+   "theme": "tooling.host-shell typed frictions",
+   "counts": {
+    "Epoch 3": 14,
+    "Epoch 4": 13
+   },
+   "halts": 0,
+   "hypothesis": "a two-epoch-stable rate with zero halts: the halt policy structurally never surfaces it, and every instance is absorbed inside its own step"
+  },
+  {
+   "signature": "chronic-degrade",
+   "theme": "a written learning did not prevent its own recurrence",
+   "in_epoch_records": 3,
+   "records": [
+    "2026-08-21T17:57:38Z-b",
+    "2026-08-22T09:46:47Z-b",
+    "wrap-session/curation untyped @ 2026-08-20-read-back-seam-survivors-closed"
+   ],
+   "hypothesis": "the corrective that was actually applied (a session-learnings entry) lives in a corpus that is authored but not consulted at the moment of risk; the cause lives in the transport / the shell"
+  },
+  {
+   "signature": "deferred-forever",
+   "theme": "unattended-host live-leg and display gate",
+   "in_epoch_facts": 4,
+   "facts_idx": [
+    26,
+    27,
+    28,
+    36
+   ],
+   "headless_skip_by_epoch": {
+    "Epoch 1": 3,
+    "Epoch 3": 1,
+    "Epoch 4": 2
+   },
+   "closure": "partial: the delegated-timing deferral closed only by an unsanctioned wrap-time reorder (halted 1, dialogue_rounds 2); the operator-pause one is an open standing Epoch-5 CARRY"
+  },
+  {
+   "signature": "override",
+   "theme": "operator overrides",
+   "in_epoch_facts": 2,
+   "facts_idx": [
+    5,
+    32
+   ],
+   "below_threshold": true,
+   "note": "two different rules, not the same rule recurring \u2014 no miscalibration signal"
+  }
+ ]
+}

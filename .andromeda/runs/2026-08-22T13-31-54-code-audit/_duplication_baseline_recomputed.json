@@ -1,0 +1,75 @@
+{
+ "label": "baseline-recomputed",
+ "population": "jscpd --format rust over crates/ (Rust only)",
+ "pct": 3.88,
+ "duplicated_lines": 807,
+ "total_lines": 20812,
+ "clones": 79,
+ "sources": 103,
+ "top": [
+  [
+   "conductor-emit/tests/error_spans.rs",
+   "conductor-emit/tests/exception_events.rs",
+   44
+  ],
+  [
+   "conductor-emit/tests/egress.rs",
+   "conductor-emit/tests/traffic_rate_ramps.rs",
+   42
+  ],
+  [
+   "conductor-emit/tests/egress.rs",
+   "conductor-emit/tests/error_spans.rs",
+   39
+  ],
+  [
+   "conductor-emit/tests/egress.rs",
+   "conductor-emit/tests/multi_service_topology.rs",
+   38
+  ],
+  [
+   "conductor-emit/tests/egress.rs",
+   "conductor-emit/tests/latency_shaping.rs",
+   36
+  ],
+  [
+   "conductor-emit/src/latency.rs",
+   "conductor-emit/src/rate.rs",
+   17
+  ],
+  [
+   "conductor-core/src/scenario.rs",
+   "conductor-core/src/scenario.rs",
+   15
+  ],
+  [
+   "conductor-emit/src/latency.rs",
+   "conductor-emit/src/rate.rs",
+   15
+  ],
+  [
+   "conductor-emit/src/span_tree.rs",
+   "conductor-emit/src/topology.rs",
+   15
+  ],
+  [
+   "conductor-core/src/run_record.rs",
+   "conductor-report/src/db.rs",
+   14
+  ]
+ ],
+ "split": {
+  "both_test": {
+   "pairs": 35,
+   "lines": 452
+  },
+  "both_src": {
+   "pairs": 37,
+   "lines": 366
+  },
+  "mixed": {
+   "pairs": 7,
+   "lines": 68
+  }
+ }
+}

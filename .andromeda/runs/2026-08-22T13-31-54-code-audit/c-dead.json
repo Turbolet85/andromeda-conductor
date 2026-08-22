@@ -1,0 +1,149 @@
+{
+ "scope": "workspace-wide \u2014 one query over all symbols, never per-crate",
+ "recipe": "raw zero-ref -> exclude tests/ path SEGMENT in SYMBOL path UNION FILE path -> class FP families -> residual",
+ "chain": {
+  "raw": 745,
+  "excluded_test_symbol_path": 575,
+  "excluded_test_file_path_only": 134,
+  "after_test_exclusion": 36,
+  "classed_fp_named": {
+   "derive-attr-invoked": 3,
+   "entry-point": 3,
+   "trait-impl-dispatch": 19
+  },
+  "subtracted": {
+   "entry-point": 3
+  },
+  "residual": 33
+ },
+ "zero_ref_candidates": 33,
+ "top": [
+  [
+   "rust-analyzer cargo conductor-tauri 0.1.0 pause/impl#[TauriResolver][PauseResolver]kind().",
+   "crates/conductor-tauri/src/pause.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-tauri 0.1.0 pause/impl#[TauriResolver][PauseResolver]resolve().",
+   "crates/conductor-tauri/src/pause.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-cli 0.1.0 pause/impl#[CliResolver][PauseResolver]kind().",
+   "crates/conductor-cli/src/pause.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-cli 0.1.0 pause/impl#[CliResolver][PauseResolver]resolve().",
+   "crates/conductor-cli/src/pause.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-run 0.1.0 dispatch/DispatchError#Emit#",
+   "crates/conductor-run/src/dispatch.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-verify 0.1.0 preflight/RUN_CONTRACT_PRECONDITION.",
+   "crates/conductor-verify/src/preflight.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-verify 0.1.0 manifest/impl#[ContractManifest]default_path().",
+   "crates/conductor-verify/src/manifest.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-verify 0.1.0 client/impl#[ReadbackClient]mark_incident_resolved().",
+   "crates/conductor-verify/src/client.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/impl#[PortOccupier]occupy_default().",
+   "crates/conductor-faults/src/port_occupier.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/impl#[PortOccupier][Drop]drop().",
+   "crates/conductor-faults/src/port_occupier.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-emit 0.1.0 latency/impl#[LatencyProfile]p50_ms().",
+   "crates/conductor-emit/src/latency.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-emit 0.1.0 latency/impl#[LatencyProfile]p95_ms().",
+   "crates/conductor-emit/src/latency.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-emit 0.1.0 latency/impl#[LatencyProfile]p99_ms().",
+   "crates/conductor-emit/src/latency.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-emit 0.1.0 error/EmitError#Status#",
+   "crates/conductor-emit/src/error.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-report 0.1.0 journal/JournalError#Io#",
+   "crates/conductor-report/src/journal.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-report 0.1.0 journal/JournalError#Serialize#",
+   "crates/conductor-report/src/journal.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-report 0.1.0 db/RunsDbError#Io#",
+   "crates/conductor-report/src/db.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-report 0.1.0 db/RunsDbError#Json#",
+   "crates/conductor-report/src/db.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-core 0.1.0 phase_spec/default_occurrences().",
+   "crates/conductor-core/src/phase_spec.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[ObsWriter][`MakeWriter<'a>`]Writer#",
+   "crates/conductor-core/src/obs.rs"
+  ]
+ ],
+ "residual_by_crate": {
+  "conductor-tauri": 2,
+  "conductor-cli": 2,
+  "conductor-run": 1,
+  "conductor-verify": 3,
+  "conductor-faults": 2,
+  "conductor-emit": 4,
+  "conductor-report": 4,
+  "conductor-core": 15
+ },
+ "classed_examples": {
+  "derive-attr-invoked": [
+   "manifest/impl#[ContractManifest]default_path().",
+   "port_occupier/impl#[PortOccupier]occupy_default().",
+   "phase_spec/default_occurrences()."
+  ],
+  "entry-point": [
+   "main().",
+   "main().",
+   "main()."
+  ],
+  "trait-impl-dispatch": [
+   "pause/impl#[TauriResolver][PauseResolver]kind().",
+   "pause/impl#[TauriResolver][PauseResolver]resolve().",
+   "pause/impl#[CliResolver][PauseResolver]kind()."
+  ]
+ },
+ "fp_families_named": [
+  "entry-point",
+  "runtime-invoked",
+  "test-only-helper",
+  "trait-impl-dispatch",
+  "derive-attr-invoked"
+ ],
+ "unused_deps_by_crate": {
+  "conductor-emit": [
+   "conductor-core"
+  ]
+ },
+ "unused_deps_baseline": {
+  "conductor-cli": [
+   "tracing"
+  ],
+  "conductor-emit": [
+   "conductor-core"
+  ]
+ }
+}

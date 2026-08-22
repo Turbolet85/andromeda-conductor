@@ -1,0 +1,242 @@
+{
+ "rows": [
+  {
+   "metric": "graph.cycles",
+   "recorded_baseline": 0,
+   "recomputed_baseline": 0,
+   "current": 0,
+   "judging_basis": "identical",
+   "check": "new-cycle",
+   "fires": false,
+   "note": "zero at both boundaries"
+  },
+  {
+   "metric": "graph.cross_unit_edges",
+   "recorded_baseline": 16,
+   "recomputed_baseline": 16,
+   "current": 16,
+   "judging_basis": "identical",
+   "check": "\u2014",
+   "fires": false,
+   "note": "unchanged; fan-out set identical"
+  },
+  {
+   "metric": "duplication.pct",
+   "recorded_baseline": 3.68,
+   "recomputed_baseline": 3.88,
+   "current": 3.66,
+   "judging_basis": "recomputed",
+   "check": "duplication-up",
+   "fires": false,
+   "note": "-0.22 pt \u2014 DOWN"
+  },
+  {
+   "metric": "duplication.clones",
+   "recorded_baseline": 79,
+   "recomputed_baseline": 79,
+   "current": 84,
+   "judging_basis": "recomputed (exact match on clones)",
+   "check": "\u2014",
+   "fires": false,
+   "note": "both_test 35->40, both_src 37->36, mixed 7->8 \u2014 growth is entirely test-side"
+  },
+  {
+   "metric": "complexity.over_ceiling",
+   "recorded_baseline": 6,
+   "recomputed_baseline": 6,
+   "current": 6,
+   "judging_basis": "exact",
+   "check": "complexity-creep",
+   "fires": false,
+   "note": "flat at 6"
+  },
+  {
+   "metric": "complexity.cyclomatic_p50",
+   "recorded_baseline": 1.0,
+   "recomputed_baseline": 1.0,
+   "current": 1.0,
+   "judging_basis": "exact",
+   "check": "\u2014",
+   "fires": false,
+   "note": "flat"
+  },
+  {
+   "metric": "complexity.cyclomatic_p90",
+   "recorded_baseline": 4.0,
+   "recomputed_baseline": 4.0,
+   "current": 4.0,
+   "judging_basis": "exact",
+   "check": "\u2014",
+   "fires": false,
+   "note": "flat"
+  },
+  {
+   "metric": "complexity.cognitive_p50",
+   "recorded_baseline": 0.0,
+   "recomputed_baseline": 0.0,
+   "current": 0.0,
+   "judging_basis": "exact",
+   "check": "\u2014",
+   "fires": false,
+   "note": "flat"
+  },
+  {
+   "metric": "complexity.cognitive_p90",
+   "recorded_baseline": 1.0,
+   "recomputed_baseline": 1.0,
+   "current": 1.0,
+   "judging_basis": "exact",
+   "check": "\u2014",
+   "fires": false,
+   "note": "flat"
+  },
+  {
+   "metric": "complexity.max",
+   "recorded_baseline": "6|shape_is_realizable 31",
+   "recomputed_baseline": "shape_is_realizable 31.0",
+   "current": "serve_stub 34.0",
+   "judging_basis": "exact",
+   "check": "top-N entrants",
+   "fires": true,
+   "note": "serve_stub (test stub) cognitive 27->34 takes the max slot from shape_is_realizable 31"
+  },
+  {
+   "metric": "sizes.file_max",
+   "recorded_baseline": 898,
+   "recomputed_baseline": 898,
+   "current": 1012,
+   "judging_basis": "exact",
+   "check": "\u2014",
+   "fires": false,
+   "note": "conductor-run/src/lib.rs 898 -> 1012"
+  },
+  {
+   "metric": "sizes.over_800",
+   "recorded_baseline": 2,
+   "recomputed_baseline": 2,
+   "current": 2,
+   "judging_basis": "exact",
+   "check": "\u2014",
+   "fires": false,
+   "note": "flat at 2, but BOTH members now exceed 1000"
+  },
+  {
+   "metric": "sizes.file_p50",
+   "recorded_baseline": 88,
+   "recomputed_baseline": 101,
+   "current": 104,
+   "judging_basis": "recomputed (recorded population unrecoverable)",
+   "check": "\u2014",
+   "fires": false,
+   "note": "101 -> 104"
+  },
+  {
+   "metric": "sizes.file_p90",
+   "recorded_baseline": 347,
+   "recomputed_baseline": 359,
+   "current": 360,
+   "judging_basis": "recomputed (recorded population unrecoverable)",
+   "check": "\u2014",
+   "fires": false,
+   "note": "359 -> 360"
+  },
+  {
+   "metric": "totals.loc",
+   "recorded_baseline": 16543,
+   "recomputed_baseline": 15651,
+   "current": 17518,
+   "judging_basis": "recomputed (recorded population unrecoverable)",
+   "check": "\u2014",
+   "fires": false,
+   "note": "15651 -> 17518 (+1867)"
+  },
+  {
+   "metric": "totals.files",
+   "recorded_baseline": 118,
+   "recomputed_baseline": 104,
+   "current": 111,
+   "judging_basis": "recomputed (recorded population unrecoverable)",
+   "check": "\u2014",
+   "fires": false,
+   "note": "104 -> 111 (+7, all test files; git confirms 7 adds / 0 deletes)"
+  },
+  {
+   "metric": "dead.zero_ref_candidates",
+   "recorded_baseline": 31,
+   "recomputed_baseline": 31,
+   "current": 33,
+   "judging_basis": "recomputed == recorded (validated)",
+   "check": "dead-growth",
+   "fires": false,
+   "note": "+2: both are PauseResolver::kind() trait impls (a named FP family), not dead code"
+  },
+  {
+   "metric": "dead.unused_deps",
+   "recorded_baseline": 2,
+   "recomputed_baseline": 2,
+   "current": 1,
+   "judging_basis": "identical",
+   "check": "\u2014",
+   "fires": false,
+   "note": "conductor-cli:tracing resolved; conductor-emit:conductor-core remains"
+  },
+  {
+   "metric": "coverage.line",
+   "recorded_baseline": 92.26,
+   "recomputed_baseline": 92.26,
+   "current": 92.62,
+   "judging_basis": "identical",
+   "check": "coverage-drop",
+   "fires": false,
+   "note": "+0.36 pt"
+  },
+  {
+   "metric": "churn.pct",
+   "recorded_baseline": null,
+   "recomputed_baseline": null,
+   "current": 11.81,
+   "judging_basis": "no-baseline",
+   "check": "churn (<2 records)",
+   "fires": false,
+   "note": "informational by rule"
+  },
+  {
+   "metric": "hotspots",
+   "recorded_baseline": "[] (no-baseline)",
+   "recomputed_baseline": "[] (no-baseline)",
+   "current": [
+    "crates/conductor-verify/tests/common/mod.rs",
+    34.0
+   ],
+   "judging_basis": "no-baseline",
+   "check": "top-N entrants",
+   "fires": true,
+   "note": "first hotspot table; all entries are entrants"
+  }
+ ],
+ "firing": [
+  {
+   "metric": "complexity.max",
+   "recorded_baseline": "6|shape_is_realizable 31",
+   "recomputed_baseline": "shape_is_realizable 31.0",
+   "current": "serve_stub 34.0",
+   "judging_basis": "exact",
+   "check": "top-N entrants",
+   "fires": true,
+   "note": "serve_stub (test stub) cognitive 27->34 takes the max slot from shape_is_realizable 31"
+  },
+  {
+   "metric": "hotspots",
+   "recorded_baseline": "[] (no-baseline)",
+   "recomputed_baseline": "[] (no-baseline)",
+   "current": [
+    "crates/conductor-verify/tests/common/mod.rs",
+    34.0
+   ],
+   "judging_basis": "no-baseline",
+   "check": "top-N entrants",
+   "fires": true,
+   "note": "first hotspot table; all entries are entrants"
+  }
+ ]
+}
