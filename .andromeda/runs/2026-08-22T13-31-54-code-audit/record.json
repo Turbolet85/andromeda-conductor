@@ -445,6 +445,7 @@
    "conductor-run": 70.59,
    "conductor-verify": 88.99
   },
+  "baseline_caveat": "D3, owed to this record and written 2026-08-31. The conductor-verify DELTA (+16.02 pt, 72.97 -> 88.99) rests on a baseline score that does not reconcile: at boundary #1 the stored 72.97 and the stored 28 survivors cannot both be right under the score formula conductor-run satisfies exactly (72.97 implies a non-integer caught count of 75.6; neither 24 distinct survivor sites nor 28 survivor mutations yields 72.97 either). This run treats 72.97 as stated, so the reported gain carries that caveat and the conductor-verify trend is NOT a like-for-like comparison until a boundary recomputes the baseline on the recorded numerator/denominator. The conductor-run delta (+11.77) is unaffected - its 58.82 reconciles exactly (40/68). See proposals.md M2.",
   "counts": {
    "conductor-run": {
     "mutants": 92,
@@ -856,14 +857,16 @@
   {
    "id": "mutation-timeouts",
    "since": "boundary #1 (8cba57d)",
-   "owner": null,
-   "note": "2 pre-existing cargo-mutants timeouts; unchanged, no owner assigned"
+   "owner": "2026-08-20-read-back-seam-survivors-closed",
+   "status": "accepted-deliberate",
+   "note": "2 pre-existing cargo-mutants timeouts in conductor-verify/src/jsonrpc.rs (:49:30 and :70:9); unchanged across both boundaries. NOT open work: owner assigned 2026-08-31 by re-reading the origin chunk, whose report §Plan-step-8 measured the timeout-conversion speculation FALSE and recorded both timeouts plainly as a ratified observe-and-report negative (master-route desc: '2 timeout unchanged - the ratified observe-and-report negative'). The prior owner:null was a ledger-schema gap, not an unowned defect."
   },
   {
    "id": "command-field-omission",
    "since": "boundary #1 (8cba57d)",
-   "owner": null,
-   "note": "the baseline recorded the DEFAULT mutants form while the run needed --test-tool=nextest, so replaying the recorded triple aborts. This record adds a `commands` field carrying the firing form."
+   "owner": "2026-08-22T13-31-54-code-audit",
+   "status": "discharged",
+   "note": "the baseline recorded the DEFAULT mutants form while the run needed --test-tool=nextest, so replaying the recorded triple aborts. This record adds a `commands` field carrying the firing form. DISCHARGED - verified 2026-08-31: this record's own `commands` object carries all 8 metric keys (sizes, duplication, complexity, dead_deps, dead_symbols, coverage, churn, mutation), so the remedy this follow-up asked for is present in the artifact, not merely proposed."
   }
  ],
  "accepted_deliberate": {
