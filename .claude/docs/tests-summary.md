@@ -43,7 +43,7 @@ setup-project Phase 4 materializes `scripts/agent-run.{sh,ps1}`. Enforcement: `.
 
 ## Critical decisions
 - **cargo-nextest** (stable exit codes + JUnit) is the agent-readable runner the `run` command wraps.
-- **Per-surface drivers:** assert_cmd (cli release gate) · rmcp stub (MCP, CI) · tauri::test mock runtime (IPC) · tauri-driver/WebdriverIO (webview, Linux+xvfb).
+- **Per-surface drivers:** assert_cmd (cli release gate) · the hand-rolled JSON-RPC `stub_pulse_mcp` (MCP, CI — rmcp removed 2026-06-27; the stub's incident item key is `incident_id`, the live sidecar's) · tauri::test mock runtime (IPC) · tauri-driver/WebdriverIO (webview, Linux+xvfb). A live-Pulse leg is operator/local only and may ride a cargo-feature gate (`--features live-pulse`), which owes its own clippy leg.
 - **Open:** no JS/TS unit runner for the React webview (GUI is convenience; CLI is the gate) — re-run research if frontend unit coverage is later required.
 
 ---

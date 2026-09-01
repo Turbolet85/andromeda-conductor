@@ -1,0 +1,17 @@
+- id: D-security-input
+  doc: security-plan
+  invariant: every new external-input surface (scenario config / CONDUCTOR_* path / MCP child stdout / deserialized struct) the chunk adds is validated per §Input Validation.
+  check: agent-read — for each new external-input symbol in the report, confirm the validation §Input Validation mandates (garde derive / canonicalize / bounded decode) is present; an unvalidated boundary is drift.
+  severity: escalate
+- id: D-security-subprocess
+  doc: security-plan
+  invariant: the MCP sidecar spawn / data-dir handling matches §Security Anti-Patterns (fixed path, `.env(...)` only, no argv/shell interpolation, negotiate-down to 2024-11-05).
+  check: agent-read — if the report touches the sidecar spawn / preflight / data-dir, confirm it matches §Security Anti-Patterns; a mismatch is drift.
+  severity: escalate
+- id: D-security-deps
+  doc: security-plan
+  invariant: every new dependency the chunk adds is allowed by §Dependency Security (audit-green; toolchain ≥1.94.1; tauri ≥2.10.3; Cargo.lock committed).
+  check: agent-read — check the report's new Dependencies against §Dependency Security; a banned/unvetted dependency or a missed required bump is drift.
+  severity: escalate
+
+# — design-system —

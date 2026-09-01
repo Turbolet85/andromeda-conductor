@@ -1,0 +1,53 @@
+   Compiling conductor-run v0.1.0 (D:\dev\projects\conductor\crates\conductor-run)
+warning: unused imports: `LifecycleVerdict` and `select_resolve_target`
+  --> crates\conductor-run\tests\lifecycle_live.rs:39:26
+   |
+39 |     CANARY_SERVICE_NAME, LifecycleVerdict, canary_spec, canary_storm_seed, emit_canary_storm,
+   |                          ^^^^^^^^^^^^^^^^
+40 |     evaluate_lifecycle, probe_resolve_lifecycle, select_resolve_target,
+   |                                                  ^^^^^^^^^^^^^^^^^^^^^
+   |
+   = note: `#[warn(unused_imports)]` (part of `#[warn(unused)]`) on by default
+
+warning: `conductor-run` (test "lifecycle_live") generated 1 warning (run `cargo fix --test "lifecycle_live" -p conductor-run` to apply 1 suggestion)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 1.54s
+     Running tests\lifecycle_live.rs (target\debug\deps\lifecycle_live-b1942c3da0af5db3.exe)
+
+running 1 test
+{"deployment.environment":"production","fields":{"env_var_mcp_enabled":true,"feature_flag_enabled":true,"reason":"both_gates_active"},"level":"INFO","message":"MCP double-gate validated; sidecar enabling stdio loop","service.name":"andromeda-pulse-mcp","service.version":"0.1.0","target":"mcp.feature.gate.check","timestamp":"2026-09-01T16:43:23.791Z"}
+{"deployment.environment":"production","fields":{"method":"initialize","params_count":3,"result_type":"envelope"},"level":"INFO","message":"dispatched JSON-RPC request","service.name":"andromeda-pulse-mcp","service.version":"0.1.0","target":"mcp.server.dispatch","timestamp":"2026-09-01T16:43:23.804Z"}
+{"deployment.environment":"production","fields":{"method":"notifications/initialized","params_count":0},"level":"INFO","message":"received notification (no response)","service.name":"andromeda-pulse-mcp","service.version":"0.1.0","target":"mcp.server.notification","timestamp":"2026-09-01T16:43:23.804Z"}
+{"deployment.environment":"production","fields":{"params_count":0,"tool_name":"query_incident_list"},"level":"INFO","message":"tool dispatch begin","service.name":"andromeda-pulse-mcp","service.version":"0.1.0","target":"mcp.tools.call.request","timestamp":"2026-09-01T16:43:23.806Z"}
+{"deployment.environment":"production","fields":{"duration_ms":0,"result_count":1,"result_type":"incident_list","tool_name":"query_incident_list"},"level":"INFO","message":"tool dispatch ok","service.name":"andromeda-pulse-mcp","service.version":"0.1.0","target":"mcp.tools.call.response","timestamp":"2026-09-01T16:43:23.807Z"}
+{"deployment.environment":"production","fields":{"method":"query_incident_list","result_count":1,"value":0},"level":"INFO","message":"tool call duration metric","service.name":"andromeda-pulse-mcp","service.version":"0.1.0","target":"metric.mcp.tool_call_duration_ms","timestamp":"2026-09-01T16:43:23.807Z"}
+{"deployment.environment":"production","fields":{"method":"tools/call","params_count":2,"result_type":"envelope"},"level":"INFO","message":"dispatched JSON-RPC request","service.name":"andromeda-pulse-mcp","service.version":"0.1.0","target":"mcp.server.dispatch","timestamp":"2026-09-01T16:43:23.807Z"}
+LEG raw query_incident_list -> {"items":[{"incident_id":6,"opened_at_unix_nano":1788280958251622800,"severity":"error","status":"active","title":"Deterministic verification incident"}],"next_cursor":null,"total":1}
+LEG active-set at open: [6]
+LEG storm emitted: ConductorLifecycle_1788281003807204400
+{"deployment.environment":"production","fields":{"params_count":0,"tool_name":"query_incident_list"},"level":"INFO","message":"tool dispatch begin","service.name":"andromeda-pulse-mcp","service.version":"0.1.0","target":"mcp.tools.call.request","timestamp":"2026-09-01T16:43:23.812Z"}
+{"deployment.environment":"production","fields":{"duration_ms":0,"result_count":1,"result_type":"incident_list","tool_name":"query_incident_list"},"level":"INFO","message":"tool dispatch ok","service.name":"andromeda-pulse-mcp","service.version":"0.1.0","target":"mcp.tools.call.response","timestamp":"2026-09-01T16:43:23.812Z"}
+{"deployment.environment":"production","fields":{"method":"query_incident_list","result_count":1,"value":0},"level":"INFO","message":"tool call duration metric","service.name":"andromeda-pulse-mcp","service.version":"0.1.0","target":"metric.mcp.tool_call_duration_ms","timestamp":"2026-09-01T16:43:23.812Z"}
+{"deployment.environment":"production","fields":{"method":"tools/call","params_count":2,"result_type":"envelope"},"level":"INFO","message":"dispatched JSON-RPC request","service.name":"andromeda-pulse-mcp","service.version":"0.1.0","target":"mcp.server.dispatch","timestamp":"2026-09-01T16:43:23.812Z"}
+LEG raw query_incident_list -> {"items":[{"incident_id":6,"opened_at_unix_nano":1788280958251622800,"severity":"error","status":"active","title":"Deterministic verification incident"}],"next_cursor":null,"total":1}
+LEG active-set before resolve: [6]
+{"deployment.environment":"production","fields":{"params_count":0,"tool_name":"query_incident_list"},"level":"INFO","message":"tool dispatch begin","service.name":"andromeda-pulse-mcp","service.version":"0.1.0","target":"mcp.tools.call.request","timestamp":"2026-09-01T16:43:23.813Z"}
+{"deployment.environment":"production","fields":{"duration_ms":0,"result_count":1,"result_type":"incident_list","tool_name":"query_incident_list"},"level":"INFO","message":"tool dispatch ok","service.name":"andromeda-pulse-mcp","service.version":"0.1.0","target":"mcp.tools.call.response","timestamp":"2026-09-01T16:43:23.813Z"}
+{"deployment.environment":"production","fields":{"method":"query_incident_list","result_count":1,"value":0},"level":"INFO","message":"tool call duration metric","service.name":"andromeda-pulse-mcp","service.version":"0.1.0","target":"metric.mcp.tool_call_duration_ms","timestamp":"2026-09-01T16:43:23.813Z"}
+{"deployment.environment":"production","fields":{"method":"tools/call","params_count":2,"result_type":"envelope"},"level":"INFO","message":"dispatched JSON-RPC request","service.name":"andromeda-pulse-mcp","service.version":"0.1.0","target":"mcp.server.dispatch","timestamp":"2026-09-01T16:43:23.813Z"}
+{"deployment.environment":"production","fields":{"params_count":1,"tool_name":"mark_incident_resolved"},"level":"INFO","message":"tool dispatch begin","service.name":"andromeda-pulse-mcp","service.version":"0.1.0","target":"mcp.tools.call.request","timestamp":"2026-09-01T16:43:23.813Z"}
+{"deployment.environment":"production","fields":{"duration_ms":6,"result_count":1,"result_type":"resolve_ack","tool_name":"mark_incident_resolved"},"level":"INFO","message":"tool dispatch ok","service.name":"andromeda-pulse-mcp","service.version":"0.1.0","target":"mcp.tools.call.response","timestamp":"2026-09-01T16:43:23.820Z"}
+{"deployment.environment":"production","fields":{"method":"mark_incident_resolved","result_count":1,"value":6},"level":"INFO","message":"tool call duration metric","service.name":"andromeda-pulse-mcp","service.version":"0.1.0","target":"metric.mcp.tool_call_duration_ms","timestamp":"2026-09-01T16:43:23.820Z"}
+{"deployment.environment":"production","fields":{"method":"tools/call","params_count":2,"result_type":"envelope"},"level":"INFO","message":"dispatched JSON-RPC request","service.name":"andromeda-pulse-mcp","service.version":"0.1.0","target":"mcp.server.dispatch","timestamp":"2026-09-01T16:43:23.820Z"}
+{"deployment.environment":"production","fields":{"params_count":0,"tool_name":"query_incident_list"},"level":"INFO","message":"tool dispatch begin","service.name":"andromeda-pulse-mcp","service.version":"0.1.0","target":"mcp.tools.call.request","timestamp":"2026-09-01T16:43:23.821Z"}
+{"deployment.environment":"production","fields":{"duration_ms":0,"result_count":0,"result_type":"incident_list","tool_name":"query_incident_list"},"level":"INFO","message":"tool dispatch ok","service.name":"andromeda-pulse-mcp","service.version":"0.1.0","target":"mcp.tools.call.response","timestamp":"2026-09-01T16:43:23.821Z"}
+{"deployment.environment":"production","fields":{"method":"query_incident_list","result_count":0,"value":0},"level":"INFO","message":"tool call duration metric","service.name":"andromeda-pulse-mcp","service.version":"0.1.0","target":"metric.mcp.tool_call_duration_ms","timestamp":"2026-09-01T16:43:23.821Z"}
+{"deployment.environment":"production","fields":{"method":"tools/call","params_count":2,"result_type":"envelope"},"level":"INFO","message":"dispatched JSON-RPC request","service.name":"andromeda-pulse-mcp","service.version":"0.1.0","target":"mcp.server.dispatch","timestamp":"2026-09-01T16:43:23.821Z"}
+LEG resolved=6
+LEG observation: LifecycleObservation { before: [6], resolved: 6, after: [] }
+LEG idle_seconds_at_resolve=0.0 (auto-resolve needs 120s idle)
+LEG verdict: NoControl
+LEG PROVEN-BY-LIVENESS: incident 6 left the active set 0.0s after its last emission — far inside the 120s idle window the auto-resolver requires, so the removal is attributable to Conductor's mark_incident_resolved write
+test resolve_lifecycle_liveness_attributed_leg ... ok
+
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.05s
+

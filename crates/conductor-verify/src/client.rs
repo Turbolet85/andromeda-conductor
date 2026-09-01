@@ -148,4 +148,12 @@ impl ReadbackClient {
     pub async fn mark_incident_resolved(&self, arguments: Option<Value>) -> Result<Value, VerifyError> {
         self.call_tool(MARK_INCIDENT_RESOLVED, arguments).await
     }
+
+    /// The lifecycle write by id — the tool's only argument shape (`IncidentIdArgs` on Pulse's side).
+    ///
+    /// Exists so a caller can drive the write without taking a `serde_json` dependency of its own to
+    /// build the one-field object; the raw-`Value` form above stays for callers that already hold one.
+    pub async fn resolve_incident(&self, incident_id: i64) -> Result<Value, VerifyError> {
+        self.mark_incident_resolved(Some(json!({ "incident_id": incident_id }))).await
+    }
 }

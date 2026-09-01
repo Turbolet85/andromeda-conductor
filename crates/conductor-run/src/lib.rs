@@ -38,7 +38,7 @@ mod dispatch;
 pub use dispatch::{DispatchError, Dispatcher};
 use conductor_verify::{
     CanaryMarker, CanaryOutcome, CanaryPoll, ContractManifest, Observation, ReadBackOutcome,
-    ReadbackClient, ReadyState, ToolPresence, evaluate_check, observe, run_preflight,
+    ReadbackClient, ReadyState, ToolPresence, VerifyError, evaluate_check, observe, run_preflight,
 };
 
 /// The suite-wide preflight outcome — established once, reused by every scenario in a run.
@@ -121,6 +121,146 @@ pub const CANARY_STORM_COUNT: u64 = 12;
 /// EWMAs per service, so a shared identity would age every scenario's suppression semantics and
 /// inflate its baseline denominator with preflight storm traffic before phase 1 ever emits.
 pub const CANARY_SERVICE_NAME: &str = "conductor-canary";
+
+/// What one resolve-lifecycle probe observed: the active set before the write, the id it resolved,
+/// and the active set after. The two sets are what the verdict is computed from — the write's own
+/// `{resolved, incident_id}` answer says only that Pulse accepted the call.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub struct LifecycleObservation {
+    pub before: Vec<i64>,
+    pub resolved: i64,
+    pub after: Vec<i64>,
+}
+
+/// The verdict a lifecycle probe earns. The two `Proven*` arms attribute the active-set change to
+/// Conductor's write; every other arm names why it cannot.
+///
+/// `Eq` is deliberately absent: `ProvenByLiveness` carries the measured idle seconds, and a float
+/// has no total equality. Comparisons in tests use `PartialEq` on exact captured values.
+#[derive(Debug, Clone, PartialEq)]
+pub enum LifecycleVerdict {
+    /// The resolved id left the active set AND a control id stayed — Pulse's own auto-resolver
+    /// cannot produce this, because it would have to spare exactly the incident we did not write to.
+    ///
+    /// UNREACHABLE against Pulse as measured (2026-09-01, HEAD `83d4060`): a second concurrent
+    /// incident cannot be formed, because the producer dedupes against any OPEN incident regardless
+    /// of fingerprint. Kept because it is the stronger attribution if that ever changes.
+    Proven { control: i64 },
+    /// The resolved id left the active set while its telemetry was FRESH. Pulse auto-resolves only
+    /// an incident idle for `AUTO_RESOLVE_IDLE_SECONDS`, so a removal inside that window cannot be
+    /// the resolver's — which makes Conductor's write the only remaining cause. This is the
+    /// attribution the single-incident reality actually supports.
+    ProvenByLiveness { idle_seconds: f64 },
+    /// The resolved id left, but no control survived. Indistinguishable from the 120s idle
+    /// auto-resolve (30s resolver tick), so it proves nothing on its own.
+    Unattributable,
+    /// The resolved id is still active — the write did not take effect.
+    StillActive,
+    /// Fewer than two incidents were active, so no control could be held back.
+    NoControl,
+}
+
+/// Choose the incident to resolve, keeping a control behind. Returns `(resolve, control)` — the
+/// LAST id is resolved and the FIRST held, so the control is the older incident (typically the
+/// preflight canary's, which is already open when a scenario's own storm forms).
+///
+/// Fewer than two active incidents yields `None`: a single-incident probe cannot separate Conductor's
+/// write from Pulse's auto-resolver, and running it anyway would mint evidence that reads as proof.
+pub fn select_resolve_target(active: &[i64]) -> Option<(i64, i64)> {
+    match active {
+        [control, .., resolve] => Some((*resolve, *control)),
+        _ => None,
+    }
+}
+
+/// Pulse's auto-resolve idle threshold. An incident whose telemetry is fresher than this cannot be
+/// the resolver's to take, which is what lets a single-incident leg attribute the removal.
+pub const AUTO_RESOLVE_IDLE_SECONDS: f64 = 120.0;
+
+/// Grade a lifecycle observation by LIVENESS — the attribution available when only one incident can
+/// be active at a time.
+///
+/// `idle_seconds` is the age of the resolved incident's most recent emission at the instant of the
+/// write. Below [`AUTO_RESOLVE_IDLE_SECONDS`] the auto-resolver is excluded by construction, so the
+/// id leaving the active set is attributable to Conductor's write. At or above it the observation is
+/// real but `Unattributable`: the resolver could have produced exactly the same disappearance.
+pub fn attribute_by_liveness(
+    observation: &LifecycleObservation,
+    idle_seconds: f64,
+) -> LifecycleVerdict {
+    if observation.before.is_empty() {
+        return LifecycleVerdict::NoControl;
+    }
+    if observation.after.contains(&observation.resolved) {
+        return LifecycleVerdict::StillActive;
+    }
+    if idle_seconds < AUTO_RESOLVE_IDLE_SECONDS {
+        LifecycleVerdict::ProvenByLiveness { idle_seconds }
+    } else {
+        LifecycleVerdict::Unattributable
+    }
+}
+
+/// Grade a lifecycle observation. The control's SURVIVAL is the load-bearing half: `query_incident_list`
+/// is active-only, so a resolved incident leaves the surface — but so does an auto-resolved one, and
+/// only a spared control separates the two.
+pub fn evaluate_lifecycle(observation: &LifecycleObservation, control: i64) -> LifecycleVerdict {
+    if observation.before.len() < 2 {
+        return LifecycleVerdict::NoControl;
+    }
+    if observation.after.contains(&observation.resolved) {
+        return LifecycleVerdict::StillActive;
+    }
+    if observation.after.contains(&control) {
+        LifecycleVerdict::Proven { control }
+    } else {
+        LifecycleVerdict::Unattributable
+    }
+}
+
+/// Read the active set, resolve one incident by id, and read it back — the first production caller of
+/// `mark_incident_resolved`.
+///
+/// ORDERING: `query_incident_list` is active-only, so this empties what it resolves. Run it LAST in a
+/// run, or in a run of its own; anything reading back afterwards sees the shrunken set.
+///
+/// A declined write is Pulse REFUSING, not a Conductor fault — it returns `Err(VerifyError::JsonRpc)`
+/// for the caller to grade, never a panic.
+pub async fn probe_resolve_lifecycle(
+    client: &ReadbackClient,
+    resolve: i64,
+) -> Result<LifecycleObservation, VerifyError> {
+    let before = active_incident_ids(client).await?;
+    // The incident id is NOT in `conductor-core::redact::ALLOWLISTED_FIELDS`, so it rides the
+    // allowlisted `message` rather than a span attribute the processor stage would drop.
+    tracing::info!(message = %format!("resolve-lifecycle: resolving incident {resolve}"));
+    let _ = client.resolve_incident(resolve).await?;
+    let after = active_incident_ids(client).await?;
+    Ok(LifecycleObservation { before, resolved: resolve, after })
+}
+
+/// The active incident ids from a `query_incident_list` result.
+///
+/// Accepts EITHER item key. The live sidecar emits `incident_id` (measured 2026-09-01 against Pulse
+/// HEAD `83d4060`); the in-process stub emits `id`. Reading only one of them yields an empty list on
+/// a populated corpus — a silent degrade indistinguishable downstream from a genuinely empty active
+/// set, which is exactly how this reader shipped its first live leg. `conductor-verify`'s own
+/// `incident_ids` already carries the same tolerance.
+async fn active_incident_ids(client: &ReadbackClient) -> Result<Vec<i64>, VerifyError> {
+    let list = client.query_incident_list(None).await?;
+    Ok(list
+        .get("items")
+        .and_then(|v| v.as_array())
+        .map(|items| {
+            items
+                .iter()
+                .filter_map(|i| {
+                    i.get("incident_id").or_else(|| i.get("id")).and_then(|v| v.as_i64())
+                })
+                .collect()
+        })
+        .unwrap_or_default())
+}
 
 /// Seed for the `i`-th canary storm occurrence — ascending from `base`.
 pub fn canary_storm_seed(base: u64, i: u64) -> u64 {

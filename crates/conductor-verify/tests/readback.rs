@@ -8,8 +8,9 @@ mod common;
 use common::{StubConfig, serve_stub};
 use conductor_core::ComparisonKind;
 use conductor_verify::{
-    QUERY_INCIDENT_LIST, ReadBackOutcome, ReadbackClient, observe,
+    QUERY_INCIDENT_LIST, ReadBackOutcome, ReadbackClient, VerifyError, observe,
 };
+use serde_json::Value;
 
 /// Drive one read-back pass against a configured stub.
 async fn observe_with(config: StubConfig) -> ReadBackOutcome {
@@ -152,4 +153,60 @@ async fn a_malformed_result_shape_degrades_to_empty_rather_than_panicking() {
     // Every tool returns a well-formed JSON value of the wrong shape: the incident list has no
     // `items`, so there is nothing to grade and the pass is Blocked-bound, not a false pass.
     assert_eq!(observe_with(config).await, ReadBackOutcome::EmptyCorpus);
+}
+
+/// Drive one `mark_incident_resolved` call against a configured stub, returning the client's own
+/// typed result. Separate from `observe_with` because the lifecycle write is not part of `observe`'s
+/// read-only pass.
+async fn resolve_with(config: StubConfig, incident_id: i64) -> Result<Value, VerifyError> {
+    let (client_io, server_io) = tokio::io::duplex(4096);
+    let server = tokio::spawn(serve_stub(server_io, config));
+    let client = ReadbackClient::connect_transport(client_io)
+        .await
+        .expect("client connects to the stub");
+    let result =
+        client.mark_incident_resolved(Some(serde_json::json!({ "incident_id": incident_id }))).await;
+    drop(client);
+    server.abort();
+    result
+}
+
+/// The applied arm round-trips Pulse's RAW result — `{resolved, incident_id}` returned directly as
+/// the JSON-RPC `result`, never an MCP `{content:[…]}` envelope (Pulse's sidecar is hand-rolled and
+/// non-MCP-compliant for `tools/call`). Echoing the requested id is what makes resolving the WRONG
+/// incident visible in the result rather than silently agreeable.
+#[tokio::test(flavor = "current_thread")]
+async fn an_applied_resolve_round_trips_pulses_raw_shape() {
+    let result = resolve_with(StubConfig::default(), 7).await.expect("the applied arm returns Ok");
+    assert_eq!(result.get("resolved").and_then(Value::as_bool), Some(true), "raw shape: {result}");
+    assert_eq!(result.get("incident_id").and_then(Value::as_i64), Some(7), "echoes the id it wrote");
+    assert!(result.get("content").is_none(), "must NOT be MCP-wrapped: {result}");
+}
+
+/// The DECLINED arm is Pulse REFUSING a write — SUT behavior, not a Conductor fault — so it must
+/// land as a typed value on the verdict/error wall's outcome side, never as a panic and never as a
+/// transport fault. `JsonRpc` and `Transport` are distinct variants precisely so a caller can tell a
+/// refused write from a broken pipe.
+#[tokio::test(flavor = "current_thread")]
+async fn a_declined_resolve_is_a_typed_json_rpc_value_never_a_panic() {
+    let config = StubConfig { resolve_declines: true, ..StubConfig::default() };
+    let err = resolve_with(config, 1).await.expect_err("a declined write surfaces as an error value");
+
+    let VerifyError::JsonRpc { code, message } = &err else {
+        panic!("a declined write is a JSON-RPC error, not a transport fault: {err:?}");
+    };
+    assert_eq!(*code, -32603);
+    assert!(
+        message.contains("resolution not applied"),
+        "carries Pulse's own declined reason: {message}"
+    );
+
+    // The server's text stays OFF the Display surface, so an unsanitized reason cannot reach an
+    // artifact by default — the code alone is what renders.
+    let rendered = err.to_string();
+    assert!(rendered.contains("-32603"), "Display carries the code: {rendered}");
+    assert!(
+        !rendered.contains("resolution not applied"),
+        "Display must NOT leak the server's text: {rendered}"
+    );
 }

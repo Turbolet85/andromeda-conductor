@@ -20,6 +20,12 @@ serde = { workspace = true }
 # the run contract's warm-up window paces its pre-roll emissions (conductor-core::RunContract)
 tokio = { workspace = true, features = ["time"] }
 
+[features]
+# The operator/local live leg that mints the resolve-lifecycle capture. Declares NO dependency, so it
+# adds zero package nodes to `Cargo.lock`; it exists only to keep the live-Pulse test out of a default
+# `nextest` / `clippy` / release build, the `stub-server` precedent (test-plan §5 Drivers).
+live-pulse = []
+
 [dev-dependencies]
 tokio = { workspace = true, features = ["macros", "rt", "net", "test-util"] }
 assert_fs.workspace = true

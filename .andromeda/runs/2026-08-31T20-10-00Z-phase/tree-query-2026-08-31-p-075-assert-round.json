@@ -1,0 +1,123 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee LIKE '%/mark_incident_resolved().%' ORDER BY file, line;",
+"rows": 0,
+"result": [],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT symbol, crate, file FROM symbol WHERE symbol LIKE '%mark_incident_resolved%';",
+"rows": 1,
+"result": [
+{
+"symbol": "rust-analyzer cargo conductor-verify 0.1.0 client/impl#[ReadbackClient]mark_incident_resolved().",
+"crate": "conductor-verify",
+"file": "crates/conductor-verify/src/client.rs"
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee LIKE '%/query_incident_list().%' ORDER BY file, line;",
+"rows": 0,
+"result": [],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT from_crate, to_crate FROM crate_edges WHERE to_crate IN ('conductor-verify','conductor-run') OR from_crate IN ('conductor-verify','conductor-run') ORDER BY from_crate, to_crate;",
+"rows": 10,
+"result": [
+{
+"from_crate": "conductor-cli",
+"to_crate": "conductor-run"
+},
+{
+"from_crate": "conductor-cli",
+"to_crate": "conductor-verify"
+},
+{
+"from_crate": "conductor-run",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-run",
+"to_crate": "conductor-emit"
+},
+{
+"from_crate": "conductor-run",
+"to_crate": "conductor-faults"
+},
+{
+"from_crate": "conductor-run",
+"to_crate": "conductor-report"
+},
+{
+"from_crate": "conductor-run",
+"to_crate": "conductor-timeline"
+},
+{
+"from_crate": "conductor-run",
+"to_crate": "conductor-verify"
+},
+{
+"from_crate": "conductor-tauri",
+"to_crate": "conductor-run"
+},
+{
+"from_crate": "conductor-verify",
+"to_crate": "conductor-core"
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT symbol, crate, file FROM symbol WHERE symbol LIKE '%query_incident_list%';",
+"rows": 1,
+"result": [
+{
+"symbol": "rust-analyzer cargo conductor-verify 0.1.0 client/impl#[ReadbackClient]query_incident_list().",
+"crate": "conductor-verify",
+"file": "crates/conductor-verify/src/client.rs"
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT callee, file, line FROM refs WHERE callee LIKE '%query_incident_list().%' OR callee LIKE '%mark_incident_resolved().%' ORDER BY file, line;",
+"rows": 5,
+"result": [
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 client/impl#[ReadbackClient]query_incident_list().",
+"file": "crates/conductor-verify/src/extract.rs",
+"line": 76
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 client/impl#[ReadbackClient]query_incident_list().",
+"file": "crates/conductor-verify/src/preflight.rs",
+"line": 376
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 client/impl#[ReadbackClient]query_incident_list().",
+"file": "crates/conductor-verify/tests/jsonrpc_correlation.rs",
+"line": 24
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 client/impl#[ReadbackClient]query_incident_list().",
+"file": "crates/conductor-verify/tests/readback.rs",
+"line": 45
+},
+{
+"callee": "rust-analyzer cargo conductor-verify 0.1.0 client/impl#[ReadbackClient]query_incident_list().",
+"file": "crates/conductor-verify/tests/readback.rs",
+"line": 131
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

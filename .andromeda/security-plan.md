@@ -43,7 +43,7 @@ _Justification: Every signal points to a minimal-tier local utility — a single
 - **Type:** payment — **none.** Stack lists no payment/billing SDK (no Stripe etc.); Project Intent describes no transactions.
 - **Type:** health — **none.** No medical data in Stack or Intent.
 
-Note: `corpus.db` (Pulse's incident corpus — **plaintext SQLite**, NOT encrypted-at-rest; the P-049 encryption assumption proved wrong live 2026-06-27) is **out of scope** — owned by Pulse (the SUT); Conductor only reads it via MCP read-back to prove wiring and never persists/exfiltrates it (Standard Contracts readiness gate).
+Note: `corpus.db` (Pulse's incident corpus — **plaintext SQLite**, NOT encrypted-at-rest; the P-049 encryption assumption proved wrong live 2026-06-27) is **out of scope** — owned by Pulse (the SUT); Conductor reaches it through the MCP TOOL SURFACE only — read-back **plus the `mark_incident_resolved` lifecycle write** (first production caller 2026-08-31, `conductor_run::probe_resolve_lifecycle`) — never the file, and never persists/exfiltrates its content (Standard Contracts readiness gate).
 
 **Attack surface:**
 
@@ -115,7 +115,7 @@ Patterns: Trust boundary).
 | Env-var path handles (`CONDUCTOR_RUNS_DIR` / `CONDUCTOR_SCENARIOS_DIR` / `CONDUCTOR_CONTRACT_MANIFEST`) | path exists / is a directory or file as expected; **canonicalize** and bounds-check at the CLI edge (these sit OUTSIDE garde's struct validation per security-research.md serde+garde finding) | `std::fs::canonicalize` + explicit type/existence check in `conductor-cli`; reject before any `runs.db`/journal write or manifest read |
 | `ANDROMEDA_PULSE_DATA_DIR` (propagated into the spawned sidecar) | reject argument-injection metacharacters before spawn; treat strictly as an env value passed via the `.env(...)` builder, NEVER interpolated into argv or a shell (MCP-sidecar STDIO command/argument-injection class, CVE-2026-30623 / OX advisory) | validate the path string in `conductor-verify` before `TokioChildProcess` spawn; resolve the platform default (`%APPDATA%\andromeda-pulse` on Windows · `$XDG_CONFIG_HOME`/`~/.andromeda-pulse` on Linux) if Pulse leaves it unset |
 | CLI arguments / stdin (`conductor-cli` seed/scenario flags) | `CONDUCTOR_SEED` parses to the seed integer type; scenario key maps to a known P-ID ("no scenario without a P-ID"); CLI flag precedence over env | the CLI arg parser in `conductor-cli`; `anyhow` at the binary edge for type-erased parse failures |
-| MCP read-back child stdout (trusted-child boundary) | bounded line-delimited JSON-RPC decoding (serde_json is recursion-limited against decode-bomb depth; a soft per-line size bound on the child's stdout — no unbounded read); a JSON-RPC error or empty canary round-trip ⇒ `blocked`, never false pass | hand-rolled JSON-RPC client (`conductor-verify/src/jsonrpc.rs`) parses each response line to `serde_json::Value`; the verdict/error wall maps JSON-RPC errors / decode faults to typed inputs (`VerifyError::{JsonRpc,Decode,Transport}`), never panics; canary asserts `query_incident_list` reports an incident opened AFTER the storm's emission stamp (`extract::opened_at_unix_nanos` vs `CanaryMarker.emitted_at_unix_nano`) — an absent or unparseable stamp contributes nothing and reads as NOT-fresh ⇒ `blocked`, never a false pass |
+| MCP child stdout (trusted-child boundary — read-back AND the `mark_incident_resolved` lifecycle write, which shares the same `call_tool` path and controls; its applied response `{resolved, incident_id}` and its DECLINED arm, a JSON-RPC `ToolDispatchFailed` from Pulse's `IncidentWriteOutcome::DeclinedStale`, both arrive here) | bounded line-delimited JSON-RPC decoding (serde_json is recursion-limited against decode-bomb depth; a soft per-line size bound on the child's stdout — no unbounded read); a JSON-RPC error or empty canary round-trip ⇒ `blocked`, never false pass | hand-rolled JSON-RPC client (`conductor-verify/src/jsonrpc.rs`) parses each response line to `serde_json::Value`; the verdict/error wall maps JSON-RPC errors / decode faults to typed inputs (`VerifyError::{JsonRpc,Decode,Transport}`), never panics; canary asserts `query_incident_list` reports an incident opened AFTER the storm's emission stamp (`extract::opened_at_unix_nanos` vs `CanaryMarker.emitted_at_unix_nano`) — an absent or unparseable stamp contributes nothing and reads as NOT-fresh ⇒ `blocked`, never a false pass |
 | `runs.db` writes (rusqlite raw SQL, no ORM) | use **bound parameters** for `run_id`/`seed`/fingerprint-JSON1 writes — never string-formatted SQL (despite near-nil injection exposure because content is self-generated synthetic data, per security-research.md rusqlite finding) | rusqlite 0.38.0 parameterized statements in the `conductor-report` storage seam; fingerprint arrays written as a JSON1 TEXT array |
 
 (See `## Security Anti-Patterns` § Input for input-validation bans.)
@@ -145,8 +145,10 @@ contradict the loopback-only Minimal model).
 **Encryption at rest is out of scope for Conductor.** Pulse's `corpus.db` is
 **plaintext SQLite** — the P-049 "encrypted at rest via `OsKeychainBackend`"
 assumption proved WRONG when verified live (2026-06-27), so the keychain-failure
-canary mode does not apply. Conductor only reads the corpus via MCP read-back to
-prove wiring and never persists or exfiltrates it (Standard Contracts: Readiness gate).
+canary mode does not apply. Conductor reaches the corpus through the MCP tool
+surface only — read-back to prove wiring, plus the `mark_incident_resolved`
+lifecycle write — never the file, and never persists or exfiltrates its content
+(Standard Contracts: Readiness gate).
 
 _Per template: for Minimal tier the At-rest / Key-management / Data-lifecycle
 subsections are omitted — no sensitive data is stored and there is no key
@@ -312,7 +314,7 @@ added (e.g. a remote-controllable mode), these bans apply._
 ### Data Protection
 
 - NEVER use deprecated crypto algorithms (MD5, SHA-1, DES, RC4, ECB mode) — the ban is now ACTIVE, not hypothetical: `conductor_emit::exception::fingerprint` ships a **blake3** derivation (first 16 bytes / 32 hex), replacing the retired non-cryptographic FNV-1a. Note the run-report `fingerprints[]` column is fed from read-back `Observation#fingerprints`, never from that derivation — the two never meet.
-- NEVER have Conductor's production code directly open, copy, or exfiltrate Pulse's `corpus.db` (plaintext SQLite — P-049 encryption not active live; corpus access is via MCP read-back ONLY) — it is owned by Pulse (the SUT); never persist its content into Conductor artifacts (Standard Contracts: Readiness gate).
+- NEVER have Conductor's production code directly open, copy, or exfiltrate Pulse's `corpus.db` (plaintext SQLite — P-049 encryption not active live; corpus access is via the MCP TOOL SURFACE only — read-back plus the `mark_incident_resolved` lifecycle write — never the file) — it is owned by Pulse (the SUT); never persist its content into Conductor artifacts (Standard Contracts: Readiness gate). The ban is on FILE access, not on the sanctioned write tool: staging a corpus row directly to induce a SUT state (e.g. Pulse's `DeclinedStale`) is the banned route, and is why that arm is stub-proven instead.
 - NEVER persist real secrets or credentials into the unencrypted `runs.db` / JSONL journals — they store only self-generated synthetic telemetry; treat them as world-readable local files.
 - NEVER disable TLS verification or downgrade to plaintext on any surface that is ever promoted beyond loopback — today egress is `127.0.0.1:4317` loopback-only, but a non-loopback target must not silently skip transport verification.
 

@@ -468,3 +468,23 @@ empty; no ack tool exists in the four-tool contract). All five live rows landed 
 **Section:** Conventions → Config conventions · Established Decisions [Scenario Config Format] · Established Decisions [Validation Library]
 **Change:** Registered `[[checklist]]` — an array-of-tables of `ChecklistItem { induced, observation }` (`#[serde(default)]`, garde `dive`, both halves `length(min = 1, max = MAX_CHECKLIST_TEXT)` with `MAX_CHECKLIST_TEXT = 200`), carried on `Scenario` and on `HoldPoint`, declared by exactly two committed scenarios (`halo-hue-encoding`, `halo-breathing-encoding`). Widened BOTH closed enumerations the new sibling-spanning rule joins: the [Scenario Config Format] `CoreError::Config` arm now reads `check_budgets`, `check_capabilities`, `check_checklist`, and [Validation Library]'s third-route list names `Scenario::check_checklist` beside the two it already carried. The `budget_ms`-scoped "No committed scenario TOML declares one" sentence was left standing — it remains true.
 **Why:** The chunk shipped a new declarative scenario-config surface and a third load-path `check_*()`; arch's config-key registry and its two closed method enumerations had no entry, so a shipped surface was unregistered and two lists read as complete while being false.
+
+## 2026-08-31-p-075-assert-round — Payload fidelity disproved on a second axis; runtime-STATE fidelity recorded as the stronger claim that DOES exist
+**Section:** Established Decisions [Read-Back Dependency Posture] → the Honest-limit sentence
+**Change:** Retired "under deterministic L4 no stronger claim exists" and the "concurrent unrelated incident inside the poll window" caveat. Added: the SECOND payload axis (`incident_events` has ZERO references in `crates/mcp-server`, written by triage, read only corpus-side — reaches no MCP tool at any width, Pulse HEAD `83d4060`); runtime-STATE fidelity as the stronger claim, live-proven (incident 6 resolved, active set emptied, `idle_seconds_at_resolve = 0.0` against a 120s idle threshold, corpus-recorded 45s life); the one-active-incident dedupe constraint (the producer dedupes against any OPEN incident regardless of fingerprint), which both forecloses a spared-control design and makes the concurrent-incident caveat unreachable; and the DECLINED arm's permanent stub-only status (monotonic-timestamp guard, `crates/corpus/src/contract.rs:652-659`).
+**Why:** The chunk measured all four facts first-hand against a live Pulse at HEAD `83d4060`; the report's Cross-project claims, Reverted/negative API facts and Outcome carry the evidence, and the plan named this section first in its Expected amendments.
+
+## 2026-08-31-p-075-assert-round — Payload-fidelity carrier restated on both axes at the twin site
+**Section:** Standard Contracts → Readiness gate (the "carrier is freshness, not payload identity" sentence)
+**Change:** Extended the carrier sentence to name BOTH measured axes (`span_events` unread + `incident_events` unreachable) and to record that runtime-STATE fidelity is attainable where payload identity is not.
+**Why:** Duplicate occurrence of the single-axis claim retired in [Read-Back Dependency Posture]; the duplicate-occurrence precedent requires both move together or the retired reading survives in the twin.
+
+## 2026-08-31-p-075-assert-round — Workspace-key divergence mechanism is now the published-key FALLBACK
+**Section:** Standard Contracts → Readiness gate (app/sidecar workspace-key precondition)
+**Change:** Replaced "the sidecar keys its query on `ANDROMEDA_PULSE_DATA_DIR` while `pulse-app` keys incidents on its detected workspace root" with the measured mechanism: `pulse-app` PUBLISHES its key to `{data_dir}/run/workspace-key` and the sidecar reads it (`read_published_workspace_key`), falling back to `data_dir` only when that file is absent or invalid. Measured 2026-09-01: the published key matched the incidents' stamped `workspace` byte-for-byte and no divergence occurred.
+**Why:** SUT-side mechanism change read first-hand at HEAD `83d4060`; the divergence is now the fallback case rather than the default, which changes how an operator should diagnose a zero-row read-back.
+
+## 2026-08-31-p-075-assert-round — `workspace` column = data_dir qualified (third occurrence)
+**Section:** Occupied Resources → Environment variables, `ANDROMEDA_PULSE_DATA_DIR`
+**Change:** Qualified the `= data_dir` equality: the filter value is the published workspace key when present and `data_dir` only as fallback. The propagation obligation and the empty-`query_incident_list` failure mode stand unchanged.
+**Why:** Third restatement of the retired sidecar-keys-on-data_dir claim; without moving it the corrected mechanism would survive at only two of three sites.

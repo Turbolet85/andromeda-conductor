@@ -82,6 +82,11 @@ pub struct StubConfig {
     /// (1-based, notifications excluded). A client whose ids advance skips it on id mismatch; one
     /// whose id never leaves 1 pairs it to a later request.
     pub decoy_before_nth_request: Option<u32>,
+    /// When set, `mark_incident_resolved` answers with a JSON-RPC ERROR carrying Pulse's own
+    /// declined reason. This arm exists ONLY here: Pulse guards the write on
+    /// `updated_unix_nano <= ?2` and its dispatch stamps `now` fresh on every call, so the decline
+    /// is reachable live only against a future-stamped row. Stub-proven, and recorded as such.
+    pub resolve_declines: bool,
 }
 
 impl Default for StubConfig {
@@ -109,6 +114,7 @@ impl Default for StubConfig {
             malformed_results: false,
             wire_log: None,
             decoy_before_nth_request: None,
+            resolve_declines: false,
         }
     }
 }
@@ -166,12 +172,22 @@ where
         let calls_query = method == "tools/call" && tool == Some("query_incident_list");
         let calls_slice = method == "tools/call" && tool == Some("retrieve_telemetry_slice");
         let calls_report = method == "tools/call" && tool == Some("retrieve_report");
+        let calls_resolve = method == "tools/call" && tool == Some("mark_incident_resolved");
 
         let resp = if config.query_errors && calls_query {
             json!({
                 "jsonrpc": "2.0",
                 "id": id,
                 "error": { "code": -32603, "message": "incident corpus unavailable" },
+            })
+        } else if config.resolve_declines && calls_resolve {
+            json!({
+                "jsonrpc": "2.0",
+                "id": id,
+                "error": {
+                    "code": -32603,
+                    "message": "incident changed concurrently; resolution not applied",
+                },
             })
         } else {
             let result = match method {
@@ -190,8 +206,12 @@ where
                 "tools/call" if config.malformed_results => json!({ "unexpected": "shape" }),
                 "tools/call" if calls_query => {
                     if config.canary_in_corpus {
+                        // `incident_id` is the LIVE key — measured 2026-09-01 by driving the real
+                        // sidecar by hand at Pulse HEAD `83d4060`. The stub said `id` until then,
+                        // and a reader that accepted only `id` therefore passed every stub test and
+                        // read an empty list against the live corpus.
                         let mut item = json!({
-                            "id": 1,
+                            "incident_id": 1,
                             "status": "active",
                             "severity": "high",
                             "title": config.canary,
@@ -217,6 +237,16 @@ where
                         "fingerprint_refs": [config.canary_fingerprint],
                         "timestamps_unix_nano": [0],
                     })
+                }
+                // Pulse's applied shape echoes the row it wrote, so the id is read back from the
+                // request rather than fixed — a caller that resolves the wrong incident is then
+                // visible in the result instead of being answered agreeably.
+                "tools/call" if calls_resolve => {
+                    let requested = req
+                        .pointer("/params/arguments/incident_id")
+                        .and_then(Value::as_i64)
+                        .unwrap_or(1);
+                    json!({ "resolved": true, "incident_id": requested })
                 }
                 "tools/call" => json!({ "ok": true }),
                 _ => json!({}),
