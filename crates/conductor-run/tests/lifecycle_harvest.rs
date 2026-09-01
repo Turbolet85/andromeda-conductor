@@ -17,15 +17,18 @@
 //! (`crates/mcp-server/src/tools.rs:934`, "Re-read: status is now resolved, no longer in the active
 //! list"); the live leg asserts it across the wire.
 //!
-//! THE TWO-INCIDENT CONTROL IS UNATTAINABLE — measured, not assumed. The plan called for driving a
-//! SECOND incident and resolving only one, so the spared control would attribute the change. Pulse
-//! forecloses it: the incident producer dedupes a new incident against any OPEN incident REGARDLESS
-//! of fingerprint, so at most one can be active per workspace. Measured this chunk at HEAD `83d4060`
-//! — a storm raised while incident 4 was open logged `created=false deduped=true`, and across the
-//! whole leg every `created=true` occurred with the active set EMPTY. The clinching independent
-//! observation: incident 7 formed at 16:43:23, the same second incident 6 was resolved. So
-//! `LifecycleVerdict::Proven` is unreachable today and kept only as the stronger form should Pulse
-//! ever allow concurrent incidents.
+//! THE TWO-INCIDENT CONTROL IS UNATTAINABLE WITHIN ONE DEDUPE TUPLE — measured, not assumed. The plan
+//! called for driving a SECOND incident and resolving only one, so the spared control would attribute
+//! the change. Pulse forecloses that for storms sharing one identity: the incident producer dedupes a
+//! new incident against an OPEN one carrying the same `(kind, scope, scope_id)` TUPLE — the workspace
+//! scopes the candidate set, the tuple is the key (`pulse-app/src/inference_runtime.rs:811`). Every
+//! storm this leg drove shared one tuple, so no second incident could form. Measured this chunk at
+//! HEAD `83d4060` — a storm raised while incident 4 was open logged `created=false deduped=true`, and
+//! across the whole leg every `created=true` occurred with the active set EMPTY. The clinching
+//! independent observation: incident 7 formed at 16:43:23, the same second incident 6 was resolved. A
+//! CROSS-SCOPE control (two incidents under DIFFERENT tuples) is possible and untested — a weighable
+//! route option, never a retirement. So `LifecycleVerdict::Proven` is unreachable as driven and kept
+//! for the stronger form.
 //!
 //! WHAT REPLACES IT IS LIVENESS. Pulse auto-resolves only an IDLE incident (120s idle, 30s resolver
 //! tick), so an incident whose telemetry is seconds old cannot be the resolver's to take. Resolving

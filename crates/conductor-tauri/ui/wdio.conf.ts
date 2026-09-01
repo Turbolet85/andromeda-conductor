@@ -1,20 +1,32 @@
 // WebdriverIO + @crabnebula/tauri-driver config for the desktop a11y sweep (Epoch 9 ch9).
 //
-// DISPLAY-GATED — this runs ONLY on Linux + xvfb against a live Pulse (a11y-plan §3.5, a11y.md
-// §Testing); it does NOT run on the Windows dev host (no display) nor in the always-on CI gate. The
-// always-on a11y CI gate (axe/contrast/keyboard PASS/FAIL → obs envelope) is the Epoch-10 route chunk
-// "A11y CI gate + violation JSON". Run locally with `npm run a11y` after `cargo build --release`.
+// DRIVER-GATED, not display-gated. The earlier "Linux + xvfb only; does NOT run on the Windows dev
+// host (no display)" framing was a CI-runner assumption, measured false on 2026-09-01: the
+// win32-x64-msvc tauri-driver prebuilt ships in node_modules and runs here, and Windows support is
+// the driver's own --native-driver option (a11y-plan §3 Configuration names msedgedriver as that
+// backend). What the leg actually needs is (1) a native WebDriver named by CONDUCTOR_MSEDGEDRIVER and
+// (2) a RELEASE build of conductor-tauri — a debug build loads tauri.conf.json's devUrl, never the
+// bundled frontendDist. Without (1) the leg SKIPS at exit 0 with a recipe, so an unconfigured host
+// stays distinguishable from a real defect. The always-on a11y CI gate remains a separate route chunk.
 //
 // ONE webview-automation stack: WebdriverIO + @crabnebula/tauri-driver (never a 2nd puppeteer/CDP
 // stack — a11y.md §Testing). axe-core is injected via @axe-core/webdriverio into THIS session.
 import { spawn, type ChildProcess } from 'node:child_process'
-import { join } from 'node:path'
+import { existsSync, statSync } from 'node:fs'
+import { createRequire } from 'node:module'
+import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 let tauriDriver: ChildProcess | undefined
 
+// The package is "type": "module", so the CJS globals are absent at load time — `__dirname` here was
+// unreachable for as long as this config existed, which the display gate hid by never running it.
+const here = dirname(fileURLToPath(import.meta.url))
+const require = createRequire(import.meta.url)
+
 // The built bundle the driver attaches to (release profile; ensure `cargo build --release` first).
 const application = join(
-  __dirname,
+  here,
   '..',
   '..',
   '..',
@@ -22,6 +34,33 @@ const application = join(
   'release',
   process.platform === 'win32' ? 'conductor-tauri.exe' : 'conductor-tauri',
 )
+
+// Resolved from the installed package rather than the bare name `tauri-driver`: the npm shim is not on
+// PATH on this host, and security-plan §Security Anti-Patterns requires a fixed name or a repo-derived
+// constant — never an operator-supplied command string.
+const driverCli = require.resolve('@crabnebula/tauri-driver/cli.js')
+
+// The native WebDriver is host-owned and sits outside both audited dependency trees, so it arrives by
+// env handle and is never committed. Metacharacters are rejected even though the spawn below is
+// array-form and reaches no shell — the hardened .env(...) sidecar precedent (security-plan §Input).
+const UNSAFE_PATH = /[;&|`$<>\r\n"']/
+
+function nativeDriver(): string | undefined {
+  const raw = process.env.CONDUCTOR_MSEDGEDRIVER
+  if (!raw || UNSAFE_PATH.test(raw)) return undefined
+  return existsSync(raw) && statSync(raw).isFile() ? raw : undefined
+}
+
+// Host paths never reach this message (obs-plan §11 Logs); it names the handle, not its value.
+function reportSkip(): void {
+  console.log('error: webview self-verify skipped — no native WebDriver resolved')
+  console.log('       CONDUCTOR_MSEDGEDRIVER is unset, or does not name an existing file.')
+  console.log('hint:  setx CONDUCTOR_MSEDGEDRIVER "<dir>\\msedgedriver.exe"   (then reopen the shell)')
+  console.log('hint:  to fetch one, the installed edgedriver devDep can download it — but match the')
+  console.log('       WEBVIEW2 RUNTIME version, NOT the Edge browser version. edgedriver keys its')
+  console.log('       download on Edge, and the two differ by a major on this host (measured')
+  console.log('       2026-09-01: Edge 152.x against WebView2 Runtime 151.x).')
+}
 
 export const config: WebdriverIO.Config = {
   hostname: '127.0.0.1',
@@ -32,15 +71,54 @@ export const config: WebdriverIO.Config = {
     // tauri-driver reads the vendor-prefixed `tauri:options` capability — a WebDriver vendor extension
     // (colon-prefixed) outside wdio's typed capability surface, so it is asserted through `unknown`
     // (the documented @crabnebula/tauri-driver shape).
-    { browserName: 'wry', 'tauri:options': { application } } as unknown as WebdriverIO.Capabilities,
+    // enforceWebDriverClassic: wdio v9 prefers BiDi when the driver advertises it, but script
+    // evaluation over BiDi against the wry/WebView2 context answers "Page/Frame is not ready"
+    // indefinitely, while the SAME calls over classic WebDriver return normally (measured
+    // 2026-09-01 against both transports on one session).
+    {
+      browserName: 'wry',
+      'wdio:enforceWebDriverClassic': true,
+      'tauri:options': { application },
+    } as unknown as WebdriverIO.Capabilities,
   ],
   reporters: ['spec'],
   framework: 'mocha',
   mochaOpts: { ui: 'bdd', timeout: 60_000 },
 
-  // Bracket the session with the tauri-driver bridge process (Linux+xvfb).
+  // Bracket the session with the tauri-driver bridge process.
   onPrepare: () => {
-    tauriDriver = spawn('tauri-driver', [], { stdio: [null, process.stdout, process.stderr] })
+    const native = nativeDriver()
+    if (!native) {
+      // Exit rather than throw: wdio has no "skip the whole run" result, and a throw here would
+      // surface an unconfigured host as a failed gate — the one reading the guard must prevent.
+      reportSkip()
+      process.exit(0)
+    }
+    tauriDriver = spawn(process.execPath, [driverCli, '--native-driver', native], {
+      stdio: [null, process.stdout, process.stderr],
+    })
+  },
+  // The specs assert against a rendered app, but a fresh session attaches before the webview has
+  // mounted — without this every spec fails on an empty document ("Page/Frame is not ready", tokens
+  // reading ""), which says nothing about the app. Wait on an explicit signal, never a sleep
+  // (test-plan §11 E2E).
+  before: async () => {
+    await browser.waitUntil(
+      async () => {
+        try {
+          return await browser.execute(
+            () =>
+              document.readyState === 'complete' && !!document.querySelector('#root')?.firstChild,
+          )
+        } catch {
+          // The webview rejects script evaluation ("Page/Frame is not ready") for the first moments
+          // after the session attaches. waitUntil treats a THROWING condition as fatal, so swallow it
+          // and let the poll retry — otherwise the wait aborts instantly instead of waiting at all.
+          return false
+        }
+      },
+      { timeout: 30_000, interval: 500, timeoutMsg: 'webview did not mount #root within 30s' },
+    )
   },
   onComplete: () => {
     tauriDriver?.kill()

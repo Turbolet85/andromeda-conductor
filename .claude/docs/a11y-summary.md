@@ -35,7 +35,7 @@ Enforcement: `.claude/rules/a11y.md`.
 - Never stand up a second browser-automation stack for a11y; manual SR is supplemental only.
 
 ## Critical decisions
-- **Reuse the tests' tauri-driver/WebdriverIO** session (one webview stack on Linux+xvfb) — not a parallel CDP attach.
+- **Reuse the tests' tauri-driver/WebdriverIO** session (ONE webview stack — Linux+xvfb in CI, and headfully on the Windows WebView2 host, measured 2026-09-01) — not a parallel CDP attach.
 - **Radix/shadcn provide focus trap + ARIA roles** (no `focus-trap-react`/`react-aria` install).
 - **Reduced-motion emulation** is the one platform-dependent caveat (WebKitGTK fallback to OS/GTK level); macOS WKWebView stays manual-pass-only.
 

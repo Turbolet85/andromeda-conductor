@@ -8,7 +8,7 @@ Minimal-tier local utility: single-developer, local-only, no-cloud, no-multi-ten
 **Tier:** Minimal (0)  **Auth approach:** none (no authenticated surface exists)
 
 ## Threat model highlights (vector → control)
-- CLI args + `CONDUCTOR_*` env path handles → `std::fs::canonicalize` + bounds-check at the CLI edge (outside garde).
+- CLI args + the RUST-READ `CONDUCTOR_*` env path handles → `std::fs::canonicalize` + bounds-check at the CLI edge (outside garde). `CONDUCTOR_MSEDGEDRIVER` is harness-only (read by `wdio.conf.ts`, never by a Conductor binary) → existence + `isFile` + shell-metacharacter rejection at the wdio edge, then an array-form argv element.
 - Scenario config files → garde `range` + `#[garde(custom)]` validation at load (the trust boundary); nested spec fields must `dive`, never `skip` — a skipped struct is never descended into, so its rules never run.
 - Tauri IPC → deny-by-default capabilities; no `shell-open` with derived strings; no remote-origin iframes.
 - MCP child stdout (trusted-child) → preflight gate (version/tools/run-contract terms/canary) + bounded line-delimited JSON-RPC decode (serde_json recursion limit + a per-line size bound); empty canary ⇒ `Blocked` under one of the gate's five named preconditions (a zero-incident corpus names the app-sidecar workspace-key agreement, never a generic string). The channel carries a WRITE as well as read-back — `mark_incident_resolved` — whose applied response and declined JSON-RPC error ride the same path and controls.

@@ -83,7 +83,17 @@ case "${1:-}" in
     case "${2:-}" in
       --unit)        ensure_frontend; "$CARGO" nextest run --workspace --profile ci ;;
       --integration) ensure_frontend; "$CARGO" nextest run --workspace --profile ci -E 'kind(test)' ;;
-      --e2e)         "$CARGO" nextest run -p conductor-cli --profile ci ;;
+      # test-plan §3/§9: --e2e IS the tauri-driver `wdio run` leg. The bundle must be built before the
+      # compile (generate_context! resolves frontendDist at compile time), and the binary must embed
+      # it rather than loading tauri.conf.json's devUrl. What decides that is the `custom-protocol`
+      # FEATURE, not the profile: tauri's build.rs computes `dev = !custom_protocol` and tauri-build
+      # reads it back through DEP_TAURI_DEV, so a bare `--release` build still loads localhost:5173
+      # (measured 2026-09-01). The leg skips at exit 0 when no native WebDriver resolves (wdio.conf.ts).
+      --e2e)
+        ensure_frontend
+        "$CARGO" build --release -p conductor-tauri --features tauri/custom-protocol
+        ( cd "$UI_DIR" && npm run a11y )
+        ;;
       "")
         ensure_frontend
         "$CARGO" nextest run --workspace --profile ci

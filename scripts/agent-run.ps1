@@ -93,7 +93,23 @@ switch ($args[0]) {
         switch ($Arg1) {
             '--unit'        { Invoke-EnsureFrontend; & $Cargo nextest run --workspace --profile ci; break }
             '--integration' { Invoke-EnsureFrontend; & $Cargo nextest run --workspace --profile ci -E 'kind(test)'; break }
-            '--e2e'         { & $Cargo nextest run -p conductor-cli --profile ci; break }
+            # test-plan §3/§9: --e2e IS the tauri-driver `wdio run` leg. The bundle must be built before
+            # the compile (generate_context! resolves frontendDist at compile time), and the binary must
+            # embed it rather than loading tauri.conf.json's devUrl. What decides that is the
+            # `custom-protocol` FEATURE, not the profile: tauri's build.rs computes `dev = !custom_protocol`
+            # and tauri-build reads it back through DEP_TAURI_DEV, so a bare `--release` build still loads
+            # localhost:5173 (measured 2026-09-01). The leg skips at exit 0 with no native WebDriver.
+            '--e2e' {
+                Invoke-EnsureFrontend
+                & $Cargo build --release -p conductor-tauri --features tauri/custom-protocol
+                if ($LASTEXITCODE -ne 0) { throw "cargo build --release failed ($LASTEXITCODE)" }
+                Push-Location $UiDir
+                try {
+                    & npm run a11y
+                    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+                } finally { Pop-Location }
+                break
+            }
             '' {
                 Invoke-EnsureFrontend
                 & $Cargo nextest run --workspace --profile ci

@@ -18,6 +18,9 @@ scripts/__pycache__/
 
 # --- Self-observation logs (ephemeral, truncated per invocation — agent-latest.jsonl / conductor-tauri.jsonl, the sibling of /runs/) ---
 /logs/
+# The webview self-verify leg launches the app with the ui package as its cwd, so the Tauri backend's
+# sink lands here instead of the repo root (measured 2026-09-01, the leg's first execution).
+crates/conductor-tauri/ui/logs/
 
 # --- Secrets / env (Conductor owns no secrets — guardrail) ---
 .env

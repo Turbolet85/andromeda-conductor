@@ -51,7 +51,7 @@ _Documented architectural traps from `.andromeda/architecture.md` + the 6 specia
 
 ## The `:4317` port-occupier is the ONLY deliberate bind
 **What breaks:** Promoting the port-occupier fault into a general-purpose listener, or forgetting to release it on cleanup, violates the loopback-client trust boundary and leaves `:4317` occupied for the next run.
-**How to avoid:** It is an intentional in-host fault only (P-003); `cleanup` releases the `TcpListener` bind. Conductor otherwise opens NO inbound listener.
+**How to avoid:** It is an intentional in-host fault only (P-003); `cleanup` releases the `TcpListener` bind. Conductor's SHIPPED binaries otherwise open NO inbound listener. The dev-only `--e2e` webview leg is the one qualification: its driver stack binds loopback `4444`/`4445` for the harness's lifetime and tears them down with itself — never in `conductor-cli` / `conductor-tauri`.
 **Fix if broken:** Release the bind; verify `TcpListener::bind("127.0.0.1:4317")` succeeds post-cleanup.
 **References:** architecture.md §Cross-cutting Patterns (Trust boundary); security-plan Vector 6; test-plan §3 (cleanup).
 

@@ -1,79 +1,84 @@
 # Session Handoff
 
-**Last Updated:** 2026-09-01T17:10:00Z
-**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **37 ahead** after this commit)
+**Last Updated:** 2026-09-01T19:19:00Z
+**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **38 ahead** after this commit)
 **Status:** clean
-**Last Commit:** `feat(2026-08-31-p-075-assert-round): …`
+**Last Commit:** `feat(2026-09-01-webview-self-verify-windows-host): …`
 
 ## Position
-- Done: **2026-08-31-p-075-assert-round** — the read-back fidelity Conductor can honestly assert, proven
-  live: `mark_incident_resolved` fired across the wire for the first time and the incident left the active
-  set **0.0s after its last emission**, against Pulse's 120s auto-resolve idle threshold.
-- Next: **`/andromeda-phase`** to promote + plan the next Epoch-5 entry — **_Webview self-verify on the
-  Windows host_** — which now carries the **41st** `cargo audit` PREREQ (re-pinned in FULL form; see Notes).
-- Coverage unchanged at **21/32 verified · 11 unclaimed** — this chunk deliberately claimed no capability.
+- Done: **2026-09-01-webview-self-verify-windows-host** — an agent CAN drive the real Tauri window on this
+  host. Live WebView2 151.0.4129.107 session, axe injecting and analyzing, `browser.execute` reading `:root`
+  tokens, colorjs.io contrast computed from the running app. The route entry's premise ("no driver binary
+  exists on this host") was measured **false**.
+- Next: **`/andromeda-phase`** to promote + plan **_Desktop a11y sweep_** — **reordered ABOVE _Live per-P-ID
+  verdict lamps_** by operator pre-direction, so the harness is calibrated to zero before any UI chunk
+  develops against it. It carries the **42nd `cargo audit` PREREQ (COMPACT form — basis restored)**.
+- Coverage unchanged at **21/32 verified · 11 unclaimed** — this chunk deliberately claimed no capability
+  (making v2-22 runnable is a partial advance, which stays `chunk: null` per the contract).
 
 ## Work done
-Drove a live Pulse (HEAD `83d4060`, release binaries, deterministic L4, fresh data dir) to a known incident
-and resolved it through MCP. Landed the first production caller of `mark_incident_resolved`
-(`conductor_run::probe_resolve_lifecycle`), the applied/declined stub arms, and 11 harvest tests over the
-pinned capture. Recorded the payload-fidelity premise disproved on a second axis (`incident_events` reaches
-no MCP tool) and quoted `v2-20`'s existing fixtures as P-075's external evidence instead of re-asserting
-three already-verified budgets.
+Repointed `--e2e` in both harness shells from `cargo nextest -p conductor-cli` to the tauri-driver `wdio run`
+leg that test-plan §3/§9 already specified, behind a `CONDUCTOR_MSEDGEDRIVER` guard that **skips at exit 0**
+with a fetch recipe when unset. Reused the operator's host driver rather than acquiring one; `setx`-persisted
+and verified in the registry. Also re-scoped the CARRY's over-scoped dedupe claim in source.
+
+**Four pre-existing defects surfaced, none in the plan** — all hidden because the config had never once been
+executed since June:
+1. **`__dirname` in a `"type": "module"` package** — the committed `wdio.conf.ts` could not LOAD on ANY host,
+   Linux included. `typecheck:e2e` passed throughout, because tsc accepts it under the node types.
+2. **`cargo build --release` does not embed the bundle.** At source: `tauri`'s `build.rs` computes
+   `dev = !custom_protocol`, so the **FEATURE** decides, not the profile. The plain release binary opened a
+   Chromium error page at `localhost:5173`.
+3. **No readiness synchronisation** — and `waitUntil` treats a THROWING condition as fatal, so the first fix
+   aborted instantly instead of waiting.
+4. **wdio v9 routes `execute` through BiDi**, which answers "Page/Frame is not ready" indefinitely against
+   wry/WebView2 while classic WebDriver succeeds — `wdio:enforceWebDriverClassic` required.
 
 ## Drift resolved
-**17 amendments across 4 masters · 2 escalations resolved with the operator · 9 sidecar entries · cascade
-closed over 4 derived leaves (8 more dispositioned no-change).**
-- `architecture.md` ×4 — payload fidelity disproved on a second axis; **"no stronger claim exists" RETIRED**
-  (runtime-STATE fidelity is the stronger claim and is live-proven); the one-active-incident dedupe
-  constraint; the workspace-key mechanism is now the SUT's *published* key with `data_dir` as fallback
-  (3 sites).
-- `security-plan.md` ×4 (**escalated**, operator-ratified) — "corpus access via MCP read-back ONLY" retired
-  at four sites for "via the MCP tool surface only — read-back plus the `mark_incident_resolved` write —
-  never the file". The file ban and non-persistence guarantee are unchanged in force.
-- `test-plan.md` ×6 — §5's "`mark_incident_resolved` has NO production call site and no live exercise"
-  falsified on both halves; stub item-key fidelity recorded; a cargo-feature gate registered as a third
-  sanctioned live-leg path (§9 + §11).
-- `obs-plan.md` ×3 — the MCP boundary carries a write; §6 must-log set names it. **Plus an
-  operator-ratified incidental correction:** `obs-plan.md:35` still said "via rmcp 1.7.0" (removed
-  2026-06-27) and sat inside the sentence being rewritten.
+**~40 amendments across 6 masters · 5 escalations resolved with the operator · 6 sidecar entries · cascade
+closed over 8 leaves · 1 new detector · 1 playbook rule refreshed.**
+- `test-plan.md` ×15 — the "Linux+`xvfb` only" verdict retired as a CAPABILITY claim at **8** sites (the
+  plan's list named 6; `:287` and `:369` also deferred GUI legs), "headless only" → "non-interactive only",
+  `--e2e`'s custom-protocol precondition, the loopback allowlist, and §4's ESM-loadability limit.
+- `architecture.md` ×9 — the **CARRY** (one-active-incident re-scoped to the `(kind, scope, scope_id)` tuple,
+  citing `inference_runtime.rs:811`), `CONDUCTOR_MSEDGEDRIVER` + ports `4444`/`4445` registered, the
+  custom-protocol build mechanism, and two operator-ratified qualifications (trust boundary → shipped
+  binaries; **"no UI automation" scoped to PULSE's UI**).
+- `security-plan.md` ×8 (**escalated**, operator-ratified) — the spawn ban SPLIT into MCP-sidecar +
+  harness-spawn rules, the inbound-listener ban scoped to shipped binaries, and the new harness boundary
+  registered at five enumeration sites. Playbook rule @58 did NOT dismiss these: this chunk genuinely adds a
+  boundary and a spawn, so its precondition was unmet.
+- `a11y-plan.md` ×7 (**orchestrator-raised** — see below) · `obs-plan.md` ×3 · `layout-templates.md` ×1.
 
 ## Notes
-- **The leg's proof is attributional, not just observational.** Pulse's corpus independently records
-  incident 6 active `16:42:38 → 16:43:23` — a 45s life against a 120s idle threshold — so the auto-resolver
-  is excluded by construction and Conductor's write is the only remaining cause.
-- **Two plan premises died to measurement.** (1) The **two-incident control** (operator-selected at P4) is
-  structurally unattainable: Pulse dedupes a new incident against any OPEN one regardless of fingerprint, so
-  at most one is active per workspace. Replaced by liveness attribution. (2) The **declined arm** is
-  unreachable through MCP — `DeclinedStale` is a monotonic-timestamp guard the dispatch cannot trip — so it
-  is stub-proven and permanently so.
-- **The bug that cost four legs:** the live wire emits `incident_id`, the stub emitted `id`. A reader keyed
-  on `id` returns an empty list from a populated response — green against every stub test. Three incidents
-  sat active 131–142s each while the leg logged `[]`. Fixed at three sites; pinned by
-  `lifecycle_harvest::the_live_item_key_is_incident_id`.
-- **41st `cargo audit` PREREQ, re-pinned in FULL form.** The 40th was discharged HERE (it was an acceptance
-  criterion but absent from the plan's Test Commands, so it would otherwise have re-pinned unmeasured):
-  signature reproduced byte-identically — audit true exit 1 / `duplicate advisory ID: RUSTSEC-2026-0244`,
-  deny true exit 0. The compact form was NOT available because the basis changed: this chunk touched
-  `crates/conductor-run/Cargo.toml` (+6). It admits **zero packages** (empty `[features]`, `Cargo.lock`
-  byte-unchanged), so deny's coverage set is identical and the conclusion stands.
-- **Cross-version residual appended:** `incident_events`-through-MCP → Pulse 0.4.0 (a SUT-side capability
-  gap, not Conductor work).
+- **A detector blind spot cost nothing only because the plan's list is a floor.** The a11y agent returned
+  `proposals: []` — correctly, since its two detectors cover new-UI-element coverage and violation-schema —
+  while its document carried six stale platform sites. It flagged the gap itself. **Resolved: a new
+  `D-platform-claim` detector is now in `drift-base.md`** (operator-approved), the first cross-doc one.
+- **The CARRY's own site table was incomplete**, exactly as the directive anticipated by mandating a
+  re-sweep: it named four sites; the sweep found a **fifth** (`crates/conductor-run/tests/lifecycle_live.rs:128`),
+  which no detector would ever reach since the cascade never greps source comments. Corrected in-code.
+- **My own P3 finding was wrong and is retracted.** "Zero `#[tracing::instrument]` across 7
+  `#[tauri::command]` sites" — all 7 carry the manual `tracing::info_span!("tauri.command.*")` that
+  `observability.md` prescribes *because* the attribute doesn't stack. The grep tested a token the project
+  forbids. Obs-plan was the divergent side and was amended; **no route entry minted** (directive item 2).
+- **`--e2e` is now legitimately RED (exit 1)** and that is recorded, not hidden: 2 specs pass live, 1 fails on
+  a **genuine axe violation**, 2 fail because their subject (HOLD dialog / checklist) exists only in a driven
+  live-Pulse run. The sweep entry carries this verbatim with the context-skip shape to give those two.
+- **42nd `cargo audit` PREREQ, COMPACT form.** Signature reproduced byte-identically this wrap — audit true
+  exit **1** / `duplicate advisory ID: RUSTSEC-2026-0244`, deny true exit **0**. The compact basis is restored
+  because this chunk touched no manifest and `Cargo.lock` is byte-unchanged.
+- `crates/conductor-tauri/ui/logs/` is now git-ignored — the driven app writes its self-obs sink relative to
+  the launching cwd, which the root-anchored `/logs/` rule did not cover.
 
 ## Deferred learnings
-2 candidates landed at EXACTLY 0.6 on Filter 4 — the documented mass point that rejects. Both are sound and
-will return with more signal:
-- *Pre-existing drift inside a sentence an amendment is rewriting is not dismissible on pre-existing
-  grounds.* Operator-ratified this session for `obs-plan.md:35` (rmcp) and applied by analogy to
-  `security-summary.md:14` ("bounded prost decode" → JSON-RPC/serde_json).
-- *Pulse's `agent-run boot` pre-builds a DEBUG profile* — with release binaries warm, spawn
-  `target/release/pulse-app.exe` directly, which is what its boot ultimately does.
+Filter 4's 0.6 mass point rejected three individually (custom-protocol-not-profile; tsc-does-not-prove-ESM-
+loadability; wdio-BiDi-vs-classic) — each scoring measurement + specific-detail and nothing more. None was
+lost: two landed as **corrections** to existing entries (exempt from the cap) and all three compose into the
+one new Tier-2 entry in `frontend.md`. The two candidates parked at the 2026-09-01 wrap remain parked.
 
-**recurrence-despite-learning:** the 2026-06-27 stub-fidelity entry (`verification-harness.md` — the
-rmcp-server stub HID the raw-shape bug) did not prevent this chunk's recurrence one level down. Envelope
-fidelity was fixed then; ITEM-KEY fidelity was never stated, so the stub drifted again on a different axis
-of the same contract. The new `testing.md` entry extends the class rather than restating it.
-
-- Audit trail: `.andromeda/runs/2026-09-01T16-50-00Z-wrap/` (report is at the chunk dir; fan-out results +
-  per-doc detectors here).
+- Audit trail: `.andromeda/runs/2026-09-01T18-49-38Z-wrap/` (fan-out results + escalation dispositions).
 - **Last failed command:** none.
+
+## Session End Status
+Completed normally at 2026-09-01 19:19:00

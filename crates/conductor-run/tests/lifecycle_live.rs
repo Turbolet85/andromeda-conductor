@@ -124,9 +124,11 @@ async fn resolve_lifecycle_liveness_attributed_leg() {
     // tick), so an incident refreshed moments ago cannot be swept by the resolver. Emit once more,
     // stamp the instant, and resolve immediately: if the id leaves the active set while its last
     // emission is seconds old, the auto-resolver is excluded by construction and Conductor's write
-    // is the only remaining cause. This replaces the two-incident control, which is UNATTAINABLE —
-    // Pulse dedupes a new incident against any OPEN one regardless of fingerprint, so a second
-    // concurrent incident cannot be formed at all (measured this leg: `created=false deduped=true`).
+    // is the only remaining cause. This replaces the two-incident control, unattainable WITHIN one
+    // dedupe tuple — Pulse dedupes a new incident against an OPEN one sharing its
+    // `(kind, scope, scope_id)` (`pulse-app/src/inference_runtime.rs:811`), and every storm here
+    // shares one, so no second concurrent incident forms (measured: `created=false deduped=true`).
+    // A cross-SCOPE control remains possible and is untested.
     keep_alive(&mut traces, &spec, 999).await;
     let freshened_at = std::time::Instant::now();
     let resolve = *before.last().expect("a non-empty active set");

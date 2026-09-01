@@ -1,0 +1,178 @@
+[
+{
+"sql": "SELECT symbol, crate, file, def_line FROM symbol WHERE file LIKE '%wdio%' OR file LIKE '%test/a11y%' ORDER BY file, def_line;",
+"rows": 28,
+"result": [
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`accessibility.e2e.ts`/",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts",
+"def_line": 0
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`accessibility.e2e.ts`/WCAG_TAGS.",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts",
+"def_line": 11
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`accessibility.e2e.ts`/axeViolations().",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts",
+"def_line": 13
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`accessibility.e2e.ts`/token().",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts",
+"def_line": 19
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`accessibility.e2e.ts`/token().(name)",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts",
+"def_line": 19
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`accessibility.e2e.ts`/tokenContrast().",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts",
+"def_line": 27
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`accessibility.e2e.ts`/tokenContrast().(fg)",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts",
+"def_line": 27
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`accessibility.e2e.ts`/tokenContrast().(bg)",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts",
+"def_line": 27
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 0
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/tauriDriver.",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 12
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/application.",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 15
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/config.",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 25
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/hostname0:",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 26
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/port0:",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 27
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/specs0:",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 28
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/maxInstances0:",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 29
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/capabilities0:",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 30
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/browserName0:",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 34
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/`'tauri:options'0`:",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 34
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/application0:",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 34
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/reporters0:",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 36
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/framework0:",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 37
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/mochaOpts0:",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 38
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/ui0:",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 38
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/timeout0:",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 38
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/onPrepare0:",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 41
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/stdio0:",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 42
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/onComplete0:",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 44
+}
+],
+"db_state": "fresh",
+"plane": "ts"
+}
+]

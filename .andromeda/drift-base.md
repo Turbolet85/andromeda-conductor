@@ -137,3 +137,14 @@ for the report to carry it (extend report-template) — never re-derive from git
   invariant: a count / range / qualifier the doc states in a palette row, ANSI-map entry, token label or reuse tally matches the value the chunk's code now produces.
   check: agent-read — for each entry in the report's `Counts / qualifiers this chunk moved` bullet, grep the doc for the OLD value in a palette row / ANSI-map entry / token label / reuse tally; a hit is drift (the doc bakes a value the code no longer produces). Prose naming the SET rather than a literal is correct and NOT a hit — the fix is always to name the set or update the sample, never to substitute a fresh literal that re-stales.
   severity: warning
+
+# — cross-doc (scoped to no single source: any of the seven may state a platform verdict) —
+- id: D-platform-claim
+  doc: arch | security-plan | design-system | layout-templates | test-plan | obs-plan | a11y-plan
+  invariant: a PLATFORM / runner / driver verdict a doc states ("Linux only", "headless only", "requires X", "no driver on Y") matches what the harness is demonstrably able to run on.
+  check: agent-read — for each entry in the report's `Spec claims disproved by measurement` or `Harness / gate surface` bullets that names a platform, runner, or driver, grep the doc for the RETIRED verdict; a hit is drift. Distinguish the CI ARRANGEMENT (which runner the pipeline uses — a choice, not a capability) from the CAPABILITY claim (where the leg CAN run): only the capability claim is falsified by a measurement elsewhere. Retire the verdict by naming the measured platform SET, never by substituting a fresh single-platform literal.
+  severity: warning
+  # Added 2026-09-01 (webview-self-verify-windows-host, operator-approved): a11y-plan's own detectors
+  # structurally could not see this class — it returned `proposals: []` while carrying six stale sites —
+  # and test-plan's site list under-ran the doc (6 planned, 8 present). Caught only by the plan's
+  # expected-amendments floor, which is exactly the recurrence condition for minting a detector.
