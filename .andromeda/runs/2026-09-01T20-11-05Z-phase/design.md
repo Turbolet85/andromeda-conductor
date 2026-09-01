@@ -1,0 +1,43 @@
+# design extract
+
+## Relevance
+Partial — the chunk is an a11y-assertion sweep, but design owns the tokens/motion/glyph pairings those assertions read (contrast pairs, not-color-alone, reduced-motion, Blocked-vs-Fail distinctness) plus the markup that hosts the genuine axe violation.
+
+## Constraints
+- The 34-token block is the binding contract and must be declared on plain `:root` (not `@theme`), with the light override as `@media (prefers-color-scheme: light) { :root { … } }` — any token the axe/contrast specs assert must be bound by `var(--…)` name, never a raw hex (per design-system.md §Surface: desktop-webview → Tokens). Whether `tokens.css` currently emits all 34 is research's question.
+- `@media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }` is required, and design-system.md §Motion (Hard limits) explicitly requires the count-tint transition on a *held* count to drop under reduce as well — the reduced-motion spec's subject includes the frozen-count tint, not just generic transitions (per design-system.md §Motion).
+- Every status must pair color with a text label and a distinct glyph — six visually distinct treatments so no state silently reads as another: filled dot (`Pass`/`CalibrationRegion`/`Fail`), hollow ring (`Blocked`), checkbox glyph (`ManualCheck`), dashed-ring dot (`KnownResidual`) (per design-system.md §Iconography and §Color Palette, Verdict-vs-ReportState note). The chunk's "Blocked-vs-Fail token distinctness" spec asserts the `--count-blocked` / `--status-fail` pair specifically.
+- Focus indication is token-bound: `--color-focus` = `--color-id-cyan` (`#7DCFFF` dark / `#0969DA` light), rendered as `box-shadow: 0 0 0 2px var(--color-focus)` — the ONLY permitted `box-shadow`, a ring and never an elevation shadow (per design-system.md §Depth Strategy and §Color Palette → Border Progression). Focus-restoration assertions should look for this ring, not an outline default.
+- The operator-pause dialog must be the shadcn/ui `AlertDialog` with `role="alertdialog"`, focus trapped, visible `--color-focus` ring, `--motion-micro` (150ms) fade — `alert()`/`confirm()`/`prompt()` are banned (per design-system.md §Component Patterns 2 and §Anti-Patterns → Per-Surface Bans, desktop-webview). The keyboard-trap-escape and focus-restoration specs assert against this primitive.
+- Operator-checklist rows use `--status-manual` neutral-lavender checkbox glyphs (`☐` → `☑`), deliberately OUTSIDE the green/amber/red triad, and **Space toggles a row** — keyboard-first is a design mandate, not just an a11y one (per design-system.md §Component Patterns 7). The chunk's Space-toggle affordance assertion binds here.
+- Every icon-only control (frameless titlebar min/close, status lamps) requires an `aria-label`; the titlebar hold flip requires `aria-live="assertive"` and lamp resolution requires an `aria-live` announcement (per design-system.md §Iconography and §Component Patterns 1, 4).
+
+## Patterns to follow
+- **Frameless titlebar + Paused-count** (design-system.md §Component Patterns 1) — the count/phase-line pair is the subject of the reduced-motion and count-tint assertions; the hold flip is announced `aria-live="assertive"`.
+- **Operator-pause go/no-go dialog** (design-system.md §Component Patterns 2) — Radix `AlertDialog`, `role="alertdialog"`, focus trap + restore, Proceed/Abort with a disabled in-flight state; this is the absent-subject spec the chunk must drive live.
+- **Operator-checklist** (design-system.md §Component Patterns 7) — the `ManualCheck` render, Space-toggles-a-row, unticked-count footer roll-up; the second absent-subject spec.
+- **Verdict/report-state lamp** (design-system.md §Component Patterns 4) — resolves motionless via a 150ms color transition, always paired with text; the not-color-alone and Blocked-vs-Fail assertions read this.
+- **Selector discipline aligns with the design contract** — roles (`alertdialog`), text labels (`Pass`/`HOLD`/`Fail`/`Blocked`/`Manual`/`Residual`), and `aria-live` regions are all mandated by the plan, so the chunk's role/text/aria-live-only selector invariant is satisfiable without hashed classes (per design-system.md §Component Patterns 4, 7).
+
+## Anti-patterns to avoid
+- NEVER fix an axe violation by adding a drop shadow, `backdrop-filter`, or a non-token hex/px value — depth is borders-only and the only permitted `box-shadow` is the focus ring (per design-system.md §Anti-Patterns → Per-Surface Bans, desktop-webview; §Depth Strategy).
+- NEVER resolve a contrast or color-only finding by introducing a new color, font (Inter/Roboto/Arial/system-ui banned), or by collapsing `Blocked`/`ManualCheck`/`KnownResidual` into `Fail` treatment (per design-system.md §Anti-Patterns → Universal Bans + Rejected Defaults).
+- NEVER add pulse/blink/glow or a flashing red on `Fail` while touching status markup, and never let a "fix" reintroduce motion that the reduce-motion override must strip (per design-system.md §Motion, Hard limits).
+
+## Contract bindings
+- **Token contrast ↔ a11y §Contrast (SC 1.4.3):** the palette's dark-default and light-variant pairs must meet 4.5:1 body / 3:1 non-text; the chunk's already-passing contrast spec asserts exactly these pairs (design-system.md §Color Palette; a11y-plan.md §Contrast per the scope's `.andromeda/a11y-plan.md` §3/§5/§6 binding).
+- **Motion tokens ↔ a11y SC 2.3.3:** `--motion-micro` / `--motion-heartbeat` / `--ease-quiet` all fall under the mandatory `prefers-reduced-motion: reduce` override, including the held-count tint (design-system.md §Motion).
+- **State color + label/glyph ↔ a11y SC 1.4.1 (Use of Color):** the six-glyph lamp set plus text labels is the design half of the not-color-alone assertion (design-system.md §Iconography, §Component Patterns 4).
+- **cli ↔ webview by-name pair:** `--status-residual` ↔ ANSI 246 and the `[PASS]`/`[FAIL]`/`[MANUAL]`/`[RESIDUAL]`/`[BLOCKED]` ASCII prefixes are the color-free counterpart of the webview's glyph pairing — relevant only if a fix touches shared state naming (design-system.md §Surface: cli → Tokens).
+
+## Acceptance criteria contributions
+- (design) The axe fix and any spec-driven markup change use only design tokens by `var(--…)` name — no hardcoded hex or px values introduced (per design-system.md §Surface: desktop-webview → Tokens).
+- (design) Every status the specs assert carries a text label plus its distinct glyph treatment (filled dot / hollow ring / checkbox / dashed ring), never color alone; `Blocked` (`--count-blocked`) stays token-distinct from `Fail` (`--status-fail`) (per design-system.md §Color Palette, Verdict-vs-ReportState note).
+- (design) The reduced-motion spec asserts that under `prefers-reduced-motion: reduce` all transitions/animations are dropped, including the count-tint transition on a held count (per design-system.md §Motion, Hard limits).
+- (design) The driven operator-pause leg exercises the Radix `AlertDialog` with `role="alertdialog"`, a visible `0 0 0 2px var(--color-focus)` ring, and focus restored to the invoker on Escape/NoGo — no `alert()`/`confirm()` substitute (per design-system.md §Component Patterns 2; §Depth Strategy).
+
+## Relevant amendment history
+- **2026-06-15-design-token-typography-bundle** — §Tokens moved from `@theme` to plain `:root` because Tailwind v4 `@theme` tree-shook 11 of 34 tokens (all `--space-*`, three `--radius-*`, `--motion-micro`, `--ease-quiet`) and forbids nesting inside `@media`. Directly relevant: any contrast/reduced-motion assertion that resolves a token must resolve against the `:root` declaration, and a regression to `@theme` would silently drop `--motion-micro`/`--ease-quiet`.
+- **2026-06-24-paused-count-hold-point-signature** — registered `--motion-heartbeat: 1600ms` in §Motion's token table; the tokens-by-name rule forbids a raw ms literal. Relevant because the reduced-motion assertion's subject includes the heartbeat breath, not only the 150ms micro transitions.
+- **2026-06-26-component-primitives-library** — the operator-pause dialog fade was reconciled 200ms → `--motion-micro` (150ms) because no 200ms token exists; `OperatorPauseDialog` (Radix AlertDialog) already exists as a shipped primitive. Relevant: the absent-subject dialog spec targets this component, and its fade duration is token-bound at 150ms.
+- **Precedent to note (spec-illustration → sound-impl reconciliation):** the `@theme`→`:root`, `--motion-heartbeat`, and 200ms→150ms entries establish that when the code proves a plan illustration unrealizable, the plan is amended rather than the code bent — applicable if this chunk's axe fix reveals a token or ARIA illustration that cannot be implemented as written.

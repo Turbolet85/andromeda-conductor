@@ -17,7 +17,7 @@
     color var(--motion-micro) var(--ease-quiet);
 }
 
-.run-btn:hover:not(:disabled) {
+.run-btn:hover:not(:disabled):not([aria-disabled='true']) {
   background: var(--color-raised-3);
 }
 
@@ -26,13 +26,16 @@
   outline-offset: 1px;
 }
 
-.run-btn:disabled {
+/* Both spellings render identically: Start stays focusable via aria-disabled so the operator-pause
+   dialog has a focus-restore target (RunControls.tsx), Stop uses the native attribute. */
+.run-btn:disabled,
+.run-btn[aria-disabled='true'] {
   color: var(--text-muted);
   border-color: var(--border-subtle);
   cursor: not-allowed;
 }
 
-.run-btn--start:not(:disabled) {
+.run-btn--start:not(:disabled):not([aria-disabled='true']) {
   color: var(--count-nominal);
 }
 

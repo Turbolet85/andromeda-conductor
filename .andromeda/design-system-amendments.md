@@ -46,3 +46,8 @@ _Append-only changelog of amendments to `design-system.md` (the body holds only 
 **Section:** Surface: cli / Component Patterns #4
 **Change:** The `P-009 … 1840ms <5s` sample now renders `<slo_tier>` drawn from the scenario's declared value (closed `<5s`/`<20s`/`<90s` set) — never a baked per-scenario literal.
 **Why:** error-baseline-spike re-declared `<5s` → `<90s` this chunk; placeholder-over-literal per the derived-count rule so the sample cannot re-stale.
+
+## 2026-09-01-desktop-a11y-sweep — text-tier token values moved for contrast
+**Section:** §Color Palette → Text Hierarchy (Tertiary + Muted rows) · §Surface: desktop-webview → Tokens (both theme blocks)
+**Change:** `--text-tertiary` dark `#717AA0` → `#838EBA`; `--text-muted` dark `#565F89` → `#727EB5` and light `#6E7491` → `#636882`. The Muted row's `(blocked slate-violet)` descriptor retired — Muted no longer shares a hex with `--count-blocked`. Light `--text-tertiary` unchanged (it already passed). `--count-blocked` / `--status-manual` / `--status-residual` / `--border-emphasis` untouched.
+**Why:** the chunk's one axe `color-contrast` violation (wcag2aa / SC 1.4.3) was 18 nodes all carrying `--text-tertiary`, at 3.50:1 on `--color-raised-2` and 3.78:1 on `--color-raised-1` against a required 4.5:1. Computing a11y-plan §6's nine pairs then showed the node list was a floor, not the scope: `--text-tertiary`/`--color-base` failed latently at 4.06:1 and `--text-muted`/`--color-inset` failed in BOTH themes (2.91:1 dark, 3.86:1 light), needing corrections in opposite directions. Values solved against all nine pairs in both themes plus the text-ramp ordering and a token-collision guard.

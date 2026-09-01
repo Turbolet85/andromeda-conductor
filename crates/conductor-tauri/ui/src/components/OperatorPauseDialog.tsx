@@ -16,6 +16,7 @@ export default function OperatorPauseDialog({
   onProceed,
   onAbort,
   allowNoGo = true,
+  restoreFocusTo,
 }: {
   open: boolean
   onOpenChange: (open: boolean) => void
@@ -28,12 +29,24 @@ export default function OperatorPauseDialog({
   onProceed: () => void
   onAbort: () => void
   allowNoGo?: boolean
+  /** The control to return focus to on close (SC 2.4.3). Radix's own restore was measured landing on
+      `<body>` here — the hold opens from a Channel message, not a Trigger, so the layer has no trigger
+      to return to. The owner supplies the invoker it captured when the hold arrived. */
+  restoreFocusTo?: () => HTMLElement | null
 }) {
   return (
     <AlertDialog.Root open={open} onOpenChange={onOpenChange}>
       <AlertDialog.Portal>
         <AlertDialog.Overlay className="dialog__overlay" />
-        <AlertDialog.Content className="dialog__content">
+        <AlertDialog.Content
+          className="dialog__content"
+          onCloseAutoFocus={(event) => {
+            const target = restoreFocusTo?.()
+            if (!target) return
+            event.preventDefault()
+            target.focus()
+          }}
+        >
           <AlertDialog.Title className="dialog__title type-heading">{title}</AlertDialog.Title>
           <AlertDialog.Description asChild>
             <div className="dialog__body type-body">{body}</div>

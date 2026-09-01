@@ -9,6 +9,7 @@
     "typecheck": "tsc --noEmit",
     "typecheck:e2e": "tsc -p test/tsconfig.json",
     "a11y": "wdio run wdio.conf.ts",
+    "a11y:driven": "wdio run wdio.conf.ts --suite driven",
     "preview": "vite preview"
   },
   "dependencies": {

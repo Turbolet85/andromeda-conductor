@@ -24,12 +24,16 @@ let tauriDriver: ChildProcess | undefined
 const here = dirname(fileURLToPath(import.meta.url))
 const require = createRequire(import.meta.url)
 
+// The workspace root. The app resolves its CONDUCTOR_* artifact handles (scenarios / runs / contracts)
+// RELATIVE TO ITS CWD through resolve_under, which rejects absolute paths and `..` by design — so the
+// launch cwd, not an env handle, is what decides whether the driven app can see the scenario catalog.
+// Left at the ui package (npm's cwd) the picker resolves an ui/scenarios that does not exist and
+// list_scenarios errors before it logs (measured 2026-09-01).
+const repoRoot = join(here, '..', '..', '..')
+
 // The built bundle the driver attaches to (release profile; ensure `cargo build --release` first).
 const application = join(
-  here,
-  '..',
-  '..',
-  '..',
+  repoRoot,
   'target',
   'release',
   process.platform === 'win32' ? 'conductor-tauri.exe' : 'conductor-tauri',
@@ -65,7 +69,13 @@ function reportSkip(): void {
 export const config: WebdriverIO.Config = {
   hostname: '127.0.0.1',
   port: 4444,
-  specs: ['./test/a11y/**/*.e2e.ts'],
+  // Default = the ROUTINE arm only: what an idle console proves without a live Pulse, so `--e2e` stays
+  // unattended. The driven arm needs a preflight-ready Pulse and raises a real operator hold, so it is a
+  // named suite an operator invokes (`npm run a11y:driven`) — one session either way, never a second stack.
+  specs: ['./test/a11y/accessibility.e2e.ts'],
+  suites: {
+    driven: ['./test/a11y/operator-hold.e2e.ts'],
+  },
   maxInstances: 1,
   capabilities: [
     // tauri-driver reads the vendor-prefixed `tauri:options` capability — a WebDriver vendor extension
@@ -83,7 +93,11 @@ export const config: WebdriverIO.Config = {
   ],
   reporters: ['spec'],
   framework: 'mocha',
-  mochaOpts: { ui: 'bdd', timeout: 60_000 },
+  // The ceiling must clear the driven arm: its hold sits behind preflight's canary poll, which by
+  // contract outlasts Pulse's L3 digest cadence (~50s observed). wdio enforces this value itself, so an
+  // in-test this.timeout() does not raise it. It is only a ceiling — every wait in both specs carries its
+  // own bounded timeout and a named message, so a real stall still fails fast and says what stalled.
+  mochaOpts: { ui: 'bdd', timeout: 15 * 60_000 },
 
   // Bracket the session with the tauri-driver bridge process.
   onPrepare: () => {
@@ -94,7 +108,10 @@ export const config: WebdriverIO.Config = {
       reportSkip()
       process.exit(0)
     }
+    // cwd = the workspace root: tauri-driver's child (the app under test) inherits it, which is the
+    // only lever that points the app's cwd-relative artifact handles at the real catalog.
     tauriDriver = spawn(process.execPath, [driverCli, '--native-driver', native], {
+      cwd: repoRoot,
       stdio: [null, process.stdout, process.stderr],
     })
   },

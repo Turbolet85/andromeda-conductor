@@ -1,84 +1,72 @@
 # Session Handoff
 
-**Last Updated:** 2026-09-01T19:19:00Z
-**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **38 ahead** after this commit)
+**Last Updated:** 2026-09-02T00:50:00Z
+**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **39 ahead** after this commit)
 **Status:** clean
-**Last Commit:** `feat(2026-09-01-webview-self-verify-windows-host): …`
+**Last Commit:** `feat(2026-09-01-desktop-a11y-sweep): …`
 
 ## Position
-- Done: **2026-09-01-webview-self-verify-windows-host** — an agent CAN drive the real Tauri window on this
-  host. Live WebView2 151.0.4129.107 session, axe injecting and analyzing, `browser.execute` reading `:root`
-  tokens, colorjs.io contrast computed from the running app. The route entry's premise ("no driver binary
-  exists on this host") was measured **false**.
-- Next: **`/andromeda-phase`** to promote + plan **_Desktop a11y sweep_** — **reordered ABOVE _Live per-P-ID
-  verdict lamps_** by operator pre-direction, so the harness is calibrated to zero before any UI chunk
-  develops against it. It carries the **42nd `cargo audit` PREREQ (COMPACT form — basis restored)**.
-- Coverage unchanged at **21/32 verified · 11 unclaimed** — this chunk deliberately claimed no capability
-  (making v2-22 runnable is a partial advance, which stays `chunk: null` per the contract).
+- Done: **2026-09-01-desktop-a11y-sweep** — the a11y leg is calibrated to zero and **v2-22 is verified**.
+  Both arms green: routine `--e2e` exit 0 (6 passing, 2 context-skipped), driven `a11y:driven` 1 passing
+  (54s) against a live Pulse.
+- Next: **`/andromeda-phase`** to promote + plan **_Live per-P-ID verdict lamps_**. It carries **two
+  PREREQs**: close the rust gate deferral (deferred since this chunk — re-verify the zero-delta premise
+  rather than echoing it), and the **43rd consecutive `cargo audit` re-check, COMPACT form**.
+- Coverage **22/32 verified · 10 unclaimed** (was 21/32 · 11).
 
 ## Work done
-Repointed `--e2e` in both harness shells from `cargo nextest -p conductor-cli` to the tauri-driver `wdio run`
-leg that test-plan §3/§9 already specified, behind a `CONDUCTOR_MSEDGEDRIVER` guard that **skips at exit 0**
-with a fetch recipe when unset. Reused the operator's host driver rather than acquiring one; `setx`-persisted
-and verified in the registry. Also re-scoped the CARRY's over-scoped dedupe claim in source.
+Fixed the one genuine axe violation **at the token**: it was `color-contrast` (wcag2aa / SC 1.4.3), 18
+nodes, every one `--text-tertiary`. Measurement then showed axe's node list was a floor, not the scope —
+computing a11y-plan §6's nine pairs found two further failures axe never saw (a latent third background,
+and `--text-muted`/`--color-inset` failing in BOTH themes, needing opposite corrections). Three token
+values moved; the contrast spec widened from 3 pairs to all 9, in both declared themes.
 
-**Four pre-existing defects surfaced, none in the plan** — all hidden because the config had never once been
-executed since June:
-1. **`__dirname` in a `"type": "module"` package** — the committed `wdio.conf.ts` could not LOAD on ANY host,
-   Linux included. `typecheck:e2e` passed throughout, because tsc accepts it under the node types.
-2. **`cargo build --release` does not embed the bundle.** At source: `tauri`'s `build.rs` computes
-   `dev = !custom_protocol`, so the **FEATURE** decides, not the profile. The plain release binary opened a
-   Chromium error page at `localhost:5173`.
-3. **No readiness synchronisation** — and `waitUntil` treats a THROWING condition as fatal, so the first fix
-   aborted instantly instead of waiting.
-4. **wdio v9 routes `execute` through BiDi**, which answers "Page/Frame is not ready" indefinitely against
-   wry/WebView2 while classic WebDriver succeeds — `wdio:enforceWebDriverClassic` required.
+**The driven arm found a second, independent defect no static check reaches:** SC 2.4.3 focus restoration
+was broken — after the hold resolved, focus landed on `<body>`. Radix has no `Trigger` to restore to
+because the hold arrives over a Tauri `Channel`. Fixed with an explicit `onCloseAutoFocus` + a
+`restoreFocusTo` invoker; `Start` also switched to `aria-disabled` so it stays a focusable restore target.
 
 ## Drift resolved
-**~40 amendments across 6 masters · 5 escalations resolved with the operator · 6 sidecar entries · cascade
-closed over 8 leaves · 1 new detector · 1 playbook rule refreshed.**
-- `test-plan.md` ×15 — the "Linux+`xvfb` only" verdict retired as a CAPABILITY claim at **8** sites (the
-  plan's list named 6; `:287` and `:369` also deferred GUI legs), "headless only" → "non-interactive only",
-  `--e2e`'s custom-protocol precondition, the loopback allowlist, and §4's ESM-loadability limit.
-- `architecture.md` ×9 — the **CARRY** (one-active-incident re-scoped to the `(kind, scope, scope_id)` tuple,
-  citing `inference_runtime.rs:811`), `CONDUCTOR_MSEDGEDRIVER` + ports `4444`/`4445` registered, the
-  custom-protocol build mechanism, and two operator-ratified qualifications (trust boundary → shipped
-  binaries; **"no UI automation" scoped to PULSE's UI**).
-- `security-plan.md` ×8 (**escalated**, operator-ratified) — the spawn ban SPLIT into MCP-sidecar +
-  harness-spawn rules, the inbound-listener ban scoped to shipped binaries, and the new harness boundary
-  registered at five enumeration sites. Playbook rule @58 did NOT dismiss these: this chunk genuinely adds a
-  boundary and a spawn, so its precondition was unmet.
-- `a11y-plan.md` ×7 (**orchestrator-raised** — see below) · `obs-plan.md` ×3 · `layout-templates.md` ×1.
+**43 amendments across 6 masters · 1 escalation resolved · cascade closed over 5 leaves · obs-plan clean.**
+- `a11y-plan` ×17 — `browser.emulate('prefers-reduced-motion')` **does not exist** (webdriverio 9.x ships
+  six scopes); retired API-wide, not as the platform question §6/§12 framed it. Focus restoration
+  re-attributed from "Radix default" to the explicit contract at 8 sites.
+- `arch` ×7 · `test-plan` ×7 · `security-plan` ×5 — the `--e2e`-only attribution retired now that two
+  suites share one `wdio.conf.ts` stack; test-plan §6/§9 carry the driven arm's **full firing form**.
+- `design-system` ×4 · `layout-templates` ×3 — token values + the Mode-cell reason (the ruling stands, its
+  hex-identity justification died) + the 200ms→`motion-micro` dialog fade.
 
 ## Notes
-- **A detector blind spot cost nothing only because the plan's list is a floor.** The a11y agent returned
-  `proposals: []` — correctly, since its two detectors cover new-UI-element coverage and violation-schema —
-  while its document carried six stale platform sites. It flagged the gap itself. **Resolved: a new
-  `D-platform-claim` detector is now in `drift-base.md`** (operator-approved), the first cross-doc one.
-- **The CARRY's own site table was incomplete**, exactly as the directive anticipated by mandating a
-  re-sweep: it named four sites; the sweep found a **fifth** (`crates/conductor-run/tests/lifecycle_live.rs:128`),
-  which no detector would ever reach since the cascade never greps source comments. Corrected in-code.
-- **My own P3 finding was wrong and is retracted.** "Zero `#[tracing::instrument]` across 7
-  `#[tauri::command]` sites" — all 7 carry the manual `tracing::info_span!("tauri.command.*")` that
-  `observability.md` prescribes *because* the attribute doesn't stack. The grep tested a token the project
-  forbids. Obs-plan was the divergent side and was amended; **no route entry minted** (directive item 2).
-- **`--e2e` is now legitimately RED (exit 1)** and that is recorded, not hidden: 2 specs pass live, 1 fails on
-  a **genuine axe violation**, 2 fail because their subject (HOLD dialog / checklist) exists only in a driven
-  live-Pulse run. The sweep entry carries this verbatim with the context-skip shape to give those two.
-- **42nd `cargo audit` PREREQ, COMPACT form.** Signature reproduced byte-identically this wrap — audit true
-  exit **1** / `duplicate advisory ID: RUSTSEC-2026-0244`, deny true exit **0**. The compact basis is restored
-  because this chunk touched no manifest and `Cargo.lock` is byte-unchanged.
-- `crates/conductor-tauri/ui/logs/` is now git-ignored — the driven app writes its self-obs sink relative to
-  the launching cwd, which the root-anchored `/logs/` rule did not cover.
+- **Escalation (resolved):** the layout-templates 200ms fade was in the plan's Expected-amendments list but
+  **no detector proposed it** — my report omitted the fact, and detectors read the report alone. Folded in
+  on your ruling. Its mirror image: the report ALSO omitted the self-obs log landing-site move, yet arch's
+  detector reached that one, because the `cwd` change WAS in Changes and the landing site derives from it.
+  A report gap is only fatal when the fact leaves no derivable trace.
+- **Verified, not assumed:** the log landing-site claim was checked on disk before applying (root
+  `logs/conductor-tauri.jsonl` 27163 B at 00:15 vs `ui/logs/` 3188 B at 23:21).
+- **RETRACTED (your correction):** my "pulse-app launched without deterministic L4" and "workspace-key
+  absent at HEAD `83d4060`" claims were both false — I read a stale `%APPDATA%` default whose mtime came
+  from my own sidecar opening it. Recorded in the report so the false Pulse-side claim cannot travel.
+- **v2-22 carries a PREMISE-CORRECTION** in the matrix `notes`: its "each of the SIX lamp labels" clause is
+  narrower in fact — no release-bundle surface renders all six (the all-six Gallery is DEV-gated and
+  stripped), so the shipped assertion proves the reachable grain (every RENDERED lamp pairs an
+  `aria-hidden` glyph with a label from the closed six-set). Surfaced at implement, not silently flipped.
+- `--e2e` is now legitimately **green**, replacing the predecessor's recorded red.
 
 ## Deferred learnings
-Filter 4's 0.6 mass point rejected three individually (custom-protocol-not-profile; tsc-does-not-prove-ESM-
-loadability; wdio-BiDi-vs-classic) — each scoring measurement + specific-detail and nothing more. None was
-lost: two landed as **corrections** to existing entries (exempt from the cap) and all three compose into the
-one new Tier-2 entry in `frontend.md`. The two candidates parked at the 2026-09-01 wrap remain parked.
+**`recurrence-despite-learning` ×3 — the honest finding of this wrap.** Filter 1 dedup showed three of my
+session "discoveries" were already curated in `verification-harness.md`, path-scoped to auto-load, and I
+rediscovered each from scratch:
+- `:54` (2026-08-20) — *a live leg reporting `[BLOCKED]` in ~0s is a SIDECAR-RESOLUTION failure; check
+  `PATH` first.* I diagnosed it from first principles.
+- `:53(a)` (2026-08-19) — *never run `boot` before a leg that fires its own preflight canary.* I ran that
+  pairing and **lost two 12-minute runs**.
+- `:53(b)` — *`resolve_under` rejects absolute handles by design.* Re-derived from source mid-implement.
 
-- Audit trail: `.andromeda/runs/2026-09-01T18-49-38Z-wrap/` (fan-out results + escalation dispositions).
+Per the filter a third entry is not a remedy, so curation stayed small: **1 extension** (`:53(a)` gains the
+GUI driven-leg surface + the quiet-window shape), **1 correction** (`frontend.md`'s Radix-supplies-
+focus-restore, now false), **1 new Tier-2 entry** (`testing.md` — assertions must name what they observed).
+The remedy for the recurrences belongs in the owning step's reference, not in more entries.
+
+- Audit trail: `.andromeda/runs/2026-09-01T22-22-12Z-wrap/` (fan-out results + escalation disposition).
 - **Last failed command:** none.
-
-## Session End Status
-Completed normally at 2026-09-01 19:19:00

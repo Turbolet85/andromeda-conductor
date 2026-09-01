@@ -59,6 +59,7 @@ export default function App() {
   const [holdPrompt, setHoldPrompt] = useState<HoldPrompt | null>(null)
   const [tickedItems, setTickedItems] = useState<string[]>([])
   const pendingHold = useRef(false)
+  const holdInvoker = useRef<HTMLElement | null>(null)
 
   useEffect(() => {
     invoke<ScenarioSummary[]>('list_scenarios')
@@ -136,6 +137,9 @@ export default function App() {
     }
     const holdChannel = new Channel<HoldPrompt>()
     holdChannel.onmessage = (prompt) => {
+      // The hold arrives on a Channel, so the dialog has no Radix Trigger to restore focus to on close
+      // — capture the control the operator was on and hand it back explicitly (SC 2.4.3).
+      holdInvoker.current = document.activeElement as HTMLElement | null
       pendingHold.current = true
       setHoldPrompt(prompt)
       setTickedItems([])
@@ -276,6 +280,7 @@ export default function App() {
         checklist={checklistItems}
         onChecklistToggle={toggleChecklistItem}
         allowNoGo={holdPrompt?.allow_no_go ?? true}
+        restoreFocusTo={() => holdInvoker.current}
         onProceed={() => void resolveHold('Go')}
         onAbort={() => void resolveHold('NoGo')}
       />

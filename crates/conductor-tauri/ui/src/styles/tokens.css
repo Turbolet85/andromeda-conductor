@@ -26,8 +26,12 @@
   /* Text + seams */
   --text-primary: #C8D0F0;
   --text-secondary: #A9B1D6;
-  --text-tertiary: #717AA0;
-  --text-muted: #565F89;
+  /* tertiary/muted carry 4.5:1 against every surface they render on, not just --color-base:
+     tertiary is used on raised-2 (coverage thead) and raised-1 (rows), muted on inset
+     (a11y-plan §6). muted no longer shares --count-blocked's hex, so a plain dim can no
+     longer read as Blocked (layout-templates §Primary content block 1). */
+  --text-tertiary: #838EBA;
+  --text-muted: #727EB5;
   --border-subtle: #2A2E42;
   --border-standard: #363B57;
   --border-emphasis: #565F89;
@@ -70,7 +74,8 @@
     --text-primary: #1A1B26;
     --text-secondary: #343B58;
     --text-tertiary: #565F89;
-    --text-muted: #6E7491;
+    /* light needs the opposite correction: muted DARKENS to clear 4.5:1 on --color-inset. */
+    --text-muted: #636882;
     --border-subtle: #D8DBE6;
     --border-standard: #C4C8D8;
     --border-emphasis: #9AA0BE;

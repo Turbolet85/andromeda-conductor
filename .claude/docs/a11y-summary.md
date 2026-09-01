@@ -36,7 +36,7 @@ Enforcement: `.claude/rules/a11y.md`.
 
 ## Critical decisions
 - **Reuse the tests' tauri-driver/WebdriverIO** session (ONE webview stack — Linux+xvfb in CI, and headfully on the Windows WebView2 host, measured 2026-09-01) — not a parallel CDP attach.
-- **Radix/shadcn provide focus trap + ARIA roles** (no `focus-trap-react`/`react-aria` install).
+- **Radix/shadcn provide focus trap + Escape + ARIA roles** (no `focus-trap-react`/`react-aria` install) — but NOT focus restoration for the Channel-opened operator-pause dialog: with no Radix `Trigger`, focus lands on `<body>`, so the dialog restores explicitly via `onCloseAutoFocus` + a `restoreFocusTo` accessor and the invoker stays focusable (`aria-disabled`, never native `disabled`). Measured 2026-09-01.
 - **Reduced-motion emulation** is the one platform-dependent caveat (WebKitGTK fallback to OS/GTK level); macOS WKWebView stays manual-pass-only.
 
 ---

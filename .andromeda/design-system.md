@@ -47,8 +47,8 @@ The cool, blue-cast calm of a single-operator mission-control console watching o
 |-------|------|------|-------|
 | Primary | `#C8D0F0` | `#1A1B26` | Phase-line headline, primary labels (lifted from journal-grey for headline contrast) |
 | Secondary | `#A9B1D6` | `#343B58` | Run-report body, descriptions, supporting prose (journal line-text) |
-| Tertiary | `#717AA0` | `#565F89` | Metadata, `journal_emitted_at` timestamps, captions (muted Tokyo-Night comment) |
-| Muted | `#565F89` | `#6E7491` | Disabled labels, placeholders, dimmed-on-abort text (blocked slate-violet) |
+| Tertiary | `#838EBA` | `#565F89` | Metadata, `journal_emitted_at` timestamps, captions. Dark lifted from `#717AA0` so it clears 4.5:1 on every surface it renders on — `--color-raised-2` (coverage thead) and `--color-raised-1` (rows), not only `--color-base` (as measured 2026-09-01: one axe `color-contrast` violation, 18 nodes, all this token) |
+| Muted | `#727EB5` | `#636882` | Disabled labels, placeholders, dimmed-on-abort text. Both themes moved to clear 4.5:1 against `--color-inset`, in OPPOSITE directions (dark lifted from `#565F89`, light darkened from `#6E7491`); it is its own recessive text tier and no longer shares a hex with `--count-blocked` |
 
 ### Semantic Colors
 | State | Background (dark) | Border (dark) | Text (dark) | Light text |
@@ -217,7 +217,7 @@ Tailwind v4.1 design tokens, declared on **`:root`** (the `design-tokens-bundle-
   --color-id-cyan: #7DCFFF;       --color-focus: #7DCFFF;
   /* Text + seams */
   --text-primary: #C8D0F0;        --text-secondary: #A9B1D6;
-  --text-tertiary: #717AA0;       --text-muted: #565F89;
+  --text-tertiary: #838EBA;       --text-muted: #727EB5;
   --border-subtle: #2A2E42;       --border-standard: #363B57;
   --border-emphasis: #565F89;
   /* Type */
@@ -238,7 +238,7 @@ Tailwind v4.1 design tokens, declared on **`:root`** (the `design-tokens-bundle-
     --status-manual: #565F89;       --status-residual: #6E6478;
     --color-id-cyan: #0969DA;       --color-focus: #0969DA;
     --text-primary: #1A1B26;        --text-secondary: #343B58;
-    --text-tertiary: #565F89;       --text-muted: #6E7491;
+    --text-tertiary: #565F89;       --text-muted: #636882;
     --border-subtle: #D8DBE6;       --border-standard: #C4C8D8;
     --border-emphasis: #9AA0BE;
   }

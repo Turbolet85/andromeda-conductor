@@ -1,0 +1,262 @@
+[
+{
+"sql": "SELECT symbol, crate, file, def_line FROM symbol WHERE symbol LIKE '%CoverageMatrix%' OR symbol LIKE '%OperatorPauseDialog%' OR symbol LIKE '%OperatorChecklist%' ORDER BY file",
+"rows": 42,
+"result": [
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"def_line": 0
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CoverageMode#",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"def_line": 5
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CapabilityRow#",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"def_line": 8
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CapabilityRow#p_id.",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"def_line": 9
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CapabilityRow#title.",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"def_line": 10
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CapabilityRow#category.",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"def_line": 11
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CapabilityRow#mode.",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"def_line": 12
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/MODES.",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"def_line": 17
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/OUT_OF_SCOPE.",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"def_line": 19
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/tally().",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"def_line": 29
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/tally().(rows)",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"def_line": 29
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/tally().(unbacked)",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"def_line": 29
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CoverageMatrix().",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"def_line": 42
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CoverageMatrix().(`{\n  rows,\n  lamps,\n  unbacked = 0,\n}`)typeLiteral26:rows.",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"def_line": 47
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CoverageMatrix().(`{\n  rows,\n  lamps,\n  unbacked = 0,\n}`)typeLiteral26:lamps.",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"def_line": 48
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CoverageMatrix().(`{\n  rows,\n  lamps,\n  unbacked = 0,\n}`)typeLiteral26:unbacked.",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"def_line": 49
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`OperatorChecklist.tsx`/ChecklistItem#checked.",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/OperatorChecklist.tsx",
+"def_line": 6
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`OperatorChecklist.tsx`/ChecklistItem#",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/OperatorChecklist.tsx",
+"def_line": 2
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`OperatorChecklist.tsx`/ChecklistItem#id.",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/OperatorChecklist.tsx",
+"def_line": 3
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`OperatorChecklist.tsx`/ChecklistItem#induced.",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/OperatorChecklist.tsx",
+"def_line": 4
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`OperatorChecklist.tsx`/ChecklistItem#observation.",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/OperatorChecklist.tsx",
+"def_line": 5
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`OperatorChecklist.tsx`/",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/OperatorChecklist.tsx",
+"def_line": 0
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`OperatorChecklist.tsx`/OperatorChecklist().",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/OperatorChecklist.tsx",
+"def_line": 9
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`OperatorChecklist.tsx`/OperatorChecklist().(`{\n  items,\n  onToggle,\n}`)typeLiteral2:items.",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/OperatorChecklist.tsx",
+"def_line": 13
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`OperatorChecklist.tsx`/OperatorChecklist().(`{\n  items,\n  onToggle,\n}`)typeLiteral2:onToggle.",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/OperatorChecklist.tsx",
+"def_line": 14
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`OperatorChecklistView.tsx`/",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/OperatorChecklistView.tsx",
+"def_line": 0
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`OperatorChecklistView.tsx`/OperatorChecklistView().",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/OperatorChecklistView.tsx",
+"def_line": 6
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`OperatorChecklistView.tsx`/OperatorChecklistView().(`{\n  items,\n  onToggle,\n}`)typeLiteral2:items.",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/OperatorChecklistView.tsx",
+"def_line": 10
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`OperatorChecklistView.tsx`/OperatorChecklistView().(`{\n  items,\n  onToggle,\n}`)typeLiteral2:onToggle.",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/OperatorChecklistView.tsx",
+"def_line": 11
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`OperatorPauseDialog.tsx`/",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/OperatorPauseDialog.tsx",
+"def_line": 0
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`OperatorPauseDialog.tsx`/OperatorPauseDialog().",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/OperatorPauseDialog.tsx",
+"def_line": 6
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`OperatorPauseDialog.tsx`/OperatorPauseDialog().(`{\n  open,\n  onOpenChange,\n  title,\n  body,\n  checklist = [],\n  onChecklistToggle,\n  proceedLabel = 'Proceed',\n  abortLabel = 'Abort',\n  onProceed,\n  onAbort,\n  allowNoGo = true,\n}`)typeLiteral2:open.",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/OperatorPauseDialog.tsx",
+"def_line": 19
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`OperatorPauseDialog.tsx`/OperatorPauseDialog().(`{\n  open,\n  onOpenChange,\n  title,\n  body,\n  checklist = [],\n  onChecklistToggle,\n  proceedLabel = 'Proceed',\n  abortLabel = 'Abort',\n  onProceed,\n  onAbort,\n  allowNoGo = true,\n}`)typeLiteral2:onOpenChange.",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/OperatorPauseDialog.tsx",
+"def_line": 20
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`OperatorPauseDialog.tsx`/OperatorPauseDialog().(`{\n  open,\n  onOpenChange,\n  title,\n  body,\n  checklist = [],\n  onChecklistToggle,\n  proceedLabel = 'Proceed',\n  abortLabel = 'Abort',\n  onProceed,\n  onAbort,\n  allowNoGo = true,\n}`)typeLiteral2:title.",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/OperatorPauseDialog.tsx",
+"def_line": 21
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`OperatorPauseDialog.tsx`/OperatorPauseDialog().(`{\n  open,\n  onOpenChange,\n  title,\n  body,\n  checklist = [],\n  onChecklistToggle,\n  proceedLabel = 'Proceed',\n  abortLabel = 'Abort',\n  onProceed,\n  onAbort,\n  allowNoGo = true,\n}`)typeLiteral2:body.",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/OperatorPauseDialog.tsx",
+"def_line": 22
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`OperatorPauseDialog.tsx`/OperatorPauseDialog().(`{\n  open,\n  onOpenChange,\n  title,\n  body,\n  checklist = [],\n  onChecklistToggle,\n  proceedLabel = 'Proceed',\n  abortLabel = 'Abort',\n  onProceed,\n  onAbort,\n  allowNoGo = true,\n}`)typeLiteral2:checklist.",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/OperatorPauseDialog.tsx",
+"def_line": 23
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`OperatorPauseDialog.tsx`/OperatorPauseDialog().(`{\n  open,\n  onOpenChange,\n  title,\n  body,\n  checklist = [],\n  onChecklistToggle,\n  proceedLabel = 'Proceed',\n  abortLabel = 'Abort',\n  onProceed,\n  onAbort,\n  allowNoGo = true,\n}`)typeLiteral2:onChecklistToggle.",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/OperatorPauseDialog.tsx",
+"def_line": 24
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`OperatorPauseDialog.tsx`/OperatorPauseDialog().(`{\n  open,\n  onOpenChange,\n  title,\n  body,\n  checklist = [],\n  onChecklistToggle,\n  proceedLabel = 'Proceed',\n  abortLabel = 'Abort',\n  onProceed,\n  onAbort,\n  allowNoGo = true,\n}`)typeLiteral2:proceedLabel.",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/OperatorPauseDialog.tsx",
+"def_line": 25
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`OperatorPauseDialog.tsx`/OperatorPauseDialog().(`{\n  open,\n  onOpenChange,\n  title,\n  body,\n  checklist = [],\n  onChecklistToggle,\n  proceedLabel = 'Proceed',\n  abortLabel = 'Abort',\n  onProceed,\n  onAbort,\n  allowNoGo = true,\n}`)typeLiteral2:abortLabel.",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/OperatorPauseDialog.tsx",
+"def_line": 26
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`OperatorPauseDialog.tsx`/OperatorPauseDialog().(`{\n  open,\n  onOpenChange,\n  title,\n  body,\n  checklist = [],\n  onChecklistToggle,\n  proceedLabel = 'Proceed',\n  abortLabel = 'Abort',\n  onProceed,\n  onAbort,\n  allowNoGo = true,\n}`)typeLiteral2:onProceed.",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/OperatorPauseDialog.tsx",
+"def_line": 27
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`OperatorPauseDialog.tsx`/OperatorPauseDialog().(`{\n  open,\n  onOpenChange,\n  title,\n  body,\n  checklist = [],\n  onChecklistToggle,\n  proceedLabel = 'Proceed',\n  abortLabel = 'Abort',\n  onProceed,\n  onAbort,\n  allowNoGo = true,\n}`)typeLiteral2:onAbort.",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/OperatorPauseDialog.tsx",
+"def_line": 28
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 src/components/`OperatorPauseDialog.tsx`/OperatorPauseDialog().(`{\n  open,\n  onOpenChange,\n  title,\n  body,\n  checklist = [],\n  onChecklistToggle,\n  proceedLabel = 'Proceed',\n  abortLabel = 'Abort',\n  onProceed,\n  onAbort,\n  allowNoGo = true,\n}`)typeLiteral2:allowNoGo.",
+"crate": "conductor-ui",
+"file": "crates/conductor-tauri/ui/src/components/OperatorPauseDialog.tsx",
+"def_line": 29
+}
+],
+"db_state": "fresh",
+"plane": "ts"
+}
+]
