@@ -1,0 +1,130 @@
+[
+{
+"sql": "SELECT count(*) AS sites, count(DISTINCT caller) AS callers FROM calls WHERE callee_name = 'persist' AND callee_kind = 'fn'",
+"rows": 1,
+"result": [
+{
+"sites": 10,
+"callers": 8
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT count(*) AS sites, count(DISTINCT caller) AS callers FROM calls WHERE callee_name = 'read_envelope' AND callee_kind = 'fn'",
+"rows": 1,
+"result": [
+{
+"sites": 5,
+"callers": 3
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT count(*) AS sites, count(DISTINCT caller) AS callers FROM calls WHERE callee_name = 'get_envelope' AND callee_kind = 'fn'",
+"rows": 1,
+"result": [
+{
+"sites": 6,
+"callers": 4
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller_name, callee, file, line FROM calls WHERE callee_name = 'get_envelope' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 6,
+"result": [
+{
+"caller_name": "envelope_status_round_trips_per_run",
+"callee": "rust-analyzer cargo conductor-report 0.1.0 db/impl#[RunsDb]get_envelope().",
+"file": "crates/conductor-report/src/db.rs",
+"line": 346
+},
+{
+"caller_name": "envelope_status_round_trips_per_run",
+"callee": "rust-analyzer cargo conductor-report 0.1.0 db/impl#[RunsDb]get_envelope().",
+"file": "crates/conductor-report/src/db.rs",
+"line": 347
+},
+{
+"caller_name": "envelope_status_round_trips_per_run",
+"callee": "rust-analyzer cargo conductor-report 0.1.0 db/impl#[RunsDb]get_envelope().",
+"file": "crates/conductor-report/src/db.rs",
+"line": 348
+},
+{
+"caller_name": "read_envelope",
+"callee": "rust-analyzer cargo conductor-report 0.1.0 db/impl#[RunsDb]get_envelope().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 853
+},
+{
+"caller_name": "an_over_envelope_run_is_environment_suspect_not_fail",
+"callee": "rust-analyzer cargo conductor-report 0.1.0 db/impl#[RunsDb]get_envelope().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 1322
+},
+{
+"caller_name": "an_in_envelope_run_records_its_standing_too",
+"callee": "rust-analyzer cargo conductor-report 0.1.0 db/impl#[RunsDb]get_envelope().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 1357
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT count(*) AS rows_old_anchor FROM calls WHERE callee LIKE '%/persist().%'",
+"rows": 1,
+"result": [
+{
+"rows_old_anchor": 0
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT DISTINCT symbol FROM symbol WHERE name = 'persist'",
+"rows": 1,
+"result": [
+{
+"symbol": "rust-analyzer cargo conductor-run 0.1.0 persist()."
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT count(*) AS sites, count(DISTINCT caller) AS callers FROM calls WHERE callee_name = 'execute_scenario' AND callee_kind = 'fn'",
+"rows": 1,
+"result": [
+{
+"sites": 7,
+"callers": 5
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT symbol FROM symbol WHERE name IN ('execute_scenario','persist')",
+"rows": 2,
+"result": [
+{
+"symbol": "rust-analyzer cargo conductor-run 0.1.0 execute_scenario()."
+},
+{
+"symbol": "rust-analyzer cargo conductor-run 0.1.0 persist()."
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

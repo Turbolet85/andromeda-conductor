@@ -1,64 +1,63 @@
 # Session Handoff
 
-**Last Updated:** 2026-09-02T15:03:00Z
-**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **43 ahead** after this commit)
+**Last Updated:** 2026-09-02T22:25:20Z
+**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **45 ahead** after this commit)
 **Status:** clean
-**Last Commit:** `feat(2026-09-02-cross-surface-envelope-parity): …` (after `eb1af77`
-`chore(route): operator-requested adaptation — 0-pending wrap`)
+**Last Commit:** `chore(route): operator-requested adaptation — 0-pending wrap` (after `68090e4`
+`chore(setup-project): absorb the hooks I/O contract and the code-graph triple`)
 
 ## Position
-- Done: **2026-09-02-cross-surface-envelope-parity** — cross-surface parity made a real comparison,
-  the load-envelope banner's first rendered-DOM proof, and the rmcp wording reconciled.
-  **v2-25 + v2-28 verified. This wrap CLOSES Epoch 5.**
-- Next: **`/andromeda-phase`** to promote + plan **_A11y CI gate_** — the first markerless entry of the
-  newly split **Epoch 6a — Verification follow-ups**. It carries `BLOCKED-ON: a CI runner` (re-framed
-  runner-agnostic this wrap), **3 CARRYs** (Guidepup weighable-not-adopted · OS-level key injection for
-  the 14 browse rows · the ui-test README's stale Linux-only line) and the **standing cargo-audit pin**.
-- Coverage **26/32 verified · 6 unclaimed** (`v2-04`, `v2-21`, `v2-24`, `v2-26`, `v2-27`, `v2-32`).
+- Done: **0-pending adaptation wrap** — no chunk wrapped. `2026-09-02-cross-surface-envelope-parity`
+  remains the last complete chunk; **Epoch 5 stays closed**.
+- Next: **`/andromeda-phase`** to promote + plan **_Mutation tier restored for conductor-tauri_** — the
+  new first markerless entry, minted at the Epoch 6a head this wrap. It carries the **standing
+  cargo-audit PREREQ (the 45th)**, migrated verbatim off _A11y CI gate_.
+- Coverage **26/32 verified · 6 unclaimed** (`v2-04`, `v2-21`, `v2-24`, `v2-26`, `v2-27`, `v2-32`) —
+  unchanged; no matrix write on this path.
 
 ## Work done
-- **v2-25** — the shipped `path7_*` test never ran the CLI: it compared the Tauri row against hand-written
-  literals while a comment claimed `cli_smoke` proved the other side, so parity rode two tests in two DBs.
-  Replaced with a real comparison — `tauri::test` mock runtime + `assert_cmd` CLI subprocess into ONE
-  `runs.db` via a non-default `CONDUCTOR_RUNS_DIR`, asserting field equality BETWEEN the two persisted
-  envelopes and distinct `run_id`s/journals.
-- **CARRY-2** — the banner's first rendered-DOM proof. An over-envelope fixture scenario (breaches the rate
-  term with **11 dispatches**; `occurrences > 10 × gap_ms`) seeded through `conductor_run::persist` by a
-  committed Rust seeder. The `--e2e` arm's banner spec now ASSERTS instead of skipping, plus a new axe run
-  against that DOM state. **10 passing on WebView2 152.0.4191.53.**
-- **v2-28** — 24 rmcp-bearing lines in `test-plan.md` classified per-site and applied (21 amend · 1 mixed ·
-  2 leave), plus `contracts/mcp-contract.toml:5` and `conductor-verify/src/lib.rs:3`. Count now 5, all
-  sanctioned LEAVEs. The verifying grep is green.
-- Rust-gate PREREQ **closed** (nextest 767 passed · clippy · doctest · both runners).
+Operator route adaptation on the boundary-#3 ruling: **code-facing audit findings become the corrective
+first chunks of Epoch 6a**, so every later 6a chunk runs on hardened machinery.
+- **3 entries minted** at the 6a head, ahead of _A11y CI gate_ — (1) _Mutation tier restored for
+  conductor-tauri_ (43 mutants planned, **0** tested; the parity test reaches the CLI through an
+  undeclared `target/debug/conductor.exe`), (2) _conductor-run composition-root survivors dispositioned_
+  (**12 of 18** carried survivors with no recorded disposition; 24 of 25 in one file), (3) _Live-Pulse
+  preconditions probed_ (the L3 band-aid: 5 in-epoch facts absorbing SUT absence one chunk at a time).
+- **Standing cargo-audit PREREQ migrated** verbatim to the new head entry, ordinal unchanged at **45**
+  (a migrating pin numbers the forthcoming probe; none ran on _A11y CI gate_). That entry keeps its
+  `BLOCKED-ON` and all 3 CARRYs; its trajectory question defers one chunk. **0 frozen lines touched.**
+- **Playbook rule 37** appended verbatim — boundary widening, `verdict: escalate`, never routine.
+- Curation: **1 correction + 2 appends** (below).
+- Friction ledger: **retraction** appended for `2026-09-02T13:31:41Z-a` (`scope: "problem"`, `index: 0`).
 
 ## Drift resolved
-**42 proposals across 7 doc-agents · 34 routine · 8 escalated-and-resolved · 0 open · 5 masters amended ·
-6 cascade leaves re-derived.** Veto point: `.andromeda/runs/2026-09-02T14-34-37Z-wrap/fanout-results.md`.
-- Escalation 1: `CONDUCTOR_E2E_SEED_DIR` registered as a **THIRD handle class** (playbook rule 115 failed 4
-  of 5 preconditions — not a host-tool path, test-read not wdio-read, no isFile guard, absent from the
-  plan's list). A new playbook rule was minted distinguishing it from 115 explicitly.
-- Escalation 2: Epoch 6a ordering — your enumeration governs.
+Not applicable — the no-op path runs no P1 report and no P2 fan-out, so **no drift was detected or
+resolved**. A reality↔spec divergence noticed here still waits for its chunk wrap.
+Audit trail: `.andromeda/runs/2026-09-02T22-20-00Z-wrap/adaptation-record.md`.
 
 ## Notes
-- **Two sites the report's own enumeration missed**, both found by the doc-agents' per-occurrence grep and
-  verified before applying: `a11y-plan:465` (a third UNRUNNABLE restatement) and `test-plan:278`, which
-  carries the retired "negotiates DOWN" mechanism and **no `rmcp` token at all** — a token-keyed sweep
-  cannot reach it. A follow-up semantic sweep then found two more in the derived tier. Curated to Tier 1.
-- **Deviation ratified:** the chunk introduced a new `CONDUCTOR_*` handle against its own plan acceptance
-  criterion ("no new `CONDUCTOR_*` env var"). The criterion's subject — the parity proof — holds unaltered;
-  the handle belongs to the seeder, which the criterion did not contemplate.
-- **`Cargo.lock` moved by one edge line** (`"assert_cmd"` on `conductor-tauri`'s list); package count
-  **564 → 564**, `cargo deny` green over the new lock. Both the plan and your review edit had predicted
-  byte-identity — the basis held, the prediction's form did not. Curated to `rules/security.md`.
-- **Standing cargo-audit pin re-pinned as the 45th** on _A11y CI gate_: 43 consecutive · 1 un-probed chunk
-  (SR) · 44th here. Never clear it on a rust-gate closure — it is external decay, not a source-delta
-  deferral.
-- **Live pass NOT run** (Pulse not booted; you made it non-gating). The banner proof is the committed
-  deterministic subject, which is what makes the routine arm assert on a clean tree.
-- **Epoch 5 is closed** — expect the evolve nudge; the boundary stack runs in a FRESH session, not here.
-- Audit trail: `.andromeda/runs/2026-09-02T14-34-37Z-wrap/` (this wrap) ·
-  `.andromeda/runs/2026-09-02T13-12-45Z-phase/`.
+- **A dictated coordinate did not survive verification.** Every measured claim in the directive was
+  re-derived against the freshly rebuilt rust plane before being written. `persist` (10 sites / 8
+  callers) and `read_envelope` (5 / 3) verified **exact**; `RunsDb::get_envelope` was dictated as
+  6 sites / **3** callers and measures **6 / 4** — the measured 4 was written. The retired-anchor
+  mechanism is confirmed: the raw symbol is `…conductor-run 0.1.0 persist().` with nothing before the
+  name, so `'%/persist().%'` can never match it. The old entry's "DB holds no row at all for `persist`
+  or `execute_scenario`" is false for **both** (`execute_scenario` = 7 / 5); the correction covers both.
+  Trace: `.andromeda/runs/2026-09-02T22-20-00Z-wrap/tree-query-wrap-adaptation.json`.
+- **Curation:** T1 correction in place on the CLAUDE.md code-graph rule (descriptor idiom retired →
+  query by `callee_name`, disambiguate by `callee_kind`/`callee_file`; plus the retroactive clause that
+  every pre-2026-09-02 "0 callers" claim is a query-pattern artifact — folded in as an additive facet,
+  not minted as a sibling). T1 append: PostToolUse runs **rustfmt only**, `clippy --fix` never at write
+  time. T2 append → `frontend.md`: assert against the CSSOM's serialization, fold context into the
+  asserted value. CLAUDE.md **133/200**.
+- **The evolve nudge does NOT fire** — Epoch 5 is already diagnosed
+  (`.andromeda/runs/2026-09-02T15-24-02-evolve-diagnose/proposals.md`, titled `Epoch 5 "Verification
+  surfaces"`). The previous handoff predicted it; that prediction predates the run. Its **73 KB of
+  proposals is unratified** — an open thread, obligation-free by its own terms.
+- **Code-graph: both planes rebuilt on the new schema** (`rust 2331/10706` · `ts 701/1562`,
+  `built.views` sidecar present on each). The one-time rebuild the directive predicted.
+  `tree.db.commit` re-pointed to the new HEAD.
+- **Open point:** item 6's placement (_Live-Pulse preconditions probed_, third in 6a) rides the
+  operator's stated **lean**, not a ruling — the alternatives were folding it into _Operator-gated live
+  suite_ or `.andromeda/residuals.md`. Say the word and it moves; nothing downstream depends on the slot.
 - **Last failed command:** none.
-
-## Session End Status
-Completed normally at 2026-09-02 18:49:54
