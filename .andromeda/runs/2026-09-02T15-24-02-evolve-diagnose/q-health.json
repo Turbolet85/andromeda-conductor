@@ -1,0 +1,317 @@
+{
+ "epoch": "Epoch 5 — Verification surfaces",
+ "records": 233,
+ "step": 95,
+ "friction": 138,
+ "unparseable_whole_ledger": 0,
+ "chunks": [
+  "2026-08-31-p-075-assert-round",
+  "2026-09-01-desktop-a11y-sweep",
+  "2026-09-01-live-per-p-id-verdict-lamps",
+  "2026-09-01-webview-self-verify-windows-host",
+  "2026-09-02-cross-surface-envelope-parity",
+  "2026-09-02-screen-reader-manual-spec"
+ ],
+ "coverage": {
+  "2026-08-31-p-075-assert-round": {
+   "phase": 5,
+   "implement": 4,
+   "wrap-session": 5,
+   "new-session": 0,
+   "other": {},
+   "steps": [
+    "code",
+    "curation",
+    "distill",
+    "fix-loop",
+    "gates",
+    "plan",
+    "reconcile",
+    "report",
+    "research",
+    "route-resolve",
+    "smoke",
+    "take-up",
+    "validate"
+   ]
+  },
+  "2026-09-01-desktop-a11y-sweep": {
+   "phase": 5,
+   "implement": 3,
+   "wrap-session": 5,
+   "new-session": 0,
+   "other": {},
+   "steps": [
+    "code",
+    "curation",
+    "distill",
+    "fix-loop",
+    "gates",
+    "plan",
+    "reconcile",
+    "report",
+    "research",
+    "route-resolve",
+    "smoke",
+    "take-up",
+    "validate"
+   ]
+  },
+  "2026-09-01-live-per-p-id-verdict-lamps": {
+   "phase": 5,
+   "implement": 3,
+   "wrap-session": 5,
+   "new-session": 0,
+   "other": {},
+   "steps": [
+    "code",
+    "curation",
+    "distill",
+    "fix-loop",
+    "gates",
+    "plan",
+    "reconcile",
+    "report",
+    "research",
+    "route-resolve",
+    "smoke",
+    "take-up",
+    "validate"
+   ]
+  },
+  "2026-09-01-webview-self-verify-windows-host": {
+   "phase": 5,
+   "implement": 3,
+   "wrap-session": 5,
+   "new-session": 0,
+   "other": {},
+   "steps": [
+    "code",
+    "curation",
+    "distill",
+    "fix-loop",
+    "gates",
+    "plan",
+    "reconcile",
+    "report",
+    "research",
+    "route-resolve",
+    "smoke",
+    "take-up",
+    "validate"
+   ]
+  },
+  "2026-09-02-cross-surface-envelope-parity": {
+   "phase": 5,
+   "implement": 3,
+   "wrap-session": 5,
+   "new-session": 0,
+   "other": {},
+   "steps": [
+    "code",
+    "curation",
+    "distill",
+    "fix-loop",
+    "gates",
+    "plan",
+    "reconcile",
+    "report",
+    "research",
+    "route-resolve",
+    "smoke",
+    "take-up",
+    "validate"
+   ]
+  },
+  "2026-09-02-screen-reader-manual-spec": {
+   "phase": 7,
+   "implement": 3,
+   "wrap-session": 5,
+   "new-session": 0,
+   "other": {},
+   "steps": [
+    "code",
+    "curation",
+    "distill",
+    "fix-loop",
+    "gates",
+    "plan",
+    "reconcile",
+    "report",
+    "research",
+    "route-resolve",
+    "smoke",
+    "take-up",
+    "validate"
+   ]
+  }
+ },
+ "expected_per_chunk": {
+  "phase": 5,
+  "implement": 3,
+  "wrap-session": 5
+ },
+ "null_chunk_step_records": [
+  {
+   "skill": "new-session",
+   "step": "orientation",
+   "ts": "2026-08-22T13:05:27Z"
+  },
+  {
+   "skill": "new-session",
+   "step": "orientation",
+   "ts": "2026-08-22T21:10:36Z"
+  },
+  {
+   "skill": "wrap-session",
+   "step": "route-resolve",
+   "ts": "2026-08-22T21:22:44Z"
+  },
+  {
+   "skill": "wrap-session",
+   "step": "curation",
+   "ts": "2026-08-22T21:22:44Z"
+  },
+  {
+   "skill": "new-session",
+   "step": "orientation",
+   "ts": "2026-08-31T19:50:24Z"
+  },
+  {
+   "skill": "wrap-session",
+   "step": "route-resolve",
+   "ts": "2026-08-31T20:03:51Z"
+  },
+  {
+   "skill": "wrap-session",
+   "step": "curation",
+   "ts": "2026-08-31T20:05:35Z"
+  },
+  {
+   "skill": "wrap-session",
+   "step": "gates",
+   "ts": "2026-08-31T20:07:47Z"
+  },
+  {
+   "skill": "new-session",
+   "step": "orientation",
+   "ts": "2026-09-01T17:33:07Z"
+  },
+  {
+   "skill": "new-session",
+   "step": "orientation",
+   "ts": "2026-09-01T20:10:04Z"
+  },
+  {
+   "skill": "new-session",
+   "step": "orientation",
+   "ts": "2026-09-01T23:05:00Z"
+  },
+  {
+   "skill": "new-session",
+   "step": "orientation",
+   "ts": "2026-09-02T06:37:35Z"
+  },
+  {
+   "skill": "wrap-session",
+   "step": "route-resolve",
+   "ts": "2026-09-02T12:57:07Z"
+  },
+  {
+   "skill": "new-session",
+   "step": "orientation",
+   "ts": "2026-09-02T13:03:22Z"
+  }
+ ],
+ "untyped_rate_overall": [
+  21,
+  138
+ ],
+ "untyped_by_step": {
+  "new-session/orientation": [
+   4,
+   9
+  ],
+  "wrap-session/route-resolve": [
+   4,
+   10
+  ],
+  "wrap-session/curation": [
+   4,
+   11
+  ],
+  "implement/smoke": [
+   2,
+   5
+  ],
+  "wrap-session/gates": [
+   1,
+   8
+  ],
+  "phase/take-up": [
+   1,
+   9
+  ],
+  "phase/distill": [
+   1,
+   9
+  ],
+  "phase/research": [
+   1,
+   12
+  ],
+  "phase/validate": [
+   1,
+   12
+  ],
+  "wrap-session/report": [
+   1,
+   6
+  ],
+  "wrap-session/reconcile": [
+   1,
+   15
+  ]
+ },
+ "problem_fact_fill": [
+  37,
+  95
+ ],
+ "id_fill": [
+  233,
+  233
+ ],
+ "skills_steps": {
+  "implement": [
+   "code",
+   "fix-loop",
+   "smoke"
+  ],
+  "new-session": [
+   "orientation"
+  ],
+  "phase": [
+   "distill",
+   "plan",
+   "research",
+   "take-up",
+   "validate"
+  ],
+  "wrap-session": [
+   "curation",
+   "gates",
+   "reconcile",
+   "report",
+   "route-resolve"
+  ]
+ },
+ "retraction_exclusions_applied": {
+  "friction_ids": [],
+  "problem_targets": [
+   [
+    "2026-08-20T21:14:37Z-a",
+    null
+   ]
+  ]
+ }
+}

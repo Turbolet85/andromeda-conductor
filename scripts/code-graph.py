@@ -9,7 +9,7 @@ ts (tracked tsconfig.json; scip-typescript). Each plane builds an independent
 vendored scip_pb2.py (same dir). A missing indexer SKIPS that plane (recipe printed);
 refresh writes .refresh-stale only when NO plane can build — exit 0 either way (never
 blocks the pipeline). See integrity-protocol.md."""
-import sys, os, json, time, hashlib, subprocess, shutil
+import sys, os, json, re, time, hashlib, subprocess, shutil
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)  # vendored scip_pb2 + sibling code-graph-views.sql
@@ -85,6 +85,12 @@ def dirty_fp(rt, plane):
 
 
 CLEAN_FP = hashlib.sha256(b"").hexdigest()[:16]
+
+
+def _views_hash():
+    """Hash of the sibling views file: a plane built from an older views file is stale."""
+    with open(os.path.join(HERE, "code-graph-views.sql"), "rb") as f:
+        return hashlib.sha256(f.read()).hexdigest()[:16]
 
 
 def _plane_dir(cache, plane):
@@ -182,6 +188,8 @@ def build_plane(rt, cache, plane, roots):
             f.write((_git("rev-parse", "HEAD") or "none") + "\n")
         with open(os.path.join(pd, "built.fp"), "w", encoding="utf-8") as f:
             f.write(dirty_fp(rt, plane) + "\n")
+        with open(os.path.join(pd, "built.views"), "w", encoding="utf-8") as f:
+            f.write(_views_hash() + "\n")   # a changed views file rebuilds the plane at the next query
         secs = int(time.time() - t0)
         print(f"tree-refresh[{plane}]: {nodes} nodes / {edges} edges - {secs}s")
         return f"{plane} ok {secs}s {nodes}/{edges}"
@@ -282,9 +290,11 @@ def query(run_dir, marker, sql, plane=None):
                              f"(unbuilt or its indexer is missing)\n")
 
     # Per-plane freshness: OWN (built.head == HEAD and built.fp == current) or
-    # VOUCHED (root stamp == HEAD and the plane's current fingerprint is clean).
+    # VOUCHED (root stamp == HEAD and the plane's current fingerprint is clean); both arms
+    # also require built.views == the views file's hash (a changed views file rebuilds once).
     head = _git("rev-parse", "HEAD") or "none"
     fp = dirty_fp(rt, plane)
+    vh = _views_hash()
 
     def _read(p):
         try:
@@ -293,8 +303,10 @@ def query(run_dir, marker, sql, plane=None):
         except OSError:
             return "none"
 
-    own = _read(os.path.join(pd, "built.head")) == head and _read(os.path.join(pd, "built.fp")) == fp
-    vouched = _read(os.path.join(cache, "tree.db.commit")) == head and fp == CLEAN_FP
+    views_ok = _read(os.path.join(pd, "built.views")) == vh
+    own = (_read(os.path.join(pd, "built.head")) == head and _read(os.path.join(pd, "built.fp")) == fp
+           and views_ok)
+    vouched = _read(os.path.join(cache, "tree.db.commit")) == head and fp == CLEAN_FP and views_ok
     db_state = "fresh"
     if (not os.path.exists(db)) or not (own or vouched):
         sys.stderr.write(f"tree-query: {plane} DB absent/stale -> regenerating...\n")
@@ -322,10 +334,36 @@ def query(run_dir, marker, sql, plane=None):
     con = duckdb.connect(db, read_only=True)
     rows = con.execute(sql).fetchall()
     cols = [c[0] for c in con.description] if con.description else []
-    con.close()
     results = [dict(zip(cols, r)) for r in rows]
-    _append_trace(trace, {"sql": sql, "rows": len(results), "result": results,
-                          "db_state": db_state, "plane": plane})
+    record = {"sql": sql, "rows": len(results), "result": results,
+              "db_state": db_state, "plane": plane}
+    if not rows and re.search(r"\b(?:FROM|JOIN)\s+(?:calls|calls_m|refs|contains)\b", sql, re.I):
+        # Same-predicate probe: a 0-row answer is a leaf only if every name/pattern the query
+        # used matches an indexed symbol on THIS plane (else: other plane / spelling / runtime).
+        try:
+            hits = {"names": {}, "patterns": {}}
+            for n in re.findall(r"\b(?:name|callee_name|caller_name)\s*=\s*'([^']*)'", sql, re.I):
+                hits["names"][n] = con.execute(
+                    "SELECT count(*) FROM symbol WHERE name = ?", [n]).fetchone()[0]
+            for col, neg, op, p in re.findall(
+                    r"\b(symbol|callee|caller|parent|child|name|callee_name|caller_name)"
+                    r"\s+(NOT\s+)?(I?LIKE)\s+'([^']*)'", sql, re.I):
+                if neg:
+                    continue
+                target = "name" if col.lower().endswith("name") else "symbol"
+                hits["patterns"][p] = con.execute(
+                    f"SELECT count(*) FROM symbol WHERE {target} {op.upper()} ?", [p]).fetchone()[0]
+            record["probe_hits"] = hits
+            missing = [k for d in hits.values() for k, v in d.items() if v == 0]
+            if missing:
+                sys.stderr.write(f"tree-query: WARNING - 0 rows AND {missing} match NO indexed symbol "
+                                 f"on the {plane} plane: not a leaf - the symbol may live on another "
+                                 f"plane, under another spelling, or only at runtime. Query by "
+                                 f"callee_name (cookbook query 1); grep before concluding.\n")
+        except Exception:
+            record["probe_hits"] = None   # the probe never breaks the primary result
+    con.close()
+    _append_trace(trace, record)
     print(json.dumps(results, default=str, indent=2))
 
 

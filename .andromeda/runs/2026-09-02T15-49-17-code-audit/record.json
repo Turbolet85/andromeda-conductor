@@ -1,0 +1,769 @@
+{
+ "ts": "2026-09-02T16:19:36Z",
+ "epoch": "Epoch 5 — Verification surfaces",
+ "mode": "trend",
+ "sha": "29c30b05ff126ac7e74b91f2e01e2e8d25f8f243",
+ "baseline_sha": "b8f3332df9f12c679dd50fd967f5aaa18b84f657",
+ "span": 1,
+ "ancestry_broken": false,
+ "tool_versions": {
+  "jscpd": "5.0.16",
+  "tokei": "14.0.0",
+  "rust-code-analysis": "0.0.25",
+  "cargo-machete": "0.9.2",
+  "cargo-mutants": "27.1.0",
+  "cargo-llvm-cov": "0.8.5",
+  "cargo-nextest": "0.9.133",
+  "code-graph": "tree.db via scripts/code-graph.py",
+  "lizard": "1.24.0 (available, NOT collected this run — see recipes.lizard)"
+ },
+ "totals": {
+  "loc": 18113,
+  "files": 115,
+  "units": 9
+ },
+ "duplication": {
+  "label": "head",
+  "population": "jscpd --format rust over crates/ (Rust only)",
+  "pct": 3.58,
+  "duplicated_lines": 870,
+  "total_lines": 24318,
+  "clones": 86,
+  "sources": 114,
+  "top": [
+   [
+    "conductor-emit/tests/error_spans.rs",
+    "conductor-emit/tests/exception_events.rs",
+    44
+   ],
+   [
+    "conductor-emit/tests/egress.rs",
+    "conductor-emit/tests/traffic_rate_ramps.rs",
+    42
+   ],
+   [
+    "conductor-emit/tests/egress.rs",
+    "conductor-emit/tests/error_spans.rs",
+    39
+   ],
+   [
+    "conductor-emit/tests/egress.rs",
+    "conductor-emit/tests/multi_service_topology.rs",
+    38
+   ],
+   [
+    "conductor-emit/tests/egress.rs",
+    "conductor-emit/tests/latency_shaping.rs",
+    36
+   ],
+   [
+    "conductor-run/tests/canary_obs_witness.rs",
+    "conductor-run/tests/canary_wire.rs",
+    21
+   ],
+   [
+    "conductor-emit/src/latency.rs",
+    "conductor-emit/src/rate.rs",
+    17
+   ],
+   [
+    "conductor-core/src/scenario.rs",
+    "conductor-core/src/scenario.rs",
+    15
+   ],
+   [
+    "conductor-emit/src/latency.rs",
+    "conductor-emit/src/rate.rs",
+    15
+   ],
+   [
+    "conductor-emit/src/span_tree.rs",
+    "conductor-emit/src/topology.rs",
+    15
+   ]
+  ],
+  "split": {
+   "both_test": {
+    "pairs": 41,
+    "lines": 511
+   },
+   "both_src": {
+    "pairs": 37,
+    "lines": 368
+   },
+   "mixed": {
+    "pairs": 8,
+    "lines": 77
+   }
+  }
+ },
+ "complexity": {
+  "population": "rust-code-analysis kind==function spaces under crates/; ceiling cognitive > 15; top sorted by COGNITIVE desc",
+  "cyclomatic_p50": 1.0,
+  "cyclomatic_p90": 4.0,
+  "cognitive_p50": 0.0,
+  "cognitive_p90": 1.0,
+  "over_ceiling": 6,
+  "max": {
+   "fn": "serve_stub",
+   "file": "crates/conductor-verify/tests/common/mod.rs",
+   "val": 35.0
+  },
+  "top": [
+   [
+    "serve_stub",
+    "crates/conductor-verify/tests/common/mod.rs",
+    35.0,
+    34.0
+   ],
+   [
+    "shape_is_realizable",
+    "crates/conductor-core/src/phase_spec.rs",
+    31.0,
+    30.0
+   ],
+   [
+    "validate",
+    "crates/conductor-core/src/run_contract.rs",
+    18.0,
+    16.0
+   ],
+   [
+    "observe",
+    "crates/conductor-verify/src/extract.rs",
+    17.0,
+    13.0
+   ],
+   [
+    "dispatch",
+    "crates/conductor-run/src/dispatch.rs",
+    16.0,
+    47.0
+   ],
+   [
+    "run_preflight",
+    "crates/conductor-verify/src/preflight.rs",
+    16.0,
+    20.0
+   ],
+   [
+    "is_host_path_token",
+    "crates/conductor-core/src/redact.rs",
+    15.0,
+    18.0
+   ],
+   [
+    "validate",
+    "crates/conductor-core/src/load_envelope.rs",
+    13.0,
+    9.0
+   ],
+   [
+    "redact_value",
+    "crates/conductor-core/src/redact.rs",
+    13.0,
+    9.0
+   ],
+   [
+    "service_topology_request",
+    "crates/conductor-emit/src/topology.rs",
+    12.0,
+    8.0
+   ]
+  ],
+  "functions": 1992
+ },
+ "sizes": {
+  "population": "tokei --output json crates/ ; language=Rust (*.rs) only",
+  "file_p50": 102,
+  "file_p90": 379,
+  "file_max": 1115,
+  "over_800": 2,
+  "top": [
+   [
+    "crates/conductor-run/src/lib.rs",
+    1115
+   ],
+   [
+    "crates/conductor-core/src/scenario.rs",
+    1001
+   ],
+   [
+    "crates/conductor-core/src/obs.rs",
+    597
+   ],
+   [
+    "crates/conductor-core/src/load_envelope.rs",
+    536
+   ],
+   [
+    "crates/conductor-report/src/db.rs",
+    504
+   ],
+   [
+    "crates/conductor-run/tests/severity_harvest.rs",
+    468
+   ],
+   [
+    "crates/conductor-tauri/src/commands.rs",
+    448
+   ],
+   [
+    "crates/conductor-emit/src/pii.rs",
+    436
+   ],
+   [
+    "crates/conductor-emit/src/exception.rs",
+    410
+   ],
+   [
+    "crates/conductor-run/tests/dispatch_wire.rs",
+    404
+   ]
+  ]
+ },
+ "graph": {
+  "population": "plane=rust tree.db; views symbol/refs/calls_m/crate_edges",
+  "symbol_form": "fan_in symbols shortened to `{crate} {path}` (baseline-pinned)",
+  "cycles": 0,
+  "cycle_paths": [],
+  "fan_in_top": [
+   [
+    "conductor-core crate/",
+    123
+   ],
+   [
+    "conductor-core scenario/Scenario#",
+    99
+   ],
+   [
+    "conductor-core report_state/ReportState#",
+    83
+   ],
+   [
+    "conductor-core scenario/PId#",
+    81
+   ],
+   [
+    "conductor-core verdict/Verdict#",
+    79
+   ],
+   [
+    "conductor-core scenario/SloTier#",
+    77
+   ],
+   [
+    "conductor-core run_record/RunRecord#",
+    61
+   ],
+   [
+    "conductor-core error/CoreError#",
+    58
+   ],
+   [
+    "conductor-core expected/ClaimClass#",
+    52
+   ],
+   [
+    "conductor-core scenario/impl#[Scenario]from_toml_str().",
+    50
+   ],
+   [
+    "conductor-core expected/ComparisonKind#",
+    48
+   ],
+   [
+    "conductor-core verdict/Verdict#Pass#",
+    45
+   ],
+   [
+    "conductor-verify error/VerifyError#",
+    41
+   ],
+   [
+    "conductor-core load_envelope/EnvelopeStatus#",
+    41
+   ],
+   [
+    "conductor-core scenario/Scenario#expected.",
+    40
+   ],
+   [
+    "conductor-core coverage/CoverageMode#",
+    39
+   ],
+   [
+    "conductor-core pause/Decision#",
+    38
+   ],
+   [
+    "conductor-core report_state/ReportState#Pass#",
+    37
+   ],
+   [
+    "conductor-verify common/StubConfig#",
+    35
+   ],
+   [
+    "conductor-core error/CoreError#Config#",
+    35
+   ]
+  ],
+  "fan_out": [
+   [
+    "conductor-run",
+    6
+   ],
+   [
+    "conductor-cli",
+    4
+   ],
+   [
+    "conductor-tauri",
+    2
+   ],
+   [
+    "conductor-verify",
+    1
+   ],
+   [
+    "conductor-timeline",
+    1
+   ],
+   [
+    "conductor-faults",
+    1
+   ],
+   [
+    "conductor-report",
+    1
+   ]
+  ],
+  "cross_unit_edges": 16
+ },
+ "dead": {
+  "unused_deps": {
+   "conductor-emit": [
+    "conductor-core"
+   ]
+  },
+  "zero_ref_candidates": 32,
+  "chain": {
+   "raw": 772,
+   "after_tests_segment_filter": 36,
+   "after_entry_points": 32
+  },
+  "top": [
+   [
+    "rust-analyzer cargo conductor-tauri 0.1.0 pause/impl#[TauriResolver][PauseResolver]kind().",
+    "crates/conductor-tauri/src/pause.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-tauri 0.1.0 pause/impl#[TauriResolver][PauseResolver]resolve().",
+    "crates/conductor-tauri/src/pause.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-cli 0.1.0 pause/impl#[CliResolver][PauseResolver]kind().",
+    "crates/conductor-cli/src/pause.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-cli 0.1.0 pause/impl#[CliResolver][PauseResolver]resolve().",
+    "crates/conductor-cli/src/pause.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-run 0.1.0 dispatch/DispatchError#Emit#",
+    "crates/conductor-run/src/dispatch.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-verify 0.1.0 preflight/RUN_CONTRACT_PRECONDITION.",
+    "crates/conductor-verify/src/preflight.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-verify 0.1.0 manifest/impl#[ContractManifest]default_path().",
+    "crates/conductor-verify/src/manifest.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/impl#[PortOccupier]occupy_default().",
+    "crates/conductor-faults/src/port_occupier.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/impl#[PortOccupier][Drop]drop().",
+    "crates/conductor-faults/src/port_occupier.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-emit 0.1.0 latency/impl#[LatencyProfile]p50_ms().",
+    "crates/conductor-emit/src/latency.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-emit 0.1.0 latency/impl#[LatencyProfile]p95_ms().",
+    "crates/conductor-emit/src/latency.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-emit 0.1.0 latency/impl#[LatencyProfile]p99_ms().",
+    "crates/conductor-emit/src/latency.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-emit 0.1.0 error/EmitError#Status#",
+    "crates/conductor-emit/src/error.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-report 0.1.0 journal/JournalError#Io#",
+    "crates/conductor-report/src/journal.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-report 0.1.0 journal/JournalError#Serialize#",
+    "crates/conductor-report/src/journal.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-report 0.1.0 db/RunsDbError#Io#",
+    "crates/conductor-report/src/db.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-report 0.1.0 db/RunsDbError#Json#",
+    "crates/conductor-report/src/db.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 phase_spec/default_occurrences().",
+    "crates/conductor-core/src/phase_spec.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[ObsWriter][`MakeWriter<'a>`]Writer#",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[ObsWriter][`MakeWriter<'a>`]make_writer().",
+    "crates/conductor-core/src/obs.rs"
+   ]
+  ],
+  "false_positive_families_named_not_subtracted": [
+   "trait-impl methods reached by dispatch",
+   "derive/attr-invoked fns (serde defaults, #[from] variants)",
+   "runtime-invoked surfaces (MCP tools, #[tauri::command] IPC)",
+   "test-only helpers outside a tests/ path segment"
+  ]
+ },
+ "coverage": {
+  "line": 92.11,
+  "branch": null
+ },
+ "churn": {
+  "pct": 33.63,
+  "files_churned": 7,
+  "files_touched": 22,
+  "total_adds": 3313,
+  "churned_adds": 1114,
+  "population": "git log --numstat b8f3332..HEAD -- crates/**/*.rs crates/**/*.ts crates/**/*.tsx"
+ },
+ "hotspots": [
+  [
+   "crates/conductor-verify/tests/common/mod.rs",
+   35.0
+  ],
+  [
+   "crates/conductor-run/src/lib.rs",
+   10.0
+  ],
+  [
+   "crates/conductor-run/tests/lifecycle_live.rs",
+   10.0
+  ],
+  [
+   "crates/conductor-tauri/src/commands.rs",
+   6.0
+  ],
+  [
+   "crates/conductor-run/tests/lamps_fixture.rs",
+   3.0
+  ],
+  [
+   "crates/conductor-run/tests/envelope_fixture.rs",
+   1.0
+  ],
+  [
+   "crates/conductor-verify/tests/readback.rs",
+   1.0
+  ],
+  [
+   "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts",
+   0.0
+  ],
+  [
+   "crates/conductor-tauri/ui/wdio.conf.ts",
+   0.0
+  ],
+  [
+   "crates/conductor-verify/src/lib.rs",
+   0.0
+  ]
+ ],
+ "mutation": {
+  "scoped_units": [
+   "conductor-run",
+   "conductor-verify",
+   "conductor-tauri"
+  ],
+  "unit_states": {
+   "conductor-run": "complete",
+   "conductor-verify": "complete",
+   "conductor-tauri": "partial (0/43 tested)"
+  },
+  "scores": {
+   "conductor-run": 72.22,
+   "conductor-verify": 89.09,
+   "conductor-tauri": null
+  },
+  "counts": {
+   "conductor-run": {
+    "mutants": 118,
+    "caught": 65,
+    "missed": 25,
+    "timeout": 0,
+    "unviable": 28
+   },
+   "conductor-verify": {
+    "mutants": 136,
+    "caught": 98,
+    "missed": 12,
+    "timeout": 2,
+    "unviable": 24
+   },
+   "conductor-tauri": {
+    "mutants": 43,
+    "caught": 0,
+    "missed": 0,
+    "timeout": 0,
+    "unviable": 0
+   }
+  },
+  "score_formula": "caught/(caught+missed)  [timeout and unviable excluded]",
+  "survivors": [
+   [
+    "crates/conductor-run/src/lib.rs:66:8",
+    "delete ! in preflight"
+   ],
+   [
+    "crates/conductor-run/src/lib.rs:197:21",
+    "replace < with <= in attribute_by_liveness"
+   ],
+   [
+    "crates/conductor-run/src/lib.rs:250:5",
+    "replace active_incident_ids -> Result<Vec<i64>, VerifyError> with Ok(vec![])"
+   ],
+   [
+    "crates/conductor-run/src/lib.rs:250:5",
+    "replace active_incident_ids -> Result<Vec<i64>, VerifyError> with Ok(vec![0])"
+   ],
+   [
+    "crates/conductor-run/src/lib.rs:250:5",
+    "replace active_incident_ids -> Result<Vec<i64>, VerifyError> with Ok(vec![1])"
+   ],
+   [
+    "crates/conductor-run/src/lib.rs:250:5",
+    "replace active_incident_ids -> Result<Vec<i64>, VerifyError> with Ok(vec![-1])"
+   ],
+   [
+    "crates/conductor-run/src/lib.rs:346:5",
+    "replace observe_run_contract -> RunContractStatus with Default::default()"
+   ],
+   [
+    "crates/conductor-run/src/lib.rs:358:5",
+    "replace declares -> bool with true"
+   ],
+   [
+    "crates/conductor-run/src/lib.rs:358:5",
+    "replace declares -> bool with false"
+   ],
+   [
+    "crates/conductor-run/src/lib.rs:360:21",
+    "replace || with && in declares"
+   ],
+   [
+    "crates/conductor-run/src/lib.rs:360:11",
+    "replace == with != in declares"
+   ],
+   [
+    "crates/conductor-run/src/lib.rs:360:26",
+    "replace == with != in declares"
+   ],
+   [
+    "crates/conductor-run/src/lib.rs:401:5",
+    "replace warm_up_canary_service -> anyhow::Result<()> with Ok(())"
+   ],
+   [
+    "crates/conductor-run/src/lib.rs:402:29",
+    "replace || with && in warm_up_canary_service"
+   ],
+   [
+    "crates/conductor-run/src/lib.rs:402:24",
+    "replace == with != in warm_up_canary_service"
+   ],
+   [
+    "crates/conductor-run/src/lib.rs:402:55",
+    "replace == with != in warm_up_canary_service"
+   ],
+   [
+    "crates/conductor-run/src/lib.rs:405:64",
+    "replace / with % in warm_up_canary_service"
+   ],
+   [
+    "crates/conductor-run/src/lib.rs:405:64",
+    "replace / with * in warm_up_canary_service"
+   ],
+   [
+    "crates/conductor-run/src/lib.rs:518:27",
+    "delete field degraded from struct Observation expression in execute_scenario"
+   ],
+   [
+    "crates/conductor-run/src/lib.rs:559:25",
+    "replace - with + in execute_scenario"
+   ],
+   [
+    "crates/conductor-run/src/lib.rs:559:25",
+    "replace - with / in execute_scenario"
+   ],
+   [
+    "crates/conductor-run/src/lib.rs:715:9",
+    "replace FaultKind::label -> &'static str with \"\""
+   ],
+   [
+    "crates/conductor-run/src/lib.rs:715:9",
+    "replace FaultKind::label -> &'static str with \"xyzzy\""
+   ],
+   [
+    "crates/conductor-run/src/lib.rs:753:5",
+    "replace fault_span -> Option<tracing::Span> with None"
+   ],
+   [
+    "crates/conductor-run/src/dispatch.rs:163:26",
+    "replace == with != in Dispatcher<'a>::dispatch"
+   ],
+   [
+    "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:18:5",
+    "replace main with ()"
+   ],
+   [
+    "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:37:60",
+    "replace || with && in main"
+   ],
+   [
+    "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:45:5",
+    "replace stub_result -> Value with Default::default()"
+   ],
+   [
+    "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:46:9",
+    "delete match arm \"initialize\" in stub_result"
+   ],
+   [
+    "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:51:9",
+    "delete match arm \"tools/list\" in stub_result"
+   ],
+   [
+    "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:55:9",
+    "delete match arm \"tools/call\" in stub_result"
+   ],
+   [
+    "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:57:21",
+    "replace == with != in stub_result"
+   ],
+   [
+    "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:69:28",
+    "replace == with != in stub_result"
+   ],
+   [
+    "crates/conductor-verify/src/client.rs:157:9",
+    "replace ReadbackClient::resolve_incident -> Result<Value, VerifyError> with Ok(Default::default())"
+   ],
+   [
+    "crates/conductor-verify/src/extract.rs:95:22",
+    "replace == with != in observe"
+   ],
+   [
+    "crates/conductor-verify/src/extract.rs:110:22",
+    "replace == with != in observe"
+   ],
+   [
+    "crates/conductor-verify/src/manifest.rs:35:9",
+    "replace ContractManifest::default_path -> PathBuf with Default::default()"
+   ]
+  ],
+  "timeouts": [
+   [
+    "crates/conductor-verify/src/jsonrpc.rs:49:30",
+    "replace != with == in JsonRpcSession::request"
+   ],
+   [
+    "crates/conductor-verify/src/jsonrpc.rs:70:9",
+    "replace JsonRpcSession::write_message -> Result<(), VerifyError> with Ok(())"
+   ]
+  ]
+ },
+ "commands": {
+  "sizes": "tokei --output json crates/",
+  "duplication": "jscpd crates --format rust --reporters json --output {run_dir}/jscpd_rs --silent",
+  "complexity": "mkdir -p {run_dir}/_rca_head && rust-code-analysis-cli --metrics -O json -o {run_dir}/_rca_head -p crates",
+  "dead_deps": "cargo machete",
+  "dead_symbols": "python scripts/code-graph.py query {run_dir} code-audit \"SELECT s.symbol, s.file FROM symbol s LEFT JOIN refs r ON r.callee = s.symbol WHERE r.callee IS NULL;\" rust",
+  "graph": "python scripts/code-graph.py query {run_dir} code-audit \"<cycles | fan-in LIMIT 20 | fan-out | count(*) FROM crate_edges>\" rust",
+  "coverage": "cargo llvm-cov nextest --workspace --lcov --output-path {run_dir}/_lcov.info",
+  "churn": "git log --numstat --format='commit %H' b8f3332..HEAD -- 'crates/**/*.rs' 'crates/**/*.ts' 'crates/**/*.tsx'",
+  "mutation": "cargo mutants -p {unit} --test-tool=nextest --jobs 2 --output {run_dir}/mutants-{unit}"
+ },
+ "recipes": {
+  "sizes": "tokei over crates/; Rust *.rs only; nearest-rank p50/p90 on per-file code lines",
+  "duplication": "jscpd crates --format rust (Rust-only)",
+  "complexity": "rust-code-analysis kind==function spaces under crates/; ceiling cognitive > 15; top sorted by COGNITIVE desc, rows [fn, file, cognitive, cyclomatic]; max = max cognitive",
+  "dead": "WORKSPACE-WIDE, one query over all symbols. raw zero-ref pub symbols -> exclude `tests` path SEGMENT in the SYMBOL path (AFTER stripping the SCIP prefix `rust-analyzer cargo {crate} {version} ` — otherwise the prefix fuses into the first segment and inline #[cfg(test)] symbols, whose path is a LEADING `tests/`, survive) UNION the FILE path -> subtract ENTRY POINTS only (main(). / /bin/) -> residual = candidates. HEAD chain 772 -> 36 -> 32.",
+  "graph": "fan_in symbols SHORTENED to `{crate} {path}` (strip `rust-analyzer cargo ` and the version token) — the baseline stores this form; comparing raw SCIP strings makes every row a false entrant",
+  "churn": "git log --numstat baseline..HEAD over crates/ *.rs|*.ts|*.tsx; adds in a file's 2nd..nth touching commit count as churn",
+  "hotspots": "commits x per-file max cognitive over the RUST rca output; a TS/TSX file scores 0 (no Rust cognitive, and the tokei KLOC fallback is Rust-only) — same limitation as the baseline, so the trend is comparable, but wdio.conf.ts (5 commits, the epoch top) scores 0",
+  "lizard": "lizard 1.24.0 IS on PATH via `python -m lizard` (the pip script shim is not) — the Epoch-4 record recorded complexity-web as tool-missing, which may have been a probe artifact. NOT collected this run: adding a TS population mid-trend would break comparability with both prior records. A separate web-complexity series can start at any boundary."
+ },
+ "skips": [
+  {
+   "metric": "dead-code-web",
+   "reason": "tool-missing",
+   "note": "knip absent; recipe: npm i -D knip in crates/conductor-tauri/ui"
+  },
+  {
+   "metric": "mutation-web",
+   "reason": "tool-missing",
+   "note": "StrykerJS absent; recipe: npm i -D @stryker-mutator/core"
+  },
+  {
+   "metric": "mutation-conductor-tauri",
+   "reason": "baseline-test-failure",
+   "note": "43 mutants planned, 0 tested. cargo-mutants exit 4: \"cargo test failed in an unmutated tree\". Cause: commands.rs:516 assert_cmd cargo_bin(\"conductor\") resolves via assert_cmd 2.2.2 legacy_cargo_bin -> <target_dir>/conductor.exe, which no declared dependency guarantees (conductor-tauri does not depend on conductor-cli). Green under --workspace and on this host under -p (a stale artifact from 16:11); absent in a fresh tree. SCHEMA GAP: the skips reason enum needs a sixth value.",
+   "enum_gap": true
+  },
+  {
+   "metric": "mutation-conductor-core",
+   "reason": "declined",
+   "note": "out of scope: not touched in b8f3332..HEAD"
+  },
+  {
+   "metric": "mutation-conductor-cli",
+   "reason": "declined",
+   "note": "out of scope: not touched in b8f3332..HEAD"
+  },
+  {
+   "metric": "mutation-conductor-report",
+   "reason": "declined",
+   "note": "out of scope: not touched in b8f3332..HEAD"
+  },
+  {
+   "metric": "mutation-conductor-timeline",
+   "reason": "declined",
+   "note": "out of scope: not touched in b8f3332..HEAD"
+  },
+  {
+   "metric": "mutation-conductor-emit",
+   "reason": "declined",
+   "note": "out of scope: not touched in b8f3332..HEAD"
+  },
+  {
+   "metric": "mutation-conductor-faults",
+   "reason": "declined",
+   "note": "out of scope: not touched in b8f3332..HEAD"
+  }
+ ]
+}

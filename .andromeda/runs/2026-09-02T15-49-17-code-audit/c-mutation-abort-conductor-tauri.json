@@ -1,0 +1,18 @@
+{
+ "unit": "conductor-tauri",
+ "exit_code": 4,
+ "planned_mutants": 43,
+ "tested": 0,
+ "command": "cargo mutants -p conductor-tauri --test-tool=nextest --jobs 2 --output {run_dir}/mutants-conductor-tauri",
+ "abort_evidence": [
+  "Found 43 mutants to test",
+  "        FAIL [   0.042s] ( 5/13) conductor-tauri::bin/conductor-tauri commands::tests::path7_the_two_surfaces_write_an_equal_envelope_into_one_runs_db",
+  "    thread 'commands::tests::path7_the_two_surfaces_write_an_equal_envelope_into_one_runs_db' (50768) panicked at D:\\dev\\rust\\cargo\\registry\\src\\index.crates.io-1949cf8c6b5b557f\\assert_cmd-2.2.2\\src\\cargo.rs:232:5:",
+  "    `CARGO_BIN_EXE_conductor` is unset",
+  "    help: if this is running within a unit test, move it to an integration test to gain access to `CARGO_BIN_EXE_conductor`",
+  "     Summary [   0.108s] 13 tests run: 12 passed, 1 failed, 0 skipped",
+  "        FAIL [   0.042s] ( 5/13) conductor-tauri::bin/conductor-tauri commands::tests::path7_the_two_surfaces_write_an_equal_envelope_into_one_runs_db",
+  "*** result: Failure(100)",
+  "ERROR cargo test failed in an unmutated tree, so no mutants were tested"
+ ]
+}

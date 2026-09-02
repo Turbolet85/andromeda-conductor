@@ -1,0 +1,359 @@
+{
+ "span": 1,
+ "baseline_sha": "b8f3332df9f12c679dd50fd967f5aaa18b84f657",
+ "baseline_epoch": "Epoch 4 — Lifecycle & delegated timing",
+ "rows": [
+  [
+   "totals.loc",
+   17518,
+   18113,
+   595,
+   "n/a"
+  ],
+  [
+   "totals.files",
+   111,
+   115,
+   4,
+   "n/a"
+  ],
+  [
+   "sizes.file_p50",
+   104,
+   102,
+   -2,
+   "lower"
+  ],
+  [
+   "sizes.file_p90",
+   360,
+   379,
+   19,
+   "lower"
+  ],
+  [
+   "sizes.file_max",
+   1012,
+   1115,
+   103,
+   "lower"
+  ],
+  [
+   "sizes.over_800",
+   2,
+   2,
+   0,
+   "lower"
+  ],
+  [
+   "duplication.pct",
+   3.66,
+   3.58,
+   -0.08,
+   "lower"
+  ],
+  [
+   "duplication.clones",
+   84,
+   86,
+   2,
+   "lower"
+  ],
+  [
+   "duplication.duplicated_lines",
+   853,
+   870,
+   17,
+   "lower"
+  ],
+  [
+   "complexity.over_ceiling",
+   6,
+   6,
+   0,
+   "lower"
+  ],
+  [
+   "complexity.cognitive_p90",
+   1.0,
+   1.0,
+   0.0,
+   "lower"
+  ],
+  [
+   "complexity.cyclomatic_p90",
+   4.0,
+   4.0,
+   0.0,
+   "lower"
+  ],
+  [
+   "complexity.max",
+   34.0,
+   35.0,
+   1.0,
+   "lower"
+  ],
+  [
+   "graph.cycles",
+   0,
+   0,
+   0,
+   "lower"
+  ],
+  [
+   "graph.cross_unit_edges",
+   16,
+   16,
+   0,
+   "lower"
+  ],
+  [
+   "dead.zero_ref_candidates",
+   33,
+   32,
+   -1,
+   "lower"
+  ],
+  [
+   "coverage.line",
+   92.62,
+   92.11,
+   -0.51,
+   "higher"
+  ],
+  [
+   "churn.pct",
+   11.81,
+   33.63,
+   21.82,
+   "lower"
+  ],
+  [
+   "churn.files_churned",
+   3,
+   7,
+   4,
+   "lower"
+  ],
+  [
+   "mutation.conductor-run",
+   70.59,
+   72.22,
+   1.63,
+   "higher"
+  ],
+  [
+   "mutation.conductor-verify",
+   88.99,
+   89.09,
+   0.1,
+   "higher"
+  ],
+  [
+   "mutation.conductor-tauri",
+   null,
+   null,
+   null,
+   "higher"
+  ]
+ ],
+ "entrants": {
+  "sizes": [
+   [
+    "crates/conductor-tauri/src/commands.rs",
+    448
+   ]
+  ],
+  "complexity": [],
+  "hotspots": [
+   [
+    "crates/conductor-run/tests/lifecycle_live.rs",
+    10.0
+   ],
+   [
+    "crates/conductor-tauri/src/commands.rs",
+    6.0
+   ],
+   [
+    "crates/conductor-run/tests/lamps_fixture.rs",
+    3.0
+   ],
+   [
+    "crates/conductor-run/tests/envelope_fixture.rs",
+    1.0
+   ],
+   [
+    "crates/conductor-verify/tests/readback.rs",
+    1.0
+   ],
+   [
+    "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts",
+    0.0
+   ],
+   [
+    "crates/conductor-tauri/ui/wdio.conf.ts",
+    0.0
+   ],
+   [
+    "crates/conductor-verify/src/lib.rs",
+    0.0
+   ]
+  ],
+  "duplication": [],
+  "fan_in": [
+   [
+    "conductor-verify common/StubConfig#",
+    35
+   ]
+  ]
+ },
+ "monotonic": [
+  [
+   "sizes.file_max",
+   898,
+   1012,
+   1115
+  ]
+ ],
+ "proposals": [
+  {
+   "check": "mutation-tier-aborted",
+   "metric": "mutation.conductor-tauri",
+   "was": null,
+   "now": null,
+   "note": "unit state: partial (0/43 tested); see skips[] for the cause"
+  },
+  {
+   "check": "monotonic",
+   "metric": "sizes.file_max",
+   "was": "898 -> 1012",
+   "now": 1115,
+   "note": "worsened at both of the last two diffs"
+  }
+ ],
+ "informational": [
+  {
+   "check": "churn",
+   "metric": "churn.pct",
+   "was": 11.81,
+   "now": 33.63,
+   "note": "no threshold defined in the table; reported as movement"
+  },
+  {
+   "check": "top-N-entrant",
+   "metric": "sizes",
+   "was": null,
+   "now": [
+    [
+     "crates/conductor-tauri/src/commands.rs",
+     448
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "check": "top-N-entrant",
+   "metric": "hotspots",
+   "was": null,
+   "now": [
+    [
+     "crates/conductor-run/tests/lifecycle_live.rs",
+     10.0
+    ],
+    [
+     "crates/conductor-tauri/src/commands.rs",
+     6.0
+    ],
+    [
+     "crates/conductor-run/tests/lamps_fixture.rs",
+     3.0
+    ],
+    [
+     "crates/conductor-run/tests/envelope_fixture.rs",
+     1.0
+    ],
+    [
+     "crates/conductor-verify/tests/readback.rs",
+     1.0
+    ],
+    [
+     "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts",
+     0.0
+    ],
+    [
+     "crates/conductor-tauri/ui/wdio.conf.ts",
+     0.0
+    ],
+    [
+     "crates/conductor-verify/src/lib.rs",
+     0.0
+    ]
+   ],
+   "note": ""
+  },
+  {
+   "check": "top-N-entrant",
+   "metric": "fan_in",
+   "was": null,
+   "now": [
+    [
+     "conductor-verify common/StubConfig#",
+     35
+    ]
+   ],
+   "note": ""
+  }
+ ],
+ "below": [
+  {
+   "check": "duplication-up",
+   "metric": "duplication.pct",
+   "was": 3.66,
+   "now": 3.58,
+   "note": "below threshold (needs >= +0.5pt AND >= +15% relative)"
+  },
+  {
+   "check": "complexity-creep",
+   "metric": "complexity.over_ceiling",
+   "was": 6,
+   "now": 6,
+   "note": "below threshold (needs >= +3 AND >= +25%)"
+  },
+  {
+   "check": "new-cycle",
+   "metric": "graph.cycles",
+   "was": 0,
+   "now": 0,
+   "note": "no cycle"
+  },
+  {
+   "check": "dead-growth",
+   "metric": "dead.zero_ref_candidates",
+   "was": 33,
+   "now": 32,
+   "note": "below threshold (needs >= +5)"
+  },
+  {
+   "check": "coverage-drop",
+   "metric": "coverage.line",
+   "was": 92.62,
+   "now": 92.11,
+   "note": "below threshold (needs <= -2pts)"
+  },
+  {
+   "check": "mutation-drop",
+   "metric": "mutation.conductor-run",
+   "was": 70.59,
+   "now": 72.22,
+   "note": "below threshold (needs <= -10pts)"
+  },
+  {
+   "check": "mutation-drop",
+   "metric": "mutation.conductor-verify",
+   "was": 88.99,
+   "now": 89.09,
+   "note": "below threshold (needs <= -10pts)"
+  }
+ ]
+}

@@ -1,0 +1,3564 @@
+{
+ "per_skill_step_type": [
+  {
+   "key": "phase/plan/ambiguity.scope-question",
+   "skill": "phase",
+   "step": "plan",
+   "type": "ambiguity.scope-question",
+   "n": 5,
+   "weight": 18,
+   "step_runs": 7,
+   "rate": 0.714,
+   "chunks": [
+    "2026-08-31-p-075-assert-round",
+    "2026-09-01-desktop-a11y-sweep",
+    "2026-09-01-live-per-p-id-verdict-lamps",
+    "2026-09-01-webview-self-verify-windows-host",
+    "2026-09-02-cross-surface-envelope-parity"
+   ],
+   "impact": {
+    "dialogue_rounds": 6,
+    "iterations": 1
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-08-31-p-075-assert-round",
+     "id": "2026-08-31T20:43:35Z-b",
+     "ts": "2026-08-31T20:43:35Z",
+     "what": "One question asked, one round, and it was genuinely the operator's call rather than an artifact lookup: whether the live leg resolves the preflight canary's own incident or drives a second one to keep as a control. The materials constrained but did not decide it — test-plan §6 requires the creation-to-first-active-set-drop mis-pairing be pinned as a negative test, which argues FOR a control, while the run contract's L3 digest poll floor makes a second incident cost roughly double the leg duration. That is a strength-versus-time trade the specs do not adjudicate. Operator chose the two-incident control form; the surviving control is what makes the assertion distinguishable from Pulse's own auto-resolver. The second open question research carried (where the applied arm's evidence is captured from) needed no dialogue — the artifacts decided it, since the evidence is Conductor-side and Pulse's stream carries nothing the leg needs",
+     "impact": {
+      "dialogue_rounds": 1
+     },
+     "evidence": "plan §Constraints records the single-incident form as rejected-at-P4 with the operator decision noted",
+     "artifacts": [
+      "conductor-0.2.0/chunks/2026-08-31-p-075-assert-round/plan.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-webview-self-verify-windows-host",
+     "id": "2026-09-01T18:02:07Z-b",
+     "ts": "2026-09-01T18:02:07Z",
+     "what": "The one scope question raised at synthesis — how the chunk should obtain msedgedriver — could not have been answered from any artifact the skill reads: the decisive fact was a driver binary sitting at an operator-managed host path outside the repo, outside both audited dependency trees, and named in no document. The three options I drafted (auto-fetch / pinned acquisition / try-then-pin) were all acquisition strategies, and the actual answer was 'it is already here, reuse it'. The operator also supplied a nuance the drafted options had inverted: the edgedriver package keys its download on the EDGE BROWSER version while the driver must match the WEBVIEW2 RUNTIME — which I then measured to be currently divergent on this host by a full major (Edge 152.0.4191.53 installed 2026-08-29 vs WebView2 Runtime 151.0.4129.107), making my recommended auto-fetch option the one that would have acquired a mismatched driver.",
+     "impact": {
+      "dialogue_rounds": 2,
+      "iterations": 1
+     },
+     "evidence": "conductor-0.2.0/chunks/2026-09-01-webview-self-verify-windows-host/research.md",
+     "artifacts": [
+      "conductor-0.2.0/chunks/2026-09-01-webview-self-verify-windows-host/plan.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-desktop-a11y-sweep",
+     "id": "2026-09-01T20:39:18Z-c",
+     "ts": "2026-09-01T20:39:18Z",
+     "what": "one question, one round: whether to claim v2-22 (requiring a driven live-Pulse arm) or calibrate only. The materials settle the MECHANISM — the matrix contract's Affordance honesty rule plus v2-22's acceptance make the driven arm mandatory FOR A CLAIM — but they cannot settle whether this chunk should claim at all, since the predecessor set a claim-nothing precedent; genuinely the operator's scope call, answered two-arms",
+     "impact": {
+      "dialogue_rounds": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      "conductor-0.2.0/verification-matrix.json"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-live-per-p-id-verdict-lamps",
+     "id": "2026-09-02T00:05:00Z-b",
+     "ts": "2026-09-02T00:05:00Z",
+     "what": "one scope-ambiguity question asked (the p_id->Lamp collision rule); the materials could NOT have answered it — a precedent search found the CLI coverage table renders classification only, Lamp::for_record has 0 callers, and no surface has ever joined run outcomes to P-IDs, so no artifact decided it; it was material rather than theoretical because 5 of the 45 catalog P-IDs are named by 2-3 scenarios each and the severity-tier siblings run together",
+     "impact": {
+      "dialogue_rounds": 1
+     },
+     "evidence": "code-graph: callee LIKE '%/for_record().%' -> 0 rows; scenario p_ids scan -> P-017/P-019/P-020/P-021/P-060 multi-owned",
+     "artifacts": [
+      "scenarios/*.toml",
+      "crates/conductor-cli/src/render.rs"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-cross-surface-envelope-parity",
+     "id": "2026-09-02T13:41:06Z-b",
+     "ts": "2026-09-02T13:41:06Z",
+     "what": "One question asked, one round: how to produce the banner subject. It was genuinely the operator's call and NOT answerable from the materials — the CARRY prescribed a seed, the operator's directive prescribed a live Pulse run, and research falsified the directive's necessity premise while leaving the live leg defensible on proof STRENGTH (real verdicts vs a Blocked spine). The materials could settle what was possible, never which proof the operator wanted to own. Answered: committed subject + optional live pass.",
+     "impact": {
+      "dialogue_rounds": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      "conductor-0.2.0/chunks/2026-09-02-cross-surface-envelope-parity/plan.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wrap-session/reconcile/ambiguity.playbook-no-match",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "type": "ambiguity.playbook-no-match",
+   "n": 4,
+   "weight": 16,
+   "step_runs": 6,
+   "rate": 0.667,
+   "chunks": [
+    "2026-08-31-p-075-assert-round",
+    "2026-09-01-live-per-p-id-verdict-lamps",
+    "2026-09-02-cross-surface-envelope-parity",
+    "2026-09-02-screen-reader-manual-spec"
+   ],
+   "impact": {
+    "dialogue_rounds": 3,
+    "halted": 2
+   },
+   "halt_or_softexit": 2,
+   "cases": [
+    {
+     "chunk": "2026-08-31-p-075-assert-round",
+     "id": "2026-09-01T17:04:54Z-b",
+     "ts": "2026-09-01T17:04:54Z",
+     "what": "The security cluster (4 proposals, D-security-input at escalate severity) matched none of the playbook's 33 patterns. The class is new: a chunk WIDENS what crosses an already-hardened boundary — a channel documented read-only gains a write — with every mandated control already present and the widening itself operator-directed at the round's inception. The nearest pattern covers a detector demanding RE-CONFIRMATION of an invariant the chunk consumes from unchanged infrastructure, which is the opposite shape (nothing new crosses there). Escalated in one round with a marked recommendation; the operator ratified apply. No new playbook rule was proposed, because a boundary-widening is exactly the class that SHOULD reach a human rather than be auto-classified",
+     "impact": {
+      "dialogue_rounds": 1,
+      "halted": 1
+     },
+     "evidence": "4 sites re-derived independently before applying: security-plan.md:46/118/148/315",
+     "artifacts": [
+      ".andromeda/playbook.md",
+      ".andromeda/security-plan.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-live-per-p-id-verdict-lamps",
+     "id": "2026-09-02T06:20:00Z-c",
+     "ts": "2026-09-02T06:20:00Z",
+     "what": "security-plan's D-security-input proposal (add a §Input Validation row for #[tauri::command] IPC arguments) had no clean playbook verdict: rule 58 dismisses a boundary detector DEMANDING re-confirmation of hardening the chunk merely consumes, but this proposal DOCUMENTS an already-correct practice the shipped code cites for a rule the table never stated — a different act, and the boundary class is pre-existing (run_report shipped the same run_id shape in Epoch 9). Escalated on unease rather than force-fitting rule 58; the operator chose to add the row and declined to mint a distinguishing rule on a single instance",
+     "impact": {
+      "dialogue_rounds": 1
+     },
+     "evidence": "playbook rule 58 vs the proposal's rationale; resolved at the P2 escalation",
+     "artifacts": [
+      ".andromeda/security-plan.md",
+      ".andromeda/playbook.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-screen-reader-manual-spec",
+     "id": "2026-09-02T12:31:53Z-b",
+     "ts": "2026-09-02T12:31:53Z",
+     "what": "no playbook rule covered (a) a new dev-harness-only CONDUCTOR_* host-tool path handle validated at the wdio edge (the second occurrence of the class — CONDUCTOR_MSEDGEDRIVER 2026-09-01, CONDUCTOR_NVDA 2026-09-02; D-security-input escalate x6) nor (b) an escalate-class detector firing on a measured product DEFECT the operator had already dispositioned as a route candidate in the wrap directive (D-obs-redaction x2, D-security-subprocess x1); both resolved on recorded operator direction, a rule for (a) and one for (b) proposed in the wrap report",
+     "impact": {
+      "dialogue_rounds": 0,
+      "halted": 0
+     },
+     "evidence": null,
+     "artifacts": [
+      ".andromeda/playbook.md",
+      ".andromeda/runs/2026-09-02T11-47-51Z-wrap/fanout-results.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-cross-surface-envelope-parity",
+     "id": "2026-09-02T14:58:18Z-c",
+     "ts": "2026-09-02T14:58:18Z",
+     "what": "Playbook rule 115 (the dev-harness CONDUCTOR_* host-tool handle) named exactly the sites the 8 handle proposals targeted, which made it read as governing — but its precondition fails on four of five clauses for this handle (host-tool path; read solely by wdio.conf.ts; behind the isFile/metacharacter guard; named on the plan's expected-amendments list). Applying it would have widened a precedent whose guard model this class does not share, silently. Escalated instead; the operator ratified a THIRD handle class and a new rule was minted distinguishing it from 115 explicitly. One dialogue round, one halt.",
+     "impact": {
+      "dialogue_rounds": 1,
+      "halted": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      ".andromeda/playbook.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "implement/fix-loop/retry.fix-iterations",
+   "skill": "implement",
+   "step": "fix-loop",
+   "type": "retry.fix-iterations",
+   "n": 1,
+   "weight": 13,
+   "step_runs": 6,
+   "rate": 0.167,
+   "chunks": [
+    "2026-09-02-screen-reader-manual-spec"
+   ],
+   "impact": {
+    "iterations": 12,
+    "extra_reads": 6
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-02-screen-reader-manual-spec",
+     "id": "2026-09-02T10:47:17Z-b",
+     "ts": "2026-09-02T10:47:17Z",
+     "what": "The SR leg needed 12 fix iterations to green against the protocol's 1-5 band — typecheck 3 (wdio's typed Testrunner has no CLI-merged `suite`), sr-empty 4, sr-error 3, live 5 — every one a host/screen-reader mechanic the plans could not have stated (foreground binding, P/Invoke null coercion, NVDA readiness and defaults, the sidecar console, Chromium's focus start, focus-restore target, abort-poll placement), none a product-code failure; each iteration produced a measured fact now written into the leg's comments and the verdict.",
+     "impact": {
+      "iterations": 12,
+      "extra_reads": 6
+     },
+     "evidence": null,
+     "artifacts": [
+      "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+      "crates/conductor-tauri/ui/wdio.conf.ts",
+      "conductor-0.2.0/chunks/2026-09-02-screen-reader-manual-spec/evidence/leg-verdict.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "implement/fix-loop/tooling.environmental",
+   "skill": "implement",
+   "step": "fix-loop",
+   "type": "tooling.environmental",
+   "n": 4,
+   "weight": 12,
+   "step_runs": 6,
+   "rate": 0.667,
+   "chunks": [
+    "2026-08-31-p-075-assert-round",
+    "2026-09-01-desktop-a11y-sweep",
+    "2026-09-02-screen-reader-manual-spec"
+   ],
+   "impact": {
+    "deferred": 1,
+    "iterations": 3,
+    "soft_exit": 1,
+    "retries": 2
+   },
+   "halt_or_softexit": 1,
+   "cases": [
+    {
+     "chunk": "2026-08-31-p-075-assert-round",
+     "id": "2026-08-31T20:59:49Z-d",
+     "ts": "2026-08-31T20:59:49Z",
+     "what": "No live Pulse is reachable on this host — the andromeda-pulse-mcp sidecar is absent from PATH, nothing is bound on 127.0.0.1:4317, and ANDROMEDA_PULSE_MCP_ENABLED / _DATA_DIR / _L4_DETERMINISTIC are all unset. The chunk's live acceptance criterion (the two-incident control capture) therefore stands UNPROVEN rather than satisfied. This did NOT soft-exit the chunk and did not red any gate, because the plan deliberately authored the live leg as a producer OUTSIDE the gate block: all five gates plus the workspace doctest are green on their own terms. Recorded as owed rather than papered over — reading a stale artifact would have been the failure mode the freshness rule exists to prevent, and running the leg anyway would have minted a ~0s [BLOCKED] row indistinguishable from a genuine SUT-side gate failure",
+     "impact": {
+      "deferred": 1
+     },
+     "evidence": "module doc STATUS section records the capture as owed; gates: verify 101 passed, run 145 passed, both runners green, clippy exit 0, doctest exit 0",
+     "artifacts": [
+      "crates/conductor-run/tests/lifecycle_harvest.rs"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-desktop-a11y-sweep",
+     "id": "2026-09-01T21:16:50Z-a",
+     "ts": "2026-09-01T21:16:50Z",
+     "what": "driving Arm B needed two distinct environment corrections, and the FIRST reproduced the exact trap security.md predicts: preflight returned BLOCKED in 2ms with all four tools 'absent' and the canary 'skipped', which at row level is indistinguishable from a SUT-side gate failure but is actually andromeda-pulse-mcp failing to resolve on PATH (the binary existed, unlisted, at andromeda-pulse/target/release). Prepending that dir moved the gate to protocol 2024-11-05 negotiated and all four tools present. The SECOND is not fixable by code: query_incident_list returns result_count 0 on every poll while corpus.db is being written by the live pulse-app during the run, so the corpus is shared and the data dir was never the issue — Pulse simply raised no incident, because pulse-app is running without ANDROMEDA_PULSE_L4_DETERMINISTIC and the non-deterministic 3B path cannot meet the zero-flakiness bar",
+     "impact": {
+      "iterations": 2,
+      "soft_exit": 1
+     },
+     "evidence": "preflight ready:false, canary_round_trip failed, required_tools all present, 90 tool dispatches all ok",
+     "artifacts": [
+      "contracts/pulse-run-contract.toml",
+      ".claude/rules/security.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-desktop-a11y-sweep",
+     "id": "2026-09-01T22:01:58Z-a",
+     "ts": "2026-09-01T22:01:58Z",
+     "what": "Arm B's live precondition is self-colliding and I made it worse: conductor preflight runs its OWN canary storm, and Pulse dedupes a new incident against any OPEN one on the same tuple, so a second canary inside the ~120s idle + 30s resolver window forms no FRESH incident and preflight blocks. Running agent-run boot as a cheap go/no-go immediately before npm run a11y:driven therefore primes exactly the state the run then collides with — the boot+run pairing plan-template's LIVE-LEG rule explicitly warns against. Two 12-minute runs were spent on this before a ~200s quiet window let the hold fire on the next attempt",
+     "impact": {
+      "retries": 2
+     },
+     "evidence": "runs 5 and 6 timed out at 720s with no hold; run 7 after a quiet window raised it in ~50s",
+     "artifacts": [
+      "crates/conductor-tauri/ui/test/a11y/operator-hold.e2e.ts"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-screen-reader-manual-spec",
+     "id": "2026-09-02T10:47:17Z-d",
+     "ts": "2026-09-02T10:47:17Z",
+     "what": "Starting a run from the GUI raises a Windows Terminal pane for the spawned sidecar (conductor-verify sets no creation flags), which takes the OS foreground and silently detaches NVDA from the app; found only because the speech log named the pane ('Terminal', the sidecar exe path, 'pane') inside the Start row. Worked around in the leg (re-activate after Start); the product fix (CREATE_NO_WINDOW) is out of scope and routed as a finding.",
+     "impact": {
+      "iterations": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      "crates/conductor-verify/src/spawn.rs",
+      "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts (reactivateWindow)"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/validate/contract.matrix-claim",
+   "skill": "phase",
+   "step": "validate",
+   "type": "contract.matrix-claim",
+   "n": 4,
+   "weight": 10,
+   "step_runs": 7,
+   "rate": 0.571,
+   "chunks": [
+    "2026-08-31-p-075-assert-round",
+    "2026-09-01-desktop-a11y-sweep",
+    "2026-09-01-live-per-p-id-verdict-lamps",
+    "2026-09-02-cross-surface-envelope-parity"
+   ],
+   "impact": {
+    "extra_reads": 1,
+    "dialogue_rounds": 3
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-08-31-p-075-assert-round",
+     "id": "2026-08-31T20:49:39Z-c",
+     "ts": "2026-08-31T20:49:39Z",
+     "what": "The claim-candidate scan surfaced one keyword CANDIDATE (v2-28 'Stale rmcp wording reconciled') that is not this chunk's cap — the substring probe matched on 'mcp'. Reading the entry settled it: v2-28 is owned by the Epoch-5 Cross-surface envelope parity entry, and this chunk merely SURFACES the stale rmcp comment in contracts/mcp-contract.toml rather than absorbing it. The chunk claims nothing, which is the deliberate outcome recorded in both scope.md and plan.md so a later reader does not mistake the no-op coverage gate for an omission",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": "11 unclaimed ids scanned; entries with chunk==this marker = 0",
+     "artifacts": [
+      "conductor-0.2.0/verification-matrix.json"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-desktop-a11y-sweep",
+     "id": "2026-09-01T20:52:41Z-b",
+     "ts": "2026-09-01T20:52:41Z",
+     "what": "the concretized acceptance I proposed was weaker than I judged it to be and I flagged it as merely a wording loosening: dropping 'the harness is run, not re-authored' to 'the harness TRANSPORT is run' removed the only clause forbidding a failing spec from being deleted, which is precisely the hole the original guarded; the never-weaken checkpoint caught it and the operator restored the guard as 'specs may be extended, never relaxed'",
+     "impact": {
+      "dialogue_rounds": 1
+     },
+     "evidence": "conductor-0.2.0/chunks/2026-09-01-desktop-a11y-sweep/plan.md",
+     "artifacts": [
+      "conductor-0.2.0/verification-matrix.json"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-live-per-p-id-verdict-lamps",
+     "id": "2026-09-02T00:05:00Z-d",
+     "ts": "2026-09-02T00:05:00Z",
+     "what": "the P5 concretization premise-check falsified v2-30's opening clause: its acceptance says 'After a run', but /runs/ is gitignored and the routine --e2e arm has no live Pulse, so on a clean checkout the app launches with zero run records and the populated-lamp half has NO SUBJECT — on this dev host it would have passed off ~60 uncommitted local journals; resolved by an operator-selected harness-seeded fixture, with the outcome preserved and extended (a collision clause) and the provenance change recorded in the matrix notes",
+     "impact": {
+      "dialogue_rounds": 1
+     },
+     "evidence": ".gitignore:17 '/runs/'; git ls-files runs/ -> empty; 60 untracked journals on the dev host",
+     "artifacts": [
+      "conductor-0.2.0/verification-matrix.json",
+      ".gitignore"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-cross-surface-envelope-parity",
+     "id": "2026-09-02T13:58:48Z-b",
+     "ts": "2026-09-02T13:58:48Z",
+     "what": "A claim path that halts the coverage gate BY CONSTRUCTION is invisible to every P5 mechanical check. v2-28 was linked to this chunk while its decisive artifact — the test-plan.md wording amendment — can only be applied by wrap, so implement could never set status=implemented and the entry would have sat claimed-but-unimplementable until the coverage gate caught it at wrap. Nothing in the mechanical checks, val-1, or the matrix contract's own claim rules tests for 'can the claiming chunk's own lifecycle reach implemented?'. Caught by the operator at review, not by the gates; the fix was a by-construction ref plus listing the verifying grep with its producer named as wrap P2.",
+     "impact": {
+      "dialogue_rounds": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      "conductor-0.2.0/verification-matrix.json",
+      "conductor-0.2.0/chunks/2026-09-02-cross-surface-envelope-parity/plan.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "implement/fix-loop/contract.spec-reality-gap",
+   "skill": "implement",
+   "step": "fix-loop",
+   "type": "contract.spec-reality-gap",
+   "n": 4,
+   "weight": 10,
+   "step_runs": 6,
+   "rate": 0.667,
+   "chunks": [
+    "2026-09-01-desktop-a11y-sweep",
+    "2026-09-01-webview-self-verify-windows-host",
+    "2026-09-02-screen-reader-manual-spec"
+   ],
+   "impact": {
+    "iterations": 6
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-01-webview-self-verify-windows-host",
+     "id": "2026-09-01T18:37:39Z-b",
+     "ts": "2026-09-01T18:37:39Z",
+     "what": "verification-harness.md's 2026-08-22 entry (b) states 'only a release build reads the bundle, so npm run build is necessary-but-insufficient'. Measured false at source: tauri's build.rs computes `let dev = !custom_protocol` and emits cargo:dev, which tauri-build reads back through DEP_TAURI_DEV — so the `custom-protocol` FEATURE decides whether the binary embeds frontendDist, and the PROFILE does not enter it. A bare `cargo build --release -p conductor-tauri` produced a binary that loaded devUrl (http://localhost:5173, a Chromium error page); the identical build with --features tauri/custom-protocol loaded http://tauri.localhost/ with the app mounted. The rule's operational advice (a debug `cargo run` will not show the bundle) stays true; its stated MECHANISM is wrong, which matters because it sends a reader to the profile flag rather than the feature.",
+     "impact": {
+      "iterations": 1
+     },
+     "evidence": "target/release/build/conductor-tauri-*/output carries cargo:rustc-cfg=dev under --release",
+     "artifacts": [
+      ".claude/rules/verification-harness.md",
+      "scripts/agent-run.sh",
+      "scripts/agent-run.ps1"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-desktop-a11y-sweep",
+     "id": "2026-09-01T21:03:31Z-b",
+     "ts": "2026-09-01T21:03:31Z",
+     "what": "a11y-plan section 6 Motion tokens (:419) and its Decisions Log (:592) both prescribe browser.emulate('prefers-reduced-motion','reduce') as the SC 2.3.3 drive path, but the installed webdriverio 9.x declares exactly six emulate scopes — clock, geolocation, userAgent, device, colorScheme, onLine — so no reduced-motion scope exists on ANY platform; this is broader than the plan's own 'recorded-not-established under classic WebDriver on WebView2' caveat, which framed it as a platform question. Surfaced, not authored; the spec asserts the compiled CSS-native rule instead and states the epistemic limit in-file",
+     "impact": {
+      "iterations": 1
+     },
+     "evidence": "node_modules/webdriverio/build/commands/browser/emulate.d.ts",
+     "artifacts": [
+      ".andromeda/a11y-plan.md",
+      "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-desktop-a11y-sweep",
+     "id": "2026-09-01T22:16:46Z-a",
+     "ts": "2026-09-01T22:16:46Z",
+     "what": "the sweep found a GENUINE SC 2.4.3 defect on a must-be-accessible path: after the operator-pause hold resolved, focus landed on <body> rather than the invoking control. My first hypothesis — that a natively disabled Start was an unfocusable restore target — was measured FALSE: switching Start to aria-disabled kept it focusable and focus still fell to body. The real cause is that the hold arrives over a Tauri Channel, so the Radix AlertDialog has no Trigger to restore to at all; the fix is an explicit onCloseAutoFocus handing back the invoker the owner captured when the hold opened. Both changes shipped (aria-disabled is independently correct — a disabled button leaves the tab order entirely), and the driven arm now passes all six clauses",
+     "impact": {
+      "iterations": 2
+     },
+     "evidence": "arm-b9: 1 passing (54s) against a live preflight-ready Pulse",
+     "artifacts": [
+      "crates/conductor-tauri/ui/src/App.tsx",
+      "crates/conductor-tauri/ui/src/components/OperatorPauseDialog.tsx",
+      "crates/conductor-tauri/ui/src/components/RunControls.tsx"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-screen-reader-manual-spec",
+     "id": "2026-09-02T10:47:17Z-c",
+     "ts": "2026-09-02T10:47:17Z",
+     "what": "Two plan premises contradicted measured product behaviour: (1) 'Stop during the second scenario yields the backend Aborted stage' — drive_run polls the abort flag only before a scenario, so the two-scenario catalog ended Done/idle; (2) the focus-restore row expected Start while the app correctly restores to whatever was focused when the hold arrived (Stop, after the preceding row). Both surfaced as findings (a UX inconsistency where the label announces 'aborted' then settles 'idle'; the restore semantics), the leg adjusted to the real behaviour; nothing authored.",
+     "impact": {
+      "iterations": 2
+     },
+     "evidence": null,
+     "artifacts": [
+      "plan.md step 2 (stimulus recipe) · Implementation notes",
+      "crates/conductor-run/src/lib.rs:936 (should_abort poll site)",
+      "evidence/leg-verdict.md §Findings"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wrap-session/reconcile/input.report-insufficient",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "type": "input.report-insufficient",
+   "n": 3,
+   "weight": 7,
+   "step_runs": 6,
+   "rate": 0.5,
+   "chunks": [
+    "2026-09-01-desktop-a11y-sweep",
+    "2026-09-01-live-per-p-id-verdict-lamps",
+    "2026-09-02-cross-surface-envelope-parity"
+   ],
+   "impact": {
+    "dialogue_rounds": 2,
+    "extra_reads": 4
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-01-desktop-a11y-sweep",
+     "id": "2026-09-01T22:49:51Z-b",
+     "ts": "2026-09-01T22:49:51Z",
+     "what": "the expected-amendments floor caught what the report starved: the plan named the layout-templates 200ms-vs-design-system 150ms dialog-fade divergence, but my report omitted it (this chunk changed neither value), so no detector could propose it — detectors read the report ALONE by contract. Escalated per Validate check 5 and operator-ratified to fold in. The same omission shape produced a second, opposite outcome worth pairing: the report also omitted the self-obs log landing-site move, and there arch's detector DID reach it, because the cwd change WAS in Changes and the landing site is derivable from it. So a report gap is only fatal when the fact has no derivable trace in Changes",
+     "impact": {
+      "dialogue_rounds": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      "conductor-0.2.0/chunks/2026-09-01-desktop-a11y-sweep/report.md",
+      "conductor-0.2.0/chunks/2026-09-01-desktop-a11y-sweep/plan.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-live-per-p-id-verdict-lamps",
+     "id": "2026-09-02T06:20:00Z-b",
+     "ts": "2026-09-02T06:20:00Z",
+     "what": "the chunk plan's expected-amendment #4 (layout-templates' coverage row anatomy diverging from the shipped component) was proposed by NO detector, because the report's Changes section never carried the fact and detectors read the report alone; this is a verbatim recurrence of the escalation the PREVIOUS wrap recorded (the 200ms fade, same mechanism), so the corpus entry did not prevent it",
+     "impact": {
+      "dialogue_rounds": 1
+     },
+     "evidence": "Validate check 5 reconciliation table in .andromeda/runs/2026-09-02T00-58-00Z-wrap/fanout-results.md",
+     "artifacts": [
+      "conductor-0.2.0/chunks/2026-09-01-live-per-p-id-verdict-lamps/report.md",
+      ".andromeda/layout-templates.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-cross-surface-envelope-parity",
+     "id": "2026-09-02T14:58:18Z-b",
+     "ts": "2026-09-02T14:58:18Z",
+     "what": "The report's site enumerations under-ran twice, and the second miss is structural rather than careless. a11y-plan:465 restates the banner's UNRUNNABLE verdict in the §9 CI row; the report named §4 and §6 only. test-plan:278 carries the retired 'negotiates DOWN' mechanism and contains NO rmcp token, so the report's rmcp-KEYED classification could not reach it by construction — the stale MECHANISM outlives the stale LIBRARY NAME. Both were caught by the doc-agents' per-occurrence grep and verified independently before applying; a follow-up semantic sweep for the mechanism wording then found two more cascade leaves (docs/gotchas.md:10, rules/security.md:25). Third instance this session of an enumeration proving incomplete (the CARRY named 1 rmcp site, the phase distiller claimed 26, the report missed 2) — the durable lesson is that a token-keyed sweep is not a semantic one.",
+     "impact": {
+      "extra_reads": 4
+     },
+     "evidence": ".andromeda/runs/2026-09-02T14-34-37Z-wrap/fanout-results.md",
+     "artifacts": [
+      "conductor-0.2.0/chunks/2026-09-02-cross-surface-envelope-parity/report.md",
+      ".andromeda/a11y-plan.md",
+      ".andromeda/test-plan.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/research/contract.premise-falsified",
+   "skill": "phase",
+   "step": "research",
+   "type": "contract.premise-falsified",
+   "n": 6,
+   "weight": 6,
+   "step_runs": 6,
+   "rate": 1.0,
+   "chunks": [
+    "2026-08-31-p-075-assert-round",
+    "2026-09-01-live-per-p-id-verdict-lamps",
+    "2026-09-01-webview-self-verify-windows-host",
+    "2026-09-02-cross-surface-envelope-parity",
+    "2026-09-02-screen-reader-manual-spec"
+   ],
+   "impact": {
+    "extra_reads": 10
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-08-31-p-075-assert-round",
+     "id": "2026-08-31T20:40:55Z-c",
+     "ts": "2026-08-31T20:40:55Z",
+     "what": "Scope's [inferred] premise held that the declined arm was hard to induce live because DeclinedStale needs a concurrent row modification. Reading Pulse's guard falsified the MECHANISM while confirming the conclusion: it is a monotonic-timestamp compare (UPDATE ... WHERE updated_unix_nano <= ?2; rows==0 => DeclinedStale, with Pulse's own tests naming the older-write case and proving an EQUAL timestamp applies), and since the MCP dispatch stamps now fresh on every call the predicate can fail only against a future-stamped row. So the arm is unreachable through the MCP surface by ordinary means, for a sharper reason than concurrency. The correction also dissolved a downstream open question the security extract had raised about staging the race via a test-only corpus writer — no staging is needed, so the corpus.db ban is never approached",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": "andromeda-pulse crates/corpus/src/contract.rs:652-659 at HEAD 83d4060",
+     "artifacts": [
+      "conductor-0.2.0/chunks/2026-08-31-p-075-assert-round/scope.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-webview-self-verify-windows-host",
+     "id": "2026-09-01T17:52:36Z-b",
+     "ts": "2026-09-01T17:52:36Z",
+     "what": "The working-route entry's CONTEXT stated as measured basis that 'NO driver binary exists on this host — tauri-driver and msedgedriver are both absent from PATH, and the installed npm package ships Rust source rather than a binary'. Both pieces of evidence are true and the conclusion drawn from them is false: @crabnebula/tauri-driver declares platform prebuilts as optionalDependencies, and node_modules/@crabnebula/tauri-driver-win32-x64-msvc/tauri-driver.win32-x64-msvc.node (4,030,976 bytes, installed 2026-06-27 with the a11y harness) executes at exit 0 and advertises --native-driver. Five extra reads into the npm package's NAPI loader were needed to see it, because a PATH check and a top-level directory listing both agree with the false conclusion. The real gap is narrower: no msedgedriver on disk and no target/release/conductor-tauri.exe built.",
+     "impact": {
+      "extra_reads": 5
+     },
+     "evidence": "conductor-0.2.0/chunks/2026-09-01-webview-self-verify-windows-host/research.md",
+     "artifacts": [
+      "conductor-0.2.0/working-route.md",
+      "conductor-0.2.0/chunks/2026-09-01-webview-self-verify-windows-host/scope.md",
+      "crates/conductor-tauri/ui/package.json"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-live-per-p-id-verdict-lamps",
+     "id": "2026-09-01T23:52:00Z-c",
+     "ts": "2026-09-01T23:52:00Z",
+     "what": "the security extract faithfully carried security-plan §Security Anti-Patterns → Code Patterns as requiring the deny-by-default capabilities file to enumerate the actual commands, so a new command would owe an allowlist edit; research falsified the applicability — capabilities/default.json holds only three core:window:* permissions and names no command, .claude/rules/security.md §Session Additions (2026-06-26) records that app-defined #[tauri::command]s are NOT ACL-gated and warns against reflexive per-command entries, and arch's 2026-06-24 amendment dismissed registering them",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": "capabilities/default.json (3 window perms, zero command names) vs security.md Session Additions 2026-06-26",
+     "artifacts": [
+      ".andromeda/security-plan.md",
+      "crates/conductor-tauri/capabilities/default.json",
+      ".claude/rules/security.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-screen-reader-manual-spec",
+     "id": "2026-09-02T07:20:36Z-c",
+     "ts": "2026-09-02T07:20:36Z",
+     "what": "a11y-plan §3 states 'No automated SR tool exists for the stack' as the reason the screen-reader pass is manual; an npm registry probe found @guidepup/guidepup 0.34.0 (modified 2026-08-31) and @guidepup/setup 0.25.2 — an actively maintained NVDA/VoiceOver automation library — so the claim is false as stated (a driver exists; none is ADOPTED, which the one-automation-stack rule, the dependency gate and the standing directive each independently decide). Surfaced for wrap's amendment flow; nothing adopted.",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      ".andromeda/a11y-plan.md §3 Screen reader test pattern",
+      "scope.md §Preconditions"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-screen-reader-manual-spec",
+     "id": "2026-09-02T07:20:36Z-d",
+     "ts": "2026-09-02T07:20:36Z",
+     "what": "Four spec-vs-shipped divergences surfaced by reading the release UI against the three UI masters: the a11y-plan's four run states (idle/live/HOLD/report-terminal) versus the shipped RunState set (idle/live/hold/aborted — report-terminal is idle with a report, aborted is unnamed by the plan though layout-templates names an abort behaviour); the 'two render sites' for the operator checklist (design §6/7, layout §Operator-checklist, a11y §4) of which only the dialog site ships in release (RunReport renders lamps only; the other caller is the DEV-only Gallery); the required footer/contentinfo landmark that does not ship; and the dialog title shipped as `{p_id} — operator-checklist` rather than the plan's frozen-count + step index. All recorded as spec-must-name-what-ships findings for wrap; no code touched.",
+     "impact": {},
+     "evidence": null,
+     "artifacts": [
+      "scope.md §Premise closure",
+      "research.md §Scope premise closure",
+      ".andromeda/a11y-plan.md §1/§3/§4/§5",
+      ".andromeda/design-system.md §Component Patterns 6/7",
+      ".andromeda/layout-templates.md §Component — Footer / Operator-checklist"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-cross-surface-envelope-parity",
+     "id": "2026-09-02T13:31:41Z-b",
+     "ts": "2026-09-02T13:31:41Z",
+     "what": "The operator's PHASE directive item 2 states the banner CARRY 'needs an OVER-envelope run against a LIVE Pulse'. Measured false as a structural requirement: classify_run is a pure function of scenario shape plus the pinned contract and runs BEFORE preflight on both shells (conductor-cli/src/commands/run.rs:20-21, conductor-tauri/src/commands.rs:269), and persist ends with db.insert_envelope unconditionally on every path including abort (conductor-run/src/lib.rs:841, :937, :946) — so an EnvironmentSuspect row lands with or without Pulse. A live Pulse still strengthens the accompanying runs rows from a uniformly Blocked spine to real verdicts, so it stays a defensible CHOICE; it is not a necessity. Surfaced to the operator at P4 rather than silently re-planned.",
+     "impact": {
+      "extra_reads": 2
+     },
+     "evidence": "conductor-0.2.0/chunks/2026-09-02-cross-surface-envelope-parity/research.md §Patterns detected",
+     "artifacts": [
+      "conductor-0.2.0/chunks/2026-09-02-cross-surface-envelope-parity/scope.md",
+      "crates/conductor-run/src/lib.rs",
+      "crates/conductor-cli/src/commands/run.rs"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wrap-session/curation/ambiguity.filter-borderline",
+   "skill": "wrap-session",
+   "step": "curation",
+   "type": "ambiguity.filter-borderline",
+   "n": 5,
+   "weight": 6,
+   "step_runs": 8,
+   "rate": 0.625,
+   "chunks": [
+    "2026-08-31-p-075-assert-round",
+    "2026-09-01-webview-self-verify-windows-host",
+    "2026-09-02-screen-reader-manual-spec"
+   ],
+   "impact": {
+    "extra_reads": 4,
+    "iterations": 1
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": null,
+     "id": "2026-08-22T21:22:44Z-d",
+     "ts": "2026-08-22T21:22:44Z",
+     "what": "the route-annotation SEPARATOR candidate sat at the Filter-1 dedup edge against the existing Tier-3 entry on PREREQ ordinals — same trigger context (route-resolve moving a standing pin during a tail reshape) and heavy token overlap, but naming a failure mode that entry lacks; resolved as an additive facet amended in place rather than a new sibling entry",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      ".claude/docs/session-learnings.md"
+     ]
+    },
+    {
+     "chunk": null,
+     "id": "2026-08-31T20:05:35Z-b",
+     "ts": "2026-08-31T20:05:35Z",
+     "what": "The single surviving candidate scored EXACTLY 0.6 on a first pass (+0.4 verified-by-measurement, +0.2 specific-technical-detail), which Filter 4's mass-point rule rejects deterministically. Re-counting against the repeated-pattern signal changed the disposition rather than the judgment: the same shape fired on three separate EVENTS this visit (the three already-verified budget asserts; the mutation-timeouts follow-up already ratified accepted-deliberate; the command-field follow-up already discharged by its own record), which is +0.3 and lands it at 0.7. The borderline was resolved by counting events, not by re-weighing the entry's worth",
+     "impact": {
+      "extra_reads": 2
+     },
+     "evidence": "Tier-1 2026-08-09 chain extended in place with the COMPLETION axis; CLAUDE.md 131/200 unchanged",
+     "artifacts": [
+      "CLAUDE.md"
+     ]
+    },
+    {
+     "chunk": "2026-08-31-p-075-assert-round",
+     "id": "2026-09-01T17:07:11Z-b",
+     "ts": "2026-09-01T17:07:11Z",
+     "what": "THREE of four candidates landed at EXACTLY 0.6 on Filter 4 — the documented mass point that rejects — and the deterministic rule carried all three: the pre-existing-drift-inside-an-authored-sentence rule the operator ratified this session, and the Pulse-harness debug-pre-build fact, both scored 0.4 verified-by-measurement + 0.2 specific-detail with no third signal. The surviving candidate cleared only because the repeated-pattern signal genuinely applied: the same one-key bug required fixing at THREE distinct sites across three separate discovery cycles (library helper, the test's own local copy, the stub), which is 3 events rather than one event re-read. Recording because the mass point fired three times in one pass, and resisting the pull to inflate a signal was the whole judgment",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": "1 entry written; 2 rejected at 0.6 and deferred to the handoff; 1 dedup-rejected because this wrap's own cascade wrote the fact into test-plan §5",
+     "artifacts": [
+      ".claude/rules/testing.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-webview-self-verify-windows-host",
+     "id": "2026-09-01T19:16:44Z-b",
+     "ts": "2026-09-01T19:16:44Z",
+     "what": "Filter 4's documented mass point rejected THREE separate candidates at EXACTLY 0.6 — the custom-protocol-not-profile mechanism, the tsc-does-not-prove-ESM-loadability finding, and the wdio-BiDi-vs-classic transport finding. Each scored measurement (+0.4) plus specific-technical-detail (+0.2) and nothing else, since each was a single discovery event rather than a repeated pattern. All three are load-bearing for the very next chunk (the a11y sweep), so rejecting them individually would have lost them. Resolved without straining the filter: two are CORRECTIONS of existing entries (exempt from the cap by the guide's second disposition) and all three compose into ONE Tier-2 entry about first-execution of a dormant harness config, which scores 0.9 on the repeated-pattern signal because the four defects are four separate events. Third consecutive wrap where the 0.6 mass point fired — the two prior candidates are still parked in the handoff.",
+     "impact": {},
+     "evidence": "conductor-0.2.0/chunks/2026-09-01-webview-self-verify-windows-host/report.md",
+     "artifacts": [
+      ".claude/rules/frontend.md",
+      ".claude/rules/verification-harness.md",
+      "CLAUDE.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-screen-reader-manual-spec",
+     "id": "2026-09-02T12:36:13Z-b",
+     "ts": "2026-09-02T12:36:13Z",
+     "what": "two measured gotchas scored exactly 0.6 (measured +0.4, specific detail +0.2, one event each) and rejected under the exact-hit lean default — the abort-flag polling placement (Stop during the last scenario ends Done/idle) and the PowerShell $null-to-empty-string P/Invoke behaviour; the second was carried anyway as a facet of the surviving foreground-binding entry, which is the additive-facet rule applied at authoring rather than a distinct disposition",
+     "impact": {
+      "iterations": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      ".claude/rules/verification-harness.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "implement/code/input.plan-step-ambiguous",
+   "skill": "implement",
+   "step": "code",
+   "type": "input.plan-step-ambiguous",
+   "n": 5,
+   "weight": 5,
+   "step_runs": 6,
+   "rate": 0.833,
+   "chunks": [
+    "2026-09-01-desktop-a11y-sweep",
+    "2026-09-01-live-per-p-id-verdict-lamps",
+    "2026-09-01-webview-self-verify-windows-host",
+    "2026-09-02-cross-surface-envelope-parity",
+    "2026-09-02-screen-reader-manual-spec"
+   ],
+   "impact": {
+    "extra_reads": 7
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-01-webview-self-verify-windows-host",
+     "id": "2026-09-01T18:16:32Z-b",
+     "ts": "2026-09-01T18:16:32Z",
+     "what": "plan.md step 2 carries a clause the operator's later mid-turn directive supersedes: the step says 'When unset, fall back to PATH resolution so a host that has msedgedriver on PATH needs no configuration', while the directive specifies 'unset or not-a-file ⇒ the leg SKIPs exit 0 printing the fetch recipe'. Both cannot hold — a PATH fallback means an unset handle does NOT skip. Implemented the directive (later, explicit, and the one the guard shape mirrors) and surfaced the divergence rather than silently picking one; plan.md is read-only to implement so the stale clause stands until wrap.",
+     "impact": {},
+     "evidence": "crates/conductor-tauri/ui/wdio.conf.ts",
+     "artifacts": [
+      "conductor-0.2.0/chunks/2026-09-01-webview-self-verify-windows-host/plan.md",
+      "crates/conductor-tauri/ui/wdio.conf.ts"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-desktop-a11y-sweep",
+     "id": "2026-09-01T20:59:33Z-b",
+     "ts": "2026-09-01T20:59:33Z",
+     "what": "step 5 and the concretized v2-22 acceptance both say each of the SIX lamp labels carries its text label plus glyph, but no release-bundle surface renders all six: CoverageMatrix and RunReport render a lamp only where a run record exists, and the all-six Gallery is gated on import.meta.env.DEV and stripped from the custom-protocol release build — a fact neither plan nor research established. Implemented the honest invariant (every RENDERED lamp pairs glyph plus text label from the closed six-set, glyph aria-hidden) and did NOT edit main.tsx to expose the gallery, which is outside the research boundary list; the completeness gap is surfaced rather than silently marked satisfied",
+     "impact": {
+      "extra_reads": 3
+     },
+     "evidence": null,
+     "artifacts": [
+      "crates/conductor-tauri/ui/src/Gallery.tsx",
+      "crates/conductor-tauri/ui/src/main.tsx",
+      "conductor-0.2.0/verification-matrix.json"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-live-per-p-id-verdict-lamps",
+     "id": "2026-09-02T00:35:00Z-b",
+     "ts": "2026-09-02T00:35:00Z",
+     "what": "plan step 1 said to wrap the envelope DB read in a manual tracing::info_span!, which is unsatisfiable as written: obs-plan's bounded span-name set has no db.* wildcard (only timeline.execute*, verify.readback*, tauri.command.*), so a db.read_envelope span would widen a spec enumeration implement may not author, and the in-repo DB-span convention is an attribute on the RunsDb method in conductor-report, outside the modify-set",
+     "impact": {
+      "extra_reads": 2
+     },
+     "evidence": "observability.md bounded set; conductor-report/src/db.rs:94 #[tracing::instrument(name = \"db.insert_run\")]",
+     "artifacts": [
+      "crates/conductor-run/src/lib.rs",
+      ".claude/rules/observability.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-screen-reader-manual-spec",
+     "id": "2026-09-02T10:00:12Z-b",
+     "ts": "2026-09-02T10:00:12Z",
+     "what": "Plan step 5 placed the parser in the spec's `after` hook and step 7 required a post-leg census with NVDA terminated; the two cannot both hold (the after hook runs before onComplete quits NVDA), so the parser was moved to onComplete and the deviation recorded rather than interpreted silently.",
+     "impact": {},
+     "evidence": null,
+     "artifacts": [
+      "plan.md steps 5/7",
+      "crates/conductor-tauri/ui/wdio.conf.ts onComplete"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-cross-surface-envelope-parity",
+     "id": "2026-09-02T14:11:11Z-b",
+     "ts": "2026-09-02T14:11:11Z",
+     "what": "Plan step 2 offered 'a test, or a small #[cfg(test)]-reachable helper' for the seeder but did not say WHO invokes it at e2e time, and step 4 said the wdio seed should 'invoke the committed Rust seeder' without naming the invocation. Neither underdetermined the OUTCOME, but the mechanism had to be settled at implement: a cargo-test entry point that is a no-op unless CONDUCTOR_E2E_SEED_DIR is set, so an ordinary suite run never writes into the repository while wdio's onPrepare can drive it. Settled from the constraint set (test-plan §7 bans a developer-populated runs.db; the plan rejected committing a binary .db) rather than invented.",
+     "impact": {
+      "extra_reads": 2
+     },
+     "evidence": null,
+     "artifacts": [
+      "crates/conductor-run/tests/envelope_fixture.rs",
+      "crates/conductor-tauri/ui/wdio.conf.ts"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "implement/fix-loop/contract.test-expectation",
+   "skill": "implement",
+   "step": "fix-loop",
+   "type": "contract.test-expectation",
+   "n": 3,
+   "weight": 5,
+   "step_runs": 6,
+   "rate": 0.5,
+   "chunks": [
+    "2026-09-01-desktop-a11y-sweep",
+    "2026-09-01-live-per-p-id-verdict-lamps"
+   ],
+   "impact": {
+    "iterations": 1,
+    "extra_reads": 1,
+    "retries": 1
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-01-desktop-a11y-sweep",
+     "id": "2026-09-01T21:03:31Z-c",
+     "ts": "2026-09-01T21:03:31Z",
+     "what": "the one red in the first Arm A run was my own matcher, not the product: the reduced-motion assertion substring-matched the AUTHORED spelling 'animation: none' while the CSSOM re-serializes it as the expanded shorthand 'animation: auto ease 0s 1 normal none running none !important', so a correct rule failed; fixed by reading per-property declarations (animationName / transitionProperty / getPropertyPriority) instead of cssText",
+     "impact": {
+      "iterations": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-desktop-a11y-sweep",
+     "id": "2026-09-01T22:01:58Z-b",
+     "ts": "2026-09-01T22:01:58Z",
+     "what": "the driven arm's failure message dumped the ENTIRE rendered document (~8KB of scenario catalog and coverage matrix) because the activeElement identity helper fell back to textContent, and the element it landed on was BODY; the fact was legible only after re-reading, and an artifact carrying it would have been unreadable. Bounded the helper to aria-label, or textContent capped at 60 chars for interactive elements, else the tag name",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      "crates/conductor-tauri/ui/test/a11y/operator-hold.e2e.ts"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-live-per-p-id-verdict-lamps",
+     "id": "2026-09-02T00:55:00Z-b",
+     "ts": "2026-09-02T00:55:00Z",
+     "what": "the first draft of the two new e2e assertions used wdio's expect(value, message) two-argument form, which does not exist in @wdio/globals (TS2554 at three sites); rewritten to the file's own self-describing style — fold the observed context INTO the asserted value (a rendered findings string compared to '') so a failure still names what it saw, which is the same property the message argument was reaching for",
+     "impact": {
+      "retries": 1
+     },
+     "evidence": "npm run typecheck:e2e TS2554 x3, then exit 0",
+     "artifacts": [
+      "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "implement/smoke/contract.spec-reality-gap",
+   "skill": "implement",
+   "step": "smoke",
+   "type": "contract.spec-reality-gap",
+   "n": 1,
+   "weight": 5,
+   "step_runs": 7,
+   "rate": 0.143,
+   "chunks": [
+    "2026-08-31-p-075-assert-round"
+   ],
+   "impact": {
+    "retries": 4,
+    "extra_reads": 6
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-08-31-p-075-assert-round",
+     "id": "2026-09-01T16:46:31Z-b",
+     "ts": "2026-09-01T16:46:31Z",
+     "what": "The in-process stub emitted the incident item key as `id`; the LIVE sidecar emits `incident_id` (measured by driving andromeda-pulse-mcp.exe by hand with the same env). A reader accepting only `id` extracts nothing from a populated response and returns an empty list — indistinguishable downstream from an empty corpus, and green against every stub test. Cost four legs: three incidents were active for 131-142s each while the leg logged `[]`. conductor-verify's shipped incident_ids already tolerated BOTH keys with a unit test pinning it, so the defect was confined to the new code plus the stub's own infidelity; both fixed, and the stub now emits the live key",
+     "impact": {
+      "retries": 4,
+      "extra_reads": 6
+     },
+     "evidence": "hand-driven sidecar returned result_count:1 with incident_id:4 while Conductor's client read []; pinned by the_live_item_key_is_incident_id",
+     "artifacts": [
+      "crates/conductor-verify/tests/common/mod.rs",
+      "crates/conductor-run/src/lib.rs",
+      "crates/conductor-run/tests/lifecycle_harvest.rs"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "implement/fix-loop/contract.structural-blind-spot",
+   "skill": "implement",
+   "step": "fix-loop",
+   "type": "contract.structural-blind-spot",
+   "n": 1,
+   "weight": 5,
+   "step_runs": 6,
+   "rate": 0.167,
+   "chunks": [
+    "2026-09-01-webview-self-verify-windows-host"
+   ],
+   "impact": {
+    "iterations": 4
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-01-webview-self-verify-windows-host",
+     "id": "2026-09-01T18:37:39Z-c",
+     "ts": "2026-09-01T18:37:39Z",
+     "what": "The webview config shipped 2026-06-27 was UNLOADABLE on every host, not merely gated off this one: the package is type:module and the committed wdio.conf.ts used __dirname, so node threw at import. Three further defects sat behind it (no readiness wait, the custom-protocol build requirement, wdio v9's BiDi script channel). None was reachable by any amount of correct execution while the leg was display-gated to a Linux runner that does not exist — the gate did not merely defer the verification, it prevented the config from ever being parsed. typecheck:e2e passed throughout, because tsc type-checks __dirname happily under the node types; only running it could fail.",
+     "impact": {
+      "iterations": 4
+     },
+     "evidence": "conductor-0.2.0/chunks/2026-09-01-webview-self-verify-windows-host/",
+     "artifacts": [
+      "crates/conductor-tauri/ui/wdio.conf.ts"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wrap-session/reconcile/contract.cascade-miss",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "type": "contract.cascade-miss",
+   "n": 4,
+   "weight": 4,
+   "step_runs": 6,
+   "rate": 0.667,
+   "chunks": [
+    "2026-08-31-p-075-assert-round",
+    "2026-09-01-desktop-a11y-sweep",
+    "2026-09-01-live-per-p-id-verdict-lamps",
+    "2026-09-02-screen-reader-manual-spec"
+   ],
+   "impact": {
+    "extra_reads": 7
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-08-31-p-075-assert-round",
+     "id": "2026-09-01T17:04:54Z-c",
+     "ts": "2026-09-01T17:04:54Z",
+     "what": "Two FALSE claims sat inside sentences the cascade was already rewriting, neither surfaced by any detector: obs-plan.md:35 still said the MCP client was 'via rmcp 1.7.0' (removed 2026-06-27), and .claude/docs/security-summary.md:14 said the MCP child-stdout boundary used a 'bounded prost decode' (prost is the OTLP codec; the JSON-RPC path is serde_json). Both are pre-existing drift the chunk did not introduce, which the playbook's pre-existing-drift pattern would dismiss — but the dismissal assumes you are not touching the line. The operator ruled on the first (fix it in the same edit, because leaving a known-false clause in an authored sentence is worse than the ordinary dismissal) and I applied the same reasoning to the second by analogy, disclosing it. Suggests a general rule: pre-existing drift INSIDE a sentence an amendment rewrites is not dismissible on pre-existing grounds",
+     "impact": {
+      "extra_reads": 3
+     },
+     "evidence": "both corrected in the amendment edits; recorded in the obs sidecar entry and the fan-out results cascade table",
+     "artifacts": [
+      ".andromeda/obs-plan.md",
+      ".claude/docs/security-summary.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-desktop-a11y-sweep",
+     "id": "2026-09-01T22:49:51Z-c",
+     "ts": "2026-09-01T22:49:51Z",
+     "what": "a11y-plan's detector proposed an edit to .claude/rules/frontend.md's Session Additions entry (the 2026-06-26 line claiming Radix supplies focus-restore, now measured false). The content is right but the channel is not: Session Additions is a preserve-verbatim curation home the cascade must NEVER edit. Routed to P3 curation as a correction instead. Worth noting the detector had no way to know — the doc-agent prompt scopes it to its master and gives it no cascade-ownership map, so a leaf-targeted proposal is a predictable output shape rather than an agent error",
+     "impact": {},
+     "evidence": null,
+     "artifacts": [
+      ".claude/rules/frontend.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-live-per-p-id-verdict-lamps",
+     "id": "2026-09-02T06:20:00Z-d",
+     "ts": "2026-09-02T06:20:00Z",
+     "what": "the cross-master citation grep found a11y-plan §9's E2E row still restating test-plan §6's retired 'subject-absent specs context-skip rather than pass green' wording — a lateral citation no detector owned, since a11y-plan's own detectors evaluate a11y invariants and test-plan's evaluate its own body; folded into the same pass per the duplicate-occurrence rule rather than left for a later chunk",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": "a11y-plan.md:465 before the fold",
+     "artifacts": [
+      ".andromeda/a11y-plan.md",
+      ".andromeda/test-plan.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-screen-reader-manual-spec",
+     "id": "2026-09-02T12:31:53Z-c",
+     "ts": "2026-09-02T12:31:53Z",
+     "what": "the a11y-plan detector left three restatements of the retired wording standing (§1 Notes four-state set, §1 CI integration 'both arms driven there', §11 skeleton-ban prose samples) that only the orchestrator's post-apply retired-token grep over all seven masters caught — the doc-agent's own 'grep for every OTHER occurrence' instruction under-ran the doc by three sites; fixed in the same pass",
+     "impact": {
+      "extra_reads": 3
+     },
+     "evidence": null,
+     "artifacts": [
+      ".andromeda/a11y-plan.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/research/tooling.output-cap-overflow",
+   "skill": "phase",
+   "step": "research",
+   "type": "tooling.output-cap-overflow",
+   "n": 3,
+   "weight": 4,
+   "step_runs": 6,
+   "rate": 0.5,
+   "chunks": [
+    "2026-09-01-desktop-a11y-sweep",
+    "2026-09-01-live-per-p-id-verdict-lamps",
+    "2026-09-02-screen-reader-manual-spec"
+   ],
+   "impact": {
+    "reformulations": 1,
+    "extra_reads": 7
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-01-desktop-a11y-sweep",
+     "id": "2026-09-01T20:32:01Z-b",
+     "ts": "2026-09-01T20:32:01Z",
+     "what": "the chunk's decisive fact (the axe rule identity, which the predecessor had recorded only as the COUNT 1) existed nowhere but inside a 6MB WebdriverIO driver log as an embedded JSON payload; the log cannot be read wholesale, so recovery took structural re-extraction — anchor-grep for the violations key, then a JSON-aware brace scan whose first attempt failed on a 9000-char window too small to close the array, fixed by moving the scanner to a scratchpad script with a full-length scan",
+     "impact": {
+      "reformulations": 1,
+      "extra_reads": 2
+     },
+     "evidence": ".andromeda/runs/2026-09-01T20-11-05Z-phase/tree-query-2026-09-01-desktop-a11y-sweep.json",
+     "artifacts": [
+      "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-live-per-p-id-verdict-lamps",
+     "id": "2026-09-01T23:52:00Z-b",
+     "ts": "2026-09-01T23:52:00Z",
+     "what": "a single read of .claude/rules/verification-harness.md (42.7KB, 57 lines — the file is a handful of multi-KB single-line entries) exceeded the tool-result cap and returned only a 2KB preview plus a persisted-file pointer; recovered by grepping the 5 section headers then two offset-bounded Reads, at a cost of 2 extra calls",
+     "impact": {
+      "extra_reads": 2
+     },
+     "evidence": "the persisted tool-result file; same multi-KB-single-line shape as the working-route entries",
+     "artifacts": [
+      ".claude/rules/verification-harness.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-screen-reader-manual-spec",
+     "id": "2026-09-02T07:20:36Z-b",
+     "ts": "2026-09-02T07:20:36Z",
+     "what": "The mandated in-full read of .claude/rules/verification-harness.md (95 lines, ~45.6 KB, one multi-KB line per Session Addition) overflowed the tool-result cap and was persisted; recovered by three targeted extractions over the persisted file (header map + first body, then the six live-leg-relevant entries by date prefix at 3-6 KB cuts) — the rule file's growth now defeats a single read by construction.",
+     "impact": {
+      "extra_reads": 3
+     },
+     "evidence": null,
+     "artifacts": [
+      ".claude/rules/verification-harness.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/validate/contract.structural-blind-spot",
+   "skill": "phase",
+   "step": "validate",
+   "type": "contract.structural-blind-spot",
+   "n": 2,
+   "weight": 4,
+   "step_runs": 7,
+   "rate": 0.286,
+   "chunks": [
+    "2026-09-01-webview-self-verify-windows-host",
+    "2026-09-02-screen-reader-manual-spec"
+   ],
+   "impact": {
+    "dialogue_rounds": 1
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-01-webview-self-verify-windows-host",
+     "id": "2026-09-01T18:09:48Z-b",
+     "ts": "2026-09-01T18:09:48Z",
+     "what": "The plan DISPOSITIONED the CARRY's source-side twin (crates/conductor-run/tests/lifecycle_harvest.rs:23, 'an ordinary edit, correctable in place') in Implementation notes but gave it no EXECUTOR — the file was absent from Files to modify and no step named it. Nothing would have caught this: P5's mechanical checks verify that modify-set paths exist and are not spec masters, but no check asserts that every correction named in prose has a listed touchpoint or step; and wrap's cascade greps the seven masters and the curation homes only, so a source comment is unreachable by that mechanism BY CONSTRUCTION. As planned, the falsified 'at most one active per workspace' claim would have outlived the very correction that enumerated it — the exact residue class the CARRY was written to prevent. Caught only by the operator's read of the plan against the CARRY's own site table.",
+     "impact": {
+      "dialogue_rounds": 1
+     },
+     "evidence": "conductor-0.2.0/chunks/2026-09-01-webview-self-verify-windows-host/plan.md",
+     "artifacts": [
+      "conductor-0.2.0/chunks/2026-09-01-webview-self-verify-windows-host/plan.md",
+      "crates/conductor-run/tests/lifecycle_harvest.rs"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-screen-reader-manual-spec",
+     "id": "2026-09-02T09:35:11Z-b",
+     "ts": "2026-09-02T09:35:11Z",
+     "what": "Research read both wdio.conf.ts sites (the unconditional CONDUCTOR_RUNS_DIR=runs/e2e-fixture on the spawn and the mkdir+copy seedFixtureRuns) and recorded the first as a per-suite-env design input without connecting the two: by construction any driven or sr session persisting a run journal lands in the routine arm's fixture dir, which the seed never cleans, so the lamps assertions could read a non-committed journal — a latent flake no correct execution of the routine arm would catch. The operator connected it at the second P5 card; the fix (own runs dir for the driven suite, clean re-seed) was folded into the plan on the yes.",
+     "impact": {},
+     "evidence": null,
+     "artifacts": [
+      "crates/conductor-tauri/ui/wdio.conf.ts (onPrepare spawn env; seedFixtureRuns)",
+      "plan.md step 3 (d)/(e)",
+      "research.md §Addendum"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/distill/contract.token-proxy-check",
+   "skill": "phase",
+   "step": "distill",
+   "type": "contract.token-proxy-check",
+   "n": 3,
+   "weight": 3,
+   "step_runs": 6,
+   "rate": 0.5,
+   "chunks": [
+    "2026-08-31-p-075-assert-round",
+    "2026-09-01-live-per-p-id-verdict-lamps",
+    "2026-09-01-webview-self-verify-windows-host"
+   ],
+   "impact": {
+    "extra_reads": 3,
+    "retries": 0
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-08-31-p-075-assert-round",
+     "id": "2026-08-31T20:36:50Z-b",
+     "ts": "2026-08-31T20:36:50Z",
+     "what": "The per-extract anchor check (validation step 3) fired FALSE POSITIVE on 2 of 7 extracts. Probing for the literal token 'per ' reported 7 unanchored bullets each in arch and tests; re-probing on the actual property (does the bullet cite a section anchor at all) returned 0 for both. The cause is wording, not compliance: arch writes 'Per arch §Established Decisions' with a capital P and also cites inline mid-sentence, while tests leads its bullets with 'test-plan §5 ...' as the grammatical subject. The reference's own token-proxy caution predicted exactly this direction; the truth came from reading the hits, not the count",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": "grep -vc 'per ' = 7/7; grep -vc '§' = 0/0",
+     "artifacts": [
+      ".andromeda/runs/2026-08-31T20-10-00Z-phase/arch.md",
+      ".andromeda/runs/2026-08-31T20-10-00Z-phase/tests.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-webview-self-verify-windows-host",
+     "id": "2026-09-01T17:47:56Z-b",
+     "ts": "2026-09-01T17:47:56Z",
+     "what": "My scripted per-extract validation false-positived in the FALSE-POSITIVE direction on two of the five named checks. The anchor check required the literal token 'per <plan> §' and flagged 25 of 53 Constraints/Acceptance bullets across five extracts as unanchored — every one of them cites a real § anchor inline ('architecture.md §Design Philosophy …', 'test-plan.md §6 Selector strategy …', bare '§Component — Header' in layouts, whose plan is named in the section's first bullet). The in-domain check flagged the security extract on a bare 'axe-core' substring, whose single occurrence is a dependency-roster entry naming the registered dev tree — supply-chain content, squarely security's own domain, with zero 'aria-' hits. Acting on the counts would have re-spawned five distillers that had returned correctly; reading the hits — which fan-out.md pre-warns is required for exactly this probe — resolved all 26.",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": ".andromeda/runs/2026-09-01T17-34-32Z-phase",
+     "artifacts": [
+      ".andromeda/runs/2026-09-01T17-34-32Z-phase/security.md",
+      ".andromeda/runs/2026-09-01T17-34-32Z-phase/layouts.md",
+      ".andromeda/runs/2026-09-01T17-34-32Z-phase/a11y.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-live-per-p-id-verdict-lamps",
+     "id": "2026-09-01T23:40:00Z-b",
+     "ts": "2026-09-01T23:40:00Z",
+     "what": "the fan-out check-3 anchor probe implemented as a literal 'per {plan}.md §' regex returned 19 FALSE POSITIVES across arch/security/layouts/a11y (exit 1); reading every hit showed all 19 carry a LEADING anchor ('architecture.md §X requires ...') or a bare in-domain '§N', and a predicate accepting a section reference in any position resolved 77/77 bullets anchored with 0 orphans — the false-positive direction fan-out.md itself warns about",
+     "impact": {
+      "retries": 0,
+      "extra_reads": 1
+     },
+     "evidence": "scratchpad twin_and_validate.py (literal probe, 19 hits) vs recheck_anchors.py (trailing 58 / named-leading 13 / bare 6 / none 0)",
+     "artifacts": [
+      ".andromeda/runs/2026-09-01T23-21-54Z-phase/arch.md",
+      ".andromeda/runs/2026-09-01T23-21-54Z-phase/a11y.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wrap-session/gates/tooling.gate-deferral",
+   "skill": "wrap-session",
+   "step": "gates",
+   "type": "tooling.gate-deferral",
+   "n": 3,
+   "weight": 3,
+   "step_runs": 7,
+   "rate": 0.429,
+   "chunks": [
+    "2026-08-31-p-075-assert-round",
+    "2026-09-01-webview-self-verify-windows-host",
+    "2026-09-02-screen-reader-manual-spec"
+   ],
+   "impact": {
+    "extra_reads": 1,
+    "deferred": 2
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-08-31-p-075-assert-round",
+     "id": "2026-09-01T17:12:09Z-b",
+     "ts": "2026-09-01T17:12:09Z",
+     "what": "An ACCEPTANCE CRITERION named a gate the plan's Test Commands did not list — the 40th cargo audit probe. The light gate re-runs Test Commands only, so the criterion would have been reported met on the strength of the acceptance text alone while nothing ever ran it, and the standing pin would have re-pinned unmeasured. The plan-authoring self-check asserts that every artifact-backed criterion has a listed PRODUCER, but a criterion whose producer is a GATE COMMAND has no equivalent assertion. Caught by reading the standing pin at P5 rather than by any gate, and discharged there. Suggests the symmetric check: every acceptance criterion naming a command must have that command in Test Commands",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": "audit true exit 1 / RUSTSEC-2026-0244; deny true exit 0; both captured before any pipe",
+     "artifacts": [
+      "conductor-0.2.0/chunks/2026-08-31-p-075-assert-round/plan.md",
+      "conductor-0.2.0/working-route.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-webview-self-verify-windows-host",
+     "id": "2026-09-01T19:22:08Z-b",
+     "ts": "2026-09-01T19:22:08Z",
+     "what": "The chunk's own ui-smoke gate is DRIVEN-RED by design and could not be run as a pass/fail gate. Its skip arm was run instead and is green (exit 0, host-path-free precondition, fetch recipe), which is exactly the reading the operator recorded in the route CARRY: skip-arm green without the handle; driven red = expected per this record, never a silent skip. The driven arm's contents are pinned on the successor entry (1 genuine axe violation + 2 specs whose subject exists only in a live-Pulse run; 2 already pass), so the obligation travels owned rather than as report prose. Recorded because a UI chunk whose own UI gate is legitimately red is a shape the gate rules do not otherwise name.",
+     "impact": {
+      "deferred": 1
+     },
+     "evidence": "ui_smoke_skip_arm=0 at this wrap's light gate",
+     "artifacts": [
+      "conductor-0.2.0/working-route.md",
+      "crates/conductor-tauri/ui/wdio.conf.ts"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-screen-reader-manual-spec",
+     "id": "2026-09-02T12:41:15Z-b",
+     "ts": "2026-09-02T12:41:15Z",
+     "what": "cargo nextest --workspace --profile ci and cargo clippy --workspace deferred under the source-delta rule (the chunk shipped TS/Markdown/PowerShell/an NVDA ini only; Cargo.lock byte-unchanged) — origin THIS chunk, pinned as PREREQ on Cross-surface envelope parity, which touches Rust and runs them as mandatory",
+     "impact": {
+      "deferred": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      "conductor-0.2.0/working-route.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wrap-session/report/contract.detector-fact-gap",
+   "skill": "wrap-session",
+   "step": "report",
+   "type": "contract.detector-fact-gap",
+   "n": 3,
+   "weight": 3,
+   "step_runs": 6,
+   "rate": 0.5,
+   "chunks": [
+    "2026-09-01-desktop-a11y-sweep",
+    "2026-09-01-live-per-p-id-verdict-lamps",
+    "2026-09-02-cross-surface-envelope-parity"
+   ],
+   "impact": {
+    "extra_reads": 3
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-01-desktop-a11y-sweep",
+     "id": "2026-09-01T22:24:49Z-b",
+     "ts": "2026-09-01T22:24:49Z",
+     "what": "a fact with no natural Changes bullet: a fix that was WRITTEN, KEPT, and proved INSUFFICIENT. The 'Reverted / negative API facts' bullet covers a surface written then reverted, and 'Spec claims disproved' covers a falsified assertion, but neither fits 'this change is correct and shipped yet is not the remedy it was written to be'. Filed under Reverted/negative with an explicit note, because leaving it out would let a later reader mistake the aria-disabled change for the SC 2.4.3 fix when the actual remedy is the explicit onCloseAutoFocus restore",
+     "impact": {},
+     "evidence": null,
+     "artifacts": [
+      "conductor-0.2.0/chunks/2026-09-01-desktop-a11y-sweep/report.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-live-per-p-id-verdict-lamps",
+     "id": "2026-09-02T05:45:00Z-b",
+     "ts": "2026-09-02T05:45:00Z",
+     "what": "authoring the Counts/qualifiers bullet required one extra read to establish the OLD value the detectors would grep for — obs-plan §1 line 49 bakes the literal 'all SEVEN handlers' plus their enumeration, which this chunk's eighth command moves; the report bullet had to carry the doc+line, not just the delta, or the counts detectors would have had nothing to anchor on",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": "obs-plan.md:49",
+     "artifacts": [
+      ".andromeda/obs-plan.md",
+      "conductor-0.2.0/chunks/2026-09-01-live-per-p-id-verdict-lamps/report.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-cross-surface-envelope-parity",
+     "id": "2026-09-02T14:37:18Z-b",
+     "ts": "2026-09-02T14:37:18Z",
+     "what": "Authoring found a fact NO gate had caught: the chunk introduces CONDUCTOR_E2E_SEED_DIR, an eleventh handle in the reserved CONDUCTOR_* namespace that architecture.md's Occupied-Resources enumeration does not carry — AND the chunk's own plan acceptance said 'no new CONDUCTOR_* env var'. Neither the implement gates, the light-gate command set, nor P5's mechanical checks test for a new reserved-namespace handle; it surfaced only from the report template's instruction to scan drift-base's detector check fields before writing Changes (D-arch-resources binds to the Symbols bullet). Recorded as a deviation and as an arch registration owed, not absorbed.",
+     "impact": {
+      "extra_reads": 2
+     },
+     "evidence": null,
+     "artifacts": [
+      "crates/conductor-run/tests/envelope_fixture.rs",
+      ".andromeda/architecture.md",
+      "conductor-0.2.0/chunks/2026-09-02-cross-surface-envelope-parity/plan.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/validate/contract.mechanical-check",
+   "skill": "phase",
+   "step": "validate",
+   "type": "contract.mechanical-check",
+   "n": 2,
+   "weight": 3,
+   "step_runs": 7,
+   "rate": 0.286,
+   "chunks": [
+    "2026-08-31-p-075-assert-round",
+    "2026-09-02-cross-surface-envelope-parity"
+   ],
+   "impact": {
+    "iterations": 0,
+    "extra_reads": 2,
+    "retries": 1
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-08-31-p-075-assert-round",
+     "id": "2026-08-31T20:49:39Z-b",
+     "ts": "2026-08-31T20:49:39Z",
+     "what": "Mechanical check 2 caught a real authoring defect the plan step had shipped: `.andromeda/residuals.md` was listed under `Expected amendments (wrap)`, but it is not one of the seven spec masters and its own file header pins exactly two writers (wrap's route-resolve appends open entries; /andromeda-route dispositions them). Left standing it would have sent a cross-version residual through the amendment flow, which has no apply path for it. Rewritten as its own bullet naming route-resolve's channel. Check 4's REQUIRED-RESOLUTION item fired in the same pass: the live-leg producer for the obs artifact criteria sat inside a bash COMMENT, so no listed invocation plausibly produced it — promoted to a real block stating why it is a producer and not a gate",
+     "impact": {
+      "iterations": 0,
+      "extra_reads": 2
+     },
+     "evidence": "post-fix probe: Expected-amendments entries resolve to architecture.md / obs-plan.md / test-plan.md only; residuals count inside the block = 0",
+     "artifacts": [
+      "conductor-0.2.0/chunks/2026-08-31-p-075-assert-round/plan.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-cross-surface-envelope-parity",
+     "id": "2026-09-02T13:58:48Z-c",
+     "ts": "2026-09-02T13:58:48Z",
+     "what": "Check 5 (placeholder leak) fired on `crates/conductor-run/tests/{envelope_fixture}.rs` in the New-files list — a template placeholder that survived P4 synthesis into a concrete-looking path. Worth noting that my first probe regex ({[a-z_]*}) also missed the sibling leak `{over-envelope variant}.toml` on the same list because it contains a hyphen and a space; only a broadened re-probe cleared both. A placeholder probe narrower than the placeholders it hunts is the same token-proxy shape the playbook warns about.",
+     "impact": {
+      "retries": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      "conductor-0.2.0/chunks/2026-09-02-cross-surface-envelope-parity/plan.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "implement/fix-loop/contract.matrix-claim",
+   "skill": "implement",
+   "step": "fix-loop",
+   "type": "contract.matrix-claim",
+   "n": 2,
+   "weight": 3,
+   "step_runs": 6,
+   "rate": 0.333,
+   "chunks": [
+    "2026-09-01-desktop-a11y-sweep",
+    "2026-09-02-cross-surface-envelope-parity"
+   ],
+   "impact": {
+    "iterations": 1
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-01-desktop-a11y-sweep",
+     "id": "2026-09-01T22:16:46Z-b",
+     "ts": "2026-09-01T22:16:46Z",
+     "what": "v2-22 set to implemented with a PREMISE-CORRECTION appended to notes rather than silently: its acceptance says each of the SIX lamp labels carries text plus glyph, but no release-bundle surface renders all six (lamps render only where a run record exists; the all-six Gallery is DEV-gated and stripped from the custom-protocol build), so the shipped assertion proves the reachable grain — every RENDERED lamp pairs an aria-hidden glyph with a label from the closed six-set, and any label outside the six fails. Surfaced for wrap to resolve as an acceptance-lifecycle escalation; exposing the gallery would have needed main.tsx, outside the research boundary",
+     "impact": {},
+     "evidence": null,
+     "artifacts": [
+      "conductor-0.2.0/verification-matrix.json"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-cross-surface-envelope-parity",
+     "id": "2026-09-02T14:16:28Z-b",
+     "ts": "2026-09-02T14:16:28Z",
+     "what": "Caught at the matrix write, not by a gate: the parity test was green while sharing its runs dir by CWD, but v2-25's concretized acceptance says the two arms are pointed at one runs.db 'via CONDUCTOR_RUNS_DIR'. A green test whose mechanism differs from its acceptance's wording would have set implemented on a near-miss. Fixed by making the handle load-bearing rather than by noting a gap — the shared dir is now a NON-default name (shared-runs), so if CONDUCTOR_RUNS_DIR were ignored the CLI would write to runs/ and the read-back would find nothing. The contract's own rule (do not set implemented silently where the acceptance premise is contradicted) is what forced the re-read.",
+     "impact": {
+      "iterations": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      "crates/conductor-tauri/src/commands.rs",
+      "verification-matrix.json#v2-25"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wrap-session/curation/ambiguity.tier-routing",
+   "skill": "wrap-session",
+   "step": "curation",
+   "type": "ambiguity.tier-routing",
+   "n": 2,
+   "weight": 3,
+   "step_runs": 8,
+   "rate": 0.25,
+   "chunks": [
+    "2026-09-02-cross-surface-envelope-parity",
+    "2026-09-02-screen-reader-manual-spec"
+   ],
+   "impact": {
+    "iterations": 1
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-02-screen-reader-manual-spec",
+     "id": "2026-09-02T12:36:13Z-c",
+     "ts": "2026-09-02T12:36:13Z",
+     "what": "the NVDA foreground-binding entry routed to verification-harness.md by the tier-2 home registry (harness driver class) although that file's paths globs exclude the ui test tree where the SR leg lives (the retrieval caveat already recorded in its 2026-09-02 entry) — a11y.md would auto-load but the registry rule keys on class, so the entry sits where a ui-only chunk will not see it without the research-time harness-rule read",
+     "impact": {
+      "iterations": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      ".claude/rules/verification-harness.md",
+      ".claude/rules/a11y.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-cross-surface-envelope-parity",
+     "id": "2026-09-02T15:00:50Z-b",
+     "ts": "2026-09-02T15:00:50Z",
+     "what": "Two of four candidates were additive facets of entries that already existed (the Tier-1 token-proxy sweep entry; verification-harness's e2e census entry), so Filter 1's tie-breaker routed them to in-place amendment rather than new siblings — the right call, but both sat close enough to the 0.7 overlap bar that a mechanical read could have dropped them as duplicates. What distinguished them was that each named a failure MODE the matched entry lacked (a site carrying the claim in none of the swept tokens; an exit code shared by pass and designed-skip), which is exactly the tie-breaker's stated test.",
+     "impact": {},
+     "evidence": null,
+     "artifacts": [
+      "CLAUDE.md",
+      ".claude/rules/verification-harness.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wrap-session/route-resolve/contract.premise-falsified",
+   "skill": "wrap-session",
+   "step": "route-resolve",
+   "type": "contract.premise-falsified",
+   "n": 1,
+   "weight": 3,
+   "step_runs": 9,
+   "rate": 0.111,
+   "chunks": [],
+   "impact": {
+    "dialogue_rounds": 1,
+    "extra_reads": 2
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": null,
+     "id": "2026-08-22T21:22:44Z-b",
+     "ts": "2026-08-22T21:22:44Z",
+     "what": "the adaptation directive named 'the Epoch-5 OPC CARRY about the unresolved display gate' as the rewrite target; no such annotation exists — the display-gate text is a clause inside the 2026-08-09-sut-load-envelope CARRY on a DIFFERENT entry (the lamps entry), and the a11y-sweep entry the directive pointed at carried no annotation at all, so a rewrite aimed as dictated would have left the real clause standing",
+     "impact": {
+      "dialogue_rounds": 1,
+      "extra_reads": 2
+     },
+     "evidence": ".andromeda/runs/2026-08-22T21-17-21Z-wrap/adaptation-record.md",
+     "artifacts": [
+      "conductor-0.2.0/working-route.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wrap-session/reconcile/contract.structural-blind-spot",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "type": "contract.structural-blind-spot",
+   "n": 1,
+   "weight": 3,
+   "step_runs": 6,
+   "rate": 0.167,
+   "chunks": [
+    "2026-09-01-webview-self-verify-windows-host"
+   ],
+   "impact": {
+    "dialogue_rounds": 1
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-01-webview-self-verify-windows-host",
+     "id": "2026-09-01T19:14:07Z-b",
+     "ts": "2026-09-01T19:14:07Z",
+     "what": "The a11y doc-agent returned `proposals: []` and was RIGHT to, while its document carried six sites stating a platform verdict this chunk measured false. Its two detectors cover new-UI-element coverage and violation-JSON-vs-obs-§6; a platform/runner/driver claim maps onto neither, so no amount of correct execution could have surfaced it. The agent said so unprompted. The same class made the test-plan agent's sibling coverage incomplete in the other direction: the plan's expected-amendments list named 6 sites, the doc carries 8 (`:287` and `:369` additionally defer GUI legs to Linux+xvfb) — that agent found the extra two itself because D-tests-framework happens to reach them. Caught only by Validate check 5 treating the plan's list as a floor. Resolved by minting D-platform-claim (operator-approved), which is the first cross-doc detector in drift-base.",
+     "impact": {
+      "dialogue_rounds": 1
+     },
+     "evidence": ".andromeda/runs/2026-09-01T18-49-38Z-wrap/fanout-results.md",
+     "artifacts": [
+      ".andromeda/a11y-plan.md",
+      ".andromeda/test-plan.md",
+      ".andromeda/drift-base.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "new-session/orientation/tooling.host-shell",
+   "skill": "new-session",
+   "step": "orientation",
+   "type": "tooling.host-shell",
+   "n": 1,
+   "weight": 3,
+   "step_runs": 8,
+   "rate": 0.125,
+   "chunks": [],
+   "impact": {
+    "retries": 2
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": null,
+     "id": "2026-09-01T20:10:04Z-b",
+     "ts": "2026-09-01T20:10:04Z",
+     "what": "Bash working directory persists across independent tool calls, and an in-project `cd` inside a compound command silently rebased later calls — while an out-of-project `cd` emitted a 'Shell cwd was reset' notice, so the two cases were observably asymmetric and only the silent one misled; two relative-path reads (master-route.md, verification-matrix.json) failed FileNotFoundError before absolute paths were adopted",
+     "impact": {
+      "retries": 2
+     },
+     "evidence": null,
+     "artifacts": [
+      ".andromeda/master-route.md",
+      "conductor-0.2.0/verification-matrix.json"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/validate/contract.intent-divergence",
+   "skill": "phase",
+   "step": "validate",
+   "type": "contract.intent-divergence",
+   "n": 1,
+   "weight": 3,
+   "step_runs": 7,
+   "rate": 0.143,
+   "chunks": [
+    "2026-09-01-desktop-a11y-sweep"
+   ],
+   "impact": {
+    "dialogue_rounds": 1
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-01-desktop-a11y-sweep",
+     "id": "2026-09-01T20:52:41Z-c",
+     "ts": "2026-09-01T20:52:41Z",
+     "what": "scope reframes the working entry's headline 'operator judgment pass' as ManualCheck items plus an occasional holistic pass, and the plan dispositioned neither — it named no ManualCheck item and recorded no absence, silently dropping the entry's headline promise; validation-1 compared plan against scope and still returned ALIGNED, so the anchor comparison missed an intent element the anchor states explicitly",
+     "impact": {
+      "dialogue_rounds": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      "conductor-0.2.0/chunks/2026-09-01-desktop-a11y-sweep/scope.md",
+      "conductor-0.2.0/chunks/2026-09-01-desktop-a11y-sweep/plan.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wrap-session/curation/recall.curated-rule-not-applied",
+   "skill": "wrap-session",
+   "step": "curation",
+   "type": "recall.curated-rule-not-applied",
+   "n": 1,
+   "weight": 3,
+   "step_runs": 8,
+   "rate": 0.125,
+   "chunks": [
+    "2026-09-01-desktop-a11y-sweep"
+   ],
+   "impact": {
+    "retries": 2
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-01-desktop-a11y-sweep",
+     "id": "2026-09-01T22:52:18Z-b",
+     "ts": "2026-09-01T22:52:18Z",
+     "what": "Filter 1 dedup turned three of my session 'findings' into RECURRENCE-DESPITE-LEARNING: every one was already curated in verification-harness.md and I rediscovered each from scratch. (1) :54 (2026-08-20) states verbatim that a live leg reporting BLOCKED in ~0s is a SIDECAR-RESOLUTION failure and to check PATH before concluding anything about the SUT — I diagnosed that from first principles. (2) :53(a) (2026-08-19) states NEVER run boot before a leg that fires its own preflight canary, because boot's canary leaves an open incident the leg's canary dedupes against — I ran exactly that pairing and lost two 12-minute runs. (3) :53(b) states resolve_under rejects absolute out-of-repo handles by design — I re-derived it from source mid-implement. The rules existed, were path-scoped to auto-load, and did not reach the moment of use; per the filter a third entry is not the remedy, so only the GUI-surface facet was added as an in-place extension",
+     "impact": {
+      "retries": 2
+     },
+     "evidence": null,
+     "artifacts": [
+      ".claude/rules/verification-harness.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "implement/code/input.conventions-gap",
+   "skill": "implement",
+   "step": "code",
+   "type": "input.conventions-gap",
+   "n": 1,
+   "weight": 3,
+   "step_runs": 6,
+   "rate": 0.167,
+   "chunks": [
+    "2026-09-01-live-per-p-id-verdict-lamps"
+   ],
+   "impact": {
+    "retries": 2,
+    "extra_reads": 2
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-01-live-per-p-id-verdict-lamps",
+     "id": "2026-09-02T00:35:00Z-c",
+     "ts": "2026-09-02T00:35:00Z",
+     "what": "two API shapes had to be settled by reading neighbouring code rather than from research: anyhow::Error at the tauri edge needs sanitize_error(&*err) not (&e) (found at commands.rs:308 after a compiler error), and CapabilityRow.p_id is a &'static str not a PId newtype (found after a compile error in the new fixture test)",
+     "impact": {
+      "retries": 2,
+      "extra_reads": 2
+     },
+     "evidence": "E0308 at commands.rs:243; E0609 at lamps_fixture.rs:76-77",
+     "artifacts": [
+      "crates/conductor-tauri/src/commands.rs",
+      "crates/conductor-run/tests/lamps_fixture.rs"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wrap-session/route-resolve/contract.carry-no-owner",
+   "skill": "wrap-session",
+   "step": "route-resolve",
+   "type": "contract.carry-no-owner",
+   "n": 2,
+   "weight": 2,
+   "step_runs": 9,
+   "rate": 0.222,
+   "chunks": [
+    "2026-09-02-screen-reader-manual-spec"
+   ],
+   "impact": {
+    "extra_reads": 3,
+    "dialogue_rounds": 0,
+    "halted": 0
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": null,
+     "id": "2026-08-31T20:03:51Z-b",
+     "ts": "2026-08-31T20:03:51Z",
+     "what": "The operator directive said 'assign owners this visit' for two ledger follow-ups but named no owning entry for either — a partial direction, which by route-resolve's own rule satisfies nothing and would normally force a trajectory HALT. Re-reading the origin artifacts dissolved both instead of pinning them: mutation-timeouts was already ratified accepted-deliberate by 2026-08-20-read-back-seam-survivors-closed (its report measured the timeout-conversion speculation FALSE at jsonrpc.rs:49:30 and :70:9), and command-field-omission was already discharged by the 2026-08-22 run's own record (the `commands` object carries all 8 metric keys). Both owner:null values were ledger-schema gaps, not unowned work, so no route CARRY was warranted and no halt was needed",
+     "impact": {
+      "extra_reads": 3
+     },
+     "evidence": "record.json carried_follow_ups now owner-assigned with status accepted-deliberate / discharged",
+     "artifacts": [
+      ".andromeda/runs/2026-08-22T13-31-54-code-audit/record.json",
+      "conductor-0.2.0/chunks/2026-08-20-read-back-seam-survivors-closed/report.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-screen-reader-manual-spec",
+     "id": "2026-09-02T12:36:13Z-e",
+     "ts": "2026-09-02T12:36:13Z",
+     "what": "placement ambiguity after a partial direction: the WRAP directive named the disposition (a route candidate of its own) and the epoch neighbourhood for one of the two minted entries but not the other's slot; resolved by adjacency to its named sibling and recorded in the entry text as the orchestrator's placement rather than halting an autonomous session",
+     "impact": {
+      "dialogue_rounds": 0,
+      "halted": 0
+     },
+     "evidence": null,
+     "artifacts": [
+      "conductor-0.2.0/working-route.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/take-up/input.out-of-pipeline-source",
+   "skill": "phase",
+   "step": "take-up",
+   "type": "input.out-of-pipeline-source",
+   "n": 2,
+   "weight": 2,
+   "step_runs": 6,
+   "rate": 0.333,
+   "chunks": [
+    "2026-08-31-p-075-assert-round",
+    "2026-09-02-screen-reader-manual-spec"
+   ],
+   "impact": {
+    "extra_reads": 9
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-08-31-p-075-assert-round",
+     "id": "2026-08-31T20:29:08Z-b",
+     "ts": "2026-08-31T20:29:08Z",
+     "what": "The decisive facts shaping this scope live in a SIBLING repo the phase input contract does not read: Pulse's dispatch_mark_incident_resolved at crates/mcp-server/src/tools.rs:445 (which settles that the applied arm returns Ok({resolved,incident_id}) while the declined arm arrives as a JSON-RPC ERROR driven by IncidentWriteOutcome::DeclinedStale), and the zero-incident_events-in-mcp-server measurement. Neither is derivable from any .andromeda artifact or from Conductor's own code. Read first-hand at D:/dev/projects/andromeda-pulse because the repo happens to be on this host; a host without it would have had to fold the operator's dictation unverified",
+     "impact": {
+      "extra_reads": 4
+     },
+     "evidence": "Pulse HEAD 83d4060; tools.rs:445-475 read in full",
+     "artifacts": [
+      "conductor-0.2.0/chunks/2026-08-31-p-075-assert-round/scope.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-screen-reader-manual-spec",
+     "id": "2026-09-02T06:59:47Z-b",
+     "ts": "2026-09-02T06:59:47Z",
+     "what": "The operator's take-up message invoked 'the NVDA directive' by name; no artifact the skill reads records its text (a repo-wide case-insensitive search for nvda across md/json/ts/tsx/toml/yaml, the last wrap and phase run dirs, route-archive and git log found only the route/matrix/intent wording and the a11y-plan leaves), so the directive was reconstructed from the sweep chunk's route-level ruling plus the 2026-08-22 host rule and written into scope.md tagged [inferred] for confirmation at the P5 review card.",
+     "impact": {
+      "extra_reads": 5
+     },
+     "evidence": null,
+     "artifacts": [
+      "scope.md §Standing operator directive",
+      "conductor-0.2.0/chunks/2026-09-01-desktop-a11y-sweep/plan.md:47-52"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wrap-session/route-resolve/contract.standing-pin-carriage",
+   "skill": "wrap-session",
+   "step": "route-resolve",
+   "type": "contract.standing-pin-carriage",
+   "n": 2,
+   "weight": 2,
+   "step_runs": 9,
+   "rate": 0.222,
+   "chunks": [
+    "2026-08-31-p-075-assert-round",
+    "2026-09-01-webview-self-verify-windows-host"
+   ],
+   "impact": {
+    "extra_reads": 1
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-08-31-p-075-assert-round",
+     "id": "2026-09-01T17:09:13Z-b",
+     "ts": "2026-09-01T17:09:13Z",
+     "what": "The 40th cargo-audit probe was an ACCEPTANCE CRITERION of the chunk but was absent from the plan's Test Commands, so /implement never ran it and the light gate would not have either — the pin would have re-pinned unmeasured on a chunk that claimed to measure it. Caught at P5 by reading the pin rather than the gate list, and discharged by running the probe there: signature reproduced byte-identically (audit true exit 1 / RUSTSEC-2026-0244 duplicate; deny true exit 0). Second edge in the same pin: the compact PROBE-AUTO-SATISFY form was NOT available even though the conclusion held, because the chunk touched crates/conductor-run/Cargo.toml (+6 lines) and the pin's basis line asserted every manifest byte-untouched. The delta admits ZERO packages (an empty [features] declaration, Cargo.lock byte-unchanged) so deny's coverage set is identical and the playbook's admits-a-package test says the conclusion stands — but the BASIS changed, which restores the full form. Re-pinned as the 41st in full form with the changed basis stated",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": "audit/deny exits captured before any pipe; git diff --stat confirms Cargo.lock unchanged and Cargo.toml +6",
+     "artifacts": [
+      "conductor-0.2.0/working-route.md",
+      ".andromeda/playbook.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-webview-self-verify-windows-host",
+     "id": "2026-09-01T19:18:24Z-c",
+     "ts": "2026-09-01T19:18:24Z",
+     "what": "The standing cargo-audit pin migrated 41st-FULL -> 42nd-COMPACT, the reverse of the usual direction. The 41st was forced to full form because its predecessor chunk had touched a Cargo manifest, invalidating the 'every manifest byte-untouched' basis the compact form rests on; this chunk touched no manifest, admitted zero package nodes and left Cargo.lock byte-unchanged, so the basis is restored and the compact form is available again. Recorded because the pin's form is basis-derived rather than monotonic — a reader assuming form escalates only one way would mis-carry it.",
+     "impact": {},
+     "evidence": "cargo audit true exit 1 / cargo deny true exit 0, Cargo.lock un-drifted this wrap",
+     "artifacts": [
+      "conductor-0.2.0/working-route.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/take-up/tooling.long-line-edit",
+   "skill": "phase",
+   "step": "take-up",
+   "type": "tooling.long-line-edit",
+   "n": 2,
+   "weight": 2,
+   "step_runs": 6,
+   "rate": 0.333,
+   "chunks": [
+    "2026-09-01-desktop-a11y-sweep",
+    "2026-09-01-webview-self-verify-windows-host"
+   ],
+   "impact": {
+    "extra_reads": 4
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-01-webview-self-verify-windows-host",
+     "id": "2026-09-01T17:38:40Z-b",
+     "ts": "2026-09-01T17:38:40Z",
+     "what": "Both promotion edits target multi-KB single-line entries (working-route entry ~4KB, master-route record ~1.5KB), and Edit's read-before-edit precondition is not satisfied by a Bash sed read — so each line already read structurally had to be re-read through the Read tool with offset/limit before it could be stamped. Two forced duplicate reads; no anchor-match failure and no consumed line break (a leading newline was included in the working-route anchor to keep the match unambiguous).",
+     "impact": {
+      "extra_reads": 2
+     },
+     "evidence": ".andromeda/runs/2026-09-01T17-34-32Z-phase",
+     "artifacts": [
+      "conductor-0.2.0/working-route.md",
+      ".andromeda/master-route.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-desktop-a11y-sweep",
+     "id": "2026-09-01T20:14:51Z-c",
+     "ts": "2026-09-01T20:14:51Z",
+     "what": "master-route's records are single multi-KB lines, so an offset Read cannot be aimed at the tail without knowing the line count: the first Read (offset 106, limit 2) returned two non-final records and a second Read plus a shell byte-probe were needed to reach the real last line before the promotion append could be anchored",
+     "impact": {
+      "extra_reads": 2
+     },
+     "evidence": null,
+     "artifacts": [
+      ".andromeda/master-route.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/validate/contract.token-proxy-check",
+   "skill": "phase",
+   "step": "validate",
+   "type": "contract.token-proxy-check",
+   "n": 2,
+   "weight": 2,
+   "step_runs": 7,
+   "rate": 0.286,
+   "chunks": [
+    "2026-09-01-live-per-p-id-verdict-lamps",
+    "2026-09-01-webview-self-verify-windows-host"
+   ],
+   "impact": {
+    "extra_reads": 2
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-01-webview-self-verify-windows-host",
+     "id": "2026-09-01T18:09:48Z-c",
+     "ts": "2026-09-01T18:09:48Z",
+     "what": "Second false-positive of the same class in one run, again in the FALSE-POSITIVE direction: re-verifying modify-path existence after the edit, the extraction pipeline used `tr -d '-'` to strip the markdown bullet, which also stripped the hyphens INSIDE the paths (conductor-tauri -> conductortauri), reporting all six touchpoints MISSING. Every path existed. Truth came from re-running with a correct extraction, not from the count.",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": ".andromeda/runs/2026-09-01T17-34-32Z-phase",
+     "artifacts": [
+      "conductor-0.2.0/chunks/2026-09-01-webview-self-verify-windows-host/plan.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-live-per-p-id-verdict-lamps",
+     "id": "2026-09-02T00:05:00Z-e",
+     "ts": "2026-09-02T00:05:00Z",
+     "what": "the SECOND literal-token probe false result this run: my mechanical check 3 asserted the string '(none)' in the New-files block, where validation.md's actual rule is 'every New files path's parent (or its parent) exists / is creatable' — so adding two legitimate new files flipped it to FAIL; reading the hit showed both parents exist or are creatable and the probe, not the plan, was wrong (false-positive direction, same as the P2 anchor probe)",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": "scratchpad validate_plan.py check 3 before/after the predicate fix; crates/conductor-run/tests/ exists",
+     "artifacts": [
+      "conductor-0.2.0/chunks/2026-09-01-live-per-p-id-verdict-lamps/plan.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/take-up/input.carry-context-gap",
+   "skill": "phase",
+   "step": "take-up",
+   "type": "input.carry-context-gap",
+   "n": 2,
+   "weight": 2,
+   "step_runs": 6,
+   "rate": 0.333,
+   "chunks": [
+    "2026-09-01-desktop-a11y-sweep",
+    "2026-09-02-cross-surface-envelope-parity"
+   ],
+   "impact": {
+    "deferred": 1,
+    "extra_reads": 3
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-01-desktop-a11y-sweep",
+     "id": "2026-09-01T20:14:51Z-b",
+     "ts": "2026-09-01T20:14:51Z",
+     "what": "the CARRY names the blocker as '1 genuine axe violation' — a COUNT without the rule identity — and the predecessor's report.md records it the same way, so the decisive fact for designing the fix exists in no folded annotation and no artifact; it can only be recovered by re-running the leg, which P3 must now do before the fix is designable",
+     "impact": {
+      "deferred": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      "conductor-0.2.0/working-route.md",
+      "conductor-0.2.0/chunks/2026-09-01-webview-self-verify-windows-host/report.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-cross-surface-envelope-parity",
+     "id": "2026-09-02T13:16:55Z-b",
+     "ts": "2026-09-02T13:16:55Z",
+     "what": "CARRY-1's rmcp enumeration is incomplete against the acceptance it serves. It states 'What REMAINS for this entry: contracts/mcp-contract.toml' and verifies the DERIVED tier correct — but v2-28's acceptance names test-plan.md, and .andromeda/test-plan.md:53 and :264 still carry present-tense rmcp claims about the CURRENT client and CURRENT stub driver. A second unnamed site is crates/conductor-verify/src/lib.rs:3 ('Shipped so far: ReadbackClient — the rmcp client/transport foundation'), false at HEAD. Folding the CARRY as written would have left v2-28 unclaimable while the plan believed one config comment was the whole job; the gap surfaced only by re-deriving the sweep from the matrix acceptance instead of from the CARRY's list.",
+     "impact": {
+      "extra_reads": 3
+     },
+     "evidence": "conductor-0.2.0/chunks/2026-09-02-cross-surface-envelope-parity/scope.md §CARRY-1",
+     "artifacts": [
+      "conductor-0.2.0/working-route.md:89",
+      "verification-matrix.json#v2-28",
+      ".andromeda/test-plan.md",
+      "crates/conductor-verify/src/lib.rs"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/distill/contract.extract-format",
+   "skill": "phase",
+   "step": "distill",
+   "type": "contract.extract-format",
+   "n": 2,
+   "weight": 2,
+   "step_runs": 6,
+   "rate": 0.333,
+   "chunks": [
+    "2026-09-02-cross-surface-envelope-parity",
+    "2026-09-02-screen-reader-manual-spec"
+   ],
+   "impact": {
+    "extra_reads": 0
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-02-screen-reader-manual-spec",
+     "id": "2026-09-02T07:10:37Z-b",
+     "ts": "2026-09-02T07:10:37Z",
+     "what": "The obs distiller rendered the prompt template's `per {plan} §{section}` placeholder literally, citing `{obs-plan} §11 Logs` with braces in 19 anchor sites; the anchors were otherwise valid (section names present) so no named check failed and no retry was spent, and P4 cites obs-plan by name — a template-of-a-template shape the other six distillers resolved correctly.",
+     "impact": {},
+     "evidence": null,
+     "artifacts": [
+      ".andromeda/runs/2026-09-02T06-56-57Z-phase/obs.md",
+      "andromeda-phase/references/fan-out.md (distiller prompt)"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-cross-surface-envelope-parity",
+     "id": "2026-09-02T13:25:38Z-b",
+     "ts": "2026-09-02T13:25:38Z",
+     "what": "Five of seven returns arrived HTML-escaped by the agent transport (&lt;/&gt; around every angle-bracketed token: <run_id>.jsonl, tauri.command.<name>, <runs_dir.parent()>, from_str::<RunReportEnvelope>, cargo test -p <crate>). Exactly the tokens the chunk turns on. The mechanical decode + entities=0 probe caught and fixed all of them and raw twins were reconstructed; recorded because the same transport defect has now hit two consecutive sessions and the affected tokens are always the load-bearing ones.",
+     "impact": {
+      "extra_reads": 0
+     },
+     "evidence": null,
+     "artifacts": [
+      ".andromeda/runs/2026-09-02T13-12-45Z-phase/.raw-arch.md",
+      ".andromeda/runs/2026-09-02T13-12-45Z-phase/.raw-tests.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wrap-session/gates/contract.token-proxy-check",
+   "skill": "wrap-session",
+   "step": "gates",
+   "type": "contract.token-proxy-check",
+   "n": 2,
+   "weight": 2,
+   "step_runs": 7,
+   "rate": 0.286,
+   "chunks": [
+    "2026-09-02-cross-surface-envelope-parity",
+    "2026-09-02-screen-reader-manual-spec"
+   ],
+   "impact": {
+    "extra_reads": 2
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-02-screen-reader-manual-spec",
+     "id": "2026-09-02T12:41:15Z-c",
+     "ts": "2026-09-02T12:41:15Z",
+     "what": "the plan's gate-1 hygiene grep (drive-letter / %APPDATA% / /Users / /home tokens as a proxy for 'no host path') matched the parser's own HOST_PATH regex definition — the scrub that implements the property — a FALSE POSITIVE direction; the truth came from reading the one hit, and implement's earlier green run of the same command is unexplained by the current file (the regex line matches as committed)",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      "crates/conductor-tauri/ui/test/a11y/screen-reader/parse-nvda-log.ts",
+      "conductor-0.2.0/chunks/2026-09-02-screen-reader-manual-spec/plan.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-cross-surface-envelope-parity",
+     "id": "2026-09-02T15:05:53Z-b",
+     "ts": "2026-09-02T15:05:53Z",
+     "what": "The evolve-nudge predicate ('no evolve-diagnose proposals.md NAMES that epoch') was evaluated by grepping for 'Epoch 5' and returned a HIT in the 2026-08-22 run — which is titled 'Epoch 4' and mentions Epoch 5 only inside a timestamp annotation ('on 2026-08-22 (Epoch 5)'). A false negative: the nudge would have been suppressed for an undiagnosed epoch. Direction recorded because this predicate's failure mode is silence — nothing downstream would have noticed. Settled by reading the hit and the run's title line. Same shape as the Tier-1 lesson curated this very session, met twice in one wrap.",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      ".andromeda/runs/2026-08-22T13-07-44-evolve-diagnose/proposals.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/research/retry.query-reformulation",
+   "skill": "phase",
+   "step": "research",
+   "type": "retry.query-reformulation",
+   "n": 1,
+   "weight": 2,
+   "step_runs": 6,
+   "rate": 0.167,
+   "chunks": [
+    "2026-08-31-p-075-assert-round"
+   ],
+   "impact": {
+    "reformulations": 1,
+    "extra_reads": 2
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-08-31-p-075-assert-round",
+     "id": "2026-08-31T20:40:55Z-b",
+     "ts": "2026-08-31T20:40:55Z",
+     "what": "The canonical IMPACT query (cookbook shape 1, calls view) returned 0 rows for the chunk's central symbol. Both cookbook preconditions for treating that as a real finding passed — db_state fresh, symbol confirmed indexed by the bare-name probe — which would have licensed 'leaf, no callers'. Running the same predicate against the SIBLING method as a control is what exposed the view defect: query_incident_list also returned 0 from calls while having two production call sites, so calls under-resolves &self async methods on this crate. Reformulating onto refs returned 5 for the sibling and 0 for the target, which is what makes the target's zero a measurement rather than silence. The cookbook's two preconditions are necessary but not sufficient — a WORKING CONTROL on the same view was the discriminator",
+     "impact": {
+      "reformulations": 1,
+      "extra_reads": 2
+     },
+     "evidence": "calls: 0/0 for both methods; refs: 5 for query_incident_list (extract.rs:76, preflight.rs:376 + 3 test sites), 0 for mark_incident_resolved",
+     "artifacts": [
+      "scripts/code-graph-cookbook.md",
+      ".andromeda/runs/2026-08-31T20-10-00Z-phase/tree-query-2026-08-31-p-075-assert-round.json"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "implement/smoke/contract.premise-falsified",
+   "skill": "implement",
+   "step": "smoke",
+   "type": "contract.premise-falsified",
+   "n": 1,
+   "weight": 2,
+   "step_runs": 7,
+   "rate": 0.143,
+   "chunks": [
+    "2026-08-31-p-075-assert-round"
+   ],
+   "impact": {
+    "iterations": 1
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-08-31-p-075-assert-round",
+     "id": "2026-09-01T16:46:31Z-c",
+     "ts": "2026-09-01T16:46:31Z",
+     "what": "The plan's two-incident control design — operator-selected at P4 — is STRUCTURALLY UNATTAINABLE against Pulse. The incident producer dedupes a new incident against any OPEN incident regardless of fingerprint, so at most one can be active per workspace: a storm raised while incident 4 was open logged `created=false deduped=true`, every `created=true` in the leg occurred with the active set empty, and incident 7 formed at the same second incident 6 was resolved. Replaced with LIVENESS attribution, which the single-incident reality does support: Pulse auto-resolves only an incident idle 120s, so resolving a freshly-refreshed one and watching it leave excludes the resolver by construction. LifecycleVerdict::Proven is kept but documented unreachable; ProvenByLiveness carries the measured idle seconds",
+     "impact": {
+      "iterations": 1
+     },
+     "evidence": "interpretation.incident.created created=false deduped=true at 16:33:00.239Z; corpus incident 6 active 16:42:38->16:43:23",
+     "artifacts": [
+      "crates/conductor-run/src/lib.rs",
+      "crates/conductor-run/tests/lifecycle_harvest.rs"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wrap-session/reconcile/tooling.host-shell",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "type": "tooling.host-shell",
+   "n": 1,
+   "weight": 2,
+   "step_runs": 6,
+   "rate": 0.167,
+   "chunks": [
+    "2026-09-01-desktop-a11y-sweep"
+   ],
+   "impact": {
+    "retries": 1
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-01-desktop-a11y-sweep",
+     "id": "2026-09-01T22:49:51Z-d",
+     "ts": "2026-09-01T22:49:51Z",
+     "what": "the six sidecar appends were attempted as an inline python heredoc and died with 'unexpected EOF while looking for matching quote' — the entry bodies carry backticks and apostrophes that the shell reinterpreted. Rewritten to a scratchpad file run by path, which is exactly what the code-writing discipline prescribes for non-trivial inline python; the same lesson had already been recorded twice this session for other payload shapes",
+     "impact": {
+      "retries": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      ".andromeda/design-system-amendments.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/plan/input.out-of-pipeline-source",
+   "skill": "phase",
+   "step": "plan",
+   "type": "input.out-of-pipeline-source",
+   "n": 1,
+   "weight": 2,
+   "step_runs": 7,
+   "rate": 0.143,
+   "chunks": [
+    "2026-09-02-screen-reader-manual-spec"
+   ],
+   "impact": {
+    "iterations": 1,
+    "extra_reads": 2
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-02-screen-reader-manual-spec",
+     "id": "2026-09-02T09:16:27Z-b",
+     "ts": "2026-09-02T09:16:27Z",
+     "what": "The facts that re-shaped the pass — a portable NVDA 2026.2 present on the host at an operator-owned path, its smoke-tested speech-log CLI form (-m --no-sr-flag -l 12 -f / -q), and a live Pulse already up on a fresh data dir — arrived by operator relay after the first P5 card; none exists in any artifact the skill reads (research had measured NVDA ABSENT from Program Files and the uninstall registry, which was true and incomplete), so the manual-pass plan v1 was built on a host premise the relay then fell; cost one full P4 re-synthesis.",
+     "impact": {
+      "iterations": 1,
+      "extra_reads": 2
+     },
+     "evidence": null,
+     "artifacts": [
+      "scope.md §Re-shape",
+      "research.md §Addendum",
+      "plan.md (v2)"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wrap-session/reconcile/contract.false-positive-proposal",
+   "skill": "wrap-session",
+   "step": "reconcile",
+   "type": "contract.false-positive-proposal",
+   "n": 1,
+   "weight": 2,
+   "step_runs": 6,
+   "rate": 0.167,
+   "chunks": [
+    "2026-09-02-screen-reader-manual-spec"
+   ],
+   "impact": {
+    "iterations": 1
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-02-screen-reader-manual-spec",
+     "id": "2026-09-02T12:31:53Z-d",
+     "ts": "2026-09-02T12:31:53Z",
+     "what": "D-obs-instrumentation's primary asserted the Tauri self-obs sink was 'never the project-root logs/' — false for the unset-handle launch (measured 2026-09-01 by the pre-change driven arm); the proposal's mechanism was right and its scope wrong, applied with the corrected scope rather than rejected",
+     "impact": {
+      "iterations": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      ".andromeda/obs-plan.md",
+      ".andromeda/runs/2026-09-02T11-47-51Z-wrap/.raw-fanout-obs-plan.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wrap-session/gates/tooling.light-gate-red",
+   "skill": "wrap-session",
+   "step": "gates",
+   "type": "tooling.light-gate-red",
+   "n": 1,
+   "weight": 2,
+   "step_runs": 7,
+   "rate": 0.143,
+   "chunks": [
+    "2026-09-02-screen-reader-manual-spec"
+   ],
+   "impact": {
+    "iterations": 1
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-02-screen-reader-manual-spec",
+     "id": "2026-09-02T12:41:15Z-d",
+     "ts": "2026-09-02T12:41:15Z",
+     "what": "the orchestrator-added changed-surface gate (npm run a11y:driven, whose spawn env the chunk changed) ran red at the light gate — 1 failing at its 12-minute hold wait, exit 1 — because Pulse was already down (no pulse-app.exe, no :4317 listener; the app's preflight blocked on the OTLP transport in 2 s); the env measurement it was run for landed (journal + self-obs log under runs/driven/), its hold assertions last ran green 2026-09-01 and re-run at the next live-Pulse leg",
+     "impact": {
+      "iterations": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      "runs/driven/runs/2026-09-02T11-55-27-224.md",
+      "runs/driven/logs/conductor-tauri.jsonl"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "new-session/orientation/input.handoff-git-mismatch",
+   "skill": "new-session",
+   "step": "orientation",
+   "type": "input.handoff-git-mismatch",
+   "n": 1,
+   "weight": 1,
+   "step_runs": 8,
+   "rate": 0.125,
+   "chunks": [],
+   "impact": {
+    "extra_reads": 3
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": null,
+     "id": "2026-08-22T21:10:36Z-b",
+     "ts": "2026-08-22T21:10:36Z",
+     "what": "Handoff Position Next listed /andromeda-evolve-diagnose and the code-audit trend run as the next steps, but both had already been executed after the wrap; determining that took inspecting two untracked run dirs and their proposals.md headers",
+     "impact": {
+      "extra_reads": 3
+     },
+     "evidence": ".andromeda/runs/2026-08-22T13-31-54-code-audit/proposals.md",
+     "artifacts": [
+      ".claude/session-handoff.md",
+      ".andromeda/runs/2026-08-22T13-07-44-evolve-diagnose/proposals.md",
+      ".andromeda/runs/2026-08-22T13-31-54-code-audit/proposals.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "new-session/orientation/contract.narrow-basis-claim",
+   "skill": "new-session",
+   "step": "orientation",
+   "type": "contract.narrow-basis-claim",
+   "n": 1,
+   "weight": 1,
+   "step_runs": 8,
+   "rate": 0.125,
+   "chunks": [],
+   "impact": {
+    "extra_reads": 3
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": null,
+     "id": "2026-08-31T19:50:24Z-b",
+     "ts": "2026-08-31T19:50:24Z",
+     "what": "The incoming cross-repo relay states P-075 is Pulse's last unclaimed 0.3.0 cap and requests a round asserting the three sound delegated budgets (P-027 ≤5s · P-037 ≤2s · P-045 ≤1s) while excluding P-025's disproved ≤2s clause; Conductor's own ledger records that exact scope as ALREADY delivered — v2-20 'Four delegated timing budgets return real Pass/Fail' is status verified, chunk 2026-08-21-delegated-timing-budgets-proven, ref naming three shipped tests in crates/conductor-run/tests/delegated_timing_harvest.rs, with P-025 excluded by the same operator ruling the relay cites. The claim was sourced from Pulse's ledger, which is not authoritative on Conductor's local state, and would have passed unnoticed had the matrix entry not been re-derived",
+     "impact": {
+      "extra_reads": 3
+     },
+     "evidence": "v2-20.verification.status=verified · chunk=2026-08-21-delegated-timing-budgets-proven · commit 7fd1608",
+     "artifacts": [
+      "conductor-0.2.0/verification-matrix.json",
+      "crates/conductor-run/tests/delegated_timing_harvest.rs"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wrap-session/gates/tooling.commit-mechanics",
+   "skill": "wrap-session",
+   "step": "gates",
+   "type": "tooling.commit-mechanics",
+   "n": 1,
+   "weight": 1,
+   "step_runs": 7,
+   "rate": 0.143,
+   "chunks": [],
+   "impact": {
+    "extra_reads": 0
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": null,
+     "id": "2026-08-31T20:07:47Z-b",
+     "ts": "2026-08-31T20:07:47Z",
+     "what": "git add -A staged a file outside the no-op path's sanctioned write surface — .andromeda/runs/2026-08-22T13-31-54-code-audit/record.json, a previously committed audit-ledger artifact edited this visit to discharge the three operator-queued items. add -A cannot discriminate, so the disclosure had to be authored into the adaptation record and handoff rather than enforced by the staging step. No gitignore surprise otherwise; the code-graph DB under .andromeda/cache/ was correctly skipped",
+     "impact": {
+      "extra_reads": 0
+     },
+     "evidence": "commit e9736b7 — 7 files staged, master-route verified untouched",
+     "artifacts": [
+      ".andromeda/runs/2026-08-22T13-31-54-code-audit/record.json"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/distill/tooling.host-shell",
+   "skill": "phase",
+   "step": "distill",
+   "type": "tooling.host-shell",
+   "n": 1,
+   "weight": 1,
+   "step_runs": 6,
+   "rate": 0.167,
+   "chunks": [
+    "2026-08-31-p-075-assert-round"
+   ],
+   "impact": {
+    "extra_reads": 0
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-08-31-p-075-assert-round",
+     "id": "2026-08-31T20:36:50Z-c",
+     "ts": "2026-08-31T20:36:50Z",
+     "what": "5 of 7 distiller returns arrived HTML-escaped — < and > rendered as &lt;/&gt; — mangling exactly the tokens the domain content turns on (<run_id>, <slo_tier>, <crate>, <family>, the literal \"<redacted>\" string obs cites as a live Pulse value). The fan-out reference anticipates this and mandates the decode-then-probe path, which caught all of them; entities=0 across all 7 saved copies after decoding. Recording the recurrence because this is the same transport defect the 2026-08-21 Tier-1 learning already names, still firing at the same rate",
+     "impact": {
+      "extra_reads": 0
+     },
+     "evidence": "5 twins reconstructed by inverse-encode; per-file entity counts 9/2/8/2/6",
+     "artifacts": [
+      ".andromeda/runs/2026-08-31T20-10-00Z-phase/"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "implement/code/ambiguity.scope-pressure",
+   "skill": "implement",
+   "step": "code",
+   "type": "ambiguity.scope-pressure",
+   "n": 1,
+   "weight": 1,
+   "step_runs": 6,
+   "rate": 0.167,
+   "chunks": [
+    "2026-08-31-p-075-assert-round"
+   ],
+   "impact": {
+    "extra_reads": 2
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-08-31-p-075-assert-round",
+     "id": "2026-08-31T20:59:49Z-b",
+     "ts": "2026-08-31T20:59:49Z",
+     "what": "The run-side driver needed to build a one-field JSON argument, but serde_json is NOT a conductor-run dependency — rustc E0433 on the first write. The obvious fix (add serde_json.workspace = true to conductor-run/Cargo.toml) was an EDGE-ONLY dependency delta the playbook would have permitted, but Cargo.toml was not in the plan's touchpoint list, and a manifest touch is delta that changes the audit deferral's stated basis. Resolved without leaving scope: the plan had already listed conductor-verify/src/client.rs as 'possibly none ... listed because the declined-arm typing may want a small typed helper beside it', so the json! construction moved there as ReadbackClient::resolve_incident(i64) and conductor-run calls it with a plain integer. No manifest change, no lockfile change, and the audit pin's zero-dependency-delta basis survives intact",
+     "impact": {
+      "extra_reads": 2
+     },
+     "evidence": "conductor-run/Cargo.toml [dependencies] has no serde_json; method calls on the returned Value need no import, only the json! macro did",
+     "artifacts": [
+      "crates/conductor-verify/src/client.rs",
+      "crates/conductor-run/src/lib.rs"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "new-session/orientation/input.route-state-ambiguous",
+   "skill": "new-session",
+   "step": "orientation",
+   "type": "input.route-state-ambiguous",
+   "n": 1,
+   "weight": 1,
+   "step_runs": 8,
+   "rate": 0.125,
+   "chunks": [],
+   "impact": {
+    "extra_reads": 3
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": null,
+     "id": "2026-09-01T17:33:07Z-b",
+     "ts": "2026-09-01T17:33:07Z",
+     "what": "The tree carried an uncommitted modification to working-route.md — the cursor SOURCE — which the session-state contract's expected-transient set (handoff / state.yaml / friction-log.ndjson / code-metrics.ndjson) does not name, so it was indistinguishable from a hand-edited route line until three reads (diffstat, word-diff, trailing-whitespace count) established it was EOL-only and cursor-neutral.",
+     "impact": {
+      "extra_reads": 3
+     },
+     "evidence": "git diff --word-diff=porcelain conductor-0.2.0/working-route.md — zero word delta on the changed line; git diff | grep -c trailing-ws = 0; git warned 'LF will be replaced by CRLF'",
+     "artifacts": [
+      "conductor-0.2.0/working-route.md",
+      ".claude/session-handoff.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wrap-session/route-resolve/tooling.long-line-edit",
+   "skill": "wrap-session",
+   "step": "route-resolve",
+   "type": "tooling.long-line-edit",
+   "n": 1,
+   "weight": 1,
+   "step_runs": 9,
+   "rate": 0.111,
+   "chunks": [
+    "2026-09-01-webview-self-verify-windows-host"
+   ],
+   "impact": {
+    "extra_reads": 0
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-01-webview-self-verify-windows-host",
+     "id": "2026-09-01T19:18:24Z-b",
+     "ts": "2026-09-01T19:18:24Z",
+     "what": "The reorder had to MOVE two multi-KB single-line entries past each other, which the anchored-Edit path cannot express: swapping them with two Edits makes the first edit duplicate a line, so the second edit's anchor becomes ambiguous, and a whole-file Write would mean retyping ~4KB of freight verbatim with no safety net. Resolved with a scratchpad script performing a positional line swap under assertions (start-of-line checks on both entries plus the separator), followed by ordinary anchored Edits for the textual additions — so no authored prose passed through the shell. Verified after: 106 lines preserved, both frozen entries untouched, order correct.",
+     "impact": {
+      "extra_reads": 0
+     },
+     "evidence": ".andromeda/runs/2026-09-01T18-49-38Z-wrap",
+     "artifacts": [
+      "conductor-0.2.0/working-route.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/distill/contract.binding-contradiction",
+   "skill": "phase",
+   "step": "distill",
+   "type": "contract.binding-contradiction",
+   "n": 1,
+   "weight": 1,
+   "step_runs": 6,
+   "rate": 0.167,
+   "chunks": [
+    "2026-09-01-desktop-a11y-sweep"
+   ],
+   "impact": {
+    "extra_reads": 2
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-01-desktop-a11y-sweep",
+     "id": "2026-09-01T20:23:43Z-b",
+     "ts": "2026-09-01T20:23:43Z",
+     "what": "check C fired as a genuine CONTRADICTION between two spec masters, not a distiller fault: design says the operator-pause dialog fade is 150ms (--motion-micro, amended 200ms->150ms by 2026-06-26-component-primitives-library) while layouts says 200ms fade entrance; grepping both masters confirms design-system.md:255 carries 150ms and layout-templates.md carries 200ms at :71, :114 and :314, so a retry would return the same two faithful readings and the fix is an amendment, not a re-spawn",
+     "impact": {
+      "extra_reads": 2
+     },
+     "evidence": ".andromeda/runs/2026-09-01T20-11-05Z-phase/design.md + layouts.md",
+     "artifacts": [
+      ".andromeda/design-system.md",
+      ".andromeda/layout-templates.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/plan/input.extracts-conflict",
+   "skill": "phase",
+   "step": "plan",
+   "type": "input.extracts-conflict",
+   "n": 1,
+   "weight": 1,
+   "step_runs": 7,
+   "rate": 0.143,
+   "chunks": [
+    "2026-09-01-desktop-a11y-sweep"
+   ],
+   "impact": {
+    "dialogue_rounds": 0
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-01-desktop-a11y-sweep",
+     "id": "2026-09-01T20:39:18Z-b",
+     "ts": "2026-09-01T20:39:18Z",
+     "what": "two extract-vs-extract conflicts surfaced only at synthesis, neither caught by P2's aggregate check C: a11y prescribes a CONDUCTOR_TEST_REDUCED_MOTION fallback hook under Patterns while arch bans any new CONDUCTOR_* handle under Anti-patterns (resolved by ordering — try browser.emulate first, the hook would need an arch amendment); and a11y's focus-identity pattern keys on data-testid while tests mandates role/text/aria-live selectors ONLY and research found zero data-testid in ui/src (resolved onto role + accessible name)",
+     "impact": {
+      "dialogue_rounds": 0
+     },
+     "evidence": "conductor-0.2.0/chunks/2026-09-01-desktop-a11y-sweep/plan.md",
+     "artifacts": [
+      ".andromeda/a11y-plan.md",
+      ".andromeda/architecture.md",
+      ".andromeda/test-plan.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "implement/fix-loop/tooling.gate-deferral",
+   "skill": "implement",
+   "step": "fix-loop",
+   "type": "tooling.gate-deferral",
+   "n": 1,
+   "weight": 1,
+   "step_runs": 6,
+   "rate": 0.167,
+   "chunks": [
+    "2026-09-01-desktop-a11y-sweep"
+   ],
+   "impact": {
+    "deferred": 1
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-01-desktop-a11y-sweep",
+     "id": "2026-09-01T21:03:31Z-d",
+     "ts": "2026-09-01T21:03:31Z",
+     "what": "workspace compile gates (cargo nextest --workspace --profile ci, cargo clippy --workspace --all-targets) deferred under the source-delta-proportional rule: the modify-set is CSS/TS/JSON only, zero .rs and zero manifest or lockfile delta, and --e2e already compiled conductor-tauri in release with --features tauri/custom-protocol; re-run at the next source-touching chunk",
+     "impact": {
+      "deferred": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      "conductor-0.2.0/chunks/2026-09-01-desktop-a11y-sweep/plan.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/take-up/contract.premise-falsified",
+   "skill": "phase",
+   "step": "take-up",
+   "type": "contract.premise-falsified",
+   "n": 1,
+   "weight": 1,
+   "step_runs": 6,
+   "rate": 0.167,
+   "chunks": [
+    "2026-09-01-live-per-p-id-verdict-lamps"
+   ],
+   "impact": {
+    "extra_reads": 1
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-01-live-per-p-id-verdict-lamps",
+     "id": "2026-09-01T23:25:00Z-b",
+     "ts": "2026-09-01T23:25:00Z",
+     "what": "PREREQ-1's stated basis 'that chunk's modify-set was CSS/TS/JSON only (zero .rs, zero manifest, zero lockfile delta)' is falsified at npm grain: ece1d24 DID touch crates/conductor-tauri/ui/package.json; reading the diff showed a single script-line addition (a11y:driven) with package-lock.json untouched, so the rust-gate zero-delta rationale it supports survives while its 'zero manifest' wording does not",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": "git show ece1d24 -- crates/conductor-tauri/ui/package.json",
+     "artifacts": [
+      "conductor-0.2.0/working-route.md",
+      "crates/conductor-tauri/ui/package.json"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/distill/input.spec-source-gap",
+   "skill": "phase",
+   "step": "distill",
+   "type": "input.spec-source-gap",
+   "n": 1,
+   "weight": 1,
+   "step_runs": 6,
+   "rate": 0.167,
+   "chunks": [
+    "2026-09-01-live-per-p-id-verdict-lamps"
+   ],
+   "impact": {},
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-01-live-per-p-id-verdict-lamps",
+     "id": "2026-09-01T23:40:00Z-c",
+     "ts": "2026-09-01T23:40:00Z",
+     "what": "a11y-plan §6's contrast-pair table enumerates only --count-nominal/--count-hold/--status-fail/--color-focus over --color-base, so the token Half 2's banner uses (--status-residual) has no pair and no stated ratio, while the banner colors TEXT (SC 1.4.3, 4.5:1) rather than a non-text indicator (SC 1.4.11, 3:1); layouts independently reported the desktop-webview block templates no envelope banner at all, so both plans describe the cli/Markdown leg only",
+     "impact": {},
+     "evidence": ".andromeda/runs/2026-09-01T23-21-54Z-phase/a11y.md Constraints#5 + layouts.md Constraints#5",
+     "artifacts": [
+      ".andromeda/a11y-plan.md",
+      ".andromeda/layout-templates.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wrap-session/curation/recall.corpus-recurrence",
+   "skill": "wrap-session",
+   "step": "curation",
+   "type": "recall.corpus-recurrence",
+   "n": 1,
+   "weight": 1,
+   "step_runs": 8,
+   "rate": 0.125,
+   "chunks": [
+    "2026-09-01-live-per-p-id-verdict-lamps"
+   ],
+   "impact": {
+    "extra_reads": 2
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-01-live-per-p-id-verdict-lamps",
+     "id": "2026-09-02T06:30:00Z-b",
+     "ts": "2026-09-02T06:30:00Z",
+     "what": "SECOND consecutive wrap in which a literal-token probe produced false results that an existing Tier-1 curation entry (2026-09-01, 'before grepping for a token as a proxy for a practice, confirm the project prescribes THAT token') was supposed to prevent: the fan-out anchor probe flagged 19 correctly-anchored bullets, and my own P5 mechanical check 3 asserted the string '(none)' where the rule is parent-creatable. Both were resolved only by READING the hits. Logged as recurrence-despite-learning rather than curated a third time — per the previous wrap's own finding, a third entry is not a remedy; the remedy belongs in the probe-writing step's reference",
+     "impact": {
+      "extra_reads": 2
+     },
+     "evidence": "P2 anchor recheck (77/77 anchored, 0 orphans) and the check-3 predicate fix in the scratchpad validator",
+     "artifacts": [
+      "CLAUDE.md",
+      ".andromeda/runs/2026-09-02T00-58-00Z-wrap/fanout-results.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "new-session/orientation/contract.skill-reference-drift",
+   "skill": "new-session",
+   "step": "orientation",
+   "type": "contract.skill-reference-drift",
+   "n": 1,
+   "weight": 1,
+   "step_runs": 8,
+   "rate": 0.125,
+   "chunks": [],
+   "impact": {},
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": null,
+     "id": "2026-09-02T06:37:35Z-b",
+     "ts": "2026-09-02T06:37:35Z",
+     "what": "The skill body states Check 11 two ways — its Constraints block and Reference-files list say 'presence-only at session start' while its Phase 1 step 1 and health-criteria.md prescribe presence + per-plane host-tool detection; resolved by running the superset (detection), and no verdict differed because all three host tools were present.",
+     "impact": {},
+     "evidence": null,
+     "artifacts": [
+      "andromeda-new-session skill body (Constraints + Reference files vs Phase 1)",
+      "andromeda-new-session/references/health-criteria.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/take-up/tooling.output-cap-overflow",
+   "skill": "phase",
+   "step": "take-up",
+   "type": "tooling.output-cap-overflow",
+   "n": 1,
+   "weight": 1,
+   "step_runs": 6,
+   "rate": 0.167,
+   "chunks": [
+    "2026-09-02-screen-reader-manual-spec"
+   ],
+   "impact": {
+    "extra_reads": 2
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-02-screen-reader-manual-spec",
+     "id": "2026-09-02T06:59:47Z-c",
+     "ts": "2026-09-02T06:59:47Z",
+     "what": "Two directive-hunting greps exceeded the tool-result cap (a repo-wide nvda grep at 42.5 KB, then its per-file summary plus non-a11y-plan hits at 36.4 KB, dominated by 2026-06-14 a11y-run iteration files) and were persisted to files; each was recovered by a targeted re-extraction over the persisted file (path-class filter, 700-char cut).",
+     "impact": {
+      "extra_reads": 2
+     },
+     "evidence": null,
+     "artifacts": [
+      ".andromeda/runs/2026-06-14T21-23-07-a11y/ (the bulk of the hits)"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wrap-session/report/tooling.output-cap-overflow",
+   "skill": "wrap-session",
+   "step": "report",
+   "type": "tooling.output-cap-overflow",
+   "n": 1,
+   "weight": 1,
+   "step_runs": 6,
+   "rate": 0.167,
+   "chunks": [
+    "2026-09-02-screen-reader-manual-spec"
+   ],
+   "impact": {
+    "extra_reads": 2
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-02-screen-reader-manual-spec",
+     "id": "2026-09-02T12:01:33Z-b",
+     "ts": "2026-09-02T12:01:33Z",
+     "what": "cat of .andromeda/playbook.md (114 lines, 49 KB — the rules are single multi-hundred-char lines) exceeded the tool-result cap and was persisted unread; recovered by a grep index of the pattern/verdict pairs plus sed ranges for the eight rules likely to match this chunk's proposals",
+     "impact": {
+      "extra_reads": 2
+     },
+     "evidence": null,
+     "artifacts": [
+      ".andromeda/playbook.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "wrap-session/report/recall.change-reconstruction",
+   "skill": "wrap-session",
+   "step": "report",
+   "type": "recall.change-reconstruction",
+   "n": 1,
+   "weight": 1,
+   "step_runs": 6,
+   "rate": 0.167,
+   "chunks": [
+    "2026-09-02-screen-reader-manual-spec"
+   ],
+   "impact": {
+    "extra_reads": 6
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-02-screen-reader-manual-spec",
+     "id": "2026-09-02T12:01:33Z-c",
+     "ts": "2026-09-02T12:01:33Z",
+     "what": "the context window was compacted between implement's end and wrap's start, so three Changes families (Symbols, Counts / qualifiers, Dev-tool versions) were reconstructed from artifacts — git diff of wdio.conf.ts, a python read of the evidence JSON's identity block, a grep of the a11y-plan claim sites, msedgedriver --version — instead of the session trace; the compaction summary preserved the decisions and the review grades but not the symbol-level detail",
+     "impact": {
+      "extra_reads": 6
+     },
+     "evidence": null,
+     "artifacts": [
+      "crates/conductor-tauri/ui/wdio.conf.ts",
+      "conductor-0.2.0/chunks/2026-09-02-screen-reader-manual-spec/evidence/nvda-pass.json",
+      ".andromeda/a11y-plan.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/research/contract.narrow-basis-claim",
+   "skill": "phase",
+   "step": "research",
+   "type": "contract.narrow-basis-claim",
+   "n": 1,
+   "weight": 1,
+   "step_runs": 6,
+   "rate": 0.167,
+   "chunks": [
+    "2026-09-02-cross-surface-envelope-parity"
+   ],
+   "impact": {
+    "extra_reads": 1
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-02-cross-surface-envelope-parity",
+     "id": "2026-09-02T13:31:41Z-c",
+     "ts": "2026-09-02T13:31:41Z",
+     "what": "The tests distiller reported '26 lines of test-plan.md carry rmcp' with a partial line enumeration; grep -c measures 24, and the distiller's list also omits sites my own grep found (:91 :114 :143 :153 :254 :457 :522 :596). Neither enumeration is the answer — the count is the basis and the per-site classification is implement's pass. Recorded because the earlier take-up friction had the opposite shape (a CARRY under-counting the same sweep at 1 site), so this sweep has now been mis-sized in both directions by two different sources.",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": "conductor-0.2.0/chunks/2026-09-02-cross-surface-envelope-parity/scope.md §CARRY-1",
+     "artifacts": [
+      ".andromeda/runs/2026-09-02T13-12-45Z-phase/tests.md",
+      ".andromeda/test-plan.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "phase/plan/contract.premise-falsified",
+   "skill": "phase",
+   "step": "plan",
+   "type": "contract.premise-falsified",
+   "n": 1,
+   "weight": 1,
+   "step_runs": 7,
+   "rate": 0.143,
+   "chunks": [
+    "2026-09-02-cross-surface-envelope-parity"
+   ],
+   "impact": {
+    "extra_reads": 2
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-02-cross-surface-envelope-parity",
+     "id": "2026-09-02T13:41:06Z-c",
+     "ts": "2026-09-02T13:41:06Z",
+     "what": "A shipped test's NAME asserts more than its body: path7_tauri_persists_the_same_blocked_envelope_as_the_cli (conductor-tauri/src/commands.rs:469-509) never runs the CLI. It drives the Tauri composition into its own TempDir and compares against hand-written literals, with a comment claiming cli_smoke proves the other side — so cross-surface parity was carried by two independent tests each matching its own expectation, in two different DBs. v2-25's acceptance requires one runs.db and an actual comparison, so the capability was measurably unmet while a green test carrying its name stood. Found by reading the body after the grep matched on 'parity'.",
+     "impact": {
+      "extra_reads": 2
+     },
+     "evidence": "conductor-0.2.0/chunks/2026-09-02-cross-surface-envelope-parity/plan.md §Goal",
+     "artifacts": [
+      "crates/conductor-tauri/src/commands.rs",
+      "verification-matrix.json#v2-25"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "implement/fix-loop/contract.narrow-basis-claim",
+   "skill": "implement",
+   "step": "fix-loop",
+   "type": "contract.narrow-basis-claim",
+   "n": 1,
+   "weight": 1,
+   "step_runs": 6,
+   "rate": 0.167,
+   "chunks": [
+    "2026-09-02-cross-surface-envelope-parity"
+   ],
+   "impact": {},
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-02-cross-surface-envelope-parity",
+     "id": "2026-09-02T14:16:28Z-c",
+     "ts": "2026-09-02T14:16:28Z",
+     "what": "Both the plan and the operator's review edit predicted Cargo.lock would be BYTE-UNCHANGED because assert_cmd comes from [workspace.dependencies] and admits no package. Measured: the lock DOES move, by exactly one line — '\"assert_cmd\",' added to conductor-tauri's dependency edge list — because Cargo.lock records per-package dependency EDGES, not only the package set. The substantive basis held (package count 564 -> 564, no package enters the tree, cargo deny green over the new lock), so no verdict changed; the prediction's form was simply wrong. Recorded rather than restated, because 'byte-unchanged' is the kind of check that would be re-asserted verbatim by a future chunk adding an already-locked dev-dep.",
+     "impact": {},
+     "evidence": null,
+     "artifacts": [
+      "Cargo.lock",
+      "conductor-0.2.0/chunks/2026-09-02-cross-surface-envelope-parity/plan.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "implement/smoke/contract.vacuous-check-found",
+   "skill": "implement",
+   "step": "smoke",
+   "type": "contract.vacuous-check-found",
+   "n": 1,
+   "weight": 1,
+   "step_runs": 7,
+   "rate": 0.143,
+   "chunks": [
+    "2026-09-02-cross-surface-envelope-parity"
+   ],
+   "impact": {},
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-02-cross-surface-envelope-parity",
+     "id": "2026-09-02T14:17:03Z-b",
+     "ts": "2026-09-02T14:17:03Z",
+     "what": "The leg exited 0, which is ALSO what the CONDUCTOR_MSEDGEDRIVER skip-guard returns by design — so the exit code alone could not distinguish 'ten specs asserted against a live WebView2 session' from 'the whole leg skipped'. Reading the spec list settled it: 10 passing on webview2 152.0.4191.53, including the two banner specs, with the only 2 skips being the pre-existing driven-arm subject-absent pair. Recorded because this leg's designed skip-at-exit-0 makes a bare exit read structurally uninformative, and a future chunk gating on it would be asserting nothing.",
+     "impact": {},
+     "evidence": null,
+     "artifacts": [
+      "scripts/agent-run.sh",
+      "crates/conductor-tauri/ui/wdio.conf.ts"
+     ]
+    }
+   ]
+  }
+ ],
+ "universal_by_type": [
+  {
+   "key": "UNIVERSAL/contract.premise-falsified",
+   "type": "contract.premise-falsified",
+   "n": 10,
+   "weight": 13,
+   "steps": [
+    "implement/smoke",
+    "phase/plan",
+    "phase/research",
+    "phase/take-up",
+    "wrap-session/route-resolve"
+   ],
+   "chunks": [
+    "2026-08-31-p-075-assert-round",
+    "2026-09-01-live-per-p-id-verdict-lamps",
+    "2026-09-01-webview-self-verify-windows-host",
+    "2026-09-02-cross-surface-envelope-parity",
+    "2026-09-02-screen-reader-manual-spec"
+   ],
+   "impact": {
+    "dialogue_rounds": 1,
+    "extra_reads": 15,
+    "iterations": 1
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": null,
+     "id": "2026-08-22T21:22:44Z-b",
+     "ts": "2026-08-22T21:22:44Z",
+     "skill_step": "wrap-session/route-resolve",
+     "what": "the adaptation directive named 'the Epoch-5 OPC CARRY about the unresolved display gate' as the rewrite target; no such annotation exists — the display-gate text is a clause inside the 2026-08-09-sut-load-envelope CARRY on a DIFFERENT entry (the lamps entry), and the a11y-sweep entry the directive pointed at carried no annotation at all, so a rewrite aimed as dictated would have left the real clause standing",
+     "impact": {
+      "dialogue_rounds": 1,
+      "extra_reads": 2
+     },
+     "evidence": ".andromeda/runs/2026-08-22T21-17-21Z-wrap/adaptation-record.md",
+     "artifacts": [
+      "conductor-0.2.0/working-route.md"
+     ]
+    },
+    {
+     "chunk": "2026-08-31-p-075-assert-round",
+     "id": "2026-08-31T20:40:55Z-c",
+     "ts": "2026-08-31T20:40:55Z",
+     "skill_step": "phase/research",
+     "what": "Scope's [inferred] premise held that the declined arm was hard to induce live because DeclinedStale needs a concurrent row modification. Reading Pulse's guard falsified the MECHANISM while confirming the conclusion: it is a monotonic-timestamp compare (UPDATE ... WHERE updated_unix_nano <= ?2; rows==0 => DeclinedStale, with Pulse's own tests naming the older-write case and proving an EQUAL timestamp applies), and since the MCP dispatch stamps now fresh on every call the predicate can fail only against a future-stamped row. So the arm is unreachable through the MCP surface by ordinary means, for a sharper reason than concurrency. The correction also dissolved a downstream open question the security extract had raised about staging the race via a test-only corpus writer — no staging is needed, so the corpus.db ban is never approached",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": "andromeda-pulse crates/corpus/src/contract.rs:652-659 at HEAD 83d4060",
+     "artifacts": [
+      "conductor-0.2.0/chunks/2026-08-31-p-075-assert-round/scope.md"
+     ]
+    },
+    {
+     "chunk": "2026-08-31-p-075-assert-round",
+     "id": "2026-09-01T16:46:31Z-c",
+     "ts": "2026-09-01T16:46:31Z",
+     "skill_step": "implement/smoke",
+     "what": "The plan's two-incident control design — operator-selected at P4 — is STRUCTURALLY UNATTAINABLE against Pulse. The incident producer dedupes a new incident against any OPEN incident regardless of fingerprint, so at most one can be active per workspace: a storm raised while incident 4 was open logged `created=false deduped=true`, every `created=true` in the leg occurred with the active set empty, and incident 7 formed at the same second incident 6 was resolved. Replaced with LIVENESS attribution, which the single-incident reality does support: Pulse auto-resolves only an incident idle 120s, so resolving a freshly-refreshed one and watching it leave excludes the resolver by construction. LifecycleVerdict::Proven is kept but documented unreachable; ProvenByLiveness carries the measured idle seconds",
+     "impact": {
+      "iterations": 1
+     },
+     "evidence": "interpretation.incident.created created=false deduped=true at 16:33:00.239Z; corpus incident 6 active 16:42:38->16:43:23",
+     "artifacts": [
+      "crates/conductor-run/src/lib.rs",
+      "crates/conductor-run/tests/lifecycle_harvest.rs"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-webview-self-verify-windows-host",
+     "id": "2026-09-01T17:52:36Z-b",
+     "ts": "2026-09-01T17:52:36Z",
+     "skill_step": "phase/research",
+     "what": "The working-route entry's CONTEXT stated as measured basis that 'NO driver binary exists on this host — tauri-driver and msedgedriver are both absent from PATH, and the installed npm package ships Rust source rather than a binary'. Both pieces of evidence are true and the conclusion drawn from them is false: @crabnebula/tauri-driver declares platform prebuilts as optionalDependencies, and node_modules/@crabnebula/tauri-driver-win32-x64-msvc/tauri-driver.win32-x64-msvc.node (4,030,976 bytes, installed 2026-06-27 with the a11y harness) executes at exit 0 and advertises --native-driver. Five extra reads into the npm package's NAPI loader were needed to see it, because a PATH check and a top-level directory listing both agree with the false conclusion. The real gap is narrower: no msedgedriver on disk and no target/release/conductor-tauri.exe built.",
+     "impact": {
+      "extra_reads": 5
+     },
+     "evidence": "conductor-0.2.0/chunks/2026-09-01-webview-self-verify-windows-host/research.md",
+     "artifacts": [
+      "conductor-0.2.0/working-route.md",
+      "conductor-0.2.0/chunks/2026-09-01-webview-self-verify-windows-host/scope.md",
+      "crates/conductor-tauri/ui/package.json"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-live-per-p-id-verdict-lamps",
+     "id": "2026-09-01T23:25:00Z-b",
+     "ts": "2026-09-01T23:25:00Z",
+     "skill_step": "phase/take-up",
+     "what": "PREREQ-1's stated basis 'that chunk's modify-set was CSS/TS/JSON only (zero .rs, zero manifest, zero lockfile delta)' is falsified at npm grain: ece1d24 DID touch crates/conductor-tauri/ui/package.json; reading the diff showed a single script-line addition (a11y:driven) with package-lock.json untouched, so the rust-gate zero-delta rationale it supports survives while its 'zero manifest' wording does not",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": "git show ece1d24 -- crates/conductor-tauri/ui/package.json",
+     "artifacts": [
+      "conductor-0.2.0/working-route.md",
+      "crates/conductor-tauri/ui/package.json"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-live-per-p-id-verdict-lamps",
+     "id": "2026-09-01T23:52:00Z-c",
+     "ts": "2026-09-01T23:52:00Z",
+     "skill_step": "phase/research",
+     "what": "the security extract faithfully carried security-plan §Security Anti-Patterns → Code Patterns as requiring the deny-by-default capabilities file to enumerate the actual commands, so a new command would owe an allowlist edit; research falsified the applicability — capabilities/default.json holds only three core:window:* permissions and names no command, .claude/rules/security.md §Session Additions (2026-06-26) records that app-defined #[tauri::command]s are NOT ACL-gated and warns against reflexive per-command entries, and arch's 2026-06-24 amendment dismissed registering them",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": "capabilities/default.json (3 window perms, zero command names) vs security.md Session Additions 2026-06-26",
+     "artifacts": [
+      ".andromeda/security-plan.md",
+      "crates/conductor-tauri/capabilities/default.json",
+      ".claude/rules/security.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-screen-reader-manual-spec",
+     "id": "2026-09-02T07:20:36Z-c",
+     "ts": "2026-09-02T07:20:36Z",
+     "skill_step": "phase/research",
+     "what": "a11y-plan §3 states 'No automated SR tool exists for the stack' as the reason the screen-reader pass is manual; an npm registry probe found @guidepup/guidepup 0.34.0 (modified 2026-08-31) and @guidepup/setup 0.25.2 — an actively maintained NVDA/VoiceOver automation library — so the claim is false as stated (a driver exists; none is ADOPTED, which the one-automation-stack rule, the dependency gate and the standing directive each independently decide). Surfaced for wrap's amendment flow; nothing adopted.",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      ".andromeda/a11y-plan.md §3 Screen reader test pattern",
+      "scope.md §Preconditions"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-screen-reader-manual-spec",
+     "id": "2026-09-02T07:20:36Z-d",
+     "ts": "2026-09-02T07:20:36Z",
+     "skill_step": "phase/research",
+     "what": "Four spec-vs-shipped divergences surfaced by reading the release UI against the three UI masters: the a11y-plan's four run states (idle/live/HOLD/report-terminal) versus the shipped RunState set (idle/live/hold/aborted — report-terminal is idle with a report, aborted is unnamed by the plan though layout-templates names an abort behaviour); the 'two render sites' for the operator checklist (design §6/7, layout §Operator-checklist, a11y §4) of which only the dialog site ships in release (RunReport renders lamps only; the other caller is the DEV-only Gallery); the required footer/contentinfo landmark that does not ship; and the dialog title shipped as `{p_id} — operator-checklist` rather than the plan's frozen-count + step index. All recorded as spec-must-name-what-ships findings for wrap; no code touched.",
+     "impact": {},
+     "evidence": null,
+     "artifacts": [
+      "scope.md §Premise closure",
+      "research.md §Scope premise closure",
+      ".andromeda/a11y-plan.md §1/§3/§4/§5",
+      ".andromeda/design-system.md §Component Patterns 6/7",
+      ".andromeda/layout-templates.md §Component — Footer / Operator-checklist"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-cross-surface-envelope-parity",
+     "id": "2026-09-02T13:31:41Z-b",
+     "ts": "2026-09-02T13:31:41Z",
+     "skill_step": "phase/research",
+     "what": "The operator's PHASE directive item 2 states the banner CARRY 'needs an OVER-envelope run against a LIVE Pulse'. Measured false as a structural requirement: classify_run is a pure function of scenario shape plus the pinned contract and runs BEFORE preflight on both shells (conductor-cli/src/commands/run.rs:20-21, conductor-tauri/src/commands.rs:269), and persist ends with db.insert_envelope unconditionally on every path including abort (conductor-run/src/lib.rs:841, :937, :946) — so an EnvironmentSuspect row lands with or without Pulse. A live Pulse still strengthens the accompanying runs rows from a uniformly Blocked spine to real verdicts, so it stays a defensible CHOICE; it is not a necessity. Surfaced to the operator at P4 rather than silently re-planned.",
+     "impact": {
+      "extra_reads": 2
+     },
+     "evidence": "conductor-0.2.0/chunks/2026-09-02-cross-surface-envelope-parity/research.md §Patterns detected",
+     "artifacts": [
+      "conductor-0.2.0/chunks/2026-09-02-cross-surface-envelope-parity/scope.md",
+      "crates/conductor-run/src/lib.rs",
+      "crates/conductor-cli/src/commands/run.rs"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-cross-surface-envelope-parity",
+     "id": "2026-09-02T13:41:06Z-c",
+     "ts": "2026-09-02T13:41:06Z",
+     "skill_step": "phase/plan",
+     "what": "A shipped test's NAME asserts more than its body: path7_tauri_persists_the_same_blocked_envelope_as_the_cli (conductor-tauri/src/commands.rs:469-509) never runs the CLI. It drives the Tauri composition into its own TempDir and compares against hand-written literals, with a comment claiming cli_smoke proves the other side — so cross-surface parity was carried by two independent tests each matching its own expectation, in two different DBs. v2-25's acceptance requires one runs.db and an actual comparison, so the capability was measurably unmet while a green test carrying its name stood. Found by reading the body after the grep matched on 'parity'.",
+     "impact": {
+      "extra_reads": 2
+     },
+     "evidence": "conductor-0.2.0/chunks/2026-09-02-cross-surface-envelope-parity/plan.md §Goal",
+     "artifacts": [
+      "crates/conductor-tauri/src/commands.rs",
+      "verification-matrix.json#v2-25"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "UNIVERSAL/contract.structural-blind-spot",
+   "type": "contract.structural-blind-spot",
+   "n": 4,
+   "weight": 12,
+   "steps": [
+    "implement/fix-loop",
+    "phase/validate",
+    "wrap-session/reconcile"
+   ],
+   "chunks": [
+    "2026-09-01-webview-self-verify-windows-host",
+    "2026-09-02-screen-reader-manual-spec"
+   ],
+   "impact": {
+    "dialogue_rounds": 2,
+    "iterations": 4
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-01-webview-self-verify-windows-host",
+     "id": "2026-09-01T18:09:48Z-b",
+     "ts": "2026-09-01T18:09:48Z",
+     "skill_step": "phase/validate",
+     "what": "The plan DISPOSITIONED the CARRY's source-side twin (crates/conductor-run/tests/lifecycle_harvest.rs:23, 'an ordinary edit, correctable in place') in Implementation notes but gave it no EXECUTOR — the file was absent from Files to modify and no step named it. Nothing would have caught this: P5's mechanical checks verify that modify-set paths exist and are not spec masters, but no check asserts that every correction named in prose has a listed touchpoint or step; and wrap's cascade greps the seven masters and the curation homes only, so a source comment is unreachable by that mechanism BY CONSTRUCTION. As planned, the falsified 'at most one active per workspace' claim would have outlived the very correction that enumerated it — the exact residue class the CARRY was written to prevent. Caught only by the operator's read of the plan against the CARRY's own site table.",
+     "impact": {
+      "dialogue_rounds": 1
+     },
+     "evidence": "conductor-0.2.0/chunks/2026-09-01-webview-self-verify-windows-host/plan.md",
+     "artifacts": [
+      "conductor-0.2.0/chunks/2026-09-01-webview-self-verify-windows-host/plan.md",
+      "crates/conductor-run/tests/lifecycle_harvest.rs"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-webview-self-verify-windows-host",
+     "id": "2026-09-01T18:37:39Z-c",
+     "ts": "2026-09-01T18:37:39Z",
+     "skill_step": "implement/fix-loop",
+     "what": "The webview config shipped 2026-06-27 was UNLOADABLE on every host, not merely gated off this one: the package is type:module and the committed wdio.conf.ts used __dirname, so node threw at import. Three further defects sat behind it (no readiness wait, the custom-protocol build requirement, wdio v9's BiDi script channel). None was reachable by any amount of correct execution while the leg was display-gated to a Linux runner that does not exist — the gate did not merely defer the verification, it prevented the config from ever being parsed. typecheck:e2e passed throughout, because tsc type-checks __dirname happily under the node types; only running it could fail.",
+     "impact": {
+      "iterations": 4
+     },
+     "evidence": "conductor-0.2.0/chunks/2026-09-01-webview-self-verify-windows-host/",
+     "artifacts": [
+      "crates/conductor-tauri/ui/wdio.conf.ts"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-webview-self-verify-windows-host",
+     "id": "2026-09-01T19:14:07Z-b",
+     "ts": "2026-09-01T19:14:07Z",
+     "skill_step": "wrap-session/reconcile",
+     "what": "The a11y doc-agent returned `proposals: []` and was RIGHT to, while its document carried six sites stating a platform verdict this chunk measured false. Its two detectors cover new-UI-element coverage and violation-JSON-vs-obs-§6; a platform/runner/driver claim maps onto neither, so no amount of correct execution could have surfaced it. The agent said so unprompted. The same class made the test-plan agent's sibling coverage incomplete in the other direction: the plan's expected-amendments list named 6 sites, the doc carries 8 (`:287` and `:369` additionally defer GUI legs to Linux+xvfb) — that agent found the extra two itself because D-tests-framework happens to reach them. Caught only by Validate check 5 treating the plan's list as a floor. Resolved by minting D-platform-claim (operator-approved), which is the first cross-doc detector in drift-base.",
+     "impact": {
+      "dialogue_rounds": 1
+     },
+     "evidence": ".andromeda/runs/2026-09-01T18-49-38Z-wrap/fanout-results.md",
+     "artifacts": [
+      ".andromeda/a11y-plan.md",
+      ".andromeda/test-plan.md",
+      ".andromeda/drift-base.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-screen-reader-manual-spec",
+     "id": "2026-09-02T09:35:11Z-b",
+     "ts": "2026-09-02T09:35:11Z",
+     "skill_step": "phase/validate",
+     "what": "Research read both wdio.conf.ts sites (the unconditional CONDUCTOR_RUNS_DIR=runs/e2e-fixture on the spawn and the mkdir+copy seedFixtureRuns) and recorded the first as a per-suite-env design input without connecting the two: by construction any driven or sr session persisting a run journal lands in the routine arm's fixture dir, which the seed never cleans, so the lamps assertions could read a non-committed journal — a latent flake no correct execution of the routine arm would catch. The operator connected it at the second P5 card; the fix (own runs dir for the driven suite, clean re-seed) was folded into the plan on the yes.",
+     "impact": {},
+     "evidence": null,
+     "artifacts": [
+      "crates/conductor-tauri/ui/wdio.conf.ts (onPrepare spawn env; seedFixtureRuns)",
+      "plan.md step 3 (d)/(e)",
+      "research.md §Addendum"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "UNIVERSAL/contract.token-proxy-check",
+   "type": "contract.token-proxy-check",
+   "n": 7,
+   "weight": 7,
+   "steps": [
+    "phase/distill",
+    "phase/validate",
+    "wrap-session/gates"
+   ],
+   "chunks": [
+    "2026-08-31-p-075-assert-round",
+    "2026-09-01-live-per-p-id-verdict-lamps",
+    "2026-09-01-webview-self-verify-windows-host",
+    "2026-09-02-cross-surface-envelope-parity",
+    "2026-09-02-screen-reader-manual-spec"
+   ],
+   "impact": {
+    "extra_reads": 7,
+    "retries": 0
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-08-31-p-075-assert-round",
+     "id": "2026-08-31T20:36:50Z-b",
+     "ts": "2026-08-31T20:36:50Z",
+     "skill_step": "phase/distill",
+     "what": "The per-extract anchor check (validation step 3) fired FALSE POSITIVE on 2 of 7 extracts. Probing for the literal token 'per ' reported 7 unanchored bullets each in arch and tests; re-probing on the actual property (does the bullet cite a section anchor at all) returned 0 for both. The cause is wording, not compliance: arch writes 'Per arch §Established Decisions' with a capital P and also cites inline mid-sentence, while tests leads its bullets with 'test-plan §5 ...' as the grammatical subject. The reference's own token-proxy caution predicted exactly this direction; the truth came from reading the hits, not the count",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": "grep -vc 'per ' = 7/7; grep -vc '§' = 0/0",
+     "artifacts": [
+      ".andromeda/runs/2026-08-31T20-10-00Z-phase/arch.md",
+      ".andromeda/runs/2026-08-31T20-10-00Z-phase/tests.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-webview-self-verify-windows-host",
+     "id": "2026-09-01T17:47:56Z-b",
+     "ts": "2026-09-01T17:47:56Z",
+     "skill_step": "phase/distill",
+     "what": "My scripted per-extract validation false-positived in the FALSE-POSITIVE direction on two of the five named checks. The anchor check required the literal token 'per <plan> §' and flagged 25 of 53 Constraints/Acceptance bullets across five extracts as unanchored — every one of them cites a real § anchor inline ('architecture.md §Design Philosophy …', 'test-plan.md §6 Selector strategy …', bare '§Component — Header' in layouts, whose plan is named in the section's first bullet). The in-domain check flagged the security extract on a bare 'axe-core' substring, whose single occurrence is a dependency-roster entry naming the registered dev tree — supply-chain content, squarely security's own domain, with zero 'aria-' hits. Acting on the counts would have re-spawned five distillers that had returned correctly; reading the hits — which fan-out.md pre-warns is required for exactly this probe — resolved all 26.",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": ".andromeda/runs/2026-09-01T17-34-32Z-phase",
+     "artifacts": [
+      ".andromeda/runs/2026-09-01T17-34-32Z-phase/security.md",
+      ".andromeda/runs/2026-09-01T17-34-32Z-phase/layouts.md",
+      ".andromeda/runs/2026-09-01T17-34-32Z-phase/a11y.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-webview-self-verify-windows-host",
+     "id": "2026-09-01T18:09:48Z-c",
+     "ts": "2026-09-01T18:09:48Z",
+     "skill_step": "phase/validate",
+     "what": "Second false-positive of the same class in one run, again in the FALSE-POSITIVE direction: re-verifying modify-path existence after the edit, the extraction pipeline used `tr -d '-'` to strip the markdown bullet, which also stripped the hyphens INSIDE the paths (conductor-tauri -> conductortauri), reporting all six touchpoints MISSING. Every path existed. Truth came from re-running with a correct extraction, not from the count.",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": ".andromeda/runs/2026-09-01T17-34-32Z-phase",
+     "artifacts": [
+      "conductor-0.2.0/chunks/2026-09-01-webview-self-verify-windows-host/plan.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-live-per-p-id-verdict-lamps",
+     "id": "2026-09-01T23:40:00Z-b",
+     "ts": "2026-09-01T23:40:00Z",
+     "skill_step": "phase/distill",
+     "what": "the fan-out check-3 anchor probe implemented as a literal 'per {plan}.md §' regex returned 19 FALSE POSITIVES across arch/security/layouts/a11y (exit 1); reading every hit showed all 19 carry a LEADING anchor ('architecture.md §X requires ...') or a bare in-domain '§N', and a predicate accepting a section reference in any position resolved 77/77 bullets anchored with 0 orphans — the false-positive direction fan-out.md itself warns about",
+     "impact": {
+      "retries": 0,
+      "extra_reads": 1
+     },
+     "evidence": "scratchpad twin_and_validate.py (literal probe, 19 hits) vs recheck_anchors.py (trailing 58 / named-leading 13 / bare 6 / none 0)",
+     "artifacts": [
+      ".andromeda/runs/2026-09-01T23-21-54Z-phase/arch.md",
+      ".andromeda/runs/2026-09-01T23-21-54Z-phase/a11y.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-live-per-p-id-verdict-lamps",
+     "id": "2026-09-02T00:05:00Z-e",
+     "ts": "2026-09-02T00:05:00Z",
+     "skill_step": "phase/validate",
+     "what": "the SECOND literal-token probe false result this run: my mechanical check 3 asserted the string '(none)' in the New-files block, where validation.md's actual rule is 'every New files path's parent (or its parent) exists / is creatable' — so adding two legitimate new files flipped it to FAIL; reading the hit showed both parents exist or are creatable and the probe, not the plan, was wrong (false-positive direction, same as the P2 anchor probe)",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": "scratchpad validate_plan.py check 3 before/after the predicate fix; crates/conductor-run/tests/ exists",
+     "artifacts": [
+      "conductor-0.2.0/chunks/2026-09-01-live-per-p-id-verdict-lamps/plan.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-screen-reader-manual-spec",
+     "id": "2026-09-02T12:41:15Z-c",
+     "ts": "2026-09-02T12:41:15Z",
+     "skill_step": "wrap-session/gates",
+     "what": "the plan's gate-1 hygiene grep (drive-letter / %APPDATA% / /Users / /home tokens as a proxy for 'no host path') matched the parser's own HOST_PATH regex definition — the scrub that implements the property — a FALSE POSITIVE direction; the truth came from reading the one hit, and implement's earlier green run of the same command is unexplained by the current file (the regex line matches as committed)",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      "crates/conductor-tauri/ui/test/a11y/screen-reader/parse-nvda-log.ts",
+      "conductor-0.2.0/chunks/2026-09-02-screen-reader-manual-spec/plan.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-cross-surface-envelope-parity",
+     "id": "2026-09-02T15:05:53Z-b",
+     "ts": "2026-09-02T15:05:53Z",
+     "skill_step": "wrap-session/gates",
+     "what": "The evolve-nudge predicate ('no evolve-diagnose proposals.md NAMES that epoch') was evaluated by grepping for 'Epoch 5' and returned a HIT in the 2026-08-22 run — which is titled 'Epoch 4' and mentions Epoch 5 only inside a timestamp annotation ('on 2026-08-22 (Epoch 5)'). A false negative: the nudge would have been suppressed for an undiagnosed epoch. Direction recorded because this predicate's failure mode is silence — nothing downstream would have noticed. Settled by reading the hit and the run's title line. Same shape as the Tier-1 lesson curated this very session, met twice in one wrap.",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      ".andromeda/runs/2026-08-22T13-07-44-evolve-diagnose/proposals.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "UNIVERSAL/tooling.output-cap-overflow",
+   "type": "tooling.output-cap-overflow",
+   "n": 5,
+   "weight": 6,
+   "steps": [
+    "phase/research",
+    "phase/take-up",
+    "wrap-session/report"
+   ],
+   "chunks": [
+    "2026-09-01-desktop-a11y-sweep",
+    "2026-09-01-live-per-p-id-verdict-lamps",
+    "2026-09-02-screen-reader-manual-spec"
+   ],
+   "impact": {
+    "reformulations": 1,
+    "extra_reads": 11
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-09-01-desktop-a11y-sweep",
+     "id": "2026-09-01T20:32:01Z-b",
+     "ts": "2026-09-01T20:32:01Z",
+     "skill_step": "phase/research",
+     "what": "the chunk's decisive fact (the axe rule identity, which the predecessor had recorded only as the COUNT 1) existed nowhere but inside a 6MB WebdriverIO driver log as an embedded JSON payload; the log cannot be read wholesale, so recovery took structural re-extraction — anchor-grep for the violations key, then a JSON-aware brace scan whose first attempt failed on a 9000-char window too small to close the array, fixed by moving the scanner to a scratchpad script with a full-length scan",
+     "impact": {
+      "reformulations": 1,
+      "extra_reads": 2
+     },
+     "evidence": ".andromeda/runs/2026-09-01T20-11-05Z-phase/tree-query-2026-09-01-desktop-a11y-sweep.json",
+     "artifacts": [
+      "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-live-per-p-id-verdict-lamps",
+     "id": "2026-09-01T23:52:00Z-b",
+     "ts": "2026-09-01T23:52:00Z",
+     "skill_step": "phase/research",
+     "what": "a single read of .claude/rules/verification-harness.md (42.7KB, 57 lines — the file is a handful of multi-KB single-line entries) exceeded the tool-result cap and returned only a 2KB preview plus a persisted-file pointer; recovered by grepping the 5 section headers then two offset-bounded Reads, at a cost of 2 extra calls",
+     "impact": {
+      "extra_reads": 2
+     },
+     "evidence": "the persisted tool-result file; same multi-KB-single-line shape as the working-route entries",
+     "artifacts": [
+      ".claude/rules/verification-harness.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-screen-reader-manual-spec",
+     "id": "2026-09-02T06:59:47Z-c",
+     "ts": "2026-09-02T06:59:47Z",
+     "skill_step": "phase/take-up",
+     "what": "Two directive-hunting greps exceeded the tool-result cap (a repo-wide nvda grep at 42.5 KB, then its per-file summary plus non-a11y-plan hits at 36.4 KB, dominated by 2026-06-14 a11y-run iteration files) and were persisted to files; each was recovered by a targeted re-extraction over the persisted file (path-class filter, 700-char cut).",
+     "impact": {
+      "extra_reads": 2
+     },
+     "evidence": null,
+     "artifacts": [
+      ".andromeda/runs/2026-06-14T21-23-07-a11y/ (the bulk of the hits)"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-screen-reader-manual-spec",
+     "id": "2026-09-02T07:20:36Z-b",
+     "ts": "2026-09-02T07:20:36Z",
+     "skill_step": "phase/research",
+     "what": "The mandated in-full read of .claude/rules/verification-harness.md (95 lines, ~45.6 KB, one multi-KB line per Session Addition) overflowed the tool-result cap and was persisted; recovered by three targeted extractions over the persisted file (header map + first body, then the six live-leg-relevant entries by date prefix at 3-6 KB cuts) — the rule file's growth now defeats a single read by construction.",
+     "impact": {
+      "extra_reads": 3
+     },
+     "evidence": null,
+     "artifacts": [
+      ".claude/rules/verification-harness.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-screen-reader-manual-spec",
+     "id": "2026-09-02T12:01:33Z-b",
+     "ts": "2026-09-02T12:01:33Z",
+     "skill_step": "wrap-session/report",
+     "what": "cat of .andromeda/playbook.md (114 lines, 49 KB — the rules are single multi-hundred-char lines) exceeded the tool-result cap and was persisted unread; recovered by a grep index of the pattern/verdict pairs plus sed ranges for the eight rules likely to match this chunk's proposals",
+     "impact": {
+      "extra_reads": 2
+     },
+     "evidence": null,
+     "artifacts": [
+      ".andromeda/playbook.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "UNIVERSAL/tooling.host-shell",
+   "type": "tooling.host-shell",
+   "n": 3,
+   "weight": 6,
+   "steps": [
+    "new-session/orientation",
+    "phase/distill",
+    "wrap-session/reconcile"
+   ],
+   "chunks": [
+    "2026-08-31-p-075-assert-round",
+    "2026-09-01-desktop-a11y-sweep"
+   ],
+   "impact": {
+    "extra_reads": 0,
+    "retries": 3
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": "2026-08-31-p-075-assert-round",
+     "id": "2026-08-31T20:36:50Z-c",
+     "ts": "2026-08-31T20:36:50Z",
+     "skill_step": "phase/distill",
+     "what": "5 of 7 distiller returns arrived HTML-escaped — < and > rendered as &lt;/&gt; — mangling exactly the tokens the domain content turns on (<run_id>, <slo_tier>, <crate>, <family>, the literal \"<redacted>\" string obs cites as a live Pulse value). The fan-out reference anticipates this and mandates the decode-then-probe path, which caught all of them; entities=0 across all 7 saved copies after decoding. Recording the recurrence because this is the same transport defect the 2026-08-21 Tier-1 learning already names, still firing at the same rate",
+     "impact": {
+      "extra_reads": 0
+     },
+     "evidence": "5 twins reconstructed by inverse-encode; per-file entity counts 9/2/8/2/6",
+     "artifacts": [
+      ".andromeda/runs/2026-08-31T20-10-00Z-phase/"
+     ]
+    },
+    {
+     "chunk": null,
+     "id": "2026-09-01T20:10:04Z-b",
+     "ts": "2026-09-01T20:10:04Z",
+     "skill_step": "new-session/orientation",
+     "what": "Bash working directory persists across independent tool calls, and an in-project `cd` inside a compound command silently rebased later calls — while an out-of-project `cd` emitted a 'Shell cwd was reset' notice, so the two cases were observably asymmetric and only the silent one misled; two relative-path reads (master-route.md, verification-matrix.json) failed FileNotFoundError before absolute paths were adopted",
+     "impact": {
+      "retries": 2
+     },
+     "evidence": null,
+     "artifacts": [
+      ".andromeda/master-route.md",
+      "conductor-0.2.0/verification-matrix.json"
+     ]
+    },
+    {
+     "chunk": "2026-09-01-desktop-a11y-sweep",
+     "id": "2026-09-01T22:49:51Z-d",
+     "ts": "2026-09-01T22:49:51Z",
+     "skill_step": "wrap-session/reconcile",
+     "what": "the six sidecar appends were attempted as an inline python heredoc and died with 'unexpected EOF while looking for matching quote' — the entry bodies carry backticks and apostrophes that the shell reinterpreted. Rewritten to a scratchpad file run by path, which is exactly what the code-writing discipline prescribes for non-trivial inline python; the same lesson had already been recorded twice this session for other payload shapes",
+     "impact": {
+      "retries": 1
+     },
+     "evidence": null,
+     "artifacts": [
+      ".andromeda/design-system-amendments.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "UNIVERSAL/contract.narrow-basis-claim",
+   "type": "contract.narrow-basis-claim",
+   "n": 3,
+   "weight": 3,
+   "steps": [
+    "implement/fix-loop",
+    "new-session/orientation",
+    "phase/research"
+   ],
+   "chunks": [
+    "2026-09-02-cross-surface-envelope-parity"
+   ],
+   "impact": {
+    "extra_reads": 4
+   },
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": null,
+     "id": "2026-08-31T19:50:24Z-b",
+     "ts": "2026-08-31T19:50:24Z",
+     "skill_step": "new-session/orientation",
+     "what": "The incoming cross-repo relay states P-075 is Pulse's last unclaimed 0.3.0 cap and requests a round asserting the three sound delegated budgets (P-027 ≤5s · P-037 ≤2s · P-045 ≤1s) while excluding P-025's disproved ≤2s clause; Conductor's own ledger records that exact scope as ALREADY delivered — v2-20 'Four delegated timing budgets return real Pass/Fail' is status verified, chunk 2026-08-21-delegated-timing-budgets-proven, ref naming three shipped tests in crates/conductor-run/tests/delegated_timing_harvest.rs, with P-025 excluded by the same operator ruling the relay cites. The claim was sourced from Pulse's ledger, which is not authoritative on Conductor's local state, and would have passed unnoticed had the matrix entry not been re-derived",
+     "impact": {
+      "extra_reads": 3
+     },
+     "evidence": "v2-20.verification.status=verified · chunk=2026-08-21-delegated-timing-budgets-proven · commit 7fd1608",
+     "artifacts": [
+      "conductor-0.2.0/verification-matrix.json",
+      "crates/conductor-run/tests/delegated_timing_harvest.rs"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-cross-surface-envelope-parity",
+     "id": "2026-09-02T13:31:41Z-c",
+     "ts": "2026-09-02T13:31:41Z",
+     "skill_step": "phase/research",
+     "what": "The tests distiller reported '26 lines of test-plan.md carry rmcp' with a partial line enumeration; grep -c measures 24, and the distiller's list also omits sites my own grep found (:91 :114 :143 :153 :254 :457 :522 :596). Neither enumeration is the answer — the count is the basis and the per-site classification is implement's pass. Recorded because the earlier take-up friction had the opposite shape (a CARRY under-counting the same sweep at 1 site), so this sweep has now been mis-sized in both directions by two different sources.",
+     "impact": {
+      "extra_reads": 1
+     },
+     "evidence": "conductor-0.2.0/chunks/2026-09-02-cross-surface-envelope-parity/scope.md §CARRY-1",
+     "artifacts": [
+      ".andromeda/runs/2026-09-02T13-12-45Z-phase/tests.md",
+      ".andromeda/test-plan.md"
+     ]
+    },
+    {
+     "chunk": "2026-09-02-cross-surface-envelope-parity",
+     "id": "2026-09-02T14:16:28Z-c",
+     "ts": "2026-09-02T14:16:28Z",
+     "skill_step": "implement/fix-loop",
+     "what": "Both the plan and the operator's review edit predicted Cargo.lock would be BYTE-UNCHANGED because assert_cmd comes from [workspace.dependencies] and admits no package. Measured: the lock DOES move, by exactly one line — '\"assert_cmd\",' added to conductor-tauri's dependency edge list — because Cargo.lock records per-package dependency EDGES, not only the package set. The substantive basis held (package count 564 -> 564, no package enters the tree, cargo deny green over the new lock), so no verdict changed; the prediction's form was simply wrong. Recorded rather than restated, because 'byte-unchanged' is the kind of check that would be re-asserted verbatim by a future chunk adding an already-locked dev-dep.",
+     "impact": {},
+     "evidence": null,
+     "artifacts": [
+      "Cargo.lock",
+      "conductor-0.2.0/chunks/2026-09-02-cross-surface-envelope-parity/plan.md"
+     ]
+    }
+   ]
+  },
+  {
+   "key": "UNIVERSAL/contract.skill-reference-drift",
+   "type": "contract.skill-reference-drift",
+   "n": 1,
+   "weight": 1,
+   "steps": [
+    "new-session/orientation"
+   ],
+   "chunks": [],
+   "impact": {},
+   "halt_or_softexit": 0,
+   "cases": [
+    {
+     "chunk": null,
+     "id": "2026-09-02T06:37:35Z-b",
+     "ts": "2026-09-02T06:37:35Z",
+     "skill_step": "new-session/orientation",
+     "what": "The skill body states Check 11 two ways — its Constraints block and Reference-files list say 'presence-only at session start' while its Phase 1 step 1 and health-criteria.md prescribe presence + per-plane host-tool detection; resolved by running the superset (detection), and no verdict differed because all three host tools were present.",
+     "impact": {},
+     "evidence": null,
+     "artifacts": [
+      "andromeda-new-session skill body (Constraints + Reference files vs Phase 1)",
+      "andromeda-new-session/references/health-criteria.md"
+     ]
+    }
+   ]
+  }
+ ],
+ "step_runs": {
+  "implement/code": 6,
+  "implement/fix-loop": 6,
+  "implement/smoke": 7,
+  "new-session/orientation": 8,
+  "phase/distill": 6,
+  "phase/plan": 7,
+  "phase/research": 6,
+  "phase/take-up": 6,
+  "phase/validate": 7,
+  "wrap-session/curation": 8,
+  "wrap-session/gates": 7,
+  "wrap-session/reconcile": 6,
+  "wrap-session/report": 6,
+  "wrap-session/route-resolve": 9
+ },
+ "above_threshold": [
+  "phase/plan/ambiguity.scope-question",
+  "wrap-session/reconcile/ambiguity.playbook-no-match",
+  "implement/fix-loop/tooling.environmental",
+  "phase/validate/contract.matrix-claim",
+  "implement/fix-loop/contract.spec-reality-gap",
+  "wrap-session/reconcile/input.report-insufficient",
+  "phase/research/contract.premise-falsified",
+  "wrap-session/curation/ambiguity.filter-borderline",
+  "implement/code/input.plan-step-ambiguous",
+  "implement/fix-loop/contract.test-expectation",
+  "wrap-session/reconcile/contract.cascade-miss",
+  "phase/research/tooling.output-cap-overflow",
+  "phase/distill/contract.token-proxy-check",
+  "wrap-session/gates/tooling.gate-deferral",
+  "wrap-session/report/contract.detector-fact-gap",
+  "UNIVERSAL/contract.premise-falsified",
+  "UNIVERSAL/contract.structural-blind-spot",
+  "UNIVERSAL/contract.token-proxy-check",
+  "UNIVERSAL/tooling.output-cap-overflow",
+  "UNIVERSAL/tooling.host-shell",
+  "UNIVERSAL/contract.narrow-basis-claim"
+ ]
+}

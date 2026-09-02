@@ -1,0 +1,202 @@
+{
+ "scoped_units": [
+  "conductor-run",
+  "conductor-verify",
+  "conductor-tauri"
+ ],
+ "unit_states": {
+  "conductor-run": "complete",
+  "conductor-verify": "complete",
+  "conductor-tauri": "partial (0/43 tested)"
+ },
+ "scores": {
+  "conductor-run": 72.22,
+  "conductor-verify": 89.09,
+  "conductor-tauri": null
+ },
+ "counts": {
+  "conductor-run": {
+   "mutants": 118,
+   "caught": 65,
+   "missed": 25,
+   "timeout": 0,
+   "unviable": 28
+  },
+  "conductor-verify": {
+   "mutants": 136,
+   "caught": 98,
+   "missed": 12,
+   "timeout": 2,
+   "unviable": 24
+  },
+  "conductor-tauri": {
+   "mutants": 43,
+   "caught": 0,
+   "missed": 0,
+   "timeout": 0,
+   "unviable": 0
+  }
+ },
+ "score_formula": "caught/(caught+missed)  [timeout and unviable excluded]",
+ "command": "cargo mutants -p {unit} --test-tool=nextest --jobs 2 --output {run_dir}/mutants-{unit}",
+ "survivors": [
+  [
+   "crates/conductor-run/src/lib.rs:66:8",
+   "delete ! in preflight"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:197:21",
+   "replace < with <= in attribute_by_liveness"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:250:5",
+   "replace active_incident_ids -> Result<Vec<i64>, VerifyError> with Ok(vec![])"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:250:5",
+   "replace active_incident_ids -> Result<Vec<i64>, VerifyError> with Ok(vec![0])"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:250:5",
+   "replace active_incident_ids -> Result<Vec<i64>, VerifyError> with Ok(vec![1])"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:250:5",
+   "replace active_incident_ids -> Result<Vec<i64>, VerifyError> with Ok(vec![-1])"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:346:5",
+   "replace observe_run_contract -> RunContractStatus with Default::default()"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:358:5",
+   "replace declares -> bool with true"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:358:5",
+   "replace declares -> bool with false"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:360:21",
+   "replace || with && in declares"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:360:11",
+   "replace == with != in declares"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:360:26",
+   "replace == with != in declares"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:401:5",
+   "replace warm_up_canary_service -> anyhow::Result<()> with Ok(())"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:402:29",
+   "replace || with && in warm_up_canary_service"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:402:24",
+   "replace == with != in warm_up_canary_service"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:402:55",
+   "replace == with != in warm_up_canary_service"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:405:64",
+   "replace / with % in warm_up_canary_service"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:405:64",
+   "replace / with * in warm_up_canary_service"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:518:27",
+   "delete field degraded from struct Observation expression in execute_scenario"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:559:25",
+   "replace - with + in execute_scenario"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:559:25",
+   "replace - with / in execute_scenario"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:715:9",
+   "replace FaultKind::label -> &'static str with \"\""
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:715:9",
+   "replace FaultKind::label -> &'static str with \"xyzzy\""
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:753:5",
+   "replace fault_span -> Option<tracing::Span> with None"
+  ],
+  [
+   "crates/conductor-run/src/dispatch.rs:163:26",
+   "replace == with != in Dispatcher<'a>::dispatch"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:18:5",
+   "replace main with ()"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:37:60",
+   "replace || with && in main"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:45:5",
+   "replace stub_result -> Value with Default::default()"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:46:9",
+   "delete match arm \"initialize\" in stub_result"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:51:9",
+   "delete match arm \"tools/list\" in stub_result"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:55:9",
+   "delete match arm \"tools/call\" in stub_result"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:57:21",
+   "replace == with != in stub_result"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:69:28",
+   "replace == with != in stub_result"
+  ],
+  [
+   "crates/conductor-verify/src/client.rs:157:9",
+   "replace ReadbackClient::resolve_incident -> Result<Value, VerifyError> with Ok(Default::default())"
+  ],
+  [
+   "crates/conductor-verify/src/extract.rs:95:22",
+   "replace == with != in observe"
+  ],
+  [
+   "crates/conductor-verify/src/extract.rs:110:22",
+   "replace == with != in observe"
+  ],
+  [
+   "crates/conductor-verify/src/manifest.rs:35:9",
+   "replace ContractManifest::default_path -> PathBuf with Default::default()"
+  ]
+ ],
+ "timeouts": [
+  [
+   "crates/conductor-verify/src/jsonrpc.rs:49:30",
+   "replace != with == in JsonRpcSession::request"
+  ],
+  [
+   "crates/conductor-verify/src/jsonrpc.rs:70:9",
+   "replace JsonRpcSession::write_message -> Result<(), VerifyError> with Ok(())"
+  ]
+ ]
+}

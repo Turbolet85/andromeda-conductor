@@ -1,0 +1,501 @@
+{
+ "anchors": [
+  {
+   "kind": "friction",
+   "chunk": null,
+   "id": "2026-08-22T21:10:36Z-b",
+   "skill_step": "new-session/orientation",
+   "type": "input.handoff-git-mismatch",
+   "what": "Handoff Position Next listed /andromeda-evolve-diagnose and the code-audit trend run as the next steps, but both had already been executed after the wrap; determining that took inspecting two untracked run dirs and their proposals.md headers",
+   "artifact": null
+  },
+  {
+   "kind": "friction",
+   "chunk": "2026-08-31-p-075-assert-round",
+   "id": "2026-08-31T20:29:08Z-b",
+   "skill_step": "phase/take-up",
+   "type": "input.out-of-pipeline-source",
+   "what": "The decisive facts shaping this scope live in a SIBLING repo the phase input contract does not read: Pulse's dispatch_mark_incident_resolved at crates/mcp-server/src/tools.rs:445 (which settles that the applied arm returns Ok({resolved,incident_id}) while the declined arm arrives as a JSON-RPC ERROR driven by IncidentWriteOutcome::DeclinedStale), and the zero-incident_events-in-mcp-server measurement. Neither is derivable from any .andromeda artifact or from Conductor's own code. Read first-hand at D:/dev/projects/andromeda-pulse because the repo happens to be on this host; a host without it would have had to fold the operator's dictation unverified",
+   "artifact": null
+  },
+  {
+   "kind": "friction",
+   "chunk": null,
+   "id": "2026-09-01T17:33:07Z-b",
+   "skill_step": "new-session/orientation",
+   "type": "input.route-state-ambiguous",
+   "what": "The tree carried an uncommitted modification to working-route.md — the cursor SOURCE — which the session-state contract's expected-transient set (handoff / state.yaml / friction-log.ndjson / code-metrics.ndjson) does not name, so it was indistinguishable from a hand-edited route line until three reads (diffstat, word-diff, trailing-whitespace count) established it was EOL-only and cursor-neutral.",
+   "artifact": null
+  },
+  {
+   "kind": "friction",
+   "chunk": "2026-09-01-webview-self-verify-windows-host",
+   "id": "2026-09-01T18:16:32Z-b",
+   "skill_step": "implement/code",
+   "type": "input.plan-step-ambiguous",
+   "what": "plan.md step 2 carries a clause the operator's later mid-turn directive supersedes: the step says 'When unset, fall back to PATH resolution so a host that has msedgedriver on PATH needs no configuration', while the directive specifies 'unset or not-a-file ⇒ the leg SKIPs exit 0 printing the fetch recipe'. Both cannot hold — a PATH fallback means an unset handle does NOT skip. Implemented the directive (later, explicit, and the one the guard shape mirrors) and surfaced the divergence rather than silently picking one; plan.md is read-only to implement so the stale clause stands until wrap.",
+   "artifact": null
+  },
+  {
+   "kind": "friction",
+   "chunk": "2026-09-01-desktop-a11y-sweep",
+   "id": "2026-09-01T20:14:51Z-b",
+   "skill_step": "phase/take-up",
+   "type": "input.carry-context-gap",
+   "what": "the CARRY names the blocker as '1 genuine axe violation' — a COUNT without the rule identity — and the predecessor's report.md records it the same way, so the decisive fact for designing the fix exists in no folded annotation and no artifact; it can only be recovered by re-running the leg, which P3 must now do before the fix is designable",
+   "artifact": null
+  },
+  {
+   "kind": "friction",
+   "chunk": "2026-09-01-desktop-a11y-sweep",
+   "id": "2026-09-01T20:39:18Z-b",
+   "skill_step": "phase/plan",
+   "type": "input.extracts-conflict",
+   "what": "two extract-vs-extract conflicts surfaced only at synthesis, neither caught by P2's aggregate check C: a11y prescribes a CONDUCTOR_TEST_REDUCED_MOTION fallback hook under Patterns while arch bans any new CONDUCTOR_* handle under Anti-patterns (resolved by ordering — try browser.emulate first, the hook would need an arch amendment); and a11y's focus-identity pattern keys on data-testid while tests mandates role/text/aria-live selectors ONLY and research found zero data-testid in ui/src (resolved onto role + accessible name)",
+   "artifact": null
+  },
+  {
+   "kind": "friction",
+   "chunk": "2026-09-01-desktop-a11y-sweep",
+   "id": "2026-09-01T20:59:33Z-b",
+   "skill_step": "implement/code",
+   "type": "input.plan-step-ambiguous",
+   "what": "step 5 and the concretized v2-22 acceptance both say each of the SIX lamp labels carries its text label plus glyph, but no release-bundle surface renders all six: CoverageMatrix and RunReport render a lamp only where a run record exists, and the all-six Gallery is gated on import.meta.env.DEV and stripped from the custom-protocol release build — a fact neither plan nor research established. Implemented the honest invariant (every RENDERED lamp pairs glyph plus text label from the closed six-set, glyph aria-hidden) and did NOT edit main.tsx to expose the gallery, which is outside the research boundary list; the completeness gap is surfaced rather than silently marked satisfied",
+   "artifact": null
+  },
+  {
+   "kind": "friction",
+   "chunk": "2026-09-01-desktop-a11y-sweep",
+   "id": "2026-09-01T22:49:51Z-b",
+   "skill_step": "wrap-session/reconcile",
+   "type": "input.report-insufficient",
+   "what": "the expected-amendments floor caught what the report starved: the plan named the layout-templates 200ms-vs-design-system 150ms dialog-fade divergence, but my report omitted it (this chunk changed neither value), so no detector could propose it — detectors read the report ALONE by contract. Escalated per Validate check 5 and operator-ratified to fold in. The same omission shape produced a second, opposite outcome worth pairing: the report also omitted the self-obs log landing-site move, and there arch's detector DID reach it, because the cwd change WAS in Changes and the landing site is derivable from it. So a report gap is only fatal when the fact has no derivable trace in Changes",
+   "artifact": null
+  },
+  {
+   "kind": "friction",
+   "chunk": "2026-09-01-live-per-p-id-verdict-lamps",
+   "id": "2026-09-01T23:40:00Z-c",
+   "skill_step": "phase/distill",
+   "type": "input.spec-source-gap",
+   "what": "a11y-plan §6's contrast-pair table enumerates only --count-nominal/--count-hold/--status-fail/--color-focus over --color-base, so the token Half 2's banner uses (--status-residual) has no pair and no stated ratio, while the banner colors TEXT (SC 1.4.3, 4.5:1) rather than a non-text indicator (SC 1.4.11, 3:1); layouts independently reported the desktop-webview block templates no envelope banner at all, so both plans describe the cli/Markdown leg only",
+   "artifact": null
+  },
+  {
+   "kind": "friction",
+   "chunk": "2026-09-01-live-per-p-id-verdict-lamps",
+   "id": "2026-09-02T00:35:00Z-b",
+   "skill_step": "implement/code",
+   "type": "input.plan-step-ambiguous",
+   "what": "plan step 1 said to wrap the envelope DB read in a manual tracing::info_span!, which is unsatisfiable as written: obs-plan's bounded span-name set has no db.* wildcard (only timeline.execute*, verify.readback*, tauri.command.*), so a db.read_envelope span would widen a spec enumeration implement may not author, and the in-repo DB-span convention is an attribute on the RunsDb method in conductor-report, outside the modify-set",
+   "artifact": null
+  },
+  {
+   "kind": "friction",
+   "chunk": "2026-09-01-live-per-p-id-verdict-lamps",
+   "id": "2026-09-02T00:35:00Z-c",
+   "skill_step": "implement/code",
+   "type": "input.conventions-gap",
+   "what": "two API shapes had to be settled by reading neighbouring code rather than from research: anyhow::Error at the tauri edge needs sanitize_error(&*err) not (&e) (found at commands.rs:308 after a compiler error), and CapabilityRow.p_id is a &'static str not a PId newtype (found after a compile error in the new fixture test)",
+   "artifact": null
+  },
+  {
+   "kind": "friction",
+   "chunk": "2026-09-01-live-per-p-id-verdict-lamps",
+   "id": "2026-09-02T06:20:00Z-b",
+   "skill_step": "wrap-session/reconcile",
+   "type": "input.report-insufficient",
+   "what": "the chunk plan's expected-amendment #4 (layout-templates' coverage row anatomy diverging from the shipped component) was proposed by NO detector, because the report's Changes section never carried the fact and detectors read the report alone; this is a verbatim recurrence of the escalation the PREVIOUS wrap recorded (the 200ms fade, same mechanism), so the corpus entry did not prevent it",
+   "artifact": null
+  },
+  {
+   "kind": "friction",
+   "chunk": "2026-09-02-screen-reader-manual-spec",
+   "id": "2026-09-02T06:59:47Z-b",
+   "skill_step": "phase/take-up",
+   "type": "input.out-of-pipeline-source",
+   "what": "The operator's take-up message invoked 'the NVDA directive' by name; no artifact the skill reads records its text (a repo-wide case-insensitive search for nvda across md/json/ts/tsx/toml/yaml, the last wrap and phase run dirs, route-archive and git log found only the route/matrix/intent wording and the a11y-plan leaves), so the directive was reconstructed from the sweep chunk's route-level ruling plus the 2026-08-22 host rule and written into scope.md tagged [inferred] for confirmation at the P5 review card.",
+   "artifact": null
+  },
+  {
+   "kind": "friction",
+   "chunk": "2026-09-02-screen-reader-manual-spec",
+   "id": "2026-09-02T09:16:27Z-b",
+   "skill_step": "phase/plan",
+   "type": "input.out-of-pipeline-source",
+   "what": "The facts that re-shaped the pass — a portable NVDA 2026.2 present on the host at an operator-owned path, its smoke-tested speech-log CLI form (-m --no-sr-flag -l 12 -f / -q), and a live Pulse already up on a fresh data dir — arrived by operator relay after the first P5 card; none exists in any artifact the skill reads (research had measured NVDA ABSENT from Program Files and the uninstall registry, which was true and incomplete), so the manual-pass plan v1 was built on a host premise the relay then fell; cost one full P4 re-synthesis.",
+   "artifact": null
+  },
+  {
+   "kind": "friction",
+   "chunk": "2026-09-02-screen-reader-manual-spec",
+   "id": "2026-09-02T10:00:12Z-b",
+   "skill_step": "implement/code",
+   "type": "input.plan-step-ambiguous",
+   "what": "Plan step 5 placed the parser in the spec's `after` hook and step 7 required a post-leg census with NVDA terminated; the two cannot both hold (the after hook runs before onComplete quits NVDA), so the parser was moved to onComplete and the deviation recorded rather than interpreted silently.",
+   "artifact": null
+  },
+  {
+   "kind": "friction",
+   "chunk": "2026-09-02-cross-surface-envelope-parity",
+   "id": "2026-09-02T13:16:55Z-b",
+   "skill_step": "phase/take-up",
+   "type": "input.carry-context-gap",
+   "what": "CARRY-1's rmcp enumeration is incomplete against the acceptance it serves. It states 'What REMAINS for this entry: contracts/mcp-contract.toml' and verifies the DERIVED tier correct — but v2-28's acceptance names test-plan.md, and .andromeda/test-plan.md:53 and :264 still carry present-tense rmcp claims about the CURRENT client and CURRENT stub driver. A second unnamed site is crates/conductor-verify/src/lib.rs:3 ('Shipped so far: ReadbackClient — the rmcp client/transport foundation'), false at HEAD. Folding the CARRY as written would have left v2-28 unclaimable while the plan believed one config comment was the whole job; the gap surfaced only by re-deriving the sweep from the matrix acceptance instead of from the CARRY's list.",
+   "artifact": null
+  },
+  {
+   "kind": "friction",
+   "chunk": "2026-09-02-cross-surface-envelope-parity",
+   "id": "2026-09-02T14:11:11Z-b",
+   "skill_step": "implement/code",
+   "type": "input.plan-step-ambiguous",
+   "what": "Plan step 2 offered 'a test, or a small #[cfg(test)]-reachable helper' for the seeder but did not say WHO invokes it at e2e time, and step 4 said the wdio seed should 'invoke the committed Rust seeder' without naming the invocation. Neither underdetermined the OUTCOME, but the mechanism had to be settled at implement: a cargo-test entry point that is a no-op unless CONDUCTOR_E2E_SEED_DIR is set, so an ordinary suite run never writes into the repository while wdio's onPrepare can drive it. Settled from the constraint set (test-plan §7 bans a developer-populated runs.db; the plan rejected committing a binary .db) rather than invented.",
+   "artifact": null
+  },
+  {
+   "kind": "friction",
+   "chunk": "2026-09-02-cross-surface-envelope-parity",
+   "id": "2026-09-02T14:58:18Z-b",
+   "skill_step": "wrap-session/reconcile",
+   "type": "input.report-insufficient",
+   "what": "The report's site enumerations under-ran twice, and the second miss is structural rather than careless. a11y-plan:465 restates the banner's UNRUNNABLE verdict in the §9 CI row; the report named §4 and §6 only. test-plan:278 carries the retired 'negotiates DOWN' mechanism and contains NO rmcp token, so the report's rmcp-KEYED classification could not reach it by construction — the stale MECHANISM outlives the stale LIBRARY NAME. Both were caught by the doc-agents' per-occurrence grep and verified independently before applying; a follow-up semantic sweep for the mechanism wording then found two more cascade leaves (docs/gotchas.md:10, rules/security.md:25). Third instance this session of an enumeration proving incomplete (the CARRY named 1 rmcp site, the phase distiller claimed 26, the report missed 2) — the durable lesson is that a token-keyed sweep is not a semantic one.",
+   "artifact": null
+  },
+  {
+   "kind": "step-consumed",
+   "chunk": null,
+   "id": "2026-08-22T21:10:36Z-a",
+   "skill_step": "new-session/orientation",
+   "artifact": "handoff",
+   "quality": "wrong",
+   "note": "Position Next names the two boundary diagnostics as pending; both run dirs exist on disk with completed proposals.md"
+  },
+  {
+   "kind": "step-consumed",
+   "chunk": null,
+   "id": "2026-08-31T19:50:24Z-a",
+   "skill_step": "new-session/orientation",
+   "artifact": "handoff",
+   "quality": "thin",
+   "note": "Notes claim 'tauri-driver and msedgedriver both absent from PATH' — msedgedriver.exe is in fact present at D:/dev/tools/edgedriver (41MB, dated 2026-08-20), superseded by the operator relay item 10; the rest of the handoff held exactly, including the recorded dangling separator at working-route line 41"
+  },
+  {
+   "kind": "step-consumed",
+   "chunk": null,
+   "id": "2026-08-31T20:03:51Z-a",
+   "skill_step": "wrap-session/route-resolve",
+   "artifact": "report",
+   "quality": "missing",
+   "note": "0-pending adaptation path runs no P1, so there is no chunk report — the operator directive plus this wrap's own re-verification stood in as the outcome basis"
+  },
+  {
+   "kind": "step-consumed",
+   "chunk": null,
+   "id": "2026-08-31T20:05:35Z-a",
+   "skill_step": "wrap-session/curation",
+   "artifact": "report",
+   "quality": "missing",
+   "note": "0-pending adaptation path runs no P1, so there is no Decisions-and-corrections section — candidates came from the conversation alone"
+  },
+  {
+   "kind": "step-consumed",
+   "chunk": null,
+   "id": "2026-08-31T20:07:47Z-a",
+   "skill_step": "wrap-session/gates",
+   "artifact": "plan",
+   "quality": "missing",
+   "note": "0-pending adaptation path — no chunk, so no plan.md Test Commands to re-run; light gate is a no-op by construction, not a skip"
+  },
+  {
+   "kind": "step-consumed",
+   "chunk": "2026-08-31-p-075-assert-round",
+   "id": "2026-08-31T20:40:55Z-a",
+   "skill_step": "phase/research",
+   "artifact": "tree-db",
+   "quality": "thin",
+   "note": "the calls view under-resolves &self async methods — 0 rows for query_incident_list despite two production call sites; refs returned the truth. A calls-based impact claim on this seam would be false-negative by construction"
+  },
+  {
+   "kind": "step-consumed",
+   "chunk": "2026-08-31-p-075-assert-round",
+   "id": "2026-09-01T16:46:31Z-a",
+   "skill_step": "implement/smoke",
+   "artifact": "agent-harness",
+   "quality": "thin",
+   "note": "Pulse's own agent-run boot pre-builds a DEBUG profile before spawning; with release binaries already warm that cold compile consumed the whole budget and was killed mid-crate (exit 143). Spawned target/release/pulse-app.exe directly instead, which is what its boot ultimately does"
+  },
+  {
+   "kind": "step-consumed",
+   "chunk": "2026-08-31-p-075-assert-round",
+   "id": "2026-09-01T17:04:54Z-a",
+   "skill_step": "wrap-session/reconcile",
+   "artifact": "wrap-playbook",
+   "quality": "thin",
+   "note": "33 patterns and none covered a chunk WIDENING what crosses an established boundary (read-only channel gains a write); the nearest pattern covers CONSUMING unchanged hardened infrastructure, which is a different shape"
+  },
+  {
+   "kind": "step-consumed",
+   "chunk": "2026-08-31-p-075-assert-round",
+   "id": "2026-09-01T17:12:09Z-a",
+   "skill_step": "wrap-session/gates",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "the plan's Test Commands OMITTED the cargo audit probe that its own acceptance criteria named, so the light gate would not have re-run it; caught at P5 instead and discharged there"
+  },
+  {
+   "kind": "step-consumed",
+   "chunk": "2026-09-01-webview-self-verify-windows-host",
+   "id": "2026-09-01T19:14:07Z-a",
+   "skill_step": "wrap-session/reconcile",
+   "artifact": "drift-base",
+   "quality": "thin",
+   "note": "no detector covers PLATFORM/runner/driver verdicts — a11y returned proposals:[] while carrying six stale sites, and test-plan's own agent found 8 sites where the plan listed 6. Grown this wrap: D-platform-claim appended, operator-approved."
+  },
+  {
+   "kind": "step-consumed",
+   "chunk": "2026-09-01-desktop-a11y-sweep",
+   "id": "2026-09-01T20:23:43Z-a",
+   "skill_step": "phase/distill",
+   "artifact": "spec:layout-templates.md",
+   "quality": "wrong",
+   "note": "carries 3 stale sites saying the operator-pause dialog fade is 200ms; design-system.md:255 was amended to 150ms (--motion-micro) by 2026-06-26-component-primitives-library and layout-templates never received the cascade"
+  },
+  {
+   "kind": "step-consumed",
+   "chunk": "2026-09-01-desktop-a11y-sweep",
+   "id": "2026-09-01T22:49:51Z-a",
+   "skill_step": "wrap-session/reconcile",
+   "artifact": "report",
+   "quality": "thin",
+   "note": "sufficient for 41 of 42 proposals, but two gaps surfaced: it omitted the self-obs log LANDING-SITE move (arch's detector caught it from the cwd change and the claim verified empirically), and it omitted the 200ms/150ms fade divergence its own plan listed as an Expected amendment — which starved every detector of that fact"
+  },
+  {
+   "kind": "step-consumed",
+   "chunk": null,
+   "id": "2026-09-01T23:05:00Z-a",
+   "skill_step": "new-session/orientation",
+   "artifact": "state",
+   "quality": "wrong",
+   "note": "last_wrap 2026-09-02T00:50:00Z is LOCAL time (CEST) carrying a Z suffix; host UTC at orientation was 2026-09-01T23:03:49Z, so the stamp reads ~1h46m in the future and the dashboard's 'last wrap {ago}' field is unusable until cross-checked against date -u"
+  },
+  {
+   "kind": "step-consumed",
+   "chunk": "2026-09-01-live-per-p-id-verdict-lamps",
+   "id": "2026-09-01T23:40:00Z-a",
+   "skill_step": "phase/distill",
+   "artifact": "spec:a11y-plan.md",
+   "quality": "thin",
+   "note": "a11y-plan §6 Color contrast pairs enumerates no pair for --status-residual / --count-blocked / --status-manual over --color-base, while §1 requires the residual pair be asserted like any other — the extract surfaced the gap rather than inventing a ratio"
+  },
+  {
+   "kind": "step-consumed",
+   "chunk": "2026-09-01-live-per-p-id-verdict-lamps",
+   "id": "2026-09-02T06:20:00Z-a",
+   "skill_step": "wrap-session/reconcile",
+   "artifact": "report",
+   "quality": "thin",
+   "note": "sufficient for 26 of 27 proposals, but it OMITTED the coverage-row-anatomy divergence that the chunk plan listed as an expected amendment — detectors read the report alone, so layout-templates could not see it and proposed nothing; caught at Validate check 5 and the report was repaired in-pass"
+  },
+  {
+   "kind": "step-consumed",
+   "chunk": "2026-09-01-live-per-p-id-verdict-lamps",
+   "id": "2026-09-02T06:20:00Z-a",
+   "skill_step": "wrap-session/reconcile",
+   "artifact": "spec:obs-plan.md",
+   "quality": "wrong",
+   "note": "§1 line 49 contradicted itself inside one sentence — opening with the correct 'the attribute does not stack with #[tauri::command]' and closing with 'instrument via #[tracing::instrument]'"
+  },
+  {
+   "kind": "step-consumed",
+   "chunk": "2026-09-01-live-per-p-id-verdict-lamps",
+   "id": "2026-09-02T06:20:00Z-a",
+   "skill_step": "wrap-session/reconcile",
+   "artifact": "spec:a11y-plan.md",
+   "quality": "thin",
+   "note": "§1 directed the residual pair to be 'asserted like any other in Section 3' while §6's table and §3's token list both omitted it — a dangling pointer the harness had already outgrown"
+  },
+  {
+   "kind": "step-consumed",
+   "chunk": "2026-09-02-screen-reader-manual-spec",
+   "id": "2026-09-02T12:01:33Z-a",
+   "skill_step": "wrap-session/report",
+   "artifact": "conversation",
+   "quality": "thin",
+   "note": "the window was compacted before wrap started; implement's deviations and the operator's review grades survived in the summary and in evidence/leg-verdict.md, but the exact symbol set, the evidence identity block and the a11y-plan claim sites had to be re-read from artifacts rather than recalled"
+  },
+  {
+   "kind": "step-consumed",
+   "chunk": "2026-09-02-screen-reader-manual-spec",
+   "id": "2026-09-02T12:31:53Z-a",
+   "skill_step": "wrap-session/reconcile",
+   "artifact": "wrap-playbook",
+   "quality": "thin",
+   "note": "no rule matched the three escalate-class proposals (the sidecar console-pane host-path disclosure: obs x2, security x1) nor the second host-tool env handle; resolved on the operator's recorded directives (WRAP item 1; the P5-approved expected-amendments list; the relay's NVDA CLI form) without a dialogue round, one playbook rule PROPOSED to the operator in the wrap report, not appended"
+  },
+  {
+   "kind": "step-consumed",
+   "chunk": "2026-09-02-screen-reader-manual-spec",
+   "id": "2026-09-02T12:36:13Z-a",
+   "skill_step": "wrap-session/curation",
+   "artifact": "conversation",
+   "quality": "thin",
+   "note": "compacted window — the operator's corrections survived in the summary and in the report's Decisions & corrections, which was the effective source"
+  },
+  {
+   "kind": "step-consumed",
+   "chunk": null,
+   "id": "2026-09-02T12:57:07Z-a",
+   "skill_step": "wrap-session/route-resolve",
+   "artifact": "report",
+   "quality": "missing",
+   "note": "0-pending adaptation path — no chunk report; the input was the operator's two-line directive (approve both playbook rules with a refinement on (b); the msedgedriver PREREQ discharged by a host refresh)"
+  },
+  {
+   "kind": "step-consumed",
+   "chunk": "2026-09-02-cross-surface-envelope-parity",
+   "id": "2026-09-02T13:31:41Z-a",
+   "skill_step": "phase/research",
+   "artifact": "tree-db",
+   "quality": "thin",
+   "note": "rust plane fresh, but the calls view cannot see a caller inside a #[tauri::command] body — read_envelope returned rows=0 while grep found a real caller at commands.rs:243"
+  },
+  {
+   "kind": "step-consumed",
+   "chunk": "2026-09-02-cross-surface-envelope-parity",
+   "id": "2026-09-02T14:58:18Z-a",
+   "skill_step": "wrap-session/reconcile",
+   "artifact": "report",
+   "quality": "thin",
+   "note": "CONSUMER VERDICT: the report's Spec-claims-disproved enumeration under-ran at TWO sites the detectors found — a11y-plan:465 (a third UNRUNNABLE restatement) and test-plan:278 (the retired negotiate-DOWN mechanism, carrying no rmcp token). Every other bullet composed directly and all seven agents ran against the report alone."
+  }
+ ],
+ "chains": [
+  {
+   "chunk": "2026-08-31-p-075-assert-round",
+   "artifact": "plan",
+   "producer": "phase/plan",
+   "producer_outcome": "ok",
+   "producer_signals": [],
+   "producer_note": null,
+   "producer_id": "2026-08-31T20:43:35Z-a",
+   "consumer": "wrap-session/gates",
+   "consumer_id": "2026-09-01T17:12:09Z-a",
+   "quality": "thin",
+   "consumer_note": "the plan's Test Commands OMITTED the cargo audit probe that its own acceptance criteria named, so the light gate would not have re-run it; caught at P5 instead and discharged there"
+  },
+  {
+   "chunk": "2026-09-01-desktop-a11y-sweep",
+   "artifact": "report",
+   "producer": "wrap-session/report",
+   "producer_outcome": "ok",
+   "producer_signals": [],
+   "producer_note": "all Changes families filled from session knowledge; two needed reconstruction — grepping docs for the OLD token hexes and the shares-its-hex qualifier, and verifying the three citations the operator's wrap directive dictated (all three confirmed exact)",
+   "producer_id": "2026-09-01T22:24:49Z-a",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-09-01T22:49:51Z-a",
+   "quality": "thin",
+   "consumer_note": "sufficient for 41 of 42 proposals, but two gaps surfaced: it omitted the self-obs log LANDING-SITE move (arch's detector caught it from the cwd change and the claim verified empirically), and it omitted the 200ms/150ms fade divergence its own plan listed as an Expected amendment — which starved every detector of that fact"
+  },
+  {
+   "chunk": "2026-09-01-live-per-p-id-verdict-lamps",
+   "artifact": "report",
+   "producer": "wrap-session/report",
+   "producer_outcome": "ok",
+   "producer_signals": [],
+   "producer_note": "all 14 Changes bullets filled; Coverage rows determinable for all 4 new surfaces, with the banner's test + rendered-DOM-axe flags set to unrunnable-here rather than n/a or a false tick",
+   "producer_id": "2026-09-02T05:45:00Z-a",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-09-02T06:20:00Z-a",
+   "quality": "thin",
+   "consumer_note": "sufficient for 26 of 27 proposals, but it OMITTED the coverage-row-anatomy divergence that the chunk plan listed as an expected amendment — detectors read the report alone, so layout-templates could not see it and proposed nothing; caught at Validate check 5 and the report was repaired in-pass"
+  },
+  {
+   "chunk": "2026-09-02-screen-reader-manual-spec",
+   "artifact": "conversation",
+   "producer": "implement/smoke",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "recorded-not-rerun"
+   ],
+   "producer_note": "UI-surface-with-self-verify condition: the self-verify already ran as a P2 gate, so P3 records it rather than re-running; the boot path itself is untouched (no .rs delta)",
+   "producer_id": "2026-09-02T10:48:44Z-a",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-09-02T12:01:33Z-a",
+   "quality": "thin",
+   "consumer_note": "the window was compacted before wrap started; implement's deviations and the operator's review grades survived in the summary and in evidence/leg-verdict.md, but the exact symbol set, the evidence identity block and the a11y-plan claim sites had to be re-read from artifacts rather than recalled"
+  },
+  {
+   "chunk": "2026-09-02-screen-reader-manual-spec",
+   "artifact": "conversation",
+   "producer": "implement/smoke",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "recorded-not-rerun"
+   ],
+   "producer_note": "UI-surface-with-self-verify condition: the self-verify already ran as a P2 gate, so P3 records it rather than re-running; the boot path itself is untouched (no .rs delta)",
+   "producer_id": "2026-09-02T10:48:44Z-a",
+   "consumer": "wrap-session/curation",
+   "consumer_id": "2026-09-02T12:36:13Z-a",
+   "quality": "thin",
+   "consumer_note": "compacted window — the operator's corrections survived in the summary and in the report's Decisions & corrections, which was the effective source"
+  },
+  {
+   "chunk": "2026-09-02-cross-surface-envelope-parity",
+   "artifact": "report",
+   "producer": "wrap-session/report",
+   "producer_outcome": "ok",
+   "producer_signals": [],
+   "producer_note": "all Changes families filled directly; both new surfaces got determinate coverage rows",
+   "producer_id": "2026-09-02T14:37:18Z-a",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-09-02T14:58:18Z-a",
+   "quality": "thin",
+   "consumer_note": "CONSUMER VERDICT: the report's Spec-claims-disproved enumeration under-ran at TWO sites the detectors found — a11y-plan:465 (a third UNRUNNABLE restatement) and test-plan:278 (the retired negotiate-DOWN mechanism, carrying no rmcp token). Every other bullet composed directly and all seven agents ran against the report alone."
+  }
+ ],
+ "shapes_ge2_chunks": [
+  {
+   "shape": [
+    "wrap-session/report",
+    "report",
+    "wrap-session/reconcile"
+   ],
+   "n": 3
+  }
+ ],
+ "all_shapes": [
+  {
+   "shape": [
+    "wrap-session/report",
+    "report",
+    "wrap-session/reconcile"
+   ],
+   "n": 3
+  },
+  {
+   "shape": [
+    "phase/plan",
+    "plan",
+    "wrap-session/gates"
+   ],
+   "n": 1
+  },
+  {
+   "shape": [
+    "implement/smoke",
+    "conversation",
+    "wrap-session/report"
+   ],
+   "n": 1
+  },
+  {
+   "shape": [
+    "implement/smoke",
+    "conversation",
+    "wrap-session/curation"
+   ],
+   "n": 1
+  }
+ ]
+}

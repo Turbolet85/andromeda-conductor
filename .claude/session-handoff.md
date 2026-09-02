@@ -59,3 +59,6 @@
 - Audit trail: `.andromeda/runs/2026-09-02T14-34-37Z-wrap/` (this wrap) ·
   `.andromeda/runs/2026-09-02T13-12-45Z-phase/`.
 - **Last failed command:** none.
+
+## Session End Status
+Completed normally at 2026-09-02 18:49:54

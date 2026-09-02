@@ -1,0 +1,8 @@
+{
+ "unused_deps": {
+  "conductor-emit": [
+   "conductor-core"
+  ]
+ },
+ "source": "cargo machete (exit 1 = findings present, same single finding as the Epoch-4 record)"
+}

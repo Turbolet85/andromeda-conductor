@@ -6,11 +6,22 @@
   "hooks": {
     "PreToolUse": [
       {
-        "matcher": "Edit|MultiEdit|Write",
+        "matcher": "Edit|MultiEdit|Write|NotebookEdit",
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'path=$(jq -r \".tool_input.file_path\" <<< \"$CLAUDE_TOOL_INPUT\"); if echo \"$path\" | grep -qE \"(^|/)(dist|build|[.]next|node_modules|coverage|target|vendor)/\"; then echo \"Blocked: edit to generated directory\"; exit 1; fi'"
+            "timeout": 5,
+            "command": "bash -c 'command -v jq >/dev/null 2>&1 || exit 0; inp=$(cat); if [ -z \"$inp\" ]; then inp=\"$CLAUDE_TOOL_INPUT\"; fi; path=$(printf \"%s\" \"$inp\" | jq -r \".tool_input.file_path // empty\" | tr -d \"\\r\"); if printf \"%s\" \"$path\" | grep -qE \"(^|/)(dist|build|[.]next|node_modules|coverage|target|vendor)/\"; then echo \"Blocked: edit to a generated directory ($path)\" >&2; exit 2; fi'"
+          }
+        ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "timeout": 5,
+            "command": "bash -c 'command -v jq >/dev/null 2>&1 || exit 0; inp=$(cat); if [ -z \"$inp\" ]; then inp=\"$CLAUDE_TOOL_INPUT\"; fi; cmd=$(printf \"%s\" \"$inp\" | jq -r \".tool_input.command // empty\" | tr -d \"\\r\"); case \"$(uname -s)\" in MINGW*|MSYS*|CYGWIN*) n=$(printf \"%s\" \"$cmd\" | wc -c | tr -d \" \"); if [ \"$n\" -gt 6500 ]; then echo \"Blocked: a ${n}-byte command - on a Windows/Git-Bash host the Bash transport corrupts a command past a fixed offset near 7.5 KB (measured): write the payload to a file (Write tool) and run it by path, or split the call\" >&2; exit 2; fi;; esac; if printf \"%s\" \"$cmd\" | grep -qE \"(^|[;&|([:space:]])cat[[:space:]][^|;&]*>>?[[:space:]]*[^&[:space:]][^|;&]*[^<]<<[^<]|(^|[;&|([:space:]])cat([[:space:]][^|;&]*)?[^<]<<[^<][^|;&]*>>?[[:space:]]*[^&[:space:]]|[^<]<<[^<][^|]*[|][[:space:]]*tee[[:space:]]|(^|[;&|([:space:]])tee([[:space:]][^|;&]*)?[^<]<<[^<]\"; then echo \"Blocked: a cat/tee heredoc with a file target - documents go through the Write tool; a script goes to a scratchpad file run by path\" >&2; exit 2; fi'"
           }
         ]
       }
@@ -21,11 +32,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash -c 'f=\"$CLAUDE_FILE_PATH\"; case \"$f\" in *.rs) rustfmt \"$f\" 2>/dev/null || true;; esac'"
-          },
-          {
-            "type": "command",
-            "command": "bash -c 'case \"$CLAUDE_FILE_PATH\" in *.rs) cargo clippy --fix --allow-dirty --allow-staged -- -D warnings 2>/dev/null || true;; esac'"
+            "timeout": 30,
+            "command": "bash -c 'command -v jq >/dev/null 2>&1 || exit 0; f=$(cat | jq -r \".tool_input.file_path // empty\" | tr -d \"\\r\"); [ -n \"$f\" ] || exit 0; case \"$f\" in *.rs) rustfmt \"$f\" 2>/dev/null || true;; esac'"
           }
         ]
       }

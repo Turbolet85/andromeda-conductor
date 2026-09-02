@@ -1,0 +1,53 @@
+{
+ "population": "tokei --output json crates/ ; language=Rust (*.rs) only",
+ "file_p50": 102,
+ "file_p90": 379,
+ "file_max": 1115,
+ "over_800": 2,
+ "top": [
+  [
+   "crates/conductor-run/src/lib.rs",
+   1115
+  ],
+  [
+   "crates/conductor-core/src/scenario.rs",
+   1001
+  ],
+  [
+   "crates/conductor-core/src/obs.rs",
+   597
+  ],
+  [
+   "crates/conductor-core/src/load_envelope.rs",
+   536
+  ],
+  [
+   "crates/conductor-report/src/db.rs",
+   504
+  ],
+  [
+   "crates/conductor-run/tests/severity_harvest.rs",
+   468
+  ],
+  [
+   "crates/conductor-tauri/src/commands.rs",
+   448
+  ],
+  [
+   "crates/conductor-emit/src/pii.rs",
+   436
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs",
+   410
+  ],
+  [
+   "crates/conductor-run/tests/dispatch_wire.rs",
+   404
+  ]
+ ],
+ "totals": {
+  "loc": 18113,
+  "files": 115
+ }
+}

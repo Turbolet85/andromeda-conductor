@@ -1,0 +1,10 @@
+{
+ "population": "cargo llvm-cov nextest --workspace --lcov; totals summed over all LF/LH records",
+ "line": 92.11,
+ "branch": null,
+ "lines_found": 9117,
+ "lines_hit": 8398,
+ "branches_found": 0,
+ "branches_hit": 0,
+ "nextest": "767 tests run: 767 passed, 0 skipped"
+}

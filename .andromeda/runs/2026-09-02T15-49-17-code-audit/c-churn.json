@@ -1,0 +1,50 @@
+{
+ "population": "git log --numstat b8f3332..HEAD -- crates/**/*.rs crates/**/*.ts crates/**/*.tsx",
+ "pct": 33.63,
+ "files_churned": 7,
+ "files_touched": 22,
+ "total_adds": 3313,
+ "churned_adds": 1114,
+ "top_touched": [
+  [
+   "crates/conductor-tauri/ui/wdio.conf.ts",
+   5
+  ],
+  [
+   "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts",
+   3
+  ],
+  [
+   "crates/conductor-tauri/src/commands.rs",
+   2
+  ],
+  [
+   "crates/conductor-run/src/lib.rs",
+   2
+  ],
+  [
+   "crates/conductor-tauri/ui/src/App.tsx",
+   2
+  ],
+  [
+   "crates/conductor-run/tests/lifecycle_harvest.rs",
+   2
+  ],
+  [
+   "crates/conductor-run/tests/lifecycle_live.rs",
+   2
+  ],
+  [
+   "crates/conductor-run/tests/envelope_fixture.rs",
+   1
+  ],
+  [
+   "crates/conductor-verify/src/lib.rs",
+   1
+  ],
+  [
+   "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+   1
+  ]
+ ]
+}
