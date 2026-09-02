@@ -194,6 +194,61 @@ pub fn run_report(run_id: Option<String>) -> Result<Vec<RunRecord>, String> {
     Ok(records)
 }
 
+/// A run's load-envelope standing as the webview renders it. The `label` is carried from
+/// [`EnvelopeStatus::label`] rather than re-spelled in TypeScript, so the always-rendered text that
+/// makes the banner not-color-alone has one source (design-system §Iconography).
+#[derive(serde::Serialize)]
+pub struct EnvelopeStanding {
+    label: &'static str,
+    cause: Option<String>,
+    suspect: bool,
+}
+
+impl From<EnvelopeStatus> for EnvelopeStanding {
+    fn from(status: EnvelopeStatus) -> Self {
+        Self {
+            label: status.label(),
+            cause: status.cause().map(str::to_string),
+            suspect: status.is_suspect(),
+        }
+    }
+}
+
+/// The run's load-envelope standing (read-only) — the run-level qualifier the desktop run-report
+/// banners, the third surface of the signal the cli caption and the Markdown report already carry.
+/// `run_id` defaults to the latest run; a supplied id is `resolve_under`-guarded against traversal
+/// before any read (security-plan §Input Validation). A run that recorded no envelope row, or an
+/// absent runs dir, yields `None` — the banner is simply absent, never an error.
+#[tauri::command]
+pub fn run_envelope(run_id: Option<String>) -> Result<Option<EnvelopeStanding>, String> {
+    let _span = tracing::info_span!("tauri.command.run_envelope").entered();
+    let started = Instant::now();
+    let dir = runs_dir()?;
+    let id = match run_id {
+        Some(id) => {
+            resolve_under(&dir, Path::new(&format!("{id}.jsonl"))).map_err(|e| sanitize_error(&e))?;
+            id
+        }
+        None => match conductor_core::latest_run_id(&dir).map_err(|e| sanitize_error(&e))? {
+            Some(id) => id,
+            None => {
+                tracing::info!(
+                    latency_ms = started.elapsed().as_millis() as u64,
+                    "no run to report an envelope for"
+                );
+                return Ok(None);
+            }
+        },
+    };
+    let standing = conductor_run::read_envelope(&dir, &id).map_err(|e| sanitize_error(&*e))?;
+    tracing::info!(
+        latency_ms = started.elapsed().as_millis() as u64,
+        message = standing.as_ref().map_or("no envelope row", |s| s.label()),
+        "read run envelope standing"
+    );
+    Ok(standing.map(EnvelopeStanding::from))
+}
+
 #[tauri::command]
 pub fn start_run(
     selection: String,
@@ -309,6 +364,7 @@ mod tests {
                 coverage_matrix,
                 unbacked_auto,
                 run_report,
+                run_envelope,
                 start_run,
                 stop_run,
                 crate::pause::resolve_operator_hold,
@@ -382,6 +438,21 @@ mod tests {
         let _records: Vec<RunRecord> = invoke(&window, "run_report", InvokeBody::Json(serde_json::json!({})))
             .deserialize()
             .expect("run_report returns a Vec<RunRecord>");
+    }
+
+    #[test]
+    fn run_envelope_command_returns_null_when_no_run_has_an_envelope() {
+        let app = test_app();
+        let window = main_window(&app);
+        // EnvelopeStanding is Serialize-only, so assert on the JSON shape. No run_id ⇒ latest; an
+        // absent/empty runs dir yields null (the banner is simply absent), never an error — the same
+        // honest degrade run_report gives the report table. The populated arm round-trips through
+        // conductor_run::read_envelope, where the RunsDb source it single-sources lives.
+        let standing: serde_json::Value =
+            invoke(&window, "run_envelope", InvokeBody::Json(serde_json::json!({})))
+                .deserialize()
+                .expect("run_envelope returns an Option<EnvelopeStanding>");
+        assert!(standing.is_null(), "no run ⇒ no envelope standing: {standing}");
     }
 
     #[test]

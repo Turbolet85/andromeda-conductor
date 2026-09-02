@@ -12,7 +12,7 @@
 // ONE webview-automation stack: WebdriverIO + @crabnebula/tauri-driver (never a 2nd puppeteer/CDP
 // stack — a11y.md §Testing). axe-core is injected via @axe-core/webdriverio into THIS session.
 import { spawn, type ChildProcess } from 'node:child_process'
-import { existsSync, statSync } from 'node:fs'
+import { copyFileSync, existsSync, mkdirSync, statSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -53,6 +53,27 @@ function nativeDriver(): string | undefined {
   const raw = process.env.CONDUCTOR_MSEDGEDRIVER
   if (!raw || UNSAFE_PATH.test(raw)) return undefined
   return existsSync(raw) && statSync(raw).isFile() ? raw : undefined
+}
+
+// The routine arm has no live Pulse and /runs/ is gitignored, so on a clean checkout the app launches
+// with zero run records and every coverage row reads "Not yet run" — the populated-lamp half of the
+// assertion would have no subject, and on a dev host it would silently read whatever local run residue
+// happened to be lying about (the artifact-freshness trap verification-harness.md records). So the leg
+// seeds its own subject: a COMMITTED fixture journal (reviewable as an artifact, and pinned for its
+// semantics by conductor-run's lamps_fixture.rs) copied into a dedicated runs dir.
+//
+// CONDUCTOR_RUNS_DIR must stay REPO-RELATIVE — resolve_under rejects absolute handles by design — and
+// lives under the gitignored /runs/ tree so the seeded copy never rides a commit.
+const FIXTURE_RUNS_DIR = 'runs/e2e-fixture'
+const FIXTURE_RUN_ID = 'lamps-fixture'
+
+function seedFixtureRuns(): void {
+  const target = join(repoRoot, FIXTURE_RUNS_DIR)
+  mkdirSync(target, { recursive: true })
+  copyFileSync(
+    join(repoRoot, 'crates', 'conductor-run', 'tests', 'fixtures', 'lamps-journal.jsonl'),
+    join(target, `${FIXTURE_RUN_ID}.jsonl`),
+  )
 }
 
 // Host paths never reach this message (obs-plan §11 Logs); it names the handle, not its value.
@@ -108,10 +129,14 @@ export const config: WebdriverIO.Config = {
       reportSkip()
       process.exit(0)
     }
+    seedFixtureRuns()
     // cwd = the workspace root: tauri-driver's child (the app under test) inherits it, which is the
-    // only lever that points the app's cwd-relative artifact handles at the real catalog.
+    // only lever that points the app's cwd-relative artifact handles at the real catalog. The app
+    // inherits this env too, so CONDUCTOR_RUNS_DIR is what points run_report / run_envelope at the
+    // seeded fixture rather than at whatever the host's own runs/ happens to hold.
     tauriDriver = spawn(process.execPath, [driverCli, '--native-driver', native], {
       cwd: repoRoot,
+      env: { ...process.env, CONDUCTOR_RUNS_DIR: FIXTURE_RUNS_DIR },
       stdio: [null, process.stdout, process.stderr],
     })
   },

@@ -1,0 +1,498 @@
+[
+{
+"sql": "SELECT symbol, crate, file, def_line FROM symbol WHERE symbol LIKE '%get_envelope%'",
+"rows": 1,
+"result": [
+{
+"symbol": "rust-analyzer cargo conductor-report 0.1.0 db/impl#[RunsDb]get_envelope().",
+"crate": "conductor-report",
+"file": "crates/conductor-report/src/db.rs",
+"def_line": 221
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee LIKE '%/get_envelope().%' ORDER BY file, line",
+"rows": 0,
+"result": [],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT from_crate, to_crate FROM crate_edges WHERE to_crate = 'conductor-tauri' OR from_crate = 'conductor-tauri'",
+"rows": 2,
+"result": [
+{
+"from_crate": "conductor-tauri",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-tauri",
+"to_crate": "conductor-run"
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT callee, file, line FROM refs WHERE callee LIKE '%CoverageMatrix%' ORDER BY file, line",
+"rows": 53,
+"result": [
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CapabilityRow#",
+"file": "crates/conductor-tauri/ui/src/App.tsx",
+"line": 5
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CoverageMatrix().",
+"file": "crates/conductor-tauri/ui/src/App.tsx",
+"line": 5
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/",
+"file": "crates/conductor-tauri/ui/src/App.tsx",
+"line": 5
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CapabilityRow#",
+"file": "crates/conductor-tauri/ui/src/App.tsx",
+"line": 51
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CapabilityRow#",
+"file": "crates/conductor-tauri/ui/src/App.tsx",
+"line": 71
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CoverageMatrix().(`{\n  rows,\n  lamps,\n  unbacked = 0,\n}`)typeLiteral26:unbacked.",
+"file": "crates/conductor-tauri/ui/src/App.tsx",
+"line": 246
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CoverageMatrix().(`{\n  rows,\n  lamps,\n  unbacked = 0,\n}`)typeLiteral26:rows.",
+"file": "crates/conductor-tauri/ui/src/App.tsx",
+"line": 246
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CoverageMatrix().",
+"file": "crates/conductor-tauri/ui/src/App.tsx",
+"line": 246
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 5
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CapabilityRow#",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 5
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CoverageMatrix().",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 5
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CapabilityRow#",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 9
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CapabilityRow#mode.",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 10
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CapabilityRow#category.",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 10
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CapabilityRow#title.",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 10
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CapabilityRow#p_id.",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 10
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CapabilityRow#p_id.",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 12
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CapabilityRow#title.",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 13
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CapabilityRow#category.",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 14
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CapabilityRow#mode.",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 15
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CapabilityRow#mode.",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 17
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CapabilityRow#category.",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 17
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CapabilityRow#title.",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 17
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CapabilityRow#p_id.",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 17
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CoverageMatrix().(`{\n  rows,\n  lamps,\n  unbacked = 0,\n}`)typeLiteral26:lamps.",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 205
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CoverageMatrix().(`{\n  rows,\n  lamps,\n  unbacked = 0,\n}`)typeLiteral26:rows.",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 205
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CoverageMatrix().",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 205
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CoverageMode#",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"line": 12
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CoverageMode#",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"line": 17
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CoverageMode#",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"line": 19
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CapabilityRow#",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"line": 29
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CoverageMode#",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"line": 30
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/tally().(rows)",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"line": 30
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CapabilityRow#mode.",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"line": 30
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/MODES.",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"line": 31
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/OUT_OF_SCOPE.",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"line": 31
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/tally().(unbacked)",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"line": 32
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/OUT_OF_SCOPE.",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"line": 34
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/tally().(rows)",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"line": 35
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/OUT_OF_SCOPE.",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"line": 35
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CoverageMatrix().(`{\n  rows,\n  lamps,\n  unbacked = 0,\n}`)typeLiteral26:rows.",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"line": 43
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CoverageMatrix().(`{\n  rows,\n  lamps,\n  unbacked = 0,\n}`)typeLiteral26:lamps.",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"line": 44
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CoverageMatrix().(`{\n  rows,\n  lamps,\n  unbacked = 0,\n}`)typeLiteral26:unbacked.",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"line": 45
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CapabilityRow#",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"line": 47
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/tally().",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"line": 53
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CapabilityRow#p_id.",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"line": 74
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CapabilityRow#p_id.",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"line": 76
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CapabilityRow#p_id.",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"line": 77
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CapabilityRow#title.",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"line": 79
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CapabilityRow#category.",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"line": 80
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CapabilityRow#mode.",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"line": 84
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/OUT_OF_SCOPE.",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"line": 84
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`CoverageMatrix.tsx`/CapabilityRow#mode.",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"line": 89
+}
+],
+"db_state": "fresh",
+"plane": "ts"
+},
+{
+"sql": "SELECT callee, file, line FROM refs WHERE callee LIKE '%/lampForRecord().%' ORDER BY file, line",
+"rows": 12,
+"result": [
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/`lamp.ts`/lampForRecord().",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 7
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/`lamp.ts`/lampForRecord().",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 22
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/`lamp.ts`/lampForRecord().",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 23
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/`lamp.ts`/lampForRecord().",
+"file": "crates/conductor-tauri/ui/src/components/RunReport.tsx",
+"line": 1
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/`lamp.ts`/lampForRecord().",
+"file": "crates/conductor-tauri/ui/src/components/RunReport.tsx",
+"line": 49
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/`lamp.ts`/lampForRecord().(state)",
+"file": "crates/conductor-tauri/ui/src/lamp.ts",
+"line": 31
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/`lamp.ts`/lampForRecord().(state)",
+"file": "crates/conductor-tauri/ui/src/lamp.ts",
+"line": 32
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/`lamp.ts`/lampForRecord().(verdict)",
+"file": "crates/conductor-tauri/ui/src/lamp.ts",
+"line": 33
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/`lamp.ts`/lampForRecord().(verdict)",
+"file": "crates/conductor-tauri/ui/src/lamp.ts",
+"line": 34
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/`lamp.ts`/lampForRecord().(verdict)",
+"file": "crates/conductor-tauri/ui/src/lamp.ts",
+"line": 35
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/`lamp.ts`/lampForRecord().(state)",
+"file": "crates/conductor-tauri/ui/src/lamp.ts",
+"line": 36
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/`lamp.ts`/lampForRecord().(state)",
+"file": "crates/conductor-tauri/ui/src/lamp.ts",
+"line": 37
+}
+],
+"db_state": "fresh",
+"plane": "ts"
+},
+{
+"sql": "SELECT callee, file, line FROM refs WHERE callee LIKE '%RunReport%' ORDER BY file, line",
+"rows": 11,
+"result": [
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`RunReport.tsx`/RunReport().",
+"file": "crates/conductor-tauri/ui/src/App.tsx",
+"line": 6
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`RunReport.tsx`/",
+"file": "crates/conductor-tauri/ui/src/App.tsx",
+"line": 6
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`RunReport.tsx`/RunReport().",
+"file": "crates/conductor-tauri/ui/src/App.tsx",
+"line": 267
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`RunReport.tsx`/RunReport().(`{ records }`)typeLiteral6:records.",
+"file": "crates/conductor-tauri/ui/src/App.tsx",
+"line": 267
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`RunReport.tsx`/RunReport().",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 6
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`RunReport.tsx`/",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 6
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`RunReport.tsx`/RunReport().",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 212
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`RunReport.tsx`/RunReport().(`{ records }`)typeLiteral6:records.",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 212
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`RunReport.tsx`/RunReport().(`{ records }`)typeLiteral6:records.",
+"file": "crates/conductor-tauri/ui/src/components/RunReport.tsx",
+"line": 12
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`RunReport.tsx`/latencyCell.",
+"file": "crates/conductor-tauri/ui/src/components/RunReport.tsx",
+"line": 51
+},
+{
+"callee": "scip-typescript npm conductor-ui 0.1.0 src/components/`RunReport.tsx`/fingerprintCell.",
+"file": "crates/conductor-tauri/ui/src/components/RunReport.tsx",
+"line": 53
+}
+],
+"db_state": "fresh",
+"plane": "ts"
+},
+{
+"sql": "SELECT from_crate, to_crate FROM crate_edges WHERE from_crate IN ('conductor-cli','conductor-run') ORDER BY from_crate, to_crate",
+"rows": 10,
+"result": [
+{
+"from_crate": "conductor-cli",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-cli",
+"to_crate": "conductor-report"
+},
+{
+"from_crate": "conductor-cli",
+"to_crate": "conductor-run"
+},
+{
+"from_crate": "conductor-cli",
+"to_crate": "conductor-verify"
+},
+{
+"from_crate": "conductor-run",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-run",
+"to_crate": "conductor-emit"
+},
+{
+"from_crate": "conductor-run",
+"to_crate": "conductor-faults"
+},
+{
+"from_crate": "conductor-run",
+"to_crate": "conductor-report"
+},
+{
+"from_crate": "conductor-run",
+"to_crate": "conductor-timeline"
+},
+{
+"from_crate": "conductor-run",
+"to_crate": "conductor-verify"
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee LIKE '%/for_record().%' ORDER BY file, line",
+"rows": 0,
+"result": [],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

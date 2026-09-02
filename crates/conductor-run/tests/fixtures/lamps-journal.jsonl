@@ -1,0 +1,3 @@
+{"journal_emitted_at":"2026-01-02T03:04:05Z","read_back_observed_at":"2026-01-02T03:04:07Z","run_id":"lamps-fixture","seed":424242,"scenario":"lamps-fixture-pass","p_ids":["P-019","P-041"],"verdict":"Pass","state":"Pass","latency_ms":2000,"slo_tier":"<5s","fingerprints":[]}
+{"journal_emitted_at":null,"read_back_observed_at":null,"run_id":"lamps-fixture","seed":424242,"scenario":"lamps-fixture-blocked","p_ids":["P-019"],"verdict":null,"state":"Blocked","latency_ms":null,"slo_tier":"<20s","fingerprints":null}
+{"journal_emitted_at":"2026-01-02T03:04:05Z","read_back_observed_at":"2026-01-02T03:04:09Z","run_id":"lamps-fixture","seed":424242,"scenario":"lamps-fixture-fail","p_ids":["P-030"],"verdict":"Fail","state":"Fail","latency_ms":4000,"slo_tier":"<90s","fingerprints":[]}

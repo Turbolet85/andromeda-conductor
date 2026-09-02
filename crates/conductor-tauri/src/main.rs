@@ -24,6 +24,7 @@ fn main() {
             commands::coverage_matrix,
             commands::unbacked_auto,
             commands::run_report,
+            commands::run_envelope,
             commands::start_run,
             commands::stop_run,
             pause::resolve_operator_hold,

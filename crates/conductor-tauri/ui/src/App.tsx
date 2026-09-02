@@ -1,13 +1,43 @@
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { invoke, Channel } from '@tauri-apps/api/core'
 import Titlebar, { type RunState } from './components/Titlebar'
 import ScenarioPicker, { type ScenarioSummary } from './components/ScenarioPicker'
 import RunControls from './components/RunControls'
 import CoverageMatrix, { type CapabilityRow } from './components/CoverageMatrix'
-import RunReport from './components/RunReport'
+import RunReport, { type EnvelopeStanding } from './components/RunReport'
 import OperatorPauseDialog from './components/OperatorPauseDialog'
 import { type ChecklistItem } from './components/OperatorChecklist'
-import { type RunRecord } from './lamp'
+import { lampForRecord, type Lamp, type RunRecord } from './lamp'
+
+// Worst-lamp-wins. A RunRecord names many P-IDs and several records in one run can name the SAME
+// P-ID (five of the catalog's do — P-017, and P-019/P-020/P-021/P-060 across the severity-tier
+// siblings, which run together), so the row shows the worst lamp of its contributors. The order
+// ranks how much a row still owes; it never MAPS a non-verdict ReportState onto Fail — only a
+// record whose own lamp is already Fail can win — so the ban on collapsing Manual/Residual/Blocked
+// into Fail holds (design-system §Component Patterns 4).
+const LAMP_SEVERITY: Record<Lamp, number> = {
+  Fail: 5,
+  Blocked: 4,
+  Hold: 3,
+  Manual: 2,
+  Residual: 1,
+  Pass: 0,
+}
+
+// Project a run's records onto their P-IDs through the verdict-first lampForRecord, so the coverage
+// row carries the outcome the run actually produced. A P-ID no record names is simply absent — the
+// matrix renders its own "Not yet run" cell, which is an absence state, never a failure.
+function lampsByPId(records: RunRecord[]): Record<string, Lamp> {
+  const lamps: Record<string, Lamp> = {}
+  for (const record of records) {
+    const lamp = lampForRecord(record.state, record.verdict)
+    for (const pId of record.p_ids) {
+      const held = lamps[pId]
+      if (held === undefined || LAMP_SEVERITY[lamp] > LAMP_SEVERITY[held]) lamps[pId] = lamp
+    }
+  }
+  return lamps
+}
 
 type RunStage = 'progress' | 'blocked' | 'done' | 'aborted'
 interface RunEvent {
@@ -56,6 +86,7 @@ export default function App() {
   const [report, setReport] = useState<RunRecord[]>([])
   const [reportError, setReportError] = useState<string | null>(null)
   const [reportLoading, setReportLoading] = useState(true)
+  const [envelope, setEnvelope] = useState<EnvelopeStanding | null>(null)
   const [holdPrompt, setHoldPrompt] = useState<HoldPrompt | null>(null)
   const [tickedItems, setTickedItems] = useState<string[]>([])
   const pendingHold = useRef(false)
@@ -92,11 +123,20 @@ export default function App() {
       .finally(() => {
         if (initial) setReportLoading(false)
       })
+    // The run-level envelope standing rides the same refresh, for the same run the table renders.
+    // A failed read leaves the banner absent — the honest degrade for a qualifier, matching the
+    // unbacked-auto ledger above: the report survives, the annotation disappears.
+    invoke<EnvelopeStanding | null>('run_envelope')
+      .then(setEnvelope)
+      .catch(() => setEnvelope(null))
   }, [])
 
   useEffect(() => {
     loadReport(true)
   }, [loadReport])
+
+  // Recomputed only when the run report changes — the coverage rows are a projection of it.
+  const lamps = useMemo(() => lampsByPId(report), [report])
 
   const running = runState === 'live'
 
@@ -244,7 +284,7 @@ export default function App() {
               No coverage data.
             </p>
           ) : (
-            <CoverageMatrix rows={coverage} unbacked={unbacked} />
+            <CoverageMatrix rows={coverage} lamps={lamps} unbacked={unbacked} />
           )}
         </section>
 
@@ -265,7 +305,7 @@ export default function App() {
               No run yet
             </p>
           ) : (
-            <RunReport records={report} />
+            <RunReport records={report} envelope={envelope} />
           )}
         </section>
       </main>

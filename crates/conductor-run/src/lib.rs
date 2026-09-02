@@ -843,6 +843,23 @@ pub fn persist(
     Ok(())
 }
 
+/// Read back a run's load-envelope standing — the run-level qualifier the desktop run-report renders.
+///
+/// The read-side counterpart to [`persist`]'s `insert_envelope`. It lives here, not in the GUI shell,
+/// because `conductor-tauri` has no `conductor-report` edge and the composition root already owns the
+/// `RunsDb` seam (arch §Established Decisions [Module Boundaries]). A run that recorded no envelope row
+/// yields `None` — an absence, never an `Err` (arch §Conventions — Error handling).
+pub fn read_envelope(runs_dir: &Path, run_id: &str) -> anyhow::Result<Option<EnvelopeStatus>> {
+    let db = RunsDb::open(runs_dir)?;
+    let status = db.get_envelope(run_id)?;
+    tracing::info!(
+        run_id = %run_id,
+        message = status.as_ref().map_or("no envelope row", |s| s.label()),
+        "read run envelope"
+    );
+    Ok(status)
+}
+
 /// Judge a run against the pinned SUT load envelope, before it is driven.
 ///
 /// A run is environment-suspect if ANY of its scenarios breaches the envelope: the qualifier is
@@ -1230,6 +1247,27 @@ mod tests {
                 })
                 .collect(),
         }
+    }
+
+    #[test]
+    fn read_envelope_round_trips_what_persist_wrote_and_is_none_for_an_unknown_run() {
+        let dir = assert_fs::TempDir::new().unwrap();
+        let suspect = EnvelopeStatus::EnvironmentSuspect("storm-scenario over the sustained bound".to_string());
+
+        persist(dir.path(), "run-suspect", &[], &[], &suspect).unwrap();
+        persist(dir.path(), "run-clean", &[], &[], &EnvelopeStatus::InEnvelope).unwrap();
+
+        assert_eq!(read_envelope(dir.path(), "run-suspect").unwrap(), Some(suspect));
+        assert_eq!(
+            read_envelope(dir.path(), "run-clean").unwrap(),
+            Some(EnvelopeStatus::InEnvelope),
+            "an in-envelope run records a standing too — the banner's absence is the RENDERER's choice"
+        );
+        assert_eq!(
+            read_envelope(dir.path(), "never-ran").unwrap(),
+            None,
+            "a run with no envelope row is an absence, never an Err"
+        );
     }
 
     #[test]

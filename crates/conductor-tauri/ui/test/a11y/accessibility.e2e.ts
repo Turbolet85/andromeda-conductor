@@ -36,7 +36,32 @@ const PAIRS: ReadonlyArray<{ fg: string; bg: string; need: number }> = [
 const EXTRA_PAIRS: ReadonlyArray<{ fg: string; bg: string; need: number }> = [
   { fg: '--text-tertiary', bg: '--color-raised-1', need: 4.5 },
   { fg: '--text-tertiary', bg: '--color-raised-2', need: 4.5 },
+  // --status-residual carries TEXT on both its non-lamp surfaces — the coverage Mode cell and the
+  // run-level envelope banner — so the ratio it owes is 4.5:1 (SC 1.4.3), not the 3:1 a non-text
+  // indicator owes. a11y-plan §6's table enumerates no pair for this token while §1 requires the
+  // residual pair be asserted like any other, so these stand in for the row the table lacks.
+  { fg: '--status-residual', bg: '--color-raised-1', need: 4.5 },
+  { fg: '--status-residual', bg: '--color-base', need: 4.5 },
 ]
+
+// The fixture the routine arm is seeded with — wdio.conf.ts copies the COMMITTED
+// crates/conductor-run/tests/fixtures/lamps-journal.jsonl into a dedicated runs dir. Its semantics are
+// pinned Rust-side by conductor-run/tests/lamps_fixture.rs, so a fixture that stops carrying the
+// collision fails at nextest rather than quietly weakening what these assertions can see.
+const COLLIDED_P_ID = 'P-019'
+const COLLIDED_WORST_LAMP = 'Blocked' // beats the sibling record's Pass under worst-lamp-wins
+const UNRUN_TEXT = 'Not yet run'
+
+/** Each coverage row as rendered: its P-ID, its lamp label (empty when unrun), its status text. */
+async function coverageRows(): Promise<Array<{ pId: string; lamp: string; status: string }>> {
+  return browser.execute(() =>
+    Array.from(document.querySelectorAll('[class~="cov__row"]')).map((row) => ({
+      pId: (row.querySelector('[class~="cov__pid"]')?.textContent ?? '').trim(),
+      lamp: (row.querySelector('[class~="lamp__label"]')?.textContent ?? '').trim(),
+      status: (row.querySelector('[class~="cov__status"]')?.textContent ?? '').trim(),
+    })),
+  )
+}
 
 // The closed six-label lamp set (a11y-plan §6 State color tokens · lamp.ts LAMP_ORDER). The
 // --status-residual coverage Mode cell is a coverage-mode classification, NOT a seventh lamp.
@@ -203,6 +228,55 @@ describe('desktop a11y — routine arm (no live Pulse)', () => {
     // it is why enforcement is asserted CSS-natively above rather than by emulating the preference.
     // The honest limit: this proves the rule SHIPS and is correctly shaped, not that the OS preference
     // was exercised — SC 2.3.3 conformance is not claimed from it alone.
+  })
+
+  it('a coverage row carries its run outcome, worst-lamp-wins where records collide', async function () {
+    const rows = await coverageRows()
+    expect(rows.length).toBeGreaterThan(0)
+    if (!rows.some((r) => r.lamp)) {
+      // Subject absent: no run record reached the app, so no row can carry a verdict state. The
+      // fixture seed (wdio.conf.ts) is what supplies it; skipping here is never a pass.
+      this.skip()
+    }
+    // Names what it observed on BOTH failure modes — a missing row and a wrong lamp read differently.
+    const collided = rows.find((r) => r.pId === COLLIDED_P_ID)
+    const observed = collided
+      ? `${collided.pId}=${collided.lamp}`
+      : `${COLLIDED_P_ID} absent from [${rows.map((r) => r.pId).join(',')}]`
+    expect(observed).toBe(`${COLLIDED_P_ID}=${COLLIDED_WORST_LAMP}`)
+  })
+
+  it('a capability with no run record reads as prose, distinct from a failure by TEXT', async function () {
+    const rows = await coverageRows()
+    if (!rows.some((r) => r.lamp)) this.skip() // subject absent: nothing ran, every row is unrun
+
+    const unrun = rows.filter((r) => r.status === UNRUN_TEXT)
+    const failed = rows.filter((r) => r.lamp === 'Fail')
+    const problems: string[] = []
+    if (unrun.length === 0) problems.push(`no row rendered "${UNRUN_TEXT}"`)
+    if (failed.length === 0) problems.push('the fixture rendered no Fail lamp to contrast against')
+    // The discriminator is the rendered TEXT, not the tint — an unrun row must never read as a failure.
+    for (const row of unrun) {
+      if (failed.some((f) => f.status === row.status)) {
+        problems.push(`${row.pId} unrun status "${row.status}" matches a failed row's`)
+      }
+      if (LAMP_LABELS.includes(row.status)) {
+        problems.push(`${row.pId} unrun status "${row.status}" is a lamp label`)
+      }
+    }
+    expect(problems.join(' | ')).toBe('')
+  })
+
+  it('an over-envelope run banners its standing with the label in the DOM', async function () {
+    const banner = await $('[class~="report__envelope"]')
+    if (!(await banner.isExisting())) {
+      // Subject absent: the seeded fixture journal records no envelope row, so the run reads
+      // in-envelope and the qualifier is correctly omitted. The populated arm is proven by
+      // conductor-run's read_envelope round-trip + the run_envelope IPC test.
+      this.skip()
+    }
+    const label = await $('[class~="report__envelope-label"]')
+    expect(await label.getText()).toBe('ENVIRONMENT-SUSPECT')
   })
 
   // --- subject-absent on an idle console: skip with a reason, never fail, never vacuously pass ---

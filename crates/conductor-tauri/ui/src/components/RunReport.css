@@ -12,6 +12,32 @@
   color: var(--color-id-cyan);
 }
 
+/* The run-level load-envelope qualifier — the webview leg of the cli [ENVIRONMENT-SUSPECT] caption
+   and the Markdown banner. Recessive `--status-residual`, deliberately not a lamp-set token: reusing
+   one would read as a verdict (the not-conductors Mode-cell precedent). The label element always
+   carries the text, so the tint is never the only signal. */
+.report__envelope {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-sm);
+  align-items: baseline;
+  margin: 0;
+  padding: var(--space-sm) var(--space-md);
+  color: var(--status-residual);
+  background: var(--color-raised-1);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  transition: color var(--motion-micro) var(--ease-quiet);
+}
+
+.report__envelope-label {
+  white-space: nowrap;
+}
+
+.report__envelope-cause {
+  color: var(--text-secondary);
+}
+
 .report__scroll {
   max-height: 480px;
   overflow-y: auto;

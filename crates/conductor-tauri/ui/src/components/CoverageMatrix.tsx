@@ -38,8 +38,10 @@ function tally(rows: CapabilityRow[], unbacked: number): string {
 
 // The dense single-row-per-P-ID coverage wall (design-system §Component Patterns §3 — instrument-panel
 // density, never a card grid). Presentational: `rows` is the classification; `lamps` (p_id → Lamp,
-// verdict-first via lampForRecord) is the per-P-ID run outcome where one exists — absent ⇒ "Not yet run"
-// (the live per-P-ID runs.db join lands in Epoch 10). Reuses StatusLamp; never re-spells the lamp set.
+// verdict-first via lampForRecord) is the per-P-ID run outcome where one exists — absent ⇒ "Not yet run".
+// App.tsx builds that map from the run report's journal records (worst-lamp-wins where several name one
+// P-ID), so the join reads the same envelope the report table does. Reuses StatusLamp; never re-spells
+// the lamp set.
 export default function CoverageMatrix({
   rows,
   lamps,
