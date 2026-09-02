@@ -24,7 +24,7 @@ Enforcement: `.claude/rules/a11y.md`.
 2. **focus-management** — shadcn `AlertDialog` over Radix (reuse, NO install).
 3. **aria-component** — shadcn/ui over Radix (reuse, NO install).
 4. **contrast-verification-harness** — colorjs.io token-pair ratios (SC 1.4.3 / 1.4.11).
-5. **screen-reader-test-spec** — NVDA / VoiceOver / Orca per-state manual pass specs (supplemental).
+5. **screen-reader-test-spec** — the per-state pass spec + the agent-driven NVDA leg (NVDA's own speech log graded by the `sr*` suites, `CONDUCTOR_NVDA`, the operator reviews; browse-mode rows pending OS-level key injection) — realized 2026-09-02; VoiceOver / Orca declared not-runnable-here (supplemental).
 6. **a11y-ci-gate-wire** — `wdio run` a11y step via the 5-command `logs`, operator/local-gated.
 7. **violation-json-emission-wire** — JSON aligned to obs §6, service-tagged.
 
@@ -32,10 +32,10 @@ Enforcement: `.claude/rules/a11y.md`.
 - Never convey state by color alone — six lamps each carry text label + glyph. The six-label assertion keys on the LAMP labels: a token-tinted non-lamp element (the coverage out-of-scope Mode cell reusing `--status-residual`) is a classification, not a seventh state — its own label is its signal.
 - Never claim WCAG conformance without machine-verifiable evidence (axe/colorjs.io/Lighthouse JSON).
 - Never ARIA on non-semantic HTML; never keyboard traps; never `outline:none` without a `:focus-visible` replacement.
-- Never stand up a second browser-automation stack for a11y; manual SR is supplemental only.
+- Never stand up a second browser-automation stack for a11y; screen-reader verification is supplemental only (NVDA agent-driven via its speech log, VoiceOver / Orca manual-declared).
 
 ## Critical decisions
-- **Reuse the tests' tauri-driver/WebdriverIO** session (ONE webview stack — Linux+xvfb in CI, and headfully on the Windows WebView2 host, measured 2026-09-01) — not a parallel CDP attach.
+- **Reuse the tests' tauri-driver/WebdriverIO** session (ONE webview stack carrying three suite families — routine `--e2e`, driven `a11y:driven`, screen-reader `a11y:sr*` — Linux+xvfb in CI, and headfully on the Windows WebView2 host, measured 2026-09-01 / 2026-09-02) — not a parallel CDP attach.
 - **Radix/shadcn provide focus trap + Escape + ARIA roles** (no `focus-trap-react`/`react-aria` install) — but NOT focus restoration for the Channel-opened operator-pause dialog: with no Radix `Trigger`, focus lands on `<body>`, so the dialog restores explicitly via `onCloseAutoFocus` + a `restoreFocusTo` accessor and the invoker stays focusable (`aria-disabled`, never native `disabled`). Measured 2026-09-01.
 - **Reduced-motion emulation** is the one platform-dependent caveat (WebKitGTK fallback to OS/GTK level); macOS WKWebView stays manual-pass-only.
 

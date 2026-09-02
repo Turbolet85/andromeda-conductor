@@ -19,18 +19,19 @@ _Auth UX / security-gated flows intentionally deferred — Conductor owns no cre
 
 ### Primary screens
 
-- **Run console (idle)** — frameless window at rest: scenario/suite picker armed, count dormant, coverage matrix loaded, run-report area showing the "no run yet" prose. The pre-launch ready state.
-- **Run console (live)** — same window mid-run: heartbeat ticking `count-nominal` in the titlebar, phase line naming the current segment, coverage-matrix rows resolving their verdict lamps in place, live counters streaming over the Tauri `Channel`.
-- **Run console (HOLD)** — the operator-pause moment: count frozen `count-hold`, phase line "HOLD — operator pause", the go/no-go dialog trapping focus over a dimmed console.
-- **Run report (terminal)** — the run's destination: the report card populated with per-P-ID verdict lines (lamp + text + mono identifiers) and — when the run breached its load envelope — the run-level envelope banner above them, or the distinct "Run in progress" / "no run yet" states.
+- **Run console (idle)** — frameless window at rest: scenario/suite picker armed, count dormant, coverage matrix loaded, run-report area showing the shipped `No run yet` prose. The pre-launch ready state.
+- **Run console (live)** — same window mid-run: heartbeat ticking `count-nominal` in the titlebar, phase line reading `Conductor · live` (the titlebar renders one of four fixed state labels, never the segment name — measured 2026-09-02), coverage-matrix rows resolving their verdict lamps in place, live counters streaming over the Tauri `Channel`.
+- **Run console (HOLD)** — the operator-pause moment: count frozen `count-hold`, phase line `Conductor · HOLD — operator pause`, the go/no-go dialog trapping focus over a dimmed console.
+- **Run console (aborted)** — `Stop` during a run: phase line `Conductor · aborted`, count dimmed `count-blocked`, `Start` available again; no wireframe entry yet (recorded 2026-09-02).
+- **Idle with a report** (the render the retired "report-terminal" name described — a sub-state of `idle`, not a fifth state) — the run's destination: the report card populated with per-P-ID verdict lines (lamp + text + mono identifiers) and — when the run breached its load envelope — the run-level envelope banner above them, or the shipped `No run yet` empty state.
 
-The four are **one surface in different run states**, not four routes — the frameless window IS the surface; no router, no breakpoints, no back/forward.
+The shipped `RunState` set is `idle` · `live` · `hold` · `aborted` (`Titlebar.tsx`, measured 2026-09-02; idle-with-report is a sub-state of `idle`). The screens are **one surface in different run states**, not routes — the frameless window IS the surface; no router, no breakpoints, no back/forward.
 
 ### Wireframe — Run console (idle)
 
 ```
 +==========================================================+  <- frameless titlebar, data-tauri-drag-region
-|  error-baseline-spike            00:00:00          _  X  |  <- phase line (Heading) | count (Display, count-nominal, dormant) | min/close (Lucide, icon size grid, accessible name derived by a11y)
+|  Conductor · idle                00:00:00          _  X  |  <- phase line — the shipped `Conductor · idle` label (Heading) | count (Display, count-nominal, dormant) | min/close (Lucide, icon size grid, accessible name derived by a11y)
 +==========================================================+     titlebar height space-xl, border-subtle seam, no shadow
 |  [ Scenario / suite v ]   [ Start ]   [ Stop ]           |  <- control row: shadcn Command/Select (color-raised-2) + Buttons (radius-sm); padding space-sm
 +----------------------------------------------------------+
@@ -41,9 +42,9 @@ The four are **one surface in different run states**, not four routes — the fr
 |  …  (virtual-scroll, one row per manifest capability)     |     lamp glyph + label + P-ID(Data,color-id-cyan) + slo_tier + latency
 +----------------------------------------------------------+
 |  RUN REPORT                                               |  <- run-report card (color-raised-1, radius-md, border-subtle)
-|  No run yet — pick a scenario/suite to begin.             |  <- empty state prose (Body, text-tertiary) — NOT a gray skeleton
+|  No run yet                                               |  <- empty state prose (Body, text-tertiary) — the shipped string; NOT a gray skeleton
 +----------------------------------------------------------+
-|  conductor  ·  seed 424242  ·  idle                       |  <- status footer (Label, text-tertiary); height space-sm; border-subtle top seam
+|  conductor  ·  seed 424242  ·  idle                       |  <- status footer (Label, text-tertiary); height space-sm; border-subtle top seam — DESIGNED, NOT SHIPPED (no `contentinfo` strip in the release DOM, measured 2026-09-02)
 +==========================================================+
                                                               outer margins space-xl
 ```
@@ -52,7 +53,7 @@ The four are **one surface in different run states**, not four routes — the fr
 
 ```
 +==========================================================+
-|  HOLD — operator pause           00:01:47          _  X  |  <- phase line flipped (Heading, count-hold) | count FROZEN at 00:01:47 (Display, count-hold)
+|  Conductor · HOLD — operator pause   00:01:47      _  X  |  <- phase line flipped to the shipped label (Heading, count-hold) | count FROZEN at 00:01:47 (Display, count-hold)
 +==========================================================+     count interval halted — value does not advance, does not blank
 |  [ Scenario / suite v ]   [ Start ]   [ Stop ]           |     (controls inert behind the focus-trapped dialog)
 +----------------------------------------------------------+
@@ -60,9 +61,9 @@ The four are **one surface in different run states**, not four routes — the fr
 |  ✓ P-009  error-baseline-spike  <90s   1840ms  Pass       |  <- resolved rows keep their verdict lamp + text
 |  ⊙ P-015  restart-suppression  <slo_tier>  —   …          |     ⊙ = next-step row about to commit (the gated one); tier cell = the scenario's TOML-declared slo_tier (one of <5s/<20s/<90s)
 | ┌──────────────────────────────────────────────────────┐ |
-| │  HOLD — operator pause                  step 14 · 00:01:47 │  <- dialog (shadcn AlertDialog, color-raised-3, radius-lg)
-| │  Commit next timeline step: restart-suppression?      │ |     header echoes the frozen count (Display, count-hold) — signature placement #2
-| │  Proceeding fires the cue against the live Pulse.     │ |     body copy (Body, text-secondary); alert-dialog semantics from shadcn AlertDialog
+| │  P-025 — operator-checklist             step 14 · 00:01:47 │  <- dialog (shadcn AlertDialog, color-raised-3, radius-lg); title = the backend hold prompt `{p_id} — operator-checklist` (shipped, 2026-09-02)
+| │  Observe the operator-checklist claim for this scenario │ |     description = the backend hold prompt; header echoes the frozen count (Display, count-hold) — signature placement #2
+| │                                                        │ |     (no further body copy ships; alert-dialog semantics from shadcn AlertDialog)
 | │                                                        │ |
 | │  ☐ {induced state}                                    │ |     checklist rows — only when the hold declares [[checklist]] items;
 | │    {expected observation}?                            │ |     sibling of Description, status-manual checkbox, Space toggles
@@ -70,15 +71,15 @@ The four are **one surface in different run states**, not four routes — the fr
 | │                          [ Abort ]      [ Proceed ]   │ |  <- Abort (Button, status-fail text) | Proceed (Button, count-nominal accent, primary)
 | └──────────────────────────────────────────────────────┘ |     motion-micro fade entrance; focus trapped; focus ring color-focus
 +----------------------------------------------------------+
-|  conductor  ·  seed 424242  ·  HOLD step 14               |  <- footer reflects HOLD state (Label, count-hold accent on "HOLD")
+|  conductor  ·  seed 424242  ·  HOLD step 14               |  <- footer reflects HOLD state (Label, count-hold accent on "HOLD") — DESIGNED, NOT SHIPPED (no `contentinfo` strip, 2026-09-02)
 +==========================================================+
 ```
 
-### Wireframe — Run report (terminal)
+### Wireframe — Idle with a report (the run-report render; formerly "Run report (terminal)")
 
 ```
 +==========================================================+
-|  run complete                    00:03:12          _  X  |  <- phase line at rest (Heading) | count settled (Display, count-nominal)
+|  Conductor · idle                00:03:12          _  X  |  <- phase line at rest — the shipped `Conductor · idle` label (Heading) | count settled (Display, count-nominal)
 +==========================================================+
 |  RUN REPORT   run_id 2026-06-14T13-02-… · seed 424242     |  <- card header: run_id (Data, color-id-cyan); border-subtle seam
 |  ENVIRONMENT-SUSPECT  <scenario> sustains over the bound  |  <- run-level load-envelope banner (status-residual label + cause in
@@ -88,13 +89,13 @@ The four are **one surface in different run states**, not four routes — the fr
 |  ✓ P-010  baseline-error-rate   Pass   2210ms  <20s       |
 |  ⚠ P-008  root-vs-deep-weight    CalibrationRegion  <20s   |  <- amber lamp + text (count-hold) — never silently a Fail
 |  ✗ P-015  restart-suppression   Fail   4120ms  <slo_tier> |  <- red lamp + text (status-fail), motionless — no flash
-|  ☐ P-035  pii-scrub             Manual  halo→burgundy?     |  <- checkbox glyph (status-manual, neutral) — operator-checklist item, NOT a machine verdict
+|  ☐ P-035  pii-scrub             Manual  halo→burgundy?     |  <- checkbox glyph (status-manual, neutral) — operator-checklist item, NOT a machine verdict; the checklist render at this site is UNBUILT (only the lamp/verdict line ships, measured 2026-09-02)
 |  ⊘ P-032  context-grounding     Residual                  |  <- dashed muted lamp (status-residual) — pre-accepted gap, NEVER red
 |     residual: recent_commits producer stub until v0.3.0   |  <- KnownResidual note (Body, text-tertiary); P-032 the first instance
 |  ○ P-003  port-occupier         Blocked  —                |  <- hollow ring (count-blocked) + named precondition string below
 |     precondition: mcp-server feature + ANDROMEDA_PULSE_…   |  <- Blocked precondition (Body, text-tertiary); measurement cols render — / null
 +----------------------------------------------------------+
-|  conductor · 3 Pass · 1 Calib · 1 Fail · 1 Manual · 1 Residual · 1 Blocked | <- footer roll-up (Label, text-tertiary); each count token in its status color
+|  conductor · 3 Pass · 1 Calib · 1 Fail · 1 Manual · 1 Residual · 1 Blocked | <- footer roll-up (Label, text-tertiary); each count token in its status color — DESIGNED, NOT SHIPPED (no `contentinfo` strip, 2026-09-02)
 +==========================================================+
 ```
 
@@ -102,7 +103,7 @@ The four are **one surface in different run states**, not four routes — the fr
 
 Flex row across the full window top, `data-tauri-drag-region`, titlebar height `space-xl` (32px — `space-lg` (20px) cannot contain the `Heading`-tier phase line + the window-control glyphs; reconciled to the shipped value), internal cluster gaps `space-xs`, bottom seam `1px` `border-subtle` (no shadow — borders-only depth). Three zones:
 
-- **Left — phase line** (Heading role): the named operational segment (`error-baseline-spike`, `fingerprint-storm`, `HOLD — operator pause`) in `text-primary`; flips to `count-hold` on the operator-pause.
+- **Left — phase line** (Heading role): one of four fixed state labels from the titlebar's label map — `Conductor · idle` / `Conductor · live` / `Conductor · HOLD — operator pause` / `Conductor · aborted` (`Titlebar.tsx`, measured 2026-09-02; it never names the operational segment) in `text-primary`; flips to `count-hold` on the operator-pause.
 - **Center — the count** (Display role, tabular figures): the run heartbeat in `count-nominal`. **Default** ticks in place. **Hold** the tick interval halts, value frozen, color → `count-hold` over `motion-micro` `ease-quiet`. **Abort** → `count-blocked`, dimmed. The flip from ticking to frozen is announced to assistive tech (a11y derives the live-region attribute); the count change is dropped under reduced-motion preference.
 - **Right — window controls**: Lucide React minimize/close at the icon size grid, hover background lift `motion-micro`. Each carries an accessible name (a11y derives the label). Standard buttons on Windows/Linux, traffic-light-style on macOS; double-click drag-region maximizes. Drag-region pointer cursor must not leak onto the controls.
 
@@ -116,8 +117,8 @@ No router, no breakpoints, no browser-style back/forward/URL — the frameless w
 
 The console has no marketing "hero" — its hero is the **decision moment**: the operator-pause go/no-go dialog, the staged hold that gates every committed timeline step. shadcn `AlertDialog` (Radix) over `color-raised-3` fill, `1px` `border-subtle`, `radius-lg`, `motion-micro` fade entrance, focus trapped with a visible `color-focus` ring. shadcn `AlertDialog` provides the alert-dialog semantics and the trap + Escape-escape; it does NOT restore focus here — the hold arrives over a Tauri `Channel`, so the dialog has no Radix `Trigger` and on close focus landed on `<body>` (as measured 2026-09-01). Restoration is contract-borne: the dialog takes a `restoreFocusTo` accessor and restores explicitly in `onCloseAutoFocus`, and the invoking control must stay focusable (Start conveys unavailability with `aria-disabled`, never the native `disabled` attribute). The dialog's purpose is to require an explicit operator confirm before an irreversible committed step.
 
-- **Header** carries the **frozen count snapshot** (Display role, `count-hold`) + step index — the signature's placement #2, so the held value is present at the exact point of decision.
-- **Body** (Body role, `text-secondary`) states what proceeding will do to the live Pulse — plain, terse, no alarm in the tone.
+- **Header** carries the **frozen count snapshot** (Display role, `count-hold`) + step index — the signature's placement #2, so the held value is present at the exact point of decision. As shipped the title text is the backend hold prompt — `{p_id} — operator-checklist` (measured 2026-09-02, S2 rows).
+- **Body** (Body role, `text-secondary`) — as shipped, the backend hold prompt's description `Observe the operator-checklist claim for this scenario` (measured 2026-09-02); the design intent stands: it states what proceeding will do — plain, terse, no alarm in the tone.
 - **Checklist rows** (present only when the hold point declares `[[checklist]]` items): zero-or-more operator-checklist rows projected from the hold, rendered BETWEEN Body and Actions as a sibling of the dialog's `Description` — never nested inside it, since the Description is the described-by target and interactive rows read as flat prose there. One native checkbox per row (`status-manual` glyphs), Space toggles a focused row, and the unticked roll-up is announced; reuses the shipped Operator-checklist primitive with no new token.
 - **Actions**: **Proceed** (`Button`, primary, `count-nominal` accent) and **Abort** (`Button`, `status-fail` text). On commit, **Proceed disables and shows an in-flight state** during the async step (prevents a double-commit). The proceed/abort outcome and any verdict change are announced (a11y derives the live-region attribute).
 
@@ -134,7 +135,7 @@ NOT a KPI-card grid (explicit Rejected Default) — a single dense list, Linear 
 
 The row is **four cells**, and `slo_tier` / `latency_ms` are deliberately NOT among them: a per-run measurement belongs to the run-report table (§Primary content block 2), while this surface answers what a capability's STANDING is. (Until 2026-09-02 this section documented a six-cell row led by the lamp and carrying both measurement columns; the shipped component never rendered that shape, and the anatomy is corrected here to what renders.)
 
-**States:** selected row → `border-emphasis` left edge; hover → `color-raised-1` lift `motion-micro`. **Empty** → "No scenarios loaded" prose (Body, `text-tertiary`), never a gray placeholder. The header strip carries the matrix counts (Data, `color-id-cyan`) and — while held — echoes the frozen step-index in `count-hold` (signature reinforcement #3). Every lamp is paired with its status text (`Pass` / `CalibrationRegion` / `Fail` / `Blocked`) so state is never color-only, and a verdict change is announced (a11y derives the live-region attribute).
+**States:** selected row → `border-emphasis` left edge; hover → `color-raised-1` lift `motion-micro`. **Empty** → the shipped `No scenarios found.` prose (Body, `text-tertiary`; the string is the component's, measured 2026-09-02), never a gray placeholder. The header strip carries the matrix counts (Data, `color-id-cyan`) and — while held — echoes the frozen step-index in `count-hold` (signature reinforcement #3). Every lamp is paired with its status text (`Pass` / `CalibrationRegion` / `Fail` / `Blocked`) so state is never color-only, and a verdict change is announced (a11y derives the live-region attribute).
 
 ### Component — Primary content block 2 (run-report view + verdict lamp)
 
@@ -145,15 +146,15 @@ The terminal destination of the run flow: `color-raised-1` card, `1px` `border-s
 - **Line body** (Body role, `text-secondary`) with mono identifiers — P-ID, `run_id`, slo_tier, latency_ms — in Data role / `color-id-cyan`.
 - **Blocked rows** carry the named precondition string (Body, `text-tertiary`); measurement columns render `—` / null, **never a red error** (`Blocked` ≠ red — it was never measured).
 
-**Distinct non-result states (never downgraded to Fail):** **Empty** → "No run yet — pick a scenario/suite to begin" (Body, `text-tertiary`); **In-progress** → "Run in progress" (Body, `text-secondary`); **ManualCheck** → renders as an operator-checklist item (induced state + expected observation, ticked y/n — see the Operator-checklist component below), not a machine verdict; **KnownResidual** → the dashed muted lamp + "expected until {named fix}" note (P-032's `recent_commits` stub), present-but-accepted, **never a red Fail** — the same "no surprise failure" rule the design applies to `Blocked`, extended to a measured pre-accepted gap. The live state lives in the titlebar count + matrix; the report never shows a partial/failed verdict for an unfinished run. Each verdict/state change is announced (a11y derives the live-region attribute).
+**Distinct non-result states (never downgraded to Fail):** **Empty** → the shipped `No run yet` (Body, `text-tertiary`; measured 2026-09-02); **In-progress** → no report-area prose ships — the live state is carried by the titlebar label + count and the matrix (measured 2026-09-02); **ManualCheck** → designed to render as an operator-checklist item (induced state + expected observation, ticked y/n — see the Operator-checklist component below), not a machine verdict — as shipped the report site renders the `Manual` lamp line only, the checklist render being UNBUILT there (route-owned; measured 2026-09-02); **KnownResidual** → the dashed muted lamp + "expected until {named fix}" note (P-032's `recent_commits` stub), present-but-accepted, **never a red Fail** — the same "no surprise failure" rule the design applies to `Blocked`, extended to a measured pre-accepted gap. The live state lives in the titlebar count + matrix; the report never shows a partial/failed verdict for an unfinished run. Each verdict/state change is announced (a11y derives the live-region attribute).
 
 ### Component — Operator-checklist (the `ManualCheck` render — drive+observe surface)
 
-The SAME primitive renders in two contexts, and the distinction is the context rather than the component: inside the operator-pause go/no-go dialog when the hold point declares `[[checklist]]` items (rendered as a sibling of the dialog's `Description`, never nested inside it), and in the run report where the checklist confirms a *past visual observation* Conductor cannot read back over MCP — the "drive+observe" half of the coverage matrix. Per `ManualCheck` P-ID it renders a card row: the **induced state** (what Conductor drove — "stormed the fingerprint 12×/30s", "model disabled") on the left, the **expected observation** as a yes/no the operator ticks on the right ("halo shifted toward burgundy? ☐", "no OS toast appeared? ☐"). `color-raised-1` card, `1px border-subtle`, `radius-md`, neutral-lavender `status-manual` checkbox glyphs (NOT the green/amber/red verdict triad — there is no machine verdict here). Space toggles a row (keyboard-first, like the rest of the console); ticking resolves that item's *verdict* to `Pass`/`Fail` while the *report-state* stays `ManualCheck` (operator-confirmed). The footer roll-up surfaces the unticked count so an incomplete manual pass is never read as a finished run. This is where "Conductor never emits a native OS toast" is *checked* (the operator confirms Pulse's toast/halo behavior), never performed.
+The SAME primitive is designed to render in two contexts, and the distinction is the context rather than the component — **as shipped (2026-09-02) only the dialog context mounts it** (`OperatorPauseDialog.tsx`; the run-report site is unbuilt, a route-owned gap; SR pass row S2-08): inside the operator-pause go/no-go dialog when the hold point declares `[[checklist]]` items (rendered as a sibling of the dialog's `Description`, never nested inside it), and in the run report where the checklist confirms a *past visual observation* Conductor cannot read back over MCP — the "drive+observe" half of the coverage matrix. Per `ManualCheck` P-ID it renders a card row: the **induced state** (what Conductor drove — "stormed the fingerprint 12×/30s", "model disabled") on the left, the **expected observation** as a yes/no the operator ticks on the right ("halo shifted toward burgundy? ☐", "no OS toast appeared? ☐"). `color-raised-1` card, `1px border-subtle`, `radius-md`, neutral-lavender `status-manual` checkbox glyphs (NOT the green/amber/red verdict triad — there is no machine verdict here). Space toggles a row (keyboard-first, like the rest of the console); ticking resolves that item's *verdict* to `Pass`/`Fail` while the *report-state* stays `ManualCheck` (operator-confirmed). The checklist view's own `role=status` roll-up surfaces the unticked count (measured 2026-09-02; the window footer strip is unbuilt) so an incomplete manual pass is never read as a finished run. This is where "Conductor never emits a native OS toast" is *checked* (the operator confirms Pulse's toast/halo behavior), never performed.
 
 ### Component — Footer (status strip)
 
-Single-line status strip pinned to the window bottom: height `space-sm`, top seam `1px` `border-subtle`, `text-tertiary`, Label role. Surfaces operational state, not navigation: `conductor` · `seed <n>` · the current run phase (`idle` / `HOLD step 14` / `run complete`) and — on the report screen — the verdict roll-up (`3 Pass · 1 Calib · 1 Fail · 1 Manual · 1 Residual · 1 Blocked`) — plus an **unticked-ManualCheck count** while a manual pass is still incomplete — each count token tinted in its own status color (`count-nominal` / `count-hold` / `status-fail` / `status-manual` / `status-residual` / `count-blocked`) and paired with its label so the tally is never color-only. No links, no legal, no brand chrome — a control surface, not a dashboard. Conductor never emits a native OS toast (that is Pulse behavior it observes); the footer + titlebar + matrix carry all live state in-window.
+**Designed, NOT shipped (as of 2026-09-02):** the release DOM exposes no `contentinfo` strip — its landmark set is `banner` + `main` + two `region`s (measured by the SR pass) — so this section describes the target, and the seed / phase / roll-up line is a route-owned gap. Single-line status strip pinned to the window bottom: height `space-sm`, top seam `1px` `border-subtle`, `text-tertiary`, Label role. Surfaces operational state, not navigation: `conductor` · `seed <n>` · the current run phase (`idle` / `HOLD step 14` / `run complete`) and — on the report screen — the verdict roll-up (`3 Pass · 1 Calib · 1 Fail · 1 Manual · 1 Residual · 1 Blocked`) — plus an **unticked-ManualCheck count** while a manual pass is still incomplete — each count token tinted in its own status color (`count-nominal` / `count-hold` / `status-fail` / `status-manual` / `status-residual` / `count-blocked`) and paired with its label so the tally is never color-only. No links, no legal, no brand chrome — a control surface, not a dashboard. Conductor never emits a native OS toast (that is Pulse behavior it observes); the footer + titlebar + matrix carry all live state in-window.
 
 ### IA notes
 
@@ -304,7 +305,7 @@ P-IDs, `run_id`, slo_tier, latency_ms, and fingerprints render in the ID-cyan ma
 **Surfaces covered:** desktop-webview (Tauri 2 frameless, React 19 / Tailwind v4.1 `@theme` / shadcn) + cli (`conductor-cli`: clap / owo-colors / indicatif / comfy-table / inquire, ANSI 256, TTY-gated, line-oriented).
 
 **Key layout choices:**
-- **desktop-webview:** single-station console, no router / no breakpoints / no browser nav — the frameless window IS the surface; four "screens" are one window in different run states (idle / live / HOLD / report). Coverage matrix is a dense single-row-per-P-ID list (Linear instrument-panel density), explicitly NOT a KPI-card grid. Borders-only depth (`border-subtle` seams, no shadow). "A control surface, not a dashboard."
+- **desktop-webview:** single-station console, no router / no breakpoints / no browser nav — the frameless window IS the surface; the "screens" are one window in different run states (`idle` · `live` · `hold` · `aborted`, idle-with-report a sub-state of `idle` — the shipped `RunState` set, 2026-09-02). Coverage matrix is a dense single-row-per-P-ID list (Linear instrument-panel density), explicitly NOT a KPI-card grid. Borders-only depth (`border-subtle` seams, no shadow). "A control surface, not a dashboard."
 - **cli:** linear top-to-bottom stdout, verb-noun (`conductor run|suite|report`), no cursor manipulation / no full-screen redraw (ratatui omitted). Two `comfy-table` shapes with terminal-detected width — the 6-column results/SLO table (`run`/`suite`) and the 4-column coverage matrix (`coverage`); every status color paired with an ASCII bracket prefix.
 
 **Cross-surface IA decisions:**

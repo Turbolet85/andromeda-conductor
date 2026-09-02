@@ -10,6 +10,9 @@
     "typecheck:e2e": "tsc -p test/tsconfig.json",
     "a11y": "wdio run wdio.conf.ts",
     "a11y:driven": "wdio run wdio.conf.ts --suite driven",
+    "a11y:sr": "wdio run wdio.conf.ts --suite sr",
+    "a11y:sr-empty": "wdio run wdio.conf.ts --suite sr-empty",
+    "a11y:sr-error": "wdio run wdio.conf.ts --suite sr-error",
     "preview": "vite preview"
   },
   "dependencies": {

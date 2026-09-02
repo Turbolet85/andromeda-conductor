@@ -23,7 +23,7 @@ _Distilled from `.andromeda/design-system.md` + `.andromeda/layout-templates.md`
 - **Base unit:** 4px (developer-tool density). **Motion:** `--motion-micro` 150ms + `--motion-heartbeat` 1600ms (the live paused-count breath), `--ease-quiet` (no overshoot); reduced-motion drops ALL transitions. Depth is borders-only (`--border-subtle` seams, no drop shadows).
 
 ## Primary surfaces
-- **Run console** — one frameless window in four run-states: idle / live / HOLD / report-terminal (no router, no breakpoints).
+- **Run console** — one frameless window in the shipped run-states `idle` / `live` / `hold` / `aborted` (idle-with-report a sub-state of `idle`; measured 2026-09-02) (no router, no breakpoints).
 - **cli** — `conductor run|suite|report`, line-oriented (clap + owo-colors + indicatif + comfy-table + inquire), ANSI 256 TTY-gated.
 
 ## Component patterns

@@ -11,13 +11,17 @@
 //
 // ONE webview-automation stack: WebdriverIO + @crabnebula/tauri-driver (never a 2nd puppeteer/CDP
 // stack — a11y.md §Testing). axe-core is injected via @axe-core/webdriverio into THIS session.
-import { spawn, type ChildProcess } from 'node:child_process'
-import { copyFileSync, existsSync, mkdirSync, statSync } from 'node:fs'
+import { spawn, spawnSync, type ChildProcess } from 'node:child_process'
+import { copyFileSync, existsSync, mkdirSync, readFileSync, rmSync, statSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import { census, writeNvdaPass } from './test/a11y/screen-reader/parse-nvda-log'
+import type { Subject } from './test/a11y/screen-reader/rows'
 
 let tauriDriver: ChildProcess | undefined
+let nvdaExePath: string | undefined
+let srSubject: Subject | undefined
 
 // The package is "type": "module", so the CJS globals are absent at load time — `__dirname` here was
 // unreachable for as long as this config existed, which the display gate hid by never running it.
@@ -67,13 +71,113 @@ function nativeDriver(): string | undefined {
 const FIXTURE_RUNS_DIR = 'runs/e2e-fixture'
 const FIXTURE_RUN_ID = 'lamps-fixture'
 
+// The fixture dir is re-created CLEAN before the copy: the spawn below used to force this dir on EVERY
+// suite, so a driven or SR session that persisted a run journal here left the routine arm reading a run
+// that was not the committed journal (a latent flake, found 2026-09-02). Each suite now persists into its
+// own runs dir, and the routine subject only ever holds the committed file.
 function seedFixtureRuns(): void {
   const target = join(repoRoot, FIXTURE_RUNS_DIR)
+  rmSync(target, { recursive: true, force: true })
   mkdirSync(target, { recursive: true })
   copyFileSync(
     join(repoRoot, 'crates', 'conductor-run', 'tests', 'fixtures', 'lamps-journal.jsonl'),
     join(target, `${FIXTURE_RUN_ID}.jsonl`),
   )
+}
+
+const DRIVEN_RUNS_DIR = 'runs/driven/runs'
+
+// The screen-reader leg: three subjects over this same stack, one per suite. `runs` is the app's
+// CONDUCTOR_RUNS_DIR for that subject (repo-relative — resolve_under rejects absolute handles);
+// `scenarios` overrides the catalog only where the subject needs an empty or malformed one. The live subject
+// takes its trimmed catalog from the shell (CONDUCTOR_SCENARIOS_DIR=runs/sr-leg/scenarios).
+const SR_LEG_DIR = 'runs/sr-leg'
+const SR_SUITES: Readonly<Record<string, { subject: Subject; runs: string; scenarios?: string }>> = {
+  sr: { subject: 'live', runs: `${SR_LEG_DIR}/runs` },
+  'sr-empty': { subject: 'empty', runs: FIXTURE_RUNS_DIR, scenarios: `${SR_LEG_DIR}/empty` },
+  'sr-error': { subject: 'error', runs: `${SR_LEG_DIR}/runs`, scenarios: `${SR_LEG_DIR}/bad` },
+}
+
+// The suites this run was invoked with. `--suite` is a CLI option the launcher merges onto the runtime config
+// object, but wdio's typed Testrunner surface does not declare it — so the field is read reflectively off
+// the hook's config, and the launcher's own argv is consulted as well, so an SR suite can never run
+// undetected (that would start no NVDA and drive the wrong subject).
+function invokedSuites(config: object): Set<string> {
+  const names = new Set<string>()
+  const merged: unknown = Reflect.get(config, 'suite')
+  if (Array.isArray(merged)) for (const s of merged) if (typeof s === 'string') names.add(s)
+  const argv = process.argv
+  for (let i = 0; i < argv.length; i += 1) {
+    const arg = argv[i] ?? ''
+    const value = arg === '--suite' ? argv[i + 1] : arg.startsWith('--suite=') ? arg.slice('--suite='.length) : undefined
+    if (value) for (const s of value.split(',')) if (s.trim()) names.add(s.trim())
+  }
+  return names
+}
+
+// The portable NVDA is host-owned like the native WebDriver: it arrives by env handle, is validated the same
+// way, and is passed as separate argv elements of an array-form spawn — never through a shell.
+function nvdaExe(): string | undefined {
+  const raw = process.env.CONDUCTOR_NVDA
+  if (!raw || UNSAFE_PATH.test(raw)) return undefined
+  return existsSync(raw) && statSync(raw).isFile() ? raw : undefined
+}
+
+function reportNvdaSkip(): void {
+  console.log('error: screen-reader leg skipped — no NVDA resolved')
+  console.log('       CONDUCTOR_NVDA is unset, or does not name an existing file.')
+  console.log('hint:  setx CONDUCTOR_NVDA "<dir>\\nvda.exe"   (a PORTABLE NVDA copy, no admin needed;')
+  console.log('       then reopen the shell). The leg starts it as `nvda -m --no-sr-flag -l 12 -f <log>`')
+  console.log('       and quits it with `nvda -q`; log level 12 records every utterance the parser grades.')
+}
+
+// NVDA must be up BEFORE the app window exists, so it sees the window and every focus event from the first.
+// Readiness is the log's own startup line, never a sleep; a previous session's log is removed first so the
+// parser reads only this session's speech.
+async function startNvda(exe: string, logPath: string): Promise<void> {
+  rmSync(logPath, { force: true })
+  // The leg's own NVDA profile (say-all off, silent synth) — copied under the gitignored leg dir, because
+  // NVDA writes its profile tree beside the ini it is pointed at.
+  const configDir = join(repoRoot, SR_LEG_DIR, 'nvda-config')
+  mkdirSync(configDir, { recursive: true })
+  copyFileSync(join(here, 'test', 'a11y', 'screen-reader', 'nvda-config', 'nvda.ini'), join(configDir, 'nvda.ini'))
+  const child = spawn(exe, ['-m', '--no-sr-flag', '-c', configDir, '-l', '12', '-f', logPath], {
+    detached: true,
+    stdio: 'ignore',
+  })
+  child.unref()
+  // Readiness is NVDA's own "NVDA initialized" line, not the earlier "Starting NVDA": a window created in
+  // the half-second between the two was never bound (measured 2026-09-02 — a whole subject went silent).
+  // Then let the log go quiet so the hook threads it starts after that line are up before the app exists.
+  const deadline = Date.now() + 30_000
+  let ready = false
+  while (Date.now() < deadline) {
+    if (existsSync(logPath) && readFileSync(logPath, 'utf8').includes('NVDA initialized')) {
+      ready = true
+      break
+    }
+    await new Promise((resolve) => setTimeout(resolve, 250))
+  }
+  if (!ready) throw new Error('NVDA did not report "NVDA initialized" in its speech log within 30s')
+  let size = statSync(logPath).size
+  let stableSince = Date.now()
+  const settleDeadline = Date.now() + 8_000
+  while (Date.now() < settleDeadline && Date.now() - stableSince < 1_500) {
+    await new Promise((resolve) => setTimeout(resolve, 250))
+    const now = statSync(logPath).size
+    if (now !== size) {
+      size = now
+      stableSince = Date.now()
+    }
+  }
+}
+
+async function stopNvda(exe: string): Promise<void> {
+  spawnSync(exe, ['-q'], { stdio: 'ignore' })
+  const deadline = Date.now() + 15_000
+  while (Date.now() < deadline && census().some((line) => line.startsWith('nvda.exe'))) {
+    await new Promise((resolve) => setTimeout(resolve, 250))
+  }
 }
 
 // Host paths never reach this message (obs-plan §11 Logs); it names the handle, not its value.
@@ -96,6 +200,11 @@ export const config: WebdriverIO.Config = {
   specs: ['./test/a11y/accessibility.e2e.ts'],
   suites: {
     driven: ['./test/a11y/operator-hold.e2e.ts'],
+    // The screen-reader leg (a11y-plan §3 Screen reader test pattern): agent-driven over this same stack
+    // with a portable NVDA logging its speech — `sr` needs the live Pulse form, the other two no run at all.
+    sr: ['./test/a11y/screen-reader.e2e.ts'],
+    'sr-empty': ['./test/a11y/screen-reader.e2e.ts'],
+    'sr-error': ['./test/a11y/screen-reader.e2e.ts'],
   },
   maxInstances: 1,
   capabilities: [
@@ -120,8 +229,8 @@ export const config: WebdriverIO.Config = {
   // own bounded timeout and a named message, so a real stall still fails fast and says what stalled.
   mochaOpts: { ui: 'bdd', timeout: 15 * 60_000 },
 
-  // Bracket the session with the tauri-driver bridge process.
-  onPrepare: () => {
+  // Bracket the session with the tauri-driver bridge process (and, for the screen-reader leg, NVDA).
+  onPrepare: async (config) => {
     const native = nativeDriver()
     if (!native) {
       // Exit rather than throw: wdio has no "skip the whole run" result, and a throw here would
@@ -130,13 +239,45 @@ export const config: WebdriverIO.Config = {
       process.exit(0)
     }
     seedFixtureRuns()
+    // The subject env is chosen by the invoked suite at this ONE spawn site. The routine arm reads the
+    // clean fixture; the driven and SR suites persist their run journals into their own dirs, so nothing
+    // a session writes can leak into the routine subject.
+    const invoked = invokedSuites(config)
+    const appEnv: NodeJS.ProcessEnv = { ...process.env, CONDUCTOR_RUNS_DIR: FIXTURE_RUNS_DIR }
+    if (invoked.has('driven')) {
+      mkdirSync(join(repoRoot, DRIVEN_RUNS_DIR), { recursive: true })
+      appEnv.CONDUCTOR_RUNS_DIR = DRIVEN_RUNS_DIR
+    }
+    const sr = [...invoked]
+      .map((name) => (Object.hasOwn(SR_SUITES, name) ? SR_SUITES[name] : undefined))
+      .find((entry) => entry !== undefined)
+    if (sr) {
+      const exe = nvdaExe()
+      if (!exe) {
+        reportNvdaSkip()
+        process.exit(0)
+      }
+      const legDir = join(repoRoot, SR_LEG_DIR)
+      mkdirSync(legDir, { recursive: true })
+      if (sr.runs !== FIXTURE_RUNS_DIR) {
+        rmSync(join(repoRoot, sr.runs), { recursive: true, force: true })
+        mkdirSync(join(repoRoot, sr.runs), { recursive: true })
+      }
+      appEnv.CONDUCTOR_RUNS_DIR = sr.runs
+      if (sr.scenarios) appEnv.CONDUCTOR_SCENARIOS_DIR = sr.scenarios
+      writeFileSync(join(legDir, 'subject.txt'), sr.subject)
+      writeFileSync(join(legDir, `census-before.${sr.subject}.txt`), census().join('\n'))
+      nvdaExePath = exe
+      srSubject = sr.subject
+      await startNvda(exe, join(legDir, `nvda-speech.${sr.subject}.log`))
+    }
     // cwd = the workspace root: tauri-driver's child (the app under test) inherits it, which is the
     // only lever that points the app's cwd-relative artifact handles at the real catalog. The app
     // inherits this env too, so CONDUCTOR_RUNS_DIR is what points run_report / run_envelope at the
-    // seeded fixture rather than at whatever the host's own runs/ happens to hold.
+    // subject's runs dir rather than at whatever the host's own runs/ happens to hold.
     tauriDriver = spawn(process.execPath, [driverCli, '--native-driver', native], {
       cwd: repoRoot,
-      env: { ...process.env, CONDUCTOR_RUNS_DIR: FIXTURE_RUNS_DIR },
+      env: appEnv,
       stdio: [null, process.stdout, process.stderr],
     })
   },
@@ -162,7 +303,25 @@ export const config: WebdriverIO.Config = {
       { timeout: 30_000, interval: 500, timeoutMsg: 'webview did not mount #root within 30s' },
     )
   },
-  onComplete: () => {
+  onComplete: async () => {
+    // NVDA quits first so the app's teardown is not the last thing it logs; then the driver tree, then
+    // the pass record is written from this session's log against its action timeline.
+    if (nvdaExePath) await stopNvda(nvdaExePath)
     tauriDriver?.kill()
+    if (srSubject) {
+      const legDir = join(repoRoot, SR_LEG_DIR)
+      const beforeFile = join(legDir, `census-before.${srSubject}.txt`)
+      writeNvdaPass({
+        subject: srSubject,
+        repoRoot,
+        speechLog: join(legDir, `nvda-speech.${srSubject}.log`),
+        actions: join(legDir, `actions.${srSubject}.jsonl`),
+        out: join(legDir, 'nvda-pass.json'),
+        specMd: join(here, 'test', 'a11y', 'screen-reader', 'nvda-pass-spec.md'),
+        censusBefore: existsSync(beforeFile) ? readFileSync(beforeFile, 'utf8').split('\n').filter(Boolean) : [],
+        censusAfter: census(),
+        liveRunsDir: srSubject === 'live' ? join(repoRoot, SR_LEG_DIR, 'runs') : undefined,
+      })
+    }
   },
 }

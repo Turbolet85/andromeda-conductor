@@ -13,8 +13,10 @@ This leg runs **only on Linux + xvfb against a live Pulse**. It is **not** part 
   (test-plan §6).
 
 Surfaced, never silently skipped (test-plan §11). The always-on a11y CI gate (violations → obs envelope)
-is the Epoch-10 route chunk *A11y CI gate + violation JSON*; the exhaustive per-path verification matrix +
-NVDA/VoiceOver manual spec are the next chunk, *Desktop a11y verification*.
+is the Epoch-10 route chunk *A11y CI gate + violation JSON*. The screen-reader pass spec lives at
+`test/a11y/screen-reader/nvda-pass-spec.md`, driven by `npm run a11y:sr` / `a11y:sr-empty` / `a11y:sr-error`
+over this same stack with a portable NVDA named by `CONDUCTOR_NVDA` (unset ⇒ skip at exit 0); the recorded
+pass sits under `conductor-0.2.0/chunks/2026-09-02-screen-reader-manual-spec/evidence/`.
 
 ## Run
 
