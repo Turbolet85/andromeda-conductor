@@ -7,7 +7,7 @@ _Documented architectural traps from `.andromeda/architecture.md` + the 6 specia
 
 ## Gotchas
 
-## MCP protocol must negotiate DOWN to 2024-11-05
+## MCP protocol version is READ from `initialize` and held against the pinned 2024-11-05
 **What breaks:** Pulse's MCP server is hand-rolled JSON-RPC speaking the older `2024-11-05` protocol with a minimal `capabilities` object; pinning a strict newer protocol default silently mismatches and read-back fails (the exact silent-mismatch class the preflight exists to catch).
 **How to avoid:** Pin the expected version at `2024-11-05` in the `contracts/` manifest and READ the negotiated one from the `initialize` result — Conductor's client is hand-rolled line-delimited JSON-RPC (rmcp removed 2026-06-27), so there is no client-library default to drift from; the preflight asserts the negotiated version.
 **Fix if broken:** Surface as `Blocked` with the named precondition — never a silent pass.

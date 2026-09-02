@@ -279,3 +279,28 @@ such lines appeared across all five legs.
 **Section:** 1 Test Scope Summary (Untestable zones · Vector-1 coverage trigger) + 2 Test Strategy (Deterministic invariant) + 4 Unit Test Strategy (`conductor-tauri/ui` prover set) + 6 E2E drivers-per-surface (desktop-webview: Mode cell + Notes) + 11 Test Anti-Patterns (network ban)
 **Change:** (1) §6 registers the third suite family -- the operator-local `sr` / `sr-empty` / `sr-error` screen-reader leg -- with its firing form (`CONDUCTOR_NVDA`; NVDA before the driver, ready on `NVDA initialized`; the leg-owned `nvda.ini`; `activate-window.ps1`; per-suite runs / scenarios dirs; `subject.txt`; the `sr` subject in the live-Pulse form) and stop form (`nvda -q`, census, `tauriDriver.kill()`), the driven arm's own `runs/driven/runs`, and the routine arm's clean re-seed; "TWO arms" -> "THREE suite families" (§6; §11 "ANY webview arm"; §2's carve-out names the operator-local set, driven + `sr*`, both wall-clock). (2) §6's "msedgedriver matching the host WebView2 Runtime major" requirement retired: msedgedriver 151.0.4129.101 drove WebView2 152.0.4191.53 green on four sessions -- unsupported by the driver's own line, working by measurement; the refresh is the operator's host task before the next leg. (3) §1 Untestable zones gains "screen-reader BROWSE-MODE reading (by agent, today)" -- a missing key path, not a missing driver; OS-level key injection is the route-owned CARRY. (4) §1's Vector-1 trigger and §4's prover set name both host-tool handles / all three firing paths.
 **Why:** measured by the chunk's leg (3/3 sessions 2026-09-02, the skip arm with the handle unset, the WebView2 update mid-day); the registration wording and the driver-pair record are the operator's WRAP directive item 3; the browse-mode zone is the operator's review ruling (findings, never passes, never a manual arm).
+
+## 2026-09-02-cross-surface-envelope-parity — the rmcp payload retired, the parity deferral discharged, and the seeder re-stated
+**Section:** §1 (Entity · Surfaces · Coverage triggers) · §2 (pyramid) · §3 (`boot` · CI stage selectors) · §4 (unit coverage · external services) · §5 (Driver(s) · boundary table · lifecycle · cross-module patterns · the GUI deferral) · §6 (driver table · scenario steps · routine-arm paragraph) · §7 (provenance set · meaning-under-test) · §8 (mocking) · §9 (pipeline) · §10 (coverage exclusions) · §11 (anti-patterns) · §12 (decisions log)
+**Change:** (1) Every site describing the CURRENT read-back client or the CURRENT test stub as rmcp was
+re-stated to the shipped hand-rolled line-delimited JSON-RPC client (`jsonrpc.rs` + `client.rs`) and the
+hand-rolled `stub_pulse_mcp`. The rmcp token count fell 24 → 5, and each survivor is a deliberate LEAVE:
+`:88` / `:558` name the rmcp STDIO injection vulnerability CLASS, `:91` keeps the quoted anti-pattern TITLE
+(its mechanism clause amended), `:33` now reads "rmcp removed 2026-06-27" as a historical note, and `:596`
+is the decisions-log entry, corrected in place with a dated 2026-09-02 bracket per this doc's own precedent.
+(2) The "negotiates DOWN to `2024-11-05`" mechanism was retired at `:91` AND `:278` — the latter carries NO
+`rmcp` token, so a token-keyed sweep could not reach it. (3) §5's GUI-parity deferral narrowed: the
+mock-runtime ↔ CLI half is DISCHARGED (an equal-envelope test driving both surfaces into one `runs.db`
+under a non-default `CONDUCTOR_RUNS_DIR`, comparing the two persisted envelopes rather than each against a
+literal); the `Channel`-frame-sequence and webview-render halves remain deferred. (4) §3/§6 re-state the
+`--e2e` seeder: `seedFixtureRuns()` now invokes the `conductor-run` `envelope_fixture` test target under
+`CONDUCTOR_E2E_SEED_DIR` and writes the subject through the production writer, throwing on a non-zero exit.
+(5) §6's routine-arm paragraph retires the load-envelope banner's context-skip — the banner now asserts
+(label + axe) — while keeping the RULE that an unproducible DOM state context-skips and a skip is never a
+pass. (6) §7's provenance SET widened to admit a fixture seeded through the production WRITER, and the
+meaning-under-test proof named as a SET (`lamps_fixture.rs` + `envelope_fixture.rs`). (7) §1's Vector-1
+trigger gained the third per-reader handle class and its mandated tier.
+**Why:** the chunk's Expected-amendments payload plus what the fan-out found beyond it. The site count was
+re-derived independently (`grep -c -i rmcp` = 24) rather than taken from an enumeration — the originating
+CARRY had named ONE site and the phase distiller claimed 26. (2) and the §6 banner site were found by the
+doc-agents' duplicate-occurrence grep, not by the report, whose own enumeration under-ran on both.

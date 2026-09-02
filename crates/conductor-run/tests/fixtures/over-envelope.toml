@@ -1,0 +1,28 @@
+# TEST FIXTURE — deliberately OVER the pinned SUT load envelope. Not a catalog scenario: it lives
+# under tests/fixtures/, never under scenarios/, so `check_load_envelope`'s committed-catalog gate
+# does not see it and the empty `[[exempt]]` ledger stays empty.
+#
+# Its only job is to make `LoadEnvelope::classify` return EnvironmentSuspect, so the run-report
+# banner has a subject to render. The breach is on the SUSTAINED RATE term:
+# `phase_rate_exceeds` is exact integer math — `occurrences * 1000 > max_rate * gap_ms`
+# (conductor-core/src/load_envelope.rs) — so at the pinned max_sustained_rate_spans_per_s = 10000
+# the condition is `occurrences > 10 * gap_ms`. The burst phase below is 11 > 10.
+#
+# The rate term is chosen over the storm term deliberately: a storm breach needs
+# `gap_ms > max_sustained_storm_ms` (600000), i.e. more than ten minutes of real time per run, while
+# this shape breaches while dispatching ELEVEN emissions. The fixture places no meaningful load on
+# anything — it is a classification subject, not a stress test.
+
+name = "over-envelope"
+p_ids = ["P-009"]
+seed = 4317009
+slo_tier = "<5s"
+jitter_ms = 0
+
+# The breaching phase. gap_ms = 1 with occurrences = 11 clears the rate bound by one dispatch.
+[[phases]]
+name = "burst"
+gap_ms = 1
+[phases.emission]
+kind = "plain"
+occurrences = 11

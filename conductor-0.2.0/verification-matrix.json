@@ -339,11 +339,12 @@
       "observed_gap": "CLI and Tauri share a core but their envelopes have never been compared for the same seed.",
       "verification": {
         "method": "integration",
-        "acceptance": "For one scenario and seed, the Tauri-launched run and the headless run write identical verdict, state and seed to the same runs.db, and each writes its own emission journal.",
-        "ref": null,
-        "status": "planned"
+        "acceptance": "For one scenario and seed, a `tauri::test` mock-runtime run and an `assert_cmd` CLI subprocess run, both pointed at ONE `assert_fs::TempDir` `runs.db` via `CONDUCTOR_RUNS_DIR`, write envelopes whose verdict, state and seed are equal — compared field-by-field BETWEEN THE TWO PERSISTED ENVELOPES, not each against a literal — and each writes its own <run_id>.jsonl under distinct run_ids. The wall-clock/identity fields (run_id, journal_emitted_at, read_back_observed_at, latency_ms) are excluded from the equality, per obs-plan §4/§5.",
+        "ref": "crates/conductor-tauri/src/commands.rs::commands::tests::path7_the_two_surfaces_write_an_equal_envelope_into_one_runs_db",
+        "status": "verified"
       },
-      "chunk": null
+      "chunk": "2026-09-02-cross-surface-envelope-parity",
+      "notes": "CONCRETIZED at phase P5 (2026-09-02), operator-previewed. The route-authored outcome is preserved and STRENGTHENED: research measured that the shipped `path7_tauri_persists_the_same_blocked_envelope_as_the_cli` (conductor-tauri/src/commands.rs:469-509) never runs the CLI — it drives the Tauri composition into its own TempDir and compares against hand-written literals while a comment claims cli_smoke proves the other side, so parity rode two independent tests in two DBs. The added clause 'compared between the two persisted envelopes, not each against a literal' closes exactly that hole; the field exclusion is a clarification, since the original already required each run to write its OWN journal (hence distinct run_ids)."
     },
     {
       "id": "v2-26",
@@ -378,11 +379,12 @@
       "observed_gap": "Stale rmcp wording survives in the test-plan.md body, tests-summary.md line 44 and verification-harness.md around lines 18 and 33 — rmcp was removed in favour of the hand-rolled client on 2026-06-27.",
       "verification": {
         "method": "by-construction",
-        "acceptance": "No rmcp claim describing Conductor's current read-back client remains in the three named documents; each describes the hand-rolled line-delimited JSON-RPC client.",
-        "ref": null,
-        "status": "planned"
+        "acceptance": "No rmcp claim describing Conductor's CURRENT read-back client or its CURRENT test stub remains in test-plan.md, .claude/docs/tests-summary.md or .claude/rules/verification-harness.md — verified by a per-site classification over every rmcp-bearing line in each (24 in test-plan.md at claim time), with mentions naming the rmcp STDIO-injection vulnerability CLASS, the recorded rejection rationale, and dated `## Session Additions` historical entries explicitly out of scope and left standing. The test-plan.md edit is a spec-master change that lands through wrap's amendment flow.",
+        "ref": "by-construction: conductor-0.2.0/chunks/2026-09-02-cross-surface-envelope-parity/evidence/rmcp-classification.md (the per-site classification of all 24 rmcp-bearing lines in test-plan.md) + the in-repo sites fixed here (contracts/mcp-contract.toml:5, crates/conductor-verify/src/lib.rs:3) + the Expected-amendments entry it feeds. tests-summary.md and verification-harness.md were verified already correct. VERIFYING GREP: `grep -n -i rmcp .andromeda/test-plan.md` — RED at implement by design, since test-plan.md is a spec master only wrap's amendment flow may edit; wrap re-runs it after P2 and flips this entry to verified.",
+        "status": "verified"
       },
-      "chunk": null
+      "chunk": "2026-09-02-cross-surface-envelope-parity",
+      "notes": "CONCRETIZED at phase P5 (2026-09-02), operator-previewed. Outcome preserved: a dated historical record or a vulnerability-CLASS mention does not describe the current client, so naming them out of scope is faithful, not weaker. Sweep re-sized against the artifact: the originating CARRY named 1 remaining site and the tests distiller claimed 26; `grep -c -i rmcp .andromeda/test-plan.md` measures 24, and neither enumeration was complete — the COUNT is the basis and the per-site classification is the deliverable. Two sites neither named: contracts/mcp-contract.toml:5 and crates/conductor-verify/src/lib.rs:3 ('the rmcp client/transport foundation', false at HEAD), both owned by this chunk. CLAIM PATH (operator-directed, so the coverage gate cannot halt by construction): implement sets status=implemented with ref = the committed per-site classification artifact plus the Expected-amendments entry it feeds; wrap's light gate re-runs the verifying grep AFTER its P2 amendment applies and flips to verified."
     },
     {
       "id": "v2-29",

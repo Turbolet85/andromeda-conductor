@@ -71,18 +71,48 @@ function nativeDriver(): string | undefined {
 const FIXTURE_RUNS_DIR = 'runs/e2e-fixture'
 const FIXTURE_RUN_ID = 'lamps-fixture'
 
-// The fixture dir is re-created CLEAN before the copy: the spawn below used to force this dir on EVERY
+// The fixture dir is re-created CLEAN before the seed: the spawn below used to force this dir on EVERY
 // suite, so a driven or SR session that persisted a run journal here left the routine arm reading a run
 // that was not the committed journal (a latent flake, found 2026-09-02). Each suite now persists into its
-// own runs dir, and the routine subject only ever holds the committed file.
+// own runs dir, and the routine subject only ever holds what this seed writes. The clean re-create is
+// also what keeps the envelope INSERT below unique-keyed — a surviving runs.db would reject it.
+//
+// The subject is ONE run carrying BOTH assertion subjects, because run_report and run_envelope each
+// default to latest_run_id: a second seeded run would take the latest slot and the coverage rows would
+// stop reading the committed journal. So the seeder persists the lamps journal's records UNDER the lamps
+// run-id WITH an ENVIRONMENT-SUSPECT envelope standing, giving the banner its first subject without
+// moving the lamps one.
+//
+// It runs through conductor-run's committed seeder rather than copying files: the run_envelope row lives
+// in runs.db, which a journal copy cannot create, and test-plan §7 bans a developer-populated database —
+// so the row is written by conductor_run::persist, the same production writer both shells call. The
+// seeder is a no-op unless CONDUCTOR_E2E_SEED_DIR is set, so an ordinary suite run never writes here.
 function seedFixtureRuns(): void {
   const target = join(repoRoot, FIXTURE_RUNS_DIR)
   rmSync(target, { recursive: true, force: true })
   mkdirSync(target, { recursive: true })
-  copyFileSync(
-    join(repoRoot, 'crates', 'conductor-run', 'tests', 'fixtures', 'lamps-journal.jsonl'),
-    join(target, `${FIXTURE_RUN_ID}.jsonl`),
+
+  const seed = spawnSync(
+    'cargo',
+    ['test', '-q', '-p', 'conductor-run', '--test', 'envelope_fixture', '--', '--nocapture'],
+    {
+      cwd: repoRoot,
+      env: { ...process.env, CONDUCTOR_E2E_SEED_DIR: FIXTURE_RUNS_DIR },
+      encoding: 'utf8',
+      stdio: 'pipe',
+    },
   )
+  if (seed.status !== 0) {
+    // A failed seed must be loud: a silent one leaves the banner spec with no subject, and a
+    // subject-absent skip there is exactly the green-over-nothing this fixture exists to remove.
+    throw new Error(
+      `fixture seed failed (cargo test exit ${seed.status}). The routine arm cannot assert without ` +
+        `its subject.\n${seed.stderr ?? ''}`,
+    )
+  }
+  if (!existsSync(join(target, `${FIXTURE_RUN_ID}.jsonl`))) {
+    throw new Error(`fixture seed reported success but wrote no ${FIXTURE_RUN_ID}.jsonl into ${FIXTURE_RUNS_DIR}`)
+  }
 }
 
 const DRIVEN_RUNS_DIR = 'runs/driven/runs'

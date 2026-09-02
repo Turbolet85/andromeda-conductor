@@ -2,8 +2,9 @@
 #
 # The preflight readiness gate asserts the negotiated protocol version + required-tool presence
 # against these pinned values; any mismatch is a distinct `Blocked` state with a named precondition,
-# never a silent downgrade. `2024-11-05` is Pulse's hand-rolled server version (the rmcp client
-# negotiates DOWN to it). Do not bump without a contract review.
+# never a silent downgrade. `2024-11-05` is Pulse's hand-rolled server version, which the hand-rolled
+# line-delimited JSON-RPC client READS back from the `initialize` result rather than requesting a
+# default of its own. Do not bump without a contract review.
 
 expected_protocol_version = "2024-11-05"
 

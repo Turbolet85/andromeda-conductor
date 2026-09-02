@@ -199,3 +199,24 @@ derivation makes it enforceable rather than aspirational.
 **Section:** Threat Model Summary (CLI-input vector · port-bind vector) + Input Validation (boundary table: the `CONDUCTOR_MSEDGEDRIVER` row, new `CONDUCTOR_NVDA` row, new speech-log ingest row) + Bootstrap phases (`input-validation-library-install`) + Secret Management (Development) + Security Anti-Patterns (Input canonicalize ban · Logging host-path ban · Code Patterns spawn rule (a)+(b) · Universal listener carve-out)
 **Change:** (1) `CONDUCTOR_NVDA` registered as the second dev-harness host-tool path handle (existence + `isFile` + metacharacter guard at the wdio edge, array-form detached spawn with a fixed argv, skip at exit 0 when unset, value never committed) and every "one handle" singular widened to the SET. (2) A new boundary row for the screen-reader speech-log ingest -- untrusted third-party text, `heard` bounded at 400, closed enums, host-path scrub -> `<host-path>` + `security_finding`. (3) Rule (b) now governs three spawn forms (the repo-resolved driver constant; a fixed OS program + fixed argv for the PowerShell activation script; the guarded host-tool path as the program for NVDA). (4) Rule (a) gains the console-window-suppression duty -- the flagless sidecar spawn publishes its absolute exe path as a foreground pane title -- recorded as a measured, route-owned defect, not a shipped control. (5) The driver-leg enumerations (CLI-input vector, port-bind vector, Universal carve-out) name the three-family set; the Logging ban covers committed evidence records.
 **Why:** (1)(2)(3) are the chunk's new external-input surfaces and spawn forms, named on the plan's P5-approved expected-amendments list and the operator's relay (the NVDA CLI form); a real host path arrived through the speech log (row S1-01). (4) measured 2026-09-02 -- NVDA spoke the pane's title; escalate-class, resolved on the operator's WRAP directive item 1. (5) the report's count move restated at three sites.
+
+## 2026-09-02-cross-surface-envelope-parity — the third `CONDUCTOR_*` handle class, the fourth harness spawn form, and the protocol-version mechanism
+**Section:** Input Validation · Threat Model Summary (CLI-input vector) · Secret Management (Development) · Bootstrap phases (input-validation-library-install) · Security Anti-Patterns (Input; Code Patterns)
+**Change:** (1) New §Input Validation row for `CONDUCTOR_E2E_SEED_DIR` stating the THIRD control model —
+a harness-owned repo-relative CONSTANT carried to the seeding child through the spawn's env map (never argv,
+never a shell), no `canonicalize` rule and no `isFile`/metacharacter guard because the value is not
+operator-supplied, no-op when unset — with the residual recorded explicitly: the test applies no
+`resolve_under` guard of its own, so the repo-relative discipline lives at the wdio caller and holds only
+while no shipped binary reads the handle. (2)-(5) Every singular "the two handles" clause widened to the SET
+of three, with the reason SPLIT where it differs (`MSEDGEDRIVER`/`NVDA` never reach Rust; `E2E_SEED_DIR`
+reaches Rust only in a test binary): the canonicalize ban's exemption, the CLI-input vector enumeration, the
+non-secret handle list, and the bootstrap phase's out-of-scope set. (6) The harness-spawn enumeration went
+from THREE governed forms to FOUR, adding the fixture-seed spawn (fixed `cargo` program, fixed argv, handle
+in the env map, throws on non-zero exit). (7) The protocol-version ban keeps its subject and retires its
+mechanism clause: the hand-rolled client READS `protocolVersion` from the `initialize` result and HOLDS it
+against the pinned `2024-11-05` — it does not negotiate down from a client default.
+**Why:** (1)-(6) the chunk's new external-input boundary, escalated by D-security-input and
+operator-ratified 2026-09-02 as a third class; the widenings are the flow's no-single-site-apply rule, since
+each clause asserted an exhaustive set the new handle falsifies. (7) D-security-subprocess, matching the
+report's MIXED classification of the sibling `test-plan.md:91` site and the same correction shipped this
+chunk in `conductor-verify/src/lib.rs:7`.

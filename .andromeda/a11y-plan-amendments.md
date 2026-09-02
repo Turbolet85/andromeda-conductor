@@ -46,3 +46,18 @@ _Append-only changelog of amendments to `a11y-plan.md` (the body holds only curr
 **Section:** 1 A11y Scope Summary (Run-report view entity · assistive-tech reach · Notes · harness-spec SR bullet · CI integration · View-run-report path) + 3 A11y Assertion Harness Contract (Focus management harness Driver · Screen reader test pattern, both bullets · Bootstrap `screen-reader-test-spec-setup`) + 4 ARIA Patterns and Roles (landmark table) + 5 Focus order (`idle-with-report`) + 9 CI Integration (E2E row) + 11 Anti-Patterns (the skeleton ban's prose samples)
 **Change:** (1) The SR test pattern reads "agent-driven via NVDA's speech log; the operator reviews; browse-mode rows pending OS-level injection" -- the "No automated SR tool exists for the stack" / "Manual" verdict retired at §1, §3 (both bullets) and the bootstrap phase; NVDA (Windows) reclassified agent-driven, VoiceOver / Orca declared not-runnable-on-this-host; §9's E2E row names three suite families (`sr` / `sr-empty` / `sr-error`, `CONDUCTOR_NVDA`). (2) The run-state set corrected to the shipped `idle` / `live` / `hold` / `aborted` with idle-with-report a sub-state (§1 entity, §1 path, §3 format, §5 heading). (3) The must-announce strings corrected to shipped (`No scenarios found.`, `No run yet`; no "Run in progress" prose ships). (4) `contentinfo` (§4 table) and the report-site checklist render (§3, §5) recorded designed-but-unshipped and route-owned; the unticked roll-up attributed to the checklist view's own `role=status` line. (5) §3 focus-harness Driver: the residual "Linux+xvfb target" literal retired to the measured platform SET.
 **Why:** measured by the chunk's `sr*` leg (`evidence/nvda-pass.json`, 51 rows, operator review transcribed): 33 rows announced as expected on the agent arm with all three subjects attached, the 14 browse-class rows unreachable by WebDriver-injected keys, the shipped `RunState` set read off `Titlebar.tsx` and heard on the S1/S3 rows, the shipped strings heard on the E0 rows, the landmark set measured banner + main + two regions. The wording of (1) is the operator's (WRAP directive item 3). (5) is the one site the 2026-09-01 platform-SET retirement missed.
+
+## 2026-09-02-cross-surface-envelope-parity — the load-envelope banner's rendered-DOM axe retired from UNRUNNABLE
+**Section:** §4 per-component catalog (load-envelope banner row) · §6 Color contrast pairs (the note under the pairs table) · §9 CI Integration (E2E row, routine-arm clause)
+**Change:** The banner's "Rendered-DOM axe is UNRUNNABLE on the routine arm" verdict is retired at all three
+sites. §4 now records that it RUNS there — the arm seeds an over-envelope `run_envelope` row through the
+production writer, the label spec asserts (its `this.skip()` guard removed) and axe under
+`wcag2a`/`wcag2aa`/`wcag21aa` is clean — with runnability stated as NOT platform-bound (it holds across the
+arm's measured platform set; this pass ran headfully on WebView2 152.0.4191.53). §6's `--status-residual`
+pair is demoted from "its only asserting a11y coverage" to the render-INDEPENDENT half of a two-part
+coverage. §9's routine-arm carve-out ("only a spec whose DOM state that fixture cannot produce — today the
+load-envelope banner — context-skips") is removed while the RULE it qualified is kept.
+**Why:** D-platform-claim, from the report's *Spec claims disproved by measurement* item 3 and its
+*Counts / qualifiers moved* bullet. The report named §4 and §6 only; the third site (§9) was found by the
+doc-agent's duplicate-occurrence grep and verified independently before applying — a single-site apply
+would have left the routine arm's own CI-integration row asserting the retired verdict.

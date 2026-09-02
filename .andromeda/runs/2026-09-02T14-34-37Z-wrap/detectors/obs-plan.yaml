@@ -1,0 +1,15 @@
+- id: D-obs-instrumentation
+  doc: obs-plan
+  invariant: new must-trace operations the chunk adds carry the spans / structured logs §4–§6 require; every log line carries run_id; journal stamps from std::time.
+  check: agent-read — for each new operation symbol in the report, confirm instrumentation per §4 / §6; an uninstrumented critical path, missing run_id, or virtual-clock journal stamp is drift.
+  severity: warning
+- id: D-obs-stack
+  doc: obs-plan
+  invariant: the logging library the chunk uses matches the obs harness §3 — tracing JSON only, NO OTel SDK / OTLP exporter for self-observation.
+  check: agent-read — compare the report's telemetry Dependencies / symbols against §3; an OTel SDK / network OTLP exporter for self-obs is drift.
+  severity: escalate
+- id: D-obs-redaction
+  doc: obs-plan
+  invariant: the chunk does not leak absolute host paths / internal struct names into logs / runs.db / report (§6 + §11 redaction).
+  check: agent-read — if the report adds logging / artifact writes, confirm field-allowlist redaction per §6; a leaked path / struct name is drift.
+  severity: escalate

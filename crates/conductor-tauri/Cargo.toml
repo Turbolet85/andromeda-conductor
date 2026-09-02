@@ -22,3 +22,7 @@ tauri = { workspace = true, features = ["test"] }
 tokio = { workspace = true, features = ["rt", "sync", "macros"] }
 assert_fs = { workspace = true }
 serde_json = { workspace = true }
+# The Path-7 parity leg's CLI arm — test-plan §5 names the `assert_cmd` subprocess run as the second
+# half of the mandated driver pair. Already a workspace dep (conductor-cli's cli_smoke), so it admits
+# no new package to Cargo.lock.
+assert_cmd = { workspace = true }

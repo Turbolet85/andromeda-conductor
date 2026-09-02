@@ -508,3 +508,16 @@ empty; no ack tool exists in the four-tool contract). All five live rows landed 
 **Section:** Occupied Resources -> Ports (`4444`/`4445`) + On-disk artifacts (`logs/conductor-tauri.jsonl`) + Environment variables (`CONDUCTOR_MSEDGEDRIVER`, new `CONDUCTOR_NVDA`) + Cross-cutting Patterns -> Trust boundary + Scope law
 **Change:** (1) Registered `CONDUCTOR_NVDA` -- the second host dev-tool handle, read only by `wdio.conf.ts`, validated and spawned like `CONDUCTOR_MSEDGEDRIVER`, skip-at-exit-0 when unset, value never committed -- and retired the "one HOST dev-tool handle" singular. (2) The webview a11y legs are THREE suite families (four `wdio` suites) over the ONE stack: the `sr*` screen-reader leg joins the routine and driven arms in the Ports bullet, the `CONDUCTOR_MSEDGEDRIVER` bullet, the trust boundary (NVDA + a fixed-argv PowerShell activation script as leg-spawned children, no listener) and the scope law; "never a second automation stack" unchanged. (3) The self-obs landing site is per-SUITE -- `runs/logs/` (routine + `sr-empty`), `runs/driven/logs/` (driven), `runs/sr-leg/logs/` (`sr` / `sr-error`), each measured 2026-09-02; the unset-handle root site stays the mechanism, retired only as an a11y landing site.
 **Why:** (1) the chunk's one new resource. (2) the report's count move (suite families 2 -> 3), restated at five arch sites. (3) the chunk moved the driven arm's `CONDUCTOR_RUNS_DIR` to `runs/driven/runs`, and the wrap measured the driven landing site itself (11 457 B at 11:55:29Z) beside the leg's `runs/sr-leg/logs/` (8 312 B) -- the previous entry's "the driven arm leaves the handle unset" is retired by construction, not by a mechanism change.
+
+## 2026-09-02-cross-surface-envelope-parity — `CONDUCTOR_E2E_SEED_DIR` registered as the third handle class
+**Section:** Occupied Resources — Environment variables
+**Change:** Added an eleventh bullet to the reserved `CONDUCTOR_*` enumeration, after `CONDUCTOR_NVDA`:
+`CONDUCTOR_E2E_SEED_DIR`, the repo-relative fixture runs dir the webview `--e2e` arm seeds into — SET by
+`wdio.conf.ts` `onPrepare`, READ only by `crates/conductor-run/tests/envelope_fixture.rs`, never by a shipped
+binary, a no-op when unset. Recorded as the THIRD handle class: unlike `CONDUCTOR_MSEDGEDRIVER` /
+`CONDUCTOR_NVDA` it names a path this document defines rather than a HOST dev-tool, so the existing "One of
+TWO handles … naming a HOST dev-tool" clause stays true and was left standing.
+**Why:** the chunk's only new resource. The report's Symbols bullet declares the handle and states it was
+absent from this enumeration; D-arch-resources proposed the row. Operator-ratified at the P2 escalation
+(2026-09-02) as a genuinely new class rather than an instance of playbook rule 115, whose preconditions it
+fails on four of five clauses.

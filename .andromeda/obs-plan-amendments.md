@@ -233,3 +233,14 @@ default-deny allowlist predates them). Same retirement class as the restart-supp
 **Section:** 1 Obs Scope Summary (telemetry-surfaces desktop-webview row · Logging stack sink · Log file location) + 3 Log file location + Logging stack sink + 6 Sink configuration + 11 PII Scrubbing + 11 Project-specific bans + 12 Decisions Log (Exporter)
 **Change:** (1) Every `logs/conductor-tauri.jsonl` restatement qualified: the file NAME is fixed, the DIRECTORY rides `CONDUCTOR_RUNS_DIR` (`runs_dir.parent()/logs`) -- the project-root `logs/` only with the handle unset (measured 2026-09-01); `runs/logs/` · `runs/driven/logs/` · `runs/sr-leg/logs/` on the a11y suites (each measured 2026-09-02); §12's Exporter bullet gains a dated correction. (2) §11 PII Scrubbing records the measured gap outside the three application sites -- the flagless sidecar spawn's console pane publishes the sidecar's absolute exe path as a foreground window title -- and the sidecar ban gains "never with a visible console window"; the `CREATE_NO_WINDOW`-class fix is route-owned, not shipped.
 **Why:** (1) the chunk moved the driven arm's runs dir and the wrap measured three landing sites in one day; the bare literal pointed at a file that exists on no a11y suite. The detector's "never the project-root `logs/`" was over-general and was applied with the unset-handle scope. (2) NVDA spoke the pane's title inside the S1-01 window (`security_finding`); only the leg's own scrub kept it out of the committed record. Escalate-class, resolved on the operator's WRAP directive item 1 (a Conductor spawn DEFECT, a route candidate of its own).
+
+## 2026-09-02-cross-surface-envelope-parity — §4's two rmcp attributions retired
+**Section:** §4 Span / Trace Coverage — Span kinds (Client) · the auto-instrumentation per-surface table (conductor-verify row)
+**Change:** The Client span-kind line now reads "MCP readback over the hand-rolled line-delimited JSON-RPC
+client"; the auto-instrumentation table's conductor-verify cell now reads "None (the hand-rolled
+line-delimited JSON-RPC MCP client is a seam)". The manual-span cell is unchanged. §11's
+`CVE-2026-30623 rmcp STDIO flaw` mention is a vulnerability-CLASS citation and was deliberately left
+standing, as were §1's already-reconciled "rmcp removed 2026-06-27" notes.
+**Why:** D-obs-instrumentation, from the report's *Spec claims disproved by measurement* item 2. These two
+sites were never enumerated by the 2026-08-31 CARRY that swept the same defect class; §1's conductor-verify
+row had been corrected at that wrap while §4's two were missed, so this is the completion of that sweep.

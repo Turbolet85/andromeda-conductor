@@ -267,16 +267,25 @@ describe('desktop a11y — routine arm (no live Pulse)', () => {
     expect(problems.join(' | ')).toBe('')
   })
 
-  it('an over-envelope run banners its standing with the label in the DOM', async function () {
+  it('an over-envelope run banners its standing with the label in the DOM', async () => {
+    // NO subject-absent skip here any more. The fixture seed persists an ENVIRONMENT-SUSPECT envelope
+    // row through conductor_run::persist (wdio.conf.ts → conductor-run's envelope_fixture seeder), so
+    // an absent banner now means the seed failed rather than that the run was legitimately
+    // in-envelope — and a skip would restore exactly the green-over-nothing this subject removes.
     const banner = await $('[class~="report__envelope"]')
-    if (!(await banner.isExisting())) {
-      // Subject absent: the seeded fixture journal records no envelope row, so the run reads
-      // in-envelope and the qualifier is correctly omitted. The populated arm is proven by
-      // conductor-run's read_envelope round-trip + the run_envelope IPC test.
-      this.skip()
-    }
+    expect(await banner.isExisting()).toBe(true)
+
     const label = await $('[class~="report__envelope-label"]')
     expect(await label.getText()).toBe('ENVIRONMENT-SUSPECT')
+  })
+
+  it('the over-envelope banner state carries no axe violation', async () => {
+    // The banner's contrast rode a render-independent token-pair assertion until this subject existed
+    // (a11y-plan §6); this is the first time the rendered state itself is measured. Findings are
+    // rendered, never counted — a bare length assertion names no rule (testing.md 2026-09-01).
+    expect(await $('[class~="report__envelope"]').isExisting()).toBe(true)
+    const findings = await axeFindings()
+    expect(findings.join('\n')).toBe('')
   })
 
   // --- subject-absent on an idle console: skip with a reason, never fail, never vacuously pass ---

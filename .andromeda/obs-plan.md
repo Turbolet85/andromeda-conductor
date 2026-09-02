@@ -274,7 +274,7 @@ Downstream skills (route, setup-project) derive:
 
 **Span kinds:**
 - **Internal:** internal operations (scenario execution, phase scheduling, report generation)
-- **Client:** outbound calls (MCP readback via rmcp, rusqlite DB queries, gRPC emit)
+- **Client:** outbound calls (MCP readback over the hand-rolled line-delimited JSON-RPC client, rusqlite DB queries, gRPC emit)
 
 **Auto-instrumentation per surface:**
 
@@ -284,7 +284,7 @@ Downstream skills (route, setup-project) derive:
 | **desktop-webview** | NO auto-instrumentation — each `#[tauri::command]` handler opens a MANUAL `tracing::info_span!("tauri.command.<name>").entered()` guard, because the `#[tracing::instrument]` ATTRIBUTE does not stack with the `#[tauri::command]` macro (which rewrites the fn signature for IPC arg-extraction); measured 8/8 sites 2026-09-02, names inside §11's bounded `tauri.command.*` set | IPC envelope `run_id` correlation (no `traceparent`) |
 | **ipc-internal** | None (not HTTP/gRPC) | Manual `run_id` in Tauri command envelope (no W3C trace context) |
 | **conductor-emit** | None (gRPC client is a seam, not auto-instrumented) | Manual span around tonic client call |
-| **conductor-verify** | None (rmcp is a seam) | Manual span around MCP read-back call |
+| **conductor-verify** | None (the hand-rolled line-delimited JSON-RPC MCP client is a seam) | Manual span around MCP read-back call |
 | **conductor-report** | None (rusqlite is synchronous, off async runtime) | Manual span around rusqlite WRITE queries (`db.insert_run`); READ queries are witnessed by a §6 boundary-call `info!` inside the caller's span, since the bounded §11 span-name set has no `db.*` read name |
 
 **Must-trace path scenarios** (translated from obs-scope Section 4):
