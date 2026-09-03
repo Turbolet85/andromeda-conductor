@@ -956,7 +956,10 @@ where
 #[cfg(test)]
 mod tests {
     use super::*;
-    use conductor_core::HeadlessResolver;
+    use conductor_core::{CheckKind, ContractTerm, HeadlessResolver, IncidentFormation};
+    use opentelemetry_proto::tonic::collector::trace::v1::{
+        ExportTraceServiceRequest, ExportTraceServiceResponse,
+    };
 
     /// A blocked-gate `Preflight` (no connected client) — the no-live-Pulse spine, constructed
     /// directly so the test needs neither a sidecar nor an env handle.
@@ -1526,5 +1529,264 @@ mod tests {
         std::thread::sleep(std::time::Duration::from_millis(2));
         let after = now_unix_nanos();
         assert!(after > before, "the stamp must advance across a real pause: {before} -> {after}");
+    }
+
+    /// An env var no shell declares. The run-contract assertions below turn on its ABSENCE, so a
+    /// real handle would make them pass or fail on the operator's environment instead of on the
+    /// gate's logic — and reading env at the caller is what keeps this testable without `unsafe`
+    /// (`.claude/rules/testing.md` 2026-08-10).
+    const UNDECLARED_ENV: &str = "CONDUCTOR_UNDECLARED_RUN_CONTRACT_PROBE";
+
+    fn shell_term(id: &str, env: &str) -> ContractTerm {
+        ContractTerm {
+            id: id.to_string(),
+            statement: "a launch condition the runner's shell does not declare".to_string(),
+            check: CheckKind::ShellDeclaration,
+            env: Some(env.to_string()),
+            causes: "the declaration is absent from this environment".to_string(),
+        }
+    }
+
+    fn contract_of(terms: Vec<ContractTerm>) -> RunContract {
+        RunContract {
+            sut_version: "v0.3.0".to_string(),
+            captured_at: "2026-09-03".to_string(),
+            provenance: "test fixture".to_string(),
+            incident_formation: IncidentFormation {
+                warmup_ms: 1_000,
+                warmup_emissions: 4,
+                min_canary_poll_seconds: 90,
+            },
+            terms,
+        }
+    }
+
+    #[test]
+    fn observe_run_contract_names_the_term_this_environment_does_not_declare() {
+        let contract = contract_of(vec![shell_term("l4-deterministic", UNDECLARED_ENV)]);
+        let status = observe_run_contract(&contract);
+
+        assert!(!status.is_satisfied(), "an undeclared shell term is unmet");
+        assert_eq!(status.unmet().len(), 1, "one term, one unmet entry");
+        assert_eq!(status.unmet()[0].id, "l4-deterministic", "the gate names the term individually");
+        assert_ne!(
+            status,
+            RunContractStatus::default(),
+            "a status carrying an unmet term must be distinguishable from the empty default"
+        );
+    }
+
+    #[test]
+    fn observe_run_contract_is_satisfied_when_no_term_is_a_shell_declaration() {
+        // Only a ShellDeclaration term can be unmet: a term whose truth lives on the SUT's side is
+        // recorded and never blocks (arch §Standard Contracts).
+        let contract = contract_of(vec![ContractTerm {
+            id: "corpus-plaintext".to_string(),
+            statement: "true or false entirely on the SUT's side".to_string(),
+            check: CheckKind::DeclaredNotObservable,
+            env: None,
+            causes: "not observable from here".to_string(),
+        }]);
+        assert!(observe_run_contract(&contract).is_satisfied());
+    }
+
+    fn resolved_away(before: Vec<i64>, resolved: i64) -> LifecycleObservation {
+        LifecycleObservation { before, resolved, after: Vec::new() }
+    }
+
+    #[test]
+    fn liveness_attribution_turns_on_the_idle_threshold_exactly() {
+        let observation = resolved_away(vec![7], 7);
+
+        // Strictly BELOW the threshold Pulse's 120s auto-resolver is excluded by construction, so
+        // the id leaving the active set is attributable to Conductor's write...
+        assert_eq!(
+            attribute_by_liveness(&observation, AUTO_RESOLVE_IDLE_SECONDS - 0.5),
+            LifecycleVerdict::ProvenByLiveness { idle_seconds: AUTO_RESOLVE_IDLE_SECONDS - 0.5 }
+        );
+
+        // ...and AT the threshold it is not. This is the only value where `<` and `<=` disagree, so
+        // it is the only case that separates the shipped bound from a relaxed one.
+        assert_eq!(
+            attribute_by_liveness(&observation, AUTO_RESOLVE_IDLE_SECONDS),
+            LifecycleVerdict::Unattributable,
+            "at the threshold the resolver could have produced the same disappearance"
+        );
+    }
+
+    /// Serve a line-delimited JSON-RPC session over one end of an in-process duplex, answering
+    /// `query_incident_list` with `items` — supplied independently of the request, because a stub
+    /// that echoes what it was given answers a mutated reader as agreeably as a correct one
+    /// (`.claude/rules/testing.md` 2026-08-20).
+    async fn serve_incident_list(server_io: tokio::io::DuplexStream, items: Vec<i64>) {
+        use tokio::io::{AsyncBufReadExt as _, AsyncWriteExt as _};
+
+        let (reader, mut writer) = tokio::io::split(server_io);
+        let mut lines = tokio::io::BufReader::new(reader).lines();
+        while let Ok(Some(line)) = lines.next_line().await {
+            let Ok(req) = serde_json::from_str::<serde_json::Value>(&line) else { continue };
+            // A notification carries no id and earns no response.
+            let Some(id) = req.get("id").cloned() else { continue };
+            let result = match req.get("method").and_then(serde_json::Value::as_str) {
+                Some("initialize") => serde_json::json!({
+                    "protocolVersion": "2024-11-05",
+                    "capabilities": {},
+                    "serverInfo": { "name": "stub", "version": "0" },
+                }),
+                _ => serde_json::json!({
+                    "items": items
+                        .iter()
+                        .map(|id| serde_json::json!({ "incident_id": id }))
+                        .collect::<Vec<_>>(),
+                }),
+            };
+            let response = serde_json::json!({ "jsonrpc": "2.0", "id": id, "result": result });
+            if writer.write_all(format!("{response}\n").as_bytes()).await.is_err() {
+                break;
+            }
+        }
+    }
+
+    #[tokio::test(flavor = "current_thread")]
+    async fn active_incident_ids_reads_every_id_the_corpus_returns() {
+        // The set is deliberately unlike each degenerate replacement — two entries, neither 0 nor 1
+        // nor -1 — so `Ok(vec![])`, `Ok(vec![0])`, `Ok(vec![1])` and `Ok(vec![-1])` all differ from
+        // it simultaneously.
+        let expected = vec![41_i64, 42_i64];
+        let (client_io, server_io) = tokio::io::duplex(8192);
+        let server = tokio::spawn(serve_incident_list(server_io, expected.clone()));
+
+        let client =
+            ReadbackClient::connect_transport(client_io).await.expect("the stub session initializes");
+        let ids = active_incident_ids(&client).await.expect("the active set reads back");
+
+        drop(client);
+        server.abort();
+
+        assert_eq!(ids, expected, "every id the corpus returned must reach the caller");
+    }
+
+    #[tokio::test(flavor = "current_thread")]
+    async fn active_incident_ids_is_empty_only_when_the_corpus_is() {
+        let (client_io, server_io) = tokio::io::duplex(8192);
+        let server = tokio::spawn(serve_incident_list(server_io, Vec::new()));
+
+        let client =
+            ReadbackClient::connect_transport(client_io).await.expect("the stub session initializes");
+        let ids = active_incident_ids(&client).await.expect("an empty active set reads back");
+
+        drop(client);
+        server.abort();
+
+        assert!(ids.is_empty(), "an empty corpus yields an empty set, got {ids:?}");
+    }
+
+    #[test]
+    fn the_fault_label_is_the_bounded_obs_plan_token() {
+        // obs-plan §4 pins these literals as the `fault_type` attribute values; the classification
+        // tests above assert the VARIANT and never the emitted string, which is what let a mutated
+        // label survive.
+        assert_eq!(FaultKind::Silence.label(), "silence");
+        assert_eq!(FaultKind::Ramp { factor: 0.5 }.label(), "ramp");
+    }
+
+    #[test]
+    fn a_fault_declaring_phase_opens_a_span_and_a_plain_phase_does_not() {
+        let window =
+            PhaseWindow { index: 0, name: "p1", gap: std::time::Duration::from_millis(100) };
+
+        // A declared silence (`occurrences = 0`) is a fault application...
+        assert!(
+            fault_span(&occupier_fixture(), &window, 0).is_some(),
+            "a declared silence window opens fault.silence"
+        );
+        // ...while an emitting plain phase declares none.
+        assert!(
+            fault_span(&fixture(1), &window, 0).is_none(),
+            "a plain emitting phase has no reserved fault span (obs-plan §11)"
+        );
+        // A window past the declared phases yields nothing rather than panicking.
+        let past_end =
+            PhaseWindow { index: 9, name: "absent", gap: std::time::Duration::from_millis(1) };
+        assert!(fault_span(&occupier_fixture(), &past_end, 0).is_none());
+    }
+
+    /// A loopback OTLP trace collector for the warm-up pre-roll. Bound to an ephemeral port, never
+    /// `:4317` — that one is reserved for the port-occupier fault (test-plan §10). The warm-up needs
+    /// a real collector because `TraceEmitter::connect` opens an actual channel.
+    #[derive(Clone, Default)]
+    struct WarmupCapture {
+        requests: std::sync::Arc<std::sync::Mutex<Vec<ExportTraceServiceRequest>>>,
+    }
+
+    #[tonic::async_trait]
+    impl opentelemetry_proto::tonic::collector::trace::v1::trace_service_server::TraceService
+        for WarmupCapture
+    {
+        async fn export(
+            &self,
+            request: tonic::Request<ExportTraceServiceRequest>,
+        ) -> Result<tonic::Response<ExportTraceServiceResponse>, tonic::Status> {
+            self.requests.lock().unwrap().push(request.into_inner());
+            Ok(tonic::Response::new(ExportTraceServiceResponse::default()))
+        }
+    }
+
+    /// Drive the warm-up pre-roll against a stub collector; yields the emission count and the
+    /// virtual time the pre-roll consumed.
+    async fn drive_warmup(warmup_ms: u64, warmup_emissions: u32) -> (usize, std::time::Duration) {
+        use opentelemetry_proto::tonic::collector::trace::v1::trace_service_server::TraceServiceServer;
+
+        let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
+        let addr = listener.local_addr().unwrap();
+        let capture = WarmupCapture::default();
+        let requests = std::sync::Arc::clone(&capture.requests);
+        tokio::spawn(async move {
+            tonic::transport::Server::builder()
+                .add_service(TraceServiceServer::new(capture))
+                .serve_with_incoming(tokio_stream::wrappers::TcpListenerStream::new(listener))
+                .await
+                .ok();
+        });
+
+        let mut traces =
+            TraceEmitter::connect(format!("http://{addr}")).await.expect("the stub collector accepts");
+        let mut contract = contract_of(Vec::new());
+        contract.incident_formation.warmup_ms = warmup_ms;
+        contract.incident_formation.warmup_emissions = warmup_emissions;
+
+        let started = tokio::time::Instant::now();
+        warm_up_canary_service(&mut traces, &contract, 7).await.expect("the warm-up completes");
+        let elapsed = started.elapsed();
+
+        let count = requests.lock().unwrap().len();
+        (count, elapsed)
+    }
+
+    #[tokio::test(flavor = "current_thread", start_paused = true)]
+    async fn the_warm_up_emits_its_declared_count_paced_by_the_declared_gap() {
+        // The pacing divisor is the only thing this window can witness, and the three readings are
+        // mutually distinct by construction: `warmup_ms / warmup_emissions` = 250ms x 4 = 1000ms,
+        // `%` = 0ms, `*` = 4000ms x 4 = 16000ms. The bound below admits only the first.
+        let (count, elapsed) = drive_warmup(1_000, 4).await;
+
+        assert_eq!(count, 4, "every declared pre-roll emission reaches the collector");
+        assert!(
+            elapsed >= std::time::Duration::from_millis(900)
+                && elapsed < std::time::Duration::from_millis(2_000),
+            "the pre-roll is paced at warmup_ms / warmup_emissions (expected ~1000ms), got {elapsed:?}"
+        );
+    }
+
+    #[tokio::test(flavor = "current_thread", start_paused = true)]
+    async fn a_zero_length_warm_up_window_emits_nothing() {
+        let (count, _) = drive_warmup(0, 4).await;
+        assert_eq!(count, 0, "a zero-length window declares no pre-roll");
+    }
+
+    #[tokio::test(flavor = "current_thread", start_paused = true)]
+    async fn a_zero_warm_up_emission_count_emits_nothing() {
+        let (count, _) = drive_warmup(1_000, 0).await;
+        assert_eq!(count, 0, "a zero emission count declares no pre-roll");
     }
 }

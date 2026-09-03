@@ -393,6 +393,42 @@ async fn the_topology_family_emits_every_declared_service() {
     );
 }
 
+/// Whether the declared `error_depth` lands the ERROR span at the trace ROOT (no parent) or on a
+/// deeper child. The root-vs-deep split is P-008's whole subject, and the depth's ZERO case is what
+/// selects it — so the placement, not merely the presence of an error, is what has to be asserted.
+async fn topology_error_is_at_the_root(error_depth: u32) -> bool {
+    let (traces, _) = drive_scenario!(scenario(phase(
+        4000,
+        EmissionSpec::shaped(
+            Signal::Traces,
+            1,
+            EmissionShape::Topology {
+                services: vec!["checkout-api".to_string(), "payments-worker".to_string()],
+                error_depth: Some(error_depth),
+            },
+        )
+    )));
+    let spans = all_spans(&traces);
+    let errored: Vec<_> = spans
+        .iter()
+        .filter(|s| s.status.as_ref().is_some_and(|st| st.code == StatusCode::Error as i32))
+        .collect();
+    assert_eq!(errored.len(), 1, "the declared depth places exactly one ERROR span");
+    errored[0].parent_span_id.is_empty()
+}
+
+#[tokio::test(flavor = "current_thread", start_paused = true)]
+async fn a_zero_error_depth_places_the_error_at_the_root_and_a_deeper_one_does_not() {
+    assert!(
+        topology_error_is_at_the_root(0).await,
+        "depth 0 is the ROOT placement — the P-008 root-cause half"
+    );
+    assert!(
+        !topology_error_is_at_the_root(1).await,
+        "a non-zero depth places the error on a DEEP CHILD, never the root"
+    );
+}
+
 #[tokio::test(flavor = "current_thread", start_paused = true)]
 async fn the_same_seed_reproduces_the_same_stream() {
     let shape = || {

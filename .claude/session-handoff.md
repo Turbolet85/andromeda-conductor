@@ -1,89 +1,75 @@
 # Session Handoff
 
-**Last Updated:** 2026-09-03T09:58:00Z
-**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **47 ahead** after this commit)
+**Last Updated:** 2026-09-03T12:35:28Z
+**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **48 ahead** after this commit)
 **Status:** clean
-**Last Commit:** `feat(2026-09-03-conductor-tauri-survivors-dispositioned): the twenty-two survivors
-dispositioned, and the three timeouts that were a hang all along`
+**Last Commit:** `feat(2026-09-03-conductor-run-composition-root-survivors-dispositioned): the roster that was
+over-broad by two, and the three sites no hermetic test can reach`
 
 ## Position
-- Done: **2026-09-03-conductor-tauri-survivors-dispositioned** — the crate's first mutation score turned
-  into a closed ledger: **22 standing survivors → 3**, and all three are the dispositioned
-  accepted-deliberate set. Timeouts **3 → 0**.
-- Next: **`/andromeda-phase`** to promote + plan **_conductor-run composition-root survivors
-  dispositioned_** — the sibling chunk, same shape, one crate over. It carries the **standing cargo-audit
-  PREREQ, now the 47th**.
+- Done: **2026-09-03-conductor-run-composition-root-survivors-dispositioned** — the crate's standing survivor
+  ledger closed: **25 → 8**, 17 killed, 8 accepted-deliberate against cited rules. Production source
+  **byte-unchanged**; `Cargo.lock` un-drifted at 564 packages.
+- Next: **`/andromeda-phase`** to promote + plan **_Live-Pulse preconditions probed before a leg is
+  scheduled_** — the next markerless entry. It carries the **standing cargo-audit PREREQ, now the 48th**.
 - Coverage **26/32 verified · 6 unclaimed** (`v2-04`, `v2-21`, `v2-24`, `v2-26`, `v2-27`, `v2-32`) —
   unchanged; this chunk claimed nothing, so the coverage gate was a no-op.
 
 ## Work done
-19 survivors killed, 3 accepted-deliberate with cited rules. **Production code is byte-unchanged** — every
-diff line sits inside `#[cfg(test)]`, plus two committed fixture TOMLs and a dev-dependency feature. The
-tier re-run found the **same 43 mutants**, which is what makes the two scores comparable: 19 missed / 6
-caught / 15 unviable / 3 timeout → **3 / 25 / 15 / 0** in 3 m 55 s.
+The tier was re-measured at HEAD **before** planning, not after: `Found 118 mutants` both runs, which is what
+makes the two scores comparable. **25 missed / 65 caught → 8 missed / 82 caught**, 28 unviable, **0 timeout**
+either way — so unlike the sibling crate, every remedy here was *strengthen the assertion*, never *bound the
+await*. 11 tests added across `lib.rs`'s `#[cfg(test)]` module and `tests/dispatch_wire.rs`.
 
-Four mechanisms, each with its own remedy — and two cost far less than the plan's inherited hypothesis
-assumed. `resolve_handle(var, default)` takes its default as a **parameter**, so both guard arms test with
-no staged repo root and no `unsafe { set_var }`. The run-data commands' error arm is reachable on a clean
-tree, so no fixture was needed there. **The three timeouts were an unbounded `rx.await`, not a blind spot**
-— bounding two existing awaits converted them to caught with no new test written. `main.rs` had no test
-module at all, which is why all three of its mutants survived.
+**Two results the plan did not predict.** The operator's P4 ruling to re-open `observe_run_contract:346` paid
+off — and the same test also killed `declares:358 → true`, because the env read lives in `declares` and not
+in its caller, so the cited env-at-the-caller rule never covered either. **The ratified `declares` class was
+over-broad by two: 6 → 4.**
 
-The three accepted-deliberate, each against a cited standing rule: `main:18` (arch §Design Philosophy thin
-shells — no `main` that launches the Tauri event loop is callable from a test, and no refactor changes
-that; **operator-ratified**), `run_thread:296` (`testing.md` 2026-06-26 background-thread deferral), and
-`start_run:263:8` (`testing.md` 2026-08-10 env-at-the-caller — the same rule the `declares` ×6 case cites).
+**Three sites are accepted-deliberate for a measured reach barrier, not a coverage gap.** `:518`/`:559` ×2 sit
+past `probe_egress`/`Dispatcher::connect` on the fixed `http://127.0.0.1:4317` const — reaching them means
+binding the SUT's own port, contended between `--jobs 2` mutant processes. `:66` needs `preflight()` to hold a
+connected client from a spawned `andromeda-pulse-mcp` absent on a hermetic host. That third one is a
+**deviation from plan** (it was scoped as a kill) and took the plan's own sanctioned exit.
 
 ## Drift resolved
-**8 amendments across 3 masters · 1 escalation resolved with the operator.**
-- **test-plan ×5.** The one that mattered: **§4's read-out gate said `missed.txt` empty**, which §10's own
-  accepted-deliberate rule contradicts — an accepted survivor by construction *survives*. This chunk was
-  the first to exercise it visibly (3 accepted, acceptance MET). **Escalated**; the operator chose gating
-  on the accepted set, which is *stricter* than the plan's own wording because it also fails an unexpected
-  survivor. Plus §10's roster named as a SET, §12 recording the triple (the plan's Expected amendment), and
-  §7's two fixture SETs widened for the first committed fixture outside `conductor-run`.
-- **design-system ×1** — `:406`'s "Tailwind v4.1 `@theme`" retired for the `:root` truth `:201` has carried
-  since 2026-06-15 (operator directive item 3).
-- **layout-templates ×2** — `:11` and `:305` carried the same retired `@theme` mechanism. **No detector's
-  scope covered them**; they were cascade hits from the cross-master sweep, folded into this pass.
-- Checked and dismissed as NOT stale: `a11y-plan:447` (a correct statement about Tailwind *namespace*
-  tokens, which survive tree-shaking), `architecture:28`/`:256`, `.claude/rules/frontend.md:18`,
-  `.claude/docs/stack.md:33` — all already state the `:root` truth.
-- Cascade re-derived 2 leaves (`rules/testing.md`, `docs/tests-summary.md`); closure check returns **0**
-  hits for both retired wordings anywhere.
-- Six of seven doc-agents returned `proposals: []`.
+**4 amendments to test-plan · 0 escalations.** Six of seven doc-agents returned `proposals: []`, each with a
+cited basis rather than a bare null.
+- **§12** — the `declares` bullet's `x6` literal retired for the enumerated arm SET, with the 2026-09-03
+  shrink and its cause recorded; a **new bullet** adds `conductor-run`'s accepted-deliberate classes B and C
+  with their citations and evidence home.
+- **§10** — the inline roster reference de-counted and **re-attributed `conductor-verify` → `conductor-run`**
+  (`fn declares` has never been in conductor-verify; a workspace grep returns one hit).
+- Sweep re-derived by the orchestrator, not accepted from the detector: 3 `declares` hits in test-plan, 2
+  retired-count hits, **zero hits outside test-plan** across all seven masters, the three preserve-verbatim
+  curation homes and the two judgment bases. `security-plan.md:114` already had it right.
+- **Cascade: no leaf re-derivation needed.** `.claude/rules/testing.md:19` and `.claude/docs/tests-summary.md:12`
+  name the roster as "a SET recorded in test-plan §12" and carry no count — consistent by construction. That
+  set-naming shape is exactly what made them immune.
 
 ## Notes
-- **Retraction filed** (operator directive item 1). A prior wrap's friction record claimed test-plan `:93`
-  "carries neither the swept tokens nor the mechanism phrase" — measured false on the pre-amendment bytes:
-  `:93` opens with `**Trigger type:** cross-surface-coordination`. What **stands** is the finding itself
-  (the doc-agent's duplicate sweep was token-keyed), which has since been encoded pipeline-side. The
-  existing test-plan sidecar already described `:93` accurately, which independently corroborates the
-  retraction.
-- **v2-25 premise correction** written into the matrix at P7.3: its acceptance names "a `tauri::test`
-  mock-runtime run" as the first parity arm, but that arm is an in-process core run using no `tauri::*`
-  item. Envelope-equality **PROVEN**; the control-panel-LAUNCHED half **DEFERRED and still owed**. The
-  verified outcome is not weakened and the acceptance text is not rewritten.
-- **Curation:** Tier 2 × 1 (`testing.md`, 32 → 33) — a TIMEOUT survivor is a hang in the test's await, so
-  the remedy is bounding the await, not writing an assertion. **Two candidates rejected at exactly 0.6**,
-  the documented scoring mass point: CRLF newline-anchors in scripted doc edits (would have gone to
-  `host-win32.md`), and the parameterised-default path guard being testable without `unsafe` env mutation.
-  Both are genuinely useful and will return with more signal. CLAUDE.md untouched at **133/200**.
-- **Route:** the doc-comment finding is now CARRIED to *Sidecar spawn without a console window* rather
-  than floating — `run_report`/`run_envelope`'s comments say an absent runs dir "never" errors, true only
-  for `run_id = None`. Item 6's placement is recorded **ratified**, closing the adaptation record's open
-  point.
-- **Process observation worth the founder's attention:** all seven of `/andromeda-phase` P5's mechanical
-  checks are STRUCTURAL — sections, path existence, placeholders, gate listing. None is a predicate over
-  whether a plan step's stated MECHANISM is true, so a plan can pass every check while claiming a proof its
-  design cannot produce. That is exactly what happened here and only the operator's review caught it.
-- **Self-inflicted waste, recorded:** a 10-minute foreground sleep-poll loop waiting for the last
-  doc-agent, which produced nothing (exit 143) — the completion notification arrives independently. The
-  standing instruction is to wait passively; I did not.
-- **Disk residue for you (not processes):** the prior session's cold-run target dir
-  `%LOCALAPPDATA%/Temp/claude/D--dev-projects-conductor/<session>/scratchpad/fresh-target-0903` (**3.0 GB**)
-  is still there, plus this session's `target/mutants-2026-09-03/` (gitignored) and the small pre-existing
-  `%TEMP%/conductor-core-run-journal-*` class.
+- **Operator directive item 1 applied.** The evidence ledger claimed reaching `:518`/`:559` would collide with
+  this crate's occupier guard test; that test passes `occupier_port = 0` and binds an **ephemeral** port,
+  never `:4317`. Verified at HEAD, corrected in the ledger; the barrier now rests on its two real legs.
+  `plan.md` retains the original clause as the record of what was planned, superseded by the report.
+- **Operator directive item 2 applied at P5**, owner validated rather than assumed: a **CARRY** on
+  _Operator-gated live suite_ (6b) naming the three live-path observables — `degraded == true` on a
+  declare-only empty read-back, `latency_ms == observed − emitted` on the manual path, and the
+  `preflight blocked` line under a live sidecar. Landing them does **not** retire the tier acceptances; it
+  buys the behavioural coverage the accepted class cannot.
+- **Curation:** Tier 2 × 2 into `testing.md` (33 → 34). One is an **in-place extension** of the 2026-08-20
+  killing-assertion entry with the facet it lacked — *reachability before observability*, three instances in
+  one chunk. The other records that an accepted-deliberate classification covers only the code the cited
+  rule's mechanism lives in and does **not** inherit up to the enclosing function. Two candidates rejected as
+  duplicates of the standing verify-the-artifact family; one rejected below threshold. CLAUDE.md untouched at
+  **133/200**.
+- **Self-inflicted, recorded:** my route-annotation append landed **after** the line's carriage return,
+  embedding a mid-line CR and rewriting every line ending — `git diff` showed 119/119 for a 2-line edit.
+  Caught by checking diff size against intent, repaired to the intended 3/3. The phase's *prepend* of the same
+  helper round-trips clean; only the append direction has the trap.
 - **Process hygiene:** re-measured against the host process list by name — **zero stragglers**. No listener
   opened; no Pulse, WebDriver or screen-reader process involved.
+- **Disk residue for you (not processes):** `target/mutants-run-2026-09-03/` and `target/mutants-impl-2026-09-03/`
+  (both gitignored under `/target/`), plus the prior session's `fresh-target-0903` (~3.0 GB) still in the
+  scratchpad.
 - **Last failed command:** none.
