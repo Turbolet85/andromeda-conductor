@@ -340,7 +340,7 @@
       "verification": {
         "method": "integration",
         "acceptance": "For one scenario and seed, a `tauri::test` mock-runtime run and an `assert_cmd` CLI subprocess run, both pointed at ONE `assert_fs::TempDir` `runs.db` via `CONDUCTOR_RUNS_DIR`, write envelopes whose verdict, state and seed are equal — compared field-by-field BETWEEN THE TWO PERSISTED ENVELOPES, not each against a literal — and each writes its own <run_id>.jsonl under distinct run_ids. The wall-clock/identity fields (run_id, journal_emitted_at, read_back_observed_at, latency_ms) are excluded from the equality, per obs-plan §4/§5.",
-        "ref": "crates/conductor-tauri/src/commands.rs::commands::tests::path7_the_two_surfaces_write_an_equal_envelope_into_one_runs_db",
+        "ref": "crates/conductor-cli/tests/cross_surface_parity.rs::path7_the_two_surfaces_write_an_equal_envelope_into_one_runs_db",
         "status": "verified"
       },
       "chunk": "2026-09-02-cross-surface-envelope-parity",

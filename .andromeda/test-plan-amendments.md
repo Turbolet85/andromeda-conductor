@@ -304,3 +304,34 @@ trigger gained the third per-reader handle class and its mandated tier.
 re-derived independently (`grep -c -i rmcp` = 24) rather than taken from an enumeration — the originating
 CARRY had named ONE site and the phase distiller claimed 26. (2) and the §6 banner site were found by the
 doc-agents' duplicate-occurrence grep, not by the report, whose own enumeration under-ran on both.
+
+## 2026-09-02-mutation-tier-restored-for-conductor-tauri — the parity leg's first arm was never the mock runtime
+
+**Section:** §2 Critical Path 7 (`:80`) · §2 trigger table (`:93`) · §5 Driver(s) (`:264`) · §5 Cross-module
+patterns → Cross-surface parity (`:287`) · §5 deferred-leg bullet (`:288`) · §6 Both-surface parity Steps
+step 2 (`:370`) + Verification signal (`:371`) — SEVEN sites, all applied.
+**Change:** (1) `:287` retired "the Tauri mock-runtime run" as the leg's first arm and names the measured
+arm SET — an in-process call to `conductor_run::{preflight, drive_run}` (the composition the Tauri
+`start_run` command's thread runs, using no `tauri::*` item) plus the assert_cmd CLI subprocess arm — and
+records the leg's new home, `crates/conductor-cli/tests/cross_surface_parity.rs`, a package with no `tauri`
+dependency in any section. (2) `:288`'s landed half renamed mock-runtime ↔ CLI → in-process-core ↔ CLI.
+(3) `:370`'s step-2 GUI leg restated as the in-process drive, `get_ipc_response()` kept as the driver of the
+mock-runtime command-dispatch tier. (4) `:264`'s parity CLI arm now takes its binary path from the declared
+build-graph edge `assert_cmd::Command::new(env!("CARGO_BIN_EXE_conductor"))` rather than
+`Command::cargo_bin`'s runtime `target/debug` fallback; assert_cmd is unchanged as the assertion library and
+`cli_smoke`, inside the owning package, keeps `cargo_bin`. (5) `:80`, `:93` and `:371` — the Critical-Path-7
+**Verification signal** and its required-test-type twin — were SPLIT rather than rewritten: the envelope-
+equality half is recorded PROVEN by the in-process arm ↔ CLI subprocess pair, and the control-panel-LAUNCHED
+half is recorded DEFERRED to the tauri-driver leg (§5) and explicitly still OWED against the Creator Brief.
+**Why:** the chunk measured that the parity leg's first arm uses no `tauri::*` item at all — the relocation
+to a package with no `tauri` dependency compiles and passes, which makes the mock-runtime attribution
+unambiguously false. (1)-(4) are routine spec-illustration → sound-impl alignment (playbook `:28-30`): the
+parity invariant is preserved and only the mechanism's description moved. (5) was ESCALATED and resolved
+with the operator, because that rule does NOT govern there — its qualifying clause is "contract preserved",
+and `:80` sources its signal from the Creator Brief Must-Work ("from the control panel AND headless"), so
+rewriting it to the measured mechanism would have retired a brief-sourced requirement to match the evidence.
+The operator chose the split. Site count re-derived by a MECHANISM sweep, not a token sweep: the doc-agent's
+token grep (`mock-runtime` / `tauri::test` / `get_ipc_response`) found three of the seven; `:80` and `:371`
+carry none of those tokens and were found by sweeping what the claim SAYS, and `:93` — "the Tauri-launched
+run", under a `cross-surface-coordination` heading — surfaced only in the post-edit verification sweep,
+after both earlier passes had missed it.

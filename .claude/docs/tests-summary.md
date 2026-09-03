@@ -24,7 +24,7 @@ setup-project Phase 4 materializes `scripts/agent-run.{sh,ps1}`. Enforcement: `.
 - **Severity-lifecycle full pass** — declare-only family of FIVE scenarios (no scenario is named `severity-lifecycle`); each row `verdict` null / `state=KnownResidual`. Auto-resolve grades HARD at the harvest tier (`severity_harvest.rs`) on the active-set-empties instant against the 120s window + 30s tick, plus the same-fingerprint retrigger's `created=true, deduped=false`; severity choice = CalibrationRegion at the cue tier. The resolution-summary half is unreachable under deterministic L4 — recorded, not asserted.
 - **Known-residual (P-032)** — `state=KnownResidual` (not Fail) from a `degraded_mode` read-back.
 - **Coverage-matrix completeness** — every capability in the SUT capability manifest, zero gaps (DoD). Second axis: `check_scenario_backing` asserts every `Auto`-classified capability has a scenario naming it, exact-set against the `UNBACKED_AUTO` pin (fails on a new unbacked claim, pin rot, or a pin that lost its `Auto` mode).
-- **Cross-surface parity** — Tauri-launched vs headless identical envelope for the same seed.
+- **Cross-surface parity** — the in-process core arm (`conductor_run::{preflight, drive_run}`, the composition behind the Tauri `start_run` command — no `tauri::*` item) vs headless `conductor run`: identical envelope for the same seed, both into ONE `runs.db` under a non-default `CONDUCTOR_RUNS_DIR`, compared between the two persisted envelopes. Lives in `crates/conductor-cli/tests/cross_surface_parity.rs`, the package declaring the `conductor` bin. The control-panel-LAUNCHED half of this path is DEFERRED to the tauri-driver leg and still owed against the Creator Brief.
 
 ## Quality gates (§10)
 | Gate | Threshold | Tool |

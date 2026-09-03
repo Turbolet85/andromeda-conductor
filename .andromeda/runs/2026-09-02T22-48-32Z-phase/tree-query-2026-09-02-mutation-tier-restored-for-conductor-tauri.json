@@ -1,0 +1,139 @@
+[
+{
+"sql": "SELECT symbol, crate, kind, file, def_line FROM symbol WHERE name IN ('stage_repo_root','path7_the_two_surfaces_write_an_equal_envelope_into_one_runs_db','start_run','run_envelope','latest_run_id') AND kind <> 'meta' ORDER BY crate, file",
+"rows": 5,
+"result": [
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 run_journal/latest_run_id().",
+"crate": "conductor-core",
+"kind": "fn",
+"file": "crates/conductor-core/src/run_journal.rs",
+"def_line": 11
+},
+{
+"symbol": "rust-analyzer cargo conductor-tauri 0.1.0 commands/run_envelope().",
+"crate": "conductor-tauri",
+"kind": "fn",
+"file": "crates/conductor-tauri/src/commands.rs",
+"def_line": 222
+},
+{
+"symbol": "rust-analyzer cargo conductor-tauri 0.1.0 commands/start_run().",
+"crate": "conductor-tauri",
+"kind": "fn",
+"file": "crates/conductor-tauri/src/commands.rs",
+"def_line": 252
+},
+{
+"symbol": "rust-analyzer cargo conductor-tauri 0.1.0 commands/tests/stage_repo_root().",
+"crate": "conductor-tauri",
+"kind": "fn",
+"file": "crates/conductor-tauri/src/commands.rs",
+"def_line": 471
+},
+{
+"symbol": "rust-analyzer cargo conductor-tauri 0.1.0 commands/tests/path7_the_two_surfaces_write_an_equal_envelope_into_one_runs_db().",
+"crate": "conductor-tauri",
+"kind": "fn",
+"file": "crates/conductor-tauri/src/commands.rs",
+"def_line": 486
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller_name, callee_name, file, line FROM calls WHERE callee_name IN ('stage_repo_root','preflight','drive_run','read_run_journal') AND callee_kind = 'fn' AND file LIKE '%conductor-tauri%' ORDER BY file, line",
+"rows": 9,
+"result": [
+{
+"caller_name": "run_report",
+"callee_name": "read_run_journal",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 187
+},
+{
+"caller_name": "run_thread",
+"callee_name": "preflight",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 304
+},
+{
+"caller_name": "run_thread",
+"callee_name": "drive_run",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 315
+},
+{
+"caller_name": "tests",
+"callee_name": "read_run_journal",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 348
+},
+{
+"caller_name": "path7_the_two_surfaces_write_an_equal_envelope_into_one_runs_db",
+"callee_name": "stage_repo_root",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 501
+},
+{
+"caller_name": "path7_the_two_surfaces_write_an_equal_envelope_into_one_runs_db",
+"callee_name": "preflight",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 532
+},
+{
+"caller_name": "path7_the_two_surfaces_write_an_equal_envelope_into_one_runs_db",
+"callee_name": "drive_run",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 535
+},
+{
+"caller_name": "path7_the_two_surfaces_write_an_equal_envelope_into_one_runs_db",
+"callee_name": "read_run_journal",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 550
+},
+{
+"caller_name": "path7_the_two_surfaces_write_an_equal_envelope_into_one_runs_db",
+"callee_name": "read_run_journal",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 551
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT from_crate, to_crate FROM crate_edges WHERE to_crate = 'conductor-tauri' OR from_crate = 'conductor-tauri' OR from_crate = 'conductor-cli' ORDER BY from_crate, to_crate",
+"rows": 6,
+"result": [
+{
+"from_crate": "conductor-cli",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-cli",
+"to_crate": "conductor-report"
+},
+{
+"from_crate": "conductor-cli",
+"to_crate": "conductor-run"
+},
+{
+"from_crate": "conductor-cli",
+"to_crate": "conductor-verify"
+},
+{
+"from_crate": "conductor-tauri",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-tauri",
+"to_crate": "conductor-run"
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]
