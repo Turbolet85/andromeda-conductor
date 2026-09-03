@@ -1,0 +1,21 @@
+# TEST FIXTURE — a minimal, valid catalog-shaped scenario. Not a catalog entry: it lives under
+# tests/fixtures/, never under scenarios/, so `check_load_envelope`'s committed-catalog gate and
+# `check_scenario_backing` never see it.
+#
+# Its only job is to give the parameterised catalog helpers (`resolve_selection`, `load_all`,
+# `list_scenarios_impl`) a POPULATED subject. Those helpers take `dir: &Path` directly and never read
+# the process CWD, so a committed read-only directory is enough — no temp dir, no env mutation.
+#
+# The pair (this + fixture-beta) is deliberately TWO files with DIFFERENT names: the suite sentinel
+# must yield a different cardinality than a named selection, or `resolve_selection`'s `==` -> `!=`
+# mutant would route both arms to an indistinguishable result.
+
+name = "fixture-alpha"
+p_ids = ["P-009"]
+seed = 4317101
+slo_tier = "<5s"
+jitter_ms = 0
+
+[[phases]]
+name = "quiet"
+gap_ms = 10

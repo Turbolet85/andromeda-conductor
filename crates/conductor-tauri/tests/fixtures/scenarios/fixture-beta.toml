@@ -1,0 +1,14 @@
+# TEST FIXTURE — the second of the pair. See fixture-alpha.toml for why two files exist.
+#
+# Carries a different `name`, `p_ids` and `slo_tier` from its sibling so a summary-list assertion can
+# tell the two apart rather than counting interchangeable rows.
+
+name = "fixture-beta"
+p_ids = ["P-010"]
+seed = 4317102
+slo_tier = "<20s"
+jitter_ms = 0
+
+[[phases]]
+name = "quiet"
+gap_ms = 10

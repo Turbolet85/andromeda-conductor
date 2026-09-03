@@ -120,6 +120,12 @@ mod tests {
     use tauri::webview::InvokeRequest;
     use tauri::{Manager, WebviewUrl, WebviewWindowBuilder};
 
+    /// How long an armed hold may wait for its decision before the test calls it undelivered.
+    /// Generous enough never to flake on a loaded host, short enough that a mutant which stops the
+    /// oneshot ever being sent FAILS instead of timing the binary out (the survivor class this
+    /// bound converts from timeout to caught).
+    const AWAIT_BOUND: std::time::Duration = std::time::Duration::from_secs(5);
+
     fn hold() -> HoldPoint {
         HoldPoint {
             scenario: "constellation-hue".to_string(),
@@ -169,7 +175,13 @@ mod tests {
         let (tx, rx) = oneshot::channel();
         gate.arm(tx);
         assert!(gate.deliver(Decision::Go), "a pending, connected hold accepts the decision");
-        assert_eq!(rx.await.unwrap(), Decision::Go);
+        // BOUNDED: a `deliver` that reports success without sending would otherwise block here
+        // forever and time the whole binary out, which reports as a timeout rather than a failure.
+        let decision = tokio::time::timeout(AWAIT_BOUND, rx)
+            .await
+            .expect("deliver reported success but never sent the decision")
+            .expect("the armed sender stayed connected");
+        assert_eq!(decision, Decision::Go);
     }
 
     #[test]
@@ -219,6 +231,21 @@ mod tests {
         )
         .expect("resolve_operator_hold dispatches");
 
-        assert_eq!(rx.await.unwrap(), Decision::Go, "the dispatched command delivered the operator's Go");
+        // BOUNDED for the same reason as the gate round-trip above: a command that never reaches
+        // `deliver` must fail fast and name itself, not hang the test binary.
+        let decision = tokio::time::timeout(AWAIT_BOUND, rx)
+            .await
+            .expect("the dispatched command never delivered a decision to the armed hold")
+            .expect("the armed sender stayed connected");
+        assert_eq!(decision, Decision::Go, "the dispatched command delivered the operator's Go");
+    }
+
+    #[test]
+    fn the_tauri_resolver_identifies_itself_as_the_dialog_resolver() {
+        // `kind` is the resolver's identity in the hold record; nothing else asserted it, which is
+        // why both its mutants survived. Treated as ONE disposition unit: the `""` mutant is a stable
+        // miss and the `"xyzzy"` sibling flips missed/unviable across runs on an identical tree.
+        let resolver = TauriResolver::new(HoldGate::default(), Channel::new(|_| Ok(())));
+        assert_eq!(resolver.kind(), "tauri-dialog");
     }
 }

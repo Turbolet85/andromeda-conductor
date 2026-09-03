@@ -47,3 +47,34 @@ fn tauri_log_path() -> Option<PathBuf> {
     let logs_dir = runs_dir.parent().map(Path::to_path_buf).unwrap_or(base).join("logs");
     Some(logs_dir.join("conductor-tauri.jsonl"))
 }
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn the_self_obs_sink_resolves_beside_the_runs_dir() {
+        // obs-plan §3 Log file location: the file NAME is fixed and the DIRECTORY rides
+        // CONDUCTOR_RUNS_DIR, so asserting the tail is env-robust. `init_observability` is a
+        // process-global, first-install-wins singleton (test-plan §11) and is deliberately not
+        // called here — only the path derivation is under test.
+        let path = tauri_log_path().expect("the sink path resolves under an existing base dir");
+        assert!(path.is_absolute(), "the sink path is absolute, got {path:?}");
+        // Path::ends_with compares whole COMPONENTS: a string suffix would fail on Windows, where
+        // this renders `logs\conductor-tauri.jsonl`.
+        assert!(
+            path.ends_with(Path::new("logs").join("conductor-tauri.jsonl")),
+            "the sink lands at <runs_dir.parent()>/logs/conductor-tauri.jsonl, got {path:?}"
+        );
+    }
+
+    #[test]
+    fn the_obs_sink_is_a_file_sink_whenever_the_path_resolves() {
+        // obs-plan §3: the file sink is UNCONDITIONAL, with stderr only as an open-failure fallback.
+        // A tauri_log_path that returned None would silently downgrade the whole stream to stderr.
+        assert!(
+            matches!(obs_sink(), ObsSink::File(_)),
+            "a resolvable sink path must yield a File sink, never the stderr fallback"
+        );
+    }
+}

@@ -21,5 +21,7 @@ tracing.workspace = true
 # parity leg moved to conductor-cli/tests/, the package declaring the `conductor` bin, so its
 # assert_cmd + assert_fs edges left with it.
 tauri = { workspace = true, features = ["test"] }
-tokio = { workspace = true, features = ["rt", "sync", "macros"] }
+# `time` backs the bounded awaits in pause.rs's hold tests: without a bound, a mutant that stops the
+# oneshot ever being sent hangs the binary and reports as a timeout instead of a failure.
+tokio = { workspace = true, features = ["rt", "sync", "macros", "time"] }
 serde_json = { workspace = true }

@@ -1,0 +1,784 @@
+[
+{
+"sql": "SELECT name, crate, kind, file, def_line FROM symbol WHERE name IN ('resolve_handle','scenarios_dir','runs_dir','manifest_path','resolve_selection','load_all','list_scenarios','list_scenarios_impl','run_report','run_envelope','start_run','run_thread','tauri_log_path','resolve_operator_hold','resolve_under','read_envelope','get_envelope','obs_sink') AND kind <> 'meta' ORDER BY crate, file, def_line",
+"rows": 26,
+"result": [
+{
+"name": "obs_sink",
+"crate": "conductor-cli",
+"kind": "fn",
+"file": "crates/conductor-cli/src/main.rs",
+"def_line": 43
+},
+{
+"name": "scenarios_dir",
+"crate": "conductor-cli",
+"kind": "term",
+"file": "crates/conductor-cli/src/paths.rs",
+"def_line": 15
+},
+{
+"name": "runs_dir",
+"crate": "conductor-cli",
+"kind": "term",
+"file": "crates/conductor-cli/src/paths.rs",
+"def_line": 16
+},
+{
+"name": "manifest_path",
+"crate": "conductor-cli",
+"kind": "term",
+"file": "crates/conductor-cli/src/paths.rs",
+"def_line": 17
+},
+{
+"name": "resolve_handle",
+"crate": "conductor-cli",
+"kind": "fn",
+"file": "crates/conductor-cli/src/paths.rs",
+"def_line": 91
+},
+{
+"name": "resolve_under",
+"crate": "conductor-core",
+"kind": "fn",
+"file": "crates/conductor-core/src/config_path.rs",
+"def_line": 16
+},
+{
+"name": "scenarios_dir",
+"crate": "conductor-core",
+"kind": "fn",
+"file": "crates/conductor-core/src/drift.rs",
+"def_line": 289
+},
+{
+"name": "scenarios_dir",
+"crate": "conductor-core",
+"kind": "fn",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"def_line": 378
+},
+{
+"name": "list_scenarios",
+"crate": "conductor-core",
+"kind": "fn",
+"file": "crates/conductor-core/src/scenario_catalog.rs",
+"def_line": 41
+},
+{
+"name": "get_envelope",
+"crate": "conductor-report",
+"kind": "fn",
+"file": "crates/conductor-report/src/db.rs",
+"def_line": 221
+},
+{
+"name": "read_envelope",
+"crate": "conductor-run",
+"kind": "fn",
+"file": "crates/conductor-run/src/lib.rs",
+"def_line": 851
+},
+{
+"name": "resolve_handle",
+"crate": "conductor-tauri",
+"kind": "fn",
+"file": "crates/conductor-tauri/src/commands.rs",
+"def_line": 36
+},
+{
+"name": "scenarios_dir",
+"crate": "conductor-tauri",
+"kind": "fn",
+"file": "crates/conductor-tauri/src/commands.rs",
+"def_line": 42
+},
+{
+"name": "runs_dir",
+"crate": "conductor-tauri",
+"kind": "fn",
+"file": "crates/conductor-tauri/src/commands.rs",
+"def_line": 46
+},
+{
+"name": "manifest_path",
+"crate": "conductor-tauri",
+"kind": "fn",
+"file": "crates/conductor-tauri/src/commands.rs",
+"def_line": 50
+},
+{
+"name": "resolve_selection",
+"crate": "conductor-tauri",
+"kind": "fn",
+"file": "crates/conductor-tauri/src/commands.rs",
+"def_line": 75
+},
+{
+"name": "load_all",
+"crate": "conductor-tauri",
+"kind": "fn",
+"file": "crates/conductor-tauri/src/commands.rs",
+"def_line": 87
+},
+{
+"name": "list_scenarios",
+"crate": "conductor-tauri",
+"kind": "fn",
+"file": "crates/conductor-tauri/src/commands.rs",
+"def_line": 111
+},
+{
+"name": "list_scenarios_impl",
+"crate": "conductor-tauri",
+"kind": "fn",
+"file": "crates/conductor-tauri/src/commands.rs",
+"def_line": 120
+},
+{
+"name": "run_report",
+"crate": "conductor-tauri",
+"kind": "fn",
+"file": "crates/conductor-tauri/src/commands.rs",
+"def_line": 166
+},
+{
+"name": "run_envelope",
+"crate": "conductor-tauri",
+"kind": "fn",
+"file": "crates/conductor-tauri/src/commands.rs",
+"def_line": 222
+},
+{
+"name": "start_run",
+"crate": "conductor-tauri",
+"kind": "fn",
+"file": "crates/conductor-tauri/src/commands.rs",
+"def_line": 252
+},
+{
+"name": "run_thread",
+"crate": "conductor-tauri",
+"kind": "fn",
+"file": "crates/conductor-tauri/src/commands.rs",
+"def_line": 285
+},
+{
+"name": "obs_sink",
+"crate": "conductor-tauri",
+"kind": "fn",
+"file": "crates/conductor-tauri/src/main.rs",
+"def_line": 38
+},
+{
+"name": "tauri_log_path",
+"crate": "conductor-tauri",
+"kind": "fn",
+"file": "crates/conductor-tauri/src/main.rs",
+"def_line": 42
+},
+{
+"name": "resolve_operator_hold",
+"crate": "conductor-tauri",
+"kind": "fn",
+"file": "crates/conductor-tauri/src/pause.rs",
+"def_line": 100
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT callee_name, caller_name, file, line FROM calls WHERE callee_kind = 'fn' AND callee_file LIKE '%conductor-tauri/src/%' ORDER BY callee_name, file, line",
+"rows": 70,
+"result": [
+{
+"callee_name": "arm",
+"caller_name": "resolve",
+"file": "crates/conductor-tauri/src/pause.rs",
+"line": 89
+},
+{
+"callee_name": "arm",
+"caller_name": "gate_delivers_the_decision_to_the_awaiting_hold",
+"file": "crates/conductor-tauri/src/pause.rs",
+"line": 169
+},
+{
+"callee_name": "arm",
+"caller_name": "a_dropped_sender_is_abort_safe_no_go",
+"file": "crates/conductor-tauri/src/pause.rs",
+"line": 185
+},
+{
+"callee_name": "arm",
+"caller_name": "resolve_operator_hold_command_delivers_the_decision",
+"file": "crates/conductor-tauri/src/pause.rs",
+"line": 205
+},
+{
+"callee_name": "capabilities",
+"caller_name": "list_scenarios",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 115
+},
+{
+"callee_name": "capabilities",
+"caller_name": "start_run",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 261
+},
+{
+"callee_name": "coverage_matrix",
+"caller_name": "test_app",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 366
+},
+{
+"callee_name": "coverage_matrix",
+"caller_name": "main",
+"file": "crates/conductor-tauri/src/main.rs",
+"line": 23
+},
+{
+"callee_name": "deliver",
+"caller_name": "resolve_operator_hold",
+"file": "crates/conductor-tauri/src/pause.rs",
+"line": 105
+},
+{
+"callee_name": "deliver",
+"caller_name": "gate_delivers_the_decision_to_the_awaiting_hold",
+"file": "crates/conductor-tauri/src/pause.rs",
+"line": 170
+},
+{
+"callee_name": "deliver",
+"caller_name": "deliver_is_a_no_op_without_a_pending_hold",
+"file": "crates/conductor-tauri/src/pause.rs",
+"line": 176
+},
+{
+"callee_name": "from",
+"caller_name": "run_envelope",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 248
+},
+{
+"callee_name": "from_hold",
+"caller_name": "resolve",
+"file": "crates/conductor-tauri/src/pause.rs",
+"line": 90
+},
+{
+"callee_name": "from_hold",
+"caller_name": "hold_prompt_projects_the_hold_point",
+"file": "crates/conductor-tauri/src/pause.rs",
+"line": 138
+},
+{
+"callee_name": "from_hold",
+"caller_name": "hold_prompt_serializes_the_checklist_for_the_webview",
+"file": "crates/conductor-tauri/src/pause.rs",
+"line": 157
+},
+{
+"callee_name": "hold",
+"caller_name": "hold_prompt_projects_the_hold_point",
+"file": "crates/conductor-tauri/src/pause.rs",
+"line": 138
+},
+{
+"callee_name": "hold",
+"caller_name": "hold_prompt_projects_the_hold_point",
+"file": "crates/conductor-tauri/src/pause.rs",
+"line": 144
+},
+{
+"callee_name": "hold",
+"caller_name": "hold_prompt_serializes_the_checklist_for_the_webview",
+"file": "crates/conductor-tauri/src/pause.rs",
+"line": 157
+},
+{
+"callee_name": "invoke",
+"caller_name": "coverage_matrix_command_returns_every_classified_pid",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 413
+},
+{
+"callee_name": "invoke",
+"caller_name": "unbacked_auto_command_returns_the_core_ledger",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 427
+},
+{
+"callee_name": "invoke",
+"caller_name": "run_report_command_returns_a_well_formed_record_list",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 440
+},
+{
+"callee_name": "invoke",
+"caller_name": "run_envelope_command_returns_null_when_no_run_has_an_envelope",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 454
+},
+{
+"callee_name": "invoke",
+"caller_name": "stop_run_command_sets_the_cooperative_abort_flag",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 464
+},
+{
+"callee_name": "list_scenarios",
+"caller_name": "test_app",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 365
+},
+{
+"callee_name": "list_scenarios",
+"caller_name": "main",
+"file": "crates/conductor-tauri/src/main.rs",
+"line": 22
+},
+{
+"callee_name": "list_scenarios_impl",
+"caller_name": "list_scenarios",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 115
+},
+{
+"callee_name": "list_scenarios_impl",
+"caller_name": "start_run",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 262
+},
+{
+"callee_name": "load_all",
+"caller_name": "resolve_selection",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 81
+},
+{
+"callee_name": "load_envelope",
+"caller_name": "start_run",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 268
+},
+{
+"callee_name": "load_one",
+"caller_name": "resolve_selection",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 83
+},
+{
+"callee_name": "load_toml",
+"caller_name": "load_all",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 91
+},
+{
+"callee_name": "load_toml",
+"caller_name": "load_one",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 102
+},
+{
+"callee_name": "main_window",
+"caller_name": "coverage_matrix_command_returns_every_classified_pid",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 410
+},
+{
+"callee_name": "main_window",
+"caller_name": "unbacked_auto_command_returns_the_core_ledger",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 426
+},
+{
+"callee_name": "main_window",
+"caller_name": "run_report_command_returns_a_well_formed_record_list",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 438
+},
+{
+"callee_name": "main_window",
+"caller_name": "run_envelope_command_returns_null_when_no_run_has_an_envelope",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 448
+},
+{
+"callee_name": "main_window",
+"caller_name": "stop_run_command_sets_the_cooperative_abort_flag",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 463
+},
+{
+"callee_name": "manifest_path",
+"caller_name": "start_run",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 267
+},
+{
+"callee_name": "new",
+"caller_name": "start_run",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 272
+},
+{
+"callee_name": "obs_sink",
+"caller_name": "main",
+"file": "crates/conductor-tauri/src/main.rs",
+"line": 17
+},
+{
+"callee_name": "resolve_handle",
+"caller_name": "scenarios_dir",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 43
+},
+{
+"callee_name": "resolve_handle",
+"caller_name": "runs_dir",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 47
+},
+{
+"callee_name": "resolve_handle",
+"caller_name": "manifest_path",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 51
+},
+{
+"callee_name": "resolve_operator_hold",
+"caller_name": "test_app",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 372
+},
+{
+"callee_name": "resolve_operator_hold",
+"caller_name": "main",
+"file": "crates/conductor-tauri/src/main.rs",
+"line": 29
+},
+{
+"callee_name": "resolve_operator_hold",
+"caller_name": "resolve_operator_hold_command_delivers_the_decision",
+"file": "crates/conductor-tauri/src/pause.rs",
+"line": 197
+},
+{
+"callee_name": "resolve_selection",
+"caller_name": "start_run",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 265
+},
+{
+"callee_name": "run_envelope",
+"caller_name": "test_app",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 369
+},
+{
+"callee_name": "run_envelope",
+"caller_name": "main",
+"file": "crates/conductor-tauri/src/main.rs",
+"line": 26
+},
+{
+"callee_name": "run_report",
+"caller_name": "test_app",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 368
+},
+{
+"callee_name": "run_report",
+"caller_name": "main",
+"file": "crates/conductor-tauri/src/main.rs",
+"line": 25
+},
+{
+"callee_name": "run_thread",
+"caller_name": "start_run",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 275
+},
+{
+"callee_name": "runs_dir",
+"caller_name": "run_report",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 169
+},
+{
+"callee_name": "runs_dir",
+"caller_name": "run_envelope",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 225
+},
+{
+"callee_name": "runs_dir",
+"caller_name": "start_run",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 266
+},
+{
+"callee_name": "scenarios_dir",
+"caller_name": "list_scenarios",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 114
+},
+{
+"callee_name": "scenarios_dir",
+"caller_name": "start_run",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 260
+},
+{
+"callee_name": "start_run",
+"caller_name": "test_app",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 370
+},
+{
+"callee_name": "start_run",
+"caller_name": "main",
+"file": "crates/conductor-tauri/src/main.rs",
+"line": 27
+},
+{
+"callee_name": "stop_run",
+"caller_name": "test_app",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 371
+},
+{
+"callee_name": "stop_run",
+"caller_name": "main",
+"file": "crates/conductor-tauri/src/main.rs",
+"line": 28
+},
+{
+"callee_name": "tauri_log_path",
+"caller_name": "obs_sink",
+"file": "crates/conductor-tauri/src/main.rs",
+"line": 39
+},
+{
+"callee_name": "test_app",
+"caller_name": "mock_app_registers_the_full_command_surface",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 404
+},
+{
+"callee_name": "test_app",
+"caller_name": "coverage_matrix_command_returns_every_classified_pid",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 409
+},
+{
+"callee_name": "test_app",
+"caller_name": "unbacked_auto_command_returns_the_core_ledger",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 425
+},
+{
+"callee_name": "test_app",
+"caller_name": "run_report_command_returns_a_well_formed_record_list",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 437
+},
+{
+"callee_name": "test_app",
+"caller_name": "run_envelope_command_returns_null_when_no_run_has_an_envelope",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 447
+},
+{
+"callee_name": "test_app",
+"caller_name": "stop_run_command_sets_the_cooperative_abort_flag",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 462
+},
+{
+"callee_name": "unbacked_auto",
+"caller_name": "test_app",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 367
+},
+{
+"callee_name": "unbacked_auto",
+"caller_name": "main",
+"file": "crates/conductor-tauri/src/main.rs",
+"line": 24
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT from_crate, to_crate FROM crate_edges WHERE to_crate = 'conductor-tauri' OR from_crate = 'conductor-tauri' ORDER BY from_crate, to_crate",
+"rows": 2,
+"result": [
+{
+"from_crate": "conductor-tauri",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-tauri",
+"to_crate": "conductor-run"
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT callee_name, callee_crate, caller_name, file, line FROM calls WHERE callee_name = 'resolve_under' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 20,
+"result": [
+{
+"callee_name": "resolve_under",
+"callee_crate": "conductor-core",
+"caller_name": "paths",
+"file": "crates/conductor-cli/src/paths.rs",
+"line": 10
+},
+{
+"callee_name": "resolve_under",
+"callee_crate": "conductor-core",
+"caller_name": "resolve",
+"file": "crates/conductor-cli/src/paths.rs",
+"line": 31
+},
+{
+"callee_name": "resolve_under",
+"callee_crate": "conductor-core",
+"caller_name": "resolve",
+"file": "crates/conductor-cli/src/paths.rs",
+"line": 32
+},
+{
+"callee_name": "resolve_under",
+"callee_crate": "conductor-core",
+"caller_name": "load_scenario",
+"file": "crates/conductor-cli/src/paths.rs",
+"line": 50
+},
+{
+"callee_name": "resolve_under",
+"callee_crate": "conductor-core",
+"caller_name": "resolve_handle",
+"file": "crates/conductor-cli/src/paths.rs",
+"line": 93
+},
+{
+"callee_name": "resolve_under",
+"callee_crate": "conductor-core",
+"caller_name": "accepts_an_in_scope_relative_path",
+"file": "crates/conductor-core/src/config_path.rs",
+"line": 57
+},
+{
+"callee_name": "resolve_under",
+"callee_crate": "conductor-core",
+"caller_name": "rejects_parent_dir_traversal",
+"file": "crates/conductor-core/src/config_path.rs",
+"line": 63
+},
+{
+"callee_name": "resolve_under",
+"callee_crate": "conductor-core",
+"caller_name": "rejects_an_out_of_scope_absolute_path",
+"file": "crates/conductor-core/src/config_path.rs",
+"line": 70
+},
+{
+"callee_name": "resolve_under",
+"callee_crate": "conductor-core",
+"caller_name": "crate",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 36
+},
+{
+"callee_name": "resolve_under",
+"callee_crate": "conductor-core",
+"caller_name": "crate",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 26
+},
+{
+"callee_name": "resolve_under",
+"callee_crate": "conductor-core",
+"caller_name": "load_run_contract",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 338
+},
+{
+"callee_name": "resolve_under",
+"callee_crate": "conductor-core",
+"caller_name": "commands",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 17
+},
+{
+"callee_name": "resolve_under",
+"callee_crate": "conductor-core",
+"caller_name": "resolve_handle",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 39
+},
+{
+"callee_name": "resolve_under",
+"callee_crate": "conductor-core",
+"caller_name": "capabilities",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 59
+},
+{
+"callee_name": "resolve_under",
+"callee_crate": "conductor-core",
+"caller_name": "load_envelope",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 70
+},
+{
+"callee_name": "resolve_under",
+"callee_crate": "conductor-core",
+"caller_name": "load_one",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 101
+},
+{
+"callee_name": "resolve_under",
+"callee_crate": "conductor-core",
+"caller_name": "run_report",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 172
+},
+{
+"callee_name": "resolve_under",
+"callee_crate": "conductor-core",
+"caller_name": "run_envelope",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 228
+},
+{
+"callee_name": "resolve_under",
+"callee_crate": "conductor-core",
+"caller_name": "crate",
+"file": "crates/conductor-tauri/src/main.rs",
+"line": 11
+},
+{
+"callee_name": "resolve_under",
+"callee_crate": "conductor-core",
+"caller_name": "tauri_log_path",
+"file": "crates/conductor-tauri/src/main.rs",
+"line": 45
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

@@ -1,80 +1,89 @@
 # Session Handoff
 
-**Last Updated:** 2026-09-03T06:15:00Z
-**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **46 ahead** after this commit)
+**Last Updated:** 2026-09-03T09:58:00Z
+**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **47 ahead** after this commit)
 **Status:** clean
-**Last Commit:** `feat(2026-09-02-mutation-tier-restored-for-conductor-tauri): the binary a build graph
-finally guarantees, and the survivors its first score revealed`
+**Last Commit:** `feat(2026-09-03-conductor-tauri-survivors-dispositioned): the twenty-two survivors
+dispositioned, and the three timeouts that were a hang all along`
 
 ## Position
-- Done: **2026-09-02-mutation-tier-restored-for-conductor-tauri** — the `conductor-tauri` mutation tier
-  went from 43 planned / **0 tested** to 43 planned / **43 tested**, by moving the parity test to the
-  package that declares the `conductor` bin so `CARGO_BIN_EXE_conductor` binds it.
-- Next: **`/andromeda-phase`** to promote + plan **_conductor-tauri survivors dispositioned_** — minted
-  this wrap at the Epoch 6a head, ahead of the `conductor-run` sibling. It carries the **standing
-  cargo-audit PREREQ, now the 46th**.
+- Done: **2026-09-03-conductor-tauri-survivors-dispositioned** — the crate's first mutation score turned
+  into a closed ledger: **22 standing survivors → 3**, and all three are the dispositioned
+  accepted-deliberate set. Timeouts **3 → 0**.
+- Next: **`/andromeda-phase`** to promote + plan **_conductor-run composition-root survivors
+  dispositioned_** — the sibling chunk, same shape, one crate over. It carries the **standing cargo-audit
+  PREREQ, now the 47th**.
 - Coverage **26/32 verified · 6 unclaimed** (`v2-04`, `v2-21`, `v2-24`, `v2-26`, `v2-27`, `v2-32`) —
   unchanged; this chunk claimed nothing, so the coverage gate was a no-op.
 
 ## Work done
-The parity test relocated to `crates/conductor-cli/tests/cross_surface_parity.rs` and its CLI arm now
-resolves through `env!("CARGO_BIN_EXE_conductor")` — a compile-time build-graph fact — instead of
-`assert_cmd`'s `target/debug` fallback. Production code is **byte-unchanged**: every diff line in
-`commands.rs` sits inside `#[cfg(test)]`. `assert_cmd`/`assert_fs` left `conductor-tauri`'s dev-deps
-(lock 564 → 564 packages, 2 edge lines, `cargo deny` green over the new lock). Measured both
-directions: with `conductor.exe` absent, `-p conductor-tauri` went **exit 100 → exit 0**, and a cold
-`CARGO_TARGET_DIR` run passed **49/49** (368 packages compiled — which also settles the `ui/dist`
-cold-compile question architecture had left open). `v2-25`'s `ref` followed the test.
+19 survivors killed, 3 accepted-deliberate with cited rules. **Production code is byte-unchanged** — every
+diff line sits inside `#[cfg(test)]`, plus two committed fixture TOMLs and a dev-dependency feature. The
+tier re-run found the **same 43 mutants**, which is what makes the two scores comparable: 19 missed / 6
+caught / 15 unviable / 3 timeout → **3 / 25 / 15 / 0** in 3 m 55 s.
 
-**The tier's first score is the finding:** 43 tested in **4 m 18 s** at `--jobs 2` — and **21 stable
-standing survivors** (18 missed + 3 timeout). The wrap light gate re-ran the tier on an identical tree
-and one mutant (`pause.rs:85 TauriResolver::kind -> "xyzzy"`) moved missed → unviable, so the headline
-reads 21 or 22 depending on the run; cargo-mutants' viability classification is not fully run-stable
-here. Nothing was dispositioned by default; that is the correct reading of test-plan §10, and the work
-is now owned by the entry minted at P5.
+Four mechanisms, each with its own remedy — and two cost far less than the plan's inherited hypothesis
+assumed. `resolve_handle(var, default)` takes its default as a **parameter**, so both guard arms test with
+no staged repo root and no `unsafe { set_var }`. The run-data commands' error arm is reachable on a clean
+tree, so no fixture was needed there. **The three timeouts were an unbounded `rx.await`, not a blind spot**
+— bounding two existing awaits converted them to caught with no new test written. `main.rs` had no test
+module at all, which is why all three of its mutants survived.
+
+The three accepted-deliberate, each against a cited standing rule: `main:18` (arch §Design Philosophy thin
+shells — no `main` that launches the Tauri event loop is callable from a test, and no refactor changes
+that; **operator-ratified**), `run_thread:296` (`testing.md` 2026-06-26 background-thread deferral), and
+`start_run:263:8` (`testing.md` 2026-08-10 env-at-the-caller — the same rule the `declares` ×6 case cites).
 
 ## Drift resolved
-**7 sites in `test-plan.md`, one claim.** The retired claim: *the parity leg's first arm is a
-`tauri::test` mock-runtime run*. It is not — the arm calls `conductor_run::{preflight, drive_run}` and
-uses no `tauri::*` item.
-- **4 detector-proposed** — `:287` (primary), `:288`, `:370` (duplicates), `:264` (the
-  `cargo_bin` → `env!` driver fact). All routine under playbook `:28-30`.
-- **3 orchestrator-raised.** `:80` and `:371` state the same mechanism in words carrying none of the
-  swept tokens; `:93` carried neither those tokens nor the phrase the mechanism sweep used, and
-  surfaced only in the **post-edit verification** pass.
-- **1 escalation, resolved with the operator.** `:80`/`:93`/`:371` are Critical Path 7's *Verification
-  signal*, sourced from the Creator Brief Must-Work — so playbook `:28-30` did **not** govern them (its
-  qualifier is "contract preserved"). Operator chose the **split**: the envelope-equality half is
-  recorded PROVEN, the control-panel-LAUNCHED half recorded DEFERRED to the tauri-driver leg and
-  explicitly **still owed**.
-- Cascade: `.claude/docs/tests-summary.md` re-derived (it carried the retired "Tauri-launched vs
-  headless" wording, and was outside the rules/CLAUDE.md sweep — provenance enumeration caught it).
-- Six of seven docs returned `proposals: []`.
+**8 amendments across 3 masters · 1 escalation resolved with the operator.**
+- **test-plan ×5.** The one that mattered: **§4's read-out gate said `missed.txt` empty**, which §10's own
+  accepted-deliberate rule contradicts — an accepted survivor by construction *survives*. This chunk was
+  the first to exercise it visibly (3 accepted, acceptance MET). **Escalated**; the operator chose gating
+  on the accepted set, which is *stricter* than the plan's own wording because it also fails an unexpected
+  survivor. Plus §10's roster named as a SET, §12 recording the triple (the plan's Expected amendment), and
+  §7's two fixture SETs widened for the first committed fixture outside `conductor-run`.
+- **design-system ×1** — `:406`'s "Tailwind v4.1 `@theme`" retired for the `:root` truth `:201` has carried
+  since 2026-06-15 (operator directive item 3).
+- **layout-templates ×2** — `:11` and `:305` carried the same retired `@theme` mechanism. **No detector's
+  scope covered them**; they were cascade hits from the cross-master sweep, folded into this pass.
+- Checked and dismissed as NOT stale: `a11y-plan:447` (a correct statement about Tailwind *namespace*
+  tokens, which survive tree-shaking), `architecture:28`/`:256`, `.claude/rules/frontend.md:18`,
+  `.claude/docs/stack.md:33` — all already state the `:root` truth.
+- Cascade re-derived 2 leaves (`rules/testing.md`, `docs/tests-summary.md`); closure check returns **0**
+  hits for both retired wordings anywhere.
+- Six of seven doc-agents returned `proposals: []`.
 
 ## Notes
-- **Adjacent finding, reported not applied:** `design-system.md:406` (decisions log) still says
-  "Tailwind v4.1 `@theme`", which `:201` retires in favour of `:root`. It is surviving residue of the
-  2026-06-15 amendment that playbook rule `:28-30` cites as its own founding precedent — pre-existing,
-  outside this chunk's Changes. Yours to fold in whenever you like.
-- **Pipeline defect worth the founder's attention:** the doc-agent prompt in `amendment-flow.md` tells
-  the duplicate sweep to grep *"the WORDING your change retires"* — token-keyed. Three of this wrap's
-  seven sites carried no swept token. The cascade's own step-2 text already prescribes sweeping the
-  retired MECHANISM's phrasing; the doc-agent prompt was never brought into line with it. Logged to the
-  friction ledger as `contract.skill-reference-drift`.
-- **Two recurrence-despite-learning items** (logged, not re-curated — both mine, both this session):
-  CLAUDE.md's *"graph lines are 0-indexed, grep's are 1-indexed"* — I cited graph rows as editor lines
-  in `plan.md` and `research.md`, and you caught it at the P5 review; and `host-win32.md`'s *"no `rm` in
-  a launch path"* — I issued exactly that compound and it was denied. Both entries are correct and
-  present; neither was consulted at the moment of acting.
-- **Disk residue for you (not processes):** the cold-run target dir
-  `%LOCALAPPDATA%/Temp/claude/D--dev-projects-conductor/<session>/scratchpad/fresh-target-0903` —
-  **3.0 GB**, left because `rm -r` is denied here; safe to delete by hand. Plus the small pre-existing
+- **Retraction filed** (operator directive item 1). A prior wrap's friction record claimed test-plan `:93`
+  "carries neither the swept tokens nor the mechanism phrase" — measured false on the pre-amendment bytes:
+  `:93` opens with `**Trigger type:** cross-surface-coordination`. What **stands** is the finding itself
+  (the doc-agent's duplicate sweep was token-keyed), which has since been encoded pipeline-side. The
+  existing test-plan sidecar already described `:93` accurately, which independently corroborates the
+  retraction.
+- **v2-25 premise correction** written into the matrix at P7.3: its acceptance names "a `tauri::test`
+  mock-runtime run" as the first parity arm, but that arm is an in-process core run using no `tauri::*`
+  item. Envelope-equality **PROVEN**; the control-panel-LAUNCHED half **DEFERRED and still owed**. The
+  verified outcome is not weakened and the acceptance text is not rewritten.
+- **Curation:** Tier 2 × 1 (`testing.md`, 32 → 33) — a TIMEOUT survivor is a hang in the test's await, so
+  the remedy is bounding the await, not writing an assertion. **Two candidates rejected at exactly 0.6**,
+  the documented scoring mass point: CRLF newline-anchors in scripted doc edits (would have gone to
+  `host-win32.md`), and the parameterised-default path guard being testable without `unsafe` env mutation.
+  Both are genuinely useful and will return with more signal. CLAUDE.md untouched at **133/200**.
+- **Route:** the doc-comment finding is now CARRIED to *Sidecar spawn without a console window* rather
+  than floating — `run_report`/`run_envelope`'s comments say an absent runs dir "never" errors, true only
+  for `run_id = None`. Item 6's placement is recorded **ratified**, closing the adaptation record's open
+  point.
+- **Process observation worth the founder's attention:** all seven of `/andromeda-phase` P5's mechanical
+  checks are STRUCTURAL — sections, path existence, placeholders, gate listing. None is a predicate over
+  whether a plan step's stated MECHANISM is true, so a plan can pass every check while claiming a proof its
+  design cannot produce. That is exactly what happened here and only the operator's review caught it.
+- **Self-inflicted waste, recorded:** a 10-minute foreground sleep-poll loop waiting for the last
+  doc-agent, which produced nothing (exit 143) — the completion notification arrives independently. The
+  standing instruction is to wait passively; I did not.
+- **Disk residue for you (not processes):** the prior session's cold-run target dir
+  `%LOCALAPPDATA%/Temp/claude/D--dev-projects-conductor/<session>/scratchpad/fresh-target-0903` (**3.0 GB**)
+  is still there, plus this session's `target/mutants-2026-09-03/` (gitignored) and the small pre-existing
   `%TEMP%/conductor-core-run-journal-*` class.
-- **Process hygiene:** re-measured against the host process list by name — **zero stragglers**. No
-  listener opened; no Pulse, WebDriver or screen-reader process involved.
-- **Curation:** Tier 2 × 2, both `testing.md` — one new entry (cargo-mutants writes tallies to
-  `{dir}/mutants.out/`, so a pre-existing output dir is stale by construction; plus the 4 m 18 s budget
-  basis), one in-place extension of the 2026-06-21 `CARGO_BIN_EXE` entry (the cross-package failure
-  mode + the artifact-absent probe). CLAUDE.md untouched at **133/200**.
-- **Last failed command:** none. (One Bash call was DENIED — a compound with `rm -rf` in a launch path;
-  replaced by granular steps with a unique dir. Not a failure to retry.)
+- **Process hygiene:** re-measured against the host process list by name — **zero stragglers**. No listener
+  opened; no Pulse, WebDriver or screen-reader process involved.
+- **Last failed command:** none.

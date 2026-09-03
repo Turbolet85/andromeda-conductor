@@ -468,4 +468,204 @@ mod tests {
             "stop_run flips the cooperative abort flag the run thread polls"
         );
     }
+
+    /// Dispatch a command that MUST fail, returning the rendered error. The sibling `invoke` panics
+    /// on an error response, so it cannot express "the failure is the assertion".
+    fn invoke_expecting_error(window: &MockWindow, cmd: &str, body: InvokeBody) -> String {
+        let response = get_ipc_response(
+            window,
+            InvokeRequest {
+                cmd: cmd.into(),
+                callback: CallbackFn(0),
+                error: CallbackFn(1),
+                url: "http://tauri.localhost".parse().unwrap(),
+                body,
+                headers: Default::default(),
+                invoke_key: INVOKE_KEY.to_string(),
+            },
+        );
+        match response {
+            Ok(_) => panic!("command `{cmd}` returned Ok where an error was required"),
+            Err(err) => format!("{err:?}"),
+        }
+    }
+
+    /// The committed read-only scenario catalog under `tests/fixtures/`. The parameterised helpers
+    /// take `dir` directly and never read the process CWD, so a committed directory is subject
+    /// enough — no temp dir, no `unsafe` env mutation.
+    fn fixture_scenarios_dir() -> PathBuf {
+        Path::new(env!("CARGO_MANIFEST_DIR")).join("tests").join("fixtures").join("scenarios")
+    }
+
+    fn workspace_root() -> PathBuf {
+        Path::new(env!("CARGO_MANIFEST_DIR")).join("..").join("..")
+    }
+
+    fn fixture_capabilities() -> CapabilityManifest {
+        CapabilityManifest::load(&workspace_root().join(CapabilityManifest::default_path()))
+            .expect("the committed SUT capability manifest loads from the workspace root")
+    }
+
+    const FIXTURE_SCENARIO_COUNT: usize = 2;
+
+    /// A var name no process sets, so `resolve_handle` takes its `default` argument — which is what
+    /// makes both arms reachable with no `unsafe { set_var }` (`.claude/rules/testing.md` 2026-08-10).
+    const UNSET_HANDLE: &str = "CONDUCTOR_FIXTURE_UNSET_HANDLE_PROBE";
+
+    #[test]
+    fn the_committed_scenarios_fixture_stays_loadable() {
+        // test-plan §7: pin the fixture's MEANING, not just that the files parse — a load-path change
+        // that leaves the TOML readable but no longer loadable fails HERE rather than silently
+        // inerting every killing test below. Doubles as the `list_scenarios_impl` kill.
+        let summaries = list_scenarios_impl(&fixture_scenarios_dir(), &fixture_capabilities())
+            .expect("the committed fixture scenarios load through the production catalog reader");
+        assert_eq!(
+            summaries.len(),
+            FIXTURE_SCENARIO_COUNT,
+            "the fixture must present every committed scenario, not an empty catalog"
+        );
+        let names: Vec<&str> = summaries.iter().map(|s| s.name.as_str()).collect();
+        assert!(
+            names.contains(&"fixture-alpha") && names.contains(&"fixture-beta"),
+            "both fixture identities must survive the round-trip: {names:?}"
+        );
+    }
+
+    #[test]
+    fn resolve_handle_resolves_an_in_scope_default_under_the_current_dir() {
+        let resolved = resolve_handle(UNSET_HANDLE, "src")
+            .expect("`src` exists under the crate dir and stays inside its base");
+        assert!(resolved.is_absolute(), "a resolved handle is absolute, got {resolved:?}");
+        assert!(resolved.ends_with("src"), "the default segment survives resolution: {resolved:?}");
+    }
+
+    #[test]
+    fn resolve_handle_rejects_a_traversal_default_naming_the_traversal() {
+        // The ONLY assertion in this crate that reaches `resolve_under`'s `..` guard: here the base
+        // is the process CWD, which exists, so canonicalization succeeds and the guard runs. The
+        // run-data commands below fail earlier, on an unresolvable base — a different mechanism that
+        // must not be described as proving rejection (security-plan §Input Validation).
+        let err = resolve_handle(UNSET_HANDLE, "../escape")
+            .expect_err("a `..` default must be REJECTED, never clamped to a safe path");
+        assert!(
+            err.contains("component"),
+            "the error must name the traversal guard: {err}"
+        );
+        assert!(
+            !err.contains("base directory is not resolvable"),
+            "this must be the traversal rejection, not the absent-base error: {err}"
+        );
+    }
+
+    #[test]
+    fn the_artifact_handles_resolve_absolute_paths_under_the_current_dir() {
+        let base = std::env::current_dir()
+            .expect("a current dir")
+            .canonicalize()
+            .expect("the current dir canonicalizes");
+        for (label, resolved) in [
+            ("scenarios_dir", scenarios_dir()),
+            ("runs_dir", runs_dir()),
+            ("manifest_path", manifest_path()),
+        ] {
+            let path = resolved.unwrap_or_else(|e| panic!("{label} resolves its handle: {e}"));
+            assert!(path.is_absolute(), "{label} must return an absolute path, got {path:?}");
+            assert!(path.starts_with(&base), "{label} must stay under its base: {path:?}");
+        }
+    }
+
+    #[test]
+    fn resolve_selection_loads_the_whole_suite_for_the_sentinel() {
+        let selected =
+            resolve_selection(&fixture_scenarios_dir(), SUITE_SELECTION, &fixture_capabilities())
+                .expect("the suite sentinel resolves against the fixture catalog");
+        assert_eq!(
+            selected.len(),
+            FIXTURE_SCENARIO_COUNT,
+            "the sentinel selects every scenario in the directory"
+        );
+    }
+
+    #[test]
+    fn resolve_selection_loads_exactly_one_for_a_named_scenario() {
+        // Paired with the sentinel test above: the two branches must differ in CARDINALITY, or the
+        // `==` -> `!=` mutant would route both to an indistinguishable result.
+        let selected =
+            resolve_selection(&fixture_scenarios_dir(), "fixture-alpha", &fixture_capabilities())
+                .expect("a named scenario resolves against the fixture catalog");
+        assert_eq!(selected.len(), 1, "a named selection is exactly one scenario");
+        assert_eq!(selected[0].name, "fixture-alpha", "and it is the one that was named");
+    }
+
+    #[test]
+    fn load_all_reads_every_committed_fixture_scenario() {
+        let scenarios = load_all(&fixture_scenarios_dir(), &fixture_capabilities())
+            .expect("the fixture catalog loads in full");
+        assert_eq!(
+            scenarios.len(),
+            FIXTURE_SCENARIO_COUNT,
+            "load_all returns the whole directory, never an empty vec"
+        );
+    }
+
+    #[test]
+    fn run_report_errors_on_a_supplied_run_id_with_an_unresolvable_runs_dir() {
+        // What this pins, precisely: `runs_dir()` resolves fine (its candidate need not exist), so
+        // the inner guard runs against `<crate>/runs`, which does NOT exist — canonicalization of the
+        // BASE fails before the `..` check. The mutant's `Ok(vec![])` cannot produce an error at all.
+        let app = test_app();
+        let window = main_window(&app);
+        let err = invoke_expecting_error(
+            &window,
+            "run_report",
+            InvokeBody::Json(serde_json::json!({ "runId": "../escape" })),
+        );
+        assert!(!err.is_empty(), "the failure surfaces a sanitized message");
+    }
+
+    #[test]
+    fn run_envelope_errors_on_a_supplied_run_id_with_an_unresolvable_runs_dir() {
+        // Same mechanism as run_report above; the mutant returns `Ok(None)`, which is a success.
+        let app = test_app();
+        let window = main_window(&app);
+        let err = invoke_expecting_error(
+            &window,
+            "run_envelope",
+            InvokeBody::Json(serde_json::json!({ "runId": "../escape" })),
+        );
+        assert!(!err.is_empty(), "the failure surfaces a sanitized message");
+    }
+
+    #[test]
+    fn list_scenarios_errors_when_the_capability_manifest_is_unreachable() {
+        // Under the crate-dir CWD `contracts/pulse-capabilities.toml` does not exist, so
+        // `capabilities()` fails; `scenarios_dir()` itself resolves fine. The `Ok(vec![])` mutant
+        // returns success and is killed here.
+        let app = test_app();
+        let window = main_window(&app);
+        let err = invoke_expecting_error(&window, "list_scenarios", InvokeBody::default());
+        assert!(!err.is_empty(), "the failure surfaces a sanitized message");
+    }
+
+    #[test]
+    fn start_run_errors_before_spawning_a_run_thread() {
+        // Called directly rather than through IPC: the two `Channel` arguments are constructed here,
+        // sidestepping channel deserialization entirely. The error arises at `capabilities()`, an
+        // EARLY RETURN, so no background thread is spawned and the deferred Channel frame-sequence
+        // leg stays deferred (.claude/rules/testing.md 2026-06-26).
+        let app = test_app();
+        let err = start_run(
+            "definitely-not-a-scenario".to_string(),
+            Channel::new(|_| Ok(())),
+            Channel::new(|_| Ok(())),
+            app.state::<RunControl>(),
+            app.state::<crate::pause::HoldGate>(),
+        )
+        .expect_err("start_run cannot reach a spawn without a resolvable capability manifest");
+        assert!(!err.is_empty(), "the failure surfaces a sanitized message");
+        assert!(
+            !app.state::<RunControl>().abort.load(Ordering::SeqCst),
+            "an early-return error leaves the abort flag untouched — nothing was started"
+        );
+    }
 }
