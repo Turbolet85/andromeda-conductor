@@ -52,4 +52,5 @@ pub use preflight::{
     CanaryMarker, CanaryOutcome, CanaryPoll, ReadyState, ToolPresence, preflight_boot, run_preflight,
 };
 pub use slo::{CheckOutcome, SloOutcome, compare, evaluate_check, evaluate_slo};
+pub use spawn::sidecar_resolves_on_path;
 pub use verdict::{Assessment, classify};

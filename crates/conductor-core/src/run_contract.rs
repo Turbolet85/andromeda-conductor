@@ -137,7 +137,10 @@ impl RunContract {
             CoreError::Config(format!("could not read run contract ({:?})", e.kind()))
         })?;
         let contract: Self = toml::from_str(&text).map_err(|e| {
-            CoreError::Config(format!("invalid run contract: {}", crate::sanitize_error(&e)))
+            CoreError::Config(format!(
+                "invalid run contract: {}",
+                crate::sanitize_error(&e)
+            ))
         })?;
         contract.validate()?;
         tracing::info!(
@@ -176,9 +179,11 @@ impl RunContract {
 
     /// The preflight's own duration: the warm-up plus the full poll budget.
     pub fn preflight_budget_ms(&self) -> u64 {
-        self.incident_formation
-            .warmup_ms
-            .saturating_add(self.incident_formation.min_canary_poll_seconds.saturating_mul(1_000))
+        self.incident_formation.warmup_ms.saturating_add(
+            self.incident_formation
+                .min_canary_poll_seconds
+                .saturating_mul(1_000),
+        )
     }
 
     /// Assert the harness's own preflight budget stays inside the proven-good SUT bounds. An
@@ -196,16 +201,24 @@ impl RunContract {
 
     fn validate(&self) -> crate::Result<()> {
         if self.sut_version.trim().is_empty() {
-            return Err(CoreError::Config("run contract: sut_version is empty".to_string()));
+            return Err(CoreError::Config(
+                "run contract: sut_version is empty".to_string(),
+            ));
         }
         if self.captured_at.trim().is_empty() {
-            return Err(CoreError::Config("run contract: captured_at is empty".to_string()));
+            return Err(CoreError::Config(
+                "run contract: captured_at is empty".to_string(),
+            ));
         }
         if self.provenance.trim().is_empty() {
-            return Err(CoreError::Config("run contract: provenance is empty".to_string()));
+            return Err(CoreError::Config(
+                "run contract: provenance is empty".to_string(),
+            ));
         }
         if self.terms.is_empty() {
-            return Err(CoreError::Config("run contract: terms is empty".to_string()));
+            return Err(CoreError::Config(
+                "run contract: terms is empty".to_string(),
+            ));
         }
         if self.incident_formation.min_canary_poll_seconds == 0 {
             return Err(CoreError::Config(
@@ -220,7 +233,9 @@ impl RunContract {
         let mut seen = std::collections::HashSet::with_capacity(self.terms.len());
         for term in &self.terms {
             if term.id.trim().is_empty() {
-                return Err(CoreError::Config("run contract: a term id is empty".to_string()));
+                return Err(CoreError::Config(
+                    "run contract: a term id is empty".to_string(),
+                ));
             }
             if !seen.insert(term.id.as_str()) {
                 return Err(CoreError::Config(format!(
@@ -293,13 +308,26 @@ mod tests {
         let c = RunContract::load(&committed_path()).expect("committed contract loads");
         assert_eq!(c.sut_version, "v0.3.0");
         assert!(c.terms.iter().any(|t| t.id == "l4-deterministic"));
+        assert!(c.terms.iter().any(|t| t.id == "mcp-enabled"));
         assert!(c.terms.iter().any(|t| t.id == "shared-data-dir"));
-        assert!(c.incident_formation.warmup_ms > 0, "a warm-up is the chunk's operative term");
+        assert!(
+            c.incident_formation.warmup_ms > 0,
+            "a warm-up is the chunk's operative term"
+        );
         assert!(
             c.incident_formation.min_canary_poll_seconds >= 60,
             "the poll floor must outlast L3's 20-60s digest cadence"
         );
-        assert_eq!(c.observed_env(), vec!["ANDROMEDA_PULSE_L4_DETERMINISTIC"]);
+        // Both handles Conductor can honestly observe in its OWN environment. `shared-data-dir` is
+        // deliberately absent: it is declared-not-observable and names no env var, because the
+        // agreement it asserts lives on the SUT's side.
+        assert_eq!(
+            c.observed_env(),
+            vec![
+                "ANDROMEDA_PULSE_L4_DETERMINISTIC",
+                "ANDROMEDA_PULSE_MCP_ENABLED"
+            ]
+        );
     }
 
     #[test]
@@ -312,25 +340,46 @@ mod tests {
     fn load_failure_message_never_contains_the_path() {
         let path = contracts_dir().join("no-such-run-contract.toml");
         let err = RunContract::load(&path).unwrap_err().to_string();
-        assert!(!err.contains("no-such-run-contract"), "the path must not leak: {err}");
-        assert!(!err.contains(env!("CARGO_MANIFEST_DIR")), "no absolute host path: {err}");
+        assert!(
+            !err.contains("no-such-run-contract"),
+            "the path must not leak: {err}"
+        );
+        assert!(
+            !err.contains(env!("CARGO_MANIFEST_DIR")),
+            "no absolute host path: {err}"
+        );
     }
 
     #[test]
     fn rejects_empty_identity_or_terms() {
         assert!(matches!(
-            RunContract { sut_version: "  ".to_string(), ..contract(vec![]) }.validate(),
+            RunContract {
+                sut_version: "  ".to_string(),
+                ..contract(vec![])
+            }
+            .validate(),
             Err(CoreError::Config(_))
         ));
         assert!(matches!(
-            RunContract { captured_at: String::new(), ..contract(vec![]) }.validate(),
+            RunContract {
+                captured_at: String::new(),
+                ..contract(vec![])
+            }
+            .validate(),
             Err(CoreError::Config(_))
         ));
         assert!(matches!(
-            RunContract { provenance: "  ".to_string(), ..contract(vec![]) }.validate(),
+            RunContract {
+                provenance: "  ".to_string(),
+                ..contract(vec![])
+            }
+            .validate(),
             Err(CoreError::Config(_))
         ));
-        assert!(matches!(contract(vec![]).validate(), Err(CoreError::Config(_))));
+        assert!(matches!(
+            contract(vec![]).validate(),
+            Err(CoreError::Config(_))
+        ));
     }
 
     #[test]
@@ -368,20 +417,33 @@ mod tests {
 
         let status = c.evaluate(&declared(&[]));
         assert!(!status.is_satisfied());
-        assert_eq!(status.unmet().len(), 1, "only the shell-declaration term participates");
+        assert_eq!(
+            status.unmet().len(),
+            1,
+            "only the shell-declaration term participates"
+        );
         assert_eq!(status.unmet()[0].id, "l4");
 
         let status = c.evaluate(&declared(&["SOME_ENV"]));
-        assert!(status.is_satisfied(), "a declared env var satisfies its term");
+        assert!(
+            status.is_satisfied(),
+            "a declared env var satisfies its term"
+        );
     }
 
     #[test]
     fn an_unmet_term_carries_its_statement_and_causes() {
         let c = RunContract::load(&committed_path()).expect("committed contract loads");
         let status = c.evaluate(&declared(&[]));
-        let unmet = status.unmet().first().expect("the l4 term is unmet with nothing declared");
+        let unmet = status
+            .unmet()
+            .first()
+            .expect("the l4 term is unmet with nothing declared");
         assert!(!unmet.statement.trim().is_empty());
-        assert!(!unmet.causes.trim().is_empty(), "a condition without its causes misleads");
+        assert!(
+            !unmet.causes.trim().is_empty(),
+            "a condition without its causes misleads"
+        );
     }
 
     #[test]
@@ -404,6 +466,9 @@ mod tests {
     #[test]
     fn an_over_envelope_budget_is_a_harness_fault() {
         let c = contract(vec![term("t", CheckKind::Asserted, None)]);
-        assert!(matches!(c.check_within_envelope(1_000), Err(CoreError::Config(_))));
+        assert!(matches!(
+            c.check_within_envelope(1_000),
+            Err(CoreError::Config(_))
+        ));
     }
 }

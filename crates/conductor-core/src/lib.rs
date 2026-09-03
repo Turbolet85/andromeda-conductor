@@ -24,6 +24,7 @@ mod load_envelope;
 mod obs;
 mod pause;
 mod phase_spec;
+mod preconditions;
 mod redact;
 mod report_state;
 mod run_contract;
@@ -49,6 +50,10 @@ pub use pause::{Decision, HeadlessResolver, HoldPoint, HoldResolution, PauseReso
 pub use phase_spec::{
     EmissionShape, EmissionSpec, FaultKindSpec, FaultSpec, FingerprintVariantSpec, PhaseSpec,
     PiiCategorySpec, Signal,
+};
+pub use preconditions::{
+    OBSERVED_HANDLES, PreconditionObservation, PreconditionSubject, Preconditions,
+    PreconditionsStatus, UnmetPrecondition,
 };
 pub use redact::{redact_value, sanitize_error};
 pub use report_state::ReportState;

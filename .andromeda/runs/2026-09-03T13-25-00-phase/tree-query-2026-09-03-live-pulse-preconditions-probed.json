@@ -1,0 +1,173 @@
+[
+{
+"sql": "SELECT symbol, crate, kind, file FROM symbol WHERE name IN ('declares','observe_run_contract','RunContract','RunContractStatus','evaluate','probe_egress','preflight') AND kind <> 'meta' ORDER BY crate, file;",
+"rows": 10,
+"result": [
+{
+"symbol": "rust-analyzer cargo conductor-cli 0.1.0 commands/preflight/",
+"crate": "conductor-cli",
+"kind": "module",
+"file": "crates/conductor-cli/src/commands/preflight.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-cli 0.1.0 commands/preflight/preflight().",
+"crate": "conductor-cli",
+"kind": "fn",
+"file": "crates/conductor-cli/src/commands/preflight.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 run_contract/RunContract#",
+"crate": "conductor-core",
+"kind": "type",
+"file": "crates/conductor-core/src/run_contract.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 run_contract/RunContractStatus#",
+"crate": "conductor-core",
+"kind": "type",
+"file": "crates/conductor-core/src/run_contract.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 run_contract/impl#[RunContract]evaluate().",
+"crate": "conductor-core",
+"kind": "fn",
+"file": "crates/conductor-core/src/run_contract.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.1.0 client/probe_egress().",
+"crate": "conductor-emit",
+"kind": "fn",
+"file": "crates/conductor-emit/src/client.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-run 0.1.0 preflight().",
+"crate": "conductor-run",
+"kind": "fn",
+"file": "crates/conductor-run/src/lib.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-run 0.1.0 observe_run_contract().",
+"crate": "conductor-run",
+"kind": "fn",
+"file": "crates/conductor-run/src/lib.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-run 0.1.0 declares().",
+"crate": "conductor-run",
+"kind": "fn",
+"file": "crates/conductor-run/src/lib.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-verify 0.1.0 preflight/",
+"crate": "conductor-verify",
+"kind": "module",
+"file": "crates/conductor-verify/src/preflight.rs"
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT callee_name, caller, file, line FROM calls WHERE callee_name IN ('probe_egress','observe_run_contract','observed_env','declares') ORDER BY callee_name, file, line;",
+"rows": 12,
+"result": [
+{
+"callee_name": "declares",
+"caller": "rust-analyzer cargo conductor-run 0.1.0 observe_run_contract().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 348
+},
+{
+"callee_name": "observe_run_contract",
+"caller": "rust-analyzer cargo conductor-run 0.1.0 canary_gate().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 316
+},
+{
+"callee_name": "observe_run_contract",
+"caller": "rust-analyzer cargo conductor-run 0.1.0 tests/observe_run_contract_names_the_term_this_environment_does_not_declare().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 1566
+},
+{
+"callee_name": "observe_run_contract",
+"caller": "rust-analyzer cargo conductor-run 0.1.0 tests/observe_run_contract_is_satisfied_when_no_term_is_a_shell_declaration().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 1589
+},
+{
+"callee_name": "observed_env",
+"caller": "rust-analyzer cargo conductor-core 0.1.0 run_contract/tests/loads_and_bounds_checks_the_committed_contract().",
+"file": "crates/conductor-core/src/run_contract.rs",
+"line": 301
+},
+{
+"callee_name": "observed_env",
+"caller": "rust-analyzer cargo conductor-run 0.1.0 observe_run_contract().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 346
+},
+{
+"callee_name": "probe_egress",
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 crate/",
+"file": "crates/conductor-emit/src/lib.rs",
+"line": 22
+},
+{
+"callee_name": "probe_egress",
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 crate/",
+"file": "crates/conductor-emit/tests/egress.rs",
+"line": 9
+},
+{
+"callee_name": "probe_egress",
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 probe_egress_ok_against_connectable_stub().",
+"file": "crates/conductor-emit/tests/egress.rs",
+"line": 85
+},
+{
+"callee_name": "probe_egress",
+"caller": "rust-analyzer cargo conductor-emit 0.1.0 probe_egress_refused_surfaces_emit_error().",
+"file": "crates/conductor-emit/tests/egress.rs",
+"line": 93
+},
+{
+"callee_name": "probe_egress",
+"caller": "rust-analyzer cargo conductor-run 0.1.0 crate/",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 30
+},
+{
+"callee_name": "probe_egress",
+"caller": "rust-analyzer cargo conductor-run 0.1.0 execute_scenario().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 487
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller_name, file, line FROM calls WHERE callee_name = 'observe_run_contract' ORDER BY file, line;",
+"rows": 3,
+"result": [
+{
+"caller_name": "canary_gate",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 316
+},
+{
+"caller_name": "observe_run_contract_names_the_term_this_environment_does_not_declare",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 1566
+},
+{
+"caller_name": "observe_run_contract_is_satisfied_when_no_term_is_a_shell_declaration",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 1589
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

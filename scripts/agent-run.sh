@@ -75,6 +75,16 @@ case "${1:-}" in
     # downgrade). With no live Pulse this is ready:false — so the CI gate dogfoods `run`, not `boot`;
     # the live-Pulse leg needs Pulse's mcp-server feature + ANDROMEDA_PULSE_MCP_ENABLED + a matching
     # ANDROMEDA_PULSE_DATA_DIR.
+    #
+    # The precondition probe runs FIRST and short-circuits, SKIPPING the preflight rather than paying
+    # it: an unmet launch condition explains a failed canary, so surfacing the canary symptom first
+    # sends the operator to the wrong cause and spends the whole budget doing it (the arch ordering
+    # rationale for the fifth named precondition, applied one rung earlier). The probe fires no
+    # canary, so it primes none of the state the preflight then dedupes against.
+    if ! "$CARGO" run -q -p conductor-cli --bin conductor -- preconditions; then
+      echo "boot: skipped preflight — a live-Pulse precondition is unmet (above)" >&2
+      exit 1
+    fi
     timeout "$(preflight_budget_sec)" "$CARGO" run -q -p conductor-cli --bin conductor -- preflight --json
     ;;
 

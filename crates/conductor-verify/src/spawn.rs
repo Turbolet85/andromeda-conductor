@@ -5,6 +5,7 @@
 //! metacharacters — never interpolated into argv or a shell (the rmcp STDIO injection class,
 //! security-plan §Anti-Patterns §Code Patterns).
 
+use std::ffi::OsStr;
 use std::path::{Path, PathBuf};
 
 use tokio::process::Command;
@@ -82,6 +83,66 @@ pub(crate) fn build_command(data_dir: &Path) -> Command {
     command
 }
 
+/// Whether the fixed sidecar program resolves on the inherited `PATH` — WITHOUT spawning it.
+///
+/// A scheduling-time precondition probe: an unresolvable sidecar makes `connect` fail and every
+/// read-back arm report the unreachable path in ~0s, which at row level is indistinguishable from a
+/// genuine SUT-side gate failure (security-plan §Anti-Patterns §Input).
+///
+/// It must not spawn. [`build_command`] above sets no creation flags, so starting the sidecar to
+/// test its presence would raise a console pane titled with its absolute path — a host-path
+/// disclosure channel outside the sanitize/allowlist edges. A directory walk answers the same
+/// question with no process.
+///
+/// Returns a boolean-grade fact only: the resolved path is never returned, logged or rendered.
+pub fn sidecar_resolves_on_path() -> bool {
+    resolves_on(
+        std::env::var_os("PATH").as_deref(),
+        std::env::var_os("PATHEXT").as_deref(),
+        PULSE_MCP_PROGRAM,
+    )
+}
+
+/// The pure half of [`sidecar_resolves_on_path`] — every input arrives as a value, so both arms are
+/// reachable in a test with no env mutation (which edition 2024 makes `unsafe`).
+fn resolves_on(path: Option<&OsStr>, path_ext: Option<&OsStr>, program: &str) -> bool {
+    let Some(path) = path else {
+        return false;
+    };
+    let extensions = executable_extensions(path_ext);
+    std::env::split_paths(path)
+        .filter(|d| !d.as_os_str().is_empty())
+        .any(|dir| {
+            extensions.iter().any(|ext| {
+                let mut name = String::with_capacity(program.len() + ext.len());
+                name.push_str(program);
+                name.push_str(ext);
+                dir.join(name).is_file()
+            })
+        })
+}
+
+/// The suffixes an executable may carry. The bare name always participates (it is the only form on
+/// Unix, and a `PATHEXT`-less Windows host still resolves an explicit `.exe` through the default).
+fn executable_extensions(path_ext: Option<&OsStr>) -> Vec<String> {
+    let mut extensions = vec![String::new()];
+    if cfg!(windows) {
+        match path_ext
+            .and_then(|e| e.to_str())
+            .filter(|e| !e.trim().is_empty())
+        {
+            Some(raw) => extensions.extend(
+                raw.split(';')
+                    .map(str::trim)
+                    .filter(|e| !e.is_empty())
+                    .map(str::to_ascii_lowercase),
+            ),
+            None => extensions.push(".exe".to_string()),
+        }
+    }
+    extensions
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -113,6 +174,123 @@ mod tests {
         assert_eq!(resolve_data_dir(Some(dir.clone())).unwrap(), dir);
     }
 
+    /// The suffix a resolvable fake must carry on this platform.
+    fn host_suffix() -> &'static str {
+        if cfg!(windows) {
+            ".exe"
+        } else {
+            ""
+        }
+    }
+
+    fn joined(dirs: &[&std::path::Path]) -> std::ffi::OsString {
+        std::env::join_paths(dirs.iter().map(|d| d.as_os_str())).expect("joinable")
+    }
+
+    #[test]
+    fn an_absent_path_resolves_nothing() {
+        assert!(!resolves_on(None, None, PULSE_MCP_PROGRAM));
+    }
+
+    #[test]
+    fn an_empty_path_resolves_nothing() {
+        assert!(!resolves_on(Some(OsStr::new("")), None, PULSE_MCP_PROGRAM));
+    }
+
+    #[test]
+    fn a_directory_without_the_program_resolves_nothing() {
+        let dir = assert_fs::TempDir::new().unwrap();
+        assert!(!resolves_on(
+            Some(&joined(&[dir.path()])),
+            None,
+            PULSE_MCP_PROGRAM
+        ));
+    }
+
+    #[test]
+    fn the_program_is_found_when_present_on_the_path() {
+        use assert_fs::prelude::*;
+        let dir = assert_fs::TempDir::new().unwrap();
+        dir.child(format!("{PULSE_MCP_PROGRAM}{}", host_suffix()))
+            .touch()
+            .unwrap();
+
+        assert!(resolves_on(
+            Some(&joined(&[dir.path()])),
+            None,
+            PULSE_MCP_PROGRAM
+        ));
+    }
+
+    #[test]
+    fn a_later_path_entry_still_resolves() {
+        use assert_fs::prelude::*;
+        let empty = assert_fs::TempDir::new().unwrap();
+        let holding = assert_fs::TempDir::new().unwrap();
+        holding
+            .child(format!("{PULSE_MCP_PROGRAM}{}", host_suffix()))
+            .touch()
+            .unwrap();
+
+        let path = joined(&[empty.path(), holding.path()]);
+        assert!(resolves_on(Some(&path), None, PULSE_MCP_PROGRAM));
+    }
+
+    #[test]
+    fn a_directory_named_like_the_program_is_not_an_executable() {
+        use assert_fs::prelude::*;
+        let dir = assert_fs::TempDir::new().unwrap();
+        dir.child(PULSE_MCP_PROGRAM).create_dir_all().unwrap();
+
+        // `is_file()` is what separates them — a directory on PATH resolves nothing.
+        assert!(!resolves_on(
+            Some(&joined(&[dir.path()])),
+            None,
+            PULSE_MCP_PROGRAM
+        ));
+    }
+
+    #[test]
+    fn a_different_program_name_does_not_satisfy_the_probe() {
+        use assert_fs::prelude::*;
+        let dir = assert_fs::TempDir::new().unwrap();
+        dir.child(format!("some-other-tool{}", host_suffix()))
+            .touch()
+            .unwrap();
+
+        assert!(!resolves_on(
+            Some(&joined(&[dir.path()])),
+            None,
+            PULSE_MCP_PROGRAM
+        ));
+    }
+
+    #[test]
+    fn the_bare_name_always_participates() {
+        assert!(executable_extensions(None).contains(&String::new()));
+    }
+
+    #[cfg(windows)]
+    #[test]
+    fn pathext_entries_are_honoured_and_normalised() {
+        let exts = executable_extensions(Some(OsStr::new(".COM;.EXE; ;.CMD")));
+        assert!(
+            exts.contains(&".exe".to_string()),
+            "upper-case PATHEXT is normalised: {exts:?}"
+        );
+        assert!(exts.contains(&".cmd".to_string()));
+        assert!(
+            !exts.contains(&" ".to_string()),
+            "blank entries are dropped: {exts:?}"
+        );
+    }
+
+    #[cfg(windows)]
+    #[test]
+    fn a_blank_pathext_falls_back_to_exe() {
+        assert!(executable_extensions(Some(OsStr::new("   "))).contains(&".exe".to_string()));
+    }
+
     #[test]
     fn default_data_dir_resolves_to_the_platform_location() {
         let dir = resolve_data_dir(None).unwrap();
@@ -127,12 +305,10 @@ mod tests {
     fn build_command_targets_the_fixed_program_and_sets_only_the_data_dir_env() {
         let cmd = build_command(Path::new("/srv/pulse"));
         let std_cmd = cmd.as_std();
-        assert!(
-            std_cmd
-                .get_program()
-                .to_string_lossy()
-                .contains(PULSE_MCP_PROGRAM)
-        );
+        assert!(std_cmd
+            .get_program()
+            .to_string_lossy()
+            .contains(PULSE_MCP_PROGRAM));
         let envs: Vec<_> = std_cmd.get_envs().collect();
         assert_eq!(envs.len(), 1, "only the data-dir env is set");
         assert_eq!(envs[0].0.to_string_lossy(), DATA_DIR_ENV);

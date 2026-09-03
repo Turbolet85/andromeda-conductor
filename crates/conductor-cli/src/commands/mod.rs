@@ -1,12 +1,14 @@
 //! The three verb handlers + their shared persist / render / exit-code helpers.
 
 mod coverage;
+mod preconditions;
 mod preflight;
 mod report;
 mod run;
 mod suite;
 
 pub use coverage::coverage;
+pub use preconditions::preconditions;
 pub use preflight::preflight;
 pub use report::report;
 pub use run::run;

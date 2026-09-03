@@ -281,11 +281,11 @@ Single-station console, no router/breakpoints: the frameless window IS the surfa
 
 **Platform:** Windows / macOS / Linux terminal — headless `conductor-cli` (`scripts/agent-run.sh`), the source of truth + release gate. Line-oriented (ratatui full-TUI deliberately omitted).
 
-**Toolkit / Framework:** clap 4.5 + `anstream`/`anstyle` + `owo-colors` 4.x (styling, TTY-gated) + `indicatif` 0.18 (live counters / spinner) + `comfy-table` 7 (P-ID SLO tables) + `inquire` 0.7 (operator-pause prompts).
+**Toolkit / Framework:** clap 4.5 + `owo-colors` 4.x with `std::io::IsTerminal` (styling, TTY-gated per stream) + `indicatif` 0.18 (live counters / spinner) + `comfy-table` 7 (P-ID SLO tables) + `inquire` 0.7 (operator-pause prompts).
 
 ### Tokens (platform-specific)
 
-ANSI 256-color codes mapping the Color World (per the library-shortlist mapping), applied via `owo-colors` through `anstream` so output auto-strips ANSI when piped (`!isatty(1)`), and honoring `NO_COLOR` + `TERM=dumb`:
+ANSI 256-color codes mapping the Color World (per the library-shortlist mapping), applied via `owo-colors` behind a `std::io::IsTerminal` check — decided independently for stdout and stderr, each requiring a terminal AND `NO_COLOR` unset AND `TERM != dumb`, so output carries no ANSI when piped:
 
 ```
 Slate ground   #1A1B26  → ANSI 234/235  (backdrop; rarely set — terminal-owned)
@@ -298,7 +298,8 @@ Residual mute  #9A93A8  → ANSI 246      (KnownResidual — pre-accepted gap; p
                                         ALSO the shared recessive tier for every NON-lamp use — currently
                                         the `hint:` stderr label (Component Pattern 5), the coverage-matrix
                                         out-of-scope Mode cell (`not-conductors`), and the run-level
-                                        `[ENVIRONMENT-SUSPECT]` load-envelope caption — webview binds the
+                                        `[ENVIRONMENT-SUSPECT]` load-envelope caption and the
+                                        `[PRECONDITION]` scheduling caption — webview binds the
                                         same pair by name as `var(--status-residual)`. None is a lamp
                                         state: the always-rendered text label carries the signal, the tint
                                         only de-emphasizes. Markdown, having no color channel, uses
@@ -308,7 +309,7 @@ Mono ID cyan   #7DCFFF  → ANSI 117      (P-IDs / run_id / SLO timings / finger
 Journal text   #A9B1D6  → ANSI 146      (report rows / dimmed metadata)
 ```
 
-Header style: bold + ANSI 117 (ID-cyan) for section titles; metadata dimmed. Status prefixes are ASCII text + color (never color alone) — the closed per-P-ID set `[PASS]` / `[HOLD]` / `[FAIL]` / `[MANUAL]` / `[RESIDUAL]` / `[BLOCKED]`, plus the run-level non-lamp `[ENVIRONMENT-SUSPECT]` load-envelope caption (ANSI 246, outside the lamp column) and `✓`/`✗`/`?`/`~`/`•`/`→` (TTY only — never emoji in machine-parseable piped output; `?` = `ManualCheck` awaiting operator, `~` = `KnownResidual` pre-accepted gap).
+Header style: bold + ANSI 117 (ID-cyan) for section titles; metadata dimmed. Status prefixes are ASCII text + color (never color alone) — the closed per-P-ID set `[PASS]` / `[HOLD]` / `[FAIL]` / `[MANUAL]` / `[RESIDUAL]` / `[BLOCKED]`, plus the run-level non-lamp caption SET — `[ENVIRONMENT-SUSPECT]` (load-envelope) and `[PRECONDITION]` (the `conductor preconditions` probe), both ANSI 246 and both outside the lamp column, neither a lamp state nor a `ReportState` and `✓`/`✗`/`?`/`~`/`•`/`→` (TTY only — never emoji in machine-parseable piped output; `?` = `ManualCheck` awaiting operator, `~` = `KnownResidual` pre-accepted gap).
 
 ### Component Patterns
 
@@ -328,7 +329,7 @@ Linear, top-to-bottom stdout — no cursor manipulation, no full-screen redraw (
 
 ### Platform-Specific Notes
 
-- Always respect `NO_COLOR`, `TERM=dumb`, and piped-stdout ANSI stripping (`anstream`). Avoid dark-blue-on-black / dark-red-on-black (ANSI 117 cyan + 114 green chosen for contrast on dark terminals).
+- Always respect `NO_COLOR`, `TERM=dumb`, and piped-stdout ANSI stripping (the shipped per-stream `std::io::IsTerminal` gate). Avoid dark-blue-on-black / dark-red-on-black (ANSI 117 cyan + 114 green chosen for contrast on dark terminals).
 - Don't rely on color alone — every status carries an ASCII prefix (`[PASS]`/`[FAIL]`/`[HOLD]`/`[BLOCKED]`).
 - Interactive `inquire` prompts ALWAYS check `isatty` first; the agent-driven headless source-of-truth path is never gated on a prompt (an auth/interactive prompt there would silently break the release gate — security plan).
 - Detect terminal width dynamically for `comfy-table`; never hardcode widths or wrap at arbitrary points.

@@ -37,6 +37,13 @@ env = "ANDROMEDA_PULSE_L4_DETERMINISTIC"
 causes = "either the launching shell never declared it, or pulse-app was started from a different environment than Conductor's — Conductor reads only its own environment and cannot inspect a process it does not launch"
 
 [[term]]
+id = "mcp-enabled"
+statement = "Conductor's own environment must declare ANDROMEDA_PULSE_MCP_ENABLED=true, since the spawn passes only the data dir via the process env builder and inheritance is the sole channel carrying this flag to the sidecar"
+check = "shell-declaration"
+env = "ANDROMEDA_PULSE_MCP_ENABLED"
+causes = "either the launching shell never declared it, or Conductor was started from a different environment than the one that built the sidecar — undeclared, the sidecar starts and immediately exits, and every read-back arm measures the unreachable path instead of the SUT"
+
+[[term]]
 id = "shared-data-dir"
 statement = "pulse-app and the spawned MCP sidecar must resolve the same data dir, since incidents are filtered on the workspace column derived from it"
 check = "declared-not-observable"

@@ -24,7 +24,7 @@ _Distilled from `.andromeda/design-system.md` + `.andromeda/layout-templates.md`
 
 ## Primary surfaces
 - **Run console** — one frameless window in the shipped run-states `idle` / `live` / `hold` / `aborted` (idle-with-report a sub-state of `idle`; measured 2026-09-02) (no router, no breakpoints).
-- **cli** — `conductor run|suite|report`, line-oriented (clap + owo-colors + indicatif + comfy-table + inquire), ANSI 256 TTY-gated.
+- **cli** — the verb set `Commands` declares (layout-templates §cli Primary screens enumerates it), line-oriented (clap + owo-colors + indicatif + comfy-table + inquire), ANSI 256 TTY-gated.
 
 ## Component patterns
 - **Frameless titlebar + paused-count heartbeat** — the signature's primary placement (freezes/tints/resumes).

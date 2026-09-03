@@ -23,8 +23,9 @@ use serde::Serialize;
 
 use conductor_core::{
     CheckRecord, EmissionShape, EmissionSpec, EnvelopeStatus, FaultKindSpec, HoldPoint,
-    LoadEnvelope, PauseResolver, ReportState, RunContract, RunContractStatus, RunRecord, Scenario,
-    Verdict, now_rfc3339, redact_value, resolve_hold, resolve_under,
+    LoadEnvelope, OBSERVED_HANDLES, PauseResolver, PreconditionObservation, Preconditions,
+    PreconditionsStatus, ReportState, RunContract, RunContractStatus, RunRecord, Scenario, Verdict,
+    now_rfc3339, redact_value, resolve_hold, resolve_under,
 };
 use conductor_emit::{
     DEFAULT_OTLP_ENDPOINT, ExceptionSpec, Frame, TraceEmitter,
@@ -39,6 +40,7 @@ pub use dispatch::{DispatchError, Dispatcher};
 use conductor_verify::{
     CanaryMarker, CanaryOutcome, CanaryPoll, ContractManifest, Observation, ReadBackOutcome,
     ReadbackClient, ReadyState, ToolPresence, VerifyError, evaluate_check, observe, run_preflight,
+    sidecar_resolves_on_path,
 };
 
 /// The suite-wide preflight outcome — established once, reused by every scenario in a run.
@@ -359,6 +361,43 @@ fn declares(name: &str) -> bool {
         let v = v.trim().to_ascii_lowercase();
         v == "true" || v == "1"
     })
+}
+
+/// Probe the live-Pulse preconditions BEFORE a leg is scheduled, so an absent SUT is named once
+/// rather than absorbed by each chunk, gate and wrap in turn.
+///
+/// Deliberately NOT routed through [`canary_gate`]: a preflight fires its own storm and Pulse
+/// dedupes a new incident against any open one on the `(kind, scope, scope_id)` tuple, so probing
+/// via the gate would prime exactly the state the following leg collides with (architecture
+/// §Established Decisions [Read-Back Dependency Posture]). Nothing here emits, binds or spawns.
+///
+/// The three observations happen HERE and enter the evaluator as values, keeping the judgment a
+/// pure function of its inputs (the [`observe_run_contract`] shape above).
+pub async fn observe_preconditions() -> PreconditionsStatus {
+    let observation = PreconditionObservation {
+        egress_reachable: probe_egress(DEFAULT_OTLP_ENDPOINT).await.is_ok(),
+        sidecar_resolved: sidecar_resolves_on_path(),
+        declared: OBSERVED_HANDLES
+            .iter()
+            .filter(|name| declares(name))
+            .map(|name| (*name).to_string())
+            .collect(),
+    };
+
+    let status = Preconditions::evaluate(&observation);
+
+    // A boundary fact inside the caller's own span — the bounded span-name set is a deliberate
+    // contract and is not widened for a new boundary (obs-plan §6 Boundary-call wrappers). The
+    // unmet subjects ride `message`; no field here carries a path, a PATH value or an env value.
+    if status.is_satisfied() {
+        tracing::info!("live-Pulse preconditions satisfied");
+    } else {
+        let unmet =
+            status.unmet().iter().map(|u| u.subject.id()).collect::<Vec<_>>().join(", ");
+        tracing::warn!("live-Pulse preconditions unmet: {unmet}");
+    }
+
+    status
 }
 
 /// Emit a unique fingerprint-storm to Pulse's loopback ingest and return the [`CanaryMarker`] the gate

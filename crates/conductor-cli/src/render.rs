@@ -14,9 +14,10 @@
 use std::io::IsTerminal;
 use std::time::Duration;
 
-use comfy_table::{Cell, Color, ContentArrangement, Table, presets};
+use comfy_table::{presets, Cell, Color, ContentArrangement, Table};
 use conductor_core::{
-    CoverageMode, EnvelopeStatus, HoldPoint, Lamp, RunRecord, UNBACKED_AUTO, coverage_matrix,
+    coverage_matrix, CoverageMode, EnvelopeStatus, HoldPoint, Lamp, PreconditionsStatus, RunRecord,
+    UNBACKED_AUTO,
 };
 use indicatif::{ProgressBar, ProgressDrawTarget, ProgressStyle};
 use owo_colors::{OwoColorize, XtermColors};
@@ -43,6 +44,17 @@ const OUT_OF_SCOPE_MUTE: u8 = 246;
 /// an over-envelope run is a statement about whether the run could be evidence, not an outcome,
 /// and the `[ENVIRONMENT-SUSPECT]` label is the signal the tint only de-emphasizes.
 const ENVELOPE_SUSPECT_MUTE: u8 = 246;
+
+/// The Residual-mute tier a FOURTH time, for the live-Pulse precondition caption — no new palette
+/// entry (design-system §Surface: cli / Tokens names the non-lamp uses as a SET precisely so this
+/// reuse needs no body edit). Deliberately NOT fail (203) or blocked (60): an absent SUT is a
+/// statement about whether a leg could be scheduled at all, not an outcome, and it must never read
+/// as a verdict — the probe mints no `Verdict`, no `ReportState` and no per-P-ID row.
+const PRECONDITION_MUTE: u8 = 246;
+
+/// The precondition caption's ASCII bracket label — always rendered, so the signal survives
+/// `NO_COLOR`, piping and `TERM=dumb`. Deliberately outside the closed six-label per-P-ID set.
+const PRECONDITION_LABEL: &str = "PRECONDITION";
 
 /// A check's lamp → its xterm-256 color (design-system §Surface: cli / Tokens; layout-templates
 /// §Multi-surface coordination).
@@ -90,6 +102,16 @@ pub fn hold_line(hold: &HoldPoint) -> String {
 /// always present, so the signal survives `NO_COLOR` and piping (design-system §Surface: cli).
 pub fn envelope_caption(status: &EnvelopeStatus) -> Option<String> {
     envelope_caption_styled(status, stdout_color())
+}
+
+/// The live-Pulse precondition caption — one line per unmet subject, or `None` when every subject is
+/// satisfied (the caption is omitted entirely rather than asserting a negative).
+///
+/// The `[PRECONDITION]` bracket label is always present, so the signal survives `NO_COLOR` and
+/// piping. It is NOT a lamp: the closed six-label per-P-ID set is unextended and no `[BLOCKED]` row
+/// is minted for a scenario that was never run (design-system §Surface: cli / Component Patterns 4).
+pub fn preconditions_caption(status: &PreconditionsStatus) -> Option<String> {
+    preconditions_caption_styled(status, stdout_color())
 }
 
 /// The per-run results table — one row per check, the blocked row em-dashing its never-measured cells.
@@ -143,7 +165,11 @@ fn stderr_color() -> bool {
 }
 
 fn paint_styled(text: &str, code: u8, color: bool) -> String {
-    if color { text.color(XtermColors::from(code)).to_string() } else { text.to_string() }
+    if color {
+        text.color(XtermColors::from(code)).to_string()
+    } else {
+        text.to_string()
+    }
 }
 
 fn error_block_styled(error_msg: &str, hint: &str, color: bool) -> String {
@@ -154,18 +180,44 @@ fn error_block_styled(error_msg: &str, hint: &str, color: bool) -> String {
 
 fn status_line_styled(record: &RunRecord, color: bool) -> String {
     let lamp = Lamp::for_record(record);
-    format!("{} {}", paint_styled(lamp.status_prefix(), lamp_code(lamp), color), record.scenario)
+    format!(
+        "{} {}",
+        paint_styled(lamp.status_prefix(), lamp_code(lamp), color),
+        record.scenario
+    )
 }
 
 fn hold_line_styled(hold: &HoldPoint, color: bool) -> String {
     let prefix = paint_styled(Lamp::Hold.status_prefix(), lamp_code(Lamp::Hold), color);
-    format!("{prefix} — operator pause · {} · {} · {}", hold.scenario, hold.p_id.0, hold.step)
+    format!(
+        "{prefix} — operator pause · {} · {} · {}",
+        hold.scenario, hold.p_id.0, hold.step
+    )
 }
 
 fn envelope_caption_styled(status: &EnvelopeStatus, color: bool) -> Option<String> {
     let cause = status.cause()?;
-    let label = paint_styled(&format!("[{}]", status.label()), ENVELOPE_SUSPECT_MUTE, color);
+    let label = paint_styled(
+        &format!("[{}]", status.label()),
+        ENVELOPE_SUSPECT_MUTE,
+        color,
+    );
     Some(format!("{label} {cause}"))
+}
+
+fn preconditions_caption_styled(status: &PreconditionsStatus, color: bool) -> Option<String> {
+    if status.is_satisfied() {
+        return None;
+    }
+    let lines = status
+        .unmet()
+        .iter()
+        .map(|u| {
+            let label = paint_styled(&format!("[{PRECONDITION_LABEL}]"), PRECONDITION_MUTE, color);
+            format!("{label} {}: {} — {}", u.subject, u.statement, u.causes)
+        })
+        .collect::<Vec<_>>();
+    Some(lines.join("\n"))
 }
 
 fn results_table_styled(records: &[RunRecord], color: bool) -> String {
@@ -173,10 +225,22 @@ fn results_table_styled(records: &[RunRecord], color: bool) -> String {
     table
         .load_preset(presets::UTF8_FULL)
         .set_content_arrangement(ContentArrangement::Disabled)
-        .set_header(vec!["P-IDs", "Scenario", "State", "SLO", "Latency", "Fingerprints"]);
+        .set_header(vec![
+            "P-IDs",
+            "Scenario",
+            "State",
+            "SLO",
+            "Latency",
+            "Fingerprints",
+        ]);
     for rec in records {
         let lamp = Lamp::for_record(rec);
-        let p_ids = rec.p_ids.iter().map(|p| p.0.as_str()).collect::<Vec<_>>().join(" ");
+        let p_ids = rec
+            .p_ids
+            .iter()
+            .map(|p| p.0.as_str())
+            .collect::<Vec<_>>()
+            .join(" ");
         table.add_row(vec![
             tint(Cell::new(p_ids), ID_CYAN, color),
             Cell::new(&rec.scenario),
@@ -222,7 +286,10 @@ fn coverage_summary_styled(color: bool) -> String {
     let rows = coverage_matrix();
     let count = |mode: CoverageMode| rows.iter().filter(|r| r.mode == mode).count();
     let mut in_scope = String::new();
-    for mode in CoverageMode::ALL.iter().filter(|m| **m != CoverageMode::NotConductors) {
+    for mode in CoverageMode::ALL
+        .iter()
+        .filter(|m| **m != CoverageMode::NotConductors)
+    {
         if !in_scope.is_empty() {
             in_scope.push_str(" · ");
         }
@@ -239,13 +306,21 @@ fn coverage_summary_styled(color: bool) -> String {
         OUT_OF_SCOPE_MUTE,
         color,
     );
-    format!("{} capabilities · {} in scope ({in_scope}) · {out_token}", rows.len(), rows.len() - out)
+    format!(
+        "{} capabilities · {} in scope ({in_scope}) · {out_token}",
+        rows.len(),
+        rows.len() - out
+    )
 }
 
 /// Apply an xterm-256 foreground to a cell when color is enabled (comfy-table's own styling, so widths
 /// stay correct), else leave it plain.
 fn tint(cell: Cell, code: u8, color: bool) -> Cell {
-    if color { cell.fg(Color::AnsiValue(code)) } else { cell }
+    if color {
+        cell.fg(Color::AnsiValue(code))
+    } else {
+        cell
+    }
 }
 
 /// An enum's bare serde wire spelling (`SloTier` → `<5s`), matching the Markdown report / JSONL form
@@ -320,22 +395,34 @@ mod tests {
     fn envelope_caption_plain_keeps_the_label_without_escapes() {
         let line = envelope_caption_styled(&suspect(), false).expect("a suspect run captions");
         assert!(line.starts_with("[ENVIRONMENT-SUSPECT] "), "{line}");
-        assert!(line.contains("activity-floor"), "the cause names the scenario: {line}");
-        assert!(!line.contains('\u{1b}'), "plain caption must carry no escape bytes: {line:?}");
+        assert!(
+            line.contains("activity-floor"),
+            "the cause names the scenario: {line}"
+        );
+        assert!(
+            !line.contains('\u{1b}'),
+            "plain caption must carry no escape bytes: {line:?}"
+        );
     }
 
     #[test]
     fn envelope_caption_colored_overlays_escapes_on_the_label() {
         let line = envelope_caption_styled(&suspect(), true).expect("a suspect run captions");
         assert!(line.contains("[ENVIRONMENT-SUSPECT]"), "{line}");
-        assert!(line.contains('\u{1b}'), "colored caption must carry an escape: {line:?}");
+        assert!(
+            line.contains('\u{1b}'),
+            "colored caption must carry an escape: {line:?}"
+        );
     }
 
     /// The caption reuses the Residual-mute tier — never the fail or blocked code, because an
     /// over-envelope run is a statement about attribution, not an outcome.
     #[test]
     fn envelope_caption_is_not_painted_fail_or_blocked() {
-        assert_eq!(ENVELOPE_SUSPECT_MUTE, OUT_OF_SCOPE_MUTE, "reuse the existing tier, add no entry");
+        assert_eq!(
+            ENVELOPE_SUSPECT_MUTE, OUT_OF_SCOPE_MUTE,
+            "reuse the existing tier, add no entry"
+        );
         assert_ne!(ENVELOPE_SUSPECT_MUTE, lamp_code(Lamp::Fail));
         assert_ne!(ENVELOPE_SUSPECT_MUTE, lamp_code(Lamp::Blocked));
     }
@@ -344,7 +431,10 @@ mod tests {
     fn status_line_plain_keeps_prefix_without_escapes() {
         let line = status_line_styled(&measured("ok", Verdict::Pass, ReportState::Pass), false);
         assert!(line.starts_with("[PASS] ok"), "{line}");
-        assert!(!line.contains('\u{1b}'), "plain line must carry no escape bytes: {line:?}");
+        assert!(
+            !line.contains('\u{1b}'),
+            "plain line must carry no escape bytes: {line:?}"
+        );
     }
 
     #[test]
@@ -352,41 +442,66 @@ mod tests {
         let line = status_line_styled(&measured("ok", Verdict::Pass, ReportState::Pass), true);
         // the ASCII prefix survives under color (never color-alone) and color was applied
         assert!(line.contains("[PASS]"), "{line}");
-        assert!(line.contains('\u{1b}'), "colored line must carry an escape: {line:?}");
+        assert!(
+            line.contains('\u{1b}'),
+            "colored line must carry an escape: {line:?}"
+        );
     }
 
     #[test]
     fn error_block_plain_has_labels_without_escapes() {
-        let block = error_block_styled("no scenario matches \"x\"", "pass a P-ID like P-009", false);
+        let block =
+            error_block_styled("no scenario matches \"x\"", "pass a P-ID like P-009", false);
         assert!(block.starts_with("error: no scenario matches"), "{block}");
         assert!(block.contains("\nhint: pass a P-ID"), "{block}");
-        assert!(!block.contains('\u{1b}'), "piped error edge must carry no escape bytes: {block:?}");
+        assert!(
+            !block.contains('\u{1b}'),
+            "piped error edge must carry no escape bytes: {block:?}"
+        );
     }
 
     #[test]
     fn error_block_colored_overlays_escapes_on_the_labels() {
         let block = error_block_styled("boom", "try --debug", true);
         // the ASCII labels survive under color (never color-alone) and color was applied
-        assert!(block.contains("error:") && block.contains("hint:"), "{block}");
-        assert!(block.contains('\u{1b}'), "colored error edge must carry an escape: {block:?}");
+        assert!(
+            block.contains("error:") && block.contains("hint:"),
+            "{block}"
+        );
+        assert!(
+            block.contains('\u{1b}'),
+            "colored error edge must carry an escape: {block:?}"
+        );
     }
 
     #[test]
     fn results_table_plain_shows_lamps_and_em_dashes_blocked() {
-        let table =
-            results_table_styled(&[measured("ok", Verdict::Pass, ReportState::Pass), blocked("blk")], false);
+        let table = results_table_styled(
+            &[
+                measured("ok", Verdict::Pass, ReportState::Pass),
+                blocked("blk"),
+            ],
+            false,
+        );
         assert!(table.contains("[PASS]"), "{table}");
         assert!(table.contains("[BLOCKED]"), "{table}");
         assert!(table.contains("ok") && table.contains("blk"), "{table}");
         // the blocked row em-dashes its never-measured cells (latency, fingerprints)
         assert!(table.contains(ABSENT), "{table}");
-        assert!(!table.contains('\u{1b}'), "piped table must carry no escape bytes");
+        assert!(
+            !table.contains('\u{1b}'),
+            "piped table must carry no escape bytes"
+        );
     }
 
     #[test]
     fn calibration_region_renders_hold_not_manual() {
         let table = results_table_styled(
-            &[measured("sev", Verdict::CalibrationRegion, ReportState::ManualCheck)],
+            &[measured(
+                "sev",
+                Verdict::CalibrationRegion,
+                ReportState::ManualCheck,
+            )],
             false,
         );
         assert!(table.contains("[HOLD]"), "{table}");
@@ -407,14 +522,23 @@ mod tests {
     #[test]
     fn out_of_scope_mode_cell_plain_keeps_its_label_without_escapes() {
         let table = coverage_table_styled(false);
-        assert!(table.contains(CoverageMode::NotConductors.label()), "{table}");
-        assert!(!table.contains('\u{1b}'), "piped coverage table must carry no escape bytes");
+        assert!(
+            table.contains(CoverageMode::NotConductors.label()),
+            "{table}"
+        );
+        assert!(
+            !table.contains('\u{1b}'),
+            "piped coverage table must carry no escape bytes"
+        );
     }
 
     #[test]
     fn out_of_scope_mode_cell_colored_overlays_the_residual_mute() {
         let table = coverage_table_styled(true);
-        assert!(table.contains(CoverageMode::NotConductors.label()), "{table}");
+        assert!(
+            table.contains(CoverageMode::NotConductors.label()),
+            "{table}"
+        );
         assert!(
             table.contains(&format!("\u{1b}[38;5;{OUT_OF_SCOPE_MUTE}m")),
             "the out-of-scope cell must carry the residual-mute tint"
@@ -425,13 +549,23 @@ mod tests {
     /// borrow the fail (203) or blocked (60) code, nor the bracket verdict vocabulary.
     #[test]
     fn coverage_surfaces_never_read_as_fail_or_blocked() {
-        let out = format!("{}{}", coverage_table_styled(true), coverage_summary_styled(true));
+        let out = format!(
+            "{}{}",
+            coverage_table_styled(true),
+            coverage_summary_styled(true)
+        );
         for banned in ["[FAIL]", "[BLOCKED]", "[PASS]", "[HOLD]"] {
-            assert!(!out.contains(banned), "coverage surface carries verdict vocabulary {banned:?}");
+            assert!(
+                !out.contains(banned),
+                "coverage surface carries verdict vocabulary {banned:?}"
+            );
         }
         for code in [lamp_code(Lamp::Fail), lamp_code(Lamp::Blocked)] {
             let escape = format!("\u{1b}[38;5;{code}m");
-            assert!(!out.contains(&escape), "coverage surface carries the {code} status color");
+            assert!(
+                !out.contains(&escape),
+                "coverage surface carries the {code} status color"
+            );
         }
     }
 
@@ -440,24 +574,60 @@ mod tests {
     fn coverage_summary_splits_the_in_scope_denominator() {
         let summary = coverage_summary_styled(false);
         let rows = conductor_core::coverage_matrix();
-        let out = rows.iter().filter(|r| r.mode == CoverageMode::NotConductors).count();
-        assert!(summary.starts_with(&format!("{} capabilities · {} in scope (", rows.len(), rows.len() - out)), "{summary}");
-        assert!(summary.ends_with(&format!("· {out} {}", CoverageMode::NotConductors.label())), "{summary}");
-        let summed: usize =
-            CoverageMode::ALL.iter().map(|m| rows.iter().filter(|r| r.mode == *m).count()).sum();
-        assert_eq!(summed, rows.len(), "every capability is counted exactly once");
-        assert!(!summary.contains('\u{1b}'), "piped summary must carry no escape bytes");
+        let out = rows
+            .iter()
+            .filter(|r| r.mode == CoverageMode::NotConductors)
+            .count();
+        assert!(
+            summary.starts_with(&format!(
+                "{} capabilities · {} in scope (",
+                rows.len(),
+                rows.len() - out
+            )),
+            "{summary}"
+        );
+        assert!(
+            summary.ends_with(&format!("· {out} {}", CoverageMode::NotConductors.label())),
+            "{summary}"
+        );
+        let summed: usize = CoverageMode::ALL
+            .iter()
+            .map(|m| rows.iter().filter(|r| r.mode == *m).count())
+            .sum();
+        assert_eq!(
+            summed,
+            rows.len(),
+            "every capability is counted exactly once"
+        );
+        assert!(
+            !summary.contains('\u{1b}'),
+            "piped summary must carry no escape bytes"
+        );
     }
 
     #[test]
     fn renders_leak_no_host_paths_or_struct_names() {
         let out = format!(
             "{}{}{}",
-            results_table_styled(&[measured("ok", Verdict::Pass, ReportState::Pass), blocked("blk")], false),
+            results_table_styled(
+                &[
+                    measured("ok", Verdict::Pass, ReportState::Pass),
+                    blocked("blk")
+                ],
+                false
+            ),
             coverage_table_styled(false),
             coverage_summary_styled(false),
         );
-        for leak in ["C:\\", "/Users/", "/home/", "RunRecord", "Lamp", "CapabilityRow", "RunsDb"] {
+        for leak in [
+            "C:\\",
+            "/Users/",
+            "/home/",
+            "RunRecord",
+            "Lamp",
+            "CapabilityRow",
+            "RunsDb",
+        ] {
             assert!(!out.contains(leak), "leaked {leak:?}");
         }
     }
@@ -477,14 +647,23 @@ mod tests {
     fn hold_line_plain_keeps_prefix_without_escapes() {
         let line = hold_line_styled(&hold(), false);
         assert!(line.starts_with("[HOLD] "), "{line}");
-        assert!(line.contains("restart-suppression") && line.contains("P-015"), "{line}");
-        assert!(!line.contains('\u{1b}'), "plain hold line must carry no escape bytes: {line:?}");
+        assert!(
+            line.contains("restart-suppression") && line.contains("P-015"),
+            "{line}"
+        );
+        assert!(
+            !line.contains('\u{1b}'),
+            "plain hold line must carry no escape bytes: {line:?}"
+        );
     }
 
     #[test]
     fn hold_line_colored_overlays_escapes_on_the_prefix() {
         let line = hold_line_styled(&hold(), true);
         assert!(line.contains("[HOLD]"), "{line}");
-        assert!(line.contains('\u{1b}'), "colored hold line must carry an escape: {line:?}");
+        assert!(
+            line.contains('\u{1b}'),
+            "colored hold line must carry an escape: {line:?}"
+        );
     }
 }

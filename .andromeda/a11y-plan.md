@@ -68,7 +68,7 @@ _Justification: One assertable UI surface (desktop-webview Tauri control panel; 
   - **Assertability:** assertable
   - **Reason if not fully assertable:** N/A
 
-- **Entity:** conductor-cli (`agent-run` headless binary / `conductor-run`, `conductor-suite`, `conductor-report`)
+- **Entity:** conductor-cli (`agent-run` headless binary — the WHOLE `conductor` verb surface, whichever verbs `Commands` declares, so the not-assertable verdict stays true as the surface grows rather than restaling on each addition)
   - **Source:** arch excerpt's Stack ("conductor-cli `agent-run` headless binary") + Surfaces (headless CLI/`agent-run`); design excerpt's Surfaces (cli); layout excerpt's Layout Types per Surface (cli)
   - **Assertability:** not-assertable
   - **Reason if not fully assertable:** CLI line-oriented terminal surface — no DOM / native widget tree; a11y tools (axe / Lighthouse / pa11y) have no applicability per arch excerpt's Stack. Manual keyboard/terminal discipline + ASCII status prefixes / NO_COLOR text-paired output is fallback only. Excluded from Sections 2 and 4.

@@ -52,4 +52,10 @@ pub enum Commands {
         #[arg(long)]
         write: bool,
     },
+    /// Probe the live-Pulse preconditions without firing a preflight canary.
+    Preconditions {
+        /// Emit the full precondition result as JSON.
+        #[arg(long)]
+        json: bool,
+    },
 }

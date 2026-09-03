@@ -74,5 +74,6 @@ async fn dispatch(cli: Cli, run_id: &str, agent_mode: bool) -> anyhow::Result<Ex
         Commands::Report { run_id: requested } => commands::report(requested.as_deref(), &paths),
         Commands::Preflight { json } => commands::preflight(json, &paths).await,
         Commands::Coverage { write } => commands::coverage(write),
+        Commands::Preconditions { json } => commands::preconditions(json).await,
     }
 }

@@ -61,3 +61,9 @@ load-envelope banner — context-skips") is removed while the RULE it qualified 
 *Counts / qualifiers moved* bullet. The report named §4 and §6 only; the third site (§9) was found by the
 doc-agent's duplicate-occurrence grep and verified independently before applying — a single-site apply
 would have left the routine arm's own CI-integration row asserting the retired verdict.
+
+## 2026-09-03-live-pulse-preconditions-probed — the cli entity named as a verb SET
+
+**Section:** §1 A11y Scope Summary — A11y scope (entities needing assertions), the `conductor-cli` entity
+**Change:** The three-verb literal (`conductor-run`, `conductor-suite`, `conductor-report`) is replaced by a set-scoped naming of the whole `conductor` verb surface, so the not-assertable verdict covers verbs added later without restaling.
+**Why:** 2026-09-03-live-pulse-preconditions-probed moved the CLI verb surface 5 → 6. The chunk's report claims `a11y n/a` for the new verb citing this §1 exclusion, but the exclusion was written as an enumeration of three verbs naming neither `preconditions` nor `preflight` nor `coverage` — so its scope no longer visibly covered the element the chunk added. Sweep: `:71` was the only site asserting a verb SET (`:119`/`:149` reference `conductor run` paths as a class, not an enumeration).

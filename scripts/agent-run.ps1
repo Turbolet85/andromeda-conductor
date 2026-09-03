@@ -77,6 +77,17 @@ switch ($args[0]) {
     'boot' {
         # ready:true ⇒ exit 0; ready:false ⇒ non-zero (gate). With no live Pulse this is ready:false —
         # so the CI gate dogfoods `run`, not `boot`. The live-Pulse leg needs Pulse's mcp-server feature.
+        #
+        # The precondition probe runs FIRST and short-circuits, SKIPPING the preflight rather than
+        # paying it: an unmet launch condition explains a failed canary, so surfacing the canary
+        # symptom first sends the operator to the wrong cause and spends the whole budget doing it.
+        # The probe fires no canary, so it primes none of the state the preflight then dedupes
+        # against. Identical semantics to agent-run.sh (test-plan §3 binds .sh/.ps1 parity).
+        & $Cargo run -q -p conductor-cli --bin conductor -- preconditions
+        if ($LASTEXITCODE -ne 0) {
+            [Console]::Error.WriteLine("boot: skipped preflight - a live-Pulse precondition is unmet (above)")
+            exit 1
+        }
         $budget = Get-PreflightBudgetSec
         $p = Start-Process -FilePath $Cargo -NoNewWindow -PassThru -ArgumentList @(
             'run', '-q', '-p', 'conductor-cli', '--bin', 'conductor', '--', 'preflight', '--json')
