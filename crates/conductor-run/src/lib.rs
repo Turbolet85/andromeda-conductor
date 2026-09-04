@@ -971,19 +971,28 @@ where
     emit(RunEvent { stage: RunStage::Progress, count: 0 });
     let mut records = Vec::with_capacity(scenarios.len());
     let mut checks = Vec::new();
+    let mut aborted = false;
     for scenario in scenarios {
         if should_abort() {
-            persist(runs_dir, run_id, &records, &checks, envelope)?;
-            emit(RunEvent { stage: RunStage::Aborted, count: records.len() as u64 });
-            return Ok(records);
+            aborted = true;
+            break;
         }
         let outcome = execute_scenario(pf, scenario, run_id, resolver).await?;
         records.push(outcome.record);
         checks.extend(outcome.checks);
         emit(RunEvent { stage: RunStage::Progress, count: records.len() as u64 });
     }
+    // Polled again after the last scenario: the loop-head check alone cannot see a stop pressed DURING
+    // the final scenario, so such a run settled `Done` and the GUI's announced abort was overwritten
+    // by `idle` (NVDA pass 2026-09-02, S3-05).
+    if !aborted && should_abort() {
+        aborted = true;
+    }
     persist(runs_dir, run_id, &records, &checks, envelope)?;
-    let stage = if records.iter().all(|r| matches!(r.state, ReportState::Blocked)) {
+    let stage = if aborted {
+        tracing::info!(run_id, count = records.len(), "run aborted by the operator");
+        RunStage::Aborted
+    } else if records.iter().all(|r| matches!(r.state, ReportState::Blocked)) {
         RunStage::Blocked
     } else {
         RunStage::Done
@@ -1478,6 +1487,45 @@ mod tests {
         .unwrap();
         assert!(records.is_empty(), "an immediate abort runs no scenario");
         assert_eq!(events.last().unwrap().stage, RunStage::Aborted);
+    }
+
+    #[tokio::test(flavor = "current_thread")]
+    async fn drive_run_reports_an_abort_raised_during_the_last_scenario() {
+        let dir = assert_fs::TempDir::new().unwrap();
+        // Stop is pressed while the FINAL scenario is executing, so the flag is only set once that
+        // scenario has completed — the loop-head poll can never observe it.
+        let stop = std::cell::Cell::new(false);
+        let mut events = Vec::new();
+        let records = drive_run(
+            &blocked_preflight(),
+            &[fixture(7)],
+            "run-abort-last",
+            dir.path(),
+            &EnvelopeStatus::InEnvelope,
+            &HeadlessResolver::proceed(),
+            |ev| {
+                if ev.stage == RunStage::Progress && ev.count == 1 {
+                    stop.set(true);
+                }
+                events.push(ev);
+            },
+            || stop.get(),
+        )
+        .await
+        .unwrap();
+
+        assert_eq!(records.len(), 1, "the scenario already running still completes");
+        assert_eq!(
+            events.last().unwrap().stage,
+            RunStage::Aborted,
+            "a stop during the last scenario reports Aborted, never Done/Blocked"
+        );
+        assert_eq!(events.last().unwrap().count, 1);
+        let journal = std::fs::read_to_string(dir.path().join("run-abort-last.jsonl")).unwrap();
+        assert!(
+            journal.contains("\"Blocked\""),
+            "the completed scenario's envelope is persisted before the abort is reported"
+        );
     }
 
     fn emission(occurrences: u32, shape: EmissionShape) -> EmissionSpec {

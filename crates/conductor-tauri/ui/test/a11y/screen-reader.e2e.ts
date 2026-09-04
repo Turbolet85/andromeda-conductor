@@ -232,6 +232,27 @@ async function expectActive(name: string): Promise<void> {
   })
 }
 
+/**
+ * The coverage / run-report scroll regions are focusable so the keyboard can scroll them, but they
+ * carry no name of their own: a focusable `role="group"` computed the whole table as its accessible
+ * content and read every row in one utterance (S0-09, E0-05/E0-06). The name now sits on the table
+ * they contain. This asserts BOTH halves — focus landed on the scroll container, AND that container's
+ * table is the named one — so it is stricter than the name-only check it replaces.
+ */
+async function expectActiveScrollRegion(name: string): Promise<void> {
+  const landed = (): Promise<boolean> =>
+    browser.execute((expected: string) => {
+      const el = document.activeElement as HTMLElement | null
+      if (!el || el.getAttribute('tabindex') !== '0') return false
+      return el.querySelector('table')?.getAttribute('aria-label') === expected
+    }, name)
+  await browser.waitUntil(landed, {
+    timeout: 5_000,
+    interval: 100,
+    timeoutMsg: `focus did not land on the "${name}" scroll region (on "${await activeName()}")`,
+  })
+}
+
 /** The first Tab of a walk must reach the first control; on a miss, record where the next Tabs go and fail. */
 async function expectFirstTabLanding(name: string): Promise<void> {
   const landed = await activeName()
@@ -382,7 +403,7 @@ if (subject === 'live') {
       })
       await act('S0-09', 'Tab', async () => {
         await tab()
-        await expectActive('Coverage rows')
+        await expectActiveScrollRegion('Coverage rows')
       })
       await act('S0-13', 'h (browse-mode next heading)', () => browseKey('h'))
       await act('S0-14', 'd (browse-mode next landmark)', () => browseKey('d'))
@@ -541,17 +562,17 @@ if (subject === 'empty') {
       })
       await act('E0-05', 'Tab', async () => {
         await tab()
-        await expectActive('Coverage rows')
+        await expectActiveScrollRegion('Coverage rows')
       })
       await act('E0-06', 'Tab', async () => {
         await tab()
-        await expectActive('Run report rows')
+        await expectActiveScrollRegion('Run report rows')
       })
       await act('E0-07', 'ArrowDown (browse-mode next line)', () => browseKey('ArrowDown'))
       await act('E0-08', 'ArrowDown (browse-mode next line)', () => browseKey('ArrowDown'))
       await act('E0-09', 'Shift+Tab, ArrowDown (browse-mode next line)', async () => {
         await shiftTab()
-        await expectActive('Coverage rows')
+        await expectActiveScrollRegion('Coverage rows')
         await browseKey('ArrowDown')
       })
       stamp('E0-10', 'none (subject absent)')

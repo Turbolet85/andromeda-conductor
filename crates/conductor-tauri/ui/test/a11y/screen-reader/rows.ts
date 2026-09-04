@@ -36,15 +36,16 @@ export const ROWS: readonly SpecRow[] = [
   {
     id: 'S0-11', subject: 'live', state: 'idle', cls: 'browse',
     item: 'titlebar phase line at rest',
-    node: 'banner › span[aria-live="assertive"] "Conductor · idle"',
-    sc: 'SC 4.1.3', expected: `"Conductor · idle" read by navigation (the assertive region announces changes, not initial content)`,
+    node: 'banner › span[aria-live="polite"] "Conductor · idle"',
+    sc: 'SC 4.1.3', expected: `"Conductor · idle" read by navigation (the region announces changes, not initial content)`,
     tokens: ['idle'],
   },
   {
     id: 'S0-12', subject: 'live', state: 'idle', cls: 'browse',
     item: 'titlebar count placeholder',
-    node: 'banner › span "00:00:00" (no accessible name — finding)',
-    sc: 'SC 4.1.2', expected: 'the digits only; nothing names the value', tokens: ['00:00:00'],
+    node: 'banner › span[aria-live="polite"][aria-label="Scenario count: no run yet"] "00:00:00"',
+    sc: 'SC 4.1.2', expected: 'the count is NAMED — "Scenario count: no run yet" — never bare digits',
+    tokens: ['Scenario count'],
   },
   {
     id: 'S0-01', subject: 'live', state: 'idle', cls: 'focus',
@@ -64,8 +65,10 @@ export const ROWS: readonly SpecRow[] = [
   },
   {
     id: 'S0-16', subject: 'live', state: 'idle', cls: 'browse',
-    item: 'picker filter-miss prose', node: 'cmdk Empty "No scenarios match." (role="presentation")',
-    sc: 'SC 4.1.3', expected: 'not announced on appearance (presentation role); reachable by navigation only',
+    item: 'picker filter-miss prose',
+    node: 'div[aria-live="polite"] › p "No scenarios match." (cmdk Empty replaced — its role="presentation" is set after the prop spread and cannot be overridden)',
+    sc: 'SC 4.1.3',
+    expected: 'ANNOUNCED when the filter stops matching — the status region is mounted before the text arrives, so the prose is a change and not a mount',
     tokens: ['No scenarios match'],
   },
   {
@@ -82,8 +85,8 @@ export const ROWS: readonly SpecRow[] = [
     id: 'S0-06', subject: 'live', state: 'idle', cls: 'focus',
     item: 'select the suite (Enter on "Suite — all scenarios")', node: '[role="option"][aria-current="true"] with " · selected"',
     sc: 'SC 4.1.2',
-    expected: 'the committed choice announced as current (NVDA speaks aria-current as "current"; the " · selected" text is reached on re-reading)',
-    tokens: ['current'],
+    expected: 'the committed choice announced WITH its selected state as it becomes current — the option\'s aria-label carries " · selected", so it no longer waits for a re-read',
+    tokens: ['selected'],
   },
   {
     id: 'S0-07', subject: 'live', state: 'idle', cls: 'focus',
@@ -97,8 +100,10 @@ export const ROWS: readonly SpecRow[] = [
   },
   {
     id: 'S0-09', subject: 'live', state: 'idle', cls: 'focus',
-    item: 'coverage rows scroll region', node: 'div[tabindex=0][role="group"][aria-label="Coverage rows"]',
-    sc: 'SC 1.3.1', expected: `"Coverage rows" + grouping`, tokens: ['Coverage rows'],
+    item: 'coverage rows scroll region', node: 'div[tabindex=0] › table[aria-label="Coverage rows"]',
+    sc: 'SC 1.3.1',
+    expected: 'the region named "Coverage rows" only — focusing it must NOT read the table\'s rows as one utterance (the role="group" that did is gone)',
+    tokens: ['Coverage rows'],
   },
   {
     id: 'S0-13', subject: 'live', state: 'idle', cls: 'browse',
@@ -123,13 +128,16 @@ export const ROWS: readonly SpecRow[] = [
   // ── live subject · S1 live ────────────────────────────────────────────────────────────────────────
   {
     id: 'S1-01', subject: 'live', state: 'live', cls: 'live',
-    item: 'phase line flip on Start', node: 'span[aria-live="assertive"] "Conductor · live"',
-    sc: 'SC 4.1.3', expected: `"Conductor · live" announced (assertive, interrupting)`, tokens: ['live'],
+    item: 'phase line flip on Start', node: 'span[aria-live="polite"] "Conductor · live"',
+    sc: 'SC 4.1.3', expected: `"Conductor · live" announced (polite — assertive is reserved for the HOLD flip, so this no longer preempts a focus announcement)`, tokens: ['live'],
   },
   {
     id: 'S1-02', subject: 'live', state: 'live', cls: 'browse',
-    item: 'count after Start (a scenario counter, not a clock)', node: 'span.titlebar__count "0" (no live region — finding)',
-    sc: 'SC 4.1.3', expected: 'NOT announced (no live region); the value reads by navigation only', tokens: [], review: true,
+    item: 'count after Start (a scenario counter, not a clock)',
+    node: 'span.titlebar__count[aria-live="polite"][aria-label="Scenarios completed: 0"] "0"',
+    sc: 'SC 4.1.3',
+    expected: 'ANNOUNCED as it advances — the count is an aria-live region named "Scenarios completed"',
+    tokens: ['Scenarios completed'], review: true,
   },
   {
     id: 'S1-05', subject: 'live', state: 'live', cls: 'browse',
@@ -181,17 +189,19 @@ export const ROWS: readonly SpecRow[] = [
   {
     id: 'S2-07', subject: 'live', state: 'hold', cls: 'focus',
     item: 'Proceed (Enter) closes the dialog; focus restored', node: 'button "Start" regains focus (onCloseAutoFocus → restoreFocusTo)',
-    sc: 'SC 2.4.3', expected: `"Start" + button (+ unavailable while running)`, tokens: ['Start'],
+    sc: 'SC 2.4.3',
+    expected: '"Start" + button (+ unavailable while running) — the restore announcement completes; the phase line leaving hold is polite now and no longer preempts it',
+    tokens: ['Start'],
   },
   {
     id: 'S2-08', subject: 'live', state: 'hold', cls: 'live',
-    item: 'phase line back to live', node: 'span[aria-live="assertive"] "Conductor · live"',
+    item: 'phase line back to live', node: 'span[aria-live="polite"] "Conductor · live"',
     sc: 'SC 4.1.3', expected: `"Conductor · live" announced`, tokens: ['live'],
   },
   // ── live subject · S3 aborted ─────────────────────────────────────────────────────────────────────
   {
     id: 'S3-01', subject: 'live', state: 'aborted', cls: 'live',
-    item: 'Stop during the second scenario (a third follows, so the backend abort check fires)', node: 'span[aria-live="assertive"] "Conductor · aborted"',
+    item: 'Stop during the second scenario (a third follows, so the backend abort check fires)', node: 'span[aria-live="polite"] "Conductor · aborted"',
     sc: 'SC 4.1.3', expected: `"Conductor · aborted" announced`, tokens: ['aborted'],
   },
   {
@@ -207,12 +217,16 @@ export const ROWS: readonly SpecRow[] = [
   {
     id: 'S3-04', subject: 'live', state: 'aborted', cls: 'focus',
     item: 'Escape resolves NoGo; focus restored', node: 'button "Start" regains focus',
-    sc: 'SC 2.1.2 · SC 2.4.3', expected: `"Start" + button`, tokens: ['Start'],
+    sc: 'SC 2.1.2 · SC 2.4.3',
+    expected: '"Start" + button — spoken every session; the assertive phase-line flip that cancelled it is scoped to entering hold',
+    tokens: ['Start'],
   },
   {
     id: 'S3-05', subject: 'live', state: 'aborted', cls: 'live',
-    item: 'terminal Aborted stage settles the phase line', node: 'span[aria-live="assertive"] "Conductor · aborted"; report reloads',
-    sc: 'SC 4.1.3', expected: `"Conductor · aborted" announced again after the backend Aborted stage`, tokens: ['aborted'],
+    item: 'terminal Aborted stage settles the phase line', node: 'span[aria-live="polite"] "Conductor · aborted"; report reloads',
+    sc: 'SC 4.1.3',
+    expected: '"Conductor · aborted" announced and STAYS aborted — a stop during the last scenario now reports the Aborted stage, so the line no longer settles to idle',
+    tokens: ['aborted'],
   },
   {
     id: 'S3-06', subject: 'live', state: 'aborted', cls: 'browse',
@@ -226,7 +240,7 @@ export const ROWS: readonly SpecRow[] = [
   },
   {
     id: 'T-01', subject: 'live', state: 'terminal', cls: 'live',
-    item: 'un-stopped run settles to idle', node: 'span[aria-live="assertive"] "Conductor · idle"',
+    item: 'un-stopped run settles to idle', node: 'span[aria-live="polite"] "Conductor · idle"',
     sc: 'SC 4.1.3', expected: `"Conductor · idle" announced on the Done stage`, tokens: ['idle'],
     notRun: 'the live subject is stopped by design (aborted needs a Stop); a second un-stopped session is optional',
   },
@@ -258,8 +272,10 @@ export const ROWS: readonly SpecRow[] = [
   },
   {
     id: 'E0-06', subject: 'empty', state: 'idle-report', cls: 'focus',
-    item: 'run report rows scroll region (fixture present)', node: 'div[role="group"][aria-label="Run report rows"]',
-    sc: 'SC 1.3.1', expected: `"Run report rows" + grouping`, tokens: ['Run report rows'],
+    item: 'run report rows scroll region (fixture present)', node: 'div[tabindex=0] › table[aria-label="Run report rows"]',
+    sc: 'SC 1.3.1',
+    expected: 'the region named "Run report rows" only — focusing it must NOT read the table\'s rows as one utterance',
+    tokens: ['Run report rows'],
   },
   {
     id: 'E0-07', subject: 'empty', state: 'idle-report', cls: 'browse',
@@ -285,9 +301,10 @@ export const ROWS: readonly SpecRow[] = [
   // ── error subject · a malformed catalog ──────────────────────────────────────────────────────────
   {
     id: 'R0-01', subject: 'error', state: 'idle', cls: 'live',
-    item: 'scenario load error (alert on document load)', node: 'p[role="alert"] "Could not load scenarios: …"',
+    item: 'scenario load error (alert on document load)',
+    node: 'div[role="alert"] › p "Could not load scenarios: …" (the region is mounted empty at first paint)',
     sc: 'SC 4.1.3',
-    expected: '"Could not load scenarios" announced when the document loads while NVDA tracks the window (alert); the text must carry no host path',
+    expected: '"Could not load scenarios" announced; the region is mounted empty at first paint so the error arrives as a change, but the leg still reloads — the no-reload claim is NOT graded by this row; the text must carry no host path',
     tokens: ['Could not load scenarios'],
   },
   {

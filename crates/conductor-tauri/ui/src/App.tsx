@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { invoke, Channel } from '@tauri-apps/api/core'
-import Titlebar, { type RunState } from './components/Titlebar'
+import Titlebar, { IDLE_COUNT, type RunState } from './components/Titlebar'
 import ScenarioPicker, { type ScenarioSummary } from './components/ScenarioPicker'
 import RunControls from './components/RunControls'
 import CoverageMatrix, { type CapabilityRow } from './components/CoverageMatrix'
@@ -73,7 +73,7 @@ const STATE_FOR_STAGE: Record<RunStage, RunState> = {
 
 export default function App() {
   const [runState, setRunState] = useState<RunState>('idle')
-  const [count, setCount] = useState('00:00:00')
+  const [count, setCount] = useState(IDLE_COUNT)
   const [scenarios, setScenarios] = useState<ScenarioSummary[]>([])
   const [selection, setSelection] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
@@ -199,6 +199,12 @@ export default function App() {
     setActionError(null)
     try {
       await invoke('stop_run')
+      // Announced immediately: the backend polls the abort flag only between scenarios, so waiting for
+      // its stage leaves Stop silent for the rest of the running scenario (measured 2026-09-04 — the
+      // phase line still read `live` at the S3-01 bound). What made this announcement WRONG was the
+      // backend disagreeing: a stop during the LAST scenario settled `Done` and STATE_FOR_STAGE mapped
+      // it back to idle (S3-05). drive_run now polls after the loop too, so the stage that follows
+      // CONFIRMS this state instead of overwriting it.
       setRunState('aborted')
     } catch (e) {
       setActionError(String(e))
@@ -232,15 +238,22 @@ export default function App() {
           <h2 className="type-heading" style={{ margin: 0 }}>
             Scenario / suite
           </h2>
+          {/* The live region mounts unconditionally: a role="alert" node that appears TOGETHER with its
+              text is not announced — the original load error was silent and only a reload with NVDA
+              already tracking the window spoke it (NVDA pass 2026-09-02, R0-01). Same shape at the
+              three sibling error sites below. */}
+          <div role="alert">
+            {loadError ? (
+              <p className="type-body" style={{ color: 'var(--status-fail)', margin: 0 }}>
+                Could not load scenarios: {loadError}
+              </p>
+            ) : null}
+          </div>
           {loading ? (
             <p className="type-body" style={{ color: 'var(--text-tertiary)' }}>
               Loading scenarios…
             </p>
-          ) : loadError ? (
-            <p className="type-body" role="alert" style={{ color: 'var(--status-fail)' }}>
-              Could not load scenarios: {loadError}
-            </p>
-          ) : scenarios.length === 0 ? (
+          ) : loadError ? null : scenarios.length === 0 ? (
             <p className="type-body" style={{ color: 'var(--text-tertiary)' }}>
               No scenarios found.
             </p>
@@ -256,30 +269,31 @@ export default function App() {
             onStart={start}
             onStop={stop}
           />
-          {actionError ? (
-            <p
-              className="type-body"
-              role="alert"
-              style={{ color: 'var(--status-fail)', margin: 0 }}
-            >
-              {actionError}
-            </p>
-          ) : null}
+          <div role="alert">
+            {actionError ? (
+              <p className="type-body" style={{ color: 'var(--status-fail)', margin: 0 }}>
+                {actionError}
+              </p>
+            ) : null}
+          </div>
         </section>
 
         <section style={{ display: 'flex', flexDirection: 'column', gap: 'var(--space-sm)' }}>
           <h2 className="type-heading" style={{ margin: 0 }}>
             Coverage matrix
           </h2>
+          <div role="alert">
+            {coverageError ? (
+              <p className="type-body" style={{ color: 'var(--status-fail)', margin: 0 }}>
+                Could not load coverage: {coverageError}
+              </p>
+            ) : null}
+          </div>
           {coverageLoading ? (
             <p className="type-body" style={{ color: 'var(--text-tertiary)' }}>
               Loading coverage…
             </p>
-          ) : coverageError ? (
-            <p className="type-body" role="alert" style={{ color: 'var(--status-fail)' }}>
-              Could not load coverage: {coverageError}
-            </p>
-          ) : coverage.length === 0 ? (
+          ) : coverageError ? null : coverage.length === 0 ? (
             <p className="type-body" style={{ color: 'var(--text-tertiary)' }}>
               No coverage data.
             </p>
@@ -292,15 +306,18 @@ export default function App() {
           <h2 className="type-heading" style={{ margin: 0 }}>
             Run report
           </h2>
+          <div role="alert">
+            {reportError ? (
+              <p className="type-body" style={{ color: 'var(--status-fail)', margin: 0 }}>
+                Could not load run report: {reportError}
+              </p>
+            ) : null}
+          </div>
           {reportLoading ? (
             <p className="type-body" style={{ color: 'var(--text-tertiary)' }}>
               Loading run report…
             </p>
-          ) : reportError ? (
-            <p className="type-body" role="alert" style={{ color: 'var(--status-fail)' }}>
-              Could not load run report: {reportError}
-            </p>
-          ) : report.length === 0 ? (
+          ) : reportError ? null : report.length === 0 ? (
             <p className="type-body" style={{ color: 'var(--text-tertiary)' }}>
               No run yet
             </p>

@@ -54,8 +54,11 @@ export default function CoverageMatrix({
   return (
     <section className="cov" aria-label="Capability coverage matrix">
       <header className="cov__summary type-data">{tally(rows, unbacked)}</header>
-      <div className="cov__scroll" tabIndex={0} role="group" aria-label="Coverage rows">
-        <table className="cov__table">
+      {/* Focusable so the region scrolls by keyboard, but WITHOUT role="group": a focusable group
+          computes the whole table as its accessible content, so focusing it read all 83 rows in one
+          utterance (NVDA pass 2026-09-02, S0-09). The table carries the name instead. */}
+      <div className="cov__scroll" tabIndex={0}>
+        <table className="cov__table" aria-label="Coverage rows">
           <thead>
             <tr>
               <th scope="col" className="type-label">

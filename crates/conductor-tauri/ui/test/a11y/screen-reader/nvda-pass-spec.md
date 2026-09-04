@@ -54,7 +54,7 @@ The per-state screen-reader pass the a11y plan requires (a11y-plan §3 _Screen r
 ## The four run states — as shipped
 
 `Titlebar.tsx` enumerates `RunState = idle · live · hold · aborted`, each with its own phase-line label in the
-`aria-live="assertive"` span: `Conductor · idle` · `Conductor · live` · `Conductor · HOLD — operator pause` ·
+phase-line span, which is `aria-live="assertive"` ONLY while entering `hold` and `polite` otherwise (an always-assertive region cancelled the post-hold focus-restore announcement): `Conductor · idle` · `Conductor · live` · `Conductor · HOLD — operator pause` ·
 `Conductor · aborted`. The terminal stages `done` / `blocked` settle the label to `idle` with the run-report
 section populated, so "idle with a report" is a SUB-STATE of `idle`. The a11y-plan names the four as
 `idle / live / HOLD / report-terminal` — its `report-terminal` is that sub-state, and it omits `aborted`, which
@@ -101,18 +101,18 @@ Every row's `Heard`, `Result` and `Arm` live in the evidence (`nvda-pass.json`),
 
 | # | Class | Item | Producing action / key path | Node (role · accessible name · mechanism) | Expected NVDA output | WCAG SC |
 |---|---|---|---|---|---|---|
-| S0-11 | browse | titlebar phase line at rest | none (navigation) | banner › span[aria-live="assertive"] "Conductor · idle" | "Conductor · idle" read by navigation — the assertive region announces changes, not initial content | SC 4.1.3 |
-| S0-12 | browse | titlebar count placeholder | none (navigation) | banner › span "00:00:00" — no accessible name (finding) | the digits only; nothing names the value | SC 4.1.2 |
+| S0-11 | browse | titlebar phase line at rest | none (navigation) | banner › span[aria-live="polite"] "Conductor · idle" | "Conductor · idle" read by navigation — the assertive region announces changes, not initial content | SC 4.1.3 |
+| S0-12 | browse | titlebar count placeholder | none (navigation) | banner › span[aria-live="polite"][aria-label="Scenario count: no run yet"] "00:00:00" | the count is NAMED — "Scenario count: no run yet" — never bare digits | SC 4.1.2 |
 | S0-01 | focus | Minimize window control | Tab | button[aria-label="Minimize window"] | "Minimize window" + button | SC 4.1.2 |
 | S0-02 | focus | Close window control | Tab | button[aria-label="Close window"] | "Close window" + button | SC 4.1.2 |
 | S0-03 | focus | scenario / suite picker | Tab | input[role="combobox"] "Scenario or suite picker" (cmdk), first option active | "Scenario or suite picker" + combo box, editable, the active option | SC 4.1.2 |
-| S0-16 | browse | picker filter-miss prose | type `zzz`, then Backspace ×3 | cmdk Empty "No scenarios match." (role="presentation") | not announced on appearance; reachable by navigation only | SC 4.1.3 |
+| S0-16 | browse | picker filter-miss prose | type `zzz`, then Backspace ×3 | div[aria-live="polite"] › p "No scenarios match." (cmdk Empty replaced — its role="presentation" is set after the prop spread) | ANNOUNCED when the filter stops matching — the region is mounted before the text arrives | SC 4.1.3 |
 | S0-04 | focus | picker option | ArrowDown | [role="option"] "halo-breathing-encoding · P-026 · <20s" (active descendant) | the option text | SC 4.1.2 |
 | S0-05 | focus | picker option | ArrowDown | [role="option"] "halo-hue-encoding · P-025 · <5s" | the option text | SC 4.1.2 |
-| S0-06 | focus | select the suite | ArrowUp ×2, Enter on "Suite — all scenarios" | [role="option"][aria-current="true"] with " · selected" | the committed choice announced as "current" (aria-current); the " · selected" text is reached on re-reading | SC 4.1.2 |
+| S0-06 | focus | select the suite | ArrowUp ×2, Enter on "Suite — all scenarios" | [role="option"][aria-current="true"] whose aria-label carries " · selected" | the committed choice announced WITH its selected state as it becomes current — no longer waiting for a re-read | SC 4.1.2 |
 | S0-07 | focus | Start control after a selection | Tab | button "Start" (aria-disabled=false) | "Start" + button, NOT unavailable | SC 4.1.2 |
 | S0-08 | browse | Stop control while idle | none (unfocusable) | button "Stop" (native disabled) | "Stop" + button + unavailable, by navigation only | SC 4.1.2 |
-| S0-09 | focus | coverage rows scroll region | Tab | div[tabindex=0][role="group"] "Coverage rows" | "Coverage rows" + grouping | SC 1.3.1 |
+| S0-09 | focus | coverage rows scroll region | Tab | div[tabindex=0] › table[aria-label="Coverage rows"] | the region named "Coverage rows" ONLY — focusing it must not read the table's rows as one utterance | SC 1.3.1 |
 | S0-13 | browse | heading list — three h2, no h1 (finding) | `h` (browse-mode next heading) | h2 "Scenario / suite" · "Coverage matrix" · "Run report" | "Scenario / suite heading level 2" | SC 1.3.1 |
 | S0-14 | browse | landmark list — banner · main · two regions; contentinfo absent (finding) | `d` (browse-mode next landmark) | header (banner) · main · section[aria-label] | "main landmark" | SC 1.3.1 |
 | S0-15 | browse | coverage matrix not-yet-run cell | ArrowDown (browse-mode next line) | td.cov__status "Not yet run" (text, never a tint) | "Not yet run" as a table cell | SC 1.4.1 |
@@ -122,8 +122,8 @@ Every row's `Heard`, `Result` and `Arm` live in the evidence (`nvda-pass.json`),
 
 | # | Class | Item | Producing action / key path | Node (role · accessible name · mechanism) | Expected NVDA output | WCAG SC |
 |---|---|---|---|---|---|---|
-| S1-01 | live | phase line flip on Start | Shift+Tab to Start, Enter | span[aria-live="assertive"] "Conductor · live" | "Conductor · live" announced, interrupting | SC 4.1.3 |
-| S1-02 | browse | count after Start | none | span.titlebar__count "0" — no live region (finding) | NOT announced; the value reads by navigation only; operator grades | SC 4.1.3 |
+| S1-01 | live | phase line flip on Start | Shift+Tab to Start, Enter | span[aria-live="polite"] "Conductor · live" | "Conductor · live" announced, interrupting | SC 4.1.3 |
+| S1-02 | browse | count after Start | none | span.titlebar__count[aria-live="polite"][aria-label="Scenarios completed: 0"] "0" | ANNOUNCED as it advances — an aria-live region named "Scenarios completed"; operator grades | SC 4.1.3 |
 | S1-05 | browse | in-progress prose | none | (none) — the plan's "Run in progress" prose does not ship | subject-absent | SC 4.1.3 |
 | S1-03 | focus | Start control while running | Shift+Tab, Tab | button "Start" (aria-disabled=true) | "Start" + button + unavailable | SC 4.1.2 |
 | S1-04 | focus | Stop control while running | Tab | button "Stop" (enabled) | "Stop" + button, NOT unavailable | SC 4.1.2 |
@@ -138,18 +138,18 @@ Every row's `Heard`, `Result` and `Arm` live in the evidence (`nvda-pass.json`),
 | S2-03 | focus | Proceed action | Tab | button "Proceed" | "Proceed" + button | SC 4.1.2 |
 | S2-04 | focus | checklist row | Tab | label › input[type="checkbox"] + induced + observation text | the row text ("… halo breathing rate tracks throughput?") + check box + not checked | SC 4.1.2 |
 | S2-05 | live | Space toggles the row; roll-up updates | Space | checkbox checked + p[role="status"] "All observations confirmed" | "checked", then "All observations confirmed" (polite) | SC 4.1.3 |
-| S2-07 | focus | Proceed closes the dialog; focus restored | Shift+Tab to Proceed, Enter | button "Start" regains focus (onCloseAutoFocus → restoreFocusTo) | "Start" + button (+ unavailable while running) | SC 2.4.3 |
-| S2-08 | live | phase line back to live | (same instant) | span[aria-live="assertive"] "Conductor · live" | "Conductor · live" announced | SC 4.1.3 |
+| S2-07 | focus | Proceed closes the dialog; focus restored | Shift+Tab to Proceed, Enter | button "Start" regains focus (onCloseAutoFocus → restoreFocusTo) | "Start" + button (+ unavailable while running) — the restore announcement completes; the phase line leaving hold is polite and no longer preempts it | SC 2.4.3 |
+| S2-08 | live | phase line back to live | (same instant) | span[aria-live="polite"] "Conductor · live" | "Conductor · live" announced | SC 4.1.3 |
 
 ### S3 · aborted (Stop during halo-hue-encoding, the second scenario)
 
 | # | Class | Item | Producing action / key path | Node (role · accessible name · mechanism) | Expected NVDA output | WCAG SC |
 |---|---|---|---|---|---|---|
-| S3-01 | live | Stop during the second scenario | Tab to Stop, Enter | span[aria-live="assertive"] "Conductor · aborted" | "Conductor · aborted" announced | SC 4.1.3 |
+| S3-01 | live | Stop during the second scenario | Tab to Stop, Enter | span[aria-live="polite"] "Conductor · aborted" | "Conductor · aborted" announced | SC 4.1.3 |
 | S3-02 | focus | Start control after Stop | Shift+Tab | button "Start" (aria-disabled=false again) | "Start" + button, NOT unavailable | SC 4.1.2 |
 | S3-03 | live | second hold still opens (abort is polled between scenarios) | wait for the hold | HOLD flip + [role="alertdialog"] "P-025 — operator-checklist" | "HOLD", then the P-025 dialog | SC 4.1.3 |
-| S3-04 | focus | Escape resolves NoGo; focus restored | Escape | button "Start" regains focus | "Start" + button | SC 2.1.2 · SC 2.4.3 |
-| S3-05 | live | terminal Aborted stage settles the phase line | (same instant as S3-04 — the Aborted stage fires as the Escape resolution returns; shared window) then the report reload | span[aria-live="assertive"] "Conductor · aborted"; report header "2 scenarios · run {run_id}" | "Conductor · aborted" announced again | SC 4.1.3 |
+| S3-04 | focus | Escape resolves NoGo; focus restored | Escape | button "Start" regains focus | "Start" + button — spoken every session; the assertive flip that cancelled it is scoped to entering hold | SC 2.1.2 · SC 2.4.3 |
+| S3-05 | live | terminal Aborted stage settles the phase line | (same instant as S3-04 — the Aborted stage fires as the Escape resolution returns; shared window) then the report reload | span[aria-live="polite"] "Conductor · aborted"; report header "2 scenarios · run {run_id}" | "Conductor · aborted" announced and STAYS aborted — a stop during the last scenario now reports the Aborted stage instead of settling to idle | SC 4.1.3 |
 | S3-06 | browse | run report rows after the stopped run | ArrowDown (browse-mode next line) | table rows with the "Manual" lamp label | "Manual" as the status cell text | SC 1.4.1 |
 | S3-07 | browse | coverage matrix lamp for P-025 | ArrowDown (browse-mode next line) | td.cov__status › lamp "Manual" beside P-025 | "P-025" … "Manual" | SC 1.4.1 |
 
@@ -157,7 +157,7 @@ Every row's `Heard`, `Result` and `Arm` live in the evidence (`nvda-pass.json`),
 
 | # | Class | Item | Producing action / key path | Node (role · accessible name · mechanism) | Expected NVDA output | WCAG SC |
 |---|---|---|---|---|---|---|
-| T-01 | live | un-stopped run settles to idle | not run — the live subject is stopped by design; a second un-stopped session is optional | span[aria-live="assertive"] "Conductor · idle" | "Conductor · idle" announced on the Done stage | SC 4.1.3 |
+| T-01 | live | un-stopped run settles to idle | not run — the live subject is stopped by design; a second un-stopped session is optional | span[aria-live="polite"] "Conductor · idle" | "Conductor · idle" announced on the Done stage | SC 4.1.3 |
 
 ## Rows — empty subject (empty catalog, the seeded fixture report)
 
@@ -167,8 +167,8 @@ Every row's `Heard`, `Result` and `Arm` live in the evidence (`nvda-pass.json`),
 | E0-02 | focus | Minimize window control | Tab | button[aria-label="Minimize window"] | "Minimize window" + button | SC 4.1.2 |
 | E0-03 | focus | Close window control | Tab | button[aria-label="Close window"] | "Close window" + button | SC 4.1.2 |
 | E0-04 | focus | Start control with no selection possible | Tab | button "Start" (aria-disabled=true) | "Start" + button + unavailable | SC 4.1.2 |
-| E0-05 | focus | coverage rows scroll region | Tab | div[role="group"] "Coverage rows" | "Coverage rows" + grouping | SC 1.3.1 |
-| E0-06 | focus | run report rows scroll region (fixture present) | Tab | div[role="group"] "Run report rows" | "Run report rows" + grouping | SC 1.3.1 |
+| E0-05 | focus | coverage rows scroll region | Tab | div[tabindex=0] › table[aria-label="Coverage rows"] | the region named "Coverage rows" ONLY — not the table read as one utterance | SC 1.3.1 |
+| E0-06 | focus | run report rows scroll region (fixture present) | Tab | div[tabindex=0] › table[aria-label="Run report rows"] | the region named "Run report rows" ONLY — not the table read as one utterance | SC 1.3.1 |
 | E0-07 | browse | run report header | ArrowDown (browse-mode next line) | header "3 scenarios · run lamps-fixture" | the header text | SC 1.3.1 |
 | E0-08 | browse | run report status cells | ArrowDown (browse-mode next line) | td.report__status › lamp labels "Pass" · "Blocked" · "Fail" (glyph aria-hidden) | "Blocked" read as text, never a colour | SC 1.4.1 |
 | E0-09 | browse | coverage lamp for the collided P-ID | Shift+Tab, ArrowDown | row P-019 › lamp "Blocked" (worst-lamp-wins over Pass) | "P-019" … "Blocked" | SC 1.4.1 |
@@ -178,7 +178,7 @@ Every row's `Heard`, `Result` and `Arm` live in the evidence (`nvda-pass.json`),
 
 | # | Class | Item | Producing action / key path | Node (role · accessible name · mechanism) | Expected NVDA output | WCAG SC |
 |---|---|---|---|---|---|---|
-| R0-01 | live | scenario load error (alert on document load) | focus warm-up (Tab), then reload the document — NVDA tracks a window only from its first focus event, so an alert rendered on the original load is never spoken (finding); the reload fires it while the window is tracked | p[role="alert"] "Could not load scenarios: …" | "Could not load scenarios" announced; the text carries NO host path (a heard path is a security finding against the sanitize_error edge) | SC 4.1.3 |
+| R0-01 | live | scenario load error (alert on document load) | focus warm-up (Tab), then reload the document — the leg still reloads, so this row does NOT yet discriminate a first-load announcement from a post-reload one | div[role="alert"] › p "Could not load scenarios: …" (the region is mounted empty at first paint) | "Could not load scenarios" announced; the text carries NO host path (a heard path is a security finding against the sanitize_error edge) | SC 4.1.3 |
 | R0-02 | focus | Minimize window control | Tab | button[aria-label="Minimize window"] | "Minimize window" + button | SC 4.1.2 |
 | R0-03 | focus | Close window control | Tab | button[aria-label="Close window"] | "Close window" + button | SC 4.1.2 |
 | R0-04 | focus | Start control with nothing loaded | Tab | button "Start" (aria-disabled=true) | "Start" + button + unavailable | SC 4.1.2 |

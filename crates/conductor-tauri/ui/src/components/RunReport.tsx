@@ -42,8 +42,10 @@ export default function RunReport({
         {records.length} {records.length === 1 ? 'scenario' : 'scenarios'}
         {records.length > 0 ? ` · run ${records[0].run_id}` : ''}
       </header>
-      <div className="report__scroll" tabIndex={0} role="group" aria-label="Run report rows">
-        <table className="report__table">
+      {/* See CoverageMatrix: focusable for keyboard scrolling, no role="group" (it swallowed the whole
+          table into one utterance — E0-05/E0-06); the table carries the name. */}
+      <div className="report__scroll" tabIndex={0}>
+        <table className="report__table" aria-label="Run report rows">
           <thead>
             <tr>
               <th scope="col" className="type-label">

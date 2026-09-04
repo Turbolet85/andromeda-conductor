@@ -50,8 +50,19 @@ export interface SubjectRecord {
   pre_session_utterances: number
   post_session_utterances: number
   attach_observed: boolean | null
-  /** `initial_focus` is the accessible name focused when the app came up, before the leg blurred to body. */
-  foreground: { activated: boolean; nvda_named_window: boolean; initial_focus: string | null } | null
+  /**
+   * `initial_focus` is the accessible name focused when the app came up, before the leg blurred to body.
+   * `tabs_to_start` is the DISCRIMINATOR for the initial-focus finding: `initial_focus` reads `BODY` on
+   * every subject because it samples `activeElement`, while the defect lives in Chromium's separate
+   * sequential-focus starting point — the count of Tabs the leg needed to reach the host-chrome stop is
+   * what exposes it (1 ⇒ the walk starts at the document; more ⇒ a control held focus at mount).
+   */
+  foreground: {
+    activated: boolean
+    nvda_named_window: boolean
+    initial_focus: string | null
+    tabs_to_start: number | null
+  } | null
   process_census: { before: string[]; after: string[] }
 }
 
@@ -190,7 +201,9 @@ export interface Timeline {
   stamps: Stamp[]
   browserVersion: string | undefined
   /** The leg's own record of bringing the app window to the OS foreground before its first row. */
-  foreground: { activated: boolean; nvdaNamedWindow: boolean; initialFocus: string | undefined } | undefined
+  foreground:
+    | { activated: boolean; nvdaNamedWindow: boolean; initialFocus: string | undefined; tabsToStart: number | undefined }
+    | undefined
   /** When the leg closed its timeline; speech after it (teardown, the shell regaining focus) belongs to no row. */
   endMs: number | undefined
 }
@@ -215,6 +228,7 @@ export function readStamps(path: string): Timeline {
       activated?: unknown
       nvdaNamedWindow?: unknown
       initialFocus?: unknown
+      tabsToStart?: unknown
     }
     if (typeof rec.ts !== 'string' || typeof rec.id !== 'string') continue
     if (rec.id === SESSION_STAMP) {
@@ -226,6 +240,7 @@ export function readStamps(path: string): Timeline {
         activated: rec.activated === true,
         nvdaNamedWindow: rec.nvdaNamedWindow === true,
         initialFocus: typeof rec.initialFocus === 'string' ? rec.initialFocus : undefined,
+        tabsToStart: typeof rec.tabsToStart === 'number' ? rec.tabsToStart : undefined,
       }
       continue
     }
@@ -441,6 +456,7 @@ export function writeNvdaPass(opts: ParseOptions): PassFile {
               activated: timeline.foreground.activated,
               nvda_named_window: timeline.foreground.nvdaNamedWindow,
               initial_focus: timeline.foreground.initialFocus ?? null,
+              tabs_to_start: timeline.foreground.tabsToStart ?? null,
             }
           : null,
         process_census: { before: opts.censusBefore, after: opts.censusAfter },
