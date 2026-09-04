@@ -1,0 +1,44 @@
+# tests extract
+
+## Relevance
+Relevant — unit-tier env-read coverage plus the `boot` probe arm's `.sh`/`.ps1` parity, both governed by test-plan.md; no envelope/E2E surface change expected.
+
+## Constraints
+- The env read must be reached by injecting a typed lookup **at the caller**, never by `unsafe { std::env::set_var }` in a shared-process test module — that rule (`.claude/rules/testing.md` 2026-08-10) is the exact citation under which `declares`' env-read arms stand accepted-deliberate, and the plan records killing them by env mutation as "the exact hazard the chunk that minted the rule removed" (per test-plan.md §10 Mutation-survivor disposition + §12 `2026-08-20` mutation-instrument entry).
+- The suite must stay green under **both** runners — `cargo nextest run -p <crate>` and `cargo test -p <crate>` — and must not lean on nextest's per-test process to isolate process-global state (process env is that class); a runner-dependent result is a determinism break to fix at the cause (per test-plan.md §4 Framework runner-portability gate, §11 Integration, §10 Zero-flakiness budget).
+- `scripts/agent-run.sh` and `.ps1` must expose **identical semantics** for the `boot` probe arm — a binding contract, not a convention (per test-plan.md §3 Bootstrap phases → `5-command-discipline-wire`, restated in §3 `boot` leading arm).
+- The `preconditions` probe must keep minting no `Verdict`, no `ReportState` and no per-P-ID row, with `[PRECONDITION]` printed outside the lamp column as a run-level non-lamp caption — this is what keeps the envelope / status-read / JSONL shapes untouched and §3 ↔ obs-plan §3 in agreement (per test-plan.md §3 `boot`, §1 Surfaces under test → cli Signal, §6 Selector strategy). Whether the shipped `--json`/human output already satisfies this is research's question.
+- A CLI-edge test of a verb that writes no run artifacts must set `CONDUCTOR_RUNS_DIR` **not at all** — the handle is repo-relative and `resolve_under` rejects an absolute `temp.path()` at `Paths::resolve()` before dispatch, which was measured on the `conductor preconditions` edge tests (per test-plan.md §3 Test data bootstrap → Per-test isolation).
+- Any witness that needs a live Pulse or a real listener on `127.0.0.1:4317` is an operator/local gate only — never a CI gate, and never a real network call beyond the sanctioned loopback stub set (per test-plan.md §9 Live-Pulse scenarios, §11 CI + Universal real-network bans). This bounds the scope's open premise on what proving "`boot` reaches the preflight" costs.
+- Workspace line coverage stays `--fail-under-lines 60`, and `cargo audit --deny warnings` + `cargo deny check` remain build-failure conditions (per test-plan.md §10 Quality Gates → Build failure conditions, §9 Supply-chain audit stage) — the chunk's folded 50th `cargo audit` re-pin must appear with its deny overlap under `## Test Commands`.
+
+## Patterns to follow
+- Crate-local `#[cfg(test)] mod tests` inside the source file, snake_case test fn naming the property under test (per test-plan.md §2 Test directory + naming conventions, §4 Conventions).
+- rstest `#[rstest]` + `#[case]` table rows for the handle × value matrix (path-handle presence vs. flag-handle truthiness, empty/whitespace variants) — the plan's standing shape for valid/invalid matrices (per test-plan.md §4 Fixture pattern at unit level).
+- The killed-without-env-mutation precedent: `observe_run_contract:346` and `declares:358 → true` both fell to `observe_run_contract_names_the_term_this_environment_does_not_declare`, i.e. a test that names a term the ambient environment does not declare rather than mutating env (per test-plan.md §12 `2026-08-20` entry, `declares` bullet). Whether that shape reaches the observation site is research's question.
+- Assert through the public seam — the graded `declared` set handed to the evaluator, the probe's exit code, the `[PRECONDITION]` caption — not the private predicate's internals (per test-plan.md §11 Unit).
+- CLI-edge verb assertions via assert_cmd `Command::cargo_bin("conductor")` + predicates, NO_COLOR-stable label matching (per test-plan.md §6 Drivers per surface, cli row).
+
+## Anti-patterns to avoid
+- NEVER kill the `declares` mutants by mutating process env in-test; NEVER rely on nextest's per-test process to isolate a test from process-global state (per test-plan.md §11 Integration + §10 Mutation-survivor disposition).
+- NEVER test the private grading predicate's implementation details or hand-reconstruct the `declared` set the test is meant to prove is produced (per test-plan.md §11 Unit).
+- NEVER wire a live-Pulse / port-binding witness into a CI gate to prove `boot` reaches the preflight (per test-plan.md §11 CI + Universal bans, §9 Live-Pulse scenarios).
+
+## Contract bindings
+- **tests §3 ↔ obs-plan §3** — the probe stays non-minting, so the log format, envelope and status-read shapes are unchanged; a fix that made the probe emit a report-seam record would break the two plans' agreement (test-plan.md §3 `boot`).
+- **tests §3 ↔ route / setup-project** — `5-command-discipline-wire` binds `.sh`/`.ps1` parity; §3's current "both shells exit 1, unconditional since `480bc66`" note and §1's matching qualifier become stale-in-the-other-direction the moment this fix lands, which is a wrap amendment surface (test-plan.md §3 `boot`, §1 Test harness requirements → `boot`).
+- **tests §4 ↔ §10/§12 mutation roster** — if the chunk re-runs the §4 instrument, the accepted-deliberate SET recorded in §12 shrinks by whichever `declares` arms the new test kills, and §4's read-out gate (`missed.txt` holding EXACTLY the run's accepted survivors) must be re-derived, not carried (test-plan.md §4 Mutation instrument, §10, §12).
+
+## Acceptance criteria contributions
+- (tests) `cargo nextest run -p conductor-run` (plus `-p conductor-core` if the per-handle kind lands as data there) passes with a NEW test that exercises the read → grade path through an injected lookup, not a hand-built `declared` set (per test-plan.md §4 What unit tests cover + §10 Mutation-survivor disposition).
+- (tests) The same suite is green under `cargo test -p conductor-run`, proving the new test needs no per-test-process env isolation (per test-plan.md §4 Framework runner-portability gate).
+- (tests) `scripts/agent-run.sh boot` and `scripts/agent-run.ps1 boot` show identical probe-arm semantics on the same environment, with the short-circuit no longer unconditional (per test-plan.md §3 Bootstrap phases → `5-command-discipline-wire` + §3 `boot`).
+- (tests) Workspace gates hold: `--fail-under-lines 60`, `cargo clippy --workspace --all-targets -- -D warnings`, and the `cargo audit` / `cargo deny check` dispositions recorded under `## Test Commands` (per test-plan.md §10 Build failure conditions + §9 pipeline table).
+
+## Relevant amendment history
+- **2026-09-04-sr-findings-remediation** (§3 `boot` primary, §1 harness `boot`, five §6 step-1 lines) — recorded `boot`'s command body as not-currently-reached because the leading probe's `handles-declared` subject is unsatisfiable, and re-pointed the §6 critical-path step-1 lines at a direct `conductor preflight --json`. This chunk's fix reverses that condition, so those are the sites a wrap must re-verify.
+- **2026-09-03-live-pulse-preconditions-probed** (§1, §2, §3, §6) — established `boot` as probe-THEN-gate at all four sites, added `[PRECONDITION]` to the three cli caption enumerations, and qualified the `CONDUCTOR_RUNS_DIR` sandbox to artifact-writing tests after the `conductor preconditions` edge tests failed on empty stdout with an absolute temp path. Both constraints govern the new edge test.
+- **2026-09-03-conductor-run-composition-root-survivors-dispositioned** (§10 `:500`, §12 `:607-609`) — corrected the `declares` class to `conductor-run`, named it as a SET rather than `×6`, and recorded that two members proved killable with no env mutation. Directly sizes what this chunk's env-read test may kill.
+- **2026-09-03-conductor-tauri-survivors-dispositioned** (§4 `:226`, §10 `:500`) — changed the read-out gate from "`missed.txt` empty" to "`missed.txt` holds EXACTLY the accepted-deliberate survivors"; the operative form if the mutation tier is re-run here.
+- **2026-08-20-verifier-self-hardening** (§4, §9, §10, §11 Integration, §12) — minted the mutation instrument, the `declares` accepted-deliberate classification, the runner-portability gate, and the process-global-singleton isolation ban; the whole constraint cluster this chunk operates inside.
+- **2026-08-10-pulse-run-contract** and **2026-08-13-first-live-green-preflight** (§3 `boot` Timeout) — established the two derived budgets the probe's short-circuit currently skips; they become payable again once the probe can exit 0, so any wall-clock expectations in a `boot` proof follow the derivation rule, never a literal.

@@ -1,0 +1,101 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'declares' AND callee_kind = 'fn' ORDER BY file, line;",
+"rows": 2,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 observe_run_contract().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 350
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.1.0 observe_preconditions().",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 381
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT callee, file, line FROM refs WHERE callee_name = 'OBSERVED_HANDLES' ORDER BY file, line;",
+"rows": 12,
+"result": [
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 preconditions/OBSERVED_HANDLES.",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 54
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 preconditions/OBSERVED_HANDLES.",
+"file": "crates/conductor-core/src/preconditions.rs",
+"line": 84
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 preconditions/OBSERVED_HANDLES.",
+"file": "crates/conductor-core/src/preconditions.rs",
+"line": 190
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 preconditions/OBSERVED_HANDLES.",
+"file": "crates/conductor-core/src/preconditions.rs",
+"line": 237
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 preconditions/OBSERVED_HANDLES.",
+"file": "crates/conductor-core/src/preconditions.rs",
+"line": 252
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 preconditions/OBSERVED_HANDLES.",
+"file": "crates/conductor-core/src/preconditions.rs",
+"line": 258
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 preconditions/OBSERVED_HANDLES.",
+"file": "crates/conductor-core/src/preconditions.rs",
+"line": 262
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 preconditions/OBSERVED_HANDLES.",
+"file": "crates/conductor-core/src/preconditions.rs",
+"line": 282
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 preconditions/OBSERVED_HANDLES.",
+"file": "crates/conductor-core/src/preconditions.rs",
+"line": 319
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 preconditions/OBSERVED_HANDLES.",
+"file": "crates/conductor-core/src/preconditions.rs",
+"line": 321
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 preconditions/OBSERVED_HANDLES.",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 25
+},
+{
+"callee": "rust-analyzer cargo conductor-core 0.1.0 preconditions/OBSERVED_HANDLES.",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 379
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'observe_preconditions' AND callee_kind = 'fn' ORDER BY file, line;",
+"rows": 1,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-cli 0.1.0 commands/preconditions/preconditions().",
+"file": "crates/conductor-cli/src/commands/preconditions.rs",
+"line": 19
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

@@ -53,7 +53,7 @@ pub use phase_spec::{
 };
 pub use preconditions::{
     OBSERVED_HANDLES, PreconditionObservation, PreconditionSubject, Preconditions,
-    PreconditionsStatus, UnmetPrecondition,
+    PreconditionsStatus, UnmetPrecondition, flag_declared, handle_declared,
 };
 pub use redact::{redact_value, sanitize_error};
 pub use report_state::ReportState;

@@ -31,6 +31,40 @@ pub const OBSERVED_HANDLES: [&str; 3] = [
     "ANDROMEDA_PULSE_MCP_ENABLED",
 ];
 
+/// The one member of [`OBSERVED_HANDLES`] whose value is a filesystem PATH rather than a flag.
+///
+/// It is graded by PRESENCE because a path can never read `"true"`: grading it for truthiness made
+/// `handles-declared` unsatisfiable under every environment, and `agent-run boot` short-circuited
+/// before every preflight from `480bc66` until this was fixed.
+const PATH_VALUED_HANDLE: &str = "ANDROMEDA_PULSE_DATA_DIR";
+
+/// Whether a FLAG-valued handle carries an affirmative declaration. Presence alone is not enough —
+/// an explicit `false` declares the opposite of the term it would otherwise satisfy.
+///
+/// The single definition of truthiness in the workspace: `conductor-run`'s run-contract reader
+/// delegates its value test here, so a `shell-declaration` term and a probe flag handle cannot
+/// drift apart. It takes a value and NO name, which is what keeps the run-contract path off
+/// [`handle_declared`]'s presence arm by construction rather than by discipline.
+pub fn flag_declared(value: Option<&str>) -> bool {
+    value.is_some_and(|v| {
+        let v = v.trim().to_ascii_lowercase();
+        v == "true" || v == "1"
+    })
+}
+
+/// Whether an observed handle is declared, graded by the KIND of value it carries.
+///
+/// `ANDROMEDA_PULSE_DATA_DIR` is declared when present and non-empty after trim; EVERY other name —
+/// including one absent from [`OBSERVED_HANDLES`] — is graded by [`flag_declared`], so a handle
+/// added without a grading decision fails closed rather than being satisfied by mere presence
+/// (security-plan §Input Validation: never defaulted, never silently widened).
+pub fn handle_declared(name: &str, value: Option<&str>) -> bool {
+    if name == PATH_VALUED_HANDLE {
+        return value.is_some_and(|v| !v.trim().is_empty());
+    }
+    flag_declared(value)
+}
+
 /// The fixed OTLP ingest target a live Pulse owns. Named for the operator-facing statement only —
 /// the connect itself belongs to `conductor-emit`.
 const EGRESS_TARGET: &str = "127.0.0.1:4317";
@@ -199,11 +233,101 @@ mod tests {
         }
     }
 
+    #[rstest]
+    #[case(Some("true"), true)]
+    #[case(Some("1"), true)]
+    #[case(Some("TRUE"), true)]
+    #[case(Some("True"), true)]
+    #[case(Some(" 1 "), true)]
+    #[case(None, false)]
+    #[case(Some(""), false)]
+    #[case(Some("   "), false)]
+    #[case(Some("false"), false)]
+    #[case(Some("0"), false)]
+    #[case(Some("yes"), false)]
+    #[case(Some("D:\\pulse\\data"), false)]
+    fn flag_declared_accepts_only_an_affirmative_value(
+        #[case] value: Option<&str>,
+        #[case] expected: bool,
+    ) {
+        assert_eq!(flag_declared(value), expected, "value {value:?}");
+    }
+
+    #[rstest]
+    #[case(Some("D:\\pulse\\data"), true)]
+    #[case(Some("/home/dev/.andromeda-pulse"), true)]
+    #[case(Some("  /tmp/pulse  "), true)]
+    #[case(Some("false"), true)]
+    #[case(Some("0"), true)]
+    #[case(None, false)]
+    #[case(Some(""), false)]
+    #[case(Some("   "), false)]
+    fn the_path_handle_is_graded_by_presence(#[case] value: Option<&str>, #[case] expected: bool) {
+        assert_eq!(
+            handle_declared(PATH_VALUED_HANDLE, value),
+            expected,
+            "value {value:?}"
+        );
+    }
+
+    #[rstest]
+    #[case("ANDROMEDA_PULSE_L4_DETERMINISTIC")]
+    #[case("ANDROMEDA_PULSE_MCP_ENABLED")]
+    #[case("ANDROMEDA_PULSE_SOMETHING_UNKNOWN")]
+    fn every_non_path_name_delegates_to_the_flag_rule(#[case] name: &str) {
+        for value in [
+            None,
+            Some(""),
+            Some("   "),
+            Some("false"),
+            Some("0"),
+            Some("yes"),
+            Some("D:\\pulse\\data"),
+            Some("true"),
+            Some("1"),
+            Some("TRUE"),
+            Some(" 1 "),
+        ] {
+            assert_eq!(
+                handle_declared(name, value),
+                flag_declared(value),
+                "{name} must grade {value:?} exactly as the flag rule does"
+            );
+        }
+    }
+
+    #[test]
+    fn the_two_grading_rules_are_not_interchangeable() {
+        // The one pair that fails if presence and truthiness are ever swapped: a data dir whose
+        // text happens to read `false` is still a declared PATH, while the flag it mimics is not.
+        assert!(handle_declared(PATH_VALUED_HANDLE, Some("false")));
+        assert!(!handle_declared(
+            "ANDROMEDA_PULSE_MCP_ENABLED",
+            Some("false")
+        ));
+    }
+
+    #[test]
+    fn the_presence_graded_name_is_one_the_probe_observes() {
+        // Two literals name the same handle; without this they can drift and the path handle would
+        // silently fall back to the flag rule — the state that made `handles-declared` unsatisfiable.
+        assert!(OBSERVED_HANDLES.contains(&PATH_VALUED_HANDLE));
+    }
+
     #[test]
     fn every_subject_satisfied_is_a_satisfied_status() {
         let status = Preconditions::evaluate(&satisfied());
         assert!(status.is_satisfied());
         assert!(status.unmet().is_empty());
+        // The NEGATIVE side of `is_unmet`: every shipped assertion asks it for a subject that IS
+        // unmet, so nothing observed a wrong `true` until the tier named it.
+        for subject in [
+            PreconditionSubject::EgressReachable,
+            PreconditionSubject::SidecarResolvable,
+            PreconditionSubject::HandlesDeclared,
+        ] {
+            assert!(!status.is_unmet(subject), "{subject} is satisfied here");
+        }
     }
 
     #[test]

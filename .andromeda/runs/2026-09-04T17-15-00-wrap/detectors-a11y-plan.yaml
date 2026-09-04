@@ -1,0 +1,19 @@
+- id: D-a11y-surface
+  doc: a11y-plan
+  invariant: a new interactive UI element the chunk adds carries the WCAG / focus / keyboard coverage §4–§6 require (four must-be-accessible paths).
+  check: agent-read — if the report adds an interactive UI element, confirm a11y coverage per §4 / §5 / §6; an uncovered element is drift.
+  severity: warning
+- id: D-a11y-obs-schema
+  doc: a11y-plan
+  invariant: the a11y violation JSON schema stays consistent with obs §6 (the structured-log envelope a11y emits to).
+  check: agent-read — if the report changes the a11y violation schema or the obs log schema, confirm the two still match; a divergence is drift.
+  severity: warning
+- id: D-platform-claim
+  doc: arch | security-plan | design-system | layout-templates | test-plan | obs-plan | a11y-plan
+  invariant: a PLATFORM / runner / driver verdict a doc states ("Linux only", "headless only", "requires X", "no driver on Y") matches what the harness is demonstrably able to run on.
+  check: agent-read — for each entry in the report's `Spec claims disproved by measurement` or `Harness / gate surface` bullets that names a platform, runner, or driver, grep the doc for the RETIRED verdict; a hit is drift. Distinguish the CI ARRANGEMENT (which runner the pipeline uses — a choice, not a capability) from the CAPABILITY claim (where the leg CAN run): only the capability claim is falsified by a measurement elsewhere. Retire the verdict by naming the measured platform SET, never by substituting a fresh single-platform literal.
+  severity: warning
+  # Added 2026-09-01 (webview-self-verify-windows-host, operator-approved): a11y-plan's own detectors
+  # structurally could not see this class — it returned `proposals: []` while carrying six stale sites —
+  # and test-plan's site list under-ran the doc (6 planned, 8 present). Caught only by the plan's
+  # expected-amendments floor, which is exactly the recurrence condition for minting a detector.

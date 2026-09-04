@@ -25,7 +25,7 @@ use conductor_core::{
     CheckRecord, EmissionShape, EmissionSpec, EnvelopeStatus, FaultKindSpec, HoldPoint,
     LoadEnvelope, OBSERVED_HANDLES, PauseResolver, PreconditionObservation, Preconditions,
     PreconditionsStatus, ReportState, RunContract, RunContractStatus, RunRecord, Scenario, Verdict,
-    now_rfc3339, redact_value, resolve_hold, resolve_under,
+    flag_declared, handle_declared, now_rfc3339, redact_value, resolve_hold, resolve_under,
 };
 use conductor_emit::{
     DEFAULT_OTLP_ENDPOINT, ExceptionSpec, Frame, TraceEmitter,
@@ -354,13 +354,12 @@ fn observe_run_contract(contract: &RunContract) -> RunContractStatus {
     contract.evaluate(&declared)
 }
 
-/// Whether an env var carries an affirmative declaration. Presence alone is not enough — an
-/// explicit `false` declares the opposite of the term it would otherwise satisfy.
+/// Whether an env var carries an affirmative declaration, for the run contract's `shell-declaration`
+/// terms. The env read lives here; the value test is
+/// [`flag_declared`](conductor_core::flag_declared), so this path is graded truthy-only whatever a
+/// future term names — it never reaches the presence arm of `handle_declared`.
 fn declares(name: &str) -> bool {
-    std::env::var(name).is_ok_and(|v| {
-        let v = v.trim().to_ascii_lowercase();
-        v == "true" || v == "1"
-    })
+    flag_declared(std::env::var(name).ok().as_deref())
 }
 
 /// Probe the live-Pulse preconditions BEFORE a leg is scheduled, so an absent SUT is named once
@@ -379,7 +378,10 @@ pub async fn observe_preconditions() -> PreconditionsStatus {
         sidecar_resolved: sidecar_resolves_on_path(),
         declared: OBSERVED_HANDLES
             .iter()
-            .filter(|name| declares(name))
+            .filter(|name| {
+                let value = std::env::var(**name).ok();
+                handle_declared(name, value.as_deref())
+            })
             .map(|name| (*name).to_string())
             .collect(),
     };
@@ -1004,7 +1006,9 @@ where
 #[cfg(test)]
 mod tests {
     use super::*;
-    use conductor_core::{CheckKind, ContractTerm, HeadlessResolver, IncidentFormation};
+    use conductor_core::{
+        CheckKind, ContractTerm, HeadlessResolver, IncidentFormation, PreconditionSubject,
+    };
     use opentelemetry_proto::tonic::collector::trace::v1::{
         ExportTraceServiceRequest, ExportTraceServiceResponse,
     };
@@ -1661,6 +1665,67 @@ mod tests {
             RunContractStatus::default(),
             "a status carrying an unmet term must be distinguishable from the empty default"
         );
+    }
+
+    #[test]
+    fn declares_rejects_a_name_this_environment_does_not_declare() {
+        // The env READ, at the run-contract predicate: the value test now lives in
+        // `conductor_core::flag_declared`, so this asserts the read reaches it. A name guaranteed
+        // unset keeps it deterministic under both runners with no env mutation.
+        assert!(!declares(UNDECLARED_ENV));
+    }
+
+    #[tokio::test(flavor = "current_thread")]
+    async fn observe_preconditions_grades_each_handle_from_its_own_environment() {
+        // The gap the `preconditions.rs` suite cannot cover: every test there builds `declared` by
+        // hand, so nothing asserts that the observation site reads the environment and applies
+        // `handle_declared` to it. Recomputing the expectation from the ambient env keeps this
+        // deterministic on any host — a host with the handles set and one without both pass, and
+        // only the site's own read/grade wiring can break it. `handle_declared` itself is pinned by
+        // the matrix in `conductor-core`, so this is not circular.
+        let status = observe_preconditions().await;
+
+        let undeclared: Vec<&str> = OBSERVED_HANDLES
+            .iter()
+            .copied()
+            .filter(|name| {
+                let value = std::env::var(name).ok();
+                !handle_declared(name, value.as_deref())
+            })
+            .collect();
+
+        let finding = status
+            .unmet()
+            .iter()
+            .find(|u| u.subject == PreconditionSubject::HandlesDeclared);
+
+        match finding {
+            Some(finding) => {
+                assert!(
+                    !undeclared.is_empty(),
+                    "the subject is unmet, so at least one handle must be undeclared: {}",
+                    finding.statement
+                );
+                for name in &undeclared {
+                    assert!(
+                        finding.statement.contains(name),
+                        "an undeclared handle must be named: {}",
+                        finding.statement
+                    );
+                }
+                for name in OBSERVED_HANDLES.iter().filter(|n| !undeclared.contains(n)) {
+                    assert!(
+                        !finding.statement.contains(name),
+                        "a declared handle must not be reported missing: {}",
+                        finding.statement
+                    );
+                }
+            }
+            None => assert!(
+                undeclared.is_empty(),
+                "no finding, so every observed handle must be declared; undeclared: {undeclared:?}"
+            ),
+        }
     }
 
     #[test]

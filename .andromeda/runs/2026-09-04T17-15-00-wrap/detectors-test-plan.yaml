@@ -1,0 +1,31 @@
+- id: D-tests-coverage
+  doc: test-plan
+  invariant: new code paths the chunk adds carry tests at the tier the test-plan requires (§2 Test Strategy); determinism is seeded (no real network/time).
+  check: agent-read — compare the report's new symbols / modules against its Outcome (tests run); a new path with no test at the mandated tier, or non-deterministic test, is drift.
+  severity: warning
+- id: D-tests-framework
+  doc: test-plan
+  invariant: the test framework / runner the chunk uses matches the test-plan (§2 + §4 — cargo-nextest, rstest, proptest, insta, assert_cmd).
+  check: agent-read — compare the report's test commands / runner against §2 / §4; an off-spec framework or runner is drift.
+  severity: warning
+- id: D-tests-obs-harness
+  doc: test-plan
+  invariant: the 5-command harness / envelope shape / JSONL log format stays consistent between test-plan §3 and obs-plan §3.
+  check: agent-read — if the report changes the harness, status-read, or log format, confirm §3 ↔ obs-plan §3 still agree; a one-sided change is drift.
+  severity: warning
+- id: D-tests-derived-count
+  doc: test-plan
+  invariant: a count / range / qualifier the doc states in a selector label, fixture count or tier table matches the value the chunk's code now produces.
+  check: agent-read — for each entry in the report's `Counts / qualifiers this chunk moved` bullet, grep the doc for the OLD value in a selector label / fixture count / tier table; a hit is drift (the doc bakes a value the code no longer produces). Prose naming the SET rather than a literal is correct and NOT a hit — the fix is always to name the set or update the sample, never to substitute a fresh literal that re-stales.
+  severity: warning
+
+# — obs-plan —
+- id: D-platform-claim
+  doc: arch | security-plan | design-system | layout-templates | test-plan | obs-plan | a11y-plan
+  invariant: a PLATFORM / runner / driver verdict a doc states ("Linux only", "headless only", "requires X", "no driver on Y") matches what the harness is demonstrably able to run on.
+  check: agent-read — for each entry in the report's `Spec claims disproved by measurement` or `Harness / gate surface` bullets that names a platform, runner, or driver, grep the doc for the RETIRED verdict; a hit is drift. Distinguish the CI ARRANGEMENT (which runner the pipeline uses — a choice, not a capability) from the CAPABILITY claim (where the leg CAN run): only the capability claim is falsified by a measurement elsewhere. Retire the verdict by naming the measured platform SET, never by substituting a fresh single-platform literal.
+  severity: warning
+  # Added 2026-09-01 (webview-self-verify-windows-host, operator-approved): a11y-plan's own detectors
+  # structurally could not see this class — it returned `proposals: []` while carrying six stale sites —
+  # and test-plan's site list under-ran the doc (6 planned, 8 present). Caught only by the plan's
+  # expected-amendments floor, which is exactly the recurrence condition for minting a detector.

@@ -1,76 +1,71 @@
 # Session Handoff
 
-**Last Updated:** 2026-09-04T07:57:00Z
+**Last Updated:** 2026-09-04T17:40:00Z
 **Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0` at `dd15dc3`, 2026-08-09;
-**51 ahead** after this commit — still unpushed, so CI has not run since 2026-08-09)
+**52 ahead** after this commit — still unpushed, so CI has not run since 2026-08-09)
 **Status:** clean
-**Last Commit:** `feat(2026-09-04-sr-findings-remediation): …` (this wrap)
+**Last Commit:** `feat(2026-09-04-preconditions-probe-reads-path-handles-by-presence): …` (this wrap)
 
 ## Position
-- Done: **`2026-09-04-sr-findings-remediation`** — the eight NVDA findings fixed at their defects and all
-  eight graded LIVE against a real Pulse (operator post-implement directive).
-- Next: **`/andromeda-phase`** to promote + plan **_Preconditions probe reads path handles by presence_**
-  — the NEW Epoch 6a head, minted this wrap on operator directive. It carries the **standing cargo-audit
-  PREREQ, now the 50th**.
+- Done: **`2026-09-04-preconditions-probe-reads-path-handles-by-presence`** — `handles-declared` graded
+  by the KIND of value each handle carries, so `conductor preconditions` can exit 0 and `agent-run boot`
+  reaches the preflight in both shells for the first time since `480bc66`.
+- Next: **`/andromeda-phase`** to promote + plan **_Sidecar spawn without a console window_** — the first
+  markerless entry, carrying **four CARRYs** (the `run_report`/`run_envelope` doc comments · the rustfmt
+  edition mismatch · SR finding 1 `tabs_to_start` · SR finding 4 the load-time alert) **plus the standing
+  cargo-audit PREREQ, now the 51st**.
 - Coverage **26/32 verified · 6 unclaimed** (`v2-04`, `v2-21`, `v2-24`, `v2-26`, `v2-27`, `v2-32`) —
-  unchanged; this chunk claimed no capability (it is a remediation follow-up to the already-verified `v2-23`).
+  unchanged; this chunk claimed no capability (a defect remediation following the verified `v2-23`).
 
 ## Work done
-Eight findings fixed across 10 files (9 source + `screen-reader.e2e.ts` under an operator-authorised
-widening). Graded from a live `sr*` pass: **51 rows, 34 announced-as-expected / 0 announced-differently /
-15 not-run-here / 2 subject-absent**; the `findings` array fell 16 → 15 (S0-16 left it).
+Three files, no new files: two pure predicates in `conductor-core` beside `OBSERVED_HANDLES` —
+`flag_declared(value)` (truthiness, no name) and `handle_declared(name, value)` (path handle by
+presence-after-trim, every other name delegating to `flag_declared`) — with `conductor-run`'s `declares`
+reduced to a thin env wrapper over `flag_declared` and `observe_preconditions` grading per handle.
+One truthiness rule in the workspace; the run-contract path routes only to the value-only half, so it
+**cannot reach the presence arm by construction**.
 
-**Fixed and measured:** 2 (scroll regions now announce a table summary, not 83 rows) · 3 (focus restore
-speaks on BOTH the Proceed and Escape paths) · 5 (`· selected` in the accessible name) · 6 (filter-miss
-announced) · 8 (client half — `Conductor · aborted` stands, no settle to idle).
-**Fixed, not discharged:** 4 — the alert region ships mounted-empty, but the leg's R0-01 action still
-reloads, so a first-load announcement is not discriminated. **CARRY on _Sidecar spawn_.**
-**Fixed, ungradeable here:** 7 — its two rows are browse-class (`not-run-here` findings per test-plan §1);
-the fix is audible in four adjacent row windows ("Scenarios completed: 0/1/2").
-**NOT fixed, defect confirmed:** 1 — `tabs_to_start` (the evidence field this chunk added) measured
-**live 3 · empty 6 · error 5**, so the populated-catalog walk does not start at the document. Mechanism
-unidentified; nothing guessed. **CARRY on _Sidecar spawn_.**
+**Gates green:** nextest core 316 · run 175 · workspace 852 · `cargo test` both crates (runner
+portability) · clippy 0 (one fix-loop iteration, `explicit_auto_deref`). **Mutation:** `conductor-run`
+95 mutants (67 caught / 5 missed / 23 unviable), `conductor-core/preconditions.rs` 28 (27 caught /
+**0 missed**). The `declares` accepted-deliberate roster measured **4 → 1** as predicted — the three
+operator arms relocated into `flag_declared` and are caught there. A pre-existing insensitive check
+(`is_unmet` surviving a constant-`true` mutant) was surfaced by that tier and killed.
 
-Three fix-loop iterations, two of them real design corrections: an `aria-required-children` violation (a
-region nested in cmdk's `listbox`) plus a `[role="status"]` guard collision, then finding 8's
-over-correction — removing the client's optimistic `aborted` deleted the feedback instead of the
-contradiction, and only the live leg caught it (every unit and e2e gate was green over the broken version).
+**Live, both shells:** `conductor preconditions` exit 0 (17:07Z, the satisfied line's first-ever
+execution), then `ReadyState` JSON with `ready: true` / `canary_round_trip: "ok"` / `data_dir:
+"<redacted>"` from `agent-run.sh` (17:07:17→17:08:04Z) and `agent-run.ps1` (17:11:16→17:12:03Z), zero
+`skipped preflight` lines in either, neither script edited. A distinctive data-dir value appeared **0**
+times across every output arm.
 
 ## Drift resolved
-**15 fan-out proposals + 2 orchestrator-raised, all applied; 1 escalation resolved with the operator.**
-17 body edits across 6 masters, 6 sidecars, 1 same-master self-citation folded in, 3 leaves re-derived
-(`rules/verification-harness.md`, `rules/a11y.md`, `CLAUDE.md`'s warnings block).
+**23 proposals from 7 doc-agents · 20 applied · 3 dismissed · 2 escalations resolved · drift = 0.**
 
-- **Claim A — the `declares()` probe defect (10 sites, 5 masters).** `conductor preconditions` cannot exit
-  0 under ANY environment: all three `ANDROMEDA_PULSE_*` names go through a truthy-only gate, so the
-  PATH-valued `ANDROMEDA_PULSE_DATA_DIR` can never declare, and `agent-run boot` has short-circuited before
-  every preflight since `480bc66`. Routine under `playbook.md:118` (operator directive names the defect);
-  applied as a RECORD — the fix is the newly minted route entry.
-- **Claim B — the empty-state string split (5 sites).** `No scenarios match.` (picker filter-miss) is
-  distinct from `No scenarios found.` (empty catalog) and `No coverage data.` (coverage section).
-- **Claim C — the fifth `sr` handle.** `CONDUCTOR_SCENARIOS_DIR=runs/sr-leg/scenarios` recorded in
-  test-plan §6 and `rules/verification-harness.md`.
-- **Escalation (resolved):** `design-system.md:257` attributed `No scenarios found.` to the Coverage-matrix
-  pattern; its shipped empty is `No coverage data.` (`App.tsx:298`). Pre-existing (2026-09-02) and outside
-  the report's Changes, so raised rather than applied silently — operator chose fix-now-and-cite-the-read.
+- **arch ×3 sections** — the "third subject is UNSATISFIABLE" verdict and its two restatements retired;
+  the `CONDUCTOR_PREFLIGHT_TIMEOUT` skip is now CONDITIONAL and the budget reached and paid.
+- **security-plan ×3 (E1, operator-ratified)** — the withdrawn "not a downgrade" reading retired, the
+  READ SET row re-pointed to the new predicates, the spawn-row parenthetical corrected (spawn duty
+  untouched). A **new playbook rule** was minted for the class ("a chunk ships the fix its master's own
+  body names as route-owned"), carrying an explicit defer-to-`Boundary widening`-first clause.
+- **layout-templates ×3** — both `[PRECONDITION]` caption arms are now shipped behaviour, not intent.
+- **test-plan ×10** — §1/§3 `boot` reachability, the five §6 step-1 lines, and the §12 mutation roster
+  (enumerated SET `lib.rs:362:5` alone; classes B/C coordinates re-measured, crate total 8 → 5).
+- **design-system ×3 DISMISSED (E2)** — D-platform-claim token-proxy mis-fire: none of the three sites
+  states a single-runner capability verdict, and the platform verdict it does state is corroborated.
+- **Cascade caught one intra-master duplicate** the detectors missed: `layout-templates:186`'s leading
+  parenthetical contradicted the amendment 60 characters later on the same line.
 
 ## Notes
-- **Curation:** Tier 1 ×0 · Tier 2 ×4 (2 new: `a11y.md` live-region-mounting, `frontend.md` cmdk
-  Empty/listbox; 2 additive extensions: `testing.md` vacuous-guard facet, `verification-harness.md` fifth
-  handle) · Tier 3 ×0. `CLAUDE.md` unchanged at **133/200**.
-- **Recurrence-despite-learning (logged, not re-curated):** my P4 fork justified deferring findings 3+8
-  with a precedent inherited from the previous handoff without checking it — the exact failure the standing
-  2026-08-09 CLAUDE.md entry forbids. Measured false (the 2026-09-02 pass ran against a LIVE Pulse); the
-  handoff clause referred to the `a11y:driven` arm, not this leg. The entry is correct as written; the work
-  reproduced the failure anyway.
-- **Deferred learning (cap):** the abort client/backend pairing — deleting client feedback to fix a
-  contradiction creates a new defect; the fix is both halves. Tier 3 candidate, not applied.
-- **Live-Pulse env for any `sr` re-run** (five handles, not four): `CONDUCTOR_NVDA` ·
-  `CONDUCTOR_MSEDGEDRIVER` · `ANDROMEDA_PULSE_DATA_DIR` · `ANDROMEDA_PULSE_MCP_ENABLED` ·
-  `ANDROMEDA_PULSE_L4_DETERMINISTIC` **plus** `CONDUCTOR_SCENARIOS_DIR=runs/sr-leg/scenarios`, with
-  `andromeda-pulse-mcp` on `PATH`. Omitting the fifth costs a full live run.
-- **`pulse-app` is still running** — the operator owns stopping it after this commit.
-- **Unpushed branch stays load-bearing:** 51 commits ahead; *A11y CI gate*'s block cannot clear until a push.
-- **Carried, untouched this wrap:** the panic-hook race (CARRY on *Release build and bundle*) and the
-  rustfmt edition mismatch (CARRY on *Sidecar spawn without a console window*).
+- **Curation:** Tier 1 ×1 (a plan's steps can be individually unambiguous and jointly contradictory —
+  no gate compares a plan to itself) · Tier 2 ×2, both **additive-facet in-place amends**
+  (`testing.md`'s mutation-output entry gains the gitignore-location facet; `verification-harness.md`'s
+  fresh-dir entry gains data-dir equality + the quiet-window substitute) · Tier 3 ×0.
+  `CLAUDE.md` **134/200**. Two candidates filtered at exactly 0.6 (the two-predicate decomposition; the
+  positive-arm-only accessor) — both measured and generalizable, recorded in the friction ledger.
+- **`pulse-app` (PID 17404) is still running** — the operator owns stopping it after this commit. It was
+  kept up deliberately for this wrap's light gate.
+- **Live-Pulse env for any re-run:** `ANDROMEDA_PULSE_DATA_DIR` must be the LIVE app's dir
+  (`…\pulse-legs\a11y-20260904-190050` this session) — a Conductor-side fresh dir breaks data-dir
+  equality and empties read-back; inter-leg hygiene is the quiet window (≥120s + 30s), not a fresh dir.
+- **Unpushed branch stays load-bearing:** 52 commits ahead; *A11y CI gate*'s block cannot clear until a push.
 - **Last failed command:** none.
