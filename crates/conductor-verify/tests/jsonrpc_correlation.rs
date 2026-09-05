@@ -10,7 +10,7 @@
 
 mod common;
 
-use common::{DECOY_TOOL, StubConfig, WireEntry, WireLog, serve_stub};
+use common::{DECOY_TOOL, StubConfig, WireEntry, WireLog, bounded, serve_stub};
 use conductor_verify::ReadbackClient;
 
 #[tokio::test(flavor = "current_thread")]
@@ -20,9 +20,10 @@ async fn request_ids_advance_so_a_response_pairs_to_exactly_one_request() {
     let (client_io, server_io) = tokio::io::duplex(4096);
     let server = tokio::spawn(serve_stub(server_io, config));
 
-    let client = ReadbackClient::connect_transport(client_io).await.expect("client connects");
-    client.list_tools().await.expect("tools/list answers");
-    client.query_incident_list(None).await.expect("query_incident_list answers");
+    let client =
+        bounded(ReadbackClient::connect_transport(client_io)).await.expect("client connects");
+    bounded(client.list_tools()).await.expect("tools/list answers");
+    bounded(client.query_incident_list(None)).await.expect("query_incident_list answers");
 
     drop(client);
     server.abort();
@@ -49,8 +50,9 @@ async fn a_stale_response_is_skipped_rather_than_paired_to_a_later_request() {
     let (client_io, server_io) = tokio::io::duplex(4096);
     let server = tokio::spawn(serve_stub(server_io, config));
 
-    let client = ReadbackClient::connect_transport(client_io).await.expect("client connects");
-    let tools = client.list_tools().await.expect("tools/list answers");
+    let client =
+        bounded(ReadbackClient::connect_transport(client_io)).await.expect("client connects");
+    let tools = bounded(client.list_tools()).await.expect("tools/list answers");
 
     drop(client);
     server.abort();
@@ -69,10 +71,11 @@ async fn the_initialized_notification_reaches_the_wire_after_initialize() {
     let (client_io, server_io) = tokio::io::duplex(4096);
     let server = tokio::spawn(serve_stub(server_io, config));
 
-    let client = ReadbackClient::connect_transport(client_io).await.expect("client connects");
+    let client =
+        bounded(ReadbackClient::connect_transport(client_io)).await.expect("client connects");
     // A second request the stub must read AFTER the notification: the stub consumes its input in
     // arrival order, so awaiting this makes the observation an ordering fact, never a timing race.
-    client.list_tools().await.expect("tools/list answers");
+    bounded(client.list_tools()).await.expect("tools/list answers");
 
     drop(client);
     server.abort();

@@ -1,0 +1,11 @@
+# self-obs `target` values — before the split (HEAD 7418f9d)
+
+producer: conductor run error-baseline-spike --seed 424242 --agent-mode  (13 lines)
+
+- `conductor_core::capability_manifest` — 1 line(s)
+- `conductor_core::load_envelope` — 1 line(s)
+- `conductor_core::obs` — 1 line(s)
+- `conductor_report::db` — 2 line(s)
+- `conductor_report::report` — 2 line(s)
+- `conductor_run` — 3 line(s)
+- `conductor_verify::client` — 3 line(s)

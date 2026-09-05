@@ -34,5 +34,9 @@ pub async fn preconditions(json: bool) -> anyhow::Result<ExitCode> {
         println!("[PRECONDITION] every live-Pulse precondition is satisfied");
     }
 
-    Ok(if status.is_satisfied() { ExitCode::SUCCESS } else { ExitCode::FAILURE })
+    Ok(if status.is_satisfied() {
+        ExitCode::SUCCESS
+    } else {
+        ExitCode::FAILURE
+    })
 }

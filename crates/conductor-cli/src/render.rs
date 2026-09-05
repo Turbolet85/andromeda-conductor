@@ -14,11 +14,12 @@
 use std::io::IsTerminal;
 use std::time::Duration;
 
-use comfy_table::{presets, Cell, Color, ContentArrangement, Table};
+use comfy_table::{Cell, Color, ContentArrangement, Table, presets};
 use conductor_core::{
-    coverage_matrix, CoverageMode, EnvelopeStatus, HoldPoint, Lamp, PreconditionsStatus, RunRecord,
-    UNBACKED_AUTO,
+    CoverageMode, EnvelopeStatus, HoldPoint, Lamp, PreconditionsStatus, RunRecord, UNBACKED_AUTO,
+    coverage_matrix,
 };
+use conductor_report::coverage_rollup;
 use indicatif::{ProgressBar, ProgressDrawTarget, ProgressStyle};
 use owo_colors::{OwoColorize, XtermColors};
 
@@ -148,20 +149,30 @@ pub fn spinner(len: usize) -> ProgressBar {
     pb
 }
 
-/// `true` when stdout should carry color: a terminal, `NO_COLOR` unset, `TERM` not `dumb`
-/// (design-system §Surface: cli / Platform-Specific Notes).
+/// The three-condition color decision as a pure function of its inputs, so both stream gates share
+/// one rule and it can be tested without a terminal (design-system §Surface: cli / Platform-Specific
+/// Notes).
+fn color_enabled(is_terminal: bool, no_color_set: bool, term: Option<&str>) -> bool {
+    is_terminal && !no_color_set && term != Some("dumb")
+}
+
+/// `true` when stdout should carry color: a terminal, `NO_COLOR` unset, `TERM` not `dumb`.
 fn stdout_color() -> bool {
-    std::io::stdout().is_terminal()
-        && std::env::var_os("NO_COLOR").is_none()
-        && std::env::var("TERM").map_or(true, |t| t != "dumb")
+    color_enabled(
+        std::io::stdout().is_terminal(),
+        std::env::var_os("NO_COLOR").is_some(),
+        std::env::var("TERM").ok().as_deref(),
+    )
 }
 
 /// `true` when stderr should carry color — the error edge is printed to stderr, so it gates on
 /// stderr's tty (mirrors [`stdout_color`] for the other stream).
 fn stderr_color() -> bool {
-    std::io::stderr().is_terminal()
-        && std::env::var_os("NO_COLOR").is_none()
-        && std::env::var("TERM").map_or(true, |t| t != "dumb")
+    color_enabled(
+        std::io::stderr().is_terminal(),
+        std::env::var_os("NO_COLOR").is_some(),
+        std::env::var("TERM").ok().as_deref(),
+    )
 }
 
 fn paint_styled(text: &str, code: u8, color: bool) -> String {
@@ -283,33 +294,17 @@ fn coverage_table_styled(color: bool) -> String {
 }
 
 fn coverage_summary_styled(color: bool) -> String {
-    let rows = coverage_matrix();
-    let count = |mode: CoverageMode| rows.iter().filter(|r| r.mode == mode).count();
-    let mut in_scope = String::new();
-    for mode in CoverageMode::ALL
-        .iter()
-        .filter(|m| **m != CoverageMode::NotConductors)
-    {
-        if !in_scope.is_empty() {
-            in_scope.push_str(" · ");
-        }
-        in_scope.push_str(&format!("{} {}", count(*mode), mode.label()));
-        // Qualifies the auto term — auto claims no scenario yet backs (conductor_core::UNBACKED_AUTO,
-        // held to the catalog by check_scenario_backing). A qualifier, never a fifth summand.
-        if *mode == CoverageMode::Auto && !UNBACKED_AUTO.is_empty() {
-            in_scope.push_str(&format!(" ({} unbacked)", UNBACKED_AUTO.len()));
-        }
-    }
-    let out = count(CoverageMode::NotConductors);
+    // The counted terms are `conductor-report`'s, so this caption and the Markdown artifact's
+    // summary line cannot drift apart; only the typography is this surface's own.
+    let rollup = coverage_rollup(coverage_matrix(), UNBACKED_AUTO.len());
     let out_token = paint_styled(
-        &format!("{out} {}", CoverageMode::NotConductors.label()),
+        &format!("{} {}", rollup.out_of_scope, rollup.out_label),
         OUT_OF_SCOPE_MUTE,
         color,
     );
     format!(
-        "{} capabilities · {} in scope ({in_scope}) · {out_token}",
-        rows.len(),
-        rows.len() - out
+        "{} capabilities · {} in scope ({}) · {out_token}",
+        rollup.total, rollup.in_scope, rollup.breakdown
     )
 }
 
@@ -665,5 +660,178 @@ mod tests {
             line.contains('\u{1b}'),
             "colored hold line must carry an escape: {line:?}"
         );
+    }
+
+    /// The tty decision is three conditions ANDed, and each one has to be able to veto on its own —
+    /// a gate that ignores `NO_COLOR` or `TERM=dumb` still looks correct from a terminal.
+    #[test]
+    fn color_is_enabled_only_when_every_condition_allows_it() {
+        let cases: [(bool, bool, Option<&str>, bool); 6] = [
+            (true, false, Some("xterm-256color"), true),
+            (true, false, None, true),
+            (false, false, Some("xterm-256color"), false),
+            (true, true, Some("xterm-256color"), false),
+            (true, false, Some("dumb"), false),
+            (false, true, Some("dumb"), false),
+        ];
+        for (is_terminal, no_color_set, term, expected) in cases {
+            assert_eq!(
+                color_enabled(is_terminal, no_color_set, term),
+                expected,
+                "terminal={is_terminal} no_color={no_color_set} term={term:?}"
+            );
+        }
+    }
+
+    /// The public renders delegate to the `*_styled` cores, so the wrapper bodies are what a caller
+    /// actually reaches — assert their CONTENT (present under a tty and a pipe alike), never their
+    /// escape bytes, which depend on the host's stdout.
+    #[test]
+    fn the_public_renders_carry_their_ascii_content() {
+        assert!(paint("[PASS] ok", lamp_code(Lamp::Pass)).contains("[PASS] ok"));
+
+        let hold = hold_line(&hold());
+        assert!(hold.contains("[HOLD]"), "{hold}");
+        assert!(
+            hold.contains("restart-suppression") && hold.contains("P-015"),
+            "the hold line names its scenario and P-ID: {hold}"
+        );
+
+        let caption = envelope_caption(&suspect()).expect("a suspect run captions");
+        assert!(caption.contains("[ENVIRONMENT-SUSPECT]"), "{caption}");
+        assert!(caption.contains("activity-floor"), "{caption}");
+        assert!(
+            envelope_caption(&EnvelopeStatus::InEnvelope).is_none(),
+            "an in-envelope run carries no caption"
+        );
+
+        let summary = coverage_summary();
+        let rows = coverage_matrix();
+        assert!(
+            summary.contains(&format!("{} capabilities", rows.len())),
+            "the roll-up counts the manifest, never a literal: {summary}"
+        );
+    }
+
+    /// The results table's cell helpers: the wire spelling, the measured latency, and the three
+    /// fingerprint renderings a blocked / measured-empty / populated row produce.
+    #[test]
+    fn the_results_table_renders_every_measurement_cell() {
+        let mut measured_empty = measured("empty", Verdict::Pass, ReportState::Pass);
+        measured_empty.fingerprints = Some(Vec::new());
+        let table = results_table_styled(
+            &[
+                measured("ok", Verdict::Pass, ReportState::Pass),
+                measured_empty,
+                blocked("blk"),
+            ],
+            false,
+        );
+        assert!(
+            table.contains("<5s"),
+            "the SLO tier renders its wire spelling: {table}"
+        );
+        assert!(
+            table.contains("1840"),
+            "a measured row renders its latency: {table}"
+        );
+        assert!(
+            table.contains("fp-1"),
+            "a populated row renders its fingerprints: {table}"
+        );
+        assert!(
+            table.contains("(none)"),
+            "a measured-empty fingerprint list is distinct from never-measured: {table}"
+        );
+        assert!(
+            table.contains(ABSENT),
+            "a blocked row em-dashes what it never measured: {table}"
+        );
+    }
+
+    /// Each lamp's xterm-256 code, by name — the closed palette design-system §Surface: cli / Tokens
+    /// pins. A collapsed mapping would tint two states alike while both still render their label.
+    #[test]
+    fn each_lamp_carries_its_own_palette_code() {
+        assert_eq!(lamp_code(Lamp::Pass), 114);
+        assert_eq!(lamp_code(Lamp::Fail), 203);
+        assert_eq!(lamp_code(Lamp::Hold), 179);
+        assert_eq!(lamp_code(Lamp::Manual), 146);
+        assert_eq!(lamp_code(Lamp::Residual), 246);
+        assert_eq!(lamp_code(Lamp::Blocked), 60);
+        let codes = [
+            lamp_code(Lamp::Pass),
+            lamp_code(Lamp::Fail),
+            lamp_code(Lamp::Hold),
+            lamp_code(Lamp::Manual),
+            lamp_code(Lamp::Blocked),
+        ];
+        let mut unique = codes.to_vec();
+        unique.sort_unstable();
+        unique.dedup();
+        assert_eq!(
+            unique.len(),
+            codes.len(),
+            "no two verdict lamps share a code: {codes:?}"
+        );
+    }
+
+    /// The roll-up's in-scope breakdown, derived from the classification rather than restated — the
+    /// per-mode counts in `CoverageMode::ALL` order with the unbacked qualifier on the auto term.
+    #[test]
+    fn the_coverage_roll_up_is_derived_from_the_classification() {
+        let rows = coverage_matrix();
+        let count = |mode: CoverageMode| rows.iter().filter(|r| r.mode == mode).count();
+        let mut expected = String::new();
+        for mode in CoverageMode::ALL
+            .iter()
+            .filter(|m| **m != CoverageMode::NotConductors)
+        {
+            if !expected.is_empty() {
+                expected.push_str(" · ");
+            }
+            expected.push_str(&format!("{} {}", count(*mode), mode.label()));
+            if *mode == CoverageMode::Auto && !UNBACKED_AUTO.is_empty() {
+                expected.push_str(&format!(" ({} unbacked)", UNBACKED_AUTO.len()));
+            }
+        }
+        let out = count(CoverageMode::NotConductors);
+        assert_eq!(
+            coverage_summary_styled(false),
+            format!(
+                "{} capabilities · {} in scope ({expected}) · {out} {}",
+                rows.len(),
+                rows.len() - out,
+                CoverageMode::NotConductors.label()
+            ),
+            "the roll-up must render the classification's own counts"
+        );
+    }
+
+    /// The residual mute tints the out-of-scope Mode cell and NOTHING else — a tint applied to every
+    /// row would still render every label, so only the placement separates the two.
+    #[test]
+    fn only_the_out_of_scope_mode_cell_carries_the_residual_tint() {
+        let table = coverage_table_styled(true);
+        let tint = format!("\u{1b}[38;5;{OUT_OF_SCOPE_MUTE}m");
+        let tinted = table.matches(tint.as_str()).count();
+        let out_of_scope = coverage_matrix()
+            .iter()
+            .filter(|r| r.mode == CoverageMode::NotConductors)
+            .count();
+        assert_eq!(
+            tinted, out_of_scope,
+            "the mute belongs to the out-of-scope rows alone: {tinted} tints for {out_of_scope} rows"
+        );
+        for mode in CoverageMode::ALL
+            .iter()
+            .filter(|m| **m != CoverageMode::NotConductors)
+        {
+            assert!(
+                !table.contains(&format!("{tint}{}", mode.label())),
+                "an in-scope mode label must render untinted: {}",
+                mode.label()
+            );
+        }
     }
 }

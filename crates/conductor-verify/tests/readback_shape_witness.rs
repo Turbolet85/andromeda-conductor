@@ -14,7 +14,7 @@ mod common;
 
 use std::time::Duration;
 
-use common::{StubConfig, serve_stub};
+use common::{StubConfig, bounded, serve_stub};
 use conductor_core::{ObsSink, RunContractStatus, init_observability};
 use conductor_verify::{CanaryMarker, CanaryPoll, ContractManifest, ReadbackClient, run_preflight};
 
@@ -41,20 +41,21 @@ async fn the_read_back_key_set_witness_is_recorded_once_on_the_first_answering_a
     );
     let (client_io, server_io) = tokio::io::duplex(4096);
     let server = tokio::spawn(serve_stub(server_io, config));
-    let client = ReadbackClient::connect_transport(client_io).await.expect("client connects");
+    let client =
+        bounded(ReadbackClient::connect_transport(client_io)).await.expect("client connects");
 
     let manifest_path =
         std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../contracts/mcp-contract.toml");
     let manifest = ContractManifest::load(&manifest_path).expect("pinned manifest loads");
 
-    let ready = run_preflight(
+    let ready = bounded(run_preflight(
         &client,
         &manifest,
         &RunContractStatus::satisfied(),
         &canary,
         "/test/data-dir",
         CanaryPoll { attempts: ATTEMPTS, interval: Duration::ZERO },
-    )
+    ))
     .await
     .expect("preflight runs");
 

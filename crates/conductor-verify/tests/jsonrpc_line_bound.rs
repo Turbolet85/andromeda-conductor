@@ -6,6 +6,9 @@
 //! `VerifyError::Decode` (which pins the guard and its comparison). Driven through the public
 //! `connect_transport` seam over an in-process duplex — the reader is crate-private by design.
 
+mod common;
+
+use common::bounded;
 use conductor_verify::{ReadbackClient, VerifyError};
 use tokio::io::{AsyncBufReadExt, AsyncWriteExt, BufReader};
 
@@ -41,9 +44,13 @@ fn serve_line(line: String) -> tokio::io::DuplexStream {
 #[tokio::test(flavor = "current_thread")]
 async fn a_line_at_the_size_bound_is_accepted() {
     let line = initialize_response_of_len(MAX_LINE_BYTES);
-    assert_eq!(line.len(), MAX_LINE_BYTES, "the leg must sit exactly ON the bound");
+    assert_eq!(
+        line.len(),
+        MAX_LINE_BYTES,
+        "the leg must sit exactly ON the bound"
+    );
 
-    let client = ReadbackClient::connect_transport(serve_line(line))
+    let client = bounded(ReadbackClient::connect_transport(serve_line(line)))
         .await
         .expect("a line at exactly MAX_LINE_BYTES is within the bound");
 
@@ -57,10 +64,14 @@ async fn a_line_at_the_size_bound_is_accepted() {
 #[tokio::test(flavor = "current_thread")]
 async fn a_line_one_byte_over_the_size_bound_is_a_typed_decode_error() {
     let line = initialize_response_of_len(MAX_LINE_BYTES + 1);
-    assert_eq!(line.len(), MAX_LINE_BYTES + 1, "the leg must sit one byte OVER the bound");
+    assert_eq!(
+        line.len(),
+        MAX_LINE_BYTES + 1,
+        "the leg must sit one byte OVER the bound"
+    );
 
     // `ReadbackClient` is not `Debug`, so unwrap the error by matching rather than `expect_err`.
-    let err = match ReadbackClient::connect_transport(serve_line(line)).await {
+    let err = match bounded(ReadbackClient::connect_transport(serve_line(line))).await {
         Ok(_) => panic!("a line over MAX_LINE_BYTES must be rejected"),
         Err(e) => e,
     };

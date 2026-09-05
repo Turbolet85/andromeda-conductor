@@ -7,55 +7,15 @@
 //! gives each `tests/*.rs` its own process and nextest is process-per-test, so a private binary is the
 //! isolation both runners honour.
 
-use std::net::SocketAddr;
-use std::sync::{Arc, Mutex};
+mod common;
 
+use common::start_trace_stub;
 use conductor_core::{ObsSink, init_observability};
 use conductor_emit::TraceEmitter;
 use conductor_run::{CANARY_STORM_COUNT, canary_spec, emit_canary_storm};
-use opentelemetry_proto::tonic::collector::trace::v1::{
-    ExportTraceServiceRequest, ExportTraceServiceResponse,
-    trace_service_server::{TraceService, TraceServiceServer},
-};
-use tokio::net::TcpListener;
-use tokio_stream::wrappers::TcpListenerStream;
-use tonic::transport::Server;
-use tonic::{Request, Response, Status};
 
 /// The `run_id` this test stamps on its own self-obs stream — the discriminator the count filters on.
 const WITNESS_RUN_ID: &str = "canary-witness";
-
-type Traces = Arc<Mutex<Vec<ExportTraceServiceRequest>>>;
-
-#[derive(Clone, Default)]
-struct Capture {
-    traces: Traces,
-}
-
-#[tonic::async_trait]
-impl TraceService for Capture {
-    async fn export(
-        &self,
-        request: Request<ExportTraceServiceRequest>,
-    ) -> Result<Response<ExportTraceServiceResponse>, Status> {
-        self.traces.lock().unwrap().push(request.into_inner());
-        Ok(Response::new(ExportTraceServiceResponse::default()))
-    }
-}
-
-async fn start_stub() -> SocketAddr {
-    let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
-    let addr = listener.local_addr().unwrap();
-    let capture = Capture::default();
-    tokio::spawn(async move {
-        Server::builder()
-            .add_service(TraceServiceServer::new(capture))
-            .serve_with_incoming(TcpListenerStream::new(listener))
-            .await
-            .ok();
-    });
-    addr
-}
 
 /// The witness exists to answer a question a zero could not. If it were dropped by the field
 /// allowlist or filtered out by level, it would reproduce that exact failure one layer down — so it is
@@ -73,9 +33,13 @@ async fn the_wire_shape_witness_reaches_the_self_obs_artifact() {
 
     let dir = assert_fs::TempDir::new().expect("temp dir");
     let log = dir.path().join("obs.jsonl");
-    init_observability("conductor", Some(WITNESS_RUN_ID.to_string()), ObsSink::File(log.clone()));
+    init_observability(
+        "conductor",
+        Some(WITNESS_RUN_ID.to_string()),
+        ObsSink::File(log.clone()),
+    );
 
-    let addr = start_stub().await;
+    let (addr, _traces) = start_trace_stub().await;
     let mut emitter = TraceEmitter::connect(format!("http://{addr}"))
         .await
         .expect("connect to loopback stub");
@@ -116,7 +80,9 @@ async fn the_wire_shape_witness_reaches_the_self_obs_artifact() {
         assert!(line.contains("spans_missing_ids=0"), "{line}");
         assert!(line.contains("event_names=[exception]"), "{line}");
         assert!(
-            line.contains("event_attr_keys=[exception.message,exception.stacktrace,exception.type]"),
+            line.contains(
+                "event_attr_keys=[exception.message,exception.stacktrace,exception.type]"
+            ),
             "the witness must name every key the receiver extracts: {line}"
         );
     }

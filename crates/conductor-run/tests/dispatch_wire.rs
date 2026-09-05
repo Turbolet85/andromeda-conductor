@@ -6,8 +6,10 @@
 //! Integration row + §11). Each test declares one shape, drives the real
 //! `run_timeline_with` + `Dispatcher` path under `start_paused`, and asserts the emitted stream.
 
-use std::net::SocketAddr;
-use std::sync::{Arc, Mutex};
+mod common;
+
+use common::start_stub;
+use opentelemetry_proto::tonic::collector::trace::v1::ExportTraceServiceRequest;
 
 use conductor_core::{
     EmissionShape, EmissionSpec, FingerprintVariantSpec, PId, PhaseSpec, PiiCategorySpec, Scenario,
@@ -15,67 +17,8 @@ use conductor_core::{
 };
 use conductor_run::Dispatcher;
 use conductor_timeline::{PhaseTimeline, run_timeline_with};
-use opentelemetry_proto::tonic::collector::logs::v1::{
-    ExportLogsServiceRequest, ExportLogsServiceResponse,
-    logs_service_server::{LogsService, LogsServiceServer},
-};
-use opentelemetry_proto::tonic::collector::trace::v1::{
-    ExportTraceServiceRequest, ExportTraceServiceResponse,
-    trace_service_server::{TraceService, TraceServiceServer},
-};
 use opentelemetry_proto::tonic::common::v1::any_value;
 use opentelemetry_proto::tonic::trace::v1::status::StatusCode;
-use tokio::net::TcpListener;
-use tokio_stream::wrappers::TcpListenerStream;
-use tonic::transport::Server;
-use tonic::{Request, Response, Status};
-
-type Traces = Arc<Mutex<Vec<ExportTraceServiceRequest>>>;
-type Logs = Arc<Mutex<Vec<ExportLogsServiceRequest>>>;
-
-#[derive(Clone, Default)]
-struct Capture {
-    traces: Traces,
-    logs: Logs,
-}
-
-#[tonic::async_trait]
-impl TraceService for Capture {
-    async fn export(
-        &self,
-        request: Request<ExportTraceServiceRequest>,
-    ) -> Result<Response<ExportTraceServiceResponse>, Status> {
-        self.traces.lock().unwrap().push(request.into_inner());
-        Ok(Response::new(ExportTraceServiceResponse::default()))
-    }
-}
-
-#[tonic::async_trait]
-impl LogsService for Capture {
-    async fn export(
-        &self,
-        request: Request<ExportLogsServiceRequest>,
-    ) -> Result<Response<ExportLogsServiceResponse>, Status> {
-        self.logs.lock().unwrap().push(request.into_inner());
-        Ok(Response::new(ExportLogsServiceResponse::default()))
-    }
-}
-
-async fn start_stub() -> (SocketAddr, Traces, Logs) {
-    let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
-    let addr = listener.local_addr().unwrap();
-    let capture = Capture::default();
-    let (traces, logs) = (Arc::clone(&capture.traces), Arc::clone(&capture.logs));
-    tokio::spawn(async move {
-        Server::builder()
-            .add_service(TraceServiceServer::new(capture.clone()))
-            .add_service(LogsServiceServer::new(capture))
-            .serve_with_incoming(TcpListenerStream::new(listener))
-            .await
-            .unwrap();
-    });
-    (addr, traces, logs)
-}
 
 fn scenario(phase: PhaseSpec) -> Scenario {
     Scenario {
@@ -91,11 +34,18 @@ fn scenario(phase: PhaseSpec) -> Scenario {
 }
 
 fn phase(gap_ms: u64, emission: EmissionSpec) -> PhaseSpec {
-    PhaseSpec { name: "under-test".to_string(), gap_ms, emission, fault: None }
+    PhaseSpec {
+        name: "under-test".to_string(),
+        gap_ms,
+        emission,
+        fault: None,
+    }
 }
 
 /// Spans across every captured trace request.
-fn all_spans(reqs: &[ExportTraceServiceRequest]) -> Vec<opentelemetry_proto::tonic::trace::v1::Span> {
+fn all_spans(
+    reqs: &[ExportTraceServiceRequest],
+) -> Vec<opentelemetry_proto::tonic::trace::v1::Span> {
     reqs.iter()
         .flat_map(|r| r.resource_spans.iter())
         .flat_map(|rs| rs.scope_spans.iter())
@@ -128,16 +78,18 @@ fn span_shapes(reqs: &[ExportTraceServiceRequest]) -> Vec<SpanShape> {
     reqs.iter()
         .enumerate()
         .flat_map(|(batch, req)| {
-            all_spans(std::slice::from_ref(req)).into_iter().map(move |s| SpanShape {
-                batch,
-                name: s.name.clone(),
-                trace_id: hex(&s.trace_id),
-                span_id: hex(&s.span_id),
-                parent_span_id: hex(&s.parent_span_id),
-                status: s.status.as_ref().map_or(0, |st| st.code),
-                events: s.events.iter().map(|e| e.name.clone()).collect(),
-                attribute_keys: s.attributes.iter().map(|kv| kv.key.clone()).collect(),
-            })
+            all_spans(std::slice::from_ref(req))
+                .into_iter()
+                .map(move |s| SpanShape {
+                    batch,
+                    name: s.name.clone(),
+                    trace_id: hex(&s.trace_id),
+                    span_id: hex(&s.span_id),
+                    parent_span_id: hex(&s.parent_span_id),
+                    status: s.status.as_ref().map_or(0, |st| st.code),
+                    events: s.events.iter().map(|e| e.name.clone()).collect(),
+                    attribute_keys: s.attributes.iter().map(|kv| kv.key.clone()).collect(),
+                })
         })
         .collect()
 }
@@ -174,10 +126,14 @@ macro_rules! drive_scenario {
         let endpoint = format!("http://{}", addr);
         let scenario = $scenario;
         let timeline = PhaseTimeline::from(&scenario);
-        let mut dispatcher = Dispatcher::connect(&scenario, &endpoint).await.expect("connect stub");
-        run_timeline_with(&timeline, scenario.seed, async |point| dispatcher.dispatch(point).await)
+        let mut dispatcher = Dispatcher::connect(&scenario, &endpoint)
             .await
-            .expect("timeline drives the dispatcher");
+            .expect("connect stub");
+        run_timeline_with(&timeline, scenario.seed, async |point| {
+            dispatcher.dispatch(point).await
+        })
+        .await
+        .expect("timeline drives the dispatcher");
         let t = traces.lock().unwrap().clone();
         let l = logs.lock().unwrap().clone();
         (t, l)
@@ -210,16 +166,21 @@ async fn the_error_family_realizes_its_declared_percentage_and_depth() {
         EmissionSpec::shaped(
             Signal::Traces,
             10,
-            EmissionShape::Error { depth: 2, error_percent: 30 },
+            EmissionShape::Error {
+                depth: 2,
+                error_percent: 30
+            },
         )
     )));
     assert_eq!(traces.len(), 10);
     let errored: Vec<&ExportTraceServiceRequest> = traces
         .iter()
         .filter(|r| {
-            all_spans(std::slice::from_ref(*r))
-                .iter()
-                .any(|s| s.status.as_ref().is_some_and(|st| st.code == StatusCode::Error as i32))
+            all_spans(std::slice::from_ref(*r)).iter().any(|s| {
+                s.status
+                    .as_ref()
+                    .is_some_and(|st| st.code == StatusCode::Error as i32)
+            })
         })
         .collect();
     assert_eq!(errored.len(), 3, "30% of 10 emissions carry the error");
@@ -248,7 +209,9 @@ async fn the_exception_family_cycles_its_declared_variant_mix() {
     let spans = all_spans(&traces);
     assert_eq!(spans.len(), 6);
     assert!(
-        spans.iter().all(|s| s.events.iter().any(|e| e.name == "exception")),
+        spans
+            .iter()
+            .all(|s| s.events.iter().any(|e| e.name == "exception")),
         "every emission carries an exception event"
     );
 }
@@ -260,10 +223,15 @@ async fn the_severity_family_reaches_the_logs_collector_with_its_declared_number
         EmissionSpec::shaped(
             Signal::Logs,
             4,
-            EmissionShape::Severity { severities: vec![16, 17] },
+            EmissionShape::Severity {
+                severities: vec![16, 17]
+            },
         )
     )));
-    assert!(traces.is_empty(), "a logs-shaped phase opens no trace batch");
+    assert!(
+        traces.is_empty(),
+        "a logs-shaped phase opens no trace batch"
+    );
     assert_eq!(logs.len(), 4);
     let numbers: Vec<i32> = logs
         .iter()
@@ -272,7 +240,11 @@ async fn the_severity_family_reaches_the_logs_collector_with_its_declared_number
         .flat_map(|sl| sl.log_records.iter())
         .map(|lr| lr.severity_number)
         .collect();
-    assert_eq!(numbers, vec![16, 17, 16, 17], "the declared mix cycles across occurrences");
+    assert_eq!(
+        numbers,
+        vec![16, 17, 16, 17],
+        "the declared mix cycles across occurrences"
+    );
 }
 
 #[tokio::test(flavor = "current_thread", start_paused = true)]
@@ -293,9 +265,17 @@ async fn the_latency_family_emits_its_declared_sample_count() {
     )));
     assert_eq!(traces.len(), 2, "one batch per occurrence");
     let spans = all_spans(&traces);
-    assert_eq!(spans.len(), 120, "each batch carries its declared sample count");
+    assert_eq!(
+        spans.len(),
+        120,
+        "each batch carries its declared sample count"
+    );
     assert!(spans.iter().all(|s| s.name == "checkout"));
-    assert!(spans.iter().all(|s| s.end_time_unix_nano >= s.start_time_unix_nano));
+    assert!(
+        spans
+            .iter()
+            .all(|s| s.end_time_unix_nano >= s.start_time_unix_nano)
+    );
 }
 
 #[tokio::test(flavor = "current_thread", start_paused = true)]
@@ -349,7 +329,12 @@ async fn the_pii_family_embeds_every_declared_category() {
     )));
     let keys: Vec<String> = all_spans(&traces)
         .iter()
-        .flat_map(|s| s.attributes.iter().map(|kv| kv.key.clone()).collect::<Vec<_>>())
+        .flat_map(|s| {
+            s.attributes
+                .iter()
+                .map(|kv| kv.key.clone())
+                .collect::<Vec<_>>()
+        })
         .collect();
     assert!(keys.iter().any(|k| k == "user.email"), "{keys:?}");
     assert!(keys.iter().any(|k| k == "user.ssn"), "{keys:?}");
@@ -362,12 +347,20 @@ async fn the_rate_family_emits_the_curve_total() {
         EmissionSpec::shaped(
             Signal::Traces,
             1,
-            EmissionShape::Ramp { from_rate: 5, to_rate: 20, windows: 10 },
+            EmissionShape::Ramp {
+                from_rate: 5,
+                to_rate: 20,
+                windows: 10
+            },
         )
     )));
     assert_eq!(traces.len(), 1);
     let spans = all_spans(&traces);
-    assert!(spans.len() > 10, "the ramp emits one span per window count, got {}", spans.len());
+    assert!(
+        spans.len() > 10,
+        "the ramp emits one span per window count, got {}",
+        spans.len()
+    );
 }
 
 #[tokio::test(flavor = "current_thread", start_paused = true)]
@@ -388,7 +381,10 @@ async fn the_topology_family_emits_every_declared_service() {
     assert!(names.iter().any(|n| n == "payments-worker"), "{names:?}");
     let spans = all_spans(&traces);
     assert!(
-        spans.iter().any(|s| s.status.as_ref().is_some_and(|st| st.code == StatusCode::Error as i32)),
+        spans.iter().any(|s| s
+            .status
+            .as_ref()
+            .is_some_and(|st| st.code == StatusCode::Error as i32)),
         "the declared error depth places one ERROR span"
     );
 }
@@ -411,9 +407,17 @@ async fn topology_error_is_at_the_root(error_depth: u32) -> bool {
     let spans = all_spans(&traces);
     let errored: Vec<_> = spans
         .iter()
-        .filter(|s| s.status.as_ref().is_some_and(|st| st.code == StatusCode::Error as i32))
+        .filter(|s| {
+            s.status
+                .as_ref()
+                .is_some_and(|st| st.code == StatusCode::Error as i32)
+        })
         .collect();
-    assert_eq!(errored.len(), 1, "the declared depth places exactly one ERROR span");
+    assert_eq!(
+        errored.len(),
+        1,
+        "the declared depth places exactly one ERROR span"
+    );
     errored[0].parent_span_id.is_empty()
 }
 
@@ -437,16 +441,25 @@ async fn the_same_seed_reproduces_the_same_stream() {
             EmissionSpec::shaped(
                 Signal::Traces,
                 5,
-                EmissionShape::Exception { variants: vec![FingerprintVariantSpec::Identical] },
+                EmissionShape::Exception {
+                    variants: vec![FingerprintVariantSpec::Identical],
+                },
             ),
         ))
     };
     let ids = |reqs: &[ExportTraceServiceRequest]| {
-        all_spans(reqs).iter().map(|s| (s.trace_id.clone(), s.span_id.clone())).collect::<Vec<_>>()
+        all_spans(reqs)
+            .iter()
+            .map(|s| (s.trace_id.clone(), s.span_id.clone()))
+            .collect::<Vec<_>>()
     };
     let (a, _) = drive_scenario!(shape());
     let (b, _) = drive_scenario!(shape());
-    assert_eq!(ids(&a), ids(&b), "same scenario + seed => identical stream identity");
+    assert_eq!(
+        ids(&a),
+        ids(&b),
+        "same scenario + seed => identical stream identity"
+    );
 
     let mut other = shape();
     other.seed = 999;
@@ -461,7 +474,10 @@ async fn the_same_seed_reproduces_the_same_stream() {
 async fn the_committed_storm_fixture_stream_is_frozen() {
     let scenario = storm_fixture();
     let (traces, logs) = drive_scenario!(scenario);
-    assert!(logs.is_empty(), "an exception-shaped fixture opens no logs batch");
+    assert!(
+        logs.is_empty(),
+        "an exception-shaped fixture opens no logs batch"
+    );
     insta::assert_debug_snapshot!("storm_stream_seed_4317017", span_shapes(&traces));
 }
 
@@ -489,6 +505,9 @@ fn error_baseline_fixture() -> Scenario {
 async fn the_committed_error_baseline_fixture_stream_is_frozen() {
     let scenario = error_baseline_fixture();
     let (traces, logs) = drive_scenario!(scenario);
-    assert!(logs.is_empty(), "an error-shaped fixture opens no logs batch");
+    assert!(
+        logs.is_empty(),
+        "an error-shaped fixture opens no logs batch"
+    );
     insta::assert_debug_snapshot!("error_baseline_stream_seed_424242", span_shapes(&traces));
 }

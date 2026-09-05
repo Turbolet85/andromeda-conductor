@@ -102,7 +102,13 @@ fn num_field(line: &str, key: &str) -> Option<f64> {
 }
 
 fn str_field(line: &str, key: &str) -> Option<String> {
-    Some(line.split(&format!("\"{key}\":\"")).nth(1)?.split('"').next()?.to_owned())
+    Some(
+        line.split(&format!("\"{key}\":\""))
+            .nth(1)?
+            .split('"')
+            .next()?
+            .to_owned(),
+    )
 }
 
 fn bool_field(line: &str, key: &str) -> Option<bool> {
@@ -153,14 +159,19 @@ fn parse_active_counts(lines: &[String]) -> Vec<ActiveCount> {
         .iter()
         .filter(|l| is_target(l, "incidents.list_active.request"))
         .filter_map(|l| {
-            Some(ActiveCount { at_ms: at_ms(l)?, count: num_field(l, "item_count")? as u64 })
+            Some(ActiveCount {
+                at_ms: at_ms(l)?,
+                count: num_field(l, "item_count")? as u64,
+            })
         })
         .collect()
 }
 
 /// The cues a SCENARIO drove — every cue whose sample count is not the canary's fixed one.
 fn scenario_cues(cues: &[CueEmitted]) -> Vec<&CueEmitted> {
-    cues.iter().filter(|c| c.persistence_seconds != CANARY_SAMPLE_COUNT).collect()
+    cues.iter()
+        .filter(|c| c.persistence_seconds != CANARY_SAMPLE_COUNT)
+        .collect()
 }
 
 /// P-022 auto-resolve: the in-app active set must strictly DROP, which only a resolution can do
@@ -198,7 +209,9 @@ fn resolution_within_window(created_at: i64, resolved_at: i64) -> Result<(), Str
         return Err(format!("resolution precedes creation by {}ms", -elapsed));
     }
     if elapsed > RESOLVE_BOUND_MS {
-        return Err(format!("resolution took {elapsed}ms, over the {RESOLVE_BOUND_MS}ms bound"));
+        return Err(format!(
+            "resolution took {elapsed}ms, over the {RESOLVE_BOUND_MS}ms bound"
+        ));
     }
     Ok(())
 }
@@ -211,9 +224,10 @@ fn new_not_reopen(outcomes: &[IncidentOutcome], resolved_at: i64) -> Result<(), 
     let after = outcomes.iter().find(|o| o.at_ms > resolved_at && o.created);
     match (before, after) {
         (Some(_), Some(a)) if !a.deduped => Ok(()),
-        (Some(_), Some(a)) => {
-            Err(format!("the retrigger deduped (deduped={}) — the incident was reopened", a.deduped))
-        }
+        (Some(_), Some(a)) => Err(format!(
+            "the retrigger deduped (deduped={}) — the incident was reopened",
+            a.deduped
+        )),
         (Some(_), None) => Err("no incident created after the resolution".to_owned()),
         _ => Err("no incident created before the resolution".to_owned()),
     }
@@ -228,9 +242,14 @@ fn reached_band<'a>(cues: &[&'a CueEmitted], priority: &str) -> Option<&'a CueEm
 /// P-059: the resolution summary has no producer under deterministic L4, so its ABSENCE across the
 /// whole leg is the measurement. Anything naming it would falsify the premise correction on v2-16.
 fn no_resolution_summary(lines: &[String]) -> Result<(), String> {
-    match lines.iter().find(|l| l.contains("resolution_summary") || l.contains("ResolutionSummary"))
+    match lines
+        .iter()
+        .find(|l| l.contains("resolution_summary") || l.contains("ResolutionSummary"))
     {
-        Some(l) => Err(format!("a resolution-summary line appeared: {}", &l[..l.len().min(160)])),
+        Some(l) => Err(format!(
+            "a resolution-summary line appeared: {}",
+            &l[..l.len().min(160)]
+        )),
         None => Ok(()),
     }
 }
@@ -271,7 +290,10 @@ mod tests {
         let outcomes = parse_outcomes(&lines);
         let first_drop = auto_resolve_observed(&counts).expect("an active-count drop");
         let emptied_at = all_resolved_at(&counts).expect("the active set emptied");
-        assert!(first_drop < emptied_at, "the canary resolves before the set empties");
+        assert!(
+            first_drop < emptied_at,
+            "the canary resolves before the set empties"
+        );
 
         let created_at = outcomes.first().expect("a creation").at_ms;
         assert_eq!(resolution_within_window(created_at, emptied_at), Ok(()));
@@ -296,9 +318,18 @@ mod tests {
         assert!(all_resolved_at(&[ActiveCount { at_ms: 1, count: 0 }]).is_err());
         assert!(all_resolved_at(&[ActiveCount { at_ms: 1, count: 2 }]).is_err());
         let full = [
-            ActiveCount { at_ms: 1_000, count: 0 },
-            ActiveCount { at_ms: 2_000, count: 1 },
-            ActiveCount { at_ms: 3_000, count: 0 },
+            ActiveCount {
+                at_ms: 1_000,
+                count: 0,
+            },
+            ActiveCount {
+                at_ms: 2_000,
+                count: 1,
+            },
+            ActiveCount {
+                at_ms: 3_000,
+                count: 0,
+            },
         ];
         assert_eq!(all_resolved_at(&full), Ok(3_000));
     }
@@ -309,15 +340,23 @@ mod tests {
     #[test]
     fn leg_a_proves_new_not_reopen_on_the_same_fingerprint() {
         let lines = leg_a_lines();
-        let storms: Vec<_> =
-            lines.iter().filter(|l| is_target(l, "triage.pattern.storm.detected")).collect();
+        let storms: Vec<_> = lines
+            .iter()
+            .filter(|l| is_target(l, "triage.pattern.storm.detected"))
+            .collect();
         assert_eq!(storms.len(), 2, "a trigger and a retrigger storm");
         assert!(
-            storms.iter().all(|l| l.contains("\"fingerprint_hex\":\"12dcd67b\"")),
+            storms
+                .iter()
+                .all(|l| l.contains("\"fingerprint_hex\":\"12dcd67b\"")),
             "both storms carry ONE fingerprint — otherwise dedup identity differs and the \
              new-not-reopen claim would rest on distinct incidents"
         );
-        assert!(storms.iter().all(|l| l.contains("\"severity_hint\":\"autonomous\"")));
+        assert!(
+            storms
+                .iter()
+                .all(|l| l.contains("\"severity_hint\":\"autonomous\""))
+        );
 
         let counts = parse_active_counts(&lines);
         let resolved_at = auto_resolve_observed(&counts).expect("an active-count drop");
@@ -336,7 +375,11 @@ mod tests {
             .expect("a tick line");
         assert!(tick.contains(r#""resolved_count":"<redacted>""#));
         assert!(tick.contains(r#""evaluated_count":"<redacted>""#));
-        assert_eq!(num_field(&tick, "resolved_count"), None, "not a number to grade");
+        assert_eq!(
+            num_field(&tick, "resolved_count"),
+            None,
+            "not a number to grade"
+        );
     }
 
     /// P-059's premise correction, measured rather than argued: nothing in the leg names a
@@ -370,8 +413,16 @@ mod tests {
         let cues = parse_cues(&leg_b_lines());
         let scenario = scenario_cues(&cues);
         let autonomous = reached_band(&scenario, "autonomous").expect("an autonomous cue");
-        assert!(autonomous.magnitude >= 5.0, "magnitude {}", autonomous.magnitude);
-        assert!(autonomous.confidence >= 0.9, "confidence {}", autonomous.confidence);
+        assert!(
+            autonomous.magnitude >= 5.0,
+            "magnitude {}",
+            autonomous.magnitude
+        );
+        assert!(
+            autonomous.confidence >= 0.9,
+            "confidence {}",
+            autonomous.confidence
+        );
         assert!(autonomous.persistence_seconds >= 30, "persistence");
         assert_eq!(
             autonomous.confidence,
@@ -391,10 +442,15 @@ mod tests {
         let scenario = scenario_cues(&cues);
         assert_eq!(scenario.len(), 2, "the canary's cue is excluded");
         assert!(
-            cues.iter().any(|c| c.persistence_seconds == CANARY_SAMPLE_COUNT),
+            cues.iter()
+                .any(|c| c.persistence_seconds == CANARY_SAMPLE_COUNT),
             "the canary's frozen cue is present and reports {CANARY_SAMPLE_COUNT} samples"
         );
-        assert!(scenario.iter().all(|c| c.persistence_seconds > CANARY_SAMPLE_COUNT));
+        assert!(
+            scenario
+                .iter()
+                .all(|c| c.persistence_seconds > CANARY_SAMPLE_COUNT)
+        );
     }
 
     /// VERBATIM first scenario cue from the 2026-08-21 legs C and D. Read them beside leg B's: the
@@ -421,11 +477,18 @@ mod tests {
         let c = parse_cues(&[leg_c_suggested_line()]);
         let d = parse_cues(&[leg_d_curious_line()]);
 
-        assert_eq!(first_b.magnitude, c[0].magnitude, "same spike shape ⇒ same first magnitude");
+        assert_eq!(
+            first_b.magnitude, c[0].magnitude,
+            "same spike shape ⇒ same first magnitude"
+        );
         assert_eq!(first_b.magnitude, d[0].magnitude);
 
         assert_eq!(c[0].priority, "suggested");
-        assert!((0.7..0.9).contains(&c[0].confidence), "confidence {}", c[0].confidence);
+        assert!(
+            (0.7..0.9).contains(&c[0].confidence),
+            "confidence {}",
+            c[0].confidence
+        );
         assert_eq!(d[0].priority, "curious");
         assert!(d[0].confidence < 0.7, "confidence {}", d[0].confidence);
         assert!(
@@ -451,7 +514,13 @@ mod tests {
     fn leg_e_exercised_the_auto_resolve_residual_arm_live() {
         let line = leg_e_auto_resolved_arm_line();
         assert!(line.contains("declare-only read-back empty"));
-        assert!(line.contains(r#""target":"conductor_run""#), "Conductor's own arm, not Pulse's");
+        // The captured line predates the composition root's split into sibling modules, and `target`
+        // is the EMITTING module path (obs-plan §3) — so the crate prefix is what identifies the
+        // emitter, while the module tail moves with the code and carries no claim.
+        assert!(
+            line.contains(r#""target":"conductor_run"#),
+            "Conductor's own arm, not Pulse's"
+        );
         assert!(line.contains(r#""run_id":"2026-08-21T09-16-01-488""#));
     }
 
@@ -469,9 +538,18 @@ mod tests {
     #[test]
     fn a_rising_active_count_is_not_an_auto_resolve() {
         let rising = vec![
-            ActiveCount { at_ms: 1_000, count: 0 },
-            ActiveCount { at_ms: 2_000, count: 1 },
-            ActiveCount { at_ms: 3_000, count: 2 },
+            ActiveCount {
+                at_ms: 1_000,
+                count: 0,
+            },
+            ActiveCount {
+                at_ms: 2_000,
+                count: 1,
+            },
+            ActiveCount {
+                at_ms: 3_000,
+                count: 2,
+            },
         ];
         assert!(auto_resolve_observed(&rising).is_err());
     }

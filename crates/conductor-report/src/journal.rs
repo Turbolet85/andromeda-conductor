@@ -47,7 +47,9 @@ impl JournalWriter {
         fs::create_dir_all(runs_dir)?;
         let path = runs_dir.join(format!("{run_id}.jsonl"));
         let file = OpenOptions::new().create(true).append(true).open(path)?;
-        Ok(Self { writer: BufWriter::new(file) })
+        Ok(Self {
+            writer: BufWriter::new(file),
+        })
     }
 
     /// Append one `record` as a single JSON line, then flush.
@@ -95,7 +97,11 @@ mod tests {
 
     fn read_lines(dir: &TempDir, run_id: &str) -> Vec<String> {
         let path = dir.path().join(format!("{run_id}.jsonl"));
-        std::fs::read_to_string(path).unwrap().lines().map(str::to_string).collect()
+        std::fs::read_to_string(path)
+            .unwrap()
+            .lines()
+            .map(str::to_string)
+            .collect()
     }
 
     #[test]
@@ -150,13 +156,27 @@ mod tests {
         assert!(!line.contains("RunRecord"), "{line}");
         // keys are exactly the eleven owned-schema names (a stray Debug-dumped field would fail here)
         let obj: serde_json::Value = serde_json::from_str(&line).unwrap();
-        let mut keys: Vec<&str> = obj.as_object().unwrap().keys().map(String::as_str).collect();
+        let mut keys: Vec<&str> = obj
+            .as_object()
+            .unwrap()
+            .keys()
+            .map(String::as_str)
+            .collect();
         keys.sort_unstable();
         assert_eq!(
             keys,
             [
-                "fingerprints", "journal_emitted_at", "latency_ms", "p_ids", "read_back_observed_at",
-                "run_id", "scenario", "seed", "slo_tier", "state", "verdict",
+                "fingerprints",
+                "journal_emitted_at",
+                "latency_ms",
+                "p_ids",
+                "read_back_observed_at",
+                "run_id",
+                "scenario",
+                "seed",
+                "slo_tier",
+                "state",
+                "verdict",
             ]
         );
     }
@@ -181,23 +201,51 @@ mod tests {
         .unwrap();
 
         let lines = read_lines(&dir, run_id);
-        assert_eq!(lines.len(), 2, "the check rides the same journal as its scenario row");
+        assert_eq!(
+            lines.len(),
+            2,
+            "the check rides the same journal as its scenario row"
+        );
         let env: serde_json::Value = serde_json::from_str(&lines[0]).unwrap();
-        assert_eq!(env.as_object().unwrap().len(), 11, "the envelope shape is untouched");
+        assert_eq!(
+            env.as_object().unwrap().len(),
+            11,
+            "the envelope shape is untouched"
+        );
 
         let chk: serde_json::Value = serde_json::from_str(&lines[1]).unwrap();
-        let mut keys: Vec<&str> = chk.as_object().unwrap().keys().map(String::as_str).collect();
+        let mut keys: Vec<&str> = chk
+            .as_object()
+            .unwrap()
+            .keys()
+            .map(String::as_str)
+            .collect();
         keys.sort_unstable();
         assert_eq!(
             keys,
             [
-                "budget_ms", "check_index", "deadline_ms", "kind", "latency_ms", "run_id",
-                "scenario", "state", "verdict",
+                "budget_ms",
+                "check_index",
+                "deadline_ms",
+                "kind",
+                "latency_ms",
+                "run_id",
+                "scenario",
+                "state",
+                "verdict",
             ]
         );
         assert_eq!(chk["kind"], serde_json::json!("Contains"));
-        assert!(!lines[1].contains("CheckRecord"), "no internal struct name leaks: {}", lines[1]);
-        assert!(!lines[1].contains("C:\\") && !lines[1].contains("/Users/"), "{}", lines[1]);
+        assert!(
+            !lines[1].contains("CheckRecord"),
+            "no internal struct name leaks: {}",
+            lines[1]
+        );
+        assert!(
+            !lines[1].contains("C:\\") && !lines[1].contains("/Users/"),
+            "{}",
+            lines[1]
+        );
     }
 
     #[test]

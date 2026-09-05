@@ -4,8 +4,11 @@
 //! under `--features stub-server` (the gate that builds the stub bin + sets `CARGO_BIN_EXE_stub_pulse_mcp`).
 #![cfg(feature = "stub-server")]
 
+mod common;
+
 use tokio::process::Command;
 
+use common::bounded;
 use conductor_core::RunContractStatus;
 use conductor_verify::{CanaryMarker, CanaryPoll, ContractManifest, preflight_boot};
 
@@ -23,14 +26,14 @@ fn manifest() -> ContractManifest {
 async fn live_child_spawn_preflight_is_ready() {
     let command = Command::new(env!("CARGO_BIN_EXE_stub_pulse_mcp"));
 
-    let ready = preflight_boot(
+    let ready = bounded(preflight_boot(
         command,
         &manifest(),
         &RunContractStatus::satisfied(),
         &CanaryMarker::new(CANARY, CANARY_FP),
         "/test/data-dir",
         CanaryPoll::immediate(),
-    )
+    ))
     .await
     .expect("preflight runs");
 

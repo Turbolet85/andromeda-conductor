@@ -5,7 +5,7 @@ mod db;
 mod journal;
 mod report;
 
-pub use coverage::CoverageMatrix;
+pub use coverage::{CoverageMatrix, CoverageRollup, coverage_rollup};
 pub use db::{RunsDb, RunsDbError};
 pub use journal::{JournalError, JournalWriter};
 pub use report::{ReportError, RunReport};

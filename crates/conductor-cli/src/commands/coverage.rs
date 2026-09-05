@@ -13,7 +13,8 @@ pub fn coverage(write: bool) -> anyhow::Result<ExitCode> {
     println!("{}", render::coverage_table());
     println!("{}", render::coverage_summary());
     if write {
-        CoverageMatrix::write(Path::new("coverage-matrix.md")).context("write coverage-matrix.md")?;
+        CoverageMatrix::write(Path::new("coverage-matrix.md"))
+            .context("write coverage-matrix.md")?;
     }
     Ok(ExitCode::SUCCESS)
 }

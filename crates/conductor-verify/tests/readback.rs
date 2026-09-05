@@ -5,7 +5,7 @@
 
 mod common;
 
-use common::{StubConfig, serve_stub};
+use common::{StubConfig, bounded, serve_stub};
 use conductor_core::ComparisonKind;
 use conductor_verify::{
     QUERY_INCIDENT_LIST, ReadBackOutcome, ReadbackClient, VerifyError, observe,
@@ -16,10 +16,10 @@ use serde_json::Value;
 async fn observe_with(config: StubConfig) -> ReadBackOutcome {
     let (client_io, server_io) = tokio::io::duplex(4096);
     let server = tokio::spawn(serve_stub(server_io, config));
-    let client = ReadbackClient::connect_transport(client_io)
+    let client = bounded(ReadbackClient::connect_transport(client_io))
         .await
         .expect("client connects to the stub");
-    let outcome = observe(&client).await;
+    let outcome = bounded(observe(&client)).await;
     drop(client);
     server.abort();
     outcome
@@ -30,7 +30,7 @@ async fn negotiates_down_to_2024_11_05_and_round_trips_the_tool_surface() {
     let (client_io, server_io) = tokio::io::duplex(4096);
     let server = tokio::spawn(serve_stub(server_io, StubConfig::default()));
 
-    let client = ReadbackClient::connect_transport(client_io)
+    let client = bounded(ReadbackClient::connect_transport(client_io))
         .await
         .expect("client connects to the stub");
 
@@ -38,13 +38,12 @@ async fn negotiates_down_to_2024_11_05_and_round_trips_the_tool_surface() {
     assert_eq!(client.negotiated_protocol_version(), Some("2024-11-05"));
 
     // The tool surface lists the advertised tool by name...
-    let tools = client.list_tools().await.expect("list tools");
+    let tools = bounded(client.list_tools()).await.expect("list tools");
     assert!(tools.iter().any(|t| t == QUERY_INCIDENT_LIST));
 
     // ...and a call round-trips Pulse's RAW result shape (an object with `items`), NOT an MCP
     // `CallToolResult` envelope — the regression that would have caught `UnexpectedResponse`.
-    let result = client
-        .query_incident_list(None)
+    let result = bounded(client.query_incident_list(None))
         .await
         .expect("call query_incident_list");
     assert!(result.get("items").is_some(), "raw query_incident_list shape: {result}");
@@ -118,7 +117,7 @@ async fn a_call_error_is_a_typed_value_never_a_panic() {
 async fn the_read_back_key_sets_are_pinned_as_the_live_diff_baseline() {
     let (client_io, server_io) = tokio::io::duplex(4096);
     let server = tokio::spawn(serve_stub(server_io, StubConfig::default()));
-    let client = ReadbackClient::connect_transport(client_io)
+    let client = bounded(ReadbackClient::connect_transport(client_io))
         .await
         .expect("client connects to the stub");
 
@@ -130,17 +129,18 @@ async fn the_read_back_key_sets_are_pinned_as_the_live_diff_baseline() {
     };
 
     // `incident_ids` reads `items[].id`; `list_text` reads each item's status/severity/title.
-    let list = client.query_incident_list(None).await.expect("query_incident_list");
+    let list = bounded(client.query_incident_list(None)).await.expect("query_incident_list");
     assert_eq!(keys(&list), ["items", "next_cursor", "total"]);
 
     let args = Some(serde_json::json!({ "incident_id": 1 }));
 
     // `observe` reads `markdown` into the graded text and `degraded_mode` into the residual flag.
-    let report = client.retrieve_report(args.clone()).await.expect("retrieve_report");
+    let report = bounded(client.retrieve_report(args.clone())).await.expect("retrieve_report");
     assert_eq!(keys(&report), ["degraded_mode", "markdown"]);
 
     // `observe` counts `span_refs` as evidence; the canary's fidelity rides `fingerprint_refs`.
-    let slice = client.retrieve_telemetry_slice(args).await.expect("retrieve_telemetry_slice");
+    let slice =
+        bounded(client.retrieve_telemetry_slice(args)).await.expect("retrieve_telemetry_slice");
     assert_eq!(keys(&slice), ["fingerprint_refs", "incident_id", "span_refs", "timestamps_unix_nano"]);
 
     drop(client);
@@ -161,11 +161,13 @@ async fn a_malformed_result_shape_degrades_to_empty_rather_than_panicking() {
 async fn resolve_with(config: StubConfig, incident_id: i64) -> Result<Value, VerifyError> {
     let (client_io, server_io) = tokio::io::duplex(4096);
     let server = tokio::spawn(serve_stub(server_io, config));
-    let client = ReadbackClient::connect_transport(client_io)
+    let client = bounded(ReadbackClient::connect_transport(client_io))
         .await
         .expect("client connects to the stub");
-    let result =
-        client.mark_incident_resolved(Some(serde_json::json!({ "incident_id": incident_id }))).await;
+    let result = bounded(
+        client.mark_incident_resolved(Some(serde_json::json!({ "incident_id": incident_id }))),
+    )
+    .await;
     drop(client);
     server.abort();
     result

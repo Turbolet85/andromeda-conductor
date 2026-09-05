@@ -31,8 +31,14 @@ impl CoverageMatrix {
         let _ = writeln!(out, "| P-ID | Title | Category | Mode |");
         let _ = writeln!(out, "|---|---|---|---|");
         for r in rows {
-            let _ =
-                writeln!(out, "| `{}` | {} | {} | {} |", r.p_id, r.title, r.category, mode_cell(r.mode));
+            let _ = writeln!(
+                out,
+                "| `{}` | {} | {} | {} |",
+                r.p_id,
+                r.title,
+                r.category,
+                mode_cell(r.mode)
+            );
         }
         out
     }
@@ -68,35 +74,68 @@ fn mode_cell(mode: CoverageMode) -> String {
     }
 }
 
-/// The roll-up: the full row count, the in-scope subtotal with its per-mode breakdown in fixed
-/// [`CoverageMode::ALL`] order (deterministic — no map iteration), then the out-of-scope count as its
-/// own token. Rows outside Conductor's remit were never in play, so folding them into an
-/// undifferentiated denominator would read as unmeasured work; the per-mode counts still sum to the
-/// row count.
+/// The coverage roll-up's counted terms, computed once for every surface that renders them.
+///
+/// The cli caption and this Markdown summary say the same thing in two typographies — a tinted
+/// out-of-scope token there, bold + emphasis here — so the ARITHMETIC lives in one place and each
+/// surface owns only its rendering (layout-templates §cli IA notes — Multi-surface coordination).
+pub struct CoverageRollup {
+    /// Every classified capability.
+    pub total: usize,
+    /// The in-scope subtotal — `total` minus the out-of-scope rows.
+    pub in_scope: usize,
+    /// The per-mode breakdown in fixed [`CoverageMode::ALL`] order, with the unbacked qualifier
+    /// already bound to the auto term.
+    pub breakdown: String,
+    /// The out-of-scope row count.
+    pub out_of_scope: usize,
+    /// The out-of-scope mode's own label — the always-rendered signal that keeps the treatment from
+    /// being color-alone.
+    pub out_label: &'static str,
+}
+
+/// Count the roll-up's terms over `rows`.
+///
+/// Rows outside Conductor's remit were never in play, so folding them into an undifferentiated
+/// denominator would read as unmeasured work; the per-mode counts still sum to the row count.
 ///
 /// `unbacked` qualifies the auto term — how many of those claims no scenario yet backs
 /// (`conductor_core::UNBACKED_AUTO`, held to the catalog by `check_scenario_backing`). It is a
 /// QUALIFIER, never a fifth summand: an auto row with no scenario is still classified auto, so
 /// counting it separately would break the sum. Passed in rather than read from the const so this stays
 /// a pure function of its arguments (the format golden fixes a synthetic set).
-fn summary_line(rows: &[CapabilityRow], unbacked: usize) -> String {
+pub fn coverage_rollup(rows: &[CapabilityRow], unbacked: usize) -> CoverageRollup {
     let count = |mode: CoverageMode| rows.iter().filter(|r| r.mode == mode).count();
-    let mut in_scope = String::new();
-    for mode in CoverageMode::ALL.iter().filter(|m| **m != CoverageMode::NotConductors) {
-        if !in_scope.is_empty() {
-            in_scope.push_str(" · ");
+    let mut breakdown = String::new();
+    for mode in CoverageMode::ALL
+        .iter()
+        .filter(|m| **m != CoverageMode::NotConductors)
+    {
+        if !breakdown.is_empty() {
+            breakdown.push_str(" · ");
         }
-        let _ = write!(in_scope, "{} {}", count(*mode), mode.label());
+        let _ = write!(breakdown, "{} {}", count(*mode), mode.label());
         if *mode == CoverageMode::Auto && unbacked > 0 {
-            let _ = write!(in_scope, " ({unbacked} unbacked)");
+            let _ = write!(breakdown, " ({unbacked} unbacked)");
         }
     }
-    let out = count(CoverageMode::NotConductors);
+    let out_of_scope = count(CoverageMode::NotConductors);
+    CoverageRollup {
+        total: rows.len(),
+        in_scope: rows.len() - out_of_scope,
+        breakdown,
+        out_of_scope,
+        out_label: CoverageMode::NotConductors.label(),
+    }
+}
+
+/// The Markdown roll-up line: the full row count, the in-scope subtotal with its per-mode breakdown,
+/// then the out-of-scope count as its own token.
+fn summary_line(rows: &[CapabilityRow], unbacked: usize) -> String {
+    let r = coverage_rollup(rows, unbacked);
     format!(
-        "**Capabilities** {} · {} in scope ({in_scope}) · {out} {}",
-        rows.len(),
-        rows.len() - out,
-        CoverageMode::NotConductors.label(),
+        "**Capabilities** {} · {} in scope ({}) · {} {}",
+        r.total, r.in_scope, r.breakdown, r.out_of_scope, r.out_label,
     )
 }
 
@@ -115,8 +154,18 @@ mod tests {
     #[test]
     fn summary_line_format_is_exact() {
         let rows = [
-            CapabilityRow { p_id: "P-001", title: "t", category: "c", mode: CoverageMode::Auto },
-            CapabilityRow { p_id: "P-002", title: "t", category: "c", mode: CoverageMode::Auto },
+            CapabilityRow {
+                p_id: "P-001",
+                title: "t",
+                category: "c",
+                mode: CoverageMode::Auto,
+            },
+            CapabilityRow {
+                p_id: "P-002",
+                title: "t",
+                category: "c",
+                mode: CoverageMode::Auto,
+            },
             CapabilityRow {
                 p_id: "P-003",
                 title: "t",
@@ -145,14 +194,20 @@ mod tests {
     /// or divide (obs-plan §10 — zero unlogged panics).
     #[test]
     fn summary_line_holds_on_degenerate_row_sets() {
-        assert_eq!(summary_line(&[], 0), "**Capabilities** 0 · 0 in scope (0 auto · 0 drive+observe · 0 static-only) · 0 not-conductors");
+        assert_eq!(
+            summary_line(&[], 0),
+            "**Capabilities** 0 · 0 in scope (0 auto · 0 drive+observe · 0 static-only) · 0 not-conductors"
+        );
         let all_out = [CapabilityRow {
             p_id: "P-061",
             title: "t",
             category: "c",
             mode: CoverageMode::NotConductors,
         }];
-        assert_eq!(summary_line(&all_out, 0), "**Capabilities** 1 · 0 in scope (0 auto · 0 drive+observe · 0 static-only) · 1 not-conductors");
+        assert_eq!(
+            summary_line(&all_out, 0),
+            "**Capabilities** 1 · 0 in scope (0 auto · 0 drive+observe · 0 static-only) · 1 not-conductors"
+        );
     }
 
     #[test]
@@ -162,7 +217,10 @@ mod tests {
         let mut lines = md.lines();
         assert_eq!(lines.next(), Some("# Coverage matrix"));
         assert_eq!(lines.next(), Some(""));
-        assert_eq!(lines.next(), Some(summary_line(rows, UNBACKED_AUTO.len()).as_str()));
+        assert_eq!(
+            lines.next(),
+            Some(summary_line(rows, UNBACKED_AUTO.len()).as_str())
+        );
         assert_eq!(lines.next(), Some(""));
         assert_eq!(lines.next(), Some("| P-ID | Title | Category | Mode |"));
         assert_eq!(lines.next(), Some("|---|---|---|---|"));
@@ -172,8 +230,10 @@ mod tests {
     #[test]
     fn summary_counts_sum_to_the_row_count() {
         let rows = coverage_matrix();
-        let summed: usize =
-            CoverageMode::ALL.iter().map(|m| rows.iter().filter(|r| r.mode == *m).count()).sum();
+        let summed: usize = CoverageMode::ALL
+            .iter()
+            .map(|m| rows.iter().filter(|r| r.mode == *m).count())
+            .sum();
         assert_eq!(summed, rows.len());
         assert!(
             summary_line(rows, UNBACKED_AUTO.len())
@@ -192,17 +252,28 @@ mod tests {
             line.contains(&format!("{auto} auto ({} unbacked)", UNBACKED_AUTO.len())),
             "the qualifier must bind to the auto term: {line}"
         );
-        let summed: usize =
-            CoverageMode::ALL.iter().map(|m| rows.iter().filter(|r| r.mode == *m).count()).sum();
-        assert_eq!(summed, rows.len(), "the qualifier must not disturb the summands");
+        let summed: usize = CoverageMode::ALL
+            .iter()
+            .map(|m| rows.iter().filter(|r| r.mode == *m).count())
+            .sum();
+        assert_eq!(
+            summed,
+            rows.len(),
+            "the qualifier must not disturb the summands"
+        );
     }
 
     #[test]
     fn every_capability_renders_as_an_exact_row() {
         let md = CoverageMatrix::render();
         for r in coverage_matrix() {
-            let expected =
-                format!("| `{}` | {} | {} | {} |", r.p_id, r.title, r.category, mode_cell(r.mode));
+            let expected = format!(
+                "| `{}` | {} | {} | {} |",
+                r.p_id,
+                r.title,
+                r.category,
+                mode_cell(r.mode)
+            );
             assert!(md.contains(&expected), "missing exact row: {expected}");
         }
         assert_eq!(
@@ -218,13 +289,24 @@ mod tests {
     fn out_of_scope_rows_never_read_as_fail_or_blocked() {
         let md = CoverageMatrix::render();
         for banned in ["[FAIL]", "[BLOCKED]", "[PASS]", "[HOLD]"] {
-            assert!(!md.contains(banned), "coverage matrix carries verdict vocabulary {banned:?}");
+            assert!(
+                !md.contains(banned),
+                "coverage matrix carries verdict vocabulary {banned:?}"
+            );
         }
         let cell = mode_cell(CoverageMode::NotConductors);
-        let rendered = md.lines().filter(|l| l.starts_with("| `P-") && l.contains(&cell)).count();
-        let classified =
-            coverage_matrix().iter().filter(|r| r.mode == CoverageMode::NotConductors).count();
-        assert_eq!(rendered, classified, "every out-of-scope row carries the treated Mode cell");
+        let rendered = md
+            .lines()
+            .filter(|l| l.starts_with("| `P-") && l.contains(&cell))
+            .count();
+        let classified = coverage_matrix()
+            .iter()
+            .filter(|r| r.mode == CoverageMode::NotConductors)
+            .count();
+        assert_eq!(
+            rendered, classified,
+            "every out-of-scope row carries the treated Mode cell"
+        );
     }
 
     #[test]
@@ -250,10 +332,16 @@ mod tests {
         let path = dir.path().join("coverage-matrix.md");
         let written = CoverageMatrix::write(&path).unwrap();
         assert_eq!(written, path);
-        assert_eq!(std::fs::read_to_string(&path).unwrap(), CoverageMatrix::render());
+        assert_eq!(
+            std::fs::read_to_string(&path).unwrap(),
+            CoverageMatrix::render()
+        );
         // A second write is a clean OVERWRITE (not create_new) — regeneration must succeed.
         CoverageMatrix::write(&path).unwrap();
-        assert_eq!(std::fs::read_to_string(&path).unwrap(), CoverageMatrix::render());
+        assert_eq!(
+            std::fs::read_to_string(&path).unwrap(),
+            CoverageMatrix::render()
+        );
         // The temp sidecar is consumed by the rename.
         assert!(!path.with_file_name("coverage-matrix.md.tmp").exists());
     }

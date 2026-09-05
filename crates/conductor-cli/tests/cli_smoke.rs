@@ -6,8 +6,8 @@
 //! operator-gated — Epoch-10).
 
 use assert_cmd::Command;
-use assert_fs::prelude::*;
 use assert_fs::TempDir;
+use assert_fs::prelude::*;
 use predicates::prelude::*;
 
 fn copy_scenario(dir: &TempDir, stem: &str) {
@@ -154,9 +154,89 @@ fn run_with_unknown_target_is_a_sanitized_error_with_a_hint() {
         stderr.contains("hint:"),
         "the edge renders a hint: line: {stderr}"
     );
+    // The hint's VALUE is what makes the line actionable — a blank or generic one still renders a
+    // `hint:` label (design-system §cli "Error output").
+    assert!(
+        stderr.contains("pass a P-ID like P-009"),
+        "the hint names the recovery for THIS fault: {stderr}"
+    );
+    assert!(
+        !stderr.contains("re-run with --debug"),
+        "a recognized fault must not fall through to the generic hint: {stderr}"
+    );
     assert!(
         !stderr.contains(dir.path().to_str().unwrap()),
         "the sanitized edge must not leak the host path: {stderr}"
+    );
+    assert!(
+        !stderr.contains('\u{1b}'),
+        "a piped error edge carries no escape bytes: {stderr:?}"
+    );
+}
+
+/// `--filter` selects the scenarios whose stem CONTAINS it — an inverted guard would run the
+/// catalog minus the requested one, which still exits zero and still prints a run.
+#[test]
+fn suite_filter_selects_the_matching_scenario_and_no_other() {
+    let dir = TempDir::new().unwrap();
+    copy_scenario(&dir, "error-baseline-spike");
+    copy_scenario(&dir, "latency-regression");
+
+    conductor(&dir)
+        .args(["suite", "--filter", "latency"])
+        .assert()
+        .success()
+        .stdout(
+            predicate::str::contains("latency-regression")
+                .and(predicate::str::contains("error-baseline-spike").not()),
+        );
+}
+
+/// Seed precedence, end to end onto the persisted envelope: `CONDUCTOR_SEED` overrides the TOML's
+/// declared seed, and an explicit `--seed` overrides the env (arch §Cross-cutting — Config
+/// management: CLI flags over env, files over env defaults).
+#[test]
+fn the_seed_handle_reaches_the_envelope_and_the_flag_beats_it() {
+    let declared = {
+        let dir = TempDir::new().unwrap();
+        copy_scenario(&dir, "error-baseline-spike");
+        conductor(&dir)
+            .args(["run", "error-baseline-spike"])
+            .assert()
+            .success();
+        blocked_state(&dir)["seed"]
+            .as_u64()
+            .expect("the envelope records a seed")
+    };
+
+    let dir = TempDir::new().unwrap();
+    copy_scenario(&dir, "error-baseline-spike");
+    conductor(&dir)
+        .args(["run", "error-baseline-spike"])
+        .env("CONDUCTOR_SEED", "7")
+        .assert()
+        .success();
+    assert_eq!(
+        blocked_state(&dir)["seed"],
+        serde_json::json!(7),
+        "CONDUCTOR_SEED reaches the run"
+    );
+    assert_ne!(
+        declared, 7,
+        "the env value must differ from the TOML's, or it proves nothing"
+    );
+
+    let dir = TempDir::new().unwrap();
+    copy_scenario(&dir, "error-baseline-spike");
+    conductor(&dir)
+        .args(["run", "error-baseline-spike", "--seed", "9"])
+        .env("CONDUCTOR_SEED", "7")
+        .assert()
+        .success();
+    assert_eq!(
+        blocked_state(&dir)["seed"],
+        serde_json::json!(9),
+        "--seed takes precedence over CONDUCTOR_SEED"
     );
 }
 
@@ -275,11 +355,17 @@ fn report_renders_the_latest_run() {
         .args(["run", "error-baseline-spike"])
         .assert()
         .success();
-    conductor(&dir)
-        .args(["report"])
-        .assert()
-        .success()
-        .stdout(predicate::str::contains("Run report").and(predicate::str::contains("[BLOCKED]")));
+    // The header renders the run_id THROUGH `render::paint`, so asserting the id (not just the
+    // "Run report" label) is what proves the painted value survived the tty-gated overlay.
+    let run_id = blocked_state(&dir)["run_id"]
+        .as_str()
+        .expect("the envelope records its run_id")
+        .to_string();
+    conductor(&dir).args(["report"]).assert().success().stdout(
+        predicate::str::contains("Run report")
+            .and(predicate::str::contains(run_id))
+            .and(predicate::str::contains("[BLOCKED]")),
+    );
 }
 
 #[test]

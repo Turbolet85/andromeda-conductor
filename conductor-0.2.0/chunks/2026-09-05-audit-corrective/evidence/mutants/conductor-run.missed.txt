@@ -1,0 +1,5 @@
+crates/conductor-run/src/canary.rs:58:8: delete ! in preflight
+crates/conductor-run/src/execute.rs:95:27: delete field degraded from struct Observation expression in execute_scenario
+crates/conductor-run/src/execute.rs:136:25: replace - with + in execute_scenario
+crates/conductor-run/src/execute.rs:136:25: replace - with / in execute_scenario
+crates/conductor-run/src/preconditions.rs:50:5: replace declares -> bool with false

@@ -75,7 +75,11 @@ impl CliResolver {
     /// release-gate-never-blocks invariant) — an OR-override on the same `IsTerminal` primitive
     /// `render::stdout_color()` uses.
     pub fn select(spinner: Option<ProgressBar>, agent_mode: bool) -> Self {
-        match resolve_kind(agent_mode, std::io::stdin().is_terminal(), std::io::stdout().is_terminal()) {
+        match resolve_kind(
+            agent_mode,
+            std::io::stdin().is_terminal(),
+            std::io::stdout().is_terminal(),
+        ) {
             Kind::Interactive => CliResolver::Interactive(PromptResolver { spinner }),
             Kind::Headless => CliResolver::Headless(HeadlessResolver::proceed()),
         }
@@ -135,13 +139,19 @@ mod tests {
     fn select_off_tty_is_headless() {
         // The test harness captures stdin/stdout (not a terminal) ⇒ the never-block default — the
         // headless invariant the agent path depends on.
-        assert!(matches!(CliResolver::select(None, false), CliResolver::Headless(_)));
+        assert!(matches!(
+            CliResolver::select(None, false),
+            CliResolver::Headless(_)
+        ));
     }
 
     #[test]
     fn select_agent_mode_is_headless() {
         // `--agent-mode` forces the never-block default — the release-gate-never-blocks invariant.
-        assert!(matches!(CliResolver::select(None, true), CliResolver::Headless(_)));
+        assert!(matches!(
+            CliResolver::select(None, true),
+            CliResolver::Headless(_)
+        ));
     }
 
     #[test]
@@ -156,12 +166,51 @@ mod tests {
     #[tokio::test(flavor = "current_thread")]
     async fn headless_variant_proceeds() {
         let resolver = CliResolver::Headless(HeadlessResolver::proceed());
-        assert_eq!(resolve_hold(&resolver, &hold()).await.decision, Decision::Go);
+        assert_eq!(
+            resolve_hold(&resolver, &hold()).await.decision,
+            Decision::Go
+        );
     }
 
     #[tokio::test(flavor = "current_thread")]
     async fn headless_variant_can_decline() {
         let resolver = CliResolver::Headless(HeadlessResolver::abort());
-        assert_eq!(resolve_hold(&resolver, &hold()).await.decision, Decision::NoGo);
+        assert_eq!(
+            resolve_hold(&resolver, &hold()).await.decision,
+            Decision::NoGo
+        );
+    }
+
+    /// `kind()` is what the resolved hold RECORDS as its answering arm, so a blank or wrong label
+    /// would leave the artifact unable to say whether an operator or the headless default decided —
+    /// and the enum must report its inner resolver's label, never a fixed one.
+    #[test]
+    fn each_resolver_reports_its_own_kind() {
+        assert_eq!(PromptResolver { spinner: None }.kind(), "cli-interactive");
+        assert_eq!(
+            CliResolver::Interactive(PromptResolver { spinner: None }).kind(),
+            "cli-interactive",
+            "the enum delegates to the interactive resolver"
+        );
+        let headless = HeadlessResolver::proceed();
+        let expected = headless.kind();
+        assert_ne!(
+            expected, "cli-interactive",
+            "the two arms must be distinguishable in the record"
+        );
+        assert_eq!(
+            CliResolver::Headless(headless).kind(),
+            expected,
+            "the enum delegates to the headless resolver"
+        );
+    }
+
+    /// The recorded arm rides the resolved hold, which is where an artifact reader finds it.
+    #[tokio::test(flavor = "current_thread")]
+    async fn the_resolved_hold_records_the_answering_arm() {
+        let resolver = CliResolver::Headless(HeadlessResolver::proceed());
+        let expected = resolver.kind();
+        let resolved = resolve_hold(&resolver, &hold()).await;
+        assert_eq!(resolved.resolver_kind, expected);
     }
 }

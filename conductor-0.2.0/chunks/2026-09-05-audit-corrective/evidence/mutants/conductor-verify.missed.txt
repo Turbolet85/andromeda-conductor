@@ -1,0 +1,14 @@
+crates/conductor-verify/src/bin/stub_pulse_mcp.rs:18:5: replace main with ()
+crates/conductor-verify/src/bin/stub_pulse_mcp.rs:37:60: replace || with && in main
+crates/conductor-verify/src/bin/stub_pulse_mcp.rs:45:5: replace stub_result -> Value with Default::default()
+crates/conductor-verify/src/bin/stub_pulse_mcp.rs:46:9: delete match arm "initialize" in stub_result
+crates/conductor-verify/src/bin/stub_pulse_mcp.rs:51:9: delete match arm "tools/list" in stub_result
+crates/conductor-verify/src/bin/stub_pulse_mcp.rs:55:9: delete match arm "tools/call" in stub_result
+crates/conductor-verify/src/bin/stub_pulse_mcp.rs:57:21: replace == with != in stub_result
+crates/conductor-verify/src/bin/stub_pulse_mcp.rs:69:28: replace == with != in stub_result
+crates/conductor-verify/src/client.rs:157:9: replace ReadbackClient::resolve_incident -> Result<Value, VerifyError> with Ok(Default::default())
+crates/conductor-verify/src/extract.rs:95:22: replace == with != in observe
+crates/conductor-verify/src/extract.rs:110:22: replace == with != in observe
+crates/conductor-verify/src/manifest.rs:35:9: replace ContractManifest::default_path -> PathBuf with Default::default()
+crates/conductor-verify/src/spawn.rs:116:5: replace sidecar_resolves_on_path -> bool with true
+crates/conductor-verify/src/spawn.rs:116:5: replace sidecar_resolves_on_path -> bool with false

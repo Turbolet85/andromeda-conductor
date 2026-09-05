@@ -5,6 +5,7 @@
 #![allow(dead_code)]
 
 use std::sync::{Arc, Mutex};
+use std::time::Duration;
 
 use serde_json::{Value, json};
 use tokio::io::{AsyncBufReadExt, AsyncRead, AsyncWrite, AsyncWriteExt, BufReader};
@@ -12,6 +13,22 @@ use tokio::io::{AsyncBufReadExt, AsyncRead, AsyncWrite, AsyncWriteExt, BufReader
 /// The tool name carried by a stale decoy response, so a client that pairs it to the wrong request
 /// says so in its own return value rather than merely reading a different line.
 pub const DECOY_TOOL: &str = "stale-decoy-tool";
+
+/// The wall-clock ceiling a read-back call may take before the test calls it a hang.
+///
+/// A mutation that stops a response ever pairing (an inverted id guard) or a request ever being
+/// written blocks `read_line` forever, so the test binary hangs and the runner reports TIMEOUT —
+/// the assertion that would have failed never gets to speak (`.claude/rules/testing.md` 2026-09-03).
+/// Held well under cargo-mutants' own per-test timeout (auto = 5x the baseline, floored at 20s): a
+/// bound at that floor races the harness and the kill is not credited.
+const READ_BACK_BOUND: Duration = Duration::from_secs(5);
+
+/// Await `fut` under [`READ_BACK_BOUND`], turning a hang into a named failure.
+pub async fn bounded<F: std::future::Future>(fut: F) -> F::Output {
+    tokio::time::timeout(READ_BACK_BOUND, fut)
+        .await
+        .expect("read-back call hung past the bound (a mutated id guard or unwritten request)")
+}
 
 /// One line the stub read off the wire, in arrival order.
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -145,17 +162,26 @@ where
         let Ok(req) = serde_json::from_str::<Value>(&line) else {
             continue;
         };
-        let method_name = req.get("method").and_then(Value::as_str).unwrap_or("").to_string();
+        let method_name = req
+            .get("method")
+            .and_then(Value::as_str)
+            .unwrap_or("")
+            .to_string();
         let Some(id) = req.get("id").cloned() else {
             if let Some(log) = &config.wire_log {
-                log.push(WireEntry::Notification { method: method_name });
+                log.push(WireEntry::Notification {
+                    method: method_name,
+                });
             }
             continue; // notification — no response
         };
         request_index += 1;
         if let Some(log) = &config.wire_log {
             let observed = id.as_i64().unwrap_or(i64::MIN);
-            log.push(WireEntry::Request { id: observed, method: method_name.clone() });
+            log.push(WireEntry::Request {
+                id: observed,
+                method: method_name.clone(),
+            });
         }
         if config.decoy_before_nth_request == Some(request_index) {
             let decoy = json!({
@@ -229,8 +255,9 @@ where
                     "degraded_mode": config.report_degraded,
                 }),
                 "tools/call" if calls_slice => {
-                    let span_refs: Vec<Value> =
-                        (0..config.span_ref_count).map(|i| json!(format!("span-{i}"))).collect();
+                    let span_refs: Vec<Value> = (0..config.span_ref_count)
+                        .map(|i| json!(format!("span-{i}")))
+                        .collect();
                     json!({
                         "incident_id": 1,
                         "span_refs": span_refs,

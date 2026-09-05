@@ -105,7 +105,11 @@ fn open_log_file(path: &Path) -> std::io::Result<File> {
     if let Some(parent) = path.parent() {
         std::fs::create_dir_all(parent)?;
     }
-    OpenOptions::new().create(true).write(true).truncate(true).open(path)
+    OpenOptions::new()
+        .create(true)
+        .write(true)
+        .truncate(true)
+        .open(path)
 }
 
 /// The self-observation sink writer — stderr, or a shared log-file handle.
@@ -134,13 +138,18 @@ impl Write for ObsWriterGuard {
     fn write(&mut self, buf: &[u8]) -> std::io::Result<usize> {
         match self {
             ObsWriterGuard::Stderr(w) => w.write(buf),
-            ObsWriterGuard::File(file) => file.lock().expect("agent log mutex not poisoned").write(buf),
+            ObsWriterGuard::File(file) => file
+                .lock()
+                .expect("agent log mutex not poisoned")
+                .write(buf),
         }
     }
     fn flush(&mut self) -> std::io::Result<()> {
         match self {
             ObsWriterGuard::Stderr(w) => w.flush(),
-            ObsWriterGuard::File(file) => file.lock().expect("agent log mutex not poisoned").flush(),
+            ObsWriterGuard::File(file) => {
+                file.lock().expect("agent log mutex not poisoned").flush()
+            }
         }
     }
 }
@@ -153,9 +162,10 @@ fn build_subscriber<W>(
 where
     W: for<'w> MakeWriter<'w> + Send + Sync + 'static,
 {
-    Registry::default()
-        .with(filter)
-        .with(JsonObsLayer { identity, make_writer })
+    Registry::default().with(filter).with(JsonObsLayer {
+        identity,
+        make_writer,
+    })
 }
 
 fn install_panic_hook() {
@@ -185,7 +195,9 @@ fn panic_payload(info: &std::panic::PanicHookInfo<'_>) -> String {
 /// (`std::time`, never tokio's virtual clock). Hyphen-delimited so it is legal as a filename
 /// stem on the Windows dev host (colons are illegal there).
 pub fn mint_run_id() -> String {
-    let now = SystemTime::now().duration_since(UNIX_EPOCH).unwrap_or_default();
+    let now = SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .unwrap_or_default();
     let (y, mo, d, h, mi, s) = civil_from_unix(now.as_secs());
     format!(
         "{y:04}-{mo:02}-{d:02}T{h:02}-{mi:02}-{s:02}-{:03}",
@@ -220,8 +232,10 @@ fn civil_from_unix(secs: u64) -> (i64, u32, u32, u32, u32, u32) {
     let tod = (secs % 86_400) as u32;
     let (hour, min, sec) = (tod / 3600, (tod % 3600) / 60, tod % 60);
 
+    // `secs: u64` puts `z` at 719_468 or more, so Hinnant's negative-era branch is unreachable here
+    // and is omitted rather than left as untestable arithmetic.
     let z = days + 719_468;
-    let era = (if z >= 0 { z } else { z - 146_096 }) / 146_097;
+    let era = z / 146_097;
     let doe = z - era * 146_097;
     let yoe = (doe - doe / 1460 + doe / 36_524 - doe / 146_096) / 365;
     let year = yoe + era * 400;
@@ -374,6 +388,8 @@ mod tests {
     use super::*;
     use std::sync::{Arc, Mutex};
 
+    use rstest::rstest;
+
     #[derive(Clone, Default)]
     struct SharedBuf(Arc<Mutex<Vec<u8>>>);
 
@@ -438,7 +454,10 @@ mod tests {
             assert_eq!(obj["level"], Value::from("INFO"));
             assert!(obj.contains_key("timestamp_ms"));
         }
-        assert_eq!(lines[0].as_object().unwrap()["message"], Value::from("first"));
+        assert_eq!(
+            lines[0].as_object().unwrap()["message"],
+            Value::from("first")
+        );
         assert_eq!(lines[1].as_object().unwrap()["count"], Value::from(3u64));
     }
 
@@ -484,10 +503,35 @@ mod tests {
         assert_eq!(civil_from_unix(1_000_000_000), (2001, 9, 9, 1, 46, 40));
     }
 
+    /// The days-to-civil conversion's era arithmetic, at the instants where each term changes value.
+    ///
+    /// Every case is a date the correction terms separate: `doe / 146_096` is non-zero ONLY on an
+    /// era's last day (`2000-02-29`, `2400-02-29`), and `doe / 36_524` turns non-zero at the
+    /// century day (`2100-03-01`) — so an ordinary date exercises the expression while proving
+    /// nothing about either term. Seconds are the UTC instants the case names spell.
+    #[rstest]
+    #[case::epoch(0, (1970, 1, 1, 0, 0, 0))]
+    #[case::last_second_of_1999(946_684_799, (1999, 12, 31, 23, 59, 59))]
+    #[case::era_last_day(951_782_400, (2000, 2, 29, 0, 0, 0))]
+    #[case::era_first_day(951_868_800, (2000, 3, 1, 0, 0, 0))]
+    #[case::before_the_century_day(4_107_542_399, (2100, 2, 28, 23, 59, 59))]
+    #[case::century_day(4_107_542_400, (2100, 3, 1, 0, 0, 0))]
+    #[case::next_era_last_day(13_574_563_200, (2400, 2, 29, 0, 0, 0))]
+    fn civil_from_unix_holds_at_the_era_boundaries(
+        #[case] secs: u64,
+        #[case] expected: (i64, u32, u32, u32, u32, u32),
+    ) {
+        assert_eq!(civil_from_unix(secs), expected);
+    }
+
     #[test]
     fn panic_hook_emits_one_error_line() {
         let buf = SharedBuf::default();
-        let subscriber = build_subscriber(fixed_identity("RUN-PANIC"), buf.clone(), EnvFilter::new("info"));
+        let subscriber = build_subscriber(
+            fixed_identity("RUN-PANIC"),
+            buf.clone(),
+            EnvFilter::new("info"),
+        );
         let prev = std::panic::take_hook();
         std::panic::set_hook(Box::new(log_panic));
         tracing::subscriber::with_default(subscriber, || {
@@ -510,7 +554,10 @@ mod tests {
             tracing::info!(secret = "leak", phase = "ok", "m");
         });
         let obj = buf.lines()[0].as_object().unwrap().clone();
-        assert!(!obj.contains_key("secret"), "non-allowlisted field must be dropped");
+        assert!(
+            !obj.contains_key("secret"),
+            "non-allowlisted field must be dropped"
+        );
         assert_eq!(obj["phase"], Value::from("ok"));
         assert_eq!(obj["message"], Value::from("m"));
     }
@@ -527,8 +574,11 @@ mod tests {
     #[test]
     fn panic_hook_redacts_host_path_in_payload() {
         let buf = SharedBuf::default();
-        let subscriber =
-            build_subscriber(fixed_identity("RUN-PANIC-PATH"), buf.clone(), EnvFilter::new("info"));
+        let subscriber = build_subscriber(
+            fixed_identity("RUN-PANIC-PATH"),
+            buf.clone(),
+            EnvFilter::new("info"),
+        );
         let prev = std::panic::take_hook();
         std::panic::set_hook(Box::new(log_panic));
         tracing::subscriber::with_default(subscriber, || {
@@ -538,7 +588,10 @@ mod tests {
 
         let obj = buf.lines()[0].as_object().unwrap().clone();
         let panic = obj["panic"].as_str().unwrap();
-        assert!(!panic.contains("C:\\Users"), "host path leaked in panic: {panic}");
+        assert!(
+            !panic.contains("C:\\Users"),
+            "host path leaked in panic: {panic}"
+        );
         assert!(panic.contains("<redacted>"), "{panic}");
     }
 
@@ -548,15 +601,23 @@ mod tests {
         let _ = std::fs::remove_dir_all(&dir);
         let path = dir.join("logs").join("agent-latest.jsonl");
         let writer = resolve_writer(ObsSink::File(path.clone()));
-        assert!(matches!(writer, ObsWriter::File(_)), "a creatable path yields a file sink");
-        let subscriber = build_subscriber(fixed_identity("RUN-FILE"), writer, EnvFilter::new("info"));
+        assert!(
+            matches!(writer, ObsWriter::File(_)),
+            "a creatable path yields a file sink"
+        );
+        let subscriber =
+            build_subscriber(fixed_identity("RUN-FILE"), writer, EnvFilter::new("info"));
         tracing::subscriber::with_default(subscriber, || {
             tracing::info!(phase = "open C:\\Users\\turbo\\corpus.db", "to file");
         });
         let body = std::fs::read_to_string(&path).expect("agent log file written");
         let line: Value = serde_json::from_str(body.lines().next().expect("a line")).unwrap();
         assert_eq!(line["run_id"], Value::from("RUN-FILE"));
-        assert_eq!(line["phase"], Value::from("open <redacted>"), "file sink inherits processor redaction");
+        assert_eq!(
+            line["phase"],
+            Value::from("open <redacted>"),
+            "file sink inherits processor redaction"
+        );
         let _ = std::fs::remove_dir_all(&dir);
     }
 
@@ -565,7 +626,10 @@ mod tests {
         lines
             .iter()
             .filter_map(Value::as_object)
-            .find(|o| o.get("span") == Some(&Value::from(span)) && o.get("span_event") == Some(&Value::from(event)))
+            .find(|o| {
+                o.get("span") == Some(&Value::from(span))
+                    && o.get("span_event") == Some(&Value::from(event))
+            })
             .unwrap_or_else(|| panic!("no {event} record for span {span}"))
     }
 
@@ -618,7 +682,10 @@ mod tests {
         });
         let lines = buf.lines();
         let new = span_record(&lines, "scenario.run", "new");
-        assert!(!new.contains_key("secret"), "the allowlist gates span attributes too");
+        assert!(
+            !new.contains_key("secret"),
+            "the allowlist gates span attributes too"
+        );
         assert_eq!(new["seed"], Value::from(7u64));
     }
 
@@ -684,14 +751,18 @@ mod tests {
         });
         let lines = buf.lines();
         let new = span_record(&lines, "fault.silence", "new");
-        assert!(!new.contains_key("fault_reason"), "the allowlist admits exactly the named five");
+        assert!(
+            !new.contains_key("fault_reason"),
+            "the allowlist admits exactly the named five"
+        );
         assert_eq!(new["fault_type"], Value::from("silence"));
     }
 
     #[test]
     fn a_host_path_in_a_span_attribute_is_redacted() {
         let buf = capture(fixed_identity("RUN-SPAN-REDACT"), || {
-            let span = tracing::info_span!("scenario.run", scenario = "C:\\Users\\turbo\\corpus.db");
+            let span =
+                tracing::info_span!("scenario.run", scenario = "C:\\Users\\turbo\\corpus.db");
             let _entered = span.enter();
         });
         let lines = buf.lines();
@@ -702,13 +773,17 @@ mod tests {
     #[test]
     fn file_sink_falls_back_to_stderr_when_unopenable() {
         // A path whose parent is a regular file cannot be created → the infallible stderr fallback.
-        let base = std::env::temp_dir().join(format!("conductor-obs-fallback-{}", std::process::id()));
+        let base =
+            std::env::temp_dir().join(format!("conductor-obs-fallback-{}", std::process::id()));
         let _ = std::fs::remove_dir_all(&base);
         std::fs::create_dir_all(&base).unwrap();
         let blocking_file = base.join("not-a-dir");
         std::fs::write(&blocking_file, b"x").unwrap();
         let unopenable = blocking_file.join("logs").join("agent-latest.jsonl");
-        assert!(matches!(resolve_writer(ObsSink::File(unopenable)), ObsWriter::Stderr));
+        assert!(matches!(
+            resolve_writer(ObsSink::File(unopenable)),
+            ObsWriter::Stderr
+        ));
         let _ = std::fs::remove_dir_all(&base);
     }
 }

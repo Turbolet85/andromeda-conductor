@@ -47,6 +47,29 @@ fn runs_dir() -> Result<PathBuf, String> {
     resolve_handle("CONDUCTOR_RUNS_DIR", "runs")
 }
 
+/// Resolve the runs dir and the run a read-only command should read, or `None` when no run exists.
+///
+/// The two run-data commands share this prologue exactly: a SUPPLIED `run_id` is
+/// `resolve_under`-guarded against traversal before any read (an absolute candidate or a `..` escape
+/// is REJECTED, never clamped — security-plan §Input Validation), an absent one resolves to the
+/// latest run, and every fault crosses the edge through [`sanitize_error`]. `None` is the no-run
+/// case each caller renders in its own empty shape, never an error.
+fn resolve_run_target(run_id: Option<String>) -> Result<Option<(PathBuf, String)>, String> {
+    let dir = runs_dir()?;
+    let id = match run_id {
+        Some(id) => {
+            resolve_under(&dir, Path::new(&format!("{id}.jsonl")))
+                .map_err(|e| sanitize_error(&e))?;
+            id
+        }
+        None => match conductor_core::latest_run_id(&dir).map_err(|e| sanitize_error(&e))? {
+            Some(id) => id,
+            None => return Ok(None),
+        },
+    };
+    Ok(Some((dir, id)))
+}
+
 fn manifest_path() -> Result<PathBuf, String> {
     resolve_handle("CONDUCTOR_CONTRACT_MANIFEST", "contracts/mcp-contract.toml")
 }
@@ -172,24 +195,13 @@ pub fn unbacked_auto() -> Result<Vec<String>, String> {
 pub fn run_report(run_id: Option<String>) -> Result<Vec<RunRecord>, String> {
     let _span = tracing::info_span!("tauri.command.run_report").entered();
     let started = Instant::now();
-    let dir = runs_dir()?;
-    let id = match run_id {
-        Some(id) => {
-            resolve_under(&dir, Path::new(&format!("{id}.jsonl")))
-                .map_err(|e| sanitize_error(&e))?;
-            id
-        }
-        None => match conductor_core::latest_run_id(&dir).map_err(|e| sanitize_error(&e))? {
-            Some(id) => id,
-            None => {
-                tracing::info!(
-                    count = 0,
-                    latency_ms = started.elapsed().as_millis() as u64,
-                    "no run to report"
-                );
-                return Ok(Vec::new());
-            }
-        },
+    let Some((dir, id)) = resolve_run_target(run_id)? else {
+        tracing::info!(
+            count = 0,
+            latency_ms = started.elapsed().as_millis() as u64,
+            "no run to report"
+        );
+        return Ok(Vec::new());
     };
     let records = conductor_core::read_run_journal(&dir, &id).map_err(|e| sanitize_error(&e))?;
     tracing::info!(
@@ -231,23 +243,12 @@ impl From<EnvelopeStatus> for EnvelopeStanding {
 pub fn run_envelope(run_id: Option<String>) -> Result<Option<EnvelopeStanding>, String> {
     let _span = tracing::info_span!("tauri.command.run_envelope").entered();
     let started = Instant::now();
-    let dir = runs_dir()?;
-    let id = match run_id {
-        Some(id) => {
-            resolve_under(&dir, Path::new(&format!("{id}.jsonl")))
-                .map_err(|e| sanitize_error(&e))?;
-            id
-        }
-        None => match conductor_core::latest_run_id(&dir).map_err(|e| sanitize_error(&e))? {
-            Some(id) => id,
-            None => {
-                tracing::info!(
-                    latency_ms = started.elapsed().as_millis() as u64,
-                    "no run to report an envelope for"
-                );
-                return Ok(None);
-            }
-        },
+    let Some((dir, id)) = resolve_run_target(run_id)? else {
+        tracing::info!(
+            latency_ms = started.elapsed().as_millis() as u64,
+            "no run to report an envelope for"
+        );
+        return Ok(None);
     };
     let standing = conductor_run::read_envelope(&dir, &id).map_err(|e| sanitize_error(&*e))?;
     tracing::info!(
@@ -405,20 +406,24 @@ mod tests {
             .expect("mock webview builds")
     }
 
+    /// One dispatched IPC request. The `url` MUST be the mock webview's real origin
+    /// (`http://tauri.localhost`) — any other value fails dispatch with "Plugin not found"
+    /// (`.claude/rules/testing.md` 2026-06-27), so both call sites share this one construction.
+    fn request(cmd: &str, body: InvokeBody) -> InvokeRequest {
+        InvokeRequest {
+            cmd: cmd.into(),
+            callback: CallbackFn(0),
+            error: CallbackFn(1),
+            url: "http://tauri.localhost".parse().unwrap(),
+            body,
+            headers: Default::default(),
+            invoke_key: INVOKE_KEY.to_string(),
+        }
+    }
+
     fn invoke(window: &MockWindow, cmd: &str, body: InvokeBody) -> tauri::ipc::InvokeResponseBody {
-        get_ipc_response(
-            window,
-            InvokeRequest {
-                cmd: cmd.into(),
-                callback: CallbackFn(0),
-                error: CallbackFn(1),
-                url: "http://tauri.localhost".parse().unwrap(),
-                body,
-                headers: Default::default(),
-                invoke_key: INVOKE_KEY.to_string(),
-            },
-        )
-        .unwrap_or_else(|e| panic!("command `{cmd}` dispatched with an error: {e}"))
+        get_ipc_response(window, request(cmd, body))
+            .unwrap_or_else(|e| panic!("command `{cmd}` dispatched with an error: {e}"))
     }
 
     #[test]
@@ -505,18 +510,7 @@ mod tests {
     /// Dispatch a command that MUST fail, returning the rendered error. The sibling `invoke` panics
     /// on an error response, so it cannot express "the failure is the assertion".
     fn invoke_expecting_error(window: &MockWindow, cmd: &str, body: InvokeBody) -> String {
-        let response = get_ipc_response(
-            window,
-            InvokeRequest {
-                cmd: cmd.into(),
-                callback: CallbackFn(0),
-                error: CallbackFn(1),
-                url: "http://tauri.localhost".parse().unwrap(),
-                body,
-                headers: Default::default(),
-                invoke_key: INVOKE_KEY.to_string(),
-            },
-        );
+        let response = get_ipc_response(window, request(cmd, body));
         match response {
             Ok(_) => panic!("command `{cmd}` returned Ok where an error was required"),
             Err(err) => format!("{err:?}"),

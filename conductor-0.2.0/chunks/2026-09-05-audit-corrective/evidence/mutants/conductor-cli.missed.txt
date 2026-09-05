@@ -1,0 +1,2 @@
+crates/conductor-cli/src/render.rs:161:5: replace stdout_color -> bool with false
+crates/conductor-cli/src/render.rs:171:5: replace stderr_color -> bool with false

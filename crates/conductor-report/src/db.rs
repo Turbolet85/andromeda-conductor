@@ -75,7 +75,9 @@ impl RunsDb {
     /// Open `runs.db` under `runs_dir` (created if absent), schema bootstrapped, ready to insert.
     pub fn open(runs_dir: &Path) -> Result<Self, RunsDbError> {
         std::fs::create_dir_all(runs_dir)?;
-        let db = Self { conn: Connection::open(runs_dir.join("runs.db"))? };
+        let db = Self {
+            conn: Connection::open(runs_dir.join("runs.db"))?,
+        };
         db.conn.execute_batch(SCHEMA)?;
         Ok(db)
     }
@@ -94,7 +96,11 @@ impl RunsDb {
     #[tracing::instrument(name = "db.insert_run", skip_all, fields(row_count = 1))]
     pub fn insert(&self, record: &RunRecord) -> Result<(), RunsDbError> {
         let p_ids = serde_json::to_string(&record.p_ids)?;
-        let fingerprints = record.fingerprints.as_ref().map(serde_json::to_string).transpose()?;
+        let fingerprints = record
+            .fingerprints
+            .as_ref()
+            .map(serde_json::to_string)
+            .transpose()?;
         let verdict = match &record.verdict {
             Some(v) => Some(value_as_wire(serde_json::to_value(v)?)),
             None => None,
@@ -184,19 +190,31 @@ impl RunsDb {
             })?
             .collect::<Result<Vec<_>, _>>()?;
         rows.into_iter()
-            .map(|(run_id, scenario, check_index, kind, verdict, state, latency, deadline, budget)| {
-                Ok(CheckRecord {
+            .map(
+                |(
                     run_id,
                     scenario,
-                    check_index: check_index as usize,
-                    kind: serde_json::from_value(serde_json::Value::String(kind))?,
-                    verdict: serde_json::from_value(serde_json::Value::String(verdict))?,
-                    state: serde_json::from_value(serde_json::Value::String(state))?,
-                    latency_ms: latency,
-                    deadline_ms: deadline,
-                    budget_ms: budget.map(|b| b as u32),
-                })
-            })
+                    check_index,
+                    kind,
+                    verdict,
+                    state,
+                    latency,
+                    deadline,
+                    budget,
+                )| {
+                    Ok(CheckRecord {
+                        run_id,
+                        scenario,
+                        check_index: check_index as usize,
+                        kind: serde_json::from_value(serde_json::Value::String(kind))?,
+                        verdict: serde_json::from_value(serde_json::Value::String(verdict))?,
+                        state: serde_json::from_value(serde_json::Value::String(state))?,
+                        latency_ms: latency,
+                        deadline_ms: deadline,
+                        budget_ms: budget.map(|b| b as u32),
+                    })
+                },
+            )
             .collect()
     }
 
@@ -318,11 +336,12 @@ fn value_as_wire(value: serde_json::Value) -> String {
     }
 }
 
-
 #[cfg(test)]
 impl RunsDb {
     fn open_in_memory() -> Result<Self, RunsDbError> {
-        let db = Self { conn: Connection::open_in_memory()? };
+        let db = Self {
+            conn: Connection::open_in_memory()?,
+        };
         db.conn.execute_batch(SCHEMA)?;
         Ok(db)
     }
@@ -342,18 +361,30 @@ mod tests {
             "scenario \"activity-floor\" runs 3900s, over the ceiling of 600s".to_string(),
         );
         db.insert_envelope("run-suspect", &suspect).unwrap();
-        db.insert_envelope("run-ok", &EnvelopeStatus::InEnvelope).unwrap();
+        db.insert_envelope("run-ok", &EnvelopeStatus::InEnvelope)
+            .unwrap();
 
         assert_eq!(db.get_envelope("run-suspect").unwrap(), Some(suspect));
-        assert_eq!(db.get_envelope("run-ok").unwrap(), Some(EnvelopeStatus::InEnvelope));
-        assert_eq!(db.get_envelope("no-such-run").unwrap(), None, "an unrecorded run reads None");
+        assert_eq!(
+            db.get_envelope("run-ok").unwrap(),
+            Some(EnvelopeStatus::InEnvelope)
+        );
+        assert_eq!(
+            db.get_envelope("no-such-run").unwrap(),
+            None,
+            "an unrecorded run reads None"
+        );
     }
 
     #[test]
     fn a_duplicate_envelope_insert_is_a_harness_error_not_a_clobber() {
         let db = RunsDb::open_in_memory().unwrap();
-        db.insert_envelope("run-1", &EnvelopeStatus::InEnvelope).unwrap();
-        assert!(db.insert_envelope("run-1", &EnvelopeStatus::InEnvelope).is_err());
+        db.insert_envelope("run-1", &EnvelopeStatus::InEnvelope)
+            .unwrap();
+        assert!(
+            db.insert_envelope("run-1", &EnvelopeStatus::InEnvelope)
+                .is_err()
+        );
     }
 
     /// The qualifier lives in its own table precisely so the check row's contract is untouched:
@@ -389,8 +420,15 @@ mod tests {
 
         // and a check row still round-trips beside a recorded run-level qualifier
         db.insert(&measured("run-1", "s")).unwrap();
-        db.insert_envelope("run-1", &EnvelopeStatus::EnvironmentSuspect("over".to_string())).unwrap();
-        assert_eq!(db.get("run-1", "s").unwrap().unwrap().state, ReportState::Pass);
+        db.insert_envelope(
+            "run-1",
+            &EnvelopeStatus::EnvironmentSuspect("over".to_string()),
+        )
+        .unwrap();
+        assert_eq!(
+            db.get("run-1", "s").unwrap().unwrap().state,
+            ReportState::Pass
+        );
     }
 
     fn check_record(check_index: usize, budget_ms: Option<u32>) -> CheckRecord {
@@ -415,9 +453,15 @@ mod tests {
             db.insert_check(row).unwrap();
         }
         let back = db.checks_for("run-1", "s").unwrap();
-        assert_eq!(back, rows, "kind/verdict/state wire forms and budgets survive the round trip");
+        assert_eq!(
+            back, rows,
+            "kind/verdict/state wire forms and budgets survive the round trip"
+        );
         assert_eq!(back[0].budget_ms, Some(2_000));
-        assert_eq!(back[1].budget_ms, None, "an inherited budget stores NULL, reads back None");
+        assert_eq!(
+            back[1].budget_ms, None,
+            "an inherited budget stores NULL, reads back None"
+        );
     }
 
     #[test]
@@ -454,7 +498,11 @@ mod tests {
             .unwrap()
             .collect::<Result<_, _>>()
             .unwrap();
-        assert_eq!(cols.len(), 11, "the per-check grain went to its own table: {cols:?}");
+        assert_eq!(
+            cols.len(),
+            11,
+            "the per-check grain went to its own table: {cols:?}"
+        );
     }
 
     fn measured(run_id: &str, scenario: &str) -> RunRecord {
@@ -501,7 +549,11 @@ mod tests {
             vec![],
         );
         db.insert(&rec).unwrap();
-        assert_eq!(db.get("2026-06-16T21-10-06-cal", "severity-choice").unwrap(), Some(rec));
+        assert_eq!(
+            db.get("2026-06-16T21-10-06-cal", "severity-choice")
+                .unwrap(),
+            Some(rec)
+        );
     }
 
     #[test]
@@ -527,7 +579,10 @@ mod tests {
             .unwrap();
         assert_eq!(nulls, (true, true, true, true, true));
         // identity + slo_tier + state stay populated and the row reconstructs equal
-        assert_eq!(db.get("2026-06-16T21-10-06-blk", "port-occupier").unwrap(), Some(rec));
+        assert_eq!(
+            db.get("2026-06-16T21-10-06-blk", "port-occupier").unwrap(),
+            Some(rec)
+        );
     }
 
     #[test]
@@ -535,7 +590,8 @@ mod tests {
         // Proves the arrays are stored as JSON1 TEXT (not delimited) — the shape the deferred P-036
         // recurrence query indexes.
         let db = RunsDb::open_in_memory().unwrap();
-        db.insert(&measured("2026-06-16T21-10-06-j1", "error-baseline-spike")).unwrap();
+        db.insert(&measured("2026-06-16T21-10-06-j1", "error-baseline-spike"))
+            .unwrap();
         let lengths: (i64, i64) = db
             .conn
             .query_row(
@@ -554,13 +610,17 @@ mod tests {
         let mut rec = measured("2026-06-16T21-10-06-seed", "error-baseline-spike");
         rec.seed = u64::MAX; // > i64::MAX — exercises the `as i64` / `as u64` bit-cast
         db.insert(&rec).unwrap();
-        assert_eq!(db.get(&rec.run_id, &rec.scenario).unwrap().unwrap().seed, u64::MAX);
+        assert_eq!(
+            db.get(&rec.run_id, &rec.scenario).unwrap().unwrap().seed,
+            u64::MAX
+        );
     }
 
     #[test]
     fn stored_cells_carry_no_host_paths_or_struct_names() {
         let db = RunsDb::open_in_memory().unwrap();
-        db.insert(&measured("2026-06-16T21-10-06-hyg", "error-baseline-spike")).unwrap();
+        db.insert(&measured("2026-06-16T21-10-06-hyg", "error-baseline-spike"))
+            .unwrap();
         let blob: String = db
             .conn
             .query_row(
@@ -573,7 +633,10 @@ mod tests {
             )
             .unwrap();
         for leak in ["C:\\", "/Users/", "/home/", "RunRecord", "RunsDb"] {
-            assert!(!blob.contains(leak), "leaked {leak:?} into a stored cell: {blob}");
+            assert!(
+                !blob.contains(leak),
+                "leaked {leak:?} into a stored cell: {blob}"
+            );
         }
     }
 
@@ -582,7 +645,8 @@ mod tests {
         // Bound parameters: an injection-shaped scenario name is data, not executed SQL.
         let db = RunsDb::open_in_memory().unwrap();
         let evil = "'; DROP TABLE runs;--";
-        db.insert(&measured("2026-06-16T21-10-06-evil", evil)).unwrap();
+        db.insert(&measured("2026-06-16T21-10-06-evil", evil))
+            .unwrap();
         // the table survives and the value round-trips verbatim
         let got = db.get("2026-06-16T21-10-06-evil", evil).unwrap().unwrap();
         assert_eq!(got.scenario, evil);

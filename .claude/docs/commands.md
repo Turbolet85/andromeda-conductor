@@ -33,7 +33,7 @@ _Complete command reference from `.andromeda/architecture.md` + `Cargo.toml` + t
 - `cargo check --workspace` — type/compile check.
 
 ## Supply chain
-- `cargo audit --deny warnings` — RustSec advisory gate.
+- `cargo audit` — RustSec advisory gate; the BARE form is the gate (`.github/workflows/ci.yml`). `--deny warnings` exits 1 by construction against the `deny.toml`-adjudicated allowed set (18 as of 2026-09-05: 17 `unmaintained` + 1 `unsound`) — never add it.
 - `cargo deny check advisories bans sources licenses` — superset gate (`deny.toml`).
 - `cargo update` — refresh `Cargo.lock` (review major bumps); keep it committed + un-drifted.
 

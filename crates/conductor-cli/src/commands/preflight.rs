@@ -26,8 +26,15 @@ pub async fn preflight(json: bool, paths: &Paths) -> anyhow::Result<ExitCode> {
         let precondition = state.blocked_precondition.as_deref().unwrap_or("not ready");
         println!(
             "{} preflight — {precondition}",
-            render::paint(Lamp::Blocked.status_prefix(), render::lamp_code(Lamp::Blocked))
+            render::paint(
+                Lamp::Blocked.status_prefix(),
+                render::lamp_code(Lamp::Blocked)
+            )
         );
     }
-    Ok(if state.ready { ExitCode::SUCCESS } else { ExitCode::FAILURE })
+    Ok(if state.ready {
+        ExitCode::SUCCESS
+    } else {
+        ExitCode::FAILURE
+    })
 }

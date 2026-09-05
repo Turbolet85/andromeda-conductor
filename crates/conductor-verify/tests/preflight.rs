@@ -5,7 +5,7 @@
 
 mod common;
 
-use common::{StubConfig, serve_stub};
+use common::{StubConfig, bounded, serve_stub};
 use conductor_core::{ReportState, RunContractStatus, UnmetTerm, redact_value};
 use conductor_verify::{
     CanaryMarker, CanaryOutcome, CanaryPoll, ContractManifest, MARK_INCIDENT_RESOLVED,
@@ -50,15 +50,16 @@ async fn drive_with(
     let canary =
         CanaryMarker::new(config.canary.clone(), config.canary_fingerprint.clone(), CANARY_EMITTED_AT);
     let server = tokio::spawn(serve_stub(server_io, config));
-    let client = ReadbackClient::connect_transport(client_io).await.expect("client connects");
-    let ready = run_preflight(
+    let client =
+        bounded(ReadbackClient::connect_transport(client_io)).await.expect("client connects");
+    let ready = bounded(run_preflight(
         &client,
         &manifest,
         &contract,
         &canary,
         "/test/data-dir",
         CanaryPoll::immediate(),
-    )
+    ))
     .await
     .expect("preflight runs");
     drop(client);
@@ -240,17 +241,18 @@ async fn the_poll_loop_sleeps_between_attempts_but_not_after_the_last() {
     let canary =
         CanaryMarker::new(config.canary.clone(), config.canary_fingerprint.clone(), CANARY_EMITTED_AT);
     let server = tokio::spawn(serve_stub(server_io, config));
-    let client = ReadbackClient::connect_transport(client_io).await.expect("client connects");
+    let client =
+        bounded(ReadbackClient::connect_transport(client_io)).await.expect("client connects");
 
     let started = tokio::time::Instant::now();
-    let ready = run_preflight(
+    let ready = bounded(run_preflight(
         &client,
         &manifest(),
         &satisfied(),
         &canary,
         "/test/data-dir",
         CanaryPoll { attempts: ATTEMPTS, interval },
-    )
+    ))
     .await
     .expect("preflight runs");
     let elapsed = started.elapsed();

@@ -15,57 +15,17 @@
 //! (`crates/buffer/src/schema.rs`), so a repeated identity is rejected at the receiver rather than
 //! stored — a loss an events-intact assertion cannot see, because every span still arrives.
 
-use std::collections::BTreeSet;
-use std::net::SocketAddr;
-use std::sync::{Arc, Mutex};
+mod common;
 
+use std::collections::BTreeSet;
+
+use common::start_trace_stub as start_stub;
 use conductor_emit::{TraceEmitter, fingerprint, trace_request};
 use conductor_run::{
     CANARY_SERVICE_NAME, CANARY_STORM_COUNT, canary_spec, canary_warmup_seed, emit_canary_storm,
 };
-use opentelemetry_proto::tonic::collector::trace::v1::{
-    ExportTraceServiceRequest, ExportTraceServiceResponse,
-    trace_service_server::{TraceService, TraceServiceServer},
-};
 use opentelemetry_proto::tonic::common::v1::any_value;
 use opentelemetry_proto::tonic::trace::v1::Span;
-use tokio::net::TcpListener;
-use tokio_stream::wrappers::TcpListenerStream;
-use tonic::transport::Server;
-use tonic::{Request, Response, Status};
-
-type Traces = Arc<Mutex<Vec<ExportTraceServiceRequest>>>;
-
-#[derive(Clone, Default)]
-struct Capture {
-    traces: Traces,
-}
-
-#[tonic::async_trait]
-impl TraceService for Capture {
-    async fn export(
-        &self,
-        request: Request<ExportTraceServiceRequest>,
-    ) -> Result<Response<ExportTraceServiceResponse>, Status> {
-        self.traces.lock().unwrap().push(request.into_inner());
-        Ok(Response::new(ExportTraceServiceResponse::default()))
-    }
-}
-
-async fn start_stub() -> (SocketAddr, Traces) {
-    let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
-    let addr = listener.local_addr().unwrap();
-    let capture = Capture::default();
-    let traces = Arc::clone(&capture.traces);
-    tokio::spawn(async move {
-        Server::builder()
-            .add_service(TraceServiceServer::new(capture))
-            .serve_with_incoming(TcpListenerStream::new(listener))
-            .await
-            .unwrap();
-    });
-    (addr, traces)
-}
 
 /// Drive the real canary emission loop at the stub and return every span the stub received.
 async fn captured_storm_spans(marker: &str, base: u64) -> Vec<Span> {

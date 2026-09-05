@@ -1,0 +1,7 @@
+crates/conductor-core/src/obs.rs:172:5: replace install_panic_hook with ()
+crates/conductor-core/src/obs.rs:148:9: replace <impl Write for ObsWriterGuard>::flush -> std::io::Result<()> with Ok(())
+crates/conductor-core/src/obs.rs:222:5: replace unix_millis -> u64 with 0
+crates/conductor-core/src/obs.rs:222:5: replace unix_millis -> u64 with 1
+crates/conductor-core/src/obs.rs:341:9: replace <impl Visit for JsonVisitor<'_>>::record_bool with ()
+crates/conductor-core/src/obs.rs:346:9: replace <impl Visit for JsonVisitor<'_>>::record_i64 with ()
+crates/conductor-core/src/obs.rs:369:9: replace <impl Visit for JsonVisitor<'_>>::record_error with ()

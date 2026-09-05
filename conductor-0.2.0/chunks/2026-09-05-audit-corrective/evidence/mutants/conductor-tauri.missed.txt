@@ -1,0 +1,3 @@
+crates/conductor-tauri/src/main.rs:18:5: replace main with ()
+crates/conductor-tauri/src/commands.rs:273:8: delete ! in start_run
+crates/conductor-tauri/src/commands.rs:308:5: replace run_thread with ()

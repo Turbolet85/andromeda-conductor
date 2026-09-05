@@ -10,7 +10,9 @@ use crate::render;
 pub fn report(run_id: Option<&str>, paths: &Paths) -> anyhow::Result<ExitCode> {
     let run_id = match run_id {
         Some(id) => id.to_string(),
-        None => conductor_core::latest_run_id(&paths.runs_dir)?.context("no runs found to report")?,
+        None => {
+            conductor_core::latest_run_id(&paths.runs_dir)?.context("no runs found to report")?
+        }
     };
     let records = conductor_core::read_run_journal(&paths.runs_dir, &run_id)?;
     println!("Run report {}", render::paint(&run_id, render::ID_CYAN));
