@@ -178,7 +178,7 @@ Every row's `Heard`, `Result` and `Arm` live in the evidence (`nvda-pass.json`),
 
 | # | Class | Item | Producing action / key path | Node (role · accessible name · mechanism) | Expected NVDA output | WCAG SC |
 |---|---|---|---|---|---|---|
-| R0-01 | live | scenario load error (alert on document load) | focus warm-up (Tab), then reload the document — the leg still reloads, so this row does NOT yet discriminate a first-load announcement from a post-reload one | div[role="alert"] › p "Could not load scenarios: …" (the region is mounted empty at first paint) | "Could not load scenarios" announced; the text carries NO host path (a heard path is a security finding against the sanitize_error edge) | SC 4.1.3 |
+| R0-01 | live | scenario load error (alert on document load) | none — NO reload and no focus warm-up, so the row grades the ORIGINAL load's alert and leaves R0-02's first Tab landing intact | div[role="alert"] › p "Could not load scenarios: …" (the region is mounted empty at first paint, so the message arrives as a change) | "Could not load scenarios" announced; the text carries NO host path (a heard path is a security finding against the sanitize_error edge). Silence is a FINDING about NVDA binding only on its first focus event — never a pass, never a harness failure | SC 4.1.3 |
 | R0-02 | focus | Minimize window control | Tab | button[aria-label="Minimize window"] | "Minimize window" + button | SC 4.1.2 |
 | R0-03 | focus | Close window control | Tab | button[aria-label="Close window"] | "Close window" + button | SC 4.1.2 |
 | R0-04 | focus | Start control with nothing loaded | Tab | button "Start" (aria-disabled=true) | "Start" + button + unavailable | SC 4.1.2 |

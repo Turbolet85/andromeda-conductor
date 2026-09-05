@@ -10,14 +10,13 @@
 //! before reaching the webview (security-plan §Error Handling).
 
 use std::path::{Path, PathBuf};
-use std::sync::atomic::{AtomicBool, Ordering};
 use std::sync::Arc;
+use std::sync::atomic::{AtomicBool, Ordering};
 use std::time::Instant;
 
 use conductor_core::{
-    mint_run_id, resolve_under, sanitize_error, validate_selection, CapabilityManifest,
-    CapabilityRow, EnvelopeStatus, LoadEnvelope, RunRecord, Scenario, ScenarioSummary,
-    SUITE_SELECTION,
+    CapabilityManifest, CapabilityRow, EnvelopeStatus, LoadEnvelope, RunRecord, SUITE_SELECTION,
+    Scenario, ScenarioSummary, mint_run_id, resolve_under, sanitize_error, validate_selection,
 };
 use conductor_run::{RunEvent, RunStage};
 use tauri::ipc::Channel;
@@ -94,12 +93,9 @@ fn load_all(dir: &Path, capabilities: &CapabilityManifest) -> Result<Vec<Scenari
     Ok(scenarios)
 }
 
-fn load_one(
-    dir: &Path,
-    name: &str,
-    capabilities: &CapabilityManifest,
-) -> Result<Scenario, String> {
-    let path = resolve_under(dir, Path::new(&format!("{name}.toml"))).map_err(|e| sanitize_error(&e))?;
+fn load_one(dir: &Path, name: &str, capabilities: &CapabilityManifest) -> Result<Scenario, String> {
+    let path =
+        resolve_under(dir, Path::new(&format!("{name}.toml"))).map_err(|e| sanitize_error(&e))?;
     load_toml(&path, capabilities)
 }
 
@@ -114,7 +110,11 @@ pub fn list_scenarios() -> Result<Vec<ScenarioSummary>, String> {
     let started = Instant::now();
     let dir = scenarios_dir()?;
     let summaries = list_scenarios_impl(&dir, &capabilities()?)?;
-    tracing::info!(count = summaries.len(), latency_ms = started.elapsed().as_millis() as u64, "listed scenarios");
+    tracing::info!(
+        count = summaries.len(),
+        latency_ms = started.elapsed().as_millis() as u64,
+        "listed scenarios"
+    );
     Ok(summaries)
 }
 
@@ -149,7 +149,10 @@ pub fn coverage_matrix() -> Result<Vec<CapabilityRow>, String> {
 pub fn unbacked_auto() -> Result<Vec<String>, String> {
     let _span = tracing::info_span!("tauri.command.unbacked_auto").entered();
     let started = Instant::now();
-    let ids: Vec<String> = conductor_core::UNBACKED_AUTO.iter().map(|s| s.to_string()).collect();
+    let ids: Vec<String> = conductor_core::UNBACKED_AUTO
+        .iter()
+        .map(|s| s.to_string())
+        .collect();
     tracing::info!(
         count = ids.len(),
         latency_ms = started.elapsed().as_millis() as u64,
@@ -161,8 +164,10 @@ pub fn unbacked_auto() -> Result<Vec<String>, String> {
 /// The persisted run report (read-only) — the per-scenario `RunRecord`s of a run's JSONL journal, the
 /// desktop twin of `conductor report` / the Markdown report. `run_id` defaults to the latest run; a
 /// supplied id is `resolve_under`-guarded against traversal before any read (security-plan §Input
-/// Validation). An absent/empty runs dir yields an empty list (the webview renders "No run yet"),
-/// never an error. Single-sources `conductor_core::read_run_journal`; the envelope is never re-authored.
+/// Validation). With `run_id` absent an empty or missing runs dir yields an empty list (the webview
+/// renders "No run yet") rather than an error, because `latest_run_id` maps a failed `read_dir` to
+/// `Ok(None)`; a SUPPLIED id resolves against a base that need not exist, so that arm can return
+/// `Err`. Single-sources `conductor_core::read_run_journal`; the envelope is never re-authored.
 #[tauri::command]
 pub fn run_report(run_id: Option<String>) -> Result<Vec<RunRecord>, String> {
     let _span = tracing::info_span!("tauri.command.run_report").entered();
@@ -170,7 +175,8 @@ pub fn run_report(run_id: Option<String>) -> Result<Vec<RunRecord>, String> {
     let dir = runs_dir()?;
     let id = match run_id {
         Some(id) => {
-            resolve_under(&dir, Path::new(&format!("{id}.jsonl"))).map_err(|e| sanitize_error(&e))?;
+            resolve_under(&dir, Path::new(&format!("{id}.jsonl")))
+                .map_err(|e| sanitize_error(&e))?;
             id
         }
         None => match conductor_core::latest_run_id(&dir).map_err(|e| sanitize_error(&e))? {
@@ -217,8 +223,10 @@ impl From<EnvelopeStatus> for EnvelopeStanding {
 /// The run's load-envelope standing (read-only) — the run-level qualifier the desktop run-report
 /// banners, the third surface of the signal the cli caption and the Markdown report already carry.
 /// `run_id` defaults to the latest run; a supplied id is `resolve_under`-guarded against traversal
-/// before any read (security-plan §Input Validation). A run that recorded no envelope row, or an
-/// absent runs dir, yields `None` — the banner is simply absent, never an error.
+/// before any read (security-plan §Input Validation). A run that recorded no envelope row yields
+/// `None` — the banner is simply absent. So does an absent runs dir when `run_id` is absent, since
+/// `latest_run_id` maps a failed `read_dir` to `Ok(None)`; a SUPPLIED id resolves against a base
+/// that need not exist, so that arm can return `Err`.
 #[tauri::command]
 pub fn run_envelope(run_id: Option<String>) -> Result<Option<EnvelopeStanding>, String> {
     let _span = tracing::info_span!("tauri.command.run_envelope").entered();
@@ -226,7 +234,8 @@ pub fn run_envelope(run_id: Option<String>) -> Result<Option<EnvelopeStanding>, 
     let dir = runs_dir()?;
     let id = match run_id {
         Some(id) => {
-            resolve_under(&dir, Path::new(&format!("{id}.jsonl"))).map_err(|e| sanitize_error(&e))?;
+            resolve_under(&dir, Path::new(&format!("{id}.jsonl")))
+                .map_err(|e| sanitize_error(&e))?;
             id
         }
         None => match conductor_core::latest_run_id(&dir).map_err(|e| sanitize_error(&e))? {
@@ -273,7 +282,9 @@ pub fn start_run(
     let resolver = TauriResolver::new(hold_gate.inner().clone(), on_hold);
     tracing::info!(run_id = %run_id, envelope = envelope.label(), "run starting (background)");
     std::thread::spawn(move || {
-        run_thread(scenarios, run_id, runs_dir, manifest, envelope, abort, resolver, on_event)
+        run_thread(
+            scenarios, run_id, runs_dir, manifest, envelope, abort, resolver, on_event,
+        )
     });
     Ok(())
 }
@@ -293,11 +304,17 @@ fn run_thread(
     resolver: TauriResolver,
     on_event: Channel<RunEvent>,
 ) {
-    let runtime = match tokio::runtime::Builder::new_current_thread().enable_all().build() {
+    let runtime = match tokio::runtime::Builder::new_current_thread()
+        .enable_all()
+        .build()
+    {
         Ok(rt) => rt,
         Err(err) => {
             tracing::error!("run runtime build failed: {}", sanitize_error(&err));
-            let _ = on_event.send(RunEvent { stage: RunStage::Aborted, count: 0 });
+            let _ = on_event.send(RunEvent {
+                stage: RunStage::Aborted,
+                count: 0,
+            });
             return;
         }
     };
@@ -306,7 +323,10 @@ fn run_thread(
             Ok(pf) => pf,
             Err(err) => {
                 tracing::error!("preflight failed: {}", sanitize_error(&*err));
-                let _ = on_event.send(RunEvent { stage: RunStage::Aborted, count: 0 });
+                let _ = on_event.send(RunEvent {
+                    stage: RunStage::Aborted,
+                    count: 0,
+                });
                 return;
             }
         };
@@ -326,7 +346,10 @@ fn run_thread(
         .await;
         if let Err(err) = result {
             tracing::error!("run failed: {}", sanitize_error(&*err));
-            let _ = on_event.send(RunEvent { stage: RunStage::Aborted, count: 0 });
+            let _ = on_event.send(RunEvent {
+                stage: RunStage::Aborted,
+                count: 0,
+            });
         }
     });
 }
@@ -351,7 +374,7 @@ mod tests {
     //! real-webview axe/keyboard sweep are display-gated (a11y-plan §3.5, test-plan §6).
     use super::*;
     use tauri::ipc::{CallbackFn, InvokeBody};
-    use tauri::test::{get_ipc_response, mock_builder, mock_context, noop_assets, INVOKE_KEY};
+    use tauri::test::{INVOKE_KEY, get_ipc_response, mock_builder, mock_context, noop_assets};
     use tauri::webview::InvokeRequest;
     use tauri::{Manager, WebviewUrl, WebviewWindowBuilder};
 
@@ -438,9 +461,13 @@ mod tests {
         let app = test_app();
         let window = main_window(&app);
         // No run_id arg ⇒ latest; an absent/empty runs dir yields [] ("No run yet"), never an error.
-        let _records: Vec<RunRecord> = invoke(&window, "run_report", InvokeBody::Json(serde_json::json!({})))
-            .deserialize()
-            .expect("run_report returns a Vec<RunRecord>");
+        let _records: Vec<RunRecord> = invoke(
+            &window,
+            "run_report",
+            InvokeBody::Json(serde_json::json!({})),
+        )
+        .deserialize()
+        .expect("run_report returns a Vec<RunRecord>");
     }
 
     #[test]
@@ -451,11 +478,17 @@ mod tests {
         // absent/empty runs dir yields null (the banner is simply absent), never an error — the same
         // honest degrade run_report gives the report table. The populated arm round-trips through
         // conductor_run::read_envelope, where the RunsDb source it single-sources lives.
-        let standing: serde_json::Value =
-            invoke(&window, "run_envelope", InvokeBody::Json(serde_json::json!({})))
-                .deserialize()
-                .expect("run_envelope returns an Option<EnvelopeStanding>");
-        assert!(standing.is_null(), "no run ⇒ no envelope standing: {standing}");
+        let standing: serde_json::Value = invoke(
+            &window,
+            "run_envelope",
+            InvokeBody::Json(serde_json::json!({})),
+        )
+        .deserialize()
+        .expect("run_envelope returns an Option<EnvelopeStanding>");
+        assert!(
+            standing.is_null(),
+            "no run ⇒ no envelope standing: {standing}"
+        );
     }
 
     #[test]
@@ -494,7 +527,10 @@ mod tests {
     /// take `dir` directly and never read the process CWD, so a committed directory is subject
     /// enough — no temp dir, no `unsafe` env mutation.
     fn fixture_scenarios_dir() -> PathBuf {
-        Path::new(env!("CARGO_MANIFEST_DIR")).join("tests").join("fixtures").join("scenarios")
+        Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("tests")
+            .join("fixtures")
+            .join("scenarios")
     }
 
     fn workspace_root() -> PathBuf {
@@ -535,8 +571,14 @@ mod tests {
     fn resolve_handle_resolves_an_in_scope_default_under_the_current_dir() {
         let resolved = resolve_handle(UNSET_HANDLE, "src")
             .expect("`src` exists under the crate dir and stays inside its base");
-        assert!(resolved.is_absolute(), "a resolved handle is absolute, got {resolved:?}");
-        assert!(resolved.ends_with("src"), "the default segment survives resolution: {resolved:?}");
+        assert!(
+            resolved.is_absolute(),
+            "a resolved handle is absolute, got {resolved:?}"
+        );
+        assert!(
+            resolved.ends_with("src"),
+            "the default segment survives resolution: {resolved:?}"
+        );
     }
 
     #[test]
@@ -569,16 +611,25 @@ mod tests {
             ("manifest_path", manifest_path()),
         ] {
             let path = resolved.unwrap_or_else(|e| panic!("{label} resolves its handle: {e}"));
-            assert!(path.is_absolute(), "{label} must return an absolute path, got {path:?}");
-            assert!(path.starts_with(&base), "{label} must stay under its base: {path:?}");
+            assert!(
+                path.is_absolute(),
+                "{label} must return an absolute path, got {path:?}"
+            );
+            assert!(
+                path.starts_with(&base),
+                "{label} must stay under its base: {path:?}"
+            );
         }
     }
 
     #[test]
     fn resolve_selection_loads_the_whole_suite_for_the_sentinel() {
-        let selected =
-            resolve_selection(&fixture_scenarios_dir(), SUITE_SELECTION, &fixture_capabilities())
-                .expect("the suite sentinel resolves against the fixture catalog");
+        let selected = resolve_selection(
+            &fixture_scenarios_dir(),
+            SUITE_SELECTION,
+            &fixture_capabilities(),
+        )
+        .expect("the suite sentinel resolves against the fixture catalog");
         assert_eq!(
             selected.len(),
             FIXTURE_SCENARIO_COUNT,
@@ -590,11 +641,21 @@ mod tests {
     fn resolve_selection_loads_exactly_one_for_a_named_scenario() {
         // Paired with the sentinel test above: the two branches must differ in CARDINALITY, or the
         // `==` -> `!=` mutant would route both to an indistinguishable result.
-        let selected =
-            resolve_selection(&fixture_scenarios_dir(), "fixture-alpha", &fixture_capabilities())
-                .expect("a named scenario resolves against the fixture catalog");
-        assert_eq!(selected.len(), 1, "a named selection is exactly one scenario");
-        assert_eq!(selected[0].name, "fixture-alpha", "and it is the one that was named");
+        let selected = resolve_selection(
+            &fixture_scenarios_dir(),
+            "fixture-alpha",
+            &fixture_capabilities(),
+        )
+        .expect("a named scenario resolves against the fixture catalog");
+        assert_eq!(
+            selected.len(),
+            1,
+            "a named selection is exactly one scenario"
+        );
+        assert_eq!(
+            selected[0].name, "fixture-alpha",
+            "and it is the one that was named"
+        );
     }
 
     #[test]

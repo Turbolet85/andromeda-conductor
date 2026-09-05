@@ -26,6 +26,21 @@ const FORBIDDEN: &[char] = &[
     '\0',
 ];
 
+/// `CREATE_NO_WINDOW` — the Windows process-creation flag that keeps a console-subsystem child from
+/// getting a console of its own. Without it the sidecar raises a terminal pane titled with its
+/// ABSOLUTE exe path, which seizes the OS foreground and publishes a host path outside every
+/// redaction edge (security-plan §Anti-Patterns §Code Patterns (a)).
+#[cfg(windows)]
+const CREATE_NO_WINDOW: u32 = 0x0800_0000;
+
+/// The creation flags the sidecar spawn applies. Pure so the VALUE is assertable: the APPLIED flag
+/// is not, because `std::process::Command` exposes no creation-flags getter (test-plan §1 untestable
+/// zones) — a live screen-reader leg is what measures the console's absence.
+#[cfg(windows)]
+fn console_suppressing_flags() -> u32 {
+    CREATE_NO_WINDOW
+}
+
 /// Resolve the effective Pulse data-dir — the caller's value, or the platform default when `None` —
 /// and reject it if it carries an injection metacharacter (defense-in-depth for `.env(...)`).
 pub(crate) fn resolve_data_dir(explicit: Option<PathBuf>) -> Result<PathBuf, VerifyError> {
@@ -76,10 +91,13 @@ fn validate_no_injection(dir: &Path) -> Result<(), VerifyError> {
 }
 
 /// Build the hardened sidecar command: the fixed program + the validated data-dir passed only via
-/// `.env(...)`. The caller hands the result to `TokioChildProcess`.
+/// `.env(...)`, with the child's console suppressed on Windows. The caller hands the result to
+/// `ReadbackClient::connect_command`, which pipes stdio and spawns it.
 pub(crate) fn build_command(data_dir: &Path) -> Command {
     let mut command = Command::new(PULSE_MCP_PROGRAM);
     command.env(DATA_DIR_ENV, data_dir);
+    #[cfg(windows)]
+    command.creation_flags(console_suppressing_flags());
     command
 }
 
@@ -89,10 +107,9 @@ pub(crate) fn build_command(data_dir: &Path) -> Command {
 /// read-back arm report the unreachable path in ~0s, which at row level is indistinguishable from a
 /// genuine SUT-side gate failure (security-plan §Anti-Patterns §Input).
 ///
-/// It must not spawn. [`build_command`] above sets no creation flags, so starting the sidecar to
-/// test its presence would raise a console pane titled with its absolute path — a host-path
-/// disclosure channel outside the sanitize/allowlist edges. A directory walk answers the same
-/// question with no process.
+/// It must not spawn: a directory walk answers the same question with no process at all, so the
+/// probe never puts the resolved exe path on a second surface. ([`build_command`] suppresses the
+/// child's console, but that is a property of the real spawn — not a reason to add one here.)
 ///
 /// Returns a boolean-grade fact only: the resolved path is never returned, logged or rendered.
 pub fn sidecar_resolves_on_path() -> bool {
@@ -176,11 +193,7 @@ mod tests {
 
     /// The suffix a resolvable fake must carry on this platform.
     fn host_suffix() -> &'static str {
-        if cfg!(windows) {
-            ".exe"
-        } else {
-            ""
-        }
+        if cfg!(windows) { ".exe" } else { "" }
     }
 
     fn joined(dirs: &[&std::path::Path]) -> std::ffi::OsString {
@@ -305,13 +318,29 @@ mod tests {
     fn build_command_targets_the_fixed_program_and_sets_only_the_data_dir_env() {
         let cmd = build_command(Path::new("/srv/pulse"));
         let std_cmd = cmd.as_std();
-        assert!(std_cmd
-            .get_program()
-            .to_string_lossy()
-            .contains(PULSE_MCP_PROGRAM));
+        assert!(
+            std_cmd
+                .get_program()
+                .to_string_lossy()
+                .contains(PULSE_MCP_PROGRAM)
+        );
         let envs: Vec<_> = std_cmd.get_envs().collect();
         assert_eq!(envs.len(), 1, "only the data-dir env is set");
         assert_eq!(envs[0].0.to_string_lossy(), DATA_DIR_ENV);
         assert_eq!(envs[0].1.unwrap().to_string_lossy(), "/srv/pulse");
+        assert!(
+            std_cmd.get_args().next().is_none(),
+            "nothing operator-supplied reaches argv"
+        );
+    }
+
+    #[cfg(windows)]
+    #[test]
+    fn the_sidecar_spawn_suppresses_the_child_console() {
+        assert_eq!(
+            console_suppressing_flags(),
+            0x0800_0000,
+            "CREATE_NO_WINDOW — a flagless spawn raises a pane titled with the sidecar's absolute path"
+        );
     }
 }

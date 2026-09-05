@@ -112,22 +112,6 @@ async function bringToForeground(): Promise<{ activated: boolean; nvdaNamedWindo
   return { activated, nvdaNamedWindow: named }
 }
 
-/**
- * Re-activate the app window without re-walking the Tab cycle — for the moments the app itself hands the
- * OS foreground to another window (measured 2026-09-02: starting a run raised a console window for the
- * spawned sidecar, and NVDA followed it, so every later focus row went silent).
- */
-async function reactivateWindow(): Promise<boolean> {
-  const script = join(here, 'screen-reader', 'activate-window.ps1')
-  const result = spawnSync('powershell.exe', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', script, '-Title', WINDOW_TITLE], {
-    stdio: 'ignore',
-    windowsHide: true,
-    timeout: 20_000,
-  })
-  await quiet(4_000)
-  return result.status === 0
-}
-
 /** Stamp the row BEFORE its action; the parser owns everything NVDA speaks from here to the next stamp. */
 function stamp(id: string, action: string): number {
   const r = row(id)
@@ -419,10 +403,12 @@ if (subject === 'live') {
         await browser.keys('Enter')
         await expectPhaseLine('Conductor · live', 15_000)
       })
-      // The run start spawns the sidecar, whose console window takes the OS foreground (a finding the
-      // evidence records as the foreign-window speech inside S1-01); bring the app back before the next row.
-      const regained = await reactivateWindow()
-      appendFileSync(actionsPath, JSON.stringify({ ts: new Date().toISOString(), id: '@reactivate', after: 'S1-01', activated: regained }) + '\n')
+      // No re-activation here: the sidecar spawn now suppresses its console, so the run start no longer
+      // hands the OS foreground away (measured 2026-09-04 — the S1-01 window lost the host-path, terminal
+      // and pane utterances the prior record carried). Re-activating anyway was actively harmful once the
+      // pane was gone: the script's synthetic ALT landed on the already-foreground app and opened its
+      // System menu, whose modal message loop froze the webview (NVDA spoke "System subMenu"; every later
+      // WebDriver command timed out).
       await act('S1-02', 'none (browse row — the count reads "0")', async () => {
         expect(await count()).toBe('0')
       })
@@ -591,25 +577,18 @@ if (subject === 'error') {
 
     it('hears the load-error alert and the unavailable Start control', async () => {
       await bringToForeground()
-      // NVDA tracks a window only from its first focus event, so an alert rendered on the ORIGINAL load
-      // (before any focus) is never spoken. Give NVDA that first event, then reload the document: the alert
-      // now fires while the window is tracked, which is the situation the row is about.
-      await tab()
+      // The row grades the ORIGINAL load's alert. The four role="alert" regions now mount EMPTY at first
+      // paint, so the message arrives as a change into a live region rather than with it — the reload this
+      // action used to perform is gone, because it could not tell a first-load announcement from a
+      // post-reload one. What the speech window shows now is the answer: silence here is a finding about
+      // NVDA binding only on first focus, not a harness failure. The DOM assertion below proves the subject
+      // exists either way, so the two questions stay separate.
+      //
+      // No focus warm-up either: bringToForeground() already ends on BODY having given NVDA its first focus
+      // event (it waits for NVDA to name the window). An extra Tab here only consumed R0-02's first landing,
+      // which the reload used to undo by resetting the sequential-focus start point.
       await quiet(4_000)
-      await act('R0-01', 'focus warm-up (Tab), then reload the document so the alert fires while NVDA tracks the window', async () => {
-        await browser.refresh()
-        await browser.waitUntil(
-          async () => {
-            try {
-              return await browser.execute(
-                () => document.readyState === 'complete' && !!document.querySelector('#root')?.firstChild,
-              )
-            } catch {
-              return false
-            }
-          },
-          { timeout: 30_000, interval: 500, timeoutMsg: 'the document did not re-mount #root after refresh' },
-        )
+      await act('R0-01', 'none — the ORIGINAL load\'s alert is what this row grades', async () => {
         const alert = await $('[role="alert"]')
         await expect(alert).toBeExisting()
         expect((await alert.getText()).startsWith('Could not load scenarios')).toBe(true)

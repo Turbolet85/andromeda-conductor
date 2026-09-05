@@ -1,0 +1,33 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'build_command' AND callee_kind = 'fn' ORDER BY file, line;",
+"rows": 2,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 client/impl#[ReadbackClient]connect().",
+"file": "crates/conductor-verify/src/client.rs",
+"line": 47
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.1.0 spawn/tests/build_command_targets_the_fixed_program_and_sets_only_the_data_dir_env().",
+"file": "crates/conductor-verify/src/spawn.rs",
+"line": 305
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'reactivateWindow' ORDER BY file, line;",
+"rows": 1,
+"result": [
+{
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 423
+}
+],
+"db_state": "fresh",
+"plane": "ts"
+}
+]
