@@ -1,0 +1,238 @@
+{
+ "epoch": "Epoch 6a",
+ "records": 237,
+ "step": 106,
+ "friction": 131,
+ "unparseable": 0,
+ "chunks": [
+  "2026-09-02-mutation-tier-restored-for-conductor-tauri",
+  "2026-09-03-conductor-run-composition-root-survivors-dispositioned",
+  "2026-09-03-conductor-tauri-survivors-dispositioned",
+  "2026-09-03-live-pulse-preconditions-probed",
+  "2026-09-04-preconditions-probe-reads-path-handles-by-presence",
+  "2026-09-04-sidecar-spawn-without-a-console-window",
+  "2026-09-04-sr-findings-remediation"
+ ],
+ "coverage": {
+  "2026-09-02-mutation-tier-restored-for-conductor-tauri": {
+   "phase/take-up": 1,
+   "phase/research": 1,
+   "phase/distill": 1,
+   "phase/plan": 1,
+   "phase/validate": 1,
+   "implement/code": 1,
+   "implement/fix-loop": 1,
+   "implement/smoke": 1,
+   "wrap-session/gates": 1,
+   "wrap-session/reconcile": 1,
+   "wrap-session/curation": 1,
+   "wrap-session/report": 1,
+   "wrap-session/route-resolve": 1,
+   "_extra": {},
+   "_missing": []
+  },
+  "2026-09-03-conductor-run-composition-root-survivors-dispositioned": {
+   "phase/take-up": 1,
+   "phase/research": 1,
+   "phase/distill": 1,
+   "phase/plan": 1,
+   "phase/validate": 1,
+   "implement/code": 1,
+   "implement/fix-loop": 1,
+   "implement/smoke": 1,
+   "wrap-session/gates": 1,
+   "wrap-session/reconcile": 1,
+   "wrap-session/curation": 1,
+   "wrap-session/report": 1,
+   "wrap-session/route-resolve": 1,
+   "_extra": {},
+   "_missing": []
+  },
+  "2026-09-03-conductor-tauri-survivors-dispositioned": {
+   "phase/take-up": 1,
+   "phase/research": 1,
+   "phase/distill": 1,
+   "phase/plan": 1,
+   "phase/validate": 1,
+   "implement/code": 1,
+   "implement/fix-loop": 1,
+   "implement/smoke": 1,
+   "wrap-session/gates": 1,
+   "wrap-session/reconcile": 1,
+   "wrap-session/curation": 1,
+   "wrap-session/report": 1,
+   "wrap-session/route-resolve": 1,
+   "_extra": {},
+   "_missing": []
+  },
+  "2026-09-03-live-pulse-preconditions-probed": {
+   "phase/take-up": 1,
+   "phase/research": 1,
+   "phase/distill": 1,
+   "phase/plan": 1,
+   "phase/validate": 1,
+   "implement/code": 1,
+   "implement/fix-loop": 1,
+   "implement/smoke": 1,
+   "wrap-session/gates": 1,
+   "wrap-session/reconcile": 1,
+   "wrap-session/curation": 1,
+   "wrap-session/report": 1,
+   "wrap-session/route-resolve": 1,
+   "_extra": {},
+   "_missing": []
+  },
+  "2026-09-04-preconditions-probe-reads-path-handles-by-presence": {
+   "phase/take-up": 1,
+   "phase/research": 1,
+   "phase/distill": 1,
+   "phase/plan": 1,
+   "phase/validate": 1,
+   "implement/code": 1,
+   "implement/fix-loop": 1,
+   "implement/smoke": 1,
+   "wrap-session/gates": 1,
+   "wrap-session/reconcile": 1,
+   "wrap-session/curation": 1,
+   "wrap-session/report": 1,
+   "wrap-session/route-resolve": 1,
+   "_extra": {},
+   "_missing": []
+  },
+  "2026-09-04-sidecar-spawn-without-a-console-window": {
+   "phase/take-up": 1,
+   "phase/research": 1,
+   "phase/distill": 1,
+   "phase/plan": 1,
+   "phase/validate": 1,
+   "implement/code": 1,
+   "implement/fix-loop": 1,
+   "implement/smoke": 1,
+   "wrap-session/gates": 1,
+   "wrap-session/reconcile": 1,
+   "wrap-session/curation": 1,
+   "wrap-session/report": 1,
+   "wrap-session/route-resolve": 1,
+   "_extra": {},
+   "_missing": []
+  },
+  "2026-09-04-sr-findings-remediation": {
+   "phase/take-up": 1,
+   "phase/research": 1,
+   "phase/distill": 1,
+   "phase/plan": 1,
+   "phase/validate": 1,
+   "implement/code": 1,
+   "implement/fix-loop": 1,
+   "implement/smoke": 1,
+   "wrap-session/gates": 1,
+   "wrap-session/reconcile": 1,
+   "wrap-session/curation": 1,
+   "wrap-session/report": 1,
+   "wrap-session/route-resolve": 1,
+   "_extra": {},
+   "_missing": []
+  }
+ },
+ "null_chunk_step_records": {
+  "new-session/orientation": 11,
+  "wrap-session/route-resolve": 2,
+  "wrap-session/curation": 2
+ },
+ "untyped_rate_per_step": {
+  "new-session/orientation": {
+   "friction": 9,
+   "untyped": 5,
+   "rate": 0.56
+  },
+  "wrap-session/curation": {
+   "friction": 12,
+   "untyped": 1,
+   "rate": 0.08
+  },
+  "wrap-session/route-resolve": {
+   "friction": 10,
+   "untyped": 2,
+   "rate": 0.2
+  },
+  "phase/take-up": {
+   "friction": 13,
+   "untyped": 1,
+   "rate": 0.08
+  },
+  "phase/distill": {
+   "friction": 6,
+   "untyped": 0,
+   "rate": 0.0
+  },
+  "phase/research": {
+   "friction": 10,
+   "untyped": 1,
+   "rate": 0.1
+  },
+  "phase/plan": {
+   "friction": 6,
+   "untyped": 2,
+   "rate": 0.33
+  },
+  "phase/validate": {
+   "friction": 12,
+   "untyped": 1,
+   "rate": 0.08
+  },
+  "implement/code": {
+   "friction": 7,
+   "untyped": 1,
+   "rate": 0.14
+  },
+  "implement/fix-loop": {
+   "friction": 16,
+   "untyped": 3,
+   "rate": 0.19
+  },
+  "implement/smoke": {
+   "friction": 4,
+   "untyped": 1,
+   "rate": 0.25
+  },
+  "wrap-session/report": {
+   "friction": 8,
+   "untyped": 1,
+   "rate": 0.12
+  },
+  "wrap-session/reconcile": {
+   "friction": 12,
+   "untyped": 0,
+   "rate": 0.0
+  },
+  "wrap-session/gates": {
+   "friction": 6,
+   "untyped": 3,
+   "rate": 0.5
+  }
+ },
+ "untyped_total": 22,
+ "problem_fact_fill": {
+  "populated": 31,
+  "step_records": 106,
+  "rate": 0.29
+ },
+ "id_fill": {
+  "id_bearing": 237,
+  "records": 237
+ },
+ "outcomes": {
+  "ok": 101,
+  "halted-resolved": 2,
+  "ok-degraded": 3
+ },
+ "retracted_in_epoch": [
+  "2026-09-03T06:11:16Z-b",
+  "2026-09-04T16:55:27Z-b"
+ ],
+ "boundaries": [
+  "all records post-2026-08-18: id + schema retracts required and present",
+  "deviation scan live (problem facts) for the whole range",
+  "Universal types live for the whole range"
+ ]
+}

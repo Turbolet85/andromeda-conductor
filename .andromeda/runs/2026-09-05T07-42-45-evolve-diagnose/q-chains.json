@@ -1,0 +1,848 @@
+{
+ "epoch": "Epoch 6a",
+ "anchors": [
+  {
+   "anchor_kind": "consumed-quality",
+   "idx": 2,
+   "id": "2026-09-02T21:42:00Z-a",
+   "chunk": null,
+   "consumer": "new-session/orientation",
+   "artifact": "handoff",
+   "quality": "thin",
+   "note": "Position Next names promoting A11y CI gate while the same handoff records that entry carries BLOCKED-ON: a CI runner; no arm given for what to do instead",
+   "producer": null
+  },
+  {
+   "anchor_kind": "input-friction",
+   "idx": 4,
+   "id": "2026-09-02T21:42:00Z-c",
+   "chunk": null,
+   "consumer": "new-session/orientation",
+   "artifact": "handoff",
+   "type": "input.handoff-git-mismatch",
+   "what": "Handoff Status reads clean; git shows 3 modified (friction-log.ndjson, code-metrics.ndjson, session-handoff.md) plus 2 untracked run dirs (evolve-diagnose Epoch 5, code-audit Epoch 5). Only the fricti",
+   "producer": null
+  },
+  {
+   "anchor_kind": "consumed-quality",
+   "idx": 5,
+   "id": "2026-09-02T22:13:09Z-a",
+   "chunk": null,
+   "consumer": "new-session/orientation",
+   "artifact": "handoff",
+   "quality": "thin",
+   "note": "Position Next prescribes /andromeda-phase on an entry whose own text says phase Setup refuses promotion while BLOCKED-ON stands; ahead-count 43 and the predicted evolve nudge are both stale against post-handoff activity",
+   "producer": null
+  },
+  {
+   "anchor_kind": "input-friction",
+   "idx": 6,
+   "id": "2026-09-02T22:13:09Z-b",
+   "chunk": null,
+   "consumer": "new-session/orientation",
+   "artifact": "handoff",
+   "type": "input.handoff-git-mismatch",
+   "what": "Handoff asserted 43 ahead and predicted the Epoch 5 evolve nudge; git showed 44 ahead (a later setup-project commit 68090e4 at 00:02:55) and an evolve-diagnose run titled Epoch 5 already existed at 20",
+   "producer": null
+  },
+  {
+   "anchor_kind": "input-friction",
+   "idx": 28,
+   "id": "2026-09-03T05:10:12Z-b",
+   "chunk": "2026-09-02-mutation-tier-restored-for-conductor-tauri",
+   "consumer": "implement/code",
+   "artifact": "plan",
+   "type": "input.plan-step-ambiguous",
+   "what": "Step 3 said to replace `assert_cmd::Command::cargo_bin(\"conductor\")` with `env!(\"CARGO_BIN_EXE_conductor\")`, which admits two readings: drop assert_cmd entirely for std::process::Command (what the cit",
+   "producer": {
+    "id": "2026-09-02T23:35:15Z-a",
+    "step": "phase/plan",
+    "outcome": "ok",
+    "signals": [
+     "designed-dialogue:binding-form",
+     "designed-dialogue:portability-gate-shape"
+    ],
+    "note": "286 lines, inside the 150-400 band. ONE dialogue round, TWO questions, both genuine operator calls rather than materials-answerable: the binding form was narrowed hard by test-plan section 11 + assert_cmd's own panic text + testing.md:52 + measurement, but the deciding CONSEQUENCE (move a cross-surf"
+   }
+  },
+  {
+   "anchor_kind": "input-friction",
+   "idx": 35,
+   "id": "2026-09-03T05:38:39Z-b",
+   "chunk": "2026-09-02-mutation-tier-restored-for-conductor-tauri",
+   "consumer": "wrap-session/report",
+   "artifact": "implement-report",
+   "type": "input.implement-outcome-unsettled",
+   "what": "Implement's report was NOT the final word on its own chunk: it ended `surfaced`, leaving the plan's criterion 2 (disposition every named mutation survivor) explicitly unresolved and put to the operato",
+   "producer": null
+  },
+  {
+   "anchor_kind": "input-friction",
+   "idx": 50,
+   "id": "2026-09-03T07:45:47Z-b",
+   "chunk": "2026-09-03-conductor-tauri-survivors-dispositioned",
+   "consumer": "phase/plan",
+   "artifact": "extracts",
+   "type": "input.extracts-conflict",
+   "what": "security-plan (the six survivors must be KILLED, no standing rule can back accepted-deliberate) and .claude/rules/testing.md:67 + test-plan §10's shipped precedent (an env-reading edge IS the sanction",
+   "producer": {
+    "id": "2026-09-03T07:31:19Z-a",
+    "step": "phase/distill",
+    "outcome": "ok",
+    "signals": [
+     "binding-convergent"
+    ],
+    "note": "7/7 valid first return, 0 re-spawns; 75/75 Constraints+Acceptance bullets anchored; 40-45 lines each; 0 No-domain-coverage; all 7 amendment-history sections populated. Entity escapes arrived in 4 of 7 returns (tests/layouts/obs/a11y) and 3 came back clean IN THE SAME BATCH, so the escaping is per-RE"
+   }
+  },
+  {
+   "anchor_kind": "consumed-quality",
+   "idx": 58,
+   "id": "2026-09-03T09:52:27Z-a",
+   "chunk": "2026-09-03-conductor-tauri-survivors-dispositioned",
+   "consumer": "wrap-session/reconcile",
+   "artifact": "wrap-playbook",
+   "quality": "thin",
+   "note": "no rule covered the one escalation — a GATE's pass condition contradicted by its own doc's governing rule. Considered proposing one and DECLINED: a single occurrence is not a confirmed pattern, and a routine verdict for gate-condition changes would suppress exactly the escalation that served well here",
+   "producer": null
+  },
+  {
+   "anchor_kind": "input-friction",
+   "idx": 69,
+   "id": "2026-09-03T10:33:42Z-d",
+   "chunk": "2026-09-03-conductor-run-composition-root-survivors-dispositioned",
+   "consumer": "phase/take-up",
+   "artifact": "working-route",
+   "type": "input.carry-context-gap",
+   "what": "The folded CONTEXT cites the `declares` acceptance as ratified 'against .claude/rules/testing.md:19'; :19 resolves to the procedural rule requiring a disposition, while the substantive ground (env rea",
+   "producer": {
+    "id": "2026-09-03T10:33:42Z-a",
+    "step": "phase/take-up",
+    "outcome": "ok",
+    "signals": [
+     "stamp-applied"
+    ],
+    "note": ""
+   }
+  },
+  {
+   "anchor_kind": "input-friction",
+   "idx": 76,
+   "id": "2026-09-03T11:04:42Z-b",
+   "chunk": "2026-09-03-conductor-run-composition-root-survivors-dispositioned",
+   "consumer": "phase/plan",
+   "artifact": "extracts",
+   "type": "input.extracts-conflict",
+   "what": "Authority conflict surfacing at synthesis that P2's aggregate checks could not catch, because one side was scope rather than another extract: scope.md said carry the six ratified declares survivors fo",
+   "producer": {
+    "id": "2026-09-03T10:41:09Z-a",
+    "step": "phase/distill",
+    "outcome": "ok",
+    "signals": [
+     "binding-unilateral"
+    ],
+    "note": "7/7 valid first pass; 5 in-domain (39-46 lines), 2 No domain coverage; entities=0 on all saved copies; a11y raw twin reconstructed (1 inverse-encoded site)"
+   }
+  },
+  {
+   "anchor_kind": "consumed-quality",
+   "idx": 77,
+   "id": "2026-09-03T11:32:53Z-a",
+   "chunk": "2026-09-03-conductor-run-composition-root-survivors-dispositioned",
+   "consumer": "phase/validate",
+   "artifact": "plan",
+   "quality": "wrong",
+   "note": "first pass prescribed a remedy for :518/:559 that could not reach those mutants; corrected at review to accepted-deliberate with the reach barrier measured",
+   "producer": {
+    "id": "2026-09-03T11:04:42Z-a",
+    "step": "phase/plan",
+    "outcome": "ok",
+    "signals": [
+     "designed-dialogue:accepted-deliberate-roster-reopening"
+    ],
+    "note": "7 steps, 15 acceptance criteria, 0 soft graph citations, no capability claimed"
+   }
+  },
+  {
+   "anchor_kind": "consumed-quality",
+   "idx": 80,
+   "id": "2026-09-03T11:56:00Z-a",
+   "chunk": "2026-09-03-conductor-run-composition-root-survivors-dispositioned",
+   "consumer": "implement/code",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "steps 2-4 executed as written; step 1's :66 remedy (a tracing capture) named a target unreachable without the sidecar binary — see problem",
+   "producer": {
+    "id": "2026-09-03T11:04:42Z-a",
+    "step": "phase/plan",
+    "outcome": "ok",
+    "signals": [
+     "designed-dialogue:accepted-deliberate-roster-reopening"
+    ],
+    "note": "7 steps, 15 acceptance criteria, 0 soft graph citations, no capability claimed"
+   }
+  },
+  {
+   "anchor_kind": "input-friction",
+   "idx": 85,
+   "id": "2026-09-03T12:22:00Z-b",
+   "chunk": "2026-09-03-conductor-run-composition-root-survivors-dispositioned",
+   "consumer": "wrap-session/report",
+   "artifact": "implement-report",
+   "type": "input.implement-outcome-unsettled",
+   "what": "Implement's report was not the final word on its own chunk: the operator's wrap directive corrected one of its justifications (the occupier-guard-collision clause) between implement and this report. T",
+   "producer": null
+  },
+  {
+   "anchor_kind": "input-friction",
+   "idx": 97,
+   "id": "2026-09-03T15:52:57Z-b",
+   "chunk": "2026-09-03-live-pulse-preconditions-probed",
+   "consumer": "phase/take-up",
+   "artifact": "working-route",
+   "type": "input.carry-context-gap",
+   "what": "The CONTEXT annotation cited proposals.md:548 (level candidate L3) and its counts reproduced exactly, but the constraint that most bounds the build lives one section away at proposals.md:85 (P3 case 3",
+   "producer": {
+    "id": "2026-09-03T15:52:57Z-a",
+    "step": "phase/take-up",
+    "outcome": "ok",
+    "signals": [
+     "stamped"
+    ],
+    "note": ""
+   }
+  },
+  {
+   "anchor_kind": "consumed-quality",
+   "idx": 104,
+   "id": "2026-09-03T16:16:01Z-a",
+   "chunk": "2026-09-03-live-pulse-preconditions-probed",
+   "consumer": "phase/plan",
+   "artifact": "research",
+   "quality": "thin",
+   "note": "three facts the steps needed were not in it and were read at synthesis: render.rs's public surface (error_block / envelope_caption as the actual reuse targets), the CLI dispatch site at main.rs:70-76, and conductor-run's dependency edges. The consequential one was PULSE_MCP_PROGRAM's pub(crate) visibility — research recorded spawn.rs:15 but not its visibility, and that CHANGED which crate a step targets (the PATH resolver had to move into conductor-verify rather than conductor-run)",
+   "producer": {
+    "id": "2026-09-03T16:09:04Z-a",
+    "step": "phase/research",
+    "outcome": "ok",
+    "signals": [
+     "unresolved-questions"
+    ],
+    "note": "3 open questions, all inside the 0-3 design band; 2 block plan-decision and 1 blocks implementation-scope. Files-to-modify recorded PROVISIONAL because its SET depends on the P4 fork"
+   }
+  },
+  {
+   "anchor_kind": "input-friction",
+   "idx": 105,
+   "id": "2026-09-03T16:16:01Z-b",
+   "chunk": "2026-09-03-live-pulse-preconditions-probed",
+   "consumer": "phase/plan",
+   "artifact": "research",
+   "type": "input.research-thin",
+   "what": "research.md recorded crates/conductor-verify/src/spawn.rs:15 as the home of PULSE_MCP_PROGRAM but not that it is pub(crate). Discovered at synthesis, it relocated a planned step: the no-spawn PATH res",
+   "producer": {
+    "id": "2026-09-03T16:09:04Z-a",
+    "step": "phase/research",
+    "outcome": "ok",
+    "signals": [
+     "unresolved-questions"
+    ],
+    "note": "3 open questions, all inside the 0-3 design band; 2 block plan-decision and 1 blocks implementation-scope. Files-to-modify recorded PROVISIONAL because its SET depends on the P4 fork"
+   }
+  },
+  {
+   "anchor_kind": "consumed-quality",
+   "idx": 111,
+   "id": "2026-09-03T19:12:52Z-a",
+   "chunk": "2026-09-03-live-pulse-preconditions-probed",
+   "consumer": "implement/fix-loop",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "the Test Commands ran as written except one: the CLI-edge line prescribed CONDUCTOR_RUNS_DIR pointed at an assert_fs::TempDir, but that handle is repo-relative by design and resolve_under rejects an absolute value BEFORE the verb dispatches, so the probe printed nothing and both new tests failed on empty stdout. The probe writes no artifact and needs no runs dir; the generic CLI-edge pattern was inherited from the tests extract and did not fit this verb",
+   "producer": {
+    "id": "2026-09-03T16:16:01Z-a",
+    "step": "phase/plan",
+    "outcome": "ok",
+    "signals": [
+     "designed-dialogue:contract-scope",
+     "designed-dialogue:harness-wiring"
+    ],
+    "note": "211 lines, 10 steps, 14 acceptance criteria, 0 questions carried past P4 (the span-vs-info fork became a stated lean on the 2026-09-01 operator ruling). No capability claimed: all six unclaimed matrix entries read and each belongs to a different route entry"
+   }
+  },
+  {
+   "anchor_kind": "consumed-quality",
+   "idx": 129,
+   "id": "2026-09-04T01:52:00Z-a",
+   "chunk": null,
+   "consumer": "wrap-session/route-resolve",
+   "artifact": "report",
+   "quality": "missing",
+   "note": "no-op path runs no P1; the operator directive was the input in its place",
+   "producer": null
+  },
+  {
+   "anchor_kind": "consumed-quality",
+   "idx": 133,
+   "id": "2026-09-04T01:53:00Z-a",
+   "chunk": null,
+   "consumer": "wrap-session/curation",
+   "artifact": "report",
+   "quality": "missing",
+   "note": "no-op path runs no P1",
+   "producer": null
+  },
+  {
+   "anchor_kind": "input-friction",
+   "idx": 145,
+   "id": "2026-09-04T02:25:05Z-c",
+   "chunk": "2026-09-04-sr-findings-remediation",
+   "consumer": "phase/research",
+   "artifact": "extracts",
+   "type": "input.extract-signal-gap",
+   "what": "Two extracts (design, layouts) and the auto-loaded .claude/rules/a11y.md all name 'No scenarios found.' as the picker's empty/filter-miss string; the shipped picker renders 'No scenarios match.' (Scen",
+   "producer": {
+    "id": "2026-09-04T02:20:04Z-a",
+    "step": "phase/distill",
+    "outcome": "ok",
+    "signals": [
+     "binding-unilateral",
+     "history-informed-all-seven"
+    ],
+    "note": "7/7 valid on checks 1-6 first pass; 44-47 lines each, 7 constraints + 4 acceptance bullets each, all anchored"
+   }
+  },
+  {
+   "anchor_kind": "input-friction",
+   "idx": 147,
+   "id": "2026-09-04T02:34:08Z-b",
+   "chunk": "2026-09-04-sr-findings-remediation",
+   "consumer": "phase/plan",
+   "artifact": "extracts",
+   "type": "input.extracts-conflict",
+   "what": "design-system §Component Patterns 1 mandates an aria-live=assertive HOLD announcement while the finding being fixed IS that assertiveness cancelling the focus-restore announcement; the design distille",
+   "producer": {
+    "id": "2026-09-04T02:20:04Z-a",
+    "step": "phase/distill",
+    "outcome": "ok",
+    "signals": [
+     "binding-unilateral",
+     "history-informed-all-seven"
+    ],
+    "note": "7/7 valid on checks 1-6 first pass; 44-47 lines each, 7 constraints + 4 acceptance bullets each, all anchored"
+   }
+  },
+  {
+   "anchor_kind": "input-friction",
+   "idx": 152,
+   "id": "2026-09-04T03:01:41Z-b",
+   "chunk": "2026-09-04-sr-findings-remediation",
+   "consumer": "implement/code",
+   "artifact": "plan",
+   "type": "input.plan-step-ambiguous",
+   "what": "Step 9 directs 'fix the defect itself: the sequential-focus starting point sits at the picker input at mount'. Measured at HEAD: cmdk 1.1.1 contains no autofocus of any spelling and both its .focus() ",
+   "producer": {
+    "id": "2026-09-04T02:34:08Z-a",
+    "step": "phase/plan",
+    "outcome": "ok",
+    "signals": [
+     "designed-dialogue:live-pulse-leg-disposition",
+     "designed-dialogue:carry-2b-boundary"
+    ],
+    "note": "11 steps, 13 acceptance criteria, 9 modify paths, no capability claimed"
+   }
+  },
+  {
+   "anchor_kind": "input-friction",
+   "idx": 153,
+   "id": "2026-09-04T03:01:41Z-c",
+   "chunk": "2026-09-04-sr-findings-remediation",
+   "consumer": "implement/code",
+   "artifact": "conventions",
+   "type": "input.conventions-gap",
+   "what": "Finding 6's fix could not take the shape the plan's fallback anticipated. cmdk's Empty renders {...props} BEFORE role:'presentation', so a passed role loses; and replacing the node with a conditionall",
+   "producer": null
+  },
+  {
+   "anchor_kind": "input-friction",
+   "idx": 161,
+   "id": "2026-09-04T07:08:16Z-b",
+   "chunk": "2026-09-04-sr-findings-remediation",
+   "consumer": "implement/fix-loop",
+   "artifact": null,
+   "type": "input.out-of-pipeline-source",
+   "what": "The live sr subject needs FIVE env handles, not the four any artifact lists. wdio.conf.ts:126 gives the `sr` suite no `scenarios` field (unlike sr-empty/sr-error), so CONDUCTOR_SCENARIOS_DIR=runs/sr-l",
+   "producer": null
+  },
+  {
+   "anchor_kind": "input-friction",
+   "idx": 165,
+   "id": "2026-09-04T07:35:44Z-b",
+   "chunk": "2026-09-04-sr-findings-remediation",
+   "consumer": "wrap-session/report",
+   "artifact": "implement-report",
+   "type": "input.implement-outcome-unsettled",
+   "what": "Implement's own P4 report was NOT the final word: the operator changed a precondition after it (launched a live Pulse, supplied CONDUCTOR_NVDA) and withdrew the plan's deferral of findings 3 and 8, so",
+   "producer": null
+  },
+  {
+   "anchor_kind": "input-friction",
+   "idx": 167,
+   "id": "2026-09-04T07:51:43Z-b",
+   "chunk": "2026-09-04-sr-findings-remediation",
+   "consumer": "wrap-session/reconcile",
+   "artifact": "report",
+   "type": "input.report-insufficient",
+   "what": "Validate check 5 caught a design-system entry the plan listed but no detector proposed, and re-deriving it exposed that my own report had mis-characterised the site: the report said the doc 'attribute",
+   "producer": {
+    "id": "2026-09-04T07:35:44Z-a",
+    "step": "wrap-session/report",
+    "outcome": "ok",
+    "signals": [],
+    "note": "14 acceptance criteria re-asserted against the diff, one UNMET and routed; Insufficient-fixes and Reverted bullets both non-empty"
+   }
+  },
+  {
+   "anchor_kind": "input-friction",
+   "idx": 191,
+   "id": "2026-09-04T17:18:40Z-b",
+   "chunk": "2026-09-04-preconditions-probe-reads-path-handles-by-presence",
+   "consumer": "wrap-session/report",
+   "artifact": "implement-report",
+   "type": "input.implement-outcome-unsettled",
+   "what": "Implement's P4 report was not the final word on its own chunk: it closed green-with-one-deferral (the boot ReadyState witness, unreachable while pulse-app was down), and the operator then changed that",
+   "producer": null
+  },
+  {
+   "anchor_kind": "consumed-quality",
+   "idx": 192,
+   "id": "2026-09-04T17:35:15Z-a",
+   "chunk": "2026-09-04-preconditions-probe-reads-path-handles-by-presence",
+   "consumer": "wrap-session/reconcile",
+   "artifact": "wrap-playbook",
+   "quality": "thin",
+   "note": "no rule covered the largest class this chunk produced — a chunk shipping the fix its master's own body names as route-owned — so 3 escalate-severity proposals reached the operator with no governing precedent; the gap is now closed by the rule minted at E1",
+   "producer": null
+  },
+  {
+   "anchor_kind": "consumed-quality",
+   "idx": 204,
+   "id": "2026-09-04T18:45:23Z-a",
+   "chunk": "2026-09-04-sidecar-spawn-without-a-console-window",
+   "consumer": "phase/distill",
+   "artifact": "spec:a11y-plan.md",
+   "quality": "wrong",
+   "note": "a11y-plan:269 states the pass-spec path as test/a11y/screen-reader/nvda-pass-spec.md; the file is at crates/conductor-tauri/ui/test/a11y/screen-reader/nvda-pass-spec.md — the extract inherited it faithfully, so the master owns the staleness",
+   "producer": null
+  },
+  {
+   "anchor_kind": "input-friction",
+   "idx": 205,
+   "id": "2026-09-04T18:45:23Z-b",
+   "chunk": "2026-09-04-sidecar-spawn-without-a-console-window",
+   "consumer": "phase/distill",
+   "artifact": "extracts",
+   "type": "input.spec-source-gap",
+   "what": "The a11y extract cited the NVDA pass spec at a path that does not exist; ownership attribution showed a11y-plan:269 is the source of the wrong path (the file lives under crates/conductor-tauri/ui/). F",
+   "producer": {
+    "id": "2026-09-04T18:45:23Z-a",
+    "step": "phase/distill",
+    "outcome": "ok",
+    "signals": [],
+    "note": "7/7, 0 No-domain-coverage (4 relevant: arch/security/tests/obs; 3 partial: design/layouts/a11y); all six per-extract checks pass; 5 twins reconstructed (obs/security/layouts/a11y/tests), arch+design raw == stripped"
+   }
+  },
+  {
+   "anchor_kind": "input-friction",
+   "idx": 214,
+   "id": "2026-09-04T19:29:11Z-e",
+   "chunk": "2026-09-04-sidecar-spawn-without-a-console-window",
+   "consumer": "phase/validate",
+   "artifact": null,
+   "type": "input.out-of-pipeline-source",
+   "what": "Two decisive facts for the plan's live steps lived outside every artifact this skill reads. (1) pulse-app is DOWN — the overseer stopped PID 17404 after ca94697 — while .claude/session-handoff.md stil",
+   "producer": null
+  },
+  {
+   "anchor_kind": "consumed-quality",
+   "idx": 218,
+   "id": "2026-09-04T20:11:43Z-a",
+   "chunk": "2026-09-04-sidecar-spawn-without-a-console-window",
+   "consumer": "implement/fix-loop",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "Test Commands under-listed the sr suites: step 7 changed row R0-01, which lives in the sr-error subject, but only a11y:sr was listed — so the plan's own CARRY-4 acceptance criterion had no producer among its commands. Ran sr-empty and sr-error additionally; everything else ran exactly as written",
+   "producer": {
+    "id": "2026-09-04T19:29:11Z-c",
+    "step": "phase/validate",
+    "outcome": "ok",
+    "signals": [],
+    "note": "review returned 4 corrections, all applied; no re-plan loop"
+   }
+  },
+  {
+   "anchor_kind": "consumed-quality",
+   "idx": 227,
+   "id": "2026-09-04T20:59:02Z-a",
+   "chunk": "2026-09-04-sidecar-spawn-without-a-console-window",
+   "consumer": "wrap-session/reconcile",
+   "artifact": "report",
+   "quality": "thin",
+   "note": "the report's TokioChildProcess site list named architecture x2 only; the security detector found two more (Input Validation, Threat Model) and the orchestrator's own cross-master grep found a fifth in test-plan. The report's expected-amendment entry for the re-activation registration was also wrong on both halves. Otherwise every detector ran against the report alone without asking for more.",
+   "producer": {
+    "id": "2026-09-04T20:37:43Z-a",
+    "step": "wrap-session/report",
+    "outcome": "ok",
+    "signals": [],
+    "note": "all Changes bullets filled from direct session knowledge; every Expected-amendment entry dispositioned with its motivating fact present in a Changes bullet first"
+   }
+  },
+  {
+   "anchor_kind": "input-friction",
+   "idx": 230,
+   "id": "2026-09-04T20:59:02Z-d",
+   "chunk": "2026-09-04-sidecar-spawn-without-a-console-window",
+   "consumer": "wrap-session/reconcile",
+   "artifact": "report",
+   "type": "input.report-insufficient",
+   "what": "Two detectors each asserted that the OTHER master owned the reactivateWindow registration — test-plan's agent routed it to a11y-plan, a11y-plan's agent routed it to test-plan. Neither contradiction wa",
+   "producer": {
+    "id": "2026-09-04T20:37:43Z-a",
+    "step": "wrap-session/report",
+    "outcome": "ok",
+    "signals": [],
+    "note": "all Changes bullets filled from direct session knowledge; every Expected-amendment entry dispositioned with its motivating fact present in a Changes bullet first"
+   }
+  }
+ ],
+ "produced_artifacts_declared_per_step": {
+  "implement/code": [
+   "source"
+  ],
+  "implement/fix-loop": [
+   "matrix",
+   "source"
+  ],
+  "implement/smoke": [
+   "conversation"
+  ],
+  "new-session/orientation": [
+   "conversation"
+  ],
+  "phase/distill": [
+   "extracts"
+  ],
+  "phase/plan": [
+   "plan"
+  ],
+  "phase/research": [
+   "research",
+   "scope"
+  ],
+  "phase/take-up": [
+   "master-route",
+   "scope",
+   "working-route"
+  ],
+  "phase/validate": [
+   "conversation",
+   "matrix",
+   "plan",
+   "scope"
+  ],
+  "wrap-session/curation": [
+   "conversation",
+   "rules/verification-harness.md"
+  ],
+  "wrap-session/gates": [
+   "commit",
+   "git-state",
+   "master-route",
+   "matrix",
+   "working-route"
+  ],
+  "wrap-session/reconcile": [
+   "leaf:tests-summary",
+   "sidecar:a11y-plan",
+   "sidecar:architecture",
+   "sidecar:architecture-amendments.md",
+   "sidecar:design-system",
+   "sidecar:layout-templates",
+   "sidecar:layout-templates-amendments.md",
+   "sidecar:security-plan",
+   "sidecar:security-plan-amendments.md",
+   "sidecar:test-plan",
+   "sidecar:test-plan-amendments.md",
+   "spec-edits",
+   "spec:a11y-plan",
+   "spec:architecture",
+   "spec:architecture.md",
+   "spec:design-system",
+   "spec:layout-templates",
+   "spec:layout-templates.md",
+   "spec:obs-plan",
+   "spec:security-plan",
+   "spec:security-plan.md",
+   "spec:test-plan",
+   "spec:test-plan.md",
+   "wrap-playbook"
+  ],
+  "wrap-session/report": [
+   "report"
+  ],
+  "wrap-session/route-resolve": [
+   "working-route"
+  ]
+ },
+ "shapes_with_lineage": [
+  {
+   "producer": "phase/plan",
+   "artifact": "plan",
+   "consumer_skill": "implement",
+   "chunks": [
+    "2026-09-02-mutation-tier-restored-for-conductor-tauri",
+    "2026-09-03-conductor-run-composition-root-survivors-dispositioned",
+    "2026-09-03-live-pulse-preconditions-probed",
+    "2026-09-04-sr-findings-remediation"
+   ],
+   "k": 4
+  },
+  {
+   "producer": "phase/distill",
+   "artifact": "extracts",
+   "consumer_skill": "phase",
+   "chunks": [
+    "2026-09-03-conductor-run-composition-root-survivors-dispositioned",
+    "2026-09-03-conductor-tauri-survivors-dispositioned",
+    "2026-09-04-sidecar-spawn-without-a-console-window",
+    "2026-09-04-sr-findings-remediation"
+   ],
+   "k": 4
+  },
+  {
+   "producer": "phase/take-up",
+   "artifact": "working-route",
+   "consumer_skill": "phase",
+   "chunks": [
+    "2026-09-03-conductor-run-composition-root-survivors-dispositioned",
+    "2026-09-03-live-pulse-preconditions-probed"
+   ],
+   "k": 2
+  },
+  {
+   "producer": "phase/plan",
+   "artifact": "plan",
+   "consumer_skill": "phase",
+   "chunks": [
+    "2026-09-03-conductor-run-composition-root-survivors-dispositioned"
+   ],
+   "k": 1
+  },
+  {
+   "producer": "phase/research",
+   "artifact": "research",
+   "consumer_skill": "phase",
+   "chunks": [
+    "2026-09-03-live-pulse-preconditions-probed"
+   ],
+   "k": 1
+  },
+  {
+   "producer": "wrap-session/report",
+   "artifact": "report",
+   "consumer_skill": "wrap-session",
+   "chunks": [
+    "2026-09-04-sidecar-spawn-without-a-console-window",
+    "2026-09-04-sr-findings-remediation"
+   ],
+   "k": 2
+  },
+  {
+   "producer": "phase/validate",
+   "artifact": "plan",
+   "consumer_skill": "implement",
+   "chunks": [
+    "2026-09-04-sidecar-spawn-without-a-console-window"
+   ],
+   "k": 1
+  }
+ ],
+ "anchors_without_producer": [
+  {
+   "anchor_kind": "consumed-quality",
+   "idx": 2,
+   "id": "2026-09-02T21:42:00Z-a",
+   "chunk": null,
+   "consumer": "new-session/orientation",
+   "artifact": "handoff",
+   "quality": "thin",
+   "note": "Position Next names promoting A11y CI gate while the same handoff records that entry carries BLOCKED-ON: a CI runner; no arm given for what to do instead",
+   "producer": null
+  },
+  {
+   "anchor_kind": "input-friction",
+   "idx": 4,
+   "id": "2026-09-02T21:42:00Z-c",
+   "chunk": null,
+   "consumer": "new-session/orientation",
+   "artifact": "handoff",
+   "type": "input.handoff-git-mismatch",
+   "what": "Handoff Status reads clean; git shows 3 modified (friction-log.ndjson, code-metrics.ndjson, session-handoff.md) plus 2 untracked run dirs (evolve-diagnose Epoch 5, code-audit Epoch 5). Only the fricti",
+   "producer": null
+  },
+  {
+   "anchor_kind": "consumed-quality",
+   "idx": 5,
+   "id": "2026-09-02T22:13:09Z-a",
+   "chunk": null,
+   "consumer": "new-session/orientation",
+   "artifact": "handoff",
+   "quality": "thin",
+   "note": "Position Next prescribes /andromeda-phase on an entry whose own text says phase Setup refuses promotion while BLOCKED-ON stands; ahead-count 43 and the predicted evolve nudge are both stale against post-handoff activity",
+   "producer": null
+  },
+  {
+   "anchor_kind": "input-friction",
+   "idx": 6,
+   "id": "2026-09-02T22:13:09Z-b",
+   "chunk": null,
+   "consumer": "new-session/orientation",
+   "artifact": "handoff",
+   "type": "input.handoff-git-mismatch",
+   "what": "Handoff asserted 43 ahead and predicted the Epoch 5 evolve nudge; git showed 44 ahead (a later setup-project commit 68090e4 at 00:02:55) and an evolve-diagnose run titled Epoch 5 already existed at 20",
+   "producer": null
+  },
+  {
+   "anchor_kind": "input-friction",
+   "idx": 35,
+   "id": "2026-09-03T05:38:39Z-b",
+   "chunk": "2026-09-02-mutation-tier-restored-for-conductor-tauri",
+   "consumer": "wrap-session/report",
+   "artifact": "implement-report",
+   "type": "input.implement-outcome-unsettled",
+   "what": "Implement's report was NOT the final word on its own chunk: it ended `surfaced`, leaving the plan's criterion 2 (disposition every named mutation survivor) explicitly unresolved and put to the operato",
+   "producer": null
+  },
+  {
+   "anchor_kind": "consumed-quality",
+   "idx": 58,
+   "id": "2026-09-03T09:52:27Z-a",
+   "chunk": "2026-09-03-conductor-tauri-survivors-dispositioned",
+   "consumer": "wrap-session/reconcile",
+   "artifact": "wrap-playbook",
+   "quality": "thin",
+   "note": "no rule covered the one escalation — a GATE's pass condition contradicted by its own doc's governing rule. Considered proposing one and DECLINED: a single occurrence is not a confirmed pattern, and a routine verdict for gate-condition changes would suppress exactly the escalation that served well here",
+   "producer": null
+  },
+  {
+   "anchor_kind": "input-friction",
+   "idx": 85,
+   "id": "2026-09-03T12:22:00Z-b",
+   "chunk": "2026-09-03-conductor-run-composition-root-survivors-dispositioned",
+   "consumer": "wrap-session/report",
+   "artifact": "implement-report",
+   "type": "input.implement-outcome-unsettled",
+   "what": "Implement's report was not the final word on its own chunk: the operator's wrap directive corrected one of its justifications (the occupier-guard-collision clause) between implement and this report. T",
+   "producer": null
+  },
+  {
+   "anchor_kind": "consumed-quality",
+   "idx": 129,
+   "id": "2026-09-04T01:52:00Z-a",
+   "chunk": null,
+   "consumer": "wrap-session/route-resolve",
+   "artifact": "report",
+   "quality": "missing",
+   "note": "no-op path runs no P1; the operator directive was the input in its place",
+   "producer": null
+  },
+  {
+   "anchor_kind": "consumed-quality",
+   "idx": 133,
+   "id": "2026-09-04T01:53:00Z-a",
+   "chunk": null,
+   "consumer": "wrap-session/curation",
+   "artifact": "report",
+   "quality": "missing",
+   "note": "no-op path runs no P1",
+   "producer": null
+  },
+  {
+   "anchor_kind": "input-friction",
+   "idx": 153,
+   "id": "2026-09-04T03:01:41Z-c",
+   "chunk": "2026-09-04-sr-findings-remediation",
+   "consumer": "implement/code",
+   "artifact": "conventions",
+   "type": "input.conventions-gap",
+   "what": "Finding 6's fix could not take the shape the plan's fallback anticipated. cmdk's Empty renders {...props} BEFORE role:'presentation', so a passed role loses; and replacing the node with a conditionall",
+   "producer": null
+  },
+  {
+   "anchor_kind": "input-friction",
+   "idx": 161,
+   "id": "2026-09-04T07:08:16Z-b",
+   "chunk": "2026-09-04-sr-findings-remediation",
+   "consumer": "implement/fix-loop",
+   "artifact": null,
+   "type": "input.out-of-pipeline-source",
+   "what": "The live sr subject needs FIVE env handles, not the four any artifact lists. wdio.conf.ts:126 gives the `sr` suite no `scenarios` field (unlike sr-empty/sr-error), so CONDUCTOR_SCENARIOS_DIR=runs/sr-l",
+   "producer": null
+  },
+  {
+   "anchor_kind": "input-friction",
+   "idx": 165,
+   "id": "2026-09-04T07:35:44Z-b",
+   "chunk": "2026-09-04-sr-findings-remediation",
+   "consumer": "wrap-session/report",
+   "artifact": "implement-report",
+   "type": "input.implement-outcome-unsettled",
+   "what": "Implement's own P4 report was NOT the final word: the operator changed a precondition after it (launched a live Pulse, supplied CONDUCTOR_NVDA) and withdrew the plan's deferral of findings 3 and 8, so",
+   "producer": null
+  },
+  {
+   "anchor_kind": "input-friction",
+   "idx": 191,
+   "id": "2026-09-04T17:18:40Z-b",
+   "chunk": "2026-09-04-preconditions-probe-reads-path-handles-by-presence",
+   "consumer": "wrap-session/report",
+   "artifact": "implement-report",
+   "type": "input.implement-outcome-unsettled",
+   "what": "Implement's P4 report was not the final word on its own chunk: it closed green-with-one-deferral (the boot ReadyState witness, unreachable while pulse-app was down), and the operator then changed that",
+   "producer": null
+  },
+  {
+   "anchor_kind": "consumed-quality",
+   "idx": 192,
+   "id": "2026-09-04T17:35:15Z-a",
+   "chunk": "2026-09-04-preconditions-probe-reads-path-handles-by-presence",
+   "consumer": "wrap-session/reconcile",
+   "artifact": "wrap-playbook",
+   "quality": "thin",
+   "note": "no rule covered the largest class this chunk produced — a chunk shipping the fix its master's own body names as route-owned — so 3 escalate-severity proposals reached the operator with no governing precedent; the gap is now closed by the rule minted at E1",
+   "producer": null
+  },
+  {
+   "anchor_kind": "consumed-quality",
+   "idx": 204,
+   "id": "2026-09-04T18:45:23Z-a",
+   "chunk": "2026-09-04-sidecar-spawn-without-a-console-window",
+   "consumer": "phase/distill",
+   "artifact": "spec:a11y-plan.md",
+   "quality": "wrong",
+   "note": "a11y-plan:269 states the pass-spec path as test/a11y/screen-reader/nvda-pass-spec.md; the file is at crates/conductor-tauri/ui/test/a11y/screen-reader/nvda-pass-spec.md — the extract inherited it faithfully, so the master owns the staleness",
+   "producer": null
+  },
+  {
+   "anchor_kind": "input-friction",
+   "idx": 214,
+   "id": "2026-09-04T19:29:11Z-e",
+   "chunk": "2026-09-04-sidecar-spawn-without-a-console-window",
+   "consumer": "phase/validate",
+   "artifact": null,
+   "type": "input.out-of-pipeline-source",
+   "what": "Two decisive facts for the plan's live steps lived outside every artifact this skill reads. (1) pulse-app is DOWN — the overseer stopped PID 17404 after ca94697 — while .claude/session-handoff.md stil",
+   "producer": null
+  }
+ ]
+}

@@ -1,0 +1,115 @@
+{
+ "population": "rust-code-analysis kind==function spaces under crates/; ceiling cognitive > 15; top sorted by COGNITIVE desc",
+ "cyclomatic_p50": 1.0,
+ "cyclomatic_p90": 4.0,
+ "cognitive_p50": 0.0,
+ "cognitive_p90": 1.0,
+ "over_ceiling": 6,
+ "max": {
+  "fn": "serve_stub",
+  "file": "crates/conductor-verify/tests/common/mod.rs",
+  "val": 35.0
+ },
+ "top": [
+  [
+   "serve_stub",
+   "crates/conductor-verify/tests/common/mod.rs",
+   35.0,
+   34.0
+  ],
+  [
+   "shape_is_realizable",
+   "crates/conductor-core/src/phase_spec.rs",
+   31.0,
+   30.0
+  ],
+  [
+   "validate",
+   "crates/conductor-core/src/run_contract.rs",
+   18.0,
+   16.0
+  ],
+  [
+   "observe",
+   "crates/conductor-verify/src/extract.rs",
+   17.0,
+   13.0
+  ],
+  [
+   "dispatch",
+   "crates/conductor-run/src/dispatch.rs",
+   16.0,
+   47.0
+  ],
+  [
+   "run_preflight",
+   "crates/conductor-verify/src/preflight.rs",
+   16.0,
+   20.0
+  ],
+  [
+   "is_host_path_token",
+   "crates/conductor-core/src/redact.rs",
+   15.0,
+   18.0
+  ],
+  [
+   "validate",
+   "crates/conductor-core/src/load_envelope.rs",
+   13.0,
+   9.0
+  ],
+  [
+   "redact_value",
+   "crates/conductor-core/src/redact.rs",
+   13.0,
+   9.0
+  ],
+  [
+   "service_topology_request",
+   "crates/conductor-emit/src/topology.rs",
+   12.0,
+   8.0
+  ]
+ ],
+ "functions": 2122,
+ "rs_files_scanned": 121,
+ "over_ceiling_list": [
+  [
+   "shape_is_realizable",
+   "crates/conductor-core/src/phase_spec.rs",
+   31.0,
+   30.0
+  ],
+  [
+   "validate",
+   "crates/conductor-core/src/run_contract.rs",
+   18.0,
+   16.0
+  ],
+  [
+   "dispatch",
+   "crates/conductor-run/src/dispatch.rs",
+   16.0,
+   47.0
+  ],
+  [
+   "observe",
+   "crates/conductor-verify/src/extract.rs",
+   17.0,
+   13.0
+  ],
+  [
+   "run_preflight",
+   "crates/conductor-verify/src/preflight.rs",
+   16.0,
+   20.0
+  ],
+  [
+   "serve_stub",
+   "crates/conductor-verify/tests/common/mod.rs",
+   35.0,
+   34.0
+  ]
+ ]
+}

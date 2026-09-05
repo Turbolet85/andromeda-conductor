@@ -1,0 +1,297 @@
+{
+ "scalars": [
+  {
+   "metric": "dup_pct",
+   "prior": 3.66,
+   "baseline": 3.58,
+   "current": 3.4307785519539538,
+   "delta": -0.1492214480460463,
+   "prior_delta": -0.08000000000000007,
+   "worsened_now": false,
+   "worsened_prior": false,
+   "monotonic": false
+  },
+  {
+   "metric": "clones",
+   "prior": 84,
+   "baseline": 86,
+   "current": 90,
+   "delta": 4,
+   "prior_delta": 2,
+   "worsened_now": true,
+   "worsened_prior": true,
+   "monotonic": true
+  },
+  {
+   "metric": "over_ceiling",
+   "prior": 6,
+   "baseline": 6,
+   "current": 6,
+   "delta": 0,
+   "prior_delta": 0,
+   "worsened_now": false,
+   "worsened_prior": false,
+   "monotonic": false
+  },
+  {
+   "metric": "file_max",
+   "prior": 1012,
+   "baseline": 1115,
+   "current": 1423,
+   "delta": 308,
+   "prior_delta": 103,
+   "worsened_now": true,
+   "worsened_prior": true,
+   "monotonic": true
+  },
+  {
+   "metric": "over_800",
+   "prior": 2,
+   "baseline": 2,
+   "current": 2,
+   "delta": 0,
+   "prior_delta": 0,
+   "worsened_now": false,
+   "worsened_prior": false,
+   "monotonic": false
+  },
+  {
+   "metric": "cycles",
+   "prior": 0,
+   "baseline": 0,
+   "current": 0,
+   "delta": 0,
+   "prior_delta": 0,
+   "worsened_now": false,
+   "worsened_prior": false,
+   "monotonic": false
+  },
+  {
+   "metric": "cross_unit_edges",
+   "prior": 16,
+   "baseline": 16,
+   "current": 16,
+   "delta": 0,
+   "prior_delta": 0,
+   "worsened_now": false,
+   "worsened_prior": false,
+   "monotonic": false
+  },
+  {
+   "metric": "dead_candidates",
+   "prior": 33,
+   "baseline": 32,
+   "current": 35,
+   "delta": 3,
+   "prior_delta": -1,
+   "worsened_now": true,
+   "worsened_prior": false,
+   "monotonic": false
+  },
+  {
+   "metric": "coverage_line",
+   "prior": 92.62,
+   "baseline": 92.11,
+   "current": 93.94,
+   "delta": 1.8299999999999983,
+   "prior_delta": -0.5100000000000051,
+   "worsened_now": false,
+   "worsened_prior": true,
+   "monotonic": false
+  },
+  {
+   "metric": "churn_pct",
+   "prior": 11.81,
+   "baseline": 33.63,
+   "current": 25.36,
+   "delta": -8.270000000000003,
+   "prior_delta": 21.82,
+   "worsened_now": false,
+   "worsened_prior": true,
+   "monotonic": false
+  }
+ ],
+ "checks": [
+  {
+   "check": "new-cycle",
+   "class": "below",
+   "detail": "cycles 0 -> 0"
+  },
+  {
+   "check": "duplication-up",
+   "class": "below",
+   "detail": "dup pct 3.58 -> 3.43 (-0.15 pt)"
+  },
+  {
+   "check": "complexity-creep",
+   "class": "below",
+   "detail": "over_ceiling 6 -> 6"
+  },
+  {
+   "check": "dead-growth",
+   "class": "below",
+   "detail": "zero-ref candidates 32 -> 35 (+3)"
+  },
+  {
+   "check": "coverage-drop",
+   "class": "below",
+   "detail": "line coverage 92.11 -> 93.94 (+1.83 pt)"
+  },
+  {
+   "check": "mutation-drop:conductor-tauri",
+   "class": "informational",
+   "detail": "score None -> 89.29 (no prior score or not run: no trend judgment)"
+  },
+  {
+   "check": "mutation-drop:conductor-run",
+   "class": "below",
+   "detail": "score 72.22 -> 94.44 (+22.22 pt)"
+  },
+  {
+   "check": "mutation-drop:conductor-verify",
+   "class": "below",
+   "detail": "score 89.09 -> 88.33 (-0.76 pt)"
+  },
+  {
+   "check": "mutation-drop:conductor-cli",
+   "class": "informational",
+   "detail": "score None -> 58.59 (no prior score or not run: no trend judgment)"
+  },
+  {
+   "check": "mutation-drop:conductor-core",
+   "class": "informational",
+   "detail": "score None -> 95.24 (no prior score or not run: no trend judgment)"
+  },
+  {
+   "check": "monotonic",
+   "class": "proposal",
+   "detail": "clones: 84 -> 86 -> 90 (worsened at both diffs)"
+  },
+  {
+   "check": "monotonic",
+   "class": "proposal",
+   "detail": "file_max: 1012 -> 1115 -> 1423 (worsened at both diffs)"
+  },
+  {
+   "check": "trend-break",
+   "class": "below",
+   "detail": "tool version changes vs baseline: none"
+  }
+ ],
+ "entrants": {
+  "sizes_top": [
+   [
+    "crates/conductor-cli/src/render.rs",
+    521
+   ]
+  ],
+  "complexity_top": [],
+  "duplication_top": [],
+  "fan_in_top": [
+   [
+    "conductor-core capability_manifest/CapabilityManifest#",
+    36
+   ]
+  ],
+  "hotspots_top": [
+   [
+    "crates/conductor-core/src/preconditions.rs",
+    22.0
+   ],
+   [
+    "crates/conductor-core/src/run_contract.rs",
+    18.0
+   ],
+   [
+    "crates/conductor-cli/tests/cli_smoke.rs",
+    7.0
+   ],
+   [
+    "crates/conductor-verify/src/spawn.rs",
+    6.0
+   ],
+   [
+    "crates/conductor-cli/src/render.rs",
+    6.0
+   ],
+   [
+    "crates/conductor-cli/src/commands/preconditions.rs",
+    5.0
+   ],
+   [
+    "crates/conductor-cli/src/main.rs",
+    4.0
+   ],
+   [
+    "crates/conductor-tauri/src/main.rs",
+    4.0
+   ]
+  ],
+  "dead_top20_new_vs_baseline_top20": [
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonObsLayer<W>`][`Layer<S>`]on_close().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonVisitor<'_>`][Visit]record_bool().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonObsLayer<W>`][`Layer<S>`]on_event().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonVisitor<'_>`][Visit]record_debug().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 preconditions/impl#[PreconditionSubject][Display]fmt().",
+    "crates/conductor-core/src/preconditions.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[ObsWriterGuard][Write]write().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[ObsWriterGuard][Write]flush().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonVisitor<'_>`][Visit]record_i64().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonVisitor<'_>`][Visit]record_str().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 preconditions/SIDECAR_PROGRAM.",
+    "crates/conductor-core/src/preconditions.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonVisitor<'_>`][Visit]record_f64().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonVisitor<'_>`][Visit]record_error().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 preconditions/EGRESS_TARGET.",
+    "crates/conductor-core/src/preconditions.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonVisitor<'_>`][Visit]record_u64().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-cli 0.1.0 render/PRECONDITION_LABEL.",
+    "crates/conductor-cli/src/render.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonObsLayer<W>`][`Layer<S>`]on_new_span().",
+    "crates/conductor-core/src/obs.rs"
+   ]
+  ]
+ }
+}

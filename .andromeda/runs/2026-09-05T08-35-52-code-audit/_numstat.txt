@@ -1,0 +1,49 @@
+commit 59d5b7c84bb3d6df2420790d111aebe19ed1bed7
+
+106	45	crates/conductor-tauri/src/commands.rs
+17	38	crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts
+43	14	crates/conductor-verify/src/spawn.rs
+commit ca946973ca719addc374416dd50b14a8527dd721
+
+1	1	crates/conductor-core/src/lib.rs
+124	0	crates/conductor-core/src/preconditions.rs
+74	9	crates/conductor-run/src/lib.rs
+commit a981a976b641e30d1a84ea2de4a2c08e25f2d394
+
+52	4	crates/conductor-run/src/lib.rs
+43	26	crates/conductor-tauri/ui/src/App.tsx
+5	2	crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx
+4	2	crates/conductor-tauri/ui/src/components/RunReport.tsx
+27	2	crates/conductor-tauri/ui/src/components/ScenarioPicker.tsx
+17	2	crates/conductor-tauri/ui/src/components/Titlebar.tsx
+25	4	crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts
+19	3	crates/conductor-tauri/ui/test/a11y/screen-reader/parse-nvda-log.ts
+42	25	crates/conductor-tauri/ui/test/a11y/screen-reader/rows.ts
+commit 480bc66e9b3f0c4d461ffd76342febc07cf06e76
+
+6	0	crates/conductor-cli/src/cli.rs
+2	0	crates/conductor-cli/src/commands/mod.rs
+38	0	crates/conductor-cli/src/commands/preconditions.rs
+1	0	crates/conductor-cli/src/main.rs
+222	43	crates/conductor-cli/src/render.rs
+221	37	crates/conductor-cli/tests/cli_smoke.rs
+5	0	crates/conductor-core/src/lib.rs
+383	0	crates/conductor-core/src/preconditions.rs
+87	22	crates/conductor-core/src/run_contract.rs
+41	2	crates/conductor-run/src/lib.rs
+104	0	crates/conductor-run/tests/run_contract_pin.rs
+1	0	crates/conductor-verify/src/lib.rs
+182	6	crates/conductor-verify/src/spawn.rs
+commit a176696914f48c1e816f73f67acf8dc94431d9e0
+
+263	1	crates/conductor-run/src/lib.rs
+36	0	crates/conductor-run/tests/dispatch_wire.rs
+commit 2f3a63a4d81dbc832b0bfdc9c71018a0ceee24ec
+
+200	0	crates/conductor-tauri/src/commands.rs
+31	0	crates/conductor-tauri/src/main.rs
+29	2	crates/conductor-tauri/src/pause.rs
+commit d86ed0bb7d9553a8311cf7363c5e84b2f9270e37
+
+137	0	crates/conductor-cli/tests/cross_surface_parity.rs
+7	120	crates/conductor-tauri/src/commands.rs

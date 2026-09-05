@@ -1,0 +1,190 @@
+{
+ "unit": "conductor-cli",
+ "state": "complete",
+ "done_marker": "exit=2 seconds=550",
+ "planned_in_scope": 117,
+ "planned_full_unit": 117,
+ "counts": {
+  "mutants": 117,
+  "caught": 58,
+  "missed": 41,
+  "timeout": 0,
+  "unviable": 18
+ },
+ "tested": 117,
+ "score": 58.59,
+ "score_formula": "caught/(caught+missed)  [timeout and unviable excluded]",
+ "survivors": [
+  [
+   "crates/conductor-cli/src/main.rs:55:5",
+   "replace hint_for -> &'static str with \"\""
+  ],
+  [
+   "crates/conductor-cli/src/main.rs:55:5",
+   "replace hint_for -> &'static str with \"xyzzy\""
+  ],
+  [
+   "crates/conductor-cli/src/commands/mod.rs:29:5",
+   "replace exit_code -> ExitCode with Default::default()"
+  ],
+  [
+   "crates/conductor-cli/src/paths.rs:73:39",
+   "delete ! in Paths::load_all_scenarios"
+  ],
+  [
+   "crates/conductor-cli/src/paths.rs:130:5",
+   "replace env_seed -> Option<u64> with None"
+  ],
+  [
+   "crates/conductor-cli/src/pause.rs:31:9",
+   "replace <impl PauseResolver for PromptResolver>::kind -> &'static str with \"\""
+  ],
+  [
+   "crates/conductor-cli/src/pause.rs:31:9",
+   "replace <impl PauseResolver for PromptResolver>::kind -> &'static str with \"xyzzy\""
+  ],
+  [
+   "crates/conductor-cli/src/pause.rs:104:9",
+   "replace <impl PauseResolver for CliResolver>::kind -> &'static str with \"\""
+  ],
+  [
+   "crates/conductor-cli/src/pause.rs:104:9",
+   "replace <impl PauseResolver for CliResolver>::kind -> &'static str with \"xyzzy\""
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:62:5",
+   "replace lamp_code -> u8 with 0"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:62:5",
+   "replace lamp_code -> u8 with 1"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:75:5",
+   "replace paint -> String with String::new()"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:75:5",
+   "replace paint -> String with \"xyzzy\".into()"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:95:5",
+   "replace hold_line -> String with String::new()"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:95:5",
+   "replace hold_line -> String with \"xyzzy\".into()"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:104:5",
+   "replace envelope_caption -> Option<String> with None"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:104:5",
+   "replace envelope_caption -> Option<String> with Some(String::new())"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:104:5",
+   "replace envelope_caption -> Option<String> with Some(\"xyzzy\".into())"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:132:5",
+   "replace coverage_summary -> String with String::new()"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:132:5",
+   "replace coverage_summary -> String with \"xyzzy\".into()"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:154:5",
+   "replace stdout_color -> bool with false"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:156:53",
+   "replace != with == in stdout_color"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:162:5",
+   "replace stderr_color -> bool with true"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:162:5",
+   "replace stderr_color -> bool with false"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:164:9",
+   "replace && with || in stderr_color"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:163:9",
+   "replace && with || in stderr_color"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:164:53",
+   "replace != with == in stderr_color"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:270:30",
+   "replace == with != in coverage_table_styled"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:291:25",
+   "replace != with == in coverage_summary_styled"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:293:12",
+   "delete ! in coverage_summary_styled"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:299:40",
+   "replace && with || in coverage_summary_styled"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:299:18",
+   "replace == with != in coverage_summary_styled"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:299:43",
+   "delete ! in coverage_summary_styled"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:329:5",
+   "replace wire -> String with String::new()"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:329:5",
+   "replace wire -> String with \"xyzzy\".into()"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:338:5",
+   "replace latency -> String with String::new()"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:338:5",
+   "replace latency -> String with \"xyzzy\".into()"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:343:5",
+   "replace fingerprints -> String with String::new()"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:343:5",
+   "replace fingerprints -> String with \"xyzzy\".into()"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:345:20",
+   "replace match guard v.is_empty() with true in fingerprints"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:345:20",
+   "replace match guard v.is_empty() with false in fingerprints"
+  ]
+ ],
+ "timeouts": [],
+ "command": "cargo mutants -p conductor-cli --test-tool=nextest --jobs 2 --output {run_dir}/mutants-conductor-cli",
+ "log_tail": [
+  "MISSED   crates/conductor-cli/src/render.rs:345:20: replace match guard v.is_empty() with true in fingerprints in 3s build + 5s test",
+  "MISSED   crates/conductor-cli/src/render.rs:345:20: replace match guard v.is_empty() with false in fingerprints in 3s build + 5s test",
+  "117 mutants tested in 9m: 41 missed, 58 caught, 18 unviable"
+ ]
+}

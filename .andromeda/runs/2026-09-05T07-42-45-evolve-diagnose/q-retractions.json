@@ -1,0 +1,103 @@
+{
+ "records": 1398,
+ "unparseable": 0,
+ "retracted_ids": [
+  "2026-09-03T06:11:16Z-b",
+  "2026-09-04T16:55:27Z-b"
+ ],
+ "retracted_problems": [
+  [
+   "2026-08-20T21:14:37Z-a",
+   null
+  ],
+  [
+   "2026-09-02T13:31:41Z-a",
+   0
+  ]
+ ],
+ "unresolvable": [
+  [
+   null,
+   "prose-form-pre-boundary",
+   "the untyped code-graph-under-reports record and the first problem-block entry on"
+  ]
+ ],
+ "retraction_of_retraction": [],
+ "retraction_records": [
+  {
+   "id": null,
+   "epoch": "Epoch 1 — Foundation: re-aim at the SUT",
+   "chunk": "2026-08-08-sut-capability-manifest",
+   "skill": "phase",
+   "step": "plan",
+   "type": null,
+   "what": "RETRACTION - the earlier claim that the code-graph calls view under-reports cross-crate call sites is FALSE and must not reach curation. The trace shows q4 calls and q5 refs each returned 41 rows for from_toml_str, db_state=fresh, across 6 files in 5 crates; the rows=1 belonged to q3 (pid_format). The 1 was produced by piping q4 output through head -30, which cut 41 records to 10, leaving conductor-cli/paths.rs as the only visible non-test caller - then attributing that to the graph. The same habit corrupted the PId finding: q1 carried a self-imposed LIMIT 40 and returned exactly 40, which was read as the complete set and written up as no references outside the test module; the true count is 82 refs across 16 files in 6 crates. grep did not beat the graph - grep over-counts (pub fn definition, 4 test-function names, 1 doc comment). The real friction is an orchestrator reading a self-truncated view as a result set and blaming the tool. Operator caught it before apply. Artifacts corrected: research.md Graph impact (with an inline correction note), plan.md Implementation notes and Provenance; the generalized grep-before-trusting-the-graph directive was removed and replaced with the narrow true lesson (SCIP matches by descriptor; attribute a row count to its query; never read a LIMIT-ed or head-ed view as the result; graph lines are 0-indexed vs grep 1-indexed).",
+   "retracts": "the untyped code-graph-under-reports record and the first problem-block entry on the plan step record, both appended earlier at this step"
+  },
+  {
+   "id": "2026-08-20T21:40:24Z-a",
+   "epoch": "Epoch 4 — Lifecycle & delegated timing",
+   "chunk": "2026-08-20-verifier-self-hardening",
+   "skill": "implement",
+   "step": "fix-loop",
+   "type": "ambiguity.scope-pressure",
+   "what": "the surfaced scope question was resolved by founder ruling rather than by iteration: touchpoints widened to the in-crate test module for the stamps (three tests — magnitude bounds, a cross-unit agreement check between the two helpers, and advance-across-a-real-pause — killing all six, measured 3/0 and 3/0), while the six declares survivors were classified accepted-deliberate on the standing testing.md 2026-08-10 rule that env is read at the caller so the thin edge stays untested by design",
+   "retracts": [
+    {
+     "id": "2026-08-20T21:14:37Z-a",
+     "scope": "problem",
+     "note": "HALF superseded, not false when written: the operator widened the touchpoints to conductor-run/src/lib.rs test-module-only and the six journal-stamp survivors were then implemented and measured killed, so discount the step-7 half of that deferral; the step-3 (declares) half STANDS and was ruled accepted-deliberate, not deferred"
+    }
+   ]
+  },
+  {
+   "id": "2026-09-02T22:23:12Z-a",
+   "epoch": "Epoch 6a — Verification follow-ups",
+   "chunk": null,
+   "skill": "wrap-session",
+   "step": "curation",
+   "type": "contract.narrow-basis-claim",
+   "what": "A graph LIMITATION was concluded from a single anchored query: rows=0 for read_envelope came from the anchor '%/read_envelope().%' against the crate-root symbol 'conductor-run 0.1.0 read_envelope().', where nothing precedes the name — not from the calls view being unable to see a caller inside a macro-expanded #[tauri::command] body. Re-measured 2026-09-02 on the rebuilt rust plane: 5 call sites / 3 distinct callers, present all along; confirming the symbol was indexed did not discriminate the two causes, because the anchor and not the index was at fault.",
+   "retracts": [
+    {
+     "id": "2026-09-02T13:31:41Z-a",
+     "scope": "problem",
+     "index": 0,
+     "note": "The workaround FACT stands (caller enumeration did fall back to grep); its stated CAUSE is retracted. Discount the macro-expansion reading, not the deviation."
+    }
+   ]
+  },
+  {
+   "id": "2026-09-03T09:12:17Z-b",
+   "epoch": "Epoch 6a — Verification follow-ups",
+   "chunk": "2026-09-03-conductor-tauri-survivors-dispositioned",
+   "skill": "wrap-session",
+   "step": "report",
+   "type": "contract.narrow-basis-claim",
+   "what": "A prior wrap's enumeration of which sites carried the swept tokens was derived from the POST-amendment file rather than the pre-amendment bytes the sweep actually ran against, so a site that did carry a swept token was recorded as carrying none",
+   "retracts": [
+    {
+     "id": "2026-09-03T06:11:16Z-b",
+     "scope": "record",
+     "note": "DISCOUNT only this clause: ':93 carries neither the tokens nor the phrase the mechanism sweep used (cross-surface-coordination, the Tauri-launched run)'. Measured on the pre-amendment bytes — git show d86ed0b~1:.andromeda/test-plan.md | grep -n -i launched returns exactly :80, :93, :371, and :93 opens with '**Trigger type:** cross-surface-coordination'. WHAT STANDS: the drift finding itself was TRUE — the doc-agent prompt's duplicate sweep was token-keyed while the cascade's own step 2 prescribed sweeping the retired MECHANISM — and it has since been encoded pipeline-side (2026-09-03): the doc-agent prompt now sweeps for the CLAIM (its wording AND what it says), the cascade's pattern set is derived from every amendment and runs the claim's verbs over the whole master, and the sidecar entry names its search. The three-of-seven site count and the escalation it produced are unaffected"
+    }
+   ]
+  },
+  {
+   "id": "2026-09-04T17:12:31Z-a",
+   "epoch": "Epoch 6a — Verification follow-ups",
+   "chunk": "2026-09-04-preconditions-probe-reads-path-handles-by-presence",
+   "skill": "implement",
+   "step": "smoke",
+   "type": null,
+   "what": "The deferral was environmental and operator-clearable, not a host limit: once pulse-app was relaunched with the sidecar on PATH, both shells emitted ReadyState JSON with ready:true and canary_round_trip:ok, and the negative control (zero 'skipped preflight' lines) confirmed the preflight RAN. The retracted record's mechanism was accurate at its timestamp but its wording — 'unprovable on this host' — reads as a durable host property and would mislead a later diagnosis; the accurate scope was 'unprovable while the operator's SUT is down'.",
+   "retracts": [
+    {
+     "id": "2026-09-04T16:55:27Z-b",
+     "scope": "record",
+     "note": "Discount the claim that the ReadyState witness is unprovable and the criterion deferred — both were discharged in the same session."
+    }
+   ]
+  }
+ ]
+}

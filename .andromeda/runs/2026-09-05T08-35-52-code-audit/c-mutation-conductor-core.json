@@ -1,0 +1,50 @@
+{
+ "unit": "conductor-core",
+ "state": "complete",
+ "done_marker": "exit=2 seconds=380",
+ "planned_in_scope": 126,
+ "planned_full_unit": 504,
+ "counts": {
+  "mutants": 126,
+  "caught": 120,
+  "missed": 6,
+  "timeout": 0,
+  "unviable": 0
+ },
+ "tested": 126,
+ "score": 95.24,
+ "score_formula": "caught/(caught+missed)  [timeout and unviable excluded]",
+ "survivors": [
+  [
+   "crates/conductor-core/src/obs.rs:224:41",
+   "replace - with + in civil_from_unix"
+  ],
+  [
+   "crates/conductor-core/src/obs.rs:224:41",
+   "replace - with / in civil_from_unix"
+  ],
+  [
+   "crates/conductor-core/src/obs.rs:226:48",
+   "replace - with + in civil_from_unix"
+  ],
+  [
+   "crates/conductor-core/src/obs.rs:226:48",
+   "replace - with / in civil_from_unix"
+  ],
+  [
+   "crates/conductor-core/src/obs.rs:226:33",
+   "replace + with - in civil_from_unix"
+  ],
+  [
+   "crates/conductor-core/src/obs.rs:226:33",
+   "replace + with * in civil_from_unix"
+  ]
+ ],
+ "timeouts": [],
+ "command": "cargo mutants -p conductor-core --test-tool=nextest --jobs 2 --shard 1/4 --output {run_dir}/mutants-conductor-core",
+ "log_tail": [
+  "MISSED   crates/conductor-core/src/obs.rs:226:33: replace + with - in civil_from_unix in 3s build + 2s test",
+  "MISSED   crates/conductor-core/src/obs.rs:226:33: replace + with * in civil_from_unix in 3s build + 2s test",
+  "126 mutants tested in 6m: 6 missed, 120 caught"
+ ]
+}

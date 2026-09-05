@@ -77,7 +77,7 @@ join the two result sets by hand. Corollary: **zero callers on an IPC-facing or 
 dead-code evidence** — the caller may live on the other plane or in a runtime dispatch the graph cannot see.
 
 ## Reading the result
-- Non-empty → the impacted sites; cite `symbol @ file:line` in `plan.md` (the adoption numerator).
+- Non-empty → the impacted sites; cite `symbol @ file:line` in `plan.md` (the adoption numerator) — `line` / `def_line` are the SCIP range's 0-INDEXED start (code-graph.py `span()`): the editor line is `line + 1`, cite THAT (measured: three citations off by one in one plan, operator-caught; the same slip in three more chunks this epoch).
 - Empty (`rows: 0`) → consulted-but-no-match is a REAL finding (leaf / additive / zero cross-crate blast), NOT
   "didn't query" — but ONLY after two preconditions: (a) the plane you queried actually BUILT (`db_state` was
   not `cold-start`, and no skipped-plane notice named it), and (b) every name / pattern the query used exists on

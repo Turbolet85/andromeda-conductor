@@ -1,0 +1,91 @@
+{
+ "unit": "conductor-verify",
+ "state": "complete",
+ "done_marker": "exit=3 seconds=484",
+ "planned_in_scope": 148,
+ "planned_full_unit": 148,
+ "counts": {
+  "mutants": 148,
+  "caught": 106,
+  "missed": 14,
+  "timeout": 2,
+  "unviable": 26
+ },
+ "tested": 148,
+ "score": 88.33,
+ "score_formula": "caught/(caught+missed)  [timeout and unviable excluded]",
+ "survivors": [
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:18:5",
+   "replace main with ()"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:37:60",
+   "replace || with && in main"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:45:5",
+   "replace stub_result -> Value with Default::default()"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:46:9",
+   "delete match arm \"initialize\" in stub_result"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:51:9",
+   "delete match arm \"tools/list\" in stub_result"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:55:9",
+   "delete match arm \"tools/call\" in stub_result"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:57:21",
+   "replace == with != in stub_result"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:69:28",
+   "replace == with != in stub_result"
+  ],
+  [
+   "crates/conductor-verify/src/client.rs:157:9",
+   "replace ReadbackClient::resolve_incident -> Result<Value, VerifyError> with Ok(Default::default())"
+  ],
+  [
+   "crates/conductor-verify/src/extract.rs:95:22",
+   "replace == with != in observe"
+  ],
+  [
+   "crates/conductor-verify/src/extract.rs:110:22",
+   "replace == with != in observe"
+  ],
+  [
+   "crates/conductor-verify/src/manifest.rs:35:9",
+   "replace ContractManifest::default_path -> PathBuf with Default::default()"
+  ],
+  [
+   "crates/conductor-verify/src/spawn.rs:116:5",
+   "replace sidecar_resolves_on_path -> bool with true"
+  ],
+  [
+   "crates/conductor-verify/src/spawn.rs:116:5",
+   "replace sidecar_resolves_on_path -> bool with false"
+  ]
+ ],
+ "timeouts": [
+  [
+   "crates/conductor-verify/src/jsonrpc.rs:49:30",
+   "replace != with == in JsonRpcSession::request"
+  ],
+  [
+   "crates/conductor-verify/src/jsonrpc.rs:70:9",
+   "replace JsonRpcSession::write_message -> Result<(), VerifyError> with Ok(())"
+  ]
+ ],
+ "command": "cargo mutants -p conductor-verify --test-tool=nextest --jobs 2 --output {run_dir}/mutants-conductor-verify",
+ "log_tail": [
+  "MISSED   crates/conductor-verify/src/spawn.rs:116:5: replace sidecar_resolves_on_path -> bool with true in 6s build + 1s test",
+  "MISSED   crates/conductor-verify/src/spawn.rs:116:5: replace sidecar_resolves_on_path -> bool with false in 6s build + 1s test",
+  "148 mutants tested in 8m: 14 missed, 106 caught, 26 unviable, 2 timeouts"
+ ]
+}

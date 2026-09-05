@@ -1,0 +1,75 @@
+{
+ "epoch": "Epoch 6a",
+ "basis": "Stage 4 over the retraction-filtered stream: 31 populated step records / 34 problem facts in-epoch (2 retracted problem-facts belong to Epochs 4 and 5, none in range). Pass A clusters by the obstacle each fact routes around; Pass B applies the four form signatures with read-only cross-epoch lookback.",
+ "problem_fact_solutions_in_epoch": {"workaround": 24, "removed-cause": 6, "prohibition": 2, "deferred": 1, "overridden": 1},
+ "pass_a_themes": [
+  {
+   "theme": "A — multi-KB single-line artifacts (working-route entries, master-route records, spec bodies, rule-file Session Additions, sidecars) defeat the anchored Edit tool the skills' constraints name; the write goes through a python read-modify-write by path with post-write assertions",
+   "n": 9, "solutions": {"workaround": 9}, "natures": {"process": 5, "environment": 4},
+   "facts": ["2026-09-02T22:24:06Z-a#0", "2026-09-03T07:20:46Z-a#0", "2026-09-03T09:52:27Z-a#0", "2026-09-03T09:54:46Z-a#0", "2026-09-03T09:57:06Z-a#0", "2026-09-03T10:33:42Z-a#0", "2026-09-03T15:52:57Z-a#0", "2026-09-04T01:52:00Z-a#0", "2026-09-04T02:11:10Z-a#0"],
+   "steps_touched": ["phase/take-up x4", "wrap-session/route-resolve x3", "wrap-session/reconcile x1", "wrap-session/curation x1"],
+   "sub_mechanism_facts": {"CRLF terminator trap of the same path (removed-cause)": ["2026-09-03T12:58:00Z-a#0", "2026-09-03T13:05:00Z-a#0"]},
+   "typed_correlates": {"tooling.long-line-edit": 8, "tooling.output-cap-overflow": 2, "tooling.commit-mechanics": 1},
+   "prior_epoch_recurrence": {"Epoch 5 problem facts": ["2026-08-22T21:22:44Z-c#0 (curation: anchored Edit instead of whole-content Write on ~10k-char entries)", "2026-09-01T20:14:51Z-a#0 (take-up: Read offset gave no file-end on multi-KB single lines)"], "tooling.long-line-edit by epoch": {"Epoch 5": 3, "Epoch 6a": 8}},
+   "at_threshold": true
+  },
+  {
+   "theme": "B — a command shape the host's own rules already forbid (rm -rf inside a launch compound, a quote/backslash-bearing inline python -c, a >6500-byte heredoc, a cat-heredoc with a file target) was issued anyway and stopped by the permission layer / PreToolUse hook / a false probe result, then re-issued in the prescribed form",
+   "n": 5, "solutions": {"workaround": 5}, "natures": {"process": 3, "environment": 2},
+   "facts": ["2026-09-03T05:18:51Z-a#0", "2026-09-03T18:49:12Z-a#0", "2026-09-03T20:16:59Z-a#0", "2026-09-04T03:01:41Z-a#0", "2026-09-04T16:52:34Z-a#0"],
+   "steps_touched": ["implement/fix-loop x2", "phase/validate x1", "wrap-session/reconcile x1", "implement/code x1"],
+   "typed_correlates": {"tooling.host-shell": 4, "recall.corpus-recurrence (rm -rf rule in context, not applied)": 1},
+   "prior_epoch_recurrence": {"Epoch 3": ["2026-08-15-canary-spans-pulse-fingerprints reconcile: combined write + rm -rf denied"], "Epoch 4": ["2026-08-20T21:19:11Z-a#0 fix-loop: operator denied rm -rf of mutants.out"], "tooling.host-shell by epoch": {"Epoch 3": 14, "Epoch 4": 13, "Epoch 5": 3, "Epoch 6a": 4}},
+   "at_threshold": true
+  },
+  {
+   "theme": "E — a plan step prescribed a mechanism (a named test as the kill vehicle; an IPC-dispatch kill; a tracing capture) that measurement at implement/validate showed unreachable or inapt; the step's own sanctioned alternative was taken",
+   "n": 3, "solutions": {"workaround": 2, "removed-cause": 1}, "natures": {"product-logic": 2, "process": 1},
+   "facts": ["2026-09-03T08:28:10Z-a#0", "2026-09-03T11:56:00Z-a#0", "2026-09-03T11:32:53Z-a#0"],
+   "typed_correlates": {"contract.mechanical-check": 6, "contract.structural-blind-spot": 1, "input.plan-step-ambiguous": 2, "consumed plan: thin x3 / wrong x1": 4},
+   "at_threshold": true,
+   "band_aid_eligible": false,
+   "note": "nature is product-logic-majority, so this is NOT a band-aid signature; it is the problem-fact side of chain X1 and proposal P2."
+  },
+  {
+   "theme": "H — build residue or a reused output location masked a result (stale mutants.out read as a clean sweep; shared CARGO_TARGET_DIR across worktrees served a HEAD binary; a literal --output dir reused by a re-run)",
+   "n": 2, "solutions": {"workaround": 2}, "natures": {"process": 2},
+   "facts": ["2026-09-03T19:12:52Z-a#0", "2026-09-04T16:52:34Z-a#1"],
+   "typed_correlates": {"untyped 2026-09-03T05:18:51Z-b (stale mutants.out)": 1, "tooling.environmental 2026-09-03T19:12:52Z-b": 1},
+   "prior_epoch_recurrence": {"Epoch 4": ["2026-08-20T21:19:11Z-a#0 (rm -rf of mutants.out denied; output stays in tree)", "2026-08-20T23:25:07Z-a#0 (gates deferred, mutants.out residue)"]},
+   "at_threshold": true,
+   "at_threshold_basis": "n=2 recurring from a prior epoch"
+  },
+  {"theme": "C — a read-only phase step (P3 research) needed a MEASUREMENT (live CARGO_BIN_EXE probes; the full 12-min mutation tier) that no sanctioned channel provides", "n": 2, "solutions": {"workaround": 1, "removed-cause": 1}, "natures": {"process": 2}, "facts": ["2026-09-02T23:08:35Z-a#0", "2026-09-03T10:58:12Z-a#0"], "prior_epoch_recurrence": "none found on the same theme", "at_threshold": false},
+  {"theme": "F — foreground sleep-polling for a background agent instead of a passive wait", "n": 1, "facts": ["2026-09-03T09:52:27Z-a#1"], "at_threshold": false},
+  {"theme": "G — a multi-site CODE refactor done as one scripted read-modify-write instead of anchored Edits", "n": 1, "facts": ["2026-09-03T19:10:36Z-a#0"], "at_threshold": false},
+  {"theme": "I — a P5-detected plan defect fixed by targeted plan.md edits instead of the documented return to P4 re-synthesis", "n": 1, "facts": ["2026-09-04T15:02:45Z-a#0"], "at_threshold": false},
+  {"theme": "J — a host location assumption (default ~/.cargo/registry) wrong on this host (CARGO_HOME relocated)", "n": 1, "facts": ["2026-09-04T18:50:53Z-a#0"], "at_threshold": false},
+  {"theme": "K/L — prohibitions added: a ledger-step do-not (two rows must not both claim a guard proof); a scope guard (retire the workaround only if the live re-run measures the foreground no longer moves)", "n": 2, "solutions": {"prohibition": 2}, "facts": ["2026-09-03T08:22:01Z-a#0", "2026-09-04T18:35:05Z-a#0"], "at_threshold": false, "note": "two different obstacles, one prohibition each"},
+  {"theme": "M — a fan-out extract return carried absolute host paths into a non-gitignored run dir; normalized to repo-relative, raw twin kept", "n": 1, "solutions": {"removed-cause": 1}, "facts": ["2026-09-02T23:02:12Z-a#0"], "at_threshold": false},
+  {"theme": "N — the operator corrected a factual clause in implement's evidence ledger before commit", "n": 1, "solutions": {"removed-cause": 1}, "facts": ["2026-09-03T12:22:00Z-a#0"], "at_threshold": false}
+ ],
+ "pass_b_signatures": {
+  "band_aid": [
+   {"id": "L1", "theme": "A", "n_facts": 9, "n_typed": 11, "prior_epoch": "Epoch 5 (2 facts + 3 typed)", "level_hypothesis": "the cause lives in the pipeline's artifact grammar (single-line multi-KB route/master/rule/sidecar entries) combined with the skills' Write/Edit-only write constraint; every fix so far is project-side (host-win32.md's read-modify-write recipe, per-step scratchpad scripts, post-write asserts) and is re-applied at every step that touches those artifacts"},
+   {"id": "L2", "theme": "B", "n_facts": 5, "n_typed": 5, "prior_epoch": "Epochs 3 and 4 (rm -rf compounds)", "level_hypothesis": "the skills' documented command recipes are POSIX-shaped (inline heredocs, compound launches, inline python -c, hand-escaped JSON in a quoted heredoc) while this host's guard rails (permission layer, PreToolUse size/heredoc hook, MSYS quoting) reject or corrupt exactly those shapes; the fixes so far are a project rule file plus per-incident re-issue"},
+   {"id": "L3", "theme": "H", "n_facts": 2, "n_typed": 2, "prior_epoch": "Epoch 4 (2 facts)", "level_hypothesis": "the cause is tool semantics the pipeline's templates do not encode (cargo-mutants nests its own mutants.out inside --output; a literal output dir in a plan is stale by construction on re-run; a shared CARGO_TARGET_DIR across worktrees); the fixes so far are a project testing rule (2026-09-03) and per-run unique dirs chosen by hand"}
+  ],
+  "chronic_degrade": [
+   {"specific": "tooling.host-shell", "by_epoch": {"Epoch 3": 14, "Epoch 4": 13, "Epoch 5": 3, "Epoch 6a": 4}, "halts": 0, "folded_into": "L2"},
+   {"specific": "tooling.long-line-edit", "by_epoch": {"Epoch 5": 3, "Epoch 6a": 8}, "halts": 0, "folded_into": "L1"},
+   {"specific": "tooling.output-cap-overflow", "by_epoch": {"Epoch 4": 2, "Epoch 5": 5, "Epoch 6a": 2}, "halts": 0, "folded_into": "L1 (both in-epoch cases are multi-KB single lines of verification-harness.md)"},
+   {"specific": "tooling.hook-friction", "by_epoch": {"Epoch 1": 3, "Epoch 3": 1, "Epoch 4": 2, "Epoch 6a": 3}, "halts": 0, "note": "in-epoch cases are the PostToolUse rustfmt hook's mid-burst rewrites/diagnostics, all predicted by code-writing-discipline; cost <= 1 retry each — listed as P13, no level candidate"},
+   {"outcome": "ok-degraded", "by_epoch": {"Epoch 1": 1, "Epoch 3": 6, "Epoch 4": 4, "Epoch 5": 3, "Epoch 6a": 3}, "in_epoch_records": ["2026-09-04T03:01:41Z-a (sr-findings implement/code)", "2026-09-04T03:12:35Z-a (sr-findings fix-loop)", "2026-09-04T16:55:27Z-a (preconditions-probe smoke, deferral-open)"], "note": "no single mechanism; not a candidate"}
+  ],
+  "deferred_forever": [
+   {"id": "L4", "subject": "the standing cargo-audit external-decay deferral (RustSec advisory-db duplicate id RUSTSEC-2026-0244)", "in_epoch_facts": ["2026-09-04T08:06:00Z-b (gate-deferral: 49th re-pin, '27 days and 41 chunks old')", "2026-09-03T06:14:24Z-b (standing-pin-carriage edge)", "2026-09-03T04:45:15Z-b, 2026-09-03T11:32:53Z-c, 2026-09-03T18:49:12Z-b (validate: the plan had to carry the pin's disposition; in one case no check could fire because no criterion named it)", "route-resolve standing-pin-migrated signals: 2026-09-02T22:24:06Z-a (45th), 2026-09-03T06:14:24Z-a (46th), 2026-09-03T09:57:06Z-a (47th), 2026-09-03T12:58:00Z-a (48th), 2026-09-04T07:56:05Z-a (50th)"], "closure_seen": false, "rule_sanctioned": true, "level_hypothesis": "the cause is external (the advisory database itself) and has no in-repo remedy; the carriage cost is paid per chunk in three project places (plan Test Commands disposition, working-route annotation migration, light-gate re-pin)"},
+   {"subject": "2026-09-03T08:22:01Z-a#1 (commands.rs doc-comment defect, deferred at validate because scope banned production-code change)", "closure_seen": true, "closure": "carried by route-resolve 2026-09-03T09:57:06Z-a to 'Sidecar spawn without a console window' and fixed there (master-route description: 'commands.rs: the two never-an-error doc comments narrowed')", "candidate": false},
+   {"subject": "2026-09-04T16:55:27Z-a produced signal deferral-open (boot ReadyState witness)", "closure_seen": true, "closure": "retracted same session by 2026-09-04T17:12:31Z-a after the operator relaunched Pulse; report 2026-09-04T17:18:40Z-b rests on the post-implement artifacts", "candidate": false}
+  ],
+  "override": [
+   {"in_epoch": 1, "fact": "2026-09-03T11:04:42Z-a#0 (plan: operator ruled to attempt the observe_run_contract:346 kill against scope.md's carry-as-is)", "at_threshold": false, "cross_epoch_observation": "overridden facts per epoch: E1 3, E2 8, E3 6, E4 2, E5 11, E6a 1 — phase/validate carries the most (E5 x6); whether they recur on ONE rule is not readable from headers alone and is outside this epoch's evidence"}
+  ]
+ },
+ "removed_cause_observation": "no removed-cause theme reaches threshold; the largest is the CRLF terminator pair (2 facts, one wrap), which is a sub-mechanism of L1's write path rather than an independently returning cause"
+}

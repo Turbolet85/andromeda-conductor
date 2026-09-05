@@ -1,0 +1,1549 @@
+{
+ "epoch": "Epoch 6a",
+ "step_runs": {
+  "new-session/orientation": 11,
+  "wrap-session/route-resolve": 9,
+  "wrap-session/curation": 9,
+  "phase/take-up": 7,
+  "phase/distill": 7,
+  "phase/research": 7,
+  "phase/plan": 7,
+  "phase/validate": 7,
+  "implement/code": 7,
+  "implement/fix-loop": 7,
+  "implement/smoke": 7,
+  "wrap-session/report": 7,
+  "wrap-session/reconcile": 7,
+  "wrap-session/gates": 7
+ },
+ "groups": [
+  {
+   "key": "*/contract.premise-falsified",
+   "n": 13,
+   "weight": 15,
+   "impact": {
+    "dialogue_rounds": 1,
+    "iterations": 0,
+    "extra_reads": 16
+   },
+   "chunks": [
+    "2026-09-03-conductor-run-composition-root-survivors-dispositioned",
+    "2026-09-03-conductor-tauri-survivors-dispositioned",
+    "2026-09-03-live-pulse-preconditions-probed",
+    "2026-09-04-sidecar-spawn-without-a-console-window",
+    "2026-09-04-sr-findings-remediation",
+    "null"
+   ],
+   "step_runs": null,
+   "rate": null,
+   "above_threshold": true,
+   "cross_step": true,
+   "ids": [
+    "2026-09-03T08:22:01Z-b",
+    "2026-09-03T10:33:42Z-c",
+    "2026-09-03T10:58:12Z-c",
+    "2026-09-03T11:56:00Z-c",
+    "2026-09-03T16:09:04Z-c",
+    "2026-09-04T01:52:00Z-b",
+    "2026-09-04T02:11:10Z-c",
+    "2026-09-04T02:11:10Z-d",
+    "2026-09-04T02:20:04Z-c",
+    "2026-09-04T02:25:05Z-b",
+    "2026-09-04T18:35:05Z-b",
+    "2026-09-04T18:35:05Z-c",
+    "2026-09-04T18:50:53Z-c"
+   ]
+  },
+  {
+   "key": "phase/validate/contract.mechanical-check",
+   "n": 6,
+   "weight": 15,
+   "impact": {
+    "retries": 0,
+    "iterations": 3,
+    "dialogue_rounds": 3
+   },
+   "chunks": [
+    "2026-09-02-mutation-tier-restored-for-conductor-tauri",
+    "2026-09-03-conductor-run-composition-root-survivors-dispositioned",
+    "2026-09-03-live-pulse-preconditions-probed",
+    "2026-09-04-preconditions-probe-reads-path-handles-by-presence",
+    "2026-09-04-sidecar-spawn-without-a-console-window",
+    "2026-09-04-sr-findings-remediation"
+   ],
+   "step_runs": 7,
+   "rate": 0.86,
+   "above_threshold": true,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T04:45:15Z-b",
+    "2026-09-03T11:32:53Z-c",
+    "2026-09-03T18:49:12Z-b",
+    "2026-09-04T02:47:11Z-c",
+    "2026-09-04T15:02:45Z-b",
+    "2026-09-04T19:29:11Z-d"
+   ]
+  },
+  {
+   "key": "*/contract.narrow-basis-claim",
+   "n": 5,
+   "weight": 7,
+   "impact": {
+    "extra_reads": 1,
+    "dialogue_rounds": 1
+   },
+   "chunks": [
+    "2026-09-03-conductor-tauri-survivors-dispositioned",
+    "2026-09-04-sr-findings-remediation",
+    "null"
+   ],
+   "step_runs": null,
+   "rate": null,
+   "above_threshold": true,
+   "cross_step": true,
+   "ids": [
+    "2026-09-02T22:23:12Z-a",
+    "2026-09-02T22:24:06Z-e",
+    "2026-09-03T09:12:17Z-b",
+    "2026-09-04T02:47:11Z-b",
+    "2026-09-04T07:08:16Z-d"
+   ]
+  },
+  {
+   "key": "implement/fix-loop/contract.test-expectation",
+   "n": 4,
+   "weight": 7,
+   "impact": {
+    "retries": 2,
+    "extra_reads": 3,
+    "iterations": 1
+   },
+   "chunks": [
+    "2026-09-03-live-pulse-preconditions-probed",
+    "2026-09-04-sr-findings-remediation"
+   ],
+   "step_runs": 7,
+   "rate": 0.57,
+   "above_threshold": true,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T19:12:52Z-c",
+    "2026-09-04T03:12:35Z-b",
+    "2026-09-04T03:12:35Z-d",
+    "2026-09-04T07:08:16Z-c"
+   ]
+  },
+  {
+   "key": "*/tooling.host-shell",
+   "n": 4,
+   "weight": 7,
+   "impact": {
+    "retries": 3,
+    "extra_reads": 0
+   },
+   "chunks": [
+    "2026-09-02-mutation-tier-restored-for-conductor-tauri",
+    "2026-09-03-conductor-run-composition-root-survivors-dispositioned",
+    "2026-09-03-live-pulse-preconditions-probed",
+    "2026-09-04-sidecar-spawn-without-a-console-window"
+   ],
+   "step_runs": null,
+   "rate": null,
+   "above_threshold": true,
+   "cross_step": true,
+   "ids": [
+    "2026-09-02T23:08:35Z-b",
+    "2026-09-03T10:58:12Z-b",
+    "2026-09-03T18:49:12Z-c",
+    "2026-09-04T18:45:23Z-c"
+   ]
+  },
+  {
+   "key": "wrap-session/reconcile/input.report-insufficient",
+   "n": 2,
+   "weight": 7,
+   "impact": {
+    "dialogue_rounds": 1,
+    "halted": 1,
+    "extra_reads": 2
+   },
+   "chunks": [
+    "2026-09-04-sidecar-spawn-without-a-console-window",
+    "2026-09-04-sr-findings-remediation"
+   ],
+   "step_runs": 7,
+   "rate": 0.29,
+   "above_threshold": true,
+   "cross_step": false,
+   "ids": [
+    "2026-09-04T07:51:43Z-b",
+    "2026-09-04T20:59:02Z-d"
+   ]
+  },
+  {
+   "key": "new-session/orientation/UNTYPED",
+   "n": 5,
+   "weight": 6,
+   "impact": {
+    "extra_reads": 1,
+    "reformulations": 1,
+    "dialogue_rounds": 0
+   },
+   "chunks": [
+    "null"
+   ],
+   "step_runs": 11,
+   "rate": 0.45,
+   "above_threshold": true,
+   "cross_step": false,
+   "ids": [
+    "2026-09-02T21:42:00Z-b",
+    "2026-09-02T22:13:09Z-c",
+    "2026-09-02T22:13:09Z-d",
+    "2026-09-03T13:17:34Z-b",
+    "2026-09-04T01:28:05Z-b"
+   ]
+  },
+  {
+   "key": "wrap-session/route-resolve/tooling.long-line-edit",
+   "n": 5,
+   "weight": 6,
+   "impact": {
+    "extra_reads": 6,
+    "iterations": 1
+   },
+   "chunks": [
+    "2026-09-03-conductor-run-composition-root-survivors-dispositioned",
+    "2026-09-03-conductor-tauri-survivors-dispositioned",
+    "2026-09-04-sr-findings-remediation",
+    "null"
+   ],
+   "step_runs": 9,
+   "rate": 0.56,
+   "above_threshold": true,
+   "cross_step": false,
+   "ids": [
+    "2026-09-02T22:24:06Z-b",
+    "2026-09-03T09:57:06Z-b",
+    "2026-09-03T12:58:00Z-b",
+    "2026-09-04T01:52:00Z-d",
+    "2026-09-04T07:56:05Z-b"
+   ]
+  },
+  {
+   "key": "wrap-session/reconcile/contract.false-positive-proposal",
+   "n": 4,
+   "weight": 6,
+   "impact": {
+    "retries": 0,
+    "extra_reads": 1,
+    "dialogue_rounds": 1
+   },
+   "chunks": [
+    "2026-09-03-conductor-run-composition-root-survivors-dispositioned",
+    "2026-09-03-live-pulse-preconditions-probed",
+    "2026-09-04-preconditions-probe-reads-path-handles-by-presence",
+    "2026-09-04-sidecar-spawn-without-a-console-window"
+   ],
+   "step_runs": 7,
+   "rate": 0.57,
+   "above_threshold": true,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T12:40:00Z-b",
+    "2026-09-03T20:16:59Z-c",
+    "2026-09-04T17:35:15Z-b",
+    "2026-09-04T20:59:02Z-b"
+   ]
+  },
+  {
+   "key": "wrap-session/reconcile/contract.cascade-miss",
+   "n": 4,
+   "weight": 6,
+   "impact": {
+    "extra_reads": 4,
+    "retries": 1,
+    "iterations": 1
+   },
+   "chunks": [
+    "2026-09-03-live-pulse-preconditions-probed",
+    "2026-09-04-preconditions-probe-reads-path-handles-by-presence",
+    "2026-09-04-sidecar-spawn-without-a-console-window",
+    "2026-09-04-sr-findings-remediation"
+   ],
+   "step_runs": 7,
+   "rate": 0.57,
+   "above_threshold": true,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T20:16:59Z-b",
+    "2026-09-04T07:51:43Z-c",
+    "2026-09-04T17:35:15Z-c",
+    "2026-09-04T20:59:02Z-c"
+   ]
+  },
+  {
+   "key": "implement/fix-loop/UNTYPED",
+   "n": 3,
+   "weight": 6,
+   "impact": {
+    "retries": 1,
+    "iterations": 2
+   },
+   "chunks": [
+    "2026-09-02-mutation-tier-restored-for-conductor-tauri",
+    "2026-09-04-sidecar-spawn-without-a-console-window"
+   ],
+   "step_runs": 7,
+   "rate": 0.43,
+   "above_threshold": true,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T05:18:51Z-b",
+    "2026-09-04T20:11:43Z-b",
+    "2026-09-04T20:11:43Z-d"
+   ]
+  },
+  {
+   "key": "wrap-session/route-resolve/contract.carry-no-owner",
+   "n": 1,
+   "weight": 6,
+   "impact": {
+    "dialogue_rounds": 1,
+    "halted": 1
+   },
+   "chunks": [
+    "null"
+   ],
+   "step_runs": 9,
+   "rate": 0.11,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-04T01:52:00Z-c"
+   ]
+  },
+  {
+   "key": "phase/take-up/contract.premise-falsified",
+   "n": 5,
+   "weight": 5,
+   "impact": {
+    "extra_reads": 7
+   },
+   "chunks": [
+    "2026-09-03-conductor-run-composition-root-survivors-dispositioned",
+    "2026-09-04-sidecar-spawn-without-a-console-window",
+    "2026-09-04-sr-findings-remediation"
+   ],
+   "step_runs": 7,
+   "rate": 0.71,
+   "above_threshold": true,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T10:33:42Z-c",
+    "2026-09-04T02:11:10Z-c",
+    "2026-09-04T02:11:10Z-d",
+    "2026-09-04T18:35:05Z-b",
+    "2026-09-04T18:35:05Z-c"
+   ]
+  },
+  {
+   "key": "phase/plan/input.extracts-conflict",
+   "n": 3,
+   "weight": 5,
+   "impact": {
+    "dialogue_rounds": 1,
+    "iterations": 0
+   },
+   "chunks": [
+    "2026-09-03-conductor-run-composition-root-survivors-dispositioned",
+    "2026-09-03-conductor-tauri-survivors-dispositioned",
+    "2026-09-04-sr-findings-remediation"
+   ],
+   "step_runs": 7,
+   "rate": 0.43,
+   "above_threshold": true,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T07:45:47Z-b",
+    "2026-09-03T11:04:42Z-b",
+    "2026-09-04T02:34:08Z-b"
+   ]
+  },
+  {
+   "key": "wrap-session/report/input.implement-outcome-unsettled",
+   "n": 4,
+   "weight": 4,
+   "impact": {
+    "extra_reads": 1
+   },
+   "chunks": [
+    "2026-09-02-mutation-tier-restored-for-conductor-tauri",
+    "2026-09-03-conductor-run-composition-root-survivors-dispositioned",
+    "2026-09-04-preconditions-probe-reads-path-handles-by-presence",
+    "2026-09-04-sr-findings-remediation"
+   ],
+   "step_runs": 7,
+   "rate": 0.57,
+   "above_threshold": true,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T05:38:39Z-b",
+    "2026-09-03T12:22:00Z-b",
+    "2026-09-04T07:35:44Z-b",
+    "2026-09-04T17:18:40Z-b"
+   ]
+  },
+  {
+   "key": "wrap-session/curation/ambiguity.filter-borderline",
+   "n": 4,
+   "weight": 4,
+   "impact": {
+    "dialogue_rounds": 0,
+    "iterations": 0,
+    "deferred": 2
+   },
+   "chunks": [
+    "2026-09-03-conductor-run-composition-root-survivors-dispositioned",
+    "2026-09-03-conductor-tauri-survivors-dispositioned",
+    "2026-09-03-live-pulse-preconditions-probed",
+    "2026-09-04-preconditions-probe-reads-path-handles-by-presence"
+   ],
+   "step_runs": 9,
+   "rate": 0.44,
+   "above_threshold": true,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T09:54:46Z-b",
+    "2026-09-03T12:48:00Z-b",
+    "2026-09-03T20:22:00Z-b",
+    "2026-09-04T17:38:00Z-b"
+   ]
+  },
+  {
+   "key": "phase/research/contract.premise-falsified",
+   "n": 4,
+   "weight": 4,
+   "impact": {
+    "extra_reads": 7
+   },
+   "chunks": [
+    "2026-09-03-conductor-run-composition-root-survivors-dispositioned",
+    "2026-09-03-live-pulse-preconditions-probed",
+    "2026-09-04-sidecar-spawn-without-a-console-window",
+    "2026-09-04-sr-findings-remediation"
+   ],
+   "step_runs": 7,
+   "rate": 0.57,
+   "above_threshold": true,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T10:58:12Z-c",
+    "2026-09-03T16:09:04Z-c",
+    "2026-09-04T02:25:05Z-b",
+    "2026-09-04T18:50:53Z-c"
+   ]
+  },
+  {
+   "key": "implement/code/tooling.hook-friction",
+   "n": 3,
+   "weight": 4,
+   "impact": {
+    "extra_reads": 1,
+    "retries": 1
+   },
+   "chunks": [
+    "2026-09-03-live-pulse-preconditions-probed",
+    "2026-09-04-preconditions-probe-reads-path-handles-by-presence",
+    "2026-09-04-sidecar-spawn-without-a-console-window"
+   ],
+   "step_runs": 7,
+   "rate": 0.43,
+   "above_threshold": true,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T19:10:36Z-b",
+    "2026-09-04T16:30:46Z-b",
+    "2026-09-04T19:39:52Z-c"
+   ]
+  },
+  {
+   "key": "wrap-session/route-resolve/UNTYPED",
+   "n": 2,
+   "weight": 4,
+   "impact": {
+    "dialogue_rounds": 1
+   },
+   "chunks": [
+    "2026-09-03-live-pulse-preconditions-probed",
+    "2026-09-04-sidecar-spawn-without-a-console-window"
+   ],
+   "step_runs": 9,
+   "rate": 0.22,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T20:32:00Z-b",
+    "2026-09-05T06:44:42Z-b"
+   ]
+  },
+  {
+   "key": "implement/fix-loop/contract.vacuous-check-found",
+   "n": 2,
+   "weight": 4,
+   "impact": {
+    "iterations": 2
+   },
+   "chunks": [
+    "2026-09-04-preconditions-probe-reads-path-handles-by-presence",
+    "2026-09-04-sidecar-spawn-without-a-console-window"
+   ],
+   "step_runs": 7,
+   "rate": 0.29,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-04T16:52:34Z-b",
+    "2026-09-04T20:11:43Z-c"
+   ]
+  },
+  {
+   "key": "wrap-session/reconcile/recall.corpus-recurrence",
+   "n": 1,
+   "weight": 4,
+   "impact": {
+    "retries": 1,
+    "dialogue_rounds": 1
+   },
+   "chunks": [
+    "2026-09-02-mutation-tier-restored-for-conductor-tauri"
+   ],
+   "step_runs": 7,
+   "rate": 0.14,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T06:11:16Z-c"
+   ]
+  },
+  {
+   "key": "phase/validate/contract.structural-blind-spot",
+   "n": 1,
+   "weight": 4,
+   "impact": {
+    "dialogue_rounds": 1,
+    "iterations": 1
+   },
+   "chunks": [
+    "2026-09-03-conductor-run-composition-root-survivors-dispositioned"
+   ],
+   "step_runs": 7,
+   "rate": 0.14,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T11:32:53Z-b"
+   ]
+  },
+  {
+   "key": "*/contract.structural-blind-spot",
+   "n": 1,
+   "weight": 4,
+   "impact": {
+    "dialogue_rounds": 1,
+    "iterations": 1
+   },
+   "chunks": [
+    "2026-09-03-conductor-run-composition-root-survivors-dispositioned"
+   ],
+   "step_runs": null,
+   "rate": null,
+   "above_threshold": false,
+   "cross_step": true,
+   "ids": [
+    "2026-09-03T11:32:53Z-b"
+   ]
+  },
+  {
+   "key": "wrap-session/curation/ambiguity.tier-routing",
+   "n": 3,
+   "weight": 3,
+   "impact": {
+    "extra_reads": 1
+   },
+   "chunks": [
+    "2026-09-02-mutation-tier-restored-for-conductor-tauri",
+    "2026-09-04-sr-findings-remediation",
+    "null"
+   ],
+   "step_runs": 9,
+   "rate": 0.33,
+   "above_threshold": true,
+   "cross_step": false,
+   "ids": [
+    "2026-09-02T22:24:06Z-d",
+    "2026-09-03T06:13:02Z-b",
+    "2026-09-04T07:53:56Z-c"
+   ]
+  },
+  {
+   "key": "wrap-session/gates/UNTYPED",
+   "n": 3,
+   "weight": 3,
+   "impact": {
+    "extra_reads": 1
+   },
+   "chunks": [
+    "2026-09-02-mutation-tier-restored-for-conductor-tauri",
+    "2026-09-03-live-pulse-preconditions-probed",
+    "2026-09-04-sidecar-spawn-without-a-console-window"
+   ],
+   "step_runs": 7,
+   "rate": 0.43,
+   "above_threshold": true,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T06:30:00Z-b",
+    "2026-09-03T20:44:00Z-b",
+    "2026-09-05T06:52:00Z-b"
+   ]
+  },
+  {
+   "key": "phase/take-up/tooling.long-line-edit",
+   "n": 3,
+   "weight": 3,
+   "impact": {
+    "extra_reads": 4
+   },
+   "chunks": [
+    "2026-09-03-conductor-run-composition-root-survivors-dispositioned",
+    "2026-09-03-live-pulse-preconditions-probed",
+    "2026-09-04-sr-findings-remediation"
+   ],
+   "step_runs": 7,
+   "rate": 0.43,
+   "above_threshold": true,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T10:33:42Z-b",
+    "2026-09-03T15:52:57Z-c",
+    "2026-09-04T02:11:10Z-b"
+   ]
+  },
+  {
+   "key": "*/contract.skill-reference-drift",
+   "n": 3,
+   "weight": 3,
+   "impact": {
+    "retries": 0
+   },
+   "chunks": [
+    "2026-09-02-mutation-tier-restored-for-conductor-tauri",
+    "2026-09-03-conductor-tauri-survivors-dispositioned",
+    "2026-09-04-sidecar-spawn-without-a-console-window"
+   ],
+   "step_runs": null,
+   "rate": null,
+   "above_threshold": true,
+   "cross_step": true,
+   "ids": [
+    "2026-09-02T22:52:19Z-b",
+    "2026-09-03T07:20:46Z-b",
+    "2026-09-04T18:50:53Z-b"
+   ]
+  },
+  {
+   "key": "phase/distill/tooling.host-shell",
+   "n": 2,
+   "weight": 3,
+   "impact": {
+    "retries": 1
+   },
+   "chunks": [
+    "2026-09-02-mutation-tier-restored-for-conductor-tauri",
+    "2026-09-04-sidecar-spawn-without-a-console-window"
+   ],
+   "step_runs": 7,
+   "rate": 0.29,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-02T23:08:35Z-b",
+    "2026-09-04T18:45:23Z-c"
+   ]
+  },
+  {
+   "key": "wrap-session/gates/tooling.gate-deferral",
+   "n": 2,
+   "weight": 3,
+   "impact": {
+    "iterations": 1
+   },
+   "chunks": [
+    "2026-09-03-conductor-tauri-survivors-dispositioned",
+    "2026-09-04-sr-findings-remediation"
+   ],
+   "step_runs": 7,
+   "rate": 0.29,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T10:04:49Z-b",
+    "2026-09-04T08:06:00Z-b"
+   ]
+  },
+  {
+   "key": "phase/research/tooling.output-cap-overflow",
+   "n": 2,
+   "weight": 3,
+   "impact": {
+    "extra_reads": 7,
+    "retries": 1
+   },
+   "chunks": [
+    "2026-09-03-live-pulse-preconditions-probed",
+    "2026-09-04-preconditions-probe-reads-path-handles-by-presence"
+   ],
+   "step_runs": 7,
+   "rate": 0.29,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T16:09:04Z-b",
+    "2026-09-04T10:00:31Z-b"
+   ]
+  },
+  {
+   "key": "implement/fix-loop/tooling.environmental",
+   "n": 2,
+   "weight": 3,
+   "impact": {
+    "retries": 1,
+    "extra_reads": 2
+   },
+   "chunks": [
+    "2026-09-03-live-pulse-preconditions-probed",
+    "2026-09-04-sr-findings-remediation"
+   ],
+   "step_runs": 7,
+   "rate": 0.29,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T19:12:52Z-b",
+    "2026-09-04T03:12:35Z-c"
+   ]
+  },
+  {
+   "key": "*/tooling.output-cap-overflow",
+   "n": 2,
+   "weight": 3,
+   "impact": {
+    "extra_reads": 7,
+    "retries": 1
+   },
+   "chunks": [
+    "2026-09-03-live-pulse-preconditions-probed",
+    "2026-09-04-preconditions-probe-reads-path-handles-by-presence"
+   ],
+   "step_runs": null,
+   "rate": null,
+   "above_threshold": false,
+   "cross_step": true,
+   "ids": [
+    "2026-09-03T16:09:04Z-b",
+    "2026-09-04T10:00:31Z-b"
+   ]
+  },
+  {
+   "key": "phase/validate/UNTYPED",
+   "n": 1,
+   "weight": 3,
+   "impact": {
+    "dialogue_rounds": 1
+   },
+   "chunks": [
+    "2026-09-02-mutation-tier-restored-for-conductor-tauri"
+   ],
+   "step_runs": 7,
+   "rate": 0.14,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T04:45:15Z-c"
+   ]
+  },
+  {
+   "key": "phase/validate/contract.premise-falsified",
+   "n": 1,
+   "weight": 3,
+   "impact": {
+    "dialogue_rounds": 1,
+    "iterations": 0
+   },
+   "chunks": [
+    "2026-09-03-conductor-tauri-survivors-dispositioned"
+   ],
+   "step_runs": 7,
+   "rate": 0.14,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T08:22:01Z-b"
+   ]
+  },
+  {
+   "key": "phase/validate/tooling.host-shell",
+   "n": 1,
+   "weight": 3,
+   "impact": {
+    "retries": 2
+   },
+   "chunks": [
+    "2026-09-03-live-pulse-preconditions-probed"
+   ],
+   "step_runs": 7,
+   "rate": 0.14,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T18:49:12Z-c"
+   ]
+  },
+  {
+   "key": "wrap-session/reconcile/ambiguity.playbook-no-match",
+   "n": 1,
+   "weight": 3,
+   "impact": {
+    "dialogue_rounds": 1
+   },
+   "chunks": [
+    "2026-09-03-live-pulse-preconditions-probed"
+   ],
+   "step_runs": 7,
+   "rate": 0.14,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T20:16:59Z-d"
+   ]
+  },
+  {
+   "key": "phase/validate/contract.narrow-basis-claim",
+   "n": 1,
+   "weight": 3,
+   "impact": {
+    "dialogue_rounds": 1
+   },
+   "chunks": [
+    "2026-09-04-sr-findings-remediation"
+   ],
+   "step_runs": 7,
+   "rate": 0.14,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-04T02:47:11Z-b"
+   ]
+  },
+  {
+   "key": "phase/validate/input.out-of-pipeline-source",
+   "n": 1,
+   "weight": 3,
+   "impact": {
+    "dialogue_rounds": 1
+   },
+   "chunks": [
+    "2026-09-04-sidecar-spawn-without-a-console-window"
+   ],
+   "step_runs": 7,
+   "rate": 0.14,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-04T19:29:11Z-e"
+   ]
+  },
+  {
+   "key": "new-session/orientation/input.handoff-git-mismatch",
+   "n": 2,
+   "weight": 2,
+   "impact": {
+    "extra_reads": 2
+   },
+   "chunks": [
+    "null"
+   ],
+   "step_runs": 11,
+   "rate": 0.18,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-02T21:42:00Z-c",
+    "2026-09-02T22:13:09Z-b"
+   ]
+  },
+  {
+   "key": "wrap-session/curation/contract.narrow-basis-claim",
+   "n": 2,
+   "weight": 2,
+   "impact": {
+    "extra_reads": 1
+   },
+   "chunks": [
+    "null"
+   ],
+   "step_runs": 9,
+   "rate": 0.22,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-02T22:23:12Z-a",
+    "2026-09-02T22:24:06Z-e"
+   ]
+  },
+  {
+   "key": "phase/take-up/contract.skill-reference-drift",
+   "n": 2,
+   "weight": 2,
+   "impact": {
+    "retries": 0
+   },
+   "chunks": [
+    "2026-09-02-mutation-tier-restored-for-conductor-tauri",
+    "2026-09-03-conductor-tauri-survivors-dispositioned"
+   ],
+   "step_runs": 7,
+   "rate": 0.29,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-02T22:52:19Z-b",
+    "2026-09-03T07:20:46Z-b"
+   ]
+  },
+  {
+   "key": "phase/plan/UNTYPED",
+   "n": 2,
+   "weight": 2,
+   "impact": {
+    "extra_reads": 2
+   },
+   "chunks": [
+    "2026-09-02-mutation-tier-restored-for-conductor-tauri",
+    "2026-09-04-sidecar-spawn-without-a-console-window"
+   ],
+   "step_runs": 7,
+   "rate": 0.29,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-02T23:35:15Z-b",
+    "2026-09-04T19:29:11Z-b"
+   ]
+  },
+  {
+   "key": "implement/code/input.plan-step-ambiguous",
+   "n": 2,
+   "weight": 2,
+   "impact": {
+    "extra_reads": 4
+   },
+   "chunks": [
+    "2026-09-02-mutation-tier-restored-for-conductor-tauri",
+    "2026-09-04-sr-findings-remediation"
+   ],
+   "step_runs": 7,
+   "rate": 0.29,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T05:10:12Z-b",
+    "2026-09-04T03:01:41Z-b"
+   ]
+  },
+  {
+   "key": "phase/take-up/input.carry-context-gap",
+   "n": 2,
+   "weight": 2,
+   "impact": {
+    "extra_reads": 2
+   },
+   "chunks": [
+    "2026-09-03-conductor-run-composition-root-survivors-dispositioned",
+    "2026-09-03-live-pulse-preconditions-probed"
+   ],
+   "step_runs": 7,
+   "rate": 0.29,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T10:33:42Z-d",
+    "2026-09-03T15:52:57Z-b"
+   ]
+  },
+  {
+   "key": "wrap-session/report/contract.detector-fact-gap",
+   "n": 2,
+   "weight": 2,
+   "impact": {
+    "extra_reads": 3
+   },
+   "chunks": [
+    "2026-09-03-live-pulse-preconditions-probed",
+    "2026-09-04-sidecar-spawn-without-a-console-window"
+   ],
+   "step_runs": 7,
+   "rate": 0.29,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T19:54:48Z-b",
+    "2026-09-04T20:37:43Z-b"
+   ]
+  },
+  {
+   "key": "wrap-session/curation/recall.corpus-recurrence",
+   "n": 2,
+   "weight": 2,
+   "impact": {},
+   "chunks": [
+    "2026-09-04-sr-findings-remediation",
+    "null"
+   ],
+   "step_runs": 9,
+   "rate": 0.22,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-04T01:53:00Z-b",
+    "2026-09-04T07:53:56Z-b"
+   ]
+  },
+  {
+   "key": "wrap-session/gates/tooling.commit-mechanics",
+   "n": 1,
+   "weight": 2,
+   "impact": {
+    "retries": 1
+   },
+   "chunks": [
+    "2026-09-03-conductor-run-composition-root-survivors-dispositioned"
+   ],
+   "step_runs": 7,
+   "rate": 0.14,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T13:05:00Z-b"
+   ]
+  },
+  {
+   "key": "phase/take-up/UNTYPED",
+   "n": 1,
+   "weight": 2,
+   "impact": {
+    "retries": 1
+   },
+   "chunks": [
+    "2026-09-03-live-pulse-preconditions-probed"
+   ],
+   "step_runs": 7,
+   "rate": 0.14,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T15:52:57Z-d"
+   ]
+  },
+  {
+   "key": "implement/smoke/retry.smoke-reentry",
+   "n": 1,
+   "weight": 2,
+   "impact": {
+    "retries": 1
+   },
+   "chunks": [
+    "2026-09-04-sr-findings-remediation"
+   ],
+   "step_runs": 7,
+   "rate": 0.14,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-04T03:13:34Z-b"
+   ]
+  },
+  {
+   "key": "implement/fix-loop/input.out-of-pipeline-source",
+   "n": 1,
+   "weight": 2,
+   "impact": {
+    "retries": 1
+   },
+   "chunks": [
+    "2026-09-04-sr-findings-remediation"
+   ],
+   "step_runs": 7,
+   "rate": 0.14,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-04T07:08:16Z-b"
+   ]
+  },
+  {
+   "key": "implement/smoke/tooling.subprocess-bounds",
+   "n": 1,
+   "weight": 2,
+   "impact": {
+    "retries": 1
+   },
+   "chunks": [
+    "2026-09-04-sidecar-spawn-without-a-console-window"
+   ],
+   "step_runs": 7,
+   "rate": 0.14,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-04T20:12:30Z-b"
+   ]
+  },
+  {
+   "key": "new-session/orientation/tooling.health-false-red",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "extra_reads": 1
+   },
+   "chunks": [
+    "null"
+   ],
+   "step_runs": 11,
+   "rate": 0.09,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-02T15:21:59Z-b"
+   ]
+  },
+  {
+   "key": "phase/research/UNTYPED",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "extra_reads": 2
+   },
+   "chunks": [
+    "2026-09-02-mutation-tier-restored-for-conductor-tauri"
+   ],
+   "step_runs": 7,
+   "rate": 0.14,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-02T23:08:35Z-c"
+   ]
+  },
+  {
+   "key": "implement/fix-loop/ambiguity.scope-pressure",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "soft_exit": 0
+   },
+   "chunks": [
+    "2026-09-02-mutation-tier-restored-for-conductor-tauri"
+   ],
+   "step_runs": 7,
+   "rate": 0.14,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T05:18:51Z-c"
+   ]
+  },
+  {
+   "key": "implement/smoke/contract.vacuous-check-found",
+   "n": 1,
+   "weight": 1,
+   "impact": {},
+   "chunks": [
+    "2026-09-02-mutation-tier-restored-for-conductor-tauri"
+   ],
+   "step_runs": 7,
+   "rate": 0.14,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T05:20:20Z-b"
+   ]
+  },
+  {
+   "key": "wrap-session/route-resolve/contract.standing-pin-carriage",
+   "n": 1,
+   "weight": 1,
+   "impact": {},
+   "chunks": [
+    "2026-09-02-mutation-tier-restored-for-conductor-tauri"
+   ],
+   "step_runs": 9,
+   "rate": 0.11,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T06:14:24Z-b"
+   ]
+  },
+  {
+   "key": "wrap-session/report/contract.narrow-basis-claim",
+   "n": 1,
+   "weight": 1,
+   "impact": {},
+   "chunks": [
+    "2026-09-03-conductor-tauri-survivors-dispositioned"
+   ],
+   "step_runs": 7,
+   "rate": 0.14,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T09:12:17Z-b"
+   ]
+  },
+  {
+   "key": "phase/distill/contract.binding-contradiction",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "retries": 0
+   },
+   "chunks": [
+    "2026-09-03-conductor-run-composition-root-survivors-dispositioned"
+   ],
+   "step_runs": 7,
+   "rate": 0.14,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T10:41:09Z-b"
+   ]
+  },
+  {
+   "key": "phase/research/tooling.host-shell",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "extra_reads": 0
+   },
+   "chunks": [
+    "2026-09-03-conductor-run-composition-root-survivors-dispositioned"
+   ],
+   "step_runs": 7,
+   "rate": 0.14,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T10:58:12Z-b"
+   ]
+  },
+  {
+   "key": "implement/fix-loop/contract.premise-falsified",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "iterations": 0
+   },
+   "chunks": [
+    "2026-09-03-conductor-run-composition-root-survivors-dispositioned"
+   ],
+   "step_runs": 7,
+   "rate": 0.14,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T11:56:00Z-c"
+   ]
+  },
+  {
+   "key": "phase/plan/input.research-thin",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "extra_reads": 3
+   },
+   "chunks": [
+    "2026-09-03-live-pulse-preconditions-probed"
+   ],
+   "step_runs": 7,
+   "rate": 0.14,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-03T16:16:01Z-b"
+   ]
+  },
+  {
+   "key": "wrap-session/route-resolve/contract.premise-falsified",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "dialogue_rounds": 0,
+    "extra_reads": 2
+   },
+   "chunks": [
+    "null"
+   ],
+   "step_runs": 9,
+   "rate": 0.11,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-04T01:52:00Z-b"
+   ]
+  },
+  {
+   "key": "phase/distill/contract.extract-format",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "extra_reads": 0
+   },
+   "chunks": [
+    "2026-09-04-sr-findings-remediation"
+   ],
+   "step_runs": 7,
+   "rate": 0.14,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-04T02:20:04Z-b"
+   ]
+  },
+  {
+   "key": "phase/distill/contract.premise-falsified",
+   "n": 1,
+   "weight": 1,
+   "impact": {},
+   "chunks": [
+    "2026-09-04-sr-findings-remediation"
+   ],
+   "step_runs": 7,
+   "rate": 0.14,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-04T02:20:04Z-c"
+   ]
+  },
+  {
+   "key": "phase/research/input.extract-signal-gap",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "extra_reads": 1
+   },
+   "chunks": [
+    "2026-09-04-sr-findings-remediation"
+   ],
+   "step_runs": 7,
+   "rate": 0.14,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-04T02:25:05Z-c"
+   ]
+  },
+  {
+   "key": "implement/code/input.conventions-gap",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "extra_reads": 2
+   },
+   "chunks": [
+    "2026-09-04-sr-findings-remediation"
+   ],
+   "step_runs": 7,
+   "rate": 0.14,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-04T03:01:41Z-c"
+   ]
+  },
+  {
+   "key": "implement/fix-loop/contract.spec-reality-gap",
+   "n": 1,
+   "weight": 1,
+   "impact": {},
+   "chunks": [
+    "2026-09-04-sr-findings-remediation"
+   ],
+   "step_runs": 7,
+   "rate": 0.14,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-04T07:08:16Z-a"
+   ]
+  },
+  {
+   "key": "implement/fix-loop/contract.narrow-basis-claim",
+   "n": 1,
+   "weight": 1,
+   "impact": {},
+   "chunks": [
+    "2026-09-04-sr-findings-remediation"
+   ],
+   "step_runs": 7,
+   "rate": 0.14,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-04T07:08:16Z-d"
+   ]
+  },
+  {
+   "key": "implement/smoke/UNTYPED",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "deferred": 0
+   },
+   "chunks": [
+    "2026-09-04-preconditions-probe-reads-path-handles-by-presence"
+   ],
+   "step_runs": 7,
+   "rate": 0.14,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-04T17:12:31Z-a"
+   ]
+  },
+  {
+   "key": "new-session/orientation/contract.token-proxy-check",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "extra_reads": 0
+   },
+   "chunks": [
+    "null"
+   ],
+   "step_runs": 11,
+   "rate": 0.09,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-04T18:27:09Z-b"
+   ]
+  },
+  {
+   "key": "phase/distill/input.spec-source-gap",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "extra_reads": 2
+   },
+   "chunks": [
+    "2026-09-04-sidecar-spawn-without-a-console-window"
+   ],
+   "step_runs": 7,
+   "rate": 0.14,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-04T18:45:23Z-b"
+   ]
+  },
+  {
+   "key": "phase/research/contract.skill-reference-drift",
+   "n": 1,
+   "weight": 1,
+   "impact": {},
+   "chunks": [
+    "2026-09-04-sidecar-spawn-without-a-console-window"
+   ],
+   "step_runs": 7,
+   "rate": 0.14,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-04T18:50:53Z-b"
+   ]
+  },
+  {
+   "key": "implement/code/UNTYPED",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "extra_reads": 1
+   },
+   "chunks": [
+    "2026-09-04-sidecar-spawn-without-a-console-window"
+   ],
+   "step_runs": 7,
+   "rate": 0.14,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-04T19:39:52Z-b"
+   ]
+  },
+  {
+   "key": "wrap-session/report/UNTYPED",
+   "n": 1,
+   "weight": 1,
+   "impact": {},
+   "chunks": [
+    "2026-09-04-sidecar-spawn-without-a-console-window"
+   ],
+   "step_runs": 7,
+   "rate": 0.14,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-04T20:37:43Z-c"
+   ]
+  },
+  {
+   "key": "wrap-session/curation/UNTYPED",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "deferred": 2
+   },
+   "chunks": [
+    "2026-09-04-sidecar-spawn-without-a-console-window"
+   ],
+   "step_runs": 9,
+   "rate": 0.11,
+   "above_threshold": false,
+   "cross_step": false,
+   "ids": [
+    "2026-09-04T21:05:00Z-b"
+   ]
+  },
+  {
+   "key": "*/contract.token-proxy-check",
+   "n": 1,
+   "weight": 1,
+   "impact": {
+    "extra_reads": 0
+   },
+   "chunks": [
+    "null"
+   ],
+   "step_runs": null,
+   "rate": null,
+   "above_threshold": false,
+   "cross_step": true,
+   "ids": [
+    "2026-09-04T18:27:09Z-b"
+   ]
+  }
+ ]
+}

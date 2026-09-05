@@ -1,0 +1,38 @@
+{
+ "unit": "conductor-tauri",
+ "state": "complete",
+ "done_marker": "exit=2 seconds=265",
+ "planned_in_scope": 43,
+ "planned_full_unit": 43,
+ "counts": {
+  "mutants": 43,
+  "caught": 25,
+  "missed": 3,
+  "timeout": 0,
+  "unviable": 15
+ },
+ "tested": 43,
+ "score": 89.29,
+ "score_formula": "caught/(caught+missed)  [timeout and unviable excluded]",
+ "survivors": [
+  [
+   "crates/conductor-tauri/src/main.rs:18:5",
+   "replace main with ()"
+  ],
+  [
+   "crates/conductor-tauri/src/commands.rs:272:8",
+   "delete ! in start_run"
+  ],
+  [
+   "crates/conductor-tauri/src/commands.rs:307:5",
+   "replace run_thread with ()"
+  ]
+ ],
+ "timeouts": [],
+ "command": "cargo mutants -p conductor-tauri --test-tool=nextest --jobs 2 --output {run_dir}/mutants-conductor-tauri",
+ "log_tail": [
+  "MISSED   crates/conductor-tauri/src/commands.rs:272:8: delete ! in start_run in 4s build + 1s test",
+  "MISSED   crates/conductor-tauri/src/commands.rs:307:5: replace run_thread with () in 4s build + 1s test",
+  "43 mutants tested in 4m: 3 missed, 25 caught, 15 unviable"
+ ]
+}

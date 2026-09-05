@@ -1,0 +1,13 @@
+{
+ "line": 93.94,
+ "branch": null,
+ "lines_found": 9996,
+ "lines_hit": 9390,
+ "files_in_report": 67,
+ "branch_data": "BRF/BRH absent from the lcov output (cargo-llvm-cov default) — null, as in every prior record",
+ "tests": "853 tests run: 853 passed, 0 skipped (nextest under llvm-cov)",
+ "exit": 0,
+ "command": "cargo llvm-cov nextest --workspace --lcov --output-path {run_dir}/_lcov.info",
+ "summarizer": "awk over the lcov: sum LF/LH (line %) and BRF/BRH (branch %) across all SF records",
+ "note": "trend-only metric: a rising number is never celebrated (C1 is the honest half); a falling one is the signal"
+}

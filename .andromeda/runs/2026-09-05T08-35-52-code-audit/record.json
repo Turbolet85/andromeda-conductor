@@ -1,0 +1,1525 @@
+{
+ "ts": "2026-09-05T10:56:56Z",
+ "epoch": "Epoch 6a — Verification follow-ups",
+ "mode": "trend",
+ "sha": "59d5b7c84bb3d6df2420790d111aebe19ed1bed7",
+ "baseline_sha": "29c30b05ff126ac7e74b91f2e01e2e8d25f8f243",
+ "span": 1,
+ "ancestry_broken": false,
+ "tool_versions": {
+  "jscpd": "5.0.16",
+  "tokei": "14.0.0",
+  "rust-code-analysis": "0.0.25",
+  "cargo-machete": "0.9.2",
+  "cargo-mutants": "27.1.0",
+  "cargo-llvm-cov": "0.8.5",
+  "cargo-nextest": "0.9.133",
+  "code-graph": "tree.db via scripts/code-graph.py",
+  "lizard": "1.24.0 (available, NOT collected this run — see recipes.lizard)",
+  "rustc": "1.95.0 (59807616e 2026-04-14)"
+ },
+ "totals": {
+  "loc": 19790,
+  "files": 119,
+  "units": 9
+ },
+ "duplication": {
+  "label": "head",
+  "population": "jscpd --format rust over crates/ (Rust only)",
+  "pct": 3.4307785519539538,
+  "duplicated_lines": 906,
+  "total_lines": 26408,
+  "clones": 90,
+  "sources": 118,
+  "top": [
+   [
+    "conductor-emit/tests/error_spans.rs",
+    "conductor-emit/tests/exception_events.rs",
+    44
+   ],
+   [
+    "conductor-emit/tests/egress.rs",
+    "conductor-emit/tests/traffic_rate_ramps.rs",
+    42
+   ],
+   [
+    "conductor-emit/tests/egress.rs",
+    "conductor-emit/tests/error_spans.rs",
+    39
+   ],
+   [
+    "conductor-emit/tests/egress.rs",
+    "conductor-emit/tests/multi_service_topology.rs",
+    38
+   ],
+   [
+    "conductor-emit/tests/egress.rs",
+    "conductor-emit/tests/latency_shaping.rs",
+    36
+   ],
+   [
+    "conductor-run/tests/canary_obs_witness.rs",
+    "conductor-run/tests/canary_wire.rs",
+    21
+   ],
+   [
+    "conductor-emit/src/latency.rs",
+    "conductor-emit/src/rate.rs",
+    17
+   ],
+   [
+    "conductor-core/src/scenario.rs",
+    "conductor-core/src/scenario.rs",
+    15
+   ],
+   [
+    "conductor-emit/src/latency.rs",
+    "conductor-emit/src/rate.rs",
+    15
+   ],
+   [
+    "conductor-emit/src/span_tree.rs",
+    "conductor-emit/src/topology.rs",
+    15
+   ]
+  ],
+  "split": {
+   "both_src": {
+    "pairs": 39,
+    "lines": 393
+   },
+   "both_test": {
+    "pairs": 43,
+    "lines": 526
+   },
+   "mixed": {
+    "pairs": 8,
+    "lines": 77
+   }
+  },
+  "new_in_top_vs_baseline": [],
+  "all_pairs": [
+   [
+    "conductor-emit/tests/error_spans.rs",
+    "conductor-emit/tests/exception_events.rs",
+    44
+   ],
+   [
+    "conductor-emit/tests/egress.rs",
+    "conductor-emit/tests/traffic_rate_ramps.rs",
+    42
+   ],
+   [
+    "conductor-emit/tests/egress.rs",
+    "conductor-emit/tests/error_spans.rs",
+    39
+   ],
+   [
+    "conductor-emit/tests/egress.rs",
+    "conductor-emit/tests/multi_service_topology.rs",
+    38
+   ],
+   [
+    "conductor-emit/tests/egress.rs",
+    "conductor-emit/tests/latency_shaping.rs",
+    36
+   ],
+   [
+    "conductor-run/tests/canary_obs_witness.rs",
+    "conductor-run/tests/canary_wire.rs",
+    21
+   ],
+   [
+    "conductor-emit/src/latency.rs",
+    "conductor-emit/src/rate.rs",
+    17
+   ],
+   [
+    "conductor-core/src/scenario.rs",
+    "conductor-core/src/scenario.rs",
+    15
+   ],
+   [
+    "conductor-emit/src/latency.rs",
+    "conductor-emit/src/rate.rs",
+    15
+   ],
+   [
+    "conductor-emit/src/span_tree.rs",
+    "conductor-emit/src/topology.rs",
+    15
+   ],
+   [
+    "conductor-core/src/expected.rs",
+    "conductor-verify/src/slo.rs",
+    14
+   ],
+   [
+    "conductor-core/src/pause.rs",
+    "conductor-core/tests/operator_pause.rs",
+    14
+   ],
+   [
+    "conductor-core/src/run_record.rs",
+    "conductor-report/src/db.rs",
+    14
+   ],
+   [
+    "conductor-emit/src/logs.rs",
+    "conductor-emit/src/pii.rs",
+    14
+   ],
+   [
+    "conductor-emit/src/topology.rs",
+    "conductor-emit/tests/multi_service_topology.rs",
+    14
+   ],
+   [
+    "conductor-run/src/lib.rs",
+    "conductor-verify/src/preflight.rs",
+    14
+   ],
+   [
+    "conductor-cli/src/pause.rs",
+    "conductor-cli/src/render.rs",
+    13
+   ],
+   [
+    "conductor-core/src/capability_manifest.rs",
+    "conductor-core/src/drift.rs",
+    13
+   ],
+   [
+    "conductor-emit/src/latency.rs",
+    "conductor-emit/src/span_tree.rs",
+    13
+   ],
+   [
+    "conductor-run/tests/canary_obs_witness.rs",
+    "conductor-run/tests/dispatch_wire.rs",
+    13
+   ],
+   [
+    "conductor-tauri/src/commands.rs",
+    "conductor-tauri/src/commands.rs",
+    13
+   ],
+   [
+    "conductor-emit/src/client.rs",
+    "conductor-emit/src/client.rs",
+    12
+   ],
+   [
+    "conductor-emit/tests/error_spans.rs",
+    "conductor-emit/tests/error_spans.rs",
+    12
+   ],
+   [
+    "conductor-run/src/lib.rs",
+    "conductor-run/src/lib.rs",
+    12
+   ],
+   [
+    "conductor-run/tests/delegated_timing_harvest.rs",
+    "conductor-run/tests/severity_harvest.rs",
+    12
+   ],
+   [
+    "conductor-tauri/src/commands.rs",
+    "conductor-tauri/src/commands.rs",
+    12
+   ],
+   [
+    "conductor-core/src/scenario.rs",
+    "conductor-core/src/scenario.rs",
+    11
+   ],
+   [
+    "conductor-emit/src/exception.rs",
+    "conductor-emit/tests/exception_events.rs",
+    11
+   ],
+   [
+    "conductor-emit/tests/egress.rs",
+    "conductor-emit/tests/pii_payload_corpus.rs",
+    11
+   ],
+   [
+    "conductor-emit/tests/error_spans.rs",
+    "conductor-emit/tests/latency_shaping.rs",
+    11
+   ],
+   [
+    "conductor-emit/tests/error_spans.rs",
+    "conductor-emit/tests/pii_payload_corpus.rs",
+    11
+   ],
+   [
+    "conductor-emit/tests/pii_payload_corpus.rs",
+    "conductor-emit/tests/severity_logs.rs",
+    11
+   ],
+   [
+    "conductor-emit/tests/pii_payload_corpus.rs",
+    "conductor-emit/tests/severity_logs.rs",
+    11
+   ],
+   [
+    "conductor-core/src/capability_manifest.rs",
+    "conductor-core/src/scenario.rs",
+    10
+   ],
+   [
+    "conductor-core/src/load_envelope.rs",
+    "conductor-core/src/load_envelope.rs",
+    10
+   ],
+   [
+    "conductor-core/src/scenario.rs",
+    "conductor-core/src/scenario.rs",
+    10
+   ],
+   [
+    "conductor-report/src/journal.rs",
+    "conductor-verify/src/record.rs",
+    10
+   ],
+   [
+    "conductor-run/tests/pii_harvest.rs",
+    "conductor-run/tests/restart_harvest.rs",
+    10
+   ],
+   [
+    "conductor-cli/src/render.rs",
+    "conductor-report/src/coverage.rs",
+    9
+   ],
+   [
+    "conductor-core/src/scenario.rs",
+    "conductor-core/src/scenario.rs",
+    9
+   ],
+   [
+    "conductor-emit/src/latency.rs",
+    "conductor-emit/tests/latency_shaping.rs",
+    9
+   ],
+   [
+    "conductor-emit/tests/egress.rs",
+    "conductor-emit/tests/multi_service_topology.rs",
+    9
+   ],
+   [
+    "conductor-emit/tests/egress.rs",
+    "conductor-emit/tests/pii_payload_corpus.rs",
+    9
+   ],
+   [
+    "conductor-emit/tests/egress.rs",
+    "conductor-emit/tests/severity_logs.rs",
+    9
+   ],
+   [
+    "conductor-run/tests/baseline_harvest.rs",
+    "conductor-run/tests/baseline_harvest.rs",
+    9
+   ],
+   [
+    "conductor-run/tests/dispatch_wire.rs",
+    "conductor-run/tests/dispatch_wire.rs",
+    9
+   ],
+   [
+    "conductor-verify/tests/preflight.rs",
+    "conductor-verify/tests/preflight.rs",
+    9
+   ],
+   [
+    "conductor-cli/src/render.rs",
+    "conductor-report/src/coverage.rs",
+    8
+   ],
+   [
+    "conductor-cli/src/render.rs",
+    "conductor-report/src/coverage.rs",
+    8
+   ],
+   [
+    "conductor-emit/src/latency.rs",
+    "conductor-emit/src/rate.rs",
+    8
+   ],
+   [
+    "conductor-emit/src/span_tree.rs",
+    "conductor-emit/src/topology.rs",
+    8
+   ],
+   [
+    "conductor-emit/src/topology.rs",
+    "conductor-emit/src/topology.rs",
+    8
+   ],
+   [
+    "conductor-emit/tests/egress.rs",
+    "conductor-emit/tests/pii_payload_corpus.rs",
+    8
+   ],
+   [
+    "conductor-emit/tests/egress.rs",
+    "conductor-emit/tests/severity_logs.rs",
+    8
+   ],
+   [
+    "conductor-run/src/lib.rs",
+    "conductor-run/tests/operator_pause_harvest.rs",
+    8
+   ],
+   [
+    "conductor-run/tests/canary_wire.rs",
+    "conductor-run/tests/dispatch_wire.rs",
+    8
+   ],
+   [
+    "conductor-timeline/tests/pacing.rs",
+    "conductor-timeline/tests/pacing.rs",
+    8
+   ],
+   [
+    "conductor-verify/src/bin/stub_pulse_mcp.rs",
+    "conductor-verify/tests/common/mod.rs",
+    8
+   ],
+   [
+    "conductor-cli/src/render.rs",
+    "conductor-report/src/report.rs",
+    7
+   ],
+   [
+    "conductor-core/src/capability_manifest.rs",
+    "conductor-core/src/load_envelope.rs",
+    7
+   ],
+   [
+    "conductor-core/src/run_record.rs",
+    "conductor-report/src/journal.rs",
+    7
+   ],
+   [
+    "conductor-core/src/scenario.rs",
+    "conductor-core/src/scenario.rs",
+    7
+   ],
+   [
+    "conductor-core/src/scenario.rs",
+    "conductor-core/src/scenario.rs",
+    7
+   ],
+   [
+    "conductor-core/src/scenario.rs",
+    "conductor-core/src/scenario.rs",
+    7
+   ],
+   [
+    "conductor-emit/src/latency.rs",
+    "conductor-emit/tests/latency_shaping.rs",
+    7
+   ],
+   [
+    "conductor-emit/tests/error_spans.rs",
+    "conductor-emit/tests/multi_service_topology.rs",
+    7
+   ],
+   [
+    "conductor-run/tests/baseline_harvest.rs",
+    "conductor-run/tests/storm_harvest.rs",
+    7
+   ],
+   [
+    "conductor-run/tests/canary_wire.rs",
+    "conductor-run/tests/canary_wire.rs",
+    7
+   ],
+   [
+    "conductor-run/tests/canary_wire.rs",
+    "conductor-run/tests/dispatch_wire.rs",
+    7
+   ],
+   [
+    "conductor-timeline/tests/replay.rs",
+    "conductor-timeline/tests/replay.rs",
+    7
+   ],
+   [
+    "conductor-verify/tests/jsonrpc_correlation.rs",
+    "conductor-verify/tests/jsonrpc_correlation.rs",
+    7
+   ],
+   [
+    "conductor-verify/tests/preflight.rs",
+    "conductor-verify/tests/preflight.rs",
+    7
+   ],
+   [
+    "conductor-verify/tests/preflight.rs",
+    "conductor-verify/tests/preflight.rs",
+    7
+   ],
+   [
+    "conductor-verify/tests/readback.rs",
+    "conductor-verify/tests/readback.rs",
+    7
+   ],
+   [
+    "conductor-verify/tests/readback.rs",
+    "conductor-verify/tests/readback.rs",
+    7
+   ],
+   [
+    "conductor-cli/tests/cli_smoke.rs",
+    "conductor-cli/tests/cli_smoke.rs",
+    6
+   ],
+   [
+    "conductor-core/src/load_envelope.rs",
+    "conductor-run/src/lib.rs",
+    6
+   ],
+   [
+    "conductor-core/src/scenario.rs",
+    "conductor-core/src/scenario.rs",
+    6
+   ],
+   [
+    "conductor-core/src/scenario.rs",
+    "conductor-core/src/scenario.rs",
+    6
+   ],
+   [
+    "conductor-emit/src/latency.rs",
+    "conductor-emit/src/rate.rs",
+    6
+   ],
+   [
+    "conductor-emit/src/latency.rs",
+    "conductor-emit/src/rate.rs",
+    6
+   ],
+   [
+    "conductor-emit/src/latency.rs",
+    "conductor-emit/src/span_tree.rs",
+    6
+   ],
+   [
+    "conductor-emit/src/pii.rs",
+    "conductor-emit/tests/pii_payload_corpus.rs",
+    6
+   ],
+   [
+    "conductor-emit/tests/error_spans.rs",
+    "conductor-run/tests/dispatch_wire.rs",
+    6
+   ],
+   [
+    "conductor-emit/tests/latency_shaping.rs",
+    "conductor-run/tests/canary_wire.rs",
+    6
+   ],
+   [
+    "conductor-run/tests/baseline_harvest.rs",
+    "conductor-run/tests/delegated_timing_harvest.rs",
+    6
+   ],
+   [
+    "conductor-run/tests/baseline_harvest.rs",
+    "conductor-run/tests/restart_harvest.rs",
+    6
+   ],
+   [
+    "conductor-verify/tests/jsonrpc_correlation.rs",
+    "conductor-verify/tests/readback_shape_witness.rs",
+    6
+   ],
+   [
+    "conductor-verify/tests/preflight.rs",
+    "conductor-verify/tests/preflight.rs",
+    6
+   ],
+   [
+    "conductor-verify/tests/preflight.rs",
+    "conductor-verify/tests/preflight.rs",
+    6
+   ]
+  ]
+ },
+ "complexity": {
+  "population": "rust-code-analysis kind==function spaces under crates/; ceiling cognitive > 15; top sorted by COGNITIVE desc",
+  "cyclomatic_p50": 1.0,
+  "cyclomatic_p90": 4.0,
+  "cognitive_p50": 0.0,
+  "cognitive_p90": 1.0,
+  "over_ceiling": 6,
+  "max": {
+   "fn": "serve_stub",
+   "file": "crates/conductor-verify/tests/common/mod.rs",
+   "val": 35.0
+  },
+  "top": [
+   [
+    "serve_stub",
+    "crates/conductor-verify/tests/common/mod.rs",
+    35.0,
+    34.0
+   ],
+   [
+    "shape_is_realizable",
+    "crates/conductor-core/src/phase_spec.rs",
+    31.0,
+    30.0
+   ],
+   [
+    "validate",
+    "crates/conductor-core/src/run_contract.rs",
+    18.0,
+    16.0
+   ],
+   [
+    "observe",
+    "crates/conductor-verify/src/extract.rs",
+    17.0,
+    13.0
+   ],
+   [
+    "dispatch",
+    "crates/conductor-run/src/dispatch.rs",
+    16.0,
+    47.0
+   ],
+   [
+    "run_preflight",
+    "crates/conductor-verify/src/preflight.rs",
+    16.0,
+    20.0
+   ],
+   [
+    "is_host_path_token",
+    "crates/conductor-core/src/redact.rs",
+    15.0,
+    18.0
+   ],
+   [
+    "validate",
+    "crates/conductor-core/src/load_envelope.rs",
+    13.0,
+    9.0
+   ],
+   [
+    "redact_value",
+    "crates/conductor-core/src/redact.rs",
+    13.0,
+    9.0
+   ],
+   [
+    "service_topology_request",
+    "crates/conductor-emit/src/topology.rs",
+    12.0,
+    8.0
+   ]
+  ],
+  "functions": 2122,
+  "rs_files_scanned": 121
+ },
+ "sizes": {
+  "population": "tokei --output json crates/ ; language=Rust (*.rs) only",
+  "file_p50": 101,
+  "file_p90": 390,
+  "file_max": 1423,
+  "over_800": 2,
+  "top": [
+   [
+    "crates/conductor-run/src/lib.rs",
+    1423
+   ],
+   [
+    "crates/conductor-core/src/scenario.rs",
+    1001
+   ],
+   [
+    "crates/conductor-core/src/obs.rs",
+    597
+   ],
+   [
+    "crates/conductor-tauri/src/commands.rs",
+    583
+   ],
+   [
+    "crates/conductor-core/src/load_envelope.rs",
+    536
+   ],
+   [
+    "crates/conductor-cli/src/render.rs",
+    521
+   ],
+   [
+    "crates/conductor-report/src/db.rs",
+    504
+   ],
+   [
+    "crates/conductor-run/tests/severity_harvest.rs",
+    468
+   ],
+   [
+    "crates/conductor-emit/src/pii.rs",
+    436
+   ],
+   [
+    "crates/conductor-run/tests/dispatch_wire.rs",
+    435
+   ]
+  ]
+ },
+ "graph": {
+  "population": "plane=rust tree.db; views symbol/refs/calls_m/crate_edges",
+  "symbol_form": "fan_in symbols shortened to `{crate} {path}` (baseline-pinned)",
+  "cycles": 0,
+  "cycle_paths": [],
+  "fan_in_top": [
+   [
+    "conductor-core crate/",
+    122
+   ],
+   [
+    "conductor-core scenario/Scenario#",
+    100
+   ],
+   [
+    "conductor-core report_state/ReportState#",
+    85
+   ],
+   [
+    "conductor-core scenario/PId#",
+    81
+   ],
+   [
+    "conductor-core verdict/Verdict#",
+    79
+   ],
+   [
+    "conductor-core scenario/SloTier#",
+    77
+   ],
+   [
+    "conductor-core run_record/RunRecord#",
+    61
+   ],
+   [
+    "conductor-core error/CoreError#",
+    58
+   ],
+   [
+    "conductor-core expected/ClaimClass#",
+    52
+   ],
+   [
+    "conductor-core scenario/impl#[Scenario]from_toml_str().",
+    50
+   ],
+   [
+    "conductor-core expected/ComparisonKind#",
+    48
+   ],
+   [
+    "conductor-core verdict/Verdict#Pass#",
+    45
+   ],
+   [
+    "conductor-verify error/VerifyError#",
+    42
+   ],
+   [
+    "conductor-core load_envelope/EnvelopeStatus#",
+    42
+   ],
+   [
+    "conductor-core scenario/Scenario#expected.",
+    40
+   ],
+   [
+    "conductor-core coverage/CoverageMode#",
+    39
+   ],
+   [
+    "conductor-core report_state/ReportState#Pass#",
+    37
+   ],
+   [
+    "conductor-core capability_manifest/CapabilityManifest#",
+    36
+   ],
+   [
+    "conductor-core pause/Decision#",
+    36
+   ],
+   [
+    "conductor-core error/CoreError#Config#",
+    35
+   ]
+  ],
+  "fan_out": [
+   [
+    "conductor-run",
+    6
+   ],
+   [
+    "conductor-cli",
+    4
+   ],
+   [
+    "conductor-tauri",
+    2
+   ],
+   [
+    "conductor-timeline",
+    1
+   ],
+   [
+    "conductor-verify",
+    1
+   ],
+   [
+    "conductor-report",
+    1
+   ],
+   [
+    "conductor-faults",
+    1
+   ]
+  ],
+  "cross_unit_edges": 16,
+  "fan_in_entrants": [
+   [
+    "conductor-core capability_manifest/CapabilityManifest#",
+    36
+   ]
+  ]
+ },
+ "dead": {
+  "unused_deps": {
+   "conductor-emit": [
+    "conductor-core"
+   ]
+  },
+  "zero_ref_candidates": 35,
+  "chain": {
+   "raw": 819,
+   "after_tests_segment_filter": 39,
+   "after_entry_points": 35
+  },
+  "top": [
+   [
+    "rust-analyzer cargo conductor-report 0.1.0 db/RunsDbError#Io#",
+    "crates/conductor-report/src/db.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 phase_spec/default_occurrences().",
+    "crates/conductor-core/src/phase_spec.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-run 0.1.0 dispatch/DispatchError#Emit#",
+    "crates/conductor-run/src/dispatch.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-emit 0.1.0 latency/impl#[LatencyProfile]p50_ms().",
+    "crates/conductor-emit/src/latency.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[ObsWriter][`MakeWriter<'a>`]Writer#",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-emit 0.1.0 latency/impl#[LatencyProfile]p95_ms().",
+    "crates/conductor-emit/src/latency.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonObsLayer<W>`][`Layer<S>`]on_close().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonVisitor<'_>`][Visit]record_bool().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-verify 0.1.0 preflight/RUN_CONTRACT_PRECONDITION.",
+    "crates/conductor-verify/src/preflight.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonObsLayer<W>`][`Layer<S>`]on_event().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonVisitor<'_>`][Visit]record_debug().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-report 0.1.0 journal/JournalError#Io#",
+    "crates/conductor-report/src/journal.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 preconditions/impl#[PreconditionSubject][Display]fmt().",
+    "crates/conductor-core/src/preconditions.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[ObsWriterGuard][Write]write().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[ObsWriterGuard][Write]flush().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-cli 0.1.0 pause/impl#[CliResolver][PauseResolver]resolve().",
+    "crates/conductor-cli/src/pause.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/impl#[PortOccupier]occupy_default().",
+    "crates/conductor-faults/src/port_occupier.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-report 0.1.0 journal/JournalError#Serialize#",
+    "crates/conductor-report/src/journal.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonVisitor<'_>`][Visit]record_i64().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonVisitor<'_>`][Visit]record_str().",
+    "crates/conductor-core/src/obs.rs"
+   ]
+  ],
+  "false_positive_families_named_not_subtracted": [
+   "trait-impl methods reached by dispatch",
+   "derive/attr-invoked fns (serde defaults, #[from] variants)",
+   "runtime-invoked surfaces (MCP tools, #[tauri::command] IPC)",
+   "test-only helpers outside a tests/ path segment"
+  ],
+  "all_candidates": [
+   [
+    "rust-analyzer cargo conductor-report 0.1.0 db/RunsDbError#Io#",
+    "crates/conductor-report/src/db.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 phase_spec/default_occurrences().",
+    "crates/conductor-core/src/phase_spec.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-run 0.1.0 dispatch/DispatchError#Emit#",
+    "crates/conductor-run/src/dispatch.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-emit 0.1.0 latency/impl#[LatencyProfile]p50_ms().",
+    "crates/conductor-emit/src/latency.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[ObsWriter][`MakeWriter<'a>`]Writer#",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-emit 0.1.0 latency/impl#[LatencyProfile]p95_ms().",
+    "crates/conductor-emit/src/latency.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonObsLayer<W>`][`Layer<S>`]on_close().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonVisitor<'_>`][Visit]record_bool().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-verify 0.1.0 preflight/RUN_CONTRACT_PRECONDITION.",
+    "crates/conductor-verify/src/preflight.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonObsLayer<W>`][`Layer<S>`]on_event().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonVisitor<'_>`][Visit]record_debug().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-report 0.1.0 journal/JournalError#Io#",
+    "crates/conductor-report/src/journal.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 preconditions/impl#[PreconditionSubject][Display]fmt().",
+    "crates/conductor-core/src/preconditions.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[ObsWriterGuard][Write]write().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[ObsWriterGuard][Write]flush().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-cli 0.1.0 pause/impl#[CliResolver][PauseResolver]resolve().",
+    "crates/conductor-cli/src/pause.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/impl#[PortOccupier]occupy_default().",
+    "crates/conductor-faults/src/port_occupier.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-report 0.1.0 journal/JournalError#Serialize#",
+    "crates/conductor-report/src/journal.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonVisitor<'_>`][Visit]record_i64().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonVisitor<'_>`][Visit]record_str().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-cli 0.1.0 pause/impl#[CliResolver][PauseResolver]kind().",
+    "crates/conductor-cli/src/pause.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-verify 0.1.0 manifest/impl#[ContractManifest]default_path().",
+    "crates/conductor-verify/src/manifest.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-tauri 0.1.0 pause/impl#[TauriResolver][PauseResolver]resolve().",
+    "crates/conductor-tauri/src/pause.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-report 0.1.0 db/RunsDbError#Json#",
+    "crates/conductor-report/src/db.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 preconditions/SIDECAR_PROGRAM.",
+    "crates/conductor-core/src/preconditions.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[ObsWriter][`MakeWriter<'a>`]make_writer().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonVisitor<'_>`][Visit]record_f64().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonVisitor<'_>`][Visit]record_error().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/impl#[PortOccupier][Drop]drop().",
+    "crates/conductor-faults/src/port_occupier.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-emit 0.1.0 latency/impl#[LatencyProfile]p99_ms().",
+    "crates/conductor-emit/src/latency.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 preconditions/EGRESS_TARGET.",
+    "crates/conductor-core/src/preconditions.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonVisitor<'_>`][Visit]record_u64().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-cli 0.1.0 render/PRECONDITION_LABEL.",
+    "crates/conductor-cli/src/render.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-emit 0.1.0 error/EmitError#Status#",
+    "crates/conductor-emit/src/error.rs"
+   ],
+   [
+    "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonObsLayer<W>`][`Layer<S>`]on_new_span().",
+    "crates/conductor-core/src/obs.rs"
+   ]
+  ]
+ },
+ "coverage": {
+  "line": 93.94,
+  "branch": null
+ },
+ "churn": {
+  "pct": 25.36,
+  "files_churned": 6,
+  "files_touched": 26,
+  "total_adds": 2595,
+  "churned_adds": 658,
+  "population": "git log --numstat 29c30b0..HEAD -- crates/**/*.rs crates/**/*.ts crates/**/*.tsx"
+ },
+ "hotspots": [
+  [
+   "crates/conductor-run/src/lib.rs",
+   32.0
+  ],
+  [
+   "crates/conductor-core/src/preconditions.rs",
+   22.0
+  ],
+  [
+   "crates/conductor-core/src/run_contract.rs",
+   18.0
+  ],
+  [
+   "crates/conductor-tauri/src/commands.rs",
+   9.0
+  ],
+  [
+   "crates/conductor-cli/tests/cli_smoke.rs",
+   7.0
+  ],
+  [
+   "crates/conductor-verify/src/spawn.rs",
+   6.0
+  ],
+  [
+   "crates/conductor-cli/src/render.rs",
+   6.0
+  ],
+  [
+   "crates/conductor-cli/src/commands/preconditions.rs",
+   5.0
+  ],
+  [
+   "crates/conductor-cli/src/main.rs",
+   4.0
+  ],
+  [
+   "crates/conductor-tauri/src/main.rs",
+   4.0
+  ]
+ ],
+ "mutation": {
+  "scoped_units": [
+   "conductor-tauri",
+   "conductor-run",
+   "conductor-verify",
+   "conductor-cli",
+   "conductor-core"
+  ],
+  "unit_states": {
+   "conductor-tauri": "complete (43/43 tested)",
+   "conductor-run": "complete (118/118 tested)",
+   "conductor-verify": "complete (148/148 tested)",
+   "conductor-cli": "complete (117/117 tested)",
+   "conductor-core": "complete (126/126 tested of 504 in the unit — shard 1/4)"
+  },
+  "scores": {
+   "conductor-tauri": 89.29,
+   "conductor-run": 94.44,
+   "conductor-verify": 88.33,
+   "conductor-cli": 58.59,
+   "conductor-core": 95.24
+  },
+  "counts": {
+   "conductor-tauri": {
+    "mutants": 43,
+    "caught": 25,
+    "missed": 3,
+    "timeout": 0,
+    "unviable": 15
+   },
+   "conductor-run": {
+    "mutants": 118,
+    "caught": 85,
+    "missed": 5,
+    "timeout": 0,
+    "unviable": 28
+   },
+   "conductor-verify": {
+    "mutants": 148,
+    "caught": 106,
+    "missed": 14,
+    "timeout": 2,
+    "unviable": 26
+   },
+   "conductor-cli": {
+    "mutants": 117,
+    "caught": 58,
+    "missed": 41,
+    "timeout": 0,
+    "unviable": 18
+   },
+   "conductor-core": {
+    "mutants": 126,
+    "caught": 120,
+    "missed": 6,
+    "timeout": 0,
+    "unviable": 0
+   }
+  },
+  "planned_full_unit": {
+   "conductor-tauri": 43,
+   "conductor-run": 118,
+   "conductor-verify": 148,
+   "conductor-cli": 117,
+   "conductor-core": 504
+  },
+  "score_formula": "caught/(caught+missed)  [timeout and unviable excluded]",
+  "survivors": [
+   [
+    "crates/conductor-tauri/src/main.rs:18:5",
+    "replace main with ()"
+   ],
+   [
+    "crates/conductor-tauri/src/commands.rs:272:8",
+    "delete ! in start_run"
+   ],
+   [
+    "crates/conductor-tauri/src/commands.rs:307:5",
+    "replace run_thread with ()"
+   ],
+   [
+    "crates/conductor-run/src/lib.rs:68:8",
+    "delete ! in preflight"
+   ],
+   [
+    "crates/conductor-run/src/lib.rs:362:5",
+    "replace declares -> bool with false"
+   ],
+   [
+    "crates/conductor-run/src/lib.rs:559:27",
+    "delete field degraded from struct Observation expression in execute_scenario"
+   ],
+   [
+    "crates/conductor-run/src/lib.rs:600:25",
+    "replace - with / in execute_scenario"
+   ],
+   [
+    "crates/conductor-run/src/lib.rs:600:25",
+    "replace - with + in execute_scenario"
+   ],
+   [
+    "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:18:5",
+    "replace main with ()"
+   ],
+   [
+    "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:37:60",
+    "replace || with && in main"
+   ],
+   [
+    "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:45:5",
+    "replace stub_result -> Value with Default::default()"
+   ],
+   [
+    "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:46:9",
+    "delete match arm \"initialize\" in stub_result"
+   ],
+   [
+    "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:51:9",
+    "delete match arm \"tools/list\" in stub_result"
+   ],
+   [
+    "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:55:9",
+    "delete match arm \"tools/call\" in stub_result"
+   ],
+   [
+    "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:57:21",
+    "replace == with != in stub_result"
+   ],
+   [
+    "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:69:28",
+    "replace == with != in stub_result"
+   ],
+   [
+    "crates/conductor-verify/src/client.rs:157:9",
+    "replace ReadbackClient::resolve_incident -> Result<Value, VerifyError> with Ok(Default::default())"
+   ],
+   [
+    "crates/conductor-verify/src/extract.rs:95:22",
+    "replace == with != in observe"
+   ],
+   [
+    "crates/conductor-verify/src/extract.rs:110:22",
+    "replace == with != in observe"
+   ],
+   [
+    "crates/conductor-verify/src/manifest.rs:35:9",
+    "replace ContractManifest::default_path -> PathBuf with Default::default()"
+   ],
+   [
+    "crates/conductor-verify/src/spawn.rs:116:5",
+    "replace sidecar_resolves_on_path -> bool with true"
+   ],
+   [
+    "crates/conductor-verify/src/spawn.rs:116:5",
+    "replace sidecar_resolves_on_path -> bool with false"
+   ],
+   [
+    "crates/conductor-cli/src/main.rs:55:5",
+    "replace hint_for -> &'static str with \"\""
+   ],
+   [
+    "crates/conductor-cli/src/main.rs:55:5",
+    "replace hint_for -> &'static str with \"xyzzy\""
+   ],
+   [
+    "crates/conductor-cli/src/commands/mod.rs:29:5",
+    "replace exit_code -> ExitCode with Default::default()"
+   ],
+   [
+    "crates/conductor-cli/src/paths.rs:73:39",
+    "delete ! in Paths::load_all_scenarios"
+   ],
+   [
+    "crates/conductor-cli/src/paths.rs:130:5",
+    "replace env_seed -> Option<u64> with None"
+   ],
+   [
+    "crates/conductor-cli/src/pause.rs:31:9",
+    "replace <impl PauseResolver for PromptResolver>::kind -> &'static str with \"\""
+   ],
+   [
+    "crates/conductor-cli/src/pause.rs:31:9",
+    "replace <impl PauseResolver for PromptResolver>::kind -> &'static str with \"xyzzy\""
+   ],
+   [
+    "crates/conductor-cli/src/pause.rs:104:9",
+    "replace <impl PauseResolver for CliResolver>::kind -> &'static str with \"\""
+   ],
+   [
+    "crates/conductor-cli/src/pause.rs:104:9",
+    "replace <impl PauseResolver for CliResolver>::kind -> &'static str with \"xyzzy\""
+   ],
+   [
+    "crates/conductor-cli/src/render.rs:62:5",
+    "replace lamp_code -> u8 with 0"
+   ],
+   [
+    "crates/conductor-cli/src/render.rs:62:5",
+    "replace lamp_code -> u8 with 1"
+   ],
+   [
+    "crates/conductor-cli/src/render.rs:75:5",
+    "replace paint -> String with String::new()"
+   ],
+   [
+    "crates/conductor-cli/src/render.rs:75:5",
+    "replace paint -> String with \"xyzzy\".into()"
+   ],
+   [
+    "crates/conductor-cli/src/render.rs:95:5",
+    "replace hold_line -> String with String::new()"
+   ],
+   [
+    "crates/conductor-cli/src/render.rs:95:5",
+    "replace hold_line -> String with \"xyzzy\".into()"
+   ],
+   [
+    "crates/conductor-cli/src/render.rs:104:5",
+    "replace envelope_caption -> Option<String> with None"
+   ],
+   [
+    "crates/conductor-cli/src/render.rs:104:5",
+    "replace envelope_caption -> Option<String> with Some(String::new())"
+   ],
+   [
+    "crates/conductor-cli/src/render.rs:104:5",
+    "replace envelope_caption -> Option<String> with Some(\"xyzzy\".into())"
+   ],
+   [
+    "crates/conductor-cli/src/render.rs:132:5",
+    "replace coverage_summary -> String with String::new()"
+   ],
+   [
+    "crates/conductor-cli/src/render.rs:132:5",
+    "replace coverage_summary -> String with \"xyzzy\".into()"
+   ],
+   [
+    "crates/conductor-cli/src/render.rs:154:5",
+    "replace stdout_color -> bool with false"
+   ],
+   [
+    "crates/conductor-cli/src/render.rs:156:53",
+    "replace != with == in stdout_color"
+   ],
+   [
+    "crates/conductor-cli/src/render.rs:162:5",
+    "replace stderr_color -> bool with true"
+   ],
+   [
+    "crates/conductor-cli/src/render.rs:162:5",
+    "replace stderr_color -> bool with false"
+   ],
+   [
+    "crates/conductor-cli/src/render.rs:164:9",
+    "replace && with || in stderr_color"
+   ],
+   [
+    "crates/conductor-cli/src/render.rs:163:9",
+    "replace && with || in stderr_color"
+   ],
+   [
+    "crates/conductor-cli/src/render.rs:164:53",
+    "replace != with == in stderr_color"
+   ],
+   [
+    "crates/conductor-cli/src/render.rs:270:30",
+    "replace == with != in coverage_table_styled"
+   ],
+   [
+    "crates/conductor-cli/src/render.rs:291:25",
+    "replace != with == in coverage_summary_styled"
+   ],
+   [
+    "crates/conductor-cli/src/render.rs:293:12",
+    "delete ! in coverage_summary_styled"
+   ],
+   [
+    "crates/conductor-cli/src/render.rs:299:40",
+    "replace && with || in coverage_summary_styled"
+   ],
+   [
+    "crates/conductor-cli/src/render.rs:299:18",
+    "replace == with != in coverage_summary_styled"
+   ],
+   [
+    "crates/conductor-cli/src/render.rs:299:43",
+    "delete ! in coverage_summary_styled"
+   ],
+   [
+    "crates/conductor-cli/src/render.rs:329:5",
+    "replace wire -> String with String::new()"
+   ],
+   [
+    "crates/conductor-cli/src/render.rs:329:5",
+    "replace wire -> String with \"xyzzy\".into()"
+   ],
+   [
+    "crates/conductor-cli/src/render.rs:338:5",
+    "replace latency -> String with String::new()"
+   ],
+   [
+    "crates/conductor-cli/src/render.rs:338:5",
+    "replace latency -> String with \"xyzzy\".into()"
+   ],
+   [
+    "crates/conductor-cli/src/render.rs:343:5",
+    "replace fingerprints -> String with String::new()"
+   ],
+   [
+    "crates/conductor-cli/src/render.rs:343:5",
+    "replace fingerprints -> String with \"xyzzy\".into()"
+   ],
+   [
+    "crates/conductor-cli/src/render.rs:345:20",
+    "replace match guard v.is_empty() with true in fingerprints"
+   ],
+   [
+    "crates/conductor-cli/src/render.rs:345:20",
+    "replace match guard v.is_empty() with false in fingerprints"
+   ],
+   [
+    "crates/conductor-core/src/obs.rs:224:41",
+    "replace - with + in civil_from_unix"
+   ],
+   [
+    "crates/conductor-core/src/obs.rs:224:41",
+    "replace - with / in civil_from_unix"
+   ],
+   [
+    "crates/conductor-core/src/obs.rs:226:48",
+    "replace - with + in civil_from_unix"
+   ],
+   [
+    "crates/conductor-core/src/obs.rs:226:48",
+    "replace - with / in civil_from_unix"
+   ],
+   [
+    "crates/conductor-core/src/obs.rs:226:33",
+    "replace + with - in civil_from_unix"
+   ],
+   [
+    "crates/conductor-core/src/obs.rs:226:33",
+    "replace + with * in civil_from_unix"
+   ]
+  ],
+  "timeouts": [
+   [
+    "crates/conductor-verify/src/jsonrpc.rs:49:30",
+    "replace != with == in JsonRpcSession::request"
+   ],
+   [
+    "crates/conductor-verify/src/jsonrpc.rs:70:9",
+    "replace JsonRpcSession::write_message -> Result<(), VerifyError> with Ok(())"
+   ]
+  ]
+ },
+ "commands": {
+  "sizes": "tokei --output json crates/",
+  "duplication": "jscpd crates --format rust --reporters json --output {run_dir}/jscpd_rs --silent",
+  "complexity": "mkdir -p {run_dir}/_rca_head && rust-code-analysis-cli --metrics -O json -o {run_dir}/_rca_head -p crates   (summarizer filters to *.rs; the walk also visits the ui tree)",
+  "dead_deps": "cargo machete",
+  "dead_symbols": "python scripts/code-graph.py query {run_dir} code-audit \"SELECT s.symbol, s.file FROM symbol s LEFT JOIN refs r ON r.callee = s.symbol WHERE r.callee IS NULL;\" rust",
+  "graph": "python scripts/code-graph.py query {run_dir} code-audit \"<cycles | fan-in LIMIT 20 | fan-out | count(*) FROM crate_edges>\" rust",
+  "coverage": "cargo llvm-cov nextest --workspace --lcov --output-path {run_dir}/_lcov.info",
+  "churn": "git log --numstat --format='commit %H' 29c30b0..HEAD -- 'crates/**/*.rs' 'crates/**/*.ts' 'crates/**/*.tsx'",
+  "mutation": "cargo mutants -p {unit} --test-tool=nextest --jobs 2 --output {run_dir}/mutants-{unit}",
+  "mutation_conductor-core": "cargo mutants -p conductor-core --test-tool=nextest --jobs 2 --shard 1/4 --output {run_dir}/mutants-conductor-core"
+ },
+ "recipes": {
+  "sizes": "tokei over crates/; Rust *.rs only; nearest-rank p50/p90 on per-file code lines",
+  "duplication": "jscpd crates --format rust (Rust-only)",
+  "complexity": "rust-code-analysis kind==function spaces under crates/; ceiling cognitive > 15; top sorted by COGNITIVE desc, rows [fn, file, cognitive, cyclomatic]; max = max cognitive",
+  "dead": "WORKSPACE-WIDE, one query over all symbols. raw zero-ref pub symbols -> exclude `tests` path SEGMENT in the SYMBOL path (AFTER stripping the SCIP prefix `rust-analyzer cargo {crate} {version} ` — otherwise the prefix fuses into the first segment and inline #[cfg(test)] symbols, whose path is a LEADING `tests/`, survive) UNION the FILE path -> subtract ENTRY POINTS only (main(). / /bin/) -> residual = candidates. HEAD chain 772 -> 36 -> 32. | this run: FULL candidate list kept in c-dead.json (all_candidates) so the next diff can name entrants, which the capped top-20 could not",
+  "graph": "fan_in symbols SHORTENED to `{crate} {path}` (strip `rust-analyzer cargo ` and the version token) — the baseline stores this form; comparing raw SCIP strings makes every row a false entrant",
+  "churn": "git log --numstat baseline..HEAD over crates/ *.rs|*.ts|*.tsx; adds in a file's 2nd..nth touching commit count as churn",
+  "hotspots": "commits x per-file max cognitive over the RUST rca output; a TS/TSX file scores 0 (no Rust cognitive, and the tokei KLOC fallback is Rust-only) — same limitation as the baseline, so the trend is comparable, but wdio.conf.ts (5 commits, the epoch top) scores 0",
+  "lizard": "lizard 1.24.0 IS on PATH via `python -m lizard` (the pip script shim is not) — the Epoch-4 record recorded complexity-web as tool-missing, which may have been a probe artifact. NOT collected this run: adding a TS population mid-trend would break comparability with both prior records. A separate web-complexity series can start at any boundary."
+ },
+ "corrections": [],
+ "skips": [
+  {
+   "metric": "dead-code-web",
+   "reason": "tool-missing",
+   "note": "knip absent (not in package.json, not in node_modules); recipe: npm i -D knip in crates/conductor-tauri/ui"
+  },
+  {
+   "metric": "mutation-web",
+   "reason": "tool-missing",
+   "note": "StrykerJS absent; recipe: npm i -D @stryker-mutator/core in crates/conductor-tauri/ui"
+  },
+  {
+   "metric": "complexity-web",
+   "reason": "declined",
+   "note": "lizard 1.24.0 IS available (python -m lizard); not collected to keep the Rust-only complexity series comparable with the three prior records — a separate web series can start at any boundary"
+  },
+  {
+   "metric": "mutation-conductor-timeline",
+   "reason": "declined",
+   "note": "out of scope: not touched in 29c30b0..HEAD"
+  },
+  {
+   "metric": "mutation-conductor-emit",
+   "reason": "declined",
+   "note": "out of scope: not touched in 29c30b0..HEAD"
+  },
+  {
+   "metric": "mutation-conductor-faults",
+   "reason": "declined",
+   "note": "out of scope: not touched in 29c30b0..HEAD"
+  },
+  {
+   "metric": "mutation-conductor-report",
+   "reason": "declined",
+   "note": "out of scope: not touched in 29c30b0..HEAD"
+  },
+  {
+   "metric": "mutation-conductor-core",
+   "reason": "budget-exhausted",
+   "note": "504 mutants in the unit; the operator-ratified 15-min per-unit cap was honored by running --shard 1/4 (126 mutants, 126 tested) rather than killing cargo's child tree at the cap; the remaining 3 shards are untested this run",
+   "tested": 126,
+   "planned_full_unit": 504
+  }
+ ]
+}

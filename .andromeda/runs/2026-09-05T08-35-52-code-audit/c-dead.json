@@ -1,0 +1,243 @@
+{
+ "unused_deps": {
+  "conductor-emit": [
+   "conductor-core"
+  ]
+ },
+ "zero_ref_candidates": 35,
+ "chain": {
+  "raw": 819,
+  "after_tests_segment_filter": 39,
+  "after_entry_points": 35
+ },
+ "top": [
+  [
+   "rust-analyzer cargo conductor-report 0.1.0 db/RunsDbError#Io#",
+   "crates/conductor-report/src/db.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-core 0.1.0 phase_spec/default_occurrences().",
+   "crates/conductor-core/src/phase_spec.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-run 0.1.0 dispatch/DispatchError#Emit#",
+   "crates/conductor-run/src/dispatch.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-emit 0.1.0 latency/impl#[LatencyProfile]p50_ms().",
+   "crates/conductor-emit/src/latency.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[ObsWriter][`MakeWriter<'a>`]Writer#",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-emit 0.1.0 latency/impl#[LatencyProfile]p95_ms().",
+   "crates/conductor-emit/src/latency.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonObsLayer<W>`][`Layer<S>`]on_close().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonVisitor<'_>`][Visit]record_bool().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-verify 0.1.0 preflight/RUN_CONTRACT_PRECONDITION.",
+   "crates/conductor-verify/src/preflight.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonObsLayer<W>`][`Layer<S>`]on_event().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonVisitor<'_>`][Visit]record_debug().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-report 0.1.0 journal/JournalError#Io#",
+   "crates/conductor-report/src/journal.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-core 0.1.0 preconditions/impl#[PreconditionSubject][Display]fmt().",
+   "crates/conductor-core/src/preconditions.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[ObsWriterGuard][Write]write().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[ObsWriterGuard][Write]flush().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-cli 0.1.0 pause/impl#[CliResolver][PauseResolver]resolve().",
+   "crates/conductor-cli/src/pause.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/impl#[PortOccupier]occupy_default().",
+   "crates/conductor-faults/src/port_occupier.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-report 0.1.0 journal/JournalError#Serialize#",
+   "crates/conductor-report/src/journal.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonVisitor<'_>`][Visit]record_i64().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonVisitor<'_>`][Visit]record_str().",
+   "crates/conductor-core/src/obs.rs"
+  ]
+ ],
+ "all_candidates": [
+  [
+   "rust-analyzer cargo conductor-report 0.1.0 db/RunsDbError#Io#",
+   "crates/conductor-report/src/db.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-core 0.1.0 phase_spec/default_occurrences().",
+   "crates/conductor-core/src/phase_spec.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-run 0.1.0 dispatch/DispatchError#Emit#",
+   "crates/conductor-run/src/dispatch.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-emit 0.1.0 latency/impl#[LatencyProfile]p50_ms().",
+   "crates/conductor-emit/src/latency.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[ObsWriter][`MakeWriter<'a>`]Writer#",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-emit 0.1.0 latency/impl#[LatencyProfile]p95_ms().",
+   "crates/conductor-emit/src/latency.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonObsLayer<W>`][`Layer<S>`]on_close().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonVisitor<'_>`][Visit]record_bool().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-verify 0.1.0 preflight/RUN_CONTRACT_PRECONDITION.",
+   "crates/conductor-verify/src/preflight.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonObsLayer<W>`][`Layer<S>`]on_event().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonVisitor<'_>`][Visit]record_debug().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-report 0.1.0 journal/JournalError#Io#",
+   "crates/conductor-report/src/journal.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-core 0.1.0 preconditions/impl#[PreconditionSubject][Display]fmt().",
+   "crates/conductor-core/src/preconditions.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[ObsWriterGuard][Write]write().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[ObsWriterGuard][Write]flush().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-cli 0.1.0 pause/impl#[CliResolver][PauseResolver]resolve().",
+   "crates/conductor-cli/src/pause.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/impl#[PortOccupier]occupy_default().",
+   "crates/conductor-faults/src/port_occupier.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-report 0.1.0 journal/JournalError#Serialize#",
+   "crates/conductor-report/src/journal.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonVisitor<'_>`][Visit]record_i64().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonVisitor<'_>`][Visit]record_str().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-cli 0.1.0 pause/impl#[CliResolver][PauseResolver]kind().",
+   "crates/conductor-cli/src/pause.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-verify 0.1.0 manifest/impl#[ContractManifest]default_path().",
+   "crates/conductor-verify/src/manifest.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-tauri 0.1.0 pause/impl#[TauriResolver][PauseResolver]resolve().",
+   "crates/conductor-tauri/src/pause.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-report 0.1.0 db/RunsDbError#Json#",
+   "crates/conductor-report/src/db.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-core 0.1.0 preconditions/SIDECAR_PROGRAM.",
+   "crates/conductor-core/src/preconditions.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[ObsWriter][`MakeWriter<'a>`]make_writer().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonVisitor<'_>`][Visit]record_f64().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonVisitor<'_>`][Visit]record_error().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/impl#[PortOccupier][Drop]drop().",
+   "crates/conductor-faults/src/port_occupier.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-emit 0.1.0 latency/impl#[LatencyProfile]p99_ms().",
+   "crates/conductor-emit/src/latency.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-core 0.1.0 preconditions/EGRESS_TARGET.",
+   "crates/conductor-core/src/preconditions.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonVisitor<'_>`][Visit]record_u64().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-cli 0.1.0 render/PRECONDITION_LABEL.",
+   "crates/conductor-cli/src/render.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-emit 0.1.0 error/EmitError#Status#",
+   "crates/conductor-emit/src/error.rs"
+  ],
+  [
+   "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[`JsonObsLayer<W>`][`Layer<S>`]on_new_span().",
+   "crates/conductor-core/src/obs.rs"
+  ]
+ ],
+ "false_positive_families_named_not_subtracted": [
+  "trait-impl methods reached by dispatch",
+  "derive/attr-invoked fns (serde defaults, #[from] variants)",
+  "runtime-invoked surfaces (MCP tools, #[tauri::command] IPC)",
+  "test-only helpers outside a tests/ path segment"
+ ]
+}

@@ -1,0 +1,46 @@
+{
+ "unit": "conductor-run",
+ "state": "complete",
+ "done_marker": "exit=2 seconds=802",
+ "planned_in_scope": 118,
+ "planned_full_unit": 118,
+ "counts": {
+  "mutants": 118,
+  "caught": 85,
+  "missed": 5,
+  "timeout": 0,
+  "unviable": 28
+ },
+ "tested": 118,
+ "score": 94.44,
+ "score_formula": "caught/(caught+missed)  [timeout and unviable excluded]",
+ "survivors": [
+  [
+   "crates/conductor-run/src/lib.rs:68:8",
+   "delete ! in preflight"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:362:5",
+   "replace declares -> bool with false"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:559:27",
+   "delete field degraded from struct Observation expression in execute_scenario"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:600:25",
+   "replace - with / in execute_scenario"
+  ],
+  [
+   "crates/conductor-run/src/lib.rs:600:25",
+   "replace - with + in execute_scenario"
+  ]
+ ],
+ "timeouts": [],
+ "command": "cargo mutants -p conductor-run --test-tool=nextest --jobs 2 --output {run_dir}/mutants-conductor-run",
+ "log_tail": [
+  "MISSED   crates/conductor-run/src/lib.rs:600:25: replace - with / in execute_scenario in 11s build + 3s test",
+  "MISSED   crates/conductor-run/src/lib.rs:600:25: replace - with + in execute_scenario in 11s build + 3s test",
+  "118 mutants tested in 13m: 5 missed, 85 caught, 28 unviable"
+ ]
+}

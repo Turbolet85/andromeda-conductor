@@ -141,10 +141,16 @@ for the report to carry it (extend report-template) — never re-derive from git
 # — cross-doc (scoped to no single source: any of the seven may state a platform verdict) —
 - id: D-platform-claim
   doc: arch | security-plan | design-system | layout-templates | test-plan | obs-plan | a11y-plan
-  invariant: a PLATFORM / runner / driver verdict a doc states ("Linux only", "headless only", "requires X", "no driver on Y") matches what the harness is demonstrably able to run on.
-  check: agent-read — for each entry in the report's `Spec claims disproved by measurement` or `Harness / gate surface` bullets that names a platform, runner, or driver, grep the doc for the RETIRED verdict; a hit is drift. Distinguish the CI ARRANGEMENT (which runner the pipeline uses — a choice, not a capability) from the CAPABILITY claim (where the leg CAN run): only the capability claim is falsified by a measurement elsewhere. Retire the verdict by naming the measured platform SET, never by substituting a fresh single-platform literal.
+  invariant: a PLATFORM / runner / driver VERDICT a doc STATES — a sentence asserting, in the doc's own voice, where the harness can or cannot run ("Linux only", "headless only", "requires X", "no driver on Y") — matches what the harness is demonstrably able to run on. A doc that merely NAMES a platform, shell, script or tool (a host mention, an entry-point pointer, a recipe's shell, an enumeration of surfaces) states no verdict and is never a hit; neither is a plan's TARGET-state CI arrangement (a matrix row or job the plan sequences for later) — an unimplemented plan, not a capability claim.
+  check: agent-read — for each entry in the report's `Spec claims disproved by measurement` or `Harness / gate surface` bullets that RETIRES a platform, runner, or driver verdict, find in the doc a sentence that STATES the retired verdict — the token alone (`Linux`, `agent-run.sh`, `xvfb`) is never the trigger; QUOTE the stating sentence in the proposal, and where no sentence states it the detector has no hit. Distinguish the CI ARRANGEMENT (which runner the pipeline uses — a choice, not a capability) from the CAPABILITY claim (where the leg CAN run): only the capability claim is falsified by a measurement elsewhere. Retire the verdict by naming the measured platform SET, never by substituting a fresh single-platform literal.
   severity: warning
   # Added 2026-09-01 (webview-self-verify-windows-host, operator-approved): a11y-plan's own detectors
   # structurally could not see this class — it returned `proposals: []` while carrying six stale sites —
   # and test-plan's site list under-ran the doc (6 planned, 8 present). Caught only by the plan's
   # expected-amendments floor, which is exactly the recurrence condition for minting a detector.
+  # Tightened 2026-09-05 (0-pending adaptation, operator-directed): the original check keyed on report TOKENS and
+  # mis-fired five proposals in one day — design-system ×3 at the 2026-09-04T17-15-00 wrap (sites that NAME the
+  # harness / a shell without stating any verdict; E2 dismissed, and NO playbook rule matched) and test-plan §9 ×2
+  # (T4 + dependent T5) at the 2026-09-04T20-15-00 wrap (a TARGET-state CI matrix — an unimplemented plan, dismissed
+  # under playbook :22). The trigger is now a STATING sentence quoted in the proposal; playbook :46 was widened the
+  # same day so the dismissal has a rule.
