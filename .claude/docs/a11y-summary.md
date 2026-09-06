@@ -35,7 +35,7 @@ Enforcement: `.claude/rules/a11y.md`.
 - Never stand up a second browser-automation stack for a11y; screen-reader verification is supplemental only (NVDA agent-driven via its speech log, VoiceOver / Orca manual-declared).
 
 ## Critical decisions
-- **Reuse the tests' tauri-driver/WebdriverIO** session (ONE webview stack carrying three suite families — routine `--e2e`, driven `a11y:driven`, screen-reader `a11y:sr*` — Linux+xvfb in CI, and headfully on the Windows WebView2 host, measured 2026-09-01 / 2026-09-02) — not a parallel CDP attach.
+- **Reuse the tests' tauri-driver/WebdriverIO** session (ONE webview stack carrying three suite families — routine `--e2e`, driven `a11y:driven`, screen-reader `a11y:sr*` — Linux+xvfb is the TARGET CI arrangement (no such CI job exists today — `ci.yml` is two `windows-latest` jobs, measured 2026-09-06; the a11y legs stay operator/local), and headfully on the Windows WebView2 host, measured 2026-09-01 / 2026-09-02) — not a parallel CDP attach.
 - **Radix/shadcn provide focus trap + Escape + ARIA roles** (no `focus-trap-react`/`react-aria` install) — but NOT focus restoration for the Channel-opened operator-pause dialog: with no Radix `Trigger`, focus lands on `<body>`, so the dialog restores explicitly via `onCloseAutoFocus` + a `restoreFocusTo` accessor and the invoker stays focusable (`aria-disabled`, never native `disabled`). Measured 2026-09-01.
 - **Reduced-motion emulation** is the one platform-dependent caveat (WebKitGTK fallback to OS/GTK level); macOS WKWebView stays manual-pass-only.
 

@@ -1,0 +1,5 @@
+# The coverage matrix is compared BYTE-FOR-BYTE against `CoverageMatrix::render()` by the
+# coverage-completeness gate. `render()` is `writeln!`-built (LF) and written verbatim, so the
+# checked-out file must keep LF on every host — this repo sets no other attributes and
+# `core.autocrlf=true` is common on the Windows dev host and CI runners.
+coverage-matrix.md text eol=lf

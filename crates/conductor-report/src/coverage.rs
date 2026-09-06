@@ -102,8 +102,9 @@ pub struct CoverageRollup {
 /// `unbacked` qualifies the auto term — how many of those claims no scenario yet backs
 /// (`conductor_core::UNBACKED_AUTO`, held to the catalog by `check_scenario_backing`). It is a
 /// QUALIFIER, never a fifth summand: an auto row with no scenario is still classified auto, so
-/// counting it separately would break the sum. Passed in rather than read from the const so this stays
-/// a pure function of its arguments (the format golden fixes a synthetic set).
+/// counting it separately would break the sum. Passed in rather than read from the const so the
+/// RETURNED value stays a pure function of its arguments (the format golden fixes a synthetic set);
+/// the one side effect is the obs-plan §4 boundary line, which reads only those arguments.
 pub fn coverage_rollup(rows: &[CapabilityRow], unbacked: usize) -> CoverageRollup {
     let count = |mode: CoverageMode| rows.iter().filter(|r| r.mode == mode).count();
     let mut breakdown = String::new();
@@ -120,13 +121,26 @@ pub fn coverage_rollup(rows: &[CapabilityRow], unbacked: usize) -> CoverageRollu
         }
     }
     let out_of_scope = count(CoverageMode::NotConductors);
-    CoverageRollup {
+    let rollup = CoverageRollup {
         total: rows.len(),
         in_scope: rows.len() - out_of_scope,
         breakdown,
         out_of_scope,
         out_label: CoverageMode::NotConductors.label(),
-    }
+    };
+
+    // obs-plan §4 Critical Path 6, re-based onto the allowlisted `message` field: the attribute names
+    // that section originally specified are absent from the redact allowlist (they would emit
+    // nothing) and its span names sit outside §11's bounded set. Every number is derived from the
+    // roll-up, so the observable and the rendered caption cannot disagree.
+    tracing::info!(
+        message = format!(
+            "coverage gate: {} capabilities, {} in scope ({}), {} {}",
+            rollup.total, rollup.in_scope, rollup.breakdown, rollup.out_of_scope, rollup.out_label
+        )
+    );
+
+    rollup
 }
 
 /// The Markdown roll-up line: the full row count, the in-scope subtotal with its per-mode breakdown,

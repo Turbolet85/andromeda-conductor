@@ -141,6 +141,58 @@ impl EmissionSpec {
             shape,
         }
     }
+
+    /// An upper bound on the OTLP records ONE dispatch of this spec puts on the wire.
+    ///
+    /// The load envelope's `max_sustained_rate_spans_per_s` bounds wire load, but a dispatch is not
+    /// one record: a latency profile emits `samples` spans, a rate curve emits its per-window counts,
+    /// a topology one span per service, a PII logs batch one record per category. Each arm below
+    /// mirrors the `conductor-run` dispatcher's own arm.
+    ///
+    /// A BOUND, not an exact count: the rate curves' per-window counts carry bounded seeded jitter,
+    /// so the realized total is a function of the run's seed — while the static catalog gate has no
+    /// seed. The ceiling is the conservative direction for a load bound (an under-count is what lets
+    /// a phase breach the real bound while passing the gate).
+    pub fn max_spans_per_dispatch(&self) -> u64 {
+        // `conductor-emit`'s rate curves scale each window's target rate by a seeded factor in
+        // `[1 - JITTER, 1 + JITTER)` with `JITTER = 0.15`. The dependency runs emit → core, so the
+        // ceiling is transcribed here rather than imported; it is the only cross-crate constant in
+        // this function.
+        const JITTER_CEILING_PERCENT: u64 = 115;
+
+        let curve_bound = |peak_rate: u32, windows: u32| -> u64 {
+            u64::from(peak_rate)
+                .saturating_mul(JITTER_CEILING_PERCENT)
+                .div_ceil(100)
+                .saturating_mul(u64::from(windows))
+        };
+
+        match &self.shape {
+            EmissionShape::Plain | EmissionShape::Exception { .. } => 1,
+            // One severity is selected per occurrence, never the whole mix.
+            EmissionShape::Severity { .. } => 1,
+            // A root→child chain down to `depth`, inclusive.
+            EmissionShape::Error { depth, .. } => u64::from(*depth).saturating_add(1),
+            EmissionShape::Latency { samples, .. } => u64::from(*samples),
+            // Traces: a root plus an exception child. Logs: one record per category.
+            EmissionShape::Pii { categories } => match self.signal {
+                Signal::Logs => categories.len() as u64,
+                Signal::Traces | Signal::Metrics => 2,
+            },
+            EmissionShape::Ramp {
+                from_rate,
+                to_rate,
+                windows,
+            } => curve_bound(*from_rate.max(to_rate), *windows),
+            EmissionShape::Breathing {
+                center_rate,
+                amplitude,
+                windows,
+                ..
+            } => curve_bound(center_rate.saturating_add(*amplitude), *windows),
+            EmissionShape::Topology { services, .. } => services.len() as u64,
+        }
+    }
 }
 
 /// The shape of a phase's emissions — one variant per `conductor-emit` primitive family.
@@ -642,5 +694,135 @@ mod tests {
             fault_phases_are_silent(&[], &()).is_ok(),
             "no phases, nothing to violate"
         );
+    }
+
+    /// One case per shape, each transcribed from the `conductor-run` dispatcher's own arm — this is
+    /// what stops the bound drifting from what the wire actually carries.
+    #[test]
+    fn every_shape_bounds_the_records_its_dispatcher_arm_emits() {
+        let spec = |signal, shape| EmissionSpec::shaped(signal, 1, shape);
+
+        // One OK span, or one log record when the signal is logs.
+        assert_eq!(
+            spec(Signal::Traces, EmissionShape::Plain).max_spans_per_dispatch(),
+            1
+        );
+        assert_eq!(
+            spec(Signal::Logs, EmissionShape::Plain).max_spans_per_dispatch(),
+            1
+        );
+
+        // A root→child chain down to `depth`, inclusive — depth 0 is the root alone.
+        for (depth, expected) in [(0, 1), (1, 2), (3, 4)] {
+            let shape = EmissionShape::Error {
+                depth,
+                error_percent: 100,
+            };
+            assert_eq!(
+                spec(Signal::Traces, shape).max_spans_per_dispatch(),
+                expected,
+                "error depth {depth} emits a chain of {expected}"
+            );
+        }
+
+        // One variant is selected per occurrence, never the whole mix.
+        let shape = EmissionShape::Exception {
+            variants: vec![FingerprintVariantSpec::Identical; 3],
+        };
+        assert_eq!(spec(Signal::Traces, shape).max_spans_per_dispatch(), 1);
+
+        // One severity per occurrence, likewise.
+        let shape = EmissionShape::Severity {
+            severities: vec![16, 17],
+        };
+        assert_eq!(spec(Signal::Logs, shape).max_spans_per_dispatch(), 1);
+
+        let shape = EmissionShape::Latency {
+            operation: "op".into(),
+            p50_ms: 1,
+            p95_ms: 2,
+            p99_ms: 3,
+            samples: 50,
+        };
+        assert_eq!(spec(Signal::Traces, shape).max_spans_per_dispatch(), 50);
+
+        // Traces: a root plus its exception child. Logs: one record per category.
+        let categories = vec![
+            PiiCategorySpec::Email,
+            PiiCategorySpec::Jwt,
+            PiiCategorySpec::Ssn,
+        ];
+        let shape = EmissionShape::Pii {
+            categories: categories.clone(),
+        };
+        assert_eq!(spec(Signal::Traces, shape).max_spans_per_dispatch(), 2);
+        let shape = EmissionShape::Pii { categories };
+        assert_eq!(spec(Signal::Logs, shape).max_spans_per_dispatch(), 3);
+
+        assert_eq!(
+            spec(
+                Signal::Traces,
+                EmissionShape::Topology {
+                    services: vec!["a".into(), "b".into(), "c".into()],
+                    error_depth: None,
+                }
+            )
+            .max_spans_per_dispatch(),
+            3
+        );
+    }
+
+    /// A rate curve emits its per-window COUNTS, not one span per window — and those counts carry
+    /// seeded jitter, so the bound is the peak target rate raised by the jitter ceiling.
+    #[test]
+    fn a_rate_curve_bounds_its_window_counts_not_its_window_number() {
+        let ramp = EmissionSpec::shaped(
+            Signal::Traces,
+            1,
+            EmissionShape::Ramp {
+                from_rate: 10,
+                to_rate: 100,
+                windows: 8,
+            },
+        );
+        // ceil(100 * 1.15) = 115 per window, over 8 windows.
+        assert_eq!(ramp.max_spans_per_dispatch(), 920);
+        assert!(
+            ramp.max_spans_per_dispatch() > 8,
+            "counting windows would under-bound the wire load by the curve's rate"
+        );
+
+        let breathing = EmissionSpec::shaped(
+            Signal::Traces,
+            1,
+            EmissionShape::Breathing {
+                center_rate: 100,
+                amplitude: 20,
+                period_windows: 4,
+                windows: 10,
+            },
+        );
+        // The crest is center + amplitude = 120; ceil(120 * 1.15) = 138 per window, over 10.
+        assert_eq!(breathing.max_spans_per_dispatch(), 1380);
+    }
+
+    /// The bound is what the envelope's rate term multiplies, so a zero-occurrence phase contributes
+    /// nothing however loud its shape.
+    #[test]
+    fn the_bound_is_per_dispatch_and_independent_of_occurrences() {
+        let shape = EmissionShape::Latency {
+            operation: "op".into(),
+            p50_ms: 1,
+            p95_ms: 2,
+            p99_ms: 3,
+            samples: 7,
+        };
+        for occurrences in [0, 1, 99] {
+            assert_eq!(
+                EmissionSpec::shaped(Signal::Traces, occurrences, shape.clone())
+                    .max_spans_per_dispatch(),
+                7
+            );
+        }
     }
 }

@@ -1,0 +1,802 @@
+[
+{
+"sql": "SELECT symbol, crate, kind, file, def_line FROM symbol WHERE name IN ('check_sut_drift','coverage_matrix','check_load_envelope','classify','phase_rate_exceeds','all','write','render','coverage_rollup','coverage') AND kind <> 'meta' ORDER BY crate, file;",
+"rows": 21,
+"result": [
+{
+"symbol": "rust-analyzer cargo conductor-cli 0.1.0 cli/Commands#Coverage#write.",
+"crate": "conductor-cli",
+"kind": "term",
+"file": "crates/conductor-cli/src/cli.rs",
+"def_line": 52
+},
+{
+"symbol": "rust-analyzer cargo conductor-cli 0.1.0 commands/coverage/",
+"crate": "conductor-cli",
+"kind": "module",
+"file": "crates/conductor-cli/src/commands/coverage.rs",
+"def_line": 0
+},
+{
+"symbol": "rust-analyzer cargo conductor-cli 0.1.0 commands/coverage/coverage().",
+"crate": "conductor-cli",
+"kind": "fn",
+"file": "crates/conductor-cli/src/commands/coverage.rs",
+"def_line": 11
+},
+{
+"symbol": "rust-analyzer cargo conductor-cli 0.1.0 render/",
+"crate": "conductor-cli",
+"kind": "module",
+"file": "crates/conductor-cli/src/render.rs",
+"def_line": 0
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 coverage/",
+"crate": "conductor-core",
+"kind": "module",
+"file": "crates/conductor-core/src/coverage.rs",
+"def_line": 0
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 coverage/coverage_matrix().",
+"crate": "conductor-core",
+"kind": "fn",
+"file": "crates/conductor-core/src/coverage.rs",
+"def_line": 74
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 drift/check_sut_drift().",
+"crate": "conductor-core",
+"kind": "fn",
+"file": "crates/conductor-core/src/drift.rs",
+"def_line": 78
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 load_envelope/phase_rate_exceeds().",
+"crate": "conductor-core",
+"kind": "fn",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"def_line": 165
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 load_envelope/impl#[LoadEnvelope]classify().",
+"crate": "conductor-core",
+"kind": "fn",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"def_line": 240
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 load_envelope/check_load_envelope().",
+"crate": "conductor-core",
+"kind": "fn",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"def_line": 343
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 obs/impl#[ObsWriterGuard][Write]write().",
+"crate": "conductor-core",
+"kind": "fn",
+"file": "crates/conductor-core/src/obs.rs",
+"def_line": 137
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 obs/tests/impl#[SharedBuf][Write]write().",
+"crate": "conductor-core",
+"kind": "fn",
+"file": "crates/conductor-core/src/obs.rs",
+"def_line": 407
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.1.0 pii/impl#[PiiCategory]all().",
+"crate": "conductor-emit",
+"kind": "fn",
+"file": "crates/conductor-emit/src/pii.rs",
+"def_line": 52
+},
+{
+"symbol": "rust-analyzer cargo conductor-report 0.1.0 coverage/",
+"crate": "conductor-report",
+"kind": "module",
+"file": "crates/conductor-report/src/coverage.rs",
+"def_line": 0
+},
+{
+"symbol": "rust-analyzer cargo conductor-report 0.1.0 coverage/impl#[CoverageMatrix]render().",
+"crate": "conductor-report",
+"kind": "fn",
+"file": "crates/conductor-report/src/coverage.rs",
+"def_line": 23
+},
+{
+"symbol": "rust-analyzer cargo conductor-report 0.1.0 coverage/impl#[CoverageMatrix]write().",
+"crate": "conductor-report",
+"kind": "fn",
+"file": "crates/conductor-report/src/coverage.rs",
+"def_line": 51
+},
+{
+"symbol": "rust-analyzer cargo conductor-report 0.1.0 coverage/coverage_rollup().",
+"crate": "conductor-report",
+"kind": "fn",
+"file": "crates/conductor-report/src/coverage.rs",
+"def_line": 106
+},
+{
+"symbol": "rust-analyzer cargo conductor-report 0.1.0 report/impl#[RunReport]write().",
+"crate": "conductor-report",
+"kind": "fn",
+"file": "crates/conductor-report/src/report.rs",
+"def_line": 80
+},
+{
+"symbol": "rust-analyzer cargo conductor-report 0.1.0 report/impl#[RunReport]render().",
+"crate": "conductor-report",
+"kind": "fn",
+"file": "crates/conductor-report/src/report.rs",
+"def_line": 99
+},
+{
+"symbol": "rust-analyzer cargo conductor-tauri 0.1.0 commands/coverage_matrix().",
+"crate": "conductor-tauri",
+"kind": "fn",
+"file": "crates/conductor-tauri/src/commands.rs",
+"def_line": 155
+},
+{
+"symbol": "rust-analyzer cargo conductor-verify 0.1.0 verdict/classify().",
+"crate": "conductor-verify",
+"kind": "fn",
+"file": "crates/conductor-verify/src/verdict.rs",
+"def_line": 45
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT callee_name, callee_file, caller_name, file, line FROM calls WHERE (callee_name='check_sut_drift') OR (callee_name='coverage_matrix' AND callee_file LIKE '%conductor-core%') OR (callee_name='check_load_envelope') OR (callee_name='phase_rate_exceeds') OR (callee_name='classify' AND callee_file LIKE '%load_envelope%') OR (callee_name='coverage_rollup') OR (callee_name='all' AND callee_file LIKE '%pii.rs') ORDER BY callee_name, file, line;",
+"rows": 81,
+"result": [
+{
+"callee_name": "all",
+"callee_file": "crates/conductor-emit/src/pii.rs",
+"caller_name": "exposes_exactly_seven_distinct_categories",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 323
+},
+{
+"callee_name": "all",
+"callee_file": "crates/conductor-emit/src/pii.rs",
+"caller_name": "each_category_value_is_structurally_valid",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 334
+},
+{
+"callee_name": "all",
+"callee_file": "crates/conductor-emit/src/pii.rs",
+"caller_name": "trace_request_shape_is_seed_deterministic",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 426
+},
+{
+"callee_name": "all",
+"callee_file": "crates/conductor-emit/src/pii.rs",
+"caller_name": "trace_request_shape_is_seed_deterministic",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 427
+},
+{
+"callee_name": "all",
+"callee_file": "crates/conductor-emit/src/pii.rs",
+"caller_name": "trace_request_shape_is_seed_deterministic",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 430
+},
+{
+"callee_name": "all",
+"callee_file": "crates/conductor-emit/src/pii.rs",
+"caller_name": "trace_carries_span_attributes_and_an_exception_event",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 437
+},
+{
+"callee_name": "all",
+"callee_file": "crates/conductor-emit/src/pii.rs",
+"caller_name": "trace_carries_span_attributes_and_an_exception_event",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 444
+},
+{
+"callee_name": "all",
+"callee_file": "crates/conductor-emit/src/pii.rs",
+"caller_name": "trace_carries_span_attributes_and_an_exception_event",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 469
+},
+{
+"callee_name": "all",
+"callee_file": "crates/conductor-emit/src/pii.rs",
+"caller_name": "logs_request_embeds_each_value_in_body_and_attribute",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 482
+},
+{
+"callee_name": "all",
+"callee_file": "crates/conductor-emit/src/pii.rs",
+"caller_name": "log_records_carry_distinct_strictly_increasing_stamps",
+"file": "crates/conductor-emit/src/pii.rs",
+"line": 506
+},
+{
+"callee_name": "all",
+"callee_file": "crates/conductor-emit/src/pii.rs",
+"caller_name": "ships_pii_corpus_across_spans_and_exceptions",
+"file": "crates/conductor-emit/tests/pii_payload_corpus.rs",
+"line": 99
+},
+{
+"callee_name": "all",
+"callee_file": "crates/conductor-emit/src/pii.rs",
+"caller_name": "ships_pii_corpus_through_logs",
+"file": "crates/conductor-emit/tests/pii_payload_corpus.rs",
+"line": 138
+},
+{
+"callee_name": "all",
+"callee_file": "crates/conductor-emit/src/pii.rs",
+"caller_name": "no_corpus_value_or_affix_reaches_a_pinned_line",
+"file": "crates/conductor-run/tests/pii_harvest.rs",
+"line": 183
+},
+{
+"callee_name": "check_load_envelope",
+"callee_file": "crates/conductor-core/src/load_envelope.rs",
+"caller_name": "crate",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 44
+},
+{
+"callee_name": "check_load_envelope",
+"callee_file": "crates/conductor-core/src/load_envelope.rs",
+"caller_name": "the_storm_window_is_the_longest_emitting_phase_not_the_sum_of_them",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 536
+},
+{
+"callee_name": "check_load_envelope",
+"callee_file": "crates/conductor-core/src/load_envelope.rs",
+"caller_name": "the_committed_catalog_matches_the_committed_envelope",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 632
+},
+{
+"callee_name": "check_load_envelope",
+"callee_file": "crates/conductor-core/src/load_envelope.rs",
+"caller_name": "an_over_envelope_scenario_outside_the_ledger_is_a_fault",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 704
+},
+{
+"callee_name": "check_load_envelope",
+"callee_file": "crates/conductor-core/src/load_envelope.rs",
+"caller_name": "a_ledger_entry_now_inside_the_envelope_is_a_fault",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 721
+},
+{
+"callee_name": "check_load_envelope",
+"callee_file": "crates/conductor-core/src/load_envelope.rs",
+"caller_name": "a_ledger_entry_no_scenario_names_is_a_fault",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 738
+},
+{
+"callee_name": "check_load_envelope",
+"callee_file": "crates/conductor-core/src/load_envelope.rs",
+"caller_name": "an_in_envelope_catalog_with_an_empty_ledger_passes",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 755
+},
+{
+"callee_name": "check_load_envelope",
+"callee_file": "crates/conductor-core/src/load_envelope.rs",
+"caller_name": "envelope_message_names_identity_without_host_paths_or_type_names",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 765
+},
+{
+"callee_name": "check_sut_drift",
+"callee_file": "crates/conductor-core/src/drift.rs",
+"caller_name": "committed_artifacts_match_the_known_gap",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 249
+},
+{
+"callee_name": "check_sut_drift",
+"callee_file": "crates/conductor-core/src/drift.rs",
+"caller_name": "an_accepted_id_outside_the_known_gap_is_drift",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 256
+},
+{
+"callee_name": "check_sut_drift",
+"callee_file": "crates/conductor-core/src/drift.rs",
+"caller_name": "a_known_gap_entry_that_is_now_classified_is_drift",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 269
+},
+{
+"callee_name": "check_sut_drift",
+"callee_file": "crates/conductor-core/src/drift.rs",
+"caller_name": "a_classified_id_the_manifest_dropped_is_drift",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 286
+},
+{
+"callee_name": "check_sut_drift",
+"callee_file": "crates/conductor-core/src/drift.rs",
+"caller_name": "in_sync_with_an_empty_known_gap_passes",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 303
+},
+{
+"callee_name": "check_sut_drift",
+"callee_file": "crates/conductor-core/src/drift.rs",
+"caller_name": "drift_message_names_identity_without_host_paths_or_type_names",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 310
+},
+{
+"callee_name": "check_sut_drift",
+"callee_file": "crates/conductor-core/src/drift.rs",
+"caller_name": "drift_message_is_byte_identical_for_identical_inputs",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 476
+},
+{
+"callee_name": "check_sut_drift",
+"callee_file": "crates/conductor-core/src/drift.rs",
+"caller_name": "drift_message_is_byte_identical_for_identical_inputs",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 479
+},
+{
+"callee_name": "check_sut_drift",
+"callee_file": "crates/conductor-core/src/drift.rs",
+"caller_name": "crate",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 39
+},
+{
+"callee_name": "classify",
+"callee_file": "crates/conductor-core/src/load_envelope.rs",
+"caller_name": "the_storm_window_is_the_longest_emitting_phase_not_the_sum_of_them",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 535
+},
+{
+"callee_name": "classify",
+"callee_file": "crates/conductor-core/src/load_envelope.rs",
+"caller_name": "a_silence_phase_is_never_storm_however_long_it_runs",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 548
+},
+{
+"callee_name": "classify",
+"callee_file": "crates/conductor-core/src/load_envelope.rs",
+"caller_name": "an_emitting_phase_faster_than_the_rate_term_is_a_breach",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 556
+},
+{
+"callee_name": "classify",
+"callee_file": "crates/conductor-core/src/load_envelope.rs",
+"caller_name": "a_zero_length_emitting_phase_is_an_unbounded_rate",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 575
+},
+{
+"callee_name": "classify",
+"callee_file": "crates/conductor-core/src/load_envelope.rs",
+"caller_name": "a_zero_length_emitting_phase_is_an_unbounded_rate",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 577
+},
+{
+"callee_name": "classify",
+"callee_file": "crates/conductor-core/src/load_envelope.rs",
+"caller_name": "the_rate_bound_is_exclusive_at_its_boundary",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 588
+},
+{
+"callee_name": "classify",
+"callee_file": "crates/conductor-core/src/load_envelope.rs",
+"caller_name": "the_rate_bound_is_exclusive_at_its_boundary",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 591
+},
+{
+"callee_name": "classify",
+"callee_file": "crates/conductor-core/src/load_envelope.rs",
+"caller_name": "the_gate_and_the_per_run_judgment_agree_across_the_committed_catalog",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 621
+},
+{
+"callee_name": "classify",
+"callee_file": "crates/conductor-core/src/load_envelope.rs",
+"caller_name": "classify_returns_a_value_never_an_error",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 800
+},
+{
+"callee_name": "classify",
+"callee_file": "crates/conductor-core/src/load_envelope.rs",
+"caller_name": "classify_returns_a_value_never_an_error",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 804
+},
+{
+"callee_name": "classify",
+"callee_file": "crates/conductor-core/src/load_envelope.rs",
+"caller_name": "classify_returns_a_value_never_an_error",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 809
+},
+{
+"callee_name": "classify",
+"callee_file": "crates/conductor-core/src/load_envelope.rs",
+"caller_name": "classify_cause_carries_no_host_path_or_type_name",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 827
+},
+{
+"callee_name": "classify",
+"callee_file": "crates/conductor-core/src/load_envelope.rs",
+"caller_name": "a_phase_exactly_at_the_storm_ceiling_is_inside_the_envelope",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 850
+},
+{
+"callee_name": "classify",
+"callee_file": "crates/conductor-core/src/load_envelope.rs",
+"caller_name": "a_phase_exactly_at_the_storm_ceiling_is_inside_the_envelope",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 853
+},
+{
+"callee_name": "classify",
+"callee_file": "crates/conductor-core/src/load_envelope.rs",
+"caller_name": "classify_run",
+"file": "crates/conductor-run/src/envelope.rs",
+"line": 76
+},
+{
+"callee_name": "coverage_matrix",
+"callee_file": "crates/conductor-core/src/coverage.rs",
+"caller_name": "render",
+"file": "crates/conductor-cli/src/render.rs",
+"line": 19
+},
+{
+"callee_name": "coverage_matrix",
+"callee_file": "crates/conductor-core/src/coverage.rs",
+"caller_name": "coverage_table_styled",
+"file": "crates/conductor-cli/src/render.rs",
+"line": 278
+},
+{
+"callee_name": "coverage_matrix",
+"callee_file": "crates/conductor-core/src/coverage.rs",
+"caller_name": "coverage_summary_styled",
+"file": "crates/conductor-cli/src/render.rs",
+"line": 298
+},
+{
+"callee_name": "coverage_matrix",
+"callee_file": "crates/conductor-core/src/coverage.rs",
+"caller_name": "coverage_table_renders_every_classified_pid",
+"file": "crates/conductor-cli/src/render.rs",
+"line": 508
+},
+{
+"callee_name": "coverage_matrix",
+"callee_file": "crates/conductor-core/src/coverage.rs",
+"caller_name": "coverage_summary_splits_the_in_scope_denominator",
+"file": "crates/conductor-cli/src/render.rs",
+"line": 570
+},
+{
+"callee_name": "coverage_matrix",
+"callee_file": "crates/conductor-core/src/coverage.rs",
+"caller_name": "the_public_renders_carry_their_ascii_content",
+"file": "crates/conductor-cli/src/render.rs",
+"line": 708
+},
+{
+"callee_name": "coverage_matrix",
+"callee_file": "crates/conductor-core/src/coverage.rs",
+"caller_name": "the_coverage_roll_up_is_derived_from_the_classification",
+"file": "crates/conductor-cli/src/render.rs",
+"line": 782
+},
+{
+"callee_name": "coverage_matrix",
+"callee_file": "crates/conductor-core/src/coverage.rs",
+"caller_name": "only_the_out_of_scope_mode_cell_carries_the_residual_tint",
+"file": "crates/conductor-cli/src/render.rs",
+"line": 817
+},
+{
+"callee_name": "coverage_matrix",
+"callee_file": "crates/conductor-core/src/coverage.rs",
+"caller_name": "coverage_lists_every_classified_pid",
+"file": "crates/conductor-cli/tests/cli_smoke.rs",
+"line": 406
+},
+{
+"callee_name": "coverage_matrix",
+"callee_file": "crates/conductor-core/src/coverage.rs",
+"caller_name": "matrix_covers_every_accepted_capability",
+"file": "crates/conductor-core/src/coverage.rs",
+"line": 607
+},
+{
+"callee_name": "coverage_matrix",
+"callee_file": "crates/conductor-core/src/coverage.rs",
+"caller_name": "p_ids_are_well_formed_sorted_and_unique",
+"file": "crates/conductor-core/src/coverage.rs",
+"line": 616
+},
+{
+"callee_name": "coverage_matrix",
+"callee_file": "crates/conductor-core/src/coverage.rs",
+"caller_name": "every_row_carries_a_title_and_category",
+"file": "crates/conductor-core/src/coverage.rs",
+"line": 636
+},
+{
+"callee_name": "coverage_matrix",
+"callee_file": "crates/conductor-core/src/coverage.rs",
+"caller_name": "the_out_of_remit_set_is_explicitly_enumerated",
+"file": "crates/conductor-core/src/coverage.rs",
+"line": 644
+},
+{
+"callee_name": "coverage_matrix",
+"callee_file": "crates/conductor-core/src/coverage.rs",
+"caller_name": "the_in_lane_capabilities_are_classified_verifiable",
+"file": "crates/conductor-core/src/coverage.rs",
+"line": 670
+},
+{
+"callee_name": "coverage_matrix",
+"callee_file": "crates/conductor-core/src/coverage.rs",
+"caller_name": "named_static_only_anchors_are_static_only",
+"file": "crates/conductor-core/src/coverage.rs",
+"line": 691
+},
+{
+"callee_name": "coverage_matrix",
+"callee_file": "crates/conductor-core/src/coverage.rs",
+"caller_name": "every_mode_is_represented",
+"file": "crates/conductor-core/src/coverage.rs",
+"line": 707
+},
+{
+"callee_name": "coverage_matrix",
+"callee_file": "crates/conductor-core/src/coverage.rs",
+"caller_name": "tests",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 220
+},
+{
+"callee_name": "coverage_matrix",
+"callee_file": "crates/conductor-core/src/coverage.rs",
+"caller_name": "committed_artifacts_match_the_known_gap",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 249
+},
+{
+"callee_name": "coverage_matrix",
+"callee_file": "crates/conductor-core/src/coverage.rs",
+"caller_name": "the_committed_catalog_matches_the_unbacked_ledger",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 367
+},
+{
+"callee_name": "coverage_matrix",
+"callee_file": "crates/conductor-core/src/coverage.rs",
+"caller_name": "crate",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 38
+},
+{
+"callee_name": "coverage_matrix",
+"callee_file": "crates/conductor-core/src/coverage.rs",
+"caller_name": "coverage",
+"file": "crates/conductor-report/src/coverage.rs",
+"line": 13
+},
+{
+"callee_name": "coverage_matrix",
+"callee_file": "crates/conductor-core/src/coverage.rs",
+"caller_name": "render",
+"file": "crates/conductor-report/src/coverage.rs",
+"line": 24
+},
+{
+"callee_name": "coverage_matrix",
+"callee_file": "crates/conductor-core/src/coverage.rs",
+"caller_name": "renders_title_summary_and_table_header",
+"file": "crates/conductor-report/src/coverage.rs",
+"line": 214
+},
+{
+"callee_name": "coverage_matrix",
+"callee_file": "crates/conductor-core/src/coverage.rs",
+"caller_name": "summary_counts_sum_to_the_row_count",
+"file": "crates/conductor-report/src/coverage.rs",
+"line": 231
+},
+{
+"callee_name": "coverage_matrix",
+"callee_file": "crates/conductor-core/src/coverage.rs",
+"caller_name": "the_unbacked_qualifier_is_not_a_fifth_summand",
+"file": "crates/conductor-report/src/coverage.rs",
+"line": 247
+},
+{
+"callee_name": "coverage_matrix",
+"callee_file": "crates/conductor-core/src/coverage.rs",
+"caller_name": "every_capability_renders_as_an_exact_row",
+"file": "crates/conductor-report/src/coverage.rs",
+"line": 268
+},
+{
+"callee_name": "coverage_matrix",
+"callee_file": "crates/conductor-core/src/coverage.rs",
+"caller_name": "every_capability_renders_as_an_exact_row",
+"file": "crates/conductor-report/src/coverage.rs",
+"line": 280
+},
+{
+"callee_name": "coverage_matrix",
+"callee_file": "crates/conductor-core/src/coverage.rs",
+"caller_name": "out_of_scope_rows_never_read_as_fail_or_blocked",
+"file": "crates/conductor-report/src/coverage.rs",
+"line": 301
+},
+{
+"callee_name": "coverage_matrix",
+"callee_file": "crates/conductor-core/src/coverage.rs",
+"caller_name": "the_fixture_leaves_a_classified_capability_unmentioned",
+"file": "crates/conductor-run/tests/lamps_fixture.rs",
+"line": 73
+},
+{
+"callee_name": "coverage_matrix",
+"callee_file": "crates/conductor-core/src/coverage.rs",
+"caller_name": "coverage_matrix",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 158
+},
+{
+"callee_name": "coverage_matrix",
+"callee_file": "crates/conductor-core/src/coverage.rs",
+"caller_name": "coverage_matrix_command_returns_every_classified_pid",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 446
+},
+{
+"callee_name": "coverage_rollup",
+"callee_file": "crates/conductor-report/src/coverage.rs",
+"caller_name": "render",
+"file": "crates/conductor-cli/src/render.rs",
+"line": 21
+},
+{
+"callee_name": "coverage_rollup",
+"callee_file": "crates/conductor-report/src/coverage.rs",
+"caller_name": "coverage_summary_styled",
+"file": "crates/conductor-cli/src/render.rs",
+"line": 298
+},
+{
+"callee_name": "coverage_rollup",
+"callee_file": "crates/conductor-report/src/coverage.rs",
+"caller_name": "summary_line",
+"file": "crates/conductor-report/src/coverage.rs",
+"line": 134
+},
+{
+"callee_name": "coverage_rollup",
+"callee_file": "crates/conductor-report/src/coverage.rs",
+"caller_name": "crate",
+"file": "crates/conductor-report/src/lib.rs",
+"line": 7
+},
+{
+"callee_name": "phase_rate_exceeds",
+"callee_file": "crates/conductor-core/src/load_envelope.rs",
+"caller_name": "phase_breach",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 187
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT from_crate, to_crate FROM crate_edges WHERE to_crate IN ('conductor-core','conductor-report') OR from_crate IN ('conductor-cli','conductor-report') ORDER BY from_crate, to_crate;",
+"rows": 11,
+"result": [
+{
+"from_crate": "conductor-cli",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-cli",
+"to_crate": "conductor-report"
+},
+{
+"from_crate": "conductor-cli",
+"to_crate": "conductor-run"
+},
+{
+"from_crate": "conductor-cli",
+"to_crate": "conductor-verify"
+},
+{
+"from_crate": "conductor-faults",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-report",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-run",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-run",
+"to_crate": "conductor-report"
+},
+{
+"from_crate": "conductor-tauri",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-timeline",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-verify",
+"to_crate": "conductor-core"
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller_name, file, line FROM calls WHERE callee_name='phase_breach' ORDER BY file, line;",
+"rows": 2,
+"result": [
+{
+"caller_name": "classify",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 244
+},
+{
+"caller_name": "check_load_envelope",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 347
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

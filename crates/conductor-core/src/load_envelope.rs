@@ -20,6 +20,14 @@
 //! `EmissionSpec::occurrences` is what made both computable. Whole-scenario duration is recorded but
 //! no longer asserted.
 //!
+//! The rate term counts **wire records, not dispatches**. A dispatch is not one span — a latency
+//! profile emits `samples`, a rate curve its per-window counts, a topology one span per service —
+//! so the phase rate is `occurrences × EmissionSpec::max_spans_per_dispatch()` over `gap_ms`.
+//! Counting dispatches read as bounding wire load while bounding something ~100× smaller: the
+//! catalog's true peak is `halo-breathing-encoding` at ~232 records/s, which a dispatch count put at
+//! 2/s. It is an upper BOUND because the rate curves' per-window counts carry seeded jitter and the
+//! static catalog gate has no seed.
+//!
 //! The artifact predicted a different landing — that asserting SUMMED emitting-phase duration would
 //! let both exemptions retire on their own merits. Measured across the committed catalog it does not:
 //! `activity-floor` sums to 900s of emitting time and `incident-auto-resolution` to 610s, so both
@@ -59,8 +67,10 @@ pub struct LoadEnvelope {
 /// duration is recorded but no longer read by a gate.
 #[derive(Debug, Clone, PartialEq, Eq, Deserialize)]
 pub struct EnvelopeTerms {
-    /// Sustained emission rate the SUT tolerates. **Asserted** per emitting phase: a phase's rate is
-    /// its `occurrences` over its `gap_ms`, which `EmissionSpec::occurrences` made computable.
+    /// Sustained emission rate the SUT tolerates, in WIRE RECORDS per second. **Asserted** per
+    /// emitting phase: a phase's rate is its `occurrences × EmissionSpec::max_spans_per_dispatch()`
+    /// over its `gap_ms` — the per-dispatch record count is what makes the term mean what it is
+    /// named, since a dispatch may put anything from one span to a whole rate curve on the wire.
     pub max_sustained_rate_spans_per_s: u64,
     /// How long the SUT tolerates that rate. **Asserted** against the longest single emitting phase —
     /// one continuous window, because a storm interrupted by quiet is not a sustained one.
@@ -158,16 +168,28 @@ struct PhaseBreach<'a> {
     term: BreachTerm,
 }
 
-/// Whether an emitting phase sustains more than `max_rate` emissions per second.
+/// Whether an emitting phase sustains more than `max_rate` WIRE RECORDS per second.
 ///
-/// Compared as `occurrences * 1000 > max_rate * gap_ms` — exact integer math, no division and no
-/// float, so the bound behaves identically on every host. A zero-length window declaring emissions
-/// is an unbounded rate and always breaches.
-fn phase_rate_exceeds(occurrences: u32, gap_ms: u64, max_rate: u64) -> bool {
+/// `spans_per_dispatch` is the bound one dispatch puts on the wire
+/// ([`EmissionSpec::max_spans_per_dispatch`]) — a dispatch is not one span, so counting dispatches
+/// would read as bounding wire load while bounding something ~100× smaller.
+///
+/// Compared as `occurrences * spans_per_dispatch * 1000 > max_rate * gap_ms` — exact integer math,
+/// no division and no float, so the bound behaves identically on every host. A zero-length window
+/// declaring emissions is an unbounded rate and always breaches.
+fn phase_rate_exceeds(
+    occurrences: u32,
+    spans_per_dispatch: u64,
+    gap_ms: u64,
+    max_rate: u64,
+) -> bool {
     if gap_ms == 0 {
         return true;
     }
-    u64::from(occurrences).saturating_mul(1_000) > max_rate.saturating_mul(gap_ms)
+    u64::from(occurrences)
+        .saturating_mul(spans_per_dispatch)
+        .saturating_mul(1_000)
+        > max_rate.saturating_mul(gap_ms)
 }
 
 /// The single source of "is this scenario inside the envelope?", shared by [`check_load_envelope`]
@@ -187,6 +209,7 @@ fn phase_breach<'a>(terms: &EnvelopeTerms, scenario: &'a Scenario) -> Option<Pha
                 })
             } else if phase_rate_exceeds(
                 p.emission.occurrences,
+                p.emission.max_spans_per_dispatch(),
                 p.gap_ms,
                 terms.max_sustained_rate_spans_per_s,
             ) {

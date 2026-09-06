@@ -71,6 +71,18 @@ jobs:
           $PSNativeCommandUseErrorActionPreference = $true
           .\scripts\agent-run.ps1 run
 
+      # Coverage-completeness gate (test-plan §1 Critical Path 6 — the definition-of-done gate).
+      # The subject is the COMMITTED coverage-matrix.md; the gate byte-compares it to the production
+      # renderer, so a classification change that skipped regeneration fails here rather than
+      # shipping a stale artifact. Re-listing the classification in jq would be a second copy that
+      # drifts from `coverage_matrix()`, so the gate is the Rust test.
+      - name: Coverage-completeness gate
+        shell: bash
+        run: |
+          test -f coverage-matrix.md || { echo "::error::coverage-matrix.md is absent — the gate has no subject"; exit 1; }
+          cargo nextest run -p conductor-report --test coverage_gate --profile ci
+          echo "coverage completeness: PASS ($(grep -cE '^\| `P-' coverage-matrix.md) capabilities classified)"
+
       - name: Supply-chain — cargo audit
         run: cargo audit
 

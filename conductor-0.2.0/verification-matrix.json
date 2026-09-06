@@ -353,11 +353,11 @@
       "observed_gap": "The P-IDs are classified in code but nothing fails when a gap appears; the stated definition of done was never enforced.",
       "verification": {
         "method": "unit",
-        "acceptance": "The gate enumerates the CURRENT SUT capability set from the manifest (not a hardcoded 60) and exits non-zero when any capability is unclassified; a deliberately removed classification reproduces the failure.",
-        "ref": null,
-        "status": "planned"
+        "acceptance": "`cargo nextest run -p conductor-report --test coverage_gate --profile ci` is green as its own named CI step and asserts three arms: (1) `check_sut_drift` over the committed manifest (loaded from its conventional repo path via CARGO_MANIFEST_DIR-relative resolution, no CONDUCTOR_* handle) and `coverage_matrix()` returns Ok, with the accepted set enumerated at runtime and no literal count or P-ID range in the test; (2) a negative arm removing one row from the REAL `coverage_matrix()` slice — not a synthetic fixture — yields Err(CoreError::SutDrift) naming that id, at non-zero exit; (3) the committed `coverage-matrix.md` is byte-equal to `CoverageMatrix::render()`, its endings pinned by `.gitattributes` so the comparison is host-independent.",
+        "ref": "crates/conductor-report/tests/coverage_gate.rs::{every_accepted_capability_is_classified, removing_a_real_classification_row_fails_the_gate, the_committed_artifact_is_the_rendered_classification}",
+        "status": "verified"
       },
-      "chunk": null
+      "chunk": "2026-09-06-coverage-completeness-gate"
     },
     {
       "id": "v2-27",
