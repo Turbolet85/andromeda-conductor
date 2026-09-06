@@ -4,7 +4,8 @@
 #
 # Mirrors agent-run.sh — same 5 commands, same semantics. Conductor has NO daemon and NO inbound
 # listener: boot is a preflight gate, status reads disk artifacts, there is no PID file.
-#   boot, run [--unit|--integration|--e2e], status [run_id], cleanup [run_id], logs [run_id]
+#   boot, run [--unit|--integration|--e2e|--live], status [run_id], cleanup [run_id], logs [run_id]
+#   --live is the operator-gated live-Pulse suite: never a CI gate, never reachable from a bare `run`
 # Run with: .\scripts\agent-run.ps1 boot
 
 $ErrorActionPreference = 'Stop'
@@ -73,6 +74,92 @@ function Resolve-RunId([string]$Id, [string]$Verb) {
     $Id
 }
 
+# --- the operator-gated live suite (`run --live`) ------------------------------------------------
+# The self-obs sink is TRUNCATING (conductor-core obs.rs) — every --agent-mode invocation wipes the
+# previous leg's lines — so each leg's stream is frozen before the next one runs. A per-leg
+# CONDUCTOR_RUNS_DIR would NOT separate them: the path resolves as runs_dir.parent()/logs, so every
+# runs dir under runs/ lands in the same logs dir.
+$LiveLog = Join-Path (Split-Path -Parent (Join-Path (Get-Location) $RunsDir)) 'logs/agent-latest.jsonl'
+$LiveCaptureDir = Join-Path $RunsDir 'live-suite'
+
+# Total wall clock ~12-15 min. Each preflight pays the contract's warm-up before its poll starts, and a
+# NOT-ready gate pays the whole poll floor. Per-leg budget = preflight budget + the scenario's phases + margin.
+function Get-LiveLegBudgetSec([int]$ScenarioSec) { (Get-PreflightBudgetSec) + $ScenarioSec + 60 }
+
+# Drive one scenario leg and freeze its self-obs. A Blocked row is a REPORTED state and exits 0 (only a
+# hard Fail exits non-zero), which is what lets B2's deduped gate be an expected outcome, not an abort.
+function Invoke-LiveLeg([string]$Label, [string]$Scenario, [int]$Budget) {
+    Write-Output "[live] leg ${Label}: $Scenario"
+    $p = Start-Process -FilePath $Cargo -NoNewWindow -PassThru -ArgumentList @(
+        'run', '-q', '-p', 'conductor-cli', '--bin', 'conductor', '--', 'run', $Scenario, '--agent-mode')
+    if (-not $p.WaitForExit($Budget * 1000)) {
+        [Console]::Error.WriteLine("[live] leg ${Label}: exceeded the ${Budget}s budget - terminating")
+        $p.Kill(); $p.WaitForExit()
+        exit 124
+    }
+    if ($p.ExitCode -ne 0) { throw "[live] leg ${Label} exited $($p.ExitCode)" }
+    New-Item -ItemType Directory -Force -Path $LiveCaptureDir | Out-Null
+    if (Test-Path $LiveLog) {
+        Copy-Item $LiveLog (Join-Path $LiveCaptureDir "$Label.jsonl") -Force
+        $n = (Get-Content (Join-Path $LiveCaptureDir "$Label.jsonl")).Count
+        Write-Output "[live] leg ${Label}: froze $n self-obs lines"
+    } else {
+        [Console]::Error.WriteLine("[live] leg ${Label}: no self-obs stream at $LiveLog")
+    }
+}
+
+function Invoke-LiveSuite {
+    # The probe leads and short-circuits: non-mutating, fires NO canary, so it primes none of the
+    # incident state the legs depend on. An unmet subject REFUSES the suite rather than letting a
+    # partial env degrade to a ~0s [BLOCKED] row.
+    & $Cargo run -q -p conductor-cli --bin conductor -- preconditions
+    if ($LASTEXITCODE -ne 0) {
+        [Console]::Error.WriteLine('run --live: refused - a live-Pulse precondition is unmet (above); no leg was fired')
+        exit 1
+    }
+
+    # Clear last run's captures so an aborted run's stale leg file is never mis-read as this run's.
+    # Non-recursive by design — see the .sh sibling.
+    New-Item -ItemType Directory -Force -Path $LiveCaptureDir | Out-Null
+    Remove-Item (Join-Path $LiveCaptureDir '*.jsonl') -Force -ErrorAction SilentlyContinue
+
+    # live_leg_order — B1 and B2 are the SAME short scenario fired twice on purpose.
+    #   B1  gate ready; read-back finds its own canary incident still open -> a graded manual row.
+    #   B2  fired immediately, inside Pulse's 120s idle window: its canary dedupes against B1's
+    #       still-open incident on the (kind, scope, scope_id) tuple, no fresh incident forms, and the
+    #       gate goes not-ready-but-CONNECTED — the only state reaching the readiness-gate self-obs line.
+    #       ANDROMEDA_PULSE_L4_DETERMINISTIC is load-bearing: canned-L4 formation is ~2s, so B2's storm
+    #       lands well inside the window; real-model formation (~110s) would fall outside it.
+    #   A   after the quiet window, a fresh canary forms then idles for the whole silent scenario, so
+    #       read-back finds an EMPTY active set — the auto-resolve residual arm.
+    Invoke-LiveLeg 'b1' 'degraded-mode-report' (Get-LiveLegBudgetSec 10)
+    Invoke-LiveLeg 'b2' 'degraded-mode-report' (Get-LiveLegBudgetSec 10)
+
+    Write-Output '[live] quiet window: 150s (Pulse 120s idle + a 30s resolver tick) before leg a'
+    Start-Sleep -Seconds 150
+
+    Invoke-LiveLeg 'a' 'auto-resolve-idle-window' (Get-LiveLegBudgetSec 180)
+
+    # The driven a11y arm fires its own preflight canary; leg A's canary has already resolved by A's
+    # read-back, so no extra window is needed. It self-skips at exit 0 when no native WebDriver resolves
+    # (wdio.conf.ts guards CONDUCTOR_MSEDGEDRIVER) — a SKIP, not a refusal: a host-tool handle and a
+    # live-Pulse handle are different classes.
+    Write-Output '[live] driven a11y arm'
+    Invoke-EnsureFrontend
+    & $Cargo build --release -p conductor-tauri --features tauri/custom-protocol
+    if ($LASTEXITCODE -ne 0) { throw "cargo build --release failed ($LASTEXITCODE)" }
+    Push-Location $UiDir
+    try {
+        & npm run a11y:driven
+        if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+    } finally { Pop-Location }
+
+    Write-Output "[live] suite complete - captures under $LiveCaptureDir"
+    Write-Output '[live] stop form: the wdio arm self-terminates via onComplete -> tauriDriver.kill(); after an'
+    Write-Output '[live] interrupted run: taskkill /F /IM msedgedriver.exe /IM conductor-tauri.exe (+ the node CLI).'
+    Write-Output '[live] pulse-app is NOT stopped here - the operator started it and stops it.'
+}
+
 switch ($args[0]) {
     'boot' {
         # ready:true ⇒ exit 0; ready:false ⇒ non-zero (gate). With no live Pulse this is ready:false —
@@ -138,7 +225,12 @@ switch ($args[0]) {
                 }
                 break
             }
-            default { [Console]::Error.WriteLine('usage: .\agent-run.ps1 run [--unit|--integration|--e2e]'); exit 2 }
+            # test-plan §9: the operator-gated live suite. NEVER a CI gate and never reachable from a
+            # bare `run` — a live leg drives a real Pulse. Composes B1 -> B2 -> quiet window -> A ->
+            # the driven a11y arm, in that order, because each leg's outcome depends on the incident
+            # state the previous one left.
+            '--live' { Invoke-LiveSuite; break }
+            default { [Console]::Error.WriteLine('usage: .\agent-run.ps1 run [--unit|--integration|--e2e|--live]'); exit 2 }
         }
     }
     'status' {

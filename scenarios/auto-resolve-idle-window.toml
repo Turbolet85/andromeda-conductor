@@ -1,0 +1,37 @@
+# LOAD ENVELOPE — this scenario's total duration is asserted against the proven-good SUT bounds in
+# `contracts/pulse-load-envelope.toml` (the terms and any exemption live there, never copied here).
+# A run over the envelope reports ENVIRONMENT-SUSPECT, not Fail — the harness drove it, not Pulse.
+
+# P-022 — Incident Auto-Resolution (pulse-capability-spec.md §P-022). Shares the capability with
+# `incident-auto-resolution`, which drives the FORMATION side; this one drives the IDLE side.
+#
+# Purpose: give the read-back an EMPTY active set. The scenario emits nothing at all, so the only
+# incident in play is the preflight canary's own; it goes idle the moment that storm stops, and Pulse
+# auto-resolves it (120s idle + a 30s AutoResolveObserver tick). The single silent phase outlasts that
+# window, so `observe` finds no active incident and a declare-only scenario routes the empty corpus to
+# the pre-accepted residual (`ReadBack::AutoResolved`) rather than `Blocked`.
+#
+# Why a dedicated scenario rather than reusing `ack-cooldown` (370s, also all-silent, which reached the
+# same arm live on 2026-08-21): wall clock — 165s roughly halves the leg — and declared intent, since
+# ack-cooldown's P-023 cool-down semantics are incidental to this use. The SHORT declare-only scenarios
+# cannot substitute: they read back well inside the canary incident's idle window.
+#
+# Coverage mode: auto. DECLARE-ONLY — zero `[[expected]]`, because the observable is the ABSENCE of an
+# active incident, which no read-back token check can express; the row lands verdict null /
+# state="KnownResidual" and the claim grades at the harvest tier.
+name = "auto-resolve-idle-window"
+p_ids = ["P-022"]
+seed = 4317122
+slo_tier = "<90s"   # a lifecycle-timing scenario; the 120s+30s window is phase timing, not the SLO budget
+jitter_ms = 50
+
+[[phases]]
+# Pulse's worst case is 120s idle + up to a full 30s AutoResolveObserver tick = 150s. The window was
+# first set to 165000 (15s margin) and MEASURED MARGINAL: of two live runs on 2026-09-06 the first
+# reached the empty active set and the second did not — leg A landed ManualCheck with the canary
+# incident still active. Widened to 200000 for a 50s margin. NOT yet live-proven at this value.
+name = "idle-past-auto-resolve"
+gap_ms = 200000
+[phases.emission]
+kind = "plain"
+occurrences = 0   # the silence IS the condition under test

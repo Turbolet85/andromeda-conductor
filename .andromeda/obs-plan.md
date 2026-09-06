@@ -222,7 +222,7 @@ Schema (binding contract from upstream-context Section 5 Test Plan Excerpt → T
   "fingerprints": ["fingerprint1", "fingerprint2", ...] or empty array
 }
 ```
-Additional fields per scenario (e.g., `degraded_mode_response`).
+Additional fields per scenario — an extension point of the envelope shape. Its only ever-named instance, `degraded_mode_response`, is RETIRED: measured 2026-09-06 with ZERO occurrences anywhere under `crates/` (`grep -c 'degraded_mode_response' crates/`), so it was never implemented and no scenario emits it. The extension point itself stands; nothing is known to exercise it today.
 - Agent-parseable via `jq` and `serde_json`
 - No absolute host paths, no internal struct names (redaction layer in Section 4 / Section 11)
 
@@ -344,7 +344,7 @@ Downstream skills (route, setup-project) derive:
   - `verify.readback.observe`: `count` (incidents read); the degraded signal is OBSERVED, not requested — Pulse computes `degraded_mode` (`parsed_l4.is_none()`) and returns it in the `retrieve_report` result, so there is no request-side attribute to record. It rides a `warn`-level line on the allowlisted `message` field
   - `report.classify_known_residual`: `classification_result` (string: "KnownResidual")
   - `db.insert_run`: `state_written` (= "KnownResidual")
-- **Required log fields:** `run_id`, `seed`, `scenario`, `p_ids`, `verdict`, `state` ("KnownResidual"), `latency_ms`, `slo_tier`, `fingerprints`, `journal_emitted_at`, `read_back_observed_at` — the same eleven-field envelope every other critical path carries (test-plan §3 owns it) — plus the scenario extra `degraded_mode_response` (§3 Additional fields per scenario). Note the two record shapes differ in what governs them: an envelope extra is written by the report seam, whereas a SPAN attribute must be allowlisted (above)
+- **Required log fields:** `run_id`, `seed`, `scenario`, `p_ids`, `verdict`, `state` ("KnownResidual"), `latency_ms`, `slo_tier`, `fingerprints`, `journal_emitted_at`, `read_back_observed_at` — the same eleven-field envelope every other critical path carries (test-plan §3 owns it) — and NOTHING more: the scenario extra `degraded_mode_response` this path once named is retired, never implemented (measured 2026-09-06, zero occurrences under `crates/`), so the known-residual path carries the eleven-field envelope alone. Note the two record shapes differ in what governs them: an envelope extra is written by the report seam, whereas a SPAN attribute must be allowlisted (above)
 - **Cleanup:** Root `scenario.run` closes when the scenario returns (`db.insert_run` is a run-scoped sibling reached through `persist`, correlated by `run_id` — see Critical Path 1 Cleanup); the read-back pass closes on MCP response; classification span closes on state determination
 - **Delegated-timing family (added 2026-08-21, live proof).** The three declare-only delegated-timing scenarios (`halo-hue-encoding` · `service-constellation-discovery` · `report-render-surface`) reach this classification by this path and add NO critical path of their own — their graded quantity is not Conductor's. Their budgets grade at the harvest tier over PULSE's own tracing lines (`conductor-run/tests/delegated_timing_harvest.rs`), each read from its OWN exact allowlist leaf, and NEVER through `budget_ms`/`effective_deadline_ms`, which bound `read_back_observed_at - journal_emitted_at` (Conductor's MCP round-trip) rather than a Pulse-internal duration — confirmed live on leg D, whose envelope recorded `latency_ms: 6139` while `metric.findings.counter_refresh_ms` in the same leg measured 1.9ms median. FIELD NAMES ARE NOT UNIFORM: `duration_ms` on `metric.constellation.hue_update_ms` / `.discovery_ms` / `metric.findings.counter_refresh_ms`, but **`value`** on `metric.report.render_ms`. `findings-counter-refresh` is not declare-only (one `[[expected]]`) and reaches KnownResidual by the same degraded read-back, its unmet `CountAtLeast` floor grading `CalibrationRegion`.
 
@@ -439,7 +439,7 @@ latency_ms <= SLO_threshold_for_slo_tier ? Pass : Fail
 ```
 
 Additional scenario-specific fields (per obs-scope Section 4 must-trace paths):
-- `degraded_mode_response` (string or boolean, known-residual path)
+- ~~`degraded_mode_response` (string or boolean, known-residual path)~~ — RETIRED 2026-09-06: never implemented, zero occurrences under `crates/`. No scenario-specific field beyond the eleven-field envelope is known to be emitted on any must-trace path.
 
 **Required fields (every log line):**
 - `journal_emitted_at` (ISO-8601)

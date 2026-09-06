@@ -1,0 +1,308 @@
+[
+{
+"sql": "SELECT callee_name, caller_name, file, line FROM calls WHERE callee_name IN ('observe_preconditions','preflight','execute_scenario','drive_run','manual_record','route_read_back','persist','emit_canary') AND callee_kind = 'fn' ORDER BY callee_name, file, line;",
+"rows": 45,
+"result": [
+{
+"callee_name": "drive_run",
+"caller_name": "path7_the_two_surfaces_write_an_equal_envelope_into_one_runs_db",
+"file": "crates/conductor-cli/tests/cross_surface_parity.rs",
+"line": 89
+},
+{
+"callee_name": "drive_run",
+"caller_name": "drive_run_streams_progress_then_blocked_and_persists",
+"file": "crates/conductor-run/src/drive.rs",
+"line": 114
+},
+{
+"callee_name": "drive_run",
+"caller_name": "drive_run_honors_abort_before_the_first_scenario",
+"file": "crates/conductor-run/src/drive.rs",
+"line": 144
+},
+{
+"callee_name": "drive_run",
+"caller_name": "drive_run_reports_an_abort_raised_during_the_last_scenario",
+"file": "crates/conductor-run/src/drive.rs",
+"line": 167
+},
+{
+"callee_name": "drive_run",
+"caller_name": "tests",
+"file": "crates/conductor-run/src/envelope.rs",
+"line": 85
+},
+{
+"callee_name": "drive_run",
+"caller_name": "an_over_envelope_run_is_environment_suspect_not_fail",
+"file": "crates/conductor-run/src/envelope.rs",
+"line": 140
+},
+{
+"callee_name": "drive_run",
+"caller_name": "an_in_envelope_run_records_its_standing_too",
+"file": "crates/conductor-run/src/envelope.rs",
+"line": 179
+},
+{
+"callee_name": "drive_run",
+"caller_name": "crate",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 30
+},
+{
+"callee_name": "drive_run",
+"caller_name": "run_thread",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 336
+},
+{
+"callee_name": "emit_canary",
+"caller_name": "canary_gate",
+"file": "crates/conductor-run/src/canary.rs",
+"line": 184
+},
+{
+"callee_name": "manual_record",
+"caller_name": "execute",
+"file": "crates/conductor-run/src/execute.rs",
+"line": 130
+},
+{
+"callee_name": "manual_record",
+"caller_name": "a_declare_only_empty_read_back_routes_to_the_auto_resolve_residual",
+"file": "crates/conductor-run/src/execute.rs",
+"line": 417
+},
+{
+"callee_name": "manual_record",
+"caller_name": "an_operator_checklist_row_stays_manual_check_on_an_undegraded_read_back",
+"file": "crates/conductor-run/src/execute.rs",
+"line": 460
+},
+{
+"callee_name": "manual_record",
+"caller_name": "a_declare_only_row_under_a_degraded_read_back_is_residual_not_manual",
+"file": "crates/conductor-run/src/execute.rs",
+"line": 558
+},
+{
+"callee_name": "observe_preconditions",
+"caller_name": "preconditions",
+"file": "crates/conductor-cli/src/commands/preconditions.rs",
+"line": 19
+},
+{
+"callee_name": "observe_preconditions",
+"caller_name": "crate",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 35
+},
+{
+"callee_name": "observe_preconditions",
+"caller_name": "observe_preconditions_grades_each_handle_from_its_own_environment",
+"file": "crates/conductor-run/src/preconditions.rs",
+"line": 130
+},
+{
+"callee_name": "observe_preconditions",
+"caller_name": "public_api_paths_are_stable",
+"file": "crates/conductor-run/tests/composition_root.rs",
+"line": 51
+},
+{
+"callee_name": "persist",
+"caller_name": "commands",
+"file": "crates/conductor-cli/src/commands/mod.rs",
+"line": 19
+},
+{
+"callee_name": "persist",
+"caller_name": "run",
+"file": "crates/conductor-cli/src/commands/run.rs",
+"line": 9
+},
+{
+"callee_name": "persist",
+"caller_name": "run",
+"file": "crates/conductor-cli/src/commands/run.rs",
+"line": 25
+},
+{
+"callee_name": "persist",
+"caller_name": "suite",
+"file": "crates/conductor-cli/src/commands/suite.rs",
+"line": 10
+},
+{
+"callee_name": "persist",
+"caller_name": "suite",
+"file": "crates/conductor-cli/src/commands/suite.rs",
+"line": 38
+},
+{
+"callee_name": "persist",
+"caller_name": "drive",
+"file": "crates/conductor-run/src/drive.rs",
+"line": 16
+},
+{
+"callee_name": "persist",
+"caller_name": "drive_run",
+"file": "crates/conductor-run/src/drive.rs",
+"line": 91
+},
+{
+"callee_name": "persist",
+"caller_name": "read_envelope_round_trips_what_persist_wrote_and_is_none_for_an_unknown_run",
+"file": "crates/conductor-run/src/envelope.rs",
+"line": 93
+},
+{
+"callee_name": "persist",
+"caller_name": "read_envelope_round_trips_what_persist_wrote_and_is_none_for_an_unknown_run",
+"file": "crates/conductor-run/src/envelope.rs",
+"line": 94
+},
+{
+"callee_name": "persist",
+"caller_name": "crate",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 31
+},
+{
+"callee_name": "persist",
+"caller_name": "persist_and_read_envelope_round_trip_through_the_public_paths",
+"file": "crates/conductor-run/tests/composition_root.rs",
+"line": 88
+},
+{
+"callee_name": "persist",
+"caller_name": "seed_into",
+"file": "crates/conductor-run/tests/envelope_fixture.rs",
+"line": 133
+},
+{
+"callee_name": "preflight",
+"caller_name": "commands",
+"file": "crates/conductor-cli/src/commands/mod.rs",
+"line": 11
+},
+{
+"callee_name": "preflight",
+"caller_name": "run",
+"file": "crates/conductor-cli/src/commands/run.rs",
+"line": 20
+},
+{
+"callee_name": "preflight",
+"caller_name": "suite",
+"file": "crates/conductor-cli/src/commands/suite.rs",
+"line": 25
+},
+{
+"callee_name": "preflight",
+"caller_name": "dispatch",
+"file": "crates/conductor-cli/src/main.rs",
+"line": 74
+},
+{
+"callee_name": "preflight",
+"caller_name": "path7_the_two_surfaces_write_an_equal_envelope_into_one_runs_db",
+"file": "crates/conductor-cli/tests/cross_surface_parity.rs",
+"line": 86
+},
+{
+"callee_name": "preflight",
+"caller_name": "crate",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 28
+},
+{
+"callee_name": "preflight",
+"caller_name": "public_api_paths_are_stable",
+"file": "crates/conductor-run/tests/composition_root.rs",
+"line": 49
+},
+{
+"callee_name": "preflight",
+"caller_name": "run_thread",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 322
+},
+{
+"callee_name": "route_read_back",
+"caller_name": "execute",
+"file": "crates/conductor-run/src/execute.rs",
+"line": 88
+},
+{
+"callee_name": "route_read_back",
+"caller_name": "a_declare_only_empty_read_back_routes_to_the_auto_resolve_residual",
+"file": "crates/conductor-run/src/execute.rs",
+"line": 413
+},
+{
+"callee_name": "route_read_back",
+"caller_name": "a_checks_bearing_empty_read_back_stays_blocked",
+"file": "crates/conductor-run/src/execute.rs",
+"line": 435
+},
+{
+"callee_name": "route_read_back",
+"caller_name": "a_failed_read_back_call_stays_blocked_even_for_a_declare_only_scenario",
+"file": "crates/conductor-run/src/execute.rs",
+"line": 442
+},
+{
+"callee_name": "route_read_back",
+"caller_name": "a_failed_read_back_call_stays_blocked_even_for_a_declare_only_scenario",
+"file": "crates/conductor-run/src/execute.rs",
+"line": 443
+},
+{
+"callee_name": "route_read_back",
+"caller_name": "a_populated_corpus_grades_whatever_the_scenario_declares",
+"file": "crates/conductor-run/src/execute.rs",
+"line": 450
+},
+{
+"callee_name": "route_read_back",
+"caller_name": "a_populated_corpus_grades_whatever_the_scenario_declares",
+"file": "crates/conductor-run/src/execute.rs",
+"line": 453
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller_name, file, line FROM calls WHERE callee_name = 'execute_scenario' AND callee_kind = 'fn' ORDER BY file, line;",
+"rows": 0,
+"result": [],
+"db_state": "fresh",
+"plane": "rust",
+"probe_hits": {
+"names": {
+"execute_scenario": 0
+},
+"patterns": {}
+}
+},
+{
+"sql": "SELECT name, crate, kind, file, def_line FROM symbol WHERE name LIKE 'run_scenario%' OR name LIKE 'execute%' AND kind <> 'meta' ORDER BY name;",
+"rows": 1,
+"result": [
+{
+"name": "execute",
+"crate": "conductor-run",
+"kind": "module",
+"file": "crates/conductor-run/src/execute.rs",
+"def_line": 0
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

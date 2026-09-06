@@ -8,7 +8,8 @@
 #   boot     — MCP preflight readiness gate (conductor preflight --json; ready:true ⇒ exit 0,
 #              ready:false ⇒ non-zero gate + dependent scenarios report Blocked)
 #   run      — nextest + doctest + clippy (+ optional SCENARIO=/SEED= leg); stage flags
-#              --unit | --integration | --e2e (default: the full bundled gate), test-plan §9
+#              --unit | --integration | --e2e | --live (default: the full bundled gate), test-plan §9
+#              --live is the operator-gated live-Pulse suite: never a CI gate, never reachable bare
 #   status   — read the Run-report envelope from runs/<run_id>.jsonl (latest run if id omitted)
 #   cleanup  — remove a run's artifacts + its runs.db row (idempotent); NEVER touches Pulse
 #   logs     — print the per-run JSONL emission journal (latest run if id omitted)
@@ -57,6 +58,83 @@ ensure_frontend() {
 # A run_id is a filesystem-safe hyphen-delimited stamp; reject anything else before it reaches a path
 # join or a sqlite3 statement (security-plan §Input Validation — no string-concat SQL on raw input).
 valid_run_id() { [[ "$1" =~ ^[0-9A-Za-z._-]+$ ]]; }
+
+# --- the operator-gated live suite (`run --live`) ------------------------------------------------
+# The self-obs sink is TRUNCATING (conductor-core obs.rs) — every --agent-mode invocation wipes the
+# previous leg's lines — so each leg's stream is frozen before the next one runs. A per-leg
+# CONDUCTOR_RUNS_DIR would NOT separate them: the path resolves as runs_dir.parent()/logs, so every
+# runs dir under runs/ lands in the same logs dir.
+LIVE_LOG="$(dirname "$RUNS_DIR")/logs/agent-latest.jsonl"
+LIVE_CAPTURE_DIR="$RUNS_DIR/live-suite"
+
+# Total wall clock ≈ 12-15 min (B1 ~60s · B2 ~135s · quiet 150s · A ~215s · a11y ~3-4 min): each
+# preflight pays the contract's warm-up before its poll starts, and a NOT-ready gate pays the whole
+# poll floor. Per-leg budget = the preflight budget + the scenario's own phases + margin.
+live_leg_budget_sec() { printf '%s' "$(( $(preflight_budget_sec) + ${1:-0} + 60 ))"; }
+
+# Drive one scenario leg and freeze its self-obs under the capture dir. A Blocked row is a REPORTED
+# state and exits 0 (only a hard Fail exits non-zero), which is what lets B2's deduped gate be an
+# expected outcome rather than an abort under `set -e`.
+live_leg() {
+  local label="$1" scenario="$2" budget="$3"
+  echo "[live] leg ${label}: ${scenario}"
+  timeout "$budget" "$CARGO" run -q -p conductor-cli --bin conductor -- run "$scenario" --agent-mode
+  mkdir -p "$LIVE_CAPTURE_DIR"
+  if [ -f "$LIVE_LOG" ]; then
+    cp "$LIVE_LOG" "$LIVE_CAPTURE_DIR/${label}.jsonl"
+    echo "[live] leg ${label}: froze $(wc -l < "$LIVE_CAPTURE_DIR/${label}.jsonl") self-obs lines"
+  else
+    echo "[live] leg ${label}: no self-obs stream at ${LIVE_LOG}" >&2
+  fi
+}
+
+live_suite() {
+  # The probe leads and short-circuits: it is non-mutating and fires NO canary, so it primes none of
+  # the incident state the legs then depend on. An unmet subject REFUSES the suite (each subject
+  # named, host-path-free) rather than letting a partial env degrade to a ~0s [BLOCKED] row.
+  if ! "$CARGO" run -q -p conductor-cli --bin conductor -- preconditions; then
+    echo "run --live: refused — a live-Pulse precondition is unmet (above); no leg was fired" >&2
+    exit 1
+  fi
+
+  # Clear last run's captures so an aborted run's stale leg file is never mis-read as this run's.
+  # Non-recursive by design: the dir holds only the leg files this script writes, so the `cleanup`
+  # verb's idiom (rm -f on named artifacts) covers it without a recursive delete over a path derived
+  # from an operator-supplied handle.
+  mkdir -p "$LIVE_CAPTURE_DIR"
+  rm -f "$LIVE_CAPTURE_DIR"/*.jsonl
+
+  # live_leg_order — B1 and B2 are the SAME short scenario fired twice on purpose.
+  #   B1  gate ready; read-back finds its own canary incident still open -> a graded manual row.
+  #   B2  fired immediately, inside Pulse's 120s idle window: its canary dedupes against B1's still-open
+  #       incident on the (kind, scope, scope_id) tuple, no fresh incident forms, and the gate goes
+  #       not-ready-but-CONNECTED — the only state that reaches the readiness-gate self-obs line.
+  #       ANDROMEDA_PULSE_L4_DETERMINISTIC is load-bearing here: canned-L4 formation is ~2s, so B2's
+  #       storm lands well inside the window; real-model formation (~110s) would fall outside it.
+  #   A   after the quiet window, a fresh canary forms and then idles for the whole silent scenario,
+  #       so read-back finds an EMPTY active set — the auto-resolve residual arm.
+  live_leg b1 degraded-mode-report "$(live_leg_budget_sec 10)"
+  live_leg b2 degraded-mode-report "$(live_leg_budget_sec 10)"
+
+  echo "[live] quiet window: 150s (Pulse's 120s idle + a 30s resolver tick) before leg a"
+  sleep 150
+
+  live_leg a auto-resolve-idle-window "$(live_leg_budget_sec 180)"
+
+  # The driven a11y arm fires its own preflight canary; leg A's canary has already resolved by A's
+  # read-back, so no extra window is needed. It self-skips at exit 0 when no native WebDriver resolves
+  # (wdio.conf.ts guards CONDUCTOR_MSEDGEDRIVER), which is a SKIP, not a refusal — a host-tool handle
+  # and a live-Pulse handle are different classes.
+  echo "[live] driven a11y arm"
+  ensure_frontend
+  "$CARGO" build --release -p conductor-tauri --features tauri/custom-protocol
+  ( cd "$UI_DIR" && npm run a11y:driven )
+
+  echo "[live] suite complete — captures under $LIVE_CAPTURE_DIR"
+  echo "[live] stop form: the wdio arm self-terminates via onComplete -> tauriDriver.kill(); after an"
+  echo "[live] interrupted run: taskkill /F /IM msedgedriver.exe /IM conductor-tauri.exe (+ the node CLI)."
+  echo "[live] pulse-app is NOT stopped here — the operator started it and stops it."
+}
 
 # The newest run's id — the lexicographically greatest <run_id>.jsonl stem (run_ids sort by time).
 latest_run_id() {
@@ -121,7 +199,14 @@ case "${1:-}" in
           fi
         fi
         ;;
-      *) echo "usage: $0 run [--unit|--integration|--e2e]" >&2; exit 2 ;;
+      # test-plan §9: the operator-gated live suite. NEVER a CI gate and never reachable from a bare
+      # `run` — a live leg drives a real Pulse. Composes B1 → B2 → quiet window → A → the driven a11y
+      # arm, in that order, because each leg's outcome depends on the incident state the previous one
+      # left (see live_leg_order below).
+      --live)
+        live_suite
+        ;;
+      *) echo "usage: $0 run [--unit|--integration|--e2e|--live]" >&2; exit 2 ;;
     esac
     ;;
 
@@ -162,7 +247,7 @@ case "${1:-}" in
     ;;
 
   *)
-    echo "Usage: $0 {boot|run [--unit|--integration|--e2e]|status [run_id]|cleanup [run_id]|logs [run_id]}" >&2
+    echo "Usage: $0 {boot|run [--unit|--integration|--e2e|--live]|status [run_id]|cleanup [run_id]|logs [run_id]}" >&2
     exit 2
     ;;
 esac
