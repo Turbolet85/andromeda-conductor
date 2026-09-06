@@ -82,94 +82,509 @@ const fn row(
     category: &'static str,
     mode: CoverageMode,
 ) -> CapabilityRow {
-    CapabilityRow { p_id, title, category, mode }
+    CapabilityRow {
+        p_id,
+        title,
+        category,
+        mode,
+    }
 }
 
 static COVERAGE: [CapabilityRow; 82] = [
-    row("P-001", "Receiver Lifecycle State", "Connection & Health Awareness", CoverageMode::DriveObserve),
-    row("P-002", "Last-Span-Ago Tracking", "Connection & Health Awareness", CoverageMode::DriveObserve),
-    row("P-003", "Receiver Failure Surface", "Connection & Health Awareness", CoverageMode::DriveObserve),
-    row("P-004", "Orthogonal Health Domains", "Connection & Health Awareness", CoverageMode::DriveObserve),
-    row("P-005", "Span Status Error Detection", "Hard Signal Detection", CoverageMode::Auto),
-    row("P-006", "Exception Event Capture", "Hard Signal Detection", CoverageMode::Auto),
-    row("P-007", "High-Severity Log Capture", "Hard Signal Detection", CoverageMode::Auto),
-    row("P-008", "Root-Span Error Scope Distinction", "Hard Signal Detection", CoverageMode::Auto),
-    row("P-009", "Per-Service Error Rate Baseline", "Statistical Anomaly Detection", CoverageMode::Auto),
-    row("P-010", "Error Rate Spike Detection", "Statistical Anomaly Detection", CoverageMode::Auto),
-    row("P-011", "Per-Operation Latency Baseline", "Statistical Anomaly Detection", CoverageMode::Auto),
-    row("P-012", "Latency Regression Detection", "Statistical Anomaly Detection", CoverageMode::Auto),
-    row("P-013", "Service Activity Floor Learning", "Statistical Anomaly Detection", CoverageMode::Auto),
-    row("P-014", "Service Went Silent Detection", "Statistical Anomaly Detection", CoverageMode::Auto),
-    row("P-015", "Restart Event Detection", "Pattern Recognition", CoverageMode::Auto),
-    row("P-016", "Restart-Window Suppression (Surgical)", "Pattern Recognition", CoverageMode::Auto),
-    row("P-017", "Exception Fingerprinting", "Pattern Recognition", CoverageMode::Auto),
-    row("P-018", "Retry Storm Detection", "Pattern Recognition", CoverageMode::Auto),
-    row("P-019", "Three-Tier Severity Model", "Severity Calibration", CoverageMode::Auto),
-    row("P-020", "Model-Driven Severity Decision", "Severity Calibration", CoverageMode::Auto),
-    row("P-021", "Algorithmic Attention Cues", "Severity Calibration", CoverageMode::Auto),
-    row("P-022", "Auto-Resolution and Lifecycle", "Severity Calibration", CoverageMode::Auto),
-    row("P-023", "Acknowledge Cool-Down", "Severity Calibration", CoverageMode::Auto),
-    row("P-024", "Widget Ambient Surface", "Three-Surface Communication", CoverageMode::DriveObserve),
-    row("P-025", "Halo Hue Encoding", "Three-Surface Communication", CoverageMode::DriveObserve),
-    row("P-026", "Halo Breathing Encoding", "Three-Surface Communication", CoverageMode::DriveObserve),
-    row("P-027", "Service Constellation Auto-Discovery", "Three-Surface Communication", CoverageMode::DriveObserve),
-    row("P-028", "Findings Counter", "Three-Surface Communication", CoverageMode::DriveObserve),
-    row("P-029", "Findings Dropdown", "Three-Surface Communication", CoverageMode::DriveObserve),
-    row("P-030", "No Interrupting Notifications by Default", "Three-Surface Communication", CoverageMode::DriveObserve),
-    row("P-031", "Report Structure", "Diagnostic Quality", CoverageMode::Auto),
-    row("P-032", "Project Context Grounding", "Diagnostic Quality", CoverageMode::Auto),
-    row("P-033", "Ranked Hypothesis Generation", "Diagnostic Quality", CoverageMode::Auto),
-    row("P-034", "Suggested Investigation Steps", "Diagnostic Quality", CoverageMode::Auto),
-    row("P-035", "Anonymized Telemetry Excerpts", "Diagnostic Quality", CoverageMode::Auto),
-    row("P-036", "Cross-Incident Pattern Reference", "Diagnostic Quality", CoverageMode::Auto),
-    row("P-037", "In-App Report Surface", "Output Channels", CoverageMode::DriveObserve),
-    row("P-038", "Copy to Clipboard", "Output Channels", CoverageMode::StaticOnly),
-    row("P-039", "MCP Delivery When Configured", "Output Channels", CoverageMode::Auto),
-    row("P-040", "MCP Independence", "Output Channels", CoverageMode::StaticOnly),
-    row("P-041", "Persistent Incident Corpus", "Memory & Learning", CoverageMode::Auto),
-    row("P-042", "Cross-Session Continuity", "Memory & Learning", CoverageMode::Auto),
-    row("P-043", "Project-Scoped Memory", "Memory & Learning", CoverageMode::Auto),
-    row("P-044", "Retrieval-Augmented Interpretation", "Memory & Learning", CoverageMode::Auto),
-    row("P-045", "Counter Derivation from Corpus", "Memory & Learning", CoverageMode::Auto),
-    row("P-046", "Export for Community Training", "Memory & Learning", CoverageMode::StaticOnly),
-    row("P-047", "PII Scrubbing at Ingestion", "Privacy & Trust", CoverageMode::Auto),
-    row("P-048", "No Raw OTLP Attribute Values Stored", "Privacy & Trust", CoverageMode::Auto),
-    row("P-049", "Encryption at Rest", "Privacy & Trust", CoverageMode::StaticOnly),
-    row("P-050", "Cross-Project Sharing Opt-In", "Privacy & Trust", CoverageMode::StaticOnly),
-    row("P-051", "Transparent Storage", "Privacy & Trust", CoverageMode::StaticOnly),
-    row("P-052", "Cadence Configuration", "Pipeline Operations", CoverageMode::Auto),
-    row("P-053", "Fallback Model Tier", "Pipeline Operations", CoverageMode::Auto),
-    row("P-054", "Hardware Profile Awareness", "Pipeline Operations", CoverageMode::StaticOnly),
-    row("P-055", "Configuration Hot Reload", "Pipeline Operations", CoverageMode::Auto),
-    row("P-056", "Prospective Threshold Application", "Pipeline Operations", CoverageMode::Auto),
-    row("P-057", "Dual-Condition Suppression Bypass", "Pipeline Operations", CoverageMode::Auto),
-    row("P-058", "Pipeline Self-Observability", "Pipeline Operations", CoverageMode::DriveObserve),
-    row("P-059", "Active-Incident Interpretation Continuity", "Pipeline Operations", CoverageMode::Auto),
-    row("P-060", "Tiered Triggering Priority", "Severity Calibration", CoverageMode::Auto),
+    row(
+        "P-001",
+        "Receiver Lifecycle State",
+        "Connection & Health Awareness",
+        CoverageMode::DriveObserve,
+    ),
+    row(
+        "P-002",
+        "Last-Span-Ago Tracking",
+        "Connection & Health Awareness",
+        CoverageMode::DriveObserve,
+    ),
+    row(
+        "P-003",
+        "Receiver Failure Surface",
+        "Connection & Health Awareness",
+        CoverageMode::DriveObserve,
+    ),
+    row(
+        "P-004",
+        "Orthogonal Health Domains",
+        "Connection & Health Awareness",
+        CoverageMode::DriveObserve,
+    ),
+    row(
+        "P-005",
+        "Span Status Error Detection",
+        "Hard Signal Detection",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-006",
+        "Exception Event Capture",
+        "Hard Signal Detection",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-007",
+        "High-Severity Log Capture",
+        "Hard Signal Detection",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-008",
+        "Root-Span Error Scope Distinction",
+        "Hard Signal Detection",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-009",
+        "Per-Service Error Rate Baseline",
+        "Statistical Anomaly Detection",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-010",
+        "Error Rate Spike Detection",
+        "Statistical Anomaly Detection",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-011",
+        "Per-Operation Latency Baseline",
+        "Statistical Anomaly Detection",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-012",
+        "Latency Regression Detection",
+        "Statistical Anomaly Detection",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-013",
+        "Service Activity Floor Learning",
+        "Statistical Anomaly Detection",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-014",
+        "Service Went Silent Detection",
+        "Statistical Anomaly Detection",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-015",
+        "Restart Event Detection",
+        "Pattern Recognition",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-016",
+        "Restart-Window Suppression (Surgical)",
+        "Pattern Recognition",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-017",
+        "Exception Fingerprinting",
+        "Pattern Recognition",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-018",
+        "Retry Storm Detection",
+        "Pattern Recognition",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-019",
+        "Three-Tier Severity Model",
+        "Severity Calibration",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-020",
+        "Model-Driven Severity Decision",
+        "Severity Calibration",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-021",
+        "Algorithmic Attention Cues",
+        "Severity Calibration",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-022",
+        "Auto-Resolution and Lifecycle",
+        "Severity Calibration",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-023",
+        "Acknowledge Cool-Down",
+        "Severity Calibration",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-024",
+        "Widget Ambient Surface",
+        "Three-Surface Communication",
+        CoverageMode::DriveObserve,
+    ),
+    row(
+        "P-025",
+        "Halo Hue Encoding",
+        "Three-Surface Communication",
+        CoverageMode::DriveObserve,
+    ),
+    row(
+        "P-026",
+        "Halo Breathing Encoding",
+        "Three-Surface Communication",
+        CoverageMode::DriveObserve,
+    ),
+    row(
+        "P-027",
+        "Service Constellation Auto-Discovery",
+        "Three-Surface Communication",
+        CoverageMode::DriveObserve,
+    ),
+    row(
+        "P-028",
+        "Findings Counter",
+        "Three-Surface Communication",
+        CoverageMode::DriveObserve,
+    ),
+    row(
+        "P-029",
+        "Findings Dropdown",
+        "Three-Surface Communication",
+        CoverageMode::DriveObserve,
+    ),
+    row(
+        "P-030",
+        "No Interrupting Notifications by Default",
+        "Three-Surface Communication",
+        CoverageMode::DriveObserve,
+    ),
+    row(
+        "P-031",
+        "Report Structure",
+        "Diagnostic Quality",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-032",
+        "Project Context Grounding",
+        "Diagnostic Quality",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-033",
+        "Ranked Hypothesis Generation",
+        "Diagnostic Quality",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-034",
+        "Suggested Investigation Steps",
+        "Diagnostic Quality",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-035",
+        "Anonymized Telemetry Excerpts",
+        "Diagnostic Quality",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-036",
+        "Cross-Incident Pattern Reference",
+        "Diagnostic Quality",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-037",
+        "In-App Report Surface",
+        "Output Channels",
+        CoverageMode::DriveObserve,
+    ),
+    row(
+        "P-038",
+        "Copy to Clipboard",
+        "Output Channels",
+        CoverageMode::StaticOnly,
+    ),
+    row(
+        "P-039",
+        "MCP Delivery When Configured",
+        "Output Channels",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-040",
+        "MCP Independence",
+        "Output Channels",
+        CoverageMode::StaticOnly,
+    ),
+    row(
+        "P-041",
+        "Persistent Incident Corpus",
+        "Memory & Learning",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-042",
+        "Cross-Session Continuity",
+        "Memory & Learning",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-043",
+        "Project-Scoped Memory",
+        "Memory & Learning",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-044",
+        "Retrieval-Augmented Interpretation",
+        "Memory & Learning",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-045",
+        "Counter Derivation from Corpus",
+        "Memory & Learning",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-046",
+        "Export for Community Training",
+        "Memory & Learning",
+        CoverageMode::StaticOnly,
+    ),
+    row(
+        "P-047",
+        "PII Scrubbing at Ingestion",
+        "Privacy & Trust",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-048",
+        "No Raw OTLP Attribute Values Stored",
+        "Privacy & Trust",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-049",
+        "Encryption at Rest",
+        "Privacy & Trust",
+        CoverageMode::StaticOnly,
+    ),
+    row(
+        "P-050",
+        "Cross-Project Sharing Opt-In",
+        "Privacy & Trust",
+        CoverageMode::StaticOnly,
+    ),
+    row(
+        "P-051",
+        "Transparent Storage",
+        "Privacy & Trust",
+        CoverageMode::StaticOnly,
+    ),
+    row(
+        "P-052",
+        "Cadence Configuration",
+        "Pipeline Operations",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-053",
+        "Fallback Model Tier",
+        "Pipeline Operations",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-054",
+        "Hardware Profile Awareness",
+        "Pipeline Operations",
+        CoverageMode::StaticOnly,
+    ),
+    row(
+        "P-055",
+        "Configuration Hot Reload",
+        "Pipeline Operations",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-056",
+        "Prospective Threshold Application",
+        "Pipeline Operations",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-057",
+        "Dual-Condition Suppression Bypass",
+        "Pipeline Operations",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-058",
+        "Pipeline Self-Observability",
+        "Pipeline Operations",
+        CoverageMode::DriveObserve,
+    ),
+    row(
+        "P-059",
+        "Active-Incident Interpretation Continuity",
+        "Pipeline Operations",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-060",
+        "Tiered Triggering Priority",
+        "Severity Calibration",
+        CoverageMode::Auto,
+    ),
     // Pulse v0.3.0 (P-061..P-078 from the SUT's requirements themes; P-079..P-082 were minted
     // mid-build as operator-surfaced capabilities and carry no theme of their own).
-    row("P-061", "Window geometry + movable shell", "Window & shell hygiene", CoverageMode::NotConductors),
-    row("P-062", "Window size constraints", "Window & shell hygiene", CoverageMode::NotConductors),
-    row("P-063", "Predictable close + honest tray", "Window & shell hygiene", CoverageMode::NotConductors),
-    row("P-064", "Suppress browser context menu", "Window & shell hygiene", CoverageMode::NotConductors),
-    row("P-065", "Canvas not a browser image", "Window & shell hygiene", CoverageMode::NotConductors),
-    row("P-066", "Widget-to-dashboard navigation", "Window & shell hygiene", CoverageMode::NotConductors),
-    row("P-067", "Live-only service truth", "State honesty & legibility", CoverageMode::DriveObserve),
-    row("P-068", "Anomaly surfacing", "State honesty & legibility", CoverageMode::NotConductors),
-    row("P-069", "Legible labeled constellation", "State honesty & legibility", CoverageMode::NotConductors),
-    row("P-070", "Plain-language connection status", "State honesty & legibility", CoverageMode::NotConductors),
-    row("P-071", "Self-explaining empty states", "State honesty & legibility", CoverageMode::NotConductors),
-    row("P-072", "Investigate actions functional", "AI-debug climax", CoverageMode::DriveObserve),
-    row("P-073", "Deterministic env-gated L4 mode", "AI-debug climax", CoverageMode::Auto),
-    row("P-074", "Tier1 incident-path reliability under load", "AI-debug climax", CoverageMode::Auto),
-    row("P-075", "Conductor e2e + delegated-timing verification", "External verification", CoverageMode::DriveObserve),
-    row("P-076", "Integration UX e2e test", "Test gap & housekeeping", CoverageMode::NotConductors),
-    row("P-077", "Demo telemetry injector formalized", "Test gap & housekeeping", CoverageMode::NotConductors),
-    row("P-078", "Agent-headful self-verify harness", "Test gap & housekeeping", CoverageMode::NotConductors),
-    row("P-079", "Constellation severity live-wiring", "Operator-surfaced", CoverageMode::Auto),
-    row("P-080", "Incidents dropdown bounded popover", "Operator-surfaced", CoverageMode::NotConductors),
-    row("P-081", "Traces table live refresh", "Operator-surfaced", CoverageMode::NotConductors),
-    row("P-082", "Traces table internal scroll", "Operator-surfaced", CoverageMode::NotConductors),
+    row(
+        "P-061",
+        "Window geometry + movable shell",
+        "Window & shell hygiene",
+        CoverageMode::NotConductors,
+    ),
+    row(
+        "P-062",
+        "Window size constraints",
+        "Window & shell hygiene",
+        CoverageMode::NotConductors,
+    ),
+    row(
+        "P-063",
+        "Predictable close + honest tray",
+        "Window & shell hygiene",
+        CoverageMode::NotConductors,
+    ),
+    row(
+        "P-064",
+        "Suppress browser context menu",
+        "Window & shell hygiene",
+        CoverageMode::NotConductors,
+    ),
+    row(
+        "P-065",
+        "Canvas not a browser image",
+        "Window & shell hygiene",
+        CoverageMode::NotConductors,
+    ),
+    row(
+        "P-066",
+        "Widget-to-dashboard navigation",
+        "Window & shell hygiene",
+        CoverageMode::NotConductors,
+    ),
+    row(
+        "P-067",
+        "Live-only service truth",
+        "State honesty & legibility",
+        CoverageMode::DriveObserve,
+    ),
+    row(
+        "P-068",
+        "Anomaly surfacing",
+        "State honesty & legibility",
+        CoverageMode::NotConductors,
+    ),
+    row(
+        "P-069",
+        "Legible labeled constellation",
+        "State honesty & legibility",
+        CoverageMode::NotConductors,
+    ),
+    row(
+        "P-070",
+        "Plain-language connection status",
+        "State honesty & legibility",
+        CoverageMode::NotConductors,
+    ),
+    row(
+        "P-071",
+        "Self-explaining empty states",
+        "State honesty & legibility",
+        CoverageMode::NotConductors,
+    ),
+    row(
+        "P-072",
+        "Investigate actions functional",
+        "AI-debug climax",
+        CoverageMode::DriveObserve,
+    ),
+    row(
+        "P-073",
+        "Deterministic env-gated L4 mode",
+        "AI-debug climax",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-074",
+        "Tier1 incident-path reliability under load",
+        "AI-debug climax",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-075",
+        "Conductor e2e + delegated-timing verification",
+        "External verification",
+        CoverageMode::DriveObserve,
+    ),
+    row(
+        "P-076",
+        "Integration UX e2e test",
+        "Test gap & housekeeping",
+        CoverageMode::NotConductors,
+    ),
+    row(
+        "P-077",
+        "Demo telemetry injector formalized",
+        "Test gap & housekeeping",
+        CoverageMode::NotConductors,
+    ),
+    row(
+        "P-078",
+        "Agent-headful self-verify harness",
+        "Test gap & housekeeping",
+        CoverageMode::NotConductors,
+    ),
+    row(
+        "P-079",
+        "Constellation severity live-wiring",
+        "Operator-surfaced",
+        CoverageMode::Auto,
+    ),
+    row(
+        "P-080",
+        "Incidents dropdown bounded popover",
+        "Operator-surfaced",
+        CoverageMode::NotConductors,
+    ),
+    row(
+        "P-081",
+        "Traces table live refresh",
+        "Operator-surfaced",
+        CoverageMode::NotConductors,
+    ),
+    row(
+        "P-082",
+        "Traces table internal scroll",
+        "Operator-surfaced",
+        CoverageMode::NotConductors,
+    ),
 ];
 
 #[cfg(test)]
@@ -253,7 +668,10 @@ mod tests {
             ("P-072", CoverageMode::DriveObserve),
             ("P-075", CoverageMode::DriveObserve),
         ] {
-            let row = coverage_matrix().iter().find(|r| r.p_id == id).expect("in-lane row present");
+            let row = coverage_matrix()
+                .iter()
+                .find(|r| r.p_id == id)
+                .expect("in-lane row present");
             assert_eq!(row.mode, mode, "{id} must be {}", mode.label());
         }
     }
@@ -271,8 +689,15 @@ mod tests {
     fn named_static_only_anchors_are_static_only() {
         // input.md §Coverage classification names these explicitly as static-only.
         for id in ["P-038", "P-040", "P-046", "P-049", "P-051", "P-054"] {
-            let row = coverage_matrix().iter().find(|r| r.p_id == id).expect("anchor present");
-            assert_eq!(row.mode, CoverageMode::StaticOnly, "{id} must be static-only");
+            let row = coverage_matrix()
+                .iter()
+                .find(|r| r.p_id == id)
+                .expect("anchor present");
+            assert_eq!(
+                row.mode,
+                CoverageMode::StaticOnly,
+                "{id} must be static-only"
+            );
         }
     }
 
@@ -290,7 +715,10 @@ mod tests {
     #[test]
     fn mode_label_matches_serde_wire() {
         for mode in CoverageMode::ALL {
-            assert_eq!(serde_json::to_string(&mode).unwrap(), format!("\"{}\"", mode.label()));
+            assert_eq!(
+                serde_json::to_string(&mode).unwrap(),
+                format!("\"{}\"", mode.label())
+            );
         }
     }
 

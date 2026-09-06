@@ -130,12 +130,16 @@ impl HeadlessResolver {
 
     /// A resolver that always proceeds ([`Decision::Go`]) — the agent-run default.
     pub fn proceed() -> Self {
-        Self { default: Decision::Go }
+        Self {
+            default: Decision::Go,
+        }
     }
 
     /// A resolver that always declines ([`Decision::NoGo`]).
     pub fn abort() -> Self {
-        Self { default: Decision::NoGo }
+        Self {
+            default: Decision::NoGo,
+        }
     }
 }
 
@@ -203,7 +207,11 @@ mod tests {
 
     #[test]
     fn well_formed_hold_point_validates() {
-        assert!(hold("Restart the Pulse process, then confirm").validate().is_ok());
+        assert!(
+            hold("Restart the Pulse process, then confirm")
+                .validate()
+                .is_ok()
+        );
     }
 
     #[test]
@@ -243,6 +251,9 @@ mod tests {
     fn headless_constructors_carry_decision() {
         assert_eq!(HeadlessResolver::proceed().default, Decision::Go);
         assert_eq!(HeadlessResolver::abort().default, Decision::NoGo);
-        assert_eq!(HeadlessResolver::new(Decision::NoGo).default, Decision::NoGo);
+        assert_eq!(
+            HeadlessResolver::new(Decision::NoGo).default,
+            Decision::NoGo
+        );
     }
 }

@@ -40,7 +40,9 @@ fn pid_format(value: &str, _ctx: &()) -> garde::Result {
     if is_pid_shaped(value) {
         Ok(())
     } else {
-        Err(garde::Error::new("expected P-NNN with NNN three ASCII digits"))
+        Err(garde::Error::new(
+            "expected P-NNN with NNN three ASCII digits",
+        ))
     }
 }
 
@@ -114,7 +116,11 @@ pub struct Scenario {
     pub slo_tier: SloTier,
     /// The ordered per-phase emission spec — the declarative timeline the scheduler sequences.
     /// Required, non-empty; each phase is validated via `dive`.
-    #[garde(length(min = 1), dive, custom(crate::phase_spec::fault_phases_are_silent))]
+    #[garde(
+        length(min = 1),
+        dive,
+        custom(crate::phase_spec::fault_phases_are_silent)
+    )]
     pub phases: Vec<PhaseSpec>,
     /// Symmetric per-gap jitter bound (milliseconds) the seeded scheduler may perturb each phase
     /// gap by; `0` means gaps land exactly as declared. Bounded by garde.
@@ -148,8 +154,8 @@ impl Scenario {
     /// [`from_toml_str_with`](Self::from_toml_str_with), which additionally checks each P-ID against
     /// the SUT capability manifest.
     pub fn from_toml_str(toml: &str) -> crate::Result<Scenario> {
-        let scenario: Scenario =
-            toml::from_str(toml).map_err(|e| crate::CoreError::Config(crate::sanitize_error(&e)))?;
+        let scenario: Scenario = toml::from_str(toml)
+            .map_err(|e| crate::CoreError::Config(crate::sanitize_error(&e)))?;
         scenario.validate()?;
         scenario.check_budgets()?;
         scenario.check_checklist()?;
@@ -194,7 +200,9 @@ impl Scenario {
     pub fn check_budgets(&self) -> crate::Result<()> {
         let deadline_ms = self.slo_tier.deadline_ms();
         for (index, check) in self.expected.iter().enumerate() {
-            let Some(budget_ms) = check.budget_ms else { continue };
+            let Some(budget_ms) = check.budget_ms else {
+                continue;
+            };
             if i64::from(budget_ms) > deadline_ms {
                 return Err(crate::CoreError::Config(format!(
                     "scenario {:?}: expected check {} declares budget_ms {} above its {:?} tier deadline of {}ms",
@@ -245,7 +253,7 @@ mod tests {
     use super::*;
     use crate::expected::{ClaimClass, ComparisonKind};
     use crate::phase_spec::{
-        EmissionShape, EmissionSpec, FaultKindSpec, FaultSpec, Signal, MAX_JITTER_MS,
+        EmissionShape, EmissionSpec, FaultKindSpec, FaultSpec, MAX_JITTER_MS, Signal,
     };
     use garde::Validate;
     use rstest::rstest;
@@ -271,8 +279,14 @@ mod tests {
     #[test]
     fn slo_tier_serializes_to_wire_forms() {
         assert_eq!(serde_json::to_string(&SloTier::Tier5s).unwrap(), "\"<5s\"");
-        assert_eq!(serde_json::to_string(&SloTier::Tier20s).unwrap(), "\"<20s\"");
-        assert_eq!(serde_json::to_string(&SloTier::Tier90s).unwrap(), "\"<90s\"");
+        assert_eq!(
+            serde_json::to_string(&SloTier::Tier20s).unwrap(),
+            "\"<20s\""
+        );
+        assert_eq!(
+            serde_json::to_string(&SloTier::Tier90s).unwrap(),
+            "\"<90s\""
+        );
     }
 
     #[test]
@@ -322,7 +336,10 @@ mod tests {
     fn malformed_p_ids_fail_the_shape_check() {
         for bad in ["Q-001", "P-99", "P-0600", "p-001", "P-01a", "P-", ""] {
             let s = scenario_with(vec![PId(bad.to_string())]);
-            assert!(s.validate().is_err(), "{bad} should fail the P-NNN shape check");
+            assert!(
+                s.validate().is_err(),
+                "{bad} should fail the P-NNN shape check"
+            );
         }
     }
 
@@ -332,20 +349,33 @@ mod tests {
         // P-099 / P-000 are well-shaped but outside the SUT set — membership is the manifest's job.
         for ok in ["P-001", "P-060", "P-061", "P-082", "P-099", "P-000"] {
             let s = scenario_with(vec![PId(ok.to_string())]);
-            assert!(s.validate().is_ok(), "{ok} should pass the P-NNN shape check");
+            assert!(
+                s.validate().is_ok(),
+                "{ok} should pass the P-NNN shape check"
+            );
         }
     }
 
     #[test]
     fn capability_membership_is_checked_against_the_manifest() {
         let m = test_manifest(&["P-001", "P-061"]);
-        assert!(scenario_with(vec![PId("P-061".to_string())]).check_capabilities(&m).is_ok());
+        assert!(
+            scenario_with(vec![PId("P-061".to_string())])
+                .check_capabilities(&m)
+                .is_ok()
+        );
 
         for absent in ["P-099", "P-000", "P-060"] {
             let s = scenario_with(vec![PId(absent.to_string())]);
             let err = s.check_capabilities(&m).unwrap_err().to_string();
-            assert!(err.contains("capability manifest"), "must name the manifest: {err}");
-            assert!(!err.contains("001..=060"), "must not name a hardcoded range: {err}");
+            assert!(
+                err.contains("capability manifest"),
+                "must name the manifest: {err}"
+            );
+            assert!(
+                !err.contains("001..=060"),
+                "must not name a hardcoded range: {err}"
+            );
         }
     }
 
@@ -390,8 +420,13 @@ mod tests {
     #[test]
     fn a_fault_phase_that_emits_is_rejected_at_scenario_level() {
         let mut s = scenario_with(vec![PId("P-003".to_string())]);
-        s.phases[0].fault = Some(FaultSpec { kind: FaultKindSpec::PortOccupier });
-        assert!(s.validate().is_err(), "the default one-plain-trace emission violates the silence invariant");
+        s.phases[0].fault = Some(FaultSpec {
+            kind: FaultKindSpec::PortOccupier,
+        });
+        assert!(
+            s.validate().is_err(),
+            "the default one-plain-trace emission violates the silence invariant"
+        );
         s.phases[0].emission.occurrences = 0;
         assert!(s.validate().is_ok(), "a silent fault phase validates");
     }
@@ -473,7 +508,8 @@ gap_ms = 1
         #[case] p_id: &str,
     ) {
         let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
-        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let toml =
+            std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
         let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
         assert_eq!(s.name, stem);
         assert_eq!(s.p_ids, vec![PId(p_id.to_string())]);
@@ -500,8 +536,16 @@ gap_ms = 1
         let fault_phases: Vec<_> = s.phases.iter().filter(|p| p.fault.is_some()).collect();
         assert_eq!(fault_phases.len(), 1, "exactly one fault-declaring phase");
         assert_eq!(fault_phases[0].name, "port-held");
-        assert_eq!(fault_phases[0].fault, Some(FaultSpec { kind: FaultKindSpec::PortOccupier }));
-        assert!(s.phases.iter().all(|p| p.emission.occurrences == 0), "every phase is silent");
+        assert_eq!(
+            fault_phases[0].fault,
+            Some(FaultSpec {
+                kind: FaultKindSpec::PortOccupier
+            })
+        );
+        assert!(
+            s.phases.iter().all(|p| p.emission.occurrences == 0),
+            "every phase is silent"
+        );
     }
 
     #[rstest]
@@ -511,11 +555,15 @@ gap_ms = 1
     #[case("root-span-error-scope", "P-008")]
     fn hard_signal_fixtures_load_and_validate(#[case] stem: &str, #[case] p_id: &str) {
         let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
-        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let toml =
+            std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
         let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
         assert_eq!(s.name, stem);
         assert_eq!(s.p_ids, vec![PId(p_id.to_string())]);
-        assert!(!s.expected.is_empty(), "{stem} declares at least one expected check");
+        assert!(
+            !s.expected.is_empty(),
+            "{stem} declares at least one expected check"
+        );
     }
 
     #[rstest]
@@ -523,7 +571,8 @@ gap_ms = 1
     #[case("latency-regression", &["P-011", "P-012"])]
     fn statistical_anomaly_fixtures_load_and_validate(#[case] stem: &str, #[case] p_ids: &[&str]) {
         let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
-        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let toml =
+            std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
         let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
         assert_eq!(s.name, stem);
         let want: Vec<PId> = p_ids.iter().map(|p| PId(p.to_string())).collect();
@@ -547,22 +596,34 @@ gap_ms = 1
         // whole-run latency spans the emission window and exceeds every tier by construction, so
         // <90s is the closest honest bucket (per-check latency is v2-19's).
         let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
-        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let toml =
+            std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
         let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
-        assert!(s.expected.is_empty(), "{stem} carries no gradeable read-back check");
-        assert_eq!(s.slo_tier, SloTier::Tier90s, "{stem} pins the re-declared tier");
+        assert!(
+            s.expected.is_empty(),
+            "{stem} carries no gradeable read-back check"
+        );
+        assert_eq!(
+            s.slo_tier,
+            SloTier::Tier90s,
+            "{stem} pins the re-declared tier"
+        );
     }
 
     #[test]
     fn p008_root_span_error_scope_checks_are_calibration_region() {
         // Root-vs-deep severity weighting is model-side (P-020) per the v2.1 amendment, so P-008's
         // check is calibration-region (a tendency), never a hard assert.
-        let path =
-            format!("{}/../../scenarios/root-span-error-scope.toml", env!("CARGO_MANIFEST_DIR"));
+        let path = format!(
+            "{}/../../scenarios/root-span-error-scope.toml",
+            env!("CARGO_MANIFEST_DIR")
+        );
         let toml = std::fs::read_to_string(&path).expect("fixture readable");
         let s = Scenario::from_toml_str(&toml).expect("fixture valid");
         assert!(
-            s.expected.iter().all(|c| c.class == ClaimClass::CalibrationRegion),
+            s.expected
+                .iter()
+                .all(|c| c.class == ClaimClass::CalibrationRegion),
             "P-008 checks are calibration-region per the v2.1 amendment"
         );
     }
@@ -571,12 +632,16 @@ gap_ms = 1
     fn p007_high_severity_log_capture_asserts_both_sides_of_the_boundary() {
         // The SeverityNumber 17 boundary is two-sided: ERROR/FATAL (>=17) contributes (Contains),
         // WARN-and-below (<17) does not (Absent).
-        let path =
-            format!("{}/../../scenarios/high-severity-log-capture.toml", env!("CARGO_MANIFEST_DIR"));
+        let path = format!(
+            "{}/../../scenarios/high-severity-log-capture.toml",
+            env!("CARGO_MANIFEST_DIR")
+        );
         let toml = std::fs::read_to_string(&path).expect("fixture readable");
         let s = Scenario::from_toml_str(&toml).expect("fixture valid");
         assert!(
-            s.expected.iter().any(|c| c.kind == ComparisonKind::Contains),
+            s.expected
+                .iter()
+                .any(|c| c.kind == ComparisonKind::Contains),
             "P-007 asserts the >=17 contribution via Contains"
         );
         assert!(
@@ -593,12 +658,16 @@ gap_ms = 1
         #[case] p_ids: &[&str],
     ) {
         let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
-        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let toml =
+            std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
         let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
         assert_eq!(s.name, stem);
         let want: Vec<PId> = p_ids.iter().map(|p| PId(p.to_string())).collect();
         assert_eq!(s.p_ids, want);
-        assert!(!s.expected.is_empty(), "{stem} declares at least one expected check");
+        assert!(
+            !s.expected.is_empty(),
+            "{stem} declares at least one expected check"
+        );
     }
 
     #[rstest]
@@ -610,7 +679,8 @@ gap_ms = 1
         // these cues is P-020, a later severity-lifecycle chunk. restart-suppression left this set
         // 2026-08-18 — declare-only at the harvest tier (its own test below).
         let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
-        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let toml =
+            std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
         let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
         assert!(
             s.expected.iter().all(|c| c.class == ClaimClass::Hard),
@@ -627,14 +697,27 @@ gap_ms = 1
     /// latency spans the ~180s emission window; the v2-11/v2-12 honesty-bucket precedent).
     #[test]
     fn restart_suppression_is_declare_only_at_the_harvest_tier() {
-        let path = format!("{}/../../scenarios/restart-suppression.toml", env!("CARGO_MANIFEST_DIR"));
+        let path = format!(
+            "{}/../../scenarios/restart-suppression.toml",
+            env!("CARGO_MANIFEST_DIR")
+        );
         let toml = std::fs::read_to_string(&path).expect("restart-suppression.toml readable");
         let s = Scenario::from_toml_str(&toml).expect("restart-suppression.toml valid");
         assert_eq!(s.name, "restart-suppression");
-        let want: Vec<PId> = ["P-015", "P-016", "P-057"].iter().map(|p| PId(p.to_string())).collect();
+        let want: Vec<PId> = ["P-015", "P-016", "P-057"]
+            .iter()
+            .map(|p| PId(p.to_string()))
+            .collect();
         assert_eq!(s.p_ids, want);
-        assert!(s.expected.is_empty(), "restart-suppression carries no gradeable read-back check");
-        assert_eq!(s.slo_tier, SloTier::Tier90s, "restart-suppression pins the re-declared tier");
+        assert!(
+            s.expected.is_empty(),
+            "restart-suppression carries no gradeable read-back check"
+        );
+        assert_eq!(
+            s.slo_tier,
+            SloTier::Tier90s,
+            "restart-suppression pins the re-declared tier"
+        );
     }
 
     #[test]
@@ -642,7 +725,10 @@ gap_ms = 1
         // P-013's false-positive guard is an ABSENCE — no ServiceWentSilent during the learned quiet
         // (the same kind P-007 uses for its <17 non-contribution); P-014's death cue is its presence
         // counterpart in a separate scenario, since Absent + Contains of one token cannot coexist.
-        let path = format!("{}/../../scenarios/activity-floor.toml", env!("CARGO_MANIFEST_DIR"));
+        let path = format!(
+            "{}/../../scenarios/activity-floor.toml",
+            env!("CARGO_MANIFEST_DIR")
+        );
         let toml = std::fs::read_to_string(&path).expect("fixture readable");
         let s = Scenario::from_toml_str(&toml).expect("fixture valid");
         assert!(
@@ -658,10 +744,13 @@ gap_ms = 1
         // Contains tokens were structurally ungradeable under deterministic L4 — declare-only at
         // the harvest tier (restart_suppression_is_declare_only_at_the_harvest_tier).
         let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
-        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let toml =
+            std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
         let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
         assert!(
-            s.expected.iter().any(|c| c.kind == ComparisonKind::Contains),
+            s.expected
+                .iter()
+                .any(|c| c.kind == ComparisonKind::Contains),
             "{stem} asserts a surfaced incident via Contains"
         );
     }
@@ -671,7 +760,8 @@ gap_ms = 1
     #[case("fingerprint-distinct", &["P-017"])]
     fn fingerprint_storm_fixtures_load_and_validate(#[case] stem: &str, #[case] p_ids: &[&str]) {
         let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
-        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let toml =
+            std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
         let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
         assert_eq!(s.name, stem);
         let want: Vec<PId> = p_ids.iter().map(|p| PId(p.to_string())).collect();
@@ -686,9 +776,12 @@ gap_ms = 1
     #[rstest]
     #[case("fingerprint-storm")]
     #[case("fingerprint-distinct")]
-    fn fingerprint_scenarios_are_declare_only_after_the_degraded_read_back_finding(#[case] stem: &str) {
+    fn fingerprint_scenarios_are_declare_only_after_the_degraded_read_back_finding(
+        #[case] stem: &str,
+    ) {
         let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
-        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let toml =
+            std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
         let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
         assert!(
             s.expected.is_empty(),
@@ -703,14 +796,20 @@ gap_ms = 1
     #[case("fingerprint-distinct")]
     fn fingerprint_scenarios_carry_the_recalibrated_tier(#[case] stem: &str) {
         let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
-        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let toml =
+            std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
         let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
-        assert_eq!(s.slo_tier, SloTier::Tier90s, "{stem} re-calibrated to the <90s tier");
+        assert_eq!(
+            s.slo_tier,
+            SloTier::Tier90s,
+            "{stem} re-calibrated to the <90s tier"
+        );
     }
 
     fn severity_fixture(stem: &str) -> Scenario {
         let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
-        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let toml =
+            std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
         Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"))
     }
 
@@ -758,7 +857,10 @@ gap_ms = 1
     #[case("severity-tier-autonomous", 90)]
     #[case("severity-tier-suggested", 70)]
     #[case("severity-tier-curious", 20)]
-    fn severity_tier_baselines_select_their_confidence_band(#[case] stem: &str, #[case] samples: u32) {
+    fn severity_tier_baselines_select_their_confidence_band(
+        #[case] stem: &str,
+        #[case] samples: u32,
+    ) {
         let s = severity_fixture(stem);
         let baseline = &s.phases[0];
         assert_eq!(
@@ -770,9 +872,18 @@ gap_ms = 1
             EmissionShape::Plain,
             "{stem}'s baseline is OK spans — an error there would move the very rate the spike measures"
         );
-        let spike = s.phases.last().expect("a tier scenario carries a spike phase");
+        let spike = s
+            .phases
+            .last()
+            .expect("a tier scenario carries a spike phase");
         assert!(
-            matches!(spike.emission.shape, EmissionShape::Error { error_percent: 100, .. }),
+            matches!(
+                spike.emission.shape,
+                EmissionShape::Error {
+                    error_percent: 100,
+                    ..
+                }
+            ),
             "{stem}'s spike is unambiguous errors; its band comes from the sample count, not a partial rate"
         );
     }
@@ -924,11 +1035,19 @@ expected = "Receiving"
         #[case] tier: SloTier,
         #[case] budget_ms: u32,
     ) {
-        let err = scenario_budgeted(tier, Some(budget_ms)).check_budgets().unwrap_err();
-        assert!(matches!(err, crate::CoreError::Config(_)), "a harness fault, never a verdict");
+        let err = scenario_budgeted(tier, Some(budget_ms))
+            .check_budgets()
+            .unwrap_err();
+        assert!(
+            matches!(err, crate::CoreError::Config(_)),
+            "a harness fault, never a verdict"
+        );
         let msg = err.to_string();
         assert!(msg.contains("check 0"), "names the offending check: {msg}");
-        assert!(msg.contains(&budget_ms.to_string()), "names the declared budget: {msg}");
+        assert!(
+            msg.contains(&budget_ms.to_string()),
+            "names the declared budget: {msg}"
+        );
     }
 
     #[test]
@@ -983,9 +1102,15 @@ expected = "WARN"
 "#;
         let s = Scenario::from_toml_str(toml).expect("a budget beneath its tier loads");
         assert_eq!(s.expected[0].budget_ms, Some(2_000));
-        assert_eq!(s.expected[1].budget_ms, None, "an undeclared budget stays absent");
+        assert_eq!(
+            s.expected[1].budget_ms, None,
+            "an undeclared budget stays absent"
+        );
         assert_eq!(s.expected[0].effective_deadline_ms(s.slo_tier), 2_000);
-        assert_eq!(s.expected[1].effective_deadline_ms(s.slo_tier), s.slo_tier.deadline_ms());
+        assert_eq!(
+            s.expected[1].effective_deadline_ms(s.slo_tier),
+            s.slo_tier.deadline_ms()
+        );
     }
 
     #[test]
@@ -1029,7 +1154,8 @@ expected = "WARN"
         #[case] p_ids: &[&str],
     ) {
         let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
-        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let toml =
+            std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
         let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
         assert_eq!(s.name, stem);
         let want: Vec<PId> = p_ids.iter().map(|p| PId(p.to_string())).collect();
@@ -1049,7 +1175,8 @@ expected = "WARN"
         // P-032's KnownResidual routing is Epoch-8-owned — both declare an EMPTY `expected`, which routes to
         // verdict None -> Lamp::Manual (the inversion of every prior family's "declares at least one check").
         let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
-        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let toml =
+            std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
         let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
         assert!(
             s.expected.is_empty(),
@@ -1062,8 +1189,10 @@ expected = "WARN"
         // P-036: a fingerprint recurring across two runs surfaces "Previously seen" from the runs.db
         // cross-run index — a deterministic index lookup -> Hard Contains (the one auto-assertable check in
         // the family). The "Previously seen" token is inferred (substring-tolerant), an Epoch-8 calibration point.
-        let path =
-            format!("{}/../../scenarios/cross-incident-recurrence.toml", env!("CARGO_MANIFEST_DIR"));
+        let path = format!(
+            "{}/../../scenarios/cross-incident-recurrence.toml",
+            env!("CARGO_MANIFEST_DIR")
+        );
         let toml = std::fs::read_to_string(&path).expect("fixture readable");
         let s = Scenario::from_toml_str(&toml).expect("fixture valid");
         assert!(
@@ -1087,17 +1216,29 @@ expected = "WARN"
         ];
         let has_empty = empty_stems.iter().any(|stem| {
             let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
-            let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
-            Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}")).expected.is_empty()
+            let toml = std::fs::read_to_string(&path)
+                .unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+            Scenario::from_toml_str(&toml)
+                .unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"))
+                .expected
+                .is_empty()
         });
-        let recurrence_path =
-            format!("{}/../../scenarios/cross-incident-recurrence.toml", env!("CARGO_MANIFEST_DIR"));
+        let recurrence_path = format!(
+            "{}/../../scenarios/cross-incident-recurrence.toml",
+            env!("CARGO_MANIFEST_DIR")
+        );
         let recurrence = Scenario::from_toml_str(
             &std::fs::read_to_string(&recurrence_path).expect("fixture readable"),
         )
         .expect("fixture valid");
-        assert!(has_empty, "the suite carries operator-checklist (empty-expected) members");
-        assert!(!recurrence.expected.is_empty(), "P-036 (cross-incident-recurrence) carries a Hard check");
+        assert!(
+            has_empty,
+            "the suite carries operator-checklist (empty-expected) members"
+        );
+        assert!(
+            !recurrence.expected.is_empty(),
+            "P-036 (cross-incident-recurrence) carries a Hard check"
+        );
     }
 
     #[rstest]
@@ -1107,9 +1248,13 @@ expected = "WARN"
     #[case("cadence-config", &["P-052"])]
     #[case("threshold-hot-reload", &["P-055", "P-056"])]
     #[case("degraded-mode-report", &["P-053"])]
-    fn scrub_pipeline_degraded_fixtures_load_and_validate(#[case] stem: &str, #[case] p_ids: &[&str]) {
+    fn scrub_pipeline_degraded_fixtures_load_and_validate(
+        #[case] stem: &str,
+        #[case] p_ids: &[&str],
+    ) {
         let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
-        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let toml =
+            std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
         let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
         assert_eq!(s.name, stem);
         let want: Vec<PId> = p_ids.iter().map(|p| PId(p.to_string())).collect();
@@ -1126,7 +1271,8 @@ expected = "WARN"
         // P-037 (operator-checklist render), P-052 (operator-set cadence, deferred measurement), and P-053
         // (degraded_mode KnownResidual — producer-assigned downstream) declare an EMPTY `expected`.
         let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
-        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let toml =
+            std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
         let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
         assert!(
             s.expected.is_empty(),
@@ -1141,7 +1287,10 @@ expected = "WARN"
         // Contains structure marker failed STRUCTURALLY — the checks graded nothing (the
         // fingerprint-storm vacuous-green precedent). The live claim grades at the harvest tier
         // (conductor-run/tests/pii_harvest.rs); scrub semantics are byte-verified at SUT source.
-        let path = format!("{}/../../scenarios/pii-scrub.toml", env!("CARGO_MANIFEST_DIR"));
+        let path = format!(
+            "{}/../../scenarios/pii-scrub.toml",
+            env!("CARGO_MANIFEST_DIR")
+        );
         let s = Scenario::from_toml_str(&std::fs::read_to_string(&path).expect("fixture readable"))
             .expect("fixture valid");
         assert!(
@@ -1153,8 +1302,10 @@ expected = "WARN"
     #[test]
     fn findings_counter_and_threshold_reload_carry_their_hard_checks() {
         // P-045 findings counter = len(query_incident_list | unread/active) -> deterministic Hard CountAtLeast.
-        let counter_path =
-            format!("{}/../../scenarios/findings-counter-refresh.toml", env!("CARGO_MANIFEST_DIR"));
+        let counter_path = format!(
+            "{}/../../scenarios/findings-counter-refresh.toml",
+            env!("CARGO_MANIFEST_DIR")
+        );
         let counter = Scenario::from_toml_str(
             &std::fs::read_to_string(&counter_path).expect("fixture readable"),
         )
@@ -1168,8 +1319,10 @@ expected = "WARN"
         );
         // P-056 prospective-only -> Hard Absent (the pre-change baseline raises no retroactive cue); the P-055
         // <2s hot-reload timing is the declare-only leg (Epoch-8 measurement, no content token).
-        let reload_path =
-            format!("{}/../../scenarios/threshold-hot-reload.toml", env!("CARGO_MANIFEST_DIR"));
+        let reload_path = format!(
+            "{}/../../scenarios/threshold-hot-reload.toml",
+            env!("CARGO_MANIFEST_DIR")
+        );
         let reload = Scenario::from_toml_str(
             &std::fs::read_to_string(&reload_path).expect("fixture readable"),
         )
@@ -1209,8 +1362,14 @@ expected = "WARN"
                     .is_empty()
             })
             .collect();
-        assert!(shapes.iter().any(|empty| *empty), "the suite carries declare-only (empty-expected) members");
-        assert!(shapes.iter().any(|empty| !*empty), "the suite carries Hard (non-empty-expected) members");
+        assert!(
+            shapes.iter().any(|empty| *empty),
+            "the suite carries declare-only (empty-expected) members"
+        );
+        assert!(
+            shapes.iter().any(|empty| !*empty),
+            "the suite carries Hard (non-empty-expected) members"
+        );
     }
 
     #[rstest]
@@ -1221,7 +1380,8 @@ expected = "WARN"
         // The catalog's first entries above P-060 — expressible only because the accepted set is manifest
         // data rather than the superseded compile-time bound.
         let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
-        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let toml =
+            std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
         let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
         assert_eq!(s.name, stem);
         let want: Vec<PId> = p_ids.iter().map(|p| PId(p.to_string())).collect();
@@ -1236,7 +1396,8 @@ expected = "WARN"
         // read-back, and triggering the action is Pulse UI (a standing non-goal). Empty expected → verdict
         // None → Lamp::Manual.
         let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
-        let toml = std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let toml =
+            std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
         let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
         assert!(
             s.expected.is_empty(),
@@ -1256,9 +1417,11 @@ expected = "WARN"
         let toml = std::fs::read_to_string(&path).expect("fixture readable");
         let s = Scenario::from_toml_str(&toml).expect("fixture valid");
         assert!(
-            s.expected.iter().any(|c| c.kind == ComparisonKind::CountAtLeast
-                && c.class == ClaimClass::Hard
-                && c.expected == "1"),
+            s.expected
+                .iter()
+                .any(|c| c.kind == ComparisonKind::CountAtLeast
+                    && c.class == ClaimClass::Hard
+                    && c.expected == "1"),
             "P-079 asserts incident visibility via a Hard CountAtLeast \"1\""
         );
     }
@@ -1284,7 +1447,13 @@ expected = "WARN"
                     .is_empty()
             })
             .collect();
-        assert!(shapes.iter().any(|empty| *empty), "the suite carries drive+observe members");
-        assert!(shapes.iter().any(|empty| !*empty), "the suite carries an auto member");
+        assert!(
+            shapes.iter().any(|empty| *empty),
+            "the suite carries drive+observe members"
+        );
+        assert!(
+            shapes.iter().any(|empty| !*empty),
+            "the suite carries an auto member"
+        );
     }
 }

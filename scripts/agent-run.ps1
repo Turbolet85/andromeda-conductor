@@ -238,9 +238,15 @@ switch ($args[0]) {
         $id = Resolve-RunId $Arg1 'status'
         $journal = Join-Path $RunsDir "$id.jsonl"
         if (-not (Test-Path $journal)) { [Console]::Error.WriteLine("status: no journal for run_id=$id"); exit 1 }
-        # Last line carries the final envelope; assert it parses and surface verdict/state.
-        $last = Get-Content $journal | Select-Object -Last 1
-        $envelope = $last | ConvertFrom-Json
+        # Surface the last ENVELOPE row, not the last line: per-check records ride the same journal
+        # (arch §Standard Contracts — Per-check record), and `seed` is envelope-only, so a run that
+        # graded checks would otherwise report a CheckRecord's nulls as its envelope.
+        $envelope = Get-Content $journal |
+            Where-Object { $_.Trim() } |
+            ForEach-Object { $_ | ConvertFrom-Json } |
+            Where-Object { $_.PSObject.Properties.Name -contains 'seed' } |
+            Select-Object -Last 1
+        if (-not $envelope) { [Console]::Error.WriteLine("status: no envelope row in the journal for run_id=$id"); exit 1 }
         $envelope | Select-Object run_id, seed, scenario, verdict, state, latency_ms, slo_tier | ConvertTo-Json -Compress
     }
     'cleanup' {
@@ -249,9 +255,12 @@ switch ($args[0]) {
             if (-not (Test-RunId $Arg1)) { [Console]::Error.WriteLine('cleanup: invalid run_id'); exit 2 }
             Remove-Item (Join-Path $RunsDir "$Arg1.jsonl") -ErrorAction SilentlyContinue
             Remove-Item (Join-Path $RunsDir "$Arg1.md") -ErrorAction SilentlyContinue
+            # Teardown goes through the binary: rusqlite BOUND parameters over every table a run
+            # writes (runs, run_check, run_envelope), which the sqlite3 CLI can neither bind nor be
+            # assumed present — it is on no host here and on no CI runner (test-plan §3 cleanup body).
             $db = Join-Path $RunsDir 'runs.db'
-            if ((Test-Path $db) -and (Get-Command sqlite3 -ErrorAction SilentlyContinue)) {
-                & sqlite3 $db "DELETE FROM runs WHERE run_id = '$Arg1';" 2>$null
+            if (Test-Path $db) {
+                & $Cargo run -q -p conductor-cli --bin conductor -- cleanup $Arg1
             }
         }
         Write-Output ("cleanup: done" + $(if ($Arg1) { " ($Arg1)" } else { '' }))

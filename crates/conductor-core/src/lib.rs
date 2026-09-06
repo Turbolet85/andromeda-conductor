@@ -45,8 +45,10 @@ pub use load_envelope::{
     EnvelopeStatus, EnvelopeTerms, Exemption, LoadEnvelope, check_load_envelope,
     scenario_duration_ms, sustained_storm_ms,
 };
-pub use obs::{init_observability, mint_run_id, now_rfc3339, ObsSink, ServiceIdentity};
-pub use pause::{Decision, HeadlessResolver, HoldPoint, HoldResolution, PauseResolver, resolve_hold};
+pub use obs::{ObsSink, ServiceIdentity, init_observability, mint_run_id, now_rfc3339};
+pub use pause::{
+    Decision, HeadlessResolver, HoldPoint, HoldResolution, PauseResolver, resolve_hold,
+};
 pub use phase_spec::{
     EmissionShape, EmissionSpec, FaultKindSpec, FaultSpec, FingerprintVariantSpec, PhaseSpec,
     PiiCategorySpec, Signal,
@@ -60,10 +62,10 @@ pub use report_state::ReportState;
 pub use run_contract::{
     CheckKind, ContractTerm, IncidentFormation, RunContract, RunContractStatus, UnmetTerm,
 };
-pub use run_journal::{latest_run_id, read_run_journal};
+pub use run_journal::{JournalLine, classify_journal_line, latest_run_id, read_run_journal};
 pub use run_record::{CheckRecord, RunRecord};
 pub use scenario::{ChecklistItem, MAX_CHECKLIST_TEXT, PId, Scenario, SloTier};
 pub use scenario_catalog::{
-    list_scenarios, scenario_files, validate_selection, ScenarioSummary, SUITE_SELECTION,
+    SUITE_SELECTION, ScenarioSummary, list_scenarios, scenario_files, validate_selection,
 };
 pub use verdict::Verdict;

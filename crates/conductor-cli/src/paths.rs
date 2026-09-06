@@ -7,9 +7,7 @@
 use std::path::{Path, PathBuf};
 
 use anyhow::Context as _;
-use conductor_core::{
-    CapabilityManifest, LoadEnvelope, Scenario, resolve_under, scenario_files,
-};
+use conductor_core::{CapabilityManifest, LoadEnvelope, Scenario, resolve_under, scenario_files};
 
 /// The resolved artifact + config locations for a CLI invocation.
 pub struct Paths {
@@ -28,7 +26,11 @@ impl Paths {
         Ok(Self {
             scenarios_dir: resolve_handle(&base, "CONDUCTOR_SCENARIOS_DIR", "scenarios")?,
             runs_dir: resolve_handle(&base, "CONDUCTOR_RUNS_DIR", "runs")?,
-            manifest_path: resolve_handle(&base, "CONDUCTOR_CONTRACT_MANIFEST", "contracts/mcp-contract.toml")?,
+            manifest_path: resolve_handle(
+                &base,
+                "CONDUCTOR_CONTRACT_MANIFEST",
+                "contracts/mcp-contract.toml",
+            )?,
             capability_manifest_path: resolve_under(&base, &CapabilityManifest::default_path())?,
             load_envelope_path: resolve_under(&base, &LoadEnvelope::default_path())?,
         })
@@ -48,7 +50,8 @@ impl Paths {
     /// Resolve a `run` target — a scenario name (`<name>.toml`) or a Pulse P-ID — to a seeded scenario.
     pub fn load_scenario(&self, target: &str, seed: Option<u64>) -> anyhow::Result<Scenario> {
         let capabilities = self.capabilities()?;
-        if let Ok(by_name) = resolve_under(&self.scenarios_dir, Path::new(&format!("{target}.toml")))
+        if let Ok(by_name) =
+            resolve_under(&self.scenarios_dir, Path::new(&format!("{target}.toml")))
             && by_name.is_file()
         {
             return Ok(apply_seed(load_one(&by_name, &capabilities)?, seed));
@@ -69,7 +72,10 @@ impl Paths {
 
         let mut scenarios = Vec::new();
         for path in files {
-            let stem = path.file_stem().and_then(|s| s.to_str()).unwrap_or_default();
+            let stem = path
+                .file_stem()
+                .and_then(|s| s.to_str())
+                .unwrap_or_default();
             if filter.is_some_and(|f| !stem.contains(f)) {
                 continue;
             }
@@ -85,7 +91,11 @@ impl Paths {
 pub fn agent_log_path() -> anyhow::Result<PathBuf> {
     let base = std::env::current_dir().context("resolve current directory")?;
     let runs_dir = resolve_handle(&base, "CONDUCTOR_RUNS_DIR", "runs")?;
-    let logs_dir = runs_dir.parent().map(Path::to_path_buf).unwrap_or(base).join("logs");
+    let logs_dir = runs_dir
+        .parent()
+        .map(Path::to_path_buf)
+        .unwrap_or(base)
+        .join("logs");
     Ok(logs_dir.join("agent-latest.jsonl"))
 }
 
@@ -104,7 +114,10 @@ fn find_by_pid(
     pid: &str,
     capabilities: &CapabilityManifest,
 ) -> anyhow::Result<Option<Scenario>> {
-    for entry in std::fs::read_dir(dir).context("read scenarios directory")?.flatten() {
+    for entry in std::fs::read_dir(dir)
+        .context("read scenarios directory")?
+        .flatten()
+    {
         let path = entry.path();
         if path.extension().and_then(|x| x.to_str()) != Some("toml") {
             continue;
@@ -127,5 +140,7 @@ fn apply_seed(mut scenario: Scenario, seed: Option<u64>) -> Scenario {
 }
 
 fn env_seed() -> Option<u64> {
-    std::env::var("CONDUCTOR_SEED").ok().and_then(|v| v.parse().ok())
+    std::env::var("CONDUCTOR_SEED")
+        .ok()
+        .and_then(|v| v.parse().ok())
 }

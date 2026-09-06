@@ -5,7 +5,7 @@
 
 use std::path::Path;
 
-use crate::{CoreError, RunRecord};
+use crate::{CheckRecord, CoreError, RunRecord};
 
 /// The newest run's id — the lexicographically-greatest `<run_id>.jsonl` stem (run_ids sort by time).
 /// An unreadable / absent runs directory yields `None` (no runs yet), not an error.
@@ -28,17 +28,52 @@ pub fn latest_run_id(runs_dir: &Path) -> crate::Result<Option<String>> {
     Ok(latest)
 }
 
-/// Read + parse every record in `runs/<run_id>.jsonl` (blank lines skipped) into the run-report
-/// envelope, in journal order. A read or per-line parse failure is a harness fault.
+/// One journal line, classified into the registered record shape it conforms to.
+///
+/// The per-run journal carries TWO report-seam shapes (arch §Standard Contracts): the eleven-field
+/// envelope at scenario grain, and the nine-key [`CheckRecord`] at check grain behind it. They are
+/// told apart by their disjoint REQUIRED keys — an envelope carries `seed` / `p_ids` / `slo_tier`,
+/// a check record `check_index` / `kind` / `deadline_ms` — so neither line can deserialize as the
+/// other. That settles SHAPE only: serde reads an absent `Option` field as `None`, so the
+/// envelope's five nullable keys can all be missing from a line that parses cleanly. Key PRESENCE
+/// is a separate assertion, owned by the conformance gate.
+#[derive(Debug, Clone, PartialEq, Eq)]
+pub enum JournalLine {
+    /// A scenario-grained run-report envelope row.
+    Envelope(RunRecord),
+    /// A per-check record riding the same journal.
+    Check(CheckRecord),
+}
+
+/// Classify one journal line, trying the envelope shape first (the dominant one).
+///
+/// A line conforming to NEITHER shape is a harness fault carrying the ENVELOPE's parse error, whose
+/// message names the missing field.
+pub fn classify_journal_line(line: &str) -> crate::Result<JournalLine> {
+    let envelope_err = match serde_json::from_str::<RunRecord>(line) {
+        Ok(record) => return Ok(JournalLine::Envelope(record)),
+        Err(e) => e,
+    };
+    serde_json::from_str::<CheckRecord>(line)
+        .map(JournalLine::Check)
+        .map_err(|_| CoreError::Config(format!("parse journal line: {envelope_err}")))
+}
+
+/// Read + parse `runs/<run_id>.jsonl` (blank lines skipped) into the run-report envelope rows, in
+/// journal order.
+///
+/// Per-check records ride the same journal and are SKIPPED here — the two production callers (the
+/// cli `report` verb, the Tauri run-report view) want the scenario grain. A line matching neither
+/// registered shape, and an unreadable journal, stay harness faults.
 pub fn read_run_journal(runs_dir: &Path, run_id: &str) -> crate::Result<Vec<RunRecord>> {
     let path = runs_dir.join(format!("{run_id}.jsonl"));
     let text = std::fs::read_to_string(&path)
         .map_err(|e| CoreError::Config(format!("read run journal: {e}")))?;
     let mut records = Vec::new();
     for line in text.lines().filter(|l| !l.trim().is_empty()) {
-        let record = serde_json::from_str::<RunRecord>(line)
-            .map_err(|e| CoreError::Config(format!("parse journal line: {e}")))?;
-        records.push(record);
+        if let JournalLine::Envelope(record) = classify_journal_line(line)? {
+            records.push(record);
+        }
     }
     Ok(records)
 }
@@ -57,8 +92,10 @@ mod tests {
     /// the `std::process::id()` + atomic suffix keeps parallel nextest workers from colliding).
     fn temp_runs_dir() -> PathBuf {
         let n = COUNTER.fetch_add(1, Ordering::Relaxed);
-        let dir =
-            std::env::temp_dir().join(format!("conductor-core-run-journal-{}-{n}", std::process::id()));
+        let dir = std::env::temp_dir().join(format!(
+            "conductor-core-run-journal-{}-{n}",
+            std::process::id()
+        ));
         std::fs::create_dir_all(&dir).unwrap();
         dir
     }
@@ -83,6 +120,20 @@ mod tests {
         std::fs::write(dir.join(format!("{run_id}.jsonl")), body).unwrap();
     }
 
+    fn check(run_id: &str) -> CheckRecord {
+        CheckRecord {
+            run_id: run_id.to_string(),
+            scenario: "error-baseline-spike".to_string(),
+            check_index: 0,
+            kind: crate::ComparisonKind::Contains,
+            verdict: Verdict::Pass,
+            state: ReportState::Pass,
+            latency_ms: 1840,
+            deadline_ms: 5000,
+            budget_ms: None,
+        }
+    }
+
     #[test]
     fn latest_run_id_is_none_for_absent_dir() {
         let dir = temp_runs_dir().join("does-not-exist");
@@ -92,11 +143,18 @@ mod tests {
     #[test]
     fn latest_run_id_picks_the_greatest_jsonl_stem_ignoring_non_journals() {
         let dir = temp_runs_dir();
-        for stem in ["2026-06-16T20-00-00-a", "2026-06-16T21-00-00-b", "2026-06-16T19-00-00-c"] {
+        for stem in [
+            "2026-06-16T20-00-00-a",
+            "2026-06-16T21-00-00-b",
+            "2026-06-16T19-00-00-c",
+        ] {
             write_journal(&dir, stem, &serde_json::to_string(&measured(stem)).unwrap());
         }
         std::fs::write(dir.join("runs.db"), "not a journal").unwrap();
-        assert_eq!(latest_run_id(&dir).unwrap().as_deref(), Some("2026-06-16T21-00-00-b"));
+        assert_eq!(
+            latest_run_id(&dir).unwrap().as_deref(),
+            Some("2026-06-16T21-00-00-b")
+        );
         let _ = std::fs::remove_dir_all(&dir);
     }
 
@@ -119,22 +177,77 @@ mod tests {
             serde_json::to_string(&records[1]).unwrap()
         );
         write_journal(&dir, "2026-06-16T21-10-06-r", &body);
-        assert_eq!(read_run_journal(&dir, "2026-06-16T21-10-06-r").unwrap(), records);
+        assert_eq!(
+            read_run_journal(&dir, "2026-06-16T21-10-06-r").unwrap(),
+            records
+        );
         let _ = std::fs::remove_dir_all(&dir);
     }
 
     #[test]
     fn read_run_journal_missing_file_is_a_harness_fault() {
         let dir = temp_runs_dir();
-        assert!(matches!(read_run_journal(&dir, "no-such-run"), Err(CoreError::Config(_))));
+        assert!(matches!(
+            read_run_journal(&dir, "no-such-run"),
+            Err(CoreError::Config(_))
+        ));
         let _ = std::fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn read_run_journal_returns_envelopes_and_skips_the_check_records_beside_them() {
+        // The regression: read_run_journal parsed EVERY line as RunRecord, so a run that emitted
+        // per-check records failed the whole read with `missing field seed`.
+        let dir = temp_runs_dir();
+        let run_id = "2026-08-21T18-53-35-135";
+        let envelope = measured(run_id);
+        let body = format!(
+            "{}\n{}\n",
+            serde_json::to_string(&envelope).unwrap(),
+            serde_json::to_string(&check(run_id)).unwrap()
+        );
+        write_journal(&dir, run_id, &body);
+        assert_eq!(read_run_journal(&dir, run_id).unwrap(), vec![envelope]);
+        let _ = std::fs::remove_dir_all(&dir);
+    }
+
+    #[test]
+    fn classify_journal_line_tells_the_two_registered_shapes_apart() {
+        let run_id = "2026-08-21T18-53-35-135";
+        let envelope = measured(run_id);
+        let check = check(run_id);
+        assert_eq!(
+            classify_journal_line(&serde_json::to_string(&envelope).unwrap()).unwrap(),
+            JournalLine::Envelope(envelope)
+        );
+        assert_eq!(
+            classify_journal_line(&serde_json::to_string(&check).unwrap()).unwrap(),
+            JournalLine::Check(check)
+        );
+    }
+
+    #[test]
+    fn a_line_matching_neither_shape_reports_the_envelope_s_missing_field() {
+        // Valid JSON, neither shape: the error must name what the ENVELOPE wanted, not the check
+        // record's — the envelope is the dominant shape and its message is the useful one.
+        let err = classify_journal_line(r#"{"run_id":"r","scenario":"s"}"#).unwrap_err();
+        let CoreError::Config(message) = err else {
+            panic!("a line matching neither shape is a Config harness fault");
+        };
+        assert!(
+            message.contains("missing field `seed`"),
+            "the envelope's missing field is named: {message}"
+        );
     }
 
     #[test]
     fn read_run_journal_malformed_line_is_a_harness_fault() {
         let dir = temp_runs_dir();
         write_journal(&dir, "bad", "{not valid json}");
-        assert!(matches!(read_run_journal(&dir, "bad"), Err(CoreError::Config(_))));
+        assert!(matches!(
+            read_run_journal(&dir, "bad"),
+            Err(CoreError::Config(_))
+        ));
         let _ = std::fs::remove_dir_all(&dir);
     }
 }

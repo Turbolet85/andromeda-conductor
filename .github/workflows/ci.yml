@@ -152,6 +152,20 @@ jobs:
           fi
           echo "obs conformance + zero-unlogged-panics: PASS ($(wc -l < "$log") lines checked)"
 
+      # Run-report envelope conformance gate (obs-plan §9/§10 — the envelope's own gate, reserved
+      # there as not-yet-built). The producer above ALSO wrote runs/<run_id>.jsonl, which nothing
+      # asserted until now. The gate is the RUST test, pointed at that journal: re-listing the
+      # eleven envelope / nine CheckRecord key names in jq would be a third copy of the schema
+      # (the structs · obs-plan §3/§6 · this file) and would drift from the first two.
+      - name: Run-journal conformance gate
+        shell: bash
+        env:
+          CONDUCTOR_RUNS_DIR: runs
+        run: |
+          ls runs/*.jsonl >/dev/null 2>&1 || { echo "::error::the producer wrote no run journal to assert over"; exit 1; }
+          cargo nextest run -p conductor-run --test journal_conformance --profile ci
+          echo "run-journal conformance: PASS ($(ls runs/*.jsonl | wc -l) journals checked)"
+
       - name: Upload obs self-observation artifact
         if: always()
         uses: actions/upload-artifact@v4

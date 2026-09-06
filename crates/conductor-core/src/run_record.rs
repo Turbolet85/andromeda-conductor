@@ -214,7 +214,13 @@ mod tests {
     fn round_trips_through_json() {
         for r in [
             measured(),
-            RunRecord::blocked("R", 1, "s", vec![PId("P-001".to_string())], SloTier::Tier90s),
+            RunRecord::blocked(
+                "R",
+                1,
+                "s",
+                vec![PId("P-001".to_string())],
+                SloTier::Tier90s,
+            ),
         ] {
             let json = serde_json::to_string(&r).unwrap();
             let back: RunRecord = serde_json::from_str(&json).unwrap();
@@ -225,6 +231,9 @@ mod tests {
     #[test]
     fn serialization_is_deterministic() {
         let r = measured();
-        assert_eq!(serde_json::to_string(&r).unwrap(), serde_json::to_string(&r).unwrap());
+        assert_eq!(
+            serde_json::to_string(&r).unwrap(),
+            serde_json::to_string(&r).unwrap()
+        );
     }
 }

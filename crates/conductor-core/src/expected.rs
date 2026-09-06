@@ -92,13 +92,21 @@ mod tests {
     use super::*;
 
     fn check(kind: ComparisonKind, class: ClaimClass, expected: &str) -> ExpectedCheck {
-        ExpectedCheck { kind, class, expected: expected.to_string(), budget_ms: None }
+        ExpectedCheck {
+            kind,
+            class,
+            expected: expected.to_string(),
+            budget_ms: None,
+        }
     }
 
     #[test]
     fn claim_class_serializes_to_canonical_names() {
         // Locks the wire spelling — an accidental `rename_all` would break it.
-        assert_eq!(serde_json::to_string(&ClaimClass::Hard).unwrap(), "\"Hard\"");
+        assert_eq!(
+            serde_json::to_string(&ClaimClass::Hard).unwrap(),
+            "\"Hard\""
+        );
         assert_eq!(
             serde_json::to_string(&ClaimClass::CalibrationRegion).unwrap(),
             "\"CalibrationRegion\""
@@ -107,9 +115,18 @@ mod tests {
 
     #[test]
     fn comparison_kind_serializes_to_canonical_names() {
-        assert_eq!(serde_json::to_string(&ComparisonKind::Exact).unwrap(), "\"Exact\"");
-        assert_eq!(serde_json::to_string(&ComparisonKind::Contains).unwrap(), "\"Contains\"");
-        assert_eq!(serde_json::to_string(&ComparisonKind::Absent).unwrap(), "\"Absent\"");
+        assert_eq!(
+            serde_json::to_string(&ComparisonKind::Exact).unwrap(),
+            "\"Exact\""
+        );
+        assert_eq!(
+            serde_json::to_string(&ComparisonKind::Contains).unwrap(),
+            "\"Contains\""
+        );
+        assert_eq!(
+            serde_json::to_string(&ComparisonKind::Absent).unwrap(),
+            "\"Absent\""
+        );
         assert_eq!(
             serde_json::to_string(&ComparisonKind::CountAtLeast).unwrap(),
             "\"CountAtLeast\""
@@ -118,17 +135,29 @@ mod tests {
 
     #[test]
     fn well_formed_check_validates() {
-        assert!(check(ComparisonKind::Exact, ClaimClass::Hard, "P-009").validate().is_ok());
         assert!(
-            check(ComparisonKind::CountAtLeast, ClaimClass::CalibrationRegion, "50")
+            check(ComparisonKind::Exact, ClaimClass::Hard, "P-009")
                 .validate()
                 .is_ok()
+        );
+        assert!(
+            check(
+                ComparisonKind::CountAtLeast,
+                ClaimClass::CalibrationRegion,
+                "50"
+            )
+            .validate()
+            .is_ok()
         );
     }
 
     #[test]
     fn empty_expected_target_is_rejected() {
-        assert!(check(ComparisonKind::Contains, ClaimClass::Hard, "").validate().is_err());
+        assert!(
+            check(ComparisonKind::Contains, ClaimClass::Hard, "")
+                .validate()
+                .is_err()
+        );
     }
 
     #[test]
@@ -152,8 +181,15 @@ mod tests {
     fn an_absent_budget_falls_back_to_the_scenario_tier() {
         // The shape every pre-budget scenario keeps: no declaration ⇒ the tier's own deadline, for
         // each tier in the closed ladder (asserted against the rule, never a re-pinned literal).
-        for tier in [crate::SloTier::Tier5s, crate::SloTier::Tier20s, crate::SloTier::Tier90s] {
-            assert_eq!(budgeted(None).effective_deadline_ms(tier), tier.deadline_ms());
+        for tier in [
+            crate::SloTier::Tier5s,
+            crate::SloTier::Tier20s,
+            crate::SloTier::Tier90s,
+        ] {
+            assert_eq!(
+                budgeted(None).effective_deadline_ms(tier),
+                tier.deadline_ms()
+            );
         }
     }
 
@@ -169,12 +205,18 @@ mod tests {
 
     #[test]
     fn the_budget_ceiling_derives_from_the_ladder_not_a_literal() {
-        assert_eq!(i64::from(MAX_BUDGET_MS), crate::SloTier::Tier90s.deadline_ms());
+        assert_eq!(
+            i64::from(MAX_BUDGET_MS),
+            crate::SloTier::Tier90s.deadline_ms()
+        );
     }
 
     #[test]
     fn a_zero_or_over_ceiling_budget_is_rejected_but_the_bounds_are_accepted() {
-        assert!(budgeted(Some(0)).validate().is_err(), "a 0ms budget is unmeetable");
+        assert!(
+            budgeted(Some(0)).validate().is_err(),
+            "a 0ms budget is unmeetable"
+        );
         assert!(budgeted(Some(MAX_BUDGET_MS + 1)).validate().is_err());
         assert!(budgeted(Some(1)).validate().is_ok());
         assert!(budgeted(Some(MAX_BUDGET_MS)).validate().is_ok());
@@ -183,13 +225,12 @@ mod tests {
     #[test]
     fn budget_round_trips_through_json_and_defaults_absent() {
         let c = budgeted(Some(2_500));
-        let back: ExpectedCheck = serde_json::from_str(&serde_json::to_string(&c).unwrap()).unwrap();
+        let back: ExpectedCheck =
+            serde_json::from_str(&serde_json::to_string(&c).unwrap()).unwrap();
         assert_eq!(c, back);
         // A document predating the field still deserializes — `budget_ms` is serde-defaulted.
-        let legacy: ExpectedCheck = serde_json::from_str(
-            r#"{"kind":"Contains","class":"Hard","expected":"ok"}"#,
-        )
-        .unwrap();
+        let legacy: ExpectedCheck =
+            serde_json::from_str(r#"{"kind":"Contains","class":"Hard","expected":"ok"}"#).unwrap();
         assert_eq!(legacy.budget_ms, None);
     }
 }

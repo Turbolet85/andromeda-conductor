@@ -114,7 +114,10 @@ pub fn redact_value(value: &str) -> Cow<'_, str> {
 /// wraps the result in the design-owned `error:` / `hint:` shape (Epoch 8).
 pub fn sanitize_error(err: &dyn std::error::Error) -> String {
     let displayed = err.to_string();
-    redact_value(&displayed).split_whitespace().collect::<Vec<_>>().join(" ")
+    redact_value(&displayed)
+        .split_whitespace()
+        .collect::<Vec<_>>()
+        .join(" ")
 }
 
 fn is_host_path_token(token: &str) -> bool {
@@ -170,15 +173,24 @@ mod tests {
 
     #[test]
     fn posix_home_paths_are_masked() {
-        assert_eq!(redact_value("reading /home/turbo/.config/x"), "reading <redacted>");
+        assert_eq!(
+            redact_value("reading /home/turbo/.config/x"),
+            "reading <redacted>"
+        );
         assert_eq!(redact_value("reading /Users/turbo/x"), "reading <redacted>");
         assert_eq!(redact_value("reading /root/secret"), "reading <redacted>");
     }
 
     #[test]
     fn cargo_and_env_expansion_paths_are_masked() {
-        assert_eq!(redact_value("at ~/.cargo/registry/src/foo/lib.rs:42"), "at <redacted>");
-        assert_eq!(redact_value("dir %APPDATA%\\andromeda-pulse"), "dir <redacted>");
+        assert_eq!(
+            redact_value("at ~/.cargo/registry/src/foo/lib.rs:42"),
+            "at <redacted>"
+        );
+        assert_eq!(
+            redact_value("dir %APPDATA%\\andromeda-pulse"),
+            "dir <redacted>"
+        );
     }
 
     #[test]

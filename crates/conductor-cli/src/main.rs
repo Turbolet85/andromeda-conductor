@@ -7,7 +7,7 @@
 use std::process::ExitCode;
 
 use clap::Parser;
-use conductor_core::{init_observability, mint_run_id, sanitize_error, ObsSink};
+use conductor_core::{ObsSink, init_observability, mint_run_id, sanitize_error};
 
 mod cli;
 mod commands;
@@ -29,7 +29,10 @@ async fn main() -> ExitCode {
     match dispatch(cli, &run_id, agent_mode).await {
         Ok(code) => code,
         Err(err) => {
-            eprintln!("{}", render::error_block(&sanitize_error(&*err), hint_for(&err)));
+            eprintln!(
+                "{}",
+                render::error_block(&sanitize_error(&*err), hint_for(&err))
+            );
             if debug {
                 // The operator opted into the full (unsanitized) chain — stderr only, never artifacts.
                 eprintln!("{err:?}");
@@ -43,7 +46,9 @@ async fn main() -> ExitCode {
 /// stderr if the path can't be resolved), else stderr.
 fn obs_sink(agent_mode: bool) -> ObsSink {
     if agent_mode {
-        paths::agent_log_path().map(ObsSink::File).unwrap_or(ObsSink::Stderr)
+        paths::agent_log_path()
+            .map(ObsSink::File)
+            .unwrap_or(ObsSink::Stderr)
     } else {
         ObsSink::Stderr
     }
@@ -52,7 +57,11 @@ fn obs_sink(agent_mode: bool) -> ObsSink {
 /// Map a harness fault to an actionable one-line hint (design-system §cli "Error output"). Matches on
 /// Conductor's own stable anyhow context markers; an unrecognized fault points at `--debug`.
 fn hint_for(err: &anyhow::Error) -> &'static str {
-    let chain = err.chain().map(|e| e.to_string()).collect::<Vec<_>>().join(" ");
+    let chain = err
+        .chain()
+        .map(|e| e.to_string())
+        .collect::<Vec<_>>()
+        .join(" ");
     if chain.contains("no scenario matches") {
         "list scenarios in scenarios/, or pass a P-ID like P-009"
     } else if chain.contains("contract manifest") {
@@ -67,7 +76,9 @@ fn hint_for(err: &anyhow::Error) -> &'static str {
 async fn dispatch(cli: Cli, run_id: &str, agent_mode: bool) -> anyhow::Result<ExitCode> {
     let paths = paths::Paths::resolve()?;
     match cli.command {
-        Commands::Run { target, seed } => commands::run(&target, seed, &paths, run_id, agent_mode).await,
+        Commands::Run { target, seed } => {
+            commands::run(&target, seed, &paths, run_id, agent_mode).await
+        }
         Commands::Suite { filter, seed } => {
             commands::suite(filter.as_deref(), seed, &paths, run_id, agent_mode).await
         }
@@ -75,5 +86,6 @@ async fn dispatch(cli: Cli, run_id: &str, agent_mode: bool) -> anyhow::Result<Ex
         Commands::Preflight { json } => commands::preflight(json, &paths).await,
         Commands::Coverage { write } => commands::coverage(write),
         Commands::Preconditions { json } => commands::preconditions(json).await,
+        Commands::Cleanup { run_id: target } => commands::cleanup(&target, &paths),
     }
 }

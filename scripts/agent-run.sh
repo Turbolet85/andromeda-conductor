@@ -218,8 +218,12 @@ case "${1:-}" in
     valid_run_id "$id" || { echo "status: invalid run_id" >&2; exit 2; }
     journal="$RUNS_DIR/$id.jsonl"
     [ -f "$journal" ] || { echo "status: no journal for run_id=$id" >&2; exit 1; }
-    # Last line carries the final envelope; assert it parses and surface verdict/state.
-    tail -n 1 "$journal" | jq -e '{run_id, seed, scenario, verdict, state, latency_ms, slo_tier}'
+    # Surface the last ENVELOPE row, not the last line: per-check records ride the same journal
+    # (arch §Standard Contracts — Per-check record), and `seed` is envelope-only, so a run that
+    # graded checks would otherwise report a CheckRecord's nulls as its envelope. No envelope at
+    # all fails the `-e` guard.
+    jq -s -e '[.[] | select(has("seed"))] | last
+              | {run_id, seed, scenario, verdict, state, latency_ms, slo_tier}' "$journal"
     ;;
 
   cleanup)
@@ -229,8 +233,11 @@ case "${1:-}" in
     if [ -n "$id" ]; then
       valid_run_id "$id" || { echo "cleanup: invalid run_id" >&2; exit 2; }
       rm -f "$RUNS_DIR/$id.jsonl" "$RUNS_DIR/$id.md"
-      if [ -f "$RUNS_DIR/runs.db" ] && command -v sqlite3 >/dev/null 2>&1; then
-        sqlite3 "$RUNS_DIR/runs.db" "DELETE FROM runs WHERE run_id = '$id';" 2>/dev/null || true
+      # Teardown goes through the binary: rusqlite BOUND parameters over every table a run writes
+      # (runs, run_check, run_envelope), which the sqlite3 CLI can neither bind nor be assumed present
+      # — it is on no host here and on no CI runner (test-plan §3 cleanup body).
+      if [ -f "$RUNS_DIR/runs.db" ]; then
+        "$CARGO" run -q -p conductor-cli --bin conductor -- cleanup "$id"
       fi
     fi
     echo "cleanup: done${id:+ ($id)}"

@@ -36,10 +36,16 @@ impl CapabilityManifest {
     pub fn load(path: &Path) -> crate::Result<Self> {
         let text = std::fs::read_to_string(path).map_err(|e| {
             // never the path itself — io::Error's Display leaks it (artifact hygiene).
-            CoreError::Config(format!("could not read capability manifest ({:?})", e.kind()))
+            CoreError::Config(format!(
+                "could not read capability manifest ({:?})",
+                e.kind()
+            ))
         })?;
         let manifest: Self = toml::from_str(&text).map_err(|e| {
-            CoreError::Config(format!("invalid capability manifest: {}", crate::sanitize_error(&e)))
+            CoreError::Config(format!(
+                "invalid capability manifest: {}",
+                crate::sanitize_error(&e)
+            ))
         })?;
         manifest.validate()?;
         tracing::info!(
@@ -57,13 +63,19 @@ impl CapabilityManifest {
 
     fn validate(&self) -> crate::Result<()> {
         if self.sut_version.trim().is_empty() {
-            return Err(CoreError::Config("capability manifest: sut_version is empty".to_string()));
+            return Err(CoreError::Config(
+                "capability manifest: sut_version is empty".to_string(),
+            ));
         }
         if self.captured_at.trim().is_empty() {
-            return Err(CoreError::Config("capability manifest: captured_at is empty".to_string()));
+            return Err(CoreError::Config(
+                "capability manifest: captured_at is empty".to_string(),
+            ));
         }
         if self.capabilities.is_empty() {
-            return Err(CoreError::Config("capability manifest: capabilities is empty".to_string()));
+            return Err(CoreError::Config(
+                "capability manifest: capabilities is empty".to_string(),
+            ));
         }
         let mut seen = std::collections::HashSet::with_capacity(self.capabilities.len());
         for id in &self.capabilities {
@@ -102,12 +114,24 @@ mod tests {
     fn loads_and_bounds_checks_the_committed_manifest() {
         let m = CapabilityManifest::load(&committed_path()).expect("committed manifest loads");
         assert_eq!(m.sut_version, "v0.3.0");
-        assert!(m.accepts("P-001"), "the original range must still be accepted");
+        assert!(
+            m.accepts("P-001"),
+            "the original range must still be accepted"
+        );
         assert!(m.accepts("P-060"));
-        assert!(m.accepts("P-061"), "the id 0.1.0 hard-rejected must now be accepted");
-        assert!(m.accepts("P-074"), "Pulse storm-coalescing must be expressible");
+        assert!(
+            m.accepts("P-061"),
+            "the id 0.1.0 hard-rejected must now be accepted"
+        );
+        assert!(
+            m.accepts("P-074"),
+            "Pulse storm-coalescing must be expressible"
+        );
         assert!(m.accepts("P-082"), "the ledger head must be accepted");
-        assert!(!m.accepts("P-083"), "beyond the captured ledger must be rejected");
+        assert!(
+            !m.accepts("P-083"),
+            "beyond the captured ledger must be rejected"
+        );
     }
 
     #[test]
@@ -118,33 +142,59 @@ mod tests {
 
     #[test]
     fn load_failure_message_never_contains_the_path() {
-        let path = committed_path().parent().unwrap().join("no-such-capability-manifest.toml");
+        let path = committed_path()
+            .parent()
+            .unwrap()
+            .join("no-such-capability-manifest.toml");
         let err = CapabilityManifest::load(&path).unwrap_err().to_string();
         assert!(
             !err.contains("no-such-capability-manifest"),
             "the manifest path must not leak into the error (artifact hygiene): {err}"
         );
-        assert!(!err.contains(env!("CARGO_MANIFEST_DIR")), "no absolute host path: {err}");
+        assert!(
+            !err.contains(env!("CARGO_MANIFEST_DIR")),
+            "no absolute host path: {err}"
+        );
     }
 
     #[test]
     fn rejects_empty_version_date_or_set() {
         assert!(matches!(
-            CapabilityManifest { sut_version: "  ".to_string(), ..manifest(&["P-001"]) }.validate(),
+            CapabilityManifest {
+                sut_version: "  ".to_string(),
+                ..manifest(&["P-001"])
+            }
+            .validate(),
             Err(CoreError::Config(_))
         ));
         assert!(matches!(
-            CapabilityManifest { captured_at: String::new(), ..manifest(&["P-001"]) }.validate(),
+            CapabilityManifest {
+                captured_at: String::new(),
+                ..manifest(&["P-001"])
+            }
+            .validate(),
             Err(CoreError::Config(_))
         ));
-        assert!(matches!(manifest(&[]).validate(), Err(CoreError::Config(_))));
+        assert!(matches!(
+            manifest(&[]).validate(),
+            Err(CoreError::Config(_))
+        ));
     }
 
     #[test]
     fn rejects_a_malformed_or_duplicated_capability_id() {
-        assert!(matches!(manifest(&["P-001", "P-1"]).validate(), Err(CoreError::Config(_))));
-        assert!(matches!(manifest(&["P-001", "Q-002"]).validate(), Err(CoreError::Config(_))));
-        assert!(matches!(manifest(&["P-001", "P-001"]).validate(), Err(CoreError::Config(_))));
+        assert!(matches!(
+            manifest(&["P-001", "P-1"]).validate(),
+            Err(CoreError::Config(_))
+        ));
+        assert!(matches!(
+            manifest(&["P-001", "Q-002"]).validate(),
+            Err(CoreError::Config(_))
+        ));
+        assert!(matches!(
+            manifest(&["P-001", "P-001"]).validate(),
+            Err(CoreError::Config(_))
+        ));
     }
 
     #[test]

@@ -96,11 +96,20 @@ mod tests {
 
     #[test]
     fn verdict_first_maps_pass_fail_hold() {
-        assert_eq!(Lamp::for_record(&rec(Some(Verdict::Pass), ReportState::Pass)), Lamp::Pass);
-        assert_eq!(Lamp::for_record(&rec(Some(Verdict::Fail), ReportState::Fail)), Lamp::Fail);
+        assert_eq!(
+            Lamp::for_record(&rec(Some(Verdict::Pass), ReportState::Pass)),
+            Lamp::Pass
+        );
+        assert_eq!(
+            Lamp::for_record(&rec(Some(Verdict::Fail), ReportState::Fail)),
+            Lamp::Fail
+        );
         // The rule: a CalibrationRegion check (default state ManualCheck) renders HOLD, not Manual.
         assert_eq!(
-            Lamp::for_record(&rec(Some(Verdict::CalibrationRegion), ReportState::ManualCheck)),
+            Lamp::for_record(&rec(
+                Some(Verdict::CalibrationRegion),
+                ReportState::ManualCheck
+            )),
             Lamp::Hold
         );
     }
@@ -116,12 +125,18 @@ mod tests {
             Lamp::for_record(&rec(Some(Verdict::Pass), ReportState::KnownResidual)),
             Lamp::Residual
         );
-        assert_eq!(Lamp::for_record(&rec(None, ReportState::Blocked)), Lamp::Blocked);
+        assert_eq!(
+            Lamp::for_record(&rec(None, ReportState::Blocked)),
+            Lamp::Blocked
+        );
     }
 
     #[test]
     fn verdict_less_manual_check_is_manual_not_hold() {
-        assert_eq!(Lamp::for_record(&rec(None, ReportState::ManualCheck)), Lamp::Manual);
+        assert_eq!(
+            Lamp::for_record(&rec(None, ReportState::ManualCheck)),
+            Lamp::Manual
+        );
     }
 
     #[test]
@@ -141,7 +156,13 @@ mod tests {
 
     #[test]
     fn blocked_constructor_lamps_blocked() {
-        let r = RunRecord::blocked("R", 1, "s", vec![PId("P-003".to_string())], SloTier::Tier20s);
+        let r = RunRecord::blocked(
+            "R",
+            1,
+            "s",
+            vec![PId("P-003".to_string())],
+            SloTier::Tier20s,
+        );
         assert_eq!(Lamp::for_record(&r), Lamp::Blocked);
     }
 }

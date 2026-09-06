@@ -1,66 +1,72 @@
 # Session Handoff
 
-**Last Updated:** 2026-09-06T11:20:00Z
-**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0` at `59d5b7c` — **4 ahead** after
-this adaptation commit. CI has not run since 33954347685 on `59d5b7c`; `ci.yml` last changed `d2ca431`
-2026-06-27 and declares only `rust` + `frontend` jobs, so *A11y CI gate*'s BLOCKED-ON stands — re-verified
-by reading the single `a11y` hit, which is a comment inside the npm-audit step.)
+**Last Updated:** 2026-09-06T13:38:00Z
+**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0` at `59d5b7c` — **5 ahead** after
+this chunk commit. No CI push this wrap; `ci.yml` gained a step inside the existing `rust` job and still
+declares only `rust` + `frontend`, so *A11y CI gate*'s BLOCKED-ON premise was re-verified TRUE, not re-asked.)
 **Status:** clean
-**Last Commit:** `chore(route): operator-requested adaptation — 0-pending wrap`
+**Last Commit:** `feat(2026-09-06-run-report-envelope-conformance-gate): …`
 
 ## Position
-- Done: **`2026-09-06-operator-gated-live-suite`** (master's last `complete`, wrapped at `e63be48`), then
-  this **0-pending adaptation** correcting one of its conclusions.
-- Next: **`/andromeda-phase`** to promote + plan the next markerless head — **_Run-report envelope
-  conformance gate — every run journal row schema-complete and host-path-free, build failing on violation_**
-  (`working-route.md:113`). No live Pulse needed.
+- Done: **`2026-09-06-run-report-envelope-conformance-gate`** (master `complete`).
+- Next: **`/andromeda-phase`** on the first markerless head — **_Coverage completeness gate — zero-gap
+  classification over the current SUT set with every CI gate green_** (`working-route.md:115`, carries one
+  CARRY). No live Pulse needed.
 - Coverage **26/32 verified · 6 unclaimed** (`v2-04`, `v2-21`, `v2-24`, `v2-26`, `v2-27`, `v2-32`) —
-  unchanged; this path claimed nothing.
-- **Evolve:** Epoch 6a diagnosed; Epoch 6b is 2 chunks in — no nudge.
+  unchanged; this chunk claimed nothing (none of the unclaimed caps covers this gate; `v2-26` is the NEXT
+  entry's coverage gate).
+- **Evolve:** Epoch 6b at 8 chunks (3 frozen + 5 markerless) — under the ~10 split threshold, no nudge.
 
-## Work done — the correction
-The previous wrap concluded `auto-resolve-idle-window`'s failure was a MARGIN problem and widened its window
-165 s → 200 s. **That was half right, and the operator's standalone run proved it:** at 200 s it failed the
-same way (`2026-09-06T10-58-18-536` → `ManualCheck`, `latency_ms 200048`, 6 fingerprints).
+## Work done
+The run journal got the conformance gate obs-plan §9 had reserved in writing as "not-yet-built": every row
+schema-complete and host-path-free, red on violation, with the CI step RUNNING the Rust gate rather than
+re-listing the schema in `jq`. Two facts shaped it, both measured rather than assumed.
 
-The real dominant constraint is **SUT uptime**: observable 1 needs an EMPTY active set at read-back, which
-holds only inside the emitting service's ONE-HOUR bootstrap window. Past it, `service_went_silent` cues raise
-new autonomous incidents during the leg's own silent phase — so a longer window is strictly worse.
-`BOOTSTRAP_WINDOW_SECONDS = 3_600` (`andromeda-pulse activity_floor.rs:36`, evaluator per emit cycle at
-`emitter.rs:186`, HEAD `83d4060`) — all three coordinates re-derived here, plus Pulse's own log.
+**The gate is a regression guard, not a bug hunt.** Across 71 real journals: 74 envelope rows + 1 check row,
+0 non-conformant, 0 host-path hits. Its value is that host-path freedom holds today by convention across ~6
+producers with nothing asserting it — `conductor-report` contains no `redact_value` call at all.
 
-**Two refinements I found while verifying, both material:**
-1. A bare grep for `service_went_silent` gives 7632 hits starting 09:02:03 — which would have *contradicted*
-   the cited 10:11:09. 7398 are the evaluator RUNNING (`triage.baseline.…evaluate`). Filtered on
-   `target == triage.cue.emit`: 66 cues, first at **10:11:09.723Z** — exactly one hour after the canary
-   service's first span, which confirms the bound is the SERVICE's window, not Pulse uptime.
-2. **The two failed runs had DIFFERENT causes.** The light-gate re-run (10:07Z) ran wholly INSIDE the window
-   with zero silence cues and failed on the margin — its own preflight formed TWO incidents (10:07:18,
-   10:07:53) and the later was ~122 s old against the 150 s worst case. The standalone run (11:00Z) failed
-   past the window on cues. The operator ruled the CARRY carry BOTH, since tuning for one mis-tunes the other.
+**Its central requirement was already violated by shipped readers — three of them, one class.**
+`read_run_journal` parsed every line as the envelope, so `conductor report` on a run that graded checks exited
+1 with `missing field seed`. Fixing it exposed the same single-shape assumption in the harness `status` verb
+in BOTH shells (`tail -n 1` / `Select-Object -Last 1`), silently reporting a `CheckRecord`'s fields at exit 0.
+All three now share one discrimination rule.
+
+**The CARRY landed in a form its own words could not reach.** It asked for "bound-parameter deletes to both
+shells" while conceding the `sqlite3` CLI cannot bind — and `sqlite3` is absent from this host and from every
+CI runner, so the delete it guarded had never executed anywhere observable. Operator fork at P4: teardown
+moved into the binary (`conductor cleanup <run_id>` over a new `RunsDb::delete_run`). Verified by RUNNING both
+shells: 5 rows removed → `(0,0,0)`, artifacts gone, second call `0 rows`.
 
 ## Drift resolved
-**2 amendments (full P2 apply-form, self-produced-fact door) · 0 escalations.**
-- `test-plan.md` §9 — the composed `run --live` passage now carries the leg's SUT-uptime precondition and
-  states explicitly that it is **not run-stable**: an unchanged tree grades differently by uptime alone.
-- `architecture.md` §Established Decisions [Read-Back Dependency Posture] — the leg-E "nothing refreshed it"
-  narrative is QUALIFIED (not retired) as uptime-bound. Taken as the wrap's call because that is the passage
-  the bound qualifies, and the same one that retired the degraded universal hours earlier.
-- Cascade: `architecture.md:134` was READ rather than pattern-matched and is NOT a duplicate — it defines the
-  route's trigger, which is still true. No leaf body edit owed.
+**17 amendments across 5 masters · 4 escalations resolved · 5 leaf re-derivations · 0 open.**
+- `obs-plan` ×6 — the cli row no longer claims `#[tracing::instrument]` on `fn main()`; the rusqlite
+  WRITE-span rule narrowed to the insert path with the teardown recorded deliberately unspanned; §6's
+  "Required fields" list restored from TEN keys to ELEVEN (E1, orchestrator-raised — no detector proposed it).
+- `security-plan` ×6 — all escalate-severity, all operator-ratified: the canonicalize duty restated as binding
+  per READER not per handle; the CLI `run_id` argv enumerated; harness-spawn rule (b) widened to a fifth form
+  (playbook `:124` boundary widening — ratified, no routine rule minted).
+- `test-plan` ×3 — the `cleanup` body re-homed to the binary; the `status` read pinned to the newest ENVELOPE
+  line at two sites (the second found by the detector, invisible to the report's own bolding-keyed grep).
+- `architecture` ×1 · `layout-templates` ×1 (the verb enumeration — **the plan aimed this at architecture and
+  the wrap re-aimed it**: architecture `:33` refuses a verb list and names layout-templates as the home).
+- Cascade: `verification-harness.md` (status + cleanup bullets), `tests-summary.md`, `commands.md` ×2,
+  `security-summary.md`. CLAUDE.md's GENERATED blocks needed none.
 
 ## Notes
-- **KNOWN STALE, owned, deliberately not fixed here:** `scenarios/auto-resolve-idle-window.toml:29-32` still
-  states the superseded margin model. It is CODE, outside the 0-pending path's scope, and is owned by the
-  CARRY pinned to *Halo hue budget re-driven* (`working-route.md:117`) — which also says the 200 s value
-  itself is fine and the harvest literals stay as the record of the arm when it was reached.
-- **Curation:** Tier 1 ×1 extension (the TIME axis's second face — the SUT's own clock running while the tree
-  stands still; and separate two failures by timeline before assigning one cause) · Tier 2 ×1 extension
-  (`verification-harness.md` gains mechanic (e): run an absence-subject leg on a freshly-started Pulse and
-  record SUT uptime beside the verdict) · Tier 3 ×0 · filtered 0. `CLAUDE.md` **135/200**.
-- **Light gate:** no-op by path — this is a 0-pending adaptation with no chunk and no `plan.md` Test
-  Commands. No source changed (the only code-adjacent file, the scenario TOML, was deliberately left alone),
-  so nothing to re-run; the last full green is `e63be48` (nextest 878/878, both clippy passes, audit+deny).
-- **`pulse-app` is DOWN** (stopped 11:05Z by the overseer); census clean, no listeners. Any re-proof of
-  observable 1 needs a FRESH data dir and must run inside the first hour of the canary service's life.
+- **Judgment-base nuance, dispositioned not fixed:** playbook `:109`'s note asserts "the mandate is NOT on the
+  cli row". True of the `:48` table it cites — but obs-plan has a SECOND same-titled table at `:280-288` whose
+  cli row DID carry the `fn main()` mandate. You chose the option that leaves `:109` governing line 48
+  untouched; after this wrap's amendment the `:283` trigger is gone, so the rule cannot mislead in practice.
+  Flagged here in case a future obs amendment re-opens it.
+- **15 of 28 changed files are FORMATTING-ONLY**, basis re-derived at this wrap (not inherited): each file's
+  HEAD copy piped through `rustfmt --config-path rustfmt.toml` is byte-identical to the working copy;
+  `main.rs` is semantic and differs by exactly the `Cleanup` dispatch line. Cause: editing a crate root makes
+  the rustfmt hook recurse the module tree. Reflow `+1517/−372`; the semantic set is `+343/−43` plus 337 new.
+- **Curation:** T1 0 new (1 EXTENDED in place — the PostToolUse-hook entry gained the crate-root recursion
+  facet) · T2 ×2 in `testing.md` (serde accepts an absent `Option` as `None`, so a typed parse never proves
+  key presence; sweep every reader of a shared artifact when you fix one) · T3 0 · 1 filtered at exactly 0.6.
+  `CLAUDE.md` **134/200**.
+- **Gitignored residue, rides nothing:** `runs/cleanup-probe/` (empty `runs.db`), `runs/smoke-probe/`.
+- **`pulse-app` is DOWN** since 11:05Z; no live leg exists on this path and none was needed.
 - **Last failed command:** none.

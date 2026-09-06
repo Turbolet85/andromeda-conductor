@@ -56,7 +56,10 @@ mod tests {
 
     #[test]
     fn serializes_to_canonical_names() {
-        assert_eq!(serde_json::to_string(&ReportState::Pass).unwrap(), "\"Pass\"");
+        assert_eq!(
+            serde_json::to_string(&ReportState::Pass).unwrap(),
+            "\"Pass\""
+        );
         assert_eq!(
             serde_json::to_string(&ReportState::ManualCheck).unwrap(),
             "\"ManualCheck\""

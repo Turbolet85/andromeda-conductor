@@ -38,7 +38,7 @@ handled via boundary instrumentation only._
 | **conductor-tauri** | Workspace / Modules + Design System (desktop-webview surface) + Stack (Tauri 2, React 19) | Instrumentable | Tauri 2 GUI binary with React 19 frontend; `#[tauri::command]` for start/stop/picker/run-report/operator-pause actions; `Channel` for live emission counter streaming backend→frontend; frontend (browser) telemetry is **console JSON logging only** — no OTel JS SDK (recursion + determinism guard) |
 | **tokio 1.48.x `current_thread` runtime** | Stack | Instrumentable | Deterministic single-threaded async runtime; zero work-stealing preserves emission ordering as function of seed; instrumentation must respect the runtime's invariant (no background batch tasks in exporters that would break determinism) |
 | **Pulse MCP server** | Standard Contracts (MCP preflight readiness gate + OTLP egress check) | Boundary-only | Third-party observability backend; Conductor acts as MCP client calling `query_incident_list`, `retrieve_report`, `retrieve_telemetry_slice`, `mark_incident_resolved` against pinned `2024-11-05` protocol version; Pulse-side behavior is not instrumentable, and Conductor observes read-back responses and SLO timing — and additionally MUTATES Pulse state at this boundary through `mark_incident_resolved`, whose effect is graded on runtime-state read-back (active-set membership) rather than on any Pulse internal |
-| **rusqlite + libsqlite3-sys (`runs.db`)** | Stack | Boundary-only | Synchronous embedded SQLite with bundled C bindings; raw SQL (no ORM); append-mostly run-metadata storage; instrumentation at the rusqlite call boundary — the WRITE path carries the `db.insert_run` span, the READ path a §6 boundary-call `info!` inside the caller's span (no `db.*` read span); SQLite internal state is not instrumented (C library, outside Rust control) |
+| **rusqlite + libsqlite3-sys (`runs.db`)** | Stack | Boundary-only | Synchronous embedded SQLite with bundled C bindings; raw SQL (no ORM); append-mostly run-metadata storage; instrumentation at the rusqlite call boundary — the run-persist WRITE carries the `db.insert_run` span, the TEARDOWN write (`RunsDb::delete_run`) carries no span and no boundary log (deliberate: off the must-trace paths, sole caller has no `tracing` dep), and the READ path a §6 boundary-call `info!` inside the caller's span (no `db.*` read span); SQLite internal state is not instrumented (C library, outside Rust control) |
 | **cargo build / CI/CD pipeline** | CI/CD Platform | Not-instrumentable | GitHub Actions workflow; build-time verification (`cargo build`, cargo-nextest, cargo clippy); does not run at runtime; observability focus is on the deployed harness binary and headless `scripts/agent-run.sh` execution |
 
 **Telemetry surfaces:**
@@ -280,12 +280,12 @@ Downstream skills (route, setup-project) derive:
 
 | Surface | Auto-instrumentation | Manual instrumentation |
 |---------|---------------------|------------------------|
-| **cli** | None (CLI is not an HTTP service) | `#[tracing::instrument]` on `fn main()` and core scenario handlers |
+| **cli** | None (CLI is not an HTTP service) | `#[tracing::instrument]` on the core scenario handlers the CLI drives (`conductor-run` / `conductor-core` / `conductor-report`). NOT on `fn main()`: the `conductor-cli` crate declares no `tracing` dependency and carries no `tracing::` call site, so it raises no spans of its own — every span and log on the CLI path comes from the libraries it drives, and a CLI-side boundary log would first require adding that dependency edge (as measured 2026-09-06 at `2026-09-06-run-report-envelope-conformance-gate`) |
 | **desktop-webview** | NO auto-instrumentation — each `#[tauri::command]` handler opens a MANUAL `tracing::info_span!("tauri.command.<name>").entered()` guard, because the `#[tracing::instrument]` ATTRIBUTE does not stack with the `#[tauri::command]` macro (which rewrites the fn signature for IPC arg-extraction); measured 8/8 sites 2026-09-02, names inside §11's bounded `tauri.command.*` set | IPC envelope `run_id` correlation (no `traceparent`) |
 | **ipc-internal** | None (not HTTP/gRPC) | Manual `run_id` in Tauri command envelope (no W3C trace context) |
 | **conductor-emit** | None (gRPC client is a seam, not auto-instrumented) | Manual span around tonic client call |
 | **conductor-verify** | None (the hand-rolled line-delimited JSON-RPC MCP client is a seam) | Manual span around MCP read-back call |
-| **conductor-report** | None (rusqlite is synchronous, off async runtime) | Manual span around rusqlite WRITE queries (`db.insert_run`); READ queries are witnessed by a §6 boundary-call `info!` inside the caller's span, since the bounded §11 span-name set has no `db.*` read name |
+| **conductor-report** | None (rusqlite is synchronous, off async runtime) | Manual span around the run-persist WRITE (`db.insert_run`). The TEARDOWN write — `RunsDb::delete_run`, three literal `DELETE … WHERE run_id = ?1` statements in one transaction, sole caller the `conductor cleanup <run_id>` verb — mints NO span and no boundary log, deliberately: it is off the §4 must-trace paths and its sole caller declares no `tracing` dependency, so the bounded §11 span-name set stays `db.insert_run` alone with no `db.*` widening (as measured 2026-09-06 at `2026-09-06-run-report-envelope-conformance-gate`). READ queries are witnessed by a §6 boundary-call `info!` inside the caller's span, since the bounded §11 span-name set has no `db.*` read name |
 
 **Must-trace path scenarios** (translated from obs-scope Section 4):
 
@@ -441,8 +441,14 @@ latency_ms <= SLO_threshold_for_slo_tier ? Pass : Fail
 Additional scenario-specific fields (per obs-scope Section 4 must-trace paths):
 - ~~`degraded_mode_response` (string or boolean, known-residual path)~~ — RETIRED 2026-09-06: never implemented, zero occurrences under `crates/`. No scenario-specific field beyond the eleven-field envelope is known to be emitted on any must-trace path.
 
-**Required fields (every log line):**
+**Required fields (every ENVELOPE record — the eleven §3 fields, not "every log line": the heading predates
+the two-record-shapes split, and the journal also carries per-check `CheckRecord` lines whose nine keys are a
+different set). Required means the KEY IS PRESENT, not that its value is non-null — the five measurement
+fields are `Option` and serialize as JSON `null` on a blocked row, and a typed parse cannot tell an absent
+`Option` key from a null one (measured on serde 1.0.229 at `2026-09-06-run-report-envelope-conformance-gate`),
+so key presence is asserted separately by the run-journal conformance gate:**
 - `journal_emitted_at` (ISO-8601)
+- `read_back_observed_at` (ISO-8601; null until read-back, null for blocked rows)
 - `run_id` (filesystem-safe)
 - `seed` (u64)
 - `scenario` (string)
@@ -469,7 +475,7 @@ Additional scenario-specific fields (per obs-scope Section 4 must-trace paths):
 
 | Module / crate | Base level | Gating |
 |---|---|---|
-| conductor-cli | info | `RUST_LOG=info` (default) |
+| conductor-cli | info (the crate itself emits no `tracing` lines — no `tracing` dep, no call site as of 2026-09-06; this level governs the library targets the CLI drives, and becomes the crate's own gating only once a `tracing` dep is added to it) | `RUST_LOG=info` (default) |
 | conductor-tauri | info | `RUST_LOG=info` |
 | conductor-timeline | debug | `RUST_LOG=info,conductor_timeline=debug` (opt-in) |
 | conductor-emit | info (`debug` for the `emit.batch` wire-shape witness) | `RUST_LOG=info,conductor_emit=debug` (opt-in) |
@@ -496,6 +502,7 @@ processes.
 - MCP lifecycle WRITE (`mark_incident_resolved`, first production caller `conductor_run::probe_resolve_lifecycle` 2026-08-31 — deliberately not wired into `execute_scenario` or any run path): same bounded `verify.readback.call_tool` span and allowlisted `mcp_tool` attribute as the read-back calls, plus the applied/declined outcome. The INCIDENT ID rides the allowlisted `message` field for the same reason the key set does — `incident_id` is not in `conductor-core::redact::ALLOWLISTED_FIELDS`, so a dedicated attribute would emit nothing. The declined arm is stub-proven only and permanently so: Pulse's `DeclinedStale` is a monotonic-timestamp guard its own dispatch cannot trip (`crates/corpus/src/contract.rs:652-659`)
 - gRPC emit (`emit.batch`): log batch index + emission count + result status (OK / error) + the **wire-shape witness** — the observed span count, the count of spans a receiver would skip for a missing `trace_id`/`span_id`, and the distinct event / event-attribute KEY NAMES of the outbound request, never values, ordered so the same batch renders identically. Emitted at `debug` inside the existing `#[instrument]` span (§11 bans `info` on a hot path) and carried on the already-allowlisted `message` field, so it needs no new allowlist entry. The emitting-side twin of the `verify.readback` key-set witness above: a receiver that degrades to empty on an unrecognized shape makes a divergence indistinguishable from emptiness, so the sender records what it actually put on the wire.
 - DB insert (`db.insert_run`): log row count (1) + run_id + verdict + state
+- DB DELETE (run teardown, `RunsDb::delete_run` via the `conductor cleanup <run_id>` verb): emits NO boundary log and mints no `db.*` span — the operator-facing signal is the CLI's printed row-count line, not a `tracing` event, because `conductor-cli` declares no `tracing` dependency; a boundary log here is deferred to the entry that first adds that dependency edge (2026-09-06)
 - DB READ (`conductor_run::read_envelope` over `RunsDb::get_envelope`): a rusqlite READ boundary logs an `info!` line carrying `run_id` plus the outcome on the allowlisted `message` field, INSIDE the caller's `tauri.command.*` span, and mints **no `db.*` read span** — §11's bounded span-name set carries `db.insert_run` alone, and widening it with a `db.*` wildcard is deliberately not done (a `db.*` read span remains a design option for the entry that next touches `conductor-report`, where the in-repo DB-span convention is an attribute on the `RunsDb` method itself). Recorded 2026-09-02 on the operator's ruling at the live-per-P-ID-verdict-lamps wrap
 - Report generation (`report.generate`): log final verdict + state + fingerprint count
 - Redaction (`redaction.apply_field_allowlist`): log redaction warnings if any absolute paths or struct names were scrubbed

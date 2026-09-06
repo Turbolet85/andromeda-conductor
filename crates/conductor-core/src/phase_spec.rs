@@ -116,19 +116,30 @@ fn default_occurrences() -> u32 {
 
 impl Default for EmissionSpec {
     fn default() -> Self {
-        Self { signal: Signal::default(), occurrences: 1, shape: EmissionShape::default() }
+        Self {
+            signal: Signal::default(),
+            occurrences: 1,
+            shape: EmissionShape::default(),
+        }
     }
 }
 
 impl EmissionSpec {
     /// Construct a plain single-emission spec for a given signal class.
     pub fn new(signal: Signal) -> Self {
-        Self { signal, ..Self::default() }
+        Self {
+            signal,
+            ..Self::default()
+        }
     }
 
     /// Construct a spec emitting `occurrences` times with `shape`.
     pub fn shaped(signal: Signal, occurrences: u32, shape: EmissionShape) -> Self {
-        Self { signal, occurrences, shape }
+        Self {
+            signal,
+            occurrences,
+            shape,
+        }
     }
 }
 
@@ -156,19 +167,36 @@ pub enum EmissionShape {
     },
     /// Exception span events whose fingerprint relationship to the base is controlled by the
     /// variant mix, cycled across the phase's occurrences.
-    Exception { variants: Vec<FingerprintVariantSpec> },
+    Exception {
+        variants: Vec<FingerprintVariantSpec>,
+    },
     /// Log records at the given OTel `SeverityNumber`s (`1..=24`), cycled across the occurrences —
     /// the WARN(13-16)→ERROR(17-20) boundary is expressed by including 16 and 17.
     Severity { severities: Vec<u32> },
     /// Sample spans for one operation realizing a target p50/p95/p99 latency profile.
-    Latency { operation: String, p50_ms: u64, p95_ms: u64, p99_ms: u64, samples: u32 },
+    Latency {
+        operation: String,
+        p50_ms: u64,
+        p95_ms: u64,
+        p99_ms: u64,
+        samples: u32,
+    },
     /// Synthetic PII values across the named categories, embedded in spans or log records.
     Pii { categories: Vec<PiiCategorySpec> },
     /// A linear traffic ramp from `from_rate` to `to_rate` spans per window across `windows`.
-    Ramp { from_rate: u32, to_rate: u32, windows: u32 },
+    Ramp {
+        from_rate: u32,
+        to_rate: u32,
+        windows: u32,
+    },
     /// A sinusoidal traffic oscillation of `amplitude` around `center_rate` — the halo-breathing
     /// curve. `amplitude < center_rate`, so the trough stays positive.
-    Breathing { center_rate: u32, amplitude: u32, period_windows: u32, windows: u32 },
+    Breathing {
+        center_rate: u32,
+        amplitude: u32,
+        period_windows: u32,
+        windows: u32,
+    },
     /// A multi-service trace: one `ResourceSpans` per service joined by a shared trace id, with an
     /// optional error placed at `error_depth`.
     Topology {
@@ -248,7 +276,13 @@ fn shape_is_realizable(shape: &EmissionShape, _ctx: &()) -> garde::Result {
             }
             Ok(())
         }
-        EmissionShape::Latency { p50_ms, p95_ms, p99_ms, samples, .. } => {
+        EmissionShape::Latency {
+            p50_ms,
+            p95_ms,
+            p99_ms,
+            samples,
+            ..
+        } => {
             if !(p50_ms <= p95_ms && p95_ms <= p99_ms) {
                 return bad("latency percentiles must be ordered p50 <= p95 <= p99");
             }
@@ -269,7 +303,12 @@ fn shape_is_realizable(shape: &EmissionShape, _ctx: &()) -> garde::Result {
             }
             Ok(())
         }
-        EmissionShape::Breathing { center_rate, amplitude, period_windows, windows } => {
+        EmissionShape::Breathing {
+            center_rate,
+            amplitude,
+            period_windows,
+            windows,
+        } => {
             if *windows == 0 || *windows > MAX_OCCURRENCES {
                 return bad("breathing windows must be in 1..=10000");
             }
@@ -285,7 +324,11 @@ fn shape_is_realizable(shape: &EmissionShape, _ctx: &()) -> garde::Result {
             if services.len() < 2 {
                 return bad("topology needs at least two services");
             }
-            if services.iter().enumerate().any(|(i, s)| services[i + 1..].contains(s)) {
+            if services
+                .iter()
+                .enumerate()
+                .any(|(i, s)| services[i + 1..].contains(s))
+            {
                 return bad("topology services must be distinct");
             }
             Ok(())
@@ -344,8 +387,14 @@ mod tests {
 
     #[test]
     fn signal_serializes_snake_case() {
-        assert_eq!(serde_json::to_string(&Signal::Traces).unwrap(), "\"traces\"");
-        assert_eq!(serde_json::to_string(&Signal::Metrics).unwrap(), "\"metrics\"");
+        assert_eq!(
+            serde_json::to_string(&Signal::Traces).unwrap(),
+            "\"traces\""
+        );
+        assert_eq!(
+            serde_json::to_string(&Signal::Metrics).unwrap(),
+            "\"metrics\""
+        );
         assert_eq!(serde_json::to_string(&Signal::Logs).unwrap(), "\"logs\"");
     }
 
@@ -373,9 +422,20 @@ mod tests {
 
     #[test]
     fn occurrence_bound_is_enforced() {
-        assert!(shaped(0, EmissionShape::Plain).validate().is_ok(), "zero is a silence window");
-        assert!(shaped(MAX_OCCURRENCES, EmissionShape::Plain).validate().is_ok());
-        assert!(shaped(MAX_OCCURRENCES + 1, EmissionShape::Plain).validate().is_err());
+        assert!(
+            shaped(0, EmissionShape::Plain).validate().is_ok(),
+            "zero is a silence window"
+        );
+        assert!(
+            shaped(MAX_OCCURRENCES, EmissionShape::Plain)
+                .validate()
+                .is_ok()
+        );
+        assert!(
+            shaped(MAX_OCCURRENCES + 1, EmissionShape::Plain)
+                .validate()
+                .is_err()
+        );
     }
 
     /// The nested rules only run because `PhaseSpec.emission` dives — a `skip` there would let every
@@ -383,9 +443,16 @@ mod tests {
     #[test]
     fn well_formed_shapes_validate() {
         let ok = [
-            EmissionShape::Error { depth: 2, error_percent: 100 },
-            EmissionShape::Exception { variants: vec![FingerprintVariantSpec::Identical] },
-            EmissionShape::Severity { severities: vec![1, 17, 24] },
+            EmissionShape::Error {
+                depth: 2,
+                error_percent: 100,
+            },
+            EmissionShape::Exception {
+                variants: vec![FingerprintVariantSpec::Identical],
+            },
+            EmissionShape::Severity {
+                severities: vec![1, 17, 24],
+            },
             EmissionShape::Latency {
                 operation: "checkout".to_string(),
                 p50_ms: 100,
@@ -393,8 +460,14 @@ mod tests {
                 p99_ms: 100,
                 samples: 50,
             },
-            EmissionShape::Pii { categories: vec![PiiCategorySpec::Email] },
-            EmissionShape::Ramp { from_rate: 0, to_rate: 50, windows: 1 },
+            EmissionShape::Pii {
+                categories: vec![PiiCategorySpec::Email],
+            },
+            EmissionShape::Ramp {
+                from_rate: 0,
+                to_rate: 50,
+                windows: 1,
+            },
             EmissionShape::Breathing {
                 center_rate: 100,
                 amplitude: 99,
@@ -407,18 +480,32 @@ mod tests {
             },
         ];
         for shape in ok {
-            assert!(shaped(1, shape.clone()).validate().is_ok(), "{shape:?} should validate");
+            assert!(
+                shaped(1, shape.clone()).validate().is_ok(),
+                "{shape:?} should validate"
+            );
         }
     }
 
     #[test]
     fn unrealizable_shapes_are_rejected_at_load() {
         let bad = [
-            EmissionShape::Error { depth: 0, error_percent: 101 },
-            EmissionShape::Exception { variants: Vec::new() },
-            EmissionShape::Severity { severities: Vec::new() },
-            EmissionShape::Severity { severities: vec![0] },
-            EmissionShape::Severity { severities: vec![25] },
+            EmissionShape::Error {
+                depth: 0,
+                error_percent: 101,
+            },
+            EmissionShape::Exception {
+                variants: Vec::new(),
+            },
+            EmissionShape::Severity {
+                severities: Vec::new(),
+            },
+            EmissionShape::Severity {
+                severities: vec![0],
+            },
+            EmissionShape::Severity {
+                severities: vec![25],
+            },
             // inverted percentiles
             EmissionShape::Latency {
                 operation: "op".to_string(),
@@ -434,8 +521,14 @@ mod tests {
                 p99_ms: 3,
                 samples: 0,
             },
-            EmissionShape::Pii { categories: Vec::new() },
-            EmissionShape::Ramp { from_rate: 1, to_rate: 2, windows: 0 },
+            EmissionShape::Pii {
+                categories: Vec::new(),
+            },
+            EmissionShape::Ramp {
+                from_rate: 1,
+                to_rate: 2,
+                windows: 0,
+            },
             // the sign guard: amplitude at or above center would drive the trough negative
             EmissionShape::Breathing {
                 center_rate: 100,
@@ -449,14 +542,20 @@ mod tests {
                 period_windows: 0,
                 windows: 8,
             },
-            EmissionShape::Topology { services: vec!["a".to_string()], error_depth: None },
+            EmissionShape::Topology {
+                services: vec!["a".to_string()],
+                error_depth: None,
+            },
             EmissionShape::Topology {
                 services: vec!["a".to_string(), "a".to_string()],
                 error_depth: None,
             },
         ];
         for shape in bad {
-            assert!(shaped(1, shape.clone()).validate().is_err(), "{shape:?} should be rejected");
+            assert!(
+                shaped(1, shape.clone()).validate().is_err(),
+                "{shape:?} should be rejected"
+            );
         }
     }
 
@@ -505,7 +604,12 @@ mod tests {
             kind = "port_occupier"
         "#;
         let spec: PhaseSpec = toml::from_str(toml).expect("parses");
-        assert_eq!(spec.fault, Some(FaultSpec { kind: FaultKindSpec::PortOccupier }));
+        assert_eq!(
+            spec.fault,
+            Some(FaultSpec {
+                kind: FaultKindSpec::PortOccupier
+            })
+        );
         assert!(spec.validate().is_ok());
     }
 
@@ -523,12 +627,20 @@ mod tests {
     #[test]
     fn a_fault_phase_that_emits_is_rejected_by_the_silence_invariant() {
         let mut emitting = phase("port-held", 40000);
-        emitting.fault = Some(FaultSpec { kind: FaultKindSpec::PortOccupier });
-        assert_eq!(emitting.emission.occurrences, 1, "the default emission is one plain trace");
+        emitting.fault = Some(FaultSpec {
+            kind: FaultKindSpec::PortOccupier,
+        });
+        assert_eq!(
+            emitting.emission.occurrences, 1,
+            "the default emission is one plain trace"
+        );
         assert!(fault_phases_are_silent(std::slice::from_ref(&emitting), &()).is_err());
 
         emitting.emission.occurrences = 0;
         assert!(fault_phases_are_silent(std::slice::from_ref(&emitting), &()).is_ok());
-        assert!(fault_phases_are_silent(&[], &()).is_ok(), "no phases, nothing to violate");
+        assert!(
+            fault_phases_are_silent(&[], &()).is_ok(),
+            "no phases, nothing to violate"
+        );
     }
 }

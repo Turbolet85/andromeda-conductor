@@ -75,8 +75,9 @@ mod tests {
     /// every P-ID it names must be one the committed capability manifest claims).
     fn catalog() -> Vec<ScenarioSummary> {
         let root = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../..");
-        let capabilities = CapabilityManifest::load(&root.join("contracts/pulse-capabilities.toml"))
-            .expect("the committed capability manifest loads");
+        let capabilities =
+            CapabilityManifest::load(&root.join("contracts/pulse-capabilities.toml"))
+                .expect("the committed capability manifest loads");
         list_scenarios(&root.join("scenarios"), &capabilities)
             .expect("the committed scenario catalog parses")
     }
@@ -86,7 +87,10 @@ mod tests {
         let summaries = catalog();
         assert!(summaries.len() >= 2, "catalog should be non-trivial");
         assert!(summaries.iter().any(|s| s.name == "error-baseline-spike"));
-        assert!(summaries.iter().all(|s| !s.p_ids.is_empty()), "every summary carries a P-ID");
+        assert!(
+            summaries.iter().all(|s| !s.p_ids.is_empty()),
+            "every summary carries a P-ID"
+        );
     }
 
     #[test]
@@ -94,7 +98,12 @@ mod tests {
         let summaries = catalog();
         assert!(validate_selection(&summaries, SUITE_SELECTION));
         assert!(validate_selection(&summaries, "error-baseline-spike"));
-        let pid = &summaries.iter().flat_map(|s| &s.p_ids).next().expect("catalog has P-IDs").0;
+        let pid = &summaries
+            .iter()
+            .flat_map(|s| &s.p_ids)
+            .next()
+            .expect("catalog has P-IDs")
+            .0;
         assert!(validate_selection(&summaries, pid));
     }
 

@@ -58,4 +58,9 @@ pub enum Commands {
         #[arg(long)]
         json: bool,
     },
+    /// Remove a run's `runs.db` rows across every table it wrote (the harness `cleanup` teardown).
+    Cleanup {
+        /// The run_id whose rows are removed.
+        run_id: String,
+    },
 }

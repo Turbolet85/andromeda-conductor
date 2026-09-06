@@ -125,7 +125,10 @@ impl EnvelopeStatus {
 /// pathological config cannot wrap (garde already bounds each gap). Recorded for reporting; the
 /// envelope no longer asserts against it (see [`EnvelopeTerms::max_scenario_duration_ms`]).
 pub fn scenario_duration_ms(scenario: &Scenario) -> u64 {
-    scenario.phases.iter().fold(0u64, |acc, p| acc.saturating_add(p.gap_ms))
+    scenario
+        .phases
+        .iter()
+        .fold(0u64, |acc, p| acc.saturating_add(p.gap_ms))
 }
 
 /// A scenario's sustained-storm window: the longest single EMITTING phase. A phase declaring zero
@@ -172,19 +175,29 @@ fn phase_rate_exceeds(occurrences: u32, gap_ms: u64, max_rate: u64) -> bool {
 ///
 /// Only emitting phases are judged: a silence window costs elapsed time but places no load.
 fn phase_breach<'a>(terms: &EnvelopeTerms, scenario: &'a Scenario) -> Option<PhaseBreach<'a>> {
-    scenario.phases.iter().filter(|p| p.emission.occurrences > 0).find_map(|p| {
-        if p.gap_ms > terms.max_sustained_storm_ms {
-            Some(PhaseBreach { phase: &p.name, term: BreachTerm::Storm })
-        } else if phase_rate_exceeds(
-            p.emission.occurrences,
-            p.gap_ms,
-            terms.max_sustained_rate_spans_per_s,
-        ) {
-            Some(PhaseBreach { phase: &p.name, term: BreachTerm::Rate })
-        } else {
-            None
-        }
-    })
+    scenario
+        .phases
+        .iter()
+        .filter(|p| p.emission.occurrences > 0)
+        .find_map(|p| {
+            if p.gap_ms > terms.max_sustained_storm_ms {
+                Some(PhaseBreach {
+                    phase: &p.name,
+                    term: BreachTerm::Storm,
+                })
+            } else if phase_rate_exceeds(
+                p.emission.occurrences,
+                p.gap_ms,
+                terms.max_sustained_rate_spans_per_s,
+            ) {
+                Some(PhaseBreach {
+                    phase: &p.name,
+                    term: BreachTerm::Rate,
+                })
+            } else {
+                None
+            }
+        })
 }
 
 impl LoadEnvelope {
@@ -200,8 +213,12 @@ impl LoadEnvelope {
             // never the path itself — io::Error's Display leaks it (artifact hygiene).
             CoreError::Config(format!("could not read load envelope ({:?})", e.kind()))
         })?;
-        let envelope: Self = toml::from_str(&text)
-            .map_err(|e| CoreError::Config(format!("invalid load envelope: {}", crate::sanitize_error(&e))))?;
+        let envelope: Self = toml::from_str(&text).map_err(|e| {
+            CoreError::Config(format!(
+                "invalid load envelope: {}",
+                crate::sanitize_error(&e)
+            ))
+        })?;
         envelope.validate()?;
         tracing::info!(
             count = envelope.exempt.len(),
@@ -256,26 +273,43 @@ impl LoadEnvelope {
     }
 
     fn validate(&self) -> crate::Result<()> {
-        for (field, value) in
-            [("sut_version", &self.sut_version), ("captured_at", &self.captured_at), ("provenance", &self.provenance)]
-        {
+        for (field, value) in [
+            ("sut_version", &self.sut_version),
+            ("captured_at", &self.captured_at),
+            ("provenance", &self.provenance),
+        ] {
             if value.trim().is_empty() {
-                return Err(CoreError::Config(format!("load envelope: {field} is empty")));
+                return Err(CoreError::Config(format!(
+                    "load envelope: {field} is empty"
+                )));
             }
         }
         for (term, value) in [
-            ("max_sustained_rate_spans_per_s", self.envelope.max_sustained_rate_spans_per_s),
-            ("max_sustained_storm_ms", self.envelope.max_sustained_storm_ms),
-            ("max_scenario_duration_ms", self.envelope.max_scenario_duration_ms),
+            (
+                "max_sustained_rate_spans_per_s",
+                self.envelope.max_sustained_rate_spans_per_s,
+            ),
+            (
+                "max_sustained_storm_ms",
+                self.envelope.max_sustained_storm_ms,
+            ),
+            (
+                "max_scenario_duration_ms",
+                self.envelope.max_scenario_duration_ms,
+            ),
         ] {
             if value == 0 {
-                return Err(CoreError::Config(format!("load envelope: {term} must be positive")));
+                return Err(CoreError::Config(format!(
+                    "load envelope: {term} must be positive"
+                )));
             }
         }
         let mut seen = BTreeSet::new();
         for exemption in &self.exempt {
             if exemption.scenario.trim().is_empty() {
-                return Err(CoreError::Config("load envelope: an exemption names no scenario".to_string()));
+                return Err(CoreError::Config(
+                    "load envelope: an exemption names no scenario".to_string(),
+                ));
             }
             if exemption.reason.trim().is_empty() {
                 return Err(CoreError::Config(format!(
@@ -314,16 +348,29 @@ pub fn check_load_envelope(envelope: &LoadEnvelope, catalog: &[Scenario]) -> cra
         .filter(|s| phase_breach(&envelope.envelope, s).is_some())
         .map(|s| s.name.as_str())
         .collect();
-    let pinned: BTreeSet<&str> = envelope.exempt.iter().map(|e| e.scenario.as_str()).collect();
+    let pinned: BTreeSet<&str> = envelope
+        .exempt
+        .iter()
+        .map(|e| e.scenario.as_str())
+        .collect();
 
     let unpinned: Vec<&str> = over.difference(&pinned).copied().collect();
-    let rotted: Vec<&str> = pinned.intersection(&names).filter(|n| !over.contains(*n)).copied().collect();
+    let rotted: Vec<&str> = pinned
+        .intersection(&names)
+        .filter(|n| !over.contains(*n))
+        .copied()
+        .collect();
     let lost_subject: Vec<&str> = pinned.difference(&names).copied().collect();
 
     if unpinned.is_empty() && rotted.is_empty() && lost_subject.is_empty() {
         return Ok(());
     }
-    Err(CoreError::LoadEnvelope(envelope_message(envelope, &unpinned, &rotted, &lost_subject)))
+    Err(CoreError::LoadEnvelope(envelope_message(
+        envelope,
+        &unpinned,
+        &rotted,
+        &lost_subject,
+    )))
 }
 
 /// Render the envelope detail. Identity-only: scenario names + the envelope's release/date, never a
@@ -472,10 +519,20 @@ mod tests {
         let e = envelope(600_000, &[]);
         let bursty = paced(
             "bursty",
-            &[(300_000, 60), (600_000, 0), (300_000, 60), (600_000, 0), (300_000, 60)],
+            &[
+                (300_000, 60),
+                (600_000, 0),
+                (300_000, 60),
+                (600_000, 0),
+                (300_000, 60),
+            ],
         );
         assert_eq!(sustained_storm_ms(&bursty), 300_000);
-        assert_eq!(scenario_duration_ms(&bursty), 2_100_000, "elapsed time is far larger");
+        assert_eq!(
+            scenario_duration_ms(&bursty),
+            2_100_000,
+            "elapsed time is far larger"
+        );
         assert_eq!(e.classify(&bursty), EnvelopeStatus::InEnvelope);
         check_load_envelope(&e, &[bursty]).expect("disjoint bursts are not one sustained storm");
     }
@@ -484,7 +541,11 @@ mod tests {
     fn a_silence_phase_is_never_storm_however_long_it_runs() {
         let e = envelope(1_000, &[]);
         let quiet = paced("quiet", &[(9_000, 0), (500, 1)]);
-        assert_eq!(sustained_storm_ms(&quiet), 500, "only emitting phases count");
+        assert_eq!(
+            sustained_storm_ms(&quiet),
+            500,
+            "only emitting phases count"
+        );
         assert_eq!(e.classify(&quiet), EnvelopeStatus::InEnvelope);
     }
 
@@ -494,10 +555,19 @@ mod tests {
         // 500 emissions across 1ms is 500_000/s, far over the 10_000/s term.
         let hot = paced("hot", &[(1, 500)]);
         let suspect = e.classify(&hot);
-        assert!(suspect.is_suspect(), "an over-rate phase leaves the envelope");
+        assert!(
+            suspect.is_suspect(),
+            "an over-rate phase leaves the envelope"
+        );
         let cause = suspect.cause().expect("a suspect run names its cause");
-        assert!(cause.contains("phase-0"), "the offending phase is named: {cause}");
-        assert!(cause.contains("faster than"), "the rate term is named: {cause}");
+        assert!(
+            cause.contains("phase-0"),
+            "the offending phase is named: {cause}"
+        );
+        assert!(
+            cause.contains("faster than"),
+            "the rate term is named: {cause}"
+        );
     }
 
     #[test]
@@ -515,7 +585,10 @@ mod tests {
     fn the_rate_bound_is_exclusive_at_its_boundary() {
         let e = envelope(600_000, &[]);
         // 10_000 emissions across exactly 1s is the term itself, not over it.
-        assert_eq!(e.classify(&paced("at", &[(1_000, 10_000)])), EnvelopeStatus::InEnvelope);
+        assert_eq!(
+            e.classify(&paced("at", &[(1_000, 10_000)])),
+            EnvelopeStatus::InEnvelope
+        );
         assert!(e.classify(&paced("over", &[(1_000, 10_001)])).is_suspect());
     }
 
@@ -523,11 +596,15 @@ mod tests {
     /// committed scenario carries the pointer header at its top.
     #[test]
     fn every_committed_scenario_points_authors_at_the_envelope() {
-        let files = crate::scenario_files(&scenarios_dir()).expect("the committed catalog enumerates");
+        let files =
+            crate::scenario_files(&scenarios_dir()).expect("the committed catalog enumerates");
         assert!(!files.is_empty(), "the catalog is not empty");
         for path in &files {
             let text = std::fs::read_to_string(path).expect("scenario file reads");
-            let stem = path.file_stem().and_then(|s| s.to_str()).unwrap_or("<scenario>");
+            let stem = path
+                .file_stem()
+                .and_then(|s| s.to_str())
+                .unwrap_or("<scenario>");
             assert!(
                 text.contains("LOAD ENVELOPE"),
                 "scenario {stem:?} carries no envelope pointer for its author"
@@ -565,10 +642,19 @@ mod tests {
 
     #[test]
     fn load_failure_message_never_contains_the_path() {
-        let path = committed_path().parent().unwrap().join("no-such-load-envelope.toml");
+        let path = committed_path()
+            .parent()
+            .unwrap()
+            .join("no-such-load-envelope.toml");
         let err = LoadEnvelope::load(&path).unwrap_err().to_string();
-        assert!(!err.contains("no-such-load-envelope"), "the path must not leak: {err}");
-        assert!(!err.contains(env!("CARGO_MANIFEST_DIR")), "no absolute host path: {err}");
+        assert!(
+            !err.contains("no-such-load-envelope"),
+            "the path must not leak: {err}"
+        );
+        assert!(
+            !err.contains(env!("CARGO_MANIFEST_DIR")),
+            "no absolute host path: {err}"
+        );
     }
 
     #[test]
@@ -599,8 +685,14 @@ mod tests {
 
     #[test]
     fn rejects_a_reasonless_or_duplicated_exemption() {
-        assert!(matches!(envelope(600_000, &[("a", "  ")]).validate(), Err(CoreError::Config(_))));
-        assert!(matches!(envelope(600_000, &[("", "why")]).validate(), Err(CoreError::Config(_))));
+        assert!(matches!(
+            envelope(600_000, &[("a", "  ")]).validate(),
+            Err(CoreError::Config(_))
+        ));
+        assert!(matches!(
+            envelope(600_000, &[("", "why")]).validate(),
+            Err(CoreError::Config(_))
+        ));
         assert!(matches!(
             envelope(600_000, &[("a", "why"), ("a", "why")]).validate(),
             Err(CoreError::Config(_))
@@ -611,46 +703,93 @@ mod tests {
     fn an_over_envelope_scenario_outside_the_ledger_is_a_fault() {
         let e = envelope(1_000, &[]);
         let err = check_load_envelope(&e, &[scenario("long-one", &[2_000])]).unwrap_err();
-        let CoreError::LoadEnvelope(detail) = &err else { panic!("expected an envelope fault: {err:?}") };
-        assert!(detail.contains("long-one"), "the over-envelope scenario must be named: {detail}");
-        assert!(detail.contains("not exempt"), "the remedy direction must be named: {detail}");
+        let CoreError::LoadEnvelope(detail) = &err else {
+            panic!("expected an envelope fault: {err:?}")
+        };
+        assert!(
+            detail.contains("long-one"),
+            "the over-envelope scenario must be named: {detail}"
+        );
+        assert!(
+            detail.contains("not exempt"),
+            "the remedy direction must be named: {detail}"
+        );
     }
 
     #[test]
     fn a_ledger_entry_now_inside_the_envelope_is_a_fault() {
         let e = envelope(5_000, &[("short-one", "was long once")]);
         let err = check_load_envelope(&e, &[scenario("short-one", &[1_000])]).unwrap_err();
-        let CoreError::LoadEnvelope(detail) = &err else { panic!("expected an envelope fault: {err:?}") };
-        assert!(detail.contains("shrink the exemption ledger"), "pin rot must be named: {detail}");
-        assert!(detail.contains("short-one"), "the rotted entry must be named: {detail}");
+        let CoreError::LoadEnvelope(detail) = &err else {
+            panic!("expected an envelope fault: {err:?}")
+        };
+        assert!(
+            detail.contains("shrink the exemption ledger"),
+            "pin rot must be named: {detail}"
+        );
+        assert!(
+            detail.contains("short-one"),
+            "the rotted entry must be named: {detail}"
+        );
     }
 
     #[test]
     fn a_ledger_entry_no_scenario_names_is_a_fault() {
         let e = envelope(5_000, &[("ghost", "retired scenario")]);
         let err = check_load_envelope(&e, &[scenario("real-one", &[1_000])]).unwrap_err();
-        let CoreError::LoadEnvelope(detail) = &err else { panic!("expected an envelope fault: {err:?}") };
-        assert!(detail.contains("lost its subject"), "the lost-subject direction must be named: {detail}");
-        assert!(detail.contains("ghost"), "the orphaned pin must be named: {detail}");
+        let CoreError::LoadEnvelope(detail) = &err else {
+            panic!("expected an envelope fault: {err:?}")
+        };
+        assert!(
+            detail.contains("lost its subject"),
+            "the lost-subject direction must be named: {detail}"
+        );
+        assert!(
+            detail.contains("ghost"),
+            "the orphaned pin must be named: {detail}"
+        );
     }
 
     #[test]
     fn an_in_envelope_catalog_with_an_empty_ledger_passes() {
         let e = envelope(5_000, &[]);
-        check_load_envelope(&e, &[scenario("a", &[1_000]), scenario("b", &[2_000, 2_000])])
-            .expect("a catalog inside the ceiling has no envelope fault");
+        check_load_envelope(
+            &e,
+            &[scenario("a", &[1_000]), scenario("b", &[2_000, 2_000])],
+        )
+        .expect("a catalog inside the ceiling has no envelope fault");
     }
 
     #[test]
     fn envelope_message_names_identity_without_host_paths_or_type_names() {
         let e = envelope(1_000, &[]);
-        let err = check_load_envelope(&e, &[scenario("long-one", &[2_000])]).unwrap_err().to_string();
+        let err = check_load_envelope(&e, &[scenario("long-one", &[2_000])])
+            .unwrap_err()
+            .to_string();
 
-        assert!(err.contains("v0.3.0"), "the Pulse release must be named: {err}");
-        assert!(err.contains("2026-08-09"), "the capture date must be named: {err}");
-        assert!(!err.contains(env!("CARGO_MANIFEST_DIR")), "no absolute host path: {err}");
-        for leak in ["LoadEnvelope", "EnvelopeTerms", "Exemption", "BTreeSet", "max_scenario_duration_ms"] {
-            assert!(!err.contains(leak), "no internal type/field name ({leak}): {err}");
+        assert!(
+            err.contains("v0.3.0"),
+            "the Pulse release must be named: {err}"
+        );
+        assert!(
+            err.contains("2026-08-09"),
+            "the capture date must be named: {err}"
+        );
+        assert!(
+            !err.contains(env!("CARGO_MANIFEST_DIR")),
+            "no absolute host path: {err}"
+        );
+        for leak in [
+            "LoadEnvelope",
+            "EnvelopeTerms",
+            "Exemption",
+            "BTreeSet",
+            "max_scenario_duration_ms",
+        ] {
+            assert!(
+                !err.contains(leak),
+                "no internal type/field name ({leak}): {err}"
+            );
         }
     }
 
@@ -658,7 +797,10 @@ mod tests {
     fn classify_returns_a_value_never_an_error() {
         let e = envelope(1_000, &[("pinned-long", "deliberate idle")]);
 
-        assert_eq!(e.classify(&scenario("short", &[500])), EnvelopeStatus::InEnvelope);
+        assert_eq!(
+            e.classify(&scenario("short", &[500])),
+            EnvelopeStatus::InEnvelope
+        );
         assert_eq!(
             e.classify(&scenario("pinned-long", &[9_000])),
             EnvelopeStatus::InEnvelope,
@@ -669,17 +811,33 @@ mod tests {
         assert!(suspect.is_suspect());
         assert_eq!(suspect.label(), "ENVIRONMENT-SUSPECT");
         let cause = suspect.cause().expect("a suspect run names its cause");
-        assert!(cause.contains("long"), "the cause names the scenario: {cause}");
-        assert!(cause.contains("not evidence about the SUT"), "the cause names the attribution: {cause}");
+        assert!(
+            cause.contains("long"),
+            "the cause names the scenario: {cause}"
+        );
+        assert!(
+            cause.contains("not evidence about the SUT"),
+            "the cause names the attribution: {cause}"
+        );
     }
 
     #[test]
     fn classify_cause_carries_no_host_path_or_type_name() {
         let e = envelope(1_000, &[]);
-        let cause = e.classify(&scenario("long", &[9_000])).cause().expect("suspect").to_string();
-        assert!(!cause.contains(env!("CARGO_MANIFEST_DIR")), "no absolute host path: {cause}");
+        let cause = e
+            .classify(&scenario("long", &[9_000]))
+            .cause()
+            .expect("suspect")
+            .to_string();
+        assert!(
+            !cause.contains(env!("CARGO_MANIFEST_DIR")),
+            "no absolute host path: {cause}"
+        );
         for leak in ["LoadEnvelope", "EnvelopeStatus", "PhaseSpec", "gap_ms"] {
-            assert!(!cause.contains(leak), "no internal type/field name ({leak}): {cause}");
+            assert!(
+                !cause.contains(leak),
+                "no internal type/field name ({leak}): {cause}"
+            );
         }
     }
 
@@ -704,11 +862,17 @@ mod tests {
             serde_json::from_str::<EnvelopeStatus>(&wire).expect("deserializes"),
             suspect
         );
-        assert!(wire.contains("environment-suspect"), "kebab-case wire form: {wire}");
+        assert!(
+            wire.contains("environment-suspect"),
+            "kebab-case wire form: {wire}"
+        );
 
         let ok = EnvelopeStatus::InEnvelope;
         let wire = serde_json::to_string(&ok).expect("serializes");
-        assert_eq!(serde_json::from_str::<EnvelopeStatus>(&wire).expect("deserializes"), ok);
+        assert_eq!(
+            serde_json::from_str::<EnvelopeStatus>(&wire).expect("deserializes"),
+            ok
+        );
     }
 
     #[test]

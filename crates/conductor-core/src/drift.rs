@@ -58,8 +58,9 @@ pub const KNOWN_UNCLASSIFIED: &[&str] = &[];
 /// The remaining four retire as their scenarios land. `P-074` left this ledger when
 /// `fingerprint-storm-live-proof` named it in `scenarios/fingerprint-storm.toml`; `P-079` when
 /// `constellation-severity-live-wiring` did, and `P-073` when `pulse-run-contract` did.
-pub const UNBACKED_AUTO: &[&str] =
-    &["P-031", "P-033", "P-034", "P-039", "P-041", "P-042", "P-043", "P-044"];
+pub const UNBACKED_AUTO: &[&str] = &[
+    "P-031", "P-033", "P-034", "P-039", "P-041", "P-042", "P-043", "P-044",
+];
 
 /// Compare the accepted capability set against the coverage classification.
 ///
@@ -93,7 +94,9 @@ pub fn check_sut_drift(
     if unknown.is_empty() && stale_pin.is_empty() && retired.is_empty() {
         return Ok(());
     }
-    Err(CoreError::SutDrift(drift_message(manifest, &unknown, &stale_pin, &retired)))
+    Err(CoreError::SutDrift(drift_message(
+        manifest, &unknown, &stale_pin, &retired,
+    )))
 }
 
 /// Render the drift detail. Identity-only: capability ids + the manifest's release/date, never a
@@ -166,13 +169,20 @@ pub fn check_scenario_backing(
 
     let unknown: Vec<&str> = unbacked.difference(&pinned).copied().collect();
     let now_covered: Vec<&str> = pinned.intersection(&covered).copied().collect();
-    let lost_subject: Vec<&str> =
-        pinned.difference(&auto).filter(|id| !covered.contains(*id)).copied().collect();
+    let lost_subject: Vec<&str> = pinned
+        .difference(&auto)
+        .filter(|id| !covered.contains(*id))
+        .copied()
+        .collect();
 
     if unknown.is_empty() && now_covered.is_empty() && lost_subject.is_empty() {
         return Ok(());
     }
-    Err(CoreError::UnbackedCoverage(backing_message(&unknown, &now_covered, &lost_subject)))
+    Err(CoreError::UnbackedCoverage(backing_message(
+        &unknown,
+        &now_covered,
+        &lost_subject,
+    )))
 }
 
 /// Render the scenario-backing detail. Identity-only: capability ids + counts, never a filesystem path
@@ -245,26 +255,47 @@ mod tests {
     fn an_accepted_id_outside_the_known_gap_is_drift() {
         let m = manifest(&["P-001", "P-002"]);
         let err = check_sut_drift(&m, &rows(&["P-001"]), &["P-003"]).unwrap_err();
-        let CoreError::SutDrift(detail) = &err else { panic!("expected a drift fault: {err:?}") };
-        assert!(detail.contains("P-002"), "the unknown id must be named: {detail}");
+        let CoreError::SutDrift(detail) = &err else {
+            panic!("expected a drift fault: {err:?}")
+        };
+        assert!(
+            detail.contains("P-002"),
+            "the unknown id must be named: {detail}"
+        );
     }
 
     #[test]
     fn a_known_gap_entry_that_is_now_classified_is_drift() {
         let m = manifest(&["P-001", "P-002"]);
         let err = check_sut_drift(&m, &rows(&["P-001", "P-002"]), &["P-002"]).unwrap_err();
-        let CoreError::SutDrift(detail) = &err else { panic!("expected a drift fault: {err:?}") };
-        assert!(detail.contains("shrink the known gap"), "pin rot must be named: {detail}");
-        assert!(detail.contains("P-002"), "the stale id must be named: {detail}");
+        let CoreError::SutDrift(detail) = &err else {
+            panic!("expected a drift fault: {err:?}")
+        };
+        assert!(
+            detail.contains("shrink the known gap"),
+            "pin rot must be named: {detail}"
+        );
+        assert!(
+            detail.contains("P-002"),
+            "the stale id must be named: {detail}"
+        );
     }
 
     #[test]
     fn a_classified_id_the_manifest_dropped_is_drift() {
         let m = manifest(&["P-001"]);
         let err = check_sut_drift(&m, &rows(&["P-001", "P-002"]), &[]).unwrap_err();
-        let CoreError::SutDrift(detail) = &err else { panic!("expected a drift fault: {err:?}") };
-        assert!(detail.contains("retired"), "the retired direction must be named: {detail}");
-        assert!(detail.contains("P-002"), "the retired id must be named: {detail}");
+        let CoreError::SutDrift(detail) = &err else {
+            panic!("expected a drift fault: {err:?}")
+        };
+        assert!(
+            detail.contains("retired"),
+            "the retired direction must be named: {detail}"
+        );
+        assert!(
+            detail.contains("P-002"),
+            "the retired id must be named: {detail}"
+        );
     }
 
     #[test]
@@ -277,13 +308,33 @@ mod tests {
     #[test]
     fn drift_message_names_identity_without_host_paths_or_type_names() {
         let m = manifest(&["P-001", "P-002"]);
-        let err = check_sut_drift(&m, &rows(&["P-001"]), &[]).unwrap_err().to_string();
+        let err = check_sut_drift(&m, &rows(&["P-001"]), &[])
+            .unwrap_err()
+            .to_string();
 
-        assert!(err.contains("v0.3.0"), "the Pulse release must be named: {err}");
-        assert!(err.contains("2026-08-08"), "the capture date must be named: {err}");
-        assert!(!err.contains(env!("CARGO_MANIFEST_DIR")), "no absolute host path: {err}");
-        for leak in ["CapabilityManifest", "CapabilityRow", "BTreeSet", "sut_version", "captured_at"] {
-            assert!(!err.contains(leak), "no internal type/field name ({leak}): {err}");
+        assert!(
+            err.contains("v0.3.0"),
+            "the Pulse release must be named: {err}"
+        );
+        assert!(
+            err.contains("2026-08-08"),
+            "the capture date must be named: {err}"
+        );
+        assert!(
+            !err.contains(env!("CARGO_MANIFEST_DIR")),
+            "no absolute host path: {err}"
+        );
+        for leak in [
+            "CapabilityManifest",
+            "CapabilityRow",
+            "BTreeSet",
+            "sut_version",
+            "captured_at",
+        ] {
+            assert!(
+                !err.contains(leak),
+                "no internal type/field name ({leak}): {err}"
+            );
         }
     }
 
@@ -293,7 +344,12 @@ mod tests {
 
     fn modes(spec: &[(&'static str, CoverageMode)]) -> Vec<CapabilityRow> {
         spec.iter()
-            .map(|(p_id, mode)| CapabilityRow { p_id, title: "t", category: "c", mode: *mode })
+            .map(|(p_id, mode)| CapabilityRow {
+                p_id,
+                title: "t",
+                category: "c",
+                mode: *mode,
+            })
             .collect()
     }
 
@@ -304,8 +360,10 @@ mod tests {
         let m = CapabilityManifest::load(&committed_path()).expect("committed manifest loads");
         let catalog =
             crate::list_scenarios(&scenarios_dir(), &m).expect("committed scenarios load");
-        let named: Vec<&str> =
-            catalog.iter().flat_map(|s| s.p_ids.iter().map(|p| p.0.as_str())).collect();
+        let named: Vec<&str> = catalog
+            .iter()
+            .flat_map(|s| s.p_ids.iter().map(|p| p.0.as_str()))
+            .collect();
 
         check_scenario_backing(coverage_matrix(), &named, UNBACKED_AUTO)
             .expect("every auto claim is backed by a scenario or pinned as owed");
@@ -318,8 +376,14 @@ mod tests {
         let CoreError::UnbackedCoverage(detail) = &err else {
             panic!("expected an unbacked-coverage fault: {err:?}")
         };
-        assert!(detail.contains("P-002"), "the unbacked id must be named: {detail}");
-        assert!(detail.contains("author a scenario"), "the remedy must be named: {detail}");
+        assert!(
+            detail.contains("P-002"),
+            "the unbacked id must be named: {detail}"
+        );
+        assert!(
+            detail.contains("author a scenario"),
+            "the remedy must be named: {detail}"
+        );
     }
 
     #[test]
@@ -329,20 +393,34 @@ mod tests {
         let CoreError::UnbackedCoverage(detail) = &err else {
             panic!("expected an unbacked-coverage fault: {err:?}")
         };
-        assert!(detail.contains("shrink the ledger"), "pin rot must be named: {detail}");
-        assert!(detail.contains("P-002"), "the rotted id must be named: {detail}");
+        assert!(
+            detail.contains("shrink the ledger"),
+            "pin rot must be named: {detail}"
+        );
+        assert!(
+            detail.contains("P-002"),
+            "the rotted id must be named: {detail}"
+        );
     }
 
     #[test]
     fn a_ledger_entry_no_longer_auto_classified_is_a_fault() {
-        let rows =
-            modes(&[("P-001", CoverageMode::Auto), ("P-002", CoverageMode::DriveObserve)]);
+        let rows = modes(&[
+            ("P-001", CoverageMode::Auto),
+            ("P-002", CoverageMode::DriveObserve),
+        ]);
         let err = check_scenario_backing(&rows, &["P-001"], &["P-002"]).unwrap_err();
         let CoreError::UnbackedCoverage(detail) = &err else {
             panic!("expected an unbacked-coverage fault: {err:?}")
         };
-        assert!(detail.contains("no longer auto-classified"), "the direction: {detail}");
-        assert!(detail.contains("P-002"), "the id that lost its subject: {detail}");
+        assert!(
+            detail.contains("no longer auto-classified"),
+            "the direction: {detail}"
+        );
+        assert!(
+            detail.contains("P-002"),
+            "the id that lost its subject: {detail}"
+        );
     }
 
     #[test]
@@ -367,20 +445,41 @@ mod tests {
     #[test]
     fn backing_message_names_identity_without_host_paths_or_type_names() {
         let rows = modes(&[("P-001", CoverageMode::Auto), ("P-002", CoverageMode::Auto)]);
-        let err = check_scenario_backing(&rows, &["P-001"], &[]).unwrap_err().to_string();
+        let err = check_scenario_backing(&rows, &["P-001"], &[])
+            .unwrap_err()
+            .to_string();
 
-        assert!(err.contains("P-002"), "the offending id must be named: {err}");
-        assert!(!err.contains(env!("CARGO_MANIFEST_DIR")), "no absolute host path: {err}");
-        for leak in ["CapabilityRow", "CoverageMode", "BTreeSet", "ScenarioSummary", "p_ids"] {
-            assert!(!err.contains(leak), "no internal type/field name ({leak}): {err}");
+        assert!(
+            err.contains("P-002"),
+            "the offending id must be named: {err}"
+        );
+        assert!(
+            !err.contains(env!("CARGO_MANIFEST_DIR")),
+            "no absolute host path: {err}"
+        );
+        for leak in [
+            "CapabilityRow",
+            "CoverageMode",
+            "BTreeSet",
+            "ScenarioSummary",
+            "p_ids",
+        ] {
+            assert!(
+                !err.contains(leak),
+                "no internal type/field name ({leak}): {err}"
+            );
         }
     }
 
     #[test]
     fn drift_message_is_byte_identical_for_identical_inputs() {
         let m = manifest(&["P-003", "P-001", "P-002"]);
-        let first = check_sut_drift(&m, &rows(&["P-001"]), &[]).unwrap_err().to_string();
-        let second = check_sut_drift(&m, &rows(&["P-001"]), &[]).unwrap_err().to_string();
+        let first = check_sut_drift(&m, &rows(&["P-001"]), &[])
+            .unwrap_err()
+            .to_string();
+        let second = check_sut_drift(&m, &rows(&["P-001"]), &[])
+            .unwrap_err()
+            .to_string();
         assert_eq!(first, second);
         assert!(
             first.contains("P-002, P-003"),

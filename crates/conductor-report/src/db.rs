@@ -252,6 +252,24 @@ impl RunsDb {
         }))
     }
 
+    /// Delete every row a run wrote, across all three tables, returning the rows removed.
+    ///
+    /// Teardown covers `runs`, `run_check` AND `run_envelope` — a run writes all three, so deleting
+    /// from `runs` alone leaves orphans at the other two grains (test-plan §3 `cleanup`). Applied in
+    /// one transaction so teardown is all-or-nothing, and idempotent: deleting nothing is success,
+    /// which is what makes a re-run against a clean state a no-op.
+    /// Every statement is a LITERAL with the id bound as `?1` — never `format!`-assembled, not even
+    /// over a hard-coded table list (security-plan §Security Anti-Patterns → Input).
+    pub fn delete_run(&mut self, run_id: &str) -> Result<usize, RunsDbError> {
+        let tx = self.conn.transaction()?;
+        let id = rusqlite::params![run_id];
+        let removed = tx.execute("DELETE FROM runs WHERE run_id = ?1", id)?
+            + tx.execute("DELETE FROM run_check WHERE run_id = ?1", id)?
+            + tx.execute("DELETE FROM run_envelope WHERE run_id = ?1", id)?;
+        tx.commit()?;
+        Ok(removed)
+    }
+
     /// Read back the row for `(run_id, scenario)`, reconstructing the [`RunRecord`] — `None` if absent.
     pub fn get(&self, run_id: &str, scenario: &str) -> Result<Option<RunRecord>, RunsDbError> {
         let raw = self
@@ -462,6 +480,72 @@ mod tests {
             back[1].budget_ms, None,
             "an inherited budget stores NULL, reads back None"
         );
+    }
+
+    /// The count-zero teardown verification test-plan §3 has always specified: cleanup covers every
+    /// table a run writes, or it leaves orphans behind at the finer grains.
+    #[test]
+    fn delete_run_empties_all_three_tables_and_leaves_other_runs_alone() {
+        let mut db = RunsDb::open_in_memory().unwrap();
+        for run_id in ["run-1", "run-2"] {
+            db.insert(&RunRecord::blocked(
+                run_id,
+                7,
+                "s",
+                vec![PId("P-003".to_string())],
+                SloTier::Tier20s,
+            ))
+            .unwrap();
+            db.insert_envelope(run_id, &EnvelopeStatus::InEnvelope)
+                .unwrap();
+        }
+        db.insert_check(&check_record(0, None)).unwrap();
+
+        let count = |db: &RunsDb, table: &str| -> i64 {
+            let sql = match table {
+                "runs" => "SELECT count(*) FROM runs WHERE run_id = ?1",
+                "run_check" => "SELECT count(*) FROM run_check WHERE run_id = ?1",
+                _ => "SELECT count(*) FROM run_envelope WHERE run_id = ?1",
+            };
+            db.conn
+                .query_row(sql, rusqlite::params!["run-1"], |r| r.get(0))
+                .unwrap()
+        };
+        assert_eq!(
+            (
+                count(&db, "runs"),
+                count(&db, "run_check"),
+                count(&db, "run_envelope")
+            ),
+            (1, 1, 1),
+            "the subject is non-empty at all three grains before the delete — a zero that was \
+             always zero would prove nothing"
+        );
+
+        assert_eq!(db.delete_run("run-1").unwrap(), 3);
+        assert_eq!(
+            (
+                count(&db, "runs"),
+                count(&db, "run_check"),
+                count(&db, "run_envelope")
+            ),
+            (0, 0, 0)
+        );
+        assert_eq!(
+            db.delete_run("run-1").unwrap(),
+            0,
+            "idempotent: a re-run against a clean state removes nothing and is not an error"
+        );
+
+        let survivors: i64 = db
+            .conn
+            .query_row(
+                "SELECT count(*) FROM runs WHERE run_id = ?1",
+                rusqlite::params!["run-2"],
+                |r| r.get(0),
+            )
+            .unwrap();
+        assert_eq!(survivors, 1, "teardown is scoped to its own run_id");
     }
 
     #[test]
