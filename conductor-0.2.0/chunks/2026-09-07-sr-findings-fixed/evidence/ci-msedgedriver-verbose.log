@@ -1,0 +1,86 @@
+[1788815982.308][INFO]: Starting Microsoft Edge WebDriver 151.0.4129.101 (cc1d9f4080fd9140611a9600b8d1615db310105d) on port 9515
+[1788815982.308][INFO]: Please see https://aka.ms/WebDriverSecurity for suggestions on keeping Microsoft Edge WebDriver safe.
+[1788815982.313][INFO]: msedgedriver was started successfully on port 9515
+[1788815985.320][INFO]: [6d8254d32e2519edc50ca76644e8340e] COMMAND InitSession {
+   "capabilities": {
+      "alwaysMatch": {
+         "browserName": "webview2",
+         "ms:edgeOptions": {
+            "binary": "<ci-workspace>\\target\\release\\conductor-tauri.exe",
+            "webviewOptions": {
+            }
+         }
+      }
+   }
+}
+[1788815985.355][INFO]: Populating Preferences file: {
+   "alternate_error_pages": {
+      "enabled": false
+   },
+   "autofill": {
+      "enabled": false
+   },
+   "browser": {
+      "check_default_browser": false
+   },
+   "distribution": {
+      "import_bookmarks": false,
+      "import_history": false,
+      "import_search_engine": false,
+      "make_chrome_default_for_user": false,
+      "skip_first_run_ui": true
+   },
+   "dns_prefetching": {
+      "enabled": false
+   },
+   "profile": {
+      "content_settings": {
+         "pattern_pairs": {
+            "https://*,*": {
+               "media-stream": {
+                  "audio": "Default",
+                  "video": "Default"
+               }
+            }
+         }
+      },
+      "default_content_setting_values": {
+         "geolocation": 1
+      },
+      "default_content_settings": {
+         "geolocation": 1,
+         "mouselock": 1,
+         "notifications": 1,
+         "popups": 1,
+         "ppapi-broker": 1
+      },
+      "password_manager_enabled": false
+   },
+   "safebrowsing": {
+      "enabled": false
+   },
+   "search": {
+      "suggest_enabled": false
+   },
+   "translate": {
+      "enabled": false
+   }
+}
+[1788815985.355][INFO]: Populating Local State file: {
+   "background_mode": {
+      "enabled": false
+   },
+   "ssl": {
+      "rev_checking": {
+         "enabled": false
+      }
+   }
+}
+[1788815985.360][INFO]: ChromeDriver supports communication with Chrome via pipes. This is more reliable and more secure.
+[1788815985.360][INFO]: Use the --remote-debugging-pipe Chrome switch instead of the default --remote-debugging-port to enable this communication mode.
+[1788815985.361][INFO]: WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS = --allow-pre-commit-input --disable-background-networking --disable-background-timer-throttling --disable-backgrounding-occluded-windows --disable-client-side-phishing-detection --disable-default-apps --disable-features=IgnoreDuplicateNavs,Prewarm --disable-hang-monitor --disable-popup-blocking --disable-prompt-on-repost --disable-sync --enable-automation --enable-logging --log-level=0 --no-first-run --no-service-autorun --password-store=basic --remote-debugging-port=0 --test-type=webdriver --use-mock-keychain
+[1788815985.361][INFO]: Launching Microsoft Edge: "<ci-workspace>\target\release\conductor-tauri.exe"
+[1788816045.386][INFO]: Failed to connect to msedge. Attempting to kill it.
+[1788816045.536][INFO]: [6d8254d32e2519edc50ca76644e8340e] RESPONSE InitSession ERROR session not created: DevToolsActivePort file doesn't exist
+[1788816045.554][DEBUG]: Log type 'driver' lost 0 entries on destruction
+[1788816045.554][DEBUG]: Log type 'browser' lost 0 entries on destruction

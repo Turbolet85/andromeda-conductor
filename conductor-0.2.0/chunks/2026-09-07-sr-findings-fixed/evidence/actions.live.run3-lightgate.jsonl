@@ -1,0 +1,40 @@
+{"ts":"2026-09-07T22:07:21.149Z","id":"@session","browserVersion":"152.0.4191.66"}
+{"ts":"2026-09-07T22:07:26.807Z","id":"@foreground","activated":true,"nvdaNamedWindow":false,"initialFocus":"BODY","firstTabTarget":"Start","firstTabProbe":"BUTTON focusableIndex=3/6","tabsToStart":3}
+{"ts":"2026-09-07T22:07:26.858Z","id":"S0-11","cls":"browse","action":"none (browse row)"}
+{"ts":"2026-09-07T22:07:30.953Z","id":"S0-12","cls":"browse","action":"none (browse row)"}
+{"ts":"2026-09-07T22:07:35.035Z","id":"S0-01","cls":"focus","action":"Tab"}
+{"ts":"2026-09-07T22:07:35.987Z","id":"S0-02","cls":"focus","action":"Tab"}
+{"ts":"2026-09-07T22:07:36.862Z","id":"S0-03","cls":"focus","action":"Tab"}
+{"ts":"2026-09-07T22:07:37.828Z","id":"S0-16","cls":"browse","action":"type \"zzz\" (filter miss), then Backspace ×3"}
+{"ts":"2026-09-07T22:07:38.799Z","id":"S0-04","cls":"focus","action":"ArrowDown"}
+{"ts":"2026-09-07T22:07:39.723Z","id":"S0-05","cls":"focus","action":"ArrowDown"}
+{"ts":"2026-09-07T22:07:40.536Z","id":"S0-06","cls":"focus","action":"ArrowUp ×2 to \"Suite — all scenarios\", Enter"}
+{"ts":"2026-09-07T22:07:41.674Z","id":"S0-07","cls":"focus","action":"Tab"}
+{"ts":"2026-09-07T22:07:42.657Z","id":"S0-08","cls":"browse","action":"none (browse row — Stop is natively disabled)"}
+{"ts":"2026-09-07T22:07:46.745Z","id":"S0-09","cls":"focus","action":"Tab"}
+{"ts":"2026-09-07T22:07:47.695Z","id":"S0-13","cls":"browse","action":"h (browse-mode next heading)"}
+{"ts":"2026-09-07T22:07:51.768Z","id":"S0-14","cls":"browse","action":"d (browse-mode next landmark)"}
+{"ts":"2026-09-07T22:07:55.868Z","id":"S0-15","cls":"browse","action":"ArrowDown (browse-mode next line)"}
+{"ts":"2026-09-07T22:07:59.924Z","id":"S0-10","cls":"browse","action":"none (browse row)"}
+{"ts":"2026-09-07T22:08:04.014Z","id":"S1-01","cls":"live","action":"Shift+Tab to Start, Enter"}
+{"ts":"2026-09-07T22:08:05.014Z","id":"S1-02","cls":"browse","action":"none (browse row — the count reads \"0\")"}
+{"ts":"2026-09-07T22:08:09.090Z","id":"S1-05","cls":"browse","action":"none (subject absent)"}
+{"ts":"2026-09-07T22:08:13.136Z","id":"S1-03","cls":"focus","action":"Shift+Tab, Tab (refocus Start)"}
+{"ts":"2026-09-07T22:08:14.111Z","id":"S1-04","cls":"focus","action":"Tab"}
+{"ts":"2026-09-07T22:08:15.087Z","id":"S2-01","cls":"live","action":"Shift+Tab back to Start, then wait for the hold (the in-run preflight canary poll)"}
+{"ts":"2026-09-07T22:08:15.131Z","id":"S2-02","cls":"focus","action":"the dialog opens in the same instant (shared window)"}
+{"ts":"2026-09-07T22:09:01.140Z","id":"S2-06","cls":"browse","action":"none (browse row)"}
+{"ts":"2026-09-07T22:09:05.212Z","id":"S2-03","cls":"focus","action":"Tab"}
+{"ts":"2026-09-07T22:09:06.092Z","id":"S2-04","cls":"focus","action":"Tab"}
+{"ts":"2026-09-07T22:09:07.049Z","id":"S2-05","cls":"live","action":"Space"}
+{"ts":"2026-09-07T22:09:07.977Z","id":"S2-07","cls":"focus","action":"Shift+Tab to Proceed, Enter (Go); focus restores to Start"}
+{"ts":"2026-09-07T22:09:08.016Z","id":"S2-08","cls":"live","action":"the phase line returns to live in the same instant (shared window)"}
+{"ts":"2026-09-07T22:09:09.306Z","id":"S3-01","cls":"live","action":"Tab to Stop, Enter"}
+{"ts":"2026-09-07T22:09:10.265Z","id":"S3-02","cls":"focus","action":"Shift+Tab"}
+{"ts":"2026-09-07T22:09:11.165Z","id":"S3-03","cls":"live","action":"wait for the second hold (halo-breathing-encoding)"}
+{"ts":"2026-09-07T22:09:15.320Z","id":"S3-04","cls":"focus","action":"Escape (NoGo); focus restores to Start"}
+{"ts":"2026-09-07T22:09:15.375Z","id":"S3-05","cls":"live","action":"the Aborted stage and the report reload follow in the same instant (shared window)"}
+{"ts":"2026-09-07T22:09:19.789Z","id":"S3-06","cls":"browse","action":"ArrowDown (browse-mode next line)"}
+{"ts":"2026-09-07T22:09:23.870Z","id":"S3-07","cls":"browse","action":"ArrowDown (browse-mode next line)"}
+{"ts":"2026-09-07T22:09:27.959Z","id":"T-01","cls":"live","action":"not run (the live subject is stopped by design)"}
+{"ts":"2026-09-07T22:09:27.997Z","id":"@end"}

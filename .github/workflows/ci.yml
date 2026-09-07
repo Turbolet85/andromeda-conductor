@@ -250,16 +250,127 @@ jobs:
       # skipping is banned (a11y-plan §11 Anti-Patterns -> CI). The guard itself is untouched.
       #
       # EDGEWEBDRIVER is set by the runner image (Microsoft Edge Driver ships with it), so there is no
-      # driver install step and no operator handle in CI.
+      # driver install step and no operator handle in CI. It is a runner-PROCESS variable, so it is
+      # resolved in the step's SHELL: the ${{ env.* }} expression context holds only what a workflow,
+      # job or step declared, and resolving it there yielded an empty base — the handle reached the
+      # guard as the literal "\msedgedriver.exe" and the strict arm correctly failed the gate
+      # (measured 2026-09-07, run 34148079506).
+      # The driver and the WebView2 RUNTIME are two different image facts, and only the driver has ever
+      # been confirmed. A session that never starts cannot say which is missing, so both versions are
+      # printed before the leg runs — the driver from its own binary, the runtime from the registry key
+      # the SR record already reads (`webview2_runtime_registry`). Diagnostic only: it exits 0 whatever
+      # it finds, so it can never itself decide the gate.
+      - name: WebView2 driver + runtime versions (diagnostic)
+        shell: pwsh
+        continue-on-error: true
+        run: |
+          $d = Join-Path $env:EDGEWEBDRIVER 'msedgedriver.exe'
+          if (Test-Path -LiteralPath $d) {
+            Write-Output "[diag] msedgedriver: $((Get-Item $d).VersionInfo.ProductVersion)"
+          } else { Write-Output '[diag] msedgedriver: NOT PRESENT' }
+          $keys = @(
+            'HKLM:\SOFTWARE\WOW6432Node\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}',
+            'HKLM:\SOFTWARE\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}'
+          )
+          $rt = $keys | ForEach-Object { (Get-ItemProperty -Path $_ -Name pv -ErrorAction SilentlyContinue).pv } |
+                Where-Object { $_ } | Select-Object -First 1
+          if ($rt) { Write-Output "[diag] WebView2 Evergreen Runtime: $rt" }
+          else { Write-Output '[diag] WebView2 Evergreen Runtime: NOT INSTALLED (no EdgeUpdate client key)' }
+          $edge = 'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe'
+          if (Test-Path -LiteralPath $edge) {
+            Write-Output "[diag] Edge browser: $((Get-Item $edge).VersionInfo.ProductVersion)"
+          } else { Write-Output '[diag] Edge browser: NOT PRESENT' }
+
       - name: A11y routine arm (tauri-driver + axe + contrast)
         shell: pwsh
         env:
           CONDUCTOR_A11Y_STRICT: '1'
-          CONDUCTOR_MSEDGEDRIVER: ${{ env.EDGEWEBDRIVER }}\msedgedriver.exe
           CONDUCTOR_ENV: dev
         run: |
-          $PSNativeCommandUseErrorActionPreference = $true
+          if (-not $env:EDGEWEBDRIVER) {
+            Write-Output '[precondition] EDGEWEBDRIVER: NOT SET by the runner image'
+            exit 1
+          }
+          $driver = Join-Path $env:EDGEWEBDRIVER 'msedgedriver.exe'
+          if (-not (Test-Path -LiteralPath $driver -PathType Leaf)) {
+            Write-Output '[precondition] CONDUCTOR_MSEDGEDRIVER: NOT RESOLVED'
+            exit 1
+          }
+          Write-Output '[precondition] CONDUCTOR_MSEDGEDRIVER: resolved'
+          $env:CONDUCTOR_MSEDGEDRIVER = $driver
+          # No $PSNativeCommandUseErrorActionPreference here. It makes the harness's non-zero a
+          # TERMINATING error at its `npm run a11y` call, before agent-run.ps1 prints the captured wdio
+          # output the gate's verdict is read from — the job log then carries one
+          # NativeCommandExitException line and none of wdio's own (measured 2026-09-07). The harness
+          # already reads $LASTEXITCODE from the bare command and exits with it, so the preference adds
+          # no detection and only destroys the diagnostic.
           .\scripts\agent-run.ps1 run --e2e
+
+      # Isolates `session not created: DevToolsActivePort file doesn't exist` — the WARN-level line the
+      # driver retries on, which says msedgedriver launched the app and never found its DevTools port.
+      # Runs AFTER the routine arm, not before: the arm's own step performs the release build, so there
+      # is no binary to launch until it has run. `if: always()` + continue-on-error keep it a diagnostic
+      # that can never decide the gate.
+      - name: WebView2 session isolation (diagnostic)
+        if: always()
+        continue-on-error: true
+        shell: pwsh
+        env:
+          CONDUCTOR_RUNS_DIR: runs/e2e-fixture
+          CONDUCTOR_ENV: dev
+        run: |
+          $app = Join-Path $PWD 'target\release\conductor-tauri.exe'
+          if (-not (Test-Path -LiteralPath $app)) { Write-Output '[diag] app binary: NOT BUILT'; exit 0 }
+          Write-Output '[diag] app binary: present'
+
+          # (a) app alone — does the app itself start and stay up without any driver?
+          $err = Join-Path $env:RUNNER_TEMP 'app.stderr.txt'
+          $p = Start-Process -FilePath $app -WorkingDirectory $PWD -PassThru -RedirectStandardError $err
+          Start-Sleep -Seconds 15
+          Write-Output "[diag] app-alone HasExited=$($p.HasExited) ExitCode=$(if ($p.HasExited) { $p.ExitCode } else { 'n/a' })"
+          Write-Output '[diag] tasklist (app + webview2 host):'
+          tasklist /FI "IMAGENAME eq conductor-tauri.exe" | Select-Object -Last 3
+          tasklist /FI "IMAGENAME eq msedgewebview2.exe" | Select-Object -Last 3
+          if (-not $p.HasExited) { Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue }
+          Start-Sleep -Seconds 2
+
+          # (b) driver alone — tauri-driver's own translation, straight at msedgedriver.
+          $log = Join-Path $env:RUNNER_TEMP 'msedgedriver.log'
+          $drv = Start-Process -FilePath (Join-Path $env:EDGEWEBDRIVER 'msedgedriver.exe') `
+            -ArgumentList '--port=9515', '--verbose', "--log-path=$log" -PassThru
+          Start-Sleep -Seconds 3
+          # browserName MUST be 'webview2' — it is what selects the driver's WebView2-HOST launch mode.
+          # Without it the same POST fails on the DEV HOST too, byte-for-byte the runner's failure (env
+          # var empty, Chromium switches on argv, DevToolsActivePort missing) against a binary that
+          # passes 12/12 through tauri-driver — i.e. the omission makes the probe measure itself.
+          # Validated on the dev host before this form was pushed.
+          $caps = @{ capabilities = @{ alwaysMatch = @{ browserName = 'webview2'; 'ms:edgeOptions' = @{ binary = $app; webviewOptions = @{} } } } } | ConvertTo-Json -Depth 8 -Compress
+          try {
+            $r = Invoke-WebRequest -Uri 'http://127.0.0.1:9515/session' -Method POST -Body $caps `
+              -ContentType 'application/json' -TimeoutSec 90 -SkipHttpErrorCheck
+            Write-Output "[diag] driver-alone status=$($r.StatusCode)"
+            Write-Output "[diag] driver-alone body: $($r.Content)"
+          } catch {
+            Write-Output "[diag] driver-alone threw: $($_.Exception.Message)"
+          }
+          Stop-Process -Id $drv.Id -Force -ErrorAction SilentlyContinue
+
+          # (c) stage the two logs (+ any crashpad dir) under one dir; names only, never host paths.
+          $out = Join-Path $env:RUNNER_TEMP 'session-diag'
+          New-Item -ItemType Directory -Force -Path $out | Out-Null
+          foreach ($f in @($err, $log)) { if (Test-Path -LiteralPath $f) { Copy-Item $f $out -Force } }
+          Get-ChildItem -Path $env:RUNNER_TEMP, $env:LOCALAPPDATA -Filter 'Crashpad' -Directory -Recurse -Depth 4 -ErrorAction SilentlyContinue |
+            Select-Object -First 1 | ForEach-Object { Copy-Item $_.FullName (Join-Path $out 'Crashpad') -Recurse -Force -ErrorAction SilentlyContinue }
+          Write-Output "[diag] staged: $((Get-ChildItem $out -Recurse -File | Measure-Object).Count) file(s)"
+
+      - name: Upload session diagnostics
+        if: always()
+        continue-on-error: true
+        uses: actions/upload-artifact@v4
+        with:
+          name: a11y-session-diag
+          path: ${{ runner.temp }}/session-diag
+          if-no-files-found: warn
 
       # Conformance is asserted by REUSING conductor-run's journal_conformance test, pointed at the a11y
       # dir. Re-listing the eleven envelope keys here would be the same third copy of the schema the

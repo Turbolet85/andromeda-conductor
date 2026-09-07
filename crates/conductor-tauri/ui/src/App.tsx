@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState, type CSSProperties } from 'react'
 import { invoke, Channel } from '@tauri-apps/api/core'
 import Titlebar, { IDLE_COUNT, type RunState } from './components/Titlebar'
 import ScenarioPicker, { type ScenarioSummary } from './components/ScenarioPicker'
@@ -8,6 +8,22 @@ import RunReport, { type EnvelopeStanding } from './components/RunReport'
 import OperatorPauseDialog from './components/OperatorPauseDialog'
 import { type ChecklistItem } from './components/OperatorChecklist'
 import { lampForRecord, type Lamp, type RunRecord } from './lamp'
+
+// Off-screen but in the accessibility tree: the clip-rect idiom, not `display:none`/`aria-hidden`,
+// which would remove the node from the tree and announce nothing (a11y-plan §11 Screen Reader). These
+// are a11y mechanics, not design values, so they carry no token (design-system §Tokens governs
+// palette/space/motion).
+const SR_ONLY: CSSProperties = {
+  position: 'absolute',
+  width: '1px',
+  height: '1px',
+  margin: '-1px',
+  padding: 0,
+  overflow: 'hidden',
+  clip: 'rect(0, 0, 0, 0)',
+  whiteSpace: 'nowrap',
+  border: 0,
+}
 
 // Worst-lamp-wins. A RunRecord names many P-IDs and several records in one run can name the SAME
 // P-ID (five of the catalog's do — P-017, and P-019/P-020/P-021/P-060 across the severity-tier
@@ -91,6 +107,8 @@ export default function App() {
   const [tickedItems, setTickedItems] = useState<string[]>([])
   const pendingHold = useRef(false)
   const holdInvoker = useRef<HTMLElement | null>(null)
+  const [loadErrorEcho, setLoadErrorEcho] = useState<string | null>(null)
+  const reannounced = useRef(false)
 
   useEffect(() => {
     invoke<ScenarioSummary[]>('list_scenarios')
@@ -98,6 +116,21 @@ export default function App() {
       .catch((e) => setLoadError(String(e)))
       .finally(() => setLoading(false))
   }, [])
+
+  // Mounting the alert region empty is necessary but NOT sufficient for a LOAD-time error: NVDA binds a
+  // window on its first focus event, which necessarily arrives after the load, so the text lands in a
+  // region nobody is listening to yet (SR row R0-01, measured 2026-09-04). Re-assert it ONCE on that
+  // first focus, as an added echo node — the visible paragraph is never removed, so nothing flashes.
+  useEffect(() => {
+    if (!loadError || reannounced.current) return
+    const echo = () => {
+      if (reannounced.current) return
+      reannounced.current = true
+      setLoadErrorEcho(loadError)
+    }
+    window.addEventListener('focusin', echo, { once: true })
+    return () => window.removeEventListener('focusin', echo)
+  }, [loadError])
 
   useEffect(() => {
     invoke<CapabilityRow[]>('coverage_matrix')
@@ -242,11 +275,22 @@ export default function App() {
               text is not announced — the original load error was silent and only a reload with NVDA
               already tracking the window spoke it (NVDA pass 2026-09-02, R0-01). Same shape at the
               three sibling error sites below. */}
+          {/* This site differs from the three sibling error regions below, and only this one: a LOAD-time
+              error is painted before NVDA binds the window (it binds on the first focus event), so an
+              empty-mounted region is necessary but not sufficient — the text arrives where nobody is
+              listening yet (SR row R0-01). The visible copy therefore sits OUTSIDE the live region and
+              the region carries the re-assertion alone: one node, inserted once on that first focus,
+              announced once. Keeping both inside made NVDA read the region whole and speak the message
+              TWICE (measured 2026-09-07). The three siblings fire at arbitrary times, are already
+              announced on arrival, and keep the empty-mount shape. */}
+          {loadError ? (
+            <p className="type-body" style={{ color: 'var(--status-fail)', margin: 0 }}>
+              Could not load scenarios: {loadError}
+            </p>
+          ) : null}
           <div role="alert">
-            {loadError ? (
-              <p className="type-body" style={{ color: 'var(--status-fail)', margin: 0 }}>
-                Could not load scenarios: {loadError}
-              </p>
+            {loadErrorEcho ? (
+              <p style={SR_ONLY}>Could not load scenarios: {loadErrorEcho}</p>
             ) : null}
           </div>
           {loading ? (

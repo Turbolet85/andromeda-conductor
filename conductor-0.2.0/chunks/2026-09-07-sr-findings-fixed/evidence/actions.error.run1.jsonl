@@ -1,0 +1,7 @@
+{"ts":"2026-09-07T19:31:38.217Z","id":"@session","browserVersion":"152.0.4191.66"}
+{"ts":"2026-09-07T19:31:38.881Z","id":"R0-01","cls":"live","action":"the first focus event after load (Tab)"}
+{"ts":"2026-09-07T19:31:43.972Z","id":"@foreground","activated":true,"nvdaNamedWindow":false,"initialFocus":"BODY","firstTabTarget":"Minimize window","firstTabProbe":"BUTTON label=Minimize window focusableIndex=0/5","tabsToStart":5}
+{"ts":"2026-09-07T19:31:44.804Z","id":"R0-02","cls":"focus","action":"Tab"}
+{"ts":"2026-09-07T19:31:45.734Z","id":"R0-03","cls":"focus","action":"Tab"}
+{"ts":"2026-09-07T19:31:46.603Z","id":"R0-04","cls":"focus","action":"Tab"}
+{"ts":"2026-09-07T19:31:47.472Z","id":"@end"}

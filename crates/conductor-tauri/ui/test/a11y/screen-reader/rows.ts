@@ -301,10 +301,10 @@ export const ROWS: readonly SpecRow[] = [
   // ── error subject · a malformed catalog ──────────────────────────────────────────────────────────
   {
     id: 'R0-01', subject: 'error', state: 'idle', cls: 'live',
-    item: 'scenario load error (alert on document load)',
-    node: 'div[role="alert"] › p "Could not load scenarios: …" (the region is mounted empty at first paint)',
+    item: 'scenario load error, re-announced on the first focus event',
+    node: 'div[role="alert"] › p (sr-only) "Could not load scenarios: …" — the region mounts EMPTY and the visible copy sits outside it; the re-assertion is inserted once, on the first focusin',
     sc: 'SC 4.1.3',
-    expected: '"Could not load scenarios" announced; the region is mounted empty at first paint so the error arrives as a change, but the leg still reloads — the no-reload claim is NOT graded by this row; the text must carry no host path',
+    expected: '"Could not load scenarios" announced ONCE; the text must carry no host path. NVDA binds a window on its first focus event, which necessarily follows a load-time paint, so this row is stamped between activation and that first Tab — the narrowest window containing the announcement',
     tokens: ['Could not load scenarios'],
   },
   {

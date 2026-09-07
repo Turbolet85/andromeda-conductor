@@ -1,0 +1,1180 @@
+{
+  "spec": "crates/conductor-tauri/ui/test/a11y/screen-reader/nvda-pass-spec.md",
+  "recorded_at": "2026-09-07T19:43:17.621Z",
+  "nvda_version": "2026.2",
+  "webview2_runtime": "152.0.4191.66",
+  "webview2_runtime_registry": "152.0.4191.66",
+  "build_commit": "00181dfdf188fa565a6247c5242dbc97688031b9",
+  "bundle_build": "cargo build --release -p conductor-tauri --features tauri/custom-protocol",
+  "stimulus_runs": {
+    "fixture_run_id": "lamps-fixture",
+    "live_run_id": "2026-09-07T19-41-52-383"
+  },
+  "attach_observed": {
+    "live": true,
+    "empty": true,
+    "error": true
+  },
+  "subjects": {
+    "empty": {
+      "recorded_at": "2026-09-07T19:34:09.737Z",
+      "speech_utterances": 41,
+      "pre_session_utterances": 31,
+      "post_session_utterances": 4,
+      "attach_observed": true,
+      "foreground": {
+        "activated": true,
+        "nvda_named_window": false,
+        "initial_focus": "BODY",
+        "tabs_to_start": 6
+      },
+      "process_census": {
+        "before": [
+          "node.exe 18416",
+          "node.exe 52980",
+          "pulse-app.exe 63180"
+        ],
+        "after": [
+          "node.exe 18416",
+          "node.exe 52980",
+          "pulse-app.exe 63180"
+        ]
+      }
+    },
+    "error": {
+      "recorded_at": "2026-09-07T19:32:37.023Z",
+      "speech_utterances": 51,
+      "pre_session_utterances": 36,
+      "post_session_utterances": 4,
+      "attach_observed": true,
+      "foreground": {
+        "activated": true,
+        "nvda_named_window": false,
+        "initial_focus": "BODY",
+        "tabs_to_start": 5
+      },
+      "process_census": {
+        "before": [
+          "node.exe 70068",
+          "node.exe 75664",
+          "pulse-app.exe 63180"
+        ],
+        "after": [
+          "node.exe 70068",
+          "node.exe 75664",
+          "pulse-app.exe 63180"
+        ]
+      }
+    },
+    "live": {
+      "recorded_at": "2026-09-07T19:43:17.621Z",
+      "speech_utterances": 83,
+      "pre_session_utterances": 25,
+      "post_session_utterances": 3,
+      "attach_observed": true,
+      "foreground": {
+        "activated": true,
+        "nvda_named_window": false,
+        "initial_focus": "BODY",
+        "tabs_to_start": 3
+      },
+      "process_census": {
+        "before": [
+          "node.exe 74168",
+          "node.exe 75468",
+          "pulse-app.exe 63180"
+        ],
+        "after": [
+          "node.exe 74168",
+          "node.exe 75468",
+          "pulse-app.exe 63180"
+        ]
+      }
+    }
+  },
+  "rows": [
+    {
+      "id": "R0-01",
+      "subject": "error",
+      "state": "idle",
+      "class": "live",
+      "item": "scenario load error, re-announced on the first focus event",
+      "node": "div[role=\"alert\"] › p (sr-only) \"Could not load scenarios: …\" — the region mounts EMPTY and the visible copy sits outside it; the re-assertion is inserted once, on the first focusin",
+      "sc": "SC 4.1.3",
+      "expected": "\"Could not load scenarios\" announced ONCE; the text must carry no host path. NVDA binds a window on its first focus event, which necessarily follows a load-time paint, so this row is stamped between activation and that first Tab — the narrowest window containing the announcement",
+      "tokens": [
+        "Could not load scenarios"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "heard": [
+        "Could not load scenarios: scenario config error: TOML parse error at line 4, column 1 | 4 | seed = \"not a number\" | ^ missing comma between array elements, expected `,`",
+        "Conductor",
+        "Conductor document",
+        "banner landmark",
+        "clickable banner landmark Minimize window button",
+        "Conductor document",
+        "button Minimize window",
+        "main landmark Run controls grouping Start button unavailable"
+      ],
+      "action": "the first focus event after load (Tab)",
+      "action_ts": "2026-09-07T19:32:25.940Z"
+    },
+    {
+      "id": "R0-02",
+      "subject": "error",
+      "state": "idle",
+      "class": "focus",
+      "item": "Minimize window control",
+      "node": "button[aria-label=\"Minimize window\"]",
+      "sc": "SC 4.1.2",
+      "expected": "\"Minimize window\" + button",
+      "tokens": [
+        "Minimize window"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "heard": [
+        "banner landmark Minimize window button"
+      ],
+      "action": "Tab",
+      "action_ts": "2026-09-07T19:32:31.841Z"
+    },
+    {
+      "id": "R0-03",
+      "subject": "error",
+      "state": "idle",
+      "class": "focus",
+      "item": "Close window control",
+      "node": "button[aria-label=\"Close window\"]",
+      "sc": "SC 4.1.2",
+      "expected": "\"Close window\" + button",
+      "tokens": [
+        "Close window"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "heard": [
+        "Close window button"
+      ],
+      "action": "Tab",
+      "action_ts": "2026-09-07T19:32:32.793Z"
+    },
+    {
+      "id": "R0-04",
+      "subject": "error",
+      "state": "idle",
+      "class": "focus",
+      "item": "Start control with nothing loaded",
+      "node": "button \"Start\" (aria-disabled=true)",
+      "sc": "SC 4.1.2",
+      "expected": "\"Start\" + button + unavailable",
+      "tokens": [
+        "Start",
+        "unavailable"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "heard": [
+        "main landmark Run controls grouping Start button unavailable"
+      ],
+      "action": "Tab",
+      "action_ts": "2026-09-07T19:32:33.654Z"
+    },
+    {
+      "id": "E0-01",
+      "subject": "empty",
+      "state": "idle-report",
+      "class": "browse",
+      "item": "empty-catalog prose",
+      "node": "p \"No scenarios found.\" (plan prose \"No scenarios loaded\" — divergence)",
+      "sc": "SC 4.1.3",
+      "expected": "\"No scenarios found.\" by navigation",
+      "tokens": [
+        "No scenarios found"
+      ],
+      "arm": "operator",
+      "outcome": "not-run-here",
+      "heard": [],
+      "action": "none (browse row)",
+      "action_ts": "2026-09-07T19:33:49.402Z",
+      "note": "browse-mode command not deliverable by the agent arm — driver-injected keys bypass NVDA’s keyboard hook (measured 2026-09-02); the operator arm reads this row"
+    },
+    {
+      "id": "E0-02",
+      "subject": "empty",
+      "state": "idle-report",
+      "class": "focus",
+      "item": "Minimize window control",
+      "node": "button[aria-label=\"Minimize window\"]",
+      "sc": "SC 4.1.2",
+      "expected": "\"Minimize window\" + button",
+      "tokens": [
+        "Minimize window"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "heard": [
+        "banner landmark Minimize window button"
+      ],
+      "action": "Tab",
+      "action_ts": "2026-09-07T19:33:53.513Z"
+    },
+    {
+      "id": "E0-03",
+      "subject": "empty",
+      "state": "idle-report",
+      "class": "focus",
+      "item": "Close window control",
+      "node": "button[aria-label=\"Close window\"]",
+      "sc": "SC 4.1.2",
+      "expected": "\"Close window\" + button",
+      "tokens": [
+        "Close window"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "heard": [
+        "Close window button"
+      ],
+      "action": "Tab",
+      "action_ts": "2026-09-07T19:33:54.436Z"
+    },
+    {
+      "id": "E0-04",
+      "subject": "empty",
+      "state": "idle-report",
+      "class": "focus",
+      "item": "Start control with no selection possible",
+      "node": "button \"Start\" (aria-disabled=true)",
+      "sc": "SC 4.1.2",
+      "expected": "\"Start\" + button + unavailable",
+      "tokens": [
+        "Start",
+        "unavailable"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "heard": [
+        "main landmark Run controls grouping Start button unavailable"
+      ],
+      "action": "Tab",
+      "action_ts": "2026-09-07T19:33:55.284Z"
+    },
+    {
+      "id": "E0-05",
+      "subject": "empty",
+      "state": "idle-report",
+      "class": "focus",
+      "item": "coverage rows scroll region",
+      "node": "div[role=\"group\"][aria-label=\"Coverage rows\"]",
+      "sc": "SC 1.3.1",
+      "expected": "\"Coverage rows\" + grouping",
+      "tokens": [
+        "Coverage rows"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "heard": [
+        "Capability coverage matrix region Coverage rows table with 83 rows and 4 columns Coverage rows row 1 column 1 P-ID column 2 Capability column 3 Mode column 4 Status row 2 P-ID column 1 P-001 Capability column 2 Receiver Lifecycle StateConnection & Health Awareness Mode column 3 drive+observe Status column 4 Not yet run row 3 P-ID column 1 P-002 Capability column 2 Last-Span-Ago TrackingConnection  … [11839 more chars]"
+      ],
+      "action": "Tab",
+      "action_ts": "2026-09-07T19:33:56.278Z"
+    },
+    {
+      "id": "E0-06",
+      "subject": "empty",
+      "state": "idle-report",
+      "class": "focus",
+      "item": "run report rows scroll region (fixture present)",
+      "node": "div[tabindex=0] › table[aria-label=\"Run report rows\"]",
+      "sc": "SC 1.3.1",
+      "expected": "the region named \"Run report rows\" only — focusing it must NOT read the table's rows as one utterance",
+      "tokens": [
+        "Run report rows"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "heard": [
+        "Run report region Run report rows table with 4 rows and 6 columns Run report rows row 1 column 1 P-ID column 2 Scenario column 3 Status column 4 Latency column 5 SLO column 6 FP row 2 P-ID column 1 P-019 P-041 Scenario column 2 lamps-fixture-pass Status column 3 Pass Latency column 4 2000 ms SLO column 5 <5s FP column 6 0 row 3 P-ID column 1 P-019 Scenario column 2 lamps-fixture-blocked Status col … [218 more chars]"
+      ],
+      "action": "Tab",
+      "action_ts": "2026-09-07T19:33:57.354Z"
+    },
+    {
+      "id": "E0-07",
+      "subject": "empty",
+      "state": "idle-report",
+      "class": "browse",
+      "item": "run report header",
+      "node": "header \"3 scenarios · run lamps-fixture\"",
+      "sc": "SC 1.3.1",
+      "expected": "the header text by navigation",
+      "tokens": [
+        "lamps-fixture"
+      ],
+      "arm": "operator",
+      "outcome": "not-run-here",
+      "heard": [],
+      "action": "ArrowDown (browse-mode next line)",
+      "action_ts": "2026-09-07T19:33:58.326Z",
+      "note": "browse-mode command not deliverable by the agent arm — driver-injected keys bypass NVDA’s keyboard hook (measured 2026-09-02); the operator arm reads this row"
+    },
+    {
+      "id": "E0-08",
+      "subject": "empty",
+      "state": "idle-report",
+      "class": "browse",
+      "item": "run report status cells",
+      "node": "td.report__status › lamp labels \"Pass\" · \"Blocked\" · \"Fail\" (glyph aria-hidden)",
+      "sc": "SC 1.4.1",
+      "expected": "\"Blocked\" read as text, never a colour",
+      "tokens": [
+        "Blocked"
+      ],
+      "arm": "operator",
+      "outcome": "not-run-here",
+      "heard": [],
+      "action": "ArrowDown (browse-mode next line)",
+      "action_ts": "2026-09-07T19:34:02.442Z",
+      "note": "browse-mode command not deliverable by the agent arm — driver-injected keys bypass NVDA’s keyboard hook (measured 2026-09-02); the operator arm reads this row"
+    },
+    {
+      "id": "E0-09",
+      "subject": "empty",
+      "state": "idle-report",
+      "class": "browse",
+      "item": "coverage lamp for the collided P-ID",
+      "node": "row P-019 › lamp \"Blocked\" (worst-lamp-wins over Pass)",
+      "sc": "SC 1.4.1",
+      "expected": "\"P-019\" … \"Blocked\" by navigation",
+      "tokens": [
+        "P-019"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "heard": [
+        "Capability coverage matrix region Coverage rows table with 83 rows and 4 columns Coverage rows row 1 column 1 P-ID column 2 Capability column 3 Mode column 4 Status row 2 P-ID column 1 P-001 Capability column 2 Receiver Lifecycle StateConnection & Health Awareness Mode column 3 drive+observe Status column 4 Not yet run row 3 P-ID column 1 P-002 Capability column 2 Last-Span-Ago TrackingConnection  … [11839 more chars]"
+      ],
+      "action": "Shift+Tab, ArrowDown (browse-mode next line)",
+      "action_ts": "2026-09-07T19:34:06.536Z"
+    },
+    {
+      "id": "E0-10",
+      "subject": "empty",
+      "state": "idle-report",
+      "class": "browse",
+      "item": "run-level load-envelope banner",
+      "node": "p.report__envelope (not rendered — the fixture records no run_envelope row)",
+      "sc": "SC 1.4.1",
+      "expected": "subject absent",
+      "tokens": [
+        "ENVIRONMENT-SUSPECT"
+      ],
+      "arm": "agent",
+      "outcome": "subject-absent",
+      "heard": [],
+      "action": "none (subject absent)",
+      "action_ts": "2026-09-07T19:34:07.528Z",
+      "note": "the seeded fixture records no run_envelope row; the rendered-DOM proof is v2-25's"
+    },
+    {
+      "id": "S0-11",
+      "subject": "live",
+      "state": "idle",
+      "class": "browse",
+      "item": "titlebar phase line at rest",
+      "node": "banner › span[aria-live=\"polite\"] \"Conductor · idle\"",
+      "sc": "SC 4.1.3",
+      "expected": "\"Conductor · idle\" read by navigation (the region announces changes, not initial content)",
+      "tokens": [
+        "idle"
+      ],
+      "arm": "operator",
+      "outcome": "not-run-here",
+      "heard": [],
+      "action": "none (browse row)",
+      "action_ts": "2026-09-07T19:41:15.518Z",
+      "note": "browse-mode command not deliverable by the agent arm — driver-injected keys bypass NVDA’s keyboard hook (measured 2026-09-02); the operator arm reads this row"
+    },
+    {
+      "id": "S0-12",
+      "subject": "live",
+      "state": "idle",
+      "class": "browse",
+      "item": "titlebar count placeholder",
+      "node": "banner › span[aria-live=\"polite\"][aria-label=\"Scenario count: no run yet\"] \"00:00:00\"",
+      "sc": "SC 4.1.2",
+      "expected": "the count is NAMED — \"Scenario count: no run yet\" — never bare digits",
+      "tokens": [
+        "Scenario count"
+      ],
+      "arm": "operator",
+      "outcome": "not-run-here",
+      "heard": [],
+      "action": "none (browse row)",
+      "action_ts": "2026-09-07T19:41:19.589Z",
+      "note": "browse-mode command not deliverable by the agent arm — driver-injected keys bypass NVDA’s keyboard hook (measured 2026-09-02); the operator arm reads this row"
+    },
+    {
+      "id": "S0-01",
+      "subject": "live",
+      "state": "idle",
+      "class": "focus",
+      "item": "Minimize window control",
+      "node": "button[aria-label=\"Minimize window\"]",
+      "sc": "SC 4.1.2",
+      "expected": "\"Minimize window\" + button (NVDA default verbosity)",
+      "tokens": [
+        "Minimize window"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "heard": [
+        "banner landmark Minimize window button"
+      ],
+      "action": "Tab",
+      "action_ts": "2026-09-07T19:41:23.638Z"
+    },
+    {
+      "id": "S0-02",
+      "subject": "live",
+      "state": "idle",
+      "class": "focus",
+      "item": "Close window control",
+      "node": "button[aria-label=\"Close window\"]",
+      "sc": "SC 4.1.2",
+      "expected": "\"Close window\" + button",
+      "tokens": [
+        "Close window"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "heard": [
+        "Close window button"
+      ],
+      "action": "Tab",
+      "action_ts": "2026-09-07T19:41:24.526Z"
+    },
+    {
+      "id": "S0-03",
+      "subject": "live",
+      "state": "idle",
+      "class": "focus",
+      "item": "scenario / suite picker",
+      "node": "input[role=\"combobox\"] named \"Scenario or suite picker\" (cmdk)",
+      "sc": "SC 4.1.2",
+      "expected": "\"Scenario or suite picker\" + combo box, editable, with the first option active",
+      "tokens": [
+        "Scenario or suite picker"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "heard": [
+        "main landmark",
+        "Scenario or suite picker combo box expanded has auto complete editable Filter scenarios by name or P-ID… blank"
+      ],
+      "action": "Tab",
+      "action_ts": "2026-09-07T19:41:25.332Z"
+    },
+    {
+      "id": "S0-16",
+      "subject": "live",
+      "state": "idle",
+      "class": "browse",
+      "item": "picker filter-miss prose",
+      "node": "div[aria-live=\"polite\"] › p \"No scenarios match.\" (cmdk Empty replaced — its role=\"presentation\" is set after the prop spread and cannot be overridden)",
+      "sc": "SC 4.1.3",
+      "expected": "ANNOUNCED when the filter stops matching — the status region is mounted before the text arrives, so the prose is a change and not a mount",
+      "tokens": [
+        "No scenarios match"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "heard": [
+        "No scenarios match.",
+        "Suite — all scenarios · 3 scenarios 1 of 4"
+      ],
+      "action": "type \"zzz\" (filter miss), then Backspace ×3",
+      "action_ts": "2026-09-07T19:41:26.240Z"
+    },
+    {
+      "id": "S0-04",
+      "subject": "live",
+      "state": "idle",
+      "class": "focus",
+      "item": "picker option (Arrow Down)",
+      "node": "[role=\"option\"] \"halo-breathing-encoding · P-026 · <20s\"",
+      "sc": "SC 4.1.2",
+      "expected": "the option text as the active descendant changes",
+      "tokens": [
+        "halo-breathing-encoding"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "heard": [
+        "Suggestions list",
+        "halo-breathing-encoding · P-026 · <20s 2 of 4"
+      ],
+      "action": "ArrowDown",
+      "action_ts": "2026-09-07T19:41:27.207Z"
+    },
+    {
+      "id": "S0-05",
+      "subject": "live",
+      "state": "idle",
+      "class": "focus",
+      "item": "picker option (Arrow Down)",
+      "node": "[role=\"option\"] \"halo-hue-encoding · P-025 · <5s\"",
+      "sc": "SC 4.1.2",
+      "expected": "the option text as the active descendant changes",
+      "tokens": [
+        "halo-hue-encoding"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "heard": [
+        "halo-hue-encoding · P-025 · <5s 3 of 4"
+      ],
+      "action": "ArrowDown",
+      "action_ts": "2026-09-07T19:41:28.138Z"
+    },
+    {
+      "id": "S0-06",
+      "subject": "live",
+      "state": "idle",
+      "class": "focus",
+      "item": "select the suite (Enter on \"Suite — all scenarios\")",
+      "node": "[role=\"option\"][aria-current=\"true\"] with \" · selected\"",
+      "sc": "SC 4.1.2",
+      "expected": "the committed choice announced WITH its selected state as it becomes current — the option's aria-label carries \" · selected\", so it no longer waits for a re-read",
+      "tokens": [
+        "selected"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "heard": [
+        "halo-breathing-encoding · P-026 · <20s 2 of 4",
+        "Suite — all scenarios · 3 scenarios 1 of 4",
+        "current",
+        "Suite — all scenarios · 3 scenarios · selected"
+      ],
+      "action": "ArrowUp ×2 to \"Suite — all scenarios\", Enter",
+      "action_ts": "2026-09-07T19:41:28.936Z"
+    },
+    {
+      "id": "S0-07",
+      "subject": "live",
+      "state": "idle",
+      "class": "focus",
+      "item": "Start control after a selection",
+      "node": "button \"Start\" (aria-disabled=false)",
+      "sc": "SC 4.1.2",
+      "expected": "\"Start\" + button, NOT unavailable",
+      "tokens": [
+        "Start"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "heard": [
+        "Run controls grouping Start button"
+      ],
+      "action": "Tab",
+      "action_ts": "2026-09-07T19:41:30.021Z"
+    },
+    {
+      "id": "S0-08",
+      "subject": "live",
+      "state": "idle",
+      "class": "browse",
+      "item": "Stop control while idle",
+      "node": "button \"Stop\" (native disabled — unfocusable)",
+      "sc": "SC 4.1.2",
+      "expected": "\"Stop\" + button + unavailable, by navigation only",
+      "tokens": [
+        "Stop"
+      ],
+      "arm": "operator",
+      "outcome": "not-run-here",
+      "heard": [],
+      "action": "none (browse row — Stop is natively disabled)",
+      "action_ts": "2026-09-07T19:41:30.963Z",
+      "note": "browse-mode command not deliverable by the agent arm — driver-injected keys bypass NVDA’s keyboard hook (measured 2026-09-02); the operator arm reads this row"
+    },
+    {
+      "id": "S0-09",
+      "subject": "live",
+      "state": "idle",
+      "class": "focus",
+      "item": "coverage rows scroll region",
+      "node": "div[tabindex=0] › table[aria-label=\"Coverage rows\"]",
+      "sc": "SC 1.3.1",
+      "expected": "the region named \"Coverage rows\" only — focusing it must NOT read the table's rows as one utterance (the role=\"group\" that did is gone)",
+      "tokens": [
+        "Coverage rows"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "heard": [
+        "Capability coverage matrix region Coverage rows table with 83 rows and 4 columns Coverage rows row 1 column 1 P-ID column 2 Capability column 3 Mode column 4 Status row 2 P-ID column 1 P-001 Capability column 2 Receiver Lifecycle StateConnection & Health Awareness Mode column 3 drive+observe Status column 4 Not yet run row 3 P-ID column 1 P-002 Capability column 2 Last-Span-Ago TrackingConnection  … [11857 more chars]"
+      ],
+      "action": "Tab",
+      "action_ts": "2026-09-07T19:41:35.040Z"
+    },
+    {
+      "id": "S0-13",
+      "subject": "live",
+      "state": "idle",
+      "class": "browse",
+      "item": "heading list (three h2, no h1 — finding)",
+      "node": "h2 \"Scenario / suite\" · \"Coverage matrix\" · \"Run report\"",
+      "sc": "SC 1.3.1",
+      "expected": "next-heading navigation reads \"Scenario / suite heading level 2\"",
+      "tokens": [
+        "Scenario / suite"
+      ],
+      "arm": "operator",
+      "outcome": "not-run-here",
+      "heard": [],
+      "action": "h (browse-mode next heading)",
+      "action_ts": "2026-09-07T19:41:36.054Z",
+      "note": "browse-mode command not deliverable by the agent arm — driver-injected keys bypass NVDA’s keyboard hook (measured 2026-09-02); the operator arm reads this row"
+    },
+    {
+      "id": "S0-14",
+      "subject": "live",
+      "state": "idle",
+      "class": "browse",
+      "item": "landmark list (banner · main · two regions; contentinfo absent — finding)",
+      "node": "header (banner) · main · section[aria-label]",
+      "sc": "SC 1.3.1",
+      "expected": "next-landmark navigation reads \"main landmark\"",
+      "tokens": [
+        "main"
+      ],
+      "arm": "operator",
+      "outcome": "not-run-here",
+      "heard": [],
+      "action": "d (browse-mode next landmark)",
+      "action_ts": "2026-09-07T19:41:40.134Z",
+      "note": "browse-mode command not deliverable by the agent arm — driver-injected keys bypass NVDA’s keyboard hook (measured 2026-09-02); the operator arm reads this row"
+    },
+    {
+      "id": "S0-15",
+      "subject": "live",
+      "state": "idle",
+      "class": "browse",
+      "item": "coverage matrix not-yet-run cell",
+      "node": "td.cov__status \"Not yet run\" (text, never a tint)",
+      "sc": "SC 1.4.1",
+      "expected": "\"Not yet run\" read as a table cell",
+      "tokens": [
+        "Not yet run"
+      ],
+      "arm": "operator",
+      "outcome": "not-run-here",
+      "heard": [],
+      "action": "ArrowDown (browse-mode next line)",
+      "action_ts": "2026-09-07T19:41:44.200Z",
+      "note": "browse-mode command not deliverable by the agent arm — driver-injected keys bypass NVDA’s keyboard hook (measured 2026-09-02); the operator arm reads this row"
+    },
+    {
+      "id": "S0-10",
+      "subject": "live",
+      "state": "idle",
+      "class": "browse",
+      "item": "run report empty prose",
+      "node": "p \"No run yet\" (plan prose \"No run yet — pick a scenario/suite to begin\" — divergence)",
+      "sc": "SC 4.1.3",
+      "expected": "\"No run yet\" by navigation",
+      "tokens": [
+        "No run yet"
+      ],
+      "arm": "operator",
+      "outcome": "not-run-here",
+      "heard": [],
+      "action": "none (browse row)",
+      "action_ts": "2026-09-07T19:41:48.261Z",
+      "note": "browse-mode command not deliverable by the agent arm — driver-injected keys bypass NVDA’s keyboard hook (measured 2026-09-02); the operator arm reads this row"
+    },
+    {
+      "id": "S1-01",
+      "subject": "live",
+      "state": "live",
+      "class": "live",
+      "item": "phase line flip on Start",
+      "node": "span[aria-live=\"polite\"] \"Conductor · live\"",
+      "sc": "SC 4.1.3",
+      "expected": "\"Conductor · live\" announced (polite — assertive is reserved for the HOLD flip, so this no longer preempts a focus announcement)",
+      "tokens": [
+        "live"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "heard": [
+        "Run controls grouping Start button",
+        "Conductor · live",
+        "Scenarios completed: 0",
+        "Scenarios completed: 0",
+        "unavailable"
+      ],
+      "action": "Shift+Tab to Start, Enter",
+      "action_ts": "2026-09-07T19:41:52.310Z"
+    },
+    {
+      "id": "S1-02",
+      "subject": "live",
+      "state": "live",
+      "class": "browse",
+      "item": "count after Start (a scenario counter, not a clock)",
+      "node": "span.titlebar__count[aria-live=\"polite\"][aria-label=\"Scenarios completed: 0\"] \"0\"",
+      "sc": "SC 4.1.3",
+      "expected": "ANNOUNCED as it advances — the count is an aria-live region named \"Scenarios completed\"",
+      "tokens": [
+        "Scenarios completed"
+      ],
+      "arm": "operator",
+      "outcome": "not-run-here",
+      "heard": [],
+      "action": "none (browse row — the count reads \"0\")",
+      "action_ts": "2026-09-07T19:41:53.352Z",
+      "note": "browse-mode command not deliverable by the agent arm — driver-injected keys bypass NVDA’s keyboard hook (measured 2026-09-02); the operator arm reads this row"
+    },
+    {
+      "id": "S1-05",
+      "subject": "live",
+      "state": "live",
+      "class": "browse",
+      "item": "in-progress prose",
+      "node": "(none) — the plan's \"Run in progress\" prose does not ship",
+      "sc": "SC 4.1.3",
+      "expected": "subject absent",
+      "tokens": [
+        "Run in progress"
+      ],
+      "arm": "agent",
+      "outcome": "subject-absent",
+      "heard": [],
+      "action": "none (subject absent)",
+      "action_ts": "2026-09-07T19:41:57.421Z",
+      "note": "no in-progress prose ships; the live state rides the titlebar label + count only"
+    },
+    {
+      "id": "S1-03",
+      "subject": "live",
+      "state": "live",
+      "class": "focus",
+      "item": "Start control while running",
+      "node": "button \"Start\" (aria-disabled=true)",
+      "sc": "SC 4.1.2",
+      "expected": "\"Start\" + button + unavailable",
+      "tokens": [
+        "Start",
+        "unavailable"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "heard": [
+        "Suggestions list",
+        "Suite — all scenarios · 3 scenarios · selected current 1 of 4",
+        "Run controls grouping Start button unavailable"
+      ],
+      "action": "Shift+Tab, Tab (refocus Start)",
+      "action_ts": "2026-09-07T19:42:01.449Z"
+    },
+    {
+      "id": "S1-04",
+      "subject": "live",
+      "state": "live",
+      "class": "focus",
+      "item": "Stop control while running",
+      "node": "button \"Stop\" (enabled)",
+      "sc": "SC 4.1.2",
+      "expected": "\"Stop\" + button, NOT unavailable",
+      "tokens": [
+        "Stop"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "heard": [
+        "Stop button"
+      ],
+      "action": "Tab",
+      "action_ts": "2026-09-07T19:42:02.491Z"
+    },
+    {
+      "id": "S2-01",
+      "subject": "live",
+      "state": "hold",
+      "class": "live",
+      "item": "phase line flip to HOLD (focus returned to Start first, so the restore target is Start)",
+      "node": "span[aria-live=\"assertive\"] \"Conductor · HOLD — operator pause\"",
+      "sc": "SC 4.1.3",
+      "expected": "\"HOLD — operator pause\" announced (assertive; may interleave with the dialog)",
+      "tokens": [
+        "HOLD"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "heard": [
+        "Start button unavailable",
+        "Conductor · HOLD — operator pause",
+        "P-026 — operator-checklist dialog Observe the operator-checklist claim for this scenario",
+        "Abort button",
+        "P-026 — operator-checklist dialog Observe the operator-checklist claim for this scenario",
+        "button Abort"
+      ],
+      "action": "Shift+Tab back to Start, then wait for the hold (the in-run preflight canary poll)",
+      "action_ts": "2026-09-07T19:42:03.403Z"
+    },
+    {
+      "id": "S2-02",
+      "subject": "live",
+      "state": "hold",
+      "class": "focus",
+      "item": "operator-pause dialog opens, focus on Abort",
+      "node": "[role=\"alertdialog\"] labelled \"P-026 — operator-checklist\" (halo-breathing-encoding holds first in sorted-filename order), described \"Observe the operator-checklist claim for this scenario\"; Abort focused",
+      "sc": "SC 4.1.2 · SC 2.4.3",
+      "expected": "dialog + title + description, then \"Abort\" + button",
+      "tokens": [
+        "operator-checklist",
+        "Abort"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "heard": [
+        "Start button unavailable",
+        "Conductor · HOLD — operator pause",
+        "P-026 — operator-checklist dialog Observe the operator-checklist claim for this scenario",
+        "Abort button",
+        "P-026 — operator-checklist dialog Observe the operator-checklist claim for this scenario",
+        "button Abort"
+      ],
+      "action": "the dialog opens in the same instant (shared window)",
+      "action_ts": "2026-09-07T19:42:03.426Z"
+    },
+    {
+      "id": "S2-06",
+      "subject": "live",
+      "state": "hold",
+      "class": "browse",
+      "item": "unticked roll-up at open",
+      "node": "p[role=\"status\"][aria-live=\"polite\"] \"1 of 1 unconfirmed\"",
+      "sc": "SC 4.1.3",
+      "expected": "initial text by navigation (polite region announces changes)",
+      "tokens": [
+        "1 of 1 unconfirmed"
+      ],
+      "arm": "operator",
+      "outcome": "not-run-here",
+      "heard": [],
+      "action": "none (browse row)",
+      "action_ts": "2026-09-07T19:42:49.344Z",
+      "note": "browse-mode command not deliverable by the agent arm — driver-injected keys bypass NVDA’s keyboard hook (measured 2026-09-02); the operator arm reads this row"
+    },
+    {
+      "id": "S2-03",
+      "subject": "live",
+      "state": "hold",
+      "class": "focus",
+      "item": "Proceed action (Tab)",
+      "node": "button \"Proceed\"",
+      "sc": "SC 4.1.2",
+      "expected": "\"Proceed\" + button",
+      "tokens": [
+        "Proceed"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "heard": [
+        "Proceed button"
+      ],
+      "action": "Tab",
+      "action_ts": "2026-09-07T19:42:53.414Z"
+    },
+    {
+      "id": "S2-04",
+      "subject": "live",
+      "state": "hold",
+      "class": "focus",
+      "item": "checklist row (Tab)",
+      "node": "label › input[type=\"checkbox\"] + induced + observation text",
+      "sc": "SC 4.1.2",
+      "expected": "the row text (\"… halo breathing rate tracks throughput?\") + check box + not checked",
+      "tokens": [
+        "throughput",
+        "not checked"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "heard": [
+        "Operator checklist region list with 1 item emission rate ramped 5 -> 50 spans/s across 20 windows, then back down to 5 halo breathing rate tracks throughput? check box not checked"
+      ],
+      "action": "Tab",
+      "action_ts": "2026-09-07T19:42:54.233Z"
+    },
+    {
+      "id": "S2-05",
+      "subject": "live",
+      "state": "hold",
+      "class": "live",
+      "item": "Space toggles the row; roll-up updates",
+      "node": "checkbox checked + p[role=\"status\"] \"All observations confirmed\"",
+      "sc": "SC 4.1.3",
+      "expected": "\"checked\" then \"All observations confirmed\" (polite)",
+      "tokens": [
+        "checked",
+        "All observations confirmed"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "heard": [
+        "All observations confirmed",
+        "checked"
+      ],
+      "action": "Space",
+      "action_ts": "2026-09-07T19:42:55.150Z"
+    },
+    {
+      "id": "S2-07",
+      "subject": "live",
+      "state": "hold",
+      "class": "focus",
+      "item": "Proceed (Enter) closes the dialog; focus restored",
+      "node": "button \"Start\" regains focus (onCloseAutoFocus → restoreFocusTo)",
+      "sc": "SC 2.4.3",
+      "expected": "\"Start\" + button (+ unavailable while running) — the restore announcement completes; the phase line leaving hold is polite now and no longer preempts it",
+      "tokens": [
+        "Start"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "heard": [
+        "Proceed button",
+        "Conductor · live",
+        "Scenarios completed: 1",
+        "out of grouping clickable main landmark Scenario or suite picker",
+        "Run controls grouping Start button unavailable",
+        "Scenarios completed: 1"
+      ],
+      "action": "Shift+Tab to Proceed, Enter (Go); focus restores to Start",
+      "action_ts": "2026-09-07T19:42:56.122Z"
+    },
+    {
+      "id": "S2-08",
+      "subject": "live",
+      "state": "hold",
+      "class": "live",
+      "item": "phase line back to live",
+      "node": "span[aria-live=\"polite\"] \"Conductor · live\"",
+      "sc": "SC 4.1.3",
+      "expected": "\"Conductor · live\" announced",
+      "tokens": [
+        "live"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "heard": [
+        "Proceed button",
+        "Conductor · live",
+        "Scenarios completed: 1",
+        "out of grouping clickable main landmark Scenario or suite picker",
+        "Run controls grouping Start button unavailable",
+        "Scenarios completed: 1"
+      ],
+      "action": "the phase line returns to live in the same instant (shared window)",
+      "action_ts": "2026-09-07T19:42:56.162Z"
+    },
+    {
+      "id": "S3-01",
+      "subject": "live",
+      "state": "aborted",
+      "class": "live",
+      "item": "Stop during the second scenario (a third follows, so the backend abort check fires)",
+      "node": "span[aria-live=\"polite\"] \"Conductor · aborted\"",
+      "sc": "SC 4.1.3",
+      "expected": "\"Conductor · aborted\" announced",
+      "tokens": [
+        "aborted"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "heard": [
+        "art button S",
+        "Conductor · aborted",
+        "unavailable"
+      ],
+      "action": "Tab to Stop, Enter",
+      "action_ts": "2026-09-07T19:42:57.397Z"
+    },
+    {
+      "id": "S3-02",
+      "subject": "live",
+      "state": "aborted",
+      "class": "focus",
+      "item": "Start control after Stop",
+      "node": "button \"Start\" (aria-disabled=false again)",
+      "sc": "SC 4.1.2",
+      "expected": "\"Start\" + button, NOT unavailable",
+      "tokens": [
+        "Start"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "heard": [
+        "Start button"
+      ],
+      "action": "Shift+Tab",
+      "action_ts": "2026-09-07T19:42:58.312Z"
+    },
+    {
+      "id": "S3-03",
+      "subject": "live",
+      "state": "aborted",
+      "class": "live",
+      "item": "second hold still opens (abort is polled between scenarios)",
+      "node": "HOLD flip + [role=\"alertdialog\"] \"P-025 — operator-checklist\" (halo-hue-encoding, second in sorted order)",
+      "sc": "SC 4.1.3",
+      "expected": "\"HOLD\" then the P-025 dialog",
+      "tokens": [
+        "HOLD",
+        "P-025"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "heard": [
+        "Conductor · HOLD — operator pause",
+        "P-025 — operator-checklist dialog Observe the operator-checklist claim for this scenario",
+        "Abort button",
+        "P-025 — operator-checklist dialog Observe the operator-checklist claim for this scenario",
+        "button Abort"
+      ],
+      "action": "wait for the second hold (halo-breathing-encoding)",
+      "action_ts": "2026-09-07T19:42:59.233Z"
+    },
+    {
+      "id": "S3-04",
+      "subject": "live",
+      "state": "aborted",
+      "class": "focus",
+      "item": "Escape resolves NoGo; focus restored",
+      "node": "button \"Start\" regains focus",
+      "sc": "SC 2.1.2 · SC 2.4.3",
+      "expected": "\"Start\" + button — spoken every session; the assertive phase-line flip that cancelled it is scoped to entering hold",
+      "tokens": [
+        "Start"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "heard": [
+        "Conductor · live",
+        "Scenarios completed: 2",
+        "out of grouping Scenario or suite picker",
+        "Run controls grouping Start button unavailable",
+        "Scenarios completed: 2",
+        "Conductor · aborted"
+      ],
+      "action": "Escape (NoGo); focus restores to Start",
+      "action_ts": "2026-09-07T19:43:04.080Z"
+    },
+    {
+      "id": "S3-05",
+      "subject": "live",
+      "state": "aborted",
+      "class": "live",
+      "item": "terminal Aborted stage settles the phase line",
+      "node": "span[aria-live=\"polite\"] \"Conductor · aborted\"; report reloads",
+      "sc": "SC 4.1.3",
+      "expected": "\"Conductor · aborted\" announced and STAYS aborted — a stop during the last scenario now reports the Aborted stage, so the line no longer settles to idle",
+      "tokens": [
+        "aborted"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "heard": [
+        "Conductor · live",
+        "Scenarios completed: 2",
+        "out of grouping Scenario or suite picker",
+        "Run controls grouping Start button unavailable",
+        "Scenarios completed: 2",
+        "Conductor · aborted"
+      ],
+      "action": "the Aborted stage and the report reload follow in the same instant (shared window)",
+      "action_ts": "2026-09-07T19:43:04.102Z"
+    },
+    {
+      "id": "S3-06",
+      "subject": "live",
+      "state": "aborted",
+      "class": "browse",
+      "item": "run report rows after the stopped run",
+      "node": "table rows with the \"Manual\" lamp label",
+      "sc": "SC 1.4.1",
+      "expected": "\"Manual\" read as the status cell text",
+      "tokens": [
+        "Manual"
+      ],
+      "arm": "operator",
+      "outcome": "not-run-here",
+      "heard": [],
+      "action": "ArrowDown (browse-mode next line)",
+      "action_ts": "2026-09-07T19:43:07.092Z",
+      "note": "browse-mode command not deliverable by the agent arm — driver-injected keys bypass NVDA’s keyboard hook (measured 2026-09-02); the operator arm reads this row"
+    },
+    {
+      "id": "S3-07",
+      "subject": "live",
+      "state": "aborted",
+      "class": "browse",
+      "item": "coverage matrix lamp for P-025",
+      "node": "td.cov__status › lamp label \"Manual\" beside P-025",
+      "sc": "SC 1.4.1",
+      "expected": "\"P-025\" … \"Manual\" by navigation",
+      "tokens": [
+        "P-025"
+      ],
+      "arm": "operator",
+      "outcome": "not-run-here",
+      "heard": [],
+      "action": "ArrowDown (browse-mode next line)",
+      "action_ts": "2026-09-07T19:43:11.163Z",
+      "note": "browse-mode command not deliverable by the agent arm — driver-injected keys bypass NVDA’s keyboard hook (measured 2026-09-02); the operator arm reads this row"
+    },
+    {
+      "id": "T-01",
+      "subject": "live",
+      "state": "terminal",
+      "class": "live",
+      "item": "un-stopped run settles to idle",
+      "node": "span[aria-live=\"polite\"] \"Conductor · idle\"",
+      "sc": "SC 4.1.3",
+      "expected": "\"Conductor · idle\" announced on the Done stage",
+      "tokens": [
+        "idle"
+      ],
+      "arm": "agent",
+      "outcome": "not-run-here",
+      "heard": [],
+      "action": "not run (the live subject is stopped by design)",
+      "action_ts": "2026-09-07T19:43:15.245Z",
+      "note": "the live subject is stopped by design (aborted needs a Stop); a second un-stopped session is optional"
+    }
+  ],
+  "findings": [
+    "E0-01 not-run-here (browse-mode command not deliverable by the agent arm — driver-injected keys bypass NVDA’s keyboard hook (measured 2026-09-02); the operator arm reads this row): empty-catalog prose",
+    "E0-07 not-run-here (browse-mode command not deliverable by the agent arm — driver-injected keys bypass NVDA’s keyboard hook (measured 2026-09-02); the operator arm reads this row): run report header",
+    "E0-08 not-run-here (browse-mode command not deliverable by the agent arm — driver-injected keys bypass NVDA’s keyboard hook (measured 2026-09-02); the operator arm reads this row): run report status cells",
+    "S0-11 not-run-here (browse-mode command not deliverable by the agent arm — driver-injected keys bypass NVDA’s keyboard hook (measured 2026-09-02); the operator arm reads this row): titlebar phase line at rest",
+    "S0-12 not-run-here (browse-mode command not deliverable by the agent arm — driver-injected keys bypass NVDA’s keyboard hook (measured 2026-09-02); the operator arm reads this row): titlebar count placeholder",
+    "S0-08 not-run-here (browse-mode command not deliverable by the agent arm — driver-injected keys bypass NVDA’s keyboard hook (measured 2026-09-02); the operator arm reads this row): Stop control while idle",
+    "S0-13 not-run-here (browse-mode command not deliverable by the agent arm — driver-injected keys bypass NVDA’s keyboard hook (measured 2026-09-02); the operator arm reads this row): heading list (three h2, no h1 — finding)",
+    "S0-14 not-run-here (browse-mode command not deliverable by the agent arm — driver-injected keys bypass NVDA’s keyboard hook (measured 2026-09-02); the operator arm reads this row): landmark list (banner · main · two regions; contentinfo absent — finding)",
+    "S0-15 not-run-here (browse-mode command not deliverable by the agent arm — driver-injected keys bypass NVDA’s keyboard hook (measured 2026-09-02); the operator arm reads this row): coverage matrix not-yet-run cell",
+    "S0-10 not-run-here (browse-mode command not deliverable by the agent arm — driver-injected keys bypass NVDA’s keyboard hook (measured 2026-09-02); the operator arm reads this row): run report empty prose",
+    "S1-02 not-run-here (browse-mode command not deliverable by the agent arm — driver-injected keys bypass NVDA’s keyboard hook (measured 2026-09-02); the operator arm reads this row): count after Start (a scenario counter, not a clock)",
+    "S2-06 not-run-here (browse-mode command not deliverable by the agent arm — driver-injected keys bypass NVDA’s keyboard hook (measured 2026-09-02); the operator arm reads this row): unticked roll-up at open",
+    "S3-06 not-run-here (browse-mode command not deliverable by the agent arm — driver-injected keys bypass NVDA’s keyboard hook (measured 2026-09-02); the operator arm reads this row): run report rows after the stopped run",
+    "S3-07 not-run-here (browse-mode command not deliverable by the agent arm — driver-injected keys bypass NVDA’s keyboard hook (measured 2026-09-02); the operator arm reads this row): coverage matrix lamp for P-025"
+  ],
+  "operator_review": null
+}

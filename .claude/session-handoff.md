@@ -1,76 +1,83 @@
 # Session Handoff
 
-**Last Updated:** 2026-09-07T17:15:21Z
-**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **0 ahead at Setup** — the
-session's own push landed mid-session, so this wrap's commit makes it **1 ahead and unpushed**. The push
-is the operator's act and is load-bearing this time: it triggers the a11y job's first run.)
+**Last Updated:** 2026-09-07T21:57:29Z
+**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **0 ahead at wrap-time re-read** —
+the branch is level with origin, so this wrap's commit makes it **1 ahead and unpushed**. The push is the
+operator's act. It will NOT turn CI green: the a11y job is correctly wired and correctly RED, owned by the
+newly minted route entry.)
 **Status:** clean
-**Last Commit:** `feat(2026-09-07-a11y-ci-gate): …`
+**Last Commit:** `feat(2026-09-07-sr-findings-fixed): …`
 
 ## Position
-- Done: **`2026-09-07-a11y-ci-gate`** (master `complete`).
-- Next: **`/andromeda-phase`** on the first markerless head — **_SR findings fixed_**
-  (`working-route.md:123`), minted at this wrap by operator directive. It carries CARRY 3's three
-  measured SR findings AND the still-owed **verify the a11y job's first CI run** clearing event.
-  No `BLOCKED-ON` on it — phase will not halt. The sibling is *Release build and bundle* (`:125`).
-- Coverage **28/32 verified · 4 unclaimed** (`v2-04`, `v2-21`, `v2-24`, `v2-27`) — **unchanged: this
-  chunk claimed NOTHING.** `v2-24` was deliberately left pooled at phase P5 with a failed-concretization
-  note, because its requirement names keyboard PASS/FAIL *gated in CI* and the Operable carve-out puts
-  that out of reach.
-- **Evolve:** Epoch 6b at 9 chunks (7 frozen + 2 markerless) — under the ~10 split threshold, no nudge.
+- Done: **`2026-09-07-sr-findings-fixed`** (master `complete`).
+- Next: **`/andromeda-phase`** on the first markerless head — **_Hosted-runner WebView2 session — the a11y
+  job's first green run (v2-24 claimed or deferred)_** (`working-route.md:125`), minted at this wrap by
+  operator wrap-directive item 1. No `BLOCKED-ON` on it; phase will not halt. The sibling is *Release build
+  and bundle* (`:127`).
+- Coverage **28/32 verified · 4 unclaimed** (`v2-04`, `v2-21`, `v2-24`, `v2-27`) — unchanged. `v2-24` was
+  CLAIMED at phase P5 and **UN-CLAIMED at implement** on the operator's ruling; the coverage gate is
+  therefore a no-op, not a HALT.
+- **Evolve:** Epoch 6b at 10 chunks (8 frozen + 2 markerless) — at the ~10 split threshold; surfaced, the
+  split is the operator's call.
 
 ## Work done
-The a11y specs are a CI gate: a third `ci.yml` job (`a11y`, `runs-on: windows-2025`) running the routine
-webview arm with no live Pulse, plus the reused `journal_conformance` gate over `runs/a11y` and the
-violation-record upload. Two structural properties are the substance, both measured rather than argued.
-**The gate cannot key on `$?`** — measured 2026-09-02, `run --e2e` exits 0 on a total skip — so both shells
-now assert the PRINTED verdict (`Spec Files:` failed count · the per-spec skip tally against the expected
-set · the `[webview2 … windows]` banner). **The unset-handle skip cannot stay green in CI** — the new
-`CONDUCTOR_A11Y_STRICT` inverts it to a non-zero exit, as an ADDED arm with the existing guards
-byte-unchanged. Proven both ways on this host: strict + no driver → exit 1, lax + no driver → exit 0.
+Two CI defects fixed and **proven in CI**: the a11y job's driver handle now resolves (`${{ env.EDGEWEBDRIVER }}`
+expands empty — GitHub's expression context holds no runner-process variable — so it is resolved in the step
+SHELL behind a handle-named `Test-Path` precondition), and wdio's RED output now reaches the job log (the
+step's `$PSNativeCommandUseErrorActionPreference` was destroying it before `agent-run.ps1` could print the
+captured verdict; proven with a local control both ways).
 
-Five folded CARRYs landed with it: `knip.json`, the README platform reword (3 sites), the `[role="status"]`
-→ `[role="alertdialog"]` guard, CARRY 4's a11y-plan `:565` clause, and the sibling's printed-verdict CARRY
-(discharged here rather than at the release entry).
+The three inherited SR findings: **(1) FIXED** — the load error re-announces on the first `focusin` and is
+spoken ONCE (the first design put the echo inside the `role="alert"` region and NVDA read the region whole,
+speaking it twice; the visible copy moved outside). **(2) and (3) DO NOT REPRODUCE** — the sequential-focus
+start point measured `initialFocus BODY`, first Tab → "Minimize window" at index 0/5, `tabsToStart 5` over 5
+focusables = a full cycle; and two runs per subject gave byte-identical grade sets. On the operator's P4
+ruling the routine arm also gained the hold-free Operable pair (SC 2.1.1 + SC 2.4.3), green at 12 passing.
+
+**Six product files.** Gates: routine arm 12 passing / 2 skipped · strict/lax arms 1/0 ·
+`journal_conformance` 8/8 · audit 0 · deny 0 · npm 0. Workspace Rust gates deferred (zero `.rs` delta).
 
 ## Drift resolved
-**36 amendments across 6 masters · 2 escalations resolved · cascade closed.**
-- `a11y-plan` ×10 · `architecture` ×10 · `test-plan` ×9 · `security-plan` ×3 · `layout-templates` ×2 ·
-  `obs-plan` ×2. `design-system` returned `proposals: []`, correctly.
-- **Escalation 1 — `CONDUCTOR_A11Y_STRICT` had no governing rule.** It subject-matched two playbook rules
-  and failed both their narrowing clauses (`:115` wants a PATH handle read SOLELY by wdio behind the
-  isFile guard in an array-form spawn — four false; `:121` wants it SET by wdio and READ by a test binary
-  — both false). Ratified as a **fourth handle class**; a bounding rule was minted, including the explicit
-  NON-widening of the two PATH-handle clauses (`:210`, `:314`), which a flag handle does not belong in.
-- **Escalation 2 — arch's `[CI/CD]` locked decision.** Rule `:97` failed its causal clause (no live SUT
-  contradicted anything); ruled routine under `:28`, the live-Pulse invariant preserved and asserted.
-- **The cascade caught what no detector could:** one of my edits landed INSIDE a11y-plan's verbatim
-  quotation of arch, briefly attributing my wording to arch. Repairing it surfaced **four more** verbatim
-  citations of the retired "build + test gating only" phrasing (3 a11y-plan, 1 security-plan) — a detector
-  reads its own doc for ITS drift, so a quotation of another master's retired wording is drift in the
-  CITING doc and nobody proposes it. All clear now.
-- Leaves re-derived: `a11y-summary` ×3 · `tests-summary` · `stack.md` · `commands.md` · `rules/a11y.md`.
+**18 amendments across 5 masters · 2 escalations resolved · 1 playbook rule minted · cascade closed.**
+- `a11y-plan` ×8 (the Operable carve-out narrowed to its hold-dependent half) · `test-plan` ×5 ·
+  `architecture` ×3 · `layout-templates` ×2 (incl. 1 cascade fix) · `security-plan` ×1.
+  `design-system` and `obs-plan` returned `proposals: []`, correctly.
+- **Escalation 1 — `EDGEWEBDRIVER` registration.** Playbook `:137` covers the class but its qualifying
+  clause ("one Conductor neither SETS nor READS") FAILS — `ci.yml` reads it at four sites. Operator ruled
+  register + mint; the 43rd rule widens `:137` to a handle a shipped artifact READS, explicitly not
+  widening the reserved-namespace claim.
+- **Escalation 2 — security's four proposals.** Their premise ("a SECOND, CI-only reader") is false:
+  `ci.yml` WRITES the handle (`:300`) and never reads it. Operator ruled apply `:116` re-derived (the CI
+  producer validates upstream of the byte-unchanged wdio guard) and REJECT the three dependents.
+- **Cascade caught a cross-master citation no token sweep would have:** `layout-templates:190` cited
+  test-plan's parity claim unconditionally, which test-plan `:210` no longer states.
+- Leaves re-derived: `rules/a11y.md` · `rules/verification-harness.md` · `docs/a11y-summary.md` ·
+  `docs/commands.md`.
 
 ## Notes
-- **The (obs) eleven-key criterion is UNMET AS WORDED, not silently met.** The artifact carries **13**
-  top-level keys locally (15 under CI) — the eleven plus `service.name` + `deployment.environment`, which
-  plan step 4 itself required. The keys are admitted by design (`journal_conformance`: *"extra keys are
-  allowed — obs-plan §3 keeps the extension point open"*), so the artifact is correct and the criterion
-  wording was not. a11y-plan §3 now records the real shape; obs-plan §3 records the extension point as
-  **exercised for the first time**.
-- **CARRY 5's premise was false and is corrected.** knip's "20 findings, all 20 one class" is wrong:
-  only 8 were the wdio-discovery class. `lighthouse` and `axe-core` are TRUE positives of a different kind
-  (a11y-plan §3-mandated by name and pin, neither imported anywhere), `@wdio/local-runner` a third
-  sub-class. **Baseline for boundary #5's A5 `dead-code-web` column: 12** (3 exports + 9 types in
-  `parse-nvda-log.ts` / `rows.ts` / `ScenarioPicker` / `CoverageMatrix`) — exported-but-unimported symbols,
-  a usable series now. Nothing deleted.
-- **Corrected mid-wrap:** the implement-stage record claimed mocha prints no skip summary. It prints
-  `2 skipped`; the grep was for `pending`, mocha's internal term. Retraction is in the friction ledger and
-  the T1 proxy-token entry gained the "grep what the tool PRINTS" facet.
-- **One `hypothesis:` ships unmeasured** — the WebView2 Evergreen runtime on the `windows-2025` image. The
-  Edge Driver itself is confirmed at `EDGEWEBDRIVER`; the first CI run measures the runtime.
-- **Curation:** T1 0 new (2 extended) · T2 1 new (1 extended, 1 corrected) · T3 0. `CLAUDE.md` **134/200**.
-- **Hermetic apart from the a11y legs.** Process census after both arms: 0 `conductor-tauri` · 0
-  `msedgedriver` · 0 `node`; no `4444`/`4445` listeners. The six `msedgewebview2.exe` on this host belong
-  to `SearchHost.exe` (Windows Search), not to the leg.
+- **The a11y job stays RED on the build branch after the push, and that is owned, not overlooked.** On the
+  hosted `windows-2025` runner a WebView2-mode session never exposes `DevToolsActivePort`, through
+  tauri-driver and direct alike (run 34162118841). Excluded by measurement: runtime absence · version
+  mismatch (driver = runtime = Edge, all 151.0.4129.101) · app crash (app-alone stays up, three
+  `msedgewebview2` children, no Crashpad dumps) · GPU/sandbox · UDF/path. **The cause beyond that is
+  UNMEASURED.**
+- **A causal reading I produced was RETRACTED as a probe artifact** — "msedgedriver launched the Tauri
+  binary as though it were Edge" came from an isolation POST missing `browserName: "webview2"`, which fails
+  on this dev host too against a binary that passes 12/12 through the real path. Retracted in `v2-24`'s
+  notes, in the report, in the friction ledger, and warned against on the new route entry. The rule taken:
+  validate a diagnostic form where the real path PASSES before building on its failure.
+- **Two errors in my own report were caught by the fan-out**, both corrected there: a proxy-token false
+  negative (I searched "10 spec"; `test-plan:307` says `10 passing`), and a wrong disposition claiming no
+  master stated the sequential-focus premise (`a11y-plan:516` did).
+- **`recurrence-despite-learning`:** `testing.md:86` already stated the nextest-filter rule, dated the same
+  day, and a plan Test Command used a bare positional anyway (exit 4, 0 tests). Its advice fires at
+  execution; the mistake was at authoring. Remedy is a check, logged as such.
+- **Curation:** T1 0 new (1 entry extended twice) · T2 3 new + 1 extended · T3 0 · 1 in-place correction.
+  `CLAUDE.md` **134/200**.
+- **Process hygiene:** census matches the pre-leg baseline — 0 `nvda` / `conductor-tauri` / `msedgedriver` /
+  `node` / `tauri-driver`, no `4444`/`4445` listeners. **`pulse-app` PID 63180 is the operator's and is left
+  running — the operator stops it after this commit.** The `ci-probe/` ref is deleted; runs 34157101273 ·
+  34158355397 · 34160378753 · 34162118841 remain viewable by id.
+- **Overseer residue on the host, all gitignored:** `runs/a11y/2026-09-07T21-05-58-a11y.jsonl` ·
+  `runs/a11y-e2e.log` · `%TEMP%` msedgedriver scoped dirs.
 - **Last failed command:** none.

@@ -1,0 +1,40 @@
+{"ts":"2026-09-07T19:41:09.917Z","id":"@session","browserVersion":"152.0.4191.66"}
+{"ts":"2026-09-07T19:41:15.492Z","id":"@foreground","activated":true,"nvdaNamedWindow":false,"initialFocus":"BODY","firstTabTarget":"Start","firstTabProbe":"BUTTON focusableIndex=3/6","tabsToStart":3}
+{"ts":"2026-09-07T19:41:15.518Z","id":"S0-11","cls":"browse","action":"none (browse row)"}
+{"ts":"2026-09-07T19:41:19.589Z","id":"S0-12","cls":"browse","action":"none (browse row)"}
+{"ts":"2026-09-07T19:41:23.638Z","id":"S0-01","cls":"focus","action":"Tab"}
+{"ts":"2026-09-07T19:41:24.526Z","id":"S0-02","cls":"focus","action":"Tab"}
+{"ts":"2026-09-07T19:41:25.332Z","id":"S0-03","cls":"focus","action":"Tab"}
+{"ts":"2026-09-07T19:41:26.240Z","id":"S0-16","cls":"browse","action":"type \"zzz\" (filter miss), then Backspace ×3"}
+{"ts":"2026-09-07T19:41:27.207Z","id":"S0-04","cls":"focus","action":"ArrowDown"}
+{"ts":"2026-09-07T19:41:28.138Z","id":"S0-05","cls":"focus","action":"ArrowDown"}
+{"ts":"2026-09-07T19:41:28.936Z","id":"S0-06","cls":"focus","action":"ArrowUp ×2 to \"Suite — all scenarios\", Enter"}
+{"ts":"2026-09-07T19:41:30.021Z","id":"S0-07","cls":"focus","action":"Tab"}
+{"ts":"2026-09-07T19:41:30.963Z","id":"S0-08","cls":"browse","action":"none (browse row — Stop is natively disabled)"}
+{"ts":"2026-09-07T19:41:35.040Z","id":"S0-09","cls":"focus","action":"Tab"}
+{"ts":"2026-09-07T19:41:36.054Z","id":"S0-13","cls":"browse","action":"h (browse-mode next heading)"}
+{"ts":"2026-09-07T19:41:40.134Z","id":"S0-14","cls":"browse","action":"d (browse-mode next landmark)"}
+{"ts":"2026-09-07T19:41:44.200Z","id":"S0-15","cls":"browse","action":"ArrowDown (browse-mode next line)"}
+{"ts":"2026-09-07T19:41:48.261Z","id":"S0-10","cls":"browse","action":"none (browse row)"}
+{"ts":"2026-09-07T19:41:52.310Z","id":"S1-01","cls":"live","action":"Shift+Tab to Start, Enter"}
+{"ts":"2026-09-07T19:41:53.352Z","id":"S1-02","cls":"browse","action":"none (browse row — the count reads \"0\")"}
+{"ts":"2026-09-07T19:41:57.421Z","id":"S1-05","cls":"browse","action":"none (subject absent)"}
+{"ts":"2026-09-07T19:42:01.449Z","id":"S1-03","cls":"focus","action":"Shift+Tab, Tab (refocus Start)"}
+{"ts":"2026-09-07T19:42:02.491Z","id":"S1-04","cls":"focus","action":"Tab"}
+{"ts":"2026-09-07T19:42:03.403Z","id":"S2-01","cls":"live","action":"Shift+Tab back to Start, then wait for the hold (the in-run preflight canary poll)"}
+{"ts":"2026-09-07T19:42:03.426Z","id":"S2-02","cls":"focus","action":"the dialog opens in the same instant (shared window)"}
+{"ts":"2026-09-07T19:42:49.344Z","id":"S2-06","cls":"browse","action":"none (browse row)"}
+{"ts":"2026-09-07T19:42:53.414Z","id":"S2-03","cls":"focus","action":"Tab"}
+{"ts":"2026-09-07T19:42:54.233Z","id":"S2-04","cls":"focus","action":"Tab"}
+{"ts":"2026-09-07T19:42:55.150Z","id":"S2-05","cls":"live","action":"Space"}
+{"ts":"2026-09-07T19:42:56.122Z","id":"S2-07","cls":"focus","action":"Shift+Tab to Proceed, Enter (Go); focus restores to Start"}
+{"ts":"2026-09-07T19:42:56.162Z","id":"S2-08","cls":"live","action":"the phase line returns to live in the same instant (shared window)"}
+{"ts":"2026-09-07T19:42:57.397Z","id":"S3-01","cls":"live","action":"Tab to Stop, Enter"}
+{"ts":"2026-09-07T19:42:58.312Z","id":"S3-02","cls":"focus","action":"Shift+Tab"}
+{"ts":"2026-09-07T19:42:59.233Z","id":"S3-03","cls":"live","action":"wait for the second hold (halo-breathing-encoding)"}
+{"ts":"2026-09-07T19:43:04.080Z","id":"S3-04","cls":"focus","action":"Escape (NoGo); focus restores to Start"}
+{"ts":"2026-09-07T19:43:04.102Z","id":"S3-05","cls":"live","action":"the Aborted stage and the report reload follow in the same instant (shared window)"}
+{"ts":"2026-09-07T19:43:07.092Z","id":"S3-06","cls":"browse","action":"ArrowDown (browse-mode next line)"}
+{"ts":"2026-09-07T19:43:11.163Z","id":"S3-07","cls":"browse","action":"ArrowDown (browse-mode next line)"}
+{"ts":"2026-09-07T19:43:15.245Z","id":"T-01","cls":"live","action":"not run (the live subject is stopped by design)"}
+{"ts":"2026-09-07T19:43:15.277Z","id":"@end"}

@@ -156,6 +156,47 @@ async function declaredThemes(): Promise<{ dark: Record<string, string>; light: 
   })
 }
 
+/**
+ * The focused element's accessible name — a SHORT projection, never a non-interactive node's text.
+ * An `<input>` is named by its label/placeholder, never by textContent: an input's textContent is
+ * ALWAYS empty, which would make the picker's filter box indistinguishable from "no element" and
+ * silently truncate any Tab walk that passes through it.
+ */
+function activeName(): Promise<string> {
+  return browser.execute(() => {
+    const el = document.activeElement as HTMLElement | null
+    if (!el) return ''
+    const label = el.getAttribute('aria-label')
+    if (label) return label.trim()
+    if (el.tagName === 'INPUT') {
+      return (el.getAttribute('placeholder') ?? el.getAttribute('role') ?? 'INPUT').trim().slice(0, 60)
+    }
+    const interactive = ['BUTTON', 'A', 'SELECT', 'TEXTAREA'].includes(el.tagName)
+    return interactive ? (el.textContent ?? '').trim().slice(0, 60) : el.tagName
+  })
+}
+
+/**
+ * The accessible names the Tab order visits, in order, from the document start. Chromium keeps a
+ * sequential-focus-navigation starting point apart from `activeElement`, so the walk first cycles to
+ * the host-chrome stop (which reads as BODY) — otherwise the order depends on whatever held focus
+ * last and the spec would measure the previous test's leftovers.
+ */
+async function tabCycleNames(): Promise<string[]> {
+  for (let i = 0; i < 20; i += 1) {
+    await browser.keys('Tab')
+    if ((await activeName()) === 'BODY') break
+  }
+  const names: string[] = []
+  for (let i = 0; i < 20; i += 1) {
+    await browser.keys('Tab')
+    const name = await activeName()
+    if (name === 'BODY') break
+    names.push(name)
+  }
+  return names
+}
+
 function ratio(fg: string, bg: string): number {
   return new Color(fg).contrastWCAG21(new Color(bg))
 }
@@ -323,6 +364,47 @@ describe('desktop a11y — routine arm (no live Pulse)', () => {
     expect(await $('[class~="report__envelope"]').isExisting()).toBe(true)
     const findings = await axeFindings()
     expect(findings.join('\n')).toBe('')
+  })
+
+  // --- Operable, hold-free half (a11y-plan §5 run-console-idle). The trap/restoration half needs a
+  // raised hold and stays in the driven suite; these two need only the idle console, which is why they
+  // can sit on the CI-gated routine arm at all.
+
+  it('every idle-console control is keyboard-reachable by Tab alone (SC 2.1.1)', async () => {
+    const names = await tabCycleNames()
+    // The cycle must cover the DOM's own focusable set: a control it never reaches is unreachable by
+    // keyboard, so a newly added one cannot silently fall out of the Tab order. The observed names ride
+    // INTO the asserted value — a bare boolean names nothing in the diff (frontend.md 2026-09-02).
+    const focusableCount = await browser.execute(
+      () =>
+        document.querySelectorAll(
+          'a[href],button:not([disabled]),input:not([disabled]),select,textarea,[tabindex]:not([tabindex="-1"])',
+        ).length,
+    )
+    expect(`${names.length} reached [${names.join(' | ')}]`).toBe(
+      `${focusableCount} reached [${names.join(' | ')}]`,
+    )
+    const missing = ['Minimize window', 'Close window'].filter((n) => !names.includes(n))
+    expect(`missing: ${missing.join(', ') || 'none'} · order: ${names.join(' | ')}`).toBe(
+      `missing: none · order: ${names.join(' | ')}`,
+    )
+  })
+
+  it('idle focus order follows the run-console-idle layout: window controls, then the picker (SC 2.4.3)', async () => {
+    const names = await tabCycleNames()
+    // a11y-plan §5 run-console-idle fixes the visible order, and layout-templates §Component — Header
+    // renders minimize before close; focus order must match what is seen, not merely contain both.
+    expect(`${names[0]} then ${names[1]} · full: ${names.join(' | ')}`).toBe(
+      `Minimize window then Close window · full: ${names.join(' | ')}`,
+    )
+    // No positive tabindex anywhere — the order must come from DOM order (a11y-plan §11 Keyboard).
+    const positiveTabindex = await browser.execute(
+      () =>
+        Array.from(document.querySelectorAll('[tabindex]')).filter(
+          (el) => Number(el.getAttribute('tabindex')) > 0,
+        ).length,
+    )
+    expect(positiveTabindex).toBe(0)
   })
 
   // --- subject-absent on an idle console: skip with a reason, never fail, never vacuously pass ---

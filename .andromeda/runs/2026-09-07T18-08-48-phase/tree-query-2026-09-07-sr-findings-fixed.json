@@ -1,0 +1,46 @@
+[
+{
+"sql": "SELECT symbol, kind, file, def_line FROM symbol WHERE name IN ('exitUnresolvedHandle','nativeDriver','strictMode','writeA11yEnvelope','nvdaExe','startNvda','reactivateWindow') AND kind <> 'meta' ORDER BY file, def_line;",
+"rows": 6,
+"result": [
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/nativeDriver().",
+"kind": "fn",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 55
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/strictMode().",
+"kind": "fn",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 67
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/exitUnresolvedHandle().",
+"kind": "fn",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 74
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/nvdaExe().",
+"kind": "fn",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 181
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/startNvda().",
+"kind": "fn",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 198
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/writeA11yEnvelope().",
+"kind": "fn",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 267
+}
+],
+"db_state": "fresh",
+"plane": "ts"
+}
+]

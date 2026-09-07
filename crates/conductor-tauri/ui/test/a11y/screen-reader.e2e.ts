@@ -65,7 +65,7 @@ const WINDOW_TITLE = 'Conductor' // tauri.conf.json app.windows[0].title
  * DOM focus moved unannounced). Activate the app window before the first stamp, then wait for NVDA's log to
  * name it — a readiness signal, bounded; silence past it is recorded by the parser, never hidden.
  */
-async function bringToForeground(): Promise<{ activated: boolean; nvdaNamedWindow: boolean }> {
+async function bringToForeground(preFocusRow?: string): Promise<{ activated: boolean; nvdaNamedWindow: boolean }> {
   const script = join(here, 'screen-reader', 'activate-window.ps1')
   const result = spawnSync('powershell.exe', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', script, '-Title', WINDOW_TITLE], {
     stdio: 'ignore',
@@ -77,15 +77,31 @@ async function bringToForeground(): Promise<{ activated: boolean; nvdaNamedWindo
   // picker input (measured 2026-09-02 — the first Tab landed on Start), and the rows assume the Tab order
   // from the document start.
   const initialFocus = await activeName()
-  // Chromium keeps a sequential-focus-navigation starting point apart from activeElement: a control that
-  // held focus and lost it (the picker input at mount, measured 2026-09-02) leaves the next Tab continuing
-  // from it, and neither blur() nor a programmatic selection collapse moves that point. Cycling Tab to the
-  // host-chrome stop (which reads as BODY) is what does — the row walk then starts from the document start.
-  let tabsToStart = 0
-  for (let i = 0; i < 10; i += 1) {
-    await tab()
-    tabsToStart += 1
-    if ((await activeName()) === 'BODY') break
+  // Chromium keeps a sequential-focus-navigation starting point apart from activeElement, and cycling Tab
+  // to the host-chrome stop (which reads as BODY) is what resets it — the row walk then starts from the
+  // document start. That cycling DESTROYS the evidence of where the point sat, so the first Tab is taken
+  // and described here, before the loop consumes it. Measured 2026-09-07 on the error subject:
+  // firstTabTarget "Minimize window", focusableIndex 0/5, tabsToStart 5 — the point sits at the document
+  // start and the walk covers every focusable exactly once. The 2026-09-04 reading that a control "held
+  // focus and lost it (the picker input at mount)" left the point mid-list does not reproduce; that
+  // subject has no mount-time focus at all (ScenarioPicker has no focus site and cmdk's own .focus() is
+  // guarded), and tabsToStart 5 over 5 focusables is a full cycle, not a partial one.
+  // A row whose subject fires ON the first focus event (the load-error re-assertion) is stamped HERE,
+  // between activation and that first Tab. Reading it from the session start instead would work, but
+  // would drag the activation window in with it — where NVDA announces the WebView2 host window's own
+  // title, an OS-owned string carrying a host path that the ingest scrub then flags. The narrower
+  // window keeps the record's 0-security_finding baseline intact.
+  if (preFocusRow) stamp(preFocusRow, 'the first focus event after load (Tab)')
+  await tab()
+  const firstTabTarget = await activeName()
+  const firstTabProbe = await activeProbe()
+  let tabsToStart = 1
+  if (firstTabTarget !== 'BODY') {
+    for (let i = 1; i < 10; i += 1) {
+      await tab()
+      tabsToStart += 1
+      if ((await activeName()) === 'BODY') break
+    }
   }
   const sizeBefore = logSize()
   let named = false
@@ -107,7 +123,7 @@ async function bringToForeground(): Promise<{ activated: boolean; nvdaNamedWindo
   await quiet(6_000)
   appendFileSync(
     actionsPath,
-    JSON.stringify({ ts: new Date().toISOString(), id: '@foreground', activated, nvdaNamedWindow: named, initialFocus, tabsToStart }) + '\n',
+    JSON.stringify({ ts: new Date().toISOString(), id: '@foreground', activated, nvdaNamedWindow: named, initialFocus, firstTabTarget, firstTabProbe, tabsToStart }) + '\n',
   )
   return { activated, nvdaNamedWindow: named }
 }
@@ -174,6 +190,32 @@ function activeName(): Promise<string> {
     if (label) return label.trim()
     const interactive = ['BUTTON', 'INPUT', 'A', 'SELECT', 'TEXTAREA'].includes(el.tagName)
     return interactive ? (el.textContent ?? '').trim().slice(0, 60) : el.tagName
+  })
+}
+
+/**
+ * A BOUNDED structural projection of the focused element — tag, id, role, label, testid and its index
+ * among the document's focusables. Never `textContent`: a BODY fallback would dump the whole rendered
+ * document into a diagnostic line. Used to identify the sequential-focus starting point's holder.
+ */
+function activeProbe(): Promise<string> {
+  return browser.execute(() => {
+    const el = document.activeElement as HTMLElement | null
+    if (!el) return 'none'
+    const focusables = Array.from(
+      document.querySelectorAll<HTMLElement>(
+        'a[href],button,input,select,textarea,[tabindex]:not([tabindex="-1"])',
+      ),
+    )
+    const parts = [
+      el.tagName,
+      el.id ? `#${el.id}` : '',
+      el.getAttribute('role') ? `role=${el.getAttribute('role')}` : '',
+      el.getAttribute('aria-label') ? `label=${el.getAttribute('aria-label')}` : '',
+      el.getAttribute('data-testid') ? `testid=${el.getAttribute('data-testid')}` : '',
+      `focusableIndex=${focusables.indexOf(el)}/${focusables.length}`,
+    ]
+    return parts.filter(Boolean).join(' ').slice(0, 200)
   })
 }
 
@@ -576,23 +618,22 @@ if (subject === 'error') {
     })
 
     it('hears the load-error alert and the unavailable Start control', async () => {
-      await bringToForeground()
-      // The row grades the ORIGINAL load's alert. The four role="alert" regions now mount EMPTY at first
-      // paint, so the message arrives as a change into a live region rather than with it — the reload this
-      // action used to perform is gone, because it could not tell a first-load announcement from a
-      // post-reload one. What the speech window shows now is the answer: silence here is a finding about
-      // NVDA binding only on first focus, not a harness failure. The DOM assertion below proves the subject
-      // exists either way, so the two questions stay separate.
-      //
-      // No focus warm-up either: bringToForeground() already ends on BODY having given NVDA its first focus
-      // event (it waits for NVDA to name the window). An extra Tab here only consumed R0-02's first landing,
-      // which the reload used to undo by resetting the sequential-focus start point.
+      await bringToForeground('R0-01')
+      // The row grades the load error REACHING the user. Mounting the region empty was necessary and not
+      // sufficient: NVDA binds a window on its first focus event, which necessarily follows a load-time
+      // paint, so the app re-asserts the message into the (empty) region on that first focusin and the row
+      // is stamped immediately before it. The reload this action used to perform is gone — it could not
+      // tell a first-load announcement from a post-reload one, and it silently reset the sequential-focus
+      // start point besides. Silence here is a FINDING, never a pass.
       await quiet(4_000)
-      await act('R0-01', 'none — the ORIGINAL load\'s alert is what this row grades', async () => {
-        const alert = await $('[role="alert"]')
-        await expect(alert).toBeExisting()
-        expect((await alert.getText()).startsWith('Could not load scenarios')).toBe(true)
-      })
+      // R0-01 was stamped inside bringToForeground(), immediately before the first focus event its
+      // subject fires on — so no act() here, which would re-stamp and split the row's own window. The
+      // DOM assertion still runs: it proves the subject exists whatever NVDA did or did not say, which
+      // is what keeps "was it announced" and "is it there" separate questions.
+      const alert = await $('[role="alert"]')
+      await expect(alert).toBeExisting()
+      const visible = await $('p*=Could not load scenarios')
+      await expect(visible).toBeExisting()
       await act('R0-02', 'Tab', async () => {
         await tab()
         await expectFirstTabLanding('Minimize window')
