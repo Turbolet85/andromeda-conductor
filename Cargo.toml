@@ -36,7 +36,9 @@ rand_chacha = "0.9"
 rand_core = "0.9"
 
 # OTLP emission (the PRODUCT fault stream to Pulse :4317)
-opentelemetry-proto = "0.32.0"
+# default-features = false lives HERE, not on the members: cargo rejects a member disabling
+# defaults on an inherited workspace dep. Members add only the features they use.
+opentelemetry-proto = { version = "0.32.0", default-features = false }
 tonic = "0.14.6"
 tonic-prost = "0.14.6"
 prost = "0.14"
@@ -61,7 +63,7 @@ clap = { version = "4", features = ["derive"] }
 
 # CLI line-oriented output rendering (conductor-cli, Epoch 8) — color is gated on a tty; status is never color-alone
 owo-colors = "4"
-indicatif = "0.17"
+indicatif = "0.18"
 comfy-table = "7"
 
 # CLI interactive operator-pause prompt (conductor-cli, Epoch 8 ch4) — isatty-gated; the headless path never blocks

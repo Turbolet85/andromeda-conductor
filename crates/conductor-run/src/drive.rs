@@ -7,11 +7,7 @@ use std::path::Path;
 
 use serde::Serialize;
 
-use conductor_core::{
-    EnvelopeStatus, PauseResolver, ReportState, RunRecord, Scenario,
-};
-
-
+use conductor_core::{EnvelopeStatus, PauseResolver, ReportState, RunRecord, Scenario};
 
 use crate::canary::Preflight;
 use crate::envelope::persist;
@@ -69,7 +65,10 @@ where
     E: FnMut(RunEvent),
     A: Fn() -> bool,
 {
-    emit(RunEvent { stage: RunStage::Progress, count: 0 });
+    emit(RunEvent {
+        stage: RunStage::Progress,
+        count: 0,
+    });
     let mut records = Vec::with_capacity(scenarios.len());
     let mut checks = Vec::new();
     let mut aborted = false;
@@ -81,7 +80,10 @@ where
         let outcome = execute_scenario(pf, scenario, run_id, resolver).await?;
         records.push(outcome.record);
         checks.extend(outcome.checks);
-        emit(RunEvent { stage: RunStage::Progress, count: records.len() as u64 });
+        emit(RunEvent {
+            stage: RunStage::Progress,
+            count: records.len() as u64,
+        });
     }
     // Polled again after the last scenario: the loop-head check alone cannot see a stop pressed DURING
     // the final scenario, so such a run settled `Done` and the GUI's announced abort was overwritten
@@ -93,12 +95,18 @@ where
     let stage = if aborted {
         tracing::info!(run_id, count = records.len(), "run aborted by the operator");
         RunStage::Aborted
-    } else if records.iter().all(|r| matches!(r.state, ReportState::Blocked)) {
+    } else if records
+        .iter()
+        .all(|r| matches!(r.state, ReportState::Blocked))
+    {
         RunStage::Blocked
     } else {
         RunStage::Done
     };
-    emit(RunEvent { stage, count: records.len() as u64 });
+    emit(RunEvent {
+        stage,
+        count: records.len() as u64,
+    });
     Ok(records)
 }
 
@@ -135,7 +143,10 @@ mod tests {
             "the JSONL journal was persisted"
         );
         let journal = std::fs::read_to_string(dir.path().join("run-drive.jsonl")).unwrap();
-        assert!(journal.contains("\"Blocked\""), "the journal carries the Blocked envelope");
+        assert!(
+            journal.contains("\"Blocked\""),
+            "the journal carries the Blocked envelope"
+        );
     }
 
     #[tokio::test(flavor = "current_thread")]
@@ -183,7 +194,11 @@ mod tests {
         .await
         .unwrap();
 
-        assert_eq!(records.len(), 1, "the scenario already running still completes");
+        assert_eq!(
+            records.len(),
+            1,
+            "the scenario already running still completes"
+        );
         assert_eq!(
             events.last().unwrap().stage,
             RunStage::Aborted,

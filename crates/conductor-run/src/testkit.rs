@@ -6,7 +6,8 @@
 #![cfg(test)]
 
 use conductor_core::{
-    CheckKind, ContractTerm, EmissionShape, EmissionSpec, IncidentFormation, LoadEnvelope, RunContract, Scenario,
+    CheckKind, ContractTerm, EmissionShape, EmissionSpec, IncidentFormation, LoadEnvelope,
+    RunContract, Scenario,
 };
 use conductor_verify::Observation;
 
@@ -16,7 +17,10 @@ use crate::lifecycle::LifecycleObservation;
 /// A blocked-gate `Preflight` (no connected client) — the no-live-Pulse spine, constructed
 /// directly so the test needs neither a sidecar nor an env handle.
 pub(crate) fn blocked_preflight() -> Preflight {
-    Preflight { client: None, ready: false }
+    Preflight {
+        client: None,
+        ready: false,
+    }
 }
 
 pub(crate) fn observation(degraded: bool) -> Observation {
@@ -105,5 +109,9 @@ pub(crate) fn contract_of(terms: Vec<ContractTerm>) -> RunContract {
 }
 
 pub(crate) fn resolved_away(before: Vec<i64>, resolved: i64) -> LifecycleObservation {
-    LifecycleObservation { before, resolved, after: Vec::new() }
+    LifecycleObservation {
+        before,
+        resolved,
+        after: Vec::new(),
+    }
 }

@@ -7,18 +7,18 @@ use std::net::SocketAddr;
 use std::sync::{Arc, Mutex};
 
 use conductor_emit::{
-    pii_logs_request, pii_trace_request, EmitError, LogsEmitter, PiiCategory, PiiCorpus,
-    TraceEmitter, DEFAULT_SERVICE_NAME,
+    DEFAULT_SERVICE_NAME, EmitError, LogsEmitter, PiiCategory, PiiCorpus, TraceEmitter,
+    pii_logs_request, pii_trace_request,
 };
 use opentelemetry_proto::tonic::collector::logs::v1::{
-    logs_service_server::{LogsService, LogsServiceServer},
     ExportLogsServiceRequest, ExportLogsServiceResponse,
+    logs_service_server::{LogsService, LogsServiceServer},
 };
 use opentelemetry_proto::tonic::collector::trace::v1::{
-    trace_service_server::{TraceService, TraceServiceServer},
     ExportTraceServiceRequest, ExportTraceServiceResponse,
+    trace_service_server::{TraceService, TraceServiceServer},
 };
-use opentelemetry_proto::tonic::common::v1::{any_value, KeyValue};
+use opentelemetry_proto::tonic::common::v1::{KeyValue, any_value};
 use tokio::net::TcpListener;
 use tokio_stream::wrappers::TcpListenerStream;
 use tonic::transport::Server;
@@ -103,7 +103,11 @@ async fn ships_pii_corpus_across_spans_and_exceptions() {
         .await
         .expect("connect to loopback stub");
     emitter
-        .export(pii_trace_request(DEFAULT_SERVICE_NAME, &corpus, &categories))
+        .export(pii_trace_request(
+            DEFAULT_SERVICE_NAME,
+            &corpus,
+            &categories,
+        ))
         .await
         .expect("export to loopback stub");
 
@@ -152,7 +156,7 @@ async fn ships_pii_corpus_through_logs() {
         .clone()
         .expect("stub received a request");
     let records = &received.resource_logs[0].scope_logs[0].log_records;
-    assert_eq!(records.len(), 7);
+    assert_eq!(records.len(), 8);
 
     // every string value reachable on the logs wire: record body + record attributes
     let mut wire: Vec<String> = Vec::new();

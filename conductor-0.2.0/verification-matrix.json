@@ -435,10 +435,10 @@
       "verification": {
         "method": "by-construction",
         "acceptance": "indicatif resolves at 0.18 with the operator-pause spinner still stopping in place (never hiding, never animating to completion), opentelemetry-proto builds with default-features=false, Cargo.lock is un-drifted and cargo-audit plus cargo-deny stay green.",
-        "ref": null,
-        "status": "planned"
+        "ref": "crates/conductor-cli/src/pause.rs::pause::tests::suspend_freezes_the_bar_in_place_and_returns_the_closure_value (spinner clause, asserted); by-construction: Cargo.lock resolves indicatif 0.18.6; opentelemetry-proto declared default-features = false at the workspace entry with conductor-emit and conductor-run both building under it (cargo rejects a member overriding an inherited workspace default); cargo audit exit 0 (17 allowed warnings, was 18) and cargo deny check advisories bans licenses sources exit 0 over the un-drifted lock (cargo metadata --locked exit 0)",
+        "status": "verified"
       },
-      "chunk": null
+      "chunk": "2026-09-07-dependency-polish"
     }
   ]
 }

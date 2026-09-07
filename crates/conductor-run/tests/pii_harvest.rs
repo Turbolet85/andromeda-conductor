@@ -51,7 +51,9 @@ struct StormDetected {
 }
 
 fn parsed<'a>(lines: &'a [&'a str]) -> impl Iterator<Item = serde_json::Value> + 'a {
-    lines.iter().filter_map(|line| serde_json::from_str::<serde_json::Value>(line).ok())
+    lines
+        .iter()
+        .filter_map(|line| serde_json::from_str::<serde_json::Value>(line).ok())
 }
 
 fn is_target<'v>(v: &'v serde_json::Value, target: &str) -> Option<&'v serde_json::Value> {
@@ -123,7 +125,11 @@ fn pii_span_batches_appended_intact() {
     let appends = parse_duckdb_appends(PINNED_LEG_LINES);
     let span_batches: Vec<&DuckdbAppend> =
         appends.iter().filter(|a| a.table_name == "spans").collect();
-    assert_eq!(span_batches.len(), 2, "one spans batch per occurrence: {appends:?}");
+    assert_eq!(
+        span_batches.len(),
+        2,
+        "one spans batch per occurrence: {appends:?}"
+    );
     assert!(
         span_batches.iter().all(|a| a.rows_appended == 2),
         "each pii trace batch lands both spans (root pii.attributes + child pii.exception) — a \
@@ -134,18 +140,33 @@ fn pii_span_batches_appended_intact() {
 #[test]
 fn pii_exception_events_appended() {
     let appends = parse_duckdb_appends(PINNED_LEG_LINES);
-    let event_batches: Vec<&DuckdbAppend> =
-        appends.iter().filter(|a| a.table_name == "span_events").collect();
-    assert_eq!(event_batches.len(), 2, "one exception event per occurrence: {appends:?}");
-    assert!(event_batches.iter().all(|a| a.rows_appended == 1), "{event_batches:?}");
+    let event_batches: Vec<&DuckdbAppend> = appends
+        .iter()
+        .filter(|a| a.table_name == "span_events")
+        .collect();
+    assert_eq!(
+        event_batches.len(),
+        2,
+        "one exception event per occurrence: {appends:?}"
+    );
+    assert!(
+        event_batches.iter().all(|a| a.rows_appended == 1),
+        "{event_batches:?}"
+    );
 }
 
 #[test]
 fn pii_log_records_appended_without_pk_collision_drops() {
     let appends = parse_duckdb_appends(PINNED_LEG_LINES);
-    let log_batches: Vec<&DuckdbAppend> =
-        appends.iter().filter(|a| a.table_name == "log_records").collect();
-    assert_eq!(log_batches.len(), 2, "one log batch per occurrence: {appends:?}");
+    let log_batches: Vec<&DuckdbAppend> = appends
+        .iter()
+        .filter(|a| a.table_name == "log_records")
+        .collect();
+    assert_eq!(
+        log_batches.len(),
+        2,
+        "one log batch per occurrence: {appends:?}"
+    );
     assert!(
         log_batches.iter().all(|a| a.rows_appended == 7),
         "all seven same-severity records land — a value below 7 means a same-nanosecond stamp \
@@ -157,7 +178,11 @@ fn pii_log_records_appended_without_pk_collision_drops() {
 #[test]
 fn canary_storm_ladder_reached_autonomous_on_the_same_leg() {
     let storms = parse_storm_detected(PINNED_LEG_LINES);
-    assert_eq!(storms.len(), 2, "the ladder fires suggested then autonomous: {storms:?}");
+    assert_eq!(
+        storms.len(),
+        2,
+        "the ladder fires suggested then autonomous: {storms:?}"
+    );
     assert!(
         storms.iter().all(|s| s.cue_kind == "retry_storm"),
         "one fingerprint, one cue family: {storms:?}"
@@ -181,14 +206,24 @@ fn no_corpus_value_or_affix_reaches_a_pinned_line() {
     let mut needles: Vec<String> = leg_corpora()
         .iter()
         .flat_map(|corpus| {
-            PiiCategory::all().into_iter().map(|c| corpus.value(c).to_owned()).collect::<Vec<_>>()
+            PiiCategory::all()
+                .into_iter()
+                .map(|c| corpus.value(c).to_owned())
+                .collect::<Vec<_>>()
         })
         .collect();
     needles.extend(
-        ["@example.com", "sk_live_", "Bearer ", "password=", "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"]
-            .map(str::to_owned),
+        [
+            "@example.com",
+            "sk_live_",
+            "Bearer ",
+            "password=",
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9",
+            "ghp_",
+        ]
+        .map(str::to_owned),
     );
-    assert_eq!(needles.len(), 33, "4 corpora x 7 values + 5 stable affixes");
+    assert_eq!(needles.len(), 38, "4 corpora x 8 values + 6 stable affixes");
     for line in PINNED_LEG_LINES {
         for needle in &needles {
             assert!(

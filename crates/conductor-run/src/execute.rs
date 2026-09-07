@@ -9,30 +9,26 @@ use std::time::{SystemTime, UNIX_EPOCH};
 use anyhow::Context as _;
 
 use conductor_core::{
-    CheckRecord, EmissionShape, EmissionSpec, FaultKindSpec, HoldPoint, PauseResolver, ReportState, RunRecord, Scenario, Verdict, now_rfc3339, resolve_hold,
+    CheckRecord, EmissionShape, EmissionSpec, FaultKindSpec, HoldPoint, PauseResolver, ReportState,
+    RunRecord, Scenario, Verdict, now_rfc3339, resolve_hold,
 };
-use conductor_emit::{
-    DEFAULT_OTLP_ENDPOINT, probe_egress,
-};
+use conductor_emit::{DEFAULT_OTLP_ENDPOINT, probe_egress};
 use conductor_faults::{FaultError, OTLP_INGEST_PORT, PortOccupier};
 use conductor_timeline::{PhaseTimeline, PhaseWindow, run_timeline_observed};
 
-
-
-use conductor_verify::{
-    Observation, ReadBackOutcome, evaluate_check, observe,
-};
 use crate::canary::Preflight;
 use crate::dispatch::Dispatcher;
+use conductor_verify::{Observation, ReadBackOutcome, evaluate_check, observe};
 
-/// Drive one scenario to its [`RunRecord`]: Blocked when the gate is not ready, else the coarse
-/// live measured path (emit → read-back → classify). Generic over the resolver — the CLI passes its
-/// `CliResolver`, the GUI a [`HeadlessResolver`] — so the run pipeline carries no shell dependency.
+/// Drive one scenario to its [`conductor_core::RunRecord`]: Blocked when the gate is not ready, else
+/// the coarse live measured path (emit → read-back → classify). Generic over the resolver — the CLI
+/// passes its `CliResolver`, the GUI a [`conductor_core::HeadlessResolver`] — so the run pipeline
+/// carries no shell dependency.
 ///
 /// Carries the `scenario.run` root span (obs-plan §4 Critical Path 1). It sits here, at the
 /// composition root, because all three production paths funnel through this fn — so `timeline.execute`,
 /// `emit.batch` and `verify.readback*` nest beneath it identically headless and under Tauri.
-/// `report.generate` / `db.insert_run` are NOT descendants: [`persist`] is a sibling of this fn, and
+/// `report.generate` / `db.insert_run` are NOT descendants: [`crate::persist`] is a sibling of this fn, and
 /// under a suite one `persist` serves N scenarios whose spans have already closed — they correlate by
 /// `run_id` instead.
 #[tracing::instrument(
@@ -60,9 +56,14 @@ pub async fn execute_scenario<R: PauseResolver>(
             scenario.slo_tier,
         )));
     }
-    let client = pf.client.as_ref().expect("a ready gate implies a connected client");
+    let client = pf
+        .client
+        .as_ref()
+        .expect("a ready gate implies a connected client");
 
-    probe_egress(DEFAULT_OTLP_ENDPOINT).await.context("OTLP egress liveness to :4317")?;
+    probe_egress(DEFAULT_OTLP_ENDPOINT)
+        .await
+        .context("OTLP egress liveness to :4317")?;
 
     let emitted_ms = now_ms();
     let journal_emitted_at = now_rfc3339();
@@ -74,7 +75,15 @@ pub async fn execute_scenario<R: PauseResolver>(
     run_timeline_observed(
         &timeline,
         scenario.seed,
-        |window| phase_guard(scenario, &window, emitted_ms, OTLP_INGEST_PORT, &mut occupy_failure),
+        |window| {
+            phase_guard(
+                scenario,
+                &window,
+                emitted_ms,
+                OTLP_INGEST_PORT,
+                &mut occupy_failure,
+            )
+        },
         async |point| dispatcher.dispatch(point).await,
     )
     .await
@@ -92,7 +101,10 @@ pub async fn execute_scenario<R: PauseResolver>(
             tracing::info!(
                 "declare-only read-back empty: no active incident outlived the emission window"
             );
-            Observation { degraded: true, ..Observation::default() }
+            Observation {
+                degraded: true,
+                ..Observation::default()
+            }
         }
         ReadBack::Blocked => {
             tracing::info!("scenario blocked: read-back yielded no gradable observation");
@@ -194,7 +206,10 @@ pub struct ScenarioOutcome {
 impl ScenarioOutcome {
     /// A row with no per-check grain behind it.
     fn without_checks(record: RunRecord) -> Self {
-        Self { record, checks: Vec::new() }
+        Self {
+            record,
+            checks: Vec::new(),
+        }
     }
 }
 
@@ -231,7 +246,11 @@ fn route_read_back(outcome: ReadBackOutcome, declare_only: bool) -> ReadBack {
 /// lets `Lamp::for_record` render the row verdict-first while still marking it residual. Degradation
 /// is a property of the SUT's response, not of the scenario, so it applies wherever it is observed.
 fn state_for(observation: &Observation, measured: ReportState) -> ReportState {
-    if observation.degraded { ReportState::KnownResidual } else { measured }
+    if observation.degraded {
+        ReportState::KnownResidual
+    } else {
+        measured
+    }
 }
 
 /// An operator-checklist / declare-only scenario yields a verdict-less `ManualCheck` record
@@ -274,7 +293,10 @@ fn severity_rank(verdict: Verdict) -> u8 {
 }
 
 pub(crate) fn now_ms() -> i64 {
-    SystemTime::now().duration_since(UNIX_EPOCH).map(|d| d.as_millis() as i64).unwrap_or(0)
+    SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .map(|d| d.as_millis() as i64)
+        .unwrap_or(0)
 }
 
 /// Which fault a phase applies, if any — the classification behind the `fault.*` spans.
@@ -304,9 +326,11 @@ fn classify_fault(emission: &EmissionSpec) -> Option<FaultKind> {
         return Some(FaultKind::Silence);
     }
     match emission.shape {
-        EmissionShape::Ramp { from_rate, to_rate, .. } => {
-            Some(FaultKind::Ramp { factor: ramp_factor(from_rate, to_rate) })
-        }
+        EmissionShape::Ramp {
+            from_rate, to_rate, ..
+        } => Some(FaultKind::Ramp {
+            factor: ramp_factor(from_rate, to_rate),
+        }),
         _ => None,
     }
 }
@@ -326,7 +350,11 @@ fn ramp_factor(from_rate: u32, to_rate: u32) -> f64 {
 /// Created, never entered: entering it would re-parent every `emit.batch` raised during the phase
 /// onto the fault span, and obs-plan §4 Critical Path 1 nests those beneath `timeline.execute`. The
 /// offset is journal-relative against the run's `std::time` emission stamp, never the virtual clock.
-fn fault_span(scenario: &Scenario, window: &PhaseWindow<'_>, emitted_ms: i64) -> Option<tracing::Span> {
+fn fault_span(
+    scenario: &Scenario,
+    window: &PhaseWindow<'_>,
+    emitted_ms: i64,
+) -> Option<tracing::Span> {
     let emission = &scenario.phases.get(window.index)?.emission;
     let kind = classify_fault(emission)?;
     let fault_type = kind.label();
@@ -370,8 +398,11 @@ fn phase_guard(
     occupier_port: u16,
     failure: &mut Option<FaultError>,
 ) -> PhaseGuard {
-    let occupier = scenario.phases.get(window.index).and_then(|p| p.fault).and_then(|fault| {
-        match fault.kind {
+    let occupier = scenario
+        .phases
+        .get(window.index)
+        .and_then(|p| p.fault)
+        .and_then(|fault| match fault.kind {
             FaultKindSpec::PortOccupier => match PortOccupier::occupy(occupier_port) {
                 Ok(occupier) => Some(occupier),
                 Err(refused) => {
@@ -380,15 +411,20 @@ fn phase_guard(
                     None
                 }
             },
-        }
-    });
-    PhaseGuard { _span: fault_span(scenario, window, emitted_ms), _occupier: occupier }
+        });
+    PhaseGuard {
+        _span: fault_span(scenario, window, emitted_ms),
+        _occupier: occupier,
+    }
 }
 
 /// Wall-clock unix nanos — the unit Pulse stamps `opened_at_unix_nano` in, so the canary's emission
 /// instant compares directly against it. `std::time`, never the virtual clock.
 pub(crate) fn now_unix_nanos() -> i64 {
-    SystemTime::now().duration_since(UNIX_EPOCH).map(|d| d.as_nanos() as i64).unwrap_or(0)
+    SystemTime::now()
+        .duration_since(UNIX_EPOCH)
+        .map(|d| d.as_nanos() as i64)
+        .unwrap_or(0)
 }
 
 #[cfg(test)]
@@ -400,18 +436,32 @@ mod tests {
     #[test]
     fn a_degraded_read_back_overrides_the_state_and_leaves_the_verdict_alone() {
         // Every state a measured row can carry is overridden to the residual...
-        for measured in [ReportState::Pass, ReportState::Fail, ReportState::ManualCheck] {
-            assert_eq!(state_for(&observation(true), measured), ReportState::KnownResidual);
+        for measured in [
+            ReportState::Pass,
+            ReportState::Fail,
+            ReportState::ManualCheck,
+        ] {
+            assert_eq!(
+                state_for(&observation(true), measured),
+                ReportState::KnownResidual
+            );
         }
         // ...and an undegraded read-back changes nothing.
-        for measured in [ReportState::Pass, ReportState::Fail, ReportState::ManualCheck] {
+        for measured in [
+            ReportState::Pass,
+            ReportState::Fail,
+            ReportState::ManualCheck,
+        ] {
             assert_eq!(state_for(&observation(false), measured), measured);
         }
     }
 
     #[test]
     fn a_declare_only_empty_read_back_routes_to_the_auto_resolve_residual() {
-        assert_eq!(route_read_back(ReadBackOutcome::EmptyCorpus, true), ReadBack::AutoResolved);
+        assert_eq!(
+            route_read_back(ReadBackOutcome::EmptyCorpus, true),
+            ReadBack::AutoResolved
+        );
 
         // What the arm hands the declare-only path, and the row it earns: measured, pre-accepted,
         // verdict-less — never the Blocked row a missing precondition would produce.
@@ -421,7 +471,10 @@ mod tests {
             "2026-08-20T00:00:00Z".to_string(),
             "2026-08-20T00:00:03Z".to_string(),
             3_000,
-            &Observation { degraded: true, ..Observation::default() },
+            &Observation {
+                degraded: true,
+                ..Observation::default()
+            },
         );
         assert_eq!(r.state, ReportState::KnownResidual);
         assert_eq!(r.verdict, None);
@@ -433,7 +486,10 @@ mod tests {
     fn a_checks_bearing_empty_read_back_stays_blocked() {
         // The false-pass guard: an `Absent` check would grade trivially true against an empty
         // observation, so only a scenario that grades NOTHING may claim the residual.
-        assert_eq!(route_read_back(ReadBackOutcome::EmptyCorpus, false), ReadBack::Blocked);
+        assert_eq!(
+            route_read_back(ReadBackOutcome::EmptyCorpus, false),
+            ReadBack::Blocked
+        );
     }
 
     #[test]
@@ -451,7 +507,10 @@ mod tests {
             route_read_back(ReadBackOutcome::Observed(o.clone()), true),
             ReadBack::Graded(o.clone())
         );
-        assert_eq!(route_read_back(ReadBackOutcome::Observed(o.clone()), false), ReadBack::Graded(o));
+        assert_eq!(
+            route_read_back(ReadBackOutcome::Observed(o.clone()), false),
+            ReadBack::Graded(o)
+        );
     }
 
     #[test]
@@ -496,7 +555,15 @@ mod tests {
         let (emitted, observed) = (0, 1_000);
         let outcomes: Vec<_> = checks
             .iter()
-            .map(|c| evaluate_check(c, &o.observed_for(c.kind), SloTier::Tier90s, emitted, observed))
+            .map(|c| {
+                evaluate_check(
+                    c,
+                    &o.observed_for(c.kind),
+                    SloTier::Tier90s,
+                    emitted,
+                    observed,
+                )
+            })
             .collect();
         let records: Vec<_> = outcomes
             .iter()
@@ -505,12 +572,27 @@ mod tests {
             .map(|(i, (out, c))| out.to_check_record("r", "two-check", i, c))
             .collect();
 
-        assert_eq!(records.len(), 2, "both checks recorded, not just the surviving one");
+        assert_eq!(
+            records.len(),
+            2,
+            "both checks recorded, not just the surviving one"
+        );
         assert_eq!(records[0].check_index, 0);
         assert_eq!(records[1].check_index, 1);
-        assert_eq!(records[0].latency_ms, records[1].latency_ms, "one observation, one latency");
-        assert_eq!(records[0].verdict, Verdict::Fail, "1000ms missed its 500ms budget");
-        assert_eq!(records[1].verdict, Verdict::Pass, "1000ms met its 4000ms budget");
+        assert_eq!(
+            records[0].latency_ms, records[1].latency_ms,
+            "one observation, one latency"
+        );
+        assert_eq!(
+            records[0].verdict,
+            Verdict::Fail,
+            "1000ms missed its 500ms budget"
+        );
+        assert_eq!(
+            records[1].verdict,
+            Verdict::Pass,
+            "1000ms met its 4000ms budget"
+        );
         assert_eq!(records[0].deadline_ms, 500);
         assert_eq!(records[1].deadline_ms, 4_000);
 
@@ -518,7 +600,11 @@ mod tests {
             .iter()
             .max_by_key(|out| severity_rank(out.assessment.verdict))
             .unwrap();
-        assert_eq!(worst.assessment.verdict, Verdict::Fail, "the row still carries the worst");
+        assert_eq!(
+            worst.assessment.verdict,
+            Verdict::Fail,
+            "the row still carries the worst"
+        );
     }
 
     #[test]
@@ -532,8 +618,13 @@ mod tests {
             budget_ms: None,
         };
         let o = observation(true);
-        let outcome =
-            evaluate_check(&check, &o.observed_for(check.kind), SloTier::Tier5s, 0, 1_000);
+        let outcome = evaluate_check(
+            &check,
+            &o.observed_for(check.kind),
+            SloTier::Tier5s,
+            0,
+            1_000,
+        );
         let mut record = outcome.to_run_record(
             "2026-08-13T00-00-00-abc",
             1,
@@ -565,19 +656,32 @@ mod tests {
             &observation(true),
         );
         assert_eq!(r.state, ReportState::KnownResidual);
-        assert_eq!(r.verdict, None, "a declare-only scenario asserts nothing — no verdict is invented");
+        assert_eq!(
+            r.verdict, None,
+            "a declare-only scenario asserts nothing — no verdict is invented"
+        );
     }
 
     #[test]
     fn a_fault_phase_guard_binds_and_its_drop_releases() {
         let scenario = occupier_fixture();
-        let window =
-            PhaseWindow { index: 0, name: "port-held", gap: std::time::Duration::from_millis(100) };
+        let window = PhaseWindow {
+            index: 0,
+            name: "port-held",
+            gap: std::time::Duration::from_millis(100),
+        };
         let mut failure = None;
         let guard = phase_guard(&scenario, &window, 0, 0, &mut failure);
         assert!(failure.is_none(), "an ephemeral bind succeeds");
-        let addr = guard._occupier.as_ref().expect("the fault phase binds an occupier").local_addr();
-        assert!(std::net::TcpListener::bind(addr).is_err(), "held while the guard lives");
+        let addr = guard
+            ._occupier
+            .as_ref()
+            .expect("the fault phase binds an occupier")
+            .local_addr();
+        assert!(
+            std::net::TcpListener::bind(addr).is_err(),
+            "held while the guard lives"
+        );
         drop(guard);
         std::net::TcpListener::bind(addr).expect("the boundary drop released the bind");
     }
@@ -585,8 +689,11 @@ mod tests {
     #[test]
     fn a_plain_phase_guard_carries_no_occupier() {
         let scenario = fixture(7);
-        let window =
-            PhaseWindow { index: 0, name: "p1", gap: std::time::Duration::from_millis(100) };
+        let window = PhaseWindow {
+            index: 0,
+            name: "p1",
+            gap: std::time::Duration::from_millis(100),
+        };
         let mut failure = None;
         let guard = phase_guard(&scenario, &window, 0, 0, &mut failure);
         assert!(guard._occupier.is_none(), "no fault declaration, no bind");
@@ -598,12 +705,21 @@ mod tests {
         let held = PortOccupier::occupy(0).expect("pre-hold an ephemeral port");
         let port = held.local_addr().port();
         let scenario = occupier_fixture();
-        let window =
-            PhaseWindow { index: 0, name: "port-held", gap: std::time::Duration::from_millis(100) };
+        let window = PhaseWindow {
+            index: 0,
+            name: "port-held",
+            gap: std::time::Duration::from_millis(100),
+        };
         let mut failure = None;
         let guard = phase_guard(&scenario, &window, 0, port, &mut failure);
-        assert!(guard._occupier.is_none(), "the held port refuses the second bind");
-        assert!(matches!(failure, Some(FaultError::Bind { .. })), "captured, not panicked");
+        assert!(
+            guard._occupier.is_none(),
+            "the held port refuses the second bind"
+        );
+        assert!(
+            matches!(failure, Some(FaultError::Bind { .. })),
+            "captured, not panicked"
+        );
         drop(held);
     }
 
@@ -633,34 +749,60 @@ mod tests {
 
     #[tokio::test(flavor = "current_thread")]
     async fn execute_scenario_blocks_when_gate_not_ready() {
-        let outcome =
-            execute_scenario(&blocked_preflight(), &fixture(7), "run-test", &HeadlessResolver::proceed())
-                .await
-                .expect("the blocked path is infallible");
+        let outcome = execute_scenario(
+            &blocked_preflight(),
+            &fixture(7),
+            "run-test",
+            &HeadlessResolver::proceed(),
+        )
+        .await
+        .expect("the blocked path is infallible");
         let record = outcome.record;
         assert!(matches!(record.state, ReportState::Blocked));
         assert!(record.verdict.is_none(), "a blocked row carries no verdict");
         assert!(record.journal_emitted_at.is_none() && record.latency_ms.is_none());
         assert_eq!(record.seed, 7);
         assert_eq!(record.scenario, "blocked-fixture");
-        assert!(outcome.checks.is_empty(), "a blocked row grades nothing, so it records no checks");
+        assert!(
+            outcome.checks.is_empty(),
+            "a blocked row grades nothing, so it records no checks"
+        );
     }
 
     #[tokio::test(flavor = "current_thread")]
     async fn blocked_envelope_is_seed_identified() {
         let pf = blocked_preflight();
-        let a = execute_scenario(&pf, &fixture(7), "r", &HeadlessResolver::proceed()).await.unwrap();
-        let b = execute_scenario(&pf, &fixture(7), "r", &HeadlessResolver::proceed()).await.unwrap();
+        let a = execute_scenario(&pf, &fixture(7), "r", &HeadlessResolver::proceed())
+            .await
+            .unwrap();
+        let b = execute_scenario(&pf, &fixture(7), "r", &HeadlessResolver::proceed())
+            .await
+            .unwrap();
         assert_eq!(a, b, "same scenario+seed ⇒ identical blocked envelope");
-        let c = execute_scenario(&pf, &fixture(9), "r", &HeadlessResolver::proceed()).await.unwrap();
-        assert_ne!(a.record.seed, c.record.seed, "the seed materially identifies the envelope");
+        let c = execute_scenario(&pf, &fixture(9), "r", &HeadlessResolver::proceed())
+            .await
+            .unwrap();
+        assert_ne!(
+            a.record.seed, c.record.seed,
+            "the seed materially identifies the envelope"
+        );
     }
 
     #[test]
     fn a_zero_occurrence_phase_classifies_as_silence_whatever_its_shape() {
-        assert_eq!(classify_fault(&emission(0, EmissionShape::Plain)), Some(FaultKind::Silence));
         assert_eq!(
-            classify_fault(&emission(0, EmissionShape::Ramp { from_rate: 1, to_rate: 9, windows: 3 })),
+            classify_fault(&emission(0, EmissionShape::Plain)),
+            Some(FaultKind::Silence)
+        );
+        assert_eq!(
+            classify_fault(&emission(
+                0,
+                EmissionShape::Ramp {
+                    from_rate: 1,
+                    to_rate: 9,
+                    windows: 3
+                }
+            )),
             Some(FaultKind::Silence),
             "a declared silence is silence even under a ramp shape — the gap is what elapses"
         );
@@ -669,17 +811,27 @@ mod tests {
     #[test]
     fn only_the_two_run_path_faults_classify() {
         assert_eq!(
-            classify_fault(&emission(4, EmissionShape::Ramp { from_rate: 10, to_rate: 100, windows: 5 })),
+            classify_fault(&emission(
+                4,
+                EmissionShape::Ramp {
+                    from_rate: 10,
+                    to_rate: 100,
+                    windows: 5
+                }
+            )),
             Some(FaultKind::Ramp { factor: 0.9 })
         );
         assert_eq!(classify_fault(&emission(4, EmissionShape::Plain)), None);
         assert_eq!(
-            classify_fault(&emission(4, EmissionShape::Breathing {
-                center_rate: 50,
-                amplitude: 10,
-                period_windows: 2,
-                windows: 4,
-            })),
+            classify_fault(&emission(
+                4,
+                EmissionShape::Breathing {
+                    center_rate: 50,
+                    amplitude: 10,
+                    period_windows: 2,
+                    windows: 4,
+                }
+            )),
             None,
             "breathing is a sibling rate curve with no reserved span name (obs-plan §11)"
         );
@@ -688,10 +840,18 @@ mod tests {
     #[test]
     fn the_ramp_factor_carries_direction_and_steepness() {
         assert_eq!(ramp_factor(10, 100), 0.9);
-        assert_eq!(ramp_factor(100, 10), -0.9, "a falling ramp is distinguishable from a rising one");
+        assert_eq!(
+            ramp_factor(100, 10),
+            -0.9,
+            "a falling ramp is distinguishable from a rising one"
+        );
         assert_eq!(ramp_factor(90, 100), 0.1);
         assert_eq!(ramp_factor(50, 50), 0.0);
-        assert_eq!(ramp_factor(0, 0), 0.0, "the degenerate declaration yields a value, never a panic");
+        assert_eq!(
+            ramp_factor(0, 0),
+            0.0,
+            "the degenerate declaration yields a value, never a panic"
+        );
     }
 
     /// A wall-clock instant comfortably before this code existed, and one far past any plausible run.
@@ -739,7 +899,10 @@ mod tests {
         let before = now_unix_nanos();
         std::thread::sleep(std::time::Duration::from_millis(2));
         let after = now_unix_nanos();
-        assert!(after > before, "the stamp must advance across a real pause: {before} -> {after}");
+        assert!(
+            after > before,
+            "the stamp must advance across a real pause: {before} -> {after}"
+        );
     }
 
     #[test]
@@ -753,8 +916,11 @@ mod tests {
 
     #[test]
     fn a_fault_declaring_phase_opens_a_span_and_a_plain_phase_does_not() {
-        let window =
-            PhaseWindow { index: 0, name: "p1", gap: std::time::Duration::from_millis(100) };
+        let window = PhaseWindow {
+            index: 0,
+            name: "p1",
+            gap: std::time::Duration::from_millis(100),
+        };
 
         // A declared silence (`occurrences = 0`) is a fault application...
         assert!(
@@ -767,8 +933,11 @@ mod tests {
             "a plain emitting phase has no reserved fault span (obs-plan §11)"
         );
         // A window past the declared phases yields nothing rather than panicking.
-        let past_end =
-            PhaseWindow { index: 9, name: "absent", gap: std::time::Duration::from_millis(1) };
+        let past_end = PhaseWindow {
+            index: 9,
+            name: "absent",
+            gap: std::time::Duration::from_millis(1),
+        };
         assert!(fault_span(&occupier_fixture(), &past_end, 0).is_none());
     }
 }

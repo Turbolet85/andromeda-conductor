@@ -213,4 +213,35 @@ mod tests {
         let resolved = resolve_hold(&resolver, &hold()).await;
         assert_eq!(resolved.resolver_kind, expected);
     }
+
+    /// The hold-point signature: the heartbeat FREEZES at its current count while the operator is
+    /// prompted — never hidden, never cleared, never animated to completion (design-system §Surface:
+    /// cli / Component Patterns 1; layout-templates §Surface: cli — Signature placement). The whole
+    /// behaviour rests on ONE call, `PromptResolver::resolve`'s `bar.suspend(render_and_prompt)`, so
+    /// what this pins is `suspend`'s three load-bearing properties across a dependency bump. It
+    /// drives the bar directly rather than `resolve()`, because a real `inquire` confirm has no pty
+    /// under the runner and would hang (testing.md).
+    #[test]
+    fn suspend_freezes_the_bar_in_place_and_returns_the_closure_value() {
+        let bar = ProgressBar::with_draw_target(Some(10), indicatif::ProgressDrawTarget::hidden());
+        bar.set_position(3);
+
+        let answered = bar.suspend(|| Decision::Go);
+
+        assert_eq!(
+            answered,
+            Decision::Go,
+            "suspend must return the closure's value — the operator's decision travels through it"
+        );
+        assert_eq!(
+            bar.position(),
+            3,
+            "the count froze in place: not advanced, not reset"
+        );
+        assert!(
+            !bar.is_finished(),
+            "the bar was neither finished nor cleared — the freeze IS the event, and a \
+             finish/clear-shaped regression would silently delete the signature"
+        );
+    }
 }

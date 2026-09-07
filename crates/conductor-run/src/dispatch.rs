@@ -58,17 +58,28 @@ impl<'a> Dispatcher<'a> {
     /// Connect the trace egress for `scenario`. The logs client stays unconnected until a
     /// logs-emitting phase is first reached (the laziness `coarse_emit` established).
     pub async fn connect(scenario: &'a Scenario, endpoint: &'a str) -> Result<Self, EmitError> {
-        Ok(Self { scenario, endpoint, traces: TraceEmitter::connect(endpoint).await?, logs: None })
+        Ok(Self {
+            scenario,
+            endpoint,
+            traces: TraceEmitter::connect(endpoint).await?,
+            logs: None,
+        })
     }
 
     /// Emit the one signal `point` declares.
     pub async fn dispatch(&mut self, point: EmissionPoint) -> Result<(), DispatchError> {
         let index = point.phase_index;
-        let phase = self.scenario.phases.get(index).ok_or(DispatchError::UnknownPhase(index))?;
+        let phase = self
+            .scenario
+            .phases
+            .get(index)
+            .ok_or(DispatchError::UnknownPhase(index))?;
         let emission = &phase.emission;
         let seed = emission_seed(self.scenario.seed, index, point.occurrence);
-        let unrealizable =
-            |reason: &'static str| DispatchError::Unrealizable { phase: index, reason };
+        let unrealizable = |reason: &'static str| DispatchError::Unrealizable {
+            phase: index,
+            reason,
+        };
 
         match &emission.shape {
             EmissionShape::Plain => match emission.signal {
@@ -84,13 +95,21 @@ impl<'a> Dispatcher<'a> {
                         .await?;
                 }
             },
-            EmissionShape::Error { depth, error_percent } => {
-                let request = if is_error_occurrence(point.occurrence, emission.occurrences, *error_percent)
-                {
+            EmissionShape::Error {
+                depth,
+                error_percent,
+            } => {
+                let request = if is_error_occurrence(
+                    point.occurrence,
+                    emission.occurrences,
+                    *error_percent,
+                ) {
                     let placement = if *depth == 0 {
                         ErrorPlacement::Root
                     } else {
-                        ErrorPlacement::DeepChild { depth: *depth as usize }
+                        ErrorPlacement::DeepChild {
+                            depth: *depth as usize,
+                        }
                     };
                     error_trace_request(DEFAULT_SERVICE_NAME, seed, placement, ERROR_MESSAGE)
                 } else {
@@ -112,11 +131,20 @@ impl<'a> Dispatcher<'a> {
                 let request = severity_logs_request(DEFAULT_SERVICE_NAME, &[severity]);
                 self.logs().await?.export(request).await?;
             }
-            EmissionShape::Latency { operation, p50_ms, p95_ms, p99_ms, samples } => {
+            EmissionShape::Latency {
+                operation,
+                p50_ms,
+                p95_ms,
+                p99_ms,
+                samples,
+            } => {
                 let profile = LatencyProfile::new(*p50_ms, *p95_ms, *p99_ms)
                     .ok_or_else(|| unrealizable("latency percentiles out of order"))?;
-                let ops =
-                    [LatencyOp { operation: operation.as_str(), profile, samples: *samples as usize }];
+                let ops = [LatencyOp {
+                    operation: operation.as_str(),
+                    profile,
+                    samples: *samples as usize,
+                }];
                 self.traces
                     .export(latency_trace_request(DEFAULT_SERVICE_NAME, seed, &ops))
                     .await?;
@@ -136,14 +164,28 @@ impl<'a> Dispatcher<'a> {
                     }
                 }
             }
-            EmissionShape::Ramp { from_rate, to_rate, windows } => {
+            EmissionShape::Ramp {
+                from_rate,
+                to_rate,
+                windows,
+            } => {
                 let curve = RateCurve::ramp(*from_rate, *to_rate, *windows as usize)
                     .ok_or_else(|| unrealizable("ramp windows must be non-zero"))?;
                 self.traces
-                    .export(rate_trace_request(DEFAULT_SERVICE_NAME, seed, &curve, &phase.name))
+                    .export(rate_trace_request(
+                        DEFAULT_SERVICE_NAME,
+                        seed,
+                        &curve,
+                        &phase.name,
+                    ))
                     .await?;
             }
-            EmissionShape::Breathing { center_rate, amplitude, period_windows, windows } => {
+            EmissionShape::Breathing {
+                center_rate,
+                amplitude,
+                period_windows,
+                windows,
+            } => {
                 let curve = RateCurve::breathing(
                     *center_rate,
                     *amplitude,
@@ -152,10 +194,18 @@ impl<'a> Dispatcher<'a> {
                 )
                 .ok_or_else(|| unrealizable("breathing curve bounds"))?;
                 self.traces
-                    .export(rate_trace_request(DEFAULT_SERVICE_NAME, seed, &curve, &phase.name))
+                    .export(rate_trace_request(
+                        DEFAULT_SERVICE_NAME,
+                        seed,
+                        &curve,
+                        &phase.name,
+                    ))
                     .await?;
             }
-            EmissionShape::Topology { services, error_depth } => {
+            EmissionShape::Topology {
+                services,
+                error_depth,
+            } => {
                 let names: Vec<&str> = services.iter().map(String::as_str).collect();
                 let topology = ServiceTopology::new(&names)
                     .ok_or_else(|| unrealizable("topology needs >=2 distinct services"))?;
@@ -167,7 +217,12 @@ impl<'a> Dispatcher<'a> {
                     }
                 });
                 self.traces
-                    .export(service_topology_request(&topology, seed, placement, ERROR_MESSAGE))
+                    .export(service_topology_request(
+                        &topology,
+                        seed,
+                        placement,
+                        ERROR_MESSAGE,
+                    ))
                     .await?;
             }
         }
@@ -243,7 +298,9 @@ mod tests {
     #[test]
     fn error_occurrences_realize_the_declared_percentage() {
         let errors = |percent: u32, total: u32| {
-            (0..total).filter(|i| is_error_occurrence(*i, total, percent)).count()
+            (0..total)
+                .filter(|i| is_error_occurrence(*i, total, percent))
+                .count()
         };
         assert_eq!(errors(0, 10), 0);
         assert_eq!(errors(100, 10), 10);

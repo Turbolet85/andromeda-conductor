@@ -1,5 +1,6 @@
-//! PII payload corpus: a seeded generator of synthetic, structurally-valid values across the seven
-//! P-047 categories (email, JWT, bearer token, API key, credit-card PAN, SSN, secret `key=value`),
+//! PII payload corpus: a seeded generator of synthetic, structurally-valid values across the eight
+//! P-047 categories (email, JWT, bearer token, API key, credit-card PAN, SSN, secret `key=value`,
+//! provider key),
 //! plus builders that embed the corpus across all three OTLP signal types — span attributes and an
 //! `exception` span event ([`pii_trace_request`]) and log-record body + attributes
 //! ([`pii_logs_request`]). The downstream `pii-scrub` scenario drives these at Pulse
@@ -11,7 +12,7 @@
 
 use opentelemetry_proto::tonic::collector::logs::v1::ExportLogsServiceRequest;
 use opentelemetry_proto::tonic::collector::trace::v1::ExportTraceServiceRequest;
-use opentelemetry_proto::tonic::common::v1::{any_value, AnyValue};
+use opentelemetry_proto::tonic::common::v1::{AnyValue, any_value};
 use opentelemetry_proto::tonic::logs::v1::{LogRecord, ResourceLogs, ScopeLogs};
 use opentelemetry_proto::tonic::trace::v1::span::Event;
 use opentelemetry_proto::tonic::trace::v1::{ResourceSpans, ScopeSpans};
@@ -29,7 +30,7 @@ const B64URL: &[u8] = b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123
 /// Standard base64url of `{"alg":"HS256","typ":"JWT"}` — a real JWT header segment.
 const JWT_HEADER: &str = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9";
 
-/// The seven P-047 PII categories Pulse's scrubber must detect and redact.
+/// The eight P-047 PII categories Pulse's scrubber must detect and redact.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum PiiCategory {
     /// An email address (`local@example.com`).
@@ -46,11 +47,15 @@ pub enum PiiCategory {
     Ssn,
     /// A secret-like `key=value` pair.
     SecretKeyValue,
+    /// A bare provider-issued token (GitHub `ghp_` form). Appended LAST: [`PiiCorpus::seeded`] draws
+    /// every value from one `ChaCha8Rng` in discriminant order, so any earlier insertion point would
+    /// shift every subsequent corpus value.
+    ProviderKey,
 }
 
 impl PiiCategory {
-    /// All seven categories in discriminant order (the [`PiiCorpus`] storage order).
-    pub fn all() -> [PiiCategory; 7] {
+    /// All eight categories in discriminant order (the [`PiiCorpus`] storage order).
+    pub fn all() -> [PiiCategory; 8] {
         [
             PiiCategory::Email,
             PiiCategory::Jwt,
@@ -59,6 +64,7 @@ impl PiiCategory {
             PiiCategory::CreditCard,
             PiiCategory::Ssn,
             PiiCategory::SecretKeyValue,
+            PiiCategory::ProviderKey,
         ]
     }
 
@@ -73,6 +79,7 @@ impl PiiCategory {
             PiiCategory::CreditCard => "payment.pan",
             PiiCategory::Ssn => "user.ssn",
             PiiCategory::SecretKeyValue => "config.secret",
+            PiiCategory::ProviderKey => "service.provider_key",
         }
     }
 
@@ -87,7 +94,7 @@ impl PiiCategory {
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct PiiCorpus {
     seed: u64,
-    values: [String; 7],
+    values: [String; 8],
 }
 
 impl PiiCorpus {
@@ -103,6 +110,7 @@ impl PiiCorpus {
             generate(PiiCategory::CreditCard, &mut rng),
             generate(PiiCategory::Ssn, &mut rng),
             generate(PiiCategory::SecretKeyValue, &mut rng),
+            generate(PiiCategory::ProviderKey, &mut rng),
         ];
         Self { seed, values }
     }
@@ -251,6 +259,10 @@ fn generate(category: PiiCategory, rng: &mut ChaCha8Rng) -> String {
             format!("{area:03}-{group:02}-{serial:04}")
         }
         PiiCategory::SecretKeyValue => format!("password={}", charset_run(rng, ALNUM, 16)),
+        // `ghp_` + 36 alnum — a shape `ApiKey` does not already cover. Its `sk_live_` value is what
+        // Pulse classifies as `provider_key`, while Pulse's `api_key` pattern wants the key=value
+        // form, so covering a second provider shape is what this category adds.
+        PiiCategory::ProviderKey => format!("ghp_{}", charset_run(rng, ALNUM, 36)),
     }
 }
 
@@ -320,13 +332,13 @@ mod tests {
     }
 
     #[test]
-    fn exposes_exactly_seven_distinct_categories() {
+    fn exposes_exactly_eight_distinct_categories() {
         let all = PiiCategory::all();
-        assert_eq!(all.len(), 7);
+        assert_eq!(all.len(), 8);
         let mut slots: Vec<usize> = all.iter().map(|c| c.index()).collect();
         slots.sort_unstable();
         slots.dedup();
-        assert_eq!(slots.len(), 7, "categories index to 7 distinct slots");
+        assert_eq!(slots.len(), 8, "categories index to 8 distinct slots");
     }
 
     #[test]
@@ -360,6 +372,13 @@ mod tests {
                     assert!(v.chars().all(|c| c.is_ascii_digit() || c == '-'), "{v}");
                 }
                 PiiCategory::SecretKeyValue => assert!(v.contains('='), "{v}"),
+                PiiCategory::ProviderKey => {
+                    // Pulse's provider_key pattern is `gh[pousr]_[A-Za-z0-9]{36}`, so the 36-char
+                    // run is the load-bearing half — a shorter one would not match.
+                    assert!(v.starts_with("ghp_"), "{v}");
+                    assert_eq!(v.len(), 40, "ghp_ + 36 alnum: {v}");
+                    assert!(v[4..].chars().all(|c| c.is_ascii_alphanumeric()), "{v}");
+                }
             }
         }
     }
@@ -441,7 +460,7 @@ mod tests {
 
         let root = &spans[0];
         assert!(root.parent_span_id.is_empty());
-        assert_eq!(root.attributes.len(), 7);
+        assert_eq!(root.attributes.len(), 8);
         for category in PiiCategory::all() {
             assert!(
                 root.attributes
@@ -469,7 +488,10 @@ mod tests {
         let stacktrace = attr("exception.stacktrace");
         for category in PiiCategory::all() {
             let v = corpus.value(category);
-            assert!(message.contains(v), "exception.message missing {category:?}");
+            assert!(
+                message.contains(v),
+                "exception.message missing {category:?}"
+            );
             assert!(
                 stacktrace.contains(v),
                 "exception.stacktrace missing {category:?}"
@@ -483,7 +505,7 @@ mod tests {
         let cats = PiiCategory::all();
         let req = pii_logs_request("svc", &corpus, &cats);
         let records = &req.resource_logs[0].scope_logs[0].log_records;
-        assert_eq!(records.len(), 7);
+        assert_eq!(records.len(), 8);
         for (record, category) in records.iter().zip(cats) {
             let value = corpus.value(category);
             let body = match record.body.as_ref().and_then(|b| b.value.as_ref()) {

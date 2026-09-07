@@ -5,14 +5,7 @@
 //! active set back, and [`attribute_by_liveness`] excludes Pulse's own idle resolver by construction
 //! (arch §Established Decisions — Read-Back Dependency Posture).
 
-
-
-
-
-
-use conductor_verify::{
-    ReadbackClient, VerifyError,
-};
+use conductor_verify::{ReadbackClient, VerifyError};
 
 /// What one resolve-lifecycle probe observed: the active set before the write, the id it resolved,
 /// and the active set after. The two sets are what the verdict is computed from — the write's own
@@ -128,7 +121,11 @@ pub async fn probe_resolve_lifecycle(
     tracing::info!(message = %format!("resolve-lifecycle: resolving incident {resolve}"));
     let _ = client.resolve_incident(resolve).await?;
     let after = active_incident_ids(client).await?;
-    Ok(LifecycleObservation { before, resolved: resolve, after })
+    Ok(LifecycleObservation {
+        before,
+        resolved: resolve,
+        after,
+    })
 }
 
 /// The active incident ids from a `query_incident_list` result.
@@ -147,7 +144,9 @@ async fn active_incident_ids(client: &ReadbackClient) -> Result<Vec<i64>, Verify
             items
                 .iter()
                 .filter_map(|i| {
-                    i.get("incident_id").or_else(|| i.get("id")).and_then(|v| v.as_i64())
+                    i.get("incident_id")
+                        .or_else(|| i.get("id"))
+                        .and_then(|v| v.as_i64())
                 })
                 .collect()
         })
@@ -167,7 +166,9 @@ mod tests {
         // the id leaving the active set is attributable to Conductor's write...
         assert_eq!(
             attribute_by_liveness(&observation, AUTO_RESOLVE_IDLE_SECONDS - 0.5),
-            LifecycleVerdict::ProvenByLiveness { idle_seconds: AUTO_RESOLVE_IDLE_SECONDS - 0.5 }
+            LifecycleVerdict::ProvenByLiveness {
+                idle_seconds: AUTO_RESOLVE_IDLE_SECONDS - 0.5
+            }
         );
 
         // ...and AT the threshold it is not. This is the only value where `<` and `<=` disagree, so
@@ -189,9 +190,13 @@ mod tests {
         let (reader, mut writer) = tokio::io::split(server_io);
         let mut lines = tokio::io::BufReader::new(reader).lines();
         while let Ok(Some(line)) = lines.next_line().await {
-            let Ok(req) = serde_json::from_str::<serde_json::Value>(&line) else { continue };
+            let Ok(req) = serde_json::from_str::<serde_json::Value>(&line) else {
+                continue;
+            };
             // A notification carries no id and earns no response.
-            let Some(id) = req.get("id").cloned() else { continue };
+            let Some(id) = req.get("id").cloned() else {
+                continue;
+            };
             let result = match req.get("method").and_then(serde_json::Value::as_str) {
                 Some("initialize") => serde_json::json!({
                     "protocolVersion": "2024-11-05",
@@ -206,7 +211,11 @@ mod tests {
                 }),
             };
             let response = serde_json::json!({ "jsonrpc": "2.0", "id": id, "result": result });
-            if writer.write_all(format!("{response}\n").as_bytes()).await.is_err() {
+            if writer
+                .write_all(format!("{response}\n").as_bytes())
+                .await
+                .is_err()
+            {
                 break;
             }
         }
@@ -221,14 +230,20 @@ mod tests {
         let (client_io, server_io) = tokio::io::duplex(8192);
         let server = tokio::spawn(serve_incident_list(server_io, expected.clone()));
 
-        let client =
-            ReadbackClient::connect_transport(client_io).await.expect("the stub session initializes");
-        let ids = active_incident_ids(&client).await.expect("the active set reads back");
+        let client = ReadbackClient::connect_transport(client_io)
+            .await
+            .expect("the stub session initializes");
+        let ids = active_incident_ids(&client)
+            .await
+            .expect("the active set reads back");
 
         drop(client);
         server.abort();
 
-        assert_eq!(ids, expected, "every id the corpus returned must reach the caller");
+        assert_eq!(
+            ids, expected,
+            "every id the corpus returned must reach the caller"
+        );
     }
 
     #[tokio::test(flavor = "current_thread")]
@@ -236,13 +251,19 @@ mod tests {
         let (client_io, server_io) = tokio::io::duplex(8192);
         let server = tokio::spawn(serve_incident_list(server_io, Vec::new()));
 
-        let client =
-            ReadbackClient::connect_transport(client_io).await.expect("the stub session initializes");
-        let ids = active_incident_ids(&client).await.expect("an empty active set reads back");
+        let client = ReadbackClient::connect_transport(client_io)
+            .await
+            .expect("the stub session initializes");
+        let ids = active_incident_ids(&client)
+            .await
+            .expect("an empty active set reads back");
 
         drop(client);
         server.abort();
 
-        assert!(ids.is_empty(), "an empty corpus yields an empty set, got {ids:?}");
+        assert!(
+            ids.is_empty(),
+            "an empty corpus yields an empty set, got {ids:?}"
+        );
     }
 }

@@ -5,19 +5,13 @@
 //! declaration only. Each handle is graded by the KIND of value it carries, so every subject is
 //! satisfiable (arch §Standard Contracts — Liveness equivalent).
 
-
 use anyhow::Context as _;
 
 use conductor_core::{
-    OBSERVED_HANDLES, PreconditionObservation, Preconditions,
-    PreconditionsStatus, RunContract, RunContractStatus,
-    flag_declared, handle_declared, resolve_under,
+    OBSERVED_HANDLES, PreconditionObservation, Preconditions, PreconditionsStatus, RunContract,
+    RunContractStatus, flag_declared, handle_declared, resolve_under,
 };
-use conductor_emit::{
-    DEFAULT_OTLP_ENDPOINT, probe_egress,
-};
-
-
+use conductor_emit::{DEFAULT_OTLP_ENDPOINT, probe_egress};
 
 use conductor_verify::sidecar_resolves_on_path;
 
@@ -53,13 +47,13 @@ fn declares(name: &str) -> bool {
 /// Probe the live-Pulse preconditions BEFORE a leg is scheduled, so an absent SUT is named once
 /// rather than absorbed by each chunk, gate and wrap in turn.
 ///
-/// Deliberately NOT routed through [`canary_gate`]: a preflight fires its own storm and Pulse
+/// Deliberately NOT routed through `canary_gate`: a preflight fires its own storm and Pulse
 /// dedupes a new incident against any open one on the `(kind, scope, scope_id)` tuple, so probing
 /// via the gate would prime exactly the state the following leg collides with (architecture
 /// §Established Decisions [Read-Back Dependency Posture]). Nothing here emits, binds or spawns.
 ///
 /// The three observations happen HERE and enter the evaluator as values, keeping the judgment a
-/// pure function of its inputs (the [`observe_run_contract`] shape above).
+/// pure function of its inputs (the `observe_run_contract` shape above).
 pub async fn observe_preconditions() -> PreconditionsStatus {
     let observation = PreconditionObservation {
         egress_reachable: probe_egress(DEFAULT_OTLP_ENDPOINT).await.is_ok(),
@@ -82,8 +76,12 @@ pub async fn observe_preconditions() -> PreconditionsStatus {
     if status.is_satisfied() {
         tracing::info!("live-Pulse preconditions satisfied");
     } else {
-        let unmet =
-            status.unmet().iter().map(|u| u.subject.id()).collect::<Vec<_>>().join(", ");
+        let unmet = status
+            .unmet()
+            .iter()
+            .map(|u| u.subject.id())
+            .collect::<Vec<_>>()
+            .join(", ");
         tracing::warn!("live-Pulse preconditions unmet: {unmet}");
     }
 
@@ -93,8 +91,8 @@ pub async fn observe_preconditions() -> PreconditionsStatus {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::testkit::*;
     use crate::testkit::UNDECLARED_ENV;
+    use crate::testkit::*;
     use conductor_core::{CheckKind, ContractTerm, PreconditionSubject};
 
     #[test]
@@ -104,7 +102,11 @@ mod tests {
 
         assert!(!status.is_satisfied(), "an undeclared shell term is unmet");
         assert_eq!(status.unmet().len(), 1, "one term, one unmet entry");
-        assert_eq!(status.unmet()[0].id, "l4-deterministic", "the gate names the term individually");
+        assert_eq!(
+            status.unmet()[0].id,
+            "l4-deterministic",
+            "the gate names the term individually"
+        );
         assert_ne!(
             status,
             RunContractStatus::default(),

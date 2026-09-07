@@ -10,9 +10,7 @@ use std::path::{Path, PathBuf};
 
 use anyhow::Context as _;
 
-use conductor_core::{
-    RunContract, now_rfc3339, redact_value,
-};
+use conductor_core::{RunContract, now_rfc3339, redact_value};
 use conductor_emit::{
     DEFAULT_OTLP_ENDPOINT, ExceptionSpec, Frame, TraceEmitter, exception_trace_request,
     fingerprint, trace_request,
@@ -21,8 +19,8 @@ use conductor_emit::{
 use crate::execute::{now_ms, now_unix_nanos};
 use crate::preconditions::{load_run_contract, observe_run_contract};
 use conductor_verify::{
-    CanaryMarker, CanaryOutcome, CanaryPoll, ContractManifest,
-    ReadbackClient, ReadyState, ToolPresence, run_preflight,
+    CanaryMarker, CanaryOutcome, CanaryPoll, ContractManifest, ReadbackClient, ReadyState,
+    ToolPresence, run_preflight,
 };
 
 /// The suite-wide preflight outcome — established once, reused by every scenario in a run.
@@ -344,14 +342,17 @@ mod tests {
                 .ok();
         });
 
-        let mut traces =
-            TraceEmitter::connect(format!("http://{addr}")).await.expect("the stub collector accepts");
+        let mut traces = TraceEmitter::connect(format!("http://{addr}"))
+            .await
+            .expect("the stub collector accepts");
         let mut contract = contract_of(Vec::new());
         contract.incident_formation.warmup_ms = warmup_ms;
         contract.incident_formation.warmup_emissions = warmup_emissions;
 
         let started = tokio::time::Instant::now();
-        warm_up_canary_service(&mut traces, &contract, 7).await.expect("the warm-up completes");
+        warm_up_canary_service(&mut traces, &contract, 7)
+            .await
+            .expect("the warm-up completes");
         let elapsed = started.elapsed();
 
         let count = requests.lock().unwrap().len();
@@ -365,7 +366,10 @@ mod tests {
         // `%` = 0ms, `*` = 4000ms x 4 = 16000ms. The bound below admits only the first.
         let (count, elapsed) = drive_warmup(1_000, 4).await;
 
-        assert_eq!(count, 4, "every declared pre-roll emission reaches the collector");
+        assert_eq!(
+            count, 4,
+            "every declared pre-roll emission reaches the collector"
+        );
         assert!(
             elapsed >= std::time::Duration::from_millis(900)
                 && elapsed < std::time::Duration::from_millis(2_000),

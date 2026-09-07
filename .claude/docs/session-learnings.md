@@ -431,3 +431,24 @@ This file is **Tier 3 — on-demand**. Claude reads it when explicitly needed (d
 A full `pulse-app` leg capture is far larger than the evidence in it. The severity-lifecycle leg A slice was 138,065 lines / 48 MB, of which **128,820 were `metric.webgpu.frame_duration_ms`** — the Tauri webview's per-frame render metric, emitted continuously for the whole leg regardless of what the scenario drives. Filtering to the six load-bearing targets (`triage.pattern.storm.detected` · `interpretation.incident.created` · `triage.incident.auto_resolve.tick` · `triage.cue.emit` · `incidents.list_active.request` · `triage.incident.persist`, plus `ingest.tick` for the ingestion witness) took the same leg to 71 lines / 22 KB, and five legs of committed evidence to 502 KB total.
 
 Consequence for evidence hygiene: a raw slice is not committable, and the filter is not a convenience — collapse the identical repeats too (the canary's frozen cue repeats every second, and `item_count` polls ~1,341 times per leg with only a handful of transitions). Keep transitions, drop steady state.
+
+
+## Cargo workspace manifests: two build facts measured at 2026-09-07-dependency-polish
+
+**`default-features = false` cannot be set on a MEMBER for an inherited workspace dependency.** A member
+writing `dep = { workspace = true, default-features = false }` fails outright at manifest load:
+`error: default-features = false cannot override workspace's default-features`. The flag must live on the
+`[workspace.dependencies]` entry itself, and members then add only the features they use. This is not a
+style preference — it is the only legal shape, and it has a useful side effect: one workspace entry covers
+every dep site at once, which matters when several members share a dependency and a per-member trim would
+be re-unified by whichever member still rode the defaults. Measured when the `opentelemetry-proto` trim was
+first written at the two member sites the plan named, and cargo refused both.
+
+**A per-member standalone-build sweep must run each member on its OWN targets.** `cargo check -p <crate>
+--lib` exits **101** with `error: no library targets found in package <crate>` for a bin-only crate — here
+`conductor-cli` and `conductor-tauri`, which have `src/main.rs` and no `src/lib.rs`. A uniform `--lib` loop
+across the workspace therefore reports two false reds on the one sweep whose entire purpose is finding real
+ones. Use `--lib` for the library crates and `--bins` for the bin-only ones. **Never `--all-targets`:** it
+re-unifies dev-dependencies, which is precisely the masking the sweep exists to catch — a crate whose
+feature is declared only in `[dev-dependencies]` compiles in the workspace and under `cargo test -p` while
+failing alone, and `--all-targets` hides that again.

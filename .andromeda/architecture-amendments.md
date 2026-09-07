@@ -577,3 +577,23 @@ fails on four of five clauses.
 **Section:** Established Decisions — [Read-Back Dependency Posture]
 **Change:** The UPTIME-BOUND paragraph is qualified: `BOOTSTRAP_WINDOW_SECONDS = 3_600` is the DEFAULT, overridable once at Pulse's boot, so the arm's reachability is bounded by the window IN FORCE AT BOOT. The past-the-window mechanism is unchanged and now explicitly scoped to the default window. NARROWED at the light gate, before commit: the stretched posture removes cause (a) and is NOT sufficient — cause (b) is untouched by it and still decides the leg, so the body says the posture makes the arm REACHABLE rather than RELIABLE and records both 2026-09-07 runs.
 **Why:** Dependent of the registry entry above: registering the handle alone would leave this paragraph telling a reader the arm must race a fixed hour, which the 2026-09-07 leg measured false. Same claim, second site — the cross-master pair with test-plan section 9, which this pass conditioned identically.
+
+## 2026-09-07-dependency-polish — Stack versions reconciled to the resolved lock
+**Section:** §Stack and Technologies · §Established Decisions [Language / Runtime] · §Established Decisions [Deployment] · §Infrastructure Patterns — Deployment model · §Inherited Defaults
+**Change:** `indicatif 0.17` → `0.18` (this chunk's bump, resolves 0.18.6); `tokio 1.48.x` → `1.52.3` at all three sites; Tauri `bundler v2.10.x, latest 2.10.1` → `bundler 2.11.3` at all four sites. `inquire 0.9` on the same Stack row was already correct and was NOT touched.
+**Why:** The indicatif value is this chunk's own dependency change (report Changes → Dependencies). The tokio and Tauri values were pre-existing stale literals the chunk's folded CARRY routes here ("reconcile the docs to the resolved artifacts here, where the dependency surface is already open"); every `≥ 2.10.3` FLOOR statement was deliberately left standing, since a floor is satisfied — not falsified — at 2.11.3.
+
+## 2026-09-07-dependency-polish — OTLP emission row records the default-features trim
+**Section:** §Stack and Technologies
+**Change:** The opentelemetry-proto row now reads `default-features = false` at the workspace entry with `gen-tonic` + `trace`/`logs`; `metrics` is de-registered.
+**Why:** The trim shipped at the workspace entry because cargo rejects a member disabling defaults on an inherited dep (report Deviations #1). `metrics` was previously enabled through `conductor-run`'s featureless dev-dep riding `default = [full]`; with defaults off at the workspace entry no member enables it, so the registry now matches the code. The report surfaced this mismatch by name rather than absorbing it.
+
+## 2026-09-07-dependency-polish — [Module Boundaries] E1 qualifier retired on a clean nine-member sweep
+**Section:** §Established Decisions [Module Boundaries]
+**Change:** The standalone per-seam BUILD claim is no longer qualified as "an intent, not a guarantee". The `conductor-verify` manifest repair landed (tokio's `time` into `[dependencies]`) and the whole roster swept clean — nine members each on its OWN targets (`--lib` ×7, `--bins` ×2 for the two crates with no lib target), every one exit 0, measured twice. `--all-targets` is recorded as banned in the sweep because it re-unifies dev-dependencies. A narrower caveat survives: no CI job builds a member standalone, so the property is measured-at-a-chunk, not gate-enforced.
+**Why:** Report Changes → Spec claims disproved by measurement #2. The retired text named *Dependency polish* as the owner of the repair, so leaving it would send a future planner to redo landed work. Retirement made unconditional by operator wrap directive item 4 (the sweep was measured twice — builder and operator).
+
+## 2026-09-07-dependency-polish — Supply-chain measurement re-stated post-bump
+**Section:** §Infrastructure Patterns — Build system
+**Change:** `cargo audit` exit 0 re-measured: 562 packages scanned (was 564), 17 allowed warnings (was 18) = 16 `unmaintained` + 1 `unsound`; the note records that RUSTSEC-2025-0119 left the ignore list when `number_prefix` left the tree, taking `deny.toml`'s ignore entries 17 → 16. `1239 advisories loaded` is unchanged and was re-measured, not carried.
+**Why:** Report Changes → Counts / qualifiers moved (lock 564 → 562; audit warnings 18 → 17) and Schema / config (the ignore entry's subject left the tree).

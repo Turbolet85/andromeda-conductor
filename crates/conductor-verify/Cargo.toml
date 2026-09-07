@@ -7,7 +7,7 @@ publish.workspace = true
 
 [dependencies]
 conductor-core.workspace = true
-tokio = { workspace = true, features = ["process", "io-util", "rt", "macros", "sync"] }
+tokio = { workspace = true, features = ["process", "io-util", "rt", "macros", "sync", "time"] }
 thiserror.workspace = true
 tracing.workspace = true
 serde = { workspace = true }

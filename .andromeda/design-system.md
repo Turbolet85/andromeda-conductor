@@ -281,7 +281,7 @@ Single-station console, no router/breakpoints: the frameless window IS the surfa
 
 **Platform:** Windows / macOS / Linux terminal — headless `conductor-cli` (`scripts/agent-run.sh`), the source of truth + release gate. Line-oriented (ratatui full-TUI deliberately omitted).
 
-**Toolkit / Framework:** clap 4.5 + `owo-colors` 4.x with `std::io::IsTerminal` (styling, TTY-gated per stream) + `indicatif` 0.18 (live counters / spinner) + `comfy-table` 7 (P-ID SLO tables) + `inquire` 0.7 (operator-pause prompts).
+**Toolkit / Framework:** clap 4.5 + `owo-colors` 4.x with `std::io::IsTerminal` (styling, TTY-gated per stream) + `indicatif` 0.18 (live counters / spinner) + `comfy-table` 7 (P-ID SLO tables) + `inquire` 0.9 (operator-pause prompts).
 
 ### Tokens (platform-specific)
 

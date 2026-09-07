@@ -167,7 +167,7 @@ The SAME primitive is designed to render in two contexts, and the distinction is
 
 ## Surface: cli
 
-**Tooling context:** clap 4.5 (`conductor-cli` / `scripts/agent-run.sh`) + `owo-colors` 4.x with `std::io::IsTerminal` (styling, TTY-gated per stream) + `indicatif` 0.17 (live counters / spinner) + `comfy-table` 7 (P-ID SLO tables) + `inquire` 0.7 (operator-pause prompts). Line-oriented (ratatui full-TUI deliberately omitted).
+**Tooling context:** clap 4.5 (`conductor-cli` / `scripts/agent-run.sh`) + `owo-colors` 4.x with `std::io::IsTerminal` (styling, TTY-gated per stream) + `indicatif` 0.18 (live counters / spinner) + `comfy-table` 7 (P-ID SLO tables) + `inquire` 0.9 (operator-pause prompts). Line-oriented (ratatui full-TUI deliberately omitted).
 
 **Expression level (this surface):** 0.3 — colored headers, dimmed metadata, `indicatif` honest progress (spinner appears only after ~200ms), `comfy-table` SLO tables. No cursor manipulation, no full-screen redraw, no animate-to-100%. Motion is honest progress feedback, never live-redrawn dashboard animation (per design-system Motion).
 
