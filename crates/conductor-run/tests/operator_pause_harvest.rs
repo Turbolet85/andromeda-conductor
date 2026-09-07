@@ -32,7 +32,9 @@ fn workspace_root() -> PathBuf {
 }
 
 fn committed(stem: &str) -> Scenario {
-    let path = workspace_root().join("scenarios").join(format!("{stem}.toml"));
+    let path = workspace_root()
+        .join("scenarios")
+        .join(format!("{stem}.toml"));
     let text = std::fs::read_to_string(&path).expect("committed scenario file reads");
     Scenario::from_toml_str(&text).expect("committed scenario validates")
 }
@@ -66,22 +68,34 @@ impl PauseResolver for AttendedStub {
 #[test]
 fn the_attended_leg_vehicles_declare_their_checklist_items() {
     let hue = committed("halo-hue-encoding");
-    assert!(hue.expected.is_empty(), "declare-only: an expected check would divert it off the hold path");
-    assert_eq!(hue.checklist.len(), 1);
-    assert_eq!(hue.checklist[0].observation, "hue shifted toward burgundy under error pressure?");
-    // The induced half is deliberately honest that this scenario drives no stream of its own — the
-    // measured reason its P-025 budget read 18x over. An induced text claiming an error stream here
-    // would be false, and the operator would be grading against a fiction.
     assert!(
-        hue.checklist[0].induced.contains("declares no emission of its own"),
-        "the induced text must disclose that this scenario drives nothing: {:?}",
+        hue.expected.is_empty(),
+        "declare-only: an expected check would divert it off the hold path"
+    );
+    assert_eq!(hue.checklist.len(), 1);
+    assert_eq!(
+        hue.checklist[0].observation,
+        "hue shifted toward burgundy under error pressure?"
+    );
+    // The induced half is deliberately honest about what the operator is grading. This scenario now
+    // really does drive its stimulus — a sustained identical-fingerprint stream through incident
+    // formation — so the induced text names it. An induced text still claiming the scenario drives
+    // nothing would be false, and the operator would be grading against a fiction.
+    assert!(
+        hue.checklist[0]
+            .induced
+            .contains("drives a sustained identical-fingerprint exception stream"),
+        "this one really does drive its stimulus, so the induced text names the stream: {:?}",
         hue.checklist[0].induced
     );
 
     let breathing = committed("halo-breathing-encoding");
     assert!(breathing.expected.is_empty());
     assert_eq!(breathing.checklist.len(), 1);
-    assert_eq!(breathing.checklist[0].observation, "halo breathing rate tracks throughput?");
+    assert_eq!(
+        breathing.checklist[0].observation,
+        "halo breathing rate tracks throughput?"
+    );
     assert!(
         breathing.checklist[0].induced.contains("ramped"),
         "this one really does drive its stimulus, so the induced text names the ramp: {:?}",
@@ -96,9 +110,15 @@ fn the_attended_leg_vehicles_declare_their_checklist_items() {
 fn the_hold_carries_the_scenarios_declared_items() {
     let hold = checklist_hold(&committed("halo-hue-encoding"));
     assert_eq!(hold.step, "operator-checklist");
-    assert!(hold.allow_no_go, "both a real Proceed and a real Abort must be reachable outcomes");
+    assert!(
+        hold.allow_no_go,
+        "both a real Proceed and a real Abort must be reachable outcomes"
+    );
     assert_eq!(hold.checklist.len(), 1);
-    assert_eq!(hold.checklist[0].observation, "hue shifted toward burgundy under error pressure?");
+    assert_eq!(
+        hold.checklist[0].observation,
+        "hue shifted toward burgundy under error pressure?"
+    );
 }
 
 #[test]
@@ -110,7 +130,10 @@ fn a_scenario_declaring_no_checklist_still_holds_on_the_generic_prompt() {
     assert!(plain.checklist.is_empty());
     let hold = checklist_hold(&plain);
     assert!(hold.checklist.is_empty());
-    assert!(!hold.prompt.is_empty(), "the generic prompt is what such a hold renders");
+    assert!(
+        !hold.prompt.is_empty(),
+        "the generic prompt is what such a hold renders"
+    );
 }
 
 #[tokio::test]
@@ -163,9 +186,13 @@ expected = "anything"
 induced = "something driven"
 observation = "something observed?"
 "#;
-    let err = Scenario::from_toml_str(toml).expect_err("a checks-bearing scenario rejects a checklist");
+    let err =
+        Scenario::from_toml_str(toml).expect_err("a checks-bearing scenario rejects a checklist");
     let text = err.to_string();
-    assert!(text.contains("checklist"), "the error names the offending declaration: {text}");
+    assert!(
+        text.contains("checklist"),
+        "the error names the offending declaration: {text}"
+    );
 }
 
 #[test]
@@ -225,23 +252,35 @@ mod live_leg {
         // activation from the never-blocking default, because the witness asserted the answer.
         for message in WITNESSES {
             let (kind, _, _) = parse(message).expect("witness parses");
-            assert_eq!(kind, "tauri-dialog", "an attended leg must never report headless: {message}");
+            assert_eq!(
+                kind, "tauri-dialog",
+                "an attended leg must never report headless: {message}"
+            );
         }
     }
 
     #[test]
     fn both_decision_arms_were_exercised_live() {
-        let decisions: Vec<&str> = WITNESSES.iter().filter_map(|m| parse(m).map(|p| p.1)).collect();
+        let decisions: Vec<&str> = WITNESSES
+            .iter()
+            .filter_map(|m| parse(m).map(|p| p.1))
+            .collect();
         assert_eq!(decisions, ["Go", "Go", "No-Go", "Go"]);
         assert!(decisions.contains(&"Go"), "a real Proceed activation");
-        assert!(decisions.contains(&"No-Go"), "a real Abort activation — allow_no_go is reachable");
+        assert!(
+            decisions.contains(&"No-Go"),
+            "a real Abort activation — allow_no_go is reachable"
+        );
     }
 
     #[test]
     fn every_hold_carried_its_scenarios_declared_item() {
         for message in WITNESSES {
             let (_, _, count) = parse(message).expect("witness parses");
-            assert_eq!(count, 1, "each halo scenario declares exactly one item: {message}");
+            assert_eq!(
+                count, 1,
+                "each halo scenario declares exactly one item: {message}"
+            );
         }
     }
 
@@ -251,12 +290,25 @@ mod live_leg {
         // two envelope rows agree on every graded field (latency differed by 6ms of scheduling).
         // `manual_record` never receives the Decision, so the witness line above is the ONLY place
         // an Abort is visible. Anyone reading a run report for evidence of a no-go will not find it.
-        let go = ("halo-breathing-encoding", None::<&str>, "KnownResidual", 10056);
-        let no_go = ("halo-breathing-encoding", None::<&str>, "KnownResidual", 10050);
+        let go = (
+            "halo-breathing-encoding",
+            None::<&str>,
+            "KnownResidual",
+            10056,
+        );
+        let no_go = (
+            "halo-breathing-encoding",
+            None::<&str>,
+            "KnownResidual",
+            10050,
+        );
         assert_eq!(go.0, no_go.0);
         assert_eq!(go.1, no_go.1, "verdict identical");
         assert_eq!(go.2, no_go.2, "state identical");
-        assert!((go.3 - no_go.3 as i64).abs() < 100, "latency differs only by scheduling noise");
+        assert!(
+            (go.3 - no_go.3 as i64).abs() < 100,
+            "latency differs only by scheduling noise"
+        );
     }
 
     #[test]
@@ -268,7 +320,10 @@ mod live_leg {
         let recorded_ms: i64 = 6081;
         let operator_wait_ms: i64 = 54_000;
         let scenario_gap_ms: i64 = 6_000;
-        assert!(recorded_ms < operator_wait_ms / 2, "the hold's wait is not in the measurement");
+        assert!(
+            recorded_ms < operator_wait_ms / 2,
+            "the hold's wait is not in the measurement"
+        );
         assert!(
             (recorded_ms - scenario_gap_ms).abs() < 1_500,
             "latency tracks the scenario's own phase duration, not the operator"
@@ -283,8 +338,15 @@ mod live_leg {
         // advanced to 2 on the final decision. Neither blanked nor continued while held.
         let frozen_at: [u64; 2] = [0, 1];
         let resumed_to: u64 = 2;
-        assert_eq!(frozen_at[1], 1, "a NONZERO frozen value, not only the count-0 first hold");
-        assert_eq!(resumed_to as usize, WITNESSES.len() / 2, "one completion per scenario in the leg");
+        assert_eq!(
+            frozen_at[1], 1,
+            "a NONZERO frozen value, not only the count-0 first hold"
+        );
+        assert_eq!(
+            resumed_to as usize,
+            WITNESSES.len() / 2,
+            "one completion per scenario in the leg"
+        );
     }
 }
 

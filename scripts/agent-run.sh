@@ -104,7 +104,13 @@ live_suite() {
   mkdir -p "$LIVE_CAPTURE_DIR"
   rm -f "$LIVE_CAPTURE_DIR"/*.jsonl
 
-  # live_leg_order — B1 and B2 are the SAME short scenario fired twice on purpose.
+  # live_leg_order — H runs FIRST; B1 and B2 are the SAME short scenario fired twice on purpose.
+  #   H   halo-hue-encoding drives a sustained 2/s identical-fingerprint stream for 150s, so its own
+  #       dot is still live when Pulse flips its severity tier and the hue observable fires against a
+  #       tick-refreshed last_seen. It runs FIRST because its stream must not sit inside leg A's
+  #       silence window; its own incident then idles from phase-2 end and auto-resolves well before
+  #       A reads back. NOTE the hue leaf fires from the COMPACT-WIDGET window (ConstellationCanvas
+  #       is mounted only there) — a dashboard-only session records no sample.
   #   B1  gate ready; read-back finds its own canary incident still open -> a graded manual row.
   #   B2  fired immediately, inside Pulse's 120s idle window: its canary dedupes against B1's still-open
   #       incident on the (kind, scope, scope_id) tuple, no fresh incident forms, and the gate goes
@@ -113,6 +119,8 @@ live_suite() {
   #       storm lands well inside the window; real-model formation (~110s) would fall outside it.
   #   A   after the quiet window, a fresh canary forms and then idles for the whole silent scenario,
   #       so read-back finds an EMPTY active set — the auto-resolve residual arm.
+  live_leg h halo-hue-encoding "$(live_leg_budget_sec 180)"
+
   live_leg b1 degraded-mode-report "$(live_leg_budget_sec 10)"
   live_leg b2 degraded-mode-report "$(live_leg_budget_sec 10)"
 
@@ -131,6 +139,12 @@ live_suite() {
   ( cd "$UI_DIR" && npm run a11y:driven )
 
   echo "[live] suite complete — captures under $LIVE_CAPTURE_DIR"
+  echo "[live] bootstrap posture: leg A's empty-active-set arm needs the silence evaluator disarmed."
+  echo "[live] The operator's pulse-app launch carries ANDROMEDA_PULSE_BASELINE_BOOTSTRAP_SECONDS=86399."
+  echo "[live] It is BOOT-WIDE (Thresholds::from_env runs once at boot), load-bearing for leg A and inert"
+  echo "[live] for leg H — the storm path consults no baseline. Conductor never sets it; confirm which"
+  echo "[live] posture booted by grepping Pulse's log for the TARGET triage.baseline.bootstrap_window.override"
+  echo "[live] (level WARN, reason=\"env_override\", resolved_seconds) — the emitting fn name is not in the log."
   echo "[live] stop form: the wdio arm self-terminates via onComplete -> tauriDriver.kill(); after an"
   echo "[live] interrupted run: taskkill /F /IM msedgedriver.exe /IM conductor-tauri.exe (+ the node CLI)."
   echo "[live] pulse-app is NOT stopped here — the operator started it and stops it."
@@ -200,7 +214,7 @@ case "${1:-}" in
         fi
         ;;
       # test-plan §9: the operator-gated live suite. NEVER a CI gate and never reachable from a bare
-      # `run` — a live leg drives a real Pulse. Composes B1 → B2 → quiet window → A → the driven a11y
+      # `run` — a live leg drives a real Pulse. Composes H → B1 → B2 → quiet window → A → the driven a11y
       # arm, in that order, because each leg's outcome depends on the incident state the previous one
       # left (see live_leg_order below).
       --live)

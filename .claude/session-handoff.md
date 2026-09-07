@@ -1,75 +1,86 @@
 # Session Handoff
 
-**Last Updated:** 2026-09-06T16:52:09Z
-**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **0 ahead / 0 behind at P6** —
-the branch was pushed mid-session, so the prior handoff's "5 ahead" is superseded. This wrap's commit makes
-it 1 ahead until pushed. No CI push from this wrap.)
+**Last Updated:** 2026-09-07T08:55:21Z
+**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **1 ahead at P6** — the prior
+chunk's commit is unpushed, and this wrap's commit makes it 2. No CI push from this wrap, which is why the
+*A11y CI gate* entry's `BLOCKED-ON` still stands.)
 **Status:** clean
-**Last Commit:** `feat(2026-09-06-coverage-completeness-gate): …`
+**Last Commit:** `feat(2026-09-06-halo-hue-budget-re-driven): …`
 
 ## Position
-- Done: **`2026-09-06-coverage-completeness-gate`** (master `complete`).
-- Next: **`/andromeda-phase`** on the first markerless head — **_Halo hue budget re-driven — an error stream
-  sustained through incident formation so the severity tier flips while the service is still emitting
-  (P-025)_** (`working-route.md:117`; carries one CONTEXT + one CARRY). **Needs a live Pulse.**
-- Coverage **27/32 verified · 5 unclaimed** (`v2-04`, `v2-21`, `v2-24`, `v2-27`, `v2-32`) — `v2-26` claimed
-  and verified by this chunk.
-- **Evolve:** Epoch 6b at 8 chunks (4 frozen + 4 markerless) — under the ~10 split threshold, no nudge.
+- Done: **`2026-09-06-halo-hue-budget-re-driven`** (master `complete`).
+- Next: **`/andromeda-phase`** on the first markerless head — **_Dependency polish_**
+  (`working-route.md:119`; carries several CARRYs incl. Pulse's 8th P-047 category and the
+  `cargo check -p conductor-verify --lib` per-seam build red). **No live Pulse needed.**
+- Coverage **27/32 verified · 5 unclaimed** (`v2-04`, `v2-21`, `v2-24`, `v2-27`, `v2-32`) — unchanged:
+  this chunk claimed nothing, by design (no `v2-NN` entry covers P-025; `v2-20` excludes it and is already
+  `verified`).
+- **Evolve:** Epoch 6b at 8 chunks (5 frozen + 3 markerless) — under the ~10 split threshold, no nudge.
 
 ## Work done
-The zero-gap classification claim got a **named gate surface with a real subject** — and the chunk's own
-premise moved under measurement first. The assertion was already CI-enforced and green
-(`KNOWN_UNCLASSIFIED = []`, `nextest --workspace` runs it, 4/4 PASS at HEAD), so what shipped is the part
-that was genuinely missing: a named `conductor-report --test coverage_gate` target as its own CI step, the
-committed `coverage-matrix.md` that arch called "the definition of done" but which had never existed, and a
-negative arm over the **real** classification (removing each of the 82 rows in turn) where the prior arms
-only exercised synthetic fixtures.
+P-025's ≤2 s hue budget was **re-driven and measured unmeasurable through its own leaf** — and the chunk
+ships the proof rather than a pass. `halo-hue-encoding` now drives 360 dispatches at 2/s across two phases,
+so the service never goes quiet; on the 2026-09-07 live leg its one in-window sample still read
+**14 525.9 ms against 2 000 ms**, matching its offset to the preceding 15 s lifecycle tick to **1.1 ms**.
+All 7 samples in the capture fit `duration = offset + k × 15 000`, k ∈ {0,1,2}, within 2 ms.
 
-**The freight was worth more than the gate.** CARRY 4's premise — that a `Latency`/`Ramp` phase puts
-`samples`/`windows` spans on the wire per dispatch — measured FALSE on 5 of 9 shape arms
-(`rate_trace_request` emits `sum(window_counts)`). The load envelope's rate term now counts wire records via
-`EmissionSpec::max_spans_per_dispatch()`, an upper BOUND because the rate curves carry seeded jitter and the
-static gate has no seed. Consequence: the catalog's true peak is **`halo-breathing-encoding` at ~232
-records/s**, which the old basis counted as ~2/s — a ~116× undercount on the very scenario the term protects.
-Headroom is ≈43×, not the ~200× the spec claimed. No verdict moves; `[[exempt]]` stays empty.
+The cause is that `ServiceRegistryEntry.last_seen_unix_nano` has **no ingest-path writer** — the 15 s tick
+stamps it — so the leaf reports staleness-since-tick, independent of dispatch rate. **My P3 research missed
+this**: it verified the fire site's reader and the leaf's allowlist, never the field's WRITER, which the
+2026-08-16 T1 provenance rule already prescribes. The operator's P5 review caught it and it changed the
+deliverable from "attain the bound" to "pin the mechanism, assert no pass arm".
 
-CARRY 5 (Pulse's 8th P-047 category) was deferred at P4 and is now re-CARRY'd to *Dependency polish*.
+Both CARRYs discharged: the scenario re-tiered `<5s` → `<90s`, and leg A reached `KnownResidual` via the
+`ReadBack::AutoResolved` arm under a boot-wide `ANDROMEDA_PULSE_BASELINE_BOOTSTRAP_SECONDS=86399`.
+
+**But the light gate's literal re-run graded leg A `ManualCheck` on the same tree, posture and process** —
+and that is a finding, not a flake. The posture provably still works in both runs
+(`silence_cues_emitted: 0`, `services_in_bootstrap: 2`), so it removes cause (a) even at ~1 h 28 m uptime;
+what separated the runs is cause (b), which it does not touch — the window's only incident landed +45 s in
+(cleared 150 s → arm fired) versus +137 s in (~62 s old at read-back → missed). **The posture makes the arm
+REACHABLE, not RELIABLE.** Four amendments authored earlier in this same wrap had claimed sufficiency and
+were narrowed to this before the commit.
 
 ## Drift resolved
-**11 amendments across 5 masters · 3 escalations resolved · 1 proposal rejected · 4 leaves re-derived · 0 open.**
-- `architecture` ×2 — the rate term re-based onto wire records (carrying the new measurement, stating what it
-  supersedes, and recording that the gate/caption shared basis now holds BY CONSTRUCTION via the single
-  `phase_rate_exceeds` → `phase_breach` call chain); `.gitattributes` registered — **re-homed by the wrap**
-  from the proposed §Occupied Resources to the directory tree, where its siblings (`Cargo.lock`,
-  `rustfmt.toml`) live.
-- `obs-plan` ×2 — Critical Path 6 re-based onto the allowlisted `message` field. Its spec'd three-span chain
-  was unbuildable three ways: the names sit outside §11's bounded set, §4's own row forbids the `db.*`
-  widening its own span required, and 5 of 6 field names are absent from `ALLOWLISTED_FIELDS`.
-- `test-plan` ×4 · `security-plan` ×1 (the committed-manifest row now records a test-binary reader resolving
-  via `CARGO_MANIFEST_DIR`) · `a11y-plan` ×2.
-- **Escalations:** (1) the security row — rule `:58` subject-matched but its qualifier was false, so it took
-  the no-match branch; (2) D-platform-claim ×17 across two masters — resolved **NARROW**: only false
-  present-tense CI-existence claims retired, target state left for the `BLOCKED-ON` *A11y CI gate* entry;
-  (3) `playbook.md:64` refreshed through propose→approve (it quoted three now-retired span names and asserted
-  "obs §4 stays target-state").
-- **Rejected:** a §9 stage-table row whose rationale quoted §9 as claiming "the stage table above is the
-  complete inventory of gates CI enforces" — **that sentence does not exist**, and the prior chunk's
-  equivalent gate step took no row either.
-- Cascade: `a11y-summary` · `tests-summary` · `commands.md` · `rules/a11y.md`. The duplicate-claim sweep
-  caught a11y `:218` carrying the identical retired phrase no proposal covered.
+**6 amendments across 3 masters · 1 escalation resolved · 1 playbook rule minted · 1 cascade leaf fixed · 0 open.**
+- `obs-plan` §4 — P-025's recorded cause: staleness → **tick quantization**, bound recorded unmeasurable
+  through that leaf, with its measurement pointer and an explicit SCOPE (this leaf, Pulse HEAD `83d4060`).
+- `test-plan` ×2 — §3's `--live` composition re-anchored to `live_leg_order` (leg H first) as SET-NAMING
+  rather than a fresh literal; §9's not-run-stable verdict conditioned on the **default** window, carrying
+  the TARGET string `triage.baseline.bootstrap_window.override`.
+- `architecture` ×3 — the env registry gains `ANDROMEDA_PULSE_BASELINE_BOOTSTRAP_SECONDS`; §69's uptime
+  bound qualified as the window *in force at boot*; and a same-master duplicate at `:175` (a second
+  unqualified fixed-3600) folded in by the cascade sweep, proposed by no detector.
+- **Escalation:** arch's pair had no playbook rule and the unease was precedent-shaped — arch's three
+  existing `ANDROMEDA_PULSE_*` entries are all handles Conductor *reads*, this one it neither sets nor
+  reads. Operator approved apply-both **plus a bounding rule**, minted: an external handle enters the
+  registry only when a SHIPPED artifact names it, never one mentioned solely in a report or plan.
+- **Cascade:** the retired 4-leg composition was standing in `.claude/rules/verification-harness.md:19`
+  (generated body) — fixed. Two further hits sat in preserve-verbatim homes and were routed to P3, not
+  edited.
 
 ## Notes
-- **One Test Command is vacuous until this commit lands.** `git diff --exit-code coverage-matrix.md` exits 0
-  because the artifact was UNTRACKED — git reports nothing for an untracked path. The real guard is the gate
-  test's byte-equality arm. From the next chunk on, the `git diff` line discriminates.
-- **`.gitattributes` is the repo's first**, one rule (`coverage-matrix.md text eol=lf`). A W78-class ruling on
-  repo-wide attributes is still owed; this file asserts no such policy.
-- The `--e2e` leg ran at P2 and was recorded-not-rerun at smoke: `[webview2 152.0.4191.66 windows]`,
-  **10 passing / 2 skipped** (exactly the two live-Pulse-subject specs). Its exit code cannot tell a pass
-  from a total skip — read the spec list.
-- **Curation:** T1 0 new (1 EXTENDED in place — the pattern-matching entry gained its false-POSITIVE face,
-  after three instances this session) · T2 ×2 in `testing.md` (a cargo test binary's CWD is its package root;
-  a byte-comparison gate over a committed artifact needs an `eol=lf` pin) · T3 0 · 1 filtered as duplicate.
+- **The witness coordinate was wrong in 5 places** (operator directive): artifacts named the emitting
+  function `warn_bootstrap_window`, which appears nowhere in Pulse's log; the persisted line's TARGET is
+  `triage.baseline.bootstrap_window.override`. The 3 code/config sites were corrected at this wrap; the
+  plan keeps the function name as the record of what was planned.
+- **Scope was widened by operator approval**, not re-planning: `operator_pause_harvest.rs` pins the
+  scenario's checklist text via `committed("halo-hue-encoding")` — a companion class ("a test whose INPUT
+  is the changed artifact") the plan's sweep missed because it enumerated goldens only.
+- **Honest limit on the shipped pin:** it asserts against the *preceding* tick — the `k=0` case, correct
+  because the scenario now guarantees continuous emission. A quiet service freezes `last_seen` k ticks back.
+  Recorded in `evidence/hue-verdict.md`.
+- **Pulse intake (not Conductor's):** (1) the SUT-side fix that would make the bound measurable — registry
+  copies the activity floor's `last_observed_unix_nanos`, or the fire site reads span arrival; (2)
+  `hypothesis:` the 120 s auto-resolve idle clock appears to run from the last cue re-touch, not the last
+  span (measured on the leg log; no master states span-idle semantics, so no disproof entry).
+- **Curation:** T1 0 new (1 EXTENDED in place — the SUT-clock entry gains "ask whether that clock has a
+  LEVER") · T2 1 new + 2 extended (`testing.md` gains the nextest-filter-matches-nothing entry and the
+  data-pin companion class; `verification-harness.md` item (e) gains the boot-time-lever facet) · T3 0.
   `CLAUDE.md` **134/200**.
-- **`pulse-app` is DOWN**; this chunk needed no live SUT. The next entry (Halo hue) DOES.
+- **Deferred learnings — `recurrence-despite-learning`:** the writer-sweep miss above recurred *past* a
+  correct T1 entry. The remedy is a CHECK in the owning step's reference (codebase-research's mechanism
+  re-derivation), not a fourth entry.
+- **`pulse-app` (PID 10112) is UP** and was left running for the light gate; the operator stops it after
+  this commit. The next entry (Dependency polish) needs no live SUT.
 - **Last failed command:** none.

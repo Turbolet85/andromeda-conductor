@@ -26,10 +26,38 @@ slo_tier = "<90s"   # a lifecycle-timing scenario; the 120s+30s window is phase 
 jitter_ms = 50
 
 [[phases]]
-# Pulse's worst case is 120s idle + up to a full 30s AutoResolveObserver tick = 150s. The window was
-# first set to 165000 (15s margin) and MEASURED MARGINAL: of two live runs on 2026-09-06 the first
-# reached the empty active set and the second did not — leg A landed ManualCheck with the canary
-# incident still active. Widened to 200000 for a 50s margin. NOT yet live-proven at this value.
+# TWO measured causes bound this arm, and they tune DIFFERENTLY — a re-attempt that knows only one
+# will mis-tune. The margin model alone (below) is NOT sufficient and was the stale reading.
+#
+# (a) PAST Pulse's per-service bootstrap hour the arm is unreachable AT ANY WINDOW LENGTH. The silence
+#     evaluator raises `service_went_silent` cues for exactly the quiet this arm depends on, they reach
+#     the Autonomous band, and NEW incidents form during the silent phase itself — so a LONGER window
+#     yields more of them, not an empty set. Measured 2026-09-06: the day's first silence cue fired one
+#     hour after the canary service's first span, then incidents formed mid-silence at 11:00:33 and
+#     11:02:02 (`BOOTSTRAP_WINDOW_SECONDS = 3_600`, andromeda-pulse
+#     `crates/triage/src/baseline/activity_floor.rs:36`; evaluator per emit cycle at `cue/emitter.rs:186`).
+#     PARTIAL RESOLUTION now used by the suite — it removes THIS cause and not cause (b): the
+#     operator's launch sets `ANDROMEDA_PULSE_BASELINE_BOOTSTRAP_SECONDS=86399`, which is BOOT-WIDE
+#     (`Thresholds::from_env()` runs once at `pulse-app/src/main.rs:472`) and disarms the silence
+#     evaluator for the whole suite. What records which posture actually booted is the SUT's own
+#     persisted line at TARGET `triage.baseline.bootstrap_window.override` (level WARN, message
+#     "per-service cold-start window is not the default", fields reason="env_override",
+#     resolved_seconds, default_seconds) — grep the target, not the emitting fn name
+#     (`warn_bootstrap_window`), which appears nowhere in the log.
+#
+# (b) INSIDE the hour the window must still clear 150s — Pulse's 120s idle plus up to a full 30s
+#     AutoResolveObserver tick — measured from the LAST incident this leg's own preflight formed, which
+#     can be more than one. Measured 2026-09-06: a run wholly inside the hour with ZERO silence cues in
+#     its window still failed, because incidents formed at 10:07:18 AND 10:07:53 and the later was only
+#     ~122s old at read-back.
+#
+# The window was first set to 165000 (15s margin) and measured marginal; widened to 200000 for a 50s
+# margin against cause (b). Live-proven at this value on 2026-09-07 — and disproven the same day:
+# two runs of this identical file under the identical boot posture graded RESIDUAL then MANUAL,
+# because cause (b) turns on WHEN the window's last incident forms (+45s in -> cleared 150s, arm
+# fired; +137s in -> ~62s old at read-back, arm missed). A wider gap_ms does not fix that: it moves
+# the read-back later but also leaves more room for a late incident. Run this leg on a freshly
+# started Pulse and record the verdict as conditional.
 name = "idle-past-auto-resolve"
 gap_ms = 200000
 [phases.emission]

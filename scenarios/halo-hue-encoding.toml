@@ -10,55 +10,76 @@
 # Coverage mode: drive+observe — there is NO programmatic read-back of a rendered hue, so this scenario
 #   declares NO expected check: it DRIVES the stimulus and the operator confirms the hue shift via the
 #   generated checklist (the ManualCheck / operator-checklist path — empty `expected` → verdict None →
-#   Lamp::Manual). The catalog's first member of this path.
-# DELEGATED TIMING (≤2s) — measurable since SUT HEAD `f0c38f5`, graded at the HARVEST tier.
+#   Lamp::Manual).
+# DELEGATED TIMING (≤2s) — graded at the HARVEST tier, and UNMEASURABLE through this leaf.
 #   Pulse emits `metric.constellation.hue_update_ms` carrying `duration_ms` + `severity_tier`, behind its own
 #   exact allowlist leaf, and persists it to `{data_dir}/logs/agent-latest.jsonl.<date>`. NO MCP tool reads
 #   that stream, so the bound is graded over a live-leg capture in the conductor-run harvest test — never by
 #   an `[[expected]]` check, and never through `budget_ms` (which grades
 #   `read_back_observed_at − journal_emitted_at`, Conductor's own MCP round-trip, not a Pulse-internal
 #   duration — binding one to the other would be a category error).
-#   BUDGET DISPROVED (measured 2026-08-21, two independent legs: 35581ms and 36705ms against 2000ms — 18x).
-#   The <=2s bound is NOT attainable on this observable as this scenario drives it, for two measured reasons.
-#   (1) This scenario declares NO `[phases.emission]` blocks, so it drives no error-shaped stream and causes
-#   no severity tier change of its own — both samples carry `severity_tier = "autonomous"` and follow the
-#   PREFLIGHT CANARY's incident by under a second, so neither is this scenario's. (2) The fire site computes
-#   `now - item.last_seen_unix_nano`: it measures how STALE the service's telemetry was when its hue changed,
-#   not how long the hue update took. A service that stops emitting before the tier flips (the canary storms,
-#   then goes quiet through the 90s canary-poll floor) therefore reports Pulse's own incident-formation
-#   latency — L2 cue -> L3 digest at a 20-60s cadence -> L4 — which no <=2s budget can survive. The same
-#   formula reads 702ms for `metric.constellation.discovery_ms` precisely because discovery fires while
-#   `last_seen` is still fresh. Attaining the bound needs a scenario that keeps emitting THROUGH incident
-#   formation; that is a scenario redesign, routed forward as its own entry, not a header edit here.
+#   THREE fire-site terms govern what that observable can measure (`ConstellationCanvas.tsx:117-155`).
+#   (1) SLOWEST-WINS: the effect loops every dot whose tier changed in the render pass and emits the MAXIMUM
+#   staleness, with `severity_tier` naming THAT dot's tier — so a same-pass canary change reports the canary.
+#   (2) A 60s CEILING: `visibleDots` drops any service quiet longer than `LIVE_RECENCY_WINDOW_NANOS = 60s`
+#   (`constellation-types.ts:27`), so no sample can exceed ~60000ms and a quiet service cannot flip at all.
+#   (3) QUANTIZATION — the term that makes the bound unmeasurable. `ServiceRegistryEntry.last_seen_unix_nano`
+#   has NO ingest-path writer; steady-state it is written only by `registry.tick_all` (`registry.rs:336`),
+#   which sets it to the TICK's `now` and only when `current_quiet_duration_seconds == 0` — integer-truncated
+#   seconds (`activity_floor.rs:142-149`). The tick is `DEFAULT_LIFECYCLE_HEARTBEAT_INTERVAL = 15s`
+#   (`lifecycle/mod.rs:52`, wired unchanged at `main.rs:1489`, no env override). So the observable reports
+#   `t_sample − t_last_refreshing_tick`, distributed U(0, 15s) at a randomly-timed flip and INDEPENDENT of the
+#   dispatch rate: a sub-2s reading is a tick coincidence (~13% of flips), never attainment. The harvest test
+#   therefore PINS THE MECHANISM and records the measured value; it asserts no pass against 2000ms until the
+#   SUT changes the writer (the registry copying the floor's `last_observed_unix_nanos`, or the fire site
+#   reading span arrival — a Pulse intake item, not Conductor's).
+#   The prior disproof stands as the origin: 35581ms and 36705ms against 2000ms on two legs (2026-08-21),
+#   when this scenario declared no emission at all and both samples were the preflight canary's.
+# WHAT THE SUSTAINED STREAM BUYS — liveness, not freshness. The phases below emit at 2 dispatches/second so
+#   the `conductor` dot stays inside `visibleDots` AND every 15s tick refreshes `last_seen` by construction:
+#   a tick refreshes only when a span arrived <1s before it, and at 2/s the max span age at any tick is
+#   ~525ms (500ms interval + half the 50ms jitter). At 1/s a jitter beat puts a 1000-1050ms-old span at some
+#   ticks, that tick skips the refresh, and the following flip's sample offsets to the tick BEFORE — ~15s
+#   past the harvest's tolerance, failing the mechanism pin spuriously. No rate reaches the 2s bound.
+# ATTRIBUTION is temporal, not field-based: the leaf carries no service identifier (Pulse's allowlist is
+#   exactly `duration_ms` + `severity_tier`, "Aggregate-only"), and `severity_tier` cannot discriminate
+#   either, because a dot's tier is incident-derived and incidents form only from Autonomous cues — so this
+#   scenario must reach the same band the canary does. The canary is separated by CONSTRUCTION instead:
+#   preflight readiness requires an incident opened AFTER its own storm, so the canary's flip and its sample
+#   land before `scenario.run` starts, and its dot leaves `visibleDots` 60s after that storm.
 #   SURFACE CORRECTION (measured at Pulse HEAD, capability semantic UNCHANGED): the Halo State Pulse canvas
 #   has no production render site, so the severity→hue semantic lives on the CONSTELLATION DOT
 #   (`severityToHueFraction`, `pulse-app/ui/src/widget/constellation-types.ts`) and `hue_update_ms` measures
-#   THAT. The observable fires on a severity TIER CHANGE, driven by this scenario's error-pressure phase —
-#   no operator action is needed for it to fire, only a running Pulse with its window open.
-# Epoch-8/10 calibration points: the operator-checklist item wording ("hue shifted toward burgundy under
-#   error pressure?").
+#   THAT. The observable fires from `ConstellationCanvas.tsx:152`, mounted only by `widget/CompactWidget.tsx`
+#   — so the leg needs the COMPACT-WIDGET window open; a dashboard-only session emits nothing.
 name = "halo-hue-encoding"
 p_ids = ["P-025"]
 seed = 4317025
-slo_tier = "<5s"   # the hue shift tracks the error-state pipeline (≤2s, delegated) — the fast tier
+slo_tier = "<90s"   # the closest honest bucket: whole-run latency exceeds every tier by construction
 jitter_ms = 50
 
 [[phases]]
 name = "healthy-baseline"   # nominal traffic: the service halo sits at its healthy hue
-gap_ms = 3000
+gap_ms = 30000
+[phases.emission]
+kind = "plain"
+occurrences = 60   # 2/s — makes `conductor` a live dot at tier null before any incident exists
 
 [[phases]]
-name = "error-pressure"   # an error-state-shaped stream → Pulse shifts the halo hue (operator observes)
-gap_ms = 3000
+name = "error-pressure"   # a sustained identical-fingerprint storm → an Autonomous cue → the tier flips
+gap_ms = 150000
+[phases.emission]
+kind = "exception"
+occurrences = 300   # 2/s for 150s — outlives the L3 digest cadence so the dot is still live at the flip
+variants = ["identical"]   # one fingerprint, so occurrences aggregate past Pulse's >=10-in-60s storm floor
 
 # Operator-checklist (drive+observe): no [[expected]] block. The hue render is verified by the operator,
 # not by MCP read-back — the empty expected routes the check to ManualCheck downstream.
 
 # Operator-checklist item — rendered as a row in the hold dialog (design-system §Surface:
-# desktop-webview / Component Patterns 7). The induced half is deliberately honest that this
-# scenario declares NO [phases.emission] of its own, so the only error pressure in the window is the
-# preflight canary's; driving P-025 properly is the Epoch-6 "Halo hue budget re-driven" entry, not
-# this declaration. Observing this item does NOT claim P-025.
+# desktop-webview / Component Patterns 7). The induced half names the stream this scenario now really
+# drives, so the operator grades against what actually ran. Observing this item does NOT claim P-025:
+# the delegated timing bound is graded at the harvest tier, and is unmeasurable through this leaf.
 [[checklist]]
-induced = "error-pressure phase window; this scenario declares no emission of its own (the preflight canary's storm is the only error pressure)"
+induced = "error-pressure phase window; this scenario drives a sustained identical-fingerprint exception stream at 2/s for 150s, which is the only error pressure the operator is grading"
 observation = "hue shifted toward burgundy under error pressure?"

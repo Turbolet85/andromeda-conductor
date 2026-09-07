@@ -1,0 +1,442 @@
+[
+{
+"sql": "SELECT callee_name, caller_name, file, line FROM calls WHERE callee_name IN ('max_spans_per_dispatch','phase_rate_exceeds','phase_breach','check_load_envelope','check_checklist','check_budgets','route_read_back','state_for','classify') ORDER BY callee_name, file, line;",
+"rows": 72,
+"result": [
+{
+"callee_name": "check_budgets",
+"caller_name": "from_toml_str",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 159
+},
+{
+"callee_name": "check_budgets",
+"caller_name": "a_budget_at_or_under_its_tier_is_accepted",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 1025
+},
+{
+"callee_name": "check_budgets",
+"caller_name": "a_budget_above_its_tier_is_a_harness_fault_naming_the_check",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 1038
+},
+{
+"callee_name": "check_checklist",
+"caller_name": "from_toml_str",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 160
+},
+{
+"callee_name": "check_load_envelope",
+"caller_name": "crate",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 44
+},
+{
+"callee_name": "check_load_envelope",
+"caller_name": "the_storm_window_is_the_longest_emitting_phase_not_the_sum_of_them",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 559
+},
+{
+"callee_name": "check_load_envelope",
+"caller_name": "the_committed_catalog_matches_the_committed_envelope",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 655
+},
+{
+"callee_name": "check_load_envelope",
+"caller_name": "an_over_envelope_scenario_outside_the_ledger_is_a_fault",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 727
+},
+{
+"callee_name": "check_load_envelope",
+"caller_name": "a_ledger_entry_now_inside_the_envelope_is_a_fault",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 744
+},
+{
+"callee_name": "check_load_envelope",
+"caller_name": "a_ledger_entry_no_scenario_names_is_a_fault",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 761
+},
+{
+"callee_name": "check_load_envelope",
+"caller_name": "an_in_envelope_catalog_with_an_empty_ledger_passes",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 778
+},
+{
+"callee_name": "check_load_envelope",
+"caller_name": "envelope_message_names_identity_without_host_paths_or_type_names",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 788
+},
+{
+"callee_name": "classify",
+"caller_name": "the_storm_window_is_the_longest_emitting_phase_not_the_sum_of_them",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 558
+},
+{
+"callee_name": "classify",
+"caller_name": "a_silence_phase_is_never_storm_however_long_it_runs",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 571
+},
+{
+"callee_name": "classify",
+"caller_name": "an_emitting_phase_faster_than_the_rate_term_is_a_breach",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 579
+},
+{
+"callee_name": "classify",
+"caller_name": "a_zero_length_emitting_phase_is_an_unbounded_rate",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 598
+},
+{
+"callee_name": "classify",
+"caller_name": "a_zero_length_emitting_phase_is_an_unbounded_rate",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 600
+},
+{
+"callee_name": "classify",
+"caller_name": "the_rate_bound_is_exclusive_at_its_boundary",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 611
+},
+{
+"callee_name": "classify",
+"caller_name": "the_rate_bound_is_exclusive_at_its_boundary",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 614
+},
+{
+"callee_name": "classify",
+"caller_name": "the_gate_and_the_per_run_judgment_agree_across_the_committed_catalog",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 644
+},
+{
+"callee_name": "classify",
+"caller_name": "classify_returns_a_value_never_an_error",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 823
+},
+{
+"callee_name": "classify",
+"caller_name": "classify_returns_a_value_never_an_error",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 827
+},
+{
+"callee_name": "classify",
+"caller_name": "classify_returns_a_value_never_an_error",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 832
+},
+{
+"callee_name": "classify",
+"caller_name": "classify_cause_carries_no_host_path_or_type_name",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 850
+},
+{
+"callee_name": "classify",
+"caller_name": "a_phase_exactly_at_the_storm_ceiling_is_inside_the_envelope",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 873
+},
+{
+"callee_name": "classify",
+"caller_name": "a_phase_exactly_at_the_storm_ceiling_is_inside_the_envelope",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 876
+},
+{
+"callee_name": "classify",
+"caller_name": "classify_run",
+"file": "crates/conductor-run/src/envelope.rs",
+"line": 76
+},
+{
+"callee_name": "classify",
+"caller_name": "crate",
+"file": "crates/conductor-verify/src/lib.rs",
+"line": 55
+},
+{
+"callee_name": "classify",
+"caller_name": "slo",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 10
+},
+{
+"callee_name": "classify",
+"caller_name": "evaluate_check",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 96
+},
+{
+"callee_name": "classify",
+"caller_name": "classification_is_deterministic",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 81
+},
+{
+"callee_name": "classify",
+"caller_name": "classification_is_deterministic",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 82
+},
+{
+"callee_name": "classify",
+"caller_name": "classification_is_deterministic",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 84
+},
+{
+"callee_name": "classify",
+"caller_name": "classification_is_deterministic",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 85
+},
+{
+"callee_name": "classify",
+"caller_name": "observed_and_expected_are_redacted",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 91
+},
+{
+"callee_name": "classify",
+"caller_name": "observed_and_expected_are_redacted",
+"file": "crates/conductor-verify/src/verdict.rs",
+"line": 94
+},
+{
+"callee_name": "classify",
+"caller_name": "crate",
+"file": "crates/conductor-verify/tests/verdict.rs",
+"line": 3
+},
+{
+"callee_name": "classify",
+"caller_name": "classify_maps_each_class_to_its_verdict",
+"file": "crates/conductor-verify/tests/verdict.rs",
+"line": 16
+},
+{
+"callee_name": "classify",
+"caller_name": "calibration_region_is_never_a_hard_fail",
+"file": "crates/conductor-verify/tests/verdict.rs",
+"line": 25
+},
+{
+"callee_name": "classify",
+"caller_name": "delta_is_present_only_for_calibration_region",
+"file": "crates/conductor-verify/tests/verdict.rs",
+"line": 32
+},
+{
+"callee_name": "classify",
+"caller_name": "delta_is_present_only_for_calibration_region",
+"file": "crates/conductor-verify/tests/verdict.rs",
+"line": 33
+},
+{
+"callee_name": "classify",
+"caller_name": "delta_is_present_only_for_calibration_region",
+"file": "crates/conductor-verify/tests/verdict.rs",
+"line": 34
+},
+{
+"callee_name": "classify",
+"caller_name": "assessment_carries_observed_expected_and_delta",
+"file": "crates/conductor-verify/tests/verdict.rs",
+"line": 40
+},
+{
+"callee_name": "max_spans_per_dispatch",
+"caller_name": "phase_breach",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 211
+},
+{
+"callee_name": "max_spans_per_dispatch",
+"caller_name": "every_shape_bounds_the_records_its_dispatcher_arm_emits",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 706
+},
+{
+"callee_name": "max_spans_per_dispatch",
+"caller_name": "every_shape_bounds_the_records_its_dispatcher_arm_emits",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 710
+},
+{
+"callee_name": "max_spans_per_dispatch",
+"caller_name": "every_shape_bounds_the_records_its_dispatcher_arm_emits",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 721
+},
+{
+"callee_name": "max_spans_per_dispatch",
+"caller_name": "every_shape_bounds_the_records_its_dispatcher_arm_emits",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 731
+},
+{
+"callee_name": "max_spans_per_dispatch",
+"caller_name": "every_shape_bounds_the_records_its_dispatcher_arm_emits",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 737
+},
+{
+"callee_name": "max_spans_per_dispatch",
+"caller_name": "every_shape_bounds_the_records_its_dispatcher_arm_emits",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 746
+},
+{
+"callee_name": "max_spans_per_dispatch",
+"caller_name": "every_shape_bounds_the_records_its_dispatcher_arm_emits",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 757
+},
+{
+"callee_name": "max_spans_per_dispatch",
+"caller_name": "every_shape_bounds_the_records_its_dispatcher_arm_emits",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 759
+},
+{
+"callee_name": "max_spans_per_dispatch",
+"caller_name": "every_shape_bounds_the_records_its_dispatcher_arm_emits",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 769
+},
+{
+"callee_name": "max_spans_per_dispatch",
+"caller_name": "a_rate_curve_bounds_its_window_counts_not_its_window_number",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 788
+},
+{
+"callee_name": "max_spans_per_dispatch",
+"caller_name": "a_rate_curve_bounds_its_window_counts_not_its_window_number",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 790
+},
+{
+"callee_name": "max_spans_per_dispatch",
+"caller_name": "a_rate_curve_bounds_its_window_counts_not_its_window_number",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 805
+},
+{
+"callee_name": "max_spans_per_dispatch",
+"caller_name": "the_bound_is_per_dispatch_and_independent_of_occurrences",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 822
+},
+{
+"callee_name": "phase_breach",
+"caller_name": "classify",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 267
+},
+{
+"callee_name": "phase_breach",
+"caller_name": "check_load_envelope",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 370
+},
+{
+"callee_name": "phase_rate_exceeds",
+"caller_name": "phase_breach",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 209
+},
+{
+"callee_name": "route_read_back",
+"caller_name": "execute",
+"file": "crates/conductor-run/src/execute.rs",
+"line": 88
+},
+{
+"callee_name": "route_read_back",
+"caller_name": "a_declare_only_empty_read_back_routes_to_the_auto_resolve_residual",
+"file": "crates/conductor-run/src/execute.rs",
+"line": 413
+},
+{
+"callee_name": "route_read_back",
+"caller_name": "a_checks_bearing_empty_read_back_stays_blocked",
+"file": "crates/conductor-run/src/execute.rs",
+"line": 435
+},
+{
+"callee_name": "route_read_back",
+"caller_name": "a_failed_read_back_call_stays_blocked_even_for_a_declare_only_scenario",
+"file": "crates/conductor-run/src/execute.rs",
+"line": 442
+},
+{
+"callee_name": "route_read_back",
+"caller_name": "a_failed_read_back_call_stays_blocked_even_for_a_declare_only_scenario",
+"file": "crates/conductor-run/src/execute.rs",
+"line": 443
+},
+{
+"callee_name": "route_read_back",
+"caller_name": "a_populated_corpus_grades_whatever_the_scenario_declares",
+"file": "crates/conductor-run/src/execute.rs",
+"line": 450
+},
+{
+"callee_name": "route_read_back",
+"caller_name": "a_populated_corpus_grades_whatever_the_scenario_declares",
+"file": "crates/conductor-run/src/execute.rs",
+"line": 453
+},
+{
+"callee_name": "state_for",
+"caller_name": "execute",
+"file": "crates/conductor-run/src/execute.rs",
+"line": 177
+},
+{
+"callee_name": "state_for",
+"caller_name": "manual_record",
+"file": "crates/conductor-run/src/execute.rs",
+"line": 260
+},
+{
+"callee_name": "state_for",
+"caller_name": "a_degraded_read_back_overrides_the_state_and_leaves_the_verdict_alone",
+"file": "crates/conductor-run/src/execute.rs",
+"line": 403
+},
+{
+"callee_name": "state_for",
+"caller_name": "a_degraded_read_back_overrides_the_state_and_leaves_the_verdict_alone",
+"file": "crates/conductor-run/src/execute.rs",
+"line": 407
+},
+{
+"callee_name": "state_for",
+"caller_name": "a_measured_row_keeps_its_verdict_when_degradation_overrides_the_state",
+"file": "crates/conductor-run/src/execute.rs",
+"line": 545
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]
