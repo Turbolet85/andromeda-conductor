@@ -59,6 +59,38 @@ function nativeDriver(): string | undefined {
   return existsSync(raw) && statSync(raw).isFile() ? raw : undefined
 }
 
+// CI inverts the skip: a gate that can pass by skipping is banned (a11y-plan §11 Anti-Patterns → CI),
+// and this leg's exit code cannot otherwise separate a full pass from a total skip — measured
+// 2026-09-02, recorded at .claude/rules/verification-harness.md §Session Additions. The GUARD above is
+// untouched: existence + isFile + metacharacter rejection still decide whether a handle RESOLVES, and
+// strict mode only changes what an unresolved handle COSTS (security-plan §Anti-Patterns → Input
+// forbids relaxing the guard to obtain redness). Truthiness mirrors conductor_core::flag_declared.
+function strictMode(): boolean {
+  const raw = process.env.CONDUCTOR_A11Y_STRICT
+  return raw === 'true' || raw === '1'
+}
+
+// Exit rather than throw: wdio has no "skip the whole run" result, and a throw would surface an
+// unconfigured dev host as a failed gate. Under strict mode the non-zero IS the intended verdict.
+function exitUnresolvedHandle(): never {
+  if (strictMode()) {
+    console.log('error: CONDUCTOR_A11Y_STRICT is set, so an unresolved handle is a GATE FAILURE, not a skip.')
+    process.exit(1)
+  }
+  process.exit(0)
+}
+
+// The a11y violation record is JOURNAL-shaped and lands in its own dir: /runs/ is gitignored, and the
+// harness's status/report readers glob "$RUNS_DIR"/*.jsonl non-recursively (scripts/agent-run.sh), so a
+// record here can never be mistaken for a scenario run. NOT under logs/ — that path is the Tauri
+// backend's tracing sink (obs-plan §3 Log file location), and this is a journal line.
+const A11Y_RUNS_DIR = 'runs/a11y'
+const VIOLATION_SIDECAR = join(repoRoot, A11Y_RUNS_DIR, '.violations.jsonl')
+
+let a11yRunId: string | undefined
+let a11yStartedAt: number | undefined
+let a11ySuite = 'routine'
+
 // The routine arm has no live Pulse and /runs/ is gitignored, so on a clean checkout the app launches
 // with zero run records and every coverage row reads "Not yet run" — the populated-lamp half of the
 // assertion would have no subject, and on a dev host it would silently read whatever local run residue
@@ -221,6 +253,64 @@ function reportSkip(): void {
   console.log('       2026-09-01: Edge 152.x against WebView2 Runtime 151.x).')
 }
 
+/**
+ * The a11y run's obs envelope — the ELEVEN-field run-report envelope verbatim (a11y-plan §3 Structured
+ * violation JSON schema), which is what lets conductor-run's `journal_conformance` test BE the gate
+ * instead of a second copy of the schema re-listed in CI (ci.yml states that reasoning for the run
+ * journal, and a third copy would drift from the structs and obs-plan §3/§6).
+ *
+ * Five of the eleven are scenario-shaped and carry no a11y measurement — `seed`, `scenario`, `p_ids`,
+ * `slo_tier`, `read_back_observed_at`. They are MAPPED, not measured: each is the defensible member of
+ * its closed set, and this note exists so a later reader does not read them as findings. Resource
+ * attributes ride alongside as extra keys, which the conformance gate admits by design ("extra keys are
+ * allowed — obs-plan §3 keeps the extension point open") and obs-plan §9 requires on a CI artifact.
+ */
+function writeA11yEnvelope(results: { passed?: number; failed?: number } | undefined): void {
+  if (!a11yRunId || a11yStartedAt === undefined) return
+  const finishedAt = Date.now()
+  const fingerprints = existsSync(VIOLATION_SIDECAR)
+    ? readFileSync(VIOLATION_SIDECAR, 'utf8')
+        .split('\n')
+        .filter(Boolean)
+        .map((line) => JSON.parse(line) as string)
+    : []
+  // A contrast, colour-alone or reduced-motion failure IS an a11y violation that axe never emits, so
+  // the verdict is the union — any recorded tuple, or any failed spec. Reading axe's array alone would
+  // report Pass over a red suite.
+  // wdio types this hook's `results` as `any`, so the compiler cannot vouch for the shape — read it
+  // defensively rather than let a missing field silently decide the verdict.
+  const failedSpecs = typeof results?.failed === 'number' ? results.failed : 0
+  const failed = fingerprints.length > 0 || failedSpecs > 0
+  const iso = (ms: number) => new Date(ms).toISOString().replace(/\.\d{3}Z$/, 'Z')
+
+  const envelope: Record<string, unknown> = {
+    run_id: a11yRunId,
+    seed: 0,
+    scenario: a11ySuite,
+    p_ids: [],
+    verdict: failed ? 'Fail' : 'Pass',
+    state: failed ? 'Fail' : 'Pass',
+    journal_emitted_at: iso(a11yStartedAt),
+    read_back_observed_at: iso(finishedAt),
+    latency_ms: finishedAt - a11yStartedAt,
+    slo_tier: '<90s',
+    fingerprints,
+    'service.name': 'conductor-ui',
+    'deployment.environment': process.env.CONDUCTOR_ENV ?? 'local',
+  }
+  if (process.env.GITHUB_ACTIONS === 'true') {
+    envelope['ci.run.id'] = process.env.GITHUB_RUN_ID ?? ''
+    envelope['git.commit.sha'] = process.env.GITHUB_SHA ?? ''
+  }
+
+  writeFileSync(
+    join(repoRoot, A11Y_RUNS_DIR, `${a11yRunId}.jsonl`),
+    `${JSON.stringify(envelope)}\n`,
+    'utf8',
+  )
+  rmSync(VIOLATION_SIDECAR, { force: true })
+}
+
 export const config: WebdriverIO.Config = {
   hostname: '127.0.0.1',
   port: 4444,
@@ -263,16 +353,23 @@ export const config: WebdriverIO.Config = {
   onPrepare: async (config) => {
     const native = nativeDriver()
     if (!native) {
-      // Exit rather than throw: wdio has no "skip the whole run" result, and a throw here would
-      // surface an unconfigured host as a failed gate — the one reading the guard must prevent.
       reportSkip()
-      process.exit(0)
+      exitUnresolvedHandle()
     }
+    // The run's identity and clock are minted here, before any spec runs, so journal_emitted_at is the
+    // suite's true start rather than the moment the last spec happened to finish.
+    a11yStartedAt = Date.now()
+    a11yRunId = `${new Date(a11yStartedAt).toISOString().replace(/[:.]/g, '-').slice(0, 19)}-a11y`
+    mkdirSync(join(repoRoot, A11Y_RUNS_DIR), { recursive: true })
+    rmSync(VIOLATION_SIDECAR, { force: true })
     seedFixtureRuns()
     // The subject env is chosen by the invoked suite at this ONE spawn site. The routine arm reads the
     // clean fixture; the driven and SR suites persist their run journals into their own dirs, so nothing
     // a session writes can leak into the routine subject.
     const invoked = invokedSuites(config)
+    // The envelope's `scenario` names the arm that produced it — the default (no --suite) IS the
+    // routine arm, which is the only one this gate runs.
+    a11ySuite = [...invoked][0] ?? 'routine'
     const appEnv: NodeJS.ProcessEnv = { ...process.env, CONDUCTOR_RUNS_DIR: FIXTURE_RUNS_DIR }
     if (invoked.has('driven')) {
       mkdirSync(join(repoRoot, DRIVEN_RUNS_DIR), { recursive: true })
@@ -285,7 +382,7 @@ export const config: WebdriverIO.Config = {
       const exe = nvdaExe()
       if (!exe) {
         reportNvdaSkip()
-        process.exit(0)
+        exitUnresolvedHandle()
       }
       const legDir = join(repoRoot, SR_LEG_DIR)
       mkdirSync(legDir, { recursive: true })
@@ -333,11 +430,12 @@ export const config: WebdriverIO.Config = {
       { timeout: 30_000, interval: 500, timeoutMsg: 'webview did not mount #root within 30s' },
     )
   },
-  onComplete: async () => {
+  onComplete: async (_exitCode, _config, _capabilities, results) => {
     // NVDA quits first so the app's teardown is not the last thing it logs; then the driver tree, then
     // the pass record is written from this session's log against its action timeline.
     if (nvdaExePath) await stopNvda(nvdaExePath)
     tauriDriver?.kill()
+    writeA11yEnvelope(results)
     if (srSubject) {
       const legDir = join(repoRoot, SR_LEG_DIR)
       const beforeFile = join(legDir, `census-before.${srSubject}.txt`)

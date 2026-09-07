@@ -181,6 +181,50 @@ case "${1:-}" in
     ;;
 
   run)
+    # The routine arm's expected skips: the two specs whose subject needs a raised hold (the
+    # operator-pause dialog and the operator-checklist rows). Measured 2026-09-07: 10 passing,
+    # 2 pending of 12. A THIRD skip is a failure — a fixture-seeding failure on a runner surfaces
+    # exactly that way, and a context-skip is never a pass (test-plan §6).
+    A11Y_EXPECTED_SKIPS=2
+
+    # The --e2e leg's EXIT CODE cannot separate a full pass from a total skip: the wdio handle guard
+    # is DESIGNED to skip at exit 0, so `$?` alone asserts nothing (measured 2026-09-02 —
+    # .claude/rules/verification-harness.md §Session Additions). The PRINTED verdict is the gate.
+    assert_a11y_verdict() {
+      local log="$1" spec_line failed skips
+      # (1) evidence — without the driven-session banner no session ever attached.
+      if ! grep -qE '^\[webview2 [^]]*windows' "$log"; then
+        case "${CONDUCTOR_A11Y_STRICT:-}" in
+          1|true)
+            echo "error: CONDUCTOR_A11Y_STRICT is set but no driven session attached — the leg proved nothing." >&2
+            return 1 ;;
+        esac
+        echo "[a11y] leg skipped (no driven session) — exit 0 preserved for an unconfigured host"
+        return 0
+      fi
+      # (2) red — `Spec Files:` counts FILES, and omits the `failed` term entirely when none failed.
+      spec_line=$(grep -a 'Spec Files:' "$log" | tail -1)
+      if [ -z "$spec_line" ]; then
+        echo "error: wdio printed no 'Spec Files:' summary — the runner did not complete." >&2
+        return 1
+      fi
+      failed=$(printf '%s' "$spec_line" | grep -oE '[0-9]+ failed' | grep -oE '[0-9]+' || true)
+      failed=${failed:-0}
+      if [ "$failed" -gt 0 ]; then
+        echo "error: a11y suite RED — ${failed} spec file(s) failed." >&2
+        return 1
+      fi
+      # (3) whitelist — mocha prints no pending SUMMARY line, so the skip tally is the per-spec
+      # pending markers themselves (measured 2026-09-07).
+      skips=$(grep -acE '^\[webview2 [^]]*\]    - ' "$log" || true)
+      if [ "$skips" -gt "$A11Y_EXPECTED_SKIPS" ]; then
+        echo "error: ${skips} skipped spec(s), expected at most ${A11Y_EXPECTED_SKIPS} (the two live-hold subjects)." >&2
+        echo "       A third skip means a subject the arm seeds was absent — a context-skip is never a pass." >&2
+        return 1
+      fi
+      echo "[a11y] verdict asserted — 0 failed · ${skips} skipped (expected ${A11Y_EXPECTED_SKIPS}) · driven session present"
+    }
+
     # Stage flags partition the CI gate (test-plan §9); no flag = the full bundled gate.
     case "${2:-}" in
       --unit)        ensure_frontend; "$CARGO" nextest run --workspace --profile ci ;;
@@ -194,7 +238,16 @@ case "${1:-}" in
       --e2e)
         ensure_frontend
         "$CARGO" build --release -p conductor-tauri --features tauri/custom-protocol
-        ( cd "$UI_DIR" && npm run a11y )
+        # Captured to a file, then asserted: the exit code is read from the BARE command (never
+        # through a pipe, which reports the pipeline's last stage), and the printed verdict is what
+        # decides the gate.
+        mkdir -p "$RUNS_DIR"
+        a11y_log="$RUNS_DIR/a11y-e2e.log"
+        e2e_rc=0
+        ( cd "$UI_DIR" && npm run a11y ) > "$a11y_log" 2>&1 || e2e_rc=$?
+        cat "$a11y_log"
+        [ "$e2e_rc" -eq 0 ] || { echo "error: wdio exited ${e2e_rc}" >&2; exit "$e2e_rc"; }
+        assert_a11y_verdict "$a11y_log"
         ;;
       "")
         ensure_frontend

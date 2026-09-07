@@ -211,3 +211,73 @@ jobs:
 
       - name: Build (tsc --noEmit && vite build)
         run: npm run build
+
+  # The a11y gate (a11y-plan §3 a11y-ci-gate-wire / violation-json-emission-wire; §9 CI Integration).
+  # The ROUTINE arm only: it needs no live Pulse (it seeds its own committed fixture through the
+  # production writer), while the driven and sr* suites do and are barred from CI by test-plan §11 and
+  # architecture §Established Decisions [CI/CD].
+  a11y:
+    name: A11y gate (routine arm · axe · contrast · violation JSON)
+    # Pinned to the EXPLICIT label rather than windows-latest: this job drives the Edge WebDriver the
+    # runner image ships, so a silent -latest move could change the driver out from under the gate.
+    runs-on: windows-2025
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install toolchain (rust-toolchain.toml)
+        run: rustup show
+
+      - uses: Swatinem/rust-cache@v2
+
+      # cargo-nextest runs the conformance gate below; tauri-driver is an npm package resolved from
+      # node_modules by wdio.conf.ts, so it needs no cargo install.
+      - name: Install cargo subcommands
+        uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-nextest
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: crates/conductor-tauri/ui/package-lock.json
+
+      # The harness verb owns the ordering (ensure_frontend -> release build with
+      # --features tauri/custom-protocol -> wdio run), so the job does not restate it.
+      #
+      # CONDUCTOR_A11Y_STRICT inverts the leg's skip-at-exit-0 guard: on a dev host an unresolved
+      # handle SKIPS so an unconfigured machine is not read as a defect, but a gate that can pass by
+      # skipping is banned (a11y-plan §11 Anti-Patterns -> CI). The guard itself is untouched.
+      #
+      # EDGEWEBDRIVER is set by the runner image (Microsoft Edge Driver ships with it), so there is no
+      # driver install step and no operator handle in CI.
+      - name: A11y routine arm (tauri-driver + axe + contrast)
+        shell: pwsh
+        env:
+          CONDUCTOR_A11Y_STRICT: '1'
+          CONDUCTOR_MSEDGEDRIVER: ${{ env.EDGEWEBDRIVER }}\msedgedriver.exe
+          CONDUCTOR_ENV: dev
+        run: |
+          $PSNativeCommandUseErrorActionPreference = $true
+          .\scripts\agent-run.ps1 run --e2e
+
+      # Conformance is asserted by REUSING conductor-run's journal_conformance test, pointed at the a11y
+      # dir. Re-listing the eleven envelope keys here would be the same third copy of the schema the
+      # run-journal gate above exists to avoid. The test fails loudly on an empty dir, so a leg that
+      # produced no record cannot pass this step silently.
+      - name: A11y violation-JSON conformance gate
+        shell: bash
+        env:
+          CONDUCTOR_RUNS_DIR: runs/a11y
+        run: |
+          ls runs/a11y/*.jsonl >/dev/null 2>&1 || { echo "::error::the a11y leg wrote no violation record to assert over"; exit 1; }
+          cargo nextest run -p conductor-run --test journal_conformance --profile ci
+          echo "a11y violation-JSON conformance: PASS ($(ls runs/a11y/*.jsonl | wc -l) record(s) checked)"
+
+      - name: Upload a11y violation record
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: a11y-violations
+          path: runs/a11y/*.jsonl
+          if-no-files-found: warn

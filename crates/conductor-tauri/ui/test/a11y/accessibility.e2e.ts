@@ -13,6 +13,9 @@
 import { browser, $, $$, expect } from '@wdio/globals'
 import AxeBuilder from '@axe-core/webdriverio'
 import Color from 'colorjs.io'
+import { appendFileSync, mkdirSync } from 'node:fs'
+import { dirname, join } from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 // Minimal tier — wcag2a/2aa/21aa, no wcag22aa (a11y-plan §1/§3.5).
 const WCAG_TAGS = ['wcag2a', 'wcag2aa', 'wcag21aa']
@@ -67,9 +70,43 @@ async function coverageRows(): Promise<Array<{ pId: string; lamp: string; status
 // --status-residual coverage Mode cell is a coverage-mode classification, NOT a seventh lamp.
 const LAMP_LABELS = ['Pass', 'Fail', 'HOLD', 'Manual', 'Residual', 'Blocked']
 
+// The spec runs in a wdio WORKER; the envelope is assembled in the LAUNCHER (wdio.conf.ts onComplete),
+// and a module global is not shared across that boundary. So the fingerprint tuples ride a file at a
+// path both sides derive the same way — no env handle, no shared state.
+const VIOLATION_SIDECAR = join(
+  dirname(fileURLToPath(import.meta.url)),
+  '..',
+  '..',
+  '..',
+  '..',
+  '..',
+  'runs',
+  'a11y',
+  '.violations.jsonl',
+)
+
+/**
+ * The obs-envelope fingerprint tuple: axe rule-id | WCAG SC tag | node selector (a11y-plan §3
+ * Structured violation JSON schema). One line per NODE, not per violation — `target` is per-node, and
+ * a single `color-contrast` violation has covered 18 of them, so a per-violation tuple would drop 17
+ * selectors. Selectors are DOM-relative by construction; a filesystem path can never appear here.
+ */
+function recordViolationTuples(
+  violations: ReadonlyArray<{ id: string; tags: string[]; nodes: ReadonlyArray<{ target: unknown[] }> }>,
+): void {
+  if (violations.length === 0) return
+  const lines = violations.flatMap((v) => {
+    const sc = v.tags.find((t) => /^wcag\d+$/.test(t)) ?? v.tags.find((t) => t.startsWith('wcag')) ?? 'wcag-untagged'
+    return v.nodes.map((n) => `${v.id}|${sc}|${n.target.join(' ')}`)
+  })
+  mkdirSync(dirname(VIOLATION_SIDECAR), { recursive: true })
+  appendFileSync(VIOLATION_SIDECAR, lines.map((l) => JSON.stringify(l)).join('\n') + '\n', 'utf8')
+}
+
 /** Every violation, named — a bare `violations.length` failure reports a count and no rule. */
 async function axeFindings(): Promise<string[]> {
   const results = await new AxeBuilder({ client: browser }).withTags(WCAG_TAGS).analyze()
+  recordViolationTuples(results.violations)
   return results.violations.map(
     (v) => `${v.id} [${v.impact}] ${v.nodes.length} node(s) — ${v.help}`,
   )
@@ -297,7 +334,11 @@ describe('desktop a11y — routine arm (no live Pulse)', () => {
   })
 
   it('operator-checklist: unticked count is role=status and a row toggles on Space', async function () {
-    if (!(await $('[role="status"]').isExisting())) {
+    // Key on the hold marker, not on the roll-up's own role: `role=status` is a shared and growing
+    // population (a11y-plan §4 live regions), so a bare `[role="status"]` stops meaning "a hold is
+    // raised" the moment anything else adopts it — measured 2026-09-04, when two new live regions
+    // satisfied it and this spec asserted checkboxes it found none of.
+    if (!(await $('[role="alertdialog"]').isExisting())) {
       this.skip() // subject absent: checklist rows render only inside a raised hold
     }
     expect((await $$('input[type="checkbox"]')).length).toBeGreaterThan(0)

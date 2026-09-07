@@ -222,7 +222,7 @@ Schema (binding contract from upstream-context Section 5 Test Plan Excerpt → T
   "fingerprints": ["fingerprint1", "fingerprint2", ...] or empty array
 }
 ```
-Additional fields per scenario — an extension point of the envelope shape. Its only ever-named instance, `degraded_mode_response`, is RETIRED: measured 2026-09-06 with ZERO occurrences anywhere under `crates/` (`grep -c 'degraded_mode_response' crates/`), so it was never implemented and no scenario emits it. The extension point itself stands; nothing is known to exercise it today.
+Additional fields per scenario — an extension point of the envelope shape. Its only ever-named instance, `degraded_mode_response`, is RETIRED: measured 2026-09-06 with ZERO occurrences anywhere under `crates/` (`grep -c 'degraded_mode_response' crates/`), so it was never implemented and no scenario emits it. The extension point itself stands, and as of 2026-09-07 it IS exercised — by the a11y CI gate's violation record at `runs/a11y/<run_id>.jsonl`, which carries the eleven envelope keys PLUS the §9 resource tags `service.name` (`conductor-ui`) and `deployment.environment` (13 top-level keys measured locally, 15 under CI where `ci.run.id` + `git.commit.sha` join them), as measured at `conductor-0.2.0/chunks/2026-09-07-a11y-ci-gate/report.md`. Note what the extras are: resource TAGS on a harness artifact, not scenario-specific fields — the scenario record at `runs/<run_id>.jsonl` still carries the eleven alone. The superset is admitted deliberately: `conductor-run`'s `journal_conformance` asserts key PRESENCE (plus closed sets and host-path freedom), never key exclusivity, which is what lets one gate serve both shapes.
 - Agent-parseable via `jq` and `serde_json`
 - No absolute host paths, no internal struct names (redaction layer in Section 4 / Section 11)
 
@@ -515,6 +515,7 @@ processes.
 | Artifact | When | Storage | Agent access |
 |----------|------|---------|--------------|
 | Log file (`logs/agent-latest.jsonl`) | every CI job | uploaded as CI artifact | download via CI API + jq parse |
+| A11y violation record (`runs/a11y/<run_id>.jsonl`) | the `a11y` CI job (2026-09-07) | uploaded as CI artifact (`actions/upload-artifact@v4`, `if-no-files-found: warn`) | download + jq parse; conformance asserted in-job by `journal_conformance` under `CONDUCTOR_RUNS_DIR=runs/a11y` |
 | Structured test output (cargo-nextest JSON) | every `cargo-nextest` run | uploaded as CI artifact | download + parse machine-readable test results |
 | Supply-chain audit report | on each commit | inline in CI logs | `cargo-audit` / `cargo-deny` output to stderr |
 

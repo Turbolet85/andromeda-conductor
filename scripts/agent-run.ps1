@@ -55,6 +55,50 @@ function Invoke-EnsureFrontend {
 
 # A run_id is a filesystem-safe hyphen-delimited stamp; reject anything else before it reaches a path
 # join or a sqlite3 statement (security-plan §Input Validation — no string-concat SQL on raw input).
+# The routine arm's expected skips: the two specs whose subject needs a raised hold (the operator-pause
+# dialog and the operator-checklist rows). Measured 2026-09-07: 10 passing, 2 pending of 12. A THIRD skip
+# is a failure — a fixture-seeding failure on a runner surfaces exactly that way, and a context-skip is
+# never a pass (test-plan §6).
+$A11yExpectedSkips = 2
+
+# The --e2e leg's EXIT CODE cannot separate a full pass from a total skip: the wdio handle guard is
+# DESIGNED to skip at exit 0, so the exit code alone asserts nothing (measured 2026-09-02 —
+# .claude/rules/verification-harness.md §Session Additions). The PRINTED verdict is the gate.
+# Identical semantics to agent-run.sh's assert_a11y_verdict (test-plan §3 5-command-discipline-wire).
+function Assert-A11yVerdict([string]$LogPath) {
+    $lines = Get-Content $LogPath
+    # (1) evidence — without the driven-session banner no session ever attached.
+    if (-not ($lines | Select-String -Pattern '^\[webview2 [^\]]*windows' -Quiet)) {
+        if ($env:CONDUCTOR_A11Y_STRICT -in @('1', 'true')) {
+            [Console]::Error.WriteLine('error: CONDUCTOR_A11Y_STRICT is set but no driven session attached - the leg proved nothing.')
+            exit 1
+        }
+        Write-Output '[a11y] leg skipped (no driven session) - exit 0 preserved for an unconfigured host'
+        return
+    }
+    # (2) red — `Spec Files:` counts FILES, and omits the `failed` term entirely when none failed.
+    $specLine = $lines | Select-String -Pattern 'Spec Files:' | Select-Object -Last 1
+    if (-not $specLine) {
+        [Console]::Error.WriteLine("error: wdio printed no 'Spec Files:' summary - the runner did not complete.")
+        exit 1
+    }
+    $failed = 0
+    if ($specLine.Line -match '(\d+)\s+failed') { $failed = [int]$Matches[1] }
+    if ($failed -gt 0) {
+        [Console]::Error.WriteLine("error: a11y suite RED - $failed spec file(s) failed.")
+        exit 1
+    }
+    # (3) whitelist — mocha prints no pending SUMMARY line, so the skip tally is the per-spec pending
+    # markers themselves (measured 2026-09-07).
+    $skips = ($lines | Select-String -Pattern '^\[webview2 [^\]]*\]    - ').Count
+    if ($skips -gt $A11yExpectedSkips) {
+        [Console]::Error.WriteLine("error: $skips skipped spec(s), expected at most $A11yExpectedSkips (the two live-hold subjects).")
+        [Console]::Error.WriteLine('       A third skip means a subject the arm seeds was absent - a context-skip is never a pass.')
+        exit 1
+    }
+    Write-Output "[a11y] verdict asserted - 0 failed | $skips skipped (expected $A11yExpectedSkips) | driven session present"
+}
+
 function Test-RunId([string]$Id) { $Id -match '^[0-9A-Za-z._-]+$' }
 
 # The newest run's id — the lexicographically greatest <run_id>.jsonl stem (run_ids sort by time).
@@ -215,11 +259,20 @@ switch ($args[0]) {
                 Invoke-EnsureFrontend
                 & $Cargo build --release -p conductor-tauri --features tauri/custom-protocol
                 if ($LASTEXITCODE -ne 0) { throw "cargo build --release failed ($LASTEXITCODE)" }
+                # Captured to a file, then asserted: the exit code is read from the BARE command, and
+                # the PRINTED verdict is what decides the gate (see Assert-A11yVerdict).
+                New-Item -ItemType Directory -Force -Path $RunsDir | Out-Null
+                # Absolute: the redirect below runs after Push-Location $UiDir, where a repo-relative
+                # path would resolve against the ui package instead.
+                $a11yLog = Join-Path (Join-Path (Get-Location) $RunsDir) 'a11y-e2e.log'
                 Push-Location $UiDir
                 try {
-                    & npm run a11y
-                    if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+                    & npm run a11y *> $a11yLog
+                    $e2eRc = $LASTEXITCODE
                 } finally { Pop-Location }
+                Get-Content $a11yLog
+                if ($e2eRc -ne 0) { [Console]::Error.WriteLine("error: wdio exited $e2eRc"); exit $e2eRc }
+                Assert-A11yVerdict -LogPath $a11yLog
                 break
             }
             '' {

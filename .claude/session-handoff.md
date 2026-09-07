@@ -1,79 +1,76 @@
 # Session Handoff
 
-**Last Updated:** 2026-09-07T13:08:30Z
-**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **2 ahead at P6** — the two prior
-chunks' commits are unpushed, and this wrap's commit makes it 3. No CI push from this wrap, so the *A11y CI
-gate* entry's `BLOCKED-ON` still stands.)
+**Last Updated:** 2026-09-07T17:15:21Z
+**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **0 ahead at Setup** — the
+session's own push landed mid-session, so this wrap's commit makes it **1 ahead and unpushed**. The push
+is the operator's act and is load-bearing this time: it triggers the a11y job's first run.)
 **Status:** clean
-**Last Commit:** `feat(2026-09-07-dependency-polish): …`
+**Last Commit:** `feat(2026-09-07-a11y-ci-gate): …`
 
 ## Position
-- Done: **`2026-09-07-dependency-polish`** (master `complete`).
-- Next: **`/andromeda-phase`** on the first markerless head — **_A11y CI gate_** (`working-route.md:121`).
-  **It carries a `BLOCKED-ON`** (one green CI run of the a11y job after a push — the push is the operator's
-  act), so phase's Setup will HALT on it and offer the take-it-anyway / skip-to-sibling fork. The sibling is
-  *Release build and bundle* (`:123`). This entry also just gained the `knip.json` CARRY (below).
-- Coverage **28/32 verified · 4 unclaimed** (`v2-04`, `v2-21`, `v2-24`, `v2-27`) — `v2-32` claimed and
-  verified this chunk.
-- **Evolve:** Epoch 6b at 8 chunks (6 frozen + 2 markerless) — under the ~10 split threshold, no nudge.
+- Done: **`2026-09-07-a11y-ci-gate`** (master `complete`).
+- Next: **`/andromeda-phase`** on the first markerless head — **_SR findings fixed_**
+  (`working-route.md:123`), minted at this wrap by operator directive. It carries CARRY 3's three
+  measured SR findings AND the still-owed **verify the a11y job's first CI run** clearing event.
+  No `BLOCKED-ON` on it — phase will not halt. The sibling is *Release build and bundle* (`:125`).
+- Coverage **28/32 verified · 4 unclaimed** (`v2-04`, `v2-21`, `v2-24`, `v2-27`) — **unchanged: this
+  chunk claimed NOTHING.** `v2-24` was deliberately left pooled at phase P5 with a failed-concretization
+  note, because its requirement names keyboard PASS/FAIL *gated in CI* and the Operable carve-out puts
+  that out of reach.
+- **Evolve:** Epoch 6b at 9 chunks (7 frozen + 2 markerless) — under the ~10 split threshold, no nudge.
 
 ## Work done
-Both entry-stated items landed and **seven folded CARRYs** with them. indicatif **0.17 → 0.18.6**, with the
-stop-in-place hold spinner now *asserted* rather than argued (a new `pause.rs` test pins `suspend`'s three
-properties). `opentelemetry-proto` got `default-features = false` — at the **workspace** entry, because cargo
-rejects a member disabling defaults on an inherited dep. `conductor-verify`'s standalone build went from RED
-to green (`time` into `[dependencies]`), the seven rustdoc links are fixed, `knip` is on the web plane, and
-the eighth `PiiCategory` (`ProviderKey`, `ghp_` + 36) is appended last under the seeded-corpus constraint.
+The a11y specs are a CI gate: a third `ci.yml` job (`a11y`, `runs-on: windows-2025`) running the routine
+webview arm with no live Pulse, plus the reused `journal_conformance` gate over `runs/a11y` and the
+violation-record upload. Two structural properties are the substance, both measured rather than argued.
+**The gate cannot key on `$?`** — measured 2026-09-02, `run --e2e` exits 0 on a total skip — so both shells
+now assert the PRINTED verdict (`Spec Files:` failed count · the per-spec skip tally against the expected
+set · the `[webview2 … windows]` banner). **The unset-handle skip cannot stay green in CI** — the new
+`CONDUCTOR_A11Y_STRICT` inverts it to a non-zero exit, as an ADDED arm with the existing guards
+byte-unchanged. Proven both ways on this host: strict + no driver → exit 1, lax + no driver → exit 0.
 
-Lock **564 → 562**: `number_prefix` and `const-hex` out, `unit-prefix` in. That retired
-`RUSTSEC-2025-0119`'s `deny.toml` ignore (17 → 16 entries; audit allowed warnings 18 → 17).
-
-**Two premises died to measurement and are recorded, not hidden.** The `opentelemetry-proto` trim **cannot**
-shed the dormant `opentelemetry`/`opentelemetry_sdk` — at 0.32.0 the `trace`/`logs` features gate both the
-message modules `conductor-emit` imports and the SDK transforms, one flag doing both jobs — so obs-plan §3's
-follow-up closed with its own premise falsified. And the E1 per-seam-build qualifier is retired
-**unconditionally**: nine members swept clean, each on its own targets (`--lib` ×7, `--bins` ×2), measured
-twice.
+Five folded CARRYs landed with it: `knip.json`, the README platform reword (3 sites), the `[role="status"]`
+→ `[role="alertdialog"]` guard, CARRY 4's a11y-plan `:565` clause, and the sibling's printed-verdict CARRY
+(discharged here rather than at the release entry).
 
 ## Drift resolved
-**11 amendments across 6 masters · 0 escalations open · 5 sites raised by the orchestrator · cascade closed.**
-- `architecture` ×4 entries — indicatif/tokio/Tauri versions to the resolved lock; the OTLP row records the
-  trim and de-registers `metrics`; the **[Module Boundaries] E1 qualifier retired**; audit figures re-stated.
-- `security-plan` ×2 — Accepted-exceptions reconciled to **16 ignores + 9 allows**, with the retirement's
-  authority cited as `deny.toml:6-7`'s own justifying-comment requirement and an explicit note that **no rule
-  of that master compelled it**; the Tauri exposure premises retired while every `≥ 2.10.3` FLOOR stands.
-- `obs-plan` ×2 · `test-plan` ×1 · `layout-templates` ×1 · `design-system` ×1.
-- **Validation turned on one clause.** The pre-existing version corrections looked like a two-rule collision
-  (31-33 dismiss vs 28-30 apply). Rule 31-33 does **not** govern: its clause "the manifest already satisfies
-  the spec's stated FLOOR" fails, because these are false present-tense *statements*, not floors. Reading the
-  clause dissolved the collision — no escalation, no discriminator rule needed.
-- **Cascade:** `stack.md` ×3, `gotchas.md` ×1, `commands.md` ×1. `security.md:50` carries the same retired
-  figures but sits in `## Session Additions` — preserve-verbatim, so it routed to P3 as an in-place extension.
+**36 amendments across 6 masters · 2 escalations resolved · cascade closed.**
+- `a11y-plan` ×10 · `architecture` ×10 · `test-plan` ×9 · `security-plan` ×3 · `layout-templates` ×2 ·
+  `obs-plan` ×2. `design-system` returned `proposals: []`, correctly.
+- **Escalation 1 — `CONDUCTOR_A11Y_STRICT` had no governing rule.** It subject-matched two playbook rules
+  and failed both their narrowing clauses (`:115` wants a PATH handle read SOLELY by wdio behind the
+  isFile guard in an array-form spawn — four false; `:121` wants it SET by wdio and READ by a test binary
+  — both false). Ratified as a **fourth handle class**; a bounding rule was minted, including the explicit
+  NON-widening of the two PATH-handle clauses (`:210`, `:314`), which a flag handle does not belong in.
+- **Escalation 2 — arch's `[CI/CD]` locked decision.** Rule `:97` failed its causal clause (no live SUT
+  contradicted anything); ruled routine under `:28`, the live-Pulse invariant preserved and asserted.
+- **The cascade caught what no detector could:** one of my edits landed INSIDE a11y-plan's verbatim
+  quotation of arch, briefly attributing my wording to arch. Repairing it surfaced **four more** verbatim
+  citations of the retired "build + test gating only" phrasing (3 a11y-plan, 1 security-plan) — a detector
+  reads its own doc for ITS drift, so a quotation of another master's retired wording is drift in the
+  CITING doc and nobody proposes it. All clear now.
+- Leaves re-derived: `a11y-summary` ×3 · `tests-summary` · `stack.md` · `commands.md` · `rules/a11y.md`.
 
 ## Notes
-- **A distiller invented a rule and anchored it to its own source.** The security extract stated that
-  security-plan *forbids* leaving an advisory ignore whose subject a bump removed, with a §-citation. The
-  master says no such thing. It reached a plan step, a P4 lean, an Expected amendment and a friction record
-  before the operator caught it at the P5 review; a retraction is in the friction log and the T1
-  grep-before-asserting entry was extended in place to cover the own-source case.
-- **Two operator sub-premises were corrected rather than complied with:** the 2026-06-23 sidecar *does* carry
-  a Follow-up anticipating the retirement (the extract quoted that part accurately — it invented the
-  obligation, not the anticipation); and `v2-32`'s `acceptance` was populated, not null — `ref` was the null
-  field, and the matrix contract assigns `ref` to /implement.
-- **Surfaced, not fixed — the eighth `PiiCategory` is unreachable from any scenario.** `PiiCategorySpec`
-  (conductor-core) still has 7 variants and `wire_category` maps it 1:1 into the 8-variant emit enum; mapping
-  *into* a widened target is not a match error, so the compiler stayed silent and every gate is green.
-  Closing it needs `phase_spec.rs` + `dispatch.rs` + `pii-scrub.toml` — three files, two crates, plus config,
-  none in the touchpoint list. **No owner entry yet.**
-- **`knip`'s series is unusable until a `knip.json` lands** — 20 findings, 20 false positives, one class
-  (WebdriverIO discovers specs by config, not import). CARRY pinned to *A11y CI gate* per directive.
-  Boundary #5's A5 `dead-code-web` column must read "tool present, series unusable (100 % FP)".
-- **Formatting-only churn:** the rustfmt hook on `conductor-run/src/lib.rs` reflowed six sibling modules
-  (residual 0 lines each against HEAD-through-rustfmt). Second fire of this class — boundary #5's line
-  metrics for `conductor-run` move on formatting alone.
-- **Curation:** T1 0 new (1 extended) · T2 0 new (1 extended) · T3 1 new. `CLAUDE.md` **134/200**.
-- **Deferred learnings — Tier-2 coverage gap:** two Cargo-manifest directives had no rule-file home (no
-  `paths:` frontmatter scopes `Cargo.toml`) and fell to Tier 3, where nothing auto-loads them.
-- **Hermetic chunk — nothing to launch or stop.** Process census: none started; `pulse-app` and the driver
-  stack all absent; no listener on `:4317`/`:4444`/`:4445`.
+- **The (obs) eleven-key criterion is UNMET AS WORDED, not silently met.** The artifact carries **13**
+  top-level keys locally (15 under CI) — the eleven plus `service.name` + `deployment.environment`, which
+  plan step 4 itself required. The keys are admitted by design (`journal_conformance`: *"extra keys are
+  allowed — obs-plan §3 keeps the extension point open"*), so the artifact is correct and the criterion
+  wording was not. a11y-plan §3 now records the real shape; obs-plan §3 records the extension point as
+  **exercised for the first time**.
+- **CARRY 5's premise was false and is corrected.** knip's "20 findings, all 20 one class" is wrong:
+  only 8 were the wdio-discovery class. `lighthouse` and `axe-core` are TRUE positives of a different kind
+  (a11y-plan §3-mandated by name and pin, neither imported anywhere), `@wdio/local-runner` a third
+  sub-class. **Baseline for boundary #5's A5 `dead-code-web` column: 12** (3 exports + 9 types in
+  `parse-nvda-log.ts` / `rows.ts` / `ScenarioPicker` / `CoverageMatrix`) — exported-but-unimported symbols,
+  a usable series now. Nothing deleted.
+- **Corrected mid-wrap:** the implement-stage record claimed mocha prints no skip summary. It prints
+  `2 skipped`; the grep was for `pending`, mocha's internal term. Retraction is in the friction ledger and
+  the T1 proxy-token entry gained the "grep what the tool PRINTS" facet.
+- **One `hypothesis:` ships unmeasured** — the WebView2 Evergreen runtime on the `windows-2025` image. The
+  Edge Driver itself is confirmed at `EDGEWEBDRIVER`; the first CI run measures the runtime.
+- **Curation:** T1 0 new (2 extended) · T2 1 new (1 extended, 1 corrected) · T3 0. `CLAUDE.md` **134/200**.
+- **Hermetic apart from the a11y legs.** Process census after both arms: 0 `conductor-tauri` · 0
+  `msedgedriver` · 0 `node`; no `4444`/`4445` listeners. The six `msedgewebview2.exe` on this host belong
+  to `SearchHost.exe` (Windows Search), not to the leg.
 - **Last failed command:** none.

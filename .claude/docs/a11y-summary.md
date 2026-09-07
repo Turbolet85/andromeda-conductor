@@ -8,10 +8,10 @@ _Distilled from `.andromeda/a11y-plan.md`. setup-project Phase 3. wrap-session d
 
 ## Harness contract (§3) — bound to obs via violation JSON
 Enforcement: `.claude/rules/a11y.md`.
-- **Automated tools (desktop-webview):** axe-core 4.12.0 via `@axe-core/webdriverio` injected into the tests' `@crabnebula/tauri-driver` + WebdriverIO session + Lighthouse 13.0.3 + colorjs.io 0.6.1. ONE webview-automation stack (Linux + xvfb) — no second puppeteer/CDP stack.
+- **Automated tools (desktop-webview):** axe-core 4.12.0 via `@axe-core/webdriverio` injected into the tests' `@crabnebula/tauri-driver` + WebdriverIO session + Lighthouse 13.0.3 + colorjs.io 0.6.1. ONE webview-automation stack, running headfully on the Windows WebView2 host (the dev host and CI's `windows-2025` `a11y` runner) with Linux + xvfb as target-state — no second puppeteer/CDP stack.
 - **cli / non-UI:** N/A — not-assertable (no DOM); ASCII status prefixes are output-stream discipline, not ARIA.
 - **Structured violation JSON:** folds into the obs §6 envelope (axe rule-id + WCAG-SC tag + selector ride in `fingerprints[]`); no host paths / struct names in selectors.
-- **Gating:** operator/local gate (needs live Pulse), not a CI gate — rides the tests' `wdio run` job, surfaced via the `logs` command.
+- **Gating:** BOTH, since 2026-09-07 — the ROUTINE arm is a CI gate (job `a11y`, `runs-on: windows-2025`, `agent-run.ps1 run --e2e` under `CONDUCTOR_A11Y_STRICT` + the reused `journal_conformance` gate + artifact upload; its first push-triggered run still pending), while the `driven` and `sr*` arms need a live Pulse / NVDA and stay operator/local. Rides the tests' `wdio run` leg, surfaced via the `logs` command.
 
 ## Critical paths (must-be-accessible)
 - **Scenario/suite pick → start** — combobox/listbox + button + textbox.
@@ -35,7 +35,7 @@ Enforcement: `.claude/rules/a11y.md`.
 - Never stand up a second browser-automation stack for a11y; screen-reader verification is supplemental only (NVDA agent-driven via its speech log, VoiceOver / Orca manual-declared).
 
 ## Critical decisions
-- **Reuse the tests' tauri-driver/WebdriverIO** session (ONE webview stack carrying three suite families — routine `--e2e`, driven `a11y:driven`, screen-reader `a11y:sr*` — Linux+xvfb is the TARGET CI arrangement (no such CI job exists today — `ci.yml` is two `windows-latest` jobs, measured 2026-09-06; the a11y legs stay operator/local), and headfully on the Windows WebView2 host, measured 2026-09-01 / 2026-09-02) — not a parallel CDP attach.
+- **Reuse the tests' tauri-driver/WebdriverIO** session (ONE webview stack carrying three suite families — routine `--e2e`, driven `a11y:driven`, screen-reader `a11y:sr*` — Linux+xvfb remains an unrun TARGET arrangement, while the shipped CI job is `a11y` on `windows-2025` running the ROUTINE arm since 2026-09-07 (the driven and `sr*` arms stay operator/local), and headfully on the Windows WebView2 host, measured 2026-09-01 / 2026-09-02) — not a parallel CDP attach.
 - **Radix/shadcn provide focus trap + Escape + ARIA roles** (no `focus-trap-react`/`react-aria` install) — but NOT focus restoration for the Channel-opened operator-pause dialog: with no Radix `Trigger`, focus lands on `<body>`, so the dialog restores explicitly via `onCloseAutoFocus` + a `restoreFocusTo` accessor and the invoker stays focusable (`aria-disabled`, never native `disabled`). Measured 2026-09-01.
 - **Reduced-motion emulation** is the one platform-dependent caveat (WebKitGTK fallback to OS/GTK level); macOS WKWebView stays manual-pass-only.
 

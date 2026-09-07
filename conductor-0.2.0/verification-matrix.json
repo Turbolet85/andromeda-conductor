@@ -330,7 +330,8 @@
         "ref": null,
         "status": "planned"
       },
-      "chunk": null
+      "chunk": null,
+      "notes": "2026-09-07 (2026-09-07-a11y-ci-gate, phase P5): FAILED CONCRETIZATION, cap left pooled. This chunk builds the CI gate but cannot prove this capability as written. The requirement names keyboard PASS/FAIL gated in CI; measured at that chunk's P3, the routine arm carries ZERO browser.keys calls - all keyboard, focus-trap and restoration coverage lives in operator-hold.e2e.ts, the driven suite, which test-plan 11 and architecture CI/CD both bar from CI because it needs a live Pulse. Concretizing the acceptance to drop keyboard would weaken the outcome, which the contract's Acceptance lifecycle forbids, so chunk stays null and status stays planned. Operator-selected at that chunk's P4: record the Operable carve-out rather than add routine keyboard specs, because CARRY 3(2)'s sequential-focus start-point defect is open and its holder still unmeasured, so such specs would gate on a known-red subject. Two acceptance clauses ARE now settled and need no re-derivation: the Linux+xvfb clause is superseded (the measured CI arrangement is windows-2025, driver shipped by the image), and the obs-schema clause is the eleven-field run-report envelope per a11y-plan 3 (:228-250), asserted by reusing conductor-run's journal_conformance test rather than a second copy of the schema. A future claim needs a hold-free keyboard path on the routine arm."
     },
     {
       "id": "v2-25",

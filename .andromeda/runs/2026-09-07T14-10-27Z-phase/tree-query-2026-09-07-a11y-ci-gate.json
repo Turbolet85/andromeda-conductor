@@ -1,0 +1,110 @@
+[
+{
+"sql": "SELECT symbol, crate, kind, file, def_line FROM symbol WHERE name IN ('nativeDriver','reportSkip','seedFixtureRuns','invokedSuites','nvdaExe','reportNvdaSkip','config') AND kind <> 'meta' ORDER BY file, def_line;",
+"rows": 8,
+"result": [
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/nativeDriver().",
+"crate": "conductor-ui",
+"kind": "fn",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 55
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/seedFixtureRuns().",
+"crate": "conductor-ui",
+"kind": "fn",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 89
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/invokedSuites().",
+"crate": "conductor-ui",
+"kind": "fn",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 134
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/invokedSuites().(config)",
+"crate": "conductor-ui",
+"kind": "param",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 134
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/nvdaExe().",
+"crate": "conductor-ui",
+"kind": "fn",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 149
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/reportNvdaSkip().",
+"crate": "conductor-ui",
+"kind": "fn",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 155
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/reportSkip().",
+"crate": "conductor-ui",
+"kind": "fn",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 213
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/config.",
+"crate": "conductor-ui",
+"kind": "term",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 223
+}
+],
+"db_state": "fresh",
+"plane": "ts"
+},
+{
+"sql": "SELECT callee_name, caller_name, file, line FROM calls WHERE callee_name IN ('nativeDriver','reportSkip','seedFixtureRuns','nvdaExe','reportNvdaSkip','invokedSuites') ORDER BY callee_name, line;",
+"rows": 6,
+"result": [
+{
+"callee_name": "invokedSuites",
+"caller_name": "wdio.conf.ts",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 274
+},
+{
+"callee_name": "nativeDriver",
+"caller_name": "wdio.conf.ts",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 263
+},
+{
+"callee_name": "nvdaExe",
+"caller_name": "wdio.conf.ts",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 284
+},
+{
+"callee_name": "reportNvdaSkip",
+"caller_name": "wdio.conf.ts",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 286
+},
+{
+"callee_name": "reportSkip",
+"caller_name": "wdio.conf.ts",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 267
+},
+{
+"callee_name": "seedFixtureRuns",
+"caller_name": "wdio.conf.ts",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 270
+}
+],
+"db_state": "fresh",
+"plane": "ts"
+}
+]
