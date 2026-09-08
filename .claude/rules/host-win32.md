@@ -75,3 +75,15 @@ _This section is owned by `/wrap-session`. setup-project preserves content added
   see the host's tools in the shell the runtime itself uses — write the script to a file and invoke it
   by path from the Bash tool — never through a native-process wrapper, and read a tool-missing result
   as a claim about the SPAWNING path before believing it about the host.
+- 2026-09-08: **The Bash tool's working directory PERSISTS across calls, so the "Paths & argument
+  conversion" clause above saying `cd` "does not persist" is false as a reader would take it** —
+  measured directly (a `cd` into a subdirectory in one call, `pwd` in the next, still there; the tool's
+  own documentation states the same). The advice it attaches to — prefer absolute paths — is right, but
+  the hazard runs the OPPOSITE way, and that inversion is what makes the stale clause costly: a
+  FORGOTTEN `cd` would be harmless, while a REMEMBERED one silently rebases every later relative path
+  against a base the next call never chose. Measured here: a `cd .andromeda` at the head of one command
+  left the following call's `.andromeda/master-route.md` resolving one level too deep, which fails as a
+  missing file — the benign-looking failure, since the file plainly exists. So anchor cross-call paths
+  absolutely, or re-anchor explicitly at the head of each call, and never let one call's `cd` set up the
+  next call's base. Kept HERE rather than fixed above because the false clause is setup-project's
+  rendered TEMPLATE text: `## Session Additions` survives a re-render and the body does not.
