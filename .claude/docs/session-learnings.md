@@ -1,6 +1,27 @@
 # Session Learnings
 
 _This file is curated by `/wrap-session`. Learnings captured here are too detailed or specific for CLAUDE.md but worth preserving as reference material for future sessions._
+## 2026-09-08 — Read the verification matrix through its tool, not through the JSON
+
+The verification matrix (`{project}-{version}/verification-matrix.json`) has a tool read surface —
+`python -X utf8 {tools_dir}/matrix.py show --dir {version_dir} --id {id}` — and reading the file directly
+with a JSON load is a shortcut that costs correctness silently. Operator correction this session, after two
+direct reads (phase P1 and P3).
+
+The direct read returned every field the decision had rested on — `status`, `chunk`, `ref`, `method` and the
+`notes` narratives — and looked complete. The tool additionally prints `title`, `observed_gap` and
+`requirement`, and `requirement` proved STRICTER than the `acceptance` being reasoned from ("…and gated in
+CI"): it is the field that settles whether a locally-green test can ever satisfy the capability. The
+substance survived unchanged, which is the point worth keeping — the shortcut did not produce a wrong
+answer, it produced a right answer resting on an incomplete view, one field away from a wrong one, on the
+single claim/decline decision the whole chunk turned on.
+
+Applies whenever a matrix entry's fields inform a claim, decline or refine decision: use the tool's own read
+surface. More generally, a hand-rolled read of a pipeline artifact is evidence about the reader, not about
+the artifact — the tool exists because it knows which fields matter.
+
+---
+
 ## 2026-09-08 — The `.claude/` leaves are project-tailored renders, not template copies
 
 `/andromeda-setup-project`'s `references/` templates are generic scaffolds: they carry `{Extract from …}`

@@ -242,6 +242,66 @@ jobs:
           cache: npm
           cache-dependency-path: crates/conductor-tauri/ui/package-lock.json
 
+      # The runtime MAJOR is the one variable every passing case shares and the failing case lacks:
+      # passing = runtime 152 under a 151 driver (2026-09-02 morning) and under a 152 driver (since
+      # 2026-09-02 14:45); failing = runtime 151 under a 151 driver, on this image. Measured at run
+      # 34234558853, where a bare launch with NO DRIVER in the picture never produced DevToolsActivePort
+      # within 90s while the identical form on the dev host produces it in 1s — which is what retired every
+      # driver-layer hypothesis and left the runtime as the variable no probe had varied.
+      # A GATE, not a diagnostic: the session-isolation probe below is only worth running against a runtime
+      # this step actually replaced, so a silent no-op leaving the image at 151 must fail here rather than
+      # read downstream as a falsified hypothesis. The major is asserted, never "the version changed" —
+      # the latter false-reds on any host already at 152+ and catches nothing the former misses.
+      - name: Install WebView2 Evergreen runtime 152+ (gate)
+        shell: pwsh
+        run: |
+          $keys = @(
+            'HKLM:\SOFTWARE\WOW6432Node\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}',
+            'HKLM:\SOFTWARE\Microsoft\EdgeUpdate\Clients\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}'
+          )
+          function Get-Wv2Version {
+            $keys | ForEach-Object { (Get-ItemProperty -Path $_ -Name pv -ErrorAction SilentlyContinue).pv } |
+              Where-Object { $_ } | Select-Object -First 1
+          }
+
+          $before = Get-Wv2Version
+          Write-Output "[diag] WebView2 Evergreen Runtime before install: $(if ($before) { $before } else { 'NOT INSTALLED' })"
+
+          $bootstrapper = Join-Path $env:RUNNER_TEMP 'MicrosoftEdgeWebview2Setup.exe'
+          Invoke-WebRequest -Uri 'https://go.microsoft.com/fwlink/p/?LinkId=2124703' -OutFile $bootstrapper
+
+          # Terminal gate, evaluated BEFORE the file is executed: a signature check that warns and proceeds
+          # is the silent-downgrade shape security-plan bans. Handle NAME + state only, never the path.
+          $sig = Get-AuthenticodeSignature -LiteralPath $bootstrapper
+          if ($sig.Status -ne 'Valid') {
+            Write-Output "[precondition] WEBVIEW2_BOOTSTRAPPER_SIGNATURE: NOT VALID ($($sig.Status))"
+            exit 1
+          }
+          if ($sig.SignerCertificate.Subject -notmatch 'O=Microsoft Corporation') {
+            Write-Output '[precondition] WEBVIEW2_BOOTSTRAPPER_SIGNATURE: VALID BUT UNEXPECTED SIGNER'
+            exit 1
+          }
+          Write-Output '[precondition] WEBVIEW2_BOOTSTRAPPER_SIGNATURE: valid, Microsoft Corporation'
+
+          $p = Start-Process -FilePath $bootstrapper -ArgumentList '/silent', '/install' -Wait -PassThru
+          if ($p.ExitCode -ne 0) {
+            Write-Output "[precondition] WEBVIEW2_RUNTIME_INSTALL: FAILED (exit $($p.ExitCode))"
+            exit 1
+          }
+
+          $after = Get-Wv2Version
+          Write-Output "[diag] WebView2 Evergreen Runtime after install: $(if ($after) { $after } else { 'NOT INSTALLED' })"
+          if (-not $after) {
+            Write-Output '[precondition] WEBVIEW2_RUNTIME_MAJOR: NO EdgeUpdate client key after install'
+            exit 1
+          }
+          $major = [int]($after.Split('.')[0])
+          if ($major -lt 152) {
+            Write-Output "[precondition] WEBVIEW2_RUNTIME_MAJOR: $major (need 152 or newer)"
+            exit 1
+          }
+          Write-Output "[precondition] WEBVIEW2_RUNTIME_MAJOR: $major"
+
       # The harness verb owns the ordering (ensure_frontend -> release build with
       # --features tauri/custom-protocol -> wdio run), so the job does not restate it.
       #
@@ -422,10 +482,14 @@ jobs:
           $fallback = Join-Path $env:LOCALAPPDATA 'com.andromeda.conductor\EBWebView'
           Write-Output "[diag] (c) LOCALAPPDATA app EBWebView present: $(Test-Path -LiteralPath $fallback)"
 
-          # (d) stage the two logs (+ any crashpad dir) under one dir; names only, never host paths.
+          # (d) stage the logs (+ any crashpad dir) under one dir; names only, never host paths.
+          # conductor-tauri.jsonl is the app's own self-obs sink, written unconditionally beside the runs
+          # dir (obs-plan §3), so it witnesses "the backend started" INDEPENDENTLY of DevToolsActivePort —
+          # which is the whole reading (a) turns on: an app that is alive with no endpoint.
           $out = Join-Path $env:RUNNER_TEMP 'session-diag'
           New-Item -ItemType Directory -Force -Path $out | Out-Null
-          foreach ($f in @($err, $log)) { if (Test-Path -LiteralPath $f) { Copy-Item $f $out -Force } }
+          $applog = Join-Path $PWD 'runs\logs\conductor-tauri.jsonl'
+          foreach ($f in @($err, $log, $applog)) { if (Test-Path -LiteralPath $f) { Copy-Item $f $out -Force } }
           Get-ChildItem -Path $env:RUNNER_TEMP, $env:LOCALAPPDATA -Filter 'Crashpad' -Directory -Recurse -Depth 4 -ErrorAction SilentlyContinue |
             Select-Object -First 1 | ForEach-Object { Copy-Item $_.FullName (Join-Path $out 'Crashpad') -Recurse -Force -ErrorAction SilentlyContinue }
           Write-Output "[diag] staged: $((Get-ChildItem $out -Recurse -File | Measure-Object).Count) file(s)"

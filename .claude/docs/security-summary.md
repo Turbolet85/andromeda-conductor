@@ -13,7 +13,7 @@ Minimal-tier local utility: single-developer, local-only, no-cloud, no-multi-ten
 - Tauri IPC → deny-by-default capabilities; no `shell-open` with derived strings; no remote-origin iframes.
 - MCP child stdout (trusted-child) → preflight gate (version/tools/run-contract terms/canary) + bounded line-delimited JSON-RPC decode (serde_json recursion limit + a per-line size bound); empty canary ⇒ `Blocked` under one of the gate's five named preconditions (a zero-incident corpus names the app-sidecar workspace-key agreement, never a generic string). The channel carries a WRITE as well as read-back — `mark_incident_resolved` — whose applied response and declined JSON-RPC error ride the same path and controls.
 - Committed `contracts/` manifests (capability set · load envelope · run contract) → explicit `validate()` at load behind a fixed `default_path()` → `resolve_under`, no `CONDUCTOR_*` override; absent/malformed is a hard harness fault.
-- OTLP/gRPC egress → loopback `:4317` only; refused transport ⇒ `Result::Err` (harness fault), not a verdict.
+- OTLP/gRPC egress → loopback `:4317` only; refused transport ⇒ `Result::Err` (harness fault), not a verdict. The one non-loopback egress in the project is CI-only and reaches no shipped binary: the `a11y` job's HTTPS fetch of the WebView2 Evergreen bootstrapper (2026-09-08).
 - Port-occupier `:4317` bind → the SOLE deliberate bind, an intentional in-host fault (P-003), released on cleanup.
 
 ## Data classifications
@@ -26,6 +26,7 @@ Minimal-tier local utility: single-developer, local-only, no-cloud, no-multi-ten
 ## Universal anti-patterns
 - No scenario without a Pulse P-ID; no inbound network listener of Conductor's own.
 - `Cargo.lock` committed + un-drifted; never `cargo build --release`/merge without `cargo-audit` (+ `cargo-deny`) green.
+- A third dependency class (2026-09-08) sits outside every lockfile gate: the CI-time-fetched WebView2 Evergreen bootstrapper, admitted by pre-execution Authenticode verification alone; Evergreen while the a11y job probes, pinned once it gates.
 - Frontend npm tree (`conductor-tauri/ui`): `npm audit --omit=dev` clean (production-dep strict; dev-only test-tooling advisories accepted at dev-tree grain) + `package-lock.json` committed; fonts vendored (no CDN). cargo-audit/deny are Rust-only.
 - Never let malformed child/transport input panic — typed `Blocked`/`Fail` via the verdict/error wall.
 - Never silently downgrade a failed preflight — distinct `Blocked` state with its precondition.

@@ -1,0 +1,28 @@
+[
+{
+"tool": "matrix",
+"v": 1,
+"sha8": "feda58d6",
+"ts": "2026-09-08T21:03:42Z",
+"argv": [
+"coverage",
+"--dir",
+"conductor-0.2.0",
+"--run-dir",
+".andromeda/runs/2026-09-08T20-30-00-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"verified 28/32 · deferred 0 · planned 4 · implemented 0 · unclaimed 4",
+"unclaimed: v2-04 v2-21 v2-24 v2-27",
+"claimed-unfinished: none",
+"done-test: NO — 4 not verified|deferred · unclaimed 4",
+"chunks referenced: 27 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

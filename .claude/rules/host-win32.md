@@ -87,3 +87,16 @@ _This section is owned by `/wrap-session`. setup-project preserves content added
   absolutely, or re-anchor explicitly at the head of each call, and never let one call's `cd` set up the
   next call's base. Kept HERE rather than fixed above because the false clause is setup-project's
   rendered TEMPLATE text: `## Session Additions` survives a re-render and the body does not.
+- 2026-09-08: **`grep -E` accepts PCRE syntax SILENTLY — the pattern matches nothing and exits 0, so a
+  negative-lookahead guard passes unconditionally.** The "Probes & pattern tools" clause above covers the
+  LOUD failure (`grep -P` dies on the host locale); this is the quiet one, and it is the more dangerous of
+  the two. A gate written as `grep -nE 'TokenA|TokenB|http://(?!127\.0\.0\.1)'` returns no output and exit
+  0 against a file that plainly contains `http://` — ERE has no lookahead, so the construct can never
+  match and the check reports green whatever the file holds. Measured this session: exactly that line was
+  authored as a security gate asserting "no plaintext `http://` in the added step", and it would have
+  passed no matter what shipped. Two rules follow. Write the POSITIVE probe — grep for the token and
+  assert the expected hit COUNT and IDENTITY (here: exactly one hit, the known loopback `127.0.0.1:9515`
+  POST) — rather than trying to express "everything except X" in a pattern language that cannot say it.
+  And treat any `(?...)` construct under `-E` as a guaranteed silent pass: it needs no debugging, only
+  rewriting. Kept HERE rather than folded into the clause above because that clause is setup-project's
+  rendered TEMPLATE text.

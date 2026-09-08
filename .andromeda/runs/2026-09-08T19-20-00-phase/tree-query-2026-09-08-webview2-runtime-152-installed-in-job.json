@@ -1,0 +1,22 @@
+[
+{
+"sql": "SELECT symbol, crate, kind, file FROM symbol WHERE name IN ('journal_conformance','agent_log_path','console_suppressing_flags') AND kind <> 'meta';",
+"rows": 2,
+"result": [
+{
+"symbol": "rust-analyzer cargo conductor-cli 0.1.0 paths/agent_log_path().",
+"crate": "conductor-cli",
+"kind": "fn",
+"file": "crates/conductor-cli/src/paths.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-verify 0.1.0 spawn/console_suppressing_flags().",
+"crate": "conductor-verify",
+"kind": "fn",
+"file": "crates/conductor-verify/src/spawn.rs"
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

@@ -1,0 +1,53 @@
+[
+{
+"tool": "matrix",
+"v": 1,
+"sha8": "feda58d6",
+"ts": "2026-09-08T21:03:42Z",
+"argv": [
+"flip",
+"--dir",
+"conductor-0.2.0",
+"--chunk",
+"2026-09-08-webview2-runtime-152-installed-in-job",
+"--run-dir",
+".andromeda/runs/2026-09-08T20-30-00-wrap",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed 0 — gate no-op (no entry carries chunk 2026-09-08-webview2-runtime-152-installed-in-job)",
+"pool: unclaimed 4 [v2-04 v2-21 v2-24 v2-27]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": 1,
+"sha8": "feda58d6",
+"ts": "2026-09-08T21:03:42Z",
+"argv": [
+"flip",
+"--dir",
+"conductor-0.2.0",
+"--chunk",
+"2026-09-08-webview2-runtime-152-installed-in-job",
+"--run-dir",
+".andromeda/runs/2026-09-08T20-30-00-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed 0 — gate no-op (no entry carries chunk 2026-09-08-webview2-runtime-152-installed-in-job)",
+"pool: unclaimed 4 [v2-04 v2-21 v2-24 v2-27]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

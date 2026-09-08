@@ -1,0 +1,29 @@
+[
+{
+"tool": "matrix",
+"v": 1,
+"sha8": "feda58d6",
+"ts": "2026-09-08T20:18:31Z",
+"argv": [
+"audit",
+"--dir",
+"conductor-0.2.0",
+"--chunk",
+"2026-09-08-webview2-runtime-152-installed-in-job",
+"--plan",
+"conductor-0.2.0/chunks/2026-09-08-webview2-runtime-152-installed-in-job/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-08T19-20-00-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-08-webview2-runtime-152-installed-in-job: 0 · ## Acceptance Criteria: line 191, 56 lines",
+"pool: unclaimed 4 [v2-04 v2-21 v2-24 v2-27]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]
