@@ -49,6 +49,7 @@ Conductor is a desktop control-panel app (Tauri 2) over a headless-drivable Rust
 | Topic | Source |
 |---|---|
 | Architecture decisions | `.andromeda/architecture.md` |
+| Directory tree · resource registry | `.andromeda/architecture.md` §Infrastructure Patterns / §Occupied Resources |
 | Build plan / chunk route | `.andromeda/master-route.md` · the active version's `working-route.md` (master-route's last `## {project}-{version}` heading) |
 | Code map / impact (symbols · callers · crate deps) | `.andromeda/cache/{plane}/tree.db` — one DB per plane (`rust` · `ts`); query via `scripts/code-graph.py query <run_dir> <marker> "<sql>" <plane>` (plane REQUIRED — two are detected); schema + templates in `scripts/code-graph-cookbook.md` |
 | MCP read-back contract + preflight gate | `.andromeda/architecture.md` §Standard Contracts |
@@ -89,15 +90,14 @@ Conductor is a modular monolith realized as a crate-per-seam Cargo workspace: th
 
 Determinism is enforced in the runtime flavor: the timeline runs on a `current_thread` tokio runtime so the same scenario+seed always yields the same emission-stream shape. Verification outcomes are typed VALUES (`Verdict`/`ReportState`); `Result::Err` is reserved for Conductor's own harness faults, so the report classifies a model-backed SUT by matching types, not catching exceptions. Every SLO is measured journal-relative (`read_back_observed_at − journal_emitted_at`) against the on-disk JSONL journal — the agent-parseable ground truth.
 
-**Primary source:** architecture.md (imported below).
+**Primary source:** `.andromeda/architecture.md` (the pointer table's row — not imported; read explicitly where a step needs it).
 <!-- GENERATED:setup:architecture end -->
 
 <!-- GENERATED:setup:imports start -->
-@.andromeda/architecture.md
 @.claude/session-handoff.md
 <!-- GENERATED:setup:imports end -->
 
-<!-- Maintainer note: The @ imports above MUST each be on their own line — Claude Code only recognizes standalone @path lines as import directives. Inline references like `See @path` or `- @path` are NOT expanded. Imported files may be 300-800 lines each; the 200-line limit applies to CLAUDE.md itself, not post-expansion total. Keep @ imports minimal — an import rides every turn of every session, so the block carries only what a session needs before it can ask: the architecture (design truth) and the handoff (the bridge). master-route.md is deliberately NOT imported: every skill that needs it reads it explicitly and the pointer table names it — an append-only index grows every version. This comment is stripped from Claude's runtime context per Anthropic comment-stripping rule. See section-markers.md. -->
+<!-- Maintainer note: The @ imports above MUST each be on their own line — Claude Code only recognizes standalone @path lines as import directives. Inline references like `See @path` or `- @path` are NOT expanded. The 200-line limit applies to CLAUDE.md itself, not to what it imports. Keep @ imports minimal — an import rides every turn of every session, so the block carries only what a session needs before it can ask: the handoff (the bridge). architecture.md and master-route.md are deliberately NOT imported: both grow every version, every skill that needs them reads them explicitly (the loop reads arch's directory tree and resource registry structurally where a plan creates files or mints a resource), and the pointer table names both. This comment is stripped from Claude's runtime context per Anthropic comment-stripping rule. See section-markers.md. -->
 
 ## Deeper Topics
 <!-- GENERATED:setup:deeper-topics start -->
