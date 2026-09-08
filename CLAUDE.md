@@ -94,9 +94,10 @@ Determinism is enforced in the runtime flavor: the timeline runs on a `current_t
 
 <!-- GENERATED:setup:imports start -->
 @.andromeda/architecture.md
-@.andromeda/master-route.md
 @.claude/session-handoff.md
 <!-- GENERATED:setup:imports end -->
+
+<!-- Maintainer note: The @ imports above MUST each be on their own line — Claude Code only recognizes standalone @path lines as import directives. Inline references like `See @path` or `- @path` are NOT expanded. Imported files may be 300-800 lines each; the 200-line limit applies to CLAUDE.md itself, not post-expansion total. Keep @ imports minimal — an import rides every turn of every session, so the block carries only what a session needs before it can ask: the architecture (design truth) and the handoff (the bridge). master-route.md is deliberately NOT imported: every skill that needs it reads it explicitly and the pointer table names it — an append-only index grows every version. This comment is stripped from Claude's runtime context per Anthropic comment-stripping rule. See section-markers.md. -->
 
 ## Deeper Topics
 <!-- GENERATED:setup:deeper-topics start -->
