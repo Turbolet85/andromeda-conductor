@@ -1,0 +1,58 @@
+[
+{
+"sql": "SELECT caller_name, callee_name, file, line FROM calls WHERE callee_name IN ('exitUnresolvedHandle','nativeDriver','strictMode','writeA11yEnvelope','seedFixtureRuns','startNvda','nvdaExe') ORDER BY callee_name, file, line",
+"rows": 8,
+"result": [
+{
+"caller_name": "wdio.conf.ts",
+"callee_name": "exitUnresolvedHandle",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 356
+},
+{
+"caller_name": "wdio.conf.ts",
+"callee_name": "exitUnresolvedHandle",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 384
+},
+{
+"caller_name": "wdio.conf.ts",
+"callee_name": "nativeDriver",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 353
+},
+{
+"caller_name": "wdio.conf.ts",
+"callee_name": "nvdaExe",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 381
+},
+{
+"caller_name": "wdio.conf.ts",
+"callee_name": "seedFixtureRuns",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 364
+},
+{
+"caller_name": "wdio.conf.ts",
+"callee_name": "startNvda",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 398
+},
+{
+"caller_name": "exitUnresolvedHandle",
+"callee_name": "strictMode",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 75
+},
+{
+"caller_name": "wdio.conf.ts",
+"callee_name": "writeA11yEnvelope",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 437
+}
+],
+"db_state": "fresh",
+"plane": "ts"
+}
+]
