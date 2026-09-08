@@ -63,3 +63,15 @@ not hypothetical. (Rendered only on Windows-host projects; inert elsewhere.)
 
 ## Session Additions
 _This section is owned by `/wrap-session`. setup-project preserves content added here on re-run. See `section-markers.md` for the convention._
+- 2026-09-08: The bash↔Windows-native boundary changes TWO things, and the second fails SILENTLY.
+  (a) **Paths** — an MSYS path is invisible to a Windows-native tool at every depth, not only under
+  `/tmp`: a native python `open('/c/Users/…')` raises FileNotFoundError where the same file opens fine
+  as `C:/Users/…`. Write every cross-boundary path in the native form with forward slashes, which both
+  shells accept. (b) **Environment** — a shell SPAWNED BY a Windows-native process does not inherit the
+  MSYS shell's PATH, so a host tool that resolves in the Bash tool's shell can be ABSENT in the spawned
+  one. That yields no error: the probe reports the TOOL missing and every dependent check false-reds
+  (measured — a hooks smoke test run through native python reported `jq` absent and all five arms
+  failing; the same hooks pass 5/5 invoked from the Bash tool's own shell). So run any probe that must
+  see the host's tools in the shell the runtime itself uses — write the script to a file and invoke it
+  by path from the Bash tool — never through a native-process wrapper, and read a tool-missing result
+  as a claim about the SPAWNING path before believing it about the host.

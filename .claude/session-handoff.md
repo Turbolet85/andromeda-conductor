@@ -1,86 +1,80 @@
 # Session Handoff
 
-**Last Updated:** 2026-09-07T21:57:29Z
-**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **0 ahead at wrap-time re-read** —
-the branch is level with origin, so this wrap's commit makes it **1 ahead and unpushed**. The push is the
-operator's act. It will NOT turn CI green: the a11y job is correctly wired and correctly RED, owned by the
-newly minted route entry.)
+**Last Updated:** 2026-09-08T08:11:58Z
+**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **2 ahead and unpushed** —
+last session's chunk commit plus this session's setup-project commit; this wrap's bookkeeping commit
+makes it **3**. The push is the operator's act, and it will NOT turn CI green: the a11y job is
+correctly wired and correctly RED, owned by the route entry *Hosted-runner WebView2 session*.)
 **Status:** clean
-**Last Commit:** `feat(2026-09-07-sr-findings-fixed): …`
+**Last Commit:** `chore(session): no chunk wrapped — session 127` (preceded by
+`chore(setup-project): configure Claude Code for Conductor`, `a25a425`)
 
 ## Position
-- Done: **`2026-09-07-sr-findings-fixed`** (master `complete`).
-- Next: **`/andromeda-phase`** on the first markerless head — **_Hosted-runner WebView2 session — the a11y
-  job's first green run (v2-24 claimed or deferred)_** (`working-route.md:125`), minted at this wrap by
-  operator wrap-directive item 1. No `BLOCKED-ON` on it; phase will not halt. The sibling is *Release build
-  and bundle* (`:127`).
-- Coverage **28/32 verified · 4 unclaimed** (`v2-04`, `v2-21`, `v2-24`, `v2-27`) — unchanged. `v2-24` was
-  CLAIMED at phase P5 and **UN-CLAIMED at implement** on the operator's ruling; the coverage gate is
-  therefore a no-op, not a HALT.
-- **Evolve:** Epoch 6b at 10 chunks (8 frozen + 2 markerless) — at the ~10 split threshold; surfaced, the
-  split is the operator's call.
+- Done: **no chunk this session.** A `/andromeda-setup-project` re-run absorbed a pipeline-template
+  change; master-route carries **0 pending** and is unchanged.
+- Next: **`/andromeda-phase`** on the first markerless head — **_Hosted-runner WebView2 session — the
+  a11y job's first green run (v2-24 claimed or deferred)_** (`working-route.md:125`). No
+  annotation-position `BLOCKED-ON` (the two hits on that line are backtick-quoted prose late in the
+  CARRY, and the entry states the flag is deliberately not re-raised), so phase will not halt. The
+  sibling is *Release build and bundle* (`:127`).
+- Coverage **28/32 verified · 4 unclaimed** (`v2-04`, `v2-21`, `v2-24`, `v2-27`) — unchanged; no
+  capability was claimed or flipped this session.
+- **Evolve:** Epoch 6b at 10 chunks (8 frozen + 2 markerless) — still at the ~10 split threshold;
+  surfaced, the split remains the operator's call.
 
 ## Work done
-Two CI defects fixed and **proven in CI**: the a11y job's driver handle now resolves (`${{ env.EDGEWEBDRIVER }}`
-expands empty — GitHub's expression context holds no runner-process variable — so it is resolved in the step
-SHELL behind a handle-named `Test-Path` precondition), and wdio's RED output now reaches the job log (the
-step's `$PSNativeCommandUseErrorActionPreference` was destroying it before `agent-run.ps1` could print the
-captured verdict; proven with a local control both ways).
+`/andromeda-setup-project` re-run to absorb the CLAUDE.md template no longer importing
+`.andromeda/master-route.md`. The net change is **two lines**: the `GENERATED:setup:imports` block goes
+3 → 2 (`@.andromeda/architecture.md` + `@.claude/session-handoff.md`), and the template's maintainer-note
+comment is now carried inside `GENERATED:setup`. Navigation to the route survives through the
+pointer-table row, which already complied with the no-baked-version-path rule.
+`USER:session-learnings` verified byte-identical (44 488 B, matching SHA) — spliced by anchored edit,
+never retyped. CLAUDE.md **135/200**. Validation **14/14 checks, 0 warnings**; hook smoke **6/6**.
 
-The three inherited SR findings: **(1) FIXED** — the load error re-announces on the first `focusin` and is
-spoken ONCE (the first design put the echo inside the `role="alert"` region and NVDA read the region whole,
-speaking it twice; the visible copy moved outside). **(2) and (3) DO NOT REPRODUCE** — the sequential-focus
-start point measured `initialFocus BODY`, first Tab → "Minimize window" at index 0/5, `tabsToStart 5` over 5
-focusables = a full cycle; and two runs per subject gave byte-identical grade sets. On the operator's P4
-ruling the routine arm also gained the hold-free Operable pair (SC 2.1.1 + SC 2.4.3), green at 12 passing.
-
-**Six product files.** Gates: routine arm 12 passing / 2 skipped · strict/lax arms 1/0 ·
-`journal_conformance` 8/8 · audit 0 · deny 0 · npm 0. Workspace Rust gates deferred (zero `.rs` delta).
+Three things measured rather than assumed: `settings.json` re-renders **byte-identical** to the
+2026-09-05 hooks-matrix (both PreToolUse guards compare IDENTICAL to its literal JSON, the formatter
+matches the Rust prologue, clippy-at-write-time absent) — so no write was performed; the code-graph
+pipeline is byte-identical to its templates, so no drift and no views-rebuild is owed; and **no other
+GENERATED block differs** — all seven re-derived unchanged from their masters, meaning no cascade gap
+and no second template change to absorb.
 
 ## Drift resolved
-**18 amendments across 5 masters · 2 escalations resolved · 1 playbook rule minted · cascade closed.**
-- `a11y-plan` ×8 (the Operable carve-out narrowed to its hold-dependent half) · `test-plan` ×5 ·
-  `architecture` ×3 · `layout-templates` ×2 (incl. 1 cascade fix) · `security-plan` ×1.
-  `design-system` and `obs-plan` returned `proposals: []`, correctly.
-- **Escalation 1 — `EDGEWEBDRIVER` registration.** Playbook `:137` covers the class but its qualifying
-  clause ("one Conductor neither SETS nor READS") FAILS — `ci.yml` reads it at four sites. Operator ruled
-  register + mint; the 43rd rule widens `:137` to a handle a shipped artifact READS, explicitly not
-  widening the reserved-namespace claim.
-- **Escalation 2 — security's four proposals.** Their premise ("a SECOND, CI-only reader") is false:
-  `ci.yml` WRITES the handle (`:300`) and never reads it. Operator ruled apply `:116` re-derived (the CI
-  producer validates upstream of the byte-unchanged wdio guard) and REJECT the three dependents.
-- **Cascade caught a cross-master citation no token sweep would have:** `layout-templates:190` cited
-  test-plan's parity claim unconditionally, which test-plan `:210` no longer states.
-- Leaves re-derived: `rules/a11y.md` · `rules/verification-harness.md` · `docs/a11y-summary.md` ·
-  `docs/commands.md`.
+**None — no fan-out ran.** The 0-pending path runs no report and no detectors, so P2 did not execute.
+Checked explicitly under that path's own carve-out (amendments whose subject is a fact THIS wrap
+measured): this session measured `.claude/` materialization and hook behaviour, which no `.andromeda/`
+master states — so there was nothing to amend, and no spec↔reality divergence was left standing.
 
 ## Notes
-- **The a11y job stays RED on the build branch after the push, and that is owned, not overlooked.** On the
-  hosted `windows-2025` runner a WebView2-mode session never exposes `DevToolsActivePort`, through
-  tauri-driver and direct alike (run 34162118841). Excluded by measurement: runtime absence · version
-  mismatch (driver = runtime = Edge, all 151.0.4129.101) · app crash (app-alone stays up, three
-  `msedgewebview2` children, no Crashpad dumps) · GPU/sandbox · UDF/path. **The cause beyond that is
-  UNMEASURED.**
-- **A causal reading I produced was RETRACTED as a probe artifact** — "msedgedriver launched the Tauri
-  binary as though it were Edge" came from an isolation POST missing `browserName: "webview2"`, which fails
-  on this dev host too against a binary that passes 12/12 through the real path. Retracted in `v2-24`'s
-  notes, in the report, in the friction ledger, and warned against on the new route entry. The rule taken:
-  validate a diagnostic form where the real path PASSES before building on its failure.
-- **Two errors in my own report were caught by the fan-out**, both corrected there: a proxy-token false
-  negative (I searched "10 spec"; `test-plan:307` says `10 passing`), and a wrong disposition claiming no
-  master stated the sequential-focus premise (`a11y-plan:516` did).
-- **`recurrence-despite-learning`:** `testing.md:86` already stated the nextest-filter rule, dated the same
-  day, and a plan Test Command used a bare positional anyway (exit 4, 0 tests). Its advice fires at
-  execution; the mistake was at authoring. Remedy is a check, logged as such.
-- **Curation:** T1 0 new (1 entry extended twice) · T2 3 new + 1 extended · T3 0 · 1 in-place correction.
-  `CLAUDE.md` **134/200**.
-- **Process hygiene:** census matches the pre-leg baseline — 0 `nvda` / `conductor-tauri` / `msedgedriver` /
-  `node` / `tauri-driver`, no `4444`/`4445` listeners. **`pulse-app` PID 63180 is the operator's and is left
-  running — the operator stops it after this commit.** The `ci-probe/` ref is deleted; runs 34157101273 ·
-  34158355397 · 34160378753 · 34162118841 remain viewable by id.
-- **Overseer residue on the host, all gitignored:** `runs/a11y/2026-09-07T21-05-58-a11y.jsonl` ·
-  `runs/a11y-e2e.log` · `%TEMP%` msedgedriver scoped dirs.
+- **Judgment call worth knowing about:** the setup re-run did **not** regenerate `.claude/rules/`,
+  `.claude/docs/` or `code-reviewer.md` from their templates. Those templates are generic scaffolds; the
+  shipped leaves are project-specific renders. A verbatim re-render would have deleted real content —
+  most sharply `verification-harness.md`, whose template prescribes a daemon `boot`, a PID file and a
+  heartbeat, against a shipped rule that explicitly says *"Conductor has NO daemon … do not reintroduce
+  daemon/PID/endpoint machinery"*. Curated to Tier 3. The hazard is that **no written preserve rule
+  covers this class** (`USER:*`, `## Session Additions` and the agent-run scripts each have one; these
+  three do not), so the judgment must be made deliberately on every re-run.
+- **`agent-run.{sh,ps1}` are drifted from their templates and were kept** (18 KB vs a 3.7 KB template
+  body; 21 KB vs 4.3 KB). The evolved scripts are the truth. Backed up alongside CLAUDE.md and
+  code-reviewer under `.claude/backup/*.pre-setup-2026-09-08T07-44-00`.
+- **Retraction, recorded in the run's validation log:** my first hook smoke test reported all five arms
+  failing with `jq present: False`. That measured the PROBE — Windows-native Python spawned a `bash`
+  with a different PATH and no `jq`, so every hook took its `command -v jq || exit 0` guard. Re-run in
+  the shell the runtime actually uses, all five pass and the formatter genuinely reformats through its
+  stdin path.
+- **Curation:** T1 0 · T2 1 (`host-win32.md` — the bash↔native boundary changes paths AND environment,
+  confidence 0.9) · T3 1 (the `.claude/` leaves are tailored renders, confidence 0.8 via the
+  `no-other-home` signal at the exact-0.6 mass point). Filters: 0 dup · 0 task-specific · 0 conflict ·
+  0 deferred-by-cap. `CLAUDE.md` **135/200** (no Tier 1 entry this wrap).
 - **Last failed command:** none.
 
-## Session End Status
-Completed normally at 2026-09-08 09:33:56
+## Deferred learnings
+1 finding was not applied as a new entry:
+- **`recurrence-despite-learning`:** "validate a diagnostic form where the real path PASSES before
+  building on what it says when it fails" was minted in CLAUDE.md one session ago, and this session
+  reproduced the shape anyway — a smoke-test probe authored and run cold, suspected only after it
+  false-red. The corpus entry is correct, so this is a recurrence, not a duplicate and not a
+  correction; per the curation contract a third entry is not the remedy, so it is logged here and in
+  the friction stream (`recall.corpus-recurrence`) for the pipeline's owners. **Second consecutive
+  wrap carrying one** (the prior was the nextest-filter rule). It fired late — at diagnosis rather than
+  at authoring — but did catch it before any written claim, unlike the instance before it, which
+  reached a committed matrix note.

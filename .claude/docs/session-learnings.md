@@ -1,6 +1,29 @@
 # Session Learnings
 
 _This file is curated by `/wrap-session`. Learnings captured here are too detailed or specific for CLAUDE.md but worth preserving as reference material for future sessions._
+## 2026-09-08 — The `.claude/` leaves are project-tailored renders, not template copies
+
+`/andromeda-setup-project`'s `references/` templates are generic scaffolds: they carry `{Extract from …}`
+placeholders and stack-agnostic web/API content. Conductor's materialized `.claude/rules/`, `.claude/docs/`
+and `.claude/agents/code-reviewer.md` are project-specific renders this pipeline produced from the six
+plans, and wrap's cascade has kept them current since. On a mature project a verbatim template re-render is
+therefore a REGRESSION, not a refresh.
+
+Measured at the 2026-09-08 re-run. The `verification-harness` template prescribes a daemon `boot`, a PID
+file, a heartbeat and a `TIDELINE_DATA_DIR` handle — Conductor has none of those (the test plan records the
+PID file as N/A), and the shipped rule carries the explicit counter-clause "Conductor has NO daemon and NO
+inbound listener … Do not reintroduce daemon/PID/endpoint machinery", which a verbatim re-render would have
+deleted. The `security` template is generic (constant-time compare, rate limiting, XSS, `npm audit`) where
+the shipped rule is Conductor's real boundary set; the `stack` doc template is a bare placeholder skeleton;
+the `code-reviewer` template lacks the `## Conductor-specific checks` section the shipped agent adds.
+
+The hazard is that the WRITTEN preserve rules do not cover this class. `USER:*` sections, `## Session
+Additions` and the agent-run scripts (only-if-missing) each have an explicit rule; the rules bodies, the
+docs and the code-reviewer have none — so on every re-run the judgment has to be made deliberately rather
+than inherited. When re-running setup to absorb a pipeline-template change, read each template for its
+SHAPE, treat the substitution step as already applied, and change only what the trigger actually requires.
+
+---
 ## 2026-08-20 — A standing PREREQ's ordinal counts probes, not the entry it rides
 
 A gate deferral pinned as `PREREQ: re-check {gate} — Nth consecutive` numbers the FORTHCOMING probe, so
