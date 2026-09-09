@@ -39,7 +39,7 @@ handled via boundary instrumentation only._
 | **tokio 1.52.3 `current_thread` runtime** | Stack | Instrumentable | Deterministic single-threaded async runtime; zero work-stealing preserves emission ordering as function of seed; instrumentation must respect the runtime's invariant (no background batch tasks in exporters that would break determinism) |
 | **Pulse MCP server** | Standard Contracts (MCP preflight readiness gate + OTLP egress check) | Boundary-only | Third-party observability backend; Conductor acts as MCP client calling `query_incident_list`, `retrieve_report`, `retrieve_telemetry_slice`, `mark_incident_resolved` against pinned `2024-11-05` protocol version; Pulse-side behavior is not instrumentable, and Conductor observes read-back responses and SLO timing — and additionally MUTATES Pulse state at this boundary through `mark_incident_resolved`, whose effect is graded on runtime-state read-back (active-set membership) rather than on any Pulse internal |
 | **rusqlite + libsqlite3-sys (`runs.db`)** | Stack | Boundary-only | Synchronous embedded SQLite with bundled C bindings; raw SQL (no ORM); append-mostly run-metadata storage; instrumentation at the rusqlite call boundary — the run-persist WRITE carries the `db.insert_run` span, the TEARDOWN write (`RunsDb::delete_run`) carries no span and no boundary log (deliberate: off the must-trace paths, sole caller has no `tracing` dep), and the READ path a §6 boundary-call `info!` inside the caller's span (no `db.*` read span); SQLite internal state is not instrumented (C library, outside Rust control) |
-| **cargo build / CI/CD pipeline** | CI/CD Platform | Not-instrumentable | GitHub Actions workflow; build-time verification (`cargo build`, cargo-nextest, cargo clippy); does not run at runtime; observability focus is on the deployed harness binary and headless `scripts/agent-run.sh` execution |
+| **cargo build / CI/CD pipeline** | CI/CD Platform | Not-instrumentable | GitHub Actions workflow; build-time verification (`cargo fmt --all --check`, `cargo build`, cargo-nextest, cargo clippy); does not run at runtime; observability focus is on the deployed harness binary and headless `scripts/agent-run.sh` execution |
 
 **Telemetry surfaces:**
 
@@ -523,7 +523,7 @@ processes.
 
 | Stage | Telemetry produced | Consumer |
 |-------|---------------------|----------|
-| Lint / typecheck | `cargo clippy` warnings to stderr | CI annotations (structured stderr for agent parsing) |
+| Lint / typecheck | `cargo clippy` warnings to stderr; `cargo fmt --all --check` unified diff to stdout (shipped 2026-09-09 as the `rust` job's own early step at index 2, not colocated with clippy) | CI annotations (structured stderr for agent parsing); the fmt diff's `Diff in {file}` lines are agent-readable from the job log and are NOT written into any telemetry artifact (they carry absolute host paths, which §9's log-conformance check rejects) |
 | Unit tests | `cargo-nextest` JSON output + `logs/agent-latest.jsonl` | uploaded artifact (agent reads JSON for flake detection) |
 | Integration tests (end-to-end scenario) | logs + JSON status envelope per scenario | uploaded artifact + agent assertion (cargo-nextest `--message-format libtest-json`) |
 | Coverage | `cargo-llvm-cov --fail-under-lines 60` report | CI status (coverage gate) |

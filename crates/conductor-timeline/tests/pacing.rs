@@ -61,16 +61,33 @@ async fn emissions_land_inside_their_own_phase_window() {
 
     assert_eq!(seen.len(), 8, "6 + 0 + 2 declared emissions");
 
-    let storm: Vec<u128> = seen.iter().filter(|(p, _)| p.phase_index == 0).map(|(_, t)| *t).collect();
+    let storm: Vec<u128> = seen
+        .iter()
+        .filter(|(p, _)| p.phase_index == 0)
+        .map(|(_, t)| *t)
+        .collect();
     assert_eq!(storm.len(), 6);
-    assert!(*storm.last().unwrap() <= 12_000, "the storm completes inside its own 12s phase");
-    assert!(storm.windows(2).all(|w| w[0] < w[1]), "paced, not simultaneous: {storm:?}");
+    assert!(
+        *storm.last().unwrap() <= 12_000,
+        "the storm completes inside its own 12s phase"
+    );
+    assert!(
+        storm.windows(2).all(|w| w[0] < w[1]),
+        "paced, not simultaneous: {storm:?}"
+    );
 
     // Nothing at all during the silence phase, and the resume phase's emissions come after it.
     assert!(!seen.iter().any(|(p, _)| p.phase_index == 1));
-    let resume: Vec<u128> = seen.iter().filter(|(p, _)| p.phase_index == 2).map(|(_, t)| *t).collect();
+    let resume: Vec<u128> = seen
+        .iter()
+        .filter(|(p, _)| p.phase_index == 2)
+        .map(|(_, t)| *t)
+        .collect();
     assert_eq!(resume.len(), 2);
-    assert!(resume[0] > 42_000, "resume follows the 12s storm + 30s silence, got {resume:?}");
+    assert!(
+        resume[0] > 42_000,
+        "resume follows the 12s storm + 30s silence, got {resume:?}"
+    );
 }
 
 #[tokio::test(flavor = "current_thread", start_paused = true)]
@@ -101,7 +118,10 @@ async fn the_transition_stream_is_unchanged_by_the_emission_count() {
     ]);
     let a = run_timeline(&bare, 424_242).await.expect("non-empty");
     let b = run_timeline(&dense, 424_242).await.expect("non-empty");
-    assert_eq!(a, b, "occurrences pace within a phase; they never move its boundary");
+    assert_eq!(
+        a, b,
+        "occurrences pace within a phase; they never move its boundary"
+    );
 }
 
 #[tokio::test(flavor = "current_thread", start_paused = true)]
@@ -112,7 +132,11 @@ async fn total_emissions_is_derivable_without_running_the_timeline() {
         Phase::emitting("c", Duration::from_secs(1), 12),
     ]);
     assert_eq!(tl.total_emissions(), 18);
-    assert_eq!(stamped(&tl, 3).await.len(), 18, "the declared total is what actually fires");
+    assert_eq!(
+        stamped(&tl, 3).await.len(),
+        18,
+        "the declared total is what actually fires"
+    );
 }
 
 #[tokio::test(flavor = "current_thread", start_paused = true)]
@@ -124,7 +148,11 @@ async fn a_failing_hook_surfaces_as_a_harness_fault_naming_its_phase() {
     let mut calls = 0;
     let result = run_timeline_with(&tl, 1, async |point: EmissionPoint| {
         calls += 1;
-        if point.phase_index == 1 { Err(HookRefused) } else { Ok(()) }
+        if point.phase_index == 1 {
+            Err(HookRefused)
+        } else {
+            Ok(())
+        }
     })
     .await;
 
@@ -180,7 +208,10 @@ async fn each_phase_last_emission_sits_on_its_boundary_within_timer_resolution()
 #[tokio::test(flavor = "current_thread", start_paused = true)]
 async fn fixture_emission_stream_is_frozen() {
     let (tl, seed) = fixture_timeline();
-    insta::assert_debug_snapshot!("fixture_emission_stream_seed_4317017", stamped(&tl, seed).await);
+    insta::assert_debug_snapshot!(
+        "fixture_emission_stream_seed_4317017",
+        stamped(&tl, seed).await
+    );
 }
 
 #[tokio::test(flavor = "current_thread", start_paused = true)]
@@ -205,7 +236,10 @@ async fn the_phase_observer_fires_once_per_phase_including_a_silent_one() {
     run_timeline_observed(
         &tl,
         7,
-        |window| seen.borrow_mut().push((window.index, window.name.to_string(), window.gap)),
+        |window| {
+            seen.borrow_mut()
+                .push((window.index, window.name.to_string(), window.gap))
+        },
         async |_: EmissionPoint| Ok::<(), HookRefused>(()),
     )
     .await

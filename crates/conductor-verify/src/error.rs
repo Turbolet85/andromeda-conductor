@@ -73,6 +73,9 @@ mod tests {
         };
         let shown = err.to_string();
         assert!(shown.contains("-32603"), "{shown}");
-        assert!(!shown.contains("secret"), "server message must not leak in Display: {shown}");
+        assert!(
+            !shown.contains("secret"),
+            "server message must not leak in Display: {shown}"
+        );
     }
 }

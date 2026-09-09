@@ -42,9 +42,10 @@ impl ContractManifest {
             // never the path itself — io::Error's Display leaks it (artifact hygiene).
             reason: format!("could not read contract manifest ({:?})", e.kind()),
         })?;
-        let manifest: ContractManifest = toml::from_str(&text).map_err(|e| VerifyError::Manifest {
-            reason: format!("invalid TOML: {e}"),
-        })?;
+        let manifest: ContractManifest =
+            toml::from_str(&text).map_err(|e| VerifyError::Manifest {
+                reason: format!("invalid TOML: {e}"),
+            })?;
         manifest.validate()?;
         Ok(manifest)
     }
@@ -84,7 +85,10 @@ mod tests {
         let m = ContractManifest::load(&pinned_path()).expect("pinned manifest loads");
         assert_eq!(m.expected_protocol_version, "2024-11-05");
         for pinned in READBACK_TOOLS {
-            assert!(m.required_tools.iter().any(|t| t == pinned), "missing {pinned}");
+            assert!(
+                m.required_tools.iter().any(|t| t == pinned),
+                "missing {pinned}"
+            );
         }
     }
 

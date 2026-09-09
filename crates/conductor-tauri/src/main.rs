@@ -9,7 +9,7 @@
 
 use std::path::{Path, PathBuf};
 
-use conductor_core::{init_observability, resolve_under, ObsSink};
+use conductor_core::{ObsSink, init_observability, resolve_under};
 
 mod commands;
 mod pause;
@@ -37,14 +37,20 @@ fn main() {
 /// moving with `CONDUCTOR_RUNS_DIR` (obs-plan §3), falling back to stderr when the path can't be
 /// resolved. Mirrors `conductor-cli`'s `agent_log_path`.
 fn obs_sink() -> ObsSink {
-    tauri_log_path().map(ObsSink::File).unwrap_or(ObsSink::Stderr)
+    tauri_log_path()
+        .map(ObsSink::File)
+        .unwrap_or(ObsSink::Stderr)
 }
 
 fn tauri_log_path() -> Option<PathBuf> {
     let base = std::env::current_dir().ok()?;
     let candidate = std::env::var("CONDUCTOR_RUNS_DIR").unwrap_or_else(|_| "runs".to_string());
     let runs_dir = resolve_under(&base, Path::new(&candidate)).ok()?;
-    let logs_dir = runs_dir.parent().map(Path::to_path_buf).unwrap_or(base).join("logs");
+    let logs_dir = runs_dir
+        .parent()
+        .map(Path::to_path_buf)
+        .unwrap_or(base)
+        .join("logs");
     Some(logs_dir.join("conductor-tauri.jsonl"))
 }
 
@@ -59,7 +65,10 @@ mod tests {
         // process-global, first-install-wins singleton (test-plan §11) and is deliberately not
         // called here — only the path derivation is under test.
         let path = tauri_log_path().expect("the sink path resolves under an existing base dir");
-        assert!(path.is_absolute(), "the sink path is absolute, got {path:?}");
+        assert!(
+            path.is_absolute(),
+            "the sink path is absolute, got {path:?}"
+        );
         // Path::ends_with compares whole COMPONENTS: a string suffix would fail on Windows, where
         // this renders `logs\conductor-tauri.jsonl`.
         assert!(

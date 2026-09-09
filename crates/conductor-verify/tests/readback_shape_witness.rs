@@ -29,11 +29,18 @@ async fn the_read_back_key_set_witness_is_recorded_once_on_the_first_answering_a
     let log = dir.path().join("obs.jsonl");
     // Deliberately no `RUST_LOG`: the subscriber's default directive is INFO and the witness rides
     // `info`, so this asserts the line an operator sees with no opt-in (obs-plan §6 / §3).
-    init_observability("conductor", Some(WITNESS_RUN_ID.to_string()), ObsSink::File(log.clone()));
+    init_observability(
+        "conductor",
+        Some(WITNESS_RUN_ID.to_string()),
+        ObsSink::File(log.clone()),
+    );
 
     // A corpus that ANSWERS every attempt and never goes fresh: the witness records on any answering
     // call, empty list included, so the poll spends its whole budget with three answers behind it.
-    let config = StubConfig { canary_in_corpus: false, ..StubConfig::default() };
+    let config = StubConfig {
+        canary_in_corpus: false,
+        ..StubConfig::default()
+    };
     let canary = CanaryMarker::new(
         config.canary.clone(),
         config.canary_fingerprint.clone(),
@@ -41,8 +48,9 @@ async fn the_read_back_key_set_witness_is_recorded_once_on_the_first_answering_a
     );
     let (client_io, server_io) = tokio::io::duplex(4096);
     let server = tokio::spawn(serve_stub(server_io, config));
-    let client =
-        bounded(ReadbackClient::connect_transport(client_io)).await.expect("client connects");
+    let client = bounded(ReadbackClient::connect_transport(client_io))
+        .await
+        .expect("client connects");
 
     let manifest_path =
         std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../contracts/mcp-contract.toml");
@@ -54,7 +62,10 @@ async fn the_read_back_key_set_witness_is_recorded_once_on_the_first_answering_a
         &RunContractStatus::satisfied(),
         &canary,
         "/test/data-dir",
-        CanaryPoll { attempts: ATTEMPTS, interval: Duration::ZERO },
+        CanaryPoll {
+            attempts: ATTEMPTS,
+            interval: Duration::ZERO,
+        },
     ))
     .await
     .expect("preflight runs");
@@ -62,7 +73,10 @@ async fn the_read_back_key_set_witness_is_recorded_once_on_the_first_answering_a
     drop(client);
     server.abort();
 
-    assert!(!ready.ready, "the corpus never goes fresh, so the gate must block");
+    assert!(
+        !ready.ready,
+        "the corpus never goes fresh, so the gate must block"
+    );
 
     let contents = std::fs::read_to_string(&log).expect("self-obs artifact written");
     // Scoped by this test's own `run_id`, and by the witness's own message text rather than the tool
@@ -84,7 +98,10 @@ async fn the_read_back_key_set_witness_is_recorded_once_on_the_first_answering_a
 
     let line = witness[0];
     for key in ["items", "next_cursor", "total"] {
-        assert!(line.contains(key), "the witness names the observed key `{key}`: {line}");
+        assert!(
+            line.contains(key),
+            "the witness names the observed key `{key}`: {line}"
+        );
     }
     for field in [
         "timestamp_ms",

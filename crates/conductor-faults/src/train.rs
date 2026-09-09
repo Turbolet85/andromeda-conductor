@@ -58,10 +58,16 @@ impl BurstyTrain {
             return Err(FaultError::QuietZero);
         }
         if active > MAX_WINDOW {
-            return Err(FaultError::WindowTooLong { window: active, max: MAX_WINDOW });
+            return Err(FaultError::WindowTooLong {
+                window: active,
+                max: MAX_WINDOW,
+            });
         }
         if quiet > MAX_WINDOW {
-            return Err(FaultError::WindowTooLong { window: quiet, max: MAX_WINDOW });
+            return Err(FaultError::WindowTooLong {
+                window: quiet,
+                max: MAX_WINDOW,
+            });
         }
         Ok(Self { active, quiet })
     }
@@ -69,7 +75,10 @@ impl BurstyTrain {
     /// The canonical 5-min-active / 10-min-quiet train ([`CANONICAL_ACTIVE`] / [`CANONICAL_QUIET`]).
     /// Infallible — the canonical windows are statically valid, so no [`FaultError`] is possible.
     pub fn canonical() -> Self {
-        Self { active: CANONICAL_ACTIVE, quiet: CANONICAL_QUIET }
+        Self {
+            active: CANONICAL_ACTIVE,
+            quiet: CANONICAL_QUIET,
+        }
     }
 
     /// The active (emitting) window length, returned verbatim.
@@ -143,7 +152,10 @@ mod tests {
         let c = BurstyTrain::canonical();
         assert_eq!(c.active(), CANONICAL_ACTIVE);
         assert_eq!(c.quiet(), CANONICAL_QUIET);
-        assert_eq!(c, BurstyTrain::new(CANONICAL_ACTIVE, CANONICAL_QUIET).unwrap());
+        assert_eq!(
+            c,
+            BurstyTrain::new(CANONICAL_ACTIVE, CANONICAL_QUIET).unwrap()
+        );
         assert_eq!(BurstyTrain::default(), c);
     }
 

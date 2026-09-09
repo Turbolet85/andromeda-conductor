@@ -5,7 +5,7 @@
 //! Determinism discipline), so the determinism contract governs the `(severity, body)` shape only.
 
 use opentelemetry_proto::tonic::collector::logs::v1::ExportLogsServiceRequest;
-use opentelemetry_proto::tonic::common::v1::{any_value, AnyValue};
+use opentelemetry_proto::tonic::common::v1::{AnyValue, any_value};
 use opentelemetry_proto::tonic::logs::v1::{LogRecord, ResourceLogs, ScopeLogs};
 
 use crate::message::{service_resource, unix_nanos};
@@ -109,8 +109,14 @@ mod tests {
 
     #[test]
     fn severity_numbers_match_the_otel_enum() {
-        assert_eq!(Severity::new(16).unwrap().number(), SeverityNumber::Warn4 as i32);
-        assert_eq!(Severity::new(17).unwrap().number(), SeverityNumber::Error as i32);
+        assert_eq!(
+            Severity::new(16).unwrap().number(),
+            SeverityNumber::Warn4 as i32
+        );
+        assert_eq!(
+            Severity::new(17).unwrap().number(),
+            SeverityNumber::Error as i32
+        );
     }
 
     #[test]

@@ -13,7 +13,7 @@ use rand_chacha::ChaCha8Rng;
 use rand_core::SeedableRng;
 
 use crate::message::{error_status, ok_status, service_resource, span};
-use crate::span_tree::{gen_id, ErrorPlacement};
+use crate::span_tree::{ErrorPlacement, gen_id};
 
 /// An ordered, root-first chain of distinct service names. Constructed only with ≥2 distinct
 /// services, so an emitted topology always realizes a genuine multi-service constellation (P-027) —
@@ -113,7 +113,7 @@ pub fn service_topology_request(
 mod tests {
     use super::*;
     use opentelemetry_proto::tonic::common::v1::any_value;
-    use opentelemetry_proto::tonic::trace::v1::{status::StatusCode, Span};
+    use opentelemetry_proto::tonic::trace::v1::{Span, status::StatusCode};
 
     fn three() -> [&'static str; 3] {
         ["gateway", "api", "db"]
@@ -186,10 +186,11 @@ mod tests {
         let req = service_topology_request(&t, 7, None, "");
         assert_eq!(req.resource_spans.len(), 3);
         assert_eq!(service_names(&req), vec!["gateway", "api", "db"]);
-        assert!(req
-            .resource_spans
-            .iter()
-            .all(|rs| rs.scope_spans[0].spans.len() == 1));
+        assert!(
+            req.resource_spans
+                .iter()
+                .all(|rs| rs.scope_spans[0].spans.len() == 1)
+        );
     }
 
     #[test]
@@ -201,7 +202,11 @@ mod tests {
         assert_eq!(trace_id.len(), 16);
         assert!(spans.iter().all(|s| &s.trace_id == trace_id));
         assert!(spans[0].parent_span_id.is_empty());
-        assert!(spans.windows(2).all(|w| w[1].parent_span_id == w[0].span_id));
+        assert!(
+            spans
+                .windows(2)
+                .all(|w| w[1].parent_span_id == w[0].span_id)
+        );
         let mut ids: Vec<&Vec<u8>> = spans.iter().map(|s| &s.span_id).collect();
         ids.sort();
         ids.dedup();
@@ -212,9 +217,11 @@ mod tests {
     fn healthy_topology_is_all_ok() {
         let t = ServiceTopology::new(&three()).unwrap();
         let req = service_topology_request(&t, 7, None, "");
-        assert!(spans_in_order(&req)
-            .iter()
-            .all(|s| s.status.as_ref().unwrap().code == StatusCode::Ok as i32));
+        assert!(
+            spans_in_order(&req)
+                .iter()
+                .all(|s| s.status.as_ref().unwrap().code == StatusCode::Ok as i32)
+        );
     }
 
     #[test]
@@ -225,40 +232,53 @@ mod tests {
         let root = spans[0].status.as_ref().unwrap();
         assert_eq!(root.code, StatusCode::Error as i32);
         assert_eq!(root.message, "boom");
-        assert!(spans[1..]
-            .iter()
-            .all(|s| s.status.as_ref().unwrap().code == StatusCode::Ok as i32));
+        assert!(
+            spans[1..]
+                .iter()
+                .all(|s| s.status.as_ref().unwrap().code == StatusCode::Ok as i32)
+        );
     }
 
     #[test]
     fn deep_placement_errors_the_downstream_service_only() {
         let t = ServiceTopology::new(&three()).unwrap();
-        let req = service_topology_request(&t, 7, Some(ErrorPlacement::DeepChild { depth: 2 }), "deep");
+        let req =
+            service_topology_request(&t, 7, Some(ErrorPlacement::DeepChild { depth: 2 }), "deep");
         let spans = spans_in_order(&req);
         let leaf = spans[2].status.as_ref().unwrap();
         assert_eq!(leaf.code, StatusCode::Error as i32);
         assert_eq!(leaf.message, "deep");
-        assert!(spans[..2]
-            .iter()
-            .all(|s| s.status.as_ref().unwrap().code == StatusCode::Ok as i32));
+        assert!(
+            spans[..2]
+                .iter()
+                .all(|s| s.status.as_ref().unwrap().code == StatusCode::Ok as i32)
+        );
     }
 
     #[test]
     fn deep_placement_saturates_to_the_deepest_service() {
         let t = ServiceTopology::new(&three()).unwrap();
-        let req = service_topology_request(&t, 7, Some(ErrorPlacement::DeepChild { depth: 99 }), "x");
+        let req =
+            service_topology_request(&t, 7, Some(ErrorPlacement::DeepChild { depth: 99 }), "x");
         let spans = spans_in_order(&req);
-        assert_eq!(spans[2].status.as_ref().unwrap().code, StatusCode::Error as i32);
-        assert!(spans[..2]
-            .iter()
-            .all(|s| s.status.as_ref().unwrap().code == StatusCode::Ok as i32));
+        assert_eq!(
+            spans[2].status.as_ref().unwrap().code,
+            StatusCode::Error as i32
+        );
+        assert!(
+            spans[..2]
+                .iter()
+                .all(|s| s.status.as_ref().unwrap().code == StatusCode::Ok as i32)
+        );
     }
 
     #[test]
     fn same_seed_reproduces_identical_shape() {
         let t = ServiceTopology::new(&three()).unwrap();
-        let a = service_topology_request(&t, 123, Some(ErrorPlacement::DeepChild { depth: 1 }), "x");
-        let b = service_topology_request(&t, 123, Some(ErrorPlacement::DeepChild { depth: 1 }), "x");
+        let a =
+            service_topology_request(&t, 123, Some(ErrorPlacement::DeepChild { depth: 1 }), "x");
+        let b =
+            service_topology_request(&t, 123, Some(ErrorPlacement::DeepChild { depth: 1 }), "x");
         assert_eq!(shape(&a), shape(&b));
     }
 
@@ -267,7 +287,10 @@ mod tests {
         let t = ServiceTopology::new(&three()).unwrap();
         let a = service_topology_request(&t, 1, None, "");
         let b = service_topology_request(&t, 2, None, "");
-        assert_ne!(spans_in_order(&a)[0].trace_id, spans_in_order(&b)[0].trace_id);
+        assert_ne!(
+            spans_in_order(&a)[0].trace_id,
+            spans_in_order(&b)[0].trace_id
+        );
         assert_ne!(shape(&a), shape(&b));
     }
 }

@@ -7,11 +7,11 @@ use std::net::SocketAddr;
 use std::sync::{Arc, Mutex};
 
 use conductor_emit::{
-    exception_trace_request, ExceptionSpec, Frame, TraceEmitter, DEFAULT_SERVICE_NAME,
+    DEFAULT_SERVICE_NAME, ExceptionSpec, Frame, TraceEmitter, exception_trace_request,
 };
 use opentelemetry_proto::tonic::collector::trace::v1::{
-    trace_service_server::{TraceService, TraceServiceServer},
     ExportTraceServiceRequest, ExportTraceServiceResponse,
+    trace_service_server::{TraceService, TraceServiceServer},
 };
 use opentelemetry_proto::tonic::trace::v1::status::StatusCode;
 use tokio::net::TcpListener;

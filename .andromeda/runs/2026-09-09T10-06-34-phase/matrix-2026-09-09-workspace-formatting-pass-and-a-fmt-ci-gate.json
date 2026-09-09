@@ -1,0 +1,57 @@
+[
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "b55f2c69",
+"ts": "2026-09-09T12:28:11Z",
+"argv": [
+"coverage",
+"--dir",
+"conductor-0.2.0",
+"--run-dir",
+".andromeda/runs/2026-09-09T10-06-34-phase",
+"--marker",
+"2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"verified 28/32 · deferred 0 · planned 4 · implemented 0 · unclaimed 4",
+"unclaimed: v2-04 v2-21 v2-24 v2-27",
+"claimed-unfinished: none",
+"done-test: NO — 4 not verified|deferred · unclaimed 4",
+"chunks referenced: 27 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "b55f2c69",
+"ts": "2026-09-09T12:28:11Z",
+"argv": [
+"audit",
+"--dir",
+"conductor-0.2.0",
+"--chunk",
+"2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate",
+"--plan",
+"conductor-0.2.0/chunks/2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-09T10-06-34-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate: 0 · ## Acceptance Criteria: line 165, 45 lines",
+"pool: unclaimed 4 [v2-04 v2-21 v2-24 v2-27]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

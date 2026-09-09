@@ -131,7 +131,10 @@ const CROSSING_SLACK_MS: u64 = 2_000;
 #[test]
 fn the_walk_ledger_crosses_both_thresholds_in_order() {
     let ledger = transitions(WALK_LEDGER);
-    let stalled = ledger.iter().rfind(|t| t.to_state == "Stalled").expect("the walk reaches Stalled");
+    let stalled = ledger
+        .iter()
+        .rfind(|t| t.to_state == "Stalled")
+        .expect("the walk reaches Stalled");
     assert!(
         (STALLED_MS..STALLED_MS + CROSSING_SLACK_MS).contains(&stalled.last_span_ago_ms),
         "the Stalled crossing fires at the 60 s threshold: {stalled:?}"
@@ -151,7 +154,10 @@ fn the_walk_ledger_crosses_both_thresholds_in_order() {
         .iter()
         .rfind(|t| t.to_state == "Receiving" && t.timestamp.as_str() < idle.timestamp.as_str())
         .expect("the walk's emission precedes the quiet tail");
-    assert!(receiving.last_span_ago_ms < 1_000, "a fresh span flips to Receiving within a second");
+    assert!(
+        receiving.last_span_ago_ms < 1_000,
+        "a fresh span flips to Receiving within a second"
+    );
 }
 
 #[test]
@@ -159,15 +165,24 @@ fn the_warmup_oscillation_straddles_the_idle_threshold_by_construction() {
     // The preflight warm-up paces spans ~15 s apart — past the 10 s Idle threshold — so the
     // pre-phase ledger legitimately oscillates. Pinned so a future pacing change is visible.
     let ledger = transitions(WALK_LEDGER);
-    let oscillations = ledger.iter().filter(|t| t.from_state == "Idle" && t.to_state == "Receiving").count();
-    assert!(oscillations >= 2, "the warm-up cadence produces repeated Idle -> Receiving flips");
+    let oscillations = ledger
+        .iter()
+        .filter(|t| t.from_state == "Idle" && t.to_state == "Receiving")
+        .count();
+    assert!(
+        oscillations >= 2,
+        "the warm-up cadence produces repeated Idle -> Receiving flips"
+    );
 }
 
 #[test]
 fn the_tracker_reports_elapsed_within_the_poller_tick_of_truth() {
     let ledger = transitions(TRACKER_LEDGER);
     for t in ledger.iter().filter(|t| t.to_state == "Receiving") {
-        assert!(t.last_span_ago_ms < 1_000, "a fresh span is tracked within a second: {t:?}");
+        assert!(
+            t.last_span_ago_ms < 1_000,
+            "a fresh span is tracked within a second: {t:?}"
+        );
     }
     for t in ledger.iter().filter(|t| t.to_state == "Idle") {
         assert!(
@@ -175,7 +190,10 @@ fn the_tracker_reports_elapsed_within_the_poller_tick_of_truth() {
             "an Idle crossing reports threshold + at most one tick: {t:?}"
         );
     }
-    assert!(ledger.iter().any(|t| t.to_state == "Idle"), "the intervals produce crossings to grade");
+    assert!(
+        ledger.iter().any(|t| t.to_state == "Idle"),
+        "the intervals produce crossings to grade"
+    );
 }
 
 #[test]
@@ -184,13 +202,19 @@ fn the_conflict_leg_witnesses_receiver_failed_while_the_occupier_held() {
     assert_eq!(t.to_state, "ReceiverFailed");
     assert_eq!(t.trigger_reason, "receiver bind failed");
     assert_eq!(t.severity, "critical");
-    assert_eq!(t.level, "ERROR", "a ReceiverFailed transition logs at error level");
+    assert_eq!(
+        t.level, "ERROR",
+        "a ReceiverFailed transition logs at error level"
+    );
 
     let failed: serde_json::Value = serde_json::from_str(CONFLICT_BIND_LINES[1]).unwrap();
     assert_eq!(failed["message"], "bind failed");
     assert_eq!(failed["level"], "ERROR");
     let reason = failed["fields"]["reason"].as_str().unwrap();
-    assert!(reason.contains("(os error 10048)"), "the OS names the address conflict: {reason}");
+    assert!(
+        reason.contains("(os error 10048)"),
+        "the OS names the address conflict: {reason}"
+    );
     assert_eq!(failed["fields"]["bind_address"], "127.0.0.1:4317");
 }
 
@@ -210,17 +234,31 @@ fn the_release_is_proven_by_the_suts_own_rebind() {
             v["message"].as_str().unwrap().to_string()
         })
         .collect();
-    assert_eq!(messages, ["OTLP gRPC receiver bound", "bind failed", "OTLP gRPC receiver bound"]);
-    assert!(stamps[0] < stamps[1] && stamps[1] < stamps[2], "bound -> refused into the hold -> rebound after the release: {stamps:?}");
+    assert_eq!(
+        messages,
+        [
+            "OTLP gRPC receiver bound",
+            "bind failed",
+            "OTLP gRPC receiver bound"
+        ]
+    );
+    assert!(
+        stamps[0] < stamps[1] && stamps[1] < stamps[2],
+        "bound -> refused into the hold -> rebound after the release: {stamps:?}"
+    );
 }
 
 #[test]
 fn no_false_alert_off_the_conflict_leg() {
-    for (name, ledger) in
-        [("walk", WALK_LEDGER), ("tracker", TRACKER_LEDGER), ("orthogonal", ORTHOGONAL_LEDGER)]
-    {
+    for (name, ledger) in [
+        ("walk", WALK_LEDGER),
+        ("tracker", TRACKER_LEDGER),
+        ("orthogonal", ORTHOGONAL_LEDGER),
+    ] {
         assert!(
-            transitions(ledger).iter().all(|t| t.to_state != "ReceiverFailed"),
+            transitions(ledger)
+                .iter()
+                .all(|t| t.to_state != "ReceiverFailed"),
             "{name} leg raises no alert state"
         );
     }
@@ -240,8 +278,17 @@ fn no_pinned_line_carries_a_host_path_or_conductor_internal() {
         .chain(CONFLICT_BIND_LINES)
         .chain(std::iter::once(&CONFLICT_TRANSITION))
     {
-        assert!(!line.contains(":\\"), "no drive-letter path in a pinned line: {line}");
-        assert!(!line.contains("/home/") && !line.contains("/Users/"), "{line}");
-        assert!(!line.contains("PhaseGuard") && !line.contains("RunRecord"), "{line}");
+        assert!(
+            !line.contains(":\\"),
+            "no drive-letter path in a pinned line: {line}"
+        );
+        assert!(
+            !line.contains("/home/") && !line.contains("/Users/"),
+            "{line}"
+        );
+        assert!(
+            !line.contains("PhaseGuard") && !line.contains("RunRecord"),
+            "{line}"
+        );
     }
 }

@@ -23,7 +23,10 @@ const COLLIDED_P_ID: &str = "P-019";
 
 fn seeded_journal() -> (assert_fs::TempDir, Vec<conductor_core::RunRecord>) {
     let dir = assert_fs::TempDir::new().unwrap();
-    let fixture = format!("{}/tests/fixtures/lamps-journal.jsonl", env!("CARGO_MANIFEST_DIR"));
+    let fixture = format!(
+        "{}/tests/fixtures/lamps-journal.jsonl",
+        env!("CARGO_MANIFEST_DIR")
+    );
     std::fs::copy(&fixture, dir.path().join(format!("{FIXTURE_RUN_ID}.jsonl")))
         .expect("the committed fixture copies into the runs dir the way the wdio seed copies it");
     let records = read_run_journal(dir.path(), FIXTURE_RUN_ID)
@@ -43,7 +46,10 @@ fn the_fixture_carries_a_collision_whose_lamps_differ() {
     let mut lamps_by_p_id: BTreeMap<&str, Vec<Lamp>> = BTreeMap::new();
     for record in &records {
         for p_id in &record.p_ids {
-            lamps_by_p_id.entry(p_id.0.as_str()).or_default().push(Lamp::for_record(record));
+            lamps_by_p_id
+                .entry(p_id.0.as_str())
+                .or_default()
+                .push(Lamp::for_record(record));
         }
     }
 
@@ -68,8 +74,10 @@ fn the_fixture_carries_a_collision_whose_lamps_differ() {
 #[test]
 fn the_fixture_leaves_a_classified_capability_unmentioned() {
     let (_dir, records) = seeded_journal();
-    let named: Vec<&str> =
-        records.iter().flat_map(|r| r.p_ids.iter().map(|p| p.0.as_str())).collect();
+    let named: Vec<&str> = records
+        .iter()
+        .flat_map(|r| r.p_ids.iter().map(|p| p.0.as_str()))
+        .collect();
 
     let unmentioned = conductor_core::coverage_matrix()
         .iter()

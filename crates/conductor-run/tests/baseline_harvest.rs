@@ -77,10 +77,16 @@ fn cue_fired<'a>(observed: &'a [CueEmitted], kind: &str) -> Result<&'a CueEmitte
 /// with the confidence the sample accumulation implies (confidence = samples/100, capped at 1.0).
 fn convergence_witness(cue: &CueEmitted) -> Result<(), String> {
     if cue.magnitude < 3.0 {
-        return Err(format!("magnitude {} below the 3.0x spec multiplier", cue.magnitude));
+        return Err(format!(
+            "magnitude {} below the 3.0x spec multiplier",
+            cue.magnitude
+        ));
     }
     if cue.confidence < 0.7 {
-        return Err(format!("confidence {} below the 0.7 floor witness", cue.confidence));
+        return Err(format!(
+            "confidence {} below the 0.7 floor witness",
+            cue.confidence
+        ));
     }
     Ok(())
 }
@@ -90,7 +96,10 @@ fn suggested_tier(cue: &CueEmitted) -> Result<(), String> {
     if cue.priority == "suggested" {
         Ok(())
     } else {
-        Err(format!("cue fired at priority {:?}, not suggested", cue.priority))
+        Err(format!(
+            "cue fired at priority {:?}, not suggested",
+            cue.priority
+        ))
     }
 }
 
@@ -126,7 +135,12 @@ fn pulse_storm_fingerprints(lines: &[String]) -> Vec<String> {
         .filter(|v| {
             v.get("target").and_then(|t| t.as_str()) == Some("triage.pattern.storm.detected")
         })
-        .filter_map(|v| v.get("fields")?.get("fingerprint_hex")?.as_str().map(str::to_owned))
+        .filter_map(|v| {
+            v.get("fields")?
+                .get("fingerprint_hex")?
+                .as_str()
+                .map(str::to_owned)
+        })
         .collect()
 }
 
@@ -134,10 +148,16 @@ fn pulse_storm_fingerprints(lines: &[String]) -> Vec<String> {
 /// 32-hex computed value for the same canary exception.
 fn canary_prefix_equality(conductor_fp: &str, pulse_prefix: &str) -> Result<(), String> {
     if conductor_fp.len() != 32 {
-        return Err(format!("conductor fingerprint is {} chars, not 32", conductor_fp.len()));
+        return Err(format!(
+            "conductor fingerprint is {} chars, not 32",
+            conductor_fp.len()
+        ));
     }
     if pulse_prefix.len() != 8 {
-        return Err(format!("pulse prefix is {} chars, not 8", pulse_prefix.len()));
+        return Err(format!(
+            "pulse prefix is {} chars, not 8",
+            pulse_prefix.len()
+        ));
     }
     if &conductor_fp[..8] == pulse_prefix {
         Ok(())
@@ -161,7 +181,13 @@ mod tests {
     /// `scope` and `absolute_value` are kind-dependent at the source: the error path is service-scoped
     /// and carries an error RATE, the latency path is operation-scoped (`scope_id` = the operation
     /// name) and carries a LATENCY IN MILLISECONDS (`cue/evaluate.rs:85-140`).
-    fn cue_line(kind: &str, priority: &str, magnitude: f64, confidence: f64, bypassed: bool) -> String {
+    fn cue_line(
+        kind: &str,
+        priority: &str,
+        magnitude: f64,
+        confidence: f64,
+        bypassed: bool,
+    ) -> String {
         let latency = kind == "latency_regression";
         let scope = if latency { "operation" } else { "service" };
         let absolute_value = if latency { 3100.0 } else { 0.35 };
@@ -190,7 +216,10 @@ mod tests {
 
     #[test]
     fn the_parser_reads_the_cue_emit_line_shape() {
-        let lines = vec![other_line(), cue_line("error_rate_spike", "suggested", 3.5, 0.7, true)];
+        let lines = vec![
+            other_line(),
+            cue_line("error_rate_spike", "suggested", 3.5, 0.7, true),
+        ];
         let observed = parse_cue_emitted(&lines);
         assert_eq!(
             observed,
@@ -232,14 +261,16 @@ mod tests {
 
     #[test]
     fn a_below_multiplier_cue_fails_the_convergence_witness() {
-        let observed = parse_cue_emitted(&[cue_line("error_rate_spike", "curious", 2.5, 1.0, false)]);
+        let observed =
+            parse_cue_emitted(&[cue_line("error_rate_spike", "curious", 2.5, 1.0, false)]);
         let err = convergence_witness(&observed[0]).unwrap_err();
         assert!(err.contains("below the 3.0x"), "{err}");
     }
 
     #[test]
     fn a_low_confidence_cue_fails_the_convergence_witness() {
-        let observed = parse_cue_emitted(&[cue_line("error_rate_spike", "curious", 3.5, 0.4, false)]);
+        let observed =
+            parse_cue_emitted(&[cue_line("error_rate_spike", "curious", 3.5, 0.4, false)]);
         let err = convergence_witness(&observed[0]).unwrap_err();
         assert!(err.contains("below the 0.7"), "{err}");
     }
@@ -252,7 +283,8 @@ mod tests {
 
     #[test]
     fn a_non_suggested_cue_fails_the_tier_witness() {
-        let observed = parse_cue_emitted(&[cue_line("error_rate_spike", "curious", 3.5, 0.9, true)]);
+        let observed =
+            parse_cue_emitted(&[cue_line("error_rate_spike", "curious", 3.5, 0.9, true)]);
         let err = suggested_tier(&observed[0]).unwrap_err();
         assert!(err.contains("not suggested"), "{err}");
     }
@@ -271,11 +303,17 @@ mod tests {
     fn the_window_slice_drops_pre_leg_lines() {
         let dir = assert_fs::TempDir::new().unwrap();
         let path = dir.path().join("agent-latest.jsonl.2026-08-18");
-        let body =
-            format!("{}\n{}\n", other_line(), cue_line("error_rate_spike", "suggested", 3.5, 0.7, true));
+        let body = format!(
+            "{}\n{}\n",
+            other_line(),
+            cue_line("error_rate_spike", "suggested", 3.5, 0.7, true)
+        );
         std::fs::write(&path, body).unwrap();
 
-        assert_eq!(parse_cue_emitted(&harvest_since(&path, 0).unwrap()).len(), 1);
+        assert_eq!(
+            parse_cue_emitted(&harvest_since(&path, 0).unwrap()).len(),
+            1
+        );
         assert!(parse_cue_emitted(&harvest_since(&path, 2).unwrap()).is_empty());
     }
 
@@ -295,7 +333,10 @@ mod tests {
     #[test]
     fn the_pulse_storm_prefix_is_recovered_from_the_harvest() {
         let lines = vec![other_line(), storm_line("4a7f2b91")];
-        assert_eq!(pulse_storm_fingerprints(&lines), vec!["4a7f2b91".to_owned()]);
+        assert_eq!(
+            pulse_storm_fingerprints(&lines),
+            vec!["4a7f2b91".to_owned()]
+        );
     }
 
     #[test]
@@ -367,7 +408,10 @@ mod tests {
 
     #[test]
     fn the_latency_leg_capture_satisfies_every_latency_predicate() {
-        for line in [captured_latency_pulse_a_line(), captured_latency_pulse_b_line()] {
+        for line in [
+            captured_latency_pulse_a_line(),
+            captured_latency_pulse_b_line(),
+        ] {
             let observed = parse_cue_emitted(&[line]);
             let cue = cue_fired(&observed, "latency_regression").expect("cue fired");
             assert_eq!(convergence_witness(cue), Ok(()));

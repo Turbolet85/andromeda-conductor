@@ -10,10 +10,10 @@ use std::collections::BTreeSet;
 use std::time::Duration;
 
 use opentelemetry_proto::tonic::collector::logs::v1::{
-    logs_service_client::LogsServiceClient, ExportLogsServiceRequest,
+    ExportLogsServiceRequest, logs_service_client::LogsServiceClient,
 };
 use opentelemetry_proto::tonic::collector::trace::v1::{
-    trace_service_client::TraceServiceClient, ExportTraceServiceRequest,
+    ExportTraceServiceRequest, trace_service_client::TraceServiceClient,
 };
 use tonic::transport::{Channel, Endpoint};
 

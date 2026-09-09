@@ -76,10 +76,17 @@ impl CheckOutcome {
 mod tests {
     use super::*;
     use crate::slo::evaluate_check;
-    use conductor_core::{ClaimClass, ComparisonKind, ExpectedCheck, ReportState, SloTier, Verdict};
+    use conductor_core::{
+        ClaimClass, ComparisonKind, ExpectedCheck, ReportState, SloTier, Verdict,
+    };
 
     fn outcome(class: ClaimClass, observed: &str) -> CheckOutcome {
-        let check = ExpectedCheck { kind: ComparisonKind::Exact, class, expected: "ok".to_string(), budget_ms: None };
+        let check = ExpectedCheck {
+            kind: ComparisonKind::Exact,
+            class,
+            expected: "ok".to_string(),
+            budget_ms: None,
+        };
         evaluate_check(&check, observed, SloTier::Tier5s, 0, 1_000)
     }
 
@@ -102,7 +109,10 @@ mod tests {
         assert_eq!(r.state, ReportState::Pass);
         assert_eq!(r.latency_ms, Some(1_000));
         assert_eq!(r.slo_tier, SloTier::Tier5s);
-        assert_eq!(r.journal_emitted_at.as_deref(), Some("2026-06-16T21:10:06Z"));
+        assert_eq!(
+            r.journal_emitted_at.as_deref(),
+            Some("2026-06-16T21:10:06Z")
+        );
         assert_eq!(r.fingerprints, Some(vec!["fp-1".to_string()]));
     }
 
@@ -125,13 +135,27 @@ mod tests {
     fn bridged_record_serializes_to_exactly_the_eleven_owned_keys() {
         let r = record(ClaimClass::Hard, "ok");
         let obj: serde_json::Value = serde_json::to_value(&r).unwrap();
-        let mut keys: Vec<&str> = obj.as_object().unwrap().keys().map(String::as_str).collect();
+        let mut keys: Vec<&str> = obj
+            .as_object()
+            .unwrap()
+            .keys()
+            .map(String::as_str)
+            .collect();
         keys.sort_unstable();
         assert_eq!(
             keys,
             [
-                "fingerprints", "journal_emitted_at", "latency_ms", "p_ids", "read_back_observed_at",
-                "run_id", "scenario", "seed", "slo_tier", "state", "verdict",
+                "fingerprints",
+                "journal_emitted_at",
+                "latency_ms",
+                "p_ids",
+                "read_back_observed_at",
+                "run_id",
+                "scenario",
+                "seed",
+                "slo_tier",
+                "state",
+                "verdict",
             ]
         );
         // The exact eleven-key set proves the Assessment-internal fields (`observed`/`expected`/
@@ -140,6 +164,9 @@ mod tests {
 
     #[test]
     fn bridging_is_deterministic() {
-        assert_eq!(record(ClaimClass::Hard, "ok"), record(ClaimClass::Hard, "ok"));
+        assert_eq!(
+            record(ClaimClass::Hard, "ok"),
+            record(ClaimClass::Hard, "ok")
+        );
     }
 }

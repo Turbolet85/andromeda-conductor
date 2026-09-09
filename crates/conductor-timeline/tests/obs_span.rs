@@ -17,7 +17,11 @@ async fn timeline_execute_carries_phase_count_and_emission_count_on_the_emitted_
     let dir = std::env::temp_dir().join(format!("conductor-timeline-obs-{}", std::process::id()));
     let _ = std::fs::remove_dir_all(&dir);
     let path = dir.join("agent-latest.jsonl");
-    init_observability("conductor", Some("RUN-TIMELINE".to_string()), ObsSink::File(path.clone()));
+    init_observability(
+        "conductor",
+        Some("RUN-TIMELINE".to_string()),
+        ObsSink::File(path.clone()),
+    );
 
     let timeline = PhaseTimeline::new(
         vec![
@@ -28,10 +32,15 @@ async fn timeline_execute_carries_phase_count_and_emission_count_on_the_emitted_
         Duration::ZERO,
     );
     assert_eq!(timeline.total_emissions(), 10);
-    run_timeline(&timeline, 424_242).await.expect("non-empty timeline");
+    run_timeline(&timeline, 424_242)
+        .await
+        .expect("non-empty timeline");
 
     let body = std::fs::read_to_string(&path).expect("self-obs log written");
-    let lines: Vec<Value> = body.lines().filter_map(|l| serde_json::from_str(l).ok()).collect();
+    let lines: Vec<Value> = body
+        .lines()
+        .filter_map(|l| serde_json::from_str(l).ok())
+        .collect();
     let new_record: &Map<String, Value> = lines
         .iter()
         .filter_map(Value::as_object)

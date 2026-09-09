@@ -14,7 +14,10 @@ fn classify_maps_each_class_to_its_verdict(
     #[case] matched: bool,
     #[case] expected_verdict: Verdict,
 ) {
-    assert_eq!(classify(class, matched, "obs", "exp").verdict(), expected_verdict);
+    assert_eq!(
+        classify(class, matched, "obs", "exp").verdict(),
+        expected_verdict
+    );
 }
 
 #[rstest]
@@ -32,14 +35,25 @@ fn calibration_region_is_never_a_hard_fail(#[case] matched: bool) {
 fn delta_is_present_only_for_calibration_region() {
     assert!(classify(ClaimClass::Hard, true, "o", "e").delta.is_none());
     assert!(classify(ClaimClass::Hard, false, "o", "e").delta.is_none());
-    assert!(classify(ClaimClass::CalibrationRegion, true, "o", "e").delta.is_some());
+    assert!(
+        classify(ClaimClass::CalibrationRegion, true, "o", "e")
+            .delta
+            .is_some()
+    );
 }
 
 #[test]
 fn assessment_carries_observed_expected_and_delta() {
-    let a: Assessment =
-        classify(ClaimClass::CalibrationRegion, false, "halo burgundy", "halo amber");
+    let a: Assessment = classify(
+        ClaimClass::CalibrationRegion,
+        false,
+        "halo burgundy",
+        "halo amber",
+    );
     assert_eq!(a.observed, "halo burgundy");
     assert_eq!(a.expected, "halo amber");
-    assert_eq!(a.delta.unwrap(), "observed halo burgundy vs expected halo amber");
+    assert_eq!(
+        a.delta.unwrap(),
+        "observed halo burgundy vs expected halo amber"
+    );
 }

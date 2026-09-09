@@ -39,7 +39,7 @@ _Mirrors `.andromeda/architecture.md` §Stack and Technologies. Convenience refe
 - **Lint/format:** clippy + rustfmt. Module-graph audit: cargo-modules / cargo-rail (optional).
 - **Supply chain:** cargo-audit 0.22.2 + cargo-deny 0.19.8 (`deny.toml`) for the Rust tree; `npm audit --omit=dev` (0 production-vuln gate; dev-only test-tooling advisories accepted at dev-tree grain) + committed `package-lock.json` for the `conductor-tauri/ui` frontend tree.
 - **A11y:** axe-core 4.12.0 + @axe-core/webdriverio + Lighthouse 13.0.3 + colorjs.io 0.6.1 (operator/local-gated).
-- **CI:** GitHub Actions — `cargo build` / nextest / clippy + audit/deny + coverage. Dynamic live-Pulse proof is an operator/local gate, not CI.
+- **CI:** GitHub Actions — `cargo fmt --all --check` / `cargo build` / nextest / clippy + audit/deny + coverage. Dynamic live-Pulse proof is an operator/local gate, not CI.
 
 ## Infrastructure
 - Local-only: `cargo build --release` → `conductor-cli` run beside Pulse via `scripts/agent-run.sh`; optional Tauri 2 (2.11.3) ~3 MB GUI bundle. No Docker/K8s/serverless/cloud.

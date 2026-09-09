@@ -24,6 +24,14 @@ jobs:
       - name: Install toolchain (rust-toolchain.toml)
         run: rustup show
 
+      # Placed here, ahead of the cache restore and the build, because rustfmt needs only the toolchain
+      # the preceding step installs — no cache, no node, no bundle, no compile. A formatting violation is
+      # reported in seconds instead of after the ~18 min build+test path. --all, not the bare form: the
+      # workspace declares no default-members, so the two are equivalent today and would diverge the
+      # moment one is added. test-plan §9 Lint row; §9/§10 make a fmt failure a build-FAILURE condition.
+      - name: Formatting gate (cargo fmt)
+        run: cargo fmt --all --check
+
       - uses: Swatinem/rust-cache@v2
 
       # Prebuilt binaries (not cargo-install-from-source) keep the Windows runner fast.

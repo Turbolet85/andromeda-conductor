@@ -7,14 +7,14 @@ use std::net::SocketAddr;
 use std::sync::{Arc, Mutex};
 
 use conductor_emit::{
-    service_topology_request, EmitError, ErrorPlacement, ServiceTopology, TraceEmitter,
+    EmitError, ErrorPlacement, ServiceTopology, TraceEmitter, service_topology_request,
 };
 use opentelemetry_proto::tonic::collector::trace::v1::{
-    trace_service_server::{TraceService, TraceServiceServer},
     ExportTraceServiceRequest, ExportTraceServiceResponse,
+    trace_service_server::{TraceService, TraceServiceServer},
 };
 use opentelemetry_proto::tonic::common::v1::any_value;
-use opentelemetry_proto::tonic::trace::v1::{status::StatusCode, ResourceSpans};
+use opentelemetry_proto::tonic::trace::v1::{ResourceSpans, status::StatusCode};
 use tokio::net::TcpListener;
 use tokio_stream::wrappers::TcpListenerStream;
 use tonic::transport::Server;
@@ -106,15 +106,21 @@ async fn ships_multi_service_topology_to_loopback_stub() {
     let trace_id = &spans[0].trace_id;
     assert!(spans.iter().all(|s| &s.trace_id == trace_id));
     assert!(spans[0].parent_span_id.is_empty());
-    assert!(spans.windows(2).all(|w| w[1].parent_span_id == w[0].span_id));
+    assert!(
+        spans
+            .windows(2)
+            .all(|w| w[1].parent_span_id == w[0].span_id)
+    );
 
     // the deep error sits on the downstream service; upstream services are OK
     let leaf = spans[2].status.as_ref().unwrap();
     assert_eq!(leaf.code, StatusCode::Error as i32);
     assert_eq!(leaf.message, "downstream failure");
-    assert!(spans[..2]
-        .iter()
-        .all(|s| s.status.as_ref().unwrap().code == StatusCode::Ok as i32));
+    assert!(
+        spans[..2]
+            .iter()
+            .all(|s| s.status.as_ref().unwrap().code == StatusCode::Ok as i32)
+    );
 }
 
 #[tokio::test(flavor = "current_thread")]

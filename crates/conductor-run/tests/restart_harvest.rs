@@ -69,7 +69,9 @@ struct CueEmitted {
 }
 
 fn parsed(lines: &[String]) -> impl Iterator<Item = serde_json::Value> + '_ {
-    lines.iter().filter_map(|line| serde_json::from_str::<serde_json::Value>(line).ok())
+    lines
+        .iter()
+        .filter_map(|line| serde_json::from_str::<serde_json::Value>(line).ok())
 }
 
 fn is_target<'v>(v: &'v serde_json::Value, target: &str) -> Option<&'v serde_json::Value> {
@@ -143,12 +145,24 @@ const GAP_THRESHOLD_SECONDS: u64 = 20;
 
 /// P-015: both gap/resume legs dispatched a restart event, each with a gap over the threshold.
 fn restart_witness(events: &[RestartEmitted]) -> Result<(), String> {
-    let restarts: Vec<_> = events.iter().filter(|e| e.cue_kind == "restart_event").collect();
+    let restarts: Vec<_> = events
+        .iter()
+        .filter(|e| e.cue_kind == "restart_event")
+        .collect();
     if restarts.len() < 2 {
-        return Err(format!("{} restart_event emissions in the window; the scenario drives 2", restarts.len()));
+        return Err(format!(
+            "{} restart_event emissions in the window; the scenario drives 2",
+            restarts.len()
+        ));
     }
-    match restarts.iter().find(|e| e.gap_seconds <= GAP_THRESHOLD_SECONDS) {
-        Some(e) => Err(format!("restart event with gap {}s, not over the {GAP_THRESHOLD_SECONDS}s threshold", e.gap_seconds)),
+    match restarts
+        .iter()
+        .find(|e| e.gap_seconds <= GAP_THRESHOLD_SECONDS)
+    {
+        Some(e) => Err(format!(
+            "restart event with gap {}s, not over the {GAP_THRESHOLD_SECONDS}s threshold",
+            e.gap_seconds
+        )),
         None => Ok(()),
     }
 }
@@ -164,7 +178,9 @@ fn suppressed_witness(checks: &[SuppressionCheck], emits: &[CueEmitted]) -> Resu
             && c.persistence_seconds < PERSISTENCE_CUTOFF
     });
     if !droppable {
-        return Err("no in-window, not-bypassed suppression_check below the persistence cutoff".to_owned());
+        return Err(
+            "no in-window, not-bypassed suppression_check below the persistence cutoff".to_owned(),
+        );
     }
     match emits.iter().find(|c| {
         c.kind == "error_rate_spike"
@@ -185,7 +201,10 @@ fn absolute_bypass_witness(
     triggers: &[BypassTriggered],
     emits: &[CueEmitted],
 ) -> Result<(), String> {
-    if !triggers.iter().any(|t| t.cue_kind == "error_rate_spike" && t.bypass_reason == "absolute") {
+    if !triggers
+        .iter()
+        .any(|t| t.cue_kind == "error_rate_spike" && t.bypass_reason == "absolute")
+    {
         return Err("no suppression_bypass trigger with reason=absolute".to_owned());
     }
     if emits.iter().any(|c| {
@@ -228,7 +247,10 @@ fn surgical_crossing_witness(
 
 /// The corpus-keeper: an autonomous-tier spike cue (Tier-1 forms the incident from it alone).
 fn autonomous_witness(emits: &[CueEmitted]) -> Result<(), String> {
-    if emits.iter().any(|c| c.kind == "error_rate_spike" && c.priority == "autonomous") {
+    if emits
+        .iter()
+        .any(|c| c.kind == "error_rate_spike" && c.priority == "autonomous")
+    {
         Ok(())
     } else {
         Err("no autonomous-tier error_rate_spike cue in the harvest window".to_owned())
@@ -290,7 +312,11 @@ mod tests {
         let triggers = parse_bypass_triggers(&lines);
         let emits = parse_cue_emitted(&lines);
 
-        assert_eq!(restarts.len(), 2, "the leg carried exactly two restart events");
+        assert_eq!(
+            restarts.len(),
+            2,
+            "the leg carried exactly two restart events"
+        );
         assert_eq!(restart_witness(&restarts), Ok(()));
         assert_eq!(suppressed_witness(&checks, &emits), Ok(()));
         assert_eq!(absolute_bypass_witness(&triggers, &emits), Ok(()));
@@ -302,7 +328,10 @@ mod tests {
     fn the_pinned_observations_carry_the_measured_values() {
         let lines = pinned_leg_lines();
         assert_eq!(
-            parse_restart_emitted(&lines).iter().map(|e| e.gap_seconds).collect::<Vec<_>>(),
+            parse_restart_emitted(&lines)
+                .iter()
+                .map(|e| e.gap_seconds)
+                .collect::<Vec<_>>(),
             vec![25, 26],
             "both gaps over the 20s threshold, as driven (25s declared + jitter)"
         );
@@ -327,13 +356,19 @@ mod tests {
     #[test]
     fn the_restart_witness_needs_two_over_threshold_crossings() {
         let one = parse_restart_emitted(&[LEG_RESTART_EMIT_1.to_owned()]);
-        assert!(restart_witness(&one).is_err(), "one restart is not the scenario's pair");
+        assert!(
+            restart_witness(&one).is_err(),
+            "one restart is not the scenario's pair"
+        );
 
         let shallow = parse_restart_emitted(&[
             LEG_RESTART_EMIT_1.to_owned(),
             LEG_RESTART_EMIT_2.replace("\"gap_seconds\":26", "\"gap_seconds\":20"),
         ]);
-        assert!(restart_witness(&shallow).is_err(), "a 20s gap does not cross the >20s threshold");
+        assert!(
+            restart_witness(&shallow).is_err(),
+            "a 20s gap does not cross the >20s threshold"
+        );
     }
 
     #[test]
@@ -360,7 +395,10 @@ mod tests {
             "a mature-sample cue is kept via persistence, not attributably via bypass"
         );
         let young = parse_cue_emitted(&[LEG_EMIT_YOUNG_BYPASSED.to_owned()]);
-        assert!(absolute_bypass_witness(&[], &young).is_err(), "no trigger line, no arm witness");
+        assert!(
+            absolute_bypass_witness(&[], &young).is_err(),
+            "no trigger line, no arm witness"
+        );
     }
 
     #[test]
@@ -381,6 +419,9 @@ mod tests {
     #[test]
     fn the_corpus_keeper_needs_the_autonomous_tier() {
         let below = parse_cue_emitted(&[LEG_EMIT_KEPT_PLAIN.to_owned()]);
-        assert!(autonomous_witness(&below).is_err(), "a curious cue forms no Tier-1 incident");
+        assert!(
+            autonomous_witness(&below).is_err(),
+            "a curious cue forms no Tier-1 incident"
+        );
     }
 }

@@ -5,7 +5,12 @@ use conductor_verify::{compare, evaluate_check, evaluate_slo};
 use rstest::rstest;
 
 fn check(kind: ComparisonKind, class: ClaimClass, expected: &str) -> ExpectedCheck {
-    ExpectedCheck { kind, class, expected: expected.to_string(), budget_ms: None }
+    ExpectedCheck {
+        kind,
+        class,
+        expected: expected.to_string(),
+        budget_ms: None,
+    }
 }
 
 #[rstest]
@@ -23,7 +28,10 @@ fn comparison_kind_matrix(
     #[case] observed: &str,
     #[case] want: bool,
 ) {
-    assert_eq!(compare(&check(kind, ClaimClass::Hard, expected), observed), want);
+    assert_eq!(
+        compare(&check(kind, ClaimClass::Hard, expected), observed),
+        want
+    );
 }
 
 #[rstest]

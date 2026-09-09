@@ -53,7 +53,10 @@ impl ReadbackClient {
     /// binary directly.
     #[tracing::instrument(name = "verify.readback.connect_command", skip_all, err)]
     pub async fn connect_command(mut command: Command) -> Result<Self, VerifyError> {
-        command.stdin(Stdio::piped()).stdout(Stdio::piped()).kill_on_drop(true);
+        command
+            .stdin(Stdio::piped())
+            .stdout(Stdio::piped())
+            .kill_on_drop(true);
         let mut child = command.spawn().map_err(VerifyError::Spawn)?;
         let stdin = child.stdin.take().ok_or_else(|| {
             VerifyError::Spawn(std::io::Error::other("sidecar stdin was not piped"))
@@ -80,15 +83,20 @@ impl ReadbackClient {
     /// Run the `initialize` handshake (pinning `2024-11-05`), capture the server's negotiated version,
     /// then send the `notifications/initialized` step. A transport/decode/JSON-RPC failure during init
     /// is a harness `Err`.
-    async fn initialize(mut session: JsonRpcSession, child: Option<Child>) -> Result<Self, VerifyError> {
+    async fn initialize(
+        mut session: JsonRpcSession,
+        child: Option<Child>,
+    ) -> Result<Self, VerifyError> {
         let params = json!({
             "protocolVersion": CLIENT_PROTOCOL_VERSION,
             "capabilities": {},
             "clientInfo": { "name": "conductor", "version": env!("CARGO_PKG_VERSION") },
         });
         let result = session.request("initialize", params).await?;
-        let negotiated_protocol_version =
-            result.get("protocolVersion").and_then(Value::as_str).map(str::to_string);
+        let negotiated_protocol_version = result
+            .get("protocolVersion")
+            .and_then(Value::as_str)
+            .map(str::to_string);
         // Best-effort MCP handshake completion; Pulse tolerates its absence.
         let _ = session.notify("notifications/initialized", json!({})).await;
         Ok(Self {
@@ -107,7 +115,12 @@ impl ReadbackClient {
     /// The tool names the server advertises (`tools/list` → `result.tools[].name`).
     #[tracing::instrument(name = "verify.readback.list_tools", skip_all, err)]
     pub async fn list_tools(&self) -> Result<Vec<String>, VerifyError> {
-        let result = self.session.lock().await.request("tools/list", json!({})).await?;
+        let result = self
+            .session
+            .lock()
+            .await
+            .request("tools/list", json!({}))
+            .await?;
         let names = result
             .get("tools")
             .and_then(Value::as_array)
@@ -123,14 +136,25 @@ impl ReadbackClient {
 
     /// Call a read-back tool by name, returning Pulse's RAW JSON-RPC result for the caller to read.
     #[tracing::instrument(name = "verify.readback.call_tool", skip(self, arguments), fields(mcp_tool = %name))]
-    pub async fn call_tool(&self, name: &str, arguments: Option<Value>) -> Result<Value, VerifyError> {
+    pub async fn call_tool(
+        &self,
+        name: &str,
+        arguments: Option<Value>,
+    ) -> Result<Value, VerifyError> {
         let params = json!({ "name": name, "arguments": arguments.unwrap_or_else(|| json!({})) });
-        self.session.lock().await.request("tools/call", params).await
+        self.session
+            .lock()
+            .await
+            .request("tools/call", params)
+            .await
     }
 
     /// `query_incident_list` — the shared-corpus incident listing the canary + most scenarios read
     /// (raw shape `{items,total,next_cursor}`).
-    pub async fn query_incident_list(&self, arguments: Option<Value>) -> Result<Value, VerifyError> {
+    pub async fn query_incident_list(
+        &self,
+        arguments: Option<Value>,
+    ) -> Result<Value, VerifyError> {
         self.call_tool(QUERY_INCIDENT_LIST, arguments).await
     }
 
@@ -140,12 +164,18 @@ impl ReadbackClient {
     }
 
     /// `retrieve_telemetry_slice` — raw `{incident_id,span_refs,fingerprint_refs,timestamps_unix_nano}`.
-    pub async fn retrieve_telemetry_slice(&self, arguments: Option<Value>) -> Result<Value, VerifyError> {
+    pub async fn retrieve_telemetry_slice(
+        &self,
+        arguments: Option<Value>,
+    ) -> Result<Value, VerifyError> {
         self.call_tool(RETRIEVE_TELEMETRY_SLICE, arguments).await
     }
 
     /// `mark_incident_resolved` — the lifecycle write used by resolution scenarios (raw `{resolved,incident_id}`).
-    pub async fn mark_incident_resolved(&self, arguments: Option<Value>) -> Result<Value, VerifyError> {
+    pub async fn mark_incident_resolved(
+        &self,
+        arguments: Option<Value>,
+    ) -> Result<Value, VerifyError> {
         self.call_tool(MARK_INCIDENT_RESOLVED, arguments).await
     }
 
@@ -154,6 +184,7 @@ impl ReadbackClient {
     /// Exists so a caller can drive the write without taking a `serde_json` dependency of its own to
     /// build the one-field object; the raw-`Value` form above stays for callers that already hold one.
     pub async fn resolve_incident(&self, incident_id: i64) -> Result<Value, VerifyError> {
-        self.mark_incident_resolved(Some(json!({ "incident_id": incident_id }))).await
+        self.mark_incident_resolved(Some(json!({ "incident_id": incident_id })))
+            .await
     }
 }

@@ -32,11 +32,14 @@ impl PortOccupier {
     /// (tests do this). A refused bind (the port is already held) is a typed [`FaultError`], not a panic.
     pub fn occupy(port: u16) -> Result<Self, FaultError> {
         let requested = SocketAddr::from((Ipv4Addr::LOCALHOST, port));
-        let listener = TcpListener::bind(requested)
-            .map_err(|source| FaultError::Bind { addr: requested, source })?;
-        let addr = listener
-            .local_addr()
-            .map_err(|source| FaultError::Bind { addr: requested, source })?;
+        let listener = TcpListener::bind(requested).map_err(|source| FaultError::Bind {
+            addr: requested,
+            source,
+        })?;
+        let addr = listener.local_addr().map_err(|source| FaultError::Bind {
+            addr: requested,
+            source,
+        })?;
         // Created, never entered — the span brackets the hold in the self-obs stream; only the two
         // values knowable at bind time ride it (obs-plan §4; the layer records attributes on `new`).
         let span = tracing::info_span!(
@@ -70,7 +73,10 @@ impl PortOccupier {
         self.listener = None;
         if let Some(span) = self.span.take() {
             span.in_scope(|| {
-                tracing::debug!("port occupier released after {}ms", self.held_since.elapsed().as_millis());
+                tracing::debug!(
+                    "port occupier released after {}ms",
+                    self.held_since.elapsed().as_millis()
+                );
             });
         }
     }

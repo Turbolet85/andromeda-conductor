@@ -35,7 +35,9 @@ async fn captured_storm_spans(marker: &str, base: u64) -> Vec<Span> {
         .expect("connect to loopback stub");
 
     let spec = canary_spec(marker);
-    emit_canary_storm(&mut emitter, &spec, base).await.expect("emit the canary storm");
+    emit_canary_storm(&mut emitter, &spec, base)
+        .await
+        .expect("emit the canary storm");
 
     let received = traces.lock().unwrap().clone();
     received
@@ -49,12 +51,14 @@ async fn captured_storm_spans(marker: &str, base: u64) -> Vec<Span> {
 
 fn event_attr(span: &Span, key: &str) -> Option<String> {
     let event = span.events.iter().find(|e| e.name == "exception")?;
-    event.attributes.iter().find(|kv| kv.key == key).and_then(|kv| {
-        match kv.value.as_ref()?.value.as_ref()? {
+    event
+        .attributes
+        .iter()
+        .find(|kv| kv.key == key)
+        .and_then(|kv| match kv.value.as_ref()?.value.as_ref()? {
             any_value::Value::StringValue(s) => Some(s.clone()),
             _ => None,
-        }
-    })
+        })
 }
 
 #[tokio::test(flavor = "current_thread")]
@@ -68,13 +72,26 @@ async fn storm_reaches_the_wire_with_its_exception_events_intact() {
     );
 
     for span in &spans {
-        assert!(!span.trace_id.is_empty(), "an empty trace_id makes the receiver skip the span");
-        assert!(!span.span_id.is_empty(), "an empty span_id makes the receiver skip the span");
+        assert!(
+            !span.trace_id.is_empty(),
+            "an empty trace_id makes the receiver skip the span"
+        );
+        assert!(
+            !span.span_id.is_empty(),
+            "an empty span_id makes the receiver skip the span"
+        );
 
         let names: Vec<&str> = span.events.iter().map(|e| e.name.as_str()).collect();
-        assert!(names.contains(&"exception"), "span carried no exception event: {names:?}");
+        assert!(
+            names.contains(&"exception"),
+            "span carried no exception event: {names:?}"
+        );
 
-        for key in ["exception.type", "exception.message", "exception.stacktrace"] {
+        for key in [
+            "exception.type",
+            "exception.message",
+            "exception.stacktrace",
+        ] {
             let value = event_attr(span, key);
             assert!(
                 value.as_deref().is_some_and(|v| !v.is_empty()),
@@ -98,10 +115,14 @@ async fn storm_carries_distinct_span_identity_under_one_fingerprint() {
 
     // Pulse fingerprints on exception.type + the normalized stacktrace, so an identical pair across
     // occurrences is what makes the storm count as ONE recurring fault rather than N unrelated ones.
-    let types: BTreeSet<Option<String>> =
-        spans.iter().map(|s| event_attr(s, "exception.type")).collect();
-    let stacks: BTreeSet<Option<String>> =
-        spans.iter().map(|s| event_attr(s, "exception.stacktrace")).collect();
+    let types: BTreeSet<Option<String>> = spans
+        .iter()
+        .map(|s| event_attr(s, "exception.type"))
+        .collect();
+    let stacks: BTreeSet<Option<String>> = spans
+        .iter()
+        .map(|s| event_attr(s, "exception.stacktrace"))
+        .collect();
     assert_eq!(types.len(), 1, "the storm must carry ONE exception.type");
     assert_eq!(stacks.len(), 1, "the storm must carry ONE stacktrace");
     assert_eq!(types.into_iter().next().flatten().as_deref(), Some(marker));
@@ -135,7 +156,9 @@ async fn the_whole_canary_emission_carries_unique_span_identity() {
             .expect("emit a warm-up span");
     }
     let spec = canary_spec("ConductorCanary_union");
-    emit_canary_storm(&mut emitter, &spec, base).await.expect("emit the canary storm");
+    emit_canary_storm(&mut emitter, &spec, base)
+        .await
+        .expect("emit the canary storm");
 
     let received = traces.lock().unwrap().clone();
     let spans: Vec<Span> = received
@@ -147,15 +170,29 @@ async fn the_whole_canary_emission_carries_unique_span_identity() {
         .collect();
 
     let expected = u64::from(WARMUP_EMISSIONS) + CANARY_STORM_COUNT;
-    assert_eq!(spans.len() as u64, expected, "every emitted span must reach the collector");
+    assert_eq!(
+        spans.len() as u64,
+        expected,
+        "every emitted span must reach the collector"
+    );
 
     for span in &spans {
-        assert_eq!(span.trace_id.len(), 16, "trace_id must be 16 bytes to satisfy the receiver");
-        assert_eq!(span.span_id.len(), 8, "span_id must be 8 bytes to satisfy the receiver");
+        assert_eq!(
+            span.trace_id.len(),
+            16,
+            "trace_id must be 16 bytes to satisfy the receiver"
+        );
+        assert_eq!(
+            span.span_id.len(),
+            8,
+            "span_id must be 8 bytes to satisfy the receiver"
+        );
     }
 
-    let identities: BTreeSet<(Vec<u8>, Vec<u8>)> =
-        spans.iter().map(|s| (s.trace_id.clone(), s.span_id.clone())).collect();
+    let identities: BTreeSet<(Vec<u8>, Vec<u8>)> = spans
+        .iter()
+        .map(|s| (s.trace_id.clone(), s.span_id.clone()))
+        .collect();
     assert_eq!(
         identities.len() as u64,
         expected,

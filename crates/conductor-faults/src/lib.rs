@@ -22,7 +22,7 @@ mod silence;
 mod train;
 
 pub use error::FaultError;
-pub use gap::{EmissionGap, MIN_GAP, MAX_GAP};
-pub use port_occupier::{PortOccupier, OTLP_INGEST_PORT};
+pub use gap::{EmissionGap, MAX_GAP, MIN_GAP};
+pub use port_occupier::{OTLP_INGEST_PORT, PortOccupier};
 pub use silence::AbruptSilence;
-pub use train::{BurstyTrain, MAX_WINDOW, CANONICAL_ACTIVE, CANONICAL_QUIET};
+pub use train::{BurstyTrain, CANONICAL_ACTIVE, CANONICAL_QUIET, MAX_WINDOW};

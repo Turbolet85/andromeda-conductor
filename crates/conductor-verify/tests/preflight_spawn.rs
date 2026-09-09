@@ -37,6 +37,13 @@ async fn live_child_spawn_preflight_is_ready() {
     .await
     .expect("preflight runs");
 
-    assert!(ready.ready, "blocked against the stub child: {:?}", ready.blocked_precondition);
-    assert_eq!(ready.negotiated_protocol_version.as_deref(), Some("2024-11-05"));
+    assert!(
+        ready.ready,
+        "blocked against the stub child: {:?}",
+        ready.blocked_precondition
+    );
+    assert_eq!(
+        ready.negotiated_protocol_version.as_deref(),
+        Some("2024-11-05")
+    );
 }

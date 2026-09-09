@@ -37,7 +37,11 @@ pub fn evaluate_slo(
 ) -> SloOutcome {
     let latency_ms = read_back_observed_at_ms - journal_emitted_at_ms;
     let within_tolerance = (0..=deadline_ms).contains(&latency_ms);
-    SloOutcome { latency_ms, within_tolerance, deadline_ms }
+    SloOutcome {
+        latency_ms,
+        within_tolerance,
+        deadline_ms,
+    }
 }
 
 /// Apply a check's [`ComparisonKind`] to an observed read-back value, yielding the deterministic match.
@@ -47,7 +51,10 @@ pub fn compare(check: &ExpectedCheck, observed: &str) -> bool {
         ComparisonKind::Contains => observed.contains(check.expected.as_str()),
         ComparisonKind::Absent => !observed.contains(check.expected.as_str()),
         ComparisonKind::CountAtLeast => {
-            match (observed.trim().parse::<i64>(), check.expected.trim().parse::<i64>()) {
+            match (
+                observed.trim().parse::<i64>(),
+                check.expected.trim().parse::<i64>(),
+            ) {
                 (Ok(count), Ok(floor)) => count >= floor,
                 _ => false,
             }
@@ -95,7 +102,11 @@ pub fn evaluate_check(
     };
 
     let assessment = classify(class, matched, observed, check.expected.as_str());
-    CheckOutcome { assessment, slo, slo_tier: tier }
+    CheckOutcome {
+        assessment,
+        slo,
+        slo_tier: tier,
+    }
 }
 
 #[cfg(test)]
@@ -104,24 +115,56 @@ mod tests {
     use conductor_core::Verdict;
 
     fn check(kind: ComparisonKind, class: ClaimClass, expected: &str) -> ExpectedCheck {
-        ExpectedCheck { kind, class, expected: expected.to_string(), budget_ms: None }
+        ExpectedCheck {
+            kind,
+            class,
+            expected: expected.to_string(),
+            budget_ms: None,
+        }
     }
 
     #[test]
     fn exact_contains_absent_compare_as_expected() {
-        assert!(compare(&check(ComparisonKind::Exact, ClaimClass::Hard, "ok"), "ok"));
-        assert!(!compare(&check(ComparisonKind::Exact, ClaimClass::Hard, "ok"), "nope"));
-        assert!(compare(&check(ComparisonKind::Contains, ClaimClass::Hard, "P-009"), "[P-009,P-010]"));
-        assert!(compare(&check(ComparisonKind::Absent, ClaimClass::Hard, "secret"), "scrubbed"));
-        assert!(!compare(&check(ComparisonKind::Absent, ClaimClass::Hard, "secret"), "secret=xyz"));
+        assert!(compare(
+            &check(ComparisonKind::Exact, ClaimClass::Hard, "ok"),
+            "ok"
+        ));
+        assert!(!compare(
+            &check(ComparisonKind::Exact, ClaimClass::Hard, "ok"),
+            "nope"
+        ));
+        assert!(compare(
+            &check(ComparisonKind::Contains, ClaimClass::Hard, "P-009"),
+            "[P-009,P-010]"
+        ));
+        assert!(compare(
+            &check(ComparisonKind::Absent, ClaimClass::Hard, "secret"),
+            "scrubbed"
+        ));
+        assert!(!compare(
+            &check(ComparisonKind::Absent, ClaimClass::Hard, "secret"),
+            "secret=xyz"
+        ));
     }
 
     #[test]
     fn count_at_least_floor() {
-        assert!(compare(&check(ComparisonKind::CountAtLeast, ClaimClass::Hard, "50"), "50"));
-        assert!(compare(&check(ComparisonKind::CountAtLeast, ClaimClass::Hard, "50"), "51"));
-        assert!(!compare(&check(ComparisonKind::CountAtLeast, ClaimClass::Hard, "50"), "49"));
-        assert!(!compare(&check(ComparisonKind::CountAtLeast, ClaimClass::Hard, "50"), "notanumber"));
+        assert!(compare(
+            &check(ComparisonKind::CountAtLeast, ClaimClass::Hard, "50"),
+            "50"
+        ));
+        assert!(compare(
+            &check(ComparisonKind::CountAtLeast, ClaimClass::Hard, "50"),
+            "51"
+        ));
+        assert!(!compare(
+            &check(ComparisonKind::CountAtLeast, ClaimClass::Hard, "50"),
+            "49"
+        ));
+        assert!(!compare(
+            &check(ComparisonKind::CountAtLeast, ClaimClass::Hard, "50"),
+            "notanumber"
+        ));
     }
 
     #[test]
@@ -142,9 +185,24 @@ mod tests {
     #[test]
     fn hard_check_passes_only_when_matched_and_within_slo() {
         let c = check(ComparisonKind::Exact, ClaimClass::Hard, "ok");
-        assert_eq!(evaluate_check(&c, "ok", SloTier::Tier5s, 0, 1000).assessment.verdict, Verdict::Pass);
-        assert_eq!(evaluate_check(&c, "ok", SloTier::Tier5s, 0, 9000).assessment.verdict, Verdict::Fail);
-        assert_eq!(evaluate_check(&c, "no", SloTier::Tier5s, 0, 1000).assessment.verdict, Verdict::Fail);
+        assert_eq!(
+            evaluate_check(&c, "ok", SloTier::Tier5s, 0, 1000)
+                .assessment
+                .verdict,
+            Verdict::Pass
+        );
+        assert_eq!(
+            evaluate_check(&c, "ok", SloTier::Tier5s, 0, 9000)
+                .assessment
+                .verdict,
+            Verdict::Fail
+        );
+        assert_eq!(
+            evaluate_check(&c, "no", SloTier::Tier5s, 0, 1000)
+                .assessment
+                .verdict,
+            Verdict::Fail
+        );
     }
 
     #[test]
@@ -178,13 +236,39 @@ mod tests {
         // that alone must be enough to separate their verdicts. Were the budget scenario-level,
         // these two would be indistinguishable.
         let (emitted, observed) = (0, 3_000);
-        let tight = evaluate_check(&budgeted(Some(2_000)), "ok", SloTier::Tier90s, emitted, observed);
-        let loose = evaluate_check(&budgeted(Some(4_000)), "ok", SloTier::Tier90s, emitted, observed);
+        let tight = evaluate_check(
+            &budgeted(Some(2_000)),
+            "ok",
+            SloTier::Tier90s,
+            emitted,
+            observed,
+        );
+        let loose = evaluate_check(
+            &budgeted(Some(4_000)),
+            "ok",
+            SloTier::Tier90s,
+            emitted,
+            observed,
+        );
 
-        assert_eq!(tight.slo.latency_ms, loose.slo.latency_ms, "one observation, one latency");
-        assert_ne!(tight.slo.deadline_ms, loose.slo.deadline_ms, "the deadline is what differs");
-        assert_eq!(tight.assessment.verdict, Verdict::Fail, "3000ms missed its 2000ms budget");
-        assert_eq!(loose.assessment.verdict, Verdict::Pass, "3000ms met its 4000ms budget");
+        assert_eq!(
+            tight.slo.latency_ms, loose.slo.latency_ms,
+            "one observation, one latency"
+        );
+        assert_ne!(
+            tight.slo.deadline_ms, loose.slo.deadline_ms,
+            "the deadline is what differs"
+        );
+        assert_eq!(
+            tight.assessment.verdict,
+            Verdict::Fail,
+            "3000ms missed its 2000ms budget"
+        );
+        assert_eq!(
+            loose.assessment.verdict,
+            Verdict::Pass,
+            "3000ms met its 4000ms budget"
+        );
     }
 
     #[test]

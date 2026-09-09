@@ -30,29 +30,41 @@ impl JsonRpcSession {
         reader: Box<dyn AsyncRead + Unpin + Send>,
         writer: Box<dyn AsyncWrite + Unpin + Send>,
     ) -> Self {
-        Self { writer, reader: BufReader::new(reader).lines(), next_id: 1 }
+        Self {
+            writer,
+            reader: BufReader::new(reader).lines(),
+            next_id: 1,
+        }
     }
 
     /// Send a request and return the raw `result` value (`Null` if the response omits it). A
     /// JSON-RPC `error` response is a typed [`VerifyError::JsonRpc`]; transport/decode faults are
     /// their own variants — never a panic (the verdict/error wall).
-    pub(crate) async fn request(&mut self, method: &str, params: Value) -> Result<Value, VerifyError> {
+    pub(crate) async fn request(
+        &mut self,
+        method: &str,
+        params: Value,
+    ) -> Result<Value, VerifyError> {
         let id = self.next_id;
         self.next_id += 1;
         let req = json!({ "jsonrpc": "2.0", "id": id, "method": method, "params": params });
         self.write_message(&req).await?;
         loop {
             let line = self.read_line().await?;
-            let msg: Value = serde_json::from_str(&line)
-                .map_err(|e| VerifyError::Decode { reason: e.to_string() })?;
+            let msg: Value = serde_json::from_str(&line).map_err(|e| VerifyError::Decode {
+                reason: e.to_string(),
+            })?;
             // Skip notifications / unrelated ids; the response we await carries our id.
             if msg.get("id") != Some(&json!(id)) {
                 continue;
             }
             if let Some(err) = msg.get("error") {
                 let code = err.get("code").and_then(Value::as_i64).unwrap_or(0);
-                let message =
-                    err.get("message").and_then(Value::as_str).unwrap_or("unknown").to_string();
+                let message = err
+                    .get("message")
+                    .and_then(Value::as_str)
+                    .unwrap_or("unknown")
+                    .to_string();
                 return Err(VerifyError::JsonRpc { code, message });
             }
             return Ok(msg.get("result").cloned().unwrap_or(Value::Null));
@@ -67,18 +79,27 @@ impl JsonRpcSession {
     }
 
     async fn write_message(&mut self, msg: &Value) -> Result<(), VerifyError> {
-        let mut line =
-            serde_json::to_string(msg).map_err(|e| VerifyError::Protocol { reason: e.to_string() })?;
+        let mut line = serde_json::to_string(msg).map_err(|e| VerifyError::Protocol {
+            reason: e.to_string(),
+        })?;
         line.push('\n');
-        self.writer.write_all(line.as_bytes()).await.map_err(VerifyError::Transport)?;
+        self.writer
+            .write_all(line.as_bytes())
+            .await
+            .map_err(VerifyError::Transport)?;
         self.writer.flush().await.map_err(VerifyError::Transport)
     }
 
     async fn read_line(&mut self) -> Result<String, VerifyError> {
-        match self.reader.next_line().await.map_err(VerifyError::Transport)? {
-            Some(line) if line.len() > MAX_LINE_BYTES => {
-                Err(VerifyError::Decode { reason: "response line exceeds size bound".to_string() })
-            }
+        match self
+            .reader
+            .next_line()
+            .await
+            .map_err(VerifyError::Transport)?
+        {
+            Some(line) if line.len() > MAX_LINE_BYTES => Err(VerifyError::Decode {
+                reason: "response line exceeds size bound".to_string(),
+            }),
             Some(line) => Ok(line),
             None => Err(VerifyError::Transport(std::io::Error::new(
                 std::io::ErrorKind::UnexpectedEof,

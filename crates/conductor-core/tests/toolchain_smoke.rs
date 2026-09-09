@@ -2,7 +2,7 @@
 //! against `conductor-core`'s public surface. Smoke for the tools, not domain coverage; the
 //! per-seam tests land with their epochs (test-plan §4).
 
-use conductor_core::{redact_value, ReportState, Verdict};
+use conductor_core::{ReportState, Verdict, redact_value};
 use proptest::prelude::*;
 use rstest::rstest;
 

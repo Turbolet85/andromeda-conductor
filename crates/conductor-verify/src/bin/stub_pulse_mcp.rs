@@ -49,11 +49,17 @@ fn stub_result(method: &str, req: &Value) -> Value {
             "serverInfo": { "name": "stub-pulse", "version": "0.0.0" },
         }),
         "tools/list" => {
-            let tools: Vec<Value> = READBACK_TOOLS.iter().map(|n| json!({ "name": n })).collect();
+            let tools: Vec<Value> = READBACK_TOOLS
+                .iter()
+                .map(|n| json!({ "name": n }))
+                .collect();
             json!({ "tools": tools })
         }
         "tools/call" => {
-            let name = req.pointer("/params/name").and_then(Value::as_str).unwrap_or("");
+            let name = req
+                .pointer("/params/name")
+                .and_then(Value::as_str)
+                .unwrap_or("");
             if name == QUERY_INCIDENT_LIST {
                 json!({
                     "items": [ {

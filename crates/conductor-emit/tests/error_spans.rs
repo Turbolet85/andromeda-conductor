@@ -6,10 +6,10 @@
 use std::net::SocketAddr;
 use std::sync::{Arc, Mutex};
 
-use conductor_emit::{error_trace_request, ErrorPlacement, TraceEmitter, DEFAULT_SERVICE_NAME};
+use conductor_emit::{DEFAULT_SERVICE_NAME, ErrorPlacement, TraceEmitter, error_trace_request};
 use opentelemetry_proto::tonic::collector::trace::v1::{
-    trace_service_server::{TraceService, TraceServiceServer},
     ExportTraceServiceRequest, ExportTraceServiceResponse,
+    trace_service_server::{TraceService, TraceServiceServer},
 };
 use opentelemetry_proto::tonic::trace::v1::status::StatusCode;
 use tokio::net::TcpListener;
@@ -79,16 +79,20 @@ async fn ships_deep_child_error_trace_to_loopback_stub() {
     let trace_id = &spans[0].trace_id;
     assert!(spans.iter().all(|s| &s.trace_id == trace_id));
     // parent/child linkage holds across the chain
-    assert!(spans
-        .windows(2)
-        .all(|w| w[1].parent_span_id == w[0].span_id));
+    assert!(
+        spans
+            .windows(2)
+            .all(|w| w[1].parent_span_id == w[0].span_id)
+    );
     // the ERROR sits on the deep leaf; ancestors are OK
     let leaf = &spans[depth];
     assert_eq!(leaf.status.as_ref().unwrap().code, StatusCode::Error as i32);
     assert_eq!(leaf.status.as_ref().unwrap().message, "downstream failure");
-    assert!(spans[..depth]
-        .iter()
-        .all(|s| s.status.as_ref().unwrap().code == StatusCode::Ok as i32));
+    assert!(
+        spans[..depth]
+            .iter()
+            .all(|s| s.status.as_ref().unwrap().code == StatusCode::Ok as i32)
+    );
 }
 
 #[tokio::test(flavor = "current_thread")]

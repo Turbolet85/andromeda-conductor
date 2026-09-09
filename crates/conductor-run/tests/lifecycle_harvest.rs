@@ -73,12 +73,23 @@ fn leg_raw_active_list() -> &'static str {
 
 /// The leg's measured observation and the idle age of the resolved incident at the write instant.
 fn leg_observation() -> (LifecycleObservation, f64) {
-    (LifecycleObservation { before: vec![6], resolved: 6, after: vec![] }, 0.0)
+    (
+        LifecycleObservation {
+            before: vec![6],
+            resolved: 6,
+            after: vec![],
+        },
+        0.0,
+    )
 }
 
 /// The active set as `query_incident_list` reports it, reduced to the ids the probe reads.
 fn observation(before: &[i64], resolved: i64, after: &[i64]) -> LifecycleObservation {
-    LifecycleObservation { before: before.to_vec(), resolved, after: after.to_vec() }
+    LifecycleObservation {
+        before: before.to_vec(),
+        resolved,
+        after: after.to_vec(),
+    }
 }
 
 #[test]
@@ -99,7 +110,10 @@ fn a_single_incident_offers_no_control_to_hold() {
 #[test]
 fn a_spared_control_attributes_the_drop_to_conductors_write() {
     let seen = observation(&[1, 2], 2, &[1]);
-    assert_eq!(evaluate_lifecycle(&seen, 1), LifecycleVerdict::Proven { control: 1 });
+    assert_eq!(
+        evaluate_lifecycle(&seen, 1),
+        LifecycleVerdict::Proven { control: 1 }
+    );
 }
 
 /// THE NEGATIVE TEST. One incident in, none out, is exactly what Pulse's 120s idle auto-resolve
@@ -116,7 +130,10 @@ fn a_single_incident_drop_is_not_attributable() {
 #[test]
 fn losing_the_control_too_is_unattributable_not_proven() {
     let seen = observation(&[1, 2], 2, &[]);
-    assert_eq!(evaluate_lifecycle(&seen, 1), LifecycleVerdict::Unattributable);
+    assert_eq!(
+        evaluate_lifecycle(&seen, 1),
+        LifecycleVerdict::Unattributable
+    );
 }
 
 /// A write Pulse accepted but that left the incident active is a FAILED resolve, never a pass.
@@ -155,8 +172,15 @@ fn the_live_item_key_is_incident_id() {
 fn the_live_leg_resolve_is_attributed_by_liveness() {
     let (seen, idle) = leg_observation();
     assert_eq!(seen.before, vec![6], "one active incident before the write");
-    assert_eq!(seen.after, Vec::<i64>::new(), "the resolved id left the active set");
-    assert!(idle < AUTO_RESOLVE_IDLE_SECONDS, "the incident was NOT idle when resolved");
+    assert_eq!(
+        seen.after,
+        Vec::<i64>::new(),
+        "the resolved id left the active set"
+    );
+    assert!(
+        idle < AUTO_RESOLVE_IDLE_SECONDS,
+        "the incident was NOT idle when resolved"
+    );
     assert_eq!(
         attribute_by_liveness(&seen, idle),
         LifecycleVerdict::ProvenByLiveness { idle_seconds: 0.0 }

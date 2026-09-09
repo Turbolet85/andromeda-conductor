@@ -9,10 +9,12 @@
 use std::time::{SystemTime, UNIX_EPOCH};
 
 use opentelemetry_proto::tonic::collector::trace::v1::ExportTraceServiceRequest;
-use opentelemetry_proto::tonic::common::v1::{any_value, AnyValue, KeyValue};
+use opentelemetry_proto::tonic::common::v1::{AnyValue, KeyValue, any_value};
 use opentelemetry_proto::tonic::resource::v1::Resource;
 use opentelemetry_proto::tonic::trace::v1::{
-    span::{Event, SpanKind}, status::StatusCode, ResourceSpans, ScopeSpans, Span, Status,
+    ResourceSpans, ScopeSpans, Span, Status,
+    span::{Event, SpanKind},
+    status::StatusCode,
 };
 use rand_chacha::ChaCha8Rng;
 use rand_core::SeedableRng;
@@ -227,8 +229,13 @@ mod tests {
 
     #[test]
     fn identity_is_distinct_across_a_run_of_seeds() {
-        let ids: std::collections::HashSet<_> =
-            (0..64).map(|s| identity_of(&trace_request(DEFAULT_SERVICE_NAME, s, "op"))).collect();
-        assert_eq!(ids.len(), 64, "each seed must yield a unique (trace_id, span_id)");
+        let ids: std::collections::HashSet<_> = (0..64)
+            .map(|s| identity_of(&trace_request(DEFAULT_SERVICE_NAME, s, "op")))
+            .collect();
+        assert_eq!(
+            ids.len(),
+            64,
+            "each seed must yield a unique (trace_id, span_id)"
+        );
     }
 }

@@ -231,11 +231,19 @@ mod tests {
         let spans = &rs.scope_spans[0].spans;
         assert_eq!(spans.len(), 50);
         assert!(spans.iter().all(|s| s.name == "op"));
-        assert!(spans.iter().all(|s| s.end_time_unix_nano >= s.start_time_unix_nano));
-        assert!(spans.iter().any(|s| s.end_time_unix_nano > s.start_time_unix_nano));
-        assert!(spans
-            .iter()
-            .all(|s| s.trace_id.len() == 16 && s.span_id.len() == 8 && s.parent_span_id.is_empty()));
+        assert!(
+            spans
+                .iter()
+                .all(|s| s.end_time_unix_nano >= s.start_time_unix_nano)
+        );
+        assert!(
+            spans
+                .iter()
+                .any(|s| s.end_time_unix_nano > s.start_time_unix_nano)
+        );
+        assert!(spans.iter().all(|s| s.trace_id.len() == 16
+            && s.span_id.len() == 8
+            && s.parent_span_id.is_empty()));
     }
 
     #[test]

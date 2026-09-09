@@ -16,7 +16,7 @@
 //! background thread runs — and needs no `tauri::*` item, which is why the test carries over whole.
 
 use conductor_core::{
-    latest_run_id, read_run_journal, EnvelopeStatus, HeadlessResolver, ReportState, Scenario,
+    EnvelopeStatus, HeadlessResolver, ReportState, Scenario, latest_run_id, read_run_journal,
 };
 
 /// Stage `dir` as a repo-shaped root the `conductor` binary can run in: the scenario it will
@@ -26,10 +26,22 @@ fn stage_repo_root(dir: &assert_fs::TempDir, scenario_stem: &str) {
     use assert_fs::prelude::*;
     let root = format!("{}/../..", env!("CARGO_MANIFEST_DIR"));
     for (src, dest) in [
-        (format!("{root}/scenarios/{scenario_stem}.toml"), format!("scenarios/{scenario_stem}.toml")),
-        (format!("{root}/contracts/mcp-contract.toml"), "contracts/mcp-contract.toml".into()),
-        (format!("{root}/contracts/pulse-capabilities.toml"), "contracts/pulse-capabilities.toml".into()),
-        (format!("{root}/contracts/pulse-load-envelope.toml"), "contracts/pulse-load-envelope.toml".into()),
+        (
+            format!("{root}/scenarios/{scenario_stem}.toml"),
+            format!("scenarios/{scenario_stem}.toml"),
+        ),
+        (
+            format!("{root}/contracts/mcp-contract.toml"),
+            "contracts/mcp-contract.toml".into(),
+        ),
+        (
+            format!("{root}/contracts/pulse-capabilities.toml"),
+            "contracts/pulse-capabilities.toml".into(),
+        ),
+        (
+            format!("{root}/contracts/pulse-load-envelope.toml"),
+            "contracts/pulse-load-envelope.toml".into(),
+        ),
     ] {
         let text = std::fs::read_to_string(&src).unwrap_or_else(|e| panic!("read {src}: {e}"));
         dir.child(dest).write_str(&text).unwrap();
@@ -101,37 +113,73 @@ async fn path7_the_two_surfaces_write_an_equal_envelope_into_one_runs_db() {
     .expect("the blocked spine is infallible");
 
     // --- The comparison. Each arm's envelope is read back from its own journal in the one dir.
-    assert_ne!(cli_run_id, "run-path7-tauri", "each run carries its own identity");
+    assert_ne!(
+        cli_run_id, "run-path7-tauri",
+        "each run carries its own identity"
+    );
     let cli = read_run_journal(&runs_dir, &cli_run_id).expect("the CLI arm's journal reads");
-    let tauri = read_run_journal(&runs_dir, "run-path7-tauri").expect("the Tauri arm's journal reads");
+    let tauri =
+        read_run_journal(&runs_dir, "run-path7-tauri").expect("the Tauri arm's journal reads");
     assert_eq!(cli.len(), 1, "one scenario ⇒ one envelope per arm");
     assert_eq!(tauri.len(), 1);
     let (cli, tauri) = (&cli[0], &tauri[0]);
 
     // Rendered as one string so a failure names every field that diverged, not just the first.
     let divergences: Vec<String> = [
-        ("verdict", format!("{:?}", cli.verdict), format!("{:?}", tauri.verdict)),
-        ("state", format!("{:?}", cli.state), format!("{:?}", tauri.state)),
+        (
+            "verdict",
+            format!("{:?}", cli.verdict),
+            format!("{:?}", tauri.verdict),
+        ),
+        (
+            "state",
+            format!("{:?}", cli.state),
+            format!("{:?}", tauri.state),
+        ),
         ("seed", cli.seed.to_string(), tauri.seed.to_string()),
         ("scenario", cli.scenario.clone(), tauri.scenario.clone()),
-        ("p_ids", format!("{:?}", cli.p_ids), format!("{:?}", tauri.p_ids)),
-        ("slo_tier", format!("{:?}", cli.slo_tier), format!("{:?}", tauri.slo_tier)),
+        (
+            "p_ids",
+            format!("{:?}", cli.p_ids),
+            format!("{:?}", tauri.p_ids),
+        ),
+        (
+            "slo_tier",
+            format!("{:?}", cli.slo_tier),
+            format!("{:?}", tauri.slo_tier),
+        ),
     ]
     .into_iter()
     .filter(|(_, c, t)| c != t)
     .map(|(field, c, t)| format!("{field}: cli={c} tauri={t}"))
     .collect();
-    assert_eq!(divergences.join(" | "), "", "the two surfaces must write an equal envelope");
+    assert_eq!(
+        divergences.join(" | "),
+        "",
+        "the two surfaces must write an equal envelope"
+    );
 
     // The shared seed is the scenario's, not a per-arm default — parity over a wrong seed on both
     // sides would be equally "equal" and prove nothing.
-    assert_eq!(cli.seed, scenario.seed, "both arms ran the scenario's declared seed");
-    assert!(matches!(cli.state, ReportState::Blocked), "no live Pulse ⇒ Blocked on both arms");
+    assert_eq!(
+        cli.seed, scenario.seed,
+        "both arms ran the scenario's declared seed"
+    );
+    assert!(
+        matches!(cli.state, ReportState::Blocked),
+        "no live Pulse ⇒ Blocked on both arms"
+    );
     assert!(cli.verdict.is_none(), "a blocked row carries no verdict");
 
     // Each arm wrote its OWN journal — parity is field equality, never artifact identity.
     for id in [cli_run_id.as_str(), "run-path7-tauri"] {
-        assert!(runs_dir.join(format!("{id}.jsonl")).is_file(), "{id} has its own journal");
+        assert!(
+            runs_dir.join(format!("{id}.jsonl")).is_file(),
+            "{id} has its own journal"
+        );
     }
-    assert!(runs_dir.join("runs.db").is_file(), "both arms wrote into ONE runs.db");
+    assert!(
+        runs_dir.join("runs.db").is_file(),
+        "both arms wrote into ONE runs.db"
+    );
 }

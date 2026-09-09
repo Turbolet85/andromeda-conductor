@@ -15,13 +15,21 @@ fn hold(prompt: &str) -> HoldPoint {
 
 #[tokio::test]
 async fn headless_proceed_resolves_to_go() {
-    let r = resolve_hold(&HeadlessResolver::proceed(), &hold("Restart Pulse, then confirm")).await;
+    let r = resolve_hold(
+        &HeadlessResolver::proceed(),
+        &hold("Restart Pulse, then confirm"),
+    )
+    .await;
     assert_eq!(r.decision, Decision::Go);
 }
 
 #[tokio::test]
 async fn headless_abort_resolves_to_no_go() {
-    let r = resolve_hold(&HeadlessResolver::abort(), &hold("Restart Pulse, then confirm")).await;
+    let r = resolve_hold(
+        &HeadlessResolver::abort(),
+        &hold("Restart Pulse, then confirm"),
+    )
+    .await;
     assert_eq!(r.decision, Decision::NoGo);
 }
 
@@ -57,6 +65,10 @@ async fn prompt_is_redacted_in_the_resolution() {
         &hold("open C:\\Users\\turbo\\corpus.db then confirm"),
     )
     .await;
-    assert!(!r.prompt.contains("C:\\Users"), "host path leaked: {}", r.prompt);
+    assert!(
+        !r.prompt.contains("C:\\Users"),
+        "host path leaked: {}",
+        r.prompt
+    );
     assert!(r.prompt.contains("<redacted>"));
 }

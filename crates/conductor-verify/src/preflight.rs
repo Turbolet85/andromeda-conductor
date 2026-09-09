@@ -85,7 +85,10 @@ pub struct CanaryPoll {
 impl CanaryPoll {
     /// A single attempt with no wait — deterministic for the stub tests (no real-clock dependency).
     pub fn immediate() -> Self {
-        Self { attempts: 1, interval: std::time::Duration::ZERO }
+        Self {
+            attempts: 1,
+            interval: std::time::Duration::ZERO,
+        }
     }
 }
 
@@ -117,8 +120,7 @@ impl ReadyState {
 
 /// The named precondition surfaced when the MCP read-back path is unreachable (arch §Standard
 /// Contracts) — the canary cannot run, so the gate is `Blocked`, never a silent pass.
-const UNREACHABLE_PRECONDITION: &str =
-    "mcp-server cargo feature + ANDROMEDA_PULSE_MCP_ENABLED + ANDROMEDA_PULSE_DATA_DIR == live Pulse's data-dir";
+const UNREACHABLE_PRECONDITION: &str = "mcp-server cargo feature + ANDROMEDA_PULSE_MCP_ENABLED + ANDROMEDA_PULSE_DATA_DIR == live Pulse's data-dir";
 
 /// The named precondition for a corpus that returns no incidents at all (arch §Standard Contracts).
 /// A workspace-key divergence and a genuinely empty corpus are indistinguishable on the wire — the
@@ -175,8 +177,11 @@ pub async fn run_preflight(
                     .iter()
                     .map(|name| {
                         let present = tools.iter().any(|t| t == name);
-                        let presence =
-                            if present { ToolPresence::Present } else { ToolPresence::Absent };
+                        let presence = if present {
+                            ToolPresence::Present
+                        } else {
+                            ToolPresence::Absent
+                        };
                         (name.clone(), presence)
                     })
                     .collect();
@@ -191,8 +196,8 @@ pub async fn run_preflight(
                 (map, Some(redact_value(&e.to_string()).into_owned()))
             }
         };
-    let tools_ok =
-        tools_unverifiable.is_none() && required_tools.values().all(|p| *p == ToolPresence::Present);
+    let tools_ok = tools_unverifiable.is_none()
+        && required_tools.values().all(|p| *p == ToolPresence::Present);
 
     // Fidelity is on the emitted fingerprint, not a title substring (Pulse scrubs titles): poll
     // `query_incident_list` for the storm's incident, then assert the fingerprint reads back from its
@@ -225,14 +230,22 @@ pub async fn run_preflight(
     } else if let Some(reason) = canary_call_error {
         Some(format!("MCP read-back call failed: {reason}"))
     } else if canary_round_trip != CanaryOutcome::Ok {
-        Some(canary_cause.unwrap_or(NotFound::EmptyCorpus).precondition().to_string())
+        Some(
+            canary_cause
+                .unwrap_or(NotFound::EmptyCorpus)
+                .precondition()
+                .to_string(),
+        )
     } else {
         None
     };
 
     let ready = blocked_precondition.is_none();
     if let Some(precondition) = &blocked_precondition {
-        tracing::info!(state = ReportState::Blocked.label(), "preflight blocked: {precondition}");
+        tracing::info!(
+            state = ReportState::Blocked.label(),
+            "preflight blocked: {precondition}"
+        );
     }
 
     Ok(ReadyState {
@@ -329,7 +342,9 @@ async fn poll_canary(
     for attempt in 0..attempts {
         match assert_canary(client, canary, &mut witness).await {
             CanaryFidelity::Ok => return (CanaryOutcome::Ok, None, None),
-            CanaryFidelity::CallError(reason) => return (CanaryOutcome::Failed, Some(reason), None),
+            CanaryFidelity::CallError(reason) => {
+                return (CanaryOutcome::Failed, Some(reason), None);
+            }
             CanaryFidelity::NotYet(cause) => {
                 last_cause = cause;
                 if attempt + 1 < attempts {
@@ -382,7 +397,10 @@ async fn assert_canary(
     if incident_ids(&list).is_empty() {
         return CanaryFidelity::NotYet(NotFound::EmptyCorpus);
     }
-    if opened_at_unix_nanos(&list).iter().any(|opened| *opened > canary.emitted_at_unix_nano) {
+    if opened_at_unix_nanos(&list)
+        .iter()
+        .any(|opened| *opened > canary.emitted_at_unix_nano)
+    {
         return CanaryFidelity::Ok;
     }
     CanaryFidelity::NotYet(NotFound::StaleCorpus)

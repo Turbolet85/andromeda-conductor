@@ -1,122 +1,116 @@
 # Session Handoff
 
-**Last Updated:** 2026-09-08T21:02:00Z
+**Last Updated:** 2026-09-09T14:22:25Z
 **Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **0 ahead at wrap start** — the
-operator pushed mid-session, so the 2-ahead figure in the previous handoff is stale. This wrap's chunk
-commit makes it **1 ahead and unpushed**. The push is the operator's act — and this time it is
-**load-bearing, not bookkeeping**: the chunk's whole verdict is a CI run that cannot happen until the push
-lands.)
+operator's push of the prior chunk had landed and its CI run completed. This wrap's chunk commit makes it
+**1 ahead and unpushed**, and the push is **load-bearing again for the same structural reason**: the fmt
+gate this chunk ships has never run in CI, and its first run necessarily follows the push.)
 **Status:** clean
-**Last Commit:** `feat(2026-09-08-webview2-runtime-152-installed-in-job)` (this wrap)
+**Last Commit:** `feat(2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate)` (this wrap)
 
 ## Position
-- Done: **`2026-09-08-webview2-runtime-152-installed-in-job`** — flipped `complete` at this wrap.
-- Next: **`/andromeda-phase`** on the first markerless head — **_Workspace formatting pass and a fmt CI
-  gate_** (`working-route.md:129`), minted at this wrap on the operator's directive and **placed ahead of
-  *Release build and bundle* by the operator at P5**. No `BLOCKED-ON`, so phase will not halt. The sibling
-  behind it is *Release build and bundle* (`:131`).
-- Coverage **28/32 verified · 4 unclaimed** (`v2-04`, `v2-21`, `v2-24`, `v2-27`) — unchanged. This chunk
-  claimed nothing, deliberately.
-- **Evolve:** Epoch 6b at **12 chunks** (10 frozen + 2 markerless). Surfaced at P5; operator ruled **no
-  split** — 6b is one or two chunks from its natural end, so a boundary now would fragment the cadence
-  rather than restore it. Re-surfaces next wrap.
+- Done: **`2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate`** — flipped `complete` at this wrap.
+- Next: **`/andromeda-phase`** on the first markerless head — **_Port-occupier test hygiene_**
+  (`working-route.md:131`), minted at this wrap on the operator's directive and placed ahead of *Release
+  build and bundle* so the version cannot close over a listed gate that cannot pass. No `BLOCKED-ON`, so
+  phase will not halt. The sibling behind it is *Release build and bundle* (`:133`).
+- Coverage **28/32 verified · 1 deferred · 3 unclaimed** (`v2-04`, `v2-21`, `v2-27`). `v2-24` moved
+  `planned → deferred` at this wrap (below). This chunk claimed nothing, deliberately — the four pooled
+  ids are other work, not this chunk's subject.
+- **Evolve:** Epoch 6b at **13 chunks** (12 + this wrap's insertion). Surfaced again per the growth valve;
+  the operator ruled **no split** last wrap. Re-surfaces next wrap.
 
-## THE OPEN ITEM — `v2-24`, and it has no route owner
-`v2-24` stays **`planned` and pooled** (operator directive item 2). The probe this chunk ships answers a
-question only a CI run can answer, and that run follows the push — so the **claim-or-defer fork belongs to
-the follow-up entry that reads run (a)**, and **no such entry exists on the route yet**.
+## `v2-24` — DEFERRED here, its input finally read
+The runtime-major hypothesis is **FALSIFIED**. CI run `34280136892` installed Evergreen **152.0.4191.66**
+(Authenticode `Valid`, `O=Microsoft Corporation`, re-read seven minutes later by the diagnostics step) and
+probe (a) still reported `DevToolsActivePort first seen: never within 90s` with the app alive
+(`HasExited=False`) and three `msedgewebview2` children resident. Deferred via `matrix.py defer` with a
+note carrying BOTH halves:
 
-Read the run's `[diag] (a) bare-app DevToolsActivePort first seen:` line. Then:
-- **A number of seconds** ⇒ the runtime major was the cause. `v2-24` stays `planned`; mint the follow-up
-  entry that claims it on a green `a11y` job.
-- **`never within 90s`** ⇒ the runtime-major hypothesis is **FALSIFIED**. Record it with its mechanism, and
-  `deferred` becomes the honest status (terminal until the next version's intake), since no route forward
-  would remain inside this version. Surviving unmeasured candidates, from the prior chunk's verdict: no
-  interactive desktop session on a hosted runner; a Session-0 / service-account restriction on the WebView2
-  browser process; an image policy on remote debugging.
-
-Also owed on that run, and likewise not yet due: **test-plan §6 (Mode cell) / §9 (Matrix builds) and
-a11y-plan §1 / §11** extend the measured runtime × driver **PAIR SET** with this run's member — never a
-fresh literal substituted for the set. Both detectors independently classed it *owed-but-not-yet-due*.
+- **Measured:** the endpoint opens under neither runtime major. The routine arm's own failure has moved
+  UPSTREAM — tauri-driver never listens on `:4444` (ECONNREFUSED within ~1.5 s), the same shape as runs
+  `34162118841` / `34251573399` / `34256490781`, so it predates both the 152 upgrade and any driver skew;
+  probe (b)'s `msedgedriver` log shows its own bind taking 6.9 s, which reads as a startup race.
+- **Unmeasured candidates:** a hosted-image policy on remote debugging (an Edge/WebView2 policy registry
+  read is the one-line probe) · a session or service-account property · msedgedriver 151 against a 152
+  runtime as a cause of the DRIVER failing to start — an axis the prior chunk never tested. Self-hosted
+  runners on a public repo are not an option.
+- A **cross-version residual** carries what the next version's route intake should re-open.
 
 ## Work done
-One chunk, **one source file**: `.github/workflows/ci.yml`, the `a11y` job only. A new **gate** step
-`Install WebView2 Evergreen runtime 152+ (gate)` (HTTPS fetch → `Get-AuthenticodeSignature` gate → fixed
-array-form `Start-Process … '/silent','/install'` → post-install major ≥ 152 assertion; no
-`continue-on-error`, no `if:`), plus one guarded path staging `runs/logs/conductor-tauri.jsonl` — an
-app-liveness witness independent of `DevToolsActivePort`, which is the reading the verdict turns on.
+One chunk, two halves. **60 `.rs` files** made `cargo fmt`-clean (rustfmt output only, never hand-edited)
+and **one CI step** added — `Formatting gate (cargo fmt)` running `cargo fmt --all --check` in job `rust`
+at index 2, before the cache restore, no `continue-on-error`, no `if:`. Plus one chunk-evidence verifier.
 
-Step placement verified structurally: 12 steps, the gate at index 5, `continue-on-error` still confined to
-indices 6/8/9.
+The safety property is measured, not argued: **per-file token-multiset identity across all 60 files**
+(`token-multiset differences: 0`), with the verifier's known-positive control firing in both directions.
+`--all` over the bare form because `Cargo.toml` declares no `default-members`.
 
-**Dev-host validation (the installer deliberately NOT run** — this host is at 152.0.4191.66 and CI at
-151.0.4129.101, so a local install exercises install-over-newer, a no-op, and cannot measure the CI upgrade
-path): registry read ✓, HTTPS download ✓ (1 783 000 bytes), signature PASS branch ✓ (`Valid`,
-`O=Microsoft Corporation`), signature **FAIL** branch ✓ (a byte-corrupted copy returned `UnknownError` and
-was rejected — the gate catches tampering, not merely passes on a good file), version-major assertion ✓
-(**151 → exit 1**, 152/153 → pass, which is exactly the no-op detection the design turns on).
+**Line counts carry BOTH bases deliberately:** +1581/−486 from parsing `cargo fmt --check`, +1582/−487 from
+`git diff --numstat`. Different hunk accounting; not collapsed to one number.
 
 ## Gates
-Green: porcelain probe (0 lines, advisory-db HEAD `8a1eb4f9`) · `cargo audit` 0 · `cargo deny check
-advisories bans licenses sources` 0 · `npm run build` 0 · `cargo clippy --workspace --all-targets -D
-warnings` 0 · `cargo nextest run --workspace --profile ci` 0 (**902 tests, 902 passed**) · YAML parse + 4
-structural greps.
+Green: advisory-db porcelain (0 lines) · `cargo audit` 0 · `cargo deny check advisories bans licenses
+sources` 0 · `cargo fmt --all --check` 0 (**red → green**, baseline was exit 1 / 282 sites) · token
+invariant 0 differences/60 files · `cargo clippy --workspace --all-targets -D warnings` 0 · `cargo nextest
+run --workspace --profile ci` **902/902 across 55 binaries** · `cargo llvm-cov` collect 0 · coverage floor
+**94.07%** vs 60 · `ci.yml` structural probe (`jobs 3 rust_fmt_steps 1 coe 3 a11y_steps 12 a11y_sig
+1a3138d5`) · `agent-run.sh status` 0 · **P3 e2e smoke** 12 passing / 2 skipped, driven session attached.
 
-**The absorbed PREREQ is discharged** — the prior chunk deferred exactly `nextest --workspace` and
-`clippy`; both ran green, closing the chain opened at `2026-09-08-hosted-runner-webview2-session`.
-
-**Red, and NOT this chunk's:** `cargo fmt --check` exits 1 — 282 sites across ~40 files, no `.rs` in the
-porcelain, so it reproduces at HEAD; `grep -n 'fmt' ci.yml` returns 0. Treated under the playbook's
-external-decay rule (`playbook.md:93`) per operator directive item 1: no in-diff cause ⇒ not the
-discovering chunk's drift, never blocks it, always produces an owner. **The owner is now the route entry at
-`:129`.** `test-plan.md:455` is a target-state row left deliberately standing — the entry makes it true
-rather than retiring it.
+**RED and NOT this chunk's — noted deferral with a named owner:** the per-crate `cargo test -p` runner-
+portability gate. `conductor-faults` fails `the_hold_is_bracketed_by_a_fault_span_on_the_emitted_lines`.
+Basis is three measurements, not the word "pre-existing": parallel exit 101 (6/7) · `--test-threads=1`
+exit 0 (7/7) · the same failure at HEAD in a clean worktree with its own `CARGO_TARGET_DIR`. No green ever
+existed for this form — the plain `cargo test -p conductor-faults` is named by 0 prior plans/reports; the
+suite always ran under nextest (13 mentions, 7/7) and the only prior plain-form mentions are the `--doc`
+arm (5), recorded as 0 doctests. **Owner: the route entry minted at `:131`.**
 
 ## Drift resolved
-**10 amendments across 2 masters · 1 escalation resolved · 0 open.**
+**16 amendments across 5 masters · 1 escalation resolved · 0 open.** 10 detector proposals (arch 6,
+test-plan 4; five docs clean) plus **6 orchestrator raises** the per-doc detectors could not see.
 
-All 9 fan-out proposals routed to `playbook.md:124` (boundary widening — "always a human's call; never mint
-a routine rule for this class"), collapsing to ONE operator decision, ratified: **the CI-fetched WebView2
-runtime is Evergreen now, pinned once the a11y job actually GATES.** No playbook rule was minted, by design
-— a seventh crossing escalates again.
-
-- **architecture.md ×5** — §Ports registers the Evergreen HTTPS egress as CI-JOB-SCOPED (the project's only
-  non-loopback outbound target); §Trust boundary's second enumeration gains it; §Environment variables
-  registers `RUNNER_TEMP` and records that the install gate sets no handle; §Established Decisions [CI/CD]
-  records the in-job provisioning **and states the endpoint outcome is UNMEASURED**; §Build system now
-  distinguishes the still-pinned Edge **driver** from the deliberately floated **runtime**.
-- **security-plan.md ×5** — spawn rule (b) **5 → 6 governed forms** across a third locus (`ci.yml`), the
-  sixth being the first whose program is neither repo-derived nor a fixed OS binary; a **THIRD dependency
-  class** no lockfile gate can see; the signed-artifact **SKIP** scoped to *produced* artifacts;
-  §Threat-Model CI/CD's "supply-chain steps are unchanged" qualified; and **§Networking `:86`** — found not
-  by the detector but by the cascade's own sweep, its "no public/VPN networking" clause false as written.
-- **Cascade:** 4 leaves re-derived — CLAUDE.md's warnings block (its trust-boundary **ban** would otherwise
-  have read as violated by the shipped change), `.claude/rules/security.md` ×2 sections,
-  `.claude/docs/security-summary.md` ×2 sites. `docs/gotchas.md` examined and deliberately **not** edited:
-  its claim is about *inbound* listeners.
-- Five detectors returned `proposals: []`; **D-platform-claim fired in none of the seven** — the report's
-  explicit "do not propose retiring `test-plan.md:455`" guard held everywhere.
+- **Class A ×11** — the gate-set enumeration gains the fmt gate: `arch:37/:59/:235/:238/:268`,
+  `security-plan:87`, `obs-plan:42`, `obs-plan:526` (the plan's Expected amendment, proposed by no
+  detector), `a11y-plan:115/:280/:471`. Playbook rules @28 + @88 → routine.
+- **Class B ×1** — `test-plan:469`'s "two jobs, both `windows-latest`" → the measured three-job set, named
+  by job rather than by line coordinate.
+- **Class C ×4** — the runtime-152 falsification: `arch:59`, `test-plan:469` (second claim on the same
+  line), `:56`, `:307`. **No playbook rule matched → escalated → operator-approved**, and a rule was minted
+  carrying three sharpenings (directness · explicit new epistemic status · discriminator shape) plus a note
+  that it was minted on a GENERATOR, not a frequency.
+- **`test-plan:307` was reshaped, not extended** (operator correction): a 152 × 151 combination both
+  PASSES on the dev host (152.0.4191.53 × 151.0.4129.101) and FAILS on the hosted image (152.0.4191.66 ×
+  151.0.4129.101) — same majors, opposite outcomes — so the **pair is not the discriminator**; the runtime
+  patch (53 vs 66) is named unmeasured-as-a-cause and the open variable is the hosted image itself.
+- **Cascade:** 1 leaf (`.claude/docs/stack.md:42`). CLAUDE.md's GENERATED tier and all five specialist
+  summaries verified clear by grep. `a11y-plan:471` — a THIRD verbatim citation of arch §Stack — was caught
+  only because the post-amendment sweep ran a known-positive control (3 hits where 2 had been edited).
+- **Recorded, not amended:** the fmt step does NOT move security-plan's "six governed spawn forms"; a plain
+  `run:` step with a fixed toolchain binary is the class of the existing `cargo build`/`cargo audit` steps.
+  No seventh crossing, so no boundary-widening ratification is owed.
+- **Routed out:** `a11y-plan:218`'s Linux+`xvfb` targeting is a11y's OWN claim, not a citation of arch
+  (`grep -nE 'xvfb|ubuntu-latest' architecture.md` → 0 hits, control firing elsewhere), so it does not ride
+  this pass — pre-existing drift for its own channel.
 
 ## Notes
-- **Curation: T1 0 · T2 1 · T3 1** (filtered 4, all duplicates; 0 conflicts, 0 deferred).
-  - **T2 → `host-win32.md`**: `grep -E` accepts PCRE syntax **silently** — a `(?!…)` guard matches nothing
-    and exits **0**, so it passes unconditionally. Measured: exactly that line shipped as a security gate
-    asserting "no plaintext `http://`" and would have passed whatever the file held. Write the POSITIVE
-    probe and assert hit count + identity.
-  - **T3 → `session-learnings.md`**: read a matrix entry through `matrix.py show --id`, not a JSON load —
-    the tool prints `title`/`observed_gap`/`requirement`, and `requirement` was **stricter** than the
-    `acceptance` the decline decision rested on.
-  - Two curated rules were **consulted and held**: the census rule (attribution by `Get-Process StartTime`,
-    not the name pattern — six `msedgewebview2` processes proved 26 days old and not this run's) and the
-    2026-09-07 rule that a chunk shipping a CI gate cannot prove it at its own wrap (which is *why* `v2-24`
-    was declined).
-- **Two self-authored gate defects, both caught only by running them** — at phase P4 a gate that could
-  never **fail** (the `grep -E` lookahead); at implement P2 one that could never **pass** (`cargo fmt
-  --check`). Both sat in the same Test Commands block. The P5 mechanical checks verify a command's presence
-  and shape, never its satisfiability.
+- **Curation: T1 0 · T2 2 · T3 0** (filtered 3; 0 conflicts). Both survivors → `.claude/rules/testing.md`,
+  both rescued from an exact-0.6 score by a conditional +0.2.
+  - **An established command is not a green command** — baseline a gate against the exact targets it will
+    run on. The novelty test keys on program + subcommand, which is what a long-established command passes.
+  - **A criterion asserting an artifact is UNCHANGED needs a signature over its normalized form** — counts
+    cannot discriminate; a probe that cannot fail on the property's negation is not evidence.
+  - Rejected with homes elsewhere: the runner-portability mechanism (the minted route entry owns it), the
+    `--all`/`default-members` reason (now in `architecture.md`).
+- **My own P4 defect, owned in the report:** gate 7 was written into the plan without ever being run at
+  HEAD. "This command is established" and "this command is green on these crates" are different claims.
+  Second occurrence of the unsatisfiable-gate family in three chunks.
 - **Last failed command:** none.
 
 ## Deferred learnings
-None — 2 applied, under the cap of 3. No `recurrence-despite-learning`: every Filter-1 duplicate deduped
-against an entry that was consulted and correctly applied this session, and one deduped against a line
-**this wrap's own cascade had just written** (Filter 1's generated-body carve-out working as designed).
+None over the cap. **One `recurrence-despite-learning`:** a sweep of `a11y-plan` for runtime/driver
+literals returned real hits (`:115`, `:217`, `:218`, `:333`, `:424`) and I characterised them as
+colour-token pairs without reading them, then wrote an ABSENCE claim into the fan-out record. The operator
+caught it. The disposition survived — those literals are dated DEV-HOST measurements, not provisional
+hosted-image claims, so the falsification retires none of them — but the basis was wrong and is now
+corrected in `a11y-plan-amendments.md`. It deduped against the already-correct 2026-09-06 read-the-hits
+entry, so no third corpus entry was minted. **Third instance of that family in this one session.**

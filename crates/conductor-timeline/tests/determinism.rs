@@ -6,7 +6,7 @@
 
 use std::time::Duration;
 
-use conductor_timeline::{run_timeline, Phase, PhaseTimeline, TimelineError};
+use conductor_timeline::{Phase, PhaseTimeline, TimelineError, run_timeline};
 
 fn sample_timeline() -> PhaseTimeline {
     PhaseTimeline::new(
@@ -23,8 +23,12 @@ fn sample_timeline() -> PhaseTimeline {
 #[tokio::test(flavor = "current_thread", start_paused = true)]
 async fn same_seed_reproduces_the_sequence() {
     let tl = sample_timeline();
-    let first = run_timeline(&tl, 424_242).await.expect("non-empty timeline");
-    let second = run_timeline(&tl, 424_242).await.expect("non-empty timeline");
+    let first = run_timeline(&tl, 424_242)
+        .await
+        .expect("non-empty timeline");
+    let second = run_timeline(&tl, 424_242)
+        .await
+        .expect("non-empty timeline");
     assert_eq!(first, second);
 }
 
@@ -49,7 +53,11 @@ async fn gaps_stay_within_the_declared_jitter_bound() {
         let base = phase.gap.as_millis() as i128;
         let lo = (base - bound).max(0);
         let hi = base + bound;
-        assert!(gap >= lo && gap <= hi, "phase {} gap {gap}ms outside [{lo}, {hi}]", t.name);
+        assert!(
+            gap >= lo && gap <= hi,
+            "phase {} gap {gap}ms outside [{lo}, {hi}]",
+            t.name
+        );
         prev = t.elapsed_ms;
     }
 }
@@ -57,7 +65,10 @@ async fn gaps_stay_within_the_declared_jitter_bound() {
 #[tokio::test(flavor = "current_thread", start_paused = true)]
 async fn zero_jitter_lands_each_gap_exactly_as_declared() {
     let tl = PhaseTimeline::new(
-        vec![Phase::new("a", Duration::from_secs(1)), Phase::new("b", Duration::from_secs(4))],
+        vec![
+            Phase::new("a", Duration::from_secs(1)),
+            Phase::new("b", Duration::from_secs(4)),
+        ],
         Duration::ZERO,
     );
     // No jitter ⇒ the seed cannot move the schedule; both seeds land on the declared cumulative gaps.
@@ -72,13 +83,20 @@ async fn zero_jitter_lands_each_gap_exactly_as_declared() {
 async fn jitter_never_produces_a_negative_gap() {
     // A zero base with a wide bound would underflow without the clamp; elapsed must stay monotonic.
     let tl = PhaseTimeline::new(
-        vec![Phase::new("p0", Duration::ZERO), Phase::new("p1", Duration::ZERO), Phase::new("p2", Duration::ZERO)],
+        vec![
+            Phase::new("p0", Duration::ZERO),
+            Phase::new("p1", Duration::ZERO),
+            Phase::new("p2", Duration::ZERO),
+        ],
         Duration::from_millis(250),
     );
     let transitions = run_timeline(&tl, 13).await.expect("non-empty timeline");
     let mut prev: u128 = 0;
     for t in &transitions {
-        assert!(t.elapsed_ms >= prev, "elapsed went backwards — a negative gap leaked");
+        assert!(
+            t.elapsed_ms >= prev,
+            "elapsed went backwards — a negative gap leaked"
+        );
         prev = t.elapsed_ms;
     }
 }

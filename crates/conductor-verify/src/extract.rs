@@ -87,7 +87,10 @@ pub async fn observe(client: &ReadbackClient) -> Outcome {
         return Outcome::EmptyCorpus;
     }
 
-    let mut observation = Observation { text: list_text(&list), ..Observation::default() };
+    let mut observation = Observation {
+        text: list_text(&list),
+        ..Observation::default()
+    };
     for (i, id) in ids.iter().enumerate() {
         let args = Some(serde_json::json!({ "incident_id": id }));
         match client.retrieve_report(args.clone()).await {
@@ -160,7 +163,11 @@ pub(crate) fn incident_ids(list: &Value) -> Vec<i64> {
         .map(|items| {
             items
                 .iter()
-                .filter_map(|it| it.get("id").or_else(|| it.get("incident_id")).and_then(Value::as_i64))
+                .filter_map(|it| {
+                    it.get("id")
+                        .or_else(|| it.get("incident_id"))
+                        .and_then(Value::as_i64)
+                })
                 .collect()
         })
         .unwrap_or_default()
@@ -182,7 +189,10 @@ pub(crate) fn opened_at_unix_nanos(list: &Value) -> Vec<i64> {
     list.get("items")
         .and_then(Value::as_array)
         .map(|items| {
-            items.iter().filter_map(|it| it.get("opened_at_unix_nano").and_then(Value::as_i64)).collect()
+            items
+                .iter()
+                .filter_map(|it| it.get("opened_at_unix_nano").and_then(Value::as_i64))
+                .collect()
         })
         .unwrap_or_default()
 }
@@ -192,7 +202,12 @@ fn string_array(value: &Value, key: &str) -> Vec<String> {
     value
         .get(key)
         .and_then(Value::as_array)
-        .map(|entries| entries.iter().filter_map(|e| e.as_str().map(str::to_string)).collect())
+        .map(|entries| {
+            entries
+                .iter()
+                .filter_map(|e| e.as_str().map(str::to_string))
+                .collect()
+        })
         .unwrap_or_default()
 }
 
@@ -212,7 +227,10 @@ pub(crate) fn top_level_keys(value: &Value) -> Vec<String> {
 /// non-allowlisted field name is dropped at the processor stage and would vanish silently
 /// (obs-plan §4). Key names are Pulse's schema, never corpus content (security-plan §Data Protection).
 pub(crate) fn log_observed_keys(tool: &str, value: &Value) {
-    tracing::info!("read-back shape: {tool} returned keys [{}]", top_level_keys(value).join(", "));
+    tracing::info!(
+        "read-back shape: {tool} returned keys [{}]",
+        top_level_keys(value).join(", ")
+    );
 }
 
 /// The redacted reason for a read-back call error — `JsonRpc` hides its server message behind
@@ -250,7 +268,11 @@ mod tests {
     #[test]
     fn substring_kinds_read_the_composed_text() {
         let o = observation();
-        for kind in [ComparisonKind::Exact, ComparisonKind::Contains, ComparisonKind::Absent] {
+        for kind in [
+            ComparisonKind::Exact,
+            ComparisonKind::Contains,
+            ComparisonKind::Absent,
+        ] {
             assert_eq!(o.observed_for(kind), o.text.as_str());
         }
     }
@@ -269,7 +291,12 @@ mod tests {
 
     #[test]
     fn readers_degrade_to_empty_on_a_malformed_shape() {
-        for malformed in [json!({}), json!({ "items": "nope" }), json!([]), Value::Null] {
+        for malformed in [
+            json!({}),
+            json!({ "items": "nope" }),
+            json!([]),
+            Value::Null,
+        ] {
             assert!(incident_ids(&malformed).is_empty());
             assert!(fingerprint_refs(&malformed).is_empty());
             assert!(list_text(&malformed).is_empty());
@@ -279,13 +306,19 @@ mod tests {
     #[test]
     fn incident_ids_accepts_either_item_key() {
         assert_eq!(incident_ids(&json!({ "items": [{ "id": 7 }] })), vec![7]);
-        assert_eq!(incident_ids(&json!({ "items": [{ "incident_id": 9 }] })), vec![9]);
+        assert_eq!(
+            incident_ids(&json!({ "items": [{ "incident_id": 9 }] })),
+            vec![9]
+        );
     }
 
     #[test]
     fn top_level_keys_are_sorted_and_shape_tolerant() {
         let slice = json!({ "span_refs": [], "fingerprint_refs": [], "incident_id": 1 });
-        assert_eq!(top_level_keys(&slice), ["fingerprint_refs", "incident_id", "span_refs"]);
+        assert_eq!(
+            top_level_keys(&slice),
+            ["fingerprint_refs", "incident_id", "span_refs"]
+        );
         for not_an_object in [json!([]), json!("text"), json!(7), Value::Null] {
             assert!(top_level_keys(&not_an_object).is_empty());
         }

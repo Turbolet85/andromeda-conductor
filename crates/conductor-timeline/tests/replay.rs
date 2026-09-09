@@ -12,7 +12,7 @@
 use std::time::Duration;
 
 use conductor_core::Scenario;
-use conductor_timeline::{run_timeline, Phase, PhaseTimeline};
+use conductor_timeline::{Phase, PhaseTimeline, run_timeline};
 use proptest::prelude::*;
 
 /// The committed `error-baseline-spike` fixture as a runtime timeline, plus its declared seed —
@@ -48,14 +48,18 @@ async fn fixture_stream_shape_is_frozen_at_an_alternate_seed() {
 /// jitter bound (well under `phase_spec` limits; the runtime types are not garde-validated, so the
 /// strategy owns its ranges). Index-derived names avoid a string-regex strategy.
 fn arb_timeline() -> impl Strategy<Value = PhaseTimeline> {
-    (proptest::collection::vec(0u64..=10_000, 1..=6), 0u64..=1_000).prop_map(|(gaps, jitter)| {
-        let phases = gaps
-            .into_iter()
-            .enumerate()
-            .map(|(i, gap)| Phase::new(format!("p{i}"), Duration::from_millis(gap)))
-            .collect();
-        PhaseTimeline::new(phases, Duration::from_millis(jitter))
-    })
+    (
+        proptest::collection::vec(0u64..=10_000, 1..=6),
+        0u64..=1_000,
+    )
+        .prop_map(|(gaps, jitter)| {
+            let phases = gaps
+                .into_iter()
+                .enumerate()
+                .map(|(i, gap)| Phase::new(format!("p{i}"), Duration::from_millis(gap)))
+                .collect();
+            PhaseTimeline::new(phases, Duration::from_millis(jitter))
+        })
 }
 
 proptest! {

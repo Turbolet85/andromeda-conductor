@@ -49,7 +49,10 @@ fn now_nanos() -> i64 {
 }
 
 async fn active_ids(client: &ReadbackClient) -> Vec<i64> {
-    let list = client.query_incident_list(None).await.expect("query_incident_list");
+    let list = client
+        .query_incident_list(None)
+        .await
+        .expect("query_incident_list");
     // RAW dump: a reader that extracts nothing is indistinguishable from an empty corpus unless the
     // wire value itself is on the record.
     println!("LEG raw query_incident_list -> {list}");
@@ -58,7 +61,11 @@ async fn active_ids(client: &ReadbackClient) -> Vec<i64> {
         .map(|items| {
             items
                 .iter()
-                .filter_map(|i| i.get("incident_id").or_else(|| i.get("id")).and_then(|v| v.as_i64()))
+                .filter_map(|i| {
+                    i.get("incident_id")
+                        .or_else(|| i.get("id"))
+                        .and_then(|v| v.as_i64())
+                })
                 .collect()
         })
         .unwrap_or_default()
@@ -68,7 +75,11 @@ async fn active_ids(client: &ReadbackClient) -> Vec<i64> {
 /// without re-storming.
 async fn keep_alive(traces: &mut TraceEmitter, spec: &ExceptionSpec, tick: u64) {
     let _ = traces
-        .export(exception_trace_request(CANARY_SERVICE_NAME, canary_storm_seed(now_nanos() as u64, tick), spec))
+        .export(exception_trace_request(
+            CANARY_SERVICE_NAME,
+            canary_storm_seed(now_nanos() as u64, tick),
+            spec,
+        ))
         .await;
 }
 
@@ -100,14 +111,20 @@ async fn poll_until(
 #[tokio::test(flavor = "current_thread")]
 async fn resolve_lifecycle_liveness_attributed_leg() {
     let data_dir = std::env::var_os("ANDROMEDA_PULSE_DATA_DIR").map(std::path::PathBuf::from);
-    let client = ReadbackClient::connect(data_dir).await.expect("live sidecar connects");
-    let mut traces = TraceEmitter::connect(DEFAULT_OTLP_ENDPOINT).await.expect("OTLP egress");
+    let client = ReadbackClient::connect(data_dir)
+        .await
+        .expect("live sidecar connects");
+    let mut traces = TraceEmitter::connect(DEFAULT_OTLP_ENDPOINT)
+        .await
+        .expect("OTLP egress");
 
     println!("LEG active-set at open: {:?}", active_ids(&client).await);
 
     let marker = format!("ConductorLifecycle_{}", now_nanos());
     let spec = canary_spec(&marker);
-    emit_canary_storm(&mut traces, &spec, now_nanos() as u64).await.expect("storm emits");
+    emit_canary_storm(&mut traces, &spec, now_nanos() as u64)
+        .await
+        .expect("storm emits");
     println!("LEG storm emitted: {marker}");
 
     // Keep the identity fresh each tick: a refreshed incident cannot be idle, which is the whole
@@ -116,7 +133,9 @@ async fn resolve_lifecycle_liveness_attributed_leg() {
     println!("LEG active-set before resolve: {before:?}");
 
     if before.is_empty() {
-        println!("LEG OUTCOME: no incident formed within the window — nothing to resolve, recorded as measured");
+        println!(
+            "LEG OUTCOME: no incident formed within the window — nothing to resolve, recorded as measured"
+        );
         return;
     }
 
@@ -133,16 +152,23 @@ async fn resolve_lifecycle_liveness_attributed_leg() {
     let freshened_at = std::time::Instant::now();
     let resolve = *before.last().expect("a non-empty active set");
 
-    let observation =
-        probe_resolve_lifecycle(&client, resolve).await.expect("the lifecycle write round-trips");
+    let observation = probe_resolve_lifecycle(&client, resolve)
+        .await
+        .expect("the lifecycle write round-trips");
     let idle_at_resolve = freshened_at.elapsed().as_secs_f64();
 
     println!("LEG resolved={resolve}");
     println!("LEG observation: {observation:?}");
     println!("LEG idle_seconds_at_resolve={idle_at_resolve:.1} (auto-resolve needs 120s idle)");
-    println!("LEG verdict: {:?}", attribute_by_liveness(&observation, idle_at_resolve));
+    println!(
+        "LEG verdict: {:?}",
+        attribute_by_liveness(&observation, idle_at_resolve)
+    );
 
-    assert!(!observation.before.is_empty(), "the leg observed an active set to write against");
+    assert!(
+        !observation.before.is_empty(),
+        "the leg observed an active set to write against"
+    );
     if !observation.after.contains(&resolve) && idle_at_resolve < 120.0 {
         println!(
             "LEG PROVEN-BY-LIVENESS: incident {resolve} left the active set {idle_at_resolve:.1}s \

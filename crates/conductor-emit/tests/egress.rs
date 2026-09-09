@@ -7,12 +7,12 @@ use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
 use conductor_emit::{
-    probe_egress, trace_request, DEFAULT_CONNECT_TIMEOUT, DEFAULT_SERVICE_NAME, EmitError,
-    TraceEmitter,
+    DEFAULT_CONNECT_TIMEOUT, DEFAULT_SERVICE_NAME, EmitError, TraceEmitter, probe_egress,
+    trace_request,
 };
 use opentelemetry_proto::tonic::collector::trace::v1::{
-    trace_service_server::{TraceService, TraceServiceServer},
     ExportTraceServiceRequest, ExportTraceServiceResponse,
+    trace_service_server::{TraceService, TraceServiceServer},
 };
 use tokio::net::TcpListener;
 use tokio_stream::wrappers::TcpListenerStream;

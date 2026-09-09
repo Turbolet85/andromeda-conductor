@@ -5,7 +5,7 @@
 
 # --- Code-graph cache (the ONE .andromeda/ exception — derived from code, rebuilt by code-graph.py) ---
 /.andromeda/cache/
-scripts/__pycache__/
+__pycache__/
 
 # --- Rust (andromeda-setup-project) ---
 /target/

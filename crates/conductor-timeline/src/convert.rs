@@ -37,7 +37,7 @@ mod tests {
 
     use conductor_core::{EmissionSpec, PId, PhaseSpec, Scenario, SloTier};
 
-    use crate::{run_timeline, PhaseTimeline};
+    use crate::{PhaseTimeline, run_timeline};
 
     fn scenario(seed: u64) -> Scenario {
         Scenario {

@@ -52,7 +52,11 @@ pub struct Frame {
 impl Frame {
     /// Construct a frame from its parts.
     pub fn new(function: impl Into<String>, file: impl Into<String>, line: u32) -> Self {
-        Self { function: function.into(), file: file.into(), line }
+        Self {
+            function: function.into(),
+            file: file.into(),
+            line,
+        }
     }
 }
 
@@ -74,7 +78,11 @@ impl ExceptionSpec {
         message: impl Into<String>,
         frames: Vec<Frame>,
     ) -> Self {
-        Self { exception_type: exception_type.into(), message: message.into(), frames }
+        Self {
+            exception_type: exception_type.into(),
+            message: message.into(),
+            frames,
+        }
     }
 }
 
@@ -111,7 +119,12 @@ impl FingerprintVariant {
             // `stacktrace_carries_no_absolute_host_path` still holds.
             FingerprintVariant::PathVariant => {
                 for (i, frame) in spec.frames.iter_mut().enumerate() {
-                    let head = frame.file.split('/').next().unwrap_or(&frame.file).to_owned();
+                    let head = frame
+                        .file
+                        .split('/')
+                        .next()
+                        .unwrap_or(&frame.file)
+                        .to_owned();
                     frame.file = format!("{head}/variant_{i}/module.rs");
                 }
             }
@@ -182,7 +195,10 @@ pub fn exception_trace_request(
     ExportTraceServiceRequest {
         resource_spans: vec![ResourceSpans {
             resource: Some(service_resource(service_name)),
-            scope_spans: vec![ScopeSpans { spans: vec![root], ..Default::default() }],
+            scope_spans: vec![ScopeSpans {
+                spans: vec![root],
+                ..Default::default()
+            }],
             ..Default::default()
         }],
     }
@@ -204,7 +220,10 @@ fn exception_event(spec: &ExceptionSpec) -> Event {
 fn render_stacktrace(spec: &ExceptionSpec) -> String {
     let mut out = String::new();
     for frame in spec.frames.iter().take(MAX_FRAMES) {
-        out.push_str(&format!("at {} ({}:{})\n", frame.function, frame.file, frame.line));
+        out.push_str(&format!(
+            "at {} ({}:{})\n",
+            frame.function, frame.file, frame.line
+        ));
     }
     out
 }
@@ -380,7 +399,10 @@ mod tests {
     fn same_fingerprint_variants_match_the_base() {
         let b = base();
         let fp = fingerprint(&b);
-        for variant in [FingerprintVariant::Identical, FingerprintVariant::LineVariant] {
+        for variant in [
+            FingerprintVariant::Identical,
+            FingerprintVariant::LineVariant,
+        ] {
             assert_eq!(
                 fingerprint(&variant.derive(&b)),
                 fp,
@@ -396,9 +418,10 @@ mod tests {
     fn both_path_variants_are_fingerprint_significant() {
         let b = base();
         let fp = fingerprint(&b);
-        for variant in
-            [FingerprintVariant::PathVariant, FingerprintVariant::RelativePathVariant]
-        {
+        for variant in [
+            FingerprintVariant::PathVariant,
+            FingerprintVariant::RelativePathVariant,
+        ] {
             assert_ne!(
                 fingerprint(&variant.derive(&b)),
                 fp,
@@ -412,17 +435,30 @@ mod tests {
     #[test]
     fn path_variants_emit_a_changed_relative_path() {
         let b = base();
-        for variant in
-            [FingerprintVariant::PathVariant, FingerprintVariant::RelativePathVariant]
-        {
+        for variant in [
+            FingerprintVariant::PathVariant,
+            FingerprintVariant::RelativePathVariant,
+        ] {
             let derived = variant.derive(&b);
             for (before, after) in b.frames.iter().zip(&derived.frames) {
-                assert_ne!(before.file, after.file, "the emitted path must actually change");
-                assert!(!after.file.starts_with('/'), "must stay relative: {}", after.file);
+                assert_ne!(
+                    before.file, after.file,
+                    "the emitted path must actually change"
+                );
+                assert!(
+                    !after.file.starts_with('/'),
+                    "must stay relative: {}",
+                    after.file
+                );
             }
-            let st =
-                string_attr(&exception_trace_request("svc", 7, &derived), "exception.stacktrace");
-            assert!(!st.contains("C:\\") && !st.contains("/Users/") && !st.contains("/home/"), "{st}");
+            let st = string_attr(
+                &exception_trace_request("svc", 7, &derived),
+                "exception.stacktrace",
+            );
+            assert!(
+                !st.contains("C:\\") && !st.contains("/Users/") && !st.contains("/home/"),
+                "{st}"
+            );
         }
     }
 
@@ -432,11 +468,27 @@ mod tests {
     #[test]
     fn relative_paths_are_significant_at_every_depth() {
         let at = |file: &str| {
-            fingerprint(&ExceptionSpec::new("E", "m", vec![Frame::new("f", file, 1)]))
+            fingerprint(&ExceptionSpec::new(
+                "E",
+                "m",
+                vec![Frame::new("f", file, 1)],
+            ))
         };
-        assert_ne!(at("src/a.rs"), at("src/b/c.rs"), "differing below the leading segment");
-        assert_ne!(at("src/a.rs"), at("other/a.rs"), "differing at the leading segment");
-        assert_ne!(at("src/a.rs"), at("/src/a.rs"), "a token-leading absolute is stripped away");
+        assert_ne!(
+            at("src/a.rs"),
+            at("src/b/c.rs"),
+            "differing below the leading segment"
+        );
+        assert_ne!(
+            at("src/a.rs"),
+            at("other/a.rs"),
+            "differing at the leading segment"
+        );
+        assert_ne!(
+            at("src/a.rs"),
+            at("/src/a.rs"),
+            "a token-leading absolute is stripped away"
+        );
     }
 
     /// A token-leading absolute path normalizes to nothing, so two DIFFERENT absolute paths collapse
@@ -461,7 +513,10 @@ mod tests {
     fn different_fingerprint_variants_diverge_from_the_base() {
         let b = base();
         let fp = fingerprint(&b);
-        for variant in [FingerprintVariant::TypeVariant, FingerprintVariant::FrameVariant] {
+        for variant in [
+            FingerprintVariant::TypeVariant,
+            FingerprintVariant::FrameVariant,
+        ] {
             assert_ne!(
                 fingerprint(&variant.derive(&b)),
                 fp,
@@ -476,12 +531,17 @@ mod tests {
     fn frames_past_the_normalized_bound_do_not_change_the_fingerprint() {
         let mut deep = base();
         while deep.frames.len() < NORMALIZED_FRAMES {
-            deep.frames.push(Frame::new("conductor::worker::pad", "src/worker.rs", 1));
+            deep.frames
+                .push(Frame::new("conductor::worker::pad", "src/worker.rs", 1));
         }
         let fp = fingerprint(&deep);
 
         let mut beyond = deep.clone();
-        beyond.frames.push(Frame::new("conductor::worker::invisible", "src/other.rs", 99));
+        beyond.frames.push(Frame::new(
+            "conductor::worker::invisible",
+            "src/other.rs",
+            99,
+        ));
         assert_eq!(fingerprint(&beyond), fp);
     }
 
@@ -489,7 +549,10 @@ mod tests {
     fn fingerprint_is_pulse_width_lowercase_hex() {
         let fp = fingerprint(&base());
         assert_eq!(fp.len(), FINGERPRINT_BYTES * 2);
-        assert!(fp.chars().all(|c| c.is_ascii_digit() || ('a'..='f').contains(&c)));
+        assert!(
+            fp.chars()
+                .all(|c| c.is_ascii_digit() || ('a'..='f').contains(&c))
+        );
     }
 
     #[test]
@@ -543,4 +606,3 @@ mod tests {
         assert!(st.contains("conductor::worker::handle"));
     }
 }
-

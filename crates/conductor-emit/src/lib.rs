@@ -20,13 +20,17 @@ mod rate;
 mod span_tree;
 mod topology;
 
-pub use client::{probe_egress, LogsEmitter, TraceEmitter, DEFAULT_CONNECT_TIMEOUT, DEFAULT_OTLP_ENDPOINT};
+pub use client::{
+    DEFAULT_CONNECT_TIMEOUT, DEFAULT_OTLP_ENDPOINT, LogsEmitter, TraceEmitter, probe_egress,
+};
 pub use error::EmitError;
-pub use exception::{exception_trace_request, fingerprint, ExceptionSpec, FingerprintVariant, Frame};
-pub use latency::{latency_trace_request, LatencyOp, LatencyProfile};
-pub use logs::{severity_logs_request, Severity};
-pub use message::{trace_request, DEFAULT_SERVICE_NAME};
-pub use pii::{pii_logs_request, pii_trace_request, PiiCategory, PiiCorpus};
-pub use rate::{rate_trace_request, RateCurve};
-pub use span_tree::{error_trace_request, ErrorPlacement};
-pub use topology::{service_topology_request, ServiceTopology};
+pub use exception::{
+    ExceptionSpec, FingerprintVariant, Frame, exception_trace_request, fingerprint,
+};
+pub use latency::{LatencyOp, LatencyProfile, latency_trace_request};
+pub use logs::{Severity, severity_logs_request};
+pub use message::{DEFAULT_SERVICE_NAME, trace_request};
+pub use pii::{PiiCategory, PiiCorpus, pii_logs_request, pii_trace_request};
+pub use rate::{RateCurve, rate_trace_request};
+pub use span_tree::{ErrorPlacement, error_trace_request};
+pub use topology::{ServiceTopology, service_topology_request};

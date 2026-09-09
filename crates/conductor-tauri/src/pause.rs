@@ -116,7 +116,7 @@ mod tests {
     use super::*;
     use conductor_core::PId;
     use tauri::ipc::{CallbackFn, InvokeBody};
-    use tauri::test::{get_ipc_response, mock_builder, mock_context, noop_assets, INVOKE_KEY};
+    use tauri::test::{INVOKE_KEY, get_ipc_response, mock_builder, mock_context, noop_assets};
     use tauri::webview::InvokeRequest;
     use tauri::{Manager, WebviewUrl, WebviewWindowBuilder};
 
@@ -144,12 +144,18 @@ mod tests {
     fn hold_prompt_projects_the_hold_point() {
         let prompt = HoldPrompt::from_hold(&hold());
         assert_eq!(prompt.title, "P-025 — observe-hue");
-        assert_eq!(prompt.body, "Observe the constellation hue for this scenario");
+        assert_eq!(
+            prompt.body,
+            "Observe the constellation hue for this scenario"
+        );
         assert!(prompt.allow_no_go);
         // The projection carries the declared items verbatim — it never re-authors the hold, so a
         // dialog row's text is the scenario's own declaration (design-system §Component Patterns 7).
         assert_eq!(prompt.checklist, hold().checklist);
-        assert_eq!(prompt.checklist[0].induced, "error-pressure stream driven through phase 2");
+        assert_eq!(
+            prompt.checklist[0].induced,
+            "error-pressure stream driven through phase 2"
+        );
         assert_eq!(
             prompt.checklist[0].observation,
             "hue shifted toward burgundy under error pressure?"
@@ -162,10 +168,18 @@ mod tests {
         // is the real contract the webview reads — a field the derive dropped would be invisible to
         // every Rust-side assertion above.
         let json = serde_json::to_value(HoldPrompt::from_hold(&hold())).expect("prompt serializes");
-        let items = json["checklist"].as_array().expect("checklist serializes as an array");
+        let items = json["checklist"]
+            .as_array()
+            .expect("checklist serializes as an array");
         assert_eq!(items.len(), 1);
-        assert_eq!(items[0]["induced"], "error-pressure stream driven through phase 2");
-        assert_eq!(items[0]["observation"], "hue shifted toward burgundy under error pressure?");
+        assert_eq!(
+            items[0]["induced"],
+            "error-pressure stream driven through phase 2"
+        );
+        assert_eq!(
+            items[0]["observation"],
+            "hue shifted toward burgundy under error pressure?"
+        );
     }
 
     #[tokio::test(flavor = "current_thread")]
@@ -174,7 +188,10 @@ mod tests {
         let gate = HoldGate::default();
         let (tx, rx) = oneshot::channel();
         gate.arm(tx);
-        assert!(gate.deliver(Decision::Go), "a pending, connected hold accepts the decision");
+        assert!(
+            gate.deliver(Decision::Go),
+            "a pending, connected hold accepts the decision"
+        );
         // BOUNDED: a `deliver` that reports success without sending would otherwise block here
         // forever and time the whole binary out, which reports as a timeout rather than a failure.
         let decision = tokio::time::timeout(AWAIT_BOUND, rx)
@@ -237,7 +254,11 @@ mod tests {
             .await
             .expect("the dispatched command never delivered a decision to the armed hold")
             .expect("the armed sender stayed connected");
-        assert_eq!(decision, Decision::Go, "the dispatched command delivered the operator's Go");
+        assert_eq!(
+            decision,
+            Decision::Go,
+            "the dispatched command delivered the operator's Go"
+        );
     }
 
     #[test]

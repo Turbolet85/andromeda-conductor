@@ -6,10 +6,12 @@
 use std::net::SocketAddr;
 use std::sync::{Arc, Mutex};
 
-use conductor_emit::{severity_logs_request, EmitError, LogsEmitter, Severity, DEFAULT_SERVICE_NAME};
+use conductor_emit::{
+    DEFAULT_SERVICE_NAME, EmitError, LogsEmitter, Severity, severity_logs_request,
+};
 use opentelemetry_proto::tonic::collector::logs::v1::{
-    logs_service_server::{LogsService, LogsServiceServer},
     ExportLogsServiceRequest, ExportLogsServiceResponse,
+    logs_service_server::{LogsService, LogsServiceServer},
 };
 use opentelemetry_proto::tonic::logs::v1::SeverityNumber;
 use tokio::net::TcpListener;

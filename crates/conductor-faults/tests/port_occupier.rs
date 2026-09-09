@@ -5,7 +5,7 @@
 use std::net::{IpAddr, Ipv4Addr, TcpListener};
 
 use conductor_core::{ObsSink, init_observability};
-use conductor_faults::{FaultError, PortOccupier, OTLP_INGEST_PORT};
+use conductor_faults::{FaultError, OTLP_INGEST_PORT, PortOccupier};
 use serde_json::{Map, Value};
 
 #[test]
@@ -13,7 +13,11 @@ fn occupies_a_loopback_port_and_reports_its_resolved_addr() {
     let occ = PortOccupier::occupy(0).expect("occupy an ephemeral loopback port");
     let addr = occ.local_addr();
     assert_eq!(addr.ip(), IpAddr::V4(Ipv4Addr::LOCALHOST));
-    assert_ne!(addr.port(), 0, "an OS-assigned port is reported, not the :0 request");
+    assert_ne!(
+        addr.port(),
+        0,
+        "an OS-assigned port is reported, not the :0 request"
+    );
 }
 
 #[test]
@@ -68,14 +72,21 @@ fn the_hold_is_bracketed_by_a_fault_span_on_the_emitted_lines() {
     let dir = std::env::temp_dir().join(format!("conductor-faults-obs-{}", std::process::id()));
     let _ = std::fs::remove_dir_all(&dir);
     let path = dir.join("agent-latest.jsonl");
-    init_observability("conductor", Some("RUN-OCCUPIER".to_string()), ObsSink::File(path.clone()));
+    init_observability(
+        "conductor",
+        Some("RUN-OCCUPIER".to_string()),
+        ObsSink::File(path.clone()),
+    );
 
     let mut occ = PortOccupier::occupy(0).expect("occupy an ephemeral loopback port");
     let port = occ.local_addr().port();
     occ.release();
 
     let body = std::fs::read_to_string(&path).expect("self-obs log written");
-    let lines: Vec<Value> = body.lines().filter_map(|l| serde_json::from_str(l).ok()).collect();
+    let lines: Vec<Value> = body
+        .lines()
+        .filter_map(|l| serde_json::from_str(l).ok())
+        .collect();
     let record = |event: &str| -> Map<String, Value> {
         lines
             .iter()

@@ -46,7 +46,9 @@ fn parse_storm_detected(lines: &[String]) -> Vec<StormDetected> {
     lines
         .iter()
         .filter_map(|line| serde_json::from_str::<serde_json::Value>(line).ok())
-        .filter(|v| v.get("target").and_then(|t| t.as_str()) == Some("triage.pattern.storm.detected"))
+        .filter(|v| {
+            v.get("target").and_then(|t| t.as_str()) == Some("triage.pattern.storm.detected")
+        })
         .filter_map(|v| {
             let f = v.get("fields")?;
             Some(StormDetected {
@@ -61,13 +63,19 @@ fn parse_storm_detected(lines: &[String]) -> Vec<StormDetected> {
 
 /// P-017 through the storm: every occurrence the detector counted carried ONE fingerprint.
 fn single_fingerprint(observed: &[StormDetected]) -> Result<String, String> {
-    let mut fps: Vec<&str> = observed.iter().map(|o| o.fingerprint_hex.as_str()).collect();
+    let mut fps: Vec<&str> = observed
+        .iter()
+        .map(|o| o.fingerprint_hex.as_str())
+        .collect();
     fps.sort_unstable();
     fps.dedup();
     match fps.as_slice() {
         [] => Err("no storm-detected line in the harvest window".to_owned()),
         [one] => Ok((*one).to_owned()),
-        many => Err(format!("the storm carried {} distinct fingerprints: {many:?}", many.len())),
+        many => Err(format!(
+            "the storm carried {} distinct fingerprints: {many:?}",
+            many.len()
+        )),
     }
 }
 
@@ -77,7 +85,10 @@ fn retry_storm_surfaced(observed: &[StormDetected]) -> Result<(), String> {
         return Err("no storm-detected line in the harvest window".to_owned());
     }
     match observed.iter().find(|o| o.cue_kind != RETRY_STORM_CUE) {
-        Some(o) => Err(format!("a storm line named cue_kind {:?}, not the retry storm", o.cue_kind)),
+        Some(o) => Err(format!(
+            "a storm line named cue_kind {:?}, not the retry storm",
+            o.cue_kind
+        )),
         None => Ok(()),
     }
 }
@@ -164,7 +175,10 @@ mod tests {
 
     #[test]
     fn a_single_fingerprint_storm_satisfies_p017() {
-        assert_eq!(single_fingerprint(&parse_storm_detected(&storm_harvest())), Ok("6074a716".to_owned()));
+        assert_eq!(
+            single_fingerprint(&parse_storm_detected(&storm_harvest())),
+            Ok("6074a716".to_owned())
+        );
     }
 
     /// The defect the scenario re-shape exists to prevent: a mixed-variant storm splitting across two
@@ -181,7 +195,10 @@ mod tests {
 
     #[test]
     fn the_tier_ladder_reaches_autonomous_past_the_threshold() {
-        assert_eq!(tier_ladder_reached_autonomous(&parse_storm_detected(&storm_harvest())), Ok(()));
+        assert_eq!(
+            tier_ladder_reached_autonomous(&parse_storm_detected(&storm_harvest())),
+            Ok(())
+        );
     }
 
     #[test]
@@ -199,14 +216,21 @@ mod tests {
         let observed = parse_storm_detected(&quiet);
         assert!(observed.is_empty());
         assert_eq!(no_storm_surfaced(&observed), Ok(()));
-        assert!(single_fingerprint(&observed).unwrap_err().contains("no storm-detected line"));
+        assert!(
+            single_fingerprint(&observed)
+                .unwrap_err()
+                .contains("no storm-detected line")
+        );
     }
 
     /// The harvest analogue of the retired `Contains "RetryStorm"`: Pulse names the cue on its own
     /// line, which is gradeable where the degraded read-back report is not.
     #[test]
     fn the_storm_surfaces_a_retry_storm_cue() {
-        assert_eq!(retry_storm_surfaced(&parse_storm_detected(&storm_harvest())), Ok(()));
+        assert_eq!(
+            retry_storm_surfaced(&parse_storm_detected(&storm_harvest())),
+            Ok(())
+        );
     }
 
     #[test]
@@ -239,10 +263,17 @@ mod tests {
     fn the_window_slice_drops_pre_leg_lines() {
         let dir = assert_fs::TempDir::new().unwrap();
         let path = dir.path().join("agent-latest.jsonl.2026-08-16");
-        let body = format!("{}\n{}\n", other_line(), detected_line("6074a716", 10, "autonomous"));
+        let body = format!(
+            "{}\n{}\n",
+            other_line(),
+            detected_line("6074a716", 10, "autonomous")
+        );
         std::fs::write(&path, body).unwrap();
 
-        assert_eq!(parse_storm_detected(&harvest_since(&path, 0).unwrap()).len(), 1);
+        assert_eq!(
+            parse_storm_detected(&harvest_since(&path, 0).unwrap()).len(),
+            1
+        );
         assert!(parse_storm_detected(&harvest_since(&path, 2).unwrap()).is_empty());
     }
 }

@@ -6,10 +6,10 @@
 use std::net::SocketAddr;
 use std::sync::{Arc, Mutex};
 
-use conductor_emit::{latency_trace_request, EmitError, LatencyOp, LatencyProfile, TraceEmitter};
+use conductor_emit::{EmitError, LatencyOp, LatencyProfile, TraceEmitter, latency_trace_request};
 use opentelemetry_proto::tonic::collector::trace::v1::{
-    trace_service_server::{TraceService, TraceServiceServer},
     ExportTraceServiceRequest, ExportTraceServiceResponse,
+    trace_service_server::{TraceService, TraceServiceServer},
 };
 use opentelemetry_proto::tonic::trace::v1::Span;
 use tokio::net::TcpListener;

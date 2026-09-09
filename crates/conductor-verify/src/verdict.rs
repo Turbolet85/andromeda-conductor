@@ -56,7 +56,11 @@ pub fn classify(
 
     match class {
         ClaimClass::Hard => Assessment {
-            verdict: if matched { Verdict::Pass } else { Verdict::Fail },
+            verdict: if matched {
+                Verdict::Pass
+            } else {
+                Verdict::Fail
+            },
             observed,
             expected,
             delta: None,

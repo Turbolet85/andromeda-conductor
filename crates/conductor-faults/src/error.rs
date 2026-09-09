@@ -48,7 +48,10 @@ mod tests {
             addr,
             source: io::Error::new(io::ErrorKind::AddrInUse, "address already in use"),
         };
-        assert_eq!(err.to_string(), "could not bind port-occupier to 127.0.0.1:4317");
+        assert_eq!(
+            err.to_string(),
+            "could not bind port-occupier to 127.0.0.1:4317"
+        );
         // the underlying io::Error is preserved as the chained source (the verdict/error wall).
         assert!(std::error::Error::source(&err).is_some());
     }
@@ -71,7 +74,10 @@ mod tests {
             gap: Duration::from_secs(7_200),
             max: Duration::from_secs(3_600),
         };
-        assert_eq!(err.to_string(), "emission gap 7200s exceeds the 3600s ceiling");
+        assert_eq!(
+            err.to_string(),
+            "emission gap 7200s exceeds the 3600s ceiling"
+        );
     }
 
     #[test]

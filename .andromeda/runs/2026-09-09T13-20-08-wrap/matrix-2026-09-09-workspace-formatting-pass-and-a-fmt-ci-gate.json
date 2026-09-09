@@ -1,0 +1,152 @@
+[
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "b55f2c69",
+"ts": "2026-09-09T14:24:36Z",
+"argv": [
+"coverage",
+"--dir",
+"conductor-0.2.0",
+"--run-dir",
+".andromeda/runs/2026-09-09T13-20-08-wrap",
+"--marker",
+"2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"verified 28/32 · deferred 0 · planned 4 · implemented 0 · unclaimed 4",
+"unclaimed: v2-04 v2-21 v2-24 v2-27",
+"claimed-unfinished: none",
+"done-test: NO — 4 not verified|deferred · unclaimed 4",
+"chunks referenced: 27 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "b55f2c69",
+"ts": "2026-09-09T14:25:02Z",
+"argv": [
+"defer",
+"--dir",
+"conductor-0.2.0",
+"--id",
+"v2-24",
+"--text-file",
+".andromeda/runs/2026-09-09T13-20-08-wrap/defer-v2-24.md",
+"--run-dir",
+".andromeda/runs/2026-09-09T13-20-08-wrap",
+"--marker",
+"2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"defer v2-24 · status planned → deferred",
+"notes: +2372 chars (total 13941)",
+"dry-run: nothing written",
+"done-test: NO — 3 not verified|deferred · unclaimed 3"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v2-24",
+"chunk": null,
+"status": "planned",
+"method": "a11y",
+"ref": "null",
+"acceptance": "The routine a11y specs - axe under wcag2a/wcag2aa/wcag21aa, the colorjs.io token-pair contrast ratios, and the hold-free… (699 chars)",
+"notes_chars": 11567
+},
+"after": {
+"id": "v2-24",
+"chunk": null,
+"status": "deferred",
+"method": "a11y",
+"ref": "null",
+"acceptance": "The routine a11y specs - axe under wcag2a/wcag2aa/wcag21aa, the colorjs.io token-pair contrast ratios, and the hold-free… (699 chars)",
+"notes_chars": 13941
+}
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "b55f2c69",
+"ts": "2026-09-09T14:25:10Z",
+"argv": [
+"defer",
+"--dir",
+"conductor-0.2.0",
+"--id",
+"v2-24",
+"--text-file",
+".andromeda/runs/2026-09-09T13-20-08-wrap/defer-v2-24.md",
+"--run-dir",
+".andromeda/runs/2026-09-09T13-20-08-wrap",
+"--marker",
+"2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"defer v2-24 · status planned → deferred",
+"notes: +2372 chars (total 13941)",
+"wrote conductor-0.2.0\\verification-matrix.json · 1 entry changed",
+"done-test: NO — 3 not verified|deferred · unclaimed 3"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.2.0\\verification-matrix.json"
+],
+"before": {
+"id": "v2-24",
+"chunk": null,
+"status": "planned",
+"method": "a11y",
+"ref": "null",
+"acceptance": "The routine a11y specs - axe under wcag2a/wcag2aa/wcag21aa, the colorjs.io token-pair contrast ratios, and the hold-free… (699 chars)",
+"notes_chars": 11567
+},
+"after": {
+"id": "v2-24",
+"chunk": null,
+"status": "deferred",
+"method": "a11y",
+"ref": "null",
+"acceptance": "The routine a11y specs - axe under wcag2a/wcag2aa/wcag21aa, the colorjs.io token-pair contrast ratios, and the hold-free… (699 chars)",
+"notes_chars": 13941
+}
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "b55f2c69",
+"ts": "2026-09-09T14:25:10Z",
+"argv": [
+"flip",
+"--dir",
+"conductor-0.2.0",
+"--chunk",
+"2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate",
+"--run-dir",
+".andromeda/runs/2026-09-09T13-20-08-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed 0 — gate no-op (no entry carries chunk 2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate)",
+"pool: unclaimed 3 [v2-04 v2-21 v2-27]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

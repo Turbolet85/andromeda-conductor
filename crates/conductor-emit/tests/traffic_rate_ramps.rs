@@ -5,10 +5,10 @@
 use std::net::SocketAddr;
 use std::sync::{Arc, Mutex};
 
-use conductor_emit::{rate_trace_request, RateCurve, TraceEmitter};
+use conductor_emit::{RateCurve, TraceEmitter, rate_trace_request};
 use opentelemetry_proto::tonic::collector::trace::v1::{
-    trace_service_server::{TraceService, TraceServiceServer},
     ExportTraceServiceRequest, ExportTraceServiceResponse,
+    trace_service_server::{TraceService, TraceServiceServer},
 };
 use tokio::net::TcpListener;
 use tokio_stream::wrappers::TcpListenerStream;
@@ -76,7 +76,11 @@ async fn exports_ramp_and_breathing_totals_to_loopback_stub() {
     assert_eq!(received_span_count(&captured), ramp_total);
 
     let breathing = RateCurve::breathing(40, 20, 8, 48).unwrap();
-    let breathing_total: usize = breathing.window_counts(seed).iter().map(|&c| c as usize).sum();
+    let breathing_total: usize = breathing
+        .window_counts(seed)
+        .iter()
+        .map(|&c| c as usize)
+        .sum();
     emitter
         .export(rate_trace_request("conductor", seed, &breathing, "tick"))
         .await

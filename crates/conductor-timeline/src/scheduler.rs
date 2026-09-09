@@ -71,7 +71,10 @@ pub async fn run_timeline(
     timeline: &PhaseTimeline,
     seed: u64,
 ) -> Result<Vec<PhaseTransition>, TimelineError> {
-    run_timeline_with(timeline, seed, async |_| Ok::<(), std::convert::Infallible>(())).await
+    run_timeline_with(timeline, seed, async |_| {
+        Ok::<(), std::convert::Infallible>(())
+    })
+    .await
 }
 
 /// Sequence `timeline` deterministically under `seed`, calling `on_emit` for each declared emission.
@@ -133,16 +136,23 @@ where
 
     for (index, phase) in timeline.phases.iter().enumerate() {
         let effective = jittered_gap(phase.gap, bound_ms, &mut rng);
-        let held = on_phase(PhaseWindow { index, name: &phase.name, gap: effective });
+        let held = on_phase(PhaseWindow {
+            index,
+            name: &phase.name,
+            gap: effective,
+        });
         for (slice, occurrence) in paced_slices(effective, phase.emissions) {
             tokio::time::sleep(slice).await;
             if let Some(occurrence) = occurrence {
-                on_emit(EmissionPoint { phase_index: index, occurrence })
-                    .await
-                    .map_err(|e| TimelineError::Emission {
-                        phase_index: index,
-                        source: Box::new(e),
-                    })?;
+                on_emit(EmissionPoint {
+                    phase_index: index,
+                    occurrence,
+                })
+                .await
+                .map_err(|e| TimelineError::Emission {
+                    phase_index: index,
+                    source: Box::new(e),
+                })?;
             }
         }
         drop(held);

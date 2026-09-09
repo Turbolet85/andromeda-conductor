@@ -102,7 +102,11 @@ impl RateCurve {
                 if windows <= 1 {
                     from_rate as f64
                 } else {
-                    lerp(from_rate as f64, to_rate as f64, w as f64 / (windows - 1) as f64)
+                    lerp(
+                        from_rate as f64,
+                        to_rate as f64,
+                        w as f64 / (windows - 1) as f64,
+                    )
                 }
             }
             Self::Breathing {
@@ -110,7 +114,10 @@ impl RateCurve {
                 amplitude,
                 period_windows,
                 ..
-            } => center_rate as f64 + amplitude as f64 * (TAU * w as f64 / period_windows as f64).sin(),
+            } => {
+                center_rate as f64
+                    + amplitude as f64 * (TAU * w as f64 / period_windows as f64).sin()
+            }
         }
     }
 }
@@ -206,7 +213,11 @@ mod tests {
         let hi = *c.iter().max().unwrap();
         assert!(lo < center, "min = {lo}");
         assert!(hi > center, "max = {hi}");
-        assert!((mean(&c) - center as f64).abs() <= center as f64 * 0.10, "mean = {}", mean(&c));
+        assert!(
+            (mean(&c) - center as f64).abs() <= center as f64 * 0.10,
+            "mean = {}",
+            mean(&c)
+        );
     }
 
     #[test]
@@ -221,9 +232,9 @@ mod tests {
         let spans = &rs.scope_spans[0].spans;
         assert_eq!(spans.len(), expected as usize);
         assert!(spans.iter().all(|s| s.name == "tick"));
-        assert!(spans
-            .iter()
-            .all(|s| s.trace_id.len() == 16 && s.span_id.len() == 8 && s.parent_span_id.is_empty()));
+        assert!(spans.iter().all(|s| s.trace_id.len() == 16
+            && s.span_id.len() == 8
+            && s.parent_span_id.is_empty()));
     }
 
     #[test]

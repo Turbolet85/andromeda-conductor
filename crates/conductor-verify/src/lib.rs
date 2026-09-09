@@ -44,12 +44,13 @@ pub use client::{
     MARK_INCIDENT_RESOLVED, QUERY_INCIDENT_LIST, RETRIEVE_REPORT, RETRIEVE_TELEMETRY_SLICE,
     ReadbackClient,
 };
+pub use conductor_core::ClaimClass;
 pub use error::VerifyError;
 pub use extract::{Observation, Outcome as ReadBackOutcome, observe};
 pub use manifest::{ContractManifest, READBACK_TOOLS};
-pub use conductor_core::ClaimClass;
 pub use preflight::{
-    CanaryMarker, CanaryOutcome, CanaryPoll, ReadyState, ToolPresence, preflight_boot, run_preflight,
+    CanaryMarker, CanaryOutcome, CanaryPoll, ReadyState, ToolPresence, preflight_boot,
+    run_preflight,
 };
 pub use slo::{CheckOutcome, SloOutcome, compare, evaluate_check, evaluate_slo};
 pub use spawn::sidecar_resolves_on_path;

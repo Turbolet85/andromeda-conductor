@@ -62,7 +62,13 @@ pub fn error_trace_request(
         } else {
             format!("child-{index}")
         };
-        spans.push(span(&name, trace_id.to_vec(), span_id, parent_span_id, status));
+        spans.push(span(
+            &name,
+            trace_id.to_vec(),
+            span_id,
+            parent_span_id,
+            status,
+        ));
     }
 
     ExportTraceServiceRequest {
@@ -137,14 +143,20 @@ mod tests {
         assert!(spans[0].parent_span_id.is_empty());
         assert!(spans.iter().all(|s| &s.trace_id == trace_id));
         // each child links to its parent's span_id
-        assert!(spans.windows(2).all(|w| w[1].parent_span_id == w[0].span_id));
+        assert!(
+            spans
+                .windows(2)
+                .all(|w| w[1].parent_span_id == w[0].span_id)
+        );
         // exactly the leaf is ERROR; every ancestor is OK
         let leaf = &spans[depth];
         assert_eq!(leaf.status.as_ref().unwrap().code, StatusCode::Error as i32);
         assert_eq!(leaf.status.as_ref().unwrap().message, "deep");
-        assert!(spans[..depth]
-            .iter()
-            .all(|s| s.status.as_ref().unwrap().code == StatusCode::Ok as i32));
+        assert!(
+            spans[..depth]
+                .iter()
+                .all(|s| s.status.as_ref().unwrap().code == StatusCode::Ok as i32)
+        );
         // span_ids are pairwise distinct
         let mut ids: Vec<&Vec<u8>> = spans.iter().map(|s| &s.span_id).collect();
         ids.sort();

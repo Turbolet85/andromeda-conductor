@@ -47,11 +47,15 @@ async fn drive_with(
     contract: RunContractStatus,
 ) -> ReadyState {
     let (client_io, server_io) = tokio::io::duplex(4096);
-    let canary =
-        CanaryMarker::new(config.canary.clone(), config.canary_fingerprint.clone(), CANARY_EMITTED_AT);
+    let canary = CanaryMarker::new(
+        config.canary.clone(),
+        config.canary_fingerprint.clone(),
+        CANARY_EMITTED_AT,
+    );
     let server = tokio::spawn(serve_stub(server_io, config));
-    let client =
-        bounded(ReadbackClient::connect_transport(client_io)).await.expect("client connects");
+    let client = bounded(ReadbackClient::connect_transport(client_io))
+        .await
+        .expect("client connects");
     let ready = bounded(run_preflight(
         &client,
         &manifest,
@@ -76,9 +80,17 @@ async fn healthy_pulse_is_ready() {
     let ready = drive(StubConfig::default()).await;
     assert!(ready.ready, "blocked: {:?}", ready.blocked_precondition);
     assert_eq!(ready.report_state(), ReportState::Pass);
-    assert_eq!(ready.negotiated_protocol_version.as_deref(), Some("2024-11-05"));
+    assert_eq!(
+        ready.negotiated_protocol_version.as_deref(),
+        Some("2024-11-05")
+    );
     assert_eq!(ready.canary_round_trip, CanaryOutcome::Ok);
-    assert!(ready.required_tools.values().all(|p| *p == ToolPresence::Present));
+    assert!(
+        ready
+            .required_tools
+            .values()
+            .all(|p| *p == ToolPresence::Present)
+    );
     assert!(ready.blocked_precondition.is_none());
 }
 
@@ -94,7 +106,10 @@ async fn wrong_protocol_version_is_blocked() {
     assert!(!ready.ready);
     assert_eq!(ready.report_state(), ReportState::Blocked);
     let precondition = ready.blocked_precondition.expect("a precondition");
-    assert!(precondition.contains("protocol version mismatch"), "{precondition}");
+    assert!(
+        precondition.contains("protocol version mismatch"),
+        "{precondition}"
+    );
     assert!(precondition.contains("9999-12-31"), "{precondition}");
 }
 
@@ -112,10 +127,16 @@ async fn an_absent_required_tool_is_blocked() {
     let ready = drive(config).await;
     assert!(!ready.ready);
     assert_eq!(ready.report_state(), ReportState::Blocked);
-    assert_eq!(ready.required_tools[MARK_INCIDENT_RESOLVED], ToolPresence::Absent);
+    assert_eq!(
+        ready.required_tools[MARK_INCIDENT_RESOLVED],
+        ToolPresence::Absent
+    );
     let precondition = ready.blocked_precondition.expect("a precondition");
     assert!(precondition.contains("absent"), "{precondition}");
-    assert!(precondition.contains(MARK_INCIDENT_RESOLVED), "{precondition}");
+    assert!(
+        precondition.contains(MARK_INCIDENT_RESOLVED),
+        "{precondition}"
+    );
 }
 
 #[tokio::test(flavor = "current_thread")]
@@ -137,7 +158,10 @@ async fn ready_state_serializes_to_the_readiness_envelope() {
     }
     assert_eq!(obj["ready"], serde_json::json!(true));
     assert_eq!(obj["canary_round_trip"], serde_json::json!("ok"));
-    assert_eq!(obj["required_tools"][QUERY_INCIDENT_LIST], serde_json::json!("present"));
+    assert_eq!(
+        obj["required_tools"][QUERY_INCIDENT_LIST],
+        serde_json::json!("present")
+    );
     assert_eq!(obj["blocked_precondition"], serde_json::Value::Null);
 }
 
@@ -146,29 +170,50 @@ async fn an_empty_canary_names_the_workspace_key_precondition() {
     // A corpus that returns zero incidents is byte-identical on the wire to an app/sidecar
     // workspace-key divergence, which returns zero rows forever — so the precondition names the key
     // agreement AND the no-incident cause, replacing the opaque "incident not found in corpus".
-    let config = StubConfig { canary_in_corpus: false, ..StubConfig::default() };
+    let config = StubConfig {
+        canary_in_corpus: false,
+        ..StubConfig::default()
+    };
     let ready = drive(config).await;
     assert!(!ready.ready);
     assert_eq!(ready.report_state(), ReportState::Blocked);
     assert_eq!(ready.canary_round_trip, CanaryOutcome::Failed);
     let precondition = ready.blocked_precondition.expect("a precondition");
-    assert!(precondition.contains("same incident workspace key"), "{precondition}");
-    assert!(precondition.contains("ANDROMEDA_PULSE_DATA_DIR"), "{precondition}");
-    assert!(precondition.contains("raised no incident"), "{precondition}");
-    assert!(!precondition.contains("incident not found in corpus"), "{precondition}");
+    assert!(
+        precondition.contains("same incident workspace key"),
+        "{precondition}"
+    );
+    assert!(
+        precondition.contains("ANDROMEDA_PULSE_DATA_DIR"),
+        "{precondition}"
+    );
+    assert!(
+        precondition.contains("raised no incident"),
+        "{precondition}"
+    );
+    assert!(
+        !precondition.contains("incident not found in corpus"),
+        "{precondition}"
+    );
 }
 
 #[tokio::test(flavor = "current_thread")]
 async fn a_canary_call_error_is_blocked_distinctly_from_an_empty_corpus() {
     // The masked-error fix: a genuine query_incident_list error must surface its OWN precondition,
     // NOT the misleading "incident not found in corpus".
-    let config = StubConfig { query_errors: true, ..StubConfig::default() };
+    let config = StubConfig {
+        query_errors: true,
+        ..StubConfig::default()
+    };
     let ready = drive(config).await;
     assert!(!ready.ready);
     assert_eq!(ready.report_state(), ReportState::Blocked);
     assert_eq!(ready.canary_round_trip, CanaryOutcome::Failed);
     let precondition = ready.blocked_precondition.expect("a precondition");
-    assert!(precondition.contains("MCP read-back call failed"), "{precondition}");
+    assert!(
+        precondition.contains("MCP read-back call failed"),
+        "{precondition}"
+    );
     assert!(!precondition.contains("workspace key"), "{precondition}");
 }
 
@@ -176,7 +221,10 @@ async fn a_canary_call_error_is_blocked_distinctly_from_an_empty_corpus() {
 async fn a_corpus_of_only_older_incidents_is_blocked() {
     // Incidents ARE present, but every one predates the canary's emission — read-back would be grading
     // residue, so the gate blocks rather than passing on a stale/foreign incident.
-    let config = StubConfig { opened_at_unix_nano: Some(CANARY_EMITTED_AT - 1), ..Default::default() };
+    let config = StubConfig {
+        opened_at_unix_nano: Some(CANARY_EMITTED_AT - 1),
+        ..Default::default()
+    };
     let ready = drive_with(config, manifest(), satisfied()).await;
 
     assert!(!ready.ready);
@@ -193,12 +241,20 @@ async fn a_corpus_of_only_older_incidents_is_blocked() {
 async fn an_incident_missing_its_open_stamp_is_blocked() {
     // The readers degrade to empty on shape, so an absent stamp must read as NOT-fresh. Reading it as
     // satisfied would be the false-green this carrier exists to remove.
-    let config = StubConfig { opened_at_unix_nano: None, ..Default::default() };
+    let config = StubConfig {
+        opened_at_unix_nano: None,
+        ..Default::default()
+    };
     let ready = drive_with(config, manifest(), satisfied()).await;
 
     assert!(!ready.ready);
     assert_eq!(ready.canary_round_trip, CanaryOutcome::Failed);
-    assert!(ready.blocked_precondition.expect("a precondition").contains("predates"));
+    assert!(
+        ready
+            .blocked_precondition
+            .expect("a precondition")
+            .contains("predates")
+    );
 }
 
 #[tokio::test(flavor = "current_thread")]
@@ -206,23 +262,39 @@ async fn an_incident_opened_at_exactly_the_emission_stamp_is_blocked() {
     // The boundary itself. Freshness is STRICTLY after the storm's emission instant, so an incident
     // sharing the stamp is not attributable to this run — it is the same instant, not a later one.
     // The older/absent legs above pass under a `>=` comparison too; only this one separates them.
-    let config = StubConfig { opened_at_unix_nano: Some(CANARY_EMITTED_AT), ..Default::default() };
+    let config = StubConfig {
+        opened_at_unix_nano: Some(CANARY_EMITTED_AT),
+        ..Default::default()
+    };
     let ready = drive_with(config, manifest(), satisfied()).await;
 
-    assert!(!ready.ready, "an equal stamp is not AFTER the emission instant");
+    assert!(
+        !ready.ready,
+        "an equal stamp is not AFTER the emission instant"
+    );
     assert_eq!(ready.canary_round_trip, CanaryOutcome::Failed);
-    assert!(ready.blocked_precondition.expect("a precondition").contains("predates"));
+    assert!(
+        ready
+            .blocked_precondition
+            .expect("a precondition")
+            .contains("predates")
+    );
 }
 
 #[tokio::test(flavor = "current_thread")]
 async fn an_incident_one_nanosecond_after_the_emission_stamp_is_fresh() {
     // The other side of the same boundary: the smallest representable step past the stamp must pass,
     // so the comparison cannot be tightened without this leg failing.
-    let config =
-        StubConfig { opened_at_unix_nano: Some(CANARY_EMITTED_AT + 1), ..Default::default() };
+    let config = StubConfig {
+        opened_at_unix_nano: Some(CANARY_EMITTED_AT + 1),
+        ..Default::default()
+    };
     let ready = drive_with(config, manifest(), satisfied()).await;
 
-    assert!(ready.ready, "one nanosecond after the emission instant IS fresh");
+    assert!(
+        ready.ready,
+        "one nanosecond after the emission instant IS fresh"
+    );
     assert_eq!(ready.canary_round_trip, CanaryOutcome::Ok);
 }
 
@@ -236,13 +308,20 @@ async fn the_poll_loop_sleeps_between_attempts_but_not_after_the_last() {
     let interval = std::time::Duration::from_secs(1);
 
     // A corpus that never goes fresh, so the loop always spends its full attempt budget.
-    let config = StubConfig { canary_in_corpus: false, ..Default::default() };
+    let config = StubConfig {
+        canary_in_corpus: false,
+        ..Default::default()
+    };
     let (client_io, server_io) = tokio::io::duplex(4096);
-    let canary =
-        CanaryMarker::new(config.canary.clone(), config.canary_fingerprint.clone(), CANARY_EMITTED_AT);
+    let canary = CanaryMarker::new(
+        config.canary.clone(),
+        config.canary_fingerprint.clone(),
+        CANARY_EMITTED_AT,
+    );
     let server = tokio::spawn(serve_stub(server_io, config));
-    let client =
-        bounded(ReadbackClient::connect_transport(client_io)).await.expect("client connects");
+    let client = bounded(ReadbackClient::connect_transport(client_io))
+        .await
+        .expect("client connects");
 
     let started = tokio::time::Instant::now();
     let ready = bounded(run_preflight(
@@ -251,7 +330,10 @@ async fn the_poll_loop_sleeps_between_attempts_but_not_after_the_last() {
         &satisfied(),
         &canary,
         "/test/data-dir",
-        CanaryPoll { attempts: ATTEMPTS, interval },
+        CanaryPoll {
+            attempts: ATTEMPTS,
+            interval,
+        },
     ))
     .await
     .expect("preflight runs");
@@ -260,7 +342,10 @@ async fn the_poll_loop_sleeps_between_attempts_but_not_after_the_last() {
     drop(client);
     server.abort();
 
-    assert!(!ready.ready, "the corpus never goes fresh, so the gate must block");
+    assert!(
+        !ready.ready,
+        "the corpus never goes fresh, so the gate must block"
+    );
     assert_eq!(
         elapsed,
         interval * (ATTEMPTS - 1),
@@ -276,11 +361,22 @@ async fn an_unmet_run_contract_term_is_blocked_and_named_individually() {
     assert!(!ready.ready);
     assert_eq!(ready.report_state(), ReportState::Blocked);
     let precondition = ready.blocked_precondition.expect("a precondition");
-    assert!(precondition.contains("unmet run-contract terms"), "{precondition}");
-    assert!(precondition.contains("[l4-deterministic]"), "the term is named: {precondition}");
-    assert!(precondition.contains("ANDROMEDA_PULSE_L4_DETERMINISTIC"), "{precondition}");
-    assert!(precondition.contains("cannot inspect") || precondition.contains("environment"),
-        "the candidate causes ride with the condition: {precondition}");
+    assert!(
+        precondition.contains("unmet run-contract terms"),
+        "{precondition}"
+    );
+    assert!(
+        precondition.contains("[l4-deterministic]"),
+        "the term is named: {precondition}"
+    );
+    assert!(
+        precondition.contains("ANDROMEDA_PULSE_L4_DETERMINISTIC"),
+        "{precondition}"
+    );
+    assert!(
+        precondition.contains("cannot inspect") || precondition.contains("environment"),
+        "the candidate causes ride with the condition: {precondition}"
+    );
 }
 
 #[tokio::test(flavor = "current_thread")]
@@ -309,12 +405,22 @@ async fn a_blocked_precondition_carries_no_absolute_host_path() {
     // host-FILE paths, so a precondition it leaves byte-identical carries none (obs-plan §11
     // Anti-Patterns → Logs, PII Scrubbing).
     for config in [
-        StubConfig { canary_in_corpus: false, ..StubConfig::default() },
-        StubConfig { query_errors: true, ..StubConfig::default() },
+        StubConfig {
+            canary_in_corpus: false,
+            ..StubConfig::default()
+        },
+        StubConfig {
+            query_errors: true,
+            ..StubConfig::default()
+        },
     ] {
         let ready = drive(config).await;
         let precondition = ready.blocked_precondition.expect("a precondition");
-        assert_eq!(redact_value(&precondition).as_ref(), precondition.as_str(), "{precondition}");
+        assert_eq!(
+            redact_value(&precondition).as_ref(),
+            precondition.as_str(),
+            "{precondition}"
+        );
         assert!(!precondition.contains("/test/data-dir"), "{precondition}");
     }
 
@@ -322,6 +428,10 @@ async fn a_blocked_precondition_carries_no_absolute_host_path() {
     // must never carry a host path into the readiness envelope.
     let ready = drive_with(StubConfig::default(), manifest(), unmet_l4()).await;
     let precondition = ready.blocked_precondition.expect("a precondition");
-    assert_eq!(redact_value(&precondition).as_ref(), precondition.as_str(), "{precondition}");
+    assert_eq!(
+        redact_value(&precondition).as_ref(),
+        precondition.as_str(),
+        "{precondition}"
+    );
     assert!(!precondition.contains("/test/data-dir"), "{precondition}");
 }

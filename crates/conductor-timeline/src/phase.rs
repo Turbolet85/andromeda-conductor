@@ -27,12 +27,20 @@ pub struct Phase {
 impl Phase {
     /// Construct a phase from its label and base gap, declaring a single emission.
     pub fn new(name: impl Into<String>, gap: Duration) -> Self {
-        Self { name: name.into(), gap, emissions: 1 }
+        Self {
+            name: name.into(),
+            gap,
+            emissions: 1,
+        }
     }
 
     /// Construct a phase declaring `emissions` emissions across its gap.
     pub fn emitting(name: impl Into<String>, gap: Duration, emissions: u32) -> Self {
-        Self { name: name.into(), gap, emissions }
+        Self {
+            name: name.into(),
+            gap,
+            emissions,
+        }
     }
 }
 

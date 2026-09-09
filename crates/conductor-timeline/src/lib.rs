@@ -15,6 +15,6 @@ mod scheduler;
 
 pub use phase::{Phase, PhaseTimeline, PhaseTransition};
 pub use scheduler::{
-    run_timeline, run_timeline_observed, run_timeline_with, EmissionPoint, PhaseWindow,
-    TimelineError,
+    EmissionPoint, PhaseWindow, TimelineError, run_timeline, run_timeline_observed,
+    run_timeline_with,
 };
