@@ -1,0 +1,13 @@
+[
+{
+"sql": "SELECT count(*) AS n_test_symbols FROM symbol WHERE file LIKE '%/tests/%';",
+"rows": 1,
+"result": [
+{
+"n_test_symbols": 653
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

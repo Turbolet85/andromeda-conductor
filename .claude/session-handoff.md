@@ -1,116 +1,109 @@
 # Session Handoff
 
-**Last Updated:** 2026-09-09T14:22:25Z
+**Last Updated:** 2026-09-10T07:37:05Z
 **Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **0 ahead at wrap start** — the
-operator's push of the prior chunk had landed and its CI run completed. This wrap's chunk commit makes it
-**1 ahead and unpushed**, and the push is **load-bearing again for the same structural reason**: the fmt
-gate this chunk ships has never run in CI, and its first run necessarily follows the push.)
+operator's push of the prior chunk had landed and CI run `34365300658` completed. This wrap's chunk commit
+makes it **1 ahead and unpushed**, and the push is **NOT load-bearing this time**: the chunk ships no CI
+change (`ci.yml` byte-unchanged), so no gate's first CI run waits on it — the contrast with the prior two
+wraps is deliberate.)
 **Status:** clean
-**Last Commit:** `feat(2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate)` (this wrap)
+**Last Commit:** `feat(2026-09-09-port-occupier-test-hygiene)` (this wrap)
 
 ## Position
-- Done: **`2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate`** — flipped `complete` at this wrap.
-- Next: **`/andromeda-phase`** on the first markerless head — **_Port-occupier test hygiene_**
-  (`working-route.md:131`), minted at this wrap on the operator's directive and placed ahead of *Release
-  build and bundle* so the version cannot close over a listed gate that cannot pass. No `BLOCKED-ON`, so
-  phase will not halt. The sibling behind it is *Release build and bundle* (`:133`).
-- Coverage **28/32 verified · 1 deferred · 3 unclaimed** (`v2-04`, `v2-21`, `v2-27`). `v2-24` moved
-  `planned → deferred` at this wrap (below). This chunk claimed nothing, deliberately — the four pooled
-  ids are other work, not this chunk's subject.
-- **Evolve:** Epoch 6b at **13 chunks** (12 + this wrap's insertion). Surfaced again per the growth valve;
-  the operator ruled **no split** last wrap. Re-surfaces next wrap.
-
-## `v2-24` — DEFERRED here, its input finally read
-The runtime-major hypothesis is **FALSIFIED**. CI run `34280136892` installed Evergreen **152.0.4191.66**
-(Authenticode `Valid`, `O=Microsoft Corporation`, re-read seven minutes later by the diagnostics step) and
-probe (a) still reported `DevToolsActivePort first seen: never within 90s` with the app alive
-(`HasExited=False`) and three `msedgewebview2` children resident. Deferred via `matrix.py defer` with a
-note carrying BOTH halves:
-
-- **Measured:** the endpoint opens under neither runtime major. The routine arm's own failure has moved
-  UPSTREAM — tauri-driver never listens on `:4444` (ECONNREFUSED within ~1.5 s), the same shape as runs
-  `34162118841` / `34251573399` / `34256490781`, so it predates both the 152 upgrade and any driver skew;
-  probe (b)'s `msedgedriver` log shows its own bind taking 6.9 s, which reads as a startup race.
-- **Unmeasured candidates:** a hosted-image policy on remote debugging (an Edge/WebView2 policy registry
-  read is the one-line probe) · a session or service-account property · msedgedriver 151 against a 152
-  runtime as a cause of the DRIVER failing to start — an axis the prior chunk never tested. Self-hosted
-  runners on a public repo are not an option.
-- A **cross-version residual** carries what the next version's route intake should re-open.
+- Done: **`2026-09-09-port-occupier-test-hygiene`** — flipped `complete` at this wrap.
+- Next: **`/andromeda-phase`** on the sole markerless entry, now the head — **_Release build and bundle_**
+  (`working-route.md:133`). No `BLOCKED-ON`, so phase will not halt. It carries **three CARRYs**, one
+  DISCHARGED: the panic-hook race (coordinates repaired this wrap), the `--e2e` exit-code leak (discharged at
+  `2026-09-07-a11y-ci-gate`), and the SR announcement variance (open).
+- Coverage **28/32 verified · 1 deferred · 3 unclaimed** (`v2-04`, `v2-21`, `v2-27`) — **unchanged**. This
+  chunk claimed nothing, deliberately: no pooled id is its subject, and `matrix.py flip` reported
+  `claimed 0 — gate no-op`.
+- **Evolve:** Epoch 6b at **13 chunks**. Surfaced again per the growth valve; the operator ruled **no split**
+  last wrap. With one markerless entry left, the epoch closes on the next chunk either way.
 
 ## Work done
-One chunk, two halves. **60 `.rs` files** made `cargo fmt`-clean (rustfmt output only, never hand-edited)
-and **one CI step** added — `Formatting gate (cargo fmt)` running `cargo fmt --all --check` in job `rust`
-at index 2, before the cache restore, no `continue-on-error`, no `if:`. Plus one chunk-evidence verifier.
+One chunk, a pure relocation. `the_hold_is_bracketed_by_a_fault_span_on_the_emitted_lines` moved out of
+`crates/conductor-faults/tests/port_occupier.rs` (7 tests → 6) into its own binary
+`crates/conductor-faults/tests/port_occupier_span_witness.rs` (1 test, 60 lines) — the remedy `test-plan`
+§11:538 prescribes and three sibling crates already apply, making this its **fourth** in-tree application.
+**−48 lines, one new file, no `src/` delta, no manifest delta.**
 
-The safety property is measured, not argued: **per-file token-multiset identity across all 60 files**
-(`token-multiset differences: 0`), with the verifier's known-positive control firing in both directions.
-`--all` over the bare form because `Cargo.toml` declares no `default-members`.
+The assertion moved **byte-identically** (a `diff` gate against the parent commit, exit 0 / 0 bytes), which
+is what preserves its power to fail if `port` leaves `ALLOWLISTED_FIELDS` — proven the other way too by a
+one-shot control that removed `"port"`, observed the witness go red, and reverted.
 
-**Line counts carry BOTH bases deliberately:** +1581/−486 from parsing `cargo fmt --check`, +1582/−487 from
-`git diff --numstat`. Different hunk accounting; not collapsed to one number.
+The defect was **first-match record selection** over a shared process-global sink, not a diffuse race: six
+concurrent `new` records with six distinct ports, `.find()` returning a sibling's.
 
 ## Gates
-Green: advisory-db porcelain (0 lines) · `cargo audit` 0 · `cargo deny check advisories bans licenses
-sources` 0 · `cargo fmt --all --check` 0 (**red → green**, baseline was exit 1 / 282 sites) · token
-invariant 0 differences/60 files · `cargo clippy --workspace --all-targets -D warnings` 0 · `cargo nextest
-run --workspace --profile ci` **902/902 across 55 binaries** · `cargo llvm-cov` collect 0 · coverage floor
-**94.07%** vs 60 · `ci.yml` structural probe (`jobs 3 rust_fmt_steps 1 coe 3 a11y_steps 12 a11y_sig
-1a3138d5`) · `agent-run.sh status` 0 · **P3 e2e smoke** 12 passing / 2 skipped, driven session attached.
+All nine green, **0 fix iterations**: `cargo test -p conductor-faults` **exit 0** (baseline 101) · nextest
+`-p` 30/30 · the portability sweep **`measured 9 crates, red 0`** · byte-identity `diff` 0/0 bytes ·
+lockfile probe 0 · clippy 0 · `cargo fmt --all --check` 0 · `cargo nextest run --workspace --profile ci`
+**902/902 across 56 binaries** (was 902/55 — a relocation, not an addition) · `agent-run.sh status` 0.
+**Smoke:** `agent-run.sh run` 0 (nextest 902/902, `--doc` 3 passed, clippy 0).
 
-**RED and NOT this chunk's — noted deferral with a named owner:** the per-crate `cargo test -p` runner-
-portability gate. `conductor-faults` fails `the_hold_is_bracketed_by_a_fault_span_on_the_emitted_lines`.
-Basis is three measurements, not the word "pre-existing": parallel exit 101 (6/7) · `--test-threads=1`
-exit 0 (7/7) · the same failure at HEAD in a clean worktree with its own `CARGO_TARGET_DIR`. No green ever
-existed for this form — the plain `cargo test -p conductor-faults` is named by 0 prior plans/reports; the
-suite always ran under nextest (13 mentions, 7/7) and the only prior plain-form mentions are the `--doc`
-arm (5), recorded as 0 doctests. **Owner: the route entry minted at `:131`.**
+No gate deferred — the chunk has `.rs` delta, so every compiled-language gate was mandatory and all ran.
+
+**Widened at the P5 review (operator):** the sweep enumerated only the route entry's **eight** touched
+crates while the workspace has **nine** members, leaving `conductor-report` outside the gate entirely. It
+measured green (51+3), and the gate now **derives its crate list from `cargo metadata --no-deps`** and
+asserts the crate COUNT beside the failure count, so a failed derivation reads `measured 0 crates` instead
+of passing vacuously.
 
 ## Drift resolved
-**16 amendments across 5 masters · 1 escalation resolved · 0 open.** 10 detector proposals (arch 6,
-test-plan 4; five docs clean) plus **6 orchestrator raises** the per-doc detectors could not see.
+**None — 0 proposals across all 7 detectors, 0 amendments, 0 escalations, 0 open.** No master was edited and
+no sidecar written; no cascade pass is owed (the cascade walks CHANGED sources). The chunk touched no
+spec-governed surface: two crate-local test files, no `src/` delta.
 
-- **Class A ×11** — the gate-set enumeration gains the fmt gate: `arch:37/:59/:235/:238/:268`,
-  `security-plan:87`, `obs-plan:42`, `obs-plan:526` (the plan's Expected amendment, proposed by no
-  detector), `a11y-plan:115/:280/:471`. Playbook rules @28 + @88 → routine.
-- **Class B ×1** — `test-plan:469`'s "two jobs, both `windows-latest`" → the measured three-job set, named
-  by job rather than by line coordinate.
-- **Class C ×4** — the runtime-152 falsification: `arch:59`, `test-plan:469` (second claim on the same
-  line), `:56`, `:307`. **No playbook rule matched → escalated → operator-approved**, and a rule was minted
-  carrying three sharpenings (directness · explicit new epistemic status · discriminator shape) plus a note
-  that it was minted on a GENERATOR, not a frequency.
-- **`test-plan:307` was reshaped, not extended** (operator correction): a 152 × 151 combination both
-  PASSES on the dev host (152.0.4191.53 × 151.0.4129.101) and FAILS on the hosted image (152.0.4191.66 ×
-  151.0.4129.101) — same majors, opposite outcomes — so the **pair is not the discriminator**; the runtime
-  patch (53 vs 66) is named unmeasured-as-a-cause and the open variable is the hosted image itself.
-- **Cascade:** 1 leaf (`.claude/docs/stack.md:42`). CLAUDE.md's GENERATED tier and all five specialist
-  summaries verified clear by grep. `a11y-plan:471` — a THIRD verbatim citation of arch §Stack — was caught
-  only because the post-amendment sweep ran a known-positive control (3 hits where 2 had been edited).
-- **Recorded, not amended:** the fmt step does NOT move security-plan's "six governed spawn forms"; a plain
-  `run:` step with a fixed toolchain binary is the class of the existing `cargo build`/`cargo audit` steps.
-  No seventh crossing, so no boundary-widening ratification is owed.
-- **Routed out:** `a11y-plan:218`'s Linux+`xvfb` targeting is a11y's OWN claim, not a citation of arch
-  (`grep -nE 'xvfb|ubuntu-latest' architecture.md` → 0 hits, control firing elsewhere), so it does not ride
-  this pass — pre-existing drift for its own channel.
+Each detector swept independently and recorded its own basis — the three moved counts (binaries 55 → 56,
+file tests 7 → 6, doctests 0-inherited → 3-measured) have **no baked occurrence** in any master, and numeric
+near-misses were read and dismissed (`comfy-table 7` a crate version, `6 columns` a table shape,
+`P-003 port-occupier` coverage-matrix samples). The test-plan detector independently surfaced
+`test-plan.md:226`'s `(full, non-doc)` phrasing against the measured 3 doctests and reached the same
+**non-escalation** the report had recorded: the phrase reads as "the full suite, as opposed to the doc-only
+arm" and bakes no count.
+
+**One disproved claim, DISPOSED:** the `--doc` arm's "0 doctests" is the 2026-06-19 record; measured **3** at
+HEAD (`gap.rs:35`, `silence.rs:23`, `train.rs:42`), and `conductor-faults` is the only workspace crate
+carrying any. No master states it, so no amendment was owed — it rode the **master-record desc** at the flip
+(operator wrap directive 4) and corrected `testing.md:88`'s supporting figure in place.
 
 ## Notes
-- **Curation: T1 0 · T2 2 · T3 0** (filtered 3; 0 conflicts). Both survivors → `.claude/rules/testing.md`,
-  both rescued from an exact-0.6 score by a conditional +0.2.
-  - **An established command is not a green command** — baseline a gate against the exact targets it will
-    run on. The novelty test keys on program + subcommand, which is what a long-established command passes.
-  - **A criterion asserting an artifact is UNCHANGED needs a signature over its normalized form** — counts
-    cannot discriminate; a probe that cannot fail on the property's negation is not evidence.
-  - Rejected with homes elsewhere: the runner-portability mechanism (the minted route entry owns it), the
-    `--all`/`default-members` reason (now in `architecture.md`).
-- **My own P4 defect, owned in the report:** gate 7 was written into the plan without ever being run at
-  HEAD. "This command is established" and "this command is green on these crates" are different claims.
-  Second occurrence of the unsatisfiable-gate family in three chunks.
+- **Curation: T1 0 · T2 2 · T3 0 · 1 correction** (cap-exempt), 0 conflicts. Both survivors scored 0.8
+  (user correction + verified by measurement), so neither conditional signal was needed.
+  - `host-win32.md` — **a line-granular grep cannot DATE a clause inside a multi-KB single-line entry**: it
+    collapses every dated extension into ONE hit, so "one hit, dated X" neither refutes nor dates a clause
+    written later. Resolve by offset; cite as "the `{lead-date}` entry as extended `{clause-date}`".
+  - `testing.md` — **`cargo test -p` runs targets in SEQUENCE and aborts at the first failure**, so a red
+    tells you nothing about the targets behind it, and what a red *masked* is a claim about the BASELINE's
+    target set (differencing the two runs' lists overcounts by the targets the chunk itself added).
+  - **Correction** (`testing.md:88`): its supporting detail said the `--doc` arm "executed zero doctests" —
+    tagged `[corrected 2026-09-10]` with the measured 3; the half its argument rests on (the arm never
+    touches the crate's integration tests) is unaffected.
+- **Route repair** (operator wrap directive 3): the panic-hook CARRY's coordinates `obs.rs:491-496`/`:532-537`
+  → **`:535-540`**/**`:582-587`**, re-measured date inline. Mechanism unchanged. I first wrote that the old
+  ranges "now hold the rfc3339 timestamp test" — true of `:491-496`, but `:532-537` straddles
+  `build_subscriber` plus the first pair's head, so the note was tightened to "no longer bound these sites".
+- **Two report corrections, both operator-caught** (directives 1–2): the masked-target count was **one**
+  target, not two (the witness binary is created by this chunk and could not have been masked); and the
+  census citation is `verification-harness.md:58` — the 2026-09-02 census rule **as extended 2026-09-08** —
+  not a standalone 2026-09-08 entry. StartTime remains the basis.
+- **My own P4 defect, owned in the report:** the plan's `role='smoke'` entry was a bare `status`, the form
+  `verification-harness.md:42` forbids for a no-boot-path chunk. Remedied by execution — P3 drove the
+  prescribed `agent-run.sh run` — not by a note.
+- **Process census:** this chunk's runs started nothing. Six `msedgewebview2` are **not** its own: StartTime
+  `2026-08-13` at implement, re-measured `2026-09-10 08:02:05` at this wrap — the set turned over between the
+  two readings, and both attributions rest on StartTime rather than the census pattern.
 - **Last failed command:** none.
 
 ## Deferred learnings
-None over the cap. **One `recurrence-despite-learning`:** a sweep of `a11y-plan` for runtime/driver
-literals returned real hits (`:115`, `:217`, `:218`, `:333`, `:424`) and I characterised them as
-colour-token pairs without reading them, then wrote an ABSENCE claim into the fan-out record. The operator
-caught it. The disposition survived — those literals are dated DEV-HOST measurements, not provisional
-hosted-image claims, so the falsification retires none of them — but the basis was wrong and is now
-corrected in `a11y-plan-amendments.md`. It deduped against the already-correct 2026-09-06 read-the-hits
-entry, so no third corpus entry was minted. **Third instance of that family in this one session.**
+None over the cap. **Two `recurrence-despite-learning`, both logged rather than re-curated** — a third
+statement of a rule is not a remedy:
+- `verification-harness.md:42` states that a no-boot-path chunk's smoke is `run`, not `status`; the plan
+  listed `status` anyway. The sharper half is **availability**: that file's `paths:` include
+  `crates/**/tests/**`, which this chunk touches, so the rule auto-loaded and was present at plan-authoring
+  time — it simply was not reached. **No plan-authoring gate compares a listed smoke entry against the
+  harness rules**, so an available-and-unapplied rule costs nothing at P5 and surfaces only at implement.
+- CLAUDE.md's read-the-hits / narrow-basis entry did not prevent the two report claims above — the **fourth
+  and fifth** instances of that family this session. Two of the five produced NEW rules this wrap because
+  their mechanisms were previously uncurated; the other three recurred against entries already correct.

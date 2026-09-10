@@ -63,6 +63,18 @@ not hypothetical. (Rendered only on Windows-host projects; inert elsewhere.)
 
 ## Session Additions
 _This section is owned by `/wrap-session`. setup-project preserves content added here on re-run. See `section-markers.md` for the convention._
+- 2026-09-10: **A line-granular grep cannot DATE a clause inside a multi-KB single-line entry — it collapses
+  every dated extension the line carries into ONE hit.** This project's rule-file entries accumulate
+  `**Extended {date}**` clauses on the SAME physical line, so a sweep for a topic or a date returns one hit
+  bearing the line's LEAD date however many later clauses sit inside it. Both readings then go wrong in
+  opposite directions: "one hit, dated X" does not refute "a clause dated Y exists here", and citing the
+  lead date for a clause written later misattributes it. Measured: three separate sweeps (the topic, a
+  process-family name, and a cmdlet token) each returned exactly one line hit, while the clause the work
+  actually rested on sat thousands of characters into that line under a later date. Resolve by OFFSET —
+  locate the clause's position within the line, then read a bounded window around it — and cite such a
+  clause as `{file}:{line}` — the `{lead-date}` entry **as extended** `{clause-date}`, never as an entry of
+  its own date. This extends the *Long single-line files* rule above from Edit/read to SEARCH, and is kept
+  here because that section is setup-project's rendered template text.
 - 2026-09-08: The bash↔Windows-native boundary changes TWO things, and the second fails SILENTLY.
   (a) **Paths** — an MSYS path is invisible to a Windows-native tool at every depth, not only under
   `/tmp`: a native python `open('/c/Users/…')` raises FileNotFoundError where the same file opens fine

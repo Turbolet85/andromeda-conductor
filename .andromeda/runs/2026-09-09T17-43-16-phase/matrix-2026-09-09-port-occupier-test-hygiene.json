@@ -1,0 +1,57 @@
+[
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "b55f2c69",
+"ts": "2026-09-09T18:44:33Z",
+"argv": [
+"coverage",
+"--dir",
+"conductor-0.2.0",
+"--run-dir",
+".andromeda/runs/2026-09-09T17-43-16-phase",
+"--marker",
+"2026-09-09-port-occupier-test-hygiene"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"verified 28/32 · deferred 1 · planned 3 · implemented 0 · unclaimed 3",
+"unclaimed: v2-04 v2-21 v2-27",
+"claimed-unfinished: none",
+"done-test: NO — 3 not verified|deferred · unclaimed 3",
+"chunks referenced: 27 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "b55f2c69",
+"ts": "2026-09-09T18:44:34Z",
+"argv": [
+"audit",
+"--dir",
+"conductor-0.2.0",
+"--chunk",
+"2026-09-09-port-occupier-test-hygiene",
+"--plan",
+"conductor-0.2.0/chunks/2026-09-09-port-occupier-test-hygiene/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-09T17-43-16-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-09-port-occupier-test-hygiene: 0 · ## Acceptance Criteria: line 176, 34 lines",
+"pool: unclaimed 3 [v2-04 v2-21 v2-27]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

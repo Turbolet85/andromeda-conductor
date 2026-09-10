@@ -1,0 +1,61 @@
+[
+{
+"sql": "SELECT symbol, crate, kind, file, def_line FROM symbol WHERE name IN ('init_observability','ALLOWLISTED_FIELDS','build_subscriber','PortOccupier') AND kind <> 'meta' ORDER BY crate, file;",
+"rows": 5,
+"result": [
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 obs/init_observability().",
+"crate": "conductor-core",
+"kind": "fn",
+"file": "crates/conductor-core/src/obs.rs",
+"def_line": 72
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 obs/build_subscriber().",
+"crate": "conductor-core",
+"kind": "fn",
+"file": "crates/conductor-core/src/obs.rs",
+"def_line": 156
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 phase_spec/FaultKindSpec#PortOccupier#",
+"crate": "conductor-core",
+"kind": "type",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"def_line": 70
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 redact/ALLOWLISTED_FIELDS.",
+"crate": "conductor-core",
+"kind": "term",
+"file": "crates/conductor-core/src/redact.rs",
+"def_line": 20
+},
+{
+"symbol": "rust-analyzer cargo conductor-faults 0.1.0 port_occupier/PortOccupier#",
+"crate": "conductor-faults",
+"kind": "type",
+"file": "crates/conductor-faults/src/port_occupier.rs",
+"def_line": 20
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT from_crate, to_crate FROM crate_edges WHERE to_crate = 'conductor-faults' OR from_crate = 'conductor-faults' ORDER BY from_crate, to_crate;",
+"rows": 2,
+"result": [
+{
+"from_crate": "conductor-faults",
+"to_crate": "conductor-core"
+},
+{
+"from_crate": "conductor-run",
+"to_crate": "conductor-faults"
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]
