@@ -1,0 +1,139 @@
+[
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "b55f2c69",
+"ts": "2026-09-10T12:39:47Z",
+"argv": [
+"coverage",
+"--dir",
+"conductor-0.2.0",
+"--run-dir",
+".andromeda/runs/2026-09-10T10-39-57-phase",
+"--marker",
+"2026-09-10-live-pulse-in-lane-scenario-round"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"verified 28/32 · deferred 1 · planned 3 · implemented 0 · unclaimed 3",
+"unclaimed: v2-04 v2-21 v2-27",
+"claimed-unfinished: none",
+"done-test: NO — 3 not verified|deferred · unclaimed 3",
+"chunks referenced: 27 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "b55f2c69",
+"ts": "2026-09-10T12:40:15Z",
+"argv": [
+"claim",
+"--dir",
+"conductor-0.2.0",
+"--id",
+"v2-04",
+"--chunk",
+"2026-09-10-live-pulse-in-lane-scenario-round",
+"--acceptance-file",
+".andromeda/runs/2026-09-10T10-39-57-phase/acceptance-v2-04.md",
+"--note-file",
+".andromeda/runs/2026-09-10T10-39-57-phase/note-v2-04.md",
+"--run-dir",
+".andromeda/runs/2026-09-10T10-39-57-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claim v2-04 → chunk 2026-09-10-live-pulse-in-lane-scenario-round (was null; status planned kept)",
+"acceptance: Scenarios keyed to P-067, P-072 and P-079 each drive a live Pulse and … (164 chars)",
+"         → Scenarios keyed to P-067, P-072 and P-079 each drive a live Pulse and … (1166 chars)",
+"notes: +2151 chars (total 2151)",
+"wrote conductor-0.2.0\\verification-matrix.json · 1 entry changed",
+"pool: unclaimed 2 [v2-21 v2-27]"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.2.0\\verification-matrix.json"
+],
+"before": {
+"id": "v2-04",
+"chunk": null,
+"status": "planned",
+"method": "dynamic-external",
+"ref": "null",
+"acceptance": "Scenarios keyed to P-067, P-072 and P-079 each drive a live Pulse and yield a non-blocked verdict via MCP read-back, wit… (164 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v2-04",
+"chunk": "2026-09-10-live-pulse-in-lane-scenario-round",
+"status": "planned",
+"method": "dynamic-external",
+"ref": "null",
+"acceptance": "Scenarios keyed to P-067, P-072 and P-079 each drive a live Pulse and yield a non-blocked verdict via MCP read-back, wit… (1166 chars)",
+"notes_chars": 2151
+}
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "b55f2c69",
+"ts": "2026-09-10T12:40:21Z",
+"argv": [
+"audit",
+"--dir",
+"conductor-0.2.0",
+"--chunk",
+"2026-09-10-live-pulse-in-lane-scenario-round",
+"--plan",
+"conductor-0.2.0/chunks/2026-09-10-live-pulse-in-lane-scenario-round/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-10T10-39-57-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-10-live-pulse-in-lane-scenario-round: 1 · ## Acceptance Criteria: line 231, 37 lines",
+"v2-04: cited in ## Acceptance Criteria (line 233)",
+"pool: unclaimed 2 [v2-21 v2-27]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "b55f2c69",
+"ts": "2026-09-10T12:40:21Z",
+"argv": [
+"coverage",
+"--dir",
+"conductor-0.2.0",
+"--run-dir",
+".andromeda/runs/2026-09-10T10-39-57-phase",
+"--marker",
+"2026-09-10-live-pulse-in-lane-scenario-round"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"verified 28/32 · deferred 1 · planned 3 · implemented 0 · unclaimed 2",
+"unclaimed: v2-21 v2-27",
+"claimed-unfinished: 2026-09-10-live-pulse-in-lane-scenario-round: v2-04",
+"done-test: NO — 3 not verified|deferred · unclaimed 2",
+"chunks referenced: 28 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

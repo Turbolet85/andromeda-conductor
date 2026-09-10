@@ -1,0 +1,127 @@
+[
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "b55f2c69",
+"ts": "2026-09-10T16:22:34Z",
+"argv": [
+"flip",
+"--dir",
+"conductor-0.2.0",
+"--chunk",
+"2026-09-10-live-pulse-in-lane-scenario-round",
+"--run-dir",
+".andromeda/runs/2026-09-10T15-55-02-wrap",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-10-live-pulse-in-lane-scenario-round: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v2-04 → verified — Scenarios keyed to P-067, P-072 and P-079 each drive a live Pulse and yield a no… (1166 chars)",
+"dry-run: nothing written",
+"version: verified 29/32"
+],
+"stderr": null,
+"wrote": [],
+"before": [
+{
+"id": "v2-04",
+"chunk": "2026-09-10-live-pulse-in-lane-scenario-round",
+"status": "implemented",
+"method": "dynamic-external",
+"ref": "live legs 2026-09-10: live-only-service-truth (run 2026-09-10T15-03-01-195, P-067, state ManualCheck) · investigate-acti… (740 chars)",
+"acceptance": "Scenarios keyed to P-067, P-072 and P-079 each drive a live Pulse and yield a non-blocked verdict via MCP read-back, wit… (1166 chars)",
+"notes_chars": 2151
+}
+],
+"after": [
+{
+"id": "v2-04",
+"chunk": "2026-09-10-live-pulse-in-lane-scenario-round",
+"status": "verified",
+"method": "dynamic-external",
+"ref": "live legs 2026-09-10: live-only-service-truth (run 2026-09-10T15-03-01-195, P-067, state ManualCheck) · investigate-acti… (740 chars)",
+"acceptance": "Scenarios keyed to P-067, P-072 and P-079 each drive a live Pulse and yield a non-blocked verdict via MCP read-back, wit… (1166 chars)",
+"notes_chars": 2151
+}
+]
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "b55f2c69",
+"ts": "2026-09-10T16:22:34Z",
+"argv": [
+"flip",
+"--dir",
+"conductor-0.2.0",
+"--chunk",
+"2026-09-10-live-pulse-in-lane-scenario-round",
+"--run-dir",
+".andromeda/runs/2026-09-10T15-55-02-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-10-live-pulse-in-lane-scenario-round: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v2-04 → verified — Scenarios keyed to P-067, P-072 and P-079 each drive a live Pulse and yield a no… (1166 chars)",
+"wrote conductor-0.2.0\\verification-matrix.json · 1 entry changed",
+"version: verified 29/32"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.2.0\\verification-matrix.json"
+],
+"before": [
+{
+"id": "v2-04",
+"chunk": "2026-09-10-live-pulse-in-lane-scenario-round",
+"status": "implemented",
+"method": "dynamic-external",
+"ref": "live legs 2026-09-10: live-only-service-truth (run 2026-09-10T15-03-01-195, P-067, state ManualCheck) · investigate-acti… (740 chars)",
+"acceptance": "Scenarios keyed to P-067, P-072 and P-079 each drive a live Pulse and yield a non-blocked verdict via MCP read-back, wit… (1166 chars)",
+"notes_chars": 2151
+}
+],
+"after": [
+{
+"id": "v2-04",
+"chunk": "2026-09-10-live-pulse-in-lane-scenario-round",
+"status": "verified",
+"method": "dynamic-external",
+"ref": "live legs 2026-09-10: live-only-service-truth (run 2026-09-10T15-03-01-195, P-067, state ManualCheck) · investigate-acti… (740 chars)",
+"acceptance": "Scenarios keyed to P-067, P-072 and P-079 each drive a live Pulse and yield a non-blocked verdict via MCP read-back, wit… (1166 chars)",
+"notes_chars": 2151
+}
+]
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "b55f2c69",
+"ts": "2026-09-10T16:22:34Z",
+"argv": [
+"coverage",
+"--dir",
+"conductor-0.2.0",
+"--run-dir",
+".andromeda/runs/2026-09-10T15-55-02-wrap",
+"--marker",
+"2026-09-10-live-pulse-in-lane-scenario-round"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"verified 29/32 · deferred 1 · planned 2 · implemented 0 · unclaimed 2",
+"unclaimed: v2-21 v2-27",
+"claimed-unfinished: none",
+"done-test: NO — 2 not verified|deferred · unclaimed 2",
+"chunks referenced: 28 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]
