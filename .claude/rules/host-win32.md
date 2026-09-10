@@ -112,3 +112,17 @@ _This section is owned by `/wrap-session`. setup-project preserves content added
   And treat any `(?...)` construct under `-E` as a guaranteed silent pass: it needs no debugging, only
   rewriting. Kept HERE rather than folded into the clause above because that clause is setup-project's
   rendered TEMPLATE text.
+- 2026-09-10: **A `| head` on a search over SEVERAL paths silently answers about only the paths that sort
+  FIRST — so a per-path zero taken from a clipped combined search is unfounded, and the command's own text
+  is exactly what makes it look sourced.** The *Exit codes* clause above covers what a pipe does to `$?`;
+  this is what it does to COVERAGE, and it fails in the quieter direction — nothing is masked, the output
+  is honest, and only the sentence written afterwards is wrong. `grep -rn '<token>' dirA/ dirB/ | head -5`
+  walks argv in order, so all five slots can be consumed by `dirA/` while `dirB/` is never reached; a later
+  claim that "`grep -rn '<token>' dirB/` returns nothing" then cites a command that was never run, and it
+  reads as sourced because the quoted form is a plausible command whose output nobody has seen. Measured
+  this session: exactly that sentence reached a committed report and the operator caught it — the true
+  count for the second path was FOUR hits, all inside one inline `#[cfg(test)]` module. Two rules. **Never
+  state a per-path result from a search that covered several paths** — re-run it against that path alone,
+  bare, and read the count from the bare command. And when a clip is genuinely what you want, describe the
+  peek's OWN scope in the sentence ("the first five hits across both trees"), never the narrower path's
+  name. Same family as *Exit codes*: the shell answered a wider question than the claim reported.

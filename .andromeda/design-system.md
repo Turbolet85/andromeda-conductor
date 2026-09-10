@@ -114,7 +114,7 @@ Base unit: **4px** — all values are multiples of this (the Precision & Density
 
 **Chosen approach:** borders-only
 
-**Rationale:** The exploration's Mission-control console anchor and Linear reference both specify "flat inset-border elevation on a near-black ground" with zero drop shadows; the design direction's depth approach is explicitly borders-only. Drop shadows / layered elevation would read as the floating-card SaaS dashboard the project explicitly rejects ("a control surface, not a dashboard"), and glassmorphism is a named Rejected Default. On the cool slate ground, a single near-invisible inset-border line one notch above the ground (`#2A2E42`) defines every seam — phase line, count, coverage-matrix rows — so the surface reads as one cohesive instrument panel, not stacked cards. This also serves the ~3 MB Tauri artifact + performance discipline: no `backdrop-filter`, no GPU-heavy shadow compositing.
+**Rationale:** The exploration's Mission-control console anchor and Linear reference both specify "flat inset-border elevation on a near-black ground" with zero drop shadows; the design direction's depth approach is explicitly borders-only. Drop shadows / layered elevation would read as the floating-card SaaS dashboard the project explicitly rejects ("a control surface, not a dashboard"), and glassmorphism is a named Rejected Default. On the cool slate ground, a single near-invisible inset-border line one notch above the ground (`#2A2E42`) defines every seam — phase line, count, coverage-matrix rows — so the surface reads as one cohesive instrument panel, not stacked cards. This also serves the Tauri installer-artifact + performance discipline — the msi + nsis set the bundler produces, whose measured sizes are recorded against `verification-matrix.json#v2-27` rather than baked here: no `backdrop-filter`, no GPU-heavy shadow compositing.
 
 **Values:**
 - Border width: `1px` solid on all seams and panel edges.
@@ -364,7 +364,7 @@ Linear, top-to-bottom stdout — no cursor manipulation, no full-screen redraw (
 - NEVER ignore OS shortcuts (Cmd+Q, Ctrl+W, Alt+F4); NEVER make the window non-resizable without justification.
 - NEVER use `alert()`/`confirm()`/`prompt()` — use the styled `AlertDialog` operator-pause.
 - NEVER ship Tauri commands without a deny-by-default capabilities file; NEVER embed remote-origin iframes; NEVER use `shell-open` with scenario-derived strings (security plan).
-- NEVER add `backdrop-filter`/drop shadows (borders-only depth; GPU + ~3 MB artifact discipline).
+- NEVER add `backdrop-filter`/drop shadows (borders-only depth; GPU + installer-artifact size discipline).
 
 **cli:**
 - NEVER mix stdout (data) and stderr (messages) without intention; raw artifact data on stdout, human messages on stderr.

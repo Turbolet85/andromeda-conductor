@@ -42,7 +42,7 @@ _Mirrors `.andromeda/architecture.md` §Stack and Technologies. Convenience refe
 - **CI:** GitHub Actions — `cargo fmt --all --check` / `cargo build` / nextest / clippy + audit/deny + coverage. Dynamic live-Pulse proof is an operator/local gate, not CI.
 
 ## Infrastructure
-- Local-only: `cargo build --release` → `conductor-cli` run beside Pulse via `scripts/agent-run.sh`; optional Tauri 2 (2.11.3) ~3 MB GUI bundle. No Docker/K8s/serverless/cloud.
+- Local-only: `cargo build --release` → `conductor-cli` run beside Pulse via `scripts/agent-run.sh`; optional Tauri 2 GUI bundle, produced by the host `tauri-cli` bundler that no lockfile resolves (floor 2.11.4; the `tauri` CRATE 2.11.3 is a different artifact) as the msi + nsis installer set. No Docker/K8s/serverless/cloud.
 - Ports: egress OTLP/gRPC to `127.0.0.1:4317` (`:4318` unused); no inbound listener (the `:4317` port-occupier fault is the sole deliberate bind).
 
 ## Third-party services

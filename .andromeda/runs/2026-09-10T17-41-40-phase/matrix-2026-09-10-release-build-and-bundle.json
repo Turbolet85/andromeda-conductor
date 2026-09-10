@@ -1,0 +1,187 @@
+[
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "b55f2c69",
+"ts": "2026-09-10T19:02:44Z",
+"argv": [
+"coverage",
+"--dir",
+"conductor-0.2.0",
+"--run-dir",
+".andromeda/runs/2026-09-10T17-41-40-phase",
+"--marker",
+"2026-09-10-release-build-and-bundle"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"verified 29/32 · deferred 1 · planned 2 · implemented 0 · unclaimed 2",
+"unclaimed: v2-21 v2-27",
+"claimed-unfinished: none",
+"done-test: NO — 2 not verified|deferred · unclaimed 2",
+"chunks referenced: 28 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "b55f2c69",
+"ts": "2026-09-10T19:03:14Z",
+"argv": [
+"claim",
+"--dir",
+"conductor-0.2.0",
+"--id",
+"v2-27",
+"--chunk",
+"2026-09-10-release-build-and-bundle",
+"--acceptance-file",
+".andromeda/runs/2026-09-10T17-41-40-phase/acceptance-v2-27.md",
+"--run-dir",
+".andromeda/runs/2026-09-10T17-41-40-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claim v2-27 → chunk 2026-09-10-release-build-and-bundle (was null; status planned kept)",
+"acceptance: A release binary and a Tauri 2 bundle are produced with cargo-audit an… (191 chars)",
+"         → A release binary and a Tauri 2 bundle are produced with cargo-audit an… (2502 chars)",
+"wrote conductor-0.2.0\\verification-matrix.json · 1 entry changed",
+"pool: unclaimed 1 [v2-21]"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.2.0\\verification-matrix.json"
+],
+"before": {
+"id": "v2-27",
+"chunk": null,
+"status": "planned",
+"method": "manual",
+"ref": "null",
+"acceptance": "A release binary and a Tauri 2 bundle are produced with cargo-audit and cargo-deny green and Cargo.lock un-drifted, and … (191 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v2-27",
+"chunk": "2026-09-10-release-build-and-bundle",
+"status": "planned",
+"method": "manual",
+"ref": "null",
+"acceptance": "A release binary and a Tauri 2 bundle are produced with cargo-audit and cargo-deny green and Cargo.lock un-drifted, and … (2502 chars)",
+"notes_chars": 0
+}
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "b55f2c69",
+"ts": "2026-09-10T19:03:19Z",
+"argv": [
+"claim",
+"--dir",
+"conductor-0.2.0",
+"--id",
+"v2-21",
+"--chunk",
+"2026-09-10-release-build-and-bundle",
+"--acceptance-file",
+".andromeda/runs/2026-09-10T17-41-40-phase/acceptance-v2-21.md",
+"--run-dir",
+".andromeda/runs/2026-09-10T17-41-40-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claim v2-21 → chunk 2026-09-10-release-build-and-bundle (was null; status planned kept)",
+"acceptance: verification-matrix.json exists with exactly one entry per requirement… (205 chars)",
+"         → verification-matrix.json exists with exactly one entry per requirement… (1500 chars)",
+"wrote conductor-0.2.0\\verification-matrix.json · 1 entry changed",
+"pool: unclaimed 0"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.2.0\\verification-matrix.json"
+],
+"before": {
+"id": "v2-21",
+"chunk": null,
+"status": "planned",
+"method": "by-construction",
+"ref": "null",
+"acceptance": "verification-matrix.json exists with exactly one entry per requirements.md capability, ids unique; no P-NNN appears in a… (205 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v2-21",
+"chunk": "2026-09-10-release-build-and-bundle",
+"status": "planned",
+"method": "by-construction",
+"ref": "null",
+"acceptance": "verification-matrix.json exists with exactly one entry per requirements.md capability, ids unique; no P-NNN appears in a… (1500 chars)",
+"notes_chars": 0
+}
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "b55f2c69",
+"ts": "2026-09-10T19:03:31Z",
+"argv": [
+"audit",
+"--dir",
+"conductor-0.2.0",
+"--chunk",
+"2026-09-10-release-build-and-bundle",
+"--plan",
+"conductor-0.2.0/chunks/2026-09-10-release-build-and-bundle/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-10T17-41-40-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-10-release-build-and-bundle: 2 · ## Acceptance Criteria: line 302, 37 lines",
+"v2-21: cited in ## Acceptance Criteria (line 326)",
+"v2-27: cited in ## Acceptance Criteria (line 318)",
+"  shape v2-27: method manual · no interaction verb",
+"pool: unclaimed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "b55f2c69",
+"ts": "2026-09-10T19:03:31Z",
+"argv": [
+"coverage",
+"--dir",
+"conductor-0.2.0",
+"--run-dir",
+".andromeda/runs/2026-09-10T17-41-40-phase",
+"--marker",
+"2026-09-10-release-build-and-bundle"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"verified 29/32 · deferred 1 · planned 2 · implemented 0 · unclaimed 0",
+"claimed-unfinished: 2026-09-10-release-build-and-bundle: v2-21 v2-27",
+"done-test: NO — 2 not verified|deferred",
+"chunks referenced: 29 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

@@ -390,6 +390,20 @@ mod tests {
 
     use rstest::rstest;
 
+    /// Serializes the tests that swap the process-global panic hook against each other.
+    /// `take_hook`/`set_hook` is process-global, so an interleaving leaves one test's
+    /// deliberate panic handled by the DEFAULT hook and its buffer empty — a shared-state
+    /// defect, not a flake to retry (test-plan §11 Test Anti-Patterns → Integration; §10).
+    /// A shared guard rather than a runner knob: `--test-threads=1` and a profile setting
+    /// both hide the defect instead of removing it, and holds under either runner.
+    static PANIC_HOOK_GUARD: Mutex<()> = Mutex::new(());
+
+    /// Poison is expected when a guarded test fails its assertions mid-hold; recovering
+    /// keeps that failure reported once instead of cascading into its sibling.
+    fn panic_hook_guard() -> std::sync::MutexGuard<'static, ()> {
+        PANIC_HOOK_GUARD.lock().unwrap_or_else(|e| e.into_inner())
+    }
+
     #[derive(Clone, Default)]
     struct SharedBuf(Arc<Mutex<Vec<u8>>>);
 
@@ -526,6 +540,7 @@ mod tests {
 
     #[test]
     fn panic_hook_emits_one_error_line() {
+        let _hook = panic_hook_guard();
         let buf = SharedBuf::default();
         let subscriber = build_subscriber(
             fixed_identity("RUN-PANIC"),
@@ -573,6 +588,7 @@ mod tests {
 
     #[test]
     fn panic_hook_redacts_host_path_in_payload() {
+        let _hook = panic_hook_guard();
         let buf = SharedBuf::default();
         let subscriber = build_subscriber(
             fixed_identity("RUN-PANIC-PATH"),

@@ -1,0 +1,114 @@
+[
+{
+"sql": "SELECT symbol, crate, kind, file, def_line FROM symbol WHERE name IN ('log_panic','install_panic_hook','panic_hook_emits_one_error_line','panic_hook_redacts_host_path_in_payload','build_subscriber','fixed_identity') AND kind <> 'meta' ORDER BY file, def_line;",
+"rows": 6,
+"result": [
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 obs/build_subscriber().",
+"crate": "conductor-core",
+"kind": "fn",
+"file": "crates/conductor-core/src/obs.rs",
+"def_line": 156
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 obs/install_panic_hook().",
+"crate": "conductor-core",
+"kind": "fn",
+"file": "crates/conductor-core/src/obs.rs",
+"def_line": 170
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 obs/log_panic().",
+"crate": "conductor-core",
+"kind": "fn",
+"file": "crates/conductor-core/src/obs.rs",
+"def_line": 174
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 obs/tests/fixed_identity().",
+"crate": "conductor-core",
+"kind": "fn",
+"file": "crates/conductor-core/src/obs.rs",
+"def_line": 423
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 obs/tests/panic_hook_emits_one_error_line().",
+"crate": "conductor-core",
+"kind": "fn",
+"file": "crates/conductor-core/src/obs.rs",
+"def_line": 527
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.1.0 obs/tests/panic_hook_redacts_host_path_in_payload().",
+"crate": "conductor-core",
+"kind": "fn",
+"file": "crates/conductor-core/src/obs.rs",
+"def_line": 574
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT callee_name, caller_name, file, line FROM calls WHERE callee_name IN ('log_panic','build_subscriber','install_panic_hook') AND callee_kind = 'fn' ORDER BY callee_name, file, line;",
+"rows": 9,
+"result": [
+{
+"callee_name": "build_subscriber",
+"caller_name": "init_observability",
+"file": "crates/conductor-core/src/obs.rs",
+"line": 81
+},
+{
+"callee_name": "build_subscriber",
+"caller_name": "capture",
+"file": "crates/conductor-core/src/obs.rs",
+"line": 434
+},
+{
+"callee_name": "build_subscriber",
+"caller_name": "panic_hook_emits_one_error_line",
+"file": "crates/conductor-core/src/obs.rs",
+"line": 529
+},
+{
+"callee_name": "build_subscriber",
+"caller_name": "panic_hook_redacts_host_path_in_payload",
+"file": "crates/conductor-core/src/obs.rs",
+"line": 576
+},
+{
+"callee_name": "build_subscriber",
+"caller_name": "file_sink_writes_redacted_json_to_the_file",
+"file": "crates/conductor-core/src/obs.rs",
+"line": 608
+},
+{
+"callee_name": "install_panic_hook",
+"caller_name": "init_observability",
+"file": "crates/conductor-core/src/obs.rs",
+"line": 83
+},
+{
+"callee_name": "log_panic",
+"caller_name": "install_panic_hook",
+"file": "crates/conductor-core/src/obs.rs",
+"line": 171
+},
+{
+"callee_name": "log_panic",
+"caller_name": "panic_hook_emits_one_error_line",
+"file": "crates/conductor-core/src/obs.rs",
+"line": 535
+},
+{
+"callee_name": "log_panic",
+"caller_name": "panic_hook_redacts_host_path_in_payload",
+"file": "crates/conductor-core/src/obs.rs",
+"line": 582
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

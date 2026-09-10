@@ -5,7 +5,7 @@ _Complete command reference from `.andromeda/architecture.md` + `Cargo.toml` + t
 ## Build
 - `cargo build` — debug build of the workspace.
 - `cargo build --release` — local release binary (`conductor-cli`); the source-of-truth release gate. **Never without `cargo audit` green.**
-- `cargo tauri build` — optional Tauri 2 GUI bundle (~3 MB; convenience only).
+- `cargo tauri build` — optional Tauri 2 GUI bundle (convenience only). Needs the host `tauri-cli` (`cargo install tauri-cli --locked`, floor 2.11.4) — it is not a lockfile dependency. Emits the msi + nsis installer set under gitignored `target/release/bundle/`.
 
 ## Agent harness (source of truth — `scripts/agent-run.{sh,ps1}`)
 - `agent-run.sh boot` — MCP preflight readiness gate (`conductor preflight --json`): protocol `2024-11-05` + required-tool presence + the run-contract terms + the canary round-trip. `ready:false` ⇒ dependent scenarios `Blocked` under whichever of the gate's FIVE named preconditions applies (version mismatch · missing tool · no incident opened after the canary storm · app-sidecar workspace-key agreement · unmet run-contract terms) — never a generic string. The wrapper's wall-clock budget is DERIVED per invocation from `contracts/pulse-run-contract.toml` (`warmup_ms/1000 + min_canary_poll_seconds + margin`); a missing term is a hard exit 2, and a lowered `CONDUCTOR_PREFLIGHT_TIMEOUT` clamps UP to the contract floor, never down. **`boot` writes NO run artifacts** — no journal, no `runs.db` row, no `agent-latest.jsonl` refresh; a criterion needing those requires a SCENARIO leg.

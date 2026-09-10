@@ -1,63 +1,90 @@
 # Session Handoff
 
-**Last Updated:** 2026-09-10T16:08:38Z
-**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **2 ahead at wrap start**, so
-**3 ahead and unpushed** after this chunk's commit. The push stays **NOT load-bearing** — no commit in the
-chain touches `ci.yml`, and this chunk has zero source delta, so no gate's first CI run waits on any of them.)
+**Last Updated:** 2026-09-10T21:15:00Z
+**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **3 ahead at wrap start**, so
+**4 ahead and unpushed** after this chunk's commit. The push stays **NOT load-bearing** — no commit in the
+chain touches `ci.yml`, so no gate's first CI run waits on any of them.)
 **Status:** clean
-**Last Commit:** `feat(2026-09-10-live-pulse-in-lane-scenario-round)` (this wrap)
+**Last Commit:** `feat(2026-09-10-release-build-and-bundle)` (this wrap)
 
 ## Position
-- Done: **`2026-09-10-live-pulse-in-lane-scenario-round`** — P-067, P-072 and P-079 each driven against a
-  live operator-launched Pulse to a **non-blocked** verdict, with journal + `runs.db` evidence per scenario
-  and a durable copy committed under the chunk's `evidence/`.
-- Next: **`/andromeda-phase`** on the final markerless entry — **_Release build and bundle_**
-  (`working-route.md`). It carries 4 `CARRY`s, 0 `PREREQ`, 0 `BLOCKED-ON`, so phase will not halt.
-- Coverage **29/32 verified · 1 deferred · 2 unclaimed** (`v2-21`, `v2-27`). `v2-04` verified this wrap.
-  `done-test` flips when both remaining ids read `verified` or `deferred` — the release chunk owns `v2-27`,
-  and `v2-21` is claimable there by a by-construction argument.
-- **Version-close arithmetic unchanged:** the version closes on *Release build and bundle*; nothing moves
-  to 0.3.0.
+- Done: **`2026-09-10-release-build-and-bundle`** — the release binary and the Tauri 2 bundle produced, the
+  supply-chain gates green before the build, and a final SLO verification pass driven through the **shipped**
+  `target/release/conductor` against the operator-launched live Pulse.
+- Next: **the version is COMPLETE — and no next chunk was invented.** `conductor-0.2.0`'s working route reads
+  **60 frozen entries · 0 markerless** (counted by freeze state, never a bare grep), so there is no tail left
+  to promote. The operator's stated direction after this is **Pulse**, not a 0.3.0 route.
+- Coverage **31/32 verified · 1 deferred (`v2-24`) · 0 unclaimed** — **done-test MET**. `v2-21` and `v2-27`
+  both flipped this wrap.
+
+## Intake for whenever a next version opens
+`.andromeda/residuals.md` carries **4 `open` entries**; the **two targeted `next`** are the live intake:
+- **`2026-09-10-live-pulse-in-lane-scenario-round`** — now the FULL structurally-dead-assertion class, one
+  owned item extended this wrap on operator direction. Three dead assertions across two scenarios (a
+  `CountAtLeast` over an always-empty `span_refs`, an unattainable `<20s` tier, and a `Contains
+  "Previously seen"` measured dead on its first-ever live drive), each with its coordinates; retiring the
+  `Contains` is a **paired** edit because `conductor-core/src/scenario.rs:1188` pins the declaration. Plus
+  the corpus context: **17 of 36** scenarios declare a tier below their own summed phase duration, in three
+  distinct situations (9 ratified `<90s` · 2 beyond every tier · 6 a larger existing tier would hold).
+- **`2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate`** — `v2-24`'s routine a11y specs, deferred
+  because the runtime-major hypothesis was falsified, with three unmeasured candidates listed cheapest-first.
+
+The other two are pinned elsewhere: one to `0.3.0` (the real-model interpretation leg) and one to
+`pulse-0.4.0` (an EXTERNAL repo's capability gap, recorded so the next route intake re-checks rather than
+re-derives it).
 
 ## Work done
-Three live legs, each fired behind a **150 s quiet window** (Pulse's 120 s idle + a full 30 s resolver tick)
-because Pulse dedupes a new incident against ANY open incident and every `conductor run` fires its own
-preflight canary — back-to-back, legs 2 and 3 would each have landed the `Blocked` row `v2-04` forbids.
-Verdicts: `[MANUAL]` · `[MANUAL]` · `[HOLD]` (P-079's `CalibrationRegion` lamp). `run_check` rows measured
-**0 / 0 / 1**, exactly the declare-only vs checks-bearing contract. **Zero source delta** — the deliverable
-is driven evidence plus two recorded findings.
+Version bumped to 0.2.0 across `Cargo.toml` / `tauri.conf.json` / `Cargo.lock` (562 → 562 packages). CARRY A
+closed: the process-global panic-hook race in `conductor-core/src/obs.rs` now serialized by a shared
+`PANIC_HOOK_GUARD` with poison recovery — a shared guard rather than a runner knob, because
+`--test-threads=1` hides the defect instead of removing it. New gate
+`crates/conductor-report/tests/matrix_ledger_gate.rs` (4 tests) claims `v2-21` by construction: it resolves
+version dirs BY SCAN, asserts set equality in both directions, guards non-vacuity, and carries a
+known-positive control so each arm is shown able to FAIL. Bundle: tauri-cli **2.11.4** → **nsis 4.21 MB +
+msi 5.87 MB**. Stated in MB on purpose: the wrap's own light gate re-built and the nsis installer moved
+4 418 544 B → 4 414 280 B over unchanged source (msi byte-identical), so the byte count is not reproducible
+and `architecture.md:206` now names that variance instead of baking a figure.
 
 ## Drift resolved
-**1 amendment applied · 0 escalations · drift = 0.** All seven detectors returned `proposals: []`. The one
-amendment was **orchestrator-raised under Validate check 5**, not proposed by any detector: `obs-plan.md:349`
-glossed `read_back_observed_at − journal_emitted_at` as "(Conductor's MCP round-trip)", which this chunk
-measured false — the delta covers the whole emission window (legs of 18s/35s/30s recorded `latency_ms`
-18169/35120/30212 while the sidecar's own calls logged `duration_ms` 0–22). Playbook `:28` governed it as
-routine; the passage's conclusion is unchanged and strengthened. Sweep found the gloss at that site only
-(9 latency-formula hits read; `grep -rn "MCP round-trip" .claude/ CLAUDE.md` → 0), so **0 leaves** needed
-re-derivation. Caught only because the obs detector volunteered an observation OUTSIDE its four invariants —
-recorded as a structural blind spot: no obs-plan detector covers latency semantics.
+**10 proposals across 4 docs · 8 applied directly · 2 escalated and resolved with the operator · drift = 0.**
+The chunk's key measurement was a SPLIT nobody had made: the `tauri` **crate** 2.11.3 is correct and
+resolves, while `tauri-cli` / `tauri-bundler` are **absent from `Cargo.lock` entirely** — so the repo never
+resolved a bundler version and the `2.11.3` attributed to it merely mirrored the crate's. The report carried
+that split explicitly, and all seven detectors correctly declined to touch the CRATE sites (verified intact
+×4 afterwards). Amended: `architecture.md` `:27`/`:58`/`:206`/`:266` (one amendment, four sections; `:206`'s
+body now carries the measured pair with its date) · `security-plan.md` `:84` and the escalated `:181`
+CVE-floor split (crate half byte-intact) · `design-system.md` `:117`/`:367` (`~3 MB` de-literalized to
+set-naming) · `test-plan.md` §11 (the escalated widening of the process-global-singleton remedy from an
+exclusive to a SET, runner-knob ban byte-unchanged) and §4 (`tauri-cli` added, floor 2.11.4). Retired claims
+**0** across the seven masters and the derived tier; leaves re-derived at `stack.md:45`, `commands.md:8`,
+`testing.md:18,34`.
+
+**Playbook gap reported, not papered over:** no rule governs a measured-SCALAR literal — `:127` wants
+set-enumeration, `:106` wants prose already declaring the value derived, `:28` wants values preserved, and
+the value is what moved. Applied on the operator's directive; the rule was NOT minted unilaterally.
 
 ## Notes
-- **Plan corrected between runs (operator-directed, disclosed in the report).** The three live legs carried
-  `contains P-067|P-072|P-079` — atoms the CLI never prints (it prints the scenario name; `grep -c 'P-0'`
-  over every leg log returns 0). Corrected to the scenario names before the light gate. **Authoring cause,
-  now curated:** a `leg` entry is exempt from P5's baseline run by the `new`/`baseline` invariant, and that
-  baseline is what catches an unsatisfiable expectation on every other entry — so a live leg's `expect`
-  atoms have **no mechanical check at all** today.
-- **P-079 carries TWO structurally-dead assertions**, routed as ONE owned item to
-  `.andromeda/residuals.md` (`open`, target: next) per the operator's ruling: the always-false
-  `CountAtLeast >= 1` over an always-empty `span_refs`, and an **unattainable `slo_tier = "<20s"`**
-  (30 s of declared phases; measured 30 212 ms against a 20 000 ms deadline — a NEW finding this chunk).
-  Neither blocks the release; both route to `CalibrationRegion`. Two `CountAtLeast` siblings remain
-  (`findings-counter-refresh.toml:49`, `pulse-run-contract.toml:58`) — take the class together, not P-079
-  alone, which would contradict an accepted sibling.
-- **Supply chain moved with a byte-unchanged lockfile:** 1243 advisories · 562 packages · **7** allowed
-  (was 1239 · 562 · 17 on 2026-09-07), both gates exit 0. External advisory-DB movement; the
-  `security.md` clause was extended in place with today's reading.
-- **Live-leg posture for the next round** (unchanged, and re-verified from Pulse's own log): default
-  bootstrap window in force (`grep -c 'triage.baseline.bootstrap_window.override'` → 0), zero silence cues
-  emitted (the 1177 `service_went_silent` hits are all evaluator *cycle* lines).
-- Curation: Tier 2 ×1 new (`verification-harness.md`) + 1 extended in place (`security.md`). 2 candidates
-  deduped as `recurrence-despite-learning` against correct existing entries.
+- **Leg 3 was swapped between runs, on operator direction, and disclosed.** The planned
+  `cross-incident-recurrence` hard-failed a pre-existing dead `Contains "Previously seen"` on its first-ever
+  live drive; the acceptance was NOT weakened. `investigate-actions-functional` replaced it — selected on a
+  prior live green, and it re-measured within **9 ms across three runs**. Both readings are committed
+  evidence: the swapped leg's pass AND the original's FAIL.
+- **A false claim of mine was operator-caught and corrected in the report and the ledger.** I wrote that
+  `grep -rn 'Previously seen' crates/` returns nothing; it returns **FOUR** hits. Cause: I ran a COMBINED
+  search over `scenarios/ crates/` piped through `head -5`, whose five slots were entirely consumed by
+  `scenarios/`, then wrote a claim about `crates/` from that clipped view. Now curated.
+- **A fabricated ledger timestamp, self-disclosed.** A retraction record's `ts`/`id` were hand-written from
+  memory ~35 min stale. Corrected by appending a further record — history never edited.
+- Curation: **Tier 2 ×2 new** (`host-win32.md` — the clipped multi-path search; `verification-harness.md` —
+  live-leg selection must rank on prior live green, not tier attainability alone) **+ 1 corrected in place**
+  (`testing.md:54`: its prescribed companion sweep `grep -rln "<name>" crates/**/tests` is measurably
+  scope-blind to inline `#[cfg(test)]` modules under `src/` — it exits 1 where the pin plainly exists).
+- **Deferred learnings — `recurrence-despite-learning` ×2** (logged, deliberately NOT re-curated; a further
+  copy is not a remedy):
+  - The ledger-stamp rule already exists in the pipeline protocol (`evolve/evolve-system.md`: `ts` from
+    `date -u +%FT%TZ`, and the `id` half requiring that literal to be authored, never substituted). Swept the
+    instance tiers across 9 wordings — **no instance-side copy exists**, so the operator's "may exist
+    instance-side too" resolves to NO. The remedy belongs in the owning step's reference, not a second copy.
+  - A one-off patch script used `str.replace` with no post-check and printed its own success line while
+    matching nothing. CLAUDE.md's 2026-08-21 entry names exactly this, `str.replace` included.
 - **Last failed command:** none.
