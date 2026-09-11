@@ -502,6 +502,20 @@ jobs:
             Select-Object -First 1 | ForEach-Object { Copy-Item $_.FullName (Join-Path $out 'Crashpad') -Recurse -Force -ErrorAction SilentlyContinue }
           Write-Output "[diag] staged: $((Get-ChildItem $out -Recurse -File | Measure-Object).Count) file(s)"
 
+      # The three candidates that survive the falsified runtime-major hypothesis (run 34280136892 installed
+      # Evergreen 152.0.4191.66 and DevToolsActivePort still never appeared within 90s): the image's WebView2
+      # /Edge POLICY state, the module version the host processes ACTUALLY LOADED — which the install gate's
+      # EdgeUpdate `pv` read cannot speak to, since it proves what was installed and not what was mapped — and
+      # the runner's SESSION identity. The body lives in a repo script rather than inline so the SAME code
+      # produces the dev-host control the CI reading is compared against; an inline body can only ever run here,
+      # and a hand-approximated control is the weaker basis for deciding remediable-vs-permanent.
+      # Diagnose-only, like its two neighbours: it exits 0 whatever it finds and can never decide the gate.
+      - name: WebView2 cause probes (diagnostic)
+        if: always()
+        continue-on-error: true
+        shell: pwsh
+        run: .\scripts\webview2-cause-probe.ps1
+
       - name: Upload session diagnostics
         if: always()
         continue-on-error: true
