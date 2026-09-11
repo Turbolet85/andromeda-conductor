@@ -275,32 +275,49 @@ jobs:
           $before = Get-Wv2Version
           Write-Output "[diag] WebView2 Evergreen Runtime before install: $(if ($before) { $before } else { 'NOT INSTALLED' })"
 
-          $bootstrapper = Join-Path $env:RUNNER_TEMP 'MicrosoftEdgeWebview2Setup.exe'
-          Invoke-WebRequest -Uri 'https://go.microsoft.com/fwlink/p/?LinkId=2124703' -OutFile $bootstrapper
+          # The step's NAME is its contract: ensure a 152+ runtime, not "always take the newest".
+          # Installing unconditionally over an image that already satisfies the floor is what put a 153
+          # runtime under a 152 driver at run 34645345201 — that image shipped a coherent 152 triple
+          # (msedgedriver 152.0.4191.66, Edge browser 152.0.4191.66, runtime 152.0.4191.66 before this
+          # step), this step raised the runtime alone to 153.0.4234.32, and the live processes then
+          # loaded the 153 modules while the driver stayed 152. Driver/runtime major skew is a MEASURED
+          # CANDIDATE for `DevToolsActivePort file doesn't exist`, never varied in any run we have; this
+          # conditional is what varies it. The floor assertion below still runs on whatever is present,
+          # so the gate's contract is unchanged — only the install ACTION is conditional, and the
+          # third-party network fetch narrows to the case that actually needs it.
+          $beforeMajor = if ($before) { [int]($before.Split('.')[0]) } else { 0 }
+          if ($beforeMajor -ge 152) {
+            Write-Output "[diag] WebView2 Evergreen Runtime install: SKIPPED (present $before already satisfies the 152+ floor)"
+          } else {
+            $bootstrapper = Join-Path $env:RUNNER_TEMP 'MicrosoftEdgeWebview2Setup.exe'
+            Invoke-WebRequest -Uri 'https://go.microsoft.com/fwlink/p/?LinkId=2124703' -OutFile $bootstrapper
 
-          # Terminal gate, evaluated BEFORE the file is executed: a signature check that warns and proceeds
-          # is the silent-downgrade shape security-plan bans. Handle NAME + state only, never the path.
-          $sig = Get-AuthenticodeSignature -LiteralPath $bootstrapper
-          if ($sig.Status -ne 'Valid') {
-            Write-Output "[precondition] WEBVIEW2_BOOTSTRAPPER_SIGNATURE: NOT VALID ($($sig.Status))"
-            exit 1
-          }
-          if ($sig.SignerCertificate.Subject -notmatch 'O=Microsoft Corporation') {
-            Write-Output '[precondition] WEBVIEW2_BOOTSTRAPPER_SIGNATURE: VALID BUT UNEXPECTED SIGNER'
-            exit 1
-          }
-          Write-Output '[precondition] WEBVIEW2_BOOTSTRAPPER_SIGNATURE: valid, Microsoft Corporation'
+            # Terminal gate, evaluated BEFORE the file is executed: a signature check that warns and proceeds
+            # is the silent-downgrade shape security-plan bans. Handle NAME + state only, never the path.
+            $sig = Get-AuthenticodeSignature -LiteralPath $bootstrapper
+            if ($sig.Status -ne 'Valid') {
+              Write-Output "[precondition] WEBVIEW2_BOOTSTRAPPER_SIGNATURE: NOT VALID ($($sig.Status))"
+              exit 1
+            }
+            if ($sig.SignerCertificate.Subject -notmatch 'O=Microsoft Corporation') {
+              Write-Output '[precondition] WEBVIEW2_BOOTSTRAPPER_SIGNATURE: VALID BUT UNEXPECTED SIGNER'
+              exit 1
+            }
+            Write-Output '[precondition] WEBVIEW2_BOOTSTRAPPER_SIGNATURE: valid, Microsoft Corporation'
 
-          $p = Start-Process -FilePath $bootstrapper -ArgumentList '/silent', '/install' -Wait -PassThru
-          if ($p.ExitCode -ne 0) {
-            Write-Output "[precondition] WEBVIEW2_RUNTIME_INSTALL: FAILED (exit $($p.ExitCode))"
-            exit 1
+            $p = Start-Process -FilePath $bootstrapper -ArgumentList '/silent', '/install' -Wait -PassThru
+            if ($p.ExitCode -ne 0) {
+              Write-Output "[precondition] WEBVIEW2_RUNTIME_INSTALL: FAILED (exit $($p.ExitCode))"
+              exit 1
+            }
           }
 
           $after = Get-Wv2Version
-          Write-Output "[diag] WebView2 Evergreen Runtime after install: $(if ($after) { $after } else { 'NOT INSTALLED' })"
+          # "in effect", not "after install": the install is now conditional, and this reading is the
+          # runtime the job will actually load on either path.
+          Write-Output "[diag] WebView2 Evergreen Runtime in effect: $(if ($after) { $after } else { 'NOT INSTALLED' })"
           if (-not $after) {
-            Write-Output '[precondition] WEBVIEW2_RUNTIME_MAJOR: NO EdgeUpdate client key after install'
+            Write-Output '[precondition] WEBVIEW2_RUNTIME_MAJOR: NO EdgeUpdate client key'
             exit 1
           }
           $major = [int]($after.Split('.')[0])
