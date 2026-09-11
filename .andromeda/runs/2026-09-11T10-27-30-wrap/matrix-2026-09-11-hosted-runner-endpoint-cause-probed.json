@@ -1,0 +1,174 @@
+[
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "b55f2c69",
+"ts": "2026-09-11T12:53:34Z",
+"argv": [
+"note",
+"--dir",
+"conductor-0.3.0",
+"--id",
+"v3-01",
+"--text-file",
+".andromeda/runs/2026-09-11T10-27-30-wrap/note-v3-01.md",
+"--run-dir",
+".andromeda/runs/2026-09-11T10-27-30-wrap",
+"--marker",
+"2026-09-11-hosted-runner-endpoint-cause-probed"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"note v3-01: +2381 chars (total 2381) · status planned · ref/acceptance untouched",
+"wrote conductor-0.3.0\\verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0\\verification-matrix.json"
+],
+"before": {
+"id": "v3-01",
+"chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+"status": "planned",
+"method": "manual",
+"ref": "null",
+"acceptance": "`conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-probed/evidence/reading.md` records, for each of the thr… (1267 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v3-01",
+"chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+"status": "planned",
+"method": "manual",
+"ref": "null",
+"acceptance": "`conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-probed/evidence/reading.md` records, for each of the thr… (1267 chars)",
+"notes_chars": 2381
+}
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "b55f2c69",
+"ts": "2026-09-11T12:53:34Z",
+"argv": [
+"unclaim",
+"--dir",
+"conductor-0.3.0",
+"--id",
+"v3-01",
+"--run-dir",
+".andromeda/runs/2026-09-11T10-27-30-wrap",
+"--marker",
+"2026-09-11-hosted-runner-endpoint-cause-probed"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"unclaim v3-01: chunk 2026-09-11-hosted-runner-endpoint-cause-probed → null · status planned kept",
+"wrote conductor-0.3.0\\verification-matrix.json · 1 entry changed",
+"pool: unclaimed 11 [v3-01 v3-02 v3-03 v3-04 v3-05 v3-06 v3-07 v3-08 v3-09 v3-10 v3-11]"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0\\verification-matrix.json"
+],
+"before": {
+"id": "v3-01",
+"chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+"status": "planned",
+"method": "manual",
+"ref": "null",
+"acceptance": "`conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-probed/evidence/reading.md` records, for each of the thr… (1267 chars)",
+"notes_chars": 2381
+},
+"after": {
+"id": "v3-01",
+"chunk": null,
+"status": "planned",
+"method": "manual",
+"ref": "null",
+"acceptance": "`conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-probed/evidence/reading.md` records, for each of the thr… (1267 chars)",
+"notes_chars": 2381
+}
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "b55f2c69",
+"ts": "2026-09-11T12:53:40Z",
+"argv": [
+"flip",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-11-hosted-runner-endpoint-cause-probed",
+"--run-dir",
+".andromeda/runs/2026-09-11T10-27-30-wrap",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed 0 — gate no-op (no entry carries chunk 2026-09-11-hosted-runner-endpoint-cause-probed)",
+"pool: unclaimed 11 [v3-01 v3-02 v3-03 v3-04 v3-05 v3-06 v3-07 v3-08 v3-09 v3-10 v3-11]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "b55f2c69",
+"ts": "2026-09-11T12:53:41Z",
+"argv": [
+"flip",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-11-hosted-runner-endpoint-cause-probed",
+"--run-dir",
+".andromeda/runs/2026-09-11T10-27-30-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed 0 — gate no-op (no entry carries chunk 2026-09-11-hosted-runner-endpoint-cause-probed)",
+"pool: unclaimed 11 [v3-01 v3-02 v3-03 v3-04 v3-05 v3-06 v3-07 v3-08 v3-09 v3-10 v3-11]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "b55f2c69",
+"ts": "2026-09-11T12:53:41Z",
+"argv": [
+"coverage",
+"--dir",
+"conductor-0.3.0",
+"--run-dir",
+".andromeda/runs/2026-09-11T10-27-30-wrap",
+"--marker",
+"2026-09-11-hosted-runner-endpoint-cause-probed"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"verified 0/11 · deferred 0 · planned 11 · implemented 0 · unclaimed 11",
+"unclaimed: v3-01 v3-02 v3-03 v3-04 v3-05 v3-06 v3-07 v3-08 v3-09 v3-10 v3-11",
+"claimed-unfinished: none",
+"done-test: NO — 11 not verified|deferred · unclaimed 11",
+"chunks referenced: 0 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

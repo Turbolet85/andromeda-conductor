@@ -1,0 +1,159 @@
+{
+  "schema_version": 1,
+  "version": "conductor-0.3.0",
+  "source": "intent",
+  "id_scheme": "{vN}-NN",
+  "capabilities": [
+    {
+      "id": "v3-01",
+      "title": "Hosted-runner cause measured, not listed",
+      "requirement": "The reason the WebView2 remote-debugging endpoint never appears on the hosted image is established by a probing pass with named one-line probes, whose reading is recorded whatever it says.",
+      "observed_gap": "On the hosted runner the app boots (EBWebView present, three webview children, the staged UI log showing four command calls within one second) yet DevToolsActivePort is never seen within 90s. Identical across CI runs 34162118841, 34251573399, 34256490781, 34280136892 and 34365300658, and identical under runtime 151 and 152, which falsifies the runtime-major hypothesis. Three candidates remain UNMEASURED and none has been probed on the runner: the WebView2/Edge policy state on the image, the module version the host processes actually loaded, and any session or service-account property of the runner.",
+      "verification": {
+        "method": "manual",
+        "acceptance": "`conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-probed/evidence/reading.md` records, for each of the three named probes — policy state, loaded module versions, and session identity — what the hosted `windows-2025` runner returned on a named CI run, identifying the job and its steps BY NAME and stating the run by id, event, branch and conclusion. Each hosted-runner reading is stated BESIDE its dev-host control value, captured by the same `scripts/webview2-cause-probe.ps1` rather than hand-approximated, so each pair discriminates a hosted-image property from a universal one and the three together are sufficient to decide whether the endpoint failure is remediable or permanent. A probe that returned nothing — an absent registry key, no live process, or an Access Denied on module enumeration — is recorded as having returned that rather than omitted, and a reading that contradicts the expected cause is recorded unchanged. The reading carries no absolute host path, proven by the committed `grep -cE` hygiene gate over `reading.md` reading `0`, not asserted. The run's red is attributed to the standing WebView2 session-creation failure rather than to this chunk, and no green, conformance or platform-capability claim is drawn from any probe.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null,
+      "notes": "2026-09-11 (2026-09-11-hosted-runner-endpoint-cause-probed, wrap P7.3): UN-CLAIMED — not refined. The chunk drove three named probes on the hosted `windows-2025` runner at CI run `34586959536` and recorded every reading; what it could not do is reach the acceptance's second half, that the readings are together sufficient to DECIDE whether the endpoint failure is remediable or permanent. The acceptance is not what overreached: that clause is what makes this capability worth holding, so it stands unedited and the capability returns to the pool at its current status. The follow-up entry `Hosted-runner endpoint cause closed` (Epoch 1, minted this wrap) claims it when the measurement is whole.\n\nWhat the chunk DID establish, which is committed evidence at `conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-probed/evidence/reading.md`:\n\nTWO candidates RETIRED. (1) Policy state — all five probed Edge / EdgeUpdate / EdgeWebView keys, machine and user hives, ABSENT on the hosted runner AND ABSENT on the dev host, so no policy difference exists that could explain a behavioural one. (2) Session context — session-0 and non-interactive are both falsified: the runner is `SessionId 2` with `UserInteractive: True`, corroborated independently by the isolation step's own `tasklist` showing the app and its webview children on Console session 2.\n\nONE new lead NAMED and UNVARIED. The runner runs elevated (`IsElevatedAdmin: True`) where the dev host does not (`False`), both readings captured by the same `scripts/webview2-cause-probe.ps1` rather than one being hand-approximated. This is a difference, not a demonstrated cause — no probe varied it, and nothing measured says de-elevating opens the endpoint.\n\nONE probe RETURNED NOTHING, for a MEASURED cause rather than an unknown one. The loaded-module-version probe found no live process because of WHERE its step sits: the preceding `WebView2 session isolation (diagnostic)` step stops the app it started, and its last lines are stamped `10:14:58.9039327Z` / `10:14:58.9049097Z` / `10:14:58.9060743Z` / `10:14:58.9421153Z` against the cause-probe's completion marker at `10:14:59.5867824Z` — **0.645 s later**. The same isolation step's `tasklist` at `10:13:21.76Z` shows `conductor-tauri.exe` and three `msedgewebview2.exe` alive during it. The probe is correct; its position is what made the reading unreachable."
+    },
+    {
+      "id": "v3-02",
+      "title": "A11y CI gate at an honest terminal",
+      "requirement": "The routine a11y arm either runs green in the a11y CI job, or its CI half is closed as a ratified permanent exclusion resting on the measured cause and carrying a named owner.",
+      "observed_gap": "v2-24 was deferred in 0.2.0 because the runtime-major hypothesis was falsified, not because the work was descoped: the hosted image opens no remote-debugging endpoint under either runtime major. Locally the driven arm passes over the shipped bundle at 12 passing and 2 skipped, measured 2026-09-10 during the release chunk.",
+      "verification": {
+        "method": "a11y",
+        "acceptance": "The routine accessibility arm's own printed verdict is green in continuous integration, with the passing and skipped spec counts matching the expected set so that a wholly skipped run cannot read as a pass. Or the continuous-integration half is closed as a permanent exclusion whose stated basis is the measured cause from the probing pass, and which names the party who owns it.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null,
+      "notes": "2026-09-11 (route Phase 4, operator): TWO planning obligations folded into this capability rather than minted as chunks of their own.\n\n(1) WebView2 runtime pin disposition. The CI-fetched Evergreen bootstrapper floats always-latest with ONE stated exit condition in security-plan's third dependency class: the a11y job actually gating. This capability's terminal fork IS that exit condition, so whichever way the terminal lands, the float is dispositioned in the same chunk (pinned if the job gates, retired if the CI half is excluded). Surfaced by the security validator during the route run; folded on operator direction.\n\n(2) Landmark coupling to an unbuilt surface. The console footer contentinfo strip is designed but not shipped, and a11y-plan bans a landmark-less window. If the routine arm starts gating, that ban could turn the unshipped footer into a RED inside the very gate this capability is trying to make green. This is an INDEPENDENT second cause of red, living in a surface 0.3.0 deliberately does not build, so it cannot be reasoned about from the endpoint question alone. Planning for this capability must MEASURE whether the routine specs pass against the console as it stands before promising a green terminal; a promise made without that measurement is the failure this note predicts. Operator-supplied at the Phase 4 review."
+    },
+    {
+      "id": "v3-03",
+      "title": "Keyboard and focus-order coverage has a stated owner",
+      "requirement": "The requirement and the suites agree about where SC 2.1.1 and SC 2.4.3 coverage lives: either the routine arm carries it, or the requirement names the driven suite as owner and states what CI gates instead.",
+      "observed_gap": "MEASURED AT HEAD 2026-09-11, and narrower than the intent states: the routine arm carries 2 keyboard-driving calls asserting SC 2.1.1 and SC 2.4.3, so the hold-free Operable pair already lives there. What remains misplaced is the hold-dependent half only, whose focus-trap and restoration assertions live in the driven suite alongside 5 further keyboard-driving calls.",
+      "verification": {
+        "method": "a11y",
+        "acceptance": "For every keyboard-reachability and focus-order claim the requirement makes, exactly one suite is named as its owner and the claim is actually asserted in that suite. Where a claim's owner is a suite that continuous integration does not run, the requirement states what gates in its place rather than leaving the claim unattributed.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null,
+      "notes": "2026-09-11 (route Phase 3) PREMISE-CORRECTION. The authored intent states at finding F1.2 that the routine arm carries ZERO keyboard-driving calls and that every keyboard, focus-trap and restoration assertion lives in the driven suite. That was TRUE when measured at the 2026-09-07 a11y-ci-gate chunk's P3, and was overtaken the SAME DAY by its sibling chunk 2026-09-07-sr-findings-fixed, whose master record states the routine arm gained the hold-free Operable pair on the operator's ruling. Re-measured at HEAD during this route run: the routine spec carries 2 keyboard-driving calls, asserting SC 2.1.1 and SC 2.4.3 respectively. Surfaced by the a11y validator, verified by the orchestrator before applying.\n\nThe EXPECT survives the correction and the requirement text is unchanged: the capability is still that requirement and suites agree about ownership. Only the size and shape of the gap moved, from all keyboard coverage to the hold-dependent half. The intent file is immutable and was NOT edited; this ledger note is the correction of record."
+    },
+    {
+      "id": "v3-04",
+      "title": "Structurally-dead assertions retired as a class",
+      "requirement": "Every committed scenario's declared checks are satisfiable by construction against a live Pulse, or are retired to declare-only in ONE pass with their pinning tests updated in the same change.",
+      "observed_gap": "Three committed scenarios carry a live CountAtLeast key graded against a count Pulse derives from a vector it writes empty at its only production incident-construction site, so the comparison is false in every world; the row is non-blocked only because an unmet sample floor routes it to a calibration region. A fourth scenario declares a hard Contains on a token its own header concedes is inferred; driven live on 2026-09-10 it returned a failure with read-back succeeding, so the corpus was read and the token is not in it.",
+      "verification": {
+        "method": "unit",
+        "acceptance": "No committed scenario declares a check that cannot pass against a live Pulse. Each such check is either made satisfiable or retired to declare-only, the whole class in one change rather than member by member, and every test that pins a retired declaration is updated in that same change so the tree is green at the end of it and no retirement leaves another scenario of the same class inconsistent.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null,
+      "notes": "2026-09-11 (route Phase 0/1): the intent forbids decomposing this per scenario. Retiring one member alone would contradict a sibling already ratified as accepted, so the class is taken together in one pass. Planning must also expect a FALSE MODIFY-SET: at least one pinning test is an inline test module under a crate's src tree, which the project's prescribed companion sweep over the tests directories structurally cannot see, so the scenario files alone are not the change."
+    },
+    {
+      "id": "v3-05",
+      "title": "Every scenario's tier is honest about its own duration",
+      "requirement": "Each committed scenario's declared SLO tier either fits its summed phase duration or carries a stated reason why it does not, with the three situations kept distinct rather than collapsed into one defect.",
+      "observed_gap": "Of 36 committed scenarios, 17 declare a latency tier shorter than the sum of their own phase gaps, in three distinct situations that must not be merged: 9 declare the ceiling tier and exceed it, which is the operator-ratified honest-bucket posture and not a defect; 2 exceed every tier in the closed set while declaring a smaller one; and 6 declare a tier that a larger existing tier would hold. One scenario carries this on top of the dead-assertion defect, measured at 30212 ms against its own declared deadline of 20000 ms.",
+      "verification": {
+        "method": "unit",
+        "acceptance": "Every committed scenario's declared latency tier either holds its own summed phase duration, or carries a stated reason why it does not. The tiers available are the closed set already in use, so no scenario becomes honest by inventing a new one. The distinct situations behind the mismatches remain separately identified, so a ratified posture is never recorded as a defect and a defect is never excused as posture.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v3-06",
+      "title": "The scenario-assertion audit is mechanical and re-runnable",
+      "requirement": "A fresh reader can re-run one check that establishes both outcomes above rather than re-deriving them from prose.",
+      "observed_gap": "The corpus facts behind both preceding capabilities were established by hand-run searches during 0.2.0's last two chunks and recorded in prose, so a later reader has no way to re-establish them except by repeating the derivation, and a regression in either property would be invisible until someone looked again.",
+      "verification": {
+        "method": "unit",
+        "acceptance": "One check, runnable by a reader who did not write it, establishes both that no committed scenario declares an unsatisfiable assertion and that every scenario's tier is accounted for. It is registered either as a gate that fails the build or as a named operator instrument, so the property is enforced by something rather than by memory, and it is demonstrated able to fail as well as to pass.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v3-07",
+      "title": "P-025 measurement contract stated for Pulse",
+      "requirement": "Conductor states which Pulse-emitted observable, at what resolution, over what window, and what would constitute a hard grade, in a form Pulse can implement.",
+      "observed_gap": "The hue-shift budget measured 35581 ms and 36705 ms on 2026-08-21 and the 2026-09-06 re-drive concluded the bound is unmeasurable through the existing metric. Measured at Pulse HEAD 83d4060: that metric's duration is computed in the frontend canvas and merely logged by the backend, and its start point is tied to a tick-refreshed timestamp, so its resolution is the lifecycle tick rather than the flip. The 35 s figure is the reading of an instrument that cannot see the quantity, and the true hue-shift latency is at present measured by nothing.",
+      "verification": {
+        "method": "by-construction",
+        "acceptance": "A stated contract exists naming the observable Pulse would emit, the resolution it must have, the window over which it is measured, and the comparison that would constitute a hard grade. It is complete enough that Pulse can implement it without a follow-up question, and it is addressed to a value Pulse produces rather than to one Conductor already records for its own emission window.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v3-08",
+      "title": "P-025 graded hard at its real value",
+      "requirement": "Once Pulse emits the contracted observable, Conductor re-drives the hue-shift scenario and grades the budget hard, restoring the fourth delegated budget narrowed out of v2-20.",
+      "observed_gap": "Pulse delegated four timing budgets to Conductor. Three are graded hard at real measured values and are verified under v2-20; the fourth was routed forward after its instrument was found unable to resolve the bound, and v2-20's acceptance was narrowed to three budgets by operator ratification.",
+      "verification": {
+        "method": "dynamic-external",
+        "acceptance": "The hue-shift scenario is driven live against a Pulse emitting the contracted observable, and its budget is graded hard at a real measured value rather than routed to a calibration region, restoring the fourth delegated budget to the set that grades hard.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null,
+      "notes": "2026-09-11 (route Phase 1): BLOCKED on work Conductor cannot perform. The clearing EVENT, stated as an event rather than as a standing state per this project's standing rule: Pulse emitting the observable that v3-07 contracts for. Route authored no BLOCKED-ON token on the route line itself, matching 0.2.0 where route authored zero of them and the annotation grammar lives at promotion; the route entry names the clearing event in its own words so promotion can lift it verbatim. This capability ending the version still BLOCKED is an honest close, not a miss, and must not be converted into a narrower claim to make the ledger look finished."
+    },
+    {
+      "id": "v3-09",
+      "title": "Real-model interpretation leg",
+      "requirement": "A live leg runs with deterministic mode OFF, injects a known root cause, and asserts that the top hypothesis identifies it, with the non-determinism handled as a stated property of the leg rather than by retrying until it passes.",
+      "observed_gap": "Every live leg in 0.2.0 ran with the deterministic interpretation mode on, where a canned output replaces the inference. That is what makes the legs reproducible, re-measuring within 34 ms across rounds, and it is also what bounds what they prove: Conductor green today means Pulse's plumbing carried a known payload, never that Pulse's interpretation is trustworthy.",
+      "verification": {
+        "method": "dynamic-external",
+        "acceptance": "A live leg runs with the deterministic interpretation mode off, a root cause known in advance is introduced through the harness's normal emission path, and the leg asserts that the system under test's top-ranked hypothesis identifies that cause. The grading rule and the quiet interval each leg requires are both stated before the first drive, and a leg that fails grades as a failure rather than being re-driven until it passes.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null,
+      "notes": "2026-09-11 (route Phase 0/1): the prerequisite Conductor owed is already met, v2-09 being verified in 0.2.0. Two planning constraints carried from the route run. The grading rule is stated in ADVANCE by design: a chunk that drives first and decides the grading afterwards satisfies the letter and defeats the capability, which is why posture and drive are separate route entries. And live legs are serialized rather than merely ordered, because the system under test dedupes a new incident against any open one and every run fires its own preflight canary, so each leg rides its own quiet window."
+    },
+    {
+      "id": "v3-10",
+      "title": "Diagnostic-quality cluster backed by an exercised path",
+      "requirement": "P-031, P-033, P-034 and P-044 are backed by a path the harness actually drives instead of remaining pinned in the unbacked-automatic drift set.",
+      "observed_gap": "The diagnostic-quality cluster is pinned in the drift set that records capabilities classified automatically verifiable but named by no scenario, asserted by the scenario-backing check, rather than being exercised. Pulse's own memo calls the real-model path the single most important test in all of Pulse.",
+      "verification": {
+        "method": "unit",
+        "acceptance": "The four diagnostic-quality capabilities are backed by a path the harness actually drives, and are no longer listed among the capabilities classified as automatically verifiable but backed by no scenario. The roll-up count and the committed coverage artifact both move in the same change, so neither the gate nor the artifact contradicts the other afterwards.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null,
+      "notes": "2026-09-11 (route Phase 3, tests and obs validators independently): the pin is asserted by exact-set equality in BOTH directions and the committed coverage artifact is asserted byte-equal to its render, whose summary line carries the unbacked count. Dropping four ids therefore reds both arms unless the pin and the artifact move in the same change. This is a modify-set fact, not a preference."
+    },
+    {
+      "id": "v3-11",
+      "title": "Secret-scanning CI gate",
+      "requirement": "No secret-shaped string survives in the conductor workspace, the key and certificate ignore rules are present, and the build goes red on any hit.",
+      "observed_gap": null,
+      "verification": {
+        "method": "unit",
+        "acceptance": "No secret-shaped string survives anywhere in the workspace, the ignore rules for key and certificate material are present, and a deliberately planted secret-shaped string turns the build red. Demonstrated in both directions, so the check is shown able to FAIL rather than merely observed passing.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null,
+      "notes": "2026-09-11 (route Phase 4, operator): NOT intent-sourced, which is why observed_gap is null while every other entry in this version carries an OBSERVED clause. The authored intent neither names nor excludes this item. It arrives instead from the 0.2.0 carried residual secret-scanning-ci-gate, surfaced by the security validator during the 0.2.0 route run, deliberately excluded from that version, and recorded with the line Revisit at 0.3.0 scoping. That revisit happened at this version's Phase 4 review and the operator ruled ABSORB, discharging the residual rather than carrying it a third time. It is genuinely unbuilt: named in security-plan's bootstrap phases and secret-management sections, absent from the CI workflow and from the ignore file, and unrealized across all 121 chunks shipped in 0.1.0 and 0.2.0. It survives no drift detector, because detectors compare a chunk report against the plan of record rather than the plan against reality."
+    }
+  ]
+}

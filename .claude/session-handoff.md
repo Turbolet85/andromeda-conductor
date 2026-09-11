@@ -1,90 +1,90 @@
 # Session Handoff
 
-**Last Updated:** 2026-09-10T21:15:00Z
-**Branch:** build/conductor-0.2.0 (tracks `origin/build/conductor-0.2.0`; **3 ahead at wrap start**, so
-**4 ahead and unpushed** after this chunk's commit. The push stays **NOT load-bearing** — no commit in the
-chain touches `ci.yml`, so no gate's first CI run waits on any of them.)
+**Last Updated:** 2026-09-11T12:51:30Z
+**Branch:** `build/conductor-0.3.0` — **NEW this session**, cut from 0.2.0's final commit `b54e6ec`. Tracks
+`origin/build/conductor-0.3.0`. The operator pushed mid-session (commit `b7ef1bd`), so the branch was **0
+ahead at wrap start** and is **1 ahead and unpushed** after this wrap's commit. That push was **load-bearing**
+— it is what produced the CI run this chunk's whole deliverable reads.
 **Status:** clean
-**Last Commit:** `feat(2026-09-10-release-build-and-bundle)` (this wrap)
+**Last Commit:** `feat(2026-09-11-hosted-runner-endpoint-cause-probed)` (this wrap)
 
 ## Position
-- Done: **`2026-09-10-release-build-and-bundle`** — the release binary and the Tauri 2 bundle produced, the
-  supply-chain gates green before the build, and a final SLO verification pass driven through the **shipped**
-  `target/release/conductor` against the operator-launched live Pulse.
-- Next: **the version is COMPLETE — and no next chunk was invented.** `conductor-0.2.0`'s working route reads
-  **60 frozen entries · 0 markerless** (counted by freeze state, never a bare grep), so there is no tail left
-  to promote. The operator's stated direction after this is **Pulse**, not a 0.3.0 route.
-- Coverage **31/32 verified · 1 deferred (`v2-24`) · 0 unclaimed** — **done-test MET**. `v2-21` and `v2-27`
-  both flipped this wrap.
+- Done: **`2026-09-11-hosted-runner-endpoint-cause-probed`** — three read-only probes added to the `a11y`
+  job as a `continue-on-error` diagnostic, driven on the hosted `windows-2025` runner at CI run
+  `34586959536`, and the readings recorded.
+- Next: **`Hosted-runner endpoint cause closed`** — minted this wrap, directly after this chunk in Epoch 1
+  on the operator's directive. It owes exactly the two measurements this chunk could not make. It carries
+  `PREREQ: close rust gate deferral (deferred since 2026-09-11-hosted-runner-endpoint-cause-probed)`.
+- Coverage **0/11 verified · 11 unclaimed** — `v3-01` was **UN-CLAIMED** (see below), so it returns to the
+  pool at `planned`. Version `conductor-0.3.0` is 1 chunk in.
 
-## Intake for whenever a next version opens
-`.andromeda/residuals.md` carries **4 `open` entries**; the **two targeted `next`** are the live intake:
-- **`2026-09-10-live-pulse-in-lane-scenario-round`** — now the FULL structurally-dead-assertion class, one
-  owned item extended this wrap on operator direction. Three dead assertions across two scenarios (a
-  `CountAtLeast` over an always-empty `span_refs`, an unattainable `<20s` tier, and a `Contains
-  "Previously seen"` measured dead on its first-ever live drive), each with its coordinates; retiring the
-  `Contains` is a **paired** edit because `conductor-core/src/scenario.rs:1188` pins the declaration. Plus
-  the corpus context: **17 of 36** scenarios declare a tier below their own summed phase duration, in three
-  distinct situations (9 ratified `<90s` · 2 beyond every tier · 6 a larger existing tier would hold).
-- **`2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate`** — `v2-24`'s routine a11y specs, deferred
-  because the runtime-major hypothesis was falsified, with three unmeasured candidates listed cheapest-first.
+## What the chunk measured
 
-The other two are pinned elsewhere: one to `0.3.0` (the real-model interpretation leg) and one to
-`pulse-0.4.0` (an EXTERNAL repo's capability gap, recorded so the next route intake re-checks rather than
-re-derives it).
+Two of three candidates **retired**, one new lead **named**, one probe **unread**:
 
-## Work done
-Version bumped to 0.2.0 across `Cargo.toml` / `tauri.conf.json` / `Cargo.lock` (562 → 562 packages). CARRY A
-closed: the process-global panic-hook race in `conductor-core/src/obs.rs` now serialized by a shared
-`PANIC_HOOK_GUARD` with poison recovery — a shared guard rather than a runner knob, because
-`--test-threads=1` hides the defect instead of removing it. New gate
-`crates/conductor-report/tests/matrix_ledger_gate.rs` (4 tests) claims `v2-21` by construction: it resolves
-version dirs BY SCAN, asserts set equality in both directions, guards non-vacuity, and carries a
-known-positive control so each arm is shown able to FAIL. Bundle: tauri-cli **2.11.4** → **nsis 4.21 MB +
-msi 5.87 MB**. Stated in MB on purpose: the wrap's own light gate re-built and the nsis installer moved
-4 418 544 B → 4 414 280 B over unchanged source (msi byte-identical), so the byte count is not reproducible
-and `architecture.md:206` now names that variance instead of baking a figure.
+| candidate | reading (hosted runner vs dev-host control, same script) |
+|---|---|
+| WebView2 / Edge **policy** | **RETIRED** — all five keys ABSENT on *both* sides; no difference exists to explain one |
+| **Session** property | **PARTLY RETIRED** — `SessionId 2`, `UserInteractive: True`: not session 0, not a service context |
+| **Module version** loaded | **UNREAD** — no live process; the preceding isolation step stops the app **0.645 s** earlier |
+
+The new lead: the runner runs **elevated** (`IsElevatedAdmin: True`), the dev host does not. A **difference,
+not a demonstrated cause** — no probe varied it, and nothing here says de-elevating opens the endpoint.
+
+## v3-01 — UN-CLAIMED, on operator directive
+Not a refine. The acceptance clause ("the readings are together sufficient to **decide** remediable vs
+permanent") is what makes the capability worth holding, and this version exists to retire closures that rest
+on wording. The chunk's reading stands as committed evidence; the follow-up entry claims `v3-01` when the
+measurement is whole. The WHY is recorded in the ledger `notes`.
 
 ## Drift resolved
-**10 proposals across 4 docs · 8 applied directly · 2 escalated and resolved with the operator · drift = 0.**
-The chunk's key measurement was a SPLIT nobody had made: the `tauri` **crate** 2.11.3 is correct and
-resolves, while `tauri-cli` / `tauri-bundler` are **absent from `Cargo.lock` entirely** — so the repo never
-resolved a bundler version and the `2.11.3` attributed to it merely mirrored the crate's. The report carried
-that split explicitly, and all seven detectors correctly declined to touch the CRATE sites (verified intact
-×4 afterwards). Amended: `architecture.md` `:27`/`:58`/`:206`/`:266` (one amendment, four sections; `:206`'s
-body now carries the measured pair with its date) · `security-plan.md` `:84` and the escalated `:181`
-CVE-floor split (crate half byte-intact) · `design-system.md` `:117`/`:367` (`~3 MB` de-literalized to
-set-naming) · `test-plan.md` §11 (the escalated widening of the process-global-singleton remedy from an
-exclusive to a SET, runner-knob ban byte-unchanged) and §4 (`tauri-cli` added, floor 2.11.4). Retired claims
-**0** across the seven masters and the derived tier; leaves re-derived at `stack.md:45`, `commands.md:8`,
-`testing.md:18,34`.
+**6 proposals across 2 docs · all 6 applied · 0 escalations · drift = 0.** Five of seven detectors returned
+`proposals: []`.
+- `architecture.md` ×3 — §Established Decisions [CI/CD]'s "hosted-image policy or session property the
+  leading unmeasured candidate" **retired** (routine under playbook `:149`; clause (c)'s PARTIAL-result arm
+  tested and correctly did not fire) · `TEMP` + `LOCALAPPDATA` registered on the shipped-artifact-READS
+  basis (**pre-existing gap**, not introduced here) · the probe script in the directory tree.
+- `test-plan.md` ×3 — the same retirement at §9 Matrix builds, **plus its §6 duplicate restatement** caught
+  by the `dependent-of` mechanism (a single-site apply would have left the disproved pair alive in the
+  driver table) · the "two `continue-on-error` DIAGNOSTIC steps" literal de-literalized to a **SET**.
+- Cascade: **0 leaves re-derived**, verified not assumed. Claim sweep returns 0 across all seven masters
+  **with a known-positive control still firing** in a sidecar.
 
-**Playbook gap reported, not papered over:** no rule governs a measured-SCALAR literal — `:127` wants
-set-enumeration, `:106` wants prose already declaring the value derived, `:28` wants values preserved, and
-the value is what moved. Applied on the operator's directive; the rule was NOT minted unilaterally.
+**A report defect a detector caught:** the report named `a11y-plan.md` §9 as a co-owner of the
+diagnostic-step-set fact with **0 hits** in it. The fact has one owner, `test-plan.md`. Corrected at Validate
+check 5 before it could become a hand-raised amendment against a doc that states nothing.
+
+## Curation
+**T1 0 · T2 2 · T3 0** (cap 3 not reached; 3 filtered).
+- `verification-harness.md` — **extended in place**: a chunk with no producing leg should take the plan
+  template's *omit* arm, not mint-then-read; a listed-but-vacuous smoke is worse than a stated absence.
+- `host-win32.md` — **new**: a drive-letter host-path anchor also matches the PowerShell registry provider
+  form; fix the OUTPUT (colon-free reg.exe rendering), never the pattern.
+
+### Deferred learnings — `recurrence-despite-learning` ×3 (logged, deliberately NOT re-curated)
+Each already stated correctly in the corpus; a further copy is not a remedy.
+- The evolve heredoc append died on `Invalid \escape` over backslash values — `evolve-system.md` already
+  REQUIRES the python-dict raw-literal form for exactly that case.
+- The report named a spec master as an owner with zero hits in it — the report template already bans this
+  in those words.
+- A `-o` pattern clipped its matches and a raw count was misread before the hits were printed — CLAUDE.md
+  and `host-win32.md` both already cover it.
 
 ## Notes
-- **Leg 3 was swapped between runs, on operator direction, and disclosed.** The planned
-  `cross-incident-recurrence` hard-failed a pre-existing dead `Contains "Previously seen"` on its first-ever
-  live drive; the acceptance was NOT weakened. `investigate-actions-functional` replaced it — selected on a
-  prior live green, and it re-measured within **9 ms across three runs**. Both readings are committed
-  evidence: the swapped leg's pass AND the original's FAIL.
-- **A false claim of mine was operator-caught and corrected in the report and the ledger.** I wrote that
-  `grep -rn 'Previously seen' crates/` returns nothing; it returns **FOUR** hits. Cause: I ran a COMBINED
-  search over `scenarios/ crates/` piped through `head -5`, whose five slots were entirely consumed by
-  `scenarios/`, then wrote a claim about `crates/` from that clipped view. Now curated.
-- **A fabricated ledger timestamp, self-disclosed.** A retraction record's `ts`/`id` were hand-written from
-  memory ~35 min stale. Corrected by appending a further record — history never edited.
-- Curation: **Tier 2 ×2 new** (`host-win32.md` — the clipped multi-path search; `verification-harness.md` —
-  live-leg selection must rank on prior live green, not tier attainability alone) **+ 1 corrected in place**
-  (`testing.md:54`: its prescribed companion sweep `grep -rln "<name>" crates/**/tests` is measurably
-  scope-blind to inline `#[cfg(test)]` modules under `src/` — it exits 1 where the pin plainly exists).
-- **Deferred learnings — `recurrence-despite-learning` ×2** (logged, deliberately NOT re-curated; a further
-  copy is not a remedy):
-  - The ledger-stamp rule already exists in the pipeline protocol (`evolve/evolve-system.md`: `ts` from
-    `date -u +%FT%TZ`, and the `id` half requiring that literal to be authored, never substituted). Swept the
-    instance tiers across 9 wordings — **no instance-side copy exists**, so the operator's "may exist
-    instance-side too" resolves to NO. The remedy belongs in the owning step's reference, not a second copy.
-  - A one-off patch script used `str.replace` with no post-check and printed its own success line while
-    matching nothing. CLAUDE.md's 2026-08-21 entry names exactly this, `str.replace` included.
+- **The commit and push happened mid-implement and were the OPERATOR's act.** `v3-01`'s acceptance needs a
+  reading from a CI run of committed code, and CI fires only on push, while `/andromeda-implement` reserves
+  committing for wrap. The skill **correctly refused to do it itself** and surfaced the tension. Recorded as
+  a deviation with that attribution, not as a defect.
+- **A ledger claim did not reproduce.** `residuals.md` said the routine arm's red had *moved* to tauri-driver
+  never listening on `:4444`. Run `34586959536` holds **zero `ECONNREFUSED`**; the driver connected and
+  reached session creation, and the red is the endpoint. The annotation is now re-scoped to say the refusal
+  is **intermittent** and that `v3-02` re-measures rather than inherits. Operator re-derived the zero count
+  independently.
+- **A pipeline gap with no owner, surfaced not patched:** a `residuals.md` entry measured stale has **no
+  routine correction channel** — that file scopes route-resolve to *appending* open entries and gives
+  dispositions to route Phase A. The working-route's `BLOCKED-ON` clause has exactly this re-verify-and-rewrite
+  mechanism; residuals has no counterpart. Corrected this time only by explicit directive.
+- **Gate deferral open:** `cargo nextest --workspace --profile ci`, deferred under the source-delta rule
+  (zero `.rs` / `Cargo.*` delta — re-verified against the actual diff, not echoed). Pinned as a PREREQ on the
+  next entry with its origin.
 - **Last failed command:** none.
