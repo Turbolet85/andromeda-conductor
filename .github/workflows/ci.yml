@@ -419,6 +419,11 @@ jobs:
           Write-Output '[diag] tasklist (app + webview2 host):'
           tasklist /FI "IMAGENAME eq conductor-tauri.exe" | Select-Object -Last 3
           tasklist /FI "IMAGENAME eq msedgewebview2.exe" | Select-Object -Last 3
+          # The module-version reading has to be taken HERE. Its subject is a live process, and the
+          # `WebView2 cause probes (diagnostic)` step below runs after the Stop-Process on the next line —
+          # measured 0.645 s after, at run 34586959536, where all three of its section-(2) lines read
+          # `no live process`. Placement, not a longer timeout: no timeout recovers a dead process.
+          .\scripts\webview2-cause-probe.ps1 -Section modules
           if (-not $p.HasExited) { Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue }
           # (b) must observe the driver's UNMODIFIED behaviour, so the control's handles are cleared.
           $env:WEBVIEW2_USER_DATA_FOLDER = $null
