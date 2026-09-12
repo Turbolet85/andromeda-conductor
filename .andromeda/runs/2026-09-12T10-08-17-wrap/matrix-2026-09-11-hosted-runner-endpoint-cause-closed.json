@@ -1,0 +1,99 @@
+[
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "b55f2c69",
+"ts": "2026-09-12T10:35:39Z",
+"argv": [
+"flip",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-11-hosted-runner-endpoint-cause-closed",
+"--run-dir",
+".andromeda/runs/2026-09-12T10-08-17-wrap",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-11-hosted-runner-endpoint-cause-closed: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v3-01 → verified — `conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-closed/evidence/… (2959 chars)",
+"dry-run: nothing written",
+"version: verified 1/11"
+],
+"stderr": null,
+"wrote": [],
+"before": [
+{
+"id": "v3-01",
+"chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+"status": "implemented",
+"method": "manual",
+"ref": "conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-closed/evidence/reading.md — cause ESTABLISHED by variati… (859 chars)",
+"acceptance": "`conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-closed/evidence/reading.md` records, for each of the thr… (2959 chars)",
+"notes_chars": 2381
+}
+],
+"after": [
+{
+"id": "v3-01",
+"chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+"status": "verified",
+"method": "manual",
+"ref": "conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-closed/evidence/reading.md — cause ESTABLISHED by variati… (859 chars)",
+"acceptance": "`conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-closed/evidence/reading.md` records, for each of the thr… (2959 chars)",
+"notes_chars": 2381
+}
+]
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "b55f2c69",
+"ts": "2026-09-12T10:35:46Z",
+"argv": [
+"flip",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-11-hosted-runner-endpoint-cause-closed",
+"--run-dir",
+".andromeda/runs/2026-09-12T10-08-17-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-11-hosted-runner-endpoint-cause-closed: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v3-01 → verified — `conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-closed/evidence/… (2959 chars)",
+"wrote conductor-0.3.0\\verification-matrix.json · 1 entry changed",
+"version: verified 1/11"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0\\verification-matrix.json"
+],
+"before": [
+{
+"id": "v3-01",
+"chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+"status": "implemented",
+"method": "manual",
+"ref": "conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-closed/evidence/reading.md — cause ESTABLISHED by variati… (859 chars)",
+"acceptance": "`conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-closed/evidence/reading.md` records, for each of the thr… (2959 chars)",
+"notes_chars": 2381
+}
+],
+"after": [
+{
+"id": "v3-01",
+"chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+"status": "verified",
+"method": "manual",
+"ref": "conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-closed/evidence/reading.md — cause ESTABLISHED by variati… (859 chars)",
+"acceptance": "`conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-closed/evidence/reading.md` records, for each of the thr… (2959 chars)",
+"notes_chars": 2381
+}
+]
+}
+]

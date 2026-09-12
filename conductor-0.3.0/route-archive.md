@@ -9,3 +9,6 @@ only in git and the P5 summaries. -->
 
 ## 2026-09-11-hosted-runner-endpoint-cause-probed — archived at the 2026-09-11 wrap
 [2026-09-11-hosted-runner-endpoint-cause-probed] Hosted-runner endpoint cause probed — policy state, module versions, session identity; diagnose-only, the reading recorded whatever it says, host paths scrubbed
+
+## 2026-09-11-hosted-runner-endpoint-cause-closed — archived at the 2026-09-12 wrap
+[2026-09-11-hosted-runner-endpoint-cause-closed] Hosted-runner endpoint cause closed — the unread module-version probe placed where the app is alive, and the elevation difference varied  PREREQ: close rust gate deferral (deferred since 2026-09-11-hosted-runner-endpoint-cause-probed)

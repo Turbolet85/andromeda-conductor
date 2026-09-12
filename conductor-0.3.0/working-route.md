@@ -10,7 +10,9 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
 ### Epoch 1 — Foundation: the measurements the closures rest on
 [2026-09-11-hosted-runner-endpoint-cause-probed] Hosted-runner endpoint cause probed — policy state, module versions, session identity; diagnose-only, the reading recorded whatever it says, host paths scrubbed
    ↓
-Hosted-runner endpoint cause closed — the unread module-version probe placed where the app is alive, and the elevation difference varied  PREREQ: close rust gate deferral (deferred since 2026-09-11-hosted-runner-endpoint-cause-probed)
+[2026-09-11-hosted-runner-endpoint-cause-closed] Hosted-runner endpoint cause closed — the unread module-version probe placed where the app is alive, and the elevation difference varied
+   ↓
+Ledger gate id-space generalised — `requirement_ids` filters `starts_with("v2-")` while the same file's directory resolution was deliberately generalised, so the gate goes vacuous-then-red at every version transition; it is red now on `conductor-0.3.0`'s `v3-` ids (906 run, 905 passed, 1 failed) and red in CI on `c93a379` and `eecc7f4`. Surface measured: seven `v2-` literals at `:219 :221 :228 :250 :256-259` plus the id-space assertion at `:208` in `crates/conductor-report/tests/matrix_ledger_gate.rs`  BLOCKING: the version's workspace gate is red until this lands — nothing is scheduled ahead of it (operator directive, 2026-09-12 wrap)
    ↓
 P-025 measurement contract for Pulse — which Pulse-emitted observable, at what resolution, over what window, and what constitutes a hard grade
 
@@ -22,7 +24,7 @@ Scenario tier honesty — every declared tier fits its phase duration inside the
 Scenario-assertion audit gate — one mechanical re-runnable check establishing both outcomes, named as a CI gate or an operator instrument
 
 ### Epoch 3 — The a11y capability's terminal
-A11y CI gate at an honest terminal — routine arm's asserted verdict green in CI, or a ratified exclusion naming its measured cause and owner
+A11y CI gate at an honest terminal — routine arm's asserted verdict green in CI, or a ratified exclusion naming its measured cause and owner  CARRY: this entry's terminal is NO LONGER a candidate permanent exclusion. The cause is established — elevation, by direct variation with a control on both sides: an elevated leg on the known-good dev host reproduces `session not created: DevToolsActivePort file doesn't exist` where the non-elevated case is a recorded green, the pair differing on `IsElevatedAdmin` alone (2026-09-12, `conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-closed/evidence/reading.md`). Hosted Windows runners run as an administrator by construction, so the NEXT ARM is a limited-token launch of the app — or of the whole wdio leg — via a scheduled task with a non-elevated principal or a `runas`-class trust level, then a re-measurement of whether the endpoint appears. Not designed here (operator directive, 2026-09-12 wrap). The MECHANISM behind the cause is recorded, not established
    ↓
 Keyboard and focus-order coverage ownership — the hold-dependent trap and restoration half's owner named, and its CI carve-out stated
 
