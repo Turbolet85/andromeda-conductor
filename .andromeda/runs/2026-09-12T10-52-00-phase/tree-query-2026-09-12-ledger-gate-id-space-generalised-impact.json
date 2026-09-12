@@ -1,0 +1,160 @@
+[
+{
+"sql": "SELECT callee_name, caller_name, file, line FROM calls WHERE callee_name IN ('requirement_ids','is_pulse_p_id','set_difference','id_positions','ledger_dirs','ledgers') ORDER BY callee_name, file, line;",
+"rows": 25,
+"result": [
+{
+"callee_name": "id_positions",
+"caller_name": "id_positions",
+"file": "crates/conductor-report/tests/matrix_ledger_gate.rs",
+"line": 62
+},
+{
+"callee_name": "id_positions",
+"caller_name": "id_positions",
+"file": "crates/conductor-report/tests/matrix_ledger_gate.rs",
+"line": 67
+},
+{
+"callee_name": "id_positions",
+"caller_name": "ledgers",
+"file": "crates/conductor-report/tests/matrix_ledger_gate.rs",
+"line": 130
+},
+{
+"callee_name": "id_positions",
+"caller_name": "ledgers",
+"file": "crates/conductor-report/tests/matrix_ledger_gate.rs",
+"line": 135
+},
+{
+"callee_name": "id_positions",
+"caller_name": "every_requirement_capability_has_exactly_one_matrix_entry",
+"file": "crates/conductor-report/tests/matrix_ledger_gate.rs",
+"line": 147
+},
+{
+"callee_name": "id_positions",
+"caller_name": "matrix_ids_are_unique",
+"file": "crates/conductor-report/tests/matrix_ledger_gate.rs",
+"line": 180
+},
+{
+"callee_name": "id_positions",
+"caller_name": "no_pulse_p_id_occupies_an_id_position",
+"file": "crates/conductor-report/tests/matrix_ledger_gate.rs",
+"line": 200
+},
+{
+"callee_name": "id_positions",
+"caller_name": "the_gate_discriminates",
+"file": "crates/conductor-report/tests/matrix_ledger_gate.rs",
+"line": 231
+},
+{
+"callee_name": "is_pulse_p_id",
+"caller_name": "no_pulse_p_id_occupies_an_id_position",
+"file": "crates/conductor-report/tests/matrix_ledger_gate.rs",
+"line": 202
+},
+{
+"callee_name": "is_pulse_p_id",
+"caller_name": "the_gate_discriminates",
+"file": "crates/conductor-report/tests/matrix_ledger_gate.rs",
+"line": 240
+},
+{
+"callee_name": "is_pulse_p_id",
+"caller_name": "the_gate_discriminates",
+"file": "crates/conductor-report/tests/matrix_ledger_gate.rs",
+"line": 249
+},
+{
+"callee_name": "is_pulse_p_id",
+"caller_name": "the_gate_discriminates",
+"file": "crates/conductor-report/tests/matrix_ledger_gate.rs",
+"line": 250
+},
+{
+"callee_name": "is_pulse_p_id",
+"caller_name": "the_gate_discriminates",
+"file": "crates/conductor-report/tests/matrix_ledger_gate.rs",
+"line": 251
+},
+{
+"callee_name": "ledger_dirs",
+"caller_name": "ledgers",
+"file": "crates/conductor-report/tests/matrix_ledger_gate.rs",
+"line": 103
+},
+{
+"callee_name": "ledgers",
+"caller_name": "every_requirement_capability_has_exactly_one_matrix_entry",
+"file": "crates/conductor-report/tests/matrix_ledger_gate.rs",
+"line": 143
+},
+{
+"callee_name": "ledgers",
+"caller_name": "matrix_ids_are_unique",
+"file": "crates/conductor-report/tests/matrix_ledger_gate.rs",
+"line": 177
+},
+{
+"callee_name": "ledgers",
+"caller_name": "no_pulse_p_id_occupies_an_id_position",
+"file": "crates/conductor-report/tests/matrix_ledger_gate.rs",
+"line": 198
+},
+{
+"callee_name": "requirement_ids",
+"caller_name": "ledgers",
+"file": "crates/conductor-report/tests/matrix_ledger_gate.rs",
+"line": 134
+},
+{
+"callee_name": "requirement_ids",
+"caller_name": "ledgers",
+"file": "crates/conductor-report/tests/matrix_ledger_gate.rs",
+"line": 134
+},
+{
+"callee_name": "requirement_ids",
+"caller_name": "every_requirement_capability_has_exactly_one_matrix_entry",
+"file": "crates/conductor-report/tests/matrix_ledger_gate.rs",
+"line": 146
+},
+{
+"callee_name": "requirement_ids",
+"caller_name": "the_gate_discriminates",
+"file": "crates/conductor-report/tests/matrix_ledger_gate.rs",
+"line": 217
+},
+{
+"callee_name": "requirement_ids",
+"caller_name": "the_gate_discriminates",
+"file": "crates/conductor-report/tests/matrix_ledger_gate.rs",
+"line": 220
+},
+{
+"callee_name": "set_difference",
+"caller_name": "every_requirement_capability_has_exactly_one_matrix_entry",
+"file": "crates/conductor-report/tests/matrix_ledger_gate.rs",
+"line": 161
+},
+{
+"callee_name": "set_difference",
+"caller_name": "the_gate_discriminates",
+"file": "crates/conductor-report/tests/matrix_ledger_gate.rs",
+"line": 257
+},
+{
+"callee_name": "set_difference",
+"caller_name": "the_gate_discriminates",
+"file": "crates/conductor-report/tests/matrix_ledger_gate.rs",
+"line": 261
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

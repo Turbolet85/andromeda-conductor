@@ -1,0 +1,12 @@
+Known-positive control for the plan's `role = 'probe'` grep entry.
+
+The probe asserts `['exit 1', 'last line 0']` — i.e. the retired construct is ABSENT. At HEAD the
+probe returns 1 / exit 0 (present), which is a RED baseline, and a RED baseline validates only the
+failing direction. This file is the input that proves the other direction: it carries the filter line
+in its POST-fix shape, so the probe must find no match, print 0 and exit 1.
+
+Deliberately minimal and deliberately not a Rust file: an earlier draft of this control was a whole
+copy of the gate source, which would have seeded a tracked directory with twelve more occurrences of
+the very token this chunk's sweeps count.
+
+        .filter(|id| is_version_capability_id(id))

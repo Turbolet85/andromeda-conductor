@@ -15,6 +15,12 @@
 //! to prevent. A version predating the matrix feature carries no `verification-matrix.json` and is
 //! skipped by the both-files filter rather than by a version literal.
 //!
+//! The ID SPACE is matched the same way and for the same reason: by SHAPE (`v{major}-{index}`),
+//! never a prefix literal. A baked `v2-` stops covering the ledger the moment the version
+//! advances — the identical failure one axis over, and the one this gate went red on at 0.3.0.
+//! The filter cannot simply be dropped either: `requirements.md` bolds prose titles beside its
+//! declared ids, so a predicate is what separates the id space from the rest of the document.
+//!
 //! Paths resolve from `CARGO_MANIFEST_DIR`, never a CWD-relative default: a cargo test binary runs
 //! with its CWD at the package root, where no version directory exists.
 
@@ -46,7 +52,7 @@ fn requirement_ids(markdown: &str) -> Vec<String> {
         .lines()
         .filter_map(|l| l.strip_prefix("- **"))
         .filter_map(|rest| rest.split_once("**").map(|(id, _)| id.to_string()))
-        .filter(|id| id.starts_with("v2-"))
+        .filter(|id| is_version_capability_id(id))
         .collect()
 }
 
@@ -90,6 +96,19 @@ fn set_difference(required: &[String], matrix: &[String]) -> (Vec<String>, Vec<S
 fn is_pulse_p_id(s: &str) -> bool {
     match s.strip_prefix("P-") {
         Some(digits) => !digits.is_empty() && digits.bytes().all(|b| b.is_ascii_digit()),
+        None => false,
+    }
+}
+
+/// The version-capability id space, matched by SHAPE: `v{major}-{index}`, digits on both sides.
+fn is_version_capability_id(s: &str) -> bool {
+    match s.strip_prefix('v').and_then(|rest| rest.split_once('-')) {
+        Some((major, index)) => {
+            !major.is_empty()
+                && !index.is_empty()
+                && major.bytes().all(|b| b.is_ascii_digit())
+                && index.bytes().all(|b| b.is_ascii_digit())
+        }
         None => false,
     }
 }
@@ -150,7 +169,8 @@ fn every_requirement_capability_has_exactly_one_matrix_entry() {
 
         assert!(
             !required.is_empty(),
-            "{label}/requirements.md declares no v2-NN capability — the gate would pass vacuously"
+            "{label}/requirements.md declares no version-capability id — the gate would pass \
+             vacuously"
         );
         assert!(
             !positions.is_empty(),
@@ -205,8 +225,8 @@ fn no_pulse_p_id_occupies_an_id_position() {
 
         assert!(
             offenders.is_empty(),
-            "{}: a Pulse P-ID occupies an id position — the v2-NN and P-NNN id spaces must stay \
-             visibly separate, with P-IDs confined to acceptance text: {offenders:?}",
+            "{}: a Pulse P-ID occupies an id position — the version-capability and P-NNN id spaces \
+             must stay visibly separate, with P-IDs confined to acceptance text: {offenders:?}",
             ledger.label
         );
     }
@@ -215,8 +235,28 @@ fn no_pulse_p_id_occupies_an_id_position() {
 #[test]
 fn the_gate_discriminates() {
     // A gate that cannot fail is not evidence. Each arm is driven against an input it must reject.
-    let swapped = requirement_ids("- **v2-01** · a\n- **v2-99** · b\n");
-    assert_eq!(swapped, vec!["v2-01".to_string(), "v2-99".to_string()]);
+    // One predicate admits every version's id space — a prefix literal fails exactly here.
+    let cross_version = requirement_ids("- **v2-01** · a\n- **v3-11** · b\n");
+    assert_eq!(
+        cross_version,
+        vec!["v2-01".to_string(), "v3-11".to_string()],
+        "ids of different versions are extracted alike"
+    );
+
+    // `requirements.md` bolds prose titles beside its ids, which is why the filter cannot be dropped.
+    let prose_title = requirement_ids(
+        "- **`secret-scanning-ci-gate` — unrealized security-plan bootstrap item.**\n",
+    );
+    assert!(
+        prose_title.is_empty(),
+        "a bolded prose title is not a declared id, got {prose_title:?}"
+    );
+
+    let bolded_p_id = requirement_ids("- **P-017** · a\n");
+    assert!(
+        bolded_p_id.is_empty(),
+        "the Pulse id space stays out of the version id space, got {bolded_p_id:?}"
+    );
 
     let prose_only = requirement_ids("v2-01 mentioned in prose, not declared\n- not an id\n");
     assert!(
@@ -250,6 +290,21 @@ fn the_gate_discriminates() {
     assert!(!is_pulse_p_id("v2-01"));
     assert!(!is_pulse_p_id("P-"), "a bare prefix is not a P-ID");
     assert!(!is_pulse_p_id("P-01a"), "digits only");
+
+    assert!(is_version_capability_id("v2-01"));
+    assert!(is_version_capability_id("v3-11"));
+    assert!(
+        is_version_capability_id("v10-7"),
+        "the shape is not bounded to one digit per side"
+    );
+    assert!(!is_version_capability_id("v"), "a bare prefix is not an id");
+    assert!(!is_version_capability_id("v2-"), "digits on both sides");
+    assert!(!is_version_capability_id("v-01"), "digits on both sides");
+    assert!(!is_version_capability_id("v2-0a"), "digits only");
+    assert!(
+        !is_version_capability_id("P-017"),
+        "the two id spaces stay disjoint"
+    );
 
     // The set-equality arm must FAIL on a divergence, in each direction independently —
     // an equal-CARDINALITY swap is the case a count assertion would wave through.

@@ -1,0 +1,53 @@
+[
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "b55f2c69",
+"ts": "2026-09-12T18:32:01Z",
+"argv": [
+"flip",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-12-ledger-gate-id-space-generalised",
+"--run-dir",
+".andromeda/runs/2026-09-12T17-00-00-wrap",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed 0 — gate no-op (no entry carries chunk 2026-09-12-ledger-gate-id-space-generalised)",
+"pool: unclaimed 10 [v3-02 v3-03 v3-04 v3-05 v3-06 v3-07 v3-08 v3-09 v3-10 v3-11]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "b55f2c69",
+"ts": "2026-09-12T18:32:01Z",
+"argv": [
+"flip",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-12-ledger-gate-id-space-generalised",
+"--run-dir",
+".andromeda/runs/2026-09-12T17-00-00-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed 0 — gate no-op (no entry carries chunk 2026-09-12-ledger-gate-id-space-generalised)",
+"pool: unclaimed 10 [v3-02 v3-03 v3-04 v3-05 v3-06 v3-07 v3-08 v3-09 v3-10 v3-11]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

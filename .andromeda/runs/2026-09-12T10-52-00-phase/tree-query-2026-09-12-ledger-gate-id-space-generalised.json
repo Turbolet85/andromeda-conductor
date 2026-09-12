@@ -1,0 +1,52 @@
+[
+{
+"sql": "SELECT symbol, crate, kind, file FROM symbol WHERE name IN ('requirement_ids','is_pulse_p_id','ledger_dirs','set_difference','id_positions') AND kind <> 'meta';",
+"rows": 7,
+"result": [
+{
+"symbol": "rust-analyzer cargo conductor-report 0.2.0 ledger_dirs().",
+"crate": "conductor-report",
+"kind": "fn",
+"file": "crates/conductor-report/tests/matrix_ledger_gate.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-report 0.2.0 requirement_ids().",
+"crate": "conductor-report",
+"kind": "fn",
+"file": "crates/conductor-report/tests/matrix_ledger_gate.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-report 0.2.0 id_positions().",
+"crate": "conductor-report",
+"kind": "fn",
+"file": "crates/conductor-report/tests/matrix_ledger_gate.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-report 0.2.0 set_difference().",
+"crate": "conductor-report",
+"kind": "fn",
+"file": "crates/conductor-report/tests/matrix_ledger_gate.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-report 0.2.0 is_pulse_p_id().",
+"crate": "conductor-report",
+"kind": "fn",
+"file": "crates/conductor-report/tests/matrix_ledger_gate.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-report 0.2.0 Ledger#requirement_ids.",
+"crate": "conductor-report",
+"kind": "term",
+"file": "crates/conductor-report/tests/matrix_ledger_gate.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-report 0.2.0 Ledger#id_positions.",
+"crate": "conductor-report",
+"kind": "term",
+"file": "crates/conductor-report/tests/matrix_ledger_gate.rs"
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]
