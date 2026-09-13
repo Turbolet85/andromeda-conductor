@@ -4,6 +4,28 @@ use serde::{Deserialize, Serialize};
 
 use crate::{PId, ReportState, SloTier, Verdict};
 
+/// The envelope's eleven key names in SORTED order — what a conformance assertion compares a
+/// `keys.sort_unstable()`-ed key set against.
+///
+/// The schema is owned by test-plan §3 / obs-plan §3; this is the single place the name list is
+/// written, so the report seam's and the verify seam's assertions cannot drift apart. It is an
+/// EXCLUSIVITY basis only where a producer's own serialization is under test — the journal
+/// conformance gate asserts key PRESENCE, because obs §3's extension point admits resource tags
+/// (the a11y violation record carries 13 keys locally / 15 under CI).
+pub const ENVELOPE_KEYS_SORTED: [&str; 11] = [
+    "fingerprints",
+    "journal_emitted_at",
+    "latency_ms",
+    "p_ids",
+    "read_back_observed_at",
+    "run_id",
+    "scenario",
+    "seed",
+    "slo_tier",
+    "state",
+    "verdict",
+];
+
 /// One scenario-result record in the per-run JSONL emission journal (`runs/<run_id>.jsonl`).
 ///
 /// The agent-parseable ground truth the journal-relative SLO math reads — `latency_ms` is

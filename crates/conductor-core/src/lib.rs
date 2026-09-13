@@ -63,7 +63,7 @@ pub use run_contract::{
     CheckKind, ContractTerm, IncidentFormation, RunContract, RunContractStatus, UnmetTerm,
 };
 pub use run_journal::{JournalLine, classify_journal_line, latest_run_id, read_run_journal};
-pub use run_record::{CheckRecord, RunRecord};
+pub use run_record::{CheckRecord, ENVELOPE_KEYS_SORTED, RunRecord};
 pub use scenario::{ChecklistItem, MAX_CHECKLIST_TEXT, PId, Scenario, SloTier};
 pub use scenario_catalog::{
     SUITE_SELECTION, ScenarioSummary, list_scenarios, scenario_files, validate_selection,

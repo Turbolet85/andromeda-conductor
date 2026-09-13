@@ -278,3 +278,54 @@ async fn a_declined_resolve_is_a_typed_json_rpc_value_never_a_panic() {
         "Display must NOT leak the server's text: {rendered}"
     );
 }
+
+/// Drive the by-id wrapper itself. `resolve_with` above calls `mark_incident_resolved` directly, so
+/// neither shipped resolve test enters `resolve_incident` — the wrapper is what builds the one-field
+/// argument object, and nothing asserted that it does.
+async fn resolve_incident_with(config: StubConfig, incident_id: i64) -> Result<Value, VerifyError> {
+    let (client_io, server_io) = tokio::io::duplex(4096);
+    let server = tokio::spawn(serve_stub(server_io, config));
+    let client = bounded(ReadbackClient::connect_transport(client_io))
+        .await
+        .expect("client connects to the stub");
+    let result = bounded(client.resolve_incident(incident_id)).await;
+    drop(client);
+    server.abort();
+    result
+}
+
+/// The wrapper reaches the same tool with the same argument shape: the stub echoes back the id it was
+/// asked to resolve, so a wrapper that sent nothing — or sent the wrong field — cannot produce this.
+#[tokio::test(flavor = "current_thread")]
+async fn the_by_id_wrapper_sends_the_one_field_argument_and_round_trips_the_raw_shape() {
+    let result = resolve_incident_with(StubConfig::default(), 91)
+        .await
+        .expect("the applied arm returns Ok");
+    assert_eq!(
+        result.get("resolved").and_then(Value::as_bool),
+        Some(true),
+        "raw shape: {result}"
+    );
+    assert_eq!(
+        result.get("incident_id").and_then(Value::as_i64),
+        Some(91),
+        "echoes the id the wrapper wrote into its argument object"
+    );
+}
+
+/// The wrapper is on the verdict/error wall's outcome side too — a refused write arrives as the same
+/// typed `JsonRpc` value here as it does through the raw-`Value` form.
+#[tokio::test(flavor = "current_thread")]
+async fn a_declined_resolve_through_the_by_id_wrapper_is_the_same_typed_value() {
+    let config = StubConfig {
+        resolve_declines: true,
+        ..StubConfig::default()
+    };
+    let err = resolve_incident_with(config, 91)
+        .await
+        .expect_err("a declined write surfaces as an error value");
+    let VerifyError::JsonRpc { code, .. } = &err else {
+        panic!("a declined write is a JSON-RPC error, not a transport fault: {err:?}");
+    };
+    assert_eq!(*code, -32603);
+}

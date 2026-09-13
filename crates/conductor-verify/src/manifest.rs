@@ -3,7 +3,7 @@
 //! §Input Validation). Loaded from `contracts/mcp-contract.toml` (or the `CONDUCTOR_CONTRACT_MANIFEST`
 //! override, which the cli edge resolves + canonicalizes — not here) and bounds-checked at load.
 
-use std::path::{Path, PathBuf};
+use std::path::Path;
 
 use serde::Deserialize;
 
@@ -29,12 +29,6 @@ pub struct ContractManifest {
 }
 
 impl ContractManifest {
-    /// The default manifest path, relative to the workspace root. A `CONDUCTOR_CONTRACT_MANIFEST`
-    /// override is read + `resolve_under`-canonicalized at the cli edge (Epoch 8), never here.
-    pub fn default_path() -> PathBuf {
-        PathBuf::from("contracts/mcp-contract.toml")
-    }
-
     /// Read + bounds-check a manifest from an already-resolved path. A read / parse / bounds failure
     /// is a harness fault ([`VerifyError::Manifest`]), never a verification verdict.
     pub fn load(path: &Path) -> Result<Self, VerifyError> {
@@ -74,6 +68,8 @@ impl ContractManifest {
 
 #[cfg(test)]
 mod tests {
+    use std::path::PathBuf;
+
     use super::*;
 
     fn pinned_path() -> PathBuf {

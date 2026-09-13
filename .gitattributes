@@ -1,5 +1,9 @@
+# Line endings: the pipeline records are LF; eol=lf overrides core.autocrlf at checkout.
+* text=auto eol=lf
+
 # The coverage matrix is compared BYTE-FOR-BYTE against `CoverageMatrix::render()` by the
 # coverage-completeness gate. `render()` is `writeln!`-built (LF) and written verbatim, so the
-# checked-out file must keep LF on every host — this repo sets no other attributes and
-# `core.autocrlf=true` is common on the Windows dev host and CI runners.
+# checked-out file must keep LF on every host — the wildcard above is the repo-wide policy; this
+# rule stays as the NAMED gate-correctness control for the one file whose bytes a gate compares,
+# so the guarantee survives any later narrowing of the wildcard.
 coverage-matrix.md text eol=lf

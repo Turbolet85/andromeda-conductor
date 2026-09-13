@@ -1,0 +1,57 @@
+[
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "b55f2c69",
+"ts": "2026-09-13T18:26:47Z",
+"argv": [
+"coverage",
+"--dir",
+"conductor-0.3.0",
+"--run-dir",
+".andromeda/runs/2026-09-13T17-30-00-phase",
+"--marker",
+"2026-09-13-audit-debt-retired-before-epoch-1-closes"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"verified 1/11 · deferred 0 · planned 10 · implemented 0 · unclaimed 10",
+"unclaimed: v3-02 v3-03 v3-04 v3-05 v3-06 v3-07 v3-08 v3-09 v3-10 v3-11",
+"claimed-unfinished: none",
+"done-test: NO — 10 not verified|deferred · unclaimed 10",
+"chunks referenced: 1 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "b55f2c69",
+"ts": "2026-09-13T18:26:48Z",
+"argv": [
+"audit",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-13-audit-debt-retired-before-epoch-1-closes",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-13-audit-debt-retired-before-epoch-1-closes/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-13T17-30-00-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-13-audit-debt-retired-before-epoch-1-closes: 0 · ## Acceptance Criteria: line 285, 69 lines",
+"pool: unclaimed 10 [v3-02 v3-03 v3-04 v3-05 v3-06 v3-07 v3-08 v3-09 v3-10 v3-11]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

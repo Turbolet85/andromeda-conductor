@@ -623,7 +623,6 @@ name = "conductor-emit"
 version = "0.2.0"
 dependencies = [
  "blake3",
- "conductor-core",
  "opentelemetry-proto",
  "rand_chacha",
  "rand_core",

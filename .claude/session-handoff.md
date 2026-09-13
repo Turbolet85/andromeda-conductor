@@ -1,58 +1,74 @@
 # Session Handoff
 
-**Last Updated:** 2026-09-13T17:01:22Z
-**Branch:** `build/conductor-0.3.0`, tracking `origin/build/conductor-0.3.0`. **0 ahead at wrap start** —
-the operator pushed the predecessor's commit (`0f780c6`) before this session; this wrap's commit leaves
-the branch **1 ahead and unpushed**. The operator pushes after it, as before.
-**Status:** clean — no gate ran, and none was owed: 0 pending means no chunk, so no plan Test Commands,
-no fan-out and no coverage flip exist to run. The last measured workspace state stands at 906/906.
-**Last Commit:** `chore(route): operator-requested adaptation — 0-pending wrap`
+**Last Updated:** 2026-09-13T21:09:03Z
+**Branch:** `build/conductor-0.3.0`, tracking `origin/build/conductor-0.3.0`. **1 ahead at wrap start** —
+the predecessor's `9f079eb` is still unpushed; this wrap's commit leaves the branch **2 ahead**. The
+operator pushes, as before.
+**Status:** clean — all 15 plan Test Commands re-run green at the P7 light gate.
+**Last Commit:** `feat(2026-09-13-audit-debt-retired-before-epoch-1-closes)` — see below.
 
 ## Position
-- Done: **no chunk** — this was a **0-pending adaptation wrap**, not a chunk wrap. The last completed
-  chunk remains `2026-09-12-ledger-gate-id-space-generalised`; master-route is untouched (124 `complete`,
-  0 `pending`) because the `pending → complete` flip is P7's and P7 does not run on this path.
-- Next: **`Audit debt retired before Epoch 1 closes`** — inserted this wrap at
-  `conductor-0.3.0/working-route.md:17` and now the head of the markerless tail. **This supersedes the
-  previous handoff's `Next`**: `P-025 measurement contract for Pulse` is unchanged but now sits second,
-  at `:19`, on the founder's reasoning that P-025 closes Epoch 1 and the epoch's debts close before the
-  epoch does. Nothing is scheduled ahead of the new entry; it carries no `BLOCKED-ON:`.
-- Coverage **1/11 verified · 10 unclaimed** (`v3-02`…`v3-11`) — re-read this wrap, unchanged. No
-  capability was claimed or flipped.
+- Done: **`2026-09-13-audit-debt-retired-before-epoch-1-closes`** — master flipped `pending → complete`
+  (125 complete, 0 pending).
+- Next: **`P-025 measurement contract for Pulse`** — `conductor-0.3.0/working-route.md:19`, the head of the
+  markerless tail. Carries no `PREREQ:` and no `BLOCKED-ON:`.
+- Coverage **1/11 verified · 10 unclaimed** (`v3-02`…`v3-11`) — unchanged. This chunk claimed nothing: no
+  unclaimed id names mutation-survivor disposition, fixture sharing or the envelope const, so the ledger was
+  read and left alone (`matrix.py show --chunk` → `claimed 0`).
 
 ## Work done
-One route edit: `conductor-0.3.0/working-route.md` **+2/−0** — the new entry plus its `   ↓` separator,
-inserted directly before P-025. **No `[{marker}]`-frozen line is in the diff**; no other tail entry
-moved; no annotation needed re-pinning (P-025 carried none — the tail's only two `CARRY`s sit on the
-Epoch-3 entries at `:29`/`:31`). Also riding this commit: the two untracked run dirs from today's
-founder-invoked diagnostics (`2026-09-13T09-57-01-evolve-diagnose`,
-`2026-09-13T11-34-19-code-audit`), their ledgers, and this wrap's run dir.
+The 17 non-stub mutation survivors dispositioned, and the measurement inverted the directive's framing:
+**12 were already-ratified test-plan §12 roster members, not candidates — only 5 were genuinely unowned.**
+Four killed (`cleanup.rs`, `client.rs`, both `extract.rs` one-shot guards); the fifth,
+`ContractManifest::default_path`, RETIRED BY REMOVAL on the seam fact that `conductor-cli` does not depend on
+`conductor-verify`, so its mutant left the population rather than moving to `caught.txt`. Survivors **25 → 20**,
+exactly the figure that replaced the unreachable `≤ 8`. Both mutation gates PASS
+(cli 112/2 missed/92 caught; verify 147/10/113 — population 148 → 147). Also: five `conductor-emit/tests/`
+clone pairs collapsed onto one shared `tests/common/mod.rs` (the six blocks verified byte-identical by sha256
+first), the eleven-key envelope array single-sourced as `conductor_core::ENVELOPE_KEYS_SORTED`, and the
+`conductor-emit → conductor-core` edge removed — `Cargo.lock` moved by exactly one line at an unchanged
+**562 → 562** package count. Net diff **−67 source lines**. Plus the operator-directed `.gitattributes`
+repair: a repo-wide `* text=auto eol=lf` above the named coverage-matrix rule; the "LF will be replaced by
+CRLF" warning that fired on every touched file now fires **0** times.
 
 ## Drift resolved
-**none** — and none was detectable: the 0-pending path runs no P1 report and no P2 fan-out, so no
-detector ran. This is a scope fact, not a clean bill of health. A reality↔spec divergence noticed
-between chunks still waits for its chunk wrap.
+**14 amendments · 3 escalations resolved · drift = 0.** arch (4): the sole-`.gitattributes`-rule claim at
+`:205` and the tree comment at `:217`; `conductor-core`'s "every other crate depends on" universal, now false
+for `conductor-emit`; and a §Stack row registering the host-Python operator instruments. test-plan (10): the
+§12 roster's `file:line:col` member identity RETIRED in favour of cargo-mutants' mutation DESCRIPTION joined
+to `scripts/mutation-roster.toml` by a `member` key, plus the §4/§9 committed gate form, §10's two joined
+roster forms, §10's coverage exclusion re-stated as the shipped generic regex, and §1's cited universal.
+Five docs returned `proposals: []`. Two dismissed: registering `ENVELOPE_KEYS_SORTED` into arch §Standard
+Contracts (playbook `:37`, all clauses holding) and a new §4 verification-duty clause (operator: new policy,
+not a recorded fact). Cascade re-derived `CLAUDE.md:21`, `.claude/rules/testing.md:19`,
+`.claude/docs/stack.md` and `.claude/docs/tests-summary.md`; every retired wording measures 0 across masters
+AND leaves.
 
 ## Notes
-- **The entry's freight was verified, not inherited — and one coordinate changed.** The directive
-  scoped it "nothing to re-derive here"; four of five coordinates reproduced exactly (survivors 25,
-  8 in `stub_pulse_mcp.rs` → 17; five `conductor-emit/tests/` pairs at 36–44 lines; both envelope
-  ranges under `#[cfg(test)]`; `unused_deps`). The fifth was refined: `conductor-core` has **three**
-  references under `conductor-emit/src`, not one — `error.rs:5` is a resolvable intra-doc link,
-  `latency.rs:8` and `topology.rs:21` are non-resolving prose backticks. The freight now carries the
-  measured three so a take-up grep confirms the entry instead of contradicting it, and the
-  removability claim is marked `hypothesis:` (no build was run without the dep). Full table in
-  `.andromeda/runs/2026-09-13T16-53-33-wrap/adaptation-record.md`.
-- **Curation: T1 0 · T2 0 · T3 0** — 2 candidates analyzed, 0 conflicts, 0 deferred. One scored
-  *exactly* 0.6 and rejects by the threshold's deterministic rule; the other was scope-excluded as
-  friction telemetry. Neither conditional +0.2 fired, because the fact had already reached the route.
-- **A pipeline defect was recorded for the founder, not fixed here.** Two wrap-session references
-  disagree on annotation vocabulary: Filter 4 excludes its conditional signals by a closed
-  `PREREQ/CARRY` enumeration, while route-resolve's strip rule treats introducers as an open format
-  class naming `EVIDENCE:`/`CONTEXT:`/`LIKELY SHAPE:`. Any wrap authoring a non-PREREQ/CARRY
-  annotation hits an underdetermined Filter 4. Logged as `contract.skill-reference-drift`.
-- **Two founder-invoked diagnostics from today are committed but unreviewed** — the Epoch 6b evolve
-  diagnosis (22+ typed proposals; P1/P2/P3 are the narrow-basis, premise-falsified and token-proxy
-  classes, P4 and P9 carry halt/soft-exit cases) and the Epoch 6b code audit (one proposal, M1
-  `monotonic` duplication). They gate nothing; they are waiting on your read.
+- **Three escalations, all resolved with the operator.** (1) The arch Python proposal's PREMISE was false —
+  `scripts/code-graph.py` and `scripts/scip_pb2.py` have shipped since **2026-06-18** (measured
+  `git log --diff-filter=A` → `8d56a7a`), so the registration was re-derived to name Python as the runtime it
+  already was. (2) The §12 coordinate retirement matched no playbook rule — `:127` was tested and correctly
+  FAILED its second qualifier, since prior wraps had already substituted literals that re-staled. (3) The §4
+  duty clause was dropped as unmade policy.
+- **Curation: T1 0 · T2 1 · T3 0.** The one write EXTENDS `testing.md:85`'s LF-pin entry in place: the
+  repo-wide wildcard removes the "unpinned sibling" its control clause names, so the discriminator is now
+  `text: set` vs `text: auto`, both resolving `eol: lf`. The `cargo mutants --output` parent-chain fact
+  (`os error 3` when the parent chain is missing) REJECTED at exactly 0.6 by the threshold's deterministic
+  rule — its conditional +0.2 is barred because P2 amended the fact into test-plan §4 and the cascade wrote
+  it into `testing.md`'s generated body, so it has a durable home already.
+- **recurrence-despite-learning:** I wrote a sweep result into an artifact before running it TWICE this
+  session — four false bases in the report's Expected-amendments bullets, then a premature 0-hit claim in the
+  arch sidecar. CLAUDE.md's Tier-1 2026-08-21 entry states this rule and did not prevent it. Both were caught
+  by pipeline steps (the report template's re-derive-before-fan-out; the sidecar's caught-ALL check), not by
+  recall. Logged rather than curated as a third entry.
+- **The gate proved its own premise:** `cargo mutants` exited **2** on both PASSING runs. A gate keyed on the
+  exit code would have reported red over a clean tally.
+- **One CARRY added** (`working-route.md:45`, Epoch 5): conductor-emit's five `private_intra_doc_links` make
+  `RUSTDOCFLAGS="-D warnings" cargo doc` unusable on that crate (RED at exit 101, independent of this chunk;
+  `conductor-run` already passes it). Operator chose the CARRY over minting an entry.
+- **The operator's working-copy re-checkout is still owed** — `git rm --cached -r . && git reset --hard` on a
+  clean tree, after this commit. Not wrap's act, deliberately not run here.
+- **Two founder-invoked diagnostics from 2026-09-13 remain unreviewed** (the Epoch 6b evolve diagnosis and
+  code audit). They gate nothing.
 - **Last failed command:** none.

@@ -3,50 +3,11 @@
 //! protobuf must carry `Status.Code=ERROR` at the expected span with well-formed parent/child
 //! linkage. Determinism discipline: loopback stubs live only in tests.
 
-use std::net::SocketAddr;
-use std::sync::{Arc, Mutex};
+mod common;
 
+use common::start_stub;
 use conductor_emit::{DEFAULT_SERVICE_NAME, ErrorPlacement, TraceEmitter, error_trace_request};
-use opentelemetry_proto::tonic::collector::trace::v1::{
-    ExportTraceServiceRequest, ExportTraceServiceResponse,
-    trace_service_server::{TraceService, TraceServiceServer},
-};
 use opentelemetry_proto::tonic::trace::v1::status::StatusCode;
-use tokio::net::TcpListener;
-use tokio_stream::wrappers::TcpListenerStream;
-use tonic::transport::Server;
-use tonic::{Request, Response, Status};
-
-#[derive(Clone, Default)]
-struct CapturingService {
-    last: Arc<Mutex<Option<ExportTraceServiceRequest>>>,
-}
-
-#[tonic::async_trait]
-impl TraceService for CapturingService {
-    async fn export(
-        &self,
-        request: Request<ExportTraceServiceRequest>,
-    ) -> Result<Response<ExportTraceServiceResponse>, Status> {
-        *self.last.lock().unwrap() = Some(request.into_inner());
-        Ok(Response::new(ExportTraceServiceResponse::default()))
-    }
-}
-
-async fn start_stub() -> (SocketAddr, Arc<Mutex<Option<ExportTraceServiceRequest>>>) {
-    let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
-    let addr = listener.local_addr().unwrap();
-    let svc = CapturingService::default();
-    let captured = Arc::clone(&svc.last);
-    tokio::spawn(async move {
-        Server::builder()
-            .add_service(TraceServiceServer::new(svc))
-            .serve_with_incoming(TcpListenerStream::new(listener))
-            .await
-            .unwrap();
-    });
-    (addr, captured)
-}
 
 #[tokio::test(flavor = "current_thread")]
 async fn ships_deep_child_error_trace_to_loopback_stub() {

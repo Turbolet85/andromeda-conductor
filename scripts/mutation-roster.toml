@@ -1,0 +1,124 @@
+# Mutation roster — the expected `missed.txt` SET, per unit.
+#
+# OWNER: `.andromeda/test-plan.md` §12 Test Decisions Log owns the ratified accepted-deliberate classes and
+# their reasoning. This file is that enumeration's EXECUTABLE form, never a second authority: it carries only
+# what `scripts/mutation-gate.py` needs to compare a tally, plus the `member` join key back to §12.
+#
+# COORDINATE-FREE BY DESIGN. A row carries no line and no column. `missed.txt` lines are
+# `{path}:{line}:{col}: {mutation}` and the gate matches on `(file, mutation)` alone, discarding `line:col`.
+# That is what keeps this file and §12 from diverging: the coordinate is the only field both would carry and
+# the only one that drifts. Witness, from the 2026-09-03 tauri disposition evidence:
+# `crates/conductor-tauri/src/commands.rs:263:8: delete ! in start_run` — `:263` is `:273` today while the
+# mutation text is unchanged. It is also the executable form of the identity refinement measured at
+# 2026-09-13: function + COLUMN was insufficient for the class-B `degraded` member (column moved 27 -> 17);
+# the unique mutation DESCRIPTION settles identity.
+#
+# MULTISET, not set. Two rows may share an identical `(file, mutation)` pair — the two
+# `replace == with != in stub_result` entries below are one such pair, distinguished in `missed.txt` only by
+# coordinates the gate discards. The gate therefore compares MULTISETS: a duplicated pair must appear exactly
+# as many times as it has rows here.
+#
+# `class` is one of:
+#   ratified              — an accepted-deliberate member of the §12 roster; `member` names it.
+#   provisional-next-audit — counted here so a tally gate can be green, NOT a disposition. The standing stub
+#                            exclusion that retires these is the next audit's to apply.
+
+[[entry]]
+unit = "conductor-cli"
+file = "crates/conductor-cli/src/render.rs"
+mutation = "replace stdout_color -> bool with false"
+class = "ratified"
+member = "member-5"
+rule = "test-plan §12 conductor-cli PAIR (2026-09-05): the surviving arm reads the HOST's own state, so the only kill available is host-dependent, and a roster must mean the same thing on every host (§10 zero-flakiness)."
+citation_home = "conductor-0.2.0/chunks/2026-09-05-audit-corrective/evidence/disposition-ledger.md"
+
+[[entry]]
+unit = "conductor-cli"
+file = "crates/conductor-cli/src/render.rs"
+mutation = "replace stderr_color -> bool with false"
+class = "ratified"
+member = "member-5"
+rule = "test-plan §12 conductor-cli PAIR (2026-09-05): acceptance is scoped to the unobservable DIRECTION, not the function — `stderr_color -> true` IS killed, and the three-condition logic is killed through the pure `color_enabled` seam."
+citation_home = "conductor-0.2.0/chunks/2026-09-05-audit-corrective/evidence/disposition-ledger.md"
+
+[[entry]]
+unit = "conductor-verify"
+file = "crates/conductor-verify/src/spawn.rs"
+mutation = "replace sidecar_resolves_on_path -> bool with true"
+class = "ratified"
+member = "member-4"
+rule = "test-plan §12 conductor-verify PAIR (2026-09-04): the whole body IS the PATH/PATHEXT read, so the env-at-the-caller rule's mechanism lives in this function. An agreement test against the real PATH was considered and REJECTED — it kills one arm or the other depending on whether andromeda-pulse-mcp happens to be on PATH."
+citation_home = "conductor-0.2.0/chunks/2026-09-04-sidecar-spawn-without-a-console-window/report.md"
+
+[[entry]]
+unit = "conductor-verify"
+file = "crates/conductor-verify/src/spawn.rs"
+mutation = "replace sidecar_resolves_on_path -> bool with false"
+class = "ratified"
+member = "member-4"
+rule = "test-plan §12 conductor-verify PAIR (2026-09-04): the second polarity of the same whole-body replacement; its pure half `resolves_on` is tested on both arms and its own mutants were caught."
+citation_home = "conductor-0.2.0/chunks/2026-09-04-sidecar-spawn-without-a-console-window/report.md"
+
+[[entry]]
+unit = "conductor-verify"
+file = "crates/conductor-verify/src/bin/stub_pulse_mcp.rs"
+mutation = "replace main with ()"
+class = "provisional-next-audit"
+rule = "Test-support binary behind `required-features = [\"stub-server\"]`, off by default; the standing stub exclusion that retires it is the next audit's to apply."
+citation_home = ".andromeda/runs/2026-09-13T11-34-19-code-audit/proposals.md"
+
+[[entry]]
+unit = "conductor-verify"
+file = "crates/conductor-verify/src/bin/stub_pulse_mcp.rs"
+mutation = "replace || with && in main"
+class = "provisional-next-audit"
+rule = "Test-support binary behind `required-features = [\"stub-server\"]`, off by default; the standing stub exclusion that retires it is the next audit's to apply."
+citation_home = ".andromeda/runs/2026-09-13T11-34-19-code-audit/proposals.md"
+
+[[entry]]
+unit = "conductor-verify"
+file = "crates/conductor-verify/src/bin/stub_pulse_mcp.rs"
+mutation = "replace stub_result -> Value with Default::default()"
+class = "provisional-next-audit"
+rule = "Test-support binary behind `required-features = [\"stub-server\"]`, off by default; the standing stub exclusion that retires it is the next audit's to apply."
+citation_home = ".andromeda/runs/2026-09-13T11-34-19-code-audit/proposals.md"
+
+[[entry]]
+unit = "conductor-verify"
+file = "crates/conductor-verify/src/bin/stub_pulse_mcp.rs"
+mutation = "delete match arm \"initialize\" in stub_result"
+class = "provisional-next-audit"
+rule = "Test-support binary behind `required-features = [\"stub-server\"]`, off by default; the standing stub exclusion that retires it is the next audit's to apply."
+citation_home = ".andromeda/runs/2026-09-13T11-34-19-code-audit/proposals.md"
+
+[[entry]]
+unit = "conductor-verify"
+file = "crates/conductor-verify/src/bin/stub_pulse_mcp.rs"
+mutation = "delete match arm \"tools/list\" in stub_result"
+class = "provisional-next-audit"
+rule = "Test-support binary behind `required-features = [\"stub-server\"]`, off by default; the standing stub exclusion that retires it is the next audit's to apply."
+citation_home = ".andromeda/runs/2026-09-13T11-34-19-code-audit/proposals.md"
+
+[[entry]]
+unit = "conductor-verify"
+file = "crates/conductor-verify/src/bin/stub_pulse_mcp.rs"
+mutation = "delete match arm \"tools/call\" in stub_result"
+class = "provisional-next-audit"
+rule = "Test-support binary behind `required-features = [\"stub-server\"]`, off by default; the standing stub exclusion that retires it is the next audit's to apply."
+citation_home = ".andromeda/runs/2026-09-13T11-34-19-code-audit/proposals.md"
+
+[[entry]]
+unit = "conductor-verify"
+file = "crates/conductor-verify/src/bin/stub_pulse_mcp.rs"
+mutation = "replace == with != in stub_result"
+class = "provisional-next-audit"
+rule = "Test-support binary behind `required-features = [\"stub-server\"]`, off by default; the standing stub exclusion that retires it is the next audit's to apply. One of two rows sharing this pair — see the MULTISET note in the header."
+citation_home = ".andromeda/runs/2026-09-13T11-34-19-code-audit/proposals.md"
+
+[[entry]]
+unit = "conductor-verify"
+file = "crates/conductor-verify/src/bin/stub_pulse_mcp.rs"
+mutation = "replace == with != in stub_result"
+class = "provisional-next-audit"
+rule = "Test-support binary behind `required-features = [\"stub-server\"]`, off by default; the standing stub exclusion that retires it is the next audit's to apply. Two of two rows sharing this pair — see the MULTISET note in the header."
+citation_home = ".andromeda/runs/2026-09-13T11-34-19-code-audit/proposals.md"

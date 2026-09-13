@@ -2,51 +2,12 @@
 //! `:4317`, reserved for the Epoch-4 port-occupier). Asserts the shaped ramp + breathing streams
 //! reach the collector with exactly the seeded per-window span totals (P-026 emission side).
 
-use std::net::SocketAddr;
-use std::sync::{Arc, Mutex};
+mod common;
 
+use common::{LastRequest, start_stub};
 use conductor_emit::{RateCurve, TraceEmitter, rate_trace_request};
-use opentelemetry_proto::tonic::collector::trace::v1::{
-    ExportTraceServiceRequest, ExportTraceServiceResponse,
-    trace_service_server::{TraceService, TraceServiceServer},
-};
-use tokio::net::TcpListener;
-use tokio_stream::wrappers::TcpListenerStream;
-use tonic::transport::Server;
-use tonic::{Request, Response, Status};
 
-#[derive(Clone, Default)]
-struct CapturingService {
-    last: Arc<Mutex<Option<ExportTraceServiceRequest>>>,
-}
-
-#[tonic::async_trait]
-impl TraceService for CapturingService {
-    async fn export(
-        &self,
-        request: Request<ExportTraceServiceRequest>,
-    ) -> Result<Response<ExportTraceServiceResponse>, Status> {
-        *self.last.lock().unwrap() = Some(request.into_inner());
-        Ok(Response::new(ExportTraceServiceResponse::default()))
-    }
-}
-
-async fn start_stub() -> (SocketAddr, Arc<Mutex<Option<ExportTraceServiceRequest>>>) {
-    let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
-    let addr = listener.local_addr().unwrap();
-    let svc = CapturingService::default();
-    let captured = Arc::clone(&svc.last);
-    tokio::spawn(async move {
-        Server::builder()
-            .add_service(TraceServiceServer::new(svc))
-            .serve_with_incoming(TcpListenerStream::new(listener))
-            .await
-            .unwrap();
-    });
-    (addr, captured)
-}
-
-fn received_span_count(captured: &Arc<Mutex<Option<ExportTraceServiceRequest>>>) -> usize {
+fn received_span_count(captured: &LastRequest) -> usize {
     captured
         .lock()
         .unwrap()

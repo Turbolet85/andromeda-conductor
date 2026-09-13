@@ -538,3 +538,62 @@ fn preconditions_output_leaks_no_host_path_or_env_value() {
         );
     }
 }
+
+/// The row count out of `cleanup: {n} rows removed for {run_id}`.
+fn removed_count(stdout: &[u8]) -> u64 {
+    let text = String::from_utf8_lossy(stdout);
+    let line = text
+        .lines()
+        .find(|l| l.contains("rows removed for"))
+        .unwrap_or_else(|| panic!("no cleanup line in: {text}"));
+    line.split_whitespace()
+        .nth(1)
+        .and_then(|n| n.parse().ok())
+        .unwrap_or_else(|| panic!("no row count in: {line}"))
+}
+
+#[test]
+fn cleanup_removes_the_run_rows_and_reports_the_count() {
+    let dir = TempDir::new().unwrap();
+    copy_scenario(&dir, "error-baseline-spike");
+
+    conductor(&dir)
+        .args(["run", "error-baseline-spike"])
+        .assert()
+        .success();
+    let run_id = blocked_state(&dir)["run_id"]
+        .as_str()
+        .expect("the envelope names its run")
+        .to_string();
+
+    // `ExitCode::default()` IS `ExitCode::SUCCESS`, so the exit code cannot tell a teardown that ran
+    // from one that did nothing — the printed row count is the observable effect. Asserted as text,
+    // never as a colour code: the run id rides the ID-cyan mapping only on a TTY.
+    let first = conductor(&dir)
+        .args(["cleanup", &run_id])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains(format!(
+            "rows removed for {run_id}"
+        )));
+    let removed = removed_count(&first.get_output().stdout);
+    assert!(
+        removed > 0,
+        "the run's rows were actually deleted, not merely reported: {removed}"
+    );
+
+    // Idempotent by contract: the same verb over an already-cleared run removes nothing, still
+    // prints its line, and still succeeds.
+    let second = conductor(&dir)
+        .args(["cleanup", &run_id])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains(format!(
+            "rows removed for {run_id}"
+        )));
+    assert_eq!(
+        removed_count(&second.get_output().stdout),
+        0,
+        "teardown is idempotent"
+    );
+}

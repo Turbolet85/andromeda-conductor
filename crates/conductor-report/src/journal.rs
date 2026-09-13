@@ -163,22 +163,7 @@ mod tests {
             .map(String::as_str)
             .collect();
         keys.sort_unstable();
-        assert_eq!(
-            keys,
-            [
-                "fingerprints",
-                "journal_emitted_at",
-                "latency_ms",
-                "p_ids",
-                "read_back_observed_at",
-                "run_id",
-                "scenario",
-                "seed",
-                "slo_tier",
-                "state",
-                "verdict",
-            ]
-        );
+        assert_eq!(keys, conductor_core::ENVELOPE_KEYS_SORTED);
     }
 
     #[test]

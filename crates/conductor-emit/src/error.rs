@@ -2,7 +2,7 @@
 //!
 //! OTLP egress faults (a refused/invalid gRPC transport, a collector-returned `tonic::Status`)
 //! are Conductor's own harness failures and ride in `Result::Err` — never a verification outcome
-//! (mirrors [`conductor_core::CoreError`]). `#[non_exhaustive]` so later Epoch-3 chunks extend the
+//! (mirrors `conductor-core`'s `CoreError`). `#[non_exhaustive]` so later Epoch-3 chunks extend the
 //! fault surface.
 
 /// A harness fault from the OTLP emission seam — never a verification verdict.

@@ -18,7 +18,7 @@ Conductor is a desktop control-panel app (Tauri 2) over a headless-drivable Rust
 
 ## Modules
 <!-- GENERATED:setup:modules start -->
-- **`conductor-core`** — runtime-agnostic engine library every other crate depends on (shared `Verdict`/`ReportState` types, scenario model).
+- **`conductor-core`** — runtime-agnostic engine library the other members depend on, `conductor-emit` excepted (shared `Verdict`/`ReportState` types, scenario model, the eleven-key envelope name list).
 - **`conductor-timeline`** — deterministic seeded phase scheduler on `tokio::time`.
 - **`conductor-emit`** — OTLP raw-type emission primitives (opentelemetry-proto + tonic/prost), gRPC egress to `:4317`; exception events + the fingerprint primitive.
 - **`conductor-faults`** — fault helpers: ramps, silence, port-occupier, fingerprint-storm fault (the per-exception fingerprint primitive lives in `conductor-emit`).
