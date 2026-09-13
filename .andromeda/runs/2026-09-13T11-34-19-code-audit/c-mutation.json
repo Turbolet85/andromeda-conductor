@@ -1,0 +1,188 @@
+{
+ "scoped_units": [
+  "conductor-tauri",
+  "conductor-cli",
+  "conductor-run",
+  "conductor-verify",
+  "conductor-core"
+ ],
+ "unit_states": {
+  "conductor-tauri": "complete (46/46 tested)",
+  "conductor-cli": "complete (112/112 tested)",
+  "conductor-run": "complete (118/118 tested)",
+  "conductor-verify": "complete (148/148 tested)",
+  "conductor-core": "complete (126/126 tested) of 504 in the unit — shard 1/4"
+ },
+ "scores": {
+  "conductor-tauri": 90.0,
+  "conductor-cli": 96.81,
+  "conductor-run": 94.32,
+  "conductor-verify": 88.71,
+  "conductor-core": 100.0
+ },
+ "counts": {
+  "conductor-tauri": {
+   "mutants": 46,
+   "caught": 27,
+   "missed": 3,
+   "timeout": 0,
+   "unviable": 16
+  },
+  "conductor-cli": {
+   "mutants": 112,
+   "caught": 91,
+   "missed": 3,
+   "timeout": 0,
+   "unviable": 18
+  },
+  "conductor-run": {
+   "mutants": 118,
+   "caught": 83,
+   "missed": 5,
+   "timeout": 0,
+   "unviable": 30
+  },
+  "conductor-verify": {
+   "mutants": 148,
+   "caught": 110,
+   "missed": 14,
+   "timeout": 0,
+   "unviable": 24
+  },
+  "conductor-core": {
+   "mutants": 126,
+   "caught": 126,
+   "missed": 0,
+   "timeout": 0,
+   "unviable": 0
+  }
+ },
+ "score_formula": "caught/(caught+missed)  [timeout and unviable excluded]",
+ "survivors": [
+  [
+   "conductor-tauri",
+   "crates/conductor-tauri/src/main.rs:18:5",
+   "replace main with ()"
+  ],
+  [
+   "conductor-tauri",
+   "crates/conductor-tauri/src/commands.rs:273:8",
+   "delete ! in start_run"
+  ],
+  [
+   "conductor-tauri",
+   "crates/conductor-tauri/src/commands.rs:308:5",
+   "replace run_thread with ()"
+  ],
+  [
+   "conductor-cli",
+   "crates/conductor-cli/src/render.rs:161:5",
+   "replace stdout_color -> bool with false"
+  ],
+  [
+   "conductor-cli",
+   "crates/conductor-cli/src/render.rs:171:5",
+   "replace stderr_color -> bool with false"
+  ],
+  [
+   "conductor-cli",
+   "crates/conductor-cli/src/commands/cleanup.rs:16:5",
+   "replace cleanup -> anyhow::Result<ExitCode> with Ok(Default::default())"
+  ],
+  [
+   "conductor-run",
+   "crates/conductor-run/src/canary.rs:56:8",
+   "delete ! in preflight"
+  ],
+  [
+   "conductor-run",
+   "crates/conductor-run/src/execute.rs:105:17",
+   "delete field degraded from struct Observation expression in execute_scenario"
+  ],
+  [
+   "conductor-run",
+   "crates/conductor-run/src/execute.rs:148:25",
+   "replace - with + in execute_scenario"
+  ],
+  [
+   "conductor-run",
+   "crates/conductor-run/src/execute.rs:148:25",
+   "replace - with / in execute_scenario"
+  ],
+  [
+   "conductor-run",
+   "crates/conductor-run/src/preconditions.rs:44:5",
+   "replace declares -> bool with false"
+  ],
+  [
+   "conductor-verify",
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:18:5",
+   "replace main with ()"
+  ],
+  [
+   "conductor-verify",
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:37:60",
+   "replace || with && in main"
+  ],
+  [
+   "conductor-verify",
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:45:5",
+   "replace stub_result -> Value with Default::default()"
+  ],
+  [
+   "conductor-verify",
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:46:9",
+   "delete match arm \"initialize\" in stub_result"
+  ],
+  [
+   "conductor-verify",
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:51:9",
+   "delete match arm \"tools/list\" in stub_result"
+  ],
+  [
+   "conductor-verify",
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:58:9",
+   "delete match arm \"tools/call\" in stub_result"
+  ],
+  [
+   "conductor-verify",
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:63:21",
+   "replace == with != in stub_result"
+  ],
+  [
+   "conductor-verify",
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:75:28",
+   "replace == with != in stub_result"
+  ],
+  [
+   "conductor-verify",
+   "crates/conductor-verify/src/client.rs:187:9",
+   "replace ReadbackClient::resolve_incident -> Result<Value, VerifyError> with Ok(Default::default())"
+  ],
+  [
+   "conductor-verify",
+   "crates/conductor-verify/src/extract.rs:98:22",
+   "replace == with != in observe"
+  ],
+  [
+   "conductor-verify",
+   "crates/conductor-verify/src/extract.rs:113:22",
+   "replace == with != in observe"
+  ],
+  [
+   "conductor-verify",
+   "crates/conductor-verify/src/manifest.rs:35:9",
+   "replace ContractManifest::default_path -> PathBuf with Default::default()"
+  ],
+  [
+   "conductor-verify",
+   "crates/conductor-verify/src/spawn.rs:116:5",
+   "replace sidecar_resolves_on_path -> bool with true"
+  ],
+  [
+   "conductor-verify",
+   "crates/conductor-verify/src/spawn.rs:116:5",
+   "replace sidecar_resolves_on_path -> bool with false"
+  ]
+ ]
+}

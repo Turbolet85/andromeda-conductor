@@ -1,0 +1,347 @@
+[
+ {
+  "id": "2026-09-05T16:56:23Z-d",
+  "chunk": null,
+  "skill_step": "wrap-session/route-resolve",
+  "what": "the directive cited a measurement ('0 passed, 1 failed' beside `agent-run.ps1 --e2e` exit 0 at the SR chunk) that no artifact carries — grep over the SR chunk folders, the 2026-09-04 wrap run dirs, runs/ and the ui logs found nothing; the CARRY carries it operator-reported, mechanism labeled hypothesis, with a re-measure-at-take-up instruction (route-resolve causal-claim rule)",
+  "impact": {
+   "extra_reads": 3
+  },
+  "artifacts": null,
+  "evidence": null
+ },
+ {
+  "id": "2026-09-06T07:08:11Z-d",
+  "chunk": "2026-09-06-operator-gated-live-suite",
+  "skill_step": "phase/research",
+  "what": "A built, fresh rust plane is missing a defined public symbol: callee_name execute_scenario returned 0 rows and the script's probe warned it matches NO indexed symbol, yet grep finds pub async fn execute_scenario<R: PauseResolver> at crates/conductor-run/src/execute.rs:48 with three production callers (conductor-cli commands/run.rs:23, commands/suite.rs:32, conductor-run/src/drive.rs:81) plus three in-file tests. Only the enclosing execute MODULE is indexed. No listed type fits — the graph was available and fresh, so this is index INCOMPLETENESS on a built plane rather than graph-unavailable. The cookbook's own guard caught it (0 rows plus a failed name probe means not-a-leaf, grep before concluding) so nothing was mis-concluded; recorded because a generic fn silently absent from the index makes every impact query on it a false leaf.",
+  "impact": {
+   "reformulations": 1,
+   "extra_reads": 2
+  },
+  "artifacts": [
+   "scripts/code-graph.py",
+   "crates/conductor-run/src/execute.rs"
+  ],
+  "evidence": ".andromeda/runs/2026-09-06T06-45-45-phase/tree-query-2026-09-06-operator-gated-live-suite.json"
+ },
+ {
+  "id": "2026-09-06T09:27:06Z-e",
+  "chunk": "2026-09-06-operator-gated-live-suite",
+  "skill_step": "implement/smoke",
+  "what": "A POSITIVE worth recording against a standing worry rather than a defect: the live suite's process teardown was exact. The pre-leg census (pulse-app.exe pid 64156 holding :4317, nothing else) and the post-leg census matched byte for byte — the driven a11y arm's whole tree (tauri-driver, msedgedriver.exe, conductor-tauri.exe, the node workers) self-terminated via wdio onComplete -> tauriDriver.kill(), no listener remained on :4444/:4445, and the operator-started SUT was left running as the census table records. The 2026-09-02 harness rule that every leg ends with a real process census is what made this checkable at all; the leg started five process families and orphaned none.",
+  "impact": {},
+  "artifacts": [
+   "conductor-0.2.0/chunks/2026-09-06-operator-gated-live-suite/evidence/live-suite-verdict.md",
+   ".claude/rules/verification-harness.md"
+  ],
+  "evidence": null
+ },
+ {
+  "id": "2026-09-06T15:26:27Z-c",
+  "chunk": "2026-09-06-coverage-completeness-gate",
+  "skill_step": "phase/validate",
+  "what": "Two operator-caught plan defects no P5 mechanical check covers. (a) INCOMPLETE SWEEP OF A KNOWN CLASS: the CWD-relative trap was identified and written up for the artifact arm, while the positive drift arm one bullet away carried the identical trap through CapabilityManifest::default_path() — a known mechanism applied to one of its two sites, the same shape as the standing 'sweep every reader when you fix one' rule. (b) UNCONSIDERED PORTABILITY AXIS: a byte-for-byte artifact comparison was planned with no line-ending pin, on a repo with no .gitattributes, core.autocrlf=true and windows-latest CI — green locally, hypothetically red in CI. Both fixed in place; (b) pinned with .gitattributes rather than by relaxing the comparison, which would have hidden a real ending regression",
+  "impact": {
+   "reformulations": 3
+  },
+  "artifacts": [
+   "conductor-0.2.0/chunks/2026-09-06-coverage-completeness-gate/plan.md",
+   ".gitattributes"
+  ],
+  "evidence": "capability_manifest.rs:31-33 (CWD-relative default_path) vs the three CARGO_MANIFEST_DIR sites at capability_manifest.rs:102 / coverage.rs:600 / drift.rs:224; git config core.autocrlf=true with .gitattributes absent"
+ },
+ {
+  "id": "2026-09-06T16:58:11Z-c",
+  "chunk": "2026-09-06-coverage-completeness-gate",
+  "skill_step": "wrap-session/gates",
+  "what": "POSITIVE measurement of a control working: the commit printed 'LF will be replaced by CRLF' warnings for every tracked text file it touched EXCEPT coverage-matrix.md, the one path .gitattributes pins eol=lf. That is direct evidence the line-ending hazard the pin was written against is live on this host (core.autocrlf=true) and that the pin governs the file the gate byte-compares — the P5 review's hypothesis confirmed by the commit itself rather than by argument. git check-attr on the committed file reads text: set / eol: lf",
+  "impact": {},
+  "artifacts": [
+   ".gitattributes",
+   "coverage-matrix.md"
+  ],
+  "evidence": "the commit's warning list (26 files warned, coverage-matrix.md absent); git check-attr text eol -- coverage-matrix.md"
+ },
+ {
+  "id": "2026-09-06T19:08:37Z-c",
+  "chunk": null,
+  "skill_step": "new-session/orientation",
+  "what": "The handoff's Position field says the head entry 'carries one CONTEXT + one CARRY'; working-route.md:117 carries one CONTEXT and TWO CARRYs (2026-08-22-operator-pause-and-checklist-live-firing re-tiering, plus the 2026-09-06-operator-gated-live-suite 0-pending adaptation re-proving observable 1). Both predate the handoff.",
+  "impact": {},
+  "artifacts": [
+   ".claude/session-handoff.md",
+   "conductor-0.2.0/working-route.md"
+  ],
+  "evidence": "sed -n '117p' conductor-0.2.0/working-route.md"
+ },
+ {
+  "id": "2026-09-07T07:16:29Z-c",
+  "chunk": "2026-09-06-halo-hue-budget-re-driven",
+  "skill_step": "phase/validate",
+  "what": "Two plan steps were individually correct and jointly inconsistent: step 1 NAMED the 1/s jitter beat (a tick seeing quiet==1 skips the last_seen refresh) and then chose 1/s anyway, while step 6's mechanism pin - authored later - is exactly what that beat breaks, spuriously in ~1-5% of runs. Nothing in the mechanical checks or val-1 looks for consistency BETWEEN steps; the operator's round-2 note found it.",
+  "impact": {
+   "dialogue_rounds": 1
+  },
+  "artifacts": [
+   "conductor-0.2.0/chunks/2026-09-06-halo-hue-budget-re-driven/plan.md"
+  ],
+  "evidence": "plan.md step 1 (rate rationale) vs step 6 (tick-offset tolerance ~1100ms); resolved by raising both phases to 2/s"
+ },
+ {
+  "id": "2026-09-07T08:06:03Z-c",
+  "chunk": "2026-09-06-halo-hue-budget-re-driven",
+  "skill_step": "implement/None",
+  "what": "I read the run-report envelope from the wrong artifact first: the frozen per-leg self-obs (runs/live-suite/{leg}.jsonl) carries the span/event stream but not the envelope record, which lives in the per-run journal runs/<run_id>.jsonl. The probe returned empty rather than wrong, so it self-announced.",
+  "impact": {
+   "retries": 1
+  },
+  "artifacts": [
+   "runs/live-suite/h.jsonl"
+  ],
+  "evidence": "first extraction printed nothing; the per-run journals carried all four envelopes"
+ },
+ {
+  "id": "2026-09-07T12:28:53Z-d",
+  "chunk": "2026-09-07-dependency-polish",
+  "skill_step": "implement/fix-loop",
+  "what": "A dead-code tool installed to close an audit column produced a signal with a 100 percent false-positive rate on first run, and the audit's next boundary would otherwise record it as a usable series. knip reported 3 unused files, 5 unused devDependencies and 12 unused exports/types — all 20 wrong, and all one class: WebdriverIO discovers specs through wdio.conf.ts's specs/suites config and loads devDependencies through its own plugin resolution, so knip's import-graph reachability cannot see the package's largest consumer. Four of the five flagged devDependencies are mandated BY NAME AND PIN in a11y-plan section 3, and section 11 forbids acting on exactly this kind of report, so the failure mode is not merely noise: a reader who trusted it would delete the a11y harness. Nothing was deleted; every finding is dispositioned in the chunk's evidence. Worth noting for the diagnosis because installing a tool and CONFIGURING it were treated as one step by the originating directive and are not.",
+  "impact": {
+   "extra_reads": 0
+  },
+  "artifacts": [
+   "crates/conductor-tauri/ui/package.json",
+   "conductor-0.2.0/chunks/2026-09-07-dependency-polish/evidence/knip-first-report.md"
+  ],
+  "evidence": "npm run knip output transcribed in full in the evidence file with a per-finding disposition"
+ },
+ {
+  "id": "2026-09-07T13:06:00Z-b",
+  "chunk": "2026-09-07-dependency-polish",
+  "skill_step": "wrap-session/curation",
+  "what": "Two Tier-2 candidates had no rendered home and fell to Tier 3, which is a coverage gap in the rule-file set rather than a property of the learnings. Both facts are about CARGO MANIFESTS — that a member cannot disable default-features on an inherited workspace dependency, and that a per-member build sweep must run each member on its own targets because --lib exits 101 on a bin-only crate. The Tier-2 home registry routes by class (security-sensitive, test authoring, harness driver, telemetry, a11y, host shell, migrations/api/events/frontend) and none covers build manifests; applying the artifact-language tiebreaker confirms it, since no rule file's paths frontmatter scopes Cargo.toml (testing.md covers crates tests and src rs files, verification-harness.md covers the agent-run scripts and two crate trees). Both learnings are directives that would auto-load usefully when a manifest is edited, and instead they sit in an on-demand doc nothing imports.",
+  "impact": {},
+  "artifacts": [
+   ".claude/rules/testing.md",
+   ".claude/rules/verification-harness.md",
+   ".claude/docs/session-learnings.md"
+  ],
+  "evidence": "paths frontmatter of testing.md and verification-harness.md; neither lists Cargo.toml or a manifest glob"
+ },
+ {
+  "id": "2026-09-07T15:26:10Z-b",
+  "chunk": "2026-09-07-a11y-ci-gate",
+  "skill_step": "phase/validate",
+  "what": "the plan authored a SECOND COPY of the envelope schema into the CI job - re-listing the eleven keys and the host-path regexes in step 8 - when the repo's own comment at ci.yml:167-171 explicitly rejects exactly that ('a third copy of the schema ... would drift from the first two') and is the stated reason the run-journal gate runs the Rust test instead. The miss is not a research gap: P3 had ALREADY recorded 'a named ci.yml step is the established gate shape (:79, :144, :172)' under Patterns detected, and P4 still wrote the duplicate. The operator supplied the reuse; the corrected step points CONDUCTOR_RUNS_DIR=runs/a11y at conductor-run's existing journal_conformance test, which also gave the local Test Commands a checker the obs criterion previously lacked. No listed category covers a plan ignoring a pattern its own research recorded.",
+  "impact": {
+   "iterations": 1
+  },
+  "artifacts": [
+   ".github/workflows/ci.yml:167",
+   "conductor-0.2.0/chunks/2026-09-07-a11y-ci-gate/plan.md",
+   "conductor-0.2.0/chunks/2026-09-07-a11y-ci-gate/research.md"
+  ],
+  "evidence": "measured before wiring: a synthetic routine/[]/0/<90s envelope line under runs/a11y passes the existing gate 8/8 in 0.076s, so the reuse needed no schema fork"
+ },
+ {
+  "id": "2026-09-07T18:10:46Z-c",
+  "chunk": "2026-09-07-sr-findings-fixed",
+  "skill_step": "phase/take-up",
+  "what": "re-verifying the folded CARRY freight surfaced a second CI defect the directive did not name: ci.yml:261 prepends $PSNativeCommandUseErrorActionPreference = $true, which turns the non-zero `& npm run a11y` into a terminating NativeCommandExitException at agent-run.ps1:270, so the deliberate Get-Content $a11yLog print at :273 never ran and the job log carried one line instead of wdio output - the strict arm's own console.log explaining the failure went to the log file and never reached the operator",
+  "impact": {
+   "extra_reads": 2
+  },
+  "artifacts": [
+   ".github/workflows/ci.yml",
+   "scripts/agent-run.ps1"
+  ],
+  "evidence": "gh run 34148079506 --log-failed: compile lines then NativeCommandExitException, no wdio output between"
+ },
+ {
+  "id": "2026-09-07T18:19:50Z-c",
+  "chunk": "2026-09-07-sr-findings-fixed",
+  "skill_step": "phase/distill",
+  "what": "I applied fan-out.md's raw-twin rule mechanically to all 7 extracts instead of first checking which returns the decode actually changed, so a .raw-design.md was written that was byte-identical to design.md - exactly the duplicate the reference says carries nothing and must be replaced by a 'raw == stripped' note; caught by a filecmp check afterwards and removed",
+  "impact": {
+   "extra_reads": 1
+  },
+  "artifacts": [
+   ".andromeda/runs/2026-09-07T18-08-48-phase/.raw-design.md"
+  ],
+  "evidence": "filecmp.cmp(design.md, .raw-design.md, shallow=False) -> True; file removed, 6 twins remain"
+ },
+ {
+  "id": "2026-09-07T20:00:56Z-c",
+  "chunk": "2026-09-07-sr-findings-fixed",
+  "skill_step": "implement/code",
+  "what": "the first re-announce design put the echo node INSIDE the same role=alert region as the visible paragraph; NVDA read the region WHOLE and spoke the message twice in one utterance (2 occurrences on the speaking line). Moving the visible copy OUTSIDE the region, leaving the region to carry the re-assertion alone, gave exactly one occurrence - the region's read-whole behaviour is what makes a duplicate node the wrong shape for a re-announce",
+  "impact": {
+   "iterations": 1
+  },
+  "artifacts": [
+   "crates/conductor-tauri/ui/src/App.tsx"
+  ],
+  "evidence": "runs/sr-leg/nvda-speech.error.log — 2 occurrences before, 1 after"
+ },
+ {
+  "id": "2026-09-07T20:57:50Z-c",
+  "chunk": "2026-09-07-sr-findings-fixed",
+  "skill_step": "implement/fix-loop",
+  "what": "my own isolation probe (b) POSTed a session straight at msedgedriver, bypassing tauri-driver - which is the component that owns the WebView2-host translation - so a failure there could not by itself discriminate driver-image behaviour from a bypassed translation; only the routine arm failing IDENTICALLY through tauri-driver made the direct result meaningful. A bypass probe needs its in-path twin to be evidence",
+  "impact": {},
+  "artifacts": [
+   ".github/workflows/ci.yml"
+  ],
+  "evidence": "both paths returned the same DevToolsActivePort error"
+ },
+ {
+  "id": "2026-09-07T21:57:21Z-b",
+  "chunk": "2026-09-07-sr-findings-fixed",
+  "skill_step": "wrap-session/route-resolve",
+  "what": "the minted entry had to carry an explicit RETRACTION of a causal reading this same chunk produced and committed to a matrix note before the operator falsified it - the freight is not just discovered work but a warning against a mechanism the next taker would otherwise find in this chunk's own artifacts; a CARRY that only listed the open question would have left the retracted diagnosis as the most specific thing on the record",
+  "impact": {},
+  "artifacts": [
+   "conductor-0.2.0/working-route.md",
+   "conductor-0.2.0/verification-matrix.json"
+  ],
+  "evidence": "working-route.md:125, the RETRACTED clause"
+ },
+ {
+  "id": "2026-09-08T17:16:50Z-c",
+  "chunk": null,
+  "skill_step": "new-session/orientation",
+  "what": "friction-log epoch labels for the current epoch are split two ways — 255 records as 'Epoch 6b — Polish & ship' and 38 as '### Epoch 6b — Polish & ship' (the working-route header copied with its heading prefix); an Epoch 6b diagnosis grouping by label under-counts by 38 unless it reconciles them. Same shape as the 212/27 split evolve-system.md already cites, and Epoch 3, 4 and 6a each carry a smaller variant split too",
+  "impact": {},
+  "artifacts": [
+   ".andromeda/friction-log.ndjson"
+  ],
+  "evidence": "counted with json.loads over every line of the log at this session start"
+ },
+ {
+  "id": "2026-09-08T20:18:38Z-b",
+  "chunk": "2026-09-08-webview2-runtime-152-installed-in-job",
+  "skill_step": "phase/validate",
+  "what": "An operator review round was spent on METHOD rather than substance: I had read the v2-24 matrix entry by loading verification-matrix.json with inline python at P1 and again at P3, where the contract specifies matrix.py show --dir {dir} --id {id}. The substance survived intact — every field I relied on (status planned, chunk None, ref None, method a11y, the four notes narratives) matched the tool's output exactly — but the tool form additionally prints title, observed_gap and requirement, and the requirement line is STRICTER than the acceptance I had been reasoning from. So the shortcut cost nothing in correctness this time and could have: I was one field away from reasoning off an incomplete view of the entry, on the single decision (claim vs decline) the whole chunk turns on. The skill body names the tool for reads; nothing enforced it, and a plausible-looking python read of a JSON file is exactly the shape that does not feel like a deviation while making one.",
+  "impact": {
+   "dialogue_rounds": 1
+  },
+  "artifacts": [
+   "conductor-0.2.0/verification-matrix.json",
+   "references/verification-matrix-contract.md"
+  ],
+  "evidence": null
+ },
+ {
+  "id": "2026-09-08T20:23:17Z-b",
+  "chunk": "2026-09-08-webview2-runtime-152-installed-in-job",
+  "skill_step": "implement/code",
+  "what": "P1's self-check asks 'all New files written?' and this chunk's single New file cannot be written at P1 by construction. The plan lists evidence/probe-verdict.md under Codebase touchpoints, and its own step 10 says to write it AFTER the CI run — which cannot happen until the workflow change is committed and pushed, i.e. after implement's whole lifecycle. So the honest P1 outcome is 1 modified / 0 new against a plan listing 1 new, and nothing in the step's own vocabulary distinguishes 'deferred past this skill by design' from 'forgotten'. This is the P1 face of the same structural fact already recorded at phase P5 (id 2026-09-08T20:18:38Z-c, where mechanical check 4's producer clause fired by construction on the same chunk): a chunk whose subject is a hosted-runner measurement has deliverables that land after the push, and several per-step contracts assume every deliverable lands inside the step that plans it.",
+  "impact": {},
+  "artifacts": [
+   "conductor-0.2.0/chunks/2026-09-08-webview2-runtime-152-installed-in-job/plan.md",
+   "references/code-writing-discipline.md"
+  ],
+  "evidence": null
+ },
+ {
+  "id": "2026-09-08T20:25:49Z-c",
+  "chunk": "2026-09-08-webview2-runtime-152-installed-in-job",
+  "skill_step": "implement/fix-loop",
+  "what": "RECURRENCE DESPITE A CURATED LEARNING, in the same chunk that logged its mirror image. I put `cargo fmt --check` in the plan's Test Commands because the tests extract faithfully reported test-plan §9's Lint stage as including it — and never checked whether the tree satisfies it. That is exactly the standing 2026-08-11 rule (a spec describes TARGET state, so a doc-derived process cannot tell you whether the code already does it; verify against the real artifact before planning on a spec-asserted capability), and it cost a red gate that no amount of in-scope work could clear. The symmetry with this chunk's phase-P4 finding is the useful part: there I authored a gate that could never FAIL (a PCRE lookahead under grep -E, id 2026-09-08T19:37:06Z-b), here a gate that could never PASS. Both were authored in the same Test Commands block, both from correct-looking sources, and both were caught only by RUNNING them — neither by the P5 mechanical checks, which verify a command's presence and shape and never its satisfiability. A Test Commands block is executable content authored without execution, and nothing in the pipeline runs it until implement.",
+  "impact": {},
+  "artifacts": [
+   "conductor-0.2.0/chunks/2026-09-08-webview2-runtime-152-installed-in-job/plan.md",
+   ".andromeda/test-plan.md"
+  ],
+  "evidence": null
+ },
+ {
+  "id": "2026-09-09T09:37:54Z-d",
+  "chunk": null,
+  "skill_step": "new-session/orientation",
+  "what": "the session-level auto-mode directive instructs making file changes via Bash heredocs rather than the Write tool, which the project's own PreToolUse guard blocks outright for file-target heredocs; the two rules point opposite ways and the conflict surfaces only as a blocked call",
+  "impact": {
+   "retries": 1
+  },
+  "artifacts": [
+   ".claude/rules/host-win32.md"
+  ],
+  "evidence": "PreToolUse:Bash hook error, this session"
+ },
+ {
+  "id": "2026-09-09T10:27:03Z-c",
+  "chunk": "2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate",
+  "skill_step": "phase/research",
+  "what": "a diff classifier keyed on line.startswith('+') returned 0 added and 0 removed lines against 282 real hunks, because cargo fmt --check prefixes every +/- with an ANSI colour escape; the meaningless zero was visible only by dumping the raw output through cat -A, after which stripping ANSI first gave +1581/-486",
+  "impact": {
+   "retries": 1
+  },
+  "artifacts": [
+   "probe-only, no project artifact"
+  ],
+  "evidence": "classify.py then classify2.py in the session scratchpad"
+ },
+ {
+  "id": "2026-09-09T12:44:26Z-b",
+  "chunk": "2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate",
+  "skill_step": "implement/code",
+  "what": "the plan states the pass as +1581/-486 lines, a number derived at P3 by parsing cargo fmt --check output with ANSI stripped; the realised pass measures +1582/-487 by git diff --numstat - one line more on each side. Both are correct measurements of slightly different things (rustfmt hunk rendering vs git hunk accounting), and the direction and magnitude are unaffected, but a committed number that does not reproduce under the obvious re-measurement is the class that costs a later chunk a wrong premise, so both bases are carried in the report rather than one silently replacing the other",
+  "impact": {},
+  "artifacts": [
+   "conductor-0.2.0/chunks/2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate/plan.md"
+  ],
+  "evidence": "git diff --numstat -- *.rs after cargo fmt --all"
+ },
+ {
+  "id": "2026-09-09T20:16:56Z-b",
+  "chunk": "2026-09-09-port-occupier-test-hygiene",
+  "skill_step": "implement/fix-loop",
+  "what": "the plan I authored listed `bash scripts/agent-run.sh status` as its role=smoke entry, but verification-harness.md's 2026-06-21 entry states that for a no-boot-path-change chunk the smoke is `agent-run.sh run` (the release-gate path) and explicitly NOT status, because status requires a run_id from a prior live run. Measured here: the entry exited 0 while printing an envelope from run 2026-09-07T09-06-34-068, two days stale - the documented exits-0-while-proving-nothing behaviour, walked into by a plan authored in the same session that read the rule",
+  "impact": {},
+  "artifacts": [
+   "conductor-0.2.0/chunks/2026-09-09-port-occupier-test-hygiene/plan.md",
+   ".claude/rules/verification-harness.md"
+  ],
+  "evidence": "cost nothing functionally - no acceptance criterion depends on the smoke, and gates 6/7/8 already cover what agent-run.sh run executes apart from its doctest arm. Remedy taken at P3: drive the prescribed form rather than re-driving status, so the rule is satisfied by execution instead of noted as a miss. Second plan-authoring defect of this session, after the operator-caught ninth-crate omission"
+ },
+ {
+  "id": "2026-09-10T10:13:37Z-b",
+  "chunk": null,
+  "skill_step": "new-session/orientation",
+  "what": "The session-mode directive in force (prefer Bash heredocs/sed over the Write tool for file changes) contradicts this project's PreToolUse hook and host rule, which block a cat/tee heredoc with a file target and require the Write tool; the first script-authoring call exited 2 and was re-authored via Write.",
+  "impact": {
+   "retries": 1
+  },
+  "artifacts": [
+   "scripts/health.py (scratchpad)",
+   ".claude/rules/host-win32.md"
+  ],
+  "evidence": "PreToolUse:Bash hook error - Blocked: a cat/tee heredoc with a file target"
+ },
+ {
+  "id": "2026-09-10T11:05:23Z-b",
+  "chunk": "2026-09-10-live-pulse-in-lane-scenario-round",
+  "skill_step": "phase/research",
+  "what": "The rust code-graph index is INCOMPLETE at symbol grain, in a way no listed category covers: it is not cold-start, not stale, not a skipped plane and not a query-command failure. `SELECT caller,file,line FROM calls WHERE callee_name = 'observe' AND callee_kind='fn'` returned 0 rows with probe_hits {observe: 0}; the script correctly warned 'not a leaf'. Yet conductor-verify carries 323 indexed symbols and TWO siblings defined in the SAME file are indexed (extract/impl#[Observation]observed_for() @ extract.rs:53 and extract/log_observed_keys() @ extract.rs:229) while `pub async fn observe` @ extract.rs:76 is absent. Grep found the answer immediately: exactly 2 call sites, the production one at conductor-run/src/execute.rs:98 - which is the single fact that closed the chunk's open question 1. Cost 2 reformulations plus a grep; the probe_hits warning is what prevented reading the 0 as 'leaf, no callers'.",
+  "impact": {
+   "reformulations": 2,
+   "extra_reads": 3
+  },
+  "artifacts": [
+   "crates/conductor-verify/src/extract.rs:76",
+   ".andromeda/cache/rust/tree.db"
+  ],
+  "evidence": ".andromeda/runs/2026-09-10T10-39-57-phase/tree-query-2026-09-10-live-pulse-in-lane-scenario-round.json"
+ },
+ {
+  "id": "2026-09-10T16:25:04Z-b",
+  "chunk": "2026-09-10-live-pulse-in-lane-scenario-round",
+  "skill_step": "wrap-session/gates",
+  "what": "A POSITIVE measurement worth keeping, recorded here because no listed type covers it and the closest one (tooling.result-not-run-stable) is its exact inverse. The light gate re-ran all three live legs against the same running SUT and REPRODUCED the round: identical verdicts ([MANUAL] / [MANUAL] / [HOLD]) and latencies within 34ms (18169->18145, 35120->35111, 30212->30246). This matters because test-plan §2 carries live legs as an enumerated exception to the determinism invariant, and the 2026-09-06 rule warns that a leg over an unchanged tree can grade two ways when its precondition rides the SUT's own clock. These three do not: none has an empty-active-set arm, each leg's own canary is still open at its read-back, and the 150s quiet window makes the sequence reproducible rather than order-dependent. Two rounds, one tree, one SUT, same verdicts - the run-stability question that would otherwise stay open for this family is answered, and both rounds' envelope lines are committed side by side.",
+  "impact": {},
+  "artifacts": [
+   "conductor-0.2.0/chunks/2026-09-10-live-pulse-in-lane-scenario-round/evidence/live-round-verdict.md"
+  ],
+  "evidence": "evidence/*.run2-lightgate.jsonl beside the round-1 copies"
+ }
+]

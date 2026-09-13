@@ -1,0 +1,39 @@
+{
+ "unit": "conductor-run",
+ "counts": {
+  "mutants": 118,
+  "caught": 83,
+  "missed": 5,
+  "timeout": 0,
+  "unviable": 30
+ },
+ "score": 94.32,
+ "score_formula": "caught/(caught+missed)  [timeout and unviable excluded]",
+ "survivors": [
+  [
+   "crates/conductor-run/src/canary.rs:56:8",
+   "delete ! in preflight"
+  ],
+  [
+   "crates/conductor-run/src/execute.rs:105:17",
+   "delete field degraded from struct Observation expression in execute_scenario"
+  ],
+  [
+   "crates/conductor-run/src/execute.rs:148:25",
+   "replace - with + in execute_scenario"
+  ],
+  [
+   "crates/conductor-run/src/execute.rs:148:25",
+   "replace - with / in execute_scenario"
+  ],
+  [
+   "crates/conductor-run/src/preconditions.rs:44:5",
+   "replace declares -> bool with false"
+  ]
+ ],
+ "wall_clock": {
+  "start": "2026-09-13T12:12:24.3182713Z",
+  "end": "2026-09-13T12:26:50.9152913Z"
+ },
+ "tool": "27.1.0"
+}

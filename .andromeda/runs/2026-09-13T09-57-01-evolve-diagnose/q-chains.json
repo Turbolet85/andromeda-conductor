@@ -1,0 +1,1159 @@
+{
+ "shapes": [
+  {
+   "shape": "implement/fix-loop -> implement-outcome -> wrap-session/report",
+   "n_chunks": 12,
+   "n": 15,
+   "quality": [
+    "thin"
+   ],
+   "chunks": [
+    "2026-09-06-coverage-completeness-gate",
+    "2026-09-06-halo-hue-budget-re-driven",
+    "2026-09-06-run-report-envelope-conformance-gate",
+    "2026-09-07-a11y-ci-gate",
+    "2026-09-07-dependency-polish",
+    "2026-09-07-sr-findings-fixed",
+    "2026-09-08-hosted-runner-webview2-session",
+    "2026-09-08-webview2-runtime-152-installed-in-job",
+    "2026-09-09-port-occupier-test-hygiene",
+    "2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate",
+    "2026-09-10-live-pulse-in-lane-scenario-round",
+    "2026-09-10-release-build-and-bundle"
+   ],
+   "cases": [
+    {
+     "chunk": "2026-09-06-run-report-envelope-conformance-gate",
+     "artifact": "implement-outcome",
+     "producer": "implement/fix-loop",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "green"
+     ],
+     "producer_note": null,
+     "consumer": "wrap-session/report",
+     "quality": "thin",
+     "consumer_note": "implement's P4 report was NOT the final word: an operator wrap directive landed after it, adding Expected amendment E4 (the status contract) and a sanctioned Test Command 4 sequencing edit, and this wrap re-derived the FORMATTING-ONLY basis and the Expected-amendment site greps itself. The Outcome basis line names all three",
+     "producer_id": "2026-09-06T12:55:25Z-a",
+     "consumer_id": "2026-09-06T13:11:37Z-a"
+    },
+    {
+     "chunk": "2026-09-06-coverage-completeness-gate",
+     "artifact": "implement-outcome",
+     "producer": "implement/fix-loop",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "green"
+     ],
+     "producer_note": null,
+     "consumer": "wrap-session/report",
+     "quality": "thin",
+     "consumer_note": "NOT the final word — an overseer wrap directive arrived after implement's P4 report and changed four things (the CARRY-5 re-CARRY obligation, the amendment wording constraint for bound-not-count plus a restated 232/s and 43x headroom, the git-diff vacuity statement, and the .gitattributes naming). Implement's report plus that directive stood in as the basis, each item verified against the tree",
+     "producer_id": "2026-09-06T15:49:03Z-a",
+     "consumer_id": "2026-09-06T16:02:35Z-a"
+    },
+    {
+     "chunk": "2026-09-06-halo-hue-budget-re-driven",
+     "artifact": "implement-outcome",
+     "producer": "implement/fix-loop",
+     "producer_outcome": "soft-exit",
+     "producer_signals": [
+      "surfaced"
+     ],
+     "producer_note": "523 tests run, 522 passed, exactly 1 failed under --no-fail-fast; clippy on both touched crates exit 0. The single failure is the out-of-scope data pin, so no in-scope fix existed and zero fix iterations ran.",
+     "consumer": "wrap-session/report",
+     "quality": "thin",
+     "consumer_note": "implement's P4 report is NOT the final word - it soft-exited first, went green only after the operator approved the scope widening, and the wrap directive then corrected the witness coordinate in 3 files. The report names implement's final report PLUS post-implement artifacts and this wrap's correction as the basis.",
+     "producer_id": "2026-09-07T07:27:59Z-c",
+     "consumer_id": "2026-09-07T08:36:30Z-a"
+    },
+    {
+     "chunk": "2026-09-06-halo-hue-budget-re-driven",
+     "artifact": "implement-outcome",
+     "producer": "implement/fix-loop",
+     "producer_outcome": "ok-degraded",
+     "producer_signals": [
+      "surfaced"
+     ],
+     "producer_note": "901 workspace tests, 900 passed, 1 failed - still exactly the out-of-scope data pin. audit exit 0, deny exit 0, zero dependency delta.",
+     "consumer": "wrap-session/report",
+     "quality": "thin",
+     "consumer_note": "implement's P4 report is NOT the final word - it soft-exited first, went green only after the operator approved the scope widening, and the wrap directive then corrected the witness coordinate in 3 files. The report names implement's final report PLUS post-implement artifacts and this wrap's correction as the basis.",
+     "producer_id": "2026-09-07T08:06:03Z-a",
+     "consumer_id": "2026-09-07T08:36:30Z-a"
+    },
+    {
+     "chunk": "2026-09-06-halo-hue-budget-re-driven",
+     "artifact": "implement-outcome",
+     "producer": "implement/fix-loop",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "green"
+     ],
+     "producer_note": "FINAL VERDICT, superseding the earlier surfaced declarations this run. 901 workspace tests 901 passed 0 failed exit 0; cargo test -p conductor-run exit 0 (runner portability); workspace clippy exit 0; cargo audit exit 0; cargo deny exit 0; zero dependency delta; live suite exit 0 with all four legs at their predicted states.",
+     "consumer": "wrap-session/report",
+     "quality": "thin",
+     "consumer_note": "implement's P4 report is NOT the final word - it soft-exited first, went green only after the operator approved the scope widening, and the wrap directive then corrected the witness coordinate in 3 files. The report names implement's final report PLUS post-implement artifacts and this wrap's correction as the basis.",
+     "producer_id": "2026-09-07T08:26:51Z-a",
+     "consumer_id": "2026-09-07T08:36:30Z-a"
+    },
+    {
+     "chunk": "2026-09-07-dependency-polish",
+     "artifact": "implement-outcome",
+     "producer": "implement/fix-loop",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "green"
+     ],
+     "producer_note": "all gates green first run, no deferral, no trigger fired",
+     "consumer": "wrap-session/report",
+     "quality": "thin",
+     "consumer_note": "NOT the final word on its own chunk: an operator wrap directive arrived between implement's P4 and this report and changed four things — the light gate's treatment of npm run knip (report-only, exit 1 expected by knip's own convention), the knip.json CARRY routing plus a boundary-#5 note, the deviation set to carry, and the E1 qualifier retirement becoming unconditional on a twice-measured sweep. Basis that stood in: implement's P4 report PLUS the directive PLUS evidence/knip-first-report.md",
+     "producer_id": "2026-09-07T12:28:53Z-b",
+     "consumer_id": "2026-09-07T12:46:33Z-a"
+    },
+    {
+     "chunk": "2026-09-07-a11y-ci-gate",
+     "artifact": "implement-outcome",
+     "producer": "implement/fix-loop",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "green"
+     ],
+     "producer_note": null,
+     "consumer": "wrap-session/report",
+     "quality": "thin",
+     "consumer_note": "implement's P4 report was NOT the final word: the operator's wrap directive changed three of its conclusions - the (obs) eleven-key criterion from met to UNMET as worded, the mocha summary-line fact, and the dispositions of CARRY 3 / CARRY 5 / the BLOCKED-ON. The directive plus the named post-implement artifacts stood in as the outcome basis, and the report says so in its Outcome basis slot",
+     "producer_id": "2026-09-07T15:51:22Z-a",
+     "consumer_id": "2026-09-07T16:22:18Z-a"
+    },
+    {
+     "chunk": "2026-09-07-sr-findings-fixed",
+     "artifact": "implement-outcome",
+     "producer": "implement/fix-loop",
+     "producer_outcome": "ok-degraded",
+     "producer_signals": [
+      "surfaced"
+     ],
+     "producer_note": null,
+     "consumer": "wrap-session/report",
+     "quality": "thin",
+     "consumer_note": "implement's P4 report was NOT the final word: two operator directives followed it (the diagnose-here ruling and the mechanism falsification) plus two more CI probes; the outcome basis is implement's report PLUS runs 34160378753 / 34162118841 and the replaced evidence log, named in the report's Outcome basis so no detector inherits the superseded Edge-mode claim",
+     "producer_id": "2026-09-07T20:23:09Z-a",
+     "consumer_id": "2026-09-07T21:34:52Z-a"
+    },
+    {
+     "chunk": "2026-09-07-sr-findings-fixed",
+     "artifact": "implement-outcome",
+     "producer": "implement/fix-loop",
+     "producer_outcome": "ok-degraded",
+     "producer_signals": [
+      "green"
+     ],
+     "producer_note": "chartered work complete and measured; the un-claim is the contract's own decline path, not an unfinished gate",
+     "consumer": "wrap-session/report",
+     "quality": "thin",
+     "consumer_note": "implement's P4 report was NOT the final word: two operator directives followed it (the diagnose-here ruling and the mechanism falsification) plus two more CI probes; the outcome basis is implement's report PLUS runs 34160378753 / 34162118841 and the replaced evidence log, named in the report's Outcome basis so no detector inherits the superseded Edge-mode claim",
+     "producer_id": "2026-09-07T21:23:39Z-a",
+     "consumer_id": "2026-09-07T21:34:52Z-a"
+    },
+    {
+     "chunk": "2026-09-08-hosted-runner-webview2-session",
+     "artifact": "implement-outcome",
+     "producer": "implement/fix-loop",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "green"
+     ],
+     "producer_note": null,
+     "consumer": "wrap-session/report",
+     "quality": "thin",
+     "consumer_note": "implement's P4 report was NOT the final word: the operator's wrap directive changed four things after it — the driver-version attribution, v2-24's disposition from deferred to planned, probe (b) from conclusion to hypothesis, and a minted follow-up route entry. The directive plus the corrected evidence artifact stood in as the outcome basis, and the report names that explicitly so no detector inherits the superseded text.",
+     "producer_id": "2026-09-08T13:48:48Z-a",
+     "consumer_id": "2026-09-08T14:26:29Z-a"
+    },
+    {
+     "chunk": "2026-09-08-webview2-runtime-152-installed-in-job",
+     "artifact": "implement-outcome",
+     "producer": "implement/fix-loop",
+     "producer_outcome": "ok-degraded",
+     "producer_signals": [
+      "surfaced"
+     ],
+     "producer_note": "every chunk-relevant gate green; one spec-reality gap surfaced and nothing authored",
+     "consumer": "wrap-session/report",
+     "quality": "thin",
+     "consumer_note": "implement's P4 report was NOT the final word on its own chunk: the operator's wrap directive arrived after it and changed the fmt disposition from 'surfaced, awaiting decision' to 'external-decay treatment, owner = a route entry presented at P5', fixed v2-24 at planned for this wrap, and specified the P7.3 tool form. The report's Outcome basis line names implement's P4 report PLUS that directive as the standing basis.",
+     "producer_id": "2026-09-08T20:25:49Z-a",
+     "consumer_id": "2026-09-08T20:39:00Z-a"
+    },
+    {
+     "chunk": "2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate",
+     "artifact": "implement-outcome",
+     "producer": "implement/fix-loop",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "surfaced"
+     ],
+     "producer_note": "the chunk own two deliverables are complete and green (tree fmt-clean, gate shipped at rust job index 2); one LISTED gate is red for a cause measured pre-existing",
+     "consumer": "wrap-session/report",
+     "quality": "thin",
+     "consumer_note": "implement reported outcome=surfaced and was NOT the final word: an operator directive landed between its P4 report and this one, converting the red gate from an open surfaced item into a NOTED DEFERRAL with a named owner, directing the owning route entry be minted at P5 before Release build and bundle, and directing the v2-24 disposition to land at P7.3 via matrix.py defer. That directive stood in as the outcome basis and is named as such in the report",
+     "producer_id": "2026-09-09T12:54:14Z-a",
+     "consumer_id": "2026-09-09T13:23:12Z-a"
+    },
+    {
+     "chunk": "2026-09-09-port-occupier-test-hygiene",
+     "artifact": "implement-outcome",
+     "producer": "implement/fix-loop",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "green"
+     ],
+     "producer_note": "green on the FIRST run of every gate, 0 fix iterations - the band (1-5) counts fixes, and none was needed. Three measurements worth keeping. (a) The red gate had been MASKING two further test targets: cargo test aborts at the first failing binary, so the pre-fix baseline never reached the witness binary or the doctest target; green, the crate runs 4 targets (23 lib + 6 + 1 + 3 doc = 33). The chunk's own theme - a violation hiding behind an earlier one - held one level down inside the very gate that surfaced it. (b) The crate has 3 doctests at HEAD (train.rs:42, gap.rs:35, silence.rs:23), all green; the route entry's inherited '0 doctests' record dates from 2026-06-19 and describes that date, not this one. (c) The plan's workspace count prediction held exactly: 902 tests across 56 binaries, was 902 across 55 - the move relocated a test rather than adding one. Deliberate NON-escalation: test-plan §4 calls the plain per-crate form '(full, non-doc)' while it in fact runs the crate's doctests, but the phrase reads equally as 'the full suite, as opposed to the doc-only arm', so it was measured and recorded rather than raised as a spec-reality gap",
+     "consumer": "wrap-session/report",
+     "quality": "thin",
+     "consumer_note": "NOT the final word on its own chunk: the operator's wrap directive corrected two of its measurements before this report could assert them. What stood in as the basis is implement's P4 report AS CORRECTED by the directive, stated explicitly in the report's Outcome-basis line so a detector cannot inherit the superseded claims",
+     "producer_id": "2026-09-09T20:16:56Z-a",
+     "consumer_id": "2026-09-10T07:25:15Z-a"
+    },
+    {
+     "chunk": "2026-09-10-live-pulse-in-lane-scenario-round",
+     "artifact": "implement-outcome",
+     "producer": "implement/fix-loop",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "green"
+     ],
+     "producer_note": "every substantive gate green: 902/902 nextest, clippy, audit+deny, all three legs non-Blocked, non-blocked rows: 3, journal envelopes non-blocked: 3, committed evidence files: 4, mint-then-read status. The 3 unsatisfiable atoms are a surfaced plan defect, not a work failure",
+     "consumer": "wrap-session/report",
+     "quality": "thin",
+     "consumer_note": "implement's P4 report was NOT the final word: an operator wrap directive issued after it changed the plan (the three unsatisfiable atoms corrected pre-gate), routed P-079s two defects to residuals.md, and added a security.md clause extension. The directive plus this wrap own re-derivations stood in as the outcome basis, disclosed in the report",
+     "producer_id": "2026-09-10T15:16:27Z-b",
+     "consumer_id": "2026-09-10T16:04:25Z-a"
+    },
+    {
+     "chunk": "2026-09-10-release-build-and-bundle",
+     "artifact": "implement-outcome",
+     "producer": "implement/fix-loop",
+     "producer_outcome": "ok-degraded",
+     "producer_signals": [
+      "surfaced"
+     ],
+     "producer_note": "20/21 gates green after 1 iteration; leg 3 red on a pre-existing structural scenario defect, surfaced not fixed",
+     "consumer": "wrap-session/report",
+     "quality": "thin",
+     "consumer_note": "implement's P4 report was NOT the final word: two operator directives landed after it — the leg-3 swap (with its re-run 2026-09-10T20-29-33-466) and the correction of a false grep claim. Both stood in as the outcome basis and are named as such in the report so a detector cannot inherit the superseded originals",
+     "producer_id": "2026-09-10T19:45:47Z-b",
+     "consumer_id": "2026-09-10T20:38:10Z-a"
+    }
+   ]
+  },
+  {
+   "shape": "implement/smoke -> implement-outcome -> wrap-session/report",
+   "n_chunks": 12,
+   "n": 12,
+   "quality": [
+    "thin"
+   ],
+   "chunks": [
+    "2026-09-06-coverage-completeness-gate",
+    "2026-09-06-halo-hue-budget-re-driven",
+    "2026-09-06-run-report-envelope-conformance-gate",
+    "2026-09-07-a11y-ci-gate",
+    "2026-09-07-dependency-polish",
+    "2026-09-07-sr-findings-fixed",
+    "2026-09-08-hosted-runner-webview2-session",
+    "2026-09-08-webview2-runtime-152-installed-in-job",
+    "2026-09-09-port-occupier-test-hygiene",
+    "2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate",
+    "2026-09-10-live-pulse-in-lane-scenario-round",
+    "2026-09-10-release-build-and-bundle"
+   ],
+   "cases": [
+    {
+     "chunk": "2026-09-06-run-report-envelope-conformance-gate",
+     "artifact": "implement-outcome",
+     "producer": "implement/smoke",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "green"
+     ],
+     "producer_note": null,
+     "consumer": "wrap-session/report",
+     "quality": "thin",
+     "consumer_note": "implement's P4 report was NOT the final word: an operator wrap directive landed after it, adding Expected amendment E4 (the status contract) and a sanctioned Test Command 4 sequencing edit, and this wrap re-derived the FORMATTING-ONLY basis and the Expected-amendment site greps itself. The Outcome basis line names all three",
+     "producer_id": "2026-09-06T12:57:06Z-a",
+     "consumer_id": "2026-09-06T13:11:37Z-a"
+    },
+    {
+     "chunk": "2026-09-06-coverage-completeness-gate",
+     "artifact": "implement-outcome",
+     "producer": "implement/smoke",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "green"
+     ],
+     "producer_note": null,
+     "consumer": "wrap-session/report",
+     "quality": "thin",
+     "consumer_note": "NOT the final word — an overseer wrap directive arrived after implement's P4 report and changed four things (the CARRY-5 re-CARRY obligation, the amendment wording constraint for bound-not-count plus a restated 232/s and 43x headroom, the git-diff vacuity statement, and the .gitattributes naming). Implement's report plus that directive stood in as the basis, each item verified against the tree",
+     "producer_id": "2026-09-06T15:50:27Z-a",
+     "consumer_id": "2026-09-06T16:02:35Z-a"
+    },
+    {
+     "chunk": "2026-09-06-halo-hue-budget-re-driven",
+     "artifact": "implement-outcome",
+     "producer": "implement/smoke",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "surfaced"
+     ],
+     "producer_note": null,
+     "consumer": "wrap-session/report",
+     "quality": "thin",
+     "consumer_note": "implement's P4 report is NOT the final word - it soft-exited first, went green only after the operator approved the scope widening, and the wrap directive then corrected the witness coordinate in 3 files. The report names implement's final report PLUS post-implement artifacts and this wrap's correction as the basis.",
+     "producer_id": "2026-09-07T07:27:59Z-f",
+     "consumer_id": "2026-09-07T08:36:30Z-a"
+    },
+    {
+     "chunk": "2026-09-07-dependency-polish",
+     "artifact": "implement-outcome",
+     "producer": "implement/smoke",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "green"
+     ],
+     "producer_note": "re-declared green at the last implement checkpoint; no re-entry into the fix-loop",
+     "consumer": "wrap-session/report",
+     "quality": "thin",
+     "consumer_note": "NOT the final word on its own chunk: an operator wrap directive arrived between implement's P4 and this report and changed four things — the light gate's treatment of npm run knip (report-only, exit 1 expected by knip's own convention), the knip.json CARRY routing plus a boundary-#5 note, the deviation set to carry, and the E1 qualifier retirement becoming unconditional on a twice-measured sweep. Basis that stood in: implement's P4 report PLUS the directive PLUS evidence/knip-first-report.md",
+     "producer_id": "2026-09-07T12:31:08Z-a",
+     "consumer_id": "2026-09-07T12:46:33Z-a"
+    },
+    {
+     "chunk": "2026-09-07-a11y-ci-gate",
+     "artifact": "implement-outcome",
+     "producer": "implement/smoke",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "green"
+     ],
+     "producer_note": null,
+     "consumer": "wrap-session/report",
+     "quality": "thin",
+     "consumer_note": "implement's P4 report was NOT the final word: the operator's wrap directive changed three of its conclusions - the (obs) eleven-key criterion from met to UNMET as worded, the mocha summary-line fact, and the dispositions of CARRY 3 / CARRY 5 / the BLOCKED-ON. The directive plus the named post-implement artifacts stood in as the outcome basis, and the report says so in its Outcome basis slot",
+     "producer_id": "2026-09-07T15:52:17Z-a",
+     "consumer_id": "2026-09-07T16:22:18Z-a"
+    },
+    {
+     "chunk": "2026-09-07-sr-findings-fixed",
+     "artifact": "implement-outcome",
+     "producer": "implement/smoke",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "surfaced"
+     ],
+     "producer_note": null,
+     "consumer": "wrap-session/report",
+     "quality": "thin",
+     "consumer_note": "implement's P4 report was NOT the final word: two operator directives followed it (the diagnose-here ruling and the mechanism falsification) plus two more CI probes; the outcome basis is implement's report PLUS runs 34160378753 / 34162118841 and the replaced evidence log, named in the report's Outcome basis so no detector inherits the superseded Edge-mode claim",
+     "producer_id": "2026-09-07T20:23:26Z-a",
+     "consumer_id": "2026-09-07T21:34:52Z-a"
+    },
+    {
+     "chunk": "2026-09-08-hosted-runner-webview2-session",
+     "artifact": "implement-outcome",
+     "producer": "implement/smoke",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "green"
+     ],
+     "producer_note": null,
+     "consumer": "wrap-session/report",
+     "quality": "thin",
+     "consumer_note": "implement's P4 report was NOT the final word: the operator's wrap directive changed four things after it — the driver-version attribution, v2-24's disposition from deferred to planned, probe (b) from conclusion to hypothesis, and a minted follow-up route entry. The directive plus the corrected evidence artifact stood in as the outcome basis, and the report names that explicitly so no detector inherits the superseded text.",
+     "producer_id": "2026-09-08T14:13:31Z-a",
+     "consumer_id": "2026-09-08T14:26:29Z-a"
+    },
+    {
+     "chunk": "2026-09-08-webview2-runtime-152-installed-in-job",
+     "artifact": "implement-outcome",
+     "producer": "implement/smoke",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "surfaced"
+     ],
+     "producer_note": "re-declares the fix-loop verdict: chunk work complete and every chunk-relevant gate green, with one spec-reality gap surfaced (cargo fmt --check) and nothing authored",
+     "consumer": "wrap-session/report",
+     "quality": "thin",
+     "consumer_note": "implement's P4 report was NOT the final word on its own chunk: the operator's wrap directive arrived after it and changed the fmt disposition from 'surfaced, awaiting decision' to 'external-decay treatment, owner = a route entry presented at P5', fixed v2-24 at planned for this wrap, and specified the P7.3 tool form. The report's Outcome basis line names implement's P4 report PLUS that directive as the standing basis.",
+     "producer_id": "2026-09-08T20:26:53Z-a",
+     "consumer_id": "2026-09-08T20:39:00Z-a"
+    },
+    {
+     "chunk": "2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate",
+     "artifact": "implement-outcome",
+     "producer": "implement/smoke",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "surfaced"
+     ],
+     "producer_note": "re-declares fix-loop verdict: the smoke is green, the surfaced item is gate 7",
+     "consumer": "wrap-session/report",
+     "quality": "thin",
+     "consumer_note": "implement reported outcome=surfaced and was NOT the final word: an operator directive landed between its P4 report and this one, converting the red gate from an open surfaced item into a NOTED DEFERRAL with a named owner, directing the owning route entry be minted at P5 before Release build and bundle, and directing the v2-24 disposition to land at P7.3 via matrix.py defer. That directive stood in as the outcome basis and is named as such in the report",
+     "producer_id": "2026-09-09T12:54:15Z-a",
+     "consumer_id": "2026-09-09T13:23:12Z-a"
+    },
+    {
+     "chunk": "2026-09-09-port-occupier-test-hygiene",
+     "artifact": "implement-outcome",
+     "producer": "implement/smoke",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "green"
+     ],
+     "producer_note": null,
+     "consumer": "wrap-session/report",
+     "quality": "thin",
+     "consumer_note": "NOT the final word on its own chunk: the operator's wrap directive corrected two of its measurements before this report could assert them. What stood in as the basis is implement's P4 report AS CORRECTED by the directive, stated explicitly in the report's Outcome-basis line so a detector cannot inherit the superseded claims",
+     "producer_id": "2026-09-09T20:18:39Z-a",
+     "consumer_id": "2026-09-10T07:25:15Z-a"
+    },
+    {
+     "chunk": "2026-09-10-live-pulse-in-lane-scenario-round",
+     "artifact": "implement-outcome",
+     "producer": "implement/smoke",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "green"
+     ],
+     "producer_note": null,
+     "consumer": "wrap-session/report",
+     "quality": "thin",
+     "consumer_note": "implement's P4 report was NOT the final word: an operator wrap directive issued after it changed the plan (the three unsatisfiable atoms corrected pre-gate), routed P-079s two defects to residuals.md, and added a security.md clause extension. The directive plus this wrap own re-derivations stood in as the outcome basis, disclosed in the report",
+     "producer_id": "2026-09-10T15:16:27Z-f",
+     "consumer_id": "2026-09-10T16:04:25Z-a"
+    },
+    {
+     "chunk": "2026-09-10-release-build-and-bundle",
+     "artifact": "implement-outcome",
+     "producer": "implement/smoke",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "surfaced"
+     ],
+     "producer_note": null,
+     "consumer": "wrap-session/report",
+     "quality": "thin",
+     "consumer_note": "implement's P4 report was NOT the final word: two operator directives landed after it — the leg-3 swap (with its re-run 2026-09-10T20-29-33-466) and the correction of a false grep claim. Both stood in as the outcome basis and are named as such in the report so a detector cannot inherit the superseded originals",
+     "producer_id": "2026-09-10T19:45:47Z-e",
+     "consumer_id": "2026-09-10T20:38:10Z-a"
+    }
+   ]
+  },
+  {
+   "shape": "phase/plan -> plan -> implement/fix-loop",
+   "n_chunks": 4,
+   "n": 4,
+   "quality": [
+    "thin",
+    "wrong"
+   ],
+   "chunks": [
+    "2026-09-06-run-report-envelope-conformance-gate",
+    "2026-09-08-webview2-runtime-152-installed-in-job",
+    "2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate",
+    "2026-09-10-live-pulse-in-lane-scenario-round"
+   ],
+   "cases": [
+    {
+     "chunk": "2026-09-06-run-report-envelope-conformance-gate",
+     "artifact": "plan",
+     "producer": "phase/plan",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "designed-dialogue:carry-teardown-form"
+     ],
+     "producer_note": "275 lines, 13 acceptance criteria, 11 steps, 6 Test Command blocks. Graph citations written confidently with the 0-indexed-to-editor-line correction applied (envelope.rs:37/:41); 0 soft citations. Three Expected-amendments entries recorded for wrap, each naming one of the seven masters",
+     "consumer": "implement/fix-loop",
+     "quality": "thin",
+     "consumer_note": "every Test Command ran as written EXCEPT the sequencing: gates 4-7 each begin with a seed and only gates 4 and 5 clean afterwards, so running 6 then 7 re-seeds over live rows and persist correctly refuses the duplicate PK. Re-run with a cleanup before each seed, all seven pass",
+     "producer_id": "2026-09-06T12:15:46Z-a",
+     "consumer_id": "2026-09-06T12:55:25Z-a"
+    },
+    {
+     "chunk": "2026-09-08-webview2-runtime-152-installed-in-job",
+     "artifact": "plan",
+     "producer": "phase/plan",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "decisive-lean-resolved-3",
+      "no-capability-claimed",
+      "expected-amendments-4",
+      "false-green-caught-in-own-gates"
+     ],
+     "producer_note": "316 lines, in band. Three candidate forks all resolved as decisive material leans backed by artifacts rather than as questions: the dev-host-install scope fell to a HOST FACT measured this step (this host 152.0.4191.66 vs CI 151.0.4129.101, so a local install exercises install-over-newer and cannot measure the CI upgrade path); the v2-24 claim fell to the claim-reachability rule plus the recorded un-claim precedent at 2026-09-07-sr-findings-fixed; the staging addition leaned in-scope and rides the P5 card. Zero capabilities claimed — deliberate, with the wrap-time disposition named as an operator fork. Four Expected amendments recorded, all wrap-owned.",
+     "consumer": "implement/fix-loop",
+     "quality": "thin",
+     "consumer_note": "seven of eight Test Commands ran as written and passed first time. The eighth, cargo fmt --check, CANNOT pass on this tree and I authored it — taken from the tests extract's faithful reading of test-plan §9 Lint stage without checking whether the tree satisfies it. That is a plan-quality defect, not an extract defect.",
+     "producer_id": "2026-09-08T19:37:06Z-a",
+     "consumer_id": "2026-09-08T20:25:49Z-a"
+    },
+    {
+     "chunk": "2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate",
+     "artifact": "plan",
+     "producer": "phase/plan",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "designed-dialogue:step-placement"
+     ],
+     "producer_note": "274 lines, 12 gate entries (2 unit, 1 smoke, 0 live legs), fence parses, 0 placeholder leaks, 0 capabilities claimed. The one open fork - where in job rust the gate step sits - was judged CONFIRM-CLASS rather than contestable and routed to the P5 review card per the skill’s own carve-out, because both placements satisfy every stated constraint and the work is a one-line difference; the recommendation and the named alternative with its argument are both written into the plan. Two forks that P2 check C surfaced were resolved from artifacts at synthesis, not asked: the invocation form (Cargo.toml declares no default-members) and the artifact-preservation tension (all three rust-job uploads are if: always()). No graph-impact citation was written because the graph is NOT APPLICABLE to a formatting-only change - 0 soft citations is the correct state here, not a gap.",
+     "consumer": "implement/fix-loop",
+     "quality": "thin",
+     "consumer_note": "11 of the 12 Test Commands ran green as written. The plan-quality defect is gate 7 (the per-crate cargo test runner-portability loop): it was authored at P4 without ever being run at HEAD, because check 9 baselines only new=true entries and cargo test -p was treated as long-established. Established-command and green-on-these-crates are different claims and they came apart here",
+     "producer_id": "2026-09-09T10:32:59Z-a",
+     "consumer_id": "2026-09-09T12:54:14Z-a"
+    },
+    {
+     "chunk": "2026-09-10-live-pulse-in-lane-scenario-round",
+     "artifact": "plan",
+     "producer": "phase/plan",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "fork-resolved-by-artifact",
+      "first-live-leg-gate-entries"
+     ],
+     "producer_note": "296 lines, 13 gate entries, fence parses, 0 soft citations. The one fork research handed to P4 (P-079's disposition) was resolved WITHOUT dialogue as a decisive material lean, because a P4-time grep of the masters found the deciding artifact: architecture.md:63 already ratifies the identical treatment for findings-counter-refresh. Authors the project's FIRST leg = 'live' gate entries - both prior mentions are prose declining one",
+     "consumer": "implement/fix-loop",
+     "quality": "wrong",
+     "consumer_note": "all 14 Test Command entries ran as written and 11 met their expect in full, but 3 (the live legs) carry an atom that CANNOT hold: contains P-067 / P-072 / P-079. The CLI prints the SCENARIO NAME ([MANUAL] live-only-service-truth, [HOLD] constellation-severity-live-wiring); P-ID tokens appear 0 times in every leg log. Authored against the layouts extract's described row shape rather than measured output",
+     "producer_id": "2026-09-10T11:13:02Z-a",
+     "consumer_id": "2026-09-10T15:16:27Z-b"
+    }
+   ]
+  },
+  {
+   "shape": "phase/plan -> plan -> phase/validate",
+   "n_chunks": 3,
+   "n": 3,
+   "quality": [
+    "thin",
+    "wrong"
+   ],
+   "chunks": [
+    "2026-09-06-operator-gated-live-suite",
+    "2026-09-06-run-report-envelope-conformance-gate",
+    "2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate"
+   ],
+   "cases": [
+    {
+     "chunk": "2026-09-06-operator-gated-live-suite",
+     "artifact": "plan",
+     "producer": "phase/plan",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "designed-dialogue:invocation-shape",
+      "designed-dialogue:canary-identity"
+     ],
+     "producer_note": "292 lines, inside the 150-400 band. All three of research's open questions closed: two by the dialogue round, the third (leg count) derived — observables 1+2 ride one declare-only scenario leg, observable 3 needs two. Zero rework passes. Citation resolution: hard file:line for every code site a step touches (execute.rs:245-266/:233-235/:92-94, canary.rs:58:8/:49/:79/:189, obs.rs:212-219, agent-run.sh:94-107); four caller-set citations left SOFT as counts plus a pointer to the query trace rather than 33 enumerated sites, because the design changes no production signature so the sets are context, not a threading obligation — the plan states that explicitly",
+     "consumer": "phase/validate",
+     "quality": "wrong",
+     "consumer_note": "passed every mechanical check and my own validation-1 on the first pass, then the operator review falsified FOUR runtime premises it stated — see friction -b. Second pass after re-synthesis: all checks green",
+     "producer_id": "2026-09-06T07:13:47Z-a",
+     "consumer_id": "2026-09-06T08:20:13Z-a"
+    },
+    {
+     "chunk": "2026-09-06-run-report-envelope-conformance-gate",
+     "artifact": "plan",
+     "producer": "phase/plan",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "designed-dialogue:carry-teardown-form"
+     ],
+     "producer_note": "275 lines, 13 acceptance criteria, 11 steps, 6 Test Command blocks. Graph citations written confidently with the 0-indexed-to-editor-line correction applied (envelope.rs:37/:41); 0 soft citations. Three Expected-amendments entries recorded for wrap, each naming one of the seven masters",
+     "consumer": "phase/validate",
+     "quality": "wrong",
+     "consumer_note": "all 7 mechanical checks passed on the plan as first written, and it still carried a load-bearing FALSE mechanism (typed parse asserted to prove key presence) that only the operator's review caught - the mechanical checks are structural and none reads a stated mechanism for truth",
+     "producer_id": "2026-09-06T12:15:46Z-a",
+     "consumer_id": "2026-09-06T12:33:42Z-a"
+    },
+    {
+     "chunk": "2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate",
+     "artifact": "plan",
+     "producer": "phase/plan",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "designed-dialogue:step-placement"
+     ],
+     "producer_note": "274 lines, 12 gate entries (2 unit, 1 smoke, 0 live legs), fence parses, 0 placeholder leaks, 0 capabilities claimed. The one open fork - where in job rust the gate step sits - was judged CONFIRM-CLASS rather than contestable and routed to the P5 review card per the skill’s own carve-out, because both placements satisfy every stated constraint and the work is a one-line difference; the recommendation and the named alternative with its argument are both written into the plan. Two forks that P2 check C surfaced were resolved from artifacts at synthesis, not asked: the invocation form (Cargo.toml declares no default-members) and the artifact-preservation tension (all three rust-job uploads are if: always()). No graph-impact citation was written because the graph is NOT APPLICABLE to a formatting-only change - 0 soft citations is the correct state here, not a gap.",
+     "consumer": "phase/validate",
+     "quality": "thin",
+     "consumer_note": "passed mechanical checks 1-6 and val-1, then the operator review found THREE real defects in it: an a11y criterion met on its own wording, a nextest entry missing the count atom plan-template Discipline requires under this project measured stale-binary precedent, and a bare CARGO_HOME handle that degrades to git -C /advisory-db when unset. All three were fixed in place at P5",
+     "producer_id": "2026-09-09T10:32:59Z-a",
+     "consumer_id": "2026-09-09T12:28:16Z-a"
+    }
+   ]
+  },
+  {
+   "shape": "phase/research -> research -> implement/code",
+   "n_chunks": 2,
+   "n": 2,
+   "quality": [
+    "thin"
+   ],
+   "chunks": [
+    "2026-09-06-halo-hue-budget-re-driven",
+    "2026-09-06-run-report-envelope-conformance-gate"
+   ],
+   "cases": [
+    {
+     "chunk": "2026-09-06-run-report-envelope-conformance-gate",
+     "artifact": "research",
+     "producer": "phase/research",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "unresolved-questions"
+     ],
+     "producer_note": "2 open questions carried to P4, both in the by-design 0-3 band; one file (envelope_fixture.rs) provisional. Measured rather than assumed: 71 real journals hold 74 envelope + 1 check row with 0 non-conformant and 0 host-path hits, so the gate's first run is predicted GREEN and is a regression guard, not a bug hunt",
+     "consumer": "implement/code",
+     "quality": "thin",
+     "consumer_note": "the Files-to-modify list was one file short: step 9 placed the verb dispatch in commands/mod.rs, but the Commands match lives in main.rs:70-78, so main.rs had to be edited and appears in no touchpoint list",
+     "producer_id": "2026-09-06T12:07:13Z-a",
+     "consumer_id": "2026-09-06T12:46:36Z-a"
+    },
+    {
+     "chunk": "2026-09-06-halo-hue-budget-re-driven",
+     "artifact": "research",
+     "producer": "phase/research",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "unresolved-questions",
+      "sut-mechanism-re-derived",
+      "fire-site-arithmetic-decided-the-design"
+     ],
+     "producer_note": "2 plan-decision questions + 1 implementation-scope carried to P4 (the implementation-scope one, committed goldens, was then answered in-step: the dispatch_wire goldens cover only fingerprint-storm and error-baseline-spike). The mechanism re-derivation at SUT HEAD found TWO terms of the fire site's arithmetic that no Conductor artifact records - slowest-changed-dot-wins, and a 60s live-recency ceiling on any possible sample.",
+     "consumer": "implement/code",
+     "quality": "thin",
+     "consumer_note": "the Files-to-modify boundary list OMITTED a crate-local data pin - see friction -b",
+     "producer_id": "2026-09-06T19:35:06Z-a",
+     "consumer_id": "2026-09-07T07:27:59Z-a"
+    }
+   ]
+  },
+  {
+   "shape": "wrap-session/report -> report -> wrap-session/reconcile",
+   "n_chunks": 2,
+   "n": 2,
+   "quality": [
+    "thin"
+   ],
+   "chunks": [
+    "2026-09-07-dependency-polish",
+    "2026-09-10-live-pulse-in-lane-scenario-round"
+   ],
+   "cases": [
+    {
+     "chunk": "2026-09-07-dependency-polish",
+     "artifact": "report",
+     "producer": "wrap-session/report",
+     "producer_outcome": "ok",
+     "producer_signals": [],
+     "producer_note": "all three of the rarer Changes bullets were genuinely populated this chunk — Reverted (the member-level default-features that cargo refused), Insufficient fixes (the eighth PiiCategory shipping unreachable from any scenario) and Spec claims disproved (three). No detector fact lacked a natural bullet, so the extend-the-bullets rule was not invoked. All three new-surface coverage rows were determinable with no uncertain flag.",
+     "consumer": "wrap-session/reconcile",
+     "quality": "thin",
+     "consumer_note": "sufficient for every proposal — each cited a report fact and no detector re-derived from git or a manifest — but its Expected-amendments SEARCH under-counted one site set: the crate-count entry recorded test-plan at 1 hit when the true count is 2, because the second site says 8 seam crates rather than 8 workspace crates. The test-plan agent's occurrence sweep caught it.",
+     "producer_id": "2026-09-07T12:46:33Z-a",
+     "consumer_id": "2026-09-07T13:00:39Z-a"
+    },
+    {
+     "chunk": "2026-09-10-live-pulse-in-lane-scenario-round",
+     "artifact": "report",
+     "producer": "wrap-session/report",
+     "producer_outcome": "ok",
+     "producer_signals": [],
+     "producer_note": "all Changes bullet families filled from direct session knowledge - this session authored the chunk end to end; 0 reconstructed families, no git archaeology. Coverage-of-new-surfaces determinable (none). drift-base scanned before authoring; no detector needed a fact beyond the stock bullets",
+     "consumer": "wrap-session/reconcile",
+     "quality": "thin",
+     "consumer_note": "THE consumer verdict, and it is thin for one measured reason: the report SUBSTANTIATED the latency fact (the delta spans the emission window, three measurements) but did not NAME the obs-plan:349 gloss as a disproved claim in its own Spec-claims-disproved bullet. Every detector reads the report alone, so the omission would have shipped the false gloss",
+     "producer_id": "2026-09-10T16:04:25Z-a",
+     "consumer_id": "2026-09-10T16:04:25Z-b"
+    }
+   ]
+  },
+  {
+   "shape": "phase/research -> research -> implement/fix-loop",
+   "n_chunks": 1,
+   "n": 3,
+   "quality": [
+    "thin"
+   ],
+   "chunks": [
+    "2026-09-06-halo-hue-budget-re-driven"
+   ],
+   "cases": [
+    {
+     "chunk": "2026-09-06-halo-hue-budget-re-driven",
+     "artifact": "research",
+     "producer": "phase/research",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "unresolved-questions",
+      "sut-mechanism-re-derived",
+      "fire-site-arithmetic-decided-the-design"
+     ],
+     "producer_note": "2 plan-decision questions + 1 implementation-scope carried to P4 (the implementation-scope one, committed goldens, was then answered in-step: the dispatch_wire goldens cover only fingerprint-storm and error-baseline-spike). The mechanism re-derivation at SUT HEAD found TWO terms of the fire site's arithmetic that no Conductor artifact records - slowest-changed-dot-wins, and a 60s live-recency ceiling on any possible sample.",
+     "consumer": "implement/fix-loop",
+     "quality": "thin",
+     "consumer_note": "same boundary-list gap as the code step",
+     "producer_id": "2026-09-06T19:35:06Z-a",
+     "consumer_id": "2026-09-07T07:27:59Z-c"
+    },
+    {
+     "chunk": "2026-09-06-halo-hue-budget-re-driven",
+     "artifact": "research",
+     "producer": "phase/research",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "unresolved-questions",
+      "sut-mechanism-re-derived",
+      "fire-site-arithmetic-decided-the-design"
+     ],
+     "producer_note": "2 plan-decision questions + 1 implementation-scope carried to P4 (the implementation-scope one, committed goldens, was then answered in-step: the dispatch_wire goldens cover only fingerprint-storm and error-baseline-spike). The mechanism re-derivation at SUT HEAD found TWO terms of the fire site's arithmetic that no Conductor artifact records - slowest-changed-dot-wins, and a 60s live-recency ceiling on any possible sample.",
+     "consumer": "implement/fix-loop",
+     "quality": "thin",
+     "consumer_note": "boundary-list gap unchanged from the offline pass",
+     "producer_id": "2026-09-06T19:35:06Z-a",
+     "consumer_id": "2026-09-07T08:06:03Z-a"
+    },
+    {
+     "chunk": "2026-09-06-halo-hue-budget-re-driven",
+     "artifact": "research",
+     "producer": "phase/research",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "unresolved-questions",
+      "sut-mechanism-re-derived",
+      "fire-site-arithmetic-decided-the-design"
+     ],
+     "producer_note": "2 plan-decision questions + 1 implementation-scope carried to P4 (the implementation-scope one, committed goldens, was then answered in-step: the dispatch_wire goldens cover only fingerprint-storm and error-baseline-spike). The mechanism re-derivation at SUT HEAD found TWO terms of the fire site's arithmetic that no Conductor artifact records - slowest-changed-dot-wins, and a 60s live-recency ceiling on any possible sample.",
+     "consumer": "implement/fix-loop",
+     "quality": "thin",
+     "consumer_note": "the boundary-list gap is now operator-dispositioned: operator_pause_harvest.rs joins the modify-set as a crate-local companion whose INPUT is the changed scenario TOML",
+     "producer_id": "2026-09-06T19:35:06Z-a",
+     "consumer_id": "2026-09-07T08:26:51Z-a"
+    }
+   ]
+  },
+  {
+   "shape": "phase/research -> research -> phase/plan",
+   "n_chunks": 1,
+   "n": 1,
+   "quality": [
+    "thin"
+   ],
+   "chunks": [
+    "2026-09-06-run-report-envelope-conformance-gate"
+   ],
+   "cases": [
+    {
+     "chunk": "2026-09-06-run-report-envelope-conformance-gate",
+     "artifact": "research",
+     "producer": "phase/research",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "unresolved-questions"
+     ],
+     "producer_note": "2 open questions carried to P4, both in the by-design 0-3 band; one file (envelope_fixture.rs) provisional. Measured rather than assumed: 71 real journals hold 74 envelope + 1 check row with 0 non-conformant and 0 host-path hits, so the gate's first run is predicted GREEN and is a regression guard, not a bug hunt",
+     "consumer": "phase/plan",
+     "quality": "thin",
+     "consumer_note": "settled every scope premise and measured the live reader defect, but did NOT check that sqlite3 exists on the host before the plan leaned on it - caught at the P5 mechanical pre-check instead",
+     "producer_id": "2026-09-06T12:07:13Z-a",
+     "consumer_id": "2026-09-06T12:15:46Z-a"
+    }
+   ]
+  },
+  {
+   "shape": "phase/plan -> plan -> wrap-session/report",
+   "n_chunks": 1,
+   "n": 1,
+   "quality": [
+    "thin"
+   ],
+   "chunks": [
+    "2026-09-06-run-report-envelope-conformance-gate"
+   ],
+   "cases": [
+    {
+     "chunk": "2026-09-06-run-report-envelope-conformance-gate",
+     "artifact": "plan",
+     "producer": "phase/plan",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "designed-dialogue:carry-teardown-form"
+     ],
+     "producer_note": "275 lines, 13 acceptance criteria, 11 steps, 6 Test Command blocks. Graph citations written confidently with the 0-indexed-to-editor-line correction applied (envelope.rs:37/:41); 0 soft citations. Three Expected-amendments entries recorded for wrap, each naming one of the seven masters",
+     "consumer": "wrap-session/report",
+     "quality": "thin",
+     "consumer_note": "the plan's Expected-amendment E3 named architecture as owner of the conductor verb enumeration; architecture:33 explicitly refuses that role and layout-templates:183-188 holds it, so the entry was re-aimed at report time",
+     "producer_id": "2026-09-06T12:15:46Z-a",
+     "consumer_id": "2026-09-06T13:11:37Z-a"
+    }
+   ]
+  },
+  {
+   "shape": "phase/plan -> plan -> implement/code",
+   "n_chunks": 1,
+   "n": 1,
+   "quality": [
+    "wrong"
+   ],
+   "chunks": [
+    "2026-09-06-coverage-completeness-gate"
+   ],
+   "cases": [
+    {
+     "chunk": "2026-09-06-coverage-completeness-gate",
+     "artifact": "plan",
+     "producer": "phase/plan",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "designed-dialogue:coverage-matrix-artifact",
+      "designed-dialogue:obs-plan-4-reconciliation",
+      "designed-dialogue:freight-scope",
+      "premise-corrected-at-synthesis",
+      "deferred-freight-recarry-authored"
+     ],
+     "producer_note": "318 lines, in the 150-400 band. All 3 dialogue questions were DESIGNED, not material gaps: Q1's fork was explicitly routed here by the 2026-08-09 test-plan amendment (which deliberately did not amend Path 6's artifact reference); Q2's fork was explicitly reserved by the 2026-09-01 operator ruling for 'the entry that next touches conductor-report'; Q3 was an operator preference on chunk scope. Zero soft graph citations — every symbol @ file:line came from the traced query with the 0-index to editor-line conversion applied. One catch at record time: the operator-deferred CARRY 5 would have died with this chunk (folded freight that no chunk executes runs in no chunk), so an explicit verbatim re-CARRY block was authored into Implementation notes for wrap's route-resolve",
+     "consumer": "implement/code",
+     "quality": "wrong",
+     "consumer_note": "step 6's per-shape mapping was factually wrong on 5 of 9 arms and its specified signature could not answer for one of them; every other step was accurate. The step DID instruct verification against the dispatcher, which is what caught it",
+     "producer_id": "2026-09-06T15:03:09Z-a",
+     "consumer_id": "2026-09-06T15:39:56Z-a"
+    }
+   ]
+  },
+  {
+   "shape": "phase/plan -> plan -> implement/smoke",
+   "n_chunks": 1,
+   "n": 1,
+   "quality": [
+    "thin"
+   ],
+   "chunks": [
+    "2026-09-09-port-occupier-test-hygiene"
+   ],
+   "cases": [
+    {
+     "chunk": "2026-09-09-port-occupier-test-hygiene",
+     "artifact": "plan",
+     "producer": "phase/plan",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "all-leans-decisive",
+      "unsatisfiable-gate-averted",
+      "zero-dialogue"
+     ],
+     "producer_note": "0 questions asked: every scope ambiguity resolved as a decisive material lean with a named artifact behind it (fix shape = test-plan.md:538 plus three in-tree precedents; file name = the {subject}_{aspect}_witness.rs convention from two sibling files; control form = testing.md:89; no Expected amendments = a grep measuring 0 instance-enumerations in test-plan). 2 iterations, both internal-consistency catches: the known-positive control started as a standing [[gate]] and moved to an /implement step plus a byte-identity diff, because a source-mutating gate is re-run verbatim by the wrap light gate; and that diff gate was first written against HEAD, then pinned to commit 266da34 because HEAD moves after this chunk commits and the gate would have broken at its own re-run. The second is the unsatisfiable-gate family that produced the previous chunk's P4 defect - caught while authoring this time, by asking what the light-gate re-run would see. No cross-input conflict surfaced; one near-tension was scoped rather than imported (arch's --lib/--bins nine-member sweep shape belongs to cargo check -p and does not transfer to cargo test -p target selection). Zero soft citations - the plan cites no caller set because the delta changes no symbol, which is a scope fact rather than a softened citation",
+     "consumer": "implement/smoke",
+     "quality": "thin",
+     "consumer_note": "its smoke entry named the form the project's own harness rules forbid for a no-boot-path chunk",
+     "producer_id": "2026-09-09T18:07:46Z-a",
+     "consumer_id": "2026-09-09T20:18:39Z-a"
+    }
+   ]
+  },
+  {
+   "shape": "phase/distill -> extracts -> phase/plan",
+   "n_chunks": 1,
+   "n": 1,
+   "quality": [
+    "wrong"
+   ],
+   "chunks": [
+    "2026-09-10-live-pulse-in-lane-scenario-round"
+   ],
+   "cases": [
+    {
+     "chunk": "2026-09-10-live-pulse-in-lane-scenario-round",
+     "artifact": "extracts",
+     "producer": "phase/distill",
+     "producer_outcome": "ok",
+     "producer_signals": [
+      "binding-unilateral",
+      "transport-escaping-handled",
+      "cross-extract-convergence"
+     ],
+     "producer_note": "7/7 valid on all 6 per-extract checks, 44-49 lines each, 0 No-domain-coverage. Check C fired 3x in its benign note-class form: 2 unilateral bindings (arch->tests, layouts->security, neither reciprocated) and 1 INTRA-extract tension - obs asserts read_back_observed_at + latency_ms non-null for all three scenarios while its own Constraints flag that whether the ManualCheck path reaches read-back is research question 1, so that criterion is unsatisfiable as written if Q1 answers no. No contradiction, no retry. Separately, 4 extracts converged independently on the P-079 false-green risk with complementary mechanisms (tests: harvest-tier re-base remedy; security: never-downgrade ban; obs: read-back key-set witness; arch: conductor vs conductor-canary service split as the attribution handle). The fan-out reference clause on transport HTML-escaping fired as designed: 6 of 7 returns arrived escaped, the single scripted decode cleared all of them (entities=0), and a11y arrived clean so its twin was dropped as raw==stripped - the escaping is per-RETURN, not per-batch",
+     "consumer": "phase/plan",
+     "quality": "wrong",
+     "consumer_note": "obs carried TWO items falsified at P3 that the plan had to OVERRIDE (its acceptance \"each leg's latency_ms <= its slo_tier threshold, asserted at report-generation time\" and its constraint \"P-072's <90s tier is graded, not advisory\") - a declare-only scenario writes zero CheckRecords. design/layouts were thin on the same axis: both wrote [MANUAL] for P-067/P-072, but state_for returns KnownResidual ([RESIDUAL]) on a degraded or empty observation, so the plan states both. The arch extract OMITTED the decisive fact from its own source (see the friction record)",
+     "producer_id": "2026-09-10T10:54:23Z-a",
+     "consumer_id": "2026-09-10T11:13:02Z-a"
+    }
+   ]
+  }
+ ],
+ "input_frictions": [
+  {
+   "id": "2026-09-05T12:48:27Z-b",
+   "chunk": null,
+   "skill_step": "new-session/orientation",
+   "type": "input.handoff-git-mismatch",
+   "what": "handoff said 53 ahead / unpushed / CI silent since 2026-08-09 and evolve-diagnose due; git shows upstream at HEAD 59d5b7c (0 ahead, reflog 'update by push'), CI run 33954347685 green on both jobs at 08:06Z, and Epoch 6a evolve-diagnose + code-audit run dirs on disk — all produced after wrap wrote the handoff in the same session"
+  },
+  {
+   "id": "2026-09-05T18:31:34Z-b",
+   "chunk": "2026-09-05-audit-corrective",
+   "skill_step": "phase/distill",
+   "type": "input.spec-source-gap",
+   "what": "test-plan §9/§10/§11 state the supply-chain gate as `cargo audit --deny warnings` (5 sites) while ci.yml:75 runs bare `cargo audit`; the stated form exits 1 by construction against the deny.toml-adjudicated set (measured: `error: 18 denied warnings found!`) — surfaced when the tests extract's criterion disagreed with the security/arch extracts' bare form"
+  },
+  {
+   "id": "2026-09-05T18:37:34Z-b",
+   "chunk": "2026-09-05-audit-corrective",
+   "skill_step": "phase/research",
+   "type": "input.cookbook-gap",
+   "what": "a module split needs the crate's externally-referenced pub surface as its byte-stability oracle; the cookbook's four shapes (impact / edges / blast / existence) do not cover it — the first attempt keyed on callee_crate alone returned 217 rows dominated by the crate's own test helpers, the usable shape filters callee_file to src/ and the referencing file to outside it (39 rows)"
+  },
+  {
+   "id": "2026-09-06T06:50:32Z-b",
+   "chunk": "2026-09-06-operator-gated-live-suite",
+   "skill_step": "phase/take-up",
+   "type": "input.carry-context-gap",
+   "what": "A CARRY's source-line coordinates decayed between authoring and take-up, and the wrap that moved the code re-pointed only ONE of the two artifacts naming those exact sites: the 2026-09-05 audit-corrective wrap re-pointed test-plan §12's roster to execute.rs:95:27 / execute.rs:136:25 / canary.rs:58:8, while the working-route CARRY naming the same three sites kept lib.rs:518 / :559 / :66 — because drift detection sweeps the seven masters and nothing sweeps the working-route. Caught only by promotion.md's fold-time re-verify duty, which re-aimed all three by function plus column against the post-split tree."
+  },
+  {
+   "id": "2026-09-06T07:08:11Z-b",
+   "chunk": "2026-09-06-operator-gated-live-suite",
+   "skill_step": "phase/research",
+   "type": "input.extract-signal-gap",
+   "what": "The obs extract signalled degraded_mode_response as the report-seam envelope extra carrying observable 1, stated as an accomplished fact rather than as a plan mandate. It resolves to nothing: the token has ZERO occurrences anywhere under crates/, and RunRecord's eleven fields carry no degraded key. The underlying fault is a spec-reality gap in obs-plan section 4, which the extract reported faithfully; SURFACED here for wrap's reconcile, not fixed. Research found the real persisted proxy instead — on a declare-only scenario manual_record sets state via state_for, which returns KnownResidual iff observation.degraded, so the envelope state field discriminates exactly."
+  },
+  {
+   "id": "2026-09-06T11:59:55Z-b",
+   "chunk": "2026-09-06-run-report-envelope-conformance-gate",
+   "skill_step": "phase/distill",
+   "type": "input.spec-source-gap",
+   "what": "The obs distiller reported its own master self-inconsistent on the exact field list this chunk's gate must assert: obs-plan section 3 and section 6's schema block both show eleven envelope keys, but section 6's 'Required fields (every log line)' bullet list enumerates only ten, omitting read_back_observed_at, under a heading that predates the two-record-shapes split. Traced by the distiller to the 2026-06-16-emission-journal-writer amendment which settled the count at eleven. Flagged for P3 verification and as a candidate Expected amendment; phase is read-only on specs so nothing was authored."
+  },
+  {
+   "id": "2026-09-06T12:15:46Z-b",
+   "chunk": "2026-09-06-run-report-envelope-conformance-gate",
+   "skill_step": "phase/plan",
+   "type": "input.research-thin",
+   "what": "P4 authored Test Commands calling sqlite3 to assert the cleanup count-zero verification; the P5 mechanical pre-check then measured sqlite3 ABSENT from the entire host (neither shell resolves it, where.exe finds nothing) and absent from CI. Research had read both shells' cleanup blocks including their 'command -v sqlite3' guard and never asked whether the tool exists, so it also missed that the shells' DB arm has never executed anywhere observable. One tool-availability probe at P3 would have surfaced both."
+  },
+  {
+   "id": "2026-09-06T12:15:46Z-c",
+   "chunk": "2026-09-06-run-report-envelope-conformance-gate",
+   "skill_step": "phase/plan",
+   "type": "input.extracts-conflict",
+   "what": "The CARRY instructs 'add the two bound-parameter deletes to both shells' while acknowledging in its own next sentence that the sqlite3 CLI has no bind facility - so its instruction is unsatisfiable as written. test-plan section 3:162 independently prescribes the cleanup body as rusqlite bound parameters with ?1 placeholders, which the shipped shell interpolation contradicts. Neither tension is extract-vs-extract, so P2's aggregate check C could not fire on either; the tests extract flagged the shape and the full weight only appeared at synthesis."
+  },
+  {
+   "id": "2026-09-06T12:46:36Z-b",
+   "chunk": "2026-09-06-run-report-envelope-conformance-gate",
+   "skill_step": "implement/code",
+   "type": "input.research-files-wrong",
+   "what": "Step 9 and the Files-to-modify list both located the CLI verb dispatch in crates/conductor-cli/src/commands/mod.rs; that file declares and re-exports the handler modules but the Commands match arm is in main.rs:70-78. P3 had read commands/mod.rs and cli.rs but never the dispatch site, so the boundary list was one file short and the chunk does not compile without editing a file no list names."
+  },
+  {
+   "id": "2026-09-06T12:46:36Z-c",
+   "chunk": "2026-09-06-run-report-envelope-conformance-gate",
+   "skill_step": "implement/code",
+   "type": "input.conventions-gap",
+   "what": "The plan's step 9 prescribed a boundary tracing::info! on the new verb (the sanctioned form for a DB boundary under obs-plan section 6). conductor-cli has no tracing dependency and uses tracing nowhere in its source, so honouring it would have added a dependency edge for one log line. Dropped the log line instead of adding the dep, keeping the chunk's no-dependency-delta acceptance criterion intact; the println stays the operator-facing signal."
+  },
+  {
+   "id": "2026-09-06T14:22:05Z-b",
+   "chunk": null,
+   "skill_step": "new-session/orientation",
+   "type": "input.handoff-git-mismatch",
+   "what": "Handoff Branch field declares 5 ahead of origin at 59d5b7c; git measures 0 ahead / 0 behind at b2f60c8 — the branch was pushed after the wrap wrote the handoff, so the ahead-count is a point-in-time snapshot, not the documented bookkeeping-rewrite transient"
+  },
+  {
+   "id": "2026-09-06T14:41:52Z-b",
+   "chunk": "2026-09-06-coverage-completeness-gate",
+   "skill_step": "phase/take-up",
+   "type": "input.out-of-pipeline-source",
+   "what": "The chunk's central premise — that 'the CURRENT SUT set' is current — is underivable from Conductor's tree: Conductor has no refs/ dir and the manifest is a transcribed record with no local witness. The overseer directive supplied the fact and re-verification required reading the SIBLING repo at /d/dev/projects/andromeda-pulse (HEAD, capability spec headings, 0.3.0 matrix) plus a set-diff; all seven coordinates confirmed, both set directions empty"
+  },
+  {
+   "id": "2026-09-06T16:02:35Z-b",
+   "chunk": "2026-09-06-coverage-completeness-gate",
+   "skill_step": "wrap-session/report",
+   "type": "input.implement-outcome-unsettled",
+   "what": "Implement's P4 report was superseded as the outcome basis by an overseer wrap directive issued between implement and this report. It did not contradict implement — it added four obligations and restated two figures (the catalog peak 50/s -> 232/s and the headroom 200x -> 43x, both of which implement had itself measured but stated only in prose). Recorded per the template's outcome-basis slot so a detector reading this report alone cannot inherit the superseded 200x reading"
+  },
+  {
+   "id": "2026-09-06T19:19:14Z-b",
+   "chunk": "2026-09-06-halo-hue-budget-re-driven",
+   "skill_step": "phase/take-up",
+   "type": "input.out-of-pipeline-source",
+   "what": "The decisive fact for this chunk's central design call - that Pulse's bootstrap window is operator-tunable via ANDROMEDA_PULSE_BASELINE_BOOTSTRAP_SECONDS - lives in the sibling andromeda-pulse repo, which phase's input contract does not read; it reached the step only through the operator's phase directive, and verifying it took 4 reads into that repo."
+  },
+  {
+   "id": "2026-09-06T19:19:14Z-c",
+   "chunk": "2026-09-06-halo-hue-budget-re-driven",
+   "skill_step": "phase/take-up",
+   "type": "input.out-of-pipeline-source",
+   "what": "pulse-a11y.sh - named in the directive as the operator's Pulse launcher and load-bearing for the LIVE-LEG firing form - exists in NEITHER repo's working tree nor either git index, so its stated behaviour could not be verified from any artifact and entered scope tagged [inferred] on the directive's word alone."
+  },
+  {
+   "id": "2026-09-06T19:28:51Z-b",
+   "chunk": "2026-09-06-halo-hue-budget-re-driven",
+   "skill_step": "phase/distill",
+   "type": "input.spec-source-gap",
+   "what": "test-plan.md and its amendment sidecar carry NO entry for this chunk's subject - the tests distiller re-derived zero hits for 'halo' / 'hue' / 'P-025' / 'delegated' across both - so the plan's constraints reach the chunk only by CLASS, and whether any test-plan amendment is owed becomes a wrap-time question rather than a planned one."
+  },
+  {
+   "id": "2026-09-07T07:27:59Z-b",
+   "chunk": "2026-09-06-halo-hue-budget-re-driven",
+   "skill_step": "implement/None",
+   "type": "input.research-files-wrong",
+   "what": "research.md's Files-to-modify omitted crates/conductor-run/tests/operator_pause_harvest.rs, which PINS the artifact this chunk changes: it asserts halo-hue-encoding's checklist induced text contains 'declares no emission of its own', a property plan step 3 deliberately invalidates. The codebase-research template names this exact class ('tests that PIN the changed artifact's DATA') as a required boundary member; my P3 enumerated goldens and dispatch_wire but not the data pins."
+  },
+  {
+   "id": "2026-09-07T08:36:30Z-b",
+   "chunk": "2026-09-06-halo-hue-budget-re-driven",
+   "skill_step": "wrap-session/report",
+   "type": "input.implement-outcome-unsettled",
+   "what": "Implement's report could not stand as the outcome basis: it soft-exited on an out-of-scope test, reached green only after an operator-approved scope widening, ran a live leg after that, and the wrap directive then changed three more files for the witness coordinate. The report names all four as basis so a detector cannot inherit the superseded 'surfaced' verdict."
+  },
+  {
+   "id": "2026-09-07T10:48:07Z-b",
+   "chunk": "2026-09-07-dependency-polish",
+   "skill_step": "phase/take-up",
+   "type": "input.carry-context-gap",
+   "what": "Three of the seven folded CARRYs cite coordinates that have DRIFTED since they were authored, and three under-count their own site sets. promotion.md prescribes re-verifying named coordinates at the fold, and that is the only reason the scope is right: 6 line numbers were wrong (2 of 3 tokio arch sites, both Tauri arch sites, one obs-plan site, the pii arity test), 5 sites were unnamed (a third arch Tauri site, security-plan:84, four tokio sites in obs-plan and test-plan), and one stated count was stale (deny.toml licenses allow 8, measured 9). The drift is expected — arch has been amended dozens of times since 2026-08-08 — but nothing re-anchors a CARRY when its target file moves, so every re-pinned annotation ages into a mis-aiming citation."
+  },
+  {
+   "id": "2026-09-07T10:58:13Z-b",
+   "chunk": "2026-09-07-dependency-polish",
+   "skill_step": "phase/distill",
+   "type": "input.spec-source-gap",
+   "what": "Three spec masters carry CONTRADICTORY values for one dependency version and no arbitration rule exists between them: design-system names indicatif 0.18 as target state while architecture and layout-templates both name 0.17, which is what the lock resolves. Each distiller reported its own master faithfully, so this is an input-set defect rather than an extract fault, and it is invisible to any single-master read. It inverts the chunk's task: reconciling docs to the lock is normally one direction, but here bumping to 0.18 makes design-system CORRECT and makes the other two stale, while not bumping does the reverse. Sharper still, layout-templates' own history shows its indicatif field was corrected DOWN from 0.18 to 0.17 in 2026-06-23 while design-system's was never corrected — so the two masters have been knowingly divergent since that date."
+  },
+  {
+   "id": "2026-09-07T14:13:36Z-b",
+   "chunk": "2026-09-07-a11y-ci-gate",
+   "skill_step": "phase/take-up",
+   "type": "input.carry-context-gap",
+   "what": "two of the five folded CARRYs mis-described their own subject and the promotion fold's mandated re-verify caught both: CARRY 1 named ONE README sentence but crates/conductor-tauri/ui/test/README.md carries the falsified Linux+xvfb verdict at three sites (:8, :12, :26), so the reword is a file pass not a sentence edit; CARRY 2 says the prior chunk worked around the loose guard by taking aria-live, but the sibling guard at accessibility.e2e.ts:294 actually took [role=alertdialog] and no aria-live guard exists in the specs. Neither error is in the coordinates a reader would check first - both are in the prose describing scope and prior action."
+  },
+  {
+   "id": "2026-09-07T15:26:10Z-c",
+   "chunk": "2026-09-07-a11y-ci-gate",
+   "skill_step": "phase/validate",
+   "type": "input.out-of-pipeline-source",
+   "what": "the decisive fact closing research Open question 2 - whether the GitHub runner image ships an Edge WebDriver - lives in actions/runner-images, outside every artifact this skill's input contract reads, so P3 correctly recorded it as unverifiable-from-this-host and marked step 7 provisional. The operator supplied it measured (windows-latest = Windows Server 2025, Edge 152.0.4191.53 + Edge Driver 152.0.4191.53, EDGEWEBDRIVER=C:\\SeleniumWebDrivers\\EdgeDriver), which removed an install step, de-provisionalised the step, and added an explicit windows-2025 label pin so a -latest move cannot change the driver silently. Same round supplied a second out-of-pipeline figure: the last measured routine run read 10 passing / 2 skipped."
+  },
+  {
+   "id": "2026-09-07T18:10:46Z-b",
+   "chunk": "2026-09-07-sr-findings-fixed",
+   "skill_step": "phase/take-up",
+   "type": "input.out-of-pipeline-source",
+   "what": "the chunk's decisive fact - that the CARRY's clearing event realized RED - lives in GitHub Actions run 34148079506, outside every artifact phase's input contract reads (working-entry, handoff, master-route, working-route); it reached scope only because the operator supplied it as a directive after a prior new-session consulted gh outside its own input set"
+  },
+  {
+   "id": "2026-09-07T21:34:52Z-b",
+   "chunk": "2026-09-07-sr-findings-fixed",
+   "skill_step": "wrap-session/report",
+   "type": "input.implement-outcome-unsettled",
+   "what": "implement's P4 report shipped a causal diagnosis (msedgedriver launching the app in Edge mode) that a later operator ruling falsified as a probe artifact; two further CI probes and a matrix retraction followed it, so the report had to name a composite outcome basis and list the Edge-mode reading only as RETRACTED, explicitly so the fan-out cannot inherit it"
+  },
+  {
+   "id": "2026-09-08T10:23:12Z-b",
+   "chunk": "2026-09-08-hosted-runner-webview2-session",
+   "skill_step": "phase/plan",
+   "type": "input.extracts-conflict",
+   "what": "The working entry directs 'v2-24 claimed or deferred', but the verification-matrix contract's claim-reachability rule makes the CLAIM arm structurally unreachable from inside this chunk: the cap's acceptance requires the specs to run in the a11y CI job, /implement writes refs locally at P2, and a local run cannot make a CI job green — so setting chunk={marker} would drive the wrap coverage gate into a HALT, which is exactly what un-claimed this same cap at 2026-09-07-sr-findings-fixed. Resolved by leaving the cap pooled and narrowing the entry's wording in the plan, with both reachable dispositions (deferred-with-cause, or pooled-with-the-green-run-recorded) named explicitly."
+  },
+  {
+   "id": "2026-09-08T13:27:07Z-c",
+   "chunk": "2026-09-08-hosted-runner-webview2-session",
+   "skill_step": "phase/validate",
+   "type": "input.out-of-pipeline-source",
+   "what": "The decisive fact — that msedgedriver creates its own %TEMP% scoped_dir EBWebView profile and overrides an inherited WEBVIEW2_USER_DATA_FOLDER, while the loader honours that handle on a bare launch — exists only in the RUNTIME BEHAVIOUR of a third-party binary and is reachable only by executing it. No artifact this skill's input contract reads could have supplied it: the seven spec masters do not describe msedgedriver, and the bridge package ships an 8-line stub plus a compiled .node, so a source read was impossible and my strings probe examined the wrong binary. The operator supplied it by running both forms on the dev host."
+  },
+  {
+   "id": "2026-09-08T19:18:40Z-b",
+   "chunk": "2026-09-08-webview2-runtime-152-installed-in-job",
+   "skill_step": "phase/take-up",
+   "type": "input.carry-context-gap",
+   "what": "The PREREQ annotation names its subject by ORIGIN MARKER only — 'close rust gate deferral (deferred since 2026-09-08-hosted-runner-webview2-session)' — and never says WHICH gates were deferred or under which rule. Folding it into scope as an actionable mandatory-gate obligation required opening the prior chunk's report.md and finding line 113 (nextest --workspace, clippy, deferred under the source-delta-proportional rule). The CARRY beside it, by contrast, was self-sufficient — it carried its own evidence path, run id and version sets. So richness is per-annotation, not per-entry, and the PREREQ form is the one that assumes the reader will go fetch."
+  },
+  {
+   "id": "2026-09-08T20:39:00Z-b",
+   "chunk": "2026-09-08-webview2-runtime-152-installed-in-job",
+   "skill_step": "wrap-session/report",
+   "type": "input.implement-outcome-unsettled",
+   "what": "implement's P4 report declared the chunk SURFACED on a red cargo fmt --check and left the disposition open for the operator. The operator's wrap directive then settled it differently than implement had framed it: not a spec-reality gap awaiting a spec amendment, but the playbook's external-decay class (playbook.md:93) — no in-diff cause means it is not the discovering chunk's drift, it never blocks that chunk, and it must produce an OWNER, here a route entry presented at P5 for the operator's word. The directive also supplied a root cause implement could not have known because it is pipeline-side (backlog W90: rustfmt.toml shipped 2026-09-05 with only commands.rs re-sorted, CI never gained a fmt step). So the outcome basis for this report is implement's P4 report PLUS the directive, and a detector reading the report alone would have inherited implement's superseded framing had the Outcome basis line not named both."
+  },
+  {
+   "id": "2026-09-09T09:37:54Z-b",
+   "chunk": null,
+   "skill_step": "new-session/orientation",
+   "type": "input.handoff-git-mismatch",
+   "what": "handoff Branch field says '1 ahead and unpushed' and calls the push load-bearing; git measures 0 ahead, origin at HEAD 6ec89dd, and the push-triggered CI run 34280136892 completed 2026-09-08T21:21:31Z with the a11y job failing"
+  },
+  {
+   "id": "2026-09-09T10:17:50Z-b",
+   "chunk": "2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate",
+   "skill_step": "phase/distill",
+   "type": "input.spec-source-gap",
+   "what": "the layouts distiller reports that layout-templates-amendments.md carries a TRUNCATED entry - the 2026-09-07-a11y-ci-gate amendment breaks mid-word at 'would ha' with its tail apparently orphaned at the end of the file; the history stays readable but that entry is incomplete"
+  },
+  {
+   "id": "2026-09-09T10:27:03Z-d",
+   "chunk": "2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate",
+   "skill_step": "phase/research",
+   "type": "input.extract-signal-gap",
+   "what": "the obs and a11y extracts both named conductor-run's `journal_conformance` as a thing to check, but no .rs file contains that token - it is a FILE name (crates/conductor-run/tests/journal_conformance.rs) whose functions are spelled assert_journal_conforms, so a token probe returned a 0 with no positive control behind it; the real artifact was located by widening to a case-insensitive journal.{0,3}conform sweep across crates/, .github/ and scripts/"
+  },
+  {
+   "id": "2026-09-09T15:42:02Z-d",
+   "chunk": null,
+   "skill_step": "new-session/orientation",
+   "type": "input.handoff-git-mismatch",
+   "what": "the handoff's Branch field predicted '1 ahead and unpushed' with the push named load-bearing; git measured 0 ahead with HEAD == upstream (both 266da34). Not a handoff defect — the operator pushed after the wrap wrote the file — but the divergence needed verification reads to classify, since FETCH_HEAD's Sep-8 date reads as a stale tracking ref until you know a push updates the tracking ref without touching it"
+  },
+  {
+   "id": "2026-09-10T07:25:15Z-b",
+   "chunk": "2026-09-09-port-occupier-test-hygiene",
+   "skill_step": "wrap-session/report",
+   "type": "input.implement-outcome-unsettled",
+   "what": "implement's P4 report was superseded between implement and this report by an operator wrap directive that corrected two of its measurements, so the report could not take it as the final word. Named in the report's Outcome-basis line as 'implement's P4 report as given, plus the operator's wrap directive' with both corrections enumerated, so the fan-out detectors read the corrected facts rather than inheriting the originals"
+  },
+  {
+   "id": "2026-09-10T10:44:37Z-c",
+   "chunk": "2026-09-10-live-pulse-in-lane-scenario-round",
+   "skill_step": "phase/take-up",
+   "type": "input.out-of-pipeline-source",
+   "what": "The constant that decides whether each read-back sees its own preflight canary still open - DEFAULT_INCIDENT_AUTO_RESOLVE_WINDOW_SECS = 120 - lives in the SUT's repo (andromeda-pulse), which phase's input contract does not read. Verified by opening that repo directly: exact at crates/triage/src/incident/persistence.rs:42, at Pulse HEAD 83d4060 on branch chore/migrate-pulse-to-v3. The paired resolver tick period was NOT derivable there and stays hypothesis: 30s on the harness comment alone."
+  },
+  {
+   "id": "2026-09-10T11:05:23Z-c",
+   "chunk": "2026-09-10-live-pulse-in-lane-scenario-round",
+   "skill_step": "phase/research",
+   "type": "input.out-of-pipeline-source",
+   "what": "The chunk's DECISIVE finding is not derivable from any artifact phase's input contract reads. That P-079's CountAtLeast >= 1 is structurally unsatisfiable rests on Pulse-side source: span_ids is Vec::new() at the only production EvidenceRefs construction (pulse-app/src/inference_runtime.rs:871), nothing mutates it after (whole-repo enumeration), and mcp-server/src/tools.rs:430-439 maps span_refs 1:1 from it. Four Pulse files read. Conductor's own side is self-consistent and reveals nothing wrong - the check reads a field the SUT never fills. Second instance this chunk at far greater depth than the P1 one (a single constant); recorded separately because the magnitude differs and this one changes the plan."
+  },
+  {
+   "id": "2026-09-10T16:04:25Z-c",
+   "chunk": "2026-09-10-live-pulse-in-lane-scenario-round",
+   "skill_step": "wrap-session/reconcile",
+   "type": "input.report-insufficient",
+   "what": "The report's `Spec claims disproved by measurement` bullet UNDER-RAN. It named only the scenario-level slo_tier claim, while the same chunk had also measured false a MASTER's claim: obs-plan.md:349 glosses read_back_observed_at - journal_emitted_at as '(Conductor's MCP round-trip)', where the delta actually covers the scenario's whole emission window (legs of 18s/35s/30s of declared phases recorded latency_ms 18169/35120/30212 while the sidecar's own tool calls logged duration_ms 0-22). The report substantiated the fact in prose but did not route it, and detectors read the report ALONE - so the false gloss was one volunteered observation away from shipping. Caught at Validate check 5 and applied as routine under playbook :28; the report's bullet was then corrected to name it."
+  },
+  {
+   "id": "2026-09-10T17:55:37Z-b",
+   "chunk": "2026-09-10-release-build-and-bundle",
+   "skill_step": "phase/distill",
+   "type": "input.spec-source-gap",
+   "what": "An amendment sidecar entry's body is physically interleaved with the following entry: in .andromeda/layout-templates-amendments.md the 2026-09-07-a11y-ci-gate entry's **Why:** line (:170) ends mid-word ('a single-sentence apply would ha'), the entire 2026-09-07-sr-findings-fixed entry occupies :172-175, and the interrupted sentence resumes at :177 ('ve left the retired verdict standing intra-line'). A consumer reading the sidecar entry-wise attributes :177 to the wrong entry or drops it. Surfaced BY the layouts distiller in its own extract and verified independently at fold time; phase is read-only on spec sources, so it is recorded, not fixed."
+  }
+ ]
+}

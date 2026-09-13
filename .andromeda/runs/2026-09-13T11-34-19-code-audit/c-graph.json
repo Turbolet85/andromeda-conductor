@@ -1,0 +1,119 @@
+{
+ "population": "plane=rust tree.db; views symbol/refs/calls_m/crate_edges",
+ "symbol_form": "fan_in symbols shortened to `{crate} {path}` (baseline-pinned)",
+ "cycles": 0,
+ "cycle_paths": [],
+ "fan_in_top": [
+  [
+   "conductor-core crate/",
+   139
+  ],
+  [
+   "conductor-core scenario/Scenario#",
+   106
+  ],
+  [
+   "conductor-core report_state/ReportState#",
+   98
+  ],
+  [
+   "conductor-core verdict/Verdict#",
+   89
+  ],
+  [
+   "conductor-core scenario/PId#",
+   87
+  ],
+  [
+   "conductor-core scenario/SloTier#",
+   82
+  ],
+  [
+   "conductor-core run_record/RunRecord#",
+   72
+  ],
+  [
+   "conductor-core error/CoreError#",
+   60
+  ],
+  [
+   "conductor-core expected/ClaimClass#",
+   51
+  ],
+  [
+   "conductor-core expected/ComparisonKind#",
+   51
+  ],
+  [
+   "conductor-core verdict/Verdict#Pass#",
+   51
+  ],
+  [
+   "conductor-run crate/",
+   50
+  ],
+  [
+   "conductor-core scenario/impl#[Scenario]from_toml_str().",
+   50
+  ],
+  [
+   "conductor-core load_envelope/EnvelopeStatus#",
+   50
+  ],
+  [
+   "conductor-verify error/VerifyError#",
+   43
+  ],
+  [
+   "conductor-core report_state/ReportState#Pass#",
+   43
+  ],
+  [
+   "conductor-core scenario/Scenario#expected.",
+   41
+  ],
+  [
+   "conductor-core coverage/CoverageMode#",
+   40
+  ],
+  [
+   "conductor-core phase_spec/EmissionShape#",
+   39
+  ],
+  [
+   "conductor-core pause/Decision#",
+   39
+  ]
+ ],
+ "fan_out": [
+  [
+   "conductor-run",
+   6
+  ],
+  [
+   "conductor-cli",
+   4
+  ],
+  [
+   "conductor-tauri",
+   2
+  ],
+  [
+   "conductor-timeline",
+   1
+  ],
+  [
+   "conductor-verify",
+   1
+  ],
+  [
+   "conductor-faults",
+   1
+  ],
+  [
+   "conductor-report",
+   1
+  ]
+ ],
+ "cross_unit_edges": 16
+}

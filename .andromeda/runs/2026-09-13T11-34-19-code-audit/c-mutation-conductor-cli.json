@@ -1,0 +1,31 @@
+{
+ "unit": "conductor-cli",
+ "counts": {
+  "mutants": 112,
+  "caught": 91,
+  "missed": 3,
+  "timeout": 0,
+  "unviable": 18
+ },
+ "score": 96.81,
+ "score_formula": "caught/(caught+missed)  [timeout and unviable excluded]",
+ "survivors": [
+  [
+   "crates/conductor-cli/src/render.rs:161:5",
+   "replace stdout_color -> bool with false"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:171:5",
+   "replace stderr_color -> bool with false"
+  ],
+  [
+   "crates/conductor-cli/src/commands/cleanup.rs:16:5",
+   "replace cleanup -> anyhow::Result<ExitCode> with Ok(Default::default())"
+  ]
+ ],
+ "wall_clock": {
+  "start": "2026-09-13T12:03:20.5896572Z",
+  "end": "2026-09-13T12:12:24.1903938Z"
+ },
+ "tool": "27.1.0"
+}

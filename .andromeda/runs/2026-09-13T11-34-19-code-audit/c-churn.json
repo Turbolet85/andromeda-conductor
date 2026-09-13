@@ -1,0 +1,60 @@
+{
+ "population": "git log --numstat 59d5b7c8..HEAD -- crates/**/*.rs crates/**/*.ts crates/**/*.tsx",
+ "pct": 13.29,
+ "files_churned": 24,
+ "files_touched": 129,
+ "total_adds": 9931,
+ "churned_adds": 1320,
+ "top_churned": [
+  [
+   "crates/conductor-run/src/execute.rs",
+   2,
+   250
+  ],
+  [
+   "crates/conductor-core/src/phase_spec.rs",
+   2,
+   182
+  ],
+  [
+   "crates/conductor-verify/tests/preflight.rs",
+   2,
+   152
+  ],
+  [
+   "crates/conductor-verify/tests/readback.rs",
+   2,
+   89
+  ],
+  [
+   "crates/conductor-report/src/db.rs",
+   2,
+   84
+  ],
+  [
+   "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts",
+   2,
+   82
+  ],
+  [
+   "crates/conductor-run/src/envelope.rs",
+   2,
+   66
+  ],
+  [
+   "crates/conductor-report/tests/matrix_ledger_gate.rs",
+   2,
+   61
+  ],
+  [
+   "crates/conductor-run/tests/canary_wire.rs",
+   2,
+   57
+  ],
+  [
+   "crates/conductor-verify/tests/jsonrpc_correlation.rs",
+   2,
+   45
+  ]
+ ]
+}

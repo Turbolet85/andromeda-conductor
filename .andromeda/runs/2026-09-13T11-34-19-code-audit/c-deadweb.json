@@ -1,0 +1,30 @@
+{
+ "population": "npx knip --reporter json in crates/conductor-tauri/ui (no knip config present)",
+ "tool": "knip 6.34.0",
+ "exit": 1,
+ "counts": {
+  "exports": 3,
+  "types": 9
+ },
+ "total": 12,
+ "files_with_issues": 4,
+ "detail": {
+  "exports": [
+   "test/a11y/screen-reader/parse-nvda-log.ts:readSpeechLog",
+   "test/a11y/screen-reader/parse-nvda-log.ts:readStamps",
+   "src/components/ScenarioPicker.tsx:SUITE_SELECTION"
+  ],
+  "types": [
+   "test/a11y/screen-reader/parse-nvda-log.ts:Outcome",
+   "test/a11y/screen-reader/parse-nvda-log.ts:Arm",
+   "test/a11y/screen-reader/parse-nvda-log.ts:PassRow",
+   "test/a11y/screen-reader/parse-nvda-log.ts:SubjectRecord",
+   "test/a11y/screen-reader/parse-nvda-log.ts:OperatorReview",
+   "test/a11y/screen-reader/parse-nvda-log.ts:ReviewGrade",
+   "test/a11y/screen-reader/parse-nvda-log.ts:Timeline",
+   "test/a11y/screen-reader/rows.ts:RowState",
+   "src/components/CoverageMatrix.tsx:CoverageMode"
+  ]
+ },
+ "CAVEAT": "This epoch MEASURED knip at 20 findings / 20 false positives on its first run (2026-09-07-dependency-polish): WebdriverIO discovers specs through wdio.conf.ts and loads devDependencies through its own plugin resolution, neither of which is an import edge knip can see. Counts are reported as CANDIDATES against an UNCONFIGURED tool, never as dead code. No baseline exists (tool-missing at 59d5b7c8)."
+}

@@ -1,0 +1,18 @@
+{
+ "unit": "conductor-core",
+ "counts": {
+  "mutants": 126,
+  "caught": 126,
+  "missed": 0,
+  "timeout": 0,
+  "unviable": 0
+ },
+ "score": 100.0,
+ "score_formula": "caught/(caught+missed)  [timeout and unviable excluded]",
+ "survivors": [],
+ "wall_clock": {
+  "start": "2026-09-13T12:34:49.800236Z",
+  "end": "2026-09-13T12:41:10.0789969Z"
+ },
+ "tool": "27.1.0"
+}

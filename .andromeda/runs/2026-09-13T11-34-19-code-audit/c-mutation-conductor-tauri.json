@@ -1,0 +1,31 @@
+{
+ "unit": "conductor-tauri",
+ "counts": {
+  "mutants": 46,
+  "caught": 27,
+  "missed": 3,
+  "timeout": 0,
+  "unviable": 16
+ },
+ "score": 90.0,
+ "score_formula": "caught/(caught+missed)  [timeout and unviable excluded]",
+ "survivors": [
+  [
+   "crates/conductor-tauri/src/main.rs:18:5",
+   "replace main with ()"
+  ],
+  [
+   "crates/conductor-tauri/src/commands.rs:273:8",
+   "delete ! in start_run"
+  ],
+  [
+   "crates/conductor-tauri/src/commands.rs:308:5",
+   "replace run_thread with ()"
+  ]
+ ],
+ "wall_clock": {
+  "start": "2026-09-13T11:58:38.919243Z",
+  "end": "2026-09-13T12:03:05.0571378Z"
+ },
+ "tool": "27.1.0"
+}

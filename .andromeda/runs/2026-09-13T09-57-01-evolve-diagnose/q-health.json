@@ -1,0 +1,465 @@
+{
+ "epoch": "Epoch 6b — Polish & ship",
+ "records": 456,
+ "step": 194,
+ "friction": 262,
+ "unparseable_whole_ledger": 0,
+ "retracted_dropped_in_epoch": [
+  "2026-09-05T20:33:45Z-c",
+  "2026-09-06T08:20:13Z-b",
+  "2026-09-06T10:15:42Z-b",
+  "2026-09-07T11:10:57Z-b",
+  "2026-09-07T14:24:01Z-b",
+  "2026-09-07T15:51:22Z-c",
+  "2026-09-07T20:23:09Z-b",
+  "2026-09-10T19:45:47Z-c",
+  "2026-09-10T19:52:10Z-a"
+ ],
+ "chunks": 14,
+ "chunk_coverage": {
+  "None": {
+   "steps_by_skill": {
+    "new-session": 1,
+    "wrap-session": 2
+   },
+   "expected": {
+    "new-session": 1,
+    "wrap-session": 5
+   },
+   "gaps": {
+    "wrap-session": 3
+   },
+   "step_ids": [
+    "new-session/orientation",
+    "wrap-session/curation",
+    "wrap-session/route-resolve"
+   ]
+  },
+  "2026-09-05-audit-corrective": {
+   "steps_by_skill": {
+    "phase": 5,
+    "implement": 2
+   },
+   "expected": {
+    "phase": 5,
+    "implement": 3
+   },
+   "gaps": {
+    "implement": 1
+   },
+   "step_ids": [
+    "implement/fix-loop",
+    "implement/smoke",
+    "phase/distill",
+    "phase/plan",
+    "phase/research",
+    "phase/take-up",
+    "phase/validate"
+   ]
+  },
+  "2026-09-06-operator-gated-live-suite": {
+   "steps_by_skill": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 1
+   },
+   "expected": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 5
+   },
+   "gaps": {
+    "wrap-session": 4
+   },
+   "step_ids": [
+    "implement/code",
+    "implement/fix-loop",
+    "implement/smoke",
+    "phase/distill",
+    "phase/plan",
+    "phase/research",
+    "phase/take-up",
+    "phase/validate",
+    "wrap-session/gates"
+   ]
+  },
+  "2026-09-06-run-report-envelope-conformance-gate": {
+   "steps_by_skill": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 5
+   },
+   "expected": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 5
+   },
+   "gaps": {},
+   "step_ids": [
+    "implement/code",
+    "implement/fix-loop",
+    "implement/smoke",
+    "phase/distill",
+    "phase/plan",
+    "phase/research",
+    "phase/take-up",
+    "phase/validate",
+    "wrap-session/curation",
+    "wrap-session/gates",
+    "wrap-session/reconcile",
+    "wrap-session/report",
+    "wrap-session/route-resolve"
+   ]
+  },
+  "2026-09-06-coverage-completeness-gate": {
+   "steps_by_skill": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 5
+   },
+   "expected": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 5
+   },
+   "gaps": {},
+   "step_ids": [
+    "implement/code",
+    "implement/fix-loop",
+    "implement/smoke",
+    "phase/distill",
+    "phase/plan",
+    "phase/research",
+    "phase/take-up",
+    "phase/validate",
+    "wrap-session/curation",
+    "wrap-session/gates",
+    "wrap-session/reconcile",
+    "wrap-session/report",
+    "wrap-session/route-resolve"
+   ]
+  },
+  "2026-09-06-halo-hue-budget-re-driven": {
+   "steps_by_skill": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 5
+   },
+   "expected": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 5
+   },
+   "gaps": {},
+   "step_ids": [
+    "implement/code",
+    "implement/fix-loop",
+    "implement/smoke",
+    "phase/distill",
+    "phase/plan",
+    "phase/research",
+    "phase/take-up",
+    "phase/validate",
+    "wrap-session/curation",
+    "wrap-session/gates",
+    "wrap-session/reconcile",
+    "wrap-session/report",
+    "wrap-session/route-resolve"
+   ]
+  },
+  "2026-09-07-dependency-polish": {
+   "steps_by_skill": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 5
+   },
+   "expected": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 5
+   },
+   "gaps": {},
+   "step_ids": [
+    "implement/code",
+    "implement/fix-loop",
+    "implement/smoke",
+    "phase/distill",
+    "phase/plan",
+    "phase/research",
+    "phase/take-up",
+    "phase/validate",
+    "wrap-session/curation",
+    "wrap-session/gates",
+    "wrap-session/reconcile",
+    "wrap-session/report",
+    "wrap-session/route-resolve"
+   ]
+  },
+  "2026-09-07-a11y-ci-gate": {
+   "steps_by_skill": {
+    "phase": 5,
+    "implement": 2,
+    "wrap-session": 4
+   },
+   "expected": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 5
+   },
+   "gaps": {
+    "implement": 1,
+    "wrap-session": 1
+   },
+   "step_ids": [
+    "implement/fix-loop",
+    "implement/smoke",
+    "phase/distill",
+    "phase/plan",
+    "phase/research",
+    "phase/take-up",
+    "phase/validate",
+    "wrap-session/curation",
+    "wrap-session/reconcile",
+    "wrap-session/report",
+    "wrap-session/route-resolve"
+   ]
+  },
+  "2026-09-07-sr-findings-fixed": {
+   "steps_by_skill": {
+    "phase": 4,
+    "implement": 3,
+    "wrap-session": 4
+   },
+   "expected": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 5
+   },
+   "gaps": {
+    "phase": 1,
+    "wrap-session": 1
+   },
+   "step_ids": [
+    "implement/code",
+    "implement/fix-loop",
+    "implement/smoke",
+    "phase/distill",
+    "phase/research",
+    "phase/take-up",
+    "phase/validate",
+    "wrap-session/curation",
+    "wrap-session/reconcile",
+    "wrap-session/report",
+    "wrap-session/route-resolve"
+   ]
+  },
+  "2026-09-08-hosted-runner-webview2-session": {
+   "steps_by_skill": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 5
+   },
+   "expected": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 5
+   },
+   "gaps": {},
+   "step_ids": [
+    "implement/code",
+    "implement/fix-loop",
+    "implement/smoke",
+    "phase/distill",
+    "phase/plan",
+    "phase/research",
+    "phase/take-up",
+    "phase/validate",
+    "wrap-session/curation",
+    "wrap-session/gates",
+    "wrap-session/reconcile",
+    "wrap-session/report",
+    "wrap-session/route-resolve"
+   ]
+  },
+  "2026-09-08-webview2-runtime-152-installed-in-job": {
+   "steps_by_skill": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 5
+   },
+   "expected": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 5
+   },
+   "gaps": {},
+   "step_ids": [
+    "implement/code",
+    "implement/fix-loop",
+    "implement/smoke",
+    "phase/distill",
+    "phase/plan",
+    "phase/research",
+    "phase/take-up",
+    "phase/validate",
+    "wrap-session/curation",
+    "wrap-session/gates",
+    "wrap-session/reconcile",
+    "wrap-session/report",
+    "wrap-session/route-resolve"
+   ]
+  },
+  "2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate": {
+   "steps_by_skill": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 5
+   },
+   "expected": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 5
+   },
+   "gaps": {},
+   "step_ids": [
+    "implement/code",
+    "implement/fix-loop",
+    "implement/smoke",
+    "phase/distill",
+    "phase/plan",
+    "phase/research",
+    "phase/take-up",
+    "phase/validate",
+    "wrap-session/curation",
+    "wrap-session/gates",
+    "wrap-session/reconcile",
+    "wrap-session/report",
+    "wrap-session/route-resolve"
+   ]
+  },
+  "2026-09-09-port-occupier-test-hygiene": {
+   "steps_by_skill": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 5
+   },
+   "expected": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 5
+   },
+   "gaps": {},
+   "step_ids": [
+    "implement/code",
+    "implement/fix-loop",
+    "implement/smoke",
+    "phase/distill",
+    "phase/plan",
+    "phase/research",
+    "phase/take-up",
+    "phase/validate",
+    "wrap-session/curation",
+    "wrap-session/gates",
+    "wrap-session/reconcile",
+    "wrap-session/report",
+    "wrap-session/route-resolve"
+   ]
+  },
+  "2026-09-10-live-pulse-in-lane-scenario-round": {
+   "steps_by_skill": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 5
+   },
+   "expected": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 5
+   },
+   "gaps": {},
+   "step_ids": [
+    "implement/code",
+    "implement/fix-loop",
+    "implement/smoke",
+    "phase/distill",
+    "phase/plan",
+    "phase/research",
+    "phase/take-up",
+    "phase/validate",
+    "wrap-session/curation",
+    "wrap-session/gates",
+    "wrap-session/reconcile",
+    "wrap-session/report",
+    "wrap-session/route-resolve"
+   ]
+  },
+  "2026-09-10-release-build-and-bundle": {
+   "steps_by_skill": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 5
+   },
+   "expected": {
+    "phase": 5,
+    "implement": 3,
+    "wrap-session": 5
+   },
+   "gaps": {},
+   "step_ids": [
+    "implement/code",
+    "implement/fix-loop",
+    "implement/smoke",
+    "phase/distill",
+    "phase/plan",
+    "phase/research",
+    "phase/take-up",
+    "phase/validate",
+    "wrap-session/curation",
+    "wrap-session/gates",
+    "wrap-session/reconcile",
+    "wrap-session/report",
+    "wrap-session/route-resolve"
+   ]
+  }
+ },
+ "untyped_by_step": {
+  "phase/validate": 4,
+  "new-session/orientation": 4,
+  "implement/fix-loop": 4,
+  "phase/research": 3,
+  "implement/code": 3,
+  "wrap-session/route-resolve": 2,
+  "wrap-session/gates": 2,
+  "implement/smoke": 1,
+  "implement/None": 1,
+  "wrap-session/curation": 1,
+  "phase/take-up": 1,
+  "phase/distill": 1
+ },
+ "typed_by_step": {
+  "phase/validate": 29,
+  "phase/research": 24,
+  "implement/fix-loop": 24,
+  "phase/take-up": 24,
+  "wrap-session/reconcile": 23,
+  "new-session/orientation": 21,
+  "wrap-session/curation": 20,
+  "phase/distill": 14,
+  "wrap-session/report": 14,
+  "wrap-session/route-resolve": 13,
+  "wrap-session/gates": 11,
+  "phase/plan": 7,
+  "implement/code": 4,
+  "implement/None": 4,
+  "implement/smoke": 3
+ },
+ "untyped_rate_overall": 0.103,
+ "problem_fact_fill": "69/194",
+ "id_fill": "456/456",
+ "outcomes": {
+  "ok": 182,
+  "halted-resolved": 6,
+  "soft-exit": 1,
+  "ok-degraded": 5
+ }
+}

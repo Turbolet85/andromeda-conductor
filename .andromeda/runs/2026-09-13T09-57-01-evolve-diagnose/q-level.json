@@ -1,0 +1,794 @@
+{
+ "facts": [
+  {
+   "id": "2026-09-05T16:56:23Z-a",
+   "index": 0,
+   "chunk": null,
+   "skill_step": "wrap-session/route-resolve",
+   "nature": "environment",
+   "solution": "workaround",
+   "note": "multi-KB single-line route/playbook/drift-base entries: applied via a scratchpad python read-modify-write (anchors asserted unique, verified from disk) instead of anchored Edit — host-win32 rule; payload in a Write-tool file, no heredoc"
+  },
+  {
+   "id": "2026-09-05T18:16:17Z-a",
+   "index": 0,
+   "chunk": "2026-09-05-audit-corrective",
+   "skill_step": "phase/take-up",
+   "nature": "environment",
+   "solution": "workaround",
+   "note": "stamp + master append executed by a scratchpad python script run by path (order asserted: scope.md present → stamp → master last; verified from disk) instead of anchored Edit — multi-KB single-line route/master entries, host-win32 rule; no collision suffix, no seed placeholder"
+  },
+  {
+   "id": "2026-09-05T18:37:34Z-a",
+   "index": 0,
+   "chunk": "2026-09-05-audit-corrective",
+   "skill_step": "phase/research",
+   "nature": "process",
+   "solution": "workaround",
+   "note": "a python probe over the query trace assumed one result shape across queries and crashed on a KeyError; re-read the printed rows with a regex instead of re-running the query"
+  },
+  {
+   "id": "2026-09-05T20:33:45Z-a",
+   "index": 0,
+   "chunk": "2026-09-05-audit-corrective",
+   "skill_step": "implement/fix-loop",
+   "nature": "process",
+   "solution": "workaround",
+   "note": "the conductor-run mutation tier (13m measured) exceeds the 10-minute Bash call cap, so it ran detached with a polling read of its log rather than as a foreground gate; the other four tiers fit"
+  },
+  {
+   "id": "2026-09-06T12:07:13Z-a",
+   "index": 0,
+   "chunk": "2026-09-06-run-report-envelope-conformance-gate",
+   "skill_step": "phase/research",
+   "nature": "process",
+   "solution": "deferred",
+   "note": "obs-plan section 6's Required-fields enumeration lists ten envelope keys against the schema block's eleven; phase is read-only on the seven masters so it was routed to wrap as an Expected amendment rather than fixed here"
+  },
+  {
+   "id": "2026-09-06T12:15:46Z-a",
+   "index": 0,
+   "chunk": "2026-09-06-run-report-envelope-conformance-gate",
+   "skill_step": "phase/plan",
+   "nature": "environment",
+   "solution": "removed-cause",
+   "note": "the CARRY's literal instruction (add two sqlite3 DELETE statements to both shells) was departed from: sqlite3 is absent host-wide and from CI so the shells' DB arm has never executed, and the operator chose to move teardown into the binary, removing the sqlite3 dependency rather than adding two more statements behind it"
+  },
+  {
+   "id": "2026-09-06T12:46:36Z-a",
+   "index": 0,
+   "chunk": "2026-09-06-run-report-envelope-conformance-gate",
+   "skill_step": "implement/code",
+   "nature": "process",
+   "solution": "removed-cause",
+   "note": "the plan's step 9 named commands/mod.rs as the dispatch site; the actual Commands match arm is in main.rs, so main.rs was edited although it appears in no Files-to-modify list - treated as the mandatory completion of the plan's own 'dispatch the new variant' intent rather than a scope expansion, and recorded as a deviation for the report"
+  },
+  {
+   "id": "2026-09-06T12:55:25Z-a",
+   "index": 0,
+   "chunk": "2026-09-06-run-report-envelope-conformance-gate",
+   "skill_step": "implement/fix-loop",
+   "nature": "process",
+   "solution": "removed-cause",
+   "note": "two fixes landed outside the plan's step list: the status verb in both shells (it read the LAST journal line as the envelope, which is a CheckRecord whenever a run graded checks) and the gate's own failure origin string (it interpolated an absolute host path, violating the rule the gate enforces). Both files were already in Files-to-modify; both were caught by running the gates rather than by review"
+  },
+  {
+   "id": "2026-09-06T14:41:52Z-a",
+   "index": 0,
+   "chunk": "2026-09-06-coverage-completeness-gate",
+   "skill_step": "phase/take-up",
+   "nature": "environment",
+   "solution": "workaround",
+   "note": "the skill body prescribes an anchored Edit for a point change, but the working-route entry is a multi-KB single line and the master-route tail likewise — both defeat anchored Edit; used the host rule's prescribed python read-modify-write by path (host-win32.md 'Long single-line files'). Zero redo cycles, both writes verified by read-back"
+  },
+  {
+   "id": "2026-09-06T15:03:09Z-a",
+   "index": 0,
+   "chunk": "2026-09-06-coverage-completeness-gate",
+   "skill_step": "phase/plan",
+   "nature": "process",
+   "solution": "workaround",
+   "note": "obs's chosen re-base ('the gate emits its counts on the message field') is unsatisfiable as literally stated once gate placement resolved to a Rust test — test targets emit no self-obs. Resolved at synthesis by moving the emission to the PRODUCTION render path (conductor-report::coverage, which declares tracing) rather than the gate; neither the extract nor research named this, because obs could not know the placement fork's outcome"
+  },
+  {
+   "id": "2026-09-06T15:26:27Z-a",
+   "index": 0,
+   "chunk": "2026-09-06-coverage-completeness-gate",
+   "skill_step": "phase/validate",
+   "nature": "environment",
+   "solution": "workaround",
+   "note": "the C2/C3 path checks were first written as a shell pipeline whose `tr -d '`- '` aborted on a reverse-collating character range, producing no output; reformulated to a python read-modify pass. Same class the validation reference itself warns about (a hyphen-stripping path re-check reporting existing paths missing), met in my own probe rather than in the plan"
+  },
+  {
+   "id": "2026-09-06T15:39:56Z-a",
+   "index": 0,
+   "chunk": "2026-09-06-coverage-completeness-gate",
+   "skill_step": "implement/code",
+   "nature": "product-logic",
+   "solution": "workaround",
+   "note": "plan step 6 specified EmissionShape::spans_per_dispatch(); implemented as EmissionSpec::max_spans_per_dispatch() instead — EmissionShape alone cannot see `signal`, which the Pii arm needs (traces emit 2 spans, logs emit one record per category). Same touchpoint file, so in scope; renamed to max_ because seeded jitter makes an exact count unattainable"
+  },
+  {
+   "id": "2026-09-06T15:39:56Z-a",
+   "index": 1,
+   "chunk": "2026-09-06-coverage-completeness-gate",
+   "skill_step": "implement/code",
+   "nature": "product-logic",
+   "solution": "workaround",
+   "note": "plan step 4 said 'the production render path in conductor-report/src/coverage.rs' without naming the function; first placed the obs line in CoverageMatrix::render(), then moved it to coverage_rollup() — the CLI's no---write path never calls render(), so Test Command 4 would have emitted nothing and its own criterion would have failed"
+  },
+  {
+   "id": "2026-09-06T19:19:14Z-a",
+   "index": 0,
+   "chunk": "2026-09-06-halo-hue-budget-re-driven",
+   "skill_step": "phase/take-up",
+   "nature": "process",
+   "solution": "overridden",
+   "note": "Operator interrupted an in-flight /andromeda-wrap-session invocation and re-invoked /andromeda-phase with the same directive text; at 0 pending the wrap would have taken its no-op path. No wrap work had been performed at the interrupt."
+  },
+  {
+   "id": "2026-09-07T07:27:59Z-c",
+   "index": 0,
+   "chunk": "2026-09-06-halo-hue-budget-re-driven",
+   "skill_step": "implement/fix-loop",
+   "nature": "process",
+   "solution": "deferred",
+   "note": "plan step 10 (run the live suite and commit its captures) could not execute: pulse-app is down (probed at session start - :4317 refused, andromeda-pulse-mcp absent from PATH). The mechanism pin and selection helpers are unit-covered on synthetic lines; the real capture and its verdict are owed to a live leg."
+  },
+  {
+   "id": "2026-09-07T08:26:51Z-a",
+   "index": 0,
+   "chunk": "2026-09-06-halo-hue-budget-re-driven",
+   "skill_step": "implement/fix-loop",
+   "nature": "process",
+   "solution": "overridden",
+   "note": "The plan's Files-to-modify was widened by operator approval rather than by re-planning: the missed file is a data pin on the artifact this chunk changes, so the edit was dictated by the plan's own step 3. Disclosed as a deviation for wrap to consume; implement authored no change to plan.md or research.md."
+  },
+  {
+   "id": "2026-09-07T10:48:07Z-a",
+   "index": 0,
+   "chunk": "2026-09-07-dependency-polish",
+   "skill_step": "phase/take-up",
+   "nature": "product-logic",
+   "solution": "prohibition",
+   "note": "The Tauri version sweep returns two DIFFERENT claim classes: stale version statements (v2.10.x / latest 2.10.1) and still-true security FLOORS (tauri >= 2.10.3, correct at 2.11.3). I added a hazard note to scope.md forbidding the floor sites from being swept up as stale, and enumerated 6 of them. The entry never distinguished the two."
+  },
+  {
+   "id": "2026-09-07T10:48:07Z-a",
+   "index": 1,
+   "chunk": "2026-09-07-dependency-polish",
+   "skill_step": "phase/take-up",
+   "nature": "process",
+   "solution": "deferred",
+   "note": "The 4 tokio sites outside architecture.md (obs-plan:32, obs-plan:39, test-plan:30, test-plan:434) and the 2 ambiguous test-plan tauri 2.10.3 test-feature sites (:306, :436) were surfaced but not dispositioned; routed to P4 because the CARRY scopes itself to arch sections only and calling them in or out changes the chunk's size."
+  },
+  {
+   "id": "2026-09-07T11:05:28Z-a",
+   "index": 0,
+   "chunk": "2026-09-07-dependency-polish",
+   "skill_step": "phase/research",
+   "nature": "environment",
+   "solution": "workaround",
+   "note": "The committed-secret scan was run as grep -rn over crates/ and returned 1.6 MB because the untracked node_modules tree matched; re-ran as git grep over tracked paths only, which returned the true 5-line result."
+  },
+  {
+   "id": "2026-09-07T11:05:28Z-a",
+   "index": 1,
+   "chunk": "2026-09-07-dependency-polish",
+   "skill_step": "phase/research",
+   "nature": "product-logic",
+   "solution": "prohibition",
+   "note": "Added a do-not-touch guard to research.md naming PiiCorpus::seeded(7) at four sites — a SEED numerically equal to the arity, which any arity-7 sweep for B7 returns as a false positive."
+  },
+  {
+   "id": "2026-09-07T11:41:07Z-b",
+   "index": 0,
+   "chunk": "2026-09-07-dependency-polish",
+   "skill_step": "phase/validate",
+   "nature": "process",
+   "solution": "overridden",
+   "note": "The operator returned five fixes at the review instead of approving. Four were plan defects I had shipped (a false-anchored master citation, a sweep that false-reds two bin-only crates, a dev-dep feature minimum missing logs, and profiles listed as dropped though it was never enabled); the fifth directed matrix writes whose premises did not hold. Applied all five, correcting two of the operator's own sub-premises in the process rather than complying silently."
+  },
+  {
+   "id": "2026-09-07T12:28:12Z-a",
+   "index": 0,
+   "chunk": "2026-09-07-dependency-polish",
+   "skill_step": "implement/code",
+   "nature": "product-logic",
+   "solution": "workaround",
+   "note": "Plan steps 4 and 5 prescribed default-features = false on the MEMBER entries; cargo rejects that outright (error: `default-features = false` cannot override workspace's `default-features`) when the dep is inherited via workspace = true. Moved it to the workspace entry, which is the only legal site and covers both dep sites at once; members keep their own feature lists. Cargo.toml was already a listed touchpoint, so this stayed in scope, and a comment records why the flag lives there."
+  },
+  {
+   "id": "2026-09-07T12:28:12Z-a",
+   "index": 1,
+   "chunk": "2026-09-07-dependency-polish",
+   "skill_step": "implement/code",
+   "nature": "process",
+   "solution": "deferred",
+   "note": "The eighth PiiCategory is unreachable from any scenario: conductor-core's PiiCategorySpec still has 7 variants and conductor-run's wire_category maps it 1:1 into the now-8-variant emit enum, which is not a match-exhaustiveness error, so the compiler stayed silent. Closing it needs phase_spec.rs, dispatch.rs and pii-scrub.toml — three files across two crates plus config, none in the touchpoint list, and no gate is red. Surfaced in the report rather than widening scope."
+  },
+  {
+   "id": "2026-09-07T12:28:53Z-b",
+   "index": 0,
+   "chunk": "2026-09-07-dependency-polish",
+   "skill_step": "implement/fix-loop",
+   "nature": "process",
+   "solution": "deferred",
+   "note": "knip ships usable only with an entry-point config: its 20 findings are 20 false positives, because WebdriverIO discovers specs through wdio.conf.ts and loads devDependencies through its own plugin resolution, neither of which is an import edge. The plan scoped step 10 to a devDependency plus a script and carries New files: None, and choosing which entry points to declare is a design decision, so the findings were dispositioned in writing per the step and the knip.json was deferred to the report."
+  },
+  {
+   "id": "2026-09-07T12:46:33Z-a",
+   "index": 0,
+   "chunk": "2026-09-07-dependency-polish",
+   "skill_step": "wrap-session/report",
+   "nature": "process",
+   "solution": "overridden",
+   "note": "The operator's wrap directive overrode the report's default content in four places, including turning a would-be red light gate into an expected report-only exit and making a conditional Expected amendment unconditional. Recorded rather than re-derived; the report names the directive as part of its outcome basis so a detector cannot inherit a superseded claim."
+  },
+  {
+   "id": "2026-09-07T13:00:39Z-a",
+   "index": 0,
+   "chunk": "2026-09-07-dependency-polish",
+   "skill_step": "wrap-session/reconcile",
+   "nature": "process",
+   "solution": "overridden",
+   "note": "The operator's wrap directive pre-directed two of the three detector-severity escalate items (the architecture E1 retirement made unconditional; the security-plan wording constrained to forbid saying the master forbade or predicted the retirement), which satisfied the trajectory gate without a halt. The third (obs-plan §3) resolved on playbook rule 28-30 plus the plan's operator-reviewed Expected-amendments entry."
+  },
+  {
+   "id": "2026-09-07T13:15:00Z-a",
+   "index": 0,
+   "chunk": "2026-09-07-dependency-polish",
+   "skill_step": "wrap-session/gates",
+   "nature": "process",
+   "solution": "overridden",
+   "note": "Operator wrap-directive item 1 changed how the light gate reads one command: npm run knip exits 1 by knip's own convention (findings present) and the plan states no exit expectation, so it is REPORT-ONLY with evidence/knip-first-report.md as the asserted signal. Recorded as expected — neither a red nor a silent skip. Without the directive the exit-1 would have read as a gate failure and halted the wrap."
+  },
+  {
+   "id": "2026-09-07T13:21:35Z-a",
+   "index": 0,
+   "chunk": null,
+   "skill_step": "new-session/orientation",
+   "nature": "process",
+   "solution": "removed-cause",
+   "note": "the step says a BLOCKED-ON premise is printed here and never re-derived (wrap P5 re-verifies), but the Setup-mandated ahead-count already contradicted a figure inside that premise, so one extra read of .github/workflows/ci.yml was taken to establish whether the block itself still stands before handing the operator the fork"
+  },
+  {
+   "id": "2026-09-07T14:13:36Z-a",
+   "index": 0,
+   "chunk": "2026-09-07-a11y-ci-gate",
+   "skill_step": "phase/take-up",
+   "nature": "process",
+   "solution": "overridden",
+   "note": "Setup step 4's BLOCKED-ON HALT fired on the identified head; it was not put to the operator during this run because the take-it-anyway ruling had already been given at the new-session fork earlier in the session, so the halt's dialogue was pre-empted rather than held"
+  },
+  {
+   "id": "2026-09-07T14:30:13Z-a",
+   "index": 0,
+   "chunk": "2026-09-07-a11y-ci-gate",
+   "skill_step": "phase/research",
+   "nature": "process",
+   "solution": "workaround",
+   "note": "the closure prescribes dropping the [inferred] tag on each verified bullet in place; with 17 tags across a 14 KB scope.md that would have been 17 anchored edits, so the tags were discharged collectively in an appended Premise closure section naming each disposition instead of being individually stripped - the dispositions are explicit but the inline tags remain"
+  },
+  {
+   "id": "2026-09-07T20:23:09Z-a",
+   "index": 0,
+   "chunk": "2026-09-07-sr-findings-fixed",
+   "skill_step": "implement/fix-loop",
+   "nature": "environment",
+   "solution": "unresolved",
+   "note": "the CI a11y job's session creation never completes on the hosted windows-2025 runner; both chartered fixes are proven in CI and both suspects the plan named are measured false, so the remaining cause is unnamed and its resolution is a design decision, not a chunk-level code fix"
+  },
+  {
+   "id": "2026-09-07T21:23:39Z-a",
+   "index": 0,
+   "chunk": "2026-09-07-sr-findings-fixed",
+   "skill_step": "implement/fix-loop",
+   "nature": "environment",
+   "solution": "deferred",
+   "note": "a WebView2-mode session never exposes DevToolsActivePort on the hosted windows-2025 runner; driver side proven correct, cause beyond that unmeasured, v2-24 returned to the pool"
+  },
+  {
+   "id": "2026-09-08T08:22:37Z-a",
+   "index": 0,
+   "chunk": null,
+   "skill_step": "new-session/orientation",
+   "nature": "environment",
+   "solution": "workaround",
+   "note": "A grep returning full master-route records exceeded the tool-result size cap (29.7KB, persisted to file); re-extracted with a marker+status-only pattern instead of reading the persisted output."
+  },
+  {
+   "id": "2026-09-08T08:22:37Z-a",
+   "index": 1,
+   "chunk": null,
+   "skill_step": "new-session/orientation",
+   "nature": "environment",
+   "solution": "workaround",
+   "note": "Bash cwd persists across calls, so a second parallel call's relative 'cd conductor-0.2.0' failed after the first call had already entered it; re-issued both probes from an absolute project cwd."
+  },
+  {
+   "id": "2026-09-08T09:54:14Z-a",
+   "index": 0,
+   "chunk": "2026-09-08-hosted-runner-webview2-session",
+   "skill_step": "phase/distill",
+   "nature": "process",
+   "solution": "removed-cause",
+   "note": "Authored the decode script as a 'cat > file <<PY' heredoc; the project's PreToolUse guard blocked it (documents/scripts go through the Write tool, then run by path). Re-authored via Write and ran by path — the guard fired exactly as designed and cost one call."
+  },
+  {
+   "id": "2026-09-08T10:01:42Z-a",
+   "index": 0,
+   "chunk": "2026-09-08-hosted-runner-webview2-session",
+   "skill_step": "phase/research",
+   "nature": "environment",
+   "solution": "workaround",
+   "note": "The first structural index of verification-harness.md overflowed the tool-result cap at 60.4KB, because the per-entry-introducer patterns matched whole multi-KB prose lines; re-indexed with a truncating projection (cut -c1-110) and then read every span by offset."
+  },
+  {
+   "id": "2026-09-08T10:01:42Z-a",
+   "index": 1,
+   "chunk": "2026-09-08-hosted-runner-webview2-session",
+   "skill_step": "phase/research",
+   "nature": "environment",
+   "solution": "workaround",
+   "note": "@crabnebula/tauri-driver ships only an 8-line stub lib.rs — the real bridge is a compiled .node binary — so its behaviour could not be read from source; substituted its --help surface plus a strings probe with three positive controls, and recorded the bounded confidence that gives."
+  },
+  {
+   "id": "2026-09-08T10:23:12Z-a",
+   "index": 0,
+   "chunk": "2026-09-08-hosted-runner-webview2-session",
+   "skill_step": "phase/plan",
+   "nature": "process",
+   "solution": "deferred",
+   "note": "A FIFTH remedy option surfaced at research that the working entry never named — tauri-plugin-automation plus @crabnebula/test-runner-backend, the bridge README's other Windows path — and was deliberately not pursued: it stays inside the one automation stack but adds a runtime plugin to the SHIPPED app. Recorded as a route-forward option in the plan and in the v2-24 notes rather than taken."
+  },
+  {
+   "id": "2026-09-08T13:27:07Z-a",
+   "index": 0,
+   "chunk": "2026-09-08-hosted-runner-webview2-session",
+   "skill_step": "phase/validate",
+   "nature": "product-logic",
+   "solution": "overridden",
+   "note": "The operator's R1 overrode the plan's central course: hypothesis 2 was the chunk's only remedy and their dev-host measurement retired it, turning the chunk from remedy-plus-diagnostic into diagnose-only and removing wdio.conf.ts from the modify-set entirely."
+  },
+  {
+   "id": "2026-09-08T13:27:07Z-a",
+   "index": 1,
+   "chunk": "2026-09-08-hosted-runner-webview2-session",
+   "skill_step": "phase/validate",
+   "nature": "product-logic",
+   "solution": "prohibition",
+   "note": "A new do-not guard was added to Constraints from R2's measurement: never list a post-mortem scoped_dir listing, because msedgedriver cleans that directory up on failure — the poll must be concurrent or it measures nothing."
+  },
+  {
+   "id": "2026-09-08T13:48:48Z-a",
+   "index": 0,
+   "chunk": "2026-09-08-hosted-runner-webview2-session",
+   "skill_step": "implement/fix-loop",
+   "nature": "process",
+   "solution": "removed-cause",
+   "note": "My validation script initially cleaned its user-data dir with a recursive Remove-Item; replaced with a per-run unique timestamped leaf so no recursive delete exists at all, per the harness rule against recursive deletes over derived paths."
+  },
+  {
+   "id": "2026-09-08T13:48:48Z-a",
+   "index": 1,
+   "chunk": "2026-09-08-hosted-runner-webview2-session",
+   "skill_step": "implement/fix-loop",
+   "nature": "product-logic",
+   "solution": "prohibition",
+   "note": "Two warning comments added to ci.yml recording measured API facts: that Wait-Job carries -Timeout while Receive-Job does not, and that scoped_dir selection must scan every fresh dir because msedgedriver creates two siblings per session and prior runs leave residue."
+  },
+  {
+   "id": "2026-09-08T14:13:31Z-a",
+   "index": 0,
+   "chunk": "2026-09-08-hosted-runner-webview2-session",
+   "skill_step": "implement/smoke",
+   "nature": "process",
+   "solution": "removed-cause",
+   "note": "My own probe-validation script left three orphaned conductor-tauri.exe instances (plus webview children) because its (b) probe creates a real WebDriver session and stopping the driver does not kill the driven app. Found by the final census, terminated with the documented interrupted-leg stop form; start-time checks then proved the six remaining msedgewebview2.exe predate this run by 26 days."
+  },
+  {
+   "id": "2026-09-08T16:14:20Z-a",
+   "index": 0,
+   "chunk": "2026-09-08-hosted-runner-webview2-session",
+   "skill_step": "wrap-session/gates",
+   "nature": "resources",
+   "solution": "deferred",
+   "note": "Two sanctioned non-runs, both recorded rather than silent. (1) The Rust workspace gates (nextest --workspace, clippy) were deferred on zero compiled-source delta and pinned as a PREREQ on the next markerless entry. (2) The --e2e frontend half was skipped because its subject artifacts (ui/dist and the release binary, both stamped 13:42Z by implement's green run) are unchanged and no source moved since — re-proving an unchanged artifact proves nothing new."
+  },
+  {
+   "id": "2026-09-08T17:07:54Z-a",
+   "index": 0,
+   "chunk": null,
+   "skill_step": "wrap-session/curation",
+   "nature": "process",
+   "solution": "workaround",
+   "note": "curation-guide's Corrections disposition prescribes editing the false entry IN PLACE; the false clause sits in host-win32.md's setup-GENERATED body, which the same guide's Tier 2 write logic forbids touching. Routed the correction to ## Session Additions instead, extending Filter 1's generated-body reasoning (stated for the additive-facet case only) to the correction case by analogy."
+  },
+  {
+   "id": "2026-09-08T17:16:50Z-a",
+   "index": 0,
+   "chunk": null,
+   "skill_step": "new-session/orientation",
+   "nature": "environment",
+   "solution": "workaround",
+   "note": "a line-range grep of master-route emitted whole multi-KB record lines and overflowed the tool-result cap (38.5 KB persisted to a file); re-extracted structurally with grep -oE over marker plus status only"
+  },
+  {
+   "id": "2026-09-08T19:13:32Z-a",
+   "index": 0,
+   "chunk": null,
+   "skill_step": "new-session/orientation",
+   "nature": "environment",
+   "solution": "workaround",
+   "note": "a line-range grep of master-route printed whole multi-KB record lines and overflowed the tool-result cap at 38.6 KB; re-extracted with a scoped grep -oE returning marker plus status tokens only"
+  },
+  {
+   "id": "2026-09-08T19:31:38Z-a",
+   "index": 0,
+   "chunk": "2026-09-08-webview2-runtime-152-installed-in-job",
+   "skill_step": "phase/research",
+   "nature": "environment",
+   "solution": "workaround",
+   "note": "the prescribed in-full read of the 55.5 KB harness rule file was first attempted as a plain grep for section headers and entry introducers, which returned the full multi-KB matched lines and overflowed the tool-result cap; recovered with an awk index printing line numbers plus a 90-char prefix, then offset-bounded reads over every indexed span"
+  },
+  {
+   "id": "2026-09-08T20:18:38Z-a",
+   "index": 0,
+   "chunk": "2026-09-08-webview2-runtime-152-installed-in-job",
+   "skill_step": "phase/validate",
+   "nature": "process",
+   "solution": "workaround",
+   "note": "read the verification-matrix entry with an inline python json load at P1 and P3 instead of the contract's own surface, matrix.py show --dir {dir} --id {id}; the operator corrected it at the P5 review and the tool form was used thereafter"
+  },
+  {
+   "id": "2026-09-08T20:39:00Z-a",
+   "index": 0,
+   "chunk": "2026-09-08-webview2-runtime-152-installed-in-job",
+   "skill_step": "wrap-session/report",
+   "nature": "process",
+   "solution": "prohibition",
+   "note": "wrote an explicit guard into the report — 'Detectors: do not propose retiring test-plan.md:455' — because the Spec-claims-disproved bullet names a real measured falsity (282 sites, no CI fmt step) whose naive reading is a retirement proposal, and the 2026-09-06-coverage-completeness-gate operator resolution holds that a target-state descriptor stays standing until its implementing chunk lands"
+  },
+  {
+   "id": "2026-09-08T20:55:31Z-a",
+   "index": 0,
+   "chunk": "2026-09-08-webview2-runtime-152-installed-in-job",
+   "skill_step": "wrap-session/reconcile",
+   "nature": "process",
+   "solution": "workaround",
+   "note": "first attempted the sidecar appends as a `cat >> file <<EOF` heredoc; the PreToolUse hook blocked it ('documents go through the Write tool; a script goes to a scratchpad file run by path'), which is the same rule the skill's own constraints state. Re-did both appends as anchored Edits after reading each sidecar's exact tail."
+  },
+  {
+   "id": "2026-09-08T21:05:44Z-a",
+   "index": 0,
+   "chunk": "2026-09-08-webview2-runtime-152-installed-in-job",
+   "skill_step": "wrap-session/gates",
+   "nature": "process",
+   "solution": "workaround",
+   "note": "route-resolve prescribes the flip-compaction as ONE whole-file rewrite of working-route.md via a single Write; with exactly one line to compact I used one anchored Edit instead — the same single write, but without reproducing 130 untouched multi-KB lines, whose byte-exact re-emission is the larger corruption risk. The whole-file form is written for the backfill sweep case (many lines at once), which did not apply here."
+  },
+  {
+   "id": "2026-09-09T09:37:54Z-a",
+   "index": 0,
+   "chunk": null,
+   "skill_step": "new-session/orientation",
+   "nature": "process",
+   "solution": "removed-cause",
+   "note": "wrote the health-check script with a cat>file heredoc; the project PreToolUse guard blocked it ('documents go through the Write tool; a script goes to a scratchpad file run by path') and the script was re-authored with the Write tool per host-win32.md"
+  },
+  {
+   "id": "2026-09-09T10:17:50Z-a",
+   "index": 0,
+   "chunk": "2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate",
+   "skill_step": "phase/distill",
+   "nature": "process",
+   "solution": "workaround",
+   "note": "fan-out.md prescribes a scripted entity-decode over the returned body, then saving the decoded copy; the decode was instead performed while authoring the 6 saved files and the SCRIPT was used afterwards to probe entities=0 and to reconstruct the three inverse-encode twins - same end state and the sanctioned twin form, but the decode itself was not the scripted step"
+  },
+  {
+   "id": "2026-09-09T10:27:03Z-a",
+   "index": 0,
+   "chunk": "2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate",
+   "skill_step": "phase/research",
+   "nature": "process",
+   "solution": "workaround",
+   "note": "codebase-research.md prescribes the scope premise closure as the FINAL P3 step, before research.md is written; research.md was written first and scope.md amended immediately after. Substance unaffected (all findings were in hand before either write) and P4 still consumes corrected scope, but the prescribed order was not followed"
+  },
+  {
+   "id": "2026-09-09T12:54:14Z-a",
+   "index": 0,
+   "chunk": "2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate",
+   "skill_step": "implement/fix-loop",
+   "nature": "environment",
+   "solution": "workaround",
+   "note": "a compound command creating the HEAD-probe worktree was denied by the permission layer because it carried rm -rf (the documented host class in host-win32.md); re-issued as granular steps against a fresh unique directory instead"
+  },
+  {
+   "id": "2026-09-09T12:54:15Z-a",
+   "index": 0,
+   "chunk": "2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate",
+   "skill_step": "implement/smoke",
+   "nature": "process",
+   "solution": "workaround",
+   "note": "the playbook prescribes agent-run.sh run then status for an agent-driven project; ran `run --e2e` instead, narrowing to the arm that actually boots the app, because bare run re-executes nextest and clippy which had already run green as gates 6 and 5 in this same session. `status` had separately run as gate 11"
+  },
+  {
+   "id": "2026-09-09T15:42:02Z-a",
+   "index": 0,
+   "chunk": null,
+   "skill_step": "new-session/orientation",
+   "nature": "environment",
+   "solution": "workaround",
+   "note": "a master-route grep matching whole multi-KB records exceeded the tool-result cap and was persisted to a file; routed around it with an anchored structural extraction ('^{marker} · {status}') rather than re-reading the persisted output"
+  },
+  {
+   "id": "2026-09-09T18:02:49Z-a",
+   "index": 0,
+   "chunk": "2026-09-09-port-occupier-test-hygiene",
+   "skill_step": "phase/research",
+   "nature": "product-logic",
+   "solution": "workaround",
+   "note": "the failing test emits NO diagnostic through libtest - init_observability installs log_panic (obs.rs:172), which routes the panic through tracing into the file sink, so the failure block carries no stdout section and -- --nocapture adds nothing. Routed around it by recovering the panic record from the test's own JSONL under %TEMP%/conductor-faults-obs-{pid}/, which is where the assertion identity and the six competing ports were actually read"
+  },
+  {
+   "id": "2026-09-09T18:44:43Z-a",
+   "index": 0,
+   "chunk": "2026-09-09-port-occupier-test-hygiene",
+   "skill_step": "phase/validate",
+   "nature": "process",
+   "solution": "overridden",
+   "note": "the operator's review directed a scope expansion the plan did not contain: measure conductor-report and derive the sweep's crate list from the workspace manifest, taking the gate from the route entry's eight touched crates to all nine members. Measured green (exit 0, 51+3), gate re-authored as manifest-derived and re-baselined before approval"
+  },
+  {
+   "id": "2026-09-09T20:18:39Z-a",
+   "index": 0,
+   "chunk": "2026-09-09-port-occupier-test-hygiene",
+   "skill_step": "implement/smoke",
+   "nature": "process",
+   "solution": "workaround",
+   "note": "drove `bash scripts/agent-run.sh run` instead of the plan's listed smoke entry `bash scripts/agent-run.sh status`, because verification-harness.md's 2026-06-21 entry states a no-boot-path-change chunk's smoke is run and explicitly not status. The plan's entry had already been executed as a P2 gate at exit 0; the alternative was driven so the rule is satisfied by execution rather than noted as a miss"
+  },
+  {
+   "id": "2026-09-10T07:25:15Z-a",
+   "index": 0,
+   "chunk": "2026-09-09-port-occupier-test-hygiene",
+   "skill_step": "wrap-session/report",
+   "nature": "process",
+   "solution": "overridden",
+   "note": "the operator's wrap directive corrected two measurements this report would otherwise have carried forward from implement (the masked-target count, the census citation) and added two forward obligations (the P5 route repair, the P7 master-desc premise); the report was authored to the corrected facts"
+  },
+  {
+   "id": "2026-09-10T07:42:04Z-a",
+   "index": 0,
+   "chunk": "2026-09-09-port-occupier-test-hygiene",
+   "skill_step": "wrap-session/gates",
+   "nature": "environment",
+   "solution": "removed-cause",
+   "note": "the light gate was first run through a python runner I wrote to read the [[gate]] fence and execute each entry via subprocess, instead of the skill's prescribed per-entry by-hand heredoc form. All nine entries reported exit 1. Cause was the wrapper, not the gates: Windows CreateProcess search order resolved bash to C:\\Windows\\System32\bash.exe, the WSL relay with no distro, which died with execvpe(/bin/bash) failed. Resolved by abandoning the runner and re-running every entry in the Bash tool's own shell in the documented form, which returned 9/9 green"
+  },
+  {
+   "id": "2026-09-10T10:13:37Z-a",
+   "index": 0,
+   "chunk": null,
+   "skill_step": "new-session/orientation",
+   "nature": "process",
+   "solution": "workaround",
+   "note": "authoring the health-check script as a cat-heredoc with a file target was blocked by the PreToolUse hook (documents and scripts go through the Write tool on this host); re-authored the same script with the Write tool and ran it by path"
+  },
+  {
+   "id": "2026-09-10T10:37:27Z-a",
+   "index": 0,
+   "chunk": null,
+   "skill_step": "new-session/orientation",
+   "nature": "environment",
+   "solution": "workaround",
+   "note": "auto-mode directs work through the Bash tool; the three structural extractor scripts were authored with the Write tool into the session scratchpad and run by path instead, per .claude/rules/host-win32.md (heredoc-authored scripts are blocked by the PreToolUse hook and the Bash transport corrupts a command past ~7.5 KB)"
+  },
+  {
+   "id": "2026-09-10T11:05:23Z-a",
+   "index": 0,
+   "chunk": "2026-09-10-live-pulse-in-lane-scenario-round",
+   "skill_step": "phase/research",
+   "nature": "environment",
+   "solution": "workaround",
+   "note": "the code-graph could not answer the chunk's one impact question (symbol 'observe' absent from the rust index), so the call site was established by grep instead - the cookbook's own prescribed fallback for a 0-row result with probe_hits 0"
+  },
+  {
+   "id": "2026-09-10T11:13:02Z-a",
+   "index": 0,
+   "chunk": "2026-09-10-live-pulse-in-lane-scenario-round",
+   "skill_step": "phase/plan",
+   "nature": "product-logic",
+   "solution": "deferred",
+   "note": "the vacuous Hard CountAtLeast over span_refs spans THREE committed scenarios (constellation-severity-live-wiring floor 1, findings-counter-refresh floor 3, pulse-run-contract floor 1); the plan drives the round and defers the class to a route-entry candidate raised at wrap with a named owner, because scope bans scenario re-authoring and a shipped sibling is already ratified as accepted"
+  },
+  {
+   "id": "2026-09-10T12:40:28Z-a",
+   "index": 0,
+   "chunk": "2026-09-10-live-pulse-in-lane-scenario-round",
+   "skill_step": "phase/validate",
+   "nature": "process",
+   "solution": "prohibition",
+   "note": "a do-not guard was added to the plan at review - \"Do NOT re-derive this with a bare token grep: grep -c CountAtLeast returns hits in seven files\" - because four scenarios carry the token only in retirement comments and a reader re-deriving the three-file basis would land on seven"
+  },
+  {
+   "id": "2026-09-10T15:16:27Z-a",
+   "index": 0,
+   "chunk": "2026-09-10-live-pulse-in-lane-scenario-round",
+   "skill_step": "implement/code",
+   "nature": "process",
+   "solution": "workaround",
+   "note": "P1 wrote 0 files and its New-files work executed AFTER P2's gates: every evidence file's CONTENT is produced by the live legs, so step 6 is dependency-ordered behind them. The documented phase order (P1 writes, P2 gates) inverts for a zero-source-delta round whose artifacts the gates emit"
+  },
+  {
+   "id": "2026-09-10T15:16:27Z-b",
+   "index": 0,
+   "chunk": "2026-09-10-live-pulse-in-lane-scenario-round",
+   "skill_step": "implement/fix-loop",
+   "nature": "process",
+   "solution": "unresolved",
+   "note": "the 3 failing atoms live in plan.md, which /implement must not modify, so the defect could not be fixed in-flight and was surfaced for the report instead"
+  },
+  {
+   "id": "2026-09-10T16:04:25Z-a",
+   "index": 0,
+   "chunk": "2026-09-10-live-pulse-in-lane-scenario-round",
+   "skill_step": "wrap-session/report",
+   "nature": "process",
+   "solution": "overridden",
+   "note": "the operator directed an out-of-band edit to a COMPLETED chunk plan before P7.1 - the three live legs expect atoms corrected from contains P-0NN to the scenario name the CLI actually prints - because the light gate re-runs entries verbatim and would have re-failed on an atom unsatisfiable by construction. Sanctioned by the plan's own provenance header (edits between runs) and disclosed in the report as Deviation 1"
+  },
+  {
+   "id": "2026-09-10T17:44:26Z-a",
+   "index": 0,
+   "chunk": "2026-09-10-release-build-and-bundle",
+   "skill_step": "phase/take-up",
+   "nature": "process",
+   "solution": "deferred",
+   "note": "CARRY C states its ownership is 'the operator's call at promotion'; the call was not made at promotion — folded per the entry's own stated default and the fork scheduled for P4, where the marked-recommendation form applies"
+  },
+  {
+   "id": "2026-09-10T18:21:10Z-a",
+   "index": 0,
+   "chunk": "2026-09-10-release-build-and-bundle",
+   "skill_step": "phase/plan",
+   "nature": "product-logic",
+   "solution": "deferred",
+   "note": "The SLO tier-declaration class measured this chunk (8 mis-declared scenarios, 7 of them unrecorded) is RECORDED and routed to wrap route-resolve for the residuals append, not fixed — scenario calibration is not release work and the existing P-079 residual already targets next"
+  },
+  {
+   "id": "2026-09-10T19:03:42Z-a",
+   "index": 0,
+   "chunk": "2026-09-10-release-build-and-bundle",
+   "skill_step": "phase/validate",
+   "nature": "process",
+   "solution": "overridden",
+   "note": "The operator's P5 review overrode two authored gate details the mechanical checks passed: the three legs' stop key held PROSE rather than a runnable terminator, and leg 1 lacked the sleep 150 quiet window and timeout its two siblings carried. Both corrections applied; the review prompt itself was issued as TEXT per the documented form, with the AskUserQuestion round confined to P4"
+  },
+  {
+   "id": "2026-09-10T21:06:44Z-a",
+   "index": 0,
+   "chunk": "2026-09-10-release-build-and-bundle",
+   "skill_step": "wrap-session/curation",
+   "nature": "process",
+   "solution": "workaround",
+   "note": "verification-harness.md's entries are multi-KB single lines, so the guide's read-then-anchored-Edit append would have required reading a 26 KB line to obtain an anchor; appended instead via a validated python script run by path, asserting the prior content is a byte-prefix of the result and the tail is exactly the new entry."
+  },
+  {
+   "id": "2026-09-10T21:13:40Z-a",
+   "index": 0,
+   "chunk": "2026-09-10-release-build-and-bundle",
+   "skill_step": "wrap-session/route-resolve",
+   "nature": "process",
+   "solution": "workaround",
+   "note": "The guide's tier/residual writes prescribe Read-then-anchored-Edit, but residuals.md entries and .claude/rules/testing.md:54 are multi-KB single lines, so obtaining an anchor would have meant reading a whole 2-6 KB line per edit; used validated python replace-by-unique-anchor scripts run by path instead, each asserting anchor uniqueness, no-duplicate, byte-equal read-back and unchanged line endings."
+  },
+  {
+   "id": "2026-09-10T21:38:58Z-a",
+   "index": 0,
+   "chunk": "2026-09-10-release-build-and-bundle",
+   "skill_step": "wrap-session/gates",
+   "nature": "process",
+   "solution": "removed-cause",
+   "note": "The light gate's own re-build disproved a figure THIS wrap's P2 had written into architecture.md:206, so a spec body was amended at P7 - outside the phase that owns amendments - because drift=0 cannot hold over a body claim the gate just falsified. Applied in the full P2 form (body + sidecar + cascade sweep, 0 leaves affected) rather than deferred to a later chunk."
+  },
+  {
+   "id": "2026-09-10T21:38:58Z-a",
+   "index": 1,
+   "chunk": "2026-09-10-release-build-and-bundle",
+   "skill_step": "wrap-session/gates",
+   "nature": "environment",
+   "solution": "removed-cause",
+   "note": "Deleted a stale 21.exit left in the shared per-marker gate log dir by the /implement run, so it could not be misread as this run's result after the real one landed."
+  }
+ ],
+ "by_solution": {
+  "workaround": 36,
+  "deferred": 11,
+  "removed-cause": 11,
+  "overridden": 12,
+  "prohibition": 6,
+  "unresolved": 2
+ },
+ "by_nature": {
+  "environment": 21,
+  "process": 45,
+  "product-logic": 11,
+  "resources": 1
+ },
+ "non_ok_outcomes": [
+  {
+   "id": "2026-09-06T13:33:39Z-a",
+   "chunk": "2026-09-06-run-report-envelope-conformance-gate",
+   "skill_step": "wrap-session/reconcile",
+   "outcome": "halted-resolved"
+  },
+  {
+   "id": "2026-09-06T16:30:18Z-a",
+   "chunk": "2026-09-06-coverage-completeness-gate",
+   "skill_step": "wrap-session/reconcile",
+   "outcome": "halted-resolved"
+  },
+  {
+   "id": "2026-09-06T16:52:09Z-a",
+   "chunk": "2026-09-06-coverage-completeness-gate",
+   "skill_step": "wrap-session/route-resolve",
+   "outcome": "halted-resolved"
+  },
+  {
+   "id": "2026-09-07T07:27:59Z-c",
+   "chunk": "2026-09-06-halo-hue-budget-re-driven",
+   "skill_step": "implement/fix-loop",
+   "outcome": "soft-exit"
+  },
+  {
+   "id": "2026-09-07T08:06:03Z-a",
+   "chunk": "2026-09-06-halo-hue-budget-re-driven",
+   "skill_step": "implement/fix-loop",
+   "outcome": "ok-degraded"
+  },
+  {
+   "id": "2026-09-07T16:44:01Z-a",
+   "chunk": "2026-09-07-a11y-ci-gate",
+   "skill_step": "wrap-session/reconcile",
+   "outcome": "halted-resolved"
+  },
+  {
+   "id": "2026-09-07T17:14:57Z-a",
+   "chunk": "2026-09-07-a11y-ci-gate",
+   "skill_step": "wrap-session/route-resolve",
+   "outcome": "halted-resolved"
+  },
+  {
+   "id": "2026-09-07T20:23:09Z-a",
+   "chunk": "2026-09-07-sr-findings-fixed",
+   "skill_step": "implement/fix-loop",
+   "outcome": "ok-degraded"
+  },
+  {
+   "id": "2026-09-07T21:23:39Z-a",
+   "chunk": "2026-09-07-sr-findings-fixed",
+   "skill_step": "implement/fix-loop",
+   "outcome": "ok-degraded"
+  },
+  {
+   "id": "2026-09-07T21:53:15Z-a",
+   "chunk": "2026-09-07-sr-findings-fixed",
+   "skill_step": "wrap-session/reconcile",
+   "outcome": "halted-resolved"
+  },
+  {
+   "id": "2026-09-08T20:25:49Z-a",
+   "chunk": "2026-09-08-webview2-runtime-152-installed-in-job",
+   "skill_step": "implement/fix-loop",
+   "outcome": "ok-degraded"
+  },
+  {
+   "id": "2026-09-10T19:45:47Z-b",
+   "chunk": "2026-09-10-release-build-and-bundle",
+   "skill_step": "implement/fix-loop",
+   "outcome": "ok-degraded"
+  }
+ ]
+}
