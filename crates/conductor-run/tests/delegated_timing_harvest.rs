@@ -31,9 +31,14 @@
 //!   * P-045 counter refresh — 269 samples in leg D's window alone (median 1.9ms, max 7.0ms), zero
 //!     over the 1000ms budget; ~1000 more across the other three legs, likewise none over.
 //!   * P-025 hue update — 35581ms and 36705ms against 2000ms, on two independent legs. NOT a slow
-//!     run: the observable measures staleness rather than update latency, and the scenario drives no
-//!     tier change of its own. Pinned as a disproof by
-//!     `p025_hue_update_is_measured_over_budget_by_a_staleness_mechanism`, never as a pass.
+//!     run: the cause is TICK QUANTIZATION — `last_seen_unix_nano` has no ingest-path writer, so the
+//!     observable reports `t_sample - t_last_refreshing_tick`, distributed U(0, 15s) and independent
+//!     of the dispatch rate (corrected from "staleness" on 2026-09-06 by the re-driven leg; obs-plan
+//!     §4). Pinned as a disproof by `p025_hue_update_is_recorded_over_budget_never_asserted_as_a_pass`
+//!     and as a mechanism by `p025_the_re_driven_leg_measures_tick_quantization_not_update_latency`,
+//!     never as a pass. The `f0c38f5` pin above dates the BUDGET TABLE; this mechanism is measured at
+//!     Pulse HEAD `83d4060`, and what Pulse would need to emit for the bound to become measurable is
+//!     stated in `contracts/pulse-p025-measurement-contract.md`.
 //!
 //! TEST-ONLY affordance (the storm-harvest precedent): nothing here is wired into the run path and
 //! nothing harvested reaches a Conductor artifact.

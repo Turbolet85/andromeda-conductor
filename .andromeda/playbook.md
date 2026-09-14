@@ -168,3 +168,23 @@ becomes a new rule here. Format owned by /andromeda-wrap-session (`references/am
     "152+ runtime … unmeasured" and test-plan §9's "…is OPEN … untested as of this writing" retired by CI
     run 34280136892, plus §6's `{151 × 151}` Failing pair retired under clause (c) — the pair proved not to
     discriminate, since a 152 × 151 combination both passes on the dev host and fails on the hosted image).
+- pattern: a proposal moves ONLY a measured-scalar literal (a tool/bundler version, an artifact size, a count), and the chunk report's Changes carries the new value WITH its basis — the Dev-tool versions line, Counts / qualifiers moved, or an `as measured at` reading — with the claim's names, contract and form preserved
+  verdict: routine
+  note: |
+    The scalar is the only thing moving; the claim's subject, contract and form are untouched, and the
+    report already carries the reading that justifies it, so applying it is bringing the body to current
+    truth rather than introducing drift. ESCALATE when the report carries no basis for the new value — an
+    unsourced scalar is a guess wearing a measurement's clothes, and the basis clause is the whole rule.
+    Bounds worth keeping explicit: "ONLY a measured-scalar literal" means a proposal that also moves a
+    name, a contract, a form or a mechanism is NOT this rule's — it takes its own adjudication; and the
+    value written into the body follows §Apply's literal grammar (the host it was read on, `as measured
+    at {evidence}`, a stated FLOOR left standing with the reading beside it, never a bare pin for a
+    version no lockfile resolves).
+    Owed since 2026-09-10 (`2026-09-10T20:53:12Z-b`, `ambiguity.playbook-no-match`: eight of ten proposals
+    retired a measured-scalar literal — a bundler version and an installer size — with no governing rule);
+    the class recurred at the 2026-09-07 dependency-polish wrap. The three near-misses each fail a stated
+    qualifier and stay non-governing: `:19` grades a tool BEHIND a floor rather than retiring a literal,
+    `:106` requires surrounding prose already declaring the value derived, and `:127` requires a literal
+    that ENUMERATES A SET the code owns — a size and a version enumerate nothing. Confirmed with the user
+    on 2026-09-14 (2026-09-13-p-025-measurement-contract-for-pulse wrap), proposed under the operator's
+    wrap directive.

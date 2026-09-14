@@ -33,6 +33,10 @@
 #   therefore PINS THE MECHANISM and records the measured value; it asserts no pass against 2000ms until the
 #   SUT changes the writer (the registry copying the floor's `last_observed_unix_nanos`, or the fire site
 #   reading span arrival — a Pulse intake item, not Conductor's).
+#   BOTH of those candidates are INSUFFICIENT (measured 2026-09-13): each fixes the staleness term alone, so
+#   the budget would start passing at ~500ms while the quantity stayed the age of the newest span at paint
+#   time. What Pulse would need to emit instead — the observable, its resolution, its window and the hard
+#   grade — is stated in `contracts/pulse-p025-measurement-contract.md`.
 #   The prior disproof stands as the origin: 35581ms and 36705ms against 2000ms on two legs (2026-08-21),
 #   when this scenario declared no emission at all and both samples were the preflight canary's.
 # WHAT THE SUSTAINED STREAM BUYS — liveness, not freshness. The phases below emit at 2 dispatches/second so

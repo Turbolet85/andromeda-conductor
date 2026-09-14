@@ -496,3 +496,24 @@ ones. Use `--lib` for the library crates and `--bins` for the bin-only ones. **N
 re-unifies dev-dependencies, which is precisely the masking the sweep exists to catch — a crate whose
 feature is declared only in `[dev-dependencies]` compiles in the workspace and under `cargo test -p` while
 failing alone, and `--all-targets` hides that again.
+
+## A measured scalar that lives in several committed artifacts needs ONE canonical rendering (2026-09-14)
+
+A value measured once and then quoted in a fixture, a doc comment, a ledger field and a plan will drift into
+several renderings, and the drift is invisible to every gate — nothing compares a number across artifacts.
+The failure is not that the renderings disagree in magnitude; it is that a reader comparing two of them sees
+a discrepancy the underlying measurement does not have, and cannot tell which is authoritative.
+
+Two rules make it cheap to avoid. Pick ONE canonical form for the value and use it everywhere, citing the
+RAW measurement exactly once, anchored to the artifact that holds it — so a reader who wants full precision
+knows where to look, and everyone else sees agreement. And check that the canonical form is a ROUNDING and
+not a TRUNCATION: dropping the fractional part of a value whose fraction exceeds one half yields a number
+that is wrong in the last digit while looking like a legitimate abbreviation, which is exactly the shape
+that survives review. The committed artifacts are usually right and the newly authored one is usually the
+outlier — when renderings disagree, check the new one against the oldest committed copy before assuming the
+corpus drifted.
+
+The generalization: a number is a claim, so it carries a basis and a canonical form like any other claim.
+Where the value moves through the amendment channel, the playbook's measured-scalar rule now governs it and
+requires the report to carry the basis; this entry covers the wider case, where the same value is simply
+restated in several places by hand.

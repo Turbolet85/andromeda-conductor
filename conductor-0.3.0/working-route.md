@@ -16,7 +16,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
    ↓
 [2026-09-13-audit-debt-retired-before-epoch-1-closes] Audit debt retired before Epoch 1 closes — seventeen surviving mutants killed or ratified by class, the emission-test fixture family shared, the envelope keys single-sourced
    ↓
-P-025 measurement contract for Pulse — which Pulse-emitted observable, at what resolution, over what window, and what constitutes a hard grade
+[2026-09-13-p-025-measurement-contract-for-pulse] P-025 measurement contract for Pulse — which Pulse-emitted observable, at what resolution, over what window, and what constitutes a hard grade
 
 ### Epoch 2 — Scenario assertion hygiene
 Structurally-dead assertion class retired — three live CountAtLeast keys and one Hard Contains to declare-only, pinning tests paired in the same change
@@ -37,7 +37,7 @@ Interpretation proven live — known root cause injected through the emission pa
    ↓
 Diagnostic-quality cluster off the drift pin — P-031, P-033, P-034 and P-044 on an exercised path, gate pin and committed matrix moving together
    ↓
-Hue-shift budget graded hard — `halo-hue-encoding` re-driven once Pulse emits the contracted observable, restoring the fourth delegated budget
+Hue-shift budget graded hard — `halo-hue-encoding` re-driven once Pulse emits the contracted observable, restoring the fourth delegated budget  CONTEXT (from 2026-09-13-p-025-measurement-contract-for-pulse): "the contracted observable" is now a committed artifact — `contracts/pulse-p025-measurement-contract.md`, which states the leaf and its literal field names, the required millisecond resolution, the window, and `duration_ms <= 2000` graded hard as a `Fail`. The ask is to EXPOSE a start instant Pulse already holds where it computes the tier, not to mint one: `opened_at_unix_nano` when the service's max tier RISES, `transitioned_at_unix_nano` when it FALLS, the two cases exhaustive because an incident's `priority_tier` is immutable after opening (measured at Pulse HEAD `83d4060`). BLOCKED-ON: one Pulse release emitting that observable — this entry's own precondition, unchanged and not Conductor's to clear. Two things the re-drive must NOT do: grade through an `[[expected]]` check on this scenario (`Scenario::check_checklist` rejects a checklist beside expected checks at load, and the scenario declares one `[[checklist]]` item — the harvest tier is the only available home), and treat either previously-named SUT fix as sufficient (both address the staleness term alone and would make the budget pass over the wrong quantity; obs-plan §4 now records this).
 
 ### Epoch 5 — Polish & ship
 Secret-scanning CI gate — no secret-shaped string in the workspace, the key and cert ignores present, the build red on any hit

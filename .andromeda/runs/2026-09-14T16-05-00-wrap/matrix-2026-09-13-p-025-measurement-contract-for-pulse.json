@@ -1,0 +1,99 @@
+[
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "b55f2c69",
+"ts": "2026-09-14T18:04:48Z",
+"argv": [
+"flip",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-13-p-025-measurement-contract-for-pulse",
+"--run-dir",
+".andromeda/runs/2026-09-14T16-05-00-wrap",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-13-p-025-measurement-contract-for-pulse: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v3-07 → verified — `contracts/pulse-p025-measurement-contract.md` exists and states all four elemen… (2221 chars)",
+"dry-run: nothing written",
+"version: verified 2/11"
+],
+"stderr": null,
+"wrote": [],
+"before": [
+{
+"id": "v3-07",
+"chunk": "2026-09-13-p-025-measurement-contract-for-pulse",
+"status": "implemented",
+"method": "by-construction",
+"ref": "by-construction: `contracts/pulse-p025-measurement-contract.md` states all four elements as named sections — the six-hea… (803 chars)",
+"acceptance": "`contracts/pulse-p025-measurement-contract.md` exists and states all four elements as named sections. (1) The observable… (2221 chars)",
+"notes_chars": 0
+}
+],
+"after": [
+{
+"id": "v3-07",
+"chunk": "2026-09-13-p-025-measurement-contract-for-pulse",
+"status": "verified",
+"method": "by-construction",
+"ref": "by-construction: `contracts/pulse-p025-measurement-contract.md` states all four elements as named sections — the six-hea… (803 chars)",
+"acceptance": "`contracts/pulse-p025-measurement-contract.md` exists and states all four elements as named sections. (1) The observable… (2221 chars)",
+"notes_chars": 0
+}
+]
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "b55f2c69",
+"ts": "2026-09-14T18:04:48Z",
+"argv": [
+"flip",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-13-p-025-measurement-contract-for-pulse",
+"--run-dir",
+".andromeda/runs/2026-09-14T16-05-00-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-13-p-025-measurement-contract-for-pulse: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v3-07 → verified — `contracts/pulse-p025-measurement-contract.md` exists and states all four elemen… (2221 chars)",
+"wrote conductor-0.3.0\\verification-matrix.json · 1 entry changed",
+"version: verified 2/11"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0\\verification-matrix.json"
+],
+"before": [
+{
+"id": "v3-07",
+"chunk": "2026-09-13-p-025-measurement-contract-for-pulse",
+"status": "implemented",
+"method": "by-construction",
+"ref": "by-construction: `contracts/pulse-p025-measurement-contract.md` states all four elements as named sections — the six-hea… (803 chars)",
+"acceptance": "`contracts/pulse-p025-measurement-contract.md` exists and states all four elements as named sections. (1) The observable… (2221 chars)",
+"notes_chars": 0
+}
+],
+"after": [
+{
+"id": "v3-07",
+"chunk": "2026-09-13-p-025-measurement-contract-for-pulse",
+"status": "verified",
+"method": "by-construction",
+"ref": "by-construction: `contracts/pulse-p025-measurement-contract.md` states all four elements as named sections — the six-hea… (803 chars)",
+"acceptance": "`contracts/pulse-p025-measurement-contract.md` exists and states all four elements as named sections. (1) The observable… (2221 chars)",
+"notes_chars": 0
+}
+]
+}
+]
