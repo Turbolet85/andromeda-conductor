@@ -1,0 +1,291 @@
+{
+ "span": 1,
+ "trend_break": [],
+ "fires": [],
+ "informational": [
+  {
+   "check": "tool_versions-prose-differs",
+   "detail": "lizard: version token identical (1.24.0); only the trailing annotation differs — not a trend-break"
+  },
+  {
+   "check": "mutation-move",
+   "detail": "conductor-cli 96.81 (Epoch 6b - Polish & ship) -> 97.87 (delta 1.06)"
+  },
+  {
+   "check": "mutation-move",
+   "detail": "conductor-core 100.0 (Epoch 6b - Polish & ship) -> 100.0 (delta 0.0)"
+  },
+  {
+   "check": "mutation-first-measurement",
+   "detail": "conductor-emit = 45.71 (no prior score in the ledger)"
+  },
+  {
+   "check": "mutation-first-measurement",
+   "detail": "conductor-report = 91.14 (no prior score in the ledger)"
+  },
+  {
+   "check": "mutation-move",
+   "detail": "conductor-run 94.32 (Epoch 6b - Polish & ship) -> 94.38 (delta 0.06)"
+  },
+  {
+   "check": "mutation-move",
+   "detail": "conductor-verify 88.71 (Epoch 6b - Polish & ship) -> 91.8 (delta 3.09)"
+  }
+ ],
+ "below": [],
+ "monotonic": {
+  "duplication.pct": {
+   "evaluable": true,
+   "vals": [
+    3.4307785519539538,
+    3.2452666749164707,
+    2.6292969959739856
+   ],
+   "worse_diff1": false,
+   "worse_diff2": false,
+   "fires": false
+  },
+  "complexity.over_ceiling": {
+   "evaluable": true,
+   "vals": [
+    6,
+    6,
+    6
+   ],
+   "worse_diff1": false,
+   "worse_diff2": false,
+   "fires": false
+  },
+  "dead.zero_ref_candidates": {
+   "evaluable": true,
+   "vals": [
+    35,
+    34,
+    33
+   ],
+   "worse_diff1": false,
+   "worse_diff2": false,
+   "fires": false
+  },
+  "sizes.file_max": {
+   "evaluable": true,
+   "vals": [
+    1423,
+    1170,
+    1170
+   ],
+   "worse_diff1": false,
+   "worse_diff2": false,
+   "fires": false
+  },
+  "sizes.over_800": {
+   "evaluable": true,
+   "vals": [
+    2,
+    1,
+    1
+   ],
+   "worse_diff1": false,
+   "worse_diff2": false,
+   "fires": false
+  },
+  "coverage.line": {
+   "evaluable": true,
+   "vals": [
+    93.94,
+    94.3,
+    94.4
+   ],
+   "worse_diff1": false,
+   "worse_diff2": false,
+   "fires": false
+  }
+ },
+ "deltas": {
+  "duplication.pct": {
+   "now": 2.6292969959739856,
+   "baseline": 3.2452666749164707,
+   "delta": -0.616,
+   "worse_dir": "up"
+  },
+  "complexity.over_ceiling": {
+   "now": 6,
+   "baseline": 6,
+   "delta": 0,
+   "worse_dir": "up"
+  },
+  "dead.zero_ref_candidates": {
+   "now": 33,
+   "baseline": 34,
+   "delta": -1,
+   "worse_dir": "up"
+  },
+  "sizes.file_max": {
+   "now": 1170,
+   "baseline": 1170,
+   "delta": 0,
+   "worse_dir": "up"
+  },
+  "sizes.over_800": {
+   "now": 1,
+   "baseline": 1,
+   "delta": 0,
+   "worse_dir": "up"
+  },
+  "coverage.line": {
+   "now": 94.4,
+   "baseline": 94.3,
+   "delta": 0.1,
+   "worse_dir": "down"
+  },
+  "duplication.clones": {
+   "now": 102,
+   "baseline": 106,
+   "delta": -4,
+   "worse_dir": "up"
+  },
+  "duplication.duplicated_lines": {
+   "now": 849,
+   "baseline": 1049,
+   "delta": -200,
+   "worse_dir": "up"
+  },
+  "duplication.total_lines": {
+   "now": 32290,
+   "baseline": 32324,
+   "delta": -34,
+   "worse_dir": "pop"
+  },
+  "graph.cycles": {
+   "now": 0,
+   "baseline": 0,
+   "delta": 0,
+   "worse_dir": "up"
+  },
+  "graph.cross_unit_edges": {
+   "now": 16,
+   "baseline": 16,
+   "delta": 0,
+   "worse_dir": "up"
+  },
+  "totals.loc": {
+   "now": 25005,
+   "baseline": 25077,
+   "delta": -72,
+   "worse_dir": "pop"
+  },
+  "totals.files": {
+   "now": 136,
+   "baseline": 135,
+   "delta": 1,
+   "worse_dir": "pop"
+  },
+  "dead_web.total": {
+   "now": 12,
+   "baseline": 12,
+   "delta": 0,
+   "worse_dir": "up"
+  }
+ },
+ "mutation_last_scores": {
+  "conductor-run": [
+   94.32,
+   "Epoch 6b - Polish & ship"
+  ],
+  "conductor-verify": [
+   88.71,
+   "Epoch 6b - Polish & ship"
+  ],
+  "conductor-tauri": [
+   90.0,
+   "Epoch 6b - Polish & ship"
+  ],
+  "conductor-cli": [
+   96.81,
+   "Epoch 6b - Polish & ship"
+  ],
+  "conductor-core": [
+   100.0,
+   "Epoch 6b - Polish & ship"
+  ]
+ },
+ "count_under_ratio": {
+  "fires": false,
+  "clones_delta": -4,
+  "duplicated_lines_delta": -200,
+  "pct_delta": -0.616,
+  "population_total_lines_rel": -0.105,
+  "split_now": {
+   "src": 52,
+   "test": 40,
+   "mixed": 10
+  }
+ },
+ "entrants": {
+  "sizes": [],
+  "complexity": [],
+  "duplication_pairs": [
+   [
+    "conductor-emit/src/logs.rs",
+    "conductor-emit/src/pii.rs"
+   ],
+   [
+    "conductor-emit/src/topology.rs",
+    "conductor-emit/tests/multi_service_topology.rs"
+   ],
+   [
+    "conductor-core/src/run_record.rs",
+    "conductor-report/src/db.rs"
+   ],
+   [
+    "conductor-core/src/expected.rs",
+    "conductor-verify/src/slo.rs"
+   ],
+   [
+    "conductor-run/src/canary.rs",
+    "conductor-verify/src/preflight.rs"
+   ],
+   [
+    "conductor-core/src/pause.rs",
+    "conductor-core/tests/operator_pause.rs"
+   ]
+  ],
+  "fan_in": [
+   [
+    "conductor-verify common/StubConfig#"
+   ]
+  ],
+  "hotspots": [
+   [
+    "crates/conductor-cli/tests/cli_smoke.rs"
+   ],
+   [
+    "crates/conductor-emit/tests/exception_events.rs"
+   ],
+   [
+    "crates/conductor-emit/tests/latency_shaping.rs"
+   ],
+   [
+    "crates/conductor-emit/tests/multi_service_topology.rs"
+   ],
+   [
+    "crates/conductor-emit/tests/traffic_rate_ramps.rs"
+   ],
+   [
+    "crates/conductor-report/src/journal.rs"
+   ],
+   [
+    "crates/conductor-run/tests/delegated_timing_harvest.rs"
+   ],
+   [
+    "crates/conductor-verify/src/manifest.rs"
+   ],
+   [
+    "crates/conductor-verify/tests/readback.rs"
+   ],
+   [
+    "crates/conductor-verify/tests/readback_shape_witness.rs"
+   ]
+  ]
+ }
+}

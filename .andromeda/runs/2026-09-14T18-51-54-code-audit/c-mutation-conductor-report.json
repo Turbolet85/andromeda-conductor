@@ -1,0 +1,51 @@
+{
+ "unit": "conductor-report",
+ "shard": null,
+ "elapsed_s": 243.7,
+ "exit": 2,
+ "killed_at_cap": false,
+ "completion_state": "complete",
+ "command": "cargo mutants -p conductor-report --test-tool=nextest --jobs 2 --output D:/dev/projects/conductor/.andromeda/runs/2026-09-14T18-51-54-code-audit/mutants-conductor-report",
+ "planned_from_mutants_json": 89,
+ "counts": {
+  "mutants": 89,
+  "caught": 72,
+  "missed": 7,
+  "timeout": 0,
+  "unviable": 10
+ },
+ "score": 91.14,
+ "score_formula": "caught/(caught+missed)  [timeout and unviable excluded]",
+ "survivors": [
+  [
+   "crates/conductor-report/src/coverage.rs:54:16",
+   "delete ! in CoverageMatrix::write"
+  ],
+  [
+   "crates/conductor-report/src/report.rs:185:44",
+   "replace && with || in scenario_block"
+  ],
+  [
+   "crates/conductor-report/src/report.rs:185:30",
+   "replace == with != in scenario_block"
+  ],
+  [
+   "crates/conductor-report/src/report.rs:185:58",
+   "replace == with != in scenario_block"
+  ],
+  [
+   "crates/conductor-report/src/report.rs:202:5",
+   "replace budget -> String with String::new()"
+  ],
+  [
+   "crates/conductor-report/src/report.rs:202:5",
+   "replace budget -> String with \"xyzzy\".into()"
+  ],
+  [
+   "crates/conductor-report/src/report.rs:264:20",
+   "replace match guard v.is_empty() with true in fingerprints"
+  ]
+ ],
+ "unit_state": "complete (89/89 tested)",
+ "survivors_source": "mutants.out/missed.txt, row count asserted == counts.missed from outcomes.json"
+}

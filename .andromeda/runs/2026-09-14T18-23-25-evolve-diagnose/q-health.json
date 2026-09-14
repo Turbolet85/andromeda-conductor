@@ -1,0 +1,146 @@
+{
+ "epoch": "Epoch 1 - Foundation: the measurements the closures rest on",
+ "version": "conductor-0.3.0",
+ "records_in_epoch": 160,
+ "step": 78,
+ "friction": 82,
+ "retraction_dropped_in_epoch": [],
+ "unparseable_whole_ledger": 0,
+ "chunk_coverage": {
+  "2026-09-11-hosted-runner-endpoint-cause-probed": {
+   "total": 13,
+   "expected": 13,
+   "missing": [],
+   "repeats": [],
+   "outcomes": {
+    "ok": 13
+   }
+  },
+  "2026-09-11-hosted-runner-endpoint-cause-closed": {
+   "total": 18,
+   "expected": 13,
+   "missing": [],
+   "repeats": [
+    "implement/codex3",
+    "implement/fix-loopx4"
+   ],
+   "outcomes": {
+    "ok": 14,
+    "soft-exit": 3,
+    "ok-degraded": 1
+   }
+  },
+  "2026-09-12-ledger-gate-id-space-generalised": {
+   "total": 13,
+   "expected": 13,
+   "missing": [],
+   "repeats": [],
+   "outcomes": {
+    "ok": 13
+   }
+  },
+  "2026-09-13-audit-debt-retired-before-epoch-1-closes": {
+   "total": 12,
+   "expected": 13,
+   "missing": [
+    "wrap-session/gates"
+   ],
+   "repeats": [],
+   "outcomes": {
+    "ok": 12
+   }
+  },
+  "2026-09-13-p-025-measurement-contract-for-pulse": {
+   "total": 13,
+   "expected": 13,
+   "missing": [],
+   "repeats": [],
+   "outcomes": {
+    "ok": 13
+   }
+  }
+ },
+ "orphan_chunk_null_steps": [
+  "new-session/orientation",
+  "new-session/orientation",
+  "new-session/orientation",
+  "new-session/orientation",
+  "new-session/orientation",
+  "new-session/orientation",
+  "new-session/orientation",
+  "wrap-session/curation",
+  "wrap-session/route-resolve"
+ ],
+ "untyped_rate_by_step": {
+  "implement/code": [
+   1,
+   7
+  ],
+  "implement/fix-loop": [
+   2,
+   13
+  ],
+  "implement/smoke": [
+   0,
+   1
+  ],
+  "new-session/orientation": [
+   0,
+   7
+  ],
+  "phase/distill": [
+   1,
+   6
+  ],
+  "phase/plan": [
+   0,
+   4
+  ],
+  "phase/research": [
+   1,
+   6
+  ],
+  "phase/take-up": [
+   0,
+   6
+  ],
+  "phase/validate": [
+   0,
+   9
+  ],
+  "wrap-session/curation": [
+   0,
+   6
+  ],
+  "wrap-session/gates": [
+   0,
+   3
+  ],
+  "wrap-session/reconcile": [
+   0,
+   9
+  ],
+  "wrap-session/report": [
+   0,
+   3
+  ],
+  "wrap-session/route-resolve": [
+   0,
+   2
+  ]
+ },
+ "untyped_total": 5,
+ "problem_fact_fill": [
+  29,
+  78
+ ],
+ "id_fill": [
+  160,
+  160
+ ],
+ "outcomes_all": {
+  "ok": 74,
+  "soft-exit": 3,
+  "ok-degraded": 1
+ }
+}

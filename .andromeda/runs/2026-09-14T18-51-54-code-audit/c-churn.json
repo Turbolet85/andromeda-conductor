@@ -1,0 +1,8 @@
+{
+ "population": "git log --numstat 0f780c62..HEAD -- crates/**/*.rs crates/**/*.ts crates/**/*.tsx",
+ "pct": 0.0,
+ "files_churned": 0,
+ "files_touched": 17,
+ "total_adds": 258,
+ "churned_adds": 0
+}

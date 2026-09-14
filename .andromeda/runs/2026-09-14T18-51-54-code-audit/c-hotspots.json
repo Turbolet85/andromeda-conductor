@@ -1,0 +1,45 @@
+{
+ "population": "commits(churn window) x max cognitive per file over the FULL rca population",
+ "top": [
+  [
+   "crates/conductor-cli/tests/cli_smoke.rs",
+   7.0
+  ],
+  [
+   "crates/conductor-verify/src/manifest.rs",
+   6.0
+  ],
+  [
+   "crates/conductor-verify/tests/readback_shape_witness.rs",
+   5.0
+  ],
+  [
+   "crates/conductor-run/tests/delegated_timing_harvest.rs",
+   4.0
+  ],
+  [
+   "crates/conductor-report/src/journal.rs",
+   4.0
+  ],
+  [
+   "crates/conductor-emit/tests/latency_shaping.rs",
+   3.0
+  ],
+  [
+   "crates/conductor-emit/tests/traffic_rate_ramps.rs",
+   3.0
+  ],
+  [
+   "crates/conductor-emit/tests/exception_events.rs",
+   2.0
+  ],
+  [
+   "crates/conductor-emit/tests/multi_service_topology.rs",
+   2.0
+  ],
+  [
+   "crates/conductor-verify/tests/readback.rs",
+   2.0
+  ]
+ ]
+}

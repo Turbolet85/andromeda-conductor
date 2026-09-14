@@ -1,0 +1,227 @@
+{
+ "population": "plane=rust tree.db zero-ref public symbols; pinned classing chain",
+ "unused_deps": {},
+ "zero_ref_candidates": 33,
+ "chain": {
+  "raw": 886,
+  "after_tests_segment_filter": 37,
+  "after_entry_points": 33
+ },
+ "filter_note": "tests/ exclusion applied as the UNION of symbol-path and file-path segments -- symbol-path alone leaves 240 and does not reproduce the baseline chain step (38)",
+ "top": [
+  [
+   "conductor-tauri pause/impl#[TauriResolver][PauseResolver]resolve().",
+   "crates/conductor-tauri/src/pause.rs"
+  ],
+  [
+   "conductor-emit latency/impl#[LatencyProfile]p95_ms().",
+   "crates/conductor-emit/src/latency.rs"
+  ],
+  [
+   "conductor-report db/RunsDbError#Json#",
+   "crates/conductor-report/src/db.rs"
+  ],
+  [
+   "conductor-core preconditions/EGRESS_TARGET.",
+   "crates/conductor-core/src/preconditions.rs"
+  ],
+  [
+   "conductor-core preconditions/SIDECAR_PROGRAM.",
+   "crates/conductor-core/src/preconditions.rs"
+  ],
+  [
+   "conductor-core obs/impl#[`JsonVisitor<'_>`][Visit]record_u64().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "conductor-report db/RunsDbError#Io#",
+   "crates/conductor-report/src/db.rs"
+  ],
+  [
+   "conductor-core obs/impl#[ObsWriterGuard][Write]flush().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "conductor-core obs/impl#[`JsonVisitor<'_>`][Visit]record_error().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "conductor-core obs/impl#[`JsonVisitor<'_>`][Visit]record_i64().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "conductor-cli render/PRECONDITION_LABEL.",
+   "crates/conductor-cli/src/render.rs"
+  ],
+  [
+   "conductor-core obs/impl#[ObsWriter][`MakeWriter<'a>`]Writer#",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "conductor-core obs/impl#[ObsWriterGuard][Write]write().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "conductor-emit error/EmitError#Status#",
+   "crates/conductor-emit/src/error.rs"
+  ],
+  [
+   "conductor-core preconditions/impl#[PreconditionSubject][Display]fmt().",
+   "crates/conductor-core/src/preconditions.rs"
+  ],
+  [
+   "conductor-report journal/JournalError#Io#",
+   "crates/conductor-report/src/journal.rs"
+  ],
+  [
+   "conductor-faults port_occupier/impl#[PortOccupier]occupy_default().",
+   "crates/conductor-faults/src/port_occupier.rs"
+  ],
+  [
+   "conductor-core obs/impl#[`JsonObsLayer<W>`][`Layer<S>`]on_event().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "conductor-core obs/impl#[`JsonObsLayer<W>`][`Layer<S>`]on_new_span().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "conductor-core obs/impl#[`JsonObsLayer<W>`][`Layer<S>`]on_close().",
+   "crates/conductor-core/src/obs.rs"
+  ]
+ ],
+ "full_candidates": [
+  [
+   "conductor-tauri pause/impl#[TauriResolver][PauseResolver]resolve().",
+   "crates/conductor-tauri/src/pause.rs"
+  ],
+  [
+   "conductor-emit latency/impl#[LatencyProfile]p95_ms().",
+   "crates/conductor-emit/src/latency.rs"
+  ],
+  [
+   "conductor-report db/RunsDbError#Json#",
+   "crates/conductor-report/src/db.rs"
+  ],
+  [
+   "conductor-core preconditions/EGRESS_TARGET.",
+   "crates/conductor-core/src/preconditions.rs"
+  ],
+  [
+   "conductor-core preconditions/SIDECAR_PROGRAM.",
+   "crates/conductor-core/src/preconditions.rs"
+  ],
+  [
+   "conductor-core obs/impl#[`JsonVisitor<'_>`][Visit]record_u64().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "conductor-report db/RunsDbError#Io#",
+   "crates/conductor-report/src/db.rs"
+  ],
+  [
+   "conductor-core obs/impl#[ObsWriterGuard][Write]flush().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "conductor-core obs/impl#[`JsonVisitor<'_>`][Visit]record_error().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "conductor-core obs/impl#[`JsonVisitor<'_>`][Visit]record_i64().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "conductor-cli render/PRECONDITION_LABEL.",
+   "crates/conductor-cli/src/render.rs"
+  ],
+  [
+   "conductor-core obs/impl#[ObsWriter][`MakeWriter<'a>`]Writer#",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "conductor-core obs/impl#[ObsWriterGuard][Write]write().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "conductor-emit error/EmitError#Status#",
+   "crates/conductor-emit/src/error.rs"
+  ],
+  [
+   "conductor-core preconditions/impl#[PreconditionSubject][Display]fmt().",
+   "crates/conductor-core/src/preconditions.rs"
+  ],
+  [
+   "conductor-report journal/JournalError#Io#",
+   "crates/conductor-report/src/journal.rs"
+  ],
+  [
+   "conductor-faults port_occupier/impl#[PortOccupier]occupy_default().",
+   "crates/conductor-faults/src/port_occupier.rs"
+  ],
+  [
+   "conductor-core obs/impl#[`JsonObsLayer<W>`][`Layer<S>`]on_event().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "conductor-core obs/impl#[`JsonObsLayer<W>`][`Layer<S>`]on_new_span().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "conductor-core obs/impl#[`JsonObsLayer<W>`][`Layer<S>`]on_close().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "conductor-core obs/impl#[`JsonVisitor<'_>`][Visit]record_debug().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "conductor-core obs/impl#[ObsWriter][`MakeWriter<'a>`]make_writer().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "conductor-core obs/impl#[`JsonVisitor<'_>`][Visit]record_f64().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "conductor-core obs/impl#[`JsonVisitor<'_>`][Visit]record_str().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "conductor-run dispatch/DispatchError#Emit#",
+   "crates/conductor-run/src/dispatch.rs"
+  ],
+  [
+   "conductor-emit latency/impl#[LatencyProfile]p50_ms().",
+   "crates/conductor-emit/src/latency.rs"
+  ],
+  [
+   "conductor-verify preflight/RUN_CONTRACT_PRECONDITION.",
+   "crates/conductor-verify/src/preflight.rs"
+  ],
+  [
+   "conductor-cli pause/impl#[CliResolver][PauseResolver]resolve().",
+   "crates/conductor-cli/src/pause.rs"
+  ],
+  [
+   "conductor-emit latency/impl#[LatencyProfile]p99_ms().",
+   "crates/conductor-emit/src/latency.rs"
+  ],
+  [
+   "conductor-report journal/JournalError#Serialize#",
+   "crates/conductor-report/src/journal.rs"
+  ],
+  [
+   "conductor-core phase_spec/default_occurrences().",
+   "crates/conductor-core/src/phase_spec.rs"
+  ],
+  [
+   "conductor-core obs/impl#[`JsonVisitor<'_>`][Visit]record_bool().",
+   "crates/conductor-core/src/obs.rs"
+  ],
+  [
+   "conductor-faults port_occupier/impl#[PortOccupier][Drop]drop().",
+   "crates/conductor-faults/src/port_occupier.rs"
+  ]
+ ]
+}

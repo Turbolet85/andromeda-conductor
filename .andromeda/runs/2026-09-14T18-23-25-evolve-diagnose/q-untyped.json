@@ -1,0 +1,71 @@
+{
+ "epoch": "Epoch 1 - Foundation: the measurements the closures rest on",
+ "n": 5,
+ "records": [
+  {
+   "id": "2026-09-11T10:22:17Z-d",
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+   "step": "implement/fix-loop",
+   "what": "Probe (2) returned no reading because of WHERE its step sits, not because of what it asks: the preceding WebView2 session isolation diagnostic stops the app it started, and its last log line is stamped 0.68s before the cause-probe's first (10:14:58.906Z vs 10:14:59.582Z), with tasklist showing conductor-tauri.exe and three msedgewebview2.exe alive during that earlier step. A probe whose subject is a LIVE process is bounded by its position in the step list, and nothing at planning time modelled step adjacency as a precondition",
+   "impact": {},
+   "artifacts": [
+    ".github/workflows/ci.yml",
+    "conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-probed/evidence/reading.md"
+   ],
+   "evidence": null
+  },
+  {
+   "id": "2026-09-11T18:18:11Z-c",
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+   "step": "phase/distill",
+   "what": "the return transport HTML-escaped < and > in 6 of 7 extracts but NOT in the 7th (a11y returned 0 entities), so the escaping is per-return rather than per-batch; the decode step handled all 6 and the a11y file needed no raw twin",
+   "impact": {
+    "extra_reads": 0
+   },
+   "artifacts": [
+    ".andromeda/runs/2026-09-11T18-05-03-phase/"
+   ],
+   "evidence": null
+  },
+  {
+   "id": "2026-09-11T18:23:01Z-c",
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+   "step": "phase/research",
+   "what": "research.md was first written labelling the zero-query case \"derived-without-graph\"; the correct label is graph NOT APPLICABLE, and that distinction is defined ONLY in references/evolve/research.md, which the reading-order rule forbids opening until after the step — so the definition needed DURING authoring was unreadable until the checkpoint, and the mislabel was corrected at the checkpoint before P4 consumed it",
+   "impact": {
+    "extra_reads": 0,
+    "retries": 1
+   },
+   "artifacts": [
+    "conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-closed/research.md"
+   ],
+   "evidence": null
+  },
+  {
+   "id": "2026-09-11T21:36:29Z-c",
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+   "step": "implement/code",
+   "what": "inserting arm C as step 5 created a jointly-contradictory pair the individual steps did not show: step 4 said \"leave every other step of the a11y job untouched\" while step 5 edits the install step. Caught at the numbering re-check and resolved by excepting the install step in step 4 — the same class CLAUDE.md 2026-09-04 records, recurring at an insert rather than at authoring.",
+   "impact": {
+    "iterations": 1
+   },
+   "artifacts": [
+    "conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-closed/plan.md"
+   ],
+   "evidence": null
+  },
+  {
+   "id": "2026-09-12T00:42:10Z-d",
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+   "step": "implement/fix-loop",
+   "what": "a concrete hypothesis for the failed arm-B attempt (cargo unresolvable on the PATH an elevated shell inherits, which would fit a 3-second death) was TESTED and REFUTED — cargo.exe and npm.cmd are both on the persisted Machine+User PATH. Recorded as a negative so the theory does not stand unexamined; the proximate cause stays undetermined from the captured artifacts.",
+   "impact": {
+    "extra_reads": 2
+   },
+   "artifacts": [
+    "runs/webview2-probe/armB-e2e.utf8.log"
+   ],
+   "evidence": null
+  }
+ ]
+}

@@ -1,0 +1,1063 @@
+{
+ "ts": "2026-09-14T19:55:37Z",
+ "epoch": "Epoch 1 — Foundation: the measurements the closures rest on",
+ "mode": "trend",
+ "sha": "6861eb63439875520599180c5a726564e0f9884a",
+ "baseline_sha": "0f780c62651f1aaa9cd95b9316159f16288c3f6d",
+ "span": 1,
+ "ancestry_broken": false,
+ "head_overshoot": {
+  "boundary_sha": "6861eb63439875520599180c5a726564e0f9884a",
+  "commits": 0,
+  "files": [],
+  "note": "AT the boundary: the pickaxe on the epoch’s last-promoted marker (2026-09-13-p-025-measurement-contract-for-pulse) returns HEAD itself, so boundary_sha == sha and no overshoot fork applied."
+ },
+ "tool_versions": {
+  "jscpd": "5.0.16",
+  "tokei": "14.0.0",
+  "rust-code-analysis": "0.0.25",
+  "cargo-machete": "0.9.2",
+  "cargo-mutants": "27.1.0",
+  "cargo-llvm-cov": "0.8.5",
+  "cargo-nextest": "0.9.133",
+  "code-graph": "tree.db via scripts/code-graph.py",
+  "knip": "6.34.0",
+  "lizard": "1.24.0 (available, NOT collected — see skips.complexity-web)",
+  "rustc": "1.95.0 (59807616e 2026-04-14)"
+ },
+ "totals": {
+  "loc": 25005,
+  "files": 136,
+  "units": 9
+ },
+ "duplication": {
+  "label": "head",
+  "population": "jscpd --format rust over crates/ (Rust only)",
+  "pct": 2.6292969959739856,
+  "duplicated_lines": 849,
+  "total_lines": 32290,
+  "clones": 102,
+  "sources": 135,
+  "split": {
+   "src": {
+    "pairs": 52,
+    "lines": 498
+   },
+   "test": {
+    "pairs": 40,
+    "lines": 354
+   },
+   "mixed": {
+    "pairs": 10,
+    "lines": 99
+   }
+  },
+  "split_pairs_only": {
+   "src": 52,
+   "test": 40,
+   "mixed": 10
+  },
+  "top": [
+   [
+    "conductor-emit/src/latency.rs",
+    "conductor-emit/src/rate.rs",
+    17
+   ],
+   [
+    "conductor-core/src/scenario.rs",
+    "conductor-core/src/scenario.rs",
+    16
+   ],
+   [
+    "conductor-emit/src/latency.rs",
+    "conductor-emit/src/rate.rs",
+    15
+   ],
+   [
+    "conductor-emit/src/span_tree.rs",
+    "conductor-emit/src/topology.rs",
+    15
+   ],
+   [
+    "conductor-core/src/expected.rs",
+    "conductor-verify/src/slo.rs",
+    14
+   ],
+   [
+    "conductor-core/src/pause.rs",
+    "conductor-core/tests/operator_pause.rs",
+    14
+   ],
+   [
+    "conductor-core/src/run_record.rs",
+    "conductor-report/src/db.rs",
+    14
+   ],
+   [
+    "conductor-emit/src/logs.rs",
+    "conductor-emit/src/pii.rs",
+    14
+   ],
+   [
+    "conductor-emit/src/topology.rs",
+    "conductor-emit/tests/multi_service_topology.rs",
+    14
+   ],
+   [
+    "conductor-run/src/canary.rs",
+    "conductor-verify/src/preflight.rs",
+    14
+   ]
+  ],
+  "note": "baseline recorded split as bare pair COUNTS; collectors.md pins {pairs,lines} -- both emitted, split_pairs_only is the comparable half"
+ },
+ "complexity": {
+  "population": "rust-code-analysis kind==function spaces under crates/; ceiling cognitive > 15; top sorted by COGNITIVE desc",
+  "cyclomatic_p50": 1.0,
+  "cyclomatic_p90": 4.0,
+  "cognitive_p50": 0.0,
+  "cognitive_p90": 1.0,
+  "over_ceiling": 6,
+  "max": {
+   "fn": "serve_stub",
+   "file": "conductor-verify/tests/common/mod.rs",
+   "val": 35.0
+  },
+  "functions": 2277,
+  "rs_files_scanned": 138,
+  "top": [
+   [
+    "serve_stub",
+    "conductor-verify/tests/common/mod.rs",
+    35.0,
+    34.0
+   ],
+   [
+    "shape_is_realizable",
+    "conductor-core/src/phase_spec.rs",
+    31.0,
+    30.0
+   ],
+   [
+    "validate",
+    "conductor-core/src/run_contract.rs",
+    18.0,
+    16.0
+   ],
+   [
+    "observe",
+    "conductor-verify/src/extract.rs",
+    17.0,
+    13.0
+   ],
+   [
+    "dispatch",
+    "conductor-run/src/dispatch.rs",
+    16.0,
+    47.0
+   ],
+   [
+    "run_preflight",
+    "conductor-verify/src/preflight.rs",
+    16.0,
+    20.0
+   ],
+   [
+    "is_host_path_token",
+    "conductor-core/src/redact.rs",
+    15.0,
+    18.0
+   ],
+   [
+    "validate",
+    "conductor-core/src/load_envelope.rs",
+    13.0,
+    9.0
+   ],
+   [
+    "redact_value",
+    "conductor-core/src/redact.rs",
+    13.0,
+    9.0
+   ],
+   [
+    "service_topology_request",
+    "conductor-emit/src/topology.rs",
+    12.0,
+    8.0
+   ]
+  ]
+ },
+ "sizes": {
+  "population": "tokei --output json crates/ ; language=Rust (*.rs) only",
+  "file_p50": 115,
+  "file_p90": 473,
+  "file_max": 1170,
+  "over_800": 1,
+  "top": [
+   [
+    "crates/conductor-core/src/scenario.rs",
+    1170
+   ],
+   [
+    "crates/conductor-run/src/execute.rs",
+    768
+   ],
+   [
+    "crates/conductor-core/src/load_envelope.rs",
+    709
+   ],
+   [
+    "crates/conductor-core/src/coverage.rs",
+    674
+   ],
+   [
+    "crates/conductor-core/src/obs.rs",
+    668
+   ],
+   [
+    "crates/conductor-cli/src/render.rs",
+    664
+   ],
+   [
+    "crates/conductor-core/src/phase_spec.rs",
+    639
+   ],
+   [
+    "crates/conductor-report/src/db.rs",
+    638
+   ],
+   [
+    "crates/conductor-run/tests/delegated_timing_harvest.rs",
+    623
+   ],
+   [
+    "crates/conductor-tauri/src/commands.rs",
+    565
+   ]
+  ]
+ },
+ "graph": {
+  "population": "plane=rust tree.db; views symbol/refs/calls_m/crate_edges",
+  "symbol_form": "fan_in symbols shortened to `{crate} {path}` (baseline-pinned)",
+  "cycles": 0,
+  "cycle_paths": [],
+  "fan_in_top": [
+   [
+    "conductor-core crate/",
+    141
+   ],
+   [
+    "conductor-core scenario/Scenario#",
+    106
+   ],
+   [
+    "conductor-core report_state/ReportState#",
+    98
+   ],
+   [
+    "conductor-core verdict/Verdict#",
+    89
+   ],
+   [
+    "conductor-core scenario/PId#",
+    87
+   ],
+   [
+    "conductor-core scenario/SloTier#",
+    83
+   ],
+   [
+    "conductor-core run_record/RunRecord#",
+    72
+   ],
+   [
+    "conductor-core error/CoreError#",
+    60
+   ],
+   [
+    "conductor-core expected/ComparisonKind#",
+    52
+   ],
+   [
+    "conductor-core expected/ClaimClass#",
+    52
+   ],
+   [
+    "conductor-core verdict/Verdict#Pass#",
+    51
+   ],
+   [
+    "conductor-core load_envelope/EnvelopeStatus#",
+    50
+   ],
+   [
+    "conductor-run crate/",
+    50
+   ],
+   [
+    "conductor-core scenario/impl#[Scenario]from_toml_str().",
+    50
+   ],
+   [
+    "conductor-verify error/VerifyError#",
+    45
+   ],
+   [
+    "conductor-core report_state/ReportState#Pass#",
+    43
+   ],
+   [
+    "conductor-core scenario/Scenario#expected.",
+    41
+   ],
+   [
+    "conductor-core coverage/CoverageMode#",
+    40
+   ],
+   [
+    "conductor-verify common/StubConfig#",
+    39
+   ],
+   [
+    "conductor-core pause/Decision#",
+    39
+   ]
+  ],
+  "fan_out": [
+   [
+    "conductor-run",
+    6
+   ],
+   [
+    "conductor-cli",
+    4
+   ],
+   [
+    "conductor-tauri",
+    2
+   ],
+   [
+    "conductor-faults",
+    1
+   ],
+   [
+    "conductor-verify",
+    1
+   ],
+   [
+    "conductor-report",
+    1
+   ],
+   [
+    "conductor-timeline",
+    1
+   ]
+  ],
+  "cross_unit_edges": 16
+ },
+ "dead": {
+  "population": "plane=rust tree.db zero-ref public symbols; pinned classing chain",
+  "unused_deps": {},
+  "zero_ref_candidates": 33,
+  "chain": {
+   "raw": 886,
+   "after_tests_segment_filter": 37,
+   "after_entry_points": 33
+  },
+  "filter_note": "tests/ exclusion applied as the UNION of symbol-path and file-path segments -- symbol-path alone leaves 240 and does not reproduce the baseline chain step (38)",
+  "top": [
+   [
+    "conductor-tauri pause/impl#[TauriResolver][PauseResolver]resolve().",
+    "crates/conductor-tauri/src/pause.rs"
+   ],
+   [
+    "conductor-emit latency/impl#[LatencyProfile]p95_ms().",
+    "crates/conductor-emit/src/latency.rs"
+   ],
+   [
+    "conductor-report db/RunsDbError#Json#",
+    "crates/conductor-report/src/db.rs"
+   ],
+   [
+    "conductor-core preconditions/EGRESS_TARGET.",
+    "crates/conductor-core/src/preconditions.rs"
+   ],
+   [
+    "conductor-core preconditions/SIDECAR_PROGRAM.",
+    "crates/conductor-core/src/preconditions.rs"
+   ],
+   [
+    "conductor-core obs/impl#[`JsonVisitor<'_>`][Visit]record_u64().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "conductor-report db/RunsDbError#Io#",
+    "crates/conductor-report/src/db.rs"
+   ],
+   [
+    "conductor-core obs/impl#[ObsWriterGuard][Write]flush().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "conductor-core obs/impl#[`JsonVisitor<'_>`][Visit]record_error().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "conductor-core obs/impl#[`JsonVisitor<'_>`][Visit]record_i64().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "conductor-cli render/PRECONDITION_LABEL.",
+    "crates/conductor-cli/src/render.rs"
+   ],
+   [
+    "conductor-core obs/impl#[ObsWriter][`MakeWriter<'a>`]Writer#",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "conductor-core obs/impl#[ObsWriterGuard][Write]write().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "conductor-emit error/EmitError#Status#",
+    "crates/conductor-emit/src/error.rs"
+   ],
+   [
+    "conductor-core preconditions/impl#[PreconditionSubject][Display]fmt().",
+    "crates/conductor-core/src/preconditions.rs"
+   ],
+   [
+    "conductor-report journal/JournalError#Io#",
+    "crates/conductor-report/src/journal.rs"
+   ],
+   [
+    "conductor-faults port_occupier/impl#[PortOccupier]occupy_default().",
+    "crates/conductor-faults/src/port_occupier.rs"
+   ],
+   [
+    "conductor-core obs/impl#[`JsonObsLayer<W>`][`Layer<S>`]on_event().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "conductor-core obs/impl#[`JsonObsLayer<W>`][`Layer<S>`]on_new_span().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "conductor-core obs/impl#[`JsonObsLayer<W>`][`Layer<S>`]on_close().",
+    "crates/conductor-core/src/obs.rs"
+   ]
+  ]
+ },
+ "dead_web": {
+  "tool": "knip 6.34.0",
+  "counts": {
+   "exports": 3,
+   "types": 9
+  },
+  "total": 12,
+  "files_with_issues": 4,
+  "population": "npx knip --reporter json in crates/conductor-tauri/ui (no knip config present)",
+  "CAVEAT": "Carried forward from the Epoch 6b record: knip measured 20 findings / 20 FALSE POSITIVES on its first run (2026-09-07-dependency-polish) because WebdriverIO discovers specs through wdio.conf.ts and loads devDependencies through its own plugin resolution, neither an import edge knip can see. Reported as CANDIDATES against an UNCONFIGURED tool, never as dead code. All 12 items this run sit in that same WebdriverIO-discovered surface plus two component exports.",
+  "series": "flat 12 -> 12 vs the Epoch 6b boundary (identical counts: exports 3, types 9)"
+ },
+ "coverage": {
+  "line": 94.4,
+  "branch": null,
+  "lines_found": 11598,
+  "lines_hit": 10953,
+  "population": "cargo llvm-cov nextest --workspace --lcov; totals summed over all records"
+ },
+ "churn": {
+  "population": "git log --numstat 0f780c62..HEAD -- crates/**/*.rs crates/**/*.ts crates/**/*.tsx",
+  "pct": 0.0,
+  "files_churned": 0,
+  "files_touched": 17,
+  "total_adds": 258,
+  "churned_adds": 0
+ },
+ "hotspots": [
+  [
+   "crates/conductor-cli/tests/cli_smoke.rs",
+   7.0
+  ],
+  [
+   "crates/conductor-verify/src/manifest.rs",
+   6.0
+  ],
+  [
+   "crates/conductor-verify/tests/readback_shape_witness.rs",
+   5.0
+  ],
+  [
+   "crates/conductor-run/tests/delegated_timing_harvest.rs",
+   4.0
+  ],
+  [
+   "crates/conductor-report/src/journal.rs",
+   4.0
+  ],
+  [
+   "crates/conductor-emit/tests/latency_shaping.rs",
+   3.0
+  ],
+  [
+   "crates/conductor-emit/tests/traffic_rate_ramps.rs",
+   3.0
+  ],
+  [
+   "crates/conductor-emit/tests/exception_events.rs",
+   2.0
+  ],
+  [
+   "crates/conductor-emit/tests/multi_service_topology.rs",
+   2.0
+  ],
+  [
+   "crates/conductor-verify/tests/readback.rs",
+   2.0
+  ]
+ ],
+ "mutation": {
+  "scoped_units": [
+   "conductor-cli",
+   "conductor-core",
+   "conductor-emit",
+   "conductor-report",
+   "conductor-run",
+   "conductor-verify"
+  ],
+  "unit_states": {
+   "conductor-cli": "complete (112/112 tested)",
+   "conductor-core": "complete (126/126 tested) of the unit — shard 1/4",
+   "conductor-emit": "complete (115/115 tested) of the unit — shard 1/4",
+   "conductor-report": "complete (89/89 tested)",
+   "conductor-run": "complete (118/118 tested)",
+   "conductor-verify": "complete (147/147 tested)"
+  },
+  "scores": {
+   "conductor-cli": 97.87,
+   "conductor-core": 100.0,
+   "conductor-emit": 45.71,
+   "conductor-report": 91.14,
+   "conductor-run": 94.38,
+   "conductor-verify": 91.8
+  },
+  "counts": {
+   "conductor-cli": {
+    "mutants": 112,
+    "caught": 92,
+    "missed": 2,
+    "timeout": 0,
+    "unviable": 18
+   },
+   "conductor-core": {
+    "mutants": 126,
+    "caught": 126,
+    "missed": 0,
+    "timeout": 0,
+    "unviable": 0
+   },
+   "conductor-emit": {
+    "mutants": 115,
+    "caught": 48,
+    "missed": 57,
+    "timeout": 10,
+    "unviable": 0
+   },
+   "conductor-report": {
+    "mutants": 89,
+    "caught": 72,
+    "missed": 7,
+    "timeout": 0,
+    "unviable": 10
+   },
+   "conductor-run": {
+    "mutants": 118,
+    "caught": 84,
+    "missed": 5,
+    "timeout": 0,
+    "unviable": 29
+   },
+   "conductor-verify": {
+    "mutants": 147,
+    "caught": 112,
+    "missed": 10,
+    "timeout": 0,
+    "unviable": 25
+   }
+  },
+  "score_formula": "caught/(caught+missed)  [timeout and unviable excluded]",
+  "survivors": [
+   [
+    "conductor-cli",
+    "crates/conductor-cli/src/render.rs:161:5",
+    "replace stdout_color -> bool with false"
+   ],
+   [
+    "conductor-cli",
+    "crates/conductor-cli/src/render.rs:171:5",
+    "replace stderr_color -> bool with false"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:316:46",
+    "replace + with - in is_absolute_path_start"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:316:46",
+    "replace + with * in is_absolute_path_start"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:323:9",
+    "replace && with || in skip_absolute_path"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:322:9",
+    "replace && with || in skip_absolute_path"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:321:9",
+    "replace && with || in skip_absolute_path"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:320:14",
+    "replace < with <= in skip_absolute_path"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:320:10",
+    "replace + with - in skip_absolute_path"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:320:10",
+    "replace + with * in skip_absolute_path"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:323:51",
+    "replace == with != in skip_absolute_path"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:323:46",
+    "replace + with - in skip_absolute_path"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:323:46",
+    "replace + with * in skip_absolute_path"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:327:11",
+    "replace += with *= in skip_absolute_path"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:329:13",
+    "replace < with <= in skip_absolute_path"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:340:7",
+    "replace += with *= in skip_line_number_suffix"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:341:13",
+    "replace < with <= in skip_line_number_suffix"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:342:11",
+    "replace += with -= in skip_line_number_suffix"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:344:44",
+    "replace && with || in skip_line_number_suffix"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:344:10",
+    "replace < with == in skip_line_number_suffix"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:344:10",
+    "replace < with > in skip_line_number_suffix"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:344:10",
+    "replace < with <= in skip_line_number_suffix"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:344:36",
+    "replace == with != in skip_line_number_suffix"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:344:53",
+    "replace < with == in skip_line_number_suffix"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:344:53",
+    "replace < with > in skip_line_number_suffix"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:344:53",
+    "replace < with <= in skip_line_number_suffix"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:344:49",
+    "replace + with - in skip_line_number_suffix"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:344:49",
+    "replace + with * in skip_line_number_suffix"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:344:78",
+    "replace + with - in skip_line_number_suffix"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:344:78",
+    "replace + with * in skip_line_number_suffix"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:345:11",
+    "replace += with -= in skip_line_number_suffix"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:345:11",
+    "replace += with *= in skip_line_number_suffix"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:346:31",
+    "replace && with || in skip_line_number_suffix"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:346:17",
+    "replace < with == in skip_line_number_suffix"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:346:17",
+    "replace < with > in skip_line_number_suffix"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:346:17",
+    "replace < with <= in skip_line_number_suffix"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:347:15",
+    "replace += with -= in skip_line_number_suffix"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/exception.rs:347:15",
+    "replace += with *= in skip_line_number_suffix"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/latency.rs:42:9",
+    "replace LatencyProfile::p50_ms -> u64 with 0"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/latency.rs:42:9",
+    "replace LatencyProfile::p50_ms -> u64 with 1"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/latency.rs:47:9",
+    "replace LatencyProfile::p95_ms -> u64 with 0"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/latency.rs:47:9",
+    "replace LatencyProfile::p95_ms -> u64 with 1"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/latency.rs:52:9",
+    "replace LatencyProfile::p99_ms -> u64 with 0"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/latency.rs:52:9",
+    "replace LatencyProfile::p99_ms -> u64 with 1"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/latency.rs:113:31",
+    "replace + with - in sample_durations_nanos"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/latency.rs:125:20",
+    "replace + with - in quantile"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/latency.rs:125:20",
+    "replace + with * in quantile"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/latency.rs:125:34",
+    "replace / with % in quantile"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/latency.rs:125:34",
+    "replace / with * in quantile"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/latency.rs:125:27",
+    "replace - with + in quantile"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/latency.rs:125:27",
+    "replace - with / in quantile"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/latency.rs:126:10",
+    "replace < with == in quantile"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/latency.rs:126:10",
+    "replace < with <= in quantile"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/latency.rs:128:17",
+    "replace < with <= in quantile"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/latency.rs:130:17",
+    "replace < with == in quantile"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/latency.rs:130:17",
+    "replace < with > in quantile"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/latency.rs:130:17",
+    "replace < with <= in quantile"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/latency.rs:133:36",
+    "replace / with % in quantile"
+   ],
+   [
+    "conductor-emit",
+    "crates/conductor-emit/src/latency.rs:133:36",
+    "replace / with * in quantile"
+   ],
+   [
+    "conductor-report",
+    "crates/conductor-report/src/coverage.rs:54:16",
+    "delete ! in CoverageMatrix::write"
+   ],
+   [
+    "conductor-report",
+    "crates/conductor-report/src/report.rs:185:44",
+    "replace && with || in scenario_block"
+   ],
+   [
+    "conductor-report",
+    "crates/conductor-report/src/report.rs:185:30",
+    "replace == with != in scenario_block"
+   ],
+   [
+    "conductor-report",
+    "crates/conductor-report/src/report.rs:185:58",
+    "replace == with != in scenario_block"
+   ],
+   [
+    "conductor-report",
+    "crates/conductor-report/src/report.rs:202:5",
+    "replace budget -> String with String::new()"
+   ],
+   [
+    "conductor-report",
+    "crates/conductor-report/src/report.rs:202:5",
+    "replace budget -> String with \"xyzzy\".into()"
+   ],
+   [
+    "conductor-report",
+    "crates/conductor-report/src/report.rs:264:20",
+    "replace match guard v.is_empty() with true in fingerprints"
+   ],
+   [
+    "conductor-run",
+    "crates/conductor-run/src/canary.rs:56:8",
+    "delete ! in preflight"
+   ],
+   [
+    "conductor-run",
+    "crates/conductor-run/src/execute.rs:105:17",
+    "delete field degraded from struct Observation expression in execute_scenario"
+   ],
+   [
+    "conductor-run",
+    "crates/conductor-run/src/execute.rs:148:25",
+    "replace - with + in execute_scenario"
+   ],
+   [
+    "conductor-run",
+    "crates/conductor-run/src/execute.rs:148:25",
+    "replace - with / in execute_scenario"
+   ],
+   [
+    "conductor-run",
+    "crates/conductor-run/src/preconditions.rs:44:5",
+    "replace declares -> bool with false"
+   ],
+   [
+    "conductor-verify",
+    "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:18:5",
+    "replace main with ()"
+   ],
+   [
+    "conductor-verify",
+    "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:37:60",
+    "replace || with && in main"
+   ],
+   [
+    "conductor-verify",
+    "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:45:5",
+    "replace stub_result -> Value with Default::default()"
+   ],
+   [
+    "conductor-verify",
+    "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:46:9",
+    "delete match arm \"initialize\" in stub_result"
+   ],
+   [
+    "conductor-verify",
+    "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:51:9",
+    "delete match arm \"tools/list\" in stub_result"
+   ],
+   [
+    "conductor-verify",
+    "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:58:9",
+    "delete match arm \"tools/call\" in stub_result"
+   ],
+   [
+    "conductor-verify",
+    "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:63:21",
+    "replace == with != in stub_result"
+   ],
+   [
+    "conductor-verify",
+    "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:75:28",
+    "replace == with != in stub_result"
+   ],
+   [
+    "conductor-verify",
+    "crates/conductor-verify/src/spawn.rs:116:5",
+    "replace sidecar_resolves_on_path -> bool with true"
+   ],
+   [
+    "conductor-verify",
+    "crates/conductor-verify/src/spawn.rs:116:5",
+    "replace sidecar_resolves_on_path -> bool with false"
+   ]
+  ]
+ },
+ "commands": {
+  "sizes": "tokei --output json crates/",
+  "duplication": "jscpd crates --format rust --reporters json --output D:/dev/projects/conductor/.andromeda/runs/2026-09-14T18-51-54-code-audit/jscpd_rs --silent",
+  "complexity": "mkdir -p D:/dev/projects/conductor/.andromeda/runs/2026-09-14T18-51-54-code-audit/_rca_head && rust-code-analysis-cli --metrics -O json -o D:/dev/projects/conductor/.andromeda/runs/2026-09-14T18-51-54-code-audit/_rca_head -p crates   (summarizer filters to *.rs; the walk also visits the ui tree)",
+  "dead_deps": "cargo machete",
+  "dead_symbols": "python scripts/code-graph.py query D:/dev/projects/conductor/.andromeda/runs/2026-09-14T18-51-54-code-audit code-audit \"SELECT s.symbol, s.file FROM symbol s LEFT JOIN refs r ON r.callee = s.symbol WHERE r.callee IS NULL;\" rust   (classing: tests/ exclusion = UNION of symbol-path AND file-path segments, then main() entry points)",
+  "dead_web": "npx --no-install knip --reporter json   (cwd crates/conductor-tauri/ui; exit 1 = findings present, knip convention)",
+  "graph": "python scripts/code-graph.py query D:/dev/projects/conductor/.andromeda/runs/2026-09-14T18-51-54-code-audit code-audit \"<cycles | fan-in LIMIT 20 | fan-out | count(*) FROM crate_edges>\" rust",
+  "coverage": "cargo llvm-cov nextest --workspace --lcov --output-path D:/dev/projects/conductor/.andromeda/runs/2026-09-14T18-51-54-code-audit/_lcov.info",
+  "churn": "git log --numstat --format='commit %H' 0f780c62..HEAD -- 'crates/**/*.rs' 'crates/**/*.ts' 'crates/**/*.tsx'",
+  "hotspots": "commits(churn window) x max cognitive per file over the FULL rca population (fallback cyclomatic, then 0 for non-Rust)",
+  "mutation": "cargo mutants -p {unit} --test-tool=nextest --jobs 2 --output D:/dev/projects/conductor/.andromeda/runs/2026-09-14T18-51-54-code-audit/mutants-{unit}",
+  "mutation_conductor-core": "cargo mutants -p conductor-core --test-tool=nextest --jobs 2 --output D:/dev/projects/conductor/.andromeda/runs/2026-09-14T18-51-54-code-audit/mutants-conductor-core --shard 1/4",
+  "mutation_conductor-emit": "cargo mutants -p conductor-emit --test-tool=nextest --jobs 2 --output D:/dev/projects/conductor/.andromeda/runs/2026-09-14T18-51-54-code-audit/mutants-conductor-emit --shard 1/4",
+  "head_overshoot": "git log --format=%H -1 -S'2026-09-13-p-025-measurement-contract-for-pulse · complete' -- .andromeda/master-route.md  |  git rev-list --count {boundary_sha}..HEAD  |  git diff --numstat {boundary_sha}..HEAD filtered to crates/**/*.{rs,ts,tsx}"
+ },
+ "corrections": [
+  {
+   "target_sha": "0f780c62651f1aaa9cd95b9316159f16288c3f6d",
+   "field": "head_overshoot",
+   "was": {
+    "boundary_sha": "b54e6ec",
+    "note": "(note only — commits and files absent; commands.head_overshoot null)"
+   },
+   "now": {
+    "boundary_sha": "b54e6ec",
+    "commits": 6,
+    "files": [
+     [
+      "crates/conductor-report/tests/matrix_ledger_gate.rs",
+      61,
+      6
+     ]
+    ]
+   },
+   "note": "Schema-gap fill per audit-pass.md §Schema: the Epoch 6b record carried a prose note but no structured commits/files and no commands.head_overshoot. Recomputed over b54e6ec..0f780c62 — 6 commits, one source file — which CONFIRMS the stored note exactly. The note was accurate; only the machine-readable fields were missing. Prior record NOT edited."
+  }
+ ],
+ "skips": [
+  {
+   "metric": "mutation-conductor-core",
+   "reason": "budget-exhausted",
+   "note": "ran --shard 1/4 (the baseline's pinned form for conductor-core, applied to conductor-emit for the same wall-clock reason); the other 3 shards are untested this run",
+   "tested": 126,
+   "planned_in_shard": 126
+  },
+  {
+   "metric": "mutation-conductor-emit",
+   "reason": "budget-exhausted",
+   "note": "ran --shard 1/4 (the baseline's pinned form for conductor-core, applied to conductor-emit for the same wall-clock reason); the other 3 shards are untested this run",
+   "tested": 115,
+   "planned_in_shard": 115
+  },
+  {
+   "metric": "mutation-web",
+   "reason": "tool-missing",
+   "note": "StrykerJS absent; not declared in package.json. Recipe: npm i -D @stryker-mutator/core in crates/conductor-tauri/ui"
+  },
+  {
+   "metric": "complexity-web",
+   "reason": "declined",
+   "note": "lizard 1.24.0 IS available (python -m lizard); not collected, matching the deliberate decline at both prior boundaries, to keep the Rust-only complexity series comparable across all six records"
+  }
+ ]
+}

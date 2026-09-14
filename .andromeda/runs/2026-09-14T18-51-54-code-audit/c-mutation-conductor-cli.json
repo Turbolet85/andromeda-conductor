@@ -1,0 +1,31 @@
+{
+ "unit": "conductor-cli",
+ "shard": null,
+ "elapsed_s": 543.7,
+ "exit": 2,
+ "killed_at_cap": false,
+ "completion_state": "complete",
+ "command": "cargo mutants -p conductor-cli --test-tool=nextest --jobs 2 --output D:/dev/projects/conductor/.andromeda/runs/2026-09-14T18-51-54-code-audit/mutants-conductor-cli",
+ "planned_from_mutants_json": 112,
+ "counts": {
+  "mutants": 112,
+  "caught": 92,
+  "missed": 2,
+  "timeout": 0,
+  "unviable": 18
+ },
+ "score": 97.87,
+ "score_formula": "caught/(caught+missed)  [timeout and unviable excluded]",
+ "survivors": [
+  [
+   "crates/conductor-cli/src/render.rs:161:5",
+   "replace stdout_color -> bool with false"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:171:5",
+   "replace stderr_color -> bool with false"
+  ]
+ ],
+ "unit_state": "complete (112/112 tested)",
+ "survivors_source": "mutants.out/missed.txt, row count asserted == counts.missed from outcomes.json"
+}

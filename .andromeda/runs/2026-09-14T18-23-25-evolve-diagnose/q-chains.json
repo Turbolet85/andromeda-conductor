@@ -1,0 +1,314 @@
+{
+ "epoch": "Epoch 1 - Foundation: the measurements the closures rest on",
+ "n": 19,
+ "links": [
+  {
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+   "artifact": "implement-outcome",
+   "producer": "implement/fix-loop",
+   "producer_id": "2026-09-11T10:22:17Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "surfaced"
+   ],
+   "producer_notes": [
+    "All 8 runnable gates green, 1 deferred, zero fix iterations — but the capability's acceptance is not met as written, so the P4 verdict is surfaced rather than green"
+   ],
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-09-11T12:37:10Z-a",
+   "quality": "thin",
+   "consumer_note": "NOT the final word on its own chunk. The operator directive arrived between implement's P4 report and this report and changed three things: v3-01's resolution from an open refine-or-unclaim to UN-CLAIM, the residual's :4444 annotation re-wording, and the re-attribution of the mid-implement commit from a process defect to an operator act. What stood in as the outcome basis: implement's P4 report AS AMENDED by that directive, named explicitly in the report's Outcome basis slot so no detector inherits the pre-directive framing"
+  },
+  {
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+   "artifact": "implement-outcome",
+   "producer": "implement/smoke",
+   "producer_id": "2026-09-11T10:23:43Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "surfaced"
+   ],
+   "producer_notes": [
+    "Re-declared from fix-loop as the last implement checkpoint to fire: all 8 runnable gates green and 1 deferred, but v3-01's acceptance is not satisfied as written, so the P4 verdict is surfaced"
+   ],
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-09-11T12:37:10Z-a",
+   "quality": "thin",
+   "consumer_note": "NOT the final word on its own chunk. The operator directive arrived between implement's P4 report and this report and changed three things: v3-01's resolution from an open refine-or-unclaim to UN-CLAIM, the residual's :4444 annotation re-wording, and the re-attribution of the mid-implement commit from a process defect to an operator act. What stood in as the outcome basis: implement's P4 report AS AMENDED by that directive, named explicitly in the report's Outcome basis slot so no detector inherits the pre-directive framing"
+  },
+  {
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+   "artifact": "implement-outcome",
+   "producer": "implement/fix-loop",
+   "producer_id": "2026-09-11T18:48:43Z-a",
+   "producer_outcome": "soft-exit",
+   "producer_signals": [
+    "stuck"
+   ],
+   "producer_notes": [
+    "T3 (out-of-scope) fired on the PREREQ gate. Chunk-owned gates GREEN: workflow parses to 3 jobs; the default probe path still emits `[probe] complete: 3/3 sections` as its last line (regression guard); the new selector emits `[probe] complete: 1/1 sections (modules)` and runs section 2 alone, red-before-green against its P5 baseline; gh auth ok. Gates 6-11 are operator- and CI-gated by the plan’s own design (steps 5-7), not deferrals. No matrix write: v3-01’s evidence is step 8 and does not exist yet, so no ref was named."
+   ],
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-09-12T10:20:14Z-a",
+   "quality": "thin",
+   "consumer_note": "implement soft-exited (T3) and THREE operator relays plus two operator commits landed after its P4 report — arm A’s CI reading, arm C’s ruling and reading, arm B’s elevated reading. The outcome basis is named in the report: implement’s P4 report PLUS those relays PLUS the post-implement artifacts (runs 34645345201, 34654076633, the dev-host captures), every relayed figure re-derived from the artifacts before entering the report."
+  },
+  {
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+   "artifact": "implement-outcome",
+   "producer": "implement/smoke",
+   "producer_id": "2026-09-11T18:50:12Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "stuck"
+   ],
+   "producer_notes": [
+    "re-declares fix-loop’s verdict: T3 out-of-scope fired on the PREREQ gate; chunk-owned gates green; operator steps owed"
+   ],
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-09-12T10:20:14Z-a",
+   "quality": "thin",
+   "consumer_note": "implement soft-exited (T3) and THREE operator relays plus two operator commits landed after its P4 report — arm A’s CI reading, arm C’s ruling and reading, arm B’s elevated reading. The outcome basis is named in the report: implement’s P4 report PLUS those relays PLUS the post-implement artifacts (runs 34645345201, 34654076633, the dev-host captures), every relayed figure re-derived from the artifacts before entering the report."
+  },
+  {
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+   "artifact": "implement-outcome",
+   "producer": "implement/fix-loop",
+   "producer_id": "2026-09-11T21:36:29Z-e",
+   "producer_outcome": "soft-exit",
+   "producer_signals": [
+    "stuck"
+   ],
+   "producer_notes": [
+    "ARM A DISCHARGED and proven mechanically: gate 10 green (exit 0, count 1) against run 34645345201, whose headSha equals the pushed sha — the freshness pin the gate’s own expect cannot supply. Chunk-owned local gates all green (workflow parses; default probe path still emits 3/3 as its last line; selector emits 1/1 sections (modules)). Three arm-C gates baselined RED against the pre-arm-C log and go green only on the next push. Gate 1 unchanged: still red on the out-of-scope v2- prefix defect, 905/906, not this chunk’s. No matrix write: v3-01’s acceptance needs the decision, and the discriminator has not been read under arm C yet."
+   ],
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-09-12T10:20:14Z-a",
+   "quality": "thin",
+   "consumer_note": "implement soft-exited (T3) and THREE operator relays plus two operator commits landed after its P4 report — arm A’s CI reading, arm C’s ruling and reading, arm B’s elevated reading. The outcome basis is named in the report: implement’s P4 report PLUS those relays PLUS the post-implement artifacts (runs 34645345201, 34654076633, the dev-host captures), every relayed figure re-derived from the artifacts before entering the report."
+  },
+  {
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+   "artifact": "implement-outcome",
+   "producer": "implement/fix-loop",
+   "producer_id": "2026-09-12T00:42:10Z-b",
+   "producer_outcome": "soft-exit",
+   "producer_signals": [
+    "stuck"
+   ],
+   "producer_notes": [
+    "12 of 14 gates green or accounted. ARM C MEASURED and its candidate RETIRED by direct variation: install SKIPPED once, majors: 2 1 (both readings, one distinct major), modules confirmed at 152.0.4191.66 against 153.0.4234.32 in the prior run, and every isolation reading byte-identical across the two runs with the discriminator still `never within 90s`. Arm A green in the new run too. Arm B part 1 verified from its artifact: the elevated/non-elevated pair differs ONLY on IsElevatedAdmin. Still red: the out-of-scope v2- ledger gate. Still owed: arm B part 2, one operator acceptance. No matrix write — elevation is unvaried, so v3-01’s decide clause is unmet and the plan forbids forcing it."
+   ],
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-09-12T10:20:14Z-a",
+   "quality": "thin",
+   "consumer_note": "implement soft-exited (T3) and THREE operator relays plus two operator commits landed after its P4 report — arm A’s CI reading, arm C’s ruling and reading, arm B’s elevated reading. The outcome basis is named in the report: implement’s P4 report PLUS those relays PLUS the post-implement artifacts (runs 34645345201, 34654076633, the dev-host captures), every relayed figure re-derived from the artifacts before entering the report."
+  },
+  {
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+   "artifact": "implement-outcome",
+   "producer": "implement/fix-loop",
+   "producer_id": "2026-09-12T10:05:33Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "green"
+   ],
+   "producer_notes": [
+    "ARM B verified from artifacts, not dictation: a11y-e2e.log is UTF-16 (a PowerShell redirect) so the first grep returned nothing and had to be decoded before any conclusion. Driver started on 4445, tauri-driver proxied, POST /session, WebDriverError 60 s later with the runner’s exact signature. Zero banner / verdict / skip / Spec-Files lines: the leg never reached the printed-verdict assertion, so the non-zero came from wdio itself and NOT from CONDUCTOR_A11Y_STRICT — the handle was insurance that proved unnecessary, and the record says so rather than crediting it. Sentinel ARMB2_DONE, E2E_EXIT=1, census zero orphans."
+   ],
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-09-12T10:20:14Z-a",
+   "quality": "thin",
+   "consumer_note": "implement soft-exited (T3) and THREE operator relays plus two operator commits landed after its P4 report — arm A’s CI reading, arm C’s ruling and reading, arm B’s elevated reading. The outcome basis is named in the report: implement’s P4 report PLUS those relays PLUS the post-implement artifacts (runs 34645345201, 34654076633, the dev-host captures), every relayed figure re-derived from the artifacts before entering the report."
+  },
+  {
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+   "artifact": "plan",
+   "producer": "phase/plan",
+   "producer_id": "2026-09-11T18:29:24Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "leans-stated",
+    "citations-hard"
+   ],
+   "producer_notes": [
+    "337 lines, 11 gate entries, fence parses. Four scope ambiguities resolved as DECISIVE MATERIAL LEANS with a named artifact each (which process window section 2 reads -> the directive’s 0.645 s coordinate plus the isolation step’s own scoped-dir-removal comment; selector shape -> the project’s closed-enum discipline; marker arity -> freed by the premise correction, bounded by the tests extract’s vacuous-pass rule; whether the added invocation is a seventh spawn crossing -> the 2026-09-09 fixed-argv precedent). Zero questions asked. Six file:line citations to source read at P3, all hard, zero soft; no symbol@file:line graph citations because the graph is not applicable. The v3-01 claim decision is deferred to the P5 review card, which is the skill’s prescribed home for the confirm class."
+   ],
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-09-12T10:20:14Z-a",
+   "quality": "thin",
+   "consumer_note": "the plan’s Expected-amendments list named ONE owner per entry; the seven-master sweep found a co-owner for BOTH"
+  },
+  {
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+   "artifact": "report",
+   "producer": "wrap-session/report",
+   "producer_id": "2026-09-12T10:20:14Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "co-owner-found",
+    "insufficient-fix-recorded"
+   ],
+   "producer_notes": [
+    "Changes assembled from direct session knowledge; no family reconstructed by archaeology. Detector scan before authoring drove three bullets that would otherwise have been thin: Counts/qualifiers (the hosted image’s in-effect runtime 153->152, plus the two SETs verified UNCHANGED), Cross-project/external claims (the hosted image facts with their basis), and Insufficient fixes (arm C — correct, shipped, kept, and not the remedy)."
+   ],
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-09-12T10:50:00Z-a",
+   "quality": "thin",
+   "consumer_note": "THE consumer verdict: the report named ONE site per expected amendment; its own authoring sweep raised that to two each; the dependent-of mechanism then found 7 and 3. Five of amendment 1’s seven sites carry no `always-latest` token, and amendment 2’s third site (test-plan §6) carries neither `0.645` nor `demonstrated cause` — all found by reading for the claim’s meaning, not its tokens."
+  },
+  {
+   "chunk": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+   "artifact": "research",
+   "producer": "phase/research",
+   "producer_id": "2026-09-13T17:53:55Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "zero-rows-genuine",
+    "vehicle-found-in-manifest-comment"
+   ],
+   "producer_notes": [
+    "Q3 returned 0 rows with probe_hits default_path=4, so the cookbook's precondition (b) held and grep confirmed definition-only; the decisive vehicle for the extract.rs kills was found via a dev-dependency COMMENT in conductor-verify/Cargo.toml, not an extract signal"
+   ],
+   "consumer": "implement/code",
+   "consumer_id": "2026-09-13T18:48:55Z-a",
+   "quality": "thin",
+   "consumer_note": "Files-to-modify omitted conductor-core/src/lib.rs, whose explicit re-export list must carry the new const for the two consuming crates to see it"
+  },
+  {
+   "chunk": null,
+   "artifact": ".claude/session-handoff.md",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": [],
+   "producer_notes": [],
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-09-11T07:32:10Z-c",
+   "quality": "input-friction:input.handoff-git-mismatch",
+   "consumer_note": "Two handoff fields were contradicted by measured state: Position Next asserts the version complete with no 0.3.0 route and operator direction Pulse, while a complete uncommitted /andromeda-route run for 0.3.0 sits on disk; and the Branch line asserts 4 ahead and unpushed while rev-list reports 0 ahead. Cause is a second writer after the handoff was authored, but the dirty set exceeds the contract's named bookkeeping files (master-route.md, residuals.md, conductor-0.3.0/, a route run dir)"
+  },
+  {
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+   "artifact": ".andromeda/runs/2026-09-11T07-37-04-phase/arch.md",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": [],
+   "producer_notes": [],
+   "consumer": "phase/plan",
+   "consumer_id": "2026-09-11T09:31:19Z-b",
+   "quality": "input-friction:input.extracts-conflict",
+   "consumer_note": "An authority conflict surfaced only at synthesis: arch's Patterns-to-follow names the job's existing INLINE diagnostic step as the shape to follow, while v3-01's matrix acceptance requires readings sufficient to decide remediable-vs-permanent, which needs a dev-host control an inline-only form cannot produce. P2's aggregate check C tests binding reciprocity BETWEEN extracts and structurally cannot see an extract-vs-matrix-acceptance tension, so it passed clean. Resolved as the step's one operator fork"
+  },
+  {
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+   "artifact": "conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-probed/report.md",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": [],
+   "producer_notes": [],
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-09-11T12:37:10Z-b",
+   "quality": "input-friction:input.implement-outcome-unsettled",
+   "consumer_note": "Implement's P4 report was superseded before this report was authored: an operator directive changed v3-01's resolution to un-claim, added a residual re-wording obligation, and re-attributed the mid-implement commit deviation. The report therefore names its basis explicitly as implement's report AS AMENDED by that directive, because the fan-out detectors read this report alone and would otherwise inherit a framing the operator had already replaced"
+  },
+  {
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+   "artifact": "conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-probed/report.md",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": [],
+   "producer_notes": [],
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-09-11T12:47:30Z-b",
+   "quality": "input-friction:input.report-insufficient",
+   "consumer_note": "The report named a11y-plan.md §9 as a co-owner of the a11y diagnostic-step-set fact, but grep -ci diagnostic over that doc returns 0 — the fact has exactly one owner, test-plan.md:460. The direction is an OVER-CLAIM rather than the usual gap: the report did not starve a detector, it asserted an owner with no hit, which is precisely what the report template warns against and which would have produced a hand-raised amendment against a doc stating nothing. Caught by the a11y-plan detector's own zero-hit evidence"
+  },
+  {
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+   "artifact": "conductor-0.3.0/working-route.md:13",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": [],
+   "producer_notes": [],
+   "consumer": "phase/take-up",
+   "consumer_id": "2026-09-11T18:09:05Z-b",
+   "quality": "input-friction:input.working-entry-thin",
+   "consumer_note": "the working entry named the elevation measurement without naming which side to vary; the cheap direction (elevate the dev host, where the non-elevated control is already committed) came from the operator directive, and the entry alone reads as pointing at the runner where the failure is"
+  },
+  {
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+   "artifact": "conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-closed/report.md",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": [],
+   "producer_notes": [],
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-09-12T10:50:00Z-c",
+   "quality": "input-friction:input.report-insufficient",
+   "consumer_note": "the report’s Expected-amendments site set under-ran the true set by 7 (2 named vs 10 applied across both groups) even after its own pre-fanout re-derivation corrected a sole-owner claim to two owners; the gap was closed entirely by the dependent-of sweeps, which read for the claim’s mechanism rather than its tokens — test-plan §6 needed it for the second consecutive chunk"
+  },
+  {
+   "chunk": "2026-09-12-ledger-gate-id-space-generalised",
+   "artifact": ".andromeda/runs/2026-09-12T10-52-00-phase/tests.md",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": [],
+   "producer_notes": [],
+   "consumer": "phase/plan",
+   "consumer_id": "2026-09-12T13:03:55Z-b",
+   "quality": "input-friction:input.extracts-conflict",
+   "consumer_note": "the tests extract prescribed rstest table-driven cases as the plan fixture pattern for a predicate matrix, while the arch extract bars landing a dependency to repair a single test file and security requires the no-dependency-delta property. P2 aggregate check C did not catch it because neither extract declared a binding on the other. Resolved without rework by a measurement already in hand: rstest is a workspace dependency but absent from conductor-report dev-dependencies, so adopting it adds a manifest line and moves the lock; the plan took the file own inline-assertion idiom."
+  },
+  {
+   "chunk": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+   "artifact": "crates/conductor-core/src/lib.rs:66",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": [],
+   "producer_notes": [],
+   "consumer": "implement/code",
+   "consumer_id": "2026-09-13T18:48:55Z-b",
+   "quality": "input-friction:input.research-files-wrong",
+   "consumer_note": "research.md's Files-to-modify omitted crates/conductor-core/src/lib.rs. The crate exposes run_record through an explicit re-export list (`pub use run_record::{CheckRecord, RunRecord}`), so a new pub const there is invisible to conductor-report and conductor-verify until that line is edited; step 9 is unexecutable without it."
+  },
+  {
+   "chunk": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+   "artifact": "crates/conductor-verify/tests/common/mod.rs",
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": [],
+   "producer_notes": [],
+   "consumer": "implement/code",
+   "consumer_id": "2026-09-13T18:48:55Z-c",
+   "quality": "input-friction:input.plan-step-ambiguous",
+   "consumer_note": "Plan step 5 prescribed 'a stub configured with at least three incidents', but the shared StubConfig serves 0 or 1 (canary_in_corpus is a bool) and the stub file is outside the plan's touchpoints — so the step as written could not be executed in scope. P3 never checked whether the capability existed."
+  }
+ ],
+ "shapes_ge2_chunks": [
+  {
+   "shape": [
+    "implement/fix-loop",
+    "implement-outcome",
+    "wrap-session/report"
+   ],
+   "n": 5
+  },
+  {
+   "shape": [
+    "implement/smoke",
+    "implement-outcome",
+    "wrap-session/report"
+   ],
+   "n": 2
+  }
+ ]
+}

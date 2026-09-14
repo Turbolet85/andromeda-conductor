@@ -1,0 +1,13 @@
+[conductor-report] START shard=None cap=900s :: cargo mutants -p conductor-report --test-tool=nextest --jobs 2 --output D:/dev/projects/conductor/.andromeda/runs/2026-09-14T18-51-54-code-audit/mutants-conductor-report
+[conductor-report] COMPLETE 243.7s score=91.14 counts={'mutants': 89, 'caught': 72, 'missed': 7, 'timeout': 0, 'unviable': 10}
+[conductor-cli] START shard=None cap=900s :: cargo mutants -p conductor-cli --test-tool=nextest --jobs 2 --output D:/dev/projects/conductor/.andromeda/runs/2026-09-14T18-51-54-code-audit/mutants-conductor-cli
+[conductor-cli] COMPLETE 543.7s score=97.87 counts={'mutants': 112, 'caught': 92, 'missed': 2, 'timeout': 0, 'unviable': 18}
+[conductor-run] START shard=None cap=900s :: cargo mutants -p conductor-run --test-tool=nextest --jobs 2 --output D:/dev/projects/conductor/.andromeda/runs/2026-09-14T18-51-54-code-audit/mutants-conductor-run
+[conductor-run] COMPLETE 873.1s score=94.38 counts={'mutants': 118, 'caught': 84, 'missed': 5, 'timeout': 0, 'unviable': 29}
+[conductor-verify] START shard=None cap=900s :: cargo mutants -p conductor-verify --test-tool=nextest --jobs 2 --output D:/dev/projects/conductor/.andromeda/runs/2026-09-14T18-51-54-code-audit/mutants-conductor-verify
+[conductor-verify] COMPLETE 470.4s score=91.8 counts={'mutants': 147, 'caught': 112, 'missed': 10, 'timeout': 0, 'unviable': 25}
+[conductor-core] START shard=1/4 cap=900s :: cargo mutants -p conductor-core --test-tool=nextest --jobs 2 --output D:/dev/projects/conductor/.andromeda/runs/2026-09-14T18-51-54-code-audit/mutants-conductor-core --shard 1/4
+[conductor-core] COMPLETE 377.0s score=100.0 counts={'mutants': 126, 'caught': 126, 'missed': 0, 'timeout': 0, 'unviable': 0}
+[conductor-emit] START shard=1/4 cap=900s :: cargo mutants -p conductor-emit --test-tool=nextest --jobs 2 --output D:/dev/projects/conductor/.andromeda/runs/2026-09-14T18-51-54-code-audit/mutants-conductor-emit --shard 1/4
+[conductor-emit] COMPLETE 800.9s score=45.71 counts={'mutants': 115, 'caught': 48, 'missed': 57, 'timeout': 10, 'unviable': 0}
+DRIVER DONE

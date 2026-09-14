@@ -1,0 +1,7 @@
+{
+ "line": 94.4,
+ "branch": null,
+ "lines_found": 11598,
+ "lines_hit": 10953,
+ "population": "cargo llvm-cov nextest --workspace --lcov; totals summed over all records"
+}

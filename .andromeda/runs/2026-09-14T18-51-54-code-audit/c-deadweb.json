@@ -1,0 +1,70 @@
+{
+ "population": "npx knip --reporter json (cwd crates/conductor-tauri/ui)",
+ "by_kind": {
+  "exports": 3,
+  "types": 9
+ },
+ "total": 12,
+ "items": [
+  [
+   "exports",
+   "test/a11y/screen-reader/parse-nvda-log.ts",
+   "readSpeechLog"
+  ],
+  [
+   "exports",
+   "test/a11y/screen-reader/parse-nvda-log.ts",
+   "readStamps"
+  ],
+  [
+   "types",
+   "test/a11y/screen-reader/parse-nvda-log.ts",
+   "Outcome"
+  ],
+  [
+   "types",
+   "test/a11y/screen-reader/parse-nvda-log.ts",
+   "Arm"
+  ],
+  [
+   "types",
+   "test/a11y/screen-reader/parse-nvda-log.ts",
+   "PassRow"
+  ],
+  [
+   "types",
+   "test/a11y/screen-reader/parse-nvda-log.ts",
+   "SubjectRecord"
+  ],
+  [
+   "types",
+   "test/a11y/screen-reader/parse-nvda-log.ts",
+   "OperatorReview"
+  ],
+  [
+   "types",
+   "test/a11y/screen-reader/parse-nvda-log.ts",
+   "ReviewGrade"
+  ],
+  [
+   "types",
+   "test/a11y/screen-reader/parse-nvda-log.ts",
+   "Timeline"
+  ],
+  [
+   "exports",
+   "src/components/ScenarioPicker.tsx",
+   "SUITE_SELECTION"
+  ],
+  [
+   "types",
+   "test/a11y/screen-reader/rows.ts",
+   "RowState"
+  ],
+  [
+   "types",
+   "src/components/CoverageMatrix.tsx",
+   "CoverageMode"
+  ]
+ ]
+}

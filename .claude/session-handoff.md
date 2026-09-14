@@ -1,81 +1,70 @@
 # Session Handoff
 
-**Last Updated:** 2026-09-14T18:03:19Z
-**Branch:** `build/conductor-0.3.0`, tracking `origin/build/conductor-0.3.0`. **0 ahead at wrap start** — the
-operator pushed the predecessor's two commits since the last wrap, so this wrap's commit leaves the branch
-**1 ahead**. The operator pushes, as before.
-**Status:** clean — all 9 plan Test Commands re-run green at the P7 light gate.
-**Last Commit:** `feat(2026-09-13-p-025-measurement-contract-for-pulse)` — see below.
+**Last Updated:** 2026-09-14T20:56:07Z
+**Branch:** `build/conductor-0.3.0`, tracking `origin/build/conductor-0.3.0`. **0 ahead at wrap start** —
+`6861eb6` is pushed (measured, not inherited: the previous handoff's "1 ahead" was its write-time fact and
+the operator has pushed since). This wrap's commit leaves the branch **1 ahead**. The operator pushes.
+**Status:** clean — no chunk wrapped, so no gates ran; nothing was left failing.
+**Last Commit:** `chore(route): operator-requested adaptation — 0-pending wrap` — see below.
 
 ## Position
-- Done: **`2026-09-13-p-025-measurement-contract-for-pulse`** — master flipped `pending → complete`
-  (126 complete, 0 pending).
-- Next: **`Structurally-dead assertion class retired`** — `conductor-0.3.0/working-route.md:22`, the head of
-  the markerless tail and the first entry of **Epoch 2 — Scenario assertion hygiene**. Carries no `PREREQ:`
-  and no `BLOCKED-ON:`. **Epoch 1 is now closed** (every entry under its header frozen).
-- Coverage **2/11 verified · 9 unclaimed** (`v3-02`…`v3-06`, `v3-08`…`v3-11`). `v3-07` claimed at phase P5,
-  `implemented` at /implement P2, flipped `verified` at this wrap's coverage gate.
+- Done: **nothing wrapped this session.** Master-route unchanged at **126 complete, 0 pending**; the last
+  complete record is still `2026-09-13-p-025-measurement-contract-for-pulse`.
+- Next: **`Emit scrubber and percentile math under test`** — `conductor-0.3.0/working-route.md:22`, the
+  entry this wrap inserted, now the head of the markerless tail and the first entry of **Epoch 2 —
+  Scenario assertion hygiene**. Carries no `PREREQ:` and no `BLOCKED-ON:`. `Structurally-dead assertion
+  class retired` moves to second, unchanged.
+- Coverage **2/11 verified · 9 unclaimed** (`v3-02`…`v3-06`, `v3-08`…`v3-11`) — unchanged; no chunk, so no
+  coverage gate ran.
 
 ## Work done
-The P-025 measurement contract SHIPPED as `contracts/pulse-p025-measurement-contract.md` (168 lines) — the
-**fifth `contracts/` member and the first with no Rust reader**, addressed outward to Pulse rather than read
-inward. It states the four elements the working entry named (observable + literal field names · resolution ·
-window · hard-grade comparison) plus two sections that carry its implementability: the sufficiency argument
-discharging all three fire-site terms, and the finding that the two SUT-side fixes Conductor's own artifacts
-named as lifting the bound are **insufficient**.
+A **0-pending wrap on the operator's pre-direction**: no report, no fan-out, no light gate, no master flip.
+Two things landed.
 
-**Research changed the ask twice, both times narrowing it.** First: `ServiceListItem` carries no timestamp
-for `priority_tier`, so the canvas cannot know when a tier became effective and reached for `last_seen` —
-the missing value is a START INSTANT, not a better formula. Then, at the P5 review, the operator supplied the
-backend source: the tier-computing resolver already holds the full incident records, so the ask is to
-**EXPOSE** an instant Pulse has, not mint one. The review's open question (escalation vs opening) then
-**dissolved**: an incident's `priority_tier` is immutable after opening — 8 write sites at Pulse HEAD
-`83d4060`, every one a construction or DTO projection, and no persistence UPDATE touches the column — so the
-rule closes at two cases (rise → `opened_at_unix_nano`, fall → `transitioned_at_unix_nano`).
+**One route entry inserted**, first under Epoch 2 — the epoch's corrective chunk from the 2026-09-14 code
+audit, on the standing doctrine that a code-facing audit finding is fixed before the next boundary measures
+it. Anchor-only: the diff is exactly **2 added / 0 removed** and no frozen line was touched. It brings
+`conductor-emit`'s first-measured mutation surface under test — the `exception.rs` host-path scrubber trio
+(36 survivors, all arithmetic/comparison-boundary), `quantile` in `latency.rs` (14), the three
+`LatencyProfile` accessors (6, zero-reference *and* constant-replaceable), the ten timeouts classified, and
+the fixture family's last clone pair folded. Its `EVIDENCE:` freight carries the coordinates and cites the
+audit twins.
 
-Also: the harvest test's module doc corrected (it named a test that no longer exists and stated the
-superseded staleness cause), and a pointer + the insufficiency finding added to the scenario header. Net
-source delta: 1 new document, +11/−3 doc-comment-only in one `.rs`, +4 comment lines in one TOML. Zero
-dependency delta (`Cargo.lock` un-drifted, 562 packages).
+**Both boundary diagnostics ride this commit** — `.andromeda/runs/2026-09-14T18-23-25-evolve-diagnose/`
+(Epoch 1) and `.andromeda/runs/2026-09-14T18-51-54-code-audit/`, plus the 6th `code-metrics.ndjson` record.
 
 ## Drift resolved
-**3 amendments · 2 escalations resolved · drift = 0.** arch (2, one claim at two sites): §Occupied Resources
-gained the fifth `contracts/` bullet and §Infrastructure Patterns' tree comment moved four → five. obs-plan
-(1): §4's SCOPE clause retired its "would lift it" prediction for the measured premise correction and now
-points at the contract. Five docs returned `proposals: []`. **Cascade caught two stale leaves the master
-sweep alone would have missed** — `CLAUDE.md:14` and `.claude/docs/conventions.md:9`, both enumerating four
-members; the second cites the amended arch section in its own text, which is the 2026-08-23 measured case
-recurring. `security-plan.md:113` was read and correctly left: its row's subject is manifests *read at a
-fixed path*, which excludes a reader-less member — the same reason playbook `:100` could not govern.
+None detected and none possible — the 0-pending path runs no P2 fan-out. No master was edited and no
+amendment applied: the corrections below are about run-dir artifacts and the relay, not about any of the
+seven `.andromeda/` masters.
 
 ## Notes
-- **Two escalations, both resolved with the operator.** (1) The **measured-scalar playbook rule** was minted
-  as directed (45 → 46 rules): routine when a proposal moves only a measured-scalar literal and the report
-  carries its basis, escalate when it does not. Premise verified independently before drafting — the cited
-  origin record exists and says what the directive said, and no existing rule governs the class. (2) The
-  adjacent class (a master's stated MECHANISM falsified by measuring its named precondition *insufficient*,
-  rather than by that precondition occurring) was **DEFERRED at n=1**: `:149` was minted at n=1 only on an
-  explicit generator argument, and no equivalent generator exists here. Re-raise on recurrence.
-- **Operator-directed corruption repair landed before the fan-out**, so all seven doc-agents read clean
-  files: a 2026-09-07 read-modify-write had severed the previous entry's last line mid-token in
-  `layout-templates-amendments.md` and `a11y-plan-amendments.md`, parking each tail after the whole following
-  entry. Restored byte-exactly (rejoin, drop the orphan); diff exactly 1 added / 2 deleted per file.
-- **Curation: T1 0 · T2 1 · T3 1 · rejected 1.** The T2 write EXTENDS `host-win32.md`'s letter-colon-slash
-  entry with its **fourth** class — a host-path gate's own command text, whose alternation literals match
-  when an artifact *containing the gate* is swept (zero drive-letter runs; the shipped gate is unaffected,
-  it was the ad-hoc whole-folder sweep that pulled the plan's gate string into scope). The T3 entry covers a
-  measured scalar living in several artifacts needing one canonical rendering. The rejected candidate scored
-  0.2: `security.md`'s advisory-db rule is already correct — the wrap misapplied it by resolving `CARGO_HOME`
-  to a path this host does not use.
-- **recurrence-despite-learning:** I wrote the cascade sweep's basis into the architecture sidecar BEFORE
-  running the sweep; running it then found two stale leaves the text never named, and the entry was rewritten
-  to the measured result. CLAUDE.md's Tier-1 2026-08-21 entry states this rule and the previous session's
-  handoff records the same failure twice. Logged, not curated as a third entry.
-- **For the boundary session's diagnosis (operator-carried):** the audit-debt chunk's wrap `gates` evolve
-  record — and its friction sibling — was discarded by the operator's post-commit `reset --hard`
-  re-checkout. The checkpoint DID fire; that chunk reads wrap 4/5 for that reason alone, and **no retraction
-  can target it** (the records never reached the ledger, so there is no id to retract).
-- **`v3-08` stays BLOCKED and that is the honest close** — it needs a Pulse release emitting the contracted
-  observable. Its route entry (Epoch 4, `working-route.md:40`) now carries the contract's name, the two-case
-  rule, and the two things a re-drive must not do.
+- **Three dictated facts were falsified before the entry shipped** — each citation was resolved against the
+  artifact it named. (1) `quantile` was dictated at **11** survivors; the twin and the audit's own table
+  both carry **14**, and only 14 closes the "remaining 21 sit in `latency.rs`" arithmetic the same audit
+  sentence states (36 + 14 + 6 + 1 = 57). The audit's prose at `proposals.md:106`, repeated `:112`, is the
+  source of the 11. (2) The 11-line clone pair was cited to `c-duplication.json`; the string
+  `pii_payload_corpus` appears **nowhere** in that file — its `top` is the ten longest pairs with a 14 L
+  floor, so an 11 L pair is below the cut. Real home: `proposals.md:189`. (3) "the accessors under top"
+  holds for **1 of 3** — only `p95_ms` reaches the 20-row `top`; all three are in `full_candidates`, which
+  is what the 33 → 30 target actually depends on. The entry carries the measured values; the WHAT and
+  WHERE the operator directed are unchanged.
+- **The quantile correction is owed to the NEXT `code-metrics.ndjson` record's `corrections[]`**, per the
+  relay's own named channel — beside the already-queued commands-field correction. `proposals.md` was not
+  edited: a run-dir artifact is the record of its run.
+- **Scope caveat worth carrying:** every survivor count in the new entry is scoped to **shard 1/4**. The
+  other three `conductor-emit` shards are `budget-exhausted`, so the unit-wide figure is unmeasured — the
+  "57 → the roster's count" target must not be read as a unit-wide claim.
+- **Curation: T1 0 · T2 0 · T3 0 · extended 1 · rejected 1.** The extension amends the Tier-1 2026-08-21
+  entry in place with the facet it lacked: a pointer can RESOLVE — real file, real key — and still not
+  carry the claimed row, because a top-N view or a prose roll-up silently excluded it. Three instances this
+  session. The rejected candidate ("verify a dictated citation") is already Tier-1 and is *why* the
+  citations were checked — not logged as a recurrence, because the entry worked.
+- **Context confirmed from the relay:** the root `mutants.out/` and `target/mutants-*` dirs the audit
+  surfaced are gone (verified absent).
+- **`v3-08` stays BLOCKED** — unchanged; it needs a Pulse release emitting the contracted observable
+  (Epoch 4, now `working-route.md:42`).
+- **Still open from the previous session:** the n=1 **deferred escalation class** (a master's stated
+  mechanism falsified by measuring its named precondition *insufficient*) — re-raise on recurrence. And the
+  audit-debt chunk's discarded wrap `gates` evolve record, which no retraction can target.
 - **Last failed command:** none.

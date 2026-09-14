@@ -1,0 +1,22 @@
+{
+ "unit": "conductor-core",
+ "shard": "1/4",
+ "elapsed_s": 377.0,
+ "exit": 0,
+ "killed_at_cap": false,
+ "completion_state": "complete",
+ "command": "cargo mutants -p conductor-core --test-tool=nextest --jobs 2 --output D:/dev/projects/conductor/.andromeda/runs/2026-09-14T18-51-54-code-audit/mutants-conductor-core --shard 1/4",
+ "planned_from_mutants_json": 126,
+ "counts": {
+  "mutants": 126,
+  "caught": 126,
+  "missed": 0,
+  "timeout": 0,
+  "unviable": 0
+ },
+ "score": 100.0,
+ "score_formula": "caught/(caught+missed)  [timeout and unviable excluded]",
+ "survivors": [],
+ "unit_state": "complete (126/126 tested) of the unit — shard 1/4",
+ "survivors_source": "mutants.out/missed.txt, row count asserted == counts.missed from outcomes.json"
+}

@@ -1,0 +1,1953 @@
+{
+ "epoch": "Epoch 1 - Foundation: the measurements the closures rest on",
+ "step_runs": {
+  "new-session/orientation": 7,
+  "phase/take-up": 5,
+  "phase/distill": 5,
+  "phase/research": 5,
+  "phase/plan": 5,
+  "phase/validate": 5,
+  "implement/code": 7,
+  "implement/fix-loop": 8,
+  "implement/smoke": 5,
+  "wrap-session/report": 5,
+  "wrap-session/reconcile": 5,
+  "wrap-session/curation": 6,
+  "wrap-session/route-resolve": 6,
+  "wrap-session/gates": 4
+ },
+ "groups": [
+  {
+   "scope": "TYPE-ALONE",
+   "type": "tooling.host-shell",
+   "n": 10,
+   "weight": 16,
+   "rank": 160,
+   "impact": {
+    "extra_reads": 5,
+    "retries": 6
+   },
+   "halt_impact": 0,
+   "denominator": 78,
+   "rate": 0.128,
+   "chunks": [
+    "2026-09-11-hosted-runner-endpoint-cause-closed",
+    "2026-09-11-hosted-runner-endpoint-cause-probed",
+    "2026-09-12-ledger-gate-id-space-generalised",
+    "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+    "2026-09-13-p-025-measurement-contract-for-pulse",
+    "null"
+   ],
+   "steps": [
+    "implement/code",
+    "implement/fix-loop",
+    "new-session/orientation",
+    "phase/distill",
+    "phase/research",
+    "phase/take-up",
+    "phase/validate"
+   ],
+   "above_threshold": true,
+   "cases": [
+    {
+     "id": "2026-09-11T09:40:57Z-b",
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+     "step": "phase/validate",
+     "what": "Read $? from a piped command during the check-7 gitignore probe — git check-ignore -v PATH | head -2; echo exit=$? reported head's 0, which reads as IGNORED, when the bare command returns 1 meaning NOT ignored. The wrong reading would have passed check 7 over two redirect targets sitting in the committed evidence dir. Re-measured bare with -q and the true answer inverted the finding. The host rule file documents this exact trap under Exit codes",
+     "impact": {
+      "extra_reads": 1
+     },
+     "artifacts": [
+      ".claude/rules/host-win32.md",
+      "conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-probed/plan.md"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-11T09:44:21Z-c",
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+     "step": "implement/code",
+     "what": "The first attempt at this very checkpoint used the heredoc JSON form and died with json.decoder.JSONDecodeError Invalid \\escape at char 2060, because two record values carry Windows backslashes ([A-Za-z]:[\\/] and HKLM:\\). evolve-system.md REQUIRES the python-dict form with raw literals whenever any value carries a backslash; the validated append refused the payload rather than landing a malformed line, and nothing was written",
+     "impact": {
+      "retries": 1
+     },
+     "artifacts": [
+      ".andromeda/friction-log.ndjson"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-11T16:24:40Z-c",
+     "chunk": null,
+     "step": "new-session/orientation",
+     "what": "a 14-marker completeness enumeration was piped through sort|uniq -c|head -5, truncating the output to 5 rows and leaving the 14-member claim uncitable; re-run bare with an aggregate miss-counter",
+     "impact": {
+      "extra_reads": 1
+     },
+     "artifacts": [
+      ".andromeda/master-route.md"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-11T21:36:29Z-d",
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+     "step": "implement/code",
+     "what": "two host traps fired in one pass, both already documented in the corpus: an MSYS path (/c/Users/...) handed to a Windows-native python raised FileNotFoundError until rewritten as C:/Users/...; and `grep -oE` with `[^\r]*` clipped every match at the letter r (a bracket expression reads \r as literal r), silently truncating eleven readings until the hits were printed in full.",
+     "impact": {
+      "extra_reads": 2
+     },
+     "artifacts": [
+      ".claude/rules/host-win32.md"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-12T10:05:33Z-c",
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+     "step": "implement/fix-loop",
+     "what": "runs/a11y-e2e.log is UTF-16 with a BOM (written by a PowerShell redirect), so a plain grep for msedgedriver/session/DevToolsActivePort returned ZERO hits on a file that plainly contains all three; a zero here would have read as \"the leg never got that far\". Caught because an empty result on a 3956-byte capture was implausible, and resolved by decoding before reading.",
+     "impact": {
+      "extra_reads": 1
+     },
+     "artifacts": [
+      "runs/a11y-e2e.log"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-12T12:59:07Z-b",
+     "chunk": "2026-09-12-ledger-gate-id-space-generalised",
+     "step": "phase/research",
+     "what": "an inline python -c probe reading the graph trace used a backslash inside a quoted split to take a path basename; the shell consumed the escape and python raised SyntaxError unterminated string literal. Re-run as a quoted heredoc using os.path.basename, which succeeded first try — the host rule already prescribes the heredoc for any quote-bearing probe.",
+     "impact": {
+      "retries": 1
+     },
+     "artifacts": [
+      ".claude/rules/host-win32.md"
+     ],
+     "evidence": ".andromeda/runs/2026-09-12T10-52-00-phase/tree-query-2026-09-12-ledger-gate-id-space-generalised.json",
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-13T17:47:09Z-b",
+     "chunk": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+     "step": "phase/distill",
+     "what": "A cat-heredoc with a file target was used to persist the entity-decode script; the host's PreToolUse guard blocked it, costing one redo cycle before the documented scratchpad-file-run-by-path form was used.",
+     "impact": {
+      "retries": 1
+     },
+     "artifacts": [
+      ".claude/rules/host-win32.md"
+     ],
+     "evidence": ".andromeda/runs/2026-09-13T17-30-00-phase/",
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-13T17:47:09Z-c",
+     "chunk": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+     "step": "phase/distill",
+     "what": "Python's default text-mode write translated LF to CRLF while saving the decoded extracts, so a11y's saved copy differed from its raw twin by 41 line endings with zero entities decoded — the fan-out twin rule keys on raw != saved, so it would have kept a duplicate twin and recorded a11y as decoded. Caught by the byte compare contradicting the script's own decoded=False.",
+     "impact": {
+      "retries": 1
+     },
+     "artifacts": [
+      ".andromeda/runs/2026-09-13T17-30-00-phase/a11y.md"
+     ],
+     "evidence": "cmp .raw-a11y.md a11y.md differed at +41 bytes over 41 lines",
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-13T17:53:55Z-c",
+     "chunk": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+     "step": "phase/research",
+     "what": "$TMPDIR is unset in the Bash tool's shell, so 'cargo check > $TMPDIR/emit_check.txt' wrote to /emit_check.txt and failed with permission denied, discarding the command's output; the bare exit code then read 1 for the redirect failure rather than for the build. Re-run with an explicit scratchpad path returned exit 0.",
+     "impact": {
+      "retries": 1
+     },
+     "artifacts": [
+      ".claude/rules/host-win32.md"
+     ],
+     "evidence": "third tooling.host-shell event in this phase run",
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-13T23:03:35Z-b",
+     "chunk": "2026-09-13-p-025-measurement-contract-for-pulse",
+     "step": "phase/take-up",
+     "what": "a text-mode python append wrote the host terminator into the LF-pinned friction ledger: the file opened without newline='' translated the record's \n to \r\n, taking a 2003-line all-LF file to w/mixed on its first append after the repo-wide .gitattributes LF pin and the operator's re-checkout",
+     "impact": {
+      "retries": 1
+     },
+     "artifacts": [
+      ".andromeda/friction-log.ndjson"
+     ],
+     "evidence": "git ls-files --eol reported i/lf w/mixed; od -c showed the single trailing \r\n; repaired byte-precisely (1 CRLF occurrence, file-final) and re-measured w/lf with git diff --stat showing 1 insertion and no terminator churn on prior lines",
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "phase/validate",
+   "type": "contract.mechanical-check",
+   "n": 7,
+   "weight": 14,
+   "rank": 98,
+   "impact": {
+    "iterations": 7
+   },
+   "halt_impact": 0,
+   "denominator": 5,
+   "rate": 1.4,
+   "chunks": [
+    "2026-09-11-hosted-runner-endpoint-cause-closed",
+    "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+    "2026-09-13-p-025-measurement-contract-for-pulse"
+   ],
+   "steps": [
+    "phase/validate"
+   ],
+   "above_threshold": true,
+   "cases": [
+    {
+     "id": "2026-09-11T18:41:57Z-b",
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+     "step": "phase/validate",
+     "what": "the gate fence failed check 4(0) once during authoring: a baseline value was written as a TOML LITERAL string containing an escaped apostrophe, and literal strings support no escapes, so the string terminated early — the plan-template states this rule verbatim (\"a prose key holding a ’ is a basic string\") and it was still authored wrong; caught by the re-parse and fixed to a basic string",
+     "impact": {
+      "iterations": 1
+     },
+     "artifacts": [
+      "conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-closed/plan.md"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-13T18:26:53Z-b",
+     "chunk": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+     "step": "phase/validate",
+     "what": "Check 4(4) required resolution: two acceptance criteria asserted the runtime artifacts caught.txt and missed.txt while no gate entry carried an artifact key. Resolved by adding artifact = target/mutation-gate/ to both mutation-gate entries and stabilising the per-run leaf one level below that parent.",
+     "impact": {
+      "iterations": 1
+     },
+     "artifacts": [
+      "conductor-0.3.0/chunks/2026-09-13-audit-debt-retired-before-epoch-1-closes/plan.md"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-13T18:26:53Z-c",
+     "chunk": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+     "step": "phase/validate",
+     "what": "Check 4(9) required resolution: the NEW rustdoc entry baselined RED at HEAD (exit 101) on five pre-existing private_intra_doc_links errors in conductor-emit (exception.rs:70/:155/:158 x2, pii.rs:102), none touching conductor_core — a gate the chunk would have inherited. The authoring pass had assumed -D warnings was clean because a sibling chunk used that form against a different crate.",
+     "impact": {
+      "iterations": 1
+     },
+     "artifacts": [
+      "crates/conductor-emit/src/exception.rs",
+      "crates/conductor-emit/src/pii.rs"
+     ],
+     "evidence": "baseline run recorded in .andromeda/runs/2026-09-13T17-30-00-phase/",
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-13T18:26:53Z-d",
+     "chunk": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+     "step": "phase/validate",
+     "what": "A plan defect no mechanical predicate attempts, caught by the operator at review: step 3 prescribed a #[cfg(test)] pin for ContractManifest::default_path, which kills the mutant but leaves an unused pub fn the next audit still counts as a zero-reference candidate. No check inspects whether a kill's DISPOSITION KIND is right. Settled on the seam — conductor-cli does not depend on conductor-verify, so the accessor can never gain a production caller — and the disposition became removal.",
+     "impact": {
+      "iterations": 1
+     },
+     "artifacts": [
+      "crates/conductor-verify/src/manifest.rs",
+      "crates/conductor-cli/src/paths.rs"
+     ],
+     "evidence": "conductor-cli Cargo.toml [dependencies]: conductor-core, conductor-report, conductor-run",
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-13T18:26:53Z-e",
+     "chunk": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+     "step": "phase/validate",
+     "what": "A second plan defect no predicate attempts, caught by the operator at review: scripts/mutation-roster.toml and test-plan §12 were two copies of one set with nothing comparing them, so a wrap amending one would diverge silently. Resolved by making the roster coordinate-FREE — it matches missed.txt on (file, mutation) and drops line:col, the only field both copies carried and the only one that drifts — joined to §12 by a member id.",
+     "impact": {
+      "iterations": 1
+     },
+     "artifacts": [
+      "conductor-0.3.0/chunks/2026-09-13-audit-debt-retired-before-epoch-1-closes/plan.md"
+     ],
+     "evidence": "witness: 2026-09-03 evidence quotes commands.rs:263:8 delete ! in start_run; :263 is today's :273, the description unchanged",
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-14T15:51:58Z-b",
+     "chunk": "2026-09-13-p-025-measurement-contract-for-pulse",
+     "step": "phase/validate",
+     "what": "the plan framed the contract's start instant as a value Pulse must MINT on ServiceListItem and left the effective-at rule unstated; the operator's review supplied the backend source that already holds it (the tier-computing resolver, which has the incident records in hand) so the ask is to EXPOSE not mint, and flagged that an unstated rule fails v3-07's own implementable-without-a-follow-up-question qualifier - no mechanical predicate attempts either property",
+     "impact": {
+      "iterations": 1
+     },
+     "artifacts": [
+      "conductor-0.3.0/chunks/2026-09-13-p-025-measurement-contract-for-pulse/plan.md"
+     ],
+     "evidence": "plan step 4 rewritten with the source named and the rule closed at two cases; research.md gained a P5 addendum deriving that an incident priority_tier is immutable after opening, so the escalation arm the review hypothesised does not exist",
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-14T15:51:58Z-c",
+     "chunk": "2026-09-13-p-025-measurement-contract-for-pulse",
+     "step": "phase/validate",
+     "what": "one measured value carried three renderings across committed artifacts and the plan added the only wrong one - a truncation at the decimal rather than a round, where the fixture holds the raw value and both the harvest module doc and the capability observed_gap already agreed on the rounded form; caught by the operator's review, and no mechanical predicate compares a number across artifacts",
+     "impact": {
+      "iterations": 1
+     },
+     "artifacts": [
+      "conductor-0.3.0/chunks/2026-09-13-p-025-measurement-contract-for-pulse/plan.md",
+      "conductor-0.3.0/chunks/2026-09-13-p-025-measurement-contract-for-pulse/scope.md"
+     ],
+     "evidence": "all four artifacts now agree on the rounded form, with the raw value cited once at its fixture anchor; the wrong form is spelled in none of them so a reader grepping the number set finds one form",
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "TYPE-ALONE",
+   "type": "contract.token-proxy-check",
+   "n": 7,
+   "weight": 9,
+   "rank": 63,
+   "impact": {
+    "extra_reads": 4,
+    "iterations": 2,
+    "dialogue_rounds": 0
+   },
+   "halt_impact": 0,
+   "denominator": 78,
+   "rate": 0.09,
+   "chunks": [
+    "2026-09-11-hosted-runner-endpoint-cause-closed",
+    "2026-09-11-hosted-runner-endpoint-cause-probed",
+    "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+    "2026-09-13-p-025-measurement-contract-for-pulse",
+    "null"
+   ],
+   "steps": [
+    "implement/code",
+    "implement/fix-loop",
+    "new-session/orientation",
+    "phase/research",
+    "phase/validate",
+    "wrap-session/gates"
+   ],
+   "above_threshold": true,
+   "cases": [
+    {
+     "id": "2026-09-11T07:55:11Z-b",
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+     "step": "phase/research",
+     "what": "Twice in one step a probe tested a TOKEN as a proxy for the property and would have returned a false NEGATIVE: grep -rln 'journal_conformance' crates/ missed crates/conductor-run/tests/journal_conformance.rs because a test file need not contain its own name, resolved by find -name; and a registration probe keyed on the backticked form `TEMP` would have reported an absence that a wider pattern had to confirm. Direction false-negative in both; the truth came from re-probing with a form the target could actually satisfy",
+     "impact": {
+      "extra_reads": 2
+     },
+     "artifacts": [
+      "crates/conductor-run/tests/journal_conformance.rs",
+      ".andromeda/architecture.md"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-11T09:44:21Z-b",
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+     "step": "implement/code",
+     "what": "The host-path hygiene gate authored at phase P5 keys on [A-Za-z]:[\\/] as a proxy for an absolute host path, and that pattern is also satisfied by the PowerShell registry provider form HKLM:\\SOFTWARE\\... — so a reading quoting the probed keys verbatim would have reported a host-path leak that is not one. Would-be FALSE POSITIVE, found while writing the probe rather than at the gate; resolved by reporting keys in the colon-free reg.exe form, not by loosening the pattern",
+     "impact": {},
+     "artifacts": [
+      "scripts/webview2-cause-probe.ps1",
+      "conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-probed/plan.md"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-12T10:05:33Z-b",
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+     "step": "implement/fix-loop",
+     "what": "the committed-reading hygiene gate fired twice on content that is not a host path: first on the quoted URL scheme in two log lines (the drive-letter anchor [A-Za-z]:[/] is satisfied by scheme+colon+slash, the same shape as the registry provider prefix the probe already renders around), then AGAIN on the prose I wrote explaining that false positive, because the explanation contained the literal offenders. Direction: FALSE POSITIVE both times. Resolved by fixing the OUTPUT twice — eliding the scheme from the quotes with the elision stated, then rewording the explanation to describe the tokens instead of spelling them — never by loosening the anchor.",
+     "impact": {
+      "iterations": 2
+     },
+     "artifacts": [
+      "conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-closed/evidence/reading.md"
+     ],
+     "evidence": "grep -cE over reading.md: 2 -> 2 -> 0",
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-13T16:51:40Z-a",
+     "chunk": null,
+     "step": "new-session/orientation",
+     "what": "Working-route structural parse tested for asterisk-delimited italics while the file writes its preamble underscore-delimited, so preamble lines 3-8 classified as ENTRY and the cursor resolved to line 3 instead of line 17; direction was a false MARKERLESS, and the truth came from reading the labelled hits the parse itself printed.",
+     "impact": {
+      "extra_reads": 1
+     },
+     "artifacts": [
+      "conductor-0.3.0/working-route.md:3"
+     ],
+     "evidence": "new-session P1 structural parse, this session trace",
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-13T16:51:40Z-b",
+     "chunk": null,
+     "step": "new-session/orientation",
+     "what": "Master-route record sweep guessed a bullet-list prefix where records are BARE lines, returning 0 rows - a false EMPTY reading as 'this version has no records'; the status tally in the same call returned 124 complete, which is what exposed it before it reached the dashboard.",
+     "impact": {
+      "extra_reads": 1
+     },
+     "artifacts": [
+      ".andromeda/master-route.md:136"
+     ],
+     "evidence": "new-session P1 position derivation, this session trace",
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-13T18:26:53Z-f",
+     "chunk": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+     "step": "phase/validate",
+     "what": "My check-5 probe for placeholder leaks matched the regex {[a-z_]*} and returned 7 hits, every one deliberate parameter notation inside code spans ({unit}, {output}, {n}, {run_id}, {crate}) rather than an unsubstituted template placeholder. FALSE-POSITIVE direction; the truth came from reading the hits, not from refining the pattern. The documented check is a predicate over non-code text, which the probe did not encode.",
+     "impact": {},
+     "artifacts": [
+      "conductor-0.3.0/chunks/2026-09-13-audit-debt-retired-before-epoch-1-closes/plan.md"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-14T18:07:41Z-b",
+     "chunk": "2026-09-13-p-025-measurement-contract-for-pulse",
+     "step": "wrap-session/gates",
+     "what": "the evolve nudge's suppression test compares the epoch LABEL TOKEN only, and that token is NOT unique across versions: this version's Epoch 1 is undiagnosed, yet a diagnosis titled for the PREVIOUS version's Epoch 1 matches the comparison and would suppress the nudge by the rule's letter - a false negative, the direction that silently withholds a signal",
+     "impact": {
+      "dialogue_rounds": 0
+     },
+     "artifacts": [
+      ".andromeda/runs/2026-08-10T16-30-17-evolve-diagnose/proposals.md"
+     ],
+     "evidence": "that run's title line names conductor-0.2.0 Epoch 1 Foundation: re-aim at the SUT, while the epoch that just closed is conductor-0.3.0's Epoch 1 Foundation: the measurements the closures rest on, carrying 158 undiagnosed records (81 friction, 77 step). The truth came from reading the title line rather than trusting the token match; the nudge was reported WITH the collision named rather than suppressed",
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "TYPE-ALONE",
+   "type": "contract.narrow-basis-claim",
+   "n": 6,
+   "weight": 7,
+   "rank": 42,
+   "impact": {
+    "extra_reads": 16,
+    "retries": 1
+   },
+   "halt_impact": 0,
+   "denominator": 78,
+   "rate": 0.077,
+   "chunks": [
+    "2026-09-11-hosted-runner-endpoint-cause-closed",
+    "2026-09-12-ledger-gate-id-space-generalised",
+    "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+    "2026-09-13-p-025-measurement-contract-for-pulse",
+    "null"
+   ],
+   "steps": [
+    "implement/fix-loop",
+    "phase/take-up",
+    "wrap-session/reconcile",
+    "wrap-session/report",
+    "wrap-session/route-resolve"
+   ],
+   "above_threshold": true,
+   "cases": [
+    {
+     "id": "2026-09-12T10:20:14Z-b",
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+     "step": "wrap-session/report",
+     "what": "the report first asserted a SOLE owner for each expected amendment (\"the same grep over the other six masters -> 0 hits\") on a basis that had never been run; re-deriving across all seven masters found a co-owner for BOTH — architecture.md:205 also states the always-latest float, and test-plan.md:469 restates both the 0.645 s no-reading fact and the \"difference and not a demonstrated cause\" clause. Caught at the template’s re-derive-before-fanout step, before the detectors read it.",
+     "impact": {
+      "extra_reads": 2
+     },
+     "artifacts": [
+      "conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-closed/report.md"
+     ],
+     "evidence": "grep -c 'always-latest' and '0.645' and 'demonstrated cause' across the seven masters",
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-12T12:47:16Z-b",
+     "chunk": "2026-09-12-ledger-gate-id-space-generalised",
+     "step": "phase/take-up",
+     "what": "the directive supplied a grep basis explicitly so the plan could cite it rather than re-derive it, stating seven literals plus the :208 assertion as the whole surface; the pattern anchors the token to a preceding double-quote, so a bare token sweep of the same file returned 13 lines against the pattern's 11 — the two missed being a provenance citation and, decisively, the fixture INPUT at :218 that drives the assertion on the function under repair. The conclusion the basis supported (the class is one file) re-verified true by bare per-path counts.",
+     "impact": {
+      "extra_reads": 2
+     },
+     "artifacts": [
+      "crates/conductor-report/tests/matrix_ledger_gate.rs:218",
+      "crates/conductor-report/tests/matrix_ledger_gate.rs:2"
+     ],
+     "evidence": "conductor-0.3.0/chunks/2026-09-12-ledger-gate-id-space-generalised/scope.md",
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-13T16:58:00Z-a",
+     "chunk": null,
+     "step": "wrap-session/route-resolve",
+     "what": "The adaptation directive stated the entry's freight was 'all in the 6b audit run dir, nothing to re-derive here', and its hygiene coordinate read 'the crate's only reference is an intra-doc link at conductor-emit/src/error.rs:5'. Re-derivation found the claim true only for RESOLVABLE references: grepping the crate name under conductor-emit/src returns three hits - error.rs:5 is the intra-doc link, latency.rs:8 and topology.rs:21 name it in prose backticks and resolve to nothing. Freight was authored to the measured three so a take-up grep confirms it rather than contradicting it.",
+     "impact": {
+      "extra_reads": 6
+     },
+     "artifacts": [
+      "conductor-0.3.0/working-route.md:17",
+      "crates/conductor-emit/src/error.rs:5",
+      "crates/conductor-emit/src/latency.rs:8",
+      "crates/conductor-emit/src/topology.rs:21"
+     ],
+     "evidence": ".andromeda/runs/2026-09-13T16-53-33-wrap/adaptation-record.md",
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-13T19:22:21Z-b",
+     "chunk": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+     "step": "wrap-session/report",
+     "what": "Four bases were written into the report's Expected-amendments bullets as if measured, without the commands having been run: the §12 locating grep (a pattern never executed), llvm-cov hits in ci.yml stated 4 vs measured 6, conductor-verify/tests/common in test-plan stated 1 vs measured 2, and 'gitattributes' master hits stated 2 vs measured 3. The last inverted an ownership claim ('0 hits in the other six masters'), which was false — test-plan.md:80 mentions the file. All four were caught by the report template's own re-derive-before-the-fan-out instruction, before any detector read them.",
+     "impact": {
+      "extra_reads": 4
+     },
+     "artifacts": [
+      "conductor-0.3.0/chunks/2026-09-13-audit-debt-retired-before-epoch-1-closes/report.md"
+     ],
+     "evidence": "corrected in-place at P1; the detectors read only the corrected bullets",
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-13T19:43:26Z-d",
+     "chunk": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+     "step": "wrap-session/reconcile",
+     "what": "My own arch sidecar claimed a sweep returning 0 for 'every other crate depends on' before the lateral test-plan fix had landed, and omitted the CLAUDE.md:21 distillation hit. Running the claimed sweep found 1 master hit (test-plan.md:29, amended in the same pass) and 1 distillation hit inside GENERATED:setup:modules (cascade territory). Both were corrected in the sidecar before the pass closed. Second instance this session of writing a sweep result before running it.",
+     "impact": {
+      "extra_reads": 2
+     },
+     "artifacts": [
+      ".andromeda/architecture-amendments.md"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-14T15:59:39Z-b",
+     "chunk": "2026-09-13-p-025-measurement-contract-for-pulse",
+     "step": "implement/fix-loop",
+     "what": "reported the advisory-database local copy clean from the wrong copy - probed a path under the user profile while CARGO_HOME points elsewhere on this host, so the 0-porcelain reading described a directory cargo audit does not read; corrected by taking the path from cargo audit's own output line, where the real copy also measured 0 porcelain lines",
+     "impact": {
+      "retries": 1
+     },
+     "artifacts": [
+      "contracts/pulse-p025-measurement-contract.md"
+     ],
+     "evidence": "the standing corrected rule requires reading the copy the gate actually reads; the gate was green so nothing rested on the claim, but the basis was wrong for one turn and would have passed unnoticed had the audit been red",
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "wrap-session/reconcile",
+   "type": "ambiguity.playbook-no-match",
+   "n": 3,
+   "weight": 5,
+   "rank": 15,
+   "impact": {
+    "extra_reads": 1,
+    "dialogue_rounds": 1
+   },
+   "halt_impact": 0,
+   "denominator": 5,
+   "rate": 0.6,
+   "chunks": [
+    "2026-09-11-hosted-runner-endpoint-cause-closed",
+    "2026-09-11-hosted-runner-endpoint-cause-probed",
+    "2026-09-13-audit-debt-retired-before-epoch-1-closes"
+   ],
+   "steps": [
+    "wrap-session/reconcile"
+   ],
+   "above_threshold": true,
+   "cases": [
+    {
+     "id": "2026-09-11T12:47:30Z-c",
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+     "step": "wrap-session/reconcile",
+     "what": "The directory-tree proposal (scripts/ gains the probe script) matched no playbook rule. The nearest, :49, dismisses per-item content inside an already-registered directory — but its load-bearing qualifier fails here: that rule's own reasoning scopes it to a directory arch tracks at DIRECTORY grain holding config CONTENT, while scripts/ is tracked at per-FILE grain (the tree names agent-run.sh explicitly) and the new file is an executable entry point. Resolved on the no-match-not-surprising branch rather than escalated, the plan having anticipated it and the report substantiating it; testing the qualifier cost one full read of the rule",
+     "impact": {
+      "extra_reads": 1
+     },
+     "artifacts": [
+      ".andromeda/playbook.md",
+      ".andromeda/architecture.md"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-12T10:50:00Z-b",
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+     "step": "wrap-session/reconcile",
+     "what": "7 of 10 proposals (amendment 1) matched NO playbook rule: :149 is the only candidate and fails clause (a) DIRECTNESS, because both primaries name their retire-condition explicitly (\"once the a11y job actually GATES\") and it is measurably unmet — A11y job `failure` at run 34654076633, DevToolsActivePort never seen — while the posture changed because the probe’s SUBJECT moved, which clause (a) excludes as the same subject reached by another route. Escalated; resolved by the operator’s wrap directive item 3. No rule proposed: routinising a posture change whose own retire-condition is unmet is the precedent-widening the escalate branch exists to prevent.",
+     "impact": {
+      "dialogue_rounds": 0
+     },
+     "artifacts": [
+      ".andromeda/playbook.md",
+      ".andromeda/security-plan.md",
+      ".andromeda/architecture.md"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-13T19:43:26Z-c",
+     "chunk": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+     "step": "wrap-session/reconcile",
+     "what": "The §12 coordinate-identity retirement (5 proposals) matched no playbook rule. :127 was tested and correctly failed its SECOND qualifier — it requires BOTH de-literalization qualifiers to fail, and prior wraps had already substituted fresh literals that re-staled (2026-09-04, 2026-09-05), so that qualifier holds rather than fails. Escalated by unease and resolved with the operator; no rule proposed, since a one-time form change is not a recurring class.",
+     "impact": {
+      "dialogue_rounds": 1
+     },
+     "artifacts": [
+      ".andromeda/playbook.md",
+      ".andromeda/test-plan.md"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "TYPE-ALONE",
+   "type": "recall.corpus-recurrence",
+   "n": 3,
+   "weight": 4,
+   "rank": 12,
+   "impact": {
+    "extra_reads": 6,
+    "retries": 1
+   },
+   "halt_impact": 0,
+   "denominator": 78,
+   "rate": 0.038,
+   "chunks": [
+    "2026-09-11-hosted-runner-endpoint-cause-probed",
+    "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+    "2026-09-13-p-025-measurement-contract-for-pulse"
+   ],
+   "steps": [
+    "wrap-session/curation",
+    "wrap-session/reconcile"
+   ],
+   "above_threshold": true,
+   "cases": [
+    {
+     "id": "2026-09-11T12:50:13Z-c",
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+     "step": "wrap-session/curation",
+     "what": "THREE session findings deduped against entries that already state the rule correctly, so no copy was minted: (1) the evolve heredoc append died on Invalid-escape over backslash-bearing values, which evolve-system.md already REQUIRES the python-dict raw-literal form for; (2) the report named a spec master as an Expected-amendment owner with zero hits in it, which the report template already bans in those words; (3) a -o pattern clipped its matches and a raw count was misread before the hits were printed, which CLAUDE.md and host-win32.md both already cover. Each is the entry failing to prevent its own recurrence, not a gap in the corpus — logged to the handoff, deliberately not re-curated",
+     "impact": {},
+     "artifacts": [
+      ".claude/rules/host-win32.md",
+      "CLAUDE.md"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-13T19:44:37Z-b",
+     "chunk": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+     "step": "wrap-session/curation",
+     "what": "I wrote a sweep result into an artifact before running it, twice in one session — four false bases in the P1 report's Expected-amendments bullets, then a premature 0-hit claim in the arch sidecar. CLAUDE.md's Tier-1 2026-08-21 entry states this rule ('after any generated or scripted write, read back the thing you meant to change and assert on it'), and the narrow-basis family states it again; the corpus entry did not prevent the recurrence. Both were caught by the pipeline's own re-derive steps (the report template's re-derive-before-fan-out, and the sidecar's caught-ALL check) rather than by recall.",
+     "impact": {
+      "extra_reads": 6
+     },
+     "artifacts": [
+      "CLAUDE.md",
+      "conductor-0.3.0/chunks/2026-09-13-audit-debt-retired-before-epoch-1-closes/report.md",
+      ".andromeda/architecture-amendments.md"
+     ],
+     "evidence": "logged to the handoff as recurrence-despite-learning rather than curated as a third entry",
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-14T17:58:29Z-b",
+     "chunk": "2026-09-13-p-025-measurement-contract-for-pulse",
+     "step": "wrap-session/reconcile",
+     "what": "wrote the cascade sweep's basis into the architecture sidecar entry BEFORE running the sweep; running it then contradicted the text - it found two STALE leaf sites the entry never named (CLAUDE.md:14, conventions.md:9) and a security-plan row the entry omitted from its dispositions - and the entry was rewritten to the measured result",
+     "impact": {
+      "retries": 1
+     },
+     "artifacts": [
+      ".andromeda/architecture-amendments.md"
+     ],
+     "evidence": "CLAUDE.md's Tier-1 2026-08-21 entry states this rule and the immediately preceding session's handoff records the same failure twice under recurrence-despite-learning; caught here by the amendment-flow's own instruction that the sweep pattern set is derived AFTER the last amendment is authored",
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "implement/fix-loop",
+   "type": "tooling.gate-deferral",
+   "n": 2,
+   "weight": 5,
+   "rank": 10,
+   "impact": {
+    "deferred": 1,
+    "soft_exit": 1
+   },
+   "halt_impact": 1,
+   "denominator": 8,
+   "rate": 0.25,
+   "chunks": [
+    "2026-09-11-hosted-runner-endpoint-cause-closed",
+    "2026-09-11-hosted-runner-endpoint-cause-probed"
+   ],
+   "steps": [
+    "implement/fix-loop"
+   ],
+   "above_threshold": true,
+   "cases": [
+    {
+     "id": "2026-09-11T10:22:17Z-c",
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+     "step": "implement/fix-loop",
+     "what": "The workspace unit gate (cargo nextest run --workspace --profile ci) was deferred under the source-delta-proportional rule. The plan carried the defer key and its reason was re-verified against P1's actual diff before honouring it: the diff is the workflow file, one new PowerShell script and bookkeeping, with zero .rs, Cargo.toml, Cargo.lock or toolchain delta. Every changed-surface gate ran",
+     "impact": {
+      "deferred": 1
+     },
+     "artifacts": [
+      "conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-probed/plan.md"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-11T18:48:43Z-b",
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+     "step": "implement/fix-loop",
+     "what": "the rust gate the PREREQ discharged is RED on a defect that landed in the SAME commit as the deferral that hid it: b3b51e6 added conductor-0.3.0/{requirements.md,verification-matrix.json} while deferring `cargo nextest --workspace` for zero .rs delta, and matrix_ledger_gate.rs:49 filters requirement ids by a baked `v2-` prefix, so the newly-scanned 0.3.0 dir yields an empty required-set and the gate’s own anti-vacuity assert fires. 906 tests run, 905 passed, 1 failed. The source-delta rule defines delta as the language’s manifests/lockfile/build scripts/codegen inputs/toolchain pin — it does NOT cover DATA FILES A TEST READS, which is exactly what moved this verdict with zero .rs edits.",
+     "impact": {
+      "soft_exit": 1
+     },
+     "artifacts": [
+      "crates/conductor-report/tests/matrix_ledger_gate.rs:49",
+      "conductor-0.3.0/requirements.md"
+     ],
+     "evidence": "906 tests run: 905 passed, 1 failed (cargo nextest run --workspace --profile ci --no-fail-fast)",
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "TYPE-ALONE",
+   "type": "contract.premise-falsified",
+   "n": 3,
+   "weight": 3,
+   "rank": 9,
+   "impact": {
+    "extra_reads": 9
+   },
+   "halt_impact": 0,
+   "denominator": 78,
+   "rate": 0.038,
+   "chunks": [
+    "2026-09-11-hosted-runner-endpoint-cause-closed",
+    "2026-09-13-audit-debt-retired-before-epoch-1-closes"
+   ],
+   "steps": [
+    "phase/research",
+    "phase/take-up"
+   ],
+   "above_threshold": true,
+   "cases": [
+    {
+     "id": "2026-09-11T18:23:01Z-b",
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+     "step": "phase/research",
+     "what": "scope asserted the probe’s completion marker is asserted by a committed gate; grep over *.yml *.ps1 *.sh *.ts *.rs returns exactly one hit, the emit site itself — the only assertion ever written is a [[gate]] entry in the PREDECESSOR chunk’s plan fence, which is per-chunk and not re-run here, so no standing contract exists and the marker’s arity is this chunk’s to choose",
+     "impact": {
+      "extra_reads": 0
+     },
+     "artifacts": [
+      "conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-closed/scope.md",
+      "scripts/webview2-cause-probe.ps1"
+     ],
+     "evidence": "conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-closed/research.md",
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-13T17:37:05Z-b",
+     "chunk": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+     "step": "phase/take-up",
+     "what": "The phase directive and the working entry classed 12 of the 17 non-stub mutation survivors as holes or ratify-by-class CANDIDATES; test-plan.md §12's five-member accepted-deliberate roster already covers all 12 as RATIFIED members with cited rules and citation homes, matched by function+column per §12's own re-pointing discipline. The true split is 5 unowned / 12 already-ratified, not 12/5.",
+     "impact": {
+      "extra_reads": 6
+     },
+     "artifacts": [
+      ".andromeda/test-plan.md:609-613",
+      "conductor-0.3.0/working-route.md:17"
+     ],
+     "evidence": "conductor-0.3.0/chunks/2026-09-13-audit-debt-retired-before-epoch-1-closes/scope.md",
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-13T17:37:05Z-c",
+     "chunk": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+     "step": "phase/take-up",
+     "what": "The entry's stated outcome 'survivors 25 -> <= 8' is unreachable by this project's own gate mechanism: .claude/rules/testing.md:19 requires missed.txt to hold EXACTLY the accepted-deliberate survivors 'since such a survivor by construction survives', and the workspace ships no mutants.toml and no mutants::skip attribute (cargo-mutants 27.1.0), so the 12 ratified members stay counted. Best reachable outcome is 25 -> 20.",
+     "impact": {
+      "extra_reads": 3
+     },
+     "artifacts": [
+      ".claude/rules/testing.md:19",
+      "conductor-0.3.0/working-route.md:17"
+     ],
+     "evidence": "conductor-0.3.0/chunks/2026-09-13-audit-debt-retired-before-epoch-1-closes/scope.md",
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "phase/plan",
+   "type": "input.extracts-conflict",
+   "n": 2,
+   "weight": 4,
+   "rank": 8,
+   "impact": {
+    "dialogue_rounds": 1,
+    "iterations": 0
+   },
+   "halt_impact": 0,
+   "denominator": 5,
+   "rate": 0.4,
+   "chunks": [
+    "2026-09-11-hosted-runner-endpoint-cause-probed",
+    "2026-09-12-ledger-gate-id-space-generalised"
+   ],
+   "steps": [
+    "phase/plan"
+   ],
+   "above_threshold": false,
+   "cases": [
+    {
+     "id": "2026-09-11T09:31:19Z-b",
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+     "step": "phase/plan",
+     "what": "An authority conflict surfaced only at synthesis: arch's Patterns-to-follow names the job's existing INLINE diagnostic step as the shape to follow, while v3-01's matrix acceptance requires readings sufficient to decide remediable-vs-permanent, which needs a dev-host control an inline-only form cannot produce. P2's aggregate check C tests binding reciprocity BETWEEN extracts and structurally cannot see an extract-vs-matrix-acceptance tension, so it passed clean. Resolved as the step's one operator fork",
+     "impact": {
+      "dialogue_rounds": 1
+     },
+     "artifacts": [
+      ".andromeda/runs/2026-09-11T07-37-04-phase/arch.md",
+      "conductor-0.3.0/verification-matrix.json"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-12T13:03:55Z-b",
+     "chunk": "2026-09-12-ledger-gate-id-space-generalised",
+     "step": "phase/plan",
+     "what": "the tests extract prescribed rstest table-driven cases as the plan fixture pattern for a predicate matrix, while the arch extract bars landing a dependency to repair a single test file and security requires the no-dependency-delta property. P2 aggregate check C did not catch it because neither extract declared a binding on the other. Resolved without rework by a measurement already in hand: rstest is a workspace dependency but absent from conductor-report dev-dependencies, so adopting it adds a manifest line and moves the lock; the plan took the file own inline-assertion idiom.",
+     "impact": {
+      "iterations": 0
+     },
+     "artifacts": [
+      ".andromeda/runs/2026-09-12T10-52-00-phase/tests.md",
+      ".andromeda/runs/2026-09-12T10-52-00-phase/arch.md"
+     ],
+     "evidence": "conductor-0.3.0/chunks/2026-09-12-ledger-gate-id-space-generalised/plan.md",
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "phase/plan",
+   "type": "retry.synthesis-rework",
+   "n": 2,
+   "weight": 4,
+   "rank": 8,
+   "impact": {
+    "iterations": 2
+   },
+   "halt_impact": 0,
+   "denominator": 5,
+   "rate": 0.4,
+   "chunks": [
+    "2026-09-11-hosted-runner-endpoint-cause-closed",
+    "2026-09-13-p-025-measurement-contract-for-pulse"
+   ],
+   "steps": [
+    "phase/plan"
+   ],
+   "above_threshold": false,
+   "cases": [
+    {
+     "id": "2026-09-11T18:29:24Z-b",
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+     "step": "phase/plan",
+     "what": "the arm-B operator leg was first authored with new = true; the check-9 grep authority shows `agent-run.ps1 run --e2e` named in 7 prior plans/reports, and a leg entry is baseline-exempt, so the flag was both inaccurate and inert — removed after re-reading the check",
+     "impact": {
+      "iterations": 1
+     },
+     "artifacts": [
+      "conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-closed/plan.md"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-14T04:43:14Z-b",
+     "chunk": "2026-09-13-p-025-measurement-contract-for-pulse",
+     "step": "phase/plan",
+     "what": "wrote two plan notes that SPELLED the host-path anchor's false-positive tokens (a URL scheme and a registry provider form) to explain why the gate is word-anchored, which is the exact recurrence host-win32.md's own entry records as its third measured instance - the explanatory prose tripping the gate it explains; caught at the authoring self-check and rewritten to DESCRIBE the tokens instead",
+     "impact": {
+      "iterations": 1
+     },
+     "artifacts": [
+      "conductor-0.3.0/chunks/2026-09-13-p-025-measurement-contract-for-pulse/plan.md"
+     ],
+     "evidence": "two Edit calls against the hygiene gate's note and the Implementation-notes bullet, before P5 read the plan; the rule is host-win32.md's 2026-09-11 entry as extended 2026-09-12",
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "TYPE-ALONE",
+   "type": "tooling.output-cap-overflow",
+   "n": 2,
+   "weight": 2,
+   "rank": 4,
+   "impact": {
+    "extra_reads": 2
+   },
+   "halt_impact": 0,
+   "denominator": 78,
+   "rate": 0.026,
+   "chunks": [
+    "null"
+   ],
+   "steps": [
+    "new-session/orientation"
+   ],
+   "above_threshold": false,
+   "cases": [
+    {
+     "id": "2026-09-11T07:32:10Z-b",
+     "chunk": null,
+     "step": "new-session/orientation",
+     "what": "A line-range read of master-route.md returned Output too large 59.3KB and was saved to a tool-results file instead of the window; recovered by structural re-extraction (grep for version headings, awk for per-section complete counts)",
+     "impact": {
+      "extra_reads": 1
+     },
+     "artifacts": [
+      ".andromeda/master-route.md"
+     ],
+     "evidence": "tool-results/b4zfxn4zv.txt",
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-11T16:24:40Z-b",
+     "chunk": null,
+     "step": "new-session/orientation",
+     "what": "a grep for master-route status prefixes returned whole multi-KB single-line records (30.7 KB), exceeding the tool-result cap and persisting to file; recovered by re-extracting marker+status only via cut/sed",
+     "impact": {
+      "extra_reads": 1
+     },
+     "artifacts": [
+      ".andromeda/master-route.md"
+     ],
+     "evidence": "tool-results/byrjvc4fm.txt",
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "wrap-session/reconcile",
+   "type": "input.report-insufficient",
+   "n": 2,
+   "weight": 2,
+   "rank": 4,
+   "impact": {
+    "extra_reads": 1
+   },
+   "halt_impact": 0,
+   "denominator": 5,
+   "rate": 0.4,
+   "chunks": [
+    "2026-09-11-hosted-runner-endpoint-cause-closed",
+    "2026-09-11-hosted-runner-endpoint-cause-probed"
+   ],
+   "steps": [
+    "wrap-session/reconcile"
+   ],
+   "above_threshold": false,
+   "cases": [
+    {
+     "id": "2026-09-11T12:47:30Z-b",
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+     "step": "wrap-session/reconcile",
+     "what": "The report named a11y-plan.md §9 as a co-owner of the a11y diagnostic-step-set fact, but grep -ci diagnostic over that doc returns 0 — the fact has exactly one owner, test-plan.md:460. The direction is an OVER-CLAIM rather than the usual gap: the report did not starve a detector, it asserted an owner with no hit, which is precisely what the report template warns against and which would have produced a hand-raised amendment against a doc stating nothing. Caught by the a11y-plan detector's own zero-hit evidence",
+     "impact": {
+      "extra_reads": 1
+     },
+     "artifacts": [
+      "conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-probed/report.md",
+      ".andromeda/a11y-plan.md",
+      ".andromeda/test-plan.md"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-12T10:50:00Z-c",
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+     "step": "wrap-session/reconcile",
+     "what": "the report’s Expected-amendments site set under-ran the true set by 7 (2 named vs 10 applied across both groups) even after its own pre-fanout re-derivation corrected a sole-owner claim to two owners; the gap was closed entirely by the dependent-of sweeps, which read for the claim’s mechanism rather than its tokens — test-plan §6 needed it for the second consecutive chunk",
+     "impact": {
+      "extra_reads": 0
+     },
+     "artifacts": [
+      "conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-closed/report.md"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "wrap-session/curation",
+   "type": "ambiguity.filter-borderline",
+   "n": 2,
+   "weight": 2,
+   "rank": 4,
+   "impact": {
+    "extra_reads": 2
+   },
+   "halt_impact": 0,
+   "denominator": 6,
+   "rate": 0.333,
+   "chunks": [
+    "2026-09-11-hosted-runner-endpoint-cause-probed",
+    "null"
+   ],
+   "steps": [
+    "wrap-session/curation"
+   ],
+   "above_threshold": false,
+   "cases": [
+    {
+     "id": "2026-09-11T12:50:13Z-b",
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+     "step": "wrap-session/curation",
+     "what": "The registry-provider-form candidate scored EXACTLY 0.6 on its base signals (verified-by-measurement 0.4 plus specific-technical-detail 0.2) — the scoring mass point Filter 4 calls out, where an exact hit rejects by design. Resolved deterministically by the load-bearing-for-next-entry conditional, which the filter permits only at exactly 0.6: the follow-up entry minted this wrap repositions the same probe and will report the same registry keys, so the fact is load-bearing for it. Final 0.8",
+     "impact": {},
+     "artifacts": [
+      ".claude/rules/host-win32.md"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-13T17:00:15Z-a",
+     "chunk": null,
+     "step": "wrap-session/curation",
+     "what": "One candidate (the audit unused_deps signal needs a resolvability check, not a grep count) scored EXACTLY 0.6 - measurement 0.4 plus specific-technical-detail 0.2 - where the rule is that exact-0.6 rejects. The call turned entirely on whether either conditional +0.2 fires, and both exclusions are worded 'already carried on the route as a PREREQ/CARRY annotation' while the fact was carried in an EVIDENCE: freight annotation authored this same wrap. Literal reading applies the signal and the candidate lands at 0.8; purposive reading (the route owns the fact) rejects. Resolved purposive: the fact demonstrably reached a durable home this wrap.",
+     "impact": {
+      "extra_reads": 2
+     },
+     "artifacts": [
+      "curation-tier-decision.md:179-210",
+      "conductor-0.3.0/working-route.md:17"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "phase/distill",
+   "type": "contract.extract-format",
+   "n": 2,
+   "weight": 2,
+   "rank": 4,
+   "impact": {
+    "retries": 0,
+    "extra_reads": 0
+   },
+   "halt_impact": 0,
+   "denominator": 5,
+   "rate": 0.4,
+   "chunks": [
+    "2026-09-11-hosted-runner-endpoint-cause-closed",
+    "2026-09-12-ledger-gate-id-space-generalised"
+   ],
+   "steps": [
+    "phase/distill"
+   ],
+   "above_threshold": false,
+   "cases": [
+    {
+     "id": "2026-09-11T18:18:11Z-b",
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+     "step": "phase/distill",
+     "what": "the arch distiller emitted an extra mid-body paragraph (\"Research’s question (P3), not arch’s: ...\") between the Acceptance and amendment-history sections, against the prompt’s \"no preamble or trailing commentary\"; it passed all five named checks (sections present and in order) so it was preserved rather than re-spawned, and its content was substantively useful",
+     "impact": {
+      "retries": 0,
+      "extra_reads": 0
+     },
+     "artifacts": [
+      ".andromeda/runs/2026-09-11T18-05-03-phase/arch.md"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-12T12:53:58Z-c",
+     "chunk": "2026-09-12-ledger-gate-id-space-generalised",
+     "step": "phase/distill",
+     "what": "fan-out's six per-extract checks cover header, sections, anchors, in-domain, size and entity escapes — none covers absolute host paths, though run-dir extracts are tracked files (2044 under version control) and the project bans host paths in committed artifacts. One of seven returns carried one; it was caught by the project's own standing drive-letter check, not by any validation the skill prescribes.",
+     "impact": {},
+     "artifacts": [
+      "andromeda-phase/references/fan-out.md"
+     ],
+     "evidence": ".andromeda/runs/2026-09-12T10-52-00-phase/.raw-a11y.md",
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "implement/fix-loop",
+   "type": "tooling.result-not-run-stable",
+   "n": 2,
+   "weight": 2,
+   "rank": 4,
+   "impact": {
+    "extra_reads": 2
+   },
+   "halt_impact": 0,
+   "denominator": 8,
+   "rate": 0.25,
+   "chunks": [
+    "2026-09-11-hosted-runner-endpoint-cause-closed"
+   ],
+   "steps": [
+    "implement/fix-loop"
+   ],
+   "above_threshold": false,
+   "cases": [
+    {
+     "id": "2026-09-11T18:48:43Z-d",
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+     "step": "implement/fix-loop",
+     "what": "the `gh run list --limit 1` gate exits 0 and prints 34586959536 — the PREDECESSOR chunk’s run — because the branch is 1 commit ahead and unpushed, so its expect of `exit 0` alone cannot distinguish a fresh run from prior-run residue; caught by the this-run freshness rule before the id was consumed, but the same gate shape shipped in the predecessor plan too",
+     "impact": {
+      "extra_reads": 1
+     },
+     "artifacts": [
+      "conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-closed/plan.md"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-11T21:36:29Z-f",
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+     "step": "implement/fix-loop",
+     "what": "the discriminator entry`s unfiltered form returned GitHub’s echo of the step source (`Write-Output \"[diag] ... first seen: $seenLabel\"`) beside the actual reading, so a report-only entry would have handed a reader a template line that looks like a measurement; a `grep -av Write-Output` stage was added and the baseline records why",
+     "impact": {
+      "extra_reads": 1
+     },
+     "artifacts": [
+      "conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-closed/plan.md"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "TYPE-ALONE",
+   "type": "contract.skill-reference-drift",
+   "n": 2,
+   "weight": 2,
+   "rank": 4,
+   "impact": {
+    "extra_reads": 1
+   },
+   "halt_impact": 0,
+   "denominator": 78,
+   "rate": 0.026,
+   "chunks": [
+    "2026-09-12-ledger-gate-id-space-generalised",
+    "null"
+   ],
+   "steps": [
+    "phase/take-up",
+    "wrap-session/curation"
+   ],
+   "above_threshold": false,
+   "cases": [
+    {
+     "id": "2026-09-12T12:47:16Z-c",
+     "chunk": "2026-09-12-ledger-gate-id-space-generalised",
+     "step": "phase/take-up",
+     "what": "promotion.md step 2 enumerates the foldable annotation kinds as PREREQ / CARRY / BLOCKED-ON, and the take-up playbook's criterion 3 asks only about PREREQ and CARRY; the annotation actually present at an annotation position on this entry is BLOCKING, which wrap route-resolve writes and neither enumeration names. Folded as a sequencing fact on judgment; no redo cycle.",
+     "impact": {},
+     "artifacts": [
+      "andromeda-phase/references/promotion.md",
+      "andromeda-phase/references/evolve/take-up.md"
+     ],
+     "evidence": "conductor-0.3.0/working-route.md:15",
+     "clause_retracted": null
+    },
+    {
+     "id": "2026-09-13T17:00:15Z-b",
+     "chunk": null,
+     "step": "wrap-session/curation",
+     "what": "Two references of andromeda-wrap-session disagree on the annotation vocabulary. curation-tier-decision.md Filter 4 excludes its two conditional +0.2 signals by a CLOSED enumeration ('a PREREQ/CARRY annotation'), while route-resolve.md's flip-compaction strip defines annotation introducers as an OPEN FORMAT class explicitly naming instance idioms like CONTEXT:/EVIDENCE:/LIKELY SHAPE: and warns that a closed vocabulary once matched 0 of 27 frozen lines. A wrap that authors any non-PREREQ/CARRY annotation therefore hits an underdetermined Filter 4 exclusion, as this one did.",
+     "impact": {
+      "extra_reads": 1
+     },
+     "artifacts": [
+      "curation-tier-decision.md:179-210",
+      "route-resolve.md"
+     ],
+     "evidence": ".andromeda/runs/2026-09-13T16-53-33-wrap/adaptation-record.md",
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "implement/fix-loop",
+   "type": "ambiguity.scope-pressure",
+   "n": 1,
+   "weight": 4,
+   "rank": 4,
+   "impact": {
+    "soft_exit": 1
+   },
+   "halt_impact": 1,
+   "denominator": 8,
+   "rate": 0.125,
+   "chunks": [
+    "2026-09-11-hosted-runner-endpoint-cause-closed"
+   ],
+   "steps": [
+    "implement/fix-loop"
+   ],
+   "above_threshold": false,
+   "cases": [
+    {
+     "id": "2026-09-11T18:48:43Z-c",
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+     "step": "implement/fix-loop",
+     "what": "the failing gate looked like a one-line generalization (starts_with(\"v2-\")), which is scope pressure to fix it in place; measurement refused it — requirement_ids has unit tests pinning v2- literals at :218 :221 :228 :250 :256-259 and a sibling assertion at :208 about the v2-NN vs P-NNN id spaces, so a correct generalization carries its own design decision and test surface. Soft-exited as out-of-scope with the file untouched rather than fixed.",
+     "impact": {
+      "soft_exit": 1
+     },
+     "artifacts": [
+      "crates/conductor-report/tests/matrix_ledger_gate.rs"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "implement/fix-loop",
+   "type": "retry.fix-iterations",
+   "n": 1,
+   "weight": 3,
+   "rank": 3,
+   "impact": {
+    "iterations": 1,
+    "retries": 1
+   },
+   "halt_impact": 0,
+   "denominator": 8,
+   "rate": 0.125,
+   "chunks": [
+    "2026-09-13-audit-debt-retired-before-epoch-1-closes"
+   ],
+   "steps": [
+    "implement/fix-loop"
+   ],
+   "above_threshold": false,
+   "cases": [
+    {
+     "id": "2026-09-13T19:11:29Z-b",
+     "chunk": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+     "step": "implement/fix-loop",
+     "what": "Both mutation gates failed in ~1s on their first run: cargo-mutants creates its --output LEAF itself but errors 'create output parent directory ... (os error 3)' when the parent chain is missing, and target/mutation-gate/ did not exist. Fixed by creating the parent only, never the leaf (a pre-existing leaf is stale by construction and rotates to .old). The parent-must-exist half of the --output contract is documented in neither collectors.md C1 nor .claude/rules/testing.md, both of which otherwise cover --output in detail.",
+     "impact": {
+      "iterations": 1,
+      "retries": 1
+     },
+     "artifacts": [
+      "scripts/mutation-gate.py"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "wrap-session/reconcile",
+   "type": "contract.false-positive-proposal",
+   "n": 1,
+   "weight": 3,
+   "rank": 3,
+   "impact": {
+    "dialogue_rounds": 1
+   },
+   "halt_impact": 0,
+   "denominator": 5,
+   "rate": 0.2,
+   "chunks": [
+    "2026-09-13-audit-debt-retired-before-epoch-1-closes"
+   ],
+   "steps": [
+    "wrap-session/reconcile"
+   ],
+   "above_threshold": false,
+   "cases": [
+    {
+     "id": "2026-09-13T19:43:26Z-b",
+     "chunk": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+     "step": "wrap-session/reconcile",
+     "what": "D-arch-decisions proposed registering Python as 'a runtime the stack does not yet allow', a premise the report never carried and that measurement falsifies: scripts/code-graph.py and scripts/scip_pb2.py have shipped since 2026-06-18 (git log --diff-filter=A -> 8d56a7a). The underlying gap (arch names no Python while two committed instruments depend on it) is real and was applied in a re-derived, narrowed form; only the novelty framing was wrong.",
+     "impact": {
+      "dialogue_rounds": 1
+     },
+     "artifacts": [
+      ".andromeda/architecture.md"
+     ],
+     "evidence": "operator resolution: register accurately, no novelty implied",
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "implement/code",
+   "type": "contract.vacuous-check-found",
+   "n": 1,
+   "weight": 2,
+   "rank": 2,
+   "impact": {
+    "iterations": 1
+   },
+   "halt_impact": 0,
+   "denominator": 7,
+   "rate": 0.143,
+   "chunks": [
+    "2026-09-11-hosted-runner-endpoint-cause-closed"
+   ],
+   "steps": [
+    "implement/code"
+   ],
+   "above_threshold": false,
+   "cases": [
+    {
+     "id": "2026-09-11T21:36:29Z-b",
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+     "step": "implement/code",
+     "what": "the arm-C skew gate was first authored as `... | sort -u | wc -l` expecting 1 distinct major; baselined against the pre-arm-C log it returned 1 and read GREEN on a log that in fact carries the skew, because the `in effect` reading it half-depends on is introduced by this chunk and simply did not match. Re-authored to print count AND distinctness (`majors: 2 1`), which cannot pass on a missing reading.",
+     "impact": {
+      "iterations": 1
+     },
+     "artifacts": [
+      "conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-closed/plan.md"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "implement/fix-loop",
+   "type": "contract.vacuous-check-found",
+   "n": 1,
+   "weight": 2,
+   "rank": 2,
+   "impact": {
+    "iterations": 1
+   },
+   "halt_impact": 0,
+   "denominator": 8,
+   "rate": 0.125,
+   "chunks": [
+    "2026-09-11-hosted-runner-endpoint-cause-closed"
+   ],
+   "steps": [
+    "implement/fix-loop"
+   ],
+   "above_threshold": false,
+   "cases": [
+    {
+     "id": "2026-09-12T00:42:10Z-c",
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+     "step": "implement/fix-loop",
+     "what": "the install-SKIPPED gate counted 2 on its first GREEN run because GitHub echoes the step source, so the literal appears in the echoed Write-Output template as well as in the real output; the identical echo trap had been found and fixed on the discriminator entry earlier in the SAME authoring pass and was not carried across to this one. Its red baseline could not have surfaced it — on the pre-arm-C log neither hit existed.",
+     "impact": {
+      "iterations": 1
+     },
+     "artifacts": [
+      "conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-closed/plan.md"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "phase/distill",
+   "type": "retry.distiller-respawn",
+   "n": 1,
+   "weight": 2,
+   "rank": 2,
+   "impact": {
+    "retries": 1
+   },
+   "halt_impact": 0,
+   "denominator": 5,
+   "rate": 0.2,
+   "chunks": [
+    "2026-09-12-ledger-gate-id-space-generalised"
+   ],
+   "steps": [
+    "phase/distill"
+   ],
+   "above_threshold": false,
+   "cases": [
+    {
+     "id": "2026-09-12T12:53:58Z-b",
+     "chunk": "2026-09-12-ledger-gate-id-space-generalised",
+     "step": "phase/distill",
+     "what": "the design distiller returned a Relevance section AND No domain coverage, which per-extract check 2 forbids as mixed; re-spawned once with the check named and the retry passed, judgement unchanged. Its first return carried an amendment-history observation the passing No-domain-coverage form structurally cannot carry, so the twin preserves it.",
+     "impact": {
+      "retries": 1
+     },
+     "artifacts": [
+      ".andromeda/runs/2026-09-12T10-52-00-phase/.raw-design.md"
+     ],
+     "evidence": ".andromeda/runs/2026-09-12T10-52-00-phase/design.md",
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "phase/research",
+   "type": "retry.query-reformulation",
+   "n": 1,
+   "weight": 2,
+   "rank": 2,
+   "impact": {
+    "reformulations": 1
+   },
+   "halt_impact": 0,
+   "denominator": 5,
+   "rate": 0.2,
+   "chunks": [
+    "2026-09-13-audit-debt-retired-before-epoch-1-closes"
+   ],
+   "steps": [
+    "phase/research"
+   ],
+   "above_threshold": false,
+   "cases": [
+    {
+     "id": "2026-09-13T17:53:55Z-b",
+     "chunk": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+     "step": "phase/research",
+     "what": "The refs query selected a 'caller' column; the refs relation has no such column (the cookbook's schema table lists callee, callee_name, callee_kind, callee_crate, callee_file, file, line) and duckdb raised a BinderException. One reformulation; the corrected query returned the 0 rows that answered the question.",
+     "impact": {
+      "reformulations": 1
+     },
+     "artifacts": [
+      "scripts/code-graph-cookbook.md"
+     ],
+     "evidence": ".andromeda/runs/2026-09-13T17-30-00-phase/tree-query-2026-09-13-audit-debt-retired-before-epoch-1-closes.json",
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "TYPE-ALONE",
+   "type": "recall.curated-rule-not-applied",
+   "n": 1,
+   "weight": 2,
+   "rank": 2,
+   "impact": {
+    "retries": 1
+   },
+   "halt_impact": 0,
+   "denominator": 78,
+   "rate": 0.013,
+   "chunks": [
+    "2026-09-13-p-025-measurement-contract-for-pulse"
+   ],
+   "steps": [
+    "wrap-session/curation"
+   ],
+   "above_threshold": false,
+   "cases": [
+    {
+     "id": "2026-09-14T18:01:30Z-b",
+     "chunk": "2026-09-13-p-025-measurement-contract-for-pulse",
+     "step": "wrap-session/curation",
+     "what": "rejected a candidate because the rule it would have taught ALREADY EXISTS and is correct: security.md's advisory-database currency probe names the copy by its environment variable, and the wrap's own misreading resolved that variable to a path this host does not use - the entry was consulted and misapplied, not missing",
+     "impact": {
+      "retries": 1
+     },
+     "artifacts": [
+      ".claude/rules/security.md"
+     ],
+     "evidence": "the existing entry prescribes reading the copy at the CARGO_HOME-rooted path; the tool names its real db path in its own output line, which is what settled it. Scored 0.2 at Filter 4 and rejected as low-confidence rather than curated, since a correct rule needs no second statement",
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "new-session/orientation",
+   "type": "input.handoff-git-mismatch",
+   "n": 1,
+   "weight": 1,
+   "rank": 1,
+   "impact": {
+    "extra_reads": 3
+   },
+   "halt_impact": 0,
+   "denominator": 7,
+   "rate": 0.143,
+   "chunks": [
+    "null"
+   ],
+   "steps": [
+    "new-session/orientation"
+   ],
+   "above_threshold": false,
+   "cases": [
+    {
+     "id": "2026-09-11T07:32:10Z-c",
+     "chunk": null,
+     "step": "new-session/orientation",
+     "what": "Two handoff fields were contradicted by measured state: Position Next asserts the version complete with no 0.3.0 route and operator direction Pulse, while a complete uncommitted /andromeda-route run for 0.3.0 sits on disk; and the Branch line asserts 4 ahead and unpushed while rev-list reports 0 ahead. Cause is a second writer after the handoff was authored, but the dirty set exceeds the contract's named bookkeeping files (master-route.md, residuals.md, conductor-0.3.0/, a route run dir)",
+     "impact": {
+      "extra_reads": 3
+     },
+     "artifacts": [
+      ".claude/session-handoff.md",
+      ".andromeda/master-route.md",
+      "conductor-0.3.0/working-route.md"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "TYPE-ALONE",
+   "type": "recall.anomaly-classification",
+   "n": 1,
+   "weight": 1,
+   "rank": 1,
+   "impact": {},
+   "halt_impact": 0,
+   "denominator": 78,
+   "rate": 0.013,
+   "chunks": [
+    "null"
+   ],
+   "steps": [
+    "new-session/orientation"
+   ],
+   "above_threshold": false,
+   "cases": [
+    {
+     "id": "2026-09-11T07:32:10Z-d",
+     "chunk": null,
+     "step": "new-session/orientation",
+     "what": "An anomalous state was present that matches neither documented anomaly (0 pending, no half-promote): a complete uncommitted route run established a NEW active version while the git branch remains on the prior version's build branch, with no build/conductor-0.3.0 branch and no tags in the repo. Classified by judgment and surfaced as a pre-work flag rather than a ladder rung",
+     "impact": {},
+     "artifacts": [
+      "conductor-0.3.0/",
+      "git-state"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "implement/fix-loop",
+   "type": "contract.spec-reality-gap",
+   "n": 1,
+   "weight": 1,
+   "rank": 1,
+   "impact": {},
+   "halt_impact": 0,
+   "denominator": 8,
+   "rate": 0.125,
+   "chunks": [
+    "2026-09-11-hosted-runner-endpoint-cause-probed"
+   ],
+   "steps": [
+    "implement/fix-loop"
+   ],
+   "above_threshold": false,
+   "cases": [
+    {
+     "id": "2026-09-11T10:22:17Z-b",
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+     "step": "implement/fix-loop",
+     "what": "v3-01's concretized acceptance asserts the three readings are together sufficient to decide whether the endpoint failure is remediable or permanent; the measured readings retire two documented candidates (policy state, session-0/non-interactive) and name a third that is untested (the runner runs elevated where the dev host does not), while probe (2) returned nothing at all — so the decision the acceptance promises is not reached. Surfaced as a premise disproof for wrap's escalation; no acceptance text was edited and no spec content staged",
+     "impact": {},
+     "artifacts": [
+      "conductor-0.3.0/verification-matrix.json",
+      "conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-probed/evidence/reading.md"
+     ],
+     "evidence": "CI run 34586959536, job A11y gate, step WebView2 cause probes (diagnostic)",
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "implement/smoke",
+   "type": "contract.vacuous-check-found",
+   "n": 1,
+   "weight": 1,
+   "rank": 1,
+   "impact": {},
+   "halt_impact": 0,
+   "denominator": 5,
+   "rate": 0.2,
+   "chunks": [
+    "2026-09-11-hosted-runner-endpoint-cause-probed"
+   ],
+   "steps": [
+    "implement/smoke"
+   ],
+   "above_threshold": false,
+   "cases": [
+    {
+     "id": "2026-09-11T10:23:43Z-b",
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+     "step": "implement/smoke",
+     "what": "The plan's role=smoke entry (bash scripts/agent-run.sh status) is VACUOUS for a chunk of this shape: it reads the newest envelope already on disk, so it passes identically whether or not this chunk's work happened, and the envelope it printed belongs to a prior chunk. It is correctly listed — phase P5 check 4(2) requires a smoke entry — and it is not a harness defect, but it proved nothing about the change under test. A chunk whose surface is a CI workflow plus a standalone script has no boot path for the smoke condition to bite on",
+     "impact": {},
+     "artifacts": [
+      "conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-probed/plan.md",
+      "scripts/agent-run.sh"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "wrap-session/report",
+   "type": "input.implement-outcome-unsettled",
+   "n": 1,
+   "weight": 1,
+   "rank": 1,
+   "impact": {},
+   "halt_impact": 0,
+   "denominator": 5,
+   "rate": 0.2,
+   "chunks": [
+    "2026-09-11-hosted-runner-endpoint-cause-probed"
+   ],
+   "steps": [
+    "wrap-session/report"
+   ],
+   "above_threshold": false,
+   "cases": [
+    {
+     "id": "2026-09-11T12:37:10Z-b",
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+     "step": "wrap-session/report",
+     "what": "Implement's P4 report was superseded before this report was authored: an operator directive changed v3-01's resolution to un-claim, added a residual re-wording obligation, and re-attributed the mid-implement commit deviation. The report therefore names its basis explicitly as implement's report AS AMENDED by that directive, because the fan-out detectors read this report alone and would otherwise inherit a framing the operator had already replaced",
+     "impact": {},
+     "artifacts": [
+      "conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-probed/report.md"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "wrap-session/route-resolve",
+   "type": "contract.no-sanctioned-channel",
+   "n": 1,
+   "weight": 1,
+   "rank": 1,
+   "impact": {},
+   "halt_impact": 0,
+   "denominator": 6,
+   "rate": 0.167,
+   "chunks": [
+    "2026-09-11-hosted-runner-endpoint-cause-probed"
+   ],
+   "steps": [
+    "wrap-session/route-resolve"
+   ],
+   "above_threshold": false,
+   "cases": [
+    {
+     "id": "2026-09-11T12:51:30Z-b",
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+     "step": "wrap-session/route-resolve",
+     "what": "A residuals.md annotation was MEASURED STALE by this chunk (its :4444-never-listening framing did not reproduce — zero ECONNREFUSED in the captured log, the driver reached session creation) and there is no routine channel to correct it: the file's header scopes route-resolve to APPENDING open entries and gives dispositions to route Phase A, so a wrap that measures an existing dispositioned entry false has no permitted surface. The working-route's BLOCKED-ON clause has exactly this re-verify-and-rewrite mechanism for its own annotations; residuals has no counterpart. Resolved this time by explicit operator directive; the general case has no owner",
+     "impact": {},
+     "artifacts": [
+      ".andromeda/residuals.md"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "wrap-session/gates",
+   "type": "tooling.gate-deferral",
+   "n": 1,
+   "weight": 1,
+   "rank": 1,
+   "impact": {
+    "deferred": 1
+   },
+   "halt_impact": 0,
+   "denominator": 4,
+   "rate": 0.25,
+   "chunks": [
+    "2026-09-11-hosted-runner-endpoint-cause-probed"
+   ],
+   "steps": [
+    "wrap-session/gates"
+   ],
+   "above_threshold": false,
+   "cases": [
+    {
+     "id": "2026-09-11T12:56:40Z-b",
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+     "step": "wrap-session/gates",
+     "what": "The rust workspace gate (cargo nextest run --workspace --profile ci) carried a defer key from the plan and was honored at BOTH implement and this light gate. Its reason was re-verified against the actual diff at each point rather than echoed — the diff is one workflow file, one new PowerShell script, evidence documents and bookkeeping, with no compiled-source delta of any kind. Pinned to the next markerless entry as PREREQ close rust gate deferral with this chunk as the origin, so the chain age stays visible if it re-defers",
+     "impact": {
+      "deferred": 1
+     },
+     "artifacts": [
+      "conductor-0.3.0/working-route.md",
+      "conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-probed/plan.md"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "phase/take-up",
+   "type": "input.working-entry-thin",
+   "n": 1,
+   "weight": 1,
+   "rank": 1,
+   "impact": {
+    "dialogue_rounds": 0
+   },
+   "halt_impact": 0,
+   "denominator": 5,
+   "rate": 0.2,
+   "chunks": [
+    "2026-09-11-hosted-runner-endpoint-cause-closed"
+   ],
+   "steps": [
+    "phase/take-up"
+   ],
+   "above_threshold": false,
+   "cases": [
+    {
+     "id": "2026-09-11T18:09:05Z-b",
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+     "step": "phase/take-up",
+     "what": "the working entry named the elevation measurement without naming which side to vary; the cheap direction (elevate the dev host, where the non-elevated control is already committed) came from the operator directive, and the entry alone reads as pointing at the runner where the failure is",
+     "impact": {
+      "dialogue_rounds": 0
+     },
+     "artifacts": [
+      "conductor-0.3.0/working-route.md:13"
+     ],
+     "evidence": "conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-closed/scope.md",
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "wrap-session/gates",
+   "type": "contract.no-sanctioned-channel",
+   "n": 1,
+   "weight": 1,
+   "rank": 1,
+   "impact": {
+    "dialogue_rounds": 0
+   },
+   "halt_impact": 0,
+   "denominator": 4,
+   "rate": 0.25,
+   "chunks": [
+    "2026-09-11-hosted-runner-endpoint-cause-closed"
+   ],
+   "steps": [
+    "wrap-session/gates"
+   ],
+   "above_threshold": false,
+   "cases": [
+    {
+     "id": "2026-09-12T10:55:00Z-b",
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+     "step": "wrap-session/gates",
+     "what": "for the third time in four days a wrap needed an operator directive to express a disposition the light-gate letter has no form for: a gate that is RED, provably not the chunk’s (zero-delta in the failing language), attributed to a named prior commit, with an owner minted as the next blocking entry. The gate’s own vocabulary offers only green, `defer` (a reason implement’s report confirms) or a source-delta note — none of which fits a red inherited from another chunk. The recurrence is the finding, not the workaround.",
+     "impact": {
+      "dialogue_rounds": 0
+     },
+     "artifacts": [
+      ".andromeda/playbook.md",
+      "conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-closed/plan.md"
+     ],
+     "evidence": "2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate; 2026-09-11-hosted-runner-endpoint-cause-probed; this wrap",
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "implement/code",
+   "type": "input.research-files-wrong",
+   "n": 1,
+   "weight": 1,
+   "rank": 1,
+   "impact": {
+    "extra_reads": 1
+   },
+   "halt_impact": 0,
+   "denominator": 7,
+   "rate": 0.143,
+   "chunks": [
+    "2026-09-13-audit-debt-retired-before-epoch-1-closes"
+   ],
+   "steps": [
+    "implement/code"
+   ],
+   "above_threshold": false,
+   "cases": [
+    {
+     "id": "2026-09-13T18:48:55Z-b",
+     "chunk": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+     "step": "implement/code",
+     "what": "research.md's Files-to-modify omitted crates/conductor-core/src/lib.rs. The crate exposes run_record through an explicit re-export list (`pub use run_record::{CheckRecord, RunRecord}`), so a new pub const there is invisible to conductor-report and conductor-verify until that line is edited; step 9 is unexecutable without it.",
+     "impact": {
+      "extra_reads": 1
+     },
+     "artifacts": [
+      "crates/conductor-core/src/lib.rs:66"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "implement/code",
+   "type": "input.plan-step-ambiguous",
+   "n": 1,
+   "weight": 1,
+   "rank": 1,
+   "impact": {
+    "extra_reads": 1
+   },
+   "halt_impact": 0,
+   "denominator": 7,
+   "rate": 0.143,
+   "chunks": [
+    "2026-09-13-audit-debt-retired-before-epoch-1-closes"
+   ],
+   "steps": [
+    "implement/code"
+   ],
+   "above_threshold": false,
+   "cases": [
+    {
+     "id": "2026-09-13T18:48:55Z-c",
+     "chunk": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+     "step": "implement/code",
+     "what": "Plan step 5 prescribed 'a stub configured with at least three incidents', but the shared StubConfig serves 0 or 1 (canary_in_corpus is a bool) and the stub file is outside the plan's touchpoints — so the step as written could not be executed in scope. P3 never checked whether the capability existed.",
+     "impact": {
+      "extra_reads": 1
+     },
+     "artifacts": [
+      "crates/conductor-verify/tests/common/mod.rs",
+      "crates/conductor-verify/tests/readback_shape_witness.rs"
+     ],
+     "evidence": null,
+     "clause_retracted": null
+    }
+   ]
+  },
+  {
+   "scope": "wrap-session/reconcile",
+   "type": "contract.proposal-format",
+   "n": 1,
+   "weight": 1,
+   "rank": 1,
+   "impact": {
+    "retries": 0
+   },
+   "halt_impact": 0,
+   "denominator": 5,
+   "rate": 0.2,
+   "chunks": [
+    "2026-09-13-p-025-measurement-contract-for-pulse"
+   ],
+   "steps": [
+    "wrap-session/reconcile"
+   ],
+   "above_threshold": false,
+   "cases": [
+    {
+     "id": "2026-09-14T17:58:29Z-c",
+     "chunk": "2026-09-13-p-025-measurement-contract-for-pulse",
+     "step": "wrap-session/reconcile",
+     "what": "operator-directed repair of a MECHANICAL corruption in two sidecars: a 2026-09-07 read-modify-write severed the previous entry's last line mid-token and parked the tail AFTER the whole following entry - layout-templates-amendments.md line 170 ending 'would ha' with its tail at 177, a11y-plan-amendments.md line 89 ending 'the Operable carve' with its tail at 96; restored by rejoining the bytes with no space and dropping the orphan line, never re-authored",
+     "impact": {
+      "retries": 0
+     },
+     "artifacts": [
+      ".andromeda/layout-templates-amendments.md",
+      ".andromeda/a11y-plan-amendments.md"
+     ],
+     "evidence": "the amendment-flow Apply section already records this exact failure as measured ('two sidecars carried one wrap's entry inside the previous entry's last line, split mid-word; two distillers since read the damage'); repaired BEFORE the fan-out so all seven doc-agents read clean files, diff exactly 1 added / 2 deleted per file, both junctions verified coherent and zero orphan tails remaining",
+     "clause_retracted": null
+    }
+   ]
+  }
+ ]
+}

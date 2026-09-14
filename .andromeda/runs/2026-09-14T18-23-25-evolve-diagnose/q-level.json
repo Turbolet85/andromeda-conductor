@@ -1,0 +1,826 @@
+{
+ "epoch": "Epoch 1 - Foundation: the measurements the closures rest on",
+ "n_facts": 40,
+ "by_solution": {
+  "workaround": 17,
+  "deferred": 5,
+  "overridden": 5,
+  "removed-cause": 9,
+  "prohibition": 4
+ },
+ "by_nature": {
+  "resources": 2,
+  "process": 27,
+  "product-logic": 7,
+  "environment": 4
+ },
+ "facts": [
+  {
+   "id": "2026-09-11T07:32:10Z-a",
+   "idx": 0,
+   "chunk": null,
+   "step": "new-session/orientation",
+   "nature": "resources",
+   "solution": "workaround",
+   "note": "master-route range read sed -n 73,200p exceeded the tool-result cap at 59.3KB and was persisted to a file; re-extracted structurally with awk/grep for heading and status counts. The skill body prescribes structural extraction and names this exact overflow",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-11T07:32:10Z-a",
+   "idx": 1,
+   "chunk": null,
+   "step": "new-session/orientation",
+   "nature": "process",
+   "solution": "workaround",
+   "note": "read the 0.3.0 working-route with a whole-file cat rather than the prescribed scoped extraction; measured wc -c 2912 first to establish the overflow risk the rule guards against was absent",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-11T07:48:40Z-a",
+   "idx": 0,
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+   "step": "phase/distill",
+   "nature": "process",
+   "solution": "workaround",
+   "note": "fan-out.md prescribes a scripted entity-decode over the returned body, but the body arrives in-context and the same contract mandates persistence via the Write tool, so no on-disk body exists for a script to transform; decoded by hand while authoring each Write and satisfied the verifiable half with the mandated post-persist entities=0 probe, which passed 7/7. Cost no redo cycles",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-11T07:48:40Z-a",
+   "idx": 1,
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+   "step": "phase/distill",
+   "nature": "process",
+   "solution": "workaround",
+   "note": "arch returned a substantive trailing Research caveat paragraph after its last section naming exactly what P3 must verify against the tree; fan-out.md requires trailing commentary be stripped, so it was stripped, preserved in .raw-arch.md, and its substance carried forward by the orchestrator into P3 rather than lost",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-11T07:55:11Z-a",
+   "idx": 0,
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+   "step": "phase/research",
+   "nature": "process",
+   "solution": "workaround",
+   "note": "Ran a live read-only PowerShell feasibility probe on the dev host, which is outside P3's documented repertoire of targeted reads plus graph queries. Done because the scope premise closure requires verifying or falsifying the spawn premise and no file can establish that no spawn is needed; the alternative was asserting it from memory. Wrote the script to the session scratchpad and ran it by path per the host rule",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-11T07:55:11Z-a",
+   "idx": 1,
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+   "step": "phase/research",
+   "nature": "product-logic",
+   "solution": "deferred",
+   "note": "Discovered at HEAD that the :4444 tauri-driver bind race is structurally real — wdio.conf.ts:405 spawns the driver in onPrepare and returns with no readiness wait, while startNvda at :199-235 polls a real signal for 30s. Not fixed: the chunk's scope is diagnose-only and a fix is code work, so it is recorded with mechanism and coordinates for v3-02 or its own entry",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-11T07:55:11Z-a",
+   "idx": 2,
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+   "step": "phase/research",
+   "nature": "process",
+   "solution": "deferred",
+   "note": "Discovered pre-existing registration drift: ci.yml reads $env:TEMP at :396/:440 and $env:LOCALAPPDATA at :490/:501 on the same shipped-artifact-READS basis that got RUNNER_TEMP and EDGEWEBDRIVER registered, yet neither name appears anywhere in architecture.md. Predates this chunk; left as an Expected amendment for wrap rather than fixed here",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-11T09:31:19Z-a",
+   "idx": 0,
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+   "step": "phase/plan",
+   "nature": "process",
+   "solution": "workaround",
+   "note": "Validated three candidate gate commands by executing them during P4, which is synthesis rather than execution in the step's documented repertoire. Done because authoring a gate whose behaviour is guessed is how a false red reaches /implement; the gh exit-code check in particular changed what the entry asserts",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-11T09:31:19Z-a",
+   "idx": 1,
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+   "step": "phase/plan",
+   "nature": "product-logic",
+   "solution": "deferred",
+   "note": "gh run list surfaced run 34535095643 (failure) newer than every run v3-01's observed_gap enumerates, so that field is one run stale. Not investigated here and not amended in the matrix; routed into the plan's Implementation notes as an instruction for /implement to read it alongside the new probe run",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-11T09:44:21Z-a",
+   "idx": 0,
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+   "step": "implement/code",
+   "nature": "process",
+   "solution": "workaround",
+   "note": "Diverged from the neighbouring script's documented ErrorActionPreference Stop convention, setting Continue plus explicit try/catch per probing call, because an always-exit-0 diagnostic cannot use a terminating error preference. Read agent-run.ps1 to establish the convention before departing from it and recorded the reason at the line",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-11T09:44:21Z-a",
+   "idx": 1,
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+   "step": "implement/code",
+   "nature": "product-logic",
+   "solution": "workaround",
+   "note": "Restructured the probe's OUTPUT form to avoid tripping a gate this chunk itself authored: the host-path hygiene grep anchors on [A-Za-z]:[\\/], which also matches the PowerShell registry provider form HKLM:\\ — a registry key, not a host file path. The probe now reads keys in provider form and REPORTS them in the colon-free reg.exe form HKLM\\SOFTWARE\\..., so the reading stays precise without a false positive",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-11T10:22:17Z-a",
+   "idx": 0,
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+   "step": "implement/fix-loop",
+   "nature": "process",
+   "solution": "workaround",
+   "note": "The run crossed a COMMIT boundary mid-implement. v3-01's acceptance needs a reading from a CI run of committed code, and CI fires only on push, while this skill's constraints reserve committing for wrap. Surfaced rather than resolved unilaterally; the operator performed both the commit and the push, and the run resumed at gate 5",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-11T10:22:17Z-a",
+   "idx": 1,
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+   "step": "implement/fix-loop",
+   "nature": "product-logic",
+   "solution": "deferred",
+   "note": "Two follow-ups named in the reading and not acted on, the chunk being diagnose-only by scope: move the probe to a point where the webview host is still alive so candidate (2) can be measured at all, and drive the app de-elevated to test the newly named elevation difference",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-11T10:23:43Z-a",
+   "idx": 0,
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+   "step": "implement/smoke",
+   "nature": "process",
+   "solution": "workaround",
+   "note": "Did not run the skill's prescribed agent-run.sh run then status drive. That verb executes the workspace compile gates this chunk deferred under the source-delta-proportional rule, and re-running them at the smoke would have voided the deferral for a chunk with zero compiled-source delta. Recorded the already-green P2 smoke entry instead, and stated the substitution rather than skipping silently",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-11T12:37:10Z-a",
+   "idx": 0,
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+   "step": "wrap-session/report",
+   "nature": "process",
+   "solution": "overridden",
+   "note": "The operator directive overrode the step's intended course: implement had surfaced v3-01 for wrap to resolve as either refine-with-evidence or un-claim, and the directive settled it as UN-CLAIM on the stated ground that the acceptance clause is what makes the capability worth holding and this version exists to retire closures resting on wording",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-11T12:37:10Z-a",
+   "idx": 1,
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+   "step": "wrap-session/report",
+   "nature": "process",
+   "solution": "removed-cause",
+   "note": "Corrected a measurement error in this chunk's own evidence before it could be committed: reading.md cited the isolation step's third-from-last line (10:14:58.906Z) and derived 0.68s, where the true last line is 10:14:58.9421153Z and the interval to the probe's marker is 0.645s. Operator supplied the corrected pair; re-derived from the captured log before applying",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-11T12:47:30Z-a",
+   "idx": 0,
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+   "step": "wrap-session/reconcile",
+   "nature": "process",
+   "solution": "workaround",
+   "note": "Attempted the sidecar append as a cat >> file heredoc. The project's PreToolUse hook blocked it, and correctly — both the host rule and this skill's own constraint say a document goes through the Write tool and a script to a scratchpad file run by path. Recovered by writing the append as a python script and running it by path; nothing landed from the blocked attempt",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-11T12:47:30Z-a",
+   "idx": 1,
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+   "step": "wrap-session/reconcile",
+   "nature": "process",
+   "solution": "removed-cause",
+   "note": "Corrected the report's false ownership claim (a11y-plan named as a co-owner of a fact it does not state) at Validate check 5, before it could become a hand-raised amendment against that doc",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-11T12:51:30Z-a",
+   "idx": 0,
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+   "step": "wrap-session/route-resolve",
+   "nature": "process",
+   "solution": "overridden",
+   "note": "Re-worded an EXISTING dispositioned entry in residuals.md. That file's own header names two writers and scopes route-resolve's write to APPENDING open entries, while the entry edited is already absorbed:v3-02 and therefore route Phase A's to disposition. Done on the operator's explicit directive naming the fact and the required re-wording; recorded rather than treated as routine",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-11T12:56:40Z-a",
+   "idx": 0,
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+   "step": "wrap-session/gates",
+   "nature": "resources",
+   "solution": "deferred",
+   "note": "The workspace nextest gate was not re-run at the light gate. The chunk has zero compiled-source delta (no .rs, no Cargo.toml, no Cargo.lock, no toolchain pin), so a cold rebuild against this tree's large target dir would have proved nothing about the change and cost the rebuild; honored per the source-delta-proportional rule and pinned forward rather than silently skipped",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-11T16:24:40Z-a",
+   "idx": 0,
+   "chunk": null,
+   "step": "new-session/orientation",
+   "nature": "environment",
+   "solution": "workaround",
+   "note": "a marker+status grep over master-route.md returned 30.7 KB of whole records and overflowed the tool-result cap; restructured the extraction to marker+status only rather than reading the persisted dump",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-11T18:09:05Z-a",
+   "idx": 0,
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+   "step": "phase/take-up",
+   "nature": "process",
+   "solution": "prohibition",
+   "note": "operator directive point 3 added a standing prohibition to the plan’s shape — the skill must not commit and the plan must stop asking it to, with commit+push named as an operator step before any CI-consuming entry; it corrects the pattern the predecessor plan carried, which wrap recorded as a deviation",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-11T18:41:57Z-a",
+   "idx": 0,
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+   "step": "phase/validate",
+   "nature": "process",
+   "solution": "prohibition",
+   "note": "a do-not guard was added to the plan at validate rather than at synthesis — \"Do not force the v3-01 claim\": an undecidable arm-B outcome is surfaced and the cap returns to the pool, never discharged by wording. Added as follow-through on the review commitment.",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-11T18:45:08Z-a",
+   "idx": 0,
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+   "step": "implement/code",
+   "nature": "product-logic",
+   "solution": "prohibition",
+   "note": "a warning comment was added above the param block explaining that [CmdletBinding()] is load-bearing and why — without it a plain param() block collects an unknown parameter NAME into $args and the selector degrades silently to a full run. Comment-discipline-admissible as a hidden constraint / genuinely surprising behaviour, and it guards a future edit from removing the attribute as cosmetic.",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-11T21:36:29Z-a",
+   "idx": 0,
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+   "step": "implement/code",
+   "nature": "process",
+   "solution": "overridden",
+   "note": "/implement modified plan.md, which the skill’s MUST NOT forbids; the operator directed it explicitly and named the precedent channel (\"plan edits between runs ... you have already used twice\"). Recorded as an operator override with attribution, not as a defect.",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-12T10:55:00Z-a",
+   "idx": 0,
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+   "step": "wrap-session/gates",
+   "nature": "process",
+   "solution": "overridden",
+   "note": "the light gate’s ASSERT passed on a RECORDED DISPOSITION rather than on a green: `cargo nextest --workspace --profile ci` is red (906 run, 905 passed, 1 failed) on a pre-existing v2- id-space defect that landed in b3b51e6 with zero .rs delta in this chunk. The letter of the gate cannot express \"red, attributed elsewhere, owner minted\"; the operator directive supplied the disposition. THIRD such wrap in four days.",
+   "outcome": "ok-degraded"
+  },
+  {
+   "id": "2026-09-12T12:53:58Z-a",
+   "idx": 0,
+   "chunk": "2026-09-12-ledger-gate-id-space-generalised",
+   "step": "phase/distill",
+   "nature": "process",
+   "solution": "removed-cause",
+   "note": "the a11y return cited the modify-set by absolute host path; fan-out's persist contract sanctions strip + entity-decode only, so normalising it was outside the documented transformation. Done anyway because run-dir artifacts are tracked and the project bans absolute host paths in committed artifacts; the twin records the delta descriptively rather than quoting the prefix",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-12T14:59:31Z-a",
+   "idx": 0,
+   "chunk": "2026-09-12-ledger-gate-id-space-generalised",
+   "step": "phase/validate",
+   "nature": "process",
+   "solution": "removed-cause",
+   "note": "the probe known-positive control was first minted as a whole 267-line copy of the gate source into the tracked run dir, which would have seeded that directory with twelve further occurrences of the very token this chunk sweeps for; replaced with a minimal non-Rust control carrying only the post-fix filter line, and both probe directions re-verified against it",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-12T18:30:24Z-a",
+   "idx": 0,
+   "chunk": "2026-09-12-ledger-gate-id-space-generalised",
+   "step": "wrap-session/route-resolve",
+   "nature": "process",
+   "solution": "overridden",
+   "note": "the a11y-plan:115 dittography is a master-body defect with no detector and no report fact, so P2 had no channel for it; the operator directive supplied one by naming both the owner entry (v3-03) and the disposition (CARRY, explicitly not a residual, which would leave it ownerless). Recorded because the fact reached the route through an operator pre-direction rather than through any detector or gradient the phase runs on its own",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-12T18:35:29Z-a",
+   "idx": 0,
+   "chunk": "2026-09-12-ledger-gate-id-space-generalised",
+   "step": "wrap-session/gates",
+   "nature": "process",
+   "solution": "workaround",
+   "note": "the flip-compaction prescribes ONE whole-file Write of working-route.md and never per-line edits; exactly one line needed stripping, so a single anchored Edit was used instead — same atomicity for a one-line sweep, and it avoided retyping 45 lines including two multi-KB annotation entries. The rule reads as guarding a multi-line sweep against partial application, which a single Edit does not risk",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-13T16:58:00Z-b",
+   "idx": 0,
+   "chunk": null,
+   "step": "wrap-session/route-resolve",
+   "nature": "process",
+   "solution": "removed-cause",
+   "note": "The directive scoped the freight as not-to-re-derive; every coordinate was verified against the audit run dir and the sources anyway (survivor arithmetic 25-8=17, five duplication pairs 36-44 lines, both envelope line ranges under cfg(test), unused_deps). Four of five reproduced exactly; the fifth was refined, removing the cause of a contradicting grep at take-up.",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-13T17:47:09Z-a",
+   "idx": 0,
+   "chunk": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+   "step": "phase/distill",
+   "nature": "process",
+   "solution": "workaround",
+   "note": "reached for a cat-heredoc-to-file to persist the decode script; the host bans that form and the PreToolUse hook blocked it — rewrote the script to the session scratchpad and ran it by path, the documented form",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-13T17:47:09Z-a",
+   "idx": 1,
+   "chunk": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+   "step": "phase/distill",
+   "nature": "environment",
+   "solution": "removed-cause",
+   "note": "python text-mode write translated LF to CRLF in all 7 saved extracts, making a11y's saved copy differ from its raw by line endings alone; re-ran with newline='' on both ends so the only delta is the entity decode",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-13T17:53:55Z-a",
+   "idx": 0,
+   "chunk": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+   "step": "phase/research",
+   "nature": "environment",
+   "solution": "removed-cause",
+   "note": "a redirect to $TMPDIR resolved to an empty var and wrote to /emit_check.txt (permission denied), losing the check output; re-ran with the explicit scratchpad path, which the host rule prescribes for every bash-to-native boundary",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-13T18:26:53Z-a",
+   "idx": 0,
+   "chunk": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+   "step": "phase/validate",
+   "nature": "environment",
+   "solution": "workaround",
+   "note": "the RUSTDOCFLAGS=-D warnings gate baselined RED at HEAD on five pre-existing private-intra-doc-link errors in conductor-emit; narrowed the gate's asserted signal to lacks conductor_core plus the 5-warning count rather than fixing the five, and named a route candidate as owner instead of inheriting the red",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-13T18:48:55Z-a",
+   "idx": 0,
+   "chunk": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+   "step": "implement/code",
+   "nature": "process",
+   "solution": "workaround",
+   "note": "plan step 5 prescribed driving observe with >=3 incidents; StubConfig has no incident-count knob and tests/common/mod.rs is unlisted, so the kill was implemented at ONE incident, where the ==/!= loop-index mutation still discriminates (correct logs 1 line, mutant logs 0) instead of widening scope",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-13T18:48:55Z-a",
+   "idx": 1,
+   "chunk": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+   "step": "implement/code",
+   "nature": "process",
+   "solution": "workaround",
+   "note": "edited crates/conductor-core/src/lib.rs, absent from the plan's touchpoints, to re-export ENVELOPE_KEYS_SORTED — a transitive requirement of listed step 9 (codebase-research names a crate-root re-export a boundary member, not a gray-area call)",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-13T23:03:35Z-a",
+   "idx": 0,
+   "chunk": "2026-09-13-p-025-measurement-contract-for-pulse",
+   "step": "phase/take-up",
+   "nature": "process",
+   "solution": "removed-cause",
+   "note": "at Setup, discovered my own orientation-step append had left the friction ledger w/mixed and repaired the trailing CRLF to LF before promoting - outside take-up's planned work",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-13T23:17:59Z-a",
+   "idx": 0,
+   "chunk": "2026-09-13-p-025-measurement-contract-for-pulse",
+   "step": "phase/research",
+   "nature": "product-logic",
+   "solution": "prohibition",
+   "note": "the obstacle: Conductor's own committed artifacts name two SUT-side fixes as lifting the bound, and research measured that both would make the number small without making it mean hue-shift latency; a prohibition was written into scope directing that the contract cite both as insufficient and never present either as satisfying it",
+   "outcome": "ok"
+  },
+  {
+   "id": "2026-09-14T15:56:29Z-a",
+   "idx": 0,
+   "chunk": "2026-09-13-p-025-measurement-contract-for-pulse",
+   "step": "implement/code",
+   "nature": "product-logic",
+   "solution": "removed-cause",
+   "note": "step 9 specified a one-line pointer into the scenario header; the two lines immediately above the insertion point state that copying last_observed_unix_nanos or reading span arrival would lift the bound, which is the premise this chunk measured false - shipped three comment lines instead, so the pointer does not sit beside an uncorrected contradiction of the contract it points at. Comment-only, same paragraph, load path untouched; reported as a deviation at P4",
+   "outcome": "ok"
+  }
+ ],
+ "non_ok_outcomes": [
+  {
+   "id": "2026-09-11T18:48:43Z-a",
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+   "step": "implement/fix-loop",
+   "outcome": "soft-exit"
+  },
+  {
+   "id": "2026-09-11T21:36:29Z-e",
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+   "step": "implement/fix-loop",
+   "outcome": "soft-exit"
+  },
+  {
+   "id": "2026-09-12T00:42:10Z-b",
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+   "step": "implement/fix-loop",
+   "outcome": "soft-exit"
+  },
+  {
+   "id": "2026-09-12T10:55:00Z-a",
+   "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+   "step": "wrap-session/gates",
+   "outcome": "ok-degraded"
+  }
+ ],
+ "pass_a_note_themes": [
+  {
+   "theme": "T1 host-transport retreat to the documented alternate form",
+   "obstacle": "the Bash/host transport (heredoc-to-file guard, python text-mode terminators, an unset env var) refuses or corrupts the first-reach form; the documented alternate (scratchpad script run by path, newline='', explicit scratchpad path) is then used",
+   "natures": [
+    "process",
+    "environment"
+   ],
+   "members": [
+    {
+     "id": "2026-09-11T07:55:11Z-a",
+     "idx": 0,
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+     "step": "phase/research",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "Ran a live read-only PowerShell feasibility probe on the dev host, which is outside P3's documented repertoire of targeted reads plus graph queries. Done because the scope premise closure requires verifying or falsifying the spawn premise and no file can establish that no spawn is needed; the alternative was asserting it from memory. Wrote the script to the session scratchpad and ran it by path per the host rule"
+    },
+    {
+     "id": "2026-09-11T12:47:30Z-a",
+     "idx": 0,
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+     "step": "wrap-session/reconcile",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "Attempted the sidecar append as a cat >> file heredoc. The project's PreToolUse hook blocked it, and correctly — both the host rule and this skill's own constraint say a document goes through the Write tool and a script to a scratchpad file run by path. Recovered by writing the append as a python script and running it by path; nothing landed from the blocked attempt"
+    },
+    {
+     "id": "2026-09-13T17:47:09Z-a",
+     "idx": 0,
+     "chunk": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+     "step": "phase/distill",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "reached for a cat-heredoc-to-file to persist the decode script; the host bans that form and the PreToolUse hook blocked it — rewrote the script to the session scratchpad and ran it by path, the documented form"
+    },
+    {
+     "id": "2026-09-13T17:47:09Z-a",
+     "idx": 1,
+     "chunk": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+     "step": "phase/distill",
+     "nature": "environment",
+     "solution": "removed-cause",
+     "note": "python text-mode write translated LF to CRLF in all 7 saved extracts, making a11y's saved copy differ from its raw by line endings alone; re-ran with newline='' on both ends so the only delta is the entity decode"
+    },
+    {
+     "id": "2026-09-13T17:53:55Z-a",
+     "idx": 0,
+     "chunk": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+     "step": "phase/research",
+     "nature": "environment",
+     "solution": "removed-cause",
+     "note": "a redirect to $TMPDIR resolved to an empty var and wrote to /emit_check.txt (permission denied), losing the check output; re-ran with the explicit scratchpad path, which the host rule prescribes for every bash-to-native boundary"
+    },
+    {
+     "id": "2026-09-13T23:03:35Z-a",
+     "idx": 0,
+     "chunk": "2026-09-13-p-025-measurement-contract-for-pulse",
+     "step": "phase/take-up",
+     "nature": "process",
+     "solution": "removed-cause",
+     "note": "at Setup, discovered my own orientation-step append had left the friction ledger w/mixed and repaired the trailing CRLF to LF before promoting - outside take-up's planned work"
+    }
+   ],
+   "n": 6,
+   "above_threshold": true
+  },
+  {
+   "theme": "T2 route/master-route reads overflow the tool-result cap",
+   "obstacle": "the route files carry multi-KB single-line entries, so a range read or a whole-record grep exceeds the tool-result cap; each session re-invents a structural extraction",
+   "natures": [
+    "resources",
+    "environment",
+    "process"
+   ],
+   "members": [
+    {
+     "id": "2026-09-11T07:32:10Z-a",
+     "idx": 0,
+     "chunk": null,
+     "step": "new-session/orientation",
+     "nature": "resources",
+     "solution": "workaround",
+     "note": "master-route range read sed -n 73,200p exceeded the tool-result cap at 59.3KB and was persisted to a file; re-extracted structurally with awk/grep for heading and status counts. The skill body prescribes structural extraction and names this exact overflow"
+    },
+    {
+     "id": "2026-09-11T16:24:40Z-a",
+     "idx": 0,
+     "chunk": null,
+     "step": "new-session/orientation",
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "a marker+status grep over master-route.md returned 30.7 KB of whole records and overflowed the tool-result cap; restructured the extraction to marker+status only rather than reading the persisted dump"
+    },
+    {
+     "id": "2026-09-11T07:32:10Z-a",
+     "idx": 1,
+     "chunk": null,
+     "step": "new-session/orientation",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "read the 0.3.0 working-route with a whole-file cat rather than the prescribed scoped extraction; measured wc -c 2912 first to establish the overflow risk the rule guards against was absent"
+    }
+   ],
+   "n": 3,
+   "above_threshold": true
+  },
+  {
+   "theme": "T3 fan-out's persist contract prescribes a transformation the data's arrival shape forbids",
+   "obstacle": "fan-out.md mandates a scripted decode / a strip-only persist, but the body arrives in-context, a return carries substantive trailing commentary, or a return carries a host path the persist contract has no sanctioned transformation for",
+   "natures": [
+    "process"
+   ],
+   "members": [
+    {
+     "id": "2026-09-11T07:48:40Z-a",
+     "idx": 0,
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+     "step": "phase/distill",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "fan-out.md prescribes a scripted entity-decode over the returned body, but the body arrives in-context and the same contract mandates persistence via the Write tool, so no on-disk body exists for a script to transform; decoded by hand while authoring each Write and satisfied the verifiable half with the mandated post-persist entities=0 probe, which passed 7/7. Cost no redo cycles"
+    },
+    {
+     "id": "2026-09-11T07:48:40Z-a",
+     "idx": 1,
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+     "step": "phase/distill",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "arch returned a substantive trailing Research caveat paragraph after its last section naming exactly what P3 must verify against the tree; fan-out.md requires trailing commentary be stripped, so it was stripped, preserved in .raw-arch.md, and its substance carried forward by the orchestrator into P3 rather than lost"
+    },
+    {
+     "id": "2026-09-12T12:53:58Z-a",
+     "idx": 0,
+     "chunk": "2026-09-12-ledger-gate-id-space-generalised",
+     "step": "phase/distill",
+     "nature": "process",
+     "solution": "removed-cause",
+     "note": "the a11y return cited the modify-set by absolute host path; fan-out's persist contract sanctions strip + entity-decode only, so normalising it was outside the documented transformation. Done anyway because run-dir artifacts are tracked and the project bans absolute host paths in committed artifacts; the twin records the delta descriptively rather than quoting the prefix"
+    }
+   ],
+   "n": 3,
+   "above_threshold": true
+  },
+  {
+   "theme": "T5 a written prescription does not fit the measured reality; narrowed or extended in flight with the substitution stated",
+   "obstacle": "a plan step, gate or flip-compaction rule cannot be executed as written (a deferral it would void, a capability the stub lacks, a RED pre-existing baseline, a touchpoint list missing a transitive requirement, a one-line sweep under a whole-file-Write rule, a pointer that would sit beside a contradiction the chunk disproved)",
+   "natures": [
+    "process",
+    "environment",
+    "product-logic"
+   ],
+   "members": [
+    {
+     "id": "2026-09-11T10:23:43Z-a",
+     "idx": 0,
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+     "step": "implement/smoke",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "Did not run the skill's prescribed agent-run.sh run then status drive. That verb executes the workspace compile gates this chunk deferred under the source-delta-proportional rule, and re-running them at the smoke would have voided the deferral for a chunk with zero compiled-source delta. Recorded the already-green P2 smoke entry instead, and stated the substitution rather than skipping silently"
+    },
+    {
+     "id": "2026-09-12T18:35:29Z-a",
+     "idx": 0,
+     "chunk": "2026-09-12-ledger-gate-id-space-generalised",
+     "step": "wrap-session/gates",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "the flip-compaction prescribes ONE whole-file Write of working-route.md and never per-line edits; exactly one line needed stripping, so a single anchored Edit was used instead — same atomicity for a one-line sweep, and it avoided retyping 45 lines including two multi-KB annotation entries. The rule reads as guarding a multi-line sweep against partial application, which a single Edit does not risk"
+    },
+    {
+     "id": "2026-09-13T18:26:53Z-a",
+     "idx": 0,
+     "chunk": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+     "step": "phase/validate",
+     "nature": "environment",
+     "solution": "workaround",
+     "note": "the RUSTDOCFLAGS=-D warnings gate baselined RED at HEAD on five pre-existing private-intra-doc-link errors in conductor-emit; narrowed the gate's asserted signal to lacks conductor_core plus the 5-warning count rather than fixing the five, and named a route candidate as owner instead of inheriting the red"
+    },
+    {
+     "id": "2026-09-13T18:48:55Z-a",
+     "idx": 0,
+     "chunk": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+     "step": "implement/code",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "plan step 5 prescribed driving observe with >=3 incidents; StubConfig has no incident-count knob and tests/common/mod.rs is unlisted, so the kill was implemented at ONE incident, where the ==/!= loop-index mutation still discriminates (correct logs 1 line, mutant logs 0) instead of widening scope"
+    },
+    {
+     "id": "2026-09-13T18:48:55Z-a",
+     "idx": 1,
+     "chunk": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+     "step": "implement/code",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "edited crates/conductor-core/src/lib.rs, absent from the plan's touchpoints, to re-export ENVELOPE_KEYS_SORTED — a transitive requirement of listed step 9 (codebase-research names a crate-root re-export a boundary member, not a gray-area call)"
+    },
+    {
+     "id": "2026-09-14T15:56:29Z-a",
+     "idx": 0,
+     "chunk": "2026-09-13-p-025-measurement-contract-for-pulse",
+     "step": "implement/code",
+     "nature": "product-logic",
+     "solution": "removed-cause",
+     "note": "step 9 specified a one-line pointer into the scenario header; the two lines immediately above the insertion point state that copying last_observed_unix_nanos or reading span arrival would lift the bound, which is the premise this chunk measured false - shipped three comment lines instead, so the pointer does not sit beside an uncorrected contradiction of the contract it points at. Comment-only, same paragraph, load path untouched; reported as a deviation at P4"
+    }
+   ],
+   "n": 6,
+   "above_threshold": true
+  },
+  {
+   "theme": "T6 a false-positive-prone hygiene gate is satisfied by changing the OUTPUT, never the pattern",
+   "obstacle": "a hygiene gate's anchor admits content that is not the class it guards (a registry provider prefix; the gate's own swept token inside a control fixture)",
+   "natures": [
+    "product-logic",
+    "process"
+   ],
+   "members": [
+    {
+     "id": "2026-09-11T09:44:21Z-a",
+     "idx": 1,
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+     "step": "implement/code",
+     "nature": "product-logic",
+     "solution": "workaround",
+     "note": "Restructured the probe's OUTPUT form to avoid tripping a gate this chunk itself authored: the host-path hygiene grep anchors on [A-Za-z]:[\\/], which also matches the PowerShell registry provider form HKLM:\\ — a registry key, not a host file path. The probe now reads keys in provider form and REPORTS them in the colon-free reg.exe form HKLM\\SOFTWARE\\..., so the reading stays precise without a false positive"
+    },
+    {
+     "id": "2026-09-12T14:59:31Z-a",
+     "idx": 0,
+     "chunk": "2026-09-12-ledger-gate-id-space-generalised",
+     "step": "phase/validate",
+     "nature": "process",
+     "solution": "removed-cause",
+     "note": "the probe known-positive control was first minted as a whole 267-line copy of the gate source into the tracked run dir, which would have seeded that directory with twelve further occurrences of the very token this chunk sweeps for; replaced with a minimal non-Rust control carrying only the post-fix filter line, and both probe directions re-verified against it"
+    }
+   ],
+   "n": 2,
+   "above_threshold": false
+  },
+  {
+   "theme": "T7 a sweep result is written into an artifact before the sweep is run; a pipeline re-derive step catches it",
+   "obstacle": "a claim is authored as measured without the command having been run; the correction comes from the template's own re-derive-before-fan-out / caught-ALL step, not from recall",
+   "natures": [
+    "process"
+   ],
+   "members": [
+    {
+     "id": "2026-09-11T12:37:10Z-a",
+     "idx": 1,
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+     "step": "wrap-session/report",
+     "nature": "process",
+     "solution": "removed-cause",
+     "note": "Corrected a measurement error in this chunk's own evidence before it could be committed: reading.md cited the isolation step's third-from-last line (10:14:58.906Z) and derived 0.68s, where the true last line is 10:14:58.9421153Z and the interval to the probe's marker is 0.645s. Operator supplied the corrected pair; re-derived from the captured log before applying"
+    },
+    {
+     "id": "2026-09-11T12:47:30Z-a",
+     "idx": 1,
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+     "step": "wrap-session/reconcile",
+     "nature": "process",
+     "solution": "removed-cause",
+     "note": "Corrected the report's false ownership claim (a11y-plan named as a co-owner of a fact it does not state) at Validate check 5, before it could become a hand-raised amendment against that doc"
+    },
+    {
+     "id": "2026-09-13T16:58:00Z-b",
+     "idx": 0,
+     "chunk": null,
+     "step": "wrap-session/route-resolve",
+     "nature": "process",
+     "solution": "removed-cause",
+     "note": "The directive scoped the freight as not-to-re-derive; every coordinate was verified against the audit run dir and the sources anyway (survivor arithmetic 25-8=17, five duplication pairs 36-44 lines, both envelope line ranges under cfg(test), unused_deps). Four of five reproduced exactly; the fifth was refined, removing the cause of a contradicting grep at take-up."
+    }
+   ],
+   "n": 3,
+   "above_threshold": true
+  },
+  {
+   "theme": "T4 a step executes outside its documented repertoire rather than assert from memory (BELOW threshold, n=2)",
+   "obstacle": "P3's repertoire is targeted reads plus graph queries and P4's is synthesis, but a premise closure / a gate's real behaviour can only be established by execution",
+   "natures": [
+    "process"
+   ],
+   "members": [
+    {
+     "id": "2026-09-11T07:55:11Z-a",
+     "idx": 0,
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+     "step": "phase/research",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "Ran a live read-only PowerShell feasibility probe on the dev host, which is outside P3's documented repertoire of targeted reads plus graph queries. Done because the scope premise closure requires verifying or falsifying the spawn premise and no file can establish that no spawn is needed; the alternative was asserting it from memory. Wrote the script to the session scratchpad and ran it by path per the host rule"
+    },
+    {
+     "id": "2026-09-11T09:31:19Z-a",
+     "idx": 0,
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-probed",
+     "step": "phase/plan",
+     "nature": "process",
+     "solution": "workaround",
+     "note": "Validated three candidate gate commands by executing them during P4, which is synthesis rather than execution in the step's documented repertoire. Done because authoring a gate whose behaviour is guessed is how a false red reaches /implement; the gh exit-code check in particular changed what the entry asserts"
+    }
+   ],
+   "n": 2,
+   "above_threshold": false
+  },
+  {
+   "theme": "T8 a guard is added so a future run cannot discharge an undecided outcome by wording (BELOW threshold, n=2)",
+   "obstacle": "an undecidable capability outcome and a commit the skill must not make were both being resolved by plan wording",
+   "natures": [
+    "process"
+   ],
+   "members": [
+    {
+     "id": "2026-09-11T18:09:05Z-a",
+     "idx": 0,
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+     "step": "phase/take-up",
+     "nature": "process",
+     "solution": "prohibition",
+     "note": "operator directive point 3 added a standing prohibition to the plan’s shape — the skill must not commit and the plan must stop asking it to, with commit+push named as an operator step before any CI-consuming entry; it corrects the pattern the predecessor plan carried, which wrap recorded as a deviation"
+    },
+    {
+     "id": "2026-09-11T18:41:57Z-a",
+     "idx": 0,
+     "chunk": "2026-09-11-hosted-runner-endpoint-cause-closed",
+     "step": "phase/validate",
+     "nature": "process",
+     "solution": "prohibition",
+     "note": "a do-not guard was added to the plan at validate rather than at synthesis — \"Do not force the v3-01 claim\": an undecidable arm-B outcome is surfaced and the cap returns to the pool, never discharged by wording. Added as follow-through on the review commitment."
+    }
+   ],
+   "n": 2,
+   "above_threshold": false
+  }
+ ],
+ "pass_b_signatures": {
+  "chronic_degrade": {
+   "fires": true,
+   "subject": "tooling.host-shell",
+   "per_epoch": [
+    0,
+    0,
+    14,
+    13,
+    3,
+    4,
+    8,
+    10
+   ],
+   "note": "six consecutive epochs, 10 this epoch across every chunk plus orientation, zero halts in any epoch; correlate theme T1"
+  },
+  "override": {
+   "fires": true,
+   "n_facts": 5,
+   "note": "5 overridden facts, 4 nature=process, 3 at wrap steps; contract.no-sanctioned-channel n=2 in-epoch and n=2 in the prior epoch; one note reads 'THIRD such wrap in four days'"
+  },
+  "band_aid": {
+   "fires": true,
+   "themes": [
+    "T1",
+    "T2",
+    "T3",
+    "T5"
+   ]
+  },
+  "removed_cause_recurring": {
+   "fires": true,
+   "themes": [
+    "T7"
+   ],
+   "note": "observation per Stage 4 Pass A: the same cause keeps returning despite removal"
+  },
+  "deferred_forever": {
+   "fires": false,
+   "note": "all 5 deferred facts name a destination (v3-02 or its own entry; wrap Expected amendments; the plan Implementation notes; the successor chunk which measured both follow-ups; the source-delta-proportional pin). Per Stage 4 signature 3 a destination-naming deferral is routed, not orphaned. The ci.yml $env:TEMP/$env:LOCALAPPDATA registration drift routed to wrap Expected amendments and its closure is NOT visible in the ledger - the amendment sidecars are not an input to this skill, so closure is unverified here rather than absent."
+  }
+ }
+}

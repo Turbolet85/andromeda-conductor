@@ -1,0 +1,81 @@
+{
+ "label": "head",
+ "population": "jscpd --format rust over crates/ (Rust only)",
+ "pct": 2.6292969959739856,
+ "duplicated_lines": 849,
+ "total_lines": 32290,
+ "clones": 102,
+ "sources": 135,
+ "split": {
+  "src": {
+   "pairs": 52,
+   "lines": 498
+  },
+  "test": {
+   "pairs": 40,
+   "lines": 354
+  },
+  "mixed": {
+   "pairs": 10,
+   "lines": 99
+  }
+ },
+ "split_pairs_only": {
+  "src": 52,
+  "test": 40,
+  "mixed": 10
+ },
+ "top": [
+  [
+   "conductor-emit/src/latency.rs",
+   "conductor-emit/src/rate.rs",
+   17
+  ],
+  [
+   "conductor-core/src/scenario.rs",
+   "conductor-core/src/scenario.rs",
+   16
+  ],
+  [
+   "conductor-emit/src/latency.rs",
+   "conductor-emit/src/rate.rs",
+   15
+  ],
+  [
+   "conductor-emit/src/span_tree.rs",
+   "conductor-emit/src/topology.rs",
+   15
+  ],
+  [
+   "conductor-core/src/expected.rs",
+   "conductor-verify/src/slo.rs",
+   14
+  ],
+  [
+   "conductor-core/src/pause.rs",
+   "conductor-core/tests/operator_pause.rs",
+   14
+  ],
+  [
+   "conductor-core/src/run_record.rs",
+   "conductor-report/src/db.rs",
+   14
+  ],
+  [
+   "conductor-emit/src/logs.rs",
+   "conductor-emit/src/pii.rs",
+   14
+  ],
+  [
+   "conductor-emit/src/topology.rs",
+   "conductor-emit/tests/multi_service_topology.rs",
+   14
+  ],
+  [
+   "conductor-run/src/canary.rs",
+   "conductor-verify/src/preflight.rs",
+   14
+  ]
+ ],
+ "note": "baseline recorded split as bare pair COUNTS; collectors.md pins {pairs,lines} -- both emitted, split_pairs_only is the comparable half"
+}

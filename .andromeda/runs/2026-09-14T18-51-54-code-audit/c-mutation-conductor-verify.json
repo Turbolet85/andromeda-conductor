@@ -1,0 +1,63 @@
+{
+ "unit": "conductor-verify",
+ "shard": null,
+ "elapsed_s": 470.4,
+ "exit": 2,
+ "killed_at_cap": false,
+ "completion_state": "complete",
+ "command": "cargo mutants -p conductor-verify --test-tool=nextest --jobs 2 --output D:/dev/projects/conductor/.andromeda/runs/2026-09-14T18-51-54-code-audit/mutants-conductor-verify",
+ "planned_from_mutants_json": 147,
+ "counts": {
+  "mutants": 147,
+  "caught": 112,
+  "missed": 10,
+  "timeout": 0,
+  "unviable": 25
+ },
+ "score": 91.8,
+ "score_formula": "caught/(caught+missed)  [timeout and unviable excluded]",
+ "survivors": [
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:18:5",
+   "replace main with ()"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:37:60",
+   "replace || with && in main"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:45:5",
+   "replace stub_result -> Value with Default::default()"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:46:9",
+   "delete match arm \"initialize\" in stub_result"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:51:9",
+   "delete match arm \"tools/list\" in stub_result"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:58:9",
+   "delete match arm \"tools/call\" in stub_result"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:63:21",
+   "replace == with != in stub_result"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:75:28",
+   "replace == with != in stub_result"
+  ],
+  [
+   "crates/conductor-verify/src/spawn.rs:116:5",
+   "replace sidecar_resolves_on_path -> bool with true"
+  ],
+  [
+   "crates/conductor-verify/src/spawn.rs:116:5",
+   "replace sidecar_resolves_on_path -> bool with false"
+  ]
+ ],
+ "unit_state": "complete (147/147 tested)",
+ "survivors_source": "mutants.out/missed.txt, row count asserted == counts.missed from outcomes.json"
+}

@@ -1,0 +1,43 @@
+{
+ "unit": "conductor-run",
+ "shard": null,
+ "elapsed_s": 873.1,
+ "exit": 2,
+ "killed_at_cap": false,
+ "completion_state": "complete",
+ "command": "cargo mutants -p conductor-run --test-tool=nextest --jobs 2 --output D:/dev/projects/conductor/.andromeda/runs/2026-09-14T18-51-54-code-audit/mutants-conductor-run",
+ "planned_from_mutants_json": 118,
+ "counts": {
+  "mutants": 118,
+  "caught": 84,
+  "missed": 5,
+  "timeout": 0,
+  "unviable": 29
+ },
+ "score": 94.38,
+ "score_formula": "caught/(caught+missed)  [timeout and unviable excluded]",
+ "survivors": [
+  [
+   "crates/conductor-run/src/canary.rs:56:8",
+   "delete ! in preflight"
+  ],
+  [
+   "crates/conductor-run/src/execute.rs:105:17",
+   "delete field degraded from struct Observation expression in execute_scenario"
+  ],
+  [
+   "crates/conductor-run/src/execute.rs:148:25",
+   "replace - with + in execute_scenario"
+  ],
+  [
+   "crates/conductor-run/src/execute.rs:148:25",
+   "replace - with / in execute_scenario"
+  ],
+  [
+   "crates/conductor-run/src/preconditions.rs:44:5",
+   "replace declares -> bool with false"
+  ]
+ ],
+ "unit_state": "complete (118/118 tested)",
+ "survivors_source": "mutants.out/missed.txt, row count asserted == counts.missed from outcomes.json"
+}

@@ -1,0 +1,251 @@
+{
+ "unit": "conductor-emit",
+ "shard": "1/4",
+ "elapsed_s": 800.9,
+ "exit": 3,
+ "killed_at_cap": false,
+ "completion_state": "complete",
+ "command": "cargo mutants -p conductor-emit --test-tool=nextest --jobs 2 --output D:/dev/projects/conductor/.andromeda/runs/2026-09-14T18-51-54-code-audit/mutants-conductor-emit --shard 1/4",
+ "planned_from_mutants_json": 115,
+ "counts": {
+  "mutants": 115,
+  "caught": 48,
+  "missed": 57,
+  "timeout": 10,
+  "unviable": 0
+ },
+ "score": 45.71,
+ "score_formula": "caught/(caught+missed)  [timeout and unviable excluded]",
+ "survivors": [
+  [
+   "crates/conductor-emit/src/exception.rs:316:46",
+   "replace + with - in is_absolute_path_start"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:316:46",
+   "replace + with * in is_absolute_path_start"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:323:9",
+   "replace && with || in skip_absolute_path"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:322:9",
+   "replace && with || in skip_absolute_path"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:321:9",
+   "replace && with || in skip_absolute_path"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:320:14",
+   "replace < with <= in skip_absolute_path"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:320:10",
+   "replace + with - in skip_absolute_path"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:320:10",
+   "replace + with * in skip_absolute_path"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:323:51",
+   "replace == with != in skip_absolute_path"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:323:46",
+   "replace + with - in skip_absolute_path"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:323:46",
+   "replace + with * in skip_absolute_path"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:327:11",
+   "replace += with *= in skip_absolute_path"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:329:13",
+   "replace < with <= in skip_absolute_path"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:340:7",
+   "replace += with *= in skip_line_number_suffix"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:341:13",
+   "replace < with <= in skip_line_number_suffix"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:342:11",
+   "replace += with -= in skip_line_number_suffix"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:344:44",
+   "replace && with || in skip_line_number_suffix"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:344:10",
+   "replace < with == in skip_line_number_suffix"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:344:10",
+   "replace < with > in skip_line_number_suffix"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:344:10",
+   "replace < with <= in skip_line_number_suffix"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:344:36",
+   "replace == with != in skip_line_number_suffix"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:344:53",
+   "replace < with == in skip_line_number_suffix"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:344:53",
+   "replace < with > in skip_line_number_suffix"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:344:53",
+   "replace < with <= in skip_line_number_suffix"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:344:49",
+   "replace + with - in skip_line_number_suffix"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:344:49",
+   "replace + with * in skip_line_number_suffix"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:344:78",
+   "replace + with - in skip_line_number_suffix"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:344:78",
+   "replace + with * in skip_line_number_suffix"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:345:11",
+   "replace += with -= in skip_line_number_suffix"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:345:11",
+   "replace += with *= in skip_line_number_suffix"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:346:31",
+   "replace && with || in skip_line_number_suffix"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:346:17",
+   "replace < with == in skip_line_number_suffix"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:346:17",
+   "replace < with > in skip_line_number_suffix"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:346:17",
+   "replace < with <= in skip_line_number_suffix"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:347:15",
+   "replace += with -= in skip_line_number_suffix"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:347:15",
+   "replace += with *= in skip_line_number_suffix"
+  ],
+  [
+   "crates/conductor-emit/src/latency.rs:42:9",
+   "replace LatencyProfile::p50_ms -> u64 with 0"
+  ],
+  [
+   "crates/conductor-emit/src/latency.rs:42:9",
+   "replace LatencyProfile::p50_ms -> u64 with 1"
+  ],
+  [
+   "crates/conductor-emit/src/latency.rs:47:9",
+   "replace LatencyProfile::p95_ms -> u64 with 0"
+  ],
+  [
+   "crates/conductor-emit/src/latency.rs:47:9",
+   "replace LatencyProfile::p95_ms -> u64 with 1"
+  ],
+  [
+   "crates/conductor-emit/src/latency.rs:52:9",
+   "replace LatencyProfile::p99_ms -> u64 with 0"
+  ],
+  [
+   "crates/conductor-emit/src/latency.rs:52:9",
+   "replace LatencyProfile::p99_ms -> u64 with 1"
+  ],
+  [
+   "crates/conductor-emit/src/latency.rs:113:31",
+   "replace + with - in sample_durations_nanos"
+  ],
+  [
+   "crates/conductor-emit/src/latency.rs:125:20",
+   "replace + with - in quantile"
+  ],
+  [
+   "crates/conductor-emit/src/latency.rs:125:20",
+   "replace + with * in quantile"
+  ],
+  [
+   "crates/conductor-emit/src/latency.rs:125:34",
+   "replace / with % in quantile"
+  ],
+  [
+   "crates/conductor-emit/src/latency.rs:125:34",
+   "replace / with * in quantile"
+  ],
+  [
+   "crates/conductor-emit/src/latency.rs:125:27",
+   "replace - with + in quantile"
+  ],
+  [
+   "crates/conductor-emit/src/latency.rs:125:27",
+   "replace - with / in quantile"
+  ],
+  [
+   "crates/conductor-emit/src/latency.rs:126:10",
+   "replace < with == in quantile"
+  ],
+  [
+   "crates/conductor-emit/src/latency.rs:126:10",
+   "replace < with <= in quantile"
+  ],
+  [
+   "crates/conductor-emit/src/latency.rs:128:17",
+   "replace < with <= in quantile"
+  ],
+  [
+   "crates/conductor-emit/src/latency.rs:130:17",
+   "replace < with == in quantile"
+  ],
+  [
+   "crates/conductor-emit/src/latency.rs:130:17",
+   "replace < with > in quantile"
+  ],
+  [
+   "crates/conductor-emit/src/latency.rs:130:17",
+   "replace < with <= in quantile"
+  ],
+  [
+   "crates/conductor-emit/src/latency.rs:133:36",
+   "replace / with % in quantile"
+  ],
+  [
+   "crates/conductor-emit/src/latency.rs:133:36",
+   "replace / with * in quantile"
+  ]
+ ],
+ "unit_state": "complete (115/115 tested) of the unit — shard 1/4",
+ "survivors_source": "mutants.out/missed.txt, row count asserted == counts.missed from outcomes.json"
+}
