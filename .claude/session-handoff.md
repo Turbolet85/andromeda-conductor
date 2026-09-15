@@ -1,73 +1,69 @@
 # Session Handoff
 
-**Last Updated:** 2026-09-15T13:04:12Z
-**Branch:** `build/conductor-0.3.0` · **1 ahead of `origin/build/conductor-0.3.0` at this write** —
-measured, not inherited; this wrap's commit leaves it 2 ahead. The operator pushes.
-**Status:** clean — all 10 light-gate entries green by their `expect`, no deferral, no `leg` entry, no red.
-(Entry 7's `exit 1` IS its expect: the evidence host-path grep finding nothing.)
-**Last Commit:** `feat(2026-09-15-structurally-dead-assertion-class-retired)` — see below.
+**Last Updated:** 2026-09-15T15:28:23Z
+**Branch:** `build/conductor-0.3.0` · **2 ahead of `origin/build/conductor-0.3.0` at this write** —
+measured, not inherited; this wrap's commit leaves it 3 ahead. The operator pushes.
+**Status:** clean — all 8 plan gates green at the light gate, no deferral, no `leg` entry, no red.
+**Last Commit:** `feat(2026-09-15-remaining-structurally-dead-declarations-retired)` — see below.
 
 ## Position
-- Done: **`2026-09-15-structurally-dead-assertion-class-retired`** — four structurally-dead `[[expected]]`
-  declarations retired to declare-only in one pass (P-079, P-045, P-073 `CountAtLeast` floors; P-036's
-  `Hard Contains`), six pinning tests updated in the same change. Master-route **128 complete, 0 pending**.
-- Next: **`Remaining structurally-dead declarations retired`** — `conductor-0.3.0/working-route.md:26`, head
-  of the markerless tail, MINTED THIS WRAP on operator direction. Carries two `CARRY:` annotations. No
-  `PREREQ:`, no `BLOCKED-ON:`.
-- Coverage **2/11 verified · 9 unclaimed** — `v3-04` was claimed at phase P5 and **UN-CLAIMED here** on the
-  operator's ruling, so it returns to the pool and this chunk stands as an explicit PARTIAL advance.
+- Done: **`2026-09-15-remaining-structurally-dead-declarations-retired`** — the six structurally-dead
+  `[[expected]]` blocks across five scenarios retired to declare-only, eight pinning tests moved in the
+  same change. Master-route **129 complete, 0 pending**.
+- Next: **`Scenario tier honesty`** — `conductor-0.3.0/working-route.md:28`, head of the markerless tail.
+  No annotations, no `PREREQ:`, no `BLOCKED-ON:`.
+- Coverage **3/11 verified · 8 unclaimed** — `v3-04` claimed at phase P5, flipped to `verified` here.
+  The class it asserts is now COMPLETE: every committed `[[expected]]` block is satisfiable or retired.
 
 ## Work done
-Retired the class the route entry named — four declarations across four scenarios, each with a
-`DECLARE-ONLY` header recording its measured ground at Pulse HEAD `83d4060`. **+136/−110 over 5 files.**
-`Cargo.lock` byte-unchanged at 562 packages. Workspace tests **982 → 983** (one added pin: `pulse-run-contract`
-was the class's single unpinned member, an in-scope addition beyond the plan's five).
+Retired `activity-floor` (`Absent "ServiceWentSilent"`), `service-went-silent` (`Contains` same token),
+`high-severity-log-capture` (both blocks — `Contains "ERROR"` + `Absent "WARN"`), `exception-event-capture`
+(`Contains "exception"`) and `threshold-hot-reload` (`Absent "RetroactiveReeval"`), each with a
+`DECLARE-ONLY` header stating its own ground measured at Pulse HEAD `83d4060`. **+161/−131 over 6 files**,
+none new. `Cargo.lock` byte-unchanged at 562 packages. Workspace tests **983 → 979** (net −4, reconciled).
 
-**The chunk's own enumeration disproved its requirement's premise.** `v3-04` asserts a UNIVERSAL — every
-committed scenario's checks satisfiable or retired — so the chunk enumerated all 12 live `[[expected]]`
-blocks and measured **six more structurally dead** across five scenarios (two PascalCase `CueKind` tokens
-against a `snake_case` serde rename · two uppercase severity tokens against a lowercase label · one token
-with zero occurrences tree-wide · one absent from every composed-text field), **three in the vacuous-PASS
-direction**. Implement surfaced it and correctly withheld the matrix write.
+**Three consequences research found that no input named:** an rstest case list that had to SPLIT (two
+retirees beside two untouched survivors); a family suite guard that BROKE because `threshold-hot-reload` was
+its last non-empty member; and the prior chunk contradicting itself — `scenario.rs:1299-1302` called P-056's
+`Hard Absent` "satisfiable" while that chunk's own enumeration classified it dead. Re-derivation at HEAD
+settled it for the enumeration and the comment is corrected.
 
 ## Drift resolved
-**5 amendments across 2 masters, 0 escalations, 5 docs clean.** `architecture.md` ×3 (§Standard Contracts
-declare-only registry EIGHT→NINE families; §Established Decisions [Read-Back Dependency Posture] re-tensed;
-[Run-History Persistence] restated) · `obs-plan.md` ×2 (both on line 349 — the roster three→four and the
-exclusion clause). Cascade swept 11 patterns over 28 files with a known-positive control: **14 hits, 10 this
-pass's own text, 4 no-change**; no leaf re-derivation owed (the `GENERATED:setup:warnings` block holds 0 of
-the 6 amended tokens). **Drift = 0.**
+**1 amendment, 1 master, 0 escalations, 6 docs clean.** `architecture.md` §Standard Contracts — the
+declare-only registry's structurally-dead-assertion class gains the five, plus a durable COMPLEMENT anchor
+(two scenarios still declare live checks, 2 of 36) that shrinks rather than grows.
 
-**The fan-out caught a gap in my own report.** Its first draft dispositioned `architecture.md:70` as
-"unrelated" from a 300-char clipped view of a **10,432-character** line; the token sits at offset 5712 stating
-the retired claim, and a third site at `:72` uses a different token entirely. Corrected in the report as a
-SWEEP CORRECTION. True site set: arch `:70` `:72` `:135`, obs-plan `:349` (twice).
+**The detector's premise was wrong and so was the report's.** `D-arch-resources` proposed re-basing on the
+claim that the "NINE families" COUNT had gone stale — inherited verbatim from the report's own Counts
+bullet. An offset read of the 1 701-char clause shows 21 scenarios in 9 groups and this chunk's five joining
+an EXISTING group, so the count never moved; only that class's membership (3 → 8) did. Applied re-derived
+per amendment-flow §Apply, report corrected, the proposal's wholesale reframing declined. Cascade: 0 leaf
+re-derivations owed, measured not assumed.
 
 ## Notes
-- **`v3-04` un-claimed, acceptance NOT re-worded** (operator ruling: the requirement is right and the world
-  is wrong). A dated PREMISE-CORRECTION rides its `notes`; the next claiming chunk re-concretizes over the
-  FULL population and must not re-derive this dead end.
-- **The two satisfiable-but-weak survivors are deliberately untouched** — `root-span-error-scope` and
-  `span-status-error-detection` match the fixture's lowercase severity constant. Retiring live coverage on a
-  false equivalence would be the opposite of solving; the "what counts as satisfiable" question belongs to
-  the `Scenario-assertion audit gate` entry (`working-route.md:30`).
-- **One dictated coordinate did not reproduce and the measured one was used:** the wrap directive placed the
-  four uppercase `"ERROR"` strings inside `appender.rs`'s `#[cfg(test)]` module "opened at `:931`" — that
-  file's markers are at `:2`, `:660`, `:683` (containment holds, the line is wrong), and uppercase `"ERROR"`
-  also occurs in five files outside `appender.rs`. The finding is unaffected: the enumeration's basis is the
-  lowercase severity rendering, never an absence of the literal.
-- **Curation: T1 1 · T2 1 (in-place extension) · T3 0 · 1 duplicate · 1 recurrence.** Tier 1 gained the
-  concretization trap (394 B, inside the 600 B cap; CLAUDE.md 135 → 136 lines). `testing.md`'s inferred-token
-  entry gained the case-sensitivity facet — the same representation mismatch appeared three times in one
-  enumeration, which is what carried it past the threshold.
-- **`recurrence-despite-learning`: `host-win32.md`'s 2026-09-10 entry** ("a line-granular grep cannot DATE a
-  clause inside a multi-KB single-line entry — resolve by OFFSET") did not prevent the report's `:70`
-  mis-disposition. Logged, not re-minted: a third corpus entry is not the remedy.
-- **Playbook rule PROPOSED, not minted:** no rule of the 47 governs "a spec body states a scenario's
-  check-membership that a retirement falsifies". Rule @171 subject-matched but failed its own qualifier. The
-  operator's directive settled these five proposals; the class ruling is the operator's.
+- **A name-keyed sweep would have missed three sites.** The cascade sweep keyed on the five scenario NAMES
+  first; only a second pass keyed on the retired TOKENS (`ServiceWentSilent`, `RetroactiveReeval`) reached
+  the `testing.md` entries that state the retired check-membership without naming any scenario. 0 of the 6
+  token hits were in a master.
+- **`recurrence-despite-learning` ×2, both logged not re-minted.** (1) CLAUDE.md Tier 1's "a stale MECHANISM
+  outlives the stale NAME" did not make the token sweep the first move (self-corrected inside the step).
+  (2) CLAUDE.md Tier 1's 2026-09-04 jointly-contradictory-steps entry did not prevent this chunk's plan from
+  shipping exactly that pair — step 13 delegated a comment correction to step 12, which edits a different
+  function; caught at implement and reported as a deviation.
+- **Operator ruling recorded, not inferred.** "ONE pass" binds the coupling in its own second half (a
+  retirement moves with its pinning tests), which both chunks satisfy; what took two chunks was a corrected
+  SCOPE, not a decomposed retirement. `requirements.md:16` verified byte-exact and untouched. The ruling
+  rides `v3-04`'s acceptance and its `notes` — one canonical text, copied rather than re-worded.
+- **One dictated figure was re-derived and corrected:** the ruling said the first chunk "moved five pins";
+  `git show 21edf56` measures six (five re-shaped + one minted for `pulse-run-contract`). Substance
+  unaffected; the corrected form is what shipped.
+- **Owed to the operator — `.claude/rules/testing.md` is 81.3 KB**, past the Read tool's 25 000-token cap
+  (health check 4 flags it), and the two entries extended this wrap were already over the ~1.5 KB Tier-2
+  entry cap. The facets are one sentence each and belong beside the rules they qualify, so they were applied
+  in place — but the file needs a promotion pass. **wrap never auto-promotes.**
 - **Still open from prior sessions:** the n=1 deferred escalation class; the audit-debt chunk's discarded
   wrap `gates` evolve record; the `quantile` 14-vs-11 correction queued for the next `code-metrics.ndjson`
-  `corrections[]`. The `scripts/mutation-gate.py` timeout-blindness CARRY rides `working-route.md:30`.
+  `corrections[]`; `scripts/code-graph-cookbook.md` 16 lines behind its template (the gap adds an index-gap
+  clause to the 0-row rule CLAUDE.md's Tier 1 relies on — re-seed via `/andromeda-setup-project`).
 - **`v3-08` stays BLOCKED** — unchanged; it needs a Pulse release emitting the contracted observable.
 - **Last failed command:** none.

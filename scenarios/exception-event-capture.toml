@@ -6,6 +6,25 @@
 # Emit spans carrying OTel `exception` span events (exception.type / message / stacktrace); Pulse
 # captures and stores them, accessible to the pattern detector (P-017) and the report generator.
 # Hard signal. Exception events ride on trace spans, so the phase emits traces (the default signal).
+#
+# DECLARE-ONLY (2026-09-15-remaining-structurally-dead-declarations-retired) — the
+# `Contains "exception"` check was retired. Measured at SUT HEAD `83d4060`:
+#   (1) THE GRADED TEXT HAS TWO SOURCES ONLY. `conductor-verify/src/extract.rs` composes
+#       `Observation.text` from `query_incident_list`'s per-item status/severity/title and from
+#       each incident's `retrieve_report` markdown — nothing else.
+#   (2) NEITHER CARRIES THE TOKEN. The report markdown has a SOLE composer:
+#       `dispatch_retrieve_report` (`crates/mcp-server/src/tools.rs:360-387`) builds it through
+#       `assemble_report` and `serialize_report`, both defined in
+#       `crates/interpretation/src/markdown.rs` (`:249`, `:115`), and
+#       `git grep -c --fixed-strings 'exception' -- 'crates/interpretation/src/markdown.rs'`
+#       exits 1 (no matches). The status/severity/title half is pinned by the deterministic
+#       fixture to `"autonomous"` / `"Deterministic verification incident"`
+#       (`pulse-app/src/deterministic_inference.rs:42-43`).
+#   (3) THE CHECK FAILED STRUCTURALLY — false in every world, never a graded outcome.
+# P-006's real claim — that Pulse CAPTURES and STORES the exception events — is untouched: the
+# emission phase above still drives them, and the storage is what P-017/P-018 fingerprinting
+# consumes downstream. What is missing is a read-back surface that exposes the capture, not the
+# capture itself; asserting it needs an observable Pulse does not currently expose.
 name = "exception-event-capture"
 p_ids = ["P-006"]
 seed = 4317006
@@ -19,9 +38,3 @@ gap_ms = 2000
 kind = "exception"
 occurrences = 4
 variants = ["identical"]
-
-# The captured exception is accessible to the pattern detector / report generator.
-[[expected]]
-kind = "Contains"
-class = "Hard"
-expected = "exception"

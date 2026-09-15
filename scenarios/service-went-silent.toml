@@ -11,6 +11,19 @@
 # incident is P-020 discretion (a later severity-lifecycle chunk), not asserted here.
 # Coverage mode: drive+observe — the cue is auto (MCP read-back); the dimmed constellation dot is
 # operator-checklist.
+#
+# DECLARE-ONLY (2026-09-15-remaining-structurally-dead-declarations-retired) — the
+# `Contains "ServiceWentSilent"` check was retired. Measured at SUT HEAD `83d4060`:
+#   (1) THE TOKEN IS NEVER RENDERED. `crates/triage/src/contract.rs:181` declares
+#       `#[serde(rename_all = "snake_case")]` on `CueKind`, so every serialized render emits
+#       `service_went_silent`. The PascalCase spelling exists only as a Rust identifier.
+#   (2) THE CHECK FAILED STRUCTURALLY. A case-sensitive `Contains` of a token no producer emits is
+#       false in every world — the permanently-failing half of the class, and the same ground as
+#       `activity-floor`'s vacuous `Absent` (the two are the P-013/P-014 outcome-coherent pair).
+# Correcting the token to `service_went_silent` is DELIBERATELY not done here: it would make the
+# check reachable, not proven, and could hard-Fail a live run on an unproven premise. Whether any
+# read-back surface carries a cue kind at all under deterministic L4 is the open question that
+# retired the restart-suppression and severity-lifecycle families before this one.
 name = "service-went-silent"
 p_ids = ["P-014"]
 seed = 4317014
@@ -30,9 +43,3 @@ gap_ms = 35000   # abrupt stop; >30s of silence -> ServiceWentSilent at the 30s 
 [phases.emission]
 kind = "plain"
 occurrences = 0   # the abrupt stop: no resume, the P-014 activity-floor lever
-
-# P-014 — the silence cue surfaces.
-[[expected]]
-kind = "Contains"
-class = "Hard"
-expected = "ServiceWentSilent"

@@ -1,0 +1,197 @@
+[
+{
+"sql": "SELECT caller_name, file, line FROM calls WHERE callee_name IN ('check_scenario_backing','check_sut_drift') AND callee_kind = 'fn' ORDER BY file, line;",
+"rows": 19,
+"result": [
+{
+"caller_name": "committed_artifacts_match_the_known_gap",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 249
+},
+{
+"caller_name": "an_accepted_id_outside_the_known_gap_is_drift",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 256
+},
+{
+"caller_name": "a_known_gap_entry_that_is_now_classified_is_drift",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 269
+},
+{
+"caller_name": "a_classified_id_the_manifest_dropped_is_drift",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 286
+},
+{
+"caller_name": "in_sync_with_an_empty_known_gap_passes",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 303
+},
+{
+"caller_name": "drift_message_names_identity_without_host_paths_or_type_names",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 310
+},
+{
+"caller_name": "the_committed_catalog_matches_the_unbacked_ledger",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 367
+},
+{
+"caller_name": "an_auto_row_with_no_scenario_outside_the_ledger_is_a_fault",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 374
+},
+{
+"caller_name": "a_ledger_entry_a_scenario_now_names_is_a_fault",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 391
+},
+{
+"caller_name": "a_ledger_entry_no_longer_auto_classified_is_a_fault",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 411
+},
+{
+"caller_name": "a_fully_backed_classification_with_an_empty_ledger_passes",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 428
+},
+{
+"caller_name": "only_auto_rows_need_scenario_backing",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 441
+},
+{
+"caller_name": "backing_message_names_identity_without_host_paths_or_type_names",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 447
+},
+{
+"caller_name": "drift_message_is_byte_identical_for_identical_inputs",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 476
+},
+{
+"caller_name": "drift_message_is_byte_identical_for_identical_inputs",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 479
+},
+{
+"caller_name": "crate",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 39
+},
+{
+"caller_name": "crate",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 39
+},
+{
+"caller_name": "every_accepted_capability_is_classified",
+"file": "crates/conductor-report/tests/coverage_gate.rs",
+"line": 41
+},
+{
+"caller_name": "removing_a_real_classification_row_fails_the_gate",
+"file": "crates/conductor-report/tests/coverage_gate.rs",
+"line": 58
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT callee_name, callee_kind, file, line FROM refs WHERE callee_name = 'UNBACKED_AUTO' ORDER BY file, line;",
+"rows": 14,
+"result": [
+{
+"callee_name": "UNBACKED_AUTO",
+"callee_kind": "term",
+"file": "crates/conductor-cli/src/render.rs",
+"line": 18
+},
+{
+"callee_name": "UNBACKED_AUTO",
+"callee_kind": "term",
+"file": "crates/conductor-cli/src/render.rs",
+"line": 298
+},
+{
+"callee_name": "UNBACKED_AUTO",
+"callee_kind": "term",
+"file": "crates/conductor-cli/src/render.rs",
+"line": 793
+},
+{
+"callee_name": "UNBACKED_AUTO",
+"callee_kind": "term",
+"file": "crates/conductor-cli/src/render.rs",
+"line": 794
+},
+{
+"callee_name": "UNBACKED_AUTO",
+"callee_kind": "term",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 367
+},
+{
+"callee_name": "UNBACKED_AUTO",
+"callee_kind": "term",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 39
+},
+{
+"callee_name": "UNBACKED_AUTO",
+"callee_kind": "term",
+"file": "crates/conductor-report/src/coverage.rs",
+"line": 13
+},
+{
+"callee_name": "UNBACKED_AUTO",
+"callee_kind": "term",
+"file": "crates/conductor-report/src/coverage.rs",
+"line": 28
+},
+{
+"callee_name": "UNBACKED_AUTO",
+"callee_kind": "term",
+"file": "crates/conductor-report/src/coverage.rs",
+"line": 235
+},
+{
+"callee_name": "UNBACKED_AUTO",
+"callee_kind": "term",
+"file": "crates/conductor-report/src/coverage.rs",
+"line": 252
+},
+{
+"callee_name": "UNBACKED_AUTO",
+"callee_kind": "term",
+"file": "crates/conductor-report/src/coverage.rs",
+"line": 263
+},
+{
+"callee_name": "UNBACKED_AUTO",
+"callee_kind": "term",
+"file": "crates/conductor-report/src/coverage.rs",
+"line": 265
+},
+{
+"callee_name": "UNBACKED_AUTO",
+"callee_kind": "term",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 174
+},
+{
+"callee_name": "UNBACKED_AUTO",
+"callee_kind": "term",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 460
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

@@ -1,0 +1,41 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "3382cd0b",
+"ts": "2026-09-15T15:21:36Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-15T15-07-04-wrap/architecture-entry.md",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-09-15T15-07-04-wrap",
+"--marker",
+"2026-09-15-remaining-structurally-dead-declarations-retired"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+6 at line 671 · lines 670→676 · bytes 153005→156781 · term lf",
+"last line now: **Sweep (run before this entry, per §Apply step 2; known-positive control fired"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 670,
+"bytes": 153005,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 676,
+"bytes": 156781
+}
+}
+]

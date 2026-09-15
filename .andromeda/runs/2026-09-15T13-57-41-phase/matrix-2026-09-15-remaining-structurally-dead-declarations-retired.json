@@ -1,0 +1,81 @@
+[
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "4b8303a3",
+"ts": "2026-09-15T14:48:46Z",
+"argv": [
+"claim",
+"--dir",
+"conductor-0.3.0",
+"--id",
+"v3-04",
+"--chunk",
+"2026-09-15-remaining-structurally-dead-declarations-retired",
+"--acceptance-file",
+".andromeda/runs/2026-09-15T13-57-41-phase/acceptance-v3-04.md",
+"--run-dir",
+".andromeda/runs/2026-09-15T13-57-41-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claim v3-04 → chunk 2026-09-15-remaining-structurally-dead-declarations-retired (was null; status planned kept)",
+"acceptance: The four structurally-dead declarations are retired to declare-only in… (1557 chars)",
+"         → Every committed scenario's declared checks are satisfiable by construc… (5821 chars)",
+"wrote conductor-0.3.0\\verification-matrix.json · 1 entry changed",
+"pool: unclaimed 8 [v3-02 v3-03 v3-05 v3-06 v3-08 v3-09 v3-10 v3-11]"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0\\verification-matrix.json"
+],
+"before": {
+"id": "v3-04",
+"chunk": null,
+"status": "planned",
+"method": "unit",
+"ref": "null",
+"acceptance": "The four structurally-dead declarations are retired to declare-only in ONE change: `constellation-severity-live-wiring` … (1557 chars)",
+"notes_chars": 2734
+},
+"after": {
+"id": "v3-04",
+"chunk": "2026-09-15-remaining-structurally-dead-declarations-retired",
+"status": "planned",
+"method": "unit",
+"ref": "null",
+"acceptance": "Every committed scenario's declared checks are satisfiable by construction against a live Pulse, or retired to declare-o… (5821 chars)",
+"notes_chars": 2734
+}
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "4b8303a3",
+"ts": "2026-09-15T14:48:53Z",
+"argv": [
+"audit",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-15-remaining-structurally-dead-declarations-retired",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-15-remaining-structurally-dead-declarations-retired/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-15T13-57-41-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-15-remaining-structurally-dead-declarations-retired: 1 · ## Acceptance Criteria: line 170, 39 lines",
+"v3-04: cited in ## Acceptance Criteria (line 174)",
+"ledger-note entries (P7.3's input, not claim citations): v3-04 (line 254)",
+"pool: unclaimed 8 [v3-02 v3-03 v3-05 v3-06 v3-08 v3-09 v3-10 v3-11]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

@@ -17,6 +17,24 @@
 #   the RETROACTIVE marker (never a prospective candidate type), so it cannot collide with a legitimately
 #   surfaced post-reload candidate.
 # Coverage mode: auto (MCP read-back); the P-056 prospective-only leg is the auto-assertable Hard check.
+#
+# DECLARE-ONLY (2026-09-15-remaining-structurally-dead-declarations-retired) — the
+# `Absent "RetroactiveReeval"` check was retired. Its ground is a TOKEN ABSENCE, not the
+# `snake_case` serde rename that retired this class's `CueKind` members — the two are different
+# mechanisms and only this one holds here. Measured at SUT HEAD `83d4060`:
+#   (1) THE TOKEN EXISTS NOWHERE IN THE SUT. `git grep -c --fixed-strings 'RetroactiveReeval'
+#       -- '*.rs'` exits 1 (no matches) across the whole Pulse tree, and there is no
+#       `retroactive_reeval` sibling — so unlike `ServiceWentSilent` this is not a spelling that
+#       renders differently, it is a name no producer has ever carried.
+#   (2) THE CHECK PASSED VACUOUSLY — an `Absent` of a token that cannot be emitted is true in
+#       every world (the more dangerous half per test-plan §6).
+#   (3) THE BEHAVIOUR IT ASSERTS IS REAL. Pulse applies threshold changes forward only:
+#       `crates/triage/src/lifecycle/mod.rs:57` ("next tick's evaluation, not a retroactive
+#       replay") and `:103` ("next tick forward; no retroactive re-classification"). P-056 is
+#       satisfied by the SUT; what is missing is a read-back token that witnesses it.
+# This is the inferred-token risk the calibration-points line above recorded from the start,
+# landing exactly where it was predicted. No replacement token is invented here: the absence would
+# have to be asserted against a surface that could carry its presence, and none does.
 name = "threshold-hot-reload"
 p_ids = ["P-055", "P-056"]
 seed = 4317055
@@ -30,11 +48,3 @@ gap_ms = 3000
 [[phases]]
 name = "post-reload"   # operator hot-reloaded the threshold (<2s, no restart); new threshold applies forward
 gap_ms = 3000
-
-# P-056 — prospective-only: the pre-change baseline is NOT retroactively re-evaluated, so no retroactive
-# threshold cue surfaces (a Hard Absent). The P-055 <2s reload timing is the declare-only leg (Epoch-8
-# measurement, no content token).
-[[expected]]
-kind = "Absent"
-class = "Hard"
-expected = "RetroactiveReeval"

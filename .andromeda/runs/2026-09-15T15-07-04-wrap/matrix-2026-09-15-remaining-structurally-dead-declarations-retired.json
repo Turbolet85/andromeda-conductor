@@ -1,0 +1,146 @@
+[
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "4b8303a3",
+"ts": "2026-09-15T15:29:48Z",
+"argv": [
+"flip",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-15-remaining-structurally-dead-declarations-retired",
+"--run-dir",
+".andromeda/runs/2026-09-15T15-07-04-wrap",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-15-remaining-structurally-dead-declarations-retired: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v3-04 → verified — Every committed scenario's declared checks are satisfiable by construction again… (5821 chars)",
+"dry-run: nothing written",
+"version: verified 3/11"
+],
+"stderr": null,
+"wrote": [],
+"before": [
+{
+"id": "v3-04",
+"chunk": "2026-09-15-remaining-structurally-dead-declarations-retired",
+"status": "implemented",
+"method": "unit",
+"ref": "crates/conductor-core/src/scenario.rs — the six retirements pinned across five scenarios by `hard_signal_declare_only_fi… (1728 chars)",
+"acceptance": "Every committed scenario's declared checks are satisfiable by construction against a live Pulse, or retired to declare-o… (5821 chars)",
+"notes_chars": 2734
+}
+],
+"after": [
+{
+"id": "v3-04",
+"chunk": "2026-09-15-remaining-structurally-dead-declarations-retired",
+"status": "verified",
+"method": "unit",
+"ref": "crates/conductor-core/src/scenario.rs — the six retirements pinned across five scenarios by `hard_signal_declare_only_fi… (1728 chars)",
+"acceptance": "Every committed scenario's declared checks are satisfiable by construction against a live Pulse, or retired to declare-o… (5821 chars)",
+"notes_chars": 2734
+}
+]
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "4b8303a3",
+"ts": "2026-09-15T15:29:53Z",
+"argv": [
+"flip",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-15-remaining-structurally-dead-declarations-retired",
+"--run-dir",
+".andromeda/runs/2026-09-15T15-07-04-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-15-remaining-structurally-dead-declarations-retired: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v3-04 → verified — Every committed scenario's declared checks are satisfiable by construction again… (5821 chars)",
+"wrote conductor-0.3.0\\verification-matrix.json · 1 entry changed",
+"version: verified 3/11"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0\\verification-matrix.json"
+],
+"before": [
+{
+"id": "v3-04",
+"chunk": "2026-09-15-remaining-structurally-dead-declarations-retired",
+"status": "implemented",
+"method": "unit",
+"ref": "crates/conductor-core/src/scenario.rs — the six retirements pinned across five scenarios by `hard_signal_declare_only_fi… (1728 chars)",
+"acceptance": "Every committed scenario's declared checks are satisfiable by construction against a live Pulse, or retired to declare-o… (5821 chars)",
+"notes_chars": 2734
+}
+],
+"after": [
+{
+"id": "v3-04",
+"chunk": "2026-09-15-remaining-structurally-dead-declarations-retired",
+"status": "verified",
+"method": "unit",
+"ref": "crates/conductor-core/src/scenario.rs — the six retirements pinned across five scenarios by `hard_signal_declare_only_fi… (1728 chars)",
+"acceptance": "Every committed scenario's declared checks are satisfiable by construction against a live Pulse, or retired to declare-o… (5821 chars)",
+"notes_chars": 2734
+}
+]
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "4b8303a3",
+"ts": "2026-09-15T15:30:19Z",
+"argv": [
+"note",
+"--dir",
+"conductor-0.3.0",
+"--id",
+"v3-04",
+"--text-file",
+".andromeda/runs/2026-09-15T15-07-04-wrap/note-v3-04.md",
+"--run-dir",
+".andromeda/runs/2026-09-15T15-07-04-wrap",
+"--marker",
+"2026-09-15-remaining-structurally-dead-declarations-retired"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"note v3-04: +2739 chars (total 5475) · status verified · ref/acceptance untouched",
+"wrote conductor-0.3.0\\verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0\\verification-matrix.json"
+],
+"before": {
+"id": "v3-04",
+"chunk": "2026-09-15-remaining-structurally-dead-declarations-retired",
+"status": "verified",
+"method": "unit",
+"ref": "crates/conductor-core/src/scenario.rs — the six retirements pinned across five scenarios by `hard_signal_declare_only_fi… (1728 chars)",
+"acceptance": "Every committed scenario's declared checks are satisfiable by construction against a live Pulse, or retired to declare-o… (5821 chars)",
+"notes_chars": 2734
+},
+"after": {
+"id": "v3-04",
+"chunk": "2026-09-15-remaining-structurally-dead-declarations-retired",
+"status": "verified",
+"method": "unit",
+"ref": "crates/conductor-core/src/scenario.rs — the six retirements pinned across five scenarios by `hard_signal_declare_only_fi… (1728 chars)",
+"acceptance": "Every committed scenario's declared checks are satisfiable by construction against a live Pulse, or retired to declare-o… (5821 chars)",
+"notes_chars": 5475
+}
+}
+]

@@ -6,6 +6,22 @@
 # Emit OTLP log records across the SeverityNumber 17 boundary: WARN-and-below (<17) must NOT
 # contribute to the hard-signal layer, ERROR/FATAL (>=17) must. Hard signal — the deterministic
 # two-sided boundary, expressed as a Contains (>=17) plus an Absent (<17) check.
+#
+# DECLARE-ONLY (2026-09-15-remaining-structurally-dead-declarations-retired) — BOTH checks were
+# retired (`Contains "ERROR"` and `Absent "WARN"`). One ground kills both, measured at SUT HEAD
+# `83d4060`:
+#   (1) SEVERITY RENDERS LOWERCASE. `crates/interpretation/src/markdown.rs`'s `severity_label`
+#       maps every variant to a lowercase literal (`"info"`, `"warn"`, `"error"`, `"critical"`), so
+#       no composed read-back text can carry an uppercase severity token.
+#   (2) THE TWO CHECKS THEREFORE FAILED IN OPPOSITE DIRECTIONS. `Contains "ERROR"` was false in
+#       every world (a permanent FAIL); `Absent "WARN"` was true in every world (a vacuous PASS —
+#       the more dangerous half per test-plan §6, since nothing ever fails to alert you).
+# The uppercase tokens were chosen to name the OTLP SeverityNumber bands (the emission side, where
+# `severities = [13, 16]` / `[17, 21]` are the real boundary), not any string Pulse renders — the
+# inferred-token trap. Lowercasing them is DELIBERATELY not done: `"error"` would match the
+# deterministic fixture's pinned severity constant rather than this scenario's own stimulus, which
+# is the weaker defect the `Scenario-assertion audit gate` entry owns. The P-007 boundary itself is
+# still driven by the two emission phases above.
 name = "high-severity-log-capture"
 p_ids = ["P-007"]
 seed = 4317007
@@ -29,15 +45,3 @@ signal = "logs"
 kind = "severity"
 occurrences = 4
 severities = [17, 21]   # ERROR and FATAL, the error-grade side
-
-# ERROR/FATAL (>=17) contributes to the hard-signal layer.
-[[expected]]
-kind = "Contains"
-class = "Hard"
-expected = "ERROR"
-
-# WARN-and-below (<17) does NOT contribute (the negative side of the boundary).
-[[expected]]
-kind = "Absent"
-class = "Hard"
-expected = "WARN"

@@ -1,0 +1,15 @@
+feat(2026-09-15-remaining-structurally-dead-declarations-retired): the six the enumeration found, and the count that never moved
+
+Retired the last six structurally-dead `[[expected]]` blocks across five scenarios, eight
+pinning tests moved in the same change; `v3-04`'s universal is now met — every committed
+block is satisfiable or retired, with two satisfiable survivors left standing deliberately.
+
+Reconcile: 1 amendment (architecture) · 0 escalations resolved
+Curation:  T1 0 · T2 2 · T3 0  (filtered 4) · no-other-home: "an inferred token must EXIST in the SUT before it is chosen, not merely avoid collision" · no-other-home: "the wide companion sweep's hits must be read, never counted" · extended: T2/.claude/rules/testing.md: "2026-06-23 Absent token-choice traps" · extended: T2/.claude/rules/testing.md: "2026-06-22 companion-sweep"
+Code-graph: rust 2592n/12361e · ts 743n/1614e · fresh ✓
+Coverage:  v3-04 verified · version 3/11
+Route: 1 tail edit (CARRY → Scenario-assertion audit gate) · master 2026-09-15-remaining-structurally-dead-declarations-retired → complete · compacted 1 line, archived 2 → route-archive.md
+Session 145
+
+Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01QjVSDCPMXnhxA2MyEuD5Fo

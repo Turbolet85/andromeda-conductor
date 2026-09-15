@@ -550,10 +550,13 @@ gap_ms = 1
 
     #[rstest]
     #[case("span-status-error-detection", "P-005")]
-    #[case("exception-event-capture", "P-006")]
-    #[case("high-severity-log-capture", "P-007")]
     #[case("root-span-error-scope", "P-008")]
     fn hard_signal_fixtures_load_and_validate(#[case] stem: &str, #[case] p_id: &str) {
+        // The family's two SATISFIABLE members. Both declare `Contains "error"`, which matches the
+        // lowercase severity label Pulse renders (`interpretation/src/markdown.rs::severity_label`),
+        // so the token can reach the graded text. That what they discriminate is the deterministic
+        // fixture's severity constant rather than their own stimulus is a weaker defect than death
+        // and belongs to the scenario-assertion audit gate — not a reason to retire live coverage.
         let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
         let toml =
             std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
@@ -563,6 +566,27 @@ gap_ms = 1
         assert!(
             !s.expected.is_empty(),
             "{stem} declares at least one expected check"
+        );
+    }
+
+    #[rstest]
+    #[case("exception-event-capture", "P-006")]
+    #[case("high-severity-log-capture", "P-007")]
+    fn hard_signal_declare_only_fixtures_load_and_validate(#[case] stem: &str, #[case] p_id: &str) {
+        // The family's two RETIRED members (2026-09-15, measurements in each scenario's TOML
+        // header, SUT HEAD 83d4060). P-006's `Contains "exception"` reaches neither composed-text
+        // source — the report markdown's sole composer carries no such token and the
+        // status/severity/title half is pinned to deterministic-fixture constants; P-007's
+        // `Contains "ERROR"` + `Absent "WARN"` grade a severity label Pulse renders lowercase.
+        let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
+        let toml =
+            std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+        let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
+        assert_eq!(s.name, stem);
+        assert_eq!(s.p_ids, vec![PId(p_id.to_string())]);
+        assert!(
+            s.expected.is_empty(),
+            "{stem} is declare-only (empty expected -> ManualCheck/KnownResidual downstream)"
         );
     }
 
@@ -629,9 +653,15 @@ gap_ms = 1
     }
 
     #[test]
-    fn p007_high_severity_log_capture_asserts_both_sides_of_the_boundary() {
-        // The SeverityNumber 17 boundary is two-sided: ERROR/FATAL (>=17) contributes (Contains),
-        // WARN-and-below (<17) does not (Absent).
+    fn p007_high_severity_log_capture_is_declare_only_with_the_measurement_recorded() {
+        // Retired 2026-09-15. The two-sided SeverityNumber 17 boundary was expressed as
+        // `Contains "ERROR"` (>=17 contributes) + `Absent "WARN"` (<17 does not), and ONE ground
+        // killed both: `interpretation/src/markdown.rs::severity_label` maps every severity to a
+        // lowercase literal, so no composed read-back text can carry an uppercase severity token.
+        // The two therefore failed in OPPOSITE directions — the Contains false in every world, the
+        // Absent true in every world (the vacuous-PASS half test-plan §6 calls the more dangerous).
+        // The uppercase tokens named the OTLP SeverityNumber bands, not any string Pulse renders;
+        // the boundary itself is still driven by the scenario's two emission phases.
         let path = format!(
             "{}/../../scenarios/high-severity-log-capture.toml",
             env!("CARGO_MANIFEST_DIR")
@@ -639,14 +669,13 @@ gap_ms = 1
         let toml = std::fs::read_to_string(&path).expect("fixture readable");
         let s = Scenario::from_toml_str(&toml).expect("fixture valid");
         assert!(
-            s.expected
-                .iter()
-                .any(|c| c.kind == ComparisonKind::Contains),
-            "P-007 asserts the >=17 contribution via Contains"
+            s.expected.is_empty(),
+            "P-007 carries no gradeable read-back check"
         );
-        assert!(
-            s.expected.iter().any(|c| c.kind == ComparisonKind::Absent),
-            "P-007 asserts the <17 non-contribution via Absent"
+        assert_eq!(
+            s.slo_tier,
+            SloTier::Tier5s,
+            "P-007 keeps its declared tier through retirement"
         );
     }
 
@@ -657,6 +686,13 @@ gap_ms = 1
         #[case] stem: &str,
         #[case] p_ids: &[&str],
     ) {
+        // Both retired 2026-09-15 on ONE ground, measured at SUT HEAD 83d4060 (each scenario's TOML
+        // header carries it): `crates/triage/src/contract.rs:181` declares
+        // `#[serde(rename_all = "snake_case")]` on `CueKind`, so every render emits
+        // `service_went_silent` and the PascalCase spelling exists only as a Rust identifier. The
+        // outcome-coherent pair therefore failed in opposite directions — P-013's `Absent` true in
+        // every world (vacuous PASS), P-014's `Contains` false in every world. The family is now
+        // wholly declare-only, so the prior all-Hard class guard is gone with the checks it graded.
         let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
         let toml =
             std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
@@ -665,26 +701,8 @@ gap_ms = 1
         let want: Vec<PId> = p_ids.iter().map(|p| PId(p.to_string())).collect();
         assert_eq!(s.p_ids, want);
         assert!(
-            !s.expected.is_empty(),
-            "{stem} declares at least one expected check"
-        );
-    }
-
-    #[rstest]
-    #[case("activity-floor")]
-    #[case("service-went-silent")]
-    fn activity_floor_and_silence_checks_are_all_hard(#[case] stem: &str) {
-        // Activity-floor + service-went-silent are deterministic lifecycle timing, so every check is
-        // Hard (arch §Probabilistic-Assertion Policy); the model-interpretive severity that consumes
-        // these cues is P-020, a later severity-lifecycle chunk. restart-suppression left this set
-        // 2026-08-18 — declare-only at the harvest tier (its own test below).
-        let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
-        let toml =
-            std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
-        let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
-        assert!(
-            s.expected.iter().all(|c| c.class == ClaimClass::Hard),
-            "{stem} checks are all Hard (lifecycle timing)"
+            s.expected.is_empty(),
+            "{stem} is declare-only (empty expected -> ManualCheck/KnownResidual downstream)"
         );
     }
 
@@ -717,41 +735,6 @@ gap_ms = 1
             s.slo_tier,
             SloTier::Tier90s,
             "restart-suppression pins the re-declared tier"
-        );
-    }
-
-    #[test]
-    fn activity_floor_asserts_the_learned_quiet_via_absent() {
-        // P-013's false-positive guard is an ABSENCE — no ServiceWentSilent during the learned quiet
-        // (the same kind P-007 uses for its <17 non-contribution); P-014's death cue is its presence
-        // counterpart in a separate scenario, since Absent + Contains of one token cannot coexist.
-        let path = format!(
-            "{}/../../scenarios/activity-floor.toml",
-            env!("CARGO_MANIFEST_DIR")
-        );
-        let toml = std::fs::read_to_string(&path).expect("fixture readable");
-        let s = Scenario::from_toml_str(&toml).expect("fixture valid");
-        assert!(
-            s.expected.iter().any(|c| c.kind == ComparisonKind::Absent),
-            "P-013 asserts the no-false-silent guard via Absent"
-        );
-    }
-
-    #[rstest]
-    #[case("service-went-silent")]
-    fn presence_scenarios_assert_a_surfaced_incident_via_contains(#[case] stem: &str) {
-        // P-014 (death cue) is a presence check. restart-suppression left this set 2026-08-18: its
-        // Contains tokens were structurally ungradeable under deterministic L4 — declare-only at
-        // the harvest tier (restart_suppression_is_declare_only_at_the_harvest_tier).
-        let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
-        let toml =
-            std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
-        let s = Scenario::from_toml_str(&toml).unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"));
-        assert!(
-            s.expected
-                .iter()
-                .any(|c| c.kind == ComparisonKind::Contains),
-            "{stem} asserts a surfaced incident via Contains"
         );
     }
 
@@ -1254,8 +1237,10 @@ expected = "WARN"
         assert_eq!(s.name, stem);
         let want: Vec<PId> = p_ids.iter().map(|p| PId(p.to_string())).collect();
         assert_eq!(s.p_ids, want);
-        // Mixed-shape family (Hard + declare-only), so — like the constellation loader — no blanket
-        // `!expected.is_empty()` assertion here; the per-shape guards below carry the precise checks.
+        // No blanket expected-shape assertion here by design — the per-shape guards below carry the
+        // precise checks. (This family was mixed Hard + declare-only until 2026-09-15; it is now
+        // uniformly declare-only, which `scrub_pipeline_degraded_suite_is_uniformly_declare_only`
+        // asserts. The loader's own contract — name + p_ids only — is unchanged either way.)
     }
 
     #[rstest]
@@ -1295,11 +1280,20 @@ expected = "WARN"
     }
 
     #[test]
-    fn findings_counter_is_declare_only_and_threshold_reload_keeps_its_hard_absent() {
+    fn findings_counter_and_threshold_reload_are_both_declare_only() {
         // P-045's Hard CountAtLeast was retired 2026-09-15: it graded `evidence_count`, summed from a
         // `span_refs` vector Pulse's only non-test writer sets empty, so it measured the evidence count and
-        // never the findings count it was authored to assert. P-056's Hard Absent is untouched — it grades
-        // composed read-back text, not the count, and remains satisfiable.
+        // never the findings count it was authored to assert.
+        //
+        // P-056's Hard Absent followed in the same class's second pass. The earlier note here called it
+        // "untouched … and remains satisfiable"; that was WRONG, and the chunk that wrote it had already
+        // measured the contrary in its own committed enumeration. Re-derived at SUT HEAD 83d4060:
+        // `git grep -c --fixed-strings 'RetroactiveReeval' -- '*.rs'` exits 1 — the token occurs NOWHERE
+        // in the Pulse tree and has no snake_case sibling, so the `Absent` was true in every world (a
+        // vacuous PASS, not a satisfiable check). Its ground is a token absence, NOT the serde rename that
+        // retired the `CueKind` members. The BEHAVIOUR P-056 asserts is real and untouched — Pulse applies
+        // threshold changes forward only (`crates/triage/src/lifecycle/mod.rs:57`, `:103`) — what is
+        // missing is a read-back token that witnesses it.
         let counter_path = format!(
             "{}/../../scenarios/findings-counter-refresh.toml",
             env!("CARGO_MANIFEST_DIR")
@@ -1312,8 +1306,6 @@ expected = "WARN"
             counter.expected.is_empty(),
             "P-045 is declare-only (empty expected -> ManualCheck/KnownResidual downstream)"
         );
-        // P-056 prospective-only -> Hard Absent (the pre-change baseline raises no retroactive cue); the P-055
-        // <2s hot-reload timing is the declare-only leg (Epoch-8 measurement, no content token).
         let reload_path = format!(
             "{}/../../scenarios/threshold-hot-reload.toml",
             env!("CARGO_MANIFEST_DIR")
@@ -1323,20 +1315,20 @@ expected = "WARN"
         )
         .expect("fixture valid");
         assert!(
-            reload
-                .expected
-                .iter()
-                .any(|c| c.kind == ComparisonKind::Absent && c.class == ClaimClass::Hard),
-            "P-056 asserts prospective-only application via Hard Absent (no retroactive cue)"
+            reload.expected.is_empty(),
+            "P-055/P-056 is declare-only (empty expected -> ManualCheck/KnownResidual downstream)"
         );
     }
 
     #[test]
-    fn scrub_pipeline_degraded_suite_mixes_hard_and_declare_only() {
-        // Like the constellation family, this catalog family carries BOTH shapes: Hard auto members
-        // (findings-counter / threshold-hot-reload) and declare-only members (pii-scrub — retired
-        // 2026-08-19, measurement in its TOML header — / report-render / cadence / degraded-mode).
-        // Assert the SUITE exercises both.
+    fn scrub_pipeline_degraded_suite_is_uniformly_declare_only() {
+        // This family was MIXED (Hard auto members beside declare-only ones) until 2026-09-15, when
+        // `threshold-hot-reload` — its last non-empty member, `findings-counter-refresh` having gone
+        // one pass earlier — was retired. A mixed-shape guard asserting `any(!empty)` is unsatisfiable
+        // once every member is declare-only, so it is RETIRED rather than weakened, and replaced by
+        // the uniform assertion below. This follows the severity-lifecycle precedent, where the same
+        // situation retired that family's `any(Hard) && any(CalibrationRegion)` guard outright
+        // (testing.md 2026-06-22, RETIRED 2026-08-21).
         let stems = [
             "pii-scrub",
             "report-render-surface",
@@ -1345,25 +1337,22 @@ expected = "WARN"
             "threshold-hot-reload",
             "degraded-mode-report",
         ];
-        let shapes: Vec<bool> = stems
+        let declaring: Vec<&str> = stems
             .iter()
-            .map(|stem| {
+            .filter(|stem| {
                 let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
                 let toml = std::fs::read_to_string(&path)
                     .unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
-                Scenario::from_toml_str(&toml)
+                !Scenario::from_toml_str(&toml)
                     .unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"))
                     .expected
                     .is_empty()
             })
+            .copied()
             .collect();
         assert!(
-            shapes.iter().any(|empty| *empty),
-            "the suite carries declare-only (empty-expected) members"
-        );
-        assert!(
-            shapes.iter().any(|empty| !*empty),
-            "the suite carries Hard (non-empty-expected) members"
+            declaring.is_empty(),
+            "every member of this family is declare-only; these still declare checks: {declaring:?}"
         );
     }
 
