@@ -66,6 +66,17 @@ SELECT DISTINCT sym, depth FROM b ORDER BY depth;
 -- 4. EXISTENCE / COLLISION-CHECK — is a name free before I create a new module/type? which symbols carry it?
 SELECT symbol, crate, kind, file FROM symbol WHERE name = '<name>' AND kind <> 'meta';
 --    partial name: WHERE name LIKE '<prefix>%'
+
+-- 5. EXTERNAL SURFACE — a package's pub items reached from OUTSIDE its source dir (other packages, its own
+--    tests/): the byte-stability oracle before a split or rename. callee_file is the DEFINITION's path, so
+--    "outside its src/" derives from it, never from the package name; `src/` · `tests/` are the cargo layout —
+--    substitute the plane's (ts: the package's root dir); the package-root `module` row is every `use` path
+SELECT callee_name, callee_kind, callee_file, COUNT(*) AS sites, COUNT(DISTINCT file) AS files
+FROM refs WHERE callee_crate = '<crate>' AND callee_file LIKE '%/src/%'
+  AND file NOT LIKE regexp_replace(callee_file, '/src/.*$', '/src/%') AND callee_kind <> 'module'
+GROUP BY 1, 2, 3 ORDER BY sites DESC, callee_name;
+--    who reaches it, by directory: SELECT regexp_extract(file, '^(.*/(src|tests|benches|examples))/', 1) AS from_dir,
+--    COUNT(*) FROM refs WHERE <the same three predicates> GROUP BY 1 ORDER BY 2 DESC
 ```
 
 ## The cross-plane seam (IPC / TauRPC / bindings)
@@ -78,13 +89,18 @@ dead-code evidence** — the caller may live on the other plane or in a runtime 
 
 ## Reading the result
 - Non-empty → the impacted sites; cite `symbol @ file:line` in `plan.md` (the adoption numerator) — `line` / `def_line` are the SCIP range's 0-INDEXED start (code-graph.py `span()`): the editor line is `line + 1`, cite THAT (measured: three citations off by one in one plan, operator-caught; the same slip in three more chunks this epoch).
+- Read the result from the trace file or the whole stdout — never through `| head` / `| tail`: a clipped view has
+  produced a false count twice; the trace's `rows` is the authority and IS the record.
 - Empty (`rows: 0`) → consulted-but-no-match is a REAL finding (leaf / additive / zero cross-crate blast), NOT
   "didn't query" — but ONLY after two preconditions: (a) the plane you queried actually BUILT (`db_state` was
   not `cold-start`, and no skipped-plane notice named it), and (b) every name / pattern the query used exists on
   this plane — the script probes each against `symbol` and records `probe_hits` (`{"names": {"<name>": N},
   "patterns": {"<pattern>": N}}`) in the trace: all > 0 → a genuine no-callers; any 0 → NOT a leaf (the symbol
-  lives on another plane, under another spelling, or only at runtime — a warning names it; grep before
-  concluding). Record which.
+  lives on another plane, under another spelling, only at runtime — or the index MISSED its definition: a name
+  whose definition a grep finds in this plane's own source is an index gap (measured on one indexer:
+  rust-analyzer's SCIP left 6 of 79 async fns without a `symbol` row while `occ` held their def-site occurrence,
+  0 of 1069 non-async — the cause unmeasured; two such fns returned 0 rows against grepped production callers);
+  a warning names it; grep the def site for its callers before concluding). Record which.
 - A skipped/unbuilt plane in play → the research proceeds file-first and records `derived-without-graph`, never
   "leaf".
 

@@ -1,0 +1,14 @@
+[
+{
+"sql": "SELECT name, kind FROM symbol WHERE name = 'persist' LIMIT 5",
+"rows": 1,
+"result": [
+{
+"name": "persist",
+"kind": "fn"
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

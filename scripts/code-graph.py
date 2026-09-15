@@ -262,7 +262,7 @@ def _append_trace(trace, record):
     except (OSError, ValueError):
         prior = []  # absent / corrupt / legacy -> start fresh (audit artifact: never crash)
     prior.append(record)
-    with open(trace, "w", encoding="utf-8") as f:
+    with open(trace, "w", encoding="utf-8", newline="") as f:  # LF on every host: a committed run-dir artifact
         json.dump(prior, f, default=str, indent=0)
 
 
@@ -339,7 +339,7 @@ def query(run_dir, marker, sql, plane=None):
               "db_state": db_state, "plane": plane}
     if not rows and re.search(r"\b(?:FROM|JOIN)\s+(?:calls|calls_m|refs|contains)\b", sql, re.I):
         # Same-predicate probe: a 0-row answer is a leaf only if every name/pattern the query
-        # used matches an indexed symbol on THIS plane (else: other plane / spelling / runtime).
+        # used matches an indexed symbol on THIS plane (else: other plane / spelling / runtime / an index gap).
         try:
             hits = {"names": {}, "patterns": {}}
             for n in re.findall(r"\b(?:name|callee_name|caller_name)\s*=\s*'([^']*)'", sql, re.I):
@@ -358,7 +358,8 @@ def query(run_dir, marker, sql, plane=None):
             if missing:
                 sys.stderr.write(f"tree-query: WARNING - 0 rows AND {missing} match NO indexed symbol "
                                  f"on the {plane} plane: not a leaf - the symbol may live on another "
-                                 f"plane, under another spelling, or only at runtime. Query by "
+                                 f"plane, under another spelling, only at runtime, or the index missed its "
+                                 f"definition. Query by "
                                  f"callee_name (cookbook query 1); grep before concluding.\n")
         except Exception:
             record["probe_hits"] = None   # the probe never breaks the primary result
