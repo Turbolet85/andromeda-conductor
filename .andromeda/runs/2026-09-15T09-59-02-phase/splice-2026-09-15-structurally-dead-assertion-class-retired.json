@@ -1,0 +1,44 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "3382cd0b",
+"ts": "2026-09-15T10:04:33Z",
+"argv": [
+"append",
+"--file",
+".andromeda/master-route.md",
+"--payload-file",
+".andromeda/runs/2026-09-15T09-59-02-phase/master-record.txt",
+"--lines",
+"1",
+"--after-section",
+"## conductor-0.3.0",
+"--run-dir",
+".andromeda/runs/2026-09-15T09-59-02-phase",
+"--marker",
+"2026-09-15-structurally-dead-assertion-class-retired"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append master-route.md:+1 at line 142 · lines 141→142 · bytes 93191→93867 · term lf",
+"section '## conductor-0.3.0' · appended at its end, not the file's",
+"last line now: 2026-09-15-structurally-dead-assertion-class-retired · pending · Structurally-"
+],
+"stderr": null,
+"wrote": [
+".andromeda/master-route.md"
+],
+"before": {
+"lines": 141,
+"bytes": 93191,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 142,
+"bytes": 93867
+}
+}
+]

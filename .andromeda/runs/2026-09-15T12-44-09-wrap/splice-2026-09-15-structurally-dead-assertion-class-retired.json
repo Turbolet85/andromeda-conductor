@@ -1,0 +1,121 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "3382cd0b",
+"ts": "2026-09-15T12:57:06Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-15T12-44-09-wrap/architecture-entry.md",
+"--lines",
+"13",
+"--run-dir",
+".andromeda/runs/2026-09-15T12-44-09-wrap",
+"--marker",
+"2026-09-15-structurally-dead-assertion-class-retired"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+13 at line 658 · lines 657→670 · bytes 149696→153005 · term lf",
+"last line now: **Sweep (this pass, after every amendment was authored):** 11 patterns — the f"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 657,
+"bytes": 149696,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 670,
+"bytes": 153005
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "3382cd0b",
+"ts": "2026-09-15T12:57:06Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-15T12-44-09-wrap/obs-plan-entry.md",
+"--lines",
+"12",
+"--run-dir",
+".andromeda/runs/2026-09-15T12-44-09-wrap",
+"--marker",
+"2026-09-15-structurally-dead-assertion-class-retired"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+12 at line 303 · lines 302→314 · bytes 63253→65258 · term lf",
+"last line now: **Sweep (this pass, after every amendment was authored):** the same 11-pattern s"
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 302,
+"bytes": 63253,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 314,
+"bytes": 65258
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "3382cd0b",
+"ts": "2026-09-15T13:03:36Z",
+"argv": [
+"append",
+"--file",
+"conductor-0.3.0/working-route.md",
+"--payload-file",
+".andromeda/runs/2026-09-15T12-44-09-wrap/route-insert.txt",
+"--lines",
+"2",
+"--after-line",
+"25",
+"--run-dir",
+".andromeda/runs/2026-09-15T12-44-09-wrap",
+"--marker",
+"2026-09-15-structurally-dead-assertion-class-retired"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append working-route.md:+2 at line 26 · lines 49→51 · bytes 8606→10612 · term lf",
+"last line now: Version close on measured evidence — every capability verified or deferred on "
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0/working-route.md"
+],
+"before": {
+"lines": 49,
+"bytes": 8606,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 51,
+"bytes": 10612
+}
+}
+]

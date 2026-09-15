@@ -1,0 +1,111 @@
+[
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "4b8303a3",
+"ts": "2026-09-15T10:48:06Z",
+"argv": [
+"coverage",
+"--dir",
+"conductor-0.3.0",
+"--run-dir",
+".andromeda/runs/2026-09-15T09-59-02-phase",
+"--marker",
+"2026-09-15-structurally-dead-assertion-class-retired"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"verified 2/11 · deferred 0 · planned 9 · implemented 0 · unclaimed 9",
+"unclaimed: v3-02 v3-03 v3-04 v3-05 v3-06 v3-08 v3-09 v3-10 v3-11",
+"claimed-unfinished: none",
+"done-test: NO — 9 not verified|deferred · unclaimed 9",
+"chunks referenced: 2 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "4b8303a3",
+"ts": "2026-09-15T10:48:22Z",
+"argv": [
+"claim",
+"--dir",
+"conductor-0.3.0",
+"--id",
+"v3-04",
+"--chunk",
+"2026-09-15-structurally-dead-assertion-class-retired",
+"--acceptance-file",
+".andromeda/runs/2026-09-15T09-59-02-phase/acceptance-v3-04.md",
+"--method",
+"unit",
+"--run-dir",
+".andromeda/runs/2026-09-15T09-59-02-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claim v3-04 → chunk 2026-09-15-structurally-dead-assertion-class-retired (was null; status planned kept)",
+"acceptance: No committed scenario declares a check that cannot pass against a live… (398 chars)",
+"         → The four structurally-dead declarations are retired to declare-only in… (1557 chars)",
+"method: unit → unit",
+"wrote conductor-0.3.0\\verification-matrix.json · 1 entry changed",
+"pool: unclaimed 8 [v3-02 v3-03 v3-05 v3-06 v3-08 v3-09 v3-10 v3-11]"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0\\verification-matrix.json"
+],
+"before": {
+"id": "v3-04",
+"chunk": null,
+"status": "planned",
+"method": "unit",
+"ref": "null",
+"acceptance": "No committed scenario declares a check that cannot pass against a live Pulse. Each such check is either made satisfiable… (398 chars)",
+"notes_chars": 476
+},
+"after": {
+"id": "v3-04",
+"chunk": "2026-09-15-structurally-dead-assertion-class-retired",
+"status": "planned",
+"method": "unit",
+"ref": "null",
+"acceptance": "The four structurally-dead declarations are retired to declare-only in ONE change: `constellation-severity-live-wiring` … (1557 chars)",
+"notes_chars": 476
+}
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "4b8303a3",
+"ts": "2026-09-15T10:48:26Z",
+"argv": [
+"audit",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-15-structurally-dead-assertion-class-retired",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-15-structurally-dead-assertion-class-retired/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-15T09-59-02-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-15-structurally-dead-assertion-class-retired: 1 · ## Acceptance Criteria: line 172, 14 lines",
+"v3-04: cited in ## Acceptance Criteria (line 174)",
+"pool: unclaimed 8 [v3-02 v3-03 v3-05 v3-06 v3-08 v3-09 v3-10 v3-11]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

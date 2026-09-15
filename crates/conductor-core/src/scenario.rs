@@ -1185,10 +1185,13 @@ expected = "WARN"
     }
 
     #[test]
-    fn cross_incident_recurrence_asserts_previously_seen_via_hard_contains() {
-        // P-036: a fingerprint recurring across two runs surfaces "Previously seen" from the runs.db
-        // cross-run index — a deterministic index lookup -> Hard Contains (the one auto-assertable check in
-        // the family). The "Previously seen" token is inferred (substring-tolerant), an Epoch-8 calibration point.
+    fn cross_incident_recurrence_is_declare_only_after_the_token_case_finding() {
+        // P-036's `Contains "Previously seen"` was retired 2026-09-15. The ground is NOT "no producer emits
+        // the token" (the 2026-09-10 live round's attribution, disproved at SUT HEAD 83d4060): Pulse DOES
+        // emit it, as "## Previously Seen", and it DOES reach the graded text via `retrieve_report`. The
+        // declared token differed in CASE, and `Contains` is case-sensitive — the check failed on one
+        // character. Correcting it was declined deliberately: the run-twice recurrence path has never been
+        // measured firing, so a corrected token would be reachable but unproven.
         let path = format!(
             "{}/../../scenarios/cross-incident-recurrence.toml",
             env!("CARGO_MANIFEST_DIR")
@@ -1196,48 +1199,40 @@ expected = "WARN"
         let toml = std::fs::read_to_string(&path).expect("fixture readable");
         let s = Scenario::from_toml_str(&toml).expect("fixture valid");
         assert!(
-            s.expected.iter().any(|c| c.kind == ComparisonKind::Contains
-                && c.class == ClaimClass::Hard
-                && c.expected == "Previously seen"),
-            "P-036 asserts the recurrence reference via Hard Contains \"Previously seen\""
+            s.expected.is_empty(),
+            "P-036 is declare-only (empty expected -> ManualCheck/KnownResidual downstream)"
         );
     }
 
     #[test]
-    fn constellation_context_grounding_suite_has_operator_checklist_members() {
-        // The first family that is NOT all-non-empty: the constellation trio + P-032 declare nothing
-        // (-> ManualCheck/KnownResidual downstream) while P-036 carries a Hard check. Assert the SUITE
-        // exercises BOTH shapes (every prior family had every scenario carry at least one expected check).
-        let empty_stems = [
+    fn constellation_context_grounding_suite_is_uniformly_declare_only() {
+        // This suite USED to exercise both shapes — the constellation trio + P-032 empty, P-036 carrying a
+        // Hard check. Retiring P-036's structurally-dead `Contains` (2026-09-15) makes the family uniformly
+        // declare-only, so the mixed-shape property is dissolved rather than merely broken. The set-level
+        // invariant that remains, and that a regression would violate, is that NO member declares a check.
+        let stems = [
             "halo-hue-encoding",
             "halo-breathing-encoding",
             "service-constellation-discovery",
             "project-context-grounding",
+            "cross-incident-recurrence",
         ];
-        let has_empty = empty_stems.iter().any(|stem| {
-            let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
-            let toml = std::fs::read_to_string(&path)
-                .unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
-            Scenario::from_toml_str(&toml)
-                .unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"))
-                .expected
-                .is_empty()
-        });
-        let recurrence_path = format!(
-            "{}/../../scenarios/cross-incident-recurrence.toml",
-            env!("CARGO_MANIFEST_DIR")
-        );
-        let recurrence = Scenario::from_toml_str(
-            &std::fs::read_to_string(&recurrence_path).expect("fixture readable"),
-        )
-        .expect("fixture valid");
+        let declaring: Vec<&str> = stems
+            .iter()
+            .copied()
+            .filter(|stem| {
+                let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
+                let toml = std::fs::read_to_string(&path)
+                    .unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
+                !Scenario::from_toml_str(&toml)
+                    .unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"))
+                    .expected
+                    .is_empty()
+            })
+            .collect();
         assert!(
-            has_empty,
-            "the suite carries operator-checklist (empty-expected) members"
-        );
-        assert!(
-            !recurrence.expected.is_empty(),
-            "P-036 (cross-incident-recurrence) carries a Hard check"
+            declaring.is_empty(),
+            "the context-grounding suite is uniformly declare-only; these declare checks: {declaring:?}"
         );
     }
 
@@ -1300,8 +1295,11 @@ expected = "WARN"
     }
 
     #[test]
-    fn findings_counter_and_threshold_reload_carry_their_hard_checks() {
-        // P-045 findings counter = len(query_incident_list | unread/active) -> deterministic Hard CountAtLeast.
+    fn findings_counter_is_declare_only_and_threshold_reload_keeps_its_hard_absent() {
+        // P-045's Hard CountAtLeast was retired 2026-09-15: it graded `evidence_count`, summed from a
+        // `span_refs` vector Pulse's only non-test writer sets empty, so it measured the evidence count and
+        // never the findings count it was authored to assert. P-056's Hard Absent is untouched — it grades
+        // composed read-back text, not the count, and remains satisfiable.
         let counter_path = format!(
             "{}/../../scenarios/findings-counter-refresh.toml",
             env!("CARGO_MANIFEST_DIR")
@@ -1311,11 +1309,8 @@ expected = "WARN"
         )
         .expect("fixture valid");
         assert!(
-            counter
-                .expected
-                .iter()
-                .any(|c| c.kind == ComparisonKind::CountAtLeast && c.class == ClaimClass::Hard),
-            "P-045 asserts the findings count via Hard CountAtLeast"
+            counter.expected.is_empty(),
+            "P-045 is declare-only (empty expected -> ManualCheck/KnownResidual downstream)"
         );
         // P-056 prospective-only -> Hard Absent (the pre-change baseline raises no retroactive cue); the P-055
         // <2s hot-reload timing is the declare-only leg (Epoch-8 measurement, no content token).
@@ -1406,10 +1401,12 @@ expected = "WARN"
     }
 
     #[test]
-    fn constellation_severity_live_wiring_asserts_incident_visibility_via_hard_count_floor() {
-        // P-079: incidents are filtered by the workspace key, so a diverged app/sidecar key returns zero
-        // rows. The floor asserts the storm's incident is visible through read-back AT ALL — deliberately
-        // not a candidate token, which belongs to fingerprint-storm (one outcome per token).
+    fn constellation_severity_live_wiring_is_declare_only_after_the_empty_span_refs_finding() {
+        // P-079's Hard CountAtLeast "1" was retired 2026-09-15. It asserted incident VISIBILITY but graded
+        // `evidence_count`, summed from `retrieve_telemetry_slice.span_refs`, which Pulse maps 1:1 from an
+        // `EvidenceRefs.span_ids` its only non-test writer sets empty — so `0 >= 1` was false in every world
+        // and an unmet sample floor softens to CalibrationRegion regardless of the declared Hard. The
+        // capability is unchanged; it has no read-back surface that carries it.
         let path = format!(
             "{}/../../scenarios/constellation-severity-live-wiring.toml",
             env!("CARGO_MANIFEST_DIR")
@@ -1417,43 +1414,55 @@ expected = "WARN"
         let toml = std::fs::read_to_string(&path).expect("fixture readable");
         let s = Scenario::from_toml_str(&toml).expect("fixture valid");
         assert!(
-            s.expected
-                .iter()
-                .any(|c| c.kind == ComparisonKind::CountAtLeast
-                    && c.class == ClaimClass::Hard
-                    && c.expected == "1"),
-            "P-079 asserts incident visibility via a Hard CountAtLeast \"1\""
+            s.expected.is_empty(),
+            "P-079 is declare-only (empty expected -> ManualCheck/KnownResidual downstream)"
         );
     }
 
     #[test]
-    fn in_lane_sut_suite_mixes_operator_checklist_and_auto() {
-        // The in-lane family spans two coverage modes — two DriveObserve members and one Auto member — so
-        // the suite must exercise both shapes, like the constellation and scrub families before it.
+    fn pulse_run_contract_is_declare_only_after_the_empty_span_refs_finding() {
+        // P-073's Hard CountAtLeast "1" was retired 2026-09-15 on the same ground as P-079 and P-045. This
+        // scenario carried NO pinning test before the retirement — the class's one unpinned member — so the
+        // pin is added here rather than left as the asymmetry the chunk measured.
+        let path = format!(
+            "{}/../../scenarios/pulse-run-contract.toml",
+            env!("CARGO_MANIFEST_DIR")
+        );
+        let toml = std::fs::read_to_string(&path).expect("fixture readable");
+        let s = Scenario::from_toml_str(&toml).expect("fixture valid");
+        assert!(
+            s.expected.is_empty(),
+            "P-073 is declare-only (empty expected -> ManualCheck/KnownResidual downstream)"
+        );
+    }
+
+    #[test]
+    fn in_lane_sut_suite_is_uniformly_declare_only() {
+        // The in-lane family USED to exercise both shapes — two DriveObserve members plus P-079 carrying a
+        // Hard count floor. Retiring that floor (2026-09-15) leaves the trio uniformly declare-only, so the
+        // mixed-shape property is dissolved, not broken. P-079 stays classified Auto in the coverage matrix:
+        // `check_scenario_backing` keys on whether a scenario NAMES an id, never on `expected` emptiness.
         let stems = [
             "live-only-service-truth",
             "investigate-actions-functional",
             "constellation-severity-live-wiring",
         ];
-        let shapes: Vec<bool> = stems
+        let declaring: Vec<&str> = stems
             .iter()
-            .map(|stem| {
+            .copied()
+            .filter(|stem| {
                 let path = format!("{}/../../scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
                 let toml = std::fs::read_to_string(&path)
                     .unwrap_or_else(|e| panic!("{stem}.toml readable: {e}"));
-                Scenario::from_toml_str(&toml)
+                !Scenario::from_toml_str(&toml)
                     .unwrap_or_else(|e| panic!("{stem}.toml valid: {e}"))
                     .expected
                     .is_empty()
             })
             .collect();
         assert!(
-            shapes.iter().any(|empty| *empty),
-            "the suite carries drive+observe members"
-        );
-        assert!(
-            shapes.iter().any(|empty| !*empty),
-            "the suite carries an auto member"
+            declaring.is_empty(),
+            "the in-lane suite is uniformly declare-only; these declare checks: {declaring:?}"
         );
     }
 }

@@ -10,7 +10,7 @@
 # Coverage mode: auto — Conductor drives the storm AND asserts the reaction through MCP read-back.
 #   The launch condition itself is asserted upstream, at the preflight gate, against the recorded
 #   `contracts/pulse-run-contract.toml`; this scenario is the reaction half.
-# The asserted check is a count floor, deliberately not a candidate token: "RetryStorm" belongs to
+# The retired check was a count floor, deliberately not a candidate token: "RetryStorm" belongs to
 #   fingerprint-storm.toml, and asserting it here would make this scenario go red for storm-detection
 #   reasons unrelated to the deterministic mode (the outcome-coherence discipline — one outcome per token).
 # WARM-UP IS LOAD-BEARING. The `baseline-warm-up` phase is not padding: a brand-new service has no
@@ -21,9 +21,18 @@
 # Declare-only: that the L4 output is the CANNED one rather than an inference — no read-back surface
 #   exposes which produced it, and the per-check extraction that could compare hypothesis text is a
 #   later entry's (v2-09). Deterministic mode's REPRODUCIBILITY is what this scenario asserts.
-# Calibration points: the count floor of 1 is the minimum that distinguishes "an incident formed" from
-#   "none did" rather than a modelled incident count; the <90s tier tracks the L3 digest cadence
-#   (20-60s) with L4 behind it, not storm detection.
+# Calibration points: the <90s tier tracks the L3 digest cadence (20-60s) with L4 behind it, not storm
+#   detection.
+#
+# DECLARE-ONLY (2026-09-15-structurally-dead-assertion-class-retired) — the `CountAtLeast "1"` read-back
+# check was retired against a measured ground at SUT HEAD 83d4060: `CountAtLeast` grades `evidence_count`,
+# which conductor-verify sums from `retrieve_telemetry_slice.span_refs`, and Pulse maps that 1:1 from
+# `EvidenceRefs.span_ids` (`crates/mcp-server/src/tools.rs:430-435`) — a vector whose ONLY non-test writer
+# sets it empty (`pulse-app/src/inference_runtime.rs:871`, `span_ids: Vec::new()`). So `0 >= 1` was false
+# in every world, and an unmet sample floor routes to CalibrationRegion regardless of the declared `Hard`
+# (`conductor-verify/src/slo.rs`). The floor asserted incident FORMATION but graded the evidence vector,
+# which is a different quantity — the reproducibility claim needs a surface exposing incident existence,
+# and this one never carried it.
 name = "pulse-run-contract"
 p_ids = ["P-073"]
 seed = 4317073
@@ -51,10 +60,3 @@ gap_ms = 60000
 [phases.emission]
 kind = "plain"
 occurrences = 0   # the hold is deliberate quiet: the pipeline works on what the storm already delivered
-
-# P-073 — under deterministic L4 an incident forms reproducibly. With the mode off this same stimulus
-# is a coin flip on the 3B model, which is exactly why the mode is a launch condition and not a detail.
-[[expected]]
-kind = "CountAtLeast"
-class = "Hard"
-expected = "1"

@@ -16,15 +16,24 @@
 #   `[[expected]]` check, and never through `budget_ms` (which grades Conductor's own MCP round-trip, not a
 #   Pulse-internal duration). The observable fires inside the findings re-poll (`FINDINGS_REPOLL_MS` = 1000),
 #   continuously and unprompted — no operator action, only a running Pulse with its window open.
-#   Note this scenario CARRIES an `[[expected]]` check, so unlike the other three delegated-timing scenarios
-#   it is not declare-only. Measured 2026-08-21 (correcting the pre-leg prediction that it would therefore land
-#   `Blocked`): its live leg landed `verdict = CalibrationRegion` / `state = KnownResidual`. Two mechanisms,
-#   neither of which is the declare-only auto-resolve arm — the read-back SUCCEEDED but came back under
-#   `degraded_mode` (deterministic L4 makes every read-back degraded), which is the pre-accepted residual
-#   route to KnownResidual and is NOT gated on declare-only; and the unmet `CountAtLeast` floor routes to
-#   CalibrationRegion rather than failing, because a sample floor never hard-fails. `Blocked` needs a
-#   read-back FAILURE or an empty list, which this leg did not produce.
+#   Measured 2026-08-21 (correcting the pre-leg prediction that it would land `Blocked`): its live leg
+#   landed `verdict = CalibrationRegion` / `state = KnownResidual`. Two mechanisms, neither of which is the
+#   declare-only auto-resolve arm — the read-back SUCCEEDED but came back under `degraded_mode`
+#   (deterministic L4 makes every read-back degraded), which is the pre-accepted residual route to
+#   KnownResidual; and the unmet `CountAtLeast` floor routes to CalibrationRegion rather than failing,
+#   because a sample floor never hard-fails. `Blocked` needs a read-back FAILURE or an empty list, which
+#   this leg did not produce.
 # Coverage mode: auto (MCP read-back of query_incident_list).
+#
+# DECLARE-ONLY (2026-09-15-structurally-dead-assertion-class-retired) — the `CountAtLeast "3"` read-back
+# check was retired against a measured ground at SUT HEAD 83d4060, the same one that retired the whole
+# class: `CountAtLeast` grades `evidence_count`, which conductor-verify sums from
+# `retrieve_telemetry_slice.span_refs`, and Pulse maps that 1:1 from `EvidenceRefs.span_ids`
+# (`crates/mcp-server/src/tools.rs:430-435`) — a vector whose ONLY non-test writer sets it empty
+# (`pulse-app/src/inference_runtime.rs:871`, `span_ids: Vec::new()`). The floor therefore graded the
+# evidence count, never the FINDINGS count it was authored to assert, so `0 >= 3` was false in every world
+# and the CalibrationRegion landing above was structural, not a near miss. The counter-derivation claim
+# needs a read-back surface that exposes the corpus count itself; none exists in the four-tool contract.
 name = "findings-counter-refresh"
 p_ids = ["P-045"]
 seed = 4317045
@@ -42,10 +51,3 @@ gap_ms = 2000
 [[phases]]
 name = "incident-3"   # third — the counter must derive >= 3 unread active incidents
 gap_ms = 2000
-
-# P-045 — the counter derives at least the three unread active incidents Conductor drove (a deterministic
-# corpus-query count). The <=1s refresh latency is the Epoch-8 measurement (declared via the SLO tier).
-[[expected]]
-kind = "CountAtLeast"
-class = "Hard"
-expected = "3"

@@ -1,0 +1,44 @@
+# obs extract
+
+## Relevance
+Partial — the chunk mints no telemetry, but retiring the last `[[expected]]` from four scenarios changes their per-scenario RECORD shape (check-line grain, verdict source), and obs-plan §4 describes one of the four (`findings-counter-refresh`) by name.
+
+## Constraints
+- obs-plan §3 (Log format JSON schema — two record shapes) requires the envelope's eleven fields be unchanged by any scenario-shape change, and states that a **declare-only scenario emits no per-check `CheckRecord` line at all**. Retiring a scenario's last `[[expected]]` therefore removes its check-line grain, never an envelope field. Whether the four targets currently emit check lines is research's question.
+- obs-plan §6 (Required fields — every ENVELOPE record) requires the eleven keys as KEY PRESENCE, not non-null: the five measurement fields are `Option` and serialize as JSON `null`. A retired scenario must still serialize all eleven keys.
+- obs-plan §4 (Restart-suppression · Severity-lifecycle scenarios) fixes the declare-only landing shape this retirement must reach: the standard eleven-field envelope with `verdict` null and `state` `"KnownResidual"`, no scenario-specific extra, and the family's evidence relocated to the **harvest tier** over Pulse's own tracing lines. Whether the four targets already land in that shape is research's question.
+- obs-plan §4 (Known-residual classification path → Delegated-timing family) currently states that `findings-counter-refresh` is **not** declare-only (one `[[expected]]`) and that its unmet `CountAtLeast` floor grades `CalibrationRegion`. That is a current-truth statement this chunk's member #2 would falsify — treat it as an expected-amendment site, not as a fact to build on.
+- obs-plan §11 (Spans / Traces) closes the bounded span-name set (`scenario.run`, `timeline.execute*`, `emit.batch`, `emit.logs_batch`, `verify.readback*`, `report.generate`, `db.insert_run`, `fault.*`, `tauri.command.*`); retirement bookkeeping may not add a name to it.
+- obs-plan §11 (Project-specific bans) requires garde validation on scenario-config deserialization never be skipped, and a nested spec field must `dive`, never `skip`. The declare-only edit sits on that governed config boundary and must not weaken it.
+- obs-plan §9 (Log conformance check) requires no absolute host-file paths (drive-letter, `/home`, `/Users`, `%APPDATA%`, `~/.cargo`, `.rustup`) in any telemetry artifact — applies if the class-enumeration's recorded derivation commands or outputs are ever routed into a run artifact rather than chunk evidence.
+
+## Patterns to follow
+- The declare-only landing pattern of obs-plan §4 (restart-suppression 2026-08-18, severity-lifecycle 2026-08-21): the family-specific chain and envelope extras are retired at every statement site, the standard eleven-field envelope stands, and the evidence moves to the harvest tier (`conductor-run/tests/*_harvest.rs`).
+- Retirement-by-measurement recording (obs-plan §6 `degraded_mode_response` entry, §4 coverage-gate re-base): the retired item is struck through and annotated with its measurement — date, command, zero-occurrence count — rather than silently deleted. Mirrors the scope's "header comment recording the retirement, its marker, and the measured ground."
+- The allowlisted `message`-field escape hatch (obs-plan §6 Boundary-call wrappers): any new observable rides `message`, because a field name outside `conductor-core::redact::ALLOWLISTED_FIELDS` is dropped at the processor stage and emits nothing.
+- `CalibrationRegion` is an envelope `verdict` enum value (obs-plan §6 schema); an unmet floor is one of its producers, so retiring floors removes that verdict source for the affected scenarios.
+
+## Anti-patterns to avoid
+- NEVER widen the bounded span-name set or mint a span for the retirement (obs-plan §11 Spans / Traces) — the change is declarative config plus tests, off every must-trace path.
+- NEVER add a span attribute or envelope extra whose name is not in `redact::ALLOWLISTED_FIELDS` (obs-plan §4 Required-span-attributes constraint · §11 PII Scrubbing) — the `degraded_mode_requested` disqualifier: it would emit nothing.
+- NEVER skip garde validation on scenario-config deserialization (obs-plan §11 Project-specific bans).
+
+## Contract bindings
+- obs §3 / §6 ↔ **test-plan §3**, which OWNS the JSONL format (envelope + `CheckRecord`); obs reproduces it. Two-sided (D-tests-obs-harness): a check-line-presence change lands on both sides, and the run-journal conformance gate (`journal_conformance`, asserting key presence / closed sets / host-path freedom, never key exclusivity) is the tests-side consumer.
+- obs §4 harvest tier ↔ `conductor-run/tests/*_harvest.rs` (tests domain) — where declare-only scenarios' evidence grades per obs-plan §4; relevant if the retirement leaves any of the four with no remaining evidence surface.
+- obs §11 Project-specific bans ↔ **security-plan §Input Validation** (scenario-config surface) — the same governed boundary the scope names.
+
+## Acceptance criteria contributions
+- Each retired scenario's run-report envelope record still carries all eleven keys (presence, not non-null — nulls permitted on the measurement fields) (per obs-plan §6 Required fields).
+- No per-check `CheckRecord` journal line is expected for a scenario that becomes declare-only; any assertion or fixture expecting one for the four targets is dispositioned in the same change (per obs-plan §3 Log format JSON schema — two record shapes).
+- The change mints no new span name, no new span attribute and no new envelope field; the bounded span-name set and `ALLOWLISTED_FIELDS` are unchanged (per obs-plan §11 Spans / Traces).
+- If member #2 (`findings-counter-refresh`) is retired, obs-plan §4's Delegated-timing statement that it is not declare-only and grades `CalibrationRegion` on an unmet floor is flagged as an expected amendment (per obs-plan §4 Known-residual classification path — Delegated-timing family).
+
+## Relevant amendment history
+- **2026-08-18-restart-suppression-live-proof** — retired the never-built family span chain and the `bypass_triggered` extra at four sites when the scenario landed declare-only; established that a declare-only landing carries the standard eleven-field envelope and relocates its evidence to the harvest tier. The precedent class this chunk repeats.
+- **2026-08-21-severity-lifecycle-live-proof** — same retirement class for the five severity-lifecycle scenarios (the precedent the scope cites at `architecture-amendments.md:403`); the chain and both extras removed at all three naming sites, measured by zero occurrences under `crates/`.
+- **2026-08-21-per-check-latency-measurement** — recorded the report seam's second journal line shape (`CheckRecord`) as a finer GRAIN beneath the envelope, never an extension of it, and that neither report-seam shape passes the span-attribute allowlist. This is the amendment that makes "a declare-only scenario emits no check line" load-bearing here.
+- **2026-08-21-delegated-timing-budgets-proven** — the amendment that authored the `findings-counter-refresh` sentence this chunk would falsify (one `[[expected]]`, unmet `CountAtLeast` floor grading `CalibrationRegion`). Also records why the §4 critical-path TABLE was deliberately left unchanged — the fixed 7-path set is a tier-justification input; a retirement must likewise not move it.
+- **2026-09-06-run-report-envelope-conformance-gate** — settled the envelope at eleven fields and "required" as KEY PRESENCE rather than non-null (a typed parse cannot tell an absent `Option` key from a null one, measured on serde 1.0.229). Directly governs what the retired scenarios' records must still contain.
+- **2026-09-06-operator-gated-live-suite** — the retirement-recording discipline: scope held to the measurement (only the one measured field withdrawn, the universal NOT applied), with per-master hit counts and the search performed recorded. The template for this chunk's "as a class" enumeration evidence.
+- **2026-09-10-live-pulse-in-lane-scenario-round** — the originating residual's obs half; its closing note records the latency-gloss as a plausible origin of `constellation-severity-live-wiring`'s unattainable `<20s` tier, "which is why the residual carries both defects under one owner." Adjacent-but-excluded: the tier half is `v3-05`'s, and the scope bars this chunk from touching `slo_tier`.

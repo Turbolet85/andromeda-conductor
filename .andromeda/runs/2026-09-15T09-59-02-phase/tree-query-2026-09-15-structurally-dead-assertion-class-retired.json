@@ -1,0 +1,573 @@
+[
+{
+"sql": "SELECT symbol, crate, kind, file, def_line FROM symbol WHERE name IN ('CountAtLeast','Contains','expected','from_toml_str') AND kind <> 'meta' ORDER BY kind, file",
+"rows": 7,
+"result": [
+{
+"symbol": "rust-analyzer cargo conductor-core 0.2.0 scenario/impl#[Scenario]from_toml_str().",
+"crate": "conductor-core",
+"kind": "fn",
+"file": "crates/conductor-core/src/scenario.rs",
+"def_line": 155
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.2.0 expected/",
+"crate": "conductor-core",
+"kind": "module",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 0
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.2.0 expected/ExpectedCheck#expected.",
+"crate": "conductor-core",
+"kind": "term",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 68
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.2.0 scenario/Scenario#expected.",
+"crate": "conductor-core",
+"kind": "term",
+"file": "crates/conductor-core/src/scenario.rs",
+"def_line": 133
+},
+{
+"symbol": "rust-analyzer cargo conductor-verify 0.2.0 verdict/Assessment#expected.",
+"crate": "conductor-verify",
+"kind": "term",
+"file": "crates/conductor-verify/src/verdict.rs",
+"def_line": 25
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.2.0 expected/ComparisonKind#Contains#",
+"crate": "conductor-core",
+"kind": "type",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 39
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.2.0 expected/ComparisonKind#CountAtLeast#",
+"crate": "conductor-core",
+"kind": "type",
+"file": "crates/conductor-core/src/expected.rs",
+"def_line": 43
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT callee_name, callee_kind, file, line FROM refs WHERE callee_name = 'CountAtLeast' ORDER BY file, line",
+"rows": 16,
+"result": [
+{
+"callee_name": "CountAtLeast",
+"callee_kind": "type",
+"file": "crates/conductor-core/src/expected.rs",
+"line": 130
+},
+{
+"callee_name": "CountAtLeast",
+"callee_kind": "type",
+"file": "crates/conductor-core/src/expected.rs",
+"line": 144
+},
+{
+"callee_name": "CountAtLeast",
+"callee_kind": "type",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 1316
+},
+{
+"callee_name": "CountAtLeast",
+"callee_kind": "type",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 1421
+},
+{
+"callee_name": "CountAtLeast",
+"callee_kind": "type",
+"file": "crates/conductor-verify/src/extract.rs",
+"line": 54
+},
+{
+"callee_name": "CountAtLeast",
+"callee_kind": "type",
+"file": "crates/conductor-verify/src/extract.rs",
+"line": 261
+},
+{
+"callee_name": "CountAtLeast",
+"callee_kind": "type",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 52
+},
+{
+"callee_name": "CountAtLeast",
+"callee_kind": "type",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 97
+},
+{
+"callee_name": "CountAtLeast",
+"callee_kind": "type",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 152
+},
+{
+"callee_name": "CountAtLeast",
+"callee_kind": "type",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 156
+},
+{
+"callee_name": "CountAtLeast",
+"callee_kind": "type",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 160
+},
+{
+"callee_name": "CountAtLeast",
+"callee_kind": "type",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 164
+},
+{
+"callee_name": "CountAtLeast",
+"callee_kind": "type",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 209
+},
+{
+"callee_name": "CountAtLeast",
+"callee_kind": "type",
+"file": "crates/conductor-verify/tests/expected_slo.rs",
+"line": 22
+},
+{
+"callee_name": "CountAtLeast",
+"callee_kind": "type",
+"file": "crates/conductor-verify/tests/expected_slo.rs",
+"line": 23
+},
+{
+"callee_name": "CountAtLeast",
+"callee_kind": "type",
+"file": "crates/conductor-verify/tests/readback.rs",
+"line": 87
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT callee_crate, callee_file, file, line FROM refs WHERE callee_name = 'expected' AND callee_file LIKE '%scenario.rs' ORDER BY file, line",
+"rows": 55,
+"result": [
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/error.rs",
+"line": 78
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 514
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 201
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 226
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 231
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 273
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 516
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 563
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 580
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 602
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 623
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 641
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 647
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 667
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 685
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 712
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 734
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 750
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 786
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 845
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 972
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 973
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 974
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 975
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 985
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 991
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 1006
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 1103
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 1105
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 1108
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 1110
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 1123
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 1136
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 1181
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 1198
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 1222
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 1238
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 1277
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 1296
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 1314
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 1331
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 1360
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 1402
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 1419
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 1445
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-run/src/execute.rs",
+"line": 97
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-run/src/execute.rs",
+"line": 122
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-run/src/execute.rs",
+"line": 156
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-run/src/execute.rs",
+"line": 170
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-run/tests/composition_root.rs",
+"line": 76
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-run/tests/dispatch_wire.rs",
+"line": 30
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-run/tests/operator_pause_harvest.rs",
+"line": 71
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-run/tests/operator_pause_harvest.rs",
+"line": 92
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-run/tests/operator_pause_harvest.rs",
+"line": 128
+},
+{
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"file": "crates/conductor-timeline/src/convert.rs",
+"line": 62
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT file, count(*) AS n FROM refs WHERE callee_name = 'CountAtLeast' GROUP BY file ORDER BY file",
+"rows": 6,
+"result": [
+{
+"file": "crates/conductor-core/src/expected.rs",
+"n": 2
+},
+{
+"file": "crates/conductor-core/src/scenario.rs",
+"n": 2
+},
+{
+"file": "crates/conductor-verify/src/extract.rs",
+"n": 2
+},
+{
+"file": "crates/conductor-verify/src/slo.rs",
+"n": 7
+},
+{
+"file": "crates/conductor-verify/tests/expected_slo.rs",
+"n": 2
+},
+{
+"file": "crates/conductor-verify/tests/readback.rs",
+"n": 1
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT file, count(*) AS n FROM refs WHERE callee_name = 'expected' AND callee_file LIKE '%scenario.rs' GROUP BY file ORDER BY file",
+"rows": 8,
+"result": [
+{
+"file": "crates/conductor-core/src/error.rs",
+"n": 1
+},
+{
+"file": "crates/conductor-core/src/load_envelope.rs",
+"n": 1
+},
+{
+"file": "crates/conductor-core/src/scenario.rs",
+"n": 43
+},
+{
+"file": "crates/conductor-run/src/execute.rs",
+"n": 4
+},
+{
+"file": "crates/conductor-run/tests/composition_root.rs",
+"n": 1
+},
+{
+"file": "crates/conductor-run/tests/dispatch_wire.rs",
+"n": 1
+},
+{
+"file": "crates/conductor-run/tests/operator_pause_harvest.rs",
+"n": 3
+},
+{
+"file": "crates/conductor-timeline/src/convert.rs",
+"n": 1
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

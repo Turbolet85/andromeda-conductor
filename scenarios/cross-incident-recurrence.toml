@@ -11,10 +11,28 @@
 #     the SECOND run's read-back finds the first run's fingerprint in the cross-run index and surfaces
 #     "Previously seen". Deterministic (an index lookup, not a model judgement) → Hard.
 # Coverage mode: auto — the "Previously seen" reference is programmatic (runs.db cross-run fingerprint index
-#   + MCP read-back). Asserted Hard via Contains.
-# Epoch-8/10 calibration points: the "Previously seen" reference token is INFERRED (the spec uses prose;
+#   + MCP read-back).
+# Epoch-8/10 calibration points: the "Previously seen" reference token was INFERRED (the spec uses prose;
 #   Contains is substring-tolerant — the RetryStorm / LatencyRegression / Resolved precedent); the run-twice
 #   harness that populates the cross-run index; the recurrence-reference latency.
+#
+# DECLARE-ONLY (2026-09-15-structurally-dead-assertion-class-retired) — the `Contains "Previously seen"`
+# check was retired, and the ground is NOT the one the 2026-09-10 live round recorded. That round measured
+# the check DEAD and attributed it to no producer emitting the token; re-derived at SUT HEAD 83d4060, the
+# attribution is false and the measurement stands for a different reason:
+#   (1) THE TOKEN IS EMITTED. `crates/interpretation/src/markdown.rs:221` pushes the literal
+#       "## Previously Seen" into the serialized report, guarded on corpus matches existing.
+#   (2) IT REACHES THE GRADED TEXT. `conductor-verify/src/extract.rs` pushes each incident's
+#       `retrieve_report` `markdown` into `Observation.text`, so a report token is in scope for a
+#       substring check — the surface was never the problem.
+#   (3) THE CASE DIFFERS. Pulse emits "Previously Seen"; this file declared "Previously seen", and
+#       `Contains` is case-SENSITIVE (`conductor-verify/src/slo.rs`, `observed.contains(..)`). The check
+#       failed on one character.
+# Correcting the case is DELIBERATELY not done here. It would make the check reachable, not proven: the
+# run-twice recurrence path that populates the cross-run index has never been measured firing, so a
+# corrected token could hard-Fail the next live run on an unproven premise. Retiring keeps the corpus
+# honest and leaves the calibration to a chunk that can drive it. This is the inferred-token risk the
+# calibration-points line above recorded from the start, landing exactly where it was predicted.
 name = "cross-incident-recurrence"
 p_ids = ["P-036"]
 seed = 4317036
@@ -36,10 +54,3 @@ gap_ms = 3000
 kind = "exception"
 occurrences = 6
 variants = ["identical"]
-
-# P-036 — the recurring fingerprint's Report references the prior occurrence. A deterministic cross-run
-# index lookup → Hard. The "Previously seen" token is inferred (Contains is substring-tolerant).
-[[expected]]
-kind = "Contains"
-class = "Hard"
-expected = "Previously seen"
