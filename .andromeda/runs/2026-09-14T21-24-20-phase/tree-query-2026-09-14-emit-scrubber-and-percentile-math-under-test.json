@@ -1,0 +1,364 @@
+[
+{
+"sql": "SELECT callee_name, callee_kind, caller, file, line FROM calls WHERE callee_name IN ('p50_ms','p95_ms','p99_ms') ORDER BY callee_name, file, line;",
+"rows": 36,
+"result": [
+{
+"callee_name": "p50_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-core 0.2.0 phase_spec/shape_is_realizable().",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 331
+},
+{
+"callee_name": "p50_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-core 0.2.0 phase_spec/tests/well_formed_shapes_validate().",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 509
+},
+{
+"callee_name": "p50_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-core 0.2.0 phase_spec/tests/unrealizable_shapes_are_rejected_at_load().",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 563
+},
+{
+"callee_name": "p50_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-core 0.2.0 phase_spec/tests/unrealizable_shapes_are_rejected_at_load().",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 570
+},
+{
+"callee_name": "p50_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-core 0.2.0 phase_spec/tests/every_shape_bounds_the_records_its_dispatcher_arm_emits().",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 741
+},
+{
+"callee_name": "p50_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-core 0.2.0 phase_spec/tests/the_bound_is_per_dispatch_and_independent_of_occurrences().",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 814
+},
+{
+"callee_name": "p50_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-emit 0.2.0 latency/impl#[LatencyProfile]new().",
+"file": "crates/conductor-emit/src/latency.rs",
+"line": 33
+},
+{
+"callee_name": "p50_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-emit 0.2.0 latency/impl#[LatencyProfile]p50_ms().",
+"file": "crates/conductor-emit/src/latency.rs",
+"line": 41
+},
+{
+"callee_name": "p50_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-emit 0.2.0 latency/quantile().",
+"file": "crates/conductor-emit/src/latency.rs",
+"line": 121
+},
+{
+"callee_name": "p50_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-run 0.2.0 dispatch/impl#[`Dispatcher<'a>`]dispatch().",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 135
+},
+{
+"callee_name": "p50_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-run 0.2.0 the_latency_family_emits_its_declared_sample_count().",
+"file": "crates/conductor-run/tests/dispatch_wire.rs",
+"line": 258
+},
+{
+"callee_name": "p50_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-run 0.2.0 the_declared_latency_percentiles_shape_the_emitted_durations().",
+"file": "crates/conductor-run/tests/dispatch_wire.rs",
+"line": 290
+},
+{
+"callee_name": "p95_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-core 0.2.0 phase_spec/shape_is_realizable().",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 332
+},
+{
+"callee_name": "p95_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-core 0.2.0 phase_spec/tests/well_formed_shapes_validate().",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 510
+},
+{
+"callee_name": "p95_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-core 0.2.0 phase_spec/tests/unrealizable_shapes_are_rejected_at_load().",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 564
+},
+{
+"callee_name": "p95_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-core 0.2.0 phase_spec/tests/unrealizable_shapes_are_rejected_at_load().",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 571
+},
+{
+"callee_name": "p95_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-core 0.2.0 phase_spec/tests/every_shape_bounds_the_records_its_dispatcher_arm_emits().",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 742
+},
+{
+"callee_name": "p95_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-core 0.2.0 phase_spec/tests/the_bound_is_per_dispatch_and_independent_of_occurrences().",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 815
+},
+{
+"callee_name": "p95_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-emit 0.2.0 latency/impl#[LatencyProfile]new().",
+"file": "crates/conductor-emit/src/latency.rs",
+"line": 34
+},
+{
+"callee_name": "p95_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-emit 0.2.0 latency/impl#[LatencyProfile]p95_ms().",
+"file": "crates/conductor-emit/src/latency.rs",
+"line": 46
+},
+{
+"callee_name": "p95_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-emit 0.2.0 latency/quantile().",
+"file": "crates/conductor-emit/src/latency.rs",
+"line": 122
+},
+{
+"callee_name": "p95_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-run 0.2.0 dispatch/impl#[`Dispatcher<'a>`]dispatch().",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 136
+},
+{
+"callee_name": "p95_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-run 0.2.0 the_latency_family_emits_its_declared_sample_count().",
+"file": "crates/conductor-run/tests/dispatch_wire.rs",
+"line": 259
+},
+{
+"callee_name": "p95_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-run 0.2.0 the_declared_latency_percentiles_shape_the_emitted_durations().",
+"file": "crates/conductor-run/tests/dispatch_wire.rs",
+"line": 291
+},
+{
+"callee_name": "p99_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-core 0.2.0 phase_spec/shape_is_realizable().",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 333
+},
+{
+"callee_name": "p99_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-core 0.2.0 phase_spec/tests/well_formed_shapes_validate().",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 511
+},
+{
+"callee_name": "p99_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-core 0.2.0 phase_spec/tests/unrealizable_shapes_are_rejected_at_load().",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 565
+},
+{
+"callee_name": "p99_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-core 0.2.0 phase_spec/tests/unrealizable_shapes_are_rejected_at_load().",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 572
+},
+{
+"callee_name": "p99_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-core 0.2.0 phase_spec/tests/every_shape_bounds_the_records_its_dispatcher_arm_emits().",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 743
+},
+{
+"callee_name": "p99_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-core 0.2.0 phase_spec/tests/the_bound_is_per_dispatch_and_independent_of_occurrences().",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"line": 816
+},
+{
+"callee_name": "p99_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-emit 0.2.0 latency/impl#[LatencyProfile]new().",
+"file": "crates/conductor-emit/src/latency.rs",
+"line": 35
+},
+{
+"callee_name": "p99_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-emit 0.2.0 latency/impl#[LatencyProfile]p99_ms().",
+"file": "crates/conductor-emit/src/latency.rs",
+"line": 51
+},
+{
+"callee_name": "p99_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-emit 0.2.0 latency/quantile().",
+"file": "crates/conductor-emit/src/latency.rs",
+"line": 123
+},
+{
+"callee_name": "p99_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-run 0.2.0 dispatch/impl#[`Dispatcher<'a>`]dispatch().",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 137
+},
+{
+"callee_name": "p99_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-run 0.2.0 the_latency_family_emits_its_declared_sample_count().",
+"file": "crates/conductor-run/tests/dispatch_wire.rs",
+"line": 260
+},
+{
+"callee_name": "p99_ms",
+"callee_kind": "term",
+"caller": "rust-analyzer cargo conductor-run 0.2.0 the_declared_latency_percentiles_shape_the_emitted_durations().",
+"file": "crates/conductor-run/tests/dispatch_wire.rs",
+"line": 292
+}
+],
+"db_state": "regenerated",
+"plane": "rust"
+},
+{
+"sql": "SELECT symbol, crate, name, kind, file, def_line FROM symbol WHERE name IN ('p50_ms','p95_ms','p99_ms') ORDER BY crate, file, def_line;",
+"rows": 9,
+"result": [
+{
+"symbol": "rust-analyzer cargo conductor-core 0.2.0 phase_spec/EmissionShape#Latency#p50_ms.",
+"crate": "conductor-core",
+"name": "p50_ms",
+"kind": "term",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"def_line": 230
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.2.0 phase_spec/EmissionShape#Latency#p95_ms.",
+"crate": "conductor-core",
+"name": "p95_ms",
+"kind": "term",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"def_line": 231
+},
+{
+"symbol": "rust-analyzer cargo conductor-core 0.2.0 phase_spec/EmissionShape#Latency#p99_ms.",
+"crate": "conductor-core",
+"name": "p99_ms",
+"kind": "term",
+"file": "crates/conductor-core/src/phase_spec.rs",
+"def_line": 232
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.2.0 latency/LatencyProfile#p50_ms.",
+"crate": "conductor-emit",
+"name": "p50_ms",
+"kind": "term",
+"file": "crates/conductor-emit/src/latency.rs",
+"def_line": 24
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.2.0 latency/LatencyProfile#p95_ms.",
+"crate": "conductor-emit",
+"name": "p95_ms",
+"kind": "term",
+"file": "crates/conductor-emit/src/latency.rs",
+"def_line": 25
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.2.0 latency/LatencyProfile#p99_ms.",
+"crate": "conductor-emit",
+"name": "p99_ms",
+"kind": "term",
+"file": "crates/conductor-emit/src/latency.rs",
+"def_line": 26
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.2.0 latency/impl#[LatencyProfile]p50_ms().",
+"crate": "conductor-emit",
+"name": "p50_ms",
+"kind": "fn",
+"file": "crates/conductor-emit/src/latency.rs",
+"def_line": 40
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.2.0 latency/impl#[LatencyProfile]p95_ms().",
+"crate": "conductor-emit",
+"name": "p95_ms",
+"kind": "fn",
+"file": "crates/conductor-emit/src/latency.rs",
+"def_line": 45
+},
+{
+"symbol": "rust-analyzer cargo conductor-emit 0.2.0 latency/impl#[LatencyProfile]p99_ms().",
+"crate": "conductor-emit",
+"name": "p99_ms",
+"kind": "fn",
+"file": "crates/conductor-emit/src/latency.rs",
+"def_line": 50
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT callee_name, caller, file, line FROM calls WHERE callee_name IN ('p50_ms','p95_ms','p99_ms') AND callee_kind = 'fn' AND callee_file LIKE '%latency.rs' ORDER BY file, line;",
+"rows": 0,
+"result": [],
+"db_state": "fresh",
+"plane": "rust",
+"probe_hits": {
+"names": {},
+"patterns": {}
+}
+},
+{
+"sql": "SELECT callee_name, callee_kind, file, line FROM refs WHERE callee_name IN ('p50_ms','p95_ms','p99_ms') AND callee_kind = 'fn' AND callee_file LIKE '%latency.rs' ORDER BY file, line;",
+"rows": 0,
+"result": [],
+"db_state": "fresh",
+"plane": "rust",
+"probe_hits": {
+"names": {},
+"patterns": {}
+}
+}
+]

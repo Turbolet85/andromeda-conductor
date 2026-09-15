@@ -624,8 +624,10 @@ version = "0.2.0"
 dependencies = [
  "blake3",
  "opentelemetry-proto",
+ "proptest",
  "rand_chacha",
  "rand_core",
+ "rstest",
  "thiserror 2.0.18",
  "tokio",
  "tokio-stream",

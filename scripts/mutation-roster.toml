@@ -22,6 +22,37 @@
 #   ratified              — an accepted-deliberate member of the §12 roster; `member` names it.
 #   provisional-next-audit — counted here so a tally gate can be green, NOT a disposition. The standing stub
 #                            exclusion that retires these is the next audit's to apply.
+#
+# `[[unit]]` REGISTERS a gated unit. Registration is the declaration, never the row count: a unit whose
+# survivors are all killed legitimately carries zero `[[entry]]` rows, and the gate must be able to pass it
+# on an empty `missed.txt` rather than reading "no rows" as "not a gated unit". An optional `files` list
+# scopes the tier to those paths (`-f`, workspace-root-relative per `.claude/rules/testing.md`); omit it to
+# run the crate whole.
+
+[[unit]]
+name = "conductor-cli"
+
+[[unit]]
+name = "conductor-verify"
+
+# Scoped to the two files the 2026-09-14 code audit measured. The audit read them through `--shard 1/4`,
+# a CONTIGUOUS block of 115 of their 227 mutants; the shard is not re-measurable once the population
+# shifts, so the gate's subject is the two files WHOLE.
+[[unit]]
+name = "conductor-emit"
+files = [
+    "crates/conductor-emit/src/exception.rs",
+    "crates/conductor-emit/src/latency.rs",
+]
+
+[[entry]]
+unit = "conductor-emit"
+file = "crates/conductor-emit/src/latency.rs"
+mutation = "replace < with <= in quantile"
+class = "ratified"
+member = "member-emit-1"
+rule = "EQUIVALENT MUTANT: the two branches meet at u = 0.5 with the same value — u / 0.5 is exactly 1.0 and (u - 0.5) / 0.45 is exactly 0.0 there, both yielding exactly p50 — and u = 0.5 is the only input the flip re-routes, so the mutated fn returns a bit-identical f64 for every input. Measured under EXACT f64 comparison over 5 profiles x 10008 points: 0 differing points. Scoped to THIS mutant, never the comparison class: four siblings of the same shape are killable, because the later branches are one line algebraically but not in IEEE754."
+citation_home = "conductor-0.3.0/chunks/2026-09-14-emit-scrubber-and-percentile-math-under-test/evidence/disposition-ledger.md"
 
 [[entry]]
 unit = "conductor-cli"

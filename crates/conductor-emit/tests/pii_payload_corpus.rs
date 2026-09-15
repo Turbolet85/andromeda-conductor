@@ -3,9 +3,12 @@
 //! each of the seven P-047 categories reaches the wire: as span attributes + an `exception` event on
 //! the trace path, and in log-record body + attributes on the logs path (P-035 / P-047 / P-048).
 
+mod common;
+
 use std::net::SocketAddr;
 use std::sync::{Arc, Mutex};
 
+use common::start_stub;
 use conductor_emit::{
     DEFAULT_SERVICE_NAME, EmitError, LogsEmitter, PiiCategory, PiiCorpus, TraceEmitter,
     pii_logs_request, pii_trace_request,
@@ -14,31 +17,11 @@ use opentelemetry_proto::tonic::collector::logs::v1::{
     ExportLogsServiceRequest, ExportLogsServiceResponse,
     logs_service_server::{LogsService, LogsServiceServer},
 };
-use opentelemetry_proto::tonic::collector::trace::v1::{
-    ExportTraceServiceRequest, ExportTraceServiceResponse,
-    trace_service_server::{TraceService, TraceServiceServer},
-};
 use opentelemetry_proto::tonic::common::v1::{KeyValue, any_value};
 use tokio::net::TcpListener;
 use tokio_stream::wrappers::TcpListenerStream;
 use tonic::transport::Server;
 use tonic::{Request, Response, Status};
-
-#[derive(Clone, Default)]
-struct CapturingTraceService {
-    last: Arc<Mutex<Option<ExportTraceServiceRequest>>>,
-}
-
-#[tonic::async_trait]
-impl TraceService for CapturingTraceService {
-    async fn export(
-        &self,
-        request: Request<ExportTraceServiceRequest>,
-    ) -> Result<Response<ExportTraceServiceResponse>, Status> {
-        *self.last.lock().unwrap() = Some(request.into_inner());
-        Ok(Response::new(ExportTraceServiceResponse::default()))
-    }
-}
 
 #[derive(Clone, Default)]
 struct CapturingLogsService {
@@ -54,21 +37,6 @@ impl LogsService for CapturingLogsService {
         *self.last.lock().unwrap() = Some(request.into_inner());
         Ok(Response::new(ExportLogsServiceResponse::default()))
     }
-}
-
-async fn start_trace_stub() -> (SocketAddr, Arc<Mutex<Option<ExportTraceServiceRequest>>>) {
-    let listener = TcpListener::bind("127.0.0.1:0").await.unwrap();
-    let addr = listener.local_addr().unwrap();
-    let svc = CapturingTraceService::default();
-    let captured = Arc::clone(&svc.last);
-    tokio::spawn(async move {
-        Server::builder()
-            .add_service(TraceServiceServer::new(svc))
-            .serve_with_incoming(TcpListenerStream::new(listener))
-            .await
-            .unwrap();
-    });
-    (addr, captured)
 }
 
 async fn start_logs_stub() -> (SocketAddr, Arc<Mutex<Option<ExportLogsServiceRequest>>>) {
@@ -95,7 +63,7 @@ fn string_value(kv: &KeyValue) -> String {
 
 #[tokio::test(flavor = "current_thread")]
 async fn ships_pii_corpus_across_spans_and_exceptions() {
-    let (addr, captured) = start_trace_stub().await;
+    let (addr, captured) = start_stub().await;
     let corpus = PiiCorpus::seeded(42);
     let categories = PiiCategory::all();
 

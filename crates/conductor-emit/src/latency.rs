@@ -36,21 +36,6 @@ impl LatencyProfile {
             p99_ms,
         })
     }
-
-    /// The target 50th-percentile latency (milliseconds).
-    pub fn p50_ms(self) -> u64 {
-        self.p50_ms
-    }
-
-    /// The target 95th-percentile latency (milliseconds).
-    pub fn p95_ms(self) -> u64 {
-        self.p95_ms
-    }
-
-    /// The target 99th-percentile latency (milliseconds).
-    pub fn p99_ms(self) -> u64 {
-        self.p99_ms
-    }
 }
 
 /// One operation in a latency batch: the span `name`, its target `profile`, and how many sample
@@ -146,6 +131,8 @@ fn next_unit(rng: &mut ChaCha8Rng) -> f64 {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use proptest::prelude::*;
+    use rstest::rstest;
 
     fn profile() -> LatencyProfile {
         LatencyProfile::new(100, 500, 2000).unwrap()
@@ -290,5 +277,68 @@ mod tests {
         assert_eq!(durations_of(&a), durations_of(&b));
         let c = latency_trace_request("svc", 100, &ops);
         assert_ne!(durations_of(&a), durations_of(&c));
+    }
+
+    /// Exact-value table for [`quantile`] at and around every breakpoint, over `profile()`
+    /// (`tail` = 2375). Exact equality is load-bearing rather than fussy: `tail = p99 + (p99 - p95) / 4`
+    /// gives the last branch the same slope as the one before it, so the two are one line
+    /// algebraically and differ only in the last ulp under IEEE754 — a comparison boundary that
+    /// re-routes an input between them survives any tolerance band, however tight.
+    #[rstest]
+    #[case(0.0, 0.0)]
+    #[case(0.2, 40.0)]
+    #[case(0.4999, 99.98)]
+    #[case(0.5, 100.0)]
+    #[case(0.9499, 499.91111111111104)]
+    #[case(0.95, 500.0)]
+    #[case(0.9899, 1996.2500000000018)]
+    #[case(0.99, 2000.0)]
+    #[case(0.9901, 2003.7499999999995)]
+    #[case(0.995, 2187.5)]
+    fn quantile_is_exact_at_and_around_every_breakpoint(#[case] u: f64, #[case] expected: f64) {
+        assert_eq!(quantile(profile(), u), expected, "u = {u}");
+    }
+
+    #[test]
+    fn every_drawn_duration_is_nonzero_under_a_positive_profile() {
+        let mut rng = ChaCha8Rng::seed_from_u64(11);
+        let d = sample_durations_nanos(profile(), 200, &mut rng);
+        assert_eq!(d.len(), 200);
+        assert!(
+            d.iter().all(|&n| n > 0),
+            "stratum draw produced a zero duration: {:?}",
+            d.iter().take(8).collect::<Vec<_>>()
+        );
+    }
+
+    proptest! {
+        #[test]
+        fn quantile_is_total_and_monotone_over_the_unit_interval(
+            p50 in 0u64..10_000,
+            d95 in 0u64..10_000,
+            d99 in 0u64..10_000,
+            a in 0.0f64..1.0,
+            b in 0.0f64..1.0,
+        ) {
+            let profile = LatencyProfile::new(p50, p50 + d95, p50 + d95 + d99).unwrap();
+            let (lo, hi) = if a <= b { (a, b) } else { (b, a) };
+            let (q_lo, q_hi) = (quantile(profile, lo), quantile(profile, hi));
+            prop_assert!(q_lo.is_finite(), "quantile({lo}) = {q_lo}");
+            prop_assert!(q_hi.is_finite(), "quantile({hi}) = {q_hi}");
+            prop_assert!(q_lo <= q_hi, "not monotone: q({lo}) = {q_lo} > q({hi}) = {q_hi}");
+        }
+
+        #[test]
+        fn sample_durations_nanos_draws_exactly_n_without_panicking(
+            p50 in 0u64..10_000,
+            d95 in 0u64..10_000,
+            d99 in 0u64..10_000,
+            n in 0usize..256,
+            seed in any::<u64>(),
+        ) {
+            let profile = LatencyProfile::new(p50, p50 + d95, p50 + d95 + d99).unwrap();
+            let mut rng = ChaCha8Rng::seed_from_u64(seed);
+            prop_assert_eq!(sample_durations_nanos(profile, n, &mut rng).len(), n);
+        }
     }
 }

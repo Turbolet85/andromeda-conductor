@@ -158,8 +158,9 @@ impl FingerprintVariant {
 /// first [`NORMALIZED_FRAMES`] frames contribute. See [`normalize_stacktrace`].
 ///
 /// Source of truth: `andromeda-pulse crates/buffer/src/fingerprint.rs`
-/// (`compute_exception_fingerprint`), transcribed at HEAD `efabe8e` — Pulse is the SUT, so its
-/// derivation is the fact and this is the expectation of it.
+/// (`compute_exception_fingerprint`), transcribed at HEAD `efabe8e` and re-verified unchanged at
+/// HEAD `83d4060` (`git log efabe8e..83d4060 -- crates/buffer/src/fingerprint.rs` → 0 commits,
+/// 2026-09-15) — Pulse is the SUT, so its derivation is the fact and this is the expectation of it.
 pub fn fingerprint(spec: &ExceptionSpec) -> String {
     let mut hasher = blake3::Hasher::new();
     hasher.update(spec.exception_type.as_bytes());
@@ -355,6 +356,7 @@ mod tests {
     use super::*;
     use opentelemetry_proto::tonic::common::v1::any_value;
     use opentelemetry_proto::tonic::trace::v1::status::StatusCode;
+    use rstest::rstest;
 
     fn base() -> ExceptionSpec {
         ExceptionSpec::new(
@@ -604,5 +606,185 @@ mod tests {
         assert!(!st.contains("/Users/"), "{st}");
         assert!(!st.contains("/home/"), "{st}");
         assert!(st.contains("conductor::worker::handle"));
+    }
+
+    /// The scrubber family's helpers return an INDEX or a BOOLEAN, and the fingerprint-level tests
+    /// above can only see a difference that survives all the way into the hash. These pin each
+    /// helper's own return value, which is what a comparison- or arithmetic-boundary mutation moves.
+    #[rstest]
+    #[case("/home/d/x.rs", 0, true)]
+    #[case("/Users/d/x.rs", 0, true)]
+    #[case("at /home/d/x.rs", 3, true)]
+    #[case("(C:\\proj\\x.rs", 1, true)]
+    #[case("C:/proj/x.rs", 0, true)]
+    #[case("src/a.rs", 3, false)]
+    #[case("C:", 0, false)]
+    #[case("/", 0, false)]
+    #[case("/ x", 0, false)]
+    #[case("0x1f", 0, false)]
+    fn is_absolute_path_start_fires_only_on_a_token_leading_absolute(
+        #[case] line: &str,
+        #[case] at: usize,
+        #[case] expected: bool,
+    ) {
+        assert_eq!(is_absolute_path_start(line.as_bytes(), at), expected);
+    }
+
+    #[rstest]
+    #[case("/x", 0, true)]
+    #[case("(/x", 1, true)]
+    #[case("a/x", 1, false)]
+    #[case("src/a.rs", 3, false)]
+    fn is_token_boundary_reads_the_preceding_byte(
+        #[case] line: &str,
+        #[case] at: usize,
+        #[case] expected: bool,
+    ) {
+        assert_eq!(is_token_boundary(line.as_bytes(), at), expected);
+    }
+
+    #[rstest]
+    #[case("C:\\proj\\x.rs:10", 0, 12)]
+    #[case("C:/proj/x.rs", 0, 12)]
+    #[case("/home/x.rs:9", 0, 10)]
+    #[case("/a", 0, 2)]
+    // The drive-letter guard's own edges: a non-colon second byte, a two-byte input whose third byte
+    // does not exist, and a first byte that is not a path char — each separates the three-step skip
+    // from the one-step one, which a path-char-only input cannot.
+    #[case("ab:x", 0, 2)]
+    #[case("C:", 0, 1)]
+    #[case(": x", 0, 1)]
+    fn skip_absolute_path_consumes_the_whole_path_token(
+        #[case] line: &str,
+        #[case] from: usize,
+        #[case] expected: usize,
+    ) {
+        assert_eq!(skip_absolute_path(line.as_bytes(), from), expected);
+    }
+
+    #[rstest]
+    #[case(":42", 0, 3)]
+    #[case(":42)", 0, 3)]
+    #[case(":42:7", 0, 5)]
+    #[case(":42:", 0, 3)]
+    #[case(":", 0, 1)]
+    // A second colon followed by a NON-digit: the column arm must read the byte after the colon, not
+    // the digit before it, and only a case where those two disagree can tell them apart.
+    #[case(":42:x", 0, 3)]
+    fn skip_line_number_suffix_takes_line_then_optional_column(
+        #[case] line: &str,
+        #[case] from: usize,
+        #[case] expected: usize,
+    ) {
+        assert_eq!(skip_line_number_suffix(line.as_bytes(), from), expected);
+    }
+
+    #[rstest]
+    #[case("0x1f", 0, true)]
+    #[case("0X1f", 0, true)]
+    #[case("0xz", 0, false)]
+    #[case("0x", 0, false)]
+    #[case("1x1f", 0, false)]
+    fn is_hex_address_start_needs_the_full_prefix_and_a_digit(
+        #[case] line: &str,
+        #[case] at: usize,
+        #[case] expected: bool,
+    ) {
+        assert_eq!(is_hex_address_start(line.as_bytes(), at), expected);
+    }
+
+    #[rstest]
+    #[case("0xABCdef0123!", 0, 12)]
+    #[case("0x1f", 0, 4)]
+    #[case("0x", 0, 2)]
+    fn skip_hex_address_consumes_every_hex_digit(
+        #[case] line: &str,
+        #[case] from: usize,
+        #[case] expected: usize,
+    ) {
+        assert_eq!(skip_hex_address(line.as_bytes(), from), expected);
+    }
+
+    #[rstest]
+    #[case(b'a', true)]
+    #[case(b'0', true)]
+    #[case(b'/', true)]
+    #[case(b'\\', true)]
+    #[case(b'_', true)]
+    #[case(b'-', true)]
+    #[case(b'.', true)]
+    #[case(b'~', true)]
+    #[case(b':', false)]
+    #[case(b' ', false)]
+    #[case(b'(', false)]
+    fn is_path_char_admits_exactly_the_path_bytes(#[case] byte: u8, #[case] expected: bool) {
+        assert_eq!(is_path_char(byte), expected);
+    }
+
+    #[rstest]
+    #[case("at h(C:\\p\\x.rs:10)", "at h()")]
+    #[case("at h(/home/d/x.rs:9)", "at h()")]
+    #[case("at h(/Users/d/x.rs:9)", "at h()")]
+    #[case("at h(src/x.rs:9)", "at h(src/x.rs)")]
+    #[case("at m::n::f (src/a.rs:1:2)", "at m::n::f (src/a.rs)")]
+    #[case("at f 0x7ffd1234", "at f")]
+    // A trailing colon is the line-suffix guard's own edge — the byte after it is past the end, so
+    // the guard must not reach for it; and a leading colon is the same edge at the other end.
+    #[case("at f:", "at f:")]
+    #[case(":42", "")]
+    fn normalize_frame_strips_host_varying_parts_and_keeps_the_rest(
+        #[case] line: &str,
+        #[case] expected: &str,
+    ) {
+        assert_eq!(normalize_frame(line), expected);
+    }
+
+    /// The boundary between this crate's fingerprint normalizer and `conductor-core::redact`.
+    /// `exception.rs` strips only TOKEN-LEADING absolute paths; the shell-variable and home-relative
+    /// forms are the self-observation scrubber's remit, on a surface this function never feeds.
+    /// Pinned so a future widening here is a deliberate change and not a silent one.
+    #[rstest]
+    #[case("%APPDATA%\\cache\\x.rs")]
+    #[case("~/.cargo/registry/src/l.rs")]
+    #[case("conductor_emit::latency::quantile")]
+    #[case("src/latency.rs")]
+    fn normalize_frame_leaves_non_token_leading_forms_untouched(#[case] line: &str) {
+        assert_eq!(normalize_frame(line), line);
+    }
+
+    /// The event's own wall-clock stamp. Dropping the field leaves `Event::default()`'s zero, which
+    /// a plausible-epoch floor separates from any real reading. The proximity check pins that the two
+    /// stamps come from the SAME clock rather than one of them being a constant; it is deliberately
+    /// not an ordering assertion — the event is stamped before the span's start (measured ~25 µs
+    /// earlier), so their order is an artefact of build order and not a guaranteed property.
+    #[test]
+    fn the_exception_event_carries_a_wall_clock_stamp() {
+        const EPOCH_FLOOR_NANOS: u64 = 1_600_000_000_000_000_000;
+        const ONE_MINUTE_NANOS: u64 = 60_000_000_000;
+
+        let req = exception_trace_request("svc", 7, &base());
+        let span = &req.resource_spans[0].scope_spans[0].spans[0];
+        let event = &span.events[0];
+        assert!(
+            event.time_unix_nano >= EPOCH_FLOOR_NANOS,
+            "not an epoch-nanosecond reading: {}",
+            event.time_unix_nano
+        );
+        assert!(
+            event.time_unix_nano.abs_diff(span.start_time_unix_nano) < ONE_MINUTE_NANOS,
+            "event {} and span start {} are not from one clock",
+            event.time_unix_nano,
+            span.start_time_unix_nano
+        );
+    }
+
+    #[test]
+    fn normalize_stacktrace_keeps_the_first_normalized_frames_and_skips_blank_lines() {
+        let raw = "\nat a(src/a.rs:1)\n\n  at b(src/b.rs:2)\nat c(src/c.rs:3)\nat d(src/d.rs:4)\n";
+        assert_eq!(
+            normalize_stacktrace(raw),
+            "at a(src/a.rs)\nat b(src/b.rs)\nat c(src/c.rs)"
+        );
+        assert_eq!(normalize_stacktrace(""), "");
     }
 }

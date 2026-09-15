@@ -17,3 +17,5 @@ blake3.workspace = true
 [dev-dependencies]
 tokio = { workspace = true, features = ["macros", "rt", "net"] }
 tokio-stream = { version = "0.1", features = ["net"] }
+proptest.workspace = true
+rstest.workspace = true
