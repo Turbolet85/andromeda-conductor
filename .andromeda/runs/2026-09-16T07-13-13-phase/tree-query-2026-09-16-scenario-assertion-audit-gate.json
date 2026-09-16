@@ -1,0 +1,278 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name IN ('list_scenarios','check_load_envelope','check_sut_drift','deadline_ms','check_budgets') AND callee_kind='fn' ORDER BY callee_name, file, line",
+"rows": 46,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 scenario/impl#[Scenario]from_toml_str().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 159
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 scenario/tests/a_budget_at_or_under_its_tier_is_accepted().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 1008
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 scenario/tests/a_budget_above_its_tier_is_a_harness_fault_naming_the_check().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 1021
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 crate/",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 44
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 load_envelope/tests/the_storm_window_is_the_longest_emitting_phase_not_the_sum_of_them().",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 559
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 load_envelope/tests/the_committed_catalog_matches_the_committed_envelope().",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 655
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 load_envelope/tests/an_over_envelope_scenario_outside_the_ledger_is_a_fault().",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 727
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 load_envelope/tests/a_ledger_entry_now_inside_the_envelope_is_a_fault().",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 744
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 load_envelope/tests/a_ledger_entry_no_scenario_names_is_a_fault().",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 761
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 load_envelope/tests/an_in_envelope_catalog_with_an_empty_ledger_passes().",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 778
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 load_envelope/tests/envelope_message_names_identity_without_host_paths_or_type_names().",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 788
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 drift/tests/committed_artifacts_match_the_known_gap().",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 249
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 drift/tests/an_accepted_id_outside_the_known_gap_is_drift().",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 256
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 drift/tests/a_known_gap_entry_that_is_now_classified_is_drift().",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 269
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 drift/tests/a_classified_id_the_manifest_dropped_is_drift().",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 286
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 drift/tests/in_sync_with_an_empty_known_gap_passes().",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 303
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 drift/tests/drift_message_names_identity_without_host_paths_or_type_names().",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 310
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 drift/tests/drift_message_is_byte_identical_for_identical_inputs().",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 476
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 drift/tests/drift_message_is_byte_identical_for_identical_inputs().",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 479
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 crate/",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 39
+},
+{
+"caller": "rust-analyzer cargo conductor-report 0.2.0 every_accepted_capability_is_classified().",
+"file": "crates/conductor-report/tests/coverage_gate.rs",
+"line": 41
+},
+{
+"caller": "rust-analyzer cargo conductor-report 0.2.0 removing_a_real_classification_row_fails_the_gate().",
+"file": "crates/conductor-report/tests/coverage_gate.rs",
+"line": 58
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 expected/MAX_BUDGET_MS.",
+"file": "crates/conductor-core/src/expected.rs",
+"line": 50
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 expected/impl#[ExpectedCheck]effective_deadline_ms().",
+"file": "crates/conductor-core/src/expected.rs",
+"line": 84
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 expected/tests/an_absent_budget_falls_back_to_the_scenario_tier().",
+"file": "crates/conductor-core/src/expected.rs",
+"line": 190
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 expected/tests/a_declared_budget_overrides_the_tier().",
+"file": "crates/conductor-core/src/expected.rs",
+"line": 200
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 expected/tests/the_budget_ceiling_derives_from_the_ladder_not_a_literal().",
+"file": "crates/conductor-core/src/expected.rs",
+"line": 209
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 scenario/impl#[Scenario]check_budgets().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 200
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 scenario/tests/slo_tier_deadline_ms_maps_the_three_tiers().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 293
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 scenario/tests/slo_tier_deadline_ms_maps_the_three_tiers().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 294
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 scenario/tests/slo_tier_deadline_ms_maps_the_three_tiers().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 295
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 scenario/tests/a_within_tier_budget_survives_the_toml_round_trip().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 1094
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 scenario/tests/the_committed_catalog_declares_budgets_within_its_tiers().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 1108
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.2.0 slo/tests/slo_within_and_exceeded_per_tier().",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 171
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.2.0 slo/tests/slo_within_and_exceeded_per_tier().",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 172
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.2.0 slo/tests/slo_within_and_exceeded_per_tier().",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 173
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.2.0 slo/tests/slo_within_and_exceeded_per_tier().",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 174
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.2.0 slo/tests/negative_latency_is_never_within_tolerance().",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 179
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.2.0 slo/tests/the_outcome_records_which_bound_it_was_judged_against().",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 278
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.2.0 slo_tier_deadline_matrix().",
+"file": "crates/conductor-verify/tests/expected_slo.rs",
+"line": 49
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 drift/tests/the_committed_catalog_matches_the_unbacked_ledger().",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 361
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 crate/",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 68
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 scenario_catalog/tests/catalog().",
+"file": "crates/conductor-core/src/scenario_catalog.rs",
+"line": 80
+},
+{
+"caller": "rust-analyzer cargo conductor-tauri 0.2.0 commands/list_scenarios_impl().",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 147
+},
+{
+"caller": "rust-analyzer cargo conductor-tauri 0.2.0 commands/tests/test_app().",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 389
+},
+{
+"caller": "rust-analyzer cargo conductor-tauri 0.2.0 main().",
+"file": "crates/conductor-tauri/src/main.rs",
+"line": 22
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'list_scenarios' AND callee_kind='fn' ORDER BY file, line",
+"rows": 6,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 drift/tests/the_committed_catalog_matches_the_unbacked_ledger().",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 361
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 crate/",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 68
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 scenario_catalog/tests/catalog().",
+"file": "crates/conductor-core/src/scenario_catalog.rs",
+"line": 80
+},
+{
+"caller": "rust-analyzer cargo conductor-tauri 0.2.0 commands/list_scenarios_impl().",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 147
+},
+{
+"caller": "rust-analyzer cargo conductor-tauri 0.2.0 commands/tests/test_app().",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 389
+},
+{
+"caller": "rust-analyzer cargo conductor-tauri 0.2.0 main().",
+"file": "crates/conductor-tauri/src/main.rs",
+"line": 22
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

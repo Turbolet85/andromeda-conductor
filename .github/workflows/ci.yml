@@ -91,6 +91,17 @@ jobs:
           cargo nextest run -p conductor-report --test coverage_gate --profile ci
           echo "coverage completeness: PASS ($(grep -cE '^\| `P-' coverage-matrix.md) capabilities classified)"
 
+      # Scenario-assertion audit gate (test-plan §6 — the mechanical form of the two corpus
+      # properties 0.3.0 Epoch 2 established by hand). The subject is the COMMITTED audit ledger,
+      # graded against the catalog as loaded in both directions on both axes, so a new live
+      # assertion, a new over-tier scenario, or a pin that stopped describing the catalog fails here
+      # rather than being noticed the next time someone looks.
+      - name: Scenario-assertion audit gate
+        shell: bash
+        run: |
+          test -f contracts/scenario-audit-ledger.toml || { echo "::error::contracts/scenario-audit-ledger.toml is absent — the gate has no subject"; exit 1; }
+          cargo nextest run -p conductor-core --test scenario_audit_gate --profile ci
+
       - name: Supply-chain — cargo audit
         run: cargo audit
 

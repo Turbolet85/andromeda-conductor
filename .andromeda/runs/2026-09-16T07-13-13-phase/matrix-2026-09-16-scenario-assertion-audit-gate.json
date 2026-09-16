@@ -1,0 +1,108 @@
+[
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "d423b022",
+"ts": "2026-09-16T08:05:35Z",
+"argv": [
+"coverage",
+"--dir",
+"conductor-0.3.0",
+"--run-dir",
+".andromeda/runs/2026-09-16T07-13-13-phase",
+"--marker",
+"2026-09-16-scenario-assertion-audit-gate"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"verified 4/11 · deferred 0 · planned 7 · implemented 0 · unclaimed 7",
+"unclaimed: v3-02 v3-03 v3-06 v3-08 v3-09 v3-10 v3-11",
+"claimed-unfinished: none",
+"done-test: NO — 7 not verified|deferred · unclaimed 7",
+"chunks referenced: 4 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "d423b022",
+"ts": "2026-09-16T08:05:59Z",
+"argv": [
+"claim",
+"--dir",
+"conductor-0.3.0",
+"--id",
+"v3-06",
+"--chunk",
+"2026-09-16-scenario-assertion-audit-gate",
+"--acceptance-file",
+".andromeda/runs/2026-09-16T07-13-13-phase/acceptance-v3-06.md",
+"--run-dir",
+".andromeda/runs/2026-09-16T07-13-13-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claim v3-06 → chunk 2026-09-16-scenario-assertion-audit-gate (was null; status planned kept)",
+"acceptance: One check, runnable by a reader who did not write it, establishes both… (392 chars)",
+"         → One check, runnable from the workspace root by a reader who did not wr… (3279 chars)",
+"wrote conductor-0.3.0\\verification-matrix.json · 1 entry changed",
+"pool: unclaimed 6 [v3-02 v3-03 v3-08 v3-09 v3-10 v3-11]"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0\\verification-matrix.json"
+],
+"before": {
+"id": "v3-06",
+"chunk": null,
+"status": "planned",
+"method": "unit",
+"ref": "null",
+"acceptance": "One check, runnable by a reader who did not write it, establishes both that no committed scenario declares an unsatisfia… (392 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v3-06",
+"chunk": "2026-09-16-scenario-assertion-audit-gate",
+"status": "planned",
+"method": "unit",
+"ref": "null",
+"acceptance": "One check, runnable from the workspace root by a reader who did not write it — `cargo nextest run -p conductor-core --te… (3279 chars)",
+"notes_chars": 0
+}
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "d423b022",
+"ts": "2026-09-16T08:06:05Z",
+"argv": [
+"audit",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-16-scenario-assertion-audit-gate",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-16-scenario-assertion-audit-gate/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-16T07-13-13-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-16-scenario-assertion-audit-gate: 1 · ## Acceptance Criteria: line 227, 49 lines",
+"v3-06: cited in ## Acceptance Criteria (line 233)",
+"pool: unclaimed 6 [v3-02 v3-03 v3-08 v3-09 v3-10 v3-11]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

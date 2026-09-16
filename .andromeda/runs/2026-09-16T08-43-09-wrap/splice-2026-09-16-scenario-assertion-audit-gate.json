@@ -1,0 +1,277 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "2a1bf9cb",
+"ts": "2026-09-16T09:04:45Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-16T08-43-09-wrap/architecture-entry.md",
+"--lines",
+"14",
+"--run-dir",
+".andromeda/runs/2026-09-16T08-43-09-wrap",
+"--marker",
+"2026-09-16-scenario-assertion-audit-gate"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+14 at line 677 · lines 676→690 · bytes 156781→161132 · term lf",
+"last line now: `coverage_gate`: **7 hits** — `architecture.md:60` (amended here, now naming b"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 676,
+"bytes": 156781,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 690,
+"bytes": 161132
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "2a1bf9cb",
+"ts": "2026-09-16T09:04:45Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-16T08-43-09-wrap/security-plan-entry.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-09-16T08-43-09-wrap",
+"--marker",
+"2026-09-16-scenario-assertion-audit-gate"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+10 at line 306 · lines 305→315 · bytes 72949→76111 · term lf",
+"last line now: **Sweep (cascade step 2), run after every body edit of this pass, over the seven"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 305,
+"bytes": 72949,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 315,
+"bytes": 76111
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "2a1bf9cb",
+"ts": "2026-09-16T09:04:45Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-16T08-43-09-wrap/test-plan-entry.md",
+"--lines",
+"11",
+"--run-dir",
+".andromeda/runs/2026-09-16T08-43-09-wrap",
+"--marker",
+"2026-09-16-scenario-assertion-audit-gate"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+11 at line 462 · lines 461→472 · bytes 112704→115921 · term lf",
+"last line now: `binary-edge load sites`, the retired CI gate-set wordings: **0 hits** each, tru"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 461,
+"bytes": 112704,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 472,
+"bytes": 115921
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "2a1bf9cb",
+"ts": "2026-09-16T09:05:20Z",
+"argv": [
+"append",
+"--file",
+".andromeda/playbook.md",
+"--payload-file",
+".andromeda/runs/2026-09-16T08-43-09-wrap/playbook-entry.md",
+"--lines",
+"19",
+"--run-dir",
+".andromeda/runs/2026-09-16T08-43-09-wrap",
+"--marker",
+"2026-09-16-scenario-assertion-audit-gate"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append playbook.md:+19 at line 191 · lines 190→209 · bytes 75217→77234 · term lf",
+"last line now:     2026-08-10 rule's and the escalating boundary class's respectively."
+],
+"stderr": null,
+"wrote": [
+".andromeda/playbook.md"
+],
+"before": {
+"lines": 190,
+"bytes": 75217,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 209,
+"bytes": 77234
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "2a1bf9cb",
+"ts": "2026-09-16T09:09:34Z",
+"argv": [
+"append",
+"--file",
+".claude/rules/testing.md",
+"--payload-file",
+".andromeda/runs/2026-09-16T08-43-09-wrap/testing-curation.md",
+"--lines",
+"1",
+"--run-dir",
+".andromeda/runs/2026-09-16T08-43-09-wrap",
+"--marker",
+"2026-09-16-scenario-assertion-audit-gate"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append testing.md:+1 at line 91 · lines 90→91 · bytes 81334→82684 · term lf",
+"last line now: - 2026-09-16: **A fixture that exists to prove a SWEEP FORM sits inside that swe"
+],
+"stderr": null,
+"wrote": [
+".claude/rules/testing.md"
+],
+"before": {
+"lines": 90,
+"bytes": 81334,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 91,
+"bytes": 82684
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "2a1bf9cb",
+"ts": "2026-09-16T09:09:34Z",
+"argv": [
+"append",
+"--file",
+".claude/docs/session-learnings.md",
+"--payload-file",
+".andromeda/runs/2026-09-16T08-43-09-wrap/session-learnings-curation.md",
+"--lines",
+"44",
+"--run-dir",
+".andromeda/runs/2026-09-16T08-43-09-wrap",
+"--marker",
+"2026-09-16-scenario-assertion-audit-gate"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append session-learnings.md:+44 at line 556 · lines 555→599 · bytes 81417→84682 · term lf",
+"last line now: \"absorb it here\"."
+],
+"stderr": null,
+"wrote": [
+".claude/docs/session-learnings.md"
+],
+"before": {
+"lines": 555,
+"bytes": 81417,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 599,
+"bytes": 84682
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "2a1bf9cb",
+"ts": "2026-09-16T09:11:43Z",
+"argv": [
+"append",
+"--file",
+"conductor-0.3.0/working-route.md",
+"--payload-file",
+".andromeda/runs/2026-09-16T08-43-09-wrap/route-entry.txt",
+"--lines",
+"2",
+"--after-line",
+"48",
+"--run-dir",
+".andromeda/runs/2026-09-16T08-43-09-wrap",
+"--marker",
+"2026-09-16-scenario-assertion-audit-gate"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append working-route.md:+2 at line 49 · lines 51→53 · bytes 11888→13489 · term lf",
+"last line now: Version close on measured evidence — every capability verified or deferred on "
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0/working-route.md"
+],
+"before": {
+"lines": 51,
+"bytes": 11888,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 53,
+"bytes": 13489
+}
+}
+]

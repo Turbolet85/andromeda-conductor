@@ -1,0 +1,49 @@
+[
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "d423b022",
+"ts": "2026-09-16T08:17:22Z",
+"argv": [
+"implement",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-16-scenario-assertion-audit-gate",
+"--id",
+"v3-06",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-16T08-08-44-implement"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"implement v3-06 · status planned → implemented · ref crates/conductor-core/tests/scenario_audit_gate.rs — 7 tests, 7 passed, 0 skippe… (2740 chars)",
+"wrote conductor-0.3.0\\verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0\\verification-matrix.json"
+],
+"before": {
+"id": "v3-06",
+"chunk": "2026-09-16-scenario-assertion-audit-gate",
+"status": "planned",
+"method": "unit",
+"ref": "null",
+"acceptance": "One check, runnable from the workspace root by a reader who did not write it — `cargo nextest run -p conductor-core --te… (3279 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v3-06",
+"chunk": "2026-09-16-scenario-assertion-audit-gate",
+"status": "implemented",
+"method": "unit",
+"ref": "crates/conductor-core/tests/scenario_audit_gate.rs — 7 tests, 7 passed, 0 skipped, green under BOTH runners at implement… (2740 chars)",
+"acceptance": "One check, runnable from the workspace root by a reader who did not write it — `cargo nextest run -p conductor-core --te… (3279 chars)",
+"notes_chars": 0
+}
+}
+]

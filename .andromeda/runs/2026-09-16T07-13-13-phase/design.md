@@ -1,0 +1,44 @@
+# design extract
+
+## Relevance
+Partial — no webview surface is touched; design applies only to the check's **output/registration surface**, and only in the branch where that surface is human-facing CLI (`conductor-cli` subcommand or a colored script), not to the static file-reading logic itself.
+
+## Constraints
+- If the registration is a **named operator instrument** on `conductor-cli`, its per-check output must carry an ASCII text prefix, never color alone — and the per-P-ID lamp set is **closed at six** (`[PASS]`/`[HOLD]`/`[FAIL]`/`[MANUAL]`/`[RESIDUAL]`/`[BLOCKED]`); a run-level qualifier belongs to the separate non-lamp caption set (`[ENVIRONMENT-SUSPECT]`, `[PRECONDITION]`), outside the lamp column and neither a lamp state nor a `ReportState` (per design-system §Surface: cli / Tokens). An audit-gate verdict must reuse one of these, not mint a seventh lamp.
+- Color may only come from the existing ANSI 256 map (114 green / 179 amber / 203 red / 60 violet / 146 lavender / 246 residual-mute / 117 ID-cyan) applied through `owo-colors` behind a per-stream `std::io::IsTerminal` gate requiring a terminal AND `NO_COLOR` unset AND `TERM != dumb` — no new palette rows (per design-system §Surface: cli / Tokens, §Platform-Specific Notes).
+- P-IDs, `run_id`, SLO timings (`<5s`/`<20s`/`<90s`) and fingerprints render in the reserved mono ID-cyan status tier (ANSI 117); section headers bold + 117, metadata dimmed (per design-system §Surface: cli / Tokens, §Typography *Data* row). A tier cell must render the scenario's **declared** `slo_tier` from the closed set, never a baked per-scenario literal.
+- Raw artifact/verdict data goes to **stdout**, human messages to **stderr**; failure text takes the sanitized `error: <short>` + detail + `hint: <fix>` shape (Fail red 203 for `error:`, Residual-mute 246 for `hint:`), stack traces only under `--debug`/`-v` (per design-system §Surface: cli / Component Patterns 5, §Per-Surface Bans cli).
+- Any tabular roll-up uses `comfy-table` with terminal width detected dynamically — never hardcoded widths or arbitrary wrapping; the **results/SLO table (6 col, carries a state column)** and the **coverage table (4 col, no state column, terminating roll-up caption)** are distinct forms (per design-system §Surface: cli / Component Patterns 3).
+- The headless agent-driven path (`agent-run.sh`, CI) must never be gated on an interactive prompt; `inquire` only behind `isatty` (per design-system §Surface: cli / Component Patterns 2, §Platform-Specific Notes). This binds the "registered as a CI gate" branch directly.
+- A "not measured", "pre-accepted", or "awaiting operator" outcome must never collapse into `Fail` — `Blocked` / `KnownResidual` / `ManualCheck` are deliberately distinct treatments (per design-system §Color Palette *Verdict vs ReportState* note, §Rejected Defaults "Conflating 'no result yet' with 'failed'"). This is the design-side expression of CARRY 1's obligation to grade every tally the claim rests on: a tally the probe cannot read must surface as its own state, not silently as green or as red.
+
+## Patterns to follow
+- Per-check result line shape from design-system §Surface: cli / Component Patterns 4 — glyph + ID-cyan P-ID + state word + measurement, with the bracket prefix always present for `NO_COLOR` and screen-reader paths; `~` for a pre-accepted gap carrying its "expected until {fix}" note, `•` for a Blocked row carrying the named precondition string.
+- Roll-up form from design-system §Surface: cli / Component Patterns 3 — a narrower table with no verdict column terminating in a caption is the established shape for a corpus-wide sweep (the `conductor coverage` form), distinct from the per-run SLO table.
+- Error/hint edge from design-system §Surface: cli / Component Patterns 5 — reuse the two shipped tokens rather than introducing a "gate failed" color; the ASCII labels always stand when piped.
+- Spinner/progress discipline from design-system §Surface: cli / Component Patterns 1 — TTY-gated and appearing only after ~200ms "so agent-captured artifacts stay clean"; relevant only if the check emits progress at all (a static 36-file read likely warrants none).
+- Whether `conductor-cli` today already emits the closed prefix set and already routes through the per-stream `IsTerminal` gate — i.e. whether an instrument-branch implementation reuses an existing helper or must build one — is research's question.
+
+## Anti-patterns to avoid
+- Never rely on color alone and never add a new color/ANSI row for a new gate state (per design-system §Anti-Patterns / Per-Surface Bans cli; §Universal Bans "never use color purely for decoration").
+- Never emit emoji in machine-parseable (piped) output, never hardcode table widths or wrap at arbitrary points, never print stack traces in normal mode (per design-system §Anti-Patterns / Per-Surface Bans cli).
+- Never render a documented-residual or never-measured item as a red failure, and never mix stdout data with stderr messages unintentionally (per design-system §Rejected Defaults; §Per-Surface Bans cli).
+
+## Contract bindings
+- **design ↔ tests/CI harness:** the "registered as a gate" branch runs on the headless `agent-run.sh`/CI path, where design-system §Surface: cli mandates the run must never block on an interactive prompt and ANSI must be stripped when piped — the gate's exit-code/stdout contract is the tests domain's, the label/color/stream discipline is this domain's.
+- **design ↔ a11y:** the never-color-alone ASCII prefix rule is the CLI mirror of Use-of-Color SC 1.4.1 (design-system §Iconography *Rule*, §Surface: cli Tokens); `NO_COLOR`/`TERM=dumb` honoring is the same binding.
+- **design ↔ webview (dormant):** `var(--status-residual)` is the by-name webview half of ANSI 246 (per design-system §Surface: cli / Tokens) — no webview work in this chunk, but a new recessive CLI caption would owe that pair, not a new token.
+
+## Acceptance criteria contributions
+- (design) Any human-facing state the check emits uses an existing bracket label from the closed lamp set or the non-lamp caption set — no seventh lamp, no new ANSI/palette entry (per design-system §Surface: cli / Tokens).
+- (design) Every colored token in the check's output is paired with its ASCII label, and output carries zero ANSI when piped or under `NO_COLOR`/`TERM=dumb` (per design-system §Surface: cli / Platform-Specific Notes).
+- (design) Failure output goes to stderr in the sanitized `error:` + `hint:` shape with no absolute host paths, internal struct names, or stack traces outside `--debug`/`-v`; verdict/tally data goes to stdout (per design-system §Surface: cli / Component Patterns 5).
+- (design) The check's headless/CI invocation completes without an interactive prompt, and any tier value it prints is the scenario's declared `slo_tier` from the closed `<5s`/`<20s`/`<90s` set (per design-system §Surface: cli / Component Patterns 2 and 4).
+
+## Relevant amendment history
+- **2026-09-03-live-pulse-preconditions-probed** — `anstream`/`anstyle` retired as the named CLI styling gate; the shipped mechanism is `owo-colors` + `std::io::IsTerminal` decided independently per stream. Also added `[PRECONDITION]` to the run-level **non-lamp caption set** and to the Residual-mute (246) reuse list, keeping the lamp set closed at six and framing reuses as a SET rather than a count. Directly governs how this chunk names a new gate-level caption if it needs one.
+- **2026-08-09-out-of-scope-classification-treatment** — recorded ANSI 246's non-lamp reuses, named `var(--status-residual)` as the by-name webview half, and disambiguated the **Results/SLO table (6 col, has a state column)** from the **coverage table (4 col, none)**. Relevant because a corpus-wide audit roll-up sits closer to the coverage form than the results form.
+- **2026-08-09-sut-load-envelope** — a third non-lamp reuse was added by naming the set, never substituting a fresh literal; the standing precedent for extending the recessive tier without a palette row.
+- **2026-06-24-sanitized-stderr-agent-mode-logging** — established that the `error:`/`hint:` edge REUSES shipped tokens (203/246) on a stderr-specific `IsTerminal` gate, with a proposed new "Hint grey" palette row explicitly rejected at validation. Precedent against minting a color for this chunk's failure output.
+- **2026-08-18-error-baseline-spike-live-proof** — the CLI sample tier was de-literalized to `<slo_tier>` drawn from the scenario's declared value after `error-baseline-spike` re-declared `<5s` → `<90s`; the placeholder-over-literal rule applies to any tier this chunk's check prints or documents.
+- **De-literalization precedent (2026-08-09-current-sut-coverage-classification, 2026-09-10-release-build-and-bundle)** — when a measured count goes stale, the plan names the SET, never substitutes a new literal. Applies if this chunk's output or any doc text it touches would bake "36 scenarios" / "2 of 36".

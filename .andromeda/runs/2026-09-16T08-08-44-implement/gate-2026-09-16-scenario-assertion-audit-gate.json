@@ -1,0 +1,847 @@
+[
+{
+"tool": "gate",
+"v": "1.0",
+"sha8": "f6e4b9b8",
+"ts": "2026-09-16T08:14:16Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-16-scenario-assertion-audit-gate/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-16T08-08-44-implement",
+"--marker",
+"2026-09-16-scenario-assertion-audit-gate"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-16-scenario-assertion-audit-gate · entries 8",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-scenario-assertion-audit-gate\\implement-2026-09-16T08-08-44 · bound: GNU timeout",
+"delta docs 26 · rust 5 · unmapped 4",
+"prose L178-183: The new gate's own target runs first, then the runner-portability gate test-plan §4 requir… (590 chars)",
+"  1 unit        red · exit 0 ✗ (exit 100) · exit 100 · 2.87s · 2873 B → 1.log · cargo nextest run -p conductor-core --test scenario_audit_… (75 chars)",
+"  2 unit        red · exit 0 ✗ (exit 101) · exit 101 · 2.64s · 26708 B → 2.log · cargo test -p conductor-core",
+"  3 unit        red · exit 0 ✗ (exit 100) · exit 100 · 18.17s · 50101 B → 3.log · cargo nextest run --workspace --profile ci",
+"  4 lint        green · exit 0 · 3.4s · 770 B → 4.log · cargo clippy --workspace --all-targets -- -D warnings",
+"  5 lint        green · exit 0 · 0.41s · 0 B → 5.log · cargo fmt --all -- --check",
+"  6 probe       green · exit 0 · 0.11s · 0 B → 6.log · git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --… (67 chars)",
+"  7 probe       green · exit 0 · 1.88s · 1897 B → 7.log · cargo audit",
+"  8 probe       green · exit 0 · 1.22s · 236251 B → 8.log · cargo deny check advisories bans licenses sources",
+"entries 8 · green 5 · red 3 (1,2,3) · recorded 0 · timeout 0 · not-run 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-16-scenario-assertion-audit-gate",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-16-scenario-assertion-audit-gate\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-scenario-assertion-audit-gate\\implement-2026-09-16T08-08-44",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/.raw-a11y.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/.raw-arch.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/.raw-design.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/.raw-layouts.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/.raw-obs.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/.raw-security.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/.raw-tests.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/a11y.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/acceptance-v3-06.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/arch.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/design.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/layouts.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/master-record.txt",
+".andromeda/runs/2026-09-16T07-13-13-phase/matrix-2026-09-16-scenario-assertion-audit-gate.json",
+".andromeda/runs/2026-09-16T07-13-13-phase/obs.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/security.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/splice-2026-09-16-scenario-assertion-audit-gate.json",
+".andromeda/runs/2026-09-16T07-13-13-phase/tests.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/tree-query-2026-09-16-scenario-assertion-audit-gate.json",
+"conductor-0.3.0/chunks/2026-09-16-scenario-assertion-audit-gate/plan.md",
+"conductor-0.3.0/chunks/2026-09-16-scenario-assertion-audit-gate/research.md",
+"conductor-0.3.0/chunks/2026-09-16-scenario-assertion-audit-gate/scope.md"
+],
+"rust": [
+"crates/conductor-core/src/error.rs",
+"crates/conductor-core/src/lib.rs",
+"crates/conductor-core/src/scenario_catalog.rs",
+"crates/conductor-core/src/scenario_audit.rs",
+"crates/conductor-core/tests/scenario_audit_gate.rs"
+]
+},
+"unmapped": [
+".github/workflows/ci.yml",
+"conductor-0.3.0/verification-matrix.json",
+"contracts/scenario-audit-ledger.toml",
+"crates/conductor-core/tests/fixtures/wrapped-gloss.toml"
+],
+"prose": [
+{
+"from": 178,
+"to": 183,
+"text": "The new gate's own target runs first, then the runner-portability gate test-plan §4 requires, then the workspace gates. **No smoke entry:** this chunk exercises no boot path — the gate is a static read over committed files, opens no listener and spawns no sidecar. **No live leg:** the chunk drives no external process, so no `role = 'probe'` liveness entry and no `stop` form apply. **No `self-verify` entry:** no UI or visual surface is touched. The supply-chain trio is listed unconditionally so the wrap can re-pin it (security.md 2026-09-03), with the advisory-db currency probe FIRST."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "unit",
+"run": "cargo nextest run -p conductor-core --test scenario_audit_gate --profile ci",
+"run_sha8": "ead6dcd7",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-scenario-assertion-audit-gate\\implement-2026-09-16T08-08-44\\1.log",
+"bytes": 2873,
+"log_sha8": "128c2bf9",
+"exit": 100,
+"seconds": 2.87,
+"readings": [
+"exit 0 ✗ (exit 100)"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 100)"
+},
+{
+"n": 2,
+"role": "unit",
+"run": "cargo test -p conductor-core",
+"run_sha8": "cbd7017c",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-scenario-assertion-audit-gate\\implement-2026-09-16T08-08-44\\2.log",
+"bytes": 26708,
+"log_sha8": "52adf839",
+"exit": 101,
+"seconds": 2.64,
+"readings": [
+"exit 0 ✗ (exit 101)"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 101)"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-scenario-assertion-audit-gate\\implement-2026-09-16T08-08-44\\3.log",
+"bytes": 50101,
+"log_sha8": "a97d4075",
+"exit": 100,
+"seconds": 18.17,
+"readings": [
+"exit 0 ✗ (exit 100)"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 100)"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-scenario-assertion-audit-gate\\implement-2026-09-16T08-08-44\\4.log",
+"bytes": 770,
+"log_sha8": "ca264d62",
+"exit": 0,
+"seconds": 3.4,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "cargo fmt --all -- --check",
+"run_sha8": "810e75f0",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-scenario-assertion-audit-gate\\implement-2026-09-16T08-08-44\\5.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.41,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --porcelain",
+"run_sha8": "eab7a4cb",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-scenario-assertion-audit-gate\\implement-2026-09-16T08-08-44\\6.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.11,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-scenario-assertion-audit-gate\\implement-2026-09-16T08-08-44\\7.log",
+"bytes": 1897,
+"log_sha8": "bf025772",
+"exit": 0,
+"seconds": 1.88,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-scenario-assertion-audit-gate\\implement-2026-09-16T08-08-44\\8.log",
+"bytes": 236251,
+"log_sha8": "4ebeefef",
+"exit": 0,
+"seconds": 1.22,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.0",
+"sha8": "f6e4b9b8",
+"ts": "2026-09-16T08:14:29Z",
+"argv": [
+"show",
+"--run-dir",
+".andromeda/runs/2026-09-16T08-08-44-implement",
+"--marker",
+"2026-09-16-scenario-assertion-audit-gate",
+"--n",
+"1"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"1 unit red · exit 0 ✗ (exit 100)",
+"run (ead6dcd7): cargo nextest run -p conductor-core --test scenario_audit_gate --profile ci",
+"  exit 0 ✗ (exit 100)",
+"log C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-scenario-assertion-audit-gate\\implement-2026-09-16T08-08-44\\1.log · 2873 B · 128c2bf9",
+"--- failing block from L9 ---",
+"        FAIL [   0.026s] (4/7) conductor-core::scenario_audit_gate the_sweep_sees_a_wrapped_gloss_the_plain_form_misses",
+"  stdout ───",
+"",
+"    running 1 test",
+"    test the_sweep_sees_a_wrapped_gloss_the_plain_form_misses ... FAILED",
+"",
+"    failures:",
+"",
+"    failures:",
+"        the_sweep_sees_a_wrapped_gloss_the_plain_form_misses",
+"",
+"    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 6 filtered out; finished in 0.00s",
+"",
+"  stderr ───",
+"",
+"    thread 'the_sweep_sees_a_wrapped_gloss_the_plain_form_misses' (21696) panicked at crates\\conductor-core\\tests\\scenario_audit_gate.rs:207:5:",
+"    the fixture must carry the gloss WRAPPED — a plain single-line search finding it would mean the control no longer proves the comment-strip-and-join is load-bearing",
+"    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace",
+"",
+"  Cancelling due to test failure: 3 tests still running"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "gate",
+"v": "1.0",
+"sha8": "f6e4b9b8",
+"ts": "2026-09-16T08:14:42Z",
+"argv": [
+"show",
+"--run-dir",
+".andromeda/runs/2026-09-16T08-08-44-implement",
+"--marker",
+"2026-09-16-scenario-assertion-audit-gate",
+"--n",
+"2"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"2 unit red · exit 0 ✗ (exit 101)",
+"run (cbd7017c): cargo test -p conductor-core",
+"  exit 0 ✗ (exit 101)",
+"log C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-scenario-assertion-audit-gate\\implement-2026-09-16T08-08-44\\2.log · 26708 B · 52adf839",
+"--- failing block from L336 ---",
+"test the_sweep_sees_a_wrapped_gloss_the_plain_form_misses ... FAILED",
+"test the_tier_set_is_closed_at_the_type_level ... ok",
+"test no_committed_scenario_carries_a_retired_gloss ... ok",
+"test the_committed_catalog_matches_the_committed_ledger ... ok",
+"test a_pinned_row_naming_no_scenario_fails_the_gate ... ok",
+"test dropping_any_pinned_row_fails_the_gate ... ok",
+"test a_pinned_row_that_no_longer_describes_the_catalog_fails_the_gate ... ok",
+"",
+"failures:",
+"",
+"---- the_sweep_sees_a_wrapped_gloss_the_plain_form_misses stdout ----",
+"",
+"thread 'the_sweep_sees_a_wrapped_gloss_the_plain_form_misses' (14084) panicked at crates\\conductor-core\\tests\\scenario_audit_gate.rs:207:5:",
+"the fixture must carry the gloss WRAPPED — a plain single-line search finding it would mean the control no longer proves the comment-strip-and-join is load-bearing",
+"note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace",
+"",
+"",
+"failures:",
+"    the_sweep_sees_a_wrapped_gloss_the_plain_form_misses",
+""
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "gate",
+"v": "1.0",
+"sha8": "f6e4b9b8",
+"ts": "2026-09-16T08:14:50Z",
+"argv": [
+"show",
+"--run-dir",
+".andromeda/runs/2026-09-16T08-08-44-implement",
+"--marker",
+"2026-09-16-scenario-assertion-audit-gate",
+"--n",
+"3"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"3 unit red · exit 0 ✗ (exit 100)",
+"run (bf6e813a): cargo nextest run --workspace --profile ci",
+"  exit 0 ✗ (exit 100)",
+"log C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-scenario-assertion-audit-gate\\implement-2026-09-16T08-08-44\\3.log · 50101 B · a97d4075",
+"--- failing block from L385 ---",
+"        FAIL [   0.105s] (373/986) conductor-core::scenario_audit_gate the_sweep_sees_a_wrapped_gloss_the_plain_form_misses",
+"  stdout ───",
+"",
+"    running 1 test",
+"    test the_sweep_sees_a_wrapped_gloss_the_plain_form_misses ... FAILED",
+"",
+"    failures:",
+"",
+"    failures:",
+"        the_sweep_sees_a_wrapped_gloss_the_plain_form_misses",
+"",
+"    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 6 filtered out; finished in 0.00s",
+"",
+"  stderr ───",
+"",
+"    thread 'the_sweep_sees_a_wrapped_gloss_the_plain_form_misses' (27628) panicked at crates\\conductor-core\\tests\\scenario_audit_gate.rs:207:5:",
+"    the fixture must carry the gloss WRAPPED — a plain single-line search finding it would mean the control no longer proves the comment-strip-and-join is load-bearing",
+"    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace",
+"",
+"  Cancelling due to test failure: 31 tests still running"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "gate",
+"v": "1.0",
+"sha8": "f6e4b9b8",
+"ts": "2026-09-16T08:15:24Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-16-scenario-assertion-audit-gate/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-16T08-08-44-implement",
+"--marker",
+"2026-09-16-scenario-assertion-audit-gate",
+"--only",
+"1,2,3"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-16-scenario-assertion-audit-gate · entries 8",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-scenario-assertion-audit-gate\\implement-2026-09-16T08-08-44 · bound: GNU timeout",
+"delta docs 27 · rust 5 · unmapped 4",
+"prose L178-183: The new gate's own target runs first, then the runner-portability gate test-plan §4 requir… (590 chars)",
+"  1 unit        green · exit 0 · 0.66s · 1131 B → 1.log · cargo nextest run -p conductor-core --test scenario_audit_… (75 chars)",
+"  2 unit        green · exit 0 · 0.55s · 26691 B → 2.log · cargo test -p conductor-core",
+"  3 unit        green · exit 0 · 7.24s · 115569 B → 3.log · cargo nextest run --workspace --profile ci",
+"  4 lint        not run — excluded · cargo clippy --workspace --all-targets -- -D warnings",
+"  5 lint        not run — excluded · cargo fmt --all -- --check",
+"  6 probe       not run — excluded · git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --… (67 chars)",
+"  7 probe       not run — excluded · cargo audit",
+"  8 probe       not run — excluded · cargo deny check advisories bans licenses sources",
+"entries 8 · green 3 · red 0 · recorded 0 · timeout 0 · not-run 5"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-16-scenario-assertion-audit-gate",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-16-scenario-assertion-audit-gate\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-scenario-assertion-audit-gate\\implement-2026-09-16T08-08-44",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/.raw-a11y.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/.raw-arch.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/.raw-design.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/.raw-layouts.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/.raw-obs.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/.raw-security.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/.raw-tests.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/a11y.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/acceptance-v3-06.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/arch.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/design.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/layouts.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/master-record.txt",
+".andromeda/runs/2026-09-16T07-13-13-phase/matrix-2026-09-16-scenario-assertion-audit-gate.json",
+".andromeda/runs/2026-09-16T07-13-13-phase/obs.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/security.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/splice-2026-09-16-scenario-assertion-audit-gate.json",
+".andromeda/runs/2026-09-16T07-13-13-phase/tests.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/tree-query-2026-09-16-scenario-assertion-audit-gate.json",
+".andromeda/runs/2026-09-16T08-08-44-implement/gate-2026-09-16-scenario-assertion-audit-gate.json",
+"conductor-0.3.0/chunks/2026-09-16-scenario-assertion-audit-gate/plan.md",
+"conductor-0.3.0/chunks/2026-09-16-scenario-assertion-audit-gate/research.md",
+"conductor-0.3.0/chunks/2026-09-16-scenario-assertion-audit-gate/scope.md"
+],
+"rust": [
+"crates/conductor-core/src/error.rs",
+"crates/conductor-core/src/lib.rs",
+"crates/conductor-core/src/scenario_catalog.rs",
+"crates/conductor-core/src/scenario_audit.rs",
+"crates/conductor-core/tests/scenario_audit_gate.rs"
+]
+},
+"unmapped": [
+".github/workflows/ci.yml",
+"conductor-0.3.0/verification-matrix.json",
+"contracts/scenario-audit-ledger.toml",
+"crates/conductor-core/tests/fixtures/wrapped-gloss.toml"
+],
+"prose": [
+{
+"from": 178,
+"to": 183,
+"text": "The new gate's own target runs first, then the runner-portability gate test-plan §4 requires, then the workspace gates. **No smoke entry:** this chunk exercises no boot path — the gate is a static read over committed files, opens no listener and spawns no sidecar. **No live leg:** the chunk drives no external process, so no `role = 'probe'` liveness entry and no `stop` form apply. **No `self-verify` entry:** no UI or visual surface is touched. The supply-chain trio is listed unconditionally so the wrap can re-pin it (security.md 2026-09-03), with the advisory-db currency probe FIRST."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "unit",
+"run": "cargo nextest run -p conductor-core --test scenario_audit_gate --profile ci",
+"run_sha8": "ead6dcd7",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-scenario-assertion-audit-gate\\implement-2026-09-16T08-08-44\\1.log",
+"bytes": 1131,
+"log_sha8": "eecd5208",
+"exit": 0,
+"seconds": 0.66,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "unit",
+"run": "cargo test -p conductor-core",
+"run_sha8": "cbd7017c",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-scenario-assertion-audit-gate\\implement-2026-09-16T08-08-44\\2.log",
+"bytes": 26691,
+"log_sha8": "ab4bee43",
+"exit": 0,
+"seconds": 0.55,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-scenario-assertion-audit-gate\\implement-2026-09-16T08-08-44\\3.log",
+"bytes": 115569,
+"log_sha8": "99ee2bb6",
+"exit": 0,
+"seconds": 7.24,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "cargo fmt --all -- --check",
+"run_sha8": "810e75f0",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --porcelain",
+"run_sha8": "eab7a4cb",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.0",
+"sha8": "f6e4b9b8",
+"ts": "2026-09-16T08:15:51Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-16-scenario-assertion-audit-gate/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-16T08-08-44-implement",
+"--marker",
+"2026-09-16-scenario-assertion-audit-gate"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-16-scenario-assertion-audit-gate · entries 8",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-scenario-assertion-audit-gate\\implement-2026-09-16T08-08-44 · bound: GNU timeout",
+"delta docs 27 · rust 5 · unmapped 4",
+"prose L178-183: The new gate's own target runs first, then the runner-portability gate test-plan §4 requir… (590 chars)",
+"  1 unit        green · exit 0 · 0.66s · 1131 B → 1.log · cargo nextest run -p conductor-core --test scenario_audit_… (75 chars)",
+"  2 unit        green · exit 0 · 0.54s · 26691 B → 2.log · cargo test -p conductor-core",
+"  3 unit        green · exit 0 · 7.21s · 115569 B → 3.log · cargo nextest run --workspace --profile ci",
+"  4 lint        green · exit 0 · 0.56s · 72 B → 4.log · cargo clippy --workspace --all-targets -- -D warnings",
+"  5 lint        green · exit 0 · 0.4s · 0 B → 5.log · cargo fmt --all -- --check",
+"  6 probe       green · exit 0 · 0.12s · 0 B → 6.log · git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --… (67 chars)",
+"  7 probe       green · exit 0 · 1.87s · 1897 B → 7.log · cargo audit",
+"  8 probe       green · exit 0 · 1.21s · 236251 B → 8.log · cargo deny check advisories bans licenses sources",
+"entries 8 · green 8 · red 0 · recorded 0 · timeout 0 · not-run 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-16-scenario-assertion-audit-gate",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-16-scenario-assertion-audit-gate\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-scenario-assertion-audit-gate\\implement-2026-09-16T08-08-44",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/.raw-a11y.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/.raw-arch.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/.raw-design.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/.raw-layouts.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/.raw-obs.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/.raw-security.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/.raw-tests.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/a11y.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/acceptance-v3-06.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/arch.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/design.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/layouts.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/master-record.txt",
+".andromeda/runs/2026-09-16T07-13-13-phase/matrix-2026-09-16-scenario-assertion-audit-gate.json",
+".andromeda/runs/2026-09-16T07-13-13-phase/obs.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/security.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/splice-2026-09-16-scenario-assertion-audit-gate.json",
+".andromeda/runs/2026-09-16T07-13-13-phase/tests.md",
+".andromeda/runs/2026-09-16T07-13-13-phase/tree-query-2026-09-16-scenario-assertion-audit-gate.json",
+".andromeda/runs/2026-09-16T08-08-44-implement/gate-2026-09-16-scenario-assertion-audit-gate.json",
+"conductor-0.3.0/chunks/2026-09-16-scenario-assertion-audit-gate/plan.md",
+"conductor-0.3.0/chunks/2026-09-16-scenario-assertion-audit-gate/research.md",
+"conductor-0.3.0/chunks/2026-09-16-scenario-assertion-audit-gate/scope.md"
+],
+"rust": [
+"crates/conductor-core/src/error.rs",
+"crates/conductor-core/src/lib.rs",
+"crates/conductor-core/src/scenario_catalog.rs",
+"crates/conductor-core/src/scenario_audit.rs",
+"crates/conductor-core/tests/scenario_audit_gate.rs"
+]
+},
+"unmapped": [
+".github/workflows/ci.yml",
+"conductor-0.3.0/verification-matrix.json",
+"contracts/scenario-audit-ledger.toml",
+"crates/conductor-core/tests/fixtures/wrapped-gloss.toml"
+],
+"prose": [
+{
+"from": 178,
+"to": 183,
+"text": "The new gate's own target runs first, then the runner-portability gate test-plan §4 requires, then the workspace gates. **No smoke entry:** this chunk exercises no boot path — the gate is a static read over committed files, opens no listener and spawns no sidecar. **No live leg:** the chunk drives no external process, so no `role = 'probe'` liveness entry and no `stop` form apply. **No `self-verify` entry:** no UI or visual surface is touched. The supply-chain trio is listed unconditionally so the wrap can re-pin it (security.md 2026-09-03), with the advisory-db currency probe FIRST."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "unit",
+"run": "cargo nextest run -p conductor-core --test scenario_audit_gate --profile ci",
+"run_sha8": "ead6dcd7",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-scenario-assertion-audit-gate\\implement-2026-09-16T08-08-44\\1.log",
+"bytes": 1131,
+"log_sha8": "6d2d1a7c",
+"exit": 0,
+"seconds": 0.66,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "unit",
+"run": "cargo test -p conductor-core",
+"run_sha8": "cbd7017c",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-scenario-assertion-audit-gate\\implement-2026-09-16T08-08-44\\2.log",
+"bytes": 26691,
+"log_sha8": "254a841f",
+"exit": 0,
+"seconds": 0.54,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-scenario-assertion-audit-gate\\implement-2026-09-16T08-08-44\\3.log",
+"bytes": 115569,
+"log_sha8": "c67c0c83",
+"exit": 0,
+"seconds": 7.21,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-scenario-assertion-audit-gate\\implement-2026-09-16T08-08-44\\4.log",
+"bytes": 72,
+"log_sha8": "beed191c",
+"exit": 0,
+"seconds": 0.56,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "cargo fmt --all -- --check",
+"run_sha8": "810e75f0",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-scenario-assertion-audit-gate\\implement-2026-09-16T08-08-44\\5.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.4,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --porcelain",
+"run_sha8": "eab7a4cb",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-scenario-assertion-audit-gate\\implement-2026-09-16T08-08-44\\6.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.12,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-scenario-assertion-audit-gate\\implement-2026-09-16T08-08-44\\7.log",
+"bytes": 1897,
+"log_sha8": "bf025772",
+"exit": 0,
+"seconds": 1.87,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-scenario-assertion-audit-gate\\implement-2026-09-16T08-08-44\\8.log",
+"bytes": 236251,
+"log_sha8": "4ebeefef",
+"exit": 0,
+"seconds": 1.21,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+}
+]
+}
+}
+]

@@ -57,6 +57,22 @@ pub fn list_scenarios(
     Ok(summaries)
 }
 
+/// Read + validate every scenario in `dir`, returning the WHOLE [`Scenario`] (catalog file order).
+///
+/// The sibling of [`list_scenarios`], which returns identity only: a gate judging a scenario against
+/// its own phase data — the scenario-audit gate's tier term — needs the phases a
+/// [`ScenarioSummary`] deliberately drops. Same validation path, same harness-fault-on-malformed
+/// contract.
+pub fn load_catalog(dir: &Path, capabilities: &CapabilityManifest) -> crate::Result<Vec<Scenario>> {
+    let mut catalog = Vec::new();
+    for path in scenario_files(dir)? {
+        let text = std::fs::read_to_string(&path)
+            .map_err(|e| CoreError::Config(format!("read scenario file: {e}")))?;
+        catalog.push(Scenario::from_toml_str_with(&text, capabilities)?);
+    }
+    Ok(catalog)
+}
+
 /// Whether `selection` is a runnable choice against `catalog`: the suite sentinel, a known scenario
 /// name, or a known Pulse P-ID. The picker only emits these; `start_run` rejects anything else so a
 /// selection string never flows unchecked toward execution (security-plan §Input Validation).

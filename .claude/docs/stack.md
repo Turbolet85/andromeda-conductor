@@ -40,7 +40,7 @@ _Mirrors `.andromeda/architecture.md` §Stack and Technologies. Convenience refe
 - **Operator instruments (host Python 3):** resolved by no lockfile and pinned by no toolchain file — the code-graph pipeline (`scripts/code-graph.py` + `scripts/scip_pb2.py` + `scripts/requirements.txt`, since 2026-06-18) and the mutation-tally gate (`scripts/mutation-gate.py` + `scripts/mutation-roster.toml`, since 2026-09-13). Neither is CI-invoked; neither adds a sixth `agent-run` command.
 - **Supply chain:** cargo-audit 0.22.2 + cargo-deny 0.19.8 (`deny.toml`) for the Rust tree; `npm audit --omit=dev` (0 production-vuln gate; dev-only test-tooling advisories accepted at dev-tree grain) + committed `package-lock.json` for the `conductor-tauri/ui` frontend tree.
 - **A11y:** axe-core 4.12.0 + @axe-core/webdriverio + Lighthouse 13.0.3 + colorjs.io 0.6.1 (operator/local-gated).
-- **CI:** GitHub Actions — `cargo fmt --all --check` / `cargo build` / nextest / clippy + audit/deny + coverage. Dynamic live-Pulse proof is an operator/local gate, not CI.
+- **CI:** GitHub Actions — `cargo fmt --all --check` / `cargo build` / nextest / clippy + the static gates over committed data (coverage-completeness · scenario-assertion audit, each its own presence-guarded named step) + audit/deny + coverage. Dynamic live-Pulse proof is an operator/local gate, not CI.
 
 ## Infrastructure
 - Local-only: `cargo build --release` → `conductor-cli` run beside Pulse via `scripts/agent-run.sh`; optional Tauri 2 GUI bundle, produced by the host `tauri-cli` bundler that no lockfile resolves (floor 2.11.4; the `tauri` CRATE 2.11.3 is a different artifact) as the msi + nsis installer set. No Docker/K8s/serverless/cloud.

@@ -1,0 +1,20 @@
+# Sweep control for the scenario-audit gate. NOT a scenario: it lives outside `scenarios/`, so
+# `scenario_files()` never globs it and it carries no Pulse P-ID.
+#
+# Its whole purpose is the line break in the block at the bottom, where one of the two retired
+# latency glosses is split across two comment lines — the shape a line-granular search cannot see,
+# and the shape the real corpus carried before that gloss was retired. A sweep that strips each
+# line's comment marker, joins the lines and collapses whitespace DOES see it.
+#
+# This header deliberately DESCRIBES the gloss instead of quoting it. Spelling it here would put the
+# phrase on a single line, which the plain-form half of the control asserts cannot happen — the
+# explanation would break the thing it explains.
+#
+# If the block below ever stops being detected by the comment-marker-stripped form, or ever starts
+# being detected by a plain single-line search, the sweep's form has changed and the gate's tier arm
+# is no longer proven load-bearing.
+
+# The tier below is declared against the whole-run latency, which is Conductor's own MCP
+# round-trip, not a Pulse-internal duration — a claim HEAD disproves.
+name = "wrapped-gloss-control"
+slo_tier = "<5s"

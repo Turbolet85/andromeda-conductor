@@ -36,6 +36,12 @@ pub enum CoreError {
     /// is an [`EnvelopeStatus`](crate::EnvelopeStatus) value, never this fault.
     #[error("load envelope violation: {0}")]
     LoadEnvelope(String),
+    /// The committed scenario catalog and the scenario-audit ledger disagree — a scenario carries a
+    /// live assertion or exceeds its declared tier without a pinned row, a pinned row no longer
+    /// describes the catalog, or a row names a scenario the catalog does not carry. Conductor's own
+    /// corpus-hygiene integrity, on the same footing as [`Self::LoadEnvelope`].
+    #[error("scenario audit violation: {0}")]
+    ScenarioAudit(String),
 }
 
 /// `conductor-core`'s harness-fault result alias: `Ok` carries a value (often a verification

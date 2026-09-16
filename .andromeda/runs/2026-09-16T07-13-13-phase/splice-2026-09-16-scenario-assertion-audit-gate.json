@@ -1,0 +1,44 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "2a1bf9cb",
+"ts": "2026-09-16T07:15:00Z",
+"argv": [
+"append",
+"--file",
+".andromeda/master-route.md",
+"--payload-file",
+".andromeda/runs/2026-09-16T07-13-13-phase/master-record.txt",
+"--lines",
+"1",
+"--after-section",
+"## conductor-0.3.0",
+"--run-dir",
+".andromeda/runs/2026-09-16T07-13-13-phase",
+"--marker",
+"2026-09-16-scenario-assertion-audit-gate"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append master-route.md:+1 at line 145 · lines 144→145 · bytes 97156→97595 · term lf",
+"section '## conductor-0.3.0' · appended at its end, not the file's",
+"last line now: 2026-09-16-scenario-assertion-audit-gate · pending · Scenario-assertion audit "
+],
+"stderr": null,
+"wrote": [
+".andromeda/master-route.md"
+],
+"before": {
+"lines": 144,
+"bytes": 97156,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 145,
+"bytes": 97595
+}
+}
+]

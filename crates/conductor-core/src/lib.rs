@@ -31,6 +31,7 @@ mod run_contract;
 mod run_journal;
 mod run_record;
 mod scenario;
+mod scenario_audit;
 mod scenario_catalog;
 mod verdict;
 
@@ -65,7 +66,11 @@ pub use run_contract::{
 pub use run_journal::{JournalLine, classify_journal_line, latest_run_id, read_run_journal};
 pub use run_record::{CheckRecord, ENVELOPE_KEYS_SORTED, RunRecord};
 pub use scenario::{ChecklistItem, MAX_CHECKLIST_TEXT, PId, Scenario, SloTier};
+pub use scenario_audit::{
+    LiveAssertion, OverTier, ScenarioAuditLedger, carries_retired_gloss, check_scenario_audit,
+};
 pub use scenario_catalog::{
-    SUITE_SELECTION, ScenarioSummary, list_scenarios, scenario_files, validate_selection,
+    SUITE_SELECTION, ScenarioSummary, list_scenarios, load_catalog, scenario_files,
+    validate_selection,
 };
 pub use verdict::Verdict;

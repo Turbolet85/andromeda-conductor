@@ -1,0 +1,91 @@
+# Scenario-assertion audit ledger — the committed record the scenario-audit gate grades the corpus
+# against (arch §Occupied Resources).
+#
+# Two arrays, each an EXACT-SET pin over a set the gate measures from the catalog as loaded, graded in
+# BOTH directions by `check_scenario_audit`: a measured member absent here is `unpinned`, a pinned
+# member the measurement no longer finds is `rotted`, and a pin naming a scenario the catalog does not
+# carry is `lost_subject`. The ledger records work and judgments at full precision and can only shrink
+# under compulsion — it is never a threshold lowered to pass.
+#
+# Every entry carries a REASON in its own words, because both arrays pin JUDGMENTS rather than debts:
+# the reason is what lets a later reader tell a ratified posture from a defect.
+#
+# A read / parse / bounds failure is a harness fault, never a verdict and never a silent widening.
+
+sut_version = "v0.3.0"
+sut_head = "83d4060"
+captured_at = "2026-09-16"
+provenance = "measured against the andromeda-pulse working tree at the head named above; the grounds below are point-in-time readings of that SUT, not durable properties"
+
+# Scenarios carrying a live `[[expected]]` block. The gate measures this set as every scenario whose
+# `expected` vec is non-empty; each row states the ground on which its declared token is satisfiable.
+#
+# `discriminates` is the SEPARATE question of whether the token depends on the scenario's own stimulus.
+# It is recorded, not gated: a static check cannot grade it (test-plan §11 routes a claim about why a
+# token reaches the SUT's report to the live/operator gate), so a `false` here is an owed live
+# verification, never a corpus defect and never grounds for retiring live coverage.
+
+[[live_assertion]]
+scenario = "root-span-error-scope"
+ground = "the declared token `error` is the lowercase severity label Pulse renders into every incident report, so the assertion is satisfiable by construction against a reachable corpus"
+discriminates = false
+weakness = "under the deterministic interpretation mode every verifiable run uses, the canned L4 payload is returned regardless of prompt and pins severity `autonomous`, which maps to the incident severity `Error` and renders the same `error` label for any stimulus — so this assertion passes on a token this scenario's own root-vs-deep error spans did not produce"
+
+[[live_assertion]]
+scenario = "span-status-error-detection"
+ground = "the declared token `error` is the lowercase severity label Pulse renders into every incident report, so the assertion is satisfiable by construction against a reachable corpus"
+discriminates = false
+weakness = "same fixed-payload path as the row above: the deterministic mode's pinned severity renders `error` for any stimulus, so this assertion does not distinguish the ERROR-status spans it emits from any other scenario's emission"
+
+# Scenarios whose summed phase `gap_ms` exceeds their declared tier's deadline. The gate measures this
+# set with `SloTier::deadline_ms()`, never a re-declared threshold.
+#
+# Every row below declares the `<90s` ceiling. That is the ratified honest-bucket posture, not a
+# defect: `latency_ms` is measured journal-relative over the WHOLE run, so a scenario whose own phases
+# span longer than the ceiling exceeds every tier in the closed set by construction, and the ceiling is
+# the closest honest bucket available. A row here declaring a NON-ceiling tier would be a real defect —
+# the ledger does not distinguish them by tier, so read each reason.
+
+[[over_tier]]
+scenario = "ack-cooldown"
+reason = "five phases span ~370s; whole-run latency_ms cannot fit any tier, and `<90s` is the ceiling"
+
+[[over_tier]]
+scenario = "activity-floor"
+reason = "a long-window scenario whose purpose is idleness — the quiet is a non-event carrying no positive-event latency, and a duration-only bound would false-flag the one scenario built to be idle"
+
+[[over_tier]]
+scenario = "auto-resolve-idle-window"
+reason = "the 120s+30s idle window is the scenario's own span; whole-run latency exceeds every tier and `<90s` is the ceiling"
+
+[[over_tier]]
+scenario = "error-baseline-spike"
+reason = "re-declared from `<5s` (2026-08-18): whole-run latency_ms spans the 150s emission window, not the detection budget"
+
+[[over_tier]]
+scenario = "halo-hue-encoding"
+reason = "whole-run latency exceeds every tier by construction; `<90s` is the closest honest bucket"
+
+[[over_tier]]
+scenario = "incident-auto-resolution"
+reason = "the phases span ~364s and latency_ms is measured over the whole run; `<90s` is the ceiling"
+
+[[over_tier]]
+scenario = "latency-regression"
+reason = "re-declared from `<20s` (2026-08-18): whole-run latency_ms spans the emission window rather than the per-check budget"
+
+[[over_tier]]
+scenario = "pulse-run-contract"
+reason = "paced by the digest cadence plus L4 rather than storm detection — the slowest tier is its calibration point"
+
+[[over_tier]]
+scenario = "restart-suppression"
+reason = "whole-run latency spans the ~180s emission window; `<90s` is the honest bucket (the v2-11/v2-12 precedent)"
+
+[[over_tier]]
+scenario = "service-went-silent"
+reason = "the cue surfaces at ~30s, past the `<20s` tier, and the scenario's own silence windows carry the rest"
+
+[[over_tier]]
+scenario = "severity-tier-autonomous"
+reason = "the phases span 120s and latency_ms is measured over the whole run; `<90s` is the ceiling"
