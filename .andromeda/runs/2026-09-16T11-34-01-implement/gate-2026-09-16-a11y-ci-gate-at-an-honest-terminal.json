@@ -1,0 +1,1139 @@
+[
+{
+"tool": "gate",
+"v": "1.0",
+"sha8": "f6e4b9b8",
+"ts": "2026-09-16T11:37:56Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-16T11-34-01-implement",
+"--marker",
+"2026-09-16-a11y-ci-gate-at-an-honest-terminal"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-16-a11y-ci-gate-at-an-honest-terminal · entries 7",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-a11y-ci-gate-at-an-honest-terminal\\implement-2026-09-16T11-34-01 · bound: GNU timeout",
+"delta docs 30 · unmapped 3",
+"prose L142-148: This chunk has **no producing leg and therefore no smoke entry** — its whole surface is a … (704 chars)",
+"prose L150-153: The workspace compile gates are `defer`red: this chunk has **zero compiled-source delta** … (369 chars)",
+"  1 probe       green · exit 0 · 0.12s · 20 B → 1.log · python -X utf8 -c \"import yaml; d=yaml.safe_load(open('.gi… (136 chars)",
+"  2 probe       green · exit 0 · 0.12s · 6 B → 2.log · python -X utf8 -c \"import yaml; j=yaml.safe_load(open('.gi… (340 chars)",
+"  3 probe       green · exit 0 · 0.07s · 10 B → 3.log · git diff --quiet HEAD -- crates/conductor-tauri/ui/wdio.co… (124 chars)",
+"  4 probe       green · exit 0 · 0.07s · 6 B → 4.log · test -d conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-… (238 chars)",
+"  5 unit        not run — defer (key): zero compiled-source delta this chunk — … (219 chars) · cargo nextest run --workspace --profile ci",
+"  6 probe       not run — leg operator (the letter drives it) · git push && git rev-parse HEAD",
+"  7 probe       not run — leg operator (the letter drives it) · gh run list --branch build/conductor-0.3.0 --workflow ci.y… (301 chars)",
+"entries 7 · green 4 · red 0 · recorded 0 · timeout 0 · not-run 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-16-a11y-ci-gate-at-an-honest-terminal\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-a11y-ci-gate-at-an-honest-terminal\\implement-2026-09-16T11-34-01",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.path",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-a11y.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-arch.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-design.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-layouts.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-obs.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-security.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-tests.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/a11y.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/acceptance-v3-02.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/arch.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/ci-mutated.yml",
+".andromeda/runs/2026-09-16T10-32-06-phase/design.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/layouts.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/master-record.txt",
+".andromeda/runs/2026-09-16T10-32-06-phase/matrix-2026-09-16-a11y-ci-gate-at-an-honest-terminal.json",
+".andromeda/runs/2026-09-16T10-32-06-phase/note-v3-02.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/obs.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/security.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/splice-2026-09-16-a11y-ci-gate-at-an-honest-terminal.json",
+".andromeda/runs/2026-09-16T10-32-06-phase/tests.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/tree-query-2026-09-16-a11y-ci-gate-at-an-honest-terminal.json",
+"conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/evidence/prereq-audit-gate.md",
+"conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/plan.md",
+"conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/research.md",
+"conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/scope.md"
+]
+},
+"unmapped": [
+".github/workflows/ci.yml",
+"conductor-0.3.0/verification-matrix.json",
+"scripts/a11y-limited-token-launch.ps1"
+],
+"prose": [
+{
+"from": 142,
+"to": 148,
+"text": "This chunk has **no producing leg and therefore no smoke entry** — its whole surface is a CI workflow step plus, conditionally, one CI-only script, so there is no boot path for a smoke to bite on. Listing a bare `status` verb would satisfy the authoring check while asserting nothing: it would read a prior chunk's envelope and pass identically had none of this work happened. The absence is stated here deliberately, per `.claude/rules/verification-harness.md:49` (extended 2026-09-11 on this chunk's direct predecessor, which is where that rule was minted). There is likewise **no live-Pulse leg** — the routine arm needs no live Pulse; it seeds its own committed fixture through the production writer."
+},
+{
+"from": 150,
+"to": 153,
+"text": "The workspace compile gates are `defer`red: this chunk has **zero compiled-source delta** by design (no `.rs` change, no `.ts` change unless step 2's mechanism moves the spawn site), so a cold workspace rebuild would re-earn a green that measures nothing. /implement re-verifies that reason against the tree's uncommitted files and RUNS the entry if a delta is present."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "probe",
+"run": "python -X utf8 -c \"import yaml; d=yaml.safe_load(open('.github/workflows/ci.yml',encoding='utf-8')); print(','.join(sorted(d['jobs'])))\"",
+"run_sha8": "89b5e9b4",
+"expect": [
+"exit 0",
+"last line a11y,frontend,rust"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-a11y-ci-gate-at-an-honest-terminal\\implement-2026-09-16T11-34-01\\1.log",
+"bytes": 20,
+"log_sha8": "20350af1",
+"exit": 0,
+"seconds": 0.12,
+"readings": [
+"exit 0 ✓",
+"last line 'a11y,frontend,rust' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "probe",
+"run": "python -X utf8 -c \"import yaml; j=yaml.safe_load(open('.github/workflows/ci.yml',encoding='utf-8'))['jobs']['a11y']['steps']; s=[x for x in j if 'A11y routine arm' in str(x.get('name',''))]; print(len(s)==1 and not s[0].get('continue-on-error') and 'if' not in s[0] and str(s[0].get('env',{}).get('CONDUCTOR_A11Y_STRICT')) in ('1','true'))\"",
+"run_sha8": "897c1497",
+"expect": [
+"exit 0",
+"last line True"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-a11y-ci-gate-at-an-honest-terminal\\implement-2026-09-16T11-34-01\\2.log",
+"bytes": 6,
+"log_sha8": "ca4a016e",
+"exit": 0,
+"seconds": 0.12,
+"readings": [
+"exit 0 ✓",
+"last line 'True' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "probe",
+"run": "git diff --quiet HEAD -- crates/conductor-tauri/ui/wdio.conf.ts scripts/agent-run.ps1 scripts/agent-run.sh && echo unchanged",
+"run_sha8": "51368bfb",
+"expect": [
+"exit 0",
+"last line unchanged"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-a11y-ci-gate-at-an-honest-terminal\\implement-2026-09-16T11-34-01\\3.log",
+"bytes": 10,
+"log_sha8": "1cd263f1",
+"exit": 0,
+"seconds": 0.07,
+"readings": [
+"exit 0 ✓",
+"last line 'unchanged' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "probe",
+"run": "test -d conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/evidence && ! grep -rqE '(\\b[A-Za-z]:[\\\\/]|/home/|/Users/|%APPDATA%)' conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/evidence && echo clean",
+"run_sha8": "2592b43e",
+"expect": [
+"exit 0",
+"last line clean"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-a11y-ci-gate-at-an-honest-terminal\\implement-2026-09-16T11-34-01\\4.log",
+"bytes": 6,
+"log_sha8": "2e22da2a",
+"exit": 0,
+"seconds": 0.07,
+"readings": [
+"exit 0 ✓",
+"last line 'clean' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — defer (key): zero compiled-source delta this chunk — … (219 chars)"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "git push && git rev-parse HEAD",
+"run_sha8": "b0c779b4",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "gh run list --branch build/conductor-0.3.0 --workflow ci.yml --json headSha,databaseId --jq '[.[] | select(.headSha==\"<id>\")] | .[0].databaseId // error(\"no CI run for the pushed sha yet\")' | xargs -I{} gh run view {} --json jobs --jq '.jobs[] | select(.name | startswith(\"A11y gate\")) | .conclusion' ",
+"run_sha8": "82de0709",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.0",
+"sha8": "f6e4b9b8",
+"ts": "2026-09-16T11:38:36Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-16T11-34-01-implement",
+"--marker",
+"2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+"--only",
+"5"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-16-a11y-ci-gate-at-an-honest-terminal · entries 7",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-a11y-ci-gate-at-an-honest-terminal\\implement-2026-09-16T11-34-01 · bound: GNU timeout",
+"delta docs 31 · unmapped 3",
+"prose L142-148: This chunk has **no producing leg and therefore no smoke entry** — its whole surface is a … (704 chars)",
+"prose L150-153: The workspace compile gates are `defer`red: this chunk has **zero compiled-source delta** … (369 chars)",
+"  1 probe       not run — excluded · python -X utf8 -c \"import yaml; d=yaml.safe_load(open('.gi… (136 chars)",
+"  2 probe       not run — excluded · python -X utf8 -c \"import yaml; j=yaml.safe_load(open('.gi… (340 chars)",
+"  3 probe       not run — excluded · git diff --quiet HEAD -- crates/conductor-tauri/ui/wdio.co… (124 chars)",
+"  4 probe       not run — excluded · test -d conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-… (238 chars)",
+"  5 unit        not run — defer (key): zero compiled-source delta this chunk — … (219 chars) · cargo nextest run --workspace --profile ci",
+"  6 probe       not run — excluded · git push && git rev-parse HEAD",
+"  7 probe       not run — excluded · gh run list --branch build/conductor-0.3.0 --workflow ci.y… (301 chars)",
+"entries 7 · green 0 · red 0 · recorded 0 · timeout 0 · not-run 7"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-16-a11y-ci-gate-at-an-honest-terminal\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-a11y-ci-gate-at-an-honest-terminal\\implement-2026-09-16T11-34-01",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.path",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-a11y.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-arch.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-design.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-layouts.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-obs.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-security.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-tests.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/a11y.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/acceptance-v3-02.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/arch.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/ci-mutated.yml",
+".andromeda/runs/2026-09-16T10-32-06-phase/design.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/layouts.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/master-record.txt",
+".andromeda/runs/2026-09-16T10-32-06-phase/matrix-2026-09-16-a11y-ci-gate-at-an-honest-terminal.json",
+".andromeda/runs/2026-09-16T10-32-06-phase/note-v3-02.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/obs.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/security.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/splice-2026-09-16-a11y-ci-gate-at-an-honest-terminal.json",
+".andromeda/runs/2026-09-16T10-32-06-phase/tests.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/tree-query-2026-09-16-a11y-ci-gate-at-an-honest-terminal.json",
+".andromeda/runs/2026-09-16T11-34-01-implement/gate-2026-09-16-a11y-ci-gate-at-an-honest-terminal.json",
+"conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/evidence/prereq-audit-gate.md",
+"conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/plan.md",
+"conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/research.md",
+"conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/scope.md"
+]
+},
+"unmapped": [
+".github/workflows/ci.yml",
+"conductor-0.3.0/verification-matrix.json",
+"scripts/a11y-limited-token-launch.ps1"
+],
+"prose": [
+{
+"from": 142,
+"to": 148,
+"text": "This chunk has **no producing leg and therefore no smoke entry** — its whole surface is a CI workflow step plus, conditionally, one CI-only script, so there is no boot path for a smoke to bite on. Listing a bare `status` verb would satisfy the authoring check while asserting nothing: it would read a prior chunk's envelope and pass identically had none of this work happened. The absence is stated here deliberately, per `.claude/rules/verification-harness.md:49` (extended 2026-09-11 on this chunk's direct predecessor, which is where that rule was minted). There is likewise **no live-Pulse leg** — the routine arm needs no live Pulse; it seeds its own committed fixture through the production writer."
+},
+{
+"from": 150,
+"to": 153,
+"text": "The workspace compile gates are `defer`red: this chunk has **zero compiled-source delta** by design (no `.rs` change, no `.ts` change unless step 2's mechanism moves the spawn site), so a cold workspace rebuild would re-earn a green that measures nothing. /implement re-verifies that reason against the tree's uncommitted files and RUNS the entry if a delta is present."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "probe",
+"run": "python -X utf8 -c \"import yaml; d=yaml.safe_load(open('.github/workflows/ci.yml',encoding='utf-8')); print(','.join(sorted(d['jobs'])))\"",
+"run_sha8": "89b5e9b4",
+"expect": [
+"exit 0",
+"last line a11y,frontend,rust"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "probe",
+"run": "python -X utf8 -c \"import yaml; j=yaml.safe_load(open('.github/workflows/ci.yml',encoding='utf-8'))['jobs']['a11y']['steps']; s=[x for x in j if 'A11y routine arm' in str(x.get('name',''))]; print(len(s)==1 and not s[0].get('continue-on-error') and 'if' not in s[0] and str(s[0].get('env',{}).get('CONDUCTOR_A11Y_STRICT')) in ('1','true'))\"",
+"run_sha8": "897c1497",
+"expect": [
+"exit 0",
+"last line True"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "probe",
+"run": "git diff --quiet HEAD -- crates/conductor-tauri/ui/wdio.conf.ts scripts/agent-run.ps1 scripts/agent-run.sh && echo unchanged",
+"run_sha8": "51368bfb",
+"expect": [
+"exit 0",
+"last line unchanged"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "probe",
+"run": "test -d conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/evidence && ! grep -rqE '(\\b[A-Za-z]:[\\\\/]|/home/|/Users/|%APPDATA%)' conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/evidence && echo clean",
+"run_sha8": "2592b43e",
+"expect": [
+"exit 0",
+"last line clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — defer (key): zero compiled-source delta this chunk — … (219 chars)"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "git push && git rev-parse HEAD",
+"run_sha8": "b0c779b4",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "gh run list --branch build/conductor-0.3.0 --workflow ci.yml --json headSha,databaseId --jq '[.[] | select(.headSha==\"<id>\")] | .[0].databaseId // error(\"no CI run for the pushed sha yet\")' | xargs -I{} gh run view {} --json jobs --jq '.jobs[] | select(.name | startswith(\"A11y gate\")) | .conclusion' ",
+"run_sha8": "82de0709",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.0",
+"sha8": "f6e4b9b8",
+"ts": "2026-09-16T11:39:17Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-16T11-34-01-implement",
+"--marker",
+"2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+"--only",
+"1,2"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-16-a11y-ci-gate-at-an-honest-terminal · entries 7",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-a11y-ci-gate-at-an-honest-terminal\\implement-2026-09-16T11-34-01 · bound: GNU timeout",
+"delta docs 32 · unmapped 3",
+"prose L142-148: This chunk has **no producing leg and therefore no smoke entry** — its whole surface is a … (704 chars)",
+"prose L150-153: The workspace compile gates are `defer`red: this chunk has **zero compiled-source delta** … (369 chars)",
+"  1 probe       green · exit 0 · 0.12s · 20 B → 1.log · python -X utf8 -c \"import yaml; d=yaml.safe_load(open('.gi… (136 chars)",
+"  2 probe       green · exit 0 · 0.12s · 6 B → 2.log · python -X utf8 -c \"import yaml; j=yaml.safe_load(open('.gi… (340 chars)",
+"  3 probe       not run — excluded · git diff --quiet HEAD -- crates/conductor-tauri/ui/wdio.co… (124 chars)",
+"  4 probe       not run — excluded · test -d conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-… (238 chars)",
+"  5 unit        not run — excluded · cargo nextest run --workspace --profile ci",
+"  6 probe       not run — excluded · git push && git rev-parse HEAD",
+"  7 probe       not run — excluded · gh run list --branch build/conductor-0.3.0 --workflow ci.y… (301 chars)",
+"entries 7 · green 2 · red 0 · recorded 0 · timeout 0 · not-run 5"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-16-a11y-ci-gate-at-an-honest-terminal\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-a11y-ci-gate-at-an-honest-terminal\\implement-2026-09-16T11-34-01",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.path",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-a11y.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-arch.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-design.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-layouts.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-obs.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-security.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-tests.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/a11y.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/acceptance-v3-02.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/arch.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/ci-mutated.yml",
+".andromeda/runs/2026-09-16T10-32-06-phase/design.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/layouts.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/master-record.txt",
+".andromeda/runs/2026-09-16T10-32-06-phase/matrix-2026-09-16-a11y-ci-gate-at-an-honest-terminal.json",
+".andromeda/runs/2026-09-16T10-32-06-phase/note-v3-02.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/obs.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/security.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/splice-2026-09-16-a11y-ci-gate-at-an-honest-terminal.json",
+".andromeda/runs/2026-09-16T10-32-06-phase/tests.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/tree-query-2026-09-16-a11y-ci-gate-at-an-honest-terminal.json",
+".andromeda/runs/2026-09-16T11-34-01-implement/gate-2026-09-16-a11y-ci-gate-at-an-honest-terminal.json",
+".andromeda/runs/2026-09-16T11-34-01-implement/unit-gate-voided-defer.log",
+"conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/evidence/prereq-audit-gate.md",
+"conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/plan.md",
+"conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/research.md",
+"conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/scope.md"
+]
+},
+"unmapped": [
+".github/workflows/ci.yml",
+"conductor-0.3.0/verification-matrix.json",
+"scripts/a11y-limited-token-launch.ps1"
+],
+"prose": [
+{
+"from": 142,
+"to": 148,
+"text": "This chunk has **no producing leg and therefore no smoke entry** — its whole surface is a CI workflow step plus, conditionally, one CI-only script, so there is no boot path for a smoke to bite on. Listing a bare `status` verb would satisfy the authoring check while asserting nothing: it would read a prior chunk's envelope and pass identically had none of this work happened. The absence is stated here deliberately, per `.claude/rules/verification-harness.md:49` (extended 2026-09-11 on this chunk's direct predecessor, which is where that rule was minted). There is likewise **no live-Pulse leg** — the routine arm needs no live Pulse; it seeds its own committed fixture through the production writer."
+},
+{
+"from": 150,
+"to": 153,
+"text": "The workspace compile gates are `defer`red: this chunk has **zero compiled-source delta** by design (no `.rs` change, no `.ts` change unless step 2's mechanism moves the spawn site), so a cold workspace rebuild would re-earn a green that measures nothing. /implement re-verifies that reason against the tree's uncommitted files and RUNS the entry if a delta is present."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "probe",
+"run": "python -X utf8 -c \"import yaml; d=yaml.safe_load(open('.github/workflows/ci.yml',encoding='utf-8')); print(','.join(sorted(d['jobs'])))\"",
+"run_sha8": "89b5e9b4",
+"expect": [
+"exit 0",
+"last line a11y,frontend,rust"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-a11y-ci-gate-at-an-honest-terminal\\implement-2026-09-16T11-34-01\\1.log",
+"bytes": 20,
+"log_sha8": "20350af1",
+"exit": 0,
+"seconds": 0.12,
+"readings": [
+"exit 0 ✓",
+"last line 'a11y,frontend,rust' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "probe",
+"run": "python -X utf8 -c \"import yaml; j=yaml.safe_load(open('.github/workflows/ci.yml',encoding='utf-8'))['jobs']['a11y']['steps']; s=[x for x in j if 'A11y routine arm' in str(x.get('name',''))]; print(len(s)==1 and not s[0].get('continue-on-error') and 'if' not in s[0] and str(s[0].get('env',{}).get('CONDUCTOR_A11Y_STRICT')) in ('1','true'))\"",
+"run_sha8": "897c1497",
+"expect": [
+"exit 0",
+"last line True"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-a11y-ci-gate-at-an-honest-terminal\\implement-2026-09-16T11-34-01\\2.log",
+"bytes": 6,
+"log_sha8": "ca4a016e",
+"exit": 0,
+"seconds": 0.12,
+"readings": [
+"exit 0 ✓",
+"last line 'True' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "probe",
+"run": "git diff --quiet HEAD -- crates/conductor-tauri/ui/wdio.conf.ts scripts/agent-run.ps1 scripts/agent-run.sh && echo unchanged",
+"run_sha8": "51368bfb",
+"expect": [
+"exit 0",
+"last line unchanged"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "probe",
+"run": "test -d conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/evidence && ! grep -rqE '(\\b[A-Za-z]:[\\\\/]|/home/|/Users/|%APPDATA%)' conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/evidence && echo clean",
+"run_sha8": "2592b43e",
+"expect": [
+"exit 0",
+"last line clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "git push && git rev-parse HEAD",
+"run_sha8": "b0c779b4",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "gh run list --branch build/conductor-0.3.0 --workflow ci.yml --json headSha,databaseId --jq '[.[] | select(.headSha==\"<id>\")] | .[0].databaseId // error(\"no CI run for the pushed sha yet\")' | xargs -I{} gh run view {} --json jobs --jq '.jobs[] | select(.name | startswith(\"A11y gate\")) | .conclusion' ",
+"run_sha8": "82de0709",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.0",
+"sha8": "f6e4b9b8",
+"ts": "2026-09-16T12:04:56Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-16T11-34-01-implement",
+"--marker",
+"2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+"--only",
+"4"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-16-a11y-ci-gate-at-an-honest-terminal · entries 7",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-a11y-ci-gate-at-an-honest-terminal\\implement-2026-09-16T11-34-01 · bound: GNU timeout",
+"delta docs 36 · unmapped 3",
+"prose L142-148: This chunk has **no producing leg and therefore no smoke entry** — its whole surface is a … (704 chars)",
+"prose L150-153: The workspace compile gates are `defer`red: this chunk has **zero compiled-source delta** … (369 chars)",
+"  1 probe       not run — excluded · python -X utf8 -c \"import yaml; d=yaml.safe_load(open('.gi… (136 chars)",
+"  2 probe       not run — excluded · python -X utf8 -c \"import yaml; j=yaml.safe_load(open('.gi… (340 chars)",
+"  3 probe       not run — excluded · git diff --quiet HEAD -- crates/conductor-tauri/ui/wdio.co… (124 chars)",
+"  4 probe       green · exit 0 · 0.07s · 6 B → 4.log · test -d conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-… (238 chars)",
+"  5 unit        not run — excluded · cargo nextest run --workspace --profile ci",
+"  6 probe       not run — excluded · git push && git rev-parse HEAD",
+"  7 probe       not run — excluded · gh run list --branch build/conductor-0.3.0 --workflow ci.y… (301 chars)",
+"entries 7 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 6"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-16-a11y-ci-gate-at-an-honest-terminal\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-a11y-ci-gate-at-an-honest-terminal\\implement-2026-09-16T11-34-01",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.path",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-a11y.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-arch.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-design.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-layouts.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-obs.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-security.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-tests.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/a11y.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/acceptance-v3-02.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/arch.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/ci-mutated.yml",
+".andromeda/runs/2026-09-16T10-32-06-phase/design.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/layouts.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/master-record.txt",
+".andromeda/runs/2026-09-16T10-32-06-phase/matrix-2026-09-16-a11y-ci-gate-at-an-honest-terminal.json",
+".andromeda/runs/2026-09-16T10-32-06-phase/note-v3-02.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/obs.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/security.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/splice-2026-09-16-a11y-ci-gate-at-an-honest-terminal.json",
+".andromeda/runs/2026-09-16T10-32-06-phase/tests.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/tree-query-2026-09-16-a11y-ci-gate-at-an-honest-terminal.json",
+".andromeda/runs/2026-09-16T11-34-01-implement/gate-2026-09-16-a11y-ci-gate-at-an-honest-terminal.json",
+".andromeda/runs/2026-09-16T11-34-01-implement/matrix-2026-09-16-a11y-ci-gate-at-an-honest-terminal.json",
+".andromeda/runs/2026-09-16T11-34-01-implement/step-arm.ps1",
+".andromeda/runs/2026-09-16T11-34-01-implement/step-pipe.ps1",
+".andromeda/runs/2026-09-16T11-34-01-implement/unit-gate-voided-defer.log",
+"conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/evidence/prereq-audit-gate.md",
+"conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/evidence/surfaced-argv-composition.md",
+"conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/plan.md",
+"conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/research.md",
+"conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/scope.md"
+]
+},
+"unmapped": [
+".github/workflows/ci.yml",
+"conductor-0.3.0/verification-matrix.json",
+"scripts/a11y-limited-token-launch.ps1"
+],
+"prose": [
+{
+"from": 142,
+"to": 148,
+"text": "This chunk has **no producing leg and therefore no smoke entry** — its whole surface is a CI workflow step plus, conditionally, one CI-only script, so there is no boot path for a smoke to bite on. Listing a bare `status` verb would satisfy the authoring check while asserting nothing: it would read a prior chunk's envelope and pass identically had none of this work happened. The absence is stated here deliberately, per `.claude/rules/verification-harness.md:49` (extended 2026-09-11 on this chunk's direct predecessor, which is where that rule was minted). There is likewise **no live-Pulse leg** — the routine arm needs no live Pulse; it seeds its own committed fixture through the production writer."
+},
+{
+"from": 150,
+"to": 153,
+"text": "The workspace compile gates are `defer`red: this chunk has **zero compiled-source delta** by design (no `.rs` change, no `.ts` change unless step 2's mechanism moves the spawn site), so a cold workspace rebuild would re-earn a green that measures nothing. /implement re-verifies that reason against the tree's uncommitted files and RUNS the entry if a delta is present."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "probe",
+"run": "python -X utf8 -c \"import yaml; d=yaml.safe_load(open('.github/workflows/ci.yml',encoding='utf-8')); print(','.join(sorted(d['jobs'])))\"",
+"run_sha8": "89b5e9b4",
+"expect": [
+"exit 0",
+"last line a11y,frontend,rust"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "probe",
+"run": "python -X utf8 -c \"import yaml; j=yaml.safe_load(open('.github/workflows/ci.yml',encoding='utf-8'))['jobs']['a11y']['steps']; s=[x for x in j if 'A11y routine arm' in str(x.get('name',''))]; print(len(s)==1 and not s[0].get('continue-on-error') and 'if' not in s[0] and str(s[0].get('env',{}).get('CONDUCTOR_A11Y_STRICT')) in ('1','true'))\"",
+"run_sha8": "897c1497",
+"expect": [
+"exit 0",
+"last line True"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "probe",
+"run": "git diff --quiet HEAD -- crates/conductor-tauri/ui/wdio.conf.ts scripts/agent-run.ps1 scripts/agent-run.sh && echo unchanged",
+"run_sha8": "51368bfb",
+"expect": [
+"exit 0",
+"last line unchanged"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "probe",
+"run": "test -d conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/evidence && ! grep -rqE '(\\b[A-Za-z]:[\\\\/]|/home/|/Users/|%APPDATA%)' conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/evidence && echo clean",
+"run_sha8": "2592b43e",
+"expect": [
+"exit 0",
+"last line clean"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-a11y-ci-gate-at-an-honest-terminal\\implement-2026-09-16T11-34-01\\4.log",
+"bytes": 6,
+"log_sha8": "2e22da2a",
+"exit": 0,
+"seconds": 0.07,
+"readings": [
+"exit 0 ✓",
+"last line 'clean' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "git push && git rev-parse HEAD",
+"run_sha8": "b0c779b4",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "gh run list --branch build/conductor-0.3.0 --workflow ci.yml --json headSha,databaseId --jq '[.[] | select(.headSha==\"<id>\")] | .[0].databaseId // error(\"no CI run for the pushed sha yet\")' | xargs -I{} gh run view {} --json jobs --jq '.jobs[] | select(.name | startswith(\"A11y gate\")) | .conclusion' ",
+"run_sha8": "82de0709",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.0",
+"sha8": "f6e4b9b8",
+"ts": "2026-09-16T12:20:10Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-16T11-34-01-implement",
+"--marker",
+"2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+"--only",
+"4"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-16-a11y-ci-gate-at-an-honest-terminal · entries 7",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-a11y-ci-gate-at-an-honest-terminal\\implement-2026-09-16T11-34-01 · bound: GNU timeout",
+"delta docs 36 · unmapped 3",
+"prose L142-148: This chunk has **no producing leg and therefore no smoke entry** — its whole surface is a … (704 chars)",
+"prose L150-153: The workspace compile gates are `defer`red: this chunk has **zero compiled-source delta** … (369 chars)",
+"  1 probe       not run — excluded · python -X utf8 -c \"import yaml; d=yaml.safe_load(open('.gi… (136 chars)",
+"  2 probe       not run — excluded · python -X utf8 -c \"import yaml; j=yaml.safe_load(open('.gi… (340 chars)",
+"  3 probe       not run — excluded · git diff --quiet HEAD -- crates/conductor-tauri/ui/wdio.co… (124 chars)",
+"  4 probe       green · exit 0 · 0.07s · 6 B → 4.log · test -d conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-… (238 chars)",
+"  5 unit        not run — excluded · cargo nextest run --workspace --profile ci",
+"  6 probe       not run — excluded · git push && git rev-parse HEAD",
+"  7 probe       not run — excluded · gh run list --branch build/conductor-0.3.0 --workflow ci.y… (301 chars)",
+"entries 7 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 6"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-16-a11y-ci-gate-at-an-honest-terminal\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-a11y-ci-gate-at-an-honest-terminal\\implement-2026-09-16T11-34-01",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.path",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-a11y.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-arch.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-design.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-layouts.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-obs.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-security.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/.raw-tests.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/a11y.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/acceptance-v3-02.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/arch.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/ci-mutated.yml",
+".andromeda/runs/2026-09-16T10-32-06-phase/design.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/layouts.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/master-record.txt",
+".andromeda/runs/2026-09-16T10-32-06-phase/matrix-2026-09-16-a11y-ci-gate-at-an-honest-terminal.json",
+".andromeda/runs/2026-09-16T10-32-06-phase/note-v3-02.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/obs.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/security.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/splice-2026-09-16-a11y-ci-gate-at-an-honest-terminal.json",
+".andromeda/runs/2026-09-16T10-32-06-phase/tests.md",
+".andromeda/runs/2026-09-16T10-32-06-phase/tree-query-2026-09-16-a11y-ci-gate-at-an-honest-terminal.json",
+".andromeda/runs/2026-09-16T11-34-01-implement/gate-2026-09-16-a11y-ci-gate-at-an-honest-terminal.json",
+".andromeda/runs/2026-09-16T11-34-01-implement/matrix-2026-09-16-a11y-ci-gate-at-an-honest-terminal.json",
+".andromeda/runs/2026-09-16T11-34-01-implement/step-arm.ps1",
+".andromeda/runs/2026-09-16T11-34-01-implement/step-pipe.ps1",
+".andromeda/runs/2026-09-16T11-34-01-implement/unit-gate-voided-defer.log",
+"conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/evidence/prereq-audit-gate.md",
+"conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/evidence/surfaced-argv-composition.md",
+"conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/plan.md",
+"conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/research.md",
+"conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/scope.md"
+]
+},
+"unmapped": [
+".github/workflows/ci.yml",
+"conductor-0.3.0/verification-matrix.json",
+"scripts/a11y-limited-token-launch.ps1"
+],
+"prose": [
+{
+"from": 142,
+"to": 148,
+"text": "This chunk has **no producing leg and therefore no smoke entry** — its whole surface is a CI workflow step plus, conditionally, one CI-only script, so there is no boot path for a smoke to bite on. Listing a bare `status` verb would satisfy the authoring check while asserting nothing: it would read a prior chunk's envelope and pass identically had none of this work happened. The absence is stated here deliberately, per `.claude/rules/verification-harness.md:49` (extended 2026-09-11 on this chunk's direct predecessor, which is where that rule was minted). There is likewise **no live-Pulse leg** — the routine arm needs no live Pulse; it seeds its own committed fixture through the production writer."
+},
+{
+"from": 150,
+"to": 153,
+"text": "The workspace compile gates are `defer`red: this chunk has **zero compiled-source delta** by design (no `.rs` change, no `.ts` change unless step 2's mechanism moves the spawn site), so a cold workspace rebuild would re-earn a green that measures nothing. /implement re-verifies that reason against the tree's uncommitted files and RUNS the entry if a delta is present."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "probe",
+"run": "python -X utf8 -c \"import yaml; d=yaml.safe_load(open('.github/workflows/ci.yml',encoding='utf-8')); print(','.join(sorted(d['jobs'])))\"",
+"run_sha8": "89b5e9b4",
+"expect": [
+"exit 0",
+"last line a11y,frontend,rust"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "probe",
+"run": "python -X utf8 -c \"import yaml; j=yaml.safe_load(open('.github/workflows/ci.yml',encoding='utf-8'))['jobs']['a11y']['steps']; s=[x for x in j if 'A11y routine arm' in str(x.get('name',''))]; print(len(s)==1 and not s[0].get('continue-on-error') and 'if' not in s[0] and str(s[0].get('env',{}).get('CONDUCTOR_A11Y_STRICT')) in ('1','true'))\"",
+"run_sha8": "897c1497",
+"expect": [
+"exit 0",
+"last line True"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "probe",
+"run": "git diff --quiet HEAD -- crates/conductor-tauri/ui/wdio.conf.ts scripts/agent-run.ps1 scripts/agent-run.sh && echo unchanged",
+"run_sha8": "51368bfb",
+"expect": [
+"exit 0",
+"last line unchanged"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "probe",
+"run": "test -d conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/evidence && ! grep -rqE '(\\b[A-Za-z]:[\\\\/]|/home/|/Users/|%APPDATA%)' conductor-0.3.0/chunks/2026-09-16-a11y-ci-gate-at-an-honest-terminal/evidence && echo clean",
+"run_sha8": "2592b43e",
+"expect": [
+"exit 0",
+"last line clean"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-a11y-ci-gate-at-an-honest-terminal\\implement-2026-09-16T11-34-01\\4.log",
+"bytes": 6,
+"log_sha8": "2e22da2a",
+"exit": 0,
+"seconds": 0.07,
+"readings": [
+"exit 0 ✓",
+"last line 'clean' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "git push && git rev-parse HEAD",
+"run_sha8": "b0c779b4",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "gh run list --branch build/conductor-0.3.0 --workflow ci.yml --json headSha,databaseId --jq '[.[] | select(.headSha==\"<id>\")] | .[0].databaseId // error(\"no CI run for the pushed sha yet\")' | xargs -I{} gh run view {} --json jobs --jq '.jobs[] | select(.name | startswith(\"A11y gate\")) | .conclusion' ",
+"run_sha8": "82de0709",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+}
+]

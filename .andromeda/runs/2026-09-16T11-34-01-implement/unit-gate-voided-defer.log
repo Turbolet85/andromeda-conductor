@@ -1,0 +1,992 @@
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.33s
+────────────
+ Nextest run ID dba0c5dd-5234-4b47-8fb0-b885ae7a5820 with nextest profile: ci
+    Starting 986 tests across 58 binaries
+        PASS [   0.024s] (  1/986) conductor-cli::bin/conductor pause::tests::headless_variant_proceeds
+        PASS [   0.027s] (  2/986) conductor-cli::cli_smoke no_subcommand_is_a_usage_error
+        PASS [   0.030s] (  3/986) conductor-cli::bin/conductor render::tests::calibration_region_renders_hold_not_manual
+        PASS [   0.034s] (  4/986) conductor-cli::cli_smoke help_lists_the_verbs
+        PASS [   0.056s] (  5/986) conductor-cli::cli_smoke coverage_lists_every_classified_pid
+        PASS [   0.058s] (  6/986) conductor-cli::cli_smoke preflight_json_blocks_without_pulse_and_exits_nonzero
+        PASS [   0.065s] (  7/986) conductor-cli::bin/conductor pause::tests::select_off_tty_is_headless
+        PASS [   0.076s] (  8/986) conductor-cli::cli_smoke run_with_unknown_target_is_a_sanitized_error_with_a_hint
+        PASS [   0.079s] (  9/986) conductor-cli::bin/conductor commands::tests::only_a_hard_fail_exits_non_zero
+        PASS [   0.084s] ( 10/986) conductor-cli::bin/conductor pause::tests::the_resolved_hold_records_the_answering_arm
+        PASS [   0.091s] ( 11/986) conductor-cli::bin/conductor render::tests::color_is_enabled_only_when_every_condition_allows_it
+        PASS [   0.099s] ( 12/986) conductor-cli::cli_smoke piped_coverage_output_carries_no_ansi_escapes
+        PASS [   0.110s] ( 13/986) conductor-cli::cli_smoke coverage_write_regenerates_the_matrix_file
+        PASS [   0.114s] ( 14/986) conductor-cli::bin/conductor pause::tests::resolve_kind_agent_mode_overrides_an_attended_tty
+        PASS [   0.123s] ( 15/986) conductor-cli::bin/conductor pause::tests::each_resolver_reports_its_own_kind
+        PASS [   0.127s] ( 16/986) conductor-cli::bin/conductor pause::tests::select_agent_mode_is_headless
+        PASS [   0.133s] ( 17/986) conductor-cli::cli_smoke report_renders_the_latest_run
+        PASS [   0.135s] ( 18/986) conductor-cli::cli_smoke cleanup_removes_the_run_rows_and_reports_the_count
+        PASS [   0.137s] ( 19/986) conductor-cli::bin/conductor pause::tests::suspend_freezes_the_bar_in_place_and_returns_the_closure_value
+        PASS [   0.141s] ( 20/986) conductor-cli::bin/conductor pause::tests::headless_variant_can_decline
+        PASS [   0.142s] ( 21/986) conductor-cli::cli_smoke a_run_emits_the_scenario_run_root_and_the_report_seam_spans
+        PASS [   0.151s] ( 22/986) conductor-cli::bin/conductor render::tests::coverage_summary_splits_the_in_scope_denominator
+        PASS [   0.151s] ( 23/986) conductor-cli::cli_smoke run_resolves_a_scenario_by_p_id
+        PASS [   0.135s] ( 24/986) conductor-cli::bin/conductor render::tests::coverage_surfaces_never_read_as_fail_or_blocked
+        PASS [   0.133s] ( 25/986) conductor-cli::bin/conductor render::tests::each_lamp_carries_its_own_palette_code
+        PASS [   0.140s] ( 26/986) conductor-cli::bin/conductor render::tests::coverage_table_renders_every_classified_pid
+        PASS [   0.133s] ( 27/986) conductor-cli::bin/conductor render::tests::envelope_caption_colored_overlays_escapes_on_the_label
+        PASS [   0.170s] ( 28/986) conductor-cli::cli_smoke agent_mode_routes_self_obs_to_the_log_file_not_stderr
+        PASS [   0.116s] ( 29/986) conductor-cli::bin/conductor render::tests::envelope_caption_is_absent_for_an_in_envelope_run
+        PASS [   0.117s] ( 30/986) conductor-cli::bin/conductor render::tests::envelope_caption_is_not_painted_fail_or_blocked
+        PASS [   0.114s] ( 31/986) conductor-cli::bin/conductor render::tests::envelope_caption_plain_keeps_the_label_without_escapes
+        PASS [   0.180s] ( 32/986) conductor-cli::cross_surface_parity path7_the_two_surfaces_write_an_equal_envelope_into_one_runs_db
+        PASS [   0.108s] ( 33/986) conductor-cli::bin/conductor render::tests::error_block_colored_overlays_escapes_on_the_labels
+        PASS [   0.187s] ( 34/986) conductor-cli::cli_smoke run_by_name_blocks_without_pulse_and_exits_zero
+        PASS [   0.109s] ( 35/986) conductor-cli::bin/conductor render::tests::error_block_plain_has_labels_without_escapes
+        PASS [   0.108s] ( 36/986) conductor-cli::bin/conductor render::tests::hold_line_colored_overlays_escapes_on_the_prefix
+        PASS [   0.192s] ( 37/986) conductor-cli::cli_smoke suite_runs_the_catalog_and_exits_zero
+        PASS [   0.104s] ( 38/986) conductor-cli::bin/conductor render::tests::hold_line_plain_keeps_prefix_without_escapes
+        PASS [   0.103s] ( 39/986) conductor-cli::bin/conductor render::tests::only_the_out_of_scope_mode_cell_carries_the_residual_tint
+        PASS [   0.204s] ( 40/986) conductor-cli::cli_smoke suite_filter_selects_the_matching_scenario_and_no_other
+        PASS [   0.095s] ( 41/986) conductor-cli::bin/conductor render::tests::out_of_scope_mode_cell_colored_overlays_the_residual_mute
+        PASS [   0.094s] ( 42/986) conductor-cli::bin/conductor render::tests::out_of_scope_mode_cell_plain_keeps_its_label_without_escapes
+        PASS [   0.090s] ( 43/986) conductor-cli::bin/conductor render::tests::renders_leak_no_host_paths_or_struct_names
+        PASS [   0.087s] ( 44/986) conductor-cli::bin/conductor render::tests::results_table_plain_shows_lamps_and_em_dashes_blocked
+        PASS [   0.085s] ( 45/986) conductor-cli::bin/conductor render::tests::status_line_colored_overlays_escapes_on_the_prefix
+        PASS [   0.087s] ( 46/986) conductor-cli::bin/conductor render::tests::status_line_plain_keeps_prefix_without_escapes
+        PASS [   0.088s] ( 47/986) conductor-cli::bin/conductor render::tests::the_coverage_roll_up_is_derived_from_the_classification
+        PASS [   0.087s] ( 48/986) conductor-cli::bin/conductor render::tests::the_public_renders_carry_their_ascii_content
+        PASS [   0.091s] ( 49/986) conductor-cli::bin/conductor render::tests::the_results_table_renders_every_measurement_cell
+        PASS [   0.087s] ( 50/986) conductor-core capability_manifest::tests::load_failure_message_never_contains_the_path
+        PASS [   0.089s] ( 51/986) conductor-core capability_manifest::tests::accepts_only_ids_in_the_set
+        PASS [   0.084s] ( 52/986) conductor-core capability_manifest::tests::loads_and_bounds_checks_the_committed_manifest
+        PASS [   0.081s] ( 53/986) conductor-core capability_manifest::tests::missing_file_is_a_harness_fault
+        PASS [   0.082s] ( 54/986) conductor-core capability_manifest::tests::rejects_a_malformed_or_duplicated_capability_id
+        PASS [   0.085s] ( 55/986) conductor-core capability_manifest::tests::rejects_empty_version_date_or_set
+        PASS [   0.086s] ( 56/986) conductor-core config_path::tests::accepts_an_in_scope_relative_path
+        PASS [   0.088s] ( 57/986) conductor-core config_path::tests::rejects_an_out_of_scope_absolute_path
+        PASS [   0.089s] ( 58/986) conductor-core config_path::tests::rejects_parent_dir_traversal
+        PASS [   0.089s] ( 59/986) conductor-core coverage::tests::every_mode_is_represented
+        PASS [   0.093s] ( 60/986) conductor-core coverage::tests::every_row_carries_a_title_and_category
+        PASS [   0.094s] ( 61/986) conductor-core coverage::tests::matrix_covers_every_accepted_capability
+        PASS [   0.279s] ( 62/986) conductor-cli::cli_smoke the_seed_handle_reaches_the_envelope_and_the_flag_beats_it
+        PASS [   0.094s] ( 63/986) conductor-core coverage::tests::mode_label_matches_serde_wire
+        PASS [   0.097s] ( 64/986) conductor-core coverage::tests::mode_round_trips_through_json
+        PASS [   0.097s] ( 65/986) conductor-core coverage::tests::named_static_only_anchors_are_static_only
+        PASS [   0.099s] ( 66/986) conductor-core coverage::tests::not_conductors_wire_spelling_is_stable
+        PASS [   0.099s] ( 67/986) conductor-core coverage::tests::p_ids_are_well_formed_sorted_and_unique
+        PASS [   0.097s] ( 68/986) conductor-core coverage::tests::the_in_lane_capabilities_are_classified_verifiable
+        PASS [   0.097s] ( 69/986) conductor-core coverage::tests::the_out_of_remit_set_is_explicitly_enumerated
+        PASS [   0.100s] ( 70/986) conductor-core drift::tests::a_classified_id_the_manifest_dropped_is_drift
+        PASS [   0.100s] ( 71/986) conductor-core drift::tests::a_fully_backed_classification_with_an_empty_ledger_passes
+        PASS [   0.100s] ( 72/986) conductor-core drift::tests::a_known_gap_entry_that_is_now_classified_is_drift
+        PASS [   0.102s] ( 73/986) conductor-core drift::tests::a_ledger_entry_a_scenario_now_names_is_a_fault
+        PASS [   0.101s] ( 74/986) conductor-core drift::tests::a_ledger_entry_no_longer_auto_classified_is_a_fault
+        PASS [   0.101s] ( 75/986) conductor-core drift::tests::an_accepted_id_outside_the_known_gap_is_drift
+        PASS [   0.101s] ( 76/986) conductor-core drift::tests::an_auto_row_with_no_scenario_outside_the_ledger_is_a_fault
+        PASS [   0.101s] ( 77/986) conductor-core drift::tests::backing_message_names_identity_without_host_paths_or_type_names
+        PASS [   0.100s] ( 78/986) conductor-core drift::tests::committed_artifacts_match_the_known_gap
+        PASS [   0.097s] ( 79/986) conductor-core drift::tests::drift_message_is_byte_identical_for_identical_inputs
+        PASS [   0.099s] ( 80/986) conductor-core drift::tests::drift_message_names_identity_without_host_paths_or_type_names
+        PASS [   0.100s] ( 81/986) conductor-core drift::tests::in_sync_with_an_empty_known_gap_passes
+        PASS [   0.101s] ( 82/986) conductor-core drift::tests::only_auto_rows_need_scenario_backing
+        PASS [   0.100s] ( 83/986) conductor-core error::tests::config_error_displays_its_message
+        PASS [   0.100s] ( 84/986) conductor-core error::tests::garde_report_becomes_a_validation_fault
+        PASS [   0.109s] ( 85/986) conductor-core drift::tests::the_committed_catalog_matches_the_unbacked_ledger
+        PASS [   0.099s] ( 86/986) conductor-core error::tests::result_alias_carries_outcomes_in_ok
+        PASS [   0.098s] ( 87/986) conductor-core expected::tests::a_declared_budget_overrides_the_tier
+        PASS [   0.098s] ( 88/986) conductor-core expected::tests::a_zero_or_over_ceiling_budget_is_rejected_but_the_bounds_are_accepted
+        PASS [   0.096s] ( 89/986) conductor-core expected::tests::an_absent_budget_falls_back_to_the_scenario_tier
+        PASS [   0.097s] ( 90/986) conductor-core expected::tests::budget_round_trips_through_json_and_defaults_absent
+        PASS [   0.099s] ( 91/986) conductor-core expected::tests::claim_class_serializes_to_canonical_names
+        PASS [   0.100s] ( 92/986) conductor-core expected::tests::comparison_kind_serializes_to_canonical_names
+        PASS [   0.100s] ( 93/986) conductor-core expected::tests::empty_expected_target_is_rejected
+        PASS [   0.100s] ( 94/986) conductor-core expected::tests::round_trips_through_json
+        PASS [   0.100s] ( 95/986) conductor-core expected::tests::the_budget_ceiling_derives_from_the_ladder_not_a_literal
+        PASS [   0.100s] ( 96/986) conductor-core expected::tests::well_formed_check_validates
+        PASS [   0.100s] ( 97/986) conductor-core lamp::tests::blocked_constructor_lamps_blocked
+        PASS [   0.099s] ( 98/986) conductor-core lamp::tests::known_residual_and_blocked_are_state_driven_over_verdict
+        PASS [   0.099s] ( 99/986) conductor-core lamp::tests::prefix_and_label_cover_all_six
+        PASS [   0.099s] (100/986) conductor-core lamp::tests::verdict_first_maps_pass_fail_hold
+        PASS [   0.099s] (101/986) conductor-core lamp::tests::verdict_less_manual_check_is_manual_not_hold
+        PASS [   0.099s] (102/986) conductor-core load_envelope::tests::a_ledger_entry_no_scenario_names_is_a_fault
+        PASS [   0.099s] (103/986) conductor-core load_envelope::tests::a_ledger_entry_now_inside_the_envelope_is_a_fault
+        PASS [   0.099s] (104/986) conductor-core load_envelope::tests::a_phase_exactly_at_the_storm_ceiling_is_inside_the_envelope
+        PASS [   0.099s] (105/986) conductor-core load_envelope::tests::a_silence_phase_is_never_storm_however_long_it_runs
+        PASS [   0.099s] (106/986) conductor-core load_envelope::tests::a_zero_length_emitting_phase_is_an_unbounded_rate
+        PASS [   0.099s] (107/986) conductor-core load_envelope::tests::an_emitting_phase_faster_than_the_rate_term_is_a_breach
+        PASS [   0.099s] (108/986) conductor-core load_envelope::tests::an_in_envelope_catalog_with_an_empty_ledger_passes
+        PASS [   0.099s] (109/986) conductor-core load_envelope::tests::an_over_envelope_scenario_outside_the_ledger_is_a_fault
+        PASS [   0.099s] (110/986) conductor-core load_envelope::tests::classify_cause_carries_no_host_path_or_type_name
+        PASS [   0.099s] (111/986) conductor-core load_envelope::tests::classify_returns_a_value_never_an_error
+        PASS [   0.096s] (112/986) conductor-core load_envelope::tests::duration_is_the_sum_of_phase_gaps
+        PASS [   0.095s] (113/986) conductor-core load_envelope::tests::envelope_message_names_identity_without_host_paths_or_type_names
+        PASS [   0.097s] (114/986) conductor-core load_envelope::tests::envelope_status_round_trips_its_wire_form
+        PASS [   0.099s] (115/986) conductor-core load_envelope::tests::every_committed_scenario_points_authors_at_the_envelope
+        PASS [   0.099s] (116/986) conductor-core load_envelope::tests::load_failure_message_never_contains_the_path
+        PASS [   0.099s] (117/986) conductor-core load_envelope::tests::loads_and_bounds_checks_the_committed_envelope
+        PASS [   0.099s] (118/986) conductor-core load_envelope::tests::missing_file_is_a_harness_fault
+        PASS [   0.097s] (119/986) conductor-core load_envelope::tests::rejects_a_reasonless_or_duplicated_exemption
+        PASS [   0.097s] (120/986) conductor-core load_envelope::tests::rejects_a_zero_term
+        PASS [   0.096s] (121/986) conductor-core load_envelope::tests::rejects_empty_identity_or_provenance
+        PASS [   0.097s] (122/986) conductor-core load_envelope::tests::the_rate_bound_is_exclusive_at_its_boundary
+        PASS [   0.106s] (123/986) conductor-core load_envelope::tests::the_committed_catalog_matches_the_committed_envelope
+        PASS [   0.097s] (124/986) conductor-core load_envelope::tests::the_storm_window_is_the_longest_emitting_phase_not_the_sum_of_them
+        PASS [   0.106s] (125/986) conductor-core load_envelope::tests::the_gate_and_the_per_run_judgment_agree_across_the_committed_catalog
+        PASS [   0.098s] (126/986) conductor-core obs::tests::a_child_span_records_its_parent_so_the_tree_reconstructs
+        PASS [   0.098s] (127/986) conductor-core obs::tests::a_host_path_in_a_span_attribute_is_redacted
+        PASS [   0.098s] (128/986) conductor-core obs::tests::a_non_allowlisted_fault_attribute_is_still_dropped
+        PASS [   0.098s] (129/986) conductor-core obs::tests::a_non_allowlisted_span_attribute_is_dropped
+        PASS [   0.099s] (130/986) conductor-core obs::tests::a_span_emits_new_and_close_records_carrying_its_attributes
+        PASS [   0.098s] (131/986) conductor-core obs::tests::civil_from_unix_holds_at_the_era_boundaries::case_1_epoch
+        PASS [   0.098s] (132/986) conductor-core obs::tests::civil_from_unix_holds_at_the_era_boundaries::case_2_last_second_of_1999
+        PASS [   0.098s] (133/986) conductor-core obs::tests::civil_from_unix_holds_at_the_era_boundaries::case_3_era_last_day
+        PASS [   0.098s] (134/986) conductor-core obs::tests::civil_from_unix_holds_at_the_era_boundaries::case_4_era_first_day
+        PASS [   0.099s] (135/986) conductor-core obs::tests::civil_from_unix_holds_at_the_era_boundaries::case_5_before_the_century_day
+        PASS [   0.099s] (136/986) conductor-core obs::tests::civil_from_unix_holds_at_the_era_boundaries::case_6_century_day
+        PASS [   0.099s] (137/986) conductor-core obs::tests::civil_from_unix_holds_at_the_era_boundaries::case_7_next_era_last_day
+        PASS [   0.099s] (138/986) conductor-core obs::tests::civil_from_unix_known_values
+        PASS [   0.100s] (139/986) conductor-core obs::tests::every_line_is_flat_json_with_identity_and_run_id
+        PASS [   0.101s] (140/986) conductor-core obs::tests::file_sink_falls_back_to_stderr_when_unopenable
+        PASS [   0.101s] (141/986) conductor-core obs::tests::host_path_in_allowlisted_field_is_redacted
+        PASS [   0.107s] (142/986) conductor-core obs::tests::file_sink_writes_redacted_json_to_the_file
+        PASS [   0.101s] (143/986) conductor-core obs::tests::mint_run_id_is_filesystem_safe_shape
+        PASS [   0.101s] (144/986) conductor-core obs::tests::non_allowlisted_field_is_dropped
+        PASS [   0.102s] (145/986) conductor-core obs::tests::now_rfc3339_is_colon_delimited_z_shape
+        PASS [   0.101s] (146/986) conductor-core obs::tests::panic_hook_emits_one_error_line
+        PASS [   0.102s] (147/986) conductor-core obs::tests::panic_hook_redacts_host_path_in_payload
+        PASS [   0.102s] (148/986) conductor-core obs::tests::service_name_honors_env_override
+        PASS [   0.102s] (149/986) conductor-core obs::tests::the_fault_spans_carry_their_specified_attributes_past_the_allowlist
+        PASS [   0.102s] (150/986) conductor-core pause::tests::decision_labels_are_stable
+        PASS [   0.095s] (151/986) conductor-core pause::tests::decision_round_trips_through_json
+        PASS [   0.096s] (152/986) conductor-core pause::tests::decision_serializes_to_canonical_names
+        PASS [   0.098s] (153/986) conductor-core pause::tests::empty_prompt_is_rejected
+        PASS [   0.100s] (154/986) conductor-core pause::tests::empty_scenario_and_step_are_rejected
+        PASS [   0.101s] (155/986) conductor-core pause::tests::headless_constructors_carry_decision
+        PASS [   0.101s] (156/986) conductor-core pause::tests::hold_point_round_trips_through_json
+        PASS [   0.101s] (157/986) conductor-core pause::tests::malformed_p_id_is_rejected_via_dive
+        PASS [   0.101s] (158/986) conductor-core pause::tests::well_formed_hold_point_validates
+        PASS [   0.100s] (159/986) conductor-core phase_spec::tests::a_fault_phase_that_emits_is_rejected_by_the_silence_invariant
+        PASS [   0.101s] (160/986) conductor-core phase_spec::tests::a_fault_table_parses_to_the_declared_kind
+        PASS [   0.101s] (161/986) conductor-core phase_spec::tests::a_phase_with_no_emission_table_keeps_the_default
+        PASS [   0.101s] (162/986) conductor-core phase_spec::tests::a_rate_curve_bounds_its_window_counts_not_its_window_number
+        PASS [   0.113s] (163/986) conductor-core phase_spec::tests::a_shape_round_trips_through_its_flattened_toml_form
+        PASS [   0.112s] (164/986) conductor-core phase_spec::tests::an_unknown_fault_kind_is_rejected_at_parse
+        PASS [   0.112s] (165/986) conductor-core phase_spec::tests::emission_defaults_to_one_plain_occurrence
+        PASS [   0.114s] (166/986) conductor-core phase_spec::tests::emission_defaults_to_traces
+        PASS [   0.114s] (167/986) conductor-core phase_spec::tests::empty_phase_name_is_rejected
+        PASS [   0.114s] (168/986) conductor-core phase_spec::tests::every_shape_bounds_the_records_its_dispatcher_arm_emits
+        PASS [   0.113s] (169/986) conductor-core phase_spec::tests::gap_bound_is_enforced
+        PASS [   0.109s] (170/986) conductor-core phase_spec::tests::occurrence_bound_is_enforced
+        PASS [   0.110s] (171/986) conductor-core phase_spec::tests::phase_name_length_boundary
+        PASS [   0.112s] (172/986) conductor-core phase_spec::tests::signal_serializes_snake_case
+        PASS [   0.112s] (173/986) conductor-core phase_spec::tests::the_bound_is_per_dispatch_and_independent_of_occurrences
+        PASS [   0.112s] (174/986) conductor-core phase_spec::tests::unrealizable_shapes_are_rejected_at_load
+        PASS [   0.112s] (175/986) conductor-core phase_spec::tests::well_formed_phase_validates
+        PASS [   0.112s] (176/986) conductor-core phase_spec::tests::well_formed_shapes_validate
+        PASS [   0.112s] (177/986) conductor-core preconditions::tests::a_single_undeclared_handle_is_named_individually::case_1
+        PASS [   0.112s] (178/986) conductor-core preconditions::tests::a_single_undeclared_handle_is_named_individually::case_2
+        PASS [   0.112s] (179/986) conductor-core preconditions::tests::a_single_undeclared_handle_is_named_individually::case_3
+        PASS [   0.112s] (180/986) conductor-core preconditions::tests::a_status_built_from_unmet_round_trips
+        PASS [   0.112s] (181/986) conductor-core preconditions::tests::an_unrelated_declared_name_satisfies_nothing
+        PASS [   0.112s] (182/986) conductor-core preconditions::tests::each_subject_fails_alone_while_the_others_pass::case_1
+        PASS [   0.112s] (183/986) conductor-core preconditions::tests::each_subject_fails_alone_while_the_others_pass::case_2
+        PASS [   0.112s] (184/986) conductor-core preconditions::tests::each_subject_fails_alone_while_the_others_pass::case_3
+        PASS [   0.112s] (185/986) conductor-core preconditions::tests::every_non_path_name_delegates_to_the_flag_rule::case_1
+        PASS [   0.112s] (186/986) conductor-core preconditions::tests::every_non_path_name_delegates_to_the_flag_rule::case_2
+        PASS [   0.112s] (187/986) conductor-core preconditions::tests::every_non_path_name_delegates_to_the_flag_rule::case_3
+        PASS [   0.111s] (188/986) conductor-core preconditions::tests::every_subject_carries_a_distinct_stable_id
+        PASS [   0.111s] (189/986) conductor-core preconditions::tests::every_subject_satisfied_is_a_satisfied_status
+        PASS [   0.111s] (190/986) conductor-core preconditions::tests::flag_declared_accepts_only_an_affirmative_value::case_01
+        PASS [   0.111s] (191/986) conductor-core preconditions::tests::flag_declared_accepts_only_an_affirmative_value::case_02
+        PASS [   0.098s] (192/986) conductor-core preconditions::tests::flag_declared_accepts_only_an_affirmative_value::case_03
+        PASS [   0.099s] (193/986) conductor-core preconditions::tests::flag_declared_accepts_only_an_affirmative_value::case_04
+        PASS [   0.099s] (194/986) conductor-core preconditions::tests::flag_declared_accepts_only_an_affirmative_value::case_05
+        PASS [   0.097s] (195/986) conductor-core preconditions::tests::flag_declared_accepts_only_an_affirmative_value::case_06
+        PASS [   0.097s] (196/986) conductor-core preconditions::tests::flag_declared_accepts_only_an_affirmative_value::case_07
+        PASS [   0.097s] (197/986) conductor-core preconditions::tests::flag_declared_accepts_only_an_affirmative_value::case_08
+        PASS [   0.097s] (198/986) conductor-core preconditions::tests::flag_declared_accepts_only_an_affirmative_value::case_09
+        PASS [   0.097s] (199/986) conductor-core preconditions::tests::flag_declared_accepts_only_an_affirmative_value::case_10
+        PASS [   0.097s] (200/986) conductor-core preconditions::tests::flag_declared_accepts_only_an_affirmative_value::case_11
+        PASS [   0.097s] (201/986) conductor-core preconditions::tests::flag_declared_accepts_only_an_affirmative_value::case_12
+        PASS [   0.097s] (202/986) conductor-core preconditions::tests::no_finding_carries_a_host_path_or_an_env_value
+        PASS [   0.097s] (203/986) conductor-core preconditions::tests::the_default_observation_is_unmet_on_every_subject
+        PASS [   0.097s] (204/986) conductor-core preconditions::tests::the_observed_handle_set_is_pinned
+        PASS [   0.097s] (205/986) conductor-core preconditions::tests::the_path_handle_is_graded_by_presence::case_1
+        PASS [   0.097s] (206/986) conductor-core preconditions::tests::the_path_handle_is_graded_by_presence::case_2
+        PASS [   0.097s] (207/986) conductor-core preconditions::tests::the_path_handle_is_graded_by_presence::case_3
+        PASS [   0.097s] (208/986) conductor-core preconditions::tests::the_path_handle_is_graded_by_presence::case_4
+        PASS [   0.097s] (209/986) conductor-core preconditions::tests::the_path_handle_is_graded_by_presence::case_5
+        PASS [   0.097s] (210/986) conductor-core preconditions::tests::the_path_handle_is_graded_by_presence::case_6
+        PASS [   0.097s] (211/986) conductor-core preconditions::tests::the_path_handle_is_graded_by_presence::case_7
+        PASS [   0.097s] (212/986) conductor-core preconditions::tests::the_path_handle_is_graded_by_presence::case_8
+        PASS [   0.097s] (213/986) conductor-core preconditions::tests::the_presence_graded_name_is_one_the_probe_observes
+        PASS [   0.097s] (214/986) conductor-core preconditions::tests::the_two_grading_rules_are_not_interchangeable
+        PASS [   0.097s] (215/986) conductor-core preconditions::tests::undeclared_handles_are_reported_in_observed_order
+        PASS [   0.097s] (216/986) conductor-core redact::tests::allowlist_membership
+        PASS [   0.097s] (217/986) conductor-core redact::tests::benign_value_is_borrowed_unchanged
+        PASS [   0.098s] (218/986) conductor-core redact::tests::cargo_and_env_expansion_paths_are_masked
+        PASS [   0.098s] (219/986) conductor-core redact::tests::module_and_type_names_are_not_over_redacted
+        PASS [   0.099s] (220/986) conductor-core redact::tests::posix_home_paths_are_masked
+        PASS [   0.099s] (221/986) conductor-core redact::tests::repo_relative_source_path_is_kept
+        PASS [   0.099s] (222/986) conductor-core redact::tests::sanitize_error_is_single_line_and_host_path_free
+        PASS [   0.100s] (223/986) conductor-core redact::tests::windows_absolute_host_path_is_masked
+        PASS [   0.099s] (224/986) conductor-core report_state::tests::prefixes_cover_all_five_states
+        PASS [   0.099s] (225/986) conductor-core report_state::tests::round_trips_through_json
+        PASS [   0.099s] (226/986) conductor-core report_state::tests::serializes_to_canonical_names
+        PASS [   0.099s] (227/986) conductor-core run_contract::tests::a_satisfied_status_names_nothing
+        PASS [   0.099s] (228/986) conductor-core run_contract::tests::an_over_envelope_budget_is_a_harness_fault
+        PASS [   0.100s] (229/986) conductor-core run_contract::tests::an_unmet_term_carries_its_statement_and_causes
+        PASS [   0.099s] (230/986) conductor-core run_contract::tests::load_failure_message_never_contains_the_path
+        PASS [   0.100s] (231/986) conductor-core run_contract::tests::loads_and_bounds_checks_the_committed_contract
+        PASS [   0.099s] (232/986) conductor-core run_contract::tests::missing_file_is_a_harness_fault
+        PASS [   0.099s] (233/986) conductor-core run_contract::tests::only_a_shell_declaration_term_can_be_unmet
+        PASS [   0.099s] (234/986) conductor-core run_contract::tests::rejects_a_duplicate_term_id_or_a_zero_poll_floor
+        PASS [   0.100s] (235/986) conductor-core run_contract::tests::rejects_a_shell_declaration_term_naming_no_env_var
+        PASS [   0.099s] (236/986) conductor-core run_contract::tests::rejects_empty_identity_or_terms
+        PASS [   0.100s] (237/986) conductor-core run_contract::tests::the_committed_preflight_budget_stays_inside_the_committed_load_envelope
+        PASS [   0.099s] (238/986) conductor-core run_journal::tests::a_line_matching_neither_shape_reports_the_envelope_s_missing_field
+        PASS [   0.099s] (239/986) conductor-core run_journal::tests::classify_journal_line_tells_the_two_registered_shapes_apart
+        PASS [   0.100s] (240/986) conductor-core run_journal::tests::latest_run_id_is_none_for_absent_dir
+        PASS [   0.102s] (241/986) conductor-core run_journal::tests::latest_run_id_picks_the_greatest_jsonl_stem_ignoring_non_journals
+        PASS [   0.103s] (242/986) conductor-core run_journal::tests::read_run_journal_missing_file_is_a_harness_fault
+        PASS [   0.107s] (243/986) conductor-core run_journal::tests::read_run_journal_malformed_line_is_a_harness_fault
+        PASS [   0.108s] (244/986) conductor-core run_journal::tests::read_run_journal_parses_records_in_order_and_skips_blank_lines
+        PASS [   0.103s] (245/986) conductor-core run_record::tests::blocked_record_nulls_the_five_measurement_fields
+        PASS [   0.107s] (246/986) conductor-core run_journal::tests::read_run_journal_returns_envelopes_and_skips_the_check_records_beside_them
+        PASS [   0.102s] (247/986) conductor-core run_record::tests::measured_record_populates_the_five_measurement_fields
+        PASS [   0.102s] (248/986) conductor-core run_record::tests::measured_record_serializes_in_canonical_schema_order
+        PASS [   0.102s] (249/986) conductor-core run_record::tests::round_trips_through_json
+        PASS [   0.102s] (250/986) conductor-core run_record::tests::serialization_is_deterministic
+        PASS [   0.101s] (251/986) conductor-core scenario::tests::a_budget_above_its_tier_is_a_harness_fault_naming_the_check::case_1
+        PASS [   0.101s] (252/986) conductor-core scenario::tests::a_budget_above_its_tier_is_a_harness_fault_naming_the_check::case_2
+        PASS [   0.101s] (253/986) conductor-core scenario::tests::a_budget_above_its_tier_is_a_harness_fault_naming_the_check::case_3
+        PASS [   0.101s] (254/986) conductor-core scenario::tests::a_budget_above_its_tier_is_a_harness_fault_naming_the_check::case_4
+        PASS [   0.101s] (255/986) conductor-core scenario::tests::a_budget_at_or_under_its_tier_is_accepted::case_1
+        PASS [   0.101s] (256/986) conductor-core scenario::tests::a_budget_at_or_under_its_tier_is_accepted::case_2
+        PASS [   0.101s] (257/986) conductor-core scenario::tests::a_budget_at_or_under_its_tier_is_accepted::case_3
+        PASS [   0.101s] (258/986) conductor-core scenario::tests::a_budget_at_or_under_its_tier_is_accepted::case_4
+        PASS [   0.101s] (259/986) conductor-core scenario::tests::a_budget_at_or_under_its_tier_is_accepted::case_5
+        PASS [   0.101s] (260/986) conductor-core scenario::tests::a_fault_phase_that_emits_is_rejected_at_scenario_level
+        PASS [   0.101s] (261/986) conductor-core scenario::tests::a_within_tier_budget_survives_the_toml_round_trip
+        PASS [   0.101s] (262/986) conductor-core scenario::tests::ack_cooldown_keeps_its_drive_shape_on_record
+        PASS [   0.101s] (263/986) conductor-core scenario::tests::activity_floor_and_silence_fixtures_load_and_validate::case_1
+        PASS [   0.101s] (264/986) conductor-core scenario::tests::activity_floor_and_silence_fixtures_load_and_validate::case_2
+        PASS [   0.101s] (265/986) conductor-core scenario::tests::capability_membership_is_checked_against_the_manifest
+        PASS [   0.100s] (266/986) conductor-core scenario::tests::committed_fixture_loads_and_validates
+        PASS [   0.101s] (267/986) conductor-core scenario::tests::connection_lifecycle_fixtures_are_declare_only_at_the_harvest_tier::case_1
+        PASS [   0.101s] (268/986) conductor-core scenario::tests::connection_lifecycle_fixtures_are_declare_only_at_the_harvest_tier::case_2
+        PASS [   0.100s] (269/986) conductor-core scenario::tests::connection_lifecycle_fixtures_are_declare_only_at_the_harvest_tier::case_3
+        PASS [   0.098s] (270/986) conductor-core scenario::tests::connection_lifecycle_fixtures_are_declare_only_at_the_harvest_tier::case_4
+        PASS [   0.094s] (271/986) conductor-core scenario::tests::constellation_and_p032_are_operator_checklist_declare_only::case_1
+        PASS [   0.097s] (272/986) conductor-core scenario::tests::constellation_and_p032_are_operator_checklist_declare_only::case_2
+        PASS [   0.092s] (273/986) conductor-core scenario::tests::constellation_and_p032_are_operator_checklist_declare_only::case_3
+        PASS [   0.094s] (274/986) conductor-core scenario::tests::constellation_and_p032_are_operator_checklist_declare_only::case_4
+        PASS [   0.097s] (275/986) conductor-core scenario::tests::constellation_context_grounding_fixtures_load_and_validate::case_1
+        PASS [   0.097s] (276/986) conductor-core scenario::tests::constellation_context_grounding_fixtures_load_and_validate::case_2
+        PASS [   0.097s] (277/986) conductor-core scenario::tests::constellation_context_grounding_fixtures_load_and_validate::case_3
+        PASS [   0.097s] (278/986) conductor-core scenario::tests::constellation_context_grounding_fixtures_load_and_validate::case_4
+        PASS [   0.097s] (279/986) conductor-core scenario::tests::constellation_context_grounding_fixtures_load_and_validate::case_5
+        PASS [   0.099s] (280/986) conductor-core scenario::tests::constellation_context_grounding_suite_is_uniformly_declare_only
+        PASS [   0.097s] (281/986) conductor-core scenario::tests::constellation_severity_live_wiring_is_declare_only_after_the_empty_span_refs_finding
+        PASS [   0.097s] (282/986) conductor-core scenario::tests::cross_incident_recurrence_is_declare_only_after_the_token_case_finding
+        PASS [   0.097s] (283/986) conductor-core scenario::tests::duplicate_p_ids_are_rejected
+        PASS [   0.097s] (284/986) conductor-core scenario::tests::empty_name_is_rejected
+        PASS [   0.097s] (285/986) conductor-core scenario::tests::empty_p_ids_is_rejected
+        PASS [   0.097s] (286/986) conductor-core scenario::tests::empty_phases_is_rejected
+        PASS [   0.097s] (287/986) conductor-core scenario::tests::expected_check_with_empty_target_is_rejected_via_dive
+        PASS [   0.098s] (288/986) conductor-core scenario::tests::expected_checks_round_trip_through_json
+        PASS [   0.097s] (289/986) conductor-core scenario::tests::expected_defaults_to_empty_when_omitted
+        PASS [   0.098s] (290/986) conductor-core scenario::tests::findings_counter_and_threshold_reload_are_both_declare_only
+        PASS [   0.098s] (291/986) conductor-core scenario::tests::fingerprint_scenarios_are_declare_only_after_the_degraded_read_back_finding::case_1
+        PASS [   0.098s] (292/986) conductor-core scenario::tests::fingerprint_scenarios_are_declare_only_after_the_degraded_read_back_finding::case_2
+        PASS [   0.099s] (293/986) conductor-core scenario::tests::fingerprint_scenarios_carry_the_recalibrated_tier::case_1
+        PASS [   0.099s] (294/986) conductor-core scenario::tests::fingerprint_scenarios_carry_the_recalibrated_tier::case_2
+        PASS [   0.100s] (295/986) conductor-core scenario::tests::fingerprint_storm_fixtures_load_and_validate::case_1
+        PASS [   0.100s] (296/986) conductor-core scenario::tests::fingerprint_storm_fixtures_load_and_validate::case_2
+        PASS [   0.100s] (297/986) conductor-core scenario::tests::from_toml_str_parses_an_expected_block
+        PASS [   0.100s] (298/986) conductor-core scenario::tests::from_toml_str_parses_and_validates
+        PASS [   0.100s] (299/986) conductor-core scenario::tests::from_toml_str_rejects_invalid_scenario_as_validation_error
+        PASS [   0.100s] (300/986) conductor-core scenario::tests::from_toml_str_rejects_malformed_toml_as_config_error
+        PASS [   0.100s] (301/986) conductor-core scenario::tests::from_toml_str_with_accepts_an_in_manifest_id_and_rejects_an_absent_one
+        PASS [   0.100s] (302/986) conductor-core scenario::tests::hard_signal_declare_only_fixtures_load_and_validate::case_1
+        PASS [   0.100s] (303/986) conductor-core scenario::tests::hard_signal_declare_only_fixtures_load_and_validate::case_2
+        PASS [   0.100s] (304/986) conductor-core scenario::tests::hard_signal_fixtures_load_and_validate::case_1
+        PASS [   0.100s] (305/986) conductor-core scenario::tests::hard_signal_fixtures_load_and_validate::case_2
+        PASS [   0.100s] (306/986) conductor-core scenario::tests::in_lane_drive_observe_members_are_operator_checklist::case_1
+        PASS [   0.100s] (307/986) conductor-core scenario::tests::in_lane_drive_observe_members_are_operator_checklist::case_2
+        PASS [   0.100s] (308/986) conductor-core scenario::tests::in_lane_sut_fixtures_load_and_validate::case_1
+        PASS [   0.098s] (309/986) conductor-core scenario::tests::in_lane_sut_fixtures_load_and_validate::case_2
+        PASS [   0.100s] (310/986) conductor-core scenario::tests::in_lane_sut_fixtures_load_and_validate::case_3
+        PASS [   0.100s] (311/986) conductor-core scenario::tests::in_lane_sut_suite_is_uniformly_declare_only
+        PASS [   0.101s] (312/986) conductor-core scenario::tests::incident_auto_resolution_drives_a_reachable_lifecycle
+        PASS [   0.100s] (313/986) conductor-core scenario::tests::invalid_phase_is_rejected_via_dive
+        PASS [   0.100s] (314/986) conductor-core scenario::tests::malformed_p_ids_fail_the_shape_check
+        PASS [   0.100s] (315/986) conductor-core scenario::tests::over_bound_jitter_is_rejected
+        PASS [   0.100s] (316/986) conductor-core scenario::tests::p007_high_severity_log_capture_is_declare_only_with_the_measurement_recorded
+        PASS [   0.100s] (317/986) conductor-core scenario::tests::p008_root_span_error_scope_checks_are_calibration_region
+        PASS [   0.102s] (318/986) conductor-core scenario::tests::pii_scrub_is_declare_only_with_the_measurement_recorded
+        PASS [   0.102s] (319/986) conductor-core scenario::tests::pulse_run_contract_is_declare_only_after_the_empty_span_refs_finding
+        PASS [   0.102s] (320/986) conductor-core scenario::tests::receiver_failed_port_conflict_declares_the_occupier_fault
+        PASS [   0.101s] (321/986) conductor-core scenario::tests::report_surface_cadence_degraded_are_declare_only::case_1
+        PASS [   0.100s] (322/986) conductor-core scenario::tests::report_surface_cadence_degraded_are_declare_only::case_2
+        PASS [   0.100s] (323/986) conductor-core scenario::tests::report_surface_cadence_degraded_are_declare_only::case_3
+        PASS [   0.100s] (324/986) conductor-core scenario::tests::restart_suppression_is_declare_only_at_the_harvest_tier
+        PASS [   0.100s] (325/986) conductor-core scenario::tests::scenario_round_trips_with_p_ids_as_bare_strings
+        PASS [   0.100s] (326/986) conductor-core scenario::tests::scrub_pipeline_degraded_fixtures_load_and_validate::case_1
+        PASS [   0.100s] (327/986) conductor-core scenario::tests::scrub_pipeline_degraded_fixtures_load_and_validate::case_2
+        PASS [   0.100s] (328/986) conductor-core scenario::tests::scrub_pipeline_degraded_fixtures_load_and_validate::case_3
+        PASS [   0.100s] (329/986) conductor-core scenario::tests::scrub_pipeline_degraded_fixtures_load_and_validate::case_4
+        PASS [   0.100s] (330/986) conductor-core scenario::tests::scrub_pipeline_degraded_fixtures_load_and_validate::case_5
+        PASS [   0.100s] (331/986) conductor-core scenario::tests::scrub_pipeline_degraded_fixtures_load_and_validate::case_6
+        PASS [   0.101s] (332/986) conductor-core scenario::tests::scrub_pipeline_degraded_suite_is_uniformly_declare_only
+        PASS [   0.100s] (333/986) conductor-core scenario::tests::severity_lifecycle_family_is_declare_only::case_1
+        PASS [   0.100s] (334/986) conductor-core scenario::tests::severity_lifecycle_family_is_declare_only::case_2
+        PASS [   0.100s] (335/986) conductor-core scenario::tests::severity_lifecycle_family_is_declare_only::case_3
+        PASS [   0.100s] (336/986) conductor-core scenario::tests::severity_lifecycle_family_is_declare_only::case_4
+        PASS [   0.100s] (337/986) conductor-core scenario::tests::severity_lifecycle_family_is_declare_only::case_5
+        PASS [   0.100s] (338/986) conductor-core scenario::tests::severity_lifecycle_fixtures_load_and_validate::case_1
+        PASS [   0.100s] (339/986) conductor-core scenario::tests::severity_lifecycle_fixtures_load_and_validate::case_2
+        PASS [   0.100s] (340/986) conductor-core scenario::tests::severity_lifecycle_fixtures_load_and_validate::case_3
+        PASS [   0.100s] (341/986) conductor-core scenario::tests::severity_lifecycle_fixtures_load_and_validate::case_4
+        PASS [   0.100s] (342/986) conductor-core scenario::tests::severity_lifecycle_fixtures_load_and_validate::case_5
+        PASS [   0.100s] (343/986) conductor-core scenario::tests::severity_tier_baselines_select_their_confidence_band::case_1
+        PASS [   0.100s] (344/986) conductor-core scenario::tests::severity_tier_baselines_select_their_confidence_band::case_2
+        PASS [   0.100s] (345/986) conductor-core scenario::tests::severity_tier_baselines_select_their_confidence_band::case_3
+        PASS [   0.100s] (346/986) conductor-core scenario::tests::slo_tier_deadline_ms_maps_the_three_tiers
+        PASS [   0.097s] (347/986) conductor-core scenario::tests::slo_tier_serializes_to_wire_forms
+        PASS [   0.098s] (348/986) conductor-core scenario::tests::statistical_anomaly_fixtures_are_declare_only_at_the_harvest_tier::case_1
+        PASS [   0.098s] (349/986) conductor-core scenario::tests::statistical_anomaly_fixtures_are_declare_only_at_the_harvest_tier::case_2
+        PASS [   0.098s] (350/986) conductor-core scenario::tests::statistical_anomaly_fixtures_load_and_validate::case_1
+        PASS [   0.098s] (351/986) conductor-core scenario::tests::statistical_anomaly_fixtures_load_and_validate::case_2
+        PASS [   0.097s] (352/986) conductor-core scenario::tests::the_budget_rule_runs_at_the_toml_load_path
+        PASS [   0.097s] (353/986) conductor-core scenario::tests::well_formed_scenario_validates
+        PASS [   0.097s] (354/986) conductor-core scenario::tests::well_shaped_p_ids_pass_the_shape_check_whatever_the_sut_claims
+        PASS [   0.106s] (355/986) conductor-core scenario::tests::the_committed_catalog_declares_budgets_within_its_tiers
+        PASS [   0.107s] (356/986) conductor-core scenario_catalog::tests::lists_the_committed_catalog_with_identity
+        PASS [   0.099s] (357/986) conductor-core verdict::tests::default_report_state_maps_each_verdict
+        PASS [   0.107s] (358/986) conductor-core scenario_catalog::tests::validate_selection_accepts_suite_name_and_pid
+        PASS [   0.099s] (359/986) conductor-core verdict::tests::label_and_prefix_are_stable
+        PASS [   0.108s] (360/986) conductor-core scenario_catalog::tests::validate_selection_rejects_unknown
+        PASS [   0.098s] (361/986) conductor-core verdict::tests::round_trips_through_json
+        PASS [   0.100s] (362/986) conductor-core verdict::tests::serializes_to_canonical_names
+        PASS [   0.100s] (363/986) conductor-core::operator_pause headless_never_blocks_under_paused_clock
+        PASS [   0.105s] (364/986) conductor-core::operator_pause headless_abort_resolves_to_no_go
+        PASS [   0.099s] (365/986) conductor-core::operator_pause headless_proceed_resolves_to_go
+        PASS [   0.100s] (366/986) conductor-core::operator_pause prompt_is_redacted_in_the_resolution
+        PASS [   0.099s] (367/986) conductor-core::operator_pause resolution_is_deterministic
+        PASS [   0.099s] (368/986) conductor-core::operator_pause resolver_choice_drives_the_decision
+        PASS [   0.114s] (369/986) conductor-core::scenario_audit_gate a_pinned_row_naming_no_scenario_fails_the_gate
+        PASS [   0.112s] (370/986) conductor-core::scenario_audit_gate a_pinned_row_that_no_longer_describes_the_catalog_fails_the_gate
+        PASS [   0.110s] (371/986) conductor-core::scenario_audit_gate dropping_any_pinned_row_fails_the_gate
+        PASS [   0.107s] (372/986) conductor-core::scenario_audit_gate no_committed_scenario_carries_a_retired_gloss
+        PASS [   0.101s] (373/986) conductor-core::scenario_audit_gate the_sweep_sees_a_wrapped_gloss_the_plain_form_misses
+        PASS [   0.101s] (374/986) conductor-core::scenario_audit_gate the_tier_set_is_closed_at_the_type_level
+        PASS [   0.110s] (375/986) conductor-core::scenario_audit_gate the_committed_catalog_matches_the_committed_ledger
+        PASS [   0.102s] (376/986) conductor-core::toolchain_smoke report_state_status_prefix::case_1
+        PASS [   0.101s] (377/986) conductor-core::toolchain_smoke report_state_status_prefix::case_2
+        PASS [   0.101s] (378/986) conductor-core::toolchain_smoke report_state_status_prefix::case_3
+        PASS [   0.102s] (379/986) conductor-core::toolchain_smoke verdict_status_prefix::case_1
+        PASS [   0.099s] (380/986) conductor-core::toolchain_smoke verdict_status_prefix::case_2
+        PASS [   0.124s] (381/986) conductor-core::toolchain_smoke redact_value_is_idempotent
+        PASS [   0.099s] (382/986) conductor-core::toolchain_smoke verdict_status_prefix::case_3
+        PASS [   0.094s] (383/986) conductor-emit exception::tests::builds_one_error_span_with_a_well_formed_exception_event
+        PASS [   0.106s] (384/986) conductor-emit exception::tests::both_path_variants_are_fingerprint_significant
+        PASS [   0.095s] (385/986) conductor-emit exception::tests::different_fingerprint_variants_diverge_from_the_base
+        PASS [   0.097s] (386/986) conductor-emit exception::tests::different_seeds_diverge
+        PASS [   0.099s] (387/986) conductor-emit exception::tests::fingerprint_is_a_pure_function_of_content
+        PASS [   0.133s] (388/986) conductor-core::toolchain_smoke verdict_prefixes_snapshot
+        PASS [   0.101s] (389/986) conductor-emit exception::tests::fingerprint_is_pulse_width_lowercase_hex
+        PASS [   0.104s] (390/986) conductor-emit exception::tests::frames_past_the_normalized_bound_do_not_change_the_fingerprint
+        PASS [   0.103s] (391/986) conductor-emit exception::tests::is_absolute_path_start_fires_only_on_a_token_leading_absolute::case_01
+        PASS [   0.100s] (392/986) conductor-emit exception::tests::is_absolute_path_start_fires_only_on_a_token_leading_absolute::case_02
+        PASS [   0.103s] (393/986) conductor-emit exception::tests::is_absolute_path_start_fires_only_on_a_token_leading_absolute::case_03
+        PASS [   0.105s] (394/986) conductor-emit exception::tests::is_absolute_path_start_fires_only_on_a_token_leading_absolute::case_04
+        PASS [   0.105s] (395/986) conductor-emit exception::tests::is_absolute_path_start_fires_only_on_a_token_leading_absolute::case_05
+        PASS [   0.105s] (396/986) conductor-emit exception::tests::is_absolute_path_start_fires_only_on_a_token_leading_absolute::case_06
+        PASS [   0.105s] (397/986) conductor-emit exception::tests::is_absolute_path_start_fires_only_on_a_token_leading_absolute::case_07
+        PASS [   0.090s] (398/986) conductor-emit exception::tests::is_absolute_path_start_fires_only_on_a_token_leading_absolute::case_08
+        PASS [   0.092s] (399/986) conductor-emit exception::tests::is_absolute_path_start_fires_only_on_a_token_leading_absolute::case_09
+        PASS [   0.095s] (400/986) conductor-emit exception::tests::is_absolute_path_start_fires_only_on_a_token_leading_absolute::case_10
+        PASS [   0.097s] (401/986) conductor-emit exception::tests::is_hex_address_start_needs_the_full_prefix_and_a_digit::case_1
+        PASS [   0.100s] (402/986) conductor-emit exception::tests::is_hex_address_start_needs_the_full_prefix_and_a_digit::case_2
+        PASS [   0.101s] (403/986) conductor-emit exception::tests::is_hex_address_start_needs_the_full_prefix_and_a_digit::case_3
+        PASS [   0.102s] (404/986) conductor-emit exception::tests::is_hex_address_start_needs_the_full_prefix_and_a_digit::case_4
+        PASS [   0.100s] (405/986) conductor-emit exception::tests::is_hex_address_start_needs_the_full_prefix_and_a_digit::case_5
+        PASS [   0.100s] (406/986) conductor-emit exception::tests::is_path_char_admits_exactly_the_path_bytes::case_01
+        PASS [   0.100s] (407/986) conductor-emit exception::tests::is_path_char_admits_exactly_the_path_bytes::case_02
+        PASS [   0.097s] (408/986) conductor-emit exception::tests::is_path_char_admits_exactly_the_path_bytes::case_03
+        PASS [   0.096s] (409/986) conductor-emit exception::tests::is_path_char_admits_exactly_the_path_bytes::case_04
+        PASS [   0.098s] (410/986) conductor-emit exception::tests::is_path_char_admits_exactly_the_path_bytes::case_05
+        PASS [   0.099s] (411/986) conductor-emit exception::tests::is_path_char_admits_exactly_the_path_bytes::case_06
+        PASS [   0.094s] (412/986) conductor-emit exception::tests::is_path_char_admits_exactly_the_path_bytes::case_07
+        PASS [   0.097s] (413/986) conductor-emit exception::tests::is_path_char_admits_exactly_the_path_bytes::case_08
+        PASS [   0.098s] (414/986) conductor-emit exception::tests::is_path_char_admits_exactly_the_path_bytes::case_09
+        PASS [   0.098s] (415/986) conductor-emit exception::tests::is_path_char_admits_exactly_the_path_bytes::case_10
+        PASS [   0.097s] (416/986) conductor-emit exception::tests::is_path_char_admits_exactly_the_path_bytes::case_11
+        PASS [   0.098s] (417/986) conductor-emit exception::tests::is_token_boundary_reads_the_preceding_byte::case_1
+        PASS [   0.100s] (418/986) conductor-emit exception::tests::is_token_boundary_reads_the_preceding_byte::case_2
+        PASS [   0.099s] (419/986) conductor-emit exception::tests::is_token_boundary_reads_the_preceding_byte::case_3
+        PASS [   0.099s] (420/986) conductor-emit exception::tests::is_token_boundary_reads_the_preceding_byte::case_4
+        PASS [   0.099s] (421/986) conductor-emit exception::tests::normalize_frame_leaves_non_token_leading_forms_untouched::case_1
+        PASS [   0.097s] (422/986) conductor-emit exception::tests::normalize_frame_leaves_non_token_leading_forms_untouched::case_2
+        PASS [   0.098s] (423/986) conductor-emit exception::tests::normalize_frame_leaves_non_token_leading_forms_untouched::case_3
+        PASS [   0.097s] (424/986) conductor-emit exception::tests::normalize_frame_leaves_non_token_leading_forms_untouched::case_4
+        PASS [   0.097s] (425/986) conductor-emit exception::tests::normalize_frame_strips_host_varying_parts_and_keeps_the_rest::case_1
+        PASS [   0.098s] (426/986) conductor-emit exception::tests::normalize_frame_strips_host_varying_parts_and_keeps_the_rest::case_2
+        PASS [   0.098s] (427/986) conductor-emit exception::tests::normalize_frame_strips_host_varying_parts_and_keeps_the_rest::case_3
+        PASS [   0.098s] (428/986) conductor-emit exception::tests::normalize_frame_strips_host_varying_parts_and_keeps_the_rest::case_4
+        PASS [   0.098s] (429/986) conductor-emit exception::tests::normalize_frame_strips_host_varying_parts_and_keeps_the_rest::case_5
+        PASS [   0.097s] (430/986) conductor-emit exception::tests::normalize_frame_strips_host_varying_parts_and_keeps_the_rest::case_6
+        PASS [   0.098s] (431/986) conductor-emit exception::tests::normalize_frame_strips_host_varying_parts_and_keeps_the_rest::case_7
+        PASS [   0.097s] (432/986) conductor-emit exception::tests::normalize_frame_strips_host_varying_parts_and_keeps_the_rest::case_8
+        PASS [   0.097s] (433/986) conductor-emit exception::tests::normalize_stacktrace_keeps_the_first_normalized_frames_and_skips_blank_lines
+        PASS [   0.097s] (434/986) conductor-emit exception::tests::path_variants_emit_a_changed_relative_path
+        PASS [   0.097s] (435/986) conductor-emit exception::tests::relative_paths_are_significant_at_every_depth
+        PASS [   0.098s] (436/986) conductor-emit exception::tests::same_fingerprint_variants_match_the_base
+        PASS [   0.098s] (437/986) conductor-emit exception::tests::same_seed_reproduces_identical_shape
+        PASS [   0.098s] (438/986) conductor-emit exception::tests::skip_absolute_path_consumes_the_whole_path_token::case_1
+        PASS [   0.098s] (439/986) conductor-emit exception::tests::skip_absolute_path_consumes_the_whole_path_token::case_2
+        PASS [   0.097s] (440/986) conductor-emit exception::tests::skip_absolute_path_consumes_the_whole_path_token::case_3
+        PASS [   0.097s] (441/986) conductor-emit exception::tests::skip_absolute_path_consumes_the_whole_path_token::case_4
+        PASS [   0.097s] (442/986) conductor-emit exception::tests::skip_absolute_path_consumes_the_whole_path_token::case_5
+        PASS [   0.097s] (443/986) conductor-emit exception::tests::skip_absolute_path_consumes_the_whole_path_token::case_6
+        PASS [   0.097s] (444/986) conductor-emit exception::tests::skip_absolute_path_consumes_the_whole_path_token::case_7
+        PASS [   0.097s] (445/986) conductor-emit exception::tests::skip_hex_address_consumes_every_hex_digit::case_1
+        PASS [   0.097s] (446/986) conductor-emit exception::tests::skip_hex_address_consumes_every_hex_digit::case_2
+        PASS [   0.097s] (447/986) conductor-emit exception::tests::skip_hex_address_consumes_every_hex_digit::case_3
+        PASS [   0.097s] (448/986) conductor-emit exception::tests::skip_line_number_suffix_takes_line_then_optional_column::case_1
+        PASS [   0.097s] (449/986) conductor-emit exception::tests::skip_line_number_suffix_takes_line_then_optional_column::case_2
+        PASS [   0.097s] (450/986) conductor-emit exception::tests::skip_line_number_suffix_takes_line_then_optional_column::case_3
+        PASS [   0.097s] (451/986) conductor-emit exception::tests::skip_line_number_suffix_takes_line_then_optional_column::case_4
+        PASS [   0.097s] (452/986) conductor-emit exception::tests::skip_line_number_suffix_takes_line_then_optional_column::case_5
+        PASS [   0.098s] (453/986) conductor-emit exception::tests::skip_line_number_suffix_takes_line_then_optional_column::case_6
+        PASS [   0.098s] (454/986) conductor-emit exception::tests::stacktrace_carries_no_absolute_host_path
+        PASS [   0.098s] (455/986) conductor-emit exception::tests::the_exception_event_carries_a_wall_clock_stamp
+        PASS [   0.098s] (456/986) conductor-emit exception::tests::token_leading_absolute_paths_normalize_to_the_same_empty_form
+        PASS [   0.098s] (457/986) conductor-emit latency::tests::builds_a_span_per_sample_with_nonzero_durations_under_service_name
+        PASS [   0.114s] (458/986) conductor-emit latency::tests::different_seeds_diverge
+        PASS [   0.115s] (459/986) conductor-emit latency::tests::distinct_operations_keep_distinct_profiles
+        PASS [   0.114s] (460/986) conductor-emit latency::tests::every_drawn_duration_is_nonzero_under_a_positive_profile
+        PASS [   0.115s] (461/986) conductor-emit latency::tests::profile_requires_ordered_percentiles
+        PASS [   0.114s] (462/986) conductor-emit latency::tests::quantile_is_exact_at_and_around_every_breakpoint::case_01
+        PASS [   0.114s] (463/986) conductor-emit latency::tests::quantile_is_exact_at_and_around_every_breakpoint::case_02
+        PASS [   0.114s] (464/986) conductor-emit latency::tests::quantile_is_exact_at_and_around_every_breakpoint::case_03
+        PASS [   0.114s] (465/986) conductor-emit latency::tests::quantile_is_exact_at_and_around_every_breakpoint::case_04
+        PASS [   0.114s] (466/986) conductor-emit latency::tests::quantile_is_exact_at_and_around_every_breakpoint::case_05
+        PASS [   0.114s] (467/986) conductor-emit latency::tests::quantile_is_exact_at_and_around_every_breakpoint::case_06
+        PASS [   0.116s] (468/986) conductor-emit latency::tests::quantile_is_exact_at_and_around_every_breakpoint::case_07
+        PASS [   0.117s] (469/986) conductor-emit latency::tests::quantile_is_exact_at_and_around_every_breakpoint::case_08
+        PASS [   0.117s] (470/986) conductor-emit latency::tests::quantile_is_exact_at_and_around_every_breakpoint::case_09
+        PASS [   0.117s] (471/986) conductor-emit latency::tests::quantile_is_exact_at_and_around_every_breakpoint::case_10
+        PASS [   0.118s] (472/986) conductor-emit latency::tests::realized_percentiles_converge_to_targets
+        PASS [   0.124s] (473/986) conductor-emit latency::tests::quantile_is_total_and_monotone_over_the_unit_interval
+        PASS [   0.118s] (474/986) conductor-emit latency::tests::request_durations_are_seeded_not_wall_clock
+        PASS [   0.118s] (475/986) conductor-emit latency::tests::same_seed_reproduces_identical_durations
+        PASS [   0.118s] (476/986) conductor-emit logs::tests::builds_a_record_per_severity_across_the_boundary
+        PASS [   0.118s] (477/986) conductor-emit logs::tests::out_of_range_severity_is_rejected
+        PASS [   0.118s] (478/986) conductor-emit logs::tests::same_inputs_reproduce_identical_shape
+        PASS [   0.118s] (479/986) conductor-emit logs::tests::severity_numbers_match_the_otel_enum
+        PASS [   0.118s] (480/986) conductor-emit logs::tests::severity_text_matches_otel_short_names
+        PASS [   0.136s] (481/986) conductor-emit latency::tests::sample_durations_nanos_draws_exactly_n_without_panicking
+        PASS [   0.117s] (482/986) conductor-emit message::tests::builds_one_span_under_service_name
+        PASS [   0.118s] (483/986) conductor-emit message::tests::identity_is_distinct_across_a_run_of_seeds
+        PASS [   0.117s] (484/986) conductor-emit message::tests::same_seed_reproduces_identity_and_distinct_seeds_diverge
+        PASS [   0.118s] (485/986) conductor-emit message::tests::span_is_well_formed_ok_status
+        PASS [   0.118s] (486/986) conductor-emit pii::tests::different_seeds_diverge
+        PASS [   0.102s] (487/986) conductor-emit pii::tests::each_category_value_is_structurally_valid
+        PASS [   0.101s] (488/986) conductor-emit pii::tests::exposes_exactly_eight_distinct_categories
+        PASS [   0.101s] (489/986) conductor-emit pii::tests::log_records_carry_distinct_strictly_increasing_stamps
+        PASS [   0.101s] (490/986) conductor-emit pii::tests::logs_request_embeds_each_value_in_body_and_attribute
+        PASS [   0.101s] (491/986) conductor-emit pii::tests::same_seed_reproduces_identical_corpus
+        PASS [   0.101s] (492/986) conductor-emit pii::tests::trace_carries_span_attributes_and_an_exception_event
+        PASS [   0.101s] (493/986) conductor-emit pii::tests::trace_request_shape_is_seed_deterministic
+        PASS [   0.101s] (494/986) conductor-emit rate::tests::breathing_oscillates_around_center
+        PASS [   0.102s] (495/986) conductor-emit rate::tests::builds_one_span_per_count_under_service_name
+        PASS [   0.101s] (496/986) conductor-emit rate::tests::constructors_validate
+        PASS [   0.099s] (497/986) conductor-emit rate::tests::different_seeds_diverge
+        PASS [   0.099s] (498/986) conductor-emit rate::tests::ramp_rises_from_first_third_to_last_third
+        PASS [   0.099s] (499/986) conductor-emit rate::tests::same_seed_reproduces_identical_counts
+        PASS [   0.094s] (500/986) conductor-emit span_tree::tests::deep_child_places_error_at_the_leaf_with_a_well_formed_chain
+        PASS [   0.095s] (501/986) conductor-emit span_tree::tests::different_seeds_diverge
+        PASS [   0.098s] (502/986) conductor-emit span_tree::tests::root_placement_is_a_single_error_span
+        PASS [   0.098s] (503/986) conductor-emit span_tree::tests::same_seed_reproduces_identical_shape
+        PASS [   0.095s] (504/986) conductor-emit topology::tests::accepts_two_or_more_distinct
+        PASS [   0.122s] (505/986) conductor-emit rate::tests::request_is_seeded_not_wall_clock
+        PASS [   0.095s] (506/986) conductor-emit topology::tests::deep_placement_errors_the_downstream_service_only
+        PASS [   0.095s] (507/986) conductor-emit topology::tests::deep_placement_saturates_to_the_deepest_service
+        PASS [   0.095s] (508/986) conductor-emit topology::tests::different_seeds_diverge
+        PASS [   0.095s] (509/986) conductor-emit topology::tests::emits_one_resource_spans_per_distinct_service
+        PASS [   0.096s] (510/986) conductor-emit topology::tests::healthy_topology_is_all_ok
+        PASS [   0.098s] (511/986) conductor-emit topology::tests::rejects_duplicate_service_names
+        PASS [   0.097s] (512/986) conductor-emit topology::tests::rejects_fewer_than_two_services
+        PASS [   0.098s] (513/986) conductor-emit topology::tests::root_placement_errors_the_root_service_only
+        PASS [   0.097s] (514/986) conductor-emit topology::tests::same_seed_reproduces_identical_shape
+        PASS [   0.098s] (515/986) conductor-emit topology::tests::shares_one_trace_id_with_cross_service_parent_linkage
+        PASS [   0.100s] (516/986) conductor-emit::egress default_connect_timeout_is_bounded_fail_fast
+        PASS [   0.103s] (517/986) conductor-emit::egress exports_well_formed_request_to_loopback_stub
+        PASS [   0.101s] (518/986) conductor-emit::egress probe_egress_ok_against_connectable_stub
+        PASS [   0.103s] (519/986) conductor-emit::error_spans ships_root_error_trace_to_loopback_stub
+        PASS [   0.110s] (520/986) conductor-emit::error_spans ships_deep_child_error_trace_to_loopback_stub
+        PASS [   0.109s] (521/986) conductor-emit::latency_shaping exports_per_operation_latency_to_loopback_stub
+        PASS [   0.107s] (522/986) conductor-emit::multi_service_topology ships_multi_service_topology_to_loopback_stub
+        PASS [   0.121s] (523/986) conductor-emit::exception_events ships_exception_event_to_loopback_stub
+        PASS [   0.104s] (524/986) conductor-emit::pii_payload_corpus ships_pii_corpus_across_spans_and_exceptions
+        PASS [   0.104s] (525/986) conductor-emit::pii_payload_corpus ships_pii_corpus_through_logs
+        PASS [   0.109s] (526/986) conductor-emit::severity_logs exports_boundary_records_to_loopback_stub
+        PASS [   0.106s] (527/986) conductor-faults error::tests::active_zero_displays
+        PASS [   0.106s] (528/986) conductor-faults error::tests::bind_error_displays_its_target_addr_and_chains_the_io_source
+        PASS [   0.108s] (529/986) conductor-faults error::tests::gap_too_long_displays_the_gap_and_ceiling
+        PASS [   0.109s] (530/986) conductor-faults error::tests::gap_too_short_displays_the_gap_and_floor
+        PASS [   0.110s] (531/986) conductor-faults error::tests::quiet_zero_displays
+        PASS [   0.112s] (532/986) conductor-faults error::tests::window_too_long_displays_the_window_and_ceiling
+        PASS [   0.129s] (533/986) conductor-emit::traffic_rate_ramps exports_ramp_and_breathing_totals_to_loopback_stub
+        PASS [   0.113s] (534/986) conductor-faults gap::tests::accepts_a_gap_above_the_floor
+        PASS [   0.114s] (535/986) conductor-faults gap::tests::ceiling_boundary_is_inclusive
+        PASS [   0.117s] (536/986) conductor-faults gap::tests::distinct_inputs_yield_distinct_gaps
+        PASS [   0.119s] (537/986) conductor-faults gap::tests::floor_boundary_is_exclusive
+        PASS [   0.120s] (538/986) conductor-faults gap::tests::gap_is_preserved_exactly
+        PASS [   0.119s] (539/986) conductor-faults gap::tests::out_of_range_gaps_return_typed_variants
+        PASS [   0.118s] (540/986) conductor-faults silence::tests::construction_is_reproducible
+        PASS [   0.121s] (541/986) conductor-faults silence::tests::is_a_copy_value
+        PASS [   0.110s] (542/986) conductor-faults silence::tests::never_resumes
+        PASS [   0.111s] (543/986) conductor-faults train::tests::accepts_a_valid_duty_cycle
+        PASS [   0.105s] (544/986) conductor-faults train::tests::canonical_is_5min_10min_and_is_the_default
+        PASS [   0.103s] (545/986) conductor-faults train::tests::ceiling_is_inclusive_and_covers_the_lunch_variant
+        PASS [   0.107s] (546/986) conductor-faults train::tests::distinct_inputs_yield_distinct_trains
+        PASS [   0.105s] (547/986) conductor-faults train::tests::is_a_copy_value
+        PASS [   0.106s] (548/986) conductor-faults train::tests::phase_query_repeats_across_cycles
+        PASS [   0.103s] (549/986) conductor-faults train::tests::rejects_zero_active
+        PASS [   0.100s] (550/986) conductor-faults train::tests::rejects_zero_quiet
+        PASS [   0.103s] (551/986) conductor-faults::port_occupier default_target_is_the_otlp_ingest_port
+        PASS [   0.103s] (552/986) conductor-faults::port_occupier drop_releases_the_port
+        PASS [   0.102s] (553/986) conductor-faults::port_occupier occupies_a_loopback_port_and_reports_its_resolved_addr
+        PASS [   0.101s] (554/986) conductor-faults::port_occupier occupying_a_held_port_is_a_typed_error_not_a_panic
+        PASS [   0.121s] (555/986) conductor-faults::port_occupier a_held_port_rejects_a_second_bind
+        PASS [   0.103s] (556/986) conductor-faults::port_occupier release_frees_the_port_and_is_idempotent
+        PASS [   2.074s] (557/986) conductor-cli::cli_smoke preconditions_json_is_parseable_and_carries_the_checked_at_stamp
+        PASS [   0.101s] (558/986) conductor-report coverage::tests::no_host_paths_or_struct_names_leak
+        PASS [   0.108s] (559/986) conductor-report coverage::tests::every_capability_renders_as_an_exact_row
+        PASS [   0.115s] (560/986) conductor-faults::port_occupier_span_witness the_hold_is_bracketed_by_a_fault_span_on_the_emitted_lines
+        PASS [   0.101s] (561/986) conductor-report coverage::tests::out_of_scope_rows_never_read_as_fail_or_blocked
+        PASS [   0.100s] (562/986) conductor-report coverage::tests::render_is_deterministic
+        PASS [   0.099s] (563/986) conductor-report coverage::tests::renders_title_summary_and_table_header
+        PASS [   0.098s] (564/986) conductor-report coverage::tests::summary_counts_sum_to_the_row_count
+        PASS [   0.096s] (565/986) conductor-report coverage::tests::summary_line_format_is_exact
+        PASS [   0.095s] (566/986) conductor-report coverage::tests::summary_line_holds_on_degenerate_row_sets
+        PASS [   0.093s] (567/986) conductor-report coverage::tests::the_unbacked_qualifier_is_not_a_fifth_summand
+        PASS [   0.095s] (568/986) conductor-report coverage::tests::write_overwrites_and_round_trips
+        PASS [   0.092s] (569/986) conductor-report db::tests::a_duplicate_check_key_is_an_err_never_a_clobber
+        PASS [   0.091s] (570/986) conductor-report db::tests::a_duplicate_envelope_insert_is_a_harness_error_not_a_clobber
+        PASS [   0.090s] (571/986) conductor-report db::tests::blocked_row_nulls_the_five_measurement_columns
+        PASS [   0.088s] (572/986) conductor-report db::tests::calibration_manualcheck_variant_round_trips
+        PASS [   0.087s] (573/986) conductor-report db::tests::check_rows_round_trip_in_declaration_order
+        PASS [   0.086s] (574/986) conductor-report db::tests::checks_for_is_empty_when_a_scenario_graded_nothing
+        PASS [   0.081s] (575/986) conductor-report db::tests::delete_run_empties_all_three_tables_and_leaves_other_runs_alone
+        PASS [   0.079s] (576/986) conductor-report db::tests::duplicate_key_insert_is_a_harness_error_not_a_clobber
+        PASS [   0.080s] (577/986) conductor-report db::tests::envelope_status_round_trips_per_run
+        PASS [   0.080s] (578/986) conductor-report db::tests::fingerprints_and_p_ids_are_json1_queryable
+        PASS [   0.082s] (579/986) conductor-report db::tests::get_absent_key_returns_none
+        PASS [   0.083s] (580/986) conductor-report db::tests::measured_record_round_trips
+        PASS [   0.077s] (581/986) conductor-report db::tests::seed_u64_above_i64_max_round_trips
+        PASS [   0.080s] (582/986) conductor-report db::tests::sql_metacharacters_in_a_value_are_stored_literally
+        PASS [   2.156s] (583/986) conductor-cli::cli_smoke preconditions_names_every_subject_it_reports
+        PASS [   0.082s] (584/986) conductor-report db::tests::stored_cells_carry_no_host_paths_or_struct_names
+        PASS [   0.083s] (585/986) conductor-report db::tests::the_runs_row_keeps_its_eleven_columns_beside_the_new_table
+        PASS [   0.083s] (586/986) conductor-report db::tests::the_runs_table_contract_is_unchanged_by_the_envelope_table
+        PASS [   0.093s] (587/986) conductor-report journal::tests::append_never_overwrites_a_prior_record
+        PASS [   0.105s] (588/986) conductor-report db::tests::open_creates_runs_db_file_and_round_trips
+        PASS [   0.089s] (589/986) conductor-report journal::tests::appends_run_id_stemmed_parseable_jsonl
+        PASS [   0.090s] (590/986) conductor-report journal::tests::blocked_record_writes_null_measurement_fields
+        PASS [   0.092s] (591/986) conductor-report journal::tests::check_line_is_its_own_parseable_shape_beside_the_envelope
+        PASS [   0.086s] (592/986) conductor-report report::tests::a_blocked_rows_absent_verdict_renders_null
+        PASS [   0.093s] (593/986) conductor-report journal::tests::line_carries_only_owned_schema_keys_no_host_paths
+        PASS [   0.088s] (594/986) conductor-report report::tests::a_suspect_run_banners_the_breach_above_the_tally
+        PASS [   0.090s] (595/986) conductor-report report::tests::an_in_envelope_run_renders_no_banner
+        PASS [   0.091s] (596/986) conductor-report report::tests::blocked_row_shows_identity_and_tier_with_measurement_fields_em_dashed
+        PASS [   0.092s] (597/986) conductor-report report::tests::calibration_renders_hold_not_manual
+        PASS [   0.094s] (598/986) conductor-report report::tests::known_residual_renders_residual_even_with_a_verdict
+        PASS [   0.096s] (599/986) conductor-report report::tests::measured_empty_fingerprints_distinct_from_blocked
+        PASS [   0.097s] (600/986) conductor-report report::tests::no_host_paths_or_struct_names_leak
+        PASS [   0.098s] (601/986) conductor-report report::tests::pass_and_fail_render_their_prefixes
+        PASS [   0.099s] (602/986) conductor-report report::tests::render_is_deterministic
+        PASS [   0.100s] (603/986) conductor-report report::tests::span_fields_of_a_single_scenario_run_are_that_records_values
+        PASS [   0.101s] (604/986) conductor-report report::tests::span_fields_of_a_suite_are_distinct_first_seen_values
+        PASS [   0.104s] (605/986) conductor-report report::tests::span_fields_use_canonical_wire_names_not_human_labels
+        PASS [   0.102s] (606/986) conductor-report report::tests::summary_line_counts_lamps_and_shows_uniform_seed
+        PASS [   0.103s] (607/986) conductor-report report::tests::the_banner_does_not_alter_any_check_state
+        PASS [   0.106s] (608/986) conductor-report report::tests::the_banner_leaks_no_host_path_or_struct_name
+        PASS [   0.114s] (609/986) conductor-report report::tests::write_creates_run_id_stemmed_file_matching_render
+        PASS [   0.111s] (610/986) conductor-report report::tests::write_never_overwrites_an_existing_report
+        PASS [   0.118s] (611/986) conductor-report::coverage_gate every_accepted_capability_is_classified
+        PASS [   0.109s] (612/986) conductor-report::matrix_ledger_gate every_requirement_capability_has_exactly_one_matrix_entry
+        PASS [   0.110s] (613/986) conductor-report::coverage_gate the_committed_artifact_is_the_rendered_classification
+        PASS [   0.110s] (614/986) conductor-report::coverage_gate removing_a_real_classification_row_fails_the_gate
+        PASS [   0.111s] (615/986) conductor-report::matrix_ledger_gate matrix_ids_are_unique
+        PASS [   0.109s] (616/986) conductor-report::matrix_ledger_gate no_pulse_p_id_occupies_an_id_position
+        PASS [   0.107s] (617/986) conductor-report::matrix_ledger_gate the_gate_discriminates
+        PASS [   0.114s] (618/986) conductor-run canary::tests::a_zero_warm_up_emission_count_emits_nothing
+        PASS [   0.109s] (619/986) conductor-run dispatch::tests::emission_seed_is_distinct_per_slot_and_stable_per_input
+        PASS [   0.121s] (620/986) conductor-run canary::tests::a_zero_length_warm_up_window_emits_nothing
+        PASS [   0.116s] (621/986) conductor-run canary::tests::the_warm_up_emits_its_declared_count_paced_by_the_declared_gap
+        PASS [   0.108s] (622/986) conductor-run dispatch::tests::error_occurrences_realize_the_declared_percentage
+        PASS [   0.106s] (623/986) conductor-run dispatch::tests::the_base_exception_carries_no_absolute_host_path
+        PASS [   0.101s] (624/986) conductor-run envelope::tests::classify_run_flags_the_first_breaching_scenario_deterministically
+        PASS [   0.096s] (625/986) conductor-run execute::tests::a_checks_bearing_empty_read_back_stays_blocked
+        PASS [   0.096s] (626/986) conductor-run execute::tests::a_declare_only_empty_read_back_routes_to_the_auto_resolve_residual
+        PASS [   0.095s] (627/986) conductor-run execute::tests::a_declare_only_row_under_a_degraded_read_back_is_residual_not_manual
+        PASS [   0.089s] (628/986) conductor-run execute::tests::a_degraded_read_back_overrides_the_state_and_leaves_the_verdict_alone
+        PASS [   0.092s] (629/986) conductor-run execute::tests::a_failed_read_back_call_stays_blocked_even_for_a_declare_only_scenario
+        PASS [   0.086s] (630/986) conductor-run execute::tests::a_fault_declaring_phase_opens_a_span_and_a_plain_phase_does_not
+        PASS [   0.086s] (631/986) conductor-run execute::tests::a_fault_phase_guard_binds_and_its_drop_releases
+        PASS [   0.155s] (632/986) conductor-run drive::tests::drive_run_honors_abort_before_the_first_scenario
+        PASS [   0.088s] (633/986) conductor-run execute::tests::a_measured_row_keeps_its_verdict_when_degradation_overrides_the_state
+        PASS [   0.092s] (634/986) conductor-run execute::tests::a_plain_phase_guard_carries_no_occupier
+        PASS [   0.093s] (635/986) conductor-run execute::tests::a_populated_corpus_grades_whatever_the_scenario_declares
+        PASS [   0.094s] (636/986) conductor-run execute::tests::a_refused_occupy_is_captured_for_the_post_timeline_check
+        PASS [   0.094s] (637/986) conductor-run execute::tests::a_zero_occurrence_phase_classifies_as_silence_whatever_its_shape
+        PASS [   0.174s] (638/986) conductor-run drive::tests::drive_run_reports_an_abort_raised_during_the_last_scenario
+        PASS [   0.090s] (639/986) conductor-run execute::tests::an_operator_checklist_row_stays_manual_check_on_an_undegraded_read_back
+        PASS [   0.174s] (640/986) conductor-run drive::tests::drive_run_streams_progress_then_blocked_and_persists
+        PASS [   0.089s] (641/986) conductor-run execute::tests::blocked_envelope_is_seed_identified
+        PASS [   0.093s] (642/986) conductor-run execute::tests::every_check_survives_the_collapse_not_just_the_worst
+        PASS [   0.175s] (643/986) conductor-run envelope::tests::an_in_envelope_run_records_its_standing_too
+        PASS [   0.173s] (644/986) conductor-run envelope::tests::an_over_envelope_run_is_environment_suspect_not_fail
+        PASS [   0.096s] (645/986) conductor-run execute::tests::execute_scenario_blocks_when_gate_not_ready
+        PASS [   0.165s] (646/986) conductor-run envelope::tests::read_envelope_round_trips_what_persist_wrote_and_is_none_for_an_unknown_run
+        PASS [   0.099s] (647/986) conductor-run execute::tests::occupy_failure_is_captured_across_the_timeline_and_surfaces_after
+        PASS [   0.098s] (648/986) conductor-run execute::tests::only_the_two_run_path_faults_classify
+        PASS [   0.080s] (649/986) conductor-run execute::tests::the_fault_label_is_the_bounded_obs_plan_token
+        PASS [   0.079s] (650/986) conductor-run execute::tests::the_journal_stamp_advances_across_a_real_pause
+        PASS [   0.077s] (651/986) conductor-run execute::tests::the_journal_stamp_helpers_read_plausible_wall_clock_instants
+        PASS [   0.076s] (652/986) conductor-run execute::tests::the_ramp_factor_carries_direction_and_steepness
+        PASS [   0.076s] (653/986) conductor-run execute::tests::the_two_journal_stamp_helpers_denote_the_same_instant
+        PASS [   0.076s] (654/986) conductor-run lifecycle::tests::active_incident_ids_is_empty_only_when_the_corpus_is
+        PASS [   0.075s] (655/986) conductor-run lifecycle::tests::active_incident_ids_reads_every_id_the_corpus_returns
+        PASS [   0.073s] (656/986) conductor-run lifecycle::tests::liveness_attribution_turns_on_the_idle_threshold_exactly
+        PASS [   0.077s] (657/986) conductor-run preconditions::tests::declares_rejects_a_name_this_environment_does_not_declare
+        PASS [   0.077s] (658/986) conductor-run preconditions::tests::observe_run_contract_is_satisfied_when_no_term_is_a_shell_declaration
+        PASS [   0.075s] (659/986) conductor-run preconditions::tests::observe_run_contract_names_the_term_this_environment_does_not_declare
+        PASS [   0.075s] (660/986) conductor-run::baseline_harvest tests::a_diverging_prefix_fails_the_equality_check
+        PASS [   0.079s] (661/986) conductor-run::baseline_harvest tests::a_below_multiplier_cue_fails_the_convergence_witness
+        PASS [   0.075s] (662/986) conductor-run::baseline_harvest tests::a_low_confidence_cue_fails_the_convergence_witness
+        PASS [   0.076s] (663/986) conductor-run::baseline_harvest tests::a_malformed_line_is_skipped_not_fatal
+        PASS [   0.076s] (664/986) conductor-run::baseline_harvest tests::a_malformed_witness_value_is_rejected
+        PASS [   0.079s] (665/986) conductor-run::baseline_harvest tests::a_non_suggested_cue_fails_the_tier_witness
+        PASS [   0.079s] (666/986) conductor-run::baseline_harvest tests::an_empty_window_reports_the_missing_cue_kind
+        PASS [   0.081s] (667/986) conductor-run::baseline_harvest tests::the_canary_prefix_equality_holds_for_a_matching_pair
+        PASS [   0.082s] (668/986) conductor-run::baseline_harvest tests::the_conductor_witness_line_yields_the_32_hex_fingerprint
+        PASS [   0.085s] (669/986) conductor-run::baseline_harvest tests::the_error_spike_cue_satisfies_candidate_convergence_tier_and_bypass
+        PASS [   0.086s] (670/986) conductor-run::baseline_harvest tests::the_latency_cue_satisfies_candidate_and_convergence
+        PASS [   0.086s] (671/986) conductor-run::baseline_harvest tests::the_latency_leg_capture_satisfies_every_latency_predicate
+        PASS [   0.088s] (672/986) conductor-run::baseline_harvest tests::the_leg_a_capture_proves_the_canary_prefix_equality
+        PASS [   0.087s] (673/986) conductor-run::baseline_harvest tests::the_leg_a_capture_satisfies_every_error_spike_predicate
+        PASS [   0.085s] (674/986) conductor-run::baseline_harvest tests::the_parser_reads_the_cue_emit_line_shape
+        PASS [   0.090s] (675/986) conductor-run::baseline_harvest tests::the_two_latency_pulses_are_distinct_observations
+        PASS [   0.020s] (676/986) conductor-run::delegated_timing_harvest tests::harvest_since_skips_the_pre_leg_prefix
+        PASS [   0.096s] (677/986) conductor-run::baseline_harvest tests::the_window_slice_drops_pre_leg_lines
+        PASS [   0.102s] (678/986) conductor-run::canary_wire storm_is_attributed_to_the_canary_service
+        PASS [   0.105s] (679/986) conductor-run::canary_wire storm_carries_distinct_span_identity_under_one_fingerprint
+        PASS [   0.102s] (680/986) conductor-run::canary_wire storm_reaches_the_wire_with_its_exception_events_intact
+        PASS [   0.086s] (681/986) conductor-run::composition_root public_api_paths_are_stable
+        PASS [   0.115s] (682/986) conductor-run::canary_obs_witness the_wire_shape_witness_reaches_the_self_obs_artifact
+        PASS [   0.100s] (683/986) conductor-run::canary_wire the_whole_canary_emission_carries_unique_span_identity
+        PASS [   0.090s] (684/986) conductor-run::connection_harvest no_pinned_line_carries_a_host_path_or_conductor_internal
+        PASS [   0.094s] (685/986) conductor-run::connection_harvest no_false_alert_off_the_conflict_leg
+        PASS [   0.090s] (686/986) conductor-run::connection_harvest the_conflict_leg_witnesses_receiver_failed_while_the_occupier_held
+        PASS [   0.091s] (687/986) conductor-run::connection_harvest the_release_is_proven_by_the_suts_own_rebind
+        PASS [   0.091s] (688/986) conductor-run::connection_harvest the_tracker_reports_elapsed_within_the_poller_tick_of_truth
+        PASS [   0.091s] (689/986) conductor-run::connection_harvest the_walk_ledger_crosses_both_thresholds_in_order
+        PASS [   0.092s] (690/986) conductor-run::connection_harvest the_warmup_oscillation_straddles_the_idle_threshold_by_construction
+        PASS [   0.092s] (691/986) conductor-run::delegated_timing_harvest tests::a_bound_with_no_observation_is_ungraded_not_met
+        PASS [   0.092s] (692/986) conductor-run::delegated_timing_harvest tests::a_capture_timestamp_parses_to_epoch_millis
+        PASS [   0.093s] (693/986) conductor-run::delegated_timing_harvest tests::a_different_leaf_does_not_grade_this_bound
+        PASS [   0.094s] (694/986) conductor-run::delegated_timing_harvest tests::a_hue_sample_reports_its_offset_to_the_preceding_lifecycle_tick
+        PASS [   0.137s] (695/986) conductor-run::composition_root persist_and_read_envelope_round_trip_through_the_public_paths
+        PASS [   0.094s] (696/986) conductor-run::delegated_timing_harvest tests::an_empty_window_yields_no_samples_rather_than_a_satisfied_budget
+        PASS [   0.174s] (697/986) conductor-run::baseline_harvest tests::the_pulse_storm_prefix_is_recovered_from_the_harvest
+        PASS [   0.093s] (698/986) conductor-run::delegated_timing_harvest tests::p025_hue_update_is_recorded_over_budget_never_asserted_as_a_pass
+        PASS [   0.088s] (699/986) conductor-run::delegated_timing_harvest tests::p025_the_re_driven_leg_measures_tick_quantization_not_update_latency
+        PASS [   0.084s] (700/986) conductor-run::delegated_timing_harvest tests::p027_constellation_discovery_meets_its_five_second_budget
+        PASS [   0.086s] (701/986) conductor-run::delegated_timing_harvest tests::p037_report_render_meets_its_two_second_budget
+        PASS [   0.072s] (702/986) conductor-run::delegated_timing_harvest tests::p045_counter_refresh_meets_its_one_second_budget
+        PASS [   0.075s] (703/986) conductor-run::delegated_timing_harvest tests::render_ms_is_carried_in_value
+        PASS [   0.075s] (704/986) conductor-run::delegated_timing_harvest tests::render_ms_is_not_carried_in_duration_ms
+        PASS [   0.077s] (705/986) conductor-run::delegated_timing_harvest tests::the_budget_boundary_is_inclusive
+        PASS [   0.079s] (706/986) conductor-run::delegated_timing_harvest tests::the_four_delegated_bounds_are_pinned_to_their_targets_and_budgets
+        PASS [   0.080s] (707/986) conductor-run::delegated_timing_harvest tests::the_window_selects_the_scenarios_own_samples_and_excludes_the_canarys
+        PASS [   0.080s] (708/986) conductor-run::delegated_timing_harvest tests::the_worst_observation_grades_the_budget
+        PASS [   0.088s] (709/986) conductor-run::dispatch_wire a_zero_occurrence_phase_is_a_real_silence_window
+        PASS [   0.091s] (710/986) conductor-run::dispatch_wire a_zero_error_depth_places_the_error_at_the_root_and_a_deeper_one_does_not
+        PASS [   0.095s] (711/986) conductor-run::dispatch_wire a_declared_occurrence_count_is_what_reaches_the_wire
+        PASS [   0.093s] (712/986) conductor-run::dispatch_wire the_declared_latency_percentiles_shape_the_emitted_durations
+        PASS [   0.112s] (713/986) conductor-run::dispatch_wire the_error_family_realizes_its_declared_percentage_and_depth
+        PASS [   0.111s] (714/986) conductor-run::dispatch_wire the_exception_family_cycles_its_declared_variant_mix
+        PASS [   0.109s] (715/986) conductor-run::dispatch_wire the_latency_family_emits_its_declared_sample_count
+        PASS [   0.111s] (716/986) conductor-run::dispatch_wire the_pii_family_embeds_every_declared_category
+        PASS [   0.114s] (717/986) conductor-run::dispatch_wire the_rate_family_emits_the_curve_total
+        PASS [   0.137s] (718/986) conductor-run::dispatch_wire the_committed_storm_fixture_stream_is_frozen_at_an_alternate_seed
+        PASS [   0.141s] (719/986) conductor-run::dispatch_wire the_committed_storm_fixture_stream_is_frozen
+        PASS [   0.014s] (720/986) conductor-run::lifecycle_harvest a_single_incident_offers_no_control_to_hold
+        PASS [   0.118s] (721/986) conductor-run::dispatch_wire the_severity_family_reaches_the_logs_collector_with_its_declared_numbers
+        PASS [   0.116s] (722/986) conductor-run::dispatch_wire the_topology_family_emits_every_declared_service
+        PASS [   0.113s] (723/986) conductor-run::envelope_fixture the_breach_survives_neither_a_smaller_burst_nor_a_longer_window
+        PASS [   0.114s] (724/986) conductor-run::envelope_fixture the_fixture_breaches_the_pinned_envelope
+        PASS [   0.125s] (725/986) conductor-run::envelope_fixture seed_the_e2e_fixture_runs_dir
+        PASS [   0.119s] (726/986) conductor-run::journal_conformance a_conformant_row_passes_every_arm
+        PASS [   0.115s] (727/986) conductor-run::journal_conformance a_row_carrying_an_absolute_host_path_fails_the_gate
+        PASS [   0.178s] (728/986) conductor-run::dispatch_wire the_committed_error_baseline_fixture_stream_is_frozen
+        PASS [   0.114s] (729/986) conductor-run::journal_conformance a_row_missing_a_required_key_fails_the_gate
+        PASS [   0.114s] (730/986) conductor-run::journal_conformance a_row_missing_an_optional_key_fails_the_gate
+        PASS [   0.102s] (731/986) conductor-run::journal_conformance every_journal_in_a_pointed_at_runs_dir_conforms
+        PASS [   0.106s] (732/986) conductor-run::journal_conformance the_committed_fixture_journal_conforms
+        PASS [   0.108s] (733/986) conductor-run::journal_conformance the_two_registered_shapes_carry_their_contract_arity
+        PASS [   0.077s] (734/986) conductor-run::lamps_fixture the_fixture_leaves_a_classified_capability_unmentioned
+        PASS [   0.075s] (735/986) conductor-run::lifecycle_harvest a_single_incident_drop_is_not_attributable
+        PASS [   0.101s] (736/986) conductor-run::lamps_fixture the_fixture_carries_a_collision_whose_lamps_differ
+        PASS [   0.077s] (737/986) conductor-run::lifecycle_harvest a_spared_control_attributes_the_drop_to_conductors_write
+        PASS [   0.075s] (738/986) conductor-run::lifecycle_harvest an_empty_active_set_grades_no_control_not_proven
+        PASS [   0.077s] (739/986) conductor-run::lifecycle_harvest an_incident_still_active_after_the_write_is_not_proven
+        PASS [   0.194s] (740/986) conductor-run::dispatch_wire the_same_seed_reproduces_the_same_stream
+        PASS [   0.080s] (741/986) conductor-run::lifecycle_harvest losing_the_control_too_is_unattributable_not_proven
+        PASS [   0.082s] (742/986) conductor-run::lifecycle_harvest the_control_path_cannot_grade_a_single_incident_leg
+        PASS [   0.081s] (743/986) conductor-run::lifecycle_harvest the_live_item_key_is_incident_id
+        PASS [   0.083s] (744/986) conductor-run::lifecycle_harvest the_live_leg_resolve_is_attributed_by_liveness
+        PASS [   0.081s] (745/986) conductor-run::lifecycle_harvest the_older_incident_is_held_back_as_the_control
+        PASS [   0.081s] (746/986) conductor-run::lifecycle_harvest the_same_drop_without_liveness_is_unattributable
+        PASS [   0.077s] (747/986) conductor-run::live_suite_harvest the_gate_line_is_not_confused_with_the_other_preflight_blocked_lines
+        PASS [   0.086s] (748/986) conductor-run::live_suite_harvest the_auto_resolve_arm_lands_known_residual_with_its_own_route_line
+        PASS [   0.078s] (749/986) conductor-run::live_suite_harvest the_graded_route_lands_manual_check_on_the_same_declare_only_shape
+        PASS [   0.080s] (750/986) conductor-run::live_suite_harvest the_manual_path_latency_is_the_bounded_difference_of_its_two_instants
+        PASS [   0.082s] (751/986) conductor-run::live_suite_harvest the_readiness_gate_line_marks_the_not_ready_leg_and_only_it
+        PASS [   0.216s] (752/986) conductor-run::envelope_fixture the_persisted_standing_round_trips_through_the_production_reader
+        PASS [   0.209s] (753/986) conductor-run::journal_conformance a_journal_written_by_the_production_writer_conforms_across_both_shapes
+        PASS [   0.084s] (754/986) conductor-run::operator_pause_harvest a_checklist_item_round_trips_through_the_scenario_model
+        PASS [   0.088s] (755/986) conductor-run::operator_pause_harvest a_checklist_beside_expected_checks_is_rejected_at_load
+        PASS [   0.084s] (756/986) conductor-run::operator_pause_harvest a_scenario_declaring_no_checklist_still_holds_on_the_generic_prompt
+        PASS [   0.084s] (757/986) conductor-run::operator_pause_harvest an_attended_abort_is_a_recorded_value_not_a_harness_fault
+        PASS [   0.076s] (758/986) conductor-run::operator_pause_harvest an_empty_checklist_text_is_rejected_at_load
+        PASS [   0.080s] (759/986) conductor-run::operator_pause_harvest live_leg::a_no_go_is_indistinguishable_from_a_go_in_the_record
+        PASS [   0.083s] (760/986) conductor-run::operator_pause_harvest live_leg::both_decision_arms_were_exercised_live
+        PASS [   0.079s] (761/986) conductor-run::operator_pause_harvest live_leg::every_hold_carried_its_scenarios_declared_item
+        PASS [   0.079s] (762/986) conductor-run::operator_pause_harvest live_leg::every_live_resolution_came_from_the_dialog_never_the_headless_default
+        PASS [   0.078s] (763/986) conductor-run::operator_pause_harvest live_leg::the_frozen_count_sequence_is_recorded
+        PASS [   0.078s] (764/986) conductor-run::operator_pause_harvest live_leg::the_operators_wait_is_excluded_from_the_measured_latency
+        PASS [   0.083s] (765/986) conductor-run::operator_pause_harvest the_attended_leg_vehicles_declare_their_checklist_items
+        PASS [   0.082s] (766/986) conductor-run::operator_pause_harvest the_hold_carries_the_scenarios_declared_items
+        PASS [   0.083s] (767/986) conductor-run::operator_pause_harvest the_resolution_distinguishes_an_attended_activation_from_the_headless_default
+        PASS [   0.082s] (768/986) conductor-run::pii_harvest no_corpus_value_or_affix_reaches_a_pinned_line
+        PASS [   0.086s] (769/986) conductor-run::pii_harvest canary_storm_ladder_reached_autonomous_on_the_same_leg
+        PASS [   0.082s] (770/986) conductor-run::pii_harvest pii_exception_events_appended
+        PASS [   0.078s] (771/986) conductor-run::pii_harvest pii_log_records_appended_without_pk_collision_drops
+        PASS [   0.080s] (772/986) conductor-run::pii_harvest pii_span_batches_appended_intact
+        PASS [   0.082s] (773/986) conductor-run::restart_harvest tests::the_corpus_keeper_needs_the_autonomous_tier
+        PASS [   0.081s] (774/986) conductor-run::restart_harvest tests::the_pinned_leg_lines_parse_and_satisfy_every_witness
+        PASS [   0.079s] (775/986) conductor-run::restart_harvest tests::the_pinned_observations_carry_the_measured_values
+        PASS [   0.082s] (776/986) conductor-run::restart_harvest tests::the_restart_witness_needs_two_over_threshold_crossings
+        PASS [   0.096s] (777/986) conductor-run::restart_harvest tests::the_absolute_arm_requires_the_trigger_and_the_kept_young_cue
+        PASS [   0.082s] (778/986) conductor-run::restart_harvest tests::the_suppressed_witness_fails_on_a_leaked_young_emit_or_missing_drop_evidence
+        PASS [   0.086s] (779/986) conductor-run::restart_harvest tests::the_surgical_crossing_needs_the_plain_keep_not_a_bypassed_one
+        PASS [   0.087s] (780/986) conductor-run::run_contract_pin declaring_every_observable_handle_satisfies_the_contract
+        PASS [   0.091s] (781/986) conductor-run::run_contract_pin an_undeclared_environment_leaves_every_observable_term_unmet
+        PASS [   0.088s] (782/986) conductor-run::run_contract_pin every_shell_declaration_term_names_an_env_var
+        PASS [   0.087s] (783/986) conductor-run::run_contract_pin the_mcp_enabled_term_is_a_blockable_shell_declaration
+        PASS [   0.088s] (784/986) conductor-run::run_contract_pin the_observable_env_set_is_pinned
+        PASS [   0.087s] (785/986) conductor-run::severity_harvest tests::a_harvest_of_unrelated_lines_yields_no_observations
+        PASS [   0.092s] (786/986) conductor-run::severity_harvest tests::a_deduped_retrigger_fails_new_not_reopen
+        PASS [   0.087s] (787/986) conductor-run::severity_harvest tests::a_resolution_past_the_window_and_tick_fails_the_bound
+        PASS [   0.087s] (788/986) conductor-run::severity_harvest tests::a_resolution_summary_line_falsifies_the_absence_witness
+        PASS [   0.085s] (789/986) conductor-run::severity_harvest tests::a_rising_active_count_is_not_an_auto_resolve
+        PASS [   0.086s] (790/986) conductor-run::severity_harvest tests::all_resolved_at_needs_an_incident_and_an_emptying
+        PASS [   0.085s] (791/986) conductor-run::severity_harvest tests::canary_cues_are_separable_from_scenario_cues_by_sample_count
+        PASS [   0.085s] (792/986) conductor-run::severity_harvest tests::leg_a_carries_no_resolution_summary
+        PASS [   0.086s] (793/986) conductor-run::severity_harvest tests::harvest_since_skips_the_pre_leg_prefix
+        PASS [   0.086s] (794/986) conductor-run::severity_harvest tests::leg_a_proves_auto_resolve_within_the_window_and_tick
+        PASS [   0.086s] (795/986) conductor-run::severity_harvest tests::leg_a_proves_new_not_reopen_on_the_same_fingerprint
+        PASS [   0.087s] (796/986) conductor-run::severity_harvest tests::leg_b_reaches_the_autonomous_band_by_the_authored_mechanism
+        PASS [   0.082s] (797/986) conductor-run::severity_harvest tests::leg_e_exercised_the_auto_resolve_residual_arm_live
+        PASS [   0.082s] (798/986) conductor-run::severity_harvest tests::the_auto_resolve_tick_counters_are_redacted_on_the_wire
+        PASS [   0.082s] (799/986) conductor-run::severity_harvest tests::the_first_drop_is_not_the_scenarios_resolution
+        PASS [   0.086s] (800/986) conductor-run::severity_harvest tests::the_three_tier_legs_separate_by_confidence_at_equal_magnitude
+        PASS [   0.087s] (801/986) conductor-run::storm_harvest tests::a_malformed_line_is_skipped_not_fatal
+        PASS [   0.087s] (802/986) conductor-run::storm_harvest tests::a_single_fingerprint_storm_satisfies_p017
+        PASS [   0.086s] (803/986) conductor-run::storm_harvest tests::a_sub_floor_harvest_carries_no_storm_line
+        PASS [   0.082s] (804/986) conductor-run::storm_harvest tests::a_suggested_only_storm_fails_the_tier_ladder
+        PASS [   0.084s] (805/986) conductor-run::storm_harvest tests::an_aggregating_sub_floor_window_fails_the_absence_check
+        PASS [   0.087s] (806/986) conductor-run::storm_harvest tests::an_empty_window_fails_the_retry_storm_surface_check
+        PASS [   0.086s] (807/986) conductor-run::storm_harvest tests::the_parser_reads_pulses_real_storm_line_shape
+        PASS [   0.085s] (808/986) conductor-run::storm_harvest tests::the_storm_surfaces_a_retry_storm_cue
+        PASS [   0.082s] (809/986) conductor-run::storm_harvest tests::the_tier_ladder_reaches_autonomous_past_the_threshold
+        PASS [   0.086s] (810/986) conductor-run::storm_harvest tests::two_fingerprints_fail_p017
+        PASS [   0.090s] (811/986) conductor-run::storm_harvest tests::the_window_slice_drops_pre_leg_lines
+        PASS [   0.095s] (812/986) conductor-tauri::bin/conductor-tauri commands::tests::list_scenarios_errors_when_the_capability_manifest_is_unreachable
+        PASS [   0.092s] (813/986) conductor-tauri::bin/conductor-tauri commands::tests::load_all_reads_every_committed_fixture_scenario
+        PASS [   0.099s] (814/986) conductor-tauri::bin/conductor-tauri commands::tests::coverage_matrix_command_returns_every_classified_pid
+        PASS [   0.091s] (815/986) conductor-tauri::bin/conductor-tauri commands::tests::mock_app_registers_the_full_command_surface
+        PASS [   0.087s] (816/986) conductor-tauri::bin/conductor-tauri commands::tests::resolve_handle_rejects_a_traversal_default_naming_the_traversal
+        PASS [   0.089s] (817/986) conductor-tauri::bin/conductor-tauri commands::tests::resolve_handle_resolves_an_in_scope_default_under_the_current_dir
+        PASS [   0.092s] (818/986) conductor-tauri::bin/conductor-tauri commands::tests::resolve_selection_loads_exactly_one_for_a_named_scenario
+        PASS [   0.091s] (819/986) conductor-tauri::bin/conductor-tauri commands::tests::resolve_selection_loads_the_whole_suite_for_the_sentinel
+        PASS [   0.093s] (820/986) conductor-tauri::bin/conductor-tauri commands::tests::run_envelope_command_returns_null_when_no_run_has_an_envelope
+        PASS [   0.095s] (821/986) conductor-tauri::bin/conductor-tauri commands::tests::run_envelope_errors_on_a_supplied_run_id_with_an_unresolvable_runs_dir
+        PASS [   0.095s] (822/986) conductor-tauri::bin/conductor-tauri commands::tests::run_report_command_returns_a_well_formed_record_list
+        PASS [   0.095s] (823/986) conductor-tauri::bin/conductor-tauri commands::tests::run_report_errors_on_a_supplied_run_id_with_an_unresolvable_runs_dir
+        PASS [   0.088s] (824/986) conductor-tauri::bin/conductor-tauri commands::tests::start_run_errors_before_spawning_a_run_thread
+        PASS [   0.094s] (825/986) conductor-tauri::bin/conductor-tauri commands::tests::stop_run_command_sets_the_cooperative_abort_flag
+        PASS [   0.092s] (826/986) conductor-tauri::bin/conductor-tauri commands::tests::the_artifact_handles_resolve_absolute_paths_under_the_current_dir
+        PASS [   0.093s] (827/986) conductor-tauri::bin/conductor-tauri commands::tests::the_committed_scenarios_fixture_stays_loadable
+        PASS [   0.096s] (828/986) conductor-tauri::bin/conductor-tauri commands::tests::unbacked_auto_command_returns_the_core_ledger
+        PASS [   0.094s] (829/986) conductor-tauri::bin/conductor-tauri pause::tests::a_dropped_sender_is_abort_safe_no_go
+        PASS [   0.092s] (830/986) conductor-tauri::bin/conductor-tauri pause::tests::deliver_is_a_no_op_without_a_pending_hold
+        PASS [   0.092s] (831/986) conductor-tauri::bin/conductor-tauri pause::tests::gate_delivers_the_decision_to_the_awaiting_hold
+        PASS [   0.093s] (832/986) conductor-tauri::bin/conductor-tauri pause::tests::hold_prompt_projects_the_hold_point
+        PASS [   0.093s] (833/986) conductor-tauri::bin/conductor-tauri pause::tests::hold_prompt_serializes_the_checklist_for_the_webview
+        PASS [   0.092s] (834/986) conductor-tauri::bin/conductor-tauri pause::tests::resolve_operator_hold_command_delivers_the_decision
+        PASS [   0.092s] (835/986) conductor-tauri::bin/conductor-tauri pause::tests::the_tauri_resolver_identifies_itself_as_the_dialog_resolver
+        PASS [   0.081s] (836/986) conductor-tauri::bin/conductor-tauri tests::the_obs_sink_is_a_file_sink_whenever_the_path_resolves
+        PASS [   0.084s] (837/986) conductor-tauri::bin/conductor-tauri tests::the_self_obs_sink_resolves_beside_the_runs_dir
+        PASS [   0.086s] (838/986) conductor-timeline convert::tests::different_seeds_diverge
+        PASS [   0.089s] (839/986) conductor-timeline convert::tests::conversion_preserves_order_and_maps_timing
+        PASS [   0.086s] (840/986) conductor-timeline convert::tests::same_seed_reproduces_transitions_in_phase_order
+        PASS [   0.085s] (841/986) conductor-timeline::determinism different_seeds_yield_different_shapes
+        PASS [   0.090s] (842/986) conductor-timeline::determinism an_empty_timeline_is_a_harness_fault
+        PASS [   0.085s] (843/986) conductor-timeline::determinism gaps_stay_within_the_declared_jitter_bound
+        PASS [   0.082s] (844/986) conductor-timeline::determinism jitter_never_produces_a_negative_gap
+        PASS [   0.080s] (845/986) conductor-timeline::determinism same_seed_reproduces_the_sequence
+        PASS [   0.081s] (846/986) conductor-timeline::determinism zero_jitter_lands_each_gap_exactly_as_declared
+        PASS [   0.085s] (847/986) conductor-timeline::pacing a_failing_hook_surfaces_as_a_harness_fault_naming_its_phase
+        PASS [   0.081s] (848/986) conductor-timeline::pacing a_phase_costs_its_whole_gap_whatever_its_emission_count
+        PASS [   0.088s] (849/986) conductor-timeline::obs_span timeline_execute_carries_phase_count_and_emission_count_on_the_emitted_line
+        PASS [   0.085s] (850/986) conductor-timeline::pacing each_phase_last_emission_sits_on_its_boundary_within_timer_resolution
+        PASS [   0.083s] (851/986) conductor-timeline::pacing emissions_land_inside_their_own_phase_window
+        PASS [   0.084s] (852/986) conductor-timeline::pacing observing_does_not_move_the_transition_stream
+        PASS [   0.083s] (853/986) conductor-timeline::pacing the_observed_value_is_dropped_at_its_own_phase_boundary
+        PASS [   0.080s] (854/986) conductor-timeline::pacing the_phase_observer_fires_once_per_phase_including_a_silent_one
+        PASS [   0.084s] (855/986) conductor-timeline::pacing the_transition_stream_is_unchanged_by_the_emission_count
+        PASS [   0.084s] (856/986) conductor-timeline::pacing total_emissions_is_derivable_without_running_the_timeline
+        PASS [   0.111s] (857/986) conductor-timeline::pacing fixture_emission_stream_is_frozen
+        PASS [   0.113s] (858/986) conductor-timeline::pacing fixture_emission_stream_is_frozen_at_an_alternate_seed
+        PASS [   0.087s] (859/986) conductor-verify error::tests::jsonrpc_error_display_shows_only_the_code_not_the_server_message
+        PASS [   0.088s] (860/986) conductor-verify error::tests::data_dir_rejected_displays_its_reason
+        PASS [   0.088s] (861/986) conductor-verify error::tests::spawn_displays_its_message_and_chains_the_io_source
+        PASS [   0.089s] (862/986) conductor-verify extract::tests::count_at_least_reads_the_evidence_count_as_a_bare_decimal
+        PASS [   0.106s] (863/986) conductor-timeline::replay gaps_stay_bounded_and_elapsed_is_monotonic
+        PASS [   0.092s] (864/986) conductor-verify extract::tests::incident_ids_accepts_either_item_key
+        PASS [   0.118s] (865/986) conductor-timeline::replay fixture_stream_shape_is_frozen
+        PASS [   0.092s] (866/986) conductor-verify extract::tests::list_text_composes_status_severity_and_title
+        PASS [   0.116s] (867/986) conductor-timeline::replay fixture_stream_shape_is_frozen_at_an_alternate_seed
+        PASS [   0.116s] (868/986) conductor-timeline::replay replay_is_deterministic
+        PASS [   0.087s] (869/986) conductor-verify extract::tests::readers_degrade_to_empty_on_a_malformed_shape
+        PASS [   0.088s] (870/986) conductor-verify extract::tests::segments_are_separated_so_no_token_spans_two_of_them
+        PASS [   0.091s] (871/986) conductor-verify extract::tests::substring_kinds_read_the_composed_text
+        PASS [   0.091s] (872/986) conductor-verify extract::tests::top_level_keys_are_sorted_and_shape_tolerant
+        PASS [   0.092s] (873/986) conductor-verify extract::tests::top_level_keys_witness_a_shape_the_readers_would_silently_miss
+        PASS [   0.084s] (874/986) conductor-verify manifest::tests::loads_and_bounds_checks_the_committed_manifest
+        PASS [   0.077s] (875/986) conductor-verify manifest::tests::missing_file_is_a_manifest_fault
+        PASS [   0.077s] (876/986) conductor-verify manifest::tests::rejects_a_dropped_pinned_tool
+        PASS [   0.077s] (877/986) conductor-verify manifest::tests::rejects_empty_version
+        PASS [   0.078s] (878/986) conductor-verify record::tests::bridged_record_serializes_to_exactly_the_eleven_owned_keys
+        PASS [   0.081s] (879/986) conductor-verify record::tests::bridging_is_deterministic
+        PASS [   0.082s] (880/986) conductor-verify record::tests::calibration_region_outcome_maps_to_manual_check
+        PASS [   0.067s] (881/986) conductor-verify record::tests::fail_outcome_maps_to_fail_state
+        PASS [   0.070s] (882/986) conductor-verify record::tests::pass_outcome_maps_to_pass_state_and_carries_slo_timing
+        PASS [   0.071s] (883/986) conductor-verify slo::tests::a_budget_can_fail_a_check_its_tier_would_have_passed
+        PASS [   0.071s] (884/986) conductor-verify slo::tests::count_at_least_floor
+        PASS [   0.073s] (885/986) conductor-verify slo::tests::evaluation_is_deterministic
+        PASS [   0.207s] (886/986) conductor-timeline::pacing the_declared_occurrence_total_is_seed_independent
+        PASS [   0.071s] (887/986) conductor-verify slo::tests::exact_contains_absent_compare_as_expected
+        PASS [   0.072s] (888/986) conductor-verify slo::tests::hard_check_passes_only_when_matched_and_within_slo
+        PASS [   0.074s] (889/986) conductor-verify slo::tests::negative_latency_is_never_within_tolerance
+        PASS [   0.078s] (890/986) conductor-verify slo::tests::slo_within_and_exceeded_per_tier
+        PASS [   0.079s] (891/986) conductor-verify slo::tests::the_outcome_records_which_bound_it_was_judged_against
+        PASS [   0.083s] (892/986) conductor-verify slo::tests::two_checks_sharing_one_instant_reach_different_verdicts_on_their_budgets
+        PASS [   0.083s] (893/986) conductor-verify slo::tests::unmet_count_floor_routes_to_calibration_region_even_when_declared_hard
+        PASS [   0.233s] (894/986) conductor-timeline::pacing the_emission_stream_replays_identically_under_any_seed
+        PASS [   0.084s] (895/986) conductor-verify spawn::tests::a_blank_pathext_falls_back_to_exe
+        PASS [   0.085s] (896/986) conductor-verify spawn::tests::a_different_program_name_does_not_satisfy_the_probe
+        PASS [   0.086s] (897/986) conductor-verify spawn::tests::a_directory_named_like_the_program_is_not_an_executable
+        PASS [   0.086s] (898/986) conductor-verify spawn::tests::a_directory_without_the_program_resolves_nothing
+        PASS [   0.087s] (899/986) conductor-verify spawn::tests::a_later_path_entry_still_resolves
+        PASS [   0.086s] (900/986) conductor-verify spawn::tests::accepts_well_formed_data_dirs::case_1
+        PASS [   0.086s] (901/986) conductor-verify spawn::tests::accepts_well_formed_data_dirs::case_2
+        PASS [   0.085s] (902/986) conductor-verify spawn::tests::accepts_well_formed_data_dirs::case_3
+        PASS [   0.085s] (903/986) conductor-verify spawn::tests::an_absent_path_resolves_nothing
+        PASS [   0.084s] (904/986) conductor-verify spawn::tests::an_empty_path_resolves_nothing
+        PASS [   0.084s] (905/986) conductor-verify spawn::tests::build_command_targets_the_fixed_program_and_sets_only_the_data_dir_env
+        PASS [   0.084s] (906/986) conductor-verify spawn::tests::default_data_dir_resolves_to_the_platform_location
+        PASS [   0.084s] (907/986) conductor-verify spawn::tests::explicit_data_dir_is_returned_verbatim
+        PASS [   0.084s] (908/986) conductor-verify spawn::tests::pathext_entries_are_honoured_and_normalised
+        PASS [   0.084s] (909/986) conductor-verify spawn::tests::rejects_injection_metacharacters::case_1
+        PASS [   0.087s] (910/986) conductor-verify spawn::tests::rejects_injection_metacharacters::case_2
+        PASS [   0.088s] (911/986) conductor-verify spawn::tests::rejects_injection_metacharacters::case_3
+        PASS [   0.088s] (912/986) conductor-verify spawn::tests::rejects_injection_metacharacters::case_4
+        PASS [   0.088s] (913/986) conductor-verify spawn::tests::rejects_injection_metacharacters::case_5
+        PASS [   0.088s] (914/986) conductor-verify spawn::tests::rejects_injection_metacharacters::case_6
+        PASS [   0.087s] (915/986) conductor-verify spawn::tests::the_bare_name_always_participates
+        PASS [   0.088s] (916/986) conductor-verify spawn::tests::the_program_is_found_when_present_on_the_path
+        PASS [   0.087s] (917/986) conductor-verify spawn::tests::the_sidecar_spawn_suppresses_the_child_console
+        PASS [   0.087s] (918/986) conductor-verify verdict::tests::classification_is_deterministic
+        PASS [   0.091s] (919/986) conductor-verify verdict::tests::observed_and_expected_are_redacted
+        PASS [   0.089s] (920/986) conductor-verify::expected_slo comparison_kind_matrix::case_1
+        PASS [   0.094s] (921/986) conductor-verify::expected_slo calibration_region_check_never_hard_fails
+        PASS [   0.088s] (922/986) conductor-verify::expected_slo comparison_kind_matrix::case_2
+        PASS [   0.088s] (923/986) conductor-verify::expected_slo comparison_kind_matrix::case_3
+        PASS [   0.089s] (924/986) conductor-verify::expected_slo comparison_kind_matrix::case_4
+        PASS [   0.088s] (925/986) conductor-verify::expected_slo comparison_kind_matrix::case_5
+        PASS [   0.088s] (926/986) conductor-verify::expected_slo comparison_kind_matrix::case_6
+        PASS [   0.088s] (927/986) conductor-verify::expected_slo comparison_kind_matrix::case_7
+        PASS [   0.088s] (928/986) conductor-verify::expected_slo comparison_kind_matrix::case_8
+        PASS [   0.088s] (929/986) conductor-verify::expected_slo determinism_same_inputs_same_outcome
+        PASS [   0.088s] (930/986) conductor-verify::expected_slo hard_pass_requires_match_and_within_slo
+        PASS [   0.089s] (931/986) conductor-verify::expected_slo observed_with_host_path_is_redacted_in_assessment
+        PASS [   0.089s] (932/986) conductor-verify::expected_slo slo_tier_deadline_matrix::case_1
+        PASS [   0.089s] (933/986) conductor-verify::expected_slo slo_tier_deadline_matrix::case_2
+        PASS [   0.088s] (934/986) conductor-verify::expected_slo slo_tier_deadline_matrix::case_3
+        PASS [   0.088s] (935/986) conductor-verify::expected_slo slo_tier_deadline_matrix::case_4
+        PASS [   0.088s] (936/986) conductor-verify::expected_slo slo_tier_deadline_matrix::case_5
+        PASS [   0.088s] (937/986) conductor-verify::expected_slo slo_tier_deadline_matrix::case_6
+        PASS [   0.089s] (938/986) conductor-verify::jsonrpc_correlation request_ids_advance_so_a_response_pairs_to_exactly_one_request
+        PASS [   0.094s] (939/986) conductor-verify::jsonrpc_correlation a_stale_response_is_skipped_rather_than_paired_to_a_later_request
+        PASS [   0.088s] (940/986) conductor-verify::jsonrpc_correlation the_initialized_notification_reaches_the_wire_after_initialize
+        PASS [   0.087s] (941/986) conductor-verify::preflight a_canary_call_error_is_blocked_distinctly_from_an_empty_corpus
+        PASS [   0.097s] (942/986) conductor-verify::preflight a_blocked_precondition_carries_no_absolute_host_path
+        PASS [   0.090s] (943/986) conductor-verify::preflight a_corpus_of_only_older_incidents_is_blocked
+        PASS [   0.092s] (944/986) conductor-verify::preflight a_satisfied_contract_leaves_the_other_legs_deciding
+        PASS [   0.090s] (945/986) conductor-verify::preflight an_absent_required_tool_is_blocked
+        PASS [   0.090s] (946/986) conductor-verify::preflight an_empty_canary_names_the_workspace_key_precondition
+        PASS [   0.092s] (947/986) conductor-verify::preflight an_incident_missing_its_open_stamp_is_blocked
+        PASS [   0.092s] (948/986) conductor-verify::preflight an_incident_one_nanosecond_after_the_emission_stamp_is_fresh
+        PASS [   0.092s] (949/986) conductor-verify::preflight an_incident_opened_at_exactly_the_emission_stamp_is_blocked
+        PASS [   0.093s] (950/986) conductor-verify::preflight an_unmet_run_contract_term_is_blocked_and_named_individually
+        PASS [   0.093s] (951/986) conductor-verify::preflight an_unmet_term_skips_the_canary_rather_than_reporting_its_symptom
+        PASS [   0.093s] (952/986) conductor-verify::preflight healthy_pulse_is_ready
+        PASS [   0.092s] (953/986) conductor-verify::preflight ready_state_serializes_to_the_readiness_envelope
+        PASS [   0.095s] (954/986) conductor-verify::preflight the_poll_loop_sleeps_between_attempts_but_not_after_the_last
+        PASS [   0.095s] (955/986) conductor-verify::preflight wrong_protocol_version_is_blocked
+        PASS [   0.096s] (956/986) conductor-verify::readback a_call_error_is_a_typed_value_never_a_panic
+        PASS [   0.097s] (957/986) conductor-verify::readback a_declined_resolve_is_a_typed_json_rpc_value_never_a_panic
+        PASS [   0.163s] (958/986) conductor-verify::jsonrpc_line_bound a_line_one_byte_over_the_size_bound_is_a_typed_decode_error
+        PASS [   0.098s] (959/986) conductor-verify::readback a_declined_resolve_through_the_by_id_wrapper_is_the_same_typed_value
+        PASS [   0.098s] (960/986) conductor-verify::readback a_malformed_result_shape_degrades_to_empty_rather_than_panicking
+        PASS [   0.094s] (961/986) conductor-verify::readback an_applied_resolve_round_trips_pulses_raw_shape
+        PASS [   0.098s] (962/986) conductor-verify::readback count_at_least_grades_the_evidence_count_not_the_text
+        PASS [   0.099s] (963/986) conductor-verify::readback degraded_report_is_observed_as_the_pre_accepted_residual
+        PASS [   0.085s] (964/986) conductor-verify::readback empty_corpus_is_never_a_gradable_observation
+        PASS [   0.087s] (965/986) conductor-verify::readback negotiates_down_to_2024_11_05_and_round_trips_the_tool_surface
+        PASS [   0.090s] (966/986) conductor-verify::readback observation_composes_list_fields_and_report_markdown
+        PASS [   0.091s] (967/986) conductor-verify::readback the_by_id_wrapper_sends_the_one_field_argument_and_round_trips_the_raw_shape
+        PASS [   0.091s] (968/986) conductor-verify::readback the_read_back_key_sets_are_pinned_as_the_live_diff_baseline
+        PASS [   0.091s] (969/986) conductor-verify::verdict assessment_carries_observed_expected_and_delta
+        PASS [   0.090s] (970/986) conductor-verify::verdict calibration_region_is_never_a_hard_fail::case_1
+        PASS [   0.090s] (971/986) conductor-verify::verdict calibration_region_is_never_a_hard_fail::case_2
+        PASS [   0.089s] (972/986) conductor-verify::verdict classify_maps_each_class_to_its_verdict::case_1
+        PASS [   0.089s] (973/986) conductor-verify::verdict classify_maps_each_class_to_its_verdict::case_2
+        PASS [   0.092s] (974/986) conductor-verify::verdict classify_maps_each_class_to_its_verdict::case_3
+        PASS [   0.091s] (975/986) conductor-verify::verdict classify_maps_each_class_to_its_verdict::case_4
+        PASS [   0.237s] (976/986) conductor-verify::jsonrpc_line_bound a_line_at_the_size_bound_is_accepted
+        PASS [   0.090s] (977/986) conductor-verify::verdict delta_is_present_only_for_calibration_region
+        PASS [   0.127s] (978/986) conductor-verify::readback_shape_witness the_read_back_key_set_witness_is_recorded_once_on_the_first_answering_attempt
+        PASS [   2.115s] (979/986) conductor-emit::egress probe_egress_refused_surfaces_emit_error
+        PASS [   2.112s] (980/986) conductor-emit::egress refused_transport_surfaces_emit_error
+        PASS [   2.118s] (981/986) conductor-emit::multi_service_topology refused_transport_surfaces_emit_error
+        PASS [   2.122s] (982/986) conductor-emit::latency_shaping refused_transport_surfaces_emit_error
+        PASS [   2.140s] (983/986) conductor-emit::severity_logs refused_transport_surfaces_emit_error
+        PASS [   4.232s] (984/986) conductor-cli::cli_smoke preconditions_output_leaks_no_host_path_or_env_value
+        PASS [   2.133s] (985/986) conductor-run preconditions::tests::observe_preconditions_grades_each_handle_from_its_own_environment
+        PASS [   4.139s] (986/986) conductor-emit::pii_payload_corpus refused_transport_surfaces_emit_error
+────────────
+     Summary [   5.952s] 986 tests run: 986 passed, 0 skipped

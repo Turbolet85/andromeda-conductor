@@ -400,7 +400,31 @@ jobs:
           # NativeCommandExitException line and none of wdio's own (measured 2026-09-07). The harness
           # already reads $LASTEXITCODE from the bare command and exits with it, so the preference adds
           # no detection and only destroys the diagnostic.
-          .\scripts\agent-run.ps1 run --e2e
+          #
+          # The leg runs under a LIMITED token. A hosted step is elevated by construction, and elevation
+          # is the established cause of the missing DevTools endpoint — varied with a control on both
+          # sides on a known-good host (2026-09-12), IsElevatedAdmin True again on this runner in run
+          # 35079315258 with every rival cause measured away in the same run. The drop is placed HERE
+          # rather than at the wdio spawn site because msedgedriver launches the app three levels below
+          # it, so only the step covers every descendant.
+          & .\scripts\a11y-limited-token-launch.ps1 `
+            -Program (Get-Command pwsh).Source `
+            -ArgumentList '-NoProfile','-File','scripts/agent-run.ps1','run','--e2e' `
+            -WorkingDirectory $PWD.Path `
+            -ForwardEnv 'CONDUCTOR_A11Y_STRICT','CONDUCTOR_ENV','CONDUCTOR_MSEDGEDRIVER','EDGEWEBDRIVER'
+          $legExit = $LASTEXITCODE
+
+          # The scheduler does not capture the task's console, so the harness's own captured wdio output
+          # is the evidence channel. Printing it here keeps the PRINTED verdict readable in the job log;
+          # the verdict itself decided inside the leg and travels as the exit code.
+          $a11yLog = Join-Path $PWD 'runs/a11y-e2e.log'
+          if (Test-Path -LiteralPath $a11yLog) {
+            Write-Output '--- captured wdio output (runs/a11y-e2e.log) ---'
+            Get-Content -LiteralPath $a11yLog
+          } else {
+            Write-Output '[diag] A11Y_LEG_LOG: absent — the leg did not reach its wdio call'
+          }
+          exit $legExit
 
       # Isolates `session not created: DevToolsActivePort file doesn't exist` — the WARN-level line the
       # driver retries on, which says msedgedriver launched the app and never found its DevTools port.
@@ -548,6 +572,47 @@ jobs:
         continue-on-error: true
         shell: pwsh
         run: .\scripts\webview2-cause-probe.ps1
+
+      # A SECOND candidate route, measured in the same run so one job answers both questions.
+      # msedgedriver hands WebView2 `--remote-debugging-port=0` through WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS
+      # and then waits for the DevToolsActivePort FILE to appear; its own log recommends the pipe transport
+      # instead ("Use the --remote-debugging-pipe Chrome switch instead of the default
+      # --remote-debugging-port"). If WebView2's loader honours the pipe, the endpoint never needs the file
+      # and the elevation cause is sidestepped rather than treated — which is why this is a DIAGNOSTIC and
+      # not the arm: it reports whether the route exists, and can never decide the gate.
+      - name: Remote-debugging-pipe route (diagnostic)
+        if: always()
+        continue-on-error: true
+        shell: pwsh
+        env:
+          CONDUCTOR_ENV: dev
+        run: |
+          $app = Join-Path $PWD 'target\release\conductor-tauri.exe'
+          if (-not (Test-Path -LiteralPath $app)) { Write-Output '[diag] pipe-route app binary: NOT BUILT'; exit 0 }
+          $udf = Join-Path $env:RUNNER_TEMP 'wv2-pipe'
+          Remove-Item -LiteralPath $udf -Recurse -Force -ErrorAction SilentlyContinue
+          New-Item -ItemType Directory -Force -Path $udf | Out-Null
+          $env:WEBVIEW2_USER_DATA_FOLDER = $udf
+          $env:WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS = '--remote-debugging-pipe'
+          $p = Start-Process -FilePath $app -WorkingDirectory $PWD -PassThru
+          try {
+            $seen = -1
+            foreach ($s in 1..60) {
+              Start-Sleep -Seconds 1
+              if (Test-Path -LiteralPath (Join-Path $udf 'EBWebView')) { $seen = $s; break }
+            }
+            $label = if ($seen -ge 0) { "${seen}s" } else { 'never within 60s' }
+            Write-Output "[diag] pipe-route EBWebView first seen: $label"
+            Write-Output "[diag] pipe-route DevToolsActivePort present: $(Test-Path -LiteralPath (Join-Path $udf 'EBWebView\DevToolsActivePort'))"
+            Write-Output "[diag] pipe-route app alive: $(-not $p.HasExited)"
+            # The question the route turns on: does the loader ACCEPT the pipe switch, or reject the argument
+            # and fail to bring the webview up at all? A live app with its profile created is acceptance;
+            # an exited app is rejection, and says the route is closed without any token work.
+          } finally {
+            $env:WEBVIEW2_USER_DATA_FOLDER = $null
+            $env:WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS = $null
+            Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue
+          }
 
       - name: Upload session diagnostics
         if: always()

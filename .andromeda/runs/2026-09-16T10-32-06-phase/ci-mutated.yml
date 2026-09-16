@@ -1,0 +1,406 @@
+name: CI
+true:
+  pull_request: null
+  push: null
+permissions:
+  contents: read
+concurrency:
+  cancel-in-progress: true
+  group: ci-${{ github.ref }}
+jobs:
+  a11y:
+    name: "A11y gate (routine arm \xB7 axe \xB7 contrast \xB7 violation JSON)"
+    runs-on: windows-2025
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install toolchain (rust-toolchain.toml)
+      run: rustup show
+    - uses: Swatinem/rust-cache@v2
+    - name: Install cargo subcommands
+      uses: taiki-e/install-action@v2
+      with:
+        tool: cargo-nextest
+    - uses: actions/setup-node@v4
+      with:
+        cache: npm
+        cache-dependency-path: crates/conductor-tauri/ui/package-lock.json
+        node-version: '22'
+    - name: Install WebView2 Evergreen runtime 152+ (gate)
+      run: "$keys = @(\n  'HKLM:\\SOFTWARE\\WOW6432Node\\Microsoft\\EdgeUpdate\\Clients\\\
+        {F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}',\n  'HKLM:\\SOFTWARE\\Microsoft\\\
+        EdgeUpdate\\Clients\\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}'\n)\nfunction\
+        \ Get-Wv2Version {\n  $keys | ForEach-Object { (Get-ItemProperty -Path $_\
+        \ -Name pv -ErrorAction SilentlyContinue).pv } |\n    Where-Object { $_ }\
+        \ | Select-Object -First 1\n}\n\n$before = Get-Wv2Version\nWrite-Output \"\
+        [diag] WebView2 Evergreen Runtime before install: $(if ($before) { $before\
+        \ } else { 'NOT INSTALLED' })\"\n\n# The step's NAME is its contract: ensure\
+        \ a 152+ runtime, not \"always take the newest\".\n# Installing unconditionally\
+        \ over an image that already satisfies the floor is what put a 153\n# runtime\
+        \ under a 152 driver at run 34645345201 \u2014 that image shipped a coherent\
+        \ 152 triple\n# (msedgedriver 152.0.4191.66, Edge browser 152.0.4191.66, runtime\
+        \ 152.0.4191.66 before this\n# step), this step raised the runtime alone to\
+        \ 153.0.4234.32, and the live processes then\n# loaded the 153 modules while\
+        \ the driver stayed 152. Driver/runtime major skew is a MEASURED\n# CANDIDATE\
+        \ for `DevToolsActivePort file doesn't exist`, never varied in any run we\
+        \ have; this\n# conditional is what varies it. The floor assertion below still\
+        \ runs on whatever is present,\n# so the gate's contract is unchanged \u2014\
+        \ only the install ACTION is conditional, and the\n# third-party network fetch\
+        \ narrows to the case that actually needs it.\n$beforeMajor = if ($before)\
+        \ { [int]($before.Split('.')[0]) } else { 0 }\nif ($beforeMajor -ge 152) {\n\
+        \  Write-Output \"[diag] WebView2 Evergreen Runtime install: SKIPPED (present\
+        \ $before already satisfies the 152+ floor)\"\n} else {\n  $bootstrapper =\
+        \ Join-Path $env:RUNNER_TEMP 'MicrosoftEdgeWebview2Setup.exe'\n  Invoke-WebRequest\
+        \ -Uri 'https://go.microsoft.com/fwlink/p/?LinkId=2124703' -OutFile $bootstrapper\n\
+        \n  # Terminal gate, evaluated BEFORE the file is executed: a signature check\
+        \ that warns and proceeds\n  # is the silent-downgrade shape security-plan\
+        \ bans. Handle NAME + state only, never the path.\n  $sig = Get-AuthenticodeSignature\
+        \ -LiteralPath $bootstrapper\n  if ($sig.Status -ne 'Valid') {\n    Write-Output\
+        \ \"[precondition] WEBVIEW2_BOOTSTRAPPER_SIGNATURE: NOT VALID ($($sig.Status))\"\
+        \n    exit 1\n  }\n  if ($sig.SignerCertificate.Subject -notmatch 'O=Microsoft\
+        \ Corporation') {\n    Write-Output '[precondition] WEBVIEW2_BOOTSTRAPPER_SIGNATURE:\
+        \ VALID BUT UNEXPECTED SIGNER'\n    exit 1\n  }\n  Write-Output '[precondition]\
+        \ WEBVIEW2_BOOTSTRAPPER_SIGNATURE: valid, Microsoft Corporation'\n\n  $p =\
+        \ Start-Process -FilePath $bootstrapper -ArgumentList '/silent', '/install'\
+        \ -Wait -PassThru\n  if ($p.ExitCode -ne 0) {\n    Write-Output \"[precondition]\
+        \ WEBVIEW2_RUNTIME_INSTALL: FAILED (exit $($p.ExitCode))\"\n    exit 1\n \
+        \ }\n}\n\n$after = Get-Wv2Version\n# \"in effect\", not \"after install\"\
+        : the install is now conditional, and this reading is the\n# runtime the job\
+        \ will actually load on either path.\nWrite-Output \"[diag] WebView2 Evergreen\
+        \ Runtime in effect: $(if ($after) { $after } else { 'NOT INSTALLED' })\"\n\
+        if (-not $after) {\n  Write-Output '[precondition] WEBVIEW2_RUNTIME_MAJOR:\
+        \ NO EdgeUpdate client key'\n  exit 1\n}\n$major = [int]($after.Split('.')[0])\n\
+        if ($major -lt 152) {\n  Write-Output \"[precondition] WEBVIEW2_RUNTIME_MAJOR:\
+        \ $major (need 152 or newer)\"\n  exit 1\n}\nWrite-Output \"[precondition]\
+        \ WEBVIEW2_RUNTIME_MAJOR: $major\"\n"
+      shell: pwsh
+    - continue-on-error: true
+      name: WebView2 driver + runtime versions (diagnostic)
+      run: "$d = Join-Path $env:EDGEWEBDRIVER 'msedgedriver.exe'\nif (Test-Path -LiteralPath\
+        \ $d) {\n  Write-Output \"[diag] msedgedriver: $((Get-Item $d).VersionInfo.ProductVersion)\"\
+        \n} else { Write-Output '[diag] msedgedriver: NOT PRESENT' }\n$keys = @(\n\
+        \  'HKLM:\\SOFTWARE\\WOW6432Node\\Microsoft\\EdgeUpdate\\Clients\\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}',\n\
+        \  'HKLM:\\SOFTWARE\\Microsoft\\EdgeUpdate\\Clients\\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}'\n\
+        )\n$rt = $keys | ForEach-Object { (Get-ItemProperty -Path $_ -Name pv -ErrorAction\
+        \ SilentlyContinue).pv } |\n      Where-Object { $_ } | Select-Object -First\
+        \ 1\nif ($rt) { Write-Output \"[diag] WebView2 Evergreen Runtime: $rt\" }\n\
+        else { Write-Output '[diag] WebView2 Evergreen Runtime: NOT INSTALLED (no\
+        \ EdgeUpdate client key)' }\n$edge = 'C:\\Program Files (x86)\\Microsoft\\\
+        Edge\\Application\\msedge.exe'\nif (Test-Path -LiteralPath $edge) {\n  Write-Output\
+        \ \"[diag] Edge browser: $((Get-Item $edge).VersionInfo.ProductVersion)\"\n\
+        } else { Write-Output '[diag] Edge browser: NOT PRESENT' }\n"
+      shell: pwsh
+    - continue-on-error: true
+      env:
+        CONDUCTOR_A11Y_STRICT: '1'
+        CONDUCTOR_ENV: dev
+      name: A11y routine arm (tauri-driver + axe + contrast)
+      run: "if (-not $env:EDGEWEBDRIVER) {\n  Write-Output '[precondition] EDGEWEBDRIVER:\
+        \ NOT SET by the runner image'\n  exit 1\n}\n$driver = Join-Path $env:EDGEWEBDRIVER\
+        \ 'msedgedriver.exe'\nif (-not (Test-Path -LiteralPath $driver -PathType Leaf))\
+        \ {\n  Write-Output '[precondition] CONDUCTOR_MSEDGEDRIVER: NOT RESOLVED'\n\
+        \  exit 1\n}\nWrite-Output '[precondition] CONDUCTOR_MSEDGEDRIVER: resolved'\n\
+        $env:CONDUCTOR_MSEDGEDRIVER = $driver\n# No $PSNativeCommandUseErrorActionPreference\
+        \ here. It makes the harness's non-zero a\n# TERMINATING error at its `npm\
+        \ run a11y` call, before agent-run.ps1 prints the captured wdio\n# output\
+        \ the gate's verdict is read from \u2014 the job log then carries one\n# NativeCommandExitException\
+        \ line and none of wdio's own (measured 2026-09-07). The harness\n# already\
+        \ reads $LASTEXITCODE from the bare command and exits with it, so the preference\
+        \ adds\n# no detection and only destroys the diagnostic.\n.\\scripts\\agent-run.ps1\
+        \ run --e2e\n"
+      shell: pwsh
+    - continue-on-error: true
+      env:
+        CONDUCTOR_ENV: dev
+        CONDUCTOR_RUNS_DIR: runs/e2e-fixture
+      if: always()
+      name: WebView2 session isolation (diagnostic)
+      run: "$app = Join-Path $PWD 'target\\release\\conductor-tauri.exe'\nif (-not\
+        \ (Test-Path -LiteralPath $app)) { Write-Output '[diag] app binary: NOT BUILT';\
+        \ exit 0 }\nWrite-Output '[diag] app binary: present'\n\n# The driver builds\
+        \ its scoped profile under TEMP while (a) below uses RUNNER_TEMP; whether\n\
+        # those share a volume is a candidate discriminator, so it is recorded as\
+        \ a boolean.\n$tempRoot = [System.IO.Path]::GetPathRoot($env:TEMP)\n$runnerRoot\
+        \ = [System.IO.Path]::GetPathRoot($env:RUNNER_TEMP)\nWrite-Output \"[diag]\
+        \ TEMP and RUNNER_TEMP share a volume: $($tempRoot -eq $runnerRoot)\"\n\n\
+        # (a) bare-app control. On the dev host the loader honours WEBVIEW2_USER_DATA_FOLDER\
+        \ and writes\n# DevToolsActivePort under it in 1s. Polling (rather than one\
+        \ sleep) is what separates \"the\n# runner's loader ignores the handle\" from\
+        \ \"it is merely slow\" from \"it never appears\".\n$udf = Join-Path $env:RUNNER_TEMP\
+        \ 'wv2-control'\nNew-Item -ItemType Directory -Force -Path $udf | Out-Null\n\
+        $env:WEBVIEW2_USER_DATA_FOLDER = $udf\n$env:WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS\
+        \ = '--remote-debugging-port=0'\n$err = Join-Path $env:RUNNER_TEMP 'app.stderr.txt'\n\
+        $p = Start-Process -FilePath $app -WorkingDirectory $PWD -PassThru -RedirectStandardError\
+        \ $err\n$port = Join-Path $udf 'EBWebView\\DevToolsActivePort'\n$seen = -1\n\
+        foreach ($s in 1..90) {\n  Start-Sleep -Seconds 1\n  if (Test-Path -LiteralPath\
+        \ $port) { $seen = $s; break }\n}\n$seenLabel = if ($seen -ge 0) { \"${seen}s\"\
+        \ } else { 'never within 90s' }\nWrite-Output \"[diag] (a) bare-app DevToolsActivePort\
+        \ first seen: $seenLabel\"\nWrite-Output \"[diag] (a) bare-app EBWebView present:\
+        \ $(Test-Path -LiteralPath (Join-Path $udf 'EBWebView'))\"\nWrite-Output \"\
+        [diag] (a) app-alone HasExited=$($p.HasExited) ExitCode=$(if ($p.HasExited)\
+        \ { $p.ExitCode } else { 'n/a' })\"\nWrite-Output '[diag] tasklist (app +\
+        \ webview2 host):'\ntasklist /FI \"IMAGENAME eq conductor-tauri.exe\" | Select-Object\
+        \ -Last 3\ntasklist /FI \"IMAGENAME eq msedgewebview2.exe\" | Select-Object\
+        \ -Last 3\n# The module-version reading has to be taken HERE. Its subject\
+        \ is a live process, and the\n# `WebView2 cause probes (diagnostic)` step\
+        \ below runs after the Stop-Process on the next line \u2014\n# measured 0.645\
+        \ s after, at run 34586959536, where all three of its section-(2) lines read\n\
+        # `no live process`. Placement, not a longer timeout: no timeout recovers\
+        \ a dead process.\n.\\scripts\\webview2-cause-probe.ps1 -Section modules\n\
+        if (-not $p.HasExited) { Stop-Process -Id $p.Id -Force -ErrorAction SilentlyContinue\
+        \ }\n# (b) must observe the driver's UNMODIFIED behaviour, so the control's\
+        \ handles are cleared.\n$env:WEBVIEW2_USER_DATA_FOLDER = $null\n$env:WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS\
+        \ = $null\nStart-Sleep -Seconds 2\n\n# (b) driver alone \u2014 tauri-driver's\
+        \ own translation, straight at msedgedriver.\n$log = Join-Path $env:RUNNER_TEMP\
+        \ 'msedgedriver.log'\n$drv = Start-Process -FilePath (Join-Path $env:EDGEWEBDRIVER\
+        \ 'msedgedriver.exe') `\n  -ArgumentList '--port=9515', '--verbose', \"--log-path=$log\"\
+        \ -PassThru\nStart-Sleep -Seconds 3\n# The driver creates its OWN profile\
+        \ dir (dev host: %TEMP%\\scoped_dir<pid>_<rand>\\EBWebView\n# holding DevToolsActivePort,\
+        \ session in ~0.7s) and REMOVES it when the session fails \u2014 so\n# this\
+        \ poll must run DURING the POST below; a post-mortem listing measures nothing.\n\
+        # Two selection traps, both measured on the dev host: msedgedriver creates\
+        \ TWO scoped_dir\n# siblings per session (same pid, different suffix) and\
+        \ only ONE holds the profile, and\n# earlier runs leave their own behind \u2014\
+        \ so scan EVERY dir created after $since, never the\n# first match. Leaf names\
+        \ only, never a path.\n$poll = Start-Job -ArgumentList $env:TEMP, (Get-Date)\
+        \ -ScriptBlock {\n  param($tmp, $since)\n  $first = -1; $leaf = ''; $eb =\
+        \ $false; $dtap = $false; $n = 0\n  foreach ($s in 1..90) {\n    Start-Sleep\
+        \ -Seconds 1\n    $dirs = @(Get-ChildItem -Path $tmp -Filter 'scoped_dir*'\
+        \ -Directory -ErrorAction SilentlyContinue |\n                Where-Object\
+        \ { $_.CreationTime -ge $since })\n    $n = $dirs.Count\n    if ($n -gt 0\
+        \ -and $first -lt 0) { $first = $s }\n    foreach ($d in $dirs) {\n      if\
+        \ (Test-Path -LiteralPath (Join-Path $d.FullName 'EBWebView')) { $eb = $true;\
+        \ $leaf = $d.Name }\n      if (Test-Path -LiteralPath (Join-Path $d.FullName\
+        \ 'EBWebView\\DevToolsActivePort')) { $dtap = $true }\n    }\n    if ($dtap)\
+        \ { break }\n  }\n  [pscustomobject]@{ First = $first; Count = $n; Leaf =\
+        \ $leaf; EBWebView = $eb; DevToolsActivePort = $dtap }\n}\n# browserName MUST\
+        \ be 'webview2' \u2014 it is what selects the driver's WebView2-HOST launch\
+        \ mode.\n# Without it the same POST fails on the DEV HOST too, byte-for-byte\
+        \ the runner's failure (env\n# var empty, Chromium switches on argv, DevToolsActivePort\
+        \ missing) against a binary that\n# passes 12/12 through tauri-driver \u2014\
+        \ i.e. the omission makes the probe measure itself.\n# Validated on the dev\
+        \ host before this form was pushed.\n$caps = @{ capabilities = @{ alwaysMatch\
+        \ = @{ browserName = 'webview2'; 'ms:edgeOptions' = @{ binary = $app; webviewOptions\
+        \ = @{} } } } } | ConvertTo-Json -Depth 8 -Compress\ntry {\n  $r = Invoke-WebRequest\
+        \ -Uri 'http://127.0.0.1:9515/session' -Method POST -Body $caps `\n    -ContentType\
+        \ 'application/json' -TimeoutSec 90 -SkipHttpErrorCheck\n  Write-Output \"\
+        [diag] driver-alone status=$($r.StatusCode)\"\n  Write-Output \"[diag] driver-alone\
+        \ body: $($r.Content)\"\n} catch {\n  Write-Output \"[diag] driver-alone threw:\
+        \ $($_.Exception.Message)\"\n}\n# Wait-Job carries -Timeout; Receive-Job does\
+        \ not (measured on the dev host \u2014 the -Timeout\n# form throws and the\
+        \ poll silently returns nothing).\n$null = Wait-Job -Job $poll -Timeout 120\n\
+        $res = Receive-Job -Job $poll\nStop-Job -Job $poll -ErrorAction SilentlyContinue\n\
+        Remove-Job -Job $poll -Force -ErrorAction SilentlyContinue\nif ($res) {\n\
+        \  $firstLabel = if ($res.First -ge 0) { \"$($res.First)s\" } else { 'never'\
+        \ }\n  Write-Output \"[diag] (b) fresh scoped_dir first seen: $firstLabel\
+        \  count: $($res.Count)\"\n  Write-Output \"[diag] (b) scoped_dir holding\
+        \ EBWebView: $(if ($res.Leaf) { $res.Leaf } else { 'none' })\"\n  Write-Output\
+        \ \"[diag] (b) any fresh scoped_dir EBWebView present: $($res.EBWebView)\"\
+        \n  Write-Output \"[diag] (b) any fresh scoped_dir DevToolsActivePort present:\
+        \ $($res.DevToolsActivePort)\"\n} else {\n  Write-Output '[diag] (b) scoped_dir\
+        \ poll returned nothing'\n}\nStop-Process -Id $drv.Id -Force -ErrorAction\
+        \ SilentlyContinue\n\n# (c) default-profile fallback \u2014 present means\
+        \ the app used its own profile rather than the\n# folder the driver set for\
+        \ it.\n$fallback = Join-Path $env:LOCALAPPDATA 'com.andromeda.conductor\\\
+        EBWebView'\nWrite-Output \"[diag] (c) LOCALAPPDATA app EBWebView present:\
+        \ $(Test-Path -LiteralPath $fallback)\"\n\n# (d) stage the logs (+ any crashpad\
+        \ dir) under one dir; names only, never host paths.\n# conductor-tauri.jsonl\
+        \ is the app's own self-obs sink, written unconditionally beside the runs\n\
+        # dir (obs-plan \xA73), so it witnesses \"the backend started\" INDEPENDENTLY\
+        \ of DevToolsActivePort \u2014\n# which is the whole reading (a) turns on:\
+        \ an app that is alive with no endpoint.\n$out = Join-Path $env:RUNNER_TEMP\
+        \ 'session-diag'\nNew-Item -ItemType Directory -Force -Path $out | Out-Null\n\
+        $applog = Join-Path $PWD 'runs\\logs\\conductor-tauri.jsonl'\nforeach ($f\
+        \ in @($err, $log, $applog)) { if (Test-Path -LiteralPath $f) { Copy-Item\
+        \ $f $out -Force } }\nGet-ChildItem -Path $env:RUNNER_TEMP, $env:LOCALAPPDATA\
+        \ -Filter 'Crashpad' -Directory -Recurse -Depth 4 -ErrorAction SilentlyContinue\
+        \ |\n  Select-Object -First 1 | ForEach-Object { Copy-Item $_.FullName (Join-Path\
+        \ $out 'Crashpad') -Recurse -Force -ErrorAction SilentlyContinue }\nWrite-Output\
+        \ \"[diag] staged: $((Get-ChildItem $out -Recurse -File | Measure-Object).Count)\
+        \ file(s)\"\n"
+      shell: pwsh
+    - continue-on-error: true
+      if: always()
+      name: WebView2 cause probes (diagnostic)
+      run: .\scripts\webview2-cause-probe.ps1
+      shell: pwsh
+    - continue-on-error: true
+      if: always()
+      name: Upload session diagnostics
+      uses: actions/upload-artifact@v4
+      with:
+        if-no-files-found: warn
+        name: a11y-session-diag
+        path: ${{ runner.temp }}/session-diag
+    - env:
+        CONDUCTOR_RUNS_DIR: runs/a11y
+      name: A11y violation-JSON conformance gate
+      run: 'ls runs/a11y/*.jsonl >/dev/null 2>&1 || { echo "::error::the a11y leg
+        wrote no violation record to assert over"; exit 1; }
+
+        cargo nextest run -p conductor-run --test journal_conformance --profile ci
+
+        echo "a11y violation-JSON conformance: PASS ($(ls runs/a11y/*.jsonl | wc -l)
+        record(s) checked)"
+
+        '
+      shell: bash
+    - if: always()
+      name: Upload a11y violation record
+      uses: actions/upload-artifact@v4
+      with:
+        if-no-files-found: warn
+        name: a11y-violations
+        path: runs/a11y/*.jsonl
+  frontend:
+    defaults:
+      run:
+        working-directory: crates/conductor-tauri/ui
+    name: "Frontend gate (npm audit \xB7 build)"
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        cache: npm
+        cache-dependency-path: crates/conductor-tauri/ui/package-lock.json
+        node-version: '22'
+    - name: Install (clean)
+      run: npm ci
+    - name: "Supply-chain \u2014 npm audit (production deps)"
+      run: npm audit --omit=dev
+    - name: Build (tsc --noEmit && vite build)
+      run: npm run build
+  rust:
+    name: "Rust gate (build \xB7 test \xB7 lint \xB7 supply-chain \xB7 coverage)"
+    runs-on: windows-latest
+    steps:
+    - uses: actions/checkout@v4
+    - name: Install toolchain (rust-toolchain.toml)
+      run: rustup show
+    - name: Formatting gate (cargo fmt)
+      run: cargo fmt --all --check
+    - uses: Swatinem/rust-cache@v2
+    - name: Install cargo subcommands
+      uses: taiki-e/install-action@v2
+      with:
+        tool: cargo-nextest,cargo-audit,cargo-deny,cargo-llvm-cov
+    - uses: actions/setup-node@v4
+      with:
+        cache: npm
+        cache-dependency-path: crates/conductor-tauri/ui/package-lock.json
+        node-version: '22'
+    - name: Build frontend bundle (ui/dist)
+      run: 'npm ci
+
+        npm run build
+
+        '
+      working-directory: crates/conductor-tauri/ui
+    - name: Build (locked)
+      run: cargo build --workspace --locked
+    - name: Flakiness budget (assert zero-retry)
+      run: "if grep -nE '^[[:space:]]*retries[[:space:]]*=[[:space:]]*([1-9]|\\{)'\
+        \ .config/nextest.toml; then\n  echo \"::error file=.config/nextest.toml::non-zero\
+        \ retries configured \u2014 the zero-flakiness budget forbids retries (test-plan\
+        \ \xA710)\"\n  exit 1\nfi\n"
+      shell: bash
+    - name: Test + lint (dogfood agent-run)
+      run: '$PSNativeCommandUseErrorActionPreference = $true
+
+        .\scripts\agent-run.ps1 run
+
+        '
+      shell: pwsh
+    - name: Coverage-completeness gate
+      run: "test -f coverage-matrix.md || { echo \"::error::coverage-matrix.md is\
+        \ absent \u2014 the gate has no subject\"; exit 1; }\ncargo nextest run -p\
+        \ conductor-report --test coverage_gate --profile ci\necho \"coverage completeness:\
+        \ PASS ($(grep -cE '^\\| `P-' coverage-matrix.md) capabilities classified)\"\
+        \n"
+      shell: bash
+    - name: Scenario-assertion audit gate
+      run: "test -f contracts/scenario-audit-ledger.toml || { echo \"::error::contracts/scenario-audit-ledger.toml\
+        \ is absent \u2014 the gate has no subject\"; exit 1; }\ncargo nextest run\
+        \ -p conductor-core --test scenario_audit_gate --profile ci\n"
+      shell: bash
+    - name: "Supply-chain \u2014 cargo audit"
+      run: cargo audit
+    - name: "Supply-chain \u2014 cargo deny"
+      run: cargo deny check
+    - name: Coverage (collect instrumented)
+      run: cargo llvm-cov nextest --workspace --profile ci --no-report
+    - name: Coverage (LCOV + Cobertura reports)
+      run: 'cargo llvm-cov report --lcov --output-path lcov.info --ignore-filename-regex
+        ''[\\/]tests[\\/]''
+
+        cargo llvm-cov report --cobertura --output-path coverage.xml --ignore-filename-regex
+        ''[\\/]tests[\\/]''
+
+        '
+      shell: bash
+    - name: "Coverage (line-floor gate \u2014 test-plan \xA710, >= 60%)"
+      run: cargo llvm-cov report --fail-under-lines 60 --ignore-filename-regex '[\\/]tests[\\/]'
+    - if: always()
+      name: Upload coverage report
+      uses: actions/upload-artifact@v4
+      with:
+        name: coverage-report
+        path: 'lcov.info
+
+          coverage.xml
+
+          '
+    - if: always()
+      name: Upload test results (JUnit)
+      uses: actions/upload-artifact@v4
+      with:
+        name: test-results
+        path: target/nextest/ci/junit.xml
+    - env:
+        ANDROMEDA_PULSE_DATA_DIR: pulse;injection
+      name: "Obs conformance \u2014 produce agent-latest.jsonl (no-Pulse Blocked run)"
+      run: "mkdir -p logs\n# Capture stderr too: an UNSTRUCTURED panic (a bypassed\
+        \ set_hook) lands on stderr, not the JSON\n# file sink, so the zero-unlogged-panics\
+        \ gate greps both (obs-plan \xA79).\ncargo run -q -p conductor-cli --bin conductor\
+        \ -- run error-baseline-spike --seed 424242 --agent-mode 2> logs/producer-stderr.log\n"
+      shell: bash
+    - name: Obs conformance + zero-unlogged-panics gate
+      run: "log=logs/agent-latest.jsonl\ntest -s \"$log\" || { echo \"::error file=$log::self-obs\
+        \ artifact missing or empty\"; exit 1; }\n# (a) every line carries the 7 required\
+        \ self-obs base fields (obs-plan \xA73/\xA76)\nwhile IFS= read -r line; do\n\
+        \  [ -n \"$line\" ] || continue\n  printf '%s' \"$line\" | jq -e '.timestamp_ms\
+        \ and .level and .target and .[\"service.name\"] and .[\"service.version\"\
+        ] and .[\"deployment.environment\"] and .run_id' >/dev/null \\\n    || { echo\
+        \ \"::error file=$log::self-obs line missing a required base field\"; exit\
+        \ 1; }\ndone < \"$log\"\n# (b) redaction boundary \u2014 no absolute host\
+        \ path leaked (anchors mirror conductor-core::redact)\nif grep -nE '([A-Za-z]:[\\\
+        \\/]|/home/|/Users/|\\\\Users\\\\|/root/|%APPDATA%|%USERPROFILE%|%LOCALAPPDATA%|\\\
+        $HOME|~/|\\.cargo[\\\\/]|\\.rustup[\\\\/])' \"$log\"; then\n  echo \"::error\
+        \ file=$log::absolute host path leaked into the self-obs artifact (redaction\
+        \ boundary)\"; exit 1\nfi\n# (c) zero unlogged panics \u2014 grep the JSON\
+        \ sink AND the captured producer stderr (obs-plan \xA79):\n# an unstructured\
+        \ backtrace (bypassed set_hook) lands on stderr, not the file. Only a structured\n\
+        # tracing::error!(panic=\u2026) JSON line is acceptable (obs-plan \xA710).\n\
+        if grep -nE '^thread.*panicked' \"$log\" logs/producer-stderr.log; then\n\
+        \  echo \"::error::unstructured panic backtrace found (zero-unlogged-panics\
+        \ gate)\"; exit 1\nfi\necho \"obs conformance + zero-unlogged-panics: PASS\
+        \ ($(wc -l < \"$log\") lines checked)\"\n"
+      shell: bash
+    - env:
+        CONDUCTOR_RUNS_DIR: runs
+      name: Run-journal conformance gate
+      run: 'ls runs/*.jsonl >/dev/null 2>&1 || { echo "::error::the producer wrote
+        no run journal to assert over"; exit 1; }
+
+        cargo nextest run -p conductor-run --test journal_conformance --profile ci
+
+        echo "run-journal conformance: PASS ($(ls runs/*.jsonl | wc -l) journals checked)"
+
+        '
+      shell: bash
+    - if: always()
+      name: Upload obs self-observation artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: obs-conformance
+        path: logs/agent-latest.jsonl

@@ -1,0 +1,28 @@
+[
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "d423b022",
+"ts": "2026-09-16T11:40:04Z",
+"argv": [
+"show",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+"--run-dir",
+".andromeda/runs/2026-09-16T11-34-01-implement"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-16-a11y-ci-gate-at-an-honest-terminal: 1",
+"v3-02 · a11y · planned · ref null · chunk 2026-09-16-a11y-ci-gate-at-an-honest-terminal · The routine accessibility arm's own printed verdict is green in continuo… (379 chars)",
+"pool: unclaimed 5 [v3-03 v3-08 v3-09 v3-10 v3-11]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

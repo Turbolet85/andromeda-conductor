@@ -1,0 +1,44 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "2a1bf9cb",
+"ts": "2026-09-16T10:36:18Z",
+"argv": [
+"append",
+"--file",
+".andromeda/master-route.md",
+"--payload-file",
+".andromeda/runs/2026-09-16T10-32-06-phase/master-record.txt",
+"--lines",
+"1",
+"--after-section",
+"## conductor-0.3.0",
+"--run-dir",
+".andromeda/runs/2026-09-16T10-32-06-phase",
+"--marker",
+"2026-09-16-a11y-ci-gate-at-an-honest-terminal"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append master-route.md:+1 at line 146 · lines 145→146 · bytes 97964→98567 · term lf",
+"section '## conductor-0.3.0' · appended at its end, not the file's",
+"last line now: 2026-09-16-a11y-ci-gate-at-an-honest-terminal · pending · A11y CI gate at an h"
+],
+"stderr": null,
+"wrote": [
+".andromeda/master-route.md"
+],
+"before": {
+"lines": 145,
+"bytes": 97964,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 146,
+"bytes": 98567
+}
+}
+]

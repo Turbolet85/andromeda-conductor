@@ -1,0 +1,144 @@
+[
+{
+"sql": "SELECT name, kind, file, def_line FROM symbol WHERE file LIKE '%wdio.conf.ts' AND kind = 'fn' ORDER BY def_line;",
+"rows": 11,
+"result": [
+{
+"name": "nativeDriver",
+"kind": "fn",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 55
+},
+{
+"name": "strictMode",
+"kind": "fn",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 67
+},
+{
+"name": "exitUnresolvedHandle",
+"kind": "fn",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 74
+},
+{
+"name": "seedFixtureRuns",
+"kind": "fn",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 121
+},
+{
+"name": "invokedSuites",
+"kind": "fn",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 166
+},
+{
+"name": "nvdaExe",
+"kind": "fn",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 181
+},
+{
+"name": "reportNvdaSkip",
+"kind": "fn",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 187
+},
+{
+"name": "startNvda",
+"kind": "fn",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 198
+},
+{
+"name": "stopNvda",
+"kind": "fn",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 236
+},
+{
+"name": "reportSkip",
+"kind": "fn",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 245
+},
+{
+"name": "writeA11yEnvelope",
+"kind": "fn",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"def_line": 267
+}
+],
+"db_state": "fresh",
+"plane": "ts"
+},
+{
+"sql": "SELECT callee_name, caller_name, file, line FROM calls WHERE callee_name IN ('nativeDriver','exitUnresolvedHandle','reportSkip','strictMode','census') ORDER BY callee_name, line;",
+"rows": 10,
+"result": [
+{
+"callee_name": "census",
+"caller_name": "wdio.conf.ts",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 18
+},
+{
+"callee_name": "census",
+"caller_name": "stopNvda",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 239
+},
+{
+"callee_name": "census",
+"caller_name": "wdio.conf.ts",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 395
+},
+{
+"callee_name": "census",
+"caller_name": "wdio.conf.ts",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 449
+},
+{
+"callee_name": "census",
+"caller_name": "parse-nvda-log.ts",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader/parse-nvda-log.ts",
+"line": 493
+},
+{
+"callee_name": "exitUnresolvedHandle",
+"caller_name": "wdio.conf.ts",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 356
+},
+{
+"callee_name": "exitUnresolvedHandle",
+"caller_name": "wdio.conf.ts",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 384
+},
+{
+"callee_name": "nativeDriver",
+"caller_name": "wdio.conf.ts",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 353
+},
+{
+"callee_name": "reportSkip",
+"caller_name": "wdio.conf.ts",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 355
+},
+{
+"callee_name": "strictMode",
+"caller_name": "exitUnresolvedHandle",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 75
+}
+],
+"db_state": "fresh",
+"plane": "ts"
+}
+]
