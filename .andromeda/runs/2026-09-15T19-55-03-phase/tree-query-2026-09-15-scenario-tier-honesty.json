@@ -1,0 +1,100 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'deadline_ms' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 18,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 expected/MAX_BUDGET_MS.",
+"file": "crates/conductor-core/src/expected.rs",
+"line": 50
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 expected/impl#[ExpectedCheck]effective_deadline_ms().",
+"file": "crates/conductor-core/src/expected.rs",
+"line": 84
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 expected/tests/an_absent_budget_falls_back_to_the_scenario_tier().",
+"file": "crates/conductor-core/src/expected.rs",
+"line": 190
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 expected/tests/a_declared_budget_overrides_the_tier().",
+"file": "crates/conductor-core/src/expected.rs",
+"line": 200
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 expected/tests/the_budget_ceiling_derives_from_the_ladder_not_a_literal().",
+"file": "crates/conductor-core/src/expected.rs",
+"line": 209
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 scenario/impl#[Scenario]check_budgets().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 200
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 scenario/tests/slo_tier_deadline_ms_maps_the_three_tiers().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 293
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 scenario/tests/slo_tier_deadline_ms_maps_the_three_tiers().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 294
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 scenario/tests/slo_tier_deadline_ms_maps_the_three_tiers().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 295
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 scenario/tests/a_within_tier_budget_survives_the_toml_round_trip().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 1094
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 scenario/tests/the_committed_catalog_declares_budgets_within_its_tiers().",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 1108
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.2.0 slo/tests/slo_within_and_exceeded_per_tier().",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 171
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.2.0 slo/tests/slo_within_and_exceeded_per_tier().",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 172
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.2.0 slo/tests/slo_within_and_exceeded_per_tier().",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 173
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.2.0 slo/tests/slo_within_and_exceeded_per_tier().",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 174
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.2.0 slo/tests/negative_latency_is_never_within_tolerance().",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 179
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.2.0 slo/tests/the_outcome_records_which_bound_it_was_judged_against().",
+"file": "crates/conductor-verify/src/slo.rs",
+"line": 278
+},
+{
+"caller": "rust-analyzer cargo conductor-verify 0.2.0 crate/",
+"file": "crates/conductor-verify/tests/expected_slo.rs",
+"line": 49
+}
+],
+"db_state": "regenerated",
+"plane": "rust"
+}
+]

@@ -1,0 +1,5 @@
+name = "ctl-over"
+slo_tier = "<5s"
+[[phases]]
+name = "p"
+gap_ms = 99000

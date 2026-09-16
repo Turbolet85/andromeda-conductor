@@ -13,8 +13,9 @@
 #   Pulse emits `metric.findings.counter_refresh_ms` carrying `duration_ms`, behind its own exact allowlist
 #   leaf, and persists it to `{data_dir}/logs/agent-latest.jsonl.<date>`. NO MCP tool reads that stream, so
 #   the bound is graded over a live-leg capture in the conductor-run harvest test — never by an
-#   `[[expected]]` check, and never through `budget_ms` (which grades Conductor's own MCP round-trip, not a
-#   Pulse-internal duration). The observable fires inside the findings re-poll (`FINDINGS_REPOLL_MS` = 1000),
+#   `[[expected]]` check, and never through `budget_ms` (which bounds the journal-relative span over this
+#   scenario's WHOLE run — `read_back_observed_at − journal_emitted_at` — not a Pulse-internal duration).
+#   The observable fires inside the findings re-poll (`FINDINGS_REPOLL_MS` = 1000),
 #   continuously and unprompted — no operator action, only a running Pulse with its window open.
 #   Measured 2026-08-21 (correcting the pre-leg prediction that it would land `Blocked`): its live leg
 #   landed `verdict = CalibrationRegion` / `state = KnownResidual`. Two mechanisms, neither of which is the
@@ -37,7 +38,9 @@
 name = "findings-counter-refresh"
 p_ids = ["P-045"]
 seed = 4317045
-slo_tier = "<5s"   # the counter refreshes within 1s of the next refresh event; the <5s tier covers it
+slo_tier = "<20s"   # re-declared from <5s: the phases below span 6s and latency_ms is measured journal-relative
+                    # across the WHOLE run, so <5s was unattainable by construction. The ≤1s counter-refresh
+                    # bound above is delegated, graded at the harvest tier — not this scenario's declared tier.
 jitter_ms = 50
 
 [[phases]]

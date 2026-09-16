@@ -30,7 +30,10 @@
 name = "severity-tier-autonomous"
 p_ids = ["P-019", "P-020", "P-060"]
 seed = 4317019
-slo_tier = "<5s"   # P-060 Tier-1: a hard signal triggers immediate inference (<5s end-to-end)
+slo_tier = "<90s"   # the closest honest bucket: the phases below span 120s and latency_ms is measured
+                    # journal-relative across the WHOLE run, so this scenario exceeds every tier in the closed set.
+                    # P-060 Tier-1's <5s bounds PULSE's inference after a hard signal — a delegated budget, not
+                    # this scenario's own span; the declared tier cannot express it.
 jitter_ms = 50
 
 [[phases]]

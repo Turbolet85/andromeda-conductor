@@ -1,0 +1,41 @@
+# design extract
+
+## Relevance
+**Partial** — the chunk edits scenario TOML data + tests (no UI built), but `slo_tier` is a *rendered* value in both surfaces and the "three situations kept distinct" requirement is governed by design's never-collapse-distinct-states discipline.
+
+## Constraints
+- The tier set is closed at three and is a rendering contract: the `slo_tier` cell must render the scenario's **declared** value drawn from `<5s`/`<20s`/`<90s` — never a baked per-scenario literal (per design-system §Surface: cli → Component Patterns #4). A re-tier in Situation 3 must therefore require no edit at any render or sample site; whether a per-scenario tier literal still exists in code/spec is research's question.
+- Any rendered SLO timing/tier belongs to the reserved mono status tier — JetBrains Mono 500, 13px, tabular-nums, in mono ID-cyan `--color-id-cyan` (`#7DCFFF`) / ANSI 117 (per design-system §Typography → Data row; §Surface: cli → Tokens). It is not a generic accent and must not be re-tinted to signal over-tier.
+- A measured-but-pre-accepted gap must render as `KnownResidual` — `--status-residual` / ANSI 246, dashed-ring lamp or `[RESIDUAL]` + `~`, carrying its "expected until {named fix}" note — and must **never** collapse into red `Fail` (per design-system §Color Palette → Verdict-vs-ReportState note). Situations 1 and 2 (ratified honest-ceiling posture, tier stated-with-reason) are that shape; Situation 3 is a plain mis-declaration. Whether any current surface already distinguishes them is research's question.
+- The lamp set is closed at six and the run-level non-lamp caption set (`[ENVIRONMENT-SUSPECT]`, `[PRECONDITION]`) is the only place a run-level qualifier may live; a new qualifier must reuse the existing recessive pair ANSI 246 ↔ `var(--status-residual)` — no new palette row, no seventh lamp, no seventh `ReportState` (per design-system §Surface: cli → Tokens, Residual-mute entry).
+- Color never carries signal alone: every status/caption must ship an always-rendered ASCII label (`[PASS]`/`[FAIL]`/`[RESIDUAL]`/…); the tint only de-emphasizes (per design-system §Surface: cli → Tokens + §Anti-Patterns → Per-Surface Bans, cli).
+- Markdown/artifact surfaces have no color channel and must use the surface-adapted counterpart — emphasis (`_not-conductors_`) or the bracket label in a blockquote — if a stated reason or posture note lands in a rendered doc (per design-system §Surface: cli → Tokens, Residual-mute entry).
+
+## Patterns to follow
+- **Results / SLO table** (cli Component Pattern #3): 6 columns — P-ID · scenario · state · `slo_tier` · `latency_ms` · fingerprints, widths detected dynamically. The `conductor coverage` matrix is a *separate, narrower* 4-column table (P-ID · Title · Category · Mode) with **no** verdict/state column — do not add a tier or over-tier column there.
+- **Verdict / report-state lines** (cli Component Pattern #4): `✓ P-009  Pass   1840ms <slo_tier>` — the tier cell is a placeholder resolved from the scenario's declared value; `~ P-032  Residual  recent_commits stub → v0.3.0` is the shape a stated-reason/pre-accepted gap takes.
+- **Coverage matrix row** (desktop-webview Component Pattern #3) and **run-report view** (Pattern #6): SLO tier + `latency_ms` render mono in `--color-id-cyan` alongside the row's lamp + text label — reuse, do not introduce a parallel tier presentation.
+- **Name-the-set, never-a-fresh-literal** derived-count discipline: when a count or per-scenario value would re-stale on the next change, cite the set or the verification-matrix row instead of baking the number (established across amendments 2026-08-08, 2026-08-09, 2026-09-10).
+
+## Anti-patterns to avoid
+- Never invent a fourth tier, a seventh lamp state, or a new palette/ANSI entry to express "exceeds every tier" — the closed sets absorb it via the ceiling-plus-stated-reason posture (per design-system §Anti-Patterns + §Surface: cli → Tokens).
+- Never let a ratified or pre-accepted gap read as a red `Fail`, and never gray "not measured"/"pre-accepted"/"defect" identically — the explicit Rejected Default is conflating distinct non-pass outcomes (per design-system §Anti-Patterns → Rejected Defaults, "Conflating 'no result yet' with 'failed'").
+- Never bake a per-scenario tier literal into a sample, doc, or render site — the 2026-08-18 amendment retired exactly that literal (per design-system §Surface: cli → Component Patterns #4).
+
+## Contract bindings
+- **Tier vocabulary ↔ architecture**: design renders only what `SloTier`'s closed set declares (`crates/conductor-core/src/scenario.rs`, read-only per scope); design adds no tier and no `deadline_ms` semantics.
+- **`--status-residual` / ANSI 246 + always-rendered label ↔ a11y §Use of Color (SC 1.4.1)** — the not-color-alone rule is the a11y half of the recessive-tier contract.
+- **`--color-id-cyan` on the tier/latency cell ↔ a11y §Contrast (SC 1.4.3)** — if any new tier cell renders on a surface it did not before, the pair must still clear 4.5:1.
+- **Stated-reason text ↔ tests/artifacts**: whether the stated reason surfaces in any rendered output (report, coverage caption) or stays a TOML comment is research's question; design's rules bind only if it renders.
+
+## Acceptance criteria contributions
+- (design) Every declared `slo_tier` after the change is a member of the closed `<5s`/`<20s`/`<90s` set — no fourth tier string appears anywhere (per design-system §Surface: cli → Component Patterns #4).
+- (design) No render site, sample, or spec gains a per-scenario tier literal; a re-tiered scenario's tier cell resolves from the declared value (per design-system §Surface: cli → Component Patterns #4).
+- (design) If the ratified over-tier posture surfaces in any output, it renders in the recessive `KnownResidual` treatment (`--status-residual` / ANSI 246 with `[RESIDUAL]`/`~` label or dashed lamp), never red `Fail` and never as a new lamp/`ReportState` (per design-system §Color Palette → Verdict-vs-ReportState note).
+- (design) Any SLO-tier or latency value rendered uses the reserved mono status tier — JetBrains Mono tabular-nums in `--color-id-cyan` / ANSI 117 — with no hardcoded hex or ANSI code (per design-system §Typography → Data row).
+
+## Relevant amendment history
+- **2026-08-18-error-baseline-spike-live-proof** (§Surface: cli → Component Patterns #4) — directly this chunk's area and its governing precedent: a prior re-tier of `error-baseline-spike` (`<5s` → `<90s`; that scenario now sits in this chunk's Situation 1 list) forced the sample `P-009 … 1840ms <5s` to be de-literalized to `<slo_tier>`. Why it matters here: a re-tier must leave no baked literal behind, and the design doc should need no edit for Situation 3's six re-declarations.
+- **2026-08-09-out-of-scope-classification-treatment** (§Surface: cli Tokens + Pattern #3) — retitled Pattern #3 **Results / SLO table** and separated it from the 4-column `conductor coverage` table after research surfaced a column conflation; also recorded the second non-lamp reuse of the ANSI 246 ↔ `var(--status-residual)` pair. Why it matters: fixes which table a tier column may live in.
+- **2026-08-09-sut-load-envelope** and **2026-09-03-live-pulse-preconditions-probed** (§Color Palette / §Surface: cli Tokens) — established the recessive tier's non-lamp caption **set** framing (`[ENVIRONMENT-SUSPECT]`, `[PRECONDITION]`), named as a set never a count, with the lamp set held closed at six. Why it matters: if this chunk's stated reason ever wants a run-level caption, this is the sanctioned shape — reuse, no new token.
+- **2026-09-10-release-build-and-bundle** (plus the 2026-08-08 / 2026-08-09 de-hardcoding sweeps) — the "name the set, never substitute a fresh literal" fix rule for derived counts. Why it matters: the 9 / 2 / 6 / 19 partition counts in this chunk's ground are exactly the kind of figure that must be cited to `verification-matrix.json#v3-05`, not baked into a design or doc site.

@@ -26,7 +26,9 @@
 name = "severity-tier-suggested"
 p_ids = ["P-019", "P-020", "P-021", "P-060"]
 seed = 4317020
-slo_tier = "<20s"   # P-060 Tier-2: a medium-confidence cue -> accelerated cadence (<20s)
+slo_tier = "<90s"   # re-declared from <20s: the phases below span 82s and latency_ms is measured journal-relative
+                    # across the WHOLE run, so <20s was unattainable by construction. P-060 Tier-2's <20s bounds
+                    # PULSE's accelerated cadence after a medium-confidence cue — a delegated budget, not this span.
 jitter_ms = 50
 
 [[phases]]

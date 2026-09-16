@@ -1,0 +1,19 @@
+gate v1.0 · f6e4b9b8
+shell C:\Program Files\Git\bin\bash.exe (from $SHELL; -c, non-login)
+root D:\dev\projects\conductor · marker 2026-09-15-scenario-tier-honesty · entries 11
+logs C:\Users\turbo\AppData\Local\Temp\andromeda-gate\2026-09-15-scenario-tier-honesty\implement-2026-09-16T06-03-27 · bound: GNU timeout
+delta docs 30 · unmapped 12
+prose L118-124: No `smoke` entry: this chunk drives no leg, so the 5-command harness has no run to mint an… (680 chars)
+prose L126-129: `evidence/tier-ledger.md` (named by an acceptance criterion) has **no listed producer by c… (334 chars)
+  1 probe       green · exit 0 · 0.09s · 3 B → 1.log · python -X utf8 -c "import glob;T=('<5s','<20s','<90s');L=l… (319 chars)
+  2 probe       green · exit 0 · 0.09s · 3 B → 2.log · python -X utf8 -c "import glob;T={'<5s':5000,'<20s':20000,… (393 chars)
+  3 probe       green · exit 0 · 0.1s · 3 B → 3.log · python -X utf8 -c "import glob,re;G=('not the SLO budget',… (255 chars)
+  4 unit        green · exit 0 · 2.5s · 38167 B → 4.log · cargo nextest run -p conductor-core
+  5 unit        green · exit 0 · 0.85s · 26049 B → 5.log · cargo test -p conductor-core
+  6 unit        green · exit 0 · 7.66s · 114730 B → 6.log · cargo nextest run --workspace --profile ci
+  7 lint        green · exit 0 · 0.79s · 72 B → 7.log · cargo clippy --workspace --all-targets -- -D warnings
+  8 lint        green · exit 0 · 0.43s · 0 B → 8.log · cargo fmt --all -- --check
+  9 probe       green · exit 0 · 0.18s · 0 B → 9.log · git -C "${CARGO_HOME:-$HOME/.cargo}/advisory-db" status --… (67 chars)
+ 10 probe       green · exit 0 · 1.92s · 1897 B → 10.log · cargo audit
+ 11 probe       green · exit 0 · 1.32s · 236251 B → 11.log · cargo deny check advisories bans licenses sources
+entries 11 · green 11 · red 0 · recorded 0 · timeout 0 · not-run 0

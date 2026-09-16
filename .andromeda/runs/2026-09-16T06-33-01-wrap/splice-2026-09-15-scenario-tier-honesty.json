@@ -1,0 +1,41 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "2a1bf9cb",
+"ts": "2026-09-16T06:49:23Z",
+"argv": [
+"append",
+"--file",
+"conductor-0.3.0/route-archive.md",
+"--payload-file",
+"C:/Users/turbo/.claude/jobs/eaf92acc/tmp/archive-entry.md",
+"--lines",
+"3",
+"--run-dir",
+".andromeda/runs/2026-09-16T06-33-01-wrap",
+"--marker",
+"2026-09-15-scenario-tier-honesty"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append route-archive.md:+3 at line 34 · lines 33→36 · bytes 10060→10311 · term lf",
+"last line now: [2026-09-15-scenario-tier-honesty] Scenario tier honesty — every declared tier"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0/route-archive.md"
+],
+"before": {
+"lines": 33,
+"bytes": 10060,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 36,
+"bytes": 10311
+}
+}
+]

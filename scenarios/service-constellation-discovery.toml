@@ -15,8 +15,9 @@
 #   Pulse emits `metric.constellation.discovery_ms` carrying `duration_ms` + `discovered_count`, behind its
 #   own exact allowlist leaf, and persists it to `{data_dir}/logs/agent-latest.jsonl.<date>`. NO MCP tool
 #   reads that stream, so the bound is graded over a live-leg capture in the conductor-run harvest test —
-#   never by an `[[expected]]` check, and never through `budget_ms` (which grades Conductor's own MCP
-#   round-trip, not a Pulse-internal duration). The observable fires when a new service enters the stream,
+#   never by an `[[expected]]` check, and never through `budget_ms` (which bounds the journal-relative span
+#   over this scenario's WHOLE run — `read_back_observed_at − journal_emitted_at` — not a Pulse-internal
+#   duration). The observable fires when a new service enters the stream,
 #   which is exactly this scenario's second phase — no operator action, only a running Pulse with its
 #   window open.
 # Declare-only (operator-checklist / Epoch-8): stable dot positions ACROSS a Pulse restart (a cross-restart
@@ -24,7 +25,9 @@
 name = "service-constellation-discovery"
 p_ids = ["P-027"]
 seed = 4317027
-slo_tier = "<5s"   # a newly-appearing service.name surfaces as a dot within ≤5s (delegated) — the fast tier
+slo_tier = "<20s"   # re-declared from <5s: the phases below span 6s and latency_ms is measured journal-relative
+                    # across the WHOLE run, so <5s was unattainable by construction. The ≤5s dot-discovery bound
+                    # above is delegated, graded at the harvest tier — not this scenario's declared tier.
 jitter_ms = 50
 
 [[phases]]

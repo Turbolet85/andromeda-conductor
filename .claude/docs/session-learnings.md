@@ -1,6 +1,42 @@
 # Session Learnings
 
 _This file is curated by `/wrap-session`. Learnings captured here are too detailed or specific for CLAUDE.md but worth preserving as reference material for future sessions._
+## 2026-09-16 — The amendment cascade sweeps the spec tier, not the committed data
+
+An amendment retires a claim in a master and the cascade re-derives the distillations — CLAUDE.md's
+generated blocks, `.claude/rules/*`, `.claude/docs/*`. It does NOT walk `scenarios/`, `contracts/`, or any
+other committed file the project treats as data. So a claim can be retired in the spec tier and go on being
+asserted, verbatim, by the corpus for as long as nobody happens to read it.
+
+Measured this chunk: obs-plan retired the gloss of `read_back_observed_at − journal_emitted_at` as
+"Conductor's own MCP round-trip" on 2026-09-10. Six days later four scenario TOMLs still stated it and three
+more carried its sibling wording ("…is phase timing, not the SLO budget"). All seven masters swept clean the
+whole time — 0 hits in each — which is exactly why nothing surfaced it: every gate that looks was looking at
+the tier where the fix had already landed.
+
+The consequence for planning: when a chunk amends a claim that committed data also states, the data sweep is
+its own step, and no cascade or drift detector will raise it. The consequence for reading: a master being
+current is evidence about the master, not about the corpus that quotes it.
+
+---
+
+## 2026-09-16 — A review edit re-opens the checks that READ the edited artifact
+
+At a phase P5 review the operator asked for one polish: pin a required sweep FORM into a matrix acceptance
+criterion. Applying it converted that criterion from a method-less absence claim into one naming a mechanical
+method — and no `[[gate]]` entry performed that method. Check 4 (6) ("every gate or probe an acceptance
+criterion NAMES is an entry") had passed correctly before the edit and was false after it.
+
+What went wrong was the re-validation, not the edit: after applying, the checks that read the GATE FENCE were
+re-run (the parse, the size, the new/baseline pairing) and the check that reads ACCEPTANCE CRITERIA was not —
+which is precisely the one the edit had invalidated. The operator caught it in the next round and supplied
+the missing entry.
+
+The rule: after applying any review edit, re-run the checks whose SUBJECT the edit changed, not the checks
+whose ARTIFACT you happened to re-run. The two sets overlap often enough to feel identical and are not.
+
+---
+
 ## 2026-09-08 — Read the verification matrix through its tool, not through the JSON
 
 The verification matrix (`{project}-{version}/verification-matrix.json`) has a tool read surface —

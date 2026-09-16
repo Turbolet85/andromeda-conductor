@@ -1,0 +1,315 @@
+[
+{
+"tool": "gate",
+"v": "1.0",
+"sha8": "f6e4b9b8",
+"ts": "2026-09-16T06:08:07Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-15-scenario-tier-honesty/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-16T06-03-27-implement",
+"--marker",
+"2026-09-15-scenario-tier-honesty"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-15-scenario-tier-honesty · entries 11",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-15-scenario-tier-honesty\\implement-2026-09-16T06-03-27 · bound: GNU timeout",
+"delta docs 30 · unmapped 12",
+"prose L118-124: No `smoke` entry: this chunk drives no leg, so the 5-command harness has no run to mint an… (680 chars)",
+"prose L126-129: `evidence/tier-ledger.md` (named by an acceptance criterion) has **no listed producer by c… (334 chars)",
+"  1 probe       green · exit 0 · 0.09s · 3 B → 1.log · python -X utf8 -c \"import glob;T=('<5s','<20s','<90s');L=l… (319 chars)",
+"  2 probe       green · exit 0 · 0.09s · 3 B → 2.log · python -X utf8 -c \"import glob;T={'<5s':5000,'<20s':20000,… (393 chars)",
+"  3 probe       green · exit 0 · 0.1s · 3 B → 3.log · python -X utf8 -c \"import glob,re;G=('not the SLO budget',… (255 chars)",
+"  4 unit        green · exit 0 · 2.5s · 38167 B → 4.log · cargo nextest run -p conductor-core",
+"  5 unit        green · exit 0 · 0.85s · 26049 B → 5.log · cargo test -p conductor-core",
+"  6 unit        green · exit 0 · 7.66s · 114730 B → 6.log · cargo nextest run --workspace --profile ci",
+"  7 lint        green · exit 0 · 0.79s · 72 B → 7.log · cargo clippy --workspace --all-targets -- -D warnings",
+"  8 lint        green · exit 0 · 0.43s · 0 B → 8.log · cargo fmt --all -- --check",
+"  9 probe       green · exit 0 · 0.18s · 0 B → 9.log · git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --… (67 chars)",
+" 10 probe       green · exit 0 · 1.92s · 1897 B → 10.log · cargo audit",
+" 11 probe       green · exit 0 · 1.32s · 236251 B → 11.log · cargo deny check advisories bans licenses sources",
+"entries 11 · green 11 · red 0 · recorded 0 · timeout 0 · not-run 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-15-scenario-tier-honesty",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-15-scenario-tier-honesty\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-15-scenario-tier-honesty\\implement-2026-09-16T06-03-27",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+".andromeda/runs/2026-09-15T19-55-03-phase/.raw-a11y.md",
+".andromeda/runs/2026-09-15T19-55-03-phase/.raw-arch.md",
+".andromeda/runs/2026-09-15T19-55-03-phase/.raw-design.md",
+".andromeda/runs/2026-09-15T19-55-03-phase/.raw-layouts.md",
+".andromeda/runs/2026-09-15T19-55-03-phase/.raw-obs.md",
+".andromeda/runs/2026-09-15T19-55-03-phase/.raw-security.md",
+".andromeda/runs/2026-09-15T19-55-03-phase/.raw-tests.md",
+".andromeda/runs/2026-09-15T19-55-03-phase/a11y.md",
+".andromeda/runs/2026-09-15T19-55-03-phase/acceptance-v3-05.md",
+".andromeda/runs/2026-09-15T19-55-03-phase/arch.md",
+".andromeda/runs/2026-09-15T19-55-03-phase/control/ctl-bad-tier.toml",
+".andromeda/runs/2026-09-15T19-55-03-phase/control/ctl-over.toml",
+".andromeda/runs/2026-09-15T19-55-03-phase/control/ctl-wrapped-gloss.toml",
+".andromeda/runs/2026-09-15T19-55-03-phase/design.md",
+".andromeda/runs/2026-09-15T19-55-03-phase/layouts.md",
+".andromeda/runs/2026-09-15T19-55-03-phase/matrix-2026-09-15-scenario-tier-honesty.json",
+".andromeda/runs/2026-09-15T19-55-03-phase/obs.md",
+".andromeda/runs/2026-09-15T19-55-03-phase/security.md",
+".andromeda/runs/2026-09-15T19-55-03-phase/splice-2026-09-15-scenario-tier-honesty.json",
+".andromeda/runs/2026-09-15T19-55-03-phase/tests.md",
+".andromeda/runs/2026-09-15T19-55-03-phase/tree-query-2026-09-15-scenario-tier-honesty.json",
+".andromeda/runs/2026-09-16T06-03-27-implement/gate-run-1.log",
+"conductor-0.3.0/chunks/2026-09-15-scenario-tier-honesty/evidence/tier-ledger.md",
+"conductor-0.3.0/chunks/2026-09-15-scenario-tier-honesty/plan.md",
+"conductor-0.3.0/chunks/2026-09-15-scenario-tier-honesty/research.md",
+"conductor-0.3.0/chunks/2026-09-15-scenario-tier-honesty/scope.md"
+]
+},
+"unmapped": [
+"conductor-0.3.0/verification-matrix.json",
+"scenarios/ack-cooldown.toml",
+"scenarios/auto-resolve-idle-window.toml",
+"scenarios/constellation-severity-live-wiring.toml",
+"scenarios/findings-counter-refresh.toml",
+"scenarios/halo-hue-encoding.toml",
+"scenarios/incident-auto-resolution.toml",
+"scenarios/report-render-surface.toml",
+"scenarios/service-constellation-discovery.toml",
+"scenarios/severity-tier-autonomous.toml",
+"scenarios/severity-tier-suggested.toml",
+"scenarios/threshold-hot-reload.toml"
+],
+"prose": [
+{
+"from": 118,
+"to": 124,
+"text": "No `smoke` entry: this chunk drives no leg, so the 5-command harness has no run to mint an `<id>` from and a bare `status` would read a prior run's residue; no boot-path touchpoint is in the modify-set either (the test plan declares no boot-smoke trigger path covering `scenarios/`, and `boot` is a precondition probe — Conductor runs no daemon). No `self-verify`: not a UI/visual chunk, and the modify-set holds no frontend path. No live leg, so no `probe`-before-leg pairing is owed. The Rust gates are NOT deferred despite zero `.rs` delta — the scenario TOMLs are committed files that `conductor-core`'s catalog tests read, which is the `defer` key's own run-anyway condition."
+},
+{
+"from": 126,
+"to": 129,
+"text": "`evidence/tier-ledger.md` (named by an acceptance criterion) has **no listed producer by construction**: it is authored by step 5 as the chunk's own enumeration, not emitted by any run. The reasons' TRUTH is not greppable — that is exactly why it is enumerated rather than asserted by a gate — so no entry carries it as an `artifact`."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "probe",
+"run": "python -X utf8 -c \"import glob;T=('<5s','<20s','<90s');L=lambda f:[l.strip() for l in open(f,encoding='utf-8')];V=lambda ls,k:[x.split('=',1)[1].split('#',1)[0].strip().strip(chr(34)) for x in ls if x.startswith(k)];print(sum(1 for f in sorted(glob.glob('scenarios/*.toml')) for t in V(L(f),'slo_tier') if t not in T))\"",
+"run_sha8": "17c37b07",
+"expect": [
+"exit 0",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-15-scenario-tier-honesty\\implement-2026-09-16T06-03-27\\1.log",
+"bytes": 3,
+"log_sha8": "13bf7b30",
+"exit": 0,
+"seconds": 0.09,
+"readings": [
+"exit 0 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "probe",
+"run": "python -X utf8 -c \"import glob;T={'<5s':5000,'<20s':20000,'<90s':90000};L=lambda f:[l.strip() for l in open(f,encoding='utf-8')];V=lambda ls,k:[x.split('=',1)[1].split('#',1)[0].strip().strip(chr(34)) for x in ls if x.startswith(k)];print(sum(1 for f in sorted(glob.glob('scenarios/*.toml')) for t in V(L(f),'slo_tier') if t in T and t!='<90s' and sum(int(x) for x in V(L(f),'gap_ms'))>T[t]))\"",
+"run_sha8": "a632c17b",
+"expect": [
+"exit 0",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-15-scenario-tier-honesty\\implement-2026-09-16T06-03-27\\2.log",
+"bytes": 3,
+"log_sha8": "13bf7b30",
+"exit": 0,
+"seconds": 0.09,
+"readings": [
+"exit 0 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "probe",
+"run": "python -X utf8 -c \"import glob,re;G=('not the SLO budget','MCP round-trip');f=lambda p:re.sub(r'\\s+',' ',re.sub(r'(?m)^\\s*#\\s?','',open(p,encoding='utf-8').read()));print(sum(1 for p in sorted(glob.glob('scenarios/*.toml')) if any(g in f(p) for g in G)))\"",
+"run_sha8": "cd1e0ad5",
+"expect": [
+"exit 0",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-15-scenario-tier-honesty\\implement-2026-09-16T06-03-27\\3.log",
+"bytes": 3,
+"log_sha8": "13bf7b30",
+"exit": 0,
+"seconds": 0.1,
+"readings": [
+"exit 0 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "cargo nextest run -p conductor-core",
+"run_sha8": "cadab0c2",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-15-scenario-tier-honesty\\implement-2026-09-16T06-03-27\\4.log",
+"bytes": 38167,
+"log_sha8": "9abcf889",
+"exit": 0,
+"seconds": 2.5,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "cargo test -p conductor-core",
+"run_sha8": "cbd7017c",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-15-scenario-tier-honesty\\implement-2026-09-16T06-03-27\\5.log",
+"bytes": 26049,
+"log_sha8": "4b4d5386",
+"exit": 0,
+"seconds": 0.85,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-15-scenario-tier-honesty\\implement-2026-09-16T06-03-27\\6.log",
+"bytes": 114730,
+"log_sha8": "562d83c7",
+"exit": 0,
+"seconds": 7.66,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-15-scenario-tier-honesty\\implement-2026-09-16T06-03-27\\7.log",
+"bytes": 72,
+"log_sha8": "73596b79",
+"exit": 0,
+"seconds": 0.79,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "lint",
+"run": "cargo fmt --all -- --check",
+"run_sha8": "810e75f0",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-15-scenario-tier-honesty\\implement-2026-09-16T06-03-27\\8.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.43,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --porcelain",
+"run_sha8": "eab7a4cb",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-15-scenario-tier-honesty\\implement-2026-09-16T06-03-27\\9.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.18,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-15-scenario-tier-honesty\\implement-2026-09-16T06-03-27\\10.log",
+"bytes": 1897,
+"log_sha8": "bf025772",
+"exit": 0,
+"seconds": 1.92,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-15-scenario-tier-honesty\\implement-2026-09-16T06-03-27\\11.log",
+"bytes": 236251,
+"log_sha8": "4ebeefef",
+"exit": 0,
+"seconds": 1.32,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+}
+]
+}
+}
+]

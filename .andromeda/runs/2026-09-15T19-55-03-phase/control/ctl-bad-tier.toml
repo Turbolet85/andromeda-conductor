@@ -1,0 +1,5 @@
+name = "ctl-bad-tier"
+slo_tier = "<45s"
+[[phases]]
+name = "p"
+gap_ms = 10

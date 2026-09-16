@@ -16,7 +16,8 @@
 #   silently misses this one. NO MCP tool reads that stream (`dispatch_retrieve_report` builds the report
 #   inside the sidecar and never calls `incidents_router.rs`), so the bound is graded over a live-leg
 #   capture in the conductor-run harvest test — never by an `[[expected]]` check, and never through
-#   `budget_ms` (which grades Conductor's own MCP round-trip, not a Pulse-internal duration).
+#   `budget_ms` (which bounds the journal-relative span over this scenario's WHOLE run —
+#   `read_back_observed_at − journal_emitted_at` — not a Pulse-internal duration).
 #   FIRING CONDITION (measured 2026-08-21, correcting a pre-leg premise): the leaf emits on
 #   `incidents.get_report`, called from a `useEffect` keyed on `incidentId` — it fires when that id
 #   TRANSITIONS, which Pulse's own UI does by auto-selecting a newly-formed incident. An operator click is
@@ -32,7 +33,9 @@
 name = "report-render-surface"
 p_ids = ["P-037"]
 seed = 4317037
-slo_tier = "<5s"   # the render budget is <2s; the <5s tier covers it
+slo_tier = "<20s"   # re-declared from <5s: the phases below span 6s and latency_ms is measured journal-relative
+                    # across the WHOLE run, so <5s was unattainable by construction. Pulse's own <2s render
+                    # budget is a delegated bound, graded at the harvest tier — not this scenario's declared tier.
 jitter_ms = 50
 
 [[phases]]

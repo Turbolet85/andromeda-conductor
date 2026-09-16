@@ -16,8 +16,8 @@
 #   exact allowlist leaf, and persists it to `{data_dir}/logs/agent-latest.jsonl.<date>`. NO MCP tool reads
 #   that stream, so the bound is graded over a live-leg capture in the conductor-run harvest test — never by
 #   an `[[expected]]` check, and never through `budget_ms` (which grades
-#   `read_back_observed_at − journal_emitted_at`, Conductor's own MCP round-trip, not a Pulse-internal
-#   duration — binding one to the other would be a category error).
+#   `read_back_observed_at − journal_emitted_at`, the journal-relative span over this scenario's WHOLE run,
+#   not a Pulse-internal duration — binding one to the other would be a category error).
 #   THREE fire-site terms govern what that observable can measure (`ConstellationCanvas.tsx:117-155`).
 #   (1) SLOWEST-WINS: the effect loops every dot whose tier changed in the render pass and emits the MAXIMUM
 #   staleness, with `severity_tier` naming THAT dot's tier — so a same-pass canary change reports the canary.

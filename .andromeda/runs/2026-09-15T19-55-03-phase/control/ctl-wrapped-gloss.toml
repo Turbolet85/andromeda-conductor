@@ -1,0 +1,6 @@
+# Minted P5 known-positive control: the retired gloss WRAPPED across two comment lines,
+#   the same shape as scenarios/service-constellation-discovery.toml:18-19.
+# This capability grades at the harvest tier, never through `budget_ms` (which grades Conductor's own MCP
+#   round-trip, not a Pulse-internal duration).
+name = "ctl-wrapped-gloss"
+slo_tier = "<5s"

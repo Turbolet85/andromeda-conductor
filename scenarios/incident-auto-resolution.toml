@@ -43,7 +43,9 @@
 name = "incident-auto-resolution"
 p_ids = ["P-022", "P-059"]
 seed = 4317022
-slo_tier = "<90s"   # a long lifecycle scenario; the 120s window is phase timing, not the SLO budget
+slo_tier = "<90s"   # the closest honest bucket: the phases below span ~364s, and latency_ms is measured
+                    # journal-relative across the WHOLE run, so this long lifecycle scenario exceeds every
+                    # tier in the closed set.
 jitter_ms = 50
 
 [[phases]]

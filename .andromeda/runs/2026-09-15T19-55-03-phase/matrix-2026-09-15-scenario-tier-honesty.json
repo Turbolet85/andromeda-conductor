@@ -1,0 +1,108 @@
+[
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "d423b022",
+"ts": "2026-09-16T05:43:19Z",
+"argv": [
+"coverage",
+"--dir",
+"conductor-0.3.0",
+"--run-dir",
+".andromeda/runs/2026-09-15T19-55-03-phase",
+"--marker",
+"2026-09-15-scenario-tier-honesty"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"verified 3/11 · deferred 0 · planned 8 · implemented 0 · unclaimed 8",
+"unclaimed: v3-02 v3-03 v3-05 v3-06 v3-08 v3-09 v3-10 v3-11",
+"claimed-unfinished: none",
+"done-test: NO — 8 not verified|deferred · unclaimed 8",
+"chunks referenced: 3 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "d423b022",
+"ts": "2026-09-16T05:43:24Z",
+"argv": [
+"claim",
+"--dir",
+"conductor-0.3.0",
+"--id",
+"v3-05",
+"--chunk",
+"2026-09-15-scenario-tier-honesty",
+"--acceptance-file",
+".andromeda/runs/2026-09-15T19-55-03-phase/acceptance-v3-05.md",
+"--run-dir",
+".andromeda/runs/2026-09-15T19-55-03-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claim v3-05 → chunk 2026-09-15-scenario-tier-honesty (was null; status planned kept)",
+"acceptance: Every committed scenario's declared latency tier either holds its own … (415 chars)",
+"         → Over all 36 committed scenarios: (a) no scenario declares a non-ceilin… (1922 chars)",
+"wrote conductor-0.3.0\\verification-matrix.json · 1 entry changed",
+"pool: unclaimed 7 [v3-02 v3-03 v3-06 v3-08 v3-09 v3-10 v3-11]"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0\\verification-matrix.json"
+],
+"before": {
+"id": "v3-05",
+"chunk": null,
+"status": "planned",
+"method": "unit",
+"ref": "null",
+"acceptance": "Every committed scenario's declared latency tier either holds its own summed phase duration, or carries a stated reason … (415 chars)",
+"notes_chars": 0
+},
+"after": {
+"id": "v3-05",
+"chunk": "2026-09-15-scenario-tier-honesty",
+"status": "planned",
+"method": "unit",
+"ref": "null",
+"acceptance": "Over all 36 committed scenarios: (a) no scenario declares a non-ceiling tier that its own summed `gap_ms` exceeds — the … (1922 chars)",
+"notes_chars": 0
+}
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "d423b022",
+"ts": "2026-09-16T05:43:29Z",
+"argv": [
+"audit",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-15-scenario-tier-honesty",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-15-scenario-tier-honesty/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-15T19-55-03-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-15-scenario-tier-honesty: 1 · ## Acceptance Criteria: line 184, 44 lines",
+"v3-05: cited in ## Acceptance Criteria (line 188)",
+"pool: unclaimed 7 [v3-02 v3-03 v3-06 v3-08 v3-09 v3-10 v3-11]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

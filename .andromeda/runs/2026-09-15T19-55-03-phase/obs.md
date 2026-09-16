@@ -1,0 +1,42 @@
+# obs extract
+
+## Relevance
+Partial — the chunk mints no spans/logs, but `slo_tier` is a plan-owned envelope field with a closed enum and plan-owned thresholds, so obs constrains the permitted values and the enforcement semantics of any re-tier.
+
+## Constraints
+- `slo_tier` is a **closed enum** in the run-report envelope schema, and the run-journal conformance gate asserts closed sets (not just key presence) — a tier value outside `<5s`/`<20s`/`<90s` would fail it, which is the obs-side reason the chunk's "no new tier" boundary holds (per obs-plan §3 Observability Harness Contract → Log format JSON schema; §6 Log Coverage → Required fields).
+- The tier→threshold ladder (5000 / 20000 / 90000 ms) and the assertion form `latency_ms <= threshold_for(slo_tier)` are stated by the plan; a re-tier changes **which** threshold applies to a scenario, never the ladder (per obs-plan §5 Metric Coverage → Per-surface / per-path metrics; §10 SLO Invariants & Telemetry Budgets).
+- §10 requires SLO enforcement at report-generation time and permits `state` to move to `Fail` on violation; §11 bans soft (unenforced) budgets. Situations 1 and 2 declare a tier the run exceeds by design, so the chunk must reconcile the "honest-bucket posture" with this mandate — **whether the shipped report seam already applies the §10 assertion, and what it writes for an over-ceiling scenario, is research's question** (per obs-plan §10; §11 Obs Anti-Patterns → SLO).
+- `latency_ms` is wall-clock, journal-relative (`read_back_observed_at − journal_emitted_at`, never the tokio virtual clock) and the plan records it as covering the scenario's **whole emission window**, not an MCP round-trip — this is the plan-side bearing on the chunk's P3 premise that latency ≈ summed phase duration (per obs-plan §5; §11 Project-specific bans; §4 Span/Trace Coverage → Known-residual classification path, Delegated-timing family).
+- Four of the chunk's named scenarios (`halo-hue-encoding`, `service-constellation-discovery`, `report-render-surface`, `findings-counter-refresh`) sit in the delegated-timing family, whose budgets grade at the harvest tier over Pulse's own leaves and **never** through `budget_ms` / `effective_deadline_ms`; a re-tier must not be read as moving those leaf budgets (per obs-plan §4 → Known-residual classification path, Delegated-timing family).
+- Minimal obs tier: the performance budget is a JSON field assertion over `latency_ms` + `slo_tier`; no metrics backend, no histogram instrument may be introduced to express tier fit (per obs-plan §2 Telemetry Strategy → signal pyramid; §5 Metric Coverage).
+- Envelope fidelity: `slo_tier` is one of the eleven required envelope keys on every scenario-result record, "required" meaning key presence; the declared tier is what the report seam must serialize (per obs-plan §6 Log Coverage → Required fields).
+
+## Patterns to follow
+- Declared-tier → envelope field: the scenario's `slo_tier` rides the report seam's eleven-field envelope into `runs/<run_id>.jsonl` and the `runs.db` row (per obs-plan §3 Log format JSON schema).
+- Per-check `CheckRecord` is a second report-seam line shape carrying `deadline_ms` + `budget_ms` beneath the envelope; a re-tier plausibly moves those values too — whether the code derives them from `SloTier::deadline_ms()` is research's question (per obs-plan §3 → two record shapes).
+- SLO assertion lives at report-generation time as a JSON field comparison, not at an exporter or gate outside the report seam (per obs-plan §10; §5).
+- The delegated-timing family reads each budget from its own exact Pulse allowlist leaf, kept explicitly separate from the envelope's tier arithmetic (per obs-plan §4 → Delegated-timing family).
+
+## Anti-patterns to avoid
+- Never invent a fourth tier or a free-form `slo_tier` string to make a scenario honest — the closed set is asserted by the conformance gate (per obs-plan §3 Log format JSON schema; §6 Required fields).
+- Never leave a declared budget unenforced (a "documented as over-tier" tier that no assertion evaluates) — §11 bans soft SLO budgets (per obs-plan §11 Obs Anti-Patterns → SLO).
+- Never add a latency histogram / metrics instrument to model tier fit — Minimal tier has no metrics backend and a meter re-introduces the banned SDK (per obs-plan §11 Obs Anti-Patterns → Metrics; §5).
+
+## Contract bindings
+- obs ↔ tests: test-plan §3 **owns** the JSONL envelope format including `slo_tier`; obs-plan §3/§6 derive from it, so any change to the emitted tier value or its closed set is a two-sided bind (per obs-plan §3 Log format JSON schema — "obs aligns to tests, not vice versa").
+- obs ↔ tests harness: the run-journal conformance gate consumes the closed-set + key-presence assertions over the envelope; the same gate serves the a11y violation record (per obs-plan §3 extension-point paragraph; §9 CI Integration → Log conformance check).
+- obs ↔ domain/scenario config: the TOML `slo_tier` declaration is the source of the envelope field and of the §10 threshold selection; the stated-reason comment is a config artifact with no envelope carrier (per obs-plan §6 Required fields — no scenario extra is known beyond the eleven).
+
+## Acceptance criteria contributions
+- Every re-declared tier serializes into the run-report envelope as a member of the closed set `<5s` / `<20s` / `<90s`, and the run-journal conformance gate's closed-set assertion still passes over a scenario record (per obs-plan §3 Observability Harness Contract → Log format JSON schema).
+- The eleven envelope keys are unchanged in count and name: the stated reason is carried in the scenario file, never as a new envelope extra or span attribute (per obs-plan §6 Log Coverage → Required fields).
+- For each re-tiered scenario the report-generation-time budget applied is the new tier's threshold (5000 / 20000 / 90000 ms) against wall-clock `latency_ms`; no histogram or metrics instrument is added to express it (per obs-plan §10 SLO Invariants & Telemetry Budgets; §5 Metric Coverage).
+- The four delegated-timing scenarios' harvest-tier leaf budgets are untouched by any tier move, staying distinct from `budget_ms` / `effective_deadline_ms` (per obs-plan §4 Span/Trace Coverage → Known-residual classification path, Delegated-timing family).
+
+## Relevant amendment history
+- **2026-09-10-live-pulse-in-lane-scenario-round** (§4 Delegated-timing note) — retired the gloss of `read_back_observed_at − journal_emitted_at` as "Conductor's MCP round-trip"; it is the journal-relative span over the scenario's whole emission window (three legs of 18s/35s/30s declared phases measured `latency_ms` 18169/35120/30212, sidecar tool calls 0–22 ms). Its own downstream note records — as a plausible origin, not an established one — that `constellation-severity-live-wiring`'s unattainable `<20s` tier came from choosing a tier under the round-trip reading. This is the closest prior art to both of the chunk's P3 premises.
+- **2026-08-21-delegated-timing-budgets-proven** (§4 Known-residual detail block) — recorded the delegated-timing family as harvest-tier, grading from its own Pulse leaves and never through `budget_ms`/`effective_deadline_ms` (leg D: envelope `latency_ms` 6139 vs 1.9 ms median on the leaf). Placed deliberately outside the §4 critical-path table so the fixed 7-path count backing the Minimal-tier justification was not moved — the same caution applies to any obs-side change this chunk might prompt.
+- **2026-09-15-structurally-dead-assertion-class-retired** (same-day predecessor, §4 Delegated-timing family) — `findings-counter-refresh` restated as declare-only after its single `CountAtLeast` floor was retired; it is a Situation-3 scenario here, so its envelope shape (verdict null) is already re-based while its tier is not.
+- **2026-09-06-run-report-envelope-conformance-gate** (§6, §4, §1) — restored the envelope list to eleven fields and defined "required" as key presence, not non-null; also closed §11's span-name set against a `db.*` widening. Sets the exact assertion shape any tier edit must keep satisfying.
+- **2026-09-07-a11y-ci-gate** (§3 extension point, §9 artifact table) — recorded that `journal_conformance` asserts key presence, **closed sets**, and host-path freedom, never key exclusivity; the closed-set clause is precisely what a newly invented tier value would break.

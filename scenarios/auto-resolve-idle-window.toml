@@ -22,7 +22,9 @@
 name = "auto-resolve-idle-window"
 p_ids = ["P-022"]
 seed = 4317122
-slo_tier = "<90s"   # a lifecycle-timing scenario; the 120s+30s window is phase timing, not the SLO budget
+slo_tier = "<90s"   # the closest honest bucket: the 120s+30s window below is the scenario's own span, and
+                    # latency_ms is measured journal-relative across the WHOLE run, so this lifecycle-timing
+                    # scenario exceeds every tier in the closed set.
 jitter_ms = 50
 
 [[phases]]

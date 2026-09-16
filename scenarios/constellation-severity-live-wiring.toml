@@ -30,7 +30,9 @@
 name = "constellation-severity-live-wiring"
 p_ids = ["P-079"]
 seed = 4317079
-slo_tier = "<20s"   # tracks storm detection through to a corpus-visible incident — the middle tier (calibration point)
+slo_tier = "<90s"   # re-declared from <20s: the phases below span 30s and latency_ms is measured journal-relative
+                    # across the WHOLE run, so <20s was unattainable by construction (measured 30212 ms on the
+                    # 2026-09-10 leg). Tracks storm detection through to a corpus-visible incident.
 jitter_ms = 50
 
 [[phases]]
