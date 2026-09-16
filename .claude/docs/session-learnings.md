@@ -597,3 +597,46 @@ fifteen-item per-item disposition inside a sweep is the mixing hazard the findin
 operator's own sharpening on effort — reading `timeout.txt` is a small patch, but rostering the
 fifteen timeouts is judgment, not a patch — is what made "mint an entry" the honest lean rather than
 "absorb it here".
+
+## 2026-09-16 — a11y CI terminal: instruments that cannot answer their own question
+
+Five instrument failures in one chunk, all of the same family and each caught only by a control. Recorded
+together because the pattern is the lesson, not any single case.
+
+- **A probe validated outside the context it RUNS in proves nothing.** The token witness's UAC block was
+  exercised in a bare `pwsh -Command` and passed; the script itself sets `Set-StrictMode -Version Latest`,
+  under which member access on an absent registry property throws. In CI it threw on the first absent key
+  and aborted the loop, losing exactly the two readings the diagnosis needed. Validate a probe in the
+  context that will run it, not in a convenient one.
+- **A self-report can under-count its own subject.** The orphan reap's `OrphansLeft` counts at the instant
+  the last pass runs, while the process tree is still settling: it reported 1 while an independent audit
+  against the leg window measured 6. An instrument that measures at its own convenience measures early.
+- **"Registered ok" is not "ran that way".** `A11Y_LIMITED_TOKEN_REGISTER: ok` recorded what the scheduler
+  was ASKED for; the task ran High-integrity anyway. Three CI runs were interpreted through that line
+  before a witness inside the task settled it. Read the outcome from inside the thing, not from the
+  request that configured it.
+- **A diagnostic can be consistent with both answers.** The pipe-route probe concluded from "app alive +
+  profile created", which an IGNORED switch produces identically to an accepted one. It could never have
+  discriminated its own question.
+- **The driver's advice is about the BROWSER, not itself.** msedgedriver's log recommends
+  `--remote-debugging-pipe`; its `--help` lists 18 options with no pipe entry and it silently ignores the
+  flag. The transport exists inside the driver with no surface to select it — so the route died at zero CI
+  cost, once the binary was read instead of the log line.
+
+**The cheapest discriminating question is often not a CI run.** Two candidate routes were eliminated on
+this host for nothing: the pipe route by reading the driver binary, and the `runas`-prompts objection by
+running `runas /trustlevel` once. Ask what a local read can kill before spending a twelve-minute iteration.
+
+### Recurrence, not a new rule — clipped views, three instances in one session
+
+The standing rule ("a count is never read off a clipped output") was breached **three times in one day by
+two readers who both know it**: a per-path grep quoted from a clipped combined search; a site enumeration
+taken from a narrower re-read than the code-graph query that had already answered it; and a `:397`-only
+failure reading that nearly became "driver alignment made it worse" before `grep -oE` over the whole file
+showed all three legs identical. Deliberately NOT written into Tier 1 or a rule file — the rule is already
+stated in both always-loaded tiers, and restating it a third time buys cost, not compliance. What is new is
+the frequency and that seniority is no protection; that belongs here.
+
+A fourth instance of the same family landed in this wrap's own cascade: a sweep for `six governed forms`
+returned **0** across the distillations while `.claude/rules/security.md` stated it as `**SIX**` — markdown
+bold defeating the literal pattern. Caught by reading the `governed` hits instead of trusting the count.

@@ -1,0 +1,73 @@
+[
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "d423b022",
+"ts": "2026-09-16T17:06:24Z",
+"argv": [
+"unclaim",
+"--dir",
+"conductor-0.3.0",
+"--id",
+"v3-02",
+"--run-dir",
+".andromeda/runs/2026-09-16T16-42-52-wrap",
+"--marker",
+"2026-09-16-a11y-ci-gate-at-an-honest-terminal"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"unclaim v3-02: chunk 2026-09-16-a11y-ci-gate-at-an-honest-terminal → null · status planned kept",
+"wrote conductor-0.3.0\\verification-matrix.json · 1 entry changed",
+"pool: unclaimed 6 [v3-02 v3-03 v3-08 v3-09 v3-10 v3-11]"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0\\verification-matrix.json"
+],
+"before": {
+"id": "v3-02",
+"chunk": "2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+"status": "planned",
+"method": "a11y",
+"ref": "null",
+"acceptance": "The routine accessibility arm's own printed verdict is green in continuous integration, with the passing and skipped spe… (379 chars)",
+"notes_chars": 2504
+},
+"after": {
+"id": "v3-02",
+"chunk": null,
+"status": "planned",
+"method": "a11y",
+"ref": "null",
+"acceptance": "The routine accessibility arm's own printed verdict is green in continuous integration, with the passing and skipped spe… (379 chars)",
+"notes_chars": 2504
+}
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "d423b022",
+"ts": "2026-09-16T17:06:24Z",
+"argv": [
+"flip",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+"--run-dir",
+".andromeda/runs/2026-09-16T16-42-52-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed 0 — gate no-op (no entry carries chunk 2026-09-16-a11y-ci-gate-at-an-honest-terminal)",
+"pool: unclaimed 6 [v3-02 v3-03 v3-08 v3-09 v3-10 v3-11]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

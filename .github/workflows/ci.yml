@@ -409,14 +409,26 @@ jobs:
           # it, so only the step covers every descendant.
           & .\scripts\a11y-limited-token-launch.ps1 `
             -Program (Get-Command pwsh).Source `
-            -ArgumentList '-NoProfile','-File','scripts/agent-run.ps1','run','--e2e' `
+            -ArgumentList '-NoProfile','-File','scripts/a11y-token-witness.ps1' `
             -WorkingDirectory $PWD.Path `
             -ForwardEnv 'CONDUCTOR_A11Y_STRICT','CONDUCTOR_ENV','CONDUCTOR_MSEDGEDRIVER','EDGEWEBDRIVER'
           $legExit = $LASTEXITCODE
 
-          # The scheduler does not capture the task's console, so the harness's own captured wdio output
-          # is the evidence channel. Printing it here keeps the PRINTED verdict readable in the job log;
-          # the verdict itself decided inside the leg and travels as the exit code.
+          # The scheduler does not capture the task's console, so anything the task printed reaches the
+          # job log only through a file. The witness runs INSIDE the task and records the token it
+          # actually got — which is what separates "elevation is not the cause" from "the token never
+          # dropped". Registering Limited is not evidence of running Limited.
+          $witnessLog = Join-Path $PWD 'runs/a11y-token-witness.log'
+          if (Test-Path -LiteralPath $witnessLog) {
+            Write-Output '--- token witness, from inside the task (runs/a11y-token-witness.log) ---'
+            Get-Content -LiteralPath $witnessLog
+          } else {
+            Write-Output '[diag] A11Y_TOKEN_WITNESS: absent — the task never reached its witness'
+          }
+
+          # The harness's own captured wdio output is the leg's evidence channel. Printing it here keeps
+          # the PRINTED verdict readable in the job log; the verdict itself decided inside the leg and
+          # travels as the exit code.
           $a11yLog = Join-Path $PWD 'runs/a11y-e2e.log'
           if (Test-Path -LiteralPath $a11yLog) {
             Write-Output '--- captured wdio output (runs/a11y-e2e.log) ---'
