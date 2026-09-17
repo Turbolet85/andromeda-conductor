@@ -157,44 +157,79 @@ async function declaredThemes(): Promise<{ dark: Record<string, string>; light: 
 }
 
 /**
- * The focused element's accessible name — a SHORT projection, never a non-interactive node's text.
- * An `<input>` is named by its label/placeholder, never by textContent: an input's textContent is
- * ALWAYS empty, which would make the picker's filter box indistinguishable from "no element" and
- * silently truncate any Tab walk that passes through it.
+ * The focusable set the Tab order must cover. ONE definition, read by the walk and by every assertion
+ * over it, so the two sides of a reachability comparison cannot drift apart.
  */
-function activeName(): Promise<string> {
-  return browser.execute(() => {
-    const el = document.activeElement as HTMLElement | null
-    if (!el) return ''
-    const label = el.getAttribute('aria-label')
-    if (label) return label.trim()
-    if (el.tagName === 'INPUT') {
-      return (el.getAttribute('placeholder') ?? el.getAttribute('role') ?? 'INPUT').trim().slice(0, 60)
-    }
-    const interactive = ['BUTTON', 'A', 'SELECT', 'TEXTAREA'].includes(el.tagName)
-    return interactive ? (el.textContent ?? '').trim().slice(0, 60) : el.tagName
-  })
+const FOCUSABLE_SELECTOR =
+  'a[href],button:not([disabled]),input:not([disabled]),select,textarea,[tabindex]:not([tabindex="-1"])'
+
+interface FocusVisit {
+  /** Position in the live focusable set; -1 for a stop outside it (host chrome, BODY). */
+  index: number
+  name: string
 }
 
 /**
- * The accessible names the Tab order visits, in order, from the document start. Chromium keeps a
- * sequential-focus-navigation starting point apart from `activeElement`, so the walk first cycles to
- * the host-chrome stop (which reads as BODY) — otherwise the order depends on whatever held focus
- * last and the spec would measure the previous test's leftovers.
+ * The focused element's INDEX in the live focusable set, its accessible name, and the set's names in DOM
+ * order — read in one page call so the three cannot describe different moments.
+ *
+ * Identity is the index, never the name: two controls can share a name. The coverage and report scroll
+ * regions are both unnamed `<div tabindex="0">` (each carries its label on the inner table, deliberately —
+ * a named focusable region made NVDA read the whole table in one utterance), so both project to "DIV" and
+ * a name-keyed set silently collapses six elements into five (measured 2026-09-17).
+ *
+ * An `<input>` is named by its label/placeholder, never by textContent: an input's textContent is ALWAYS
+ * empty, which would make the picker's filter box indistinguishable from "no element".
  */
-async function tabCycleNames(): Promise<string[]> {
-  for (let i = 0; i < 20; i += 1) {
+function focusSnapshot(): Promise<{ index: number; name: string; roster: string[] }> {
+  return browser.execute((selector: string) => {
+    const nameOf = (node: Element | null): string => {
+      if (!node) return ''
+      const el = node as HTMLElement
+      const label = el.getAttribute('aria-label')
+      if (label) return label.trim()
+      if (el.tagName === 'INPUT') {
+        return (el.getAttribute('placeholder') ?? el.getAttribute('role') ?? 'INPUT').trim().slice(0, 60)
+      }
+      const interactive = ['BUTTON', 'A', 'SELECT', 'TEXTAREA'].includes(el.tagName)
+      return interactive ? (el.textContent ?? '').trim().slice(0, 60) : el.tagName
+    }
+    const set = Array.from(document.querySelectorAll(selector))
+    const active = document.activeElement
+    return { index: active ? set.indexOf(active) : -1, name: nameOf(active), roster: set.map(nameOf) }
+  }, FOCUSABLE_SELECTOR)
+}
+
+/**
+ * One full lap of the Tab cycle, delimited by the first REPEATED element identity.
+ *
+ * It deliberately does not wait for a BODY sentinel. This webview's cycle need not contain one: measured
+ * 2026-09-17 on runtime 153, Tab walks the six focusables round and round with no BODY stop at all, so a
+ * sentinel walk exhausts its cap, begins collecting from an arbitrary position, and reports a truncated
+ * visit tally. Both Operable specs failed that way, and the focus-order one's pass on another runtime was
+ * luck about where the walk happened to stop.
+ *
+ * A stop outside the focusable set is recorded in `visits` for the failure message but anchors no lap and
+ * joins no index set — a host-chrome stop is legitimate and says nothing about reachability.
+ */
+async function tabCycle(): Promise<{ cycle: FocusVisit[]; visits: FocusVisit[]; roster: string[] }> {
+  const { roster } = await focusSnapshot()
+  const visits: FocusVisit[] = []
+  const firstSeenAt = new Map<number, number>()
+  let lap: FocusVisit[] = []
+  for (let i = 0; i < roster.length * 2 + 2; i += 1) {
     await browser.keys('Tab')
-    if ((await activeName()) === 'BODY') break
+    const { index, name } = await focusSnapshot()
+    visits.push({ index, name })
+    if (index < 0) continue
+    const seen = firstSeenAt.get(index)
+    if (seen !== undefined) {
+      lap = visits.slice(seen, visits.length - 1).filter((v) => v.index >= 0)
+      break
+    }
+    firstSeenAt.set(index, visits.length - 1)
   }
-  const names: string[] = []
-  for (let i = 0; i < 20; i += 1) {
-    await browser.keys('Tab')
-    const name = await activeName()
-    if (name === 'BODY') break
-    names.push(name)
-  }
-  return names
+  return { cycle: lap, visits, roster }
 }
 
 function ratio(fg: string, bg: string): number {
@@ -371,31 +406,34 @@ describe('desktop a11y — routine arm (no live Pulse)', () => {
   // can sit on the CI-gated routine arm at all.
 
   it('every idle-console control is keyboard-reachable by Tab alone (SC 2.1.1)', async () => {
-    const names = await tabCycleNames()
-    // The cycle must cover the DOM's own focusable set: a control it never reaches is unreachable by
-    // keyboard, so a newly added one cannot silently fall out of the Tab order. The observed names ride
-    // INTO the asserted value — a bare boolean names nothing in the diff (frontend.md 2026-09-02).
-    const focusableCount = await browser.execute(
-      () =>
-        document.querySelectorAll(
-          'a[href],button:not([disabled]),input:not([disabled]),select,textarea,[tabindex]:not([tabindex="-1"])',
-        ).length,
+    const { cycle, roster } = await tabCycle()
+    // Both directions over element identity: every focusable is reached, and the reached set holds nothing
+    // else. The received half comes from the walk and the expected half from the DOM — never from each
+    // other, which is what the predecessor's `${names}` on both sides made impossible to fail.
+    // The VISIT count is deliberately unasserted: it varies with where the cycle wraps, which is an
+    // environment property and not a reachability one (a11y-plan §11 → CI).
+    const reached = [...new Set(cycle.map((v) => v.index))].sort((a, b) => a - b)
+    expect(`reached ${reached.length}/${roster.length} [${reached.map((i) => roster[i]).join(' | ')}]`).toBe(
+      `reached ${roster.length}/${roster.length} [${roster.join(' | ')}]`,
     )
-    expect(`${names.length} reached [${names.join(' | ')}]`).toBe(
-      `${focusableCount} reached [${names.join(' | ')}]`,
-    )
-    const missing = ['Minimize window', 'Close window'].filter((n) => !names.includes(n))
-    expect(`missing: ${missing.join(', ') || 'none'} · order: ${names.join(' | ')}`).toBe(
-      `missing: none · order: ${names.join(' | ')}`,
-    )
+    const reachedNames = reached.map((i) => roster[i])
+    const missing = ['Minimize window', 'Close window'].filter((n) => !reachedNames.includes(n))
+    expect(`missing: ${missing.join(', ') || 'none'}`).toBe('missing: none')
   })
 
   it('idle focus order follows the run-console-idle layout: window controls, then the picker (SC 2.4.3)', async () => {
-    const names = await tabCycleNames()
+    const { cycle, roster } = await tabCycle()
     // a11y-plan §5 run-console-idle fixes the visible order, and layout-templates §Component — Header
     // renders minimize before close; focus order must match what is seen, not merely contain both.
-    expect(`${names[0]} then ${names[1]} · full: ${names.join(' | ')}`).toBe(
-      `Minimize window then Close window · full: ${names.join(' | ')}`,
+    // Compared as a ROTATION: the cycle is a ring, so where a walk ENTERS it is arbitrary while the
+    // sequence read from the document's first focusable is not.
+    const start = cycle.findIndex((v) => v.index === 0)
+    const rotated = start >= 0 ? [...cycle.slice(start), ...cycle.slice(0, start)] : cycle
+    expect(`tab order [${rotated.map((v) => v.index).join(',')}]`).toBe(
+      `tab order [${roster.map((_, i) => i).join(',')}]`,
+    )
+    expect(`first two [${roster.slice(0, 2).join(' | ')}]`).toBe(
+      'first two [Minimize window | Close window]',
     )
     // No positive tabindex anywhere — the order must come from DOM order (a11y-plan §11 Keyboard).
     const positiveTabindex = await browser.execute(

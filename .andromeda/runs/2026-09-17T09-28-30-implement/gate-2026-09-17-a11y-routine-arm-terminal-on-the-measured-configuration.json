@@ -1,0 +1,1072 @@
+[
+{
+"tool": "gate",
+"v": "1.0",
+"sha8": "f6e4b9b8",
+"ts": "2026-09-17T09:38:04Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-17T09-28-30-implement",
+"--marker",
+"2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration · entries 14",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration\\implement-2026-09-17T09-28-30 · bound: GNU timeout",
+"delta docs 26 · ts 1 · unmapped 2",
+"prose L134-140: The assertion half is proven locally: the dev host drives a real WebView2 session and, at … (735 chars)",
+"prose L142-146: **No `role = 'smoke'` entry, and the absence is deliberate.** The modify-set is one wdio s… (466 chars)",
+"  1 lint        green · exit 0 · 1.5s · 65 B → 1.log · (cd crates/conductor-tauri/ui && npm run typecheck:e2e)",
+"  2 probe       green · exit 0 · 0.05s · 16 B → 2.log · test -n \"$CONDUCTOR_MSEDGEDRIVER\" && test -f \"$CONDUCTOR_M… (94 chars)",
+"  3 self-verify not run — leg live (the letter drives it) · bash scripts/agent-run.sh run --e2e",
+"  4 probe       green · exit 1 · 0.06s · 2 B → 4.log · grep -c \"go\\.microsoft\\.com\" .github/workflows/ci.yml",
+"  5 probe       green · exit 0 · 0.06s · 2 B → 5.log · grep -c \"runs-on: windows-2022\" .github/workflows/ci.yml",
+"  6 probe       green · exit 0 · 0.06s · 2 B → 6.log · grep -c \"msedgedriver\\.microsoft\\.com\" .github/workflows/c… (63 chars)",
+"  7 probe       green · exit 1 · 0.06s · 2 B → 7.log · grep -c \"WEBVIEW2_BOOTSTRAPPER_SIGNATURE\" .github/workflow… (66 chars)",
+"  8 probe       green · exit 0 · 0.06s · 2 B → 8.log · grep -c \"Get-AuthenticodeSignature\" .github/workflows/ci.y… (60 chars)",
+"  9 unit        not run — defer (key): Zero compiled-source delta: this chunk c… (237 chars) · cargo nextest run --workspace --profile ci",
+" 10 lint        not run — defer (key): Same zero-Rust-delta reason as the nexte… (137 chars) · cargo clippy --workspace --all-targets -- -D warnings",
+" 11 probe       green · exit 0 · 2.33s · 1897 B → 11.log · cargo audit",
+" 12 probe       green · exit 0 · 1.23s · 236251 B → 12.log · cargo deny check advisories bans licenses sources",
+" 13 probe       not run — leg operator (the letter drives it) · git push origin HEAD && echo \"PUSHED_SHA=$(git rev-parse H… (63 chars)",
+" 14 probe       not run — leg operator (the letter drives it) · gh run list --branch build/conductor-0.3.0 --workflow ci.y… (146 chars)",
+"entries 14 · green 9 · red 0 · recorded 0 · timeout 0 · not-run 5"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration\\implement-2026-09-17T09-28-30",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/.raw-a11y.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/.raw-arch.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/.raw-layouts.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/.raw-obs.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/.raw-tests.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/a11y.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/acceptance-v3-02.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/arch.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/control-no-authenticode.yml",
+".andromeda/runs/2026-09-17T08-27-30-phase/design.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/layouts.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/master-record.txt",
+".andromeda/runs/2026-09-17T08-27-30-phase/matrix-2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration.json",
+".andromeda/runs/2026-09-17T08-27-30-phase/note-v3-02.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/obs.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/security.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/splice-2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration.json",
+".andromeda/runs/2026-09-17T08-27-30-phase/tests.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/tree-query-2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration.json",
+"conductor-0.3.0/chunks/2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration/plan.md",
+"conductor-0.3.0/chunks/2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration/research.md",
+"conductor-0.3.0/chunks/2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration/scope.md"
+],
+"ts": [
+"crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts"
+]
+},
+"unmapped": [
+".github/workflows/ci.yml",
+"conductor-0.3.0/verification-matrix.json"
+],
+"prose": [
+{
+"from": 134,
+"to": 140,
+"text": "The assertion half is proven locally: the dev host drives a real WebView2 session and, at runtime 153, it REPRODUCES both reds — so the `--e2e` leg is this chunk's red-before-green gate, and its green is measured on a configuration different from the runner's, which is exactly what environment-independence claims. The predecessor deferred this same entry naming \"a dated advance warning carried as a separate defect with its own owner\"; this chunk IS that owner, so the entry runs here rather than deferring. The configuration half cannot be proven in-process — the `a11y` job fires on a push, and /implement never commits — so it spans two runs by construction: the operator's commit+push, then a probe that reads the resulting run."
+},
+{
+"from": 142,
+"to": 146,
+"text": "**No `role = 'smoke'` entry, and the absence is deliberate.** The modify-set is one wdio spec file and the CI workflow; neither is a boot-path touchpoint (the project declares no boot-smoke trigger-path list, so this is resolved by shape). The `self-verify` entry below does boot the app — it builds the bundle, compiles the release binary with `tauri/custom-protocol` and drives a real session — so the boot IS exercised, as a gate rather than as a skippable smoke."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "(cd crates/conductor-tauri/ui && npm run typecheck:e2e)",
+"run_sha8": "dfc519e5",
+"expect": [
+"exit 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration\\implement-2026-09-17T09-28-30\\1.log",
+"bytes": 65,
+"log_sha8": "cea9a430",
+"exit": 0,
+"seconds": 1.5,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "probe",
+"run": "test -n \"$CONDUCTOR_MSEDGEDRIVER\" && test -f \"$CONDUCTOR_MSEDGEDRIVER\" && echo DRIVER_RESOLVED",
+"run_sha8": "db5cde0e",
+"expect": [
+"exit 0",
+"last line DRIVER_RESOLVED"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration\\implement-2026-09-17T09-28-30\\2.log",
+"bytes": 16,
+"log_sha8": "5a9799f9",
+"exit": 0,
+"seconds": 0.05,
+"readings": [
+"exit 0 ✓",
+"last line 'DRIVER_RESOLVED' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "self-verify",
+"run": "bash scripts/agent-run.sh run --e2e",
+"run_sha8": "55ff1d5e",
+"expect": [
+"exit 0",
+"contains [a11y] verdict asserted",
+"lacks [a11y] leg skipped"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg live (the letter drives it)"
+},
+{
+"n": 4,
+"role": "probe",
+"run": "grep -c \"go\\.microsoft\\.com\" .github/workflows/ci.yml",
+"run_sha8": "9cc607fa",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration\\implement-2026-09-17T09-28-30\\4.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.06,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "probe",
+"run": "grep -c \"runs-on: windows-2022\" .github/workflows/ci.yml",
+"run_sha8": "7ce7a24b",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration\\implement-2026-09-17T09-28-30\\5.log",
+"bytes": 2,
+"log_sha8": "4355a46b",
+"exit": 0,
+"seconds": 0.06,
+"readings": [
+"exit 0 ✓",
+"last line '1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "grep -c \"msedgedriver\\.microsoft\\.com\" .github/workflows/ci.yml",
+"run_sha8": "c6ba1cc6",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration\\implement-2026-09-17T09-28-30\\6.log",
+"bytes": 2,
+"log_sha8": "4355a46b",
+"exit": 0,
+"seconds": 0.06,
+"readings": [
+"exit 0 ✓",
+"last line '1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "grep -c \"WEBVIEW2_BOOTSTRAPPER_SIGNATURE\" .github/workflows/ci.yml",
+"run_sha8": "6a43c069",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration\\implement-2026-09-17T09-28-30\\7.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.06,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "grep -c \"Get-AuthenticodeSignature\" .github/workflows/ci.yml",
+"run_sha8": "496922bd",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration\\implement-2026-09-17T09-28-30\\8.log",
+"bytes": 2,
+"log_sha8": "4355a46b",
+"exit": 0,
+"seconds": 0.06,
+"readings": [
+"exit 0 ✓",
+"last line '1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — defer (key): Zero compiled-source delta: this chunk c… (237 chars)"
+},
+{
+"n": 10,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — defer (key): Same zero-Rust-delta reason as the nexte… (137 chars)"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": [
+"exit 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration\\implement-2026-09-17T09-28-30\\11.log",
+"bytes": 1897,
+"log_sha8": "c1afb8c0",
+"exit": 0,
+"seconds": 2.33,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": [
+"exit 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration\\implement-2026-09-17T09-28-30\\12.log",
+"bytes": 236251,
+"log_sha8": "4ebeefef",
+"exit": 0,
+"seconds": 1.23,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "git push origin HEAD && echo \"PUSHED_SHA=$(git rev-parse HEAD)\"",
+"run_sha8": "95aa0292",
+"expect": [
+"exit 0",
+"contains PUSHED_SHA="
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "gh run list --branch build/conductor-0.3.0 --workflow ci.yml --limit 1 --json databaseId,headSha,conclusion --jq \".[] | select(.headSha==env.SHA)\"",
+"run_sha8": "a9a4bf0e",
+"expect": [
+"exit 0",
+"contains databaseId"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.0",
+"sha8": "f6e4b9b8",
+"ts": "2026-09-17T09:38:46Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-17T09-28-30-implement",
+"--marker",
+"2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration",
+"--only",
+"9"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration · entries 14",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration\\implement-2026-09-17T09-28-30 · bound: GNU timeout",
+"delta docs 27 · ts 1 · unmapped 2",
+"prose L134-140: The assertion half is proven locally: the dev host drives a real WebView2 session and, at … (735 chars)",
+"prose L142-146: **No `role = 'smoke'` entry, and the absence is deliberate.** The modify-set is one wdio s… (466 chars)",
+"  1 lint        not run — excluded · (cd crates/conductor-tauri/ui && npm run typecheck:e2e)",
+"  2 probe       not run — excluded · test -n \"$CONDUCTOR_MSEDGEDRIVER\" && test -f \"$CONDUCTOR_M… (94 chars)",
+"  3 self-verify not run — excluded · bash scripts/agent-run.sh run --e2e",
+"  4 probe       not run — excluded · grep -c \"go\\.microsoft\\.com\" .github/workflows/ci.yml",
+"  5 probe       not run — excluded · grep -c \"runs-on: windows-2022\" .github/workflows/ci.yml",
+"  6 probe       not run — excluded · grep -c \"msedgedriver\\.microsoft\\.com\" .github/workflows/c… (63 chars)",
+"  7 probe       not run — excluded · grep -c \"WEBVIEW2_BOOTSTRAPPER_SIGNATURE\" .github/workflow… (66 chars)",
+"  8 probe       not run — excluded · grep -c \"Get-AuthenticodeSignature\" .github/workflows/ci.y… (60 chars)",
+"  9 unit        not run — defer (key): Zero compiled-source delta: this chunk c… (237 chars) · cargo nextest run --workspace --profile ci",
+" 10 lint        not run — excluded · cargo clippy --workspace --all-targets -- -D warnings",
+" 11 probe       not run — excluded · cargo audit",
+" 12 probe       not run — excluded · cargo deny check advisories bans licenses sources",
+" 13 probe       not run — excluded · git push origin HEAD && echo \"PUSHED_SHA=$(git rev-parse H… (63 chars)",
+" 14 probe       not run — excluded · gh run list --branch build/conductor-0.3.0 --workflow ci.y… (146 chars)",
+"entries 14 · green 0 · red 0 · recorded 0 · timeout 0 · not-run 14"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration\\implement-2026-09-17T09-28-30",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/.raw-a11y.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/.raw-arch.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/.raw-layouts.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/.raw-obs.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/.raw-tests.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/a11y.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/acceptance-v3-02.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/arch.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/control-no-authenticode.yml",
+".andromeda/runs/2026-09-17T08-27-30-phase/design.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/layouts.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/master-record.txt",
+".andromeda/runs/2026-09-17T08-27-30-phase/matrix-2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration.json",
+".andromeda/runs/2026-09-17T08-27-30-phase/note-v3-02.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/obs.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/security.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/splice-2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration.json",
+".andromeda/runs/2026-09-17T08-27-30-phase/tests.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/tree-query-2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration.json",
+".andromeda/runs/2026-09-17T09-28-30-implement/gate-2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration.json",
+"conductor-0.3.0/chunks/2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration/plan.md",
+"conductor-0.3.0/chunks/2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration/research.md",
+"conductor-0.3.0/chunks/2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration/scope.md"
+],
+"ts": [
+"crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts"
+]
+},
+"unmapped": [
+".github/workflows/ci.yml",
+"conductor-0.3.0/verification-matrix.json"
+],
+"prose": [
+{
+"from": 134,
+"to": 140,
+"text": "The assertion half is proven locally: the dev host drives a real WebView2 session and, at runtime 153, it REPRODUCES both reds — so the `--e2e` leg is this chunk's red-before-green gate, and its green is measured on a configuration different from the runner's, which is exactly what environment-independence claims. The predecessor deferred this same entry naming \"a dated advance warning carried as a separate defect with its own owner\"; this chunk IS that owner, so the entry runs here rather than deferring. The configuration half cannot be proven in-process — the `a11y` job fires on a push, and /implement never commits — so it spans two runs by construction: the operator's commit+push, then a probe that reads the resulting run."
+},
+{
+"from": 142,
+"to": 146,
+"text": "**No `role = 'smoke'` entry, and the absence is deliberate.** The modify-set is one wdio spec file and the CI workflow; neither is a boot-path touchpoint (the project declares no boot-smoke trigger-path list, so this is resolved by shape). The `self-verify` entry below does boot the app — it builds the bundle, compiles the release binary with `tauri/custom-protocol` and drives a real session — so the boot IS exercised, as a gate rather than as a skippable smoke."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "(cd crates/conductor-tauri/ui && npm run typecheck:e2e)",
+"run_sha8": "dfc519e5",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "probe",
+"run": "test -n \"$CONDUCTOR_MSEDGEDRIVER\" && test -f \"$CONDUCTOR_MSEDGEDRIVER\" && echo DRIVER_RESOLVED",
+"run_sha8": "db5cde0e",
+"expect": [
+"exit 0",
+"last line DRIVER_RESOLVED"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "self-verify",
+"run": "bash scripts/agent-run.sh run --e2e",
+"run_sha8": "55ff1d5e",
+"expect": [
+"exit 0",
+"contains [a11y] verdict asserted",
+"lacks [a11y] leg skipped"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "probe",
+"run": "grep -c \"go\\.microsoft\\.com\" .github/workflows/ci.yml",
+"run_sha8": "9cc607fa",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "probe",
+"run": "grep -c \"runs-on: windows-2022\" .github/workflows/ci.yml",
+"run_sha8": "7ce7a24b",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "grep -c \"msedgedriver\\.microsoft\\.com\" .github/workflows/ci.yml",
+"run_sha8": "c6ba1cc6",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "grep -c \"WEBVIEW2_BOOTSTRAPPER_SIGNATURE\" .github/workflows/ci.yml",
+"run_sha8": "6a43c069",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "grep -c \"Get-AuthenticodeSignature\" .github/workflows/ci.yml",
+"run_sha8": "496922bd",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — defer (key): Zero compiled-source delta: this chunk c… (237 chars)"
+},
+{
+"n": 10,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "git push origin HEAD && echo \"PUSHED_SHA=$(git rev-parse HEAD)\"",
+"run_sha8": "95aa0292",
+"expect": [
+"exit 0",
+"contains PUSHED_SHA="
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "gh run list --branch build/conductor-0.3.0 --workflow ci.yml --limit 1 --json databaseId,headSha,conclusion --jq \".[] | select(.headSha==env.SHA)\"",
+"run_sha8": "a9a4bf0e",
+"expect": [
+"exit 0",
+"contains databaseId"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.0",
+"sha8": "f6e4b9b8",
+"ts": "2026-09-17T09:42:15Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-17T09-28-30-implement",
+"--marker",
+"2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration",
+"--only",
+"1"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration · entries 14",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration\\implement-2026-09-17T09-28-30 · bound: GNU timeout",
+"delta docs 27 · ts 1 · unmapped 2",
+"prose L134-140: The assertion half is proven locally: the dev host drives a real WebView2 session and, at … (735 chars)",
+"prose L142-146: **No `role = 'smoke'` entry, and the absence is deliberate.** The modify-set is one wdio s… (466 chars)",
+"  1 lint        green · exit 0 · 1.53s · 65 B → 1.log · (cd crates/conductor-tauri/ui && npm run typecheck:e2e)",
+"  2 probe       not run — excluded · test -n \"$CONDUCTOR_MSEDGEDRIVER\" && test -f \"$CONDUCTOR_M… (94 chars)",
+"  3 self-verify not run — excluded · bash scripts/agent-run.sh run --e2e",
+"  4 probe       not run — excluded · grep -c \"go\\.microsoft\\.com\" .github/workflows/ci.yml",
+"  5 probe       not run — excluded · grep -c \"runs-on: windows-2022\" .github/workflows/ci.yml",
+"  6 probe       not run — excluded · grep -c \"msedgedriver\\.microsoft\\.com\" .github/workflows/c… (63 chars)",
+"  7 probe       not run — excluded · grep -c \"WEBVIEW2_BOOTSTRAPPER_SIGNATURE\" .github/workflow… (66 chars)",
+"  8 probe       not run — excluded · grep -c \"Get-AuthenticodeSignature\" .github/workflows/ci.y… (60 chars)",
+"  9 unit        not run — excluded · cargo nextest run --workspace --profile ci",
+" 10 lint        not run — excluded · cargo clippy --workspace --all-targets -- -D warnings",
+" 11 probe       not run — excluded · cargo audit",
+" 12 probe       not run — excluded · cargo deny check advisories bans licenses sources",
+" 13 probe       not run — excluded · git push origin HEAD && echo \"PUSHED_SHA=$(git rev-parse H… (63 chars)",
+" 14 probe       not run — excluded · gh run list --branch build/conductor-0.3.0 --workflow ci.y… (146 chars)",
+"entries 14 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 13"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration\\implement-2026-09-17T09-28-30",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/.raw-a11y.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/.raw-arch.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/.raw-layouts.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/.raw-obs.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/.raw-tests.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/a11y.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/acceptance-v3-02.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/arch.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/control-no-authenticode.yml",
+".andromeda/runs/2026-09-17T08-27-30-phase/design.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/layouts.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/master-record.txt",
+".andromeda/runs/2026-09-17T08-27-30-phase/matrix-2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration.json",
+".andromeda/runs/2026-09-17T08-27-30-phase/note-v3-02.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/obs.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/security.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/splice-2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration.json",
+".andromeda/runs/2026-09-17T08-27-30-phase/tests.md",
+".andromeda/runs/2026-09-17T08-27-30-phase/tree-query-2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration.json",
+".andromeda/runs/2026-09-17T09-28-30-implement/gate-2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration.json",
+"conductor-0.3.0/chunks/2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration/plan.md",
+"conductor-0.3.0/chunks/2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration/research.md",
+"conductor-0.3.0/chunks/2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration/scope.md"
+],
+"ts": [
+"crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts"
+]
+},
+"unmapped": [
+".github/workflows/ci.yml",
+"conductor-0.3.0/verification-matrix.json"
+],
+"prose": [
+{
+"from": 134,
+"to": 140,
+"text": "The assertion half is proven locally: the dev host drives a real WebView2 session and, at runtime 153, it REPRODUCES both reds — so the `--e2e` leg is this chunk's red-before-green gate, and its green is measured on a configuration different from the runner's, which is exactly what environment-independence claims. The predecessor deferred this same entry naming \"a dated advance warning carried as a separate defect with its own owner\"; this chunk IS that owner, so the entry runs here rather than deferring. The configuration half cannot be proven in-process — the `a11y` job fires on a push, and /implement never commits — so it spans two runs by construction: the operator's commit+push, then a probe that reads the resulting run."
+},
+{
+"from": 142,
+"to": 146,
+"text": "**No `role = 'smoke'` entry, and the absence is deliberate.** The modify-set is one wdio spec file and the CI workflow; neither is a boot-path touchpoint (the project declares no boot-smoke trigger-path list, so this is resolved by shape). The `self-verify` entry below does boot the app — it builds the bundle, compiles the release binary with `tauri/custom-protocol` and drives a real session — so the boot IS exercised, as a gate rather than as a skippable smoke."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "(cd crates/conductor-tauri/ui && npm run typecheck:e2e)",
+"run_sha8": "dfc519e5",
+"expect": [
+"exit 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration\\implement-2026-09-17T09-28-30\\1.log",
+"bytes": 65,
+"log_sha8": "cea9a430",
+"exit": 0,
+"seconds": 1.53,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "probe",
+"run": "test -n \"$CONDUCTOR_MSEDGEDRIVER\" && test -f \"$CONDUCTOR_MSEDGEDRIVER\" && echo DRIVER_RESOLVED",
+"run_sha8": "db5cde0e",
+"expect": [
+"exit 0",
+"last line DRIVER_RESOLVED"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "self-verify",
+"run": "bash scripts/agent-run.sh run --e2e",
+"run_sha8": "55ff1d5e",
+"expect": [
+"exit 0",
+"contains [a11y] verdict asserted",
+"lacks [a11y] leg skipped"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "probe",
+"run": "grep -c \"go\\.microsoft\\.com\" .github/workflows/ci.yml",
+"run_sha8": "9cc607fa",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "probe",
+"run": "grep -c \"runs-on: windows-2022\" .github/workflows/ci.yml",
+"run_sha8": "7ce7a24b",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "grep -c \"msedgedriver\\.microsoft\\.com\" .github/workflows/ci.yml",
+"run_sha8": "c6ba1cc6",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "grep -c \"WEBVIEW2_BOOTSTRAPPER_SIGNATURE\" .github/workflows/ci.yml",
+"run_sha8": "6a43c069",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "grep -c \"Get-AuthenticodeSignature\" .github/workflows/ci.yml",
+"run_sha8": "496922bd",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "git push origin HEAD && echo \"PUSHED_SHA=$(git rev-parse HEAD)\"",
+"run_sha8": "95aa0292",
+"expect": [
+"exit 0",
+"contains PUSHED_SHA="
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "gh run list --branch build/conductor-0.3.0 --workflow ci.yml --limit 1 --json databaseId,headSha,conclusion --jq \".[] | select(.headSha==env.SHA)\"",
+"run_sha8": "a9a4bf0e",
+"expect": [
+"exit 0",
+"contains databaseId"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+}
+]

@@ -1,0 +1,63 @@
+[
+{
+"sql": "SELECT symbol, crate, kind, file, def_line FROM symbol WHERE name IN ('tabCycleNames','activeName','axeFindings') AND kind <> 'meta' ORDER BY file, def_line;",
+"rows": 5,
+"result": [
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`accessibility.e2e.ts`/axeFindings().",
+"crate": "conductor-ui",
+"kind": "fn",
+"file": "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts",
+"def_line": 106
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`accessibility.e2e.ts`/activeName().",
+"crate": "conductor-ui",
+"kind": "fn",
+"file": "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts",
+"def_line": 164
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`accessibility.e2e.ts`/tabCycleNames().",
+"crate": "conductor-ui",
+"kind": "fn",
+"file": "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts",
+"def_line": 184
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`operator-hold.e2e.ts`/activeName().",
+"crate": "conductor-ui",
+"kind": "fn",
+"file": "crates/conductor-tauri/ui/test/a11y/operator-hold.e2e.ts",
+"def_line": 24
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/activeName().",
+"crate": "conductor-ui",
+"kind": "fn",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"def_line": 184
+}
+],
+"db_state": "fresh",
+"plane": "ts"
+},
+{
+"sql": "SELECT caller_name, file, line FROM calls WHERE callee_name = 'tabCycleNames' AND callee_kind = 'fn' ORDER BY file, line;",
+"rows": 2,
+"result": [
+{
+"caller_name": "accessibility.e2e.ts",
+"file": "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts",
+"line": 373
+},
+{
+"caller_name": "accessibility.e2e.ts",
+"file": "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts",
+"line": 393
+}
+],
+"db_state": "fresh",
+"plane": "ts"
+}
+]

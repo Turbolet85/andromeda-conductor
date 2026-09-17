@@ -1,0 +1,87 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "2a1bf9cb",
+"ts": "2026-09-17T08:29:45Z",
+"argv": [
+"append",
+"--file",
+".andromeda/master-route.md",
+"--payload-file",
+".andromeda/runs/2026-09-17T08-27-30-phase/master-record.txt",
+"--lines",
+"1",
+"--after-section",
+"## conductor-0.3.0",
+"--expect-last-prefix",
+"2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm · ",
+"--run-dir",
+".andromeda/runs/2026-09-17T08-27-30-phase",
+"--marker",
+"2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"dry-run · would write master-route.md · lines 147→148 · bytes 99336→99746"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"lines": 147,
+"bytes": 99336,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 148,
+"bytes": 99746
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "2a1bf9cb",
+"ts": "2026-09-17T08:29:54Z",
+"argv": [
+"append",
+"--file",
+".andromeda/master-route.md",
+"--payload-file",
+".andromeda/runs/2026-09-17T08-27-30-phase/master-record.txt",
+"--lines",
+"1",
+"--after-section",
+"## conductor-0.3.0",
+"--expect-last-prefix",
+"2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm · ",
+"--run-dir",
+".andromeda/runs/2026-09-17T08-27-30-phase",
+"--marker",
+"2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append master-route.md:+1 at line 148 · lines 147→148 · bytes 99336→99746 · term lf",
+"section '## conductor-0.3.0' · appended at its end, not the file's",
+"last line now: 2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration · pending ·"
+],
+"stderr": null,
+"wrote": [
+".andromeda/master-route.md"
+],
+"before": {
+"lines": 147,
+"bytes": 99336,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 148,
+"bytes": 99746
+}
+}
+]

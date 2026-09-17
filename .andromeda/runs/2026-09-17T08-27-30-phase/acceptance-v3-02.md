@@ -1,0 +1,1 @@
+The routine accessibility arm's own printed verdict is green in continuous integration, with the passing and skipped spec counts matching the expected set so that a wholly skipped run cannot read as a pass.
