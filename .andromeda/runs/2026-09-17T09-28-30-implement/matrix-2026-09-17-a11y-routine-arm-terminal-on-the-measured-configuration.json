@@ -1,0 +1,77 @@
+[
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "d423b022",
+"ts": "2026-09-17T10:25:56Z",
+"argv": [
+"implement",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration",
+"--id",
+"v3-02",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-17T09-28-30-implement"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"implement v3-02 · status planned → implemented · ref crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts::routine arm — CI run 3… (261 chars)",
+"wrote conductor-0.3.0\\verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0\\verification-matrix.json"
+],
+"before": {
+"id": "v3-02",
+"chunk": "2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration",
+"status": "planned",
+"method": "a11y",
+"ref": "null",
+"acceptance": "The routine accessibility arm's own printed verdict is green in continuous integration, with the passing and skipped spe… (206 chars)",
+"notes_chars": 11061
+},
+"after": {
+"id": "v3-02",
+"chunk": "2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration",
+"status": "implemented",
+"method": "a11y",
+"ref": "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts::routine arm — CI run 35208593666 (headSha fc4a9c2), a11y job c… (261 chars)",
+"acceptance": "The routine accessibility arm's own printed verdict is green in continuous integration, with the passing and skipped spe… (206 chars)",
+"notes_chars": 11061
+}
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "d423b022",
+"ts": "2026-09-17T10:26:35Z",
+"argv": [
+"coverage",
+"--dir",
+"conductor-0.3.0",
+"--run-dir",
+".andromeda/runs/2026-09-17T09-28-30-implement",
+"--marker",
+"2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"verified 5/11 · deferred 0 · planned 5 · implemented 1 · unclaimed 5",
+"unclaimed: v3-03 v3-08 v3-09 v3-10 v3-11",
+"claimed-unfinished: 2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration: v3-02",
+"done-test: NO — 6 not verified|deferred · unclaimed 5",
+"chunks referenced: 6 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

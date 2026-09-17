@@ -1,0 +1,197 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "2a1bf9cb",
+"ts": "2026-09-17T11:26:15Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-17T10-34-20-wrap/architecture-entry.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-09-17T10-34-20-wrap",
+"--marker",
+"2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+10 at line 729 · lines 728→738 · bytes 166387→170782 · term lf",
+"last line now: **Sweep (cascade step 2, run after the last body edit of the pass):** patterns `"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 728,
+"bytes": 166387,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 738,
+"bytes": 170782
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "2a1bf9cb",
+"ts": "2026-09-17T11:26:15Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-17T10-34-20-wrap/security-plan-entry.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-09-17T10-34-20-wrap",
+"--marker",
+"2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+10 at line 326 · lines 325→335 · bytes 78892→83284 · term lf",
+"last line now: **Sweep (cascade step 2, run after the last body edit of the pass):** patterns a"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 325,
+"bytes": 78892,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 335,
+"bytes": 83284
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "2a1bf9cb",
+"ts": "2026-09-17T11:26:15Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-17T10-34-20-wrap/test-plan-entry.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-09-17T10-34-20-wrap",
+"--marker",
+"2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+10 at line 511 · lines 510→520 · bytes 120121→124091 · term lf",
+"last line now: **Sweep (cascade step 2, run after the last body edit of the pass):** patterns a"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 510,
+"bytes": 120121,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 520,
+"bytes": 124091
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "2a1bf9cb",
+"ts": "2026-09-17T11:26:15Z",
+"argv": [
+"append",
+"--file",
+".andromeda/a11y-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-17T10-34-20-wrap/a11y-plan-entry.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-09-17T10-34-20-wrap",
+"--marker",
+"2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append a11y-plan-amendments.md:+10 at line 138 · lines 137→147 · bytes 31222→34928 · term lf",
+"last line now: **Sweep (cascade step 2, run after the last body edit of the pass):** patterns a"
+],
+"stderr": null,
+"wrote": [
+".andromeda/a11y-plan-amendments.md"
+],
+"before": {
+"lines": 137,
+"bytes": 31222,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 147,
+"bytes": 34928
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "2a1bf9cb",
+"ts": "2026-09-17T11:43:06Z",
+"argv": [
+"append",
+"--file",
+"conductor-0.3.0/route-archive.md",
+"--payload-file",
+".andromeda/runs/2026-09-17T10-34-20-wrap/route-archive-entry.md",
+"--lines",
+"3",
+"--run-dir",
+".andromeda/runs/2026-09-17T10-34-20-wrap",
+"--marker",
+"2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append route-archive.md:+3 at line 48 · lines 47→50 · bytes 19884→23171 · term lf",
+"last line now: [2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration] The a11y ro"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0/route-archive.md"
+],
+"before": {
+"lines": 47,
+"bytes": 19884,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 50,
+"bytes": 23171
+}
+}
+]
