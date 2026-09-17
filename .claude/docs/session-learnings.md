@@ -640,3 +640,41 @@ the frequency and that seniority is no protection; that belongs here.
 A fourth instance of the same family landed in this wrap's own cascade: a sweep for `six governed forms`
 returned **0** across the distillations while `.claude/rules/security.md` stated it as `**SIX**` — markdown
 bold defeating the literal pattern. Caught by reading the `governed` hits instead of trusting the count.
+
+## 2026-09-17 — the a11y CI terminal: how a six-day cause was found by removing the remedy
+
+**The chunk's own deliverable was the blocker.** The medium-integrity launcher works exactly as claimed —
+parent `S-1-16-12288` → child `S-1-16-8192` on the runner, confirmed from inside the leg. On the working
+configuration (hosted `windows-2022`, native runtime 131.0.2903.86, driver pinned to match, High integrity) it
+is what BREAKS the session: both High driver-alone cells returned `status 200`, both Medium cells failed. The
+arm then ran 11 passing / 1 failing / 2 skipped with the launcher removed.
+
+**Integrity's SIGN is not invariant.** Medium helped at runtime 153 on the dev host; High is required at 131 on
+windows-2022. The predecessor's legs A/B/C were correctly measured and are BOUNDED by this, not retired —
+writing "the earlier finding was false" would discard a sound measurement to make a tidier story.
+
+**Every windows-2022 probe was the instrument until proven otherwise.** Probe A: the repo's own `≥152` floor
+read the native 131, fetched Evergreen and installed 153 — measuring a configuration the gate had altered while
+appearing to describe the native one. Probe B: the pin step never ran (`if: ${{ env.ImageOS }}`, always false).
+Both would have read as "the coherent pair fails". Only checking WHAT ACTUALLY RAN separated them — and probe
+A's accident became the strongest evidence in the record, a WITHIN-image variation where the failure followed
+the runtime onto windows-2022.
+
+**Verify the instrument, not just the result.** A driver-log readback (`httpAttempts`/`pipeMentions`) changed a
+cell: pipe-at-Medium showed 49 HTTP attempts, so the transport switch was NOT honoured and that run re-measured
+the port path. Recorded UNMEASURED for that cell rather than "pipe fails at Medium".
+
+**A spec's named retirement mechanism can simply not exist.** security-plan's exit condition for the Evergreen
+float — "the versioned Standalone Installer replaces the bootstrapper" — names a mechanism Microsoft does not
+provide: the Standalone Installer is Evergreen and takes no version; only Fixed Version is versioned (>250 MB,
+`WEBVIEW2_BROWSER_EXECUTABLE_FOLDER`, latest/second-latest majors only, so 131 is unobtainable). Verify a
+predicted end-state the same way as an asserted current one.
+
+**Holding a terminal open was vindicated twice.** A permanent exclusion looked justified after the
+driver-alone isolation, and again after the transport comparison. Both times the next measurement would have
+made it false. The acceptance required the basis to be the MEASURED cause, and the measured cause kept moving.
+
+**When rulings do not arrive, the sanctioned fallback is to remove the code, not to ship it commented.** Four
+`ci.yml` surfaces were probe-scoped and unratified (the `windows-2022` label, the floor bypass, a second egress
+host, the launcher's removal). None rode the commit on its own authority; all four came out, which resolved all
+four escalations without a ruling and left the shipped arrangement unchanged.

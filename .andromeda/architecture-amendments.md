@@ -696,3 +696,33 @@ Two proposals from this pass were DISMISSED, both on architecture's own preceden
 **Why.** Report §Spec claims disproved item 3 (the routine arm re-measured 10/2/2 against a cited 12/2), §Dev-tool versions (dev-host WebView2 152 → 153.0.4234.32, CI unaffected at 152.0.4191.66), §Harness / gate surface (the launcher path and the fourth diagnostic step), and §Insufficient fixes (both limited-token mechanisms correct and structurally unable to lower the mandatory integrity label).
 
 **Sweep (cascade step 2), over the seven masters + CLAUDE.md + `.claude/rules/*` + `.claude/docs/*`.** `six governed forms`: **0 hits** — and that zero is the entry's own cautionary note: the count is also stated BOLDED as `**SIX**` in `.claude/rules/security.md`, which the literal-token sweep could never match; it was caught by reading the `governed` hits instead, and re-derived there. `12 passing`: **4 hits** — `architecture.md:60` (amended here), `a11y-plan.md:516` (amended, dependent — it pins the very pair that regressed), two amendment-sidecar entries NO-CHANGE (dated history). `limited-token launch`: **3 files** — `architecture.md` (amended), `test-plan.md:470` (amended, dependent — it restated the same owned-by-`v3-02` remedy, which no fan-out agent proposed), `master-route.md` NO-CHANGE (a record desc). `agent-run.ps1 run --e2e`: **4 files** — `architecture.md:60,246` and `a11y-plan.md:471` amended, `a11y-plan.md:218` NO-CHANGE (an axe tag-scope configuration line, not an invocation claim). Post-apply verification over masters + distillations: `six governed forms`, ``is owned by the `v3-02` route entry`` and `demonstrably runnable on the Windows dev host` each return **0 files**.
+
+## 2026-09-17 — 2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm
+
+**§Established Decisions [CI/CD] · §Infrastructure Patterns — Build system — 4 sites incl. the elevation-remedy bounding**
+
+The hosted-runner endpoint verdict is retired as UNCONDITIONAL and re-stated as configuration-bound. Measured
+at CI run 35192876641: hosted `windows-2022` at a coherent 131.0.2903.86 msedgedriver+WebView2-runtime pair,
+High integrity — `DevToolsActivePort` in 1 s, WebDriver session created, routine arm 11 passing / 1 failing /
+2 skipped, with SC 2.4.3 (`:397`) passing and the single red `:384` a counting-basis defect in the assertion
+(12 visits / 6 distinct, bracket lists identical to the character). The endpoint still does not open on
+`windows-2025` at runtime 152/153. Corroborated externally by actions/runner-images#14738 on a byte-identical
+image and runtime for a plain Tauri/wry app with no token work.
+
+Sweep basis: `grep -oF` per claim phrase across the seven masters + `residuals.md` — "opens no remote-debugging
+endpoint" 4 hits (test-plan 3 · residuals 1), "RED at WebView2 session creation" 4 (test-plan 1 · a11y-plan 3),
+"never been green" 1, "Still never a green run" 1, "endpoint remains CLOSED" 1, "runnability is
+measured-unproven" 1 — 12 sites, all corrected in place; occurrence-counted with `grep -o`, since a
+line-granular count collapses multiple corrections on one multi-KB line.
+
+Integrity's SIGN is configuration-bound: Medium helped at runtime 153 on the dev host, High is REQUIRED at 131
+on windows-2022. The 2026-09-16 legs A/B/C are BOUNDED by this, never retired — they were correctly measured on
+what they measured.
+
+The medium-integrity launcher is recorded MEASURED-INSUFFICIENT: it lowers the label as designed (parent
+`S-1-16-12288` → child `S-1-16-8192`, confirmed from inside the leg) and did not open the endpoint.
+
+NOT amended, and owed: four escalations reached no operator ruling this wrap, so the probe-scoped `ci.yml`
+surfaces that would have motivated further amendments were REMOVED instead of ratified (the `windows-2022`
+label, the `≥152` floor bypass, the `msedgedriver.microsoft.com` egress, and the launcher's removal from the
+asserting step). The shipped arrangement is therefore unchanged and no arrangement row moved.

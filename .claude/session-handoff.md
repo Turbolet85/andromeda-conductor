@@ -1,72 +1,73 @@
 # Session Handoff
 
-**Last Updated:** 2026-09-16T17:05:00Z
-**Branch:** `build/conductor-0.3.0` · **0 ahead of `origin/build/conductor-0.3.0` at Setup** (the operator
-pushed `38d21d1` mid-session); this wrap's commit leaves it **1**. The operator pushes.
-**Status:** clean — drift 0, all escalations resolved, `v3-02` un-claimed by operator ruling.
-**Last Commit:** `feat(2026-09-16-a11y-ci-gate-at-an-honest-terminal)` — see below.
+**Last Updated:** 2026-09-17T08:00:22Z
+**Branch:** `build/conductor-0.3.0` · **1 ahead of `origin/build/conductor-0.3.0` at Setup**; this wrap's
+commit leaves it **2**. The operator pushes.
+**Status:** clean — drift 0, 20 amendments applied, **four escalations UNRESOLVED and carried** (the code
+they would have ratified was removed instead).
+**Last Commit:** `feat(2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm)` — see below.
 
 ## Position
-- Done: **`2026-09-16-a11y-ci-gate-at-an-honest-terminal`** — the terminal is **UNDECIDED**, and that is the
-  honest outcome. What the chunk shipped is a CAUSE established at the project's bar and two routes closed
-  by MECHANISM rather than exhaustion.
-- Next: **`Medium-integrity launch for the a11y routine arm`** — `conductor-0.3.0/working-route.md:35`, head
-  of the markerless tail, Epoch 3. Added at this wrap's P5 trajectory halt, operator-directed.
-- Coverage **5/11 verified · 6 unclaimed** — `v3-02` returned to the pool (was claimed to this chunk).
+- Done: **`2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm`** — the terminal is NOT reached, and
+  the chunk's own deliverable is why. The remedy it was built to add is, on the working configuration, the
+  thing that blocks green — and finding that is what closed six days.
+- Next: **`The a11y routine arm's terminal, on the measured configuration`** — `working-route.md:37`, minted
+  at this wrap's P5, head of the markerless tail, Epoch 3. It owns `v3-02`.
+- Coverage **5/11 verified · 6 unclaimed** — `v3-02` un-claimed, returned to the pool for the successor.
 
 ## The finding
 
-**Integrity level, not the administrator role, decides whether WebView2 grants a debugging endpoint.**
-Established by variation with a control on both sides, three dev-host legs at runtime 153:
+**The arm RUNS and is one assertion from green.** Run 35192876641 — hosted `windows-2022`, native WebView2
+runtime 131.0.2903.86, msedgedriver pinned to 131.0.2903.86, **High integrity, no launcher** — created the
+first hosted-runner WebView2 session in this project's history (`DevToolsActivePort` in 1 s, banner
+`[webview2 131.0.2903.86 windows]`) and ran the routine arm at **11 passing / 1 failing / 2 skipped**.
+SC 2.4.3 (`:397`) PASSES on 131.
 
-| leg | role | integrity | session |
-|---|---|---|---|
-| A (operator, elevated shell) | admin | High | **no** — `DevToolsActivePort`, 2:00 |
-| B (operator, `runas /trustlevel`) | False | High | **no** — 2:00 |
-| C (overseer, normal shell) | False | **Medium** | **yes** — `[webview2 153…]` ×35, 0:06 |
+The single red `:384` (SC 2.1.1) is a **counting-basis defect in the assertion**, not an a11y defect:
+expected and received bracket lists are identical to the character — same six controls, same order, same one
+wrap — and only the prefix differs, expected `6 reached` vs received `12 reached`. The expectation counts
+DISTINCT controls, the label counts VISITS. **Record it as "12 visits / 6 distinct", never a bare count.**
 
-A→B varies the role with integrity held (no change ⇒ role exonerated); B→C varies integrity with the role
-held (the session appears). **Integrity buys the SESSION, not a green arm** — leg C still failed 0/1/2
-because `:384`/`:397` are broken by runtime 153. Keep the two questions apart.
-
-Both routes this chunk built are retired BY MECHANISM: `RunLevel Limited` cannot lower the label (the
-runner's account is the built-in Administrator, RID 500, `FilterAdministratorToken` absent — no filtered
-token exists); `runas /trustlevel` cannot either (strips the group, leaves the label). Remedy for the
-successor: `CreateRestrictedToken` + `SetTokenInformation` + `CreateProcessAsUser`.
+**Integrity's SIGN is configuration-bound.** Medium helped at runtime 153 on the dev host; High is REQUIRED
+at 131 on windows-2022. The 2026-09-16 legs A/B/C are BOUNDED by this, never retired.
 
 ## Work done
-`.github/workflows/ci.yml` (+20/−4) · `scripts/a11y-limited-token-launch.ps1` (new) ·
-`scripts/a11y-token-witness.ps1` (new) · **8 evidence records**. No Rust/TS/crate surface, no dependency,
-no lockfile delta. Four CI probes driven inside the fix-loop under the operator's ci-probe directive — no
-operator commits, `HEAD 38d21d1` throughout, probe branch deleted.
+`scripts/a11y-limited-token-launch.ps1` (mechanism `runas` → `DuplicateTokenEx` + `SetTokenInformation` +
+`CreateProcessAsUser`, P/Invoke, no dependency) · `scripts/a11y-token-witness.ps1` (modes, transports, refusal
+exits 96/97, TEMP write probe, driver-log readback, stale scheduled-task naming retired) ·
+`.github/workflows/ci.yml` (three driver-alone diagnostics, leg-console print, stale naming) · **3 evidence
+records**. No Rust/TS surface, no dependency, no lockfile delta. **Eleven CI probes** driven inside the
+fix-loop under the ci-probe directive — HEAD `139bbb1` throughout, every probe ref deleted (verified 0 on
+origin).
 
 ## Drift resolved
-**7 fan-out proposals applied across 3 masters** (arch 5 · security-plan 1 · test-plan 1; four docs clean),
-**plus 3 duplicates the fan-out missed and the cascade sweep caught** (`test-plan.md:470` restating the
-retired remedy claim, `a11y-plan.md:516` pinning the very pair that regressed, `a11y-plan.md:471`), **plus
-1 distillation** (`.claude/rules/security.md` SIX→SEVEN, invisible to the literal sweep because it is
-bolded `**SIX**`). One escalation resolved: the seventh governed harness-spawn form, operator-ratified
-under playbook `:124` — and registered as the mechanism that SHIPS (`runas`), not the scheduled task the
-chunk's own drafted text described.
+**20 corrections: 13 in master bodies** (test-plan 4 · a11y-plan 4 · architecture 4 · residuals 1) **+ 7 in
+the distillation tier** (a11y-summary 4 · tests-summary 2 · rules/a11y 1), from a 7-agent fan-out that
+returned **29 proposals**; design-system, layout-templates and obs-plan clean. 3 sidecar entries.
+The fan-out found far more than the directive's sweep set named — five restatements in test-plan alone, and
+two egress-COUNT claims in architecture plus one in security-plan that the directive did not list.
+
+## FOUR ESCALATIONS — UNRESOLVED, carried on the successor entry
+No operator ruling arrived, so the directive's own fallback was taken: **the probe-scoped code came out**
+rather than shipping unratified. All four therefore resolved for THIS commit without a ruling, and all four
+remain owed:
+1. **The `≥152` floor is falsified as a posture** — not necessary (coherent 131/131 works), not sufficient
+   (coherent 152/152 fails, run 34654076633), and it DESTROYED the working configuration (run 35185153012,
+   fetching 153 over a native 131). Measured subject is driver/runtime major **COHERENCE**.
+2. **The float's stated exit condition names a mechanism that does not exist** — the Standalone Installer is
+   Evergreen and takes no version; only Fixed Version is versioned (>250 MB, unobtainable at 131).
+3. **The seventh governed spawn form's disposition** if the launcher leaves the asserting step.
+4. **A second non-loopback egress** (`msedgedriver.microsoft.com`) if the driver pin ships.
 
 ## Notes
-- **`v3-02` un-claimed, not excluded.** The requirement is right and the world is wrong. An exclusion was
-  explicitly NOT ratified: after leg C it would record a falsehood, since a probable path to green is now
-  measured.
-- **Dated advance warning:** `:384`/`:397` break on WebView2 153 and go red in CI the day the runner image
-  moves. CI runs 152 and is unaffected today. Separate defect, own owner, carried on the next entry.
-- **ONE hygiene defect, THREE surfaces** (carried): orphaned `msedgewebview2` hold inherited handles (the
-  ~15-min CI tail), `CENSUS_NAMES` at `parse-nvda-log.ts:130-137` omits the webview host (SR territory),
-  and they accumulate across runs. The reap went 7 → 17 and is **not** done (6 in-window survivors).
-- **The Evergreen float charged a cost before its gate lit** — an unprompted overnight bump broke the arm's
-  two newest assertions with no repo input changing. The pin-or-retire disposition returns to the pool.
-- **Owed to the operator:** `.claude/rules/testing.md` 82.7 KB and `verification-harness.md` 69.8 KB, both
-  past the Read cap. `host-win32.md` grew to 17.9 KB this wrap (2 entries, 984 B and 755 B — above the
-  ~600 B always-loaded bar, detail pushed to Tier 3 with a pointer). Always-loaded rule total **43.7 KB**.
-- **Still open from prior sessions:** the n=1 deferred escalation class; the audit-debt chunk's discarded
-  wrap `gates` evolve record; the `quantile` 14-vs-11 correction for `code-metrics.ndjson`.
+- **Removed from the tree before commit, not shipped:** the `windows-2022` label, the `≥152` floor bypass,
+  the driver-pin step with its second egress, and the launcher's removal from the asserting step. The shipped
+  arrangement is unchanged and no arrangement row moved in any master.
+- **The exclusion arm is DEAD on measurement** — the endpoint demonstrably opens on a hosted runner, so any
+  future permanent exclusion would have been ratified on a false basis. `v3-02`'s acceptance was NOT refined
+  downward; it is correct as written.
+- **Still open from prior sessions:** the n=1 deferred escalation class; the audit-debt chunk's discarded wrap
+  `gates` evolve record; the `quantile` 14-vs-11 correction for `code-metrics.ndjson`; CARRY 3's orphaned
+  `msedgewebview2` hygiene defect (6 in-window survivors predate this session, `StartTime 18:33:31`).
 - **`v3-08` stays BLOCKED** — unchanged.
 - **Last failed command:** none.
-
-## Session End Status
-Wrapped at 2026-09-16 — context ran to 90%, wrap completed without a split.

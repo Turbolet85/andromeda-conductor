@@ -1,34 +1,60 @@
 #Requires -Version 7
 <#
 .SYNOPSIS
-  CI-only. The a11y routine arm's entry point INSIDE the limited-token scheduled task: witnesses the
-  token it actually got, then runs the leg.
+  CI-only. The a11y routine arm's entry point INSIDE the medium-integrity launch: witnesses the token
+  it actually got, then runs the leg.
 
 .DESCRIPTION
-  `A11Y_LIMITED_TOKEN_REGISTER: ok (RunLevel Limited, ...)` records what the scheduler was ASKED to
-  register. It does not record what the task actually ran as, and the cause-probe step's own
-  `IsElevatedAdmin` reading is taken in the job's elevated shell, not in the task. Without a reading
-  from inside the task, "elevation is not the cause" and "the token never dropped" are
-  indistinguishable — and a conclusion resting on that ambiguity would not meet this project's bar
-  (variation with a control on both sides).
+  The launcher's own `A11Y_LIMITED_TOKEN_CHILD_INTEGRITY` line records the label it SET on the token it
+  built. That is a reading taken in the launching process, not in the launched one, and the cause-probe
+  step's `IsElevatedAdmin` is likewise read in the job's own shell. Without a reading from inside the
+  launched process, "integrity is not the cause" and "the label never took" are indistinguishable — and
+  a conclusion resting on that ambiguity would not meet this project's bar (variation with a control on
+  both sides).
 
-  So this runs as the task's program, prints the token facts before wdio starts, and then invokes the
+  So this runs as the launched program, prints the token facts before wdio starts, and then invokes the
   leg, propagating its exit code unchanged.
 
-  Integrity level is printed beside the role check because they answer different questions: a task
-  registered Limited but silently run elevated shows High integrity, while a genuine drop shows Medium.
+  Integrity level is printed beside the role check because they answer DIFFERENT questions, and the
+  2026-09-16 legs established that only the second one moves the outcome: a process can carry the
+  administrator role at High integrity and still get no debugging endpoint, while a non-admin process at
+  Medium gets one. `runas /trustlevel` strips the group and leaves the label, which is exactly why role
+  alone never separated the two.
 
 .NOTES
-  Invoked solely as the scheduled-task program registered by scripts/a11y-limited-token-launch.ps1;
-  wired into neither harness shell. Prints handle NAMES and states only, never a resolved path.
+  Invoked solely as the program launched by scripts/a11y-limited-token-launch.ps1; wired into neither
+  harness shell. Prints handle NAMES and states only, never a resolved path.
 #>
 [CmdletBinding()]
-param()
+param(
+  # 'driver-alone' runs the session-isolation step's own (b) sequence INSIDE this launch instead of the
+  # leg. That is the discriminating variation: (b) runs at High today and returns `DevToolsActivePort
+  # file doesn't exist`, while the leg at Medium returns `from chrome not reachable`. Running the SAME
+  # sequence at Medium holds the instrument and varies only integrity, which separates "the wdio /
+  # tauri-driver path produces that error" from "the driver-to-browser step produces it under Medium".
+  [ValidateSet('leg', 'driver-alone')]
+  [string]$Mode = 'leg',
+
+  # The TRANSPORT the driver uses to reach the browser. Every failure measured so far belongs to 'port'
+  # and to its two failure points — the DevToolsActivePort file (absent at High) and the loopback TCP
+  # connect (refused at Medium). msedgedriver's own log recommends the pipe instead, in both the High and
+  # the Medium run: "Use the --remote-debugging-pipe Chrome switch instead of the default
+  # --remote-debugging-port". A pipe bypasses both failure points and has never been exercised AS A
+  # TRANSPORT — the workflow's existing pipe-route step launches the app with the switch set but never
+  # speaks over it, and its profile-directory observation is not pipe-specific because the bare-app
+  # control produces one too.
+  [ValidateSet('port', 'pipe')]
+  [string]$Transport = 'port',
+
+  # Distinguishes the driver logs of runs that would otherwise share a path (the medium launch and its
+  # high-integrity control run the same code).
+  [string]$LogTag = 'x'
+)
 
 Set-StrictMode -Version Latest
 
-# The scheduler does not capture a task's console, so these lines would otherwise be lost. They are
-# written to a gitignored file under runs/ as well, which the launching step prints into the job log.
+# These lines are written to a gitignored file under runs/ as well as stdout, so the launching step can
+# print them into the job log even if the child's console is not the step's own.
 $witnessLog = Join-Path $PSScriptRoot '..' | Join-Path -ChildPath 'runs/a11y-token-witness.log'
 New-Item -ItemType Directory -Force -Path (Split-Path -Parent $witnessLog) | Out-Null
 Set-Content -LiteralPath $witnessLog -Value @() -Encoding UTF8
@@ -41,15 +67,15 @@ function Write-Witness([string]$Line) {
 try {
   $id = [Security.Principal.WindowsIdentity]::GetCurrent()
   $principal = New-Object Security.Principal.WindowsPrincipal($id)
-  Write-Witness "[diag] (task) IsElevatedAdmin: $($principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))"
-  Write-Witness "[diag] (task) IsSystem: $($id.IsSystem)"
-  Write-Witness "[diag] (task) AuthenticationType: $($id.AuthenticationType)"
+  Write-Witness "[diag] (leg) IsElevatedAdmin: $($principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))"
+  Write-Witness "[diag] (leg) IsSystem: $($id.IsSystem)"
+  Write-Witness "[diag] (leg) AuthenticationType: $($id.AuthenticationType)"
 } catch {
-  Write-Witness "[diag] (task) WindowsIdentity: UNREADABLE ($($_.Exception.GetType().Name))"
+  Write-Witness "[diag] (leg) WindowsIdentity: UNREADABLE ($($_.Exception.GetType().Name))"
 }
 
-# The integrity level is the decisive reading: a task registered Limited but silently run elevated
-# shows High (S-1-16-12288), a genuine drop shows Medium (S-1-16-8192). It is NOT reachable through
+# The integrity level is the decisive reading: a launch whose label never took shows High
+# (S-1-16-12288), a genuine drop shows Medium (S-1-16-8192). It is NOT reachable through
 # WindowsIdentity.Groups — .NET omits the mandatory label from that collection (measured: 11 groups,
 # no S-1-16-* among them) — so it is read from whoami, invoked by ABSOLUTE PATH because a bare
 # `whoami` resolves to a POSIX build on a host with MSYS ahead on PATH and rejects /groups.
@@ -64,19 +90,19 @@ try {
       'S-1-16-8448' = 'Medium Plus'; 'S-1-16-12288' = 'High'; 'S-1-16-16384' = 'System'
     }
     $name = if ($sid -and $names.ContainsKey($sid)) { $names[$sid] } else { 'unmapped' }
-    Write-Witness "[diag] (task) IntegrityLevelSid: $(if ($sid) { $sid } else { 'UNREADABLE' })"
-    Write-Witness "[diag] (task) IntegrityLevel: $(if ($sid) { $name } else { 'UNREADABLE' })"
+    Write-Witness "[diag] (leg) IntegrityLevelSid: $(if ($sid) { $sid } else { 'UNREADABLE' })"
+    Write-Witness "[diag] (leg) IntegrityLevel: $(if ($sid) { $name } else { 'UNREADABLE' })"
   } else {
-    Write-Witness '[diag] (task) IntegrityLevel: UNREADABLE (whoami.exe absent)'
+    Write-Witness '[diag] (leg) IntegrityLevel: UNREADABLE (whoami.exe absent)'
   }
 } catch {
-  Write-Witness "[diag] (task) IntegrityLevel: UNREADABLE ($($_.Exception.GetType().Name))"
+  Write-Witness "[diag] (leg) IntegrityLevel: UNREADABLE ($($_.Exception.GetType().Name))"
 }
 
 try {
-  Write-Witness "[diag] (task) SessionId: $([System.Diagnostics.Process]::GetCurrentProcess().SessionId)"
+  Write-Witness "[diag] (leg) SessionId: $([System.Diagnostics.Process]::GetCurrentProcess().SessionId)"
 } catch {
-  Write-Witness '[diag] (task) SessionId: UNREADABLE'
+  Write-Witness '[diag] (leg) SessionId: UNREADABLE'
 }
 
 # Window station / desktop is an axis nothing has varied, and it produces this exact signature class:
@@ -92,15 +118,44 @@ try {
   $sb = New-Object System.Text.StringBuilder 256
   $needed = 0
   $ok = [WinSta]::GetUserObjectInformation([WinSta]::GetProcessWindowStation(), 2, $sb, $sb.Capacity, [ref]$needed)
-  Write-Witness "[diag] (task) WindowStation: $(if ($ok) { $sb.ToString() } else { 'UNREADABLE' })"
+  Write-Witness "[diag] (leg) WindowStation: $(if ($ok) { $sb.ToString() } else { 'UNREADABLE' })"
 } catch {
-  Write-Witness "[diag] (task) WindowStation: UNREADABLE ($($_.Exception.GetType().Name))"
+  Write-Witness "[diag] (leg) WindowStation: UNREADABLE ($($_.Exception.GetType().Name))"
 }
-Write-Witness "[diag] (task) UserInteractive: $([Environment]::UserInteractive)"
-Write-Witness "[diag] (task) SessionName: $(if ($env:SESSIONNAME) { $env:SESSIONNAME } else { 'ABSENT' })"
+Write-Witness "[diag] (leg) UserInteractive: $([Environment]::UserInteractive)"
+Write-Witness "[diag] (leg) SessionName: $(if ($env:SESSIONNAME) { $env:SESSIONNAME } else { 'ABSENT' })"
+Write-Witness "[diag] (leg) Mode: $Mode"
 
-# WHY a Limited run level may yield a High-integrity task: with admin-approval mode off there is no
-# split token for the account, so no run level can drop to one and the request is silently a no-op.
+# msedgedriver builds its profile at %TEMP%\scoped_dir<pid>_<rand>\EBWebView. Mandatory integrity denies
+# write-UP, so a Medium child that cannot create or write that path makes the browser die immediately —
+# which surfaces to the driver as exactly `from chrome not reachable`. This probe is what separates that
+# reading from "WebView2 behaves differently at Medium", and it is cheap.
+# TEMP is reported because a CreateProcessAsUser child does NOT necessarily inherit the parent's — this
+# launcher hands over an explicit environment block, so the child's TEMP is a launcher-side fact worth
+# measuring rather than assuming. Reported as leaf segments and booleans, never a resolved path, per this
+# script's own contract.
+try {
+  if (-not $env:TEMP) {
+    Write-Witness '[diag] (leg) TempWritable: UNKNOWN (TEMP is ABSENT from this process environment)'
+  } else {
+    $tempLeaf = Split-Path -Leaf $env:TEMP
+    $tempParentLeaf = Split-Path -Leaf (Split-Path -Parent $env:TEMP)
+    Write-Witness "[diag] (leg) TempTail: ...\$tempParentLeaf\$tempLeaf"
+    $probeDir = Join-Path $env:TEMP 'scoped_dir_probe'
+    $probeFile = Join-Path $probeDir 'x'
+    New-Item -ItemType Directory -Force -Path $probeDir -ErrorAction Stop | Out-Null
+    Set-Content -LiteralPath $probeFile -Value 'x' -NoNewline -ErrorAction Stop
+    $readBack = Get-Content -LiteralPath $probeFile -Raw -ErrorAction Stop
+    Write-Witness "[diag] (leg) TempWritable: $($readBack -eq 'x') (created, wrote and read back a byte under a scoped_dir-style child)"
+    Remove-Item -LiteralPath $probeDir -Recurse -Force -ErrorAction SilentlyContinue
+  }
+} catch {
+  Write-Witness "[diag] (leg) TempWritable: False ($($_.Exception.GetType().Name))"
+}
+
+# WHY the two retired routes could not lower the label: with admin-approval mode off there is no split
+# token for the account, so a scheduled task's `RunLevel Limited` had nothing to drop to and was a
+# silent no-op. These readings stay because they also say whether THIS launch's label survived.
 # Keys are PROBED in the provider form the cmdlet needs and REPORTED in the colon-free reg.exe form —
 # `HKLM:\` satisfies the host-path gate's drive-letter anchor and `HKLM\` does not (host-win32.md).
 # Each key is read in its OWN try, and the property is probed with PSObject.Properties rather than
@@ -117,27 +172,27 @@ foreach ($v in @('EnableLUA', 'FilterAdministratorToken', 'ConsentPromptBehavior
   } catch {
     $shown = "UNREADABLE ($($_.Exception.GetType().Name))"
   }
-  Write-Witness "[diag] (task) UAC HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\${v}: $shown"
+  Write-Witness "[diag] (leg) UAC HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System\${v}: $shown"
 }
 
-# WHICH account the task runs as decides whether a filtered token exists at all: the built-in
-# Administrator (RID 500) has none unless FilterAdministratorToken is 1, so a Limited run level for
-# that account is a no-op even with EnableLUA on.
+# WHICH account the leg runs as decides whether a filtered token exists at all: the built-in
+# Administrator (RID 500) has none unless FilterAdministratorToken is 1. That is why the filtered-token
+# routes failed and why this launch derives a restricted token from the caller's instead.
 try {
   $who = [Security.Principal.WindowsIdentity]::GetCurrent()
   $sid = $who.User.Value
   $rid = $sid.Substring($sid.LastIndexOf('-') + 1)
-  Write-Witness "[diag] (task) AccountRid: $rid"
-  Write-Witness "[diag] (task) AccountIsBuiltinAdministrator: $($rid -eq '500')"
+  Write-Witness "[diag] (leg) AccountRid: $rid"
+  Write-Witness "[diag] (leg) AccountIsBuiltinAdministrator: $($rid -eq '500')"
 } catch {
-  Write-Witness "[diag] (task) AccountRid: UNREADABLE ($($_.Exception.GetType().Name))"
+  Write-Witness "[diag] (leg) AccountRid: UNREADABLE ($($_.Exception.GetType().Name))"
 }
 
 # The handles reach this process through the User-scope forwarding the launcher performs; report
 # presence only, never a value or a resolved path.
 foreach ($n in @('CONDUCTOR_A11Y_STRICT', 'CONDUCTOR_ENV', 'CONDUCTOR_MSEDGEDRIVER', 'EDGEWEBDRIVER')) {
   $present = -not [string]::IsNullOrEmpty([Environment]::GetEnvironmentVariable($n))
-  Write-Witness "[diag] (task) handle ${n}: $(if ($present) { 'present' } else { 'ABSENT' })"
+  Write-Witness "[diag] (leg) handle ${n}: $(if ($present) { 'present' } else { 'ABSENT' })"
 }
 
 # runas does NOT inherit the caller's working directory, and the harness resolves its artifact handles
@@ -149,8 +204,63 @@ $repoRoot = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 # Taken BEFORE the leg starts: the reap below keys on it, so a process predating this leg is never
 # touched (the attribution rule the census already applies).
 $legStartedAt = Get-Date
-Write-Witness "[diag] (task) CwdOnEntry: $(if ((Get-Location).Path -eq $repoRoot) { 'repo-root' } else { 'NOT repo-root' })"
+Write-Witness "[diag] (leg) CwdOnEntry: $(if ((Get-Location).Path -eq $repoRoot) { 'repo-root' } else { 'NOT repo-root' })"
 Set-Location -LiteralPath $repoRoot
+
+if ($Mode -eq 'driver-alone') {
+  # The session-isolation step's (b) sequence, run HERE so it executes at this launch's integrity. The
+  # capability set is copied from that step verbatim and must stay so: browserName 'webview2' is what
+  # selects the driver's WebView2-HOST launch mode, and without it the same POST fails on the dev host
+  # too — i.e. the omission makes the probe measure itself rather than its subject.
+  $app = Join-Path $repoRoot 'target\release\conductor-tauri.exe'
+  if (-not (Test-Path -LiteralPath $app)) {
+    Write-Witness '[diag] (driver-alone) app binary: NOT BUILT — nothing to measure'
+    exit 0
+  }
+  $drvExe = Join-Path $env:EDGEWEBDRIVER 'msedgedriver.exe'
+  if (-not (Test-Path -LiteralPath $drvExe)) {
+    Write-Witness '[diag] (driver-alone) msedgedriver: NOT RESOLVED'
+    exit 0
+  }
+  # A distinct port and log per (transport, tag), so concurrent or sequential variants never collide.
+  $drvPort = if ($Transport -eq 'pipe') { 9517 } else { 9516 }
+  $drvLog = Join-Path $repoRoot "runs/msedgedriver-$Transport-$LogTag.log"
+  $drv = Start-Process -FilePath $drvExe `
+    -ArgumentList "--port=$drvPort", '--verbose', "--log-path=$drvLog" -PassThru
+  Start-Sleep -Seconds 3
+  # The switch goes in ms:edgeOptions.args, not in WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS: the driver
+  # OVERWRITES that variable for the browser it launches (its own log prints the value it set), so a
+  # pre-set value cannot survive. Whether the driver actually honoured the request is not assumed — its
+  # verbose log is read afterwards for the transport it chose, which is this probe's known-positive check.
+  $edgeOpts = @{ binary = $app; webviewOptions = @{} }
+  if ($Transport -eq 'pipe') { $edgeOpts['args'] = @('--remote-debugging-pipe') }
+  $caps = @{ capabilities = @{ alwaysMatch = @{ browserName = 'webview2'; 'ms:edgeOptions' = $edgeOpts } } } | ConvertTo-Json -Depth 8 -Compress
+  Write-Witness "[diag] (driver-alone) transport requested: $Transport"
+  $began = Get-Date
+  try {
+    $r = Invoke-WebRequest -Uri "http://127.0.0.1:$drvPort/session" -Method POST -Body $caps `
+      -ContentType 'application/json' -TimeoutSec 120 -SkipHttpErrorCheck
+    Write-Witness "[diag] (driver-alone) elapsed: $([int]((Get-Date) - $began).TotalSeconds)s"
+    Write-Witness "[diag] (driver-alone) status=$($r.StatusCode)"
+    Write-Witness "[diag] (driver-alone) body: $($r.Content)"
+  } catch {
+    Write-Witness "[diag] (driver-alone) elapsed: $([int]((Get-Date) - $began).TotalSeconds)s"
+    Write-Witness "[diag] (driver-alone) threw: $($_.Exception.Message)"
+  }
+  if (-not $drv.HasExited) { Stop-Process -Id $drv.Id -Force -ErrorAction SilentlyContinue }
+  Write-Witness "[diag] (driver-alone) driver log written: $(Test-Path -LiteralPath $drvLog)"
+  # Known-positive check on the instrument itself: a requested transport the driver ignored would
+  # otherwise be reported as a transport result. The port path prints DevTools HTTP attempts; the pipe
+  # path should not. Counts only, so a stale or ignored switch is visible rather than inferred.
+  if (Test-Path -LiteralPath $drvLog) {
+    $dl = Get-Content -LiteralPath $drvLog -ErrorAction SilentlyContinue
+    $httpTries = @($dl | Select-String -SimpleMatch 'DevTools HTTP Request failed').Count
+    $pipeMentions = @($dl | Select-String -SimpleMatch 'remote-debugging-pipe').Count
+    $launched = @($dl | Select-String -SimpleMatch 'Launching Microsoft Edge').Count
+    Write-Witness "[diag] (driver-alone) driver log: launched=$launched httpAttempts=$httpTries pipeMentions=$pipeMentions"
+  }
+  exit 0
+}
 
 # The leg's console is lost under a detached launch, and everything it does BEFORE wdio (frontend
 # build, cargo build) prints only there — so a failure in that window produced no visible output at
@@ -171,6 +281,13 @@ $proc = Start-Process -FilePath (Get-Command pwsh).Source `
 # NOT -Wait. -Wait also drains the output redirection, which orphaned msedgewebview2 processes block by
 # holding the inherited handles — measured twice on the dev host and matching the ~15-minute tail after
 # a dead leg in CI probe 35111618735. WaitForExit waits on the CHILD alone and is unaffected.
+if (-not $proc) {
+  # A launch that never started must never reach the exit-code path: $proc is null, $proc.ExitCode would
+  # be 0, and the step would report success over a leg that did not run. Measured in CI run 35141676310,
+  # where an over-restricted token stopped the leg starting its children and the arm still exited 0.
+  Write-Witness '[precondition] A11Y_LEG_START: FAILED (the leg process never started)'
+  exit 96
+}
 $proc.WaitForExit()
 $legExit = $proc.ExitCode
 
@@ -198,11 +315,23 @@ $left = 0
 foreach ($p in @(Get-Process -Name msedgewebview2, conductor-tauri, msedgedriver, tauri-driver -ErrorAction SilentlyContinue)) {
   try { if ($p.StartTime -ge $legStartedAt) { $left++ } } catch { }
 }
-Write-Witness "[diag] (task) OrphansReaped: $reaped"
-Write-Witness "[diag] (task) OrphansLeft: $left"
+Write-Witness "[diag] (leg) OrphansReaped: $reaped"
+Write-Witness "[diag] (leg) OrphansLeft: $left"
 
-# runas detaches, so the launcher cannot read this process's exit code from the process object. The
-# sentinel is the channel; an absent one is a distinct launcher failure rather than a silent pass.
+# A zero exit is only believable if the leg actually reached wdio. The harness writes its captured wdio
+# output unconditionally once it gets that far, so an ABSENT log beside exit 0 is a leg that never ran —
+# the exact false green a11y-plan §11 bans, and the shape CI run 35141676310 produced. Downgrading it
+# here means the step's own exit carries it, rather than a downstream gate inferring it from a missing
+# violation record.
+$a11yLog = Join-Path $repoRoot 'runs/a11y-e2e.log'
+if ($legExit -eq 0 -and -not (Test-Path -LiteralPath $a11yLog)) {
+  Write-Witness '[precondition] A11Y_LEG_UNREACHED: the leg exited 0 without producing its wdio log'
+  $legExit = 97
+}
+
+# CreateProcessAsUser does not detach, so the launcher reads this process's exit code from its own
+# handle. The sentinel is kept as the launcher's FALLBACK for an unusable handle reading — an absent one
+# is a distinct launcher failure there, never a silent pass — and costs one small write to keep.
 $sentinel = Join-Path $PSScriptRoot '..' | Join-Path -ChildPath 'runs/a11y-leg-exit.txt'
 New-Item -ItemType Directory -Force -Path (Split-Path -Parent $sentinel) | Out-Null
 Set-Content -LiteralPath $sentinel -Value $legExit -Encoding UTF8

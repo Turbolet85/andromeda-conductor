@@ -239,6 +239,14 @@ jobs:
     name: A11y gate (routine arm · axe · contrast · violation JSON)
     # Pinned to the EXPLICIT label rather than windows-latest: this job drives the Edge WebDriver the
     # runner image ships, so a silent -latest move could change the driver out from under the gate.
+    #
+    # MEASURED THIS CHUNK, NOT ACTED ON: actions/runner-images#14738 reports WebView2 WebDriver automation
+    # failing on image windows-2025-vs2026 20260828.587 with runtime 152.0.4191.66 — byte-identical to this
+    # job's — against a plain Tauri/wry app with no token work, and passing on windows-2022 with runtime
+    # 131.0.2903.86. Probed at runs 35186499514 / 35191569653 / 35192876641: on windows-2022 at a coherent
+    # 131.0.2903.86 driver+runtime pair the endpoint opens in 1s and the arm runs 11 passing / 1 failing /
+    # 2 skipped. Moving the label is an arch §Established Decisions change and needs an operator ruling;
+    # the finding is carried to the successor route entry.
     runs-on: windows-2025
     steps:
       - uses: actions/checkout@v4
@@ -285,6 +293,7 @@ jobs:
 
           $before = Get-Wv2Version
           Write-Output "[diag] WebView2 Evergreen Runtime before install: $(if ($before) { $before } else { 'NOT INSTALLED' })"
+
 
           # The step's NAME is its contract: ensure a 152+ runtime, not "always take the newest".
           # Installing unconditionally over an image that already satisfies the floor is what put a 153
@@ -401,12 +410,24 @@ jobs:
           # already reads $LASTEXITCODE from the bare command and exits with it, so the preference adds
           # no detection and only destroys the diagnostic.
           #
-          # The leg runs under a LIMITED token. A hosted step is elevated by construction, and elevation
-          # is the established cause of the missing DevTools endpoint — varied with a control on both
-          # sides on a known-good host (2026-09-12), IsElevatedAdmin True again on this runner in run
-          # 35079315258 with every rival cause measured away in the same run. The drop is placed HERE
-          # rather than at the wdio spawn site because msedgedriver launches the app three levels below
-          # it, so only the step covers every descendant.
+          # The leg runs at MEDIUM INTEGRITY. A hosted step runs at High by construction, and the
+          # mandatory integrity LABEL — not the administrator role — is the established cause of the
+          # missing DevTools endpoint: varied with a control on both sides across three dev-host legs
+          # (2026-09-16), where admin+High and non-admin+High both failed and non-admin+Medium created the
+          # session. The two earlier routes are retired BY MECHANISM, not by exhaustion — a scheduled
+          # task's RunLevel Limited had no filtered token to drop to on the built-in Administrator account,
+          # and runas /trustlevel strips the group while leaving the label at High. The launcher therefore
+          # builds the token itself (CreateRestrictedToken -> SetTokenInformation -> CreateProcessAsUser).
+          # The drop is placed HERE rather than at the wdio spawn site because msedgedriver launches the
+          # app three levels below it, so only the step covers every descendant.
+          # MEASURED, NOT YET ACTED ON. Run 35191569653 inverted this launch's premise on windows-2022 at
+          # a coherent 131/131 driver/runtime pair: both HIGH driver-alone cells created a session
+          # (status 200, port AND pipe) while both MEDIUM cells failed with `chrome not reachable`, and
+          # the bare app published DevToolsActivePort in 1s. Run 35192876641 then ran the arm at HIGH
+          # with no launcher: 11 passing / 1 failing / 2 skipped. On that configuration the medium-integrity
+          # drop is not merely unnecessary — it is what breaks the session. Removing the launcher here is a
+          # scope inversion for this chunk (it is this chunk's own deliverable) and needs an operator
+          # ruling, so the launch stands as registered and the finding is carried to the successor entry.
           & .\scripts\a11y-limited-token-launch.ps1 `
             -Program (Get-Command pwsh).Source `
             -ArgumentList '-NoProfile','-File','scripts/a11y-token-witness.ps1' `
@@ -414,16 +435,34 @@ jobs:
             -ForwardEnv 'CONDUCTOR_A11Y_STRICT','CONDUCTOR_ENV','CONDUCTOR_MSEDGEDRIVER','EDGEWEBDRIVER'
           $legExit = $LASTEXITCODE
 
-          # The scheduler does not capture the task's console, so anything the task printed reaches the
-          # job log only through a file. The witness runs INSIDE the task and records the token it
-          # actually got — which is what separates "elevation is not the cause" from "the token never
-          # dropped". Registering Limited is not evidence of running Limited.
+          # The witness runs INSIDE the launched process and records the token it actually got — which is
+          # what separates "integrity is not the cause" from "the label never took". Setting a label on a
+          # token is not evidence of running under it. It is read from the file as well as the console so
+          # the reading survives whatever the child's console turns out to be.
           $witnessLog = Join-Path $PWD 'runs/a11y-token-witness.log'
           if (Test-Path -LiteralPath $witnessLog) {
-            Write-Output '--- token witness, from inside the task (runs/a11y-token-witness.log) ---'
+            Write-Output '--- token witness, from inside the leg (runs/a11y-token-witness.log) ---'
             Get-Content -LiteralPath $witnessLog
           } else {
-            Write-Output '[diag] A11Y_TOKEN_WITNESS: absent — the task never reached its witness'
+            Write-Output '[diag] A11Y_TOKEN_WITNESS: absent — the leg never reached its witness'
+          }
+
+          # Everything the leg does BEFORE wdio (frontend build, cargo build, the harness's own
+          # preconditions) prints only to the leg's console, which the witness captures to a file. Without
+          # printing it, a failure in that window is invisible — measured in run 35141676310, where the leg
+          # never reached wdio and the job log carried no reason at all.
+          # A blind tail is the wrong cut: the leg's stderr is dominated by cargo progress, so the last N
+          # lines are compile noise and the driver's own startup window scrolls past (measured in run
+          # 35143892765, where tauri-driver never answered on 4444 and the tail carried only Compiling
+          # lines). Compile progress is dropped and the rest is kept whole.
+          $legConsole = Join-Path $PWD 'runs/a11y-leg-console.log'
+          foreach ($f in @($legConsole, "$legConsole".Replace('.log', '.err.log'))) {
+            if (Test-Path -LiteralPath $f) {
+              Write-Output "--- leg console ($(Split-Path -Leaf $f)), compile progress elided ---"
+              Get-Content -LiteralPath $f |
+                Where-Object { $_ -notmatch '^\s*(Compiling|Downloaded|Downloading|Finished|Fresh|Updating|Adding|Locking|dist/assets/)' } |
+                Select-Object -Last 200
+            }
           }
 
           # The harness's own captured wdio output is the leg's evidence channel. Printing it here keeps
@@ -437,6 +476,81 @@ jobs:
             Write-Output '[diag] A11Y_LEG_LOG: absent — the leg did not reach its wdio call'
           }
           exit $legExit
+
+      # THE DISCRIMINATING VARIATION. The session-isolation step below runs its (b) driver-alone POST at
+      # the job's own HIGH integrity and returns `DevToolsActivePort file doesn't exist`; the leg at
+      # MEDIUM returns `from chrome not reachable` (measured, runs 35145664132 and 35147042449, against
+      # three High controls carrying zero of that string). Those are different failures, but the two runs
+      # differ in instrument as well as integrity — the leg goes through wdio and tauri-driver, (b) does
+      # not. Running (b)'s own sequence INSIDE the medium-integrity launch holds the instrument and varies
+      # only the label, which is what separates "the wdio/tauri-driver path produces that error" from "the
+      # driver-to-browser step produces it under Medium". Diagnostic: it can never decide the gate.
+      - name: WebView2 driver-alone at medium integrity (diagnostic)
+        if: always()
+        continue-on-error: true
+        shell: pwsh
+        env:
+          CONDUCTOR_ENV: dev
+        run: |
+          if ($env:EDGEWEBDRIVER) { $env:CONDUCTOR_MSEDGEDRIVER = Join-Path $env:EDGEWEBDRIVER 'msedgedriver.exe' }
+          & .\scripts\a11y-limited-token-launch.ps1 `
+            -Program (Get-Command pwsh).Source `
+            -ArgumentList '-NoProfile','-File','scripts/a11y-token-witness.ps1','-Mode','driver-alone','-Transport','port','-LogTag','medium' `
+            -WorkingDirectory $PWD.Path `
+            -ForwardEnv 'CONDUCTOR_ENV','CONDUCTOR_MSEDGEDRIVER','EDGEWEBDRIVER' `
+            -TimeoutSeconds 300
+          $w = Join-Path $PWD 'runs/a11y-token-witness.log'
+          if (Test-Path -LiteralPath $w) {
+            Write-Output '--- driver-alone witness, from inside the medium-integrity launch ---'
+            Get-Content -LiteralPath $w
+          }
+
+      # THE UNVARIED TRANSPORT. Every failure measured over six days belongs to the PORT transport and to
+      # its two failure points — the DevToolsActivePort file (absent at High) and the loopback TCP connect
+      # (refused at Medium). msedgedriver's own verbose log recommends the other one, in BOTH the High and
+      # the Medium run: "Use the --remote-debugging-pipe Chrome switch instead of the default
+      # --remote-debugging-port". A pipe bypasses both failure points and has never been exercised AS A
+      # TRANSPORT: the pipe-route step below launches the app with the switch set and watches for a profile
+      # directory and liveness, but never speaks over the pipe — and a profile appears in the bare-app
+      # control too, so that observation is not pipe-specific. Run at BOTH labels, medium first, so the
+      # reading is a transport comparison and not another single-condition probe.
+      - name: WebView2 driver-alone over PIPE at medium integrity (diagnostic)
+        if: always()
+        continue-on-error: true
+        shell: pwsh
+        env:
+          CONDUCTOR_ENV: dev
+        run: |
+          if ($env:EDGEWEBDRIVER) { $env:CONDUCTOR_MSEDGEDRIVER = Join-Path $env:EDGEWEBDRIVER 'msedgedriver.exe' }
+          & .\scripts\a11y-limited-token-launch.ps1 `
+            -Program (Get-Command pwsh).Source `
+            -ArgumentList '-NoProfile','-File','scripts/a11y-token-witness.ps1','-Mode','driver-alone','-Transport','pipe','-LogTag','medium' `
+            -WorkingDirectory $PWD.Path `
+            -ForwardEnv 'CONDUCTOR_ENV','CONDUCTOR_MSEDGEDRIVER','EDGEWEBDRIVER' `
+            -TimeoutSeconds 300
+          $w = Join-Path $PWD 'runs/a11y-token-witness.log'
+          if (Test-Path -LiteralPath $w) {
+            Write-Output '--- pipe transport, medium integrity ---'
+            Get-Content -LiteralPath $w
+          }
+
+      # The HIGH control for the step above: same code, same capabilities, same transport, no launcher —
+      # a hosted step is High by construction. Without it a pipe result at Medium could not be told from a
+      # pipe result in general.
+      - name: WebView2 driver-alone over PIPE at high integrity (control, diagnostic)
+        if: always()
+        continue-on-error: true
+        shell: pwsh
+        env:
+          CONDUCTOR_ENV: dev
+        run: |
+          if ($env:EDGEWEBDRIVER) { $env:CONDUCTOR_MSEDGEDRIVER = Join-Path $env:EDGEWEBDRIVER 'msedgedriver.exe' }
+          & (Get-Command pwsh).Source -NoProfile -File scripts/a11y-token-witness.ps1 -Mode driver-alone -Transport pipe -LogTag high
+          $w = Join-Path $PWD 'runs/a11y-token-witness.log'
+          if (Test-Path -LiteralPath $w) {
+            Write-Output '--- pipe transport, high integrity (control) ---'
+            Get-Content -LiteralPath $w
+          }
 
       # Isolates `session not created: DevToolsActivePort file doesn't exist` — the WARN-level line the
       # driver retries on, which says msedgedriver launched the app and never found its DevTools port.
@@ -566,7 +680,12 @@ jobs:
           $out = Join-Path $env:RUNNER_TEMP 'session-diag'
           New-Item -ItemType Directory -Force -Path $out | Out-Null
           $applog = Join-Path $PWD 'runs\logs\conductor-tauri.jsonl'
-          foreach ($f in @($err, $log, $applog)) { if (Test-Path -LiteralPath $f) { Copy-Item $f $out -Force } }
+          # msedgedriver-medium.log is the same driver's verbose log from the medium-integrity
+          # driver-alone step above — the pair is what makes the two readings comparable.
+          # Every driver-alone variant's verbose log — port and pipe, medium and high — so the transport
+          # comparison is readable from the artifact and not only from the job log's summary counts.
+          $variants = @(Get-ChildItem -Path (Join-Path $PWD 'runs') -Filter 'msedgedriver-*.log' -File -ErrorAction SilentlyContinue | ForEach-Object { $_.FullName })
+          foreach ($f in (@($err, $log, $applog) + $variants)) { if (Test-Path -LiteralPath $f) { Copy-Item $f $out -Force } }
           Get-ChildItem -Path $env:RUNNER_TEMP, $env:LOCALAPPDATA -Filter 'Crashpad' -Directory -Recurse -Depth 4 -ErrorAction SilentlyContinue |
             Select-Object -First 1 | ForEach-Object { Copy-Item $_.FullName (Join-Path $out 'Crashpad') -Recurse -Force -ErrorAction SilentlyContinue }
           Write-Output "[diag] staged: $((Get-ChildItem $out -Recurse -File | Measure-Object).Count) file(s)"

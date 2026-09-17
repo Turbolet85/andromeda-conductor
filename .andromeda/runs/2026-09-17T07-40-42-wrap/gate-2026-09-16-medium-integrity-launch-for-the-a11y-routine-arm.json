@@ -1,0 +1,327 @@
+[
+{
+"tool": "gate",
+"v": "1.0",
+"sha8": "f6e4b9b8",
+"ts": "2026-09-17T08:01:11Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-17T07-40-42-wrap",
+"--marker",
+"2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm · entries 11",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm\\wrap-2026-09-17T07-40-42 · bound: GNU timeout",
+"delta docs 53 · unmapped 4",
+"prose L110-118: The Rust workspace gates are LISTED AND DEFERRED: this chunk's delta is PowerShell + YAML … (1346 chars)",
+"  1 unit        green · exit 0 · 0.92s · 4187 B → 1.log · MSYS2_ARG_CONV_EXCL='*' pwsh -NoProfile -File scripts/a11y… (165 chars)",
+"  2 unit        green · exit 90 · 0.38s · 95 B → 2.log · pwsh -NoProfile -File scripts/a11y-limited-token-launch.ps… (139 chars)",
+"  3 unit        green · exit 90 · 0.37s · 95 B → 3.log · pwsh -NoProfile -File scripts/a11y-limited-token-launch.ps… (139 chars)",
+"  4 unit        not run — defer (key): Zero compiled-source delta: this chunk c… (211 chars) · cargo nextest run --workspace --profile ci",
+"  5 lint        not run — defer (key): Same zero-Rust-delta reason as the nexte… (137 chars) · cargo clippy --workspace --all-targets -- -D warnings",
+"  6 probe       green · exit 0 · 2.65s · 1897 B → 6.log · cargo audit",
+"  7 probe       green · exit 0 · 1.3s · 236251 B → 7.log · cargo deny check advisories bans licenses sources",
+"  8 probe       green · exit 0 · 0.05s · 16 B → 8.log · test -n \"$CONDUCTOR_MSEDGEDRIVER\" && test -f \"$CONDUCTOR_M… (94 chars)",
+"  9 self-verify not run — leg live (the letter drives it) · bash scripts/agent-run.sh run --e2e",
+" 10 probe       not run — leg operator (the letter drives it) · git add -A && T=$(git write-tree) && C=$(git commit-tree \"… (478 chars)",
+" 11 probe       not run — leg operator (the letter drives it) · gh run view <id> --json conclusion,headSha,url,jobs",
+"entries 11 · green 6 · red 0 · recorded 0 · timeout 0 · not-run 5"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm\\wrap-2026-09-17T07-40-42",
+"delta": {
+"docs": [
+".andromeda/a11y-plan-amendments.md",
+".andromeda/a11y-plan.md",
+".andromeda/architecture-amendments.md",
+".andromeda/architecture.md",
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/residuals.md",
+".andromeda/state.yaml",
+".andromeda/test-plan-amendments.md",
+".andromeda/test-plan.md",
+".claude/docs/a11y-summary.md",
+".claude/docs/session-learnings.md",
+".claude/docs/tests-summary.md",
+".claude/rules/a11y.md",
+".claude/rules/host-win32.md",
+".claude/session-handoff.md",
+"CLAUDE.md",
+"conductor-0.3.0/working-route.md",
+".andromeda/runs/2026-09-16T17-20-33-phase/.raw-a11y.md",
+".andromeda/runs/2026-09-16T17-20-33-phase/.raw-layouts.md",
+".andromeda/runs/2026-09-16T17-20-33-phase/.raw-obs.md",
+".andromeda/runs/2026-09-16T17-20-33-phase/.raw-security.md",
+".andromeda/runs/2026-09-16T17-20-33-phase/.raw-tests.md",
+".andromeda/runs/2026-09-16T17-20-33-phase/a11y.md",
+".andromeda/runs/2026-09-16T17-20-33-phase/acceptance-v3-02.md",
+".andromeda/runs/2026-09-16T17-20-33-phase/arch.md",
+".andromeda/runs/2026-09-16T17-20-33-phase/design.md",
+".andromeda/runs/2026-09-16T17-20-33-phase/gate-2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm.json",
+".andromeda/runs/2026-09-16T17-20-33-phase/layouts.md",
+".andromeda/runs/2026-09-16T17-20-33-phase/matrix-2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm.json",
+".andromeda/runs/2026-09-16T17-20-33-phase/note-v3-02.md",
+".andromeda/runs/2026-09-16T17-20-33-phase/obs.md",
+".andromeda/runs/2026-09-16T17-20-33-phase/security.md",
+".andromeda/runs/2026-09-16T17-20-33-phase/splice-2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm.json",
+".andromeda/runs/2026-09-16T17-20-33-phase/tests.md",
+".andromeda/runs/2026-09-16T17-20-33-phase/tree-query-2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm.json",
+".andromeda/runs/2026-09-16T19-27-18-implement/gate-2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm.json",
+".andromeda/runs/2026-09-17T07-40-42-wrap/RESUME-STATE.md",
+".andromeda/runs/2026-09-17T07-40-42-wrap/detectors/a11y-plan.yaml",
+".andromeda/runs/2026-09-17T07-40-42-wrap/detectors/arch.yaml",
+".andromeda/runs/2026-09-17T07-40-42-wrap/detectors/design-system.yaml",
+".andromeda/runs/2026-09-17T07-40-42-wrap/detectors/layout-templates.yaml",
+".andromeda/runs/2026-09-17T07-40-42-wrap/detectors/obs-plan.yaml",
+".andromeda/runs/2026-09-17T07-40-42-wrap/detectors/security-plan.yaml",
+".andromeda/runs/2026-09-17T07-40-42-wrap/detectors/test-plan.yaml",
+".andromeda/runs/2026-09-17T07-40-42-wrap/fanout-results.md",
+"conductor-0.3.0/chunks/2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm/evidence/four-ci-probes-what-they-measured.md",
+"conductor-0.3.0/chunks/2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm/evidence/medium-integrity-launch-works-on-the-dev-host.md",
+"conductor-0.3.0/chunks/2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm/evidence/the-cause-is-a-reported-image-regression.md",
+"conductor-0.3.0/chunks/2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm/plan.md",
+"conductor-0.3.0/chunks/2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm/report.md",
+"conductor-0.3.0/chunks/2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm/research.md",
+"conductor-0.3.0/chunks/2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm/scope.md"
+]
+},
+"unmapped": [
+".github/workflows/ci.yml",
+"conductor-0.3.0/verification-matrix.json",
+"scripts/a11y-limited-token-launch.ps1",
+"scripts/a11y-token-witness.ps1"
+],
+"prose": [
+{
+"from": 110,
+"to": 118,
+"text": "The Rust workspace gates are LISTED AND DEFERRED: this chunk's delta is PowerShell + YAML with zero `.rs`/`.ts` source change, so `nextest`/`clippy` would re-run over an untouched tree at the cost of a cold rebuild against a ~78 GB `target/` (per /implement's source-delta rule). **No `smoke` entry**: this chunk drives no scenario and mints no run id, so there is no `agent-run status <id>` mint-then-read to perform — the absence is stated here rather than left silent. **No `self-verify` frontend half**: this is not a UI chunk (zero `ui/src` delta), and the routine `--e2e` leg that would serve as one is deferred for a measured reason — the dev host floated to WebView2 153, where `accessibility.e2e.ts:384`/`:397` fail (10 passing / 2 failing / 2 skipped), a separate defect with its own owner. Running it here would author a known-red gate. The arm is measured where it matters, on the runner, by the probe pair below. **No standalone PowerShell parse gate**: one was authored and withdrawn at P5 — the gate tool reads every `$NAME` in a `run` as a required handle, so inline PowerShell referencing `$f`/`$null` is refused as `env f, null unset` and could never fire. The three launcher entries below invoke `a11y-limited-token-launch.ps1` directly, which cannot run unless it parses; `a11y-token-witness.ps1` is exercised by the CI probe."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "unit",
+"run": "MSYS2_ARG_CONV_EXCL='*' pwsh -NoProfile -File scripts/a11y-limited-token-launch.ps1 -Program C:/Windows/System32/whoami.exe -ArgumentList /groups -WorkingDirectory .",
+"run_sha8": "9edcc06d",
+"expect": [
+"exit 0",
+"contains S-1-16-8192"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm\\wrap-2026-09-17T07-40-42\\1.log",
+"bytes": 4187,
+"log_sha8": "72149b40",
+"exit": 0,
+"seconds": 0.92,
+"readings": [
+"exit 0 ✓",
+"contains 'S-1-16-8192' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "unit",
+"run": "pwsh -NoProfile -File scripts/a11y-limited-token-launch.ps1 -Program C:/Windows/System32/whoami.exe -ArgumentList 'a b' -WorkingDirectory .",
+"run_sha8": "8fa32dd7",
+"expect": [
+"exit 90",
+"contains A11Y_LIMITED_TOKEN_ARGV"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm\\wrap-2026-09-17T07-40-42\\2.log",
+"bytes": 95,
+"log_sha8": "f3559f61",
+"exit": 90,
+"seconds": 0.38,
+"readings": [
+"exit 90 ✓",
+"contains 'A11Y_LIMITED_TOKEN_ARGV' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "pwsh -NoProfile -File scripts/a11y-limited-token-launch.ps1 -Program C:/Windows/System32/whoami.exe -ArgumentList 'a;b' -WorkingDirectory .",
+"run_sha8": "d657cc3a",
+"expect": [
+"exit 90",
+"contains A11Y_LIMITED_TOKEN_ARGV"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm\\wrap-2026-09-17T07-40-42\\3.log",
+"bytes": 95,
+"log_sha8": "f3559f61",
+"exit": 90,
+"seconds": 0.37,
+"readings": [
+"exit 90 ✓",
+"contains 'A11Y_LIMITED_TOKEN_ARGV' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — defer (key): Zero compiled-source delta: this chunk c… (211 chars)"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — defer (key): Same zero-Rust-delta reason as the nexte… (137 chars)"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": [
+"exit 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm\\wrap-2026-09-17T07-40-42\\6.log",
+"bytes": 1897,
+"log_sha8": "c1afb8c0",
+"exit": 0,
+"seconds": 2.65,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": [
+"exit 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm\\wrap-2026-09-17T07-40-42\\7.log",
+"bytes": 236251,
+"log_sha8": "4ebeefef",
+"exit": 0,
+"seconds": 1.3,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "test -n \"$CONDUCTOR_MSEDGEDRIVER\" && test -f \"$CONDUCTOR_MSEDGEDRIVER\" && echo DRIVER_RESOLVED",
+"run_sha8": "db5cde0e",
+"expect": [
+"exit 0",
+"last line DRIVER_RESOLVED"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm\\wrap-2026-09-17T07-40-42\\8.log",
+"bytes": 16,
+"log_sha8": "5a9799f9",
+"exit": 0,
+"seconds": 0.05,
+"readings": [
+"exit 0 ✓",
+"last line 'DRIVER_RESOLVED' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "self-verify",
+"run": "bash scripts/agent-run.sh run --e2e",
+"run_sha8": "55ff1d5e",
+"expect": [
+"exit 0",
+"contains [a11y] verdict asserted",
+"lacks [a11y] leg skipped"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg live (the letter drives it)"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "git add -A && T=$(git write-tree) && C=$(git commit-tree \"$T\" -p HEAD -m \"ci-probe: 2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm\") && git reset -q && git push origin \"$C:refs/heads/ci-probe/2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm\" && echo \"PROBE_SHA=$C\" && SHA=$C gh run list --branch ci-probe/2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm --limit 1 --json databaseId,headSha --jq '.[] | select(.headSha==env.SHA) | .databaseId' ",
+"run_sha8": "d7cc2243",
+"expect": [
+"exit 0",
+"contains PROBE_SHA="
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "gh run view <id> --json conclusion,headSha,url,jobs",
+"run_sha8": "e08b0f4c",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+}
+]

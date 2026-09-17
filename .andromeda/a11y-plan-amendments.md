@@ -105,3 +105,33 @@ would have left the routine arm's own CI-integration row asserting the retired v
 **Change:** THREE edits, all the same claim. a11y-plan quotes arch §Stack's CI/CD rationale cell verbatim at three sites; arch amended that cell to "Formatting, build + test gating, …" this pass, so all three citations move with it, and the two enumerating sites additionally gain `cargo fmt --all --check` in their command list.
 **Why:** Raised by the ORCHESTRATOR under the cascade's verbatim-cross-master-citation edge, NOT by a detector — D-a11y-* invariants do not cover a CI gate-set enumeration, so a11y-plan's `proposals: []` was correct on its own terms. The THIRD site (`:471`) was found only because the post-amendment sweep ran a known-positive CONTROL: `grep -c 'build + test gating'` returned 3 in a11y-plan where only 2 had been edited. Without the control the third citation would have survived a two-site apply.
 **Explicitly checked and NOT amended (recording the basis, because an absence claim the file contradicts is what costs a later chunk a wrong premise):** a11y-plan DOES carry runtime and driver literals — WebView2 151.0.4129.107 (§1), 152.0.4191.53 under a 151 msedgedriver (§1, "a measured unsupported-but-working cross-major pair"), msedgedriver at §3, and the 152.0.4191.53 pass record at §6. None is retired by this chunk's falsification: every one is a DATED DEV-HOST measurement, not a provisional claim about the hosted image, and the falsification concerns only the hosted `windows-2025` image. The prior wrap's handoff anticipated that "a11y-plan §1 / §11 extend the measured runtime × driver PAIR SET"; measured here, a11y-plan states no runtime × driver pair SET to extend — that anticipation was over-broad, and test-plan alone carries the pair-set literals. Separately, `:218`'s "CI is TARGETED at a Linux+`xvfb` runner" is a11y-plan's OWN statement, not a citation of arch — `grep -nE 'xvfb|ubuntu-latest' architecture.md` returns 0 hits with the control firing elsewhere (a11y-plan 13, test-plan 10) — so it does not ride this pass and routes to its own channel as pre-existing drift; on inspection it reads as target-state that the same sentence self-corrects with the shipped `windows-2025` job, so that channel may find nothing to fix.
+
+## 2026-09-17 — 2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm
+
+**§1 CI integration · §9 Platform · §9 E2E artifacts row · §11 Strategy carve-out — 4 sites**
+
+The hosted-runner endpoint verdict is retired as UNCONDITIONAL and re-stated as configuration-bound. Measured
+at CI run 35192876641: hosted `windows-2022` at a coherent 131.0.2903.86 msedgedriver+WebView2-runtime pair,
+High integrity — `DevToolsActivePort` in 1 s, WebDriver session created, routine arm 11 passing / 1 failing /
+2 skipped, with SC 2.4.3 (`:397`) passing and the single red `:384` a counting-basis defect in the assertion
+(12 visits / 6 distinct, bracket lists identical to the character). The endpoint still does not open on
+`windows-2025` at runtime 152/153. Corroborated externally by actions/runner-images#14738 on a byte-identical
+image and runtime for a plain Tauri/wry app with no token work.
+
+Sweep basis: `grep -oF` per claim phrase across the seven masters + `residuals.md` — "opens no remote-debugging
+endpoint" 4 hits (test-plan 3 · residuals 1), "RED at WebView2 session creation" 4 (test-plan 1 · a11y-plan 3),
+"never been green" 1, "Still never a green run" 1, "endpoint remains CLOSED" 1, "runnability is
+measured-unproven" 1 — 12 sites, all corrected in place; occurrence-counted with `grep -o`, since a
+line-granular count collapses multiple corrections on one multi-KB line.
+
+Integrity's SIGN is configuration-bound: Medium helped at runtime 153 on the dev host, High is REQUIRED at 131
+on windows-2022. The 2026-09-16 legs A/B/C are BOUNDED by this, never retired — they were correctly measured on
+what they measured.
+
+The medium-integrity launcher is recorded MEASURED-INSUFFICIENT: it lowers the label as designed (parent
+`S-1-16-12288` → child `S-1-16-8192`, confirmed from inside the leg) and did not open the endpoint.
+
+NOT amended, and owed: four escalations reached no operator ruling this wrap, so the probe-scoped `ci.yml`
+surfaces that would have motivated further amendments were REMOVED instead of ratified (the `windows-2022`
+label, the `≥152` floor bypass, the `msedgedriver.microsoft.com` egress, and the launcher's removal from the
+asserting step). The shipped arrangement is therefore unchanged and no arrangement row moved.

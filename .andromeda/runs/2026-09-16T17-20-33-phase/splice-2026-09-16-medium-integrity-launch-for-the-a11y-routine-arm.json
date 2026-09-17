@@ -1,0 +1,44 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "2a1bf9cb",
+"ts": "2026-09-16T17:22:17Z",
+"argv": [
+"append",
+"--file",
+".andromeda/master-route.md",
+"--payload-file",
+"C:/Users/turbo/AppData/Local/Temp/claude/D--dev-projects-conductor/30d0f256-210c-49f7-913d-0212832b9c9d/scratchpad/master-record.txt",
+"--lines",
+"1",
+"--after-section",
+"## conductor-0.3.0",
+"--run-dir",
+".andromeda/runs/2026-09-16T17-20-33-phase",
+"--marker",
+"2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append master-route.md:+1 at line 147 · lines 146→147 · bytes 98568→99335 · term lf",
+"section '## conductor-0.3.0' · appended at its end, not the file's",
+"last line now: 2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm · pending · Medium"
+],
+"stderr": null,
+"wrote": [
+".andromeda/master-route.md"
+],
+"before": {
+"lines": 146,
+"bytes": 98568,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 147,
+"bytes": 99335
+}
+}
+]

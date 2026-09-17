@@ -1,0 +1,301 @@
+[
+{
+"tool": "gate",
+"v": "1.0",
+"sha8": "f6e4b9b8",
+"ts": "2026-09-16T17:51:27Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-16T17-20-33-phase",
+"--marker",
+"2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm",
+"--only",
+"1,2,3,4"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm · entries 12",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm\\phase-2026-09-16T17-20-33 · bound: GNU timeout",
+"delta docs 21",
+"prose L110-118: The Rust workspace gates are LISTED AND DEFERRED: this chunk's delta is PowerShell + YAML … (925 chars)",
+"  1 lint        not run — env f, null unset · pwsh -NoProfile -Command 'foreach ($f in @(\"scripts/a11y-l… (248 chars)",
+"  2 unit        timeout · 180.08s → 2.log · MSYS2_ARG_CONV_EXCL='*' pwsh -NoProfile -File scripts/a11y… (165 chars)",
+"  3 unit        green · exit 90 · 0.38s · 95 B → 3.log · pwsh -NoProfile -File scripts/a11y-limited-token-launch.ps… (139 chars)",
+"  4 unit        green · exit 90 · 0.36s · 95 B → 4.log · pwsh -NoProfile -File scripts/a11y-limited-token-launch.ps… (139 chars)",
+"  5 unit        not run — excluded · cargo nextest run --workspace --profile ci",
+"  6 lint        not run — excluded · cargo clippy --workspace --all-targets -- -D warnings",
+"  7 probe       not run — excluded · cargo audit",
+"  8 probe       not run — excluded · cargo deny check advisories bans licenses sources",
+"  9 probe       not run — excluded · test -n \"$CONDUCTOR_MSEDGEDRIVER\" && test -f \"$CONDUCTOR_M… (94 chars)",
+" 10 self-verify not run — excluded · bash scripts/agent-run.sh run --e2e",
+" 11 probe       not run — excluded · git add -A && T=$(git write-tree) && C=$(git commit-tree \"… (417 chars)",
+" 12 probe       not run — excluded · gh run view <id> --json conclusion,headSha,url,jobs",
+"entries 12 · green 2 · red 0 · recorded 0 · timeout 1 · not-run 9"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm\\phase-2026-09-16T17-20-33",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+".andromeda/runs/2026-09-16T17-20-33-phase/.raw-a11y.md",
+".andromeda/runs/2026-09-16T17-20-33-phase/.raw-layouts.md",
+".andromeda/runs/2026-09-16T17-20-33-phase/.raw-obs.md",
+".andromeda/runs/2026-09-16T17-20-33-phase/.raw-security.md",
+".andromeda/runs/2026-09-16T17-20-33-phase/.raw-tests.md",
+".andromeda/runs/2026-09-16T17-20-33-phase/a11y.md",
+".andromeda/runs/2026-09-16T17-20-33-phase/arch.md",
+".andromeda/runs/2026-09-16T17-20-33-phase/design.md",
+".andromeda/runs/2026-09-16T17-20-33-phase/layouts.md",
+".andromeda/runs/2026-09-16T17-20-33-phase/obs.md",
+".andromeda/runs/2026-09-16T17-20-33-phase/security.md",
+".andromeda/runs/2026-09-16T17-20-33-phase/splice-2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm.json",
+".andromeda/runs/2026-09-16T17-20-33-phase/tests.md",
+".andromeda/runs/2026-09-16T17-20-33-phase/tree-query-2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm.json",
+"conductor-0.3.0/chunks/2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm/plan.md",
+"conductor-0.3.0/chunks/2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm/research.md",
+"conductor-0.3.0/chunks/2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm/scope.md"
+]
+},
+"unmapped": [],
+"prose": [
+{
+"from": 110,
+"to": 118,
+"text": "The Rust workspace gates are LISTED AND DEFERRED: this chunk's delta is PowerShell + YAML with zero `.rs`/`.ts` source change, so `nextest`/`clippy` would re-run over an untouched tree at the cost of a cold rebuild against a ~78 GB `target/` (per /implement's source-delta rule). **No `smoke` entry**: this chunk drives no scenario and mints no run id, so there is no `agent-run status <id>` mint-then-read to perform — the absence is stated here rather than left silent. **No `self-verify` frontend half**: this is not a UI chunk (zero `ui/src` delta), and the routine `--e2e` leg that would serve as one is deferred for a measured reason — the dev host floated to WebView2 153, where `accessibility.e2e.ts:384`/`:397` fail (10 passing / 2 failing / 2 skipped), a separate defect with its own owner. Running it here would author a known-red gate. The arm is measured where it matters, on the runner, by the probe pair below."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "pwsh -NoProfile -Command 'foreach ($f in @(\"scripts/a11y-limited-token-launch.ps1\",\"scripts/a11y-token-witness.ps1\")) { $null = [System.Management.Automation.Language.Parser]::ParseFile((Resolve-Path $f), [ref]$null, [ref]$null) }' && echo PARSE_OK",
+"run_sha8": "36599e05",
+"expect": [
+"exit 0",
+"last line PARSE_OK"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — env f, null unset"
+},
+{
+"n": 2,
+"role": "unit",
+"run": "MSYS2_ARG_CONV_EXCL='*' pwsh -NoProfile -File scripts/a11y-limited-token-launch.ps1 -Program C:/Windows/System32/whoami.exe -ArgumentList /groups -WorkingDirectory .",
+"run_sha8": "9edcc06d",
+"expect": [
+"exit 0",
+"contains S-1-16-8192"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm\\phase-2026-09-16T17-20-33\\2.log",
+"bytes": 167,
+"log_sha8": "3cb5c311",
+"exit": "timeout",
+"seconds": 180.08,
+"readings": [],
+"survivors": [],
+"outcome": "timeout"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "pwsh -NoProfile -File scripts/a11y-limited-token-launch.ps1 -Program C:/Windows/System32/whoami.exe -ArgumentList 'a b' -WorkingDirectory .",
+"run_sha8": "8fa32dd7",
+"expect": [
+"exit 90",
+"contains A11Y_LIMITED_TOKEN_ARGV"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm\\phase-2026-09-16T17-20-33\\3.log",
+"bytes": 95,
+"log_sha8": "f3559f61",
+"exit": 90,
+"seconds": 0.38,
+"readings": [
+"exit 90 ✓",
+"contains 'A11Y_LIMITED_TOKEN_ARGV' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "pwsh -NoProfile -File scripts/a11y-limited-token-launch.ps1 -Program C:/Windows/System32/whoami.exe -ArgumentList 'a;b' -WorkingDirectory .",
+"run_sha8": "d657cc3a",
+"expect": [
+"exit 90",
+"contains A11Y_LIMITED_TOKEN_ARGV"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm\\phase-2026-09-16T17-20-33\\4.log",
+"bytes": 95,
+"log_sha8": "f3559f61",
+"exit": 90,
+"seconds": 0.36,
+"readings": [
+"exit 90 ✓",
+"contains 'A11Y_LIMITED_TOKEN_ARGV' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "test -n \"$CONDUCTOR_MSEDGEDRIVER\" && test -f \"$CONDUCTOR_MSEDGEDRIVER\" && echo DRIVER_RESOLVED",
+"run_sha8": "db5cde0e",
+"expect": [
+"exit 0",
+"last line DRIVER_RESOLVED"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "self-verify",
+"run": "bash scripts/agent-run.sh run --e2e",
+"run_sha8": "55ff1d5e",
+"expect": [
+"exit 0",
+"contains [a11y] verdict asserted",
+"lacks [a11y] leg skipped"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "git add -A && T=$(git write-tree) && C=$(git commit-tree \"$T\" -p HEAD -m \"ci-probe: 2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm\") && git reset -q && git push origin \"$C:refs/heads/ci-probe/2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm\" && echo \"PROBE_SHA=$C\" && gh run list --branch ci-probe/2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm --limit 1 --json databaseId,headSha",
+"run_sha8": "9256da93",
+"expect": [
+"exit 0",
+"contains PROBE_SHA="
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "gh run view <id> --json conclusion,headSha,url,jobs",
+"run_sha8": "e08b0f4c",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+}
+]
