@@ -1,84 +1,90 @@
 # Session Handoff
 
-**Last Updated:** 2026-09-17T11:42Z
-**Branch:** `build/conductor-0.3.0` · at Setup HEAD was `fc4a9c2`, **ahead 0** (the operator pushed the
-chunk's code mid-session and CI ran on it); this wrap's commit leaves it **1 ahead**. The operator pushes.
-**Status:** clean — drift 0, 39 amendments applied, **2 escalations raised and RESOLVED with the operator**.
-**Last Commit:** `feat(2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration)` — see below.
+**Last Updated:** 2026-09-17T17:46Z
+**Branch:** `build/conductor-0.3.0` · **1 ahead** of `origin/build/conductor-0.3.0` as read at this wrap's
+Setup; this wrap's own commit and push land after this line is written, so a next session measuring 0 ahead
+with HEAD == upstream reads the push as landed.
+**Status:** clean — drift 0, 6 amendments applied, 1 escalation raised and resolved with the operator.
+**Last Commit:** `feat(2026-09-17-keyboard-and-focus-order-coverage-ownership)` — see below.
 
 ## Position
 
-- **Done: `2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration` — THE TERMINAL IS REACHED.**
-  The a11y routine arm is green in continuous integration for the first time in this capability's life.
-- **Next:** `Keyboard and focus-order coverage ownership` — `working-route.md:39`, head of the markerless
-  tail, Epoch 3. It carries two CARRYs, both re-measured at this wrap (below).
-- **Coverage 6/11 verified · 5 unclaimed** — `v3-02` flipped `implemented → verified`.
-
-## The measured claim, stated with its configuration
-
-Not "the a11y arm is green in CI" — that shape is what cost six days in the other direction. The true
-sentence: **green on hosted `windows-2022`, at a coherent `131.0.2903.86` msedgedriver/WebView2-runtime pair,
-at High integrity, with the driver pinned from the image's own runtime — 12 passing / 0 failing / 2 skipped,
-`journal_conformance` 8/8, violation record uploaded, at run 35208593666 (headSha `fc4a9c2`).** The next
-image bump can move the label, the runtime, the driver or their coherence; the record makes that visible.
+- **Done: `2026-09-17-keyboard-and-focus-order-coverage-ownership`.** Every `a11y-plan` §5 keyboard/focus
+  claim now has exactly one stated owner or a recorded gap, and the statement is **mechanically enforced**
+  rather than prose-only: a committed claim→owner enumeration plus a checker that fails any owner whose spec
+  asserts nothing. **This completes Epoch 3** — its markerless tail is now empty.
+- **Next:** `Real-model leg posture and grading rule` — `working-route.md:42`, head of the markerless tail,
+  **Epoch 4**. It carries one PREREQ (below).
+- **Coverage 6/11 verified · 5 unclaimed** — unchanged. `v3-03` deliberately NOT claimed; see below.
 
 ## Work done
 
-`accessibility.e2e.ts` — the `BODY`-sentinel walk replaced by identity-keyed cycle detection; SC 2.1.1 and
-SC 2.4.3 re-based; the second vacuous-by-construction assertion at `:388` closed. `.github/workflows/ci.yml`
-— label → `windows-2022`; the Evergreen install and its `≥152` floor removed; a `Pin msedgedriver to the
-image's WebView2 runtime (gate)` step added (Authenticode-gated, coherence-asserting, publishing
-`EDGEWEBDRIVER`); the redundant version diagnostic folded in; the asserting step invoking the leg's entry
-point directly at native High integrity. No Rust surface, no dependency, no lockfile delta.
+Two new TS files under `crates/conductor-tauri/ui/test/a11y/` — `claim-ownership.ts` (10 rows over §5's nine
+bullets) and `check-claim-ownership.ts` (run by `tsx`, no browser, no driver, no Pulse). One npm script,
+`a11y:ownership`. One spec retitled: `accessibility.e2e.ts:450` named four claims in its title and asserted
+none, so it now says what it is — a subject-absence marker whose claims the driven arm owns. Zero `.rs`
+delta, zero dependency delta.
 
-## Drift resolved — 39 amendments, 0 open
+The checker's standing verdict: `10 claims · 5 owned (3 operator-local, carve-out) · 2 n/a-by-construction ·
+3 recorded gaps`. Its anti-vacuity arm was proven able to FAIL by a one-shot known-positive control.
 
-`architecture.md` 13 · `security-plan.md` 8 · `test-plan.md` 10 · `a11y-plan.md` 8; `design-system`,
-`layout-templates` and `obs-plan` returned clean. Four sidecars appended. Cascade re-derived `CLAUDE.md`,
-`rules/security.md`, `rules/a11y.md` and three `docs/*-summary.md`. A final sweep of ten retired phrasings
-returns clean on all ten.
+## Why `v3-03` is still pooled
 
-**Two escalations, both spawn-rule (b)'s never-routine class, both resolved with the operator:**
-1. **SEVENTH governed form — RETAINED, scope corrected** to the dev-only driver-alone diagnostics (4 `ci.yml`
-   call sites, down from 5). A registry silent about a spawn a committed workflow still performs fails the
-   same way as one describing a spawn it no longer performs.
-2. **SIXTH governed form — RETIRED with its step, its network-arriving-PROGRAM property TRANSFERRED** to the
-   driver-stack spawn. Raised by the orchestrator beyond the detector's proposal: the gate verifies and stops,
-   but the LEG executes the very binary it fetched, so "no fetched program is executed" is true of that step
-   and false of the job.
+Its acceptance quantifies over **every** §5 claim — "and the claim is actually asserted in that suite".
+**Three claims are asserted by no suite at all**: `:354` and `:356` coverage-matrix row navigation, and
+`:370` the first-class shortcuts. Closing them is new keyboard coverage, so the cap stays pooled with a
+failed-concretization `notes` line rather than being claimed over a text the evidence contradicts. The new
+route entry (below) owns exactly those three plus the SC 2.4.7 gap.
 
-Carried escalations 1–4 from the predecessor all discharge here: 1 and 3 by the P4 ruling, 4 by the P5
-ratification (a measured NET NARROWING — egress one before, one after), 2 by the mechanism that replaced it.
+## Drift resolved — 6 amendments, 0 open
+
+`a11y-plan.md` 5 · `test-plan.md` 1. The other five masters returned clean, all seven having evaluated
+`D-platform-claim` and declined it on a stating-sentence test.
+
+- **§5** gained owner sentences on six bullets — the driven arm named for trap, containment and restoration;
+  three claims recorded as gaps with a route owner.
+- **§11 Strategy** gained the substitute-gate sentence `v3-03` asks for: what CI gates in place of a suite it
+  cannot run, each item stated as *not* a substitute for the assertions themselves.
+- **§5 `:366`** no longer attributes restoration to a "Radix AlertDialog default" — the last survivor of a
+  reading `:362`, `:131`, `:253` and `rules/a11y.md` had all already retired.
+- **§5 `:355`/`:362`** now include the operator-checklist rows in the HOLD cycle, matching `:131`/`:253`.
+- **§1 `:115` CARRY 1 DISCHARGED** — the verbatim dittography repaired by offset (3691 → 3619 chars, the
+  clause now once). Coordinates re-measured at this wrap before the edit.
+- **`test-plan` §4** — the ui/ proving mechanism named as the SET of executing npm legs, not the wdio legs
+  alone. The sweep caught this amendment leaving the retired claim in its own sentence's head; corrected.
+
+**One escalation, resolved with the operator:** how §5 should record three claims no suite asserts, and
+whether to mint the playbook rule the dittography class lacked. Both approved — gaps recorded with a named
+route owner; rule minted (48 now).
 
 ## Curation
 
-T1 0 · **T2 2** (`rules/frontend.md` — an expectation interpolating the same expression on both sides cannot
-fail, plus identity-over-name and sentinel-free walking; `rules/a11y.md` — integrity's sign is
-configuration-bound, and coherence vs the missing-endpoint cause are different failure modes) · T3 0 ·
-**1 correction** (`rules/testing.md`'s job-set label). No project entry was minted for the task-agnostic half
-per the operator's routing — it is recorded overseer-side as W121–W125 / W119.
+T1 0 · **T2 2** (`host-win32.md` — a Windows process is attributed by PARENTAGE, never by image name or
+StartTime; `frontend.md` — knip's residual 12 make `npm run knip` exit 1, so it cannot be a gate expecting
+exit 0) · T3 0. Filters: 1 duplicate · 2 confidence-threshold · 0 deferred.
 
-**Deferred (Filter 5, one slot over):** `gate.py delta --defer-check` erred BOTH ways in one call — a false
-positive (basename-matched `security.md` in a doc comment) and a false negative (`verification-matrix.json`
-bucketed *unmapped* while a Rust test opens it). Durable lesson: **a committed data file a test READS is
-source delta for that test's gate, and an extension-keyed language map cannot see it.** Home is probably
-`rules/verification-harness.md`.
+**Recurrences (corpus correct, failure reproduced anyway):**
+- `recurrence-despite-learning:` CLAUDE.md T1 2026-09-06 (the false-positive face). It recurred **three
+  times this session** — the fan-out anchor probe, `matrix.py audit`'s phantom ledger-note (prose *denying*
+  the token matched it), and the report's own grep count of 1 where running it gave 2.
+- `recurrence-despite-learning:` `amendment-flow.md` §Cascade (re-read every amended line for an intra-line
+  duplicate). This wrap's own `test-plan:247` amendment did it; the sweep caught it one step later.
 
 ## Notes
 
-- **The two CARRYs on `working-route.md:39` were both RE-MEASURED at this wrap**, not copied: the a11y-plan
-  dittography moved to offsets 2555/2627 of a now-3691-character `:115` (it was 866/938 of 2002 — this wrap's
-  own amendment moved it), and **CARRY 3** is re-pinned with a dated count — 6 `msedgewebview2` survivors, all
-  at `StartTime 2026-09-16 18:33:31`, none from this session, whose three leg runs left zero of their own.
-  So the defect is NOT the routine arm's teardown path.
-- The `cargo nextest` deferral was voided TWICE — at implement and again at this light gate — because
-  `verification-matrix.json` is read by `crates/conductor-report/tests/matrix_ledger_gate.rs:42`. It ran green
-  both times (986/986). The `cargo clippy` deferral stands: zero `.rs` delta, and no data file a lint reads.
+- **CARRY 3's premise is DISPROVED, not carried.** All twelve `msedgewebview2` processes are children of
+  ordinary desktop apps — six rooted at `SearchHost.exe`, six at `WhatsApp.Root.exe`, **none** descending
+  from `tauri-driver`, `msedgedriver` or `conductor-tauri`. This chunk's `--e2e` leg left zero survivors of
+  its own. There is no orphan defect in the routine arm to fix. Evidence: `evidence/process-census.md`.
+- **A restored pin, not a continued one:** `PREREQ: close rust gate deferral` was ABSENT from the tail —
+  the predecessor deferred `cargo clippy` and never pinned it. Origin traced through the chunk reports to
+  `2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration`; this is the **2nd** consecutive
+  deferral, so the **3rd trips the age trigger**.
+- **A red this chunk did not introduce:** `npm run knip` exits 1 on 12 pre-existing unused exports. Basis is
+  a detached worktree at `3ddd405` with identical findings (`evidence/knip-at-HEAD-3ddd405.log`); owner is
+  this wrap's P5 pin. Worth noting for plan authoring: the gate was listed with `expect = ['exit 0']`, which
+  the tree could never satisfy — P5's novelty check asks whether a command was *named* before, and **named
+  is not green**.
 - **Still open from prior sessions:** the n=1 deferred escalation class · the audit-debt chunk's discarded
   wrap `gates` evolve record · the `quantile` 14-vs-11 correction for `code-metrics.ndjson` · `v3-08` BLOCKED.
 - **Last failed command:** none.
-
-## Session End Status
-
-Completed normally at 2026-09-17 11:42Z. This session ran the full arc — phase, implement and wrap — and
-paused once at a context alarm between wrap P4 and P5, resuming with every artifact already on disk.

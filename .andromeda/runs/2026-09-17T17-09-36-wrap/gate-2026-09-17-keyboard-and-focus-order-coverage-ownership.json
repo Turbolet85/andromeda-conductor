@@ -1,0 +1,298 @@
+[
+{
+"tool": "gate",
+"v": "1.0",
+"sha8": "f6e4b9b8",
+"ts": "2026-09-17T17:47:47Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-17-keyboard-and-focus-order-coverage-ownership/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-17T17-09-36-wrap",
+"--marker",
+"2026-09-17-keyboard-and-focus-order-coverage-ownership"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-17-keyboard-and-focus-order-coverage-ownership · entries 9",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-17-keyboard-and-focus-order-coverage-ownership\\wrap-2026-09-17T17-09-36 · bound: GNU timeout",
+"delta docs 49 · ts 4 · unmapped 4",
+"prose L94-96: No `role = 'smoke'` entry: the modify-set is two new TS files, one wdio spec title, two ui… (313 chars)",
+"prose L98-103: `cargo nextest` **runs, it does not defer**, even though the `.rs` delta is zero: `conduct… (569 chars)",
+"  1 lint        green · exit 0 · 1.58s · 65 B → 1.log · (cd crates/conductor-tauri/ui && npm run typecheck:e2e)",
+"  2 unit        green · exit 0 · 1.08s · 634 B → 2.log · (cd crates/conductor-tauri/ui && npx tsx test/a11y/check-c… (76 chars)",
+"  3 lint        red · exit 0 ✗ (exit 1) · exit 1 · 1.05s · 992 B → 3.log · (cd crates/conductor-tauri/ui && npm run knip)",
+"  4 probe       green · exit 0 · 0.06s · 16 B → 4.log · test -n \"$CONDUCTOR_MSEDGEDRIVER\" && test -f \"$CONDUCTOR_M… (94 chars)",
+"  5 self-verify not run — leg live (the letter drives it) · bash scripts/agent-run.sh run --e2e",
+"  6 unit        green · exit 0 · 7.45s · 115569 B → 6.log · cargo nextest run --workspace --profile ci",
+"  7 lint        not run — defer (key): Zero .rs delta and no data file a lint r… (311 chars) · cargo clippy --workspace --all-targets -- -D warnings",
+"  8 probe       green · exit 0 · 2.6s · 1897 B → 8.log · cargo audit",
+"  9 probe       green · exit 0 · 1.24s · 236251 B → 9.log · cargo deny check advisories bans licenses sources",
+"entries 9 · green 6 · red 1 (3) · recorded 0 · timeout 0 · not-run 2"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-17-keyboard-and-focus-order-coverage-ownership",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-17-keyboard-and-focus-order-coverage-ownership\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-17-keyboard-and-focus-order-coverage-ownership\\wrap-2026-09-17T17-09-36",
+"delta": {
+"docs": [
+".andromeda/a11y-plan-amendments.md",
+".andromeda/a11y-plan.md",
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/playbook.md",
+".andromeda/state.yaml",
+".andromeda/test-plan-amendments.md",
+".andromeda/test-plan.md",
+".claude/docs/a11y-summary.md",
+".claude/docs/tests-summary.md",
+".claude/rules/a11y.md",
+".claude/rules/frontend.md",
+".claude/rules/host-win32.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+".andromeda/runs/2026-09-17T15-06-17-phase/.raw-a11y.md",
+".andromeda/runs/2026-09-17T15-06-17-phase/.raw-arch.md",
+".andromeda/runs/2026-09-17T15-06-17-phase/.raw-layouts.md",
+".andromeda/runs/2026-09-17T15-06-17-phase/.raw-obs.md",
+".andromeda/runs/2026-09-17T15-06-17-phase/.raw-security.md",
+".andromeda/runs/2026-09-17T15-06-17-phase/.raw-tests.md",
+".andromeda/runs/2026-09-17T15-06-17-phase/a11y.md",
+".andromeda/runs/2026-09-17T15-06-17-phase/arch.md",
+".andromeda/runs/2026-09-17T15-06-17-phase/design.md",
+".andromeda/runs/2026-09-17T15-06-17-phase/gate-2026-09-17-keyboard-and-focus-order-coverage-ownership.json",
+".andromeda/runs/2026-09-17T15-06-17-phase/layouts.md",
+".andromeda/runs/2026-09-17T15-06-17-phase/master-record.txt",
+".andromeda/runs/2026-09-17T15-06-17-phase/matrix-2026-09-17-keyboard-and-focus-order-coverage-ownership.json",
+".andromeda/runs/2026-09-17T15-06-17-phase/note-v3-03.md",
+".andromeda/runs/2026-09-17T15-06-17-phase/obs.md",
+".andromeda/runs/2026-09-17T15-06-17-phase/security.md",
+".andromeda/runs/2026-09-17T15-06-17-phase/splice-2026-09-17-keyboard-and-focus-order-coverage-ownership.json",
+".andromeda/runs/2026-09-17T15-06-17-phase/tests.md",
+".andromeda/runs/2026-09-17T15-06-17-phase/tree-query-2026-09-17-keyboard-and-focus-order-coverage-ownership.json",
+".andromeda/runs/2026-09-17T15-59-38-implement/gate-2026-09-17-keyboard-and-focus-order-coverage-ownership.json",
+".andromeda/runs/2026-09-17T17-09-36-wrap/a11y-plan-entry.md",
+".andromeda/runs/2026-09-17T17-09-36-wrap/code-graph-refresh.log",
+".andromeda/runs/2026-09-17T17-09-36-wrap/curation.md",
+".andromeda/runs/2026-09-17T17-09-36-wrap/fanout-results.md",
+".andromeda/runs/2026-09-17T17-09-36-wrap/playbook-entry.md",
+".andromeda/runs/2026-09-17T17-09-36-wrap/route-entry.txt",
+".andromeda/runs/2026-09-17T17-09-36-wrap/sep.txt",
+".andromeda/runs/2026-09-17T17-09-36-wrap/splice-2026-09-17-keyboard-and-focus-order-coverage-ownership.json",
+".andromeda/runs/2026-09-17T17-09-36-wrap/test-plan-entry.md",
+"conductor-0.3.0/chunks/2026-09-17-keyboard-and-focus-order-coverage-ownership/evidence/process-census.md",
+"conductor-0.3.0/chunks/2026-09-17-keyboard-and-focus-order-coverage-ownership/plan.md",
+"conductor-0.3.0/chunks/2026-09-17-keyboard-and-focus-order-coverage-ownership/report.md",
+"conductor-0.3.0/chunks/2026-09-17-keyboard-and-focus-order-coverage-ownership/research.md",
+"conductor-0.3.0/chunks/2026-09-17-keyboard-and-focus-order-coverage-ownership/scope.md"
+],
+"ts": [
+"crates/conductor-tauri/ui/package.json",
+"crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts",
+"crates/conductor-tauri/ui/test/a11y/check-claim-ownership.ts",
+"crates/conductor-tauri/ui/test/a11y/claim-ownership.ts"
+]
+},
+"unmapped": [
+"conductor-0.3.0/verification-matrix.json",
+"conductor-0.3.0/chunks/2026-09-17-keyboard-and-focus-order-coverage-ownership/evidence/anti-vacuity-control.log",
+"conductor-0.3.0/chunks/2026-09-17-keyboard-and-focus-order-coverage-ownership/evidence/knip-at-HEAD-3ddd405.log",
+"conductor-0.3.0/chunks/2026-09-17-keyboard-and-focus-order-coverage-ownership/evidence/ownership-check-green.log"
+],
+"prose": [
+{
+"from": 94,
+"to": 96,
+"text": "No `role = 'smoke'` entry: the modify-set is two new TS files, one wdio spec title, two ui config files and the ledger — none is a boot-path touchpoint. The `--e2e` entry below does boot the app (it builds the bundle and drives a real session), so the boot is exercised as a gate rather than as a skippable smoke."
+},
+{
+"from": 98,
+"to": 103,
+"text": "`cargo nextest` **runs, it does not defer**, even though the `.rs` delta is zero: `conductor-0.3.0/verification-matrix.json` carries an uncommitted delta when /implement runs — P5 writes the `v3-03` note at approval — and `crates/conductor-report/tests/matrix_ledger_gate.rs:42` reads that file. The deferral's own wording is \"a committed file a test of that language reads\", which this satisfies whoever authored the delta; the last two wraps voided this same deferral for exactly this file. `cargo clippy` still defers — no `.rs` delta, and no data file a lint reads."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "(cd crates/conductor-tauri/ui && npm run typecheck:e2e)",
+"run_sha8": "dfc519e5",
+"expect": [
+"exit 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-17-keyboard-and-focus-order-coverage-ownership\\wrap-2026-09-17T17-09-36\\1.log",
+"bytes": 65,
+"log_sha8": "cea9a430",
+"exit": 0,
+"seconds": 1.58,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "unit",
+"run": "(cd crates/conductor-tauri/ui && npx tsx test/a11y/check-claim-ownership.ts)",
+"run_sha8": "4fb0318d",
+"expect": [
+"exit 0",
+"last line ownership: every claim resolved"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-17-keyboard-and-focus-order-coverage-ownership\\wrap-2026-09-17T17-09-36\\2.log",
+"bytes": 634,
+"log_sha8": "a35319df",
+"exit": 0,
+"seconds": 1.08,
+"readings": [
+"exit 0 ✓",
+"last line 'ownership: every claim resolved' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "(cd crates/conductor-tauri/ui && npm run knip)",
+"run_sha8": "80914098",
+"expect": [
+"exit 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-17-keyboard-and-focus-order-coverage-ownership\\wrap-2026-09-17T17-09-36\\3.log",
+"bytes": 992,
+"log_sha8": "08cc1b2a",
+"exit": 1,
+"seconds": 1.05,
+"readings": [
+"exit 0 ✗ (exit 1)"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 1)"
+},
+{
+"n": 4,
+"role": "probe",
+"run": "test -n \"$CONDUCTOR_MSEDGEDRIVER\" && test -f \"$CONDUCTOR_MSEDGEDRIVER\" && echo DRIVER_RESOLVED",
+"run_sha8": "db5cde0e",
+"expect": [
+"exit 0",
+"last line DRIVER_RESOLVED"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-17-keyboard-and-focus-order-coverage-ownership\\wrap-2026-09-17T17-09-36\\4.log",
+"bytes": 16,
+"log_sha8": "5a9799f9",
+"exit": 0,
+"seconds": 0.06,
+"readings": [
+"exit 0 ✓",
+"last line 'DRIVER_RESOLVED' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "self-verify",
+"run": "bash scripts/agent-run.sh run --e2e",
+"run_sha8": "55ff1d5e",
+"expect": [
+"exit 0",
+"contains [a11y] verdict asserted",
+"lacks [a11y] leg skipped"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg live (the letter drives it)"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": [
+"exit 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-17-keyboard-and-focus-order-coverage-ownership\\wrap-2026-09-17T17-09-36\\6.log",
+"bytes": 115569,
+"log_sha8": "46f672fd",
+"exit": 0,
+"seconds": 7.45,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — defer (key): Zero .rs delta and no data file a lint r… (311 chars)"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": [
+"exit 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-17-keyboard-and-focus-order-coverage-ownership\\wrap-2026-09-17T17-09-36\\8.log",
+"bytes": 1897,
+"log_sha8": "c1afb8c0",
+"exit": 0,
+"seconds": 2.6,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": [
+"exit 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-17-keyboard-and-focus-order-coverage-ownership\\wrap-2026-09-17T17-09-36\\9.log",
+"bytes": 236251,
+"log_sha8": "4ebeefef",
+"exit": 0,
+"seconds": 1.24,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+}
+]
+}
+}
+]

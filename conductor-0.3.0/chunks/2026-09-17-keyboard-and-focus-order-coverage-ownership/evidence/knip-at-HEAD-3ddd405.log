@@ -1,0 +1,18 @@
+
+> conductor-ui@0.1.0 knip
+> knip
+
+Unused exports (3)
+SUITE_SELECTION            src/components/ScenarioPicker.tsx:5:14          
+readSpeechLog    function  test/a11y/screen-reader/parse-nvda-log.ts:158:17
+readStamps       function  test/a11y/screen-reader/parse-nvda-log.ts:212:17
+Unused exported types (9)
+CoverageMode    type       src/components/CoverageMatrix.tsx:6:13          
+Outcome         type       test/a11y/screen-reader/parse-nvda-log.ts:18:13 
+Arm             type       test/a11y/screen-reader/parse-nvda-log.ts:24:13 
+PassRow         interface  test/a11y/screen-reader/parse-nvda-log.ts:26:18 
+SubjectRecord   interface  test/a11y/screen-reader/parse-nvda-log.ts:47:18 
+OperatorReview  interface  test/a11y/screen-reader/parse-nvda-log.ts:70:18 
+ReviewGrade     type       test/a11y/screen-reader/parse-nvda-log.ts:84:13 
+Timeline        interface  test/a11y/screen-reader/parse-nvda-log.ts:200:18
+RowState        type       test/a11y/screen-reader/rows.ts:7:13            

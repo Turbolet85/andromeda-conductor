@@ -1,0 +1,7 @@
+carve-out: run-console-HOLD focus order — owner driven (npm run a11y:driven), not run by CI
+carve-out: focus restoration to the triggering control — owner driven (npm run a11y:driven), not run by CI
+gap (recorded, not a pass): run-console-live coverage-matrix row navigation
+gap (recorded, not a pass): idle-with-report coverage-matrix row navigation
+gap (recorded, not a pass): per-surface keyboard shortcuts
+FAIL run-console-HOLD focus trap: owner routine (accessibility.e2e.ts) has the spec but it asserts nothing — 0 expect( in its body; a title is not coverage
+ownership: 1 claim(s) unresolved

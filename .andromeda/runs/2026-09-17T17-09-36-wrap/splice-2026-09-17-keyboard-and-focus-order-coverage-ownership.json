@@ -1,0 +1,253 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "2a1bf9cb",
+"ts": "2026-09-17T17:29:32Z",
+"argv": [
+"append",
+"--file",
+".andromeda/a11y-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-17T17-09-36-wrap/a11y-plan-entry.md",
+"--lines",
+"16",
+"--run-dir",
+".andromeda/runs/2026-09-17T17-09-36-wrap",
+"--marker",
+"2026-09-17-keyboard-and-focus-order-coverage-ownership"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 2,
+"stdout": [],
+"stderr": "--payload-file: 15 line(s), --lines says 16 — the count is the caller's own assertion",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "2a1bf9cb",
+"ts": "2026-09-17T17:29:40Z",
+"argv": [
+"append",
+"--file",
+".andromeda/a11y-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-17T17-09-36-wrap/a11y-plan-entry.md",
+"--lines",
+"15",
+"--run-dir",
+".andromeda/runs/2026-09-17T17-09-36-wrap",
+"--marker",
+"2026-09-17-keyboard-and-focus-order-coverage-ownership"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append a11y-plan-amendments.md:+15 at line 148 · lines 147→162 · bytes 34928→38819 · term lf",
+"last line now: **Sweep (run after every body of this pass landed, before this entry):** pattern"
+],
+"stderr": null,
+"wrote": [
+".andromeda/a11y-plan-amendments.md"
+],
+"before": {
+"lines": 147,
+"bytes": 34928,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 162,
+"bytes": 38819
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "2a1bf9cb",
+"ts": "2026-09-17T17:29:41Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-17T17-09-36-wrap/test-plan-entry.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-09-17T17-09-36-wrap",
+"--marker",
+"2026-09-17-keyboard-and-focus-order-coverage-ownership"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+10 at line 521 · lines 520→530 · bytes 124091→126995 · term lf",
+"last line now: **Sweep (run after every body of this pass landed, before this entry):** `proven"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 520,
+"bytes": 124091,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 530,
+"bytes": 126995
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "2a1bf9cb",
+"ts": "2026-09-17T17:32:34Z",
+"argv": [
+"append",
+"--file",
+".andromeda/playbook.md",
+"--payload-file",
+".andromeda/runs/2026-09-17T17-09-36-wrap/playbook-entry.md",
+"--lines",
+"21",
+"--run-dir",
+".andromeda/runs/2026-09-17T17-09-36-wrap",
+"--marker",
+"2026-09-17-keyboard-and-focus-order-coverage-ownership"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 2,
+"stdout": [],
+"stderr": "--payload-file: 19 line(s), --lines says 21 — the count is the caller's own assertion",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "2a1bf9cb",
+"ts": "2026-09-17T17:32:41Z",
+"argv": [
+"append",
+"--file",
+".andromeda/playbook.md",
+"--payload-file",
+".andromeda/runs/2026-09-17T17-09-36-wrap/playbook-entry.md",
+"--lines",
+"19",
+"--run-dir",
+".andromeda/runs/2026-09-17T17-09-36-wrap",
+"--marker",
+"2026-09-17-keyboard-and-focus-order-coverage-ownership"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append playbook.md:+19 at line 210 · lines 209→228 · bytes 77234→79091 · term lf",
+"last line now:     carried pair."
+],
+"stderr": null,
+"wrote": [
+".andromeda/playbook.md"
+],
+"before": {
+"lines": 209,
+"bytes": 77234,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 228,
+"bytes": 79091
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "2a1bf9cb",
+"ts": "2026-09-17T17:45:27Z",
+"argv": [
+"append",
+"--file",
+"conductor-0.3.0/working-route.md",
+"--payload-file",
+".andromeda/runs/2026-09-17T17-09-36-wrap/route-entry.txt",
+"--lines",
+"1",
+"--after-line",
+"54",
+"--run-dir",
+".andromeda/runs/2026-09-17T17-09-36-wrap",
+"--marker",
+"2026-09-17-keyboard-and-focus-order-coverage-ownership"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append working-route.md:+1 at line 55 · lines 57→58 · bytes 10544→12234 · term lf",
+"last line now: Version close on measured evidence — every capability verified or deferred on "
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0/working-route.md"
+],
+"before": {
+"lines": 57,
+"bytes": 10544,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 58,
+"bytes": 12234
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "2a1bf9cb",
+"ts": "2026-09-17T17:45:51Z",
+"argv": [
+"append",
+"--file",
+"conductor-0.3.0/working-route.md",
+"--payload-file",
+".andromeda/runs/2026-09-17T17-09-36-wrap/sep.txt",
+"--lines",
+"1",
+"--after-line",
+"55",
+"--run-dir",
+".andromeda/runs/2026-09-17T17-09-36-wrap",
+"--marker",
+"2026-09-17-keyboard-and-focus-order-coverage-ownership"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append working-route.md:+1 at line 56 · lines 58→59 · bytes 12234→12241 · term lf",
+"last line now: Version close on measured evidence — every capability verified or deferred on "
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0/working-route.md"
+],
+"before": {
+"lines": 58,
+"bytes": 12234,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 59,
+"bytes": 12241
+}
+}
+]

@@ -1,0 +1,46 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "2a1bf9cb",
+"ts": "2026-09-17T15:10:03Z",
+"argv": [
+"append",
+"--file",
+".andromeda/master-route.md",
+"--payload-file",
+".andromeda/runs/2026-09-17T15-06-17-phase/master-record.txt",
+"--lines",
+"1",
+"--after-section",
+"## conductor-0.3.0",
+"--expect-last-prefix",
+"2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration · ",
+"--run-dir",
+".andromeda/runs/2026-09-17T15-06-17-phase",
+"--marker",
+"2026-09-17-keyboard-and-focus-order-coverage-ownership"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append master-route.md:+1 at line 149 · lines 148→149 · bytes 99747→100038 · term lf",
+"section '## conductor-0.3.0' · appended at its end, not the file's",
+"last line now: 2026-09-17-keyboard-and-focus-order-coverage-ownership · pending · Keyboard an"
+],
+"stderr": null,
+"wrote": [
+".andromeda/master-route.md"
+],
+"before": {
+"lines": 148,
+"bytes": 99747,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 149,
+"bytes": 100038
+}
+}
+]

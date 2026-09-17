@@ -1,0 +1,28 @@
+[
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "d423b022",
+"ts": "2026-09-17T17:47:35Z",
+"argv": [
+"flip",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-17-keyboard-and-focus-order-coverage-ownership",
+"--run-dir",
+".andromeda/runs/2026-09-17T17-09-36-wrap",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed 0 — gate no-op (no entry carries chunk 2026-09-17-keyboard-and-focus-order-coverage-ownership)",
+"pool: unclaimed 5 [v3-03 v3-08 v3-09 v3-10 v3-11]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

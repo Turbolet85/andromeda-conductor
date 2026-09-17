@@ -1,0 +1,132 @@
+[
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "d423b022",
+"ts": "2026-09-17T15:56:38Z",
+"argv": [
+"coverage",
+"--dir",
+"conductor-0.3.0",
+"--run-dir",
+".andromeda/runs/2026-09-17T15-06-17-phase",
+"--marker",
+"2026-09-17-keyboard-and-focus-order-coverage-ownership"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"verified 6/11 · deferred 0 · planned 5 · implemented 0 · unclaimed 5",
+"unclaimed: v3-03 v3-08 v3-09 v3-10 v3-11",
+"claimed-unfinished: none",
+"done-test: NO — 5 not verified|deferred · unclaimed 5",
+"chunks referenced: 6 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "d423b022",
+"ts": "2026-09-17T15:56:58Z",
+"argv": [
+"note",
+"--dir",
+"conductor-0.3.0",
+"--id",
+"v3-03",
+"--text-file",
+".andromeda/runs/2026-09-17T15-06-17-phase/note-v3-03.md",
+"--run-dir",
+".andromeda/runs/2026-09-17T15-06-17-phase",
+"--marker",
+"2026-09-17-keyboard-and-focus-order-coverage-ownership"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"note v3-03: +2458 chars (total 3512) · status planned · ref/acceptance untouched",
+"wrote conductor-0.3.0\\verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0\\verification-matrix.json"
+],
+"before": {
+"id": "v3-03",
+"chunk": null,
+"status": "planned",
+"method": "a11y",
+"ref": "null",
+"acceptance": "For every keyboard-reachability and focus-order claim the requirement makes, exactly one suite is named as its owner and… (332 chars)",
+"notes_chars": 1052
+},
+"after": {
+"id": "v3-03",
+"chunk": null,
+"status": "planned",
+"method": "a11y",
+"ref": "null",
+"acceptance": "For every keyboard-reachability and focus-order claim the requirement makes, exactly one suite is named as its owner and… (332 chars)",
+"notes_chars": 3512
+}
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "d423b022",
+"ts": "2026-09-17T15:57:03Z",
+"argv": [
+"audit",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-17-keyboard-and-focus-order-coverage-ownership",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-17-keyboard-and-focus-order-coverage-ownership/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-17T15-06-17-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-17-keyboard-and-focus-order-coverage-ownership: 0 · ## Acceptance Criteria: line 168, 33 lines",
+"ledger-note entries (P7.3's input, not claim citations): v3-03 (line 289)",
+"pool: unclaimed 5 [v3-03 v3-08 v3-09 v3-10 v3-11]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "d423b022",
+"ts": "2026-09-17T15:57:33Z",
+"argv": [
+"audit",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-17-keyboard-and-focus-order-coverage-ownership",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-17-keyboard-and-focus-order-coverage-ownership/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-17T15-06-17-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-17-keyboard-and-focus-order-coverage-ownership: 0 · ## Acceptance Criteria: line 168, 33 lines",
+"pool: unclaimed 5 [v3-03 v3-08 v3-09 v3-10 v3-11]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

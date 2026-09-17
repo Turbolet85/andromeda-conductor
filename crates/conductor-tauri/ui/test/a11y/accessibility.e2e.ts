@@ -447,7 +447,10 @@ describe('desktop a11y — routine arm (no live Pulse)', () => {
 
   // --- subject-absent on an idle console: skip with a reason, never fail, never vacuously pass ---
 
-  it('operator-pause dialog: alertdialog role, focus trap, Escape resolves NoGo, focus restores', async function () {
+  // Its four claims — alertdialog role, focus trap, Escape→NoGo, focus restoration — are owned by the
+  // DRIVEN arm (test/a11y/claim-ownership.ts). This marker holds the expected-skip SET at two; it asserts
+  // nothing and must not be read as covering them, which is what its previous title implied.
+  it('operator-pause dialog is subject-absent on an idle console (owner: driven arm)', async function () {
     if (!(await $('[role="alertdialog"]').isExisting())) {
       this.skip() // subject absent: no hold is raised without a live preflight-ready Pulse
     }

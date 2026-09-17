@@ -13,6 +13,7 @@
     "a11y:sr": "wdio run wdio.conf.ts --suite sr",
     "a11y:sr-empty": "wdio run wdio.conf.ts --suite sr-empty",
     "a11y:sr-error": "wdio run wdio.conf.ts --suite sr-error",
+    "a11y:ownership": "tsx test/a11y/check-claim-ownership.ts",
     "knip": "knip",
     "preview": "vite preview"
   },

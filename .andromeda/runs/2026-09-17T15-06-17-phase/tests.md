@@ -1,0 +1,41 @@
+# tests extract
+
+## Relevance
+Partial — the chunk's artifact is a11y-plan prose, but every owning-suite name and the "what gates in their place" carve-out must resolve against test-plan-owned suite/stage facts (§6 suite families, §3 `--e2e` contract, §9 pipeline, §11 bans); no Rust or harness-script surface is expected.
+
+## Constraints
+- Owner names must come from the suite SET test-plan §6 registers over the one tauri-driver stack — THREE families: the unattended ROUTINE arm (`--e2e` → `accessibility.e2e.ts`), the operator-only DRIVEN arm (`npm run a11y:driven` → `operator-hold.e2e.ts`), and the operator-local SCREEN-READER leg (`screen-reader.e2e.ts`, `sr`/`sr-empty`/`sr-error`). §6 already assigns the driven arm the keyboard/focus subject matter (trap entry, Tab/Shift+Tab containment, Space toggle, `role=status` announce, Escape→NoGo, focus restoration); whether the shipped suite asserts each claim the a11y requirement makes is research's question (per test-plan §6 Drivers per surface).
+- The driven arm may not be proposed as, or implied to be, a CI gate: an npm-script wdio suite such as `a11y:driven` is a sanctioned operator/local live-Pulse invocation path only (per test-plan §9 Live-Pulse scenarios, §11 CI).
+- §3 requires `--e2e` to drive the ROUTINE suite only (wdio default `specs` narrowed to `accessibility.e2e.ts`), with the driven suite sitting outside the 5-command harness — so a carve-out that gates hold-dependent claims by widening the CI spec set would contradict the harness contract (per test-plan §3 CI stage selectors).
+- The CI a11y gate asserts the PRINTED verdict, never the exit code, and requires a per-spec skip tally within the expected-skip SET — the two live-hold subjects — where a third skip is a failure. Any restatement of which hold-dependent specs do not run in CI must keep that SET intact (per test-plan §3 `--e2e`).
+- A skip is never coverage: "a spec whose DOM state the seeded subject cannot produce context-skips, and a context-skip is never a pass"; the handle guard is designed to skip at exit 0, which is precisely why the verdict, not the exit, is the signal (per test-plan §6 routine-arm paragraph, §3).
+- The carve-out's honest terminal may not be a manual verification step: §11 Universal bans "developer verifies before deploy" except the flagged `drive+observe` operator checklist, and §1 records the browse-mode precedent for an unrunnable-here claim — recorded findings with a stated reason, never passes, never a manual arm, never an invented driver (per test-plan §11 Universal, §1 Untestable zones).
+
+## Patterns to follow
+- The flagged-zone form for a claim no CI gate can reach: state the zone, its source, and the reason it is not agent-runnable here, rather than inventing a driver — the `sr*` browse-mode row is the in-plan template (per test-plan §1 Untestable zones).
+- Address "what gates in its place" by harness verb, not by prose: `run --e2e` (CI routine arm on the `a11y` job) vs the operator-gated composed `run --live` stage, whose ordered leg set ends in the driven a11y arm, vs `npm run a11y:driven` invoked directly (per test-plan §3 CI stage selectors, §9).
+- Name the SET, never a fresh literal — the de-literalization discipline applied to the arm's pass tally and to the diagnostic step set; an ownership table should key on suite identity, not on counts that re-stale (per test-plan §6 desktop-webview row, §9 Pipeline E2E row).
+- Confirm a claim is "actually asserted" through role/text/`aria-live` brand anchors (`role="alertdialog"`, `aria-live`, "HOLD — operator pause"), the selector vocabulary both arms are built on (per test-plan §6 Selector strategy, §11 E2E).
+
+## Anti-patterns to avoid
+- Never present `a11y:driven` / any live-Pulse leg as a CI gate, or fold it into the `a11y` job's step set (per test-plan §11 CI, §9).
+- Never let a skip-at-exit-0 or context-skip stand as a claim's coverage, and never perturb the expected-skip SET the gate grades against (per test-plan §6 routine arm, §3).
+- Never resolve an unattributed claim into a manual/human-review step (per test-plan §11 Universal).
+
+## Contract bindings
+- tests ↔ a11y: the a11y-plan requirement's per-claim owner names and its CI carve-out bind to test-plan §6's registered suite families and §9's stage table; the CI-side statement of which hold-dependent specs do not run is §3's expected-skip SET (the two live-hold subjects). A drift between the two would be a one-sided §6/§9 ↔ a11y-plan divergence.
+- tests ↔ obs: the routine arm emits one violation record per run at `runs/a11y/<run_id>.jsonl` — §3's eleven envelope fields plus obs §9 resource tags, deliberately outside the harness's non-recursive `runs/*.jsonl` glob and gated by the reused `journal_conformance` step. Binding exists but nothing in this chunk's scope should move it (per test-plan §3, §9).
+
+## Acceptance criteria contributions
+- (tests) Every owner named in the ownership statement resolves to a suite family test-plan §6 registers (`accessibility.e2e.ts` routine arm · `operator-hold.e2e.ts` driven arm · `screen-reader.e2e.ts` `sr*` leg) — no new or unregistered suite name (per test-plan §6 Drivers per surface).
+- (tests) The carve-out states the hold-dependent owner's operator/local-gate footing and names no CI gate for it; the `a11y` job's `--e2e` leg still drives the routine suite only (per test-plan §3 CI stage selectors, §9 Live-Pulse scenarios, §11 CI).
+- (tests) No claim is recorded as CI-covered by a spec that skips: the gate's expected-skip SET stays the two live-hold subjects and a third skip remains a failure (per test-plan §3 `--e2e` printed-verdict contract; §6 "a context-skip is never a pass").
+- (tests) Each attributed claim is evidenced by an existing assertion in the named suite keyed on a role/text/`aria-live` anchor — never by xpath or hashed-class selectors, and never by an operator-review step (per test-plan §11 E2E, §11 Universal).
+
+## Relevant amendment history
+- `2026-09-01-desktop-a11y-sweep` — registered §6's two arms over one stack and the driven arm's FULL FIRING FORM (PATH-resolved sidecar, `ANDROMEDA_PULSE_MCP_ENABLED`/`_L4_DETERMINISTIC`, data-dir equality, ≥120 s quiet window + 30 s resolver tick) as part of the leg; §9 admitted an npm-script wdio suite as a fourth sanctioned live-leg path with §11's never-a-CI-gate ban unchanged. Why it matters here: this is the plan's own statement of why `operator-hold.e2e.ts` cannot be a CI gate, and it warns that a bare invocation returns BLOCKED in ~2 ms indistinguishable from a real gate failure.
+- `2026-09-02-screen-reader-manual-spec` — registered the third suite family and added the browse-mode untestable zone as "a missing key path, not a missing driver … findings, never passes, never a manual arm" (operator review ruling). The precedent this chunk's carve-out should follow in form.
+- `2026-09-01-live-per-p-id-verdict-lamps` — re-stated the routine arm from subject-absent context-skip to fixture-seeded, so it asserts the verdict lamps for real; the context-skip-is-not-a-pass framing dates from here.
+- `2026-09-07-a11y-ci-gate` — the webview-E2E CI job shipped as the `a11y` job (Windows, not Linux); §3 gained the printed-verdict assertion and the separate `runs/a11y/<run_id>.jsonl` artifact; `CONDUCTOR_A11Y_STRICT` registered as the fourth per-reader handle class.
+- `2026-09-07-sr-findings-fixed` — conditioned the printed-verdict contract on the invoking environment (`$PSNativeCommandUseErrorActionPreference`) and de-literalized the baked `10 passing / 2 skipped` sample to the SET it evidences — the explicit instruction to name sets, not counts, when restating this arm.
+- `2026-09-16 a11y-ci-gate-at-an-honest-terminal` · `2026-09-17 medium-integrity-launch…` · `2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration` — the hosted-runner capability was restated as the measured SET (dev host + hosted `windows-2022` at a coherent 131.0.2903.86 pair at High integrity, arm green at 12 passing / 0 failing / 2 skipped, run 35208593666; `windows-2025` at 151/152/153 drives none), the elevation remedy retired as general, and the two remaining skips left as the live-hold subjects — i.e. the current CI population that the chunk's carve-out must account for.

@@ -1,0 +1,8 @@
+carve-out: run-console-HOLD focus order — owner driven (npm run a11y:driven), not run by CI
+carve-out: run-console-HOLD focus trap — owner driven (npm run a11y:driven), not run by CI
+carve-out: focus restoration to the triggering control — owner driven (npm run a11y:driven), not run by CI
+gap (recorded, not a pass): run-console-live coverage-matrix row navigation
+gap (recorded, not a pass): idle-with-report coverage-matrix row navigation
+gap (recorded, not a pass): per-surface keyboard shortcuts
+10 claims · 5 owned (3 operator-local, carve-out) · 2 n/a-by-construction · 3 recorded gaps
+ownership: every claim resolved

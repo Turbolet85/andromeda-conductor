@@ -1,0 +1,80 @@
+[
+{
+"sql": "SELECT symbol, crate, kind, file, def_line FROM symbol WHERE name IN ('tabCycle','focusSnapshot','activeName','focusInsideDialog') AND kind <> 'meta' ORDER BY file, def_line;",
+"rows": 6,
+"result": [
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`accessibility.e2e.ts`/focusSnapshot().",
+"crate": "conductor-ui",
+"kind": "fn",
+"file": "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts",
+"def_line": 183
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`accessibility.e2e.ts`/tabCycle().",
+"crate": "conductor-ui",
+"kind": "fn",
+"file": "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts",
+"def_line": 214
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`operator-hold.e2e.ts`/activeName().",
+"crate": "conductor-ui",
+"kind": "fn",
+"file": "crates/conductor-tauri/ui/test/a11y/operator-hold.e2e.ts",
+"def_line": 24
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`operator-hold.e2e.ts`/focusInsideDialog().",
+"crate": "conductor-ui",
+"kind": "fn",
+"file": "crates/conductor-tauri/ui/test/a11y/operator-hold.e2e.ts",
+"def_line": 36
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/activeName().",
+"crate": "conductor-ui",
+"kind": "fn",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"def_line": 184
+},
+{
+"symbol": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/focusInsideDialog().",
+"crate": "conductor-ui",
+"kind": "fn",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"def_line": 246
+}
+],
+"db_state": "fresh",
+"plane": "ts"
+},
+{
+"sql": "SELECT callee_name, file, line FROM refs WHERE callee_name IN ('tabCycle','focusSnapshot') ORDER BY file, line;",
+"rows": 4,
+"result": [
+{
+"callee_name": "focusSnapshot",
+"file": "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts",
+"line": 215
+},
+{
+"callee_name": "focusSnapshot",
+"file": "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts",
+"line": 221
+},
+{
+"callee_name": "tabCycle",
+"file": "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts",
+"line": 408
+},
+{
+"callee_name": "tabCycle",
+"file": "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts",
+"line": 424
+}
+],
+"db_state": "fresh",
+"plane": "ts"
+}
+]
