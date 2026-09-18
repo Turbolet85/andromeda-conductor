@@ -1,0 +1,184 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "0e0d0f12",
+"ts": "2026-09-18T10:06:39Z",
+"argv": [
+"append",
+"--file",
+".andromeda/playbook.md",
+"--payload-file",
+".andromeda/runs/2026-09-18T09-43-21-wrap/playbook-entry.md",
+"--lines",
+"20",
+"--run-dir",
+".andromeda/runs/2026-09-18T09-43-21-wrap",
+"--marker",
+"2026-09-18-real-model-leg-posture-and-grading-rule"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 2,
+"stdout": [],
+"stderr": "--payload-file: 18 line(s), --lines says 20 — the count is the caller's own assertion",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "0e0d0f12",
+"ts": "2026-09-18T10:06:47Z",
+"argv": [
+"append",
+"--file",
+".andromeda/playbook.md",
+"--payload-file",
+".andromeda/runs/2026-09-18T09-43-21-wrap/playbook-entry.md",
+"--lines",
+"18",
+"--run-dir",
+".andromeda/runs/2026-09-18T09-43-21-wrap",
+"--marker",
+"2026-09-18-real-model-leg-posture-and-grading-rule"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append playbook.md:+18 at line 229 · lines 228→246 · bytes 79091→80995 · term lf",
+"last line now:     `contracts/pulse-real-model-leg-posture.md` (this chunk) — the recurrence "
+],
+"stderr": null,
+"wrote": [
+".andromeda/playbook.md"
+],
+"before": {
+"lines": 228,
+"bytes": 79091,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 246,
+"bytes": 80995
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "0e0d0f12",
+"ts": "2026-09-18T10:07:21Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-18T09-43-21-wrap/architecture-entry.md",
+"--lines",
+"37",
+"--run-dir",
+".andromeda/runs/2026-09-18T09-43-21-wrap",
+"--marker",
+"2026-09-18-real-model-leg-posture-and-grading-rule"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+37 at line 739 · lines 738→775 · bytes 170782→173816 · term lf",
+"last line now:   once — no intra-line duplication."
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 738,
+"bytes": 170782,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 775,
+"bytes": 173816
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "0e0d0f12",
+"ts": "2026-09-18T10:11:21Z",
+"argv": [
+"append",
+"--file",
+".claude/docs/session-learnings.md",
+"--payload-file",
+".andromeda/runs/2026-09-18T09-43-21-wrap/tier3-entry.md",
+"--lines",
+"23",
+"--run-dir",
+".andromeda/runs/2026-09-18T09-43-21-wrap",
+"--marker",
+"2026-09-18-real-model-leg-posture-and-grading-rule"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append session-learnings.md:+23 at line 681 · lines 680→703 · bytes 91171→93071 · term lf",
+"last line now: satisfied by naming this command, not by naming the older report you compared ag"
+],
+"stderr": null,
+"wrote": [
+".claude/docs/session-learnings.md"
+],
+"before": {
+"lines": 680,
+"bytes": 91171,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 703,
+"bytes": 93071
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "0e0d0f12",
+"ts": "2026-09-18T10:16:42Z",
+"argv": [
+"append",
+"--file",
+"conductor-0.3.0/route-archive.md",
+"--payload-file",
+".andromeda/runs/2026-09-18T09-43-21-wrap/archive-entry.md",
+"--lines",
+"4",
+"--run-dir",
+".andromeda/runs/2026-09-18T09-43-21-wrap",
+"--marker",
+"2026-09-18-real-model-leg-posture-and-grading-rule"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append route-archive.md:+4 at line 55 · lines 54→58 · bytes 24973→25882 · term lf",
+"last line now: [2026-09-18-real-model-leg-posture-and-grading-rule] Real-model leg posture and "
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0/route-archive.md"
+],
+"before": {
+"lines": 54,
+"bytes": 24973,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 58,
+"bytes": 25882
+}
+}
+]

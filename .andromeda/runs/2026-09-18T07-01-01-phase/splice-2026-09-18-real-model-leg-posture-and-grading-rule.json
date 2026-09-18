@@ -1,0 +1,44 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "0e0d0f12",
+"ts": "2026-09-18T07:04:34Z",
+"argv": [
+"append",
+"--file",
+".andromeda/master-route.md",
+"--payload-file",
+".andromeda/runs/2026-09-18T07-01-01-phase/master-record.txt",
+"--lines",
+"1",
+"--after-section",
+"## conductor-0.3.0",
+"--run-dir",
+".andromeda/runs/2026-09-18T07-01-01-phase",
+"--marker",
+"2026-09-18-real-model-leg-posture-and-grading-rule"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append master-route.md:+1 at line 150 · lines 149→150 · bytes 101417→102000 · term lf",
+"section '## conductor-0.3.0' · appended at its end, not the file's",
+"last line now: 2026-09-18-real-model-leg-posture-and-grading-rule · pending · Real-model leg "
+],
+"stderr": null,
+"wrote": [
+".andromeda/master-route.md"
+],
+"before": {
+"lines": 149,
+"bytes": 101417,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 150,
+"bytes": 102000
+}
+}
+]

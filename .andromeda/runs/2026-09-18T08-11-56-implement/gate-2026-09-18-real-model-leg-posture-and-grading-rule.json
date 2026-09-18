@@ -1,0 +1,233 @@
+[
+{
+"tool": "gate",
+"v": "1.0",
+"sha8": "facf374a",
+"ts": "2026-09-18T08:15:51Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-18-real-model-leg-posture-and-grading-rule/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-18T08-11-56-implement",
+"--marker",
+"2026-09-18-real-model-leg-posture-and-grading-rule"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-18-real-model-leg-posture-and-grading-rule · entries 7",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-18-real-model-leg-posture-and-grading-rule\\implement-2026-09-18T08-11-56 · bound: GNU timeout",
+"delta docs 43 · unmapped 1",
+"prose L110-113: No smoke entry and no live-leg entry: this chunk has **no producing leg at all** — it driv… (414 chars)",
+"  1 probe       green · exit 0 · 0.11s · 0 B → 1.log · git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+"  2 probe       green · exit 0 · 2.91s · 1897 B → 2.log · cargo audit",
+"  3 probe       green · exit 0 · 1.45s · 236251 B → 3.log · cargo deny check advisories bans licenses sources",
+"  4 lint        green · exit 0 · 0.54s · 72 B → 4.log · cargo clippy --workspace --all-targets -- -D warnings",
+"  5 unit        green · exit 0 · 7.39s · 115569 B → 5.log · cargo nextest run --workspace --profile ci",
+"  6 probe       green · exit 0 · 0.07s · 2 B → 6.log · test -f contracts/pulse-real-model-leg-posture.md && grep … (110 chars)",
+"  7 probe       green · exit 1 · 0.06s · 2 B → 7.log · grep -cE \"[A-Za-z]:[\\\\/]|/home/|/Users/|%APPDATA%\" contrac… (92 chars)",
+"entries 7 · green 7 · red 0 · recorded 0 · timeout 0 · not-run 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-18-real-model-leg-posture-and-grading-rule",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-18-real-model-leg-posture-and-grading-rule\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-18-real-model-leg-posture-and-grading-rule\\implement-2026-09-18T08-11-56",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+".andromeda/runs/2026-09-17T18-06-51-evolve-diagnose/proposals.md",
+".andromeda/runs/2026-09-17T18-06-51-evolve-diagnose/q-chains.json",
+".andromeda/runs/2026-09-17T18-06-51-evolve-diagnose/q-health.json",
+".andromeda/runs/2026-09-17T18-06-51-evolve-diagnose/q-level.json",
+".andromeda/runs/2026-09-17T18-06-51-evolve-diagnose/q-retractions.json",
+".andromeda/runs/2026-09-17T18-06-51-evolve-diagnose/q-typed.json",
+".andromeda/runs/2026-09-17T18-06-51-evolve-diagnose/q-untyped.json",
+".andromeda/runs/2026-09-17T18-15-51-evolve-diagnose/proposals.md",
+".andromeda/runs/2026-09-17T18-15-51-evolve-diagnose/q-chains.json",
+".andromeda/runs/2026-09-17T18-15-51-evolve-diagnose/q-health.json",
+".andromeda/runs/2026-09-17T18-15-51-evolve-diagnose/q-level.json",
+".andromeda/runs/2026-09-17T18-15-51-evolve-diagnose/q-retractions.json",
+".andromeda/runs/2026-09-17T18-15-51-evolve-diagnose/q-typed.json",
+".andromeda/runs/2026-09-17T18-15-51-evolve-diagnose/q-untyped.json",
+".andromeda/runs/2026-09-18T07-01-01-phase/.raw-design.md",
+".andromeda/runs/2026-09-18T07-01-01-phase/.raw-layouts.md",
+".andromeda/runs/2026-09-18T07-01-01-phase/.raw-obs.md",
+".andromeda/runs/2026-09-18T07-01-01-phase/.raw-security.md",
+".andromeda/runs/2026-09-18T07-01-01-phase/.raw-tests.md",
+".andromeda/runs/2026-09-18T07-01-01-phase/a11y.md",
+".andromeda/runs/2026-09-18T07-01-01-phase/arch.md",
+".andromeda/runs/2026-09-18T07-01-01-phase/control/clean.md",
+".andromeda/runs/2026-09-18T07-01-01-phase/control/dirty.md",
+".andromeda/runs/2026-09-18T07-01-01-phase/control/has-sections.md",
+".andromeda/runs/2026-09-18T07-01-01-phase/control/no-sections.md",
+".andromeda/runs/2026-09-18T07-01-01-phase/design.md",
+".andromeda/runs/2026-09-18T07-01-01-phase/layouts.md",
+".andromeda/runs/2026-09-18T07-01-01-phase/master-record.txt",
+".andromeda/runs/2026-09-18T07-01-01-phase/matrix-2026-09-18-real-model-leg-posture-and-grading-rule.json",
+".andromeda/runs/2026-09-18T07-01-01-phase/note-v3-09.md",
+".andromeda/runs/2026-09-18T07-01-01-phase/obs.md",
+".andromeda/runs/2026-09-18T07-01-01-phase/security.md",
+".andromeda/runs/2026-09-18T07-01-01-phase/splice-2026-09-18-real-model-leg-posture-and-grading-rule.json",
+".andromeda/runs/2026-09-18T07-01-01-phase/tests.md",
+".andromeda/runs/2026-09-18T07-01-01-phase/tree-query-2026-09-18-real-model-leg-posture-and-grading-rule.json",
+"conductor-0.3.0/chunks/2026-09-18-real-model-leg-posture-and-grading-rule/plan.md",
+"conductor-0.3.0/chunks/2026-09-18-real-model-leg-posture-and-grading-rule/research.md",
+"conductor-0.3.0/chunks/2026-09-18-real-model-leg-posture-and-grading-rule/scope.md",
+"contracts/pulse-real-model-leg-posture.md"
+]
+},
+"unmapped": [
+"conductor-0.3.0/verification-matrix.json"
+],
+"prose": [
+{
+"from": 110,
+"to": 113,
+"text": "No smoke entry and no live-leg entry: this chunk has **no producing leg at all** — it drives nothing and mints no `run_id`, so a smoke verb would read a prior chunk's envelope and assert nothing about this work. The absence is stated here rather than filled with a vacuous entry (per `.claude/rules/verification-harness.md` 2026-08-11 as extended 2026-09-11). No `self-verify` entry: this is not a UI/visual chunk."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "probe",
+"run": "git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+"run_sha8": "85122344",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-18-real-model-leg-posture-and-grading-rule\\implement-2026-09-18T08-11-56\\1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.11,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-18-real-model-leg-posture-and-grading-rule\\implement-2026-09-18T08-11-56\\2.log",
+"bytes": 1897,
+"log_sha8": "c1afb8c0",
+"exit": 0,
+"seconds": 2.91,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-18-real-model-leg-posture-and-grading-rule\\implement-2026-09-18T08-11-56\\3.log",
+"bytes": 236251,
+"log_sha8": "4ebeefef",
+"exit": 0,
+"seconds": 1.45,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-18-real-model-leg-posture-and-grading-rule\\implement-2026-09-18T08-11-56\\4.log",
+"bytes": 72,
+"log_sha8": "a178c790",
+"exit": 0,
+"seconds": 0.54,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-18-real-model-leg-posture-and-grading-rule\\implement-2026-09-18T08-11-56\\5.log",
+"bytes": 115569,
+"log_sha8": "fd79d12d",
+"exit": 0,
+"seconds": 7.39,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "test -f contracts/pulse-real-model-leg-posture.md && grep -cE \"^## \" contracts/pulse-real-model-leg-posture.md",
+"run_sha8": "8534fe4a",
+"expect": [
+"exit 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-18-real-model-leg-posture-and-grading-rule\\implement-2026-09-18T08-11-56\\6.log",
+"bytes": 2,
+"log_sha8": "10159baf",
+"exit": 0,
+"seconds": 0.07,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "grep -cE \"[A-Za-z]:[\\\\/]|/home/|/Users/|%APPDATA%\" contracts/pulse-real-model-leg-posture.md",
+"run_sha8": "ebe557bb",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-18-real-model-leg-posture-and-grading-rule\\implement-2026-09-18T08-11-56\\7.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.06,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+}
+]
+}
+}
+]

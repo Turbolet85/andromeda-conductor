@@ -1,0 +1,593 @@
+[
+ {
+  "key": "*/*/contract.premise-falsified",
+  "skill": "*",
+  "step": "*",
+  "type": "contract.premise-falsified",
+  "n": 15,
+  "weight": 27,
+  "impact": {
+   "iterations": 12,
+   "extra_reads": 14
+  },
+  "chunks": [
+   "2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+   "2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm",
+   "2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration",
+   "2026-09-17-keyboard-and-focus-order-coverage-ownership"
+  ],
+  "denom": null,
+  "above": true,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-16T13:44:28Z-a",
+   "2026-09-16T14:00:44Z-b",
+   "2026-09-16T14:15:13Z-a",
+   "2026-09-16T14:36:46Z-a",
+   "2026-09-16T14:57:04Z-a",
+   "2026-09-16T15:12:26Z-a",
+   "2026-09-16T15:21:23Z-a",
+   "2026-09-16T16:32:06Z-b",
+   "2026-09-16T21:26:09Z-a",
+   "2026-09-17T08:30:33Z-b",
+   "2026-09-17T08:46:34Z-b",
+   "2026-09-17T08:46:34Z-c",
+   "2026-09-17T09:36:05Z-b",
+   "2026-09-17T15:24:24Z-b",
+   "2026-09-17T16:08:53Z-c"
+  ]
+ },
+ {
+  "key": "*/*/contract.narrow-basis-claim",
+  "skill": "*",
+  "step": "*",
+  "type": "contract.narrow-basis-claim",
+  "n": 11,
+  "weight": 13,
+  "impact": {
+   "extra_reads": 13,
+   "iterations": 2
+  },
+  "chunks": [
+   "2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+   "2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm",
+   "2026-09-17-keyboard-and-focus-order-coverage-ownership"
+  ],
+  "denom": null,
+  "above": true,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-16T10:47:25Z-b",
+   "2026-09-16T10:54:02Z-b",
+   "2026-09-16T12:20:29Z-a",
+   "2026-09-16T14:36:46Z-b",
+   "2026-09-16T14:46:51Z-a",
+   "2026-09-16T14:57:04Z-b",
+   "2026-09-16T15:12:26Z-b",
+   "2026-09-16T17:41:11Z-b",
+   "2026-09-16T20:47:17Z-b",
+   "2026-09-16T20:52:24Z-a",
+   "2026-09-17T17:12:22Z-b"
+  ]
+ },
+ {
+  "key": "implement/fix-loop/contract.instrument-validity",
+  "skill": "implement",
+  "step": "fix-loop",
+  "type": "contract.instrument-validity",
+  "n": 6,
+  "weight": 13,
+  "impact": {
+   "retries": 6,
+   "extra_reads": 5,
+   "iterations": 1
+  },
+  "chunks": [
+   "2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+   "2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration"
+  ],
+  "denom": 8,
+  "above": true,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-16T13:28:59Z-a",
+   "2026-09-16T13:28:59Z-b",
+   "2026-09-16T13:44:28Z-b",
+   "2026-09-16T14:00:44Z-a",
+   "2026-09-16T16:36:12Z-a",
+   "2026-09-17T09:43:10Z-b"
+  ]
+ },
+ {
+  "key": "phase/validate/contract.mechanical-check",
+  "skill": "phase",
+  "step": "validate",
+  "type": "contract.mechanical-check",
+  "n": 5,
+  "weight": 12,
+  "impact": {
+   "iterations": 3,
+   "dialogue_rounds": 2,
+   "extra_reads": 3
+  },
+  "chunks": [
+   "2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm",
+   "2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration",
+   "2026-09-17-keyboard-and-focus-order-coverage-ownership"
+  ],
+  "denom": 4,
+  "above": true,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-16T19:18:09Z-b",
+   "2026-09-16T19:18:09Z-c",
+   "2026-09-17T09:23:43Z-b",
+   "2026-09-17T09:23:43Z-c",
+   "2026-09-17T15:57:40Z-c"
+  ]
+ },
+ {
+  "key": "*/*/contract.token-proxy-check",
+  "skill": "*",
+  "step": "*",
+  "type": "contract.token-proxy-check",
+  "n": 6,
+  "weight": 10,
+  "impact": {
+   "extra_reads": 6,
+   "retries": 2,
+   "reformulations": 2
+  },
+  "chunks": [
+   "2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+   "2026-09-17-keyboard-and-focus-order-coverage-ownership"
+  ],
+  "denom": null,
+  "above": true,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-16T09:54:12Z-b",
+   "2026-09-16T15:58:41Z-a",
+   "2026-09-16T17:07:21Z-b",
+   "2026-09-17T08:23:50Z-b",
+   "2026-09-17T15:19:17Z-b",
+   "2026-09-17T15:57:40Z-b"
+  ]
+ },
+ {
+  "key": "*/*/contract.structural-blind-spot",
+  "skill": "*",
+  "step": "*",
+  "type": "contract.structural-blind-spot",
+  "n": 4,
+  "weight": 6,
+  "impact": {
+   "extra_reads": 5,
+   "retries": 1,
+   "iterations": 1
+  },
+  "chunks": [
+   "2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+   "2026-09-17-keyboard-and-focus-order-coverage-ownership"
+  ],
+  "denom": null,
+  "above": true,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-16T14:46:51Z-b",
+   "2026-09-16T16:32:06Z-c",
+   "2026-09-16T17:07:21Z-c",
+   "2026-09-17T16:08:53Z-b"
+  ]
+ },
+ {
+  "key": "*/*/recall.corpus-recurrence",
+  "skill": "*",
+  "step": "*",
+  "type": "recall.corpus-recurrence",
+  "n": 2,
+  "weight": 5,
+  "impact": {
+   "retries": 3
+  },
+  "chunks": [
+   "2026-09-17-keyboard-and-focus-order-coverage-ownership"
+  ],
+  "denom": null,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-17T17:32:47Z-b",
+   "2026-09-17T17:35:44Z-b"
+  ]
+ },
+ {
+  "key": "*/*/tooling.host-shell",
+  "skill": "*",
+  "step": "*",
+  "type": "tooling.host-shell",
+  "n": 2,
+  "weight": 4,
+  "impact": {
+   "retries": 2
+  },
+  "chunks": [],
+  "denom": null,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-16T17:16:33Z-b",
+   "2026-09-17T14:31:28Z-b"
+  ]
+ },
+ {
+  "key": "implement/code/input.plan-step-ambiguous",
+  "skill": "implement",
+  "step": "code",
+  "type": "input.plan-step-ambiguous",
+  "n": 3,
+  "weight": 3,
+  "impact": {
+   "extra_reads": 4
+  },
+  "chunks": [
+   "2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+   "2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm",
+   "2026-09-17-keyboard-and-focus-order-coverage-ownership"
+  ],
+  "denom": 4,
+  "above": true,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-16T11:37:28Z-b",
+   "2026-09-16T19:33:28Z-b",
+   "2026-09-17T16:01:57Z-b"
+  ]
+ },
+ {
+  "key": "implement/fix-loop/tooling.gate-deferral",
+  "skill": "implement",
+  "step": "fix-loop",
+  "type": "tooling.gate-deferral",
+  "n": 2,
+  "weight": 3,
+  "impact": {
+   "iterations": 1
+  },
+  "chunks": [
+   "2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+   "2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm"
+  ],
+  "denom": 8,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-16T11:40:17Z-b",
+   "2026-09-16T20:47:17Z-c"
+  ]
+ },
+ {
+  "key": "*/*/contract.skill-reference-drift",
+  "skill": "*",
+  "step": "*",
+  "type": "contract.skill-reference-drift",
+  "n": 1,
+  "weight": 3,
+  "impact": {
+   "dialogue_rounds": 1
+  },
+  "chunks": [
+   "2026-09-16-a11y-ci-gate-at-an-honest-terminal"
+  ],
+  "denom": null,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-16T11:22:30Z-b"
+  ]
+ },
+ {
+  "key": "implement/fix-loop/tooling.environmental",
+  "skill": "implement",
+  "step": "fix-loop",
+  "type": "tooling.environmental",
+  "n": 1,
+  "weight": 2,
+  "impact": {
+   "iterations": 1
+  },
+  "chunks": [
+   "2026-09-16-a11y-ci-gate-at-an-honest-terminal"
+  ],
+  "denom": 8,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-16T15:21:23Z-b"
+  ]
+ },
+ {
+  "key": "phase/plan/retry.synthesis-rework",
+  "skill": "phase",
+  "step": "plan",
+  "type": "retry.synthesis-rework",
+  "n": 1,
+  "weight": 2,
+  "impact": {
+   "iterations": 1
+  },
+  "chunks": [
+   "2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm"
+  ],
+  "denom": 3,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-16T17:47:00Z-b"
+  ]
+ },
+ {
+  "key": "phase/plan/input.research-thin",
+  "skill": "phase",
+  "step": "plan",
+  "type": "input.research-thin",
+  "n": 1,
+  "weight": 2,
+  "impact": {
+   "extra_reads": 2,
+   "iterations": 1
+  },
+  "chunks": [
+   "2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration"
+  ],
+  "denom": 3,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-17T08:59:18Z-b"
+  ]
+ },
+ {
+  "key": "wrap-session/gates/tooling.light-gate-red",
+  "skill": "wrap-session",
+  "step": "gates",
+  "type": "tooling.light-gate-red",
+  "n": 1,
+  "weight": 2,
+  "impact": {
+   "retries": 1
+  },
+  "chunks": [
+   "2026-09-17-keyboard-and-focus-order-coverage-ownership"
+  ],
+  "denom": 4,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-17T17:50:52Z-b"
+  ]
+ },
+ {
+  "key": "phase/take-up/input.out-of-pipeline-source",
+  "skill": "phase",
+  "step": "take-up",
+  "type": "input.out-of-pipeline-source",
+  "n": 1,
+  "weight": 1,
+  "impact": {
+   "extra_reads": 6
+  },
+  "chunks": [
+   "2026-09-16-a11y-ci-gate-at-an-honest-terminal"
+  ],
+  "denom": 4,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-16T10:37:02Z-b"
+  ]
+ },
+ {
+  "key": "phase/research/input.out-of-pipeline-source",
+  "skill": "phase",
+  "step": "research",
+  "type": "input.out-of-pipeline-source",
+  "n": 1,
+  "weight": 1,
+  "impact": {
+   "extra_reads": 3
+  },
+  "chunks": [
+   "2026-09-16-a11y-ci-gate-at-an-honest-terminal"
+  ],
+  "denom": 4,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-16T10:54:02Z-c"
+  ]
+ },
+ {
+  "key": "implement/fix-loop/contract.spec-reality-gap",
+  "skill": "implement",
+  "step": "fix-loop",
+  "type": "contract.spec-reality-gap",
+  "n": 1,
+  "weight": 1,
+  "impact": {
+   "extra_reads": 4
+  },
+  "chunks": [
+   "2026-09-16-a11y-ci-gate-at-an-honest-terminal"
+  ],
+  "denom": 8,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-16T12:05:17Z-a"
+  ]
+ },
+ {
+  "key": "implement/fix-loop/input.plan-step-ambiguous",
+  "skill": "implement",
+  "step": "fix-loop",
+  "type": "input.plan-step-ambiguous",
+  "n": 1,
+  "weight": 1,
+  "impact": {
+   "extra_reads": 2
+  },
+  "chunks": [
+   "2026-09-16-a11y-ci-gate-at-an-honest-terminal"
+  ],
+  "denom": 8,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-16T12:05:17Z-b"
+  ]
+ },
+ {
+  "key": "implement/fix-loop/tooling.result-not-run-stable",
+  "skill": "implement",
+  "step": "fix-loop",
+  "type": "tooling.result-not-run-stable",
+  "n": 1,
+  "weight": 1,
+  "impact": {},
+  "chunks": [
+   "2026-09-16-a11y-ci-gate-at-an-honest-terminal"
+  ],
+  "denom": 8,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-16T15:58:41Z-b"
+  ]
+ },
+ {
+  "key": "wrap-session/report/contract.detector-fact-gap",
+  "skill": "wrap-session",
+  "step": "report",
+  "type": "contract.detector-fact-gap",
+  "n": 1,
+  "weight": 1,
+  "impact": {
+   "extra_reads": 2
+  },
+  "chunks": [
+   "2026-09-16-a11y-ci-gate-at-an-honest-terminal"
+  ],
+  "denom": 4,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-16T16:45:34Z-b"
+  ]
+ },
+ {
+  "key": "phase/take-up/input.carry-context-gap",
+  "skill": "phase",
+  "step": "take-up",
+  "type": "input.carry-context-gap",
+  "n": 1,
+  "weight": 1,
+  "impact": {
+   "extra_reads": 1
+  },
+  "chunks": [
+   "2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm"
+  ],
+  "denom": 4,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-16T17:22:59Z-b"
+  ]
+ },
+ {
+  "key": "wrap-session/gates/tooling.subprocess-bounds",
+  "skill": "wrap-session",
+  "step": "gates",
+  "type": "tooling.subprocess-bounds",
+  "n": 1,
+  "weight": 1,
+  "impact": {
+   "halted": 0
+  },
+  "chunks": [
+   "2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration"
+  ],
+  "denom": 4,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-17T12:02:10Z-a"
+  ]
+ },
+ {
+  "key": "wrap-session/reconcile/contract.cascade-miss",
+  "skill": "wrap-session",
+  "step": "reconcile",
+  "type": "contract.cascade-miss",
+  "n": 1,
+  "weight": 1,
+  "impact": {
+   "extra_reads": 1
+  },
+  "chunks": [
+   "2026-09-17-keyboard-and-focus-order-coverage-ownership"
+  ],
+  "denom": 3,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-17T17:32:47Z-c"
+  ]
+ },
+ {
+  "key": "wrap-session/route-resolve/contract.standing-pin-carriage",
+  "skill": "wrap-session",
+  "step": "route-resolve",
+  "type": "contract.standing-pin-carriage",
+  "n": 1,
+  "weight": 1,
+  "impact": {
+   "extra_reads": 2
+  },
+  "chunks": [
+   "2026-09-17-keyboard-and-focus-order-coverage-ownership"
+  ],
+  "denom": 3,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-17T17:46:07Z-b"
+  ]
+ }
+]

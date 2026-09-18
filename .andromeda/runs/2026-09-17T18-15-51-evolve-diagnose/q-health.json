@@ -1,0 +1,167 @@
+{
+ "steps": 76,
+ "frictions": 67,
+ "coverage": [
+  {
+   "chunk": "2026-09-14-emit-scrubber-and-percentile-math-under-test",
+   "phase": "5/5",
+   "phase_missing": [],
+   "implement": "3/3",
+   "implement_missing": [],
+   "wrap-session": "5/5",
+   "wrap-session_missing": []
+  },
+  {
+   "chunk": "2026-09-15-remaining-structurally-dead-declarations-retired",
+   "phase": "5/5",
+   "phase_missing": [],
+   "implement": "3/3",
+   "implement_missing": [],
+   "wrap-session": "5/5",
+   "wrap-session_missing": []
+  },
+  {
+   "chunk": "2026-09-15-scenario-tier-honesty",
+   "phase": "5/5",
+   "phase_missing": [],
+   "implement": "3/3",
+   "implement_missing": [],
+   "wrap-session": "5/5",
+   "wrap-session_missing": []
+  },
+  {
+   "chunk": "2026-09-15-structurally-dead-assertion-class-retired",
+   "phase": "5/5",
+   "phase_missing": [],
+   "implement": "3/3",
+   "implement_missing": [],
+   "wrap-session": "5/5",
+   "wrap-session_missing": []
+  },
+  {
+   "chunk": "2026-09-16-scenario-assertion-audit-gate",
+   "phase": "5/5",
+   "phase_missing": [],
+   "implement": "3/3",
+   "implement_missing": [],
+   "wrap-session": "5/5",
+   "wrap-session_missing": []
+  },
+  {
+   "chunk": null,
+   "phase": "0/5",
+   "implement": "0/3",
+   "wrap-session": "2/5",
+   "wrap-session_missing": [
+    "gates",
+    "reconcile",
+    "report"
+   ],
+   "new-session": "1/1",
+   "new-session_missing": [],
+   "new-session_repeated": {
+    "orientation": 9
+   }
+  }
+ ],
+ "untyped_rate": {
+  "implement/code": "0/3",
+  "implement/fix-loop": "1/6",
+  "new-session/orientation": "0/9",
+  "phase/distill": "0/1",
+  "phase/plan": "0/3",
+  "phase/research": "0/9",
+  "phase/take-up": "0/6",
+  "phase/validate": "0/8",
+  "wrap-session/curation": "0/7",
+  "wrap-session/gates": "0/2",
+  "wrap-session/reconcile": "0/9",
+  "wrap-session/report": "0/2",
+  "wrap-session/route-resolve": "0/2"
+ },
+ "problem_fact_fill": "21/76",
+ "id_fill": "143/143",
+ "outcomes": {
+  "ok": 76
+ },
+ "unparseable": 0,
+ "malformed_ts": [
+  [
+   "2026-08-08-dependency-advisory-remediation",
+   "andromeda-implement",
+   "smoke",
+   "step",
+   "The system cannot accept the date entere"
+  ],
+  [
+   "2026-08-08-dependency-advisory-remediation",
+   "andromeda-implement",
+   "smoke",
+   "friction",
+   "The system cannot accept the date entere"
+  ],
+  [
+   "2026-08-08-dependency-advisory-remediation",
+   "andromeda-wrap-session",
+   "report",
+   "step",
+   "The system cannot accept the date entere"
+  ],
+  [
+   "2026-08-08-dependency-advisory-remediation",
+   "andromeda-wrap-session",
+   "report",
+   "friction",
+   "The system cannot accept the date entere"
+  ],
+  [
+   "2026-08-08-dependency-advisory-remediation",
+   "andromeda-wrap-session",
+   "reconcile",
+   "step",
+   "The system cannot accept the date entere"
+  ],
+  [
+   "2026-08-08-dependency-advisory-remediation",
+   "andromeda-wrap-session",
+   "curation",
+   "step",
+   "The system cannot accept the date entere"
+  ],
+  [
+   "2026-08-08-dependency-advisory-remediation",
+   "andromeda-wrap-session",
+   "curation",
+   "friction",
+   "The system cannot accept the date entere"
+  ],
+  [
+   "2026-08-08-dependency-advisory-remediation",
+   "andromeda-wrap-session",
+   "route-resolve",
+   "step",
+   "The system cannot accept the date entere"
+  ],
+  [
+   "2026-08-08-dependency-advisory-remediation",
+   "andromeda-wrap-session",
+   "route-resolve",
+   "friction",
+   "The system cannot accept the date entere"
+  ],
+  [
+   "2026-08-08-dependency-advisory-remediation",
+   "andromeda-wrap-session",
+   "gates",
+   "step",
+   "The system cannot accept the date entere"
+  ],
+  [
+   "2026-08-08-dependency-advisory-remediation",
+   "andromeda-wrap-session",
+   "gates",
+   "friction",
+   "The system cannot accept the date entere"
+  ]
+ ]
+}

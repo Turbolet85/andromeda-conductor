@@ -1,0 +1,83 @@
+[
+{
+"sql": "SELECT callee_name, caller, file, line FROM calls WHERE callee_name IN ('route_read_back','execute_scenario','observe_preconditions') AND callee_kind = 'fn' ORDER BY callee_name, file, line;",
+"rows": 11,
+"result": [
+{
+"callee_name": "observe_preconditions",
+"caller": "rust-analyzer cargo conductor-cli 0.2.0 commands/preconditions/preconditions().",
+"file": "crates/conductor-cli/src/commands/preconditions.rs",
+"line": 19
+},
+{
+"callee_name": "observe_preconditions",
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 39
+},
+{
+"callee_name": "observe_preconditions",
+"caller": "rust-analyzer cargo conductor-run 0.2.0 preconditions/tests/observe_preconditions_grades_each_handle_from_its_own_environment().",
+"file": "crates/conductor-run/src/preconditions.rs",
+"line": 132
+},
+{
+"callee_name": "observe_preconditions",
+"caller": "rust-analyzer cargo conductor-run 0.2.0 public_api_paths_are_stable().",
+"file": "crates/conductor-run/tests/composition_root.rs",
+"line": 51
+},
+{
+"callee_name": "route_read_back",
+"caller": "rust-analyzer cargo conductor-run 0.2.0 execute/",
+"file": "crates/conductor-run/src/execute.rs",
+"line": 97
+},
+{
+"callee_name": "route_read_back",
+"caller": "rust-analyzer cargo conductor-run 0.2.0 execute/tests/a_declare_only_empty_read_back_routes_to_the_auto_resolve_residual().",
+"file": "crates/conductor-run/src/execute.rs",
+"line": 461
+},
+{
+"callee_name": "route_read_back",
+"caller": "rust-analyzer cargo conductor-run 0.2.0 execute/tests/a_checks_bearing_empty_read_back_stays_blocked().",
+"file": "crates/conductor-run/src/execute.rs",
+"line": 489
+},
+{
+"callee_name": "route_read_back",
+"caller": "rust-analyzer cargo conductor-run 0.2.0 execute/tests/a_failed_read_back_call_stays_blocked_even_for_a_declare_only_scenario().",
+"file": "crates/conductor-run/src/execute.rs",
+"line": 498
+},
+{
+"callee_name": "route_read_back",
+"caller": "rust-analyzer cargo conductor-run 0.2.0 execute/tests/a_failed_read_back_call_stays_blocked_even_for_a_declare_only_scenario().",
+"file": "crates/conductor-run/src/execute.rs",
+"line": 499
+},
+{
+"callee_name": "route_read_back",
+"caller": "rust-analyzer cargo conductor-run 0.2.0 execute/tests/a_populated_corpus_grades_whatever_the_scenario_declares().",
+"file": "crates/conductor-run/src/execute.rs",
+"line": 506
+},
+{
+"callee_name": "route_read_back",
+"caller": "rust-analyzer cargo conductor-run 0.2.0 execute/tests/a_populated_corpus_grades_whatever_the_scenario_declares().",
+"file": "crates/conductor-run/src/execute.rs",
+"line": 510
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT name, kind, crate, file, def_line FROM symbol WHERE name = 'execute_scenario';",
+"rows": 0,
+"result": [],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

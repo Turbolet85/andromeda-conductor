@@ -1,0 +1,23 @@
+feat(2026-09-18-real-model-leg-posture-and-grading-rule): the posture fixed before the drive, and the observable that does not exist for a single-storm leg
+
+The real-model leg's launch posture, emission profile, grading rule and per-leg quiet window are committed
+as the second reader-less contracts/ member, fixed before any leg is driven so the grading cannot be chosen
+to fit what happened. Its decisive clause was measured rather than stipulated: retrieve_report renders its
+Hypotheses section only when the incident's resolution-summary text parses as an L4Output, and neither
+writer of that field fires on first incident creation - so a single-storm leg has no hypothesis observable
+at all and the emission profile must produce a second cue-bearing digest on one identity.
+
+Reconcile: 2 amendments (architecture.md) - 1 escalation resolved (no playbook rule governed a reader-less
+           contracts/ member; operator ratified applying both and minting the rule, playbook 48 -> 49)
+Curation:  T1 0 - T2 1 - T3 1  (filtered 2) - extended: T2/.claude/rules/verification-harness.md:
+           "the deterministic-L4 fixture pins evidence_refs to []" [corrected 2026-09-18: true when
+           written, stale the next day at Pulse efabe8e]
+Code-graph: rust 2620n/12514e - ts 807n/1690e - fresh ok
+Coverage:  0 caps claimed this chunk (v3-09 partially advanced, left pooled with its derivation in notes)
+           - version 6/11 verified, 5 unclaimed
+Route: 1 tail edit (CONTEXT on the drive entry) - master 2026-09-18-real-model-leg-posture-and-grading-rule
+       -> complete - compacted 1 complete line -> route-archive.md
+Session 152
+
+Co-Authored-By: Claude Opus 5 (1M context) <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01QjVSDCPMXnhxA2MyEuD5Fo

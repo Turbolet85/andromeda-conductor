@@ -1,0 +1,703 @@
+[
+ {
+  "key": "phase/validate/contract.mechanical-check",
+  "skill": "phase",
+  "step": "validate",
+  "type": "contract.mechanical-check",
+  "n": 7,
+  "weight": 19,
+  "impact": {
+   "iterations": 5,
+   "dialogue_rounds": 3,
+   "extra_reads": 2,
+   "retries": 1
+  },
+  "chunks": [
+   "2026-09-14-emit-scrubber-and-percentile-math-under-test",
+   "2026-09-15-remaining-structurally-dead-declarations-retired",
+   "2026-09-15-scenario-tier-honesty",
+   "2026-09-15-structurally-dead-assertion-class-retired",
+   "2026-09-16-scenario-assertion-audit-gate"
+  ],
+  "denom": 5,
+  "above": true,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-14T22:29:16Z-b",
+   "2026-09-14T22:29:16Z-c",
+   "2026-09-15T10:48:48Z-b",
+   "2026-09-15T14:49:33Z-b",
+   "2026-09-16T05:43:35Z-b",
+   "2026-09-16T08:06:12Z-b",
+   "2026-09-16T08:06:12Z-c"
+  ]
+ },
+ {
+  "key": "*/*/contract.token-proxy-check",
+  "skill": "*",
+  "step": "*",
+  "type": "contract.token-proxy-check",
+  "n": 9,
+  "weight": 15,
+  "impact": {
+   "extra_reads": 5,
+   "reformulations": 3,
+   "retries": 3
+  },
+  "chunks": [
+   "2026-09-15-scenario-tier-honesty",
+   "2026-09-15-structurally-dead-assertion-class-retired",
+   "2026-09-16-scenario-assertion-audit-gate"
+  ],
+  "denom": null,
+  "above": true,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-14T18:19:39Z-b",
+   "2026-09-14T20:47:15Z-b",
+   "2026-09-14T20:47:15Z-c",
+   "2026-09-15T05:11:56Z-c",
+   "2026-09-15T10:14:31Z-b",
+   "2026-09-15T19:56:26Z-b",
+   "2026-09-15T20:11:33Z-b",
+   "2026-09-16T07:08:18Z-b",
+   "2026-09-16T07:16:11Z-c"
+  ]
+ },
+ {
+  "key": "*/*/contract.narrow-basis-claim",
+  "skill": "*",
+  "step": "*",
+  "type": "contract.narrow-basis-claim",
+  "n": 7,
+  "weight": 11,
+  "impact": {
+   "extra_reads": 16,
+   "dialogue_rounds": 1,
+   "reformulations": 1,
+   "iterations": 1
+  },
+  "chunks": [
+   "2026-09-14-emit-scrubber-and-percentile-math-under-test",
+   "2026-09-15-structurally-dead-assertion-class-retired",
+   "2026-09-16-scenario-assertion-audit-gate"
+  ],
+  "denom": null,
+  "above": true,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-14T20:56:07Z-b",
+   "2026-09-14T22:29:16Z-d",
+   "2026-09-15T05:38:02Z-b",
+   "2026-09-15T10:05:19Z-b",
+   "2026-09-15T10:22:18Z-c",
+   "2026-09-15T16:14:41Z-b",
+   "2026-09-16T07:46:09Z-c"
+  ]
+ },
+ {
+  "key": "*/*/recall.corpus-recurrence",
+  "skill": "*",
+  "step": "*",
+  "type": "recall.corpus-recurrence",
+  "n": 7,
+  "weight": 8,
+  "impact": {
+   "extra_reads": 6,
+   "retries": 1
+  },
+  "chunks": [
+   "2026-09-14-emit-scrubber-and-percentile-math-under-test",
+   "2026-09-15-remaining-structurally-dead-declarations-retired",
+   "2026-09-15-scenario-tier-honesty",
+   "2026-09-15-structurally-dead-assertion-class-retired",
+   "2026-09-16-scenario-assertion-audit-gate"
+  ],
+  "denom": null,
+  "above": true,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-15T05:40:37Z-b",
+   "2026-09-15T12:58:41Z-c",
+   "2026-09-15T13:01:55Z-b",
+   "2026-09-15T15:22:21Z-c",
+   "2026-09-15T15:26:05Z-b",
+   "2026-09-16T06:44:38Z-b",
+   "2026-09-16T09:09:49Z-b"
+  ]
+ },
+ {
+  "key": "wrap-session/reconcile/ambiguity.playbook-no-match",
+  "skill": "wrap-session",
+  "step": "reconcile",
+  "type": "ambiguity.playbook-no-match",
+  "n": 3,
+  "weight": 8,
+  "impact": {
+   "dialogue_rounds": 1,
+   "halted": 1
+  },
+  "chunks": [
+   "2026-09-14-emit-scrubber-and-percentile-math-under-test",
+   "2026-09-15-structurally-dead-assertion-class-retired",
+   "2026-09-16-scenario-assertion-audit-gate"
+  ],
+  "denom": 5,
+  "above": true,
+  "halty": 1,
+  "sites": null,
+  "ids": [
+   "2026-09-15T05:38:02Z-c",
+   "2026-09-15T12:58:41Z-d",
+   "2026-09-16T09:07:11Z-b"
+  ]
+ },
+ {
+  "key": "wrap-session/route-resolve/contract.carry-no-owner",
+  "skill": "wrap-session",
+  "step": "route-resolve",
+  "type": "contract.carry-no-owner",
+  "n": 1,
+  "weight": 6,
+  "impact": {
+   "dialogue_rounds": 1,
+   "halted": 1,
+   "extra_reads": 2
+  },
+  "chunks": [
+   "2026-09-14-emit-scrubber-and-percentile-math-under-test"
+  ],
+  "denom": 6,
+  "above": false,
+  "halty": 1,
+  "sites": null,
+  "ids": [
+   "2026-09-15T05:56:32Z-b"
+  ]
+ },
+ {
+  "key": "*/*/tooling.host-shell",
+  "skill": "*",
+  "step": "*",
+  "type": "tooling.host-shell",
+  "n": 2,
+  "weight": 5,
+  "impact": {
+   "retries": 3
+  },
+  "chunks": [
+   "2026-09-15-remaining-structurally-dead-declarations-retired",
+   "2026-09-15-scenario-tier-honesty"
+  ],
+  "denom": null,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-15T14:19:53Z-b",
+   "2026-09-15T20:11:33Z-c"
+  ]
+ },
+ {
+  "key": "*/*/contract.premise-falsified",
+  "skill": "*",
+  "step": "*",
+  "type": "contract.premise-falsified",
+  "n": 4,
+  "weight": 4,
+  "impact": {
+   "extra_reads": 14
+  },
+  "chunks": [
+   "2026-09-14-emit-scrubber-and-percentile-math-under-test",
+   "2026-09-15-structurally-dead-assertion-class-retired",
+   "2026-09-16-scenario-assertion-audit-gate"
+  ],
+  "denom": null,
+  "above": true,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-14T21:28:50Z-b",
+   "2026-09-15T10:22:18Z-b",
+   "2026-09-16T07:16:11Z-b",
+   "2026-09-16T07:32:48Z-b"
+  ]
+ },
+ {
+  "key": "wrap-session/curation/ambiguity.filter-borderline",
+  "skill": "wrap-session",
+  "step": "curation",
+  "type": "ambiguity.filter-borderline",
+  "n": 2,
+  "weight": 3,
+  "impact": {
+   "reformulations": 1
+  },
+  "chunks": [
+   "2026-09-14-emit-scrubber-and-percentile-math-under-test"
+  ],
+  "denom": 6,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-14T20:56:07Z-d",
+   "2026-09-15T05:40:37Z-c"
+  ]
+ },
+ {
+  "key": "phase/research/input.cookbook-gap",
+  "skill": "phase",
+  "step": "research",
+  "type": "input.cookbook-gap",
+  "n": 1,
+  "weight": 3,
+  "impact": {
+   "reformulations": 2
+  },
+  "chunks": [
+   "2026-09-15-structurally-dead-assertion-class-retired"
+  ],
+  "denom": 5,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-15T10:22:18Z-d"
+  ]
+ },
+ {
+  "key": "implement/code/input.plan-step-ambiguous",
+  "skill": "implement",
+  "step": "code",
+  "type": "input.plan-step-ambiguous",
+  "n": 2,
+  "weight": 2,
+  "impact": {
+   "extra_reads": 1
+  },
+  "chunks": [
+   "2026-09-14-emit-scrubber-and-percentile-math-under-test",
+   "2026-09-15-remaining-structurally-dead-declarations-retired"
+  ],
+  "denom": 5,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-14T22:51:12Z-b",
+   "2026-09-15T14:56:53Z-b"
+  ]
+ },
+ {
+  "key": "wrap-session/reconcile/contract.false-positive-proposal",
+  "skill": "wrap-session",
+  "step": "reconcile",
+  "type": "contract.false-positive-proposal",
+  "n": 2,
+  "weight": 2,
+  "impact": {
+   "extra_reads": 2
+  },
+  "chunks": [
+   "2026-09-15-remaining-structurally-dead-declarations-retired",
+   "2026-09-16-scenario-assertion-audit-gate"
+  ],
+  "denom": 5,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-15T15:22:21Z-b",
+   "2026-09-16T09:07:11Z-c"
+  ]
+ },
+ {
+  "key": "phase/plan/input.extracts-conflict",
+  "skill": "phase",
+  "step": "plan",
+  "type": "input.extracts-conflict",
+  "n": 1,
+  "weight": 2,
+  "impact": {
+   "iterations": 1
+  },
+  "chunks": [
+   "2026-09-14-emit-scrubber-and-percentile-math-under-test"
+  ],
+  "denom": 5,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-14T21:53:31Z-b"
+  ]
+ },
+ {
+  "key": "implement/fix-loop/contract.test-expectation",
+  "skill": "implement",
+  "step": "fix-loop",
+  "type": "contract.test-expectation",
+  "n": 1,
+  "weight": 2,
+  "impact": {
+   "iterations": 1
+  },
+  "chunks": [
+   "2026-09-14-emit-scrubber-and-percentile-math-under-test"
+  ],
+  "denom": 5,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-14T23:49:38Z-b"
+  ]
+ },
+ {
+  "key": "*/*/tooling.output-cap-overflow",
+  "skill": "*",
+  "step": "*",
+  "type": "tooling.output-cap-overflow",
+  "n": 1,
+  "weight": 2,
+  "impact": {
+   "retries": 1
+  },
+  "chunks": [
+   "2026-09-16-scenario-assertion-audit-gate"
+  ],
+  "denom": null,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-16T07:32:48Z-c"
+  ]
+ },
+ {
+  "key": "phase/plan/retry.synthesis-rework",
+  "skill": "phase",
+  "step": "plan",
+  "type": "retry.synthesis-rework",
+  "n": 1,
+  "weight": 2,
+  "impact": {
+   "iterations": 1
+  },
+  "chunks": [
+   "2026-09-16-scenario-assertion-audit-gate"
+  ],
+  "denom": 5,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-16T07:46:09Z-b"
+  ]
+ },
+ {
+  "key": "*/*/contract.skill-reference-drift",
+  "skill": "*",
+  "step": "*",
+  "type": "contract.skill-reference-drift",
+  "n": 1,
+  "weight": 1,
+  "impact": {},
+  "chunks": [],
+  "denom": null,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-14T18:19:39Z-c"
+  ]
+ },
+ {
+  "key": "phase/research/input.extract-signal-gap",
+  "skill": "phase",
+  "step": "research",
+  "type": "input.extract-signal-gap",
+  "n": 1,
+  "weight": 1,
+  "impact": {
+   "extra_reads": 0
+  },
+  "chunks": [
+   "2026-09-14-emit-scrubber-and-percentile-math-under-test"
+  ],
+  "denom": 5,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-14T21:47:29Z-b"
+  ]
+ },
+ {
+  "key": "implement/fix-loop/tooling.result-not-run-stable",
+  "skill": "implement",
+  "step": "fix-loop",
+  "type": "tooling.result-not-run-stable",
+  "n": 1,
+  "weight": 1,
+  "impact": {
+   "extra_reads": 2
+  },
+  "chunks": [
+   "2026-09-14-emit-scrubber-and-percentile-math-under-test"
+  ],
+  "denom": 5,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-14T23:49:38Z-c"
+  ]
+ },
+ {
+  "key": "implement/fix-loop/contract.instrument-validity",
+  "skill": "implement",
+  "step": "fix-loop",
+  "type": "contract.instrument-validity",
+  "n": 1,
+  "weight": 1,
+  "impact": {},
+  "chunks": [
+   "2026-09-14-emit-scrubber-and-percentile-math-under-test"
+  ],
+  "denom": 5,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-14T23:49:38Z-d"
+  ]
+ },
+ {
+  "key": "new-session/orientation/input.handoff-git-mismatch",
+  "skill": "new-session",
+  "step": "orientation",
+  "type": "input.handoff-git-mismatch",
+  "n": 1,
+  "weight": 1,
+  "impact": {
+   "extra_reads": 4
+  },
+  "chunks": [],
+  "denom": 9,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-15T05:11:56Z-b"
+  ]
+ },
+ {
+  "key": "wrap-session/report/input.implement-outcome-unsettled",
+  "skill": "wrap-session",
+  "step": "report",
+  "type": "input.implement-outcome-unsettled",
+  "n": 1,
+  "weight": 1,
+  "impact": {
+   "extra_reads": 12
+  },
+  "chunks": [
+   "2026-09-14-emit-scrubber-and-percentile-math-under-test"
+  ],
+  "denom": 5,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-15T05:22:32Z-b"
+  ]
+ },
+ {
+  "key": "wrap-session/gates/tooling.result-not-run-stable",
+  "skill": "wrap-session",
+  "step": "gates",
+  "type": "tooling.result-not-run-stable",
+  "n": 1,
+  "weight": 1,
+  "impact": {},
+  "chunks": [
+   "2026-09-14-emit-scrubber-and-percentile-math-under-test"
+  ],
+  "denom": 5,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-15T06:28:00Z-b"
+  ]
+ },
+ {
+  "key": "new-session/orientation/tooling.health-false-red",
+  "skill": "new-session",
+  "step": "orientation",
+  "type": "tooling.health-false-red",
+  "n": 1,
+  "weight": 1,
+  "impact": {
+   "extra_reads": 1
+  },
+  "chunks": [],
+  "denom": 9,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-15T09:30:22Z-b"
+  ]
+ },
+ {
+  "key": "implement/code/input.research-files-wrong",
+  "skill": "implement",
+  "step": "code",
+  "type": "input.research-files-wrong",
+  "n": 1,
+  "weight": 1,
+  "impact": {
+   "extra_reads": 1
+  },
+  "chunks": [
+   "2026-09-15-structurally-dead-assertion-class-retired"
+  ],
+  "denom": 5,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-15T11:04:00Z-b"
+  ]
+ },
+ {
+  "key": "implement/fix-loop/contract.spec-reality-gap",
+  "skill": "implement",
+  "step": "fix-loop",
+  "type": "contract.spec-reality-gap",
+  "n": 1,
+  "weight": 1,
+  "impact": {
+   "deferred": 1
+  },
+  "chunks": [
+   "2026-09-15-structurally-dead-assertion-class-retired"
+  ],
+  "denom": 5,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-15T11:06:48Z-b"
+  ]
+ },
+ {
+  "key": "implement/fix-loop/contract.matrix-claim",
+  "skill": "implement",
+  "step": "fix-loop",
+  "type": "contract.matrix-claim",
+  "n": 1,
+  "weight": 1,
+  "impact": {
+   "iterations": 0
+  },
+  "chunks": [
+   "2026-09-15-structurally-dead-assertion-class-retired"
+  ],
+  "denom": 5,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-15T11:06:48Z-c"
+  ]
+ },
+ {
+  "key": "wrap-session/reconcile/input.report-insufficient",
+  "skill": "wrap-session",
+  "step": "reconcile",
+  "type": "input.report-insufficient",
+  "n": 1,
+  "weight": 1,
+  "impact": {
+   "extra_reads": 4
+  },
+  "chunks": [
+   "2026-09-15-structurally-dead-assertion-class-retired"
+  ],
+  "denom": 5,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-15T12:58:41Z-b"
+  ]
+ },
+ {
+  "key": "phase/take-up/input.out-of-pipeline-source",
+  "skill": "phase",
+  "step": "take-up",
+  "type": "input.out-of-pipeline-source",
+  "n": 1,
+  "weight": 1,
+  "impact": {
+   "extra_reads": 1
+  },
+  "chunks": [
+   "2026-09-15-remaining-structurally-dead-declarations-retired"
+  ],
+  "denom": 5,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-15T14:01:34Z-b"
+  ]
+ },
+ {
+  "key": "wrap-session/gates/tooling.commit-mechanics",
+  "skill": "wrap-session",
+  "step": "gates",
+  "type": "tooling.commit-mechanics",
+  "n": 1,
+  "weight": 1,
+  "impact": {},
+  "chunks": [
+   "2026-09-15-remaining-structurally-dead-declarations-retired"
+  ],
+  "denom": 5,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-15T15:32:55Z-b"
+  ]
+ },
+ {
+  "key": "*/*/contract.structural-blind-spot",
+  "skill": "*",
+  "step": "*",
+  "type": "contract.structural-blind-spot",
+  "n": 1,
+  "weight": 1,
+  "impact": {},
+  "chunks": [
+   "2026-09-15-scenario-tier-honesty"
+  ],
+  "denom": null,
+  "above": false,
+  "halty": 0,
+  "sites": null,
+  "ids": [
+   "2026-09-16T06:35:27Z-b"
+  ]
+ }
+]

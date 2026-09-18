@@ -1,0 +1,258 @@
+{
+ "hypotheses": [
+  {
+   "chunk": "2026-09-14-emit-scrubber-and-percentile-math-under-test",
+   "artifact": "conversation",
+   "producer": "implement/smoke",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "skipped"
+   ],
+   "consumer": "wrap-session/report",
+   "verdict": "thin",
+   "note": "implement ran in a PRIOR session; this wrap opened fresh at new-session, so no conversational trace of the chunk's work existed",
+   "producer_id": "2026-09-14T23:51:43Z-a",
+   "consumer_id": "2026-09-15T05:22:32Z-a"
+  },
+  {
+   "chunk": "2026-09-14-emit-scrubber-and-percentile-math-under-test",
+   "artifact": "conversation",
+   "producer": "wrap-session/curation",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "generated-body-rule-fired",
+    "tier2-registry-clean"
+   ],
+   "consumer": "wrap-session/report",
+   "verdict": "thin",
+   "note": "implement ran in a PRIOR session; this wrap opened fresh at new-session, so no conversational trace of the chunk's work existed",
+   "producer_id": "2026-09-15T05:40:37Z-a",
+   "consumer_id": "2026-09-15T05:22:32Z-a"
+  },
+  {
+   "chunk": "2026-09-14-emit-scrubber-and-percentile-math-under-test",
+   "artifact": "implement-outcome",
+   "producer": "implement/fix-loop",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "green"
+   ],
+   "consumer": "wrap-session/report",
+   "verdict": "missing",
+   "note": "no report.md in the chunk dir - implement never authored a P4 report; evidence/disposition-ledger.md plus the two run dirs stood in",
+   "producer_id": "2026-09-14T23:49:38Z-a",
+   "consumer_id": "2026-09-15T05:22:32Z-a"
+  },
+  {
+   "chunk": "2026-09-14-emit-scrubber-and-percentile-math-under-test",
+   "artifact": "implement-outcome",
+   "producer": "implement/smoke",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "green"
+   ],
+   "consumer": "wrap-session/report",
+   "verdict": "missing",
+   "note": "no report.md in the chunk dir - implement never authored a P4 report; evidence/disposition-ledger.md plus the two run dirs stood in",
+   "producer_id": "2026-09-14T23:51:43Z-a",
+   "consumer_id": "2026-09-15T05:22:32Z-a"
+  },
+  {
+   "chunk": "2026-09-14-emit-scrubber-and-percentile-math-under-test",
+   "artifact": "report",
+   "producer": "wrap-session/report",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "reconstructed",
+    "directive-figures-reproduced",
+    "ledger-claim-verified"
+   ],
+   "consumer": "wrap-session/reconcile",
+   "verdict": "thin",
+   "note": "sufficient for all seven detectors (none reported a gap, several cited specific bullets) but it shipped one FALSE finding - that the gate's (file,description) identity contradicts the documented identity rule - which no consumer caught and the orchestrator found by reading test-plan.md 615",
+   "producer_id": "2026-09-15T05:22:32Z-a",
+   "consumer_id": "2026-09-15T05:38:02Z-a"
+  },
+  {
+   "chunk": "2026-09-14-emit-scrubber-and-percentile-math-under-test",
+   "artifact": ".andromeda/runs/2026-09-14T21-24-20-phase/design.md",
+   "producer": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "consumer": "phase/research",
+   "verdict": "input-friction",
+   "note": "The design distiller's No-domain-coverage justification line asserted a CODE fact — that the percentile accessors are read by conductor-run/src/dispatch.rs and conductor-core/src/phase_spec.rs — which the distiller prompt forbids (extracts describe target state and cannot attest what the code does). Measured, it is inverted: those files reference a DIFFERENT struct's identically-named fields (conductor-core EmissionShape::Latency) and the accessors have zero callers and zero refs. Cost no cycles because the claim was carried as a hypothesis and the collision check would have run regardless, but it had already been relayed to the operator as a research lead.",
+   "producer_id": null,
+   "consumer_id": "2026-09-14T21:47:29Z-b"
+  },
+  {
+   "chunk": "2026-09-14-emit-scrubber-and-percentile-math-under-test",
+   "artifact": ".andromeda/runs/2026-09-14T21-24-20-phase/security.md",
+   "producer": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "consumer": "phase/plan",
+   "verdict": "input-friction",
+   "note": "The security extract's acceptance contribution prescribes a hygiene grep over EVERY file the chunk commits returning zero absolute host paths. Executed as written against this chunk it is unsatisfiable by construction: the subject IS a host-path scrubber, so its source, doc comment and synthetic test fixtures spell drive-letter paths by design — measured 23 anchor hits in crates/conductor-emit at HEAD, every one legitimate (an http scheme matches the letter-colon-slash anchor, and the four drive-letter hits are a doc comment, one synthetic test input and two assertions that the scrubbed output LACKS the token). The rule is right and satisfiable; its proposed instrument is not. Resolved by scoping the gate to the roster and the evidence file, where the leak channel is real, and recording the exemption with its measurement. P2's check C covers extract-vs-extract contradiction and structurally cannot see extract-vs-chunk-subject.",
+   "producer_id": null,
+   "consumer_id": "2026-09-14T21:53:31Z-b"
+  },
+  {
+   "chunk": "2026-09-14-emit-scrubber-and-percentile-math-under-test",
+   "artifact": "crates/conductor-emit/src/exception.rs",
+   "producer": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "consumer": "implement/code",
+   "verdict": "input-friction",
+   "note": "Plan step 6 directed one test case per host-path shape in obs-plan's scrub token set, naming the shell-variable, home-relative and rustup forms alongside the drive-letter and Unix-root ones. Measured, this crate's normalize_frame strips only TOKEN-LEADING absolute paths (Unix root and the drive-letter form) — the other three are conductor-core::redact's remit on a surface exception.rs never feeds, so asserting them stripped would fail and making them stripped is a behaviour change the plan and security's anti-pattern both forbid. The token set was inherited from the SELF-OBS scrubber's anchor list and applied to the fingerprint normalizer. Resolved without reinterpreting the step silently: covered every shape that IS in remit, and added an explicit boundary test pinning the three that are not, with the owning rule set named in a doc comment.",
+   "producer_id": null,
+   "consumer_id": "2026-09-14T22:51:12Z-b"
+  },
+  {
+   "chunk": "2026-09-14-emit-scrubber-and-percentile-math-under-test",
+   "artifact": "conductor-0.3.0/chunks/2026-09-14-emit-scrubber-and-percentile-math-under-test/",
+   "producer": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "consumer": "wrap-session/report",
+   "verdict": "input-friction",
+   "note": "No implement P4 report exists for this chunk - the implementing session ended without wrapping, so the outcome basis was rebuilt from evidence/disposition-ledger.md, both cargo-mutants run dirs, the git diff and the plan; implement's deviations-with-justifications were never written and had to be re-derived.",
+   "producer_id": null,
+   "consumer_id": "2026-09-15T05:22:32Z-b"
+  },
+  {
+   "chunk": "2026-09-15-structurally-dead-assertion-class-retired",
+   "artifact": "report",
+   "producer": "wrap-session/report",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "detector-scan-performed",
+    "dictated-coordinate-corrected"
+   ],
+   "consumer": "wrap-session/reconcile",
+   "verdict": "thin",
+   "note": "THE consumer verdict, and it is thin on one axis: the report's Expected-amendments bullet made a caught-ALL sweep claim that under-ran by two of three arch sites. Every other bullet served every detector — five docs cleared themselves against it without re-deriving, and the two that proposed cited it by line.",
+   "producer_id": "2026-09-15T12:47:23Z-a",
+   "consumer_id": "2026-09-15T12:58:41Z-a"
+  },
+  {
+   "chunk": "2026-09-15-structurally-dead-assertion-class-retired",
+   "artifact": "scripts/code-graph-cookbook.md",
+   "producer": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "consumer": "phase/research",
+   "verdict": "input-friction",
+   "note": "The code-graph cookbook's four canonical shapes all return ROW LISTS; it carries no aggregate shape. A 55-row and a 16-row impact result both exceeded a readable window, so the per-file distribution needed two off-cookbook GROUP BY compositions. A count-by-file shape beside canonical query 1 would have served directly, and is the shape a large impact set always wants.",
+   "producer_id": null,
+   "consumer_id": "2026-09-15T10:22:18Z-d"
+  },
+  {
+   "chunk": "2026-09-15-structurally-dead-assertion-class-retired",
+   "artifact": "crates/conductor-core/src/scenario.rs",
+   "producer": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "consumer": "implement/code",
+   "verdict": "input-friction",
+   "note": "Research and the plan enumerated five pinning tests to update and separately RECORDED that pulse-run-contract carries none — correct on both counts, but the consequence was left unlisted: retiring that scenario with no test pinning the new shape leaves the class's one member unguarded against a regression re-adding the block, while the other three are pinned. Resolved as an in-scope addition (a sixth test in a file already on the modify-set) rather than a scope breach, since the plan's own Implementation notes name the asymmetry.",
+   "producer_id": null,
+   "consumer_id": "2026-09-15T11:04:00Z-b"
+  },
+  {
+   "chunk": "2026-09-15-structurally-dead-assertion-class-retired",
+   "artifact": "conductor-0.3.0/chunks/2026-09-15-structurally-dead-assertion-class-retired/report.md",
+   "producer": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "consumer": "wrap-session/reconcile",
+   "verdict": "input-friction",
+   "note": "The report's Expected-amendments bullet claimed the arch site set was located by one grep returning 2 hits, dispositioning architecture.md:70 as 'fingerprint derivation, unrelated'. The arch doc-agent's claim-wording sweep found that :70 states the retired claim at offset 5712 of a 10,432-character line, and a THIRD site at :72 states it under a different token entirely ('Previously seen'), which no findings-counter-refresh grep could ever reach. The report's caught-ALL claim was therefore false in both directions — a mis-dispositioned hit and an unreachable site — and the true set is 3 arch sites plus 1 obs line carrying its claim twice. Corrected in the report as a SWEEP CORRECTION before the pass moved on.",
+   "producer_id": null,
+   "consumer_id": "2026-09-15T12:58:41Z-b"
+  },
+  {
+   "chunk": "2026-09-15-remaining-structurally-dead-declarations-retired",
+   "artifact": "report",
+   "producer": "wrap-session/report",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "detector-scan-clean",
+    "every-count-carries-its-derivation",
+    "plan-prediction-measured-not-inherited"
+   ],
+   "consumer": "wrap-session/reconcile",
+   "verdict": "wrong",
+   "note": "THE consumer verdict: six of seven detectors ran clean off it and every other bullet held, but ONE clause it shipped was falsified at validate - the Counts bullet claimed the declare-only registry's count AND set were both stale. The count was not. The arch detector inherited the error verbatim, which is exactly how a report defect propagates. Corrected in the report, the fan-out record and the sidecar.",
+   "producer_id": "2026-09-15T15:10:33Z-a",
+   "consumer_id": "2026-09-15T15:22:21Z-a"
+  },
+  {
+   "chunk": "2026-09-15-remaining-structurally-dead-declarations-retired",
+   "artifact": "conductor-0.3.0/chunks/2026-09-15-remaining-structurally-dead-declarations-retired/scope.md",
+   "producer": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "consumer": "phase/take-up",
+   "verdict": "input-friction",
+   "note": "The currency of all six folded ground claims turns on the SUT's HEAD, which lives in the sibling repo ../andromeda-pulse that no phase input artifact carries; confirming it still reads 83d4060 took a read outside the input contract.",
+   "producer_id": null,
+   "consumer_id": "2026-09-15T14:01:34Z-b"
+  },
+  {
+   "chunk": "2026-09-15-remaining-structurally-dead-declarations-retired",
+   "artifact": "conductor-0.3.0/chunks/2026-09-15-remaining-structurally-dead-declarations-retired/plan.md",
+   "producer": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "consumer": "implement/code",
+   "verdict": "input-friction",
+   "note": "Plan step 13 assigned a comment correction to step 12, but the two steps edit different functions, so step 12 could not structurally make the correction step 13 delegated to it; the stale comment would have shipped if the letter were followed.",
+   "producer_id": null,
+   "consumer_id": "2026-09-15T14:56:53Z-b"
+  }
+ ],
+ "shapes": [
+  {
+   "shape": [
+    "wrap-session/report",
+    "report",
+    "wrap-session/reconcile"
+   ],
+   "chunks": 3
+  },
+  {
+   "shape": [
+    "implement/smoke",
+    "conversation",
+    "wrap-session/report"
+   ],
+   "chunks": 1
+  },
+  {
+   "shape": [
+    "wrap-session/curation",
+    "conversation",
+    "wrap-session/report"
+   ],
+   "chunks": 1
+  },
+  {
+   "shape": [
+    "implement/fix-loop",
+    "implement-outcome",
+    "wrap-session/report"
+   ],
+   "chunks": 1
+  },
+  {
+   "shape": [
+    "implement/smoke",
+    "implement-outcome",
+    "wrap-session/report"
+   ],
+   "chunks": 1
+  }
+ ]
+}

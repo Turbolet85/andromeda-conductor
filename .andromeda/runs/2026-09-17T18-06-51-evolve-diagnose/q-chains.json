@@ -1,0 +1,452 @@
+{
+ "hypotheses": [
+  {
+   "chunk": "2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+   "artifact": "scope",
+   "producer": "phase/take-up",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "scope-inferred",
+    "carry-folded",
+    "verbatim-marker-preservation-held"
+   ],
+   "consumer": "phase/validate",
+   "verdict": "thin",
+   "note": "silent on the two planning obligations folded into v3-02 notes at the 2026-09-11 route Phase 4 — val-1 classified intent-incomplete and amended it",
+   "producer_id": "2026-09-16T10:37:02Z-a",
+   "consumer_id": "2026-09-16T11:22:30Z-a"
+  },
+  {
+   "chunk": "2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+   "artifact": "scope",
+   "producer": "phase/research",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "premise-corrected"
+   ],
+   "consumer": "phase/validate",
+   "verdict": "thin",
+   "note": "silent on the two planning obligations folded into v3-02 notes at the 2026-09-11 route Phase 4 — val-1 classified intent-incomplete and amended it",
+   "producer_id": "2026-09-16T10:54:02Z-a",
+   "consumer_id": "2026-09-16T11:22:30Z-a"
+  },
+  {
+   "chunk": "2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+   "artifact": "plan",
+   "producer": "phase/plan",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:which-candidate-route-the-CI-run-spends-itself-on",
+    "authority-resolved:matrix-notes-obligations-outrank-scope-silence"
+   ],
+   "consumer": "implement/fix-loop",
+   "verdict": "thin",
+   "note": "the security acceptance criterion restated its cited master more strictly than the master reads: rule (b) at security-plan.md:361 forbids a shell/eval-equivalent carrying operator-supplied input, while the criterion demanded an array-form argv SHAPE the master never requires — a shape the chosen mechanism cannot satisfy by API",
+   "producer_id": "2026-09-16T11:21:47Z-a",
+   "consumer_id": "2026-09-16T12:20:29Z-b"
+  },
+  {
+   "chunk": "2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+   "artifact": "plan",
+   "producer": "phase/validate",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "mechanism-reach-gaps-closed",
+    "supplied-gate-rescoped-before-paste"
+   ],
+   "consumer": "implement/fix-loop",
+   "verdict": "thin",
+   "note": "the security acceptance criterion restated its cited master more strictly than the master reads: rule (b) at security-plan.md:361 forbids a shell/eval-equivalent carrying operator-supplied input, while the criterion demanded an array-form argv SHAPE the master never requires — a shape the chosen mechanism cannot satisfy by API",
+   "producer_id": "2026-09-16T11:22:30Z-a",
+   "consumer_id": "2026-09-16T12:20:29Z-b"
+  },
+  {
+   "chunk": "2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+   "artifact": "plan",
+   "producer": "phase/plan",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:which-candidate-route-the-CI-run-spends-itself-on",
+    "authority-resolved:matrix-notes-obligations-outrank-scope-silence"
+   ],
+   "consumer": "implement/fix-loop",
+   "verdict": "thin",
+   "note": "its obligation-2 discharge and its rejected-approach line on runas were both falsified by measurement this round",
+   "producer_id": "2026-09-16T11:21:47Z-a",
+   "consumer_id": "2026-09-16T14:46:51Z-c"
+  },
+  {
+   "chunk": "2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+   "artifact": "plan",
+   "producer": "phase/validate",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "mechanism-reach-gaps-closed",
+    "supplied-gate-rescoped-before-paste"
+   ],
+   "consumer": "implement/fix-loop",
+   "verdict": "thin",
+   "note": "its obligation-2 discharge and its rejected-approach line on runas were both falsified by measurement this round",
+   "producer_id": "2026-09-16T11:22:30Z-a",
+   "consumer_id": "2026-09-16T14:46:51Z-c"
+  },
+  {
+   "chunk": "2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+   "artifact": "plan",
+   "producer": "phase/plan",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:which-candidate-route-the-CI-run-spends-itself-on",
+    "authority-resolved:matrix-notes-obligations-outrank-scope-silence"
+   ],
+   "consumer": "implement/fix-loop",
+   "verdict": "thin",
+   "note": null,
+   "producer_id": "2026-09-16T11:21:47Z-a",
+   "consumer_id": "2026-09-16T16:32:06Z-a"
+  },
+  {
+   "chunk": "2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+   "artifact": "plan",
+   "producer": "phase/validate",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "mechanism-reach-gaps-closed",
+    "supplied-gate-rescoped-before-paste"
+   ],
+   "consumer": "implement/fix-loop",
+   "verdict": "thin",
+   "note": null,
+   "producer_id": "2026-09-16T11:22:30Z-a",
+   "consumer_id": "2026-09-16T16:32:06Z-a"
+  },
+  {
+   "chunk": "2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+   "artifact": "implement-outcome",
+   "producer": "implement/fix-loop",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "green"
+   ],
+   "consumer": "wrap-session/report",
+   "verdict": "thin",
+   "note": "SUPERSEDED rather than wrong: implement reported surfaced with the terminal open, and four CI probes plus three operator/overseer-run legs ran AFTER it, establishing the cause it could not reach. Its own statements stood; they simply stopped being the final word",
+   "producer_id": "2026-09-16T11:40:17Z-a",
+   "consumer_id": "2026-09-16T16:45:34Z-a"
+  },
+  {
+   "chunk": "2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+   "artifact": "implement-outcome",
+   "producer": "implement/smoke",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "green"
+   ],
+   "consumer": "wrap-session/report",
+   "verdict": "thin",
+   "note": "SUPERSEDED rather than wrong: implement reported surfaced with the terminal open, and four CI probes plus three operator/overseer-run legs ran AFTER it, establishing the cause it could not reach. Its own statements stood; they simply stopped being the final word",
+   "producer_id": "2026-09-16T11:41:27Z-a",
+   "consumer_id": "2026-09-16T16:45:34Z-a"
+  },
+  {
+   "chunk": "2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+   "artifact": "implement-outcome",
+   "producer": "implement/fix-loop",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "surfaced"
+   ],
+   "consumer": "wrap-session/report",
+   "verdict": "thin",
+   "note": "SUPERSEDED rather than wrong: implement reported surfaced with the terminal open, and four CI probes plus three operator/overseer-run legs ran AFTER it, establishing the cause it could not reach. Its own statements stood; they simply stopped being the final word",
+   "producer_id": "2026-09-16T12:20:29Z-b",
+   "consumer_id": "2026-09-16T16:45:34Z-a"
+  },
+  {
+   "chunk": "2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+   "artifact": "implement-outcome",
+   "producer": "implement/fix-loop",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "surfaced"
+   ],
+   "consumer": "wrap-session/report",
+   "verdict": "thin",
+   "note": "SUPERSEDED rather than wrong: implement reported surfaced with the terminal open, and four CI probes plus three operator/overseer-run legs ran AFTER it, establishing the cause it could not reach. Its own statements stood; they simply stopped being the final word",
+   "producer_id": "2026-09-16T14:15:13Z-b",
+   "consumer_id": "2026-09-16T16:45:34Z-a"
+  },
+  {
+   "chunk": "2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+   "artifact": "implement-outcome",
+   "producer": "implement/fix-loop",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "surfaced"
+   ],
+   "consumer": "wrap-session/report",
+   "verdict": "thin",
+   "note": "SUPERSEDED rather than wrong: implement reported surfaced with the terminal open, and four CI probes plus three operator/overseer-run legs ran AFTER it, establishing the cause it could not reach. Its own statements stood; they simply stopped being the final word",
+   "producer_id": "2026-09-16T14:46:51Z-c",
+   "consumer_id": "2026-09-16T16:45:34Z-a"
+  },
+  {
+   "chunk": "2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+   "artifact": "implement-outcome",
+   "producer": "implement/fix-loop",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "surfaced"
+   ],
+   "consumer": "wrap-session/report",
+   "verdict": "thin",
+   "note": "SUPERSEDED rather than wrong: implement reported surfaced with the terminal open, and four CI probes plus three operator/overseer-run legs ran AFTER it, establishing the cause it could not reach. Its own statements stood; they simply stopped being the final word",
+   "producer_id": "2026-09-16T16:32:06Z-a",
+   "consumer_id": "2026-09-16T16:45:34Z-a"
+  },
+  {
+   "chunk": "2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+   "artifact": "plan",
+   "producer": "phase/plan",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:which-candidate-route-the-CI-run-spends-itself-on",
+    "authority-resolved:matrix-notes-obligations-outrank-scope-silence"
+   ],
+   "consumer": "wrap-session/report",
+   "verdict": "thin",
+   "note": "two of its own assertions were falsified in-chunk (the runas rejected-approach line; the over-strict security criterion) and its step 5 named a site that already satisfied it",
+   "producer_id": "2026-09-16T11:21:47Z-a",
+   "consumer_id": "2026-09-16T16:45:34Z-a"
+  },
+  {
+   "chunk": "2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+   "artifact": "plan",
+   "producer": "phase/validate",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "mechanism-reach-gaps-closed",
+    "supplied-gate-rescoped-before-paste"
+   ],
+   "consumer": "wrap-session/report",
+   "verdict": "thin",
+   "note": "two of its own assertions were falsified in-chunk (the runas rejected-approach line; the over-strict security criterion) and its step 5 named a site that already satisfied it",
+   "producer_id": "2026-09-16T11:22:30Z-a",
+   "consumer_id": "2026-09-16T16:45:34Z-a"
+  },
+  {
+   "chunk": "2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+   "artifact": "github-actions run 35079315258",
+   "producer": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "consumer": "phase/take-up",
+   "verdict": "input-friction",
+   "note": "The decisive scope content — the bare-app arm never publishing DevToolsActivePort, and the elimination of driver resolution, version skew, Edge policy and app-crash — exists only in a GitHub Actions run log, which no artifact in phase's input contract reads; the take-up directive carried a partial reading (job/step outcomes and the wdio error) but not the three diagnostic steps that localize the failure upstream of the driver",
+   "producer_id": null,
+   "consumer_id": "2026-09-16T10:37:02Z-b"
+  },
+  {
+   "chunk": "2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+   "artifact": "github-actions run 35079315258 artifact a11y-session-diag",
+   "producer": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "consumer": "phase/research",
+   "verdict": "input-friction",
+   "note": "A second instance of the take-up record: the decisive launch-mechanism evidence — that msedgedriver passes --remote-debugging-port=0 through WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS and recommends --remote-debugging-pipe instead — exists only in an uploaded CI artifact (a11y-session-diag/msedgedriver.log), which expires and which no pipeline artifact reads; it opened a second candidate approach that neither the route entry nor any extract names",
+   "producer_id": null,
+   "consumer_id": "2026-09-16T10:54:02Z-c"
+  },
+  {
+   "chunk": "2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+   "artifact": ".github/workflows/ci.yml",
+   "producer": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "consumer": "implement/code",
+   "verdict": "input-friction",
+   "note": "Plan step 5 named the session-isolation diagnostic's census as the site needing msedgewebview2.exe, but that site already carries it at HEAD; the omission the step was aimed at survives in a different file the plan does not list (the wdio leg's CENSUS_NAMES), so the step as written is a no-op and its intent is unreachable inside the declared scope",
+   "producer_id": null,
+   "consumer_id": "2026-09-16T11:37:28Z-b"
+  },
+  {
+   "chunk": "2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+   "artifact": "crates/conductor-tauri/ui/test/a11y/screen-reader/parse-nvda-log.ts:130-137",
+   "producer": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "consumer": "implement/fix-loop",
+   "verdict": "input-friction",
+   "note": "Plan step 5's census target is settled with an address and an owner: CENSUS_NAMES at parse-nvda-log.ts:130-137 omits msedgewebview2.exe, and BOTH its call sites are screen-reader-gated (wdio.conf.ts:396 inside the if(sr) block writing census-before.{subject}.txt, and :450 beside speechLog/nvda-pass.json) — so the omission belongs to the SR leg's surface, not to the routine arm this chunk relaunches. Left unedited as a CARRY for the entry owning the SR census rather than widened into this chunk",
+   "producer_id": null,
+   "consumer_id": "2026-09-16T12:05:17Z-b"
+  },
+  {
+   "chunk": "2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm",
+   "artifact": "implement-outcome",
+   "producer": "implement/fix-loop",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "green"
+   ],
+   "consumer": "wrap-session/report",
+   "verdict": "thin",
+   "note": "implement's P4 report was SUPERSEDED by later steps in the same session: after it, three operator reading-notes corrected three of my readings and five further CI probes ran, culminating in run 35192876641 which opened a session and ran the arm. implement's outcome line ('green on the chunk's own gates, endpoint question open') was true when written and is not the final word.",
+   "producer_id": "2026-09-16T20:47:17Z-a",
+   "consumer_id": "2026-09-17T07:43:41Z-a"
+  },
+  {
+   "chunk": "2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm",
+   "artifact": "implement-outcome",
+   "producer": "implement/smoke",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "green",
+    "deferral-open"
+   ],
+   "consumer": "wrap-session/report",
+   "verdict": "thin",
+   "note": "implement's P4 report was SUPERSEDED by later steps in the same session: after it, three operator reading-notes corrected three of my readings and five further CI probes ran, culminating in run 35192876641 which opened a session and ran the arm. implement's outcome line ('green on the chunk's own gates, endpoint question open') was true when written and is not the final word.",
+   "producer_id": "2026-09-16T20:48:45Z-a",
+   "consumer_id": "2026-09-17T07:43:41Z-a"
+  },
+  {
+   "chunk": "2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm",
+   "artifact": "conductor-0.3.0/working-route.md:35",
+   "producer": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "consumer": "phase/take-up",
+   "verdict": "input-friction",
+   "note": "CARRY 3 cited the three census() call sites as bare 'wdio.conf.ts:240,396,450' immediately after a fully-qualified sibling path in the same sentence; the natural same-directory reading (test/a11y/wdio.conf.ts) does not exist - the file is at crates/conductor-tauri/ui/wdio.conf.ts. Line numbers and the screen-reader-gated claim were exact.",
+   "producer_id": null,
+   "consumer_id": "2026-09-16T17:22:59Z-b"
+  },
+  {
+   "chunk": "2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm",
+   "artifact": "scripts/a11y-token-witness.ps1",
+   "producer": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "consumer": "implement/code",
+   "verdict": "input-friction",
+   "note": "Plan step 6 enumerated the stale scheduled-task naming as two ci.yml comments plus the witness's (task) prefix; the witness's entire SYNOPSIS/DESCRIPTION/NOTES block and four body comment blocks were also scheduled-task prose describing a mechanism that never shipped. Under-enumeration rather than ambiguity. Extended in place (same file, same defect class, all listed touchpoints) rather than surfaced, and recorded as a deviation-with-justification for the report.",
+   "producer_id": null,
+   "consumer_id": "2026-09-16T19:33:28Z-b"
+  },
+  {
+   "chunk": "2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration",
+   "artifact": "research",
+   "producer": "phase/research",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions",
+    "graph-caller-set-complete"
+   ],
+   "consumer": "phase/plan",
+   "verdict": "thin",
+   "note": "strong on everything it measured, but it left the wrap mechanism 'unestablished' and shipped a scope boundary (:397 is wrap-insensitive, out of scope) that one command falsified — see the friction record",
+   "producer_id": "2026-09-17T08:46:34Z-a",
+   "consumer_id": "2026-09-17T08:59:18Z-a"
+  },
+  {
+   "chunk": "2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration",
+   "artifact": "conductor-0.3.0/chunks/2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration/scope.md",
+   "producer": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "consumer": "phase/plan",
+   "verdict": "input-friction",
+   "note": "One command — the --e2e leg P3 never ran — settled the mechanism P3 recorded as unestablished AND falsified a scope boundary P3's premise closure had already signed off. The baseline log shows the Tab walk never reaches the BODY sentinel tabCycleNames() waits on, so both 20-iteration caps exhaust and the walk starts at an arbitrary position: :397 (SC 2.4.3) fails for the same root cause as :384 and its pass on runtime 131 was walk-start luck, not the wrap-insensitivity scope asserted. The ordering is structural, not an oversight: the harness rule puts 'run the leg and read its log' at expect-atom authoring time (P4), while the scope premise closure that the log's content feeds is P3's final step — so a chunk whose leg output bears on a scope premise gets the two steps in the wrong order by construction. Cost: scope.md and research.md each amended mid-P4, and the fix's shape moved from one assertion to the shared walk helper plus both call sites.",
+   "producer_id": null,
+   "consumer_id": "2026-09-17T08:59:18Z-b"
+  },
+  {
+   "chunk": "2026-09-17-keyboard-and-focus-order-coverage-ownership",
+   "artifact": "crates/conductor-tauri/ui/test/a11y/claim-ownership.ts",
+   "producer": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "consumer": "implement/code",
+   "verdict": "input-friction",
+   "note": "step 1 prescribes 'one row per a11y-plan §5 keyboard/focus claim', but §5's run-console-idle bullet bundles TWO SC claims (SC 2.1.1 reachability and SC 2.4.3 order) that are asserted by two DIFFERENT specs — so a bullet-keyed row could name only one of them as its owner, and a claim-keyed row could not be derived from the bullet count alone. Split into two rows rather than inventing a bundled owner, since v3-03's acceptance is quantified over claims and not over bullets",
+   "producer_id": null,
+   "consumer_id": "2026-09-17T16:01:57Z-b"
+  }
+ ],
+ "shapes": [
+  {
+   "shape": [
+    "implement/fix-loop",
+    "implement-outcome",
+    "wrap-session/report"
+   ],
+   "chunks": 6
+  },
+  {
+   "shape": [
+    "phase/plan",
+    "plan",
+    "implement/fix-loop"
+   ],
+   "chunks": 3
+  },
+  {
+   "shape": [
+    "phase/validate",
+    "plan",
+    "implement/fix-loop"
+   ],
+   "chunks": 3
+  },
+  {
+   "shape": [
+    "implement/smoke",
+    "implement-outcome",
+    "wrap-session/report"
+   ],
+   "chunks": 2
+  },
+  {
+   "shape": [
+    "phase/take-up",
+    "scope",
+    "phase/validate"
+   ],
+   "chunks": 1
+  },
+  {
+   "shape": [
+    "phase/research",
+    "scope",
+    "phase/validate"
+   ],
+   "chunks": 1
+  },
+  {
+   "shape": [
+    "phase/plan",
+    "plan",
+    "wrap-session/report"
+   ],
+   "chunks": 1
+  },
+  {
+   "shape": [
+    "phase/validate",
+    "plan",
+    "wrap-session/report"
+   ],
+   "chunks": 1
+  },
+  {
+   "shape": [
+    "phase/research",
+    "research",
+    "phase/plan"
+   ],
+   "chunks": 1
+  }
+ ]
+}

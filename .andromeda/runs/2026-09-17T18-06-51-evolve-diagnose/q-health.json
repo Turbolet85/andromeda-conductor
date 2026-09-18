@@ -1,0 +1,164 @@
+{
+ "steps": 55,
+ "frictions": 73,
+ "coverage": [
+  {
+   "chunk": "2026-09-16-a11y-ci-gate-at-an-honest-terminal",
+   "phase": "5/5",
+   "phase_missing": [],
+   "implement": "3/3",
+   "implement_missing": [],
+   "implement_repeated": {
+    "fix-loop": 5
+   },
+   "wrap-session": "2/5",
+   "wrap-session_missing": [
+    "curation",
+    "reconcile",
+    "route-resolve"
+   ]
+  },
+  {
+   "chunk": "2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm",
+   "phase": "5/5",
+   "phase_missing": [],
+   "implement": "3/3",
+   "implement_missing": [],
+   "wrap-session": "5/5",
+   "wrap-session_missing": []
+  },
+  {
+   "chunk": "2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration",
+   "phase": "5/5",
+   "phase_missing": [],
+   "implement": "3/3",
+   "implement_missing": [],
+   "wrap-session": "4/5",
+   "wrap-session_missing": [
+    "curation"
+   ]
+  },
+  {
+   "chunk": "2026-09-17-keyboard-and-focus-order-coverage-ownership",
+   "phase": "4/5",
+   "phase_missing": [
+    "plan"
+   ],
+   "implement": "3/3",
+   "implement_missing": [],
+   "wrap-session": "5/5",
+   "wrap-session_missing": []
+  },
+  {
+   "chunk": null,
+   "phase": "0/5",
+   "implement": "0/3",
+   "wrap-session": "0/5",
+   "new-session": "1/1",
+   "new-session_missing": [],
+   "new-session_repeated": {
+    "orientation": 4
+   }
+  }
+ ],
+ "untyped_rate": {
+  "implement/code": "0/4",
+  "implement/fix-loop": "0/33",
+  "new-session/orientation": "1/5",
+  "phase/distill": "0/2",
+  "phase/plan": "0/2",
+  "phase/research": "0/6",
+  "phase/take-up": "1/4",
+  "phase/validate": "0/7",
+  "wrap-session/curation": "0/1",
+  "wrap-session/gates": "0/4",
+  "wrap-session/reconcile": "0/2",
+  "wrap-session/report": "0/2",
+  "wrap-session/route-resolve": "0/1"
+ },
+ "problem_fact_fill": "22/55",
+ "id_fill": "128/128",
+ "outcomes": {
+  "ok": 55
+ },
+ "unparseable": 0,
+ "malformed_ts": [
+  [
+   "2026-08-08-dependency-advisory-remediation",
+   "andromeda-implement",
+   "smoke",
+   "step",
+   "The system cannot accept the date entere"
+  ],
+  [
+   "2026-08-08-dependency-advisory-remediation",
+   "andromeda-implement",
+   "smoke",
+   "friction",
+   "The system cannot accept the date entere"
+  ],
+  [
+   "2026-08-08-dependency-advisory-remediation",
+   "andromeda-wrap-session",
+   "report",
+   "step",
+   "The system cannot accept the date entere"
+  ],
+  [
+   "2026-08-08-dependency-advisory-remediation",
+   "andromeda-wrap-session",
+   "report",
+   "friction",
+   "The system cannot accept the date entere"
+  ],
+  [
+   "2026-08-08-dependency-advisory-remediation",
+   "andromeda-wrap-session",
+   "reconcile",
+   "step",
+   "The system cannot accept the date entere"
+  ],
+  [
+   "2026-08-08-dependency-advisory-remediation",
+   "andromeda-wrap-session",
+   "curation",
+   "step",
+   "The system cannot accept the date entere"
+  ],
+  [
+   "2026-08-08-dependency-advisory-remediation",
+   "andromeda-wrap-session",
+   "curation",
+   "friction",
+   "The system cannot accept the date entere"
+  ],
+  [
+   "2026-08-08-dependency-advisory-remediation",
+   "andromeda-wrap-session",
+   "route-resolve",
+   "step",
+   "The system cannot accept the date entere"
+  ],
+  [
+   "2026-08-08-dependency-advisory-remediation",
+   "andromeda-wrap-session",
+   "route-resolve",
+   "friction",
+   "The system cannot accept the date entere"
+  ],
+  [
+   "2026-08-08-dependency-advisory-remediation",
+   "andromeda-wrap-session",
+   "gates",
+   "step",
+   "The system cannot accept the date entere"
+  ],
+  [
+   "2026-08-08-dependency-advisory-remediation",
+   "andromeda-wrap-session",
+   "gates",
+   "friction",
+   "The system cannot accept the date entere"
+  ]
+ ]
+}

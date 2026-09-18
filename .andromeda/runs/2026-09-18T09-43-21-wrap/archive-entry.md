@@ -1,0 +1,4 @@
+
+## 2026-09-18-real-model-leg-posture-and-grading-rule — archived at the 2026-09-18 wrap
+
+[2026-09-18-real-model-leg-posture-and-grading-rule] Real-model leg posture and grading rule — deterministic mode off, operator-gated, never a CI gate, grading and per-leg quiet window fixed beforehand  PREREQ: close rust gate deferral (deferred since 2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration) — `cargo clippy --workspace --all-targets -- -D warnings` has now deferred twice consecutively on zero `.rs` delta; it last ran green at 2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm. This pin was ABSENT from the tail until the 2026-09-17-keyboard-and-focus-order-coverage-ownership wrap restored it, origin traced through the two intervening chunk reports rather than inherited — so the chain is restored, not continued, and the third consecutive re-pin trips the age trigger

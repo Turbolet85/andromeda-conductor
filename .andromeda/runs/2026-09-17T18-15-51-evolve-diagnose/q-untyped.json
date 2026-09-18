@@ -1,0 +1,17 @@
+[
+ {
+  "id": "2026-09-16T08:17:28Z-b",
+  "chunk": "2026-09-16-scenario-assertion-audit-gate",
+  "skill": "implement",
+  "step": "fix-loop",
+  "what": "Recurrence despite an existing learning, in a new domain. host-win32.md's 2026-09-12 clause already states the rule I broke - inside an artifact a pattern guards, DESCRIBE the offending token, never quote it, because the prose written to explain it trips the same pattern. That clause was minted about a host-path hygiene gate; I hit the identical shape authoring a retired-gloss sweep fixture, whose header explained the wrapped-gloss trick by spelling the gloss on one line. Three gate entries went red on it. The learning exists, is correctly worded, and did not prevent the recurrence, because I did not read it as covering a different pattern's artifact. Logged as data on whether a domain-scoped learning generalises, not proposed as a re-mint - the clause already says the right thing.",
+  "impact": {
+   "iterations": 1
+  },
+  "artifacts": [
+   "crates/conductor-core/tests/fixtures/wrapped-gloss.toml",
+   ".claude/rules/host-win32.md"
+  ],
+  "evidence": "implement P2 2026-09-16; entries 1,2,3 red on the_sweep_sees_a_wrapped_gloss_the_plain_form_misses, green after the header was reworded"
+ }
+]

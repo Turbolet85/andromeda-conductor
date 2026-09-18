@@ -736,3 +736,40 @@ asserting step). The shipped arrangement is therefore unchanged and no arrangeme
 **Why:** The chunk moved the job onto the configuration the arm is measured to run on and proved it: run 35208593666 (headSha `fc4a9c2`), a11y job and whole run `success`, 12 passing / 0 failing / 2 skipped, the `journal_conformance` gate run (8 tests / 8 passed) and the violation record uploaded. Operator ruling at the chunk's P4 (move to the measured configuration) and re-ruling at P5 (escalation 4 — the second non-loopback egress — RATIFIED on a measured NET NARROWING, the arriving crossing being version-derived where the fwlink floated always-latest). Every amended claim carries its configuration rather than a bare verdict: the next image bump can move the label, the runtime, the driver or their coherence.
 
 **Sweep (cascade step 2, run after the last body edit of the pass):** patterns `windows-2025` · `Evergreen` · `fwlink` · `limited-token` / `a11y-limited-token-launch` / `runas` · `FLOORED AT 152` / `floor-conditional` / `exit condition remains UNMET` · `must not run elevated` · `never been green` / `measured-unproven` / `drives no session` / `only member measured` / `still owed`, over all seven masters, the derived tier, the three preserve-verbatim curation homes and the two judgment bases. In architecture.md after the pass: `windows-2025` 3 lines (all dated or explicitly bound to that image at runtime 152/153), `Evergreen` 5 lines / 8 occurrences (all historical — what was replaced or a dated runtime reading), `fwlink` 1 (historical), `a11y-limited-token-launch` 2 (both scoped to the diagnostics), `must not run elevated` 1 (quoted as retired). `FLOORED AT 152`, `exit condition remains UNMET`, `never been green` and `measured-unproven` return 0 across every master. NOT edited and recorded as non-targets: `master-route.md` (immutable records), the seven `*-amendments.md` sidecars (append-only history), `residuals.md` (P5's channel), `playbook.md` / `drift-base.md` (propose→approve; the playbook's `:168`/`:170` cite the retired 152 claim as rule `:149`'s own provenance and correctly stand), and `.claude/rules/host-win32.md:134`'s `runas /trustlevel` clause, which states what the HOST IS ("strips the group and leaves the label", measured) rather than what the project does.
+
+## 2026-09-18-real-model-leg-posture-and-grading-rule — the second reader-less `contracts/` member
+
+**Section:** §Occupied Resources — On-disk artifacts · §Infrastructure Patterns — Directory structure
+
+**Change:** TWO edits, one claim (the reader-less `contracts/` regime is no longer held by a single member).
+**(1)** §Occupied Resources gained a registry row for `contracts/pulse-real-model-leg-posture.md` — the
+real-model leg posture, emission profile, grading rule and per-leg quiet window, fixed before any such leg is
+driven — recorded as the SECOND member with no Rust reader, taking the P-025 regime unchanged (no
+`default_path()`, no `resolve_under` load path, no bounds check, no `CONDUCTOR_*` override handle), with its
+`provenance` stated PER CLAUSE: the Pulse coordinates are transcribed SUT records read at HEAD `83d4060`,
+while the ~110 s real-model formation figure is a carried Conductor measurement confirmed at the first drive.
+**(2)** §Infrastructure Patterns' directory tree retired "(the one member no Rust code reads)" for "the two
+members", the uniqueness claim the new member falsifies.
+
+**Why:** the chunk landed the artifact (report §Changes → Files: new, 181 lines; Symbols/APIs: reader-less,
+zero `.rs` delta), and §Occupied Resources registers each `contracts/` member individually, so an unregistered
+on-disk artifact is drift. The chunk's plan predicted exactly this amendment and flagged that the P-025
+precedent stood at n=1 with no playbook rule; the operator ratified applying both edits and minting the rule
+(playbook now 49 entries).
+
+**Sweep (run after both edits; every hit dispositioned):**
+- `one member no Rust code reads` over the seven masters, CLAUDE.md, `.claude/docs/`, `.claude/rules/` — **3
+  hits**: `architecture-amendments.md:656` (this sidecar's own history — no change, sidecars are append-only
+  record), `CLAUDE.md:14` and `.claude/docs/conventions.md:9` (both **re-derived** at cascade step 3;
+  conventions.md cites "architecture.md §Infrastructure Patterns" by name, the known leaf the cascade table
+  does not list). **0 live sites remain.**
+- The MECHANISM's phrasings — `the one|only member…Rust` · `FIRST|SECOND \`contracts/\` member` · `no Rust
+  reader` · `reader-less` — over all seven masters: **3 hits, all `architecture.md`**: `:181` "FIRST
+  `contracts/` member" (**no change** — a historical ordinal, still true, not a uniqueness claim), `:181` "NO
+  Rust reader" (**no change** — describes P-025's own regime), `:182` "NO Rust reader" (the row authored this
+  pass). No other master states the claim in any wording.
+- `.andromeda/playbook.md` · `.andromeda/drift-base.md` (the two judgment bases): **0 hits**.
+- The three preserve-verbatim curation homes (`USER:session-learnings` · each rule file's `## Session
+  Additions` · `docs/session-learnings.md`): **0 hits**.
+- Intra-line duplicate re-read of every amended line (`:181`, `:182`, `:239`): each carries the phrase exactly
+  once — no intra-line duplication.

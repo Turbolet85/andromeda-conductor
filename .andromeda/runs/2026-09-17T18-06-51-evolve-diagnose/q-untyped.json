@@ -1,0 +1,31 @@
+[
+ {
+  "id": "2026-09-17T08:23:50Z-c",
+  "chunk": null,
+  "skill": "new-session",
+  "step": "orientation",
+  "what": "bc is not installed in the Bash tool's MSYS shell, so a shell-arithmetic KB conversion in the Check 4 rule-file probe emitted 'bc: command not found' to stderr and printed 0.0 KB for all seven rule files plus an empty always-loaded total — a readable but wholly wrong size table rather than a failure. Recomputed in python.",
+  "impact": {
+   "reformulations": 1
+  },
+  "artifacts": [
+   ".claude/rules"
+  ],
+  "evidence": "first C4 run: every file 0.0 KB, TOTAL blank; python re-run: testing.md 80.7 KB, verification-harness.md 69.8 KB, always-loaded total 44.5 KB"
+ },
+ {
+  "id": "2026-09-17T15:10:47Z-b",
+  "chunk": "2026-09-17-keyboard-and-focus-order-coverage-ownership",
+  "skill": "phase",
+  "step": "take-up",
+  "what": "the targeted capability v3-03's acceptance turns on the text of a spec master (a11y-plan.md), which neither phase nor implement may write — spec amendments are wrap's flow — so the claim-reachability rule may make the cap unclaimable by this chunk as written; recorded in scope.md as an open fork carried to P4 rather than settled at take-up",
+  "impact": {
+   "deferred": 1
+  },
+  "artifacts": [
+   "conductor-0.3.0/chunks/2026-09-17-keyboard-and-focus-order-coverage-ownership/scope.md",
+   "conductor-0.3.0/verification-matrix.json"
+  ],
+  "evidence": "matrix.py show --id v3-03 (acceptance quantifies over what `the requirement` states); andromeda-phase MUST-NOT list; verification-matrix-contract claim-reachability clause"
+ }
+]
