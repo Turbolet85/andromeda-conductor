@@ -1,0 +1,38 @@
+{
+ "unit": "conductor-emit",
+ "unit_state": "complete (113/113 tested) of the unit — shard 1/4",
+ "baseline_success": true,
+ "shard": "1/4",
+ "counts": {
+  "mutants": 113,
+  "caught": 100,
+  "missed": 1,
+  "timeout": 11,
+  "unviable": 1
+ },
+ "score": 99.01,
+ "score_formula": "caught/(caught+missed)",
+ "unit_states_sources": {
+  "total_mutants": 113,
+  "len_mutants_json": 113
+ },
+ "survivors": [
+  [
+   "crates/conductor-emit/src/latency.rs:111",
+   "replace < with <= in quantile"
+  ]
+ ],
+ "timeouts": [
+  "crates/conductor-emit/src/exception.rs:321:5: replace skip_absolute_path -> usize with 1",
+  "crates/conductor-emit/src/exception.rs:321:5: replace skip_absolute_path -> usize with 0",
+  "crates/conductor-emit/src/exception.rs:326:11: replace += with -= in skip_absolute_path",
+  "crates/conductor-emit/src/exception.rs:328:11: replace += with -= in skip_absolute_path",
+  "crates/conductor-emit/src/exception.rs:331:11: replace += with -= in skip_absolute_path",
+  "crates/conductor-emit/src/exception.rs:331:11: replace += with *= in skip_absolute_path",
+  "crates/conductor-emit/src/exception.rs:341:5: replace skip_line_number_suffix -> usize with 0",
+  "crates/conductor-emit/src/exception.rs:341:5: replace skip_line_number_suffix -> usize with 1",
+  "crates/conductor-emit/src/exception.rs:341:7: replace += with -= in skip_line_number_suffix",
+  "crates/conductor-emit/src/exception.rs:343:11: replace += with *= in skip_line_number_suffix",
+  "crates/conductor-emit/src/exception.rs:348:15: replace += with *= in skip_line_number_suffix"
+ ]
+}

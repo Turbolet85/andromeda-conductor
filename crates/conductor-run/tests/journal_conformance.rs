@@ -18,6 +18,8 @@
 //! directory. That last is how the CI step reuses this gate over a real produced artifact instead of
 //! re-listing the schema in `jq`. Unset, the gate asserts over its own subjects only.
 
+mod capture_paths;
+
 use std::collections::BTreeSet;
 use std::path::Path;
 
@@ -216,9 +218,9 @@ fn every_journal_in_a_pointed_at_runs_dir_conforms() {
     let Ok(target) = std::env::var("CONDUCTOR_RUNS_DIR") else {
         return;
     };
-    let dir = Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../..")
-        .join(&target);
+    // Once the guard accepts `target` it is relative and `..`-free, so naming it below is path-free.
+    let dir = capture_paths::runs_dir_from(&capture_paths::workspace_root(), Some(&target))
+        .unwrap_or_else(|reason| panic!("{reason}"));
     let Ok(entries) = std::fs::read_dir(&dir) else {
         panic!("CONDUCTOR_RUNS_DIR names {target}, which is not a readable directory");
     };

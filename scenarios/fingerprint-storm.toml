@@ -70,8 +70,8 @@ variants = ["identical", "line"]
 # `degraded_mode` is computed as `parsed_l4.is_none()`, and the deterministic fixture is never parsed
 # as an L4 output — so the returned `markdown` is a degraded report carrying no scenario-specific
 # token. A read-back token check is therefore STRUCTURALLY UNGRADEABLE in this mode, not merely
-# failing: it joins the `evidence_refs: []` limitation (Pulse exposes no read-back field that varies
-# with what Conductor emitted).
+# failing. (At Pulse `83d4060` `fingerprint_refs` does carry the triggering cue's computed
+# fingerprint, but that is an identity field, not the report token this check read.)
 #
 # The assertion moved to the surface that DOES carry it — Pulse's own `triage.pattern.storm.detected`
 # lines, harvested per leg — where the token's real analogue is `cue_kind = "retry_storm"` beside the

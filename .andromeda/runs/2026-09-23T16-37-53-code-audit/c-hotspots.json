@@ -1,0 +1,45 @@
+{
+ "formula": "commits(churn window) x max cognitive per file over the FULL rca population (fallback 0 for non-Rust)",
+ "top": [
+  [
+   "crates/conductor-core/src/run_contract.rs",
+   18.0
+  ],
+  [
+   "crates/conductor-run/tests/real_model_live.rs",
+   14.0
+  ],
+  [
+   "crates/conductor-core/src/load_envelope.rs",
+   13.0
+  ],
+  [
+   "crates/conductor-run/tests/real_model_common/mod.rs",
+   13.0
+  ],
+  [
+   "crates/conductor-core/src/scenario.rs",
+   12.0
+  ],
+  [
+   "crates/conductor-core/src/preconditions.rs",
+   11.0
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs",
+   9.0
+  ],
+  [
+   "crates/conductor-cli/tests/cli_smoke.rs",
+   7.0
+  ],
+  [
+   "crates/conductor-cli/src/commands/preconditions.rs",
+   6.0
+  ],
+  [
+   "crates/conductor-run/tests/real_model_harvest.rs",
+   6.0
+  ]
+ ]
+}

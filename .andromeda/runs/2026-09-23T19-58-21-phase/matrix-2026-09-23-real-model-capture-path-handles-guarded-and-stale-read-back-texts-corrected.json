@@ -1,0 +1,57 @@
+[
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "26f9c9bd",
+"ts": "2026-09-23T20:33:27Z",
+"argv": [
+"coverage",
+"--dir",
+"conductor-0.3.0",
+"--run-dir",
+".andromeda/runs/2026-09-23T19-58-21-phase",
+"--marker",
+"2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"verified 6/11 · deferred 1 · planned 4 · implemented 0 · unclaimed 4",
+"unclaimed: v3-03 v3-08 v3-10 v3-11",
+"claimed-unfinished: none",
+"done-test: NO — 4 not verified|deferred · unclaimed 4",
+"chunks referenced: 6 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "26f9c9bd",
+"ts": "2026-09-23T20:33:27Z",
+"argv": [
+"audit",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-23T19-58-21-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected: 0 · ## Acceptance Criteria: line 313, 34 lines",
+"pool: unclaimed 4 [v3-03 v3-08 v3-10 v3-11]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

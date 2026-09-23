@@ -3,8 +3,8 @@
 //! [`preflight`] is the pivot every scenario turns on: it connects the read-back client, evaluates
 //! the run contract, warms the canary service, emits a unique fingerprint-storm and asserts an
 //! incident opened AFTER that storm's emission instant (arch §Standard Contracts — Readiness gate).
-//! Freshness is the carrier, not payload identity: under deterministic L4 no read-back field varies
-//! with what Conductor emitted.
+//! Freshness is the carrier, not payload identity, by choice: at Pulse `83d4060` an incident's
+//! `fingerprint_refs` carries the triggering cue's computed fingerprint, but freshness is sufficient.
 
 use std::path::{Path, PathBuf};
 
@@ -229,9 +229,9 @@ async fn canary_gate(
 /// counts a storm (security-plan §Threat Model).
 ///
 /// The gate's carrier is the marker's emission STAMP, taken after any warm-up and immediately before
-/// the counted storm, so only an incident opened past that instant satisfies it. Neither the marker
-/// nor the fingerprint can carry it: Pulse scrubs incident titles, and its computed fingerprint
-/// reaches no read-back surface (`fingerprint_refs` is L4-authored and payload-invariant under deterministic L4 — a constant `det-*` triple).
+/// the counted storm, so only an incident opened past that instant satisfies it. The marker cannot
+/// carry it (Pulse scrubs incident titles); the fingerprint could — at Pulse `83d4060` it reaches
+/// `fingerprint_refs` beside the model's constant `det-*` refs — but the stamp is the chosen carrier.
 async fn emit_canary(contract: &RunContract, warm_up: bool) -> anyhow::Result<CanaryMarker> {
     let marker = format!("ConductorCanary_{}", now_ms());
     let spec = canary_spec(&marker);

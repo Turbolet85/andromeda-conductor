@@ -26,6 +26,7 @@
 
 #![cfg(feature = "live-pulse")]
 
+mod capture_paths;
 mod real_model_common;
 
 use std::collections::BTreeMap;
@@ -156,13 +157,14 @@ fn emit_block(text: &str) {
         .push_str(&mask_host_paths(&redact_value(text)));
 }
 
-/// The runs dir, anchored at the workspace root (cargo runs a test with the crate dir as cwd).
+/// The runs dir, resolved under the workspace root through the guard; a rejected handle fails with
+/// a path-free reason, and `FlushOnDrop` still writes the scrubbed buffer on the unwind.
 fn runs_dir() -> PathBuf {
-    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../..");
-    match std::env::var("CONDUCTOR_RUNS_DIR") {
-        Ok(handle) => root.join(handle),
-        Err(_) => root.join("runs"),
-    }
+    capture_paths::runs_dir_from(
+        &capture_paths::workspace_root(),
+        std::env::var("CONDUCTOR_RUNS_DIR").ok().as_deref(),
+    )
+    .unwrap_or_else(|reason| panic!("{reason}"))
 }
 
 /// Every JSON line of a file; an unreadable file prints its NAME and error kind, never its path.
@@ -518,13 +520,14 @@ fn reason(e: &VerifyError) -> String {
 /// (d) Pulse's own log: whole-file witnesses (the model mode, the launch basename, the bootstrap
 /// override, uptime) and the leg window's L4 witnesses, fields only — never `message`.
 fn print_pulse_witnesses(leg_start_ms: Option<i64>, emission_ms: Option<i64>) {
-    let Some((file, lines)) = pulse_log() else {
-        emit(
-            "pulse-log: none (no readable agent-latest.jsonl.* under ANDROMEDA_PULSE_DATA_DIR logs)",
-        );
-        emit(&format!("{INFERENCE_MODE}absent"));
-        emit(&format!("{LAUNCH_CWD}unknown"));
-        return;
+    let (file, lines) = match pulse_log() {
+        Ok(found) => found,
+        Err(reason) => {
+            emit(&format!("pulse-log: none ({reason})"));
+            emit(&format!("{INFERENCE_MODE}absent"));
+            emit(&format!("{LAUNCH_CWD}unknown"));
+            return;
+        }
     };
     emit(&format!("pulse-log file: {file}"));
     let target = |v: &Value| str_field(v, "target").to_string();
@@ -666,24 +669,29 @@ fn print_pulse_witnesses(leg_start_ms: Option<i64>, emission_ms: Option<i64>) {
 }
 
 /// The newest `agent-latest.jsonl.*` under the live data dir's `logs/`, by modification time, with
-/// its file name.
-fn pulse_log() -> Option<(String, Vec<Value>)> {
-    let data_dir = std::env::var_os("ANDROMEDA_PULSE_DATA_DIR")?;
-    let newest = std::fs::read_dir(Path::new(&data_dir).join("logs"))
-        .ok()?
+/// its file name. The data dir is canonicalized and must be a directory before `logs/` is joined;
+/// every failure is a path-free reason.
+fn pulse_log() -> Result<(String, Vec<Value>), String> {
+    const UNREADABLE: &str = "no readable agent-latest.jsonl.* under ANDROMEDA_PULSE_DATA_DIR logs";
+    let logs = capture_paths::pulse_logs_dir_from(
+        std::env::var_os("ANDROMEDA_PULSE_DATA_DIR").as_deref(),
+    )?;
+    let newest = std::fs::read_dir(logs)
+        .map_err(|_| UNREADABLE.to_string())?
         .flatten()
         .filter(|e| {
             e.file_name()
                 .to_string_lossy()
                 .starts_with("agent-latest.jsonl.")
         })
-        .max_by_key(|e| e.metadata().and_then(|m| m.modified()).ok())?;
-    let body = std::fs::read_to_string(newest.path()).ok()?;
+        .max_by_key(|e| e.metadata().and_then(|m| m.modified()).ok())
+        .ok_or_else(|| UNREADABLE.to_string())?;
+    let body = std::fs::read_to_string(newest.path()).map_err(|_| UNREADABLE.to_string())?;
     let lines = body
         .lines()
         .filter_map(|l| serde_json::from_str(l).ok())
         .collect();
-    Some((newest.file_name().to_string_lossy().into_owned(), lines))
+    Ok((newest.file_name().to_string_lossy().into_owned(), lines))
 }
 
 /// A top-level string field of a JSON line, empty when absent.

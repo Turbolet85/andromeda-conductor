@@ -1,0 +1,38 @@
+# obs extract
+
+## Relevance
+Partial. The chunk adds no span, metric, log field or sink, so it is instrumentation-neutral. The obs domain applies in three places: host-path freedom in the failure text of part A (the guarded capture joins), the fingerprint read-back wording in B2 (storm_harvest header), and the `CONDUCTOR_RUNS_DIR` handle, which also sets where the log sinks go.
+
+## Constraints
+- No failure text may carry an absolute host path. obs-plan §11 Logs bans leaking absolute host paths in logs, run reports and runs.db. §11 Error Reporting bans forwarding an unsanitized panic message. §3 Log format JSON schema says "No absolute host paths". The chunk's rule that no capture failure message prints a resolved path applies this domain rule to test binaries.
+- The enumerated redaction sites (`conductor-core::redact`, report write, runs.db insert) do NOT cover every host-path channel, per obs-plan §11 PII Scrubbing ("NEVER assume the three application sites above bound every host-path channel"). Test-binary `panic!`/`expect` text with `path.display()` falls outside all three, so the guard's own failure text has to be path-free at source. The redaction layer cannot be relied on here.
+- `CONDUCTOR_RUNS_DIR` also sets where the log sinks go. The CLI `logs/agent-latest.jsonl` is relative to it, and the Tauri backend writes to `<runs_dir.parent()>/logs/conductor-tauri.jsonl` (per obs-plan §3 Log file location, §1 Telemetry surfaces). The chunk guards test-binary readers only. It must not change how the shipped sinks resolve that handle. Research should confirm the guard stays inside `tests/` or a test-only module.
+- `ANDROMEDA_PULSE_DATA_DIR` is an env-only handle. obs-plan §11 Project-specific bans forbids passing it via argv to the sidecar spawn. The `pulse_log()` canonicalize guard reads the value. It must not introduce any new way of passing that value to a spawned process.
+- B2 wording must match the fingerprint read-back that obs-plan §4 Fingerprint-storm (`verify.readback_fingerprints` attribute, Required log fields) and §1 Critical paths Fingerprint-storm row describe. At Pulse `83d4060`, `fingerprint_refs` carries the `evidence_refs` fixture constants plus each incident's triggering-cue fingerprint. An emitted-vs-read-back match is now computable, but no shipped check computes it, and `fingerprints_read_back_count` stays a COUNT. The corrected header must not claim a shipped match check.
+- No new span name, span attribute or log field (per obs-plan §11 Spans/Traces bounded span-name set and §4 Known-residual "a span attribute must be a name in `ALLOWLISTED_FIELDS`"). The scope says "no emission, no behaviour change". Any diagnostic the guard adds is test output, not a self-obs `tracing` line.
+
+## Patterns to follow
+- Values without paths: when a failure must name what went wrong, name the handle and the reason ("`CONDUCTOR_RUNS_DIR` rejected: absolute"), never the resolved path. This mirrors obs-plan §6 Boundary-call wrappers (key names only, never values).
+- The typed-rejection convention: a malformed input becomes a typed outcome, not a crash (obs-plan §11 Error Reporting, "malformed … input ⇒ `blocked` … never a panic"). For test helpers, that means returning a guard `Result` with a path-free error that the caller turns into the assertion message.
+- Anchor every claim to the Pulse sha it was measured at. This follows how §4 records fingerprint facts ("as measured at HEAD `83d4060`"). The B1 and B2 corrected texts should carry the SUT sha they describe.
+
+## Anti-patterns to avoid
+- Printing `path.display()` or a canonicalized path in any panic or `expect` in `live_suite.rs` or `real_model_live.rs` (per obs-plan §11 Logs host-path ban). That covers the inferred `:76` and `:80` journal panics as well as `:69`.
+- Adding `tracing` instrumentation or an allowlist entry to carry the guard's diagnostics (per obs-plan §11 Spans/Traces bounded set, §11 PII Scrubbing "single-location ownership in `conductor-core::redact`").
+
+## Contract bindings
+- obs ↔ security: the host-path ban is shared with security-plan §Input Validation and §Anti-Patterns. This chunk closes security's three residuals, and wrap must amend those rows on both sides together. The 2026-09-04 amendment set the rule that a host-path citation shared across the two plans moves on both sides at once.
+- obs ↔ tests §9 CI artifacts: cargo-nextest JSON output is an uploaded CI artifact (per obs-plan §9 Telemetry artifact handling). Test panic text lands in that artifact, which is where path-free failure text matters. §9's log conformance check rejects absolute paths only in `logs/agent-latest.jsonl`, so nothing in CI currently checks this automatically.
+- obs ↔ tests §3 log format: untouched. No harness, status-read or log-format change.
+
+## Acceptance criteria contributions
+- (obs) None of the failure strings in the capture paths of `real_model_live.rs` or `live_suite.rs` interpolates a resolved path. A hermetic test feeds a rejected handle (absolute, `..`, or a missing Pulse data dir) and asserts that the error text matches none of the §9 host-path patterns (drive-letter `X:\`, `/home`, `/Users`, `%APPDATA%`, `~/.cargo`, `.rustup`). Per obs-plan §9 Log conformance check and §11 Logs.
+- (obs) No new `tracing` span name, span attribute or `ALLOWLISTED_FIELDS` entry appears in the diff. Per obs-plan §11 Spans/Traces bounded span-name set.
+- (obs) The corrected `storm_harvest.rs` header states that at `83d4060` `fingerprint_refs` carries the triggering-cue fingerprint alongside the `evidence_refs` fixture refs. It must not claim that any shipped check computes an emitted-vs-read-back match. Per obs-plan §4 Fingerprint-storm.
+- (obs) The resolution of the shipped CLI and Tauri log sinks is unchanged. A diff check shows no edit to `tauri_log_path()` or the CLI sink path. Per obs-plan §3 Log file location.
+
+## Relevant amendment history
+- 2026-09-22-interpretation-proven-live (A17 cascade): §1 Fingerprint-storm row and §4 `:315`/`:316` were re-based to `83d4060`'s grounded union (triggering-cue fingerprint in `fingerprint_refs`, match computable but not computed). This is the same correction B2 applies to `storm_harvest.rs:3-5`, so the chunk makes the test header consistent with what obs-plan already says. The operator ruled "Amend now, as measured".
+- 2026-08-16-canary-fingerprint-derivation-aligned, 2026-08-16-fingerprint-storm-live-proof, 2026-08-18-error-baseline-spike-live-proof: the history of the `fingerprint_refs` claim, from `[]` to the constant `det-*` triple to the grounded union. The stale `storm_harvest.rs` header matches the 2026-08-16 state ("pinned to `[]`"), which obs-plan has since superseded twice.
+- 2026-09-02-screen-reader-manual-spec and 2026-09-04-sidecar-spawn-without-a-console-window: a host-path channel was measured outside the three redaction sites (the sidecar console pane title), then closed. The standing §11 warning comes from these, and it is why path-free failure text has to be enforced where the text is created. 2026-09-02 also recorded that the Tauri log sink directory follows `CONDUCTOR_RUNS_DIR`, which is why guarding the test-binary joins must leave the shipped resolution alone.
+- 2026-08-13-first-live-green-preflight: §6 put a "canary-check result" in the read-back must-log set but did not specify how the canary is attributed. The obs-plan does not state whether the canary is matched by fingerprint or by freshness. The B1 fix (a comment on `preflight.rs:202-205`) needs no obs-plan amendment. Whether `assert_canary` attributes by `opened_at` freshness is for research to verify against the code.

@@ -1,42 +1,49 @@
 # Session Handoff
 
-**Last Updated:** 2026-09-23T16:24:38Z
+**Last Updated:** 2026-09-23T21:02:05Z
 **Branch:** `build/conductor-0.3.0` · 0 ahead of `origin/build/conductor-0.3.0` as read at this wrap's Setup
-(HEAD `edc0af8` before the adaptation commit)
+(HEAD `e799b9e` before the chunk commit)
 **Status:** clean
-**Last Commit:** chore(route): operator-requested adaptation — 0-pending wrap
+**Last Commit:** 2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected — capture-path handles guarded, stale read-back texts corrected
 
 ## Position
-- Done: `2026-09-22-interpretation-proven-live` (unchanged; 137/137 master records complete). This session ran a
-  0-pending route adaptation only.
-- Next: `/andromeda-phase` to promote + plan **Real-model capture path handles guarded and stale read-back texts
-  corrected** (`working-route.md:46`, newly minted, no leg, sized for one window). After it comes **Architecture
-  registries compacted under the read cap** (`:48`). The Diagnostic-quality cluster (`:50`, `v3-10`) is now
-  `BLOCKED-ON` the real-model preflight canary.
+- Done: `2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected`. Four test-binary
+  path readers now go through `tests/capture_paths` (the `resolve_under` / canonicalize guards). The retired
+  `fingerprint_refs` claim was corrected at 10 comment sites, and the posture doc now says `shell-absence`.
+  No verification-matrix capability was claimed.
+- Next: `/andromeda-phase` to promote and plan **Architecture registries compacted under the read cap**
+  (`working-route.md:48`). The two entries after it (`:50` the Diagnostic-quality cluster, `:52` the hue-shift
+  budget) are both `BLOCKED-ON`. Both premises were re-verified this wrap: no real-model drive has run since
+  `07-39-39-845`, and Pulse HEAD is still `83d4060`.
 
 ## Work done
-Applied the operator's three-item adaptation relay to the markerless tail. (1) Split the Diagnostic-quality
-cluster: its two CARRYs moved verbatim to a new entry above it, and the cluster gained a BLOCKED-ON. (2) Minted the
-architecture-registry compaction entry (CE-3), with a `D-arch-collision` detector CARRY. (3) Pinned the
-undeclared-`${{ env.X }}` CI-check CARRY (F12) on the Secret-scanning CI gate. Every cited coordinate was
-re-verified at `edc0af8`. Record: `.andromeda/runs/2026-09-23T16-22-44-wrap/adaptation-record.md`.
+Built and wrapped the capture-path chunk. It added one shared test guard module and a default-suite test target,
+`capture_paths_guard` (8/8 under both runners). All 20 plan gates were green. Gate 14 was driven by hand, because
+`gate.py` reads `${S}` as an env handle.
 
 ## Drift resolved
-None — no chunk was wrapped, so no fan-out ran. The `:52` BLOCKED-ON premise was re-verified: Pulse HEAD is still
-`83d4060`, so the block stands.
+6 amendments, 0 escalations left open:
+- security-plan ×5: the residual rows at `:115`/`:121`/`:122`/`:221`/`:325` are closed.
+- test-plan ×1: Vector 1 gains a FIFTH reader class.
+- Cascade re-derived `rules/security.md` and `docs/security-summary.md`.
+
+Playbook rule `:134` was extended with your approval: an unrouted residual qualifies when a P4 ruling brings it
+into the chunk. The fan-out audit trail was written late, after apply; that is recorded in the report.
 
 ## Notes
-- Nothing was started this session; no process to stop.
 - Last failed command: none.
-- Still carried (no sanctioned writer yet): `test-plan.md:335` still says `retrieve_report` is "permanently
-  `degraded_mode`" under deterministic L4; `.andromeda/residuals.md:11` still says "payload fidelity stays
-  unattainable", which is false at Pulse `83d4060`.
-- Health (session start): CLAUDE.md T1 has 9 bullets over 600 B (+40.1 KB above the cap). `testing.md` (81.6 KB)
-  and `verification-harness.md` (72.9 KB) are past the read cap. Promoting those bodies to Tier 3 is the
-  operator's call.
+- Curation: 2 Tier-2 entries (`testing.md`, `host-win32.md`), 1 Tier-3 entry, 1 correction (a
+  `verification-harness.md` clause still claiming "no read-back field varies").
+- Still carried (no sanctioned writer yet):
+  - `test-plan.md:335` still says `retrieve_report` is "permanently `degraded_mode`" under deterministic L4.
+  - `.andromeda/residuals.md:11` still says "payload fidelity stays unattainable", which is false at Pulse
+    `83d4060`.
+  - `scenarios/fingerprint-storm.toml:69` repeats the `:335` wording.
+- Health: CLAUDE.md T1 has 9 bullets over 600 B. `testing.md` and `verification-harness.md` are past the read cap.
+  Promoting those bodies to Tier 3 is your call.
 
 ## Deferred learnings
 - recurrence-despite-learning: the `cd`-persists entry (`.claude/rules/host-win32.md` Session Additions,
-  2026-09-08) — a `cd` in a compound command re-based later calls in implement and three more times in a wrap.
-- recurrence-despite-learning: the COMPLETION axis (CLAUDE.md 2026-08-09 entry, 2026-08-31 extension) — A17
-  reached validate framed "code reading only, not live-measured" while committed evidence already measured it.
+  2026-09-08). A `cd` in a compound command re-based later calls in implement, and three more times in a wrap.
+- recurrence-despite-learning: the COMPLETION axis (CLAUDE.md 2026-08-09 entry, 2026-08-31 extension). A17
+  reached validate framed as "code reading only, not live-measured" while committed evidence already measured it.

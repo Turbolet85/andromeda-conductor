@@ -8,10 +8,11 @@
 //! incident AFTER the storm was emitted — proving the `ANDROMEDA_PULSE_DATA_DIR` corpus wiring end to
 //! end and attributing the incident to this run rather than to residue.
 //!
-//! Freshness carries the assertion because no read-back field varies with the emitted payload: titles
-//! are scrubbed, and `retrieve_telemetry_slice.fingerprint_refs` — the former carrier — is populated
-//! from the L4 model's `evidence_refs`, which the deterministic-L4 fixture pins to `[]`. Pulse's own
-//! computed fingerprint lands in a `span_events` column no MCP tool reads.
+//! Freshness carries the assertion BY CHOICE — it is sufficient, and titles are scrubbed. Payload
+//! identity is no longer out of reach: at Pulse `83d4060` an incident's `fingerprint_refs` carries the
+//! triggering cue's computed fingerprint beside the L4 model's `evidence_refs` (a constant `det-*`
+//! triple under deterministic L4), so that field varies with what Conductor emitted. The gate does not
+//! read it (arch §Established Decisions [Read-Back Dependency Posture]).
 
 use std::collections::BTreeMap;
 
@@ -47,11 +48,9 @@ pub enum CanaryOutcome {
 /// attributable to this run rather than to corpus residue.
 ///
 /// `marker` (the unique `exception.type`) and `fingerprint` are carried for identity and logging only.
-/// Neither can serve as the fidelity carrier: Pulse scrubs incident titles, and
-/// `retrieve_telemetry_slice.fingerprint_refs` is populated from the L4 model's `evidence_refs`
-/// (`pulse-app/src/inference_runtime.rs:684-701`), which the deterministic-L4 fixture pins to `[]`
-/// (`pulse-app/src/deterministic_inference.rs:35`) — Pulse's own computed fingerprint reaches no
-/// read-back surface at all.
+/// The marker cannot carry fidelity because Pulse scrubs incident titles. The fingerprint COULD at
+/// Pulse `83d4060`, where `fingerprint_refs` carries the triggering cue's computed fingerprint beside
+/// the model's constant `det-*` refs, but freshness is the carrier by choice and is sufficient.
 #[derive(Debug, Clone)]
 pub struct CanaryMarker {
     pub marker: String,
@@ -199,10 +198,10 @@ pub async fn run_preflight(
     let tools_ok = tools_unverifiable.is_none()
         && required_tools.values().all(|p| *p == ToolPresence::Present);
 
-    // Fidelity is on the emitted fingerprint, not a title substring (Pulse scrubs titles): poll
-    // `query_incident_list` for the storm's incident, then assert the fingerprint reads back from its
-    // telemetry slice. A genuine call/transport/JSON-RPC error stays distinct from "not found yet" (the
-    // masking this chunk's prerequisite fixed); both fold into the precondition cascade below.
+    // Fidelity is FRESHNESS: poll `query_incident_list` until an incident opened after the storm's
+    // emission stamp appears; no fingerprint is read (Pulse `83d4060` carries one in
+    // `fingerprint_refs`, but the gate does not need it). A genuine call/transport/JSON-RPC error stays
+    // distinct from "not found yet"; both fold into the precondition cascade below.
     // An unmet launch condition explains a failed canary, so polling first would spend the whole
     // budget only to report the downstream symptom — the failure mode the workspace-key probe hit.
     let (canary_round_trip, canary_call_error, canary_cause) = if contract.is_satisfied() {
@@ -379,11 +378,11 @@ impl ShapeWitness {
 /// emitted, which proves both that the sidecar reads the live Pulse's corpus and that this run's storm
 /// raised something — the two facts the gate exists to establish.
 ///
-/// Freshness, not payload identity, is the carrier because no read-back field varies with what
-/// Conductor emitted: titles are scrubbed, and every L4-authored field (`title` / `severity` /
-/// `fingerprint` / `evidence_refs`) is a fixture constant under the deterministic-L4 mode a verifiable
-/// Pulse runs in. The honest limit is that a concurrent unrelated incident inside the poll window
-/// would also satisfy this.
+/// Freshness, not payload identity, is the carrier by choice. Titles are scrubbed and every
+/// L4-authored field is a fixture constant under deterministic L4, but at Pulse `83d4060`
+/// `fingerprint_refs` also carries the triggering cue's computed fingerprint, which does vary with
+/// what Conductor emitted — freshness is simply sufficient. The honest limit is that a concurrent
+/// unrelated incident inside the poll window would also satisfy this.
 async fn assert_canary(
     client: &ReadbackClient,
     canary: &CanaryMarker,

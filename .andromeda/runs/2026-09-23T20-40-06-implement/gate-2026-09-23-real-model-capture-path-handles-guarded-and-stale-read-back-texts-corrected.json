@@ -1,0 +1,495 @@
+[
+{
+"tool": "gate",
+"v": "1.0",
+"sha8": "8f152023",
+"ts": "2026-09-23T20:43:39Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-23T20-40-06-implement",
+"--marker",
+"2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected · entries 20",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected\\implement-2026-09-23T20-40-06 · bound: GNU timeout",
+"delta docs 39 · python 3 · rust 10 · unmapped 1",
+"prose L173-181: No smoke entry is listed. `crates/conductor-verify/src/preflight.rs` and `crates/conductor… (934 chars)",
+"  1 probe       green · exit 0 · 0.06s · 41 B → 1.log · git -C \"$CARGO_HOME/advisory-db\" rev-parse HEAD",
+"  2 probe       green · exit 0 · 0.12s · 0 B → 2.log · git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+"  3 probe       green · exit 0 · 2.27s · 1897 B → 3.log · cargo audit",
+"  4 probe       green · exit 0 · 1.5s · 236251 B → 4.log · cargo deny check advisories bans licenses sources",
+"  5 probe       green · exit 0 · 0.07s · 0 B → 5.log · git diff --quiet HEAD -- Cargo.lock",
+"  6 lint        green · exit 0 · 0.44s · 0 B → 6.log · cargo fmt --check",
+"  7 lint        green · exit 0 · 2.12s · 414 B → 7.log · cargo clippy --workspace --all-targets -- -D warnings",
+"  8 lint        green · exit 0 · 1.46s · 244 B → 8.log · cargo clippy -p conductor-run --features live-pulse --all-… (80 chars)",
+"  9 unit        green · exit 0 · 2.6s · 1400 B → 9.log · cargo nextest run -p conductor-run --test capture_paths_gu… (74 chars)",
+" 10 unit        green · exit 0 · 0.29s · 765 B → 10.log · cargo test -p conductor-run --test capture_paths_guard",
+" 11 unit        green · exit 0 · 17.16s · 127925 B → 11.log · cargo nextest run --workspace --profile ci",
+" 12 unit        green · exit 0 · 7.39s · 22281 B → 12.log · cargo test -p conductor-run",
+" 13 unit        green · exit 0 · 4.54s · 9626 B → 13.log · cargo test -p conductor-verify",
+" 14 probe       not run — env S unset · S='[[:space:]/#!*]+'; grep -rzoE \"no${S}read-back${S}field… (286 chars)",
+" 15 probe       green · exit 1 · 0.08s · 2 B → 15.log · grep -c 83d4060 crates/conductor-run/tests/storm_harvest.r… (184 chars)",
+" 16 probe       green · exit 1 · 0.08s · 2 B → 16.log · test -f crates/conductor-run/tests/capture_paths/mod.rs &&… (294 chars)",
+" 17 probe       green · exit 1 · 0.06s · 2 B → 17.log · grep -c \"defining term, and a \\`shell-declaration\\`\" contr… (94 chars)",
+" 18 probe       green · exit 0 · 0.06s · 2 B → 18.log · grep -c \"shell-absence\" contracts/pulse-real-model-leg-pos… (65 chars)",
+" 19 probe       green · exit 0 · 0.06s · 2 B → 19.log · grep -c \"second \\`shell-declaration\\` the run contract obs… (106 chars)",
+" 20 probe       green · exit 1 · 0.1s · 2 B → 20.log · test -f crates/conductor-run/tests/capture_paths/mod.rs &&… (329 chars)",
+"entries 20 · green 19 · red 0 · recorded 0 · timeout 0 · not-run 1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected\\implement-2026-09-23T20-40-06",
+"delta": {
+"docs": [
+".andromeda/code-metrics.ndjson",
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+"contracts/pulse-real-model-leg-posture.md",
+".andromeda/runs/2026-09-23T16-37-53-code-audit/c-churn.json",
+".andromeda/runs/2026-09-23T16-37-53-code-audit/c-complexity.json",
+".andromeda/runs/2026-09-23T16-37-53-code-audit/c-coverage.json",
+".andromeda/runs/2026-09-23T16-37-53-code-audit/c-dead.json",
+".andromeda/runs/2026-09-23T16-37-53-code-audit/c-duplication.json",
+".andromeda/runs/2026-09-23T16-37-53-code-audit/c-graph.json",
+".andromeda/runs/2026-09-23T16-37-53-code-audit/c-hotspots.json",
+".andromeda/runs/2026-09-23T16-37-53-code-audit/c-mutation-conductor-cli.json",
+".andromeda/runs/2026-09-23T16-37-53-code-audit/c-mutation-conductor-core.json",
+".andromeda/runs/2026-09-23T16-37-53-code-audit/c-mutation-conductor-emit.json",
+".andromeda/runs/2026-09-23T16-37-53-code-audit/c-mutation-conductor-run.json",
+".andromeda/runs/2026-09-23T16-37-53-code-audit/c-mutation-conductor-tauri.json",
+".andromeda/runs/2026-09-23T16-37-53-code-audit/c-mutation-conductor-timeline.json",
+".andromeda/runs/2026-09-23T16-37-53-code-audit/c-sizes.json",
+".andromeda/runs/2026-09-23T16-37-53-code-audit/proposals.md",
+".andromeda/runs/2026-09-23T16-37-53-code-audit/record.json",
+".andromeda/runs/2026-09-23T16-37-53-code-audit/run-mutants.sh",
+".andromeda/runs/2026-09-23T16-37-53-code-audit/tree-query-code-audit.json",
+".andromeda/runs/2026-09-23T19-58-21-phase/a11y.md",
+".andromeda/runs/2026-09-23T19-58-21-phase/arch.md",
+".andromeda/runs/2026-09-23T19-58-21-phase/design.md",
+".andromeda/runs/2026-09-23T19-58-21-phase/layouts.md",
+".andromeda/runs/2026-09-23T19-58-21-phase/master-record.txt",
+".andromeda/runs/2026-09-23T19-58-21-phase/matrix-2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected.json",
+".andromeda/runs/2026-09-23T19-58-21-phase/obs.md",
+".andromeda/runs/2026-09-23T19-58-21-phase/route-2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected.json",
+".andromeda/runs/2026-09-23T19-58-21-phase/route-no-marker.json",
+".andromeda/runs/2026-09-23T19-58-21-phase/security.md",
+".andromeda/runs/2026-09-23T19-58-21-phase/tests.md",
+".andromeda/runs/2026-09-23T19-58-21-phase/tree-query-2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected.json",
+"conductor-0.3.0/chunks/2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected/plan.md",
+"conductor-0.3.0/chunks/2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected/research.md",
+"conductor-0.3.0/chunks/2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected/scope.md"
+],
+"rust": [
+"crates/conductor-run/src/canary.rs",
+"crates/conductor-run/tests/journal_conformance.rs",
+"crates/conductor-run/tests/lifecycle_harvest.rs",
+"crates/conductor-run/tests/live_suite.rs",
+"crates/conductor-run/tests/real_model_live.rs",
+"crates/conductor-run/tests/storm_harvest.rs",
+"crates/conductor-verify/src/preflight.rs",
+"crates/conductor-verify/tests/common/mod.rs",
+"crates/conductor-run/tests/capture_paths/mod.rs",
+"crates/conductor-run/tests/capture_paths_guard.rs"
+],
+"python": [
+".andromeda/runs/2026-09-23T16-37-53-code-audit/assemble.py",
+".andromeda/runs/2026-09-23T16-37-53-code-audit/summarize.py",
+".andromeda/runs/2026-09-23T16-37-53-code-audit/summarize_mutants.py"
+]
+},
+"unmapped": [
+"scenarios/fingerprint-storm.toml"
+],
+"prose": [
+{
+"from": 173,
+"to": 181,
+"text": "No smoke entry is listed. `crates/conductor-verify/src/preflight.rs` and `crates/conductor-run/src/canary.rs` sit on the `boot` path by shape (the preflight gate). This chunk edits only their `//!` / `///` / `//` comments (steps 6-7), so their compiled code is unchanged; the compile and the workspace suite cover them. The real `boot` verb primes a live Pulse (the canary storm), so it is never a gate for a chunk with no live leg. No live leg is fired, so there is no probe or e2e leg entry: both captures are compiled and linted, never run (test-plan §11 → CI). Zero dependency delta is expected, so the supply-chain entries confirm it rather than re-adjudicate it. The two multi-file count probes lead with `test -f` on the files that must exist. Under `pipefail` the pipeline's exit is its rightmost failing stage, so without the guard a missing file would read green. The P5 baseline measured exactly that on the untouched tree."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "probe",
+"run": "git -C \"$CARGO_HOME/advisory-db\" rev-parse HEAD",
+"run_sha8": "13bb5688",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected\\implement-2026-09-23T20-40-06\\1.log",
+"bytes": 41,
+"log_sha8": "dfb2c619",
+"exit": 0,
+"seconds": 0.06,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "probe",
+"run": "git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+"run_sha8": "85122344",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected\\implement-2026-09-23T20-40-06\\2.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.12,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected\\implement-2026-09-23T20-40-06\\3.log",
+"bytes": 1897,
+"log_sha8": "2e45cc13",
+"exit": 0,
+"seconds": 2.27,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected\\implement-2026-09-23T20-40-06\\4.log",
+"bytes": 236251,
+"log_sha8": "4ebeefef",
+"exit": 0,
+"seconds": 1.5,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "probe",
+"run": "git diff --quiet HEAD -- Cargo.lock",
+"run_sha8": "ecf2cbd4",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected\\implement-2026-09-23T20-40-06\\5.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.07,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "lint",
+"run": "cargo fmt --check",
+"run_sha8": "194fabc0",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected\\implement-2026-09-23T20-40-06\\6.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.44,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected\\implement-2026-09-23T20-40-06\\7.log",
+"bytes": 414,
+"log_sha8": "f9f6d00a",
+"exit": 0,
+"seconds": 2.12,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "lint",
+"run": "cargo clippy -p conductor-run --features live-pulse --all-targets -- -D warnings",
+"run_sha8": "c3608109",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected\\implement-2026-09-23T20-40-06\\8.log",
+"bytes": 244,
+"log_sha8": "72c1fed1",
+"exit": 0,
+"seconds": 1.46,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "unit",
+"run": "cargo nextest run -p conductor-run --test capture_paths_guard --profile ci",
+"run_sha8": "1d71e5ef",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected\\implement-2026-09-23T20-40-06\\9.log",
+"bytes": 1400,
+"log_sha8": "8554ffba",
+"exit": 0,
+"seconds": 2.6,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "unit",
+"run": "cargo test -p conductor-run --test capture_paths_guard",
+"run_sha8": "604f3cbf",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected\\implement-2026-09-23T20-40-06\\10.log",
+"bytes": 765,
+"log_sha8": "11fc70f8",
+"exit": 0,
+"seconds": 0.29,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected\\implement-2026-09-23T20-40-06\\11.log",
+"bytes": 127925,
+"log_sha8": "84af3cf5",
+"exit": 0,
+"seconds": 17.16,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "unit",
+"run": "cargo test -p conductor-run",
+"run_sha8": "988a9d64",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected\\implement-2026-09-23T20-40-06\\12.log",
+"bytes": 22281,
+"log_sha8": "40d09704",
+"exit": 0,
+"seconds": 7.39,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "unit",
+"run": "cargo test -p conductor-verify",
+"run_sha8": "e9b55533",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected\\implement-2026-09-23T20-40-06\\13.log",
+"bytes": 9626,
+"log_sha8": "ff498b95",
+"exit": 0,
+"seconds": 4.54,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "S='[[:space:]/#!*]+'; grep -rzoE \"no${S}read-back${S}field${S}(that${S})?varies|reaches${S}no${S}read-back${S}surface|pin(s|ned)${S}to${S}.?\\[\\]|never${S}from${S}its${S}own${S}computed|evidence_refs: \\[\\]|Fidelity${S}is${S}on${S}the${S}emitted${S}fingerprint\" crates scenarios contracts",
+"run_sha8": "eec59818",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — env S unset"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "grep -c 83d4060 crates/conductor-run/tests/storm_harvest.rs crates/conductor-verify/src/preflight.rs crates/conductor-run/src/canary.rs scenarios/fingerprint-storm.toml | grep -c \":0$\"",
+"run_sha8": "3000a3a3",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected\\implement-2026-09-23T20-40-06\\15.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.08,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "test -f crates/conductor-run/tests/capture_paths/mod.rs && grep -vhE '^[[:space:]]*//' crates/conductor-run/tests/live_suite.rs crates/conductor-run/tests/real_model_live.rs crates/conductor-run/tests/journal_conformance.rs crates/conductor-run/tests/capture_paths/mod.rs | grep -c 'display()' ",
+"run_sha8": "1f6eefa3",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected\\implement-2026-09-23T20-40-06\\16.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.08,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "grep -c \"defining term, and a \\`shell-declaration\\`\" contracts/pulse-real-model-leg-posture.md",
+"run_sha8": "013e239b",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected\\implement-2026-09-23T20-40-06\\17.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.06,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "grep -c \"shell-absence\" contracts/pulse-real-model-leg-posture.md",
+"run_sha8": "1d8a5877",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected\\implement-2026-09-23T20-40-06\\18.log",
+"bytes": 2,
+"log_sha8": "4355a46b",
+"exit": 0,
+"seconds": 0.06,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "grep -c \"second \\`shell-declaration\\` the run contract observes\" contracts/pulse-real-model-leg-posture.md",
+"run_sha8": "daf6d1c4",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected\\implement-2026-09-23T20-40-06\\19.log",
+"bytes": 2,
+"log_sha8": "4355a46b",
+"exit": 0,
+"seconds": 0.06,
+"readings": [
+"exit 0 ✓",
+"last line '1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "test -f crates/conductor-run/tests/capture_paths/mod.rs && test -f crates/conductor-run/tests/capture_paths_guard.rs && grep -cE \"\\b[A-Za-z]:[\\\\/]|/home/|/Users/|%APPDATA%\" crates/conductor-run/tests/capture_paths/mod.rs crates/conductor-run/tests/capture_paths_guard.rs contracts/pulse-real-model-leg-posture.md | grep -vc \":0$\"",
+"run_sha8": "cf113638",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected\\implement-2026-09-23T20-40-06\\20.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.1,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+}
+]
+}
+}
+]

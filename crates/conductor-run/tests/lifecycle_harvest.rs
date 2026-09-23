@@ -1,10 +1,12 @@
 //! Live-leg evidence harvest for the incident resolve-lifecycle (P-075) — the read-back fidelity
 //! Conductor CAN assert against a deterministic-L4 Pulse.
 //!
-//! WHY THIS EXISTS AT ALL. Payload-level content fidelity is unattainable in this mode: every
-//! L4-authored field (`title` / `severity` / `fingerprint` / `evidence_refs`) is a fixture constant,
-//! so no read-back field varies with what Conductor emitted (arch §Read-Back Dependency Posture,
-//! measured 2026-08-16). A SECOND axis was checked at Pulse HEAD `83d4060` and closed the same way:
+//! WHY THIS EXISTS AT ALL. Every L4-authored field (`title` / `severity` / `fingerprint` /
+//! `evidence_refs`) is a fixture constant in this mode, so as measured 2026-08-16 the read-back
+//! carried no payload-varying field (arch §Read-Back Dependency Posture). That was true of Pulse
+//! `efabe8e` and is not of `83d4060`, where `fingerprint_refs` also carries the triggering cue's
+//! computed fingerprint (measured 2026-09-10) — a payload-identity axis this harvest does not grade,
+//! so its runtime-state grading below is unchanged. A SECOND axis was checked at Pulse HEAD `83d4060` and closed the same way:
 //! `incident_events` — the corpus table that persists created/resolved lifecycle events, and the one
 //! table whose content is NOT L4-authored — is written by `crates/triage/src/incident/persistence.rs`
 //! and read only corpus-side; there are ZERO references to it in `crates/mcp-server`, whose eight

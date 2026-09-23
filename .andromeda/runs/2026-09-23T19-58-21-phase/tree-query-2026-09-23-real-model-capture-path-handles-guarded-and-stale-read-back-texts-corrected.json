@@ -1,0 +1,186 @@
+[
+{
+"sql": "SELECT caller_name, file, line FROM calls WHERE callee_name IN ('runs_dir','pulse_log','capture','journal_of') AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 12,
+"result": [
+{
+"caller_name": "every_line_is_flat_json_with_identity_and_run_id",
+"file": "crates/conductor-core/src/obs.rs",
+"line": 455
+},
+{
+"caller_name": "non_allowlisted_field_is_dropped",
+"file": "crates/conductor-core/src/obs.rs",
+"line": 567
+},
+{
+"caller_name": "host_path_in_allowlisted_field_is_redacted",
+"file": "crates/conductor-core/src/obs.rs",
+"line": 581
+},
+{
+"caller_name": "a_span_emits_new_and_close_records_carrying_its_attributes",
+"file": "crates/conductor-core/src/obs.rs",
+"line": 653
+},
+{
+"caller_name": "a_child_span_records_its_parent_so_the_tree_reconstructs",
+"file": "crates/conductor-core/src/obs.rs",
+"line": 676
+},
+{
+"caller_name": "a_non_allowlisted_span_attribute_is_dropped",
+"file": "crates/conductor-core/src/obs.rs",
+"line": 694
+},
+{
+"caller_name": "the_fault_spans_carry_their_specified_attributes_past_the_allowlist",
+"file": "crates/conductor-core/src/obs.rs",
+"line": 712
+},
+{
+"caller_name": "a_non_allowlisted_fault_attribute_is_still_dropped",
+"file": "crates/conductor-core/src/obs.rs",
+"line": 759
+},
+{
+"caller_name": "a_host_path_in_a_span_attribute_is_redacted",
+"file": "crates/conductor-core/src/obs.rs",
+"line": 778
+},
+{
+"caller_name": "resolve_run_target",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 57
+},
+{
+"caller_name": "start_run",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 276
+},
+{
+"caller_name": "the_artifact_handles_resolve_absolute_paths_under_the_current_dir",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 603
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller_name, file, line FROM calls WHERE callee_name = 'resolve_under' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 19,
+"result": [
+{
+"caller_name": "paths",
+"file": "crates/conductor-cli/src/paths.rs",
+"line": 9
+},
+{
+"caller_name": "resolve",
+"file": "crates/conductor-cli/src/paths.rs",
+"line": 33
+},
+{
+"caller_name": "resolve",
+"file": "crates/conductor-cli/src/paths.rs",
+"line": 34
+},
+{
+"caller_name": "load_scenario",
+"file": "crates/conductor-cli/src/paths.rs",
+"line": 53
+},
+{
+"caller_name": "resolve_handle",
+"file": "crates/conductor-cli/src/paths.rs",
+"line": 103
+},
+{
+"caller_name": "accepts_an_in_scope_relative_path",
+"file": "crates/conductor-core/src/config_path.rs",
+"line": 57
+},
+{
+"caller_name": "rejects_parent_dir_traversal",
+"file": "crates/conductor-core/src/config_path.rs",
+"line": 63
+},
+{
+"caller_name": "rejects_an_out_of_scope_absolute_path",
+"file": "crates/conductor-core/src/config_path.rs",
+"line": 70
+},
+{
+"caller_name": "crate",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 38
+},
+{
+"caller_name": "preconditions",
+"file": "crates/conductor-run/src/preconditions.rs",
+"line": 12
+},
+{
+"caller_name": "load_run_contract",
+"file": "crates/conductor-run/src/preconditions.rs",
+"line": 23
+},
+{
+"caller_name": "commands",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 18
+},
+{
+"caller_name": "resolve_handle",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 38
+},
+{
+"caller_name": "resolve_run_target",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 60
+},
+{
+"caller_name": "capabilities",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 81
+},
+{
+"caller_name": "load_envelope",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 92
+},
+{
+"caller_name": "load_one",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 120
+},
+{
+"caller_name": "crate",
+"file": "crates/conductor-tauri/src/main.rs",
+"line": 11
+},
+{
+"caller_name": "tauri_log_path",
+"file": "crates/conductor-tauri/src/main.rs",
+"line": 47
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT name, file, def_line FROM symbol WHERE name IN ('runs_dir','pulse_log','journal_of') AND kind='fn'",
+"rows": 1,
+"result": [
+{
+"name": "runs_dir",
+"file": "crates/conductor-tauri/src/commands.rs",
+"def_line": 45
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

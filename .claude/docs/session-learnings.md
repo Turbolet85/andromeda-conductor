@@ -1,6 +1,12 @@
 # Session Learnings
 
 _This file is curated by `/wrap-session`. Learnings captured here are too detailed or specific for CLAUDE.md but worth preserving as reference material for future sessions._
+## 2026-09-23 — The code graph does not index feature-gated test files
+
+A test file behind `#![cfg(feature = "live-pulse")]` (`live_suite.rs`, `real_model_live.rs`) is compiled only under that feature, and the rust plane's index is built without it — so its functions are absent from the `symbol` view and a `calls` query on their names returns only NAME COLLISIONS from other crates (here `runs_dir` resolved to the Tauri command's and `capture` to `obs.rs` tests). A plausible non-empty result is therefore the trap, not an empty one: probe `symbol` by name first, and when the definition sits in a feature-gated file, settle its callers by grep over that file and say which basis the answer rests on (the CLAUDE.md code-graph entry's grep cross-check, applied to a class of file the index never sees).
+
+---
+
 ## 2026-09-16 — The amendment cascade sweeps the spec tier, not the committed data
 
 An amendment retires a claim in a master and the cascade re-derives the distillations — CLAUDE.md's

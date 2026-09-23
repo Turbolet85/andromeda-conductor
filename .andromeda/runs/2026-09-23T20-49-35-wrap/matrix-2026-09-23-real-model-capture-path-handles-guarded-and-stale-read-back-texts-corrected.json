@@ -1,0 +1,27 @@
+[
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "26f9c9bd",
+"ts": "2026-09-23T21:03:13Z",
+"argv": [
+"flip",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected",
+"--run-dir",
+".andromeda/runs/2026-09-23T20-49-35-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed 0 — gate no-op (no entry carries chunk 2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected)",
+"pool: unclaimed 4 [v3-03 v3-08 v3-10 v3-11]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

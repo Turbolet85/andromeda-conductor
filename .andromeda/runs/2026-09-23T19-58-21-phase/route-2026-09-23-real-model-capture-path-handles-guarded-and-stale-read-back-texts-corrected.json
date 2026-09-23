@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.3",
+"sha8": "473d2729",
+"ts": "2026-09-23T19:59:43Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected",
+"--expect-prefix",
+"Real-model capture path handles guarded and stale read-b",
+"--record-file",
+".andromeda/runs/2026-09-23T19-58-21-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-09-23T19-58-21-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:46 - [2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected]",
+"record master-route.md:152 - appended under `## conductor-0.3.0`",
+"promoted 2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected - working-route:46 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+".\\conductor-0.3.0\\working-route.md",
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+}
+]

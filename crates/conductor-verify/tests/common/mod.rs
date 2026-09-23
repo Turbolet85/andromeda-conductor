@@ -73,8 +73,9 @@ pub struct StubConfig {
     pub query_errors: bool,
     pub canary: String,
     /// The fingerprint `retrieve_telemetry_slice` reports in `fingerprint_refs`. NOT the canary's
-    /// carrier — Pulse populates that field from the L4 model's `evidence_refs`, never from its own
-    /// computed fingerprint; kept because the per-check extraction still reads it.
+    /// carrier — freshness is, by choice; at Pulse `83d4060` the live field carries the triggering
+    /// cue's computed fingerprint beside the model's `evidence_refs`. Kept because the per-check
+    /// extraction still reads it.
     pub canary_fingerprint: String,
     /// The `opened_at_unix_nano` each listed incident reports — the canary leg's carrier. `None` omits
     /// the field entirely, which must read as not-fresh rather than as satisfied.

@@ -1,0 +1,50 @@
+{
+ "unit": "conductor-run",
+ "unit_state": "complete (123/123 tested)",
+ "baseline_success": true,
+ "shard": null,
+ "counts": {
+  "mutants": 123,
+  "caught": 86,
+  "missed": 7,
+  "timeout": 0,
+  "unviable": 30
+ },
+ "score": 92.47,
+ "score_formula": "caught/(caught+missed)",
+ "unit_states_sources": {
+  "total_mutants": 123,
+  "len_mutants_json": 123
+ },
+ "survivors": [
+  [
+   "crates/conductor-run/src/canary.rs:68",
+   "delete ! in preflight_for"
+  ],
+  [
+   "crates/conductor-run/src/execute.rs:122",
+   "delete field degraded from struct Observation expression in execute_scenario"
+  ],
+  [
+   "crates/conductor-run/src/execute.rs:165",
+   "replace - with + in execute_scenario"
+  ],
+  [
+   "crates/conductor-run/src/execute.rs:165",
+   "replace - with / in execute_scenario"
+  ],
+  [
+   "crates/conductor-run/src/preconditions.rs:38",
+   "replace == with != in observe_run_contract"
+  ],
+  [
+   "crates/conductor-run/src/preconditions.rs:39",
+   "replace == with != in observe_run_contract"
+  ],
+  [
+   "crates/conductor-run/src/preconditions.rs:59",
+   "replace declares -> bool with false"
+  ]
+ ],
+ "timeouts": []
+}

@@ -1,0 +1,42 @@
+[
+{
+"tool": "route",
+"v": "1.3",
+"sha8": "473d2729",
+"ts": "2026-09-23T19:58:41Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-09-23T19-58-21-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 9 of 25 entries · freight blocks 17 · rows are an INDEX, not the text",
+"46 · CONTEXT ( · 436 chars · CONTEXT (operator relay item 1a, the 2026-09-23 0-pending adaptation): split from the Diag…",
+"46 · CARRY: · 471 chars · CARRY: harden the real-model capture's two unguarded joins — `crates/conductor-run/tests/real…",
+"46 · CARRY: · 548 chars · CARRY: three stale read-back texts — `crates/conductor-verify/src/preflight.rs:202-205` cites…",
+"48 · CONTEXT ( · 634 chars · CONTEXT (operator relay CE-3, the 2026-09-23 0-pending adaptation): `.andromeda/architectu…",
+"48 · CARRY: · 328 chars · CARRY: propose a `D-arch-collision` detector at this chunk's wrap (propose → operator approve…",
+"50 · CONTEXT ( · 684 chars · CONTEXT (from 2026-09-22-interpretation-proven-live): `v3-09` was DEFERRED, not verified —…",
+"50 · BLOCKED-ON: · 619 chars · BLOCKED-ON: the real-model preflight canary — clears when one real-model drive gets past…",
+"52 · CONTEXT ( · 648 chars · CONTEXT (from 2026-09-13-p-025-measurement-contract-for-pulse): \"the contracted observable…",
+"52 · BLOCKED-ON: · 581 chars · BLOCKED-ON: one Pulse release emitting that observable — this entry's own precondition, …",
+"55 · CARRY: · 991 chars · CARRY: a CI step in the shape of the flakiness-budget step (`.github/workflows/ci.yml:61-70`)…",
+"57 · CONTEXT: · 748 chars · CONTEXT: minted at the 2026-09-16 wrap from the armed-orphan halt carried by `2026-09-16-sc…",
+"57 · CONTEXT: · 606 chars · CONTEXT: the two halves are unequal and both belong here. Reading `timeout.txt` is a small …",
+"59 · CONTEXT: · 940 chars · CONTEXT: four a11y-plan §5 claims are asserted by NO suite, measured 2026-09-17 at `2026-09…",
+"59 · CARRY: · 564 chars · CARRY: closing these unblocks `v3-03` (*Keyboard and focus-order coverage has a stated owner*…",
+"61 · CARRY: · 836 chars · CARRY: conductor-emit's public docs link FIVE private items — `exception.rs:70:45` (`MAX_FRAM…",
+"61 · CARRY: · 1069 chars · CARRY: `npm run knip` in `crates/conductor-tauri/ui` EXITS 1 on twelve pre-existing unused e…",
+"61 · CARRY: · 519 chars · CARRY: `conductor run <P-ID>` and the harness's `SCENARIO=<P-ID>` resolve to the FIRST scenar…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

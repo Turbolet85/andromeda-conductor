@@ -1,10 +1,10 @@
 //! Live-leg evidence harvest for the fingerprint-storm family (P-017 / P-018).
 //!
-//! Identity cannot be graded through MCP read-back under deterministic L4: `fingerprint_refs` is
-//! populated from the L4 model's `evidence_refs`, which the deterministic fixture pins to `[]`, and
-//! Pulse's own computed fingerprint lands in a `span_events` column no MCP tool reads. The one
-//! surface that carries identity is Pulse's `triage.pattern.storm.detected` log line, which emits
-//! `severity_hint` + `occurrence_count` + an 8-char `fingerprint_hex` prefix.
+//! Identity is graded here, at Pulse's `triage.pattern.storm.detected` log line, which emits
+//! `severity_hint` + `occurrence_count` + an 8-char `fingerprint_hex` prefix. At Pulse `83d4060` the
+//! MCP read-back's `fingerprint_refs` also carries each incident's triggering-cue fingerprint beside
+//! the L4 model's constant `det-*` `evidence_refs`, so an emitted-vs-read-back match is computable —
+//! but no shipped check computes it, and the storm family's identity grading stays on this line.
 //!
 //! So this is a TEST-ONLY affordance, deliberately not a shipped seam: the live leg is an
 //! operator gate by construction and Conductor's product never needs to read Pulse's logs. Nothing

@@ -53,7 +53,8 @@ full and this line is the notice that they do.
 Each term is stated in the run contract's own vocabulary, so that what Conductor can and cannot observe is
 explicit rather than implied.
 
-- **Deterministic L4 absent or falsy** — the defining term, and a `shell-declaration`. Conductor observes
+- **Deterministic L4 absent or falsy** — the defining term, and a `shell-absence` (the run contract's
+  `l4-real-model` term: unmet iff the handle IS declared, by either side's truthiness rule). Conductor observes
   whether *its own environment* declares `ANDROMEDA_PULSE_L4_DETERMINISTIC`; it never sets the handle, never
   launches Pulse, and cannot inspect a running `pulse-app`. A real-model leg therefore requires that this
   handle be absent or falsy in the shell that launches both processes, and the leg records that it observed

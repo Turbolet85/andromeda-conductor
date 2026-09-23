@@ -1,0 +1,54 @@
+{
+ "population": "tokei --output json crates/ ; language=Rust (*.rs) only",
+ "file_p50": 123,
+ "file_p90": 565,
+ "file_max": 1221,
+ "over_800": 2,
+ "top": [
+  [
+   "crates/conductor-core/src/scenario.rs",
+   1221
+  ],
+  [
+   "crates/conductor-run/src/execute.rs",
+   801
+  ],
+  [
+   "crates/conductor-core/src/load_envelope.rs",
+   710
+  ],
+  [
+   "crates/conductor-run/tests/real_model_harvest.rs",
+   680
+  ],
+  [
+   "crates/conductor-core/src/coverage.rs",
+   674
+  ],
+  [
+   "crates/conductor-core/src/obs.rs",
+   668
+  ],
+  [
+   "crates/conductor-cli/src/render.rs",
+   664
+  ],
+  [
+   "crates/conductor-core/src/phase_spec.rs",
+   639
+  ],
+  [
+   "crates/conductor-report/src/db.rs",
+   638
+  ],
+  [
+   "crates/conductor-run/tests/delegated_timing_harvest.rs",
+   623
+  ]
+ ],
+ "totals": {
+  "loc": 27569,
+  "files": 141,
+  "units": 9
+ }
+}

@@ -44,6 +44,8 @@
 
 #![cfg(feature = "live-pulse")]
 
+mod capture_paths;
+
 use std::path::{Path, PathBuf};
 
 /// The exact gate line. `canary.rs` carries three other `preflight blocked:` lines — two for the
@@ -53,31 +55,43 @@ const GATE_BLOCKED: &str = "preflight blocked: readiness gate not satisfied";
 const AUTO_RESOLVED: &str =
     "declare-only read-back empty: no active incident outlived the emission window";
 
-/// The runs dir, anchored at the WORKSPACE root — cargo runs a test with the crate dir as cwd, so a
-/// repo-relative default would resolve under `crates/conductor-run/` and miss every artifact.
+/// The runs dir, resolved under the WORKSPACE root through the guard — cargo runs a test with the
+/// crate dir as cwd, so a repo-relative default would resolve under `crates/conductor-run/`.
 fn runs_dir() -> PathBuf {
-    let root = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../..");
-    match std::env::var("CONDUCTOR_RUNS_DIR") {
-        Ok(handle) => root.join(handle),
-        Err(_) => root.join("runs"),
-    }
+    capture_paths::runs_dir_from(
+        &capture_paths::workspace_root(),
+        std::env::var("CONDUCTOR_RUNS_DIR").ok().as_deref(),
+    )
+    .unwrap_or_else(|reason| panic!("{reason}"))
 }
 
 fn capture(leg: &str) -> String {
     let path = runs_dir().join("live-suite").join(format!("{leg}.jsonl"));
-    std::fs::read_to_string(&path)
-        .unwrap_or_else(|e| panic!("leg {leg} capture at {} unreadable: {e}", path.display()))
+    std::fs::read_to_string(&path).unwrap_or_else(|e| {
+        panic!(
+            "leg {leg} capture live-suite/{leg}.jsonl unreadable: {}",
+            e.kind()
+        )
+    })
+}
+
+/// A journal's own file name — failure text names the file, never its resolved path.
+fn file_name_of(journal: &Path) -> String {
+    journal.file_name().map_or_else(
+        || "<journal>".to_string(),
+        |n| n.to_string_lossy().into_owned(),
+    )
 }
 
 /// The envelope line, discriminated from the per-check `CheckRecord` line that rides the same
 /// journal. A file-wide parse-to-envelope is a false negative on any run that emitted check rows.
 fn envelope(journal: &Path) -> serde_json::Value {
     let body = std::fs::read_to_string(journal)
-        .unwrap_or_else(|e| panic!("journal {} unreadable: {e}", journal.display()));
+        .unwrap_or_else(|e| panic!("journal {} unreadable: {}", file_name_of(journal), e.kind()));
     body.lines()
         .filter_map(|l| serde_json::from_str::<serde_json::Value>(l).ok())
         .find(|v| v.get("slo_tier").is_some() && v.get("check_index").is_none())
-        .unwrap_or_else(|| panic!("no envelope line in {}", journal.display()))
+        .unwrap_or_else(|| panic!("no envelope line in {}", file_name_of(journal)))
 }
 
 /// The journal of the run THIS leg produced, linked by the `run_id` its own self-obs stream carries.

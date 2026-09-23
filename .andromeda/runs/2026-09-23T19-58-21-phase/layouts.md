@@ -1,0 +1,4 @@
+# layouts extract
+
+## No domain coverage
+This chunk creates or changes no rendered surface, region, component, focus order or command output. Its only changes are path guards inside the `conductor-run` test binaries, comments in `preflight.rs` and the `storm_harvest.rs` header, and prose in `contracts/pulse-real-model-leg-posture.md`. The nearest layout-templates rule is the no-host-path stderr rule in §Surface: cli › Component — Footer / terminator + error output. It covers the shipped `conductor` cli, not panic text from a test binary, so the chunk's "no path in failure messages" outcome belongs to security-plan §Input Validation. The amendment history has no entries for this area; the closest is 2026-09-22-interpretation-proven-live, which covers the `--live real-model` selector, and this chunk leaves that selector unchanged.

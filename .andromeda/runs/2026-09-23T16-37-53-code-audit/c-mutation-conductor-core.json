@@ -1,0 +1,21 @@
+{
+ "unit": "conductor-core",
+ "unit_state": "complete (140/140 tested) of the unit — shard 1/4",
+ "baseline_success": true,
+ "shard": "1/4",
+ "counts": {
+  "mutants": 140,
+  "caught": 140,
+  "missed": 0,
+  "timeout": 0,
+  "unviable": 0
+ },
+ "score": 100.0,
+ "score_formula": "caught/(caught+missed)",
+ "unit_states_sources": {
+  "total_mutants": 140,
+  "len_mutants_json": 140
+ },
+ "survivors": [],
+ "timeouts": []
+}
