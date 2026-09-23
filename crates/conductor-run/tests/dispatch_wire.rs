@@ -12,8 +12,8 @@ use common::start_stub;
 use opentelemetry_proto::tonic::collector::trace::v1::ExportTraceServiceRequest;
 
 use conductor_core::{
-    EmissionShape, EmissionSpec, FingerprintVariantSpec, PId, PhaseSpec, PiiCategorySpec, Scenario,
-    Signal, SloTier,
+    EmissionShape, EmissionSpec, FingerprintVariantSpec, L4Posture, PId, PhaseSpec,
+    PiiCategorySpec, Scenario, Signal, SloTier,
 };
 use conductor_run::Dispatcher;
 use conductor_timeline::{PhaseTimeline, run_timeline_with};
@@ -26,6 +26,7 @@ fn scenario(phase: PhaseSpec) -> Scenario {
         p_ids: vec![PId("P-005".to_string())],
         seed: 4242,
         slo_tier: SloTier::Tier5s,
+        l4_posture: L4Posture::Deterministic,
         phases: vec![phase],
         jitter_ms: 0,
         expected: Vec::new(),

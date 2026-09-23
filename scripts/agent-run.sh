@@ -8,8 +8,9 @@
 #   boot     — MCP preflight readiness gate (conductor preflight --json; ready:true ⇒ exit 0,
 #              ready:false ⇒ non-zero gate + dependent scenarios report Blocked)
 #   run      — nextest + doctest + clippy (+ optional SCENARIO=/SEED= leg); stage flags
-#              --unit | --integration | --e2e | --live (default: the full bundled gate), test-plan §9
-#              --live is the operator-gated live-Pulse suite: never a CI gate, never reachable bare
+#              --unit | --integration | --e2e | --live [real-model] (default: the full bundled gate),
+#              test-plan §9. --live is the operator-gated live-Pulse suite: never a CI gate, never
+#              reachable bare; `--live real-model` selects its one real-model leg instead of the suite
 #   status   — read the Run-report envelope from runs/<run_id>.jsonl (latest run if id omitted)
 #   cleanup  — remove a run's artifacts + its runs.db row (idempotent); NEVER touches Pulse
 #   logs     — print the per-run JSONL emission journal (latest run if id omitted)
@@ -116,7 +117,10 @@ live_suite() {
   #       incident on the (kind, scope, scope_id) tuple, no fresh incident forms, and the gate goes
   #       not-ready-but-CONNECTED — the only state that reaches the readiness-gate self-obs line.
   #       ANDROMEDA_PULSE_L4_DETERMINISTIC is load-bearing here: canned-L4 formation is ~2s, so B2's
-  #       storm lands well inside the window; real-model formation (~110s) would fall outside it.
+  #       storm lands well inside the window. The ~110s figure once quoted here as real-model
+  #       formation is a DETERMINISTIC-L4 measurement (lifecycle_live.rs, run with the handle true),
+  #       re-attributed later; real-model formation is unmeasured, and no longer-than-the-window
+  #       claim rests on it.
   #   A   after the quiet window, a fresh canary forms and then idles for the whole silent scenario,
   #       so read-back finds an EMPTY active set — the auto-resolve residual arm.
   live_leg h halo-hue-encoding "$(live_leg_budget_sec 180)"
@@ -147,6 +151,62 @@ live_suite() {
   echo "[live] (level WARN, reason=\"env_override\", resolved_seconds) — the emitting fn name is not in the log."
   echo "[live] stop form: the wdio arm self-terminates via onComplete -> tauriDriver.kill(); after an"
   echo "[live] interrupted run: taskkill /F /IM msedgedriver.exe /IM conductor-tauri.exe (+ the node CLI)."
+  echo "[live] pulse-app is NOT stopped here — the operator started it and stops it."
+}
+
+# `run --live real-model` — the ONE real-model interpretation leg (contracts/pulse-real-model-leg-posture.md).
+# Fired against an operator-launched pulse-app with deterministic L4 absent or falsy; the scenario
+# declares the real-model posture, so the probe and the preflight both require the handle ABSENT.
+# The drive is an experiment graded once, never a gate expected green, and never re-driven.
+live_real_model_leg() {
+  local cap="$LIVE_CAPTURE_DIR/rm-capture.txt" err="$LIVE_CAPTURE_DIR/rm-capture.err" rc=0
+
+  # (a) The non-priming probe, for THIS scenario's posture: it fires no canary.
+  if ! "$CARGO" run -q -p conductor-cli --bin conductor -- preconditions --for real-model-interpretation; then
+    echo "run --live real-model: refused — a live-Pulse precondition is unmet (above); no leg was fired" >&2
+    exit 1
+  fi
+
+  # (b) Build the capture binary now, so the capture fires seconds after the leg rather than after a
+  # compile.
+  "$CARGO" test -p conductor-run --features live-pulse --test real_model_live --no-run
+
+  # (c) This arm's own named artifacts only — non-recursive, like the suite's `*.jsonl` clear.
+  mkdir -p "$LIVE_CAPTURE_DIR"
+  rm -f "$LIVE_CAPTURE_DIR/rm.jsonl" "$cap" "$err"
+
+  # (c') The grading rule's span, recorded BEFORE the leg so the committed capture proves the rule
+  # predates the drive. RUST_LOG never rides a test invocation (the witness directive belongs to the
+  # leg). A failure stops here, so the one drive is never spent.
+  env -u RUST_LOG "$CARGO" test -q -p conductor-run --features live-pulse --test real_model_live \
+    -- --ignored --exact rule_record --nocapture > "$cap" 2> "$err" || rc=$?
+  if [ "$rc" -ne 0 ]; then
+    echo "run --live real-model: the rule record exited ${rc} (stderr in ${err}); no leg was fired" >&2
+    exit "$rc"
+  fi
+
+  # (d) The leg. A timeout exits 124 here under set -e, before the freeze and the capture, and leaves
+  # conductor.exe and the sidecar running (timeout reaches only cargo): take the census, stop what the
+  # leg started by PID, and classify the attempt before anything re-fires.
+  live_leg rm real-model-interpretation "$(live_leg_budget_sec 136)"
+
+  # (e) The capture: re-reads the attributed incident over MCP and Pulse's own log, appended after the
+  # rule record. Its non-zero exit is a harness error, never a graded outcome — the harvest grades.
+  env -u RUST_LOG "$CARGO" test -q -p conductor-run --features live-pulse --test real_model_live \
+    -- --nocapture >> "$cap" 2>> "$err" || rc=$?
+  cat "$cap"
+  if [ "$rc" -ne 0 ]; then
+    echo "run --live real-model: the capture exited ${rc} — a harness error, never a graded outcome (stderr in ${err})" >&2
+    exit "$rc"
+  fi
+
+  # (f) What the operator and the census still owe.
+  echo "[live] real-model leg complete — capture at $cap (stderr at $err, never committed)"
+  echo "[live] bootstrap posture: the default — no override. The storm path consults no baseline, so the"
+  echo "[live] window is inert here; the capture's whole-file count of triage.baseline.bootstrap_window.override"
+  echo "[live] confirms which posture booted."
+  echo "[live] stop form: take the census again; stop only rows absent from the census taken before the leg,"
+  echo "[live] by PID, after reading each one's parent and start time — never by image name."
   echo "[live] pulse-app is NOT stopped here — the operator started it and stops it."
 }
 
@@ -269,11 +329,16 @@ case "${1:-}" in
       # test-plan §9: the operator-gated live suite. NEVER a CI gate and never reachable from a bare
       # `run` — a live leg drives a real Pulse. Composes H → B1 → B2 → quiet window → A → the driven a11y
       # arm, in that order, because each leg's outcome depends on the incident state the previous one
-      # left (see live_leg_order below).
+      # left (see live_leg_order below). The optional THIRD token selects the real-model leg instead;
+      # an unknown one is a usage error, printed before any probe runs.
       --live)
-        live_suite
+        case "${3:-}" in
+          "")         live_suite ;;
+          real-model) live_real_model_leg ;;
+          *) echo "usage: $0 run --live [real-model]" >&2; exit 2 ;;
+        esac
         ;;
-      *) echo "usage: $0 run [--unit|--integration|--e2e|--live]" >&2; exit 2 ;;
+      *) echo "usage: $0 run [--unit|--integration|--e2e|--live [real-model]]" >&2; exit 2 ;;
     esac
     ;;
 
@@ -321,7 +386,7 @@ case "${1:-}" in
     ;;
 
   *)
-    echo "Usage: $0 {boot|run [--unit|--integration|--e2e|--live]|status [run_id]|cleanup [run_id]|logs [run_id]}" >&2
+    echo "Usage: $0 {boot|run [--unit|--integration|--e2e|--live [real-model]]|status [run_id]|cleanup [run_id]|logs [run_id]}" >&2
     exit 2
     ;;
 esac

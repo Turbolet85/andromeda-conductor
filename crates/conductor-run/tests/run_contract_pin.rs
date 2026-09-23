@@ -1,7 +1,8 @@
 //! The committed run contract's observable term set, pinned by exact set-equality.
 //!
-//! Only a `shell-declaration` term can ever be unmet, so THAT set is what decides which launch
-//! conditions the preflight gate can name. Pinning it in both directions (the
+//! Only a shell term (`shell-declaration` or `shell-absence`) can ever be unmet, so the env set those
+//! terms observe is what decides which launch conditions the preflight gate can name. Pinning it in
+//! both directions (the
 //! `check_scenario_backing` precedent) fails the gate on an addition, a removal and pin rot alike —
 //! a term silently losing its `env`, or gaining a kind that stops it participating, is caught here
 //! rather than by a live leg discovering the gate went quiet.
@@ -67,7 +68,8 @@ fn the_mcp_enabled_term_is_a_blockable_shell_declaration() {
     assert_eq!(
         term.check,
         CheckKind::ShellDeclaration,
-        "only a shell-declaration term can be unmet — any other kind makes this term inert"
+        "only a shell term can be unmet, and this one must be DECLARED — shell-absence would \
+         invert it and any other kind makes it inert"
     );
     assert_eq!(term.env.as_deref(), Some("ANDROMEDA_PULSE_MCP_ENABLED"));
     assert!(

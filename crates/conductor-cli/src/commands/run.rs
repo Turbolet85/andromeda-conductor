@@ -18,7 +18,7 @@ pub async fn run(
 ) -> anyhow::Result<ExitCode> {
     let scenario = paths.load_scenario(target, seed)?;
     let envelope = pipeline::classify_run(&paths.load_envelope()?, std::slice::from_ref(&scenario));
-    let preflight = pipeline::preflight(&paths.manifest_path).await?;
+    let preflight = pipeline::preflight_for(&paths.manifest_path, scenario.l4_posture).await?;
     let resolver = CliResolver::select(None, agent_mode);
     let outcome = pipeline::execute_scenario(&preflight, &scenario, run_id, &resolver).await?;
     let records = [outcome.record];

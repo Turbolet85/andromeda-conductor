@@ -1,0 +1,34 @@
+[
+{
+"tool": "route",
+"v": "1.3",
+"sha8": "473d2729",
+"ts": "2026-09-22T21:39:16Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-09-22T21-39-08-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 8 of 23 entries · freight blocks 7 · rows are an INDEX, not the text",
+"44 · CONTEXT ( · 1831 chars · CONTEXT (from 2026-09-18-real-model-leg-posture-and-grading-rule): \"the stated rule\" is n…",
+"48 · CONTEXT ( · 1230 chars · CONTEXT (from 2026-09-13-p-025-measurement-contract-for-pulse): \"the contracted observabl…",
+"53 · CONTEXT: · 748 chars · CONTEXT: minted at the 2026-09-16 wrap from the armed-orphan halt carried by `2026-09-16-sc…",
+"53 · CONTEXT: · 606 chars · CONTEXT: the two halves are unequal and both belong here. Reading `timeout.txt` is a small …",
+"55 · CONTEXT: · 940 chars · CONTEXT: four a11y-plan §5 claims are asserted by NO suite, measured 2026-09-17 at `2026-09…",
+"55 · CARRY: · 564 chars · CARRY: closing these unblocks `v3-03` (*Keyboard and focus-order coverage has a stated owner*…",
+"57 · CARRY: · 1909 chars · CARRY: conductor-emit's public docs link FIVE private items — `exception.rs:70:45` (`MAX_FRA…",
+"INDETERMINATE: working-route.md:48 — after ONE space — freight or prose, no structural split: 'BLOCKED-ON:'",
+"UNPARSED: working-route.md:57 — separator-boundary token outside the letters' introducer shape: 'CARRY 2: `npm run knip…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

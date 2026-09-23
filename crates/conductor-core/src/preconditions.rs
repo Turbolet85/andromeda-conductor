@@ -20,11 +20,14 @@ use std::fmt;
 
 use serde::Serialize;
 
+use crate::L4Posture;
+
 /// The Pulse-side environment handles whose declaration a live leg depends on.
 ///
 /// Held here rather than at the observation site so the evaluator, the observer and the pin test
 /// read one list. Distinct from [`RunContract::observed_env`](crate::RunContract::observed_env),
-/// which yields only the handles a `shell-declaration` TERM names — a narrower set by design.
+/// which yields only the handles a shell TERM (`shell-declaration` or `shell-absence`) names — a
+/// narrower set by design.
 pub const OBSERVED_HANDLES: [&str; 3] = [
     "ANDROMEDA_PULSE_DATA_DIR",
     "ANDROMEDA_PULSE_L4_DETERMINISTIC",
@@ -37,6 +40,10 @@ pub const OBSERVED_HANDLES: [&str; 3] = [
 /// `handles-declared` unsatisfiable under every environment, and `agent-run boot` short-circuited
 /// before every preflight from `480bc66` until this was fixed.
 const PATH_VALUED_HANDLE: &str = "ANDROMEDA_PULSE_DATA_DIR";
+
+/// The member of [`OBSERVED_HANDLES`] that selects Pulse's canned L4 mode — declared under the
+/// deterministic posture, required ABSENT or falsy under the real-model one.
+const L4_HANDLE: &str = "ANDROMEDA_PULSE_L4_DETERMINISTIC";
 
 /// Whether a FLAG-valued handle carries an affirmative declaration. Presence alone is not enough —
 /// an explicit `false` declares the opposite of the term it would otherwise satisfy.
@@ -63,6 +70,31 @@ pub fn handle_declared(name: &str, value: Option<&str>) -> bool {
         return value.is_some_and(|v| !v.trim().is_empty());
     }
     flag_declared(value)
+}
+
+/// Whether a flag handle reads truthy on EITHER side of the boundary: Conductor's own rule
+/// ([`flag_declared`]) or the one Pulse applies to its deterministic-L4 handle — trimmed,
+/// lowercased, one of `1` / `true` / `yes` (andromeda-pulse `deterministic_mode_enabled_for`,
+/// `pulse-app/src/deterministic_inference.rs:86-89`, HEAD `83d4060`).
+///
+/// The real-model posture reads a handle for ABSENCE under this rule, so a value Pulse would honour
+/// as ON (`yes`) can never pass as absent while Conductor's own rule reads it off. It widens nothing
+/// a `shell-declaration` term or a probe flag reads — those stay on [`flag_declared`].
+pub fn flag_declared_on_either_side(value: Option<&str>) -> bool {
+    flag_declared(value)
+        || value
+            .is_some_and(|v| matches!(v.trim().to_ascii_lowercase().as_str(), "1" | "true" | "yes"))
+}
+
+/// Whether an observed handle is declared, graded for the probe's posture. The one
+/// posture-dependent arm is the L4 handle under [`L4Posture::RealModel`], read for absence and so
+/// graded by [`flag_declared_on_either_side`]; every other handle and posture is
+/// [`handle_declared`] unchanged.
+pub fn handle_declared_for(name: &str, value: Option<&str>, posture: L4Posture) -> bool {
+    if posture == L4Posture::RealModel && name == L4_HANDLE {
+        return flag_declared_on_either_side(value);
+    }
+    handle_declared(name, value)
 }
 
 /// The fixed OTLP ingest target a live Pulse owns. Named for the operator-facing statement only —
@@ -109,19 +141,37 @@ pub struct PreconditionObservation {
     pub egress_reachable: bool,
     /// Whether the sidecar's fixed program name resolved on the inherited `PATH`.
     pub sidecar_resolved: bool,
-    /// The subset of [`OBSERVED_HANDLES`] the caller found affirmatively declared.
+    /// The subset of [`OBSERVED_HANDLES`] the caller found affirmatively declared, each graded by
+    /// [`handle_declared_for`] under the posture the probe runs for.
     pub declared: BTreeSet<String>,
 }
 
 impl PreconditionObservation {
-    /// The handles this observation did NOT find declared, in [`OBSERVED_HANDLES`] order.
-    fn undeclared(&self) -> Vec<&'static str> {
+    /// The handles `posture` requires declared that this observation did NOT find declared, in
+    /// [`OBSERVED_HANDLES`] order.
+    fn undeclared(&self, posture: L4Posture) -> Vec<&'static str> {
         OBSERVED_HANDLES
             .iter()
             .copied()
+            .filter(|h| !must_be_absent(h, posture))
             .filter(|h| !self.declared.contains(*h))
             .collect()
     }
+
+    /// The handles `posture` requires ABSENT that this observation found declared.
+    fn declared_against(&self, posture: L4Posture) -> Vec<&'static str> {
+        OBSERVED_HANDLES
+            .iter()
+            .copied()
+            .filter(|h| must_be_absent(h, posture))
+            .filter(|h| self.declared.contains(*h))
+            .collect()
+    }
+}
+
+/// Whether `posture` requires `handle` absent or falsy rather than declared.
+fn must_be_absent(handle: &str, posture: L4Posture) -> bool {
+    posture == L4Posture::RealModel && handle == L4_HANDLE
 }
 
 /// A precondition the probe found unmet.
@@ -168,8 +218,19 @@ impl PreconditionsStatus {
 pub struct Preconditions;
 
 impl Preconditions {
-    /// Judge an observation. Pure: no environment read, no IO, no socket.
+    /// Judge an observation under the deterministic posture — every live leg's but the real-model
+    /// one, so this keeps the exact result it had before postures existed.
     pub fn evaluate(observation: &PreconditionObservation) -> PreconditionsStatus {
+        Self::evaluate_for(observation, L4Posture::Deterministic)
+    }
+
+    /// Judge an observation for a leg run under `posture`. Pure: no environment read, no IO, no
+    /// socket. The postures differ only on the L4 handle: the deterministic one requires it
+    /// declared, the real-model one requires it absent or falsy.
+    pub fn evaluate_for(
+        observation: &PreconditionObservation,
+        posture: L4Posture,
+    ) -> PreconditionsStatus {
         let mut unmet = Vec::new();
 
         if !observation.egress_reachable {
@@ -196,15 +257,39 @@ impl Preconditions {
             });
         }
 
-        let undeclared = observation.undeclared();
+        let undeclared = observation.undeclared(posture);
+        let declared_against = observation.declared_against(posture);
+        let mut statements = Vec::new();
+        let mut causes = Vec::new();
         if !undeclared.is_empty() {
+            statements.push(format!(
+                "undeclared in this environment: {}",
+                undeclared.join(", ")
+            ));
+            causes.push(
+                "either the launching shell never declared them, or pulse-app was started from a \
+                 different environment than Conductor's — Conductor reads only its own environment \
+                 and cannot inspect a process it does not launch",
+            );
+        }
+        if !declared_against.is_empty() {
+            statements.push(format!(
+                "declared in this environment, but the {posture} posture requires it absent or \
+                 falsy: {}",
+                declared_against.join(", ")
+            ));
+            causes.push(
+                "the launching shell declares it truthy under Conductor's rule or Pulse's own (which \
+                 also reads yes), so a pulse-app launched from that shell would serve canned \
+                 interpretations — Conductor reads only its own environment and never sets or unsets \
+                 the handle",
+            );
+        }
+        if !statements.is_empty() {
             unmet.push(UnmetPrecondition {
                 subject: PreconditionSubject::HandlesDeclared,
-                statement: format!("undeclared in this environment: {}", undeclared.join(", ")),
-                causes: "either the launching shell never declared them, or pulse-app was started \
-                         from a different environment than Conductor's — Conductor reads only its \
-                         own environment and cannot inspect a process it does not launch"
-                    .to_string(),
+                statement: statements.join("; "),
+                causes: causes.join("; "),
             });
         }
 
@@ -463,12 +548,168 @@ mod tests {
         );
     }
 
+    #[rstest]
+    #[case(Some("true"), true)]
+    #[case(Some("1"), true)]
+    #[case(Some("yes"), true)]
+    #[case(Some("YES"), true)]
+    #[case(Some(" Yes "), true)]
+    #[case(Some("TRUE"), true)]
+    #[case(None, false)]
+    #[case(Some(""), false)]
+    #[case(Some("false"), false)]
+    #[case(Some("0"), false)]
+    #[case(Some("no"), false)]
+    #[case(Some("on"), false)]
+    fn either_side_reads_pulse_truthy_set_as_declared(
+        #[case] value: Option<&str>,
+        #[case] expected: bool,
+    ) {
+        assert_eq!(
+            flag_declared_on_either_side(value),
+            expected,
+            "value {value:?}"
+        );
+        if flag_declared(value) {
+            assert!(
+                flag_declared_on_either_side(value),
+                "Conductor's own truthy set is inside the union: {value:?}"
+            );
+        }
+    }
+
+    #[test]
+    fn yes_separates_the_two_truthy_sets() {
+        // The value that makes the union load-bearing: Pulse would run canned L4 on it while
+        // Conductor's own rule reads it off.
+        assert!(!flag_declared(Some("yes")));
+        assert!(flag_declared_on_either_side(Some("yes")));
+    }
+
+    #[test]
+    fn handle_declared_for_changes_only_the_l4_handle_under_real_model() {
+        let values = [
+            None,
+            Some(""),
+            Some("false"),
+            Some("0"),
+            Some("yes"),
+            Some("true"),
+            Some("1"),
+            Some("D:\\pulse\\data"),
+        ];
+        for name in OBSERVED_HANDLES {
+            for value in values {
+                assert_eq!(
+                    handle_declared_for(name, value, L4Posture::Deterministic),
+                    handle_declared(name, value),
+                    "deterministic grading is unchanged: {name} {value:?}"
+                );
+                let real_model = handle_declared_for(name, value, L4Posture::RealModel);
+                if name == L4_HANDLE {
+                    assert_eq!(real_model, flag_declared_on_either_side(value), "{value:?}");
+                } else {
+                    assert_eq!(real_model, handle_declared(name, value), "{name} {value:?}");
+                }
+            }
+        }
+    }
+
+    #[test]
+    fn the_absence_graded_name_is_one_the_probe_observes() {
+        assert!(OBSERVED_HANDLES.contains(&L4_HANDLE));
+    }
+
+    #[test]
+    fn real_model_with_l4_declared_is_unmet_naming_it_alone() {
+        let status = Preconditions::evaluate_for(&satisfied(), L4Posture::RealModel);
+        assert_eq!(status.unmet().len(), 1);
+        let finding = &status.unmet()[0];
+        assert_eq!(finding.subject, PreconditionSubject::HandlesDeclared);
+        assert!(
+            finding.statement.contains(L4_HANDLE),
+            "{}",
+            finding.statement
+        );
+        assert!(
+            finding
+                .statement
+                .contains("real-model posture requires it absent or falsy"),
+            "names the posture: {}",
+            finding.statement
+        );
+        for other in OBSERVED_HANDLES.iter().filter(|h| **h != L4_HANDLE) {
+            assert!(
+                !finding.statement.contains(other),
+                "a satisfied handle is not named: {}",
+                finding.statement
+            );
+        }
+    }
+
+    #[test]
+    fn real_model_with_l4_absent_and_the_others_declared_is_satisfied() {
+        let mut observation = satisfied();
+        observation.declared.remove(L4_HANDLE);
+        assert!(Preconditions::evaluate_for(&observation, L4Posture::RealModel).is_satisfied());
+        assert!(
+            Preconditions::evaluate(&observation).is_unmet(PreconditionSubject::HandlesDeclared),
+            "the same environment is refused under the deterministic posture"
+        );
+    }
+
+    #[test]
+    fn real_model_still_requires_the_other_handles_and_names_both_kinds_of_miss() {
+        let observation = PreconditionObservation {
+            egress_reachable: true,
+            sidecar_resolved: true,
+            declared: declared(&[L4_HANDLE]),
+        };
+        let status = Preconditions::evaluate_for(&observation, L4Posture::RealModel);
+        let finding = &status.unmet()[0];
+        assert_eq!(status.unmet().len(), 1, "one subject, one finding");
+        assert!(finding.statement.contains(
+            "undeclared in this environment: ANDROMEDA_PULSE_DATA_DIR, ANDROMEDA_PULSE_MCP_ENABLED"
+        ));
+        assert!(
+            finding
+                .statement
+                .contains(&format!("absent or falsy: {L4_HANDLE}"))
+        );
+        assert!(!finding.causes.trim().is_empty());
+    }
+
+    #[test]
+    fn evaluate_is_the_deterministic_posture_on_every_observation_shape() {
+        let mut shapes = vec![PreconditionObservation::default(), satisfied()];
+        for handle in OBSERVED_HANDLES {
+            let mut o = satisfied();
+            o.declared.remove(handle);
+            shapes.push(o);
+        }
+        for observation in shapes {
+            assert_eq!(
+                Preconditions::evaluate(&observation),
+                Preconditions::evaluate_for(&observation, L4Posture::Deterministic)
+            );
+        }
+    }
+
     #[test]
     fn no_finding_carries_a_host_path_or_an_env_value() {
         // The drive-letter token is WORD-ANCHORED: the egress statement carries 127.0.0.1:4317 and
-        // an unanchored `[A-Za-z]:[\\/]` would match inside a `scheme://` form.
-        let status = Preconditions::evaluate(&PreconditionObservation::default());
-        for finding in status.unmet() {
+        // an unanchored `[A-Za-z]:[\\/]` would match inside a `scheme://` form. The real-model
+        // status with the L4 handle declared carries the posture's own statement beside the
+        // undeclared one, so both wordings are covered.
+        let deterministic = Preconditions::evaluate(&PreconditionObservation::default());
+        let real_model = Preconditions::evaluate_for(
+            &PreconditionObservation {
+                declared: declared(&[L4_HANDLE]),
+                ..PreconditionObservation::default()
+            },
+            L4Posture::RealModel,
+        );
+        for finding in deterministic.unmet().iter().chain(real_model.unmet()) {
             for text in [&finding.statement, &finding.causes] {
                 for token in ["%APPDATA%", "/Users/", "/home/", ".cargo", ".rustup"] {
                     assert!(!text.contains(token), "host-path token {token} in {text}");

@@ -6,23 +6,60 @@
 //! harness fault ([`CoreError::Config`](crate::CoreError::Config)) — never a verdict, never a panic,
 //! never a silent default.
 //!
-//! Evaluation is deliberately PURE: [`RunContract::evaluate`] takes the set of environment variable
-//! names the caller observed declared and returns the unmet terms. The seam never reads the process
-//! environment itself, so the readiness gate stays deterministic and its legs are testable without
-//! mutating env (which edition 2024 makes `unsafe`).
+//! Evaluation is deliberately PURE: [`RunContract::evaluate_for`] takes the set of environment
+//! variable names the caller observed declared, plus the [`L4Posture`] the run is graded under, and
+//! returns the unmet terms. The seam never reads the process environment itself, so the readiness
+//! gate stays deterministic and its legs are testable without mutating env (which edition 2024 makes
+//! `unsafe`).
 //!
-//! Only a [`CheckKind::ShellDeclaration`] term can be unmet. That is the honest limit: Conductor
-//! launches no Pulse process, so it can observe a declaration in its OWN environment — the shell that
-//! also launches `pulse-app` — and never a fact about `pulse-app` itself. A term whose truth lives
-//! entirely on the other side is recorded as [`CheckKind::DeclaredNotObservable`] and never blocks,
-//! the load envelope's declared-not-derivable precedent.
+//! Only a shell term can be unmet — a [`CheckKind::ShellDeclaration`] (the var must be declared) or a
+//! [`CheckKind::ShellAbsence`] (it must NOT be). That is the honest limit: Conductor launches no Pulse
+//! process, so it can observe a declaration in its OWN environment — the shell that also launches
+//! `pulse-app` — and never a fact about `pulse-app` itself. A term whose truth lives entirely on the
+//! other side is recorded as [`CheckKind::DeclaredNotObservable`] and never blocks, the load
+//! envelope's declared-not-derivable precedent.
 
 use std::collections::BTreeSet;
+use std::fmt;
 use std::path::{Path, PathBuf};
 
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
 use crate::CoreError;
+
+/// Which L4 interpretation mode a run is graded under. A closed set, DECLARED by the scenario and
+/// never derived from the environment: derived, a forgotten `ANDROMEDA_PULSE_L4_DETERMINISTIC=true`
+/// would silently turn a real-model run canned, and a stray one would downgrade the deterministic
+/// suite's refusal (security-plan §Security Anti-Patterns → Universal).
+#[derive(
+    Debug, Clone, Copy, PartialEq, Eq, PartialOrd, Ord, Hash, Default, Serialize, Deserialize,
+)]
+#[serde(rename_all = "kebab-case")]
+pub enum L4Posture {
+    /// Pulse's canned `L4Output` replaces the inference — the posture every live leg ran under before
+    /// the real-model leg, and the one every scenario takes unless it declares otherwise.
+    #[default]
+    Deterministic,
+    /// Pulse's real model runs, so the deterministic handle must be absent or falsy
+    /// (`contracts/pulse-real-model-leg-posture.md` §The launch posture).
+    RealModel,
+}
+
+impl L4Posture {
+    /// The wire form — the value a scenario declares and a log line names.
+    pub fn id(&self) -> &'static str {
+        match self {
+            Self::Deterministic => "deterministic",
+            Self::RealModel => "real-model",
+        }
+    }
+}
+
+impl fmt::Display for L4Posture {
+    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+        f.write_str(self.id())
+    }
+}
 
 /// The versioned run contract: which Pulse release it describes, where its terms came from, the
 /// harness's own incident-formation obligations, and the terms themselves.
@@ -59,13 +96,34 @@ pub struct IncidentFormation {
 #[serde(rename_all = "kebab-case")]
 pub enum CheckKind {
     /// Observable as a declaration in Conductor's own environment — a same-shell proxy for a
-    /// condition on `pulse-app`, never a measurement of it. The only kind that can block.
+    /// condition on `pulse-app`, never a measurement of it. Blocks when the var is NOT declared.
     ShellDeclaration,
+    /// The inverse proxy: the env var must be ABSENT or falsy. Blocks when the var IS in the
+    /// declaration set the caller observed — the complement of that set, so the evaluator applies no
+    /// truthiness rule of its own.
+    ShellAbsence,
     /// Satisfied by construction: the harness itself guarantees it, or reaching this gate proves it.
     Asserted,
     /// True or false entirely on the SUT's side, with no read-back surface exposing it. Recorded so
     /// an operator can satisfy it; never blocks, because a block would claim a measurement.
     DeclaredNotObservable,
+}
+
+impl CheckKind {
+    /// Whether the term is observed in Conductor's own environment — the two kinds that can block.
+    pub fn is_shell(&self) -> bool {
+        matches!(self, Self::ShellDeclaration | Self::ShellAbsence)
+    }
+
+    /// The wire form, as the contract spells it.
+    pub fn id(&self) -> &'static str {
+        match self {
+            Self::ShellDeclaration => "shell-declaration",
+            Self::ShellAbsence => "shell-absence",
+            Self::Asserted => "asserted",
+            Self::DeclaredNotObservable => "declared-not-observable",
+        }
+    }
 }
 
 /// One contract term.
@@ -78,12 +136,23 @@ pub struct ContractTerm {
     /// How it is checked.
     pub check: CheckKind,
     /// The environment variable carrying the declaration — required for, and only meaningful to, a
-    /// [`CheckKind::ShellDeclaration`] term.
+    /// shell term ([`CheckKind::ShellDeclaration`] or [`CheckKind::ShellAbsence`]).
     #[serde(default)]
     pub env: Option<String>,
     /// Why the term might not hold. Mandatory: a term that names a condition without naming what
     /// could cause it sends an operator looking in the wrong place.
     pub causes: String,
+    /// The posture this term binds under. Absent means every posture — the default, so a term
+    /// written before postures existed keeps binding exactly as it did.
+    #[serde(default)]
+    pub posture: Option<L4Posture>,
+}
+
+impl ContractTerm {
+    /// Whether this term participates under `posture`.
+    fn binds_under(&self, posture: L4Posture) -> bool {
+        self.posture.is_none_or(|p| p == posture)
+    }
 }
 
 /// A term the contract requires and the observation did not satisfy.
@@ -151,14 +220,32 @@ impl RunContract {
         Ok(contract)
     }
 
-    /// Evaluate the contract against the environment variable names the caller observed declared.
-    /// Only a [`CheckKind::ShellDeclaration`] term participates.
+    /// Evaluate the contract under the deterministic posture — every live leg's posture but the
+    /// real-model one, so this keeps the exact result it had before postures existed.
     pub fn evaluate(&self, declared: &BTreeSet<String>) -> RunContractStatus {
+        self.evaluate_for(declared, L4Posture::Deterministic)
+    }
+
+    /// Evaluate the terms that bind under `posture` against the environment variable names the caller
+    /// observed declared. Both shell kinds participate: a [`CheckKind::ShellDeclaration`] term is
+    /// unmet iff its var is undeclared, a [`CheckKind::ShellAbsence`] term iff it IS declared.
+    pub fn evaluate_for(
+        &self,
+        declared: &BTreeSet<String>,
+        posture: L4Posture,
+    ) -> RunContractStatus {
         let unmet = self
             .terms
             .iter()
-            .filter(|t| t.check == CheckKind::ShellDeclaration)
-            .filter(|t| !t.env.as_ref().is_some_and(|e| declared.contains(e)))
+            .filter(|t| t.binds_under(posture))
+            .filter(|t| {
+                let is_declared = t.env.as_ref().is_some_and(|e| declared.contains(e));
+                match t.check {
+                    CheckKind::ShellDeclaration => !is_declared,
+                    CheckKind::ShellAbsence => is_declared,
+                    CheckKind::Asserted | CheckKind::DeclaredNotObservable => false,
+                }
+            })
             .map(|t| UnmetTerm {
                 id: t.id.clone(),
                 statement: t.statement.clone(),
@@ -168,13 +255,22 @@ impl RunContract {
         RunContractStatus { unmet }
     }
 
-    /// The environment variable names whose declaration the contract observes.
+    /// The environment variable names whose declaration the contract observes, over both shell kinds
+    /// and every posture — each var ONCE, in first-occurrence order, since one handle can be named by
+    /// a declaration term under one posture and an absence term under another.
     pub fn observed_env(&self) -> Vec<&str> {
-        self.terms
+        let mut names: Vec<&str> = Vec::new();
+        for name in self
+            .terms
             .iter()
-            .filter(|t| t.check == CheckKind::ShellDeclaration)
+            .filter(|t| t.check.is_shell())
             .filter_map(|t| t.env.as_deref())
-            .collect()
+        {
+            if !names.contains(&name) {
+                names.push(name);
+            }
+        }
+        names
     }
 
     /// The preflight's own duration: the warm-up plus the full poll budget.
@@ -249,11 +345,10 @@ impl RunContract {
                     term.id
                 )));
             }
-            if term.check == CheckKind::ShellDeclaration
-                && term.env.as_ref().is_none_or(|e| e.trim().is_empty())
-            {
+            if term.check.is_shell() && term.env.as_ref().is_none_or(|e| e.trim().is_empty()) {
                 return Err(CoreError::Config(format!(
-                    "run contract: shell-declaration term {:?} names no env var to observe",
+                    "run contract: {} term {:?} names no env var to observe",
+                    term.check.id(),
                     term.id
                 )));
             }
@@ -286,7 +381,24 @@ mod tests {
             check,
             env: env.map(str::to_string),
             causes: "a cause".to_string(),
+            posture: None,
         }
+    }
+
+    fn posture_term(
+        id: &str,
+        check: CheckKind,
+        env: Option<&str>,
+        posture: L4Posture,
+    ) -> ContractTerm {
+        ContractTerm {
+            posture: Some(posture),
+            ..term(id, check, env)
+        }
+    }
+
+    fn unmet_ids(status: &RunContractStatus) -> Vec<&str> {
+        status.unmet().iter().map(|u| u.id.as_str()).collect()
     }
 
     fn contract(terms: Vec<ContractTerm>) -> RunContract {
@@ -320,7 +432,8 @@ mod tests {
         );
         // Both handles Conductor can honestly observe in its OWN environment. `shared-data-dir` is
         // deliberately absent: it is declared-not-observable and names no env var, because the
-        // agreement it asserts lives on the SUT's side.
+        // agreement it asserts lives on the SUT's side. The L4 handle appears ONCE although two
+        // terms name it (one per posture).
         assert_eq!(
             c.observed_env(),
             vec![
@@ -328,6 +441,171 @@ mod tests {
                 "ANDROMEDA_PULSE_MCP_ENABLED"
             ]
         );
+    }
+
+    #[test]
+    fn the_two_l4_terms_bind_under_opposite_postures() {
+        let c = RunContract::load(&committed_path()).expect("committed contract loads");
+        let find = |id: &str| {
+            c.terms
+                .iter()
+                .find(|t| t.id == id)
+                .unwrap_or_else(|| panic!("the contract carries {id}"))
+        };
+
+        let deterministic = find("l4-deterministic");
+        assert_eq!(deterministic.check, CheckKind::ShellDeclaration);
+        assert_eq!(deterministic.posture, Some(L4Posture::Deterministic));
+
+        let real_model = find("l4-real-model");
+        assert_eq!(real_model.check, CheckKind::ShellAbsence);
+        assert_eq!(real_model.posture, Some(L4Posture::RealModel));
+        assert_eq!(
+            real_model.env.as_deref(),
+            Some("ANDROMEDA_PULSE_L4_DETERMINISTIC")
+        );
+        assert_eq!(
+            real_model.env, deterministic.env,
+            "one handle, read for declaration under one posture and absence under the other"
+        );
+    }
+
+    #[test]
+    fn the_committed_contract_grades_the_l4_handle_by_posture() {
+        let c = RunContract::load(&committed_path()).expect("committed contract loads");
+        let l4 = "ANDROMEDA_PULSE_L4_DETERMINISTIC";
+        let mcp = "ANDROMEDA_PULSE_MCP_ENABLED";
+
+        // Deterministic: the pre-posture result, unchanged — both handles must be declared.
+        assert_eq!(
+            unmet_ids(&c.evaluate_for(&declared(&[]), L4Posture::Deterministic)),
+            vec!["l4-deterministic", "mcp-enabled"]
+        );
+        assert!(
+            c.evaluate_for(&declared(&[l4, mcp]), L4Posture::Deterministic)
+                .is_satisfied()
+        );
+        assert_eq!(
+            c.evaluate(&declared(&[l4, mcp])),
+            c.evaluate_for(&declared(&[l4, mcp]), L4Posture::Deterministic),
+            "evaluate is the deterministic posture"
+        );
+
+        // Real-model: the L4 handle must be ABSENT, and MCP still declared.
+        assert!(
+            c.evaluate_for(&declared(&[mcp]), L4Posture::RealModel)
+                .is_satisfied()
+        );
+        assert_eq!(
+            unmet_ids(&c.evaluate_for(&declared(&[l4, mcp]), L4Posture::RealModel)),
+            vec!["l4-real-model"]
+        );
+        assert_eq!(
+            unmet_ids(&c.evaluate_for(&declared(&[]), L4Posture::RealModel)),
+            vec!["mcp-enabled"]
+        );
+    }
+
+    #[test]
+    fn each_shell_kind_is_graded_against_the_declaration_set() {
+        let declaration = contract(vec![term(
+            "must-declare",
+            CheckKind::ShellDeclaration,
+            Some("SOME_ENV"),
+        )]);
+        let absence = contract(vec![term(
+            "must-be-absent",
+            CheckKind::ShellAbsence,
+            Some("SOME_ENV"),
+        )]);
+
+        assert!(!declaration.evaluate(&declared(&[])).is_satisfied());
+        assert!(
+            declaration
+                .evaluate(&declared(&["SOME_ENV"]))
+                .is_satisfied()
+        );
+
+        assert!(absence.evaluate(&declared(&[])).is_satisfied());
+        assert_eq!(
+            unmet_ids(&absence.evaluate(&declared(&["SOME_ENV"]))),
+            vec!["must-be-absent"]
+        );
+    }
+
+    #[test]
+    fn a_posture_tagged_term_binds_only_under_its_posture() {
+        let c = contract(vec![
+            posture_term(
+                "det-only",
+                CheckKind::ShellDeclaration,
+                Some("DET_ENV"),
+                L4Posture::Deterministic,
+            ),
+            posture_term(
+                "real-only",
+                CheckKind::ShellDeclaration,
+                Some("REAL_ENV"),
+                L4Posture::RealModel,
+            ),
+            term(
+                "every-posture",
+                CheckKind::ShellDeclaration,
+                Some("ALL_ENV"),
+            ),
+        ]);
+
+        assert_eq!(
+            unmet_ids(&c.evaluate_for(&declared(&[]), L4Posture::Deterministic)),
+            vec!["det-only", "every-posture"]
+        );
+        assert_eq!(
+            unmet_ids(&c.evaluate_for(&declared(&[]), L4Posture::RealModel)),
+            vec!["real-only", "every-posture"]
+        );
+    }
+
+    #[test]
+    fn observed_env_names_each_handle_once_across_both_shell_kinds() {
+        let c = contract(vec![
+            posture_term(
+                "l4-deterministic",
+                CheckKind::ShellDeclaration,
+                Some("L4_ENV"),
+                L4Posture::Deterministic,
+            ),
+            term("other", CheckKind::ShellDeclaration, Some("OTHER_ENV")),
+            posture_term(
+                "l4-real-model",
+                CheckKind::ShellAbsence,
+                Some("L4_ENV"),
+                L4Posture::RealModel,
+            ),
+            term("by-construction", CheckKind::Asserted, None),
+        ]);
+        assert_eq!(c.observed_env(), vec!["L4_ENV", "OTHER_ENV"]);
+    }
+
+    #[test]
+    fn the_posture_wire_forms_are_kebab_case_and_default_deterministic() {
+        #[derive(Deserialize)]
+        struct Holder {
+            #[serde(default)]
+            posture: L4Posture,
+        }
+        let read = |doc: &str| toml::from_str::<Holder>(doc).map(|h| h.posture);
+        assert_eq!(read("").unwrap(), L4Posture::Deterministic);
+        assert_eq!(
+            read("posture = \"deterministic\"").unwrap(),
+            L4Posture::Deterministic
+        );
+        assert_eq!(
+            read("posture = \"real-model\"").unwrap(),
+            L4Posture::RealModel
+        );
+        assert!(read("posture = \"real_model\"").is_err());
+        assert_eq!(L4Posture::RealModel.to_string(), "real-model");
+        assert_eq!(L4Posture::default().id(), "deterministic");
     }
 
     #[test]
@@ -383,11 +661,19 @@ mod tests {
     }
 
     #[test]
-    fn rejects_a_shell_declaration_term_naming_no_env_var() {
-        let c = contract(vec![term("l4", CheckKind::ShellDeclaration, None)]);
-        assert!(matches!(c.validate(), Err(CoreError::Config(_))));
-        let c = contract(vec![term("l4", CheckKind::ShellDeclaration, Some("  "))]);
-        assert!(matches!(c.validate(), Err(CoreError::Config(_))));
+    fn rejects_a_shell_term_naming_no_env_var() {
+        for kind in [CheckKind::ShellDeclaration, CheckKind::ShellAbsence] {
+            let c = contract(vec![term("l4", kind, None)]);
+            assert!(
+                matches!(c.validate(), Err(CoreError::Config(_))),
+                "{kind:?}"
+            );
+            let c = contract(vec![term("l4", kind, Some("  "))]);
+            assert!(
+                matches!(c.validate(), Err(CoreError::Config(_))),
+                "{kind:?}"
+            );
+        }
     }
 
     #[test]
@@ -408,7 +694,7 @@ mod tests {
     }
 
     #[test]
-    fn only_a_shell_declaration_term_can_be_unmet() {
+    fn only_a_shell_term_can_be_unmet() {
         let c = contract(vec![
             term("l4", CheckKind::ShellDeclaration, Some("SOME_ENV")),
             term("other-side", CheckKind::DeclaredNotObservable, None),
@@ -417,11 +703,7 @@ mod tests {
 
         let status = c.evaluate(&declared(&[]));
         assert!(!status.is_satisfied());
-        assert_eq!(
-            status.unmet().len(),
-            1,
-            "only the shell-declaration term participates"
-        );
+        assert_eq!(status.unmet().len(), 1, "only the shell term participates");
         assert_eq!(status.unmet()[0].id, "l4");
 
         let status = c.evaluate(&declared(&["SOME_ENV"]));

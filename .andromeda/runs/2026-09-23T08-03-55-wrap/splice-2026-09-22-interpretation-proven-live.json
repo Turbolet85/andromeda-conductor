@@ -1,0 +1,314 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "f9841d9e",
+"ts": "2026-09-23T09:42:41Z",
+"argv": [
+"append",
+"--file",
+"D:/dev/projects/conductor/.andromeda/architecture-amendments.md",
+"--payload-file",
+"D:/dev/projects/conductor/.andromeda/runs/2026-09-23T08-03-55-wrap/architecture-entry.md",
+"--lines",
+"31",
+"--run-dir",
+"D:/dev/projects/conductor/.andromeda/runs/2026-09-23T08-03-55-wrap",
+"--marker",
+"2026-09-22-interpretation-proven-live"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+31 at line 776 · lines 775→806 · bytes 173816→179822 · term lf",
+"last line now: - Judgment bases: 0 live hits. Intra-line duplicate re-read: none."
+],
+"stderr": null,
+"wrote": [
+"D:/dev/projects/conductor/.andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 775,
+"bytes": 173816,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 806,
+"bytes": 179822
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "f9841d9e",
+"ts": "2026-09-23T09:42:41Z",
+"argv": [
+"append",
+"--file",
+"D:/dev/projects/conductor/.andromeda/security-plan-amendments.md",
+"--payload-file",
+"D:/dev/projects/conductor/.andromeda/runs/2026-09-23T08-03-55-wrap/security-plan-entry.md",
+"--lines",
+"25",
+"--run-dir",
+"D:/dev/projects/conductor/.andromeda/runs/2026-09-23T08-03-55-wrap",
+"--marker",
+"2026-09-22-interpretation-proven-live"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+25 at line 336 · lines 335→360 · bytes 83284→88119 · term lf",
+"last line now: - Leaves re-derived: `docs/security-summary.md` (per-reader, capture ingest, `l4"
+],
+"stderr": null,
+"wrote": [
+"D:/dev/projects/conductor/.andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 335,
+"bytes": 83284,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 360,
+"bytes": 88119
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "f9841d9e",
+"ts": "2026-09-23T09:42:41Z",
+"argv": [
+"append",
+"--file",
+"D:/dev/projects/conductor/.andromeda/test-plan-amendments.md",
+"--payload-file",
+"D:/dev/projects/conductor/.andromeda/runs/2026-09-23T08-03-55-wrap/test-plan-entry.md",
+"--lines",
+"23",
+"--run-dir",
+"D:/dev/projects/conductor/.andromeda/runs/2026-09-23T08-03-55-wrap",
+"--marker",
+"2026-09-22-interpretation-proven-live"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+23 at line 531 · lines 530→553 · bytes 126995→132274 · term lf",
+"last line now: - Observation, not amended (outside this chunk's report): `:335` still says `ret"
+],
+"stderr": null,
+"wrote": [
+"D:/dev/projects/conductor/.andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 530,
+"bytes": 126995,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 553,
+"bytes": 132274
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "f9841d9e",
+"ts": "2026-09-23T09:42:41Z",
+"argv": [
+"append",
+"--file",
+"D:/dev/projects/conductor/.andromeda/obs-plan-amendments.md",
+"--payload-file",
+"D:/dev/projects/conductor/.andromeda/runs/2026-09-23T08-03-55-wrap/obs-plan-entry.md",
+"--lines",
+"17",
+"--run-dir",
+"D:/dev/projects/conductor/.andromeda/runs/2026-09-23T08-03-55-wrap",
+"--marker",
+"2026-09-22-interpretation-proven-live"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+17 at line 315 · lines 314→331 · bytes 65258→68636 · term lf",
+"last line now: - Leaves: `docs/obs-summary.md` and `.claude/rules/observability.md` state parit"
+],
+"stderr": null,
+"wrote": [
+"D:/dev/projects/conductor/.andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 314,
+"bytes": 65258,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 331,
+"bytes": 68636
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "f9841d9e",
+"ts": "2026-09-23T09:42:41Z",
+"argv": [
+"append",
+"--file",
+"D:/dev/projects/conductor/.andromeda/layout-templates-amendments.md",
+"--payload-file",
+"D:/dev/projects/conductor/.andromeda/runs/2026-09-23T08-03-55-wrap/layout-templates-entry.md",
+"--lines",
+"17",
+"--run-dir",
+"D:/dev/projects/conductor/.andromeda/runs/2026-09-23T08-03-55-wrap",
+"--marker",
+"2026-09-22-interpretation-proven-live"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append layout-templates-amendments.md:+17 at line 177 · lines 176→193 · bytes 38312→41059 · term lf",
+"last line now: - Leaves: `docs/design-summary.md` and `.claude/rules/frontend.md` carry no cli "
+],
+"stderr": null,
+"wrote": [
+"D:/dev/projects/conductor/.andromeda/layout-templates-amendments.md"
+],
+"before": {
+"lines": 176,
+"bytes": 38312,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 193,
+"bytes": 41059
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "f9841d9e",
+"ts": "2026-09-23T09:43:15Z",
+"argv": [
+"append",
+"--file",
+".andromeda/playbook.md",
+"--payload-file",
+".andromeda/runs/2026-09-23T08-03-55-wrap/playbook-entry.md",
+"--lines",
+"37",
+"--run-dir",
+".andromeda/runs/2026-09-23T08-03-55-wrap",
+"--marker",
+"2026-09-22-interpretation-proven-live"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append playbook.md:+37 at line 247 · lines 246→283 · bytes 80995→84651 · term lf",
+"last line now:     no governing rule; minted on the operator's approval at that wrap (2026-09-2"
+],
+"stderr": null,
+"wrote": [
+".andromeda/playbook.md"
+],
+"before": {
+"lines": 246,
+"bytes": 80995,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 283,
+"bytes": 84651
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "f9841d9e",
+"ts": "2026-09-23T09:47:53Z",
+"argv": [
+"append",
+"--file",
+".claude/rules/verification-harness.md",
+"--payload-file",
+".andromeda/runs/2026-09-23T08-03-55-wrap/curation-vh-entry.md",
+"--lines",
+"1",
+"--run-dir",
+".andromeda/runs/2026-09-23T08-03-55-wrap",
+"--marker",
+"2026-09-22-interpretation-proven-live"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append verification-harness.md:+1 at line 67 · lines 66→67 · bytes 73909→74649 · term lf",
+"last line now: - 2026-09-23: **Pulse logs NO line when its model DISMISSES a digest** — a `Di"
+],
+"stderr": null,
+"wrote": [
+".claude/rules/verification-harness.md"
+],
+"before": {
+"lines": 66,
+"bytes": 73909,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 67,
+"bytes": 74649
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "f9841d9e",
+"ts": "2026-09-23T09:47:53Z",
+"argv": [
+"append",
+"--file",
+".claude/rules/testing.md",
+"--payload-file",
+".andromeda/runs/2026-09-23T08-03-55-wrap/curation-testing-entry.md",
+"--lines",
+"1",
+"--run-dir",
+".andromeda/runs/2026-09-23T08-03-55-wrap",
+"--marker",
+"2026-09-22-interpretation-proven-live"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append testing.md:+1 at line 92 · lines 91→92 · bytes 83166→83608 · term lf",
+"last line now: - 2026-09-23: **A capture test that prints under `cargo test -q … -- --nocaptu"
+],
+"stderr": null,
+"wrote": [
+".claude/rules/testing.md"
+],
+"before": {
+"lines": 91,
+"bytes": 83166,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 92,
+"bytes": 83608
+}
+}
+]

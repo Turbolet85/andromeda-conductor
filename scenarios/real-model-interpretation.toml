@@ -1,0 +1,87 @@
+# LOAD ENVELOPE — this scenario's total duration is asserted against the proven-good SUT bounds in
+# `contracts/pulse-load-envelope.toml` (the terms and any exemption live there, never copied here).
+# A run over the envelope reports ENVIRONMENT-SUSPECT, not Fail — the harness drove it, not Pulse.
+
+# REAL-MODEL INTERPRETATION LEG — the one scenario run with Pulse's deterministic L4 mode OFF, bound by
+# `contracts/pulse-real-model-leg-posture.md` (its launch posture, grading rule, quiet window and
+# census). `l4_posture = "real-model"` below is what selects it: the precondition probe and the
+# preflight gate then require ANDROMEDA_PULSE_L4_DETERMINISTIC absent or falsy in Conductor's own
+# environment, and a gate evaluated under the deterministic posture (`conductor suite`, the desktop
+# app) lands this scenario Blocked rather than running it. Driven ONCE, operator-gated, through
+# `bash scripts/agent-run.sh run --live real-model` — never a CI gate.
+#
+# The known cause: a retry storm of ONE identical exception on service `conductor` (every non-topology
+# shape emits under that one service), at Pulse's Autonomous band — at least 10 of one fingerprint in
+# a 30s window — which is the preflight canary's own proven shape on `conductor-canary`. Three 12x
+# bursts a minute apart each raise a cue-bearing digest on the same identity. One burst already gives
+# a hypothesis observable, because Pulse attaches the parsed interpretation at incident creation; the
+# later bursts are sufficient, not necessary, and give the model more than one digest to read.
+#
+# P-018 (Retry Storm Detection) is the STIMULUS id — the cue the storm raises. The graded claim is
+# P-033's substance (Ranked Hypothesis Generation); naming P-033 moves `UNBACKED_AUTO` and the
+# committed coverage matrix together, which is v3-10's change and not this scenario's.
+#
+# The grading rule lives in `crates/conductor-run/tests/real_model_harvest.rs`, fixed before the
+# drive: identified iff the attributed incident's rank-1 hypothesis statement names `conductor` as a
+# whole word AND a retry token, case-insensitively. STATED LIMIT: the digest's cue line reaches the
+# model verbatim — `[autonomous] retry_storm — retry_storm scope_id=conductor` — and itself satisfies
+# that rule, so Identified means the real, non-canned model carried the cue's scope and kind into
+# rank 1, n=1. It is not inference of an unstated cause, and not a choice among competing causes.
+#
+# Declare-only: no `[[expected]]` and no `[[checklist]]`. The composed read-back text can express
+# neither rank nor attribution, so the row lands with a null verdict (ManualCheck when the read-back
+# is non-degraded) and the claim grades at the harvest tier over a capture re-read after the leg.
+# `<90s` is the honest bucket, not a claim: the phases alone span 136s and real-model timing is
+# unmeasured, so no tier can be declared honestly — the `[[over_tier]]` row in
+# `contracts/scenario-audit-ledger.toml` records it.
+name = "real-model-interpretation"
+p_ids = ["P-018"]
+seed = 4317033
+slo_tier = "<90s"
+jitter_ms = 50
+l4_posture = "real-model"
+
+[[phases]]
+name = "burst-1"
+gap_ms = 6000     # 12 identical exceptions -> the Autonomous band (>= 10 in 30s)
+[phases.emission]
+kind = "exception"
+occurrences = 12
+variants = ["identical"]
+
+[[phases]]
+name = "settle-1"
+gap_ms = 54000
+[phases.emission]
+kind = "plain"
+occurrences = 0   # silence: the next burst opens a minute after this one did
+
+[[phases]]
+name = "burst-2"
+gap_ms = 6000
+[phases.emission]
+kind = "exception"
+occurrences = 12
+variants = ["identical"]
+
+[[phases]]
+name = "settle-2"
+gap_ms = 54000
+[phases.emission]
+kind = "plain"
+occurrences = 0
+
+[[phases]]
+name = "burst-3"
+gap_ms = 6000
+[phases.emission]
+kind = "exception"
+occurrences = 12
+variants = ["identical"]
+
+[[phases]]
+name = "settle-3"
+gap_ms = 10000
+[phases.emission]
+kind = "plain"
+occurrences = 0   # a short tail before read-back; the capture tool then polls for the incident

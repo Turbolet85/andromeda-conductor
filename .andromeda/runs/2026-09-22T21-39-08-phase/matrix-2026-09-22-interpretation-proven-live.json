@@ -1,0 +1,112 @@
+[
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "26f9c9bd",
+"ts": "2026-09-23T05:26:51Z",
+"argv": [
+"coverage",
+"--dir",
+"conductor-0.3.0",
+"--run-dir",
+".andromeda/runs/2026-09-22T21-39-08-phase",
+"--marker",
+"2026-09-22-interpretation-proven-live"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"verified 6/11 · deferred 0 · planned 5 · implemented 0 · unclaimed 5",
+"unclaimed: v3-03 v3-08 v3-09 v3-10 v3-11",
+"claimed-unfinished: none",
+"done-test: NO — 5 not verified|deferred · unclaimed 5",
+"chunks referenced: 6 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "26f9c9bd",
+"ts": "2026-09-23T05:26:51Z",
+"argv": [
+"claim",
+"--dir",
+"conductor-0.3.0",
+"--id",
+"v3-09",
+"--chunk",
+"2026-09-22-interpretation-proven-live",
+"--acceptance-file",
+".andromeda/runs/2026-09-22T21-39-08-phase/acceptance-v3-09.md",
+"--note-file",
+".andromeda/runs/2026-09-22T21-39-08-phase/note-v3-09.md",
+"--run-dir",
+".andromeda/runs/2026-09-22T21-39-08-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claim v3-09 → chunk 2026-09-22-interpretation-proven-live (was null; status planned kept)",
+"acceptance: A live leg runs with the deterministic interpretation mode off, a root… (429 chars)",
+"         → Driven ONCE through `bash scripts/agent-run.sh run --live real-model` … (1881 chars)",
+"notes: +1696 chars (total 4932)",
+"wrote conductor-0.3.0\\verification-matrix.json · 1 entry changed",
+"pool: unclaimed 4 [v3-03 v3-08 v3-10 v3-11]"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0\\verification-matrix.json"
+],
+"before": {
+"id": "v3-09",
+"chunk": null,
+"status": "planned",
+"method": "dynamic-external",
+"ref": "null",
+"acceptance": "A live leg runs with the deterministic interpretation mode off, a root cause known in advance is introduced through the … (429 chars)",
+"notes_chars": 3234
+},
+"after": {
+"id": "v3-09",
+"chunk": "2026-09-22-interpretation-proven-live",
+"status": "planned",
+"method": "dynamic-external",
+"ref": "null",
+"acceptance": "Driven ONCE through `bash scripts/agent-run.sh run --live real-model` against a pulse-app launched per `contracts/pulse-… (1881 chars)",
+"notes_chars": 4932
+}
+},
+{
+"tool": "matrix",
+"v": "1.1",
+"sha8": "26f9c9bd",
+"ts": "2026-09-23T05:26:51Z",
+"argv": [
+"audit",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-22-interpretation-proven-live",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-22T21-39-08-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-22-interpretation-proven-live: 1 · ## Acceptance Criteria: line 449, 61 lines",
+"v3-09: cited in ## Acceptance Criteria (line 507)",
+"ledger-note entries (P7.3's input, not claim citations): v3-09 (line 600)",
+"pool: unclaimed 4 [v3-03 v3-08 v3-10 v3-11]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

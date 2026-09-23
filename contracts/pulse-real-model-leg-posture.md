@@ -15,10 +15,29 @@ of the capability and defeats it, because the grading can then be chosen to fit 
                     figure is a CONDUCTOR MEASUREMENT carried from a prior leg, dated in place and NOT
                     re-measured here. Every Conductor coordinate is a reading of this repo at the commit
                     that carries this file."
+                   [corrected 2026-09-22 (2026-09-22-interpretation-proven-live, P3 research, before any
+                    drive): the ~110 s figure is a DETERMINISTIC-L4 measurement, not a real-model one. Its
+                    only witness, crates/conductor-run/tests/lifecycle_live.rs:20 (first committed at
+                    f1584b1), ran under its own firing form's ANDROMEDA_PULSE_L4_DETERMINISTIC=true and is
+                    recorded "deterministic L4" at
+                    conductor-0.2.0/chunks/2026-08-31-p-075-assert-round/report.md:161; it was
+                    re-attributed to the real model at
+                    conductor-0.2.0/chunks/2026-09-06-operator-gated-live-suite/plan.md:102. No
+                    real-model formation figure exists in Conductor's record.]
+                   [measured 2026-09-23 (2026-09-22-interpretation-proven-live, the one graded drive, Pulse
+                    HEAD 83d4060): NO pickup figure. The real model answered the preflight canary's one
+                    cue-bearing digest (inference succeeded, its JSON parsed) and did not surface it, so no
+                    incident formed, the preflight blocked after its 600 s poll, and the scenario never
+                    emitted. Real-model pickup and formation both remain unmeasured.]
 
 Read the provenance line as a bound on trust. The transcribed clauses will need re-checking if the SUT moves,
 and the one carried measurement is a point-in-time reading that the drive chunk confirms rather than inherits.
 Nothing here asserts a property of Pulse that Conductor cannot observe from outside it.
+[corrected 2026-09-23 (2026-09-22-interpretation-proven-live, P5 review, before any drive): no drive can
+confirm the carried figure, because it is a deterministic-L4 measurement (the provenance correction above).
+The first drive measures PICKUP — the interval from Conductor's emission instant to Pulse's `opened_at`
+stamp, which Pulse takes at digest pickup, before inference — and records it under that name. Real-model
+formation stays unmeasured.]
 
 ## Regime
 
@@ -86,6 +105,17 @@ of that field fires when an incident is first created:
 **Therefore a single-storm leg has no hypothesis observable at all.** The first incident a storm forms carries
 no resolution-summary text, the report comes back degraded, the hypotheses section is absent, and there is
 nothing to grade. A leg that reads that result as a model failure has measured its own design.
+[corrected 2026-09-22 (2026-09-22-interpretation-proven-live, P3 research, before any drive): FALSE at the
+pinned HEAD. Pulse attaches the parsed interpretation AT CREATION — `create_incident_from_l4_output` writes
+`resolution_summary_text: scrubbed_l4_json(parsed)` (`pulse-app/src/inference_runtime.rs:884`, commit `b2e4cb3`
+of 2026-08-27, the same commit as the `:823` dedupe attach cited above) — so a single-storm incident renders its
+hypotheses, and Conductor's own 2026-09-06 leg b1 read a single-storm canary incident non-degraded
+(`ManualCheck`). The second cue-bearing digest below is therefore sufficient, not necessary. The `## Hypotheses`
+section always renders (`crates/interpretation/src/markdown.rs:153`); what separates the cases is its body — the
+degraded notice, the empty placeholder, or ranked entries — so "rendered hypotheses" means at least one ranked
+entry. A report is degraded only when no L4 output attached or the attached JSON fails to parse, which includes
+Pulse's whole-field scrub replacing the entire JSON when any part trips a scrubber pattern
+(`inference_runtime.rs:665-671`).]
 
 A real-model leg must therefore produce **at least a second cue-bearing digest on one identity while the
 incident is still active**, and must confirm it reached the live-writer branch rather than forming a second
@@ -104,6 +134,21 @@ top-ranked one. The assertion is a substring comparison against the composed obs
 carries the report markdown (`crates/conductor-verify/src/extract.rs:102`) — so the rule needs no new
 comparison kind, no new verdict word, no new envelope field, no new span name and no non-allowlisted span
 attribute.
+[corrected 2026-09-23 (2026-09-22-interpretation-proven-live, P5 review, before any drive): the substring
+comparison is FALSE as a mechanism. No Conductor artifact persists the report text — the observation lives in
+memory, and the read-back self-obs line logs key names only (`crates/conductor-verify/src/extract.rs:99`) — and
+the composed text unions every active incident's report with the list fields (`extract.rs:90-103`), so it can
+express neither rank nor attribution. The rule is applied to the rank-1 statement of the incident attributed to
+the scenario's emission, re-read over MCP by a `live-pulse`-gated capture after the leg and graded in
+`crates/conductor-run/tests/real_model_harvest.rs`. The sentence's consequence still holds: no new comparison
+kind, verdict word, envelope field, span name or span attribute.]
+[corrected 2026-09-23 (2026-09-22-interpretation-proven-live, P5 review, before any drive): a stated limit on
+what "identifies" can mean. The digest's cue line reaches the model verbatim —
+`[autonomous] retry_storm — retry_storm scope_id=conductor` (andromeda-pulse
+`crates/triage/src/digest/assembler.rs:664-673`, one cue per digest at `:261-276`, inserted whole by
+`crates/interpretation/src/prompt.rs:229-235`) — and that line itself satisfies the rule. So a pass means the
+real, non-canned model carried the cue's scope and kind into rank 1, n=1: not inference of an unstated cause,
+and not a choice among competing causes.]
 
 **The outcomes**, each drawn from the closed verdict triad and the closed five-valued report state, and each a
 returned value rather than an error — an error is reserved for Conductor's own harness faults:
@@ -114,6 +159,10 @@ returned value rather than an error — an error is reserved for Conductor's own
 | It does not, and the report rendered hypotheses to judge | `CalibrationRegion` | `ManualCheck` |
 | The report rendered no hypotheses (degraded, or the second generation never landed) | — | `Blocked`, with the named precondition |
 | The read-back call itself failed | — | `Blocked`, with the named precondition |
+
+[corrected 2026-09-23 (2026-09-22-interpretation-proven-live, P5 review, before any drive): the third row's
+"or the second generation never landed" does not arise. No second generation is needed, because the
+interpretation attaches at creation (the emission-profile correction above).]
 
 **Why a miss is the calibration region and not a failure.** Hypothesis quality is a model-interpretive claim,
 and the standing policy is that such claims are reported for a human and never hard-failed on exact values.
@@ -137,11 +186,22 @@ values whose coarsest deadline is 90 000 ms (`crates/conductor-core/src/scenario
 incident formation alone was measured at roughly 110 s — above the ladder's ceiling before any read-back is
 attempted. Latency is measured journal-relative across the scenario's whole emission window, so no tier
 assignment could be met and every real-model leg would grade red on timing regardless of what the model said.
+[corrected 2026-09-22 (2026-09-22-interpretation-proven-live, P3 research, before any drive): the roughly 110 s
+is a deterministic-L4 measurement (the provenance correction above). The disposition stands on the ground that
+survives: real-model timing is unmeasured and non-deterministic, so no tier can be declared honestly before a
+drive.]
 
 The leg therefore lands **declare-only** — no expected checks, a null verdict and a known-residual state — and
 the interpretation claim is graded hard one tier out, in a harvest-style test over the leg's verbatim
 captures. This is the shape the system already uses for a claim the run-report envelope cannot carry, and it
 keeps the timing fact and the interpretation fact from contaminating each other.
+[corrected 2026-09-22 (2026-09-22-interpretation-proven-live, P3 research, before any drive): the success path
+lands `ManualCheck`, not a known-residual state. A declare-only read-back that is non-degraded takes
+`state_for(…, ManualCheck)` (`state_for` in `crates/conductor-run/src/execute.rs`), as the 2026-09-06 leg b1
+measured; `KnownResidual` arises only from a degraded report or an emptied active set.]
+[corrected 2026-09-23 (2026-09-22-interpretation-proven-live, P5 review, before any drive): the harvest grades a
+capture that a `live-pulse`-gated tool (`crates/conductor-run/tests/real_model_live.rs`) re-reads over MCP after
+the leg. It never grades the leg's own captures, which carry no report text.]
 
 ## The quiet window and serialization
 
@@ -159,6 +219,11 @@ SUT's idle window entirely, which is why the deterministic handle is load-bearin
 and why a real-model leg cannot be obtained by flipping it. A real-model leg requires its own budgets,
 computed from the same contract terms against the real formation figure — and that figure is confirmed at the
 first drive rather than taken from this file.
+[corrected 2026-09-22 (2026-09-22-interpretation-proven-live, P3 research, before any drive): the roughly 110 s
+above is a deterministic-L4 measurement (the provenance correction above); no real-model formation figure exists.]
+[corrected 2026-09-23 (2026-09-22-interpretation-proven-live, P5 review, before any drive): so no drive can
+confirm it. The first drive measures PICKUP (inference excluded) and records it under that name; real-model
+formation stays unmeasured.]
 
 The window is a harness-level wait **between** legs. It is a firing-form precondition, not a synchronisation
 device, and nothing inside a test sleeps to synchronise.

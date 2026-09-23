@@ -114,6 +114,13 @@ pub struct Scenario {
     /// The SLO timing tier this scenario's deadline is measured against.
     #[garde(skip)]
     pub slo_tier: SloTier,
+    /// The L4 posture this scenario is run under — which run-contract terms the readiness gate
+    /// evaluates and how the precondition probe grades the L4 handle. Declared, never derived from
+    /// the environment; absent means [`L4Posture::Deterministic`]. A closed unit enum, so the enum
+    /// IS the validation (an unknown value fails to parse), as for `FaultSpec.kind`.
+    #[serde(default)]
+    #[garde(skip)]
+    pub l4_posture: crate::L4Posture,
     /// The ordered per-phase emission spec — the declarative timeline the scheduler sequences.
     /// Required, non-empty; each phase is validated via `dive`.
     #[garde(
@@ -251,6 +258,7 @@ fn no_duplicate_pids(p_ids: &[PId], _ctx: &()) -> garde::Result {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::L4Posture;
     use crate::expected::{ClaimClass, ComparisonKind};
     use crate::phase_spec::{
         EmissionShape, EmissionSpec, FaultKindSpec, FaultSpec, MAX_JITTER_MS, Signal,
@@ -264,6 +272,7 @@ mod tests {
             p_ids,
             seed: 424242,
             slo_tier: SloTier::Tier5s,
+            l4_posture: L4Posture::Deterministic,
             phases: vec![PhaseSpec {
                 name: "baseline".to_string(),
                 gap_ms: 2000,
@@ -1452,6 +1461,103 @@ expected = "WARN"
         assert!(
             declaring.is_empty(),
             "the in-lane suite is uniformly declare-only; these declare checks: {declaring:?}"
+        );
+    }
+
+    /// The posture is declared, never derived, and additive: every scenario that predates the
+    /// real-model leg carries no `l4_posture` line and loads deterministic, so the deterministic
+    /// suite's gating is unchanged. Exactly one scenario declares otherwise.
+    #[test]
+    fn every_committed_scenario_but_the_real_model_one_loads_deterministic() {
+        let dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("../../scenarios");
+        let mut real_model = Vec::new();
+        for path in crate::scenario_files(&dir).expect("the catalog lists") {
+            let toml = std::fs::read_to_string(&path).expect("scenario readable");
+            let s = Scenario::from_toml_str(&toml)
+                .unwrap_or_else(|e| panic!("{}: {e}", path.display()));
+            match s.l4_posture {
+                L4Posture::Deterministic => {}
+                L4Posture::RealModel => real_model.push(s.name),
+            }
+        }
+        assert_eq!(real_model, vec!["real-model-interpretation".to_string()]);
+    }
+
+    #[test]
+    fn an_unknown_l4_posture_is_a_load_time_harness_fault() {
+        let doc = |posture: &str| {
+            format!(
+                "name = \"p\"\np_ids = [\"P-001\"]\nseed = 1\nslo_tier = \"<5s\"\njitter_ms = 0\n\
+                 l4_posture = \"{posture}\"\n[[phases]]\nname = \"p1\"\ngap_ms = 100\n"
+            )
+        };
+        assert_eq!(
+            Scenario::from_toml_str(&doc("real-model"))
+                .unwrap()
+                .l4_posture,
+            L4Posture::RealModel
+        );
+        assert_eq!(
+            Scenario::from_toml_str(&doc("deterministic"))
+                .unwrap()
+                .l4_posture,
+            L4Posture::Deterministic
+        );
+        for bad in ["real_model", "RealModel", "canned", ""] {
+            let err = Scenario::from_toml_str(&doc(bad)).unwrap_err();
+            assert!(
+                matches!(err, crate::CoreError::Config(_)),
+                "{bad:?} is a parse fault, never a verdict: {err}"
+            );
+        }
+    }
+
+    /// The real-model leg's known cause, pinned as declared data: a retry storm of one identical
+    /// exception on `conductor`, three 12x bursts at the Autonomous band, under the real-model
+    /// posture, declare-only (the harvest grades it), spanning 136s — so over its `<90s` tier by
+    /// construction and carried by the audit ledger's `[[over_tier]]` row.
+    #[test]
+    fn real_model_interpretation_declares_the_known_cause_under_the_real_model_posture() {
+        let path = format!(
+            "{}/../../scenarios/real-model-interpretation.toml",
+            env!("CARGO_MANIFEST_DIR")
+        );
+        let s = Scenario::from_toml_str(&std::fs::read_to_string(&path).expect("readable"))
+            .expect("valid");
+        assert_eq!(s.name, "real-model-interpretation");
+        assert_eq!(s.p_ids, vec![PId("P-018".to_string())]);
+        assert_eq!(s.l4_posture, L4Posture::RealModel);
+        assert!(
+            s.expected.is_empty() && s.checklist.is_empty(),
+            "declare-only: the harvest grades the rank-1 hypothesis, no read-back check can"
+        );
+        assert_eq!(s.slo_tier, SloTier::Tier90s);
+
+        let bursts: Vec<_> = s
+            .phases
+            .iter()
+            .filter(|p| p.emission.occurrences > 0)
+            .collect();
+        assert_eq!(bursts.len(), 3, "three bursts");
+        for burst in &bursts {
+            assert_eq!(
+                burst.emission.occurrences, 12,
+                "{} clears the Autonomous band (>= 10 in 30s)",
+                burst.name
+            );
+            assert_eq!(
+                burst.emission.shape,
+                EmissionShape::Exception {
+                    variants: vec![crate::phase_spec::FingerprintVariantSpec::Identical]
+                },
+                "{} storms ONE fingerprint",
+                burst.name
+            );
+        }
+        assert_eq!(
+            s.phases.iter().map(|p| p.gap_ms).sum::<u64>(),
+            136_000,
+            "the summed window the per-leg budget is derived from"
         );
     }
 }

@@ -1,0 +1,262 @@
+
+running 1 test
+rule record: the grading rule as committed before the drive
+// ---- rule: begin ----
+// The grading rule for the real-model interpretation leg, fixed before the drive
+// (contracts/pulse-real-model-leg-posture.md, The grading rule; plan 2026-09-22 steps 11 and D1-D3).
+
+/// The capture's line grammar — what `real_model_live.rs` prints and this rule reads.
+const EMISSION_INSTANT: &str = "emission_instant_ms: ";
+const NO_EMISSION: &str = "emission: none";
+const TRACE: &str = "trace: ";
+const ATTRIBUTED: &str = "attributed: ";
+const AMBIGUOUS: &str = "attribution: ambiguous";
+const READ_BACK_FAILED: &str = "read-back failed: ";
+const END_OF_SECTIONS: &str = "-- end of report sections --";
+const INFERENCE_MODE: &str = "pulse-log inference_mode: ";
+const LAUNCH_CWD: &str = "pulse-log workspace basename carries conductor: ";
+
+/// Pulse's hypothesis entry opener, and the close of its confidence label: the statement is the text
+/// after the FIRST close, so a close inside the statement stays part of it.
+const ENTRY_OPEN: &str = "- **(";
+const LABEL_CLOSE: &str = ")** ";
+
+/// What the rule decides for one capture.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum Grade {
+    /// The rank-1 statement names `conductor` as a whole word and a retry token.
+    Identified,
+    /// A ranked hypothesis exists and rank 1 does not name both facets.
+    NotIdentified,
+    /// The attributed report ranks nothing: degraded, or parsed but empty.
+    NoRankedHypotheses,
+    /// No single incident is attributable to the scenario's emission.
+    NoAttributableIncident,
+    /// The read-back call itself failed.
+    ReadBackFailed,
+}
+
+/// The posture's outcome table, as `(verdict, state)`.
+fn row(grade: Grade) -> (Option<Verdict>, ReportState) {
+    match grade {
+        Grade::Identified => (Some(Verdict::Pass), ReportState::Pass),
+        Grade::NotIdentified => (Some(Verdict::CalibrationRegion), ReportState::ManualCheck),
+        Grade::NoRankedHypotheses | Grade::NoAttributableIncident | Grade::ReadBackFailed => {
+            (None, ReportState::Blocked)
+        }
+    }
+}
+
+/// Grade a capture. Precedence: a failed read-back, then attribution (exactly one attributed
+/// incident, opened at or after the emission instant), then the attributed report's rank 1.
+fn grade(capture: &str) -> Grade {
+    let lines: Vec<&str> = capture.lines().collect();
+    if lines.iter().any(|l| l.starts_with(READ_BACK_FAILED)) {
+        return Grade::ReadBackFailed;
+    }
+    let attributed: Vec<&str> = lines
+        .iter()
+        .copied()
+        .filter(|l| l.starts_with(ATTRIBUTED))
+        .collect();
+    let [line] = attributed.as_slice() else {
+        return Grade::NoAttributableIncident;
+    };
+    if lines.iter().any(|l| l.starts_with(AMBIGUOUS)) {
+        return Grade::NoAttributableIncident;
+    }
+    let emitted_ns = lines
+        .iter()
+        .find_map(|l| l.strip_prefix(EMISSION_INSTANT))
+        .and_then(|v| v.trim().parse::<i64>().ok())
+        .and_then(|ms| ms.checked_mul(1_000_000));
+    let opened_ns = field(line, "opened_at_unix_nano");
+    match (emitted_ns, opened_ns) {
+        (Some(emitted), Some(opened)) if opened >= emitted => {}
+        _ => return Grade::NoAttributableIncident,
+    }
+    match section_body(capture, "## Hypotheses").and_then(rank1_statement) {
+        None => Grade::NoRankedHypotheses,
+        Some(statement) if identifies_cause(statement) => Grade::Identified,
+        Some(_) => Grade::NotIdentified,
+    }
+}
+
+/// The value of a `key=value` token on a capture line.
+fn field(line: &str, key: &str) -> Option<i64> {
+    line.split_whitespace()
+        .find_map(|token| token.strip_prefix(key)?.strip_prefix('='))
+        .and_then(|v| v.parse().ok())
+}
+
+/// The body of a report section as the capture printed it: after the `header` line, up to the next
+/// `## ` line or the end-of-sections marker.
+fn section_body<'a>(capture: &'a str, header: &str) -> Option<&'a str> {
+    let open = format!("\n{header}\n");
+    let start = capture.find(&open)? + open.len();
+    let rest = &capture[start..];
+    let end = ["\n## ".to_string(), format!("\n{END_OF_SECTIONS}")]
+        .iter()
+        .filter_map(|terminator| rest.find(terminator.as_str()))
+        .min()
+        .unwrap_or(rest.len());
+    Some(&rest[..end])
+}
+
+/// The rank-1 hypothesis statement: the first entry's text after its label close, up to its
+/// justification sub-bullet, the next entry or the section's blank-line close. A statement may carry a
+/// newline (Pulse bounds only its length), so it is never cut at its first line end.
+fn rank1_statement(hypotheses: &str) -> Option<&str> {
+    let entry = &hypotheses[hypotheses.find(ENTRY_OPEN)? + ENTRY_OPEN.len()..];
+    let statement = &entry[entry.find(LABEL_CLOSE)? + LABEL_CLOSE.len()..];
+    let end = ["\n  - ", "\n- **(", "\n\n"]
+        .iter()
+        .filter_map(|terminator| statement.find(terminator))
+        .min()
+        .unwrap_or(statement.len());
+    Some(statement[..end].trim_end())
+}
+
+/// Identified iff the statement, lowercased (ASCII), names `conductor` as a whole word AND a retry
+/// token. Stated limits, fixed here: negation is not read; only the hyphenated canary identity is
+/// separated from `conductor` (a space-separated `conductor canary` passes); `retried` is not a retry
+/// token; a hyphen or underscore neighbour rejects `conductor` wherever it stands.
+fn identifies_cause(statement: &str) -> bool {
+    let lower = statement.to_ascii_lowercase();
+    names_conductor(&lower) && names_retry(&lower)
+}
+
+/// `conductor` with neither neighbour in `[a-z0-9_-]`.
+fn names_conductor(lower: &str) -> bool {
+    let bytes = lower.as_bytes();
+    let joins = |b: u8| b.is_ascii_lowercase() || b.is_ascii_digit() || b == b'_' || b == b'-';
+    lower.match_indices("conductor").any(|(at, word)| {
+        let before = at.checked_sub(1).map(|i| bytes[i]);
+        let after = bytes.get(at + word.len()).copied();
+        !before.is_some_and(joins) && !after.is_some_and(joins)
+    })
+}
+
+/// A maximal run of ASCII letters equal to `retry`, `retries` or `retrying` — the tokens v3-09's
+/// acceptance names. `retry_storm` splits into `retry` and `storm`; `non-retryable` yields none.
+fn names_retry(lower: &str) -> bool {
+    lower
+        .split(|c: char| !c.is_ascii_alphabetic())
+        .any(|run| matches!(run, "retry" | "retries" | "retrying"))
+}
+
+/// B1: the capture witnesses the REAL model — Pulse's `interpretation.model.load` read `real` over
+/// the whole log, and the attributed report's evidence carries no deterministic-fixture (`det-`) ref.
+/// A capture failing this is an operator-launch fault, never a graded outcome.
+fn real_model_witnessed(capture: &str) -> bool {
+    let mode_real = capture
+        .lines()
+        .any(|l| l.strip_prefix(INFERENCE_MODE) == Some("real"));
+    let canned_evidence = section_body(capture, "## Evidence").is_some_and(|e| e.contains("`det-"));
+    mode_real && !canned_evidence
+}
+
+/// Plan D-8: `pulse-app`'s cwd basename reaches the prompt as `PROJECT:`, so a launch whose basename
+/// carries `conductor` puts the word in front of the model outside the cue. Such a capture is an
+/// operator-launch fault, never graded.
+fn launch_cwd_clear(capture: &str) -> bool {
+    capture
+        .lines()
+        .any(|l| l.strip_prefix(LAUNCH_CWD) == Some("false"))
+}
+
+/// Which way the leg went, read from the capture's own lines.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum Route {
+    /// The scenario never emitted: the gate (or the posture check) blocked it.
+    PreflightBlocked,
+    /// It emitted, and no `retrieve_report` read-back witness followed.
+    EmittedNoReadBack,
+    /// Everything else: the full chain.
+    ReadBack,
+}
+
+fn route(capture: &str) -> Route {
+    if capture.lines().any(|l| l == NO_EMISSION) {
+        return Route::PreflightBlocked;
+    }
+    match trace_field(capture, "retrieve_report_witness") {
+        Some("true") => Route::ReadBack,
+        _ => Route::EmittedNoReadBack,
+    }
+}
+
+/// A `key=value` token of the capture's `trace:` line, as text.
+fn trace_field<'a>(capture: &'a str, key: &str) -> Option<&'a str> {
+    capture
+        .lines()
+        .find_map(|l| l.strip_prefix(TRACE))?
+        .split_whitespace()
+        .find_map(|token| token.strip_prefix(key)?.strip_prefix('='))
+}
+
+/// Whether the `trace:` line carries its route's witness set, so no outcome forces a test edit.
+fn trace_conforms(capture: &str) -> bool {
+    let spans: BTreeSet<&str> = trace_field(capture, "spans")
+        .map(|s| s.split(',').filter(|n| !n.is_empty()).collect())
+        .unwrap_or_default();
+    let wire: u64 = trace_field(capture, "wire_shape_lines")
+        .and_then(|v| v.parse().ok())
+        .unwrap_or(0);
+    let retrieve_report = trace_field(capture, "retrieve_report_witness") == Some("true");
+    let chain = ["scenario.run", "timeline.execute", "emit.batch"]
+        .iter()
+        .all(|s| spans.contains(s));
+    match route(capture) {
+        Route::PreflightBlocked => !spans.contains("timeline.execute"),
+        Route::EmittedNoReadBack => chain && wire >= 1 && !retrieve_report,
+        Route::ReadBack => {
+            chain
+                && spans.iter().any(|s| s.starts_with("verify.readback"))
+                && wire >= 1
+                && retrieve_report
+        }
+    }
+}
+// ---- rule: end ----
+.
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 1 filtered out; finished in 0.00s
+
+
+running 2 tests
+i
+real-model capture
+run_id: 2026-09-23T07-39-39-845
+preflight: preflight blocked: pulse-app and the spawned MCP sidecar must resolve the same incident workspace key — the sidecar keys on ANDROMEDA_PULSE_DATA_DIR, pulse-app on its detected workspace root — or Pulse raised no incident for the canary
+preflight: preflight blocked: readiness gate not satisfied
+emission: none
+trace: spans=db.insert_run,emit.batch,report.generate,scenario.run,verify.readback.call_tool,verify.readback.connect,verify.readback.connect_command,verify.readback.list_tools,verify.readback.preflight wire_shape_lines=15 retrieve_report_witness=false
+envelope: {"fingerprints":null,"journal_emitted_at":null,"latency_ms":null,"p_ids":["P-018"],"read_back_observed_at":null,"run_id":"2026-09-23T07-39-39-845","scenario":"real-model-interpretation","seed":4317033,"slo_tier":"<90s","state":"Blocked","verdict":null}
+envelope fingerprints: 0, det- prefixed: 0
+attribution: none (the scenario never emitted)
+pulse-log file: agent-latest.jsonl.2026-09-23
+pulse-log inference_mode: real
+pulse-log workspace basename carries conductor: false
+pulse-log bootstrap_window.override (whole file): 0
+pulse-log window: 189975 lines since the leg's first self-obs line
+pulse-log interpretation.prompt.assemble: 4
+pulse-log   interpretation.prompt.assemble t=2026-09-23T07:39:41.910Z prompt_version=v2.2 token_count=6322 duration_ms=0
+pulse-log   interpretation.prompt.assemble t=2026-09-23T07:40:25.028Z prompt_version=v2.2 token_count=6312 duration_ms=0
+pulse-log   interpretation.prompt.assemble t=2026-09-23T07:40:41.917Z prompt_version=v2.2 token_count=6322 duration_ms=0
+pulse-log   interpretation.prompt.assemble t=2026-09-23T07:41:41.899Z prompt_version=v2.2 token_count=6322 duration_ms=0
+pulse-log interpretation.json.parse: 4
+pulse-log   interpretation.json.parse t=2026-09-23T07:39:45.586Z parse_outcome=ok output_bytes=395 duration_ms=0
+pulse-log   interpretation.json.parse t=2026-09-23T07:40:29.407Z parse_outcome=ok output_bytes=1192 duration_ms=0
+pulse-log   interpretation.json.parse t=2026-09-23T07:40:45.233Z parse_outcome=ok output_bytes=393 duration_ms=0
+pulse-log   interpretation.json.parse t=2026-09-23T07:41:45.784Z parse_outcome=ok output_bytes=1098 duration_ms=0
+pulse-log interpretation.incident.created: 0
+pulse-log interpretation.inference.error: 0
+pulse-log interpretation.inference.skipped: 0
+pulse-log triage.pattern.storm.detected: 2
+pulse-log   triage.pattern.storm.detected t=2026-09-23T07:40:24.991Z severity_hint=suggested occurrence_count=5 fingerprint_hex=8cb9c5d5
+pulse-log   triage.pattern.storm.detected t=2026-09-23T07:40:24.999Z severity_hint=autonomous occurrence_count=10 fingerprint_hex=8cb9c5d5
+pulse-log heartbeat ingest.tick (15 s): 44
+creating digest prompt_version: unknown
+.
+test result: ok. 1 passed; 0 failed; 1 ignored; 0 measured; 0 filtered out; finished in 3.26s
+

@@ -57,10 +57,30 @@ pub enum Commands {
         /// Emit the full precondition result as JSON.
         #[arg(long)]
         json: bool,
+        /// Probe for the scenario the next leg drives: its declared L4 posture decides how the
+        /// deterministic-L4 handle is graded. A scenario NAME — a P-ID can name several scenarios.
+        #[arg(long = "for", value_name = "SCENARIO", value_parser = scenario_name)]
+        for_scenario: Option<String>,
     },
     /// Remove a run's `runs.db` rows across every table it wrote (the harness `cleanup` teardown).
     Cleanup {
         /// The run_id whose rows are removed.
         run_id: String,
     },
+}
+
+/// `--for` takes a scenario name only. A P-ID resolves in the catalog's unsorted directory order and
+/// can match more than one scenario — two name P-018 — so the probe would grade the posture of
+/// whichever file the filesystem listed first.
+fn scenario_name(value: &str) -> Result<String, String> {
+    let pid_shaped = value
+        .strip_prefix("P-")
+        .is_some_and(|rest| rest.len() == 3 && rest.bytes().all(|b| b.is_ascii_digit()));
+    if pid_shaped {
+        Err(format!(
+            "{value} is a P-ID; --for takes a scenario name, because a P-ID can name several scenarios"
+        ))
+    } else {
+        Ok(value.to_string())
+    }
 }

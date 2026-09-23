@@ -75,6 +75,7 @@ mod tests {
             p_ids: Vec::new(),
             seed: 0,
             slo_tier: crate::SloTier::Tier5s,
+            l4_posture: crate::L4Posture::Deterministic,
             phases: vec![crate::PhaseSpec {
                 name: "p".to_string(),
                 gap_ms: 1,

@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.3",
+"sha8": "473d2729",
+"ts": "2026-09-22T21:42:59Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-09-22-interpretation-proven-live",
+"--expect-prefix",
+"Interpretation proven live",
+"--record-file",
+".andromeda/runs/2026-09-22T21-39-08-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-09-22T21-39-08-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:44 - [2026-09-22-interpretation-proven-live]",
+"record master-route.md:151 - appended under `## conductor-0.3.0`",
+"promoted 2026-09-22-interpretation-proven-live - working-route:44 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+".\\conductor-0.3.0\\working-route.md",
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+}
+]

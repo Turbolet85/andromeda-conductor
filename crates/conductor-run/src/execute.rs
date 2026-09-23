@@ -47,6 +47,23 @@ pub async fn execute_scenario<R: PauseResolver>(
     run_id: &str,
     resolver: &R,
 ) -> anyhow::Result<ScenarioOutcome> {
+    // Before the ready check: a ready gate that evaluated the OTHER posture's terms proves nothing
+    // about this scenario's launch condition, so readiness is no licence to run it. A scenario-level
+    // Blocked, like the read-back arm below — never a sixth gate precondition.
+    if scenario.l4_posture != pf.posture {
+        tracing::info!(
+            "scenario blocked: declared L4 posture {} is not the posture this run's gate evaluated ({})",
+            scenario.l4_posture,
+            pf.posture
+        );
+        return Ok(ScenarioOutcome::without_checks(RunRecord::blocked(
+            run_id,
+            scenario.seed,
+            &scenario.name,
+            scenario.p_ids.clone(),
+            scenario.slo_tier,
+        )));
+    }
     if !pf.ready {
         return Ok(ScenarioOutcome::without_checks(RunRecord::blocked(
             run_id,
@@ -767,6 +784,28 @@ mod tests {
             outcome.checks.is_empty(),
             "a blocked row grades nothing, so it records no checks"
         );
+    }
+
+    #[tokio::test(flavor = "current_thread")]
+    async fn a_scenario_declaring_another_posture_is_blocked_even_on_a_ready_gate() {
+        // The gate is READY and has no client: without the posture check this scenario reaches the
+        // connected-client `expect` and panics, so the arm cannot pass vacuously.
+        let mut scenario = fixture(7);
+        scenario.l4_posture = conductor_core::L4Posture::RealModel;
+        let outcome = execute_scenario(
+            &ready_deterministic_preflight_without_client(),
+            &scenario,
+            "run-test",
+            &HeadlessResolver::proceed(),
+        )
+        .await
+        .expect("the posture-mismatch path is infallible");
+        let record = outcome.record;
+        assert!(matches!(record.state, ReportState::Blocked));
+        assert!(record.verdict.is_none(), "a blocked row carries no verdict");
+        assert!(record.journal_emitted_at.is_none() && record.latency_ms.is_none());
+        assert_eq!(record.scenario, "blocked-fixture");
+        assert!(outcome.checks.is_empty());
     }
 
     #[tokio::test(flavor = "current_thread")]

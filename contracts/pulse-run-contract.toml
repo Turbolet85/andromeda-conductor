@@ -11,6 +11,12 @@
 #
 # PROVENANCE. The SUT-side terms are a TRANSCRIBED record, not a Conductor measurement. Treat a term as
 # authoritative only as far as that record is, and re-transcribe when Pulse publishes its own.
+# `l4-real-model` is the exception: a CONDUCTOR posture term (2026-09-22), the launch condition of
+# contracts/pulse-real-model-leg-posture.md, not a transcription of any SUT record.
+#
+# POSTURE. A term tagged `posture` binds only under that L4 posture, which the scenario declares
+# (`l4_posture`); an untagged term binds under every posture. The two L4 terms name one handle and
+# bind under opposite postures, so the gate reads it for declaration or for absence, never both.
 #
 # A read / parse / bounds failure is a harness fault, never a verdict and never a silent widening.
 
@@ -34,7 +40,16 @@ id = "l4-deterministic"
 statement = "the launched pulse-app must run with ANDROMEDA_PULSE_L4_DETERMINISTIC=true, so the canned L4Output replaces the Llama-3.2-3B inference and the live legs are reproducible"
 check = "shell-declaration"
 env = "ANDROMEDA_PULSE_L4_DETERMINISTIC"
+posture = "deterministic"
 causes = "either the launching shell never declared it, or pulse-app was started from a different environment than Conductor's — Conductor reads only its own environment and cannot inspect a process it does not launch"
+
+[[term]]
+id = "l4-real-model"
+statement = "a real-model leg requires ANDROMEDA_PULSE_L4_DETERMINISTIC absent or falsy, so the launched pulse-app runs its real model rather than the canned L4Output (contracts/pulse-real-model-leg-posture.md, The launch posture)"
+check = "shell-absence"
+env = "ANDROMEDA_PULSE_L4_DETERMINISTIC"
+posture = "real-model"
+causes = "the launching shell declares the handle truthy under Conductor's rule or Pulse's own (which also reads yes) — a pulse-app launched from that shell would serve canned interpretations, and grading one as the real model's would claim a measurement never made"
 
 [[term]]
 id = "mcp-enabled"

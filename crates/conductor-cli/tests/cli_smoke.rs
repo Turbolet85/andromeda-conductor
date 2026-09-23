@@ -539,6 +539,70 @@ fn preconditions_output_leaks_no_host_path_or_env_value() {
     }
 }
 
+/// `conductor preconditions --for real-model-interpretation`, rooted like the `run` arms: the probe
+/// loads the named scenario through the validated selection, so the root carries the scenario and the
+/// capability manifest (`conductor(dir)`). `run_preconditions` above sets no working directory, so
+/// from the crate dir `--for` would hit a load fault and a does-not-name assertion would pass vacuously.
+fn preconditions_for_real_model(dir: &TempDir) -> Command {
+    copy_scenario(dir, "real-model-interpretation");
+    let mut cmd = conductor(dir);
+    cmd.env("NO_COLOR", "1")
+        .args(["preconditions", "--for", "real-model-interpretation"]);
+    cmd
+}
+
+#[test]
+fn preconditions_for_a_real_model_scenario_refuses_a_declared_l4_handle() {
+    let dir = TempDir::new().unwrap();
+    let output = preconditions_for_real_model(&dir)
+        .env("ANDROMEDA_PULSE_L4_DETERMINISTIC", "true")
+        .output()
+        .expect("the probe runs");
+    let stdout = String::from_utf8(output.stdout).unwrap();
+    // Other subjects may be unmet on a Pulse-less host, so only the L4 handle is asserted on.
+    assert!(
+        !output.status.success(),
+        "a declared deterministic handle is unmet under the real-model posture: {stdout}"
+    );
+    assert!(
+        stdout.contains(
+            "real-model posture requires it absent or falsy: ANDROMEDA_PULSE_L4_DETERMINISTIC"
+        ),
+        "the handle is named against the posture: {stdout}"
+    );
+}
+
+#[test]
+fn preconditions_for_a_real_model_scenario_does_not_name_an_absent_l4_handle() {
+    let dir = TempDir::new().unwrap();
+    let output = preconditions_for_real_model(&dir)
+        .env_remove("ANDROMEDA_PULSE_L4_DETERMINISTIC")
+        .output()
+        .expect("the probe runs");
+    let stdout = String::from_utf8(output.stdout).unwrap();
+    // The label renders on both of the probe's arms and never on a load fault (that prints an error
+    // block to stderr), so its presence is what makes the absence below mean anything.
+    assert!(
+        stdout.contains("[PRECONDITION]"),
+        "the probe got past the scenario load: {stdout}"
+    );
+    assert!(
+        !stdout.contains("ANDROMEDA_PULSE_L4_DETERMINISTIC"),
+        "an absent deterministic handle is not named under the real-model posture: {stdout}"
+    );
+}
+
+#[test]
+fn preconditions_for_refuses_a_p_id_at_argument_parsing() {
+    // Two committed scenarios name P-018, and a P-ID resolves in unsorted directory order — so the
+    // probe would grade whichever posture the filesystem listed first. A usage error, before any load.
+    Command::cargo_bin("conductor")
+        .unwrap()
+        .args(["preconditions", "--for", "P-018"])
+        .assert()
+        .code(2);
+}
+
 /// The row count out of `cleanup: {n} rows removed for {run_id}`.
 fn removed_count(stdout: &[u8]) -> u64 {
     let text = String::from_utf8_lossy(stdout);

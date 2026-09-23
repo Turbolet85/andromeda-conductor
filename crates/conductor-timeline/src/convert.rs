@@ -35,7 +35,7 @@ impl From<&Scenario> for PhaseTimeline {
 mod tests {
     use std::time::Duration;
 
-    use conductor_core::{EmissionSpec, PId, PhaseSpec, Scenario, SloTier};
+    use conductor_core::{EmissionSpec, L4Posture, PId, PhaseSpec, Scenario, SloTier};
 
     use crate::{PhaseTimeline, run_timeline};
 
@@ -45,6 +45,7 @@ mod tests {
             p_ids: vec![PId("P-009".to_string())],
             seed,
             slo_tier: SloTier::Tier5s,
+            l4_posture: L4Posture::Deterministic,
             phases: vec![
                 PhaseSpec {
                     name: "baseline".to_string(),

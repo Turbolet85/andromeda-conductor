@@ -53,7 +53,7 @@ not hypothetical. (Rendered only on Windows-host projects; inert elsewhere.)
   and a 60-line quoted heredoc both died at script line 57 with `unexpected EOF while looking for
   matching`; 6.0 KB passed; all 22 logged heredoc failures were larger calls) — keep every command
   under 6500 bytes: a document goes through the Write tool, a script to a scratchpad file run by
-  path, a ledger payload splits across calls. The quoted heredoc itself is sound below the cut.
+  path, a ledger payload splits across calls. The quoted heredoc itself is sound below the cut **[corrected 2026-09-23: except for BACKSLASH PAIRS — the Bash tool's transport collapses a doubled backslash to one before bash ever sees the quoted heredoc (measured on three payloads: a Python `'\\'` arrived as `'\'`, a `\\n` planted real newlines in Rust string literals, and `grep '\\'` died on a trailing backslash); a backslash-bearing payload goes through a scratchpad file written by the Write tool]**.
 
 ## Long single-line files
 - A multi-KB single-line entry defeats anchored Edit and capped reads — use a python

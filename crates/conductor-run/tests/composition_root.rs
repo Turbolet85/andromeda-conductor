@@ -9,7 +9,7 @@
 
 use std::path::Path;
 
-use conductor_core::{LoadEnvelope, PId, PhaseSpec, Scenario, SloTier};
+use conductor_core::{L4Posture, LoadEnvelope, PId, PhaseSpec, Scenario, SloTier};
 
 /// Every public item, referenced by its crate-root path. A `pub use` that dropped or renamed one
 /// stops this compiling — the split's byte-stability oracle, checked by the type system rather than
@@ -48,8 +48,14 @@ fn public_api_paths_are_stable() {
     #[allow(clippy::no_effect_underscore_binding)]
     let _unused = || async {
         let _ = conductor_run::preflight(Path::new("contracts/mcp-contract.toml")).await;
+        let _ = conductor_run::preflight_for(
+            Path::new("contracts/mcp-contract.toml"),
+            L4Posture::RealModel,
+        )
+        .await;
         let _ = conductor_run::readiness(Path::new("contracts/mcp-contract.toml")).await;
         let _ = conductor_run::observe_preconditions().await;
+        let _ = conductor_run::observe_preconditions_for(L4Posture::RealModel).await;
     };
 }
 
@@ -67,6 +73,7 @@ fn persist_and_read_envelope_round_trip_through_the_public_paths() {
         p_ids: vec![PId("P-009".to_string())],
         seed: 424_242,
         slo_tier: SloTier::Tier5s,
+        l4_posture: L4Posture::Deterministic,
         phases: vec![PhaseSpec {
             name: "quiet".to_string(),
             gap_ms: 10,

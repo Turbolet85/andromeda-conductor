@@ -29,7 +29,7 @@ provenance = "measured against the andromeda-pulse working tree at the head name
 scenario = "root-span-error-scope"
 ground = "the declared token `error` is the lowercase severity label Pulse renders into every incident report, so the assertion is satisfiable by construction against a reachable corpus"
 discriminates = false
-weakness = "under the deterministic interpretation mode every verifiable run uses, the canned L4 payload is returned regardless of prompt and pins severity `autonomous`, which maps to the incident severity `Error` and renders the same `error` label for any stimulus — so this assertion passes on a token this scenario's own root-vs-deep error spans did not produce"
+weakness = "under the deterministic interpretation mode every verifiable run uses [corrected 2026-09-22 (2026-09-22-interpretation-proven-live): true of every DETERMINISTIC-posture run — every scenario but real-model-interpretation, which declares the real-model posture; this scenario is deterministic-posture, so the weakness recorded here still holds for its runs], the canned L4 payload is returned regardless of prompt and pins severity `autonomous`, which maps to the incident severity `Error` and renders the same `error` label for any stimulus — so this assertion passes on a token this scenario's own root-vs-deep error spans did not produce"
 
 [[live_assertion]]
 scenario = "span-status-error-detection"
@@ -77,6 +77,10 @@ reason = "re-declared from `<20s` (2026-08-18): whole-run latency_ms spans the e
 [[over_tier]]
 scenario = "pulse-run-contract"
 reason = "paced by the digest cadence plus L4 rather than storm detection — the slowest tier is its calibration point"
+
+[[over_tier]]
+scenario = "real-model-interpretation"
+reason = "three storm bursts span 136 s; real-model timing is unmeasured and the leg grades at the harvest tier, never on a tier; `<90s` is the ceiling"
 
 [[over_tier]]
 scenario = "restart-suppression"

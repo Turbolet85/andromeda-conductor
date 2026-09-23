@@ -4,8 +4,9 @@
 #
 # Mirrors agent-run.sh — same 5 commands, same semantics. Conductor has NO daemon and NO inbound
 # listener: boot is a preflight gate, status reads disk artifacts, there is no PID file.
-#   boot, run [--unit|--integration|--e2e|--live], status [run_id], cleanup [run_id], logs [run_id]
-#   --live is the operator-gated live-Pulse suite: never a CI gate, never reachable from a bare `run`
+#   boot, run [--unit|--integration|--e2e|--live [real-model]], status [run_id], cleanup [run_id], logs [run_id]
+#   --live is the operator-gated live-Pulse suite: never a CI gate, never reachable from a bare `run`;
+#   `--live real-model` selects its one real-model leg instead of the suite
 # Run with: .\scripts\agent-run.ps1 boot
 
 $ErrorActionPreference = 'Stop'
@@ -15,6 +16,9 @@ $Cargo = if ($env:CARGO) { $env:CARGO } else { 'cargo' }
 $RunsDir = if ($env:CONDUCTOR_RUNS_DIR) { $env:CONDUCTOR_RUNS_DIR } else { 'runs' }
 $UiDir = 'crates/conductor-tauri/ui'
 $Arg1 = if ($args.Count -ge 2) { $args[1] } else { '' }
+# The `run --live` selector — the THIRD token. Bound by count, like $Arg1: StrictMode Latest refuses an
+# out-of-bounds index.
+$Arg2 = if ($args.Count -ge 3) { $args[2] } else { '' }
 $RunContract = 'contracts/pulse-run-contract.toml'
 
 # Read a bare `key = <integer>` term from the pinned run contract. A missing term is fatal, never
@@ -179,7 +183,9 @@ function Invoke-LiveSuite {
     #       still-open incident on the (kind, scope, scope_id) tuple, no fresh incident forms, and the
     #       gate goes not-ready-but-CONNECTED — the only state reaching the readiness-gate self-obs line.
     #       ANDROMEDA_PULSE_L4_DETERMINISTIC is load-bearing: canned-L4 formation is ~2s, so B2's storm
-    #       lands well inside the window; real-model formation (~110s) would fall outside it.
+    #       lands well inside the window. The ~110s figure once quoted here as real-model formation is
+    #       a DETERMINISTIC-L4 measurement (lifecycle_live.rs, run with the handle true), re-attributed
+    #       later; real-model formation is unmeasured, and no longer-than-the-window claim rests on it.
     #   A   after the quiet window, a fresh canary forms then idles for the whole silent scenario, so
     #       read-back finds an EMPTY active set — the auto-resolve residual arm.
     Invoke-LiveLeg 'h' 'halo-hue-encoding' (Get-LiveLegBudgetSec 180)
@@ -215,6 +221,88 @@ function Invoke-LiveSuite {
     Write-Output '[live] (level WARN, reason="env_override", resolved_seconds) - the emitting fn name is not in the log.'
     Write-Output '[live] stop form: the wdio arm self-terminates via onComplete -> tauriDriver.kill(); after an'
     Write-Output '[live] interrupted run: taskkill /F /IM msedgedriver.exe /IM conductor-tauri.exe (+ the node CLI).'
+    Write-Output '[live] pulse-app is NOT stopped here - the operator started it and stops it.'
+}
+
+# One capture-binary test invocation for the real-model leg, its child's own bytes appended to the
+# capture files. RUST_LOG never rides a test invocation, and the env is process-wide when this script is
+# dot-invoked, so it is saved, removed and restored. Start-Process without -Wait, then WaitForExit(),
+# waits on the child alone (host-win32.md); the files are written with .NET's BOM-less UTF-8 because a
+# powershell.exe 5.1 redirect (>, *>, Out-File, Set-Content) writes UTF-16.
+function Invoke-CaptureTest([string[]]$TestArgs, [string]$CapPath, [string]$ErrPath) {
+    $utf8 = New-Object System.Text.UTF8Encoding $false
+    $tmpOut = [System.IO.Path]::GetTempFileName()
+    $tmpErr = [System.IO.Path]::GetTempFileName()
+    $savedRustLog = $env:RUST_LOG
+    try {
+        Remove-Item Env:RUST_LOG -ErrorAction SilentlyContinue
+        $p = Start-Process -FilePath $Cargo -NoNewWindow -PassThru -ArgumentList $TestArgs `
+            -RedirectStandardOutput $tmpOut -RedirectStandardError $tmpErr
+        $null = $p.Handle  # keeps the handle, so ExitCode is readable after the wait
+        $p.WaitForExit()
+        [System.IO.File]::AppendAllText($CapPath, [System.IO.File]::ReadAllText($tmpOut, $utf8), $utf8)
+        [System.IO.File]::AppendAllText($ErrPath, [System.IO.File]::ReadAllText($tmpErr, $utf8), $utf8)
+        $p.ExitCode
+    } finally {
+        if ($null -ne $savedRustLog) { $env:RUST_LOG = $savedRustLog }
+        Remove-Item $tmpOut, $tmpErr -Force -ErrorAction SilentlyContinue
+    }
+}
+
+# `run --live real-model` — the ONE real-model interpretation leg (contracts/pulse-real-model-leg-posture.md).
+# Identical semantics to agent-run.sh's live_real_model_leg: the scenario declares the real-model posture,
+# so the probe and the preflight both require deterministic L4 ABSENT. An experiment graded once, never
+# a gate expected green, and never re-driven.
+function Invoke-LiveRealModelLeg {
+    $capDir = Join-Path (Get-Location) $LiveCaptureDir
+    $cap = Join-Path $capDir 'rm-capture.txt'
+    $err = Join-Path $capDir 'rm-capture.err'
+
+    # (a) The non-priming probe, for THIS scenario's posture: it fires no canary.
+    & $Cargo run -q -p conductor-cli --bin conductor -- preconditions --for real-model-interpretation
+    if ($LASTEXITCODE -ne 0) {
+        [Console]::Error.WriteLine('run --live real-model: refused - a live-Pulse precondition is unmet (above); no leg was fired')
+        exit 1
+    }
+
+    # (b) Build the capture binary now, so the capture fires seconds after the leg.
+    & $Cargo test -p conductor-run --features live-pulse --test real_model_live --no-run
+    if ($LASTEXITCODE -ne 0) { throw "capture binary build failed ($LASTEXITCODE)" }
+
+    # (c) This arm's own named artifacts only — non-recursive, like the suite's `*.jsonl` clear.
+    New-Item -ItemType Directory -Force -Path $capDir | Out-Null
+    Remove-Item (Join-Path $capDir 'rm.jsonl'), $cap, $err -Force -ErrorAction SilentlyContinue
+
+    # (c') The grading rule's span, recorded BEFORE the leg; a failure stops here, so the drive is not spent.
+    $rc = Invoke-CaptureTest @('test', '-q', '-p', 'conductor-run', '--features', 'live-pulse',
+        '--test', 'real_model_live', '--', '--ignored', '--exact', 'rule_record', '--nocapture') $cap $err
+    if ($rc -ne 0) {
+        [Console]::Error.WriteLine("run --live real-model: the rule record exited $rc (stderr in rm-capture.err under $LiveCaptureDir); no leg was fired")
+        exit $rc
+    }
+
+    # (d) The leg. A timeout exits 124 inside Invoke-LiveLeg, before the freeze and the capture, and
+    # leaves conductor.exe and the sidecar running ($p.Kill() reaches only cargo): take the census, stop
+    # what the leg started by PID, and classify the attempt before anything re-fires.
+    Invoke-LiveLeg 'rm' 'real-model-interpretation' (Get-LiveLegBudgetSec 136)
+
+    # (e) The capture, appended after the rule record. Its non-zero exit is a harness error, never a
+    # graded outcome — the harvest grades.
+    $rc = Invoke-CaptureTest @('test', '-q', '-p', 'conductor-run', '--features', 'live-pulse',
+        '--test', 'real_model_live', '--', '--nocapture') $cap $err
+    Write-Output ([System.IO.File]::ReadAllText($cap, (New-Object System.Text.UTF8Encoding $false)))
+    if ($rc -ne 0) {
+        [Console]::Error.WriteLine("run --live real-model: the capture exited $rc - a harness error, never a graded outcome (stderr in rm-capture.err under $LiveCaptureDir)")
+        exit $rc
+    }
+
+    # (f) What the operator and the census still owe.
+    Write-Output "[live] real-model leg complete - capture at $LiveCaptureDir (rm-capture.txt; stderr in rm-capture.err, never committed)"
+    Write-Output '[live] bootstrap posture: the default - no override. The storm path consults no baseline, so the'
+    Write-Output '[live] window is inert here; the capture''s whole-file count of triage.baseline.bootstrap_window.override'
+    Write-Output '[live] confirms which posture booted.'
+    Write-Output '[live] stop form: take the census again; stop only rows absent from the census taken before the leg,'
+    Write-Output '[live] by PID, after reading each one''s parent and start time - never by image name.'
     Write-Output '[live] pulse-app is NOT stopped here - the operator started it and stops it.'
 }
 
@@ -295,9 +383,17 @@ switch ($args[0]) {
             # test-plan §9: the operator-gated live suite. NEVER a CI gate and never reachable from a
             # bare `run` — a live leg drives a real Pulse. Composes H -> B1 -> B2 -> quiet window -> A ->
             # the driven a11y arm, in that order, because each leg's outcome depends on the incident
-            # state the previous one left.
-            '--live' { Invoke-LiveSuite; break }
-            default { [Console]::Error.WriteLine('usage: .\agent-run.ps1 run [--unit|--integration|--e2e|--live]'); exit 2 }
+            # state the previous one left. The optional THIRD token selects the real-model leg instead;
+            # an unknown one is a usage error, printed before any probe runs.
+            '--live' {
+                switch ($Arg2) {
+                    ''           { Invoke-LiveSuite; break }
+                    'real-model' { Invoke-LiveRealModelLeg; break }
+                    default { [Console]::Error.WriteLine('usage: .\agent-run.ps1 run --live [real-model]'); exit 2 }
+                }
+                break
+            }
+            default { [Console]::Error.WriteLine('usage: .\agent-run.ps1 run [--unit|--integration|--e2e|--live [real-model]]'); exit 2 }
         }
     }
     'status' {
@@ -340,7 +436,7 @@ switch ($args[0]) {
         Get-Content $journal
     }
     default {
-        [Console]::Error.WriteLine('Usage: .\agent-run.ps1 {boot|run [--unit|--integration|--e2e]|status [run_id]|cleanup [run_id]|logs [run_id]}')
+        [Console]::Error.WriteLine('Usage: .\agent-run.ps1 {boot|run [--unit|--integration|--e2e|--live [real-model]]|status [run_id]|cleanup [run_id]|logs [run_id]}')
         exit 2
     }
 }

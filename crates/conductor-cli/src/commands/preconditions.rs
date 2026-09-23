@@ -1,9 +1,12 @@
-//! `conductor preconditions [--json]` — probe the live-Pulse preconditions before a leg is scheduled.
+//! `conductor preconditions [--json] [--for <scenario>]` — probe the live-Pulse preconditions before a
+//! leg is scheduled.
 //!
 //! A go/no-go gate like [`crate::commands::preflight`]: every subject satisfied exits 0, any unmet
 //! subject exits non-zero, so a caller gates with `if conductor preconditions; then …`. It is NOT a
 //! preflight — it fires no canary storm and emits no OTLP, so it primes none of the SUT state a
 //! preflight's canary would (architecture §Established Decisions [Read-Back Dependency Posture]).
+//! With `--for`, the named scenario's declared L4 posture selects how the deterministic-L4 handle is
+//! graded; without it the probe runs for the deterministic posture, exactly as before.
 //!
 //! The result is a harness fact, never a verdict: no `Verdict`, no `ReportState`, no per-P-ID row.
 //! Every subject is named on both paths — a gate whose failure reports only a count names no defect
@@ -14,10 +17,21 @@ use std::process::ExitCode;
 use conductor_core::now_rfc3339;
 use conductor_run as pipeline;
 
+use crate::paths::Paths;
 use crate::render;
 
-pub async fn preconditions(json: bool) -> anyhow::Result<ExitCode> {
-    let status = pipeline::observe_preconditions().await;
+pub async fn preconditions(
+    json: bool,
+    for_scenario: Option<&str>,
+    paths: &Paths,
+) -> anyhow::Result<ExitCode> {
+    let status = match for_scenario {
+        Some(target) => {
+            let scenario = paths.load_scenario(target, None)?;
+            pipeline::observe_preconditions_for(scenario.l4_posture).await
+        }
+        None => pipeline::observe_preconditions().await,
+    };
 
     if json {
         println!(

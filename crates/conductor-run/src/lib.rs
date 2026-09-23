@@ -27,7 +27,7 @@ mod testkit;
 
 pub use canary::{
     CANARY_SERVICE_NAME, CANARY_STORM_COUNT, Preflight, canary_spec, canary_storm_seed,
-    canary_warmup_seed, emit_canary_storm, preflight, readiness,
+    canary_warmup_seed, emit_canary_storm, preflight, preflight_for, readiness,
 };
 pub use dispatch::{DispatchError, Dispatcher};
 pub use drive::{RunEvent, RunStage, drive_run};
@@ -37,4 +37,4 @@ pub use lifecycle::{
     AUTO_RESOLVE_IDLE_SECONDS, LifecycleObservation, LifecycleVerdict, attribute_by_liveness,
     evaluate_lifecycle, probe_resolve_lifecycle, select_resolve_target,
 };
-pub use preconditions::observe_preconditions;
+pub use preconditions::{observe_preconditions, observe_preconditions_for};

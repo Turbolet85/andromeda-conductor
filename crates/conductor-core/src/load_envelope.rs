@@ -498,6 +498,7 @@ mod tests {
             p_ids: vec![PId("P-001".to_string())],
             seed: 1,
             slo_tier: SloTier::Tier5s,
+            l4_posture: crate::L4Posture::Deterministic,
             phases: phases
                 .iter()
                 .enumerate()

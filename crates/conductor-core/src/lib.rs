@@ -56,12 +56,14 @@ pub use phase_spec::{
 };
 pub use preconditions::{
     OBSERVED_HANDLES, PreconditionObservation, PreconditionSubject, Preconditions,
-    PreconditionsStatus, UnmetPrecondition, flag_declared, handle_declared,
+    PreconditionsStatus, UnmetPrecondition, flag_declared, flag_declared_on_either_side,
+    handle_declared, handle_declared_for,
 };
 pub use redact::{redact_value, sanitize_error};
 pub use report_state::ReportState;
 pub use run_contract::{
-    CheckKind, ContractTerm, IncidentFormation, RunContract, RunContractStatus, UnmetTerm,
+    CheckKind, ContractTerm, IncidentFormation, L4Posture, RunContract, RunContractStatus,
+    UnmetTerm,
 };
 pub use run_journal::{JournalLine, classify_journal_line, latest_run_id, read_run_journal};
 pub use run_record::{CheckRecord, ENVELOPE_KEYS_SORTED, RunRecord};

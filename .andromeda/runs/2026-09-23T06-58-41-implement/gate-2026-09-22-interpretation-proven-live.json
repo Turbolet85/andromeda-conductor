@@ -1,0 +1,4940 @@
+[
+{
+"tool": "gate",
+"v": "1.0",
+"sha8": "8f152023",
+"ts": "2026-09-23T07:30:59Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-23T06-58-41-implement",
+"--marker",
+"2026-09-22-interpretation-proven-live"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-22-interpretation-proven-live · entries 24",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41 · bound: GNU timeout",
+"delta docs 23 · rust 23 · unmapped 6",
+"prose L521-527: The block runs in the order below. The live leg (`leg = 'live'`) is fired by the agent at … (761 chars)",
+"prose L529-534: Three more notes on the block: - The live entry is fired BACKGROUNDED and read on its comp… (460 chars)",
+"  1 probe       green · exit 0 · 0.18s · 0 B → 1.log · git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+"  2 probe       green · exit 0 · 2.55s · 1897 B → 2.log · cargo audit",
+"  3 probe       green · exit 0 · 1.61s · 236251 B → 3.log · cargo deny check advisories bans licenses sources",
+"  4 lint        green · exit 0 · 0.44s · 0 B → 4.log · cargo fmt --check",
+"  5 lint        green · exit 0 · 4.12s · 770 B → 5.log · cargo clippy --workspace --all-targets -- -D warnings",
+"  6 lint        red · exit 0 ✗ (exit 101) · exit 101 · 2.9s · 1560 B → 6.log · cargo clippy -p conductor-run --features live-pulse --all-… (80 chars)",
+"  7 unit        green · exit 0 · 24.14s · 126608 B → 7.log · cargo nextest run --workspace --profile ci",
+"  8 unit        green · exit 0 · 1.44s · 1392 B → 8.log · cargo test --workspace --doc",
+"  9 unit        green · exit 0 · 4.29s · 29286 B → 9.log · cargo test -p conductor-core",
+" 10 unit        green · exit 0 · 11.89s · 21670 B → 10.log · cargo test -p conductor-run",
+" 11 unit        green · exit 0 · 9.86s · 5217 B → 11.log · cargo test -p conductor-cli",
+" 12 unit        green · exit 0 · 0.69s · 1131 B → 12.log · cargo nextest run -p conductor-core --test scenario_audit_… (75 chars)",
+" 13 unit        green · exit 0 · 3.05s · 827 B → 13.log · cargo nextest run -p conductor-report --test coverage_gate… (71 chars)",
+" 14 unit        green · exit 0 · 0.81s · 4161 B → 14.log · cargo nextest run -p conductor-run --test real_model_harve… (73 chars)",
+" 15 probe       green · exit 1 · 0.06s · 2 B → 15.log · grep -cE \"\\b[A-Za-z]:[\\\\/]|/home/|/Users/|%APPDATA%\" contr… (94 chars)",
+" 16 probe       green · exit 1 · 0.06s · 2 B → 16.log · grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|… (132 chars)",
+" 17 probe       green · exit 2 · 0.08s · 52 B → 17.log · bash scripts/agent-run.sh run --live bogus",
+" 18 probe       green · exit 2 · 0.3s · 48 B → 18.log · powershell.exe -NoProfile -ExecutionPolicy Bypass -File sc… (94 chars)",
+" 19 probe       not run — env ANDROMEDA_PULSE_DATA_DIR, ANDROMEDA_PULSE_MCP_ENABLED unset · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (152 chars)",
+" 20 probe       recorded · exit 1 · 0.37s · 0 B → 20.log · tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromed… (111 chars)",
+" 21 e2e         not run — leg live (the letter drives it) · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (172 chars)",
+" 22 probe       recorded · exit 1 · 0.33s · 0 B → 22.log · tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromed… (111 chars)",
+" 23 probe       red · exit 1 ✗ (exit 2) · exit 2 · 0.06s · 118 B → 23.log · grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|… (168 chars)",
+" 24 smoke       not run — leg operator (the letter drives it) · bash scripts/agent-run.sh status <id>",
+"entries 24 · green 17 · red 2 (6,23) · recorded 2 · timeout 0 · not-run 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-22-interpretation-proven-live",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-22-interpretation-proven-live\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+"contracts/pulse-real-model-leg-posture.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/a11y.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/acceptance-v3-09.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/arch.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/design.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/layouts.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/master-record.txt",
+".andromeda/runs/2026-09-22T21-39-08-phase/matrix-2026-09-22-interpretation-proven-live.json",
+".andromeda/runs/2026-09-22T21-39-08-phase/note-v3-09.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/obs.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/p5-review-operator.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/route-2026-09-22-interpretation-proven-live.json",
+".andromeda/runs/2026-09-22T21-39-08-phase/route-no-marker.json",
+".andromeda/runs/2026-09-22T21-39-08-phase/security.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/tests.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/tree-query-2026-09-22-interpretation-proven-live.json",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/plan.md",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/research.md",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/scope.md"
+],
+"rust": [
+"crates/conductor-cli/src/cli.rs",
+"crates/conductor-cli/src/commands/preconditions.rs",
+"crates/conductor-cli/src/commands/run.rs",
+"crates/conductor-cli/src/main.rs",
+"crates/conductor-cli/tests/cli_smoke.rs",
+"crates/conductor-core/src/error.rs",
+"crates/conductor-core/src/lib.rs",
+"crates/conductor-core/src/load_envelope.rs",
+"crates/conductor-core/src/preconditions.rs",
+"crates/conductor-core/src/run_contract.rs",
+"crates/conductor-core/src/scenario.rs",
+"crates/conductor-run/src/canary.rs",
+"crates/conductor-run/src/execute.rs",
+"crates/conductor-run/src/lib.rs",
+"crates/conductor-run/src/preconditions.rs",
+"crates/conductor-run/src/testkit.rs",
+"crates/conductor-run/tests/composition_root.rs",
+"crates/conductor-run/tests/dispatch_wire.rs",
+"crates/conductor-run/tests/run_contract_pin.rs",
+"crates/conductor-timeline/src/convert.rs",
+"crates/conductor-run/tests/real_model_common/mod.rs",
+"crates/conductor-run/tests/real_model_harvest.rs",
+"crates/conductor-run/tests/real_model_live.rs"
+]
+},
+"unmapped": [
+"conductor-0.3.0/verification-matrix.json",
+"contracts/pulse-run-contract.toml",
+"contracts/scenario-audit-ledger.toml",
+"scripts/agent-run.ps1",
+"scripts/agent-run.sh",
+"scenarios/real-model-interpretation.toml"
+],
+"prose": [
+{
+"from": 521,
+"to": 527,
+"text": "The block runs in the order below. The live leg (`leg = 'live'`) is fired by the agent at step 13 with the operator's Pulse up, never by the gate tool. It is preceded by its NON-PRIMING probe (`conductor preconditions --for …`, which fires no canary) and bracketed by a census. The status smoke reads the `run_id` the leg's capture prints (mint-then-read), so it is an `operator` entry the wrap does not re-run. No `self-verify` entry is listed: this is not a UI/visual chunk. The deterministic `--live` suite is not driven this chunk. Its gating stays byte-unchanged at the unit tier (steps 1, 3, 5), and re-launching Pulse deterministic mid-chunk would prime nothing this chunk measures. CI is read by the next chunk's Setup 5a against this wrap's pushed sha."
+},
+{
+"from": 529,
+"to": 534,
+"text": "Three more notes on the block: - The live entry is fired BACKGROUNDED and read on its completion notification: at about 24 min, it outlasts one   foreground call. - The evidence hygiene entry's subject, `evidence/rm-capture.txt`, is the agent's step-13 copy of the live entry's   `artifact`. No entry produces it, and it reads red (file absent, exit 2) until the drive. - The two `run --live bogus` entries exercise each shell's new selector arm without Pulse."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "probe",
+"run": "git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+"run_sha8": "85122344",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.18,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\2.log",
+"bytes": 1897,
+"log_sha8": "9fe718f8",
+"exit": 0,
+"seconds": 2.55,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\3.log",
+"bytes": 236251,
+"log_sha8": "4ebeefef",
+"exit": 0,
+"seconds": 1.61,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "cargo fmt --check",
+"run_sha8": "194fabc0",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\4.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.44,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\5.log",
+"bytes": 770,
+"log_sha8": "f27bf0c0",
+"exit": 0,
+"seconds": 4.12,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "lint",
+"run": "cargo clippy -p conductor-run --features live-pulse --all-targets -- -D warnings",
+"run_sha8": "c3608109",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\6.log",
+"bytes": 1560,
+"log_sha8": "32bb2cc8",
+"exit": 101,
+"seconds": 2.9,
+"readings": [
+"exit 0 ✗ (exit 101)"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 101)"
+},
+{
+"n": 7,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\7.log",
+"bytes": 126608,
+"log_sha8": "4e1fa8d9",
+"exit": 0,
+"seconds": 24.14,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "unit",
+"run": "cargo test --workspace --doc",
+"run_sha8": "5d8797c2",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\8.log",
+"bytes": 1392,
+"log_sha8": "b50c5afb",
+"exit": 0,
+"seconds": 1.44,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "unit",
+"run": "cargo test -p conductor-core",
+"run_sha8": "cbd7017c",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\9.log",
+"bytes": 29286,
+"log_sha8": "9215e7ab",
+"exit": 0,
+"seconds": 4.29,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "unit",
+"run": "cargo test -p conductor-run",
+"run_sha8": "988a9d64",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\10.log",
+"bytes": 21670,
+"log_sha8": "36da6164",
+"exit": 0,
+"seconds": 11.89,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "unit",
+"run": "cargo test -p conductor-cli",
+"run_sha8": "2eab0728",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\11.log",
+"bytes": 5217,
+"log_sha8": "c032624a",
+"exit": 0,
+"seconds": 9.86,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "unit",
+"run": "cargo nextest run -p conductor-core --test scenario_audit_gate --profile ci",
+"run_sha8": "ead6dcd7",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\12.log",
+"bytes": 1131,
+"log_sha8": "c035c887",
+"exit": 0,
+"seconds": 0.69,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "unit",
+"run": "cargo nextest run -p conductor-report --test coverage_gate --profile ci",
+"run_sha8": "7aaf8575",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\13.log",
+"bytes": 827,
+"log_sha8": "f0ec0701",
+"exit": 0,
+"seconds": 3.05,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "unit",
+"run": "cargo nextest run -p conductor-run --test real_model_harvest --profile ci",
+"run_sha8": "70507ea4",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\14.log",
+"bytes": 4161,
+"log_sha8": "a4f57577",
+"exit": 0,
+"seconds": 0.81,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "grep -cE \"\\b[A-Za-z]:[\\\\/]|/home/|/Users/|%APPDATA%\" contracts/pulse-real-model-leg-posture.md",
+"run_sha8": "ab13ce7d",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\15.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.06,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|/home/|/Users/|%APPDATA%\" crates/conductor-run/tests/real_model_harvest.rs",
+"run_sha8": "92fc4857",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\16.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.06,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "bash scripts/agent-run.sh run --live bogus",
+"run_sha8": "49e32964",
+"expect": [
+"exit 2",
+"contains run --live [real-model]"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\17.log",
+"bytes": 52,
+"log_sha8": "1349e550",
+"exit": 2,
+"seconds": 0.08,
+"readings": [
+"exit 2 ✓",
+"contains 'run --live [real-model]' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/agent-run.ps1 run --live bogus",
+"run_sha8": "8e347ca9",
+"expect": [
+"exit 2",
+"contains run --live [real-model]"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\18.log",
+"bytes": 48,
+"log_sha8": "dd0ae418",
+"exit": 2,
+"seconds": 0.3,
+"readings": [
+"exit 2 ✓",
+"contains 'run --live [real-model]' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH cargo run -q -p conductor-cli --bin conductor -- preconditions --for real-model-interpretation",
+"run_sha8": "07904e69",
+"expect": [
+"exit 0",
+"contains [PRECONDITION] every live-Pulse precondition is satisfied"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — env ANDROMEDA_PULSE_DATA_DIR, ANDROMEDA_PULSE_MCP_ENABLED unset"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromeda-pulse-mcp|pulse-app|real_model_live-[^\\\"]*)\\.exe\\\"\"",
+"run_sha8": "70642c44",
+"expect": [],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\20.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.37,
+"readings": [
+"report-only (expect = [])"
+],
+"survivors": [],
+"outcome": "recorded"
+},
+{
+"n": 21,
+"role": "e2e",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH RUST_LOG=info,conductor_emit=debug CONDUCTOR_PREFLIGHT_TIMEOUT=600 bash scripts/agent-run.sh run --live real-model",
+"run_sha8": "319f782e",
+"expect": [
+"exit 0",
+"contains [live] leg rm: real-model-interpretation",
+"contains [live] leg rm: froze"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg live (the letter drives it)"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromeda-pulse-mcp|pulse-app|real_model_live-[^\\\"]*)\\.exe\\\"\"",
+"run_sha8": "70642c44",
+"expect": [],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\22.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.33,
+"readings": [
+"report-only (expect = [])"
+],
+"survivors": [],
+"outcome": "recorded"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|/home/|/Users/|%APPDATA%\" conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/evidence/rm-capture.txt",
+"run_sha8": "2598db8c",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\23.log",
+"bytes": 118,
+"log_sha8": "7cc1d6ca",
+"exit": 2,
+"seconds": 0.06,
+"readings": [
+"exit 1 ✗ (exit 2)",
+"last line '0' ✗ (last: 'grep: conductor-0.3.0/chunks/2026-09-22-… (117 chars)')"
+],
+"survivors": [],
+"outcome": "red · exit 1 ✗ (exit 2)"
+},
+{
+"n": 24,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status <id>",
+"run_sha8": "4849b302",
+"expect": [
+"exit 0",
+"contains \"scenario\": \"real-model-interpretation\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.0",
+"sha8": "8f152023",
+"ts": "2026-09-23T07:31:29Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-23T06-58-41-implement",
+"--marker",
+"2026-09-22-interpretation-proven-live",
+"--only",
+"4,6,14"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-22-interpretation-proven-live · entries 24",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41 · bound: GNU timeout",
+"delta docs 24 · rust 23 · unmapped 6",
+"prose L521-527: The block runs in the order below. The live leg (`leg = 'live'`) is fired by the agent at … (761 chars)",
+"prose L529-534: Three more notes on the block: - The live entry is fired BACKGROUNDED and read on its comp… (460 chars)",
+"  1 probe       not run — excluded · git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+"  2 probe       not run — excluded · cargo audit",
+"  3 probe       not run — excluded · cargo deny check advisories bans licenses sources",
+"  4 lint        green · exit 0 · 0.44s · 0 B → 4.log · cargo fmt --check",
+"  5 lint        not run — excluded · cargo clippy --workspace --all-targets -- -D warnings",
+"  6 lint        green · exit 0 · 0.67s · 155 B → 6.log · cargo clippy -p conductor-run --features live-pulse --all-… (80 chars)",
+"  7 unit        not run — excluded · cargo nextest run --workspace --profile ci",
+"  8 unit        not run — excluded · cargo test --workspace --doc",
+"  9 unit        not run — excluded · cargo test -p conductor-core",
+" 10 unit        not run — excluded · cargo test -p conductor-run",
+" 11 unit        not run — excluded · cargo test -p conductor-cli",
+" 12 unit        not run — excluded · cargo nextest run -p conductor-core --test scenario_audit_… (75 chars)",
+" 13 unit        not run — excluded · cargo nextest run -p conductor-report --test coverage_gate… (71 chars)",
+" 14 unit        green · exit 0 · 1.53s · 4244 B → 14.log · cargo nextest run -p conductor-run --test real_model_harve… (73 chars)",
+" 15 probe       not run — excluded · grep -cE \"\\b[A-Za-z]:[\\\\/]|/home/|/Users/|%APPDATA%\" contr… (94 chars)",
+" 16 probe       not run — excluded · grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|… (132 chars)",
+" 17 probe       not run — excluded · bash scripts/agent-run.sh run --live bogus",
+" 18 probe       not run — excluded · powershell.exe -NoProfile -ExecutionPolicy Bypass -File sc… (94 chars)",
+" 19 probe       not run — excluded · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (152 chars)",
+" 20 probe       not run — excluded · tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromed… (111 chars)",
+" 21 e2e         not run — excluded · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (172 chars)",
+" 22 probe       not run — excluded · tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromed… (111 chars)",
+" 23 probe       not run — excluded · grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|… (168 chars)",
+" 24 smoke       not run — excluded · bash scripts/agent-run.sh status <id>",
+"entries 24 · green 3 · red 0 · recorded 0 · timeout 0 · not-run 21"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-22-interpretation-proven-live",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-22-interpretation-proven-live\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+"contracts/pulse-real-model-leg-posture.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/a11y.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/acceptance-v3-09.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/arch.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/design.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/layouts.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/master-record.txt",
+".andromeda/runs/2026-09-22T21-39-08-phase/matrix-2026-09-22-interpretation-proven-live.json",
+".andromeda/runs/2026-09-22T21-39-08-phase/note-v3-09.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/obs.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/p5-review-operator.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/route-2026-09-22-interpretation-proven-live.json",
+".andromeda/runs/2026-09-22T21-39-08-phase/route-no-marker.json",
+".andromeda/runs/2026-09-22T21-39-08-phase/security.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/tests.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/tree-query-2026-09-22-interpretation-proven-live.json",
+".andromeda/runs/2026-09-23T06-58-41-implement/gate-2026-09-22-interpretation-proven-live.json",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/plan.md",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/research.md",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/scope.md"
+],
+"rust": [
+"crates/conductor-cli/src/cli.rs",
+"crates/conductor-cli/src/commands/preconditions.rs",
+"crates/conductor-cli/src/commands/run.rs",
+"crates/conductor-cli/src/main.rs",
+"crates/conductor-cli/tests/cli_smoke.rs",
+"crates/conductor-core/src/error.rs",
+"crates/conductor-core/src/lib.rs",
+"crates/conductor-core/src/load_envelope.rs",
+"crates/conductor-core/src/preconditions.rs",
+"crates/conductor-core/src/run_contract.rs",
+"crates/conductor-core/src/scenario.rs",
+"crates/conductor-run/src/canary.rs",
+"crates/conductor-run/src/execute.rs",
+"crates/conductor-run/src/lib.rs",
+"crates/conductor-run/src/preconditions.rs",
+"crates/conductor-run/src/testkit.rs",
+"crates/conductor-run/tests/composition_root.rs",
+"crates/conductor-run/tests/dispatch_wire.rs",
+"crates/conductor-run/tests/run_contract_pin.rs",
+"crates/conductor-timeline/src/convert.rs",
+"crates/conductor-run/tests/real_model_common/mod.rs",
+"crates/conductor-run/tests/real_model_harvest.rs",
+"crates/conductor-run/tests/real_model_live.rs"
+]
+},
+"unmapped": [
+"conductor-0.3.0/verification-matrix.json",
+"contracts/pulse-run-contract.toml",
+"contracts/scenario-audit-ledger.toml",
+"scripts/agent-run.ps1",
+"scripts/agent-run.sh",
+"scenarios/real-model-interpretation.toml"
+],
+"prose": [
+{
+"from": 521,
+"to": 527,
+"text": "The block runs in the order below. The live leg (`leg = 'live'`) is fired by the agent at step 13 with the operator's Pulse up, never by the gate tool. It is preceded by its NON-PRIMING probe (`conductor preconditions --for …`, which fires no canary) and bracketed by a census. The status smoke reads the `run_id` the leg's capture prints (mint-then-read), so it is an `operator` entry the wrap does not re-run. No `self-verify` entry is listed: this is not a UI/visual chunk. The deterministic `--live` suite is not driven this chunk. Its gating stays byte-unchanged at the unit tier (steps 1, 3, 5), and re-launching Pulse deterministic mid-chunk would prime nothing this chunk measures. CI is read by the next chunk's Setup 5a against this wrap's pushed sha."
+},
+{
+"from": 529,
+"to": 534,
+"text": "Three more notes on the block: - The live entry is fired BACKGROUNDED and read on its completion notification: at about 24 min, it outlasts one   foreground call. - The evidence hygiene entry's subject, `evidence/rm-capture.txt`, is the agent's step-13 copy of the live entry's   `artifact`. No entry produces it, and it reads red (file absent, exit 2) until the drive. - The two `run --live bogus` entries exercise each shell's new selector arm without Pulse."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "probe",
+"run": "git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+"run_sha8": "85122344",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "cargo fmt --check",
+"run_sha8": "194fabc0",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\4.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.44,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "lint",
+"run": "cargo clippy -p conductor-run --features live-pulse --all-targets -- -D warnings",
+"run_sha8": "c3608109",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\6.log",
+"bytes": 155,
+"log_sha8": "30ffb913",
+"exit": 0,
+"seconds": 0.67,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "unit",
+"run": "cargo test --workspace --doc",
+"run_sha8": "5d8797c2",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "unit",
+"run": "cargo test -p conductor-core",
+"run_sha8": "cbd7017c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "unit",
+"run": "cargo test -p conductor-run",
+"run_sha8": "988a9d64",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "unit",
+"run": "cargo test -p conductor-cli",
+"run_sha8": "2eab0728",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "unit",
+"run": "cargo nextest run -p conductor-core --test scenario_audit_gate --profile ci",
+"run_sha8": "ead6dcd7",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "unit",
+"run": "cargo nextest run -p conductor-report --test coverage_gate --profile ci",
+"run_sha8": "7aaf8575",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "unit",
+"run": "cargo nextest run -p conductor-run --test real_model_harvest --profile ci",
+"run_sha8": "70507ea4",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\14.log",
+"bytes": 4244,
+"log_sha8": "b3c85670",
+"exit": 0,
+"seconds": 1.53,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "grep -cE \"\\b[A-Za-z]:[\\\\/]|/home/|/Users/|%APPDATA%\" contracts/pulse-real-model-leg-posture.md",
+"run_sha8": "ab13ce7d",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|/home/|/Users/|%APPDATA%\" crates/conductor-run/tests/real_model_harvest.rs",
+"run_sha8": "92fc4857",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "bash scripts/agent-run.sh run --live bogus",
+"run_sha8": "49e32964",
+"expect": [
+"exit 2",
+"contains run --live [real-model]"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/agent-run.ps1 run --live bogus",
+"run_sha8": "8e347ca9",
+"expect": [
+"exit 2",
+"contains run --live [real-model]"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH cargo run -q -p conductor-cli --bin conductor -- preconditions --for real-model-interpretation",
+"run_sha8": "07904e69",
+"expect": [
+"exit 0",
+"contains [PRECONDITION] every live-Pulse precondition is satisfied"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromeda-pulse-mcp|pulse-app|real_model_live-[^\\\"]*)\\.exe\\\"\"",
+"run_sha8": "70642c44",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "e2e",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH RUST_LOG=info,conductor_emit=debug CONDUCTOR_PREFLIGHT_TIMEOUT=600 bash scripts/agent-run.sh run --live real-model",
+"run_sha8": "319f782e",
+"expect": [
+"exit 0",
+"contains [live] leg rm: real-model-interpretation",
+"contains [live] leg rm: froze"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromeda-pulse-mcp|pulse-app|real_model_live-[^\\\"]*)\\.exe\\\"\"",
+"run_sha8": "70642c44",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|/home/|/Users/|%APPDATA%\" conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/evidence/rm-capture.txt",
+"run_sha8": "2598db8c",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 24,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status <id>",
+"run_sha8": "4849b302",
+"expect": [
+"exit 0",
+"contains \"scenario\": \"real-model-interpretation\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.0",
+"sha8": "8f152023",
+"ts": "2026-09-23T07:32:20Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-23T06-58-41-implement",
+"--marker",
+"2026-09-22-interpretation-proven-live"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-22-interpretation-proven-live · entries 24",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41 · bound: GNU timeout",
+"delta docs 24 · rust 23 · unmapped 6",
+"prose L521-527: The block runs in the order below. The live leg (`leg = 'live'`) is fired by the agent at … (761 chars)",
+"prose L529-534: Three more notes on the block: - The live entry is fired BACKGROUNDED and read on its comp… (460 chars)",
+"  1 probe       green · exit 0 · 0.12s · 0 B → 1.log · git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+"  2 probe       green · exit 0 · 2.22s · 1897 B → 2.log · cargo audit",
+"  3 probe       green · exit 0 · 1.2s · 236251 B → 3.log · cargo deny check advisories bans licenses sources",
+"  4 lint        green · exit 0 · 0.43s · 0 B → 4.log · cargo fmt --check",
+"  5 lint        green · exit 0 · 0.7s · 155 B → 5.log · cargo clippy --workspace --all-targets -- -D warnings",
+"  6 lint        green · exit 0 · 0.33s · 72 B → 6.log · cargo clippy -p conductor-run --features live-pulse --all-… (80 chars)",
+"  7 unit        green · exit 0 · 9.5s · 126075 B → 7.log · cargo nextest run --workspace --profile ci",
+"  8 unit        green · exit 0 · 1.37s · 1392 B → 8.log · cargo test --workspace --doc",
+"  9 unit        green · exit 0 · 0.58s · 29201 B → 9.log · cargo test -p conductor-core",
+" 10 unit        green · exit 0 · 3.16s · 21225 B → 10.log · cargo test -p conductor-run",
+" 11 unit        green · exit 0 · 5.74s · 4604 B → 11.log · cargo test -p conductor-cli",
+" 12 unit        green · exit 0 · 0.66s · 1131 B → 12.log · cargo nextest run -p conductor-core --test scenario_audit_… (75 chars)",
+" 13 unit        green · exit 0 · 0.62s · 653 B → 13.log · cargo nextest run -p conductor-report --test coverage_gate… (71 chars)",
+" 14 unit        green · exit 0 · 0.78s · 4161 B → 14.log · cargo nextest run -p conductor-run --test real_model_harve… (73 chars)",
+" 15 probe       green · exit 1 · 0.08s · 2 B → 15.log · grep -cE \"\\b[A-Za-z]:[\\\\/]|/home/|/Users/|%APPDATA%\" contr… (94 chars)",
+" 16 probe       green · exit 1 · 0.06s · 2 B → 16.log · grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|… (132 chars)",
+" 17 probe       green · exit 2 · 0.08s · 52 B → 17.log · bash scripts/agent-run.sh run --live bogus",
+" 18 probe       green · exit 2 · 0.27s · 48 B → 18.log · powershell.exe -NoProfile -ExecutionPolicy Bypass -File sc… (94 chars)",
+" 19 probe       not run — env ANDROMEDA_PULSE_DATA_DIR, ANDROMEDA_PULSE_MCP_ENABLED unset · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (152 chars)",
+" 20 probe       recorded · exit 1 · 0.42s · 0 B → 20.log · tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromed… (111 chars)",
+" 21 e2e         not run — leg live (the letter drives it) · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (172 chars)",
+" 22 probe       recorded · exit 1 · 0.38s · 0 B → 22.log · tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromed… (111 chars)",
+" 23 probe       red · exit 1 ✗ (exit 2) · exit 2 · 0.06s · 118 B → 23.log · grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|… (168 chars)",
+" 24 smoke       not run — leg operator (the letter drives it) · bash scripts/agent-run.sh status <id>",
+"entries 24 · green 18 · red 1 (23) · recorded 2 · timeout 0 · not-run 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-22-interpretation-proven-live",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-22-interpretation-proven-live\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+"contracts/pulse-real-model-leg-posture.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/a11y.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/acceptance-v3-09.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/arch.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/design.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/layouts.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/master-record.txt",
+".andromeda/runs/2026-09-22T21-39-08-phase/matrix-2026-09-22-interpretation-proven-live.json",
+".andromeda/runs/2026-09-22T21-39-08-phase/note-v3-09.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/obs.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/p5-review-operator.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/route-2026-09-22-interpretation-proven-live.json",
+".andromeda/runs/2026-09-22T21-39-08-phase/route-no-marker.json",
+".andromeda/runs/2026-09-22T21-39-08-phase/security.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/tests.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/tree-query-2026-09-22-interpretation-proven-live.json",
+".andromeda/runs/2026-09-23T06-58-41-implement/gate-2026-09-22-interpretation-proven-live.json",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/plan.md",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/research.md",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/scope.md"
+],
+"rust": [
+"crates/conductor-cli/src/cli.rs",
+"crates/conductor-cli/src/commands/preconditions.rs",
+"crates/conductor-cli/src/commands/run.rs",
+"crates/conductor-cli/src/main.rs",
+"crates/conductor-cli/tests/cli_smoke.rs",
+"crates/conductor-core/src/error.rs",
+"crates/conductor-core/src/lib.rs",
+"crates/conductor-core/src/load_envelope.rs",
+"crates/conductor-core/src/preconditions.rs",
+"crates/conductor-core/src/run_contract.rs",
+"crates/conductor-core/src/scenario.rs",
+"crates/conductor-run/src/canary.rs",
+"crates/conductor-run/src/execute.rs",
+"crates/conductor-run/src/lib.rs",
+"crates/conductor-run/src/preconditions.rs",
+"crates/conductor-run/src/testkit.rs",
+"crates/conductor-run/tests/composition_root.rs",
+"crates/conductor-run/tests/dispatch_wire.rs",
+"crates/conductor-run/tests/run_contract_pin.rs",
+"crates/conductor-timeline/src/convert.rs",
+"crates/conductor-run/tests/real_model_common/mod.rs",
+"crates/conductor-run/tests/real_model_harvest.rs",
+"crates/conductor-run/tests/real_model_live.rs"
+]
+},
+"unmapped": [
+"conductor-0.3.0/verification-matrix.json",
+"contracts/pulse-run-contract.toml",
+"contracts/scenario-audit-ledger.toml",
+"scripts/agent-run.ps1",
+"scripts/agent-run.sh",
+"scenarios/real-model-interpretation.toml"
+],
+"prose": [
+{
+"from": 521,
+"to": 527,
+"text": "The block runs in the order below. The live leg (`leg = 'live'`) is fired by the agent at step 13 with the operator's Pulse up, never by the gate tool. It is preceded by its NON-PRIMING probe (`conductor preconditions --for …`, which fires no canary) and bracketed by a census. The status smoke reads the `run_id` the leg's capture prints (mint-then-read), so it is an `operator` entry the wrap does not re-run. No `self-verify` entry is listed: this is not a UI/visual chunk. The deterministic `--live` suite is not driven this chunk. Its gating stays byte-unchanged at the unit tier (steps 1, 3, 5), and re-launching Pulse deterministic mid-chunk would prime nothing this chunk measures. CI is read by the next chunk's Setup 5a against this wrap's pushed sha."
+},
+{
+"from": 529,
+"to": 534,
+"text": "Three more notes on the block: - The live entry is fired BACKGROUNDED and read on its completion notification: at about 24 min, it outlasts one   foreground call. - The evidence hygiene entry's subject, `evidence/rm-capture.txt`, is the agent's step-13 copy of the live entry's   `artifact`. No entry produces it, and it reads red (file absent, exit 2) until the drive. - The two `run --live bogus` entries exercise each shell's new selector arm without Pulse."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "probe",
+"run": "git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+"run_sha8": "85122344",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.12,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\2.log",
+"bytes": 1897,
+"log_sha8": "9fe718f8",
+"exit": 0,
+"seconds": 2.22,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\3.log",
+"bytes": 236251,
+"log_sha8": "4ebeefef",
+"exit": 0,
+"seconds": 1.2,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "cargo fmt --check",
+"run_sha8": "194fabc0",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\4.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.43,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\5.log",
+"bytes": 155,
+"log_sha8": "98226ddf",
+"exit": 0,
+"seconds": 0.7,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "lint",
+"run": "cargo clippy -p conductor-run --features live-pulse --all-targets -- -D warnings",
+"run_sha8": "c3608109",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\6.log",
+"bytes": 72,
+"log_sha8": "2b346967",
+"exit": 0,
+"seconds": 0.33,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\7.log",
+"bytes": 126075,
+"log_sha8": "958808ea",
+"exit": 0,
+"seconds": 9.5,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "unit",
+"run": "cargo test --workspace --doc",
+"run_sha8": "5d8797c2",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\8.log",
+"bytes": 1392,
+"log_sha8": "bbdd5d4c",
+"exit": 0,
+"seconds": 1.37,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "unit",
+"run": "cargo test -p conductor-core",
+"run_sha8": "cbd7017c",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\9.log",
+"bytes": 29201,
+"log_sha8": "b3a7b965",
+"exit": 0,
+"seconds": 0.58,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "unit",
+"run": "cargo test -p conductor-run",
+"run_sha8": "988a9d64",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\10.log",
+"bytes": 21225,
+"log_sha8": "6f27d139",
+"exit": 0,
+"seconds": 3.16,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "unit",
+"run": "cargo test -p conductor-cli",
+"run_sha8": "2eab0728",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\11.log",
+"bytes": 4604,
+"log_sha8": "03c3e72d",
+"exit": 0,
+"seconds": 5.74,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "unit",
+"run": "cargo nextest run -p conductor-core --test scenario_audit_gate --profile ci",
+"run_sha8": "ead6dcd7",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\12.log",
+"bytes": 1131,
+"log_sha8": "42b1f30a",
+"exit": 0,
+"seconds": 0.66,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "unit",
+"run": "cargo nextest run -p conductor-report --test coverage_gate --profile ci",
+"run_sha8": "7aaf8575",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\13.log",
+"bytes": 653,
+"log_sha8": "229e2c9e",
+"exit": 0,
+"seconds": 0.62,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "unit",
+"run": "cargo nextest run -p conductor-run --test real_model_harvest --profile ci",
+"run_sha8": "70507ea4",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\14.log",
+"bytes": 4161,
+"log_sha8": "7a6c9088",
+"exit": 0,
+"seconds": 0.78,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "grep -cE \"\\b[A-Za-z]:[\\\\/]|/home/|/Users/|%APPDATA%\" contracts/pulse-real-model-leg-posture.md",
+"run_sha8": "ab13ce7d",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\15.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.08,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|/home/|/Users/|%APPDATA%\" crates/conductor-run/tests/real_model_harvest.rs",
+"run_sha8": "92fc4857",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\16.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.06,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "bash scripts/agent-run.sh run --live bogus",
+"run_sha8": "49e32964",
+"expect": [
+"exit 2",
+"contains run --live [real-model]"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\17.log",
+"bytes": 52,
+"log_sha8": "1349e550",
+"exit": 2,
+"seconds": 0.08,
+"readings": [
+"exit 2 ✓",
+"contains 'run --live [real-model]' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/agent-run.ps1 run --live bogus",
+"run_sha8": "8e347ca9",
+"expect": [
+"exit 2",
+"contains run --live [real-model]"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\18.log",
+"bytes": 48,
+"log_sha8": "dd0ae418",
+"exit": 2,
+"seconds": 0.27,
+"readings": [
+"exit 2 ✓",
+"contains 'run --live [real-model]' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH cargo run -q -p conductor-cli --bin conductor -- preconditions --for real-model-interpretation",
+"run_sha8": "07904e69",
+"expect": [
+"exit 0",
+"contains [PRECONDITION] every live-Pulse precondition is satisfied"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — env ANDROMEDA_PULSE_DATA_DIR, ANDROMEDA_PULSE_MCP_ENABLED unset"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromeda-pulse-mcp|pulse-app|real_model_live-[^\\\"]*)\\.exe\\\"\"",
+"run_sha8": "70642c44",
+"expect": [],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\20.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.42,
+"readings": [
+"report-only (expect = [])"
+],
+"survivors": [],
+"outcome": "recorded"
+},
+{
+"n": 21,
+"role": "e2e",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH RUST_LOG=info,conductor_emit=debug CONDUCTOR_PREFLIGHT_TIMEOUT=600 bash scripts/agent-run.sh run --live real-model",
+"run_sha8": "319f782e",
+"expect": [
+"exit 0",
+"contains [live] leg rm: real-model-interpretation",
+"contains [live] leg rm: froze"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg live (the letter drives it)"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromeda-pulse-mcp|pulse-app|real_model_live-[^\\\"]*)\\.exe\\\"\"",
+"run_sha8": "70642c44",
+"expect": [],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\22.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.38,
+"readings": [
+"report-only (expect = [])"
+],
+"survivors": [],
+"outcome": "recorded"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|/home/|/Users/|%APPDATA%\" conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/evidence/rm-capture.txt",
+"run_sha8": "2598db8c",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\23.log",
+"bytes": 118,
+"log_sha8": "7cc1d6ca",
+"exit": 2,
+"seconds": 0.06,
+"readings": [
+"exit 1 ✗ (exit 2)",
+"last line '0' ✗ (last: 'grep: conductor-0.3.0/chunks/2026-09-22-… (117 chars)')"
+],
+"survivors": [],
+"outcome": "red · exit 1 ✗ (exit 2)"
+},
+{
+"n": 24,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status <id>",
+"run_sha8": "4849b302",
+"expect": [
+"exit 0",
+"contains \"scenario\": \"real-model-interpretation\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.0",
+"sha8": "8f152023",
+"ts": "2026-09-23T07:35:08Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-23T06-58-41-implement",
+"--marker",
+"2026-09-22-interpretation-proven-live"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-22-interpretation-proven-live · entries 24",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41 · bound: GNU timeout",
+"delta docs 24 · rust 23 · unmapped 6",
+"prose L521-527: The block runs in the order below. The live leg (`leg = 'live'`) is fired by the agent at … (761 chars)",
+"prose L529-534: Three more notes on the block: - The live entry is fired BACKGROUNDED and read on its comp… (460 chars)",
+"  1 probe       green · exit 0 · 0.12s · 0 B → 1.log · git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+"  2 probe       green · exit 0 · 2.15s · 1897 B → 2.log · cargo audit",
+"  3 probe       green · exit 0 · 1.23s · 236251 B → 3.log · cargo deny check advisories bans licenses sources",
+"  4 lint        green · exit 0 · 0.43s · 0 B → 4.log · cargo fmt --check",
+"  5 lint        green · exit 0 · 0.7s · 155 B → 5.log · cargo clippy --workspace --all-targets -- -D warnings",
+"  6 lint        green · exit 0 · 0.6s · 155 B → 6.log · cargo clippy -p conductor-run --features live-pulse --all-… (80 chars)",
+"  7 unit        green · exit 0 · 9.4s · 126075 B → 7.log · cargo nextest run --workspace --profile ci",
+"  8 unit        green · exit 0 · 1.43s · 1392 B → 8.log · cargo test --workspace --doc",
+"  9 unit        green · exit 0 · 0.59s · 29201 B → 9.log · cargo test -p conductor-core",
+" 10 unit        green · exit 0 · 3.67s · 21225 B → 10.log · cargo test -p conductor-run",
+" 11 unit        green · exit 0 · 5.71s · 4604 B → 11.log · cargo test -p conductor-cli",
+" 12 unit        green · exit 0 · 0.66s · 1131 B → 12.log · cargo nextest run -p conductor-core --test scenario_audit_… (75 chars)",
+" 13 unit        green · exit 0 · 0.63s · 653 B → 13.log · cargo nextest run -p conductor-report --test coverage_gate… (71 chars)",
+" 14 unit        green · exit 0 · 0.79s · 4161 B → 14.log · cargo nextest run -p conductor-run --test real_model_harve… (73 chars)",
+" 15 probe       green · exit 1 · 0.06s · 2 B → 15.log · grep -cE \"\\b[A-Za-z]:[\\\\/]|/home/|/Users/|%APPDATA%\" contr… (94 chars)",
+" 16 probe       green · exit 1 · 0.06s · 2 B → 16.log · grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|… (132 chars)",
+" 17 probe       green · exit 2 · 0.08s · 52 B → 17.log · bash scripts/agent-run.sh run --live bogus",
+" 18 probe       green · exit 2 · 0.29s · 48 B → 18.log · powershell.exe -NoProfile -ExecutionPolicy Bypass -File sc… (94 chars)",
+" 19 probe       not run — env ANDROMEDA_PULSE_DATA_DIR, ANDROMEDA_PULSE_MCP_ENABLED unset · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (152 chars)",
+" 20 probe       recorded · exit 1 · 0.35s · 0 B → 20.log · tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromed… (111 chars)",
+" 21 e2e         not run — leg live (the letter drives it) · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (172 chars)",
+" 22 probe       recorded · exit 1 · 0.38s · 0 B → 22.log · tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromed… (111 chars)",
+" 23 probe       red · exit 1 ✗ (exit 2) · exit 2 · 0.08s · 118 B → 23.log · grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|… (168 chars)",
+" 24 smoke       not run — leg operator (the letter drives it) · bash scripts/agent-run.sh status <id>",
+"entries 24 · green 18 · red 1 (23) · recorded 2 · timeout 0 · not-run 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-22-interpretation-proven-live",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-22-interpretation-proven-live\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+"contracts/pulse-real-model-leg-posture.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/a11y.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/acceptance-v3-09.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/arch.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/design.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/layouts.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/master-record.txt",
+".andromeda/runs/2026-09-22T21-39-08-phase/matrix-2026-09-22-interpretation-proven-live.json",
+".andromeda/runs/2026-09-22T21-39-08-phase/note-v3-09.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/obs.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/p5-review-operator.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/route-2026-09-22-interpretation-proven-live.json",
+".andromeda/runs/2026-09-22T21-39-08-phase/route-no-marker.json",
+".andromeda/runs/2026-09-22T21-39-08-phase/security.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/tests.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/tree-query-2026-09-22-interpretation-proven-live.json",
+".andromeda/runs/2026-09-23T06-58-41-implement/gate-2026-09-22-interpretation-proven-live.json",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/plan.md",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/research.md",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/scope.md"
+],
+"rust": [
+"crates/conductor-cli/src/cli.rs",
+"crates/conductor-cli/src/commands/preconditions.rs",
+"crates/conductor-cli/src/commands/run.rs",
+"crates/conductor-cli/src/main.rs",
+"crates/conductor-cli/tests/cli_smoke.rs",
+"crates/conductor-core/src/error.rs",
+"crates/conductor-core/src/lib.rs",
+"crates/conductor-core/src/load_envelope.rs",
+"crates/conductor-core/src/preconditions.rs",
+"crates/conductor-core/src/run_contract.rs",
+"crates/conductor-core/src/scenario.rs",
+"crates/conductor-run/src/canary.rs",
+"crates/conductor-run/src/execute.rs",
+"crates/conductor-run/src/lib.rs",
+"crates/conductor-run/src/preconditions.rs",
+"crates/conductor-run/src/testkit.rs",
+"crates/conductor-run/tests/composition_root.rs",
+"crates/conductor-run/tests/dispatch_wire.rs",
+"crates/conductor-run/tests/run_contract_pin.rs",
+"crates/conductor-timeline/src/convert.rs",
+"crates/conductor-run/tests/real_model_common/mod.rs",
+"crates/conductor-run/tests/real_model_harvest.rs",
+"crates/conductor-run/tests/real_model_live.rs"
+]
+},
+"unmapped": [
+"conductor-0.3.0/verification-matrix.json",
+"contracts/pulse-run-contract.toml",
+"contracts/scenario-audit-ledger.toml",
+"scripts/agent-run.ps1",
+"scripts/agent-run.sh",
+"scenarios/real-model-interpretation.toml"
+],
+"prose": [
+{
+"from": 521,
+"to": 527,
+"text": "The block runs in the order below. The live leg (`leg = 'live'`) is fired by the agent at step 13 with the operator's Pulse up, never by the gate tool. It is preceded by its NON-PRIMING probe (`conductor preconditions --for …`, which fires no canary) and bracketed by a census. The status smoke reads the `run_id` the leg's capture prints (mint-then-read), so it is an `operator` entry the wrap does not re-run. No `self-verify` entry is listed: this is not a UI/visual chunk. The deterministic `--live` suite is not driven this chunk. Its gating stays byte-unchanged at the unit tier (steps 1, 3, 5), and re-launching Pulse deterministic mid-chunk would prime nothing this chunk measures. CI is read by the next chunk's Setup 5a against this wrap's pushed sha."
+},
+{
+"from": 529,
+"to": 534,
+"text": "Three more notes on the block: - The live entry is fired BACKGROUNDED and read on its completion notification: at about 24 min, it outlasts one   foreground call. - The evidence hygiene entry's subject, `evidence/rm-capture.txt`, is the agent's step-13 copy of the live entry's   `artifact`. No entry produces it, and it reads red (file absent, exit 2) until the drive. - The two `run --live bogus` entries exercise each shell's new selector arm without Pulse."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "probe",
+"run": "git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+"run_sha8": "85122344",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.12,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\2.log",
+"bytes": 1897,
+"log_sha8": "9fe718f8",
+"exit": 0,
+"seconds": 2.15,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\3.log",
+"bytes": 236251,
+"log_sha8": "4ebeefef",
+"exit": 0,
+"seconds": 1.23,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "cargo fmt --check",
+"run_sha8": "194fabc0",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\4.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.43,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\5.log",
+"bytes": 155,
+"log_sha8": "98226ddf",
+"exit": 0,
+"seconds": 0.7,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "lint",
+"run": "cargo clippy -p conductor-run --features live-pulse --all-targets -- -D warnings",
+"run_sha8": "c3608109",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\6.log",
+"bytes": 155,
+"log_sha8": "70626b11",
+"exit": 0,
+"seconds": 0.6,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\7.log",
+"bytes": 126075,
+"log_sha8": "4d803490",
+"exit": 0,
+"seconds": 9.4,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "unit",
+"run": "cargo test --workspace --doc",
+"run_sha8": "5d8797c2",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\8.log",
+"bytes": 1392,
+"log_sha8": "9a1ab4b9",
+"exit": 0,
+"seconds": 1.43,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "unit",
+"run": "cargo test -p conductor-core",
+"run_sha8": "cbd7017c",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\9.log",
+"bytes": 29201,
+"log_sha8": "1f377288",
+"exit": 0,
+"seconds": 0.59,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "unit",
+"run": "cargo test -p conductor-run",
+"run_sha8": "988a9d64",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\10.log",
+"bytes": 21225,
+"log_sha8": "1a69e685",
+"exit": 0,
+"seconds": 3.67,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "unit",
+"run": "cargo test -p conductor-cli",
+"run_sha8": "2eab0728",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\11.log",
+"bytes": 4604,
+"log_sha8": "f52555e2",
+"exit": 0,
+"seconds": 5.71,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "unit",
+"run": "cargo nextest run -p conductor-core --test scenario_audit_gate --profile ci",
+"run_sha8": "ead6dcd7",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\12.log",
+"bytes": 1131,
+"log_sha8": "c6dc630e",
+"exit": 0,
+"seconds": 0.66,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "unit",
+"run": "cargo nextest run -p conductor-report --test coverage_gate --profile ci",
+"run_sha8": "7aaf8575",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\13.log",
+"bytes": 653,
+"log_sha8": "2428507a",
+"exit": 0,
+"seconds": 0.63,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "unit",
+"run": "cargo nextest run -p conductor-run --test real_model_harvest --profile ci",
+"run_sha8": "70507ea4",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\14.log",
+"bytes": 4161,
+"log_sha8": "9860ce7c",
+"exit": 0,
+"seconds": 0.79,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "grep -cE \"\\b[A-Za-z]:[\\\\/]|/home/|/Users/|%APPDATA%\" contracts/pulse-real-model-leg-posture.md",
+"run_sha8": "ab13ce7d",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\15.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.06,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|/home/|/Users/|%APPDATA%\" crates/conductor-run/tests/real_model_harvest.rs",
+"run_sha8": "92fc4857",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\16.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.06,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "bash scripts/agent-run.sh run --live bogus",
+"run_sha8": "49e32964",
+"expect": [
+"exit 2",
+"contains run --live [real-model]"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\17.log",
+"bytes": 52,
+"log_sha8": "1349e550",
+"exit": 2,
+"seconds": 0.08,
+"readings": [
+"exit 2 ✓",
+"contains 'run --live [real-model]' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/agent-run.ps1 run --live bogus",
+"run_sha8": "8e347ca9",
+"expect": [
+"exit 2",
+"contains run --live [real-model]"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\18.log",
+"bytes": 48,
+"log_sha8": "dd0ae418",
+"exit": 2,
+"seconds": 0.29,
+"readings": [
+"exit 2 ✓",
+"contains 'run --live [real-model]' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH cargo run -q -p conductor-cli --bin conductor -- preconditions --for real-model-interpretation",
+"run_sha8": "07904e69",
+"expect": [
+"exit 0",
+"contains [PRECONDITION] every live-Pulse precondition is satisfied"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — env ANDROMEDA_PULSE_DATA_DIR, ANDROMEDA_PULSE_MCP_ENABLED unset"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromeda-pulse-mcp|pulse-app|real_model_live-[^\\\"]*)\\.exe\\\"\"",
+"run_sha8": "70642c44",
+"expect": [],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\20.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.35,
+"readings": [
+"report-only (expect = [])"
+],
+"survivors": [],
+"outcome": "recorded"
+},
+{
+"n": 21,
+"role": "e2e",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH RUST_LOG=info,conductor_emit=debug CONDUCTOR_PREFLIGHT_TIMEOUT=600 bash scripts/agent-run.sh run --live real-model",
+"run_sha8": "319f782e",
+"expect": [
+"exit 0",
+"contains [live] leg rm: real-model-interpretation",
+"contains [live] leg rm: froze"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg live (the letter drives it)"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromeda-pulse-mcp|pulse-app|real_model_live-[^\\\"]*)\\.exe\\\"\"",
+"run_sha8": "70642c44",
+"expect": [],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\22.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.38,
+"readings": [
+"report-only (expect = [])"
+],
+"survivors": [],
+"outcome": "recorded"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|/home/|/Users/|%APPDATA%\" conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/evidence/rm-capture.txt",
+"run_sha8": "2598db8c",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\23.log",
+"bytes": 118,
+"log_sha8": "7cc1d6ca",
+"exit": 2,
+"seconds": 0.08,
+"readings": [
+"exit 1 ✗ (exit 2)",
+"last line '0' ✗ (last: 'grep: conductor-0.3.0/chunks/2026-09-22-… (117 chars)')"
+],
+"survivors": [],
+"outcome": "red · exit 1 ✗ (exit 2)"
+},
+{
+"n": 24,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status <id>",
+"run_sha8": "4849b302",
+"expect": [
+"exit 0",
+"contains \"scenario\": \"real-model-interpretation\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.0",
+"sha8": "8f152023",
+"ts": "2026-09-23T07:39:29Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-23T06-58-41-implement",
+"--marker",
+"2026-09-22-interpretation-proven-live",
+"--only",
+"19,20"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-22-interpretation-proven-live · entries 24",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41 · bound: GNU timeout",
+"delta docs 24 · rust 23 · unmapped 6",
+"prose L521-527: The block runs in the order below. The live leg (`leg = 'live'`) is fired by the agent at … (761 chars)",
+"prose L529-534: Three more notes on the block: - The live entry is fired BACKGROUNDED and read on its comp… (460 chars)",
+"  1 probe       not run — excluded · git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+"  2 probe       not run — excluded · cargo audit",
+"  3 probe       not run — excluded · cargo deny check advisories bans licenses sources",
+"  4 lint        not run — excluded · cargo fmt --check",
+"  5 lint        not run — excluded · cargo clippy --workspace --all-targets -- -D warnings",
+"  6 lint        not run — excluded · cargo clippy -p conductor-run --features live-pulse --all-… (80 chars)",
+"  7 unit        not run — excluded · cargo nextest run --workspace --profile ci",
+"  8 unit        not run — excluded · cargo test --workspace --doc",
+"  9 unit        not run — excluded · cargo test -p conductor-core",
+" 10 unit        not run — excluded · cargo test -p conductor-run",
+" 11 unit        not run — excluded · cargo test -p conductor-cli",
+" 12 unit        not run — excluded · cargo nextest run -p conductor-core --test scenario_audit_… (75 chars)",
+" 13 unit        not run — excluded · cargo nextest run -p conductor-report --test coverage_gate… (71 chars)",
+" 14 unit        not run — excluded · cargo nextest run -p conductor-run --test real_model_harve… (73 chars)",
+" 15 probe       not run — excluded · grep -cE \"\\b[A-Za-z]:[\\\\/]|/home/|/Users/|%APPDATA%\" contr… (94 chars)",
+" 16 probe       not run — excluded · grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|… (132 chars)",
+" 17 probe       not run — excluded · bash scripts/agent-run.sh run --live bogus",
+" 18 probe       not run — excluded · powershell.exe -NoProfile -ExecutionPolicy Bypass -File sc… (94 chars)",
+" 19 probe       green · exit 0 · 5.29s · 829 B → 19.log · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (152 chars)",
+" 20 probe       recorded · exit 0 · 0.4s · 49 B → 20.log · tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromed… (111 chars)",
+" 21 e2e         not run — excluded · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (172 chars)",
+" 22 probe       not run — excluded · tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromed… (111 chars)",
+" 23 probe       not run — excluded · grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|… (168 chars)",
+" 24 smoke       not run — excluded · bash scripts/agent-run.sh status <id>",
+"entries 24 · green 1 · red 0 · recorded 1 · timeout 0 · not-run 22"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-22-interpretation-proven-live",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-22-interpretation-proven-live\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+"contracts/pulse-real-model-leg-posture.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/a11y.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/acceptance-v3-09.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/arch.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/design.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/layouts.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/master-record.txt",
+".andromeda/runs/2026-09-22T21-39-08-phase/matrix-2026-09-22-interpretation-proven-live.json",
+".andromeda/runs/2026-09-22T21-39-08-phase/note-v3-09.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/obs.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/p5-review-operator.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/route-2026-09-22-interpretation-proven-live.json",
+".andromeda/runs/2026-09-22T21-39-08-phase/route-no-marker.json",
+".andromeda/runs/2026-09-22T21-39-08-phase/security.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/tests.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/tree-query-2026-09-22-interpretation-proven-live.json",
+".andromeda/runs/2026-09-23T06-58-41-implement/gate-2026-09-22-interpretation-proven-live.json",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/plan.md",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/research.md",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/scope.md"
+],
+"rust": [
+"crates/conductor-cli/src/cli.rs",
+"crates/conductor-cli/src/commands/preconditions.rs",
+"crates/conductor-cli/src/commands/run.rs",
+"crates/conductor-cli/src/main.rs",
+"crates/conductor-cli/tests/cli_smoke.rs",
+"crates/conductor-core/src/error.rs",
+"crates/conductor-core/src/lib.rs",
+"crates/conductor-core/src/load_envelope.rs",
+"crates/conductor-core/src/preconditions.rs",
+"crates/conductor-core/src/run_contract.rs",
+"crates/conductor-core/src/scenario.rs",
+"crates/conductor-run/src/canary.rs",
+"crates/conductor-run/src/execute.rs",
+"crates/conductor-run/src/lib.rs",
+"crates/conductor-run/src/preconditions.rs",
+"crates/conductor-run/src/testkit.rs",
+"crates/conductor-run/tests/composition_root.rs",
+"crates/conductor-run/tests/dispatch_wire.rs",
+"crates/conductor-run/tests/run_contract_pin.rs",
+"crates/conductor-timeline/src/convert.rs",
+"crates/conductor-run/tests/real_model_common/mod.rs",
+"crates/conductor-run/tests/real_model_harvest.rs",
+"crates/conductor-run/tests/real_model_live.rs"
+]
+},
+"unmapped": [
+"conductor-0.3.0/verification-matrix.json",
+"contracts/pulse-run-contract.toml",
+"contracts/scenario-audit-ledger.toml",
+"scripts/agent-run.ps1",
+"scripts/agent-run.sh",
+"scenarios/real-model-interpretation.toml"
+],
+"prose": [
+{
+"from": 521,
+"to": 527,
+"text": "The block runs in the order below. The live leg (`leg = 'live'`) is fired by the agent at step 13 with the operator's Pulse up, never by the gate tool. It is preceded by its NON-PRIMING probe (`conductor preconditions --for …`, which fires no canary) and bracketed by a census. The status smoke reads the `run_id` the leg's capture prints (mint-then-read), so it is an `operator` entry the wrap does not re-run. No `self-verify` entry is listed: this is not a UI/visual chunk. The deterministic `--live` suite is not driven this chunk. Its gating stays byte-unchanged at the unit tier (steps 1, 3, 5), and re-launching Pulse deterministic mid-chunk would prime nothing this chunk measures. CI is read by the next chunk's Setup 5a against this wrap's pushed sha."
+},
+{
+"from": 529,
+"to": 534,
+"text": "Three more notes on the block: - The live entry is fired BACKGROUNDED and read on its completion notification: at about 24 min, it outlasts one   foreground call. - The evidence hygiene entry's subject, `evidence/rm-capture.txt`, is the agent's step-13 copy of the live entry's   `artifact`. No entry produces it, and it reads red (file absent, exit 2) until the drive. - The two `run --live bogus` entries exercise each shell's new selector arm without Pulse."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "probe",
+"run": "git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+"run_sha8": "85122344",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "cargo fmt --check",
+"run_sha8": "194fabc0",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "lint",
+"run": "cargo clippy -p conductor-run --features live-pulse --all-targets -- -D warnings",
+"run_sha8": "c3608109",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "unit",
+"run": "cargo test --workspace --doc",
+"run_sha8": "5d8797c2",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "unit",
+"run": "cargo test -p conductor-core",
+"run_sha8": "cbd7017c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "unit",
+"run": "cargo test -p conductor-run",
+"run_sha8": "988a9d64",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "unit",
+"run": "cargo test -p conductor-cli",
+"run_sha8": "2eab0728",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "unit",
+"run": "cargo nextest run -p conductor-core --test scenario_audit_gate --profile ci",
+"run_sha8": "ead6dcd7",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "unit",
+"run": "cargo nextest run -p conductor-report --test coverage_gate --profile ci",
+"run_sha8": "7aaf8575",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "unit",
+"run": "cargo nextest run -p conductor-run --test real_model_harvest --profile ci",
+"run_sha8": "70507ea4",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "grep -cE \"\\b[A-Za-z]:[\\\\/]|/home/|/Users/|%APPDATA%\" contracts/pulse-real-model-leg-posture.md",
+"run_sha8": "ab13ce7d",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|/home/|/Users/|%APPDATA%\" crates/conductor-run/tests/real_model_harvest.rs",
+"run_sha8": "92fc4857",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "bash scripts/agent-run.sh run --live bogus",
+"run_sha8": "49e32964",
+"expect": [
+"exit 2",
+"contains run --live [real-model]"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/agent-run.ps1 run --live bogus",
+"run_sha8": "8e347ca9",
+"expect": [
+"exit 2",
+"contains run --live [real-model]"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH cargo run -q -p conductor-cli --bin conductor -- preconditions --for real-model-interpretation",
+"run_sha8": "07904e69",
+"expect": [
+"exit 0",
+"contains [PRECONDITION] every live-Pulse precondition is satisfied"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\19.log",
+"bytes": 829,
+"log_sha8": "3df7f68d",
+"exit": 0,
+"seconds": 5.29,
+"readings": [
+"exit 0 ✓",
+"contains '[PRECONDITION] every live-Pulse precondition is satisfied' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromeda-pulse-mcp|pulse-app|real_model_live-[^\\\"]*)\\.exe\\\"\"",
+"run_sha8": "70642c44",
+"expect": [],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\20.log",
+"bytes": 49,
+"log_sha8": "0d645ec3",
+"exit": 0,
+"seconds": 0.4,
+"readings": [
+"report-only (expect = [])"
+],
+"survivors": [],
+"outcome": "recorded"
+},
+{
+"n": 21,
+"role": "e2e",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH RUST_LOG=info,conductor_emit=debug CONDUCTOR_PREFLIGHT_TIMEOUT=600 bash scripts/agent-run.sh run --live real-model",
+"run_sha8": "319f782e",
+"expect": [
+"exit 0",
+"contains [live] leg rm: real-model-interpretation",
+"contains [live] leg rm: froze"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromeda-pulse-mcp|pulse-app|real_model_live-[^\\\"]*)\\.exe\\\"\"",
+"run_sha8": "70642c44",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|/home/|/Users/|%APPDATA%\" conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/evidence/rm-capture.txt",
+"run_sha8": "2598db8c",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 24,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status <id>",
+"run_sha8": "4849b302",
+"expect": [
+"exit 0",
+"contains \"scenario\": \"real-model-interpretation\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.0",
+"sha8": "8f152023",
+"ts": "2026-09-23T07:50:46Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-23T06-58-41-implement",
+"--marker",
+"2026-09-22-interpretation-proven-live",
+"--only",
+"22"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-22-interpretation-proven-live · entries 24",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41 · bound: GNU timeout",
+"delta docs 24 · rust 23 · unmapped 6",
+"prose L521-527: The block runs in the order below. The live leg (`leg = 'live'`) is fired by the agent at … (761 chars)",
+"prose L529-534: Three more notes on the block: - The live entry is fired BACKGROUNDED and read on its comp… (460 chars)",
+"  1 probe       not run — excluded · git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+"  2 probe       not run — excluded · cargo audit",
+"  3 probe       not run — excluded · cargo deny check advisories bans licenses sources",
+"  4 lint        not run — excluded · cargo fmt --check",
+"  5 lint        not run — excluded · cargo clippy --workspace --all-targets -- -D warnings",
+"  6 lint        not run — excluded · cargo clippy -p conductor-run --features live-pulse --all-… (80 chars)",
+"  7 unit        not run — excluded · cargo nextest run --workspace --profile ci",
+"  8 unit        not run — excluded · cargo test --workspace --doc",
+"  9 unit        not run — excluded · cargo test -p conductor-core",
+" 10 unit        not run — excluded · cargo test -p conductor-run",
+" 11 unit        not run — excluded · cargo test -p conductor-cli",
+" 12 unit        not run — excluded · cargo nextest run -p conductor-core --test scenario_audit_… (75 chars)",
+" 13 unit        not run — excluded · cargo nextest run -p conductor-report --test coverage_gate… (71 chars)",
+" 14 unit        not run — excluded · cargo nextest run -p conductor-run --test real_model_harve… (73 chars)",
+" 15 probe       not run — excluded · grep -cE \"\\b[A-Za-z]:[\\\\/]|/home/|/Users/|%APPDATA%\" contr… (94 chars)",
+" 16 probe       not run — excluded · grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|… (132 chars)",
+" 17 probe       not run — excluded · bash scripts/agent-run.sh run --live bogus",
+" 18 probe       not run — excluded · powershell.exe -NoProfile -ExecutionPolicy Bypass -File sc… (94 chars)",
+" 19 probe       not run — excluded · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (152 chars)",
+" 20 probe       not run — excluded · tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromed… (111 chars)",
+" 21 e2e         not run — excluded · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (172 chars)",
+" 22 probe       recorded · exit 0 · 0.35s · 50 B → 22.log · tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromed… (111 chars)",
+" 23 probe       not run — excluded · grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|… (168 chars)",
+" 24 smoke       not run — excluded · bash scripts/agent-run.sh status <id>",
+"entries 24 · green 0 · red 0 · recorded 1 · timeout 0 · not-run 23"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-22-interpretation-proven-live",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-22-interpretation-proven-live\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+"contracts/pulse-real-model-leg-posture.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/a11y.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/acceptance-v3-09.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/arch.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/design.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/layouts.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/master-record.txt",
+".andromeda/runs/2026-09-22T21-39-08-phase/matrix-2026-09-22-interpretation-proven-live.json",
+".andromeda/runs/2026-09-22T21-39-08-phase/note-v3-09.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/obs.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/p5-review-operator.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/route-2026-09-22-interpretation-proven-live.json",
+".andromeda/runs/2026-09-22T21-39-08-phase/route-no-marker.json",
+".andromeda/runs/2026-09-22T21-39-08-phase/security.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/tests.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/tree-query-2026-09-22-interpretation-proven-live.json",
+".andromeda/runs/2026-09-23T06-58-41-implement/gate-2026-09-22-interpretation-proven-live.json",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/plan.md",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/research.md",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/scope.md"
+],
+"rust": [
+"crates/conductor-cli/src/cli.rs",
+"crates/conductor-cli/src/commands/preconditions.rs",
+"crates/conductor-cli/src/commands/run.rs",
+"crates/conductor-cli/src/main.rs",
+"crates/conductor-cli/tests/cli_smoke.rs",
+"crates/conductor-core/src/error.rs",
+"crates/conductor-core/src/lib.rs",
+"crates/conductor-core/src/load_envelope.rs",
+"crates/conductor-core/src/preconditions.rs",
+"crates/conductor-core/src/run_contract.rs",
+"crates/conductor-core/src/scenario.rs",
+"crates/conductor-run/src/canary.rs",
+"crates/conductor-run/src/execute.rs",
+"crates/conductor-run/src/lib.rs",
+"crates/conductor-run/src/preconditions.rs",
+"crates/conductor-run/src/testkit.rs",
+"crates/conductor-run/tests/composition_root.rs",
+"crates/conductor-run/tests/dispatch_wire.rs",
+"crates/conductor-run/tests/run_contract_pin.rs",
+"crates/conductor-timeline/src/convert.rs",
+"crates/conductor-run/tests/real_model_common/mod.rs",
+"crates/conductor-run/tests/real_model_harvest.rs",
+"crates/conductor-run/tests/real_model_live.rs"
+]
+},
+"unmapped": [
+"conductor-0.3.0/verification-matrix.json",
+"contracts/pulse-run-contract.toml",
+"contracts/scenario-audit-ledger.toml",
+"scripts/agent-run.ps1",
+"scripts/agent-run.sh",
+"scenarios/real-model-interpretation.toml"
+],
+"prose": [
+{
+"from": 521,
+"to": 527,
+"text": "The block runs in the order below. The live leg (`leg = 'live'`) is fired by the agent at step 13 with the operator's Pulse up, never by the gate tool. It is preceded by its NON-PRIMING probe (`conductor preconditions --for …`, which fires no canary) and bracketed by a census. The status smoke reads the `run_id` the leg's capture prints (mint-then-read), so it is an `operator` entry the wrap does not re-run. No `self-verify` entry is listed: this is not a UI/visual chunk. The deterministic `--live` suite is not driven this chunk. Its gating stays byte-unchanged at the unit tier (steps 1, 3, 5), and re-launching Pulse deterministic mid-chunk would prime nothing this chunk measures. CI is read by the next chunk's Setup 5a against this wrap's pushed sha."
+},
+{
+"from": 529,
+"to": 534,
+"text": "Three more notes on the block: - The live entry is fired BACKGROUNDED and read on its completion notification: at about 24 min, it outlasts one   foreground call. - The evidence hygiene entry's subject, `evidence/rm-capture.txt`, is the agent's step-13 copy of the live entry's   `artifact`. No entry produces it, and it reads red (file absent, exit 2) until the drive. - The two `run --live bogus` entries exercise each shell's new selector arm without Pulse."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "probe",
+"run": "git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+"run_sha8": "85122344",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "cargo fmt --check",
+"run_sha8": "194fabc0",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "lint",
+"run": "cargo clippy -p conductor-run --features live-pulse --all-targets -- -D warnings",
+"run_sha8": "c3608109",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "unit",
+"run": "cargo test --workspace --doc",
+"run_sha8": "5d8797c2",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "unit",
+"run": "cargo test -p conductor-core",
+"run_sha8": "cbd7017c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "unit",
+"run": "cargo test -p conductor-run",
+"run_sha8": "988a9d64",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "unit",
+"run": "cargo test -p conductor-cli",
+"run_sha8": "2eab0728",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "unit",
+"run": "cargo nextest run -p conductor-core --test scenario_audit_gate --profile ci",
+"run_sha8": "ead6dcd7",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "unit",
+"run": "cargo nextest run -p conductor-report --test coverage_gate --profile ci",
+"run_sha8": "7aaf8575",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "unit",
+"run": "cargo nextest run -p conductor-run --test real_model_harvest --profile ci",
+"run_sha8": "70507ea4",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "grep -cE \"\\b[A-Za-z]:[\\\\/]|/home/|/Users/|%APPDATA%\" contracts/pulse-real-model-leg-posture.md",
+"run_sha8": "ab13ce7d",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|/home/|/Users/|%APPDATA%\" crates/conductor-run/tests/real_model_harvest.rs",
+"run_sha8": "92fc4857",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "bash scripts/agent-run.sh run --live bogus",
+"run_sha8": "49e32964",
+"expect": [
+"exit 2",
+"contains run --live [real-model]"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/agent-run.ps1 run --live bogus",
+"run_sha8": "8e347ca9",
+"expect": [
+"exit 2",
+"contains run --live [real-model]"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH cargo run -q -p conductor-cli --bin conductor -- preconditions --for real-model-interpretation",
+"run_sha8": "07904e69",
+"expect": [
+"exit 0",
+"contains [PRECONDITION] every live-Pulse precondition is satisfied"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromeda-pulse-mcp|pulse-app|real_model_live-[^\\\"]*)\\.exe\\\"\"",
+"run_sha8": "70642c44",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "e2e",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH RUST_LOG=info,conductor_emit=debug CONDUCTOR_PREFLIGHT_TIMEOUT=600 bash scripts/agent-run.sh run --live real-model",
+"run_sha8": "319f782e",
+"expect": [
+"exit 0",
+"contains [live] leg rm: real-model-interpretation",
+"contains [live] leg rm: froze"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromeda-pulse-mcp|pulse-app|real_model_live-[^\\\"]*)\\.exe\\\"\"",
+"run_sha8": "70642c44",
+"expect": [],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\22.log",
+"bytes": 50,
+"log_sha8": "6113c9b8",
+"exit": 0,
+"seconds": 0.35,
+"readings": [
+"report-only (expect = [])"
+],
+"survivors": [],
+"outcome": "recorded"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|/home/|/Users/|%APPDATA%\" conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/evidence/rm-capture.txt",
+"run_sha8": "2598db8c",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 24,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status <id>",
+"run_sha8": "4849b302",
+"expect": [
+"exit 0",
+"contains \"scenario\": \"real-model-interpretation\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.0",
+"sha8": "8f152023",
+"ts": "2026-09-23T07:52:40Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-23T06-58-41-implement",
+"--marker",
+"2026-09-22-interpretation-proven-live",
+"--only",
+"23"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-22-interpretation-proven-live · entries 24",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41 · bound: GNU timeout",
+"delta docs 24 · rust 23 · unmapped 7",
+"prose L521-527: The block runs in the order below. The live leg (`leg = 'live'`) is fired by the agent at … (761 chars)",
+"prose L529-534: Three more notes on the block: - The live entry is fired BACKGROUNDED and read on its comp… (460 chars)",
+"  1 probe       not run — excluded · git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+"  2 probe       not run — excluded · cargo audit",
+"  3 probe       not run — excluded · cargo deny check advisories bans licenses sources",
+"  4 lint        not run — excluded · cargo fmt --check",
+"  5 lint        not run — excluded · cargo clippy --workspace --all-targets -- -D warnings",
+"  6 lint        not run — excluded · cargo clippy -p conductor-run --features live-pulse --all-… (80 chars)",
+"  7 unit        not run — excluded · cargo nextest run --workspace --profile ci",
+"  8 unit        not run — excluded · cargo test --workspace --doc",
+"  9 unit        not run — excluded · cargo test -p conductor-core",
+" 10 unit        not run — excluded · cargo test -p conductor-run",
+" 11 unit        not run — excluded · cargo test -p conductor-cli",
+" 12 unit        not run — excluded · cargo nextest run -p conductor-core --test scenario_audit_… (75 chars)",
+" 13 unit        not run — excluded · cargo nextest run -p conductor-report --test coverage_gate… (71 chars)",
+" 14 unit        not run — excluded · cargo nextest run -p conductor-run --test real_model_harve… (73 chars)",
+" 15 probe       not run — excluded · grep -cE \"\\b[A-Za-z]:[\\\\/]|/home/|/Users/|%APPDATA%\" contr… (94 chars)",
+" 16 probe       not run — excluded · grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|… (132 chars)",
+" 17 probe       not run — excluded · bash scripts/agent-run.sh run --live bogus",
+" 18 probe       not run — excluded · powershell.exe -NoProfile -ExecutionPolicy Bypass -File sc… (94 chars)",
+" 19 probe       not run — excluded · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (152 chars)",
+" 20 probe       not run — excluded · tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromed… (111 chars)",
+" 21 e2e         not run — excluded · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (172 chars)",
+" 22 probe       not run — excluded · tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromed… (111 chars)",
+" 23 probe       green · exit 1 · 0.08s · 2 B → 23.log · grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|… (168 chars)",
+" 24 smoke       not run — excluded · bash scripts/agent-run.sh status <id>",
+"entries 24 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 23"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-22-interpretation-proven-live",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-22-interpretation-proven-live\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+"contracts/pulse-real-model-leg-posture.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/a11y.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/acceptance-v3-09.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/arch.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/design.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/layouts.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/master-record.txt",
+".andromeda/runs/2026-09-22T21-39-08-phase/matrix-2026-09-22-interpretation-proven-live.json",
+".andromeda/runs/2026-09-22T21-39-08-phase/note-v3-09.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/obs.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/p5-review-operator.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/route-2026-09-22-interpretation-proven-live.json",
+".andromeda/runs/2026-09-22T21-39-08-phase/route-no-marker.json",
+".andromeda/runs/2026-09-22T21-39-08-phase/security.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/tests.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/tree-query-2026-09-22-interpretation-proven-live.json",
+".andromeda/runs/2026-09-23T06-58-41-implement/gate-2026-09-22-interpretation-proven-live.json",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/plan.md",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/research.md",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/scope.md"
+],
+"rust": [
+"crates/conductor-cli/src/cli.rs",
+"crates/conductor-cli/src/commands/preconditions.rs",
+"crates/conductor-cli/src/commands/run.rs",
+"crates/conductor-cli/src/main.rs",
+"crates/conductor-cli/tests/cli_smoke.rs",
+"crates/conductor-core/src/error.rs",
+"crates/conductor-core/src/lib.rs",
+"crates/conductor-core/src/load_envelope.rs",
+"crates/conductor-core/src/preconditions.rs",
+"crates/conductor-core/src/run_contract.rs",
+"crates/conductor-core/src/scenario.rs",
+"crates/conductor-run/src/canary.rs",
+"crates/conductor-run/src/execute.rs",
+"crates/conductor-run/src/lib.rs",
+"crates/conductor-run/src/preconditions.rs",
+"crates/conductor-run/src/testkit.rs",
+"crates/conductor-run/tests/composition_root.rs",
+"crates/conductor-run/tests/dispatch_wire.rs",
+"crates/conductor-run/tests/run_contract_pin.rs",
+"crates/conductor-timeline/src/convert.rs",
+"crates/conductor-run/tests/real_model_common/mod.rs",
+"crates/conductor-run/tests/real_model_harvest.rs",
+"crates/conductor-run/tests/real_model_live.rs"
+]
+},
+"unmapped": [
+"conductor-0.3.0/verification-matrix.json",
+"contracts/pulse-run-contract.toml",
+"contracts/scenario-audit-ledger.toml",
+"scripts/agent-run.ps1",
+"scripts/agent-run.sh",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/evidence/rm-capture.txt",
+"scenarios/real-model-interpretation.toml"
+],
+"prose": [
+{
+"from": 521,
+"to": 527,
+"text": "The block runs in the order below. The live leg (`leg = 'live'`) is fired by the agent at step 13 with the operator's Pulse up, never by the gate tool. It is preceded by its NON-PRIMING probe (`conductor preconditions --for …`, which fires no canary) and bracketed by a census. The status smoke reads the `run_id` the leg's capture prints (mint-then-read), so it is an `operator` entry the wrap does not re-run. No `self-verify` entry is listed: this is not a UI/visual chunk. The deterministic `--live` suite is not driven this chunk. Its gating stays byte-unchanged at the unit tier (steps 1, 3, 5), and re-launching Pulse deterministic mid-chunk would prime nothing this chunk measures. CI is read by the next chunk's Setup 5a against this wrap's pushed sha."
+},
+{
+"from": 529,
+"to": 534,
+"text": "Three more notes on the block: - The live entry is fired BACKGROUNDED and read on its completion notification: at about 24 min, it outlasts one   foreground call. - The evidence hygiene entry's subject, `evidence/rm-capture.txt`, is the agent's step-13 copy of the live entry's   `artifact`. No entry produces it, and it reads red (file absent, exit 2) until the drive. - The two `run --live bogus` entries exercise each shell's new selector arm without Pulse."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "probe",
+"run": "git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+"run_sha8": "85122344",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "cargo fmt --check",
+"run_sha8": "194fabc0",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "lint",
+"run": "cargo clippy -p conductor-run --features live-pulse --all-targets -- -D warnings",
+"run_sha8": "c3608109",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "unit",
+"run": "cargo test --workspace --doc",
+"run_sha8": "5d8797c2",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "unit",
+"run": "cargo test -p conductor-core",
+"run_sha8": "cbd7017c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "unit",
+"run": "cargo test -p conductor-run",
+"run_sha8": "988a9d64",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "unit",
+"run": "cargo test -p conductor-cli",
+"run_sha8": "2eab0728",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "unit",
+"run": "cargo nextest run -p conductor-core --test scenario_audit_gate --profile ci",
+"run_sha8": "ead6dcd7",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "unit",
+"run": "cargo nextest run -p conductor-report --test coverage_gate --profile ci",
+"run_sha8": "7aaf8575",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "unit",
+"run": "cargo nextest run -p conductor-run --test real_model_harvest --profile ci",
+"run_sha8": "70507ea4",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "grep -cE \"\\b[A-Za-z]:[\\\\/]|/home/|/Users/|%APPDATA%\" contracts/pulse-real-model-leg-posture.md",
+"run_sha8": "ab13ce7d",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|/home/|/Users/|%APPDATA%\" crates/conductor-run/tests/real_model_harvest.rs",
+"run_sha8": "92fc4857",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "bash scripts/agent-run.sh run --live bogus",
+"run_sha8": "49e32964",
+"expect": [
+"exit 2",
+"contains run --live [real-model]"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/agent-run.ps1 run --live bogus",
+"run_sha8": "8e347ca9",
+"expect": [
+"exit 2",
+"contains run --live [real-model]"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH cargo run -q -p conductor-cli --bin conductor -- preconditions --for real-model-interpretation",
+"run_sha8": "07904e69",
+"expect": [
+"exit 0",
+"contains [PRECONDITION] every live-Pulse precondition is satisfied"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromeda-pulse-mcp|pulse-app|real_model_live-[^\\\"]*)\\.exe\\\"\"",
+"run_sha8": "70642c44",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "e2e",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH RUST_LOG=info,conductor_emit=debug CONDUCTOR_PREFLIGHT_TIMEOUT=600 bash scripts/agent-run.sh run --live real-model",
+"run_sha8": "319f782e",
+"expect": [
+"exit 0",
+"contains [live] leg rm: real-model-interpretation",
+"contains [live] leg rm: froze"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromeda-pulse-mcp|pulse-app|real_model_live-[^\\\"]*)\\.exe\\\"\"",
+"run_sha8": "70642c44",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|/home/|/Users/|%APPDATA%\" conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/evidence/rm-capture.txt",
+"run_sha8": "2598db8c",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\23.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.08,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 24,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status <id>",
+"run_sha8": "4849b302",
+"expect": [
+"exit 0",
+"contains \"scenario\": \"real-model-interpretation\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.0",
+"sha8": "8f152023",
+"ts": "2026-09-23T07:52:47Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-23T06-58-41-implement",
+"--marker",
+"2026-09-22-interpretation-proven-live",
+"--only",
+"24",
+"--id",
+"2026-09-23T07-39-39-845"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-22-interpretation-proven-live · entries 24",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41 · bound: GNU timeout",
+"delta docs 24 · rust 23 · unmapped 7",
+"prose L521-527: The block runs in the order below. The live leg (`leg = 'live'`) is fired by the agent at … (761 chars)",
+"prose L529-534: Three more notes on the block: - The live entry is fired BACKGROUNDED and read on its comp… (460 chars)",
+"  1 probe       not run — excluded · git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+"  2 probe       not run — excluded · cargo audit",
+"  3 probe       not run — excluded · cargo deny check advisories bans licenses sources",
+"  4 lint        not run — excluded · cargo fmt --check",
+"  5 lint        not run — excluded · cargo clippy --workspace --all-targets -- -D warnings",
+"  6 lint        not run — excluded · cargo clippy -p conductor-run --features live-pulse --all-… (80 chars)",
+"  7 unit        not run — excluded · cargo nextest run --workspace --profile ci",
+"  8 unit        not run — excluded · cargo test --workspace --doc",
+"  9 unit        not run — excluded · cargo test -p conductor-core",
+" 10 unit        not run — excluded · cargo test -p conductor-run",
+" 11 unit        not run — excluded · cargo test -p conductor-cli",
+" 12 unit        not run — excluded · cargo nextest run -p conductor-core --test scenario_audit_… (75 chars)",
+" 13 unit        not run — excluded · cargo nextest run -p conductor-report --test coverage_gate… (71 chars)",
+" 14 unit        not run — excluded · cargo nextest run -p conductor-run --test real_model_harve… (73 chars)",
+" 15 probe       not run — excluded · grep -cE \"\\b[A-Za-z]:[\\\\/]|/home/|/Users/|%APPDATA%\" contr… (94 chars)",
+" 16 probe       not run — excluded · grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|… (132 chars)",
+" 17 probe       not run — excluded · bash scripts/agent-run.sh run --live bogus",
+" 18 probe       not run — excluded · powershell.exe -NoProfile -ExecutionPolicy Bypass -File sc… (94 chars)",
+" 19 probe       not run — excluded · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (152 chars)",
+" 20 probe       not run — excluded · tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromed… (111 chars)",
+" 21 e2e         not run — excluded · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (172 chars)",
+" 22 probe       not run — excluded · tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromed… (111 chars)",
+" 23 probe       not run — excluded · grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|… (168 chars)",
+" 24 smoke       not run — leg operator (the letter drives it) · bash scripts/agent-run.sh status <id>",
+"entries 24 · green 0 · red 0 · recorded 0 · timeout 0 · not-run 24"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-22-interpretation-proven-live",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-22-interpretation-proven-live\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+"contracts/pulse-real-model-leg-posture.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/a11y.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/acceptance-v3-09.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/arch.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/design.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/layouts.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/master-record.txt",
+".andromeda/runs/2026-09-22T21-39-08-phase/matrix-2026-09-22-interpretation-proven-live.json",
+".andromeda/runs/2026-09-22T21-39-08-phase/note-v3-09.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/obs.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/p5-review-operator.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/route-2026-09-22-interpretation-proven-live.json",
+".andromeda/runs/2026-09-22T21-39-08-phase/route-no-marker.json",
+".andromeda/runs/2026-09-22T21-39-08-phase/security.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/tests.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/tree-query-2026-09-22-interpretation-proven-live.json",
+".andromeda/runs/2026-09-23T06-58-41-implement/gate-2026-09-22-interpretation-proven-live.json",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/plan.md",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/research.md",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/scope.md"
+],
+"rust": [
+"crates/conductor-cli/src/cli.rs",
+"crates/conductor-cli/src/commands/preconditions.rs",
+"crates/conductor-cli/src/commands/run.rs",
+"crates/conductor-cli/src/main.rs",
+"crates/conductor-cli/tests/cli_smoke.rs",
+"crates/conductor-core/src/error.rs",
+"crates/conductor-core/src/lib.rs",
+"crates/conductor-core/src/load_envelope.rs",
+"crates/conductor-core/src/preconditions.rs",
+"crates/conductor-core/src/run_contract.rs",
+"crates/conductor-core/src/scenario.rs",
+"crates/conductor-run/src/canary.rs",
+"crates/conductor-run/src/execute.rs",
+"crates/conductor-run/src/lib.rs",
+"crates/conductor-run/src/preconditions.rs",
+"crates/conductor-run/src/testkit.rs",
+"crates/conductor-run/tests/composition_root.rs",
+"crates/conductor-run/tests/dispatch_wire.rs",
+"crates/conductor-run/tests/run_contract_pin.rs",
+"crates/conductor-timeline/src/convert.rs",
+"crates/conductor-run/tests/real_model_common/mod.rs",
+"crates/conductor-run/tests/real_model_harvest.rs",
+"crates/conductor-run/tests/real_model_live.rs"
+]
+},
+"unmapped": [
+"conductor-0.3.0/verification-matrix.json",
+"contracts/pulse-run-contract.toml",
+"contracts/scenario-audit-ledger.toml",
+"scripts/agent-run.ps1",
+"scripts/agent-run.sh",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/evidence/rm-capture.txt",
+"scenarios/real-model-interpretation.toml"
+],
+"prose": [
+{
+"from": 521,
+"to": 527,
+"text": "The block runs in the order below. The live leg (`leg = 'live'`) is fired by the agent at step 13 with the operator's Pulse up, never by the gate tool. It is preceded by its NON-PRIMING probe (`conductor preconditions --for …`, which fires no canary) and bracketed by a census. The status smoke reads the `run_id` the leg's capture prints (mint-then-read), so it is an `operator` entry the wrap does not re-run. No `self-verify` entry is listed: this is not a UI/visual chunk. The deterministic `--live` suite is not driven this chunk. Its gating stays byte-unchanged at the unit tier (steps 1, 3, 5), and re-launching Pulse deterministic mid-chunk would prime nothing this chunk measures. CI is read by the next chunk's Setup 5a against this wrap's pushed sha."
+},
+{
+"from": 529,
+"to": 534,
+"text": "Three more notes on the block: - The live entry is fired BACKGROUNDED and read on its completion notification: at about 24 min, it outlasts one   foreground call. - The evidence hygiene entry's subject, `evidence/rm-capture.txt`, is the agent's step-13 copy of the live entry's   `artifact`. No entry produces it, and it reads red (file absent, exit 2) until the drive. - The two `run --live bogus` entries exercise each shell's new selector arm without Pulse."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "probe",
+"run": "git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+"run_sha8": "85122344",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "cargo fmt --check",
+"run_sha8": "194fabc0",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "lint",
+"run": "cargo clippy -p conductor-run --features live-pulse --all-targets -- -D warnings",
+"run_sha8": "c3608109",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "unit",
+"run": "cargo test --workspace --doc",
+"run_sha8": "5d8797c2",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "unit",
+"run": "cargo test -p conductor-core",
+"run_sha8": "cbd7017c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "unit",
+"run": "cargo test -p conductor-run",
+"run_sha8": "988a9d64",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "unit",
+"run": "cargo test -p conductor-cli",
+"run_sha8": "2eab0728",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "unit",
+"run": "cargo nextest run -p conductor-core --test scenario_audit_gate --profile ci",
+"run_sha8": "ead6dcd7",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "unit",
+"run": "cargo nextest run -p conductor-report --test coverage_gate --profile ci",
+"run_sha8": "7aaf8575",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "unit",
+"run": "cargo nextest run -p conductor-run --test real_model_harvest --profile ci",
+"run_sha8": "70507ea4",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "grep -cE \"\\b[A-Za-z]:[\\\\/]|/home/|/Users/|%APPDATA%\" contracts/pulse-real-model-leg-posture.md",
+"run_sha8": "ab13ce7d",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|/home/|/Users/|%APPDATA%\" crates/conductor-run/tests/real_model_harvest.rs",
+"run_sha8": "92fc4857",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "bash scripts/agent-run.sh run --live bogus",
+"run_sha8": "49e32964",
+"expect": [
+"exit 2",
+"contains run --live [real-model]"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/agent-run.ps1 run --live bogus",
+"run_sha8": "8e347ca9",
+"expect": [
+"exit 2",
+"contains run --live [real-model]"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH cargo run -q -p conductor-cli --bin conductor -- preconditions --for real-model-interpretation",
+"run_sha8": "07904e69",
+"expect": [
+"exit 0",
+"contains [PRECONDITION] every live-Pulse precondition is satisfied"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromeda-pulse-mcp|pulse-app|real_model_live-[^\\\"]*)\\.exe\\\"\"",
+"run_sha8": "70642c44",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "e2e",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH RUST_LOG=info,conductor_emit=debug CONDUCTOR_PREFLIGHT_TIMEOUT=600 bash scripts/agent-run.sh run --live real-model",
+"run_sha8": "319f782e",
+"expect": [
+"exit 0",
+"contains [live] leg rm: real-model-interpretation",
+"contains [live] leg rm: froze"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromeda-pulse-mcp|pulse-app|real_model_live-[^\\\"]*)\\.exe\\\"\"",
+"run_sha8": "70642c44",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|/home/|/Users/|%APPDATA%\" conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/evidence/rm-capture.txt",
+"run_sha8": "2598db8c",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 24,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status <id>",
+"run_sha8": "4849b302",
+"expect": [
+"exit 0",
+"contains \"scenario\": \"real-model-interpretation\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.0",
+"sha8": "8f152023",
+"ts": "2026-09-23T07:55:13Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-23T06-58-41-implement",
+"--marker",
+"2026-09-22-interpretation-proven-live"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-22-interpretation-proven-live · entries 24",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41 · bound: GNU timeout",
+"delta docs 24 · rust 23 · unmapped 7",
+"prose L521-527: The block runs in the order below. The live leg (`leg = 'live'`) is fired by the agent at … (761 chars)",
+"prose L529-534: Three more notes on the block: - The live entry is fired BACKGROUNDED and read on its comp… (460 chars)",
+"  1 probe       green · exit 0 · 0.13s · 0 B → 1.log · git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+"  2 probe       green · exit 0 · 2.18s · 1897 B → 2.log · cargo audit",
+"  3 probe       green · exit 0 · 1.57s · 236251 B → 3.log · cargo deny check advisories bans licenses sources",
+"  4 lint        green · exit 0 · 0.47s · 0 B → 4.log · cargo fmt --check",
+"  5 lint        green · exit 0 · 0.85s · 155 B → 5.log · cargo clippy --workspace --all-targets -- -D warnings",
+"  6 lint        green · exit 0 · 0.58s · 155 B → 6.log · cargo clippy -p conductor-run --features live-pulse --all-… (80 chars)",
+"  7 unit        green · exit 0 · 10.44s · 126793 B → 7.log · cargo nextest run --workspace --profile ci",
+"  8 unit        green · exit 0 · 1.51s · 1392 B → 8.log · cargo test --workspace --doc",
+"  9 unit        green · exit 0 · 0.59s · 29201 B → 9.log · cargo test -p conductor-core",
+" 10 unit        green · exit 0 · 1.92s · 21589 B → 10.log · cargo test -p conductor-run",
+" 11 unit        green · exit 0 · 2.53s · 4604 B → 11.log · cargo test -p conductor-cli",
+" 12 unit        green · exit 0 · 0.76s · 1131 B → 12.log · cargo nextest run -p conductor-core --test scenario_audit_… (75 chars)",
+" 13 unit        green · exit 0 · 0.66s · 653 B → 13.log · cargo nextest run -p conductor-report --test coverage_gate… (71 chars)",
+" 14 unit        green · exit 0 · 0.96s · 4855 B → 14.log · cargo nextest run -p conductor-run --test real_model_harve… (73 chars)",
+" 15 probe       green · exit 1 · 0.06s · 2 B → 15.log · grep -cE \"\\b[A-Za-z]:[\\\\/]|/home/|/Users/|%APPDATA%\" contr… (94 chars)",
+" 16 probe       green · exit 1 · 0.08s · 2 B → 16.log · grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|… (132 chars)",
+" 17 probe       green · exit 2 · 0.12s · 52 B → 17.log · bash scripts/agent-run.sh run --live bogus",
+" 18 probe       green · exit 2 · 0.29s · 48 B → 18.log · powershell.exe -NoProfile -ExecutionPolicy Bypass -File sc… (94 chars)",
+" 19 probe       not run — env ANDROMEDA_PULSE_DATA_DIR, ANDROMEDA_PULSE_MCP_ENABLED unset · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (152 chars)",
+" 20 probe       recorded · exit 0 · 0.37s · 50 B → 20.log · tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromed… (111 chars)",
+" 21 e2e         not run — leg live (the letter drives it) · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (172 chars)",
+" 22 probe       recorded · exit 0 · 0.49s · 50 B → 22.log · tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromed… (111 chars)",
+" 23 probe       green · exit 1 · 0.06s · 2 B → 23.log · grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|… (168 chars)",
+" 24 smoke       not run — leg operator (the letter drives it) · bash scripts/agent-run.sh status <id>",
+"entries 24 · green 19 · red 0 · recorded 2 · timeout 0 · not-run 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-22-interpretation-proven-live",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-22-interpretation-proven-live\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+"contracts/pulse-real-model-leg-posture.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/a11y.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/acceptance-v3-09.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/arch.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/design.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/layouts.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/master-record.txt",
+".andromeda/runs/2026-09-22T21-39-08-phase/matrix-2026-09-22-interpretation-proven-live.json",
+".andromeda/runs/2026-09-22T21-39-08-phase/note-v3-09.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/obs.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/p5-review-operator.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/route-2026-09-22-interpretation-proven-live.json",
+".andromeda/runs/2026-09-22T21-39-08-phase/route-no-marker.json",
+".andromeda/runs/2026-09-22T21-39-08-phase/security.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/tests.md",
+".andromeda/runs/2026-09-22T21-39-08-phase/tree-query-2026-09-22-interpretation-proven-live.json",
+".andromeda/runs/2026-09-23T06-58-41-implement/gate-2026-09-22-interpretation-proven-live.json",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/plan.md",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/research.md",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/scope.md"
+],
+"rust": [
+"crates/conductor-cli/src/cli.rs",
+"crates/conductor-cli/src/commands/preconditions.rs",
+"crates/conductor-cli/src/commands/run.rs",
+"crates/conductor-cli/src/main.rs",
+"crates/conductor-cli/tests/cli_smoke.rs",
+"crates/conductor-core/src/error.rs",
+"crates/conductor-core/src/lib.rs",
+"crates/conductor-core/src/load_envelope.rs",
+"crates/conductor-core/src/preconditions.rs",
+"crates/conductor-core/src/run_contract.rs",
+"crates/conductor-core/src/scenario.rs",
+"crates/conductor-run/src/canary.rs",
+"crates/conductor-run/src/execute.rs",
+"crates/conductor-run/src/lib.rs",
+"crates/conductor-run/src/preconditions.rs",
+"crates/conductor-run/src/testkit.rs",
+"crates/conductor-run/tests/composition_root.rs",
+"crates/conductor-run/tests/dispatch_wire.rs",
+"crates/conductor-run/tests/run_contract_pin.rs",
+"crates/conductor-timeline/src/convert.rs",
+"crates/conductor-run/tests/real_model_common/mod.rs",
+"crates/conductor-run/tests/real_model_harvest.rs",
+"crates/conductor-run/tests/real_model_live.rs"
+]
+},
+"unmapped": [
+"conductor-0.3.0/verification-matrix.json",
+"contracts/pulse-run-contract.toml",
+"contracts/scenario-audit-ledger.toml",
+"scripts/agent-run.ps1",
+"scripts/agent-run.sh",
+"conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/evidence/rm-capture.txt",
+"scenarios/real-model-interpretation.toml"
+],
+"prose": [
+{
+"from": 521,
+"to": 527,
+"text": "The block runs in the order below. The live leg (`leg = 'live'`) is fired by the agent at step 13 with the operator's Pulse up, never by the gate tool. It is preceded by its NON-PRIMING probe (`conductor preconditions --for …`, which fires no canary) and bracketed by a census. The status smoke reads the `run_id` the leg's capture prints (mint-then-read), so it is an `operator` entry the wrap does not re-run. No `self-verify` entry is listed: this is not a UI/visual chunk. The deterministic `--live` suite is not driven this chunk. Its gating stays byte-unchanged at the unit tier (steps 1, 3, 5), and re-launching Pulse deterministic mid-chunk would prime nothing this chunk measures. CI is read by the next chunk's Setup 5a against this wrap's pushed sha."
+},
+{
+"from": 529,
+"to": 534,
+"text": "Three more notes on the block: - The live entry is fired BACKGROUNDED and read on its completion notification: at about 24 min, it outlasts one   foreground call. - The evidence hygiene entry's subject, `evidence/rm-capture.txt`, is the agent's step-13 copy of the live entry's   `artifact`. No entry produces it, and it reads red (file absent, exit 2) until the drive. - The two `run --live bogus` entries exercise each shell's new selector arm without Pulse."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "probe",
+"run": "git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+"run_sha8": "85122344",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.13,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\2.log",
+"bytes": 1897,
+"log_sha8": "e007aea6",
+"exit": 0,
+"seconds": 2.18,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\3.log",
+"bytes": 236251,
+"log_sha8": "4ebeefef",
+"exit": 0,
+"seconds": 1.57,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "cargo fmt --check",
+"run_sha8": "194fabc0",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\4.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.47,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\5.log",
+"bytes": 155,
+"log_sha8": "9df3e42e",
+"exit": 0,
+"seconds": 0.85,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "lint",
+"run": "cargo clippy -p conductor-run --features live-pulse --all-targets -- -D warnings",
+"run_sha8": "c3608109",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\6.log",
+"bytes": 155,
+"log_sha8": "8ad0aa44",
+"exit": 0,
+"seconds": 0.58,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\7.log",
+"bytes": 126793,
+"log_sha8": "357a8255",
+"exit": 0,
+"seconds": 10.44,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "unit",
+"run": "cargo test --workspace --doc",
+"run_sha8": "5d8797c2",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\8.log",
+"bytes": 1392,
+"log_sha8": "776ce3a3",
+"exit": 0,
+"seconds": 1.51,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "unit",
+"run": "cargo test -p conductor-core",
+"run_sha8": "cbd7017c",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\9.log",
+"bytes": 29201,
+"log_sha8": "be7110a4",
+"exit": 0,
+"seconds": 0.59,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "unit",
+"run": "cargo test -p conductor-run",
+"run_sha8": "988a9d64",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\10.log",
+"bytes": 21589,
+"log_sha8": "05bdd88c",
+"exit": 0,
+"seconds": 1.92,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "unit",
+"run": "cargo test -p conductor-cli",
+"run_sha8": "2eab0728",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\11.log",
+"bytes": 4604,
+"log_sha8": "923ae579",
+"exit": 0,
+"seconds": 2.53,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "unit",
+"run": "cargo nextest run -p conductor-core --test scenario_audit_gate --profile ci",
+"run_sha8": "ead6dcd7",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\12.log",
+"bytes": 1131,
+"log_sha8": "05a6b46b",
+"exit": 0,
+"seconds": 0.76,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "unit",
+"run": "cargo nextest run -p conductor-report --test coverage_gate --profile ci",
+"run_sha8": "7aaf8575",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\13.log",
+"bytes": 653,
+"log_sha8": "55de0263",
+"exit": 0,
+"seconds": 0.66,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "unit",
+"run": "cargo nextest run -p conductor-run --test real_model_harvest --profile ci",
+"run_sha8": "70507ea4",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\14.log",
+"bytes": 4855,
+"log_sha8": "cf4920c1",
+"exit": 0,
+"seconds": 0.96,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "grep -cE \"\\b[A-Za-z]:[\\\\/]|/home/|/Users/|%APPDATA%\" contracts/pulse-real-model-leg-posture.md",
+"run_sha8": "ab13ce7d",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\15.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.06,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|/home/|/Users/|%APPDATA%\" crates/conductor-run/tests/real_model_harvest.rs",
+"run_sha8": "92fc4857",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\16.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.08,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "bash scripts/agent-run.sh run --live bogus",
+"run_sha8": "49e32964",
+"expect": [
+"exit 2",
+"contains run --live [real-model]"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\17.log",
+"bytes": 52,
+"log_sha8": "1349e550",
+"exit": 2,
+"seconds": 0.12,
+"readings": [
+"exit 2 ✓",
+"contains 'run --live [real-model]' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "powershell.exe -NoProfile -ExecutionPolicy Bypass -File scripts/agent-run.ps1 run --live bogus",
+"run_sha8": "8e347ca9",
+"expect": [
+"exit 2",
+"contains run --live [real-model]"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\18.log",
+"bytes": 48,
+"log_sha8": "dd0ae418",
+"exit": 2,
+"seconds": 0.29,
+"readings": [
+"exit 2 ✓",
+"contains 'run --live [real-model]' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH cargo run -q -p conductor-cli --bin conductor -- preconditions --for real-model-interpretation",
+"run_sha8": "07904e69",
+"expect": [
+"exit 0",
+"contains [PRECONDITION] every live-Pulse precondition is satisfied"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — env ANDROMEDA_PULSE_DATA_DIR, ANDROMEDA_PULSE_MCP_ENABLED unset"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromeda-pulse-mcp|pulse-app|real_model_live-[^\\\"]*)\\.exe\\\"\"",
+"run_sha8": "70642c44",
+"expect": [],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\20.log",
+"bytes": 50,
+"log_sha8": "82c0381a",
+"exit": 0,
+"seconds": 0.37,
+"readings": [
+"report-only (expect = [])"
+],
+"survivors": [],
+"outcome": "recorded"
+},
+{
+"n": 21,
+"role": "e2e",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH RUST_LOG=info,conductor_emit=debug CONDUCTOR_PREFLIGHT_TIMEOUT=600 bash scripts/agent-run.sh run --live real-model",
+"run_sha8": "319f782e",
+"expect": [
+"exit 0",
+"contains [live] leg rm: real-model-interpretation",
+"contains [live] leg rm: froze"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg live (the letter drives it)"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromeda-pulse-mcp|pulse-app|real_model_live-[^\\\"]*)\\.exe\\\"\"",
+"run_sha8": "70642c44",
+"expect": [],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\22.log",
+"bytes": 50,
+"log_sha8": "82c0381a",
+"exit": 0,
+"seconds": 0.49,
+"readings": [
+"report-only (expect = [])"
+],
+"survivors": [],
+"outcome": "recorded"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|/home/|/Users/|%APPDATA%\" conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/evidence/rm-capture.txt",
+"run_sha8": "2598db8c",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-22-interpretation-proven-live\\implement-2026-09-23T06-58-41\\23.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.06,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 24,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status <id>",
+"run_sha8": "4849b302",
+"expect": [
+"exit 0",
+"contains \"scenario\": \"real-model-interpretation\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+}
+]

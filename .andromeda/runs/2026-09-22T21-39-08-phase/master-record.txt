@@ -1,0 +1,1 @@
+2026-09-22-interpretation-proven-live · pending · Interpretation proven live — known root cause injected through the emission path, top hypothesis asserted to identify it, graded against the stated rule · → conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/

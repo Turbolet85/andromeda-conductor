@@ -10,7 +10,7 @@ use std::path::{Path, PathBuf};
 
 use anyhow::Context as _;
 
-use conductor_core::{RunContract, now_rfc3339, redact_value};
+use conductor_core::{L4Posture, RunContract, now_rfc3339, redact_value};
 use conductor_emit::{
     DEFAULT_OTLP_ENDPOINT, ExceptionSpec, Frame, TraceEmitter, exception_trace_request,
     fingerprint, trace_request,
@@ -29,12 +29,23 @@ pub struct Preflight {
     /// crate takes the gate's verdict through [`preflight`], not by inspecting it.
     pub(crate) client: Option<ReadbackClient>,
     pub(crate) ready: bool,
+    /// The L4 posture the gate evaluated the run contract under. A scenario declaring any other
+    /// posture is Blocked at scenario level, never run against a gate that checked the wrong terms.
+    pub(crate) posture: L4Posture,
 }
 
-/// Establish the read-back session + readiness gate once. A failed spawn / handshake (the read-back
-/// path unreachable) or an unsatisfied gate yields `ready = false` — a Blocked precondition, never a
-/// harness `Err`. A missing / invalid contract manifest on a connected path IS a harness fault.
+/// Establish the read-back session + readiness gate once, under the deterministic posture — every
+/// live leg's but the real-model one. A failed spawn / handshake (the read-back path unreachable) or
+/// an unsatisfied gate yields `ready = false` — a Blocked precondition, never a harness `Err`. A
+/// missing / invalid contract manifest on a connected path IS a harness fault.
 pub async fn preflight(manifest_path: &Path) -> anyhow::Result<Preflight> {
+    preflight_for(manifest_path, L4Posture::Deterministic).await
+}
+
+/// [`preflight`] for a run graded under `posture`: the run contract's terms are selected by it, so
+/// the real-model posture requires the deterministic handle ABSENT where the deterministic one
+/// requires it declared. The posture is the scenario's declaration, never read from the environment.
+pub async fn preflight_for(manifest_path: &Path, posture: L4Posture) -> anyhow::Result<Preflight> {
     let data_dir = std::env::var_os("ANDROMEDA_PULSE_DATA_DIR").map(PathBuf::from);
     let data_dir_str = data_dir
         .as_ref()
@@ -48,17 +59,19 @@ pub async fn preflight(manifest_path: &Path) -> anyhow::Result<Preflight> {
             return Ok(Preflight {
                 client: None,
                 ready: false,
+                posture,
             });
         }
     };
 
-    let state = canary_gate(&client, manifest_path, &data_dir_str).await?;
+    let state = canary_gate(&client, manifest_path, &data_dir_str, posture).await?;
     if !state.ready {
         tracing::info!("preflight blocked: readiness gate not satisfied");
     }
     Ok(Preflight {
         client: Some(client),
         ready: state.ready,
+        posture,
     })
 }
 
@@ -72,7 +85,15 @@ pub async fn readiness(manifest_path: &Path) -> anyhow::Result<ReadyState> {
         .map(|p| p.display().to_string())
         .unwrap_or_default();
     match ReadbackClient::connect(data_dir).await {
-        Ok(client) => canary_gate(&client, manifest_path, &data_dir_str).await,
+        Ok(client) => {
+            canary_gate(
+                &client,
+                manifest_path,
+                &data_dir_str,
+                L4Posture::Deterministic,
+            )
+            .await
+        }
         Err(_) => {
             tracing::info!("preflight blocked: MCP read-back path unreachable");
             let manifest =
@@ -167,17 +188,19 @@ pub async fn emit_canary_storm(
     Ok(())
 }
 
-/// Emit the canary fingerprint-storm, then run the readiness gate over it. Emission failure (OTLP
-/// egress down) is a Blocked precondition, never a harness `Err`; a missing / invalid manifest IS a
-/// harness fault. Shared by [`preflight`] + [`readiness`].
+/// Emit the canary fingerprint-storm, then run the readiness gate over it, with the run contract
+/// evaluated under `posture`. Emission failure (OTLP egress down) is a Blocked precondition, never a
+/// harness `Err`; a missing / invalid manifest IS a harness fault. Shared by [`preflight_for`] +
+/// [`readiness`] (which stays deterministic — the `boot` verb gates the deterministic suite).
 async fn canary_gate(
     client: &ReadbackClient,
     manifest_path: &Path,
     data_dir_str: &str,
+    posture: L4Posture,
 ) -> anyhow::Result<ReadyState> {
     let manifest = ContractManifest::load(manifest_path).context("load MCP contract manifest")?;
     let contract = load_run_contract().context("load Pulse run contract")?;
-    let status = observe_run_contract(&contract);
+    let status = observe_run_contract(&contract, posture);
     // An unmet launch condition means no incident can form, so the warm-up would only spend its
     // window to reach the same block — emit the storm, skip the wait.
     let canary = match emit_canary(&contract, status.is_satisfied()).await {

@@ -6,8 +6,8 @@
 #![cfg(test)]
 
 use conductor_core::{
-    CheckKind, ContractTerm, EmissionShape, EmissionSpec, IncidentFormation, LoadEnvelope,
-    RunContract, Scenario,
+    CheckKind, ContractTerm, EmissionShape, EmissionSpec, IncidentFormation, L4Posture,
+    LoadEnvelope, RunContract, Scenario,
 };
 use conductor_verify::Observation;
 
@@ -20,6 +20,18 @@ pub(crate) fn blocked_preflight() -> Preflight {
     Preflight {
         client: None,
         ready: false,
+        posture: L4Posture::Deterministic,
+    }
+}
+
+/// A READY deterministic gate with no client behind it. Only the posture-mismatch arm may use it: that
+/// check precedes the ready check, so a scenario it does not block reaches the connected-client
+/// `expect` and panics — which is exactly what makes the arm red without the check.
+pub(crate) fn ready_deterministic_preflight_without_client() -> Preflight {
+    Preflight {
+        client: None,
+        ready: true,
+        posture: L4Posture::Deterministic,
     }
 }
 
@@ -91,6 +103,7 @@ pub(crate) fn shell_term(id: &str, env: &str) -> ContractTerm {
         check: CheckKind::ShellDeclaration,
         env: Some(env.to_string()),
         causes: "the declaration is absent from this environment".to_string(),
+        posture: None,
     }
 }
 
