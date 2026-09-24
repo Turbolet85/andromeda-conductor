@@ -84,3 +84,5 @@ insta = "1"
 assert_cmd = "2"
 assert_fs = "1"
 predicates = "3"
+# Secret-scan static gate's rule set (already locked transitively via urlpattern — an edge, no new package)
+regex = "1.12"

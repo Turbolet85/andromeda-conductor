@@ -608,6 +608,7 @@ dependencies = [
  "garde",
  "insta",
  "proptest",
+ "regex",
  "rstest",
  "serde",
  "serde_json",

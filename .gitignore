@@ -23,8 +23,21 @@ __pycache__/
 crates/conductor-tauri/ui/logs/
 
 # --- Secrets / env (Conductor owns no secrets — guardrail) ---
-.env
-.env.*
+# Mirrors the secret-file-name class crates/conductor-core/tests/secret_scan_gate.rs detects, so the ignore
+# rules and the gate name the same classes.
+.env*
+*.pem
+*.p12
+*.pfx
+*.key
+*.cer
+*.crt
+*.jks
+*.keystore
+id_rsa*
+id_dsa*
+id_ecdsa*
+id_ed25519*
 
 # --- Claude Code ---
 .claude/backup/

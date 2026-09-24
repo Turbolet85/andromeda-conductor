@@ -11,7 +11,7 @@
           {
             "type": "command",
             "timeout": 5,
-            "command": "bash -c 'command -v jq >/dev/null 2>&1 || exit 0; inp=$(cat); if [ -z \"$inp\" ]; then inp=\"$CLAUDE_TOOL_INPUT\"; fi; path=$(printf \"%s\" \"$inp\" | jq -r \".tool_input.file_path // empty\" | tr -d \"\\r\"); if printf \"%s\" \"$path\" | grep -qE \"(^|/)(dist|build|[.]next|node_modules|coverage|target|vendor)/\"; then echo \"Blocked: edit to a generated directory ($path)\" >&2; exit 2; fi'"
+            "command": "bash -c 'command -v jq >/dev/null 2>&1 || exit 0; inp=$(cat); if [ -z \"$inp\" ]; then inp=\"$CLAUDE_TOOL_INPUT\"; fi; path=$(printf \"%s\" \"$inp\" | jq -r \".tool_input.file_path // empty\" | tr -d \"\\r\" | tr \"\\134\" \"/\"); if printf \"%s\" \"$path\" | grep -qE \"(^|/)(dist|build|[.]next|node_modules|coverage|target|vendor)/\"; then echo \"Blocked: edit to a generated directory ($path)\" >&2; exit 2; fi'"
           }
         ]
       },

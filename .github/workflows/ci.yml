@@ -69,6 +69,42 @@ jobs:
             exit 1
           fi
 
+      # Secret-scan gate (security-plan §Secret Management — the no-secrets invariant held over time). The subject
+      # is the workspace as git lists it; the Rust test IS the gate, with its rule set, its allowlist and the
+      # negative arms that prove it can fail, so the step is only its presence-guarded invocation. A hit names
+      # path:line and the rule, never the matched text.
+      - name: Secret-scan gate
+        shell: bash
+        run: |
+          test -n "$(git ls-files)" || { echo "::error::no tracked files — the secret-scan gate has no subject"; exit 1; }
+          cargo nextest run -p conductor-core --test secret_scan_gate --profile ci
+
+      # The Workflow env-context gate below ADMITS a key a step writes to GITHUB_ENV, and GitHub's docs do not say
+      # whether such a key resolves through the env expression context. This pair measures it on every run: the
+      # assert reads the EXPRESSION form (substituted before the shell starts), never the shell variable, so a
+      # context that drops GITHUB_ENV keys fails here instead of silently widening the gate below.
+      - name: GITHUB_ENV context probe (write)
+        shell: bash
+        run: echo "GHA_ENV_CONTEXT_PROBE=written-by-an-earlier-step" >> "$GITHUB_ENV"
+
+      - name: GITHUB_ENV context probe (assert)
+        shell: bash
+        run: |
+          if [ "${{ env.GHA_ENV_CONTEXT_PROBE }}" != "written-by-an-earlier-step" ]; then
+            echo "::error::a GITHUB_ENV key did not resolve through the env expression context — the Workflow env-context gate's admission of GITHUB_ENV keys is unfounded"
+            exit 1
+          fi
+          echo "GITHUB_ENV context probe: the env expression context carries a GITHUB_ENV key"
+
+      # Workflow env-context gate: an ${{ env.X }} expression or a bare `if: env.X` naming a key no workflow, job
+      # or step declares resolves empty WITHOUT error — the trap the EDGEWEBDRIVER comment in the a11y job records.
+      # The gate is the Rust test over every workflow file; a hit names the file, line and key.
+      - name: Workflow env-context gate
+        shell: bash
+        run: |
+          ls .github/workflows/*.yml >/dev/null 2>&1 || { echo "::error::no workflow file — the env-context gate has no subject"; exit 1; }
+          cargo nextest run -p conductor-core --test workflow_env_gate --profile ci
+
       # Dogfood the source-of-truth release gate: agent-run `run` = nextest --profile ci (zero-retry,
       # emits target/nextest/ci/junit.xml) + test --doc + clippy -D warnings. Setting
       # $PSNativeCommandUseErrorActionPreference makes the script fail-fast on the first native

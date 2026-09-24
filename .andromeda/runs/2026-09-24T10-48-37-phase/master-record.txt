@@ -1,0 +1,1 @@
+2026-09-24-secret-scanning-ci-gate · pending · secret-scanning CI gate, key/cert ignores, undeclared-env-key step, write-guard backslash fix · → conductor-0.3.0/chunks/2026-09-24-secret-scanning-ci-gate/
