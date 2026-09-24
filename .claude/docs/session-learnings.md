@@ -1,6 +1,29 @@
 # Session Learnings
 
 _This file is curated by `/wrap-session`. Learnings captured here are too detailed or specific for CLAUDE.md but worth preserving as reference material for future sessions._
+## 2026-09-24 — Pin an undocumented platform premise with a probe that re-measures it on every run
+
+When a gate's rule rests on a platform semantic the vendor does not document, and the semantic can only be
+observed on the hosted platform itself, do not settle it with a one-off measurement. Ship a small probe pair
+beside the gate that asserts the premise on every run: one step produces the condition, the next asserts it
+through the exact read form the gate admits, and it fails with an annotation naming the rule it would invalidate.
+
+The first run of the chunk's push is then the measurement. The premise also cannot rot silently: a later platform
+change turns the probe red instead of widening the gate unseen. This is the TIME axis of the verify-the-claim
+family (a point-in-time check expires; a standing check does not). It applies wherever a static gate's admission
+depends on CI-runner behaviour no local instrument can reproduce.
+
+---
+
+## 2026-09-24 — Copying a precedent artifact copies its actor: re-derive every attribution clause
+
+Mirroring a prior chunk's commit message, evidence record or report is a sound way to keep form. But the
+precedent's sentences about WHO acted describe that occasion, not this one. When an artifact is modelled on a
+precedent, re-derive each attribution clause ("made by X on Y's instruction", "operator-ratified", "run by the
+overseer") from what actually happened this time, before the artifact is written. A pushed commit carrying the
+copied actor can only be corrected forward, in the next commit, without a force-push.
+
+---
 ## 2026-09-24 — `gate.py delta --defer-check` voids on a BASENAME, and `--only` will not fire a deferred entry
 
 The deferral check greps each uncommitted file's basename fixed-string over the language's source tree. An

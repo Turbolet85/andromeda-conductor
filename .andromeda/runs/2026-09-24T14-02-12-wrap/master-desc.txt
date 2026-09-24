@@ -1,0 +1,1 @@
+secret-scan + workflow env-context gates (in-repo Rust targets), key/cert ignores, GITHUB_ENV context probe (F12 measured: resolves), write-guard backslash fix; v3-11 verified

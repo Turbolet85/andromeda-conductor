@@ -39,7 +39,7 @@ handled via boundary instrumentation only._
 | **tokio 1.52.3 `current_thread` runtime** | Stack | Instrumentable | Deterministic single-threaded async runtime; zero work-stealing preserves emission ordering as function of seed; instrumentation must respect the runtime's invariant (no background batch tasks in exporters that would break determinism) |
 | **Pulse MCP server** | Standard Contracts (MCP preflight readiness gate + OTLP egress check) | Boundary-only | Third-party observability backend; Conductor acts as MCP client calling `query_incident_list`, `retrieve_report`, `retrieve_telemetry_slice`, `mark_incident_resolved` against pinned `2024-11-05` protocol version; Pulse-side behavior is not instrumentable, and Conductor observes read-back responses and SLO timing — and additionally MUTATES Pulse state at this boundary through `mark_incident_resolved`, whose effect is graded on runtime-state read-back (active-set membership) rather than on any Pulse internal |
 | **rusqlite + libsqlite3-sys (`runs.db`)** | Stack | Boundary-only | Synchronous embedded SQLite with bundled C bindings; raw SQL (no ORM); append-mostly run-metadata storage; instrumentation at the rusqlite call boundary — the run-persist WRITE carries the `db.insert_run` span, the TEARDOWN write (`RunsDb::delete_run`) carries no span and no boundary log (deliberate: off the must-trace paths, sole caller has no `tracing` dep), and the READ path a §6 boundary-call `info!` inside the caller's span (no `db.*` read span); SQLite internal state is not instrumented (C library, outside Rust control) |
-| **cargo build / CI/CD pipeline** | CI/CD Platform | Not-instrumentable | GitHub Actions workflow; build-time verification (`cargo fmt --all --check`, `cargo build`, cargo-nextest, cargo clippy); does not run at runtime; observability focus is on the deployed harness binary and headless `scripts/agent-run.sh` execution |
+| **cargo build / CI/CD pipeline** | CI/CD Platform | Not-instrumentable | GitHub Actions workflow; build-time verification (`cargo fmt --all --check`, `cargo build`, cargo-nextest, cargo clippy, the static gates incl. the repository-hygiene secret-scan and workflow env-context gates); does not run at runtime; observability focus is on the deployed harness binary and headless `scripts/agent-run.sh` execution |
 
 **Telemetry surfaces:**
 
@@ -528,6 +528,7 @@ processes.
 | Unit tests | `cargo-nextest` JSON output + `logs/agent-latest.jsonl` | uploaded artifact (agent reads JSON for flake detection) |
 | Integration tests (end-to-end scenario) | logs + JSON status envelope per scenario | uploaded artifact + agent assertion (cargo-nextest `--message-format libtest-json`) |
 | Coverage | `cargo-llvm-cov --fail-under-lines 60` report | CI status (coverage gate) |
+| Repository-hygiene gates (2026-09-24) | `Secret-scan gate` / `Workflow env-context gate` nextest output; each hit is one line naming a repo-relative `path:line` (with its rule — never the matched text) or the workflow file, line and key; the `GITHUB_ENV context probe (assert)` step prints its own verdict line | the job log only — agent-readable there and NEVER written into a telemetry artifact (`logs/agent-latest.jsonl`, `runs/**`), the fmt-row discipline |
 
 **CI-specific resource attributes:**
 - `deployment.environment`: `dev` (all branch builds, default)
@@ -572,6 +573,7 @@ SLO enforcement: agent reads runs.db rows post-run and asserts `latency_ms <= sl
 - `cargo-audit` red flag (supply-chain audit gate)
 - `cargo clippy` warnings treated as CI annotations (non-blocking at Minimal, but visible to agent)
 - `cargo-llvm-cov --fail-under-lines 60` coverage gate (Minimal threshold)
+- A repository-hygiene gate red — a secret-shaped string or file name in the workspace (`Secret-scan gate`), an undeclared `env.X` workflow read (`Workflow env-context gate`), or the env expression context dropping a `GITHUB_ENV` key (`GITHUB_ENV context probe (assert)`)
 
 ---
 

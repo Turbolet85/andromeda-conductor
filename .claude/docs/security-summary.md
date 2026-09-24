@@ -42,7 +42,7 @@ See `.claude/rules/security.md` (loads unconditionally — universal).
 - **Subprocess-spawn hardening** is the single most architecture-relevant control (MCP-sidecar STDIO injection, CVE-2026-30623).
 - **Version floors:** toolchain ≥1.94.1 (tar-rs CVE-2026-33056) — **done** (1.95.0); `tauri` ≥2.10.3 (origin-confusion CVE-2026-42184) — required bump, dormant until the Tauri GUI (Epoch 9).
 - **External decay forks on the fault:** a TOOL fault (scanner too old / fixed bug) → raise the floor; an advisory-DATABASE fault (the RustSec DB itself won't parse, so no release can read it) → floor-raising is unexecutable, so it's a bounded wait with the audit↔deny overlap verified green. Prove which by re-running the latest published tool. **A new dependency MAY land during that wait, but only on a `cargo deny check advisories bans licenses sources` verified green over the NEW lockfile** — deny is then the sole coverage, and the deferral stops resting on "no dependency delta".
-- **Secret-scanning CI gate** is optional/deferred (Conductor owns no secrets; tool selection left to setup/operator).
+- **Secret-scanning CI gate** is realized (2026-09-24): the `rust` job's `Secret-scan gate` runs the in-repo Rust test `crates/conductor-core/tests/secret_scan_gate.rs` over git's cached + untracked-not-ignored listing (exact-set allowlist; a hit names `path:line`, never the match). The tool was operator-selected over a job-time-fetched scanner, which would have been a second third-class dependency and a second CI egress (Decisions Log 2026-09-24). `.gitignore` ignores `.env*` and the key / certificate / SSH-key file classes the gate detects.
 
 ---
 

@@ -135,6 +135,16 @@ for the report to carry it (extend report-template) — never re-derive from git
   check: agent-read — if the report adds logging / artifact writes, confirm field-allowlist redaction per §6; a leaked path / struct name is drift.
   severity: escalate
 
+- id: D-obs-ci-gates
+  doc: obs-plan
+  invariant: every CI gate step the build runs is named — by kind, never by count — in obs-plan §1's Not-instrumentable build-time row, the §9 Pipeline integration table and the §10 Build / deploy failure conditions.
+  check: agent-read — for each CI gate step the report's `Harness / gate surface` bullet ADDS or REMOVES, find it (or its kind) in §1's `cargo build / CI/CD pipeline` row, a §9 Pipeline integration row and a §10 failure-condition line; a missing or orphaned site is drift. Name the gate's KIND, never a gate count.
+  severity: warning
+  # Added 2026-09-24 (2026-09-24-secret-scanning-ci-gate, operator-approved): the third consecutive CI-gate chunk whose
+  # obs-plan enumerations were rescued only by the plan's expected-amendments floor (Validate check 5) — the fmt gate
+  # (2026-09-09), the scenario-assertion audit gate (2026-09-16) and the repository-hygiene gates here — because no obs
+  # detector covered a gate-enumeration update.
+
 # — a11y-plan —
 - id: D-a11y-surface
   doc: a11y-plan
