@@ -1,0 +1,3636 @@
+# Disposition ledger — one row per BEFORE sentence of the two registry sections at HEAD (`2026-09-24-architecture-registries-compacted-under-the-read-cap`).
+# disposition: kept | moved | in-sidecar (+ marker) | rewritten (+ anchor); judgment rows are every `rewritten`
+# row and every span-less `in-sidecar` row — `ledger-show --judgment` renders them.
+
+[[sentence]]
+id = "5705f274f763"
+section = "Established Decisions"
+head = "**[Language / Runtime] Rust 2024 + tokio 1.52.3:** Pinned by brief for P"
+disposition = "kept"
+
+[[sentence]]
+id = "94196fc2ec7c"
+section = "Established Decisions"
+head = "tonic/prost require a tokio reactor and the deterministic phase schedule"
+disposition = "kept"
+
+[[sentence]]
+id = "6e3b7fc7bff9"
+section = "Established Decisions"
+head = "**[Async Runtime Flavor] tokio `current_thread`, core-owned:** Zero work"
+disposition = "kept"
+
+[[sentence]]
+id = "d03bd60ee8c2"
+section = "Established Decisions"
+head = "throughput headroom is irrelevant because load-testing is an explicit no"
+disposition = "kept"
+
+[[sentence]]
+id = "5eff27d424ab"
+section = "Established Decisions"
+head = "`#[tokio::main(flavor = \"current_thread\")]` on the CLI path;"
+disposition = "kept"
+
+[[sentence]]
+id = "61f8b27e5af4"
+section = "Established Decisions"
+head = "hand-built `Builder::new_current_thread()` owned by the core under Tauri"
+disposition = "kept"
+
+[[sentence]]
+id = "1c9091b259dc"
+section = "Established Decisions"
+head = "**[Determinism RNG] rand_chacha `ChaCha8Rng` seeded via `seed_from_u64`:"
+disposition = "kept"
+
+[[sentence]]
+id = "537251ad7bbf"
+section = "Established Decisions"
+head = "ChaCha8's algorithm is stable across platforms and crate versions, so th"
+disposition = "kept"
+
+[[sentence]]
+id = "06eff81470b5"
+section = "Established Decisions"
+head = "The seed materially shapes timing (bounded per-gap jitter), and a transi"
+disposition = "kept"
+
+[[sentence]]
+id = "45db93b55525"
+section = "Established Decisions"
+head = "**[OTLP Emission Strategy] opentelemetry-proto 0.32.0 raw types over the"
+disposition = "kept"
+
+[[sentence]]
+id = "6b09247d3f4d"
+section = "Established Decisions"
+head = "Raw message structs give byte-level control, which fault injection requi"
+disposition = "kept"
+
+[[sentence]]
+id = "42137f936f7c"
+section = "Established Decisions"
+head = "this is the single most consequential fork in the build."
+disposition = "kept"
+
+[[sentence]]
+id = "86e2f1ac0b2e"
+section = "Established Decisions"
+head = "**[Backend Framework] None (no web framework):** Conductor is a gRPC cli"
+disposition = "kept"
+
+[[sentence]]
+id = "1c64f35e42df"
+section = "Established Decisions"
+head = "it exposes no HTTP/network surface of its own, so Axum/Actix and REST/Gr"
+disposition = "kept"
+
+[[sentence]]
+id = "38b0d7706e22"
+section = "Established Decisions"
+head = "**[Database] rusqlite 0.38.0 with `bundled` SQLite, synchronous:** Quiz "
+disposition = "kept"
+
+[[sentence]]
+id = "58a26b0af3f8"
+section = "Established Decisions"
+head = "rusqlite keeps the storage seam synchronous (no async-runtime entangleme"
+disposition = "kept"
+
+[[sentence]]
+id = "31ebd92a1fb0"
+section = "Established Decisions"
+head = "The brief's stale `rusqlite 0.31 / SQLite ≥3.38` pin is ratified to 0.38"
+disposition = "moved"
+
+[[sentence]]
+id = "073d072bf70d"
+section = "Established Decisions"
+head = "sqlx (async-first) and SeaORM (ORM over-scope) were rejected."
+disposition = "kept"
+
+[[sentence]]
+id = "2f51dd805136"
+section = "Established Decisions"
+head = "**[ORM] None — raw SQL:** `runs.db` is a small fixed set of hand-written"
+disposition = "kept"
+
+[[sentence]]
+id = "98360a94da2b"
+section = "Established Decisions"
+head = "`run_envelope`, the run-level envelope standing;"
+disposition = "kept"
+
+[[sentence]]
+id = "296f3d90695a"
+section = "Established Decisions"
+head = "`run_check`, the per-check index keyed `(run_id, scenario, check_index)`"
+disposition = "kept"
+
+[[sentence]]
+id = "2acdf6933916"
+section = "Established Decisions"
+head = "an ORM's entity/migration machinery is weight with no payoff for hand-wr"
+disposition = "kept"
+
+[[sentence]]
+id = "a0212fdef825"
+section = "Established Decisions"
+head = "That teardown is `RunsDb::delete_run` (2026-09-06) — three LITERAL `DELE"
+disposition = "kept"
+
+[[sentence]]
+id = "53c110ad194b"
+section = "Established Decisions"
+head = "The seam is its sole implementation:"
+disposition = "kept"
+
+[[sentence]]
+id = "8cd98fdf2d86"
+section = "Established Decisions"
+head = "the `conductor cleanup <run_id>` verb is the only caller and the harness"
+disposition = "kept"
+
+[[sentence]]
+id = "252f57bee7f2"
+section = "Established Decisions"
+head = "**[MCP Read-Back Client] hand-rolled line-delimited JSON-RPC (rmcp remov"
+disposition = "kept"
+
+[[sentence]]
+id = "8dbecc08d872"
+section = "Established Decisions"
+head = "rmcp 1.7.0 was the original choice (typed SDK + version negotiation) but"
+disposition = "kept"
+
+[[sentence]]
+id = "8707a82b5ee3"
+section = "Established Decisions"
+head = "Pulse's MCP *server* is itself hand-rolled JSON-RPC (`crates/mcp-server/"
+disposition = "kept"
+
+[[sentence]]
+id = "c964cdf47af7"
+section = "Established Decisions"
+head = "A hand-rolled client is therefore the faithful match to Pulse's actual w"
+disposition = "kept"
+
+[[sentence]]
+id = "f30e129c33fd"
+section = "Established Decisions"
+head = "version negotiation reduces to reading the `initialize` result's `protoc"
+disposition = "kept"
+
+[[sentence]]
+id = "0cd8360c6d4d"
+section = "Established Decisions"
+head = "The hardened spawn (fixed program path + `.env(...)` data-dir + injectio"
+disposition = "moved"
+
+[[sentence]]
+id = "89a708d9bb3d"
+section = "Established Decisions"
+head = "(The original rmcp-selection rationale → `architecture-amendments.md`.)"
+disposition = "moved"
+
+[[sentence]]
+id = "a5f7141b374a"
+section = "Established Decisions"
+head = "**[Validation Library] serde 1.0.x + garde 0.22.1:** garde (the modern r"
+disposition = "kept"
+
+[[sentence]]
+id = "06c422c957c7"
+section = "Established Decisions"
+head = "non-negative durations, sane ramp factors) and `#[garde(custom)]` field "
+disposition = "kept"
+
+[[sentence]]
+id = "bb9e3fca83fb"
+section = "Established Decisions"
+head = "cross-field invariants spanning distinct fields (p50≤p95≤p99 ordering, s"
+disposition = "kept"
+
+[[sentence]]
+id = "24add14d3282"
+section = "Established Decisions"
+head = "**A THIRD route exists, and its boundary is structural:** the one-altitu"
+disposition = "kept"
+
+[[sentence]]
+id = "d1b95a9d2a06"
+section = "Established Decisions"
+head = "An invariant spanning a field and its sibling therefore cannot be a gard"
+disposition = "kept"
+
+[[sentence]]
+id = "9bf99f1eaa03"
+section = "Established Decisions"
+head = "**A nested spec field must `dive`, never `skip`** — a `skip`ped nested s"
+disposition = "kept"
+
+[[sentence]]
+id = "9099777fcdcc"
+section = "Established Decisions"
+head = "**Pinned 0.22.1**, not the originally-chosen 0.23.0:"
+disposition = "kept"
+
+[[sentence]]
+id = "4adafcbb2f79"
+section = "Established Decisions"
+head = "its `garde_derive 0.23.0` proved absent from the registry, so 0.23.0 + t"
+disposition = "kept"
+
+[[sentence]]
+id = "fd4db756bc98"
+section = "Established Decisions"
+head = "validator (predecessor) and serde_valid (JSON-Schema niche) were rejecte"
+disposition = "kept"
+
+[[sentence]]
+id = "d52c291f6dcf"
+section = "Established Decisions"
+head = "**[Scenario Config Format] TOML on disk via the `toml` crate (0.9):** sc"
+disposition = "kept"
+
+[[sentence]]
+id = "4dabcc175c30"
+section = "Established Decisions"
+head = "The load-error mapping is **three-way**:"
+disposition = "kept"
+
+[[sentence]]
+id = "75bc61646c65"
+section = "Established Decisions"
+head = "`Scenario::from_toml_str` → `CoreError::Config` on a parse failure OR on"
+disposition = "kept"
+
+[[sentence]]
+id = "6d6e5f9919d3"
+section = "Established Decisions"
+head = "All three are harness faults on the `Result::Err` side of the verdict/er"
+disposition = "kept"
+
+[[sentence]]
+id = "d6924bfb02b4"
+section = "Established Decisions"
+head = "TOML was chosen over JSON (the only other candidate;"
+disposition = "kept"
+
+[[sentence]]
+id = "aec014432426"
+section = "Established Decisions"
+head = "serde_json was already present) for hand-author ergonomics + inline comm"
+disposition = "kept"
+
+[[sentence]]
+id = "91f202e14d3e"
+section = "Established Decisions"
+head = "The `toml` crate is audit/deny-clean;"
+disposition = "kept"
+
+[[sentence]]
+id = "5dcb0e647e4d"
+section = "Established Decisions"
+head = "serde_json remains the run-report-envelope / JSONL-journal serializer."
+disposition = "kept"
+
+[[sentence]]
+id = "a0e1843ccf76"
+section = "Established Decisions"
+head = "**[Accepted Capability Set] a versioned SUT capability manifest, not a c"
+disposition = "kept"
+
+[[sentence]]
+id = "481740b94657"
+section = "Established Decisions"
+head = "Validation is two-layered:"
+disposition = "kept"
+
+[[sentence]]
+id = "4039c6a4807e"
+section = "Established Decisions"
+head = "garde's `pid_format` asserts the `P-NNN` **shape** only, and `Scenario::"
+disposition = "kept"
+
+[[sentence]]
+id = "84692e00e6c5"
+section = "Established Decisions"
+head = "the set is whatever takes that parameter, never a count."
+disposition = "kept"
+
+[[sentence]]
+id = "7cb77a5dbb40"
+section = "Established Decisions"
+head = "A malformed / absent / unparseable manifest is a **harness fault** (`Cor"
+disposition = "kept"
+
+[[sentence]]
+id = "067addcd4ee9"
+section = "Established Decisions"
+head = "This supersedes the original compile-time `001..=060` bound in `pid_form"
+disposition = "moved"
+
+[[sentence]]
+id = "be72855ae6e5"
+section = "Established Decisions"
+head = "The **accepted set** is data;"
+disposition = "kept"
+
+[[sentence]]
+id = "fe4a9bdf34ab"
+section = "Established Decisions"
+head = "the **coverage classification** stays code-native (`coverage_matrix()` i"
+disposition = "kept"
+
+[[sentence]]
+id = "8ed77ff8f7ee"
+section = "Established Decisions"
+head = "So re-aiming at a newer Pulse release is a manifest edit **plus** a matc"
+disposition = "kept"
+
+[[sentence]]
+id = "3ca64c1c9e40"
+section = "Established Decisions"
+head = "an accepted id with no row (or a classified id the manifest no longer ac"
+disposition = "kept"
+
+[[sentence]]
+id = "0347ddf65c84"
+section = "Established Decisions"
+head = "The `KNOWN_UNCLASSIFIED` residual ledger that briefly bridged the two is"
+disposition = "moved"
+
+[[sentence]]
+id = "5d84ff9b7bd4"
+section = "Established Decisions"
+head = "**A second integrity gate sits beside it on a different axis:** `check_s"
+disposition = "kept"
+
+[[sentence]]
+id = "362fd99a06e2"
+section = "Established Decisions"
+head = "A capability can pass the first and fail the second, because classificat"
+disposition = "kept"
+
+[[sentence]]
+id = "f7e3ba867d5d"
+section = "Established Decisions"
+head = "The `UNBACKED_AUTO` pin records the `Auto` claims no scenario yet backs,"
+disposition = "kept"
+
+[[sentence]]
+id = "b9a7e6abf290"
+section = "Established Decisions"
+head = "Only `Auto` participates — `DriveObserve` is operator-confirmed by defin"
+disposition = "kept"
+
+[[sentence]]
+id = "05d7ea447b71"
+section = "Established Decisions"
+head = "`Scenario::from_toml_str(&str)` and `PId`'s shape are unchanged — garde'"
+disposition = "kept"
+
+[[sentence]]
+id = "6dd53b5f5246"
+section = "Established Decisions"
+head = "**[Error Handling] thiserror 2.0.18 in seam crates + anyhow 1.0.104 at e"
+disposition = "kept"
+
+[[sentence]]
+id = "634127a001ea"
+section = "Established Decisions"
+head = "`Result::Err` is reserved for harness failures only."
+disposition = "kept"
+
+[[sentence]]
+id = "b120a0a7e290"
+section = "Established Decisions"
+head = "`tonic::Status` codes and MCP error responses are first-class verificati"
+disposition = "kept"
+
+[[sentence]]
+id = "82fdc7c393ba"
+section = "Established Decisions"
+head = "anyhow lives only in `conductor-cli` / `#[tauri::command]` edges."
+disposition = "kept"
+
+[[sentence]]
+id = "8cc69462a036"
+section = "Established Decisions"
+head = "**[Module Boundaries] Crate-per-seam Cargo workspace:** In Rust, crates "
+disposition = "kept"
+
+[[sentence]]
+id = "ba8ed7f84a3a"
+section = "Established Decisions"
+head = "one workspace with a runtime-agnostic `conductor-core` plus the seam cra"
+disposition = "kept"
+
+[[sentence]]
+id = "9d832a71cb80"
+section = "Established Decisions"
+head = "The compiler enforces;"
+disposition = "kept"
+
+[[sentence]]
+id = "9146c6ec1c7b"
+section = "Established Decisions"
+head = "cargo-modules/cargo-rail only audit."
+disposition = "kept"
+
+[[sentence]]
+id = "c4d9e9953c93"
+section = "Established Decisions"
+head = "**The forbidden-edge property is compiler-enforced and unqualified;"
+disposition = "kept"
+
+[[sentence]]
+id = "99451f8d6a91"
+section = "Established Decisions"
+head = "the standalone per-seam BUILD now holds for every member, measured rathe"
+disposition = "rewritten"
+anchor = "the standalone per-seam BUILD now holds for every member, measured rather than gate-enforced.** Workspace feature unification can mask a feature a crate uses but declares only in `[dev-dependencies]`, so a crate compiles in the workspace and in `cargo test -p` while failing alone"
+
+[[sentence]]
+id = "13db20cf05ee"
+section = "Established Decisions"
+head = "**Repaired 2026-09-07** (`time` declared in `[dependencies]`), and the w"
+disposition = "moved"
+
+[[sentence]]
+id = "1e95cc291ab0"
+section = "Established Decisions"
+head = "nine members, each on its OWN targets — `--lib` for the seven library cr"
+disposition = "rewritten"
+anchor = "each on its OWN targets — `--lib` for the seven library crates, `--bins` for `conductor-cli` and `conductor-tauri`, which have no lib target and would false-red under a uniform `--lib` — every one exit 0, measured twice (builder and operator"
+
+[[sentence]]
+id = "506e9df5d12e"
+section = "Established Decisions"
+head = "`--all-targets` is deliberately NOT the sweep form:"
+disposition = "kept"
+
+[[sentence]]
+id = "69e724adc337"
+section = "Established Decisions"
+head = "it re-unifies dev-dependencies, which is the exact masking the sweep exi"
+disposition = "kept"
+
+[[sentence]]
+id = "79b468dc4963"
+section = "Established Decisions"
+head = "The surviving caveat is narrower than the retired one:"
+disposition = "moved"
+
+[[sentence]]
+id = "5545ff64a02f"
+section = "Established Decisions"
+head = "no CI job builds a member standalone, so the property is measured-at-a-c"
+disposition = "kept"
+
+[[sentence]]
+id = "b63c4426cf53"
+section = "Established Decisions"
+head = "**[Workspace / Core Structure] Runtime-agnostic core library + CLI bin +"
+disposition = "kept"
+
+[[sentence]]
+id = "0c443f86bc46"
+section = "Established Decisions"
+head = "**[Real-time Strategy] Tauri 2 IPC `Channel` for in-app live updates onl"
+disposition = "kept"
+
+[[sentence]]
+id = "750affd4de63"
+section = "Established Decisions"
+head = "FCM/APNs/web-push are irrelevant on a local tool, and Conductor must NOT"
+disposition = "kept"
+
+[[sentence]]
+id = "15aaf5d6828d"
+section = "Established Decisions"
+head = "**[Message Broker] N/A:** Single-process modular monolith;"
+disposition = "kept"
+
+[[sentence]]
+id = "7af0f5fdfd25"
+section = "Established Decisions"
+head = "inter-module flow is in-process Rust calls / `tokio::sync::mpsc` channel"
+disposition = "kept"
+
+[[sentence]]
+id = "238b48e6af89"
+section = "Established Decisions"
+head = "The only queue-like surface is the OTLP gRPC stream to Pulse, which is t"
+disposition = "kept"
+
+[[sentence]]
+id = "a655857cb9df"
+section = "Established Decisions"
+head = "**[Deployment] Local `cargo build --release` + `scripts/agent-run.sh`:**"
+disposition = "kept"
+
+[[sentence]]
+id = "431afa8ad167"
+section = "Established Decisions"
+head = "the Tauri 2 bundler — the host `tauri-cli` dev-tool, which no lockfile r"
+disposition = "kept"
+
+[[sentence]]
+id = "58368f107fa5"
+section = "Established Decisions"
+head = "No cloud / container / serverless."
+disposition = "kept"
+
+[[sentence]]
+id = "1f1f62a2e9e8"
+section = "Established Decisions"
+head = "**[CI/CD] GitHub Actions, fmt + build + test + the static gates over com"
+disposition = "kept"
+
+[[sentence]]
+id = "00996744d636"
+section = "Established Decisions"
+head = "Re-listing either gate's assertion in shell would be a second copy that "
+disposition = "kept"
+
+[[sentence]]
+id = "a492b33500d5"
+section = "Established Decisions"
+head = "The `rust` job opens with `cargo fmt --all --check` as its own named ste"
+disposition = "kept"
+
+[[sentence]]
+id = "4e711b942b74"
+section = "Established Decisions"
+head = "`--all` rather than the bare form because the workspace declares no `def"
+disposition = "rewritten"
+anchor = "`--all` rather than the bare form because the workspace declares no `default-members`, making the two equivalent today and divergent the moment one is added"
+
+[[sentence]]
+id = "c6fd4ab6a0ed"
+section = "Established Decisions"
+head = "then `cargo build` / nextest / clippy on the dev OS target verify the ha"
+disposition = "rewritten"
+anchor = "then `cargo build` / nextest / clippy on the dev OS target verify the harness compiles and unit/golden tests pass"
+
+[[sentence]]
+id = "a5560d3c32af"
+section = "Established Decisions"
+head = "the `scripts/a11y-limited-token-launch.ps1` launch that stood here from "
+disposition = "rewritten"
+anchor = "`scripts/a11y-limited-token-launch.ps1` survives only on the job's driver-alone diagnostics"
+
+[[sentence]]
+id = "22fc2eafd435"
+section = "Established Decisions"
+head = "The job's WebView2 provisioning is likewise replaced:"
+disposition = "moved"
+
+[[sentence]]
+id = "f8dc981dfcc6"
+section = "Established Decisions"
+head = "the `Install WebView2 Evergreen runtime 152+ (gate)` step and its `≥ 152"
+disposition = "rewritten"
+anchor = "asserts driver major == runtime major and publishes `EDGEWEBDRIVER`, carrying no `continue-on-error` and no `if:` — then the reused `journal_conformance` gate over `runs/a11y`, then the violation-record artifact upload"
+
+[[sentence]]
+id = "617d1c7b6fbb"
+section = "Established Decisions"
+head = "What stays an operator/local gate is end-to-end dynamic scenario proof R"
+disposition = "kept"
+
+[[sentence]]
+id = "98eb828943cd"
+section = "Established Decisions"
+head = "the routine a11y arm seeds its own committed fixture through the product"
+disposition = "kept"
+
+[[sentence]]
+id = "12a0e74a141b"
+section = "Established Decisions"
+head = "The driven (`a11y:driven`) and screen-reader (`sr*`) arms do need one an"
+disposition = "kept"
+
+[[sentence]]
+id = "38c72b80805a"
+section = "Established Decisions"
+head = "**The a11y job ran RED on GitHub's hosted `windows-2025` image at runtim"
+disposition = "moved"
+
+[[sentence]]
+id = "bfecfc8738ba"
+section = "Established Decisions"
+head = "That reading is the `windows-2025`-at-152/153 configuration's fact and i"
+disposition = "in-sidecar"
+marker = "2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration"
+
+[[sentence]]
+id = "8de55fee2d46"
+section = "Established Decisions"
+head = "**the arm is GREEN in CI on the measured configuration — hosted `windows"
+disposition = "kept"
+
+[[sentence]]
+id = "45575cf5cdc4"
+section = "Established Decisions"
+head = "Every term in that sentence is load-bearing and the next image bump can "
+disposition = "kept"
+
+[[sentence]]
+id = "cdf78de8bd1c"
+section = "Established Decisions"
+head = "The leg also RUNS on the Windows dev host through tauri-driver, and its "
+disposition = "rewritten"
+anchor = "The leg also RUNS green on the Windows dev host through tauri-driver"
+
+[[sentence]]
+id = "6e0b674894eb"
+section = "Established Decisions"
+head = "12 passing / 2 skipped at runtime 152 (2026-09-10);"
+disposition = "moved"
+
+[[sentence]]
+id = "634165c8a778"
+section = "Established Decisions"
+head = "10 passing / 2 failing / 2 skipped re-measured 2026-09-16 after the host"
+disposition = "moved"
+
+[[sentence]]
+id = "37fa88bac6d3"
+section = "Established Decisions"
+head = "and 12 passing / 0 failing / 2 skipped on 2026-09-17 once the two regres"
+disposition = "moved"
+
+[[sentence]]
+id = "bb63fab3388a"
+section = "Established Decisions"
+head = "Those regressions were the hold-free Operable pair (SC 2.1.1 reachabilit"
+disposition = "rewritten"
+anchor = "its hold-free Operable pair (SC 2.1.1 reachability · SC 2.4.3 focus order) environment-independent"
+
+[[sentence]]
+id = "3a5b232abe58"
+section = "Established Decisions"
+head = "Hosted-runner runnability is MEASURED and PROVEN for the configuration n"
+disposition = "rewritten"
+anchor = "Hosted-runner runnability is MEASURED and PROVEN for th"
+
+[[sentence]]
+id = "82ae5bad889c"
+section = "Established Decisions"
+head = "it is the shipped arrangement as of 2026-09-17 (operator ruling at the c"
+disposition = "moved"
+
+[[sentence]]
+id = "e2c1b277a1ef"
+section = "Established Decisions"
+head = "**Since 2026-09-17 the job pins the DRIVER to the runtime the image alre"
+disposition = "rewritten"
+anchor = "a `Pin msedgedriver to the image's WebView2 runtime (gate)` step reads the runtime from the two `EdgeUpdate` client keys"
+
+[[sentence]]
+id = "10a066f83acc"
+section = "Established Decisions"
+head = "the step carries no `continue-on-error` and no `if:`."
+disposition = "rewritten"
+anchor = "carrying no `continue-on-error` and no `if:` — then the reused `journal_conformance` gate"
+
+[[sentence]]
+id = "ba5355e5a286"
+section = "Established Decisions"
+head = "The `≥ 152` runtime floor is RETIRED and no longer exists in code:"
+disposition = "rewritten"
+anchor = "No runtime floor applies — a `≥ 152` floor is neither necessary"
+
+[[sentence]]
+id = "06f6d6985933"
+section = "Established Decisions"
+head = "it was not necessary (a coherent 131/131 pair runs the arm green), not s"
+disposition = "rewritten"
+anchor = "neither necessary (a coherent 131/131 pair runs the arm green) nor sufficient (a coherent 152/152 pair fails)"
+
+[[sentence]]
+id = "b14fdc76469a"
+section = "Established Decisions"
+head = "The measured subject is driver/runtime COHERENCE, and the pin gate MAKES"
+disposition = "kept"
+
+[[sentence]]
+id = "9b77784676f3"
+section = "Established Decisions"
+head = "It is a CI-time third-party binary dependency class that appears in no l"
+disposition = "kept"
+
+[[sentence]]
+id = "aa818f59e6b0"
+section = "Established Decisions"
+head = "Whether a 152+ runtime actually opens the remote-debugging endpoint is n"
+disposition = "moved"
+
+[[sentence]]
+id = "3bc034387b9f"
+section = "Established Decisions"
+head = "the gate installed Evergreen 152.0.4191.66 (Authenticode `Valid`, `O=Mic"
+disposition = "moved"
+
+[[sentence]]
+id = "94169533b46a"
+section = "Established Decisions"
+head = "The runtime-major hypothesis is therefore FALSIFIED;"
+disposition = "moved"
+
+[[sentence]]
+id = "8476dde6d354"
+section = "Established Decisions"
+head = "the cause stayed OPEN until 2026-09-12, when it was established as eleva"
+disposition = "moved"
+
+[[sentence]]
+id = "bedf96fd44c4"
+section = "Established Decisions"
+head = "**Both halves of the former leading candidate pair — a hosted-image poli"
+disposition = "moved"
+
+[[sentence]]
+id = "fed5d4194659"
+section = "Established Decisions"
+head = "all five probed Edge / EdgeUpdate / EdgeWebView policy keys are ABSENT i"
+disposition = "moved"
+
+[[sentence]]
+id = "a53d8ad01237"
+section = "Established Decisions"
+head = "and the runner is `SessionId 2` with `UserInteractive: True` — not sessi"
+disposition = "moved"
+
+[[sentence]]
+id = "54415da63afd"
+section = "Established Decisions"
+head = "**The cause is now ESTABLISHED as elevation, and two further candidates "
+disposition = "moved"
+
+[[sentence]]
+id = "628475970f6b"
+section = "Established Decisions"
+head = "The third candidate's reading WAS taken:"
+disposition = "moved"
+
+[[sentence]]
+id = "daa3057c7443"
+section = "Established Decisions"
+head = "moving the module section inside the `WebView2 session isolation (diagno"
+disposition = "moved"
+
+[[sentence]]
+id = "f6ae4c93ac8f"
+section = "Established Decisions"
+head = "the later step's `no live process` lines persist by design and the pair "
+disposition = "in-sidecar"
+marker = "2026-09-11-hosted-runner-endpoint-cause-closed"
+
+[[sentence]]
+id = "655f7ecff020"
+section = "Established Decisions"
+head = "Driver/runtime major SKEW is RETIRED as a cause by direct variation with"
+disposition = "moved"
+
+[[sentence]]
+id = "0199c16d4e0e"
+section = "Established Decisions"
+head = "with the install made floor-conditional the image stood at `msedgedriver"
+disposition = "in-sidecar"
+marker = "2026-09-11-hosted-runner-endpoint-cause-closed"
+
+[[sentence]]
+id = "11fabacd15b9"
+section = "Established Decisions"
+head = "ELEVATION was then VARIED on the known-good host:"
+disposition = "moved"
+
+[[sentence]]
+id = "233166f587f7"
+section = "Established Decisions"
+head = "an elevated leg on the Windows dev host reproduces `session not created:"
+disposition = "moved"
+
+[[sentence]]
+id = "5b2d8a11274c"
+section = "Established Decisions"
+head = "**Elevation is NOT the whole discriminator, and \"the app must not run el"
+disposition = "rewritten"
+anchor = "hosted `windows-2022` at a coherent 131.0.2903.86 pair — **OPEN at High**"
+
+[[sentence]]
+id = "51ae42ecaf83"
+section = "Established Decisions"
+head = "What the 2026-09-12 variation established still stands on its own scope:"
+disposition = "moved"
+
+[[sentence]]
+id = "6fabd7e54249"
+section = "Established Decisions"
+head = "on the hosted `windows-2025` image at 152/153 and on the Windows dev hos"
+disposition = "rewritten"
+anchor = "the Windows dev host elevated — CLOSED, non-elevated — OPEN"
+
+[[sentence]]
+id = "f46b9248215c"
+section = "Established Decisions"
+head = "**The MECHANISM — why an elevated token suppresses the endpoint THERE — "
+disposition = "kept"
+
+[[sentence]]
+id = "86b3d9f871c1"
+section = "Established Decisions"
+head = "no probe measured it."
+disposition = "kept"
+
+[[sentence]]
+id = "1cc9166acb1f"
+section = "Established Decisions"
+head = "The measured SET is now:"
+disposition = "kept"
+
+[[sentence]]
+id = "d12bc7788cd4"
+section = "Established Decisions"
+head = "hosted `windows-2025` at 152/153 — endpoint CLOSED at High;"
+disposition = "kept"
+
+[[sentence]]
+id = "958673f681d6"
+section = "Established Decisions"
+head = "the Windows dev host elevated — CLOSED, non-elevated — OPEN;"
+disposition = "kept"
+
+[[sentence]]
+id = "7203fdedcf27"
+section = "Established Decisions"
+head = "hosted `windows-2022` at a coherent 131.0.2903.86 pair — **OPEN at High*"
+disposition = "kept"
+
+[[sentence]]
+id = "43e8b128d90d"
+section = "Established Decisions"
+head = "Integrity's SIGN is therefore configuration-bound rather than universal:"
+disposition = "kept"
+
+[[sentence]]
+id = "fab44c37361b"
+section = "Established Decisions"
+head = "the Medium-integrity drop helped at runtime 153 on the dev host and BREA"
+disposition = "rewritten"
+anchor = "the Medium-integrity drop helped at runtime 153 on the dev host and BREAKS the session on `windows-2022` at 131, which is why the asserting step"
+
+[[sentence]]
+id = "84d82f34b935"
+section = "Established Decisions"
+head = "both mechanisms shipped, a scheduled task and then `runas /trustlevel` r"
+disposition = "rewritten"
+anchor = "On the dev host three legs establish the MANDATORY INTEGRITY LABEL as the discriminator"
+
+[[sentence]]
+id = "7cd8335e99b2"
+section = "Established Decisions"
+head = "`runas /trustlevel` cannot, because it strips the Administrators group a"
+disposition = "rewritten"
+anchor = "neither `RunLevel Limited` nor `runas /trustlevel` lowers it on the runner"
+
+[[sentence]]
+id = "2c404e570203"
+section = "Established Decisions"
+head = "The remainder — an explicit medium-integrity launch **[measured-insuffic"
+disposition = "moved"
+
+[[sentence]]
+id = "4d024c1283f4"
+section = "Established Decisions"
+head = "the explicit medium-integrity launch WAS built and measured — it lowers "
+disposition = "rewritten"
+anchor = "an explicit medium-integrity launch that does lower it does NOT open the endpoint"
+
+[[sentence]]
+id = "9f43a373ea33"
+section = "Established Decisions"
+head = "The one CI run that opened a session invoked the leg DIRECTLY at High in"
+disposition = "rewritten"
+anchor = "invoked through the leg's entry point `scripts/a11y-token-witness.ps1` DIRECTLY, at the hosted step's native HIGH integrity"
+
+[[sentence]]
+id = "f6dd58cb2cf1"
+section = "Established Decisions"
+head = "The remainder is no longer 'a medium-integrity launch'.]** — is owned by"
+disposition = "rewritten"
+anchor = "is owned by the successor route entry, `v3-02` having returned to the pool"
+
+[[sentence]]
+id = "dd996c4529f1"
+section = "Established Decisions"
+head = "**[Timing-Tolerance Model] Hybrid journal-relative deadline + tier-scale"
+disposition = "kept"
+
+[[sentence]]
+id = "ede40a77917b"
+section = "Established Decisions"
+head = "deterministic/hard SLOs get a tolerance band scaled to hardware-profile-"
+disposition = "kept"
+
+[[sentence]]
+id = "b6c5d0c4f0c4"
+section = "Established Decisions"
+head = "**The tier deadline is a CEILING, not necessarily the deadline itself:**"
+disposition = "kept"
+
+[[sentence]]
+id = "bb20f63676b5"
+section = "Established Decisions"
+head = "Every expected check persists its own `latency_ms`/`deadline_ms`/`verdic"
+disposition = "kept"
+
+[[sentence]]
+id = "c78025d20fc2"
+section = "Established Decisions"
+head = "`slo_tier` keeps its closed three-value set and the latency formula is u"
+disposition = "moved"
+
+[[sentence]]
+id = "25570d6db3b2"
+section = "Established Decisions"
+head = "This reconciles determinism-under-seed with the reality that Pulse runs "
+disposition = "kept"
+
+[[sentence]]
+id = "3eca2489037e"
+section = "Established Decisions"
+head = "**[Read-Back Dependency Posture] Version-pinned MCP contract + preflight"
+disposition = "kept"
+
+[[sentence]]
+id = "10820d485f5e"
+section = "Established Decisions"
+head = "the gate then attempts a **canary round-trip** — Conductor emits a uniqu"
+disposition = "kept"
+
+[[sentence]]
+id = "441949a8ced5"
+section = "Established Decisions"
+head = "**The gate reached `ready:true` for the first time on 2026-08-16** (`can"
+disposition = "rewritten"
+anchor = "The gate reaches `ready:true` live"
+
+[[sentence]]
+id = "6a67cf4e043c"
+section = "Established Decisions"
+head = "Evidence:"
+disposition = "kept"
+
+[[sentence]]
+id = "d264bdf6c019"
+section = "Established Decisions"
+head = "`conductor-0.2.0/chunks/2026-08-16-canary-fingerprint-derivation-aligned"
+disposition = "kept"
+
+[[sentence]]
+id = "88efdb391553"
+section = "Established Decisions"
+head = "**Freshness is the canary's carrier BY CHOICE — the universal that once "
+disposition = "rewritten"
+anchor = "Freshness is the canary's carrier BY CHOICE."
+
+[[sentence]]
+id = "9dbcf8393279"
+section = "Established Decisions"
+head = "titles are scrubbed, and `retrieve_telemetry_slice.fingerprint_refs` — t"
+disposition = "rewritten"
+anchor = "which the deterministic-L4 fixture fills with a constant `det-*` triple (`det-span-…` / `det-template-0007` / `det-fingerprint-…`"
+
+[[sentence]]
+id = "1522ab8ea5ab"
+section = "Established Decisions"
+head = "non-empty but payload-INVARIANT;"
+disposition = "rewritten"
+anchor = "are non-empty but payload-INVARIANT"
+
+[[sentence]]
+id = "78dfbe60a391"
+section = "Established Decisions"
+head = "the chain is `deterministic_inference.rs → interpretation/markdown.rs → "
+disposition = "moved"
+
+[[sentence]]
+id = "d2a9d7ea2064"
+section = "Established Decisions"
+head = "Pulse's own computed fingerprint lands in the `span_events.fingerprint` "
+disposition = "moved"
+
+[[sentence]]
+id = "4e508f1e693b"
+section = "Established Decisions"
+head = "**At HEAD `83d4060` it reaches `fingerprint_refs` by another route:** an"
+disposition = "rewritten"
+anchor = "are the model's refs ∪ the triggering cue's full-hex fingerprint (`grounded_fingerprint_hashes`, `pulse-app/src/inference_runtime.rs`, read at `83d4060` by `2026-09-22-interpretation-proven-live`) — as measured at `conductor-0.2.0/chunks/2026-09-10-release-build-and-bundle/evidence/leg1-2026-09-10T19-32-57-092.jsonl`"
+
+[[sentence]]
+id = "02543c7cbbc0"
+section = "Established Decisions"
+head = "Ten committed live envelopes of 2026-09-10 carry such a 32-hex value, an"
+disposition = "kept"
+
+[[sentence]]
+id = "e08ba0c80943"
+section = "Established Decisions"
+head = "Freshness stays the canary's carrier because it is sufficient and unchan"
+disposition = "kept"
+
+[[sentence]]
+id = "55f1828fed35"
+section = "Established Decisions"
+head = "the real-model capture attributes by the cue fingerprint AND freshness."
+disposition = "kept"
+
+[[sentence]]
+id = "ebc6b8c5e32c"
+section = "Established Decisions"
+head = "Conductor stamps the emission instant from `std::time` and compares agai"
+disposition = "kept"
+
+[[sentence]]
+id = "c21c9bb1b9cc"
+section = "Established Decisions"
+head = "**Honest limit, narrowed:** freshness proves causation-in-time;"
+disposition = "kept"
+
+[[sentence]]
+id = "142deaab8c8a"
+section = "Established Decisions"
+head = "the one read-back value that varies with the emitted payload is the grou"
+disposition = "kept"
+
+[[sentence]]
+id = "e84eaee94cab"
+section = "Established Decisions"
+head = "**A SECOND axis was measured 2026-09-01 (Pulse HEAD `83d4060`) and close"
+disposition = "rewritten"
+anchor = "`incident_events` — the corpus table persisting created/resolved lifecycle events, and the one table whose content is NOT L4-authored — is written by `crates/triage/src/incident/persistence.rs::save_incident_event` and read only corpus-side (`crates/corpus/src/disposition.rs` + a `contract.rs` test helper), with ZERO references in `crates/mcp-server`"
+
+[[sentence]]
+id = "77e16a9785ec"
+section = "Established Decisions"
+head = "it reaches no MCP tool at any width."
+disposition = "kept"
+
+[[sentence]]
+id = "f1d91a56a9fa"
+section = "Established Decisions"
+head = "Reaching it is a **Pulse 0.4.0 residual candidate**, not Conductor's to "
+disposition = "kept"
+
+[[sentence]]
+id = "83e829ce5144"
+section = "Established Decisions"
+head = "**But \"no stronger claim exists\" is RETIRED — a stronger one does, on a "
+disposition = "rewritten"
+anchor = "is PARTIAL at `83d4060` — one read-back value, the grounded cue fingerprint, varies with what Conductor emitted (above"
+
+[[sentence]]
+id = "ecabcaf0a5ab"
+section = "Established Decisions"
+head = "**runtime-STATE fidelity** needs no L4-authored field at all, and is liv"
+disposition = "kept"
+
+[[sentence]]
+id = "2197f964941b"
+section = "Established Decisions"
+head = "Conductor writes through `mark_incident_resolved` and observes the conse"
+disposition = "kept"
+
+[[sentence]]
+id = "6f5061f5650b"
+section = "Established Decisions"
+head = "It survives deterministic L4 precisely because it depends on no L4-autho"
+disposition = "kept"
+
+[[sentence]]
+id = "f3b0b877c5a3"
+section = "Established Decisions"
+head = "Measured 2026-09-01:"
+disposition = "kept"
+
+[[sentence]]
+id = "4c8c85a9ba00"
+section = "Established Decisions"
+head = "incident 6 resolved and gone from the active set with `idle_seconds_at_r"
+disposition = "rewritten"
+anchor = "so the resolver is excluded by construction and Conductor's write is the only remaining cause — `conductor-run/tests/lifecycle_harvest.rs`"
+
+[[sentence]]
+id = "9be39e071cc3"
+section = "Established Decisions"
+head = "**Two mechanisms measured the same day bound how that attribution can be"
+disposition = "rewritten"
+anchor = "Two mechanisms measured the same day bound how that attribution can be built.** (1) **At most ONE incident is active per DEDUPE TUPLE:** Pulse's producer dedupes a new incident against an OPEN incident carrying the same `(kind, scope, scope_id)` tuple — the workspace scopes the CANDIDATE SET, the tuple is the key, **as measured at `andromeda-pulse pulse-app/src/inference_runtime.rs:811`"
+
+[[sentence]]
+id = "5df2d547ec29"
+section = "Established Decisions"
+head = "The originating leg's storms all shared one tuple, which is why it obser"
+disposition = "rewritten"
+anchor = "The originating leg's storms all shared one tuple, which is why it observed the effect at workspace grain"
+
+[[sentence]]
+id = "cc73fa97fe99"
+section = "Established Decisions"
+head = "every `created=true` occurred with the active set empty;"
+disposition = "moved"
+
+[[sentence]]
+id = "9c1ef3b5e0b2"
+section = "Established Decisions"
+head = "a new incident formed the same second the prior was resolved) — **the le"
+disposition = "moved"
+
+[[sentence]]
+id = "679096dd4140"
+section = "Established Decisions"
+head = "only the generalisation was unlicensed.** So a spared-control design is "
+disposition = "rewritten"
+anchor = "So a spared-control design is unattainable WITHIN a tuple, and the freshness caveat \"a concurrent unrelated incident inside the poll window would satisfy it\" cannot arise within one — attribution rides LIVENESS instead (an incident refreshed seconds ago cannot be the idle-resolver's"
+
+[[sentence]]
+id = "b6d296495ca9"
+section = "Established Decisions"
+head = "Across DIFFERENT scopes both remain possible:"
+disposition = "kept"
+
+[[sentence]]
+id = "8d05075dab36"
+section = "Established Decisions"
+head = "a cross-scope two-incident control is a weighable route option, untested"
+disposition = "kept"
+
+[[sentence]]
+id = "983e7252431e"
+section = "Established Decisions"
+head = "(2) **The DECLINED write arm is unreachable through MCP:** Pulse guards "
+disposition = "kept"
+
+[[sentence]]
+id = "bb8491b501bb"
+section = "Established Decisions"
+head = "That arm is stub-proven and permanently so."
+disposition = "kept"
+
+[[sentence]]
+id = "3c6e1c99e66a"
+section = "Established Decisions"
+head = "**Conductor's fingerprint now IS Pulse's derivation**, recomputed over t"
+disposition = "kept"
+
+[[sentence]]
+id = "3521dc0cbae2"
+section = "Established Decisions"
+head = "blake3 over `exception_type` + `\\0` + `normalize_stacktrace(render_stack"
+disposition = "kept"
+
+[[sentence]]
+id = "33b89135acc4"
+section = "Established Decisions"
+head = "Pulse's 8-char prefix (`fingerprint_to_hex_prefix`) is a logging conveni"
+disposition = "kept"
+
+[[sentence]]
+id = "218e8d34e0b1"
+section = "Established Decisions"
+head = "It is no longer the gate's carrier — its value is that Conductor's expec"
+disposition = "kept"
+
+[[sentence]]
+id = "371d6129f91b"
+section = "Established Decisions"
+head = "ONE identity narrowing comes with it, deliberate:"
+disposition = "kept"
+
+[[sentence]]
+id = "8a5923928a4a"
+section = "Established Decisions"
+head = "only the first `NORMALIZED_FRAMES = 3` normalized lines contribute."
+disposition = "kept"
+
+[[sentence]]
+id = "921ccef6fb03"
+section = "Established Decisions"
+head = "**Normalization is TOKEN-LEADING** — `is_absolute_path_start` is guarded"
+disposition = "kept"
+
+[[sentence]]
+id = "b7e021475d02"
+section = "Established Decisions"
+head = "A RELATIVE path is therefore preserved in FULL and is identity-significa"
+disposition = "kept"
+
+[[sentence]]
+id = "1c27147431d5"
+section = "Established Decisions"
+head = "The insensitive axes are LINE (`:line(:col)` suffixes) and HEX ADDRESSES"
+disposition = "kept"
+
+[[sentence]]
+id = "a3f71ca73b5e"
+section = "Established Decisions"
+head = "Measured 2026-08-17 and byte-verified against `andromeda-pulse crates/bu"
+disposition = "kept"
+
+[[sentence]]
+id = "53e2221f74fc"
+section = "Established Decisions"
+head = "pinned by `exception.rs::relative_paths_are_significant_at_every_depth` "
+disposition = "kept"
+
+[[sentence]]
+id = "3a8a91f3b5bd"
+section = "Established Decisions"
+head = "This SUPERSEDES the leading-path-segment narrowing recorded 2026-08-16:"
+disposition = "moved"
+
+[[sentence]]
+id = "3920c28563e3"
+section = "Established Decisions"
+head = "the SUT changed its normalization, and until Conductor transcribed the g"
+disposition = "moved"
+
+[[sentence]]
+id = "1f05143662b7"
+section = "Established Decisions"
+head = "**Caveat (verified live 2026-06-27):"
+disposition = "kept"
+
+[[sentence]]
+id = "18a625b6f58b"
+section = "Established Decisions"
+head = "Pulse's incident creation is NON-DETERMINISTIC + LLM-in-the-loop**, so t"
+disposition = "rewritten"
+anchor = "Pulse's incident creation is NON-DETERMINISTIC + LLM-in-the-loop"
+
+[[sentence]]
+id = "d5be09223a19"
+section = "Established Decisions"
+head = "the write-path is OTLP → L1 → L2 RetryStorm cue (deterministic;"
+disposition = "kept"
+
+[[sentence]]
+id = "bdccd6d4a711"
+section = "Established Decisions"
+head = "≥5 same fingerprint / 30s raises a **Suggested** cue, ≥10 the **Autonomo"
+disposition = "kept"
+
+[[sentence]]
+id = "606ffe6cb165"
+section = "Established Decisions"
+head = "never cleanly reproduced even in Pulse's own dev), so deterministic inci"
+disposition = "kept"
+
+[[sentence]]
+id = "1cb7dbf08004"
+section = "Established Decisions"
+head = "**How Conductor deterministically verifies an LLM-in-the-loop SUT is SET"
+disposition = "kept"
+
+[[sentence]]
+id = "7491c8912a52"
+section = "Established Decisions"
+head = "`ANDROMEDA_PULSE_L4_DETERMINISTIC=true` swaps a canned `L4Output` for th"
+disposition = "kept"
+
+[[sentence]]
+id = "68353bb4c535"
+section = "Established Decisions"
+head = "**Its cost is a recorded deferral, not a silence:** under deterministic "
+disposition = "kept"
+
+[[sentence]]
+id = "ebf9fc52e59a"
+section = "Established Decisions"
+head = "Verifying the real thing (deterministic mode OFF, a known root cause inj"
+disposition = "kept"
+
+[[sentence]]
+id = "c5b0241417d1"
+section = "Established Decisions"
+head = "it is **owned by a conductor-0.3.0 entry** and pinned machine-readably i"
+disposition = "kept"
+
+[[sentence]]
+id = "087126546b71"
+section = "Established Decisions"
+head = "**That leg now SHIPS and was driven ONCE (2026-09-23):** `agent-run run "
+disposition = "kept"
+
+[[sentence]]
+id = "99463bb1079e"
+section = "Established Decisions"
+head = "The one graded drive (run `2026-09-23T07-39-39-845`) measured a MODEL-SI"
+disposition = "kept"
+
+[[sentence]]
+id = "e6c6404b981f"
+section = "Established Decisions"
+head = "the real model answered the preflight canary's one cue-bearing digest an"
+disposition = "kept"
+
+[[sentence]]
+id = "1c48e3668b90"
+section = "Established Decisions"
+head = "The interpretation claim therefore stays unverified (`v3-09` deferred), "
+disposition = "kept"
+
+[[sentence]]
+id = "bde1d14caaf4"
+section = "Established Decisions"
+head = "The four diagnostic-quality capabilities it covers sit in the `UNBACKED_"
+disposition = "kept"
+
+[[sentence]]
+id = "98b78ec6c0fc"
+section = "Established Decisions"
+head = "On absence / version-mismatch / empty-canary, dependent auto scenarios r"
+disposition = "kept"
+
+[[sentence]]
+id = "075dec1f3b56"
+section = "Established Decisions"
+head = "The two remaining report states are triggered as follows:"
+disposition = "kept"
+
+[[sentence]]
+id = "fd59f9996e6e"
+section = "Established Decisions"
+head = "**ManualCheck** is the terminal \"awaits a human go/no-go\" state, reached"
+disposition = "kept"
+
+[[sentence]]
+id = "bd4e2efb5787"
+section = "Established Decisions"
+head = "**KnownResidual** is the state for a check whose deviation matches a pre"
+disposition = "kept"
+
+[[sentence]]
+id = "b0644d2bd914"
+section = "Established Decisions"
+head = "a `retrieve_report` result returned under `degraded_mode`, or a fingerpr"
+disposition = "kept"
+
+[[sentence]]
+id = "e379ba9c9613"
+section = "Established Decisions"
+head = "**A SECOND route reaches it (2026-08-20):** after a GREEN preflight — wh"
+disposition = "kept"
+
+[[sentence]]
+id = "aa961cde0112"
+section = "Established Decisions"
+head = "The carve-out is confined by construction:"
+disposition = "kept"
+
+[[sentence]]
+id = "3ce27c50e2d4"
+section = "Established Decisions"
+head = "a scenario carrying ANY `[[expected]]` check does not receive THIS route"
+disposition = "kept"
+
+[[sentence]]
+id = "c788e19b4c8d"
+section = "Established Decisions"
+head = "**That confinement binds this route ALONE (measured 2026-08-21, leg D).*"
+disposition = "rewritten"
+anchor = "The OTHER route to `KnownResidual` — the degraded read-back — is NOT gated on declare-only"
+
+[[sentence]]
+id = "b09efa59ee2d"
+section = "Established Decisions"
+head = "as measured 2026-08-21 (leg D), `findings-counter-refresh` CARRIED one `"
+disposition = "rewritten"
+anchor = "measured 2026-08-21, leg D: a then checks-bearing `findings-counter-refresh` landed `KnownResidual` on a degraded read-back"
+
+[[sentence]]
+id = "9326a696756f"
+section = "Established Decisions"
+head = "That measurement stands as the evidence for the route;"
+disposition = "moved"
+
+[[sentence]]
+id = "bb783d21fca2"
+section = "Established Decisions"
+head = "the scenario itself has been declare-only since 2026-09-15, when that fl"
+disposition = "moved"
+
+[[sentence]]
+id = "2f529bb59987"
+section = "Established Decisions"
+head = "**`degraded` is a PER-READ-BACK property, never a mode-wide guarantee — "
+disposition = "rewritten"
+anchor = "`degraded` is a PER-READ-BACK property, never a mode-wide guarantee."
+
+[[sentence]]
+id = "99ba162881af"
+section = "Established Decisions"
+head = "`findings-counter-refresh` degraded (2026-08-21), while `degraded-mode-r"
+disposition = "rewritten"
+anchor = "evidence/live-suite-verdict.md`, where `state_for` (`conductor-run/src/execute.rs`) returns `KnownResidual` iff `observation.degraded`, so a `ManualCheck` row proves `degraded == false`"
+
+[[sentence]]
+id = "cdac6c363b52"
+section = "Established Decisions"
+head = "The mechanism is CREATION-time:"
+disposition = "kept"
+
+[[sentence]]
+id = "569590115c69"
+section = "Established Decisions"
+head = "Pulse attaches the parsed interpretation when it creates the incident (`"
+disposition = "kept"
+
+[[sentence]]
+id = "20e2e3b0071a"
+section = "Established Decisions"
+head = "The degraded read-back remains one of the two routes to `KnownResidual` "
+disposition = "rewritten"
+anchor = "The degraded read-back remains one of the two routes to `KnownResidual` and remains ungated on declare-only"
+
+[[sentence]]
+id = "a63fceda5a6d"
+section = "Established Decisions"
+head = "only the universal is withdrawn."
+disposition = "moved"
+
+[[sentence]]
+id = "a087bdbdaa2d"
+section = "Established Decisions"
+head = "So \"checks-bearing ⇒ `Blocked`\" is true of the auto-resolve route and of"
+disposition = "kept"
+
+[[sentence]]
+id = "b631da0913dc"
+section = "Established Decisions"
+head = "Shipped as `route_read_back` / `ReadBack {Graded, AutoResolved, Blocked}"
+disposition = "kept"
+
+[[sentence]]
+id = "e1e7d0b04740"
+section = "Established Decisions"
+head = "a scenario that forms no incident of its own leaves only the preflight c"
+disposition = "rewritten"
+anchor = "a scenario that forms no incident of its own leaves only the preflight canary's, whose cues are `curious` — and the Tier-1 coordinator accepts Autonomous alone, so nothing refreshed it — letting it auto-resolve on schedule"
+
+[[sentence]]
+id = "9275c09bd478"
+section = "Established Decisions"
+head = "**That firing condition is UPTIME-BOUND, and the bound was invisible unt"
+disposition = "rewritten"
+anchor = "the bound is the window IN FORCE AT BOOT, not a fixed hour.** The one-hour figure is `BOOTSTRAP_WINDOW_SECONDS = 3_600`'s DEFAULT"
+
+[[sentence]]
+id = "ec0d40b28bc6"
+section = "Established Decisions"
+head = "`ANDROMEDA_PULSE_BASELINE_BOOTSTRAP_SECONDS` overrides it once at Pulse'"
+disposition = "kept"
+
+[[sentence]]
+id = "f926a1fc5f65"
+section = "Established Decisions"
+head = "**That removes cause (a) and is NOT sufficient — cause (b) is untouched "
+disposition = "rewritten"
+anchor = "That removes cause (a) and is NOT sufficient — cause (b) is untouched by the posture, and it is what still decides the leg"
+
+[[sentence]]
+id = "a913cbc0b5f8"
+section = "Established Decisions"
+head = "the evaluator was disarmed in BOTH (`silence_cues_emitted: 0`, `services"
+disposition = "rewritten"
+anchor = "With the evaluator disarmed (`silence_cues_emitted: 0`, `services_in_bootstrap: 2`), the arm is reached only when the window's last incident forms early enough"
+
+[[sentence]]
+id = "033243975691"
+section = "Established Decisions"
+head = "So the posture makes the arm REACHABLE rather than RELIABLE, and this le"
+disposition = "kept"
+
+[[sentence]]
+id = "ade22a3c6d40"
+section = "Established Decisions"
+head = "Under the DEFAULT window the mechanism below is unchanged:"
+disposition = "kept"
+
+[[sentence]]
+id = "2821a9b4d871"
+section = "Established Decisions"
+head = "\"nothing refreshed it\" holds only while Pulse is inside the emitting ser"
+disposition = "kept"
+
+[[sentence]]
+id = "40dbdae374c9"
+section = "Established Decisions"
+head = "past it, the silence evaluator raises `service_went_silent` cues for exa"
+disposition = "kept"
+
+[[sentence]]
+id = "830444e5fdac"
+section = "Established Decisions"
+head = "As measured at `pulse-legs/a11y-20260906-110201/logs/agent-latest.jsonl."
+disposition = "moved"
+
+[[sentence]]
+id = "789ff9ea5531"
+section = "Established Decisions"
+head = "the day's FIRST emitted silence cue fired 10:11:09.723Z, one hour after "
+disposition = "rewritten"
+anchor = "`andromeda-pulse crates/triage/src/baseline/activity_floor.rs:36`, evaluator per emit cycle at `crates/triage/src/cue/emitter.rs:186`, HEAD `83d4060`"
+
+[[sentence]]
+id = "37974d400561"
+section = "Established Decisions"
+head = "Inside the window the arm is reachable but still bounded by the 120s idl"
+disposition = "kept"
+
+[[sentence]]
+id = "d9ff66418f04"
+section = "Established Decisions"
+head = "This qualifies the leg-E narrative rather than retiring it:"
+disposition = "moved"
+
+[[sentence]]
+id = "17e11d03605f"
+section = "Established Decisions"
+head = "leg E reached the arm because it ran inside that window, not because a `"
+disposition = "moved"
+
+[[sentence]]
+id = "84f33741eff1"
+section = "Established Decisions"
+head = "This RETIRES the 2026-08-20 reading that the canary's own error-rate cue"
+disposition = "moved"
+
+[[sentence]]
+id = "abe267bbe10f"
+section = "Established Decisions"
+head = "they do so only while a cue-bearing digest refreshes an incident of the "
+disposition = "rewritten"
+anchor = "only while a cue-bearing digest refreshes an incident of the SAME identity, which a `curious` cue never triggers"
+
+[[sentence]]
+id = "ce5e23529016"
+section = "Established Decisions"
+head = "The arm was exercised, not modified."
+disposition = "moved"
+
+[[sentence]]
+id = "467e44aee904"
+section = "Established Decisions"
+head = "**[Probabilistic-Assertion Policy] Two-state split (hard-fail / calibrat"
+disposition = "kept"
+
+[[sentence]]
+id = "1021d33d82d1"
+section = "Established Decisions"
+head = "model-interpretive claims (severity choice, hypothesis quality, P-008 ro"
+disposition = "kept"
+
+[[sentence]]
+id = "87401e425e96"
+section = "Established Decisions"
+head = "The default `Verdict → ReportState` mapping is `Pass→Pass` / `Fail→Fail`"
+disposition = "kept"
+
+[[sentence]]
+id = "642c7153364a"
+section = "Established Decisions"
+head = "`verdict` and `state` stay independent (a producer may set a context-spe"
+disposition = "kept"
+
+[[sentence]]
+id = "53b419fe5a8e"
+section = "Established Decisions"
+head = "**A pre-committed-rule arm (2026-09-22):** a model-interpretive claim gr"
+disposition = "kept"
+
+[[sentence]]
+id = "ddc2dcb1ec96"
+section = "Established Decisions"
+head = "It ships at test tier, in `conductor-run/tests/real_model_harvest.rs`'s "
+disposition = "kept"
+
+[[sentence]]
+id = "de7eb94d8b92"
+section = "Established Decisions"
+head = "`conductor-verify`'s `classify()` is unchanged, and no `Verdict` / `Repo"
+disposition = "kept"
+
+[[sentence]]
+id = "99ebed90c34c"
+section = "Established Decisions"
+head = "**[Run-History Persistence] File artifacts + embedded SQLite index:** Pe"
+disposition = "kept"
+
+[[sentence]]
+id = "f3eaf587b043"
+section = "Established Decisions"
+head = "a thin `runs.db` indexes run_id · seed · scenario · P-IDs · verdict · fi"
+disposition = "kept"
+
+[[sentence]]
+id = "dfd7b4a69f06"
+section = "Established Decisions"
+head = "P-036's `cross-incident-recurrence` scenario has been declare-only since"
+disposition = "in-sidecar"
+marker = "2026-09-15-structurally-dead-assertion-class-retired"
+
+[[sentence]]
+id = "b101d594df79"
+section = "Established Decisions"
+head = "its `Contains \"Previously seen\"` check was retired because Pulse emits t"
+disposition = "moved"
+
+[[sentence]]
+id = "1562869b9f53"
+section = "Established Decisions"
+head = "The index and its purpose are unchanged."
+disposition = "in-sidecar"
+marker = "2026-09-15-structurally-dead-assertion-class-retired"
+
+[[sentence]]
+id = "a8a4a3845b41"
+section = "Occupied Resources"
+head = "**Ports:**"
+disposition = "kept"
+
+[[sentence]]
+id = "e896a407a2a8"
+section = "Occupied Resources"
+head = "`127.0.0.1:4317` — OTLP/gRPC **egress target** (Pulse's loopback ingest)"
+disposition = "kept"
+
+[[sentence]]
+id = "26a0b94ab782"
+section = "Occupied Resources"
+head = "Conductor is the client;"
+disposition = "kept"
+
+[[sentence]]
+id = "93819c43ae55"
+section = "Occupied Resources"
+head = "the port is owned by Pulse, but Conductor must be co-located with it."
+disposition = "kept"
+
+[[sentence]]
+id = "c30ae06af0d1"
+section = "Occupied Resources"
+head = "The port-occupier fault scenario also binds `:4317` to exercise Pulse's "
+disposition = "kept"
+
+[[sentence]]
+id = "115cef28f3ea"
+section = "Occupied Resources"
+head = "`:4318` (OTLP/HTTP) — not used;"
+disposition = "kept"
+
+[[sentence]]
+id = "ecf9dd753d17"
+section = "Occupied Resources"
+head = "gRPC-only loopback is the pinned path."
+disposition = "kept"
+
+[[sentence]]
+id = "80009cbef152"
+section = "Occupied Resources"
+head = "`https://msedgedriver.microsoft.com` — **CI-JOB-SCOPED egress**, the pro"
+disposition = "rewritten"
+anchor = "`https://msedgedriver.microsoft.com` — **CI-JOB-SCOPED egress**, the project's only non-loopback outbound target and the only registered one no shipped binary reaches"
+
+[[sentence]]
+id = "45f7959ddacb"
+section = "Occupied Resources"
+head = "it REPLACED `https://go.microsoft.com/fwlink/p/?LinkId=2124703`, the Web"
+disposition = "moved"
+
+[[sentence]]
+id = "04a263365480"
+section = "Occupied Resources"
+head = "`.github/workflows/ci.yml`'s `a11y` job fetches the msedgedriver build i"
+disposition = "kept"
+
+[[sentence]]
+id = "9b19b1b686cf"
+section = "Occupied Resources"
+head = "The arriving crossing is strictly NARROWER than the one it replaced:"
+disposition = "moved"
+
+[[sentence]]
+id = "2a68e32512fc"
+section = "Occupied Resources"
+head = "the fwlink carried no version selector, so every job took whatever was l"
+disposition = "moved"
+
+[[sentence]]
+id = "990647d5a98e"
+section = "Occupied Resources"
+head = "It binds no port;"
+disposition = "kept"
+
+[[sentence]]
+id = "b9a391a0788a"
+section = "Occupied Resources"
+head = "the loopback-only client model holds unchanged for every shipped binary "
+disposition = "kept"
+
+[[sentence]]
+id = "4f181327853f"
+section = "Occupied Resources"
+head = "No inbound listener of Conductor's own **in the shipped binaries** (no A"
+disposition = "kept"
+
+[[sentence]]
+id = "d88db7a9701f"
+section = "Occupied Resources"
+head = "a bare `cargo build --release` loads `devUrl` (`http://localhost:5173`) "
+disposition = "kept"
+
+[[sentence]]
+id = "2454390d52cd"
+section = "Occupied Resources"
+head = "`127.0.0.1:4444` (tauri-driver intermediary) + `127.0.0.1:4445` (the nat"
+disposition = "rewritten"
+anchor = "`127.0.0.1:4444` (tauri-driver intermediary) + `127.0.0.1:4445` (the native WebDriver) — **dev-only, harness-lifetime** listeners the webview a11y driver stack binds and tears down with itself"
+
+[[sentence]]
+id = "5dcf9d16f145"
+section = "Occupied Resources"
+head = "The stack is shared by ALL THREE suite families of that leg — the unatte"
+disposition = "rewritten"
+anchor = "The stack is shared by ALL THREE suite families of that leg — the unattended routine arm (`agent-run … run --e2e`, the routine spec only), the operator-local driven arm (`npm run a11y:driven` = `wdio run wdio.conf.ts --suite driven`, live Pulse, never CI) and the operator-local screen-reader suites (`npm run a11y:sr` / `a11y:sr-empty` / `a11y:sr-error`, which additionally bracket NVDA's start/quit around the driver"
+
+[[sentence]]
+id = "810ff5c9ec91"
+section = "Occupied Resources"
+head = "measured 2026-09-02) — each binding and releasing the pair with its own "
+disposition = "rewritten"
+anchor = "each binding and releasing the pair with its own session, with the tauri-driver child spawned at `cwd` = the workspace root"
+
+[[sentence]]
+id = "5f2c6f78a5ff"
+section = "Occupied Resources"
+head = "Distinct from `:4317`;"
+disposition = "kept"
+
+[[sentence]]
+id = "8321b703b6cb"
+section = "Occupied Resources"
+head = "never present in `conductor-cli` / `conductor-tauri`."
+disposition = "kept"
+
+[[sentence]]
+id = "7b47b422566f"
+section = "Occupied Resources"
+head = "**Interface routes / surfaces (no HTTP routes):**"
+disposition = "kept"
+
+[[sentence]]
+id = "52a57edfb1be"
+section = "Occupied Resources"
+head = "MCP tools consumed:"
+disposition = "kept"
+
+[[sentence]]
+id = "5a02d9f6ee13"
+section = "Occupied Resources"
+head = "`query_incident_list`, `retrieve_report` (with `degraded_mode`), `retrie"
+disposition = "kept"
+
+[[sentence]]
+id = "6e52b2268d68"
+section = "Occupied Resources"
+head = "Tauri commands (internal IPC):"
+disposition = "kept"
+
+[[sentence]]
+id = "aee6bcb56d24"
+section = "Occupied Resources"
+head = "start/stop, scenario/suite picker, run-report view, operator-pause promp"
+disposition = "kept"
+
+[[sentence]]
+id = "5b853976852d"
+section = "Occupied Resources"
+head = "one `Channel` for live counters."
+disposition = "kept"
+
+[[sentence]]
+id = "ecd416f88d21"
+section = "Occupied Resources"
+head = "Route prefixes:"
+disposition = "kept"
+
+[[sentence]]
+id = "b810eba8d091"
+section = "Occupied Resources"
+head = "none — Conductor exposes no HTTP surface;"
+disposition = "kept"
+
+[[sentence]]
+id = "ec1a1a7f1a9b"
+section = "Occupied Resources"
+head = "the four consumed MCP tool names and the Tauri command names above are t"
+disposition = "kept"
+
+[[sentence]]
+id = "7127174e2365"
+section = "Occupied Resources"
+head = "**Service / process names:**"
+disposition = "kept"
+
+[[sentence]]
+id = "b4deb99b4598"
+section = "Occupied Resources"
+head = "`conductor-cli` (the `agent-run` binary) — headless source of truth."
+disposition = "kept"
+
+[[sentence]]
+id = "e3b41e15cd75"
+section = "Occupied Resources"
+head = "Conductor Tauri app (GUI bin) — optional control panel."
+disposition = "kept"
+
+[[sentence]]
+id = "d4d2b1527a0d"
+section = "Occupied Resources"
+head = "Launched child process:"
+disposition = "kept"
+
+[[sentence]]
+id = "79ab10cf2da5"
+section = "Occupied Resources"
+head = "Pulse MCP server (`andromeda-pulse-mcp`), spawned over PIPED stdio from "
+disposition = "rewritten"
+anchor = "Pulse MCP server (`andromeda-pulse-mcp`), spawned over PIPED stdio from a `tokio::process::Command` built by `conductor-verify/src/spawn.rs::build_command` and handed to `ReadbackClient::connect_command`"
+
+[[sentence]]
+id = "7b86191b8741"
+section = "Occupied Resources"
+head = "the type has been absent from every crate `src/` since, and its last in-"
+disposition = "moved"
+
+[[sentence]]
+id = "b0ec49f7f1f3"
+section = "Occupied Resources"
+head = "Gated on its `mcp-server` feature, **spawned with `ANDROMEDA_PULSE_DATA_"
+disposition = "kept"
+
+[[sentence]]
+id = "e7c7477988ab"
+section = "Occupied Resources"
+head = "**On Windows the command carries the `CREATE_NO_WINDOW` creation flag** "
+disposition = "rewritten"
+anchor = "On Windows the command carries the `CREATE_NO_WINDOW` creation flag** (`spawn::console_suppressing_flags()`, `#[cfg(windows)]`), so a GUI-launched sidecar raises no console pane and publishes no absolute exe path"
+
+[[sentence]]
+id = "26c9461b141c"
+section = "Occupied Resources"
+head = "0 `security_finding` rows, 0 `<host-path>` placeholders)."
+disposition = "in-sidecar"
+marker = "2026-09-04-sidecar-spawn-without-a-console-window"
+
+[[sentence]]
+id = "dcfc72127b13"
+section = "Occupied Resources"
+head = "The program is a fixed NAME resolved through the inherited `PATH` (never"
+disposition = "kept"
+
+[[sentence]]
+id = "fcfbefd4c707"
+section = "Occupied Resources"
+head = "where the sidecar binary is not on it, preflight returns BLOCKED in ~2ms"
+disposition = "kept"
+
+[[sentence]]
+id = "179726e182e1"
+section = "Occupied Resources"
+head = "Emitted OTLP service identities (the PRODUCT stream's `service.name` val"
+disposition = "kept"
+
+[[sentence]]
+id = "93467c6b0e31"
+section = "Occupied Resources"
+head = "`conductor` (`DEFAULT_SERVICE_NAME` — the scenario dispatcher's identity"
+disposition = "kept"
+
+[[sentence]]
+id = "0a2cbbf6bcbb"
+section = "Occupied Resources"
+head = "Split deliberately (2026-08-18):"
+disposition = "kept"
+
+[[sentence]]
+id = "4c0860031ec9"
+section = "Occupied Resources"
+head = "the preflight runs inside every scenario leg, and Pulse keys per-service"
+disposition = "kept"
+
+[[sentence]]
+id = "f46a11d6c824"
+section = "Occupied Resources"
+head = "**Crate names (workspace members):** `conductor-core` (the runtime-agnos"
+disposition = "rewritten"
+anchor = "Crate names (workspace members):** `conductor-core` (the runtime-agnostic engine library the other members depend on — `conductor-emit` EXCEPTED"
+
+[[sentence]]
+id = "d689cb862cc4"
+section = "Occupied Resources"
+head = "the dependent set is whatever the members' `Cargo.toml` files declare, n"
+disposition = "kept"
+
+[[sentence]]
+id = "9680810f27df"
+section = "Occupied Resources"
+head = "carries the `conductor-run → conductor-faults` dependency edge, conducto"
+disposition = "rewritten"
+anchor = "sitting above the seams and below both bins, shared by them), `conductor-cli`, plus the `conductor-tauri` bin"
+
+[[sentence]]
+id = "999afb9075d0"
+section = "Occupied Resources"
+head = "**Frontend asset subtree:** `crates/conductor-tauri/ui/` — the optional "
+disposition = "kept"
+
+[[sentence]]
+id = "14a6f4e7ba16"
+section = "Occupied Resources"
+head = "Holds the design-token + typography bundle (`src/styles/tokens.css` — 34"
+disposition = "kept"
+
+[[sentence]]
+id = "4a854e76ca8d"
+section = "Occupied Resources"
+head = "`node_modules/`, the build output `crates/conductor-tauri/ui/dist/`, and"
+disposition = "rewritten"
+anchor = "`node_modules/`, the build output `crates/conductor-tauri/ui/dist/`, and `crates/conductor-tauri/ui/logs/` (the RETIRED pre-2026-09-01 self-obs landing site"
+
+[[sentence]]
+id = "ea67026f1793"
+section = "Occupied Resources"
+head = "the routine `--e2e` arm sets the handle and lands beside its fixture run"
+disposition = "rewritten"
+anchor = "the routine `--e2e` arm (`runs/e2e-fixture`) and the `sr-empty` suite land at `runs/logs/conductor-tauri.jsonl`"
+
+[[sentence]]
+id = "bf14a3ab8f46"
+section = "Occupied Resources"
+head = "`package-lock.json` is committed."
+disposition = "kept"
+
+[[sentence]]
+id = "2bd9b8e80e6e"
+section = "Occupied Resources"
+head = "**On-disk artifacts / database:**"
+disposition = "kept"
+
+[[sentence]]
+id = "577df83f5e2b"
+section = "Occupied Resources"
+head = "`runs.db` — embedded SQLite index, **three tables**:"
+disposition = "kept"
+
+[[sentence]]
+id = "fab1c83d4b2d"
+section = "Occupied Resources"
+head = "`runs`, the scenario-grained run index keyed `(run_id, scenario)` (run_i"
+disposition = "kept"
+
+[[sentence]]
+id = "e627bf3f92b2"
+section = "Occupied Resources"
+head = "`run_envelope`, the run-level SUT-load-envelope standing keyed `run_id` "
+disposition = "kept"
+
+[[sentence]]
+id = "38923663f513"
+section = "Occupied Resources"
+head = "and `run_check`, the genuine **per-check index** keyed `(run_id, scenari"
+disposition = "kept"
+
+[[sentence]]
+id = "b436c1d2d357"
+section = "Occupied Resources"
+head = "Each of the latter two is deliberately a separate table rather than a co"
+disposition = "kept"
+
+[[sentence]]
+id = "21ffc3f5a29b"
+section = "Occupied Resources"
+head = "the envelope qualifier is run-scoped and the check qualifier is check-sc"
+disposition = "kept"
+
+[[sentence]]
+id = "a52c76f0ab45"
+section = "Occupied Resources"
+head = "A blocked or declare-only scenario writes ZERO `run_check` rows — the pe"
+disposition = "kept"
+
+[[sentence]]
+id = "64dfc2194774"
+section = "Occupied Resources"
+head = "Per-run JSONL emission journal + per-run Markdown run report."
+disposition = "kept"
+
+[[sentence]]
+id = "45cc14d37ee8"
+section = "Occupied Resources"
+head = "`logs/agent-latest.jsonl` — the self-observation `tracing` JSON stream i"
+disposition = "kept"
+
+[[sentence]]
+id = "c8c58add80de"
+section = "Occupied Resources"
+head = "a SEPARATE artifact + schema from the per-run emission journal, written "
+disposition = "kept"
+
+[[sentence]]
+id = "1f2c35a96344"
+section = "Occupied Resources"
+head = "`runs/live-suite/{leg}.jsonl` — the per-leg frozen copies of `logs/agent"
+disposition = "kept"
+
+[[sentence]]
+id = "e18083e5b6bb"
+section = "Occupied Resources"
+head = "They exist BECAUSE that sink truncates per invocation:"
+disposition = "kept"
+
+[[sentence]]
+id = "0a3ff6a13e25"
+section = "Occupied Resources"
+head = "without the freeze a whole-suite read would see only the last leg."
+disposition = "kept"
+
+[[sentence]]
+id = "79dc93e49031"
+section = "Occupied Resources"
+head = "Harness-owned by `scripts/agent-run.{sh,ps1}` with deliberately NO `COND"
+disposition = "kept"
+
+[[sentence]]
+id = "c7e7476974b6"
+section = "Occupied Resources"
+head = "the harness ships no recursive delete), so a stale leg file from an abor"
+disposition = "kept"
+
+[[sentence]]
+id = "fa37c33d1343"
+section = "Occupied Resources"
+head = "The real-model arm (`run --live real-model`, 2026-09-22) writes three fi"
+disposition = "kept"
+
+[[sentence]]
+id = "9f76898756de"
+section = "Occupied Resources"
+head = "the grading rule's record, then the capture) and `rm-capture.err` — and "
+disposition = "rewritten"
+anchor = "the grading rule's record, then the capture) and `rm-capture.err` — and clears exactly those three, non-recursively, before its leg"
+
+[[sentence]]
+id = "75a712008ab3"
+section = "Occupied Resources"
+head = "the suite's `*.jsonl` clear is unchanged."
+disposition = "in-sidecar"
+marker = "2026-09-06-operator-gated-live-suite"
+
+[[sentence]]
+id = "36552fae52a4"
+section = "Occupied Resources"
+head = "The per-run `runs/<run_id>.jsonl` journals and `runs.db` rows are unaffe"
+disposition = "kept"
+
+[[sentence]]
+id = "8b20acc93b75"
+section = "Occupied Resources"
+head = "`logs/conductor-tauri.jsonl` — the Tauri backend's self-observation `tra"
+disposition = "kept"
+
+[[sentence]]
+id = "83b0b6a6f083"
+section = "Occupied Resources"
+head = "inherits the same processor-stage redaction (obs-plan §3 dual-surface si"
+disposition = "kept"
+
+[[sentence]]
+id = "db9e8c78367e"
+section = "Occupied Resources"
+head = "**With `CONDUCTOR_RUNS_DIR` unset the path is CWD-relative**, and the a1"
+disposition = "rewritten"
+anchor = "ith `CONDUCTOR_RUNS_DIR` unset the path is CWD-relative"
+
+[[sentence]]
+id = "bba5d01e524e"
+section = "Occupied Resources"
+head = "The landing site is therefore **per-suite**, because the sink resolves a"
+disposition = "rewritten"
+anchor = "chooses `CONDUCTOR_RUNS_DIR` per invoked suite"
+
+[[sentence]]
+id = "82c46fb66145"
+section = "Occupied Resources"
+head = "the routine `--e2e` arm (`runs/e2e-fixture`) and the `sr-empty` suite la"
+disposition = "rewritten"
+anchor = "the routine `--e2e` arm (`runs/e2e-fixture`) and the `sr-empty` suite land at `runs/logs/conductor-tauri.jsonl`"
+
+[[sentence]]
+id = "2fb38a46c79d"
+section = "Occupied Resources"
+head = "No a11y suite leaves the handle unset any more;"
+disposition = "rewritten"
+anchor = "No a11y suite leaves the handle unset, so the workspace-root site is retired"
+
+[[sentence]]
+id = "21d4ef872d5f"
+section = "Occupied Resources"
+head = "a plain launch with it unset still lands at the CWD-relative workspace-r"
+disposition = "rewritten"
+anchor = "a plain launch lands at the workspace-root `logs/conductor-tauri.jsonl`"
+
+[[sentence]]
+id = "dabcff22194d"
+section = "Occupied Resources"
+head = "the pre-cwd `crates/conductor-tauri/ui/logs/conductor-tauri.jsonl` left "
+disposition = "rewritten"
+anchor = "root site is retired only as an a11y landing site, not as the unset-handle mechanism"
+
+[[sentence]]
+id = "3872a7406a2b"
+section = "Occupied Resources"
+head = "All sites are git-ignored."
+disposition = "rewritten"
+anchor = "All sites are git-ignored; the retired pre-2026-09-01"
+
+[[sentence]]
+id = "be38c9f25587"
+section = "Occupied Resources"
+head = "That ui-package path is the retired pre-2026-09-01 landing site and stay"
+disposition = "rewritten"
+anchor = "the retired pre-2026-09-01 ui-package site `crates/conductor-tauri/ui/logs/conductor-tauri.jsonl` stays git-ignored explicitly"
+
+[[sentence]]
+id = "ad9b6a860126"
+section = "Occupied Resources"
+head = "`runs/a11y/<run_id>.jsonl` — the a11y violation record the webview gate "
+disposition = "rewritten"
+anchor = "`runs/a11y/<run_id>.jsonl` — the a11y violation record the webview gate emits, ONE envelope line per run"
+
+[[sentence]]
+id = "5ec6e36f63ca"
+section = "Occupied Resources"
+head = "Its shape is the eleven-field run-report envelope **plus** the obs resou"
+disposition = "kept"
+
+[[sentence]]
+id = "2b14e82723d3"
+section = "Occupied Resources"
+head = "the extras are admitted by obs-plan §3's extension point, which `journal"
+disposition = "kept"
+
+[[sentence]]
+id = "20a6b13653a8"
+section = "Occupied Resources"
+head = "The scenario-shaped keys are MAPPED, not measured (`seed: 0` · `scenario"
+disposition = "kept"
+
+[[sentence]]
+id = "bb3f2ecd5da4"
+section = "Occupied Resources"
+head = "It lands in its OWN directory deliberately:"
+disposition = "kept"
+
+[[sentence]]
+id = "02493b159c63"
+section = "Occupied Resources"
+head = "`/runs/` is git-ignored, and the harness's `status`/`report` readers glo"
+disposition = "kept"
+
+[[sentence]]
+id = "5ceb90a344c5"
+section = "Occupied Resources"
+head = "Asserted by `conductor-run`'s `journal_conformance` under `CONDUCTOR_RUN"
+disposition = "kept"
+
+[[sentence]]
+id = "4e05d1a81241"
+section = "Occupied Resources"
+head = "`coverage-matrix.md` — every capability in the SUT capability manifest c"
+disposition = "kept"
+
+[[sentence]]
+id = "38870cde4d0e"
+section = "Occupied Resources"
+head = "Pinned MCP contract manifest file (`contracts/mcp-contract.toml`)."
+disposition = "kept"
+
+[[sentence]]
+id = "bbc9f6d3e2f6"
+section = "Occupied Resources"
+head = "`contracts/pulse-capabilities.toml` — the versioned SUT capability manif"
+disposition = "kept"
+
+[[sentence]]
+id = "a57de0af86f3"
+section = "Occupied Resources"
+head = "the accepted Pulse capability set (`sut_version` · `captured_at` · `capa"
+disposition = "kept"
+
+[[sentence]]
+id = "523a6d1c597c"
+section = "Occupied Resources"
+head = "Runtime-read and bounds-checked at load;"
+disposition = "kept"
+
+[[sentence]]
+id = "9ce360b3e72d"
+section = "Occupied Resources"
+head = "resolved from a fixed `CapabilityManifest::default_path()` through `reso"
+disposition = "kept"
+
+[[sentence]]
+id = "aae781e8da29"
+section = "Occupied Resources"
+head = "Re-aiming Conductor at a newer Pulse release is an edit to this file plu"
+disposition = "kept"
+
+[[sentence]]
+id = "251199bdf0ab"
+section = "Occupied Resources"
+head = "`contracts/pulse-load-envelope.toml` — the pinned SUT load envelope:"
+disposition = "kept"
+
+[[sentence]]
+id = "8dff1d36995e"
+section = "Occupied Resources"
+head = "the proven-good storm bounds a scenario must stay inside (`sut_version` "
+disposition = "kept"
+
+[[sentence]]
+id = "27c94f4371f1"
+section = "Occupied Resources"
+head = "Its terms are a **transcribed SUT record, never a Conductor measurement*"
+disposition = "kept"
+
+[[sentence]]
+id = "92453fc4a3d0"
+section = "Occupied Resources"
+head = "resolved from a fixed `LoadEnvelope::default_path()` through `resolve_un"
+disposition = "kept"
+
+[[sentence]]
+id = "db6b0c25ebf1"
+section = "Occupied Resources"
+head = "The **two sustained terms are the asserted ones**, judged PER EMITTING P"
+disposition = "kept"
+
+[[sentence]]
+id = "d75a0f8a3189"
+section = "Occupied Resources"
+head = "no phase declaring occurrences may run longer than `max_sustained_storm_"
+disposition = "rewritten"
+anchor = "no phase declaring occurrences may run longer than `max_sustained_storm_ms` nor emit faster than `max_sustained_rate_spans_per_s`"
+
+[[sentence]]
+id = "3f80c97b6b40"
+section = "Occupied Resources"
+head = "**The rate term counts WIRE RECORDS, and is an upper BOUND (shipped 2026"
+disposition = "rewritten"
+anchor = "`phase_rate_exceeds` judges `occurrences × EmissionSpec::max_spans_per_dispatch() × 1000 > max_rate × gap_ms` (`conductor-core/src/load_envelope.rs`), exact integer math with no division"
+
+[[sentence]]
+id = "1f18b7e4ec49"
+section = "Occupied Resources"
+head = "The per-dispatch count is measured PER `EmissionShape` arm against the d"
+disposition = "rewritten"
+anchor = "The per-dispatch count is measured PER `EmissionShape` arm against the dispatcher's own arm — `Ramp`/`Breathing` emit `sum(window_counts)`, `Latency` its `samples`, `Error` `depth + 1`, `Pii` 2 spans on traces or one record per category on logs, `Topology` one span per service, every other shape 1"
+
+[[sentence]]
+id = "3bee483e02d4"
+section = "Occupied Resources"
+head = "It is a BOUND rather than an exact count because the rate curves' per-wi"
+disposition = "kept"
+
+[[sentence]]
+id = "055501c80118"
+section = "Occupied Resources"
+head = "Under the shipped mapping the catalog's worst case is `halo-breathing-en"
+disposition = "rewritten"
+anchor = "Under the shipped mapping the catalog's worst case is `halo-breathing-encoding` at ~232 records/s"
+
+[[sentence]]
+id = "9feb0f97bde8"
+section = "Occupied Resources"
+head = "The contract file itself is unchanged:"
+disposition = "moved"
+
+[[sentence]]
+id = "0959c7ee0502"
+section = "Occupied Resources"
+head = "the term keeps its name and its value, because it transcribes a SUT reco"
+disposition = "rewritten"
+anchor = "because it transcribes a SUT record about wire load"
+
+[[sentence]]
+id = "5facf500afab"
+section = "Occupied Resources"
+head = "This retires the SURFACED-not-authored disposition — the fix is AUTHORED"
+disposition = "moved"
+
+[[sentence]]
+id = "3e5859f1b5bb"
+section = "Occupied Resources"
+head = "The gate/caption shared-basis property is untouched and now holds BY CON"
+disposition = "rewritten"
+anchor = "read ONE shared basis BY CONSTRUCTION"
+
+[[sentence]]
+id = "3e75bcd1848e"
+section = "Occupied Resources"
+head = "`phase_rate_exceeds` has exactly one caller, `phase_breach`, whose only "
+disposition = "rewritten"
+anchor = "`phase_rate_exceeds` has exactly one caller, `phase_breach`, whose only two callers"
+
+[[sentence]]
+id = "fc57814c3c4b"
+section = "Occupied Resources"
+head = "`max_scenario_duration_ms` is **recorded but no longer asserted** — elap"
+disposition = "kept"
+
+[[sentence]]
+id = "fb1e218da491"
+section = "Occupied Resources"
+head = "`check_load_envelope` (the static catalog gate) and `LoadEnvelope::class"
+disposition = "rewritten"
+anchor = "`check_load_envelope` (the static catalog gate) and `LoadEnvelope::classify` (the per-run judgment behind the `[ENVIRONMENT-SUSPECT]` caption) read ONE shared basis"
+
+[[sentence]]
+id = "63db0e3b93d0"
+section = "Occupied Resources"
+head = "every catalog scenario passes the asserted terms unaided."
+disposition = "kept"
+
+[[sentence]]
+id = "6018c6b6db90"
+section = "Occupied Resources"
+head = "The artifact had predicted a different landing (that asserting SUMMED em"
+disposition = "moved"
+
+[[sentence]]
+id = "bc3335ec3f28"
+section = "Occupied Resources"
+head = "measurement falsified it — summing disjoint bursts separated by quiet is"
+disposition = "rewritten"
+anchor = "The storm term bounds the longest single emitting window"
+
+[[sentence]]
+id = "df13f157953f"
+section = "Occupied Resources"
+head = "`contracts/pulse-run-contract.toml` — the pinned Pulse run contract:"
+disposition = "kept"
+
+[[sentence]]
+id = "0a287dfb7a6c"
+section = "Occupied Resources"
+head = "the launch conditions under which a live Pulse can be verified at all (`"
+disposition = "kept"
+
+[[sentence]]
+id = "a85c53114d5d"
+section = "Occupied Resources"
+head = "Its SUT-side terms are a **transcribed SUT record, never a Conductor mea"
+disposition = "kept"
+
+[[sentence]]
+id = "7ce86fb09e74"
+section = "Occupied Resources"
+head = "resolved from a fixed `RunContract::default_path()` through `resolve_und"
+disposition = "kept"
+
+[[sentence]]
+id = "047aa5248145"
+section = "Occupied Resources"
+head = "Each term declares HOW it is checked, and that is a statement about what"
+disposition = "kept"
+
+[[sentence]]
+id = "033dc1d142e6"
+section = "Occupied Resources"
+head = "`shell-declaration` (observable as a declaration in Conductor's OWN envi"
+disposition = "rewritten"
+anchor = "`shell-declaration` (observable as a declaration in Conductor's OWN environment — the shell that also launches `pulse-app` — unmet iff undeclared), `shell-absence`"
+
+[[sentence]]
+id = "802a0d357190"
+section = "Occupied Resources"
+head = "the same observation, unmet iff DECLARED, the declaration read under the"
+disposition = "kept"
+
+[[sentence]]
+id = "ec6a18adf453"
+section = "Occupied Resources"
+head = "with `shell-declaration` the only kinds that can block, each naming its "
+disposition = "kept"
+
+[[sentence]]
+id = "b0f2ba938ec6"
+section = "Occupied Resources"
+head = "The `[[term]]` list carried SIX terms as of 2026-09-03, when it gained `"
+disposition = "rewritten"
+anchor = "the run contract's SECOND `shell-declaration` term (`mcp-enabled`)"
+
+[[sentence]]
+id = "24b0fe996a08"
+section = "Occupied Resources"
+head = "It carries SEVEN as of 2026-09-22 (`grep -c '^\\[\\[term\\]\\]'` → 7):"
+disposition = "rewritten"
+anchor = "Of its SEVEN `[[term]]`s, `l4-deterministic` carries"
+
+[[sentence]]
+id = "dd771551c541"
+section = "Occupied Resources"
+head = "`l4-real-model` (`check = \"shell-absence\"` on `ANDROMEDA_PULSE_L4_DETERM"
+disposition = "rewritten"
+anchor = "`l4-real-model` (`check = \"shell-absence\"` on `ANDROMEDA_PULSE_L4_DETERMINISTIC`, `posture = \"real-model\"`"
+
+[[sentence]]
+id = "1d582317aed2"
+section = "Occupied Resources"
+head = "A term's optional `posture` comes from the closed `L4Posture` set:"
+disposition = "kept"
+
+[[sentence]]
+id = "750fd03fab8b"
+section = "Occupied Resources"
+head = "a tagged term binds only under that posture, an untagged one under every"
+disposition = "kept"
+
+[[sentence]]
+id = "ac05a34962fc"
+section = "Occupied Resources"
+head = "`evaluate` delegates to the deterministic posture, so its result is unch"
+disposition = "kept"
+
+[[sentence]]
+id = "1b3483965fe8"
+section = "Occupied Resources"
+head = "The OBSERVED shell handle set stays TWO — `observed_env()` yields each v"
+disposition = "kept"
+
+[[sentence]]
+id = "eb046a652179"
+section = "Occupied Resources"
+head = "**A second term's `asserted` rationale is measurably FALSE, and the shap"
+disposition = "rewritten"
+anchor = "a `PATH` miss short-circuits to `[BLOCKED]` in ~0s UPSTREAM of term evaluation (as measured at `.claude/rules/verification-harness.md:54`"
+
+[[sentence]]
+id = "2f75ade10e30"
+section = "Occupied Resources"
+head = "consistent with the ~2ms all-tools-absent reading in §Occupied Resources"
+disposition = "rewritten"
+anchor = "so it cannot catch its own falsity"
+
+[[sentence]]
+id = "8185a7208fd2"
+section = "Occupied Resources"
+head = "It was deliberately NOT re-classified at `2026-09-03-live-pulse-precondi"
+disposition = "rewritten"
+anchor = "operator-selected at `2026-09-03-live-pulse-preconditions-probed`"
+
+[[sentence]]
+id = "f44ff3e9413f"
+section = "Occupied Resources"
+head = "re-classifying moves what the preflight gate can block on, which is a la"
+disposition = "rewritten"
+anchor = "re-classifying moves what the preflight gate can block on"
+
+[[sentence]]
+id = "f9c48c637cb1"
+section = "Occupied Resources"
+head = "`[incident_formation]` carries a warm-up pre-roll and the canary poll fl"
+disposition = "kept"
+
+[[sentence]]
+id = "377a8731476d"
+section = "Occupied Resources"
+head = "**The warm-up's stated purpose is measured FALSE (2026-08-13, first live"
+disposition = "rewritten"
+anchor = "The warm-up is harmless and its stated purpose measured FALSE on two axes"
+
+[[sentence]]
+id = "094fdb5de9cd"
+section = "Occupied Resources"
+head = "it does not carry the canary service out of Pulse's baseline bootstrap, "
+disposition = "rewritten"
+anchor = "gate on `BootstrapState::Ready` (`crates/triage/src/cue/evaluate.rs:164`)"
+
+[[sentence]]
+id = "e7934f5dd1d9"
+section = "Occupied Resources"
+head = "that constant is the DEFAULT — `ANDROMEDA_PULSE_BASELINE_BOOTSTRAP_SECON"
+disposition = "rewritten"
+anchor = "(`crates/triage/src/baseline/activity_floor.rs:33`, the DEFAULT)"
+
+[[sentence]]
+id = "e4abbfa21dba"
+section = "Occupied Resources"
+head = "The shipped `warmup_ms = 45000` is 45s against a 3,600s gate — short by "
+disposition = "rewritten"
+anchor = "which `warmup_ms = 45000` misses by **80×**, unfixable by its own knobs and uncatchable by its `asserted` term"
+
+[[sentence]]
+id = "ba99dec93354"
+section = "Occupied Resources"
+head = "**That diagnosis is TRUE only of the baseline-derived families, and the "
+disposition = "rewritten"
+anchor = "the canary's RetryStorm path consults no baseline at all"
+
+[[sentence]]
+id = "edb572d4fceb"
+section = "Occupied Resources"
+head = "Pulse forms incidents for a sustained storm with `baseline_state` at 0 r"
+disposition = "rewritten"
+anchor = "incidents form with `baseline_state` at 0 rows"
+
+[[sentence]]
+id = "e0e09ab1956b"
+section = "Occupied Resources"
+head = "The warm-up's stated purpose is therefore disproved on a second axis — i"
+disposition = "rewritten"
+anchor = "The warm-up is harmless and its stated purpose measured FALSE on two axes"
+
+[[sentence]]
+id = "df4d66598411"
+section = "Occupied Resources"
+head = "**The claim that reaching a live incident requires a Pulse-side change ("
+disposition = "moved"
+
+[[sentence]]
+id = "06c6a54fbc57"
+section = "Occupied Resources"
+head = "no such change exists, `baseline_state` still holds 0 rows, and incident"
+disposition = "moved"
+
+[[sentence]]
+id = "65956ca89bae"
+section = "Occupied Resources"
+head = "What actually gated the canary was a **tier band on Conductor's own side"
+disposition = "rewritten"
+anchor = "What gates the canary is a **tier band on Conductor's own side**"
+
+[[sentence]]
+id = "c33b59227464"
+section = "Occupied Resources"
+head = "the storm must clear `DEFAULT_AUTONOMOUS_THRESHOLD = 10` (`crates/triage"
+disposition = "rewritten"
+anchor = "the storm must clear `DEFAULT_AUTONOMOUS_THRESHOLD = 10` (`crates/triage/src/pattern/storm.rs:78`, compared with `>=` at `:245`) because Pulse's Tier-1 coordinator accepts Autonomous cues alone (`crates/triage/src/cadence/coordinator.rs:390`"
+
+[[sentence]]
+id = "57fc025f33c9"
+section = "Occupied Resources"
+head = "Raised to 12 by `2026-08-15-canary-storm-autonomous-band`."
+disposition = "rewritten"
+anchor = "which the shipped `CANARY_STORM_COUNT` of 12 clears"
+
+[[sentence]]
+id = "c781772745dc"
+section = "Occupied Resources"
+head = "Evidence:"
+disposition = "kept"
+
+[[sentence]]
+id = "047f2d19ff0f"
+section = "Occupied Resources"
+head = "`conductor-0.2.0/chunks/2026-08-10-workspace-key-divergence-probe/two-la"
+disposition = "moved"
+
+[[sentence]]
+id = "92d6e11da46f"
+section = "Occupied Resources"
+head = "**A SECOND gap sat beside it on the canary's own path (measured 2026-08-"
+disposition = "moved"
+
+[[sentence]]
+id = "f1165ea0fef3"
+section = "Occupied Resources"
+head = "Conductor's storm reached the wire with its `exception` events intact an"
+disposition = "moved"
+
+[[sentence]]
+id = "6a7aea737da3"
+section = "Occupied Resources"
+head = "**The cause was a span-identity collision against a primary key.** Pulse"
+disposition = "rewritten"
+anchor = "because Pulse's `spans` table is `PRIMARY KEY (trace_id, span_id)`"
+
+[[sentence]]
+id = "46e84343afa1"
+section = "Occupied Resources"
+head = "That is exactly the producer-dependence observed:"
+disposition = "moved"
+
+[[sentence]]
+id = "86fa4d202fce"
+section = "Occupied Resources"
+head = "`inject_demo` derives `trace_id(seq)` / `span_id(seq)` per sequence and "
+disposition = "moved"
+
+[[sentence]]
+id = "467367db1e1b"
+section = "Occupied Resources"
+head = "The builder was shared, so the same defect ran through the scenario disp"
+disposition = "in-sidecar"
+marker = "2026-08-15-canary-spans-pulse-fingerprints"
+
+[[sentence]]
+id = "0df3ffabd971"
+section = "Occupied Resources"
+head = "Fixed by `2026-08-15-canary-spans-pulse-fingerprints` (seeded per-call i"
+disposition = "rewritten"
+anchor = "carries a seeded per-call identity (disjoint warm-up/storm seed ranges)"
+
+[[sentence]]
+id = "e615a341edfb"
+section = "Occupied Resources"
+head = "the 2026-08-16 leg measured **27 `duckdb.append` lines with ZERO `reject"
+disposition = "in-sidecar"
+marker = "2026-08-15-canary-spans-pulse-fingerprints"
+
+[[sentence]]
+id = "fd59e28475a2"
+section = "Occupied Resources"
+head = "**One honest limit on the closure:** why the storm's 12 DISTINCT-id span"
+disposition = "moved"
+
+[[sentence]]
+id = "70b15fe49d86"
+section = "Occupied Resources"
+head = "`conductor-0.2.0/chunks/2026-08-15-canary-spans-pulse-fingerprints/evide"
+disposition = "kept"
+
+[[sentence]]
+id = "3bc8813bf56c"
+section = "Occupied Resources"
+head = "Read the storm-detector telemetry accordingly:"
+disposition = "moved"
+
+[[sentence]]
+id = "ed45abbab462"
+section = "Occupied Resources"
+head = "`tracked_fingerprints_count` is a **60s-windowed gauge over DISTINCT fin"
+disposition = "rewritten"
+anchor = "`tracked_fingerprints_count` is a **60s-windowed gauge over DISTINCT fingerprints, sampled at a 15s tick AFTER eviction"
+
+[[sentence]]
+id = "fa6590b1717b"
+section = "Occupied Resources"
+head = "the discriminators immune to the window are the cumulative `storms_detec"
+disposition = "rewritten"
+anchor = "the cumulative `storms_detected_total` and `fingerprints_evicted_total`"
+
+[[sentence]]
+id = "7708feeb44b8"
+section = "Occupied Resources"
+head = "That reading is what the 2026-08-16 leg confirmed from both directions:"
+disposition = "moved"
+
+[[sentence]]
+id = "9632112ff9ba"
+section = "Occupied Resources"
+head = "on the broken path both cumulative counters held 0 across 31 tick lines "
+disposition = "moved"
+
+[[sentence]]
+id = "2d0588bb3424"
+section = "Occupied Resources"
+head = "Never read that gauge as evidence of absence."
+disposition = "rewritten"
+anchor = "so never read it as evidence of absence"
+
+[[sentence]]
+id = "8ed8f4a17150"
+section = "Occupied Resources"
+head = "`conductor-0.2.0/chunks/2026-08-14-canary-fingerprint-feed-capture/finge"
+disposition = "kept"
+
+[[sentence]]
+id = "9ffa757de75e"
+section = "Occupied Resources"
+head = "`contracts/scenario-audit-ledger.toml` — the committed scenario-assertio"
+disposition = "kept"
+
+[[sentence]]
+id = "d9115b00cbc9"
+section = "Occupied Resources"
+head = "the exact-set record `check_scenario_audit` grades the catalog against o"
+disposition = "kept"
+
+[[sentence]]
+id = "b5d699b55878"
+section = "Occupied Resources"
+head = "Both arrays are graded in BOTH directions — a measured member absent fro"
+disposition = "kept"
+
+[[sentence]]
+id = "ba671f083f03"
+section = "Occupied Resources"
+head = "Its grounds are transcribed readings of `andromeda-pulse` at the head it"
+disposition = "rewritten"
+anchor = "Its grounds are transcribed readings of `andromeda-pulse` at"
+
+[[sentence]]
+id = "173bfbe61963"
+section = "Occupied Resources"
+head = "It differs from the three manifests above in its resolution:"
+disposition = "rewritten"
+anchor = "Unlike the three manifests above, `default_path()` is a hard-coded relative constant"
+
+[[sentence]]
+id = "05351c0da323"
+section = "Occupied Resources"
+head = "`default_path()` is a hard-coded relative constant and `load()` takes an"
+disposition = "rewritten"
+anchor = "the module never calls `resolve_under` and there is deliberately no `CONDUCTOR_*` override handle"
+
+[[sentence]]
+id = "71fd11a8fc19"
+section = "Occupied Resources"
+head = "it has NO shipped reader at all — its only reader is the crate-local gat"
+disposition = "rewritten"
+anchor = "its only reader is the crate-local gate test binary, which resolves the workspace root from `CARGO_MANIFEST_DIR`"
+
+[[sentence]]
+id = "8bb44ec967e6"
+section = "Occupied Resources"
+head = "Read faults carry `e.kind()` only, never the path;"
+disposition = "kept"
+
+[[sentence]]
+id = "9a234c4495e8"
+section = "Occupied Resources"
+head = "absent or malformed is a hard harness fault, never defaulted."
+disposition = "kept"
+
+[[sentence]]
+id = "4a64078223b1"
+section = "Occupied Resources"
+head = "`contracts/pulse-p025-measurement-contract.md` — the P-025 hue-shift mea"
+disposition = "kept"
+
+[[sentence]]
+id = "db506e878049"
+section = "Occupied Resources"
+head = "what Pulse would have to emit for its delegated ≤2 000 ms hue-shift budg"
+disposition = "kept"
+
+[[sentence]]
+id = "c775b4624bd4"
+section = "Occupied Resources"
+head = "It is the FIRST `contracts/` member with **NO Rust reader** — addressed "
+disposition = "kept"
+
+[[sentence]]
+id = "f3213863dfe4"
+section = "Occupied Resources"
+head = "Its `provenance` states it is a **Conductor measurement, not a transcrib"
+disposition = "kept"
+
+[[sentence]]
+id = "149b86d82fa0"
+section = "Occupied Resources"
+head = "the readings are Conductor's own (the 2026-08-21 and 2026-09-07 live leg"
+disposition = "kept"
+
+[[sentence]]
+id = "577e63d081de"
+section = "Occupied Resources"
+head = "`contracts/pulse-real-model-leg-posture.md` — the real-model leg posture"
+disposition = "kept"
+
+[[sentence]]
+id = "c1b029f01233"
+section = "Occupied Resources"
+head = "the launch posture, the emission profile (its premise that a hypothesis "
+disposition = "rewritten"
+anchor = "the launch posture, the emission profile, the grading rule and the per-leg quiet window"
+
+[[sentence]]
+id = "15d54d0f7328"
+section = "Occupied Resources"
+head = "§Established Decisions [Read-Back Dependency Posture]), the grading rule"
+disposition = "rewritten"
+anchor = "the grading rule and the per-leg quiet window under which a live leg runs with Pulse's deterministic L4 mode OFF — all fixed and committed BEFORE any such leg is driven, because a leg driven first and graded afterwards lets the grading be chosen to fit what happened"
+
+[[sentence]]
+id = "575998b1205c"
+section = "Occupied Resources"
+head = "Carries `sut_version` · `captured_at` · `pinned_at` · `provenance` on it"
+disposition = "kept"
+
+[[sentence]]
+id = "ffb3f4cacc8e"
+section = "Occupied Resources"
+head = "It is the **SECOND** `contracts/` member with **NO Rust reader**, taking"
+disposition = "rewritten"
+anchor = "It is the **SECOND** `contracts/` member with **NO Rust reader**, taking the P-025 regime above unchanged"
+
+[[sentence]]
+id = "38ef746a8901"
+section = "Occupied Resources"
+head = "no `default_path()`, no `resolve_under` load path, no bounds check and n"
+disposition = "rewritten"
+anchor = "no `default_path()`, no `resolve_under` load path, no bounds check and no `CONDUCTOR_*` override handle, and the runtime-read regime the four manifests"
+
+[[sentence]]
+id = "a3bbd57876d3"
+section = "Occupied Resources"
+head = "Its `provenance` is stated **per clause** — every Pulse coordinate is a "
+disposition = "rewritten"
+anchor = "while no real-model formation or pickup figure exists — the ~110 s figure is a DETERMINISTIC-L4 measurement"
+
+[[sentence]]
+id = "a6ea49f7dfd9"
+section = "Occupied Resources"
+head = "no real-model formation or pickup figure exists, the one drive (2026-09-"
+disposition = "rewritten"
+anchor = "no real-model formation or pickup figure exists"
+
+[[sentence]]
+id = "a99f768b7bbb"
+section = "Occupied Resources"
+head = "Its corrections are dated in-place records beside one dated measurement "
+disposition = "moved"
+
+[[sentence]]
+id = "8859b064d997"
+section = "Occupied Resources"
+head = "It NAMES only already-registered environment handles and mints none, and"
+disposition = "kept"
+
+[[sentence]]
+id = "eabb946a2d27"
+section = "Occupied Resources"
+head = "the leg whose firing form it fixed now ships in the harness shells as th"
+disposition = "kept"
+
+[[sentence]]
+id = "5018c7e9f346"
+section = "Occupied Resources"
+head = "**Environment variables:** Conductor reserves the `CONDUCTOR_*` env-var "
+disposition = "kept"
+
+[[sentence]]
+id = "8a97971e6f31"
+section = "Occupied Resources"
+head = "`CONDUCTOR_RUNS_DIR` — overrides the default `runs/` artifact directory "
+disposition = "kept"
+
+[[sentence]]
+id = "9a714ed042c9"
+section = "Occupied Resources"
+head = "`CONDUCTOR_SCENARIOS_DIR` — overrides the default `scenarios/` config di"
+disposition = "kept"
+
+[[sentence]]
+id = "dd4d29ecbc5d"
+section = "Occupied Resources"
+head = "`CONDUCTOR_CONTRACT_MANIFEST` — overrides the default pinned MCP contrac"
+disposition = "kept"
+
+[[sentence]]
+id = "ac30e4ee6eec"
+section = "Occupied Resources"
+head = "`CONDUCTOR_SEED` — seed override for headless runs (equivalent CLI flag "
+disposition = "kept"
+
+[[sentence]]
+id = "6b7c3a764ad0"
+section = "Occupied Resources"
+head = "env supports scripts/agent-run.sh parameterization)."
+disposition = "kept"
+
+[[sentence]]
+id = "f212cafdfc5a"
+section = "Occupied Resources"
+head = "`CONDUCTOR_SERVICE_NAME` — overrides the self-observation `service.name`"
+disposition = "kept"
+
+[[sentence]]
+id = "17941318a223"
+section = "Occupied Resources"
+head = "obs-plan §3."
+disposition = "kept"
+
+[[sentence]]
+id = "f786b77eea77"
+section = "Occupied Resources"
+head = "`CONDUCTOR_ENV` — self-observation `deployment.environment` field (defau"
+disposition = "kept"
+
+[[sentence]]
+id = "450f26b58fa1"
+section = "Occupied Resources"
+head = "`CONDUCTOR_AGENT_MODE` — read-only trigger for agent mode (routes the se"
+disposition = "kept"
+
+[[sentence]]
+id = "b4a54f48ab78"
+section = "Occupied Resources"
+head = "Set by the `--agent-mode` CLI flag OR exported by `scripts/agent-run.{sh"
+disposition = "kept"
+
+[[sentence]]
+id = "19aed2c00dc2"
+section = "Occupied Resources"
+head = "Conductor READS it (`agent_mode = flag || env-set`) and main never WRITE"
+disposition = "kept"
+
+[[sentence]]
+id = "1f32bb539fec"
+section = "Occupied Resources"
+head = "`CONDUCTOR_PREFLIGHT_TIMEOUT` — preflight readiness-gate timeout in seco"
+disposition = "kept"
+
+[[sentence]]
+id = "097c996ef3c7"
+section = "Occupied Resources"
+head = "**`boot` runs `conductor preconditions` as a LEADING arm and short-circu"
+disposition = "kept"
+
+[[sentence]]
+id = "fb53dc52e079"
+section = "Occupied Resources"
+head = "**That skip is CONDITIONAL:"
+disposition = "kept"
+
+[[sentence]]
+id = "23a1560940a1"
+section = "Occupied Resources"
+head = "it fires only on a genuinely unmet subject** (§Standard Contracts — Live"
+disposition = "rewritten"
+anchor = "under a satisfied environment the timeout is REACHED and PAID"
+
+[[sentence]]
+id = "54a04e58cc77"
+section = "Occupied Resources"
+head = "`scripts/agent-run.sh` 2026-09-04T17:07:17→17:08:04Z and `scripts/agent-"
+disposition = "moved"
+
+[[sentence]]
+id = "ce0f7c2a1b1e"
+section = "Occupied Resources"
+head = "Invoking `conductor preflight --json` directly remains a valid entry poi"
+disposition = "kept"
+
+[[sentence]]
+id = "7739f37bc44d"
+section = "Occupied Resources"
+head = "The run contract raises it to an effective FLOOR it can no longer sit be"
+disposition = "rewritten"
+anchor = "The run contract raises it to an effective FLOOR"
+
+[[sentence]]
+id = "cf31df318533"
+section = "Occupied Resources"
+head = "the bare default is shorter than Pulse's own L3 digest cadence, so it co"
+disposition = "rewritten"
+anchor = "the bare default is shorter than Pulse's own L3 digest cadence"
+
+[[sentence]]
+id = "e7c73d12d29c"
+section = "Occupied Resources"
+head = "The env handle still overrides upward."
+disposition = "rewritten"
+anchor = "the env handle still overrides upward"
+
+[[sentence]]
+id = "96f6875ca921"
+section = "Occupied Resources"
+head = "`CONDUCTOR_MSEDGEDRIVER` — the operator-owned native-WebDriver path the "
+disposition = "kept"
+
+[[sentence]]
+id = "3a0dda322e24"
+section = "Occupied Resources"
+head = "Read ONLY by `crates/conductor-tauri/ui/wdio.conf.ts` (never by a shippe"
+disposition = "rewritten"
+anchor = "gates the routine `--e2e` arm, the operator-local `a11y:driven` arm and the `sr*` screen-reader suites alike — never written by Conductor, and never interpolated into a shell"
+
+[[sentence]]
+id = "8619043ebbd0"
+section = "Occupied Resources"
+head = "it is validated at the harness edge (existence + `isFile` + shell-metach"
+disposition = "kept"
+
+[[sentence]]
+id = "31363eb4ccbf"
+section = "Occupied Resources"
+head = "Unset — or set to a path that is not an existing file — makes whichever "
+disposition = "rewritten"
+anchor = "the requesting arm **SKIPs at exit 0** with a host-path-free precondition plus a fetch recipe"
+
+[[sentence]]
+id = "b4257828051e"
+section = "Occupied Resources"
+head = "That skip is the LAX arm and is no longer unconditional:"
+disposition = "rewritten"
+anchor = "under an affirmative `CONDUCTOR_A11Y_STRICT` it exits NON-ZERO instead"
+
+[[sentence]]
+id = "d4a2b306f601"
+section = "Occupied Resources"
+head = "under an affirmative `CONDUCTOR_A11Y_STRICT` the same unresolved handle "
+disposition = "rewritten"
+anchor = "under an affirmative `CONDUCTOR_A11Y_STRICT` it exits NON-ZERO instead, because a CI gate that can pass by skipping is banned"
+
+[[sentence]]
+id = "17deb2e74ad8"
+section = "Occupied Resources"
+head = "One of TWO handles in this namespace naming a HOST dev-tool this documen"
+disposition = "rewritten"
+anchor = "both validated and spawned the same way, so neither value is ever committed"
+
+[[sentence]]
+id = "b22f86cd6b07"
+section = "Occupied Resources"
+head = "`CONDUCTOR_NVDA` — the operator-owned path of a PORTABLE NVDA executable"
+disposition = "rewritten"
+anchor = "`CONDUCTOR_NVDA` — the operator-owned path of a PORTABLE NVDA executable the screen-reader leg starts and quits around the driver (`startNvda` / `stopNvda` in `crates/conductor-tauri/ui/wdio.conf.ts`, the ONLY reader — never a shipped binary"
+
+[[sentence]]
+id = "2d89698940f0"
+section = "Occupied Resources"
+head = "added 2026-09-02)."
+disposition = "moved"
+
+[[sentence]]
+id = "a303cab82205"
+section = "Occupied Resources"
+head = "Validated at the harness edge exactly like `CONDUCTOR_MSEDGEDRIVER` (exi"
+disposition = "rewritten"
+anchor = "and used only as the program of an array-form, detached spawn with a fixed argv (`-m --no-sr-flag -c <leg config dir> -l 12 -f <leg speech log>`, then `-q`), never interpolated into a shell"
+
+[[sentence]]
+id = "2e58d1515eee"
+section = "Occupied Resources"
+head = "Unset — or set to a path that is not an existing file — makes the `sr` /"
+disposition = "rewritten"
+anchor = "the `sr` / `sr-empty` / `sr-error` suites **SKIP at exit 0** with a host-path-free precondition plus a fetch recipe naming the handle, never its value"
+
+[[sentence]]
+id = "23bf74820107"
+section = "Occupied Resources"
+head = "As with `CONDUCTOR_MSEDGEDRIVER`, that exit-0 skip is the LAX arm:"
+disposition = "rewritten"
+anchor = "both skip sites route through one `exitUnresolvedHandle()`"
+
+[[sentence]]
+id = "58ccdaf26dab"
+section = "Occupied Resources"
+head = "both skip sites route through one `exitUnresolvedHandle()`, so an affirm"
+disposition = "rewritten"
+anchor = "both skip sites route through one `exitUnresolvedHandle()`, so an affirmative `CONDUCTOR_A11Y_STRICT` makes"
+
+[[sentence]]
+id = "0307d7fbd5ce"
+section = "Occupied Resources"
+head = "The value is never logged, echoed into an artifact, or committed."
+disposition = "kept"
+
+[[sentence]]
+id = "1a6986de9a35"
+section = "Occupied Resources"
+head = "`CONDUCTOR_E2E_SEED_DIR` — the repo-relative fixture runs dir the webvie"
+disposition = "kept"
+
+[[sentence]]
+id = "5d285dea708f"
+section = "Occupied Resources"
+head = "SET by `crates/conductor-tauri/ui/wdio.conf.ts`'s `onPrepare` to a harne"
+disposition = "kept"
+
+[[sentence]]
+id = "195588cc9fd7"
+section = "Occupied Resources"
+head = "READ only by `crates/conductor-run/tests/envelope_fixture.rs`, never by "
+disposition = "rewritten"
+anchor = "READ only by `crates/conductor-run/tests/envelope_fixture.rs`, never by a shipped binary"
+
+[[sentence]]
+id = "6b1539272221"
+section = "Occupied Resources"
+head = "It is the THIRD handle class in this namespace and its control model is "
+disposition = "rewritten"
+anchor = "The THIRD handle class in this namespace"
+
+[[sentence]]
+id = "e5b0a3ae982c"
+section = "Occupied Resources"
+head = "the value is not operator-supplied, so there is no `isFile` / shell-meta"
+disposition = "rewritten"
+anchor = "the value is not operator-supplied, so no `isFile` / shell-metacharacter guard applies"
+
+[[sentence]]
+id = "83e3f1227548"
+section = "Occupied Resources"
+head = "Unset, the seeding test is a **no-op**, so an ordinary `cargo nextest` /"
+disposition = "kept"
+
+[[sentence]]
+id = "54d503f7c605"
+section = "Occupied Resources"
+head = "Distinct from `CONDUCTOR_MSEDGEDRIVER` / `CONDUCTOR_NVDA`, which name HO"
+disposition = "rewritten"
+anchor = "`CONDUCTOR_MSEDGEDRIVER` / `CONDUCTOR_NVDA`, which name HOST dev-tools"
+
+[[sentence]]
+id = "46a77d6d99a9"
+section = "Occupied Resources"
+head = "this one names a path this document does."
+disposition = "rewritten"
+anchor = "it names a path this document defines"
+
+[[sentence]]
+id = "5c7e26c7021c"
+section = "Occupied Resources"
+head = "`CONDUCTOR_A11Y_STRICT` — the CI strictness flag that inverts the a11y l"
+disposition = "rewritten"
+anchor = "`CONDUCTOR_A11Y_STRICT` — the CI strictness flag that inverts the a11y leg's unresolved-handle behaviour"
+
+[[sentence]]
+id = "7e5a0f0fa4b2"
+section = "Occupied Resources"
+head = "**A FOURTH handle class, and its control model is none of the other thre"
+disposition = "rewritten"
+anchor = "FLAG-valued (affirmative `\"true\"` / `\"1\"`, mirroring `conductor_core::flag_declared`), never a path"
+
+[[sentence]]
+id = "9437311a6586"
+section = "Occupied Resources"
+head = "It is read by `crates/conductor-tauri/ui/wdio.conf.ts` AND by both harne"
+disposition = "rewritten"
+anchor = "ead by `crates/conductor-tauri/ui/wdio.conf.ts` AND by both harness shells' verdict assertions (`assert_a11y_verdict` / `Assert-A11yVerdict`), never by a shipped binary — a READER set no other class has"
+
+[[sentence]]
+id = "3d356e4132e9"
+section = "Occupied Resources"
+head = "Unset or falsy, the leg keeps its documented skip-at-exit-0 so an unconf"
+disposition = "rewritten"
+anchor = "skip-at-exit-0 so an unconfigured dev host is never read as a defect"
+
+[[sentence]]
+id = "77f6b12eeb44"
+section = "Occupied Resources"
+head = "affirmatively declared, an unresolved `CONDUCTOR_MSEDGEDRIVER` / `CONDUC"
+disposition = "rewritten"
+anchor = "affirmatively declared, an unresolved `CONDUCTOR_MSEDGEDRIVER` / `CONDUCTOR_NVDA` exits NON-ZERO, which"
+
+[[sentence]]
+id = "3d2be96fbeeb"
+section = "Occupied Resources"
+head = "Its value is never logged, echoed into an artifact, or committed;"
+disposition = "kept"
+
+[[sentence]]
+id = "65e5d8bc3690"
+section = "Occupied Resources"
+head = "the precondition text names the handle only."
+disposition = "kept"
+
+[[sentence]]
+id = "6a2d08183c38"
+section = "Occupied Resources"
+head = "The strictness is an ADDED arm over the existing guards — never a relaxa"
+disposition = "kept"
+
+[[sentence]]
+id = "c45074b92362"
+section = "Occupied Resources"
+head = "`ANDROMEDA_PULSE_MCP_ENABLED` — Pulse-side flag that gates the live MCP "
+disposition = "kept"
+
+[[sentence]]
+id = "46d4255f946a"
+section = "Occupied Resources"
+head = "asserted **not** set by Conductor itself."
+disposition = "kept"
+
+[[sentence]]
+id = "12d82069456f"
+section = "Occupied Resources"
+head = "Conductor READS it in its own environment two ways:"
+disposition = "rewritten"
+anchor = "Conductor READS it in its own environment"
+
+[[sentence]]
+id = "63877e23d68e"
+section = "Occupied Resources"
+head = "as the run contract's SECOND `shell-declaration` term (`mcp-enabled`), a"
+disposition = "rewritten"
+anchor = "and as one of the three `ANDROMEDA_PULSE_*` declaration subjects `conductor preconditions` observes"
+
+[[sentence]]
+id = "4062b2ae1e30"
+section = "Occupied Resources"
+head = "The probe's REPORTING is name-only (a finding names handles, never value"
+disposition = "rewritten"
+anchor = "name-only (a finding names handles, never values"
+
+[[sentence]]
+id = "39c1be7e19af"
+section = "Occupied Resources"
+head = "this flag and `ANDROMEDA_PULSE_L4_DETERMINISTIC` keep the truthy `\"true\""
+disposition = "rewritten"
+anchor = "the truthy `\"true\"`/`\"1\"` gate (`conductor_core::flag_declared`) under the deterministic posture — under the real-model posture the L4 handle is graded for ABSENCE"
+
+[[sentence]]
+id = "19b4ec486690"
+section = "Occupied Resources"
+head = "An absent declaration of THIS handle is named upstream as an unmet contr"
+disposition = "rewritten"
+anchor = "An absent declaration of THIS handle is named upstream as an unmet contract term AND"
+
+[[sentence]]
+id = "8ec27c41abb4"
+section = "Occupied Resources"
+head = "`ANDROMEDA_PULSE_MCP_ENABLED=false` leaves `handles-declared` naming tha"
+disposition = "rewritten"
+anchor = "`ANDROMEDA_PULSE_MCP_ENABLED=false` leaves `handles-declared` naming that handle alone"
+
+[[sentence]]
+id = "66cb50124712"
+section = "Occupied Resources"
+head = "`ANDROMEDA_PULSE_L4_DETERMINISTIC` — Pulse-side flag that swaps a canned"
+disposition = "kept"
+
+[[sentence]]
+id = "5eb418adc3a6"
+section = "Occupied Resources"
+head = "Asserted **not** set by Conductor itself;"
+disposition = "kept"
+
+[[sentence]]
+id = "e89b2bc1d63e"
+section = "Occupied Resources"
+head = "Conductor READS it in its own environment — the shell that launches Cond"
+disposition = "kept"
+
+[[sentence]]
+id = "33594ab6dc95"
+section = "Occupied Resources"
+head = "Under the deterministic posture it is one of the two handles the run con"
+disposition = "kept"
+
+[[sentence]]
+id = "f1c0f045ceeb"
+section = "Occupied Resources"
+head = "Under the real-model posture it is read for ABSENCE — the `l4-real-model"
+disposition = "kept"
+
+[[sentence]]
+id = "d36b811d7494"
+section = "Occupied Resources"
+head = "Read, never written;"
+disposition = "kept"
+
+[[sentence]]
+id = "a9b126e65ab2"
+section = "Occupied Resources"
+head = "the observed handle set stays two;"
+disposition = "kept"
+
+[[sentence]]
+id = "133e4e880e8b"
+section = "Occupied Resources"
+head = "never a claimed measurement of `pulse-app`."
+disposition = "kept"
+
+[[sentence]]
+id = "338f5fda924a"
+section = "Occupied Resources"
+head = "`ANDROMEDA_PULSE_DATA_DIR` — the live Pulse-under-test's data directory."
+disposition = "kept"
+
+[[sentence]]
+id = "ebd2670753d8"
+section = "Occupied Resources"
+head = "**Conductor MUST propagate it to the spawned `andromeda-pulse-mcp` sidec"
+disposition = "kept"
+
+[[sentence]]
+id = "ae12e3f668c5"
+section = "Occupied Resources"
+head = "the read-back tools filter incidents by the `workspace` column, whose va"
+disposition = "kept"
+
+[[sentence]]
+id = "2fabe7f53234"
+section = "Occupied Resources"
+head = "measured 2026-09-01, HEAD `83d4060`) — so the `= data_dir` equality no l"
+disposition = "kept"
+
+[[sentence]]
+id = "f8abf64bec7c"
+section = "Occupied Resources"
+head = "a mismatch makes every `query_incident_list` come back empty (false pass"
+disposition = "kept"
+
+[[sentence]]
+id = "fdcdfc803e46"
+section = "Occupied Resources"
+head = "If the live Pulse leaves it unset, Conductor resolves and passes the ide"
+disposition = "kept"
+
+[[sentence]]
+id = "35eef09f2525"
+section = "Occupied Resources"
+head = "The preflight canary verifies the wiring."
+disposition = "kept"
+
+[[sentence]]
+id = "bd93a98f1bf0"
+section = "Occupied Resources"
+head = "`EDGEWEBDRIVER` — the GitHub runner image's own path to the Microsoft Ed"
+disposition = "kept"
+
+[[sentence]]
+id = "bc6559f09d85"
+section = "Occupied Resources"
+head = "**Not a Conductor handle and not in the reserved namespace**;"
+disposition = "kept"
+
+[[sentence]]
+id = "04fc37c4a310"
+section = "Occupied Resources"
+head = "registered because a SHIPPED artifact names, WRITES and reads it."
+disposition = "kept"
+
+[[sentence]]
+id = "332fe28252b0"
+section = "Occupied Resources"
+head = "Since 2026-09-17 the `a11y` job's pin gate SETS it through `GITHUB_ENV` "
+disposition = "rewritten"
+anchor = "he `a11y` job's pin gate SETS it through `GITHUB_ENV` to name the driver directory the job itself fetched and Authenticode-verified — the runner image's own value is deliberately overwritten, because that image ships a floating driver incoherent with its WebView2 runtime — and the asserting step then resolves `CONDUCTOR_MSEDGEDRIVER` from it in the step SHELL (`$env:EDGEWEBDRIVER`), because GitHub's `${{ env.* }}` expression context holds only workflow/job/step declarations and never a runner-process variable"
+
+[[sentence]]
+id = "2a804d772996"
+section = "Occupied Resources"
+head = "The step prints a handle-named `Test-Path` precondition (handle NAME + b"
+disposition = "kept"
+
+[[sentence]]
+id = "04d9a66183f3"
+section = "Occupied Resources"
+head = "On the dev host the path stays operator-owned;"
+disposition = "rewritten"
+anchor = "On the dev host the path stays operator-owned"
+
+[[sentence]]
+id = "14400e841362"
+section = "Occupied Resources"
+head = "`crates/conductor-tauri/ui/wdio.conf.ts` remains the only READER of `CON"
+disposition = "rewritten"
+anchor = "Read ONLY by `crates/conductor-tauri/ui/wdio.conf.ts` (never by a shipped binary)"
+
+[[sentence]]
+id = "a871bcc6ac93"
+section = "Occupied Resources"
+head = "No value is logged or committed on either side."
+disposition = "kept"
+
+[[sentence]]
+id = "a7fc7bbe8f34"
+section = "Occupied Resources"
+head = "`ANDROMEDA_PULSE_BASELINE_BOOTSTRAP_SECONDS` — the Pulse-side per-servic"
+disposition = "kept"
+
+[[sentence]]
+id = "914fd5a1dac5"
+section = "Occupied Resources"
+head = "**The one registered handle Conductor neither SETS nor READS**, and the "
+disposition = "rewritten"
+anchor = "The one registered handle Conductor neither SETS nor READS"
+
+[[sentence]]
+id = "be7707db8ae3"
+section = "Occupied Resources"
+head = "a SHIPPED artifact names it in its own output — the `run --live` banner "
+disposition = "rewritten"
+anchor = "a SHIPPED artifact names it in its own output — the `run --live` banner in both `scripts/agent-run.{sh,ps1}`"
+
+[[sentence]]
+id = "92199fa5fdc9"
+section = "Occupied Resources"
+head = "It is a BOOT-TIME posture, resolved once by `Thresholds::from_env()` at "
+disposition = "rewritten"
+anchor = "BOOT-TIME posture, resolved once by `Thresholds::from_env()` at `pulse-app/src/main.rs:472` (measured 2026-09-07, HEAD `83d4060`"
+
+[[sentence]]
+id = "50319f61e3c7"
+section = "Occupied Resources"
+head = "the operator's launch carries it, and it governs every leg of that run."
+disposition = "rewritten"
+anchor = "so the operator's launch carries it and it governs every leg of that run"
+
+[[sentence]]
+id = "49ff9ff4412e"
+section = "Occupied Resources"
+head = "Load-bearing for the auto-resolve leg — a stretched window disarms the s"
+disposition = "kept"
+
+[[sentence]]
+id = "5dab3b024d43"
+section = "Occupied Resources"
+head = "Distinct from the two `shell-declaration` run-contract terms and from th"
+disposition = "rewritten"
+anchor = "the three `ANDROMEDA_PULSE_*` subjects `conductor preconditions` observes"
+
+[[sentence]]
+id = "f29143daf99d"
+section = "Occupied Resources"
+head = "it is neither."
+disposition = "rewritten"
+anchor = "It is neither a `shell-declaration` run-contract term nor"
+
+[[sentence]]
+id = "808fc177ca72"
+section = "Occupied Resources"
+head = "Which posture actually booted is read from Pulse's own log at the TARGET"
+disposition = "kept"
+
+[[sentence]]
+id = "c3dd14a6b9ab"
+section = "Occupied Resources"
+head = "`WEBVIEW2_USER_DATA_FOLDER` · `WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS` — "
+disposition = "kept"
+
+[[sentence]]
+id = "9a68d8ef03de"
+section = "Occupied Resources"
+head = "**Not Conductor handles and not in the reserved namespace**, and a THIRD"
+disposition = "kept"
+
+[[sentence]]
+id = "0b124a3c58e7"
+section = "Occupied Resources"
+head = "a SHIPPED artifact SETS them but never READS them."
+disposition = "kept"
+
+[[sentence]]
+id = "8abd741ea243"
+section = "Occupied Resources"
+head = "`.github/workflows/ci.yml`'s `a11y` job sets both for probe (a) of its `"
+disposition = "kept"
+
+[[sentence]]
+id = "88f4dadf8677"
+section = "Occupied Resources"
+head = "They are read by the WebView2 loader alone — by no shipped binary and no"
+disposition = "rewritten"
+anchor = "Read by the WebView2 loader alone"
+
+[[sentence]]
+id = "b77dd3e889f3"
+section = "Occupied Resources"
+head = "their whole lifetime is that one `continue-on-error` diagnostic step."
+disposition = "kept"
+
+[[sentence]]
+id = "309468d6d76b"
+section = "Occupied Resources"
+head = "Registered on the discoverability ground the `ANDROMEDA_PULSE_BASELINE_B"
+disposition = "rewritten"
+anchor = "Registered so a reader meeting a name in a committed workflow can find it here"
+
+[[sentence]]
+id = "577c04f14b1a"
+section = "Occupied Resources"
+head = "a reader meeting a name in a committed workflow must be able to find it "
+disposition = "rewritten"
+anchor = "a reader meeting a name in a committed workflow"
+
+[[sentence]]
+id = "5ceaa9b6e202"
+section = "Occupied Resources"
+head = "**The `EDGEWEBDRIVER` names-AND-reads bar does not apply** — Conductor n"
+disposition = "rewritten"
+anchor = "he `EDGEWEBDRIVER` names-AND-reads bar does not apply"
+
+[[sentence]]
+id = "c04b8d2b504a"
+section = "Occupied Resources"
+head = "Added 2026-09-08 (`2026-09-08-hosted-runner-webview2-session`), operator"
+disposition = "moved"
+
+[[sentence]]
+id = "296aaa8007ad"
+section = "Occupied Resources"
+head = "`RUNNER_TEMP` — the GitHub runner image's per-job temp directory."
+disposition = "kept"
+
+[[sentence]]
+id = "aa70fc9baeaa"
+section = "Occupied Resources"
+head = "registered on the `EDGEWEBDRIVER` basis — a SHIPPED artifact READS it, a"
+disposition = "kept"
+
+[[sentence]]
+id = "4b8c3142e687"
+section = "Occupied Resources"
+head = "`.github/workflows/ci.yml`'s `a11y` job reads it in the `WebView2 sessio"
+disposition = "rewritten"
+anchor = "`.github/workflows/ci.yml`'s `a11y` job reads it in the `WebView2 session isolation (diagnostic)` step and"
+
+[[sentence]]
+id = "318afa7dab3d"
+section = "Occupied Resources"
+head = "That pin gate DOES set an environment handle — `EDGEWEBDRIVER`, through "
+disposition = "moved"
+
+[[sentence]]
+id = "214e71587779"
+section = "Occupied Resources"
+head = "`TEMP` · `LOCALAPPDATA` — the Windows per-user temp and local-app-data d"
+disposition = "kept"
+
+[[sentence]]
+id = "435ff0fdef09"
+section = "Occupied Resources"
+head = "**Not Conductor handles and not in the reserved namespace**;"
+disposition = "kept"
+
+[[sentence]]
+id = "af044c76d916"
+section = "Occupied Resources"
+head = "registered on the `EDGEWEBDRIVER` / `RUNNER_TEMP` basis — a SHIPPED arti"
+disposition = "kept"
+
+[[sentence]]
+id = "222e36ab364f"
+section = "Occupied Resources"
+head = "`.github/workflows/ci.yml`'s `a11y` job reads `TEMP` in the `WebView2 se"
+disposition = "kept"
+
+[[sentence]]
+id = "0dee6f17a0ed"
+section = "Occupied Resources"
+head = "Neither is set by Conductor, neither carries a configuration contract, a"
+disposition = "kept"
+
+[[sentence]]
+id = "6aad76125fab"
+section = "Occupied Resources"
+head = "Registered 2026-09-11 as a PRE-EXISTING gap surfaced by `2026-09-11-host"
+disposition = "moved"
+
+[[sentence]]
+id = "1e74a02ce43e"
+section = "Occupied Resources"
+head = "`RUST_LOG` — the `tracing` filter directive whose level forms obs-plan §"
+disposition = "kept"
+
+[[sentence]]
+id = "7a779cac4ffa"
+section = "Occupied Resources"
+head = "registered on the `EDGEWEBDRIVER` basis — shipped artifacts act on it:"
+disposition = "kept"
+
+[[sentence]]
+id = "b6781263aa94"
+section = "Occupied Resources"
+head = "since 2026-09-22 the `run --live real-model` arm of both harness shells "
+disposition = "kept"
+
+[[sentence]]
+id = "e97ea98e6b2c"
+section = "Occupied Resources"
+head = "Conductor never otherwise sets it;"
+disposition = "kept"
+
+[[sentence]]
+id = "78d85906e9ee"
+section = "Occupied Resources"
+head = "no value is logged or committed, and no `CONDUCTOR_*` namespace claim is"
+disposition = "kept"
+
+[[sentence]]
+id = "81f3b5cf678d"
+section = "Occupied Resources"
+head = "Pulse-side `mcp-server` cargo feature must be built — a precondition Con"
+disposition = "kept"
+
+[[sentence]]
+id = "f39b2dbcef49"
+section = "Occupied Resources"
+head = "No `DATABASE_URL` (SQLite path is a local file), no secrets/cloud env va"
+disposition = "kept"

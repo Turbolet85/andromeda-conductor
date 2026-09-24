@@ -1,0 +1,299 @@
+[
+{
+"tool": "gate",
+"v": "1.1",
+"sha8": "4c16668f",
+"ts": "2026-09-24T09:09:50Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-24-architecture-registries-compacted-under-the-read-cap/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-24T08-36-40-wrap",
+"--marker",
+"2026-09-24-architecture-registries-compacted-under-the-read-cap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-24-architecture-registries-compacted-under-the-read-cap · entries 9",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-architecture-registries-compacted-under-the-read-cap\\wrap-2026-09-24T08-36-40 · bound: GNU timeout",
+"delta docs 42 · python 3 · unmapped 1",
+"prose L206-215: - **No smoke, no live leg, no self-verify.** Nothing here is a boot-path or a UI surface: … (846 chars)",
+"  1 lint        green · exit 0 · 0.13s · 0 B → 1.log · python -X utf8 -m py_compile scripts/arch-registry-check.p… (59 chars)",
+"  2 probe       green · exit 1 · 0.16s · 248 B → 2.log · python -X utf8 scripts/arch-registry-check.py measure --re… (64 chars)",
+"  3 unit        green · exit 0 · 0.73s · 347 B → 3.log · python -X utf8 scripts/arch-registry-check.py selftest --b… (179 chars)",
+"  4 unit        green · exit 0 · 0.24s · 270 B → 4.log · python -X utf8 scripts/arch-registry-check.py check --befo… (176 chars)",
+"  5 probe       recorded · exit 0 · 0.2s · 63450 B → 5.log · python -X utf8 scripts/arch-registry-check.py ledger-show … (193 chars)",
+"  6 unit        green · exit 0 · 0.06s · 75836 B → 6.log · cat conductor-0.3.0/chunks/2026-09-24-architecture-registr… (246 chars)",
+"  7 probe       recorded · exit 0 · 0.17s · 145 B → 7.log · python -X utf8 scripts/arch-registry-check.py status --dra… (159 chars)",
+"  8 unit        not run — defer (key): zero .rs delta and no uncommitted file a… (220 chars) · cargo nextest run --workspace --profile ci",
+"  9 lint        not run — defer (key): zero .rs delta — the source-delta rule; … (81 chars) · cargo clippy --workspace --all-targets -- -D warnings",
+"entries 9 · green 5 · red 0 · recorded 2 · timeout 0 · not-run 2"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-24-architecture-registries-compacted-under-the-read-cap",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-24-architecture-registries-compacted-under-the-read-cap\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-architecture-registries-compacted-under-the-read-cap\\wrap-2026-09-24T08-36-40",
+"delta": {
+"docs": [
+".andromeda/architecture-amendments.md",
+".andromeda/architecture.md",
+".andromeda/drift-base.md",
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/playbook.md",
+".andromeda/state.yaml",
+".claude/docs/session-learnings.md",
+".claude/docs/stack.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+".andromeda/runs/2026-09-24T06-20-18-phase/.raw-arch.md",
+".andromeda/runs/2026-09-24T06-20-18-phase/.raw-obs.md",
+".andromeda/runs/2026-09-24T06-20-18-phase/a11y.md",
+".andromeda/runs/2026-09-24T06-20-18-phase/arch.md",
+".andromeda/runs/2026-09-24T06-20-18-phase/design.md",
+".andromeda/runs/2026-09-24T06-20-18-phase/gate-2026-09-24-architecture-registries-compacted-under-the-read-cap.json",
+".andromeda/runs/2026-09-24T06-20-18-phase/layouts.md",
+".andromeda/runs/2026-09-24T06-20-18-phase/master-record.txt",
+".andromeda/runs/2026-09-24T06-20-18-phase/matrix-2026-09-24-architecture-registries-compacted-under-the-read-cap.json",
+".andromeda/runs/2026-09-24T06-20-18-phase/obs.md",
+".andromeda/runs/2026-09-24T06-20-18-phase/route-2026-09-24-architecture-registries-compacted-under-the-read-cap.json",
+".andromeda/runs/2026-09-24T06-20-18-phase/route-no-marker.json",
+".andromeda/runs/2026-09-24T06-20-18-phase/security.md",
+".andromeda/runs/2026-09-24T06-20-18-phase/tests.md",
+".andromeda/runs/2026-09-24T07-39-40-implement/gate-2026-09-24-architecture-registries-compacted-under-the-read-cap.json",
+".andromeda/runs/2026-09-24T08-36-40-wrap/.raw-fanout-architecture.md",
+".andromeda/runs/2026-09-24T08-36-40-wrap/architecture-entry-head.md",
+".andromeda/runs/2026-09-24T08-36-40-wrap/architecture-entry.md",
+".andromeda/runs/2026-09-24T08-36-40-wrap/code-graph-refresh.log",
+".andromeda/runs/2026-09-24T08-36-40-wrap/curation.md",
+".andromeda/runs/2026-09-24T08-36-40-wrap/fanout-results.md",
+".andromeda/runs/2026-09-24T08-36-40-wrap/route-no-marker.json",
+".andromeda/runs/2026-09-24T08-36-40-wrap/splice-2026-09-24-architecture-registries-compacted-under-the-read-cap.json",
+"conductor-0.3.0/chunks/2026-09-24-architecture-registries-compacted-under-the-read-cap/compaction/established-decisions.md",
+"conductor-0.3.0/chunks/2026-09-24-architecture-registries-compacted-under-the-read-cap/compaction/moved-history.md",
+"conductor-0.3.0/chunks/2026-09-24-architecture-registries-compacted-under-the-read-cap/compaction/occupied-resources.md",
+"conductor-0.3.0/chunks/2026-09-24-architecture-registries-compacted-under-the-read-cap/evidence/compaction-verdict.md",
+"conductor-0.3.0/chunks/2026-09-24-architecture-registries-compacted-under-the-read-cap/plan.md",
+"conductor-0.3.0/chunks/2026-09-24-architecture-registries-compacted-under-the-read-cap/report.md",
+"conductor-0.3.0/chunks/2026-09-24-architecture-registries-compacted-under-the-read-cap/research.md",
+"conductor-0.3.0/chunks/2026-09-24-architecture-registries-compacted-under-the-read-cap/scope.md"
+],
+"python": [
+".andromeda/runs/2026-09-24T06-20-18-phase/armd-reach.py",
+".andromeda/runs/2026-09-24T06-20-18-phase/atom-control.py",
+"scripts/arch-registry-check.py"
+]
+},
+"unmapped": [
+"conductor-0.3.0/chunks/2026-09-24-architecture-registries-compacted-under-the-read-cap/compaction/disposition-ledger.toml"
+],
+"prose": [
+{
+"from": 206,
+"to": 215,
+"text": "- **No smoke, no live leg, no self-verify.** Nothing here is a boot-path or a UI surface: the modify-set is one   stdlib script and chunk-folder documents. - **Rust gates defer.** `cargo nextest` and `cargo clippy` carry `defer`: zero `.rs` delta, and no uncommitted file   a Rust test reads. /implement re-verifies that through `gate.py delta --defer-check rust`, and the entries run if   the delta says otherwise. No capability is claimed (§Verification ledger), so P5 leaves   `verification-matrix.json` unwritten and `matrix_ledger_gate` has no new input. - **No frontend gate.** No TS delta. - **Pre-commit scope.** The `--rev HEAD` entries read HEAD as the pre-compaction tree. That holds at /implement   and at the wrap P7 light gate, which runs before the commit. It is not true afterwards, and nothing re-runs   these entries afterwards."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "lint",
+"run": "python -X utf8 -m py_compile scripts/arch-registry-check.py",
+"run_sha8": "350e4d5c",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-architecture-registries-compacted-under-the-read-cap\\wrap-2026-09-24T08-36-40\\1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.13,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "probe",
+"run": "python -X utf8 scripts/arch-registry-check.py measure --rev HEAD",
+"run_sha8": "e50ddc1d",
+"expect": [
+"exit 1",
+"last line registries: OVER target"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-architecture-registries-compacted-under-the-read-cap\\wrap-2026-09-24T08-36-40\\2.log",
+"bytes": 248,
+"log_sha8": "c75f5cd0",
+"exit": 1,
+"seconds": 0.16,
+"readings": [
+"exit 1 ✓",
+"last line 'registries: OVER target' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "python -X utf8 scripts/arch-registry-check.py selftest --before-rev HEAD --drafts conductor-0.3.0/chunks/2026-09-24-architecture-registries-compacted-under-the-read-cap/compaction",
+"run_sha8": "2e74a9be",
+"expect": [
+"exit 0",
+"last line selftest: every arm detected"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-architecture-registries-compacted-under-the-read-cap\\wrap-2026-09-24T08-36-40\\3.log",
+"bytes": 347,
+"log_sha8": "ec9ce65a",
+"exit": 0,
+"seconds": 0.73,
+"readings": [
+"exit 0 ✓",
+"last line 'selftest: every arm detected' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "python -X utf8 scripts/arch-registry-check.py check --before-rev HEAD --drafts conductor-0.3.0/chunks/2026-09-24-architecture-registries-compacted-under-the-read-cap/compaction",
+"run_sha8": "1459e31c",
+"expect": [
+"exit 0",
+"last line arch-registry-check: PASS"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-architecture-registries-compacted-under-the-read-cap\\wrap-2026-09-24T08-36-40\\4.log",
+"bytes": 270,
+"log_sha8": "f2de586c",
+"exit": 0,
+"seconds": 0.24,
+"readings": [
+"exit 0 ✓",
+"last line 'arch-registry-check: PASS' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "probe",
+"run": "python -X utf8 scripts/arch-registry-check.py ledger-show --before-rev HEAD --drafts conductor-0.3.0/chunks/2026-09-24-architecture-registries-compacted-under-the-read-cap/compaction --judgment",
+"run_sha8": "9dd22eea",
+"expect": [],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-architecture-registries-compacted-under-the-read-cap\\wrap-2026-09-24T08-36-40\\5.log",
+"bytes": 63450,
+"log_sha8": "20887d77",
+"exit": 0,
+"seconds": 0.2,
+"readings": [
+"report-only (expect = [])"
+],
+"survivors": [],
+"outcome": "recorded"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "cat conductor-0.3.0/chunks/2026-09-24-architecture-registries-compacted-under-the-read-cap/compaction/established-decisions.md conductor-0.3.0/chunks/2026-09-24-architecture-registries-compacted-under-the-read-cap/compaction/occupied-resources.md",
+"run_sha8": "617d67ba",
+"expect": [
+"exit 0",
+"contains windows-2022",
+"contains CONDUCTOR_A11Y_STRICT",
+"contains journal_conformance",
+"contains runs/a11y",
+"contains operator-local",
+"contains grounded",
+"contains coverage_gate",
+"contains scenario_audit_gate",
+"contains run --live real-model",
+"contains No inbound listener",
+"contains No `DATABASE_URL`",
+"contains no secrets/cloud env vars",
+"contains :4318"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-architecture-registries-compacted-under-the-read-cap\\wrap-2026-09-24T08-36-40\\6.log",
+"bytes": 75836,
+"log_sha8": "03cd5dcf",
+"exit": 0,
+"seconds": 0.06,
+"readings": [
+"exit 0 ✓",
+"contains 'windows-2022' ✓",
+"contains 'CONDUCTOR_A11Y_STRICT' ✓",
+"contains 'journal_conformance' ✓",
+"contains 'runs/a11y' ✓",
+"contains 'operator-local' ✓",
+"contains 'grounded' ✓",
+"contains 'coverage_gate' ✓",
+"contains 'scenario_audit_gate' ✓",
+"contains 'run --live real-model' ✓",
+"contains 'No inbound listener' ✓",
+"contains 'No `DATABASE_URL`' ✓",
+"contains 'no secrets/cloud env vars' ✓",
+"contains ':4318' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "python -X utf8 scripts/arch-registry-check.py status --drafts conductor-0.3.0/chunks/2026-09-24-architecture-registries-compacted-under-the-read-cap/compaction",
+"run_sha8": "3a02a3b4",
+"expect": [],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-24-architecture-registries-compacted-under-the-read-cap\\wrap-2026-09-24T08-36-40\\7.log",
+"bytes": 145,
+"log_sha8": "848ec5de",
+"exit": 0,
+"seconds": 0.17,
+"readings": [
+"report-only (expect = [])"
+],
+"survivors": [],
+"outcome": "recorded"
+},
+{
+"n": 8,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — defer (key): zero .rs delta and no uncommitted file a… (220 chars)"
+},
+{
+"n": 9,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — defer (key): zero .rs delta — the source-delta rule; … (81 chars)"
+}
+]
+}
+}
+]

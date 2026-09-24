@@ -1,6 +1,32 @@
 # Session Learnings
 
 _This file is curated by `/wrap-session`. Learnings captured here are too detailed or specific for CLAUDE.md but worth preserving as reference material for future sessions._
+## 2026-09-24 — `gate.py delta --defer-check` voids on a BASENAME, and `--only` will not fire a deferred entry
+
+The deferral check greps each uncommitted file's basename fixed-string over the language's source tree. An
+untracked phase-run extract named `security.md` therefore matches any Rust doc comment citing
+`.claude/rules/security.md`: a different file, never read, but a hit, so the deferral is voided. Read the hit
+before believing it.
+
+When a void does stand, `gate.py run --only {n}` still prints `not run — defer (key)` for a `defer`-keyed entry
+and runs nothing. The route that exists is driving the entry's exact `run` string by hand, with the exit read
+from the bare command and the result recorded in the chunk evidence.
+
+---
+
+## 2026-09-24 — A same-section anchor check cannot tell WHICH registration a rewrite restates
+
+`scripts/arch-registry-check.py` arm (f) verifies a `rewritten` row by finding its anchor anywhere in the AFTER
+section it came from. In a registry, sibling bullets often share wording: `CONDUCTOR_MSEDGEDRIVER` and
+`CONDUCTOR_NVDA` both "SKIP at exit 0 with a host-path-free precondition plus a fetch recipe". So a row can pass
+while anchored on the wrong registration.
+
+The wrap's faithfulness review caught one such row among 151. Heuristic anchors also latch onto shared paths and
+chunk names rather than the restatement. When compacting a registry (the `D-arch-registry-size` remedy), choose
+each anchor inside the row's OWN bullet, and read every judgment row against that bullet, not the section.
+
+---
+
 ## 2026-09-23 — The code graph does not index feature-gated test files
 
 A test file behind `#![cfg(feature = "live-pulse")]` (`live_suite.rs`, `real_model_live.rs`) is compiled only under that feature, and the rust plane's index is built without it — so its functions are absent from the `symbol` view and a `calls` query on their names returns only NAME COLLISIONS from other crates (here `runs_dir` resolved to the Tauri command's and `capture` to `obs.rs` tests). A plausible non-empty result is therefore the trap, not an empty one: probe `symbol` by name first, and when the definition sits in a feature-gated file, settle its callers by grep over that file and say which basis the answer rests on (the CLAUDE.md code-graph entry's grep cross-check, applied to a class of file the index never sees).

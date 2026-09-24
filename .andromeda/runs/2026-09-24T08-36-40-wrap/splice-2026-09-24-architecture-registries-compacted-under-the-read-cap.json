@@ -1,0 +1,82 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "83ae5b52",
+"ts": "2026-09-24T09:04:18Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-24T08-36-40-wrap/architecture-entry.md",
+"--lines",
+"399",
+"--after-line",
+"806",
+"--run-dir",
+".andromeda/runs/2026-09-24T08-36-40-wrap",
+"--marker",
+"2026-09-24-architecture-registries-compacted-under-the-read-cap",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"dry-run · would write architecture-amendments.md · lines 806→1205 · bytes 179822→232313"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"lines": 806,
+"bytes": 179822,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1205,
+"bytes": 232313
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "83ae5b52",
+"ts": "2026-09-24T09:04:24Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-24T08-36-40-wrap/architecture-entry.md",
+"--lines",
+"399",
+"--after-line",
+"806",
+"--run-dir",
+".andromeda/runs/2026-09-24T08-36-40-wrap",
+"--marker",
+"2026-09-24-architecture-registries-compacted-under-the-read-cap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+399 at line 807 · lines 806→1205 · bytes 179822→232313 · term lf",
+"last line now: - Registered 2026-09-11 as a PRE-EXISTING gap surfaced by `2026-09-11-hosted-run"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 806,
+"bytes": 179822,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1205,
+"bytes": 232313
+}
+}
+]

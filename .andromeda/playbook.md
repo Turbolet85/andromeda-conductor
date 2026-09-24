@@ -281,3 +281,14 @@ becomes a new rule here. Format owned by /andromeda-wrap-session (`references/am
     <SCENARIO>` (a scenario name; a `P-NNN` value refused at parse, exit 2) and the harness's `run --live
     [real-model]` selector (2026-09-22-interpretation-proven-live), applied under the plan's P5-approved direction with
     no governing rule; minted on the operator's approval at that wrap (2026-09-23).
+
+- pattern: D-arch-decisions proposes registering a NEW committed operator-local instrument (a host-runtime script
+    under `scripts/`) in arch §Stack's "Operator instruments (host runtime)" row, where the report's Changes carry the
+    script, no dependency beyond the already-registered host runtime, no CI step and no sixth `agent-run` command
+  verdict: routine
+  note: apply, updating the row's instrument-count wording with it — the row is the registry for exactly this class
+    (the code-graph pipeline 2026-06-18, the mutation-tally gate 2026-09-13, the architecture-registry check
+    2026-09-24). A new instrument that adds a CI step, a harness verb or a non-stdlib dependency is NOT this class and
+    escalates: a CI step touches test-plan §9, a dependency security-plan §Dependency Security. First occurrence:
+    `scripts/arch-registry-check.py` (2026-09-24-architecture-registries-compacted-under-the-read-cap), applied under
+    the plan's P5-approved Expected amendment with no governing rule; minted on the operator's approval at that wrap.

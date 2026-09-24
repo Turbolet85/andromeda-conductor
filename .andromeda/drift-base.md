@@ -36,6 +36,22 @@ for the report to carry it (extend report-template) — never re-derive from git
   check: agent-read — compare the report's Dependencies + symbols against §Stack / §Established Decisions; a new library, runtime, or a contradicted locked decision is drift.
   severity: warning
 
+- id: D-arch-collision
+  doc: arch
+  invariant: a resource already registered in arch §Occupied Resources (a port, socket, env var, artifact path or process) gains no second owner — its registered owner / writer class still holds after the chunk.
+  check: agent-read — for each new or changed port / socket / env var / artifact path / process in the report's Changes, find its §Occupied Resources entry; a report naming an owner or writer other than the registered one is drift (a collision, not a registration). Ports include `:4317` / `4444` / `4445`.
+  severity: escalate
+  # Added 2026-09-24 (2026-09-24-architecture-registries-compacted-under-the-read-cap, operator-approved; the CARRY
+  # from operator relay CE-3): D-arch-resources states its invariant as REGISTRATION only, so a second owner of an
+  # already-registered port, env var or socket passed it.
+
+- id: D-arch-registry-size
+  doc: arch
+  invariant: after the wrap's amendments apply, §Established Decisions and §Occupied Resources each stay within `scripts/arch-registry-check.py`'s threshold (60 % of the Read cap, in bytes).
+  check: tooling — the orchestrator runs `python -X utf8 scripts/arch-registry-check.py measure --file .andromeda/architecture.md` after P2 Apply (the doc-agents run before it); `registries: OVER target` is drift. Remedy: move that wrap's own history into the sidecar; never raise `TARGET_FRACTION`.
+  severity: warning
+  # Added 2026-09-24 (same chunk, operator-approved): the body grows only at wrap, so the check sits where growth happens.
+
 # — security —
 - id: D-security-input
   doc: security-plan

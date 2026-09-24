@@ -1,0 +1,1 @@
+2026-09-24-architecture-registries-compacted-under-the-read-cap · pending · Architecture registries compacted under the read cap — Established Decisions and Occupied Resources each readable whole in one Read, no registered fact lost · → conductor-0.3.0/chunks/2026-09-24-architecture-registries-compacted-under-the-read-cap/
