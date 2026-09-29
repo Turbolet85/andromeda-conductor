@@ -1,0 +1,756 @@
+[
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-29T19:16:31Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"conductor-0.3.0/chunks/2026-09-29-dual-license-mit-or-apache-2-0",
+"--run-dir",
+".andromeda/runs/2026-09-29T19-16-23-wrap",
+"--marker",
+"2026-09-29-dual-license-mit-or-apache-2-0"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\conductor · base c97f6979 (the parent of the oldest pre-CI commit 314d68b0) · lists new 2 · modify 13 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"scope: clean — changed 15 · listed 15 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 35"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\conductor",
+"base": "c97f6979395273fad92be81426e799a20dade7d9",
+"base_why": "the parent of the oldest pre-CI commit 314d68b0",
+"counts": {
+"changed": 15,
+"listed": 15,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 35,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-29T19:41:09Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-29-dual-license-mit-or-apache-2-0/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-29T19-16-23-wrap",
+"--marker",
+"2026-09-29-dual-license-mit-or-apache-2-0"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-29-dual-license-mit-or-apache-2-0 · entries 26",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-dual-license-mit-or-apache-2-0\\wrap-2026-09-29T19-16-23 · bound: GNU timeout",
+"delta docs 31",
+"prose L95-108: Every entry runs from the project root. What is and is not listed: - **Smoke:** omitted. T… (1154 chars)",
+"prose L110-115:   P3's scratch-config measurement (research.md §Open questions: exit 4, nine `error[unlice… (505 chars)",
+"  1 probe       green · exit 0 · 0.13s · 3 B → 1.log · cargo metadata --format-version 1 --no-deps --offline | jq… (129 chars)",
+"  2 probe       green · exit 0 · 0.12s · 199 B → 2.log · cargo metadata --format-version 1 --no-deps --offline | jq… (122 chars)",
+"  3 probe       green · exit 0 · 0.07s · 0 B → 3.log · git diff --quiet -- Cargo.lock",
+"  4 probe       green · exit 0 · 0.08s · 38 B → 4.log · jq -r '\"\\(.name)@\\(.version) \\(.license)\"' crates/conducto… (81 chars)",
+"  5 probe       green · exit 0 · 0.18s · 19 B → 5.log · jq -r '.packages[\"\"].license' crates/conductor-tauri/ui/pa… (73 chars)",
+"  6 probe       red · last line '1+0' ✗ (last: '') · exit 0 · 0.09s · 0 B → 6.log · git diff --numstat -- crates/conductor-tauri/ui/package-lo… (92 chars)",
+"  7 probe       green · exit 0 · 0.06s · 81 B → 7.log · sha256sum LICENSE-APACHE",
+"  8 probe       green · exit 0 · 0.07s · 30 B → 8.log · head -n 1 LICENSE-MIT",
+"  9 probe       green · exit 0 · 0.12s · 0 B → 9.log · diff <(tail -n +2 LICENSE-MIT | tr -s '[:space:]' ' ') <(t… (175 chars)",
+" 10 probe       green · exit 1 · 0.1s · 2 B → 10.log · test -f LICENSE-MIT && test -f LICENSE-APACHE && cat LICEN… (96 chars)",
+" 11 probe       green · exit 1 · 0.16s · 2 B → 11.log · grep -c \"^private\" deny.toml",
+" 12 probe       green · exit 0 · 1.36s · 12 B → 12.log · cargo deny check licenses",
+" 13 probe       green · exit 0 · 1.74s · 236251 B → 13.log · cargo deny check advisories bans licenses sources",
+" 14 probe       green · exit 0 · 0.14s · 0 B → 14.log · git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+" 15 probe       green · exit 0 · 13.2s · 1897 B → 15.log · cargo audit",
+" 16 unit        green · exit 0 · 8.09s · 900 B → 16.log · cargo nextest run -p conductor-core --test secret_scan_gat… (72 chars)",
+" 17 build       green · exit 0 · 761.13s · 1156 B → 17.log · cd crates/conductor-tauri/ui && npm ci",
+" 18 probe       green · exit 0 · 1.43s · 24 B → 18.log · cd crates/conductor-tauri/ui && npm audit --omit=dev",
+" 19 build       green · exit 0 · 3.78s · 4648 B → 19.log · cd crates/conductor-tauri/ui && npm run build",
+" 20 unit        green · exit 0 · 23.14s · 132986 B → 20.log · cargo nextest run --workspace --profile ci",
+" 21 unit        green · exit 0 · 1.41s · 1392 B → 21.log · cargo test --workspace --doc",
+" 22 lint        green · exit 0 · 1.61s · 159 B → 22.log · cargo clippy --workspace --all-targets -- -D warnings",
+" 23 lint        green · exit 0 · 0.49s · 0 B → 23.log · cargo fmt --all --check",
+" 24 probe       not run — leg operator (the letter drives it) · python -X utf8 C:/Users/turbo/.claude/skills/andromeda-too… (84 chars)",
+" 25 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (112 chars)",
+" 26 probe       not run — leg operator (the letter drives it) · python -X utf8 C:/Users/turbo/.claude/skills/andromeda-too… (108 chars)",
+"entries 26 · green 22 · red 1 (6) · recorded 0 · timeout 0 · not-run 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-29-dual-license-mit-or-apache-2-0",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-29-dual-license-mit-or-apache-2-0\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-dual-license-mit-or-apache-2-0\\wrap-2026-09-29T19-16-23",
+"delta": {
+"docs": [
+".andromeda/architecture-amendments.md",
+".andromeda/architecture.md",
+".andromeda/friction-log.ndjson",
+".andromeda/security-plan-amendments.md",
+".andromeda/security-plan.md",
+".andromeda/state.yaml",
+".claude/docs/security-summary.md",
+".claude/docs/session-learnings.md",
+".claude/rules/host-win32.md",
+".claude/rules/security.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/chunks/2026-09-29-dual-license-mit-or-apache-2-0/evidence/operator-pass.md",
+".andromeda/runs/2026-09-29T19-16-23-wrap/.raw-fanout-a11y-plan.md",
+".andromeda/runs/2026-09-29T19-16-23-wrap/.raw-fanout-architecture.md",
+".andromeda/runs/2026-09-29T19-16-23-wrap/.raw-fanout-design-system.md",
+".andromeda/runs/2026-09-29T19-16-23-wrap/.raw-fanout-layout-templates.md",
+".andromeda/runs/2026-09-29T19-16-23-wrap/.raw-fanout-obs-plan.md",
+".andromeda/runs/2026-09-29T19-16-23-wrap/.raw-fanout-test-plan.md",
+".andromeda/runs/2026-09-29T19-16-23-wrap/architecture-entry.md",
+".andromeda/runs/2026-09-29T19-16-23-wrap/cascade-2026-09-29-dual-license-mit-or-apache-2-0.json",
+".andromeda/runs/2026-09-29T19-16-23-wrap/cascade-dispositions.md",
+".andromeda/runs/2026-09-29T19-16-23-wrap/cascade-patterns.toml",
+".andromeda/runs/2026-09-29T19-16-23-wrap/curation.md",
+".andromeda/runs/2026-09-29T19-16-23-wrap/evolve-2026-09-29-dual-license-mit-or-apache-2-0.json",
+".andromeda/runs/2026-09-29T19-16-23-wrap/fanout-results.md",
+".andromeda/runs/2026-09-29T19-16-23-wrap/gate-2026-09-29-dual-license-mit-or-apache-2-0.json",
+".andromeda/runs/2026-09-29T19-16-23-wrap/health-2026-09-29-dual-license-mit-or-apache-2-0.json",
+".andromeda/runs/2026-09-29T19-16-23-wrap/registry-2026-09-29-dual-license-mit-or-apache-2-0.json",
+".andromeda/runs/2026-09-29T19-16-23-wrap/security-plan-entry.md",
+".andromeda/runs/2026-09-29T19-16-23-wrap/splice-2026-09-29-dual-license-mit-or-apache-2-0.json",
+"conductor-0.3.0/chunks/2026-09-29-dual-license-mit-or-apache-2-0/report.md"
+]
+},
+"unmapped": [],
+"prose": [
+{
+"from": 95,
+"to": 108,
+"text": "Every entry runs from the project root. What is and is not listed: - **Smoke:** omitted. The chunk has no boot path and no scenario leg: it changes no code, so there is nothing for a   `status` or `boot` smoke to bite on, and a bare `status` would read a prior run's envelope (verification-harness.md,   the mint-then-read rule). - **Self-verify:** none. The chunk touches no rendered UI and no module imports `package.json`   (`grep -rln 'package\\.json' crates/conductor-tauri/ui/src` → 0 files), so the build gate is the right frontend   proof. - **Live leg:** none. - **The red-before-green control is a ONE-SHOT at implement, not an entry.** The criterion's   `evidence/deny-red-before.txt` records step 1's `cargo deny check licenses` reading. The red state it reads exists   only between step 1 (the deny flip) and steps 2-3 (the manifests), so no entry re-run on the finished tree can   reproduce it. Two listed, non-mutating entries guard the property on every re-run:   - `grep -c \"^private\" deny.toml`, which must read 0: the exemption stays gone;   - `cargo deny check licenses`, which must read `licenses ok`: our crates are checked and pass."
+},
+{
+"from": 110,
+"to": 115,
+"text": "  P3's scratch-config measurement (research.md §Open questions: exit 4, nine `error[unlicensed]`) is the second,   independent reading of the same red. - **CI:** the CI-reading entries are the OPERATOR pass's. CI is what runs the `rust` job's supply-chain + secret-scan   steps, the `frontend` job (`npm ci` · `npm audit --omit=dev` · `npm run build`) and the `a11y` job over this   chunk's tree. The prior wrap's run took 530 s wall (CI#36611592537, read at P4), so `--wait 1200` covers it with   margin."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "probe",
+"run": "cargo metadata --format-version 1 --no-deps --offline | jq -r '[.packages[] | select(.license == \"MIT OR Apache-2.0\")] | length' ",
+"run_sha8": "1118e17d",
+"expect": [
+"exit 0",
+"last line 9"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-dual-license-mit-or-apache-2-0\\wrap-2026-09-29T19-16-23\\1.log",
+"bytes": 3,
+"log_sha8": "69fa4dd4",
+"exit": 0,
+"seconds": 0.13,
+"readings": [
+"exit 0 ✓",
+"last line '9' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "probe",
+"run": "cargo metadata --format-version 1 --no-deps --offline | jq -r '[.packages[] | \"\\(.name)@\\(.version)\"] | sort | join(\" \")' ",
+"run_sha8": "3414795a",
+"expect": [
+"exit 0",
+"last line conductor-cli@0.2.0 conductor-core@0.2.0 conductor-emit@0.2.0 conductor-faults@0.2.0 conductor-report@0.2.0 conductor-run@0.2.0 conductor-tauri@0.2.0 conductor-timeline@0.2.0 conductor-verify@0.2.0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-dual-license-mit-or-apache-2-0\\wrap-2026-09-29T19-16-23\\2.log",
+"bytes": 199,
+"log_sha8": "dda7dfd9",
+"exit": 0,
+"seconds": 0.12,
+"readings": [
+"exit 0 ✓",
+"last line 'conductor-cli@0.2.0 conductor-core@0.2.0 conductor-emit@0.2.0 conductor-faults@0.2.0 conductor-report@0.2.0 conductor-run@0.2.0 conductor-tauri@0.2.0 conductor-timeline@0.2.0 conductor-verify@0.2.0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "probe",
+"run": "git diff --quiet -- Cargo.lock",
+"run_sha8": "30721408",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-dual-license-mit-or-apache-2-0\\wrap-2026-09-29T19-16-23\\3.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.07,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "probe",
+"run": "jq -r '\"\\(.name)@\\(.version) \\(.license)\"' crates/conductor-tauri/ui/package.json",
+"run_sha8": "b31c43c7",
+"expect": [
+"exit 0",
+"last line conductor-ui@0.1.0 MIT OR Apache-2.0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-dual-license-mit-or-apache-2-0\\wrap-2026-09-29T19-16-23\\4.log",
+"bytes": 38,
+"log_sha8": "85fbd437",
+"exit": 0,
+"seconds": 0.08,
+"readings": [
+"exit 0 ✓",
+"last line 'conductor-ui@0.1.0 MIT OR Apache-2.0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "probe",
+"run": "jq -r '.packages[\"\"].license' crates/conductor-tauri/ui/package-lock.json",
+"run_sha8": "9ce3e6cb",
+"expect": [
+"exit 0",
+"last line MIT OR Apache-2.0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-dual-license-mit-or-apache-2-0\\wrap-2026-09-29T19-16-23\\5.log",
+"bytes": 19,
+"log_sha8": "8278a895",
+"exit": 0,
+"seconds": 0.18,
+"readings": [
+"exit 0 ✓",
+"last line 'MIT OR Apache-2.0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "git diff --numstat -- crates/conductor-tauri/ui/package-lock.json | awk '{print $1 \"+\" $2}' ",
+"run_sha8": "65a74541",
+"expect": [
+"exit 0",
+"last line 1+0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-dual-license-mit-or-apache-2-0\\wrap-2026-09-29T19-16-23\\6.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.09,
+"readings": [
+"exit 0 ✓",
+"last line '1+0' ✗ (last: '')"
+],
+"survivors": [],
+"outcome": "red · last line '1+0' ✗ (last: '')"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "sha256sum LICENSE-APACHE",
+"run_sha8": "095d3e6b",
+"expect": [
+"exit 0",
+"contains a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-dual-license-mit-or-apache-2-0\\wrap-2026-09-29T19-16-23\\7.log",
+"bytes": 81,
+"log_sha8": "560fe413",
+"exit": 0,
+"seconds": 0.06,
+"readings": [
+"exit 0 ✓",
+"contains 'a60eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "head -n 1 LICENSE-MIT",
+"run_sha8": "a0037e62",
+"expect": [
+"exit 0",
+"last line Copyright (c) 2026 Turbolet85"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-dual-license-mit-or-apache-2-0\\wrap-2026-09-29T19-16-23\\8.log",
+"bytes": 30,
+"log_sha8": "d5ddb50b",
+"exit": 0,
+"seconds": 0.07,
+"readings": [
+"exit 0 ✓",
+"last line 'Copyright (c) 2026 Turbolet85' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "diff <(tail -n +2 LICENSE-MIT | tr -s '[:space:]' ' ') <(tail -n +2 \"$CARGO_HOME/registry/src/index.crates.io-1949cf8c6b5b557f/log-0.4.32/LICENSE-MIT\" | tr -s '[:space:]' ' ')",
+"run_sha8": "82432a8d",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-dual-license-mit-or-apache-2-0\\wrap-2026-09-29T19-16-23\\9.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.12,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "test -f LICENSE-MIT && test -f LICENSE-APACHE && cat LICENSE-MIT LICENSE-APACHE | grep -c $'\\r' ",
+"run_sha8": "ea7b3331",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-dual-license-mit-or-apache-2-0\\wrap-2026-09-29T19-16-23\\10.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.1,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "grep -c \"^private\" deny.toml",
+"run_sha8": "5cf91100",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-dual-license-mit-or-apache-2-0\\wrap-2026-09-29T19-16-23\\11.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.16,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "cargo deny check licenses",
+"run_sha8": "2caba3d5",
+"expect": [
+"exit 0",
+"contains licenses ok"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-dual-license-mit-or-apache-2-0\\wrap-2026-09-29T19-16-23\\12.log",
+"bytes": 12,
+"log_sha8": "71dadc8c",
+"exit": 0,
+"seconds": 1.36,
+"readings": [
+"exit 0 ✓",
+"contains 'licenses ok' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-dual-license-mit-or-apache-2-0\\wrap-2026-09-29T19-16-23\\13.log",
+"bytes": 236251,
+"log_sha8": "4ebeefef",
+"exit": 0,
+"seconds": 1.74,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+"run_sha8": "85122344",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-dual-license-mit-or-apache-2-0\\wrap-2026-09-29T19-16-23\\14.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.14,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-dual-license-mit-or-apache-2-0\\wrap-2026-09-29T19-16-23\\15.log",
+"bytes": 1897,
+"log_sha8": "f1f46ba8",
+"exit": 0,
+"seconds": 13.2,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "unit",
+"run": "cargo nextest run -p conductor-core --test secret_scan_gate --profile ci",
+"run_sha8": "4a063019",
+"expect": [
+"exit 0",
+"contains 5 tests run: 5 passed"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-dual-license-mit-or-apache-2-0\\wrap-2026-09-29T19-16-23\\16.log",
+"bytes": 900,
+"log_sha8": "2bab6058",
+"exit": 0,
+"seconds": 8.09,
+"readings": [
+"exit 0 ✓",
+"contains '5 tests run: 5 passed' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "build",
+"run": "cd crates/conductor-tauri/ui && npm ci",
+"run_sha8": "98cada69",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-dual-license-mit-or-apache-2-0\\wrap-2026-09-29T19-16-23\\17.log",
+"bytes": 1156,
+"log_sha8": "881f3517",
+"exit": 0,
+"seconds": 761.13,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "cd crates/conductor-tauri/ui && npm audit --omit=dev",
+"run_sha8": "c9ac8495",
+"expect": [
+"exit 0",
+"contains found 0 vulnerabilities"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-dual-license-mit-or-apache-2-0\\wrap-2026-09-29T19-16-23\\18.log",
+"bytes": 24,
+"log_sha8": "6d8c5c8f",
+"exit": 0,
+"seconds": 1.43,
+"readings": [
+"exit 0 ✓",
+"contains 'found 0 vulnerabilities' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 19,
+"role": "build",
+"run": "cd crates/conductor-tauri/ui && npm run build",
+"run_sha8": "80eb6ef7",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-dual-license-mit-or-apache-2-0\\wrap-2026-09-29T19-16-23\\19.log",
+"bytes": 4648,
+"log_sha8": "b6ab91e3",
+"exit": 0,
+"seconds": 3.78,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 20,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-dual-license-mit-or-apache-2-0\\wrap-2026-09-29T19-16-23\\20.log",
+"bytes": 132986,
+"log_sha8": "27ec2592",
+"exit": 0,
+"seconds": 23.14,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 21,
+"role": "unit",
+"run": "cargo test --workspace --doc",
+"run_sha8": "5d8797c2",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-dual-license-mit-or-apache-2-0\\wrap-2026-09-29T19-16-23\\21.log",
+"bytes": 1392,
+"log_sha8": "4997c365",
+"exit": 0,
+"seconds": 1.41,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 22,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-dual-license-mit-or-apache-2-0\\wrap-2026-09-29T19-16-23\\22.log",
+"bytes": 159,
+"log_sha8": "956b8a87",
+"exit": 0,
+"seconds": 1.61,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 23,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-dual-license-mit-or-apache-2-0\\wrap-2026-09-29T19-16-23\\23.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.49,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "python -X utf8 C:/Users/turbo/.claude/skills/andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "f0648308",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 25,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD && echo \"PUSHED_SHA=$(git rev-parse HEAD)\"",
+"run_sha8": "6bf569fe",
+"expect": [
+"exit 0",
+"contains PUSHED_SHA="
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 26,
+"role": "probe",
+"run": "python -X utf8 C:/Users/turbo/.claude/skills/andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1200",
+"run_sha8": "0d290d69",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-29T19:42:25Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-09-29T19-16-23-wrap",
+"--marker",
+"2026-09-29-dual-license-mit-or-apache-2-0"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\conductor · planes rust, ts",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P2 · P3 rust · P3 ts — each fired on its synthetic known positive",
+"hygiene: clean — read 22 (runs 21 · evidence 1) · trails 8 not read · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\conductor",
+"planes": [
+"rust",
+"ts"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 21,
+"evidence": 1,
+"trails": 8,
+"binary": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-29T19:42:26Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"conductor-0.3.0/chunks/2026-09-29-dual-license-mit-or-apache-2-0",
+"--run-dir",
+".andromeda/runs/2026-09-29T19-16-23-wrap",
+"--marker",
+"2026-09-29-dual-license-mit-or-apache-2-0"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\conductor · base c97f6979 (the parent of the oldest pre-CI commit 314d68b0) · lists new 2 · modify 13 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"scope: clean — changed 15 · listed 15 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 66"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\conductor",
+"base": "c97f6979395273fad92be81426e799a20dade7d9",
+"base_why": "the parent of the oldest pre-CI commit 314d68b0",
+"counts": {
+"changed": 15,
+"listed": 15,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 66,
+"unparsed": 0,
+"widening_without_word": 0
+}
+}
+]

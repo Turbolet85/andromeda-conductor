@@ -1,0 +1,6 @@
+
+## 2026-09-29-dual-license-mit-or-apache-2-0 — own crates license-checked
+**Section:** §Dependency Security (Accepted exceptions)
+**Change:** The paragraph now states that the workspace's own `conductor-*` crates are NOT exempt from the license policy. `deny.toml` carries no `private` exemption (was `private = { ignore = true }`, "unpublished — skip license checks"), so `cargo deny check licenses` checks them like any dependency. They pass as `MIT OR Apache-2.0`, inherited from `[workspace.package]`; a member without an allowed license fails the gate, and `publish = false` exempts nothing. The allow set needed no entry (`MIT` / `Apache-2.0` were already allowed), and the 16 `[advisories] ignore` + 9 `[licenses] allow` counts hold unchanged at 2026-09-29.
+**Why:** The public repository was dual-licensed `MIT OR Apache-2.0` on the founder's direction. The deny fork was decided "check them" by the overseer (founder-delegated): a gate that skips our own crates proves nothing about them. The change NARROWS an exemption, so it is no boundary widening. The gate was measured red (nine `error[unlicensed]`) before the manifests carried the license, and green after.
+**Ref:** .andromeda/runs/2026-09-29T19-16-23-wrap/

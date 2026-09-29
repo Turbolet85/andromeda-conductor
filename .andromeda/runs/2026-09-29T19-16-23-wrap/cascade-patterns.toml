@@ -1,0 +1,25 @@
+# Cascade step-2 sweep — 2026-09-29-dual-license-mit-or-apache-2-0 (X1 security Accepted exceptions · X2 arch
+# Directory structure · X3 arch Build system). The retired claim is the own-crate license exemption ("unpublished —
+# skip license checks"); its verbs and tokens are swept below, plus the root-file enumeration the tree gained.
+[[pattern]]
+id = "license"
+regex = 'licen[cs]e'
+ignore_case = true
+
+[[pattern]]
+id = "private"
+regex = 'private'
+ignore_case = true
+
+[[pattern]]
+id = "publish"
+regex = 'publish'
+ignore_case = true
+
+[[pattern]]
+id = "deny-toml"
+fixed = 'deny.toml'
+
+[[pattern]]
+id = "rootfiles"
+fixed = 'rustfmt.toml'

@@ -1,60 +1,54 @@
 # Session Handoff
 
-**Last Updated:** 2026-09-29T18:17:10Z
-**Branch:** `build/conductor-0.3.0` · 0 ahead of `origin/build/conductor-0.3.0`, as read before this wrap's commit
-(HEAD `4843287`)
+**Last Updated:** 2026-09-29T19:26:57Z
+**Branch:** `build/conductor-0.3.0` · 0 ahead of `origin/build/conductor-0.3.0`, as read at this wrap's Setup
+(HEAD `314d68b`, the operator pre-CI commit)
 **Status:** clean
-**Last Commit:** 2026-09-29-diagnostic-quality-cluster-off-the-drift-pin — the wrap commit (P1 in an earlier window;
-resumed from P2)
+**Last Commit:** 2026-09-29-dual-license-mit-or-apache-2-0 — the wrap commit
 
 ## Position
-- Done: `2026-09-29-diagnostic-quality-cluster-off-the-drift-pin`.
-  - `v3-10` is verified: P-031, P-033, P-034 and P-044 are backed, and `UNBACKED_AUTO` went 8 → 4.
-  - `v3-09` is NOT MET by the pre-stated series. b2 read `NotIdentified` because the data dir's name tripped Pulse's
-    `credit_card` scrubber. It was un-claimed to the pool, and the new series entry owns it.
-- Next: `/andromeda-phase --chunk=Dual license MIT OR Apache-2.0` (`working-route.md:52`).
-  - After that: `:54` Hue-shift. Its BLOCKED-ON cleared, since Pulse's P-025 shipped at `e98d838` (pushed). It
-    carries a CARRY: two contract premises to re-verify.
-  - Then `:56`, the new `v3-09` series. It is BLOCKED-ON Pulse's scrubber fix and carries three CARRYs.
-  - Then Epoch 5, `:61` onward, as it stands. This order comes from the overseer relay `conductor-wrap-50-2026-09-29`
-    §2.
+- Done: `2026-09-29-dual-license-mit-or-apache-2-0`.
+  - `LICENSE-MIT` (`Copyright (c) 2026 Turbolet85`) and `LICENSE-APACHE` are at the repo root.
+  - `MIT OR Apache-2.0` is on all nine crates (through `[workspace.package]`) and on `package.json` plus its lock.
+  - `cargo deny check licenses` now checks our own crates too. It read red before the manifests changed and green
+    after.
+  - CI#36616667585 was green on `314d68b`.
+- Next: `/andromeda-phase --chunk=Hue-shift budget graded hard`. It is the next markerless Epoch 4 entry, as the
+  overseer ordered, and it carries a CARRY: two contract premises to re-verify.
+  - Then the new `v3-09` series. It is BLOCKED-ON Pulse's scrubber fix and carries three CARRYs.
+  - Then Epoch 5, as it stands.
 
 ## Work done
-The chunk wrap (P2-P7), run from relay `conductor-wrap-50-2026-09-29`. The seven detectors re-fanned on the on-disk
-report. The light gate was green: 19 green, 0 red, 3 recorded, 7 not run (env-gated or operator legs, re-verified by
-evidence). The route gained two entries in the relay's order, and one BLOCKED-ON cleared. Records are in
-`.andromeda/runs/2026-09-29T17-50-46-wrap/`.
+The chunk ran end-to-end in one window: implement, then the operator pass (agent-driven on the overseer's direction),
+then this wrap. The gate fence was 23/23 green on the first run, and the three operator legs are recorded in
+`evidence/operator-pass.md`. Records are in `.andromeda/runs/2026-09-29T19-16-23-wrap/`.
 
 ## Drift resolved
-- 13 proposals: arch 4, security 3, tests 5, obs 1, and 0 from design, layouts and a11y. 15 body edits landed in
-  architecture, security-plan, test-plan and obs-plan, with a sidecar entry for each doc.
-- Two sweep folds: `architecture.md:62` (a second single-storm restatement) and `:113` (the exception restatement).
-- Two escalations were resolved with the overseer:
-  - **E1**: the series pins in `crates/conductor-run/tests/real_model_series/mod.rs` carry corpus text outside
-    `evidence/`. This is recorded as an unratified BREACH, because a widening waits for the founder's live word. The
-    digest-pin remedy is carried on `:56`.
-  - **E2**: the capture must mask the workspace key in the report body before the next series. Carried on `:56`.
-- Both arch registries stayed within target (ED 38 105 / OR 37 955 of 38 115 B). History moved to the sidecar.
+- The seven detectors returned 0 proposals. No drift-base detector covers a repo-root file set or the scope of
+  `deny.toml`'s policy, so the plan's expected-amendments floor raised three, all routine under playbook `:308`:
+  - security-plan §Dependency Security (Accepted exceptions);
+  - architecture §Infrastructure Patterns → Directory structure;
+  - architecture §Infrastructure Patterns → Build system.
+- There was 0 escalation. Each doc got a sidecar entry.
+- `security-summary.md` and `rules/security.md` §Dependencies were re-derived.
+- The arch registries are still within target.
 
 ## Notes
-- Last failed command: none. The bash-guard hook blocked two commands before they ran: a cat heredoc to a file, and a
-  doubled backslash.
-- Curation: T2 — `security.md` gained a new entry (a widening is ratified only by the founder's live word), and
-  `verification-harness.md`'s 2026-06-27 entry was corrected in place. The P1 window's conversation was gone, so only
-  this window and the report were scanned.
+- Last failed command: none.
+- Curation:
+  - T3: the 2026-06-15 cargo-deny entry was corrected in place (the `private.ignore` half is retired).
+  - T2: `security.md`'s 2026-08-09 entry was extended (read advisory-db `HEAD` against `FETCH_HEAD`, never `@{u}`).
+  - T2: `host-win32.md` gained one entry (TaskStop can orphan a Monitor's `tail -F`).
+- Process hygiene: one `tail -F` from another project's session (PID 36352, started 17:14Z) was left running. It is
+  not this session's to stop.
 - Still carried (no sanctioned writer yet):
-  - `test-plan.md:335` and `scenarios/fingerprint-storm.toml:69` ("permanently `degraded_mode`").
-  - `.andromeda/residuals.md:11` and `:15`, per the prior handoff.
+  - `test-plan.md:335` and `scenarios/fingerprint-storm.toml:69` ("permanently `degraded_mode`");
+  - `.andromeda/residuals.md:11` and `:15`.
 - For the epoch boundary: the `stop-everything-you-start` memory vs `verification-harness.md:58`, and the auto-memory
   drain. U04 (`host-win32.md`) regenerates only when the operator names it.
-- Health: see this wrap's P7 row. `testing.md` and `verification-harness.md` are past the read cap, and promoting
-  them is the operator's call.
+- Health: `testing.md` and `verification-harness.md` are past the read cap, and promoting them is the operator's call.
 
 ## Deferred learnings
-- recurrence-despite-learning: `docs/session-learnings.md` Pulse run recipe. The agent-launched `pulse-app` omitted
-  `ANDROMEDA_PULSE_MODEL_PATH` and `_LLAMA_CUDA_BIN_PATH`, which faulted drive a1 with `model_not_configured`.
-- recurrence-despite-learning: host-win32 "Encoding & heredocs" [corrected 2026-09-23]. This window, a
-  doubled-backslash command was blocked by the hook; the P1 window's lone `chr(92)` class failure is in the report.
-
-## Session End Status
-Completed normally at 2026-09-29 20:45:44
+- recurrence-despite-learning: the CLAUDE.md Tier-1 2026-08-09 rule ("grep A before asserting A says X"). An evidence
+  line claimed the a11y job ran on `windows-latest` before `ci.yml` was read. The file pins `windows-2022`, and the
+  line was corrected before commit.

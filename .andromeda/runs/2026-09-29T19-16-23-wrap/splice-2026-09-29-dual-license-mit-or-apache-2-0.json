@@ -1,0 +1,80 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-29T19:24:03Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-29T19-16-23-wrap/security-plan-entry.md",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-09-29T19-16-23-wrap",
+"--marker",
+"2026-09-29-dual-license-mit-or-apache-2-0"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+6 at line 451 · lines 450→456 · bytes 82016→83247 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-29T19-16-23-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 450,
+"bytes": 82016,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 456,
+"bytes": 83247
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-29T19:24:04Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-29T19-16-23-wrap/architecture-entry.md",
+"--lines",
+"8",
+"--run-dir",
+".andromeda/runs/2026-09-29T19-16-23-wrap",
+"--marker",
+"2026-09-29-dual-license-mit-or-apache-2-0"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+8 at line 1031 · lines 1030→1038 · bytes 175495→176559 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-29T19-16-23-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 1030,
+"bytes": 175495,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1038,
+"bytes": 176559
+}
+}
+]

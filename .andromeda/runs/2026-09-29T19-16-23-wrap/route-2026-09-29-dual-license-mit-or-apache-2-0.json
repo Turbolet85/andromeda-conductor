@@ -1,0 +1,117 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-29T19:42:31Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-09-29-dual-license-mit-or-apache-2-0",
+"--run-dir",
+".andromeda/runs/2026-09-29T19-16-23-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"flip master-route.md:156 - 2026-09-29-dual-license-mit-or-apache-2-0 pending -> complete"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-29T19:42:32Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-09-29-dual-license-mit-or-apache-2-0",
+"--date",
+"2026-09-29",
+"--run-dir",
+".andromeda/runs/2026-09-29T19-16-23-wrap",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"pin :52 strip CONTEXT: 410ch \"CONTEXT: founder direction 2026-09-29, r\"",
+"pin next markerless :54 holds CONTEXT (×2 · CARRY:×1",
+"52 · 2026-09-29-dual-license-mit-or-apache-2-0 · strip 1 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 52,
+"marker": "2026-09-29-dual-license-mit-or-apache-2-0",
+"blocks": 1,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-29T19:42:38Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-09-29-dual-license-mit-or-apache-2-0",
+"--date",
+"2026-09-29",
+"--run-dir",
+".andromeda/runs/2026-09-29T19-16-23-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"pin :52 strip CONTEXT: 410ch \"CONTEXT: founder direction 2026-09-29, r\"",
+"pin next markerless :54 holds CONTEXT (×2 · CARRY:×1",
+"52 · 2026-09-29-dual-license-mit-or-apache-2-0 · strip 1 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+".\\conductor-0.3.0\\route-archive.md",
+".\\conductor-0.3.0\\working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 52,
+"marker": "2026-09-29-dual-license-mit-or-apache-2-0",
+"blocks": 1,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]
