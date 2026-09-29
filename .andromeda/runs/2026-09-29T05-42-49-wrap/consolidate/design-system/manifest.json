@@ -1,0 +1,187 @@
+{
+ "file": ".andromeda/design-system-amendments.md",
+ "file_sha256": "3ba4aa5ef16824abbd0d0e09f3d9ef9a830bee545011960da319b2cb4f385835",
+ "file_bytes": 17583,
+ "entries": 16,
+ "set": [
+  {
+   "row": 1,
+   "line": 5,
+   "heading": "## 2026-06-15-design-token-typography-bundle — §Tokens illustrative CSS `@theme` → `:root`",
+   "sha256": "565818d035c958db85f17d26a24435022edb86a274c226b05891717f02f28149",
+   "bytes": 1147,
+   "ref": ".andromeda/runs/2026-06-15T22-05-00-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "001.md"
+  },
+  {
+   "row": 2,
+   "line": 10,
+   "heading": "## 2026-06-24-sanitized-stderr-agent-mode-logging — §cli \"Error output\" documents the error:/hint: token reuse",
+   "sha256": "f7ab22aa96093889a1ad4e3a06afdbb046a1abbedac8421bc8886a981f57d737",
+   "bytes": 1067,
+   "ref": ".andromeda/runs/2026-06-24T20-38-37-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "002.md"
+  },
+  {
+   "row": 3,
+   "line": 15,
+   "heading": "## 2026-06-24-paused-count-hold-point-signature — §Motion gains a Motion-tokens table (registers --motion-heartbeat)",
+   "sha256": "199f0530e4e0b75215f28360ab98056cf146f3fcffb347f145cb8af7ccd67e17",
+   "bytes": 1122,
+   "ref": ".andromeda/runs/2026-06-24T23-44-29-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "003.md"
+  },
+  {
+   "row": 4,
+   "line": 20,
+   "heading": "## 2026-06-26-component-primitives-library — operator-pause dialog fade reconciled 200ms → `--motion-micro` (150ms)",
+   "sha256": "97828f108fa94b05b345263305b2b3d89ae9e45f39b664125688bd7515c99d30",
+   "bytes": 1286,
+   "ref": ".andromeda/runs/2026-06-26T23-47-21-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "004.md"
+  },
+  {
+   "row": 5,
+   "line": 25,
+   "heading": "## 2026-08-08-sut-capability-manifest — De-hardcoded P-ID range in token-usage examples",
+   "sha256": "42f00b3c5344eb787d953b342c119e9dd516ad806bc064162e00eb4a1e7a3b85",
+   "bytes": 411,
+   "ref": ".andromeda/runs/2026-08-08T16-05-00-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "005.md"
+  },
+  {
+   "row": 6,
+   "line": 30,
+   "heading": "## 2026-08-09-current-sut-coverage-classification — De-hardcoded the last two literal-60 prose counts",
+   "sha256": "442562effe4ed0a8156077aee1fc1eec5df972f9256a2b5261a6b48e2ea56dff",
+   "bytes": 1027,
+   "ref": ".andromeda/runs/2026-08-09T14-17-38-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "006.md"
+  },
+  {
+   "row": 7,
+   "line": 35,
+   "heading": "## 2026-08-09-out-of-scope-classification-treatment — ANSI 246 / Residual-mute records its second non-lamp reuse; results-vs-coverage table disambiguated",
+   "sha256": "bf8470140bca5cb2158ee10b74e24f79a4348af36db0e08f10f5fc28dbd5fa59",
+   "bytes": 1326,
+   "ref": ".andromeda/runs/2026-08-09T15-56-31-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "007.md"
+  },
+  {
+   "row": 8,
+   "line": 40,
+   "heading": "## 2026-08-09-sut-load-envelope — Residual-mute tier records its third non-lamp reuse",
+   "sha256": "0a82cbd925b2233c4a2ce79607de9ba4af13da8d9e95cd39daebfcf2a0474ea9",
+   "bytes": 637,
+   "ref": ".andromeda/runs/2026-08-10T15-43-07-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "008.md"
+  },
+  {
+   "row": 9,
+   "line": 45,
+   "heading": "## 2026-08-18-error-baseline-spike-live-proof — cli Pattern 4 sample tier de-literalized",
+   "sha256": "2f4dd7cd639c1bb8f6c1b977f6a3c528389626cc2cdb032c4de8cf49d23ca9c7",
+   "bytes": 480,
+   "ref": ".andromeda/runs/2026-08-18T19-10-05-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "009.md"
+  },
+  {
+   "row": 10,
+   "line": 50,
+   "heading": "## 2026-09-01-desktop-a11y-sweep — text-tier token values moved for contrast",
+   "sha256": "0a36040e7f923ff5cdbb1218643bda58809155d77c84a834987078222a9a0c06",
+   "bytes": 1218,
+   "ref": ".andromeda/runs/2026-09-01T22-22-12Z-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "010.md"
+  },
+  {
+   "row": 11,
+   "line": 55,
+   "heading": "## 2026-09-02-screen-reader-manual-spec — empty / in-progress samples corrected to shipped; the checklist's single shipped mount",
+   "sha256": "18633bb318d7f5d6807d50faf2c67fc85eb4eefaf0f28dad8db17c8e8be99445",
+   "bytes": 1068,
+   "ref": ".andromeda/runs/2026-09-02T11-47-51Z-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "011.md"
+  },
+  {
+   "row": 12,
+   "line": 60,
+   "heading": "## 2026-09-03-conductor-tauri-survivors-dispositioned — decisions-log `@theme` retired to `:root`",
+   "sha256": "0acce477fd26f7fdbdf57ebfec192175ad06f7134916e09a7c4e55b5be5428d8",
+   "bytes": 1556,
+   "ref": ".andromeda/runs/2026-09-03T09-10-06-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "012.md"
+  },
+  {
+   "row": 13,
+   "line": 66,
+   "heading": "## 2026-09-03-live-pulse-preconditions-probed — `anstream` retired as the named cli gate; `[PRECONDITION]` joins the non-lamp set",
+   "sha256": "7a6221b61111af76ff29cbb5129808b6dea4a88416d357be9cc77a92ae912e8e",
+   "bytes": 1510,
+   "ref": ".andromeda/runs/2026-09-03T19-20-00-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "013.md"
+  },
+  {
+   "row": 14,
+   "line": 71,
+   "heading": "## 2026-09-04-sr-findings-remediation — coverage-matrix Empty corrected; the picker's filter-miss state recorded",
+   "sha256": "348a0521e750640d3cf5cf53bc132399058051f66823a25e78cf63f10ec80276",
+   "bytes": 1385,
+   "ref": ".andromeda/runs/2026-09-04T07-33-12Z-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "014.md"
+  },
+  {
+   "row": 15,
+   "line": 76,
+   "heading": "## 2026-09-07-dependency-polish — cli Toolkit/Framework inquire version reconciled",
+   "sha256": "2f73e038ea84961d2cd3b9a111feae98802d2711350eecfbfb12e634f6c115c9",
+   "bytes": 632,
+   "ref": ".andromeda/runs/2026-09-07T12-43-31-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "015.md"
+  },
+  {
+   "row": 16,
+   "line": 80,
+   "heading": "## 2026-09-10-release-build-and-bundle — the ~3 MB artifact literal de-literalized at both sites",
+   "sha256": "a6a035b142456640450a58978b761bee0dfc834beb60032a5c6a301e8c4d8c03",
+   "bytes": 1500,
+   "ref": ".andromeda/runs/2026-09-10T20-36-29-wrap/",
+   "anchor": "both",
+   "why": "no **Ref:**",
+   "file": "016.md"
+  }
+ ],
+ "batches": [
+  "batch-1.txt"
+ ]
+}

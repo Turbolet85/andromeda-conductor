@@ -1,0 +1,17 @@
+.andromeda/runs/2026-09-29T05-42-49-wrap/consolidate/architecture/110.md
+.andromeda/runs/2026-09-29T05-42-49-wrap/consolidate/architecture/111.md
+.andromeda/runs/2026-09-29T05-42-49-wrap/consolidate/architecture/112.md
+.andromeda/runs/2026-09-29T05-42-49-wrap/consolidate/architecture/113.md
+.andromeda/runs/2026-09-29T05-42-49-wrap/consolidate/architecture/114.md
+.andromeda/runs/2026-09-29T05-42-49-wrap/consolidate/architecture/115.md
+.andromeda/runs/2026-09-29T05-42-49-wrap/consolidate/architecture/116.md
+.andromeda/runs/2026-09-29T05-42-49-wrap/consolidate/architecture/117.md
+.andromeda/runs/2026-09-29T05-42-49-wrap/consolidate/architecture/118.md
+.andromeda/runs/2026-09-29T05-42-49-wrap/consolidate/architecture/119.md
+.andromeda/runs/2026-09-29T05-42-49-wrap/consolidate/architecture/120.md
+.andromeda/runs/2026-09-29T05-42-49-wrap/consolidate/architecture/121.md
+.andromeda/runs/2026-09-29T05-42-49-wrap/consolidate/architecture/122.md
+.andromeda/runs/2026-09-29T05-42-49-wrap/consolidate/architecture/123.md
+.andromeda/runs/2026-09-29T05-42-49-wrap/consolidate/architecture/124.md
+.andromeda/runs/2026-09-29T05-42-49-wrap/consolidate/architecture/125.md
+.andromeda/runs/2026-09-29T05-42-49-wrap/consolidate/architecture/126.md

@@ -1,0 +1,242 @@
+{
+ "file": ".andromeda/a11y-plan-amendments.md",
+ "file_sha256": "ff0b8a0156b09099bdcc1c592a0ae3b46c7dce585e28cc9005861077f0702735",
+ "file_bytes": 38819,
+ "entries": 21,
+ "set": [
+  {
+   "row": 1,
+   "line": 5,
+   "heading": "## 2026-06-16-emission-journal-writer — violation-schema reproduction gains `read_back_observed_at` (obs bind)",
+   "sha256": "a56d28e429e991975de0aa394af83f8f328f1e008e5a57bec92ccc60db32d6bb",
+   "bytes": 796,
+   "ref": ".andromeda/runs/2026-06-16T21-43-46-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "001.md"
+  },
+  {
+   "row": 2,
+   "line": 10,
+   "heading": "## 2026-06-21-run-report-envelope-serializer — CalibrationRegion→ManualCheck co-occurrence + verdict-first lamp",
+   "sha256": "e12c9d5c242ebb5bace7934aa5d65ee6e8e8dff0b12a236214828bebe1d3fc25",
+   "bytes": 1105,
+   "ref": ".andromeda/runs/2026-06-21T18-23-37-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "002.md"
+  },
+  {
+   "row": 3,
+   "line": 15,
+   "heading": "## 2026-08-09-out-of-scope-classification-treatment — --status-residual's non-lamp reuse scoped out of the six-label assertion",
+   "sha256": "aeb1e9dbd471b259ebf5895b7c5b4aa9adabcc6103f82b4333b73283fafd28b3",
+   "bytes": 947,
+   "ref": ".andromeda/runs/2026-08-09T15-56-31-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "003.md"
+  },
+  {
+   "row": 4,
+   "line": 20,
+   "heading": "## 2026-08-21-delegated-timing-budgets-proven — Residual crosswalk row disambiguated",
+   "sha256": "d91f9fc92cc3fea479cec0e7c15325637ac67c87f8bc8eaf7a5c24c7f4247465",
+   "bytes": 679,
+   "ref": "NOT DERIVED",
+   "anchor": "none",
+   "why": "no **Ref:**",
+   "file": "004.md"
+  },
+  {
+   "row": 5,
+   "line": 25,
+   "heading": "## 2026-08-22-operator-pause-and-checklist-live-firing — the HOLD focus trap now contains the checklist rows",
+   "sha256": "763b3cf9d100a6a94a3ff3d47b1656d69a4e7011a5cf0b7ba42ccd88a90eec22",
+   "bytes": 1050,
+   "ref": ".andromeda/runs/2026-08-22T12-15-00Z-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "005.md"
+  },
+  {
+   "row": 6,
+   "line": 30,
+   "heading": "## 2026-09-01-webview-self-verify-windows-host — the platform verdict, and the emulate caveat's Chromium half",
+   "sha256": "30a127c0352706c82cb0fe1a43684a0cbbca9ad1d31ec5ee097d009df6f90612",
+   "bytes": 1723,
+   "ref": ".andromeda/runs/2026-09-01T18-49-38Z-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "006.md"
+  },
+  {
+   "row": 7,
+   "line": 35,
+   "heading": "## 2026-09-01-desktop-a11y-sweep — reduced-motion emulation retired API-wide; focus restoration is an explicit contract",
+   "sha256": "33d32edc4737148653dab02ec4d80968901c15ef110eea582325dcece421b2e4",
+   "bytes": 1951,
+   "ref": ".andromeda/runs/2026-09-01T22-22-12Z-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "007.md"
+  },
+  {
+   "row": 8,
+   "line": 40,
+   "heading": "## 2026-09-01-live-per-p-id-verdict-lamps — `--status-residual` contrast pairs + the load-envelope banner pattern row",
+   "sha256": "3bf9335deb38ac3ee5a52736de6fe481edae443396a4f4fdac76782cf0f052a4",
+   "bytes": 1482,
+   "ref": ".andromeda/runs/2026-09-02T00-58-00Z-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "008.md"
+  },
+  {
+   "row": 9,
+   "line": 45,
+   "heading": "## 2026-09-02-screen-reader-manual-spec — the SR pass is agent-driven; the shipped run states, strings and unbuilt surfaces recorded",
+   "sha256": "c56d302b989997307a5504c85d73c6adbecbd5cc8c6ed7b91a53db4385db5581",
+   "bytes": 2252,
+   "ref": ".andromeda/runs/2026-09-02T11-47-51Z-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "009.md"
+  },
+  {
+   "row": 10,
+   "line": 50,
+   "heading": "## 2026-09-02-cross-surface-envelope-parity — the load-envelope banner's rendered-DOM axe retired from UNRUNNABLE",
+   "sha256": "0d0b7754bf6bc8c85be3a725e32a4927fb74ebee7b93a6c9309cdf7b5f237342",
+   "bytes": 1520,
+   "ref": ".andromeda/runs/2026-09-02T14-34-37Z-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "010.md"
+  },
+  {
+   "row": 11,
+   "line": 65,
+   "heading": "## 2026-09-03-live-pulse-preconditions-probed — the cli entity named as a verb SET",
+   "sha256": "a9a5859559f7c6eba6ba617ab9680fd3f56f7290baa21a6c0464678ab4c5b09d",
+   "bytes": 933,
+   "ref": ".andromeda/runs/2026-09-03T19-20-00-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "011.md"
+  },
+  {
+   "row": 12,
+   "line": 70,
+   "heading": "## 2026-09-04-sr-findings-remediation — the picker's filter-miss prose enters the must-announce inventory",
+   "sha256": "db6d1d2546d458629f6a867dfbd556408800a7bbc6fd217de3b970f1799eba69",
+   "bytes": 1320,
+   "ref": ".andromeda/runs/2026-09-04T07-33-12Z-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "012.md"
+  },
+  {
+   "row": 13,
+   "line": 75,
+   "heading": "## 2026-09-04-sidecar-spawn-without-a-console-window — the pass spec's path points at the file",
+   "sha256": "5a88982633cdde5864e67056368f2e785b992a78bc0c38445459a052b630eee0",
+   "bytes": 2161,
+   "ref": ".andromeda/runs/2026-09-04T20-15-00-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "013.md"
+  },
+  {
+   "row": 14,
+   "line": 80,
+   "heading": "## 2026-09-06-coverage-completeness-gate — two false present-tense CI-existence claims retired",
+   "sha256": "3b7f4da3f10a2582614e174d763994020c9fa2a3c401a3e92b285034dd6911aa",
+   "bytes": 1914,
+   "ref": ".andromeda/runs/2026-09-06T15-59-32-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "014.md"
+  },
+  {
+   "row": 15,
+   "line": 86,
+   "heading": "## 2026-09-07-a11y-ci-gate — the routine arm is CI-gated; the violation schema's real shape; the Operable carve-out; CARRY 4 closed",
+   "sha256": "7869d0b969e9c4ee76adbb377c04dcaaccdcf6589fc302596e49d308535abad2",
+   "bytes": 2586,
+   "ref": ".andromeda/runs/2026-09-07T16-19-12Z-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "015.md"
+  },
+  {
+   "row": 16,
+   "line": 91,
+   "heading": "## 2026-09-07-sr-findings-fixed — the Operable carve-out narrowed to its hold-dependent half",
+   "sha256": "62990a7d32ee5b6b9961a032f0450e33ad1b736923d8e07dc805e0fbce9c4a1a",
+   "bytes": 2708,
+   "ref": ".andromeda/runs/2026-09-07T21-30-50-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "016.md"
+  },
+  {
+   "row": 17,
+   "line": 98,
+   "heading": "## 2026-09-08-hosted-runner-webview2-session — the a11y job's first push-triggered run is no longer pending",
+   "sha256": "7af5149ef420c8bacebebf809a3bd07409806ccb92c97e5e1a6093c577813845",
+   "bytes": 1130,
+   "ref": ".andromeda/runs/2026-09-08T14-20-00-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "017.md"
+  },
+  {
+   "row": 18,
+   "line": 103,
+   "heading": "## 2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate — the three verbatim citations of arch §Stack's CI rationale",
+   "sha256": "809abd7b1a067b15392105e9238362e9c235b9b1798dc9db1a6f5b747b2590c3",
+   "bytes": 2481,
+   "ref": ".andromeda/runs/2026-09-09T13-20-08-wrap/",
+   "anchor": "both",
+   "why": "field **Explicitly checked and NOT amended (recording the basis, because an absence claim the file contradicts is what costs a later chunk a wrong premise):**; no **Ref:**",
+   "file": "018.md"
+  },
+  {
+   "row": 19,
+   "line": 109,
+   "heading": "## 2026-09-17 — 2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm",
+   "sha256": "0c5bdc1e74ccd4eb883cb1293b8ce634270fb23f4121d8bc3d7a6cb10aea32e1",
+   "bytes": 2275,
+   "ref": "NOT DERIVED",
+   "anchor": "none",
+   "why": "text before the first field; no **Section:**; no **Change:**; no **Why:**; no **Ref:**",
+   "file": "019.md"
+  },
+  {
+   "row": 20,
+   "line": 139,
+   "heading": "## 2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration — the routine pair's CI proof DISCHARGED, stated with its configuration",
+   "sha256": "0db1efc0ea9a2f50453c87313fb53ceb3b056a6ccd7f6d2bc74e837514b0f3b0",
+   "bytes": 3705,
+   "ref": ".andromeda/runs/2026-09-17T10-34-20-wrap/",
+   "anchor": "both",
+   "why": "field **Sweep (cascade step 2, run after the last body edit of the pass):**; no **Ref:**",
+   "file": "020.md"
+  },
+  {
+   "row": 21,
+   "line": 149,
+   "heading": "## 2026-09-17-keyboard-and-focus-order-coverage-ownership — §5 keyboard/focus claims given owners; §11 carve-out gains its substitute gate; §1 dittography repaired",
+   "sha256": "ee57d07cd9b87584604a8e43b61e7e7684a4a22fa1779740fab4d4881c78d383",
+   "bytes": 3890,
+   "ref": ".andromeda/runs/2026-09-17T17-09-36-wrap/",
+   "anchor": "both",
+   "why": "field **Sweep (run after every body of this pass landed, before this entry):**; no **Ref:**",
+   "file": "021.md"
+  }
+ ],
+ "batches": [
+  "batch-1.txt"
+ ]
+}

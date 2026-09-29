@@ -1,0 +1,363 @@
+{
+ "file": ".andromeda/layout-templates-amendments.md",
+ "file_sha256": "ceace174f6bf9645bdeab7c0feb026ba431ffddb816f383aeffafeb5d125b110",
+ "file_bytes": 41059,
+ "entries": 32,
+ "set": [
+  {
+   "row": 1,
+   "line": 5,
+   "heading": "## 2026-06-23-5-command-agent-run-harness — conductor preflight verb + agent-run stage flags registered",
+   "sha256": "13ecef96638223121b52c9073ad19acc713053d833adebc6adc718630cc12542",
+   "bytes": 960,
+   "ref": ".andromeda/runs/2026-06-23T19-20-31-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "001.md"
+  },
+  {
+   "row": 2,
+   "line": 10,
+   "heading": "## 2026-06-23-line-oriented-output-rendering — conductor coverage verb registered; report output + indicatif version corrected",
+   "sha256": "c40ec5e5b32b855b251d653c0df8453241da22de93468e39d9d87ef5b1b3e051",
+   "bytes": 1258,
+   "ref": ".andromeda/runs/2026-06-23T20-40-17Z-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "002.md"
+  },
+  {
+   "row": 3,
+   "line": 15,
+   "heading": "## 2026-06-24-frameless-window-shell — titlebar height space-lg → space-xl",
+   "sha256": "4a3a5fee32e07f09788b483115347841e866f0ec4100e2e58529fd11dfda7b0d",
+   "bytes": 1013,
+   "ref": "NOT DERIVED",
+   "anchor": "none",
+   "why": "no **Ref:**",
+   "file": "003.md"
+  },
+  {
+   "row": 4,
+   "line": 20,
+   "heading": "## 2026-08-08-sut-capability-manifest — De-hardcoded cli coverage range labels",
+   "sha256": "c5b4c0ec8e5b0e5f764f9dba050bb54b72622494f65febedf2cfb85eed936c99",
+   "bytes": 500,
+   "ref": ".andromeda/runs/2026-08-08T16-05-00-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "004.md"
+  },
+  {
+   "row": 5,
+   "line": 25,
+   "heading": "## 2026-08-09-current-sut-coverage-classification — Mode cell documented; last three literal-60 sites de-hardcoded",
+   "sha256": "52177f61f20a531ec6a41924abe5c744544a1bbcc552f38c5176fd90c2757bc2",
+   "bytes": 2122,
+   "ref": ".andromeda/runs/2026-08-09T14-17-38-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "005.md"
+  },
+  {
+   "row": 6,
+   "line": 30,
+   "heading": "## 2026-08-09-out-of-scope-classification-treatment — Mode-cell out-of-scope treatment, the cli coverage roll-up, and the results-vs-coverage table split",
+   "sha256": "910ca2ec574373b0bb6dcf027e720b28429479365cfcc17abf723f471960be46",
+   "bytes": 1469,
+   "ref": ".andromeda/runs/2026-08-09T15-56-31-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "006.md"
+  },
+  {
+   "row": 7,
+   "line": 35,
+   "heading": "## 2026-08-09-interpretation-correctness-posture — coverage roll-up caption gains the unbacked qualifier",
+   "sha256": "aad04897f3dea90020b14962ad6e3793ccaffa1b448e38672655503b026e70ac",
+   "bytes": 726,
+   "ref": ".andromeda/runs/2026-08-09T19-30-00-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "007.md"
+  },
+  {
+   "row": 8,
+   "line": 40,
+   "heading": "## 2026-08-09-in-lane-sut-scenarios — coverage roll-up caption: 11 → 10 unbacked",
+   "sha256": "9c1bed9d887c9f16bc6023e3cf6b5dd164b7f82a4aebc97b9e47e7ba770e6091",
+   "bytes": 981,
+   "ref": ".andromeda/runs/2026-08-09T20-30-00-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "008.md"
+  },
+  {
+   "row": 9,
+   "line": 45,
+   "heading": "## 2026-08-09-sut-load-envelope — cli run-level load-envelope caption",
+   "sha256": "47dae78ab5278d76e13865af564b965f48e248bd9fb4087849b22f19738f2787",
+   "bytes": 790,
+   "ref": ".andromeda/runs/2026-08-10T15-43-07-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "009.md"
+  },
+  {
+   "row": 10,
+   "line": 50,
+   "heading": "## 2026-08-10-pulse-run-contract — coverage roll-up caption: 10 → 9 unbacked",
+   "sha256": "cb1cfe3a3ed001024bac722ec935196947144f71f602ff4323036e879688f39b",
+   "bytes": 1322,
+   "ref": ".andromeda/runs/2026-08-10T21-24-17-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "010.md"
+  },
+  {
+   "row": 11,
+   "line": 55,
+   "heading": "## 2026-08-13-dispatcher-determinism-goldens — `[ENVIRONMENT-SUSPECT]` sample caption re-based",
+   "sha256": "cdd32a9f36522b8ee437e923bdf121f4b034d7fce9947679b9232bcc04638d00",
+   "bytes": 976,
+   "ref": ".andromeda/runs/2026-08-13T18-25-00-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "011.md"
+  },
+  {
+   "row": 12,
+   "line": 60,
+   "heading": "## 2026-08-16-fingerprint-storm-live-proof — coverage roll-up caption DE-LITERALIZED",
+   "sha256": "cb602aaecae40495f6c3205f460a4ae30a6cd080aac3390a990dedee757fcb93",
+   "bytes": 1035,
+   "ref": ".andromeda/runs/2026-08-16T14-06-03-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "012.md"
+  },
+  {
+   "row": 13,
+   "line": 72,
+   "heading": "## 2026-08-18-error-baseline-spike-live-proof — P-009 sample tier <5s → <90s (five sites)",
+   "sha256": "6115a96400974eb3aabe19685263b8b830193657298bd4bac573b3147f7976c9",
+   "bytes": 620,
+   "ref": ".andromeda/runs/2026-08-18T19-10-05-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "013.md"
+  },
+  {
+   "row": 14,
+   "line": 77,
+   "heading": "## 2026-08-18-restart-suppression-live-proof — restart-suppression sample tiers de-literalized (five sites)",
+   "sha256": "82a81fb56b71633d304386a9eac9a6b93d2872557c2336f25ebdcb1a24100b91",
+   "bytes": 979,
+   "ref": ".andromeda/runs/2026-08-18T21-55-43-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "014.md"
+  },
+  {
+   "row": 15,
+   "line": 82,
+   "heading": "## 2026-08-19-connection-lifecycle-live-proof — idle-console sample tier cells de-literalized",
+   "sha256": "32bb795d1cf9c58fea233f6469ac11a0345f0aab30486e8b96bc69769af38ac9",
+   "bytes": 643,
+   "ref": ".andromeda/runs/2026-08-19T23-10-30-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "015.md"
+  },
+  {
+   "row": 16,
+   "line": 86,
+   "heading": "## 2026-08-21-severity-lifecycle-live-proof — sample-row P-ID labels corrected against the coverage classification",
+   "sha256": "78e49f8ee9d6f78a3af80123e04c644a4817eb4b6479c6a7b2c728c3f7cff34e",
+   "bytes": 1292,
+   "ref": ".andromeda/runs/2026-08-21T09-50-00-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "016.md"
+  },
+  {
+   "row": 17,
+   "line": 101,
+   "heading": "## 2026-08-21-per-check-latency-measurement — Per-check detail region in the Markdown run report",
+   "sha256": "c0540c0048edb4eb0ef6b50e5fb33ccd1f341eb4b4bd82f0254b67953ac50bc2",
+   "bytes": 720,
+   "ref": ".andromeda/runs/2026-08-21T11-05-00-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "017.md"
+  },
+  {
+   "row": 18,
+   "line": 106,
+   "heading": "## 2026-08-22-operator-pause-and-checklist-live-firing — operator-checklist rows inside the HOLD dialog",
+   "sha256": "f07b6538d44c6455f39fd5b2a9cd7ad16193590822b8c0fd8771c3094d771c60",
+   "bytes": 1038,
+   "ref": ".andromeda/runs/2026-08-22T12-15-00Z-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "018.md"
+  },
+  {
+   "row": 19,
+   "line": 111,
+   "heading": "## 2026-09-01-webview-self-verify-windows-host — `--e2e` is the cross-surface stage, and `.ps1` ships",
+   "sha256": "163d9ce422dba2d13b88c36d87956c4aaeeaa0cbf1512619182b65eb0bf4ee9d",
+   "bytes": 1108,
+   "ref": ".andromeda/runs/2026-09-01T18-49-38Z-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "019.md"
+  },
+  {
+   "row": 20,
+   "line": 116,
+   "heading": "## 2026-09-01-desktop-a11y-sweep — Mode-cell reason re-grounded; operator-pause dialog fade + restoration corrected",
+   "sha256": "76789503dd3cd32c36bccea448b2d2430f7f4dbe9a54c2e1ac45bef8764f1195",
+   "bytes": 1366,
+   "ref": ".andromeda/runs/2026-09-01T22-22-12Z-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "020.md"
+  },
+  {
+   "row": 21,
+   "line": 121,
+   "heading": "## 2026-09-01-live-per-p-id-verdict-lamps — desktop load-envelope banner + coverage row anatomy corrected to shipped",
+   "sha256": "f19d9486958a24be81a8c5f87c645d03e60874d52c5411832f2dc2e8781fd220",
+   "bytes": 1724,
+   "ref": ".andromeda/runs/2026-09-02T00-58-00Z-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "021.md"
+  },
+  {
+   "row": 22,
+   "line": 126,
+   "heading": "## 2026-09-02-screen-reader-manual-spec — run states, titlebar labels, dialog copy and the unbuilt footer / report-site checklist corrected to shipped",
+   "sha256": "2dec7d31d959a610ebdb60e1cdc41677e0836ec314d7d1013a50428daa0b60a0",
+   "bytes": 1980,
+   "ref": ".andromeda/runs/2026-09-02T11-47-51Z-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "022.md"
+  },
+  {
+   "row": 23,
+   "line": 131,
+   "heading": "## 2026-09-03-conductor-tauri-survivors-dispositioned — `@theme` retired at both tooling-context sites (cascade)",
+   "sha256": "3f4a267685cab4b6c0555cf88ec251c4799358883750d51c1c9c33c114bedc5a",
+   "bytes": 1098,
+   "ref": ".andromeda/runs/2026-09-03T09-10-06-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "023.md"
+  },
+  {
+   "row": 24,
+   "line": 137,
+   "heading": "## 2026-09-03-live-pulse-preconditions-probed — the `preconditions` verb registered; verb literal de-literalized",
+   "sha256": "f9afb830d596a9279d3010aa325509d28d160fa31ef3355db2cbd52deb6aef4c",
+   "bytes": 1465,
+   "ref": ".andromeda/runs/2026-09-03T19-20-00-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "024.md"
+  },
+  {
+   "row": 25,
+   "line": 142,
+   "heading": "## 2026-09-04-sr-findings-remediation — empty-state split; the `boot`-reaches-preflight claim retired",
+   "sha256": "22d4c315a45966927261cec46e79e1646b205ef570d7209604316b1e8076accc",
+   "bytes": 1535,
+   "ref": ".andromeda/runs/2026-09-04T07-33-12Z-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "025.md"
+  },
+  {
+   "row": 26,
+   "line": 147,
+   "heading": "## 2026-09-04-preconditions-probe-reads-path-handles-by-presence — both caption arms reachable",
+   "sha256": "f15f8780ddd9a9f9d0b9547c4b5ae0c62b550d071f43f3c77763fb34b81b095b",
+   "bytes": 2405,
+   "ref": ".andromeda/runs/2026-09-04T17-15-00-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "026.md"
+  },
+  {
+   "row": 27,
+   "line": 152,
+   "heading": "## 2026-09-06-operator-gated-live-suite — the `--live` stage flag on the cli surface",
+   "sha256": "85c038c302a7a0191082a878ee8a9280e1084e8aec29721313d18fa54307d5d4",
+   "bytes": 1969,
+   "ref": ".andromeda/runs/2026-09-06T09-37-04-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "027.md"
+  },
+  {
+   "row": 28,
+   "line": 157,
+   "heading": "## 2026-09-06-run-report-envelope-conformance-gate — the cli verb enumeration gains `conductor cleanup`",
+   "sha256": "11ecd6ab4fd2bcd7c494bafe220316b76ff19b09469baf81b7f90425de445cf1",
+   "bytes": 1243,
+   "ref": ".andromeda/runs/2026-09-06T13-07-09-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "028.md"
+  },
+  {
+   "row": 29,
+   "line": 162,
+   "heading": "## 2026-09-07-dependency-polish — cli Tooling-context library versions reconciled",
+   "sha256": "11a4029a6f60a12b541b613e8cd18639b4bce1aadaac5b20c7277e0daaf21220",
+   "bytes": 649,
+   "ref": ".andromeda/runs/2026-09-07T12-43-31-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "029.md"
+  },
+  {
+   "row": 30,
+   "line": 167,
+   "heading": "## 2026-09-07-a11y-ci-gate — the `--e2e` handle-absence outcome stated as an ARM SET",
+   "sha256": "811d4ae31cad6788178f0c6c132dcad46fa0aa426501628fbc7635216559a011",
+   "bytes": 1339,
+   "ref": ".andromeda/runs/2026-09-07T16-19-12Z-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "030.md"
+  },
+  {
+   "row": 31,
+   "line": 172,
+   "heading": "## 2026-09-07-sr-findings-fixed — a third App.tsx-owned console state; shell parity conditioned",
+   "sha256": "71751bec15d97094f0a546ce607c7ee813c50fb5271efcc418ad989552c468e9",
+   "bytes": 1754,
+   "ref": ".andromeda/runs/2026-09-07T21-30-50-wrap/",
+   "anchor": "flip",
+   "why": "no **Ref:**",
+   "file": "031.md"
+  },
+  {
+   "row": 32,
+   "line": 178,
+   "heading": "## 2026-09-22-interpretation-proven-live — `preconditions --for` and the `--live real-model` selector",
+   "sha256": "d252a02dd79f0137519c46ef46375753daf5469b73cf725507c4744d1f733cc6",
+   "bytes": 2746,
+   "ref": ".andromeda/runs/2026-09-23T08-03-55-wrap/",
+   "anchor": "both",
+   "why": "field **Sweep (full ledger `.andromeda/runs/2026-09-23T08-03-55-wrap/reconcile-sweep.md`):**; no **Ref:**",
+   "file": "032.md"
+  }
+ ],
+ "batches": [
+  "batch-1.txt"
+ ]
+}

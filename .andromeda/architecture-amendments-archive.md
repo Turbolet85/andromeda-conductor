@@ -1,0 +1,1225 @@
+# architecture — archived amendment originals
+Writer = wrap P7 only · read by NO loop skill · cold history, never cited for current truth; each run's originals under its own heading.
+
+# Consolidated at the 2026-09-29T05-42-49-wrap 0-pending wrap — 142 re-worded · 1 pruned
+
+## 2026-06-14-cargo-workspace-scaffold — MSRV raised 1.88.0 → 1.94.1
+**Section:** §Stack and Technologies (+ §Infrastructure Patterns Build system · §Inherited Defaults · directory-tree comment)
+**Change:** MSRV pinned to 1.94.1 (was 1.88.0) across all occurrences.
+**Why:** the cargo-workspace-scaffold chunk implemented the security-plan §Dependency Security required bump (≥1.94.1, tar-rs CVE-2026-33056); arch's stated MSRV 1.88.0 was superseded. The workspace pins build toolchain 1.95.0 with `rust-version = "1.94.1"` as the MSRV floor.
+
+## 2026-06-14-cargo-workspace-scaffold — self-observation stack row added
+**Section:** §Stack and Technologies
+**Change:** added a "Self-observation | tracing 0.1.44 + tracing-subscriber 0.3.23" row.
+**Why:** the chunk pinned `tracing` + `tracing-subscriber` in `[workspace.dependencies]` (the obs-plan §3 self-obs stack); arch's Stack table did not list them. NOT an OTel SDK — OTLP remains the PRODUCT emission.
+
+## 2026-06-15-conductor-core-shared-types — serde_json 1.0 registered in §Stack
+**Section:** §Stack and Technologies
+**Change:** added a "Serialization (JSON) | serde_json 1.0" row.
+**Why:** the conductor-core-shared-types chunk added `serde_json = "1.0"` to `[workspace.dependencies]` (canonical-name round-trip tests now; the run-report envelope + per-run JSONL journal consume it at runtime in Epoch 6); arch's §Stack registry did not list it. Cleared by the security drift-detector (audit-green, allowed by §Dependency Security). Cascaded to `.claude/docs/stack.md`. The design proposal (record an implementation note in the Decisions Log) was rejected as non-drift — design-system.md §cli already prescribes the implemented prefixes.
+
+## 2026-06-15-config-validation-surface — garde pinned 0.23.0 → 0.22.1
+**Section:** §Stack and Technologies (Validation row) · §Established Decisions [Validation Library] · §Inherited Defaults (Validation)
+**Change:** garde version 0.23.0 → 0.22.1 across all three; §Established Decisions now records that garde 0.22.1's `#[garde(custom)]` is field-level only (no container-level custom) — cross-field invariants spanning distinct fields use garde's `Context` pattern.
+**Why:** the config-validation-surface chunk needed garde's `derive` feature, but `garde_derive 0.23.0` is absent from the registry (latest 0.22.1), so garde 0.23.0 + `derive` is unbuildable; user authorized the downgrade to 0.22.1. The no-duplicate-P-IDs validator consequently landed field-level (not struct-level). Cascaded to `.claude/docs/stack.md`. Cleared by the security + arch drift-detectors (§Dependency Security carried no garde pin).
+
+## 2026-06-15-structured-logging-stack — CONDUCTOR_SERVICE_NAME / CONDUCTOR_ENV registered
+**Section:** §Occupied Resources (Environment variables)
+**Change:** added `CONDUCTOR_SERVICE_NAME` (self-obs `service.name` override) and `CONDUCTOR_ENV` (self-obs `deployment.environment`, default `local`) to the reserved `CONDUCTOR_*` env-var list.
+**Why:** the structured-logging-stack chunk's `init_observability` reads both (obs-plan §3) to populate `ServiceIdentity`; the arch env-var inventory listed only RUNS_DIR/SCENARIOS_DIR/CONTRACT_MANIFEST/SEED. No cascade — CLAUDE.md / stack.md do not enumerate env vars (grep-confirmed). D-arch-decisions cleared (tracing/tracing-subscriber already in §Stack; no OTel SDK introduced).
+
+## 2026-06-15-design-token-typography-bundle — frontend stack + ui/ asset subtree registered
+**Section:** §Stack and Technologies (new Desktop-frontend row) · §Occupied Resources (Frontend asset subtree) · §Inherited Defaults (Frontend bullet)
+**Change:** recorded the optional GUI's realized frontend toolchain — React 19.x + Vite 8.0.16 + Tailwind v4.1 (Oxide via `@tailwindcss/vite`) + Fontsource WOFF2, package manager npm (committed `package-lock.json` + `npm audit` gate); registered the `crates/conductor-tauri/ui/` asset subtree (not a Cargo member; `node_modules/` + `dist/` git-ignored) and the npm/frontend default.
+**Why:** the design-token-typography-bundle chunk landed the first frontend code under `crates/conductor-tauri/ui/`; arch §Stack pinned no Vite major (Vite 8.0.16 was the npm-audit floor clearing esbuild GHSA-gv7w-rqvm-qjhr), and §Occupied Resources / §Inherited Defaults did not record the frontend asset layer. User-approved at the wrap escalation (all-4 spec recordings). Cascaded to `.claude/docs/stack.md`. D-arch-resources + D-arch-decisions cleared (React 19 / Tailwind 4.1 / Fontsource already allowed by §Stack; Vite major was unpinned).
+
+## 2026-06-16-test-framework-fixtures-coverage-tooling — test/coverage toolchain registered in Build system
+**Section:** §Infrastructure Patterns — Build system
+**Change:** the test clause now names cargo-nextest as the pinned runner (zero-retry `ci` profile in `.config/nextest.toml`) + `cargo test --doc`, the dev-test stack (rstest/proptest/insta/assert_cmd/assert_fs/predicates), and `cargo-llvm-cov` line coverage requiring the `llvm-tools-preview` toolchain component; exact versions deferred to test-plan §4.
+**Why:** the test-framework chunk landed exactly this toolchain (report Changes + Outcome — 46/46 nextest, 91.97% llvm-cov, all gates green); arch §Infrastructure named only `cargo test` / cargo-nextest loosely. Routine per playbook rule #5 (spec→sound-impl alignment). Cascaded to `.claude/docs/stack.md`. D-arch-resources cleared (no new crate/port/env var); D-arch-decisions resolved by this registration.
+
+## 2026-06-16-seeded-phase-scheduler — seedable RNG (rand_chacha/rand_core) registered in §Stack + §Established Decisions
+**Section:** §Stack and Technologies (new Determinism RNG row) · §Established Decisions (new [Determinism RNG] entry)
+**Change:** added a "Determinism RNG | rand_chacha 0.9 (`ChaCha8Rng`) + rand_core 0.9 (`SeedableRng`)" Stack row and a [Determinism RNG] established decision locking `ChaCha8Rng` + `seed_from_u64` (platform/version-stable) as the timeline scheduler's sole non-determinism source.
+**Why:** the seeded-phase-scheduler chunk added rand_chacha 0.9 / rand_core 0.9 to `[workspace.dependencies]` for deterministic per-gap jitter (report §Dependencies); arch §Stack listed no RNG and §Established Decisions did not record the RNG/seeding choice. Routine per playbook rule #5 (spec→sound-impl alignment) — arch §Cross-cutting already mandated a "seeded RNG"; this records the concrete algorithm-stable realization. Cascaded to `.claude/docs/stack.md`. D-arch-resources + D-arch-decisions resolved by this registration. D-security-deps escalate was a verified false positive (tauri already 2.10.3, untouched by this chunk; real new deps audit/deny-green) — dismissed with the user; a playbook rule was added for the misfire class.
+
+## 2026-06-16-scenario-config-model — toml 0.9 registered in §Stack + [Scenario Config Format] decision
+**Section:** §Stack and Technologies (new Scenario config (TOML) row) · §Established Decisions (new [Scenario Config Format] entry)
+**Change:** added a "Scenario config (TOML) | toml 0.9" Stack row and a [Scenario Config Format] established decision locking declarative TOML scenario config (serde-deserialized + garde-validated via `Scenario::from_toml_str`), chosen over JSON for hand-author ergonomics + inline comments across the 60 per-P-ID files.
+**Why:** the scenario-config-model chunk added `toml = "0.9"` to `[workspace.dependencies]` + conductor-core for the declarative per-phase emission spec (report §Dependencies + §Decisions — the P4 user format decision); arch §Stack listed only serde_json and §Established Decisions recorded no scenario config format. Routine per playbook rule #5 (spec→sound-impl alignment) + the serde_json / rand_chacha precedents (a new audit-green dep → §Stack row, a locked format choice → §Established Decisions). Cascaded to `.claude/docs/stack.md` (CLAUDE.md no delta — its overview Stack line is high-level). D-arch-decisions resolved by this registration; D-security-deps cleared by the security detector (toml audit/deny-green, Cargo.lock committed); the other 5 docs returned `proposals: []`.
+
+## 2026-06-18-exception-events-fingerprint-control — fingerprint primitive placed in conductor-emit
+**Section:** §Infrastructure Patterns (directory-tree crate comments) — cascaded to CLAUDE.md §Modules
+**Change:** the per-exception fingerprint PRIMITIVE (`fingerprint()` + the exception-event builder, identical/path/line/type/frame variants) is recorded in `conductor-emit` (co-located with the exception content it derives from); `conductor-faults`' "fingerprint generation" is narrowed to the fingerprint-STORM fault (Epoch-7), which will depend on emit and compose this primitive.
+**Why:** the exception-events-fingerprint-control chunk landed `fingerprint()` + `exception_trace_request()` in `conductor-emit` per the crate-seam the user ratified in /andromeda-phase (AskUserQuestion — the error-spans "builder-in-emit" precedent; faults is an empty Epoch-4 stub). arch's dir-tree comment had attributed all "fingerprints" to faults. Routine per playbook rule #5 (spec→sound-impl alignment) + the explicit prior user ratification — documentation alignment, no behavioral change. Cascaded to CLAUDE.md §Modules (stack.md has no crate-ownership mention — grep-confirmed; no delta). The other 6 docs returned `proposals: []`.
+
+## 2026-06-21-run-report-envelope-serializer — ManualCheck widened + Verdict→ReportState default mapping
+**Section:** §Read-Back Dependency Posture · §Probabilistic-Assertion Policy
+**Change:** ManualCheck's definition broadened from "operator-checklist / no-programmatic-read-back only" to ALSO include an auto-measured model-interpretive (calibration-region) check; recorded the default `Verdict → ReportState` mapping (`Pass→Pass` / `Fail→Fail` / `CalibrationRegion→ManualCheck`, via `Verdict::default_report_state`), with `verdict`/`state` kept independent and the run-report lamp chosen verdict-first (a calibration row renders HOLD, not Manual).
+**Why:** the chunk shipped `Verdict::default_report_state` (P4 decision, user-approved) + `RunRecord::measured`; arch's narrow ManualCheck definition was stale. The arch drift-detector false-negatived (claimed arch already prescribed it — it did not); the orchestrator authored the amendment, cross-confirmed by the a11y detector. Verdict-first lamp precedence resolves the a11y §6 six-lamp conflict (escalated + user-confirmed 2026-06-21). Cascade no-op (CLAUDE.md / stack.md carry no ManualCheck-definition detail — grep-confirmed).
+
+## 2026-06-21-runs-db-index — SQLite/libsqlite3-sys versions corrected to the shipped lock
+**Section:** §Stack and Technologies (Database row) · §Inherited Defaults (Database)
+**Change:** `libsqlite3-sys 0.38.0 → 0.36.0` and bundled `SQLite 3.51.1 → 3.50.4` across both spots (rusqlite 0.38.0 unchanged).
+**Why:** the runs-db-index chunk landed the first real `rusqlite 0.38.0 bundled` compile; rusqlite 0.38.0 transitively pins `libsqlite3-sys 0.36.0`, which bundles SQLite 3.50.4 (verified from the bundled `sqlite3.h` + `Cargo.lock`) — arch's stated 0.38.0 / 3.51.1 were assumed, not the resolved lock. The functional invariant holds (bundled, JSON1 proven by the `json_array_length` test, the §Established-Decisions ≥3.38 floor satisfied). Routine per playbook spec→sound-impl alignment; audit-green (cargo-audit exit 0 / cargo-deny ok). Cascaded to `.claude/docs/stack.md`. Mirrored in security-plan §Infrastructure (same correction).
+
+## 2026-06-21-runs-db-index — runs.db instant columns are TEXT RFC-3339, not integer-ms offsets
+**Section:** §Data model conventions · §Standard Contracts (Timestamp formats)
+**Change:** the `journal_emitted_at`/`read_back_observed_at` `runs.db` columns are stored as TEXT RFC-3339 (the JSONL envelope's wire form); the integer-millisecond value the SLO math consumes is named as the separate `latency_ms` INTEGER column (was: "stored as the same integer-millisecond journal offsets … not ISO strings").
+**Why:** the chunk's P4 user decision (AskUserQuestion → Option A). The envelope carries only second-precision RFC-3339 instants + a precomputed `latency_ms`; storing the two instants as epoch-ms would add a date-parser dep for no SLO-math gain (`latency_ms` already IS the journal-relative delta the math consumes, stored INTEGER). The original "integer-ms, not ISO strings" wording under-specified the columns given the envelope's actual shape; the SLO-math invariant (integer-ms via `latency_ms`) is preserved. User ratified at P4 ("records a doc-reconcile note for wrap"). No cross-doc conflict (obs §3/§6 already use RFC-3339 TEXT). Cascade no-op for this entry (CLAUDE.md/stack.md carry no per-column timestamp detail — grep-confirmed).
+
+## 2026-06-23-conductor-run-suite-report-verbs — clap 4 registered in §Stack
+**Section:** §Stack and Technologies
+**Change:** added a "CLI argument parsing | clap 4 (`derive`)" Stack row.
+**Why:** the conductor-run-suite-report-verbs chunk added `clap = { version = "4", features = ["derive"] }` to `[workspace.dependencies]` + conductor-cli for the `run`/`suite`/`report` verb surface (report §Dependencies); arch §Stack listed no CLI arg parser. Routine per the serde_json/toml/rand_chacha precedent (a new audit-green dep → §Stack row). `cargo audit` exit 0 (clap + transitives clean); `Cargo.lock` committed. Cascade no-op: CLAUDE.md overview Stack line is high-level (no clap — the toml precedent), and `.claude/docs/stack.md` already lists clap (line 34, cli-surface). D-arch-resources + D-arch-decisions resolved by this registration; clap needs no §Established Decisions entry (a standard CLI parser, not a consequential fork). The 3 security/obs escalations (D-security-input / D-security-subprocess / D-obs-redaction) were dismissed as consume-shipped-hardened-infra false positives (new playbook rule added); D-security-deps (tauri, untouched at 2.10.3) + D-tests-obs-harness (§3↔§3 pre-existing) dismissed via existing rules; layouts D-layout-surface satisfied by §Primary screens line 175 (report verb already documented); design + a11y clean. The CLI-level `scenario.run` root span (obs §4) is a carried code follow-up (this chunk is the Epoch-8 driver), not a doc drift — obs §4 stays target-state.
+
+## 2026-06-23-5-command-agent-run-harness — CONDUCTOR_PREFLIGHT_TIMEOUT registered
+**Section:** §Occupied Resources (Environment variables)
+**Change:** added `CONDUCTOR_PREFLIGHT_TIMEOUT` (preflight readiness-gate timeout in seconds, default 30; read by `scripts/agent-run.{sh,ps1}` `boot`) to the reserved `CONDUCTOR_*` env-var list.
+**Why:** the chunk's `conductor preflight` verb (the `agent-run boot` entrypoint) is gated by this timeout, which `agent-run.{sh,ps1}` read (`PREFLIGHT_TIMEOUT_SEC`); the arch env-var inventory omitted it. It predates this chunk (Epoch-1 skeleton) but was never registered, and this chunk makes the preflight path it gates load-bearing — an accurate gap the report names (it IS consumed + genuinely absent), NOT the not-added-dependency misfire. No cascade — CLAUDE.md / stack.md do not enumerate env vars (the CONDUCTOR_SERVICE_NAME/ENV precedent). D-arch-decisions cleared (no new stack/dep; the clap-4 `preflight` subcommand is an allowed-pattern addition). The other 6 docs: security/obs/tests/design/a11y returned `proposals: []`; layouts registered the verb in its own §cli Primary screens.
+
+## 2026-06-23-line-oriented-output-rendering — terminal-rendering stack (owo-colors/indicatif/comfy-table) registered in §Stack
+**Section:** §Stack and Technologies
+**Change:** added a "Terminal output rendering | owo-colors 4 + indicatif 0.17 + comfy-table 7" Stack row (the `conductor-cli` presentation layer — tty-gated status-line color, run/suite progress spinner, results + 60-P-ID coverage tables).
+**Why:** the chunk added owo-colors 4.3.0 / indicatif 0.17.11 / comfy-table 7.2.2 to `[workspace.dependencies]` + conductor-cli for line-oriented output (report §Dependencies); arch §Stack listed no terminal-rendering layer. Routine per the clap/serde_json/toml precedent (a new audit-green dep → §Stack row); `cargo audit` exit 0 + `cargo deny check` exit 0 (the indicatif→number_prefix advisory + the pre-existing foldhash Zlib license recorded as accepted deny.toml exceptions — security-plan §Dependency Security). Cascade: CLAUDE.md overview Stack line is high-level (no per-lib — the clap/toml precedent); `.claude/docs/stack.md` already lists the cli rendering libs (line 34) — corrected its `indicatif 0.18`→`0.17` to the resolved lock. D-arch-decisions resolved by this registration (standard presentation crates, no §Established Decisions fork). D-arch-resources (proposing the `conductor coverage` verb + the render module's public fns into §Occupied Resources) dismissed as over-reach — the verb is layout-templates' concern (registered there), the library API is the §Occupied-Resources library-symbol over-reach; a new playbook rule was added.
+
+## 2026-06-23-isatty-gated-operator-pause — inquire 0.9 registered in §Stack (terminal-rendering row)
+**Section:** §Stack and Technologies (Terminal output rendering row)
+**Change:** appended `+ inquire 0.9` to the terminal-rendering Stack libs (owo-colors/indicatif/comfy-table) + the role gained "isatty-gated interactive operator-pause prompts (inquire confirm; headless never blocks)".
+**Why:** the chunk added `inquire = "0.9"` (→0.9.4) to `[workspace.dependencies]` + conductor-cli for the CLI interactive `PauseResolver` (report §Dependencies); arch §Stack's terminal-rendering row listed no interactive-prompt lib. Routine per the clap / owo-colors-indicatif-comfy-table precedent (a new audit-green dep → §Stack row): `cargo audit` exit 0 + `cargo deny check` exit 0 (inquire + crossterm 0.29 / fuzzy-matcher 0.3.7 / derive_more 2.1.1 transitives clean — NO new deny.toml exception needed, unlike ch3's number_prefix/foldhash). Cascade: CLAUDE.md overview Stack line is high-level (no per-lib — the clap/toml/ch3 precedent), no-op; `.claude/docs/stack.md` already listed the cli prompt lib — corrected its `inquire 0.7`→`0.9` to the resolved lock (the ch3 indicatif-0.18→0.17 cascade pattern). No §Established Decisions entry (a standard CLI-prompt crate, not a consequential fork — the ch3 presentation-crates precedent). D-arch-decisions resolved by this registration; D-arch-resources clean (no new port/socket/endpoint/IPC/event/env-var/crate; the `CliResolver`/`PromptResolver`/`hold_line` symbols are the library-symbol over-reach arch omits). The other 6 docs returned `proposals: []`: security (inquire audit/deny-green, no new input boundary/spawn), obs (tracing-only, no OTel SDK; redaction preserved), tests (nextest/rstest on-spec; harness unchanged), design (amber via `lamp_code` token, never color-alone), layouts (the `[HOLD]` line + inquire confirm already in §cli wireframes/§Output structure), a11y (cli surface is "not-assertable" per §1; zero schema change).
+
+## 2026-06-24-sanitized-stderr-agent-mode-logging — registered CONDUCTOR_AGENT_MODE env var + logs/agent-latest.jsonl artifact
+**Section:** §Occupied Resources (Environment variables + On-disk artifacts)
+**Change:** registered two genuinely-new occupied resources — the `CONDUCTOR_AGENT_MODE` env var (a read-only agent-mode trigger; `flag || env-set`, main never writes it) and the `logs/agent-latest.jsonl` on-disk artifact (the self-obs `tracing` JSON stream in agent mode; a SEPARATE artifact + schema from the emission journal, a sibling of the runs dir moving with `CONDUCTOR_RUNS_DIR`).
+**Why:** D-arch-resources fired on the report's two new Changes-listed resources. Routine (NOT the flag/symbol/config-file/token over-reach the playbook dismisses): arch §Occupied Resources explicitly tracks env-vars + on-disk artifacts in its enumerated list, and neither was registered. The `--agent-mode`/`--debug` CLI FLAGS stayed layout-templates' concern (the already-documented §cli "Error output" + pipe discipline), not arch — per the CLI-verb/flag over-reach rule. Cascade: CLAUDE.md GENERATED:setup:* + stack.md enumerate neither env-vars nor per-artifact paths (high-level overview) → no-op. D-arch-decisions clean (no new dep — std-only file sink; the `ObsWriter` enum-dispatch mirrors the shipped `CliResolver` precedent).
+
+## 2026-06-24-frameless-window-shell — registered logs/conductor-tauri.jsonl artifact + @tauri-apps/api/tauri-build + the generate_context! build-order coupling
+**Section:** §Occupied Resources (On-disk artifacts) · §Stack and Technologies (Desktop frontend row) · §Infrastructure Patterns (Build system)
+**Change:** registered `logs/conductor-tauri.jsonl` (the Tauri backend self-obs `tracing` JSON stream via `ObsSink::File`, sibling of the runs dir — the GUI shell's analogue of `agent-latest.jsonl`); added `@tauri-apps/api` (window/IPC client) to the Desktop frontend stack row; documented `tauri-build`'s `generate_context!` resolving `build.frontendDist` (`ui/dist`) at COMPILE time → the webview bundle must be built before any workspace cargo compile of `conductor-tauri` (the `ensure_frontend` step wired into `agent-run.{sh,ps1}` + the CI Rust job), plus the Tauri tree's justified `deny.toml` additions (unmaintained gtk/unic/proc-macro-error advisories + `MPL-2.0` / `Apache-2.0 WITH LLVM-exception` licenses).
+**Why:** the first real Tauri 2 app (report §Changes). D-arch-resources fired; the GENUINE new occupied resource is the `logs/conductor-tauri.jsonl` artifact (arch §Occupied Resources tracks on-disk artifacts — the agent-latest.jsonl precedent registered the sibling). `@tauri-apps/api` + `tauri-build` are genuinely-added deps (report §Dependencies); the `generate_context!`-frontend-before-cargo coupling is a real build-system constraint affecting CI + the harness. DISMISSED (user-confirmed 2026-06-24): the 3 `core:window:*` capability PERMS into §Occupied Resources (framework ACL perms in the deny-by-default `capabilities/` file — security-plan's domain, NOT Conductor IPC methods; the Conductor command surface is unchanged) → new playbook rule. D-arch-decisions clean (tauri 2.11.3 ≥2.10.3 floor; React/Vite/Tailwind already in §Inherited Defaults). The escalate-severity detectors returned clean: security (`[]` — deny.toml inline-justified, tauri ≥floor, deny+audit green, no new input boundary/spawn), obs (no OTel SDK; the Tauri sink inherits the UNCHANGED `init_observability` redaction layer), a11y (`[]` — banner+button+focus-ring covered; the `ObsSink` rename is not a schema change). Cascade: stack.md gains `@tauri-apps/api` + the build-order note; gotchas.md gains the disk + build-order gotcha (P3 curation).
+
+## 2026-06-26-live-counter-channel-stream — registered the conductor-run library crate (9th workspace member)
+**Section:** §Occupied Resources (Crate names) · §Infrastructure Patterns (directory tree)
+**Change:** added `conductor-run` to the workspace-member registry + the directory tree — the run composition root library (preflight + execute_scenario + persist + the live-counter drive_run) sitting above the seams and below both bins, shared by conductor-cli + conductor-tauri.
+**Why:** D-arch-resources (warning). The chunk extracted conductor-cli's bin-local pipeline.rs into a NEW workspace crate (report §Changes — "ADDED conductor-run (9th workspace member)"); a workspace member IS an occupied resource arch §Occupied Resources tracks (the crate-names list), distinct from the library-symbol / command-name / module / config-file / capability-perm over-reach the playbook dismisses (those rules exclude new crates). Routine new-crate registration. D-arch-decisions clean (the core-owned current_thread runtime under Tauri matches §Async Runtime Flavor; the live-counter Channel was already pinned in §Real-time Strategy; no new external crate). The escalate-severity detectors returned clean: security (`[]` — start_run input validated via validate_selection+resolve_under, sidecar spawn unchanged, no new external dep — audit+deny green), obs (`[]` — tauri.command.* spans + run_id, no OTel SDK, RunEvent path-free), a11y (`[]` — the live counter drives the EXISTING titlebar aria-live region, already anticipated in a11y §1/§4/§5). Cascade: CLAUDE.md §Modules + §Key directories + stack.md gain conductor-run.
+
+## 2026-06-27-desktop-a11y-harness-setup — npm-audit gate one-liners made dev-aware (`--omit=dev`)
+**Section:** §Stack and Technologies (Desktop frontend row) · §Inherited Defaults (Frontend)
+**Change:** the two npm-audit gate one-liners `npm audit` → `npm audit --omit=dev` (production-dep strict; dev-only test-tooling advisories accepted at dev-tree grain) — kept consistent with the authoritative security-plan §Dependency Security amendment.
+**Why:** D-arch-decisions (warning) fired on the new npm devDeps + the gate change. The substantive amendment is security-plan's (the a11y harness's dev-only transitive advisories → dev-aware gate, user-decided); arch carries derived one-liner summaries of it, updated here in lockstep. DISMISSED: registering the a11y test devDeps (axe-core / webdriverio / lighthouse / colorjs.io / @crabnebula/tauri-driver) into arch §Inherited Defaults / §Stack — over-reach per the 2026-06-26 frontend-component-package rule (the test/harness tooling lives in a11y-plan §3.5 + the stack.md distillation, which already lists @crabnebula/tauri-driver + axe/lighthouse/colorjs.io; arch §Stack/§Inherited Defaults summarize the frontend stack at React/Vite/Tailwind/npm grain, never enumerated test tooling). No new workspace crate / port / socket / env-var. Cascade: stack.md (lines 32 + 39) carry the gate one-liner (updated in lockstep); the a11y tooling rows in stack.md (37/40) already existed.
+
+## 2026-06-27-mcp-read-back-result-shape-adapter — [MCP Read-Back Client] REVERSED: rmcp removed → hand-rolled JSON-RPC
+**Section:** §Stack and Technologies (MCP read-back row) · §Established Decisions [MCP Read-Back Client] · §Read-Back Dependency Posture · §Conventions (Inbound verification + Error handling) · §Inherited Defaults · directory-tree comment
+**Change:** the read-back client decision flips from "rmcp 1.7.0 (official SDK; typed `list_all_tools()`/`call_tool()`; version negotiation via `peer_info()`)" to "hand-rolled line-delimited JSON-RPC over the sidecar's stdio" — `initialize`/`tools/list`/`tools/call` returning the RAW `serde_json::Value`; version negotiation reads the `initialize` result's `protocolVersion`; rmcp removed from conductor-verify. The hardened spawn + the `2024-11-05` manifest pin + the preflight gate are unchanged.
+**Why (incl. the superseded rationale, preserved here per the body's pointer):** the original [MCP Read-Back Client] rationale read "rmcp 1.7.0 — official SDK with version negotiation + typed tool calls; **hand-rolled JSON-RPC and third-party rust-mcp-sdk were rejected** because re-deriving version negotiation is the silent-mismatch risk class the preflight exists to prevent" (with a caveat that Pulse's server is itself hand-rolled `2024-11-05`). That was sound at design time but **contradicted by the live SUT**: Pulse's `andromeda-pulse-mcp` is non-MCP-compliant for `tools/call` — it returns the raw tool payload as `result` (no `{content:[…]}` envelope), which rmcp's typed `call_tool` deserializes into `ServerResult` and rejects as `UnexpectedResponse` on EVERY live call (rmcp exposes no raw-result escape — verified in rmcp 1.7 `service/client.rs:282-327` + `service.rs:442`). So the "rejected hand-rolling" clause is reversed: hand-rolling is the faithful match to a hand-rolled non-compliant server; version negotiation reduces to reading one `initialize` field. Discovered implementing Live-Pulse E2E proof → re-planned as this prerequisite; user-confirmed the hand-rolled approach at /andromeda-phase P4 + the reversal at the wrap escalation (2026-06-27); a playbook rule was added (SUT-contradicts-a-locked-decision → routine-apply). DISMISSED clean: D-arch-resources (rmcp removed, no new crate/port/env), security D-security-subprocess (spawn hardening preserved) + D-security-deps (no new dep; rmcp removed; audit/deny green), obs/tests/design/layouts/a11y (`proposals: []` — spans/no-OTel/redaction/harness/envelope all hold). Cascaded to CLAUDE.md GENERATED:setup:* (§Modules / §Architecture) + `.claude/docs/stack.md`.
+
+## 2026-06-27-live-pulse-e2e-proof — canary premise reversed (Pulse incident creation is LLM-in-the-loop non-deterministic) + corpus.db plaintext + read-back surface
+**Section:** §Established Decisions [Read-Back Dependency Posture] · §Standard Contracts (Readiness gate + corpus access) · §Occupied Resources (`ANDROMEDA_PULSE_DATA_DIR`)
+**Change:** the canary "emit one known incident → assert `query_incident_list` returns it" round-trip is superseded — Conductor emits a unique fingerprint-storm (telemetry) and the fidelity carrier is `retrieve_telemetry_slice.fingerprint_refs` (Pulse scrubs incident titles). The original premise is unattainable: Pulse's incident creation is NON-DETERMINISTIC + LLM-in-the-loop (OTLP → L1 → L2 RetryStorm cue [deterministic, ≥5 same fingerprint/30s] → L3 digest [20-60s cadence] → **L4 llama.cpp Llama-3.2-3B decides Dismiss/Severity** → incident), so deterministic incident-readback verification against the real LLM is impossible — an OPEN posture decision (leading: a deterministic test-L4 mode in Pulse). `corpus.db` is **plaintext SQLite** (the P-049 "encrypted at rest / `OsKeychainBackend`" assumption is WRONG → keychain-failure canary mode N/A); the live read-back surface is **8 tools** (only the 4 persistent-corpus tools work cross-process from a Conductor-spawned sidecar — the in-memory-buffer tools return empty); the incidents filter column is `workspace` (not `workspace_root`).
+**Why:** verified live against Pulse this session (operator findings). Part A (the canary fingerprint-fidelity bridge) shipped + CI-green (nextest 420/420), but live `conductor preflight` correctly returns `Blocked: incident not found in corpus` — ingest works (`conductor-canary` in `service_registry`) yet Pulse creates no incident (`incidents` 0 rows; `baseline_state` 0; all services silent; config `mcp_server_enabled=false`; both dense + sustained storms tried). REVERSES a §Standard Contracts assumption because the live SUT contradicts it — escalate-once-then-apply (playbook 2026-06-27 locked-assumption-reversal rule); user-confirmed in the wrap directive (record Part A + defer Part B + apply this amendment; the deterministic-verification posture is the chunk's PENDING follow-up, NOT resolved this session). Part B (the 2 live families + live `ready:true`) deferred — blocked on the same open decision. Cascade: NO CLAUDE.md / stack.md edit (their canary/MCP distillations carry no stale claim — the "empty canary → Blocked" warning + the hand-rolled-JSON-RPC stack row both still hold). Pulse run recipe (future live pass): pulse-app needs `ANDROMEDA_PULSE_MODEL_PATH` + `ANDROMEDA_PULSE_LLAMA_CUDA_BIN_PATH`; build needs `ANDROMEDA_LLAMA3_TOKENIZER_PATH` (a triage/build.rs bug truncates the 9 MB tokenizer → L4 breaks); RetryStorm ≥5/≥10 same fingerprint/30s; L4 ≈4 s/inference.
+
+## 2026-08-08-sut-capability-manifest — Accepted capability set is manifest data (SUT-advance reversal)
+**Section:** §Established Decisions (new [Accepted Capability Set]) · §Occupied Resources On-disk artifacts · §Infrastructure directory tree · §Conventions Naming · §Cross-cutting Scope law · §Project Intent
+**Change:** The accepted Pulse P-ID set moved from the compile-time `(1..=60)` bound in garde's `pid_format` to the versioned runtime-read `contracts/pulse-capabilities.toml`; validation split into shape (garde) + membership (`Scenario::check_capabilities` via `from_toml_str_with`); a malformed/absent manifest is a `CoreError` harness fault, never Blocked. Every "all 60 P-IDs" / "P-001..P-060" claim de-hardcoded to name the manifest's accepted set.
+**Why:** Pulse's ledger advanced to P-082 during a 41-day pause and a scenario naming anything above P-060 failed garde validation at load, so the harness could not express what the SUT had shipped. Ratified at wrap (escalate-once, playbook rule 27's shape); de-hardcoding rather than substituting 82 was the operator's decision, so the next Pulse release needs no doc edit.
+
+## 2026-08-08-dependency-advisory-remediation — anyhow pin 1.0.102 → 1.0.104
+**Section:** §Stack and Technologies (Error handling row) · §Established Decisions [Error Handling] · §Inherited Defaults (Error handling)
+**Change:** the three arch-registered `anyhow 1.0.102` pins refresh to `anyhow 1.0.104`. thiserror 2.0.18, the anyhow-only-at-binary-edges rule, and the verdict/error-wall prose are untouched — only the version value moves.
+**Why:** the chunk cleared four decayed advisories by dependency bump, one of which was RUSTSEC-2026-0190 (`anyhow` 1.0.102, `unsound` in `Error::downcast_mut()`, patched `>=1.0.103`) — an advisory `cargo audit` reports as an exit-0 allowed warning while `cargo deny` denies it, so it was invisible to an audit-only check. The operator's P4 decision raised the `[workspace.dependencies]` floor to `1.0.104` alongside the lock bump, so the manifest no longer names a version with a known unsound advisory; arch's pins followed. The amendment surface is **architecture.md only** — verified at the chunk's P5 review that security-plan carries no anyhow version (its ten `anyhow` mentions are all error-sanitization *edge* references; §Dependency Security's version-bearing content is the cargo-audit ≥0.22 / cargo-deny ≥0.19 tool floors and the `tauri` ≥2.10.3 line), so no lockstep security-plan amendment was proposed or made. Validated routine under playbook:28-30 (spec-value → sound-impl reconciliation; the decision's invariants preserved). Fan-out was otherwise clean: 6 of 7 docs returned `proposals: []`. Cascade: `.claude/docs/stack.md` §Error handling; no CLAUDE.md edit (its anyhow mention carries no version). NOT amended, as pre-existing gaps this chunk did not introduce (playbook:46, → handoff follow-ups): arch §Stack's `tokio 1.48.x` vs the resolved 1.52.3, arch §Stack's Tauri `v2.10.x / latest 2.10.1` vs the resolved 2.11.3, and `deny.toml`'s 17 ignores / 8 allows vs security-plan §Accepted exceptions naming one of each.
+
+## 2026-08-09-current-sut-coverage-classification — Re-aiming is a manifest edit PLUS a classification row
+**Section:** §Established Decisions [Accepted Capability Set] · §Occupied Resources (`contracts/pulse-capabilities.toml`) · §Stack and Technologies (Terminal output rendering row)
+**Change:** The [Accepted Capability Set] decision's closing claim — "re-aiming at a newer Pulse release is now a manifest edit with no Rust change" — is qualified to current truth: the **accepted set** is data, but the **coverage classification** stays code-native (`coverage_matrix()`, a no-runtime-IO `static`), and `check_sut_drift` holds the two to set-equality. Re-aiming is therefore a manifest edit **plus** a matching classification row; an accepted id with no row, or a classified id the manifest no longer accepts, is a `CoreError::SutDrift`. The `KNOWN_UNCLASSIFIED` residual ledger is recorded as retired to `[]`. §Occupied Resources' echo of the same claim follows in lockstep. Separately, the §Stack terminal-rendering row's "60-P-ID coverage tables" reads "capability-coverage tables (the manifest's accepted set)".
+**Why:** The chunk classified all 82 manifest-accepted capabilities and emptied the residual ledger, making the manifest↔classification coupling exact and unavoidable. The two-source shape is deliberate, not incidental: the operator's P4 representation decision chose code-native classification precisely so `check_sut_drift` stays a genuine two-source comparison rather than collapsing into a self-check — so the decision's invariant (the accepted set is DATA, never a compile-time constant) is fully preserved and only its consequence-wording moved. Validated routine under playbook:28-30 (spec-wording → sound-impl reconciliation). The §Stack row edit landed at /implement (see the process note in this chunk's report §Deviations 1); this entry is the history half that flow owed. Cascade: CLAUDE.md `GENERATED:setup:*` + `.claude/docs/stack.md`.
+
+## 2026-08-09-interpretation-correctness-posture — second coverage-integrity gate + interpretation-correctness deferral
+**Section:** §Established Decisions [Accepted Capability Set] · [Read-Back Dependency Posture]
+**Change:** [Accepted Capability Set] gains the second integrity gate on a distinct axis — `check_scenario_backing` holds the `UNBACKED_AUTO` pin (`Auto`-classified capabilities no scenario names) to exact-set equality against the committed catalog, failing on a new unbacked claim / pin rot / a pin that lost its `Auto` classification (`CoreError::UnbackedCoverage`); only `Auto` participates. [Read-Back Dependency Posture]'s "OPEN posture decision" is closed: the deterministic-L4 option landed Pulse-side, and its cost is recorded as a deferral — "Conductor green" does not mean interpretation is trustworthy — owned by a conductor-0.3.0 entry and pinned in `.andromeda/residuals.md`.
+**Why:** the chunk shipped both the gate and the deferral; arch described `check_sut_drift` as the single integrity gate and still carried the posture question as open, so the body no longer matched current truth.
+
+## 2026-08-09-sut-load-envelope — load-envelope artifact + runs.db second table registered
+**Section:** §Occupied Resources (On-disk artifacts) · §Infrastructure Patterns (directory tree) · §Stack (ORM row) · §Established Decisions [ORM]
+**Change:** Registered `contracts/pulse-load-envelope.toml` as a committed on-disk artifact (terms + provenance + exemption ledger; fixed `LoadEnvelope::default_path()` through `resolve_under`, no `CONDUCTOR_*` override; only the duration term asserted, rate terms declared-not-derivable). Extended the `runs.db` bullet to its two tables (`runs` per-check + the additive run-level `run_envelope`) and restated the [ORM] / §Stack qualifier from "~one indexed table" to a small fixed set of hand-written tables. Directory-tree `contracts/` comment now names three manifests.
+**Why:** The chunk landed a third committed contracts artifact and a second runs.db table; §Occupied Resources enumerates committed artifacts, and the one-table qualifier no longer matched. The no-ORM decision itself is unchanged.
+
+## 2026-08-10-workspace-key-divergence-probe — readiness gate: a fourth named precondition
+**Section:** §Standard Contracts — Readiness gate (the `ready:false` paragraph)
+**Change:** The gate's named-precondition set is stated as FOUR (was three): protocol version-mismatch ·
+required-tool absence · emitted fingerprint absent from an existing incident · **app/sidecar workspace-key
+agreement**. The fourth is emitted on a zero-incident `query_incident_list`, which is byte-identical on the
+wire to a workspace-key divergence (the sidecar keys on `ANDROMEDA_PULSE_DATA_DIR`, `pulse-app` on its
+detected workspace root), so the string names the key agreement AND "Pulse raised no incident" as the two
+candidate causes rather than claiming a measurement Conductor cannot make — read-back exposes no second key
+(`query_incident_list` takes no arguments). Also states that every precondition string is host-path-free
+(`data_dir` redacted).
+**Why:** the chunk replaced the opaque `canary round-trip failed: incident not found in corpus` with the
+named precondition, verified by four `conductor-verify` test legs and three live `conductor preflight --json`
+runs. Pulse-side mechanics confirmed first-hand (`corpus/src/contract.rs:628` · `pulse-app/src/main.rs:688-693`
+· `mcp-server/src/bin/andromeda-pulse-mcp.rs:74`).
+
+## 2026-08-10-pulse-run-contract — the run contract registered as the fourth `contracts/` manifest
+**Section:** §Occupied Resources — On-disk artifacts (+ the `contracts/` line in the §Infrastructure Patterns directory tree)
+**Change:** registered `contracts/pulse-run-contract.toml` — the pinned Pulse run contract (`sut_version` · `captured_at` · `provenance` · an `[incident_formation]` table · a `[[term]]` list), runtime-read and bounds-checked at load, resolved from a fixed `RunContract::default_path()` through `resolve_under` with deliberately NO `CONDUCTOR_*` override handle. The entry records what each `check` kind MEANS as a statement about what Conductor can honestly know — `shell-declaration` (observable in Conductor's own environment, the only kind that can block), `asserted` (satisfied by construction), `declared-not-observable` (true on the SUT's side with no read-back surface, recorded but never blocking, because blocking would claim a measurement). The directory-tree comment moved from three manifests to four.
+**Why:** the chunk landed the artifact; §Occupied Resources enumerates each `contracts/` manifest individually (the `pulse-capabilities` / `pulse-load-envelope` precedent), so a fourth left unregistered is an unregistered resource. Detector-raised (D-arch-resources) off the report's Files + Schema/config bullets.
+
+## 2026-08-10-pulse-run-contract — preflight timeout floor + the L4 declaration Conductor reads
+**Section:** §Occupied Resources — Environment variables
+**Change:** `CONDUCTOR_PREFLIGHT_TIMEOUT` keeps its default of 30 but now carries a run-contract-derived effective FLOOR (`[incident_formation].min_canary_poll_seconds`) it cannot sit below, because the bare default is shorter than Pulse's own L3 digest cadence; the env handle still overrides upward. Added `ANDROMEDA_PULSE_L4_DETERMINISTIC` — Pulse-side, asserted not set by Conductor, but now READ in Conductor's own environment as the contract's shell-declaration proxy, with an absent declaration surfacing as an unmet term naming both candidate causes rather than a claimed measurement of `pulse-app`.
+**Why:** the chunk made both changes real; the registry stated the bare 30s default and did not list the L4 var at all. Detector-raised (D-arch-resources) off the report's env-vars bullet.
+
+## 2026-08-10-pulse-run-contract — readiness gate: a fifth named precondition
+**Section:** §Standard Contracts — Readiness gate
+**Change:** the gate's named preconditions are FIVE, adding **unmet run-contract terms**. That arm composes ONE string naming each unmet term individually (its condition and its candidate causes) and sits after the tool checks but BEFORE the canary arms, skipping the canary poll rather than paying it — an unmet launch condition explains a failed canary, so surfacing the canary symptom first sends the operator to the wrong cause, and under the raised poll floor it would spend the whole budget doing so.
+**Why:** the chunk added the arm; the section stated FOUR. The ordering rationale is recorded because the preceding workspace-key probe hit exactly that failure mode — it blocked for the no-incident reason while the real blocker sat upstream. Detector-raised (D-arch-resources) off the report's Counts/qualifiers bullet + Deviation 4.
+
+## 2026-08-11-faithful-emission-dispatcher — load-envelope rate terms; error-fraction encoding; nested-spec `dive`
+**Section:** §Occupied Resources (`contracts/pulse-load-envelope.toml`) · §Established Decisions [Validation Library] · §Conventions (Config conventions)
+**Change:** The load envelope's rate terms move from *declared-not-derivable* to **derivable but deliberately not yet asserted** — `EmissionSpec::occurrences` is exactly the per-phase occurrence-count field whose absence was the old justification; the assertion surface and the `[[exempt]]` ledger are unchanged, and re-scoping to emitting-phase duration is recorded as carried chunk work rather than an amendment. [Validation Library] and Config conventions now name the shipped error-fraction encoding (`EmissionShape::Error { error_percent: u32 }` ∈ 0..=100, an integer percent rather than an f64 so `PhaseSpec`/`Scenario` keep `Eq`), state that a nested spec field must `dive` and never `skip`, and record that a phase's emission shape is declared data (`EmissionSpec { signal, occurrences, shape }`, `occurrences: 0` = a deliberate silence window).
+**Why:** The chunk shipped the per-phase emission dispatcher: the declarative shape model landed in `conductor-core`, which falsified the load envelope's stated premise and replaced an aspirational `[0,1]` bound with a real integer-percent field. `PhaseSpec.emission` was `#[garde(skip)]`, so the nested rules the specs mandated had never executed.
+
+## 2026-08-13-dispatcher-determinism-goldens — load-envelope asserted terms inverted; exemption ledger retired
+**Section:** §Occupied Resources — the `contracts/pulse-load-envelope.toml` bullet
+**Change:** The two sustained terms (`max_sustained_storm_ms` + `max_sustained_rate_spans_per_s`) are now the ASSERTED ones, judged per emitting phase; `max_scenario_duration_ms` inverts to recorded-but-not-asserted. `check_load_envelope` and `LoadEnvelope::classify` read ONE shared basis, so the static gate and the run-level `[ENVIRONMENT-SUSPECT]` caption cannot diverge. The `[[exempt]]` ledger is retired to EMPTY (still exact-set in both directions). The bullet now also records that the artifact's own predicted landing — asserting SUMMED emitting-phase duration — was measured and FALSIFIED, and why the shipped term bounds the longest single emitting window instead.
+**Why:** The chunk discharged the re-scope this bullet had recorded as carried chunk work, but not by the term it predicted: measured across all 35 committed scenarios, summed emitting-phase duration leaves `activity-floor` (900 000 ms) and `incident-auto-resolution` (610 000 ms) over the 600 000 ms ceiling, so it retires no exemption and changes no gate verdict. Summing disjoint bursts separated by quiet is not *sustained*. Under the per-phase joint bound every scenario passes unaided (longest single emitting phase 600 000 ms, exactly at the ceiling; peak rate 4.00 spans/s against 10 000), so the ledger genuinely empties.
+
+## 2026-08-13-first-live-green-preflight — [incident_formation] warm-up measured false
+**Section:** Occupied Resources — `contracts/pulse-run-contract.toml`
+**Change:** The claim that the warm-up pre-roll "carries the canary service out of Pulse's baseline bootstrap before the counted storm" is recorded as measured FALSE by the first live leg, with the mechanism: Pulse gates cue evaluation on `BootstrapState::Ready` (`cue/evaluate.rs:164`), which needs `now − first_observed_unix_nanos ≥ BOOTSTRAP_WINDOW_SECONDS = 3_600` per service wall-clock (`baseline/activity_floor.rs:33,173-183`), while `baseline_state` holds 0 rows so each launch resets the anchor. `warmup_ms = 45000` is short by 80x and unfixable by its own knobs; the `check = "asserted"` term cannot catch its own falsity. The underlying diagnosis (no baseline ⇒ the cue evaluator never considers the service) is unchanged — only the remedy is disproved, and the fix is Pulse-side.
+**Why:** Three arms of the live probe, all blocked for the no-incident cause with `cues_emitted: 0` and `services_ready: 0` throughout; `incidents` 0 rows in total. Evidence: `chunks/2026-08-10-workspace-key-divergence-probe/two-launch-verdict.md` §Re-run — 2026-08-13.
+
+## 2026-08-14-canary-fingerprint-feed-capture — a second Pulse-side gap on the canary path
+**Section:** §Occupied Resources (`contracts/pulse-run-contract.toml`)
+**Change:** recorded beside the warm-up falsification: Conductor's storm reaches the wire with its `exception`
+events intact and Pulse receives and counts all nine spans, yet the fingerprint table stays empty — so the gap
+lies inside Pulse between OTLP ingest receipt and the per-span-event fingerprint observer, a REGION rather than
+a named defect. Also records how to read that telemetry: `tracked_fingerprints_count` is a 60s-windowed gauge
+over DISTINCT fingerprints sampled after eviction (a working six-occurrence identical-fingerprint storm reads
+1, never 6), and the window-immune discriminators are the cumulative `storms_detected_total` /
+`fingerprints_evicted_total`.
+**Why:** the chunk's capture settled its fork. The finding bears directly on the run contract's
+`[incident_formation]` premise — the canary storm is emitted to raise an incident, and the feed that would
+raise it never engages — so it belongs beside the warm-up falsification the same section already carries.
+Evidence: 31 tick lines across three arms, twelve inside the retention window, all counters zero; `span_count`
+verified as a cumulative counter in the SUT's source rather than inferred from its shape.
+
+## 2026-08-15-canary-storm-autonomous-band — the bootstrap misattribution corrected, the second gap un-retired
+**Section:** §Occupied Resources (`contracts/pulse-run-contract.toml`) · §Established Decisions [Read-Back Dependency Posture]
+**Change:** Five edits across two sections. §Occupied Resources: (1) the `BootstrapState::Ready` gate is scoped to the **baseline-derived cue families** — `cue/evaluate.rs:164` is the only such gate in `crates/triage/` and sits inside `evaluate_service_went_silent`, while the RetryStorm path consults no baseline (`pattern/storm.rs:245-285`); (2) "reaching a live incident requires a Pulse-side change (bootstrap override / `baseline_state`)" is retired as measured-false and replaced by the **tier band** — `CANARY_STORM_COUNT = 6` sat in `5 <= 6 < DEFAULT_AUTONOMOUS_THRESHOLD = 10` with Tier-1 Autonomous-only (`cadence/coordinator.rs:390`), raised to 12 by this chunk; (3) the second Pulse-side gap is **un-retired and sharpened** from "a region, not a named defect" to producer-dependent and localized between OTLP ingest receipt and buffer span-event enumeration, on the `buffer.tick` trio (`span_events_seen` / `observer_invocations` / `fingerprints_computed` all 0 across 15 ticks, `rows_ingested: 1` against `span_count: 15`); (4) the windowed-gauge reading instruction no longer names the retired six-occurrence size, and the span-count figures are dated (nine at the 2026-08-14 capture, 15 = 3 warm-up + 12 storm at the 2026-08-15 leg). §Established Decisions [Read-Back Dependency Posture]: (5) the write-path's `≥5 same fingerprint / 30s` now states that the floor raises a **Suggested** cue and only `≥10` reaches the Autonomous band Tier-1 requires — the duplicate occurrence of the claim edit (2) retires.
+**Why:** The chunk's live leg measured all three. The citation `evaluate.rs:164` was correct throughout and only its cue-family attribution was wrong, so the doc taught a Pulse-side blocker that measurement disproves — while the gap that IS live had been predicted retired. Evidence: `conductor-0.2.0/chunks/2026-08-15-canary-storm-autonomous-band/report.md`; `andromeda-pulse-0.3.0/chunks/2026-08-15-tier-1-incident-path-investigation/evidence/premise-check.md`.
+
+## 2026-08-15-canary-spans-pulse-fingerprints — the fingerprint-derivation match claim measured false
+**Section:** §Established Decisions [Read-Back Dependency Posture]
+**Change:** The parenthetical "the fingerprint — computed to match Pulse's derivation — is the fidelity
+carrier, not a title echo" is retired. The body now keeps the fidelity-carrier role (Pulse scrubs titles, so
+the fingerprint and not a title echo is what carries fidelity) and states plainly that the fingerprint is
+**NOT** currently computed to match Pulse's derivation, naming both: Conductor computes FNV-1a 64-bit
+rendered as 16 hex chars over `exception_type` + each frame's `function`
+(`conductor-emit/src/exception.rs:115-123`); Pulse computes blake3 truncated to 16 bytes over
+`exception_type` + `\0` + `normalize_stacktrace(stacktrace)` and reads it back as an 8-char hex prefix of the
+first 4 bytes (`andromeda-pulse crates/buffer/src/fingerprint.rs:79-110`, HEAD `d090314`). Equality is
+impossible by WIDTH alone, so the canary round-trip's final precondition fails BY CONSTRUCTION even when
+every upstream stage succeeds; aligning the derivations is owned by the successor route entry.
+**Why:** this chunk's live leg (`run_id 2026-08-16T08-17-48-786`) drove the canary all the way through
+ingest, buffer append, fingerprinting, Autonomous-tier storm detection and incident formation, and still
+ended `ready:false` at `canary fingerprint not found in telemetry slice` — which isolated the last
+precondition and made the mismatch measurable for the first time. The claim was unreachable until now: no
+canary span had ever survived to be fingerprinted. Evidence:
+`conductor-0.2.0/chunks/2026-08-15-canary-spans-pulse-fingerprints/evidence/leg-verdict.md` §3.
+
+## 2026-08-15-canary-spans-pulse-fingerprints — the readiness gate's round-trip annotated (duplicate occurrence)
+**Section:** §Standard Contracts (Readiness gate)
+**Change:** The restated canary round-trip ("assert its fingerprint reads back … to prove the
+data-dir/workspace wiring end-to-end") now carries the caveat that this assertion cannot currently succeed
+for a reason that is not a wiring fault — the two derivations differ in algorithm, input and width — so the
+gate ends `ready:false` at this last precondition even when every upstream stage is proven, and a
+`canary fingerprint not found in telemetry slice` block must be read as a derivation mismatch rather than
+as broken data-dir/workspace wiring.
+**Why:** the per-occurrence sweep for the retired claim found this second, independent restatement of the
+round-trip's proving power. A single-site apply at §Established Decisions would have left §Standard
+Contracts still teaching that a failed round-trip implicates the wiring — the precise misreading the
+2026-08-16 leg disproves. `dependent-of: D-arch-decisions`.
+
+## 2026-08-15-canary-spans-pulse-fingerprints — the second ingest-to-fingerprint gap CLOSED, cause Conductor-side
+**Section:** §Occupied Resources (`contracts/pulse-run-contract.toml`)
+**Change:** The "SECOND, independent **Pulse-side** gap … **This gap is NOT closed**" passage is replaced.
+The gap is recorded CLOSED (2026-08-16) and its cause reattributed to **Conductor's own side**: Pulse's
+`spans` table is `PRIMARY KEY (trace_id, span_id)` (`andromeda-pulse crates/buffer/src/schema.rs:38`) while
+Conductor's `ok_span` stamped a CONSTANT `vec![1; 16]` / `vec![1; 8]` identity on every call, so every
+warm-up span after the first violated the key and was logged-and-skipped — exactly the observed
+producer-dependence, since `inject_demo`'s per-sequence ids never collide. The shared builder carried the
+same defect through the scenario dispatcher (`dispatch.rs:82`, `:95`), not the canary alone. The fixed leg's
+numbers are recorded (27 `duckdb.append` lines with zero `reject_reason`, trio `12/12/12`,
+`rows_ingested: 15`, `storms_detected_total: 2` with `severity_hint: "autonomous"` at `occurrence_count: 10`,
+incident formed), together with one explicit limit: why the storm's 12 DISTINCT-id spans also appended zero
+rows on the prior leg was never observed, so the appender-poisoning reading stays **inferred, not proven**.
+The trailing telemetry-reading sentence is re-based to carry both directions — the same cumulative
+discriminators reading 0 on the broken path and `2`/`1` on the fixed one, with `tracked_fingerprints_count`
+still sampling 0 on a healthy late tick.
+**Why:** the plan's `Expected amendments (wrap)` named this paragraph, and no detector proposed it — the
+orchestrator raised it at Validate check 5 as the chunk's coverage floor. The section asserted a Pulse-side
+gap that was neither Pulse-side nor open, which would have mis-aimed the successor chunk's research.
+Evidence: `conductor-0.2.0/chunks/2026-08-15-canary-spans-pulse-fingerprints/evidence/leg-verdict.md`.
+
+## 2026-08-16-canary-fingerprint-derivation-aligned — Stack gains a hashing row
+**Section:** §Stack and Technologies
+**Change:** New `Hashing / digest` row — blake3 1.8.6 (`blake3 = "1"` in `[workspace.dependencies]`), a NORMAL
+(non-dev) dep of `conductor-emit`, version-matched to the SUT's own pin under the Pulse-consistency mandate;
+Conductor's first hashing dependency, pulling `arrayref`/`arrayvec`/`constant_time_eq`/`cpufeatures`.
+**Why:** the chunk adopts Pulse's own fingerprint derivation, so the algorithm is the SUT's choice rather than
+Conductor's; the registry carried no hashing row at all, and a test-scoped dep cannot back a shipped signature.
+
+## 2026-08-16-canary-fingerprint-derivation-aligned — Read-Back Dependency Posture reversed (canary carrier)
+**Section:** §Established Decisions [Read-Back Dependency Posture]
+**Change:** The canary no longer asserts the emitted fingerprint reads back via
+`retrieve_telemetry_slice.fingerprint_refs`; it asserts Pulse opened an incident AFTER the storm's emission
+instant, and reached `ready:true` for the first time on 2026-08-16. Records why the old carrier could never
+work (the field is fed from the L4 model's `evidence_refs`, pinned `[]` under deterministic L4; Pulse's own
+fingerprint lands in a `span_events` column no MCP tool reads), that Conductor's fingerprint now IS Pulse's
+derivation (blake3, 32 hex, first 3 normalized frames), its two identity narrowings, and the causation-in-time
+limit of freshness. The superseded FNV-1a/width-mismatch rationale is retired from the body to here.
+**Why:** ratified as a locked-decision reversal (playbook 2026-06-27 rule) — the live SUT's field provenance
+contradicted the decision's mechanism, measured at P3 and confirmed on the 2026-08-16 leg. The decision's
+invariants (prove data-dir/workspace wiring before any scenario trusts read-back; never a silent downgrade)
+hold via the replacement; only the carrier changed.
+
+## 2026-08-16-canary-fingerprint-derivation-aligned — Readiness-gate contract re-based (duplicate occurrence)
+**Section:** §Standard Contracts (Readiness gate paragraph)
+**Change:** The round-trip description moves off the fingerprint assertion onto incident freshness, the
+by-construction-failure caveat is retired, and a staleness block is documented as "corpus reachable, this run
+raised nothing" rather than "wiring broken".
+**Why:** the same retired claim restated at a second independent site; a single-site apply at §Established
+Decisions would have left §Standard Contracts teaching an unreachable gate — the duplicate-occurrence lesson
+this project recorded at the predecessor chunk, applied in the inverse direction.
+
+## 2026-08-16-canary-fingerprint-derivation-aligned — third named precondition renamed (duplicate occurrence)
+**Section:** §Standard Contracts (the gate's named preconditions are FIVE)
+**Change:** The third of the five preconditions changes from "the emitted fingerprint absent from an existing
+incident" to "no incident opened after the canary storm was emitted"; the COUNT stays FIVE and the arms'
+ordering is unchanged.
+**Why:** third restatement of the retired precondition, in an enumeration a prose-only apply would not reach.
+Mirrors `NotFound::FingerprintAbsent` → `NotFound::StaleCorpus` in the code.
+
+## 2026-08-16-canary-fingerprint-derivation-aligned — deny.toml exceptions no longer Tauri-only
+**Section:** §Infrastructure Patterns (Build system)
+**Change:** The accepted-license note records that `BSD-2-Clause` entered for `arrayref` (via
+`conductor-emit`→`blake3`), the first cargo-side exception from outside the Tauri tree, and separates
+`cargo deny` (green) from `cargo audit` (red on an external advisory-DB fault).
+**Why:** the prose attributed every accepted license to the Tauri tree, which this chunk's dependency made
+false; conflating the two gates' states would also misread the supply-chain posture.
+
+## 2026-08-16-fingerprint-storm-live-proof — RBDP path narrowing corrected to the leading segment
+**Section:** §Established Decisions [Read-Back Dependency Posture]
+**Change:** the SECOND identity narrowing — recorded by the `2026-08-16-canary-fingerprint-derivation-aligned`
+entry above as "`normalize_frame` strips absolute paths only, so a RELATIVE-path change is
+identity-significant" — is RETIRED by measurement and replaced: of a frame's `file` only the **LEADING PATH
+SEGMENT** is identity-significant, because `is_absolute_path_start` fires on ANY `/` followed by a path char
+(not merely a leading one) and `skip_absolute_path` then consumes everything from the first slash. So
+`src/worker.rs` ≡ `src/anything/else.rs` are ONE identity, `other/worker.rs` is another, and a leading `/`
+erases the segment entirely. The narrowing COUNT stays two; the P-017 clause (c) qualifier now runs through
+the leading segment, NOT through relative-vs-absolute.
+**Why:** the chunk reshaped `FingerprintVariant::PathVariant` to vary the path BELOW its leading segment
+(adding `RelativePathVariant` for the significant half) after the planned absolute-path mechanism measured
+false — base normalized to `at fn (src)`, the absolute variant to `at fn ()`. Byte-verified identical in
+`andromeda-pulse crates/buffer/src/fingerprint.rs:139-218` at HEAD `d090314`, so this is the SUT's semantics,
+not a transcription drift; pinned by `exception.rs::only_the_leading_path_segment_reaches_the_preimage`. The
+prior entry is left as written (sidecars are append-only) — this entry is the supersession record.
+
+## 2026-08-17-fingerprint-semantics-token-leading — P-017 narrowings 2 → 1; normalization is token-leading
+**Section:** §Established Decisions [Read-Back Dependency Posture]
+**Change:** the leading-path-segment narrowing is RETIRED and the clause now states TOKEN-LEADING
+normalization — `is_absolute_path_start` guarded by `is_token_boundary`, so a relative path is preserved in
+full and is identity-significant at EVERY depth (`src/worker.rs`, `src/anything/else.rs`, `other/worker.rs`
+are three distinct identities) while a token-leading absolute path is stripped to nothing
+(`at handler(/usr/lib/thing.rs:10)` → `at handler()`), which differs from every surviving relative path. The
+insensitive axes are named as LINE and HEX ADDRESSES. The first-`NORMALIZED_FRAMES = 3` narrowing survives,
+so the count goes two → one. The pin moves from the retired
+`exception.rs::only_the_leading_path_segment_reaches_the_preimage` to
+`::relative_paths_are_significant_at_every_depth` + `::token_leading_absolute_paths_normalize_to_the_same_empty_form`.
+The transcription citations are de-literalized to function names and re-based from HEAD `d090314` to `efabe8e`.
+**Why:** the SUT changed its normalization between the two HEADs, so the wording recorded at
+`2026-08-16-fingerprint-storm-live-proof` (immediately below) measured FALSE at `efabe8e` — evidence: Pulse's
+own `compute_differs_for_relative_paths_differing_below_leading_segment`,
+`normalize_stacktrace_preserves_relative_paths_in_full` and `normalize_stacktrace_strips_only_absolute_paths`,
+reproduced Conductor-side by the new pinning tests. The consequence the clause now records is the one nothing
+in this repo could have caught: because Conductor had transcribed the PRE-guard scanner, its `fingerprint()`
+was returning a different value than Pulse's for every slash-bearing path — including the committed base
+fixture — and every gate stayed green over it, because they assert Conductor against Conductor.
+
+## 2026-08-18-error-baseline-spike-live-proof — deterministic-L4 evidence_refs de-vacuumed; envelope sample re-tiered
+**Section:** Established Decisions [Read-Back Dependency Posture] · Standard Contracts (readiness gate + run-report envelope sample)
+**Change:** The "fixture pins `evidence_refs` to `[]`" claim retired at both arch sites — the SUT's deterministic fixture now populates a constant `det-*` triple (measured live 2026-08-18, SUT HEAD `efabe8e`); freshness-carrier conclusion unchanged, its supporting fact re-based from emptiness to payload-invariance. The envelope sample re-tiered `<5s` → `<90s` with a note that the error-baseline-spike family ships declare-only (live rows `verdict: null` / `state: KnownResidual`).
+**Why:** Leg A's envelope carried the 3 `det-*` refs (`runs/2026-08-18T18-47-32-786.jsonl`); both TOMLs re-declared `<90s` and retired their checks under the family re-calibration clause. Chunk report + `evidence/leg-verdict.md`.
+
+## 2026-08-18-restart-suppression-live-proof — canary service identity registered
+**Section:** §Occupied Resources — Service / process names
+**Change:** Registered the two emitted OTLP `service.name` identities: `conductor` (`DEFAULT_SERVICE_NAME`, the scenario dispatcher) and `conductor-canary` (`CANARY_SERVICE_NAME`, the preflight canary's warm-up + storm), with the rationale for the split (preflight runs inside every scenario leg; Pulse keys `persistence_seconds` = cumulative samples and error-rate EWMAs per service).
+**Why:** The chunk split the canary off the dispatcher's identity so preflight traffic cannot age a scenario's young-sample suppression window; the wire-visible identity was previously unregistered (report §Symbols/APIs, Deviation 2).
+
+## 2026-08-19-pii-scrub-live-proof — declare-only family note gains pii-scrub
+**Section:** Standard Contracts — Run report envelope (per scenario check)
+**Change:** The declare-only note now names BOTH families — error-baseline-spike (retired 2026-08-18) and pii-scrub (retired 2026-08-19) — shipping zero [[expected]] checks because no read-back surface can carry them under deterministic L4, their live rows landing verdict: null / state: KnownResidual under the degraded read-back with the live claims graded at the harvest tier.
+**Why:** The chunk retired all five pii-scrub checks after leg A measured the vacuous-Absent / structural-fail-Contains behavior the sources predicted (run 2026-08-19T20-37-25-933); the note previously named error-baseline-spike only. Sole arch occurrence (agent grep verified).
+
+## 2026-08-19-connection-lifecycle-live-proof — declare-only family list re-based to the full six
+**Section:** Standard Contracts — Run report envelope (declare-only note)
+**Change:** The note now names all SIX declare-only families (fingerprint-storm · error-baseline-spike · latency-regression · restart-suppression · pii-scrub · the connection family's four TOMLs) instead of the two it had grown incrementally.
+**Why:** The connection family retired declare-only this chunk (all four `[[expected]]` checks → 0, measured structurally ungradeable — connection state reaches no MCP read-back surface); the incremental two-name list under-stated the standing set.
+
+## 2026-08-19-connection-lifecycle-live-proof — the per-phase fault model + driver registered
+**Section:** Conventions — Config conventions · Established Decisions [Validation Library] · Occupied Resources — Crate names · Infrastructure Patterns — directory tree
+**Change:** Registered the optional `[phases.fault]` declared-data table (`PhaseSpec.fault: Option<FaultSpec>`, closed `FaultKindSpec::PortOccupier`, garde dive, fault ⇒ occurrences 0 via `fault_phases_are_silent`); the cross-field-invariant enumeration gains the silence rule (field-level one altitude up, like `no_duplicate_pids`); conductor-run's registry entry + tree comment gain the fault-phase occupier guard and the new `conductor-run → conductor-faults` edge (conductor-faults' first consumer).
+**Why:** The chunk shipped the port-occupier driver as declared phase data over the guard-generic timeline hook; the config surface, the invariant and the crate edge were unregistered (report §Symbols/APIs · §Crates/modules · §Schema/config).
+
+## 2026-08-20-latency-regression-re-proof — the second route to KnownResidual, and the rate term's real basis
+**Section:** §Established Decisions [Read-Back Dependency Posture]
+**Change:** Recorded the shipped read-back routing carve-out: after a GREEN preflight, an EMPTY active list routes a declare-only scenario (zero `[[expected]]`) to the pre-accepted auto-resolve residual (`KnownResidual` / `verdict: null`) instead of `Blocked`, because an emptied active list is Pulse's own auto-resolve lifecycle and a scenario grading nothing cannot pass falsely on an empty observation; checks-bearing scenarios and every read-back call failure still land `Blocked`. Named the shipped mechanism (`route_read_back` / `ReadBack {Graded, AutoResolved, Blocked}`, crate-private in `conductor-run`) and carried the honest limit — the arm is unit-pinned only and did NOT fire on the 2026-08-20 live leg.
+**Why:** The carve-out was operator-ratified at the chunk's P5 and shipped; arch's posture previously enumerated `KnownResidual` as the degraded/accepted-fingerprint residual only and routed every empty observation to `Blocked`, so the shipped route was unrecorded.
+
+**Section:** §Standard Contracts — Run report envelope
+**Change:** The six declare-only families' landing clause now names BOTH routes to `verdict: null` / `state: "KnownResidual"` (the degraded read-back, or the auto-resolve residual on an empty post-green-preflight read-back) instead of attributing it solely to the degraded read-back; restated that a checks-bearing scenario and every call failure still land `Blocked`. The six-family list itself is unchanged.
+**Why:** Duplicate occurrence of the wording the [Read-Back Dependency Posture] amendment retires — a single-site apply would have left arch naming one mechanism after a second shipped.
+
+**Section:** §Occupied Resources — `contracts/pulse-load-envelope.toml`
+**Change:** Recorded that `max_sustained_rate_spans_per_s` is computed `occurrences / gap_ms` — DISPATCHES per second, not wire spans — so a `Latency`/`Ramp` phase multiplies it by `samples`/`windows` (50 wire spans/s counted as 1/s at the shipped `latency-regression` shape, a 50× divergence, still ~200× under the bound); no verdict moves and the gate/caption shared basis is unaffected, but the term as named misdescribes what it bounds. Marked SURFACED-not-authored with the fix owned by a working-route entry.
+**Why:** The chunk's re-shape measured the divergence and widened it 50×; recording it keeps a known gap from being silently re-discovered, while the fix (count `occurrences × samples`, or rename the term) stays owned rather than smuggled into a doc edit.
+
+## 2026-08-21-severity-lifecycle-live-proof — the AutoResolved arm fired live, and the declare-only registry grew to seven
+
+**Section:** §Established Decisions [Read-Back Dependency Posture]
+**Change:** `route_read_back`'s `AutoResolved` arm is no longer recorded as "unexercised live so far" — it
+first fired LIVE on 2026-08-21 (leg E, `ack-cooldown`): a scenario forming no incident of its own leaves only
+the preflight canary's, whose cues are `curious`, and the Tier-1 coordinator accepts Autonomous alone, so
+nothing refreshed it; it auto-resolved on schedule and left ~4 minutes of empty active list before read-back
+(`query_incident_list` → `result_count: 0`, envelope `fingerprints: []`).
+**Why:** the 2026-08-20 leg recorded an honest limit — the canary's error-rate cues kept refreshing its
+incident — and inferred the list could not empty. Measurement retires the inference while keeping the
+observation: cues refresh an incident only through a digest of the SAME identity, which a `curious` cue never
+triggers. The arm was exercised, not modified (zero production-source delta this chunk).
+
+**Section:** §Standard Contracts — Run report envelope (per scenario check)
+**Change:** the declare-only family registry reads SEVEN, adding the severity-lifecycle family
+(`incident-auto-resolution` · `severity-tier-autonomous` · `severity-tier-suggested` · `severity-tier-curious`
+· `ack-cooldown`, 2026-08-21).
+**Why:** all five family TOMLs now carry zero `[[expected]]`, each retirement against a measured ground (the
+det-L4 fixture pins one severity and no corpus tool renders a tier word; `query_incident_list` is active-only
+so a resolved incident leaves the surface; `CountAtLeast` grades `span_refs` the incident producer writes
+empty; no ack tool exists in the four-tool contract). All five live rows landed `verdict: null` /
+`state: KnownResidual`.
+
+## 2026-08-21-per-check-latency-measurement — runs.db is three tables
+**Section:** Occupied Resources -> On-disk artifacts (runs.db)
+**Change:** `runs.db` registered as THREE tables — `runs` (scenario grain, 11 columns, PK `(run_id, scenario)`), `run_envelope` (run grain), and NEW `run_check`, the per-check index keyed `(run_id, scenario, check_index)` with `latency_ms`/`deadline_ms` NOT NULL and `budget_ms` NULL on inherit; blocked/declare-only scenarios write zero rows.
+**Why:** The chunk landed the `run_check` table (`db.rs:37`); the bullet said 'two tables', leaving the new persistence resource unregistered. The smoke leg read back `tables: ['runs','run_envelope','run_check']`.
+
+## 2026-08-21-per-check-latency-measurement — ORM table roster + per-check-index label
+**Section:** Established Decisions -> [ORM] None — raw SQL
+**Change:** Table roster updated to three, and the 'per-check index' label moved off `runs` onto `run_check`, whose grain it now actually is.
+**Why:** The same roster is restated here; a single-site apply would have left the two-table claim and the mis-attributed label alive.
+
+## 2026-08-21-per-check-latency-measurement — CheckRecord registered as a second shared shape
+**Section:** Standard Contracts -> Run report envelope
+**Change:** Registered the per-check `CheckRecord` (9 keys) as a SECOND shared artifact shape beside the eleven-field envelope, riding the JSONL journal, the `run_check` table and the Markdown report's indented detail line; the envelope is byte-unchanged, and blocked/declare-only scenarios emit zero check records.
+**Why:** Section Standard Contracts declares itself the registry of shared shapes and carried only the envelope; the chunk added a second one that three surfaces depend on.
+
+## 2026-08-21-per-check-latency-measurement — budget_ms registered as declarable config
+**Section:** Conventions -> Config conventions
+**Change:** Registered the optional `[[expected]].budget_ms` key (integer ms, `#[serde(default)]`, garde `range(min = 1, max = MAX_BUDGET_MS)` with the ceiling DERIVED from `SloTier::Tier90s.deadline_ms()`), cross-checked against the scenario's own `slo_tier` at load by `Scenario::check_budgets()`; no committed TOML declares one.
+**Why:** This paragraph enumerates the declarable scenario-config surface; the chunk's new external input appeared nowhere in it.
+
+## 2026-08-21-per-check-latency-measurement — Nullability qualified per table
+**Section:** Conventions -> Data model conventions (SQLite / runs.db)
+**Change:** Nullability qualified PER TABLE: `runs.latency_ms` stays NULL-for-blocked, while `run_check.latency_ms`/`deadline_ms` are NOT NULL (an ungraded check emits no row at all) and `run_check.budget_ms` is NULL on inherit.
+**Why:** The unqualified 'NULL for blocked rows' claim contradicted the new table's NOT NULL columns once Occupied Resources registered it.
+
+## 2026-08-21-per-check-latency-measurement — Sibling-spanning invariants cannot be garde validators
+**Section:** Established Decisions -> [Validation Library] serde 1.0.x + garde 0.22.1
+**Change:** Recorded the THIRD route and its structural boundary: the one-altitude-up `custom` covers only invariants contained WITHIN the lifted field, because a field-level `custom` receives `(&field, &())` and sees no SIBLING; a sibling-spanning invariant ships as a load-path method invoked from `from_toml_str` (`check_capabilities`, now joined by `check_budgets`).
+**Why:** The chunk measured the plan's `#[garde(custom)]`-on-`Scenario::expected` design structurally impossible; the decision enumerated only the Context pattern or one-altitude-up, neither of which the shipped rule uses.
+
+## 2026-08-21-per-check-latency-measurement — Stack validation row narrowed
+**Section:** Stack and Technologies -> Validation row
+**Change:** Row narrowed to the garde-EXPRESSIBLE cross-field invariants, naming the load-path `Scenario::check_*()` route for sibling-spanning ones.
+**Why:** The Stack table restated the retired claim that garde carries all cross-field scenario-config invariants, which the [Validation Library] amendment corrects.
+
+## 2026-08-21-per-check-latency-measurement — Load-error mapping is three-way
+**Section:** Established Decisions -> [Scenario Config Format] TOML on disk
+**Change:** Load-error mapping corrected to THREE-way: `CoreError::Config` on a parse failure OR a non-garde load-path check failure, `CoreError::Validation` only on a garde failure (it is `#[from] garde::Report` and cannot carry a hand-written message).
+**Why:** The chunk's budget fault raises `CoreError::Config`; the two-way mapping as written was contradicted by it.
+
+## 2026-08-21-per-check-latency-measurement — Tier deadline recorded as a ceiling
+**Section:** Established Decisions -> [Timing-Tolerance Model]
+**Change:** The tier deadline recorded as a CEILING: a check may declare sub-tier `budget_ms` and is graded against a per-check effective deadline; `evaluate_slo` takes `deadline_ms`, `SloOutcome` carries it, and every check persists its own latency/deadline/verdict. Because the corpus is observed ONCE per scenario, per-check latencies are equal by construction and the DEADLINE is what separates their verdicts.
+**Why:** The decision defined the deadline solely from the tier; acceptance (1) and (3) prove the sub-tier budget round-trips and separates two checks sharing one observation instant.
+
+## 2026-08-21-delegated-timing-budgets-proven — Declare-only family count SEVEN→EIGHT
+**Section:** Standard Contracts -> Run report envelope
+**Change:** Count raised to EIGHT and the delegated-timing family registered (`halo-hue-encoding` · `service-constellation-discovery` · `report-render-surface`, 2026-08-21), each zero `[[expected]]` landing `KnownResidual` with its live claim graded at the harvest tier; `findings-counter-refresh` explicitly excluded because it carries one `[[expected]]`.
+**Why:** The chunk live-proved the three as declare-only harvest-graded rows (all four legs exit 0, `[RESIDUAL]`), making them an eighth family by that sentence's own definition, and this is the only arch section enumerating them.
+
+## 2026-08-21-delegated-timing-budgets-proven — Checks-bearing ⇒ Blocked narrowed to the auto-resolve route
+**Section:** Established Decisions -> [Read-Back Dependency Posture]
+**Change:** The confinement now binds the auto-resolve/empty-active-list route ALONE: a checks-bearing scenario is excluded from THAT route (an empty list leaves it `Blocked`) and every read-back call FAILURE still lands `Blocked` unconditionally — but the degraded-read-back route is NOT gated on declare-only, so a checks-bearing scenario reaches `KnownResidual` through it, an unmet `CountAtLeast` floor grading `CalibrationRegion` rather than failing.
+**Why:** Measured false as written on leg D — `findings-counter-refresh` carries one `[[expected]]` and landed `verdict: CalibrationRegion` / `state: KnownResidual`, not `Blocked`.
+
+## 2026-08-21-delegated-timing-budgets-proven — Duplicate Blocked claim narrowed in step
+**Section:** Standard Contracts -> Run report envelope (closing sentence)
+**Change:** Restated so the unconditional `Blocked` guarantee covers read-back call failures only, while a checks-bearing scenario is excluded from the auto-resolve route alone and can still reach `KnownResidual` via the degraded read-back, cross-referencing [Read-Back Dependency Posture].
+**Why:** The same retired claim was restated here, in a paragraph spanning BOTH routes to `KnownResidual`, so a single-site apply would have left it standing as a global guarantee.
+
+## 2026-08-22-operator-pause-and-checklist-live-firing — the `[[checklist]]` scenario-config key + the third load-path check
+**Section:** Conventions → Config conventions · Established Decisions [Scenario Config Format] · Established Decisions [Validation Library]
+**Change:** Registered `[[checklist]]` — an array-of-tables of `ChecklistItem { induced, observation }` (`#[serde(default)]`, garde `dive`, both halves `length(min = 1, max = MAX_CHECKLIST_TEXT)` with `MAX_CHECKLIST_TEXT = 200`), carried on `Scenario` and on `HoldPoint`, declared by exactly two committed scenarios (`halo-hue-encoding`, `halo-breathing-encoding`). Widened BOTH closed enumerations the new sibling-spanning rule joins: the [Scenario Config Format] `CoreError::Config` arm now reads `check_budgets`, `check_capabilities`, `check_checklist`, and [Validation Library]'s third-route list names `Scenario::check_checklist` beside the two it already carried. The `budget_ms`-scoped "No committed scenario TOML declares one" sentence was left standing — it remains true.
+**Why:** The chunk shipped a new declarative scenario-config surface and a third load-path `check_*()`; arch's config-key registry and its two closed method enumerations had no entry, so a shipped surface was unregistered and two lists read as complete while being false.
+
+## 2026-08-31-p-075-assert-round — Payload fidelity disproved on a second axis; runtime-STATE fidelity recorded as the stronger claim that DOES exist
+**Section:** Established Decisions [Read-Back Dependency Posture] → the Honest-limit sentence
+**Change:** Retired "under deterministic L4 no stronger claim exists" and the "concurrent unrelated incident inside the poll window" caveat. Added: the SECOND payload axis (`incident_events` has ZERO references in `crates/mcp-server`, written by triage, read only corpus-side — reaches no MCP tool at any width, Pulse HEAD `83d4060`); runtime-STATE fidelity as the stronger claim, live-proven (incident 6 resolved, active set emptied, `idle_seconds_at_resolve = 0.0` against a 120s idle threshold, corpus-recorded 45s life); the one-active-incident dedupe constraint (the producer dedupes against any OPEN incident regardless of fingerprint), which both forecloses a spared-control design and makes the concurrent-incident caveat unreachable; and the DECLINED arm's permanent stub-only status (monotonic-timestamp guard, `crates/corpus/src/contract.rs:652-659`).
+**Why:** The chunk measured all four facts first-hand against a live Pulse at HEAD `83d4060`; the report's Cross-project claims, Reverted/negative API facts and Outcome carry the evidence, and the plan named this section first in its Expected amendments.
+
+## 2026-08-31-p-075-assert-round — Payload-fidelity carrier restated on both axes at the twin site
+**Section:** Standard Contracts → Readiness gate (the "carrier is freshness, not payload identity" sentence)
+**Change:** Extended the carrier sentence to name BOTH measured axes (`span_events` unread + `incident_events` unreachable) and to record that runtime-STATE fidelity is attainable where payload identity is not.
+**Why:** Duplicate occurrence of the single-axis claim retired in [Read-Back Dependency Posture]; the duplicate-occurrence precedent requires both move together or the retired reading survives in the twin.
+
+## 2026-08-31-p-075-assert-round — Workspace-key divergence mechanism is now the published-key FALLBACK
+**Section:** Standard Contracts → Readiness gate (app/sidecar workspace-key precondition)
+**Change:** Replaced "the sidecar keys its query on `ANDROMEDA_PULSE_DATA_DIR` while `pulse-app` keys incidents on its detected workspace root" with the measured mechanism: `pulse-app` PUBLISHES its key to `{data_dir}/run/workspace-key` and the sidecar reads it (`read_published_workspace_key`), falling back to `data_dir` only when that file is absent or invalid. Measured 2026-09-01: the published key matched the incidents' stamped `workspace` byte-for-byte and no divergence occurred.
+**Why:** SUT-side mechanism change read first-hand at HEAD `83d4060`; the divergence is now the fallback case rather than the default, which changes how an operator should diagnose a zero-row read-back.
+
+## 2026-08-31-p-075-assert-round — `workspace` column = data_dir qualified (third occurrence)
+**Section:** Occupied Resources → Environment variables, `ANDROMEDA_PULSE_DATA_DIR`
+**Change:** Qualified the `= data_dir` equality: the filter value is the published workspace key when present and `data_dir` only as fallback. The propagation obligation and the empty-`query_incident_list` failure mode stand unchanged.
+**Why:** Third restatement of the retired sidecar-keys-on-data_dir claim; without moving it the corrected mechanism would survive at only two of three sites.
+
+## 2026-09-01-webview-self-verify-windows-host — the webview drive path, and the CARRY's tuple re-scope
+**Section:** Established Decisions [Read-Back Dependency Posture] · Occupied Resources (Ports · Frontend asset subtree · `logs/conductor-tauri.jsonl` · Environment variables) · Infrastructure Patterns (Build system) · Cross-cutting Patterns (Trust boundary · Scope law)
+**Change:** (1) **The CARRY** — "At most ONE incident is active per workspace" re-scoped to "per DEDUPE TUPLE", citing the `(kind, scope, scope_id)` predicate as measured at `andromeda-pulse pulse-app/src/inference_runtime.rs:811` (HEAD `83d4060`); "spared-control unattainable" and the freshness-caveat retirement both narrowed to WITHIN-tuple, with a cross-scope two-incident control recorded as a weighable route option, never a retirement. The originating leg's evidence stands — only the generalisation was unlicensed. (2) Registered `CONDUCTOR_MSEDGEDRIVER` (harness-only driver handle, skip-at-exit-0 guard) and the dev-only harness-lifetime ports `4444`/`4445`. (3) Recorded that the `custom-protocol` FEATURE — not the profile — decides bundle embedding (`tauri` 2.11.3 `build.rs`: `let dev = !custom_protocol`, read back via `DEP_TAURI_DEV`), as measured. (4) Trust boundary's "only case where Conductor opens a port" scoped to SHIPPED binaries. (5) Scope law's "no UI automation" scoped to PULSE's UI. (6) `conductor-tauri.jsonl`'s CWD-relative landing site + `ui/logs/` added to the ignored enumeration.
+**Why:** The chunk drove the real Tauri window for the first time, which measured three arch claims incomplete or over-scoped and landed two genuinely new resources. The CARRY was owed from `2026-08-31-p-075-assert-round` and applied here after a fresh re-sweep, which found a FIFTH site the CARRY's four-site list never named (`crates/conductor-run/tests/lifecycle_live.rs:128`, corrected in-code). The scope-law and port-ban qualifications were escalated and operator-ratified at this wrap.
+
+## 2026-09-01-desktop-a11y-sweep — webview a11y leg is two arms; self-obs landing site moved; sidecar PATH recorded
+**Section:** §Occupied Resources — Ports · Service/process names · Frontend asset subtree · On-disk artifacts (`conductor-tauri.jsonl`) · Environment variables (`CONDUCTOR_MSEDGEDRIVER`) · §Cross-cutting Patterns — Trust boundary · Scope law
+**Change:** (1) the `4444`/`4445` driver stack, the trust-boundary spawn note, the scope-law self-verify clause and the `CONDUCTOR_MSEDGEDRIVER` handle now name BOTH arms — the unattended `--e2e` routine arm and the operator-local `npm run a11y:driven` driven arm — over ONE WebdriverIO + tauri-driver stack. (2) `logs/conductor-tauri.jsonl` lands at the WORKSPACE ROOT under the tauri-driver `cwd: repoRoot` spawn, covered by the root-anchored ignore rule; `crates/conductor-tauri/ui/logs/` is the retired pre-2026-09-01 site. (3) the sidecar's fixed-NAME-through-`PATH` resolution is recorded, with `PATH` named as a spawn-resolution input.
+**Why:** (1) the chunk added a second suite to the same `wdio.conf.ts`; a single-arm attribution would leave the driven arm's identical listeners unregistered. (2) measured this wrap — root `logs/conductor-tauri.jsonl` 27163 B at 00:15 (post-cwd run) against `ui/logs/` 3188 B at 23:21 (pre-cwd). (3) measured 2026-09-01: with the sidecar off `PATH`, preflight returns BLOCKED in ~2ms with all four tools `absent`, at row level indistinguishable from a genuine SUT-side gate failure.
+
+## 2026-09-01-live-per-p-id-verdict-lamps — self-obs sink landing site is per-arm
+**Section:** Occupied Resources -> On-disk artifacts (`logs/conductor-tauri.jsonl`) + Occupied Resources -> Frontend asset subtree
+**Change:** The Tauri backend's self-obs stream no longer has ONE landing site. `tauri_log_path()` resolves it as `runs_dir.parent()/logs`, so the routine `--e2e` arm's new `CONDUCTOR_RUNS_DIR=runs/e2e-fixture` moves it to `runs/logs/conductor-tauri.jsonl`, while the operator-local `a11y:driven` arm leaves the handle unset and still lands at the workspace root. Both sites git-ignored; the frontend-subtree parenthetical restating the single-site verdict was qualified to match.
+**Why:** The chunk gave the routine arm a seeded fixture runs dir, and the sink follows the handle. Measured 2026-09-02, not derived: `runs/logs/conductor-tauri.jsonl` (4741 B) carries the leg's own instant, matching `runs/e2e-fixture/runs.db`, while root `logs/conductor-tauri.jsonl` stayed stale. Surfaced by the arch drift detector; the orchestrator verified it on disk before applying.
+
+## 2026-09-02-screen-reader-manual-spec — `CONDUCTOR_NVDA`, three suite families over the one stack, the per-suite self-obs landing site
+**Section:** Occupied Resources -> Ports (`4444`/`4445`) + On-disk artifacts (`logs/conductor-tauri.jsonl`) + Environment variables (`CONDUCTOR_MSEDGEDRIVER`, new `CONDUCTOR_NVDA`) + Cross-cutting Patterns -> Trust boundary + Scope law
+**Change:** (1) Registered `CONDUCTOR_NVDA` -- the second host dev-tool handle, read only by `wdio.conf.ts`, validated and spawned like `CONDUCTOR_MSEDGEDRIVER`, skip-at-exit-0 when unset, value never committed -- and retired the "one HOST dev-tool handle" singular. (2) The webview a11y legs are THREE suite families (four `wdio` suites) over the ONE stack: the `sr*` screen-reader leg joins the routine and driven arms in the Ports bullet, the `CONDUCTOR_MSEDGEDRIVER` bullet, the trust boundary (NVDA + a fixed-argv PowerShell activation script as leg-spawned children, no listener) and the scope law; "never a second automation stack" unchanged. (3) The self-obs landing site is per-SUITE -- `runs/logs/` (routine + `sr-empty`), `runs/driven/logs/` (driven), `runs/sr-leg/logs/` (`sr` / `sr-error`), each measured 2026-09-02; the unset-handle root site stays the mechanism, retired only as an a11y landing site.
+**Why:** (1) the chunk's one new resource. (2) the report's count move (suite families 2 -> 3), restated at five arch sites. (3) the chunk moved the driven arm's `CONDUCTOR_RUNS_DIR` to `runs/driven/runs`, and the wrap measured the driven landing site itself (11 457 B at 11:55:29Z) beside the leg's `runs/sr-leg/logs/` (8 312 B) -- the previous entry's "the driven arm leaves the handle unset" is retired by construction, not by a mechanism change.
+
+## 2026-09-02-cross-surface-envelope-parity — `CONDUCTOR_E2E_SEED_DIR` registered as the third handle class
+**Section:** Occupied Resources — Environment variables
+**Change:** Added an eleventh bullet to the reserved `CONDUCTOR_*` enumeration, after `CONDUCTOR_NVDA`:
+`CONDUCTOR_E2E_SEED_DIR`, the repo-relative fixture runs dir the webview `--e2e` arm seeds into — SET by
+`wdio.conf.ts` `onPrepare`, READ only by `crates/conductor-run/tests/envelope_fixture.rs`, never by a shipped
+binary, a no-op when unset. Recorded as the THIRD handle class: unlike `CONDUCTOR_MSEDGEDRIVER` /
+`CONDUCTOR_NVDA` it names a path this document defines rather than a HOST dev-tool, so the existing "One of
+TWO handles … naming a HOST dev-tool" clause stays true and was left standing.
+**Why:** the chunk's only new resource. The report's Symbols bullet declares the handle and states it was
+absent from this enumeration; D-arch-resources proposed the row. Operator-ratified at the P2 escalation
+(2026-09-02) as a genuinely new class rather than an instance of playbook rule 115, whose preconditions it
+fails on four of five clauses.
+
+## 2026-09-03-live-pulse-preconditions-probed — preconditions probe registered; run contract at six terms
+
+**Section:** §Stack (CLI argument parsing) · §Standard Contracts (Liveness equivalent) · §Occupied Resources (Environment variables ×3, `contracts/pulse-run-contract.toml`)
+**Change:** The `:4317` liveness check is recorded with TWO production callers and deliberately different dispositions — the timeline engine's pre-emission check still surfaces a refusal as `Result::Err`, while the scheduling-time `observe_preconditions` probe reports it as an unmet precondition and a non-zero exit, never an `Err` and never a verdict. `CONDUCTOR_PREFLIGHT_TIMEOUT` records that `boot` now runs `conductor preconditions` as a LEADING arm and short-circuits, so the preflight invocation and its timeout are SKIPPED rather than paid. The run contract's `[[term]]` list is recorded at SIX (gaining `mcp-enabled`, `shell-declaration`, `env = ANDROMEDA_PULSE_MCP_ENABLED`), making the observable set TWO handles; `ANDROMEDA_PULSE_L4_DETERMINISTIC` loses its exclusive article and `ANDROMEDA_PULSE_MCP_ENABLED` gains its read role. `sidecar-built`'s `asserted` rationale is recorded as measurably FALSE (as measured at `.claude/rules/verification-harness.md:54`, 2026-08-20) — the `warmup_ms` failure shape — with the deliberate non-re-classification noted. The §Stack clap row's three-verb literal is de-literalized to the set `Commands` declares.
+**Why:** 2026-09-03-live-pulse-preconditions-probed landed a non-mutating precondition probe and `boot`'s leading arm. **NOT applied:** registering the CLI VERB itself in arch — playbook `:61` dismisses that as over-reach (no port/socket/endpoint/IPC/event/env-var/crate was added; the verb's home is layout-templates §cli Primary screens, where it landed).
+
+## 2026-09-04-sr-findings-remediation — the precondition probe cannot exit 0 (path handle graded by a boolean)
+**Section:** §Standard Contracts — Liveness equivalent (primary) · §Occupied Resources — `CONDUCTOR_PREFLIGHT_TIMEOUT` · §Occupied Resources — `ANDROMEDA_PULSE_MCP_ENABLED`
+**Change:** All three sections now record that `observe_preconditions` passes the three `ANDROMEDA_PULSE_*` names through `declares()`, which accepts only `"true"`/`"1"` — so the PATH-valued `ANDROMEDA_PULSE_DATA_DIR` can never declare, `conductor preconditions` cannot exit 0 under any environment, and `agent-run boot`'s leading arm has short-circuited before every preflight since `480bc66`. The Liveness-equivalent passage no longer implies a non-zero exit means a refusal; the `CONDUCTOR_PREFLIGHT_TIMEOUT` skip is restated as unconditional rather than contingent; the `ANDROMEDA_PULSE_MCP_ENABLED` bullet separates the probe's name-only REPORTING (unchanged, the redaction property holds) from its value-gated CHECK. Each passage carries the evidence pointer and names the fix as route-owned, not shipped.
+**Why:** Report §Spec claims disproved by measurement #1 (measured 2026-09-04T06:41Z under the full operator env: `egress-reachable` and `sidecar-resolvable` satisfied, `handles-declared` unmet naming DATA_DIR alone, exit 1; a child process independently confirmed to receive the value intact). Applied as a RECORD under playbook.md:118 — the operator's wrap directive names this defect (site `lib.rs:359`, mechanism, symptom) and mints the corrective route entry. **Search performed:** grep of architecture.md for `preconditions`, `observe_preconditions`, `declares`, `handles-declared`, `boot`, `ANDROMEDA_PULSE_` and for the mechanism's phrasings ("short-circuit", "unmet precondition", "presence-only") — three sites carried the claim; all three amended.
+
+## 2026-09-04-preconditions-probe-reads-path-handles-by-presence — the probe that can now say yes
+**Section:** §Standard Contracts — Liveness equivalent (primary) · §Occupied Resources — `CONDUCTOR_PREFLIGHT_TIMEOUT` · §Occupied Resources — `ANDROMEDA_PULSE_MCP_ENABLED`
+**Change:** Retires the entry directly above. `observe_preconditions` now builds `declared` PER HANDLE through `conductor_core::handle_declared` — the PATH-valued `ANDROMEDA_PULSE_DATA_DIR` graded by presence-after-trim, every other name delegating to the value-only `conductor_core::flag_declared` — so all three subjects are meetable and a non-zero exit names a genuinely unmet subject again. `CONDUCTOR_PREFLIGHT_TIMEOUT`: the skip is restated as CONDITIONAL, and the timeout is reached and paid (~47s per leg = warm-up 45s + poll). `ANDROMEDA_PULSE_MCP_ENABLED`: the CHECK is per-handle by kind, and `=false` now leaves `handles-declared` naming that handle alone. The name-only REPORTING / redaction property is unchanged throughout.
+**Why:** The fix this document had named route-owned shipped in this chunk. Measured at `conductor-0.2.0/chunks/2026-09-04-preconditions-probe-reads-path-handles-by-presence/report.md`: `conductor preconditions` exit 0 printing `[PRECONDITION] every live-Pulse precondition is satisfied` (2026-09-04T17:07Z, full operator env), then `ReadyState` JSON with `ready: true` / `canary_round_trip: "ok"` / `blocked_precondition: null` / 4-of-4 tools / `data_dir: "<redacted>"` in BOTH shipped shells (`agent-run.sh` 17:07:17→17:08:04Z · `agent-run.ps1` 17:11:16→17:12:03Z), zero `skipped preflight` lines in either, neither script edited. Supersedes the 2026-09-04T06:41Z `sr-findings-remediation` reading, which measured the pre-fix state. **Search performed:** grep of architecture.md for `UNSATISFIABLE`, `UNCONDITIONAL`, `short-circuited before every preflight`, `can ever be met`, `permanently unmet`, `route-owned`, plus `declares` / `boot` / `preconditions` read for the claim however worded — the same three sites (`:114`, `:184`, `:188`) carried it; four other hits (`Commands::declares`, scenario `declare`, the gate's own precondition strings, `bootstrap`/`BootstrapState`) are unrelated. All three amended; post-edit re-grep returns 0 for every retired phrase.
+
+## 2026-09-04-sidecar-spawn-without-a-console-window — the spawn stops naming a type it no longer uses, and stops promising a build it cannot do
+**Section:** §Occupied Resources — Service/process names (primary) · §Cross-cutting Patterns — Trust boundary · §Infrastructure Patterns — Directory structure · §Established Decisions [Module Boundaries]
+**Change:** (1) The sidecar launch mechanism is corrected from the retired rmcp `TokioChildProcess` to what actually spawns it — `conductor-verify/src/spawn.rs::build_command`'s `tokio::process::Command`, handed to `ReadbackClient::connect_command` over piped stdio — and the same passage records the `CREATE_NO_WINDOW` creation flag the spawn now carries under `#[cfg(windows)]`. (2) §Trust boundary's restatement of that retired name is corrected identically. (3) The workspace directory tree registers the new root `rustfmt.toml` (one key, `edition = "2024"`). (4) [Module Boundaries] keeps its compiler-enforced forbidden-edge property unqualified but QUALIFIES the standalone per-seam BUILD claim, which measurement falsified.
+**Why:** The chunk shipped the console-suppression fix and corrected the last in-code `TokioChildProcess` mention, leaving this document naming a type absent from every crate `src/` since 2026-06-27. Measured at `conductor-0.2.0/chunks/2026-09-04-sidecar-spawn-without-a-console-window/evidence/nvda-pass.json`: SR row S1-01's `heard` lost `<host-path>`, `<host-path> terminal blank` and `pane`, with 0 `security_finding` rows and 0 `<host-path>` placeholders where the prior record carried both. The [Module Boundaries] qualifier rests on a SEPARATE measurement — `cargo check -p conductor-verify --lib` red at HEAD on `tokio::time::sleep` (`preflight.rs:336`) with tokio's `time` feature in `[dev-dependencies]` (`Cargo.toml:31`) and not `[dependencies]` (`:10`) — which is PRE-EXISTING and route-owned (*Dependency polish*), not this chunk's defect; escalated as E1 and resolved by the operator on 2026-09-04 in favour of qualifying the body now while the CARRY owns the fix. **Search performed:** grep of all seven masters for `TokioChildProcess` — 5 sites across 3 docs (architecture ×2 amended here, security-plan ×2 amended in its own pass, test-plan ×1 at `:597` LEFT because it sits in §12 Test Decisions Log already carrying an inline dated `[2026-09-02 correction: rmcp was removed 2026-06-27 …]`; a decisions-log record is annotated, never rewritten) and 0 remaining in any crate `src/`. The one `TokioChildProcess` token still in this document is the historical note this amendment authored ("were removed 2026-06-27"), not a live claim. **Deliberately NOT amended:** the `tokio 1.48.x` version claim at §Stack / §Established Decisions [Language / Runtime] / §Inherited Defaults (3 sites), which a detector proposed moving to the resolved 1.52.3 — dismissed under playbook `:31` as not this chunk's drift, since the report's Dependencies bullet states "none added, none bumped" and `git diff HEAD` on `Cargo.toml`/`Cargo.lock` is empty. The staleness is real and pre-existing; it is recorded in this run's `fanout-results.md` so it is not lost.
+
+## 2026-09-05-audit-corrective — the supply-chain red was local, not an external advisory-DB fault
+**Section:** Infrastructure Patterns — Build system
+**Change:** Retired "`cargo audit` is separately red on an external advisory-DB fault"; the paragraph now records BOTH runners green over the un-drifted lock (`cargo deny` exit 0, `cargo audit` exit 0 — 1239 advisories, 564 packages, 18 `deny.toml`-adjudicated allowed warnings, measured 2026-09-05 against advisory-db HEAD `5a0ebedf` with `git status --porcelain` empty) and names the real cause: an untracked `crates/gettext-sys/RUSTSEC-2026-0244.md` left in this host's clone after upstream moved the file to `crates/gettext-rs/` on 2026-08-09 (`e12b689b`), which a fetch into an existing copy never removes. The porcelain check now precedes classifying any parse failure as external.
+**Why:** the chunk MEASURED the claim false (report §Spec claims disproved 2 + §Cross-project claims; `evidence/audit-probe.md`), and the chunk's own probe is what closes the standing deferral. Swept `architecture.md` for other statements of the retired verdict — none; the `toml`-crate "audit/deny-clean" lines at :31/:51 assert a per-crate pass, not the gate state.
+
+## 2026-09-06-operator-gated-live-suite — the deterministic-L4 degraded universal retired, and the live-suite capture site registered
+**Section:** §Established Decisions [Read-Back Dependency Posture] · §Occupied Resources — On-disk artifacts / database · §Infrastructure Patterns — Directory structure
+**Change:** Three edits, all applied. (1) [Read-Back Dependency Posture]: the universal "under deterministic L4 every read-back returns `degraded_mode`" is RETIRED — `degraded` now reads as a PER-READ-BACK property, with deterministic L4 measured BOTH ways (`findings-counter-refresh` degraded, 2026-08-21; `degraded-mode-report` non-degraded → the graded route → `ManualCheck`, `latency_ms 6045`, run `2026-09-06T09-11-09-325`). The degraded route to `KnownResidual`, its ungated-on-declare-only property, and `findings-counter-refresh`'s own outcome are all unchanged — only the quantifier was withdrawn. (2) §Occupied Resources gains `runs/live-suite/{leg}.jsonl`, the `run --live` per-leg self-obs captures: harness-owned by `scripts/agent-run.{sh,ps1}`, deliberately no `CONDUCTOR_*` handle of its own, moves with `CONDUCTOR_RUNS_DIR`, git-ignored, LEG-stemmed, cleared per invocation by a non-recursive `rm -f …/*.jsonl`. (3) The directory-tree gloss for `runs/` was narrowed — "run_id-stemmed, never overwritten" now scopes to the journal + report, with the `live-suite/` child shown as the one exception.
+**Why:** `2026-09-06-operator-gated-live-suite`. (1) disposes the chunk's `Spec claims disproved by measurement` entry: `state_for` (`conductor-run/src/execute.rs:233-235`) returns `KnownResidual` iff `observation.degraded`, so leg B1's `ManualCheck` row proves a non-degraded read-back under deterministic L4 — evidence at that chunk's `evidence/b1.jsonl` + `evidence/live-suite-verdict.md`. (2) registers a permanent artifact site the chunk's harness now writes (report §Harness / gate surface); (3) is (2)'s duplicate-claim fix — the tree comment asserted of ALL of `runs/` what holds only for the journal + report, and would have survived a single-site apply. **Sweep:** `every read-back returns` / `every read-back is degraded` / `all read-backs.*degraded` across all seven masters, each hit then read under a live-claim-vs-retirement-marker control — the retired wording survives only inside its own retirement marker; three other `every read-back …` hits (architecture's read-back-failure rule, security-plan ×2 on the unreachable path) state DIFFERENT claims and were left standing. `degraded_mode_response` → 0 hits in architecture.md. Not swept: whether any leaf outside the seven masters and the enumerated distillations restates the universal.
+
+## 2026-09-06 0-pending adaptation (subject: `2026-09-06-operator-gated-live-suite`) — the AutoResolved arm's firing condition is uptime-bound
+**Section:** §Established Decisions [Read-Back Dependency Posture] (the leg-E first-fired-LIVE narrative)
+**Change:** The leg-E narrative is QUALIFIED, not retired. "Nothing refreshed it" is recorded as holding only while Pulse is inside the emitting service's ONE-HOUR bootstrap window: past it the silence evaluator raises `service_went_silent` cues for exactly the quiet the arm depends on, those cues reach the Autonomous band and create NEW incidents during the silent phase, so the active set is never empty and the arm is unreachable at ANY window length. Inside the window the arm is reachable but still bounded by 120s idle + up to a full 30s observer tick measured from the LAST preflight incident, which can be more than one.
+**Why:** A 0-pending adaptation applying a fact this session itself measured (SKILL step 6's self-produced-fact door), not drift-derived. As measured at `pulse-legs/a11y-20260906-110201/logs/agent-latest.jsonl.2026-09-06`: the day's first EMITTED silence cue fired 10:11:09.723Z — one hour after the canary service's first span (~09:11Z) — and incidents then formed mid-silence at 11:00:33 and 11:02:02 after cues of magnitude 3.0 → 5.0 → 7.03; run `2026-09-06T10-58-18-536` landed `ManualCheck` / `latency_ms 200048` / 6 fingerprints. SUT coordinates re-verified at HEAD `83d4060`: `BOOTSTRAP_WINDOW_SECONDS = 3_600` (`crates/triage/src/baseline/activity_floor.rs:36`), the evaluator called each emit cycle (`crates/triage/src/cue/emitter.rs:186`), its post-bootstrap test at `:1104`. This matters here because the SAME section retired the deterministic-L4 degraded universal hours earlier — the two facts sit in one passage and would otherwise read as an unqualified account of when the arm fires. **Search performed:** `nothing refreshed it` / `auto-resolve on schedule` / `empty active list` across all seven masters → 2 hits, both architecture.md. `:69` is the amended passage; `:134` was READ rather than pattern-matched and is NOT a duplicate — it DEFINES the route's trigger ("the auto-resolve residual when a post-green-preflight read-back finds an empty active list"), which remains true, and already cross-references this section for detail. `AutoResolved` / `empty active` across `.claude/` + CLAUDE.md → 1 hit, `session-handoff.md`, rewritten at P6 by this same run. **Deliberately NOT edited:** `scenarios/auto-resolve-idle-window.toml:29-32`, whose header still states the superseded margin model — it is CODE, outside this path's scope, and is owned by the CARRY pinned to *Halo hue budget re-driven*.
+
+## 2026-09-06-run-report-envelope-conformance-gate — the storage seam's first row-removing path
+**Section:** Established Decisions — [ORM] None — raw SQL
+**Change:** The seam's workload description widened from "append + a handful of cross-run SELECTs" to include one run-scoped teardown: `RunsDb::delete_run`, three LITERAL `DELETE ... WHERE run_id = ?1` statements over `runs` / `run_check` / `run_envelope` in one transaction, rusqlite bound parameters, idempotent, never `format!`-assembled even over a hard-coded table list. The `conductor cleanup <run_id>` verb is its sole caller and the harness shells issue no SQL.
+**Why:** The entry's characterisation of the workload IS the payoff argument for keeping raw SQL, and a three-table transactional delete is precisely the shape that would otherwise argue for an ORM — so the entry under-described what ships. Proposed by D-arch-decisions; routine under playbook :28 (spec illustration reconciled to the sound shipped impl, invariant intact). D-arch-resources correctly did NOT propose registering the new CLI verb: architecture:33 states the verb set is "whichever `Commands` (`cli.rs`) declares, never a literal list here", and playbook :61 dismisses that class.
+
+## 2026-09-06-coverage-completeness-gate — rate term counts wire records; `.gitattributes` registered
+
+**Section:** §Occupied Resources → On-disk artifacts → `contracts/pulse-load-envelope.toml` · §Infrastructure Patterns → Directory structure + Build system
+**Change:** (1) Retired the DISPATCHES reading of `max_sustained_rate_spans_per_s`. The body now states the shipped basis — `phase_rate_exceeds` judges `occurrences × EmissionSpec::max_spans_per_dispatch() × 1000 > max_rate × gap_ms`, an upper BOUND (the rate curves carry seeded jitter and the static gate has no seed), with the per-dispatch count measured per `EmissionShape` arm. Records that the retired `samples`/`windows` reading held for `Latency` alone, SUPERSEDES the "~200× under the bound" figure with the measured ~232 records/s at `halo-breathing-encoding` (≈43×), notes the contract file and the term's name/value are unchanged, retires the SURFACED-not-authored disposition as authored by this chunk, and preserves the gate/caption shared-basis property — now stated as holding BY CONSTRUCTION via the single `phase_rate_exceeds` → `phase_breach` → {`check_load_envelope`, `classify`} call chain. (2) Registered `.gitattributes` in the directory tree beside `rustfmt.toml`, plus a Build-system sentence for the gate-correctness dependency.
+**Why:** The chunk shipped the fix this record itself scoped as route-owned-not-shipped (playbook: a master naming its own defect as route-owned, discharged by the chunk). Report Changes → Counts/qualifiers moved (1)(2) and Spec claims disproved (1)-(4), all four naming `architecture.md:174`. Both amendments applied at ONE site each: the report's sweep (`grep -nE 'occurrences / gap_ms|samples./.windows|DISPATCHES|200×|50/s' .andromeda/*.md`) returned `:174` only, and `grep -rn gitattributes .andromeda/*.md .claude/` returned 0 before this entry. The `.gitattributes` proposal arrived aimed at §Occupied Resources and was RE-HOMED by the orchestrator: that section holds runtime artifacts, while this file's siblings (`Cargo.lock`, `rust-toolchain.toml`, `rustfmt.toml`) live in the directory tree.
+
+## 2026-09-06-halo-hue-budget-re-driven — ANDROMEDA_PULSE_BASELINE_BOOTSTRAP_SECONDS registered
+**Section:** Occupied Resources — Environment variables
+**Change:** The Pulse-side per-service cold-start window handle is registered — the one entry Conductor neither SETS nor READS. It is registered because a SHIPPED artifact names it in its own output (the `run --live` banner in both shells), so a reader meeting it there can find it here. Recorded as a BOOT-TIME posture (`Thresholds::from_env()` at `pulse-app/src/main.rs:472`, measured 2026-09-07 at HEAD 83d4060), hence boot-wide rather than per-leg; load-bearing for the auto-resolve leg and inert for the storm-path legs; and explicitly neither a run-contract `shell-declaration` term nor one of the three `conductor preconditions` subjects.
+**Why:** The chunk's `run --live` banner names the handle in both shells while arch's env registry carried only handles Conductor reads. ESCALATED at P2 — no playbook rule matched and the unease was precedent-shaped (a registry of read handles gaining a never-read one). The operator approved the pair and directed a bounding playbook rule, minted the same pass: only a handle a SHIPPED artifact names is registered, never one mentioned solely in a report or plan.
+
+## 2026-09-06-halo-hue-budget-re-driven — The auto-resolve arm's uptime bound is the window in force at boot, not a fixed hour
+**Section:** Established Decisions — [Read-Back Dependency Posture]
+**Change:** The UPTIME-BOUND paragraph is qualified: `BOOTSTRAP_WINDOW_SECONDS = 3_600` is the DEFAULT, overridable once at Pulse's boot, so the arm's reachability is bounded by the window IN FORCE AT BOOT. The past-the-window mechanism is unchanged and now explicitly scoped to the default window. NARROWED at the light gate, before commit: the stretched posture removes cause (a) and is NOT sufficient — cause (b) is untouched by it and still decides the leg, so the body says the posture makes the arm REACHABLE rather than RELIABLE and records both 2026-09-07 runs.
+**Why:** Dependent of the registry entry above: registering the handle alone would leave this paragraph telling a reader the arm must race a fixed hour, which the 2026-09-07 leg measured false. Same claim, second site — the cross-master pair with test-plan section 9, which this pass conditioned identically.
+
+## 2026-09-07-dependency-polish — Stack versions reconciled to the resolved lock
+**Section:** §Stack and Technologies · §Established Decisions [Language / Runtime] · §Established Decisions [Deployment] · §Infrastructure Patterns — Deployment model · §Inherited Defaults
+**Change:** `indicatif 0.17` → `0.18` (this chunk's bump, resolves 0.18.6); `tokio 1.48.x` → `1.52.3` at all three sites; Tauri `bundler v2.10.x, latest 2.10.1` → `bundler 2.11.3` at all four sites. `inquire 0.9` on the same Stack row was already correct and was NOT touched.
+**Why:** The indicatif value is this chunk's own dependency change (report Changes → Dependencies). The tokio and Tauri values were pre-existing stale literals the chunk's folded CARRY routes here ("reconcile the docs to the resolved artifacts here, where the dependency surface is already open"); every `≥ 2.10.3` FLOOR statement was deliberately left standing, since a floor is satisfied — not falsified — at 2.11.3.
+
+## 2026-09-07-dependency-polish — OTLP emission row records the default-features trim
+**Section:** §Stack and Technologies
+**Change:** The opentelemetry-proto row now reads `default-features = false` at the workspace entry with `gen-tonic` + `trace`/`logs`; `metrics` is de-registered.
+**Why:** The trim shipped at the workspace entry because cargo rejects a member disabling defaults on an inherited dep (report Deviations #1). `metrics` was previously enabled through `conductor-run`'s featureless dev-dep riding `default = [full]`; with defaults off at the workspace entry no member enables it, so the registry now matches the code. The report surfaced this mismatch by name rather than absorbing it.
+
+## 2026-09-07-dependency-polish — [Module Boundaries] E1 qualifier retired on a clean nine-member sweep
+**Section:** §Established Decisions [Module Boundaries]
+**Change:** The standalone per-seam BUILD claim is no longer qualified as "an intent, not a guarantee". The `conductor-verify` manifest repair landed (tokio's `time` into `[dependencies]`) and the whole roster swept clean — nine members each on its OWN targets (`--lib` ×7, `--bins` ×2 for the two crates with no lib target), every one exit 0, measured twice. `--all-targets` is recorded as banned in the sweep because it re-unifies dev-dependencies. A narrower caveat survives: no CI job builds a member standalone, so the property is measured-at-a-chunk, not gate-enforced.
+**Why:** Report Changes → Spec claims disproved by measurement #2. The retired text named *Dependency polish* as the owner of the repair, so leaving it would send a future planner to redo landed work. Retirement made unconditional by operator wrap directive item 4 (the sweep was measured twice — builder and operator).
+
+## 2026-09-07-dependency-polish — Supply-chain measurement re-stated post-bump
+**Section:** §Infrastructure Patterns — Build system
+**Change:** `cargo audit` exit 0 re-measured: 562 packages scanned (was 564), 17 allowed warnings (was 18) = 16 `unmaintained` + 1 `unsound`; the note records that RUSTSEC-2025-0119 left the ignore list when `number_prefix` left the tree, taking `deny.toml`'s ignore entries 17 → 16. `1239 advisories loaded` is unchanged and was re-measured, not carried.
+**Why:** Report Changes → Counts / qualifiers moved (lock 564 → 562; audit warnings 18 → 17) and Schema / config (the ignore entry's subject left the tree).
+
+## 2026-09-07-a11y-ci-gate — CI gains a Pulse-free a11y gate; a fourth env-handle class; the a11y violation artifact registered
+**Section:** §Stack and Technologies (CI/CD row) · §Established Decisions [CI/CD] · §Occupied Resources — Environment variables (`CONDUCTOR_MSEDGEDRIVER`, `CONDUCTOR_NVDA`, new `CONDUCTOR_A11Y_STRICT`) · §Occupied Resources — On-disk artifacts · §Infrastructure Patterns — Build system / CI-CD approach / Directory structure · §Inherited Defaults
+**Change:** [CI/CD] restated — CI is no longer build+test only: a third job (`a11y`, `runs-on: windows-2025`) runs the Pulse-free routine webview a11y leg plus the reused `journal_conformance` gate and the artifact upload; the exclusion narrows to dynamic proof REQUIRING A LIVE PULSE, which is why the routine arm is gateable at all. Five consequential restatements reconciled in lockstep (Stack row · CI/CD approach · directory-tree comment · Inherited Defaults · the Build-system job enumeration, whose "both CI jobs run `windows-latest`" became the three-job Windows set with `a11y` on the explicit `windows-2025` label). Registered `CONDUCTOR_A11Y_STRICT` as a FOURTH handle class — flag-valued, read by `wdio.conf.ts` AND both harness shells, never by a shipped binary — and qualified the `CONDUCTOR_MSEDGEDRIVER` / `CONDUCTOR_NVDA` skip-at-exit-0 clauses as the LAX arm, since both skip sites now route through one `exitUnresolvedHandle()`. Registered `runs/a11y/<run_id>.jsonl` with its measured 13-key (15 under CI) shape and the reasons for its own directory.
+**Why:** Report Changes → Harness/gate surface (the new job), Symbols/APIs → Env vars (the new handle + the two replaced `process.exit(0)` sites), Schema/config (the artifact), and Outcome (the criteria measured both ways). The [CI/CD] widening was ESCALATED at this wrap — rule `:97` (locked-decision reversal) fails its causal clause, since no live SUT contradicted anything and the route delivered planned work that test-plan `:469` and a11y-plan `:457` already named this entry as owning — and the operator ratified it routine under rule `:28` (wording → sound impl, invariant demonstrated): the decision's live-Pulse invariant is preserved and asserted MET, only the unqualified framing went.
+
+## 2026-09-07-sr-findings-fixed — a11y job measured RED on the hosted runner; `EDGEWEBDRIVER` registered
+**Section:** §Established Decisions [CI/CD] · §Infrastructure Patterns — CI/CD approach · §Occupied Resources — Environment variables
+**Change:** Three amendments. (1) [CI/CD] retired "The a11y job's own first GitHub run is pending the operator's push, so the wiring is recorded here, never a green run" — the job HAS now run on the hosted `windows-2025` image (four runs, 2026-09-07, from a since-deleted `ci-probe/` ref) and is RED at WebView2 session creation, after resolving the driver from the image and getting its RED wdio output into the job log (both fixed by this chunk, both proven in CI); still never a GREEN run, the operator's build-branch push still owed, the failure owned by the route entry *Hosted-runner WebView2 session*. The same sentence's "which is exactly why it is gateable" was qualified: Pulse-freedom is NECESSARY, not sufficient — hosted-runner runnability is measured-unproven, while the dev host is proven (12 passing / 2 skipped). (2) §Infrastructure Patterns CI/CD approach: the three enumerated a11y stages are the job's WIRING — the conformance gate and the record upload have never executed in CI. (3) §Occupied Resources: `EDGEWEBDRIVER` registered as the CI-side value source for `CONDUCTOR_MSEDGEDRIVER`, with the expression-context mechanism that made the original wiring fail, the handle-named path-free precondition, and the note that `wdio.conf.ts` remains the handle's only READER and only validating site.
+**Why:** D-platform-claim (primary + 1 dependent) and D-arch-resources, all three substantiated by the report's Insufficient-fixes bullet, its Outcome table ("(a11y) … completes GREEN — UNMET"), and its Harness/gate-surface bullet. The registration ESCALATED: playbook `:137` covers this exact class but its qualifying clause is "an EXTERNAL handle one Conductor neither SETS nor READS", and `ci.yml` now READS `$env:EDGEWEBDRIVER` at four sites — the clause fails, so the rule did not govern. Operator-ratified at this wrap, with `:137` widened by a new rule rather than stretched.
+
+## 2026-09-08-hosted-runner-webview2-session — WEBVIEW2_* diagnostic handles registered
+**Section:** Occupied Resources — Environment variables
+**Change:** Registered `WEBVIEW2_USER_DATA_FOLDER` + `WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS` as one DIAGNOSTIC-scoped pair, on a THIRD registration basis beside the two already present: a shipped artifact SETS them but never READS them. `.github/workflows/ci.yml`'s `a11y` job sets both for probe (a) of its `WebView2 session isolation (diagnostic)` step and clears both before probe (b); the WebView2 loader is the only reader, so neither is a spawn-resolution input and neither carries a configuration contract, and their whole lifetime is that one `continue-on-error` step. The entry states explicitly that the `EDGEWEBDRIVER` names-AND-reads bar does not apply and that no `CONDUCTOR_*` namespace claim is made.
+**Why:** report §Changes → Env vars records the chunk's ci.yml delta setting both names and hands the registration decision to the detector rather than pre-deciding it; architecture held zero `WEBVIEW2` occurrences, so a reader meeting either name in the committed workflow landed nowhere. Neither playbook `:137` (governs a handle Conductor "neither SETS nor READS" — fails, ci.yml sets them) nor `:143` (governs one a shipped artifact READS — fails, ci.yml never reads) governed the class, so it escalated as an unruled sixth handle class and was operator-ratified at this wrap, minting playbook rule `:146`.
+
+## 2026-09-08-webview2-runtime-152-installed-in-job — CI-scoped Evergreen egress registered; the runtime floated while the driver stays pinned
+
+**Section:** Occupied Resources — Ports · Occupied Resources — Environment variables · Cross-cutting Patterns — Trust boundary · Established Decisions [CI/CD] · Infrastructure Patterns — Build system (five sections; all five applied)
+**Change:** (1) §Ports registers `https://go.microsoft.com/fwlink/p/?LinkId=2124703` as a CI-JOB-SCOPED egress — the project's only non-loopback outbound target and the only registered one no shipped binary reaches — fetched over HTTPS with certificate verification intact, admitted only through a pre-execution `Get-AuthenticodeSignature` gate (status `Valid` AND an `O=Microsoft Corporation` signer), binding no port. (2) §Trust boundary's outbound-surface enumeration gains that CI-only third surface explicitly, so the loopback-only claim now carries the scope under which it still holds — every shipped binary and every dev-host harness leg. (3) §Environment variables registers `RUNNER_TEMP` on the `EDGEWEBDRIVER` basis (a SHIPPED artifact READS it, and reads it in the step SHELL rather than through a `${{ env.* }}` expression) and records that the install gate SETS no handle and claims no `CONDUCTOR_*` name, leaving the `WEBVIEW2_*` pair's registered lifetime — that one `continue-on-error` diagnostic step — unchanged. (4) §Established Decisions [CI/CD] records the in-job provisioning (fetch → Authenticode gate → fixed array-form `Start-Process … '/silent','/install'` → post-install major ≥ 152 assertion; no `continue-on-error`, no `if:`) and states plainly that whether a 152+ runtime opens the endpoint is UNMEASURED — the probe's verdict needs a CI run following the commit that ships it. (5) §Build system distinguishes the still-pinned Edge DRIVER (what the `windows-2025` label fixes) from the deliberately FLOATED WebView2 RUNTIME, with the float's exit condition stated.
+**Why:** D-arch-resources (3 proposals, one `dependent-of`) + D-arch-decisions (2, one `dependent-of`), all routed to `playbook.md:124` — boundary widening, "always a human's call … never mint a routine rule for this class" — and operator-ratified at this wrap. The report's Symbols/APIs bullet lands the new endpoint; its Dependencies bullet lands the dependency class. §Trust boundary and §Build system are duplicate-occurrence sites: each restates in its own voice a claim a single-site apply would have left standing, §Build system sharply so — it justifies pinning the image precisely so the image cannot shift the driver underneath the leg, while this chunk floats the runtime. The Evergreen-versus-pin disposition is the operator's ruling this wrap: Evergreen now (the chunk is a PROBE whose subject is the runtime major, so fetching newest IS the measurement), pinned once the job actually gates.
+
+## 2026-09-09-workspace-formatting-pass-and-a-fmt-ci-gate — fmt gate enters the CI enumeration; the 152-runtime question retired as measured
+**Section:** Stack and Technologies (CI/CD row) · Established Decisions [CI/CD] · Infrastructure Patterns — Directory structure · Infrastructure Patterns — CI/CD approach · Inherited Defaults (CI/CD)
+**Change:** SIX edits on five sections. (1)–(5) The gate-set enumeration gains `cargo fmt --all --check` at every site that states what CI runs: the §Stack CI/CD row (technology cell and its "Formatting, build + test gating" rationale), §Established Decisions [CI/CD] (now naming the `rust` job's own step at index 2, after the toolchain install and before the cache restore, no `continue-on-error`/`if:`, with the `--all`-over-bare reason recorded — the workspace declares no `default-members`), the `.github/workflows/` directory-tree comment, §Infrastructure Patterns CI/CD approach, and §Inherited Defaults CI/CD. (6) §Established Decisions [CI/CD]'s sentence "Whether a 152+ runtime actually opens the remote-debugging endpoint is **unmeasured** — the probe's verdict needs a CI run that follows the commit shipping it" is retired as MEASURED: run `34280136892` installed Evergreen 152.0.4191.66 and the endpoint still never opened, so the runtime-major hypothesis is FALSIFIED, the cause stays OPEN, and ownership sits with the `v2-24` deferral note.
+**Why:** D-arch-decisions (1 primary + 4 `dependent-of`) and D-platform-claim (1), substantiated by the report's *Harness / gate surface* and *Spec claims disproved by measurement* bullets. Edit (6) had no matching playbook rule and was ESCALATED; the operator approved it and minted the accompanying rule (`playbook.md`, provisional-status-claim retirement). Caught-ALL basis for the enumeration sweep: `grep -nE 'cargo build.*(nextest|clippy)|(nextest|cargo test).*clippy'` over all seven masters plus a wider `build \+ test \+ clippy|GitHub Actions:` pass for the tree comment, which carries none of the first pattern's tokens; a known-positive control (`architecture.md:37`) fired through both. That sweep also found the claim restated in security-plan, obs-plan and a11y-plan — amended in the same pass, recorded in their own sidecars.
+
+## 2026-09-10-release-build-and-bundle — bundler version + installer size retired; CRATE pin untouched
+**Section:** Stack and Technologies (Desktop shell row) · Established Decisions [Deployment] · Infrastructure Patterns — Deployment model · Inherited Defaults — Deployment
+**Change:** FOUR edits on four sections, ONE retired claim. The sentence at §Infrastructure Patterns — Deployment model carried two false facts in one clause — "the Tauri 2 bundler (2.11.3) produces an optional ~3 MB GUI installer". Both are retired there and at the three sites that co-state the bundler half. (1) The BUNDLER is now named as a HOST dev-tool (`tauri-cli` / `tauri-bundler`) absent from `Cargo.lock`, so the tree resolves no bundler version at all; the body records that the `2.11.3` it long carried MIRRORED the `tauri` CRATE version, a different artifact, and states the floor as met by the installed CLI at 2.11.4. (2) The `~3 MB` figure is replaced by the measured installer SET, marked `as measured 2026-09-10` in the body: nsis 4 418 544 B (4.21 MB) · msi 6 152 192 B (5.87 MB), both under gitignored `target/`. The §Stack row, the [Deployment] decision and the Inherited-Defaults line each drop their `(2.11.3)` bundler pin and name the host tool instead; the roster floor is pointed at test-plan §4.
+**Why:** D-arch-decisions (1 primary + 3 `dependent-of`), substantiated by the report's *Spec claims disproved by measurement* and *Dev-tool versions* bullets, and directed by the operator as ONE amendment carrying the measured pair with its date. **Search establishing the site set** (Validate check 4): `grep -nE 'bundler \(?2\.11\.3|Tauri 2 \(2\.11\.3\)'` over the seven masters → 4 arch hits (`:27`, `:58`, `:206`, `:266`) + 1 security-plan (`:84`, amended in its own sidecar); `grep -n '3 MB'` → arch `:206` + security-plan `:84` + design-system `:117`/`:367` (the latter two in their own sidecar). **Deliberately NOT amended — the CRATE sites**, which say `tauri` the crate, are correct at HEAD and were verified by a lock probe (`tauri` 2.11.3 present; `tauri-cli` and `tauri-bundler` absent): `architecture.md:204`, `security-plan.md:181` (its bundler half amended separately, its crate half byte-intact) and `:379`, `.claude/rules/verification-harness.md:57`. No playbook rule governed the class — a measured-SCALAR literal (a version, a size) is neither the set-enumerating literal :127 covers nor the derived-value sample :106 covers, and :28 requires values preserved, which is exactly what moved; applied on the operator's directive, with the gap reported.
+
+## 2026-09-10-release-build-and-bundle — installer byte-size de-literalized after the light gate re-measured it
+**Section:** Infrastructure Patterns — Deployment model
+**Change:** The clause this same wrap wrote — `as measured 2026-09-10: nsis 4 418 544 B (4.21 MB) · msi 6 152 192 B (5.87 MB)` — now states the MB scale only, and records why. The wrap's own light gate re-ran `cargo tauri build` and the nsis installer came out **4 414 280 B**, 4 264 bytes off the figure taken from the /implement build hours earlier; the msi reproduced byte-exactly (6 152 192 B) both times. Both nsis readings round to 4.21 MB, so the scale survives the variance and the byte count does not.
+**Why:** Not a detector proposal — orchestrator-raised at P7 from a measurement the light gate itself produced, and applied because a spec body must hold current truth: a byte-exact size that a re-build of unchanged source does not reproduce asserts more than the toolchain guarantees. It is the same defect class the amendment above retired (`~3 MB`, a baked literal a measurement moved) reappearing one layer down — replacing an approximate literal with a byte-exact one made the claim MORE precise than its subject, which is a different way of being wrong. The /implement reading stays true as history and is NOT edited: the chunk's `evidence/release-artifacts.md` table and the `v2-27` ledger `ref` both record that specific build, and the evidence file gains the second reading as a second row rather than a correction.
+
+## 2026-09-11-hosted-runner-endpoint-cause-probed — hosted-image POLICY and SESSION candidates measured and retired; two ci.yml env reads registered; the probe script joins the tree
+**Section:** Established Decisions [CI/CD] · Occupied Resources — Environment variables · Infrastructure Patterns — Directory structure
+**Change:** THREE edits on three sections. (1) §Established Decisions [CI/CD]'s closing clause "with a hosted-image policy or session property the leading unmeasured candidate" is retired: both halves are now MEASURED at CI run `34586959536` and neither holds — all five probed Edge/EdgeUpdate/EdgeWebView policy keys ABSENT in both hives on the hosted runner AND on the dev host, and the runner is `SessionId 2` / `UserInteractive: True`, not session 0 and not a service context. The body states the new status explicitly and names NO replacement candidate: the one difference the run recorded (the runner is elevated, the dev host is not) is written as an observed difference and NOT a demonstrated cause, since no probe varied it, and the third candidate (the module version the host processes load) returned no reading at all because its step runs 0.645 s after the isolation step stops the app. The measured scope is stated as that image at that run. (2) §Occupied Resources — Environment variables registers `TEMP` and `LOCALAPPDATA` on the `EDGEWEBDRIVER`/`RUNNER_TEMP` shipped-artifact-READS basis, with the reading sites named; recorded as a PRE-EXISTING gap, since this chunk reads no environment variable at all. (3) §Infrastructure Patterns' directory tree lists `webview2-cause-probe.ps1` beside `agent-run.sh` under `scripts/`, marked CI-only and wired into neither harness shell.
+**Why:** D-arch-decisions (1) and D-arch-resources (2), substantiated by the report's *Spec claims disproved by measurement* #1, its *Expected amendments* list and its *Files* / *Symbols / APIs* bullets. Edit (1) is routine under playbook `:149` (a master's own explicitly-provisional claim retired by the measurement the sentence names as its precondition) — all three bounding clauses hold, and clause (c)'s PARTIAL-result escalate arm does not fire because the reading for the two NAMED candidates is determinate; the unread third candidate is named in `v3-01`'s `observed_gap`, not in the retired sentence. Edit (2) is routine under playbook `:143` (an external handle a SHIPPED artifact READS). Edit (3) matched no rule and was applied as not-surprising: playbook `:49` (per-item content in an already-registered directory) was tested and FAILS its load-bearing qualifier — that rule scopes to a directory arch tracks at DIRECTORY grain holding config CONTENT, while `scripts/` is tracked at per-FILE grain (the tree names `agent-run.sh`) and the new file is an executable entry point.
+
+## 2026-09-11-hosted-runner-endpoint-cause-closed — the endpoint cause ESTABLISHED as elevation; the Evergreen install made floor-conditional
+**Section:** Established Decisions [CI/CD] · Infrastructure Patterns — Build system · Occupied Resources — Ports · Cross-cutting Patterns — Trust boundary
+**Change:** FIVE edits on four sections, two claims. **Claim A (cause).** §Established Decisions [CI/CD]'s "**No replacement candidate is named:** … an observed difference and NOT a demonstrated cause, since no probe varied it, and a third candidate … returned NO reading at all because that probe's step runs after the isolation step stops the app (0.645 s later, measured)" is retired for the measured set: the module reading TAKEN inside the isolation step's live window (CI run `34645345201`; placement, not a longer timeout, was the defect, and the later step's `no live process` lines persist by design so the pair is the evidence); driver/runtime major SKEW RETIRED as a cause by direct variation with a control (CI run `34654076633` — install skipped, `msedgedriver`/Edge/runtime all `152.0.4191.66`, processes loading 152 modules against 153 prior, every isolation reading byte-identical, endpoint still absent); ELEVATION VARIED on the known-good dev host, reproducing `session not created: DevToolsActivePort file doesn't exist` where the non-elevated control is a recorded green, the pair differing on `IsElevatedAdmin` alone. The same bullet's upstream "the cause stays OPEN, owned by the `v2-24` deferral note" is re-dated to "stayed OPEN until 2026-09-12". The body states the MECHANISM as **recorded, not established** (no probe measured why an elevated token suppresses the endpoint — only the correlation under single-variable variation), bounds the scope to the hosted `windows-2025` image and the Windows dev host, records the endpoint as still CLOSED, and names `v3-02` as the remedy's owner. **Claim B (install posture).** §Infrastructure Patterns — Build system: "the WebView2 RUNTIME is deliberately FLOATED — … installs always-latest Evergreen in-job … chosen at job time" → FLOORED AT 152 with a conditional install, the always-latest rationale recorded EXHAUSTED rather than contradicted, and the pin-once-it-GATES exit condition explicitly marked UNMET. §Established Decisions [CI/CD]'s provisioning sentence restated conditional-below-152, with the Authenticode gate guarding the only fetching path and the `≥ 152` floor assertion OUTSIDE the conditional, running every job. §Occupied Resources — Ports: the fwlink entry's fetch qualified conditional. §Cross-cutting Patterns — Trust boundary: the third outbound surface restated a CONDITIONAL one-shot fetch.
+**Why:** D-arch-decisions (1 primary + 3 `dependent-of`) and D-platform-claim (1), substantiated by the report's *Spec claims disproved by measurement* 1 and 2, *Dependencies*, *Harness / gate surface* and *Counts / qualifiers moved* bullets. Claim A is ROUTINE under playbook `:149`, all three clauses holding (clause (a) twice over: the sentence names its own precondition both for the absent reading and for the unestablished cause, and this chunk satisfied each). Claim B ESCALATED and was resolved by operator directive: `:149` does NOT govern it, clause (a) failing because the sentence's own named retire-condition ("once the `a11y` job actually GATES") is measurably unmet — the A11y job was `failure` at run `34654076633` with `DevToolsActivePort` never seen — while the posture changed because the probe's SUBJECT moved, which that clause explicitly excludes. No playbook rule proposed for Claim B. Sweep establishing the site set: `grep -lF` across all seven masters for `always-latest` · `chosen at job time` · `deliberately FLOATED` · `one-shot HTTPS fetch` · `no probe varied` · `returned NO reading` · `not a demonstrated cause` · `cause stays OPEN` · `no named candidate` · `0.645`, with a known-positive control (`floor-conditional`) fired through the same form to prove the zeros; the same sweep covered `playbook.md`, `drift-base.md` and the three preserve-verbatim curation homes, and every amended line was re-read for an intra-line duplicate.
+
+## 2026-09-13-audit-debt-retired-before-epoch-1-closes — LF pinned repo-wide; `conductor-core`'s universal edge narrowed; host-Python instruments registered
+**Section:** Infrastructure Patterns — Build system · Infrastructure Patterns — Directory structure · Occupied Resources — Crate names · Stack and Technologies
+**Change:** FOUR edits. **(1)** §Infrastructure Patterns — Build system: "The repo's sole `.gitattributes` rule (`coverage-matrix.md text eol=lf`, added 2026-09-06) is a gate-correctness control" → `.gitattributes` pins LF at checkout repo-wide (`* text=auto eol=lf`, added 2026-09-13), keeping the `coverage-matrix.md` rule beneath it as the NAMED gate-correctness control; and the same paragraph's "It governs that one path; no repo-wide attribute policy is asserted." → the wildcard IS the repo-wide policy, the named rule keeping that one path's guarantee independent of any later narrowing, with the measured non-renormalization (`git ls-files --eol` 3031 `i/lf` · 13 `i/none` · 4 `i/-text`, no `i/crlf` and no `i/mixed`, against a system-gitconfig `core.autocrlf=true`) and the "LF will be replaced by CRLF" warning going from every touched file to 0, stated *as measured 2026-09-13*. **(2)** §Infrastructure Patterns directory tree: the `.gitattributes` comment "one rule: coverage-matrix.md text eol=lf" → "repo-wide LF pin (`* text=auto eol=lf`) + the named coverage-matrix.md control" — SET-NAMED rather than re-counted, so a future third rule cannot re-stale it. **(3)** §Occupied Resources — Crate names: `conductor-core`'s "(the runtime-agnostic engine library every other crate depends on)" → "the other members depend on — `conductor-emit` EXCEPTED since 2026-09-13, when its unused edge was dropped; the dependent set is whatever the members' `Cargo.toml` files declare, never a universal". **(4)** §Stack and Technologies gains an "Operator instruments (host runtime)" row: host Python 3, resolved by no lockfile and pinned by no toolchain file, running the code-graph pipeline (`scripts/code-graph.py` + `scripts/scip_pb2.py` + `scripts/requirements.txt`) and the new mutation-tally gate (`scripts/mutation-gate.py` + `scripts/mutation-roster.toml`); neither CI-invoked, neither a sixth `agent-run` command.
+**Why:** D-arch-decisions (edits 1, 2, 4) and D-arch-resources (edit 3), substantiated by the report's *Schema / config*, *Counts / qualifiers moved*, *Spec claims disproved by measurement* #1, *Dependencies* and *Harness / gate surface* bullets. Edits (1) and (2) were settled by the operator's recorded wrap directive (the founder's boundary-#5 LF ruling), so they applied without a rule per the amendment-flow's recorded-direction branch — a direction settles the proposal, never the class, and no playbook rule is proposed. Edit (3) matched no rule and applied as not-surprising: a universal the report measures false for one named member, narrowed to the declared-edge SET rather than to a fresh enumeration. Edit (4) ESCALATED and was resolved with the operator: the proposal's premise — that this chunk "introduces a runtime the stack does not yet allow" — is FALSE, since `scripts/code-graph.py` and `scripts/scip_pb2.py` have shipped since **2026-06-18** (`git log --diff-filter=A -- scripts/code-graph.py` → `8d56a7a`, measured this wrap); the operator chose to register accurately with no novelty implied, so the applied text names Python as the runtime it already was and the code-graph pipeline as its precedent. One proposal was DISMISSED: registering `conductor_core::ENVELOPE_KEYS_SORTED` into §Standard Contracts, governed by playbook `:37` (every clause holding — a public library API symbol proposed into an arch registry while the chunk's real occupied resources are already registered, the report stating no new port/socket/endpoint/IPC/event/env var). Sweep establishing the site set: `grep -c` across all seven masters for `sole .gitattributes rule` · `no repo-wide attribute policy` · `one rule:` · `every other crate depends on`, each returning 0 after the edits and each having returned a known hit before; `gitattributes` returns 3 master hits total, the third being `test-plan.md:80` ("LF-pinned by `.gitattributes` so its byte comparison is host-independent") which stays TRUE and was read and left unchanged. The same sweep covered `playbook.md`, `drift-base.md` and the three preserve-verbatim curation homes (0 hits). `every other crate depends on` additionally had ONE distillation hit, `CLAUDE.md:21` inside `GENERATED:setup:modules` — cascade territory, re-derived in this pass rather than hand-edited — and ONE lateral master hit, `test-plan.md:29`, which cites arch's wording and was amended in the same pass (arch owns the sentence). Every amended line was re-read for an intra-line duplicate of the retired wording.
+
+## 2026-09-13-p-025-measurement-contract-for-pulse — the fifth `contracts/` member, and the first no Rust code reads
+**Section:** §Occupied Resources — On-disk artifacts / database · §Infrastructure Patterns — Directory structure
+**Change:** TWO edits, one claim (the `contracts/` set is four members). **(1)** §Occupied Resources gained a fifth On-disk-artifacts bullet registering `contracts/pulse-p025-measurement-contract.md` — the P-025 hue-shift measurement contract (the observable and its literal field names · the resolution · the window as two named Pulse-internal instants · the hard-grade comparison), carrying `sut_version` · `captured_at` · `pinned_at` · `provenance`. The bullet states the property that distinguishes it from the four above: it is the FIRST member with **no Rust reader** — addressed OUTWARD to the SUT — so it has no `default_path()`, no `resolve_under` load path, no bounds check and no `CONDUCTOR_*` override handle, and the runtime-read regime does not attach to it; and its `provenance` is the INVERSE of the load envelope's and the run contract's, a Conductor measurement rather than a transcribed SUT record, with every cited Pulse coordinate marked as measured at HEAD `83d4060` on 2026-09-13 and expiring when that moves. **(2)** the §Infrastructure Patterns directory-tree `contracts/` comment moved from four named manifests to five, the fifth qualified "the one member no Rust code reads".
+**Why:** D-arch-resources (primary at §Occupied Resources + one `dependent-of` at the tree comment), substantiated by the report's *Schema / config* ("the fifth `contracts/` member and the first with no Rust reader"), *Counts / qualifiers moved* (`contracts/` member count 4 → 5) and *Files* bullets. The two sites are the whole set: `grep -nE '^\s*(├|└|│).*contracts' .andromeda/architecture.md` → 1 hit (`:233`, now `:235`) and §Occupied Resources enumerated four bullets at `:175`–`:178`; the report's own per-master search named architecture.md the sole owner on a hit basis. NO playbook rule matched — `:100` is the nearest and FAILS its own qualifier, since it governs a "NEW committed, **runtime-parsed** config artifact under `contracts/` … read at a fixed `default_path()` through `resolve_under`" and this member is read by nothing; the other arch-registration rules (`:37` · `:49` · `:61` · `:67` · `:73` · `:82` · `:130` · `:137` · `:143` · `:146`) are each dismissal rules for a subject that is NOT a new occupied resource, whereas here D-arch-resources fired correctly on one that is. The amendment applied under the recorded-direction branch: the chunk plan's `Expected amendments (wrap)` list carried both sites and was ratified at the phase P5 review, and the operator's wrap directive reaffirmed that the two expected amendments "ride the plan and need nothing from here". A direction settles the proposal and never the class — the reader-less `contracts/` member is n=1, so no rule was proposed for it, and the no-match is recorded here instead. Cascade sweep for the retired four-member claim, RUN after the last amendment was authored, across all seven masters + `playbook.md` + `drift-base.md` + the three preserve-verbatim curation homes + the live leaf tier (`CLAUDE.md`, `.claude/docs/*`, `.claude/rules/*`), on `SUT run contract` · `four manifests` · `contracts/`, with every hit read and dispositioned. **Masters — 2 sites, both amended** (the tree comment and §Occupied Resources). `contracts/` hits elsewhere: architecture 9 (own, post-amendment), security-plan 4, test-plan 6 (`:92` `:145` `:148` `:280` `:287` `:610`), obs-plan 1, design-system/layout-templates/a11y-plan 0 — each NAMES a member or the directory and none states a member count, all **no change**. `security-plan.md:113` is the sharpest no-change and the reason playbook `:100` could not govern: its row's subject is "Committed SUT-facing manifests **read at a fixed path**", which correctly EXCLUDES a reader-less member, so the §Input Validation boundary set is genuinely unmoved; `.claude/rules/security.md` inherits that row and is unchanged for the same reason. **Leaf tier — 2 sites found STALE and re-derived**, which the master sweep alone would have missed: `CLAUDE.md:14` (inside `GENERATED:setup:overview`) and `.claude/docs/conventions.md:9` (whose own text cites "architecture.md §Infrastructure Patterns", the amended section) both enumerated the four members and now name five. This is the 2026-08-23 measured case recurring — conventions.md carrying a retired arch claim while the cascade table names only stack.md — caught here because the table is the floor and provenance decides. `playbook.md` · `drift-base.md` · the three curation homes: 0 hits. The `four manifests` hit now standing at `architecture.md:180` is this amendment's OWN backward reference ("the runtime-read regime the four manifests above carry does not attach to it") and is correct, not residue. Every amended line was re-read for an intra-line duplicate of the retired enumeration.
+
+## 2026-09-15-structurally-dead-assertion-class-retired — declare-only registry +4, and two duplicate sites of the same retired claim
+
+**Section:** §Standard Contracts (Run report envelope) · §Established Decisions [Read-Back Dependency Posture] · §Established Decisions [Run-History Persistence] — all three applied.
+
+**Change:**
+- §Standard Contracts: the declare-only registry reads NINE families (was EIGHT). `findings-counter-refresh` joins the delegated-timing family (2026-09-15) and the parenthetical `findings-counter-refresh is NOT a member: it carries one [[expected]]` is struck; a new grouping registers the structurally-dead-assertion class (`constellation-severity-live-wiring` · `pulse-run-contract` · `cross-incident-recurrence`, 2026-09-15). No corpus tally literal was added — the registry names the SET, and minting a fresh count would re-stale.
+- §Established Decisions [Read-Back Dependency Posture]: the degraded-route example re-tensed to its 2026-08-21 reading (`CARRIED one [[expected]] at that time`), with the load-bearing claim — the degraded route is NOT gated on declare-only — and its leg-D evidence intact, plus a sentence recording that the scenario has been declare-only since 2026-09-15 and is no longer a live example of that shape.
+- §Established Decisions [Run-History Persistence]: `runs.db`'s purpose restated as indexing for P-036 cross-incident fingerprint recurrence rather than asserting a live `"Previously seen"` check, with the retirement and its measured cause (Pulse emits `"## Previously Seen"`; `Contains` is case-sensitive) recorded. The index and its purpose are unchanged.
+
+**Why:** the chunk retired four structurally-dead `[[expected]]` declarations to declare-only, which falsified three present-tense arch claims. The report located only §Standard Contracts; the other two sites were found by the arch doc-agent's claim-wording sweep and confirmed by offset read — `:70` carries the claim at offset 5712 inside a 10,432-character line the report's line-granular grep had dispositioned as unrelated, and `:72` states it under a different token (`Previously seen`) no `findings-counter-refresh` grep could reach.
+
+**Sweep (this pass, after every amendment was authored):** 11 patterns — the four scenario names, plus the retired mechanism's own phrasings (`is NOT a member`, `not declare-only`, `carries one [[expected]]`, `EIGHT families`, `three declare-only`, `Previously seen`, `unmet CountAtLeast`) — over all seven masters, both judgment bases, CLAUDE.md, the seven rule files and the eleven docs leaves (28 files). Known-positive control fired before any zero was trusted. **14 hits: 10 amended (this pass's own new text), 4 no-change** — `architecture.md:70` @6493 (the per-read-back `degraded` measurement pair, correctly dated and still true), `.claude/rules/testing.md:54` and `:62` and `.claude/rules/verification-harness.md:64` (all three preserve-verbatim curation homes, never cascade-edited; two routed to P3 curation as extension candidates). No leaf carries an amended claim: CLAUDE.md's `GENERATED:setup:warnings` block holds 0 of the 6 amended tokens, and the four scenario names appear in no `.claude/docs/` or `.claude/rules/` file outside those curation homes — so no leaf re-derivation was owed.
+
+## 2026-09-15-remaining-structurally-dead-declarations-retired — declare-only registry: +5 members, count unmoved, anchored on the complement
+**Section:** Standard Contracts (Run report envelope — the declare-only registry)
+**Change:** The structurally-dead-assertion class's enumeration gains `activity-floor` · `service-went-silent` · `high-severity-log-capture` · `exception-event-capture` · `threshold-hot-reload` (2026-09-15), noting the class was taken in two passes over one twelve-block population rather than decomposed. The "NINE families" COUNT is deliberately NOT touched: the five join an EXISTING group, so the registry still enumerates nine groups — only that class's membership (3 → 8) and the enumerated scenario total (21 → 26) move. A durable anchor is added at the head: the COMPLEMENT, which shrinks rather than grows — as measured 2026-09-15 exactly TWO committed scenarios still declare live `[[expected]]` checks, `root-span-error-scope` and `span-status-error-detection` (`grep -l '^[[expected]]' scenarios/*.toml` → 2 of 36) — so declare-only is the corpus's default shape and the list records HOW each family reached it.
+**Why:** The chunk retired six `[[expected]]` blocks across five scenarios, moving live blocks 8 → 2 and declaring scenarios 7 → 2. `D-arch-resources` proposed re-basing the count on the premise that it had moved; the report's own Counts bullet carried the same error. Re-derived from an offset read of the (then) 1 701-char line, the registry enumerates 21 scenarios in 9 groups and the five join one of them, so the count was already correct — applied per amendment-flow §Apply ("RE-DERIVED from the invariant + the report's fact, never pasted from the proposal's `change` line"). The proposal's wholesale reframing ("every committed scenario ships declare-only EXCEPT the two") was declined: it would change the registry's subject from families-retired-to-declare-only to all-declare-only-scenarios, discarding the retirement history the registry exists to carry. The complement anchor captures the proposal's sound half — a value that cannot re-stale upward — without that loss, honouring the 2026-08-19 re-base precedent's intent.
+**Sweep (run before this entry, per §Apply step 2; known-positive control fired on 4 files):** `NINE families|EIGHT families|TEN families` over the seven masters + `playbook.md` + `drift-base.md` → **1 hit**, this site. `ship declare-only|families now ship` → **1 hit**, this site. The five scenario NAMES over the seven masters → **1 hit** (`architecture.md:178`, a RetryStorm/baseline claim about Pulse's cue evaluator — no change). Because a mechanism outlives its name, a second sweep keyed on the retired TOKENS (`ServiceWentSilent`, `RetroactiveReeval`) ran over the masters, the three preserve-verbatim curation homes and both judgment bases → **6 hits, 0 in any master**: `playbook.md:49`, `:51` (cite the token as an example of what NOT to register — rule unaffected, no change); `.claude/rules/testing.md:62 @2859` (states this chunk's own serde-rename ground — reinforced, no change); `testing.md:56 @508`, `@549` and `:62 @1062` (a retired check-membership example, and the inferred-token entry that produced `RetroactiveReeval`) → **routed to P3 curation as in-place extensions**, never a cascade edit (preserve-verbatim stands). Leaves: no leaf carries the amended claim — `docs/commands.md` (the §Standard Contracts leaf) 0 hits; `conventions.md`'s two `declare-only` hits are the `run_check` NOT NULL and `CheckRecord` clauses, both reinforced by this chunk and derived from §Conventions, not the amended section; CLAUDE.md's single hit sits in `USER:session-learnings` (preserve-verbatim). **0 leaf re-derivations owed.**
+
+## 2026-09-16-scenario-assertion-audit-gate — the scenario-audit ledger, its gate, and the CI gate-set enumeration
+
+**Section:** §Occupied Resources (On-disk artifacts) · §Infrastructure Patterns (directory structure ×2, CI/CD approach) · §Established Decisions ([Accepted Capability Set] load sites, [CI/CD]) · §Stack and Technologies (CI/CD row) · §Inherited Defaults (CI/CD)
+**Change:** Registered `contracts/scenario-audit-ledger.toml` as a new on-disk artifact, recording the two-axis exact-set grading `check_scenario_audit` performs and the resolution that distinguishes it from the three SUT manifests above it — a hard-coded relative `default_path()`, `load()` on an already-resolved path, no `resolve_under`, no `CONDUCTOR_*` handle, and no shipped reader at all. The `contracts/` directory-tree enumeration gained the same member. The [Accepted Capability Set] load-site sentence was DE-LITERALIZED: "the three binary-edge load sites" now names the set by what takes a `&CapabilityManifest` (the binary edges plus the `conductor-core` catalog loaders `list_scenarios` and the new `load_catalog`), never a count. The CI gate-set enumeration was brought to current truth at all FIVE sites that state it — §Stack CI/CD row, §Established Decisions [CI/CD], the `.github/workflows/` tree comment, §Infrastructure CI/CD approach, §Inherited Defaults — each now naming the static-gates-over-committed-data SET rather than a list.
+**Why:** The chunk landed the ledger, the gate and one new named CI step (`Scenario-assertion audit gate`, `rust` job 22 → 23 steps, `continue-on-error: false`, presence-guarded). Two facts made the enumerations wrong rather than merely incomplete: `load_catalog` is a fourth site applying `Scenario::from_toml_str_with`, and all five CI enumerations were ALREADY stale by one gate — none named the coverage-completeness gate shipped 2026-09-06 — so writing this chunk's gate into them without that member would have authored a fresh false enumeration. Both were applied as SET-naming per playbook `:127`.
+
+Two proposals from this pass were DISMISSED, both on architecture's own precedent. Registering the six new public API symbols and the `CoreError::ScenarioAudit` variant in a registry section is the library-symbol over-reach playbook `:37` settles (arch tracks ports/sockets/endpoints/IPC/events/env-vars/crates, not per-crate API surface). And the [Accepted Capability Set] "second integrity gate sits beside it on a different axis" sentence is NOT a stale enumeration of all integrity gates: read by offset at `:53`+1655 it is scoped to the accepted-capability-set axis (`check_sut_drift` = classified? / `check_scenario_backing` = backed?), and `check_load_envelope` — an existing static gate of identical shape returning a `CoreError` — already sits outside it, at its own artifact row. `check_scenario_audit` belongs where `check_load_envelope` belongs, which is the artifact row this entry registers.
+
+**Sweep (cascade step 2), run after every body edit of this pass, over the seven masters + CLAUDE.md + the rule files + `docs/session-learnings.md` + `playbook.md` + `drift-base.md`, with a known-positive control (`scenario-audit-ledger`, 4 hits) confirming the probe fires:**
+`binary-edge load sites|three .{0,20}load sites`: **0 hits** — the only occurrence was the one amended here.
+`fmt \+ build \+ test \+ clippy \+ the a11y|fmt \+ build \+ test \+ the Pulse-free a11y`: **0 hits** · `nextest / clippy \+ the a11y`: **0 hits** — all five CI enumerations amended.
+`SUT run contract \+ the P-025`: **1 hit** — `CLAUDE.md:14`, inside a `GENERATED:setup` block, dispositioned to cascade step 3's re-derivation rather than a body edit.
+`coverage_gate`: **7 hits** — `architecture.md:60` (amended here, now naming both gates), `security-plan.md:113` and `test-plan.md:250` (amended in this pass), and four NO-CHANGE: `obs-plan.md:357` (the coverage roll-up's own log-field sentence — a different subject, still true), `playbook.md:64` (a judgment base naming the gate as an example, still true; a hit there routes to propose→approve→append, never a cascade edit), `test-plan.md:80` (§1 Critical Path 6's own row) and `test-plan.md:363` (§6's Verification signal for that gate) — none claims the coverage gate is the SOLE static gate, so none is stale.
+
+## 2026-09-16 — a11y-ci-gate-at-an-honest-terminal
+
+**Change.** Five edits across two lines. (1) §Established Decisions [CI/CD] `:60` — the dev-host runnability verdict DE-LITERALIZED from the pinned "12 passing / 2 skipped" to the measured runtime SET (12/2 at WebView2 152 on 2026-09-10; 10 passing / 2 failing / 2 skipped re-measured 2026-09-16 after the host floated to Evergreen 153.0.4234.32 unprompted), naming the two regressions as the hold-free Operable pair and stating explicitly that session creation itself came up ON 153. (2) `:60` — the a11y asserting step's invocation path recorded as launched THROUGH `scripts/a11y-limited-token-launch.ps1` (leg entry point `scripts/a11y-token-witness.ps1`) rather than invoking `agent-run.ps1` directly. (3) `:60` — the remedy CLASS named there (a limited-token launch + a re-measurement, owned by `v3-02`) recorded MEASURED INSUFFICIENT, with the three-leg basis and the successor entry as owner of the remainder. (4) §Infrastructure Patterns directory tree — the two new CI-only scripts registered beside `webview2-cause-probe.ps1`, carrying the same qualifier. (5) §Infrastructure Patterns CI/CD approach — the second occurrence of the direct-invocation claim corrected (dependent-of the `:60` edit; a single-site apply would have left it standing).
+
+**Why.** Report §Spec claims disproved item 3 (the routine arm re-measured 10/2/2 against a cited 12/2), §Dev-tool versions (dev-host WebView2 152 → 153.0.4234.32, CI unaffected at 152.0.4191.66), §Harness / gate surface (the launcher path and the fourth diagnostic step), and §Insufficient fixes (both limited-token mechanisms correct and structurally unable to lower the mandatory integrity label).
+
+**Sweep (cascade step 2), over the seven masters + CLAUDE.md + `.claude/rules/*` + `.claude/docs/*`.** `six governed forms`: **0 hits** — and that zero is the entry's own cautionary note: the count is also stated BOLDED as `**SIX**` in `.claude/rules/security.md`, which the literal-token sweep could never match; it was caught by reading the `governed` hits instead, and re-derived there. `12 passing`: **4 hits** — `architecture.md:60` (amended here), `a11y-plan.md:516` (amended, dependent — it pins the very pair that regressed), two amendment-sidecar entries NO-CHANGE (dated history). `limited-token launch`: **3 files** — `architecture.md` (amended), `test-plan.md:470` (amended, dependent — it restated the same owned-by-`v3-02` remedy, which no fan-out agent proposed), `master-route.md` NO-CHANGE (a record desc). `agent-run.ps1 run --e2e`: **4 files** — `architecture.md:60,246` and `a11y-plan.md:471` amended, `a11y-plan.md:218` NO-CHANGE (an axe tag-scope configuration line, not an invocation claim). Post-apply verification over masters + distillations: `six governed forms`, ``is owned by the `v3-02` route entry`` and `demonstrably runnable on the Windows dev host` each return **0 files**.
+
+## 2026-09-17 — 2026-09-16-medium-integrity-launch-for-the-a11y-routine-arm
+
+**§Established Decisions [CI/CD] · §Infrastructure Patterns — Build system — 4 sites incl. the elevation-remedy bounding**
+
+The hosted-runner endpoint verdict is retired as UNCONDITIONAL and re-stated as configuration-bound. Measured
+at CI run 35192876641: hosted `windows-2022` at a coherent 131.0.2903.86 msedgedriver+WebView2-runtime pair,
+High integrity — `DevToolsActivePort` in 1 s, WebDriver session created, routine arm 11 passing / 1 failing /
+2 skipped, with SC 2.4.3 (`:397`) passing and the single red `:384` a counting-basis defect in the assertion
+(12 visits / 6 distinct, bracket lists identical to the character). The endpoint still does not open on
+`windows-2025` at runtime 152/153. Corroborated externally by actions/runner-images#14738 on a byte-identical
+image and runtime for a plain Tauri/wry app with no token work.
+
+Sweep basis: `grep -oF` per claim phrase across the seven masters + `residuals.md` — "opens no remote-debugging
+endpoint" 4 hits (test-plan 3 · residuals 1), "RED at WebView2 session creation" 4 (test-plan 1 · a11y-plan 3),
+"never been green" 1, "Still never a green run" 1, "endpoint remains CLOSED" 1, "runnability is
+measured-unproven" 1 — 12 sites, all corrected in place; occurrence-counted with `grep -o`, since a
+line-granular count collapses multiple corrections on one multi-KB line.
+
+Integrity's SIGN is configuration-bound: Medium helped at runtime 153 on the dev host, High is REQUIRED at 131
+on windows-2022. The 2026-09-16 legs A/B/C are BOUNDED by this, never retired — they were correctly measured on
+what they measured.
+
+The medium-integrity launcher is recorded MEASURED-INSUFFICIENT: it lowers the label as designed (parent
+`S-1-16-12288` → child `S-1-16-8192`, confirmed from inside the leg) and did not open the endpoint.
+
+NOT amended, and owed: four escalations reached no operator ruling this wrap, so the probe-scoped `ci.yml`
+surfaces that would have motivated further amendments were REMOVED instead of ratified (the `windows-2022`
+label, the `≥152` floor bypass, the `msedgedriver.microsoft.com` egress, and the launcher's removal from the
+asserting step). The shipped arrangement is therefore unchanged and no arrangement row moved.
+
+## 2026-09-17-a11y-routine-arm-terminal-on-the-measured-configuration — a11y CI arrangement moved to the measured configuration; egress re-registered
+
+**Section:** §Occupied Resources (Ports · Environment variables `EDGEWEBDRIVER` / `RUNNER_TEMP` · Directory structure) · §Cross-cutting Patterns (Trust boundary) · §Established Decisions [CI/CD] · §Infrastructure Patterns (Build system · CI/CD approach)
+
+**Change:** The `a11y` job's runner label moves `windows-2025` → `windows-2022`. The `≥ 152` WebView2 runtime FLOOR and the conditional in-job Evergreen install are retired outright, replaced by a `Pin msedgedriver to the image's WebView2 runtime (gate)` step that derives the driver version from the image's own `EdgeUpdate` reading, Authenticode-gates it, asserts driver major == runtime major and publishes `EDGEWEBDRIVER`. §Ports therefore re-registers the sole non-loopback egress from the Evergreen fwlink (LinkId 2124703) to `https://msedgedriver.microsoft.com` — count ONE before and one after — and the Trust boundary's THIRD outbound surface is re-described rather than retired. `EDGEWEBDRIVER` gains a PRODUCER fact (the pin gate writes it through `GITHUB_ENV`; the image's own value is deliberately overwritten) and `RUNNER_TEMP`'s reader is re-pointed, with its "that install gate SETS no environment handle" clause dropped. The asserting step's launch path becomes a DIRECT invocation of `scripts/a11y-token-witness.ps1` at the step's native High integrity, the limited-token launcher demoted in the tree comment to the driver-alone diagnostics. Four platform VERDICTS are retired and restated as the measured SET: "still never a green run", "Hosted-runner runnability is measured-unproven", "the conformance gate and the upload have not yet executed in CI", and "the app must not run elevated" — the last explicitly, since the shipped step now runs at native HIGH integrity and creates a session. The 2026-09-08 pin-on-gating exit condition is recorded MET, by the route that exists (the DRIVER pinned to the runtime), with a note that the versioned Standalone Installer it originally named could never have served it.
+
+**Why:** The chunk moved the job onto the configuration the arm is measured to run on and proved it: run 35208593666 (headSha `fc4a9c2`), a11y job and whole run `success`, 12 passing / 0 failing / 2 skipped, the `journal_conformance` gate run (8 tests / 8 passed) and the violation record uploaded. Operator ruling at the chunk's P4 (move to the measured configuration) and re-ruling at P5 (escalation 4 — the second non-loopback egress — RATIFIED on a measured NET NARROWING, the arriving crossing being version-derived where the fwlink floated always-latest). Every amended claim carries its configuration rather than a bare verdict: the next image bump can move the label, the runtime, the driver or their coherence.
+
+**Sweep (cascade step 2, run after the last body edit of the pass):** patterns `windows-2025` · `Evergreen` · `fwlink` · `limited-token` / `a11y-limited-token-launch` / `runas` · `FLOORED AT 152` / `floor-conditional` / `exit condition remains UNMET` · `must not run elevated` · `never been green` / `measured-unproven` / `drives no session` / `only member measured` / `still owed`, over all seven masters, the derived tier, the three preserve-verbatim curation homes and the two judgment bases. In architecture.md after the pass: `windows-2025` 3 lines (all dated or explicitly bound to that image at runtime 152/153), `Evergreen` 5 lines / 8 occurrences (all historical — what was replaced or a dated runtime reading), `fwlink` 1 (historical), `a11y-limited-token-launch` 2 (both scoped to the diagnostics), `must not run elevated` 1 (quoted as retired). `FLOORED AT 152`, `exit condition remains UNMET`, `never been green` and `measured-unproven` return 0 across every master. NOT edited and recorded as non-targets: `master-route.md` (immutable records), the seven `*-amendments.md` sidecars (append-only history), `residuals.md` (P5's channel), `playbook.md` / `drift-base.md` (propose→approve; the playbook's `:168`/`:170` cite the retired 152 claim as rule `:149`'s own provenance and correctly stand), and `.claude/rules/host-win32.md:134`'s `runas /trustlevel` clause, which states what the HOST IS ("strips the group and leaves the label", measured) rather than what the project does.
+
+## 2026-09-18-real-model-leg-posture-and-grading-rule — the second reader-less `contracts/` member
+
+**Section:** §Occupied Resources — On-disk artifacts · §Infrastructure Patterns — Directory structure
+
+**Change:** TWO edits, one claim (the reader-less `contracts/` regime is no longer held by a single member).
+**(1)** §Occupied Resources gained a registry row for `contracts/pulse-real-model-leg-posture.md` — the
+real-model leg posture, emission profile, grading rule and per-leg quiet window, fixed before any such leg is
+driven — recorded as the SECOND member with no Rust reader, taking the P-025 regime unchanged (no
+`default_path()`, no `resolve_under` load path, no bounds check, no `CONDUCTOR_*` override handle), with its
+`provenance` stated PER CLAUSE: the Pulse coordinates are transcribed SUT records read at HEAD `83d4060`,
+while the ~110 s real-model formation figure is a carried Conductor measurement confirmed at the first drive.
+**(2)** §Infrastructure Patterns' directory tree retired "(the one member no Rust code reads)" for "the two
+members", the uniqueness claim the new member falsifies.
+
+**Why:** the chunk landed the artifact (report §Changes → Files: new, 181 lines; Symbols/APIs: reader-less,
+zero `.rs` delta), and §Occupied Resources registers each `contracts/` member individually, so an unregistered
+on-disk artifact is drift. The chunk's plan predicted exactly this amendment and flagged that the P-025
+precedent stood at n=1 with no playbook rule; the operator ratified applying both edits and minting the rule
+(playbook now 49 entries).
+
+**Sweep (run after both edits; every hit dispositioned):**
+- `one member no Rust code reads` over the seven masters, CLAUDE.md, `.claude/docs/`, `.claude/rules/` — **3
+  hits**: `architecture-amendments.md:656` (this sidecar's own history — no change, sidecars are append-only
+  record), `CLAUDE.md:14` and `.claude/docs/conventions.md:9` (both **re-derived** at cascade step 3;
+  conventions.md cites "architecture.md §Infrastructure Patterns" by name, the known leaf the cascade table
+  does not list). **0 live sites remain.**
+- The MECHANISM's phrasings — `the one|only member…Rust` · `FIRST|SECOND \`contracts/\` member` · `no Rust
+  reader` · `reader-less` — over all seven masters: **3 hits, all `architecture.md`**: `:181` "FIRST
+  `contracts/` member" (**no change** — a historical ordinal, still true, not a uniqueness claim), `:181` "NO
+  Rust reader" (**no change** — describes P-025's own regime), `:182` "NO Rust reader" (the row authored this
+  pass). No other master states the claim in any wording.
+- `.andromeda/playbook.md` · `.andromeda/drift-base.md` (the two judgment bases): **0 hits**.
+- The three preserve-verbatim curation homes (`USER:session-learnings` · each rule file's `## Session
+  Additions` · `docs/session-learnings.md`): **0 hits**.
+- Intra-line duplicate re-read of every amended line (`:181`, `:182`, `:239`): each carries the phrase exactly
+  once — no intra-line duplication.
+
+## 2026-09-22-interpretation-proven-live — the L4 posture made scenario data, and the payload-fidelity universal retired
+
+**Section:** §Design Philosophy · §Established Decisions [Read-Back Dependency Posture] + [Probabilistic-Assertion Policy] · §Standard Contracts (Readiness gate · Liveness equivalent · Run report envelope) · §Occupied Resources (`runs/live-suite/` · `pulse-run-contract.toml` · `pulse-real-model-leg-posture.md` · env `ANDROMEDA_PULSE_MCP_ENABLED` · `ANDROMEDA_PULSE_L4_DETERMINISTIC` · NEW `RUST_LOG`) · §Infrastructure Patterns — Directory structure
+
+**Change:**
+**(1) Readiness gate** — posture-selected terms (`preflight_for` / `RunContract::evaluate_for`; `conductor run` passes the scenario's `l4_posture`; `preflight()` for suite/GUI/`drive_run` and `readiness()` for `boot` stay deterministic); a posture mismatch is a scenario-level `Blocked` before the ready check, never a sixth precondition.
+**(2) Liveness** — the per-KIND grading is the deterministic posture's; under the real-model posture `handle_declared_for` requires the L4 handle absent or falsy under the union truthy rule. The `--for` flag itself is not registered here (playbook: CLI flags belong in layout-templates §cli).
+**(3) Envelope** — the complement re-measured "2 of 37" on the ESCAPED basis (the unescaped form returns 0); `real-model-interpretation` declare-only from birth, not a tenth family, success row `ManualCheck`.
+**(4) Run-contract row** — `posture?` in the term shape; the `shell-absence` kind; "the only kind that can block" → the two SHELL kinds; SIX → SEVEN terms (dated), `l4-real-model` a Conductor posture term, `l4-deterministic` tagged; the observed handle set stays two.
+**(5)** `runs/live-suite/` row + tree line — the real-model arm's `rm.jsonl` / `rm-capture.{txt,err}` and their non-recursive clear.
+**(6) Posture-doc row** — the emission-profile premise corrected (creation-time attach); the ~110 s re-attributed to deterministic L4 (no real-model formation or pickup figure exists); "a future leg's firing form" → the leg ships as `run --live real-model`.
+**(7) Env registry** — the L4 handle read under both postures; the MCP-enabled entry's true/1 clause posture-qualified; NEW `RUST_LOG` entry on the `EDGEWEBDRIVER` basis (the real-model arm removes it for its two test invocations; the `.ps1` reads and restores it).
+**(8) [Probabilistic-Assertion Policy]** — the pre-committed-rule arm (plan D3): `Identified → (Pass, Pass)`, a miss `CalibrationRegion → ManualCheck`, nothing to grade `(null, Blocked)`; test tier only, `classify()` unchanged.
+**(9) [Read-Back Dependency Posture]** — the real-model leg ships and was driven once (2026-09-23, model-side `NoAttributableIncident → Blocked`, `v3-09` deferred); the degraded-per-read-back passage gains its CREATION-time mechanism (`inference_runtime.rs:884`, `b2e4cb3` — the plan's Expected amendment no detector proposed, raised at validate check 5); its `state_for` pointer (`execute.rs:233-235`, stale BEFORE this chunk — the fn sat at `:248` at HEAD, `:265` now) re-pointed by NAME.
+**(10) ESCALATED A17–A19, operator "Amend now, as measured"** — "NO read-back field varies with the emitted payload" RETIRED: true at `efabe8e`, false at `83d4060`, where `grounded_fingerprint_hashes` puts the triggering cue's full-hex fingerprint into `fingerprint_refs` — as measured at `conductor-0.2.0/chunks/2026-09-10-release-build-and-bundle/evidence/leg1-2026-09-10T19-32-57-092.jsonl` (the envelope value equals that run's own `canary fingerprint computed` self-obs line; ten 2026-09-10 envelopes carry such a value). Freshness stays the canary's carrier by choice; payload fidelity is PARTIAL; the readiness-gate passage and the runtime-STATE paragraph qualified in lockstep.
+**(11) ESCALATED T12, operator "Narrow + record"** — Design Philosophy's "call identically" holds for deterministic-posture scenarios; a real-model scenario runs headless only.
+**(12) ESCALATED T4 group, operator "Correct all + route"** — the tree's "one per P-ID" → each file names its P-IDs, a P-ID may be named by several.
+**(13) Cascade fold** — the readiness-gate passage's corpus restatement gains the ratified exception pointer (security-plan S9).
+
+**Why:** report §Changes (Symbols/APIs · Schema/config · Counts · Harness · Cross-project claims · Spec claims disproved 1–2) and the plan's Expected amendments; four escalations resolved with the operator 2026-09-23. The 2026-09-10 evidence behind (10) was located during this wrap's validate — the report carries the `83d4060` code reading, not that measurement.
+
+**Sweep (after every body edit of the pass; full per-hit ledger in `.andromeda/runs/2026-09-23T08-03-55-wrap/reconcile-sweep.md`):**
+- **G5 payload universal** — 22 pre-edit hits across the masters and leaves: architecture `:64` ×3, `:66`, `:93` ×3 amended here; test-plan `:76`/`:335` and obs-plan `:131`/`:314`/`:315` amended in their own sidecars; tests-summary re-derived; CLAUDE.md `:128`, session-learnings `:228`, verification-harness `:47` routed to P3 curation. Post-edit widened sweep: 24 hits, every non-amended one dispositioned (test-plan `:284`, `:323` — other claims).
+- **G3 probe grading** — 5 + 33 hits; architecture `:115` "truthy-only `declares()`" left (the dated pre-fix state); `:196` another handle.
+- **G4 parity** — 23 hits; architecture `:177` left (the load envelope).
+- **G6 ~110 s / single-storm / "2 of 36"** — every master hit is amended text; "2 of 36" → 0.
+- **G7 corpus ban** — architecture `:113` ×2 amended (cascade fold).
+- **G9 `--live` / policy** — architecture `:61`, `:70`, `:201` left, each still true.
+- **G1 P-ID** — architecture `:239` amended; `:52` "per-P-ID scenario files" left (descriptive). Leaves: CLAUDE.md overview/warnings/architecture blocks and `docs/commands.md` / `docs/conventions.md` re-derived.
+- Judgment bases: 0 live hits. Intra-line duplicate re-read: none.
+
+## 2026-09-24-architecture-registries-compacted-under-the-read-cap — registries compacted under the read cap; the operator-instrument row gains a third member
+**Section:** §Established Decisions and §Occupied Resources (each replaced whole) · §Stack and Technologies ("Operator instruments (host runtime)" row)
+**Change:**
+(1) Both registry sections were replaced verbatim by the chunk's drafts `compaction/{established-decisions,occupied-resources}.md`.
+- Sizes:
+  - §Established Decisions: 49 134 → 37 907 B.
+  - §Occupied Resources: 48 859 → 37 929 B.
+  - The limit is 38 115 B, which is 60 % of the 25 000-token Read cap at 2.541 B/token. Measured by `scripts/arch-registry-check.py measure --file .andromeda/architecture.md` → `registries: within target`.
+- Kept: every label, registered name, port, crate and scoped qualifier.
+- Left the body: dated narrative (chronologies, superseded readings, CI-run stories and elimination stories).
+- Per-sentence accounting is in `conductor-0.3.0/chunks/2026-09-24-architecture-registries-compacted-under-the-read-cap/compaction/disposition-ledger.toml`: 579 rows (kept 352 · rewritten 150 · moved 68 · in-sidecar 9), and `check` PASSes.
+- The 151 judgment rows were reviewed at this wrap, and 4 were corrected before apply:
+  - a `CONDUCTOR_MSEDGEDRIVER` skip row anchored on the NVDA bullet was re-anchored on its own bullet;
+  - [CI/CD] regains the dev-host green tally and its two-configuration basis;
+  - [CI/CD] regains the three-leg basis of the integrity-label discriminator.
+- The passages that left the body are the entries below, each headed by this marker, one per decision label or sub-registry. They are verbatim: either history, or the BEFORE wording of a sentence the body now states more briefly. History this sidecar already carried is not repeated; the ledger's `in-sidecar` rows name the entries that hold it.
+
+(2) §Stack row: `scripts/arch-registry-check.py` is registered as the third committed operator instrument, and "Neither … neither" becomes "None … none".
+**Why:** The body holds only current truth (this file's preamble), yet it had carried its own amendment log: 132 ISO dates, 13 CI run ids and 35 sha-like tokens across the two sections. It was also growing ≈1 KB a day at wrap toward the Read cap.
+
+Cascade sweep over the seven masters, CLAUDE.md, `.claude/rules`, `.claude/docs`, playbook and drift-base:
+- (a) The retired two-instrument wording: 1 hit, `.claude/docs/stack.md:40`, which was re-derived.
+- (b) 4 696 quoted fragments of ≥ 3 words, of which 17 are present in HEAD's body and absent from the new one. None needed a change:
+  - 8 are text between two separate code spans (a regex join, not a quote);
+  - 4 are a master's own history with no arch citation on the line (security-plan :367, test-plan :471 ×3);
+  - 4 sit in curation homes (CLAUDE.md :136, `verification-harness.md` Session Additions ×3);
+  - 1 is a generic token.
+- Every section citation into §Established Decisions / §Occupied Resources resolves to a claim the compacted body still states: 16 in security-plan, 5 in test-plan, 1 in obs-plan, 2 in a11y-plan, and 10 in the leaves.
+
+## 2026-09-24-architecture-registries-compacted-under-the-read-cap — §Established Decisions [Database]: passages moved out of the body
+
+**Section:** §Established Decisions — [Database]
+**Change:** compacted under the read cap; the passages below left the body verbatim.
+**Why:** the body holds only current truth; history lives here + in git (this sidecar's preamble).
+
+- The brief's stale `rusqlite 0.31 / SQLite ≥3.38` pin is ratified to 0.38.0 (a free maintenance/correctness win).
+
+## 2026-09-24-architecture-registries-compacted-under-the-read-cap — §Established Decisions [MCP Read-Back Client]: passages moved out of the body
+
+**Section:** §Established Decisions — [MCP Read-Back Client]
+**Change:** compacted under the read cap; the passages below left the body verbatim.
+**Why:** the body holds only current truth; history lives here + in git (this sidecar's preamble).
+
+- The hardened spawn (fixed program path + `.env(...)` data-dir + injection-reject) is unchanged.
+- (The original rmcp-selection rationale → `architecture-amendments.md`.)
+
+## 2026-09-24-architecture-registries-compacted-under-the-read-cap — §Established Decisions [Accepted Capability Set]: passages moved out of the body
+
+**Section:** §Established Decisions — [Accepted Capability Set]
+**Change:** compacted under the read cap; the passages below left the body verbatim.
+**Why:** the body holds only current truth; history lives here + in git (this sidecar's preamble).
+
+- This supersedes the original compile-time `001..=060` bound in `pid_format`, which the SUT outgrew.
+- The `KNOWN_UNCLASSIFIED` residual ledger that briefly bridged the two is retired to `[]`.
+
+## 2026-09-24-architecture-registries-compacted-under-the-read-cap — §Established Decisions [Module Boundaries]: passages moved out of the body
+
+**Section:** §Established Decisions — [Module Boundaries]
+**Change:** compacted under the read cap; the passages below left the body verbatim.
+**Why:** the body holds only current truth; history lives here + in git (this sidecar's preamble).
+
+- the standalone per-seam BUILD now holds for every member, measured rather than gate-enforced.** Workspace feature unification can mask a feature a crate uses but declares only in `[dev-dependencies]`, so a crate compiles in the workspace and in `cargo test -p` while failing alone — the shape measured at HEAD 2026-09-04, when `cargo check -p conductor-verify --lib` was red on `tokio::time::sleep` (`preflight.rs:336`) because tokio's `time` feature sat in that crate's `[dev-dependencies]` and not its `[dependencies]`.
+- **Repaired 2026-09-07** (`time` declared in `[dependencies]`), and the whole roster swept clean:
+- The surviving caveat is narrower than the retired one:
+
+## 2026-09-24-architecture-registries-compacted-under-the-read-cap — §Established Decisions [CI/CD]: passages moved out of the body
+
+**Section:** §Established Decisions — [CI/CD]
+**Change:** compacted under the read cap; the passages below left the body verbatim.
+**Why:** the body holds only current truth; history lives here + in git (this sidecar's preamble).
+
+- then `cargo build` / nextest / clippy on the dev OS target verify the harness compiles and unit/golden tests pass, and a third job (`a11y`, `runs-on: windows-2022` since 2026-09-17, moved from `windows-2025` on the measured configuration) runs the routine webview a11y leg — `scripts/agent-run.ps1 run --e2e` under `CONDUCTOR_A11Y_STRICT`, invoked since 2026-09-17 through the leg's entry point `scripts/a11y-token-witness.ps1` DIRECTLY, at the hosted step's native HIGH integrity (its captured console and token witness printed by the step afterwards);
+- the `scripts/a11y-limited-token-launch.ps1` launch that stood here from 2026-09-16 is retired from this step and survives only on the job's driver-alone diagnostics, the asserting step still carrying no `continue-on-error` and no `if:`.
+- The job's WebView2 provisioning is likewise replaced:
+- the `Install WebView2 Evergreen runtime 152+ (gate)` step and its `≥ 152` runtime floor are retired outright in favour of driver/runtime COHERENCE — a `Pin msedgedriver to the image's WebView2 runtime (gate)` step reads the runtime from the two `EdgeUpdate` client keys, fetches the driver for THAT version, Authenticode-gates it, asserts driver major == runtime major and publishes `EDGEWEBDRIVER`, carrying no `continue-on-error` and no `if:` — then the reused `journal_conformance` gate over `runs/a11y`, then the violation-record artifact upload (2026-09-07).
+- **The a11y job ran RED on GitHub's hosted `windows-2025` image at runtime 152/153, as measured at runs 34157101273 · 34158355397 · 34160378753 · 34162118841 (2026-09-07, from a since-deleted `ci-probe/` ref) — a reading bound to THAT image and runtime pair, superseded as the arm's verdict by the green below.** It resolves the driver from the image and its RED wdio output reaches the job log — both fixed at `2026-09-07-sr-findings-fixed` and proven in CI — then fails at WebView2 session creation, before the `journal_conformance` gate or the record upload is reached.
+- The leg also RUNS on the Windows dev host through tauri-driver, and its tally there is now a green too:
+- 12 passing / 2 skipped at runtime 152 (2026-09-10);
+- 10 passing / 2 failing / 2 skipped re-measured 2026-09-16 after the host floated to Evergreen 153.0.4234.32 unprompted;
+- and 12 passing / 0 failing / 2 skipped on 2026-09-17 once the two regressions were fixed.
+- Those regressions were the hold-free Operable pair (SC 2.1.1 reachability · SC 2.4.3 focus order) and NOT session creation, and both were ASSERTION defects rather than a platform property — one walk waiting on a `BODY` sentinel this webview's focus cycle need not contain — so the pair is now environment-independent, measured green on two configurations differing in runtime major, driver major and coherence.
+- Hosted-runner runnability is MEASURED and PROVEN for the configuration named above, and unproven elsewhere — the configuration that achieved it is no longer probe-scoped:
+- it is the shipped arrangement as of 2026-09-17 (operator ruling at the chunk's P4, re-ruled at P5 to ratify the driver pin).
+- **Since 2026-09-17 the job pins the DRIVER to the runtime the image already carries, replacing the in-job WebView2 runtime provisioning it ran from 2026-09-08 (conditionally from 2026-09-12)** — ahead of the routine arm it reads the runtime from the `EdgeUpdate` client keys and fetches msedgedriver for THAT version (§Occupied Resources — Ports), admitted by a pre-execution `Get-AuthenticodeSignature` gate (status `Valid` AND an `O=Microsoft Corporation` signer, non-zero exit on either arm), then asserts driver major == runtime major;
+- The `≥ 152` runtime floor is RETIRED and no longer exists in code:
+- it was not necessary (a coherent 131/131 pair runs the arm green), not sufficient (a coherent 152/152 pair fails, run `34654076633`), and destructive on the working configuration (run `35185153012` installed 153 over a native 131).
+- Whether a 152+ runtime actually opens the remote-debugging endpoint is now **measured, and the answer is no** — as measured at CI run `34280136892` (2026-09-08), the run that followed the commit shipping the probe:
+- the gate installed Evergreen 152.0.4191.66 (Authenticode `Valid`, `O=Microsoft Corporation`, re-read by the diagnostics step seven minutes later) and probe (a) still reported `DevToolsActivePort first seen: never within 90s` with the app alive (`HasExited=False`) and three `msedgewebview2` children resident.
+- The runtime-major hypothesis is therefore FALSIFIED;
+- the cause stayed OPEN until 2026-09-12, when it was established as elevation (below).
+- **Both halves of the former leading candidate pair — a hosted-image policy, and a session property — are now MEASURED and neither holds**, as measured at CI run `34586959536` (`conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-probed/evidence/reading.md`, step `WebView2 cause probes (diagnostic)`, against a same-script dev-host control):
+- all five probed Edge / EdgeUpdate / EdgeWebView policy keys are ABSENT in both the machine and user hives on the hosted runner AND on the dev host, so no policy difference exists to explain a behavioural one;
+- and the runner is `SessionId 2` with `UserInteractive: True` — not session 0 and not a service context — corroborated by the isolation step's own `tasklist` showing the app and its webview children on Console session 2.
+- **The cause is now ESTABLISHED as elevation, and two further candidates are retired** (2026-09-12, `2026-09-11-hosted-runner-endpoint-cause-closed`).
+- The third candidate's reading WAS taken:
+- moving the module section inside the `WebView2 session isolation (diagnostic)` step's live window — the placement, not a longer timeout, was the whole defect — read `msedgewebview2 : 6 live process(es)` with its loaded module versions on the hosted runner beside a same-script dev-host control (as measured at CI run `34645345201`;
+- Driver/runtime major SKEW is RETIRED as a cause by direct variation with a control:
+- ELEVATION was then VARIED on the known-good host:
+- an elevated leg on the Windows dev host reproduces `session not created: DevToolsActivePort file doesn't exist` where the non-elevated control is a recorded green, the pair differing on `IsElevatedAdmin` alone (as measured 2026-09-12, `conductor-0.3.0/chunks/2026-09-11-hosted-runner-endpoint-cause-closed/evidence/reading.md`).
+- **Elevation is NOT the whole discriminator, and "the app must not run elevated" is RETIRED as a general remedy** — the shipped asserting step runs at the hosted runner's native HIGH integrity and creates a session (run 35208593666).
+- What the 2026-09-12 variation established still stands on its own scope:
+- the Medium-integrity drop helped at runtime 153 on the dev host and BREAKS the session on `windows-2022` at 131, which is why the asserting step no longer takes it, and the remedy CLASS named here — a limited-token launch, then a re-measurement — is now itself MEASURED INSUFFICIENT (2026-09-16):
+- both mechanisms shipped, a scheduled task and then `runas /trustlevel` replacing it in the same chunk, are correct and structurally unable to lower the MANDATORY INTEGRITY LABEL, which three dev-host legs established as the discriminator (admin+High no session · non-admin+High no session · non-admin+Medium session created) — `RunLevel Limited` cannot, because the runner's job account is the built-in Administrator with `FilterAdministratorToken` off and therefore has no filtered token;
+- `runas /trustlevel` cannot, because it strips the Administrators group and leaves the label.
+- The remainder — an explicit medium-integrity launch **[measured-insufficient 2026-09-17:
+- the explicit medium-integrity launch WAS built and measured — it lowers the label as designed (parent `S-1-16-12288` → child `S-1-16-8192` on the runner, confirmed from inside the leg) and did NOT open the endpoint.
+- The one CI run that opened a session invoked the leg DIRECTLY at High integrity.
+- The remainder is no longer 'a medium-integrity launch'.]** — is owned by the successor route entry, `v3-02` having returned to the pool.
+
+## 2026-09-24-architecture-registries-compacted-under-the-read-cap — §Established Decisions [Timing-Tolerance Model]: passages moved out of the body
+
+**Section:** §Established Decisions — [Timing-Tolerance Model]
+**Change:** compacted under the read cap; the passages below left the body verbatim.
+**Why:** the body holds only current truth; history lives here + in git (this sidecar's preamble).
+
+- `slo_tier` keeps its closed three-value set and the latency formula is unchanged.
+
+## 2026-09-24-architecture-registries-compacted-under-the-read-cap — §Established Decisions [Read-Back Dependency Posture]: passages moved out of the body
+
+**Section:** §Established Decisions — [Read-Back Dependency Posture]
+**Change:** compacted under the read cap; the passages below left the body verbatim.
+**Why:** the body holds only current truth; history lives here + in git (this sidecar's preamble).
+
+- **The gate reached `ready:true` for the first time on 2026-08-16** (`canary_round_trip: "ok"`, `blocked_precondition: null`, exit 0).
+- titles are scrubbed, and `retrieve_telemetry_slice.fingerprint_refs` — the former carrier — was populated from the **L4 model's `evidence_refs`** alone (`andromeda-pulse pulse-app/src/inference_runtime.rs:684-701`), which the deterministic-L4 fixture fills with a constant `det-*` triple (`det-span-…` / `det-template-0007` / `det-fingerprint-…`):
+- the chain is `deterministic_inference.rs → interpretation/markdown.rs → mcp-server/tools.rs:436`.
+- Pulse's own computed fingerprint lands in the `span_events.fingerprint` column, which no MCP tool reads — so at `efabe8e` it reached no read-back surface, and the old assertion could never have passed however the derivations were aligned.
+- **At HEAD `83d4060` it reaches `fingerprint_refs` by another route:** an incident's refs are the model's refs ∪ the triggering cue's full-hex fingerprint (`grounded_fingerprint_hashes`, `pulse-app/src/inference_runtime.rs`, read at `83d4060` by `2026-09-22-interpretation-proven-live`) — as measured at `conductor-0.2.0/chunks/2026-09-10-release-build-and-bundle/evidence/leg1-2026-09-10T19-32-57-092.jsonl`, whose envelope `fingerprints` carries `0bddf438a748f326f07436169ea20a6a` beside the `det-*` triple, the value that run's own self-obs line `canary fingerprint computed …` states (its `.selfobs.jsonl` twin).
+- **A SECOND axis was measured 2026-09-01 (Pulse HEAD `83d4060`) and closes the same way:** `incident_events` — the corpus table persisting created/resolved lifecycle events, and the one table whose content is NOT L4-authored — is written by `crates/triage/src/incident/persistence.rs::save_incident_event` and read only corpus-side (`crates/corpus/src/disposition.rs` + a `contract.rs` test helper), with ZERO references in `crates/mcp-server`;
+- **But "no stronger claim exists" is RETIRED — a stronger one does, on a different axis.** Payload fidelity was unattainable at `efabe8e` and is PARTIAL at `83d4060` — one read-back value, the grounded cue fingerprint, varies with what Conductor emitted (above);
+- incident 6 resolved and gone from the active set with `idle_seconds_at_resolve = 0.0`, against Pulse's 120s auto-resolve idle threshold (its corpus records the incident active 16:42:38→16:43:23, a 45s life), so the resolver is excluded by construction and Conductor's write is the only remaining cause — `conductor-run/tests/lifecycle_harvest.rs`.
+- **Two mechanisms measured the same day bound how that attribution can be built.** (1) **At most ONE incident is active per DEDUPE TUPLE:** Pulse's producer dedupes a new incident against an OPEN incident carrying the same `(kind, scope, scope_id)` tuple — the workspace scopes the CANDIDATE SET, the tuple is the key, **as measured at `andromeda-pulse pulse-app/src/inference_runtime.rs:811`** (`.find(|inc| inc.kind == kind && inc.scope == scope && inc.scope_id == scope_id)` over `registry.list_active(&digest.workspace)`, HEAD `83d4060`).
+- The originating leg's storms all shared one tuple, which is why it observed the effect at workspace grain (`created=false deduped=true` observed while one was open;
+- every `created=true` occurred with the active set empty;
+- a new incident formed the same second the prior was resolved) — **the leg evidence stands;
+- This SUPERSEDES the leading-path-segment narrowing recorded 2026-08-16:
+- the SUT changed its normalization, and until Conductor transcribed the guard its `fingerprint()` returned a DIFFERENT value than Pulse's for every slash-bearing path — a live derivation drift no Conductor-vs-Conductor gate could see.
+- as measured 2026-08-21 (leg D), `findings-counter-refresh` CARRIED one `[[expected]]` at that time and still landed `KnownResidual`, because ITS read-back came back degraded, and its unmet `CountAtLeast` floor graded `CalibrationRegion` rather than failing (a sample floor never hard-fails).
+- That measurement stands as the evidence for the route;
+- the scenario itself has been declare-only since 2026-09-15, when that floor was retired as structurally dead, so it is no longer a LIVE example of a checks-bearing scenario taking this route.
+- **`degraded` is a PER-READ-BACK property, never a mode-wide guarantee — the universal "under deterministic L4 every read-back returns `degraded_mode`" is RETIRED, measured false 2026-09-06.** Deterministic L4 has now been measured BOTH ways:
+- `findings-counter-refresh` degraded (2026-08-21), while `degraded-mode-report` read back an OPEN, non-degraded incident and took the graded route to `manual_record` → `ManualCheck` (`latency_ms 6045`, run `2026-09-06T09-11-09-325`, leg B1 of `2026-09-06-operator-gated-live-suite`) — as measured at that chunk's `evidence/b1.jsonl` + `evidence/live-suite-verdict.md`, where `state_for` (`conductor-run/src/execute.rs`) returns `KnownResidual` iff `observation.degraded`, so a `ManualCheck` row proves `degraded == false`.
+- only the universal is withdrawn.
+- **That firing condition is UPTIME-BOUND, and the bound was invisible until 2026-09-06 — but the bound is the window IN FORCE AT BOOT, not a fixed hour.** The one-hour figure is `BOOTSTRAP_WINDOW_SECONDS = 3_600`'s DEFAULT;
+- **That removes cause (a) and is NOT sufficient — cause (b) is untouched by the posture, and it is what still decides the leg.** As measured at `conductor-0.2.0/chunks/2026-09-06-halo-hue-budget-re-driven/evidence/hue-verdict.md`, two runs of the identical tree under the identical posture on 2026-09-07 graded differently:
+- the evaluator was disarmed in BOTH (`silence_cues_emitted: 0`, `services_in_bootstrap: 2`), yet the arm was reached only when the window's last incident formed early enough to clear the 120s idle + 30s tick before read-back — created at +45s into the 200s window it resolved and the arm fired (`KnownResidual`), created at +137s it was ~62s old at read-back and the arm was missed (`ManualCheck`).
+- As measured at `pulse-legs/a11y-20260906-110201/logs/agent-latest.jsonl.2026-09-06` (`2026-09-06-operator-gated-live-suite` and its 0-pending adaptation):
+- the day's FIRST emitted silence cue fired 10:11:09.723Z, one hour after the canary service's first span (~09:11Z), and thereafter incidents formed mid-silence at 11:00:33 and 11:02:02 after cues of magnitude 3.0 → 5.0 → 7.03 — against `BOOTSTRAP_WINDOW_SECONDS = 3_600` (`andromeda-pulse crates/triage/src/baseline/activity_floor.rs:36`, evaluator per emit cycle at `crates/triage/src/cue/emitter.rs:186`, HEAD `83d4060`).
+- This qualifies the leg-E narrative rather than retiring it:
+- leg E reached the arm because it ran inside that window, not because a `curious` cue can never be refreshed.
+- This RETIRES the 2026-08-20 reading that the canary's own error-rate cues necessarily keep the list non-empty:
+- The arm was exercised, not modified.
+
+## 2026-09-24-architecture-registries-compacted-under-the-read-cap — §Established Decisions [Run-History Persistence]: passages moved out of the body
+
+**Section:** §Established Decisions — [Run-History Persistence]
+**Change:** compacted under the read cap; the passages below left the body verbatim.
+**Why:** the body holds only current truth; history lives here + in git (this sidecar's preamble).
+
+- its `Contains "Previously seen"` check was retired because Pulse emits the token as `"## Previously Seen"` and `Contains` is case-sensitive, so the declared token never matched.
+
+## 2026-09-24-architecture-registries-compacted-under-the-read-cap — §Occupied Resources Ports: `https://msedgedriver.microsoft.com`: passages moved out of the body
+
+**Section:** §Occupied Resources — Ports: `https://msedgedriver.microsoft.com`
+**Change:** compacted under the read cap; the passages below left the body verbatim.
+**Why:** the body holds only current truth; history lives here + in git (this sidecar's preamble).
+
+- it REPLACED `https://go.microsoft.com/fwlink/p/?LinkId=2124703`, the WebView2 Evergreen bootstrapper target admitted 2026-09-08 and retired with its install step, so the non-loopback egress count is ONE before and one after).
+- The arriving crossing is strictly NARROWER than the one it replaced:
+- the fwlink carried no version selector, so every job took whatever was latest, while this one cannot drift on its own.
+
+## 2026-09-24-architecture-registries-compacted-under-the-read-cap — §Occupied Resources Service / process names: `andromeda-pulse-mcp`: passages moved out of the body
+
+**Section:** §Occupied Resources — Service / process names: `andromeda-pulse-mcp`
+**Change:** compacted under the read cap; the passages below left the body verbatim.
+**Why:** the body holds only current truth; history lives here + in git (this sidecar's preamble).
+
+- Pulse MCP server (`andromeda-pulse-mcp`), spawned over PIPED stdio from a `tokio::process::Command` built by `conductor-verify/src/spawn.rs::build_command` and handed to `ReadbackClient::connect_command` (rmcp and its `TokioChildProcess` were removed 2026-06-27;
+- the type has been absent from every crate `src/` since, and its last in-code mention — a stale doc comment — was corrected 2026-09-04).
+- **On Windows the command carries the `CREATE_NO_WINDOW` creation flag** (`spawn::console_suppressing_flags()`, `#[cfg(windows)]`), so a GUI-launched sidecar raises no console pane and publishes no absolute exe path — as measured at `conductor-0.2.0/chunks/2026-09-04-sidecar-spawn-without-a-console-window/evidence/nvda-pass.json` (SR row S1-01 free of the pane;
+
+## 2026-09-24-architecture-registries-compacted-under-the-read-cap — §Occupied Resources Crate names (workspace members):: passages moved out of the body
+
+**Section:** §Occupied Resources — Crate names (workspace members):
+**Change:** compacted under the read cap; the passages below left the body verbatim.
+**Why:** the body holds only current truth; history lives here + in git (this sidecar's preamble).
+
+- carries the `conductor-run → conductor-faults` dependency edge, conductor-faults' first consumer — sitting above the seams and below both bins, shared by them), `conductor-cli`, plus the `conductor-tauri` bin.
+
+## 2026-09-24-architecture-registries-compacted-under-the-read-cap — §Occupied Resources Frontend asset subtree:: passages moved out of the body
+
+**Section:** §Occupied Resources — Frontend asset subtree:
+**Change:** compacted under the read cap; the passages below left the body verbatim.
+**Why:** the body holds only current truth; history lives here + in git (this sidecar's preamble).
+
+- `node_modules/`, the build output `crates/conductor-tauri/ui/dist/`, and `crates/conductor-tauri/ui/logs/` (the RETIRED pre-2026-09-01 self-obs landing site — under the repo-root launch cwd with `CONDUCTOR_RUNS_DIR` unset the stream lands at the workspace-root `logs/`;
+- the routine `--e2e` arm sets the handle and lands beside its fixture runs dir instead — see the `conductor-tauri.jsonl` bullet) are git-ignored;
+
+## 2026-09-24-architecture-registries-compacted-under-the-read-cap — §Occupied Resources On-disk artifacts / database: `logs/conductor-tauri.jsonl`: passages moved out of the body
+
+**Section:** §Occupied Resources — On-disk artifacts / database: `logs/conductor-tauri.jsonl`
+**Change:** compacted under the read cap; the passages below left the body verbatim.
+**Why:** the body holds only current truth; history lives here + in git (this sidecar's preamble).
+
+- **With `CONDUCTOR_RUNS_DIR` unset the path is CWD-relative**, and the a11y legs spawn tauri-driver with `cwd` = the workspace root (the app under test inherits it).
+- The landing site is therefore **per-suite**, because the sink resolves as `runs_dir.parent()/logs` and the ONE tauri-driver spawn site chooses `CONDUCTOR_RUNS_DIR` per invoked suite (2026-09-02):
+- the routine `--e2e` arm (`runs/e2e-fixture`) and the `sr-empty` suite land at `runs/logs/conductor-tauri.jsonl` (measured 2026-09-02 10:46:10Z), the operator-local `a11y:driven` arm (`runs/driven/runs`) at `runs/driven/logs/conductor-tauri.jsonl` (measured 2026-09-02 11:55:29Z, 11 457 B) and the `sr` / `sr-error` suites (`runs/sr-leg/runs`) at `runs/sr-leg/logs/conductor-tauri.jsonl` (measured 2026-09-02 10:44:45Z, 8 312 B).
+- No a11y suite leaves the handle unset any more;
+- a plain launch with it unset still lands at the CWD-relative workspace-root `logs/conductor-tauri.jsonl` (measured 2026-09-01 by the pre-change driven arm;
+- the pre-cwd `crates/conductor-tauri/ui/logs/conductor-tauri.jsonl` left stale), so that root site is retired only as an a11y landing site, not as the unset-handle mechanism.
+- That ui-package path is the retired pre-2026-09-01 landing site and stays git-ignored explicitly.
+
+## 2026-09-24-architecture-registries-compacted-under-the-read-cap — §Occupied Resources On-disk artifacts / database: `contracts/pulse-load-envelope.toml`: passages moved out of the body
+
+**Section:** §Occupied Resources — On-disk artifacts / database: `contracts/pulse-load-envelope.toml`
+**Change:** compacted under the read cap; the passages below left the body verbatim.
+**Why:** the body holds only current truth; history lives here + in git (this sidecar's preamble).
+
+- no phase declaring occurrences may run longer than `max_sustained_storm_ms` nor emit faster than `max_sustained_rate_spans_per_s` (`EmissionSpec::occurrences` is what made both computable).
+- **The rate term counts WIRE RECORDS, and is an upper BOUND (shipped 2026-09-06, superseding the DISPATCHES reading measured 2026-08-20):** `phase_rate_exceeds` judges `occurrences × EmissionSpec::max_spans_per_dispatch() × 1000 > max_rate × gap_ms` (`conductor-core/src/load_envelope.rs`), exact integer math with no division.
+- The per-dispatch count is measured PER `EmissionShape` arm against the dispatcher's own arm — `Ramp`/`Breathing` emit `sum(window_counts)`, `Latency` its `samples`, `Error` `depth + 1`, `Pii` 2 spans on traces or one record per category on logs, `Topology` one span per service, every other shape 1 — so the retired `samples` / `windows` reading held for `Latency` alone and understated a rate curve by its own rate.
+- Under the shipped mapping the catalog's worst case is `halo-breathing-encoding` at ~232 records/s (a ramp bounded at 1160 records per dispatch over a 5 s window), ≈43× under `max_sustained_rate_spans_per_s = 10000` — **superseding the "~200× under the bound" figure, which held only for the `samples` reading** — so no verdict moves and the `[[exempt]]` ledger stays empty.
+- The contract file itself is unchanged:
+- the term keeps its name and its value, because it transcribes a SUT record about wire load and the fix brings the code to the name rather than the name to the code.
+- This retires the SURFACED-not-authored disposition — the fix is AUTHORED by `2026-09-06-coverage-completeness-gate`, and it is neither of the two the prior record predicted (it is not `occurrences × samples`, and the term was not renamed).
+- `phase_rate_exceeds` has exactly one caller, `phase_breach`, whose only two callers are `check_load_envelope` (the static gate) and `LoadEnvelope::classify` (the per-run caption), so the two cannot diverge.
+- `check_load_envelope` (the static catalog gate) and `LoadEnvelope::classify` (the per-run judgment behind the `[ENVIRONMENT-SUSPECT]` caption) read ONE shared basis, so the gate and the caption cannot mean different things, and the `[[exempt]]` ledger — still held at exact-set equality in both directions, so it can only shrink under compulsion — is now **empty**:
+- The artifact had predicted a different landing (that asserting SUMMED emitting-phase duration would retire the exemptions);
+- measurement falsified it — summing disjoint bursts separated by quiet is not *sustained*, and both prior exemptions stay over a summed ceiling — so the shipped term bounds the longest single emitting window instead.
+
+## 2026-09-24-architecture-registries-compacted-under-the-read-cap — §Occupied Resources On-disk artifacts / database: `contracts/pulse-run-contract.toml`: passages moved out of the body
+
+**Section:** §Occupied Resources — On-disk artifacts / database: `contracts/pulse-run-contract.toml`
+**Change:** compacted under the read cap; the passages below left the body verbatim.
+**Why:** the body holds only current truth; history lives here + in git (this sidecar's preamble).
+
+- The `[[term]]` list carried SIX terms as of 2026-09-03, when it gained `mcp-enabled` (`check = "shell-declaration"`, `env = "ANDROMEDA_PULSE_MCP_ENABLED"`), the same class as the shipped `l4-deterministic` and needing no new machinery.
+- It carries SEVEN as of 2026-09-22 (`grep -c '^\[\[term\]\]'` → 7):
+- `l4-real-model` (`check = "shell-absence"` on `ANDROMEDA_PULSE_L4_DETERMINISTIC`, `posture = "real-model"`) — a CONDUCTOR posture term, as the header's PROVENANCE line states, not a transcribed SUT record — beside `l4-deterministic`, now tagged `posture = "deterministic"`.
+- **A second term's `asserted` rationale is measurably FALSE, and the shape is the `warmup_ms` one:** `sidecar-built` reads "an unbuilt sidecar fails connect and surfaces the read-back-unreachable precondition upstream of this gate, so reaching term evaluation at all proves it" — but a `PATH` miss short-circuits to `[BLOCKED]` in ~0s UPSTREAM of term evaluation (as measured at `.claude/rules/verification-harness.md:54`, 2026-08-20;
+- consistent with the ~2ms all-tools-absent reading in §Occupied Resources — Service/process names), so the term is satisfied-by-construction exactly when it is false and cannot catch its own falsity.
+- It was deliberately NOT re-classified at `2026-09-03-live-pulse-preconditions-probed` (operator-selected):
+- re-classifying moves what the preflight gate can block on, which is a larger change than probing preconditions.
+- it does not carry the canary service out of Pulse's baseline bootstrap, and no pre-roll measured in seconds can.** Pulse gates the **baseline-derived cue families** on `BootstrapState::Ready` (`crates/triage/src/cue/evaluate.rs:164` — the ONLY such gate in `crates/triage/`, sitting inside `evaluate_service_went_silent`, the P-014-class silence cue), which requires `now − first_observed_unix_nanos ≥ BOOTSTRAP_WINDOW_SECONDS = 3_600` **per service, wall-clock** (`crates/triage/src/baseline/activity_floor.rs:33`, `:173-183`;
+- that constant is the DEFAULT — `ANDROMEDA_PULSE_BASELINE_BOOTSTRAP_SECONDS` overrides it once at Pulse's boot, §Occupied Resources — Environment variables — which changes nothing about the disproof below, since no seconds-scale warm-up clears any window of that order), and the `baseline_state` corpus table holds **0 rows**, so every `pulse-app` launch resets the anchor to zero.
+- The shipped `warmup_ms = 45000` is 45s against a 3,600s gate — short by **80×** and unfixable by any value of its own knobs, which is why the term's `check = "asserted"` (satisfied by construction) cannot catch its own falsity.
+- **That diagnosis is TRUE only of the baseline-derived families, and the canary does not ride one (measured 2026-08-15).** The RetryStorm path consults no baseline at all (`crates/triage/src/pattern/storm.rs:245-285` keys solely on count-in-window against the thresholds and the `last_emitted` tier ladder), so "without a baseline the L2 cue evaluator never considers it" holds for service-went-silent and never bound the canary storm;
+- Pulse forms incidents for a sustained storm with `baseline_state` at 0 rows, measured twice on two fresh data dirs (`andromeda-pulse-0.3.0/chunks/2026-08-15-tier-1-incident-path-investigation/evidence/premise-check.md`).
+- The warm-up's stated purpose is therefore disproved on a second axis — it aims at a gate this path never crosses — but it is harmless.
+- **The claim that reaching a live incident requires a Pulse-side change (a test-mode bootstrap override, or populating `baseline_state`) is likewise measured FALSE and is retired**:
+- no such change exists, `baseline_state` still holds 0 rows, and incidents form anyway.
+- What actually gated the canary was a **tier band on Conductor's own side**:
+- the storm must clear `DEFAULT_AUTONOMOUS_THRESHOLD = 10` (`crates/triage/src/pattern/storm.rs:78`, compared with `>=` at `:245`) because Pulse's Tier-1 coordinator accepts Autonomous cues alone (`crates/triage/src/cadence/coordinator.rs:390`), and the shipped `CANARY_STORM_COUNT = 6` sat in `5 <= 6 < 10` — cue floor cleared, Autonomous band missed, no incident possible.
+- `conductor-0.2.0/chunks/2026-08-10-workspace-key-divergence-probe/two-launch-verdict.md` §Re-run — 2026-08-13.
+- **A SECOND gap sat beside it on the canary's own path (measured 2026-08-14/15) and is now CLOSED (2026-08-16) — its cause was CONDUCTOR-side, not Pulse-side.** The symptom:
+- Conductor's storm reached the wire with its `exception` events intact and Pulse counted every span (the ingest heartbeat's `span_count` is a cumulative `fetch_add`, reading `15` = 3 warm-up + 12 storm at the 2026-08-15 leg), yet the `buffer.tick` trio read `span_events_seen: 0` · `observer_invocations: 0` · `fingerprints_computed: 0` with `rows_ingested: 1` — the fingerprint observer never invoked, and the loss localized between OTLP ingest receipt and the buffer's span-event enumeration.
+- **The cause was a span-identity collision against a primary key.** Pulse's `spans` table is `PRIMARY KEY (trace_id, span_id)` (`andromeda-pulse crates/buffer/src/schema.rs:38`), while Conductor's `ok_span` stamped a CONSTANT identity — `vec![1; 16]` / `vec![1; 8]` — on every call, so every warm-up span after the first violated the key and was logged-and-skipped by `run_consumer`.
+- That is exactly the producer-dependence observed:
+- `inject_demo` derives `trace_id(seq)` / `span_id(seq)` per sequence and never collides.
+- Fixed by `2026-08-15-canary-spans-pulse-fingerprints` (seeded per-call identity, disjoint warm-up/storm seed ranges);
+- **One honest limit on the closure:** why the storm's 12 DISTINCT-id spans also appended zero rows on the prior leg was never directly observed — that leg captured no `duckdb.append` lines and its data dir no longer exists — so the appender-poisoning reading is **inferred, consistent with both measurements, and not proven**.
+- Read the storm-detector telemetry accordingly:
+- `tracked_fingerprints_count` is a **60s-windowed gauge over DISTINCT fingerprints, sampled at a 15s tick AFTER eviction**, so a working identical-fingerprint storm reads `1` regardless of its occurrence count — never the count itself (never 6 at the retired size, never 12 at the shipped `CANARY_STORM_COUNT`) — and a late sample reads 0 on a healthy path;
+- That reading is what the 2026-08-16 leg confirmed from both directions:
+- on the broken path both cumulative counters held 0 across 31 tick lines spanning three arms (twelve inside the retention window), while on the fixed path they read `2` and `1` with `tracked_fingerprints_count` still sampling `0` — a healthy storm, 77s past its 60s window.
+- Never read that gauge as evidence of absence.
+
+## 2026-09-24-architecture-registries-compacted-under-the-read-cap — §Occupied Resources On-disk artifacts / database: `contracts/scenario-audit-ledger.toml`: passages moved out of the body
+
+**Section:** §Occupied Resources — On-disk artifacts / database: `contracts/scenario-audit-ledger.toml`
+**Change:** compacted under the read cap; the passages below left the body verbatim.
+**Why:** the body holds only current truth; history lives here + in git (this sidecar's preamble).
+
+- Its grounds are transcribed readings of `andromeda-pulse` at the head its own `sut_head` names, so a SUT rendering change rots them visibly rather than silently.
+- It differs from the three manifests above in its resolution:
+- `default_path()` is a hard-coded relative constant and `load()` takes an ALREADY-RESOLVED path, so the module never calls `resolve_under` and there is deliberately no `CONDUCTOR_*` override handle;
+- it has NO shipped reader at all — its only reader is the crate-local gate test binary, which resolves the workspace root from `CARGO_MANIFEST_DIR`.
+
+## 2026-09-24-architecture-registries-compacted-under-the-read-cap — §Occupied Resources On-disk artifacts / database: `contracts/pulse-real-model-leg-posture.md`: passages moved out of the body
+
+**Section:** §Occupied Resources — On-disk artifacts / database: `contracts/pulse-real-model-leg-posture.md`
+**Change:** compacted under the read cap; the passages below left the body verbatim.
+**Why:** the body holds only current truth; history lives here + in git (this sidecar's preamble).
+
+- the launch posture, the emission profile (its premise that a hypothesis needs a multi-digest profile corrected in place 2026-09-22 — Pulse attaches the parsed interpretation at incident creation, so a single storm carries one;
+- Its `provenance` is stated **per clause** — every Pulse coordinate is a transcribed SUT record read at HEAD `83d4060` (2026-09-18), while the ~110 s it once carried as a real-model incident-formation figure is a DETERMINISTIC-L4 measurement (`conductor-run/tests/lifecycle_live.rs:20`, under `ANDROMEDA_PULSE_L4_DETERMINISTIC=true`), mis-carried as real-model since `conductor-0.2.0/chunks/2026-09-06-operator-gated-live-suite/plan.md:102` and corrected in place 2026-09-23:
+- Its corrections are dated in-place records beside one dated measurement record.
+
+## 2026-09-24-architecture-registries-compacted-under-the-read-cap — §Occupied Resources Environment variables: `CONDUCTOR_PREFLIGHT_TIMEOUT`: passages moved out of the body
+
+**Section:** §Occupied Resources — Environment variables: `CONDUCTOR_PREFLIGHT_TIMEOUT`
+**Change:** compacted under the read cap; the passages below left the body verbatim.
+**Why:** the body holds only current truth; history lives here + in git (this sidecar's preamble).
+
+- `scripts/agent-run.sh` 2026-09-04T17:07:17→17:08:04Z and `scripts/agent-run.ps1` 17:11:16→17:12:03Z, ~47s wall-clock each (warm-up 45s + poll), both exit 0 emitting `ReadyState` JSON with zero `skipped preflight` lines and neither script edited.
+- The run contract raises it to an effective FLOOR it can no longer sit below (`[incident_formation].min_canary_poll_seconds`):
+- the bare default is shorter than Pulse's own L3 digest cadence, so it could expire before an incident exists even once a cue fires.
+
+## 2026-09-24-architecture-registries-compacted-under-the-read-cap — §Occupied Resources Environment variables: `CONDUCTOR_MSEDGEDRIVER`: passages moved out of the body
+
+**Section:** §Occupied Resources — Environment variables: `CONDUCTOR_MSEDGEDRIVER`
+**Change:** compacted under the read cap; the passages below left the body verbatim.
+**Why:** the body holds only current truth; history lives here + in git (this sidecar's preamble).
+
+- Read ONLY by `crates/conductor-tauri/ui/wdio.conf.ts` (never by a shipped binary) — the ONE config all three suite families fire, so the handle gates the routine `--e2e` arm, the operator-local `a11y:driven` arm and the `sr*` screen-reader suites alike — never written by Conductor, and never interpolated into a shell:
+- Unset — or set to a path that is not an existing file — makes whichever arm requested it **SKIP at exit 0** with a host-path-free precondition plus a fetch recipe.
+- under an affirmative `CONDUCTOR_A11Y_STRICT` the same unresolved handle exits NON-ZERO instead (2026-09-07), because a CI gate that can pass by skipping is banned — the guard itself is untouched, only what an unresolved handle costs.
+- One of TWO handles in this namespace naming a HOST dev-tool this document does not itself define (`CONDUCTOR_MSEDGEDRIVER` · `CONDUCTOR_NVDA`), both validated and spawned the same way, so neither value is ever committed.
+
+## 2026-09-24-architecture-registries-compacted-under-the-read-cap — §Occupied Resources Environment variables: `CONDUCTOR_NVDA`: passages moved out of the body
+
+**Section:** §Occupied Resources — Environment variables: `CONDUCTOR_NVDA`
+**Change:** compacted under the read cap; the passages below left the body verbatim.
+**Why:** the body holds only current truth; history lives here + in git (this sidecar's preamble).
+
+- added 2026-09-02).
+- Validated at the harness edge exactly like `CONDUCTOR_MSEDGEDRIVER` (existence + `isFile` + shell-metacharacter rejection) and used only as the program of an array-form, detached spawn with a fixed argv (`-m --no-sr-flag -c <leg config dir> -l 12 -f <leg speech log>`, then `-q`), never interpolated into a shell.
+- Unset — or set to a path that is not an existing file — makes the `sr` / `sr-empty` / `sr-error` suites **SKIP at exit 0** with a host-path-free precondition plus a fetch recipe naming the handle, never its value (measured 2026-09-02).
+- both skip sites route through one `exitUnresolvedHandle()`, so an affirmative `CONDUCTOR_A11Y_STRICT` makes an unresolved NVDA handle exit non-zero too (2026-09-07).
+
+## 2026-09-24-architecture-registries-compacted-under-the-read-cap — §Occupied Resources Environment variables: `CONDUCTOR_E2E_SEED_DIR`: passages moved out of the body
+
+**Section:** §Occupied Resources — Environment variables: `CONDUCTOR_E2E_SEED_DIR`
+**Change:** compacted under the read cap; the passages below left the body verbatim.
+**Why:** the body holds only current truth; history lives here + in git (this sidecar's preamble).
+
+- It is the THIRD handle class in this namespace and its control model is neither of the other two:
+- the value is not operator-supplied, so there is no `isFile` / shell-metacharacter guard to apply, and it never reaches the `conductor-cli` `canonicalize` edge because no shipped binary reads it — the repo-relative discipline lives at the wdio caller.
+- Distinct from `CONDUCTOR_MSEDGEDRIVER` / `CONDUCTOR_NVDA`, which name HOST dev-tools this document does not define;
+- this one names a path this document does.
+
+## 2026-09-24-architecture-registries-compacted-under-the-read-cap — §Occupied Resources Environment variables: `CONDUCTOR_A11Y_STRICT`: passages moved out of the body
+
+**Section:** §Occupied Resources — Environment variables: `CONDUCTOR_A11Y_STRICT`
+**Change:** compacted under the read cap; the passages below left the body verbatim.
+**Why:** the body holds only current truth; history lives here + in git (this sidecar's preamble).
+
+- **A FOURTH handle class, and its control model is none of the other three:** it is FLAG-valued (affirmative `"true"` / `"1"`, mirroring `conductor_core::flag_declared`), never a path — so the `std::fs::canonicalize` rule has nothing to canonicalize and the wdio-edge `isFile` + shell-metacharacter guard has nothing to guard.
+- Unset or falsy, the leg keeps its documented skip-at-exit-0 so an unconfigured dev host is never read as a defect;
+- affirmatively declared, an unresolved `CONDUCTOR_MSEDGEDRIVER` / `CONDUCTOR_NVDA` exits NON-ZERO, which is what stops the CI a11y gate from reporting success by skipping.
+
+## 2026-09-24-architecture-registries-compacted-under-the-read-cap — §Occupied Resources Environment variables: `ANDROMEDA_PULSE_MCP_ENABLED`: passages moved out of the body
+
+**Section:** §Occupied Resources — Environment variables: `ANDROMEDA_PULSE_MCP_ENABLED`
+**Change:** compacted under the read cap; the passages below left the body verbatim.
+**Why:** the body holds only current truth; history lives here + in git (this sidecar's preamble).
+
+- as the run contract's SECOND `shell-declaration` term (`mcp-enabled`), and as one of the three `ANDROMEDA_PULSE_*` declaration subjects `conductor preconditions` observes.
+- this flag and `ANDROMEDA_PULSE_L4_DETERMINISTIC` keep the truthy `"true"`/`"1"` gate (`conductor_core::flag_declared`) under the deterministic posture — under the real-model posture the L4 handle is graded for ABSENCE instead (its entry below) — while the PATH-valued `ANDROMEDA_PULSE_DATA_DIR` is met by presence-after-trim (`conductor_core::handle_declared`), so all three subjects are meetable (§Standard Contracts — Liveness equivalent).
+- An absent declaration of THIS handle is named upstream as an unmet contract term AND distinguished at the probe:
+- `ANDROMEDA_PULSE_MCP_ENABLED=false` leaves `handles-declared` naming that handle alone (measured 2026-09-04, `preconditions-probe-reads-path-handles-by-presence`).
+
+## 2026-09-24-architecture-registries-compacted-under-the-read-cap — §Occupied Resources Environment variables: `EDGEWEBDRIVER`: passages moved out of the body
+
+**Section:** §Occupied Resources — Environment variables: `EDGEWEBDRIVER`
+**Change:** compacted under the read cap; the passages below left the body verbatim.
+**Why:** the body holds only current truth; history lives here + in git (this sidecar's preamble).
+
+- Since 2026-09-17 the `a11y` job's pin gate SETS it through `GITHUB_ENV` to name the driver directory the job itself fetched and Authenticode-verified — the runner image's own value is deliberately overwritten, because that image ships a floating driver incoherent with its WebView2 runtime — and the asserting step then resolves `CONDUCTOR_MSEDGEDRIVER` from it in the step SHELL (`$env:EDGEWEBDRIVER`), because GitHub's `${{ env.* }}` expression context holds only workflow/job/step declarations and never a runner-process variable — resolving it there yielded an empty base and the handle reached the guard as the literal `\msedgedriver.exe` (measured 2026-09-07, run 34148079506).
+- `crates/conductor-tauri/ui/wdio.conf.ts` remains the only READER of `CONDUCTOR_MSEDGEDRIVER` and the only site that validates it (`isFile` + shell-metacharacter rejection) before handing it to tauri-driver via `--native-driver`.
+
+## 2026-09-24-architecture-registries-compacted-under-the-read-cap — §Occupied Resources Environment variables: `ANDROMEDA_PULSE_BASELINE_BOOTSTRAP_SECONDS`: passages moved out of the body
+
+**Section:** §Occupied Resources — Environment variables: `ANDROMEDA_PULSE_BASELINE_BOOTSTRAP_SECONDS`
+**Change:** compacted under the read cap; the passages below left the body verbatim.
+**Why:** the body holds only current truth; history lives here + in git (this sidecar's preamble).
+
+- a SHIPPED artifact names it in its own output — the `run --live` banner in both `scripts/agent-run.{sh,ps1}` — so a reader meeting it there can find it here.
+- the operator's launch carries it, and it governs every leg of that run.
+- Distinct from the two `shell-declaration` run-contract terms and from the three `ANDROMEDA_PULSE_*` subjects `conductor preconditions` observes:
+
+## 2026-09-24-architecture-registries-compacted-under-the-read-cap — §Occupied Resources Environment variables: `WEBVIEW2_USER_DATA_FOLDER`: passages moved out of the body
+
+**Section:** §Occupied Resources — Environment variables: `WEBVIEW2_USER_DATA_FOLDER`
+**Change:** compacted under the read cap; the passages below left the body verbatim.
+**Why:** the body holds only current truth; history lives here + in git (this sidecar's preamble).
+
+- They are read by the WebView2 loader alone — by no shipped binary and not by `crates/conductor-tauri/ui/wdio.conf.ts` — so neither is a spawn-resolution input and neither carries a configuration contract;
+- Registered on the discoverability ground the `ANDROMEDA_PULSE_BASELINE_BOOTSTRAP_SECONDS` entry states:
+- a reader meeting a name in a committed workflow must be able to find it here.
+- Added 2026-09-08 (`2026-09-08-hosted-runner-webview2-session`), operator-ratified.
+
+## 2026-09-24-architecture-registries-compacted-under-the-read-cap — §Occupied Resources Environment variables: `RUNNER_TEMP`: passages moved out of the body
+
+**Section:** §Occupied Resources — Environment variables: `RUNNER_TEMP`
+**Change:** compacted under the read cap; the passages below left the body verbatim.
+**Why:** the body holds only current truth; history lives here + in git (this sidecar's preamble).
+
+- `.github/workflows/ci.yml`'s `a11y` job reads it in the `WebView2 session isolation (diagnostic)` step and, since 2026-09-17, in the `Pin msedgedriver to the image's WebView2 runtime (gate)` step that replaced the retired Evergreen install.
+- That pin gate DOES set an environment handle — `EDGEWEBDRIVER`, through `GITHUB_ENV` — but claims no `CONDUCTOR_*` name, so the `WEBVIEW2_*` pair's registered lifetime — that one `continue-on-error` diagnostic step — is unchanged by it.
+
+## 2026-09-24-architecture-registries-compacted-under-the-read-cap — §Occupied Resources Environment variables: `TEMP`: passages moved out of the body
+
+**Section:** §Occupied Resources — Environment variables: `TEMP`
+**Change:** compacted under the read cap; the passages below left the body verbatim.
+**Why:** the body holds only current truth; history lives here + in git (this sidecar's preamble).
+
+- Registered 2026-09-11 as a PRE-EXISTING gap surfaced by `2026-09-11-hosted-runner-endpoint-cause-probed`, which itself reads no environment variable at all.
+
+## 2026-09-24-secret-scanning-ci-gate — the static-gate family gains a second kind (repository hygiene)
+**Section:** §Established Decisions [CI/CD] · §Stack and Technologies CI/CD row · §Infrastructure Patterns (the `.github/workflows/` tree comment, the CI/CD approach, the Build-system dev-test stack) · §Inherited Defaults — CI/CD
+**Change:** the `rust` job's static gates now have two kinds. Beside the gates over committed data (coverage-completeness, scenario-assertion audit) sit two repository-hygiene gates. The `Secret-scan gate` (`-p conductor-core --test secret_scan_gate`) finds no secret-shaped string or file name in `git ls-files --cached --others --exclude-standard`. The `Workflow env-context gate` (`--test workflow_env_gate`) checks that every `env.X` expression read names a declared or `GITHUB_ENV`-written key, an admission the `GITHUB_ENV context probe` pair re-measures on every run. Each is presence-guarded, with no `continue-on-error` and no `if:`. The four enumeration sites name both kinds. `regex` joins the dev-test stack as a `conductor-core` dev-dependency edge (already locked, still 562 packages).
+**Why:** neither new gate asserts a committed artifact against a production source, so every "the static gates over committed data" enumeration under-described the set (report Changes → Counts / qualifiers moved). Detector proposals D-arch-decisions ×6 (4 dependent) applied, with the text re-derived by kind instead of the proposals' "repo gates" label. Sweep `static gates? over committed data|static gates each asserting` over the seven masters + leaves + curation homes + playbook/drift-base: 5 hits · arch:37 and arch:249 amended here · test-plan:250 amended (test-plan entry) · test-plan:366 no change (it names the audit leg, which is of that kind) · `.claude/docs/stack.md:43` re-derived. D-arch-registry-size tripped after apply (§Established Decisions 38 300 B, §Occupied Resources 38 445 B against 38 115 B) and was remedied by the moves in the last entry below: now 37 959 B / 38 097 B, within target.
+
+## 2026-09-24-secret-scanning-ci-gate — §Occupied Resources env vars: `GHA_ENV_CONTEXT_PROBE` registered; the stale `${{ env.* }}` rationale retired
+**Section:** §Occupied Resources — Environment variables (new `GHA_ENV_CONTEXT_PROBE` bullet · `EDGEWEBDRIVER` · `RUNNER_TEMP`)
+**Change:** `GHA_ENV_CONTEXT_PROBE` is registered on the `EDGEWEBDRIVER` names-AND-reads basis (playbook rule "a SHIPPED artifact READS"): `ci.yml`'s `rust` job writes it to `GITHUB_ENV` and reads it back through `${{ env.* }}`. The proposal's WEBVIEW2 sets-never-reads basis was rejected, since the job reads the key back. The `EDGEWEBDRIVER` bullet's "because GitHub's `${{ env.* }}` expression context holds only workflow/job/step declarations and never a runner-process variable" is replaced: a `GITHUB_ENV` key also resolves through `${{ env.* }}` (as measured at run 36006370951), so the shell read is a choice, not a necessity. `RUNNER_TEMP`'s "whose context holds only what a workflow, job or step declared" now reads "whose context carries no image-set runner variable".
+**Why:** F12 measured at CI run 36006370951 (sha 6008a68, `windows-latest`): the `GITHUB_ENV context probe (assert)` step printed its success line (report Changes → Cross-project; Spec claims disproved). Detector proposals D-arch-resources ×1 and D-platform-claim ×2 (1 dependent) applied. Sweep `holds only … workflow|context holds only|never a runner-process variable` over the same file set: 3 hits · arch:200 and arch:203 amended here · `.andromeda/playbook.md:145` (rule "a SHIPPED artifact READS", its minting note) → proposed at the wrap card, not edited (a judgment base) · `.claude/rules/host-win32.md:136` (Session Additions, preserve-verbatim) → routed to P3 curation. The same stale clause in `.github/workflows/ci.yml:351-356` (not a master) is a route-resolve CARRY. `architecture-amendments.md:1166` keeps its historical copy (append-only).
+
+## 2026-09-24-secret-scanning-ci-gate — passages moved out of the body (D-arch-registry-size remedy)
+**Section:** §Established Decisions [CI/CD] · §Occupied Resources — Environment variables: `WEBVIEW2_USER_DATA_FOLDER`
+**Change:** the passages below left the body verbatim, to keep both registries within the target after this wrap's additions.
+**Why:** the body holds only current truth; history lives here + in git (this sidecar's preamble). The decision the first passage supported stays in the body ("which is why the asserting step does not take it").
+
+- §Established Decisions [CI/CD]: On the dev host three legs establish the MANDATORY INTEGRITY LABEL as the discriminator (admin+High no session · non-admin+High no session · non-admin+Medium session created); neither `RunLevel Limited` nor `runas /trustlevel` lowers it on the runner, and an explicit medium-integrity launch that does lower it does NOT open the endpoint.
+- §Occupied Resources — `WEBVIEW2_USER_DATA_FOLDER` · `WEBVIEW2_ADDITIONAL_BROWSER_ARGUMENTS`: Registered so a reader meeting a name in a committed workflow can find it here; the `EDGEWEBDRIVER` names-AND-reads bar does not apply, and no `CONDUCTOR_*` namespace claim is made. Operator-ratified.

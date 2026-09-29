@@ -1,0 +1,1943 @@
+[
+ {
+  "doc": "architecture",
+  "row": 3,
+  "file": "003.md",
+  "spans": [
+   ".claude/docs/stack.md"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 4,
+  "file": "004.md",
+  "spans": [
+   ".claude/docs/stack.md"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 6,
+  "file": "006.md",
+  "spans": [
+   ".claude/docs/stack.md"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 7,
+  "file": "007.md",
+  "spans": [
+   ".claude/docs/stack.md"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 8,
+  "file": "008.md",
+  "spans": [
+   ".claude/docs/stack.md"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 9,
+  "file": "009.md",
+  "spans": [
+   ".claude/docs/stack.md"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 12,
+  "file": "012.md",
+  "spans": [
+   ".claude/docs/stack.md",
+   "Cargo.lock",
+   "json_array_length",
+   "rusqlite 0.38.0 bundled",
+   "sqlite3.h"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 14,
+  "file": "014.md",
+  "spans": [
+   ".claude/docs/stack.md",
+   "Cargo.lock",
+   "cargo audit"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 16,
+  "file": "016.md",
+  "spans": [
+   ".claude/docs/stack.md",
+   "indicatif 0.18"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 17,
+  "file": "017.md",
+  "spans": [
+   ".claude/docs/stack.md",
+   "[HOLD]",
+   "inquire 0.7",
+   "lamp_code"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 18,
+  "file": "018.md",
+  "spans": [
+   "CliResolver",
+   "ObsWriter"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 19,
+  "file": "019.md",
+  "spans": [
+   "[]",
+   "init_observability"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 20,
+  "file": "020.md",
+  "spans": [
+   "[]"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 22,
+  "file": "022.md",
+  "spans": [
+   ".claude/docs/stack.md"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 23,
+  "file": "023.md",
+  "spans": [
+   "baseline_state",
+   "conductor-canary",
+   "mcp_server_enabled=false",
+   "service_registry"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 25,
+  "file": "025.md",
+  "spans": [
+   ".claude/docs/stack.md"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 26,
+  "file": "026.md",
+  "spans": [
+   ".claude/docs/stack.md",
+   "GENERATED:setup:*"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 29,
+  "file": "029.md",
+  "spans": [
+   "conductor-verify"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 35,
+  "file": "035.md",
+  "spans": [
+   "baseline/activity_floor.rs:33,173-183",
+   "chunks/2026-08-10-workspace-key-divergence-probe/two-launch-verdict.md",
+   "cues_emitted: 0",
+   "incidents",
+   "services_ready: 0"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 38,
+  "file": "038.md",
+  "spans": [
+   "run_id 2026-08-16T08-17-48-786"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 40,
+  "file": "040.md",
+  "spans": [
+   "Expected amendments (wrap)"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 47,
+  "file": "047.md",
+  "spans": [
+   "compute_differs_for_relative_paths_differing_below_leading_segment",
+   "normalize_stacktrace_preserves_relative_paths_in_full",
+   "normalize_stacktrace_strips_only_absolute_paths"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 48,
+  "file": "048.md",
+  "spans": [
+   "runs/2026-08-18T18-47-32-786.jsonl"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 55,
+  "file": "055.md",
+  "spans": [
+   "tables: ['runs','run_envelope','run_check']"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 64,
+  "file": "064.md",
+  "spans": [
+   "[RESIDUAL]"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 74,
+  "file": "074.md",
+  "spans": [
+   "runs/e2e-fixture/runs.db"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 79,
+  "file": "079.md",
+  "spans": [
+   "BootstrapState",
+   "Commands::declares",
+   "UNCONDITIONAL",
+   "UNSATISFIABLE",
+   "[PRECONDITION] every live-Pulse precondition is satisfied",
+   "agent-run.ps1",
+   "agent-run.sh",
+   "boot",
+   "bootstrap",
+   "can ever be met",
+   "permanently unmet",
+   "short-circuited before every preflight"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 80,
+  "file": "080.md",
+  "spans": [
+   "<host-path> terminal blank",
+   "Cargo.lock",
+   "Cargo.toml",
+   "[2026-09-02 correction: rmcp was removed 2026-06-27 …]",
+   "[dependencies]",
+   "fanout-results.md",
+   "heard"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 81,
+  "file": "081.md",
+  "spans": [
+   "architecture.md"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 82,
+  "file": "082.md",
+  "spans": [
+   "Spec claims disproved by measurement",
+   "all read-backs.*degraded",
+   "degraded_mode_response",
+   "every read-back is degraded",
+   "latency_ms 6045"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 83,
+  "file": "083.md",
+  "spans": [
+   ".claude/",
+   "ManualCheck",
+   "auto-resolve on schedule",
+   "latency_ms 200048",
+   "nothing refreshed it",
+   "pulse-legs/a11y-20260906-110201/logs/agent-latest.jsonl.2026-09-06",
+   "session-handoff.md"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 92,
+  "file": "092.md",
+  "spans": [
+   "process.exit(0)"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 93,
+  "file": "093.md",
+  "spans": [
+   "ci-probe/"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 96,
+  "file": "096.md",
+  "spans": [
+   "build \\+ test \\+ clippy|GitHub Actions:",
+   "playbook.md"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 98,
+  "file": "098.md",
+  "spans": [
+   "cargo tauri build"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 100,
+  "file": "100.md",
+  "spans": [
+   "drift-base.md",
+   "no named candidate",
+   "no probe varied",
+   "not a demonstrated cause",
+   "one-shot HTTPS fetch",
+   "playbook.md"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 101,
+  "file": "101.md",
+  "spans": [
+   "GENERATED:setup:modules",
+   "drift-base.md",
+   "playbook.md",
+   "sole .gitattributes rule"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 102,
+  "file": "102.md",
+  "spans": [
+   ".claude/docs/*",
+   ".claude/rules/*",
+   "Expected amendments (wrap)",
+   "GENERATED:setup:overview",
+   "SUT run contract",
+   "drift-base.md",
+   "playbook.md"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 103,
+  "file": "103.md",
+  "spans": [
+   ".claude/docs/",
+   ".claude/rules/",
+   "EIGHT families",
+   "GENERATED:setup:warnings",
+   "findings-counter-refresh is NOT a member: it carries one [[expected]]",
+   "not declare-only",
+   "three declare-only",
+   "unmet CountAtLeast"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 104,
+  "file": "104.md",
+  "spans": [
+   "CheckRecord",
+   "NINE families|EIGHT families|TEN families",
+   "RetroactiveReeval",
+   "ServiceWentSilent",
+   "USER:session-learnings",
+   "conventions.md",
+   "docs/commands.md",
+   "drift-base.md",
+   "playbook.md",
+   "run_check",
+   "ship declare-only|families now ship"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 105,
+  "file": "105.md",
+  "spans": [
+   "GENERATED:setup",
+   "SUT run contract \\+ the P-025",
+   "binary-edge load sites|three .{0,20}load sites",
+   "coverage_gate",
+   "docs/session-learnings.md",
+   "drift-base.md",
+   "fmt \\+ build \\+ test \\+ clippy \\+ the a11y|fmt \\+ build \\+ test \\+ the Pulse-free a11y",
+   "nextest / clippy \\+ the a11y",
+   "playbook.md"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 106,
+  "file": "106.md",
+  "spans": [
+   " route entry",
+   ".claude/docs/*",
+   ".claude/rules/*",
+   "agent-run.ps1 run --e2e",
+   "architecture.md",
+   "is owned by the ",
+   "master-route.md",
+   "six governed forms"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 107,
+  "file": "107.md",
+  "spans": [
+   "residuals.md"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 108,
+  "file": "108.md",
+  "spans": [
+   "*-amendments.md",
+   "FLOORED AT 152",
+   "a11y-limited-token-launch",
+   "drift-base.md",
+   "drives no session",
+   "exit condition remains UNMET",
+   "floor-conditional",
+   "master-route.md",
+   "never been green",
+   "only member measured",
+   "playbook.md",
+   "residuals.md",
+   "still owed"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 109,
+  "file": "109.md",
+  "spans": [
+   " — over all seven masters: **3 hits, all ",
+   "**: ",
+   ".andromeda/drift-base.md",
+   ".andromeda/playbook.md",
+   ".claude/docs/",
+   ".claude/rules/",
+   ".rs",
+   "FIRST|SECOND \\",
+   "USER:session-learnings",
+   "the one|only member…Rust"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 110,
+  "file": "110.md",
+  "spans": [
+   "boot",
+   "canary fingerprint computed",
+   "declares()",
+   "docs/commands.md",
+   "docs/conventions.md",
+   "drive_run"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 111,
+  "file": "111.md",
+  "spans": [
+   ".claude/docs",
+   ".claude/rules",
+   "CONDUCTOR_MSEDGEDRIVER",
+   "compaction/{established-decisions,occupied-resources}.md",
+   "scripts/arch-registry-check.py measure --file .andromeda/architecture.md",
+   "verification-harness.md"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 113,
+  "file": "113.md",
+  "spans": [
+   "architecture-amendments.md"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 114,
+  "file": "114.md",
+  "spans": [
+   "KNOWN_UNCLASSIFIED",
+   "[]"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 115,
+  "file": "115.md",
+  "spans": [
+   "[dependencies]",
+   "[dev-dependencies]",
+   "time",
+   "tokio::time::sleep"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 116,
+  "file": "116.md",
+  "spans": [
+   "2026-09-07-sr-findings-fixed",
+   "2026-09-11-hosted-runner-endpoint-cause-closed",
+   "BODY",
+   "CONDUCTOR_A11Y_STRICT",
+   "DevToolsActivePort first seen: never within 90s",
+   "EDGEWEBDRIVER",
+   "EdgeUpdate",
+   "FilterAdministratorToken",
+   "Get-AuthenticodeSignature",
+   "HasExited=False",
+   "Install WebView2 Evergreen runtime 152+ (gate)",
+   "IsElevatedAdmin",
+   "O=Microsoft Corporation",
+   "Pin msedgedriver to the image's WebView2 runtime (gate)",
+   "RunLevel Limited",
+   "S-1-16-12288",
+   "S-1-16-8192",
+   "SessionId 2",
+   "UserInteractive: True",
+   "Valid",
+   "WebView2 cause probes (diagnostic)",
+   "WebView2 session isolation (diagnostic)",
+   "cargo build",
+   "ci-probe/",
+   "continue-on-error",
+   "if:",
+   "journal_conformance",
+   "msedgewebview2",
+   "msedgewebview2 : 6 live process(es)",
+   "runas /trustlevel",
+   "runs/a11y",
+   "scripts/a11y-limited-token-launch.ps1",
+   "scripts/a11y-token-witness.ps1",
+   "scripts/agent-run.ps1 run --e2e",
+   "session not created: DevToolsActivePort file doesn't exist",
+   "tasklist",
+   "v3-02",
+   "windows-2025",
+   "≥ 152"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 118,
+  "file": "118.md",
+  "spans": [
+   "(kind, scope, scope_id)",
+   ".find(|inc| inc.kind == kind && inc.scope == scope && inc.scope_id == scope_id)",
+   ".selfobs.jsonl",
+   "2026-09-06-operator-gated-live-suite",
+   "2026-09-22-interpretation-proven-live",
+   "BOOTSTRAP_WINDOW_SECONDS = 3_600",
+   "CalibrationRegion",
+   "CountAtLeast",
+   "KnownResidual",
+   "ManualCheck",
+   "[[expected]]",
+   "blocked_precondition: null",
+   "canary fingerprint computed …",
+   "canary_round_trip: \"ok\"",
+   "conductor-run/src/execute.rs",
+   "conductor-run/tests/lifecycle_harvest.rs",
+   "contract.rs",
+   "crates/corpus/src/disposition.rs",
+   "crates/mcp-server",
+   "crates/triage/src/incident/persistence.rs::save_incident_event",
+   "created=false deduped=true",
+   "created=true",
+   "curious",
+   "degraded",
+   "degraded == false",
+   "degraded-mode-report",
+   "degraded_mode",
+   "det-*",
+   "det-fingerprint-…",
+   "det-span-…",
+   "det-template-0007",
+   "evidence_refs",
+   "findings-counter-refresh",
+   "fingerprint()",
+   "fingerprint_refs",
+   "fingerprints",
+   "grounded_fingerprint_hashes",
+   "idle_seconds_at_resolve = 0.0",
+   "incident_events",
+   "latency_ms 6045",
+   "manual_record",
+   "observation.degraded",
+   "pulse-app/src/inference_runtime.rs",
+   "pulse-legs/a11y-20260906-110201/logs/agent-latest.jsonl.2026-09-06",
+   "registry.list_active(&digest.workspace)",
+   "retrieve_telemetry_slice.fingerprint_refs",
+   "services_in_bootstrap: 2",
+   "silence_cues_emitted: 0",
+   "span_events.fingerprint",
+   "state_for"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 119,
+  "file": "119.md",
+  "spans": [
+   "\"## Previously Seen\""
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 121,
+  "file": "121.md",
+  "spans": [
+   "#[cfg(windows)]",
+   "CREATE_NO_WINDOW",
+   "ReadbackClient::connect_command",
+   "TokioChildProcess",
+   "conductor-verify/src/spawn.rs::build_command",
+   "spawn::console_suppressing_flags()",
+   "src/"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 122,
+  "file": "122.md",
+  "spans": [
+   "conductor-cli",
+   "conductor-tauri"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 123,
+  "file": "123.md",
+  "spans": [
+   "--e2e",
+   "CONDUCTOR_RUNS_DIR",
+   "conductor-tauri.jsonl",
+   "crates/conductor-tauri/ui/dist/"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 124,
+  "file": "124.md",
+  "spans": [
+   "--e2e",
+   "a11y:driven",
+   "crates/conductor-tauri/ui/logs/conductor-tauri.jsonl",
+   "cwd",
+   "runs/driven/logs/conductor-tauri.jsonl",
+   "runs/driven/runs",
+   "runs/e2e-fixture",
+   "runs/logs/conductor-tauri.jsonl",
+   "runs/sr-leg/logs/conductor-tauri.jsonl",
+   "runs/sr-leg/runs",
+   "runs_dir.parent()/logs",
+   "sr",
+   "sr-empty",
+   "sr-error"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 125,
+  "file": "125.md",
+  "spans": [
+   "2026-09-06-coverage-completeness-gate",
+   "Breathing",
+   "EmissionShape",
+   "EmissionSpec::occurrences",
+   "Error",
+   "Latency",
+   "LoadEnvelope::classify",
+   "Pii",
+   "Ramp",
+   "Topology",
+   "[ENVIRONMENT-SUSPECT]",
+   "[[exempt]]",
+   "check_load_envelope",
+   "conductor-core/src/load_envelope.rs",
+   "depth + 1",
+   "halo-breathing-encoding",
+   "max_sustained_rate_spans_per_s = 10000",
+   "occurrences × EmissionSpec::max_spans_per_dispatch() × 1000 > max_rate × gap_ms",
+   "occurrences × samples",
+   "phase_breach",
+   "phase_rate_exceeds",
+   "samples",
+   "sum(window_counts)",
+   "windows"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 126,
+  "file": "126.md",
+  "spans": [
+   "1",
+   "15",
+   "2026-08-15-canary-spans-pulse-fingerprints",
+   "2026-09-03-live-pulse-preconditions-probed",
+   "5 <= 6 < 10",
+   ">=",
+   "ANDROMEDA_PULSE_BASELINE_BOOTSTRAP_SECONDS",
+   "ANDROMEDA_PULSE_L4_DETERMINISTIC",
+   "BootstrapState::Ready",
+   "CANARY_STORM_COUNT",
+   "CANARY_STORM_COUNT = 6",
+   "DEFAULT_AUTONOMOUS_THRESHOLD = 10",
+   "PATH",
+   "PRIMARY KEY (trace_id, span_id)",
+   "[BLOCKED]",
+   "asserted",
+   "baseline_state",
+   "buffer.tick",
+   "check = \"asserted\"",
+   "check = \"shell-absence\"",
+   "check = \"shell-declaration\"",
+   "crates/triage/",
+   "duckdb.append",
+   "env = \"ANDROMEDA_PULSE_MCP_ENABLED\"",
+   "evaluate_service_went_silent",
+   "exception",
+   "fetch_add",
+   "fingerprints_computed: 0",
+   "inject_demo",
+   "l4-deterministic",
+   "l4-real-model",
+   "last_emitted",
+   "now − first_observed_unix_nanos ≥ BOOTSTRAP_WINDOW_SECONDS = 3_600",
+   "observer_invocations: 0",
+   "ok_span",
+   "posture = \"deterministic\"",
+   "posture = \"real-model\"",
+   "pulse-app",
+   "rows_ingested: 1",
+   "run_consumer",
+   "sidecar-built",
+   "span_count",
+   "span_events_seen: 0",
+   "span_id(seq)",
+   "spans",
+   "trace_id(seq)",
+   "tracked_fingerprints_count",
+   "vec![1; 16]",
+   "vec![1; 8]",
+   "warmup_ms",
+   "warmup_ms = 45000"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 127,
+  "file": "127.md",
+  "spans": [
+   "CARGO_MANIFEST_DIR",
+   "load()"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 128,
+  "file": "128.md",
+  "spans": [
+   "ANDROMEDA_PULSE_L4_DETERMINISTIC=true"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 129,
+  "file": "129.md",
+  "spans": [
+   "ReadyState",
+   "scripts/agent-run.ps1",
+   "scripts/agent-run.sh",
+   "skipped preflight"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 130,
+  "file": "130.md",
+  "spans": [
+   "--e2e",
+   "a11y:driven",
+   "crates/conductor-tauri/ui/wdio.conf.ts",
+   "sr*"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 131,
+  "file": "131.md",
+  "spans": [
+   "-m --no-sr-flag -c <leg config dir> -l 12 -f <leg speech log>",
+   "-q",
+   "CONDUCTOR_MSEDGEDRIVER",
+   "isFile"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 132,
+  "file": "132.md",
+  "spans": [
+   "CONDUCTOR_MSEDGEDRIVER",
+   "CONDUCTOR_NVDA",
+   "conductor-cli"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 133,
+  "file": "133.md",
+  "spans": [
+   "\"1\"",
+   "\"true\"",
+   "conductor_core::flag_declared",
+   "isFile",
+   "std::fs::canonicalize"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 134,
+  "file": "134.md",
+  "spans": [
+   "\"1\"",
+   "\"true\"",
+   "ANDROMEDA_PULSE_*",
+   "ANDROMEDA_PULSE_L4_DETERMINISTIC",
+   "ANDROMEDA_PULSE_MCP_ENABLED=false",
+   "conductor_core::flag_declared",
+   "conductor_core::handle_declared",
+   "preconditions-probe-reads-path-handles-by-presence"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 135,
+  "file": "135.md",
+  "spans": [
+   "$env:EDGEWEBDRIVER",
+   "${{ env.* }}",
+   "--native-driver",
+   "\\msedgedriver.exe",
+   "crates/conductor-tauri/ui/wdio.conf.ts",
+   "isFile"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 136,
+  "file": "136.md",
+  "spans": [
+   "ANDROMEDA_PULSE_*"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 137,
+  "file": "137.md",
+  "spans": [
+   "2026-09-08-hosted-runner-webview2-session",
+   "ANDROMEDA_PULSE_BASELINE_BOOTSTRAP_SECONDS",
+   "crates/conductor-tauri/ui/wdio.conf.ts"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 138,
+  "file": "138.md",
+  "spans": [
+   ".github/workflows/ci.yml",
+   "CONDUCTOR_*",
+   "GITHUB_ENV",
+   "Pin msedgedriver to the image's WebView2 runtime (gate)",
+   "WebView2 session isolation (diagnostic)",
+   "continue-on-error"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 139,
+  "file": "139.md",
+  "spans": [
+   "2026-09-11-hosted-runner-endpoint-cause-probed"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 140,
+  "file": "140.md",
+  "spans": [
+   "static gates? over committed data|static gates each asserting"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 141,
+  "file": "141.md",
+  "spans": [
+   "GITHUB_ENV context probe (assert)",
+   "holds only … workflow|context holds only|never a runner-process variable"
+  ]
+ },
+ {
+  "doc": "architecture",
+  "row": 142,
+  "file": "142.md",
+  "spans": [
+   "CONDUCTOR_*",
+   "EDGEWEBDRIVER",
+   "RunLevel Limited",
+   "runas /trustlevel"
+  ]
+ },
+ {
+  "doc": "security-plan",
+  "row": 2,
+  "file": "002.md",
+  "spans": [
+   "playbook.md"
+  ]
+ },
+ {
+  "doc": "security-plan",
+  "row": 3,
+  "file": "003.md",
+  "spans": [
+   "tracing",
+   "tracing-subscriber"
+  ]
+ },
+ {
+  "doc": "security-plan",
+  "row": 4,
+  "file": "004.md",
+  "spans": [
+   ".claude/docs/security-summary.md",
+   ".claude/rules/security.md"
+  ]
+ },
+ {
+  "doc": "security-plan",
+  "row": 5,
+  "file": "005.md",
+  "spans": [
+   "3.51.1 → 3.50.4",
+   "sqlite3.h",
+   "via libsqlite3-sys 0.36.0"
+  ]
+ },
+ {
+  "doc": "security-plan",
+  "row": 7,
+  "file": "007.md",
+  "spans": [
+   "Cargo.lock"
+  ]
+ },
+ {
+  "doc": "security-plan",
+  "row": 8,
+  "file": "008.md",
+  "spans": [
+   ".claude/docs/security-summary.md",
+   ".claude/rules/security.md",
+   ".github/workflows/ci.yml",
+   "@opentelemetry/core <2.8.0",
+   "serialize-javascript <=7.0.4"
+  ]
+ },
+ {
+  "doc": "security-plan",
+  "row": 9,
+  "file": "009.md",
+  "spans": [
+   ".claude/docs/security-summary.md",
+   ".claude/rules/security.md",
+   "cargo audit",
+   "cargo deny check"
+  ]
+ },
+ {
+  "doc": "security-plan",
+  "row": 10,
+  "file": "010.md",
+  "spans": [
+   ".claude/docs/security-summary.md",
+   ".claude/rules/security.md",
+   "sqlite3"
+  ]
+ },
+ {
+  "doc": "security-plan",
+  "row": 14,
+  "file": "014.md",
+  "spans": [
+   "architecture.md"
+  ]
+ },
+ {
+  "doc": "security-plan",
+  "row": 25,
+  "file": "025.md",
+  "spans": [
+   "crates/conductor-verify/src/spawn.rs"
+  ]
+ },
+ {
+  "doc": "security-plan",
+  "row": 38,
+  "file": "038.md",
+  "spans": [
+   "preconditions",
+   "presence-only",
+   "short-circuit"
+  ]
+ },
+ {
+  "doc": "security-plan",
+  "row": 39,
+  "file": "039.md",
+  "spans": [
+   "\"1\"",
+   "--json",
+   "WITHDRAWN",
+   "not shipped",
+   "permanently unmet",
+   "route-owned",
+   "true\""
+  ]
+ },
+ {
+  "doc": "security-plan",
+  "row": 40,
+  "file": "040.md",
+  "spans": [
+   "<host-path> terminal blank",
+   "CREATE_NO_WINDOW",
+   "Speaking [...]",
+   "crates/…",
+   "heard"
+  ]
+ },
+ {
+  "doc": "security-plan",
+  "row": 52,
+  "file": "052.md",
+  "spans": [
+   "DevToolsActivePort",
+   "failure"
+  ]
+ },
+ {
+  "doc": "security-plan",
+  "row": 53,
+  "file": "053.md",
+  "spans": [
+   "docs/session-learnings.md",
+   "drift-base.md",
+   "playbook.md"
+  ]
+ },
+ {
+  "doc": "security-plan",
+  "row": 54,
+  "file": "054.md",
+  "spans": [
+   "**SIX**",
+   "six governed forms"
+  ]
+ },
+ {
+  "doc": "security-plan",
+  "row": 55,
+  "file": "055.md",
+  "spans": [
+   "Dependencies",
+   "FLOORED AT 152",
+   "Harness / gate surface",
+   "Spec claims disproved by measurement",
+   "Symbols — Ports/egress",
+   "exit condition remains UNMET",
+   "limited-token",
+   "measured-unproven",
+   "runas",
+   "windows-2022",
+   "windows-2025"
+  ]
+ },
+ {
+  "doc": "security-plan",
+  "row": 56,
+  "file": "056.md",
+  "spans": [
+   ".claude/rules/security.md",
+   "docs/security-summary.md",
+   "runs.db"
+  ]
+ },
+ {
+  "doc": "security-plan",
+  "row": 57,
+  "file": "057.md",
+  "spans": [
+   " / canonicalize|hardening both joins|route-owned with the capture|path-bearing panic|DOES print the resolved path|without a guard of its own|joined under the workspace root with no|recorded residuals; their hardening",
+   ".claude/docs",
+   ".claude/rules",
+   "REPLACES the root|with no canonicalize|no \\",
+   "cargo test",
+   "crates/conductor-run/tests/capture_paths_guard.rs"
+  ]
+ },
+ {
+  "doc": "security-plan",
+  "row": 58,
+  "file": "058.md",
+  "spans": [
+   ".claude/rules/security.md",
+   "optional (defense-in-depth )?secret-scanning|No specific secret-scanning tool|tool selection is deferred|not a researched category"
+  ]
+ },
+ {
+  "doc": "security-plan",
+  "row": 59,
+  "file": "059.md",
+  "spans": [
+   ".claude/rules/security.md",
+   "SEVEN",
+   "seven governed forms"
+  ]
+ },
+ {
+  "doc": "design-system",
+  "row": 1,
+  "file": "001.md",
+  "spans": [
+   ".claude/rules/frontend.md",
+   "playbook.md",
+   "tokens.css"
+  ]
+ },
+ {
+  "doc": "design-system",
+  "row": 4,
+  "file": "004.md",
+  "spans": [
+   "--motion-heartbeat",
+   "--motion-micro: 150ms",
+   ":root",
+   "@theme",
+   "animation: … var(--motion-micro)"
+  ]
+ },
+ {
+  "doc": "design-system",
+  "row": 6,
+  "file": "006.md",
+  "spans": [
+   ".claude/docs/design-summary.md",
+   ".claude/rules/frontend.md"
+  ]
+ },
+ {
+  "doc": "design-system",
+  "row": 11,
+  "file": "011.md",
+  "spans": [
+   "App.tsx",
+   "OperatorPauseDialog.tsx"
+  ]
+ },
+ {
+  "doc": "design-system",
+  "row": 12,
+  "file": "012.md",
+  "spans": [
+   ":root {",
+   "crates/conductor-tauri/ui/src/styles/tokens.css"
+  ]
+ },
+ {
+  "doc": "design-system",
+  "row": 13,
+  "file": "013.md",
+  "spans": [
+   "crates/conductor-cli/src/"
+  ]
+ },
+ {
+  "doc": "design-system",
+  "row": 14,
+  "file": "014.md",
+  "spans": [
+   "FilterMiss",
+   "No run yet",
+   "placeholder"
+  ]
+ },
+ {
+  "doc": "layout-templates",
+  "row": 8,
+  "file": "008.md",
+  "spans": [
+   "Counts / qualifiers this chunk moved"
+  ]
+ },
+ {
+  "doc": "layout-templates",
+  "row": 10,
+  "file": "010.md",
+  "spans": [
+   "Counts / qualifiers moved",
+   "read from conductor_core::UNBACKED_AUTO"
+  ]
+ },
+ {
+  "doc": "layout-templates",
+  "row": 19,
+  "file": "019.md",
+  "spans": [
+   "scripts/agent-run.ps1"
+  ]
+ },
+ {
+  "doc": "layout-templates",
+  "row": 20,
+  "file": "020.md",
+  "spans": [
+   "Expected amendments"
+  ]
+ },
+ {
+  "doc": "layout-templates",
+  "row": 22,
+  "file": "022.md",
+  "spans": [
+   "App.tsx",
+   "OperatorPauseDialog.tsx",
+   "Titlebar.tsx",
+   "conductor-run/src/lib.rs"
+  ]
+ },
+ {
+  "doc": "layout-templates",
+  "row": 25,
+  "file": "025.md",
+  "spans": [
+   "No run yet"
+  ]
+ },
+ {
+  "doc": "layout-templates",
+  "row": 26,
+  "file": "026.md",
+  "spans": [
+   "[PRECONDITION] every live-Pulse precondition is satisfied",
+   "does not currently reach",
+   "intent, not a reachable state",
+   "not currently reachable",
+   "one line per unmet subject",
+   "permanently unmet",
+   "route-owned",
+   "skipped preflight"
+  ]
+ },
+ {
+  "doc": "layout-templates",
+  "row": 27,
+  "file": "027.md",
+  "spans": [
+   "5-command"
+  ]
+ },
+ {
+  "doc": "layout-templates",
+  "row": 32,
+  "file": "032.md",
+  "spans": [
+   "conductor preconditions --for",
+   "docs/commands.md"
+  ]
+ },
+ {
+  "doc": "test-plan",
+  "row": 3,
+  "file": "003.md",
+  "spans": [
+   ".claude/docs/{stack,tests-summary}.md"
+  ]
+ },
+ {
+  "doc": "test-plan",
+  "row": 6,
+  "file": "006.md",
+  "spans": [
+   "ObsSink::File"
+  ]
+ },
+ {
+  "doc": "test-plan",
+  "row": 41,
+  "file": "041.md",
+  "spans": [
+   "agent-latest.jsonl",
+   "preflight blocked: MCP read-back path unreachable"
+  ]
+ },
+ {
+  "doc": "test-plan",
+  "row": 42,
+  "file": "042.md",
+  "spans": [
+   "idle_seconds_at_resolve = 0.0"
+  ]
+ },
+ {
+  "doc": "test-plan",
+  "row": 50,
+  "file": "050.md",
+  "spans": [
+   "cross-surface-coordination",
+   "tauri::test"
+  ]
+ },
+ {
+  "doc": "test-plan",
+  "row": 51,
+  "file": "051.md",
+  "spans": [
+   ".../survivor-dispositions.md",
+   "mutants.out"
+  ]
+ },
+ {
+  "doc": "test-plan",
+  "row": 52,
+  "file": "052.md",
+  "spans": [
+   "## Session Additions",
+   "USER:session-learnings",
+   "conductor-tauri",
+   "docs/session-learnings.md",
+   "drift-base.md",
+   "playbook.md"
+  ]
+ },
+ {
+  "doc": "test-plan",
+  "row": 53,
+  "file": "053.md",
+  "spans": [
+   "temp.path()"
+  ]
+ },
+ {
+  "doc": "test-plan",
+  "row": 54,
+  "file": "054.md",
+  "spans": [
+   " ready'",
+   "precondition is satisfied",
+   "preconditions"
+  ]
+ },
+ {
+  "doc": "test-plan",
+  "row": 55,
+  "file": "055.md",
+  "spans": [
+   " / ",
+   " read for the claim however worded — ten sites across four sections; all ten amended, and a post-edit re-grep returns 0 for every retired phrase and every stale coordinate. §10's roster prose at ",
+   ", plus ",
+   "both shells exit 1",
+   "cannot currently be met",
+   "conductor-core/src/preconditions.rs",
+   "conductor-run",
+   "not currently reached",
+   "not through \\"
+  ]
+ },
+ {
+  "doc": "test-plan",
+  "row": 56,
+  "file": "056.md",
+  "spans": [
+   "14 rows not-run-here",
+   "15 findings",
+   "152.0.4191.53",
+   "3 members",
+   "34 announced",
+   "852",
+   "96",
+   "[2026-09-02 correction: rmcp was removed 2026-06-27 …]",
+   "ci.yml",
+   "not-run-here",
+   "tests unrunnable-here at unit tier … recorded as a test-plan §1 untestable zone",
+   "windows-latest"
+  ]
+ },
+ {
+  "doc": "test-plan",
+  "row": 57,
+  "file": "057.md",
+  "spans": [
+   " token. The sixth site was found by the test-plan detector's own sweep and is amended with the other five; a claim about a FLAG must be swept on the flag, not on the command name. §12's ",
+   ") and carries no ",
+   "cargo-audit 0.22.2 \\"
+  ]
+ },
+ {
+  "doc": "test-plan",
+  "row": 58,
+  "file": "058.md",
+  "spans": [
+   "workflow_dispatch"
+  ]
+ },
+ {
+  "doc": "test-plan",
+  "row": 60,
+  "file": "060.md",
+  "spans": [
+   "seed: 424242",
+   "slo_tier: \"<90s\""
+  ]
+ },
+ {
+  "doc": "test-plan",
+  "row": 61,
+  "file": "061.md",
+  "spans": [
+   "awk"
+  ]
+ },
+ {
+  "doc": "test-plan",
+  "row": 65,
+  "file": "065.md",
+  "spans": [
+   "Boundary widening"
+  ]
+ },
+ {
+  "doc": "test-plan",
+  "row": 66,
+  "file": "066.md",
+  "spans": [
+   "'10 spec\\|ten spec\\|12 spec'",
+   "check"
+  ]
+ },
+ {
+  "doc": "test-plan",
+  "row": 67,
+  "file": "067.md",
+  "spans": [
+   "151 msedgedriver",
+   "Counts / qualifiers moved",
+   "Spec claims disproved by measurement",
+   "browserVersion 152.0.4191.66",
+   "cross-major",
+   "msedgedriverVersion 152.0.4191.53",
+   "under a 151"
+  ]
+ },
+ {
+  "doc": "test-plan",
+  "row": 69,
+  "file": "069.md",
+  "spans": [
+   "Expected amendments (wrap)"
+  ]
+ },
+ {
+  "doc": "test-plan",
+  "row": 71,
+  "file": "071.md",
+  "spans": [
+   "0.645"
+  ]
+ },
+ {
+  "doc": "test-plan",
+  "row": 72,
+  "file": "072.md",
+  "spans": [
+   "GENERATED:setup:modules",
+   "conductor-core",
+   "drift-base.md",
+   "playbook.md"
+  ]
+ },
+ {
+  "doc": "test-plan",
+  "row": 73,
+  "file": "073.md",
+  "spans": [
+   "## Session Additions",
+   ".claude/docs/session-learnings.md",
+   ".claude/docs/tests-summary.md",
+   ".claude/rules/testing.md",
+   ".claude/rules/testing.md:72/78/79",
+   "CLAUDE.md",
+   "Expected amendments (wrap)",
+   "GENERATED:setup:warnings",
+   "USER:session-learnings",
+   "drift-base.md",
+   "member-N",
+   "playbook.md",
+   "rows for conductor-cli … and conductor-verify",
+   "two units that chunk"
+  ]
+ },
+ {
+  "doc": "test-plan",
+  "row": 74,
+  "file": "074.md",
+  "spans": [
+   "binary-edge load sites",
+   "docs/session-learnings.md",
+   "drift-base.md",
+   "playbook.md",
+   "scenario-audit-ledger"
+  ]
+ },
+ {
+  "doc": "test-plan",
+  "row": 75,
+  "file": "075.md",
+  "spans": [
+   " amended (the SET), and a §9 Matrix-builds mention NO-CHANGE (a dated citation of CI run ",
+   " occurrences are ",
+   ", amended. ",
+   ", true as history). ",
+   ": **1 hit**, ",
+   ": **2 hits** — ",
+   ": the two ",
+   "master-route.md",
+   "owned by the "
+  ]
+ },
+ {
+  "doc": "test-plan",
+  "row": 76,
+  "file": "076.md",
+  "spans": [
+   "residuals.md"
+  ]
+ },
+ {
+  "doc": "test-plan",
+  "row": 77,
+  "file": "077.md",
+  "spans": [
+   "Counts / qualifiers moved",
+   "Harness / gate surface",
+   "Spec claims disproved by measurement",
+   "drives no session",
+   "exit condition remains UNMET",
+   "measured-unproven",
+   "never been green"
+  ]
+ },
+ {
+  "doc": "test-plan",
+  "row": 78,
+  "file": "078.md",
+  "spans": [
+   " carries no test framework and §12's subject is a component/unit runner such as vitest. ",
+   " member reachable from NONE ",
+   " or ",
+   " — the INVARIANT this amendment must not disturb, re-read at each site and left standing, since ",
+   " → 0 hits (retired with it). ",
+   " → 0, ",
+   " → 0, so it names the arms and their subjects without making a proving-set claim. No hit in ",
+   " → 3 hits, ",
+   " → 8 hits in this master (",
+   "), every one naming the arm rather than restating the closed set — no change. ",
+   ", the file's longest line at 10 647 characters, was resolved BY OFFSET rather than from a grep view: ",
+   "×2, "
+  ]
+ },
+ {
+  "doc": "test-plan",
+  "row": 79,
+  "file": "079.md",
+  "spans": [
+   ".claude/rules/testing.md",
+   "commands.md",
+   "cross_surface_parity.rs",
+   "docs/tests-summary.md",
+   "status",
+   "testing.md",
+   "verification-harness.md"
+  ]
+ },
+ {
+  "doc": "test-plan",
+  "row": 80,
+  "file": "080.md",
+  "spans": [
+   ".claude/docs/tests-summary.md",
+   ".claude/rules/testing.md"
+  ]
+ },
+ {
+  "doc": "obs-plan",
+  "row": 1,
+  "file": "001.md",
+  "spans": [
+   ".claude/docs/obs-summary.md",
+   ".claude/rules/observability.md"
+  ]
+ },
+ {
+  "doc": "obs-plan",
+  "row": 2,
+  "file": "002.md",
+  "spans": [
+   ".claude/docs/obs-summary.md",
+   ".claude/rules/observability.md"
+  ]
+ },
+ {
+  "doc": "obs-plan",
+  "row": 3,
+  "file": "003.md",
+  "spans": [
+   ".claude/docs/obs-summary.md",
+   ".claude/rules/observability.md"
+  ]
+ },
+ {
+  "doc": "obs-plan",
+  "row": 4,
+  "file": "004.md",
+  "spans": [
+   ".claude/rules/observability.md"
+  ]
+ },
+ {
+  "doc": "obs-plan",
+  "row": 5,
+  "file": "005.md",
+  "spans": [
+   ".claude/rules/observability.md"
+  ]
+ },
+ {
+  "doc": "obs-plan",
+  "row": 6,
+  "file": "006.md",
+  "spans": [
+   ".claude/rules/observability.md",
+   "agent_file_sink_writes_redacted_json_to_the_file",
+   "logs/agent-latest.jsonl"
+  ]
+ },
+ {
+  "doc": "obs-plan",
+  "row": 7,
+  "file": "007.md",
+  "spans": [
+   ".claude/rules/observability.md"
+  ]
+ },
+ {
+  "doc": "obs-plan",
+  "row": 16,
+  "file": "016.md",
+  "spans": [
+   "query_incident_list returned keys [items, next_cursor, total]"
+  ]
+ },
+ {
+  "doc": "obs-plan",
+  "row": 18,
+  "file": "018.md",
+  "spans": [
+   "fingerprints: []",
+   "result_count: 0",
+   "retrieve_telemetry_slice"
+  ]
+ },
+ {
+  "doc": "obs-plan",
+  "row": 27,
+  "file": "027.md",
+  "spans": [
+   "latency_ms: 6139"
+  ]
+ },
+ {
+  "doc": "obs-plan",
+  "row": 30,
+  "file": "030.md",
+  "spans": [
+   "commands.rs",
+   "pause.rs"
+  ]
+ },
+ {
+  "doc": "obs-plan",
+  "row": 34,
+  "file": "034.md",
+  "spans": [
+   "<host-path> terminal blank",
+   "Speaking [...]",
+   "console pane",
+   "foreground",
+   "heard",
+   "not yet shipped",
+   "route-owned fix, not yet shipped"
+  ]
+ },
+ {
+  "doc": "obs-plan",
+  "row": 41,
+  "file": "041.md",
+  "spans": [
+   "Expected amendments"
+  ]
+ },
+ {
+  "doc": "obs-plan",
+  "row": 42,
+  "file": "042.md",
+  "spans": [
+   "Expected amendments (wrap)"
+  ]
+ },
+ {
+  "doc": "obs-plan",
+  "row": 43,
+  "file": "043.md",
+  "spans": [
+   "Spec claims disproved by measurement",
+   "round-trip|roundtrip"
+  ]
+ },
+ {
+  "doc": "obs-plan",
+  "row": 44,
+  "file": "044.md",
+  "spans": [
+   ".claude/docs/obs-summary.md",
+   ".claude/rules/observability.md",
+   "Expected amendments (wrap)",
+   "GENERATED:setup:warnings",
+   "P-025",
+   "Spec claims disproved by measurement",
+   "constellation",
+   "delegated",
+   "drift-base.md",
+   "halo",
+   "hue",
+   "hue_update",
+   "playbook.md",
+   "quantization",
+   "staleness",
+   "stamps .last_seen",
+   "unmeasurable",
+   "…/research.md"
+  ]
+ },
+ {
+  "doc": "obs-plan",
+  "row": 45,
+  "file": "045.md",
+  "spans": [
+   ".claude/docs/obs-summary.md",
+   ".claude/rules/observability.md",
+   "architecture-amendments.md",
+   "delegated-timing"
+  ]
+ },
+ {
+  "doc": "obs-plan",
+  "row": 46,
+  "file": "046.md",
+  "spans": [
+   "--live|live-suite|preconditions --|pickup|formation|real-model|posture",
+   ".claude/rules/observability.md",
+   "docs/obs-summary.md",
+   "grounded_fingerprint_hashes",
+   "payload-invariant|no read-back surface",
+   "pickup|formation"
+  ]
+ },
+ {
+  "doc": "obs-plan",
+  "row": 47,
+  "file": "047.md",
+  "spans": [
+   ".claude/docs/obs-summary.md"
+  ]
+ },
+ {
+  "doc": "a11y-plan",
+  "row": 1,
+  "file": "001.md",
+  "spans": [
+   "obs-plan-amendments.md"
+  ]
+ },
+ {
+  "doc": "a11y-plan",
+  "row": 2,
+  "file": "002.md",
+  "spans": [
+   "state==ManualCheck",
+   "verdict==CalibrationRegion"
+  ]
+ },
+ {
+  "doc": "a11y-plan",
+  "row": 9,
+  "file": "009.md",
+  "spans": [
+   "RunState",
+   "Titlebar.tsx"
+  ]
+ },
+ {
+  "doc": "a11y-plan",
+  "row": 12,
+  "file": "012.md",
+  "spans": [
+   "empty-state",
+   "real prose"
+  ]
+ },
+ {
+  "doc": "a11y-plan",
+  "row": 13,
+  "file": "013.md",
+  "spans": [
+   ".ps1",
+   "activate-window",
+   "fanout-results.md",
+   "foreground",
+   "powershell",
+   "re-?activat"
+  ]
+ },
+ {
+  "doc": "a11y-plan",
+  "row": 14,
+  "file": "014.md",
+  "spans": [
+   "ci.yml"
+  ]
+ },
+ {
+  "doc": "a11y-plan",
+  "row": 16,
+  "file": "016.md",
+  "spans": [
+   "tabsToStart"
+  ]
+ },
+ {
+  "doc": "a11y-plan",
+  "row": 17,
+  "file": "017.md",
+  "spans": [
+   "gh run view 34209940695 --json event,headBranch,conclusion"
+  ]
+ },
+ {
+  "doc": "a11y-plan",
+  "row": 19,
+  "file": "019.md",
+  "spans": [
+   "residuals.md"
+  ]
+ },
+ {
+  "doc": "a11y-plan",
+  "row": 20,
+  "file": "020.md",
+  "spans": [
+   "## Session Additions",
+   ".claude/docs/session-learnings.md",
+   ".claude/rules/testing.md",
+   "CI proof … still owed",
+   "Counts / qualifiers moved",
+   "Evergreen",
+   "Spec claims disproved by measurement",
+   "windows-2025-vs2026"
+  ]
+ },
+ {
+  "doc": "a11y-plan",
+  "row": 21,
+  "file": "021.md",
+  "spans": [
+   "(across|within across) Proceed/Abort",
+   "drift-base.md",
+   "playbook.md"
+  ]
+ }
+]
