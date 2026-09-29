@@ -1,0 +1,641 @@
+[
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-29T20:37:40Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"conductor-0.3.0/chunks/2026-09-29-hue-shift-budget-graded-hard/research.md",
+"--run-dir",
+".andromeda/runs/2026-09-29T20-11-37-phase",
+"--marker",
+"2026-09-29-hue-shift-budget-graded-hard"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 6 items (new 1 · modify 5 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 6,
+"unparsed": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-29T20:47:41Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-29-hue-shift-budget-graded-hard/plan.md",
+"--only",
+"1,2,7,8,9,10,11,12,13,19",
+"--run-dir",
+".andromeda/runs/2026-09-29T20-11-37-phase",
+"--marker",
+"2026-09-29-hue-shift-budget-graded-hard"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-29-hue-shift-budget-graded-hard · entries 28",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-hue-shift-budget-graded-hard\\phase-2026-09-29T20-11-37 · bound: GNU timeout",
+"delta docs 36",
+"prose L229-252: Every entry runs from the project root. What is and is not listed: - **The live block is t… (1984 chars)",
+"  1 unit        green · exit 0 · 49.6s · 3166 B → 1.log · cargo nextest run -p conductor-run --profile ci --test del… (79 chars)",
+"  2 unit        green · exit 0 · 0.58s · 1493 B → 2.log · cargo test -p conductor-run --test delegated_timing_harves… (59 chars)",
+"  3 unit        not run — excluded · cargo nextest run --workspace --profile ci",
+"  4 unit        not run — excluded · cargo test --workspace --doc",
+"  5 lint        not run — excluded · cargo clippy --workspace --all-targets -- -D warnings",
+"  6 lint        not run — excluded · cargo fmt --all --check",
+"  7 probe       green · exit 0 · 0.07s · 0 B → 7.log · git diff --numstat cdb7082 -- Cargo.toml Cargo.lock crates… (119 chars)",
+"  8 probe       green · exit 1 · 0.08s · 2 B → 8.log · git diff -U0 cdb7082 -- scenarios/halo-hue-encoding.toml |… (82 chars)",
+"  9 probe       green · exit 1 · 0.06s · 2 B → 9.log · grep -c '^\\[\\[expected\\]\\]' scenarios/halo-hue-encoding.to… (60 chars)",
+" 10 probe       red · exit 1 ✗ (exit 0) · exit 0 · 0.08s · 2 B → 10.log · test -f scenarios/halo-hue-encoding.toml && test -f script… (231 chars)",
+" 11 probe       red · exit 0 ✗ (exit 1) · exit 1 · 0.06s · 2 B → 11.log · grep -cE '^ *pinned_at *= *\"Pulse HEAD 226554a' contracts/… (92 chars)",
+" 12 probe       red · exit 0 ✗ (exit 1) · exit 1 · 0.06s · 2 B → 12.log · grep -c 'tier_effective_at_unix_nano' contracts/pulse-p025… (82 chars)",
+" 13 probe       red · exit 0 ✗ (exit 1) · exit 1 · 0.06s · 2 B → 13.log · grep -c 'The grading rule' contracts/pulse-p025-measuremen… (71 chars)",
+" 14 probe       not run — excluded · cargo deny check advisories bans licenses sources",
+" 15 probe       not run — excluded · git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+" 16 probe       not run — excluded · cargo audit",
+" 17 probe       not run — excluded · grep -ac tier_effective_at_unix_nano /d/dev/projects/andro… (97 chars)",
+" 18 probe       not run — excluded · git -C /d/dev/projects/andromeda-pulse merge-base --is-anc… (76 chars)",
+" 19 probe       recorded · exit 1 · 0.45s · 0 B → 19.log · tasklist //FO CSV //NH | grep -aiE '^\"(conductor|andromeda… (87 chars)",
+" 20 probe       not run — excluded · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (120 chars)",
+" 21 probe       not run — excluded · wc -l < \"$(ls -t \"$(cygpath -u \"$ANDROMEDA_PULSE_DATA_DIR\"… (100 chars)",
+" 22 e2e         not run — excluded · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (153 chars)",
+" 23 probe       not run — excluded · cp logs/agent-latest.jsonl conductor-0.3.0/chunks/2026-09-… (228 chars)",
+" 24 smoke       not run — excluded · bash scripts/agent-run.sh status <id>",
+" 25 probe       not run — excluded · tasklist //FO CSV //NH | grep -aiE '^\"(conductor|andromeda… (87 chars)",
+" 26 probe       not run — excluded · python -X utf8 C:/Users/turbo/.claude/skills/andromeda-too… (84 chars)",
+" 27 probe       not run — excluded · git diff --quiet && git diff --cached --quiet && git push … (112 chars)",
+" 28 probe       not run — excluded · python -X utf8 C:/Users/turbo/.claude/skills/andromeda-too… (108 chars)",
+"entries 28 · green 5 · red 4 (10,11,12,13) · recorded 1 · timeout 0 · not-run 18"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-29-hue-shift-budget-graded-hard",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-29-hue-shift-budget-graded-hard\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-hue-shift-budget-graded-hard\\phase-2026-09-29T20-11-37",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-09-29T19-16-23-wrap/evolve-2026-09-29-dual-license-mit-or-apache-2-0.json",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+".andromeda/runs/2026-09-29T20-11-37-phase/.reg-a11y.log",
+".andromeda/runs/2026-09-29T20-11-37-phase/.reg-arch.log",
+".andromeda/runs/2026-09-29T20-11-37-phase/.reg-obs.log",
+".andromeda/runs/2026-09-29T20-11-37-phase/.reg-tests.log",
+".andromeda/runs/2026-09-29T20-11-37-phase/a11y-history.md",
+".andromeda/runs/2026-09-29T20-11-37-phase/a11y.md",
+".andromeda/runs/2026-09-29T20-11-37-phase/arch-history-index.md",
+".andromeda/runs/2026-09-29T20-11-37-phase/arch-history.md",
+".andromeda/runs/2026-09-29T20-11-37-phase/arch.md",
+".andromeda/runs/2026-09-29T20-11-37-phase/ci-no-marker.json",
+".andromeda/runs/2026-09-29T20-11-37-phase/design.md",
+".andromeda/runs/2026-09-29T20-11-37-phase/evolve-2026-09-29-hue-shift-budget-graded-hard.json",
+".andromeda/runs/2026-09-29T20-11-37-phase/gate-2026-09-29-hue-shift-budget-graded-hard.json",
+".andromeda/runs/2026-09-29T20-11-37-phase/layouts-history.md",
+".andromeda/runs/2026-09-29T20-11-37-phase/layouts.md",
+".andromeda/runs/2026-09-29T20-11-37-phase/master-record.txt",
+".andromeda/runs/2026-09-29T20-11-37-phase/obs-history.md",
+".andromeda/runs/2026-09-29T20-11-37-phase/obs.md",
+".andromeda/runs/2026-09-29T20-11-37-phase/planlint-2026-09-29-hue-shift-budget-graded-hard.json",
+".andromeda/runs/2026-09-29T20-11-37-phase/registry-2026-09-29-hue-shift-budget-graded-hard.json",
+".andromeda/runs/2026-09-29T20-11-37-phase/route-2026-09-29-hue-shift-budget-graded-hard.json",
+".andromeda/runs/2026-09-29T20-11-37-phase/route-no-marker.json",
+".andromeda/runs/2026-09-29T20-11-37-phase/security-history.md",
+".andromeda/runs/2026-09-29T20-11-37-phase/security.md",
+".andromeda/runs/2026-09-29T20-11-37-phase/sidecar-2026-09-29-hue-shift-budget-graded-hard.json",
+".andromeda/runs/2026-09-29T20-11-37-phase/tests-history.md",
+".andromeda/runs/2026-09-29T20-11-37-phase/tests.md",
+".andromeda/runs/2026-09-29T20-11-37-phase/tree-query-2026-09-29-hue-shift-budget-graded-hard.json",
+"conductor-0.3.0/chunks/2026-09-29-hue-shift-budget-graded-hard/plan.md",
+"conductor-0.3.0/chunks/2026-09-29-hue-shift-budget-graded-hard/research.md",
+"conductor-0.3.0/chunks/2026-09-29-hue-shift-budget-graded-hard/scope.md"
+]
+},
+"unmapped": [],
+"prose": [
+{
+"from": 229,
+"to": 252,
+"text": "Every entry runs from the project root. What is and is not listed: - **The live block is the operator's slot.**   - The leg (`leg = 'live'`) is driven by the agent at step 6 only after the operator grants the slot, and is never     fired by the gate tool.   - It is preceded by its NON-PRIMING probe (`conductor preconditions`: `:4317` reachability, the sidecar on `PATH`     by a directory walk, and the handles read; it fires no canary) and bracketed by a census.   - The provenance, pre-leg count and freeze entries are `operator` entries. Each is a point-in-time reading of THIS     drive, whose result is recorded in `evidence/`, and the wrap never re-runs them: Pulse's binary may be rebuilt by     another session afterwards. - **Smoke:** `status <id>` reads the run id the freeze entry prints (mint-then-read), so it is an `operator` entry   too. - **Evidence producers.**   - `evidence/h.jsonl` is produced by the freeze entry (its `artifact`).   - `evidence/pulse-hue-lines.jsonl` and `evidence/hue-verdict.md` are hand-authored records written at steps 6-7     from the leg's outputs: the operator entries' printed readings, the sliced Pulse log and the contract's pre-leg     sha256. No listed command produces them, by construction: their content IS the recorded result of `operator` and     `live` entries the wrap never re-runs.   - What re-runs is the harvest target, which grades the lines pinned from them.   - The evidence tree is committed on purpose, by the precedent of the prior hue leg's `h.jsonl`. Nothing in it is a     raw tally, and `gate.py hygiene` reads it before the commit. - **Self-verify:** none. This is not a UI/visual chunk: no Conductor surface or `ui/dist` input changes. - **No `boot` entry anywhere.** Its canary would prime the incident the leg's own preflight then dedupes against. - **CI:** read by the operator pass after the push. The prior wrap's run took 581 s wall (CI#36621215714, Setup 5a),   so `--wait 1200` covers it with margin."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "unit",
+"run": "cargo nextest run -p conductor-run --profile ci --test delegated_timing_harvest",
+"run_sha8": "c68780d9",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-hue-shift-budget-graded-hard\\phase-2026-09-29T20-11-37\\1.log",
+"bytes": 3166,
+"log_sha8": "f65be420",
+"exit": 0,
+"seconds": 49.6,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "unit",
+"run": "cargo test -p conductor-run --test delegated_timing_harvest",
+"run_sha8": "e052dba1",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-hue-shift-budget-graded-hard\\phase-2026-09-29T20-11-37\\2.log",
+"bytes": 1493,
+"log_sha8": "c2a6fc52",
+"exit": 0,
+"seconds": 0.58,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "cargo test --workspace --doc",
+"run_sha8": "5d8797c2",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "git diff --numstat cdb7082 -- Cargo.toml Cargo.lock crates/ ':!crates/conductor-run/tests/delegated_timing_harvest.rs' ",
+"run_sha8": "379da880",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-hue-shift-budget-graded-hard\\phase-2026-09-29T20-11-37\\7.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.07,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "git diff -U0 cdb7082 -- scenarios/halo-hue-encoding.toml | grep -cE '^[-+][^-+#]' ",
+"run_sha8": "bee8e044",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-hue-shift-budget-graded-hard\\phase-2026-09-29T20-11-37\\8.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.08,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "grep -c '^\\[\\[expected\\]\\]' scenarios/halo-hue-encoding.toml",
+"run_sha8": "a6176dd2",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-hue-shift-budget-graded-hard\\phase-2026-09-29T20-11-37\\9.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.06,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "test -f scenarios/halo-hue-encoding.toml && test -f scripts/agent-run.sh && test -f scripts/agent-run.ps1 && cat scenarios/halo-hue-encoding.toml scripts/agent-run.sh scripts/agent-run.ps1 | grep -ciE 'unmeasurable|tick-refreshed' ",
+"run_sha8": "bf101a07",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-hue-shift-budget-graded-hard\\phase-2026-09-29T20-11-37\\10.log",
+"bytes": 2,
+"log_sha8": "f0b5c2c2",
+"exit": 0,
+"seconds": 0.08,
+"readings": [
+"exit 1 ✗ (exit 0)",
+"last line '0' ✗ (last: '5')"
+],
+"survivors": [],
+"outcome": "red · exit 1 ✗ (exit 0)"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "grep -cE '^ *pinned_at *= *\"Pulse HEAD 226554a' contracts/pulse-p025-measurement-contract.md",
+"run_sha8": "f85ba79c",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-hue-shift-budget-graded-hard\\phase-2026-09-29T20-11-37\\11.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.06,
+"readings": [
+"exit 0 ✗ (exit 1)",
+"last line '1' ✗ (last: '0')"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 1)"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "grep -c 'tier_effective_at_unix_nano' contracts/pulse-p025-measurement-contract.md",
+"run_sha8": "ec92f274",
+"expect": [
+"exit 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-hue-shift-budget-graded-hard\\phase-2026-09-29T20-11-37\\12.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.06,
+"readings": [
+"exit 0 ✗ (exit 1)"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 1)"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "grep -c 'The grading rule' contracts/pulse-p025-measurement-contract.md",
+"run_sha8": "88ee1c5a",
+"expect": [
+"exit 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-hue-shift-budget-graded-hard\\phase-2026-09-29T20-11-37\\13.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.06,
+"readings": [
+"exit 0 ✗ (exit 1)"
+],
+"survivors": [],
+"outcome": "red · exit 0 ✗ (exit 1)"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+"run_sha8": "85122344",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "grep -ac tier_effective_at_unix_nano /d/dev/projects/andromeda-pulse/target/release/pulse-app.exe",
+"run_sha8": "7e699b8c",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "git -C /d/dev/projects/andromeda-pulse merge-base --is-ancestor e98d838 HEAD",
+"run_sha8": "235a0ecf",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "tasklist //FO CSV //NH | grep -aiE '^\"(conductor|andromeda-pulse-mcp|pulse-app)\\.exe\"' ",
+"run_sha8": "8e8cdf79",
+"expect": [],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-29-hue-shift-budget-graded-hard\\phase-2026-09-29T20-11-37\\19.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.45,
+"readings": [
+"report-only (expect = [])"
+],
+"survivors": [],
+"outcome": "recorded"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH cargo run -q -p conductor-cli --bin conductor -- preconditions",
+"run_sha8": "1b23edb7",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "wc -l < \"$(ls -t \"$(cygpath -u \"$ANDROMEDA_PULSE_DATA_DIR\")\"/logs/agent-latest.jsonl.* | head -n 1)\"",
+"run_sha8": "639ebdcc",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 22,
+"role": "e2e",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH timeout 600 cargo run -q -p conductor-cli --bin conductor -- run halo-hue-encoding --agent-mode",
+"run_sha8": "68363c61",
+"expect": [
+"exit 0",
+"lacks [BLOCKED]",
+"contains halo-hue-encoding"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "cp logs/agent-latest.jsonl conductor-0.3.0/chunks/2026-09-29-hue-shift-budget-graded-hard/evidence/h.jsonl && grep -o '\"run_id\":\"[^\"]*\"' conductor-0.3.0/chunks/2026-09-29-hue-shift-budget-graded-hard/evidence/h.jsonl | head -n 1",
+"run_sha8": "10adb465",
+"expect": [
+"exit 0",
+"contains \"run_id\":\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 24,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status <id>",
+"run_sha8": "4849b302",
+"expect": [
+"exit 0",
+"contains \"scenario\": \"halo-hue-encoding\"",
+"lacks \"Blocked\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 25,
+"role": "probe",
+"run": "tasklist //FO CSV //NH | grep -aiE '^\"(conductor|andromeda-pulse-mcp|pulse-app)\\.exe\"' ",
+"run_sha8": "8e8cdf79",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 26,
+"role": "probe",
+"run": "python -X utf8 C:/Users/turbo/.claude/skills/andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "f0648308",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 27,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD && echo \"PUSHED_SHA=$(git rev-parse HEAD)\"",
+"run_sha8": "6bf569fe",
+"expect": [
+"exit 0",
+"contains PUSHED_SHA="
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 28,
+"role": "probe",
+"run": "python -X utf8 C:/Users/turbo/.claude/skills/andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1200",
+"run_sha8": "0d290d69",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+}
+]

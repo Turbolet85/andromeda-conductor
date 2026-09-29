@@ -107,8 +107,8 @@ live_suite() {
 
   # live_leg_order — H runs FIRST; B1 and B2 are the SAME short scenario fired twice on purpose.
   #   H   halo-hue-encoding drives a sustained 2/s identical-fingerprint stream for 150s, so its own
-  #       dot is still live when Pulse flips its severity tier and the hue observable fires against a
-  #       tick-refreshed last_seen. It runs FIRST because its stream must not sit inside leg A's
+  #       dot is still live when Pulse flips its severity tier and the canvas witnesses that tier
+  #       change, emitting its hue sample. It runs FIRST because its stream must not sit inside leg A's
   #       silence window; its own incident then idles from phase-2 end and auto-resolves well before
   #       A reads back. NOTE the hue leaf fires from the COMPACT-WIDGET window (ConstellationCanvas
   #       is mounted only there) — a dashboard-only session records no sample.

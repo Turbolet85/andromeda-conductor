@@ -1,0 +1,30 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'hue_samples_in_window' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 4,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 tests/the_window_selects_the_scenarios_own_samples_and_excludes_the_canarys().",
+"file": "crates/conductor-run/tests/delegated_timing_harvest.rs",
+"line": 573
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 tests/a_hue_sample_reports_its_offset_to_the_preceding_lifecycle_tick().",
+"file": "crates/conductor-run/tests/delegated_timing_harvest.rs",
+"line": 599
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 tests/an_empty_window_yields_no_samples_rather_than_a_satisfied_budget().",
+"file": "crates/conductor-run/tests/delegated_timing_harvest.rs",
+"line": 622
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 tests/p025_the_re_driven_leg_measures_tick_quantization_not_update_latency().",
+"file": "crates/conductor-run/tests/delegated_timing_harvest.rs",
+"line": 670
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

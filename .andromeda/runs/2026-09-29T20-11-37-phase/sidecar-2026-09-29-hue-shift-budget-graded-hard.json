@@ -1,0 +1,240 @@
+[
+{
+"tool": "sidecar",
+"v": "1.2",
+"sha8": "1872a4a3",
+"ts": "2026-09-29T20:18:35Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/architecture-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-09-29T20-11-37-phase",
+"--marker",
+"2026-09-29-hue-shift-budget-graded-hard"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"bytes 176559 · whole-read bound 120000 · OVER",
+"entries 143 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 1 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 176559,
+"entries": 143,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.2",
+"sha8": "1872a4a3",
+"ts": "2026-09-29T20:18:35Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-09-29T20-11-37-phase",
+"--marker",
+"2026-09-29-hue-shift-budget-graded-hard"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"bytes 83247 · whole-read bound 120000 · within",
+"entries 61 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 83247,
+"entries": 61,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.2",
+"sha8": "1872a4a3",
+"ts": "2026-09-29T20:18:36Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/layout-templates-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-09-29T20-11-37-phase",
+"--marker",
+"2026-09-29-hue-shift-budget-graded-hard"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"bytes 37768 · whole-read bound 120000 · within",
+"entries 32 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 37768,
+"entries": 32,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.2",
+"sha8": "1872a4a3",
+"ts": "2026-09-29T20:18:36Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-09-29T20-11-37-phase",
+"--marker",
+"2026-09-29-hue-shift-budget-graded-hard"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"bytes 114437 · whole-read bound 120000 · within",
+"entries 82 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 114437,
+"entries": 82,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.2",
+"sha8": "1872a4a3",
+"ts": "2026-09-29T20:18:36Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-09-29T20-11-37-phase",
+"--marker",
+"2026-09-29-hue-shift-budget-graded-hard"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"bytes 59059 · whole-read bound 120000 · within",
+"entries 47 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 1 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 59059,
+"entries": 47,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.2",
+"sha8": "1872a4a3",
+"ts": "2026-09-29T20:18:36Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/a11y-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-09-29T20-11-37-phase",
+"--marker",
+"2026-09-29-hue-shift-budget-graded-hard"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"bytes 29682 · whole-read bound 120000 · within",
+"entries 21 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 29682,
+"entries": 21,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.2",
+"sha8": "1872a4a3",
+"ts": "2026-09-29T20:18:44Z",
+"argv": [
+"index",
+"--file",
+".andromeda/architecture-amendments.md",
+"--out",
+".andromeda/runs/2026-09-29T20-11-37-phase/arch-history-index.md",
+"--run-dir",
+".andromeda/runs/2026-09-29T20-11-37-phase",
+"--marker",
+"2026-09-29-hue-shift-budget-graded-hard"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"wrote .andromeda/runs/2026-09-29T20-11-37-phase/arch-history-index.md · 143 entries · 0 unparsed · 33647 B (the sidecar is 176559 B)"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-09-29T20-11-37-phase/arch-history-index.md"
+],
+"before": null,
+"after": null
+}
+]

@@ -21,24 +21,28 @@
 //! ABSENCE IS NEVER A PASS: a bound with no observation grades `Err`, never a satisfied budget —
 //! the degrade direction the read-back freshness work settled.
 //!
+//! ALL FOUR bounds grade HARD here, each by the same worst-observation `grade()`. Three were
 //! MEASURED 2026-08-21 over four live legs (fresh data dir + `pulse-app` restart per leg, window
-//! open) against Pulse HEAD `f0c38f5`. THREE budgets are met and asserted below; the fourth is
-//! disproved and recorded:
+//! open) against Pulse HEAD `f0c38f5`, and are met:
 //!
 //!   * P-027 constellation discovery — 702.4ms against 5000ms, at `discovered_count: 3` (the
 //!     scenario's own three-service topology, which is what attributes it away from the canary).
 //!   * P-037 report render — 0-1ms against 2000ms across four samples, every one `degraded_mode`.
 //!   * P-045 counter refresh — 269 samples in leg D's window alone (median 1.9ms, max 7.0ms), zero
 //!     over the 1000ms budget; ~1000 more across the other three legs, likewise none over.
-//!   * P-025 hue update — 35581ms and 36705ms against 2000ms, on two independent legs. NOT a slow
-//!     run: the cause is TICK QUANTIZATION — `last_seen_unix_nano` has no ingest-path writer, so the
-//!     observable reports `t_sample - t_last_refreshing_tick`, distributed U(0, 15s) and independent
-//!     of the dispatch rate (corrected from "staleness" on 2026-09-06 by the re-driven leg; obs-plan
-//!     §4). Pinned as a disproof by `p025_hue_update_is_recorded_over_budget_never_asserted_as_a_pass`
-//!     and as a mechanism by `p025_the_re_driven_leg_measures_tick_quantization_not_update_latency`,
-//!     never as a pass. The `f0c38f5` pin above dates the BUDGET TABLE; this mechanism is measured at
-//!     Pulse HEAD `83d4060`, and what Pulse would need to emit for the bound to become measurable is
-//!     stated in `contracts/pulse-p025-measurement-contract.md`.
+//!
+//! P-025 hue update grades at Pulse HEAD `226554a` (which carries the P-025 fix `e98d838`) under the
+//! NEW observable: `duration_ms` is now the paint instant minus the service's tier-effective instant,
+//! one sample per changed service, witnessed only. It is graded over the leg window by
+//! `grade_in_window` under the rule `contracts/pulse-p025-measurement-contract.md` §The grading rule
+//! states, with each rise sample anchored to its incident's creation line.
+//!
+//! The file also keeps the RETIRED instrument's record. At Pulse HEAD `83d4060` the same leaf
+//! reported `t_sample - t_last_refreshing_tick` (TICK QUANTIZATION, U(0, 15s), independent of the
+//! dispatch rate), and the 2026-08-21 and 2026-09-07 legs read 35581ms, 36705ms and 14525.9ms. Those
+//! readings are true measurements of what that leaf emitted then; the contract and obs-plan §4 cite
+//! them, so `p025_hue_update_is_recorded_over_budget_never_asserted_as_a_pass` and
+//! `p025_the_re_driven_leg_measures_tick_quantization_not_update_latency` still pin them.
 //!
 //! TEST-ONLY affordance (the storm-harvest precedent): nothing here is wired into the run path and
 //! nothing harvested reaches a Conductor artifact.
@@ -138,15 +142,26 @@ fn grade(lines: &[String], bound: &DelegatedBound) -> Result<f64, String> {
 }
 
 /// Pulse's per-service lifecycle heartbeat target — the ONLY steady-state writer of
-/// `ServiceRegistryEntry.last_seen_unix_nano`, which is what makes it P-025's mechanism witness.
+/// `ServiceRegistryEntry.last_seen_unix_nano`, which made it the RETIRED P-025 instrument's mechanism
+/// witness at Pulse HEAD `83d4060`. It is off the hue path at `226554a`.
 const LIFECYCLE_TICK_TARGET: &str = "triage.lifecycle.tick";
 
-/// How far a hue sample's reported duration may sit from its offset to the preceding tick.
+/// How far a RETIRED-instrument hue sample's reported duration may sit from its offset to the
+/// preceding tick (Pulse HEAD `83d4060`).
 ///
 /// The UI polls `services.list_with_states` every 1000ms (`use-service-constellation.ts:22`) and the
 /// sample is recorded over TauRPC after that poll observes the refreshed value, so the reported age
 /// trails the tick by up to one poll plus IPC.
 const TICK_OFFSET_TOLERANCE_MS: f64 = 1_100.0;
+
+/// Pulse's backend witness of an incident opening. `created=true` is a fresh incident, whose
+/// `opened_at` is the instant a service's tier RISES; `created=false` is a dedupe and opens nothing.
+const INCIDENT_CREATED_TARGET: &str = "interpretation.incident.created";
+
+/// How far a rise sample's start instant (`timestamp − duration_ms`) may sit from its incident's
+/// creation line — the tolerance Pulse's own leg used (`xtask/src/hue_shift.rs:41`,
+/// `ANCHOR_TOLERANCE_MS`, Pulse HEAD `226554a`).
+const P025_ANCHOR_TOLERANCE_MS: f64 = 1_000.0;
 
 /// Milliseconds since the Unix epoch for a capture line's `timestamp` field, or `None` when the line
 /// carries no parseable stamp — a harvest reads another process's output, so a malformed line is
@@ -222,7 +237,56 @@ fn hue_samples_in_window(
         .collect()
 }
 
-/// Every lifecycle-tick instant in the capture, ascending.
+/// Grade one bound over only the capture lines stamped inside `[start_ms, end_ms]` — the same
+/// selection `hue_samples_in_window` makes, graded by the same worst-observation, inclusive,
+/// absence-is-UNGRADED `grade()` the other three bounds use. The reason names the window, so an
+/// UNGRADED leg says which window held nothing.
+fn grade_in_window(
+    lines: &[String],
+    bound: &DelegatedBound,
+    window: (i64, i64),
+) -> Result<f64, String> {
+    let in_window: Vec<String> = lines
+        .iter()
+        .filter(|line| timestamp_ms(line).is_some_and(|t| t >= window.0 && t <= window.1))
+        .cloned()
+        .collect();
+    grade(&in_window, bound)
+        .map_err(|reason| format!("{reason} (leg window {}..={})", window.0, window.1))
+}
+
+/// The in-window hue samples whose NEW tier is not `none` — the rises, which an incident opening
+/// anchors. A fall to no incident carries `severity_tier: "none"` and anchors to a resolution.
+fn tiered_hue_samples_in_window(
+    lines: &[String],
+    bound: &DelegatedBound,
+    window: (i64, i64),
+) -> Vec<HueSample> {
+    let tiered: Vec<String> = lines
+        .iter()
+        .filter(|line| !line.contains("\"severity_tier\":\"none\""))
+        .cloned()
+        .collect();
+    hue_samples_in_window(&tiered, bound, window)
+}
+
+/// `|(at_ms − duration_ms) − t|` for a hue sample, where `t` is the nearest `created=true`
+/// incident-creation line at or before the sample. The sample's start instant is the tier-effective
+/// instant Pulse subtracted, so for a rise it should land on the raising incident's opening. A
+/// `created=false` dedupe is skipped; `None` when no creation precedes the sample.
+fn incident_anchor_error_ms(sample: &HueSample, lines: &[String]) -> Option<f64> {
+    lines
+        .iter()
+        .filter(|line| is_target(line, INCIDENT_CREATED_TARGET))
+        .filter(|line| line.contains("\"created\":true"))
+        .filter_map(|line| timestamp_ms(line))
+        .filter(|t| *t <= sample.at_ms)
+        .max()
+        .map(|t| ((sample.at_ms as f64 - sample.duration_ms) - t as f64).abs())
+}
+
+/// Every lifecycle-tick instant in the capture, ascending — the RETIRED instrument's mechanism
+/// witness (Pulse HEAD `83d4060`).
 fn tick_times_ms(lines: &[String]) -> Vec<i64> {
     let mut ticks: Vec<i64> = lines
         .iter()
@@ -233,8 +297,9 @@ fn tick_times_ms(lines: &[String]) -> Vec<i64> {
     ticks
 }
 
-/// How far a sample sits from the most recent tick at or before it — the quantity the reported
-/// duration should equal, because the tick is what stamped `last_seen`.
+/// How far a sample sits from the most recent tick at or before it — the quantity the RETIRED
+/// instrument's reported duration equalled at Pulse HEAD `83d4060`, because the tick is what stamped
+/// the `last_seen` it read.
 fn tick_offset_ms(sample: &HueSample, ticks: &[i64]) -> Option<f64> {
     ticks
         .iter()
@@ -467,9 +532,9 @@ mod tests {
     }
 
     /// VERBATIM hue samples from legs A and B (runs `2026-08-21T18-38-48-967` and
-    /// `2026-08-21T18-42-31-734`). P-025 is RECORDED here, not asserted green — the measurement
-    /// disproved the premise its budget rested on, and the test pins the disproof so it cannot
-    /// silently drift back to an assumed pass.
+    /// `2026-08-21T18-42-31-734`), emitted by the RETIRED instrument. They are RECORDED here, not
+    /// asserted green: they are true readings of what the leaf emitted before Pulse's P-025 change,
+    /// and the contract cites the raw `36704.983642578125` from this fixture.
     fn hue_lines() -> Vec<String> {
         [
             r#"{"fields":{"deployment.environment":"production","duration_ms":35581.440673828125,"service.name":"com.andromeda.pulse","service.version":"0.1.0","severity_tier":"autonomous"},"level":"INFO","message":"constellation hue update latency recorded","target":"metric.constellation.hue_update_ms","timestamp":"2026-08-21T18:39:35.309Z"}"#,
@@ -480,7 +545,9 @@ mod tests {
         .collect()
     }
 
-    /// The P-025 disproof, pinned — and the ORIGIN of the mechanism the successor test pins.
+    /// The RETIRED instrument's first record (Pulse HEAD `f0c38f5`; the mechanism measured at
+    /// `83d4060`) — and the ORIGIN of the mechanism the successor test pins. It does not grade P-025
+    /// today: the current grade is `grade_in_window` over the 2026-09-29 leg, under the new observable.
     ///
     /// Both legs measured ~36s against a 2s budget, and neither sample was the scenario's: at that
     /// time `halo-hue-encoding.toml` declared ZERO `[phases.emission]` blocks, so it drove no stream
@@ -498,9 +565,10 @@ mod tests {
     /// the observable reports `t_sample - t_last_refreshing_tick`, U(0, 15s) at a randomly-timed
     /// flip and INDEPENDENT of the dispatch rate.
     ///
-    /// Term (3) is why no arm here asserts a sample UNDER 2000ms: at 15s quantization a sub-2s
-    /// reading is a tick coincidence (~13% of flips), never attainment. The bound is unmeasurable
-    /// through this leaf until the SUT changes the writer.
+    /// Term (3) is why no arm over these lines asserts a sample UNDER 2000ms: at 15s quantization a
+    /// sub-2s reading was a tick coincidence (~13% of flips), never attainment, so the retired
+    /// instrument could not grade the bound. Pulse's `e98d838` removed all three terms from the hue
+    /// path (`contracts/pulse-p025-measurement-contract.md`).
     #[test]
     fn p025_hue_update_is_recorded_over_budget_never_asserted_as_a_pass() {
         let bound = bounds()[0];
@@ -520,10 +588,10 @@ mod tests {
         );
     }
 
-    // ---- The re-driven P-025 selection + mechanism pin ----
-    // The live capture rides the scenario's own leg; the helpers below are exercised here against
-    // SYNTHETIC lines in Pulse's on-disk shape, so the selection rule and the tick arithmetic are
-    // pinned independently of when that leg runs.
+    // ---- The P-025 window selection + the RETIRED instrument's mechanism pin ----
+    // The helpers below are exercised against SYNTHETIC lines in Pulse's on-disk shape, so the
+    // window selection (still the grade's attribution) and the retired tick arithmetic (Pulse HEAD
+    // `83d4060`) are pinned independently of any leg.
 
     fn synthetic_hue(duration_ms: f64, at: &str) -> String {
         format!(
@@ -577,10 +645,11 @@ mod tests {
         assert_eq!(picked[0].duration_ms, 4_200.0);
     }
 
-    /// THE MECHANISM PIN. `last_seen_unix_nano` is written only by the 15s lifecycle tick, so a hue
-    /// sample's reported duration is its own offset to the preceding tick — not a render latency.
-    /// This is the property that makes the ≤2s budget unmeasurable through this leaf, and asserting
-    /// it is what turns a 36s reading from an unexplained number into a verified consequence.
+    /// THE RETIRED INSTRUMENT'S MECHANISM PIN (Pulse HEAD `83d4060`). `last_seen_unix_nano` is written
+    /// only by the 15s lifecycle tick, so that leaf's reported duration was its own offset to the
+    /// preceding tick — not a render latency. This property is why the retired instrument could not
+    /// grade the ≤2s budget, and asserting it is what turned a 36s reading from an unexplained number
+    /// into a verified consequence.
     #[test]
     fn a_hue_sample_reports_its_offset_to_the_preceding_lifecycle_tick() {
         let bound = bounds()[0];
@@ -629,11 +698,141 @@ mod tests {
         assert_eq!(tick_offset_ms(&orphan, &[]), None);
     }
 
-    // ---- Live-leg evidence, 2026-09-07 (the re-driven leg) ----
+    // ---- The P-025 hard grade, proven over SYNTHETIC lines before the leg fires ----
+    // The rule is `contracts/pulse-p025-measurement-contract.md` §The grading rule. Lines are in
+    // Pulse's on-disk shape at HEAD `226554a`: the hue leaf's `duration_ms` + `severity_tier`, and
+    // `interpretation.incident.created`'s allowlisted `created` / `deduped` / `severity` /
+    // `priority_tier`.
+
+    fn synthetic_hue_tier(duration_ms: f64, tier: &str, at: &str) -> String {
+        format!(
+            r#"{{"fields":{{"deployment.environment":"production","duration_ms":{duration_ms},"service.name":"com.andromeda.pulse","severity_tier":"{tier}"}},"level":"INFO","message":"constellation hue update latency recorded","target":"metric.constellation.hue_update_ms","timestamp":"{at}"}}"#
+        )
+    }
+
+    fn synthetic_incident_created(created: bool, at: &str) -> String {
+        let deduped = !created;
+        format!(
+            r#"{{"fields":{{"created":{created},"deduped":{deduped},"deployment.environment":"production","priority_tier":"autonomous","service.name":"com.andromeda.pulse","severity":"error"}},"level":"INFO","message":"incident producer outcome","target":"{INCIDENT_CREATED_TARGET}","timestamp":"{at}"}}"#
+        )
+    }
+
+    /// A leg window from 10:01:00.000Z (phase-2 start) to 10:04:00.000Z (`scenario.run` close).
+    fn synthetic_window() -> (i64, i64) {
+        let at = |s: &str| timestamp_ms(&synthetic_hue_tier(0.0, "none", s)).expect("parses");
+        (
+            at("2026-09-29T10:01:00.000Z"),
+            at("2026-09-29T10:04:00.000Z"),
+        )
+    }
+
+    /// Arm (i): in-window samples at or under the budget grade `Ok` with the WORST of them, and
+    /// the inclusive boundary holds at exactly 2000ms.
+    #[test]
+    fn p025_in_window_samples_within_budget_grade_ok_with_the_worst() {
+        let bound = bounds()[0];
+        let lines = vec![
+            synthetic_hue_tier(640.0, "autonomous", "2026-09-29T10:01:12.000Z"),
+            synthetic_hue_tier(2_000.0, "autonomous", "2026-09-29T10:02:30.000Z"),
+            synthetic_hue_tier(510.0, "suggested", "2026-09-29T10:03:40.000Z"),
+        ];
+        assert_eq!(
+            grade_in_window(&lines, &bound, synthetic_window()),
+            Ok(2_000.0)
+        );
+    }
+
+    /// Arm (ii): one in-window sample over the budget is a hard `Err` carrying the value — a
+    /// breach is a measurement, never rescued by a fast neighbour.
+    #[test]
+    fn p025_an_in_window_sample_over_budget_is_a_hard_err_carrying_its_value() {
+        let bound = bounds()[0];
+        let lines = vec![
+            synthetic_hue_tier(700.0, "autonomous", "2026-09-29T10:01:12.000Z"),
+            synthetic_hue_tier(2_400.0, "autonomous", "2026-09-29T10:02:30.000Z"),
+        ];
+        let err = grade_in_window(&lines, &bound, synthetic_window())
+            .expect_err("2400ms is over the 2000ms budget");
+        assert!(err.contains("2400"), "the reason carries the value: {err}");
+        assert!(err.contains("P-025"), "the reason names the bound: {err}");
+    }
+
+    /// Arm (iii): a window holding no hue sample is UNGRADED, never met — even when the capture
+    /// holds samples outside it — and the reason names P-025 and the window.
+    #[test]
+    fn p025_an_empty_leg_window_is_ungraded_never_met() {
+        let bound = bounds()[0];
+        let window = synthetic_window();
+        let lines = vec![
+            synthetic_hue_tier(900.0, "autonomous", "2026-09-29T10:00:10.000Z"),
+            synthetic_hue_tier(900.0, "none", "2026-09-29T10:06:00.000Z"),
+        ];
+        let err =
+            grade_in_window(&lines, &bound, window).expect_err("an empty window must not pass");
+        assert!(err.contains("UNGRADED"), "the reason says ungraded: {err}");
+        assert!(err.contains("P-025"), "the reason names the bound: {err}");
+        assert!(
+            err.contains(&window.0.to_string()) && err.contains(&window.1.to_string()),
+            "the reason names the window: {err}"
+        );
+    }
+
+    /// Arm (iv): a stale remembered-tier sample (clamped to exactly 60000ms, `none`) that fires when
+    /// a hidden service reappears lands before phase-2 start, so the window excludes it and it
+    /// cannot breach the grade.
+    #[test]
+    fn p025_a_stale_sixty_second_sample_before_phase_two_is_excluded() {
+        let bound = bounds()[0];
+        let lines = vec![
+            synthetic_hue_tier(60_000.0, "none", "2026-09-29T10:00:59.999Z"),
+            synthetic_hue_tier(820.0, "autonomous", "2026-09-29T10:01:40.000Z"),
+        ];
+        assert_eq!(
+            grade_in_window(&lines, &bound, synthetic_window()),
+            Ok(820.0)
+        );
+        // The control: the same stale sample one millisecond later is inside and breaches.
+        let inside = vec![synthetic_hue_tier(
+            60_000.0,
+            "none",
+            "2026-09-29T10:01:00.000Z",
+        )];
+        assert!(grade_in_window(&inside, &bound, synthetic_window()).is_err());
+    }
+
+    /// Arm (v): the anchor is the NEAREST preceding `created=true` line; a `created=false` dedupe
+    /// between them opens nothing and is skipped, and no preceding creation is `None`.
+    #[test]
+    fn p025_the_anchor_is_the_nearest_preceding_fresh_incident_not_a_dedupe() {
+        let bound = bounds()[0];
+        let lines = vec![
+            synthetic_incident_created(true, "2026-09-29T10:00:05.000Z"),
+            synthetic_incident_created(true, "2026-09-29T10:01:30.000Z"),
+            synthetic_incident_created(false, "2026-09-29T10:01:30.900Z"),
+            // Start instant 10:01:31.550 − 1.200 = 10:01:30.350, 350ms after the fresh incident.
+            synthetic_hue_tier(1_200.0, "autonomous", "2026-09-29T10:01:31.550Z"),
+            synthetic_hue_tier(0.0, "none", "2026-09-29T10:03:50.000Z"),
+        ];
+        let rises = tiered_hue_samples_in_window(&lines, &bound, synthetic_window());
+        assert_eq!(rises.len(), 1, "the `none` fall is not a rise: {rises:?}");
+        // Anchoring on the dedupe would read 550ms; on the earlier fresh incident, 85350ms.
+        let error = incident_anchor_error_ms(&rises[0], &lines).expect("a fresh incident precedes");
+        assert_eq!(error, 350.0);
+        assert!(error <= P025_ANCHOR_TOLERANCE_MS);
+
+        let only_dedupe = vec![synthetic_incident_created(
+            false,
+            "2026-09-29T10:01:30.900Z",
+        )];
+        assert_eq!(incident_anchor_error_ms(&rises[0], &only_dedupe), None);
+    }
+
+    // ---- Live-leg evidence, 2026-09-07 (the re-driven leg, the RETIRED instrument) ----
     // Leg H of the operator-gated `run --live` suite, run `2026-09-07T07-42-45-582`, pre-leg 50243,
     // against Pulse at HEAD `83d4060` with the compact-widget window open. `halo-hue-encoding` drove
     // 360 dispatches at 2/s across two phases (`emission_count: 360`, `timeline.execute` spanning
-    // 183.8s), so its service was emitting CONTINUOUSLY through the tier flip.
+    // 183.8s), so its service was emitting CONTINUOUSLY through the tier flip. These lines are the
+    // record of what the pre-`e98d838` leaf emitted; they do not grade P-025 today.
 
     /// VERBATIM — the ONLY hue sample inside leg H's window (phase-2 start `1788767041678` through
     /// `scenario.run` close `1788767195445`). The capture held 7 hue samples after the pre-leg
@@ -649,7 +848,9 @@ mod tests {
         r#"{"fields":{"deployment.environment":"production","service.name":"com.andromeda.pulse","service.version":"0.1.0","services_active":0,"services_archived":0,"services_bootstrapping":2,"services_dormant":0,"services_quiet":0,"services_silent":0,"services_unknown":0,"tracked_services_total":2},"level":"INFO","message":"lifecycle heartbeat tick","target":"triage.lifecycle.tick","timestamp":"2026-09-07T07:43:53.131Z"}"#.to_owned()
     }
 
-    /// THE RE-DRIVEN MEASUREMENT — and the disproof completed on the SUBJECT's own sample.
+    /// THE RE-DRIVEN MEASUREMENT OF THE RETIRED INSTRUMENT (Pulse HEAD `83d4060`) — and the
+    /// disproof completed on the SUBJECT's own sample. A true measurement of what that leaf emitted
+    /// then, kept because the contract and obs-plan §4 cite it.
     ///
     /// The 2026-08-21 legs could be dismissed as never having driven anything: the scenario declared
     /// no emission, so both samples were the canary's and the service had gone quiet. This leg
@@ -659,8 +860,8 @@ mod tests {
     ///
     /// The reason is the quantization, and this is what pins it: the sample's duration equals its
     /// offset to the PRECEDING lifecycle tick (14527ms) to within 1.1ms. `last_seen_unix_nano` is
-    /// stamped by that 15s tick, never by ingest, so a flip landing 14.5s after a tick reports
-    /// 14.5s no matter how recently a span arrived. Meeting 2000ms requires the flip to land inside
+    /// stamped by that 15s tick, never by ingest, so a flip landing 14.5s after a tick reported
+    /// 14.5s no matter how recently a span arrived. Meeting 2000ms required the flip to land inside
     /// the first 2s of a 15s window — a ~13% coincidence, which is why NO arm here asserts a pass.
     #[test]
     fn p025_the_re_driven_leg_measures_tick_quantization_not_update_latency() {
@@ -696,5 +897,74 @@ mod tests {
             bound.budget_ms
         );
         assert!((sample.duration_ms - 14_525.947_021_484_377).abs() < 1e-6);
+    }
+
+    // ---- Live-leg evidence, 2026-09-29 (the P-025 graded leg, the NEW observable) ----
+    // One `conductor run halo-hue-encoding --agent-mode`, run `2026-09-29T21-09-10-754`, pre-leg
+    // 34573, against a fresh deterministic-L4 `pulse-app` on a fresh data dir with the compact widget
+    // visible. Pulse checkout HEAD `4502d5d`, whose `pulse-app` / MCP-crate source equals `226554a`
+    // and carries `e98d838`; the binary holds `tier_effective_at_unix_nano` by content. The graded
+    // rule is `contracts/pulse-p025-measurement-contract.md` §The grading rule, recorded by sha256
+    // before the drive.
+
+    /// VERBATIM — every `metric.constellation.hue_update_ms`, `interpretation.incident.created` and
+    /// `triage.incident.auto_resolve.tick` (`resolved_count` ≥ 1) line after the pre-leg count, in
+    /// capture order. The first two are the preflight canary's rise, before phase-2 start.
+    fn leg_2026_09_29_lines() -> Vec<String> {
+        [
+            r#"{"fields":{"created":true,"deduped":false,"deployment.environment":"production","priority_tier":"autonomous","service.name":"com.andromeda.pulse","service.version":"0.1.0","severity":"error"},"level":"INFO","message":"incident producer outcome","target":"interpretation.incident.created","timestamp":"2026-09-29T21:09:55.909Z"}"#,
+            r#"{"fields":{"deployment.environment":"production","duration_ms":438.1103515625,"service.name":"com.andromeda.pulse","service.version":"0.1.0","severity_tier":"autonomous"},"level":"INFO","message":"constellation hue update latency recorded","target":"metric.constellation.hue_update_ms","timestamp":"2026-09-29T21:09:56.316Z"}"#,
+            r#"{"fields":{"created":true,"deduped":false,"deployment.environment":"production","priority_tier":"autonomous","service.name":"com.andromeda.pulse","service.version":"0.1.0","severity":"error"},"level":"INFO","message":"incident producer outcome","target":"interpretation.incident.created","timestamp":"2026-09-29T21:10:32.660Z"}"#,
+            r#"{"fields":{"deployment.environment":"production","duration_ms":684.976318359375,"service.name":"com.andromeda.pulse","service.version":"0.1.0","severity_tier":"autonomous"},"level":"INFO","message":"constellation hue update latency recorded","target":"metric.constellation.hue_update_ms","timestamp":"2026-09-29T21:10:33.315Z"}"#,
+            r#"{"fields":{"created":true,"deduped":false,"deployment.environment":"production","priority_tier":"autonomous","service.name":"com.andromeda.pulse","service.version":"0.1.0","severity":"error"},"level":"INFO","message":"incident producer outcome","target":"interpretation.incident.created","timestamp":"2026-09-29T21:10:33.636Z"}"#,
+            r#"{"fields":{"created":false,"deduped":true,"deployment.environment":"production","priority_tier":"autonomous","service.name":"com.andromeda.pulse","service.version":"0.1.0","severity":"error"},"level":"INFO","message":"incident producer outcome","target":"interpretation.incident.created","timestamp":"2026-09-29T21:10:43.633Z"}"#,
+            r#"{"fields":{"deployment.environment":"production","duration_ms":11,"evaluated_count":1,"resolved_count":1,"service.name":"com.andromeda.pulse","service.version":"0.1.0"},"level":"INFO","message":"incident auto-resolution tick","target":"triage.incident.auto_resolve.tick","timestamp":"2026-09-29T21:11:57.883Z"}"#,
+            r#"{"fields":{"deployment.environment":"production","duration_ms":44,"evaluated_count":2,"resolved_count":2,"service.name":"com.andromeda.pulse","service.version":"0.1.0"},"level":"INFO","message":"incident auto-resolution tick","target":"triage.incident.auto_resolve.tick","timestamp":"2026-09-29T21:12:57.928Z"}"#,
+            r#"{"fields":{"deployment.environment":"production","duration_ms":430.78955078125,"service.name":"com.andromeda.pulse","service.version":"0.1.0","severity_tier":"none"},"level":"INFO","message":"constellation hue update latency recorded","target":"metric.constellation.hue_update_ms","timestamp":"2026-09-29T21:12:58.315Z"}"#,
+        ]
+        .iter()
+        .map(|s| (*s).to_owned())
+        .collect()
+    }
+
+    /// THE P-025 HARD GRADE, at its real measured value. The window is derived from the frozen
+    /// self-obs per the rule: the one `timeline.execute` `new` at `1790716196860` plus the
+    /// `healthy-baseline` phase's 30000ms, through `scenario.run` close at `1790716380720`.
+    ///
+    /// Two samples fall in it: the rise (684.98ms, `autonomous`) and a fall to `none` (430.79ms). The
+    /// fall landed in-window, not after the dot hid as the rule's prose forecast: the scenario's
+    /// incident auto-resolved at the storm's end while its dot was still live. It is graded like
+    /// every in-window sample. The worst is 684.98ms against 2000ms, so the grade is a PASS.
+    #[test]
+    fn p025_the_graded_leg_meets_its_two_second_budget_at_its_real_value() {
+        let bound = bounds()[0];
+        let lines = leg_2026_09_29_lines();
+        let window = (1_790_716_226_860_i64, 1_790_716_380_720_i64);
+
+        assert_eq!(
+            grade_in_window(&lines, &bound, window),
+            Ok(684.976_318_359_375)
+        );
+
+        let samples = hue_samples_in_window(&lines, &bound, window);
+        let durations: Vec<f64> = samples.iter().map(|s| s.duration_ms).collect();
+        assert_eq!(
+            durations,
+            vec![684.976_318_359_375, 430.789_550_781_25],
+            "the canary's 438.11ms rise precedes phase-2 start and is excluded"
+        );
+
+        // Mechanism corroboration: each rise's start instant lands on its incident's opening.
+        let rises = tiered_hue_samples_in_window(&lines, &bound, window);
+        assert_eq!(rises.len(), 1, "one rise in the window: {rises:?}");
+        let error = incident_anchor_error_ms(&rises[0], &lines).expect("a fresh incident precedes");
+        assert!(
+            error <= P025_ANCHOR_TOLERANCE_MS,
+            "anchor error {error}ms over the {P025_ANCHOR_TOLERANCE_MS}ms tolerance"
+        );
+        assert!(
+            (error - 29.976).abs() < 0.01,
+            "the measured anchor error, pinned: {error}"
+        );
     }
 }

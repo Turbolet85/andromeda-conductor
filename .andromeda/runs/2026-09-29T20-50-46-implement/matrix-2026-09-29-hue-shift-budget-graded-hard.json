@@ -1,0 +1,49 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-29T21:17:16Z",
+"argv": [
+"implement",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-29-hue-shift-budget-graded-hard",
+"--id",
+"v3-08",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-29T20-50-46-implement"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"implement v3-08 · status planned → implemented · ref crates/conductor-run/tests/delegated_timing_harvest.rs::tests::p025_the_graded_l… (531 chars)",
+"wrote conductor-0.3.0\\verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0\\verification-matrix.json"
+],
+"before": {
+"id": "v3-08",
+"chunk": "2026-09-29-hue-shift-budget-graded-hard",
+"status": "planned",
+"method": "dynamic-external",
+"ref": "null",
+"acceptance": "`halo-hue-encoding` is driven live once against a `pulse-app` build proven by content to carry `tier_effective_at_unix_n… (1076 chars)",
+"notes_chars": 1457
+},
+"after": {
+"id": "v3-08",
+"chunk": "2026-09-29-hue-shift-budget-graded-hard",
+"status": "implemented",
+"method": "dynamic-external",
+"ref": "crates/conductor-run/tests/delegated_timing_harvest.rs::tests::p025_the_graded_leg_meets_its_two_second_budget_at_its_re… (531 chars)",
+"acceptance": "`halo-hue-encoding` is driven live once against a `pulse-app` build proven by content to carry `tier_effective_at_unix_n… (1076 chars)",
+"notes_chars": 1457
+}
+}
+]

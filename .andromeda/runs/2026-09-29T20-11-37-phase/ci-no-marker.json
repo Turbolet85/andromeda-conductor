@@ -1,0 +1,41 @@
+[
+{
+"tool": "ci",
+"v": "1.0",
+"sha8": "bf89b279",
+"ts": "2026-09-29T20:11:44Z",
+"argv": [
+"conclusion",
+"--sha",
+"cdb708266d59c3600876363b4720e85f33332feb",
+"--run-dir",
+".andromeda/runs/2026-09-29T20-11-37-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"repo Turbolet85/andromeda-conductor (the push remote `origin`)",
+"cdb708266d59 verdict: green · checks 3/3 · wall 581 s · runs CI#36621215714 completed/success",
+"runs: CI#36621215714 push completed/success"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"repo": "Turbolet85/andromeda-conductor",
+"host": "github.com",
+"repo_source": "the push remote `origin`",
+"names": [],
+"shas": [
+{
+"sha": "cdb708266d59c3600876363b4720e85f33332feb",
+"word": "green",
+"polls": [
+"green"
+]
+}
+]
+}
+}
+]

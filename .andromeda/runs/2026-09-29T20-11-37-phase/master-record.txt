@@ -1,0 +1,1 @@
+2026-09-29-hue-shift-budget-graded-hard · pending · `halo-hue-encoding` re-driven live against Pulse's P-025 observable, `duration_ms ≤ 2000` graded hard at the harvest tier · → conductor-0.3.0/chunks/2026-09-29-hue-shift-budget-graded-hard/

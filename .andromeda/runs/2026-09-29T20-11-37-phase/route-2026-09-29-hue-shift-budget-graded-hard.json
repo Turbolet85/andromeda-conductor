@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-29T20:14:16Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-09-29-hue-shift-budget-graded-hard",
+"--expect-prefix",
+"Hue-shift budget graded hard",
+"--record-file",
+".andromeda/runs/2026-09-29T20-11-37-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-09-29T20-11-37-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:54 - [2026-09-29-hue-shift-budget-graded-hard]",
+"record master-route.md:157 - appended under `## conductor-0.3.0`",
+"promoted 2026-09-29-hue-shift-budget-graded-hard - working-route:54 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+".\\conductor-0.3.0\\working-route.md",
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+}
+]
