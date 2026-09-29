@@ -316,3 +316,9 @@ additional-fields example
 **Change:** The Not-instrumentable build-time row names the static gates, including the repository-hygiene secret-scan and workflow env-context gates. §9 gains a row for them: each hit is one line naming a repo-relative `path:line` with its rule, never the matched text, or else the workflow file, line and key. The probe prints its own verdict line. All of it is readable from the job log only and NEVER written into a telemetry artifact (the fmt-row discipline). §10 lists a repository-hygiene gate red, including the `GITHUB_ENV context probe (assert)` step.
 **Why:** Raised by the orchestrator following the 2026-09-09 fmt-gate precedent, since no obs detector covers a gate-enumeration update. The gates are instrumentation n/a — build-time; no telemetry schema, artifact or span changes.
 **Ref:** .andromeda/runs/2026-09-24T14-02-12-wrap/
+
+## 2026-09-29-diagnostic-quality-cluster-off-the-drift-pin — the real-model posture chain observed live
+**Section:** §4 Span / Trace Coverage → the headless deterministic scenario run → Real-model posture
+**Change:** was "The one drive (2026-09-23) was blocked at the preflight, so this chain was not observed live under the real-model posture". Now the 2026-09-29 series observed it live: both Stage B preflights reached ready, the graded drive's envelope landed `ManualCheck` with `verdict` null and the eleven keys, and canary-blocked drives' envelopes landed `Blocked`. The three-storm canary adds no span or field; each storm logs the existing `canary fingerprint computed` line.
+**Why:** the series superseded the claim that the chain was never observed. Instrumentation is unchanged: the diff adds no span name and no allowlisted field.
+**Ref:** .andromeda/runs/2026-09-29T17-50-46-wrap/

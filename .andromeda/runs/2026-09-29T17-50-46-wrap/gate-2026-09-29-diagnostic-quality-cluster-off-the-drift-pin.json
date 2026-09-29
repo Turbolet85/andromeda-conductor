@@ -1,0 +1,803 @@
+[
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-29T17:50:55Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"conductor-0.3.0/chunks/2026-09-29-diagnostic-quality-cluster-off-the-drift-pin",
+"--run-dir",
+".andromeda/runs/2026-09-29T17-50-46-wrap",
+"--marker",
+"2026-09-29-diagnostic-quality-cluster-off-the-drift-pin"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base a76420ad (the parent of the oldest pre-CI commit 4843287c) · lists new 0 · modify 14 · derived 1 · record 1",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"recorded in-intent crates/conductor-run/tests/real_model_series/mod.rs",
+"list conductor-0.3.0/chunks/2026-09-29-diagnostic-quality-cluster-off-the-drift-pin/evidence/* (derived by `bash scripts/agent-run.sh run --live real-model`) ×0",
+"scope: clean — changed 12 · listed 11 · recorded 1 (companion 0 · mechanical 0 · in-intent 1 · widening 0) · absorbed 0 · excluded 47"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "a76420adf2930720342ea13f72fc981deaed446a",
+"base_why": "the parent of the oldest pre-CI commit 4843287c",
+"counts": {
+"changed": 12,
+"listed": 11,
+"recorded": 1,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 1,
+"widening": 0
+},
+"excluded": 47,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-29T18:18:34Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-29-diagnostic-quality-cluster-off-the-drift-pin/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-29T17-50-46-wrap",
+"--marker",
+"2026-09-29-diagnostic-quality-cluster-off-the-drift-pin"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell <host-path> Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root . · marker 2026-09-29-diagnostic-quality-cluster-off-the-drift-pin · entries 29",
+"logs <host-path> · bound: GNU timeout",
+"delta docs 37",
+"prose L202-204: The block runs in the order below. The cargo entries carry the directive's `CARGO_INCREMEN… (301 chars)",
+"prose L206-208: The live section repeats one drive cycle per label: `a1`-`a3` always, and `b1`-`b2` ONLY w… (244 chars)",
+"prose L210-215: Two evidence files have no producing entry, by construction. `evidence/attempt-ledger.md` … (687 chars)",
+"prose L217-218: No `self-verify` entry is listed, because this is not a UI chunk. The deterministic `--liv… (185 chars)",
+"  1 probe       green · exit 0 · 0.14s · 0 B → 1.log · git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+"  2 probe       green · exit 0 · 9.44s · 1897 B → 2.log · cargo audit",
+"  3 probe       green · exit 0 · 1.77s · 236251 B → 3.log · cargo deny check advisories bans licenses sources",
+"  4 lint        green · exit 0 · 0.48s · 0 B → 4.log · cargo fmt --check",
+"  5 lint        green · exit 0 · 0.66s · 72 B → 5.log · CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 cargo clippy --work… (92 chars)",
+"  6 lint        green · exit 0 · 0.37s · 72 B → 6.log · CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 cargo clippy -p con… (119 chars)",
+"  7 build       green · exit 0 · 3.41s · 37535 B → 7.log · CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 cargo run -q -p con… (104 chars)",
+"  8 unit        green · exit 0 · 15.16s · 132981 B → 8.log · CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 cargo nextest run -… (81 chars)",
+"  9 unit        green · exit 0 · 1.39s · 1392 B → 9.log · CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 cargo test --worksp… (67 chars)",
+" 10 unit        green · exit 0 · 8.07s · 30260 B → 10.log · CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 cargo test -p condu… (67 chars)",
+" 11 unit        green · exit 0 · 3.23s · 24325 B → 11.log · CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 cargo test -p condu… (66 chars)",
+" 12 unit        green · exit 0 · 0.89s · 653 B → 12.log · CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 cargo nextest run -… (110 chars)",
+" 13 unit        green · exit 0 · 0.89s · 1131 B → 13.log · CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 cargo nextest run -… (114 chars)",
+" 14 unit        green · exit 0 · 1.1s · 8561 B → 14.log · CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 cargo nextest run -… (112 chars)",
+" 15 probe       green · exit 1 · 0.07s · 2 B → 15.log · grep -cE \"\\b[A-Za-z]:[\\\\/]|/home/|/Users/|%APPDATA%\" contr… (94 chars)",
+" 16 probe       green · exit 1 · 0.16s · 2 B → 16.log · grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|… (132 chars)",
+" 17 probe       green · exit 0 · 0.06s · 4 B → 17.log · grep -c \"^\\[\\[package\\]\\]\" Cargo.lock",
+" 18 probe       recorded · exit 1 · 0.08s · 0 B → 18.log · git diff HEAD -- crates scripts | grep -nE \"info_span!|#\\[… (78 chars)",
+" 19 probe       green · exit 0 · 0.07s · 0 B → 19.log · git diff --quiet HEAD -- crates/conductor-run/tests/canary… (207 chars)",
+" 20 probe       recorded · exit 1 · 0.37s · 0 B → 20.log · tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromed… (133 chars)",
+" 21 probe       not run — env ANDROMEDA_PULSE_DATA_DIR, ANDR… (53 chars) unset · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (191 chars)",
+" 22 e2e         not run — leg operator (the letter drives it) · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (354 chars)",
+" 23 probe       recorded · exit 1 · 0.37s · 0 B → 23.log · tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromed… (111 chars)",
+" 24 e2e         not run — leg operator (the letter drives it) · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (354 chars)",
+" 25 e2e         not run — leg operator (the letter drives it) · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (354 chars)",
+" 26 e2e         not run — leg operator (the letter drives it) · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (354 chars)",
+" 27 e2e         not run — leg operator (the letter drives it) · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (354 chars)",
+" 28 probe       green · exit 1 · 0.2s · 2 B → 28.log · ls conductor-0.3.0/chunks/2026-09-29-diagnostic-quality-cl… (302 chars)",
+" 29 smoke       not run — leg operator (the letter drives it) · bash scripts/agent-run.sh status <id>",
+"entries 29 · green 19 · red 0 · recorded 3 · timeout 0 · not-run 7"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-29-diagnostic-quality-cluster-off-the-drift-pin",
+"plan": "./conductor-0.3.0\\chunks\\2026-09-29-diagnostic-quality-cluster-off-the-drift-pin\\plan.md",
+"root": ".",
+"shell": "<host-path> Files\\Git\\bin\\bash.exe",
+"out_dir": "<host-path>",
+"delta": {
+"docs": [
+".andromeda/architecture-amendments.md",
+".andromeda/architecture.md",
+".andromeda/friction-log.ndjson",
+".andromeda/obs-plan-amendments.md",
+".andromeda/obs-plan.md",
+".andromeda/security-plan-amendments.md",
+".andromeda/security-plan.md",
+".andromeda/state.yaml",
+".andromeda/test-plan-amendments.md",
+".andromeda/test-plan.md",
+".claude/docs/commands.md",
+".claude/docs/security-summary.md",
+".claude/docs/tests-summary.md",
+".claude/rules/security.md",
+".claude/rules/verification-harness.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+".andromeda/runs/2026-09-29T06-48-44-implement/ci-2026-09-29-diagnostic-quality-cluster-off-the-drift-pin.json",
+".andromeda/runs/2026-09-29T17-50-46-wrap/.raw-fanout-a11y-plan.md",
+".andromeda/runs/2026-09-29T17-50-46-wrap/.raw-fanout-design-system.md",
+".andromeda/runs/2026-09-29T17-50-46-wrap/.raw-fanout-layout-templates.md",
+".andromeda/runs/2026-09-29T17-50-46-wrap/.sweep-out.txt",
+".andromeda/runs/2026-09-29T17-50-46-wrap/architecture-entry.md",
+".andromeda/runs/2026-09-29T17-50-46-wrap/cascade-2026-09-29-diagnostic-quality-cluster-off-the-drift-pin.json",
+".andromeda/runs/2026-09-29T17-50-46-wrap/cascade-dispositions.md",
+".andromeda/runs/2026-09-29T17-50-46-wrap/cascade-patterns.toml",
+".andromeda/runs/2026-09-29T17-50-46-wrap/curation.md",
+".andromeda/runs/2026-09-29T17-50-46-wrap/evolve-2026-09-29-diagnostic-quality-cluster-off-the-drift-pin.json",
+".andromeda/runs/2026-09-29T17-50-46-wrap/fanout-results.md",
+".andromeda/runs/2026-09-29T17-50-46-wrap/gate-2026-09-29-diagnostic-quality-cluster-off-the-drift-pin.json",
+".andromeda/runs/2026-09-29T17-50-46-wrap/obs-plan-entry.md",
+".andromeda/runs/2026-09-29T17-50-46-wrap/route-no-marker.json",
+".andromeda/runs/2026-09-29T17-50-46-wrap/route-payload.txt",
+".andromeda/runs/2026-09-29T17-50-46-wrap/security-plan-entry.md",
+".andromeda/runs/2026-09-29T17-50-46-wrap/splice-2026-09-29-diagnostic-quality-cluster-off-the-drift-pin.json",
+".andromeda/runs/2026-09-29T17-50-46-wrap/test-plan-entry.md",
+"conductor-0.3.0/chunks/2026-09-29-diagnostic-quality-cluster-off-the-drift-pin/report.md"
+]
+},
+"unmapped": [],
+"prose": [
+{
+"from": 202,
+"to": 204,
+"text": "The block runs in the order below. The cargo entries carry the directive's `CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2` prefix: memory is tight, Pulse is building next door, and `target/` is cold after the 2026-09-29 `cargo clean`, so the first compiling entry is a full cold build with generous timeouts."
+},
+{
+"from": 206,
+"to": 208,
+"text": "The live section repeats one drive cycle per label: `a1`-`a3` always, and `b1`-`b2` ONLY when step 8's rule calls Stage B. A `b` entry the rule does not call is recorded \"not run — the decision rule ended the series at Stage A\" and never fired."
+},
+{
+"from": 210,
+"to": 215,
+"text": "Two evidence files have no producing entry, by construction. `evidence/attempt-ledger.md` is authored by the agent, one row per drive (step 7 (vi)), from the drive's capture and census. `evidence/pulse-side-report.md` is authored only on step 8's stop branch. Both are read by the evidence hygiene entry below. Every drive entry is `leg = 'operator'`: /implement fires it once, after the overseer confirms the slot, and the wrap NEVER re-runs a drive, since each spends LLM calls inside a pre-stated series. Each drive is preceded by its NON-PRIMING probe (`conductor preconditions --for …`, which fires no canary) and followed by a census; the census before `a1` is the series baseline."
+},
+{
+"from": 217,
+"to": 218,
+"text": "No `self-verify` entry is listed, because this is not a UI chunk. The deterministic `--live` suite is not driven. CI is read by the next chunk's Setup 5a against this wrap's pushed sha."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "probe",
+"run": "git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+"run_sha8": "85122344",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "<host-path>",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.14,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": null,
+"log": "<host-path>",
+"bytes": 1897,
+"log_sha8": "f1f46ba8",
+"exit": 0,
+"seconds": 9.44,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": null,
+"log": "<host-path>",
+"bytes": 236251,
+"log_sha8": "4ebeefef",
+"exit": 0,
+"seconds": 1.77,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "cargo fmt --check",
+"run_sha8": "194fabc0",
+"expect": null,
+"log": "<host-path>",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.48,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "91b542e6",
+"expect": null,
+"log": "<host-path>",
+"bytes": 72,
+"log_sha8": "7a7c5f33",
+"exit": 0,
+"seconds": 0.66,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "lint",
+"run": "CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 cargo clippy -p conductor-run --features live-pulse --all-targets -- -D warnings",
+"run_sha8": "abe54377",
+"expect": null,
+"log": "<host-path>",
+"bytes": 72,
+"log_sha8": "73218632",
+"exit": 0,
+"seconds": 0.37,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "build",
+"run": "CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 cargo run -q -p conductor-cli --bin conductor -- coverage --write",
+"run_sha8": "fd054c57",
+"expect": null,
+"log": "<host-path>",
+"bytes": 37535,
+"log_sha8": "4dff5878",
+"exit": 0,
+"seconds": 3.41,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "unit",
+"run": "CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 cargo nextest run --workspace --profile ci",
+"run_sha8": "d0a57d1b",
+"expect": null,
+"log": "<host-path>",
+"bytes": 132981,
+"log_sha8": "890eeb74",
+"exit": 0,
+"seconds": 15.16,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "unit",
+"run": "CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 cargo test --workspace --doc",
+"run_sha8": "75da03af",
+"expect": null,
+"log": "<host-path>",
+"bytes": 1392,
+"log_sha8": "54716250",
+"exit": 0,
+"seconds": 1.39,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "unit",
+"run": "CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 cargo test -p conductor-core",
+"run_sha8": "b239b928",
+"expect": null,
+"log": "<host-path>",
+"bytes": 30260,
+"log_sha8": "794bc711",
+"exit": 0,
+"seconds": 8.07,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "unit",
+"run": "CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 cargo test -p conductor-run",
+"run_sha8": "73bcc92e",
+"expect": null,
+"log": "<host-path>",
+"bytes": 24325,
+"log_sha8": "cee978d0",
+"exit": 0,
+"seconds": 3.23,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "unit",
+"run": "CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 cargo nextest run -p conductor-report --test coverage_gate --profile ci",
+"run_sha8": "9b3c1bfe",
+"expect": null,
+"log": "<host-path>",
+"bytes": 653,
+"log_sha8": "51983ea5",
+"exit": 0,
+"seconds": 0.89,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "unit",
+"run": "CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 cargo nextest run -p conductor-core --test scenario_audit_gate --profile ci",
+"run_sha8": "b55aba2d",
+"expect": null,
+"log": "<host-path>",
+"bytes": 1131,
+"log_sha8": "678bbed9",
+"exit": 0,
+"seconds": 0.89,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "unit",
+"run": "CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 cargo nextest run -p conductor-run --test real_model_harvest --profile ci",
+"run_sha8": "e254445d",
+"expect": null,
+"log": "<host-path>",
+"bytes": 8561,
+"log_sha8": "6685bf73",
+"exit": 0,
+"seconds": 1.1,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "grep -cE \"\\b[A-Za-z]:[\\\\/]|/home/|/Users/|%APPDATA%\" contracts/pulse-real-model-leg-posture.md",
+"run_sha8": "ab13ce7d",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "<host-path>",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.07,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|/home/|/Users/|%APPDATA%\" crates/conductor-run/tests/real_model_harvest.rs",
+"run_sha8": "92fc4857",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "<host-path>",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.16,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "grep -c \"^\\[\\[package\\]\\]\" Cargo.lock",
+"run_sha8": "51a33997",
+"expect": [
+"exit 0",
+"last line 562"
+],
+"log": "<host-path>",
+"bytes": 4,
+"log_sha8": "9db3b992",
+"exit": 0,
+"seconds": 0.06,
+"readings": [
+"exit 0 ✓",
+"last line '562' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "git diff HEAD -- crates scripts | grep -nE \"info_span!|#\\[instrument|fields\\(\"",
+"run_sha8": "e85e59bb",
+"expect": [],
+"log": "<host-path>",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.08,
+"readings": [
+"report-only (expect = [])"
+],
+"survivors": [],
+"outcome": "recorded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "git diff --quiet HEAD -- crates/conductor-run/tests/canary_wire.rs crates/conductor-run/tests/canary_obs_witness.rs crates/conductor-run/tests/severity_harvest.rs crates/conductor-run/tests/lifecycle_live.rs",
+"run_sha8": "da1d0bb9",
+"expect": null,
+"log": "<host-path>",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.07,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromeda-pulse-mcp|pulse-app|real_model_live-[^\\\"]*)\\.exe\\\"\" && echo census-before",
+"run_sha8": "e4760c54",
+"expect": [],
+"log": "<host-path>",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.37,
+"readings": [
+"report-only (expect = [])"
+],
+"survivors": [],
+"outcome": "recorded"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 cargo run -q -p conductor-cli --bin conductor -- preconditions --for real-model-interpretation",
+"run_sha8": "cdd23eda",
+"expect": [
+"exit 0",
+"contains [PRECONDITION] every live-Pulse precondition is satisfied"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — env ANDROMEDA_PULSE_DATA_DIR, ANDR… (53 chars) unset"
+},
+{
+"n": 22,
+"role": "e2e",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH RUST_LOG=info,conductor_emit=debug CONDUCTOR_PREFLIGHT_TIMEOUT=600 CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 bash scripts/agent-run.sh run --live real-model && cp runs/live-suite/rm-capture.txt conductor-0.3.0/chunks/2026-09-29-diagnostic-quality-cluster-off-the-drift-pin/evidence/rm-capture-a1.txt",
+"run_sha8": "e1e1f39d",
+"expect": [
+"exit 0",
+"contains [live] leg rm: real-model-interpretation",
+"contains [live] leg rm: froze"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "tasklist //FO CSV //NH | grep -aiE \"^\\\"(conductor|andromeda-pulse-mcp|pulse-app|real_model_live-[^\\\"]*)\\.exe\\\"\"",
+"run_sha8": "70642c44",
+"expect": [],
+"log": "<host-path>",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.37,
+"readings": [
+"report-only (expect = [])"
+],
+"survivors": [],
+"outcome": "recorded"
+},
+{
+"n": 24,
+"role": "e2e",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH RUST_LOG=info,conductor_emit=debug CONDUCTOR_PREFLIGHT_TIMEOUT=600 CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 bash scripts/agent-run.sh run --live real-model && cp runs/live-suite/rm-capture.txt conductor-0.3.0/chunks/2026-09-29-diagnostic-quality-cluster-off-the-drift-pin/evidence/rm-capture-a2.txt",
+"run_sha8": "bda8239c",
+"expect": [
+"exit 0",
+"contains [live] leg rm: real-model-interpretation",
+"contains [live] leg rm: froze"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 25,
+"role": "e2e",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH RUST_LOG=info,conductor_emit=debug CONDUCTOR_PREFLIGHT_TIMEOUT=600 CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 bash scripts/agent-run.sh run --live real-model && cp runs/live-suite/rm-capture.txt conductor-0.3.0/chunks/2026-09-29-diagnostic-quality-cluster-off-the-drift-pin/evidence/rm-capture-a3.txt",
+"run_sha8": "b2efaee2",
+"expect": [
+"exit 0",
+"contains [live] leg rm: real-model-interpretation",
+"contains [live] leg rm: froze"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 26,
+"role": "e2e",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH RUST_LOG=info,conductor_emit=debug CONDUCTOR_PREFLIGHT_TIMEOUT=600 CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 bash scripts/agent-run.sh run --live real-model && cp runs/live-suite/rm-capture.txt conductor-0.3.0/chunks/2026-09-29-diagnostic-quality-cluster-off-the-drift-pin/evidence/rm-capture-b1.txt",
+"run_sha8": "a7a3cdd9",
+"expect": [
+"exit 0",
+"contains [live] leg rm: real-model-interpretation",
+"contains [live] leg rm: froze"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 27,
+"role": "e2e",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH RUST_LOG=info,conductor_emit=debug CONDUCTOR_PREFLIGHT_TIMEOUT=600 CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 bash scripts/agent-run.sh run --live real-model && cp runs/live-suite/rm-capture.txt conductor-0.3.0/chunks/2026-09-29-diagnostic-quality-cluster-off-the-drift-pin/evidence/rm-capture-b2.txt",
+"run_sha8": "067bdf76",
+"expect": [
+"exit 0",
+"contains [live] leg rm: real-model-interpretation",
+"contains [live] leg rm: froze"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 28,
+"role": "probe",
+"run": "ls conductor-0.3.0/chunks/2026-09-29-diagnostic-quality-cluster-off-the-drift-pin/evidence/rm-capture-a1.txt >/dev/null && cat conductor-0.3.0/chunks/2026-09-29-diagnostic-quality-cluster-off-the-drift-pin/evidence/* | grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|/home/|/Users/|%APPDATA%\"",
+"run_sha8": "a3637b43",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "<host-path>",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.2,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 29,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status <id>",
+"run_sha8": "4849b302",
+"expect": [
+"exit 0",
+"contains \"scenario\": \"real-model-interpretation\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-29T18:19:52Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-09-29T17-50-46-wrap",
+"--marker",
+"2026-09-29-diagnostic-quality-cluster-off-the-drift-pin"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · planes rust, ts",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P2 · P3 rust · P3 ts — each fired on its synthetic known positive",
+"hygiene: clean — read 21 (runs 21 · evidence 0) · trails 7 not read · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"planes": [
+"rust",
+"ts"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 21,
+"evidence": 0,
+"trails": 7,
+"binary": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-29T18:20:37Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"conductor-0.3.0/chunks/2026-09-29-diagnostic-quality-cluster-off-the-drift-pin",
+"--run-dir",
+".andromeda/runs/2026-09-29T17-50-46-wrap",
+"--marker",
+"2026-09-29-diagnostic-quality-cluster-off-the-drift-pin"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base a76420ad (the parent of the oldest pre-CI commit 4843287c) · lists new 0 · modify 14 · derived 1 · record 1",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"recorded in-intent crates/conductor-run/tests/real_model_series/mod.rs",
+"list conductor-0.3.0/chunks/2026-09-29-diagnostic-quality-cluster-off-the-drift-pin/evidence/* (derived by `bash scripts/agent-run.sh run --live real-model`) ×0",
+"scope: clean — changed 12 · listed 11 · recorded 1 (companion 0 · mechanical 0 · in-intent 1 · widening 0) · absorbed 0 · excluded 82"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "a76420adf2930720342ea13f72fc981deaed446a",
+"base_why": "the parent of the oldest pre-CI commit 4843287c",
+"counts": {
+"changed": 12,
+"listed": 11,
+"recorded": 1,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 1,
+"widening": 0
+},
+"excluded": 82,
+"unparsed": 0,
+"widening_without_word": 0
+}
+}
+]

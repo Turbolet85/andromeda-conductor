@@ -1,0 +1,81 @@
+# Cascade step-2 sweep — 2026-09-29-diagnostic-quality-cluster-off-the-drift-pin wrap.
+# One pattern per retired claim, keyed on what the claim SAYS (its verbs, the mechanism) as well as its name.
+
+[[pattern]]
+id = 'redriven'
+fixed = 'never re-driven'
+
+[[pattern]]
+id = 'fired-once'
+fixed = 'fired once'
+
+[[pattern]]
+id = 'driven-once'
+fixed = 'driven once'
+ignore_case = true
+
+[[pattern]]
+id = 'one-drive'
+fixed = 'one drive'
+ignore_case = true
+
+[[pattern]]
+id = 'one-leg'
+regex = 'the one (graded )?(leg|drive)'
+ignore_case = true
+
+[[pattern]]
+id = 'unbacked'
+fixed = 'UNBACKED_AUTO'
+
+[[pattern]]
+id = 'diag-quality'
+fixed = 'diagnostic-quality'
+
+[[pattern]]
+id = 'env-fp'
+regex = 'envelope .?fingerprints.? (are )?elided'
+
+[[pattern]]
+id = 'no-report'
+fixed = 'no report was read'
+
+[[pattern]]
+id = 'sweep64'
+fixed = 'sweep to 64'
+
+[[pattern]]
+id = 'basename'
+fixed = 'workspace basename'
+
+[[pattern]]
+id = 'rm-capture'
+fixed = 'rm-capture.txt'
+
+[[pattern]]
+id = 'uniq-storm'
+fixed = 'unique fingerprint-storm'
+
+[[pattern]]
+id = 'not-observed'
+fixed = 'not observed live'
+
+[[pattern]]
+id = 'posture-doc'
+fixed = 'pulse-real-model-leg-posture'
+
+[[pattern]]
+id = 'pin-83d'
+fixed = '83d4060'
+
+[[pattern]]
+id = 'no-attrib'
+fixed = 'NoAttributableIncident'
+
+[[pattern]]
+id = 'storm-count'
+fixed = 'CANARY_STORM_COUNT'
+
+[[pattern]]
+id = 'evid-tree'
+fixed = 'evidence/` tree'

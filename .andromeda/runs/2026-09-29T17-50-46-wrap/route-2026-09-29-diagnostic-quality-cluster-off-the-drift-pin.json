@@ -1,0 +1,119 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-29T18:20:45Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-09-29-diagnostic-quality-cluster-off-the-drift-pin",
+"--run-dir",
+".andromeda/runs/2026-09-29T17-50-46-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"flip master-route.md:155 - 2026-09-29-diagnostic-quality-cluster-off-the-drift-pin pending -> complete"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-29T18:20:45Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-09-29-diagnostic-quality-cluster-off-the-drift-pin",
+"--date",
+"2026-09-29",
+"--run-dir",
+".andromeda/runs/2026-09-29T17-50-46-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :50 strip CONTEXT ( 684ch \"CONTEXT (from 2026-09-22-interpretation-\"",
+"pin :50 strip BLOCKED-ON: 619ch \"BLOCKED-ON: the real-model preflight can\"",
+"pin next markerless :52 holds CONTEXT:×1",
+"50 · 2026-09-29-diagnostic-quality-cluster-off-the-drift-pin · strip 2 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 50,
+"marker": "2026-09-29-diagnostic-quality-cluster-off-the-drift-pin",
+"blocks": 2,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-29T18:20:53Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-09-29-diagnostic-quality-cluster-off-the-drift-pin",
+"--date",
+"2026-09-29",
+"--run-dir",
+".andromeda/runs/2026-09-29T17-50-46-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :50 strip CONTEXT ( 684ch \"CONTEXT (from 2026-09-22-interpretation-\"",
+"pin :50 strip BLOCKED-ON: 619ch \"BLOCKED-ON: the real-model preflight can\"",
+"pin next markerless :52 holds CONTEXT:×1",
+"50 · 2026-09-29-diagnostic-quality-cluster-off-the-drift-pin · strip 2 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+"./conductor-0.3.0\\route-archive.md",
+"./conductor-0.3.0\\working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 50,
+"marker": "2026-09-29-diagnostic-quality-cluster-off-the-drift-pin",
+"blocks": 2,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

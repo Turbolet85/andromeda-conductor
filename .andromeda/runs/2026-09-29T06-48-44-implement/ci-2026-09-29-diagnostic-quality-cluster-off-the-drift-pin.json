@@ -1,0 +1,64 @@
+[
+{
+"tool": "ci",
+"v": "1.0",
+"sha8": "bf89b279",
+"ts": "2026-09-29T17:49:57Z",
+"argv": [
+"conclusion",
+"--run-dir",
+".andromeda/runs/2026-09-29T06-48-44-implement",
+"--marker",
+"2026-09-29-diagnostic-quality-cluster-off-the-drift-pin",
+"--sha",
+"4843287cec8fd8d1f1caba6fc20f7046385f7c26",
+"--wait",
+"1800"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"repo Turbolet85/andromeda-conductor (the push remote `origin`) · polled 20× over 592 s",
+"4843287cec8f verdict: green · checks 3/3 · wall 573 s · runs CI#36606545174 completed/success",
+"runs: CI#36606545174 push completed/success"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"repo": "Turbolet85/andromeda-conductor",
+"host": "github.com",
+"repo_source": "the push remote `origin`",
+"names": [],
+"shas": [
+{
+"sha": "4843287cec8fd8d1f1caba6fc20f7046385f7c26",
+"word": "green",
+"polls": [
+"in progress",
+"in progress",
+"in progress",
+"in progress",
+"in progress",
+"in progress",
+"in progress",
+"in progress",
+"in progress",
+"in progress",
+"in progress",
+"in progress",
+"in progress",
+"in progress",
+"in progress",
+"in progress",
+"in progress",
+"in progress",
+"in progress",
+"green"
+]
+}
+]
+}
+}
+]

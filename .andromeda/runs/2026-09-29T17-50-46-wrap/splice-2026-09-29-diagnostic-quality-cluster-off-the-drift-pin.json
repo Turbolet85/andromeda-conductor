@@ -1,0 +1,239 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-29T18:10:50Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-29T17-50-46-wrap/architecture-entry.md",
+"--lines",
+"19",
+"--run-dir",
+".andromeda/runs/2026-09-29T17-50-46-wrap",
+"--marker",
+"2026-09-29-diagnostic-quality-cluster-off-the-drift-pin"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+19 at line 1012 · lines 1011→1030 · bytes 172509→175495 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-29T17-50-46-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 1011,
+"bytes": 172509,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1030,
+"bytes": 175495
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-29T18:10:50Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-29T17-50-46-wrap/security-plan-entry.md",
+"--lines",
+"24",
+"--run-dir",
+".andromeda/runs/2026-09-29T17-50-46-wrap",
+"--marker",
+"2026-09-29-diagnostic-quality-cluster-off-the-drift-pin"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+24 at line 427 · lines 426→450 · bytes 79680→82016 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-29T17-50-46-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 426,
+"bytes": 79680,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 450,
+"bytes": 82016
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-29T18:10:50Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-29T17-50-46-wrap/test-plan-entry.md",
+"--lines",
+"20",
+"--run-dir",
+".andromeda/runs/2026-09-29T17-50-46-wrap",
+"--marker",
+"2026-09-29-diagnostic-quality-cluster-off-the-drift-pin"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+20 at line 646 · lines 645→665 · bytes 112620→114437 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-29T17-50-46-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 645,
+"bytes": 112620,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 665,
+"bytes": 114437
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-29T18:10:50Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-29T17-50-46-wrap/obs-plan-entry.md",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-09-29T17-50-46-wrap",
+"--marker",
+"2026-09-29-diagnostic-quality-cluster-off-the-drift-pin"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+6 at line 319 · lines 318→324 · bytes 58156→59059 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-29T17-50-46-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 318,
+"bytes": 58156,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 324,
+"bytes": 59059
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-29T18:16:12Z",
+"argv": [
+"delete",
+"--file",
+"conductor-0.3.0/working-route.md",
+"--line",
+"52",
+"--expect-prefix",
+"Hue-shift budget graded hard — ",
+"--run-dir",
+".andromeda/runs/2026-09-29T17-50-46-wrap",
+"--marker",
+"2026-09-29-diagnostic-quality-cluster-off-the-drift-pin"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"delete working-route.md:-1 at line 52 · lines 63→62 · bytes 15073→13688 · term lf",
+"removed: Hue-shift budget graded hard — `halo-hue-encoding` re-driven once Pulse emits ",
+"last line now: Version close on measured evidence — every capability verified or deferred on "
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0/working-route.md"
+],
+"before": {
+"lines": 63,
+"bytes": 15073,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 62,
+"bytes": 13688
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-29T18:16:12Z",
+"argv": [
+"append",
+"--file",
+"conductor-0.3.0/working-route.md",
+"--payload-file",
+".andromeda/runs/2026-09-29T17-50-46-wrap/route-payload.txt",
+"--after-line",
+"51",
+"--lines",
+"5",
+"--run-dir",
+".andromeda/runs/2026-09-29T17-50-46-wrap",
+"--marker",
+"2026-09-29-diagnostic-quality-cluster-off-the-drift-pin"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append working-route.md:+5 at line 52 · lines 62→67 · bytes 13688→17860 · term lf",
+"last line now: Version close on measured evidence — every capability verified or deferred on "
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0/working-route.md"
+],
+"before": {
+"lines": 62,
+"bytes": 13688,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 67,
+"bytes": 17860
+}
+}
+]

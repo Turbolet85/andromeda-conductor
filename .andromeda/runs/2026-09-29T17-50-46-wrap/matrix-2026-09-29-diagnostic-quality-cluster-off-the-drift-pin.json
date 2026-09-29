@@ -1,0 +1,192 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-29T18:19:37Z",
+"argv": [
+"note",
+"--dir",
+"conductor-0.3.0",
+"--id",
+"v3-09",
+"--text-file",
+".andromeda/runs/2026-09-29T17-50-46-wrap/note-v3-09.md",
+"--run-dir",
+".andromeda/runs/2026-09-29T17-50-46-wrap",
+"--marker",
+"2026-09-29-diagnostic-quality-cluster-off-the-drift-pin"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v3-09: +1008 chars (total 9444) · status deferred · ref/acceptance untouched",
+"wrote conductor-0.3.0\\verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0\\verification-matrix.json"
+],
+"before": {
+"id": "v3-09",
+"chunk": "2026-09-29-diagnostic-quality-cluster-off-the-drift-pin",
+"status": "deferred",
+"method": "dynamic-external",
+"ref": "null",
+"acceptance": "A pre-stated series of at most five drives. Each drive is fired through `bash scripts/agent-run.sh run --live real-model… (1728 chars)",
+"notes_chars": 8434
+},
+"after": {
+"id": "v3-09",
+"chunk": "2026-09-29-diagnostic-quality-cluster-off-the-drift-pin",
+"status": "deferred",
+"method": "dynamic-external",
+"ref": "null",
+"acceptance": "A pre-stated series of at most five drives. Each drive is fired through `bash scripts/agent-run.sh run --live real-model… (1728 chars)",
+"notes_chars": 9444
+}
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-29T18:19:37Z",
+"argv": [
+"unclaim",
+"--dir",
+"conductor-0.3.0",
+"--id",
+"v3-09",
+"--run-dir",
+".andromeda/runs/2026-09-29T17-50-46-wrap",
+"--marker",
+"2026-09-29-diagnostic-quality-cluster-off-the-drift-pin"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"unclaim v3-09: chunk 2026-09-29-diagnostic-quality-cluster-off-the-drift-pin → null · status deferred kept",
+"wrote conductor-0.3.0\\verification-matrix.json · 1 entry changed",
+"pool: unclaimed 2 [v3-03 v3-08]"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0\\verification-matrix.json"
+],
+"before": {
+"id": "v3-09",
+"chunk": "2026-09-29-diagnostic-quality-cluster-off-the-drift-pin",
+"status": "deferred",
+"method": "dynamic-external",
+"ref": "null",
+"acceptance": "A pre-stated series of at most five drives. Each drive is fired through `bash scripts/agent-run.sh run --live real-model… (1728 chars)",
+"notes_chars": 9444
+},
+"after": {
+"id": "v3-09",
+"chunk": null,
+"status": "deferred",
+"method": "dynamic-external",
+"ref": "null",
+"acceptance": "A pre-stated series of at most five drives. Each drive is fired through `bash scripts/agent-run.sh run --live real-model… (1728 chars)",
+"notes_chars": 9444
+}
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-29T18:19:37Z",
+"argv": [
+"flip",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-29-diagnostic-quality-cluster-off-the-drift-pin",
+"--run-dir",
+".andromeda/runs/2026-09-29T17-50-46-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-29-diagnostic-quality-cluster-off-the-drift-pin: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v3-10 → verified — `scenarios/real-model-interpretation.toml` names P-031, P-033, P-034 and P-044 i… (1113 chars)",
+"dry-run: nothing written",
+"version: verified 8/11"
+],
+"stderr": null,
+"wrote": [],
+"before": [
+{
+"id": "v3-10",
+"chunk": "2026-09-29-diagnostic-quality-cluster-off-the-drift-pin",
+"status": "implemented",
+"method": "unit",
+"ref": "crates/conductor-run/tests/real_model_harvest.rs::{a01..a21 (P-033), p031_*, p034_*, p044_*, the_pinned_capture_is_block… (403 chars)",
+"acceptance": "`scenarios/real-model-interpretation.toml` names P-031, P-033, P-034 and P-044 in its `p_ids`. The harness drives that s… (1113 chars)",
+"notes_chars": 394
+}
+],
+"after": [
+{
+"id": "v3-10",
+"chunk": "2026-09-29-diagnostic-quality-cluster-off-the-drift-pin",
+"status": "verified",
+"method": "unit",
+"ref": "crates/conductor-run/tests/real_model_harvest.rs::{a01..a21 (P-033), p031_*, p034_*, p044_*, the_pinned_capture_is_block… (403 chars)",
+"acceptance": "`scenarios/real-model-interpretation.toml` names P-031, P-033, P-034 and P-044 in its `p_ids`. The harness drives that s… (1113 chars)",
+"notes_chars": 394
+}
+]
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-29T18:19:44Z",
+"argv": [
+"flip",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-29-diagnostic-quality-cluster-off-the-drift-pin",
+"--run-dir",
+".andromeda/runs/2026-09-29T17-50-46-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-29-diagnostic-quality-cluster-off-the-drift-pin: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v3-10 → verified — `scenarios/real-model-interpretation.toml` names P-031, P-033, P-034 and P-044 i… (1113 chars)",
+"wrote conductor-0.3.0\\verification-matrix.json · 1 entry changed",
+"version: verified 8/11"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0\\verification-matrix.json"
+],
+"before": [
+{
+"id": "v3-10",
+"chunk": "2026-09-29-diagnostic-quality-cluster-off-the-drift-pin",
+"status": "implemented",
+"method": "unit",
+"ref": "crates/conductor-run/tests/real_model_harvest.rs::{a01..a21 (P-033), p031_*, p034_*, p044_*, the_pinned_capture_is_block… (403 chars)",
+"acceptance": "`scenarios/real-model-interpretation.toml` names P-031, P-033, P-034 and P-044 in its `p_ids`. The harness drives that s… (1113 chars)",
+"notes_chars": 394
+}
+],
+"after": [
+{
+"id": "v3-10",
+"chunk": "2026-09-29-diagnostic-quality-cluster-off-the-drift-pin",
+"status": "verified",
+"method": "unit",
+"ref": "crates/conductor-run/tests/real_model_harvest.rs::{a01..a21 (P-033), p031_*, p034_*, p044_*, the_pinned_capture_is_block… (403 chars)",
+"acceptance": "`scenarios/real-model-interpretation.toml` names P-031, P-033, P-034 and P-044 in its `p_ids`. The harness drives that s… (1113 chars)",
+"notes_chars": 394
+}
+]
+}
+]
