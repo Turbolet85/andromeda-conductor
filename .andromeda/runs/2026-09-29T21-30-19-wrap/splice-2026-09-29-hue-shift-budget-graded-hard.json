@@ -1,0 +1,80 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-29T21:39:33Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-29T21-30-19-wrap/architecture-entry.md",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-09-29T21-30-19-wrap",
+"--marker",
+"2026-09-29-hue-shift-budget-graded-hard"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+6 at line 1039 · lines 1038→1044 · bytes 176559→178131 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-29T21-30-19-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 1038,
+"bytes": 176559,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1044,
+"bytes": 178131
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-29T21:39:33Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-29T21-30-19-wrap/obs-plan-entry.md",
+"--lines",
+"12",
+"--run-dir",
+".andromeda/runs/2026-09-29T21-30-19-wrap",
+"--marker",
+"2026-09-29-hue-shift-budget-graded-hard"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+12 at line 325 · lines 324→336 · bytes 59059→61195 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-29T21-30-19-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 324,
+"bytes": 59059,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 336,
+"bytes": 61195
+}
+}
+]

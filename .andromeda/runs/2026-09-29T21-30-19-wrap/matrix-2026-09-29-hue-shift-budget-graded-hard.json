@@ -1,0 +1,99 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-29T21:43:42Z",
+"argv": [
+"flip",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-29-hue-shift-budget-graded-hard",
+"--run-dir",
+".andromeda/runs/2026-09-29T21-30-19-wrap",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-29-hue-shift-budget-graded-hard: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v3-08 → verified — `halo-hue-encoding` is driven live once against a `pulse-app` build proven by co… (1076 chars)",
+"dry-run: nothing written",
+"version: verified 9/11"
+],
+"stderr": null,
+"wrote": [],
+"before": [
+{
+"id": "v3-08",
+"chunk": "2026-09-29-hue-shift-budget-graded-hard",
+"status": "implemented",
+"method": "dynamic-external",
+"ref": "crates/conductor-run/tests/delegated_timing_harvest.rs::tests::p025_the_graded_leg_meets_its_two_second_budget_at_its_re… (531 chars)",
+"acceptance": "`halo-hue-encoding` is driven live once against a `pulse-app` build proven by content to carry `tier_effective_at_unix_n… (1076 chars)",
+"notes_chars": 1457
+}
+],
+"after": [
+{
+"id": "v3-08",
+"chunk": "2026-09-29-hue-shift-budget-graded-hard",
+"status": "verified",
+"method": "dynamic-external",
+"ref": "crates/conductor-run/tests/delegated_timing_harvest.rs::tests::p025_the_graded_leg_meets_its_two_second_budget_at_its_re… (531 chars)",
+"acceptance": "`halo-hue-encoding` is driven live once against a `pulse-app` build proven by content to carry `tier_effective_at_unix_n… (1076 chars)",
+"notes_chars": 1457
+}
+]
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-29T21:43:46Z",
+"argv": [
+"flip",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-29-hue-shift-budget-graded-hard",
+"--run-dir",
+".andromeda/runs/2026-09-29T21-30-19-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-29-hue-shift-budget-graded-hard: 1 · to flip 1 · already verified 0 · below 0",
+"flipped v3-08 → verified — `halo-hue-encoding` is driven live once against a `pulse-app` build proven by co… (1076 chars)",
+"wrote conductor-0.3.0\\verification-matrix.json · 1 entry changed",
+"version: verified 9/11"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0\\verification-matrix.json"
+],
+"before": [
+{
+"id": "v3-08",
+"chunk": "2026-09-29-hue-shift-budget-graded-hard",
+"status": "implemented",
+"method": "dynamic-external",
+"ref": "crates/conductor-run/tests/delegated_timing_harvest.rs::tests::p025_the_graded_leg_meets_its_two_second_budget_at_its_re… (531 chars)",
+"acceptance": "`halo-hue-encoding` is driven live once against a `pulse-app` build proven by content to carry `tier_effective_at_unix_n… (1076 chars)",
+"notes_chars": 1457
+}
+],
+"after": [
+{
+"id": "v3-08",
+"chunk": "2026-09-29-hue-shift-budget-graded-hard",
+"status": "verified",
+"method": "dynamic-external",
+"ref": "crates/conductor-run/tests/delegated_timing_harvest.rs::tests::p025_the_graded_leg_meets_its_two_second_budget_at_its_re… (531 chars)",
+"acceptance": "`halo-hue-encoding` is driven live once against a `pulse-app` build proven by content to carry `tier_effective_at_unix_n… (1076 chars)",
+"notes_chars": 1457
+}
+]
+}
+]

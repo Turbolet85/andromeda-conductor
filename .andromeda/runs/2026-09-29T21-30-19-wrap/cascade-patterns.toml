@@ -1,0 +1,33 @@
+[[pattern]]
+id = "unmeasurable"
+regex = 'unmeasurable'
+ignore_case = true
+
+[[pattern]]
+id = "mech-pin"
+regex = 'mechanism pin|no pass arm'
+ignore_case = true
+
+[[pattern]]
+id = "fall-transit"
+fixed = 'transitioned_at_unix_nano'
+
+[[pattern]]
+id = "would-emit"
+regex = 'would (have|need) to emit'
+ignore_case = true
+
+[[pattern]]
+id = "quantiz"
+regex = 'quantiz'
+ignore_case = true
+
+[[pattern]]
+id = "cond-meas-only"
+regex = 'Conductor measurement, not a transcribed'
+ignore_case = true
+
+[[pattern]]
+id = "p025-intake"
+regex = 'lifts only if Pulse|Still Pulse intake'
+ignore_case = true

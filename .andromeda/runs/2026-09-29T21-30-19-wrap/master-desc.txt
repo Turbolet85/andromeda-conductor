@@ -1,0 +1,1 @@
+`halo-hue-encoding` re-driven live against Pulse's P-025 observable, `duration_ms ≤ 2000` graded hard at the harvest tier — PASS, worst 684.98 ms (rise anchored 29.98 ms; fall 430.79 ms in-window), Pulse `4502d5d` carrying `e98d838`; `v3-08` verified

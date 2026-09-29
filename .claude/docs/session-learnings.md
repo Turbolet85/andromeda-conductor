@@ -1,6 +1,37 @@
 # Session Learnings
 
 _This file is curated by `/wrap-session`. Learnings captured here are too detailed or specific for CLAUDE.md but worth preserving as reference material for future sessions._
+## 2026-09-29 — A rule fixed before a drive is corrected after it by add-only dated brackets, never by rewording
+
+A grading rule is committed before a live leg precisely so its grade cannot be fitted to the reading. Its
+sha256 is recorded into the leg's evidence before the leg fires, and that recorded hash is the proof. When the
+drive then falsifies a forecast the rule's prose carries, the correction goes BESIDE the stated text as a dated
+`[corrected …]` bracket. The stated text stays untouched, so the recorded hash still describes "the rule as it
+stood before the drive". Verify it both ways before the commit:
+- `git diff --numstat {pre-correction commit} -- {contract}` must read `N 0` (added lines only);
+- the committed pre-correction file must still hash to the recorded value.
+
+Rewording the rule in place would silently orphan the pre-leg hash, and with it the only evidence that the rule
+predated the reading. The same stance holds for any `contracts/` document with a pre-stated rule (the posture
+contract, the P-025 measurement contract).
+
+---
+
+## 2026-09-29 — pulse-app raises its own compact widget at boot: verify it, don't ask for it
+
+A hue-shift leg needs Pulse's COMPACT-WIDGET window mounted before the tier flips (a change older than the
+canvas mount is never sampled) and visible (a minimized, throttled 1 s poll inflates `duration_ms`). This is not
+an operator step: `pulse-app` calls `window::show_compact_widget` in its Tauri `setup`, so on a fresh data dir
+the widget is up before the OTLP receiver even binds. What the agent owes is VERIFICATION, from a PowerShell
+script run by path:
+- enumerate the launched PID's top-level windows (`EnumWindows` + `GetWindowThreadProcessId`);
+- read `IsWindowVisible` / `IsIconic` and the window size.
+
+The widget is the small visible `andromeda-pulse` window (about 496×279), while the 1296×809 dashboard stays
+hidden. Record that reading in the leg's evidence beside the posture lines from Pulse's own log.
+
+---
+
 ## 2026-09-24 — Pin an undocumented platform premise with a probe that re-measures it on every run
 
 When a gate's rule rests on a platform semantic the vendor does not document, and the semantic can only be

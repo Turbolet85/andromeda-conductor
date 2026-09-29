@@ -1,0 +1,123 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-29T21:44:15Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-09-29-hue-shift-budget-graded-hard",
+"--run-dir",
+".andromeda/runs/2026-09-29T21-30-19-wrap",
+"--desc-file",
+".andromeda/runs/2026-09-29T21-30-19-wrap/master-desc.txt"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"flip master-route.md:157 - 2026-09-29-hue-shift-budget-graded-hard pending -> complete - desc REWRITTEN from --desc-file"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-29T21:44:15Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-09-29-hue-shift-budget-graded-hard",
+"--date",
+"2026-09-29",
+"--run-dir",
+".andromeda/runs/2026-09-29T21-30-19-wrap",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"pin :54 strip CONTEXT ( 648ch \"CONTEXT (from 2026-09-13-p-025-measureme\"",
+"pin :54 strip CONTEXT ( 699ch \"CONTEXT (2026-09-29 wrap): its BLOCKED-O\"",
+"pin :54 strip CARRY: 412ch \"CARRY: Pulse's P-025 phase measured two \"",
+"pin next markerless :56 holds BLOCKED-ON:×1 · CONTEXT:×1 · CARRY:×3",
+"54 · 2026-09-29-hue-shift-budget-graded-hard · strip 3 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 54,
+"marker": "2026-09-29-hue-shift-budget-graded-hard",
+"blocks": 3,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-29T21:44:22Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-09-29-hue-shift-budget-graded-hard",
+"--date",
+"2026-09-29",
+"--run-dir",
+".andromeda/runs/2026-09-29T21-30-19-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"pin :54 strip CONTEXT ( 648ch \"CONTEXT (from 2026-09-13-p-025-measureme\"",
+"pin :54 strip CONTEXT ( 699ch \"CONTEXT (2026-09-29 wrap): its BLOCKED-O\"",
+"pin :54 strip CARRY: 412ch \"CARRY: Pulse's P-025 phase measured two \"",
+"pin next markerless :56 holds BLOCKED-ON:×1 · CONTEXT:×1 · CARRY:×3",
+"54 · 2026-09-29-hue-shift-budget-graded-hard · strip 3 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+".\\conductor-0.3.0\\route-archive.md",
+".\\conductor-0.3.0\\working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 54,
+"marker": "2026-09-29-hue-shift-budget-graded-hard",
+"blocks": 3,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

@@ -200,6 +200,13 @@ drive, so the grade cannot be fitted to the reading. The harvest applies it in
 - **The FALL is witnessed by Pulse's own `smoke:hue-shift` at `e98d838`,** with fall anchor errors of 25 ms and
   28 ms and `duration_ms` 510 and 578 (Pulse `evidence/green-leg.md`). The Conductor leg grades the rise and any
   in-window mid-storm resolve / re-open pair. Its end-of-storm fall lands while the dot is hidden.
+  [corrected 2026-09-29 (2026-09-29-hue-shift-budget-graded-hard, after the one graded drive, operator-directed):
+  the forecast in the last sentence was measured false. The scenario's incident auto-resolved at the storm's end
+  (the `triage.incident.auto_resolve.tick` at 1790716377928, `resolved_count: 2`) while its dot was still live,
+  so the fall landed IN the window: 430.79 ms, `severity_tier: none`. It was graded like every in-window sample,
+  which is what the rule above already says. The grade was not affected (PASS, worst 684.98 ms). The pre-leg
+  sha256 recorded in that chunk's `evidence/hue-verdict.md` is the record of this section as it stood before the
+  drive; this bracket is the only text added since.]
 
 ## Why the present observable cannot carry the bound
 

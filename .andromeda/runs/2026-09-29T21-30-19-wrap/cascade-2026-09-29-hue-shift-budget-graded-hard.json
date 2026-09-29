@@ -1,0 +1,96 @@
+[
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "1550f3bc",
+"ts": "2026-09-29T21:38:22Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-09-29T21-30-19-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-09-29T21-30-19-wrap",
+"--marker",
+"2026-09-29-hue-shift-budget-graded-hard"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"baseline cdb70826 (pre-CI parent — the oldest of 1 pre-CI commit(s), 9da18e12)",
+"unmeasurable · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:350 (pros…",
+"mech-pin · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:350 (prose)",
+"fall-transit · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:350 (pros…",
+"would-emit · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:181 (pr…",
+"quantiz · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control obs-plan.md:350 (prose)",
+"cond-meas-only · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:181…",
+"p025-intake · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:350 (prose)",
+".andromeda/obs-plan.md:350 quantiz standing edited mixed ×2 @c3598,3908/4564 …_tick` (TICK QUANTIZATION, U(0, 15s) at a…",
+"unmeasurable · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:350 (pros…",
+"mech-pin · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:350 (prose)",
+"fall-transit · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:350 (pros…",
+"would-emit · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:181 (pr…",
+"quantiz · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control obs-plan.md:350 (prose)",
+"cond-meas-only · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:181…",
+"p025-intake · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:350 (prose)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "cdb708266d59c3600876363b4720e85f33332feb",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), 9da18e12",
+"counts": {
+"unmeasurable": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"mech-pin": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"fall-transit": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"would-emit": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"quantiz": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"cond-meas-only": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"p025-intake": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]
