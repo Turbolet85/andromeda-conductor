@@ -166,6 +166,48 @@ pub fn canary_spec(marker: &str) -> ExceptionSpec {
     )
 }
 
+/// Storms per canary under the real-model posture. The real model decides each cue-bearing digest
+/// stochastically, so one storm is one decision; three give the canary three decisions per preflight
+/// (`contracts/pulse-real-model-leg-posture.md`, The drive series (b)).
+pub const REAL_MODEL_CANARY_STORMS: u32 = 3;
+
+/// The spacing between real-model canary storms: over Pulse's 60 s cue latch on one service
+/// (andromeda-pulse `crates/triage/src/cue/emitter.rs:28`), so each storm raises a fresh cue.
+pub const REAL_MODEL_CANARY_STORM_GAP: std::time::Duration = std::time::Duration::from_secs(90);
+
+/// The canary's storm specs: ONE under the deterministic posture — the `boot` gate's and every
+/// deterministic leg's canary, unchanged — and [`REAL_MODEL_CANARY_STORMS`] under the real-model
+/// posture, each after the first carrying its own marker, so its fingerprint differs and Pulse's digest
+/// damper sees a changed projection rather than suppressing a repeat.
+fn canary_storm_specs(marker: &str, posture: L4Posture) -> Vec<ExceptionSpec> {
+    let storms = match posture {
+        L4Posture::Deterministic => 1,
+        L4Posture::RealModel => REAL_MODEL_CANARY_STORMS,
+    };
+    (0..storms)
+        .map(|n| match n {
+            0 => canary_spec(marker),
+            _ => canary_spec(&format!("{marker}_{n}")),
+        })
+        .collect()
+}
+
+/// Emit every storm of `specs`, [`REAL_MODEL_CANARY_STORM_GAP`] apart, the storm seeds ascending
+/// from `base` without overlap so every occurrence keeps a distinct span identity.
+async fn emit_canary_storms(
+    traces: &mut TraceEmitter,
+    specs: &[ExceptionSpec],
+    base: u64,
+) -> anyhow::Result<()> {
+    for (n, spec) in (0u64..).zip(specs) {
+        if n > 0 {
+            tokio::time::sleep(REAL_MODEL_CANARY_STORM_GAP).await;
+        }
+        emit_canary_storm(traces, spec, base.wrapping_add(n * CANARY_STORM_COUNT)).await?;
+    }
+    Ok(())
+}
+
 /// Emit the canary storm through `traces` — [`CANARY_STORM_COUNT`] occurrences seeded from `base`, so
 /// each carries a DISTINCT span identity while the fingerprint, a pure function of content, stays
 /// identical across all of them. The transport is injected rather than fixed at
@@ -203,7 +245,7 @@ async fn canary_gate(
     let status = observe_run_contract(&contract, posture);
     // An unmet launch condition means no incident can form, so the warm-up would only spend its
     // window to reach the same block — emit the storm, skip the wait.
-    let canary = match emit_canary(&contract, status.is_satisfied()).await {
+    let canary = match emit_canary(&contract, status.is_satisfied(), posture).await {
         Ok(canary) => canary,
         Err(e) => {
             tracing::info!(
@@ -232,21 +274,30 @@ async fn canary_gate(
 /// the counted storm, so only an incident opened past that instant satisfies it. The marker cannot
 /// carry it (Pulse scrubs incident titles); the fingerprint could — at Pulse `83d4060` it reaches
 /// `fingerprint_refs` beside the model's constant `det-*` refs — but the stamp is the chosen carrier.
-async fn emit_canary(contract: &RunContract, warm_up: bool) -> anyhow::Result<CanaryMarker> {
+///
+/// Under the real-model posture the storms are [`canary_storm_specs`]'s three, and the stamp is taken
+/// before the FIRST, so an incident any of them forms satisfies the gate.
+async fn emit_canary(
+    contract: &RunContract,
+    warm_up: bool,
+    posture: L4Posture,
+) -> anyhow::Result<CanaryMarker> {
     let marker = format!("ConductorCanary_{}", now_ms());
-    let spec = canary_spec(&marker);
-    let fp = fingerprint(&spec);
+    let specs = canary_storm_specs(&marker, posture);
     // Message-borne (the key-set-witness channel): the value must reach the self-obs artifact so a
     // live leg can compare it against the 8-hex prefix Pulse's storm line carries — the one surface
     // where the transcribed derivation meets Pulse's own (architecture §Read-Back Dependency Posture).
-    tracing::info!("canary fingerprint computed {fp}");
+    for spec in &specs {
+        tracing::info!("canary fingerprint computed {}", fingerprint(spec));
+    }
+    let fp = fingerprint(&specs[0]);
     let base = now_ms() as u64;
     let mut traces = TraceEmitter::connect(DEFAULT_OTLP_ENDPOINT).await?;
     if warm_up {
         warm_up_canary_service(&mut traces, contract, base).await?;
     }
     let emitted_at = now_unix_nanos();
-    emit_canary_storm(&mut traces, &spec, base).await?;
+    emit_canary_storms(&mut traces, &specs, base).await?;
     Ok(CanaryMarker::new(marker, fp, emitted_at))
 }
 
@@ -333,6 +384,8 @@ mod tests {
     #[derive(Clone, Default)]
     struct WarmupCapture {
         requests: std::sync::Arc<std::sync::Mutex<Vec<ExportTraceServiceRequest>>>,
+        /// The virtual instant each export arrived.
+        arrived: std::sync::Arc<std::sync::Mutex<Vec<tokio::time::Instant>>>,
     }
 
     #[tonic::async_trait]
@@ -344,7 +397,94 @@ mod tests {
             request: tonic::Request<ExportTraceServiceRequest>,
         ) -> Result<tonic::Response<ExportTraceServiceResponse>, tonic::Status> {
             self.requests.lock().unwrap().push(request.into_inner());
+            self.arrived
+                .lock()
+                .unwrap()
+                .push(tokio::time::Instant::now());
             Ok(tonic::Response::new(ExportTraceServiceResponse::default()))
+        }
+    }
+
+    /// A trace emitter connected to a fresh stub collector, and the collector's two logs.
+    async fn stub_collector() -> (
+        TraceEmitter,
+        std::sync::Arc<std::sync::Mutex<Vec<ExportTraceServiceRequest>>>,
+        std::sync::Arc<std::sync::Mutex<Vec<tokio::time::Instant>>>,
+    ) {
+        use opentelemetry_proto::tonic::collector::trace::v1::trace_service_server::TraceServiceServer;
+
+        let listener = tokio::net::TcpListener::bind("127.0.0.1:0").await.unwrap();
+        let addr = listener.local_addr().unwrap();
+        let capture = WarmupCapture::default();
+        let requests = std::sync::Arc::clone(&capture.requests);
+        let arrived = std::sync::Arc::clone(&capture.arrived);
+        tokio::spawn(async move {
+            tonic::transport::Server::builder()
+                .add_service(TraceServiceServer::new(capture))
+                .serve_with_incoming(tokio_stream::wrappers::TcpListenerStream::new(listener))
+                .await
+                .ok();
+        });
+        let traces = TraceEmitter::connect(format!("http://{addr}"))
+            .await
+            .expect("the stub collector accepts");
+        (traces, requests, arrived)
+    }
+
+    /// Emit one posture's canary storms against a stub; yields the export count and the virtual
+    /// instant each storm's first occurrence arrived, relative to the first.
+    async fn drive_storms(posture: L4Posture) -> (usize, Vec<std::time::Duration>) {
+        let (mut traces, requests, arrived) = stub_collector().await;
+        let specs = canary_storm_specs("ConductorCanary_1", posture);
+        emit_canary_storms(&mut traces, &specs, 7)
+            .await
+            .expect("the storms are emitted");
+        let count = requests.lock().unwrap().len();
+        let arrived = arrived.lock().unwrap().clone();
+        let storm = usize::try_from(CANARY_STORM_COUNT).expect("a small count");
+        let first = arrived[0];
+        let starts = arrived
+            .iter()
+            .step_by(storm)
+            .map(|at| at.duration_since(first))
+            .collect();
+        (count, starts)
+    }
+
+    #[tokio::test(flavor = "current_thread", start_paused = true)]
+    async fn the_deterministic_canary_is_one_storm_of_the_shipped_shape() {
+        let specs = canary_storm_specs("ConductorCanary_1", L4Posture::Deterministic);
+        assert_eq!(specs.len(), 1);
+        assert_eq!(
+            fingerprint(&specs[0]),
+            fingerprint(&canary_spec("ConductorCanary_1")),
+            "the deterministic storm is the shipped canary, unchanged"
+        );
+        let (count, starts) = drive_storms(L4Posture::Deterministic).await;
+        assert_eq!(count, 12, "one storm of CANARY_STORM_COUNT occurrences");
+        assert_eq!(starts, vec![std::time::Duration::ZERO]);
+    }
+
+    #[tokio::test(flavor = "current_thread", start_paused = true)]
+    async fn the_real_model_canary_is_three_distinct_storms_ninety_seconds_apart() {
+        let specs = canary_storm_specs("ConductorCanary_1", L4Posture::RealModel);
+        let fps: std::collections::BTreeSet<String> = specs.iter().map(fingerprint).collect();
+        assert_eq!(specs.len(), 3);
+        assert_eq!(fps.len(), 3, "each storm carries its own fingerprint");
+        assert_eq!(
+            fingerprint(&specs[0]),
+            fingerprint(&canary_spec("ConductorCanary_1")),
+            "the first storm is the shipped canary"
+        );
+        let (count, starts) = drive_storms(L4Posture::RealModel).await;
+        assert_eq!(count, 36, "three storms of CANARY_STORM_COUNT occurrences");
+        assert_eq!(starts.len(), 3);
+        for (n, start) in starts.iter().enumerate() {
+            let expected = REAL_MODEL_CANARY_STORM_GAP * u32::try_from(n).expect("a small index");
+            assert!(
+                *start >= expected && *start < expected + std::time::Duration::from_secs(1),
+                "storm {n} opens {start:?} after the first, expected {expected:?}"
+            );
         }
     }
 

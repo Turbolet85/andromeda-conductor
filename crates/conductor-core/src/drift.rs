@@ -45,22 +45,20 @@ pub const KNOWN_UNCLASSIFIED: &[&str] = &[];
 /// record of that owed work: a debt, never a source of truth, and never a range expression.
 /// [`check_scenario_backing`] holds it to exact-set equality, so it can only shrink under compulsion.
 ///
-/// **Interpretation-correctness (`v2-05`).** Four entries — `P-031`, `P-033`, `P-034`, `P-044` — are the
-/// diagnostic-quality cluster, and their absence is a recorded DECISION rather than an oversight.
-/// Pulse's deterministic L4 mode replaces the Llama-3.2-3B inference with a canned `L4Output`, which is
-/// exactly what makes the live legs reproducible; the cost is that those legs exercise the pipeline and
-/// never the interpretation. So **"Conductor green" does not mean Pulse's interpretation is
-/// trustworthy** — it means the plumbing carried a canned answer end to end. Proving the real thing
-/// means injecting a known root cause with deterministic mode OFF and asserting the top hypothesis
-/// identifies it, which needs both real per-check read-back extraction and a non-deterministic live leg
-/// that can never be a CI gate. **Owner: a conductor-0.3.0 entry.**
+/// **Interpretation-correctness (`v2-05`) — discharged.** The diagnostic-quality cluster — `P-031`,
+/// `P-033`, `P-034`, `P-044` — sat here as a recorded DECISION: Pulse's deterministic L4 mode replaces the
+/// Llama-3.2-3B inference with a canned `L4Output`, so the deterministic legs exercise the pipeline and
+/// never the interpretation, and "Conductor green" there does not mean Pulse's interpretation is
+/// trustworthy. The cluster is now backed by the one path that exercises interpretation:
+/// `scenarios/real-model-interpretation.toml`, driven with deterministic mode OFF through the
+/// operator-gated real-model leg, a non-deterministic live leg that can never be a CI gate. Each id is
+/// graded by its own arm of `crates/conductor-run/tests/real_model_harvest.rs` over a capture re-read
+/// after the leg, bound by `contracts/pulse-real-model-leg-posture.md`.
 ///
 /// The remaining four retire as their scenarios land. `P-074` left this ledger when
 /// `fingerprint-storm-live-proof` named it in `scenarios/fingerprint-storm.toml`; `P-079` when
 /// `constellation-severity-live-wiring` did, and `P-073` when `pulse-run-contract` did.
-pub const UNBACKED_AUTO: &[&str] = &[
-    "P-031", "P-033", "P-034", "P-039", "P-041", "P-042", "P-043", "P-044",
-];
+pub const UNBACKED_AUTO: &[&str] = &["P-039", "P-041", "P-042", "P-043"];
 
 /// Compare the accepted capability set against the coverage classification.
 ///

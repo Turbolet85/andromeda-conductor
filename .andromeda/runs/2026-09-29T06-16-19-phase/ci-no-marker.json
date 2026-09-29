@@ -1,0 +1,80 @@
+[
+{
+"tool": "ci",
+"v": "1.0",
+"sha8": "bf89b279",
+"ts": "2026-09-29T06:16:27Z",
+"argv": [
+"conclusion",
+"--sha",
+"a76420adf2930720342ea13f72fc981deaed446a",
+"--sha",
+"17379d69bf1b6886c43fdf929de01e528f14aa6b",
+"--sha",
+"0f9b17b49875e76a8721416821e21be3350532e7",
+"--sha",
+"80e9e96938a485098f9634d564fecf70777708e6",
+"--sha",
+"67e8cb12b687c491c334635f04158e499cef90ca",
+"--run-dir",
+".andromeda/runs/2026-09-29T06-16-19-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"repo Turbolet85/andromeda-conductor (the push remote `origin`)",
+"a76420adf293 verdict: green · checks 3/3 · wall 576 s · runs CI#36529176256 completed/success",
+"17379d69bf1b verdict: not green · checks 3/3 · wall 94 s · runs CI#36529121865 completed/cancelled",
+"0f9b17b49875 verdict: untested — pushed under a later tip",
+"80e9e96938a4 verdict: untested — pushed under a later tip",
+"67e8cb12b687 verdict: green · checks 3/3 · wall 712 s · runs CI#36015554627 completed/success"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"repo": "Turbolet85/andromeda-conductor",
+"host": "github.com",
+"repo_source": "the push remote `origin`",
+"names": [],
+"shas": [
+{
+"sha": "a76420adf2930720342ea13f72fc981deaed446a",
+"word": "green",
+"polls": [
+"green"
+]
+},
+{
+"sha": "17379d69bf1b6886c43fdf929de01e528f14aa6b",
+"word": "not green",
+"polls": [
+"not green"
+]
+},
+{
+"sha": "0f9b17b49875e76a8721416821e21be3350532e7",
+"word": "untested — pushed under a later tip",
+"polls": [
+"none recorded"
+]
+},
+{
+"sha": "80e9e96938a485098f9634d564fecf70777708e6",
+"word": "untested — pushed under a later tip",
+"polls": [
+"none recorded"
+]
+},
+{
+"sha": "67e8cb12b687c491c334635f04158e499cef90ca",
+"word": "green",
+"polls": [
+"green"
+]
+}
+]
+}
+}
+]

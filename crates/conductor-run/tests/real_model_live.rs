@@ -37,7 +37,10 @@ use std::time::{Duration, Instant};
 use conductor_core::redact_value;
 use conductor_emit::{ExceptionSpec, Frame, fingerprint};
 use conductor_verify::{ReadbackClient, VerifyError};
-use real_model_common::{mask_host_paths, rule_section};
+use real_model_common::{
+    DIGEST_ASSEMBLE, DIGEST_TICK, canary_attempts, elide_fingerprints, mask_host_paths,
+    rule_section, sweep_window,
+};
 use serde_json::{Value, json};
 
 // The line grammar the harvest's rule reads — byte-identical to its constants, which the harvest's
@@ -51,13 +54,12 @@ const READ_BACK_FAILED: &str = "read-back failed: ";
 const END_OF_SECTIONS: &str = "-- end of report sections --";
 const INFERENCE_MODE: &str = "pulse-log inference_mode: ";
 const LAUNCH_CWD: &str = "pulse-log workspace basename carries conductor: ";
+const CORPUS_ROWS: &str = "creating digest corpus retrieval rows: ";
 
 const POLL_INTERVAL: Duration = Duration::from_secs(10);
 const POLL_BOUND: Duration = Duration::from_secs(600);
 /// Consecutive not-found ids that end one id sweep (ids are dense corpus row ids).
 const SWEEP_MISSES: u32 = 3;
-/// The most ids one sweep probes.
-const SWEEP_BOUND: i64 = 64;
 
 #[test]
 #[ignore = "run once by `run --live real-model` before the leg fires, never by the capture invocation"]
@@ -149,12 +151,12 @@ fn emit(line: &str) {
     emit_block(&format!("{line}\n"));
 }
 
-/// Record a multi-line block through both scrubs, verbatim otherwise.
+/// Record a multi-line block through both scrubs and the fingerprint elision, verbatim otherwise.
 fn emit_block(text: &str) {
     OUTPUT
         .lock()
         .unwrap_or_else(PoisonError::into_inner)
-        .push_str(&mask_host_paths(&redact_value(text)));
+        .push_str(&elide_fingerprints(&mask_host_paths(&redact_value(text))));
 }
 
 /// The runs dir, resolved under the workspace root through the guard; a rejected handle fails with
@@ -384,12 +386,8 @@ async fn poll_once(
         }
     }
 
-    let first = candidates
-        .iter()
-        .find(|(_, c)| c.seen_active)
-        .map_or(1, |(id, _)| *id);
     let mut misses = 0;
-    for id in first..first.saturating_add(SWEEP_BOUND) {
+    for id in sweep_window(candidates.keys().copied().max()) {
         if misses >= SWEEP_MISSES {
             break;
         }
@@ -431,7 +429,7 @@ async fn poll_once(
     Ok(())
 }
 
-/// Read the attributed report by id and print its identity line, `## Hypotheses` and `## Evidence`.
+/// Read the attributed report by id and print its identity line and every section it rendered.
 async fn print_attributed(
     client: &ReadbackClient,
     id: i64,
@@ -462,16 +460,7 @@ async fn print_attributed(
     emit(&format!(
         "{ATTRIBUTED}incident_id={id} opened_at_unix_nano={opened_ns} degraded_mode={degraded} pickup_ms={pickup_ms}"
     ));
-    emit_block(&report_section(
-        markdown,
-        "## Hypotheses",
-        "## Investigation Steps",
-    ));
-    emit_block(&report_section(
-        markdown,
-        "## Evidence",
-        "## Project Context",
-    ));
+    emit_block(&report_sections(markdown));
     emit(END_OF_SECTIONS);
     emit(&format!(
         "pickup: {pickup_ms} ms (Pulse opened_at, ns, less Conductor's emission instant, ms): \
@@ -480,21 +469,25 @@ async fn print_attributed(
     Some(pickup_ms)
 }
 
-/// One section of Pulse's rendered report, header line included, up to the next section's header.
-fn report_section(markdown: &str, header: &str, next: &str) -> String {
-    let opener = format!("{header}\n");
-    let Some(start) = markdown
-        .find(&format!("\n{opener}"))
-        .map(|at| at + 1)
-        .or_else(|| markdown.starts_with(&opener).then_some(0))
-    else {
-        return format!("{header}\n\n(absent from the report)\n\n");
+/// Pulse's rendered report from its first `## ` header to its end, verbatim and in Pulse's own order: the
+/// six P-031 sections, then `## Resolution Summary` and `## Previously Seen` when rendered. Printing the
+/// span whole, rather than section by section, is what lets the harvest grade the ORDER — a per-section
+/// printer would write each header whether or not Pulse rendered it. The title and identity lines above
+/// the first section (a model-written title, the workspace path) are never printed.
+fn report_sections(markdown: &str) -> String {
+    let start = if markdown.starts_with("## ") {
+        Some(0)
+    } else {
+        markdown.find("\n## ").map(|at| at + 1)
     };
-    let rest = &markdown[start..];
-    let end = rest
-        .find(&format!("\n{next}\n"))
-        .map_or(rest.len(), |at| at + 1);
-    rest[..end].to_string()
+    let Some(start) = start else {
+        return "report sections: none\n".to_string();
+    };
+    let mut body = markdown[start..].to_string();
+    if !body.ends_with('\n') {
+        body.push('\n');
+    }
+    body
 }
 
 /// The `- **Opened (unix-nano):** N` header line of a rendered report.
@@ -599,6 +592,7 @@ fn print_pulse_witnesses(leg_start_ms: Option<i64>, emission_ms: Option<i64>) {
         "pulse-log window: {} lines since the leg's first self-obs line",
         window.len()
     ));
+    let scenario_fp = scenario_cue_fingerprint();
     for (name, keys) in [
         (
             "interpretation.prompt.assemble",
@@ -624,14 +618,31 @@ fn print_pulse_witnesses(leg_start_ms: Option<i64>, emission_ms: Option<i64>) {
             "triage.pattern.storm.detected",
             &["severity_hint", "occurrence_count", "fingerprint_hex"][..],
         ),
+        (DIGEST_TICK, &["mode", "cue_present"][..]),
+        (
+            DIGEST_ASSEMBLE,
+            &["mode", "cue_kind", "cue_priority_tier"][..],
+        ),
+        (
+            DIGEST_RETRIEVE,
+            &["query_id", "row_count_returned", "duration_ms"][..],
+        ),
     ] {
         let hits: Vec<&&Value> = window.iter().filter(|v| target(v) == name).collect();
         emit(&format!("pulse-log {name}: {}", hits.len()));
         for hit in hits {
-            let rendered: Vec<String> = keys
+            let mut rendered: Vec<String> = keys
                 .iter()
                 .filter_map(|k| fields_of(hit, k).map(|value| format!("{k}={value}")))
                 .collect();
+            // The committed capture elides fingerprints, so a storm line says whose storm it was.
+            if name == "triage.pattern.storm.detected" {
+                let hex = fields_of(hit, "fingerprint_hex").unwrap_or_default();
+                rendered.push(format!(
+                    "scenario_storm={}",
+                    !hex.is_empty() && scenario_fp.starts_with(&hex)
+                ));
+            }
             emit(&format!(
                 "pulse-log   {name} t={} {}",
                 hit.get("timestamp")
@@ -666,7 +677,33 @@ fn print_pulse_witnesses(leg_start_ms: Option<i64>, emission_ms: Option<i64>) {
         "creating digest prompt_version: {}",
         version.as_deref().unwrap_or("unknown")
     ));
+    // P-044's digest-side witness, located the same way: Pulse logs the candidate count BEFORE
+    // selection, and the selected matches reach only the unlogged prompt payload.
+    let rows = created_at.and_then(|at| {
+        window[..at]
+            .iter()
+            .rev()
+            .find(|v| target(v) == DIGEST_RETRIEVE)
+            .and_then(|v| fields_of(v, "row_count_returned"))
+    });
+    emit(&format!(
+        "{CORPUS_ROWS}{}",
+        rows.as_deref().unwrap_or("unknown")
+    ));
+
+    // The canary's attempts: the retry-storm cue-bearing digests before the scenario's emission
+    // instant (the whole window when it never emitted).
+    let before: Vec<&Value> = window
+        .iter()
+        .copied()
+        .filter(|v| emission_ms.is_none_or(|emitted| stamp(v).is_some_and(|at| at < emitted)))
+        .collect();
+    for line in canary_attempts(&before) {
+        emit(&line);
+    }
 }
+
+const DIGEST_RETRIEVE: &str = "digest.corpus.retrieve";
 
 /// The newest `agent-latest.jsonl.*` under the live data dir's `logs/`, by modification time, with
 /// its file name. The data dir is canonicalized and must be a directory before `logs/` is joined;

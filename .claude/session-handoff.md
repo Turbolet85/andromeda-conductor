@@ -55,3 +55,6 @@ None run (a 0-pending path runs no fan-out). The sidecar and playbook outcomes:
   `chr(92)` inside a character class failed to compile. The script-file route fixed it.
 - recurrence-despite-learning: the basis-beside-every-count rule (report-template; CLAUDE.md 2026-08-09), carried
   from 2026-09-24.
+
+## Session End Status
+Completed normally at 2026-09-29 08:46:56

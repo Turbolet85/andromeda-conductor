@@ -7,7 +7,8 @@
 # census). `l4_posture = "real-model"` below is what selects it: the precondition probe and the
 # preflight gate then require ANDROMEDA_PULSE_L4_DETERMINISTIC absent or falsy in Conductor's own
 # environment, and a gate evaluated under the deterministic posture (`conductor suite`, the desktop
-# app) lands this scenario Blocked rather than running it. Driven ONCE, operator-gated, through
+# app) lands this scenario Blocked rather than running it. Driven in the posture contract's pre-stated
+# series (at most five drives, every one recorded), operator-gated, one drive per
 # `bash scripts/agent-run.sh run --live real-model` — never a CI gate.
 #
 # The known cause: a retry storm of ONE identical exception on service `conductor` (every non-topology
@@ -17,9 +18,11 @@
 # a hypothesis observable, because Pulse attaches the parsed interpretation at incident creation; the
 # later bursts are sufficient, not necessary, and give the model more than one digest to read.
 #
-# P-018 (Retry Storm Detection) is the STIMULUS id — the cue the storm raises. The graded claim is
-# P-033's substance (Ranked Hypothesis Generation); naming P-033 moves `UNBACKED_AUTO` and the
-# committed coverage matrix together, which is v3-10's change and not this scenario's.
+# P-018 (Retry Storm Detection) is the STIMULUS id — the cue the storm raises. The graded claims are
+# the diagnostic-quality cluster this leg alone exercises: P-031 (Report Structure), P-033 (Ranked
+# Hypothesis Generation), P-034 (Suggested Investigation Steps) and P-044 (Retrieval-Augmented
+# Interpretation). Naming them here moved them out of `UNBACKED_AUTO` together with the committed
+# coverage matrix, in one change; each is graded by its own arm of the harvest.
 #
 # The grading rule lives in `crates/conductor-run/tests/real_model_harvest.rs`, fixed before the
 # drive: identified iff the attributed incident's rank-1 hypothesis statement names `conductor` as a
@@ -35,7 +38,7 @@
 # unmeasured, so no tier can be declared honestly — the `[[over_tier]]` row in
 # `contracts/scenario-audit-ledger.toml` records it.
 name = "real-model-interpretation"
-p_ids = ["P-018"]
+p_ids = ["P-018", "P-031", "P-033", "P-034", "P-044"]
 seed = 4317033
 slo_tier = "<90s"
 jitter_ms = 50

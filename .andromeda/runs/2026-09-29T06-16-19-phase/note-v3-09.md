@@ -1,0 +1,5 @@
+2026-09-29 (2026-09-29-diagnostic-quality-cluster-off-the-drift-pin, phase P5): RE-CLAIMED from `deferred`.
+
+Provenance: the re-claim serves the founder's ruling of 2026-09-29 that nothing is skipped or deferred. The founder's ruling is that principle ONLY. The acceptance's shape — a fixed series of at most five drives, stated before the first drive, and the exclusion of canary-blocked drives from grading — is the OVERSEER's ruling (D1), made under founder delegation on the same day. It replaces the 2026-09-22 D1 "driven once, never re-driven". The replacement is stricter: every graded drive must be Identified, and a graded NotIdentified is never replaced by another drive. The series and its decision rule are fixed in `contracts/pulse-real-model-leg-posture.md` before the first drive.
+
+Canary cause, re-derived at Pulse `f15536b`: every incident-suppressing exit reads a model-authored field (`pulse-app/src/inference_runtime.rs:755-760`), the llama-cli call passes no seed or temperature, and no surface records the decision. A Pulse-side cause stops the chunk, and the overseer carries the report to Pulse's route.

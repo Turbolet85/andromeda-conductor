@@ -1,6 +1,6 @@
 # Coverage matrix
 
-**Capabilities** 82 · 66 in scope (43 auto (8 unbacked) · 16 drive+observe · 7 static-only) · 16 not-conductors
+**Capabilities** 82 · 66 in scope (43 auto (4 unbacked) · 16 drive+observe · 7 static-only) · 16 not-conductors
 
 | P-ID | Title | Category | Mode |
 |---|---|---|---|

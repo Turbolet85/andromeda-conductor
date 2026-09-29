@@ -251,8 +251,11 @@ function Invoke-CaptureTest([string[]]$TestArgs, [string]$CapPath, [string]$ErrP
 
 # `run --live real-model` — the ONE real-model interpretation leg (contracts/pulse-real-model-leg-posture.md).
 # Identical semantics to agent-run.sh's live_real_model_leg: the scenario declares the real-model posture,
-# so the probe and the preflight both require deterministic L4 ABSENT. An experiment graded once, never
-# a gate expected green, and never re-driven.
+# so the probe and the preflight both require deterministic L4 ABSENT. Each drive is an experiment, never a
+# gate expected green: it belongs to the pre-stated drive series of the posture contract (The drive series —
+# at most five drives, every one recorded, a graded miss never replaced), and this arm fires ONE drive per
+# invocation. The clear below empties the capture files, so each drive's capture is copied out by its own
+# plan entry before the next drive is fired.
 function Invoke-LiveRealModelLeg {
     $capDir = Join-Path (Get-Location) $LiveCaptureDir
     $cap = Join-Path $capDir 'rm-capture.txt'
@@ -273,7 +276,7 @@ function Invoke-LiveRealModelLeg {
     New-Item -ItemType Directory -Force -Path $capDir | Out-Null
     Remove-Item (Join-Path $capDir 'rm.jsonl'), $cap, $err -Force -ErrorAction SilentlyContinue
 
-    # (c') The grading rule's span, recorded BEFORE the leg; a failure stops here, so the drive is not spent.
+    # (c') The grading rule's span, recorded BEFORE the leg; a failure stops here, so a drive of the series is not spent.
     $rc = Invoke-CaptureTest @('test', '-q', '-p', 'conductor-run', '--features', 'live-pulse',
         '--test', 'real_model_live', '--', '--ignored', '--exact', 'rule_record', '--nocapture') $cap $err
     if ($rc -ne 0) {
@@ -283,8 +286,10 @@ function Invoke-LiveRealModelLeg {
 
     # (d) The leg. A timeout exits 124 inside Invoke-LiveLeg, before the freeze and the capture, and
     # leaves conductor.exe and the sidecar running ($p.Kill() reaches only cargo): take the census, stop
-    # what the leg started by PID, and classify the attempt before anything re-fires.
-    Invoke-LiveLeg 'rm' 'real-model-interpretation' (Get-LiveLegBudgetSec 136)
+    # what the leg started by PID, and classify the attempt before anything re-fires. The budget is the
+    # scenario's 136s phases plus the real-model canary's two extra storms, 90s apart (canary.rs
+    # REAL_MODEL_CANARY_STORMS / REAL_MODEL_CANARY_STORM_GAP), emitted before the poll starts.
+    Invoke-LiveLeg 'rm' 'real-model-interpretation' (Get-LiveLegBudgetSec 316)
 
     # (e) The capture, appended after the rule record. Its non-zero exit is a harness error, never a
     # graded outcome — the harvest grades.

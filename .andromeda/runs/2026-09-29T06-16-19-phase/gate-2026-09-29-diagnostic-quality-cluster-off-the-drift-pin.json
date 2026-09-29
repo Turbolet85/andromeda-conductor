@@ -1,0 +1,32 @@
+[
+{
+"tool": "gate",
+"v": "1.4",
+"sha8": "c63b37d3",
+"ts": "2026-09-29T06:31:47Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"conductor-0.3.0/chunks/2026-09-29-diagnostic-quality-cluster-off-the-drift-pin/research.md",
+"--run-dir",
+".andromeda/runs/2026-09-29T06-16-19-phase",
+"--marker",
+"2026-09-29-diagnostic-quality-cluster-off-the-drift-pin"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 15 items (new 0 · modify 14 · derived 1)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 15,
+"unparsed": 0
+}
+}
+]

@@ -1525,7 +1525,12 @@ expected = "WARN"
         let s = Scenario::from_toml_str(&std::fs::read_to_string(&path).expect("readable"))
             .expect("valid");
         assert_eq!(s.name, "real-model-interpretation");
-        assert_eq!(s.p_ids, vec![PId("P-018".to_string())]);
+        assert_eq!(
+            s.p_ids,
+            ["P-018", "P-031", "P-033", "P-034", "P-044"]
+                .map(|id| PId(id.to_string()))
+                .to_vec()
+        );
         assert_eq!(s.l4_posture, L4Posture::RealModel);
         assert!(
             s.expected.is_empty() && s.checklist.is_empty(),

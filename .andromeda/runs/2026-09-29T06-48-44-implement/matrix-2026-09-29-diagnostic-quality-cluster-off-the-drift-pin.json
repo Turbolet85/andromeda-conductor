@@ -1,0 +1,49 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-29T07:06:47Z",
+"argv": [
+"implement",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-29-diagnostic-quality-cluster-off-the-drift-pin",
+"--id",
+"v3-10",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-29T06-48-44-implement"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"implement v3-10 · status planned → implemented · ref crates/conductor-run/tests/real_model_harvest.rs::{a01..a21 (P-033), p031_*, p03… (403 chars)",
+"wrote conductor-0.3.0\\verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0\\verification-matrix.json"
+],
+"before": {
+"id": "v3-10",
+"chunk": "2026-09-29-diagnostic-quality-cluster-off-the-drift-pin",
+"status": "planned",
+"method": "unit",
+"ref": "null",
+"acceptance": "`scenarios/real-model-interpretation.toml` names P-031, P-033, P-034 and P-044 in its `p_ids`. The harness drives that s… (1113 chars)",
+"notes_chars": 394
+},
+"after": {
+"id": "v3-10",
+"chunk": "2026-09-29-diagnostic-quality-cluster-off-the-drift-pin",
+"status": "implemented",
+"method": "unit",
+"ref": "crates/conductor-run/tests/real_model_harvest.rs::{a01..a21 (P-033), p031_*, p034_*, p044_*, the_pinned_capture_is_block… (403 chars)",
+"acceptance": "`scenarios/real-model-interpretation.toml` names P-031, P-033, P-034 and P-044 in its `p_ids`. The harness drives that s… (1113 chars)",
+"notes_chars": 394
+}
+}
+]

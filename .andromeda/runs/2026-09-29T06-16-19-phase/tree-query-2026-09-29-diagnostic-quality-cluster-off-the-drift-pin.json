@@ -1,0 +1,160 @@
+[
+{
+"sql": "SELECT caller, callee_name, file, line FROM calls WHERE callee_name IN ('preflight_for','emit_canary_storm','canary_gate','emit_canary','canary_poll','check_scenario_backing') AND callee_kind = 'fn' ORDER BY callee_name, file, line",
+"rows": 25,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 canary/preflight_for().",
+"callee_name": "canary_gate",
+"file": "crates/conductor-run/src/canary.rs",
+"line": 66
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 canary/readiness().",
+"callee_name": "canary_gate",
+"file": "crates/conductor-run/src/canary.rs",
+"line": 88
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 canary/canary_gate().",
+"callee_name": "canary_poll",
+"file": "crates/conductor-run/src/canary.rs",
+"line": 221
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 drift/tests/the_committed_catalog_matches_the_unbacked_ledger().",
+"callee_name": "check_scenario_backing",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 367
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 drift/tests/an_auto_row_with_no_scenario_outside_the_ledger_is_a_fault().",
+"callee_name": "check_scenario_backing",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 374
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 drift/tests/a_ledger_entry_a_scenario_now_names_is_a_fault().",
+"callee_name": "check_scenario_backing",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 391
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 drift/tests/a_ledger_entry_no_longer_auto_classified_is_a_fault().",
+"callee_name": "check_scenario_backing",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 411
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 drift/tests/a_fully_backed_classification_with_an_empty_ledger_passes().",
+"callee_name": "check_scenario_backing",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 428
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 drift/tests/only_auto_rows_need_scenario_backing().",
+"callee_name": "check_scenario_backing",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 441
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 drift/tests/backing_message_names_identity_without_host_paths_or_type_names().",
+"callee_name": "check_scenario_backing",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 447
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 crate/",
+"callee_name": "check_scenario_backing",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 40
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 canary/canary_gate().",
+"callee_name": "emit_canary",
+"file": "crates/conductor-run/src/canary.rs",
+"line": 205
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 canary/emit_canary().",
+"callee_name": "emit_canary_storm",
+"file": "crates/conductor-run/src/canary.rs",
+"line": 248
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"callee_name": "emit_canary_storm",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 29
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"callee_name": "emit_canary_storm",
+"file": "crates/conductor-run/tests/canary_obs_witness.rs",
+"line": 14
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"callee_name": "emit_canary_storm",
+"file": "crates/conductor-run/tests/canary_obs_witness.rs",
+"line": 45
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"callee_name": "emit_canary_storm",
+"file": "crates/conductor-run/tests/canary_wire.rs",
+"line": 24
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 captured_storm_spans().",
+"callee_name": "emit_canary_storm",
+"file": "crates/conductor-run/tests/canary_wire.rs",
+"line": 37
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"callee_name": "emit_canary_storm",
+"file": "crates/conductor-run/tests/canary_wire.rs",
+"line": 158
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"callee_name": "emit_canary_storm",
+"file": "crates/conductor-run/tests/canary_wire.rs",
+"line": 208
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"callee_name": "emit_canary_storm",
+"file": "crates/conductor-run/tests/lifecycle_live.rs",
+"line": 38
+},
+{
+"caller": "rust-analyzer cargo conductor-cli 0.2.0 commands/run/run().",
+"callee_name": "preflight_for",
+"file": "crates/conductor-cli/src/commands/run.rs",
+"line": 20
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 canary/preflight().",
+"callee_name": "preflight_for",
+"file": "crates/conductor-run/src/canary.rs",
+"line": 41
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"callee_name": "preflight_for",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 29
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 public_api_paths_are_stable().",
+"callee_name": "preflight_for",
+"file": "crates/conductor-run/tests/composition_root.rs",
+"line": 50
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

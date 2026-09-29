@@ -157,7 +157,10 @@ live_suite() {
 # `run --live real-model` — the ONE real-model interpretation leg (contracts/pulse-real-model-leg-posture.md).
 # Fired against an operator-launched pulse-app with deterministic L4 absent or falsy; the scenario
 # declares the real-model posture, so the probe and the preflight both require the handle ABSENT.
-# The drive is an experiment graded once, never a gate expected green, and never re-driven.
+# Each drive is an experiment, never a gate expected green: it belongs to the pre-stated drive series of
+# the posture contract (The drive series — at most five drives, every one recorded, a graded miss never
+# replaced), and this arm fires ONE drive per invocation. The clear below empties the capture files, so
+# each drive's capture is copied out by its own plan entry before the next drive is fired.
 live_real_model_leg() {
   local cap="$LIVE_CAPTURE_DIR/rm-capture.txt" err="$LIVE_CAPTURE_DIR/rm-capture.err" rc=0
 
@@ -177,7 +180,7 @@ live_real_model_leg() {
 
   # (c') The grading rule's span, recorded BEFORE the leg so the committed capture proves the rule
   # predates the drive. RUST_LOG never rides a test invocation (the witness directive belongs to the
-  # leg). A failure stops here, so the one drive is never spent.
+  # leg). A failure stops here, so a drive of the series is never spent.
   env -u RUST_LOG "$CARGO" test -q -p conductor-run --features live-pulse --test real_model_live \
     -- --ignored --exact rule_record --nocapture > "$cap" 2> "$err" || rc=$?
   if [ "$rc" -ne 0 ]; then
@@ -187,8 +190,10 @@ live_real_model_leg() {
 
   # (d) The leg. A timeout exits 124 here under set -e, before the freeze and the capture, and leaves
   # conductor.exe and the sidecar running (timeout reaches only cargo): take the census, stop what the
-  # leg started by PID, and classify the attempt before anything re-fires.
-  live_leg rm real-model-interpretation "$(live_leg_budget_sec 136)"
+  # leg started by PID, and classify the attempt before anything re-fires. The budget is the scenario's
+  # 136s phases plus the real-model canary's two extra storms, 90s apart (canary.rs
+  # REAL_MODEL_CANARY_STORMS / REAL_MODEL_CANARY_STORM_GAP), emitted before the poll starts.
+  live_leg rm real-model-interpretation "$(live_leg_budget_sec 316)"
 
   # (e) The capture: re-reads the attributed incident over MCP and Pulse's own log, appended after the
   # rule record. Its non-zero exit is a harness error, never a graded outcome — the harvest grades.

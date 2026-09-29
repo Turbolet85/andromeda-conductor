@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-29T06:18:06Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-09-29-diagnostic-quality-cluster-off-the-drift-pin",
+"--expect-prefix",
+"Diagnostic-quality cluster off the drift pin",
+"--record-file",
+".andromeda/runs/2026-09-29T06-16-19-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-09-29T06-16-19-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:50 - [2026-09-29-diagnostic-quality-cluster-off-the-drift-pin]",
+"record master-route.md:155 - appended under `## conductor-0.3.0`",
+"promoted 2026-09-29-diagnostic-quality-cluster-off-the-drift-pin - working-route:50 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+".\\conductor-0.3.0\\working-route.md",
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+}
+]

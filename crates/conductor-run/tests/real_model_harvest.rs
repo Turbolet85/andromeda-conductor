@@ -34,7 +34,11 @@
 //! creation predicate's remaining exits (`Dismiss`, severity `None`, a resolution-summary flag) are the
 //! model's own output fields. Every later digest was a cue-less tier-3 baseline; no inference error, no
 //! skip, and Pulse formed no incident at all, so the sidecar's empty corpus was the truth rather than a
-//! workspace-key divergence. Recorded, never re-driven (plan D1).
+//! workspace-key divergence. Recorded, and never replaced (plan D1).
+//!
+//! EXTENDED 2026-09-29, before the drive series (`contracts/pulse-real-model-leg-posture.md`, The drive
+//! series): the rule gains the P-031 / P-034 / P-044 grades and the canary's attempts, appended below
+//! the 2026-09-23 rule so that rule stays a byte-exact prefix (`rule_predates_the_drive`).
 
 mod real_model_common;
 
@@ -42,7 +46,13 @@ use std::collections::BTreeSet;
 use std::path::Path;
 
 use conductor_core::{ENVELOPE_KEYS_SORTED, ReportState, RunRecord, Verdict};
-use real_model_common::{mask_host_paths, rule_section};
+mod real_model_series;
+
+use real_model_common::{
+    DIGEST_ASSEMBLE, DIGEST_TICK, SWEEP_BOUND, canary_attempts as pair_canary_attempts,
+    elide_fingerprints, mask_host_paths, rule_section, sweep_window,
+};
+use real_model_series::{EVIDENCE, SERIES};
 
 // ---- rule: begin ----
 // The grading rule for the real-model interpretation leg, fixed before the drive
@@ -260,6 +270,177 @@ fn trace_conforms(capture: &str) -> bool {
                 && retrieve_report
         }
     }
+}
+
+// Extended 2026-09-29, before the drive series (contracts/pulse-real-model-leg-posture.md, The drive
+// series (f)): three further grades over the same capture, and the canary's attempts. Everything above
+// this comment is the 2026-09-23 rule, byte-identical; the rank-1 rule is unchanged.
+
+const CORPUS_ROWS: &str = "creating digest corpus retrieval rows: ";
+const CANARY: &str = "canary: ";
+const SURFACED: &str = "surfaced";
+const DISMISSED: &str = "dismissed";
+const PIPELINE_FAULT: &str = "pipeline-fault";
+
+/// The six P-031 sections, in the order Pulse's serializer renders them.
+const P031_SECTIONS: [&str; 6] = [
+    "## Symptom",
+    "## Timeline",
+    "## Hypotheses",
+    "## Investigation Steps",
+    "## Evidence",
+    "## Project Context",
+];
+/// Pulse's empty placeholders for the two narrative sections.
+const NO_SYMPTOM: &str = "_No symptom narrative available._";
+const NO_TIMELINE: &str = "_No timeline narrative available._";
+const NO_PRIOR: &str = "no prior same-scope incident to retrieve";
+
+/// What one of the further grades decides.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+enum Outcome {
+    Pass,
+    ManualCheck,
+    /// A deterministic SUT fault: the serializer's section structure broke.
+    Fail,
+    /// Nothing to grade, with the named reason.
+    Blocked(&'static str),
+}
+
+/// The posture's outcome table for the further grades, as `(verdict, state)`.
+fn outcome_row(outcome: Outcome) -> (Option<Verdict>, ReportState) {
+    match outcome {
+        Outcome::Pass => (Some(Verdict::Pass), ReportState::Pass),
+        Outcome::ManualCheck => (Some(Verdict::CalibrationRegion), ReportState::ManualCheck),
+        Outcome::Fail => (Some(Verdict::Fail), ReportState::Fail),
+        Outcome::Blocked(_) => (None, ReportState::Blocked),
+    }
+}
+
+/// The shared precondition: one attributed report, read back — the rank-1 rule's own attribution.
+fn attributed_report(capture: &str) -> Result<(), &'static str> {
+    match grade(capture) {
+        Grade::ReadBackFailed => Err("read-back failed"),
+        Grade::NoAttributableIncident => Err("no attributable incident"),
+        Grade::Identified | Grade::NotIdentified | Grade::NoRankedHypotheses => Ok(()),
+    }
+}
+
+/// The attributed line's `degraded_mode` token, as Pulse's `retrieve_report` returned it, reads `true`.
+fn degraded(capture: &str) -> bool {
+    capture
+        .lines()
+        .filter_map(|l| l.strip_prefix(ATTRIBUTED))
+        .any(|l| l.split_whitespace().any(|t| t == "degraded_mode=true"))
+}
+
+/// P-031 Report Structure: the six sections in order, and Symptom and Timeline each carrying a
+/// narrative rather than its placeholder.
+fn structure(capture: &str) -> Outcome {
+    if let Err(reason) = attributed_report(capture) {
+        return Outcome::Blocked(reason);
+    }
+    if degraded(capture) {
+        return Outcome::Blocked("report degraded");
+    }
+    let positions: Option<Vec<usize>> = P031_SECTIONS
+        .iter()
+        .map(|header| capture.find(&format!("\n{header}\n")))
+        .collect();
+    if !positions.is_some_and(|p| p.windows(2).all(|w| w[0] < w[1])) {
+        return Outcome::Fail;
+    }
+    let narrative = |header: &str, placeholder: &str| {
+        section_body(capture, header)
+            .is_some_and(|b| !b.trim().is_empty() && b.trim() != placeholder)
+    };
+    if narrative("## Symptom", NO_SYMPTOM) && narrative("## Timeline", NO_TIMELINE) {
+        Outcome::Pass
+    } else {
+        Outcome::ManualCheck
+    }
+}
+
+/// P-034 Suggested Investigation Steps: at least one numbered entry, as Pulse renders `1. {step}`.
+fn steps(capture: &str) -> Outcome {
+    if let Err(reason) = attributed_report(capture) {
+        return Outcome::Blocked(reason);
+    }
+    if degraded(capture) {
+        return Outcome::Blocked("report degraded");
+    }
+    let Some(body) = section_body(capture, "## Investigation Steps") else {
+        return Outcome::Blocked("no Investigation Steps section");
+    };
+    if body.lines().any(numbered_entry) {
+        Outcome::Pass
+    } else {
+        Outcome::ManualCheck
+    }
+}
+
+fn numbered_entry(line: &str) -> bool {
+    let digits = line.bytes().take_while(u8::is_ascii_digit).count();
+    digits > 0 && line[digits..].starts_with(". ")
+}
+
+/// P-044 Retrieval-Augmented Interpretation, by inference chain: `## Previously Seen` lists an
+/// incident opened BEFORE the attributed one, AND the creating digest's corpus retrieval returned at
+/// least one row. Stated limit: this reaches the model's INPUT, never whether the model used it.
+fn retrieval(capture: &str) -> Outcome {
+    if let Err(reason) = attributed_report(capture) {
+        return Outcome::Blocked(reason);
+    }
+    let opened = capture
+        .lines()
+        .find_map(|l| l.strip_prefix(ATTRIBUTED))
+        .and_then(|l| field(l, "opened_at_unix_nano"));
+    let prior = section_body(capture, "## Previously Seen").is_some_and(|body| {
+        body.lines()
+            .filter_map(previously_seen_opened)
+            .any(|seen| opened.is_some_and(|attributed| seen < attributed))
+    });
+    let rows = capture
+        .lines()
+        .find_map(|l| l.strip_prefix(CORPUS_ROWS))
+        .and_then(|v| v.trim().parse::<u64>().ok())
+        .unwrap_or(0);
+    if prior && rows >= 1 {
+        Outcome::Pass
+    } else {
+        Outcome::Blocked(NO_PRIOR)
+    }
+}
+
+/// The open stamp of a `- incident #{id} @ {opened_unix_nano} — {title} ({workspace})` entry.
+fn previously_seen_opened(line: &str) -> Option<i64> {
+    let (_, after) = line.strip_prefix("- incident #")?.split_once(" @ ")?;
+    after.split_whitespace().next()?.parse().ok()
+}
+
+/// The canary's attempts, counted from its `canary:` lines by their first token.
+#[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
+struct CanaryAttempts {
+    surfaced: u32,
+    dismissed: u32,
+    pipeline_fault: u32,
+}
+
+fn canary_attempts(capture: &str) -> CanaryAttempts {
+    let mut attempts = CanaryAttempts::default();
+    for token in capture
+        .lines()
+        .filter_map(|l| l.strip_prefix(CANARY))
+        .filter_map(|rest| rest.split_whitespace().next())
+    {
+        match token {
+            SURFACED => attempts.surfaced += 1,
+            DISMISSED => attempts.dismissed += 1,
+            PIPELINE_FAULT => attempts.pipeline_fault += 1,
+            _ => {}
+        }
+    }
+    attempts
 }
 // ---- rule: end ----
 
@@ -572,6 +753,302 @@ fn every_row_of_the_posture_table_is_reachable() {
     assert_eq!(reached, table, "every row is reachable from a capture");
 }
 
+// ---- the further grades' arms (P-031, P-034, P-044, the canary) -----------------------------------
+// Pulse's report sections and placeholders, transcribed at andromeda-pulse HEAD `f15536b` (the file is
+// byte-identical at `e98d838`, the drives' HEAD)
+// (`crates/interpretation/src/markdown.rs:137-234`).
+
+const NO_STEPS: &str = "_No suggested investigation steps produced._";
+
+/// Pulse's six sections as `serialize_report` renders them, from the given bodies.
+fn six(symptom: &str, timeline: &str, hypotheses: &str, steps: &str) -> String {
+    format!(
+        "## Symptom\n\n{symptom}\n\n## Timeline\n\n{timeline}\n\n## Hypotheses\n{hypotheses}\
+         ## Investigation Steps\n\n{steps}\n\n## Evidence\n\n- `ref-1`\n\n\
+         ## Project Context\n\nworkspace=<host-path>\n\n"
+    )
+}
+
+/// A non-degraded report whose model supplied every narrative.
+fn full_report() -> String {
+    six(
+        "The conductor service raised one repeated exception.",
+        "A burst began at the emission instant.",
+        &ranked(&[entry(
+            "high",
+            "The conductor service is in a retry storm.",
+            "",
+        )]),
+        "1. Inspect the conductor worker's retry loop.\n   - _Expected yield:_ the retried call",
+    )
+}
+
+/// Pulse's `## Previously Seen` subsection listing one incident opened at `opened_ms`.
+fn previously_seen(opened_ms: i64) -> String {
+    format!(
+        "## Previously Seen\n\n- incident #3 @ {} — conductor retry storm (<host-path>)\n\n",
+        opened_ms * 1_000_000
+    )
+}
+
+/// A synthetic capture whose attributed report renders `sections` (from its first `## ` header),
+/// opened at `opened_ms`, with `degraded` as Pulse returned it and `rows` as the creating digest's
+/// corpus retrieval rows.
+fn report_capture(opened_ms: i64, degraded: bool, sections: &str, rows: &str) -> String {
+    format!(
+        "run_id: 2026-09-29T10-00-00-000\n\
+         {EMISSION_INSTANT}{EMITTED_MS}\n\
+         {TRACE}spans=emit.batch,scenario.run,timeline.execute,verify.readback.observe \
+         wire_shape_lines=36 retrieve_report_witness=true\n\
+         {ATTRIBUTED}incident_id=7 opened_at_unix_nano={opened_ns} degraded_mode={degraded} pickup_ms={pickup}\n\
+         {sections}{END_OF_SECTIONS}\n\
+         {INFERENCE_MODE}real\n\
+         {LAUNCH_CWD}false\n\
+         {CORPUS_ROWS}{rows}\n",
+        opened_ns = opened_ms * 1_000_000,
+        pickup = opened_ms - EMITTED_MS,
+    )
+}
+
+const OPENED_MS: i64 = EMITTED_MS + 31_000;
+
+#[test]
+fn p031_all_six_in_order_with_both_narratives_passes() {
+    let capture = report_capture(OPENED_MS, false, &full_report(), "0");
+    assert_eq!(structure(&capture), Outcome::Pass);
+    assert_eq!(
+        outcome_row(structure(&capture)),
+        (Some(Verdict::Pass), ReportState::Pass)
+    );
+    assert_eq!(
+        grade(&capture),
+        Grade::Identified,
+        "the fixture also satisfies the rank-1 rule"
+    );
+}
+
+#[test]
+fn p031_a_narrative_placeholder_is_manual_check() {
+    for sections in [
+        six(
+            NO_SYMPTOM,
+            "A burst began.",
+            &ranked(&[entry("high", "x", "")]),
+            "1. y",
+        ),
+        six(
+            "A burst.",
+            NO_TIMELINE,
+            &ranked(&[entry("high", "x", "")]),
+            "1. y",
+        ),
+    ] {
+        let capture = report_capture(OPENED_MS, false, &sections, "0");
+        assert_eq!(structure(&capture), Outcome::ManualCheck);
+        assert_eq!(
+            outcome_row(structure(&capture)),
+            (Some(Verdict::CalibrationRegion), ReportState::ManualCheck)
+        );
+    }
+}
+
+#[test]
+fn p031_a_degraded_report_is_blocked() {
+    let sections = six(
+        "detail text",
+        NO_TIMELINE,
+        &format!("\n{DEGRADED_NOTICE}\n\n"),
+        DEGRADED_NOTICE,
+    );
+    let capture = report_capture(OPENED_MS, true, &sections, "0");
+    assert_eq!(structure(&capture), Outcome::Blocked("report degraded"));
+    assert_eq!(
+        outcome_row(structure(&capture)),
+        (None, ReportState::Blocked)
+    );
+}
+
+#[test]
+fn p031_a_section_missing_or_out_of_order_fails() {
+    let full = full_report();
+    let swapped = full
+        .replace("## Symptom\n", "## TEMP\n")
+        .replace("## Timeline\n", "## Symptom\n")
+        .replace("## TEMP\n", "## Timeline\n");
+    let missing = full.replace("## Evidence\n\n- `ref-1`\n\n", "");
+    for sections in [swapped, missing] {
+        let capture = report_capture(OPENED_MS, false, &sections, "0");
+        assert_eq!(structure(&capture), Outcome::Fail);
+        assert_eq!(
+            outcome_row(structure(&capture)),
+            (Some(Verdict::Fail), ReportState::Fail)
+        );
+    }
+}
+
+#[test]
+fn p031_no_attributable_incident_is_blocked() {
+    let capture = report_capture(EMITTED_MS - 5_000, false, &full_report(), "0");
+    assert_eq!(
+        structure(&capture),
+        Outcome::Blocked("no attributable incident")
+    );
+    let failed = format!("{READ_BACK_FAILED}x\n");
+    assert_eq!(structure(&failed), Outcome::Blocked("read-back failed"));
+}
+
+#[test]
+fn p034_a_numbered_entry_passes() {
+    let capture = report_capture(OPENED_MS, false, &full_report(), "0");
+    assert_eq!(steps(&capture), Outcome::Pass);
+    assert_eq!(
+        outcome_row(steps(&capture)),
+        (Some(Verdict::Pass), ReportState::Pass)
+    );
+}
+
+#[test]
+fn p034_the_empty_placeholder_is_manual_check() {
+    let sections = six("A.", "B.", &ranked(&[entry("high", "x", "")]), NO_STEPS);
+    let capture = report_capture(OPENED_MS, false, &sections, "0");
+    assert_eq!(steps(&capture), Outcome::ManualCheck);
+    assert_eq!(
+        outcome_row(steps(&capture)),
+        (Some(Verdict::CalibrationRegion), ReportState::ManualCheck)
+    );
+}
+
+#[test]
+fn p034_the_degraded_notice_is_blocked() {
+    let sections = six(
+        "detail",
+        NO_TIMELINE,
+        &format!("\n{DEGRADED_NOTICE}\n\n"),
+        DEGRADED_NOTICE,
+    );
+    let capture = report_capture(OPENED_MS, true, &sections, "0");
+    assert_eq!(steps(&capture), Outcome::Blocked("report degraded"));
+}
+
+#[test]
+fn p034_an_absent_section_is_blocked() {
+    let sections = full_report().replace(
+        "## Investigation Steps\n\n1. Inspect the conductor worker's retry loop.\n   - _Expected yield:_ the retried call\n\n",
+        "",
+    );
+    let capture = report_capture(OPENED_MS, false, &sections, "0");
+    assert_eq!(
+        steps(&capture),
+        Outcome::Blocked("no Investigation Steps section")
+    );
+    assert_eq!(structure(&capture), Outcome::Fail);
+}
+
+#[test]
+fn p034_a_numbered_line_needs_digits_then_a_dot_and_a_space() {
+    assert!(numbered_entry("1. step"));
+    assert!(numbered_entry("12. step"));
+    assert!(!numbered_entry("1.step"));
+    assert!(!numbered_entry(". step"));
+    assert!(!numbered_entry("- 1. step"));
+}
+
+#[test]
+fn p044_a_prior_incident_and_retrieved_rows_pass() {
+    let sections = format!(
+        "{}{}",
+        full_report(),
+        previously_seen(EMITTED_MS - 86_400_000)
+    );
+    let capture = report_capture(OPENED_MS, false, &sections, "2");
+    assert_eq!(retrieval(&capture), Outcome::Pass);
+    assert_eq!(
+        outcome_row(retrieval(&capture)),
+        (Some(Verdict::Pass), ReportState::Pass)
+    );
+}
+
+#[test]
+fn p044_an_entry_opened_after_the_attributed_incident_is_never_retrieval() {
+    let sections = format!("{}{}", full_report(), previously_seen(OPENED_MS + 1_000));
+    let capture = report_capture(OPENED_MS, false, &sections, "2");
+    assert_eq!(retrieval(&capture), Outcome::Blocked(NO_PRIOR));
+}
+
+#[test]
+fn p044_zero_or_unknown_rows_are_blocked() {
+    let sections = format!(
+        "{}{}",
+        full_report(),
+        previously_seen(EMITTED_MS - 86_400_000)
+    );
+    for rows in ["0", "unknown"] {
+        let capture = report_capture(OPENED_MS, false, &sections, rows);
+        assert_eq!(retrieval(&capture), Outcome::Blocked(NO_PRIOR), "{rows}");
+        assert_eq!(
+            outcome_row(retrieval(&capture)),
+            (None, ReportState::Blocked)
+        );
+    }
+}
+
+#[test]
+fn p044_no_previously_seen_section_is_blocked() {
+    let capture = report_capture(OPENED_MS, false, &full_report(), "5");
+    assert_eq!(retrieval(&capture), Outcome::Blocked(NO_PRIOR));
+}
+
+#[test]
+fn the_canary_s_three_tokens_are_counted() {
+    let capture = format!(
+        "{NO_EMISSION}\n\
+         {CANARY}{SURFACED} t=2026-09-29T10:00:00.000Z cue_kind=retry_storm cue_priority_tier=tier_1 parse=ok created=true deduped=false\n\
+         {CANARY}{DISMISSED} t=2026-09-29T10:01:30.000Z cue_kind=retry_storm cue_priority_tier=tier_1 parse=ok created=none deduped=none\n\
+         {CANARY}{PIPELINE_FAULT} t=2026-09-29T10:03:00.000Z cue_kind=retry_storm cue_priority_tier=tier_1 parse=none created=none deduped=none\n\
+         {CANARY}{DISMISSED} t=2026-09-29T10:04:30.000Z cue_kind=retry_storm cue_priority_tier=tier_1 parse=ok created=none deduped=none\n\
+         canary other cue-bearing digests: 1 (service_went_silent)\n"
+    );
+    assert_eq!(
+        canary_attempts(&capture),
+        CanaryAttempts {
+            surfaced: 1,
+            dismissed: 2,
+            pipeline_fault: 1,
+        }
+    );
+    assert_eq!(
+        canary_attempts("no canary lines at all\n"),
+        CanaryAttempts::default()
+    );
+}
+
+#[test]
+fn every_row_of_the_further_grades_is_reachable() {
+    let full = report_capture(OPENED_MS, false, &full_report(), "0");
+    let manual = report_capture(
+        OPENED_MS,
+        false,
+        &six(NO_SYMPTOM, "B.", &ranked(&[entry("high", "x", "")]), "1. y"),
+        "0",
+    );
+    let failed = report_capture(
+        OPENED_MS,
+        false,
+        &full_report().replace("## Evidence\n", "## Evidence moved\n"),
+        "0",
+    );
+    let reached: BTreeSet<String> = [
+        structure(&full),
+        structure(&manual),
+        structure(&failed),
+        structure(&format!("{READ_BACK_FAILED}x\n")),
+    ]
+    .iter()
+    .map(|outcome| format!("{:?}", outcome_row(*outcome)))
+    .collect();
+    assert_eq!(reached.len(), 4, "P-031's four rows");
+}
+
 // ---- B1 and the launch witness --------------------------------------------------------------------
 
 #[test]
@@ -682,13 +1159,234 @@ fn the_mask_leaves_a_url_a_repo_path_and_a_span_ref_alone() {
     }
 }
 
+// ---- the capture's attribution sweep --------------------------------------------------------------
+
+#[test]
+fn the_sweep_reads_an_incident_that_resolved_below_the_lowest_active_one() {
+    // Drive a3, 2026-09-29: at the capture's first poll only incident 6 was active — the canary's (4)
+    // and the one formed after the scenario's storm (5, inferred from the dense row ids) had
+    // auto-resolved at 16:41:34Z. A window anchored at the lowest ACTIVE id starts at 6 and never
+    // reads either; this one must.
+    let active_at_first_poll = [6_i64];
+    let window = sweep_window(active_at_first_poll.iter().copied().max());
+    for resolved in [4, 5] {
+        assert!(
+            window.contains(&resolved),
+            "incident {resolved} resolved before the poll and sits below the lowest active id; window {window:?}"
+        );
+    }
+    assert!(window.contains(&6), "the active incident is read too");
+}
+
+#[test]
+fn the_sweep_window_is_bounded_and_floored_at_one() {
+    assert_eq!(sweep_window(None), 1..1 + SWEEP_BOUND);
+    assert_eq!(sweep_window(Some(1)), 1..1 + SWEEP_BOUND);
+    let high = sweep_window(Some(200));
+    assert_eq!(high, 200 - (SWEEP_BOUND - 1)..201);
+    assert_eq!(high.end - high.start, SWEEP_BOUND);
+}
+
+// ---- the capture's canary pairing ------------------------------------------------------------------
+// Pulse log lines in the shapes measured at the 2026-09-29 series, fields only.
+
+fn log(t: &str, target: &str, fields: serde_json::Value) -> serde_json::Value {
+    serde_json::json!({ "timestamp": t, "target": target, "fields": fields })
+}
+
+fn cue_tick(t: &str, mode: &str, kind: &str) -> [serde_json::Value; 2] {
+    [
+        log(
+            t,
+            DIGEST_TICK,
+            serde_json::json!({ "mode": mode, "cue_present": true }),
+        ),
+        log(
+            t,
+            DIGEST_ASSEMBLE,
+            serde_json::json!({ "mode": mode, "cue_kind": kind, "cue_priority_tier": "autonomous" }),
+        ),
+    ]
+}
+
+fn prompt(t: &str) -> serde_json::Value {
+    log(
+        t,
+        "interpretation.prompt.assemble",
+        serde_json::json!({ "prompt_version": "v2.2" }),
+    )
+}
+
+fn parse_ok(t: &str) -> serde_json::Value {
+    log(
+        t,
+        "interpretation.json.parse",
+        serde_json::json!({ "parse_outcome": "ok" }),
+    )
+}
+
+fn created(t: &str) -> serde_json::Value {
+    log(
+        t,
+        "interpretation.incident.created",
+        serde_json::json!({ "created": true, "deduped": false }),
+    )
+}
+
+fn paired(lines: &[serde_json::Value]) -> Vec<String> {
+    let refs: Vec<&serde_json::Value> = lines.iter().collect();
+    pair_canary_attempts(&refs)
+}
+
+#[test]
+fn a_tier_2_tick_before_the_parse_does_not_turn_a_dismissal_into_a_fault() {
+    // b2 storm 1: its prompt assembled at once, a tier-2 error-rate tick came 3 s later, and its parse
+    // `ok` followed with no incident outcome.
+    let [tick, assemble] = cue_tick("17:20:21.152", "tier1", "retry_storm");
+    let [tier2, tier2_assemble] = cue_tick("17:20:24.244", "tier2", "error_rate_spike");
+    let lines = [
+        tick,
+        assemble,
+        prompt("17:20:21.182"),
+        tier2,
+        tier2_assemble,
+        parse_ok("17:20:28.180"),
+        prompt("17:20:28.180"),
+        parse_ok("17:20:35.510"),
+    ];
+    let out = paired(&lines);
+    assert!(
+        out[0].starts_with(&format!("{CANARY}{DISMISSED} ")),
+        "{out:?}"
+    );
+    assert_eq!(
+        out[1],
+        "canary other cue-bearing digests: 1 (error_rate_spike)"
+    );
+}
+
+#[test]
+fn a_tier_2_tick_before_the_parse_does_not_turn_a_surfacing_into_a_fault() {
+    // b1 storm 1: a tier-2 tick 0.95 s after the canary's, then its parse `ok` and an incident.
+    let [tick, assemble] = cue_tick("17:02:13.285", "tier1", "retry_storm");
+    let [tier2, tier2_assemble] = cue_tick("17:02:14.232", "tier2", "error_rate_spike");
+    let lines = [
+        tick,
+        assemble,
+        prompt("17:02:13.296"),
+        tier2,
+        tier2_assemble,
+        parse_ok("17:02:18.030"),
+        created("17:02:18.058"),
+        prompt("17:02:18.060"),
+    ];
+    assert!(paired(&lines)[0].starts_with(&format!("{CANARY}{SURFACED} ")));
+}
+
+#[test]
+fn an_earlier_digest_s_outcome_is_never_the_canary_s() {
+    // The canary's digest queued behind a running inference: that inference's parse and incident land
+    // after the canary's tick and before the canary's own prompt.
+    let [tick, assemble] = cue_tick("16:00:10.000", "tier1", "retry_storm");
+    let lines = [
+        prompt("16:00:08.000"),
+        tick,
+        assemble,
+        parse_ok("16:00:12.000"),
+        created("16:00:12.020"),
+        prompt("16:00:12.030"),
+        parse_ok("16:00:16.000"),
+    ];
+    assert!(paired(&lines)[0].starts_with(&format!("{CANARY}{DISMISSED} ")));
+}
+
+#[test]
+fn an_inference_error_or_a_skip_is_a_pipeline_fault() {
+    // a1's first fire: every inference errored `model_not_configured`.
+    let [tick, assemble] = cue_tick("15:57:36.798", "tier1", "retry_storm");
+    let errored = [
+        tick.clone(),
+        assemble.clone(),
+        prompt("15:57:36.810"),
+        log(
+            "15:57:36.810",
+            "interpretation.inference.error",
+            serde_json::json!({ "error_category": "model_not_configured" }),
+        ),
+    ];
+    assert!(paired(&errored)[0].starts_with(&format!("{CANARY}{PIPELINE_FAULT} ")));
+    // A digest skipped in backoff assembles no prompt at all.
+    let skipped = [
+        tick,
+        assemble,
+        log(
+            "15:57:40.000",
+            "interpretation.inference.skipped",
+            serde_json::json!({ "reason": "backoff_active" }),
+        ),
+    ];
+    assert!(paired(&skipped)[0].starts_with(&format!("{CANARY}{PIPELINE_FAULT} ")));
+}
+
+#[test]
+fn the_next_canary_storm_s_prompt_is_never_the_previous_one_s() {
+    // Storm 1's digest never reached inference; storm 2's did. Storm 1 is a fault, never storm 2's parse.
+    let [tick1, assemble1] = cue_tick("17:00:00.000", "tier1", "retry_storm");
+    let [tick2, assemble2] = cue_tick("17:01:30.000", "tier1", "retry_storm");
+    let lines = [
+        tick1,
+        assemble1,
+        tick2,
+        assemble2,
+        prompt("17:01:30.010"),
+        parse_ok("17:01:35.000"),
+    ];
+    let out = paired(&lines);
+    assert!(
+        out[0].starts_with(&format!("{CANARY}{PIPELINE_FAULT} ")),
+        "{out:?}"
+    );
+    assert!(
+        out[1].starts_with(&format!("{CANARY}{DISMISSED} ")),
+        "{out:?}"
+    );
+}
+
+#[test]
+fn a_fingerprint_is_elided_and_a_stamp_a_seed_and_a_det_prefix_are_not() {
+    let fp = ["12dcd67b", "34e41302", "ed9cd723", "dd1e28cf"].concat();
+    assert_eq!(
+        elide_fingerprints(&format!("- `{fp}` and fingerprint_hex={}", &fp[..8])),
+        "- `<fingerprint>` and fingerprint_hex=<fingerprint>"
+    );
+    for kept in [
+        "opened_at_unix_nano=1790702606754859000",
+        "\"seed\":4317033",
+        "run_id: 2026-09-29T17-19-35-933",
+        "a deadbee word",
+        "prefix12dcd67b",
+    ] {
+        assert_eq!(elide_fingerprints(kept), kept);
+    }
+    assert_eq!(
+        elide_fingerprints("- `det-span-9f2c4a7e1b6d0358`"),
+        "- `det-span-<fingerprint>`",
+        "the canned-evidence prefix survives, so the witness still reads it"
+    );
+}
+
 // ---- producer/grader agreement --------------------------------------------------------------------
 
 #[test]
 fn the_capture_prints_every_token_the_rule_reads() {
     // The capture is feature-gated, so this default-suite target cannot call it; it can read its
-    // source. Each grammar literal the rule keys on must appear there verbatim.
-    let capture = include_str!("real_model_live.rs");
+    // source — its own file and the shared module whose canary pairing it prints through. Each grammar
+    // literal the rule keys on must appear there verbatim.
+    let capture = [
+        include_str!("real_model_live.rs"),
+        include_str!("real_model_common/mod.rs"),
+    ]
+    .concat();
     for token in [
         EMISSION_INSTANT,
         NO_EMISSION,
@@ -699,6 +1397,11 @@ fn the_capture_prints_every_token_the_rule_reads() {
         END_OF_SECTIONS,
         INFERENCE_MODE,
         LAUNCH_CWD,
+        CORPUS_ROWS,
+        CANARY,
+        SURFACED,
+        DISMISSED,
+        PIPELINE_FAULT,
     ] {
         assert!(
             capture.contains(&format!("\"{token}\"")),
@@ -858,14 +1561,37 @@ fn the_pinned_trace_carries_its_route_s_witness_set() {
 }
 
 #[test]
+fn the_pinned_capture_is_blocked_on_every_further_grade() {
+    // The drive never emitted, so there is no attributed report to grade: Blocked with that reason on
+    // all three, never a panic, and no canary line (the capture predates them).
+    for outcome in [
+        structure(PINNED_CAPTURE),
+        steps(PINNED_CAPTURE),
+        retrieval(PINNED_CAPTURE),
+    ] {
+        assert_eq!(outcome, Outcome::Blocked("no attributable incident"));
+        assert_eq!(outcome_row(outcome), (None, ReportState::Blocked));
+    }
+    assert_eq!(canary_attempts(PINNED_CAPTURE), CanaryAttempts::default());
+}
+
+#[test]
 fn rule_predates_the_drive() {
-    // The capture's pre-leg rule record against this file's rule: equal, or the rule moved after the
-    // model answered.
+    // The 2026-09-23 capture's pre-leg rule record against this file's rule. The rule was EXTENDED on
+    // 2026-09-29, before the drive series, by appending below that rule's last line — so the recorded
+    // rule, less its end marker, is a byte-exact prefix of the current one: P-033's rule is unedited,
+    // and any edit above the extension fails here.
     let recorded =
         rule_section(&committed_capture()).expect("the capture opens with the rule record");
     let current =
         rule_section(include_str!("real_model_harvest.rs")).expect("this file carries its rule");
-    assert_eq!(recorded, current, "the rule was edited after the drive");
+    let body = recorded
+        .strip_suffix("// ---- rule: end ----")
+        .expect("the recorded rule closes on its end marker");
+    assert!(
+        current.starts_with(body),
+        "the 2026-09-23 rule was edited after its drive, not extended"
+    );
 }
 
 #[test]
@@ -880,4 +1606,209 @@ fn pinned_literals_equal_the_committed_capture() {
         .map(|at| start + at + 1)
         .expect("libtest's mark closes the capture block");
     assert_eq!(&committed[start..end], PINNED_CAPTURE);
+}
+
+// ---- the 2026-09-29 drive series (step 10) ---------------------------------------------------------
+// Six captures against andromeda-pulse `e98d838` under the real-model posture on one long-lived data
+// dir, recorded one row each in `evidence/attempt-ledger.md`. Graded by the rule; nobody re-judges them.
+
+/// A series drive's committed capture, read workspace-root anchored.
+fn committed_series_capture(file: &str) -> String {
+    let path = Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("../..")
+        .join(EVIDENCE)
+        .join(file);
+    std::fs::read_to_string(&path)
+        .expect("the committed series capture is readable")
+        .replace("\r\n", "\n")
+}
+
+/// The block the capture printed after its rule record, the 2026-09-23 pin's cut.
+fn capture_block(committed: &str) -> &str {
+    let start = committed
+        .find("\nreal-model capture\n")
+        .expect("the capture block opens")
+        + 1;
+    let end = committed[start..]
+        .find("\n.\n")
+        .map(|at| start + at + 1)
+        .expect("libtest's mark closes the capture block");
+    &committed[start..end]
+}
+
+#[test]
+fn each_series_block_equals_its_committed_capture() {
+    for drive in &SERIES {
+        let committed = committed_series_capture(drive.file);
+        assert_eq!(capture_block(&committed), drive.block, "{}", drive.label);
+    }
+}
+
+#[test]
+fn each_series_drive_recorded_the_current_rule_before_it_fired() {
+    // The rule was not touched between the series and now, so every drive's pre-leg record equals it.
+    let current =
+        rule_section(include_str!("real_model_harvest.rs")).expect("this file carries its rule");
+    for drive in &SERIES {
+        let recorded = rule_section(&committed_series_capture(drive.file))
+            .expect("the capture opens with the rule record");
+        assert_eq!(
+            recorded, current,
+            "{}: the rule moved after the drive",
+            drive.label
+        );
+    }
+}
+
+#[test]
+fn the_series_captures_carry_no_fingerprint() {
+    // Elided once after the series by a mirror of the capture's own rule; this is the Rust rule
+    // finding nothing left in any committed capture, the ledger and the pins included.
+    let ledger = committed_series_capture("attempt-ledger.md");
+    assert_eq!(elide_fingerprints(&ledger), ledger, "the attempt ledger");
+    for drive in &SERIES {
+        let committed = committed_series_capture(drive.file);
+        assert_eq!(elide_fingerprints(&committed), committed, "{}", drive.label);
+        assert_eq!(
+            elide_fingerprints(drive.block),
+            drive.block,
+            "{}",
+            drive.label
+        );
+    }
+}
+
+/// What the rule measured on each drive: its route, its rank-1 grade, the three further grades and
+/// the canary tokens the capture printed (b1's and b2's `pipeline-fault` are the pairing artifacts
+/// the ledger corrects from Pulse's own log; the tokens are recorded as printed).
+fn measured(label: &str) -> (Route, Grade, [Outcome; 3], CanaryAttempts) {
+    let none = Outcome::Blocked("no attributable incident");
+    let tokens = |surfaced, dismissed, pipeline_fault| CanaryAttempts {
+        surfaced,
+        dismissed,
+        pipeline_fault,
+    };
+    match label {
+        "a1-pipeline-fault" => (
+            Route::PreflightBlocked,
+            Grade::NoAttributableIncident,
+            [none; 3],
+            tokens(0, 0, 1),
+        ),
+        "a1" => (
+            Route::PreflightBlocked,
+            Grade::NoAttributableIncident,
+            [none; 3],
+            tokens(0, 1, 0),
+        ),
+        "a2" => (
+            Route::EmittedNoReadBack,
+            Grade::NoAttributableIncident,
+            [none; 3],
+            tokens(1, 0, 0),
+        ),
+        "a3" => (
+            Route::ReadBack,
+            Grade::NoAttributableIncident,
+            [none; 3],
+            tokens(1, 0, 0),
+        ),
+        "b1" => (
+            Route::ReadBack,
+            Grade::NoAttributableIncident,
+            [none; 3],
+            tokens(0, 1, 1),
+        ),
+        "b2" => (
+            Route::ReadBack,
+            Grade::NotIdentified,
+            [Outcome::Pass; 3],
+            tokens(1, 0, 1),
+        ),
+        other => panic!("no measurement recorded for {other}"),
+    }
+}
+
+#[test]
+fn each_series_drive_grades_as_the_ledger_records() {
+    for drive in &SERIES {
+        let (route_, grade_, further, tokens) = measured(drive.label);
+        let block = drive.block;
+        assert_eq!(route(block), route_, "{}", drive.label);
+        assert_eq!(grade(block), grade_, "{}", drive.label);
+        assert_eq!(
+            [structure(block), steps(block), retrieval(block)],
+            further,
+            "{}",
+            drive.label
+        );
+        assert_eq!(canary_attempts(block), tokens, "{}", drive.label);
+        assert!(
+            trace_conforms(block),
+            "{}: the trace witness set",
+            drive.label
+        );
+    }
+}
+
+#[test]
+fn every_series_drive_witnesses_the_real_model_and_a_clear_launch() {
+    for drive in &SERIES {
+        assert!(real_model_witnessed(drive.block), "{}", drive.label);
+        assert!(launch_cwd_clear(drive.block), "{}", drive.label);
+    }
+}
+
+#[test]
+fn the_series_envelopes_carry_the_eleven_keys() {
+    for drive in &SERIES {
+        let Some(line) = drive
+            .block
+            .lines()
+            .find_map(|l| l.strip_prefix("envelope: "))
+            .filter(|rest| rest.starts_with('{'))
+        else {
+            continue;
+        };
+        let value: serde_json::Value = serde_json::from_str(line).expect("the envelope parses");
+        let mut keys: Vec<&str> = value
+            .as_object()
+            .expect("the envelope is an object")
+            .keys()
+            .map(String::as_str)
+            .collect();
+        keys.sort_unstable();
+        assert_eq!(keys, ENVELOPE_KEYS_SORTED, "{}", drive.label);
+        let record: RunRecord = serde_json::from_str(line).expect("the closed sets");
+        assert_eq!(record.scenario, "real-model-interpretation");
+        assert_eq!(record.verdict, None, "{}: declare-only", drive.label);
+    }
+}
+
+#[test]
+fn v3_09_is_not_met_by_the_series() {
+    // D1 (posture contract, The drive series (a)): met only if at least one drive is graded AND every
+    // graded drive reads Identified. A drive is graded when it attributed an incident on the read-back
+    // route. b2 alone did, and it reads NotIdentified — recorded, never replaced.
+    let graded: Vec<&str> = SERIES
+        .iter()
+        .filter(|d| route(d.block) == Route::ReadBack && attributed_report(d.block).is_ok())
+        .map(|d| d.label)
+        .collect();
+    assert_eq!(graded, ["b2"]);
+    let b2 = SERIES
+        .iter()
+        .find(|d| d.label == "b2")
+        .expect("b2 is pinned");
+    assert_eq!(grade(b2.block), Grade::NotIdentified);
+    assert_eq!(
+        row(grade(b2.block)),
+        (Some(Verdict::CalibrationRegion), ReportState::ManualCheck)
+    );
+    let met = !graded.is_empty()
+        && SERIES
+            .iter()
+            .filter(|d| graded.contains(&d.label))
+            .all(|d| grade(d.block) == Grade::Identified);
+    assert!(!met, "the series does not meet v3-09");
 }

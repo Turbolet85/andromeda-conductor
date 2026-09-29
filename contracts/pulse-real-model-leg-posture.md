@@ -176,6 +176,12 @@ from a graded miss, and carries the precondition that was not met.
 **A failing leg grades as a failure.** It is never re-driven until it passes. There is no retry-once policy,
 no soft verdict, and no quarantine-and-rerun path. A leg whose verdict the operator disputes is re-examined,
 not re-rolled.
+[corrected 2026-09-29 (2026-09-29-diagnostic-quality-cluster-off-the-drift-pin, implement, before any drive):
+"never re-driven until it passes" is replaced by the pre-stated drive series below, the overseer's ruling
+(founder-delegated, 2026-09-29). What stands: there is no retry-once policy, no soft verdict and no
+quarantine-and-rerun path, and a graded miss is never replaced by a further drive. What changed: the number of
+drives is fixed in advance at up to five, each one recorded, and a canary-blocked drive is a measurement, never a
+graded outcome.]
 
 **No reported state is an error exit.** Blocked, manual-check and known-residual are reported states; only a
 hard failure is a non-zero process exit.
@@ -203,6 +209,115 @@ measured; `KnownResidual` arises only from a degraded report or an emptied activ
 [corrected 2026-09-23 (2026-09-22-interpretation-proven-live, P5 review, before any drive): the harvest grades a
 capture that a `live-pulse`-gated tool (`crates/conductor-run/tests/real_model_live.rs`) re-reads over MCP after
 the leg. It never grades the leg's own captures, which carry no report text.]
+
+## The drive series
+
+[added 2026-09-29 (2026-09-29-diagnostic-quality-cluster-off-the-drift-pin, implement, before any drive)]
+
+**Provenance of these rules.** The fixed series, its pass condition and the exclusion of canary-blocked drives
+from grading are the OVERSEER's rulings, made under founder delegation on 2026-09-29. The founder's own ruling is
+only the principle they serve: nothing is skipped or deferred, the route runs in order, and a problem met is
+solved now. Every Pulse coordinate in this section was read at andromeda-pulse committed HEAD `f15536b`
+(`f15536b909af814e35eba43a50988cb863223d16`), never from its working tree, and RE-PINNED at `e98d838`
+(`e98d8384512a300127305925c9e762f69e937ca5`, Pulse's P-025 wrap, the HEAD the drives run against): every file
+cited here is byte-identical between the two commits (`git diff --stat f15536b e98d838` over them is empty), and
+P-025's triage changes are additive (a whole-workspace incident listing and an optional tier-change instant for
+the services view), touching neither incident creation, dedupe, the active list nor the MCP read-back. The rest of
+this file keeps its own `83d4060` pin.
+
+**Why a series and not one drive.** The only graded drive (2026-09-23) blocked at the preflight canary: the real
+model answered the canary's one cue-bearing digest and formed no incident. At `f15536b` every exit that suppresses
+an incident reads a model-authored field (`pulse-app/src/inference_runtime.rs:756-760`), sampling is stochastic
+(no seed or temperature argument in `pulse-app/src/llamacli_inference.rs` `build_llama_cli_args`, `:405-435`), and no surface
+records the model's decision. The candidate causes — model nondeterminism, a digest too weak to warrant an
+incident, Pulse's incident prompt or thresholds — therefore separate only by outcome frequencies under controlled
+variation. No single drive can tell them apart.
+
+**(a) The pass condition.** `v3-09` is met only if at least one drive is GRADED and every graded drive reads
+`Identified` under the unchanged rank-1 rule above. That is stricter than one drive, and there is no
+retry-until-pass: a `NotIdentified` graded drive means not met, is recorded, and is never replaced by a further
+drive.
+- A drive is graded when its scenario emitted and was read back (route `ReadBack`).
+- A drive whose scenario emitted but attributed no incident is a scenario-side dismissal: recorded, not graded.
+- **A canary-blocked drive is a measurement, never graded.**
+- A series that ends with zero graded drives leaves `v3-09` not met.
+
+**(b) The series and its decision rule**, applied mechanically after the drives it names. At most five drives,
+each the full leg through the existing operator-gated arm — there is no canary-only entry point, so a canary that
+passes also yields a graded drive. `k_A` is the number of Stage A drives whose capture carries no
+`emission: none` line, i.e. whose preflight reached ready; `k_B` is the same count over Stage B.
+- **Stage A:** drives `a1`, `a2`, `a3`, identical, with the canary as shipped, on the operator's long-lived data
+  dir.
+- **`k_A = 3`:** the series ends. The 2026-09-23 block is recorded as one dismissal in a stochastic process and
+  no canary change is made: the cause is the model's sampling, which the gate absorbs at the observed rate.
+- **`1 ≤ k_A ≤ 2`:** the cause includes per-decision nondeterminism. The multi-storm canary below lands, then
+  Stage B drives `b1`, `b2` on the SAME long-lived data dir, to confirm.
+- **`k_A = 0`:** the multi-storm canary lands, then `b1`, `b2` on ONE FRESH data dir launched by the operator.
+  That removes prior canary incidents' `CORPUS MATCHES` from the canary digest
+  (`crates/triage/src/digest/assembler.rs:676-679`).
+  - `k_B ≥ 1`: the cause is Conductor-side digest conditions, and the fix stands. Stated limit: the two levers
+    are applied together, so Stage B does not attribute the cause to either one.
+  - `k_B = 0`: **Pulse-side — the series stops.** A Pulse-side report goes to the overseer: the measured
+    frequencies (0 of 3, then 0 of 6 decisions), the damper, latch and creation-predicate coordinates at
+    the drives' Pulse HEAD, and the ask — a bounded decision/severity label on the silent exits, and a review of the prompt's
+    surface/dismiss guidance. Nothing further is driven, and no Pulse file is touched.
+- **The multi-storm canary**, landed only when the rule calls Stage B, and only under the real-model posture:
+  three storms of the shipped occurrence count, each carrying its own marker, so its fingerprint differs and the
+  damper's projection changes (`crates/triage/src/digest/damper.rs:251`); 90 s apart, clearing the 60 s cue
+  latch (`crates/triage/src/cue/emitter.rs:28`); the freshness stamp taken before the first. The deterministic
+  posture's canary — the `boot` gate's and every deterministic leg's — is unchanged.
+- **A `pipeline-fault` canary** (no parse `ok` for its cue-bearing digest, or an inference error or skip) is an
+  environment fault: it may be re-fired once and does not count toward the five. No other outcome is re-fired.
+
+**(c) The quiet window between drives:** at least 150 s after the LAST incident any earlier drive formed, and
+otherwise at least 90 s. A dismissed canary leaves no incident to dedupe against, and each drive's marker is
+unique, so the 90 s floor covers Pulse's 60 s storm-retention window.
+
+**(d) The launch posture per stage.** Stage A uses the operator's long-lived data dir, because P-044's witness
+needs a prior same-scope incident. Stage B uses the dir the decision rule names. Every term of the launch posture
+above binds every drive, and `pulse-app` is the operator's: never started, restarted or stopped by the agent.
+
+**(e) The slot.** Before every drive the overseer confirms the host is free — Pulse runs its own live legs on the
+same OTLP port — and the confirmation is recorded against the drive's label in the chunk's attempt ledger.
+
+**(f) Three further grades**, fixed with the rank-1 rule in the harvest's rule section and applied to the same
+capture. Each is a returned value from the closed triad and five-valued state. P-033's rule is unchanged. A
+capture with no attributable incident, or whose read-back failed, is `Blocked` on all three with that reason.
+
+| Capability | `Pass` / `Pass` | `CalibrationRegion` / `ManualCheck` | — / `Blocked` |
+|---|---|---|---|
+| P-031 Report Structure | the six sections (Symptom, Timeline, Hypotheses, Investigation Steps, Evidence, Project Context) in that order, Symptom and Timeline each carrying a narrative | the six in order, and Symptom or Timeline is its empty placeholder | the report is degraded |
+| P-034 Suggested Investigation Steps | at least one numbered entry under Investigation Steps | anything else under a non-degraded section, the empty placeholder included | the report is degraded, or the section is absent |
+| P-044 Retrieval-Augmented Interpretation | `## Previously Seen` lists at least one incident opened BEFORE the attributed one, AND the creating digest's corpus retrieval returned at least one row | — | otherwise: "no prior same-scope incident to retrieve" |
+
+P-031 has a fourth row: a section missing or out of order under a non-degraded report is `Fail` / `Fail`. The
+six sections are rendered by Pulse's serializer, never by the model (`crates/interpretation/src/markdown.rs`), so a
+broken structure is a deterministic SUT fault and not a model-interpretive miss.
+
+Stated limits, fixed with the grades:
+- **P-031** — a pass says the model supplied Symptom and Timeline narratives into the rendered structure, never
+  that either is correct.
+- **P-034** — a pass says the model proposed at least one numbered step, never that a step is useful.
+- **P-044** — proven by an inference chain, and only to the model's INPUT. Pulse logs the digest-side retrieval's
+  candidate count BEFORE selection (`assembler.rs:309-318`) and the selected matches reach only the unlogged
+  prompt payload; `## Previously Seen` is the report-side sibling selection (P-036, `retrieval.rs`), with the
+  same workspace, the same 30-day window and a fingerprint-or-scope match. A pass therefore shows that corpus
+  retrieval had a same-scope prior incident to put in front of the model, never that the model used it.
+- **The canary classification** — the capture prints one `canary:` line per retry-storm cue-bearing digest before
+  the scenario's emission instant (the whole window when it never emitted), following Pulse's serial inference:
+  the digest's inference is the first prompt assembly after its tick (before the next retry-storm tick), and its
+  outcome is what lies between that prompt and the next. `surfaced` when an incident outcome follows its parse
+  `ok` (Pulse logs one on creation and on dedupe alike, so either is the model surfacing), `dismissed` when its
+  parse `ok` has none, and `pipeline-fault` when there is no prompt, a skip before it, no parse `ok`, or an
+  inference error. Pulse logs no line on a dismissal, so `dismissed` is read from an absence and cannot say which
+  model field (a dismiss decision, severity none, the resolution-summary flag) caused it. Pulse's lines carry no
+  digest identity, so the pairing rests on that order: a digest Pulse's queue replaces before inference pairs with
+  the one that replaced it.
+  [corrected 2026-09-29 (2026-09-29-diagnostic-quality-cluster-off-the-drift-pin, implement, after the series): the
+  pairing first ended each digest's lines at the next cadence tick of ANY kind. Measured at b1 and b2, a tier-2
+  `error_rate_spike` tick 0.95 s and 3 s after a canary tick closed its segment before the parse, so a surfacing
+  (b1) and a dismissal (b2) printed as `pipeline-fault`. Those captures keep what they printed; the attempt ledger
+  records each storm's outcome from Pulse's own log. The decision rule counts emissions, never these tokens.]
 
 ## The quiet window and serialization
 

@@ -1,0 +1,1 @@
+2026-09-29-diagnostic-quality-cluster-off-the-drift-pin · pending · real-model canary measured and cleared first, then P-031/P-033/P-034/P-044 on the real-model leg with the UNBACKED_AUTO pin and coverage matrix moving together · → conductor-0.3.0/chunks/2026-09-29-diagnostic-quality-cluster-off-the-drift-pin/
