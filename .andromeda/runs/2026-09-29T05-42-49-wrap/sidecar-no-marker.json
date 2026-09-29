@@ -15,7 +15,7 @@
 "--marker",
 "no-marker"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "bytes 238117 · whole-read bound 120000 · OVER",
@@ -52,7 +52,7 @@
 "--marker",
 "no-marker"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "bytes 95164 · whole-read bound 120000 · within",
@@ -89,7 +89,7 @@
 "--marker",
 "no-marker"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "bytes 17583 · whole-read bound 120000 · within",
@@ -126,7 +126,7 @@
 "--marker",
 "no-marker"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "bytes 41059 · whole-read bound 120000 · within",
@@ -163,7 +163,7 @@
 "--marker",
 "no-marker"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "bytes 135429 · whole-read bound 120000 · OVER",
@@ -200,7 +200,7 @@
 "--marker",
 "no-marker"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "bytes 69983 · whole-read bound 120000 · within",
@@ -237,7 +237,7 @@
 "--marker",
 "no-marker"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "bytes 38819 · whole-read bound 120000 · within",
@@ -276,7 +276,7 @@
 "--marker",
 "no-marker"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "split 142 of 142 entries → .andromeda/runs/2026-09-29T05-42-49-wrap/consolidate/architecture · 6 batch(es) of ≤ 45000 B · Ref NOT DERIVED on 8 (by name 0 · by flip commit 88 · both 46 · anchors disagree 0)"
@@ -607,7 +607,7 @@
 "--marker",
 "no-marker"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "split 59 of 59 entries → .andromeda/runs/2026-09-29T05-42-49-wrap/consolidate/security-plan · 3 batch(es) of ≤ 45000 B · Ref NOT DERIVED on 1 (by name 0 · by flip commit 48 · both 10 · anchors disagree 0)"
@@ -769,7 +769,7 @@
 "--marker",
 "no-marker"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "split 16 of 16 entries → .andromeda/runs/2026-09-29T05-42-49-wrap/consolidate/design-system · 1 batch(es) of ≤ 45000 B · Ref NOT DERIVED on 0 (by name 0 · by flip commit 15 · both 1 · anchors disagree 0)"
@@ -843,7 +843,7 @@
 "--marker",
 "no-marker"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "split 32 of 32 entries → .andromeda/runs/2026-09-29T05-42-49-wrap/consolidate/layout-templates · 1 batch(es) of ≤ 45000 B · Ref NOT DERIVED on 1 (by name 0 · by flip commit 30 · both 1 · anchors disagree 0)"
@@ -949,7 +949,7 @@
 "--marker",
 "no-marker"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "split 81 of 81 entries → .andromeda/runs/2026-09-29T05-42-49-wrap/consolidate/test-plan · 4 batch(es) of ≤ 45000 B · Ref NOT DERIVED on 4 (by name 0 · by flip commit 65 · both 12 · anchors disagree 0)"
@@ -1156,7 +1156,7 @@
 "--marker",
 "no-marker"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "split 47 of 47 entries → .andromeda/runs/2026-09-29T05-42-49-wrap/consolidate/obs-plan · 2 batch(es) of ≤ 45000 B · Ref NOT DERIVED on 1 (by name 0 · by flip commit 40 · both 6 · anchors disagree 0)"
@@ -1293,7 +1293,7 @@
 "--marker",
 "no-marker"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "split 21 of 21 entries → .andromeda/runs/2026-09-29T05-42-49-wrap/consolidate/a11y-plan · 1 batch(es) of ≤ 45000 B · Ref NOT DERIVED on 2 (by name 0 · by flip commit 16 · both 3 · anchors disagree 0)"
@@ -1377,7 +1377,7 @@
 "--marker",
 "no-marker"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "split 59 of 59 entries → .andromeda/runs/2026-09-29T05-42-49-wrap/consolidate/security-plan-2 · 3 batch(es) of ≤ 45000 B · Ref NOT DERIVED on 1 (by name 0 · by flip commit 48 · both 10 · anchors disagree 0)"
@@ -1539,7 +1539,7 @@
 "--marker",
 "no-marker"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "split 142 of 142 entries → .andromeda/runs/2026-09-29T05-42-49-wrap/consolidate/architecture-2 · 6 batch(es) of ≤ 45000 B · Ref NOT DERIVED on 8 (by name 0 · by flip commit 88 · both 46 · anchors disagree 0)"
@@ -1870,7 +1870,7 @@
 "--marker",
 "no-marker"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "split 81 of 81 entries → .andromeda/runs/2026-09-29T05-42-49-wrap/consolidate/test-plan-2 · 4 batch(es) of ≤ 45000 B · Ref NOT DERIVED on 4 (by name 0 · by flip commit 65 · both 12 · anchors disagree 0)"
@@ -2083,7 +2083,7 @@
 "no-marker",
 "--dry-run"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "row 3 DROPPED 1: `.claude/docs/stack.md`",
@@ -2213,7 +2213,7 @@
 "no-marker",
 "--dry-run"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "row 2 DROPPED 1: `playbook.md`",
@@ -2279,7 +2279,7 @@
 "no-marker",
 "--dry-run"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "row 1 DROPPED 3: `.claude/rules/frontend.md` `playbook.md` `tokens.css`",
@@ -2321,7 +2321,7 @@
 "no-marker",
 "--dry-run"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "row 5 DROPPED 2: `:121` `:37`",
@@ -2372,7 +2372,7 @@
 "no-marker",
 "--dry-run"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "row 3 DROPPED 1: `.claude/docs/{stack,tests-summary}.md`",
@@ -2440,7 +2440,7 @@
 "no-marker",
 "--dry-run"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "row 1 DROPPED 2: `.claude/docs/obs-summary.md` `.claude/rules/observability.md`",
@@ -2501,7 +2501,7 @@
 "no-marker",
 "--dry-run"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "row 1 DROPPED 1: `obs-plan-amendments.md`",
@@ -2550,7 +2550,7 @@
 "no-marker",
 "--dry-run"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "row 3 DROPPED 1: `.claude/docs/stack.md`",
@@ -2663,7 +2663,7 @@
 "no-marker",
 "--dry-run"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "row 2 DROPPED 1: `playbook.md`",
@@ -2729,7 +2729,7 @@
 "no-marker",
 "--dry-run"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "row 1 DROPPED 1: `.claude/rules/frontend.md`",
@@ -2771,7 +2771,7 @@
 "no-marker",
 "--dry-run"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "row 5 DROPPED 2: `:121` `:37`",
@@ -2820,7 +2820,7 @@
 "no-marker",
 "--dry-run"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "row 3 DROPPED 1: `.claude/docs/{stack,tests-summary}.md`",
@@ -2888,7 +2888,7 @@
 "no-marker",
 "--dry-run"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "row 1 DROPPED 2: `.claude/docs/obs-summary.md` `.claude/rules/observability.md`",
@@ -2947,7 +2947,7 @@
 "no-marker",
 "--dry-run"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "row 1 DROPPED 1: `obs-plan-amendments.md`",
@@ -2994,7 +2994,7 @@
 "--marker",
 "no-marker"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "row 3 DROPPED 1: `.claude/docs/stack.md`",
@@ -3400,7 +3400,7 @@
 "--marker",
 "no-marker"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "row 2 DROPPED 1: `playbook.md`",
@@ -3593,7 +3593,7 @@
 "--marker",
 "no-marker"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "row 1 DROPPED 1: `.claude/rules/frontend.md`",
@@ -3676,7 +3676,7 @@
 "--marker",
 "no-marker"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "row 5 DROPPED 2: `:121` `:37`",
@@ -3798,7 +3798,7 @@
 "--marker",
 "no-marker"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "row 3 DROPPED 1: `.claude/docs/{stack,tests-summary}.md`",
@@ -4037,7 +4037,7 @@
 "--marker",
 "no-marker"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "row 1 DROPPED 2: `.claude/docs/obs-summary.md` `.claude/rules/observability.md`",
@@ -4201,7 +4201,7 @@
 "--marker",
 "no-marker"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "row 1 DROPPED 1: `obs-plan-amendments.md`",
@@ -4293,7 +4293,7 @@
 "--marker",
 "no-marker"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "bytes 172509 · whole-read bound 120000 · OVER",
@@ -4330,7 +4330,7 @@
 "--marker",
 "no-marker"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "bytes 79680 · whole-read bound 120000 · within",
@@ -4367,7 +4367,7 @@
 "--marker",
 "no-marker"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "bytes 15438 · whole-read bound 120000 · within",
@@ -4404,7 +4404,7 @@
 "--marker",
 "no-marker"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "bytes 37768 · whole-read bound 120000 · within",
@@ -4441,7 +4441,7 @@
 "--marker",
 "no-marker"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "bytes 112620 · whole-read bound 120000 · within",
@@ -4478,7 +4478,7 @@
 "--marker",
 "no-marker"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "bytes 58156 · whole-read bound 120000 · within",
@@ -4515,7 +4515,7 @@
 "--marker",
 "no-marker"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
 "bytes 29682 · whole-read bound 120000 · within",

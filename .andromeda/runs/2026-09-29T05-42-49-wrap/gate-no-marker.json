@@ -11,10 +11,10 @@
 "--marker",
 "no-marker"
 ],
-"cwd": "D:\\dev\\projects\\conductor",
+"cwd": ".",
 "exit": 0,
 "stdout": [
-"root D:\\dev\\projects\\conductor · planes rust, ts",
+"root . · planes rust, ts",
 "control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P2 · P3 rust · P3 ts — each fired on its synthetic known positive",
 "hygiene: clean — read 1420 (runs 1420 · evidence 0) · trails 1 not read · binary 0 not read by P1"
 ],
@@ -23,7 +23,7 @@
 "before": null,
 "after": null,
 "extra": {
-"root": "D:\\dev\\projects\\conductor",
+"root": ".",
 "planes": [
 "rust",
 "ts"
