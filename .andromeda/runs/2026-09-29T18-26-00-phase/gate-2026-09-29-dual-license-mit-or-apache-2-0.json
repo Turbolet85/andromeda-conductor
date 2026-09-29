@@ -1,0 +1,32 @@
+[
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-29T18:37:22Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"conductor-0.3.0/chunks/2026-09-29-dual-license-mit-or-apache-2-0/research.md",
+"--run-dir",
+".andromeda/runs/2026-09-29T18-26-00-phase",
+"--marker",
+"2026-09-29-dual-license-mit-or-apache-2-0"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 15 items (new 2 · modify 13 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 15,
+"unparsed": 0
+}
+}
+]

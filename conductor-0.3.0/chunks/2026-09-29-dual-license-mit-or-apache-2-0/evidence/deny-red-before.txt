@@ -1,0 +1,16 @@
+# Step 1 red-before-green control — `cargo deny check licenses` on the real deny.toml (the `private`
+# exemption removed), BEFORE any manifest edit. Measured 2026-09-29 at implement, run dir
+# .andromeda/runs/2026-09-29T18-46-00-implement/. Exit read from the bare command (output redirected
+# to a file, `$?` captured before any filter). Only the exit and the `^error\[` lines are kept:
+# cargo-deny's raw diagnostics carry absolute manifest locations.
+exit=4
+error[unlicensed]: conductor-cli = 0.2.0 is unlicensed
+error[unlicensed]: conductor-core = 0.2.0 is unlicensed
+error[unlicensed]: conductor-emit = 0.2.0 is unlicensed
+error[unlicensed]: conductor-faults = 0.2.0 is unlicensed
+error[unlicensed]: conductor-report = 0.2.0 is unlicensed
+error[unlicensed]: conductor-run = 0.2.0 is unlicensed
+error[unlicensed]: conductor-tauri = 0.2.0 is unlicensed
+error[unlicensed]: conductor-timeline = 0.2.0 is unlicensed
+error[unlicensed]: conductor-verify = 0.2.0 is unlicensed
+# ^error\[ line count: 9 — exactly the nine workspace members, nothing else. Summary line: `licenses FAILED`.

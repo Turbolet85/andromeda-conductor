@@ -1,0 +1,1 @@
+2026-09-29-dual-license-mit-or-apache-2-0 · pending · LICENSE-MIT + LICENSE-APACHE, `MIT OR Apache-2.0` on every Cargo + npm manifest, cargo deny licenses green · → conductor-0.3.0/chunks/2026-09-29-dual-license-mit-or-apache-2-0/

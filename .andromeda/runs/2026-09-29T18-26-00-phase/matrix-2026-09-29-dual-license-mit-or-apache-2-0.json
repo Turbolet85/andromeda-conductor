@@ -1,0 +1,57 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-29T18:45:01Z",
+"argv": [
+"coverage",
+"--dir",
+"conductor-0.3.0",
+"--run-dir",
+".andromeda/runs/2026-09-29T18-26-00-phase",
+"--marker",
+"2026-09-29-dual-license-mit-or-apache-2-0"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"verified 8/11 · deferred 1 · planned 2 · implemented 0 · unclaimed 2",
+"unclaimed: v3-03 v3-08",
+"claimed-unfinished: none",
+"done-test: NO — 2 not verified|deferred · unclaimed 2",
+"chunks referenced: 8 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-29T18:45:01Z",
+"argv": [
+"audit",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-29-dual-license-mit-or-apache-2-0",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-29-dual-license-mit-or-apache-2-0/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-29T18-26-00-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-29-dual-license-mit-or-apache-2-0: 0 · ## Acceptance Criteria: line 293, 30 lines",
+"pool: unclaimed 2 [v3-03 v3-08]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

@@ -64,8 +64,9 @@ allow = [
     "Apache-2.0 WITH LLVM-exception",  # Tauri 2 tree; Apache-2.0 plus the LLVM linking exception, OSI/FSF permissive
 ]
 confidence-threshold = 0.8
-# The workspace's own conductor-* crates are unpublished — skip license checks for them.
-private = { ignore = true }
+# The workspace's own conductor-* crates are license-checked like any dependency: they carry
+# `MIT OR Apache-2.0`, inherited from `[workspace.package]`, so a member shipped without a license
+# fails this gate. They stay unpublished (`publish = false`), which no longer exempts them.
 
 [sources]
 unknown-registry = "deny"

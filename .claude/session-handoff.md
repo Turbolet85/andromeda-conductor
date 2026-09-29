@@ -55,3 +55,6 @@ evidence). The route gained two entries in the relay's order, and one BLOCKED-ON
   `ANDROMEDA_PULSE_MODEL_PATH` and `_LLAMA_CUDA_BIN_PATH`, which faulted drive a1 with `model_not_configured`.
 - recurrence-despite-learning: host-win32 "Encoding & heredocs" [corrected 2026-09-23]. This window, a
   doubled-backslash command was blocked by the hook; the P1 window's lone `chr(92)` class failure is in the report.
+
+## Session End Status
+Completed normally at 2026-09-29 20:45:44

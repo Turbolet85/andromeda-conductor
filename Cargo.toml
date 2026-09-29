@@ -17,6 +17,7 @@ version = "0.2.0"
 edition = "2024"
 rust-version = "1.94.1"
 publish = false  # local-only personal tool — no conductor-* crate is ever published to crates.io
+license = "MIT OR Apache-2.0"
 
 [workspace.dependencies]
 # Internal seams (crate-per-seam edges inherit these)

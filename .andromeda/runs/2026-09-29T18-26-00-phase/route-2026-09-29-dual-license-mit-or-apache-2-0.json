@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-29T18:27:01Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-09-29-dual-license-mit-or-apache-2-0",
+"--expect-prefix",
+"Dual license MIT OR Apache-2.0",
+"--record-file",
+".andromeda/runs/2026-09-29T18-26-00-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-09-29T18-26-00-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:52 - [2026-09-29-dual-license-mit-or-apache-2-0]",
+"record master-route.md:156 - appended under `## conductor-0.3.0`",
+"promoted 2026-09-29-dual-license-mit-or-apache-2-0 - working-route:52 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+".\\conductor-0.3.0\\working-route.md",
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+}
+]
