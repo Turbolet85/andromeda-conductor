@@ -1,0 +1,53 @@
+# Cascade step-2 sweep — every amendment of this pass, by token AND by what the retired claim says.
+# A1: the user consequence "hears no focus change … after the first burst"
+[[pattern]]
+id = "first-burst"
+fixed = 'first burst'
+ignore_case = true
+
+[[pattern]]
+id = "user-hears-none"
+regex = '(user|operator)[^.;]{0,60}hears? no (focus|later focus)'
+ignore_case = true
+
+[[pattern]]
+id = "no-focus-change"
+regex = 'no (later )?focus change'
+ignore_case = true
+
+[[pattern]]
+id = "cfg-bound"
+fixed = 'CONFIGURATION-BOUND'
+
+# A2: the runtime/driver pair as a standing SR-silence candidate
+[[pattern]]
+id = "stay-cand"
+regex = 'stay(s)? candidates?|remain(s)? candidates?'
+ignore_case = true
+
+[[pattern]]
+id = "pair-cand"
+regex = 'runtime/driver pair'
+ignore_case = true
+
+# AR4 / AR5: the sole-reader claim for the two host-tool handles
+[[pattern]]
+id = "read-only-by"
+fixed = 'Read ONLY by'
+
+[[pattern]]
+id = "only-reader"
+regex = '(the ONLY reader|only reader|sole reader|read only by|read solely by)'
+ignore_case = true
+
+# S1: rule (b)'s count and the loci it names
+[[pattern]]
+id = "count-seven"
+regex = 'count stays seven|SEVEN forms|seven governed'
+ignore_case = true
+
+# T1: the measured driver x runtime pair set
+[[pattern]]
+id = "pair-set"
+regex = 'set of PAIRS|measured working set'
+ignore_case = true

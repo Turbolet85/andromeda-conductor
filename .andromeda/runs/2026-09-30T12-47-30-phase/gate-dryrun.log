@@ -1,0 +1,28 @@
+gate v1.5 · 018a3122
+shell <host-path> (from $SHELL; -c, non-login)
+root D:\dev\projects\conductor · marker 2026-09-30-the-sr-cause-isolated-on-this-host · entries 21
+logs <host-path> · bound: GNU timeout
+delta docs 36 · python 1
+prose L171-180: - **The PREREQ closes:** the unit and clippy entries carry NO `defer` key. - **No `typeche… (985 chars)
+  1 unit        not run — dry-run · bash scripts/agent-run.sh run --unit
+  2 lint        not run — dry-run · cargo clippy --workspace --all-targets -- -D warnings
+  3 probe       not run — dry-run · d=$("$CONDUCTOR_MSEDGEDRIVER" --version | grep -oE '[0-9]+… (288 chars)
+  4 probe       not run — dry-run · b=$(reg query 'HKLM\SOFTWARE\WOW6432Node\Microsoft\EdgeUpd… (174 chars)
+  5 self-verify not run — dry-run · CONDUCTOR_A11Y_STRICT=1 bash scripts/agent-run.sh run --e2… (59 chars)
+  6 e2e         not run — leg operator (the letter drives it) · powershell -NoProfile -ExecutionPolicy Bypass -File runs/s… (96 chars)
+  7 probe       not run — dry-run · grep -c 'Input: kb(desktop):tab' runs/sr-control/nvda-spee… (74 chars)
+  8 e2e         not run — leg operator (the letter drives it) · powershell -NoProfile -ExecutionPolicy Bypass -File runs/s… (91 chars)
+  9 probe       not run — dry-run · grep -c 'Input: ' runs/sr-control/nvda-speech.webdriver.lo… (59 chars)
+ 10 probe       not run — dry-run · ls "/c/Program Files (x86)/Microsoft/EdgeWebView/Applicati… (62 chars)
+ 11 probe       not run — leg operator (the letter drives it) · powershell -NoProfile -Command '$s = Get-AuthenticodeSigna… (267 chars)
+ 12 e2e         not run — leg operator (the letter drives it) · cd crates/conductor-tauri/ui && CONDUCTOR_MSEDGEDRIVER="$D… (198 chars)
+ 13 probe       not run — dry-run · f=conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-… (348 chars)
+ 14 e2e         not run — leg operator (the letter drives it) · powershell -NoProfile -ExecutionPolicy Bypass -File runs/s… (95 chars)
+ 15 probe       not run — dry-run · l=runs/sr-control/nvda-speech.physical.log; m=conductor-0.… (282 chars)
+ 16 probe       not run — dry-run · grep -cE '^\| (S-(edge|conductor|search)|W-edge|R153-empty… (226 chars)
+ 17 probe       not run — dry-run · grep -cE '^\| (focus-row-count|S0-09 / E0-05|one-configura… (197 chars)
+ 18 probe       not run — dry-run · test -d conductor-0.3.0/chunks/2026-09-30-the-sr-cause-iso… (302 chars)
+ 19 probe       not run — dry-run · { git diff --name-only 4460307 -- crates scripts contracts… (186 chars)
+ 20 probe       not run — dry-run · netstat -ano | grep -cE ":(4444|4445) +[^ ]+ +LISTENING"
+ 21 probe       not run — dry-run · tasklist | grep -ciE "^(msedgedriver|conductor-tauri|nvda|… (77 chars)
+entries 21 · green 0 · red 0 · recorded 0 · timeout 0 · not-run 21

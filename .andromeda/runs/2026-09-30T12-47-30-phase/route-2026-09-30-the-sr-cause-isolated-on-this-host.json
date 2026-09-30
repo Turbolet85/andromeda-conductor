@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-30T12:49:13Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-09-30-the-sr-cause-isolated-on-this-host",
+"--expect-prefix",
+"The SR cause isolated on this host",
+"--record-file",
+".andromeda/runs/2026-09-30T12-47-30-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-09-30T12-47-30-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:67 - [2026-09-30-the-sr-cause-isolated-on-this-host]",
+"record master-route.md:162 - appended under `## conductor-0.3.0`",
+"promoted 2026-09-30-the-sr-cause-isolated-on-this-host - working-route:67 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+".\\conductor-0.3.0\\working-route.md",
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+}
+]

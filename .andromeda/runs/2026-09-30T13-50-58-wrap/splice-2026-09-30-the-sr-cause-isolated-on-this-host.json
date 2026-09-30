@@ -1,0 +1,236 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-30T14:03:09Z",
+"argv": [
+"append",
+"--file",
+".andromeda/a11y-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-30T13-50-58-wrap/a11y-plan-entry.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-09-30T13-50-58-wrap",
+"--marker",
+"2026-09-30-the-sr-cause-isolated-on-this-host",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"dry-run · would write a11y-plan-amendments.md · lines 225→235 · bytes 35361→37342"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"lines": 225,
+"bytes": 35361,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 235,
+"bytes": 37342
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-30T14:03:15Z",
+"argv": [
+"append",
+"--file",
+".andromeda/a11y-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-30T13-50-58-wrap/a11y-plan-entry.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-09-30T13-50-58-wrap",
+"--marker",
+"2026-09-30-the-sr-cause-isolated-on-this-host"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append a11y-plan-amendments.md:+10 at line 226 · lines 225→235 · bytes 35361→37342 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-30T13-50-58-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/a11y-plan-amendments.md"
+],
+"before": {
+"lines": 225,
+"bytes": 35361,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 235,
+"bytes": 37342
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-30T14:03:15Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-30T13-50-58-wrap/test-plan-entry.md",
+"--lines",
+"7",
+"--run-dir",
+".andromeda/runs/2026-09-30T13-50-58-wrap",
+"--marker",
+"2026-09-30-the-sr-cause-isolated-on-this-host"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+7 at line 704 · lines 703→710 · bytes 120679→122057 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-30T13-50-58-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 703,
+"bytes": 120679,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 710,
+"bytes": 122057
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-30T14:03:16Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-30T13-50-58-wrap/security-plan-entry.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-09-30T13-50-58-wrap",
+"--marker",
+"2026-09-30-the-sr-cause-isolated-on-this-host"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+10 at line 476 · lines 475→485 · bytes 85075→86759 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-30T13-50-58-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 475,
+"bytes": 85075,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 485,
+"bytes": 86759
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-30T14:03:16Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-30T13-50-58-wrap/architecture-entry.md",
+"--lines",
+"7",
+"--run-dir",
+".andromeda/runs/2026-09-30T13-50-58-wrap",
+"--marker",
+"2026-09-30-the-sr-cause-isolated-on-this-host"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+7 at line 1076 · lines 1075→1082 · bytes 182664→183954 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-30T13-50-58-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 1075,
+"bytes": 182664,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1082,
+"bytes": 183954
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-30T14:07:01Z",
+"argv": [
+"append",
+"--file",
+"conductor-0.3.0/working-route.md",
+"--payload-file",
+".andromeda/runs/2026-09-30T13-50-58-wrap/route-mint.txt",
+"--lines",
+"2",
+"--before-line",
+"69",
+"--run-dir",
+".andromeda/runs/2026-09-30T13-50-58-wrap",
+"--marker",
+"2026-09-30-the-sr-cause-isolated-on-this-host"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append working-route.md:+2 at line 69 · lines 73→75 · bytes 14483→17118 · term lf",
+"last line now: Version close on measured evidence — every capability verified or deferred on "
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0/working-route.md"
+],
+"before": {
+"lines": 73,
+"bytes": 14483,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 75,
+"bytes": 17118
+}
+}
+]

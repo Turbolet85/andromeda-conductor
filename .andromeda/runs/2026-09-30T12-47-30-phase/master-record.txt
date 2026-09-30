@@ -1,0 +1,1 @@
+2026-09-30-the-sr-cause-isolated-on-this-host · pending · The SR cause isolated on this host — why NVDA hears Conductor's webview focus only in the first burst on WebView2 154.0.4258.37 / Windows 26200.9457, the no-boundary control first, after the Rust gate deferral closes · → conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/

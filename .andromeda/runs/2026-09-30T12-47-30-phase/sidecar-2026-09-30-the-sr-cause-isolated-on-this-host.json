@@ -1,0 +1,303 @@
+[
+{
+"tool": "sidecar",
+"v": "1.2",
+"sha8": "1872a4a3",
+"ts": "2026-09-30T12:52:57Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/architecture-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T12-47-30-phase",
+"--marker",
+"2026-09-30-the-sr-cause-isolated-on-this-host"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"bytes 182664 · whole-read bound 120000 · OVER",
+"entries 147 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 1 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 182664,
+"entries": 147,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.2",
+"sha8": "1872a4a3",
+"ts": "2026-09-30T12:52:57Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T12-47-30-phase",
+"--marker",
+"2026-09-30-the-sr-cause-isolated-on-this-host"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"bytes 85075 · whole-read bound 120000 · within",
+"entries 62 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 85075,
+"entries": 62,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.2",
+"sha8": "1872a4a3",
+"ts": "2026-09-30T12:52:57Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/design-system-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T12-47-30-phase",
+"--marker",
+"2026-09-30-the-sr-cause-isolated-on-this-host"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"bytes 17203 · whole-read bound 120000 · within",
+"entries 17 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 17203,
+"entries": 17,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.2",
+"sha8": "1872a4a3",
+"ts": "2026-09-30T12:52:58Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/layout-templates-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T12-47-30-phase",
+"--marker",
+"2026-09-30-the-sr-cause-isolated-on-this-host"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"bytes 39646 · whole-read bound 120000 · within",
+"entries 33 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 39646,
+"entries": 33,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.2",
+"sha8": "1872a4a3",
+"ts": "2026-09-30T12:52:58Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T12-47-30-phase",
+"--marker",
+"2026-09-30-the-sr-cause-isolated-on-this-host"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"bytes 120679 · whole-read bound 120000 · OVER",
+"entries 85 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 120679,
+"entries": 85,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.2",
+"sha8": "1872a4a3",
+"ts": "2026-09-30T12:52:58Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T12-47-30-phase",
+"--marker",
+"2026-09-30-the-sr-cause-isolated-on-this-host"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"bytes 61195 · whole-read bound 120000 · within",
+"entries 48 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 1 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 61195,
+"entries": 48,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.2",
+"sha8": "1872a4a3",
+"ts": "2026-09-30T12:52:58Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/a11y-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T12-47-30-phase",
+"--marker",
+"2026-09-30-the-sr-cause-isolated-on-this-host"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"bytes 35361 · whole-read bound 120000 · within",
+"entries 24 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 35361,
+"entries": 24,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.2",
+"sha8": "1872a4a3",
+"ts": "2026-09-30T12:53:04Z",
+"argv": [
+"index",
+"--file",
+".andromeda/architecture-amendments.md",
+"--out",
+".andromeda/runs/2026-09-30T12-47-30-phase/arch-history-index.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T12-47-30-phase",
+"--marker",
+"2026-09-30-the-sr-cause-isolated-on-this-host"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"wrote .andromeda/runs/2026-09-30T12-47-30-phase/arch-history-index.md · 147 entries · 0 unparsed · 34710 B (the sidecar is 182664 B)"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-09-30T12-47-30-phase/arch-history-index.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "sidecar",
+"v": "1.2",
+"sha8": "1872a4a3",
+"ts": "2026-09-30T12:53:05Z",
+"argv": [
+"index",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--out",
+".andromeda/runs/2026-09-30T12-47-30-phase/tests-history-index.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T12-47-30-phase",
+"--marker",
+"2026-09-30-the-sr-cause-isolated-on-this-host"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"wrote .andromeda/runs/2026-09-30T12-47-30-phase/tests-history-index.md · 85 entries · 0 unparsed · 23014 B (the sidecar is 120679 B)"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-09-30T12-47-30-phase/tests-history-index.md"
+],
+"before": null,
+"after": null
+}
+]

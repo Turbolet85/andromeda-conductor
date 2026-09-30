@@ -1,0 +1,147 @@
+[
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "1550f3bc",
+"ts": "2026-09-30T14:00:56Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-09-30T13-50-58-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-09-30T13-50-58-wrap",
+"--marker",
+"2026-09-30-the-sr-cause-isolated-on-this-host"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"baseline 44603079 (head — no operator pre-CI commit for 2026-09-30-the-sr-cause-isolated-on-this-host)",
+"first-burst · new 0 · standing 1 · leaf 2 · curation 0 · base 0 · control a11y-plan.md:268 (prose)",
+"user-hears-none · 0 rows (control fired) — a statement about this pattern, not the masters · control a11y-plan.md:268 (…",
+"no-focus-change · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control a11y-plan.md:268 (prose)",
+"cfg-bound · new 0 · standing 3 · leaf 0 · curation 0 · base 0 · case-variants +7 · control test-plan.md:56 (prose)",
+"stay-cand · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control a11y-plan.md:268 (prose)",
+"pair-cand · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control a11y-plan.md:268 (prose)",
+"read-only-by · 0 rows (control fired) — a statement about this pattern, not the masters · case-variants +3 · control ar…",
+"only-reader · new 0 · standing 6 · leaf 0 · curation 1 · base 5 · control architecture.md:179 (prose)",
+"count-seven · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control security-plan.md:367 (prose)",
+"pair-set · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:307 (prose)",
+".andromeda/a11y-plan.md:268 first-burst standing edited @c939/2767 …in the window's first burst and then no later focus…",
+".claude/rules/a11y.md:39 first-burst leaf @c3054/3390 …only in the window's first burst under BOTH NVDA Chromium object…",
+".claude/docs/a11y-summary.md:27 first-burst leaf …nt after the window's first burst under both NVDA object models, 2026…",
+".andromeda/a11y-plan.md:268 no-focus-change standing edited @c960/2767 …burst and then no later focus change, under BOT…",
+".andromeda/test-plan.md:56 cfg-bound standing @c656/2543 …ndpoint question is CONFIGURATION-BOUND, never unconditional:…",
+".andromeda/test-plan.md:307 cfg-bound standing edited @c774/12361 …oint question is CONFIGURATION-BOUND, never uncondit…",
+".andromeda/test-plan.md:472 cfg-bound standing @c1933/7828 …ected 2026-09-17 — CONFIGURATION-BOUND, not unconditional: …",
+".andromeda/a11y-plan.md:268 stay-cand standing edited @c2444/2767 … and the desktop stay candidates against the 2026-09…",
+".andromeda/a11y-plan.md:268 pair-cand standing edited mixed ×2 @c1393,2241/2767 …lent at the runtime/driver pair 153.0.…",
+".andromeda/architecture.md:179 only-reader standing …shipped reader — its only reader is the crate-local gate test bina…",
+".andromeda/architecture.md:195 only-reader standing …ness-owned constant; READ only by `crates/conductor-run/tests/enve…",
+".andromeda/security-plan.md:116 only-reader standing …o.conf.ts` stays the sole READER and the sole site applying the `…",
+".andromeda/security-plan.md:118 only-reader standing …onf.ts` `onPrepare`, READ only by `crates/conductor-run/tests/env…",
+".andromeda/security-plan.md:325 only-reader standing @c1329/2259 …n unguarded test-only reader, and `CONDUCTOR_E2E_SEED…",
+".andromeda/test-plan.md:87 only-reader standing @c1204/3097 …s` `onPrepare` and READ only by `crates/conductor-run/test…",
+"CLAUDE.md:132 only-reader curation @c3324/4852 … construction, and its only reader is the promotion that HALTs on it. S…",
+".andromeda/playbook.md:115 only-reader base …` HOST-TOOL path handle read solely by `crates/conductor-tauri/ui/wdio.con…",
+".andromeda/playbook.md:123 only-reader base …auses (host-tool path · read solely by wdio · behind the isFile/metacharac…",
+".andromeda/playbook.md:142 only-reader base … clauses (path-valued · read solely by wdio · behind the isFile/metacharac…",
+".andromeda/playbook.md:148 only-reader base … the WebView2 loader is the only reader. Third registration basis in arch …",
+".andromeda/playbook.md:191 only-reader base …ommitted, runtime-parsed artifact under `contracts/` whose ONLY reader is a",
+".andromeda/security-plan.md:367 count-seven standing edited mixed ×3 @c2013,8506/9476 …ci.yml` — seven governed forms, …",
+".andromeda/security-plan.md:367 count-seven @c+9458/9476",
+".claude/rules/security.md:27 count-seven leaf @c2245/2263 …such on 2026-09-24, operator-directed. The count stays seven.",
+".andromeda/test-plan.md:307 pair-set standing edited ×3 @c1854,1880,6198/12361 …ng, and the measured working set is a s…",
+"first-burst · new 0 · standing 1 · leaf 2 · curation 0 · base 0 · control a11y-plan.md:268 (prose)",
+"user-hears-none · 0 rows (control fired) — a statement about this pattern, not the masters · control a11y-plan.md:268 (…",
+"no-focus-change · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control a11y-plan.md:268 (prose)",
+"cfg-bound · new 0 · standing 3 · leaf 0 · curation 0 · base 0 · case-variants +7 · control test-plan.md:56 (prose)",
+"stay-cand · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control a11y-plan.md:268 (prose)",
+"pair-cand · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control a11y-plan.md:268 (prose)",
+"read-only-by · 0 rows (control fired) — a statement about this pattern, not the masters · case-variants +3 · control ar…",
+"only-reader · new 0 · standing 6 · leaf 0 · curation 1 · base 5 · control architecture.md:179 (prose)",
+"count-seven · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control security-plan.md:367 (prose)",
+"pair-set · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:307 (prose)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "44603079262c2d8ccd5f5b685bc8f92fce83a2c2",
+"how": "head — no operator pre-CI commit for 2026-09-30-the-sr-cause-isolated-on-this-host",
+"counts": {
+"first-burst": {
+"new": 0,
+"standing": 1,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"user-hears-none": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"no-focus-change": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"cfg-bound": {
+"new": 0,
+"standing": 3,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"stay-cand": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"pair-cand": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"read-only-by": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"only-reader": {
+"new": 0,
+"standing": 6,
+"leaf": 0,
+"curation": 1,
+"base": 5
+},
+"count-seven": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"pair-set": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]

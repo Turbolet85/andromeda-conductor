@@ -1,0 +1,2072 @@
+[
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-30T13:24:43Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T13-21-48-implement",
+"--marker",
+"2026-09-30-the-sr-cause-isolated-on-this-host",
+"--only",
+"1,2,3,4,5"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-30-the-sr-cause-isolated-on-this-host · entries 21",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-cause-isolated-on-this-host\\implement-2026-09-30T13-21-48 · bound: GNU timeout",
+"delta docs 38 · python 1",
+"prose L171-180: - **The PREREQ closes:** the unit and clippy entries carry NO `defer` key. - **No `typeche… (985 chars)",
+"  1 unit        green · exit 0 · 23.57s · 140956 B → 1.log · bash scripts/agent-run.sh run --unit",
+"  2 lint        green · exit 0 · 0.84s · 72 B → 2.log · cargo clippy --workspace --all-targets -- -D warnings",
+"  3 probe       green · exit 0 · 0.14s · 43 B → 3.log · d=$(\"$CONDUCTOR_MSEDGEDRIVER\" --version | grep -oE '[0-9]+… (288 chars)",
+"  4 probe       recorded · exit 0 · 0.1s · 27 B → 4.log · b=$(reg query 'HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\EdgeUpd… (174 chars)",
+"  5 self-verify green · exit 0 · 51.76s · 30593005 B → 5.log · CONDUCTOR_A11Y_STRICT=1 bash scripts/agent-run.sh run --e2… (59 chars)",
+"  6 e2e         not run — excluded · powershell -NoProfile -ExecutionPolicy Bypass -File runs/s… (96 chars)",
+"  7 probe       not run — excluded · grep -c 'Input: kb(desktop):tab' runs/sr-control/nvda-spee… (74 chars)",
+"  8 e2e         not run — excluded · powershell -NoProfile -ExecutionPolicy Bypass -File runs/s… (91 chars)",
+"  9 probe       not run — excluded · grep -c 'Input: ' runs/sr-control/nvda-speech.webdriver.lo… (59 chars)",
+" 10 probe       not run — excluded · ls \"/c/Program Files (x86)/Microsoft/EdgeWebView/Applicati… (62 chars)",
+" 11 probe       not run — excluded · powershell -NoProfile -Command '$s = Get-AuthenticodeSigna… (267 chars)",
+" 12 e2e         not run — excluded · cd crates/conductor-tauri/ui && CONDUCTOR_MSEDGEDRIVER=\"$D… (198 chars)",
+" 13 probe       not run — excluded · f=conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-… (348 chars)",
+" 14 e2e         not run — excluded · powershell -NoProfile -ExecutionPolicy Bypass -File runs/s… (95 chars)",
+" 15 probe       not run — excluded · l=runs/sr-control/nvda-speech.physical.log; m=conductor-0.… (282 chars)",
+" 16 probe       not run — excluded · grep -cE '^\\| (S-(edge|conductor|search)|W-edge|R153-empty… (226 chars)",
+" 17 probe       not run — excluded · grep -cE '^\\| (focus-row-count|S0-09 / E0-05|one-configura… (197 chars)",
+" 18 probe       not run — excluded · test -d conductor-0.3.0/chunks/2026-09-30-the-sr-cause-iso… (302 chars)",
+" 19 probe       not run — excluded · { git diff --name-only 4460307 -- crates scripts contracts… (186 chars)",
+" 20 probe       not run — excluded · netstat -ano | grep -cE \":(4444|4445) +[^ ]+ +LISTENING\"",
+" 21 probe       not run — excluded · tasklist | grep -ciE \"^(msedgedriver|conductor-tauri|nvda|… (77 chars)",
+"entries 21 · green 4 · red 0 · recorded 1 · timeout 0 · not-run 16"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-30-the-sr-cause-isolated-on-this-host",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-30-the-sr-cause-isolated-on-this-host\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-cause-isolated-on-this-host\\implement-2026-09-30T13-21-48",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-09-30T12-28-33-wrap/evolve-2026-09-30-the-screen-reader-pass-grades-again-on-this-host.json",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/a11y-history.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/a11y.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/arch-history-index.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/arch-history.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/arch.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/baseline-2.log",
+".andromeda/runs/2026-09-30T12-47-30-phase/baseline.log",
+".andromeda/runs/2026-09-30T12-47-30-phase/ci-no-marker.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/design-history.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/design.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/evolve-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/gate-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/gate-dryrun.log",
+".andromeda/runs/2026-09-30T12-47-30-phase/layouts-history.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/layouts.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/master-record.txt",
+".andromeda/runs/2026-09-30T12-47-30-phase/matrix-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/obs-history.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/obs.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/planlint-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/planlint.log",
+".andromeda/runs/2026-09-30T12-47-30-phase/registry-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/route-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/route-no-marker.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/security-history.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/security.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/sidecar-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/tests-history-index.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/tests-history.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/tests.md",
+"conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/plan.md",
+"conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/research.md",
+"conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/scope.md"
+],
+"python": [
+".andromeda/runs/2026-09-30T12-28-33-wrap/evolve-gates.py"
+]
+},
+"unmapped": [],
+"prose": [
+{
+"from": 171,
+"to": 180,
+"text": "- **The PREREQ closes:** the unit and clippy entries carry NO `defer` key. - **No `typecheck:e2e`, smoke, `status` or CI entry:** no TS change, no minted `run_id` read (verification-harness.md   `:49`), no CI-run acceptance. - **The S, W, 153 and K entries are operator-slot legs** (`leg = 'operator'`). Their preconditions sit inside each   script (handle guards, NVDA's readiness line, the port check) or in the probe entries listed before them. The 153   leg's non-priming probes are the folder re-list and the driver admission. - **The two evidence files are authored by construction** (steps 8e and 10). Their producers are the 153 leg   (`artifact` `runs/sr-leg/nvda-pass.json`, copied at step 8e) and the S/W/K legs' logs, which step 10 reads. - **Branch-dependent witnesses are written to hold in BOTH branches.** The 153 and K witnesses read the artifact when   the arm ran, else they read the evidence row that records it `not-run`. So a rule-sanctioned skip never reads red."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-cause-isolated-on-this-host\\implement-2026-09-30T13-21-48\\1.log",
+"bytes": 140956,
+"log_sha8": "26e2ec02",
+"exit": 0,
+"seconds": 23.57,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-cause-isolated-on-this-host\\implement-2026-09-30T13-21-48\\2.log",
+"bytes": 72,
+"log_sha8": "80a72ab0",
+"exit": 0,
+"seconds": 0.84,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "probe",
+"run": "d=$(\"$CONDUCTOR_MSEDGEDRIVER\" --version | grep -oE '[0-9]+(\\.[0-9]+){3}'); r=$(reg query 'HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\EdgeUpdate\\Clients\\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}' //v pv | grep -oE '[0-9]+(\\.[0-9]+){3}'); echo \"driver $d runtime $r\"; test -n \"$d\" && test \"$d\" = \"$r\"",
+"run_sha8": "342e374d",
+"expect": [
+"exit 0",
+"contains driver "
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-cause-isolated-on-this-host\\implement-2026-09-30T13-21-48\\3.log",
+"bytes": 43,
+"log_sha8": "987e6204",
+"exit": 0,
+"seconds": 0.14,
+"readings": [
+"exit 0 ✓",
+"contains 'driver ' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "probe",
+"run": "b=$(reg query 'HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\EdgeUpdate\\Clients\\{56EB18F8-B008-4CBD-B6D2-8C97FE7E9062}' //v pv | grep -oE '[0-9]+(\\.[0-9]+){3}'); echo \"edge-browser $b\"",
+"run_sha8": "06f5257c",
+"expect": [],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-cause-isolated-on-this-host\\implement-2026-09-30T13-21-48\\4.log",
+"bytes": 27,
+"log_sha8": "121d3e5c",
+"exit": 0,
+"seconds": 0.1,
+"readings": [
+"report-only (expect = [])"
+],
+"survivors": [],
+"outcome": "recorded"
+},
+{
+"n": 5,
+"role": "self-verify",
+"run": "CONDUCTOR_A11Y_STRICT=1 bash scripts/agent-run.sh run --e2e",
+"run_sha8": "bcfd469f",
+"expect": [
+"exit 0",
+"contains [a11y] verdict asserted — 0 failed",
+"contains (expected 2)"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-cause-isolated-on-this-host\\implement-2026-09-30T13-21-48\\5.log",
+"bytes": 30593005,
+"log_sha8": "d3d2ee70",
+"exit": 0,
+"seconds": 51.76,
+"readings": [
+"exit 0 ✓",
+"contains '[a11y] verdict asserted — 0 failed' ✓",
+"contains '(expected 2)' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "e2e",
+"run": "powershell -NoProfile -ExecutionPolicy Bypass -File runs/sr-control/key-walk.ps1 -Mode synthetic",
+"run_sha8": "5f023000",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "grep -c 'Input: kb(desktop):tab' runs/sr-control/nvda-speech.synthetic.log",
+"run_sha8": "78210594",
+"expect": [
+"exit 0",
+"last line 13"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "e2e",
+"run": "powershell -NoProfile -ExecutionPolicy Bypass -File runs/sr-control/edge-webdriver-walk.ps1",
+"run_sha8": "3017362e",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "grep -c 'Input: ' runs/sr-control/nvda-speech.webdriver.log",
+"run_sha8": "6e94db0e",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "ls \"/c/Program Files (x86)/Microsoft/EdgeWebView/Application/\"",
+"run_sha8": "28eabbf8",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "powershell -NoProfile -Command '$s = Get-AuthenticodeSignature -LiteralPath $env:DRIVER_153; \"status \" + $s.Status; \"signer \" + $s.SignerCertificate.Subject'; d=$(\"$DRIVER_153\" --version | grep -oE '[0-9]+(\\.[0-9]+){3}'); echo \"driver $d\"; test \"$d\" = \"153.0.4234.48\"",
+"run_sha8": "c97ccd15",
+"expect": [
+"exit 0",
+"contains status Valid",
+"contains O=Microsoft Corporation",
+"contains driver 153.0.4234.48"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "e2e",
+"run": "cd crates/conductor-tauri/ui && CONDUCTOR_MSEDGEDRIVER=\"$DRIVER_153\" WEBVIEW2_BROWSER_EXECUTABLE_FOLDER='C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\153.0.4234.48' npm run a11y:sr-empty",
+"run_sha8": "aefb2634",
+"expect": [
+"exit 0",
+"contains Spec Files:\t 1 passed, 1 total"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "f=conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/evidence/nvda-pass.153.json; m=conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/evidence/no-boundary-control.md; if test -e \"$f\"; then jq -r '.webview2_runtime == \"153.0.4234.48\"' \"$f\"; else grep -qE '^\\| R153-empty \\|.*\\| not-run \\|$' \"$m\" && echo true; fi",
+"run_sha8": "208c8c30",
+"expect": [
+"exit 0",
+"last line true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "e2e",
+"run": "powershell -NoProfile -ExecutionPolicy Bypass -File runs/sr-control/key-walk.ps1 -Mode physical",
+"run_sha8": "3fb61144",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "l=runs/sr-control/nvda-speech.physical.log; m=conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/evidence/no-boundary-control.md; if test -e \"$l\"; then grep -c 'Input: kb(desktop):tab' \"$l\"; else grep -cE '^\\| K-(edge|conductor|search) \\|.*\\| not-run \\|$' \"$m\"; fi",
+"run_sha8": "041d5e41",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "grep -cE '^\\| (S-(edge|conductor|search)|W-edge|R153-empty|K-(edge|conductor|search)) \\|.*\\| (heard|silent|void|not-run) \\|$' conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/evidence/no-boundary-control.md",
+"run_sha8": "301f8121",
+"expect": [
+"exit 0",
+"last line 8"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "grep -cE '^\\| (focus-row-count|S0-09 / E0-05|one-configuration) \\| routed \\| [^|]+ \\| [^|]+ \\|$' conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/evidence/no-boundary-control.md",
+"run_sha8": "347c5050",
+"expect": [
+"exit 0",
+"last line 3"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "test -d conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/evidence && find conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/evidence -type f -exec cat {} + | grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|/home/|/Users/|%APPDATA%|\\.rustup|\\.cargo[\\\\/]\"",
+"run_sha8": "6fb7f2c2",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "{ git diff --name-only 4460307 -- crates scripts contracts scenarios .github Cargo.lock Cargo.toml; git ls-files --others --exclude-standard crates scripts contracts scenarios .github; }",
+"run_sha8": "3b663973",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "netstat -ano | grep -cE \":(4444|4445) +[^ ]+ +LISTENING\"",
+"run_sha8": "18636ec5",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "tasklist | grep -ciE \"^(msedgedriver|conductor-tauri|nvda|tauri-driver)\\.exe\"",
+"run_sha8": "080f9466",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-30T13:41:59Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T13-21-48-implement",
+"--marker",
+"2026-09-30-the-sr-cause-isolated-on-this-host",
+"--only",
+"7"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-30-the-sr-cause-isolated-on-this-host · entries 21",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-cause-isolated-on-this-host\\implement-2026-09-30T13-21-48 · bound: GNU timeout",
+"delta docs 40 · python 2",
+"prose L171-180: - **The PREREQ closes:** the unit and clippy entries carry NO `defer` key. - **No `typeche… (985 chars)",
+"  1 unit        not run — excluded · bash scripts/agent-run.sh run --unit",
+"  2 lint        not run — excluded · cargo clippy --workspace --all-targets -- -D warnings",
+"  3 probe       not run — excluded · d=$(\"$CONDUCTOR_MSEDGEDRIVER\" --version | grep -oE '[0-9]+… (288 chars)",
+"  4 probe       not run — excluded · b=$(reg query 'HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\EdgeUpd… (174 chars)",
+"  5 self-verify not run — excluded · CONDUCTOR_A11Y_STRICT=1 bash scripts/agent-run.sh run --e2… (59 chars)",
+"  6 e2e         not run — excluded · powershell -NoProfile -ExecutionPolicy Bypass -File runs/s… (96 chars)",
+"  7 probe       green · exit 0 · 0.06s · 3 B → 7.log · grep -c 'Input: kb(desktop):tab' runs/sr-control/nvda-spee… (74 chars)",
+"  8 e2e         not run — excluded · powershell -NoProfile -ExecutionPolicy Bypass -File runs/s… (91 chars)",
+"  9 probe       not run — excluded · grep -c 'Input: ' runs/sr-control/nvda-speech.webdriver.lo… (59 chars)",
+" 10 probe       not run — excluded · ls \"/c/Program Files (x86)/Microsoft/EdgeWebView/Applicati… (62 chars)",
+" 11 probe       not run — excluded · powershell -NoProfile -Command '$s = Get-AuthenticodeSigna… (267 chars)",
+" 12 e2e         not run — excluded · cd crates/conductor-tauri/ui && CONDUCTOR_MSEDGEDRIVER=\"$D… (198 chars)",
+" 13 probe       not run — excluded · f=conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-… (348 chars)",
+" 14 e2e         not run — excluded · powershell -NoProfile -ExecutionPolicy Bypass -File runs/s… (95 chars)",
+" 15 probe       not run — excluded · l=runs/sr-control/nvda-speech.physical.log; m=conductor-0.… (282 chars)",
+" 16 probe       not run — excluded · grep -cE '^\\| (S-(edge|conductor|search)|W-edge|R153-empty… (226 chars)",
+" 17 probe       not run — excluded · grep -cE '^\\| (focus-row-count|S0-09 / E0-05|one-configura… (197 chars)",
+" 18 probe       not run — excluded · test -d conductor-0.3.0/chunks/2026-09-30-the-sr-cause-iso… (302 chars)",
+" 19 probe       not run — excluded · { git diff --name-only 4460307 -- crates scripts contracts… (186 chars)",
+" 20 probe       not run — excluded · netstat -ano | grep -cE \":(4444|4445) +[^ ]+ +LISTENING\"",
+" 21 probe       not run — excluded · tasklist | grep -ciE \"^(msedgedriver|conductor-tauri|nvda|… (77 chars)",
+"entries 21 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 20"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-30-the-sr-cause-isolated-on-this-host",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-30-the-sr-cause-isolated-on-this-host\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-cause-isolated-on-this-host\\implement-2026-09-30T13-21-48",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-09-30T12-28-33-wrap/evolve-2026-09-30-the-screen-reader-pass-grades-again-on-this-host.json",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/a11y-history.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/a11y.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/arch-history-index.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/arch-history.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/arch.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/baseline-2.log",
+".andromeda/runs/2026-09-30T12-47-30-phase/baseline.log",
+".andromeda/runs/2026-09-30T12-47-30-phase/ci-no-marker.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/design-history.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/design.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/evolve-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/gate-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/gate-dryrun.log",
+".andromeda/runs/2026-09-30T12-47-30-phase/layouts-history.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/layouts.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/master-record.txt",
+".andromeda/runs/2026-09-30T12-47-30-phase/matrix-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/obs-history.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/obs.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/planlint-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/planlint.log",
+".andromeda/runs/2026-09-30T12-47-30-phase/registry-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/route-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/route-no-marker.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/security-history.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/security.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/sidecar-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/tests-history-index.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/tests-history.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/tests.md",
+".andromeda/runs/2026-09-30T13-21-48-implement/evolve-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+".andromeda/runs/2026-09-30T13-21-48-implement/gate-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+"conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/plan.md",
+"conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/research.md",
+"conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/scope.md"
+],
+"python": [
+".andromeda/runs/2026-09-30T12-28-33-wrap/evolve-gates.py",
+".andromeda/runs/2026-09-30T13-21-48-implement/evolve-code.py"
+]
+},
+"unmapped": [],
+"prose": [
+{
+"from": 171,
+"to": 180,
+"text": "- **The PREREQ closes:** the unit and clippy entries carry NO `defer` key. - **No `typecheck:e2e`, smoke, `status` or CI entry:** no TS change, no minted `run_id` read (verification-harness.md   `:49`), no CI-run acceptance. - **The S, W, 153 and K entries are operator-slot legs** (`leg = 'operator'`). Their preconditions sit inside each   script (handle guards, NVDA's readiness line, the port check) or in the probe entries listed before them. The 153   leg's non-priming probes are the folder re-list and the driver admission. - **The two evidence files are authored by construction** (steps 8e and 10). Their producers are the 153 leg   (`artifact` `runs/sr-leg/nvda-pass.json`, copied at step 8e) and the S/W/K legs' logs, which step 10 reads. - **Branch-dependent witnesses are written to hold in BOTH branches.** The 153 and K witnesses read the artifact when   the arm ran, else they read the evidence row that records it `not-run`. So a rule-sanctioned skip never reads red."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "probe",
+"run": "d=$(\"$CONDUCTOR_MSEDGEDRIVER\" --version | grep -oE '[0-9]+(\\.[0-9]+){3}'); r=$(reg query 'HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\EdgeUpdate\\Clients\\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}' //v pv | grep -oE '[0-9]+(\\.[0-9]+){3}'); echo \"driver $d runtime $r\"; test -n \"$d\" && test \"$d\" = \"$r\"",
+"run_sha8": "342e374d",
+"expect": [
+"exit 0",
+"contains driver "
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "probe",
+"run": "b=$(reg query 'HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\EdgeUpdate\\Clients\\{56EB18F8-B008-4CBD-B6D2-8C97FE7E9062}' //v pv | grep -oE '[0-9]+(\\.[0-9]+){3}'); echo \"edge-browser $b\"",
+"run_sha8": "06f5257c",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "self-verify",
+"run": "CONDUCTOR_A11Y_STRICT=1 bash scripts/agent-run.sh run --e2e",
+"run_sha8": "bcfd469f",
+"expect": [
+"exit 0",
+"contains [a11y] verdict asserted — 0 failed",
+"contains (expected 2)"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "e2e",
+"run": "powershell -NoProfile -ExecutionPolicy Bypass -File runs/sr-control/key-walk.ps1 -Mode synthetic",
+"run_sha8": "5f023000",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "grep -c 'Input: kb(desktop):tab' runs/sr-control/nvda-speech.synthetic.log",
+"run_sha8": "78210594",
+"expect": [
+"exit 0",
+"last line 13"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-cause-isolated-on-this-host\\implement-2026-09-30T13-21-48\\7.log",
+"bytes": 3,
+"log_sha8": "1a252402",
+"exit": 0,
+"seconds": 0.06,
+"readings": [
+"exit 0 ✓",
+"last line '13' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "e2e",
+"run": "powershell -NoProfile -ExecutionPolicy Bypass -File runs/sr-control/edge-webdriver-walk.ps1",
+"run_sha8": "3017362e",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "grep -c 'Input: ' runs/sr-control/nvda-speech.webdriver.log",
+"run_sha8": "6e94db0e",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "ls \"/c/Program Files (x86)/Microsoft/EdgeWebView/Application/\"",
+"run_sha8": "28eabbf8",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "powershell -NoProfile -Command '$s = Get-AuthenticodeSignature -LiteralPath $env:DRIVER_153; \"status \" + $s.Status; \"signer \" + $s.SignerCertificate.Subject'; d=$(\"$DRIVER_153\" --version | grep -oE '[0-9]+(\\.[0-9]+){3}'); echo \"driver $d\"; test \"$d\" = \"153.0.4234.48\"",
+"run_sha8": "c97ccd15",
+"expect": [
+"exit 0",
+"contains status Valid",
+"contains O=Microsoft Corporation",
+"contains driver 153.0.4234.48"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "e2e",
+"run": "cd crates/conductor-tauri/ui && CONDUCTOR_MSEDGEDRIVER=\"$DRIVER_153\" WEBVIEW2_BROWSER_EXECUTABLE_FOLDER='C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\153.0.4234.48' npm run a11y:sr-empty",
+"run_sha8": "aefb2634",
+"expect": [
+"exit 0",
+"contains Spec Files:\t 1 passed, 1 total"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "f=conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/evidence/nvda-pass.153.json; m=conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/evidence/no-boundary-control.md; if test -e \"$f\"; then jq -r '.webview2_runtime == \"153.0.4234.48\"' \"$f\"; else grep -qE '^\\| R153-empty \\|.*\\| not-run \\|$' \"$m\" && echo true; fi",
+"run_sha8": "208c8c30",
+"expect": [
+"exit 0",
+"last line true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "e2e",
+"run": "powershell -NoProfile -ExecutionPolicy Bypass -File runs/sr-control/key-walk.ps1 -Mode physical",
+"run_sha8": "3fb61144",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "l=runs/sr-control/nvda-speech.physical.log; m=conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/evidence/no-boundary-control.md; if test -e \"$l\"; then grep -c 'Input: kb(desktop):tab' \"$l\"; else grep -cE '^\\| K-(edge|conductor|search) \\|.*\\| not-run \\|$' \"$m\"; fi",
+"run_sha8": "041d5e41",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "grep -cE '^\\| (S-(edge|conductor|search)|W-edge|R153-empty|K-(edge|conductor|search)) \\|.*\\| (heard|silent|void|not-run) \\|$' conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/evidence/no-boundary-control.md",
+"run_sha8": "301f8121",
+"expect": [
+"exit 0",
+"last line 8"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "grep -cE '^\\| (focus-row-count|S0-09 / E0-05|one-configuration) \\| routed \\| [^|]+ \\| [^|]+ \\|$' conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/evidence/no-boundary-control.md",
+"run_sha8": "347c5050",
+"expect": [
+"exit 0",
+"last line 3"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "test -d conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/evidence && find conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/evidence -type f -exec cat {} + | grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|/home/|/Users/|%APPDATA%|\\.rustup|\\.cargo[\\\\/]\"",
+"run_sha8": "6fb7f2c2",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "{ git diff --name-only 4460307 -- crates scripts contracts scenarios .github Cargo.lock Cargo.toml; git ls-files --others --exclude-standard crates scripts contracts scenarios .github; }",
+"run_sha8": "3b663973",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "netstat -ano | grep -cE \":(4444|4445) +[^ ]+ +LISTENING\"",
+"run_sha8": "18636ec5",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "tasklist | grep -ciE \"^(msedgedriver|conductor-tauri|nvda|tauri-driver)\\.exe\"",
+"run_sha8": "080f9466",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-30T13:43:26Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T13-21-48-implement",
+"--marker",
+"2026-09-30-the-sr-cause-isolated-on-this-host",
+"--only",
+"9,10"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-30-the-sr-cause-isolated-on-this-host · entries 21",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-cause-isolated-on-this-host\\implement-2026-09-30T13-21-48 · bound: GNU timeout",
+"delta docs 40 · python 2",
+"prose L171-180: - **The PREREQ closes:** the unit and clippy entries carry NO `defer` key. - **No `typeche… (985 chars)",
+"  1 unit        not run — excluded · bash scripts/agent-run.sh run --unit",
+"  2 lint        not run — excluded · cargo clippy --workspace --all-targets -- -D warnings",
+"  3 probe       not run — excluded · d=$(\"$CONDUCTOR_MSEDGEDRIVER\" --version | grep -oE '[0-9]+… (288 chars)",
+"  4 probe       not run — excluded · b=$(reg query 'HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\EdgeUpd… (174 chars)",
+"  5 self-verify not run — excluded · CONDUCTOR_A11Y_STRICT=1 bash scripts/agent-run.sh run --e2… (59 chars)",
+"  6 e2e         not run — excluded · powershell -NoProfile -ExecutionPolicy Bypass -File runs/s… (96 chars)",
+"  7 probe       not run — excluded · grep -c 'Input: kb(desktop):tab' runs/sr-control/nvda-spee… (74 chars)",
+"  8 e2e         not run — excluded · powershell -NoProfile -ExecutionPolicy Bypass -File runs/s… (91 chars)",
+"  9 probe       green · exit 1 · 0.07s · 2 B → 9.log · grep -c 'Input: ' runs/sr-control/nvda-speech.webdriver.lo… (59 chars)",
+" 10 probe       recorded · exit 0 · 0.06s · 41 B → 10.log · ls \"/c/Program Files (x86)/Microsoft/EdgeWebView/Applicati… (62 chars)",
+" 11 probe       not run — excluded · powershell -NoProfile -Command '$s = Get-AuthenticodeSigna… (267 chars)",
+" 12 e2e         not run — excluded · cd crates/conductor-tauri/ui && CONDUCTOR_MSEDGEDRIVER=\"$D… (198 chars)",
+" 13 probe       not run — excluded · f=conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-… (348 chars)",
+" 14 e2e         not run — excluded · powershell -NoProfile -ExecutionPolicy Bypass -File runs/s… (95 chars)",
+" 15 probe       not run — excluded · l=runs/sr-control/nvda-speech.physical.log; m=conductor-0.… (282 chars)",
+" 16 probe       not run — excluded · grep -cE '^\\| (S-(edge|conductor|search)|W-edge|R153-empty… (226 chars)",
+" 17 probe       not run — excluded · grep -cE '^\\| (focus-row-count|S0-09 / E0-05|one-configura… (197 chars)",
+" 18 probe       not run — excluded · test -d conductor-0.3.0/chunks/2026-09-30-the-sr-cause-iso… (302 chars)",
+" 19 probe       not run — excluded · { git diff --name-only 4460307 -- crates scripts contracts… (186 chars)",
+" 20 probe       not run — excluded · netstat -ano | grep -cE \":(4444|4445) +[^ ]+ +LISTENING\"",
+" 21 probe       not run — excluded · tasklist | grep -ciE \"^(msedgedriver|conductor-tauri|nvda|… (77 chars)",
+"entries 21 · green 1 · red 0 · recorded 1 · timeout 0 · not-run 19"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-30-the-sr-cause-isolated-on-this-host",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-30-the-sr-cause-isolated-on-this-host\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-cause-isolated-on-this-host\\implement-2026-09-30T13-21-48",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-09-30T12-28-33-wrap/evolve-2026-09-30-the-screen-reader-pass-grades-again-on-this-host.json",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/a11y-history.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/a11y.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/arch-history-index.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/arch-history.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/arch.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/baseline-2.log",
+".andromeda/runs/2026-09-30T12-47-30-phase/baseline.log",
+".andromeda/runs/2026-09-30T12-47-30-phase/ci-no-marker.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/design-history.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/design.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/evolve-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/gate-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/gate-dryrun.log",
+".andromeda/runs/2026-09-30T12-47-30-phase/layouts-history.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/layouts.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/master-record.txt",
+".andromeda/runs/2026-09-30T12-47-30-phase/matrix-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/obs-history.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/obs.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/planlint-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/planlint.log",
+".andromeda/runs/2026-09-30T12-47-30-phase/registry-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/route-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/route-no-marker.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/security-history.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/security.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/sidecar-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/tests-history-index.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/tests-history.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/tests.md",
+".andromeda/runs/2026-09-30T13-21-48-implement/evolve-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+".andromeda/runs/2026-09-30T13-21-48-implement/gate-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+"conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/plan.md",
+"conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/research.md",
+"conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/scope.md"
+],
+"python": [
+".andromeda/runs/2026-09-30T12-28-33-wrap/evolve-gates.py",
+".andromeda/runs/2026-09-30T13-21-48-implement/evolve-code.py"
+]
+},
+"unmapped": [],
+"prose": [
+{
+"from": 171,
+"to": 180,
+"text": "- **The PREREQ closes:** the unit and clippy entries carry NO `defer` key. - **No `typecheck:e2e`, smoke, `status` or CI entry:** no TS change, no minted `run_id` read (verification-harness.md   `:49`), no CI-run acceptance. - **The S, W, 153 and K entries are operator-slot legs** (`leg = 'operator'`). Their preconditions sit inside each   script (handle guards, NVDA's readiness line, the port check) or in the probe entries listed before them. The 153   leg's non-priming probes are the folder re-list and the driver admission. - **The two evidence files are authored by construction** (steps 8e and 10). Their producers are the 153 leg   (`artifact` `runs/sr-leg/nvda-pass.json`, copied at step 8e) and the S/W/K legs' logs, which step 10 reads. - **Branch-dependent witnesses are written to hold in BOTH branches.** The 153 and K witnesses read the artifact when   the arm ran, else they read the evidence row that records it `not-run`. So a rule-sanctioned skip never reads red."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "probe",
+"run": "d=$(\"$CONDUCTOR_MSEDGEDRIVER\" --version | grep -oE '[0-9]+(\\.[0-9]+){3}'); r=$(reg query 'HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\EdgeUpdate\\Clients\\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}' //v pv | grep -oE '[0-9]+(\\.[0-9]+){3}'); echo \"driver $d runtime $r\"; test -n \"$d\" && test \"$d\" = \"$r\"",
+"run_sha8": "342e374d",
+"expect": [
+"exit 0",
+"contains driver "
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "probe",
+"run": "b=$(reg query 'HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\EdgeUpdate\\Clients\\{56EB18F8-B008-4CBD-B6D2-8C97FE7E9062}' //v pv | grep -oE '[0-9]+(\\.[0-9]+){3}'); echo \"edge-browser $b\"",
+"run_sha8": "06f5257c",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "self-verify",
+"run": "CONDUCTOR_A11Y_STRICT=1 bash scripts/agent-run.sh run --e2e",
+"run_sha8": "bcfd469f",
+"expect": [
+"exit 0",
+"contains [a11y] verdict asserted — 0 failed",
+"contains (expected 2)"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "e2e",
+"run": "powershell -NoProfile -ExecutionPolicy Bypass -File runs/sr-control/key-walk.ps1 -Mode synthetic",
+"run_sha8": "5f023000",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "grep -c 'Input: kb(desktop):tab' runs/sr-control/nvda-speech.synthetic.log",
+"run_sha8": "78210594",
+"expect": [
+"exit 0",
+"last line 13"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "e2e",
+"run": "powershell -NoProfile -ExecutionPolicy Bypass -File runs/sr-control/edge-webdriver-walk.ps1",
+"run_sha8": "3017362e",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "grep -c 'Input: ' runs/sr-control/nvda-speech.webdriver.log",
+"run_sha8": "6e94db0e",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-cause-isolated-on-this-host\\implement-2026-09-30T13-21-48\\9.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.07,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "ls \"/c/Program Files (x86)/Microsoft/EdgeWebView/Application/\"",
+"run_sha8": "28eabbf8",
+"expect": [],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-cause-isolated-on-this-host\\implement-2026-09-30T13-21-48\\10.log",
+"bytes": 41,
+"log_sha8": "159415ac",
+"exit": 0,
+"seconds": 0.06,
+"readings": [
+"report-only (expect = [])"
+],
+"survivors": [],
+"outcome": "recorded"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "powershell -NoProfile -Command '$s = Get-AuthenticodeSignature -LiteralPath $env:DRIVER_153; \"status \" + $s.Status; \"signer \" + $s.SignerCertificate.Subject'; d=$(\"$DRIVER_153\" --version | grep -oE '[0-9]+(\\.[0-9]+){3}'); echo \"driver $d\"; test \"$d\" = \"153.0.4234.48\"",
+"run_sha8": "c97ccd15",
+"expect": [
+"exit 0",
+"contains status Valid",
+"contains O=Microsoft Corporation",
+"contains driver 153.0.4234.48"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "e2e",
+"run": "cd crates/conductor-tauri/ui && CONDUCTOR_MSEDGEDRIVER=\"$DRIVER_153\" WEBVIEW2_BROWSER_EXECUTABLE_FOLDER='C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\153.0.4234.48' npm run a11y:sr-empty",
+"run_sha8": "aefb2634",
+"expect": [
+"exit 0",
+"contains Spec Files:\t 1 passed, 1 total"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "f=conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/evidence/nvda-pass.153.json; m=conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/evidence/no-boundary-control.md; if test -e \"$f\"; then jq -r '.webview2_runtime == \"153.0.4234.48\"' \"$f\"; else grep -qE '^\\| R153-empty \\|.*\\| not-run \\|$' \"$m\" && echo true; fi",
+"run_sha8": "208c8c30",
+"expect": [
+"exit 0",
+"last line true"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "e2e",
+"run": "powershell -NoProfile -ExecutionPolicy Bypass -File runs/sr-control/key-walk.ps1 -Mode physical",
+"run_sha8": "3fb61144",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "l=runs/sr-control/nvda-speech.physical.log; m=conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/evidence/no-boundary-control.md; if test -e \"$l\"; then grep -c 'Input: kb(desktop):tab' \"$l\"; else grep -cE '^\\| K-(edge|conductor|search) \\|.*\\| not-run \\|$' \"$m\"; fi",
+"run_sha8": "041d5e41",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "grep -cE '^\\| (S-(edge|conductor|search)|W-edge|R153-empty|K-(edge|conductor|search)) \\|.*\\| (heard|silent|void|not-run) \\|$' conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/evidence/no-boundary-control.md",
+"run_sha8": "301f8121",
+"expect": [
+"exit 0",
+"last line 8"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "grep -cE '^\\| (focus-row-count|S0-09 / E0-05|one-configuration) \\| routed \\| [^|]+ \\| [^|]+ \\|$' conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/evidence/no-boundary-control.md",
+"run_sha8": "347c5050",
+"expect": [
+"exit 0",
+"last line 3"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "test -d conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/evidence && find conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/evidence -type f -exec cat {} + | grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|/home/|/Users/|%APPDATA%|\\.rustup|\\.cargo[\\\\/]\"",
+"run_sha8": "6fb7f2c2",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "{ git diff --name-only 4460307 -- crates scripts contracts scenarios .github Cargo.lock Cargo.toml; git ls-files --others --exclude-standard crates scripts contracts scenarios .github; }",
+"run_sha8": "3b663973",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "netstat -ano | grep -cE \":(4444|4445) +[^ ]+ +LISTENING\"",
+"run_sha8": "18636ec5",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "tasklist | grep -ciE \"^(msedgedriver|conductor-tauri|nvda|tauri-driver)\\.exe\"",
+"run_sha8": "080f9466",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-30T13:48:41Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T13-21-48-implement",
+"--marker",
+"2026-09-30-the-sr-cause-isolated-on-this-host",
+"--only",
+"13,15,16,17,18,19,20,21"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-30-the-sr-cause-isolated-on-this-host · entries 21",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-cause-isolated-on-this-host\\implement-2026-09-30T13-21-48 · bound: GNU timeout",
+"delta docs 41 · python 2 · unmapped 1",
+"prose L171-180: - **The PREREQ closes:** the unit and clippy entries carry NO `defer` key. - **No `typeche… (985 chars)",
+"  1 unit        not run — excluded · bash scripts/agent-run.sh run --unit",
+"  2 lint        not run — excluded · cargo clippy --workspace --all-targets -- -D warnings",
+"  3 probe       not run — excluded · d=$(\"$CONDUCTOR_MSEDGEDRIVER\" --version | grep -oE '[0-9]+… (288 chars)",
+"  4 probe       not run — excluded · b=$(reg query 'HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\EdgeUpd… (174 chars)",
+"  5 self-verify not run — excluded · CONDUCTOR_A11Y_STRICT=1 bash scripts/agent-run.sh run --e2… (59 chars)",
+"  6 e2e         not run — excluded · powershell -NoProfile -ExecutionPolicy Bypass -File runs/s… (96 chars)",
+"  7 probe       not run — excluded · grep -c 'Input: kb(desktop):tab' runs/sr-control/nvda-spee… (74 chars)",
+"  8 e2e         not run — excluded · powershell -NoProfile -ExecutionPolicy Bypass -File runs/s… (91 chars)",
+"  9 probe       not run — excluded · grep -c 'Input: ' runs/sr-control/nvda-speech.webdriver.lo… (59 chars)",
+" 10 probe       not run — excluded · ls \"/c/Program Files (x86)/Microsoft/EdgeWebView/Applicati… (62 chars)",
+" 11 probe       not run — excluded · powershell -NoProfile -Command '$s = Get-AuthenticodeSigna… (267 chars)",
+" 12 e2e         not run — excluded · cd crates/conductor-tauri/ui && CONDUCTOR_MSEDGEDRIVER=\"$D… (198 chars)",
+" 13 probe       green · exit 0 · 0.1s · 6 B → 13.log · f=conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-… (348 chars)",
+" 14 e2e         not run — excluded · powershell -NoProfile -ExecutionPolicy Bypass -File runs/s… (95 chars)",
+" 15 probe       green · exit 0 · 0.07s · 2 B → 15.log · l=runs/sr-control/nvda-speech.physical.log; m=conductor-0.… (282 chars)",
+" 16 probe       green · exit 0 · 0.07s · 2 B → 16.log · grep -cE '^\\| (S-(edge|conductor|search)|W-edge|R153-empty… (226 chars)",
+" 17 probe       green · exit 0 · 0.06s · 2 B → 17.log · grep -cE '^\\| (focus-row-count|S0-09 / E0-05|one-configura… (197 chars)",
+" 18 probe       green · exit 1 · 0.2s · 2 B → 18.log · test -d conductor-0.3.0/chunks/2026-09-30-the-sr-cause-iso… (302 chars)",
+" 19 probe       green · exit 0 · 0.11s · 0 B → 19.log · { git diff --name-only 4460307 -- crates scripts contracts… (186 chars)",
+" 20 probe       green · exit 1 · 0.09s · 2 B → 20.log · netstat -ano | grep -cE \":(4444|4445) +[^ ]+ +LISTENING\"",
+" 21 probe       green · exit 1 · 0.25s · 2 B → 21.log · tasklist | grep -ciE \"^(msedgedriver|conductor-tauri|nvda|… (77 chars)",
+"entries 21 · green 8 · red 0 · recorded 0 · timeout 0 · not-run 13"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-30-the-sr-cause-isolated-on-this-host",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-30-the-sr-cause-isolated-on-this-host\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-cause-isolated-on-this-host\\implement-2026-09-30T13-21-48",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-09-30T12-28-33-wrap/evolve-2026-09-30-the-screen-reader-pass-grades-again-on-this-host.json",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/a11y-history.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/a11y.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/arch-history-index.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/arch-history.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/arch.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/baseline-2.log",
+".andromeda/runs/2026-09-30T12-47-30-phase/baseline.log",
+".andromeda/runs/2026-09-30T12-47-30-phase/ci-no-marker.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/design-history.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/design.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/evolve-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/gate-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/gate-dryrun.log",
+".andromeda/runs/2026-09-30T12-47-30-phase/layouts-history.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/layouts.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/master-record.txt",
+".andromeda/runs/2026-09-30T12-47-30-phase/matrix-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/obs-history.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/obs.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/planlint-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/planlint.log",
+".andromeda/runs/2026-09-30T12-47-30-phase/registry-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/route-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/route-no-marker.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/security-history.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/security.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/sidecar-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+".andromeda/runs/2026-09-30T12-47-30-phase/tests-history-index.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/tests-history.md",
+".andromeda/runs/2026-09-30T12-47-30-phase/tests.md",
+".andromeda/runs/2026-09-30T13-21-48-implement/evolve-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+".andromeda/runs/2026-09-30T13-21-48-implement/gate-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+"conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/evidence/no-boundary-control.md",
+"conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/plan.md",
+"conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/research.md",
+"conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/scope.md"
+],
+"python": [
+".andromeda/runs/2026-09-30T12-28-33-wrap/evolve-gates.py",
+".andromeda/runs/2026-09-30T13-21-48-implement/evolve-code.py"
+]
+},
+"unmapped": [
+"conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/evidence/nvda-pass.153.json"
+],
+"prose": [
+{
+"from": 171,
+"to": 180,
+"text": "- **The PREREQ closes:** the unit and clippy entries carry NO `defer` key. - **No `typecheck:e2e`, smoke, `status` or CI entry:** no TS change, no minted `run_id` read (verification-harness.md   `:49`), no CI-run acceptance. - **The S, W, 153 and K entries are operator-slot legs** (`leg = 'operator'`). Their preconditions sit inside each   script (handle guards, NVDA's readiness line, the port check) or in the probe entries listed before them. The 153   leg's non-priming probes are the folder re-list and the driver admission. - **The two evidence files are authored by construction** (steps 8e and 10). Their producers are the 153 leg   (`artifact` `runs/sr-leg/nvda-pass.json`, copied at step 8e) and the S/W/K legs' logs, which step 10 reads. - **Branch-dependent witnesses are written to hold in BOTH branches.** The 153 and K witnesses read the artifact when   the arm ran, else they read the evidence row that records it `not-run`. So a rule-sanctioned skip never reads red."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "probe",
+"run": "d=$(\"$CONDUCTOR_MSEDGEDRIVER\" --version | grep -oE '[0-9]+(\\.[0-9]+){3}'); r=$(reg query 'HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\EdgeUpdate\\Clients\\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}' //v pv | grep -oE '[0-9]+(\\.[0-9]+){3}'); echo \"driver $d runtime $r\"; test -n \"$d\" && test \"$d\" = \"$r\"",
+"run_sha8": "342e374d",
+"expect": [
+"exit 0",
+"contains driver "
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "probe",
+"run": "b=$(reg query 'HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\EdgeUpdate\\Clients\\{56EB18F8-B008-4CBD-B6D2-8C97FE7E9062}' //v pv | grep -oE '[0-9]+(\\.[0-9]+){3}'); echo \"edge-browser $b\"",
+"run_sha8": "06f5257c",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "self-verify",
+"run": "CONDUCTOR_A11Y_STRICT=1 bash scripts/agent-run.sh run --e2e",
+"run_sha8": "bcfd469f",
+"expect": [
+"exit 0",
+"contains [a11y] verdict asserted — 0 failed",
+"contains (expected 2)"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "e2e",
+"run": "powershell -NoProfile -ExecutionPolicy Bypass -File runs/sr-control/key-walk.ps1 -Mode synthetic",
+"run_sha8": "5f023000",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "grep -c 'Input: kb(desktop):tab' runs/sr-control/nvda-speech.synthetic.log",
+"run_sha8": "78210594",
+"expect": [
+"exit 0",
+"last line 13"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "e2e",
+"run": "powershell -NoProfile -ExecutionPolicy Bypass -File runs/sr-control/edge-webdriver-walk.ps1",
+"run_sha8": "3017362e",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "grep -c 'Input: ' runs/sr-control/nvda-speech.webdriver.log",
+"run_sha8": "6e94db0e",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "ls \"/c/Program Files (x86)/Microsoft/EdgeWebView/Application/\"",
+"run_sha8": "28eabbf8",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "powershell -NoProfile -Command '$s = Get-AuthenticodeSignature -LiteralPath $env:DRIVER_153; \"status \" + $s.Status; \"signer \" + $s.SignerCertificate.Subject'; d=$(\"$DRIVER_153\" --version | grep -oE '[0-9]+(\\.[0-9]+){3}'); echo \"driver $d\"; test \"$d\" = \"153.0.4234.48\"",
+"run_sha8": "c97ccd15",
+"expect": [
+"exit 0",
+"contains status Valid",
+"contains O=Microsoft Corporation",
+"contains driver 153.0.4234.48"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "e2e",
+"run": "cd crates/conductor-tauri/ui && CONDUCTOR_MSEDGEDRIVER=\"$DRIVER_153\" WEBVIEW2_BROWSER_EXECUTABLE_FOLDER='C:\\Program Files (x86)\\Microsoft\\EdgeWebView\\Application\\153.0.4234.48' npm run a11y:sr-empty",
+"run_sha8": "aefb2634",
+"expect": [
+"exit 0",
+"contains Spec Files:\t 1 passed, 1 total"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "f=conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/evidence/nvda-pass.153.json; m=conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/evidence/no-boundary-control.md; if test -e \"$f\"; then jq -r '.webview2_runtime == \"153.0.4234.48\"' \"$f\"; else grep -qE '^\\| R153-empty \\|.*\\| not-run \\|$' \"$m\" && echo true; fi",
+"run_sha8": "208c8c30",
+"expect": [
+"exit 0",
+"last line true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-cause-isolated-on-this-host\\implement-2026-09-30T13-21-48\\13.log",
+"bytes": 6,
+"log_sha8": "49628009",
+"exit": 0,
+"seconds": 0.1,
+"readings": [
+"exit 0 ✓",
+"last line 'true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "e2e",
+"run": "powershell -NoProfile -ExecutionPolicy Bypass -File runs/sr-control/key-walk.ps1 -Mode physical",
+"run_sha8": "3fb61144",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "l=runs/sr-control/nvda-speech.physical.log; m=conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/evidence/no-boundary-control.md; if test -e \"$l\"; then grep -c 'Input: kb(desktop):tab' \"$l\"; else grep -cE '^\\| K-(edge|conductor|search) \\|.*\\| not-run \\|$' \"$m\"; fi",
+"run_sha8": "041d5e41",
+"expect": [
+"exit 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-cause-isolated-on-this-host\\implement-2026-09-30T13-21-48\\15.log",
+"bytes": 2,
+"log_sha8": "1121cfcc",
+"exit": 0,
+"seconds": 0.07,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "grep -cE '^\\| (S-(edge|conductor|search)|W-edge|R153-empty|K-(edge|conductor|search)) \\|.*\\| (heard|silent|void|not-run) \\|$' conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/evidence/no-boundary-control.md",
+"run_sha8": "301f8121",
+"expect": [
+"exit 0",
+"last line 8"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-cause-isolated-on-this-host\\implement-2026-09-30T13-21-48\\16.log",
+"bytes": 2,
+"log_sha8": "aa67a169",
+"exit": 0,
+"seconds": 0.07,
+"readings": [
+"exit 0 ✓",
+"last line '8' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "grep -cE '^\\| (focus-row-count|S0-09 / E0-05|one-configuration) \\| routed \\| [^|]+ \\| [^|]+ \\|$' conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/evidence/no-boundary-control.md",
+"run_sha8": "347c5050",
+"expect": [
+"exit 0",
+"last line 3"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-cause-isolated-on-this-host\\implement-2026-09-30T13-21-48\\17.log",
+"bytes": 2,
+"log_sha8": "1121cfcc",
+"exit": 0,
+"seconds": 0.06,
+"readings": [
+"exit 0 ✓",
+"last line '3' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "test -d conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/evidence && find conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/evidence -type f -exec cat {} + | grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|/home/|/Users/|%APPDATA%|\\.rustup|\\.cargo[\\\\/]\"",
+"run_sha8": "6fb7f2c2",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-cause-isolated-on-this-host\\implement-2026-09-30T13-21-48\\18.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.2,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "{ git diff --name-only 4460307 -- crates scripts contracts scenarios .github Cargo.lock Cargo.toml; git ls-files --others --exclude-standard crates scripts contracts scenarios .github; }",
+"run_sha8": "3b663973",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-cause-isolated-on-this-host\\implement-2026-09-30T13-21-48\\19.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.11,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "netstat -ano | grep -cE \":(4444|4445) +[^ ]+ +LISTENING\"",
+"run_sha8": "18636ec5",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-cause-isolated-on-this-host\\implement-2026-09-30T13-21-48\\20.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.09,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "tasklist | grep -ciE \"^(msedgedriver|conductor-tauri|nvda|tauri-driver)\\.exe\"",
+"run_sha8": "080f9466",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-cause-isolated-on-this-host\\implement-2026-09-30T13-21-48\\21.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.25,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-30T13:48:51Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-09-30T13-21-48-implement",
+"--marker",
+"2026-09-30-the-sr-cause-isolated-on-this-host"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\conductor · planes rust, ts",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P2 · P3 rust · P3 ts — each fired on its synthetic known positive",
+"P1 .andromeda/runs/2026-09-30T12-47-30-phase/baseline-2.log:2 ×2 · drive",
+"P1 .andromeda/runs/2026-09-30T12-47-30-phase/baseline.log:2 ×2 · drive",
+"P1 .andromeda/runs/2026-09-30T12-47-30-phase/gate-dryrun.log:2 ×2 · drive",
+"hygiene: refused 3 files — P1 3 · P2 0 · P3 0 · read 37 (runs 35 · evidence 2) · trails 12 not read · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\conductor",
+"planes": [
+"rust",
+"ts"
+],
+"rows": [
+"P1 .andromeda/runs/2026-09-30T12-47-30-phase/baseline-2.log:2 ×2 · drive",
+"P1 .andromeda/runs/2026-09-30T12-47-30-phase/baseline.log:2 ×2 · drive",
+"P1 .andromeda/runs/2026-09-30T12-47-30-phase/gate-dryrun.log:2 ×2 · drive"
+],
+"counts": {
+"P1": 3,
+"P2": 0,
+"P3": 0,
+"runs": 35,
+"evidence": 2,
+"trails": 12,
+"binary": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-30T13:49:00Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host",
+"--run-dir",
+".andromeda/runs/2026-09-30T13-21-48-implement",
+"--marker",
+"2026-09-30-the-sr-cause-isolated-on-this-host"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\conductor · base HEAD (no pre-CI commit) · lists new 2 · modify 0 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"scope: clean — changed 0 · listed 0 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 44"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\conductor",
+"base": "HEAD",
+"base_why": "no pre-CI commit",
+"counts": {
+"changed": 0,
+"listed": 0,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 44,
+"unparsed": 0,
+"widening_without_word": 0
+}
+}
+]

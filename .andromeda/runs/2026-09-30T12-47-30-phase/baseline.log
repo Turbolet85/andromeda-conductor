@@ -1,0 +1,28 @@
+gate v1.5 · 018a3122
+shell <host-path> (from $SHELL; -c, non-login)
+root D:\dev\projects\conductor · marker 2026-09-30-the-sr-cause-isolated-on-this-host · entries 21
+logs <host-path> · bound: GNU timeout
+delta docs 36 · python 1
+prose L171-180: - **The PREREQ closes:** the unit and clippy entries carry NO `defer` key. - **No `typeche… (985 chars)
+  1 unit        not run — excluded · bash scripts/agent-run.sh run --unit
+  2 lint        not run — excluded · cargo clippy --workspace --all-targets -- -D warnings
+  3 probe       not run — excluded · d=$("$CONDUCTOR_MSEDGEDRIVER" --version | grep -oE '[0-9]+… (288 chars)
+  4 probe       recorded · exit 0 · 0.1s · 27 B → 4.log · b=$(reg query 'HKLM\SOFTWARE\WOW6432Node\Microsoft\EdgeUpd… (174 chars)
+  5 self-verify not run — excluded · CONDUCTOR_A11Y_STRICT=1 bash scripts/agent-run.sh run --e2… (59 chars)
+  6 e2e         not run — excluded · powershell -NoProfile -ExecutionPolicy Bypass -File runs/s… (96 chars)
+  7 probe       red · exit 0 ✗ (exit 2) · exit 2 · 0.07s · 75 B → 7.log · grep -c 'Input: kb(desktop):tab' runs/sr-control/nvda-spee… (74 chars)
+  8 e2e         not run — excluded · powershell -NoProfile -ExecutionPolicy Bypass -File runs/s… (91 chars)
+  9 probe       red · exit 1 ✗ (exit 2) · exit 2 · 0.08s · 75 B → 9.log · grep -c 'Input: ' runs/sr-control/nvda-speech.webdriver.lo… (59 chars)
+ 10 probe       recorded · exit 0 · 0.07s · 41 B → 10.log · ls "/c/Program Files (x86)/Microsoft/EdgeWebView/Applicati… (62 chars)
+ 11 probe       not run — excluded · powershell -NoProfile -Command '$s = Get-AuthenticodeSigna… (267 chars)
+ 12 e2e         not run — excluded · cd crates/conductor-tauri/ui && CONDUCTOR_MSEDGEDRIVER="$D… (198 chars)
+ 13 probe       red · exit 0 ✗ (exit 2) · exit 2 · 0.08s · 134 B → 13.log · f=conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-… (348 chars)
+ 14 e2e         not run — excluded · powershell -NoProfile -ExecutionPolicy Bypass -File runs/s… (95 chars)
+ 15 probe       red · exit 0 ✗ (exit 2) · exit 2 · 0.18s · 134 B → 15.log · l=runs/sr-control/nvda-speech.physical.log; m=conductor-0.… (282 chars)
+ 16 probe       red · exit 0 ✗ (exit 2) · exit 2 · 0.17s · 134 B → 16.log · grep -cE '^\| (S-(edge|conductor|search)|W-edge|R153-empty… (226 chars)
+ 17 probe       red · exit 0 ✗ (exit 2) · exit 2 · 0.07s · 134 B → 17.log · grep -cE '^\| (focus-row-count|S0-09 / E0-05|one-configura… (197 chars)
+ 18 probe       red · last line '0' ✗ (last: '') · exit 1 · 0.06s · 0 B → 18.log · test -d conductor-0.3.0/chunks/2026-09-30-the-sr-cause-iso… (302 chars)
+ 19 probe       green · exit 0 · 0.12s · 0 B → 19.log · { git diff --name-only 4460307 -- crates scripts contracts… (186 chars)
+ 20 probe       green · exit 1 · 0.11s · 2 B → 20.log · netstat -ano | grep -cE ":(4444|4445) +[^ ]+ +LISTENING"
+ 21 probe       not run — excluded · tasklist | grep -ciE "^(msedgedriver|conductor-tauri|nvda|… (77 chars)
+entries 21 · green 2 · red 7 (7,9,13,15,16,17,18) · recorded 2 · timeout 0 · not-run 10

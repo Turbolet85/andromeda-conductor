@@ -1,0 +1,35 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-30T12:47:52Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-09-30T12-47-30-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 4 of 30 entries · freight blocks 10 · rows are an INDEX, not the text",
+"67 · PREREQ: · 109 chars · PREREQ: close Rust gate deferral (deferred since 2026-09-30-the-screen-reader-pass-grades-ag…",
+"67 · CARRY ( · 1653 chars · CARRY (2026-09-30-the-screen-reader-pass-grades-again-on-this-host; operator relay conducto…",
+"67 · CARRY ( · 540 chars · CARRY (2026-09-30-the-screen-reader-pass-grades-again-on-this-host, the light gate's owner):…",
+"69 · CARRY: · 836 chars · CARRY: conductor-emit's public docs link FIVE private items — `exception.rs:70:45` (`MAX_FRAM…",
+"69 · CARRY: · 1069 chars · CARRY: `npm run knip` in `crates/conductor-tauri/ui` EXITS 1 on twelve pre-existing unused e…",
+"69 · CARRY: · 519 chars · CARRY: `conductor run <P-ID>` and the harness's `SCENARIO=<P-ID>` resolve to the FIRST scenar…",
+"69 · CARRY: · 743 chars · CARRY: `.github/workflows/ci.yml`'s comment block above `A11y routine arm` (`:351-356` at `60…",
+"71 · BLOCKED-ON: · 285 chars · BLOCKED-ON: Pulse's \"Real-model incident surfacing\" entry committed and pushed — clears …",
+"71 · CONTEXT: · 476 chars · CONTEXT: the 2026-09-30 series graded 0 drives — d1 canary-blocked, and in d2 and d3 the re…",
+"71 · CARRY ( · 440 chars · CARRY (2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir): build BOTH `pulse-app…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

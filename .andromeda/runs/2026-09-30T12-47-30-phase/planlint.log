@@ -1,0 +1,8 @@
+planlint v1.3 · d8e85b22
+fence: 21 entries · plan: conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host/plan.md · research: cond…
+check 9 · CI-outcome reads: 0 (none matched) · Platform issues consulted: filled · `- NVDA `source/inputCore.py` on `m…`
+check 9 · runner-only scope bullet: not read — the letter's
+check 4 (5) · leg = 'live' entries: 0 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md`, 75…`
+check 4 (5) · leg entries with a content atom: 2 · note without `atom from`: 0
+check 4 (13) · operator CI-outcome reads: 0 · not ci.py conclusion: 0
+hits: 0 — each is resolved by its check's own resolution (validation.md 9 · 4 (5) · 4 (13)); 0 hits is not a pass
