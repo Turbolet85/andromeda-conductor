@@ -1,0 +1,94 @@
+[
+{
+"sql": "SELECT callee_name, caller, file, line FROM calls WHERE callee_name IN ('bringToForeground','startNvda','stopNvda','nvdaExe','writeNvdaPass','census') ORDER BY callee_name, file, line",
+"rows": 14,
+"result": [
+{
+"callee_name": "bringToForeground",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 379
+},
+{
+"callee_name": "bringToForeground",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 592
+},
+{
+"callee_name": "bringToForeground",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 639
+},
+{
+"callee_name": "census",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/screen-reader/`parse-nvda-log.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader/parse-nvda-log.ts",
+"line": 493
+},
+{
+"callee_name": "census",
+"caller": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 18
+},
+{
+"callee_name": "census",
+"caller": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/stopNvda().",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 246
+},
+{
+"callee_name": "census",
+"caller": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 407
+},
+{
+"callee_name": "census",
+"caller": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 461
+},
+{
+"callee_name": "nvdaExe",
+"caller": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 393
+},
+{
+"callee_name": "startNvda",
+"caller": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 410
+},
+{
+"callee_name": "stopNvda",
+"caller": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 447
+},
+{
+"callee_name": "writeNvdaPass",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/screen-reader/`parse-nvda-log.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader/parse-nvda-log.ts",
+"line": 485
+},
+{
+"callee_name": "writeNvdaPass",
+"caller": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 18
+},
+{
+"callee_name": "writeNvdaPass",
+"caller": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 453
+}
+],
+"db_state": "fresh",
+"plane": "ts"
+}
+]

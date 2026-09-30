@@ -1,0 +1,1 @@
+SR focus silence isolated from NVDA's object model — sr-error at defaults and sr-empty under a witnessed `[UIA] allowInChromium = 2` both silent after the first burst on WebView2 154.0.4258.37 / Windows 26200.9457 (Branch B); nvda.ini restored, no regrade, cause handed to the next entry

@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-30T11:40:44Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-09-30-the-screen-reader-pass-grades-again-on-this-host",
+"--expect-prefix",
+"The screen-reader pass grades again on this host",
+"--record-file",
+".andromeda/runs/2026-09-30T11-38-29-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-09-30T11-38-29-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:65 - [2026-09-30-the-screen-reader-pass-grades-again-on-this-host]",
+"record master-route.md:161 - appended under `## conductor-0.3.0`",
+"promoted 2026-09-30-the-screen-reader-pass-grades-again-on-this-host - working-route:65 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+".\\conductor-0.3.0\\working-route.md",
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+}
+]

@@ -1,0 +1,17 @@
+[[pattern]]
+id = "platform-set"
+fixed = 'measured platform set'
+
+[[pattern]]
+id = "three-attached"
+fixed = 'all three subjects attached'
+
+[[pattern]]
+id = "nvda-agent"
+regex = 'NVDA[^.;]{0,60}agent-driven|agent-driven[^.;]{0,60}NVDA'
+ignore_case = true
+
+[[pattern]]
+id = "speech-log"
+regex = 'via (NVDA.s|its) (own )?speech log'
+ignore_case = true

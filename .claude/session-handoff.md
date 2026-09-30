@@ -1,43 +1,41 @@
 # Session Handoff
 
-**Last Updated:** 2026-09-30T11:31Z
+**Last Updated:** 2026-09-30T12:41Z
 **Branch:** `build/conductor-0.3.0` · 0 ahead of `origin/build/conductor-0.3.0` as read at this wrap's Setup
-(HEAD `4bab3c6`, the operator pre-CI commit; CI#36705777679 green 3/3 on it)
+(HEAD `2c9b37d` = the chunk base; no operator pre-CI commit this chunk)
 **Status:** clean
-**Last Commit:** 2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed — the wrap commit
+**Last Commit:** 2026-09-30-the-screen-reader-pass-grades-again-on-this-host — the wrap commit
 
 ## Position
-- Done: `2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed`.
-  - The coverage matrix has roving row focus with one tab stop and an `aria-current` + `--border-emphasis` row.
-  - The Ctrl+Enter / Ctrl+. / Escape map ships; the routine arm asserts SC 2.4.7.
-  - `v3-03` verified; the enumeration reads 11 · 9 (5) · 2 · 0.
-- Next: "The screen-reader pass grades again on this host" (minted this wrap, on the operator relay).
-  - It finds why NVDA hears no webview focus event, then regrades S0-09 / E0-05 / E0-09 and the other silent rows.
-  - Its CARRY holds the base-bundle control, the last announced run (2026-09-04, WebView2 152.0.4191.62) and the
-    runtime hypothesis.
+- Done: `2026-09-30-the-screen-reader-pass-grades-again-on-this-host` — Branch B, as the plan forecast.
+  - `sr-error` at NVDA defaults reproduced the silence (R0-02..04 `not-announced`, heard 2026-09-07).
+  - `sr-empty` under `[UIA] allowInChromium = 2` (witnessed applied) stayed silent too (E0-02..06).
+  - So NVDA's object-model choice is ruled out; `nvda.ini` restored byte-identical; no regrade, no row graded a pass.
+  - Record: `chunks/…/evidence/cause-control.md` (a reading, not an established mechanism; user consequence;
+    product lever named, not built).
+- Next: "The SR cause isolated on this host" (minted this wrap on the operator relay, ahead of Full-gate regression).
+  - Controls cheapest-first: the no-boundary control (NVDA over a plain focus page in Edge 154 / another WebView2
+    app) before the 153-runtime control (Boundary widening — awaiting the founder's word).
+  - Carries `PREREQ: close Rust gate deferral` (deferred since this chunk).
 
 ## Work done
-- Rust gate deferral closed (1136/1136, clippy, on the base and over the delta).
-- The driven leg ran green first time in the operator's slot; the SR legs ran green at DOM level, NVDA silent.
-- Operator pass: `4bab3c6` pushed, CI green.
+- Two operator-slotted NVDA legs (slot 1 `sr-error`, slot 2 `sr-empty`), each checked for focus theft before grading.
+- Strict `--e2e` green ×2 (0 failed · 2 skipped, expected 2); evidence hygiene 0; delta guard empty.
+- The plan's three regrade entries read red by construction (no regrade leg fires under Branch B).
 
 ## Drift resolved
-- 29 amendments, 0 escalations:
-  - a11y-plan 17 (§1/§3/§4/§5/§6/§9/§10/§11);
-  - layout-templates 5;
-  - test-plan 3;
-  - design-system 3 raises over 6 sites (k9s register → modifier map, ring = outline, no virtualization);
-  - architecture 1 (§Occupied Resources 38 087 / 38 115 B).
-- Leaves re-derived: `rules/a11y.md`, `a11y-summary.md`, `design-summary.md`.
-- Plan entries 8/10/11 corrected on the operator relay: the `Spec Files:` atom now carries the runner's TAB.
+- 1 amendment, 0 escalations: a11y-plan §3 *Screen reader test pattern* — the NVDA focus verdict bound to its
+  configuration (orchestrator-raised under Validate check 5; 7 doc-agents returned `proposals: []`).
+- Leaves re-derived: `rules/a11y.md`, `a11y-summary.md`.
 
 ## Notes
 - Last failed command: none.
-- Curation: `verification-harness.md` Spec Files literal corrected; its 2026-08-18 data-dir entry REFINED (leaf
-  letters-only) — the carried curation conflict is resolved; the proposed "relayed founder ruling is routine" rule was
-  NOT added (operator).
-- Proposed playbook rule, not appended: "a design-register reversal decided at a P4 fork and deferred to the wrap
-  applies on that recorded direction" (the k9s register this wrap).
-- Host: pulse-app stopped; `%TEMP%/pulse-legs/drivenkeys` remains; Pulse HEAD now `87fe658` (builder's P-027 pre-CI).
-- Health: 9 of 16 Tier-1 bullets over 600 B; `testing.md` and `verification-harness.md` past the read cap —
-  promotion is the operator's call.
+- Curation: `verification-harness.md` +1 entry (read NVDA's log by headers; snapshot before the next leg) and its
+  2026-09-02 SR entry extended (decide a focus theft from NVDA's own log).
+- Deferred learnings: `recurrence-despite-learning: host-win32.md 2026-09-23 backslash-pair transport correction`
+  (two commands still written with doubled backslashes, blocked by the guard).
+- Proposed playbook rule, not appended: "a dated, configuration-bound measurement that EXTENDS a master's measured
+  platform set without disproving it is routine" (this wrap's one amendment matched no rule).
+- Host: nothing left running (census 0 harness images); `pulse-app` never started. NVDA is not on
+  `CONDUCTOR_NVDA` in the agent shell — the legs set it per command to the one portable copy.
+- Health: CLAUDE.md 137/200 · T1 47.3 KB · 9 of 16 bullets over 600 B — promotion is the operator's call.

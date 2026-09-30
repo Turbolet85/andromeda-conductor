@@ -1,0 +1,7 @@
+
+## 2026-09-30-the-screen-reader-pass-grades-again-on-this-host — the NVDA focus verdict bound to its configuration
+**Section:** §3 Screen reader test pattern → Per-surface test spec
+**Change:** the measured platform set now names the last configuration that heard every focus row (WebView2 152.0.4191.66, 2026-09-07) and binds the focus verdict to its configuration: on WebView2 runtime/driver 154.0.4258.37 / 154.0.4258.37, Windows 26200.9457, NVDA 2026.2 the agent arm hears the webview's focus only in the window's first burst and no later focus change, under both NVDA Chromium object models (default IA2 and `[UIA] allowInChromium = 2`), while live regions still speak; the user consequence stated; cause recorded, not established (runtime/driver pair, Windows cumulative updates, desktop stay candidates; the object-model choice ruled out).
+**Why:** Branch B of the chunk's single-variable control — `sr-error` at NVDA defaults reproduced R0-02..R0-04 `not-announced`, `sr-empty` under the witnessed `allowInChromium = 2` graded E0-02..E0-06 `not-announced`; NVDA logged no entry between the burst and the close in either arm (`evidence/cause-control.md`).
+**Kept:** "NVDA/Windows agent-driven with all three subjects attached (2026-09-02, v2-23)" — a dated measurement still true for its date; §1 `:83` / `:113` (driven-ness and live-region items, unaffected).
+**Ref:** .andromeda/runs/2026-09-30T12-28-33-wrap/

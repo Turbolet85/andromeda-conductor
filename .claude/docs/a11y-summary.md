@@ -24,7 +24,7 @@ Enforcement: `.claude/rules/a11y.md`.
 2. **focus-management** — shadcn `AlertDialog` over Radix (reuse, NO install).
 3. **aria-component** — shadcn/ui over Radix (reuse, NO install).
 4. **contrast-verification-harness** — colorjs.io token-pair ratios (SC 1.4.3 / 1.4.11).
-5. **screen-reader-test-spec** — the per-state pass spec + the agent-driven NVDA leg (NVDA's own speech log graded by the `sr*` suites, `CONDUCTOR_NVDA`, the operator reviews; browse-mode rows pending OS-level key injection) — realized 2026-09-02; VoiceOver / Orca declared not-runnable-here (supplemental).
+5. **screen-reader-test-spec** — the per-state pass spec + the agent-driven NVDA leg (NVDA's own speech log graded by the `sr*` suites, `CONDUCTOR_NVDA`, the operator reviews; browse-mode rows pending OS-level key injection) — realized 2026-09-02; its focus verdict is configuration-bound (every focus row last heard on WebView2 152.0.4191.66, 2026-09-07; on 154.0.4258.37 / Windows 26200.9457 / NVDA 2026.2 the focus rows are silent after the window's first burst under both NVDA object models, 2026-09-30, cause recorded, not established); VoiceOver / Orca declared not-runnable-here (supplemental).
 6. **a11y-ci-gate-wire** — `wdio run` a11y step via the 5-command `logs`, operator/local-gated.
 7. **violation-json-emission-wire** — JSON aligned to obs §6, service-tagged.
 

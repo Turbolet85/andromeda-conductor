@@ -1,0 +1,647 @@
+[
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-30T12:28:49Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"conductor-0.3.0/chunks/2026-09-30-the-screen-reader-pass-grades-again-on-this-host",
+"--run-dir",
+".andromeda/runs/2026-09-30T12-28-33-wrap",
+"--marker",
+"2026-09-30-the-screen-reader-pass-grades-again-on-this-host"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\conductor · base HEAD (no pre-CI commit) · lists new 2 · modify 1 · derived 0 · record 1",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"record: not changed — conductor-0.3.0/chunks/2026-09-30-the-screen-reader-pass-grades-again-on-this-host/evidence/nvda-pass.defaults.json",
+"scope: clean — changed 0 · listed 0 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 42"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\conductor",
+"base": "HEAD",
+"base_why": "no pre-CI commit",
+"counts": {
+"changed": 0,
+"listed": 0,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 42,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-30T12:42:32Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-30-the-screen-reader-pass-grades-again-on-this-host/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T12-28-33-wrap",
+"--marker",
+"2026-09-30-the-screen-reader-pass-grades-again-on-this-host"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-30-the-screen-reader-pass-grades-again-on-this-host · entries 18",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-pass-grades-again-on-this-host\\wrap-2026-09-30T12-28-33 · bound: GNU timeout",
+"delta docs 60 · python 5 · unmapped 2",
+"prose L120-122: The Rust gates are listed and deferred. The chunk's delta is the leg's `nvda.ini` plus chu… (250 chars)",
+"prose L124-126: There is no smoke entry and no `status` read: no scenario leg mints a `run_id` this chunk … (259 chars)",
+"prose L128-131: The three `sr*` entries are OPERATOR SLOTS (step 0). `sr-error` and `sr-empty` carry `leg … (434 chars)",
+"prose L133-137: The `sr*` entries produce the cumulative working record `runs/sr-leg/nvda-pass.json` (thei… (405 chars)",
+"  1 unit        not run — defer (key): zero Rust delta: the chunk changes the l… (225 chars) · bash scripts/agent-run.sh run --unit",
+"  2 lint        not run — defer (key): zero Rust delta, as the unit entry · cargo clippy --workspace --all-targets -- -D warnings",
+"  3 lint        green · exit 0 · 1.86s · 65 B → 3.log · cd crates/conductor-tauri/ui && npm run typecheck:e2e",
+"  4 probe       green · exit 0 · 0.24s · 43 B → 4.log · d=$(\"$CONDUCTOR_MSEDGEDRIVER\" --version | grep -oE '[0-9]+… (288 chars)",
+"  5 self-verify green · exit 0 · 46.94s · 30593005 B → 5.log · CONDUCTOR_A11Y_STRICT=1 bash scripts/agent-run.sh run --e2… (59 chars)",
+"  6 e2e         not run — leg operator (the letter drives it) · cd crates/conductor-tauri/ui && npm run a11y:sr-error",
+"  7 e2e         not run — leg operator (the letter drives it) · cd crates/conductor-tauri/ui && npm run a11y:sr-empty",
+"  8 probe       not run — env ANDROMEDA_PULSE_DATA_DIR, ANDR… (87 chars) unset · PATH=\"/d/dev/projects/andromeda-pulse/target/release:$PATH… (122 chars)",
+"  9 e2e         not run — leg live (the letter drives it) · cd crates/conductor-tauri/ui && CONDUCTOR_SCENARIOS_DIR=ru… (153 chars)",
+" 10 probe       red · last line '0' ✗ (last: '24') · exit 0 · 0.1s · 4 B → 10.log · jq -r '[.rows[] | select(.class==\"focus\" and .outcome!=\"an… (203 chars)",
+" 11 probe       red · contains 'S0-09 announced-as-expected' ✗ · exit 0 · 0.09s · 62 B → 11.log · jq -r '.rows[] | select(.id==\"S0-09\" or .id==\"E0-05\" or .i… (200 chars)",
+" 12 probe       red · last line 'true' ✗ (last: 'false') · exit 0 · 0.09s · 7 B → 12.log · jq -r '[.subjects.live.recorded_at, .subjects.empty.record… (255 chars)",
+" 13 probe       green · exit 0 · 0.19s · 3 B → 13.log · jq -r '[.rows[] | select((.outcome | IN(\"announced-as-expe… (385 chars)",
+" 14 probe       green · exit 0 · 0.09s · 3 B → 14.log · jq -r '[.rows[] | select(.security_finding != null or (.id… (237 chars)",
+" 15 probe       recorded · exit 0 · 0.07s · 0 B → 15.log · git diff 2c9b37d -- crates/conductor-tauri/ui/test/a11y/sc… (90 chars)",
+" 16 probe       green · exit 1 · 0.2s · 2 B → 16.log · test -d conductor-0.3.0/chunks/2026-09-30-the-screen-reade… (330 chars)",
+" 17 probe       green · exit 1 · 0.12s · 0 B → 17.log · { git diff --name-only 2c9b37d -- crates scripts contracts… (271 chars)",
+" 18 probe       green · exit 1 · 0.35s · 2 B → 18.log · tasklist | grep -ciE \"^(msedgedriver|conductor-tauri|nvda|… (77 chars)",
+"entries 18 · green 8 · red 3 (10,11,12) · recorded 1 · timeout 0 · not-run 6"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-30-the-screen-reader-pass-grades-again-on-this-host",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-30-the-screen-reader-pass-grades-again-on-this-host\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-pass-grades-again-on-this-host\\wrap-2026-09-30T12-28-33",
+"delta": {
+"docs": [
+".andromeda/a11y-plan-amendments.md",
+".andromeda/a11y-plan.md",
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-09-30T11-12-38-wrap/evolve-2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed.json",
+".andromeda/state.yaml",
+".claude/docs/a11y-summary.md",
+".claude/rules/a11y.md",
+".claude/rules/verification-harness.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+".andromeda/runs/2026-09-30T11-38-29-phase/a11y-history.md",
+".andromeda/runs/2026-09-30T11-38-29-phase/a11y.md",
+".andromeda/runs/2026-09-30T11-38-29-phase/arch-history-index.md",
+".andromeda/runs/2026-09-30T11-38-29-phase/arch-history.md",
+".andromeda/runs/2026-09-30T11-38-29-phase/arch.md",
+".andromeda/runs/2026-09-30T11-38-29-phase/ci-no-marker.json",
+".andromeda/runs/2026-09-30T11-38-29-phase/design-history.md",
+".andromeda/runs/2026-09-30T11-38-29-phase/design.md",
+".andromeda/runs/2026-09-30T11-38-29-phase/evolve-2026-09-30-the-screen-reader-pass-grades-again-on-this-host.json",
+".andromeda/runs/2026-09-30T11-38-29-phase/gate-2026-09-30-the-screen-reader-pass-grades-again-on-this-host.json",
+".andromeda/runs/2026-09-30T11-38-29-phase/layouts-history.md",
+".andromeda/runs/2026-09-30T11-38-29-phase/layouts.md",
+".andromeda/runs/2026-09-30T11-38-29-phase/master-record.txt",
+".andromeda/runs/2026-09-30T11-38-29-phase/matrix-2026-09-30-the-screen-reader-pass-grades-again-on-this-host.json",
+".andromeda/runs/2026-09-30T11-38-29-phase/obs-history.md",
+".andromeda/runs/2026-09-30T11-38-29-phase/obs.md",
+".andromeda/runs/2026-09-30T11-38-29-phase/planlint-2026-09-30-the-screen-reader-pass-grades-again-on-this-host.json",
+".andromeda/runs/2026-09-30T11-38-29-phase/registry-2026-09-30-the-screen-reader-pass-grades-again-on-this-host.json",
+".andromeda/runs/2026-09-30T11-38-29-phase/route-2026-09-30-the-screen-reader-pass-grades-again-on-this-host.json",
+".andromeda/runs/2026-09-30T11-38-29-phase/route-no-marker.json",
+".andromeda/runs/2026-09-30T11-38-29-phase/security-history.md",
+".andromeda/runs/2026-09-30T11-38-29-phase/security.md",
+".andromeda/runs/2026-09-30T11-38-29-phase/sidecar-2026-09-30-the-screen-reader-pass-grades-again-on-this-host.json",
+".andromeda/runs/2026-09-30T11-38-29-phase/tests-history-index.md",
+".andromeda/runs/2026-09-30T11-38-29-phase/tests-history.md",
+".andromeda/runs/2026-09-30T11-38-29-phase/tests.md",
+".andromeda/runs/2026-09-30T11-38-29-phase/tree-query-2026-09-30-the-screen-reader-pass-grades-again-on-this-host.json",
+".andromeda/runs/2026-09-30T12-13-26-implement/evolve-2026-09-30-the-screen-reader-pass-grades-again-on-this-host.json",
+".andromeda/runs/2026-09-30T12-13-26-implement/gate-2026-09-30-the-screen-reader-pass-grades-again-on-this-host.json",
+".andromeda/runs/2026-09-30T12-28-33-wrap/.sweep.out",
+".andromeda/runs/2026-09-30T12-28-33-wrap/a11y-plan-entry.md",
+".andromeda/runs/2026-09-30T12-28-33-wrap/cascade-2026-09-30-the-screen-reader-pass-grades-again-on-this-host.json",
+".andromeda/runs/2026-09-30T12-28-33-wrap/cascade-dispositions.md",
+".andromeda/runs/2026-09-30T12-28-33-wrap/cascade-patterns.toml",
+".andromeda/runs/2026-09-30T12-28-33-wrap/curation.md",
+".andromeda/runs/2026-09-30T12-28-33-wrap/evolve-2026-09-30-the-screen-reader-pass-grades-again-on-this-host.json",
+".andromeda/runs/2026-09-30T12-28-33-wrap/fanout-results.md",
+".andromeda/runs/2026-09-30T12-28-33-wrap/gate-2026-09-30-the-screen-reader-pass-grades-again-on-this-host.json",
+".andromeda/runs/2026-09-30T12-28-33-wrap/health-2026-09-30-the-screen-reader-pass-grades-again-on-this-host.json",
+".andromeda/runs/2026-09-30T12-28-33-wrap/registry-2026-09-30-the-screen-reader-pass-grades-again-on-this-host.json",
+".andromeda/runs/2026-09-30T12-28-33-wrap/route-no-marker.json",
+".andromeda/runs/2026-09-30T12-28-33-wrap/route-successor.txt",
+".andromeda/runs/2026-09-30T12-28-33-wrap/splice-2026-09-30-the-screen-reader-pass-grades-again-on-this-host.json",
+"conductor-0.3.0/chunks/2026-09-30-the-screen-reader-pass-grades-again-on-this-host/evidence/cause-control.md",
+"conductor-0.3.0/chunks/2026-09-30-the-screen-reader-pass-grades-again-on-this-host/plan.md",
+"conductor-0.3.0/chunks/2026-09-30-the-screen-reader-pass-grades-again-on-this-host/report.md",
+"conductor-0.3.0/chunks/2026-09-30-the-screen-reader-pass-grades-again-on-this-host/research.md",
+"conductor-0.3.0/chunks/2026-09-30-the-screen-reader-pass-grades-again-on-this-host/scope-record.md",
+"conductor-0.3.0/chunks/2026-09-30-the-screen-reader-pass-grades-again-on-this-host/scope.md"
+],
+"python": [
+".andromeda/runs/2026-09-30T12-13-26-implement/evolve-records.py",
+".andromeda/runs/2026-09-30T12-28-33-wrap/evolve-curation.py",
+".andromeda/runs/2026-09-30T12-28-33-wrap/evolve-reconcile.py",
+".andromeda/runs/2026-09-30T12-28-33-wrap/evolve-report.py",
+".andromeda/runs/2026-09-30T12-28-33-wrap/evolve-route.py"
+]
+},
+"unmapped": [
+"conductor-0.3.0/chunks/2026-09-30-the-screen-reader-pass-grades-again-on-this-host/evidence/nvda-pass.defaults.json",
+"conductor-0.3.0/chunks/2026-09-30-the-screen-reader-pass-grades-again-on-this-host/evidence/nvda-pass.json"
+],
+"prose": [
+{
+"from": 120,
+"to": 122,
+"text": "The Rust gates are listed and deferred. The chunk's delta is the leg's `nvda.ini` plus chunk evidence, with zero Rust source, and no committed file a Rust test reads changes. The frontend-meaningful half is the strict `--e2e` routine arm, which runs."
+},
+{
+"from": 124,
+"to": 126,
+"text": "There is no smoke entry and no `status` read: no scenario leg mints a `run_id` this chunk reads, so a smoke would be vacuous (verification-harness.md `:49`, 2026-09-11). There are no CI entries: no acceptance needs a CI run, since nothing CI executes changes."
+},
+{
+"from": 128,
+"to": 131,
+"text": "The three `sr*` entries are OPERATOR SLOTS (step 0). `sr-error` and `sr-empty` carry `leg = 'operator'` so no reader re-fires an NVDA run outside a granted slot. /implement fires each once, on the operator's word, and records its result in `evidence/cause-control.md`. The K-reproduce and K-object-model arms (steps 3–4) are fired from these same two entries at their step's `nvda.ini` state; the fence's reading is the FINAL state's."
+},
+{
+"from": 133,
+"to": 137,
+"text": "The `sr*` entries produce the cumulative working record `runs/sr-leg/nvda-pass.json` (their `artifact`). - The committed `evidence/nvda-pass.json` is step 7's copy of it (Branch B: step 5's). - `evidence/nvda-pass.defaults.json` is step 3's snapshot. - `evidence/cause-control.md` is authored by step 8, by construction. So the `jq` and hygiene entries read the committed copies, never the working record."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — defer (key): zero Rust delta: the chunk changes the l… (225 chars)"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — defer (key): zero Rust delta, as the unit entry"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "cd crates/conductor-tauri/ui && npm run typecheck:e2e",
+"run_sha8": "ed7b10f9",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-pass-grades-again-on-this-host\\wrap-2026-09-30T12-28-33\\3.log",
+"bytes": 65,
+"log_sha8": "cea9a430",
+"exit": 0,
+"seconds": 1.86,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "probe",
+"run": "d=$(\"$CONDUCTOR_MSEDGEDRIVER\" --version | grep -oE '[0-9]+(\\.[0-9]+){3}'); r=$(reg query 'HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\EdgeUpdate\\Clients\\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}' //v pv | grep -oE '[0-9]+(\\.[0-9]+){3}'); echo \"driver $d runtime $r\"; test -n \"$d\" && test \"$d\" = \"$r\"",
+"run_sha8": "342e374d",
+"expect": [
+"exit 0",
+"contains driver "
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-pass-grades-again-on-this-host\\wrap-2026-09-30T12-28-33\\4.log",
+"bytes": 43,
+"log_sha8": "987e6204",
+"exit": 0,
+"seconds": 0.24,
+"readings": [
+"exit 0 ✓",
+"contains 'driver ' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "self-verify",
+"run": "CONDUCTOR_A11Y_STRICT=1 bash scripts/agent-run.sh run --e2e",
+"run_sha8": "bcfd469f",
+"expect": [
+"exit 0",
+"contains [a11y] verdict asserted — 0 failed",
+"contains (expected 2)"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-pass-grades-again-on-this-host\\wrap-2026-09-30T12-28-33\\5.log",
+"bytes": 30593005,
+"log_sha8": "b6911307",
+"exit": 0,
+"seconds": 46.94,
+"readings": [
+"exit 0 ✓",
+"contains '[a11y] verdict asserted — 0 failed' ✓",
+"contains '(expected 2)' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "e2e",
+"run": "cd crates/conductor-tauri/ui && npm run a11y:sr-error",
+"run_sha8": "7e9c4c64",
+"expect": [
+"exit 0",
+"contains Spec Files:\t 1 passed, 1 total"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 7,
+"role": "e2e",
+"run": "cd crates/conductor-tauri/ui && npm run a11y:sr-empty",
+"run_sha8": "9df94041",
+"expect": [
+"exit 0",
+"contains Spec Files:\t 1 passed, 1 total"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "PATH=\"/d/dev/projects/andromeda-pulse/target/release:$PATH\" cargo run -q -p conductor-cli --bin conductor -- preconditions",
+"run_sha8": "462b8d9f",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — env ANDROMEDA_PULSE_DATA_DIR, ANDR… (87 chars) unset"
+},
+{
+"n": 9,
+"role": "e2e",
+"run": "cd crates/conductor-tauri/ui && CONDUCTOR_SCENARIOS_DIR=runs/sr-leg/scenarios PATH=\"/d/dev/projects/andromeda-pulse/target/release:$PATH\" npm run a11y:sr",
+"run_sha8": "ec00d5c5",
+"expect": [
+"exit 0",
+"contains Spec Files:\t 1 passed, 1 total"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg live (the letter drives it)"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "jq -r '[.rows[] | select(.class==\"focus\" and .outcome!=\"announced-as-expected\") | .id] | length' conductor-0.3.0/chunks/2026-09-30-the-screen-reader-pass-grades-again-on-this-host/evidence/nvda-pass.json",
+"run_sha8": "860b775c",
+"expect": [
+"exit 0",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-pass-grades-again-on-this-host\\wrap-2026-09-30T12-28-33\\10.log",
+"bytes": 4,
+"log_sha8": "f6bca0e7",
+"exit": 0,
+"seconds": 0.1,
+"readings": [
+"exit 0 ✓",
+"last line '0' ✗ (last: '24')"
+],
+"survivors": [],
+"outcome": "red · last line '0' ✗ (last: '24')"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "jq -r '.rows[] | select(.id==\"S0-09\" or .id==\"E0-05\" or .id==\"E0-09\") | .id + \" \" + .outcome' conductor-0.3.0/chunks/2026-09-30-the-screen-reader-pass-grades-again-on-this-host/evidence/nvda-pass.json",
+"run_sha8": "e395cda5",
+"expect": [
+"exit 0",
+"contains S0-09 announced-as-expected",
+"contains E0-05 announced-as-expected",
+"contains E0-09 not-run-here"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-pass-grades-again-on-this-host\\wrap-2026-09-30T12-28-33\\11.log",
+"bytes": 62,
+"log_sha8": "0fca339b",
+"exit": 0,
+"seconds": 0.09,
+"readings": [
+"exit 0 ✓",
+"contains 'S0-09 announced-as-expected' ✗",
+"contains 'E0-05 announced-as-expected' ✗",
+"contains 'E0-09 not-run-here' ✓"
+],
+"survivors": [],
+"outcome": "red · contains 'S0-09 announced-as-expected' ✗"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "jq -r '[.subjects.live.recorded_at, .subjects.empty.recorded_at, .subjects.error.recorded_at] | map(. != null and . > \"2026-09-30T11:35:14Z\") | all' conductor-0.3.0/chunks/2026-09-30-the-screen-reader-pass-grades-again-on-this-host/evidence/nvda-pass.json",
+"run_sha8": "e2a3a5fd",
+"expect": [
+"exit 0",
+"last line true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-pass-grades-again-on-this-host\\wrap-2026-09-30T12-28-33\\12.log",
+"bytes": 7,
+"log_sha8": "75dbba8f",
+"exit": 0,
+"seconds": 0.09,
+"readings": [
+"exit 0 ✓",
+"last line 'true' ✗ (last: 'false')"
+],
+"survivors": [],
+"outcome": "red · last line 'true' ✗ (last: 'false')"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "jq -r '[.rows[] | select((.outcome | IN(\"announced-as-expected\",\"announced-differently\",\"not-announced\",\"not-run-here\",\"subject-absent\") | not) or (.arm | IN(\"agent\",\"operator\") | not) or ((.heard | tostring | contains(\"host-path>\")) and (.security_finding == null)))] | length' conductor-0.3.0/chunks/2026-09-30-the-screen-reader-pass-grades-again-on-this-host/evidence/nvda-pass.json",
+"run_sha8": "2b70fa40",
+"expect": [
+"exit 0",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-pass-grades-again-on-this-host\\wrap-2026-09-30T12-28-33\\13.log",
+"bytes": 3,
+"log_sha8": "13bf7b30",
+"exit": 0,
+"seconds": 0.19,
+"readings": [
+"exit 0 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "jq -r '[.rows[] | select(.security_finding != null or (.id==\"S1-01\" and (.heard | tostring | test(\"pane|host-path>\"))))] | length' conductor-0.3.0/chunks/2026-09-30-the-screen-reader-pass-grades-again-on-this-host/evidence/nvda-pass.json",
+"run_sha8": "8faa4921",
+"expect": [
+"exit 0",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-pass-grades-again-on-this-host\\wrap-2026-09-30T12-28-33\\14.log",
+"bytes": 3,
+"log_sha8": "13bf7b30",
+"exit": 0,
+"seconds": 0.09,
+"readings": [
+"exit 0 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "git diff 2c9b37d -- crates/conductor-tauri/ui/test/a11y/screen-reader/nvda-config/nvda.ini",
+"run_sha8": "9f7d3fba",
+"expect": [],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-pass-grades-again-on-this-host\\wrap-2026-09-30T12-28-33\\15.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.07,
+"readings": [
+"report-only (expect = [])"
+],
+"survivors": [],
+"outcome": "recorded"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "test -d conductor-0.3.0/chunks/2026-09-30-the-screen-reader-pass-grades-again-on-this-host/evidence && find conductor-0.3.0/chunks/2026-09-30-the-screen-reader-pass-grades-again-on-this-host/evidence -type f -exec cat {} + | grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|/home/|/Users/|%APPDATA%|\\.rustup|\\.cargo[\\\\/]\"",
+"run_sha8": "a24427f5",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-pass-grades-again-on-this-host\\wrap-2026-09-30T12-28-33\\16.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.2,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "{ git diff --name-only 2c9b37d -- crates scripts contracts scenarios .github Cargo.lock Cargo.toml; git ls-files --others --exclude-standard crates scripts contracts scenarios .github; } | grep -v \"^crates/conductor-tauri/ui/test/a11y/screen-reader/nvda-config/nvda.ini$\"",
+"run_sha8": "84759d3e",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-pass-grades-again-on-this-host\\wrap-2026-09-30T12-28-33\\17.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.12,
+"readings": [
+"exit 1 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "tasklist | grep -ciE \"^(msedgedriver|conductor-tauri|nvda|tauri-driver)\\.exe\"",
+"run_sha8": "080f9466",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-pass-grades-again-on-this-host\\wrap-2026-09-30T12-28-33\\18.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.35,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-30T12:43:27Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-09-30T12-28-33-wrap",
+"--marker",
+"2026-09-30-the-screen-reader-pass-grades-again-on-this-host"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\conductor · planes rust, ts",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P2 · P3 rust · P3 ts — each fired on its synthetic known positive",
+"hygiene: clean — read 53 (runs 50 · evidence 3) · trails 20 not read · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\conductor",
+"planes": [
+"rust",
+"ts"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 50,
+"evidence": 3,
+"trails": 20,
+"binary": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-30T12:43:35Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"conductor-0.3.0/chunks/2026-09-30-the-screen-reader-pass-grades-again-on-this-host",
+"--run-dir",
+".andromeda/runs/2026-09-30T12-28-33-wrap",
+"--marker",
+"2026-09-30-the-screen-reader-pass-grades-again-on-this-host"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\conductor · base HEAD (no pre-CI commit) · lists new 2 · modify 1 · derived 0 · record 1",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"record: not changed — conductor-0.3.0/chunks/2026-09-30-the-screen-reader-pass-grades-again-on-this-host/evidence/nvda-pass.defaults.json",
+"scope: clean — changed 0 · listed 0 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 68"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\conductor",
+"base": "HEAD",
+"base_why": "no pre-CI commit",
+"counts": {
+"changed": 0,
+"listed": 0,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 68,
+"unparsed": 0,
+"widening_without_word": 0
+}
+}
+]

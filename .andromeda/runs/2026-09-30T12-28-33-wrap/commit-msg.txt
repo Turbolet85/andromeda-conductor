@@ -1,0 +1,14 @@
+chore(2026-09-30-the-screen-reader-pass-grades-again-on-this-host): wrap — SR focus silence isolated from NVDA's object model; Branch B, cause handed on
+
+Both NVDA arms (defaults, and a witnessed [UIA] allowInChromium = 2) stay silent after the first focus burst on
+WebView2 154.0.4258.37 / Windows 26200.9457; nvda.ini restored byte-identical, no regrade — the three regrade
+reds are the host's, owned by the minted successor "The SR cause isolated on this host".
+
+Reconcile: 1 amendments (a11y-plan) · 0 escalations resolved
+Curation:  T1 0 · T2 2 · T3 0  (filtered 3) · extended: T2/verification-harness.md: "A screen reader is driven by the OS FOREGROUND …" · no-other-home: "Read NVDA's -l 12 log by its entry HEADERS, and snapshot it before the next leg of the same subject"
+Code-graph: rust 2982n/14304e · ts 895n/1805e · fresh ✓
+Coverage:  claimed 0 — gate no-op · version 10/11 (1 deferred)
+Route: + "The SR cause isolated on this host" ahead of Full-gate regression (operator relay + slot word) · master 2026-09-30-the-screen-reader-pass-grades-again-on-this-host → complete · compacted 1 complete lines → route-archive.md
+Session 165
+
+Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>

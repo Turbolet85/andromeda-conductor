@@ -1,0 +1,56 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-30T12:12:02Z",
+"argv": [
+"coverage",
+"--dir",
+"conductor-0.3.0",
+"--run-dir",
+".andromeda/runs/2026-09-30T11-38-29-phase",
+"--marker",
+"2026-09-30-the-screen-reader-pass-grades-again-on-this-host"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"verified 10/11 · deferred 1 · planned 0 · implemented 0 · unclaimed 0",
+"claimed-unfinished: none",
+"done-test: YES — every entry verified|deferred and unclaimed 0",
+"chunks referenced: 10 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-30T12:12:02Z",
+"argv": [
+"audit",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-30-the-screen-reader-pass-grades-again-on-this-host",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-30-the-screen-reader-pass-grades-again-on-this-host/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T11-38-29-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-30-the-screen-reader-pass-grades-again-on-this-host: 0 · ## Acceptance Criteria: line 289, 38 lines",
+"pool: unclaimed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]
