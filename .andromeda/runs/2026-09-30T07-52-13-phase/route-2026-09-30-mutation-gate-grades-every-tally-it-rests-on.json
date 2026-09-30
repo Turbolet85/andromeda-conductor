@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-30T07:54:46Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-09-30-mutation-gate-grades-every-tally-it-rests-on",
+"--expect-prefix",
+"Mutation gate grades every tally it rests on",
+"--record-file",
+".andromeda/runs/2026-09-30T07-52-13-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-09-30T07-52-13-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:61 - [2026-09-30-mutation-gate-grades-every-tally-it-rests-on]",
+"record master-route.md:159 - appended under `## conductor-0.3.0`",
+"promoted 2026-09-30-mutation-gate-grades-every-tally-it-rests-on - working-route:61 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+".\\conductor-0.3.0\\working-route.md",
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+}
+]

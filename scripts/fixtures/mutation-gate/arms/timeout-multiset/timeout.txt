@@ -1,0 +1,2 @@
+crates/fixture-unit/src/scan.rs:20:9: replace += with -= in skip_digits
+crates/fixture-unit/src/scan.rs:20:9: replace += with *= in skip_digits

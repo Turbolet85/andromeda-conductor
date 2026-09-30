@@ -1,10 +1,10 @@
-# Mutation roster — the expected `missed.txt` SET, per unit.
+# Mutation roster — the expected `missed.txt` and `timeout.txt` multisets, per unit.
 #
 # OWNER: `.andromeda/test-plan.md` §12 Test Decisions Log owns the ratified accepted-deliberate classes and
 # their reasoning. This file is that enumeration's EXECUTABLE form, never a second authority: it carries only
 # what `scripts/mutation-gate.py` needs to compare a tally, plus the `member` join key back to §12.
 #
-# COORDINATE-FREE BY DESIGN. A row carries no line and no column. `missed.txt` lines are
+# COORDINATE-FREE BY DESIGN. A row carries no line and no column. Tally lines are
 # `{path}:{line}:{col}: {mutation}` and the gate matches on `(file, mutation)` alone, discarding `line:col`.
 # That is what keeps this file and §12 from diverging: the coordinate is the only field both would carry and
 # the only one that drifts. Witness, from the 2026-09-03 tauri disposition evidence:
@@ -17,6 +17,15 @@
 # `replace == with != in stub_result` entries below are one such pair, distinguished in `missed.txt` only by
 # coordinates the gate discards. The gate therefore compares MULTISETS: a duplicated pair must appear exactly
 # as many times as it has rows here.
+#
+# `tally` is REQUIRED on every row and never defaulted — a row without a valid one fails the gate:
+#   missed  — expected in `missed.txt`: the mutant survives.
+#   timeout — expected in `timeout.txt`: detection by hang. Rostered so a caught -> timeout move is graded
+#             rather than silent; keyed coordinate-free and compared as a multiset, exactly as `missed` is.
+# `unviable` is never rostered: it moves on host link contention alone, so the gate grades it by counts only —
+# each tally file's count against `outcomes.json`, and the four classes summed against `total_mutants`.
+# conductor-emit carries no timeout rows yet: the epoch-boundary code audit seeds them from its measured
+# `timeout.txt` (overseer, founder-delegated, 2026-09-30). Until then that unit fails closed on every timeout.
 #
 # `class` is one of:
 #   ratified              — an accepted-deliberate member of the §12 roster; `member` names it.
@@ -49,6 +58,7 @@ files = [
 unit = "conductor-emit"
 file = "crates/conductor-emit/src/latency.rs"
 mutation = "replace < with <= in quantile"
+tally = "missed"
 class = "ratified"
 member = "member-emit-1"
 rule = "EQUIVALENT MUTANT: the two branches meet at u = 0.5 with the same value — u / 0.5 is exactly 1.0 and (u - 0.5) / 0.45 is exactly 0.0 there, both yielding exactly p50 — and u = 0.5 is the only input the flip re-routes, so the mutated fn returns a bit-identical f64 for every input. Measured under EXACT f64 comparison over 5 profiles x 10008 points: 0 differing points. Scoped to THIS mutant, never the comparison class: four siblings of the same shape are killable, because the later branches are one line algebraically but not in IEEE754."
@@ -58,6 +68,7 @@ citation_home = "conductor-0.3.0/chunks/2026-09-14-emit-scrubber-and-percentile-
 unit = "conductor-cli"
 file = "crates/conductor-cli/src/render.rs"
 mutation = "replace stdout_color -> bool with false"
+tally = "missed"
 class = "ratified"
 member = "member-5"
 rule = "test-plan §12 conductor-cli PAIR (2026-09-05): the surviving arm reads the HOST's own state, so the only kill available is host-dependent, and a roster must mean the same thing on every host (§10 zero-flakiness)."
@@ -67,6 +78,7 @@ citation_home = "conductor-0.2.0/chunks/2026-09-05-audit-corrective/evidence/dis
 unit = "conductor-cli"
 file = "crates/conductor-cli/src/render.rs"
 mutation = "replace stderr_color -> bool with false"
+tally = "missed"
 class = "ratified"
 member = "member-5"
 rule = "test-plan §12 conductor-cli PAIR (2026-09-05): acceptance is scoped to the unobservable DIRECTION, not the function — `stderr_color -> true` IS killed, and the three-condition logic is killed through the pure `color_enabled` seam."
@@ -76,6 +88,7 @@ citation_home = "conductor-0.2.0/chunks/2026-09-05-audit-corrective/evidence/dis
 unit = "conductor-verify"
 file = "crates/conductor-verify/src/spawn.rs"
 mutation = "replace sidecar_resolves_on_path -> bool with true"
+tally = "missed"
 class = "ratified"
 member = "member-4"
 rule = "test-plan §12 conductor-verify PAIR (2026-09-04): the whole body IS the PATH/PATHEXT read, so the env-at-the-caller rule's mechanism lives in this function. An agreement test against the real PATH was considered and REJECTED — it kills one arm or the other depending on whether andromeda-pulse-mcp happens to be on PATH."
@@ -85,6 +98,7 @@ citation_home = "conductor-0.2.0/chunks/2026-09-04-sidecar-spawn-without-a-conso
 unit = "conductor-verify"
 file = "crates/conductor-verify/src/spawn.rs"
 mutation = "replace sidecar_resolves_on_path -> bool with false"
+tally = "missed"
 class = "ratified"
 member = "member-4"
 rule = "test-plan §12 conductor-verify PAIR (2026-09-04): the second polarity of the same whole-body replacement; its pure half `resolves_on` is tested on both arms and its own mutants were caught."
@@ -94,6 +108,7 @@ citation_home = "conductor-0.2.0/chunks/2026-09-04-sidecar-spawn-without-a-conso
 unit = "conductor-verify"
 file = "crates/conductor-verify/src/bin/stub_pulse_mcp.rs"
 mutation = "replace main with ()"
+tally = "missed"
 class = "provisional-next-audit"
 rule = "Test-support binary behind `required-features = [\"stub-server\"]`, off by default; the standing stub exclusion that retires it is the next audit's to apply."
 citation_home = ".andromeda/runs/2026-09-13T11-34-19-code-audit/proposals.md"
@@ -102,6 +117,7 @@ citation_home = ".andromeda/runs/2026-09-13T11-34-19-code-audit/proposals.md"
 unit = "conductor-verify"
 file = "crates/conductor-verify/src/bin/stub_pulse_mcp.rs"
 mutation = "replace || with && in main"
+tally = "missed"
 class = "provisional-next-audit"
 rule = "Test-support binary behind `required-features = [\"stub-server\"]`, off by default; the standing stub exclusion that retires it is the next audit's to apply."
 citation_home = ".andromeda/runs/2026-09-13T11-34-19-code-audit/proposals.md"
@@ -110,6 +126,7 @@ citation_home = ".andromeda/runs/2026-09-13T11-34-19-code-audit/proposals.md"
 unit = "conductor-verify"
 file = "crates/conductor-verify/src/bin/stub_pulse_mcp.rs"
 mutation = "replace stub_result -> Value with Default::default()"
+tally = "missed"
 class = "provisional-next-audit"
 rule = "Test-support binary behind `required-features = [\"stub-server\"]`, off by default; the standing stub exclusion that retires it is the next audit's to apply."
 citation_home = ".andromeda/runs/2026-09-13T11-34-19-code-audit/proposals.md"
@@ -118,6 +135,7 @@ citation_home = ".andromeda/runs/2026-09-13T11-34-19-code-audit/proposals.md"
 unit = "conductor-verify"
 file = "crates/conductor-verify/src/bin/stub_pulse_mcp.rs"
 mutation = "delete match arm \"initialize\" in stub_result"
+tally = "missed"
 class = "provisional-next-audit"
 rule = "Test-support binary behind `required-features = [\"stub-server\"]`, off by default; the standing stub exclusion that retires it is the next audit's to apply."
 citation_home = ".andromeda/runs/2026-09-13T11-34-19-code-audit/proposals.md"
@@ -126,6 +144,7 @@ citation_home = ".andromeda/runs/2026-09-13T11-34-19-code-audit/proposals.md"
 unit = "conductor-verify"
 file = "crates/conductor-verify/src/bin/stub_pulse_mcp.rs"
 mutation = "delete match arm \"tools/list\" in stub_result"
+tally = "missed"
 class = "provisional-next-audit"
 rule = "Test-support binary behind `required-features = [\"stub-server\"]`, off by default; the standing stub exclusion that retires it is the next audit's to apply."
 citation_home = ".andromeda/runs/2026-09-13T11-34-19-code-audit/proposals.md"
@@ -134,6 +153,7 @@ citation_home = ".andromeda/runs/2026-09-13T11-34-19-code-audit/proposals.md"
 unit = "conductor-verify"
 file = "crates/conductor-verify/src/bin/stub_pulse_mcp.rs"
 mutation = "delete match arm \"tools/call\" in stub_result"
+tally = "missed"
 class = "provisional-next-audit"
 rule = "Test-support binary behind `required-features = [\"stub-server\"]`, off by default; the standing stub exclusion that retires it is the next audit's to apply."
 citation_home = ".andromeda/runs/2026-09-13T11-34-19-code-audit/proposals.md"
@@ -142,6 +162,7 @@ citation_home = ".andromeda/runs/2026-09-13T11-34-19-code-audit/proposals.md"
 unit = "conductor-verify"
 file = "crates/conductor-verify/src/bin/stub_pulse_mcp.rs"
 mutation = "replace == with != in stub_result"
+tally = "missed"
 class = "provisional-next-audit"
 rule = "Test-support binary behind `required-features = [\"stub-server\"]`, off by default; the standing stub exclusion that retires it is the next audit's to apply. One of two rows sharing this pair — see the MULTISET note in the header."
 citation_home = ".andromeda/runs/2026-09-13T11-34-19-code-audit/proposals.md"
@@ -150,6 +171,7 @@ citation_home = ".andromeda/runs/2026-09-13T11-34-19-code-audit/proposals.md"
 unit = "conductor-verify"
 file = "crates/conductor-verify/src/bin/stub_pulse_mcp.rs"
 mutation = "replace == with != in stub_result"
+tally = "missed"
 class = "provisional-next-audit"
 rule = "Test-support binary behind `required-features = [\"stub-server\"]`, off by default; the standing stub exclusion that retires it is the next audit's to apply. Two of two rows sharing this pair — see the MULTISET note in the header."
 citation_home = ".andromeda/runs/2026-09-13T11-34-19-code-audit/proposals.md"

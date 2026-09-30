@@ -1,0 +1,48 @@
+# Fixture roster for `mutation-gate.py selftest` — synthetic rows, never a disposition.
+# fixture-unit: 1 missed row, 3 timeout rows (two share one pair). fixture-empty: declared, no rows.
+
+[[unit]]
+name = "fixture-unit"
+
+[[unit]]
+name = "fixture-empty"
+
+[[entry]]
+unit = "fixture-unit"
+file = "crates/fixture-unit/src/lib.rs"
+mutation = "replace parse_header -> bool with true"
+tally = "missed"
+class = "ratified"
+member = "fixture"
+rule = "Synthetic missed row."
+citation_home = "scripts/mutation-gate.py"
+
+[[entry]]
+unit = "fixture-unit"
+file = "crates/fixture-unit/src/scan.rs"
+mutation = "replace += with -= in skip_digits"
+tally = "timeout"
+class = "ratified"
+member = "fixture"
+rule = "Synthetic timeout row, one of two sharing this pair."
+citation_home = "scripts/mutation-gate.py"
+
+[[entry]]
+unit = "fixture-unit"
+file = "crates/fixture-unit/src/scan.rs"
+mutation = "replace += with -= in skip_digits"
+tally = "timeout"
+class = "ratified"
+member = "fixture"
+rule = "Synthetic timeout row, two of two sharing this pair."
+citation_home = "scripts/mutation-gate.py"
+
+[[entry]]
+unit = "fixture-unit"
+file = "crates/fixture-unit/src/scan.rs"
+mutation = "replace += with *= in skip_digits"
+tally = "timeout"
+class = "ratified"
+member = "fixture"
+rule = "Synthetic timeout row."
+citation_home = "scripts/mutation-gate.py"

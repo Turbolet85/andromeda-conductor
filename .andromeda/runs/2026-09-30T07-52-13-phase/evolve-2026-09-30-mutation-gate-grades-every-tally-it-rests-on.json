@@ -1,0 +1,202 @@
+[
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-09-30T07:55:06Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-30T07-52-13-phase",
+"--marker",
+"2026-09-30-mutation-gate-grades-every-tally-it-rests-on"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"appended 2 record(s) · friction-log.ndjson lines 2584→2586 · bytes 3225315→3227318 · term lf",
+"ts 2026-09-30T07:54:56Z · clock 2026-09-30T07:55:06Z · bound 2026-09-30T07:51:27Z (line 2584)",
+"ids 2026-09-30T07:54:56Z-a … 2026-09-30T07:54:56Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 2584,
+"bytes": 3225315,
+"terminator": "LF",
+"bound": "2026-09-30T07:51:27Z"
+},
+"after": {
+"lines": 2586,
+"bytes": 3227318
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-09-30T08:00:48Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-30T07-52-13-phase",
+"--marker",
+"2026-09-30-mutation-gate-grades-every-tally-it-rests-on"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 2586→2587 · bytes 3227318→3229071 · term lf",
+"ts 2026-09-30T08:00:38Z · clock 2026-09-30T08:00:48Z · bound 2026-09-30T07:54:56Z (line 2586)",
+"ids 2026-09-30T08:00:38Z-a"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 2586,
+"bytes": 3227318,
+"terminator": "LF",
+"bound": "2026-09-30T07:54:56Z"
+},
+"after": {
+"lines": 2587,
+"bytes": 3229071
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-09-30T08:04:07Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-30T07-52-13-phase",
+"--marker",
+"2026-09-30-mutation-gate-grades-every-tally-it-rests-on"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 2587→2588 · bytes 3229071→3230141 · term lf",
+"ts 2026-09-30T08:04:00Z · clock 2026-09-30T08:04:07Z · bound 2026-09-30T08:00:38Z (line 2587)",
+"ids 2026-09-30T08:04:00Z-a"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 2587,
+"bytes": 3229071,
+"terminator": "LF",
+"bound": "2026-09-30T08:00:38Z"
+},
+"after": {
+"lines": 2588,
+"bytes": 3230141
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-09-30T08:10:25Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-30T07-52-13-phase",
+"--marker",
+"2026-09-30-mutation-gate-grades-every-tally-it-rests-on"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"appended 2 record(s) · friction-log.ndjson lines 2588→2590 · bytes 3230141→3231910 · term lf",
+"ts 2026-09-30T08:10:14Z · clock 2026-09-30T08:10:25Z · bound 2026-09-30T08:04:00Z (line 2588)",
+"ids 2026-09-30T08:10:14Z-a … 2026-09-30T08:10:14Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 2588,
+"bytes": 3230141,
+"terminator": "LF",
+"bound": "2026-09-30T08:04:00Z"
+},
+"after": {
+"lines": 2590,
+"bytes": 3231910
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-09-30T08:14:21Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-30T07-52-13-phase",
+"--marker",
+"2026-09-30-mutation-gate-grades-every-tally-it-rests-on"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"appended 2 record(s) · friction-log.ndjson lines 2590→2592 · bytes 3231910→3234062 · term lf",
+"ts 2026-09-30T08:14:08Z · clock 2026-09-30T08:14:21Z · bound 2026-09-30T08:10:14Z (line 2590)",
+"ids 2026-09-30T08:14:08Z-a … 2026-09-30T08:14:08Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 2590,
+"bytes": 3231910,
+"terminator": "LF",
+"bound": "2026-09-30T08:10:14Z"
+},
+"after": {
+"lines": 2592,
+"bytes": 3234062
+}
+}
+]

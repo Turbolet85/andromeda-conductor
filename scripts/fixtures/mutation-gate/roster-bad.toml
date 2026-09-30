@@ -1,0 +1,44 @@
+# Fixture roster for `mutation-gate.py selftest` — synthetic rows, never a disposition.
+# Repeats fixture-unit with one row lacking `tally`, so the loader must fail closed.
+
+[[unit]]
+name = "fixture-unit"
+
+[[entry]]
+unit = "fixture-unit"
+file = "crates/fixture-unit/src/lib.rs"
+mutation = "replace parse_header -> bool with true"
+tally = "missed"
+class = "ratified"
+member = "fixture"
+rule = "Synthetic missed row."
+citation_home = "scripts/mutation-gate.py"
+
+[[entry]]
+unit = "fixture-unit"
+file = "crates/fixture-unit/src/scan.rs"
+mutation = "replace += with -= in skip_digits"
+tally = "timeout"
+class = "ratified"
+member = "fixture"
+rule = "Synthetic timeout row, one of two sharing this pair."
+citation_home = "scripts/mutation-gate.py"
+
+[[entry]]
+unit = "fixture-unit"
+file = "crates/fixture-unit/src/scan.rs"
+mutation = "replace += with -= in skip_digits"
+class = "ratified"
+member = "fixture"
+rule = "Synthetic timeout row, two of two sharing this pair."
+citation_home = "scripts/mutation-gate.py"
+
+[[entry]]
+unit = "fixture-unit"
+file = "crates/fixture-unit/src/scan.rs"
+mutation = "replace += with *= in skip_digits"
+tally = "timeout"
+class = "ratified"
+member = "fixture"
+rule = "Synthetic timeout row."
+citation_home = "scripts/mutation-gate.py"

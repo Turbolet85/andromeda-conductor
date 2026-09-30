@@ -1,0 +1,2 @@
+[[unit]
+name = "malformed on purpose: the table header is unclosed"

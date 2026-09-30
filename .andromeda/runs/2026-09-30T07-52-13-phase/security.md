@@ -1,0 +1,31 @@
+# security extract
+
+## Relevance
+partial — the chunk touches no production Rust, trust boundary, secret or shipped spawn. Its security surface is limited to three things: the operator-local gate's own subprocess and path handling, the committed fixture trees and roster, and any new test or CI invocation of the gate.
+
+## Constraints
+- Any spawn the gate performs or its test adds must follow the spawn discipline in security-plan §Security Anti-Patterns → Code Patterns, rule (b). That means no shell string and no `eval`-equivalent. It also means a fixed program with an array-form argv, where an operator-supplied value (the unit name, the tally-dir path) appears only as a separate argv element. For `scripts/mutation-gate.py`, that means `subprocess.run` with a list and never `shell=True`. Whether the script's existing `cargo mutants` call (`:118-122`) already meets this is research's question.
+- Rule (b) governs exactly seven forms across three loci: the dev-only driver stack, the `scripts/agent-run.{sh,ps1}` path and `.github/workflows/ci.yml` (per security-plan §Security Anti-Patterns → Code Patterns). If a `ci.yml` step is added to run the gate's OWN test, it enters the CI locus. Whether that makes it a new governed form, which would be an escalation and never routine, must be settled before planning. A spawn from a cargo TEST binary sits outside the three loci and adds no form, but only as a fixed program with a fixed argv and no operator value (the 2026-09-24 `secret_scan_gate` record in the same section).
+- The plan recorded removing an undeclared host-tool dependency that the shells silently required as net-reducing (security-plan §Security Anti-Patterns → Code Patterns, the teardown spawn's ratification). So if a Rust test binary shells out to a host `python`, it adds exactly that kind of silent host-tool dependency, and the dependency must be declared, not assumed. Whether the host's python resolves on the inherited PATH for the test runner is research's question.
+- No new dependency may land unaudited. A Rust dev-dependency addition needs `Cargo.lock` committed and un-drifted, plus `cargo audit` and `cargo deny check advisories bans licenses sources` green over the new lock (per security-plan §Dependency Security; §Security Anti-Patterns → Universal). A Python-side harness should stay stdlib-only: a pip package sits in no lockfile any scanner here covers (per security-plan §Dependency Security, the three dependency classes).
+- Committed fixture `mutants.out/` trees, the roster and any evidence record must carry no absolute host paths. Tally keys stay repo-relative `(file, mutation)` strings (per security-plan §Security Anti-Patterns → Logging, the evidence-tree clause).
+- Every committed fixture and roster line falls inside the `Secret-scan gate`'s cached + untracked-not-ignored listing. None may carry a secret-shaped string or a secret-class file name (per security-plan §Secret Management "Secret scanning in CI"; §Bootstrap phases `secret-scanning-ci-gate`). `mutants.out` is git-ignored (`.gitignore:63` per scope), so it is an open question whether fixtures under that name are tracked, and therefore scanned, at all. Research answers it.
+
+## Patterns to follow
+- Fail closed on committed config: absent or malformed is a hard fault, never defaulted and never a silent widen. security-plan §Input Validation applies this to the committed SUT-facing manifests. Use it as the model for how the gate treats a missing or malformed `scripts/mutation-roster.toml` timeout class, or an absent `timeout.txt`: a failing verdict, never a pass.
+- The fixed-program, fixed-argv, env-map-not-argv form of the FIXTURE-SEED spawn (per security-plan §Security Anti-Patterns → Code Patterns, rule (b), fourth driver-stack form). Follow it if the gate's test is a Rust binary that drives the python script, with a non-zero exit or missing output FAILING rather than passing silently.
+- Grade a known-bad control rather than asserting green (the synthetic-control discipline in security.md Session Additions 2026-09-30). The unexpected-timeout and rostered-timeout-absent FAIL fixtures are this chunk's controls. Being synthetic tallies with no host paths or keys, they can be committed. Leak-shaped controls could not.
+
+## Anti-patterns to avoid
+- Building the gate's `cargo mutants` or test-runner invocation as a shell string, or putting an operator-supplied path or unit name into one (per security-plan §Security Anti-Patterns → Code Patterns, rule (b)).
+- Adding a CI step that invokes the gate or its test without first adjudicating it against the seven-form registry. An unregistered `ci.yml` spawn is the silent-registry failure that section names (per security-plan §Security Anti-Patterns → Code Patterns, the seventh form's scope-correction reasoning).
+
+## Contract bindings
+- Security ↔ tests CI integration: test-plan §4 `:228` / §9 `:469` keep the mutation run out of CI. Whether the gate's own regression test enters CI is a test-plan decision, and if it does, a new CI spawn becomes a security-registry question (security-plan §Security Anti-Patterns → Code Patterns, rule (b) CI locus).
+- Security ↔ tests fixtures: the committed fixture trees are scanned by the `Secret-scan gate`, which is `rust`-job-owned (security-plan §Bootstrap phases `secret-scanning-ci-gate`).
+
+## Acceptance criteria contributions
+- A grep of `scripts/mutation-gate.py` and any new gate-test file shows no `shell=True`, no `os.system` and no string-composed command. Every subprocess call passes a list argv with operator values as separate elements (per security-plan §Security Anti-Patterns → Code Patterns).
+- A drive-letter and home-dir host-path sweep over the committed fixture trees, the roster diff and any new evidence returns 0 real host paths. Read each matched token, not just the line count (per security-plan §Security Anti-Patterns → Logging).
+- If the lock moved, `cargo deny check advisories bans licenses sources` and `cargo audit` both exit 0 over the chunk's `Cargo.lock`. Otherwise the package count is unchanged against base `f33d6b7` (per security-plan §Dependency Security).
+- The `Secret-scan gate` (`cargo nextest run -p conductor-core --test secret_scan_gate`) passes with the chunk's fixtures present (per security-plan §Secret Management).

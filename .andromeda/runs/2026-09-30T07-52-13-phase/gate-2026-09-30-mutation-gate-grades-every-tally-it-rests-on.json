@@ -1,0 +1,32 @@
+[
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-30T08:03:10Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"conductor-0.3.0/chunks/2026-09-30-mutation-gate-grades-every-tally-it-rests-on/research.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T07-52-13-phase",
+"--marker",
+"2026-09-30-mutation-gate-grades-every-tally-it-rests-on"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 4 items (new 2 · modify 2 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 4,
+"unparsed": 0
+}
+}
+]

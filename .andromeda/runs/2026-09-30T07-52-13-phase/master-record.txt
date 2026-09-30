@@ -1,0 +1,1 @@
+2026-09-30-mutation-gate-grades-every-tally-it-rests-on · pending · Mutation gate grades every tally it rests on — `scripts/mutation-gate.py` reads and grades `timeout.txt` against a rostered timeout class, proven on fixture tallies with no cargo mutants run · → conductor-0.3.0/chunks/2026-09-30-mutation-gate-grades-every-tally-it-rests-on/

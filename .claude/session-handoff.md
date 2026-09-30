@@ -56,3 +56,6 @@
   … matched the axe-core library source the harness INJECTS").
   - It recurred twice: an `--e2e` log grep matched injected axe source, and a `sha2` count matched `sha256`.
   - Both were caught by reading the hits.
+
+## Session End Status
+Completed normally at 2026-09-30 10:15:15

@@ -1,0 +1,5 @@
+crates/fixture-unit/src/lib.rs:10:5: replace parse_header -> bool with false
+crates/fixture-unit/src/lib.rs:14:8: delete ! in parse_header
+crates/fixture-unit/src/scan.rs:18:5: replace skip_digits -> usize with 0
+crates/fixture-unit/src/scan.rs:18:5: replace skip_digits -> usize with 1
+crates/fixture-unit/src/scan.rs:24:9: replace += with -= in skip_digits

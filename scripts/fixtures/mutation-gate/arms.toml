@@ -1,0 +1,108 @@
+# One arm per verdict path of `mutation-gate.py`'s grading. Each FAIL arm is consistent in
+# everything except the one defect it names; `findings` counts its two-space-indented lines.
+
+[[arm]]
+name = "pass"
+unit = "fixture-unit"
+verdict = "PASS"
+contains = "MUTATION GATE fixture-unit: PASS"
+findings = 0
+
+[[arm]]
+name = "empty-unit-pass"
+unit = "fixture-empty"
+verdict = "PASS"
+contains = "MUTATION GATE fixture-empty: PASS"
+findings = 0
+
+[[arm]]
+name = "missed-unexpected"
+unit = "fixture-unit"
+verdict = "FAIL"
+contains = "SURVIVED, not in roster"
+findings = 1
+
+[[arm]]
+name = "missed-absent"
+unit = "fixture-unit"
+verdict = "FAIL"
+contains = "ROSTERED, did not survive"
+findings = 1
+
+[[arm]]
+name = "timeout-unexpected"
+unit = "fixture-unit"
+verdict = "FAIL"
+contains = "TIMED OUT, not in roster"
+findings = 1
+
+[[arm]]
+name = "timeout-absent"
+unit = "fixture-unit"
+verdict = "FAIL"
+contains = "ROSTERED, did not time out"
+findings = 1
+
+[[arm]]
+name = "timeout-multiset"
+unit = "fixture-unit"
+verdict = "FAIL"
+contains = "ROSTERED, did not time out (x1)"
+findings = 1
+
+[[arm]]
+name = "count-mismatch"
+unit = "fixture-unit"
+verdict = "FAIL"
+contains = "COUNT MISMATCH timeout"
+findings = 1
+
+[[arm]]
+name = "not-conserved"
+unit = "fixture-unit"
+verdict = "FAIL"
+contains = "NOT CONSERVED"
+findings = 1
+
+[[arm]]
+name = "tally-missing"
+unit = "fixture-unit"
+verdict = "FAIL"
+contains = "TALLY MISSING: timeout.txt"
+findings = 1
+
+[[arm]]
+name = "unparsed-line"
+unit = "fixture-unit"
+verdict = "FAIL"
+contains = "COUNT MISMATCH missed"
+findings = 2
+
+[[arm]]
+name = "zero-mutants"
+unit = "fixture-unit"
+verdict = "FAIL"
+contains = "0 mutants generated"
+findings = 0
+
+[[arm]]
+name = "no-outcomes"
+unit = "fixture-unit"
+verdict = "FAIL"
+contains = "no outcomes.json under scripts/fixtures/mutation-gate/arms/no-outcomes"
+findings = 0
+
+[[arm]]
+name = "incomplete"
+unit = "fixture-unit"
+verdict = "FAIL"
+contains = "end_time unset"
+findings = 0
+
+[[arm]]
+name = "roster-tally-missing"
+unit = "fixture-unit"
+verdict = "FAIL"
+contains = "lacks a valid tally"
+findings = 0
+roster = "roster-bad.toml"

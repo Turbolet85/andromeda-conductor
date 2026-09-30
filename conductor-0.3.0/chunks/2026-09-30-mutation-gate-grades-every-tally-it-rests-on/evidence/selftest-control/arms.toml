@@ -1,0 +1,8 @@
+# Known-bad control: a passing tally whose manifest expects a FAIL — selftest must report it NOT detected.
+
+[[arm]]
+name = "pass-flipped"
+unit = "fixture-unit"
+verdict = "FAIL"
+contains = "TIMED OUT, not in roster"
+findings = 1
