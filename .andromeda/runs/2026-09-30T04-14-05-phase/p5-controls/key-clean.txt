@@ -1,0 +1,2 @@
+workspace=<workspace-key>
+pulse-report workspace rendering: verbatim

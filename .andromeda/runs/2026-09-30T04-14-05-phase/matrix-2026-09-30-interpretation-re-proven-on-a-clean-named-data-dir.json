@@ -1,0 +1,114 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-30T04:47:29Z",
+"argv": [
+"coverage",
+"--dir",
+"conductor-0.3.0",
+"--run-dir",
+".andromeda/runs/2026-09-30T04-14-05-phase",
+"--marker",
+"2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"verified 9/11 · deferred 1 · planned 1 · implemented 0 · unclaimed 1",
+"unclaimed: v3-03",
+"claimed-unfinished: none",
+"done-test: NO — 1 not verified|deferred · unclaimed 1",
+"chunks referenced: 9 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-30T04:47:52Z",
+"argv": [
+"claim",
+"--dir",
+"conductor-0.3.0",
+"--id",
+"v3-09",
+"--chunk",
+"2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir",
+"--acceptance-file",
+".andromeda/runs/2026-09-30T04-14-05-phase/acceptance-v3-09.md",
+"--method",
+"dynamic-external",
+"--note-file",
+".andromeda/runs/2026-09-30T04-14-05-phase/note-v3-09.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T04-14-05-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claim v3-09 → chunk 2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir (was null; status deferred kept)",
+"acceptance: A pre-stated series of at most five drives. Each drive is fired throug… (1728 chars)",
+"         → A pre-stated series of exactly three drives (d1, d2, d3) on ONE fresh … (2399 chars)",
+"method: dynamic-external → dynamic-external",
+"notes: +1241 chars (total 10687)",
+"wrote conductor-0.3.0\\verification-matrix.json · 1 entry changed",
+"pool: unclaimed 1 [v3-03]"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0\\verification-matrix.json"
+],
+"before": {
+"id": "v3-09",
+"chunk": null,
+"status": "deferred",
+"method": "dynamic-external",
+"ref": "null",
+"acceptance": "A pre-stated series of at most five drives. Each drive is fired through `bash scripts/agent-run.sh run --live real-model… (1728 chars)",
+"notes_chars": 9444
+},
+"after": {
+"id": "v3-09",
+"chunk": "2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir",
+"status": "deferred",
+"method": "dynamic-external",
+"ref": "null",
+"acceptance": "A pre-stated series of exactly three drives (d1, d2, d3) on ONE fresh data dir whose leaf name carries no digit. Each dr… (2399 chars)",
+"notes_chars": 10687
+}
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-30T04:47:53Z",
+"argv": [
+"audit",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T04-14-05-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir: 1 · ## Acceptance Criteria: line 452, 13 lines",
+"v3-09: cited in ## Acceptance Criteria (line 464)",
+"pool: unclaimed 1 [v3-03]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

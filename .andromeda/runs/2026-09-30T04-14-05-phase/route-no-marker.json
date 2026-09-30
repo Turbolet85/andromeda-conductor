@@ -1,0 +1,38 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-30T04:15:44Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-09-30T04-14-05-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 5 of 27 entries · freight blocks 13 · rows are an INDEX, not the text",
+"56 · BLOCKED-ON: · 478 chars · BLOCKED-ON: Pulse's scrubber fix — its `credit_card` pattern matched the data dir's work…",
+"56 · CONTEXT: · 207 chars · CONTEXT: founder 2026-09-29 — fix the cause and run a NEW series; `v3-09` is recorded NOT M…",
+"56 · CARRY: · 200 chars · CARRY: elide the 2026-09-22 capture's storm prefix (`fingerprint_hex=…`) and its pinned `PINN…",
+"56 · CARRY: · 355 chars · CARRY: replace the harvest's literal series pins in `crates/conductor-run/tests/real_model_se…",
+"56 · CARRY: · 202 chars · CARRY: the capture masks the data dir's workspace key in the verbatim report body before the …",
+"61 · CONTEXT: · 748 chars · CONTEXT: minted at the 2026-09-16 wrap from the armed-orphan halt carried by `2026-09-16-sc…",
+"61 · CONTEXT: · 606 chars · CONTEXT: the two halves are unequal and both belong here. Reading `timeout.txt` is a small …",
+"63 · CONTEXT: · 940 chars · CONTEXT: four a11y-plan §5 claims are asserted by NO suite, measured 2026-09-17 at `2026-09…",
+"63 · CARRY: · 564 chars · CARRY: closing these unblocks `v3-03` (*Keyboard and focus-order coverage has a stated owner*…",
+"65 · CARRY: · 836 chars · CARRY: conductor-emit's public docs link FIVE private items — `exception.rs:70:45` (`MAX_FRAM…",
+"65 · CARRY: · 1069 chars · CARRY: `npm run knip` in `crates/conductor-tauri/ui` EXITS 1 on twelve pre-existing unused e…",
+"65 · CARRY: · 519 chars · CARRY: `conductor run <P-ID>` and the harness's `SCENARIO=<P-ID>` resolve to the FIRST scenar…",
+"65 · CARRY: · 743 chars · CARRY: `.github/workflows/ci.yml`'s comment block above `A11y routine arm` (`:351-356` at `60…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

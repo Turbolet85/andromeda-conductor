@@ -1,0 +1,44 @@
+[
+{
+"tool": "ci",
+"v": "1.0",
+"sha8": "bf89b279",
+"ts": "2026-09-30T04:14:12Z",
+"argv": [
+"conclusion",
+"--sha",
+"9785405bf9d55405d7c99cb081566db421685598",
+"--run-dir",
+".andromeda/runs/2026-09-30T04-14-05-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"repo Turbolet85/andromeda-conductor (the push remote `origin`)",
+"9785405bf9d5 verdict: red · checks 3/3 · first-fail +592 s A11y gate (routine arm · axe · contrast · violation JSON) · …",
+"runs: CI#36635281444 push completed/failure",
+"failed 1: A11y gate (routine arm · axe · contrast · violation JSON) (failure)",
+"log: gh api repos/Turbolet85/andromeda-conductor/actions/jobs/109634300221/logs",
+"run failed: CI#36635281444 failure"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"repo": "Turbolet85/andromeda-conductor",
+"host": "github.com",
+"repo_source": "the push remote `origin`",
+"names": [],
+"shas": [
+{
+"sha": "9785405bf9d55405d7c99cb081566db421685598",
+"word": "red",
+"polls": [
+"red"
+]
+}
+]
+}
+}
+]

@@ -38,3 +38,5 @@ tokio-stream = { version = "0.1", features = ["net"] }
 insta.workspace = true
 # parses Pulse's own JSONL log lines in the live-leg storm harvest (test-only; Pulse is the SUT)
 serde_json.workspace = true
+# the real-model harvest's sha256 digest pins over committed capture evidence (already locked via tauri-codegen/wry)
+sha2 = "0.10"

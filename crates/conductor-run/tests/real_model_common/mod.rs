@@ -11,7 +11,7 @@ const RULE_END: &str = "// ---- rule: end ----";
 /// LF. `None` when either marker is absent or they are out of order.
 ///
 /// The capture prints this span before the leg and the harvest compares it with its own, so the
-/// comparison is byte equality over one normal form — never a hash, which would need a dependency.
+/// comparison is byte equality over one normal form: the rule text itself, never a digest of it.
 pub fn rule_section(src: &str) -> Option<String> {
     let normalized = src.replace("\r\n", "\n");
     let lines: Vec<&str> = normalized.split('\n').collect();
@@ -170,6 +170,80 @@ pub fn elide_fingerprints(text: &str) -> String {
     }
     out.push_str(&text[copied..]);
     out
+}
+
+/// What the capture prints in place of the live data dir's workspace key.
+pub const WORKSPACE_KEY_PLACEHOLDER: &str = "<workspace-key>";
+
+/// The line Pulse's `## Project Context` renders the workspace key on.
+const WORKSPACE_LINE: &str = "workspace=";
+
+/// Mask the live data dir's workspace key — its basename — in a block the capture prints, replacing it
+/// with [`WORKSPACE_KEY_PLACEHOLDER`].
+///
+/// First, every line whose trimmed start is `workspace=` keeps that prefix and gets its whole value
+/// replaced, whatever it holds: the raw key, a scrubber rendering such as `[redacted: credit_card]`
+/// (which carries no key text to match), or anything else. Then, when `key` is non-empty, every
+/// occurrence of it whose neighbours are outside `[A-Za-z0-9_.-]` (or the text's edge) is replaced,
+/// which covers each `## Previously Seen` entry's `({workspace})` suffix. Idempotent.
+pub fn mask_workspace_key(text: &str, key: Option<&str>) -> String {
+    let mut masked = String::with_capacity(text.len());
+    for line in text.split_inclusive('\n') {
+        let content = line.trim_end_matches(['\r', '\n']);
+        let indent = content.len() - content.trim_start().len();
+        if content[indent..].starts_with(WORKSPACE_LINE) {
+            masked.push_str(&content[..indent + WORKSPACE_LINE.len()]);
+            masked.push_str(WORKSPACE_KEY_PLACEHOLDER);
+        } else {
+            masked.push_str(content);
+        }
+        masked.push_str(&line[content.len()..]);
+    }
+    let Some(key) = key.filter(|k| !k.is_empty()) else {
+        return masked;
+    };
+    let is_key_char = |c: char| c.is_ascii_alphanumeric() || matches!(c, '_' | '.' | '-');
+    let mut out = String::with_capacity(masked.len());
+    let (mut copied, mut from) = (0, 0);
+    while let Some(found) = masked[from..].find(key) {
+        let at = from + found;
+        let end = at + key.len();
+        let bounded = masked[..at]
+            .chars()
+            .next_back()
+            .is_none_or(|c| !is_key_char(c))
+            && masked[end..].chars().next().is_none_or(|c| !is_key_char(c));
+        if bounded {
+            out.push_str(&masked[copied..at]);
+            out.push_str(WORKSPACE_KEY_PLACEHOLDER);
+            copied = end;
+            from = end;
+        } else {
+            from = at + masked[at..].chars().next().map_or(1, char::len_utf8);
+        }
+    }
+    out.push_str(&masked[copied..]);
+    out
+}
+
+/// How a rendered report shows the workspace key, for the capture's fields-only witness — the value
+/// itself is never returned: `absent` (no `workspace=` line), `unknown-key` (the capture could not
+/// derive the key), `verbatim` (the value is the key, or a path whose last component is) or `scrubbed`
+/// (anything else). Pulse stamps a PATH — its detected workspace root, else the data dir
+/// (andromeda-pulse `crates/workspace-detector/src/contract.rs` `workspace_key`) — so the leaf is what
+/// the capture's key can match.
+pub fn workspace_rendering(report: &str, key: Option<&str>) -> &'static str {
+    let Some(value) = report
+        .lines()
+        .find_map(|l| l.trim_start().strip_prefix(WORKSPACE_LINE))
+    else {
+        return "absent";
+    };
+    match key.filter(|k| !k.is_empty()) {
+        None => "unknown-key",
+        Some(key) if value.trim().rsplit(['/', '\\']).next() == Some(key) => "verbatim",
+        Some(_) => "scrubbed",
+    }
 }
 
 /// The most ids one attribution sweep probes.

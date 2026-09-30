@@ -319,6 +319,62 @@ Stated limits, fixed with the grades:
   (b1) and a dismissal (b2) printed as `pipeline-fault`. Those captures keep what they printed; the attempt ledger
   records each storm's outcome from Pulse's own log. The decision rule counts emissions, never these tokens.]
 
+## The 2026-09-30 series
+
+[added 2026-09-30 (2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir, implement, before any drive of
+this series). The 2026-09-29 record above is unedited.]
+
+**Provenance.** The design below — three identical drives on one fresh letters-only data dir — is the OVERSEER's
+ruling, made under founder delegation on 2026-09-30. The founder's own ruling is the principle it serves: fix the
+cause and run a NEW series; `v3-09` stays recorded NOT MET by the 2026-09-29 series and is never closed as deferred.
+The cause fixed is the one the 2026-09-29 series measured: Pulse's `credit_card` scrubber arm matched the
+digit-bearing data-dir name that is the workspace key, and the model read `[redacted: credit_card]`.
+
+**Pulse coordinates**, re-pinned for this series to andromeda-pulse committed HEAD `fcc31b2`
+(`fcc31b21666df70f3bbbaf124c4a6cd8597fa586`), read with `git show`, never from its working tree. That commit is the
+scrubber fix: the `credit_card` arm (`crates/security/src/scrubber.rs`) now redacts a digit-group run only when some
+window of whole groups with 13-19 digits passes Luhn. `pulse-app` AND the MCP sidecar are both built from that
+HEAD — the sidecar renders the read-back report through the same scrubber (`crates/interpretation/src/markdown.rs`
+`assemble_report`) — and each binary is proven by content to carry the new pattern and not the old before the
+first drive. Pulse's workspace key is a PATH (its detected workspace root, else the data dir:
+`crates/workspace-detector/src/contract.rs` `workspace_key`), so under this launch its last component is the dir's
+leaf.
+
+**The dir.** ONE fresh data dir, `%TEMP%/pulse-legs/rm-clean-series`, under the one-parent convention. Its leaf
+carries no digit, so it matches neither numeric scrubber arm even without the fix, and no vendor prefix or `@`, so
+it matches no other arm. All three drives use it.
+
+**The drives.** Exactly three identical drives, `d1`, `d2`, `d3`, each the full leg through the existing
+operator-gated arm (`run --live real-model`), with the canary and the capture as committed at this section's
+landing.
+
+**The pass condition** is §The drive series (a), unchanged: `v3-09` is met only if at least one drive is GRADED
+(route `ReadBack` with an attributed incident) and every graded drive reads `Identified` under the unchanged rank-1
+rule. A graded `NotIdentified` means not met, is recorded, and is never replaced.
+
+**The canary.** A canary-blocked drive is a measurement, never graded.
+
+**Re-fires.** Only a drive whose canary reads `pipeline-fault` from Pulse's own log (no parse `ok` for its
+cue-bearing digest, or an inference error or skip) may be re-fired, once, uncounted. No other outcome re-fires.
+
+**No fourth drive**, whatever `d1`-`d3` read.
+
+**The quiet windows** are §The drive series (c): at least 150 s after the LAST incident any earlier drive formed,
+and otherwise at least 90 s.
+
+**The launch posture** is §The launch posture, every term, plus a `pulse-app` built from a HEAD carrying the fix.
+One launch serves all three drives: `ANDROMEDA_PULSE_DATA_DIR` names the new dir, the model paths are set
+(`ANDROMEDA_PULSE_MODEL_PATH`, `ANDROMEDA_PULSE_LLAMA_CUDA_BIN_PATH` — absent, every inference errors
+`model_not_configured`), deterministic L4 is absent, and no bootstrap-window override is set. On the overseer's
+word (2026-09-30) the AGENT launches `pulse-app` for this series and stops it after the last drive; the booted
+posture is confirmed from Pulse's own log before `d1`.
+
+**The slot.** The overseer granted the slot for `d1`, `d2`, `d3` back to back, with the quiet windows and no
+confirmation between drives (2026-09-30); the grant is recorded against each drive in the chunk's attempt ledger.
+
+**The key rendering.** On a graded drive the capture's `pulse-report workspace rendering:` witness must read
+`verbatim` or `absent`; any other reading is recorded beside that drive's grade as contamination.
+
 ## The quiet window and serialization
 
 Real-model legs are **serialized**, never merely ordered: each rides its own quiet window, because the SUT

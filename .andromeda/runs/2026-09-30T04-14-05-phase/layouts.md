@@ -1,0 +1,32 @@
+# layouts extract
+
+## Relevance
+partial — the chunk creates or modifies no surface. It consumes two existing ones unchanged: the cli `scripts/agent-run.sh run --live real-model` path (item 5's drives) and the desktop-webview Run console (idle), which the a11y routine arm's axe scan targets (item 4's CI red). Items 1-3 are test-source and capture-pipeline work with no layout surface.
+
+## Constraints
+- The real-model series runs through the existing `--live real-model` third-token selector. layout-templates §Surface: cli → §Primary screens (the `scripts/agent-run.{sh,ps1}` bullet) requires that selector to stay a selector of `--live`, never a sixth command and never a new stage flag. Pre-registering a new series therefore adds no verb, no flag and no selector value. Whether the series needs any shell change at all is research's question. (per layout-templates §Surface: cli → §Primary screens)
+- That same bullet requires `--live real-model` to lead with `conductor preconditions --for real-model-interpretation` and to refuse at exit 1 with one host-path-free `[PRECONDITION]` line per unmet subject, firing no leg. An unknown selector must print the `usage:` line and exit 2 before any probe, in both shells. The chunk's gated drives inherit this refusal shape. The Pulse-fix and operator-slot gates are chunk-process gates, not new `[PRECONDITION]` subjects. (per layout-templates §Surface: cli → §Primary screens; §Component — Primary content block 2)
+- The per-P-ID bracket-label set is closed at six, and the run-level non-lamp qualifier set is `[ENVIRONMENT-SUSPECT]` plus `[PRECONDITION]`. Any grading or witness output the chunk touches (including an `Identified`/`NotIdentified` grade) must stay in the evidence and harvest layer and must not surface as a seventh cli lamp or a new qualifier. (per layout-templates §Surface: cli → §Component — Primary content block 2 (verdict / report-state lines))
+- The headless path must never block on an `inquire` prompt; prompts are `isatty`-gated. The operator slot for item 5 is an out-of-band gate and never an interactive prompt in the drive path. (per layout-templates §Surface: cli → §IA notes (Headless invariant); §Component — Hero / signature output)
+- Error output goes to stderr as `error:`/`hint:`, sanitized (no absolute host paths, no internal struct names). stdout carries only raw artifact data. Any new refusal or mask-failure message the capture work adds must keep this split. (per layout-templates §Surface: cli → §Component — Footer / terminator + error output)
+- The item-4 fix targets the a11y harness's frame-readiness race. It must not change the Run console (idle) render that the routine arm scans: titlebar `Conductor · idle`, control row, coverage-matrix list, run-report card with the shipped `No run yet` prose. Screens are run states of one frameless window, with no router. Whether the fix touches any UI source at all is research's question. (per layout-templates §Surface: desktop-webview → §Primary screens; §Wireframe — Run console (idle))
+
+## Patterns to follow
+- A second shape is reachable only as a third-token selector under an existing stage flag (`--live real-model`), with the usage/exit-2 guard ahead of any probe. If the series needs any new invocation shape, use this precedent. (per layout-templates §Surface: cli → §Primary screens)
+- A run-level caption is always printed with its ASCII bracket label so it survives `NO_COLOR` and piping, and it sits outside the lamp column. This is the only sanctioned place for new run-scoped text, should the chunk need one. (per layout-templates §Surface: cli → §Component — Primary content block 2)
+- The Run console (idle) is the Minimal-tier baseline: a pre-launch ready state with an empty state in shipped prose (not a skeleton). A readiness wait in the a11y harness should wait for this rendered state, not change it. (per layout-templates §Surface: desktop-webview → §Primary screens; §Wireframe — Run console (idle))
+
+## Anti-patterns to avoid
+- Minting a new cli verb, stage flag, bracket label or table column for the real-model series or its grade. The IA notes treat output structure as stable because downstream agents parse it, and an added column without a `--format` flag is a breaking change. (per layout-templates §Surface: cli → §IA notes)
+- Placing an interactive gate (for example an operator-slot confirm) on the agent-driven source-of-truth path. (per layout-templates §Surface: cli → §IA notes (Headless invariant))
+- Resolving the axe race by altering the idle console's DOM or layout, such as removing, deferring or restructuring a region so the scan passes. That changes the baseline under test rather than the harness's readiness. (per layout-templates §Surface: desktop-webview → §Wireframe — Run console (idle))
+
+## Contract bindings
+- layouts ↔ a11y: the routine arm's axe scan grades the Run console (idle) render (per layout-templates §Wireframe — Run console (idle)). The race fix and its non-vacuous witness belong to a11y-plan §3 and the test harness, not to layout.
+- layouts ↔ security: the host-path-free `[PRECONDITION]` and `error:` lines (per layout-templates §Surface: cli → §Component — Footer / terminator + error output) bind to security-plan §Error Handling. The workspace-key mask of item 2 is a security and capture concern. It adds no cli output.
+- layouts ↔ tests: the `--live real-model` selector's refusal and usage contract (per layout-templates §Surface: cli → §Primary screens) is test-plan §3's two-shell identical-semantics harness.
+
+## Acceptance criteria contributions
+- (layouts) `git diff --numstat 9785405 -- crates/conductor-cli/src/cli.rs` shows no added verb, and neither `scripts/agent-run.sh` nor `scripts/agent-run.ps1` gains a new stage flag or `--live` selector value. The series runs via the existing `run --live real-model` shape. (per layout-templates §Surface: cli → §Primary screens; §IA notes)
+- (layouts) No cli output path gains a seventh per-P-ID bracket label or a new run-level qualifier. Any real-model grade the chunk records lives in `evidence/` and the harvest test, not in cli lamp output. (per layout-templates §Surface: cli → §Component — Primary content block 2)
+- (layouts) The item-4 fix leaves the Run console (idle) render unchanged: `git diff --numstat 9785405 -- crates/conductor-tauri/ui/src` is empty, or each touched file is justified as harness-readiness only with no region added, removed or reordered. (per layout-templates §Surface: desktop-webview → §Wireframe — Run console (idle))

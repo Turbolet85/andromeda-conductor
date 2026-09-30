@@ -5,7 +5,7 @@
 //! `scripts/agent-run.{sh,ps1} run --live real-model` produced — the leg's frozen self-obs, the leg's
 //! journal and Pulse's own log — re-reads the attributed incident over MCP, and PRINTS. It asserts
 //! nothing beyond I/O plus one arithmetic check that runs LAST, after every line is out. The grading
-//! lives in `real_model_harvest.rs`, over the printed lines pinned as literals.
+//! lives in `real_model_harvest.rs`, over the committed captures, each held by a sha256 digest pin.
 //!
 //! FIRING FORM — the harness fires it, never by hand. `run --live real-model` first records the rule
 //! with the ignored `rule_record` below (before the leg), then runs the leg, then runs exactly
@@ -31,7 +31,7 @@ mod real_model_common;
 
 use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
-use std::sync::{Mutex, PoisonError};
+use std::sync::{Mutex, OnceLock, PoisonError};
 use std::time::{Duration, Instant};
 
 use conductor_core::redact_value;
@@ -39,7 +39,7 @@ use conductor_emit::{ExceptionSpec, Frame, fingerprint};
 use conductor_verify::{ReadbackClient, VerifyError};
 use real_model_common::{
     DIGEST_ASSEMBLE, DIGEST_TICK, canary_attempts, elide_fingerprints, mask_host_paths,
-    rule_section, sweep_window,
+    mask_workspace_key, rule_section, sweep_window, workspace_rendering,
 };
 use serde_json::{Value, json};
 
@@ -151,12 +151,30 @@ fn emit(line: &str) {
     emit_block(&format!("{line}\n"));
 }
 
-/// Record a multi-line block through both scrubs and the fingerprint elision, verbatim otherwise.
+/// Record a multi-line block through the workspace-key mask, both scrubs and the fingerprint elision,
+/// verbatim otherwise. The key is masked first, before any later stage can reshape it.
 fn emit_block(text: &str) {
+    let masked = mask_workspace_key(text, workspace_key());
     OUTPUT
         .lock()
         .unwrap_or_else(PoisonError::into_inner)
-        .push_str(&elide_fingerprints(&mask_host_paths(&redact_value(text))));
+        .push_str(&elide_fingerprints(&mask_host_paths(&redact_value(
+            &masked,
+        ))));
+}
+
+/// The live data dir's workspace key — its basename — derived once from the guarded logs path, never
+/// from a raw read of the handle; `None` when the handle is absent or rejected.
+fn workspace_key() -> Option<&'static str> {
+    static KEY: OnceLock<Option<String>> = OnceLock::new();
+    KEY.get_or_init(|| {
+        let logs = capture_paths::pulse_logs_dir_from(
+            std::env::var_os("ANDROMEDA_PULSE_DATA_DIR").as_deref(),
+        )
+        .ok()?;
+        Some(logs.parent()?.file_name()?.to_string_lossy().into_owned())
+    })
+    .as_deref()
 }
 
 /// The runs dir, resolved under the workspace root through the guard; a rejected handle fails with
@@ -459,6 +477,11 @@ async fn print_attributed(
     let pickup_ms = opened_ns.div_euclid(1_000_000) - emission_ms;
     emit(&format!(
         "{ATTRIBUTED}incident_id={id} opened_at_unix_nano={opened_ns} degraded_mode={degraded} pickup_ms={pickup_ms}"
+    ));
+    // Classified before the mask, and only the class is printed, never the value.
+    emit(&format!(
+        "pulse-report workspace rendering: {}",
+        workspace_rendering(markdown, workspace_key())
     ));
     emit_block(&report_sections(markdown));
     emit(END_OF_SECTIONS);

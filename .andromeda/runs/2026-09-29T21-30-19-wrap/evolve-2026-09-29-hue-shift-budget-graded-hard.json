@@ -186,5 +186,45 @@
 "lines": 2550,
 "bytes": 3193638
 }
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-09-29T21:44:48Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-29T21-30-19-wrap",
+"--marker",
+"2026-09-29-hue-shift-budget-graded-hard"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 2550→2551 · bytes 3193638→3194505 · term lf",
+"ts 2026-09-29T21:44:41Z · clock 2026-09-29T21:44:48Z · bound 2026-09-29T21:41:54Z (line 2550)",
+"ids 2026-09-29T21:44:41Z-a"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 2550,
+"bytes": 3193638,
+"terminator": "LF",
+"bound": "2026-09-29T21:41:54Z"
+},
+"after": {
+"lines": 2551,
+"bytes": 3194505
+}
 }
 ]

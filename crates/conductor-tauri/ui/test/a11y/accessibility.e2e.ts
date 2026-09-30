@@ -103,8 +103,41 @@ function recordViolationTuples(
   appendFileSync(VIOLATION_SIDECAR, lines.map((l) => JSON.stringify(l)).join('\n') + '\n', 'utf8')
 }
 
+/**
+ * A readiness probe must answer within this to count. @axe-core/webdriverio 4.12.1 opens every analysis
+ * with `execute(() => document.readyState === 'complete')` raced against a hard FRAME_LOAD_TIMEOUT of
+ * 1 000 ms, and any miss — a late true included — throws "Page/Frame is not ready". A classic-WebDriver
+ * execute queues behind the page's synchronous JavaScript, and right after #root first mounts the main
+ * thread is busy for ~1-2 s (CI#36635281444: the probe answered true 1 173 ms after it was sent). A
+ * quarter of axe's budget; settled round-trips measured 5-25 ms in that run.
+ */
+const RESPONSIVE_MS = 250
+
+/** Wait until axe's own readiness probe answers true well inside axe's budget. */
+async function untilResponsive(): Promise<void> {
+  await browser.waitUntil(
+    async () => {
+      const sent = performance.now()
+      try {
+        const ready = await browser.execute(() => document.readyState === 'complete')
+        return ready && performance.now() - sent < RESPONSIVE_MS
+      } catch {
+        // A thrown execute is a not-yet, as in wdio.conf.ts's before hook: waitUntil treats a throwing
+        // condition as fatal.
+        return false
+      }
+    },
+    {
+      timeout: 30_000,
+      interval: 250,
+      timeoutMsg: `readiness probe never answered within ${RESPONSIVE_MS} ms in 30s (axe's readiness budget is 1 000 ms)`,
+    },
+  )
+}
+
 /** Every violation, named — a bare `violations.length` failure reports a count and no rule. */
 async function axeFindings(): Promise<string[]> {
+  await untilResponsive()
   const results = await new AxeBuilder({ client: browser }).withTags(WCAG_TAGS).analyze()
   recordViolationTuples(results.violations)
   return results.violations.map(
@@ -276,6 +309,30 @@ async function reducedMotionDecls(): Promise<
 
 describe('desktop a11y — routine arm (no live Pulse)', () => {
   it('zero axe violations on the Minimal-tier baseline', async () => {
+    const findings = await axeFindings()
+    expect(findings.join(' | ')).toBe('')
+  })
+
+  it('axe completes over a 1.5 s main-thread stall', async () => {
+    // The readiness race on demand. The NEXT read of document.readyState — the probe axe opens every
+    // analysis with — blocks the main thread for 1.5 s and then removes itself, so that probe answers
+    // past axe's 1 000 ms budget. A timer-scheduled stall cannot stand in: its setTimeout fires before
+    // the scheduling execute's response is delivered, so that call absorbs the whole stall and axe's
+    // probe meets an idle thread (measured: stall 1 500 ms, the next probe's round trip 17.7 ms). It
+    // fails with "Page/Frame is not ready" whenever axeFindings() stops waiting a slow probe out.
+    await browser.execute(() => {
+      Object.defineProperty(document, 'readyState', {
+        configurable: true,
+        get() {
+          delete (document as unknown as Record<string, unknown>).readyState
+          const until = performance.now() + 1_500
+          while (performance.now() < until) {
+            // the stall is the subject
+          }
+          return document.readyState
+        },
+      })
+    })
     const findings = await axeFindings()
     expect(findings.join(' | ')).toBe('')
   })

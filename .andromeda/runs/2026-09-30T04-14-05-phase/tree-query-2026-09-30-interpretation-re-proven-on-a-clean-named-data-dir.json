@@ -1,0 +1,155 @@
+[
+{
+"sql": "SELECT callee_name, file, line FROM refs WHERE callee_name IN ('mask_host_paths','elide_fingerprints','rule_section','capture_block','committed_series_capture','committed_capture','pulse_logs_dir_from','report_sections') ORDER BY callee_name, file, line",
+"rows": 29,
+"result": [
+{
+"callee_name": "capture_block",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1642
+},
+{
+"callee_name": "committed_capture",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1584
+},
+{
+"callee_name": "committed_capture",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1598
+},
+{
+"callee_name": "committed_series_capture",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1641
+},
+{
+"callee_name": "committed_series_capture",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1652
+},
+{
+"callee_name": "committed_series_capture",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1666
+},
+{
+"callee_name": "committed_series_capture",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1669
+},
+{
+"callee_name": "elide_fingerprints",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 52
+},
+{
+"callee_name": "elide_fingerprints",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1358
+},
+{
+"callee_name": "elide_fingerprints",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1368
+},
+{
+"callee_name": "elide_fingerprints",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1371
+},
+{
+"callee_name": "elide_fingerprints",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1667
+},
+{
+"callee_name": "elide_fingerprints",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1670
+},
+{
+"callee_name": "elide_fingerprints",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1672
+},
+{
+"callee_name": "mask_host_paths",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 52
+},
+{
+"callee_name": "mask_host_paths",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1131
+},
+{
+"callee_name": "mask_host_paths",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1143
+},
+{
+"callee_name": "mask_host_paths",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1157
+},
+{
+"callee_name": "pulse_logs_dir_from",
+"file": "crates/conductor-run/tests/capture_paths_guard.rs",
+"line": 12
+},
+{
+"callee_name": "pulse_logs_dir_from",
+"file": "crates/conductor-run/tests/capture_paths_guard.rs",
+"line": 55
+},
+{
+"callee_name": "pulse_logs_dir_from",
+"file": "crates/conductor-run/tests/capture_paths_guard.rs",
+"line": 63
+},
+{
+"callee_name": "pulse_logs_dir_from",
+"file": "crates/conductor-run/tests/capture_paths_guard.rs",
+"line": 72
+},
+{
+"callee_name": "pulse_logs_dir_from",
+"file": "crates/conductor-run/tests/capture_paths_guard.rs",
+"line": 82
+},
+{
+"callee_name": "rule_section",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 52
+},
+{
+"callee_name": "rule_section",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1440
+},
+{
+"callee_name": "rule_section",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1584
+},
+{
+"callee_name": "rule_section",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1586
+},
+{
+"callee_name": "rule_section",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1650
+},
+{
+"callee_name": "rule_section",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1652
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]
