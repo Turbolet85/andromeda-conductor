@@ -2,7 +2,7 @@ import { Command, useCommandState } from 'cmdk'
 import './ScenarioPicker.css'
 
 // Must match conductor_core::scenario_catalog::SUITE_SELECTION (the backend validates against it).
-export const SUITE_SELECTION = '__suite__'
+const SUITE_SELECTION = '__suite__'
 
 export type ScenarioSummary = {
   name: string

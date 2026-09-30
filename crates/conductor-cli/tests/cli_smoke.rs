@@ -174,6 +174,47 @@ fn run_with_unknown_target_is_a_sanitized_error_with_a_hint() {
     );
 }
 
+/// A P-ID several scenarios name is refused before any load — a first-match pick would silently
+/// run whichever file the directory walk happened to yield.
+#[test]
+fn run_refuses_a_p_id_named_by_several_scenarios() {
+    let dir = TempDir::new().unwrap();
+    copy_scenario(&dir, "fingerprint-distinct");
+    copy_scenario(&dir, "fingerprint-storm");
+
+    let assert = conductor(&dir).args(["run", "P-017"]).assert().failure();
+    let stderr = String::from_utf8(assert.get_output().stderr.clone()).unwrap();
+    assert!(
+        stderr.contains("error:"),
+        "the edge renders an error: label: {stderr}"
+    );
+    assert!(
+        stderr.contains("P-017 is named by 2 scenarios"),
+        "the refusal names the P-ID and its count: {stderr}"
+    );
+    assert!(
+        stderr.contains("fingerprint-distinct") && stderr.contains("fingerprint-storm"),
+        "the refusal names every matching scenario: {stderr}"
+    );
+    assert!(
+        stderr.contains("hint:")
+            && stderr.contains("pass one of the named scenarios instead of the P-ID"),
+        "the hint names the recovery for THIS fault: {stderr}"
+    );
+    assert!(
+        !stderr.contains(dir.path().to_str().unwrap()),
+        "the sanitized edge must not leak the host path: {stderr}"
+    );
+    assert!(
+        !stderr.contains('\u{1b}'),
+        "a piped error edge carries no escape bytes: {stderr:?}"
+    );
+    assert!(
+        !dir.path().join("runs").exists(),
+        "a refused target writes no run artifact"
+    );
+}
+
 /// `--filter` selects the scenarios whose stem CONTAINS it — an inverted guard would run the
 /// catalog minus the requested one, which still exits zero and still prints a run.
 #[test]

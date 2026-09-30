@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-30T20:43:52Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-09-30-full-gate-regression-over-the-moved-surfaces",
+"--expect-prefix",
+"Full-gate regression over the moved surfaces",
+"--record-file",
+".andromeda/runs/2026-09-30T20-42-30-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-09-30T20-42-30-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:73 - [2026-09-30-full-gate-regression-over-the-moved-surfaces]",
+"record master-route.md:165 - appended under `## conductor-0.3.0`",
+"promoted 2026-09-30-full-gate-regression-over-the-moved-surfaces - working-route:73 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+".\\conductor-0.3.0\\working-route.md",
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+}
+]

@@ -1,0 +1,1 @@
+2026-09-30-full-gate-regression-over-the-moved-surfaces · pending · Full-gate regression over the moved surfaces — scenario corpus, the a11y job and the live-drive path green under both runners; five CARRYs closed (rustdoc private links, knip exports, ambiguous P-ID, ci.yml comment, SR row E0-10) · → conductor-0.3.0/chunks/2026-09-30-full-gate-regression-over-the-moved-surfaces/

@@ -67,7 +67,7 @@ pub struct ExceptionSpec {
     pub exception_type: String,
     /// The `exception.message` (carried on the event; fingerprint-insensitive).
     pub message: String,
-    /// The ordered stack frames (at most [`MAX_FRAMES`] contribute to output).
+    /// The ordered stack frames (at most `MAX_FRAMES` contribute to output).
     pub frames: Vec<Frame>,
 }
 
@@ -152,10 +152,10 @@ impl FingerprintVariant {
 /// The fingerprint Pulse derives from `spec` — Pulse's own derivation, recomputed here over the same
 /// preimage the wire carries, so Conductor's expectation predicts how Pulse actually groups
 /// exceptions. blake3 over `exception_type` + a NUL separator + the normalized stacktrace, truncated
-/// to [`FINGERPRINT_BYTES`] and rendered lowercase hex. A pure function of content (not the RNG seed).
+/// to `FINGERPRINT_BYTES` and rendered lowercase hex. A pure function of content (not the RNG seed).
 ///
 /// One identity narrowing follows from the normalization and is deliberate, not incidental: only the
-/// first [`NORMALIZED_FRAMES`] frames contribute. See [`normalize_stacktrace`].
+/// first `NORMALIZED_FRAMES` frames contribute. See `normalize_stacktrace`.
 ///
 /// Source of truth: `andromeda-pulse crates/buffer/src/fingerprint.rs`
 /// (`compute_exception_fingerprint`), transcribed at HEAD `efabe8e` and re-verified unchanged at

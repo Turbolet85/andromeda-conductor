@@ -64,6 +64,8 @@ fn hint_for(err: &anyhow::Error) -> &'static str {
         .join(" ");
     if chain.contains("no scenario matches") {
         "list scenarios in scenarios/, or pass a P-ID like P-009"
+    } else if chain.contains(" is named by ") {
+        "pass one of the named scenarios instead of the P-ID"
     } else if chain.contains("contract manifest") {
         "ensure contracts/mcp-contract.toml exists (or set CONDUCTOR_CONTRACT_MANIFEST)"
     } else if chain.contains(":4317") {

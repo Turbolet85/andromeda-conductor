@@ -99,7 +99,7 @@ pub struct PiiCorpus {
 
 impl PiiCorpus {
     /// Generate the corpus deterministically from `seed`. Array-literal element order is the draw
-    /// order, so it matches [`PiiCategory::all`] / [`PiiCategory::index`].
+    /// order, so it matches [`PiiCategory::all`] / `PiiCategory::index`.
     pub fn seeded(seed: u64) -> Self {
         let mut rng = ChaCha8Rng::seed_from_u64(seed);
         let values = [

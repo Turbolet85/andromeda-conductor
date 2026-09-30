@@ -386,10 +386,12 @@ jobs:
       #
       # EDGEWEBDRIVER names the PINNED driver directory the gate above published through GITHUB_ENV — the
       # image's own driver floats and is incoherent with its runtime, so the image value is deliberately
-      # overwritten rather than read. It stays a runner-PROCESS variable resolved in the step's SHELL: the
-      # ${{ env.* }} expression context holds only what a workflow, job or step declared, and resolving it
-      # there yielded an empty base — the handle reached the guard as the literal "\msedgedriver.exe" and
-      # the strict arm correctly failed the gate (measured 2026-09-07, run 34148079506).
+      # overwritten rather than read. The step reads it in its SHELL by choice: a key an earlier step wrote
+      # through GITHUB_ENV also resolves through ${{ env.* }} (measured, run 36006370951); only an
+      # image-set runner variable never does. History of the original wiring: before the pin gate wrote
+      # it, the image-set value was read through that context, yielded an empty base, and the handle
+      # reached the guard as the literal "\msedgedriver.exe" — the strict arm correctly failed the gate
+      # (measured 2026-09-07, run 34148079506).
       #
       # No separate version diagnostic: the pin gate above prints the runtime and the driver and asserts
       # their coherence, so a second reading would be a copy that can drift from the gate's own

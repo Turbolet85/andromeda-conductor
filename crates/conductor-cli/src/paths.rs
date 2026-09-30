@@ -56,9 +56,21 @@ impl Paths {
         {
             return Ok(apply_seed(load_one(&by_name, &capabilities)?, seed));
         }
-        let by_pid = find_by_pid(&self.scenarios_dir, target, &capabilities)?
-            .with_context(|| format!("no scenario matches \"{target}\" (by name or P-ID)"))?;
-        Ok(apply_seed(by_pid, seed))
+        let mut matches = find_by_pid(&self.scenarios_dir, target, &capabilities)?;
+        match matches.len() {
+            0 => anyhow::bail!("no scenario matches \"{target}\" (by name or P-ID)"),
+            1 => {
+                let (_, by_pid) = matches.remove(0);
+                Ok(apply_seed(by_pid, seed))
+            }
+            n => {
+                let stems: Vec<String> = matches.into_iter().map(|(stem, _)| stem).collect();
+                anyhow::bail!(
+                    "{target} is named by {n} scenarios ({}); run one by name",
+                    stems.join(", ")
+                )
+            }
+        }
     }
 
     /// Load every scenario in the catalog (sorted, optionally name-filtered), each seeded.
@@ -109,26 +121,27 @@ fn load_one(path: &Path, capabilities: &CapabilityManifest) -> anyhow::Result<Sc
     Ok(Scenario::from_toml_str_with(&text, capabilities)?)
 }
 
+/// Every loadable scenario naming `pid`, as `(file stem, scenario)` in sorted catalog order;
+/// unloadable files are skipped.
 fn find_by_pid(
     dir: &Path,
     pid: &str,
     capabilities: &CapabilityManifest,
-) -> anyhow::Result<Option<Scenario>> {
-    for entry in std::fs::read_dir(dir)
-        .context("read scenarios directory")?
-        .flatten()
-    {
-        let path = entry.path();
-        if path.extension().and_then(|x| x.to_str()) != Some("toml") {
-            continue;
-        }
+) -> anyhow::Result<Vec<(String, Scenario)>> {
+    let mut matches = Vec::new();
+    for path in scenario_files(dir)? {
         if let Ok(scenario) = load_one(&path, capabilities)
             && scenario.p_ids.iter().any(|p| p.0 == pid)
         {
-            return Ok(Some(scenario));
+            let stem = path
+                .file_stem()
+                .and_then(|s| s.to_str())
+                .unwrap_or_default()
+                .to_owned();
+            matches.push((stem, scenario));
         }
     }
-    Ok(None)
+    Ok(matches)
 }
 
 /// Seed precedence: an explicit `--seed` wins, else `CONDUCTOR_SEED`, else the scenario's own seed.

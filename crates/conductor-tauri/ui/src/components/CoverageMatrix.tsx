@@ -4,7 +4,7 @@ import type { Lamp } from '../lamp'
 import './CoverageMatrix.css'
 
 // Mirrors conductor-core CoverageMode's serde wire spellings (coverage.rs) — the command returns these.
-export type CoverageMode = 'auto' | 'drive+observe' | 'static-only' | 'not-conductors'
+type CoverageMode = 'auto' | 'drive+observe' | 'static-only' | 'not-conductors'
 
 // Mirrors conductor-core CapabilityRow (the `coverage_matrix` command's row shape).
 export interface CapabilityRow {

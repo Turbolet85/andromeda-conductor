@@ -187,10 +187,19 @@ async function releaseCaretSentinel(): Promise<void> {
   await browser.execute((id: string) => document.getElementById(id)?.remove(), CARET_SENTINEL)
 }
 
-/** Stamp the row BEFORE its action; the parser owns everything NVDA speaks from here to the next stamp. */
-function stamp(id: string, action: string): number {
+let lastStampTs = ''
+
+/**
+ * Stamp the row BEFORE its action; the parser owns everything NVDA speaks from here to the next stamp. A row
+ * declared to share the previous row's instant is stamped AT that instant — measured 2026-09-30, two back-to-back
+ * writes landed 53 ms and 62 ms apart on this host, past the parser's shared-window tolerance, and the first row
+ * of each pair was graded on an empty slice.
+ */
+function stamp(id: string, action: string, sharesPreviousInstant = false): number {
   const r = row(id)
-  appendFileSync(actionsPath, JSON.stringify({ ts: new Date().toISOString(), id: r.id, cls: r.cls, action }) + '\n')
+  const ts = sharesPreviousInstant && lastStampTs !== '' ? lastStampTs : new Date().toISOString()
+  lastStampTs = ts
+  appendFileSync(actionsPath, JSON.stringify({ ts, id: r.id, cls: r.cls, action }) + '\n')
   return logSize()
 }
 
@@ -683,7 +692,7 @@ if (subject === 'live') {
       // S2 — the first hold (halo-hue-encoding)
       {
         const before = stamp('S2-01', 'Shift+Tab back to Start, then wait for the hold (the in-run preflight canary poll)')
-        stamp('S2-02', 'the dialog opens in the same instant (shared window)')
+        stamp('S2-02', 'the dialog opens in the same instant (shared window)', true)
         // The hold restores focus to whatever was focused when it arrived; the rows expect Start.
         await shiftTab()
         await expectActive('Start')
@@ -722,7 +731,7 @@ if (subject === 'live') {
         // from its caret on the roll-up, whose previous focusable is the checkbox itself, so focus never moved
         // (measured 2026-09-30). Forward, the DOM order and the caret order agree.
         const before = stamp('S2-07', 'Tab ×2 to Proceed, Enter (Go); focus restores to Start')
-        stamp('S2-08', 'the phase line returns to live in the same instant (shared window)')
+        stamp('S2-08', 'the phase line returns to live in the same instant (shared window)', true)
         await tab()
         await tab()
         await expectActive('Proceed')
@@ -757,7 +766,7 @@ if (subject === 'live') {
         // The Aborted stage fires as the Escape resolution returns (measured 2026-09-02: "Conductor · live"
         // then "Conductor · aborted" inside one second), so the two rows share a window.
         const before = stamp('S3-04', 'Escape (NoGo); focus restores to Start')
-        stamp('S3-05', 'the Aborted stage and the report reload follow in the same instant (shared window)')
+        stamp('S3-05', 'the Aborted stage and the report reload follow in the same instant (shared window)', true)
         await injectKeys('Escape')
         await waitForDialogGone()
         await expectActive('Start')
@@ -849,9 +858,13 @@ if (subject === 'empty') {
         expect(await activeAriaDisabled()).toBe('true')
       })
       // The report header sits BEFORE its scroll region and no backward browse key exists, so the report is
-      // walked from Start, ahead of the Tabs into the matrix and the region.
-      await act('E0-07', 'h until "Run report", then ArrowDown until "lamps-fixture" (browse mode, from Start)', async (since) => {
+      // walked from Start, ahead of the Tabs into the matrix and the region. The seeded envelope banner sits
+      // between the "Run report" heading and the header text in NVDA's reading order.
+      await act('E0-10', 'h until "Run report", then ArrowDown until "ENVIRONMENT-SUSPECT" (browse mode, from Start)', async (since) => {
         await browseUntil('h', 'Run report', 3, since)
+        await browseUntil('ArrowDown', 'ENVIRONMENT-SUSPECT', 4, since)
+      })
+      await act('E0-07', 'ArrowDown until "lamps-fixture" (browse mode, from the envelope banner)', async (since) => {
         await browseUntil('ArrowDown', 'lamps-fixture', 4, since)
       })
       // Case-sensitive: the Scenario cell "lamps-fixture-blocked" precedes the Status cell and would stop a
@@ -872,7 +885,6 @@ if (subject === 'empty') {
         await expectActiveCoverageRow()
         await roveTo('P-019', 24)
       })
-      stamp('E0-10', 'none (subject absent)')
     })
   })
 }

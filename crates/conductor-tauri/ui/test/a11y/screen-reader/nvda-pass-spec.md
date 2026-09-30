@@ -173,12 +173,12 @@ Every row's `Heard`, `Result` and `Arm` live in the evidence (`nvda-pass.json`),
 | E0-02 | focus | Minimize window control | Tab | button[aria-label="Minimize window"] | "Minimize window" + button | SC 4.1.2 |
 | E0-03 | focus | Close window control | Tab | button[aria-label="Close window"] | "Close window" + button | SC 4.1.2 |
 | E0-04 | focus | Start control with no selection possible | Tab | button "Start" (aria-disabled=true) | "Start" + button + unavailable | SC 4.1.2 |
-| E0-07 | browse | run report header | `h` until "Run report" (cap 3), then ArrowDown until "lamps-fixture" (cap 4), browse mode from Start — the header sits before the report scroll region | header "3 scenarios · run lamps-fixture" | the header text | SC 1.3.1 |
+| E0-10 | browse | run-level load-envelope banner | `h` until "Run report" (cap 3), then ArrowDown until "ENVIRONMENT-SUSPECT" (cap 4), browse mode from Start — the banner sits between the heading and the header text | p.report__envelope — the seeded fixture's `run_envelope` row (`lamps-fixture`, over-envelope), label text "ENVIRONMENT-SUSPECT" | "ENVIRONMENT-SUSPECT" read as text, never a colour | SC 1.4.1 |
+| E0-07 | browse | run report header | ArrowDown until "lamps-fixture" (cap 4), browse mode from the envelope banner (E0-10) — the header sits before the report scroll region | header "3 scenarios · run lamps-fixture" | the header text | SC 1.3.1 |
 | E0-08 | browse | run report status cells | ArrowDown until the "Blocked" status label (browse mode; case-sensitive stop, since the Scenario cell "lamps-fixture-blocked" precedes it; cap 20) | td.report__status › lamp labels "Pass" · "Blocked" · "Fail" (glyph aria-hidden) | "Blocked" read as text, never a colour | SC 1.4.1 |
 | E0-05 | focus | coverage matrix current row | Tab (from Start — the browse caret moved, DOM focus did not) | tr[tabindex=0][aria-current=true] in table[aria-label="Coverage rows"], named by its own four cells (aria-labelledby) | the focused row alone, its P-ID read ("P-001"), never the table's rows as one utterance (a second row's "P-002" heard fails it) | SC 1.3.1 |
 | E0-06 | focus | run report rows scroll region (fixture present) | Tab | div[tabindex=0] › table[aria-label="Run report rows"] | the region named "Run report rows" ONLY — not the table read as one utterance | SC 1.3.1 |
 | E0-09 | browse | coverage lamp for the collided P-ID | Shift+Tab, then ArrowDown (the matrix's roving move) until P-019 is current (cap 24) | Shift+Tab lands on the current coverage row (tr[tabindex=0][aria-current=true]); row P-019, named by its cells › lamp "Blocked" (worst-lamp-wins over Pass) | "P-019" … "Blocked" as the row becomes current | SC 1.4.1 |
-| E0-10 | browse | run-level load-envelope banner | none | p.report__envelope — not rendered (the fixture records no run_envelope row; the DOM proof is v2-25's) | subject-absent | SC 1.4.1 |
 
 ## Rows — error subject (a malformed catalog)
 
@@ -241,4 +241,7 @@ the chunk base `d7da5d0` unless marked otherwise.
 Outside the 18, the regrade's operator review recorded one new finding, routed forward: **E0-10** is graded
 subject-absent by its row ("the fixture records no run_envelope row"), yet the ENVIRONMENT-SUSPECT banner was
 heard in E0-07's window — `runs/e2e-fixture` now carries the envelope row the `--e2e` arm seeds — so its absent
-reason no longer holds and the row is owed a grade against its expected content.
+reason no longer holds and the row is owed a grade against its expected content. **Disposition: re-token +
+re-action** — the banner is in the DOM as label text in the seeded subject, so sr-empty is not re-seeded; the row
+is now walked forward from Start (`h` to "Run report", then ArrowDown to "ENVIRONMENT-SUSPECT"), ahead of E0-07,
+which continues ArrowDown from the banner to the header text; token `ENVIRONMENT-SUSPECT`, graded, no `absent`.

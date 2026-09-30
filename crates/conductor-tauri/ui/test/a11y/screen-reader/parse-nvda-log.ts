@@ -15,17 +15,17 @@ import { dirname, join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { ROWS, rowsFor, type RowClass, type Subject, type SpecRow } from './rows'
 
-export type Outcome =
+type Outcome =
   | 'announced-as-expected'
   | 'announced-differently'
   | 'not-announced'
   | 'not-run-here'
   | 'subject-absent'
-export type Arm = 'agent' | 'operator'
+type Arm = 'agent' | 'operator'
 /** The input path of the keys the leg sent inside a row's window. */
-export type InputPath = 'os' | 'webdriver' | 'mixed' | 'none'
+type InputPath = 'os' | 'webdriver' | 'mixed' | 'none'
 
-export interface PassRow {
+interface PassRow {
   id: string
   subject: Subject
   state: string
@@ -47,7 +47,7 @@ export interface PassRow {
   review_grade?: ReviewGrade
 }
 
-export interface SubjectRecord {
+interface SubjectRecord {
   recorded_at: string
   speech_utterances: number
   pre_session_utterances: number
@@ -72,7 +72,7 @@ export interface SubjectRecord {
 }
 
 /** The operator's judgment over the graded rows — transcribed from the review, never generated. */
-export interface OperatorReview {
+interface OperatorReview {
   reviewed_at: string
   reviewer: string
   verdict: string
@@ -86,7 +86,7 @@ export interface OperatorReview {
   notes: string
 }
 
-export type ReviewGrade = 'accepted-as-heard' | 'finding' | 'accepted-with-reason'
+type ReviewGrade = 'accepted-as-heard' | 'finding' | 'accepted-with-reason'
 
 export interface PassFile {
   spec: string
@@ -166,7 +166,7 @@ interface GestureIn {
 }
 
 /** The utterances and input gestures in an NVDA `-l 12` log, in file order, plus the version line when present. */
-export function readSpeechLog(path: string): { utterances: Utterance[]; inputs: GestureIn[]; nvdaVersion: string } {
+function readSpeechLog(path: string): { utterances: Utterance[]; inputs: GestureIn[]; nvdaVersion: string } {
   if (!existsSync(path)) return { utterances: [], inputs: [], nvdaVersion: 'unknown' }
   const text = readFileSync(path, 'utf8')
   const version = /Starting NVDA version (\S+)/.exec(text)?.[1] ?? 'unknown'
@@ -220,7 +220,7 @@ interface KeySent {
 /** Utterances longer than this are stored truncated in the record; grading always reads the full text. */
 const HEARD_MAX = 400
 
-export interface Timeline {
+interface Timeline {
   stamps: Stamp[]
   browserVersion: string | undefined
   /** The leg's own record of bringing the app window to the OS foreground before its first row. */
@@ -234,7 +234,7 @@ export interface Timeline {
 }
 
 /** The leg's action timeline: row stamps in file order, plus the session, foreground, key and end records. */
-export function readStamps(path: string): Timeline {
+function readStamps(path: string): Timeline {
   if (!existsSync(path)) return { stamps: [], browserVersion: undefined, foreground: undefined, endMs: undefined, keys: [] }
   const stamps: Stamp[] = []
   const keys: KeySent[] = []
@@ -307,7 +307,7 @@ const OS_GESTURE: Record<string, string> = {
 /** Past this, an offset is a clock step rather than send-latency jitter (the aligned sessions spread ≤ 110 ms). */
 const STEP_MS = 300
 
-export interface ClockCalibration {
+interface ClockCalibration {
   pairs: number
   /** The aligned offset: the median of the pairs within STEP_MS of the lowest. It is send latency plus any skew. */
   baseline_ms: number | null
@@ -333,7 +333,7 @@ function median(values: number[]): number {
  * there; only a stretch that exceeds the baseline by more than STEP_MS is shifted back, by its own median
  * excess. Graded content is never consulted.
  */
-export function calibrateClock(keys: KeySent[], inputs: GestureIn[]): { record: ClockCalibration; anchors: number[] } {
+function calibrateClock(keys: KeySent[], inputs: GestureIn[]): { record: ClockCalibration; anchors: number[] } {
   const osKeys = keys.filter((k) => k.input === 'os')
   const table: ClockCalibration['pair_table'] = []
   const anchors: number[] = []

@@ -1,0 +1,34 @@
+[
+{
+"sql": "SELECT caller, callee_name, file, line FROM calls WHERE callee_name IN ('find_by_pid','load_scenario','scenario_name') AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 4,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-cli 0.2.0 cli/Commands#Preconditions#for_scenario.",
+"callee_name": "scenario_name",
+"file": "crates/conductor-cli/src/cli.rs",
+"line": 61
+},
+{
+"caller": "rust-analyzer cargo conductor-cli 0.2.0 commands/preconditions/preconditions().",
+"callee_name": "load_scenario",
+"file": "crates/conductor-cli/src/commands/preconditions.rs",
+"line": 29
+},
+{
+"caller": "rust-analyzer cargo conductor-cli 0.2.0 commands/run/run().",
+"callee_name": "load_scenario",
+"file": "crates/conductor-cli/src/commands/run.rs",
+"line": 18
+},
+{
+"caller": "rust-analyzer cargo conductor-cli 0.2.0 paths/impl#[Paths]load_scenario().",
+"callee_name": "find_by_pid",
+"file": "crates/conductor-cli/src/paths.rs",
+"line": 58
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

@@ -4,7 +4,7 @@
 // (a11y-plan §3 Screen reader test pattern).
 export type Subject = 'live' | 'empty' | 'error'
 export type RowClass = 'focus' | 'live' | 'browse'
-export type RowState = 'idle' | 'idle-report' | 'live' | 'hold' | 'aborted' | 'terminal'
+type RowState = 'idle' | 'idle-report' | 'live' | 'hold' | 'aborted' | 'terminal'
 
 export interface SpecRow {
   readonly id: string
@@ -306,9 +306,9 @@ export const ROWS: readonly SpecRow[] = [
   },
   {
     id: 'E0-10', subject: 'empty', state: 'idle-report', cls: 'browse',
-    item: 'run-level load-envelope banner', node: 'p.report__envelope (not rendered — the fixture records no run_envelope row)',
-    sc: 'SC 1.4.1', expected: 'subject absent', tokens: ['ENVIRONMENT-SUSPECT'],
-    absent: 'the seeded fixture records no run_envelope row; the rendered-DOM proof is v2-25\'s',
+    item: 'run-level load-envelope banner',
+    node: 'p.report__envelope — the seeded fixture\'s run_envelope row (lamps-fixture, over-envelope), between the "Run report" heading and the header text',
+    sc: 'SC 1.4.1', expected: 'the banner label "ENVIRONMENT-SUSPECT" read as text, never a colour', tokens: ['ENVIRONMENT-SUSPECT'],
   },
   // ── error subject · a malformed catalog ──────────────────────────────────────────────────────────
   {
