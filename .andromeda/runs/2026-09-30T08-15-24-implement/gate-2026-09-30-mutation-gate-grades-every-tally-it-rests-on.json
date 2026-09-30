@@ -1205,5 +1205,410 @@
 "unparsed": 0,
 "widening_without_word": 0
 }
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-30T08:32:56Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-30-mutation-gate-grades-every-tally-it-rests-on/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T08-15-24-implement",
+"--marker",
+"2026-09-30-mutation-gate-grades-every-tally-it-rests-on",
+"--only",
+"12"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-30-mutation-gate-grades-every-tally-it-rests-on · entries 19",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-mutation-gate-grades-every-tally-it-rests-on\\implement-2026-09-30T08-15-24 · bound: GNU timeout",
+"delta docs 1",
+"prose L196-202: - All entries run at /implement P2 and in the wrap light gate, except the three `leg = 'op… (569 chars)",
+"  1 unit        not run — excluded · python -X utf8 scripts/mutation-gate.py selftest",
+"  2 unit        not run — excluded · python -X utf8 scripts/mutation-gate.py selftest --fixture… (164 chars)",
+"  3 unit        not run — excluded · python -X utf8 scripts/mutation-gate.py selftest --fixture… (70 chars)",
+"  4 unit        not run — excluded · python -X utf8 scripts/mutation-gate.py",
+"  5 unit        not run — excluded · python -X utf8 scripts/mutation-gate.py no-such-unit",
+"  6 probe       not run — excluded · grep -c '^tally = \"missed\"' scripts/mutation-roster.toml",
+"  7 probe       not run — excluded · grep -c '^tally = \"timeout\"' scripts/mutation-roster.toml",
+"  8 probe       not run — excluded · grep -c 'epoch-boundary code audit' scripts/mutation-roste… (64 chars)",
+"  9 probe       not run — excluded · test ! -e target/mutation-gate && test ! -e mutants.out",
+" 10 probe       not run — excluded · grep -cE 'shell=True|os\\.system|os\\.popen' scripts/mutatio… (67 chars)",
+" 11 probe       not run — excluded · git check-ignore --no-index scripts/fixtures/mutation-gate… (299 chars)",
+" 12 probe       green · exit 1 · 0.11s · 2 B → 12.log · cat scripts/mutation-roster.toml $(find scripts/fixtures/m… (275 chars)",
+" 13 probe       not run — excluded · { git diff --numstat f33d6b7 -- crates/ .github/ Cargo.tom… (287 chars)",
+" 14 unit        not run — excluded · cargo nextest run -p conductor-core --test secret_scan_gat… (72 chars)",
+" 15 unit        not run — excluded · cargo nextest run --workspace --profile ci",
+" 16 lint        not run — excluded · cargo clippy --workspace --all-targets -- -D warnings",
+" 17 probe       not run — excluded · python -X utf8 C:/Users/turbo/.claude/skills/andromeda-too… (84 chars)",
+" 18 probe       not run — excluded · git diff --quiet && git diff --cached --quiet && git push … (112 chars)",
+" 19 probe       not run — excluded · python -X utf8 C:/Users/turbo/.claude/skills/andromeda-too… (108 chars)",
+"entries 19 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 18"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-30-mutation-gate-grades-every-tally-it-rests-on",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-30-mutation-gate-grades-every-tally-it-rests-on\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-mutation-gate-grades-every-tally-it-rests-on\\implement-2026-09-30T08-15-24",
+"delta": {
+"docs": [
+"conductor-0.3.0/chunks/2026-09-30-mutation-gate-grades-every-tally-it-rests-on/evidence/operator-pass.md"
+]
+},
+"unmapped": [],
+"prose": [
+{
+"from": 196,
+"to": 202,
+"text": "- All entries run at /implement P2 and in the wrap light gate, except the three `leg = 'operator'` entries at the end,   which the operator pass fires once. - There is NO `cargo mutants` entry, by founder ruling. The no-spawn probe witnesses that none of the gate's own entries   reached the spawn. - There is no boot path and no live leg: the chunk changes an operator instrument, so no smoke entry exists. - The workspace Rust gates are deferred on zero Rust delta. The secret-scan gate still runs, because it READS files this   chunk adds (the fixtures are tracked)."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "unit",
+"run": "python -X utf8 scripts/mutation-gate.py selftest",
+"run_sha8": "67224408",
+"expect": [
+"exit 0",
+"last line selftest: every arm detected"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "unit",
+"run": "python -X utf8 scripts/mutation-gate.py selftest --fixtures conductor-0.3.0/chunks/2026-09-30-mutation-gate-grades-every-tally-it-rests-on/evidence/selftest-control",
+"run_sha8": "39836349",
+"expect": [
+"exit 1",
+"last line selftest: ARM NOT detected — pass-flipped"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "python -X utf8 scripts/mutation-gate.py selftest --fixtures ../outside",
+"run_sha8": "2d9dbb29",
+"expect": [
+"exit 2",
+"contains must be repo-relative",
+"lacks outside"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "python -X utf8 scripts/mutation-gate.py",
+"run_sha8": "ca0747bc",
+"expect": [
+"exit 2",
+"contains usage: mutation-gate.py <unit> | selftest"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "python -X utf8 scripts/mutation-gate.py no-such-unit",
+"run_sha8": "283fea2f",
+"expect": [
+"exit 1",
+"contains unit is not declared"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "grep -c '^tally = \"missed\"' scripts/mutation-roster.toml",
+"run_sha8": "38f6ac19",
+"expect": [
+"exit 0",
+"last line 13"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "grep -c '^tally = \"timeout\"' scripts/mutation-roster.toml",
+"run_sha8": "ce7112a8",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "grep -c 'epoch-boundary code audit' scripts/mutation-roster.toml",
+"run_sha8": "12ca6256",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "test ! -e target/mutation-gate && test ! -e mutants.out",
+"run_sha8": "5ae58a60",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "grep -cE 'shell=True|os\\.system|os\\.popen' scripts/mutation-gate.py",
+"run_sha8": "8cab1d6b",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "git check-ignore --no-index scripts/fixtures/mutation-gate/arms.toml scripts/fixtures/mutation-gate/roster.toml scripts/fixtures/mutation-gate/arms/pass/timeout.txt conductor-0.3.0/chunks/2026-09-30-mutation-gate-grades-every-tally-it-rests-on/evidence/selftest-control/arms/pass-flipped/timeout.txt",
+"run_sha8": "741a0fc3",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "cat scripts/mutation-roster.toml $(find scripts/fixtures/mutation-gate conductor-0.3.0/chunks/2026-09-30-mutation-gate-grades-every-tally-it-rests-on/evidence -type f) | grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|/home/|/Users/|%APPDATA%|\\.rustup|\\.cargo[\\\\/]\"",
+"run_sha8": "37d52b0c",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-mutation-gate-grades-every-tally-it-rests-on\\implement-2026-09-30T08-15-24\\12.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.11,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "{ git diff --numstat f33d6b7 -- crates/ .github/ Cargo.toml Cargo.lock scripts/agent-run.sh scripts/agent-run.ps1 contracts/ scenarios/; git ls-files --others --exclude-standard -- crates/ .github/ Cargo.toml Cargo.lock scripts/agent-run.sh scripts/agent-run.ps1 contracts/ scenarios/; }",
+"run_sha8": "bf2b70a0",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "unit",
+"run": "cargo nextest run -p conductor-core --test secret_scan_gate --profile ci",
+"run_sha8": "4a063019",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "python -X utf8 C:/Users/turbo/.claude/skills/andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "f0648308",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD && echo \"PUSHED_SHA=$(git rev-parse HEAD)\"",
+"run_sha8": "6bf569fe",
+"expect": [
+"exit 0",
+"contains PUSHED_SHA="
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "python -X utf8 C:/Users/turbo/.claude/skills/andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1200",
+"run_sha8": "0d290d69",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
 }
 ]

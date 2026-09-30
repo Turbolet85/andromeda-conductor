@@ -1,0 +1,80 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-30T08:43:39Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-30T08-33-23-wrap/test-plan-entry.md",
+"--lines",
+"11",
+"--run-dir",
+".andromeda/runs/2026-09-30T08-33-23-wrap",
+"--marker",
+"2026-09-30-mutation-gate-grades-every-tally-it-rests-on"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+11 at line 683 · lines 682→693 · bytes 116154→118939 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-30T08-33-23-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 682,
+"bytes": 116154,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 693,
+"bytes": 118939
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-30T08:43:40Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-30T08-33-23-wrap/architecture-entry.md",
+"--lines",
+"9",
+"--run-dir",
+".andromeda/runs/2026-09-30T08-33-23-wrap",
+"--marker",
+"2026-09-30-mutation-gate-grades-every-tally-it-rests-on"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+9 at line 1060 · lines 1059→1068 · bytes 179999→181473 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-30T08-33-23-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 1059,
+"bytes": 179999,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1068,
+"bytes": 181473
+}
+}
+]

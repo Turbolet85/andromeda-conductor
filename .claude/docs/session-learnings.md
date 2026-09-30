@@ -668,6 +668,8 @@ same class, never against the proposed sentence alone.
 This chunk carried a finding with no owner: `scripts/mutation-gate.py` computes its verdict from
 `missed.txt` and `caught.txt` and never reads `timeout.txt`, so a caught→timeout regression passes it
 silently — and no route entry names the mutation gate, so nothing in the version owned the repair.
+**[resolved 2026-09-30: the entry minted from this halt shipped — the gate now grades all four tallies,
+`timeout.txt` included; the example above is the gate as it stood on 2026-09-16.]**
 
 The instinct was to write it into the plan as "a route candidate". The operator's correction: that is
 a CARRY, and a carry is how the previous version accumulated debt — it survives on attention rather

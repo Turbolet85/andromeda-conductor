@@ -1,0 +1,27 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-30T08:47:09Z",
+"argv": [
+"flip",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-30-mutation-gate-grades-every-tally-it-rests-on",
+"--run-dir",
+".andromeda/runs/2026-09-30T08-33-23-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed 0 — gate no-op (no entry carries chunk 2026-09-30-mutation-gate-grades-every-tally-it-rests-on)",
+"pool: unclaimed 1 [v3-03]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

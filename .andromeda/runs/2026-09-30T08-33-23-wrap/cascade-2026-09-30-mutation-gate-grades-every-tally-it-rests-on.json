@@ -1,0 +1,154 @@
+[
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "1550f3bc",
+"ts": "2026-09-30T08:41:40Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-09-30T08-33-23-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-09-30T08-33-23-wrap",
+"--marker",
+"2026-09-30-mutation-gate-grades-every-tally-it-rests-on"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 2,
+"stdout": [],
+"stderr": "[[pattern]] #8 (pass-empty-missed): `id` is 1-16 chars of A-Z a-z 0-9 _ . -",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "1550f3bc",
+"ts": "2026-09-30T08:41:52Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-09-30T08-33-23-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-09-30T08-33-23-wrap",
+"--marker",
+"2026-09-30-mutation-gate-grades-every-tally-it-rests-on"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"baseline f33d6b7f (pre-CI parent — the oldest of 1 pre-CI commit(s), a72533d6)",
+"no-timeout-read · new 0 · standing 0 · leaf 1 · curation 1 · base 0 · control test-plan.md:619 (prose)",
+"silent-regress · new 0 · standing 1 · leaf 1 · curation 1 · base 0 · control test-plan.md:619 (prose)",
+"rostered-nowhere · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:619 …",
+"missed-only-cmp · new 0 · standing 0 · leaf 2 · curation 0 · base 0 · control test-plan.md:228 (prose)",
+"expected-set · new 0 · standing 0 · leaf 0 · curation 1 · base 0 · case-variants +2 · control test-plan.md:228 (prose)",
+"per-chunk-mut · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:469 (pr…",
+"chunk-touches · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:621 (pr…",
+"pass-empty · new 0 · standing 0 · leaf 2 · curation 0 · base 0 · control test-plan.md:621 (prose)",
+"crate-local-set · 0 rows (control fired) — a statement about this pattern, not the masters · case-variants +1 · control…",
+"rust-roundtrip · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:404 (p…",
+".claude/docs/session-learnings.md:669 no-timeout-read curation … `caught.txt` and never reads `timeout.txt`, so a caugh…",
+".claude/rules/testing.md:19 no-timeout-read leaf @c2284/2436 …t` only — it does NOT read `timeout.txt`, so a caught→tim…",
+".andromeda/test-plan.md:619 silent-regress standing edited @c2815/3550 …6-09-15), so a caught→timeout regression passed…",
+".claude/docs/session-learnings.md:669 silent-regress curation …s `timeout.txt`, so a caught→timeout regression passes it",
+".claude/rules/testing.md:19 silent-regress leaf @c2313/2436 …timeout.txt`, so a caught→timeout regression passes it sil…",
+".claude/rules/testing.md:19 missed-only-cmp leaf @c943/2436 …nit}-{stamp}/` and compares `missed.txt` against `scripts/…",
+".claude/docs/tests-summary.md:12 missed-only-cmp leaf …tion-gate.py {unit}` compares a run's `missed.txt` against as a …",
+".claude/rules/frontend.md:55 expected-set curation …TITY:** key a reached/expected SET on element position within the l…",
+".claude/rules/testing.md:19 pass-empty leaf @c1957/2436 …[[entry]]` rows and PASSES on an empty `missed.txt`; the decla…",
+".claude/docs/tests-summary.md:12 pass-empty leaf …-killed declared unit passes on an empty `missed.txt`, the declaratio…",
+"no-timeout-read · new 0 · standing 0 · leaf 1 · curation 1 · base 0 · control test-plan.md:619 (prose)",
+"silent-regress · new 0 · standing 1 · leaf 1 · curation 1 · base 0 · control test-plan.md:619 (prose)",
+"rostered-nowhere · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:619 …",
+"missed-only-cmp · new 0 · standing 0 · leaf 2 · curation 0 · base 0 · control test-plan.md:228 (prose)",
+"expected-set · new 0 · standing 0 · leaf 0 · curation 1 · base 0 · case-variants +2 · control test-plan.md:228 (prose)",
+"per-chunk-mut · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:469 (pr…",
+"chunk-touches · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:621 (pr…",
+"pass-empty · new 0 · standing 0 · leaf 2 · curation 0 · base 0 · control test-plan.md:621 (prose)",
+"crate-local-set · 0 rows (control fired) — a statement about this pattern, not the masters · case-variants +1 · control…",
+"rust-roundtrip · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:404 (p…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "f33d6b7f98677361cd125b6fa67459bd0a66c8d4",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), a72533d6",
+"counts": {
+"no-timeout-read": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 1,
+"base": 0
+},
+"silent-regress": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 1,
+"base": 0
+},
+"rostered-nowhere": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"missed-only-cmp": {
+"new": 0,
+"standing": 0,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"expected-set": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 1,
+"base": 0
+},
+"per-chunk-mut": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"chunk-touches": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"pass-empty": {
+"new": 0,
+"standing": 0,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"crate-local-set": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"rust-roundtrip": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]

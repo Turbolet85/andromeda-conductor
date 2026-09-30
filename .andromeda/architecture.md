@@ -36,7 +36,7 @@
 | Build / packaging | Cargo workspace, `cargo build --release` + Tauri 2 bundler | Local release binary (source of truth) + optional GUI bundle |
 | CI/CD | GitHub Actions (`cargo fmt --all --check` / `cargo build` / nextest / clippy + the static gates (over committed data · repository hygiene) + the a11y webview e2e gate) | Formatting, build + test gating, the static gates each asserting a committed artifact against the production source it is derived from (coverage-completeness 2026-09-06 · scenario-assertion audit 2026-09-16) and the repository-hygiene gates (secret scan · workflow env-context, 2026-09-24), plus the Pulse-free routine a11y webview leg (2026-09-07); dynamic scenario proof REQUIRING A LIVE PULSE remains a local operator gate |
 | Code quality | clippy + cargo-nextest (optional: cargo-modules, cargo-rail) | Linting, test running, and module-graph auditing |
-| Operator instruments (host runtime) | Host Python 3 — resolved by no lockfile, pinned by no toolchain file | Runs the repo's committed operator-local instruments: the code-graph pipeline (`scripts/code-graph.py` + `scripts/scip_pb2.py` + `scripts/requirements.txt`, since 2026-06-18) and the mutation-tally gate (`scripts/mutation-gate.py` + `scripts/mutation-roster.toml`, since 2026-09-13) and the architecture-registry check (`scripts/arch-registry-check.py`, stdlib only, since 2026-09-24 — sizes §Established Decisions / §Occupied Resources against 60 % of the Read cap and proves a drafted compaction lossless). None is invoked by any CI step, and none adds a sixth `agent-run.{sh,ps1}` command — the 5-command harness surface is unchanged |
+| Operator instruments (host runtime) | Host Python 3 — resolved by no lockfile, pinned by no toolchain file | Runs the repo's committed operator-local instruments: the code-graph pipeline (`scripts/code-graph.py` + `scripts/scip_pb2.py` + `scripts/requirements.txt`, since 2026-06-18) and the mutation-tally gate (`scripts/mutation-gate.py` + `scripts/mutation-roster.toml`, since 2026-09-13 — every roster row carries a required `tally` of `missed` or `timeout`; since 2026-09-30 a stdlib-only `selftest [--fixtures DIR]` verb grades the committed fixture tree `scripts/fixtures/mutation-gate/`, spawning no process and running no `cargo mutants`) and the architecture-registry check (`scripts/arch-registry-check.py`, stdlib only, since 2026-09-24 — sizes §Established Decisions / §Occupied Resources against 60 % of the Read cap and proves a drafted compaction lossless). None is invoked by any CI step, and none adds a sixth `agent-run.{sh,ps1}` command — the 5-command harness surface is unchanged |
 
 ## Established Decisions
 
@@ -227,7 +227,10 @@ conductor/
 │  ├─ agent-run.sh            # headless source-of-truth entrypoint
 │  ├─ webview2-cause-probe.ps1 # CI-only read-only diagnostic; invoked solely by ci.yml's a11y job, wired into neither harness shell, adds no 6th command
 │  ├─ a11y-limited-token-launch.ps1 # CI-only limited-token launcher for the a11y job's DRIVER-ALONE DIAGNOSTIC steps (runas /trustlevel); left the asserting step 2026-09-17; same qualifier — solely ci.yml's a11y job, neither harness shell, no 6th command
-│  └─ a11y-token-witness.ps1   # CI-only entry point of the launched leg; witnesses the token it actually got before wdio starts; same qualifier
+│  ├─ a11y-token-witness.ps1   # CI-only entry point of the launched leg; witnesses the token it actually got before wdio starts; same qualifier
+│  ├─ mutation-gate.py        # operator-local mutation-tally gate (`<unit>` | `selftest`); invoked by no CI step, wired into neither harness shell, no 6th command
+│  ├─ mutation-roster.toml    # the gate's expected `missed` / `timeout` multisets per unit
+│  └─ fixtures/mutation-gate/ # the committed `selftest` fixture tree (roster.toml · roster-bad.toml · arms.toml · arms/{name}/)
 ├─ crates/
 │  ├─ conductor-core/         # runtime-agnostic engine library (usable outside Tauri)
 │  ├─ conductor-timeline/     # deterministic seeded phase scheduler (tokio::time)

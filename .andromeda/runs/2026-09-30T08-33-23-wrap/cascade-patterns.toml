@@ -1,0 +1,41 @@
+# Retired claims of this pass — keyed on what each claim SAYS, not only its name.
+[[pattern]]
+id = "no-timeout-read"
+regex = '(never|not|NOT) reads? `?timeout\.txt'
+
+[[pattern]]
+id = "silent-regress"
+regex = 'caught.{1,3}timeout regression pass'
+
+[[pattern]]
+id = "rostered-nowhere"
+fixed = 'rostered nowhere'
+
+[[pattern]]
+id = "missed-only-cmp"
+regex = 'compar\w* (a run.s )?`?missed\.txt`? against'
+
+[[pattern]]
+id = "expected-set"
+fixed = 'expected SET'
+
+[[pattern]]
+id = "per-chunk-mut"
+regex = '(runs per-chunk|per-chunk against|where a chunk runs the)'
+
+[[pattern]]
+id = "chunk-touches"
+fixed = 'chunk that TOUCHES'
+
+[[pattern]]
+id = "pass-empty"
+regex = 'PASS\w* on an empty `?missed'
+ignore_case = true
+
+[[pattern]]
+id = "crate-local-set"
+fixed = 'SET of crate-local'
+
+[[pattern]]
+id = "rust-roundtrip"
+fixed = 'Rust round-trip'
