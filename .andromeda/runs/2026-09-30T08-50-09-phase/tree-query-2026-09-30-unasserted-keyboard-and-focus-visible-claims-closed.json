@@ -1,0 +1,150 @@
+[
+{
+"sql": "SELECT callee_name, file, line FROM refs WHERE callee_name IN ('CoverageMatrix','RunReport','RunControls','OperatorPauseDialog','tabCycle','focusSnapshot','FOCUSABLE_SELECTOR','CLAIMS','NA_CLAIMS') ORDER BY callee_name, file, line",
+"rows": 28,
+"result": [
+{
+"callee_name": "CLAIMS",
+"file": "crates/conductor-tauri/ui/test/a11y/check-claim-ownership.ts",
+"line": 14
+},
+{
+"callee_name": "CLAIMS",
+"file": "crates/conductor-tauri/ui/test/a11y/check-claim-ownership.ts",
+"line": 50
+},
+{
+"callee_name": "CLAIMS",
+"file": "crates/conductor-tauri/ui/test/a11y/check-claim-ownership.ts",
+"line": 79
+},
+{
+"callee_name": "CLAIMS",
+"file": "crates/conductor-tauri/ui/test/a11y/check-claim-ownership.ts",
+"line": 86
+},
+{
+"callee_name": "CLAIMS",
+"file": "crates/conductor-tauri/ui/test/a11y/check-claim-ownership.ts",
+"line": 96
+},
+{
+"callee_name": "CLAIMS",
+"file": "crates/conductor-tauri/ui/test/a11y/check-claim-ownership.ts",
+"line": 98
+},
+{
+"callee_name": "CLAIMS",
+"file": "crates/conductor-tauri/ui/test/a11y/check-claim-ownership.ts",
+"line": 117
+},
+{
+"callee_name": "CoverageMatrix",
+"file": "crates/conductor-tauri/ui/src/App.tsx",
+"line": 5
+},
+{
+"callee_name": "CoverageMatrix",
+"file": "crates/conductor-tauri/ui/src/App.tsx",
+"line": 344
+},
+{
+"callee_name": "CoverageMatrix",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 5
+},
+{
+"callee_name": "CoverageMatrix",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 205
+},
+{
+"callee_name": "FOCUSABLE_SELECTOR",
+"file": "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts",
+"line": 232
+},
+{
+"callee_name": "NA_CLAIMS",
+"file": "crates/conductor-tauri/ui/test/a11y/check-claim-ownership.ts",
+"line": 15
+},
+{
+"callee_name": "NA_CLAIMS",
+"file": "crates/conductor-tauri/ui/test/a11y/check-claim-ownership.ts",
+"line": 89
+},
+{
+"callee_name": "OperatorPauseDialog",
+"file": "crates/conductor-tauri/ui/src/App.tsx",
+"line": 7
+},
+{
+"callee_name": "OperatorPauseDialog",
+"file": "crates/conductor-tauri/ui/src/App.tsx",
+"line": 373
+},
+{
+"callee_name": "OperatorPauseDialog",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 2
+},
+{
+"callee_name": "OperatorPauseDialog",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 178
+},
+{
+"callee_name": "RunControls",
+"file": "crates/conductor-tauri/ui/src/App.tsx",
+"line": 4
+},
+{
+"callee_name": "RunControls",
+"file": "crates/conductor-tauri/ui/src/App.tsx",
+"line": 309
+},
+{
+"callee_name": "RunReport",
+"file": "crates/conductor-tauri/ui/src/App.tsx",
+"line": 6
+},
+{
+"callee_name": "RunReport",
+"file": "crates/conductor-tauri/ui/src/App.tsx",
+"line": 368
+},
+{
+"callee_name": "RunReport",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 6
+},
+{
+"callee_name": "RunReport",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 212
+},
+{
+"callee_name": "focusSnapshot",
+"file": "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts",
+"line": 248
+},
+{
+"callee_name": "focusSnapshot",
+"file": "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts",
+"line": 254
+},
+{
+"callee_name": "tabCycle",
+"file": "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts",
+"line": 465
+},
+{
+"callee_name": "tabCycle",
+"file": "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts",
+"line": 481
+}
+],
+"db_state": "fresh",
+"plane": "ts"
+}
+]

@@ -1,0 +1,502 @@
+[
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-30T09:03:08Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"conductor-0.3.0/chunks/2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed/research.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T08-50-09-phase",
+"--marker",
+"2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 10 items (new 1 · modify 9 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 10,
+"unparsed": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-30T09:14:46Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"conductor-0.3.0/chunks/2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed/research.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T08-50-09-phase",
+"--marker",
+"2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 12 items (new 1 · modify 11 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 12,
+"unparsed": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-30T09:16:27Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed/plan.md",
+"--only",
+"6,11,12,13,14",
+"--run-dir",
+".andromeda/runs/2026-09-30T08-50-09-phase",
+"--marker",
+"2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed · entries 17",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed\\phase-2026-09-30T08-50-09 · bound: GNU timeout",
+"delta docs 33",
+"prose L240-245: The PREREQ pair runs first, against the untouched base (step 1), and again in the full P2 … (613 chars)",
+"  1 unit        not run — excluded · bash scripts/agent-run.sh run --unit",
+"  2 lint        not run — excluded · cargo clippy --workspace --all-targets -- -D warnings",
+"  3 build       not run — excluded · cd crates/conductor-tauri/ui && npm run build",
+"  4 lint        not run — excluded · cd crates/conductor-tauri/ui && npm run typecheck:e2e",
+"  5 unit        not run — excluded · cd crates/conductor-tauri/ui && npm run a11y:ownership",
+"  6 probe       green · exit 0 · 0.19s · 43 B → 6.log · d=$(\"$CONDUCTOR_MSEDGEDRIVER\" --version | grep -oE '[0-9]+… (288 chars)",
+"  7 self-verify not run — excluded · CONDUCTOR_A11Y_STRICT=1 bash scripts/agent-run.sh run --e2… (59 chars)",
+"  8 probe       not run — excluded · PATH=\"/d/dev/projects/andromeda-pulse/target/release:$PATH… (122 chars)",
+"  9 e2e         not run — excluded · cd crates/conductor-tauri/ui && PATH=\"/d/dev/projects/andr… (111 chars)",
+" 10 probe       not run — excluded · tasklist | grep -ciE \"^(msedgedriver|conductor-tauri)\\.exe… (59 chars)",
+" 11 probe       green · exit 0 · 0.11s · 0 B → 11.log · { git diff --numstat 7ee2fea -- crates/conductor-core/ cra… (902 chars)",
+" 12 probe       green · exit 1 · 0.08s · 2 B → 12.log · git diff 7ee2fea -- crates/conductor-tauri/ui/wdio.conf.ts… (172 chars)",
+" 13 probe       green · exit 1 · 0.08s · 2 B → 13.log · git diff 7ee2fea -- crates/conductor-tauri/ui/src crates/c… (152 chars)",
+" 14 probe       red · last line '0' ✗ (last: '') · exit 1 · 0.05s · 0 B → 14.log · test -d conductor-0.3.0/chunks/2026-09-30-unasserted-keybo… (336 chars)",
+" 15 probe       not run — excluded · python -X utf8 C:/Users/turbo/.claude/skills/andromeda-too… (84 chars)",
+" 16 probe       not run — excluded · git diff --quiet && git diff --cached --quiet && git push … (112 chars)",
+" 17 probe       not run — excluded · python -X utf8 C:/Users/turbo/.claude/skills/andromeda-too… (108 chars)",
+"entries 17 · green 4 · red 1 (14) · recorded 0 · timeout 0 · not-run 12"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed\\phase-2026-09-30T08-50-09",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-09-30T08-33-23-wrap/evolve-2026-09-30-mutation-gate-grades-every-tally-it-rests-on.json",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+".andromeda/runs/2026-09-30T08-50-09-phase/a11y-history.md",
+".andromeda/runs/2026-09-30T08-50-09-phase/a11y.md",
+".andromeda/runs/2026-09-30T08-50-09-phase/arch-history-index.md",
+".andromeda/runs/2026-09-30T08-50-09-phase/arch-history.md",
+".andromeda/runs/2026-09-30T08-50-09-phase/arch.md",
+".andromeda/runs/2026-09-30T08-50-09-phase/ci-no-marker.json",
+".andromeda/runs/2026-09-30T08-50-09-phase/design-history.md",
+".andromeda/runs/2026-09-30T08-50-09-phase/design.md",
+".andromeda/runs/2026-09-30T08-50-09-phase/evolve-2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed.json",
+".andromeda/runs/2026-09-30T08-50-09-phase/gate-2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed.json",
+".andromeda/runs/2026-09-30T08-50-09-phase/layouts-history.md",
+".andromeda/runs/2026-09-30T08-50-09-phase/layouts.md",
+".andromeda/runs/2026-09-30T08-50-09-phase/master-record.txt",
+".andromeda/runs/2026-09-30T08-50-09-phase/obs-history.md",
+".andromeda/runs/2026-09-30T08-50-09-phase/obs.md",
+".andromeda/runs/2026-09-30T08-50-09-phase/planlint-2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed.json",
+".andromeda/runs/2026-09-30T08-50-09-phase/registry-2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed.json",
+".andromeda/runs/2026-09-30T08-50-09-phase/route-2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed.json",
+".andromeda/runs/2026-09-30T08-50-09-phase/route-no-marker.json",
+".andromeda/runs/2026-09-30T08-50-09-phase/security-history.md",
+".andromeda/runs/2026-09-30T08-50-09-phase/security.md",
+".andromeda/runs/2026-09-30T08-50-09-phase/sidecar-2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed.json",
+".andromeda/runs/2026-09-30T08-50-09-phase/tests-history.md",
+".andromeda/runs/2026-09-30T08-50-09-phase/tests.md",
+".andromeda/runs/2026-09-30T08-50-09-phase/tree-query-2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed.json",
+"conductor-0.3.0/chunks/2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed/plan.md",
+"conductor-0.3.0/chunks/2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed/research.md",
+"conductor-0.3.0/chunks/2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed/scope.md"
+]
+},
+"unmapped": [],
+"prose": [
+{
+"from": 240,
+"to": 245,
+"text": "The PREREQ pair runs first, against the untouched base (step 1), and again in the full P2 run over the chunk's delta. The chunk itself has zero Rust delta, but the PREREQ un-defers workspace nextest and clippy regardless. The UI gate is the routine `--e2e` self-verify. The driven leg is `leg = 'live'`, preceded by its non-priming probe, and fired only on the operator's word (the slot). No `status` smoke: the chunk has no boot-path change, and `status` cannot tell this run from residue (verification-harness.md 2026-08-11). The CI acceptance needs the operator pass (hygiene → pre-CI commit → push → CI read)."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "build",
+"run": "cd crates/conductor-tauri/ui && npm run build",
+"run_sha8": "80eb6ef7",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "cd crates/conductor-tauri/ui && npm run typecheck:e2e",
+"run_sha8": "ed7b10f9",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "cd crates/conductor-tauri/ui && npm run a11y:ownership",
+"run_sha8": "e833c843",
+"expect": [
+"exit 0",
+"contains 11 claims · 9 owned (5 operator-local, carve-out) · 2 n/a-by-construction · 0 recorded gaps",
+"last line ownership: every claim resolved"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "d=$(\"$CONDUCTOR_MSEDGEDRIVER\" --version | grep -oE '[0-9]+(\\.[0-9]+){3}'); r=$(reg query 'HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\EdgeUpdate\\Clients\\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}' //v pv | grep -oE '[0-9]+(\\.[0-9]+){3}'); echo \"driver $d runtime $r\"; test -n \"$d\" && test \"$d\" = \"$r\"",
+"run_sha8": "342e374d",
+"expect": [
+"exit 0",
+"contains driver "
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed\\phase-2026-09-30T08-50-09\\6.log",
+"bytes": 43,
+"log_sha8": "987e6204",
+"exit": 0,
+"seconds": 0.19,
+"readings": [
+"exit 0 ✓",
+"contains 'driver ' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "self-verify",
+"run": "CONDUCTOR_A11Y_STRICT=1 bash scripts/agent-run.sh run --e2e",
+"run_sha8": "bcfd469f",
+"expect": [
+"exit 0",
+"contains [a11y] verdict asserted — 0 failed",
+"contains (expected 2)"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "PATH=\"/d/dev/projects/andromeda-pulse/target/release:$PATH\" cargo run -q -p conductor-cli --bin conductor -- preconditions",
+"run_sha8": "462b8d9f",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "e2e",
+"run": "cd crates/conductor-tauri/ui && PATH=\"/d/dev/projects/andromeda-pulse/target/release:$PATH\" npm run a11y:driven",
+"run_sha8": "b1ef609f",
+"expect": [
+"exit 0",
+"contains Spec Files: 1 passed, 1 total"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "tasklist | grep -ciE \"^(msedgedriver|conductor-tauri)\\.exe\"",
+"run_sha8": "9167c0a8",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "{ git diff --numstat 7ee2fea -- crates/conductor-core/ crates/conductor-run/ crates/conductor-cli/ crates/conductor-verify/ crates/conductor-emit/ crates/conductor-faults/ crates/conductor-timeline/ crates/conductor-report/ crates/conductor-tauri/src/ crates/conductor-tauri/capabilities/ crates/conductor-tauri/Cargo.toml crates/conductor-tauri/ui/package.json crates/conductor-tauri/ui/package-lock.json Cargo.toml Cargo.lock .github/ scripts/agent-run.sh scripts/agent-run.ps1 contracts/ scenarios/; git ls-files --others --exclude-standard -- crates/conductor-core/ crates/conductor-run/ crates/conductor-cli/ crates/conductor-verify/ crates/conductor-emit/ crates/conductor-faults/ crates/conductor-timeline/ crates/conductor-report/ crates/conductor-tauri/src/ crates/conductor-tauri/capabilities/ Cargo.toml Cargo.lock .github/ scripts/agent-run.sh scripts/agent-run.ps1 contracts/ scenarios/; }",
+"run_sha8": "5275d598",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed\\phase-2026-09-30T08-50-09\\11.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.11,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "git diff 7ee2fea -- crates/conductor-tauri/ui/wdio.conf.ts | grep -cE '^[-+].*(UNSAFE_PATH|nativeDriver|exitUnresolvedHandle|CONDUCTOR_A11Y_STRICT|CONDUCTOR_MSEDGEDRIVER)' ",
+"run_sha8": "a9dc8d31",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed\\phase-2026-09-30T08-50-09\\12.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.08,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "git diff 7ee2fea -- crates/conductor-tauri/ui/src crates/conductor-tauri/ui/test | grep -cE '^\\+.*(@opentelemetry|#[0-9A-Fa-f]{6}\\b|#[0-9A-Fa-f]{3}\\b)' ",
+"run_sha8": "fd7e8bac",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed\\phase-2026-09-30T08-50-09\\13.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.08,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "test -d conductor-0.3.0/chunks/2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed/evidence && find conductor-0.3.0/chunks/2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed/evidence -type f -exec cat {} + | grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|/home/|/Users/|%APPDATA%|\\.rustup|\\.cargo[\\\\/]\"",
+"run_sha8": "0c42a0e6",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed\\phase-2026-09-30T08-50-09\\14.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.05,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✗ (last: '')"
+],
+"survivors": [],
+"outcome": "red · last line '0' ✗ (last: '')"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "python -X utf8 C:/Users/turbo/.claude/skills/andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "f0648308",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD && echo \"PUSHED_SHA=$(git rev-parse HEAD)\"",
+"run_sha8": "6bf569fe",
+"expect": [
+"exit 0",
+"contains PUSHED_SHA="
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "python -X utf8 C:/Users/turbo/.claude/skills/andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1200",
+"run_sha8": "0d290d69",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-30T09:21:46Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"conductor-0.3.0/chunks/2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed/research.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T08-50-09-phase",
+"--marker",
+"2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 15 items (new 1 · modify 14 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 15,
+"unparsed": 0
+}
+}
+]

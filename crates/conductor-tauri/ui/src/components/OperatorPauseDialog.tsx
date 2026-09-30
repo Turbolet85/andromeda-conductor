@@ -46,6 +46,15 @@ export default function OperatorPauseDialog({
             event.preventDefault()
             target.focus()
           }}
+          // Ctrl+Enter proceeds from anywhere in the dialog (a11y-plan §5 Per-surface keyboard shortcuts).
+          // preventDefault first, so a focused Abort button can never also activate on the same Enter.
+          // Escape stays Radix's own dismiss, which the owner resolves as No-Go.
+          onKeyDown={(event) => {
+            if (event.key !== 'Enter' || !event.ctrlKey) return
+            if (event.altKey || event.shiftKey || event.metaKey) return
+            event.preventDefault()
+            onProceed()
+          }}
         >
           <AlertDialog.Title className="dialog__title type-heading">{title}</AlertDialog.Title>
           <AlertDialog.Description asChild>
@@ -59,13 +68,23 @@ export default function OperatorPauseDialog({
           <div className="dialog__actions">
             {allowNoGo ? (
               <AlertDialog.Cancel asChild>
-                <button type="button" className="dialog__btn dialog__btn--abort" onClick={onAbort}>
+                <button
+                  type="button"
+                  className="dialog__btn dialog__btn--abort"
+                  onClick={onAbort}
+                  aria-keyshortcuts="Escape"
+                >
                   {abortLabel}
                 </button>
               </AlertDialog.Cancel>
             ) : null}
             <AlertDialog.Action asChild>
-              <button type="button" className="dialog__btn dialog__btn--proceed" onClick={onProceed}>
+              <button
+                type="button"
+                className="dialog__btn dialog__btn--proceed"
+                onClick={onProceed}
+                aria-keyshortcuts="Control+Enter"
+              >
                 {proceedLabel}
               </button>
             </AlertDialog.Action>

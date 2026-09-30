@@ -1,0 +1,205 @@
+[
+{
+"tool": "planlint",
+"v": "1.3",
+"sha8": "d8e85b22",
+"ts": "2026-09-30T09:14:15Z",
+"argv": [
+"check",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T08-50-09-phase",
+"--marker",
+"2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"fence: unread · plan: conductor-0.3.0/chunks/2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed/plan.md · r…",
+"UNPARSED: Expected newline or end of document after a statement (at line 57, column 141) — check 4 (0) is gate.py's",
+"check 9 · CI-outcome reads: INDETERMINATE: fence unread · Platform issues consulted: none · `none. No runner-only bull…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: INDETERMINATE: fence unread · Harness rules consulted: filled · ``.claude/rules/ve…`",
+"check 4 (5) · leg entries with a content atom: INDETERMINATE: fence unread",
+"check 4 (13) · operator CI-outcome reads: INDETERMINATE: fence unread",
+"hits: 0 — each is resolved by its check's own resolution (validation.md 9 · 4 (5) · 4 (13)); 0 hits is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": null,
+"operator": 0,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": null,
+"hit": false
+},
+"atom": null,
+"tool": null,
+"hits": 0
+}
+},
+{
+"tool": "planlint",
+"v": "1.3",
+"sha8": "d8e85b22",
+"ts": "2026-09-30T09:14:26Z",
+"argv": [
+"check",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T08-50-09-phase",
+"--marker",
+"2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"fence: 17 entries · plan: conductor-0.3.0/chunks/2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed/plan.md…",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none. No runner-only bulle…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 1 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md`, re…`",
+"check 4 (5) · leg entries with a content atom: 4 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"hits: 0 — each is resolved by its check's own resolution (validation.md 9 · 4 (5) · 4 (13)); 0 hits is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 1,
+"hit": false
+},
+"atom": {
+"atomed": 4,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"hits": 0
+}
+},
+{
+"tool": "planlint",
+"v": "1.3",
+"sha8": "d8e85b22",
+"ts": "2026-09-30T09:17:24Z",
+"argv": [
+"check",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T08-50-09-phase",
+"--marker",
+"2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"fence: 17 entries · plan: conductor-0.3.0/chunks/2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed/plan.md…",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none. No runner-only bulle…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 1 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md`, re…`",
+"check 4 (5) · leg entries with a content atom: 4 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"hits: 0 — each is resolved by its check's own resolution (validation.md 9 · 4 (5) · 4 (13)); 0 hits is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 1,
+"hit": false
+},
+"atom": {
+"atomed": 4,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"hits": 0
+}
+},
+{
+"tool": "planlint",
+"v": "1.3",
+"sha8": "d8e85b22",
+"ts": "2026-09-30T09:21:46Z",
+"argv": [
+"check",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T08-50-09-phase",
+"--marker",
+"2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"fence: 20 entries · plan: conductor-0.3.0/chunks/2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed/plan.md…",
+"check 9 · CI-outcome reads: 1 · leg operator exempt: 1 · Platform issues consulted: none · `none. No runner-only bulle…`",
+"check 9 · runner-only scope bullet: not read — the letter's",
+"check 4 (5) · leg = 'live' entries: 2 · Harness rules consulted: filled · ``.claude/rules/verification-harness.md`, re…`",
+"check 4 (5) · leg entries with a content atom: 5 · note without `atom from`: 0",
+"check 4 (13) · operator CI-outcome reads: 1 · not ci.py conclusion: 0",
+"hits: 0 — each is resolved by its check's own resolution (validation.md 9 · 4 (5) · 4 (13)); 0 hits is not a pass"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"check9": {
+"slot": "none",
+"ci_reads": 1,
+"operator": 1,
+"hit": false
+},
+"harness": {
+"slot": "filled",
+"live": 2,
+"hit": false
+},
+"atom": {
+"atomed": 5,
+"bare": []
+},
+"tool": {
+"operator": 1,
+"hand": []
+},
+"hits": 0
+}
+}
+]

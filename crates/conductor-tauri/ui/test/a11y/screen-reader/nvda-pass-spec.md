@@ -112,7 +112,7 @@ Every row's `Heard`, `Result` and `Arm` live in the evidence (`nvda-pass.json`),
 | S0-06 | focus | select the suite | ArrowUp ×2, Enter on "Suite — all scenarios" | [role="option"][aria-current="true"] whose aria-label carries " · selected" | the committed choice announced WITH its selected state as it becomes current — no longer waiting for a re-read | SC 4.1.2 |
 | S0-07 | focus | Start control after a selection | Tab | button "Start" (aria-disabled=false) | "Start" + button, NOT unavailable | SC 4.1.2 |
 | S0-08 | browse | Stop control while idle | none (unfocusable) | button "Stop" (native disabled) | "Stop" + button + unavailable, by navigation only | SC 4.1.2 |
-| S0-09 | focus | coverage rows scroll region | Tab | div[tabindex=0] › table[aria-label="Coverage rows"] | the region named "Coverage rows" ONLY — focusing it must not read the table's rows as one utterance | SC 1.3.1 |
+| S0-09 | focus | coverage matrix current row | Tab | tr[tabindex=0][aria-current=true] in table[aria-label="Coverage rows"] | the focused row alone, its P-ID read ("P-001"), never the table's rows as one utterance (a second row's "P-002" heard fails it) | SC 1.3.1 |
 | S0-13 | browse | heading list — three h2, no h1 (finding) | `h` (browse-mode next heading) | h2 "Scenario / suite" · "Coverage matrix" · "Run report" | "Scenario / suite heading level 2" | SC 1.3.1 |
 | S0-14 | browse | landmark list — banner · main · two regions; contentinfo absent (finding) | `d` (browse-mode next landmark) | header (banner) · main · section[aria-label] | "main landmark" | SC 1.3.1 |
 | S0-15 | browse | coverage matrix not-yet-run cell | ArrowDown (browse-mode next line) | td.cov__status "Not yet run" (text, never a tint) | "Not yet run" as a table cell | SC 1.4.1 |
@@ -167,11 +167,11 @@ Every row's `Heard`, `Result` and `Arm` live in the evidence (`nvda-pass.json`),
 | E0-02 | focus | Minimize window control | Tab | button[aria-label="Minimize window"] | "Minimize window" + button | SC 4.1.2 |
 | E0-03 | focus | Close window control | Tab | button[aria-label="Close window"] | "Close window" + button | SC 4.1.2 |
 | E0-04 | focus | Start control with no selection possible | Tab | button "Start" (aria-disabled=true) | "Start" + button + unavailable | SC 4.1.2 |
-| E0-05 | focus | coverage rows scroll region | Tab | div[tabindex=0] › table[aria-label="Coverage rows"] | the region named "Coverage rows" ONLY — not the table read as one utterance | SC 1.3.1 |
+| E0-05 | focus | coverage matrix current row | Tab | tr[tabindex=0][aria-current=true] in table[aria-label="Coverage rows"] | the focused row alone, its P-ID read ("P-001"), never the table's rows as one utterance (a second row's "P-002" heard fails it) | SC 1.3.1 |
 | E0-06 | focus | run report rows scroll region (fixture present) | Tab | div[tabindex=0] › table[aria-label="Run report rows"] | the region named "Run report rows" ONLY — not the table read as one utterance | SC 1.3.1 |
 | E0-07 | browse | run report header | ArrowDown (browse-mode next line) | header "3 scenarios · run lamps-fixture" | the header text | SC 1.3.1 |
 | E0-08 | browse | run report status cells | ArrowDown (browse-mode next line) | td.report__status › lamp labels "Pass" · "Blocked" · "Fail" (glyph aria-hidden) | "Blocked" read as text, never a colour | SC 1.4.1 |
-| E0-09 | browse | coverage lamp for the collided P-ID | Shift+Tab, ArrowDown | row P-019 › lamp "Blocked" (worst-lamp-wins over Pass) | "P-019" … "Blocked" | SC 1.4.1 |
+| E0-09 | browse | coverage lamp for the collided P-ID | Shift+Tab, ArrowDown | Shift+Tab lands on the current coverage row (tr[tabindex=0][aria-current=true]); row P-019 › lamp "Blocked" (worst-lamp-wins over Pass) | "P-019" … "Blocked" | SC 1.4.1 |
 | E0-10 | browse | run-level load-envelope banner | none | p.report__envelope — not rendered (the fixture records no run_envelope row; the DOM proof is v2-25's) | subject-absent | SC 1.4.1 |
 
 ## Rows — error subject (a malformed catalog)

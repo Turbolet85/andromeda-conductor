@@ -1,3 +1,4 @@
+import { useRef, useState, type KeyboardEvent } from 'react'
 import StatusLamp from './StatusLamp'
 import type { Lamp } from '../lamp'
 import './CoverageMatrix.css'
@@ -51,13 +52,43 @@ export default function CoverageMatrix({
   lamps?: Record<string, Lamp>
   unbacked?: number
 }) {
+  // Roving focus: the region is ONE tab stop — the current row — and Arrow/Home/End move it (a11y-plan §5
+  // run-console-live / idle-with-report). Component-local, so every consumer's props stay unchanged.
+  const [current, setCurrent] = useState(0)
+  const rowEls = useRef<Array<HTMLTableRowElement | null>>([])
+
+  const onKeyDown = (event: KeyboardEvent<HTMLTableSectionElement>) => {
+    const last = rows.length - 1
+    let next: number
+    switch (event.key) {
+      case 'ArrowDown':
+        next = Math.min(current + 1, last)
+        break
+      case 'ArrowUp':
+        next = Math.max(current - 1, 0)
+        break
+      case 'Home':
+        next = 0
+        break
+      case 'End':
+        next = last
+        break
+      default:
+        return
+    }
+    event.preventDefault()
+    setCurrent(next)
+    // Every row renders (no virtualization), so focusing an off-screen row scrolls it into view natively.
+    rowEls.current[next]?.focus()
+  }
+
   return (
     <section className="cov" aria-label="Capability coverage matrix">
       <header className="cov__summary type-data">{tally(rows, unbacked)}</header>
-      {/* Focusable so the region scrolls by keyboard, but WITHOUT role="group": a focusable group
-          computes the whole table as its accessible content, so focusing it read all 83 rows in one
-          utterance (NVDA pass 2026-09-02, S0-09). The table carries the name instead. */}
-      <div className="cov__scroll" tabIndex={0}>
+      {/* The scroll container is NOT a tab stop and carries no role="group": a focusable group computes
+          the whole table as its accessible content, so focusing it read all 83 rows in one utterance
+          (NVDA pass 2026-09-02, S0-09). The focused ROW is the stop, and the table carries the name. */}
+      <div className="cov__scroll">
         <table className="cov__table" aria-label="Coverage rows">
           <thead>
             <tr>
@@ -75,11 +106,21 @@ export default function CoverageMatrix({
               </th>
             </tr>
           </thead>
-          <tbody>
-            {rows.map((r) => {
+          <tbody onKeyDown={onKeyDown}>
+            {rows.map((r, i) => {
               const lamp = lamps?.[r.p_id]
               return (
-                <tr key={r.p_id} className="cov__row">
+                <tr
+                  key={r.p_id}
+                  ref={(el) => {
+                    rowEls.current[i] = el
+                  }}
+                  className="cov__row"
+                  tabIndex={i === current ? 0 : -1}
+                  aria-current={i === current ? 'true' : undefined}
+                  // Focus by any means (Tab, click) makes the row current, so mouse and keyboard agree.
+                  onFocus={() => setCurrent(i)}
+                >
                   <td className="cov__pid type-data">{r.p_id}</td>
                   <td className="cov__cap">
                     <span className="cov__title type-label">{r.title}</span>

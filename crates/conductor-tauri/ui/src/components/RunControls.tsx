@@ -25,6 +25,7 @@ export default function RunControls({
           if (canStart && !running) onStart()
         }}
         aria-disabled={!canStart || running}
+        aria-keyshortcuts="Control+Enter"
       >
         Start
       </button>
@@ -33,9 +34,15 @@ export default function RunControls({
         className="run-btn run-btn--stop type-label"
         onClick={onStop}
         disabled={!running}
+        aria-keyshortcuts="Control+."
       >
         Stop
       </button>
+      {/* The key map made discoverable. Button TEXT stays Start / Stop: selectors and the dialog's focus
+          restore key on it, so the hint is a sibling line — not focusable, no live region. */}
+      <p className="run-controls__hint type-data">
+        {'Ctrl+Enter start · proceed   Ctrl+. stop   Esc abort'}
+      </p>
     </div>
   )
 }

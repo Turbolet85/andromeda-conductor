@@ -1,0 +1,49 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-30T10:56:03Z",
+"argv": [
+"implement",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed",
+"--id",
+"v3-03",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-30T09-58-22-implement"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"implement v3-03 · status planned → implemented · ref crates/conductor-tauri/ui/test/a11y/check-claim-ownership.ts (npm run a11y:owner… (1278 chars)",
+"wrote conductor-0.3.0\\verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0\\verification-matrix.json"
+],
+"before": {
+"id": "v3-03",
+"chunk": "2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed",
+"status": "planned",
+"method": "a11y",
+"ref": "null",
+"acceptance": "Every a11y-plan §5 keyboard-reachability, focus-order and focus-visible claim is owned by exactly one suite and actually… (1560 chars)",
+"notes_chars": 3512
+},
+"after": {
+"id": "v3-03",
+"chunk": "2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed",
+"status": "implemented",
+"method": "a11y",
+"ref": "crates/conductor-tauri/ui/test/a11y/check-claim-ownership.ts (npm run a11y:ownership → \"11 claims · 9 owned (5 operator-… (1278 chars)",
+"acceptance": "Every a11y-plan §5 keyboard-reachability, focus-order and focus-visible claim is owned by exactly one suite and actually… (1560 chars)",
+"notes_chars": 3512
+}
+}
+]

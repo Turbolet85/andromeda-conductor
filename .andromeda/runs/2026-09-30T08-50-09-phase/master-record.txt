@@ -1,0 +1,1 @@
+2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed · pending · Unasserted keyboard and focus-visible claims closed — coverage-matrix row navigation, the first-class shortcuts and the SC 2.4.7 active-element ring given real assertions (v3-03), after the Rust gate deferral closes · → conductor-0.3.0/chunks/2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed/

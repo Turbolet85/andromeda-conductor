@@ -207,9 +207,10 @@ interface FocusVisit {
  * order — read in one page call so the three cannot describe different moments.
  *
  * Identity is the index, never the name: two controls can share a name. The coverage and report scroll
- * regions are both unnamed `<div tabindex="0">` (each carries its label on the inner table, deliberately —
- * a named focusable region made NVDA read the whole table in one utterance), so both project to "DIV" and
- * a name-keyed set silently collapses six elements into five (measured 2026-09-17).
+ * regions were both unnamed `<div tabindex="0">` (each carries its label on the inner table, deliberately —
+ * a named focusable region made NVDA read the whole table in one utterance), so both projected to "DIV" and
+ * a name-keyed set silently collapsed six elements into five (measured 2026-09-17). The coverage stop is now
+ * its current ROW (roving focus), which projects to "TR" — still unnamed, so the rule stands.
  *
  * An `<input>` is named by its label/placeholder, never by textContent: an input's textContent is ALWAYS
  * empty, which would make the picker's filter box indistinguishable from "no element".
@@ -263,6 +264,86 @@ async function tabCycle(): Promise<{ cycle: FocusVisit[]; visits: FocusVisit[]; 
     firstSeenAt.set(index, visits.length - 1)
   }
   return { cycle: lap, visits, roster }
+}
+
+/** A colour normalized to sRGB hex, so a token's authored spelling and a computed rgb() compare equal. */
+function hex(color: string): string {
+  try {
+    return new Color(color).to('srgb').toString({ format: 'hex' })
+  } catch {
+    return JSON.stringify(color)
+  }
+}
+
+function sameColor(a: string, b: string): boolean {
+  return hex(a) === hex(b)
+}
+
+/**
+ * The focused element's computed outline, plus the outline style of the element at `prevIndex` in the live
+ * focusable set — the stop just left — read in one page call so both describe the same moment.
+ */
+function ringAt(
+  prevIndex: number,
+): Promise<{ index: number; name: string; style: string; color: string; prevStyle: string }> {
+  return browser.execute(
+    (selector: string, prevAt: number) => {
+      const set = Array.from(document.querySelectorAll(selector))
+      const el = document.activeElement as HTMLElement | null
+      const style = el ? getComputedStyle(el) : null
+      const prev = prevAt >= 0 ? set[prevAt] : undefined
+      return {
+        index: el ? set.indexOf(el) : -1,
+        name: el ? `${el.tagName}${el.getAttribute('aria-label') ? `(${el.getAttribute('aria-label')})` : ''}` : 'none',
+        style: style?.outlineStyle ?? 'none',
+        color: style?.outlineColor ?? '',
+        prevStyle: prev ? getComputedStyle(prev).outlineStyle : 'none',
+      }
+    },
+    FOCUSABLE_SELECTOR,
+    prevIndex,
+  )
+}
+
+/**
+ * The coverage matrix as the keyboard sees it, in one page call: the focused row's DOM index (-1 off the
+ * rows), the rows carrying aria-current / tabindex=0, whether the last row lies inside the scroll region,
+ * and the current row's edge and ring colours beside a non-current row's edge.
+ */
+function matrixState(): Promise<{
+  index: number
+  rows: number
+  current: number[]
+  stops: number[]
+  lastRowInside: boolean
+  currentEdge: string
+  otherEdge: string
+  currentRing: string
+}> {
+  return browser.execute(() => {
+    const rows = Array.from(document.querySelectorAll<HTMLElement>('[class~="cov__row"]'))
+    const where = (pred: (row: HTMLElement) => boolean) => rows.flatMap((row, i) => (pred(row) ? [i] : []))
+    const current = where((row) => row.getAttribute('aria-current') === 'true')
+    const edge = (row: HTMLElement | undefined) => {
+      const pid = row?.querySelector('[class~="cov__pid"]')
+      return pid ? getComputedStyle(pid).borderLeftColor : ''
+    }
+    const currentRow = rows[current[0] ?? -1]
+    const otherRow = rows.find((row) => row !== currentRow)
+    const region = rows[0]?.closest('[class~="cov__scroll"]')?.getBoundingClientRect()
+    const lastRow = rows[rows.length - 1]?.getBoundingClientRect()
+    return {
+      index: document.activeElement ? rows.indexOf(document.activeElement as HTMLElement) : -1,
+      rows: rows.length,
+      current,
+      stops: where((row) => row.getAttribute('tabindex') === '0'),
+      lastRowInside:
+        !!region && !!lastRow && lastRow.top >= region.top - 1 && lastRow.bottom <= region.bottom + 1,
+      currentEdge: edge(currentRow),
+      otherEdge: edge(otherRow),
+      currentRing: currentRow ? getComputedStyle(currentRow).outlineColor : '',
+    }
+  })
 }
 
 function ratio(fg: string, bg: string): number {
@@ -500,6 +581,92 @@ describe('desktop a11y — routine arm (no live Pulse)', () => {
         ).length,
     )
     expect(positiveTabindex).toBe(0)
+  })
+
+  it('the focused control shows a visible --color-focus ring and the control it left shows none (SC 2.4.7)', async () => {
+    // One full lap by the same first-repeated-identity rule as tabCycle. The negative witness is the
+    // control just LEFT: a ring drawn on every element regardless of focus would pass the first half alone.
+    const ring = await token('--color-focus')
+    const focus = (color: string) => sameColor(ring, color)
+    const { roster, index: startedOn } = await focusSnapshot()
+    let prev = startedOn
+    const firstSeen = new Set<number>()
+    const failures: string[] = []
+    let stops = 0
+    for (let i = 0; i < roster.length * 2 + 2; i += 1) {
+      await browser.keys('Tab')
+      const at = await ringAt(prev)
+      if (at.index < 0) continue
+      if (firstSeen.has(at.index)) break
+      firstSeen.add(at.index)
+      stops += 1
+      if (at.style === 'none' || !focus(at.color)) {
+        failures.push(`${at.name}: outline ${at.style} ${hex(at.color)}`)
+      }
+      if (prev >= 0 && at.prevStyle !== 'none') failures.push(`${roster[prev]} kept outline ${at.prevStyle} after focus left`)
+      prev = at.index
+    }
+    expect(`${stops}/${roster.length} stops · ${failures.join(' | ') || 'no failures'}`).toBe(
+      `${roster.length}/${roster.length} stops · no failures`,
+    )
+  })
+
+  it('coverage-matrix rows navigate by Arrow keys and Home/End through one tab stop, the current row marked aria-current with a --border-emphasis edge (idle-with-report)', async () => {
+    const { roster } = await focusSnapshot()
+    let at = await matrixState()
+    for (let i = 0; i < roster.length + 2 && at.index < 0; i += 1) {
+      await browser.keys('Tab')
+      at = await matrixState()
+    }
+    // One tab stop for the region: the first row, and no other row, is in the Tab order.
+    expect(`row ${at.index} of ${at.rows} · stops [${at.stops.join(',')}]`).toBe(`row 0 of ${at.rows} · stops [0]`)
+
+    // The expected half is the key's documented move over the DOM row count, never the focus read.
+    const last = at.rows - 1
+    const moves: ReadonlyArray<[string, (i: number) => number]> = [
+      ['ArrowDown', (i) => Math.min(i + 1, last)],
+      ['ArrowDown', (i) => Math.min(i + 1, last)],
+      ['ArrowUp', (i) => Math.max(i - 1, 0)],
+      ['End', () => last],
+      ['Home', () => 0],
+    ]
+    let expected = at.index
+    const failures: string[] = []
+    for (const [key, move] of moves) {
+      if (key === 'End' && at.lastRowInside) failures.push('the last row was already inside the scroll region before End')
+      await browser.keys(key)
+      expected = move(expected)
+      at = await matrixState()
+      const read = `${key} → row ${at.index} current [${at.current.join(',')}] stops [${at.stops.join(',')}]`
+      if (read !== `${key} → row ${expected} current [${expected}] stops [${expected}]`) failures.push(read)
+      if (key === 'End' && !at.lastRowInside) failures.push('End did not bring the last row inside the scroll region')
+    }
+
+    // The current row's edge is --border-emphasis, a non-current row's is not, and the ring differs from it.
+    const emphasis = await token('--border-emphasis')
+    if (!sameColor(emphasis, at.currentEdge)) failures.push(`current edge ${hex(at.currentEdge)} ≠ --border-emphasis ${hex(emphasis)}`)
+    if (sameColor(emphasis, at.otherEdge)) failures.push(`a non-current row's edge is --border-emphasis too`)
+    if (sameColor(at.currentEdge, at.currentRing)) failures.push(`the ring ${hex(at.currentRing)} is the edge colour`)
+    expect(failures.join(' | ')).toBe('')
+
+    const findings = await axeFindings()
+    expect(findings.join(' | ')).toBe('')
+  })
+
+  it('the console declares its shortcut map: aria-keyshortcuts on Start and Stop and a visible hint line', async () => {
+    // The substitute CI gate for the driven arm's shortcut claim (claim-ownership.ts): it proves the map is
+    // declared and discoverable, not that a keypress acts — Start would really start a run here.
+    const declared = await browser.execute(() =>
+      Array.from(document.querySelectorAll('[aria-keyshortcuts]')).map(
+        (el) => `${(el.textContent ?? '').trim()}=${el.getAttribute('aria-keyshortcuts')}`,
+      ),
+    )
+    // The whole declared set, so a single-letter or a platform binding (Ctrl+W, Alt+F4) cannot slip in.
+    expect(declared.sort().join(' | ')).toBe('Start=Control+Enter | Stop=Control+.')
+    const hint = await browser.execute(
+      () => document.querySelector('[class~="run-controls__hint"]')?.textContent ?? '(no hint line)',
+    )
+    expect(hint).toBe('Ctrl+Enter start · proceed   Ctrl+. stop   Esc abort')
   })
 
   // --- subject-absent on an idle console: skip with a reason, never fail, never vacuously pass ---

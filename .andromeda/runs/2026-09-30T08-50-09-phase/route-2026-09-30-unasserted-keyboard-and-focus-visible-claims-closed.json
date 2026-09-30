@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-30T08:52:27Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed",
+"--expect-prefix",
+"Unasserted keyboard and focus-visible claims closed",
+"--record-file",
+".andromeda/runs/2026-09-30T08-50-09-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-09-30T08-50-09-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:63 - [2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed]",
+"record master-route.md:160 - appended under `## conductor-0.3.0`",
+"promoted 2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed - working-route:63 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+".\\conductor-0.3.0\\working-route.md",
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+}
+]

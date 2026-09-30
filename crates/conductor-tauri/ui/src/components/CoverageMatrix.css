@@ -20,11 +20,6 @@
   border-radius: var(--radius-md);
 }
 
-.cov__scroll:focus-visible {
-  outline: 2px solid var(--color-focus);
-  outline-offset: -2px;
-}
-
 .cov__table {
   width: 100%;
   border-collapse: collapse;
@@ -48,14 +43,28 @@
   border-bottom: none;
 }
 
+/* The row is the region's one tab stop (roving focus), so the ring is drawn on the row. */
+.cov__row:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: -2px;
+}
+
 .cov__row td {
   padding: var(--space-md);
   vertical-align: baseline;
 }
 
+/* Every first cell reserves the edge's width, so marking the current row never shifts the columns. */
 .cov__pid {
   color: var(--color-id-cyan);
   white-space: nowrap;
+  border-left: 2px solid transparent;
+}
+
+/* The current row — aria-current plus a --border-emphasis edge, distinct from the --color-focus ring
+   (design-system §Border Progression; the picker's committed-choice precedent). */
+.cov__row[aria-current='true'] .cov__pid {
+  border-left-color: var(--border-emphasis);
 }
 
 .cov__cap {

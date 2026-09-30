@@ -1,0 +1,36 @@
+# tests extract
+
+## Relevance
+relevant — the chunk's product is new assertions on the desktop-webview E2E tier (the routine `--e2e` arm) plus a re-proven `a11y:ownership` enumeration, with a workspace nextest + clippy PREREQ.
+
+## Constraints
+- The PREREQ's two gates are binding build-failure conditions, not advisory: test-plan §10 (Build failure conditions) requires nextest exit 100/101 and clippy `-D warnings` to fail the build, and §11 Quality bans skipping a quality gate "just this once". The un-deferred workspace runs are therefore real gate entries, measured once at the chunk base and again over the chunk's delta.
+- The routine arm's verdict is the PRINTED verdict, not the exit code: test-plan §3 (`run` 5-command implementation, the `--e2e` clause) requires both shells to read the exit from the bare command, then require a zero `Spec Files:` failed count, a per-spec skip tally within the expected-skip SET (the two live-hold subjects), and the `[webview2 … windows]` session banner. A third skip is a failure. Any new assertion that needs a live HOLD (the Proceed/Abort shortcuts of the `:370` claim) and context-skips on the routine arm would break that rule. Whether a routine-arm assertion can reach those shortcuts without a live hold is research's question.
+- A spec whose DOM state the seeded subject cannot produce context-skips, and a context-skip is never a pass (test-plan §6 desktop-webview row, the ROUTINE-arm clause). The seeded `runs/e2e-fixture` subject (§3, §7) is what the coverage-matrix and run-report row-navigation assertions have to drive. Whether it renders enough rows, and an idle-with-report state, to exercise row focus and selection is research's question.
+- TS harness members are proven only by EXECUTING a leg that loads them, never by `tsc --noEmit` / `vite build` (test-plan §4, the conductor-tauri/ui bullet). A changed `claim-ownership.ts` or `check-claim-ownership.ts` is proven by `npm run a11y:ownership`, asserted on its printed last line `ownership: every claim resolved` beside its exit. A changed `accessibility.e2e.ts` is proven by `--e2e`. Per the same §4 bullet, `a11y:ownership` is operator-local, with no CI step and no sixth `agent-run` command.
+- No JS/TS unit runner may be adopted for the new frontend behaviour: test-plan §4 (the same bullet) and §12 hold that decision unchanged. Keyboard and focus behaviour is asserted at the webview E2E tier, not by a new unit framework.
+- The routine-arm leg fires only on a coherent driver/runtime PAIR. test-plan §6 (desktop-webview row) treats the working set as a set of pairs, never either literal alone, and makes refreshing the driver after a runtime update the operator's host task BEFORE the leg. The take-up measurement (154.0.4258.37 × 154.0.4258.37) is re-read before firing, never inherited.
+- The zero-flakiness budget applies to the new webview assertions: test-plan §10 (Zero-flakiness budget) and §11 CI/Quality ban retries and retry-once policies. A focus or keyboard assertion that races the DOM is a determinism defect to fix at its cause.
+
+## Patterns to follow
+- Selectors are role/text/`aria-*`/data-testid plus brand anchors (mono P-ID tokens for coverage-matrix and report rows, text-paired status labels), never hashed CSS classes (test-plan §6, Selector strategy). Row selection is observable through `aria-selected`/`aria-current`, and the active element through `document.activeElement` / role.
+- Routine-arm assertions live in `accessibility.e2e.ts`, which is the wdio default `specs` (test-plan §3 `run`, the `--e2e` clause). The driven arm (`npm run a11y:driven` → `operator-hold.e2e.ts`) is the existing home for Tab/Shift+Tab containment, the Space toggle, Escape→NoGo and focus restoration inside the HOLD dialog (test-plan §6 desktop-webview row).
+- The subject is seeded, never read from host residue. `wdio.conf.ts` `seedFixtureRuns()` clean-re-creates `runs/e2e-fixture/` through the production writer via the `conductor-run` `envelope_fixture` target (test-plan §3 `run`; §7). Any fixture change keeps the round-trip-meaning rule: a committed fixture carries its meaning under test through a production reader/writer (test-plan §7, the fixture-meaning bullet).
+- Synchronisation waits on an explicit signal (element role, `aria-*` state, focus change), never `sleep(N)` inside a test (test-plan §11 E2E).
+
+## Anti-patterns to avoid
+- No xpath, no hashed Tailwind/CSS-class selectors, and no visual-pixel / Percy-style ring checks. A focus-ring assertion reads computed style or role/state, not a screenshot a human reviews (test-plan §11 E2E; §11 Universal).
+- No `sleep(N)` to wait for focus or selection to settle (test-plan §11 E2E).
+- No nextest `retries` and no retry-once to paper over a racy keyboard assertion (test-plan §11 CI; §11 Quality).
+
+## Contract bindings
+- tests ↔ a11y: a11y-plan §5 claims (`:354`, `:356`, `:370`, and SC 2.4.7 in the harness pattern) are asserted on the harness's routine arm. `claim-ownership.ts` is the enumeration the §4 `a11y:ownership` leg proves. A new SC 2.4.7 row changes that enumeration's population, and whether the checker's population logic (`NA_CLAIMS`) accommodates it is research's question.
+- tests ↔ CI (§9): the routine arm is the `a11y` job's gate step under `CONDUCTOR_A11Y_STRICT`, which turns an unresolved handle into exit 1 (test-plan §9, E2E (webview) row). The chunk plans no CI change. New routine-arm assertions therefore run in CI automatically, and the gate step never carries `continue-on-error`.
+- tests ↔ obs: the leg's per-run violation record at `runs/a11y/<run_id>.jsonl` (the §3 eleven-field envelope plus obs §9 resource tags) is graded in CI by the reused `journal_conformance` gate (test-plan §3 `run`; §9). New assertions must not alter that record's shape.
+- tests ↔ frontend/arch: `--e2e` runs ensure-frontend, then a release build with `--features tauri/custom-protocol`, because the feature and not the profile decides bundle embedding (test-plan §3 `run`). The workspace nextest/clippy PREREQ also needs the webview bundle built before `conductor-tauri` compiles.
+
+## Acceptance criteria contributions
+- `cargo nextest run --workspace --profile ci` and `cargo clippy --workspace --all-targets -- -D warnings` are each green (exit read from the bare command), measured at chunk base `7ee2fea` before any change and again over the chunk's delta (per test-plan §10 Build failure conditions; §11 Quality).
+- `agent-run.{sh,ps1} run --e2e` on a re-read coherent driver/runtime pair prints a verdict with zero failed specs, a skip tally within the expected-skip SET of the two live-hold subjects (no third skip), and the `[webview2 … windows]` banner. Each claim moved to `owned` is backed by a routine-arm assertion that ran and passed, not one that context-skipped (per test-plan §3 `run`; §6 desktop-webview row).
+- `npm run a11y:ownership` exits 0 and prints `ownership: every claim resolved` as its last line. It carries the four claims `owned` (SC 2.4.7 as a new row) and no `unasserted` row for them (per test-plan §4, the conductor-tauri/ui bullet).
+- The new assertions use only role/text/`aria-*`/data-testid selectors and signal-based waits, with no xpath, hashed-class selectors, pixel comparison or `sleep` (per test-plan §6 Selector strategy; §11 E2E).

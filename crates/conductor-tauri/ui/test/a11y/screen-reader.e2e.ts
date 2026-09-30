@@ -259,11 +259,10 @@ async function expectActive(name: string): Promise<void> {
 }
 
 /**
- * The coverage / run-report scroll regions are focusable so the keyboard can scroll them, but they
- * carry no name of their own: a focusable `role="group"` computed the whole table as its accessible
- * content and read every row in one utterance (S0-09, E0-05/E0-06). The name now sits on the table
- * they contain. This asserts BOTH halves — focus landed on the scroll container, AND that container's
- * table is the named one — so it is stricter than the name-only check it replaces.
+ * The run-report scroll region is focusable so the keyboard can scroll it, but it carries no name of its
+ * own: a focusable `role="group"` computed the whole table as its accessible content and read every row in
+ * one utterance (E0-06). The name now sits on the table it contains. This asserts BOTH halves — focus
+ * landed on the scroll container, AND that container's table is the named one.
  */
 async function expectActiveScrollRegion(name: string): Promise<void> {
   const landed = (): Promise<boolean> =>
@@ -276,6 +275,26 @@ async function expectActiveScrollRegion(name: string): Promise<void> {
     timeout: 5_000,
     interval: 100,
     timeoutMsg: `focus did not land on the "${name}" scroll region (on "${await activeName()}")`,
+  })
+}
+
+/**
+ * The coverage matrix's one tab stop is its CURRENT ROW (roving focus), not its scroll container: focus
+ * lands on a row carrying tabindex=0 and aria-current=true inside the table named "Coverage rows", so NVDA
+ * reads that row alone (S0-09, E0-05, E0-09).
+ */
+async function expectActiveCoverageRow(): Promise<void> {
+  const landed = (): Promise<boolean> =>
+    browser.execute(() => {
+      const el = document.activeElement as HTMLElement | null
+      if (!el || !el.classList.contains('cov__row')) return false
+      if (el.getAttribute('tabindex') !== '0' || el.getAttribute('aria-current') !== 'true') return false
+      return el.closest('table')?.getAttribute('aria-label') === 'Coverage rows'
+    })
+  await browser.waitUntil(landed, {
+    timeout: 5_000,
+    interval: 100,
+    timeoutMsg: `focus did not land on the current coverage row (on "${await activeName()}")`,
   })
 }
 
@@ -429,7 +448,7 @@ if (subject === 'live') {
       })
       await act('S0-09', 'Tab', async () => {
         await tab()
-        await expectActiveScrollRegion('Coverage rows')
+        await expectActiveCoverageRow()
       })
       await act('S0-13', 'h (browse-mode next heading)', () => browseKey('h'))
       await act('S0-14', 'd (browse-mode next landmark)', () => browseKey('d'))
@@ -590,7 +609,7 @@ if (subject === 'empty') {
       })
       await act('E0-05', 'Tab', async () => {
         await tab()
-        await expectActiveScrollRegion('Coverage rows')
+        await expectActiveCoverageRow()
       })
       await act('E0-06', 'Tab', async () => {
         await tab()
@@ -600,7 +619,7 @@ if (subject === 'empty') {
       await act('E0-08', 'ArrowDown (browse-mode next line)', () => browseKey('ArrowDown'))
       await act('E0-09', 'Shift+Tab, ArrowDown (browse-mode next line)', async () => {
         await shiftTab()
-        await expectActiveScrollRegion('Coverage rows')
+        await expectActiveCoverageRow()
         await browseKey('ArrowDown')
       })
       stamp('E0-10', 'none (subject absent)')

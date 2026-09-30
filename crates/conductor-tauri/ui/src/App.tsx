@@ -244,6 +244,27 @@ export default function App() {
     }
   }
 
+  // The first-class shortcuts (a11y-plan §5 Per-surface keyboard shortcuts): Ctrl+Enter starts, Ctrl+.
+  // stops. They dispatch through the SAME handlers and guards as the buttons, so no command is added. A
+  // hold's dialog owns its own keys, and a defaultPrevented event was already consumed — which is why
+  // Ctrl+Enter inside the picker only selects (cmdk handles Enter first). Single letters stay free for the
+  // picker's type-ahead and NVDA browse mode; platform shortcuts are never bound.
+  useEffect(() => {
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.defaultPrevented || event.repeat || holdPrompt !== null) return
+      if (event.altKey || event.shiftKey || event.metaKey || !event.ctrlKey) return
+      if (event.key === 'Enter' && selection !== null && runState !== 'live') {
+        event.preventDefault()
+        void start()
+      } else if (event.key === '.' && runState === 'live') {
+        event.preventDefault()
+        void stop()
+      }
+    }
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [selection, runState, holdPrompt, start, stop])
+
   return (
     <div
       style={{

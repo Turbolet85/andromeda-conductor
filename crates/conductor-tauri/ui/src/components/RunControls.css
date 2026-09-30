@@ -42,3 +42,11 @@
 .run-btn--stop:not(:disabled) {
   color: var(--status-fail);
 }
+
+/* The key-map hint: recessive prose beside the buttons; `pre` keeps the gaps between its three groups. */
+.run-controls__hint {
+  margin: 0;
+  align-self: center;
+  color: var(--text-tertiary);
+  white-space: pre;
+}

@@ -27,10 +27,27 @@ export const SUITE_INVOCATION: Record<Suite, string> = {
 /** Suites continuous integration runs. The driven and sr arms need a live Pulse / NVDA and stay operator-local. */
 export const CI_SUITES: readonly Suite[] = ['routine']
 
+/**
+ * `inPlace` states what CI gates in place of an owner CI does not run (a11y-plan §11 Strategy). The checker
+ * requires it for every such carve-out, so the obligation cannot be lost by leaving the field out.
+ */
 export type Claim =
-  | { claim: string; sc: string; state: 'owned'; owner: Suite; assertedBy: string }
+  | { claim: string; sc: string; state: 'owned'; owner: Suite; assertedBy: string; inPlace?: string }
   | { claim: string; sc: string; state: 'n/a-by-construction'; basis: string }
   | { claim: string; sc: string; state: 'unasserted'; gap: string }
+
+// The driven arm's one live run carries every hold-dependent and live-state claim, so they share its title.
+const DRIVEN_LIVE_RUN =
+  'one live run: Ctrl+Enter starts it, its coverage matrix row-navigates while live and the count never takes focus, the HOLD dialog traps focus, Space toggles a row, Escape resolves No-Go and restores focus, Ctrl+. stops it and Ctrl+Enter proceeds the next hold'
+
+const ROUTINE_ROW_NAVIGATION =
+  'coverage-matrix rows navigate by Arrow keys and Home/End through one tab stop, the current row marked aria-current with a --border-emphasis edge (idle-with-report)'
+
+const ROUTINE_KEY_MAP =
+  'the console declares its shortcut map: aria-keyshortcuts on Start and Stop and a visible hint line'
+
+const HOLD_IN_PLACE =
+  "a11y-plan §11 Strategy: the routine arm's expected-skip SET of two (agent-run run --e2e), this enumeration and its checker (npm run a11y:ownership)"
 
 export const CLAIMS: readonly Claim[] = [
   {
@@ -51,22 +68,25 @@ export const CLAIMS: readonly Claim[] = [
   {
     claim: 'run-console-live coverage-matrix row navigation',
     sc: 'SC 2.1.1',
-    state: 'unasserted',
-    gap: 'no suite drives Arrow keys against the coverage matrix; the only Arrow assertions in the tree are on the picker listbox, in the sr leg',
+    state: 'owned',
+    owner: 'driven',
+    assertedBy: DRIVEN_LIVE_RUN,
+    inPlace: `the routine arm's row-navigation spec ("${ROUTINE_ROW_NAVIGATION}") over the SAME CoverageMatrix component, which App.tsx renders in every run state`,
   },
   {
     claim: 'run-console-HOLD focus order',
     sc: 'SC 2.4.3',
     state: 'owned',
     owner: 'driven',
-    assertedBy:
-      'the real HOLD dialog traps focus, Space toggles a row, Escape resolves NoGo and restores focus',
+    assertedBy: DRIVEN_LIVE_RUN,
+    inPlace: HOLD_IN_PLACE,
   },
   {
     claim: 'idle-with-report coverage-matrix row navigation',
     sc: 'SC 2.4.3',
-    state: 'unasserted',
-    gap: 'the report-site row navigation and its aria-selected/aria-current marking are asserted by no suite; the report-site render is itself a route-owned gap',
+    state: 'owned',
+    owner: 'routine',
+    assertedBy: ROUTINE_ROW_NAVIGATION,
   },
   {
     claim: 'skip links',
@@ -80,16 +100,16 @@ export const CLAIMS: readonly Claim[] = [
     sc: 'SC 2.1.2',
     state: 'owned',
     owner: 'driven',
-    assertedBy:
-      'the real HOLD dialog traps focus, Space toggles a row, Escape resolves NoGo and restores focus',
+    assertedBy: DRIVEN_LIVE_RUN,
+    inPlace: HOLD_IN_PLACE,
   },
   {
     claim: 'focus restoration to the triggering control',
     sc: 'SC 2.4.3',
     state: 'owned',
     owner: 'driven',
-    assertedBy:
-      'the real HOLD dialog traps focus, Space toggles a row, Escape resolves NoGo and restores focus',
+    assertedBy: DRIVEN_LIVE_RUN,
+    inPlace: HOLD_IN_PLACE,
   },
   {
     claim: 'no route-change focus surface',
@@ -101,8 +121,18 @@ export const CLAIMS: readonly Claim[] = [
   {
     claim: 'per-surface keyboard shortcuts',
     sc: 'SC 2.1.1',
-    state: 'unasserted',
-    gap: 'no suite drives the first-class start / stop / proceed / abort shortcuts; every Enter and Space in the tree activates an already-focused control',
+    state: 'owned',
+    owner: 'driven',
+    assertedBy: DRIVEN_LIVE_RUN,
+    inPlace: `the routine arm's key-map declaration spec ("${ROUTINE_KEY_MAP}"): the declared map and its visible hint, since a Start keypress there would start a real run`,
+  },
+  {
+    claim: 'visible focus ring on the active element',
+    sc: 'SC 2.4.7',
+    state: 'owned',
+    owner: 'routine',
+    assertedBy:
+      'the focused control shows a visible --color-focus ring and the control it left shows none (SC 2.4.7)',
   },
 ]
 

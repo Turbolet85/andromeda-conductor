@@ -1,0 +1,108 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-30T09:22:05Z",
+"argv": [
+"coverage",
+"--dir",
+"conductor-0.3.0",
+"--run-dir",
+".andromeda/runs/2026-09-30T08-50-09-phase",
+"--marker",
+"2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"verified 9/11 · deferred 1 · planned 1 · implemented 0 · unclaimed 1",
+"unclaimed: v3-03",
+"claimed-unfinished: none",
+"done-test: NO — 1 not verified|deferred · unclaimed 1",
+"chunks referenced: 9 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-30T09:22:19Z",
+"argv": [
+"claim",
+"--dir",
+"conductor-0.3.0",
+"--id",
+"v3-03",
+"--chunk",
+"2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed",
+"--acceptance-file",
+".andromeda/runs/2026-09-30T08-50-09-phase/acceptance-v3-03.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T08-50-09-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claim v3-03 → chunk 2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed (was null; status planned kept)",
+"acceptance: For every keyboard-reachability and focus-order claim the requirement … (332 chars)",
+"         → Every a11y-plan §5 keyboard-reachability, focus-order and focus-visibl… (1560 chars)",
+"wrote conductor-0.3.0\\verification-matrix.json · 1 entry changed",
+"pool: unclaimed 0"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0\\verification-matrix.json"
+],
+"before": {
+"id": "v3-03",
+"chunk": null,
+"status": "planned",
+"method": "a11y",
+"ref": "null",
+"acceptance": "For every keyboard-reachability and focus-order claim the requirement makes, exactly one suite is named as its owner and… (332 chars)",
+"notes_chars": 3512
+},
+"after": {
+"id": "v3-03",
+"chunk": "2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed",
+"status": "planned",
+"method": "a11y",
+"ref": "null",
+"acceptance": "Every a11y-plan §5 keyboard-reachability, focus-order and focus-visible claim is owned by exactly one suite and actually… (1560 chars)",
+"notes_chars": 3512
+}
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-30T09:22:19Z",
+"argv": [
+"audit",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T08-50-09-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed by 2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed: 1 · ## Acceptance Criteria: line 449, 72 lines",
+"v3-03: cited in ## Acceptance Criteria (line 456)",
+"pool: unclaimed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

@@ -100,10 +100,13 @@ export const ROWS: readonly SpecRow[] = [
   },
   {
     id: 'S0-09', subject: 'live', state: 'idle', cls: 'focus',
-    item: 'coverage rows scroll region', node: 'div[tabindex=0] › table[aria-label="Coverage rows"]',
+    item: 'coverage matrix current row',
+    node: 'tr[tabindex=0][aria-current=true] in table[aria-label="Coverage rows"]',
     sc: 'SC 1.3.1',
-    expected: 'the region named "Coverage rows" only — focusing it must NOT read the table\'s rows as one utterance (the role="group" that did is gone)',
-    tokens: ['Coverage rows'],
+    expected: "the focused row alone, its P-ID read, never the table's rows as one utterance",
+    // Row 0 in manifest order is P-001; hearing a SECOND row's P-ID means the table was read as one utterance.
+    tokens: ['P-001'],
+    forbidden: ['P-002'],
   },
   {
     id: 'S0-13', subject: 'live', state: 'idle', cls: 'browse',
@@ -267,8 +270,12 @@ export const ROWS: readonly SpecRow[] = [
   },
   {
     id: 'E0-05', subject: 'empty', state: 'idle-report', cls: 'focus',
-    item: 'coverage rows scroll region', node: 'div[role="group"][aria-label="Coverage rows"]',
-    sc: 'SC 1.3.1', expected: `"Coverage rows" + grouping`, tokens: ['Coverage rows'],
+    item: 'coverage matrix current row',
+    node: 'tr[tabindex=0][aria-current=true] in table[aria-label="Coverage rows"]',
+    sc: 'SC 1.3.1',
+    expected: "the focused row alone, its P-ID read, never the table's rows as one utterance",
+    tokens: ['P-001'],
+    forbidden: ['P-002'],
   },
   {
     id: 'E0-06', subject: 'empty', state: 'idle-report', cls: 'focus',
@@ -289,7 +296,8 @@ export const ROWS: readonly SpecRow[] = [
   },
   {
     id: 'E0-09', subject: 'empty', state: 'idle-report', cls: 'browse',
-    item: 'coverage lamp for the collided P-ID', node: 'row P-019 › lamp "Blocked" (worst-lamp-wins over Pass)',
+    item: 'coverage lamp for the collided P-ID',
+    node: 'Shift+Tab lands on the current coverage row (tr[tabindex=0][aria-current=true]); row P-019 › lamp "Blocked" (worst-lamp-wins over Pass)',
     sc: 'SC 1.4.1', expected: '"P-019" … "Blocked" by navigation', tokens: ['P-019'],
   },
   {

@@ -149,6 +149,13 @@ function seedFixtureRuns(): void {
 
 const DRIVEN_RUNS_DIR = 'runs/driven/runs'
 
+// The driven arm's trimmed catalog: the catalog's only two [[checklist]] scenarios, so ONE live run
+// reaches two holds behind ONE preflight canary (sorted order: halo-breathing holds first, halo-hue
+// second). A full catalog would put the first hold ~76 minutes in (verification-harness.md 2026-08-19).
+// Repo-relative under the gitignored /runs/, as resolve_under requires.
+const DRIVEN_SCENARIOS_DIR = 'runs/driven/scenarios'
+const DRIVEN_SCENARIOS = ['halo-breathing-encoding.toml', 'halo-hue-encoding.toml']
+
 // The screen-reader leg: three subjects over this same stack, one per suite. `runs` is the app's
 // CONDUCTOR_RUNS_DIR for that subject (repo-relative — resolve_under rejects absolute handles);
 // `scenarios` overrides the catalog only where the subject needs an empty or malformed one. The live subject
@@ -374,6 +381,11 @@ export const config: WebdriverIO.Config = {
     if (invoked.has('driven')) {
       mkdirSync(join(repoRoot, DRIVEN_RUNS_DIR), { recursive: true })
       appEnv.CONDUCTOR_RUNS_DIR = DRIVEN_RUNS_DIR
+      const scenariosDir = join(repoRoot, DRIVEN_SCENARIOS_DIR)
+      rmSync(scenariosDir, { recursive: true, force: true })
+      mkdirSync(scenariosDir, { recursive: true })
+      for (const file of DRIVEN_SCENARIOS) copyFileSync(join(repoRoot, 'scenarios', file), join(scenariosDir, file))
+      appEnv.CONDUCTOR_SCENARIOS_DIR = DRIVEN_SCENARIOS_DIR
     }
     const sr = [...invoked]
       .map((name) => (Object.hasOwn(SR_SUITES, name) ? SR_SUITES[name] : undefined))

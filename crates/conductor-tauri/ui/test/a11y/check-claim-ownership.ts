@@ -64,6 +64,11 @@ for (const entry of CLAIMS as Claim[]) {
           `owner ${entry.owner} (${spec}) has the spec but it asserts nothing — 0 expect( in its body; a title is not coverage`,
         )
       }
+      // An owner CI does not run leaves the claim ungated in CI unless something else stands in for it,
+      // and a11y-plan §11 Strategy requires saying what — so the statement is data, held here.
+      if (!CI_SUITES.includes(entry.owner) && (entry.inPlace ?? '').trim() === '') {
+        fail(entry.claim, 'carve-out with no statement of what CI gates in its place')
+      }
       break
     }
     case 'n/a-by-construction':
@@ -103,7 +108,9 @@ const gaps = CLAIMS.filter((c) => c.state === 'unasserted')
 const carveOut = ownedRows.filter((c) => c.state === 'owned' && !CI_SUITES.includes(c.owner))
 for (const c of carveOut) {
   if (c.state !== 'owned') continue
-  console.log(`carve-out: ${c.claim} — owner ${c.owner} (${SUITE_INVOCATION[c.owner]}), not run by CI`)
+  console.log(
+    `carve-out: ${c.claim} — owner ${c.owner} (${SUITE_INVOCATION[c.owner]}), not run by CI; in its place: ${c.inPlace ?? ''}`,
+  )
 }
 
 for (const gap of gaps) console.log(`gap (recorded, not a pass): ${gap.claim}`)
