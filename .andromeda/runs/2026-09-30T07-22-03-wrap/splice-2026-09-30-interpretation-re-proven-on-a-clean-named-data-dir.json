@@ -1,0 +1,347 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-30T07:38:57Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-30T07-22-03-wrap/security-plan-entry.md",
+"--lines",
+"19",
+"--run-dir",
+".andromeda/runs/2026-09-30T07-22-03-wrap",
+"--marker",
+"2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"dry-run · would write security-plan-amendments.md · lines 456→475 · bytes 83247→85075"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"lines": 456,
+"bytes": 83247,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 475,
+"bytes": 85075
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-30T07:38:57Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-30T07-22-03-wrap/security-plan-entry.md",
+"--lines",
+"19",
+"--run-dir",
+".andromeda/runs/2026-09-30T07-22-03-wrap",
+"--marker",
+"2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+19 at line 457 · lines 456→475 · bytes 83247→85075 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-30T07-22-03-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 456,
+"bytes": 83247,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 475,
+"bytes": 85075
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-30T07:38:57Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-30T07-22-03-wrap/architecture-entry.md",
+"--lines",
+"15",
+"--run-dir",
+".andromeda/runs/2026-09-30T07-22-03-wrap",
+"--marker",
+"2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"dry-run · would write architecture-amendments.md · lines 1044→1059 · bytes 178131→179999"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"lines": 1044,
+"bytes": 178131,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1059,
+"bytes": 179999
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-30T07:38:58Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-30T07-22-03-wrap/architecture-entry.md",
+"--lines",
+"15",
+"--run-dir",
+".andromeda/runs/2026-09-30T07-22-03-wrap",
+"--marker",
+"2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+15 at line 1045 · lines 1044→1059 · bytes 178131→179999 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-30T07-22-03-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 1044,
+"bytes": 178131,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1059,
+"bytes": 179999
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-30T07:38:58Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-30T07-22-03-wrap/test-plan-entry.md",
+"--lines",
+"17",
+"--run-dir",
+".andromeda/runs/2026-09-30T07-22-03-wrap",
+"--marker",
+"2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"dry-run · would write test-plan-amendments.md · lines 665→682 · bytes 114437→116154"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"lines": 665,
+"bytes": 114437,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 682,
+"bytes": 116154
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-30T07:38:58Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-30T07-22-03-wrap/test-plan-entry.md",
+"--lines",
+"17",
+"--run-dir",
+".andromeda/runs/2026-09-30T07-22-03-wrap",
+"--marker",
+"2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+17 at line 666 · lines 665→682 · bytes 114437→116154 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-30T07-22-03-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 665,
+"bytes": 114437,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 682,
+"bytes": 116154
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-30T07:38:59Z",
+"argv": [
+"append",
+"--file",
+".andromeda/a11y-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-30T07-22-03-wrap/a11y-plan-entry.md",
+"--lines",
+"17",
+"--run-dir",
+".andromeda/runs/2026-09-30T07-22-03-wrap",
+"--marker",
+"2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"dry-run · would write a11y-plan-amendments.md · lines 188→205 · bytes 29682→31514"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"lines": 188,
+"bytes": 29682,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 205,
+"bytes": 31514
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-30T07:38:59Z",
+"argv": [
+"append",
+"--file",
+".andromeda/a11y-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-30T07-22-03-wrap/a11y-plan-entry.md",
+"--lines",
+"17",
+"--run-dir",
+".andromeda/runs/2026-09-30T07-22-03-wrap",
+"--marker",
+"2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append a11y-plan-amendments.md:+17 at line 189 · lines 188→205 · bytes 29682→31514 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-30T07-22-03-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/a11y-plan-amendments.md"
+],
+"before": {
+"lines": 188,
+"bytes": 29682,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 205,
+"bytes": 31514
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-30T07:41:38Z",
+"argv": [
+"append",
+"--file",
+"conductor-0.3.0/working-route.md",
+"--payload-file",
+".andromeda/runs/2026-09-30T07-22-03-wrap/route-mint.md",
+"--lines",
+"2",
+"--after-line",
+"66",
+"--run-dir",
+".andromeda/runs/2026-09-30T07-22-03-wrap",
+"--marker",
+"2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append working-route.md:+2 at line 67 · lines 67→69 · bytes 14472→15845 · term lf",
+"last line now: Version close on measured evidence — every capability verified or deferred on "
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0/working-route.md"
+],
+"before": {
+"lines": 67,
+"bytes": 14472,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 69,
+"bytes": 15845
+}
+}
+]

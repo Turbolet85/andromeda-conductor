@@ -1,0 +1,179 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-30T07:45:47Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir",
+"--run-dir",
+".andromeda/runs/2026-09-30T07-22-03-wrap",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"dry-run - would flip .andromeda\\master-route.md:158",
+"  2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir · pending · Interp… (396 chars)",
+"-> 2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir · complete · Inter… (397 chars)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-30T07:45:47Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir",
+"--date",
+"2026-09-30",
+"--run-dir",
+".andromeda/runs/2026-09-30T07-22-03-wrap",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 3,
+"stdout": [],
+"stderr": "2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir: its record is 'pending' -- compact runs AFTER the flip",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-30T07:45:53Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir",
+"--run-dir",
+".andromeda/runs/2026-09-30T07-22-03-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"flip master-route.md:158 - 2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir pending -> complete"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-30T07:45:53Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir",
+"--date",
+"2026-09-30",
+"--run-dir",
+".andromeda/runs/2026-09-30T07-22-03-wrap",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"pin :56 strip BLOCKED-ON: 478ch \"BLOCKED-ON: Pulse's scrubber fix — its `\"",
+"pin :56 strip CONTEXT: 207ch \"CONTEXT: founder 2026-09-29 — fix the ca\"",
+"pin :56 strip CARRY: 200ch \"CARRY: elide the 2026-09-22 capture's st\"",
+"pin :56 strip CARRY: 355ch \"CARRY: replace the harvest's literal ser\"",
+"pin :56 strip CARRY: 202ch \"CARRY: the capture masks the data dir's \"",
+"pin next markerless :61 holds CONTEXT:×2",
+"56 · 2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir · strip 5 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 56,
+"marker": "2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir",
+"blocks": 5,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-30T07:46:00Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir",
+"--date",
+"2026-09-30",
+"--run-dir",
+".andromeda/runs/2026-09-30T07-22-03-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"pin :56 strip BLOCKED-ON: 478ch \"BLOCKED-ON: Pulse's scrubber fix — its `\"",
+"pin :56 strip CONTEXT: 207ch \"CONTEXT: founder 2026-09-29 — fix the ca\"",
+"pin :56 strip CARRY: 200ch \"CARRY: elide the 2026-09-22 capture's st\"",
+"pin :56 strip CARRY: 355ch \"CARRY: replace the harvest's literal ser\"",
+"pin :56 strip CARRY: 202ch \"CARRY: the capture masks the data dir's \"",
+"pin next markerless :61 holds CONTEXT:×2",
+"56 · 2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir · strip 5 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+".\\conductor-0.3.0\\route-archive.md",
+".\\conductor-0.3.0\\working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 56,
+"marker": "2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir",
+"blocks": 5,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

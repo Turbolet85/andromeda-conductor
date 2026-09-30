@@ -1,0 +1,820 @@
+[
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-30T07:22:10Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"conductor-0.3.0/chunks/2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir",
+"--run-dir",
+".andromeda/runs/2026-09-30T07-22-03-wrap",
+"--marker",
+"2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\conductor · base 9785405b (the parent of the oldest pre-CI commit b8e7bca9) · lists new 3 · modify 8 · derived 1 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"list conductor-0.3.0/chunks/2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir/evidence/rm-capture-*.txt (derived by `bash scripts/agent-run.sh run --live real-model`) ×0",
+"scope: clean — changed 8 · listed 8 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 50"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\conductor",
+"base": "9785405bf9d55405d7c99cb081566db421685598",
+"base_why": "the parent of the oldest pre-CI commit b8e7bca9",
+"counts": {
+"changed": 8,
+"listed": 8,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 50,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-30T07:44:25Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T07-22-03-wrap",
+"--marker",
+"2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir · entries 30",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir\\wrap-2026-09-30T07-22-03 · bound: GNU timeout",
+"delta docs 44",
+"prose L224-236: Hermetic entries run at /implement P2 and in the wrap light gate. - The live entries are `… (1128 chars)",
+"  1 probe       green · exit 0 · 0.06s · 4 B → 1.log · grep -c \"^name = \" Cargo.lock",
+"  2 unit        green · exit 0 · 1.79s · 10791 B → 2.log · cargo nextest run -p conductor-run --test real_model_harve… (73 chars)",
+"  3 unit        green · exit 0 · 0.48s · 5807 B → 3.log · cargo test -p conductor-run --test real_model_harvest",
+"  4 unit        green · exit 0 · 0.85s · 1228 B → 4.log · cargo nextest run -p conductor-run --test capture_paths_gu… (74 chars)",
+"  5 lint        green · exit 0 · 0.62s · 72 B → 5.log · cargo clippy -p conductor-run --features live-pulse --all-… (80 chars)",
+"  6 unit        green · exit 0 · 12.08s · 136083 B → 6.log · cargo nextest run --workspace --profile ci",
+"  7 unit        green · exit 0 · 1.71s · 1392 B → 7.log · cargo test --workspace --doc",
+"  8 lint        green · exit 0 · 0.66s · 72 B → 8.log · cargo clippy --workspace --all-targets -- -D warnings",
+"  9 lint        green · exit 0 · 0.47s · 0 B → 9.log · cargo fmt --all --check",
+" 10 probe       green · exit 1 · 2.9s · 2 B → 10.log · grep -rlE \"Credit Card Issue|8cb9c5d5|2026-09-29T17-19-35-… (82 chars)",
+" 11 probe       green · exit 0 · 0.07s · 0 B → 11.log · git diff --numstat 9785405 -- crates/conductor-verify/ cra… (229 chars)",
+" 12 probe       green · exit 0 · 0.07s · 0 B → 12.log · git diff --numstat 9785405 -- conductor-0.3.0/chunks/2026-… (171 chars)",
+" 13 lint        green · exit 0 · 1.71s · 65 B → 13.log · npm --prefix crates/conductor-tauri/ui run typecheck:e2e",
+" 14 self-verify green · exit 0 · 38.11s · 22763090 B → 14.log · CONDUCTOR_A11Y_STRICT=1 bash scripts/agent-run.sh run --e2… (59 chars)",
+" 15 probe       green · exit 0 · 0.19s · 0 B → 15.log · git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+" 16 probe       green · exit 0 · 30.59s · 1897 B → 16.log · cargo audit",
+" 17 probe       green · exit 0 · 2.56s · 236395 B → 17.log · cargo deny check advisories bans licenses sources",
+" 18 probe       not run — leg operator (the letter drives it) · git -C /d/dev/projects/andromeda-pulse log --format=%h 'a0… (117 chars)",
+" 19 probe       not run — leg operator (the letter drives it) · git -C /d/dev/projects/andromeda-pulse rev-list --count '@… (69 chars)",
+" 20 probe       not run — leg operator (the letter drives it) · ls -1 \"$TEMP/pulse-legs\"",
+" 21 probe       not run — leg operator (the letter drives it) · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (191 chars)",
+" 22 e2e         not run — leg operator (the letter drives it) · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (360 chars)",
+" 23 e2e         not run — leg operator (the letter drives it) · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (360 chars)",
+" 24 e2e         not run — leg operator (the letter drives it) · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (360 chars)",
+" 25 smoke       not run — leg operator (the letter drives it) · bash scripts/agent-run.sh status <id>",
+" 26 probe       green · exit 1 · 0.12s · 2 B → 26.log · ls conductor-0.3.0/chunks/2026-09-30-interpretation-re-pro… (314 chars)",
+" 27 probe       green · exit 1 · 0.1s · 2 B → 27.log · ls conductor-0.3.0/chunks/2026-09-30-interpretation-re-pro… (272 chars)",
+" 28 probe       not run — leg operator (the letter drives it) · python -X utf8 C:/Users/turbo/.claude/skills/andromeda-too… (84 chars)",
+" 29 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (112 chars)",
+" 30 probe       not run — leg operator (the letter drives it) · python -X utf8 C:/Users/turbo/.claude/skills/andromeda-too… (108 chars)",
+"entries 30 · green 19 · red 0 · recorded 0 · timeout 0 · not-run 11"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir\\wrap-2026-09-30T07-22-03",
+"delta": {
+"docs": [
+".andromeda/a11y-plan-amendments.md",
+".andromeda/a11y-plan.md",
+".andromeda/architecture-amendments.md",
+".andromeda/architecture.md",
+".andromeda/friction-log.ndjson",
+".andromeda/security-plan-amendments.md",
+".andromeda/security-plan.md",
+".andromeda/state.yaml",
+".andromeda/test-plan-amendments.md",
+".andromeda/test-plan.md",
+".claude/docs/a11y-summary.md",
+".claude/docs/security-summary.md",
+".claude/docs/stack.md",
+".claude/docs/tests-summary.md",
+".claude/rules/a11y.md",
+".claude/rules/security.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/chunks/2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir/evidence/race-witness.md",
+"conductor-0.3.0/working-route.md",
+".andromeda/runs/2026-09-30T07-22-03-wrap/a11y-plan-entry.md",
+".andromeda/runs/2026-09-30T07-22-03-wrap/architecture-entry.md",
+".andromeda/runs/2026-09-30T07-22-03-wrap/cascade-2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir.json",
+".andromeda/runs/2026-09-30T07-22-03-wrap/cascade-dispositions.md",
+".andromeda/runs/2026-09-30T07-22-03-wrap/cascade-patterns.toml",
+".andromeda/runs/2026-09-30T07-22-03-wrap/curation.md",
+".andromeda/runs/2026-09-30T07-22-03-wrap/evolve-2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir.json",
+".andromeda/runs/2026-09-30T07-22-03-wrap/fanout-results.md",
+".andromeda/runs/2026-09-30T07-22-03-wrap/gate-2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir.json",
+".andromeda/runs/2026-09-30T07-22-03-wrap/health-2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir.json",
+".andromeda/runs/2026-09-30T07-22-03-wrap/prompt-a11y-plan.md",
+".andromeda/runs/2026-09-30T07-22-03-wrap/prompt-architecture.md",
+".andromeda/runs/2026-09-30T07-22-03-wrap/prompt-design-system.md",
+".andromeda/runs/2026-09-30T07-22-03-wrap/prompt-layout-templates.md",
+".andromeda/runs/2026-09-30T07-22-03-wrap/prompt-obs-plan.md",
+".andromeda/runs/2026-09-30T07-22-03-wrap/prompt-security-plan.md",
+".andromeda/runs/2026-09-30T07-22-03-wrap/prompt-test-plan.md",
+".andromeda/runs/2026-09-30T07-22-03-wrap/registry-2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir.json",
+".andromeda/runs/2026-09-30T07-22-03-wrap/registry-m.json",
+".andromeda/runs/2026-09-30T07-22-03-wrap/route-mint.md",
+".andromeda/runs/2026-09-30T07-22-03-wrap/security-plan-entry.md",
+".andromeda/runs/2026-09-30T07-22-03-wrap/sidecar-2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir.json",
+".andromeda/runs/2026-09-30T07-22-03-wrap/splice-2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir.json",
+".andromeda/runs/2026-09-30T07-22-03-wrap/test-plan-entry.md",
+"conductor-0.3.0/chunks/2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir/report.md"
+]
+},
+"unmapped": [],
+"prose": [
+{
+"from": 224,
+"to": 236,
+"text": "Hermetic entries run at /implement P2 and in the wrap light gate. - The live entries are `leg = 'operator'`: fired once, in the slot, never re-run by the wrap. - Each drive is preceded by the NON-PRIMING preconditions probe, which fires no canary and spawns nothing. - No `boot` precedes any drive, because it would prime the canary incident the drive dedupes against   (verification-harness.md 2026-08-19 (a)). - `status` is the mint-then-read smoke on the last drive's `run_id`. - Step 9's inverse control MUTATES source and reverts, so it is a ONE-SHOT run at implement and never an entry. Both   readings, the red with the wait bypassed and the green with it restored, go to `evidence/race-witness.md`. The   listed non-mutating `--e2e` entry guards the property on every re-run: its stall arm fails whenever the wait stops   covering a 1.5 s stall. - Step 9's mechanism is a recorded control, not a line in this tree. A classic-WebDriver `execute` is queued behind   the page's synchronous JavaScript, so a 1 500 ms busy loop pushes axe's probe past its 1 000 ms budget. The   inverse control IS that control's measurement."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "probe",
+"run": "grep -c \"^name = \" Cargo.lock",
+"run_sha8": "6aadf857",
+"expect": [
+"exit 0",
+"last line 562"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir\\wrap-2026-09-30T07-22-03\\1.log",
+"bytes": 4,
+"log_sha8": "9db3b992",
+"exit": 0,
+"seconds": 0.06,
+"readings": [
+"exit 0 ✓",
+"last line '562' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "unit",
+"run": "cargo nextest run -p conductor-run --test real_model_harvest --profile ci",
+"run_sha8": "70507ea4",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir\\wrap-2026-09-30T07-22-03\\2.log",
+"bytes": 10791,
+"log_sha8": "44832166",
+"exit": 0,
+"seconds": 1.79,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "cargo test -p conductor-run --test real_model_harvest",
+"run_sha8": "f936d446",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir\\wrap-2026-09-30T07-22-03\\3.log",
+"bytes": 5807,
+"log_sha8": "7f6c077b",
+"exit": 0,
+"seconds": 0.48,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "cargo nextest run -p conductor-run --test capture_paths_guard --profile ci",
+"run_sha8": "1d71e5ef",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir\\wrap-2026-09-30T07-22-03\\4.log",
+"bytes": 1228,
+"log_sha8": "ff9318e5",
+"exit": 0,
+"seconds": 0.85,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "cargo clippy -p conductor-run --features live-pulse --all-targets -- -D warnings",
+"run_sha8": "c3608109",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir\\wrap-2026-09-30T07-22-03\\5.log",
+"bytes": 72,
+"log_sha8": "32d47f79",
+"exit": 0,
+"seconds": 0.62,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir\\wrap-2026-09-30T07-22-03\\6.log",
+"bytes": 136083,
+"log_sha8": "ebb1e962",
+"exit": 0,
+"seconds": 12.08,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "unit",
+"run": "cargo test --workspace --doc",
+"run_sha8": "5d8797c2",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir\\wrap-2026-09-30T07-22-03\\7.log",
+"bytes": 1392,
+"log_sha8": "a2ef1855",
+"exit": 0,
+"seconds": 1.71,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir\\wrap-2026-09-30T07-22-03\\8.log",
+"bytes": 72,
+"log_sha8": "45f75b19",
+"exit": 0,
+"seconds": 0.66,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir\\wrap-2026-09-30T07-22-03\\9.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.47,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "grep -rlE \"Credit Card Issue|8cb9c5d5|2026-09-29T17-19-35-933\" crates/ | grep -c .",
+"run_sha8": "03f967da",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir\\wrap-2026-09-30T07-22-03\\10.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 2.9,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "git diff --numstat 9785405 -- crates/conductor-verify/ crates/conductor-core/src/ crates/conductor-cli/src/ scripts/agent-run.sh scripts/agent-run.ps1 crates/conductor-tauri/ui/src/ crates/conductor-tauri/ui/wdio.conf.ts .github/",
+"run_sha8": "ba5bd86d",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir\\wrap-2026-09-30T07-22-03\\11.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.07,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "git diff --numstat 9785405 -- conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/ conductor-0.3.0/chunks/2026-09-29-diagnostic-quality-cluster-off-the-drift-pin/",
+"run_sha8": "c6d0c5b7",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir\\wrap-2026-09-30T07-22-03\\12.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.07,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "lint",
+"run": "npm --prefix crates/conductor-tauri/ui run typecheck:e2e",
+"run_sha8": "833dfa8d",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir\\wrap-2026-09-30T07-22-03\\13.log",
+"bytes": 65,
+"log_sha8": "cea9a430",
+"exit": 0,
+"seconds": 1.71,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "self-verify",
+"run": "CONDUCTOR_A11Y_STRICT=1 bash scripts/agent-run.sh run --e2e",
+"run_sha8": "bcfd469f",
+"expect": [
+"exit 0",
+"contains [a11y] verdict asserted — 0 failed",
+"contains (expected 2)"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir\\wrap-2026-09-30T07-22-03\\14.log",
+"bytes": 22763090,
+"log_sha8": "fa8db626",
+"exit": 0,
+"seconds": 38.11,
+"readings": [
+"exit 0 ✓",
+"contains '[a11y] verdict asserted — 0 failed' ✓",
+"contains '(expected 2)' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+"run_sha8": "85122344",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir\\wrap-2026-09-30T07-22-03\\15.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.19,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir\\wrap-2026-09-30T07-22-03\\16.log",
+"bytes": 1897,
+"log_sha8": "f1f46ba8",
+"exit": 0,
+"seconds": 30.59,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir\\wrap-2026-09-30T07-22-03\\17.log",
+"bytes": 236395,
+"log_sha8": "09e10c61",
+"exit": 0,
+"seconds": 2.56,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "git -C /d/dev/projects/andromeda-pulse log --format=%h 'a08ae29..@{u}' -- crates/security/src/scrubber.rs | grep -c .",
+"run_sha8": "62f31fed",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "git -C /d/dev/projects/andromeda-pulse rev-list --count '@{u}..HEAD' ",
+"run_sha8": "a035794b",
+"expect": [
+"exit 0",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "ls -1 \"$TEMP/pulse-legs\"",
+"run_sha8": "6c7bff84",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 cargo run -q -p conductor-cli --bin conductor -- preconditions --for real-model-interpretation",
+"run_sha8": "cdd23eda",
+"expect": [
+"exit 0",
+"contains [PRECONDITION] every live-Pulse precondition is satisfied"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 22,
+"role": "e2e",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH RUST_LOG=info,conductor_emit=debug CONDUCTOR_PREFLIGHT_TIMEOUT=600 CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 bash scripts/agent-run.sh run --live real-model && cp runs/live-suite/rm-capture.txt conductor-0.3.0/chunks/2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir/evidence/rm-capture-d1.txt",
+"run_sha8": "594ba296",
+"expect": [
+"exit 0",
+"contains [live] leg rm: real-model-interpretation",
+"contains [live] leg rm: froze"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 23,
+"role": "e2e",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH RUST_LOG=info,conductor_emit=debug CONDUCTOR_PREFLIGHT_TIMEOUT=600 CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 bash scripts/agent-run.sh run --live real-model && cp runs/live-suite/rm-capture.txt conductor-0.3.0/chunks/2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir/evidence/rm-capture-d2.txt",
+"run_sha8": "72048d25",
+"expect": [
+"exit 0",
+"contains [live] leg rm: real-model-interpretation",
+"contains [live] leg rm: froze"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 24,
+"role": "e2e",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH RUST_LOG=info,conductor_emit=debug CONDUCTOR_PREFLIGHT_TIMEOUT=600 CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 bash scripts/agent-run.sh run --live real-model && cp runs/live-suite/rm-capture.txt conductor-0.3.0/chunks/2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir/evidence/rm-capture-d3.txt",
+"run_sha8": "6ff66f04",
+"expect": [
+"exit 0",
+"contains [live] leg rm: real-model-interpretation",
+"contains [live] leg rm: froze"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 25,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status <id>",
+"run_sha8": "4849b302",
+"expect": [
+"exit 0",
+"contains \"scenario\": \"real-model-interpretation\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 26,
+"role": "probe",
+"run": "ls conductor-0.3.0/chunks/2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir/evidence/rm-capture-d1.txt >/dev/null && cat conductor-0.3.0/chunks/2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir/evidence/* | grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|/home/|/Users/|%APPDATA%\"",
+"run_sha8": "78ad5cb6",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir\\wrap-2026-09-30T07-22-03\\26.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.12,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 27,
+"role": "probe",
+"run": "ls conductor-0.3.0/chunks/2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir/evidence/rm-capture-d1.txt >/dev/null && cat conductor-0.3.0/chunks/2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir/evidence/rm-capture-d*.txt | grep -c \"rm-clean-series\"",
+"run_sha8": "e86a132b",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir\\wrap-2026-09-30T07-22-03\\27.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.1,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 28,
+"role": "probe",
+"run": "python -X utf8 C:/Users/turbo/.claude/skills/andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "f0648308",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 29,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD && echo \"PUSHED_SHA=$(git rev-parse HEAD)\"",
+"run_sha8": "6bf569fe",
+"expect": [
+"exit 0",
+"contains PUSHED_SHA="
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 30,
+"role": "probe",
+"run": "python -X utf8 C:/Users/turbo/.claude/skills/andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1200",
+"run_sha8": "0d290d69",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-30T07:45:34Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-09-30T07-22-03-wrap",
+"--marker",
+"2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\conductor · planes rust, ts",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P2 · P3 rust · P3 ts — each fired on its synthetic known positive",
+"hygiene: clean — read 29 (runs 27 · evidence 2) · trails 10 not read · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\conductor",
+"planes": [
+"rust",
+"ts"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 27,
+"evidence": 2,
+"trails": 10,
+"binary": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-30T07:45:36Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"conductor-0.3.0/chunks/2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir",
+"--run-dir",
+".andromeda/runs/2026-09-30T07-22-03-wrap",
+"--marker",
+"2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\conductor · base 9785405b (the parent of the oldest pre-CI commit b8e7bca9) · lists new 3 · modify 8 · derived 1 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"list conductor-0.3.0/chunks/2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir/evidence/rm-capture-*.txt (derived by `bash scripts/agent-run.sh run --live real-model`) ×0",
+"scope: clean — changed 8 · listed 8 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 93"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\conductor",
+"base": "9785405bf9d55405d7c99cb081566db421685598",
+"base_why": "the parent of the oldest pre-CI commit b8e7bca9",
+"counts": {
+"changed": 8,
+"listed": 8,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 93,
+"unparsed": 0,
+"widening_without_word": 0
+}
+}
+]

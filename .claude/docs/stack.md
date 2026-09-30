@@ -20,6 +20,7 @@ _Mirrors `.andromeda/architecture.md` §Stack and Technologies. Convenience refe
 
 ## Data Storage
 - **blake3 1.8.6** (`blake3 = "1"`) — exception-fingerprint derivation in `conductor-emit`; a NORMAL (non-dev) dep, version-matched to Pulse's own pin because Conductor recomputes the SUT's derivation, not its own
+- **sha2 0.10** (0.10.9, already locked via `tauri-codegen` / `wry`) — a TEST-only `conductor-run` dev-dependency for the real-model harvest's sha256 digest pins over committed capture evidence; no new package, and blake3 stays the only shipped hashing dependency
 - **rusqlite 0.38.0 + libsqlite3-sys 0.36.0** (`bundled` SQLite 3.50.4, JSON1) — synchronous embedded `runs.db` index, raw SQL, no ORM/migrations.
 - On-disk artifacts: per-run `<run_id>.jsonl` emission journal + `<run_id>.md` report under `runs/`.
 

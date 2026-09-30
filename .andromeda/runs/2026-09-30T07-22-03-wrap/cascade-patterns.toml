@@ -1,0 +1,54 @@
+# Cascade step-2 sweep — the claims this pass retires or moves, by name AND by mechanism.
+
+# Byte-equal literal pins in test source (retired → sha256 digest pins over committed files)
+[[pattern]]
+id = "byte-equal"
+fixed = "byte-equal"
+
+[[pattern]]
+id = "pinned-literal"
+fixed = "pinned literal"
+
+[[pattern]]
+id = "string-literals"
+fixed = "string literals"
+
+[[pattern]]
+id = "PINNED_CAPTURE"
+fixed = "PINNED_CAPTURE"
+
+[[pattern]]
+id = "series-mod"
+fixed = "real_model_series"
+
+# The recorded breach and its pending, route-owned remedy (retired → remedied + residual)
+[[pattern]]
+id = "breach"
+regex = '(?i)recorded breach|2026-09-29 breach'
+
+[[pattern]]
+id = "route-owner"
+regex = '(?i)owned by the new `?v3-09`? series|and its route owner'
+
+# The three-stage scrub list (moved → four stages, the key mask first)
+[[pattern]]
+id = "scrub-3"
+fixed = "`redact_value` + `mask_host_paths` + `elide_fingerprints`"
+
+[[pattern]]
+id = "scrub-then"
+regex = 'passes `redact_value`, then'
+
+# The pending workspace-key mask and the basename premise
+[[pattern]]
+id = "masking-it"
+regex = '(?i)masking it in the capture|workspace key however'
+
+[[pattern]]
+id = "ws-basename"
+fixed = "workspace basename"
+
+# The moving a11y pass tally (moved 12 → 13; SET form where the claim is the job's standing tally)
+[[pattern]]
+id = "tally-12"
+fixed = "12 passing"

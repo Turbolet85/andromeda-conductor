@@ -65,6 +65,16 @@ own log, the real model decided nine canary storm digests — 4 surfaced, 5 dism
 third, whose tick fell at the emission instant and so carries no `canary:` line: prompted 05:55:42.199Z, parse `ok`
 05:55:46.522Z, no outcome before the next prompt) — and the scenario's own storm digest twice, dismissed both times.
 
+## The operator pass (plan entries 28-30), fired on the overseer's word
+
+- Entry 28, `gate.py hygiene`: first `refused 1 files` — the phase run's synthetic `p5-controls/hp-leak.txt` (a P5 known
+  positive for entry 26). On the overseer's ruling it moved to the gitignored `.andromeda/cache/p5-controls/2026-09-30T04-14-05-phase/`
+  (sha256 unchanged, `27f41469…`; the note `hp-leak.MOVED.md` stays in its place); re-run: `hygiene: clean`, 42 files read.
+- Entry 29: the operator pre-CI commit `b8e7bca` (`b8e7bca9b87ab4a1a712c7e98c370b03386a9378`); the guarded push printed
+  `PUSHED_SHA=b8e7bca9b87ab4a1a712c7e98c370b03386a9378` (`9785405..b8e7bca` on `build/conductor-0.3.0`).
+- Entry 30, `ci.py conclusion --sha HEAD --wait 1200`: `verdict: green · checks 3/3 · wall 869 s · runs CI#36681853843
+  completed/success` (its a11y job's configuration: `race-witness.md` §CI).
+
 ## Status smoke (plan entry 25), fired by hand after d3
 
 `bash scripts/agent-run.sh status 2026-09-30T05-51-57-039` (d3's run_id): exit 0; atom

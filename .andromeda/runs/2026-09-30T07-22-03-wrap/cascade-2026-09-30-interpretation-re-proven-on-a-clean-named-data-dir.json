@@ -1,0 +1,188 @@
+[
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "1550f3bc",
+"ts": "2026-09-30T07:35:54Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-09-30T07-22-03-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-09-30T07-22-03-wrap",
+"--marker",
+"2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 3,
+"stdout": [
+"baseline 9785405b (pre-CI parent — the oldest of 1 pre-CI commit(s), b8e7bca9)",
+"never-hash · control UNFIRED over the seven masters at 9785405b"
+],
+"stderr": "control: never-hash never fired over the seven masters' pre-pass text (9785405b) — a sweep runs a positive control or refuses; drop the pattern or control it by hand",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "1550f3bc",
+"ts": "2026-09-30T07:36:10Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-09-30T07-22-03-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-09-30T07-22-03-wrap",
+"--marker",
+"2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"baseline 9785405b (pre-CI parent — the oldest of 1 pre-CI commit(s), b8e7bca9)",
+"byte-equal · new 0 · standing 2 · leaf 1 · curation 0 · base 0 · control security-plan.md:335 (prose)",
+"pinned-literal · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:12…",
+"string-literals · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control security-plan.md:335 (prose)",
+"PINNED_CAPTURE · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:33…",
+"series-mod · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control security-plan.md:335 (prose)",
+"breach · new 1 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:113 (prose)",
+"route-owner · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:113 (prose)",
+"scrub-3 · new 1 · standing 0 · leaf 3 · curation 0 · base 0 · control security-plan.md:335 (prose)",
+"scrub-then · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:121 (p…",
+"masking-it · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:121 (p…",
+"ws-basename · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control security-plan.md:121 (prose)",
+"tally-12 · new 0 · standing 4 · leaf 4 · curation 0 · base 0 · control architecture.md:60 (prose)",
+".andromeda/security-plan.md:335 byte-equal standing edited @c1212/2267 …est source, as byte-equal string literals in `c…",
+".andromeda/test-plan.md:364 byte-equal standing …coverage-matrix.md` is byte-equal to `CoverageMatrix::render()`. The r…",
+".claude/rules/security.md:10 byte-equal leaf …ins the series captures byte-equal in `crates/conductor-run/tests/real_mo…",
+".andromeda/security-plan.md:335 string-literals standing edited @c1223/2267 …s byte-equal string literals in `crates/co…",
+".claude/rules/host-win32.md:56 string-literals leaf …eal newlines in Rust string literals, and `grep '\\\\'` died on a tr…",
+".andromeda/security-plan.md:335 series-mod standing edited @c1270/2267 …ctor-run/tests/real_model_series/mod.rs`, outsi…",
+".claude/rules/security.md:10 series-mod leaf …tes/conductor-run/tests/real_model_series/mod.rs`, so report text sits in…",
+".andromeda/architecture.md:113 breach standing edited @c4053/4364 …hich records the 2026-09-29 breach — series pins in …",
+".andromeda/security-plan.md:335 breach new @c1103/2267 …es read none. **The 2026-09-29 BREACH is REMEDIED (2026-09-30),…",
+".claude/rules/security.md:10 route-owner leaf …6 digest-pin remedy is owned by the new `v3-09` series route entry. Stag…",
+".andromeda/security-plan.md:335 scrub-3 new @c754/2267 …sk_workspace_key` + `redact_value` + `mask_host_paths` + `elide…",
+".claude/rules/security.md:10 scrub-3 leaf …nce/` tree, only through `redact_value` + `mask_host_paths` + `elide_fingerp…",
+".claude/rules/security.md:18 scrub-3 leaf @c1361/2095 …d SUT output through `redact_value` + `mask_host_paths` + `elide…",
+".claude/docs/security-summary.md:11 scrub-3 leaf @c1597/2177 … — passed through `redact_value` + `mask_host_paths` + `e…",
+".andromeda/security-plan.md:121 ws-basename standing edited @c2560/3571 …ver prints the workspace basename; the report'…",
+".andromeda/architecture.md:60 tally-12 standing edited @c4164/5722 …'s own runtime, 12 passing / 0 failing / 2 skipped,…",
+".andromeda/architecture.md:250 tally-12 standing @c1436/2196 …where the leg ran 12 passing / 0 failing / 2 skipped, the…",
+".andromeda/a11y-plan.md:115 tally-12 standing @c1515/3619 … of 2026-09-17** — 12 passing / 0 failing / 2 skipped on hos…",
+".andromeda/a11y-plan.md:517 tally-12 standing ×2 @c603,2540/4258 …green locally at 12 passing / 2 skipped with the expe…",
+".claude/rules/a11y.md:38 tally-12 leaf @c1209/2734 … where it is GREEN at 12 passing / 0 failing / 2 skipped on a coher…",
+".claude/docs/a11y-summary.md:11 tally-12 leaf …outine arm is GREEN at 12 passing / 0 failing / 2 skipped (run 352085936…",
+".claude/docs/a11y-summary.md:14 tally-12 leaf @c1045/2812 …at High integrity (12 passing / 0 failing / 2 skipped, run 3…",
+".claude/docs/tests-summary.md:46 tally-12 leaf @c595/2682 …5`; GREEN there at 12 passing / 0 failing / 2 skipped on a c…",
+"byte-equal · new 0 · standing 2 · leaf 1 · curation 0 · base 0 · control security-plan.md:335 (prose)",
+"pinned-literal · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:12…",
+"string-literals · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control security-plan.md:335 (prose)",
+"PINNED_CAPTURE · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:33…",
+"series-mod · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control security-plan.md:335 (prose)",
+"breach · new 1 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:113 (prose)",
+"route-owner · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:113 (prose)",
+"scrub-3 · new 1 · standing 0 · leaf 3 · curation 0 · base 0 · control security-plan.md:335 (prose)",
+"scrub-then · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:121 (p…",
+"masking-it · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:121 (p…",
+"ws-basename · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control security-plan.md:121 (prose)",
+"tally-12 · new 0 · standing 4 · leaf 4 · curation 0 · base 0 · control architecture.md:60 (prose)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "9785405bf9d55405d7c99cb081566db421685598",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), b8e7bca9",
+"counts": {
+"byte-equal": {
+"new": 0,
+"standing": 2,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"pinned-literal": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"string-literals": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"PINNED_CAPTURE": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"series-mod": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"breach": {
+"new": 1,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"route-owner": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"scrub-3": {
+"new": 1,
+"standing": 0,
+"leaf": 3,
+"curation": 0,
+"base": 0
+},
+"scrub-then": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"masking-it": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"ws-basename": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"tally-12": {
+"new": 0,
+"standing": 4,
+"leaf": 4,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]

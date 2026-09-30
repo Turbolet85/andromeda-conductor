@@ -1,0 +1,238 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-30T07:44:58Z",
+"argv": [
+"flip",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir",
+"--run-dir",
+".andromeda/runs/2026-09-30T07-22-03-wrap",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 3,
+"stdout": [
+"claimed by 2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir: 1 · to flip 0 · already verified 0 · below 1",
+"coverage-incomplete: v3-09 (deferred, ref null)",
+"nothing written — the gate's release valves (finish the test, or unclaim) are the wrap's"
+],
+"stderr": "coverage-incomplete: v3-09",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-30T07:45:18Z",
+"argv": [
+"note",
+"--dir",
+"conductor-0.3.0",
+"--id",
+"v3-09",
+"--text-file",
+".andromeda/runs/2026-09-30T07-22-03-wrap/note-v3-09.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T07-22-03-wrap",
+"--marker",
+"2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"note v3-09: +1381 chars (total 12070) · status deferred · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v3-09",
+"chunk": "2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir",
+"status": "deferred",
+"method": "dynamic-external",
+"ref": "null",
+"acceptance": "A pre-stated series of exactly three drives (d1, d2, d3) on ONE fresh data dir whose leaf name carries no digit. Each dr… (2399 chars)",
+"notes_chars": 10687
+},
+"after": {
+"id": "v3-09",
+"chunk": "2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir",
+"status": "deferred",
+"method": "dynamic-external",
+"ref": "null",
+"acceptance": "A pre-stated series of exactly three drives (d1, d2, d3) on ONE fresh data dir whose leaf name carries no digit. Each dr… (2399 chars)",
+"notes_chars": 12070
+}
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-30T07:45:18Z",
+"argv": [
+"unclaim",
+"--dir",
+"conductor-0.3.0",
+"--id",
+"v3-09",
+"--run-dir",
+".andromeda/runs/2026-09-30T07-22-03-wrap",
+"--marker",
+"2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"unclaim v3-09: chunk 2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir → null · status deferred kept",
+"dry-run: nothing written",
+"pool: unclaimed 1 [v3-03]"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v3-09",
+"chunk": "2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir",
+"status": "deferred",
+"method": "dynamic-external",
+"ref": "null",
+"acceptance": "A pre-stated series of exactly three drives (d1, d2, d3) on ONE fresh data dir whose leaf name carries no digit. Each dr… (2399 chars)",
+"notes_chars": 10687
+},
+"after": {
+"id": "v3-09",
+"chunk": null,
+"status": "deferred",
+"method": "dynamic-external",
+"ref": "null",
+"acceptance": "A pre-stated series of exactly three drives (d1, d2, d3) on ONE fresh data dir whose leaf name carries no digit. Each dr… (2399 chars)",
+"notes_chars": 10687
+}
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-30T07:45:25Z",
+"argv": [
+"note",
+"--dir",
+"conductor-0.3.0",
+"--id",
+"v3-09",
+"--text-file",
+".andromeda/runs/2026-09-30T07-22-03-wrap/note-v3-09.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T07-22-03-wrap",
+"--marker",
+"2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"note v3-09: +1381 chars (total 12070) · status deferred · ref/acceptance untouched",
+"wrote conductor-0.3.0\\verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0\\verification-matrix.json"
+],
+"before": {
+"id": "v3-09",
+"chunk": "2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir",
+"status": "deferred",
+"method": "dynamic-external",
+"ref": "null",
+"acceptance": "A pre-stated series of exactly three drives (d1, d2, d3) on ONE fresh data dir whose leaf name carries no digit. Each dr… (2399 chars)",
+"notes_chars": 10687
+},
+"after": {
+"id": "v3-09",
+"chunk": "2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir",
+"status": "deferred",
+"method": "dynamic-external",
+"ref": "null",
+"acceptance": "A pre-stated series of exactly three drives (d1, d2, d3) on ONE fresh data dir whose leaf name carries no digit. Each dr… (2399 chars)",
+"notes_chars": 12070
+}
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-30T07:45:25Z",
+"argv": [
+"unclaim",
+"--dir",
+"conductor-0.3.0",
+"--id",
+"v3-09",
+"--run-dir",
+".andromeda/runs/2026-09-30T07-22-03-wrap",
+"--marker",
+"2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"unclaim v3-09: chunk 2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir → null · status deferred kept",
+"wrote conductor-0.3.0\\verification-matrix.json · 1 entry changed",
+"pool: unclaimed 1 [v3-03]"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0\\verification-matrix.json"
+],
+"before": {
+"id": "v3-09",
+"chunk": "2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir",
+"status": "deferred",
+"method": "dynamic-external",
+"ref": "null",
+"acceptance": "A pre-stated series of exactly three drives (d1, d2, d3) on ONE fresh data dir whose leaf name carries no digit. Each dr… (2399 chars)",
+"notes_chars": 12070
+},
+"after": {
+"id": "v3-09",
+"chunk": null,
+"status": "deferred",
+"method": "dynamic-external",
+"ref": "null",
+"acceptance": "A pre-stated series of exactly three drives (d1, d2, d3) on ONE fresh data dir whose leaf name carries no digit. Each dr… (2399 chars)",
+"notes_chars": 12070
+}
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-30T07:45:25Z",
+"argv": [
+"flip",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir",
+"--run-dir",
+".andromeda/runs/2026-09-30T07-22-03-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed 0 — gate no-op (no entry carries chunk 2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir)",
+"pool: unclaimed 1 [v3-03]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

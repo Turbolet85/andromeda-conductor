@@ -64,6 +64,16 @@ the plan predicted.
 
 Identical to run 5: 13 passing, 2 skipped, the verdict line asserted, exit 0.
 
+## CI — the pushed pre-CI commit (plan entry 30)
+
+CI#36681853843 on `b8e7bca` (`b8e7bca9b87ab4a1a712c7e98c370b03386a9378`): verdict green, checks 3/3, wall 869 s.
+Its A11y gate job (109778816476, success) ran on runner image `windows-2022` version 20260920.314.1 (provisioner
+20260828.587), WebView2 runtime 131.0.2903.86 with msedgedriver 131.0.2903.86 (`[diag] msedgedriver: 131.0.2903.86`,
+`Starting Microsoft Edge WebDriver 131.0.2903.86`) — a coherent pair. Banner `[webview2 131.0.2903.86 windows]`:
+`✓ axe completes over a 1.5 s main-thread stall`, 13 passing, 2 skipped,
+`[a11y] verdict asserted - 0 failed | 2 skipped (expected 2) | driven session present`. The job log was read with
+`gh api repos/Turbolet85/andromeda-conductor/actions/jobs/109778816476/logs`.
+
 ## Census
 
 Before run 1 and after runs 1, 5 and 6: six `msedgewebview2.exe` created 2026-09-26 (not these runs'), no
