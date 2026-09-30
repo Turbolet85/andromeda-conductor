@@ -67,6 +67,8 @@ export interface SubjectRecord {
     tabs_to_start: number | null
   } | null
   process_census: { before: string[]; after: string[] }
+  /** NVDA's log clock against the leg's, calibrated from the paired OS keys. */
+  clock?: ClockCalibration
 }
 
 /** The operator's judgment over the graded rows — transcribed from the review, never generated. */
@@ -157,15 +159,25 @@ function stampMs(iso: string): number {
   return d.getHours() * 3_600_000 + d.getMinutes() * 60_000 + d.getSeconds() * 1_000 + d.getMilliseconds()
 }
 
-/** The utterances in an NVDA `-l 12` log, in file order, plus the version line when present. */
-export function readSpeechLog(path: string): { utterances: Utterance[]; nvdaVersion: string } {
-  if (!existsSync(path)) return { utterances: [], nvdaVersion: 'unknown' }
+/** A keyboard gesture NVDA's own hook logged (`Input: kb(desktop):<gesture>`), at NVDA's clock. */
+interface GestureIn {
+  ms: number
+  gesture: string
+}
+
+/** The utterances and input gestures in an NVDA `-l 12` log, in file order, plus the version line when present. */
+export function readSpeechLog(path: string): { utterances: Utterance[]; inputs: GestureIn[]; nvdaVersion: string } {
+  if (!existsSync(path)) return { utterances: [], inputs: [], nvdaVersion: 'unknown' }
   const text = readFileSync(path, 'utf8')
   const version = /Starting NVDA version (\S+)/.exec(text)?.[1] ?? 'unknown'
   const utterances: Utterance[] = []
+  const inputs: GestureIn[] = []
   let block: { codepath: string; ms: number; body: string[] } | undefined
   const flush = (): void => {
-    if (!block || !block.codepath.startsWith('speech.')) return
+    if (!block) return
+    const input = block.body.map((l) => /^Input: kb\([^)]*\):(\S+)/.exec(l)?.[1]).find(Boolean)
+    if (input) inputs.push({ ms: block.ms, gesture: input })
+    if (!block.codepath.startsWith('speech.')) return
     const speaking = block.body.find((l) => l.startsWith('Speaking'))
     if (!speaking) return
     const parts: string[] = []
@@ -190,7 +202,7 @@ export function readSpeechLog(path: string): { utterances: Utterance[]; nvdaVers
     }
   }
   flush()
-  return { utterances, nvdaVersion: version }
+  return { utterances, inputs, nvdaVersion: version }
 }
 
 const SESSION_STAMP = '@session'
@@ -200,7 +212,9 @@ const KEY_STAMP = '@key'
 
 interface KeySent {
   ms: number
+  ts: string
   input: 'os' | 'webdriver'
+  key: string
 }
 
 /** Utterances longer than this are stored truncated in the record; grading always reads the full text. */
@@ -242,10 +256,12 @@ export function readStamps(path: string): Timeline {
       initialFocus?: unknown
       tabsToStart?: unknown
       input?: unknown
+      key?: unknown
     }
     if (typeof rec.ts !== 'string' || typeof rec.id !== 'string') continue
     if (rec.id === KEY_STAMP) {
-      if (rec.input === 'os' || rec.input === 'webdriver') keys.push({ ms: stampMs(rec.ts), input: rec.input })
+      if (rec.input === 'os' || rec.input === 'webdriver')
+        keys.push({ ms: stampMs(rec.ts), ts: rec.ts, input: rec.input, key: typeof rec.key === 'string' ? rec.key : '' })
       continue
     }
     if (rec.id === SESSION_STAMP) {
@@ -277,6 +293,105 @@ function inputPathOf(keys: KeySent[], start: number, end: number): InputPath {
   if (paths.size === 0) return 'none'
   if (paths.size > 1) return 'mixed'
   return paths.has('os') ? 'os' : 'webdriver'
+}
+
+/** The gesture name NVDA's hook logs for each key the leg sends on the OS path (send-keys.ps1's closed set). */
+const OS_GESTURE: Record<string, string> = {
+  Tab: 'tab',
+  ShiftTab: 'shift+tab',
+  h: 'h',
+  d: 'd',
+  ArrowDown: 'downArrow',
+}
+
+/** Past this, an offset is a clock step rather than send-latency jitter (the aligned sessions spread ≤ 110 ms). */
+const STEP_MS = 300
+
+export interface ClockCalibration {
+  pairs: number
+  /** The aligned offset: the median of the pairs within STEP_MS of the lowest. It is send latency plus any skew. */
+  baseline_ms: number | null
+  max_excess_ms: number
+  /** Runs of consecutive keys whose offset exceeds the baseline by more than STEP_MS; their speech is shifted back. */
+  shifted_stretches: Array<{ from_key: number; to_key: number; excess_ms: number }>
+  /** Set when the session cannot be graded: an unpaired OS key, or a shifted stretch that is not one step. */
+  void: string | null
+  /** The per-key pair table: the leg's stamp, the key, and NVDA's offset from it. */
+  pair_table: Array<{ key: string; leg_ts: string; offset_ms: number }>
+}
+
+function median(values: number[]): number {
+  const s = [...values].sort((a, b) => a - b)
+  return s[Math.floor(s.length / 2)] ?? 0
+}
+
+/**
+ * NVDA's log clock can step against the leg's within one session (measured 2026-09-30: ~2.5 s ahead for 21 of
+ * 35 keys, then realigned), which moves every utterance into the NEXT row's window. The only anchor is the
+ * stimulus itself: each OS-path key the leg records, paired in order with the gesture NVDA's hook logs for it.
+ * The offset of an aligned pair is send latency (~370 ms) plus skew, inseparable, so nothing is corrected
+ * there; only a stretch that exceeds the baseline by more than STEP_MS is shifted back, by its own median
+ * excess. Graded content is never consulted.
+ */
+export function calibrateClock(keys: KeySent[], inputs: GestureIn[]): { record: ClockCalibration; anchors: number[] } {
+  const osKeys = keys.filter((k) => k.input === 'os')
+  const table: ClockCalibration['pair_table'] = []
+  const anchors: number[] = []
+  const unshifted = (voidReason: string | null) => ({
+    record: { pairs: table.length, baseline_ms: null, max_excess_ms: 0, shifted_stretches: [], void: voidReason, pair_table: table },
+    anchors,
+  })
+  let j = 0
+  for (const [i, k] of osKeys.entries()) {
+    const gesture = OS_GESTURE[k.key]
+    while (j < inputs.length && inputs[j]?.gesture !== gesture) j += 1
+    const input = inputs[j]
+    if (gesture === undefined || input === undefined)
+      return unshifted(`OS key ${i + 1} of ${osKeys.length} (${k.key}) has no matching NVDA input gesture`)
+    table.push({ key: k.key, leg_ts: k.ts, offset_ms: input.ms - k.ms })
+    anchors.push(input.ms)
+    j += 1
+  }
+  if (table.length === 0) return unshifted(null)
+  const offsets = table.map((p) => p.offset_ms)
+  const lowest = Math.min(...offsets)
+  const baseline = median(offsets.filter((o) => o - lowest <= STEP_MS))
+  const stretches: ClockCalibration['shifted_stretches'] = []
+  let voidReason: string | null = null
+  for (let i = 0; i < offsets.length; ) {
+    if ((offsets[i] ?? 0) - baseline <= STEP_MS) {
+      i += 1
+      continue
+    }
+    let end = i
+    while (end + 1 < offsets.length && (offsets[end + 1] ?? 0) - baseline > STEP_MS) end += 1
+    const run = offsets.slice(i, end + 1)
+    const spread = Math.max(...run) - Math.min(...run)
+    if (spread > STEP_MS && voidReason === null)
+      voidReason = `keys ${i + 1}-${end + 1} spread ${spread} ms, over ${STEP_MS} ms: not one clock step`
+    stretches.push({ from_key: i + 1, to_key: end + 1, excess_ms: median(run) - baseline })
+    i = end + 1
+  }
+  const record: ClockCalibration = {
+    pairs: table.length,
+    baseline_ms: baseline,
+    max_excess_ms: Math.max(0, ...offsets.map((o) => o - baseline)),
+    shifted_stretches: stretches,
+    void: voidReason,
+    pair_table: table,
+  }
+  return { record, anchors }
+}
+
+/**
+ * An utterance's time on the leg's clock: shifted back only when the nearest earlier paired key (by NVDA's
+ * clock, `anchors`) falls in a shifted stretch.
+ */
+function onLegClock(calibration: ClockCalibration, anchors: number[], ms: number): number {
+  let at = 0
+  while (at < anchors.length && (anchors[at] ?? Infinity) <= ms) at += 1
+  const stretch = calibration.shifted_stretches.find((s) => at >= s.from_key && at <= s.to_key)
+  return stretch ? ms - stretch.excess_ms : ms
 }
 
 function truncate(text: string): string {
@@ -376,8 +491,11 @@ function readExisting(out: string): PassFile | undefined {
 
 export function writeNvdaPass(opts: ParseOptions): PassFile {
   assertSpecCarriesRows(opts.specMd)
-  const { utterances, nvdaVersion } = readSpeechLog(opts.speechLog)
+  const speech = readSpeechLog(opts.speechLog)
   const timeline = readStamps(opts.actions)
+  const { record: clock, anchors } = calibrateClock(timeline.keys, speech.inputs)
+  const utterances = speech.utterances.map((u) => ({ ...u, ms: onLegClock(clock, anchors, u.ms) }))
+  const nvdaVersion = speech.nvdaVersion
   const stamps = timeline.stamps.sort((a, b) => a.ms - b.ms)
   const rows = rowsFor(opts.subject)
   const byId = new Map(stamps.map((s) => [s.id, s]))
@@ -422,7 +540,11 @@ export function writeNvdaPass(opts: ParseOptions): PassFile {
           'sanitize_error edge, so the verdict must say which'
       return s.text
     })
-    const graded = grade(row, heardFull, input)
+    // A session whose clock cannot be calibrated is recorded, never graded.
+    const graded: { outcome: Outcome; arm: Arm; note?: string } =
+      clock.void !== null && !row.absent
+        ? { outcome: 'not-run-here', arm: 'agent', note: `session void — NVDA's clock: ${clock.void}` }
+        : grade(row, heardFull, input)
     const heard = heardFull.map(truncate)
     if (row.cls !== 'browse' && !row.absent && !row.notRun && stamp) {
       attachAttempted = true
@@ -488,6 +610,7 @@ export function writeNvdaPass(opts: ParseOptions): PassFile {
             }
           : null,
         process_census: { before: opts.censusBefore, after: opts.censusAfter },
+        clock,
       },
     },
     rows: [...(existing?.rows ?? []).filter((r) => r.subject !== opts.subject), ...passRows],

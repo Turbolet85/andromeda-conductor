@@ -346,6 +346,47 @@ function matrixState(): Promise<{
   })
 }
 
+/** Which mechanism answered the coverage-row name reads — the driver's own endpoint, or the in-page fallback. */
+let nameMechanism: 'webdriver computedlabel' | 'in-page aria-labelledby' = 'webdriver computedlabel'
+
+/**
+ * The accessible name of the coverage row at `index`, as the browser computes it. The in-page resolution of
+ * `aria-labelledby` stands in ONLY when the driver has no computed-label endpoint; any other error is real.
+ */
+async function coverageRowName(index: number): Promise<string> {
+  const row = (await $$('[class~="cov__row"]'))[index]
+  try {
+    return (await row.getComputedLabel()).trim()
+  } catch (e) {
+    if (!/unknown command|unknown method|not implemented/i.test(String(e))) throw e
+    nameMechanism = 'in-page aria-labelledby'
+    return browser.execute((at: number) => {
+      const el = document.querySelectorAll('[class~="cov__row"]')[at]
+      const text = (node: Node): string => {
+        if (node instanceof Element && node.getAttribute('aria-hidden') === 'true') return ''
+        if (node.nodeType === Node.TEXT_NODE) return node.textContent ?? ''
+        return Array.from(node.childNodes).map(text).join(' ')
+      }
+      const ids = (el?.getAttribute('aria-labelledby') ?? '').split(/\s+/).filter(Boolean)
+      return ids
+        .map((id) => {
+          const ref = document.getElementById(id)
+          return ref ? text(ref) : ''
+        })
+        .join(' ')
+        .replace(/\s+/g, ' ')
+        .trim()
+    }, index)
+  }
+}
+
+/** The computed role of every element `selector` matches, in document order. */
+async function computedRoles(selector: string): Promise<string[]> {
+  const roles: string[] = []
+  for (const el of await $$(selector)) roles.push(await el.getComputedRole())
+  return roles
+}
+
 function ratio(fg: string, bg: string): number {
   return new Color(fg).contrastWCAG21(new Color(bg))
 }
@@ -516,6 +557,45 @@ describe('desktop a11y — routine arm (no live Pulse)', () => {
       }
     }
     expect(problems.join(' | ')).toBe('')
+  })
+
+  it('a coverage row is named by its own cells — its P-ID and its status (SR rows S0-09, E0-05)', async () => {
+    // The expected halves are the cells' DOM text and the fixture literals, never the name under test.
+    const rows = await coverageRows()
+    const first = rows[0]
+    expect(first?.pId ?? '(no row)').toMatch(/^P-\d{3}$/)
+    const firstName = await coverageRowName(0)
+    expect(firstName).toContain(first.pId)
+    expect(firstName).toContain(first.lamp || first.status)
+
+    const at = rows.findIndex((r) => r.pId === COLLIDED_P_ID)
+    expect(at >= 0 ? COLLIDED_P_ID : `${COLLIDED_P_ID} absent`).toBe(COLLIDED_P_ID)
+    const collidedName = await coverageRowName(at)
+    expect(collidedName).toContain(COLLIDED_P_ID)
+    expect(collidedName).toContain(COLLIDED_WORST_LAMP)
+    console.log(`[a11y] coverage-row names read via ${nameMechanism}`)
+  })
+
+  it('the phase line is the single level-1 heading (a11y-plan §4)', async () => {
+    const selector = 'h1,h2,h3,h4,h5,h6,[role="heading"]'
+    const roles = await computedRoles(selector)
+    const found = await browser.execute(
+      (sel: string) =>
+        Array.from(document.querySelectorAll<HTMLElement>(sel)).map((el) => ({
+          level: Number(el.getAttribute('aria-level') ?? el.tagName.replace(/^H/, '')),
+          text: (el.textContent ?? '').trim(),
+        })),
+      selector,
+    )
+    const level1 = found.filter((h, i) => roles[i] === 'heading' && h.level === 1).map((h) => h.text)
+    const phase = (await $('[class~="titlebar__label"]').getText()).trim()
+    expect(`level-1 headings [${level1.join(' | ')}]`).toBe(`level-1 headings [${phase}]`)
+  })
+
+  it('the window exposes exactly one main and one contentinfo landmark (a11y-plan §4)', async () => {
+    const roles = await computedRoles('header,main,footer,nav,aside,[role]')
+    const count = (role: string) => roles.filter((r) => r === role).length
+    expect(`main ${count('main')} · contentinfo ${count('contentinfo')}`).toBe('main 1 · contentinfo 1')
   })
 
   it('an over-envelope run banners its standing with the label in the DOM', async () => {

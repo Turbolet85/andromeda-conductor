@@ -98,7 +98,7 @@ async function phaseLine(): Promise<string> {
 }
 
 async function count(): Promise<string> {
-  return (await $('[class~="titlebar__count"]').getText()).trim()
+  return (await $('[class~="titlebar__count-value"]').getText()).trim()
 }
 
 async function expectPhaseLine(text: string, timeout: number): Promise<void> {

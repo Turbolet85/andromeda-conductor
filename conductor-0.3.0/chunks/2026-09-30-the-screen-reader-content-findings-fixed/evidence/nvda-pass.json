@@ -1,0 +1,2124 @@
+{
+  "spec": "crates/conductor-tauri/ui/test/a11y/screen-reader/nvda-pass-spec.md",
+  "recorded_at": "2026-09-30T20:01:25.056Z",
+  "nvda_version": "2026.2",
+  "webview2_runtime": "154.0.4258.37",
+  "webview2_runtime_registry": "154.0.4258.37",
+  "build_commit": "d7da5d07b94e5a7552dc5340f30b68b5920bd822",
+  "bundle_build": "cargo build --release -p conductor-tauri --features tauri/custom-protocol",
+  "stimulus_runs": {
+    "fixture_run_id": "lamps-fixture",
+    "live_run_id": "2026-09-30T20-00-10-432"
+  },
+  "attach_observed": {
+    "live": true,
+    "empty": true,
+    "error": true
+  },
+  "subjects": {
+    "empty": {
+      "recorded_at": "2026-09-30T19:54:15.575Z",
+      "speech_utterances": 73,
+      "pre_session_utterances": 17,
+      "post_session_utterances": 4,
+      "attach_observed": true,
+      "foreground": {
+        "activated": true,
+        "nvda_named_window": false,
+        "initial_focus": "BODY",
+        "tabs_to_start": 6
+      },
+      "process_census": {
+        "before": [
+          "node.exe 17856",
+          "node.exe 31196"
+        ],
+        "after": [
+          "node.exe 17856",
+          "node.exe 31196"
+        ]
+      },
+      "clock": {
+        "pairs": 48,
+        "baseline_ms": 390,
+        "max_excess_ms": 230,
+        "shifted_stretches": [],
+        "void": null,
+        "pair_table": [
+          {
+            "key": "Tab",
+            "leg_ts": "2026-09-30T19:53:10.927Z",
+            "offset_ms": 403
+          },
+          {
+            "key": "Tab",
+            "leg_ts": "2026-09-30T19:53:12.177Z",
+            "offset_ms": 404
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:53:13.491Z",
+            "offset_ms": 393
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:53:14.702Z",
+            "offset_ms": 387
+          },
+          {
+            "key": "Tab",
+            "leg_ts": "2026-09-30T19:53:16.678Z",
+            "offset_ms": 396
+          },
+          {
+            "key": "h",
+            "leg_ts": "2026-09-30T19:53:17.983Z",
+            "offset_ms": 398
+          },
+          {
+            "key": "h",
+            "leg_ts": "2026-09-30T19:53:19.217Z",
+            "offset_ms": 383
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:53:20.463Z",
+            "offset_ms": 387
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:53:21.682Z",
+            "offset_ms": 396
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:53:22.901Z",
+            "offset_ms": 389
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:53:24.110Z",
+            "offset_ms": 411
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:53:26.121Z",
+            "offset_ms": 390
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:53:27.323Z",
+            "offset_ms": 402
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:53:28.572Z",
+            "offset_ms": 492
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:53:29.909Z",
+            "offset_ms": 395
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:53:31.142Z",
+            "offset_ms": 390
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:53:32.357Z",
+            "offset_ms": 387
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:53:33.552Z",
+            "offset_ms": 378
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:53:34.756Z",
+            "offset_ms": 384
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:53:35.999Z",
+            "offset_ms": 378
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:53:37.236Z",
+            "offset_ms": 382
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:53:38.461Z",
+            "offset_ms": 387
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:53:39.691Z",
+            "offset_ms": 374
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:53:40.909Z",
+            "offset_ms": 398
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:53:42.129Z",
+            "offset_ms": 380
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:53:43.333Z",
+            "offset_ms": 386
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:53:44.572Z",
+            "offset_ms": 382
+          },
+          {
+            "key": "Tab",
+            "leg_ts": "2026-09-30T19:53:46.543Z",
+            "offset_ms": 500
+          },
+          {
+            "key": "Tab",
+            "leg_ts": "2026-09-30T19:53:47.884Z",
+            "offset_ms": 395
+          },
+          {
+            "key": "ShiftTab",
+            "leg_ts": "2026-09-30T19:53:49.154Z",
+            "offset_ms": 407
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:53:50.016Z",
+            "offset_ms": 398
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:53:51.238Z",
+            "offset_ms": 387
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:53:52.454Z",
+            "offset_ms": 379
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:53:53.674Z",
+            "offset_ms": 398
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:53:54.920Z",
+            "offset_ms": 391
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:53:56.148Z",
+            "offset_ms": 493
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:53:57.513Z",
+            "offset_ms": 499
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:53:58.842Z",
+            "offset_ms": 395
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:54:00.063Z",
+            "offset_ms": 620
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:54:01.508Z",
+            "offset_ms": 383
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:54:02.722Z",
+            "offset_ms": 387
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:54:03.938Z",
+            "offset_ms": 371
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:54:05.119Z",
+            "offset_ms": 381
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:54:06.340Z",
+            "offset_ms": 383
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:54:07.569Z",
+            "offset_ms": 388
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:54:08.812Z",
+            "offset_ms": 388
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:54:10.026Z",
+            "offset_ms": 393
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:54:11.267Z",
+            "offset_ms": 389
+          }
+        ]
+      }
+    },
+    "error": {
+      "recorded_at": "2026-09-30T19:54:42.069Z",
+      "speech_utterances": 20,
+      "pre_session_utterances": 2,
+      "post_session_utterances": 2,
+      "attach_observed": true,
+      "foreground": {
+        "activated": true,
+        "nvda_named_window": false,
+        "initial_focus": "BODY",
+        "tabs_to_start": 5
+      },
+      "process_census": {
+        "before": [
+          "node.exe 29048",
+          "node.exe 55176"
+        ],
+        "after": [
+          "node.exe 29048",
+          "node.exe 55176"
+        ]
+      },
+      "clock": {
+        "pairs": 3,
+        "baseline_ms": 447,
+        "max_excess_ms": 33,
+        "shifted_stretches": [],
+        "void": null,
+        "pair_table": [
+          {
+            "key": "Tab",
+            "leg_ts": "2026-09-30T19:54:35.807Z",
+            "offset_ms": 480
+          },
+          {
+            "key": "Tab",
+            "leg_ts": "2026-09-30T19:54:37.198Z",
+            "offset_ms": 447
+          },
+          {
+            "key": "Tab",
+            "leg_ts": "2026-09-30T19:54:38.583Z",
+            "offset_ms": 446
+          }
+        ]
+      }
+    },
+    "live": {
+      "recorded_at": "2026-09-30T20:01:25.056Z",
+      "speech_utterances": 168,
+      "pre_session_utterances": 15,
+      "post_session_utterances": 4,
+      "attach_observed": true,
+      "foreground": {
+        "activated": true,
+        "nvda_named_window": false,
+        "initial_focus": "BODY",
+        "tabs_to_start": 3
+      },
+      "process_census": {
+        "before": [
+          "node.exe 31400",
+          "node.exe 60856",
+          "pulse-app.exe 55128"
+        ],
+        "after": [
+          "node.exe 31400",
+          "node.exe 60856",
+          "pulse-app.exe 55128"
+        ]
+      },
+      "clock": {
+        "pairs": 71,
+        "baseline_ms": 420,
+        "max_excess_ms": 233,
+        "shifted_stretches": [],
+        "void": null,
+        "pair_table": [
+          {
+            "key": "Tab",
+            "leg_ts": "2026-09-30T19:55:31.421Z",
+            "offset_ms": 522
+          },
+          {
+            "key": "Tab",
+            "leg_ts": "2026-09-30T19:55:32.811Z",
+            "offset_ms": 425
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:55:34.195Z",
+            "offset_ms": 411
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:55:36.252Z",
+            "offset_ms": 392
+          },
+          {
+            "key": "d",
+            "leg_ts": "2026-09-30T19:55:38.390Z",
+            "offset_ms": 410
+          },
+          {
+            "key": "d",
+            "leg_ts": "2026-09-30T19:55:39.633Z",
+            "offset_ms": 411
+          },
+          {
+            "key": "d",
+            "leg_ts": "2026-09-30T19:55:40.884Z",
+            "offset_ms": 405
+          },
+          {
+            "key": "Tab",
+            "leg_ts": "2026-09-30T19:55:42.948Z",
+            "offset_ms": 424
+          },
+          {
+            "key": "Tab",
+            "leg_ts": "2026-09-30T19:55:48.521Z",
+            "offset_ms": 417
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:55:49.897Z",
+            "offset_ms": 505
+          },
+          {
+            "key": "h",
+            "leg_ts": "2026-09-30T19:55:52.036Z",
+            "offset_ms": 420
+          },
+          {
+            "key": "h",
+            "leg_ts": "2026-09-30T19:55:54.091Z",
+            "offset_ms": 412
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:55:55.376Z",
+            "offset_ms": 409
+          },
+          {
+            "key": "Tab",
+            "leg_ts": "2026-09-30T19:55:57.403Z",
+            "offset_ms": 411
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:55:58.712Z",
+            "offset_ms": 408
+          },
+          {
+            "key": "ShiftTab",
+            "leg_ts": "2026-09-30T19:56:00.699Z",
+            "offset_ms": 432
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:56:02.556Z",
+            "offset_ms": 512
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:56:03.910Z",
+            "offset_ms": 399
+          },
+          {
+            "key": "ShiftTab",
+            "leg_ts": "2026-09-30T19:56:06.822Z",
+            "offset_ms": 583
+          },
+          {
+            "key": "Tab",
+            "leg_ts": "2026-09-30T19:56:07.784Z",
+            "offset_ms": 420
+          },
+          {
+            "key": "Tab",
+            "leg_ts": "2026-09-30T19:56:09.116Z",
+            "offset_ms": 467
+          },
+          {
+            "key": "ShiftTab",
+            "leg_ts": "2026-09-30T19:56:10.542Z",
+            "offset_ms": 653
+          },
+          {
+            "key": "Tab",
+            "leg_ts": "2026-09-30T19:56:59.533Z",
+            "offset_ms": 549
+          },
+          {
+            "key": "Tab",
+            "leg_ts": "2026-09-30T19:57:00.974Z",
+            "offset_ms": 420
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:57:02.283Z",
+            "offset_ms": 395
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:57:03.528Z",
+            "offset_ms": 517
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:57:04.872Z",
+            "offset_ms": 411
+          },
+          {
+            "key": "Tab",
+            "leg_ts": "2026-09-30T19:57:07.824Z",
+            "offset_ms": 590
+          },
+          {
+            "key": "Tab",
+            "leg_ts": "2026-09-30T19:57:08.490Z",
+            "offset_ms": 414
+          },
+          {
+            "key": "Tab",
+            "leg_ts": "2026-09-30T19:57:10.276Z",
+            "offset_ms": 424
+          },
+          {
+            "key": "ShiftTab",
+            "leg_ts": "2026-09-30T19:57:11.710Z",
+            "offset_ms": 428
+          },
+          {
+            "key": "h",
+            "leg_ts": "2026-09-30T19:57:19.888Z",
+            "offset_ms": 423
+          },
+          {
+            "key": "h",
+            "leg_ts": "2026-09-30T19:57:21.176Z",
+            "offset_ms": 405
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:57:22.465Z",
+            "offset_ms": 426
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:57:23.742Z",
+            "offset_ms": 523
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:57:25.100Z",
+            "offset_ms": 541
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:57:26.485Z",
+            "offset_ms": 592
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:57:27.929Z",
+            "offset_ms": 409
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:57:29.195Z",
+            "offset_ms": 547
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:57:30.583Z",
+            "offset_ms": 521
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:57:31.942Z",
+            "offset_ms": 417
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:57:33.226Z",
+            "offset_ms": 414
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:57:34.492Z",
+            "offset_ms": 560
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:57:35.898Z",
+            "offset_ms": 414
+          },
+          {
+            "key": "Tab",
+            "leg_ts": "2026-09-30T19:57:37.923Z",
+            "offset_ms": 420
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:57:38.514Z",
+            "offset_ms": 424
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:57:39.773Z",
+            "offset_ms": 412
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:57:41.020Z",
+            "offset_ms": 405
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:57:42.278Z",
+            "offset_ms": 420
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:57:43.527Z",
+            "offset_ms": 494
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:57:44.856Z",
+            "offset_ms": 425
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:57:46.124Z",
+            "offset_ms": 521
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:57:47.512Z",
+            "offset_ms": 415
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:57:48.783Z",
+            "offset_ms": 507
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:57:50.165Z",
+            "offset_ms": 395
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:57:51.411Z",
+            "offset_ms": 444
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:57:52.692Z",
+            "offset_ms": 400
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:57:53.929Z",
+            "offset_ms": 448
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:57:55.221Z",
+            "offset_ms": 416
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:57:56.464Z",
+            "offset_ms": 415
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:57:57.722Z",
+            "offset_ms": 398
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:57:58.939Z",
+            "offset_ms": 501
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:58:00.271Z",
+            "offset_ms": 417
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:58:01.541Z",
+            "offset_ms": 417
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:58:02.809Z",
+            "offset_ms": 409
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:58:04.054Z",
+            "offset_ms": 404
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:58:05.310Z",
+            "offset_ms": 413
+          },
+          {
+            "key": "ArrowDown",
+            "leg_ts": "2026-09-30T19:58:06.583Z",
+            "offset_ms": 453
+          },
+          {
+            "key": "ShiftTab",
+            "leg_ts": "2026-09-30T19:58:08.579Z",
+            "offset_ms": 401
+          },
+          {
+            "key": "Tab",
+            "leg_ts": "2026-09-30T20:01:06.621Z",
+            "offset_ms": 404
+          },
+          {
+            "key": "Tab",
+            "leg_ts": "2026-09-30T20:01:13.364Z",
+            "offset_ms": 426
+          }
+        ]
+      }
+    }
+  },
+  "rows": [
+    {
+      "id": "E0-01",
+      "subject": "empty",
+      "state": "idle-report",
+      "class": "browse",
+      "item": "empty-catalog prose",
+      "node": "p \"No scenarios found.\" (plan prose \"No scenarios loaded\" — divergence)",
+      "sc": "SC 4.1.3",
+      "expected": "\"No scenarios found.\" by navigation",
+      "tokens": [
+        "No scenarios found"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "os",
+      "heard": [
+        "main landmark heading level 2 Scenario / suite",
+        "No scenarios found."
+      ],
+      "action": "ArrowDown until \"No scenarios found\" (browse mode, from Close window)",
+      "action_ts": "2026-09-30T19:53:13.422Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "E0-02",
+      "subject": "empty",
+      "state": "idle-report",
+      "class": "focus",
+      "item": "Minimize window control",
+      "node": "button[aria-label=\"Minimize window\"]",
+      "sc": "SC 4.1.2",
+      "expected": "\"Minimize window\" + button",
+      "tokens": [
+        "Minimize window"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "os",
+      "heard": [
+        "banner landmark Minimize window button"
+      ],
+      "action": "Tab",
+      "action_ts": "2026-09-30T19:53:10.886Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "E0-03",
+      "subject": "empty",
+      "state": "idle-report",
+      "class": "focus",
+      "item": "Close window control",
+      "node": "button[aria-label=\"Close window\"]",
+      "sc": "SC 4.1.2",
+      "expected": "\"Close window\" + button",
+      "tokens": [
+        "Close window"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "os",
+      "heard": [
+        "Close window button"
+      ],
+      "action": "Tab",
+      "action_ts": "2026-09-30T19:53:12.150Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "E0-04",
+      "subject": "empty",
+      "state": "idle-report",
+      "class": "focus",
+      "item": "Start control with no selection possible",
+      "node": "button \"Start\" (aria-disabled=true)",
+      "sc": "SC 4.1.2",
+      "expected": "\"Start\" + button + unavailable",
+      "tokens": [
+        "Start",
+        "unavailable"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "os",
+      "heard": [
+        "Run controls grouping Start button unavailable Control+Enter"
+      ],
+      "action": "Tab",
+      "action_ts": "2026-09-30T19:53:16.650Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "E0-05",
+      "subject": "empty",
+      "state": "idle-report",
+      "class": "focus",
+      "item": "coverage matrix current row",
+      "node": "tr[tabindex=0][aria-current=true] in table[aria-label=\"Coverage rows\"]",
+      "sc": "SC 1.3.1",
+      "expected": "the focused row alone, its P-ID read, never the table's rows as one utterance",
+      "tokens": [
+        "P-001"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "os",
+      "heard": [
+        "Capability coverage matrix region",
+        "Coverage rows table",
+        "P-001 Receiver Lifecycle State Connection & Health Awareness drive+observe Not yet run row current"
+      ],
+      "action": "Tab (from Start)",
+      "action_ts": "2026-09-30T19:53:46.520Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "E0-06",
+      "subject": "empty",
+      "state": "idle-report",
+      "class": "focus",
+      "item": "run report rows scroll region (fixture present)",
+      "node": "div[tabindex=0] › table[aria-label=\"Run report rows\"]",
+      "sc": "SC 1.3.1",
+      "expected": "the region named \"Run report rows\" only — focusing it must NOT read the table's rows as one utterance",
+      "tokens": [
+        "Run report rows"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "os",
+      "heard": [
+        "Run report region Run report rows table with 4 rows and 6 columns Run report rows row 1 column 1 P-ID column 2 Scenario column 3 Status column 4 Latency column 5 SLO column 6 FP row 2 P-ID column 1 P-019 P-041 Scenario column 2 lamps-fixture-pass Status column 3 Pass Latency column 4 2000 ms SLO column 5 <5s FP column 6 0 row 3 P-ID column 1 P-019 Scenario column 2 lamps-fixture-blocked Status col … [218 more chars]"
+      ],
+      "action": "Tab",
+      "action_ts": "2026-09-30T19:53:47.861Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "E0-07",
+      "subject": "empty",
+      "state": "idle-report",
+      "class": "browse",
+      "item": "run report header",
+      "node": "header \"3 scenarios · run lamps-fixture\" (before the report scroll region)",
+      "sc": "SC 1.3.1",
+      "expected": "the header text by navigation from Start",
+      "tokens": [
+        "3 scenarios",
+        "lamps-fixture"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "os",
+      "heard": [
+        "Coverage matrix heading level 2",
+        "Run report heading level 2",
+        "Run report region ENVIRONMENT-SUSPECTscenario \"over-envelope\" phase \"burst\" emits faster than the proven-good",
+        "sustained rate of 10000/s (Pulse v0.3.0, captured 2026-08-09) — this run's read-back is not",
+        "evidence about the SUT",
+        "3 scenarios · run lamps-fixture"
+      ],
+      "action": "h until \"Run report\", then ArrowDown until \"lamps-fixture\" (browse mode, from Start)",
+      "action_ts": "2026-09-30T19:53:17.937Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "E0-08",
+      "subject": "empty",
+      "state": "idle-report",
+      "class": "browse",
+      "item": "run report status cells",
+      "node": "td.report__status › lamp labels \"Pass\" · \"Blocked\" · \"Fail\" (glyph aria-hidden)",
+      "sc": "SC 1.4.1",
+      "expected": "\"Blocked\" read as text, never a colour",
+      "tokens": [
+        "Blocked"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "os",
+      "heard": [
+        "table with 4 rows and 6 columns Run report rows",
+        "row 1 column 1 P-ID",
+        "column 2 Scenario",
+        "column 3 Status",
+        "column 4 Latency",
+        "column 5 SLO",
+        "column 6 FP",
+        "row 2 P-ID column 1 P-019 P-041",
+        "Scenario column 2 lamps-fixture-pass",
+        "Status column 3 Pass",
+        "Latency column 4 2000 ms",
+        "SLO column 5 <5s",
+        "FP column 6 0",
+        "row 3 P-ID column 1 P-019",
+        "Scenario column 2 lamps-fixture-blocked",
+        "Status column 3 Blocked"
+      ],
+      "action": "ArrowDown until the \"Blocked\" status label (browse mode)",
+      "action_ts": "2026-09-30T19:53:26.080Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "E0-09",
+      "subject": "empty",
+      "state": "idle-report",
+      "class": "browse",
+      "item": "coverage lamp for the collided P-ID",
+      "node": "Shift+Tab lands on the current coverage row (tr[tabindex=0][aria-current=true]); the roving move reaches row P-019, named by its cells › lamp \"Blocked\" (worst-lamp-wins over Pass)",
+      "sc": "SC 1.4.1",
+      "expected": "\"P-019\" … \"Blocked\" as the row becomes current",
+      "tokens": [
+        "P-019",
+        "Blocked"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "os",
+      "heard": [
+        "Capability coverage matrix region",
+        "Coverage rows table",
+        "P-001 Receiver Lifecycle State Connection & Health Awareness drive+observe Not yet run row current",
+        "P-002 Last-Span-Ago Tracking Connection & Health Awareness drive+observe Not yet run row current",
+        "P-003 Receiver Failure Surface Connection & Health Awareness drive+observe Not yet run row current",
+        "P-004 Orthogonal Health Domains Connection & Health Awareness drive+observe Not yet run row current",
+        "P-005 Span Status Error Detection Hard Signal Detection auto Not yet run row current",
+        "P-006 Exception Event Capture Hard Signal Detection auto Not yet run row current",
+        "P-007 High-Severity Log Capture Hard Signal Detection auto Not yet run row current",
+        "P-008 Root-Span Error Scope Distinction Hard Signal Detection auto Not yet run row current",
+        "P-009 Per-Service Error Rate Baseline Statistical Anomaly Detection auto Not yet run row current",
+        "P-010 Error Rate Spike Detection Statistical Anomaly Detection auto Not yet run row current",
+        "P-011 Per-Operation Latency Baseline Statistical Anomaly Detection auto Not yet run row current",
+        "P-012 Latency Regression Detection Statistical Anomaly Detection auto Not yet run row current",
+        "P-013 Service Activity Floor Learning Statistical Anomaly Detection auto Not yet run row current",
+        "P-014 Service Went Silent Detection Statistical Anomaly Detection auto Not yet run row current",
+        "P-015 Restart Event Detection Pattern Recognition auto Not yet run row current",
+        "P-016 Restart-Window Suppression (Surgical) Pattern Recognition auto Not yet run row current",
+        "P-017 Exception Fingerprinting Pattern Recognition auto Not yet run row current",
+        "P-018 Retry Storm Detection Pattern Recognition auto Not yet run row current",
+        "P-019 Three-Tier Severity Model Severity Calibration auto Blocked row current"
+      ],
+      "action": "Shift+Tab to the current coverage row, then ArrowDown (the matrix's roving move) to P-019",
+      "action_ts": "2026-09-30T19:53:49.126Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "E0-10",
+      "subject": "empty",
+      "state": "idle-report",
+      "class": "browse",
+      "item": "run-level load-envelope banner",
+      "node": "p.report__envelope (not rendered — the fixture records no run_envelope row)",
+      "sc": "SC 1.4.1",
+      "expected": "subject absent",
+      "tokens": [
+        "ENVIRONMENT-SUSPECT"
+      ],
+      "arm": "agent",
+      "outcome": "subject-absent",
+      "input": "none",
+      "heard": [],
+      "action": "none (subject absent)",
+      "action_ts": "2026-09-30T19:54:13.217Z",
+      "note": "the seeded fixture records no run_envelope row; the rendered-DOM proof is v2-25's",
+      "review_grade": "finding"
+    },
+    {
+      "id": "R0-01",
+      "subject": "error",
+      "state": "idle",
+      "class": "live",
+      "item": "scenario load error, re-announced on the first focus event",
+      "node": "div[role=\"alert\"] › p (sr-only) \"Could not load scenarios: …\" — the region mounts EMPTY and the visible copy sits outside it; the re-assertion is inserted once, on the first focusin",
+      "sc": "SC 4.1.3",
+      "expected": "\"Could not load scenarios\" announced ONCE; the text must carry no host path. NVDA binds a window on its first focus event, which necessarily follows a load-time paint, so this row is stamped between activation and that first Tab — the narrowest window containing the announcement",
+      "tokens": [
+        "Could not load scenarios"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "webdriver",
+      "heard": [
+        "Could not load scenarios: scenario config error: TOML parse error at line 4, column 1 | 4 | seed = \"not a number\" | ^ missing comma between array elements, expected `,`",
+        "Conductor",
+        "Conductor document",
+        "banner landmark",
+        "clickable banner landmark Minimize window button",
+        "Conductor document",
+        "button Minimize window",
+        "Close window button",
+        "main landmark Run controls grouping Start button unavailable Control+Enter",
+        "Capability coverage matrix region",
+        "Coverage rows table",
+        "P-001 Receiver Lifecycle State Connection & Health Awareness drive+observe Not yet run row current"
+      ],
+      "action": "the first focus event after load (Tab)",
+      "action_ts": "2026-09-30T19:54:28.912Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "R0-02",
+      "subject": "error",
+      "state": "idle",
+      "class": "focus",
+      "item": "Minimize window control",
+      "node": "button[aria-label=\"Minimize window\"]",
+      "sc": "SC 4.1.2",
+      "expected": "\"Minimize window\" + button",
+      "tokens": [
+        "Minimize window"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "os",
+      "heard": [
+        "Conductor document ￼",
+        "banner landmark Minimize window button"
+      ],
+      "action": "Tab",
+      "action_ts": "2026-09-30T19:54:35.714Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "R0-03",
+      "subject": "error",
+      "state": "idle",
+      "class": "focus",
+      "item": "Close window control",
+      "node": "button[aria-label=\"Close window\"]",
+      "sc": "SC 4.1.2",
+      "expected": "\"Close window\" + button",
+      "tokens": [
+        "Close window"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "os",
+      "heard": [
+        "Close window button"
+      ],
+      "action": "Tab",
+      "action_ts": "2026-09-30T19:54:37.116Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "R0-04",
+      "subject": "error",
+      "state": "idle",
+      "class": "focus",
+      "item": "Start control with nothing loaded",
+      "node": "button \"Start\" (aria-disabled=true)",
+      "sc": "SC 4.1.2",
+      "expected": "\"Start\" + button + unavailable",
+      "tokens": [
+        "Start",
+        "unavailable"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "os",
+      "heard": [
+        "main landmark Run controls grouping Start button unavailable Control+Enter"
+      ],
+      "action": "Tab",
+      "action_ts": "2026-09-30T19:54:38.505Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S0-11",
+      "subject": "live",
+      "state": "idle",
+      "class": "browse",
+      "item": "titlebar phase line at rest — the single h1",
+      "node": "banner › h1[aria-live=\"polite\"] \"Conductor · idle\"",
+      "sc": "SC 4.1.3 · SC 1.3.1",
+      "expected": "\"Conductor · idle\" heading level 1, read by navigation (the region announces changes, not initial content)",
+      "tokens": [
+        "idle",
+        "level 1"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "os",
+      "heard": [
+        "blank",
+        "clickable banner landmark heading level 1 Conductor · idle"
+      ],
+      "action": "ArrowDown until \"idle\" (browse mode, from the document start)",
+      "action_ts": "2026-09-30T19:55:34.075Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S0-12",
+      "subject": "live",
+      "state": "idle",
+      "class": "browse",
+      "item": "titlebar count placeholder",
+      "node": "banner › span[aria-live=\"polite\"] › sr-only text \"Scenario count: no run yet\" + aria-hidden \"00:00:00\"",
+      "sc": "SC 4.1.2",
+      "expected": "the count is NAMED — \"Scenario count: no run yet\" — never bare digits",
+      "tokens": [
+        "Scenario count"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "os",
+      "heard": [
+        "Scenario count: no run yet"
+      ],
+      "action": "ArrowDown until \"Scenario count\" (browse mode)",
+      "action_ts": "2026-09-30T19:55:36.164Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S0-01",
+      "subject": "live",
+      "state": "idle",
+      "class": "focus",
+      "item": "Minimize window control",
+      "node": "button[aria-label=\"Minimize window\"]",
+      "sc": "SC 4.1.2",
+      "expected": "\"Minimize window\" + button (NVDA default verbosity)",
+      "tokens": [
+        "Minimize window"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "os",
+      "heard": [
+        "Conductor document ￼",
+        "banner landmark Minimize window button"
+      ],
+      "action": "Tab",
+      "action_ts": "2026-09-30T19:55:31.369Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S0-02",
+      "subject": "live",
+      "state": "idle",
+      "class": "focus",
+      "item": "Close window control",
+      "node": "button[aria-label=\"Close window\"]",
+      "sc": "SC 4.1.2",
+      "expected": "\"Close window\" + button",
+      "tokens": [
+        "Close window"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "os",
+      "heard": [
+        "Close window button"
+      ],
+      "action": "Tab",
+      "action_ts": "2026-09-30T19:55:32.774Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S0-03",
+      "subject": "live",
+      "state": "idle",
+      "class": "focus",
+      "item": "scenario / suite picker",
+      "node": "input[role=\"combobox\"] named \"Scenario or suite picker\" (cmdk)",
+      "sc": "SC 4.1.2",
+      "expected": "\"Scenario or suite picker\" + combo box, editable, with the first option active",
+      "tokens": [
+        "Scenario or suite picker"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "os",
+      "heard": [
+        "main landmark",
+        "Scenario or suite picker combo box expanded has auto complete editable Filter scenarios by name or P-ID… blank"
+      ],
+      "action": "Tab",
+      "action_ts": "2026-09-30T19:55:42.904Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S0-16",
+      "subject": "live",
+      "state": "idle",
+      "class": "browse",
+      "item": "picker filter-miss prose",
+      "node": "div[aria-live=\"polite\"] › p \"No scenarios match.\" (cmdk Empty replaced — its role=\"presentation\" is set after the prop spread and cannot be overridden)",
+      "sc": "SC 4.1.3",
+      "expected": "ANNOUNCED when the filter stops matching — the status region is mounted before the text arrives, so the prose is a change and not a mount",
+      "tokens": [
+        "No scenarios match"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "webdriver",
+      "heard": [
+        "No scenarios match.",
+        "Suite — all scenarios · 3 scenarios 1 of 4"
+      ],
+      "action": "type \"zzz\" (filter miss), then Backspace ×3",
+      "action_ts": "2026-09-30T19:55:44.206Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S0-04",
+      "subject": "live",
+      "state": "idle",
+      "class": "focus",
+      "item": "picker option (Arrow Down)",
+      "node": "[role=\"option\"] \"halo-breathing-encoding · P-026 · <20s\"",
+      "sc": "SC 4.1.2",
+      "expected": "the option text as the active descendant changes",
+      "tokens": [
+        "halo-breathing-encoding"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "webdriver",
+      "heard": [
+        "Suggestions list",
+        "halo-breathing-encoding · P-026 · <20s 2 of 4"
+      ],
+      "action": "ArrowDown",
+      "action_ts": "2026-09-30T19:55:45.409Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S0-05",
+      "subject": "live",
+      "state": "idle",
+      "class": "focus",
+      "item": "picker option (Arrow Down)",
+      "node": "[role=\"option\"] \"halo-hue-encoding · P-025 · <5s\"",
+      "sc": "SC 4.1.2",
+      "expected": "the option text as the active descendant changes",
+      "tokens": [
+        "halo-hue-encoding"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "webdriver",
+      "heard": [
+        "halo-hue-encoding · P-025 · <5s 3 of 4"
+      ],
+      "action": "ArrowDown",
+      "action_ts": "2026-09-30T19:55:46.379Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S0-06",
+      "subject": "live",
+      "state": "idle",
+      "class": "focus",
+      "item": "select the suite (Enter on \"Suite — all scenarios\")",
+      "node": "[role=\"option\"][aria-current=\"true\"] with \" · selected\"",
+      "sc": "SC 4.1.2",
+      "expected": "the committed choice announced WITH its selected state as it becomes current — the option's aria-label carries \" · selected\", so it no longer waits for a re-read",
+      "tokens": [
+        "selected"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "webdriver",
+      "heard": [
+        "halo-breathing-encoding · P-026 · <20s 2 of 4",
+        "Suite — all scenarios · 3 scenarios 1 of 4",
+        "current",
+        "Suite — all scenarios · 3 scenarios · selected"
+      ],
+      "action": "ArrowUp ×2 to \"Suite — all scenarios\", Enter",
+      "action_ts": "2026-09-30T19:55:47.254Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S0-07",
+      "subject": "live",
+      "state": "idle",
+      "class": "focus",
+      "item": "Start control after a selection",
+      "node": "button \"Start\" (aria-disabled=false)",
+      "sc": "SC 4.1.2",
+      "expected": "\"Start\" + button, NOT unavailable",
+      "tokens": [
+        "Start"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "os",
+      "heard": [
+        "Run controls grouping Start button Control+Enter"
+      ],
+      "action": "Tab",
+      "action_ts": "2026-09-30T19:55:48.497Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S0-08",
+      "subject": "live",
+      "state": "idle",
+      "class": "browse",
+      "item": "Stop control while idle",
+      "node": "button \"Stop\" (native disabled — unfocusable)",
+      "sc": "SC 4.1.2",
+      "expected": "\"Stop\" + button + unavailable, by navigation only",
+      "tokens": [
+        "Stop"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "os",
+      "heard": [
+        "button unavailable Control+dot Stop"
+      ],
+      "action": "ArrowDown until \"Stop\" (browse mode, from Start — Stop is natively disabled)",
+      "action_ts": "2026-09-30T19:55:49.810Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S0-09",
+      "subject": "live",
+      "state": "idle",
+      "class": "focus",
+      "item": "coverage matrix current row",
+      "node": "tr[tabindex=0][aria-current=true] in table[aria-label=\"Coverage rows\"], named by its own four cells (aria-labelledby)",
+      "sc": "SC 1.3.1",
+      "expected": "the focused row alone, its P-ID read, never the table's rows as one utterance",
+      "tokens": [
+        "P-001"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "os",
+      "heard": [
+        "Capability coverage matrix region",
+        "Coverage rows table",
+        "P-001 Receiver Lifecycle State Connection & Health Awareness drive+observe Not yet run row current"
+      ],
+      "action": "Tab (from Start)",
+      "action_ts": "2026-09-30T19:55:57.364Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S0-13",
+      "subject": "live",
+      "state": "idle",
+      "class": "browse",
+      "item": "heading list (the phase-line h1 · three h2)",
+      "node": "h1 phase line · h2 \"Scenario / suite\" · \"Coverage matrix\" · \"Run report\"",
+      "sc": "SC 1.3.1",
+      "expected": "next-heading navigation from Start reads \"Coverage matrix heading level 2\"",
+      "tokens": [
+        "Coverage matrix",
+        "level 2"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "os",
+      "heard": [
+        "Coverage matrix heading level 2"
+      ],
+      "action": "h until \"Coverage matrix\" (browse-mode next heading)",
+      "action_ts": "2026-09-30T19:55:51.977Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S0-14",
+      "subject": "live",
+      "state": "idle",
+      "class": "browse",
+      "item": "landmark list (banner · main · regions · contentinfo)",
+      "node": "header (banner) · main · section[aria-label] · footer (contentinfo)",
+      "sc": "SC 1.3.1",
+      "expected": "next-landmark navigation from Close window reads \"main landmark\" … \"content info landmark\"",
+      "tokens": [
+        "main",
+        "content info"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "os",
+      "heard": [
+        "Close window button",
+        "main landmark Scenario / suite heading level 2",
+        "Capability coverage matrix region 82 capabilities · 66 in scope (43 auto (4 unbacked) · 16 drive+observe · 7 static-only) · 16",
+        "content info landmark conductor · seed — · idle"
+      ],
+      "action": "d until \"content info\" (browse-mode next landmark, from Close window)",
+      "action_ts": "2026-09-30T19:55:38.281Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S0-15",
+      "subject": "live",
+      "state": "idle",
+      "class": "focus",
+      "item": "coverage matrix roving move to a not-yet-run row",
+      "node": "the next tr (P-002), named by its cells; td.cov__status \"Not yet run\" (text, never a tint)",
+      "sc": "SC 1.4.1",
+      "expected": "\"P-002\" … \"Not yet run\" as the row becomes current",
+      "tokens": [
+        "P-002",
+        "Not yet run"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "os",
+      "heard": [
+        "P-002 Last-Span-Ago Tracking Connection & Health Awareness drive+observe Not yet run row current"
+      ],
+      "action": "ArrowDown (the matrix's roving move to the next row)",
+      "action_ts": "2026-09-30T19:55:58.653Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S0-10",
+      "subject": "live",
+      "state": "idle",
+      "class": "browse",
+      "item": "run report empty prose",
+      "node": "p \"No run yet\" (plan prose \"No run yet — pick a scenario/suite to begin\" — divergence)",
+      "sc": "SC 4.1.3",
+      "expected": "\"No run yet\" by navigation",
+      "tokens": [
+        "No run yet"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "os",
+      "heard": [
+        "Run report heading level 2",
+        "No run yet"
+      ],
+      "action": "h until \"Run report\", then ArrowDown until \"No run yet\" (browse mode)",
+      "action_ts": "2026-09-30T19:55:54.004Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S1-01",
+      "subject": "live",
+      "state": "live",
+      "class": "live",
+      "item": "phase line flip on Start",
+      "node": "span[aria-live=\"polite\"] \"Conductor · live\"",
+      "sc": "SC 4.1.3",
+      "expected": "\"Conductor · live\" announced (polite — assertive is reserved for the HOLD flip, so this no longer preempts a focus announcement)",
+      "tokens": [
+        "live"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "mixed",
+      "heard": [
+        "Run controls grouping Start button Control+Enter",
+        "Scenarios completed: 0",
+        "Conductor · live",
+        "Conductor · live",
+        "unavailable"
+      ],
+      "action": "Shift+Tab to Start, Enter",
+      "action_ts": "2026-09-30T19:56:00.655Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S1-02",
+      "subject": "live",
+      "state": "live",
+      "class": "browse",
+      "item": "count after Start (a scenario counter, not a clock)",
+      "node": "span.titlebar__count[aria-live=\"polite\"] › sr-only text \"Scenarios completed: 0\" + aria-hidden \"0\"",
+      "sc": "SC 4.1.3",
+      "expected": "ANNOUNCED as it advances — the count is an aria-live region named \"Scenarios completed\"",
+      "tokens": [
+        "Scenarios completed"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "os",
+      "heard": [
+        "blank",
+        "clickable banner landmark heading level 1 Conductor · live",
+        "Scenarios completed: 0"
+      ],
+      "action": "ArrowDown until \"Scenarios completed\" (browse mode, from the document start — the count reads \"0\")",
+      "action_ts": "2026-09-30T19:56:02.431Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S1-05",
+      "subject": "live",
+      "state": "live",
+      "class": "browse",
+      "item": "in-progress prose",
+      "node": "(none) — the plan's \"Run in progress\" prose does not ship",
+      "sc": "SC 4.1.3",
+      "expected": "subject absent",
+      "tokens": [
+        "Run in progress"
+      ],
+      "arm": "agent",
+      "outcome": "subject-absent",
+      "input": "none",
+      "heard": [
+        "main landmark Run controls grouping Start button unavailable Control+Enter"
+      ],
+      "action": "none (subject absent); focus returned to Start in-page for S1-03",
+      "action_ts": "2026-09-30T19:56:05.872Z",
+      "note": "no in-progress prose ships; the live state rides the titlebar label + count only",
+      "review_grade": "accepted-with-reason"
+    },
+    {
+      "id": "S1-03",
+      "subject": "live",
+      "state": "live",
+      "class": "focus",
+      "item": "Start control while running",
+      "node": "button \"Start\" (aria-disabled=true)",
+      "sc": "SC 4.1.2",
+      "expected": "\"Start\" + button + unavailable",
+      "tokens": [
+        "Start",
+        "unavailable"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "os",
+      "heard": [
+        "Suggestions list",
+        "Suite — all scenarios · 3 scenarios · selected current 1 of 4",
+        "Run controls grouping Start button unavailable Control+Enter"
+      ],
+      "action": "Shift+Tab, Tab (refocus Start)",
+      "action_ts": "2026-09-30T19:56:06.780Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S1-04",
+      "subject": "live",
+      "state": "live",
+      "class": "focus",
+      "item": "Stop control while running",
+      "node": "button \"Stop\" (enabled)",
+      "sc": "SC 4.1.2",
+      "expected": "\"Stop\" + button, NOT unavailable",
+      "tokens": [
+        "Stop"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "os",
+      "heard": [
+        "Stop button Control+dot"
+      ],
+      "action": "Tab",
+      "action_ts": "2026-09-30T19:56:09.080Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S2-01",
+      "subject": "live",
+      "state": "hold",
+      "class": "live",
+      "item": "phase line flip to HOLD (focus returned to Start first, so the restore target is Start)",
+      "node": "span[aria-live=\"assertive\"] \"Conductor · HOLD — operator pause\"",
+      "sc": "SC 4.1.3",
+      "expected": "\"HOLD — operator pause\" announced (assertive; may interleave with the dialog)",
+      "tokens": [
+        "HOLD"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "os",
+      "heard": [
+        "Start button unavailable Control+Enter",
+        "Conductor · HOLD — operator pause",
+        "P-026 — operator-checklist dialog Observe the operator-checklist claim for this scenario",
+        "Abort button Escape",
+        "P-026 — operator-checklist dialog Observe the operator-checklist claim for this scenario",
+        "button Escape Abort",
+        "Conductor · HOLD — operator pause"
+      ],
+      "action": "Shift+Tab back to Start, then wait for the hold (the in-run preflight canary poll)",
+      "action_ts": "2026-09-30T19:56:10.432Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S2-02",
+      "subject": "live",
+      "state": "hold",
+      "class": "focus",
+      "item": "operator-pause dialog opens, focus on Abort",
+      "node": "[role=\"alertdialog\"] labelled \"P-026 — operator-checklist\" (halo-breathing-encoding holds first in sorted-filename order), described \"Observe the operator-checklist claim for this scenario\"; Abort focused",
+      "sc": "SC 4.1.2 · SC 2.4.3",
+      "expected": "dialog + title + description, then \"Abort\" + button",
+      "tokens": [
+        "operator-checklist",
+        "Abort"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "os",
+      "heard": [
+        "Start button unavailable Control+Enter",
+        "Conductor · HOLD — operator pause",
+        "P-026 — operator-checklist dialog Observe the operator-checklist claim for this scenario",
+        "Abort button Escape",
+        "P-026 — operator-checklist dialog Observe the operator-checklist claim for this scenario",
+        "button Escape Abort",
+        "Conductor · HOLD — operator pause"
+      ],
+      "action": "the dialog opens in the same instant (shared window)",
+      "action_ts": "2026-09-30T19:56:10.481Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S2-06",
+      "subject": "live",
+      "state": "hold",
+      "class": "browse",
+      "item": "unticked roll-up at open",
+      "node": "p[role=\"status\"][aria-live=\"polite\"] \"1 of 1 unconfirmed\"",
+      "sc": "SC 4.1.3",
+      "expected": "initial text by navigation (polite region announces changes)",
+      "tokens": [
+        "1 of 1 unconfirmed"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "os",
+      "heard": [
+        "emission rate ramped 5 -> 50 spans/s across 20 windows, then back down to 5halo breathing rate",
+        "tracks throughput?",
+        "out of list 1 of 1 unconfirmed"
+      ],
+      "action": "ArrowDown until \"1 of 1 unconfirmed\" (browse mode, from the focused checkbox)",
+      "action_ts": "2026-09-30T19:57:02.233Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S2-03",
+      "subject": "live",
+      "state": "hold",
+      "class": "focus",
+      "item": "Proceed action (Tab)",
+      "node": "button \"Proceed\"",
+      "sc": "SC 4.1.2",
+      "expected": "\"Proceed\" + button",
+      "tokens": [
+        "Proceed"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "os",
+      "heard": [
+        "Proceed button Control+Enter"
+      ],
+      "action": "Tab",
+      "action_ts": "2026-09-30T19:56:59.489Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S2-04",
+      "subject": "live",
+      "state": "hold",
+      "class": "focus",
+      "item": "checklist row (Tab)",
+      "node": "label › input[type=\"checkbox\"] + induced + observation text",
+      "sc": "SC 4.1.2",
+      "expected": "the row text (\"… halo breathing rate tracks throughput?\") + check box + not checked",
+      "tokens": [
+        "throughput",
+        "not checked"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "os",
+      "heard": [
+        "Operator checklist region list with 1 item emission rate ramped 5 -> 50 spans/s across 20 windows, then back down to 5 halo breathing rate tracks throughput? check box not checked"
+      ],
+      "action": "Tab",
+      "action_ts": "2026-09-30T19:57:00.927Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S2-05",
+      "subject": "live",
+      "state": "hold",
+      "class": "live",
+      "item": "Space toggles the row; roll-up updates",
+      "node": "checkbox checked + p[role=\"status\"] \"All observations confirmed\"",
+      "sc": "SC 4.1.3",
+      "expected": "\"checked\" then \"All observations confirmed\" (polite)",
+      "tokens": [
+        "checked",
+        "All observations confirmed"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "webdriver",
+      "heard": [
+        "All observations confirmed",
+        "checked"
+      ],
+      "action": "Space",
+      "action_ts": "2026-09-30T19:57:06.837Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S2-07",
+      "subject": "live",
+      "state": "hold",
+      "class": "focus",
+      "item": "Proceed (Enter) closes the dialog; focus restored",
+      "node": "button \"Start\" regains focus (onCloseAutoFocus → restoreFocusTo)",
+      "sc": "SC 2.4.3",
+      "expected": "\"Start\" + button (+ unavailable while running) — the restore announcement completes; the phase line leaving hold is polite now and no longer preempts it",
+      "tokens": [
+        "Start"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "mixed",
+      "heard": [
+        "Abort button Escape",
+        "Proceed button Control+Enter",
+        "Conductor · live",
+        "Scenarios completed: 1",
+        "out of grouping clickable main landmark Scenario or suite picker",
+        "Run controls grouping Start button unavailable Control+Enter"
+      ],
+      "action": "Tab ×2 to Proceed, Enter (Go); focus restores to Start",
+      "action_ts": "2026-09-30T19:57:07.725Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S2-08",
+      "subject": "live",
+      "state": "hold",
+      "class": "live",
+      "item": "phase line back to live",
+      "node": "span[aria-live=\"polite\"] \"Conductor · live\"",
+      "sc": "SC 4.1.3",
+      "expected": "\"Conductor · live\" announced",
+      "tokens": [
+        "live"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "mixed",
+      "heard": [
+        "Abort button Escape",
+        "Proceed button Control+Enter",
+        "Conductor · live",
+        "Scenarios completed: 1",
+        "out of grouping clickable main landmark Scenario or suite picker",
+        "Run controls grouping Start button unavailable Control+Enter"
+      ],
+      "action": "the phase line returns to live in the same instant (shared window)",
+      "action_ts": "2026-09-30T19:57:07.768Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S3-01",
+      "subject": "live",
+      "state": "aborted",
+      "class": "live",
+      "item": "Stop during the second scenario (a third follows, so the backend abort check fires)",
+      "node": "span[aria-live=\"polite\"] \"Conductor · aborted\"",
+      "sc": "SC 4.1.3",
+      "expected": "\"Conductor · aborted\" announced",
+      "tokens": [
+        "aborted"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "mixed",
+      "heard": [
+        "Stop button Control+dot",
+        "Conductor · aborted",
+        "Conductor · aborted",
+        "unavailable"
+      ],
+      "action": "Tab to Stop, Enter",
+      "action_ts": "2026-09-30T19:57:10.236Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S3-02",
+      "subject": "live",
+      "state": "aborted",
+      "class": "focus",
+      "item": "Start control after Stop",
+      "node": "button \"Start\" (aria-disabled=false again)",
+      "sc": "SC 4.1.2",
+      "expected": "\"Start\" + button, NOT unavailable",
+      "tokens": [
+        "Start"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "os",
+      "heard": [
+        "Start button Control+Enter"
+      ],
+      "action": "Shift+Tab",
+      "action_ts": "2026-09-30T19:57:11.670Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S3-03",
+      "subject": "live",
+      "state": "aborted",
+      "class": "live",
+      "item": "second hold still opens (abort is polled between scenarios)",
+      "node": "HOLD flip + [role=\"alertdialog\"] \"P-025 — operator-checklist\" (halo-hue-encoding, second in sorted order)",
+      "sc": "SC 4.1.3",
+      "expected": "\"HOLD\" then the P-025 dialog",
+      "tokens": [
+        "HOLD",
+        "P-025"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "none",
+      "heard": [
+        "Conductor · HOLD — operator pause",
+        "P-025 — operator-checklist dialog Observe the operator-checklist claim for this scenario",
+        "Abort button Escape",
+        "P-025 — operator-checklist dialog Observe the operator-checklist claim for this scenario",
+        "button Escape Abort",
+        "Conductor · HOLD — operator pause"
+      ],
+      "action": "wait for the second hold (halo-breathing-encoding)",
+      "action_ts": "2026-09-30T19:57:13.308Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S3-04",
+      "subject": "live",
+      "state": "aborted",
+      "class": "focus",
+      "item": "Escape resolves NoGo; focus restored",
+      "node": "button \"Start\" regains focus",
+      "sc": "SC 2.1.2 · SC 2.4.3",
+      "expected": "\"Start\" + button — spoken every session; the assertive phase-line flip that cancelled it is scoped to entering hold",
+      "tokens": [
+        "Start"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "webdriver",
+      "heard": [
+        "Conductor · live",
+        "Scenarios completed: 2",
+        "out of grouping Scenario or suite picker",
+        "Run controls grouping Start button unavailable Control+Enter",
+        "Conductor · aborted",
+        "Conductor · aborted"
+      ],
+      "action": "Escape (NoGo); focus restores to Start",
+      "action_ts": "2026-09-30T19:57:16.143Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S3-05",
+      "subject": "live",
+      "state": "aborted",
+      "class": "live",
+      "item": "terminal Aborted stage settles the phase line",
+      "node": "span[aria-live=\"polite\"] \"Conductor · aborted\"; report reloads",
+      "sc": "SC 4.1.3",
+      "expected": "\"Conductor · aborted\" announced and STAYS aborted — a stop during the last scenario now reports the Aborted stage, so the line no longer settles to idle",
+      "tokens": [
+        "aborted"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "webdriver",
+      "heard": [
+        "Conductor · live",
+        "Scenarios completed: 2",
+        "out of grouping Scenario or suite picker",
+        "Run controls grouping Start button unavailable Control+Enter",
+        "Conductor · aborted",
+        "Conductor · aborted"
+      ],
+      "action": "the Aborted stage and the report reload follow in the same instant (shared window)",
+      "action_ts": "2026-09-30T19:57:16.185Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S3-06",
+      "subject": "live",
+      "state": "aborted",
+      "class": "browse",
+      "item": "run report rows after the stopped run",
+      "node": "table rows with the \"Manual\" lamp label",
+      "sc": "SC 1.4.1",
+      "expected": "\"Manual\" read as the status cell text",
+      "tokens": [
+        "Manual"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "os",
+      "heard": [
+        "Coverage matrix heading level 2",
+        "Run report heading level 2",
+        "Run report region 2 scenarios · run 2026-09-30T19-56-01-585",
+        "table with 3 rows and 6 columns Run report rows",
+        "row 1 column 1 P-ID",
+        "column 2 Scenario",
+        "column 3 Status",
+        "column 4 Latency",
+        "column 5 SLO",
+        "column 6 FP",
+        "row 2 P-ID column 1 P-026",
+        "Scenario column 2 halo-breathing-encoding",
+        "Status column 3 Manual"
+      ],
+      "action": "h until \"Run report\", then ArrowDown until \"Manual\" (browse mode, from Start)",
+      "action_ts": "2026-09-30T19:57:19.857Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "S3-07",
+      "subject": "live",
+      "state": "aborted",
+      "class": "browse",
+      "item": "coverage matrix lamp for P-025",
+      "node": "the P-025 row reached by the roving move, named by its cells; td.cov__status › lamp label \"Manual\"",
+      "sc": "SC 1.4.1",
+      "expected": "\"P-025\" … \"Manual\" as the row becomes current",
+      "tokens": [
+        "P-025",
+        "Manual"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "mixed",
+      "heard": [
+        "Capability coverage matrix region",
+        "Coverage rows table",
+        "P-002 Last-Span-Ago Tracking Connection & Health Awareness drive+observe Not yet run row current",
+        "P-003 Receiver Failure Surface Connection & Health Awareness drive+observe Not yet run row current",
+        "P-004 Orthogonal Health Domains Connection & Health Awareness drive+observe Not yet run row current",
+        "P-005 Span Status Error Detection Hard Signal Detection auto Not yet run row current",
+        "P-006 Exception Event Capture Hard Signal Detection auto Not yet run row current",
+        "P-007 High-Severity Log Capture Hard Signal Detection auto Not yet run row current",
+        "P-008 Root-Span Error Scope Distinction Hard Signal Detection auto Not yet run row current",
+        "P-009 Per-Service Error Rate Baseline Statistical Anomaly Detection auto Not yet run row current",
+        "P-010 Error Rate Spike Detection Statistical Anomaly Detection auto Not yet run row current",
+        "P-011 Per-Operation Latency Baseline Statistical Anomaly Detection auto Not yet run row current",
+        "P-012 Latency Regression Detection Statistical Anomaly Detection auto Not yet run row current",
+        "P-013 Service Activity Floor Learning Statistical Anomaly Detection auto Not yet run row current",
+        "P-014 Service Went Silent Detection Statistical Anomaly Detection auto Not yet run row current",
+        "P-015 Restart Event Detection Pattern Recognition auto Not yet run row current",
+        "P-016 Restart-Window Suppression (Surgical) Pattern Recognition auto Not yet run row current",
+        "P-017 Exception Fingerprinting Pattern Recognition auto Not yet run row current",
+        "P-018 Retry Storm Detection Pattern Recognition auto Not yet run row current",
+        "P-019 Three-Tier Severity Model Severity Calibration auto Not yet run row current",
+        "P-020 Model-Driven Severity Decision Severity Calibration auto Not yet run row current",
+        "P-021 Algorithmic Attention Cues Severity Calibration auto Not yet run row current",
+        "P-022 Auto-Resolution and Lifecycle Severity Calibration auto Not yet run row current",
+        "P-023 Acknowledge Cool-Down Severity Calibration auto Not yet run row current",
+        "P-024 Widget Ambient Surface Three-Surface Communication drive+observe Not yet run row current",
+        "P-025 Halo Hue Encoding Three-Surface Communication drive+observe Manual row current",
+        "Run controls grouping Start button Control+Enter",
+        "Conductor · live",
+        "Scenarios completed: 0",
+        "Conductor · live",
+        "unavailable",
+        "Conductor · HOLD — operator pause",
+        "P-026 — operator-checklist dialog Observe the operator-checklist claim for this scenario",
+        "Abort button Escape",
+        "P-026 — operator-checklist dialog Observe the operator-checklist claim for this scenario",
+        "button Escape Abort",
+        "Conductor · HOLD — operator pause",
+        "Proceed button Control+Enter",
+        "Conductor · live",
+        "Scenarios completed: 1",
+        "out of grouping Scenario or suite picker",
+        "Run controls grouping Start button unavailable Control+Enter",
+        "Conductor · HOLD — operator pause",
+        "P-025 — operator-checklist dialog Observe the operator-checklist claim for this scenario",
+        "Abort button Escape",
+        "P-025 — operator-checklist dialog Observe the operator-checklist claim for this scenario",
+        "button Escape Abort",
+        "Conductor · HOLD — operator pause",
+        "Proceed button Control+Enter",
+        "Conductor · live",
+        "Scenarios completed: 2",
+        "out of grouping Scenario or suite picker"
+      ],
+      "action": "Tab to the current coverage row, then ArrowDown (the matrix's roving move) to P-025",
+      "action_ts": "2026-09-30T19:57:37.891Z",
+      "review_grade": "accepted-as-heard"
+    },
+    {
+      "id": "T-01",
+      "subject": "live",
+      "state": "terminal",
+      "class": "live",
+      "item": "un-stopped run settles to idle (a second run in the same session)",
+      "node": "h1[aria-live=\"polite\"] \"Conductor · idle\"",
+      "sc": "SC 4.1.3",
+      "expected": "\"Conductor · idle\" announced on the Done stage",
+      "tokens": [
+        "idle"
+      ],
+      "arm": "agent",
+      "outcome": "announced-as-expected",
+      "input": "none",
+      "heard": [
+        "Run controls grouping Start button unavailable Control+Enter",
+        "Scenarios completed: 3",
+        "Conductor · idle",
+        "Conductor · idle"
+      ],
+      "action": "the second run proceeds past both holds; the Done stage settles the phase line",
+      "action_ts": "2026-09-30T20:01:14.046Z",
+      "review_grade": "accepted-as-heard"
+    }
+  ],
+  "findings": [],
+  "operator_review": {
+    "reviewed_at": "2026-09-30",
+    "reviewer": "operator (pc overseer, founder-delegated)",
+    "verdict": "reviewed: 49 accepted as heard · 1 finding (E0-10) · 1 accepted with reason (S1-05)",
+    "basis": [
+      "(1) 49 announced-as-expected rows on one bundle with aligned clocks (48/3/71 pairs, max excess 233 ms, none shifted or void): ACCEPTED as heard.",
+      "(2) S1-05 subject-absent: ACCEPTED with its reason.",
+      "(3) E0-10: FINDING. Its subject-absent reason (no run_envelope row) is falsified on this configuration because the ENVIRONMENT-SUSPECT banner was heard in E0-07; route forward to grade it against its expected content.",
+      "(4) The test-only caret target heard as \"blank\" is harness noise, noted, not a finding."
+    ],
+    "grades": {
+      "accepted-as-heard": [
+        "E0-01",
+        "E0-02",
+        "E0-03",
+        "E0-04",
+        "E0-05",
+        "E0-06",
+        "E0-07",
+        "E0-08",
+        "E0-09",
+        "R0-01",
+        "R0-02",
+        "R0-03",
+        "R0-04",
+        "S0-11",
+        "S0-12",
+        "S0-01",
+        "S0-02",
+        "S0-03",
+        "S0-16",
+        "S0-04",
+        "S0-05",
+        "S0-06",
+        "S0-07",
+        "S0-08",
+        "S0-09",
+        "S0-13",
+        "S0-14",
+        "S0-15",
+        "S0-10",
+        "S1-01",
+        "S1-02",
+        "S1-03",
+        "S1-04",
+        "S2-01",
+        "S2-02",
+        "S2-06",
+        "S2-03",
+        "S2-04",
+        "S2-05",
+        "S2-07",
+        "S2-08",
+        "S3-01",
+        "S3-02",
+        "S3-03",
+        "S3-04",
+        "S3-05",
+        "S3-06",
+        "S3-07",
+        "T-01"
+      ],
+      "finding": {
+        "E0-10": "Its subject-absent reason (no run_envelope row) is falsified on this configuration because the ENVIRONMENT-SUSPECT banner was heard in E0-07; route forward to grade it against its expected content."
+      },
+      "accepted-with-reason": [
+        "S1-05"
+      ]
+    },
+    "notes": "Configuration: WebView2 154.0.4258.37 × msedgedriver 154.0.4258.37 × NVDA 2026.2 × Windows 26200.9457 × the OS input path; bundle built on base d7da5d0; live run 2026-09-30T20-00-10-432. Transcribed by the implementing session from the operator's review."
+  }
+}

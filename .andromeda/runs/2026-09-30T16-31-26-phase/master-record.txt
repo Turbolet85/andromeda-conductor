@@ -1,0 +1,1 @@
+2026-09-30-the-screen-reader-content-findings-fixed · pending · The screen-reader content findings fixed — rust gate deferral closed first, then each of the 18 SR findings confirmed against the rendered DOM and fixed in the product or re-tokened with its reason, and the regrade grades all 51 rows · → conductor-0.3.0/chunks/2026-09-30-the-screen-reader-content-findings-fixed/

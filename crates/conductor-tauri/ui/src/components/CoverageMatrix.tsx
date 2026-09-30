@@ -1,4 +1,4 @@
-import { useRef, useState, type KeyboardEvent } from 'react'
+import { useId, useRef, useState, type KeyboardEvent } from 'react'
 import StatusLamp from './StatusLamp'
 import type { Lamp } from '../lamp'
 import './CoverageMatrix.css'
@@ -56,6 +56,9 @@ export default function CoverageMatrix({
   // run-console-live / idle-with-report). Component-local, so every consumer's props stay unchanged.
   const [current, setCurrent] = useState(0)
   const rowEls = useRef<Array<HTMLTableRowElement | null>>([])
+  // Per-matrix prefix, so two matrices in one document (the dev gallery) never share a cell id.
+  const idPrefix = useId()
+  const cellId = (pId: string, cell: string) => `${idPrefix}-${pId}-${cell}`
 
   const onKeyDown = (event: KeyboardEvent<HTMLTableSectionElement>) => {
     const last = rows.length - 1
@@ -118,15 +121,22 @@ export default function CoverageMatrix({
                   className="cov__row"
                   tabIndex={i === current ? 0 : -1}
                   aria-current={i === current ? 'true' : undefined}
+                  // A focusable row has no name of its own, so NVDA read "row current" and never the P-ID
+                  // (SR rows S0-09, E0-05). Named from its own rendered cells in reading order — never a
+                  // composed aria-label, which would re-spell the lamp label (a11y-plan §11 ARIA).
+                  aria-labelledby={['pid', 'cap', 'mode', 'status'].map((c) => cellId(r.p_id, c)).join(' ')}
                   // Focus by any means (Tab, click) makes the row current, so mouse and keyboard agree.
                   onFocus={() => setCurrent(i)}
                 >
-                  <td className="cov__pid type-data">{r.p_id}</td>
-                  <td className="cov__cap">
+                  <td id={cellId(r.p_id, 'pid')} className="cov__pid type-data">
+                    {r.p_id}
+                  </td>
+                  <td id={cellId(r.p_id, 'cap')} className="cov__cap">
                     <span className="cov__title type-label">{r.title}</span>
                     <span className="cov__cat type-label">{r.category}</span>
                   </td>
                   <td
+                    id={cellId(r.p_id, 'mode')}
                     className={
                       r.mode === OUT_OF_SCOPE
                         ? 'cov__mode cov__mode--out-of-scope type-data'
@@ -135,7 +145,7 @@ export default function CoverageMatrix({
                   >
                     {r.mode}
                   </td>
-                  <td className="cov__status">
+                  <td id={cellId(r.p_id, 'status')} className="cov__status">
                     {lamp ? (
                       <StatusLamp lamp={lamp} size="sm" />
                     ) : (

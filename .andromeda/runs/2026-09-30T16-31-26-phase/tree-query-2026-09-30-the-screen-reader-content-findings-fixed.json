@@ -1,0 +1,148 @@
+[
+{
+"sql": "SELECT callee_name, callee_file, file, line FROM refs WHERE callee_name IN ('CoverageMatrix','Titlebar','RunReport','StatusLamp','ROWS','rowsFor') ORDER BY callee_name, file, line",
+"rows": 23,
+"result": [
+{
+"callee_name": "CoverageMatrix",
+"callee_file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"file": "crates/conductor-tauri/ui/src/App.tsx",
+"line": 5
+},
+{
+"callee_name": "CoverageMatrix",
+"callee_file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"file": "crates/conductor-tauri/ui/src/App.tsx",
+"line": 365
+},
+{
+"callee_name": "CoverageMatrix",
+"callee_file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 5
+},
+{
+"callee_name": "CoverageMatrix",
+"callee_file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 205
+},
+{
+"callee_name": "ROWS",
+"callee_file": "crates/conductor-tauri/ui/test/a11y/screen-reader/rows.ts",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader/parse-nvda-log.ts",
+"line": 15
+},
+{
+"callee_name": "ROWS",
+"callee_file": "crates/conductor-tauri/ui/test/a11y/screen-reader/rows.ts",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader/parse-nvda-log.ts",
+"line": 324
+},
+{
+"callee_name": "ROWS",
+"callee_file": "crates/conductor-tauri/ui/test/a11y/screen-reader/rows.ts",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader/rows.ts",
+"line": 335
+},
+{
+"callee_name": "RunReport",
+"callee_file": "crates/conductor-tauri/ui/src/components/RunReport.tsx",
+"file": "crates/conductor-tauri/ui/src/App.tsx",
+"line": 6
+},
+{
+"callee_name": "RunReport",
+"callee_file": "crates/conductor-tauri/ui/src/components/RunReport.tsx",
+"file": "crates/conductor-tauri/ui/src/App.tsx",
+"line": 389
+},
+{
+"callee_name": "RunReport",
+"callee_file": "crates/conductor-tauri/ui/src/components/RunReport.tsx",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 6
+},
+{
+"callee_name": "RunReport",
+"callee_file": "crates/conductor-tauri/ui/src/components/RunReport.tsx",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 212
+},
+{
+"callee_name": "StatusLamp",
+"callee_file": "crates/conductor-tauri/ui/src/components/StatusLamp.tsx",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 1
+},
+{
+"callee_name": "StatusLamp",
+"callee_file": "crates/conductor-tauri/ui/src/components/StatusLamp.tsx",
+"file": "crates/conductor-tauri/ui/src/Gallery.tsx",
+"line": 156
+},
+{
+"callee_name": "StatusLamp",
+"callee_file": "crates/conductor-tauri/ui/src/components/StatusLamp.tsx",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"line": 1
+},
+{
+"callee_name": "StatusLamp",
+"callee_file": "crates/conductor-tauri/ui/src/components/StatusLamp.tsx",
+"file": "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+"line": 139
+},
+{
+"callee_name": "StatusLamp",
+"callee_file": "crates/conductor-tauri/ui/src/components/StatusLamp.tsx",
+"file": "crates/conductor-tauri/ui/src/components/RunReport.tsx",
+"line": 0
+},
+{
+"callee_name": "StatusLamp",
+"callee_file": "crates/conductor-tauri/ui/src/components/StatusLamp.tsx",
+"file": "crates/conductor-tauri/ui/src/components/RunReport.tsx",
+"line": 76
+},
+{
+"callee_name": "Titlebar",
+"callee_file": "crates/conductor-tauri/ui/src/components/Titlebar.tsx",
+"file": "crates/conductor-tauri/ui/src/App.tsx",
+"line": 2
+},
+{
+"callee_name": "Titlebar",
+"callee_file": "crates/conductor-tauri/ui/src/components/Titlebar.tsx",
+"file": "crates/conductor-tauri/ui/src/App.tsx",
+"line": 278
+},
+{
+"callee_name": "rowsFor",
+"callee_file": "crates/conductor-tauri/ui/test/a11y/screen-reader/rows.ts",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 19
+},
+{
+"callee_name": "rowsFor",
+"callee_file": "crates/conductor-tauri/ui/test/a11y/screen-reader/rows.ts",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 34
+},
+{
+"callee_name": "rowsFor",
+"callee_file": "crates/conductor-tauri/ui/test/a11y/screen-reader/rows.ts",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader/parse-nvda-log.ts",
+"line": 15
+},
+{
+"callee_name": "rowsFor",
+"callee_file": "crates/conductor-tauri/ui/test/a11y/screen-reader/rows.ts",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader/parse-nvda-log.ts",
+"line": 381
+}
+],
+"db_state": "fresh",
+"plane": "ts"
+}
+]

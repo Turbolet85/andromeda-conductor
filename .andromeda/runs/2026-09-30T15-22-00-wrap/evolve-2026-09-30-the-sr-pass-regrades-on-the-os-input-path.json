@@ -158,5 +158,45 @@
 "lines": 2721,
 "bytes": 3357666
 }
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-09-30T16:29:05Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-30T15-22-00-wrap",
+"--marker",
+"2026-09-30-the-sr-pass-regrades-on-the-os-input-path"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"appended 3 record(s) · friction-log.ndjson lines 2721→2724 · bytes 3357666→3360077 · term lf",
+"ts 2026-09-30T16:29:04Z · clock 2026-09-30T16:29:04Z · bound 2026-09-30T16:24:10Z (line 2721)",
+"ids 2026-09-30T16:29:04Z-a … 2026-09-30T16:29:04Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 2721,
+"bytes": 3357666,
+"terminator": "LF",
+"bound": "2026-09-30T16:24:10Z"
+},
+"after": {
+"lines": 2724,
+"bytes": 3360077
+}
 }
 ]

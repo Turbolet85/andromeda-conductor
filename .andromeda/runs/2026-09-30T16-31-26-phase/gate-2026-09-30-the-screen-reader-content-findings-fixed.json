@@ -1,0 +1,32 @@
+[
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-30T16:45:48Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"conductor-0.3.0/chunks/2026-09-30-the-screen-reader-content-findings-fixed/research.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T16-31-26-phase",
+"--marker",
+"2026-09-30-the-screen-reader-content-findings-fixed"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 11 items (new 3 · modify 8 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 11,
+"unparsed": 0
+}
+}
+]

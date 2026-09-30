@@ -38,6 +38,12 @@ const rows = new Map(rowsFor(subject).map((r) => [r.id, r]))
 // follows the second scenario's phases. Long waits are the design — every one is bounded and named.
 const HOLD_TIMEOUT_MS = 12 * 60 * 1000
 const SECOND_HOLD_TIMEOUT_MS = 6 * 60 * 1000
+// T-01's second run fires its own preflight canary, and Pulse dedupes a new incident against any OPEN one, so
+// that run is started only once the first run's incidents have idled out: ≥120 s idle plus a 30 s resolver
+// tick (verification-harness.md 2026-08-19 as extended 2026-09-01; ~160 s measured sufficient 2026-09-04).
+const SECOND_RUN_QUIET_MS = 170_000
+// The second run's third scenario executes (the first run never reached it); Done follows its read-back.
+const DONE_TIMEOUT_MS = 3 * 60 * 1000
 
 function row(id: string): SpecRow {
   const r = rows.get(id)
@@ -109,6 +115,9 @@ async function bringToForeground(preFocusRow?: string): Promise<{ activated: boo
       if ((await activeName()) === 'BODY') break
     }
   }
+  // The injected cycle need not contain a BODY stop at all (measured 2026-09-30 on the error subject: ten Tabs
+  // wrapped TR → Minimize with none, leaving focus mid-list), so a cycle that ends off BODY is reset in-page.
+  const reset = (await activeName()) === 'BODY' ? 'cycle' : await resetToDocumentStart()
   const sizeBefore = logSize()
   let named = false
   try {
@@ -129,9 +138,53 @@ async function bringToForeground(preFocusRow?: string): Promise<{ activated: boo
   await quiet(6_000)
   appendFileSync(
     actionsPath,
-    JSON.stringify({ ts: new Date().toISOString(), id: '@foreground', activated, nvdaNamedWindow: named, initialFocus, firstTabTarget, firstTabProbe, tabsToStart }) + '\n',
+    JSON.stringify({ ts: new Date().toISOString(), id: '@foreground', activated, nvdaNamedWindow: named, initialFocus, firstTabTarget, firstTabProbe, tabsToStart, reset }) + '\n',
   )
   return { activated, nvdaNamedWindow: named }
+}
+
+/**
+ * Put focus on <body> with Chromium's sequential-focus starting point at the document start, without a Tab
+ * cycle: a throwaway focus target is inserted first in <body>, focused, and removed. Removing the focused node
+ * leaves focus on <body> and collapses the starting point to where that node stood, so the next Tab reaches the
+ * first focusable. Returns the label the @foreground record carries.
+ */
+async function resetToDocumentStart(): Promise<'sentinel'> {
+  await browser.execute(() => {
+    const sentinel = document.createElement('span')
+    sentinel.tabIndex = -1
+    document.body.prepend(sentinel)
+    sentinel.focus()
+    sentinel.remove()
+  })
+  const on = await activeName()
+  if (on !== 'BODY') throw new Error(`the in-page reset left focus on "${on}", not BODY`)
+  return 'sentinel'
+}
+
+const CARET_SENTINEL = 'sr-caret-sentinel'
+
+/**
+ * NVDA's browse caret follows DOM focus, and the phase line and the count precede every focusable, so a
+ * forward walk to them must start from a focus target placed before them. A blank, test-only span is inserted
+ * first in <body> and HELD focused for the walk — a focus-and-remove leaves the caret nowhere (measured
+ * 2026-09-30: seven ArrowDowns, no speech). The product DOM is unchanged; `releaseCaretSentinel` removes it.
+ */
+async function holdCaretAtDocumentStart(): Promise<void> {
+  const held = await browser.execute((id: string) => {
+    const sentinel = document.createElement('span')
+    sentinel.id = id
+    sentinel.tabIndex = -1
+    document.body.prepend(sentinel)
+    sentinel.focus()
+    return document.activeElement === sentinel
+  }, CARET_SENTINEL)
+  if (!held) throw new Error('the caret sentinel did not take focus')
+}
+
+/** Remove the sentinel; focus falls to <body> with the sequential-focus starting point at the document start. */
+async function releaseCaretSentinel(): Promise<void> {
+  await browser.execute((id: string) => document.getElementById(id)?.remove(), CARET_SENTINEL)
 }
 
 /** Stamp the row BEFORE its action; the parser owns everything NVDA speaks from here to the next stamp. */
@@ -181,9 +234,10 @@ function endTimeline(): void {
   appendFileSync(actionsPath, JSON.stringify({ ts: new Date().toISOString(), id: '@end' }) + '\n')
 }
 
-async function act(id: string, action: string, drive: () => Promise<void>): Promise<void> {
+/** `drive` receives the log size at the stamp, so a browse walk can key on what NVDA said inside this row. */
+async function act(id: string, action: string, drive: (since: number) => Promise<void>): Promise<void> {
   const before = stamp(id, action)
-  await drive()
+  await drive(before)
   await settle(before)
 }
 
@@ -322,7 +376,7 @@ async function phaseLine(): Promise<string> {
 }
 
 async function count(): Promise<string> {
-  return (await $('[class~="titlebar__count"]').getText()).trim()
+  return (await $('[class~="titlebar__count-value"]').getText()).trim()
 }
 
 async function expectPhaseLine(text: string, timeout: number): Promise<void> {
@@ -406,6 +460,75 @@ async function browseKey(key: 'h' | 'd' | 'ArrowDown'): Promise<void> {
   await osKey(key)
 }
 
+function heardSince(size: number): string {
+  try {
+    return readFileSync(speechLog).subarray(size).toString('utf8')
+  } catch {
+    return ''
+  }
+}
+
+/**
+ * Browse-mode reach: send the OS-path key one at a time, up to `cap`, until NVDA has spoken `token` since the
+ * row's stamp. Where a line falls is NVDA's line granularity, not the DOM's, so the walk is keyed on what NVDA
+ * said and bounded by the cap. A miss at the cap is recorded here and graded by the parser, never thrown. A
+ * string token matches case-insensitively, as the parser grades; a RegExp is for a token some earlier line
+ * could satisfy in another case.
+ */
+async function browseUntil(key: 'h' | 'd' | 'ArrowDown', token: string | RegExp, cap: number, since: number): Promise<void> {
+  const reached = (): boolean => {
+    const text = heardSince(since)
+    return typeof token === 'string' ? text.toLowerCase().includes(token.toLowerCase()) : token.test(text)
+  }
+  let sent = 0
+  while (sent < cap && !reached()) {
+    const before = logSize()
+    await browseKey(key)
+    sent += 1
+    await settle(before)
+  }
+  appendFileSync(
+    actionsPath,
+    JSON.stringify({ ts: new Date().toISOString(), id: '@browse', key, token: String(token), sent, cap, reached: reached() }) + '\n',
+  )
+}
+
+function currentRowPid(): Promise<string> {
+  return browser.execute(
+    () => (document.querySelector('[class~="cov__row"][aria-current="true"] [class~="cov__pid"]')?.textContent ?? '').trim(),
+  )
+}
+
+/**
+ * The coverage matrix's own roving move, on the OS path: ArrowDown on the focused row is the APP's key (NVDA is
+ * in focus mode there), so the walk is keyed on the DOM's current row, never on speech — a silent NVDA must not
+ * overshoot the row and turn a grade into a throw. What NVDA said along the way is the parser's to grade.
+ */
+async function roveTo(pid: string, cap: number): Promise<void> {
+  for (let i = 0; i < cap && (await currentRowPid()) !== pid; i += 1) {
+    const before = logSize()
+    await osKey('ArrowDown')
+    await settle(before)
+  }
+  expect(await currentRowPid()).toBe(pid)
+}
+
+/** A hold, or the run settling first — which for a second run means its preflight blocked (a deduped canary). */
+async function waitForSecondRunHold(timeout: number): Promise<void> {
+  const dialog = await $('[role="alertdialog"]')
+  await browser.waitUntil(
+    async () => (await dialog.isDisplayed().catch(() => false)) || (await phaseLine()) === 'Conductor · idle',
+    { timeout, interval: 1_000, timeoutMsg: `the second run raised no hold within ${timeout / 1000}s` },
+  )
+  if (!(await dialog.isDisplayed().catch(() => false))) {
+    throw new Error(
+      'the second run settled to idle before its hold — its preflight blocked; the quiet window did not clear ' +
+        "the first run's incident (Pulse dedupes against any open incident)",
+    )
+  }
+  await waitForHold(10_000)
+}
+
 if (subject === 'live') {
   describe('screen-reader pass — live subject (idle → live → hold → aborted)', () => {
     before(() => {
@@ -417,13 +540,12 @@ if (subject === 'live') {
 
     it('drives the four shipped run states while NVDA logs what it would speak', async () => {
       await bringToForeground()
-      // S0 — idle on the trimmed catalog with an empty runs dir
-      await act('S0-11', 'none (browse row)', async () => {
-        expect(await phaseLine()).toBe('Conductor · idle')
-      })
-      await act('S0-12', 'none (browse row)', async () => {
-        expect(await count()).toBe('00:00:00')
-      })
+      // S0 — idle on the trimmed catalog with an empty runs dir. The browse rows are walked on the OS path from
+      // a position BEFORE their node: no backward browse key is in the closed key set. The phase line and the
+      // count precede every focusable, and the browse caret follows the last DOM focus (after the reset cycle it
+      // sat at the last stop, measured 2026-09-30), so the walk starts from a held focus target at the document
+      // start. It follows S0-02 because NVDA binds the document only at the first OS-path focus change: walked
+      // before S0-01, both rows were silent (measured 2026-09-30).
       await act('S0-01', 'Tab', async () => {
         await tab()
         await expectFirstTabLanding('Minimize window')
@@ -431,6 +553,23 @@ if (subject === 'live') {
       await act('S0-02', 'Tab', async () => {
         await tab()
         await expectActive('Close window')
+      })
+      await holdCaretAtDocumentStart()
+      await act('S0-11', 'ArrowDown until "idle" (browse mode, from the document start)', async (since) => {
+        expect(await phaseLine()).toBe('Conductor · idle')
+        await browseUntil('ArrowDown', 'idle', 4, since)
+      })
+      await act('S0-12', 'ArrowDown until "Scenario count" (browse mode)', async (since) => {
+        expect(await count()).toBe('00:00:00')
+        await browseUntil('ArrowDown', 'Scenario count', 3, since)
+      })
+      // Focus goes back to Close window in-page, so S0-14's landmark walk and S0-03's Tab start where they did.
+      await releaseCaretSentinel()
+      await browser.execute(() => document.querySelector<HTMLElement>('[aria-label="Close window"]')?.focus())
+      await expectActive('Close window')
+      await act('S0-14', 'd until "content info" (browse-mode next landmark, from Close window)', async (since) => {
+        await browseUntil('d', 'content info', 6, since)
+        await expect(await $('footer')).toBeExisting()
       })
       await act('S0-03', 'Tab', async () => {
         await tab()
@@ -482,18 +621,25 @@ if (subject === 'live') {
         await expectActive('Start')
         expect(await activeAriaDisabled()).not.toBe('true')
       })
-      await act('S0-08', 'none (browse row — Stop is natively disabled)', async () => {
+      // DOM focus stays on Start through S0-08..S0-10: the browse caret moves, focus does not.
+      await act('S0-08', 'ArrowDown until "Stop" (browse mode, from Start — Stop is natively disabled)', async (since) => {
         await expect(await $('button=Stop')).toBeExisting()
+        await browseUntil('ArrowDown', 'Stop', 3, since)
       })
-      await act('S0-09', 'Tab', async () => {
+      await act('S0-13', 'h until "Coverage matrix" (browse-mode next heading)', async (since) => {
+        await browseUntil('h', 'Coverage matrix', 3, since)
+      })
+      await act('S0-10', 'h until "Run report", then ArrowDown until "No run yet" (browse mode)', async (since) => {
+        await expect(await $('p=No run yet')).toBeExisting()
+        await browseUntil('h', 'Run report', 2, since)
+        await browseUntil('ArrowDown', 'No run yet', 4, since)
+      })
+      await act('S0-09', 'Tab (from Start)', async () => {
         await tab()
         await expectActiveCoverageRow()
       })
-      await act('S0-13', 'h (browse-mode next heading)', () => browseKey('h'))
-      await act('S0-14', 'd (browse-mode next landmark)', () => browseKey('d'))
-      await act('S0-15', 'ArrowDown (browse-mode next line)', () => browseKey('ArrowDown'))
-      await act('S0-10', 'none (browse row)', async () => {
-        await expect(await $('p=No run yet')).toBeExisting()
+      await act('S0-15', "ArrowDown (the matrix's roving move to the next row)", async () => {
+        await roveTo('P-002', 1)
       })
 
       // S1 — Start
@@ -509,10 +655,20 @@ if (subject === 'live') {
       // pane was gone: the script's synthetic ALT landed on the already-foreground app and opened its
       // System menu, whose modal message loop froze the webview (NVDA spoke "System subMenu"; every later
       // WebDriver command timed out).
-      await act('S1-02', 'none (browse row — the count reads "0")', async () => {
+      // The browse walk to the count starts from the held document-start focus target, placed before the stamp.
+      await holdCaretAtDocumentStart()
+      await act('S1-02', 'ArrowDown until "Scenarios completed" (browse mode, from the document start — the count reads "0")', async (since) => {
         expect(await count()).toBe('0')
+        await browseUntil('ArrowDown', 'Scenarios completed', 4, since)
       })
-      await act('S1-05', 'none (subject absent)', async () => {})
+      await act('S1-05', 'none (subject absent); focus returned to Start in-page for S1-03', async () => {
+        await releaseCaretSentinel()
+        await browser.execute(() => {
+          const start = Array.from(document.querySelectorAll('button')).find((b) => (b.textContent ?? '').trim() === 'Start')
+          start?.focus()
+        })
+        await expectActive('Start')
+      })
       await act('S1-03', 'Shift+Tab, Tab (refocus Start)', async () => {
         await shiftTab()
         await tab()
@@ -535,9 +691,6 @@ if (subject === 'live') {
         await expectPhaseLine('Conductor · HOLD — operator pause', 5_000)
         await settle(before)
       }
-      await act('S2-06', 'none (browse row)', async () => {
-        expect((await $('[role="status"]').getText()).trim()).toBe('1 of 1 unconfirmed')
-      })
       await act('S2-03', 'Tab', async () => {
         await tab()
         await expectActive('Proceed')
@@ -545,6 +698,11 @@ if (subject === 'live') {
       await act('S2-04', 'Tab', async () => {
         await tab()
         await browser.waitUntil(activeIsCheckbox, { timeout: 5_000, timeoutMsg: 'Tab did not reach the checklist row' })
+      })
+      // The roll-up follows the checklist in the dialog, so the walk to it starts on the focused checkbox.
+      await act('S2-06', 'ArrowDown until "1 of 1 unconfirmed" (browse mode, from the focused checkbox)', async (since) => {
+        expect((await $('[role="status"]').getText()).trim()).toBe('1 of 1 unconfirmed')
+        await browseUntil('ArrowDown', '1 of 1 unconfirmed', 4, since)
       })
       await act('S2-05', 'Space', async () => {
         const checkbox = await $('[role="alertdialog"] input[type="checkbox"]')
@@ -560,9 +718,13 @@ if (subject === 'live') {
         })
       })
       {
-        const before = stamp('S2-07', 'Shift+Tab to Proceed, Enter (Go); focus restores to Start')
+        // Tab ×2 (checkbox → Abort → Proceed), never Shift+Tab: after S2-06's browse walk NVDA handles Shift+Tab
+        // from its caret on the roll-up, whose previous focusable is the checkbox itself, so focus never moved
+        // (measured 2026-09-30). Forward, the DOM order and the caret order agree.
+        const before = stamp('S2-07', 'Tab ×2 to Proceed, Enter (Go); focus restores to Start')
         stamp('S2-08', 'the phase line returns to live in the same instant (shared window)')
-        await shiftTab()
+        await tab()
+        await tab()
         await expectActive('Proceed')
         await injectKeys('Enter')
         await waitForDialogGone()
@@ -612,9 +774,46 @@ if (subject === 'live') {
         )
         await settle(before)
       }
-      await act('S3-06', 'ArrowDown (browse-mode next line)', () => browseKey('ArrowDown'))
-      await act('S3-07', 'ArrowDown (browse-mode next line)', () => browseKey('ArrowDown'))
-      stamp('T-01', 'not run (the live subject is stopped by design)')
+      const firstRunSettledAt = Date.now()
+      await act('S3-06', 'h until "Run report", then ArrowDown until "Manual" (browse mode, from Start)', async (since) => {
+        await browseUntil('h', 'Run report', 3, since)
+        await browseUntil('ArrowDown', 'Manual', 24, since)
+      })
+      await act('S3-07', "Tab to the current coverage row, then ArrowDown (the matrix's roving move) to P-025", async () => {
+        await tab()
+        await expectActiveCoverageRow()
+        await roveTo('P-025', 30)
+      })
+
+      // Terminal — a second, un-stopped run in the same session reaches the Done stage.
+      await shiftTab()
+      await expectActive('Start')
+      await browser.waitUntil(async () => Date.now() - firstRunSettledAt >= SECOND_RUN_QUIET_MS, {
+        timeout: SECOND_RUN_QUIET_MS + 10_000,
+        interval: 1_000,
+        timeoutMsg: "the second run's quiet window never elapsed",
+      })
+      await injectKeys('Enter')
+      await expectPhaseLine('Conductor · live', 15_000)
+      for (const timeout of [HOLD_TIMEOUT_MS, SECOND_HOLD_TIMEOUT_MS]) {
+        await waitForSecondRunHold(timeout)
+        await tab()
+        await expectActive('Proceed')
+        await injectKeys('Enter')
+        await waitForDialogGone()
+      }
+      await expectPhaseLine('Conductor · live', 10_000)
+      {
+        const before = stamp('T-01', 'the second run proceeds past both holds; the Done stage settles the phase line')
+        await expectPhaseLine('Conductor · idle', DONE_TIMEOUT_MS)
+        const summary = await $('[class~="report__summary"]')
+        await browser.waitUntil(async () => (await summary.getText().catch(() => '')).includes('3 scenarios'), {
+          timeout: 30_000,
+          interval: 500,
+          timeoutMsg: 'the Done stage did not reload a three-scenario report',
+        })
+        await settle(before)
+      }
     })
   })
 }
@@ -630,9 +829,6 @@ if (subject === 'empty') {
 
     it('reads the empty-catalog prose and the fixture report', async () => {
       await bringToForeground()
-      await act('E0-01', 'none (browse row)', async () => {
-        await expect(await $('p=No scenarios found.')).toBeExisting()
-      })
       await act('E0-02', 'Tab', async () => {
         await tab()
         await expectFirstTabLanding('Minimize window')
@@ -641,12 +837,29 @@ if (subject === 'empty') {
         await tab()
         await expectActive('Close window')
       })
+      // The browse caret follows the last DOM focus: from BODY after the reset cycle it sat at the report table,
+      // past this prose (measured 2026-09-30). Close window sits directly above it.
+      await act('E0-01', 'ArrowDown until "No scenarios found" (browse mode, from Close window)', async (since) => {
+        await expect(await $('p=No scenarios found.')).toBeExisting()
+        await browseUntil('ArrowDown', 'No scenarios found', 4, since)
+      })
       await act('E0-04', 'Tab', async () => {
         await tab()
         await expectActive('Start')
         expect(await activeAriaDisabled()).toBe('true')
       })
-      await act('E0-05', 'Tab', async () => {
+      // The report header sits BEFORE its scroll region and no backward browse key exists, so the report is
+      // walked from Start, ahead of the Tabs into the matrix and the region.
+      await act('E0-07', 'h until "Run report", then ArrowDown until "lamps-fixture" (browse mode, from Start)', async (since) => {
+        await browseUntil('h', 'Run report', 3, since)
+        await browseUntil('ArrowDown', 'lamps-fixture', 4, since)
+      })
+      // Case-sensitive: the Scenario cell "lamps-fixture-blocked" precedes the Status cell and would stop a
+      // case-insensitive walk one cell short of the lamp label.
+      await act('E0-08', 'ArrowDown until the "Blocked" status label (browse mode)', async (since) => {
+        await browseUntil('ArrowDown', /Blocked/, 20, since)
+      })
+      await act('E0-05', 'Tab (from Start)', async () => {
         await tab()
         await expectActiveCoverageRow()
       })
@@ -654,12 +867,10 @@ if (subject === 'empty') {
         await tab()
         await expectActiveScrollRegion('Run report rows')
       })
-      await act('E0-07', 'ArrowDown (browse-mode next line)', () => browseKey('ArrowDown'))
-      await act('E0-08', 'ArrowDown (browse-mode next line)', () => browseKey('ArrowDown'))
-      await act('E0-09', 'Shift+Tab, ArrowDown (browse-mode next line)', async () => {
+      await act('E0-09', "Shift+Tab to the current coverage row, then ArrowDown (the matrix's roving move) to P-019", async () => {
         await shiftTab()
         await expectActiveCoverageRow()
-        await browseKey('ArrowDown')
+        await roveTo('P-019', 24)
       })
       stamp('E0-10', 'none (subject absent)')
     })

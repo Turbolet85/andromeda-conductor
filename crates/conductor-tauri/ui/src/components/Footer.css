@@ -1,0 +1,23 @@
+/* The status strip (contentinfo) — one Label-role line under a border-subtle seam, no shadow, no
+   transition (design-system §Depth Strategy, §Motion). Tokens by name — design-system.md §Tokens. */
+.footer {
+  flex-shrink: 0;
+  padding: var(--space-xs) var(--space-md);
+  border-top: 1px solid var(--border-subtle);
+  color: var(--text-tertiary);
+}
+
+.footer__line {
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.footer .lamp__label {
+  color: inherit;
+}
+
+.footer__hold-glyph {
+  color: var(--count-hold);
+}

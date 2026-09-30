@@ -47,3 +47,6 @@
   started are stopped. The session scripts (`driver-os-walk.ps1`, `shift-probe.ps1`) and the run snapshots stay in
   the gitignored `runs/sr-control/`.
 - Health: see the wrap card.
+
+## Session End Status
+Completed normally at 2026-09-30 20:06:00

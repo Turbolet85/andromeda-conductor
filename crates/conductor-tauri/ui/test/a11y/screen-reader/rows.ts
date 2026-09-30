@@ -35,15 +35,16 @@ export const ROWS: readonly SpecRow[] = [
   // ── live subject · S0 idle (real trimmed catalog, empty runs dir) ────────────────────────────────
   {
     id: 'S0-11', subject: 'live', state: 'idle', cls: 'browse',
-    item: 'titlebar phase line at rest',
-    node: 'banner › span[aria-live="polite"] "Conductor · idle"',
-    sc: 'SC 4.1.3', expected: `"Conductor · idle" read by navigation (the region announces changes, not initial content)`,
-    tokens: ['idle'],
+    item: 'titlebar phase line at rest — the single h1',
+    node: 'banner › h1[aria-live="polite"] "Conductor · idle"',
+    sc: 'SC 4.1.3 · SC 1.3.1',
+    expected: `"Conductor · idle" heading level 1, read by navigation (the region announces changes, not initial content)`,
+    tokens: ['idle', 'level 1'],
   },
   {
     id: 'S0-12', subject: 'live', state: 'idle', cls: 'browse',
     item: 'titlebar count placeholder',
-    node: 'banner › span[aria-live="polite"][aria-label="Scenario count: no run yet"] "00:00:00"',
+    node: 'banner › span[aria-live="polite"] › sr-only text "Scenario count: no run yet" + aria-hidden "00:00:00"',
     sc: 'SC 4.1.2', expected: 'the count is NAMED — "Scenario count: no run yet" — never bare digits',
     tokens: ['Scenario count'],
   },
@@ -101,7 +102,7 @@ export const ROWS: readonly SpecRow[] = [
   {
     id: 'S0-09', subject: 'live', state: 'idle', cls: 'focus',
     item: 'coverage matrix current row',
-    node: 'tr[tabindex=0][aria-current=true] in table[aria-label="Coverage rows"]',
+    node: 'tr[tabindex=0][aria-current=true] in table[aria-label="Coverage rows"], named by its own four cells (aria-labelledby)',
     sc: 'SC 1.3.1',
     expected: "the focused row alone, its P-ID read, never the table's rows as one utterance",
     // Row 0 in manifest order is P-001; hearing a SECOND row's P-ID means the table was read as one utterance.
@@ -110,18 +111,21 @@ export const ROWS: readonly SpecRow[] = [
   },
   {
     id: 'S0-13', subject: 'live', state: 'idle', cls: 'browse',
-    item: 'heading list (three h2, no h1 — finding)', node: 'h2 "Scenario / suite" · "Coverage matrix" · "Run report"',
-    sc: 'SC 1.3.1', expected: 'next-heading navigation reads "Scenario / suite heading level 2"', tokens: ['Scenario / suite'],
+    item: 'heading list (the phase-line h1 · three h2)', node: 'h1 phase line · h2 "Scenario / suite" · "Coverage matrix" · "Run report"',
+    sc: 'SC 1.3.1', expected: 'next-heading navigation from Start reads "Coverage matrix heading level 2"',
+    tokens: ['Coverage matrix', 'level 2'],
   },
   {
     id: 'S0-14', subject: 'live', state: 'idle', cls: 'browse',
-    item: 'landmark list (banner · main · two regions; contentinfo absent — finding)', node: 'header (banner) · main · section[aria-label]',
-    sc: 'SC 1.3.1', expected: 'next-landmark navigation reads "main landmark"', tokens: ['main'],
+    item: 'landmark list (banner · main · regions · contentinfo)', node: 'header (banner) · main · section[aria-label] · footer (contentinfo)',
+    sc: 'SC 1.3.1', expected: 'next-landmark navigation from Close window reads "main landmark" … "content info landmark"',
+    tokens: ['main', 'content info'],
   },
   {
-    id: 'S0-15', subject: 'live', state: 'idle', cls: 'browse',
-    item: 'coverage matrix not-yet-run cell', node: 'td.cov__status "Not yet run" (text, never a tint)',
-    sc: 'SC 1.4.1', expected: '"Not yet run" read as a table cell', tokens: ['Not yet run'],
+    id: 'S0-15', subject: 'live', state: 'idle', cls: 'focus',
+    item: 'coverage matrix roving move to a not-yet-run row',
+    node: 'the next tr (P-002), named by its cells; td.cov__status "Not yet run" (text, never a tint)',
+    sc: 'SC 1.4.1', expected: '"P-002" … "Not yet run" as the row becomes current', tokens: ['P-002', 'Not yet run'],
   },
   {
     id: 'S0-10', subject: 'live', state: 'idle', cls: 'browse',
@@ -137,10 +141,10 @@ export const ROWS: readonly SpecRow[] = [
   {
     id: 'S1-02', subject: 'live', state: 'live', cls: 'browse',
     item: 'count after Start (a scenario counter, not a clock)',
-    node: 'span.titlebar__count[aria-live="polite"][aria-label="Scenarios completed: 0"] "0"',
+    node: 'span.titlebar__count[aria-live="polite"] › sr-only text "Scenarios completed: 0" + aria-hidden "0"',
     sc: 'SC 4.1.3',
     expected: 'ANNOUNCED as it advances — the count is an aria-live region named "Scenarios completed"',
-    tokens: ['Scenarios completed'], review: true,
+    tokens: ['Scenarios completed'],
   },
   {
     id: 'S1-05', subject: 'live', state: 'live', cls: 'browse',
@@ -238,14 +242,14 @@ export const ROWS: readonly SpecRow[] = [
   },
   {
     id: 'S3-07', subject: 'live', state: 'aborted', cls: 'browse',
-    item: 'coverage matrix lamp for P-025', node: 'td.cov__status › lamp label "Manual" beside P-025',
-    sc: 'SC 1.4.1', expected: '"P-025" … "Manual" by navigation', tokens: ['P-025'],
+    item: 'coverage matrix lamp for P-025',
+    node: 'the P-025 row reached by the roving move, named by its cells; td.cov__status › lamp label "Manual"',
+    sc: 'SC 1.4.1', expected: '"P-025" … "Manual" as the row becomes current', tokens: ['P-025', 'Manual'],
   },
   {
     id: 'T-01', subject: 'live', state: 'terminal', cls: 'live',
-    item: 'un-stopped run settles to idle', node: 'span[aria-live="polite"] "Conductor · idle"',
+    item: 'un-stopped run settles to idle (a second run in the same session)', node: 'h1[aria-live="polite"] "Conductor · idle"',
     sc: 'SC 4.1.3', expected: `"Conductor · idle" announced on the Done stage`, tokens: ['idle'],
-    notRun: 'the live subject is stopped by design (aborted needs a Stop); a second un-stopped session is optional',
   },
   // ── empty subject · idle with an empty catalog and the seeded fixture report ──────────────────────
   {
@@ -286,8 +290,8 @@ export const ROWS: readonly SpecRow[] = [
   },
   {
     id: 'E0-07', subject: 'empty', state: 'idle-report', cls: 'browse',
-    item: 'run report header', node: 'header "3 scenarios · run lamps-fixture"', sc: 'SC 1.3.1',
-    expected: 'the header text by navigation', tokens: ['lamps-fixture'],
+    item: 'run report header', node: 'header "3 scenarios · run lamps-fixture" (before the report scroll region)', sc: 'SC 1.3.1',
+    expected: 'the header text by navigation from Start', tokens: ['3 scenarios', 'lamps-fixture'],
   },
   {
     id: 'E0-08', subject: 'empty', state: 'idle-report', cls: 'browse',
@@ -297,8 +301,8 @@ export const ROWS: readonly SpecRow[] = [
   {
     id: 'E0-09', subject: 'empty', state: 'idle-report', cls: 'browse',
     item: 'coverage lamp for the collided P-ID',
-    node: 'Shift+Tab lands on the current coverage row (tr[tabindex=0][aria-current=true]); row P-019 › lamp "Blocked" (worst-lamp-wins over Pass)',
-    sc: 'SC 1.4.1', expected: '"P-019" … "Blocked" by navigation', tokens: ['P-019'],
+    node: 'Shift+Tab lands on the current coverage row (tr[tabindex=0][aria-current=true]); the roving move reaches row P-019, named by its cells › lamp "Blocked" (worst-lamp-wins over Pass)',
+    sc: 'SC 1.4.1', expected: '"P-019" … "Blocked" as the row becomes current', tokens: ['P-019', 'Blocked'],
   },
   {
     id: 'E0-10', subject: 'empty', state: 'idle-report', cls: 'browse',

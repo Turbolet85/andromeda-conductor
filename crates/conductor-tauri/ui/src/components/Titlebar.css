@@ -12,7 +12,10 @@
   -webkit-user-select: none;
 }
 
+/* The phase line is the h1: the type-heading role sets its size and weight, and the user-agent margin is
+   cleared so the 32px bar and the line's position do not move. */
 .titlebar__label {
+  margin: 0;
   color: var(--text-secondary);
 }
 

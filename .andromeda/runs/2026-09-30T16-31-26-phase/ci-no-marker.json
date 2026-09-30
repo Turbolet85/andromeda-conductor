@@ -1,0 +1,43 @@
+[
+{
+"tool": "ci",
+"v": "1.0",
+"sha8": "bf89b279",
+"ts": "2026-09-30T16:31:32Z",
+"argv": [
+"conclusion",
+"--sha",
+"d7da5d07b94e5a7552dc5340f30b68b5920bd822",
+"--run-dir",
+".andromeda/runs/2026-09-30T16-31-26-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"repo Turbolet85/andromeda-conductor (the push remote `origin`)",
+"d7da5d07b94e verdict: in progress · checks 3/3 · runs CI#36744501243 queued/-",
+"runs: CI#36744501243 push queued/-",
+"running 2: oldest A11y gate (routine arm · axe · contrast · violation JSON) 164 s",
+"run open: CI#36744501243 queued"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"repo": "Turbolet85/andromeda-conductor",
+"host": "github.com",
+"repo_source": "the push remote `origin`",
+"names": [],
+"shas": [
+{
+"sha": "d7da5d07b94e5a7552dc5340f30b68b5920bd822",
+"word": "in progress",
+"polls": [
+"in progress"
+]
+}
+]
+}
+}
+]
