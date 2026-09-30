@@ -1,0 +1,190 @@
+[
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-09-30T11:16:05Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-30T11-12-38-wrap",
+"--marker",
+"2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 3,
+"stdout": [
+"REFUSED ts: 2026-09-30T11:21:30Z · 2026-09-30T11:21:30Z-a — later than the clock 2026-09-30T11:16:05Z"
+],
+"stderr": "refused — nothing written: 1 of 1 record(s) out of time; re-read `date -u`, re-letter the ids, re-fire",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-09-30T11:16:18Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-30T11-12-38-wrap",
+"--marker",
+"2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 2625→2626 · bytes 3263873→3265568 · term lf",
+"ts 2026-09-30T11:16:10Z · clock 2026-09-30T11:16:18Z · bound 2026-09-30T10:56:44Z (line 2625)",
+"ids 2026-09-30T11:16:10Z-a"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 2625,
+"bytes": 3263873,
+"terminator": "LF",
+"bound": "2026-09-30T10:56:44Z"
+},
+"after": {
+"lines": 2626,
+"bytes": 3265568
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-09-30T11:27:13Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-30T11-12-38-wrap",
+"--marker",
+"2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"appended 2 record(s) · friction-log.ndjson lines 2626→2628 · bytes 3265568→3268451 · term lf",
+"ts 2026-09-30T11:27:00Z · clock 2026-09-30T11:27:13Z · bound 2026-09-30T11:16:10Z (line 2626)",
+"ids 2026-09-30T11:27:00Z-a … 2026-09-30T11:27:00Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 2626,
+"bytes": 3265568,
+"terminator": "LF",
+"bound": "2026-09-30T11:16:10Z"
+},
+"after": {
+"lines": 2628,
+"bytes": 3268451
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-09-30T11:28:51Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-30T11-12-38-wrap",
+"--marker",
+"2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"appended 3 record(s) · friction-log.ndjson lines 2628→2631 · bytes 3268451→3270452 · term lf",
+"ts 2026-09-30T11:28:40Z · clock 2026-09-30T11:28:51Z · bound 2026-09-30T11:27:00Z (line 2628)",
+"ids 2026-09-30T11:28:40Z-a … 2026-09-30T11:28:40Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 2628,
+"bytes": 3268451,
+"terminator": "LF",
+"bound": "2026-09-30T11:27:00Z"
+},
+"after": {
+"lines": 2631,
+"bytes": 3270452
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-09-30T11:30:41Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-09-30T11-12-38-wrap",
+"--marker",
+"2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"appended 2 record(s) · friction-log.ndjson lines 2631→2633 · bytes 3270452→3272040 · term lf",
+"ts 2026-09-30T11:30:32Z · clock 2026-09-30T11:30:41Z · bound 2026-09-30T11:28:40Z (line 2631)",
+"ids 2026-09-30T11:30:32Z-a … 2026-09-30T11:30:32Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 2631,
+"bytes": 3270452,
+"terminator": "LF",
+"bound": "2026-09-30T11:28:40Z"
+},
+"after": {
+"lines": 2633,
+"bytes": 3272040
+}
+}
+]

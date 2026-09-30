@@ -1,0 +1,39 @@
+[[pattern]]
+id = "nosuite"
+fixed = "No suite asserts"
+
+[[pattern]]
+id = "virtscroll"
+regex = '[Vv]irtual[- ]scroll'
+
+[[pattern]]
+id = "ringfade"
+regex = 'focus-ring fade|ring fade-in|fade-in of the ring'
+
+[[pattern]]
+id = "boxshadow"
+regex = 'box-shadow[^.]*focus|0 0 0 2px'
+
+[[pattern]]
+id = "k9skeys"
+regex = 'mirroring (the )?k9s|k9s ?/ ?lazygit|hint frame'
+
+[[pattern]]
+id = "radixkeys"
+regex = '(exposed (through|via) (the )?Radix primitives|shortcuts via Radix)'
+
+[[pattern]]
+id = "ariasel"
+fixed = "aria-selected"
+
+[[pattern]]
+id = "drivensample"
+fixed = "~54s"
+
+[[pattern]]
+id = "onlysr"
+fixed = "ONLY `sr-empty` and `sr-error`"
+
+[[pattern]]
+id = "selectedrow"
+regex = 'selected row'

@@ -1,0 +1,238 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-30T11:26:42Z",
+"argv": [
+"append",
+"--file",
+".andromeda/a11y-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-30T11-12-38-wrap/a11y-plan-entry.md",
+"--lines",
+"13",
+"--run-dir",
+".andromeda/runs/2026-09-30T11-12-38-wrap",
+"--marker",
+"2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append a11y-plan-amendments.md:+13 at line 206 · lines 205→218 · bytes 31514→33931 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-30T11-12-38-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/a11y-plan-amendments.md"
+],
+"before": {
+"lines": 205,
+"bytes": 31514,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 218,
+"bytes": 33931
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-30T11:26:42Z",
+"argv": [
+"append",
+"--file",
+".andromeda/layout-templates-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-30T11-12-38-wrap/layout-templates-entry.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-09-30T11-12-38-wrap",
+"--marker",
+"2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append layout-templates-amendments.md:+10 at line 233 · lines 232→242 · bytes 37768→39646 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-30T11-12-38-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/layout-templates-amendments.md"
+],
+"before": {
+"lines": 232,
+"bytes": 37768,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 242,
+"bytes": 39646
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-30T11:26:42Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-30T11-12-38-wrap/test-plan-entry.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-09-30T11-12-38-wrap",
+"--marker",
+"2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+10 at line 694 · lines 693→703 · bytes 118939→120679 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-30T11-12-38-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 693,
+"bytes": 118939,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 703,
+"bytes": 120679
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-30T11:26:43Z",
+"argv": [
+"append",
+"--file",
+".andromeda/design-system-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-30T11-12-38-wrap/design-system-entry.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-09-30T11-12-38-wrap",
+"--marker",
+"2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append design-system-amendments.md:+10 at line 105 · lines 104→114 · bytes 15438→17203 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-30T11-12-38-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/design-system-amendments.md"
+],
+"before": {
+"lines": 104,
+"bytes": 15438,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 114,
+"bytes": 17203
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-30T11:26:43Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-30T11-12-38-wrap/architecture-entry.md",
+"--lines",
+"7",
+"--run-dir",
+".andromeda/runs/2026-09-30T11-12-38-wrap",
+"--marker",
+"2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+7 at line 1069 · lines 1068→1075 · bytes 181473→182664 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-30T11-12-38-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 1068,
+"bytes": 181473,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1075,
+"bytes": 182664
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-30T11:29:53Z",
+"argv": [
+"append",
+"--file",
+"conductor-0.3.0/working-route.md",
+"--payload-file",
+".andromeda/runs/2026-09-30T11-12-38-wrap/route-mint.txt",
+"--after-line",
+"64",
+"--lines",
+"2",
+"--run-dir",
+".andromeda/runs/2026-09-30T11-12-38-wrap",
+"--marker",
+"2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append working-route.md:+2 at line 65 · lines 69→71 · bytes 13240→14731 · term lf",
+"last line now: Version close on measured evidence — every capability verified or deferred on "
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0/working-route.md"
+],
+"before": {
+"lines": 69,
+"bytes": 13240,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 71,
+"bytes": 14731
+}
+}
+]

@@ -1,0 +1,128 @@
+[
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "1550f3bc",
+"ts": "2026-09-30T11:24:04Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-09-30T11-12-38-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-09-30T11-12-38-wrap",
+"--marker",
+"2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"baseline 7ee2fead (pre-CI parent — the oldest of 1 pre-CI commit(s), 4bab3c6c)",
+"nosuite · 0 rows (control fired) — a statement about this pattern, not the masters · control a11y-plan.md:354 (prose)",
+"virtscroll · new 0 · standing 0 · leaf 2 · curation 0 · base 0 · control design-system.md:257 (prose)",
+"ringfade · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control design-system.md:160 (prose)",
+"boxshadow · 0 rows (control fired) — a statement about this pattern, not the masters · control design-system.md:124 (pr…",
+"k9skeys · 0 rows (control fired) — a statement about this pattern, not the masters · control design-system.md:261 (pros…",
+"radixkeys · 0 rows (control fired) — a statement about this pattern, not the masters · control design-system.md:269 (pr…",
+"ariasel · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control a11y-plan.md:137 (prose)",
+"drivensample · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:124 (pro…",
+"onlysr · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:307 (prose)",
+"selectedrow · 0 rows (control fired) — a statement about this pattern, not the masters · control design-system.md:257 (…",
+".claude/rules/a11y.md:19 virtscroll leaf …r` (frameless titlebar). Virtual-scrolled coverage-matrix rows MUST stay reac…",
+".claude/docs/design-summary.md:32 virtscroll leaf …NOT a KPI-card grid), virtual-scrolled; its Mode cell renders one of…",
+".andromeda/a11y-plan.md:424 ringfade standing @c1117/2576 …rt the count tint, focus-ring fade-in, status-light transiti…",
+".claude/rules/a11y.md:32 ringfade leaf …reduce` — the count tint, focus-ring fade-in, status-light transition, and oper…",
+".andromeda/a11y-plan.md:356 ariasel new …e-row composite, so not `aria-selected`) + a 2px `--border-emphasis` left edge…",
+".andromeda/test-plan.md:307 onlysr standing edited @c10341/11587 …ng the SR suites ONLY `sr-empty` and `sr-error` carry…",
+"nosuite · 0 rows (control fired) — a statement about this pattern, not the masters · control a11y-plan.md:354 (prose)",
+"virtscroll · new 0 · standing 0 · leaf 2 · curation 0 · base 0 · control design-system.md:257 (prose)",
+"ringfade · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control design-system.md:160 (prose)",
+"boxshadow · 0 rows (control fired) — a statement about this pattern, not the masters · control design-system.md:124 (pr…",
+"k9skeys · 0 rows (control fired) — a statement about this pattern, not the masters · control design-system.md:261 (pros…",
+"radixkeys · 0 rows (control fired) — a statement about this pattern, not the masters · control design-system.md:269 (pr…",
+"ariasel · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control a11y-plan.md:137 (prose)",
+"drivensample · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:124 (pro…",
+"onlysr · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:307 (prose)",
+"selectedrow · 0 rows (control fired) — a statement about this pattern, not the masters · control design-system.md:257 (…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "7ee2feadac235678e0b2696d4a5202dcb2bb2886",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), 4bab3c6c",
+"counts": {
+"nosuite": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"virtscroll": {
+"new": 0,
+"standing": 0,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"ringfade": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"boxshadow": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"k9skeys": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"radixkeys": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"ariasel": {
+"new": 1,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"drivensample": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"onlysr": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"selectedrow": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]

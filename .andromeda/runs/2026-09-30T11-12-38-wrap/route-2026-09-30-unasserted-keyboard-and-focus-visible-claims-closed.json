@@ -1,0 +1,121 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-30T11:34:49Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed",
+"--run-dir",
+".andromeda/runs/2026-09-30T11-12-38-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"flip master-route.md:160 - 2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed pending -> complete"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-30T11:34:49Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed",
+"--date",
+"2026-09-30",
+"--run-dir",
+".andromeda/runs/2026-09-30T11-12-38-wrap",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"pin :63 strip CONTEXT: 940ch \"CONTEXT: four a11y-plan §5 claims are as\"",
+"pin :63 strip CARRY: 564ch \"CARRY: closing these unblocks `v3-03` (*\"",
+"pin :63 strip PREREQ: 105ch \"PREREQ: close Rust gate deferral (deferr\"",
+"pin next markerless :65 holds CARRY (×1",
+"63 · 2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed · strip 3 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 63,
+"marker": "2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed",
+"blocks": 3,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-30T11:34:56Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed",
+"--date",
+"2026-09-30",
+"--run-dir",
+".andromeda/runs/2026-09-30T11-12-38-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"pin :63 strip CONTEXT: 940ch \"CONTEXT: four a11y-plan §5 claims are as\"",
+"pin :63 strip CARRY: 564ch \"CARRY: closing these unblocks `v3-03` (*\"",
+"pin :63 strip PREREQ: 105ch \"PREREQ: close Rust gate deferral (deferr\"",
+"pin next markerless :65 holds CARRY (×1",
+"63 · 2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed · strip 3 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+".\\conductor-0.3.0\\route-archive.md",
+".\\conductor-0.3.0\\working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 63,
+"marker": "2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed",
+"blocks": 3,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

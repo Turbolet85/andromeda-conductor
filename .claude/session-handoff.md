@@ -1,58 +1,43 @@
 # Session Handoff
 
-**Last Updated:** 2026-09-30T08:46:15Z
-**Branch:** `build/conductor-0.3.0` · 0 ahead of `origin/build/conductor-0.3.0`, as read at this wrap's Setup
-(HEAD `a72533d`, the operator pre-CI commit)
+**Last Updated:** 2026-09-30T11:31Z
+**Branch:** `build/conductor-0.3.0` · 0 ahead of `origin/build/conductor-0.3.0` as read at this wrap's Setup
+(HEAD `4bab3c6`, the operator pre-CI commit; CI#36705777679 green 3/3 on it)
 **Status:** clean
-**Last Commit:** 2026-09-30-mutation-gate-grades-every-tally-it-rests-on — the wrap commit
+**Last Commit:** 2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed — the wrap commit
 
 ## Position
-- Done: `2026-09-30-mutation-gate-grades-every-tally-it-rests-on`.
-  - `scripts/mutation-gate.py` now grades all four tallies: presence, per-class counts against `outcomes.json`,
-    conservation to `total_mutants`, and the `missed` and `timeout` multisets by the roster's new required `tally`.
-  - A `selftest` verb proves this on 15 committed fixture arms plus a known-bad control. No `cargo mutants` ran.
-- Next: "Unasserted keyboard and focus-visible claims closed" (Epoch 5).
-  - It now carries `PREREQ: close Rust gate deferral`: workspace nextest and clippy were deferred on zero Rust delta.
-  - The third `v3-09` series entry stays BLOCKED-ON Pulse's "Real-model incident surfacing". That entry is still
-    unbuilt on Pulse's route; checked at this wrap.
+- Done: `2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed`.
+  - The coverage matrix has roving row focus with one tab stop and an `aria-current` + `--border-emphasis` row.
+  - The Ctrl+Enter / Ctrl+. / Escape map ships; the routine arm asserts SC 2.4.7.
+  - `v3-03` verified; the enumeration reads 11 · 9 (5) · 2 · 0.
+- Next: "The screen-reader pass grades again on this host" (minted this wrap, on the operator relay).
+  - It finds why NVDA hears no webview focus event, then regrades S0-09 / E0-05 / E0-09 and the other silent rows.
+  - Its CARRY holds the base-bundle control, the last announced run (2026-09-04, WebView2 152.0.4191.62) and the
+    runtime hypothesis.
 
 ## Work done
-- Operator pass: pre-CI commit `a72533d`, pushed; CI#36689204941 green 3/3.
-- Evidence is in the chunk's `evidence/` (`selftest-verdict.md`, `operator-pass.md`).
+- Rust gate deferral closed (1136/1136, clippy, on the base and over the delta).
+- The driven leg ran green first time in the operator's slot; the SR legs ran green at DOM level, NVDA silent.
+- Operator pass: `4bab3c6` pushed, CI green.
 
 ## Drift resolved
-- 11 routine amendments, 0 escalations.
-- test-plan:
-  - §4, the four-tally grade and `selftest`;
-  - §9 and §10, mutation runs at the epoch-boundary code audit only (founder ruling);
-  - §12, conductor-emit's fifteen timeout rows are owed to that audit, and the unit fails closed until then;
-  - §7, the fixture family gains `scripts/fixtures/mutation-gate/`.
-- architecture: the §Stack Operator-instruments row and the `scripts/` tree.
-- Leaves re-derived: `testing.md`, `tests-summary.md`, `stack.md`.
+- 29 amendments, 0 escalations:
+  - a11y-plan 17 (§1/§3/§4/§5/§6/§9/§10/§11);
+  - layout-templates 5;
+  - test-plan 3;
+  - design-system 3 raises over 6 sites (k9s register → modifier map, ring = outline, no virtualization);
+  - architecture 1 (§Occupied Resources 38 087 / 38 115 B).
+- Leaves re-derived: `rules/a11y.md`, `a11y-summary.md`, `design-summary.md`.
+- Plan entries 8/10/11 corrected on the operator relay: the `Spec Files:` atom now carries the runner's TAB.
 
 ## Notes
 - Last failed command: none.
-- Proposed playbook rule, not yet appended: "a founder ruling given at take-up that reverses a spec's cadence/scope claim,
-  carried by the operator's wrap directive → routine apply". The §9 reversal matched no rule and was applied on
-  recorded direction.
-- Host state:
-  - Pulse's `target/release` holds the `fcc31b2` builds;
-  - `%TEMP%/pulse-legs/rm-clean-series` remains;
-  - the dev-host `CONDUCTOR_MSEDGEDRIVER` is msedgedriver 154.0.4258.37.
-- Health: 9 of 16 Tier-1 bullets are over 600 B. `testing.md` and `verification-harness.md` are past the read cap.
-  Promotion is the operator's call.
-
-## Curation conflicts
-- Still open, carried: letters-only data-dir leaves versus `verification-harness.md` 2026-08-18, "`%TEMP%/pulse-legs/<ts>`".
-  The operator decides: replace the old entry, or keep it and refine.
-
-## Deferred learnings
-- recurrence-despite-learning, two:
-  - the CLAUDE.md Tier-1 false-positive entry (2026-08-21 as extended 2026-09-06): a basename grep matched a same-named
-    `security.md` in a doc comment;
-  - the Tier-1 pattern-bounded-by-imagination clause (as extended 2026-08-22): a sweep pattern keyed on "reads" missed
-    "never `timeout.txt`".
-  - Both were caught by reading the hits.
-
-## Session End Status
-Completed normally at 2026-09-30 11:57:44
+- Curation: `verification-harness.md` Spec Files literal corrected; its 2026-08-18 data-dir entry REFINED (leaf
+  letters-only) — the carried curation conflict is resolved; the proposed "relayed founder ruling is routine" rule was
+  NOT added (operator).
+- Proposed playbook rule, not appended: "a design-register reversal decided at a P4 fork and deferred to the wrap
+  applies on that recorded direction" (the k9s register this wrap).
+- Host: pulse-app stopped; `%TEMP%/pulse-legs/drivenkeys` remains; Pulse HEAD now `87fe658` (builder's P-027 pre-CI).
+- Health: 9 of 16 Tier-1 bullets over 600 B; `testing.md` and `verification-harness.md` past the read cap —
+  promotion is the operator's call.

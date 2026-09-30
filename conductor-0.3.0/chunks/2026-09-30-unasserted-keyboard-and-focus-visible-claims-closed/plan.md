@@ -339,7 +339,7 @@ role = 'e2e'
 env = ['CONDUCTOR_NVDA', 'CONDUCTOR_MSEDGEDRIVER']
 timeout = 900
 stop = '''the harness quits NVDA itself (nvda -q, wdio.conf.ts stopNvda); on an interrupted run: CONDUCTOR_NVDA's exe with -q, then taskkill //F //IM msedgedriver.exe //IM conductor-tauri.exe after a census attributes them'''
-expect = ['exit 0', 'contains Spec Files: 1 passed, 1 total']
+expect = ['exit 0', "contains Spec Files:\t 1 passed, 1 total"]
 note = "The empty subject (E0-05, E0-09) over the seeded fixture, no Pulse. CONDUCTOR_NVDA is the host's portable copy passed per invocation (not persisted). Reuses the bundle the routine --e2e entry built (sr suites never rebuild, verification-harness.md 2026-09-07). Atom from verification-harness.md:58 (the green Spec Files line)."
 
 [[gate]]
@@ -355,7 +355,7 @@ leg = 'live'
 env = ['CONDUCTOR_MSEDGEDRIVER', 'ANDROMEDA_PULSE_DATA_DIR', 'ANDROMEDA_PULSE_MCP_ENABLED', 'ANDROMEDA_PULSE_L4_DETERMINISTIC']
 timeout = 1500
 stop = '''taskkill //F //IM msedgedriver.exe //IM conductor-tauri.exe — after a census attributes them to this leg; pulse-app is the operator's to stop unless the session launched it on the operator's word'''
-expect = ['exit 0', 'contains Spec Files: 1 passed, 1 total']
+expect = ['exit 0', "contains Spec Files:\t 1 passed, 1 total"]
 note = "OPERATOR SLOT (overseer ruling): /implement STOPS and asks before firing; the Pulse builder runs its own :4317 legs in the same window. Needs pulse-app up under the deterministic posture, its data dir equal to ANDROMEDA_PULSE_DATA_DIR, no boot before it and a >=150 s quiet window after any prior canary. Reuses the bundle the routine --e2e entry built (only --e2e rebuilds). Atom from verification-harness.md:58 (the green Spec Files line, 'omits the failed term entirely when none failed')."
 
 [[gate]]
@@ -365,7 +365,7 @@ leg = 'live'
 env = ['CONDUCTOR_NVDA', 'CONDUCTOR_MSEDGEDRIVER', 'ANDROMEDA_PULSE_DATA_DIR', 'ANDROMEDA_PULSE_MCP_ENABLED', 'ANDROMEDA_PULSE_L4_DETERMINISTIC']
 timeout = 900
 stop = '''the harness quits NVDA itself (nvda -q); on an interrupted run: CONDUCTOR_NVDA's exe with -q, then taskkill //F //IM msedgedriver.exe //IM conductor-tauri.exe after a census attributes them; pulse-app is the operator's to stop unless the session launched it on the operator's word'''
-expect = ['exit 0', 'contains Spec Files: 1 passed, 1 total']
+expect = ['exit 0', "contains Spec Files:\t 1 passed, 1 total"]
 note = "OPERATOR SLOT, the same one as the driven leg, fired after a further >=150 s quiet window (this subject fires its own preflight canary). The live subject carries S0-09. The scenarios dir and the sidecar PATH are part of the firing form (verification-harness.md 2026-09-04, 2026-09-07). The existing probe above precedes both live legs. Atom from verification-harness.md:58 (the green Spec Files line)."
 
 [[gate]]

@@ -183,7 +183,7 @@ When `ready` is false, every dependent auto scenario is emitted into the report 
 
 **Environment variables:** Conductor reserves the `CONDUCTOR_*` env-var namespace for configuration handles over artifacts and concepts this document already defines:
 - `CONDUCTOR_RUNS_DIR` — overrides the default `runs/` artifact directory (JSONL journals, Markdown reports, runs.db).
-- `CONDUCTOR_SCENARIOS_DIR` — overrides the default `scenarios/` config directory.
+- `CONDUCTOR_SCENARIOS_DIR` — overrides the default `scenarios/` config directory; `wdio.conf.ts` sets it for `driven`/`sr-empty`/`sr-error`.
 - `CONDUCTOR_CONTRACT_MANIFEST` — overrides the default pinned MCP contract manifest path under `contracts/`.
 - `CONDUCTOR_SEED` — seed override for headless runs (equivalent CLI flag on conductor-cli takes precedence; env supports scripts/agent-run.sh parameterization).
 - `CONDUCTOR_SERVICE_NAME` — overrides the self-observation `service.name` field (default `conductor` / `conductor-tauri`); obs-plan §3.
