@@ -1,0 +1,73 @@
+You are the drift-detector for architecture in an attended doc-reconcile pass. Read:
+- the chunk report: conductor-0.3.0/chunks/2026-09-30-the-sr-pass-regrades-on-the-os-input-path/report.md
+- your document: .andromeda/architecture.md
+- your detectors (the drift-base entries scoped to architecture):
+- id: D-arch-resources
+  doc: arch
+  invariant: every new IPC method / endpoint / event / socket / port / env var / workspace crate the chunk lands is registered in arch §Occupied Resources / §Standard Contracts / §Inherited Defaults workspace crates.
+  check: agent-read — for each new symbol / API / crate in the report's Changes, confirm it appears in the arch registry sections; an unregistered resource is drift.
+  severity: warning
+- id: D-arch-decisions
+  doc: arch
+  invariant: the chunk uses only the stack / runtime / patterns arch §Stack + §Established Decisions allow.
+  check: agent-read — compare the report's Dependencies + symbols against §Stack / §Established Decisions; a new library, runtime, or a contradicted locked decision is drift.
+  severity: warning
+- id: D-arch-collision
+  doc: arch
+  invariant: a resource already registered in arch §Occupied Resources (a port, socket, env var, artifact path or process) gains no second owner — its registered owner / writer class still holds after the chunk.
+  check: agent-read — for each new or changed port / socket / env var / artifact path / process in the report's Changes, find its §Occupied Resources entry; a report naming an owner or writer other than the registered one is drift (a collision, not a registration). Ports include `:4317` / `4444` / `4445`.
+  severity: escalate
+  # Added 2026-09-24 (2026-09-24-architecture-registries-compacted-under-the-read-cap, operator-approved; the CARRY
+  # from operator relay CE-3): D-arch-resources states its invariant as REGISTRATION only, so a second owner of an
+  # already-registered port, env var or socket passed it.
+- id: D-arch-registry-size
+  doc: arch
+  invariant: after the wrap's amendments apply, §Established Decisions and §Occupied Resources each stay within `scripts/arch-registry-check.py`'s threshold (60 % of the Read cap, in bytes).
+  check: tooling — the orchestrator runs `python -X utf8 scripts/arch-registry-check.py measure --file .andromeda/architecture.md` after P2 Apply (the doc-agents run before it); `registries: OVER target` is drift. Remedy: move that wrap's own history into the sidecar; never raise `TARGET_FRACTION`.
+  severity: warning
+  # Added 2026-09-24 (same chunk, operator-approved): the body grows only at wrap, so the check sits where growth happens.
+- id: D-platform-claim
+  doc: arch | security-plan | design-system | layout-templates | test-plan | obs-plan | a11y-plan
+  invariant: a PLATFORM / runner / driver VERDICT a doc STATES — a sentence asserting, in the doc's own voice, where the harness can or cannot run ("Linux only", "headless only", "requires X", "no driver on Y") — matches what the harness is demonstrably able to run on. A doc that merely NAMES a platform, shell, script or tool (a host mention, an entry-point pointer, a recipe's shell, an enumeration of surfaces) states no verdict and is never a hit; neither is a plan's TARGET-state CI arrangement (a matrix row or job the plan sequences for later) — an unimplemented plan, not a capability claim.
+  check: agent-read — for each entry in the report's `Spec claims disproved by measurement` or `Harness / gate surface` bullets that RETIRES a platform, runner, or driver verdict, find in the doc a sentence that STATES the retired verdict — the token alone (`Linux`, `agent-run.sh`, `xvfb`) is never the trigger; QUOTE the stating sentence in the proposal, and where no sentence states it the detector has no hit. Distinguish the CI ARRANGEMENT (which runner the pipeline uses — a choice, not a capability) from the CAPABILITY claim (where the leg CAN run): only the capability claim is falsified by a measurement elsewhere. Retire the verdict by naming the measured platform SET, never by substituting a fresh single-platform literal.
+  severity: warning
+  # Added 2026-09-01 (webview-self-verify-windows-host, operator-approved): a11y-plan's own detectors
+  # structurally could not see this class — it returned `proposals: []` while carrying six stale sites —
+  # and test-plan's site list under-ran the doc (6 planned, 8 present). Caught only by the plan's
+  # expected-amendments floor, which is exactly the recurrence condition for minting a detector.
+  # Tightened 2026-09-05 (0-pending adaptation, operator-directed): the original check keyed on report TOKENS and
+  # mis-fired five proposals in one day — design-system ×3 at the 2026-09-04T17-15-00 wrap (sites that NAME the
+  # harness / a shell without stating any verdict; E2 dismissed, and NO playbook rule matched) and test-plan §9 ×2
+  # (T4 + dependent T5) at the 2026-09-04T20-15-00 wrap (a TARGET-state CI matrix — an unimplemented plan, dismissed
+  # under playbook :22). The trigger is now a STATING sentence quoted in the proposal; playbook :46 was widened the
+  # same day so the dismissal has a rule.
+
+For each detector, evaluate its `invariant` against the report. The report's **Changes**
+section is the single source of what changed this chunk — do NOT re-derive from git, the
+codebase, or **architecture's own prose** (architecture's rationale / history / decisions-log describe the
+PAST and are the baseline you verify, never a change made THIS chunk). A fact counts as
+changed only if it appears in the report's Changes bullets — e.g. a dependency is "added/
+bumped" ONLY if the report's **Dependencies** bullet lists it; architecture merely mentioning a
+library in its prose is NOT a change. If an invariant is violated, propose one amendment
+PER VIOLATED OCCURRENCE: after drafting the first, sweep architecture for every OTHER occurrence
+of the CLAIM your change retires — grep for its wording, and read for what it says however
+worded (the mechanism it asserts, the actor it names; docs restate a claim in tables, critical
+paths, triggers and bans, with or without its tokens) —
+each hit is its own additional proposal carrying `dependent-of: {the primary's detector}`,
+so a duplicated claim never survives a single-site apply. A proposal's `section` is a section
+of architecture — a keyed contract named by its key, `§3 → {key}` / `§Infrastructure Patterns → {key}`, is one; never a
+Decisions Log, which takes no new entry — never a distillation (CLAUDE.md, `.claude/rules/*`, `.claude/docs/*`: the cascade re-derives
+them) and never a preserve-verbatim curation home (`## Session Additions`, `USER:session-learnings`,
+`docs/session-learnings.md`: curation's channel, not yours).
+
+Return ONLY YAML (or `proposals: []` if no drift):
+proposals:
+  - detector: D-{slug}
+    severity: warning | escalate
+    section: {the doc section to edit}
+    change: {one line — what the body should now say}
+    sidecar: {one line — changelog entry for the amendments sidecar}
+    rationale: {why — cite the report}
+    basis: {file:line the claim measured — optional; carrying it makes the orchestrator's re-derivation one read}
+    dependent-of: {the primary proposal's detector — ONLY on a duplicate-occurrence proposal}
+You PROPOSE only. Do not edit any file. The orchestrator validates and applies.

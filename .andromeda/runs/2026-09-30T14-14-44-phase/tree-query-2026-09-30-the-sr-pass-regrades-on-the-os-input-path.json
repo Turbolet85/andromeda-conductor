@@ -1,0 +1,298 @@
+[
+{
+"sql": "SELECT callee_name, caller, file, line FROM calls WHERE callee_name IN ('writeNvdaPass','readStamps','grade','bringToForeground','tab','shiftTab','browseKey','census') AND callee_kind = 'fn' ORDER BY callee_name, file, line",
+"rows": 48,
+"result": [
+{
+"callee_name": "bringToForeground",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 379
+},
+{
+"callee_name": "bringToForeground",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 592
+},
+{
+"callee_name": "bringToForeground",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 639
+},
+{
+"callee_name": "browseKey",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 452
+},
+{
+"callee_name": "browseKey",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 453
+},
+{
+"callee_name": "browseKey",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 454
+},
+{
+"callee_name": "browseKey",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 575
+},
+{
+"callee_name": "browseKey",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 576
+},
+{
+"callee_name": "browseKey",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 617
+},
+{
+"callee_name": "browseKey",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 618
+},
+{
+"callee_name": "browseKey",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 622
+},
+{
+"callee_name": "census",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/screen-reader/`parse-nvda-log.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader/parse-nvda-log.ts",
+"line": 493
+},
+{
+"callee_name": "census",
+"caller": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 18
+},
+{
+"callee_name": "census",
+"caller": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/stopNvda().",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 246
+},
+{
+"callee_name": "census",
+"caller": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 407
+},
+{
+"callee_name": "census",
+"caller": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 461
+},
+{
+"callee_name": "grade",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/screen-reader/`parse-nvda-log.ts`/writeNvdaPass().",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader/parse-nvda-log.ts",
+"line": 397
+},
+{
+"callee_name": "readStamps",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/screen-reader/`parse-nvda-log.ts`/writeNvdaPass().",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader/parse-nvda-log.ts",
+"line": 354
+},
+{
+"callee_name": "shiftTab",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 461
+},
+{
+"callee_name": "shiftTab",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 477
+},
+{
+"callee_name": "shiftTab",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 492
+},
+{
+"callee_name": "shiftTab",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 525
+},
+{
+"callee_name": "shiftTab",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 547
+},
+{
+"callee_name": "shiftTab",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 620
+},
+{
+"callee_name": "tab",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/bringToForeground().",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 94
+},
+{
+"callee_name": "tab",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/bringToForeground().",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 100
+},
+{
+"callee_name": "tab",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/expectFirstTabLanding().",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 306
+},
+{
+"callee_name": "tab",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 388
+},
+{
+"callee_name": "tab",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 392
+},
+{
+"callee_name": "tab",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 396
+},
+{
+"callee_name": "tab",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 441
+},
+{
+"callee_name": "tab",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 449
+},
+{
+"callee_name": "tab",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 478
+},
+{
+"callee_name": "tab",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 483
+},
+{
+"callee_name": "tab",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 502
+},
+{
+"callee_name": "tab",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 506
+},
+{
+"callee_name": "tab",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 541
+},
+{
+"callee_name": "tab",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 597
+},
+{
+"callee_name": "tab",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 601
+},
+{
+"callee_name": "tab",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 605
+},
+{
+"callee_name": "tab",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 610
+},
+{
+"callee_name": "tab",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 614
+},
+{
+"callee_name": "tab",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 656
+},
+{
+"callee_name": "tab",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 660
+},
+{
+"callee_name": "tab",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/`screen-reader.e2e.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"line": 664
+},
+{
+"callee_name": "writeNvdaPass",
+"caller": "scip-typescript npm conductor-ui 0.1.0 test/a11y/screen-reader/`parse-nvda-log.ts`/",
+"file": "crates/conductor-tauri/ui/test/a11y/screen-reader/parse-nvda-log.ts",
+"line": 485
+},
+{
+"callee_name": "writeNvdaPass",
+"caller": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 18
+},
+{
+"callee_name": "writeNvdaPass",
+"caller": "scip-typescript npm conductor-ui 0.1.0 `wdio.conf.ts`/",
+"file": "crates/conductor-tauri/ui/wdio.conf.ts",
+"line": 453
+}
+],
+"db_state": "fresh",
+"plane": "ts"
+}
+]

@@ -1,0 +1,47 @@
+# Cascade step-2 sweep for the 2026-09-30-the-sr-pass-regrades-on-the-os-input-path wrap.
+# One pattern per retired CLAIM, keyed on what it SAYS (its verb / its stated state), not the compound it is named by.
+
+[[pattern]]
+id = "pending-os"
+regex = 'pending OS-level (key )?injection'
+ignore_case = true
+
+[[pattern]]
+id = "missing-keypath"
+regex = 'missing key path|would make these rows agent-driven'
+ignore_case = true
+
+[[pattern]]
+id = "count-seven"
+regex = 'count stays seven|seven governed forms|governs \*\*SEVEN\*\*|SEVEN forms'
+ignore_case = true
+
+[[pattern]]
+id = "four-driver"
+fixed = 'four driver-stack forms'
+ignore_case = true
+
+[[pattern]]
+id = "confounded"
+regex = 'stay confounded|still confounded|confounded \(arm S'
+ignore_case = true
+
+[[pattern]]
+id = "kbd-unmeasured"
+fixed = 'physical keyboard is unmeasured'
+ignore_case = true
+
+[[pattern]]
+id = "neither-listener"
+regex = 'neither of which opens a listener'
+ignore_case = true
+
+[[pattern]]
+id = "fourteen-rows"
+regex = '14 rows'
+ignore_case = true
+
+[[pattern]]
+id = "injected-arm"
+regex = 'agent arm \(WebDriver-injected keys|the agent arm — WebDriver-injected keys'
+ignore_case = true

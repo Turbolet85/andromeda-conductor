@@ -1,0 +1,149 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-30T16:27:30Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-09-30-the-sr-pass-regrades-on-the-os-input-path",
+"--run-dir",
+".andromeda/runs/2026-09-30T15-22-00-wrap",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"dry-run - would flip .andromeda\\master-route.md:163",
+"  2026-09-30-the-sr-pass-regrades-on-the-os-input-path · pending · The SR pass reg… (362 chars)",
+"-> 2026-09-30-the-sr-pass-regrades-on-the-os-input-path · complete · The SR pass re… (363 chars)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-30T16:27:38Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-09-30-the-sr-pass-regrades-on-the-os-input-path",
+"--run-dir",
+".andromeda/runs/2026-09-30T15-22-00-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"flip master-route.md:163 - 2026-09-30-the-sr-pass-regrades-on-the-os-input-path pending -> complete"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-30T16:27:44Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-09-30T15-22-00-wrap",
+"--chunk",
+"2026-09-30-the-sr-pass-regrades-on-the-os-input-path",
+"--date",
+"2026-09-30",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"pin :69 strip CARRY ( 1574ch \"CARRY (2026-09-30-the-sr-cause-isolated-\"",
+"pin :69 strip CARRY ( 506ch \"CARRY (2026-09-30-the-sr-cause-isolated-\"",
+"pin :69 strip CARRY ( 250ch \"CARRY (2026-09-30-the-sr-cause-isolated-\"",
+"pin next markerless :71 holds CARRY (×1 · PREREQ:×1",
+"69 · 2026-09-30-the-sr-pass-regrades-on-the-os-input-path · strip 3 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 69,
+"marker": "2026-09-30-the-sr-pass-regrades-on-the-os-input-path",
+"blocks": 3,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-30T16:27:53Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-09-30T15-22-00-wrap",
+"--chunk",
+"2026-09-30-the-sr-pass-regrades-on-the-os-input-path",
+"--date",
+"2026-09-30"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"pin :69 strip CARRY ( 1574ch \"CARRY (2026-09-30-the-sr-cause-isolated-\"",
+"pin :69 strip CARRY ( 506ch \"CARRY (2026-09-30-the-sr-cause-isolated-\"",
+"pin :69 strip CARRY ( 250ch \"CARRY (2026-09-30-the-sr-cause-isolated-\"",
+"pin next markerless :71 holds CARRY (×1 · PREREQ:×1",
+"69 · 2026-09-30-the-sr-pass-regrades-on-the-os-input-path · strip 3 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+".\\conductor-0.3.0\\route-archive.md",
+".\\conductor-0.3.0\\working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 69,
+"marker": "2026-09-30-the-sr-pass-regrades-on-the-os-input-path",
+"blocks": 3,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

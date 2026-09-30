@@ -1,0 +1,912 @@
+[
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-30T15:22:12Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"conductor-0.3.0/chunks/2026-09-30-the-sr-pass-regrades-on-the-os-input-path",
+"--run-dir",
+".andromeda/runs/2026-09-30T15-22-00-wrap",
+"--marker",
+"2026-09-30-the-sr-pass-regrades-on-the-os-input-path"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\conductor · base HEAD (no pre-CI commit) · lists new 3 · modify 3 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"scope: clean — changed 4 · listed 4 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 42"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\conductor",
+"base": "HEAD",
+"base_why": "no pre-CI commit",
+"counts": {
+"changed": 4,
+"listed": 4,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 42,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-30T16:25:58Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-30-the-sr-pass-regrades-on-the-os-input-path/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T15-22-00-wrap",
+"--marker",
+"2026-09-30-the-sr-pass-regrades-on-the-os-input-path"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-30-the-sr-pass-regrades-on-the-os-input-path · entries 28",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-pass-regrades-on-the-os-input-path\\wrap-2026-09-30T15-22-00 · bound: GNU timeout",
+"delta docs 88 · python 9 · ts 2 · unmapped 2",
+"prose L191-204: Notes on this block: - **No Rust delta on any branch.** The unit and clippy entries carry … (1221 chars)",
+"  1 unit        not run — defer (key): zero Rust delta on every branch: the chu… (156 chars) · bash scripts/agent-run.sh run --unit",
+"  2 lint        not run — defer (key): zero Rust delta on every branch (as the … (51 chars) · cargo clippy --workspace --all-targets -- -D warnings",
+"  3 probe       green · exit 0 · 0.15s · 43 B → 3.log · d=$(\"$CONDUCTOR_MSEDGEDRIVER\" --version | grep -oE '[0-9]+… (288 chars)",
+"  4 lint        green · exit 0 · 1.66s · 65 B → 4.log · npm --prefix crates/conductor-tauri/ui run typecheck:e2e",
+"  5 self-verify green · exit 0 · 54.78s · 30593005 B → 5.log · CONDUCTOR_A11Y_STRICT=1 bash scripts/agent-run.sh run --e2… (59 chars)",
+"  6 e2e         not run — leg operator (the letter drives it) · powershell -NoProfile -ExecutionPolicy Bypass -File runs/s… (86 chars)",
+"  7 probe       green · exit 0 · 0.07s · 2 B → 7.log · grep -c 'Input: kb(desktop):tab' runs/sr-control/nvda-spee… (74 chars)",
+"  8 probe       green · exit 0 · 0.06s · 2 B → 8.log · grep -cE '^\\| C1-(I1|O|I2) \\|.*\\| (heard|silent|mixed|void… (169 chars)",
+"  9 probe       green · exit 0 · 0.07s · 2 B → 9.log · grep -cE '^\\*\\*Branch:\\*\\* (H-R|H-D|L|V|M)$' conductor-0.3… (149 chars)",
+" 10 probe       green · exit 0 · 0.26s · 33 B → 10.log · m=conductor-0.3.0/chunks/2026-09-30-the-sr-pass-regrades-o… (444 chars)",
+" 11 probe       green · exit 1 · 0.13s · 0 B → 11.log · { git diff --name-only ff4f571 -- crates scripts contracts… (332 chars)",
+" 12 probe       green · exit 0 · 0.07s · 0 B → 12.log · git diff --stat ff4f571 -- conductor-0.3.0/chunks/2026-09-… (178 chars)",
+" 13 probe       green · exit 1 · 0.07s · 2 B → 13.log · grep -c -- \"'-Command'\" crates/conductor-tauri/ui/test/a11… (80 chars)",
+" 14 build       not run — leg operator (the letter drives it) · rm -f runs/sr-leg/nvda-pass.json",
+" 15 e2e         not run — leg operator (the letter drives it) · cd crates/conductor-tauri/ui && npm run a11y:sr-empty",
+" 16 e2e         not run — leg operator (the letter drives it) · cd crates/conductor-tauri/ui && npm run a11y:sr-error",
+" 17 probe       not run — leg operator (the letter drives it) · PATH=\"/d/dev/projects/andromeda-pulse/target/release:$PATH… (253 chars)",
+" 18 e2e         not run — leg operator (the letter drives it) · cd crates/conductor-tauri/ui && PATH=\"/d/dev/projects/andr… (153 chars)",
+" 19 probe       green · exit 0 · 0.11s · 3 B → 19.log · f=conductor-0.3.0/chunks/2026-09-30-the-sr-pass-regrades-o… (481 chars)",
+" 20 probe       recorded · exit 0 · 0.2s · 21 B → 20.log · f=conductor-0.3.0/chunks/2026-09-30-the-sr-pass-regrades-o… (291 chars)",
+" 21 probe       recorded · exit 0 · 0.1s · 114 B → 21.log · f=conductor-0.3.0/chunks/2026-09-30-the-sr-pass-regrades-o… (286 chars)",
+" 22 probe       recorded · exit 0 · 0.1s · 24 B → 22.log · f=conductor-0.3.0/chunks/2026-09-30-the-sr-pass-regrades-o… (349 chars)",
+" 23 probe       green · exit 0 · 0.06s · 2 B → 23.log · grep -cE '^\\| (focus-row-count|S0-09 / E0-05 / E0-09|one-c… (218 chars)",
+" 24 probe       green · exit 0 · 0.06s · 2 B → 24.log · grep -cE '^\\| K-(edge|conductor|search) \\|.*\\| (heard|sile… (179 chars)",
+" 25 probe       green · exit 1 · 0.1s · 2 B → 25.log · test -d conductor-0.3.0/chunks/2026-09-30-the-sr-pass-regr… (316 chars)",
+" 26 probe       green · exit 1 · 0.09s · 2 B → 26.log · test -f runs/logs/conductor-tauri.jsonl && cat runs/logs/c… (206 chars)",
+" 27 probe       green · exit 1 · 0.11s · 2 B → 27.log · netstat -ano | grep -cE \":(4444|4445) +[^ ]+ +LISTENING\"",
+" 28 probe       green · exit 1 · 0.27s · 2 B → 28.log · tasklist | grep -ciE \"^(msedgedriver|conductor-tauri|nvda|… (87 chars)",
+"entries 28 · green 17 · red 0 · recorded 3 · timeout 0 · not-run 8"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-30-the-sr-pass-regrades-on-the-os-input-path",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-30-the-sr-pass-regrades-on-the-os-input-path\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-pass-regrades-on-the-os-input-path\\wrap-2026-09-30T15-22-00",
+"delta": {
+"docs": [
+".andromeda/a11y-plan-amendments.md",
+".andromeda/a11y-plan.md",
+".andromeda/architecture-amendments.md",
+".andromeda/architecture.md",
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-09-30T13-50-58-wrap/evolve-2026-09-30-the-sr-cause-isolated-on-this-host.json",
+".andromeda/security-plan-amendments.md",
+".andromeda/security-plan.md",
+".andromeda/state.yaml",
+".andromeda/test-plan-amendments.md",
+".andromeda/test-plan.md",
+".claude/docs/a11y-summary.md",
+".claude/docs/gotchas.md",
+".claude/docs/session-learnings.md",
+".claude/docs/tests-summary.md",
+".claude/rules/a11y.md",
+".claude/rules/security.md",
+".claude/rules/verification-harness.md",
+".claude/session-handoff.md",
+"CLAUDE.md",
+"conductor-0.3.0/working-route.md",
+"crates/conductor-tauri/ui/test/a11y/screen-reader/nvda-pass-spec.md",
+".andromeda/runs/2026-09-30T14-14-44-phase/a11y-history.md",
+".andromeda/runs/2026-09-30T14-14-44-phase/a11y.md",
+".andromeda/runs/2026-09-30T14-14-44-phase/arch-history-index.md",
+".andromeda/runs/2026-09-30T14-14-44-phase/arch-history.md",
+".andromeda/runs/2026-09-30T14-14-44-phase/arch.md",
+".andromeda/runs/2026-09-30T14-14-44-phase/ci-no-marker.json",
+".andromeda/runs/2026-09-30T14-14-44-phase/design-history.md",
+".andromeda/runs/2026-09-30T14-14-44-phase/design.md",
+".andromeda/runs/2026-09-30T14-14-44-phase/evolve-2026-09-30-the-sr-pass-regrades-on-the-os-input-path.json",
+".andromeda/runs/2026-09-30T14-14-44-phase/gate-2026-09-30-the-sr-pass-regrades-on-the-os-input-path.json",
+".andromeda/runs/2026-09-30T14-14-44-phase/layouts-history.md",
+".andromeda/runs/2026-09-30T14-14-44-phase/layouts.md",
+".andromeda/runs/2026-09-30T14-14-44-phase/master-record.txt",
+".andromeda/runs/2026-09-30T14-14-44-phase/matrix-2026-09-30-the-sr-pass-regrades-on-the-os-input-path.json",
+".andromeda/runs/2026-09-30T14-14-44-phase/obs-history.md",
+".andromeda/runs/2026-09-30T14-14-44-phase/obs.md",
+".andromeda/runs/2026-09-30T14-14-44-phase/planlint-2026-09-30-the-sr-pass-regrades-on-the-os-input-path.json",
+".andromeda/runs/2026-09-30T14-14-44-phase/registry-2026-09-30-the-sr-pass-regrades-on-the-os-input-path.json",
+".andromeda/runs/2026-09-30T14-14-44-phase/route-2026-09-30-the-sr-pass-regrades-on-the-os-input-path.json",
+".andromeda/runs/2026-09-30T14-14-44-phase/route-no-marker.json",
+".andromeda/runs/2026-09-30T14-14-44-phase/security-history.md",
+".andromeda/runs/2026-09-30T14-14-44-phase/security.md",
+".andromeda/runs/2026-09-30T14-14-44-phase/sidecar-2026-09-30-the-sr-pass-regrades-on-the-os-input-path.json",
+".andromeda/runs/2026-09-30T14-14-44-phase/tests-history-index.md",
+".andromeda/runs/2026-09-30T14-14-44-phase/tests-history.md",
+".andromeda/runs/2026-09-30T14-14-44-phase/tests.md",
+".andromeda/runs/2026-09-30T14-14-44-phase/tree-query-2026-09-30-the-sr-pass-regrades-on-the-os-input-path.json",
+".andromeda/runs/2026-09-30T14-45-00-implement/evolve-2026-09-30-the-sr-pass-regrades-on-the-os-input-path.json",
+".andromeda/runs/2026-09-30T14-45-00-implement/gate-2026-09-30-the-sr-pass-regrades-on-the-os-input-path.json",
+".andromeda/runs/2026-09-30T15-22-00-wrap/.raw-fanout-design-system.md",
+".andromeda/runs/2026-09-30T15-22-00-wrap/.raw-fanout-layout-templates.md",
+".andromeda/runs/2026-09-30T15-22-00-wrap/.raw-fanout-obs-plan.md",
+".andromeda/runs/2026-09-30T15-22-00-wrap/a11y-plan-entry.md",
+".andromeda/runs/2026-09-30T15-22-00-wrap/architecture-entry.md",
+".andromeda/runs/2026-09-30T15-22-00-wrap/cascade-2026-09-30-the-sr-pass-regrades-on-the-os-input-path.json",
+".andromeda/runs/2026-09-30T15-22-00-wrap/cascade-dispositions.md",
+".andromeda/runs/2026-09-30T15-22-00-wrap/cascade-patterns.toml",
+".andromeda/runs/2026-09-30T15-22-00-wrap/cascade-sweep-final.txt",
+".andromeda/runs/2026-09-30T15-22-00-wrap/cascade-sweep.txt",
+".andromeda/runs/2026-09-30T15-22-00-wrap/code-graph-refresh.log",
+".andromeda/runs/2026-09-30T15-22-00-wrap/curation.md",
+".andromeda/runs/2026-09-30T15-22-00-wrap/doc-agent-template.txt",
+".andromeda/runs/2026-09-30T15-22-00-wrap/evolve-2026-09-30-the-sr-pass-regrades-on-the-os-input-path.json",
+".andromeda/runs/2026-09-30T15-22-00-wrap/fanout-results.md",
+".andromeda/runs/2026-09-30T15-22-00-wrap/gate-2026-09-30-the-sr-pass-regrades-on-the-os-input-path.json",
+".andromeda/runs/2026-09-30T15-22-00-wrap/health-2026-09-30-the-sr-pass-regrades-on-the-os-input-path.json",
+".andromeda/runs/2026-09-30T15-22-00-wrap/light-gate.out",
+".andromeda/runs/2026-09-30T15-22-00-wrap/prompt-a11y-plan.txt",
+".andromeda/runs/2026-09-30T15-22-00-wrap/prompt-architecture.txt",
+".andromeda/runs/2026-09-30T15-22-00-wrap/prompt-design-system.txt",
+".andromeda/runs/2026-09-30T15-22-00-wrap/prompt-layout-templates.txt",
+".andromeda/runs/2026-09-30T15-22-00-wrap/prompt-obs-plan.txt",
+".andromeda/runs/2026-09-30T15-22-00-wrap/prompt-security-plan.txt",
+".andromeda/runs/2026-09-30T15-22-00-wrap/prompt-test-plan.txt",
+".andromeda/runs/2026-09-30T15-22-00-wrap/registry-2026-09-30-the-sr-pass-regrades-on-the-os-input-path.json",
+".andromeda/runs/2026-09-30T15-22-00-wrap/route-entry.md",
+".andromeda/runs/2026-09-30T15-22-00-wrap/route-no-marker.json",
+".andromeda/runs/2026-09-30T15-22-00-wrap/security-plan-entry.md",
+".andromeda/runs/2026-09-30T15-22-00-wrap/splice-2026-09-30-the-sr-pass-regrades-on-the-os-input-path.json",
+".andromeda/runs/2026-09-30T15-22-00-wrap/test-plan-entry.md",
+"conductor-0.3.0/chunks/2026-09-30-the-sr-pass-regrades-on-the-os-input-path/evidence/confound-control.md",
+"conductor-0.3.0/chunks/2026-09-30-the-sr-pass-regrades-on-the-os-input-path/plan.md",
+"conductor-0.3.0/chunks/2026-09-30-the-sr-pass-regrades-on-the-os-input-path/report.md",
+"conductor-0.3.0/chunks/2026-09-30-the-sr-pass-regrades-on-the-os-input-path/research.md",
+"conductor-0.3.0/chunks/2026-09-30-the-sr-pass-regrades-on-the-os-input-path/scope.md"
+],
+"ts": [
+"crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"crates/conductor-tauri/ui/test/a11y/screen-reader/parse-nvda-log.ts"
+],
+"python": [
+".andromeda/runs/2026-09-30T13-50-58-wrap/evolve-gates.py",
+".andromeda/runs/2026-09-30T14-45-00-implement/evolve-records.py",
+".andromeda/runs/2026-09-30T15-22-00-wrap/apply-bodies.py",
+".andromeda/runs/2026-09-30T15-22-00-wrap/apply-curation.py",
+".andromeda/runs/2026-09-30T15-22-00-wrap/apply-leaves.py",
+".andromeda/runs/2026-09-30T15-22-00-wrap/build-prompts.py",
+".andromeda/runs/2026-09-30T15-22-00-wrap/evolve-reconcile.py",
+".andromeda/runs/2026-09-30T15-22-00-wrap/evolve-report.py",
+".andromeda/runs/2026-09-30T15-22-00-wrap/transcribe-review.py"
+]
+},
+"unmapped": [
+"conductor-0.3.0/chunks/2026-09-30-the-sr-pass-regrades-on-the-os-input-path/evidence/nvda-pass.json",
+"crates/conductor-tauri/ui/test/a11y/screen-reader/send-keys.ps1"
+],
+"prose": [
+{
+"from": 191,
+"to": 204,
+"text": "Notes on this block: - **No Rust delta on any branch.** The unit and clippy entries carry `defer`, and /implement re-verifies it. - **No smoke, `status` or CI entry.** No `run_id` is minted for a reader (`verification-harness.md:49`), and no   acceptance reads CI. - **C1 and the four H-R entries are operator-slot legs** (`leg = 'operator'`). On a branch other than H-R, the four   H-R entries are recorded `not run — branch {X}`. The witnesses that follow are written to hold on EVERY branch:   they read the regrade record when it exists and the evidence's routed rows when it does not. - **The three reds are report-only readings** (`expect = []`): their values are MEASUREMENTS, dispositioned in the   Acceptance Criteria and the reds table. Their table form is asserted separately. - **Artifacts produced by construction.**   - The backend sinks `runs/logs/conductor-tauri.jsonl` and `runs/sr-leg/logs/conductor-tauri.jsonl`, which the     panic entry reads, are written by every app launch: the `--e2e` and C1 entries write the first, `sr-error` and     `sr` the second (obs-plan §3 Log file location; `CONDUCTOR_RUNS_DIR`'s parent).   - The evidence files are authored by steps 8e and 11 from the legs' artifacts."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — defer (key): zero Rust delta on every branch: the chu… (156 chars)"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — defer (key): zero Rust delta on every branch (as the … (51 chars)"
+},
+{
+"n": 3,
+"role": "probe",
+"run": "d=$(\"$CONDUCTOR_MSEDGEDRIVER\" --version | grep -oE '[0-9]+(\\.[0-9]+){3}'); r=$(reg query 'HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\EdgeUpdate\\Clients\\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}' //v pv | grep -oE '[0-9]+(\\.[0-9]+){3}'); echo \"driver $d runtime $r\"; test -n \"$d\" && test \"$d\" = \"$r\"",
+"run_sha8": "342e374d",
+"expect": [
+"exit 0",
+"contains driver "
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-pass-regrades-on-the-os-input-path\\wrap-2026-09-30T15-22-00\\3.log",
+"bytes": 43,
+"log_sha8": "987e6204",
+"exit": 0,
+"seconds": 0.15,
+"readings": [
+"exit 0 ✓",
+"contains 'driver ' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "npm --prefix crates/conductor-tauri/ui run typecheck:e2e",
+"run_sha8": "833dfa8d",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-pass-regrades-on-the-os-input-path\\wrap-2026-09-30T15-22-00\\4.log",
+"bytes": 65,
+"log_sha8": "cea9a430",
+"exit": 0,
+"seconds": 1.66,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "self-verify",
+"run": "CONDUCTOR_A11Y_STRICT=1 bash scripts/agent-run.sh run --e2e",
+"run_sha8": "bcfd469f",
+"expect": [
+"exit 0",
+"contains [a11y] verdict asserted — 0 failed",
+"contains (expected 2)"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-pass-regrades-on-the-os-input-path\\wrap-2026-09-30T15-22-00\\5.log",
+"bytes": 30593005,
+"log_sha8": "3d5fb546",
+"exit": 0,
+"seconds": 54.78,
+"readings": [
+"exit 0 ✓",
+"contains '[a11y] verdict asserted — 0 failed' ✓",
+"contains '(expected 2)' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "e2e",
+"run": "powershell -NoProfile -ExecutionPolicy Bypass -File runs/sr-control/driver-os-walk.ps1",
+"run_sha8": "bbbc099f",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "grep -c 'Input: kb(desktop):tab' runs/sr-control/nvda-speech.driver-os.log",
+"run_sha8": "29d7d36e",
+"expect": [
+"exit 0",
+"last line 5"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-pass-regrades-on-the-os-input-path\\wrap-2026-09-30T15-22-00\\7.log",
+"bytes": 2,
+"log_sha8": "f0b5c2c2",
+"exit": 0,
+"seconds": 0.07,
+"readings": [
+"exit 0 ✓",
+"last line '5' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "grep -cE '^\\| C1-(I1|O|I2) \\|.*\\| (heard|silent|mixed|void) \\|$' conductor-0.3.0/chunks/2026-09-30-the-sr-pass-regrades-on-the-os-input-path/evidence/confound-control.md",
+"run_sha8": "b37c8ca9",
+"expect": [
+"exit 0",
+"last line 3"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-pass-regrades-on-the-os-input-path\\wrap-2026-09-30T15-22-00\\8.log",
+"bytes": 2,
+"log_sha8": "1121cfcc",
+"exit": 0,
+"seconds": 0.06,
+"readings": [
+"exit 0 ✓",
+"last line '3' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "grep -cE '^\\*\\*Branch:\\*\\* (H-R|H-D|L|V|M)$' conductor-0.3.0/chunks/2026-09-30-the-sr-pass-regrades-on-the-os-input-path/evidence/confound-control.md",
+"run_sha8": "7fd0a4f4",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-pass-regrades-on-the-os-input-path\\wrap-2026-09-30T15-22-00\\9.log",
+"bytes": 2,
+"log_sha8": "4355a46b",
+"exit": 0,
+"seconds": 0.07,
+"readings": [
+"exit 0 ✓",
+"last line '1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "m=conductor-0.3.0/chunks/2026-09-30-the-sr-pass-regrades-on-the-os-input-path/evidence/confound-control.md; test -f \"$m\" || exit 1; c=$(git diff --name-only ff4f571 -- crates/conductor-tauri/ui; git ls-files --others --exclude-standard crates/conductor-tauri/ui); if grep -qE '^\\*\\*Branch:\\*\\* H-R$' \"$m\"; then grep -qE '^\\*\\*Founder word:\\*\\* «' \"$m\" && echo \"H-R with the founder word quoted\"; else test -z \"$c\" && echo \"no harness delta\"; fi",
+"run_sha8": "af262c0e",
+"expect": [
+"exit 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-pass-regrades-on-the-os-input-path\\wrap-2026-09-30T15-22-00\\10.log",
+"bytes": 33,
+"log_sha8": "71ce327b",
+"exit": 0,
+"seconds": 0.26,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "{ git diff --name-only ff4f571 -- crates scripts contracts scenarios .github Cargo.lock Cargo.toml; git ls-files --others --exclude-standard crates scripts contracts scenarios .github; } | grep -vE '^crates/conductor-tauri/ui/test/a11y/(screen-reader\\.e2e\\.ts|screen-reader/(send-keys\\.ps1|parse-nvda-log\\.ts|nvda-pass-spec\\.md))$' ",
+"run_sha8": "cecc3cd8",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-pass-regrades-on-the-os-input-path\\wrap-2026-09-30T15-22-00\\11.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.13,
+"readings": [
+"exit 1 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "git diff --stat ff4f571 -- conductor-0.3.0/chunks/2026-09-30-the-screen-reader-pass-grades-again-on-this-host conductor-0.3.0/chunks/2026-09-30-the-sr-cause-isolated-on-this-host",
+"run_sha8": "41368b68",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-pass-regrades-on-the-os-input-path\\wrap-2026-09-30T15-22-00\\12.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.07,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "grep -c -- \"'-Command'\" crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"run_sha8": "d9119c1d",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-pass-regrades-on-the-os-input-path\\wrap-2026-09-30T15-22-00\\13.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.07,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "build",
+"run": "rm -f runs/sr-leg/nvda-pass.json",
+"run_sha8": "dc16980c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 15,
+"role": "e2e",
+"run": "cd crates/conductor-tauri/ui && npm run a11y:sr-empty",
+"run_sha8": "9df94041",
+"expect": [
+"exit 0",
+"contains Spec Files:\t 1 passed, 1 total"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 16,
+"role": "e2e",
+"run": "cd crates/conductor-tauri/ui && npm run a11y:sr-error",
+"run_sha8": "7e9c4c64",
+"expect": [
+"exit 0",
+"contains Spec Files:\t 1 passed, 1 total"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "PATH=\"/d/dev/projects/andromeda-pulse/target/release:$PATH\"; command -v andromeda-pulse-mcp >/dev/null && echo \"sidecar on PATH\"; powershell -NoProfile -Command \"(Test-NetConnection 127.0.0.1 -Port 4317 -WarningAction SilentlyContinue).TcpTestSucceeded\"",
+"run_sha8": "6e54ab5a",
+"expect": [
+"exit 0",
+"contains sidecar on PATH",
+"last line True"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 18,
+"role": "e2e",
+"run": "cd crates/conductor-tauri/ui && PATH=\"/d/dev/projects/andromeda-pulse/target/release:$PATH\" CONDUCTOR_SCENARIOS_DIR=runs/sr-leg/scenarios npm run a11y:sr",
+"run_sha8": "e4b839a7",
+"expect": [
+"exit 0",
+"contains Spec Files:\t 1 passed, 1 total"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "f=conductor-0.3.0/chunks/2026-09-30-the-sr-pass-regrades-on-the-os-input-path/evidence/nvda-pass.json; if test -e \"$f\"; then jq -r '[.rows[] | select((.outcome | IN(\"announced-as-expected\",\"announced-differently\",\"not-announced\",\"not-run-here\",\"subject-absent\") | not) or (.arm | IN(\"agent\",\"operator\") | not) or (.input | IN(\"os\",\"webdriver\",\"mixed\",\"none\") | not) or ((.heard | tostring | contains(\"host-path>\")) and (.security_finding == null)))] | length' \"$f\"; else echo 0; fi",
+"run_sha8": "fd9ba4ce",
+"expect": [
+"exit 0",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-pass-regrades-on-the-os-input-path\\wrap-2026-09-30T15-22-00\\19.log",
+"bytes": 3,
+"log_sha8": "13bf7b30",
+"exit": 0,
+"seconds": 0.11,
+"readings": [
+"exit 0 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "f=conductor-0.3.0/chunks/2026-09-30-the-sr-pass-regrades-on-the-os-input-path/evidence/nvda-pass.json; if test -e \"$f\"; then jq -r '\"focus-nonexpected \" + ([.rows[] | select(.class==\"focus\" and .outcome!=\"announced-as-expected\")] | length | tostring)' \"$f\"; else echo \"no regrade record\"; fi",
+"run_sha8": "44859f83",
+"expect": [],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-pass-regrades-on-the-os-input-path\\wrap-2026-09-30T15-22-00\\20.log",
+"bytes": 21,
+"log_sha8": "addcb53e",
+"exit": 0,
+"seconds": 0.2,
+"readings": [
+"report-only (expect = [])"
+],
+"survivors": [],
+"outcome": "recorded"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "f=conductor-0.3.0/chunks/2026-09-30-the-sr-pass-regrades-on-the-os-input-path/evidence/nvda-pass.json; if test -e \"$f\"; then jq -r '.rows[] | select(.id==\"S0-09\" or .id==\"E0-05\" or .id==\"E0-09\") | .id + \" \" + .outcome + \" \" + .arm + \" \" + .input' \"$f\"; else echo \"no regrade record\"; fi",
+"run_sha8": "4ade9700",
+"expect": [],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-pass-regrades-on-the-os-input-path\\wrap-2026-09-30T15-22-00\\21.log",
+"bytes": 114,
+"log_sha8": "7afb1c83",
+"exit": 0,
+"seconds": 0.1,
+"readings": [
+"report-only (expect = [])"
+],
+"survivors": [],
+"outcome": "recorded"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "f=conductor-0.3.0/chunks/2026-09-30-the-sr-pass-regrades-on-the-os-input-path/evidence/nvda-pass.json; if test -e \"$f\"; then jq -r '\"one-configuration \" + ([.subjects.live.recorded_at, .subjects.empty.recorded_at, .subjects.error.recorded_at] | map(. != null and . > \"2026-09-30T14:11:24Z\") | all | tostring)' \"$f\"; else echo \"no regrade record\"; fi",
+"run_sha8": "d2ed5773",
+"expect": [],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-pass-regrades-on-the-os-input-path\\wrap-2026-09-30T15-22-00\\22.log",
+"bytes": 24,
+"log_sha8": "da7fd120",
+"exit": 0,
+"seconds": 0.1,
+"readings": [
+"report-only (expect = [])"
+],
+"survivors": [],
+"outcome": "recorded"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "grep -cE '^\\| (focus-row-count|S0-09 / E0-05 / E0-09|one-configuration) \\| (graded|routed) \\| [^|]+ \\| [^|]+ \\|$' conductor-0.3.0/chunks/2026-09-30-the-sr-pass-regrades-on-the-os-input-path/evidence/confound-control.md",
+"run_sha8": "f54e2286",
+"expect": [
+"exit 0",
+"last line 3"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-pass-regrades-on-the-os-input-path\\wrap-2026-09-30T15-22-00\\23.log",
+"bytes": 2,
+"log_sha8": "1121cfcc",
+"exit": 0,
+"seconds": 0.06,
+"readings": [
+"exit 0 ✓",
+"last line '3' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "grep -cE '^\\| K-(edge|conductor|search) \\|.*\\| (heard|silent|not-run) \\|$' conductor-0.3.0/chunks/2026-09-30-the-sr-pass-regrades-on-the-os-input-path/evidence/confound-control.md",
+"run_sha8": "8e4c4e74",
+"expect": [
+"exit 0",
+"last line 3"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-pass-regrades-on-the-os-input-path\\wrap-2026-09-30T15-22-00\\24.log",
+"bytes": 2,
+"log_sha8": "1121cfcc",
+"exit": 0,
+"seconds": 0.06,
+"readings": [
+"exit 0 ✓",
+"last line '3' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 25,
+"role": "probe",
+"run": "test -d conductor-0.3.0/chunks/2026-09-30-the-sr-pass-regrades-on-the-os-input-path/evidence && find conductor-0.3.0/chunks/2026-09-30-the-sr-pass-regrades-on-the-os-input-path/evidence -type f -exec cat {} + | grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|/home/|/Users/|%APPDATA%|\\.rustup|\\.cargo[\\\\/]\"",
+"run_sha8": "0273bb31",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-pass-regrades-on-the-os-input-path\\wrap-2026-09-30T15-22-00\\25.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.1,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 26,
+"role": "probe",
+"run": "test -f runs/logs/conductor-tauri.jsonl && cat runs/logs/conductor-tauri.jsonl $(test -f runs/sr-leg/logs/conductor-tauri.jsonl && echo runs/sr-leg/logs/conductor-tauri.jsonl) | grep -c '^thread.*panicked' ",
+"run_sha8": "74e60147",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-pass-regrades-on-the-os-input-path\\wrap-2026-09-30T15-22-00\\26.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.09,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 27,
+"role": "probe",
+"run": "netstat -ano | grep -cE \":(4444|4445) +[^ ]+ +LISTENING\"",
+"run_sha8": "18636ec5",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-pass-regrades-on-the-os-input-path\\wrap-2026-09-30T15-22-00\\27.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.11,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 28,
+"role": "probe",
+"run": "tasklist | grep -ciE \"^(msedgedriver|conductor-tauri|nvda|tauri-driver|pulse-app)\\.exe\"",
+"run_sha8": "9e8e5d89",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-sr-pass-regrades-on-the-os-input-path\\wrap-2026-09-30T15-22-00\\28.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.27,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-30T16:26:44Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-09-30T15-22-00-wrap",
+"--marker",
+"2026-09-30-the-sr-pass-regrades-on-the-os-input-path"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\conductor · planes rust, ts",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P2 · P3 rust · P3 ts — each fired on its synthetic known positive",
+"P1 .andromeda/runs/2026-09-30T15-22-00-wrap/build-prompts.py:5 ×1 · drive",
+"P1 .andromeda/runs/2026-09-30T15-22-00-wrap/light-gate.out:2 ×4 · drive,msys",
+"hygiene: refused 2 files — P1 2 · P2 0 · P3 0 · read 74 (runs 72 · evidence 2) · trails 20 not read · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\conductor",
+"planes": [
+"rust",
+"ts"
+],
+"rows": [
+"P1 .andromeda/runs/2026-09-30T15-22-00-wrap/build-prompts.py:5 ×1 · drive",
+"P1 .andromeda/runs/2026-09-30T15-22-00-wrap/light-gate.out:2 ×4 · drive,msys"
+],
+"counts": {
+"P1": 2,
+"P2": 0,
+"P3": 0,
+"runs": 72,
+"evidence": 2,
+"trails": 20,
+"binary": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-30T16:26:45Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"conductor-0.3.0/chunks/2026-09-30-the-sr-pass-regrades-on-the-os-input-path",
+"--run-dir",
+".andromeda/runs/2026-09-30T15-22-00-wrap",
+"--marker",
+"2026-09-30-the-sr-pass-regrades-on-the-os-input-path"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\conductor · base HEAD (no pre-CI commit) · lists new 3 · modify 3 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"scope: clean — changed 4 · listed 4 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 99"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\conductor",
+"base": "HEAD",
+"base_why": "no pre-CI commit",
+"counts": {
+"changed": 4,
+"listed": 4,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 99,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-30T16:27:17Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-09-30T15-22-00-wrap",
+"--marker",
+"2026-09-30-the-sr-pass-regrades-on-the-os-input-path"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\conductor · planes rust, ts",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P2 · P3 rust · P3 ts — each fired on its synthetic known positive",
+"hygiene: clean — read 73 (runs 71 · evidence 2) · trails 20 not read · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\conductor",
+"planes": [
+"rust",
+"ts"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 71,
+"evidence": 2,
+"trails": 20,
+"binary": 0
+},
+"indeterminate": 0
+}
+}
+]

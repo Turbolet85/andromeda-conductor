@@ -1,0 +1,28 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-30T16:25:35Z",
+"argv": [
+"flip",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-30-the-sr-pass-regrades-on-the-os-input-path",
+"--run-dir",
+".andromeda/runs/2026-09-30T15-22-00-wrap",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed 0 — gate no-op (no entry carries chunk 2026-09-30-the-sr-pass-regrades-on-the-os-input-path)",
+"pool: unclaimed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

@@ -22,6 +22,8 @@ export type Outcome =
   | 'not-run-here'
   | 'subject-absent'
 export type Arm = 'agent' | 'operator'
+/** The input path of the keys the leg sent inside a row's window. */
+export type InputPath = 'os' | 'webdriver' | 'mixed' | 'none'
 
 export interface PassRow {
   id: string
@@ -35,6 +37,7 @@ export interface PassRow {
   tokens: readonly string[]
   arm: Arm
   outcome: Outcome
+  input: InputPath
   heard: string[]
   action: string | null
   action_ts: string | null
@@ -193,6 +196,12 @@ export function readSpeechLog(path: string): { utterances: Utterance[]; nvdaVers
 const SESSION_STAMP = '@session'
 const FOREGROUND_STAMP = '@foreground'
 const END_STAMP = '@end'
+const KEY_STAMP = '@key'
+
+interface KeySent {
+  ms: number
+  input: 'os' | 'webdriver'
+}
 
 /** Utterances longer than this are stored truncated in the record; grading always reads the full text. */
 const HEARD_MAX = 400
@@ -206,12 +215,15 @@ export interface Timeline {
     | undefined
   /** When the leg closed its timeline; speech after it (teardown, the shell regaining focus) belongs to no row. */
   endMs: number | undefined
+  /** Every key the leg sent, with the input path it rode. */
+  keys: KeySent[]
 }
 
-/** The leg's action timeline: row stamps in file order, plus the session, foreground and end records. */
+/** The leg's action timeline: row stamps in file order, plus the session, foreground, key and end records. */
 export function readStamps(path: string): Timeline {
-  if (!existsSync(path)) return { stamps: [], browserVersion: undefined, foreground: undefined, endMs: undefined }
+  if (!existsSync(path)) return { stamps: [], browserVersion: undefined, foreground: undefined, endMs: undefined, keys: [] }
   const stamps: Stamp[] = []
+  const keys: KeySent[] = []
   let browserVersion: string | undefined
   let foreground: Timeline['foreground']
   let endMs: number | undefined
@@ -229,8 +241,13 @@ export function readStamps(path: string): Timeline {
       nvdaNamedWindow?: unknown
       initialFocus?: unknown
       tabsToStart?: unknown
+      input?: unknown
     }
     if (typeof rec.ts !== 'string' || typeof rec.id !== 'string') continue
+    if (rec.id === KEY_STAMP) {
+      if (rec.input === 'os' || rec.input === 'webdriver') keys.push({ ms: stampMs(rec.ts), input: rec.input })
+      continue
+    }
     if (rec.id === SESSION_STAMP) {
       if (typeof rec.browserVersion === 'string') browserVersion = rec.browserVersion
       continue
@@ -252,7 +269,14 @@ export function readStamps(path: string): Timeline {
     if (rec.id.startsWith('@')) continue
     stamps.push({ ts: rec.ts, ms: stampMs(rec.ts), id: rec.id, action: typeof rec.action === 'string' ? rec.action : '' })
   }
-  return { stamps, browserVersion, foreground, endMs }
+  return { stamps, browserVersion, foreground, endMs, keys }
+}
+
+function inputPathOf(keys: KeySent[], start: number, end: number): InputPath {
+  const paths = new Set(keys.filter((k) => k.ms >= start && k.ms < end).map((k) => k.input))
+  if (paths.size === 0) return 'none'
+  if (paths.size > 1) return 'mixed'
+  return paths.has('os') ? 'os' : 'webdriver'
 }
 
 function truncate(text: string): string {
@@ -268,16 +292,17 @@ function scrub(text: string): { text: string; flagged: boolean } {
   return { text: scrubbed, flagged }
 }
 
-const BROWSE_NOT_DELIVERABLE =
-  'browse-mode command not deliverable by the agent arm — driver-injected keys bypass NVDA’s keyboard hook ' +
-  '(measured 2026-09-02); the operator arm reads this row'
+const BROWSE_NOT_DRIVEN =
+  'no browse-mode command was driven through the OS input path in this row window, so NVDA’s keyboard hook ' +
+  'never saw one; the operator arm reads this row'
 
-function grade(row: SpecRow, heard: string[]): { outcome: Outcome; arm: Arm; note?: string } {
+function grade(row: SpecRow, heard: string[], input: InputPath): { outcome: Outcome; arm: Arm; note?: string } {
   if (row.absent) return { outcome: 'subject-absent', arm: 'agent', note: row.absent }
   if (row.notRun) return { outcome: 'not-run-here', arm: 'agent', note: row.notRun }
-  // A browse row the driver could not make NVDA read is not "not announced" — the command never reached
-  // the screen reader. It falls to the operator's manual arm, recorded as such.
-  if (heard.length === 0 && row.cls === 'browse') return { outcome: 'not-run-here', arm: 'operator', note: BROWSE_NOT_DELIVERABLE }
+  // A silent browse row is "not announced" only when an OS key reached NVDA's hook inside its window;
+  // otherwise the command never reached the screen reader and the row falls to the operator's manual arm.
+  if (heard.length === 0 && row.cls === 'browse' && input !== 'os' && input !== 'mixed')
+    return { outcome: 'not-run-here', arm: 'operator', note: BROWSE_NOT_DRIVEN }
   if (heard.length === 0) return { outcome: 'not-announced', arm: 'agent' }
   const joined = heard.join(' ').toLowerCase()
   if (row.review) return { outcome: 'announced-differently', arm: 'agent', note: 'no token grades this value; operator review decides' }
@@ -374,8 +399,10 @@ export function writeNvdaPass(opts: ParseOptions): PassFile {
   const passRows: PassRow[] = rows.map((row) => {
     const stamp = byId.get(row.id)
     const heardRaw: string[] = []
+    let input: InputPath = 'none'
     if (stamp) {
       const [start, end] = windowOf(stamp)
+      input = inputPathOf(timeline.keys, start, end)
       utterances.forEach((u, i) => {
         const inWindow = u.ms >= start && u.ms < end
         const preSession = row.fromSessionStart === true && u.ms < firstMs
@@ -395,7 +422,7 @@ export function writeNvdaPass(opts: ParseOptions): PassFile {
           'sanitize_error edge, so the verdict must say which'
       return s.text
     })
-    const graded = grade(row, heardFull)
+    const graded = grade(row, heardFull, input)
     const heard = heardFull.map(truncate)
     if (row.cls !== 'browse' && !row.absent && !row.notRun && stamp) {
       attachAttempted = true
@@ -417,6 +444,7 @@ export function writeNvdaPass(opts: ParseOptions): PassFile {
       tokens: row.tokens,
       arm: graded.arm,
       outcome: graded.outcome,
+      input,
       heard,
       action: stamp?.action ?? null,
       action_ts: stamp?.ts ?? null,

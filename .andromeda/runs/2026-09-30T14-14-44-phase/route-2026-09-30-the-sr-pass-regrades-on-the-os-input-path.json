@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-30T14:16:32Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-09-30-the-sr-pass-regrades-on-the-os-input-path",
+"--expect-prefix",
+"The SR pass regrades on the OS input path",
+"--record-file",
+".andromeda/runs/2026-09-30T14-14-44-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-09-30T14-14-44-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:69 - [2026-09-30-the-sr-pass-regrades-on-the-os-input-path]",
+"record master-route.md:163 - appended under `## conductor-0.3.0`",
+"promoted 2026-09-30-the-sr-pass-regrades-on-the-os-input-path - working-route:69 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+".\\conductor-0.3.0\\working-route.md",
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+}
+]

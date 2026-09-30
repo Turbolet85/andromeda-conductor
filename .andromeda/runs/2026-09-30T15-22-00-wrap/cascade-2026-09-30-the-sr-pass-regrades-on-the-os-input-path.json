@@ -1,0 +1,379 @@
+[
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "1550f3bc",
+"ts": "2026-09-30T16:17:07Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-09-30T15-22-00-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-09-30T15-22-00-wrap",
+"--marker",
+"2026-09-30-the-sr-pass-regrades-on-the-os-input-path"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 2,
+"stdout": [],
+"stderr": "[[pattern]] #9 (injected-agent-arm): `id` is 1-16 chars of A-Z a-z 0-9 _ . -",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "1550f3bc",
+"ts": "2026-09-30T16:17:18Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-09-30T15-22-00-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-09-30T15-22-00-wrap",
+"--marker",
+"2026-09-30-the-sr-pass-regrades-on-the-os-input-path"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"baseline ff4f571e (head — no operator pre-CI commit for 2026-09-30-the-sr-pass-regrades-on-the-os-input-path)",
+"pending-os · new 0 · standing 0 · leaf 2 · curation 0 · base 0 · control test-plan.md:307 (prose)",
+"missing-keypath · new 0 · standing 0 · leaf 1 · curation 2 · base 0 · control test-plan.md:47 (prose)",
+"count-seven · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control security-plan.md:367 (prose)",
+"four-driver · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:367 (…",
+"confounded · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control a11y-plan.md:268 (prose)",
+"kbd-unmeasured · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control a11y-plan.md:268 (prose)",
+"neither-listener · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:2…",
+"fourteen-rows · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:47 (pro…",
+"injected-arm · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control a11y-plan.md:268 (prose)",
+".claude/rules/a11y.md:39 pending-os leaf @c1196/3840 …de rows are findings pending OS-level key injection, never passes…",
+".claude/docs/a11y-summary.md:27 pending-os leaf …iews; browse-mode rows pending OS-level key injection) — realized 2026…",
+"CLAUDE.md:132 missing-keypath curation @c2295/4852 …oard hook feeds) is a MISSING KEY PATH, routed as a CARRY to make i…",
+".claude/rules/verification-harness.md:59 missing-keypath curation @c2432/4083 …ass row is a missing KEY PATH, not a mis…",
+".claude/docs/tests-summary.md:46 missing-keypath leaf @c2168/2721 …estable today (a missing key path, not a missing dri…",
+".claude/rules/security.md:27 count-seven leaf ×2 @c25,2697/2715 …s-spawn rule (b) governs **SEVEN** forms across THREE …",
+".claude/rules/a11y.md:39 confounded leaf @c3601/3840 …vs the driver launch still confounded), so state every SR verdict…",
+".andromeda/a11y-plan.md:268 kbd-unmeasured standing edited @c3811/4589 …pass.json`). A physical keyboard is unmeasured …",
+".andromeda/a11y-plan.md:268 injected-arm standing edited @c1653/4589 …and NVDA 2026.2 the agent arm — WebDriver-injecte…",
+".claude/rules/a11y.md:39 injected-arm leaf @c3027/3840 …57, NVDA 2026.2 the agent arm (WebDriver-injected keys, the app…",
+"pending-os · new 0 · standing 0 · leaf 2 · curation 0 · base 0 · control test-plan.md:307 (prose)",
+"missing-keypath · new 0 · standing 0 · leaf 1 · curation 2 · base 0 · control test-plan.md:47 (prose)",
+"count-seven · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control security-plan.md:367 (prose)",
+"four-driver · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:367 (…",
+"confounded · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control a11y-plan.md:268 (prose)",
+"kbd-unmeasured · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control a11y-plan.md:268 (prose)",
+"neither-listener · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:2…",
+"fourteen-rows · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:47 (pro…",
+"injected-arm · new 0 · standing 1 · leaf 1 · curation 0 · base 0 · control a11y-plan.md:268 (prose)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "ff4f571ef04b3755f6552dee129fe918fbfe6305",
+"how": "head — no operator pre-CI commit for 2026-09-30-the-sr-pass-regrades-on-the-os-input-path",
+"counts": {
+"pending-os": {
+"new": 0,
+"standing": 0,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"missing-keypath": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 2,
+"base": 0
+},
+"count-seven": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"four-driver": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"confounded": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"kbd-unmeasured": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"neither-listener": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"fourteen-rows": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"injected-arm": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 0
+}
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "1550f3bc",
+"ts": "2026-09-30T16:17:59Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-09-30T15-22-00-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-09-30T15-22-00-wrap",
+"--marker",
+"2026-09-30-the-sr-pass-regrades-on-the-os-input-path"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"baseline ff4f571e (head — no operator pre-CI commit for 2026-09-30-the-sr-pass-regrades-on-the-os-input-path)",
+"pending-os · new 0 · standing 0 · leaf 2 · curation 0 · base 0 · control test-plan.md:307 (prose)",
+"missing-keypath · new 0 · standing 0 · leaf 1 · curation 2 · base 0 · control test-plan.md:47 (prose)",
+"count-seven · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control security-plan.md:367 (prose)",
+"four-driver · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:367 (…",
+"confounded · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control a11y-plan.md:268 (prose)",
+"kbd-unmeasured · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control a11y-plan.md:268 (prose)",
+"neither-listener · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:2…",
+"fourteen-rows · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:47 (pro…",
+"injected-arm · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control a11y-plan.md:268 (prose)",
+".claude/rules/a11y.md:39 pending-os leaf @c1196/3840 …de rows are findings pending OS-level key injection, never passes…",
+".claude/docs/a11y-summary.md:27 pending-os leaf …iews; browse-mode rows pending OS-level key injection) — realized 2026…",
+"CLAUDE.md:132 missing-keypath curation @c2295/4852 …oard hook feeds) is a MISSING KEY PATH, routed as a CARRY to make i…",
+".claude/rules/verification-harness.md:59 missing-keypath curation @c2432/4083 …ass row is a missing KEY PATH, not a mis…",
+".claude/docs/tests-summary.md:46 missing-keypath leaf @c2168/2721 …estable today (a missing key path, not a missing dri…",
+".claude/rules/security.md:27 count-seven leaf ×2 @c25,2697/2715 …s-spawn rule (b) governs **SEVEN** forms across THREE …",
+".claude/rules/a11y.md:39 confounded leaf @c3601/3840 …vs the driver launch still confounded), so state every SR verdict…",
+".andromeda/a11y-plan.md:268 kbd-unmeasured standing edited @c3871/4649 …pass.json`). A physical keyboard is unmeasured …",
+".claude/rules/a11y.md:39 injected-arm leaf @c3027/3840 …57, NVDA 2026.2 the agent arm (WebDriver-injected keys, the app…",
+"pending-os · new 0 · standing 0 · leaf 2 · curation 0 · base 0 · control test-plan.md:307 (prose)",
+"missing-keypath · new 0 · standing 0 · leaf 1 · curation 2 · base 0 · control test-plan.md:47 (prose)",
+"count-seven · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control security-plan.md:367 (prose)",
+"four-driver · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:367 (…",
+"confounded · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control a11y-plan.md:268 (prose)",
+"kbd-unmeasured · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control a11y-plan.md:268 (prose)",
+"neither-listener · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:2…",
+"fourteen-rows · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:47 (pro…",
+"injected-arm · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control a11y-plan.md:268 (prose)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "ff4f571ef04b3755f6552dee129fe918fbfe6305",
+"how": "head — no operator pre-CI commit for 2026-09-30-the-sr-pass-regrades-on-the-os-input-path",
+"counts": {
+"pending-os": {
+"new": 0,
+"standing": 0,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"missing-keypath": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 2,
+"base": 0
+},
+"count-seven": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"four-driver": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"confounded": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"kbd-unmeasured": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"neither-listener": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"fourteen-rows": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"injected-arm": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+}
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "1550f3bc",
+"ts": "2026-09-30T16:19:06Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-09-30T15-22-00-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-09-30T15-22-00-wrap",
+"--marker",
+"2026-09-30-the-sr-pass-regrades-on-the-os-input-path"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"baseline ff4f571e (head — no operator pre-CI commit for 2026-09-30-the-sr-pass-regrades-on-the-os-input-path)",
+"pending-os · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:307 (prose)",
+"missing-keypath · new 0 · standing 0 · leaf 0 · curation 2 · base 0 · control test-plan.md:47 (prose)",
+"count-seven · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:367 (…",
+"four-driver · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:367 (…",
+"confounded · 0 rows (control fired) — a statement about this pattern, not the masters · control a11y-plan.md:268 (prose)",
+"kbd-unmeasured · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control a11y-plan.md:268 (prose)",
+"neither-listener · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:2…",
+"fourteen-rows · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:47 (pro…",
+"injected-arm · 0 rows (control fired) — a statement about this pattern, not the masters · control a11y-plan.md:268 (pro…",
+"CLAUDE.md:132 missing-keypath curation @c2295/4852 …oard hook feeds) is a MISSING KEY PATH, routed as a CARRY to make i…",
+".claude/rules/verification-harness.md:59 missing-keypath curation @c2432/4083 …ass row is a missing KEY PATH, not a mis…",
+".andromeda/a11y-plan.md:268 kbd-unmeasured standing edited @c3871/4649 …pass.json`). A physical keyboard is unmeasured …",
+"pending-os · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:307 (prose)",
+"missing-keypath · new 0 · standing 0 · leaf 0 · curation 2 · base 0 · control test-plan.md:47 (prose)",
+"count-seven · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:367 (…",
+"four-driver · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:367 (…",
+"confounded · 0 rows (control fired) — a statement about this pattern, not the masters · control a11y-plan.md:268 (prose)",
+"kbd-unmeasured · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control a11y-plan.md:268 (prose)",
+"neither-listener · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:2…",
+"fourteen-rows · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:47 (pro…",
+"injected-arm · 0 rows (control fired) — a statement about this pattern, not the masters · control a11y-plan.md:268 (pro…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "ff4f571ef04b3755f6552dee129fe918fbfe6305",
+"how": "head — no operator pre-CI commit for 2026-09-30-the-sr-pass-regrades-on-the-os-input-path",
+"counts": {
+"pending-os": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"missing-keypath": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 2,
+"base": 0
+},
+"count-seven": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"four-driver": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"confounded": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"kbd-unmeasured": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"neither-listener": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"fourteen-rows": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"injected-arm": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]

@@ -1,0 +1,303 @@
+[
+{
+"tool": "sidecar",
+"v": "1.2",
+"sha8": "1872a4a3",
+"ts": "2026-09-30T14:20:14Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/architecture-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T14-14-44-phase",
+"--marker",
+"2026-09-30-the-sr-pass-regrades-on-the-os-input-path"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"bytes 183954 · whole-read bound 120000 · OVER",
+"entries 148 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 1 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 183954,
+"entries": 148,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.2",
+"sha8": "1872a4a3",
+"ts": "2026-09-30T14:20:14Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T14-14-44-phase",
+"--marker",
+"2026-09-30-the-sr-pass-regrades-on-the-os-input-path"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"bytes 86759 · whole-read bound 120000 · within",
+"entries 63 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 86759,
+"entries": 63,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.2",
+"sha8": "1872a4a3",
+"ts": "2026-09-30T14:20:14Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/design-system-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T14-14-44-phase",
+"--marker",
+"2026-09-30-the-sr-pass-regrades-on-the-os-input-path"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"bytes 17203 · whole-read bound 120000 · within",
+"entries 17 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 17203,
+"entries": 17,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.2",
+"sha8": "1872a4a3",
+"ts": "2026-09-30T14:20:15Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/layout-templates-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T14-14-44-phase",
+"--marker",
+"2026-09-30-the-sr-pass-regrades-on-the-os-input-path"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"bytes 39646 · whole-read bound 120000 · within",
+"entries 33 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 39646,
+"entries": 33,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.2",
+"sha8": "1872a4a3",
+"ts": "2026-09-30T14:20:15Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T14-14-44-phase",
+"--marker",
+"2026-09-30-the-sr-pass-regrades-on-the-os-input-path"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"bytes 122057 · whole-read bound 120000 · OVER",
+"entries 86 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 122057,
+"entries": 86,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.2",
+"sha8": "1872a4a3",
+"ts": "2026-09-30T14:20:15Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T14-14-44-phase",
+"--marker",
+"2026-09-30-the-sr-pass-regrades-on-the-os-input-path"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"bytes 61195 · whole-read bound 120000 · within",
+"entries 48 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 1 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 61195,
+"entries": 48,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.2",
+"sha8": "1872a4a3",
+"ts": "2026-09-30T14:20:15Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/a11y-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T14-14-44-phase",
+"--marker",
+"2026-09-30-the-sr-pass-regrades-on-the-os-input-path"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"bytes 37342 · whole-read bound 120000 · within",
+"entries 25 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 37342,
+"entries": 25,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.2",
+"sha8": "1872a4a3",
+"ts": "2026-09-30T14:20:22Z",
+"argv": [
+"index",
+"--file",
+".andromeda/architecture-amendments.md",
+"--out",
+".andromeda/runs/2026-09-30T14-14-44-phase/arch-history-index.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T14-14-44-phase",
+"--marker",
+"2026-09-30-the-sr-pass-regrades-on-the-os-input-path"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"wrote .andromeda/runs/2026-09-30T14-14-44-phase/arch-history-index.md · 148 entries · 0 unparsed · 34932 B (the sidecar is 183954 B)"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-09-30T14-14-44-phase/arch-history-index.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "sidecar",
+"v": "1.2",
+"sha8": "1872a4a3",
+"ts": "2026-09-30T14:20:23Z",
+"argv": [
+"index",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--out",
+".andromeda/runs/2026-09-30T14-14-44-phase/tests-history-index.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T14-14-44-phase",
+"--marker",
+"2026-09-30-the-sr-pass-regrades-on-the-os-input-path"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"wrote .andromeda/runs/2026-09-30T14-14-44-phase/tests-history-index.md · 86 entries · 0 unparsed · 23262 B (the sidecar is 122057 B)"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-09-30T14-14-44-phase/tests-history-index.md"
+],
+"before": null,
+"after": null
+}
+]

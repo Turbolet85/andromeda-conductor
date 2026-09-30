@@ -17,12 +17,18 @@ The per-state screen-reader pass the a11y plan requires (a11y-plan §3 _Screen r
   utterances to rows by the leg's action timeline and grades them on the row's required tokens. The record
   it writes (`nvda-pass.json`) is reviewed by the operator, and the review is transcribed into it. Grading is
   about CONTENT conveyed, never NVDA's connective wording, which is version-bound.
-- **Row classes.** `focus` — a focus change; `live` — a live-region, alert or dialog-open event; both are
-  accessibility events NVDA announces however focus moved, so driver-injected keys reach them. `browse` —
+- **Row classes.** `focus` — a focus change; `live` — a live-region, alert or dialog-open event; `browse` —
   static text NVDA reaches only through its browse-mode commands (headings, landmarks, prose, table cells),
-  which NVDA's own keyboard hook intercepts and the driver's synthesized keys may bypass. The leg attempts
-  every class and records the outcome; a `browse` row the agent arm cannot reach falls to the operator's
-  manual arm, and the evidence records the ARM per row.
+  which NVDA's own keyboard hook intercepts. The leg attempts every class and records the outcome.
+- **Two input paths.** Tab, Shift+Tab and the browse keys (`h` · `d` · ArrowDown) ride the OS input path —
+  `send-keys.ps1`, `SendInput`, sent only while Conductor holds the foreground — which NVDA's keyboard hook
+  sees as physical keys. Picker text, Enter, Space, Escape and the picker's arrows stay WebDriver-injected.
+  The split is measured, not assumed: under the leg's own driver launch, injected focus moves after the
+  window's first burst were heard 0 of 9 while OS-path ones were heard 5 of 5 (2026-09-30, WebView2
+  154.0.4258.37, NVDA 2026.2, Windows 26200.9457). Each row records its `input` (`os` · `webdriver` ·
+  `mixed` · `none`) from the keys sent inside its window. A silent `browse` row driven on the OS path is
+  `not-announced` on the agent arm; one with no OS key in its window falls to the operator's manual arm, and
+  the evidence records the ARM per row.
 - **Outcomes** (closed set): `announced-as-expected` · `announced-differently` · `not-announced` ·
   `not-run-here` · `subject-absent`. A not-announced or not-run-here row is a recorded FINDING — never a pass,
   never a hard failure. Rows whose node does not ship are `subject-absent` and never omitted: the spec names

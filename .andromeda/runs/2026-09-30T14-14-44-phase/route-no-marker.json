@@ -1,0 +1,35 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-09-30T14:15:05Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-09-30T14-14-44-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 4 of 31 entries · freight blocks 10 · rows are an INDEX, not the text",
+"69 · CARRY ( · 1574 chars · CARRY (2026-09-30-the-sr-cause-isolated-on-this-host; minted on operator relay conductor-wr…",
+"69 · CARRY ( · 506 chars · CARRY (2026-09-30-the-sr-cause-isolated-on-this-host, the light gate's owner): this entry ow…",
+"69 · CARRY ( · 250 chars · CARRY (2026-09-30-the-sr-cause-isolated-on-this-host): arm K — the physical keyboard over Ed…",
+"71 · CARRY: · 836 chars · CARRY: conductor-emit's public docs link FIVE private items — `exception.rs:70:45` (`MAX_FRAM…",
+"71 · CARRY: · 1069 chars · CARRY: `npm run knip` in `crates/conductor-tauri/ui` EXITS 1 on twelve pre-existing unused e…",
+"71 · CARRY: · 519 chars · CARRY: `conductor run <P-ID>` and the harness's `SCENARIO=<P-ID>` resolve to the FIRST scenar…",
+"71 · CARRY: · 743 chars · CARRY: `.github/workflows/ci.yml`'s comment block above `A11y routine arm` (`:351-356` at `60…",
+"73 · BLOCKED-ON: · 285 chars · BLOCKED-ON: Pulse's \"Real-model incident surfacing\" entry committed and pushed — clears …",
+"73 · CONTEXT: · 476 chars · CONTEXT: the 2026-09-30 series graded 0 drives — d1 canary-blocked, and in d2 and d3 the re…",
+"73 · CARRY ( · 440 chars · CARRY (2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir): build BOTH `pulse-app…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

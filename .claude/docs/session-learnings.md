@@ -1,6 +1,12 @@
 # Session Learnings
 
 _This file is curated by `/wrap-session`. Learnings captured here are too detailed or specific for CLAUDE.md but worth preserving as reference material for future sessions._
+## 2026-09-30 — A sweep over the masters needs `-oiE … | wc -l`, and an escaped pipe under `-E` is a literal
+
+Two grep mechanics returned confident wrong counts in one site sweep over the spec masters. First, under `grep -E` the sequence backslash-pipe is a LITERAL pipe character, not alternation, so a pattern written in BRE habit (`a\|b`) matched nothing and every master read 0 — a false absence. Second, `grep -c` counts LINES, and the masters carry multi-KB single lines holding several occurrences each, so a count read as sites under-counted (the Tier-1 2026-09-17 entry already names this, and it recurred). The form that answers the site question is `grep -oiE 'a|b' {file} | wc -l` for occurrences, plus `grep -noiE '.{0,90}(a|b).{0,60}'` to read each hit in context before dispositioning it.
+
+---
+
 ## 2026-09-29 — A rule fixed before a drive is corrected after it by add-only dated brackets, never by rewording
 
 A grading rule is committed before a live leg precisely so its grade cannot be fitted to the reading. Its

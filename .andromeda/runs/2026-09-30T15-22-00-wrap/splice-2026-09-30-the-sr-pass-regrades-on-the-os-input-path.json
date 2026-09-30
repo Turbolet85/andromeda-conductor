@@ -1,0 +1,199 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-30T16:20:20Z",
+"argv": [
+"append",
+"--file",
+".andromeda/a11y-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-30T15-22-00-wrap/a11y-plan-entry.md",
+"--lines",
+"20",
+"--run-dir",
+".andromeda/runs/2026-09-30T15-22-00-wrap",
+"--marker",
+"2026-09-30-the-sr-pass-regrades-on-the-os-input-path"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append a11y-plan-amendments.md:+20 at line 236 · lines 235→255 · bytes 37342→39893 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-30T15-22-00-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/a11y-plan-amendments.md"
+],
+"before": {
+"lines": 235,
+"bytes": 37342,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 255,
+"bytes": 39893
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-30T16:20:20Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-30T15-22-00-wrap/test-plan-entry.md",
+"--lines",
+"12",
+"--run-dir",
+".andromeda/runs/2026-09-30T15-22-00-wrap",
+"--marker",
+"2026-09-30-the-sr-pass-regrades-on-the-os-input-path"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+12 at line 711 · lines 710→722 · bytes 122057→123766 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-30T15-22-00-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 710,
+"bytes": 122057,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 722,
+"bytes": 123766
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-30T16:20:20Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-30T15-22-00-wrap/security-plan-entry.md",
+"--lines",
+"16",
+"--run-dir",
+".andromeda/runs/2026-09-30T15-22-00-wrap",
+"--marker",
+"2026-09-30-the-sr-pass-regrades-on-the-os-input-path"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+16 at line 486 · lines 485→501 · bytes 86759→88710 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-30T15-22-00-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 485,
+"bytes": 86759,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 501,
+"bytes": 88710
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-30T16:20:21Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-09-30T15-22-00-wrap/architecture-entry.md",
+"--lines",
+"7",
+"--run-dir",
+".andromeda/runs/2026-09-30T15-22-00-wrap",
+"--marker",
+"2026-09-30-the-sr-pass-regrades-on-the-os-input-path"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+7 at line 1083 · lines 1082→1089 · bytes 183954→185114 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-09-30T15-22-00-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 1082,
+"bytes": 183954,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1089,
+"bytes": 185114
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-09-30T16:23:45Z",
+"argv": [
+"append",
+"--file",
+"conductor-0.3.0/working-route.md",
+"--payload-file",
+".andromeda/runs/2026-09-30T15-22-00-wrap/route-entry.md",
+"--after-line",
+"70",
+"--lines",
+"2",
+"--run-dir",
+".andromeda/runs/2026-09-30T15-22-00-wrap",
+"--marker",
+"2026-09-30-the-sr-pass-regrades-on-the-os-input-path"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append working-route.md:+2 at line 71 · lines 75→77 · bytes 14847→16542 · term lf",
+"last line now: Version close on measured evidence — every capability verified or deferred on "
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0/working-route.md"
+],
+"before": {
+"lines": 75,
+"bytes": 14847,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 77,
+"bytes": 16542
+}
+}
+]

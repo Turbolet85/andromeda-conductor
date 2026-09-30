@@ -8,8 +8,10 @@
 // the driven arm uses) — what NVDA said is the parser's to grade and the operator's to review.
 //
 // Two things this leg MEASURES rather than assumes: whether NVDA attaches while WebDriver holds the session
-// (a silent log through the focus rows), and whether driver-injected keys reach NVDA's browse-mode commands
-// (`h` / `d` / arrows are sent only while focus sits on a non-editable control, so a miss is harmless).
+// (a silent log through the focus rows), and whether NVDA's browse-mode commands answer the OS-path keys
+// (`h` / `d` / ArrowDown are sent only while focus sits on a non-editable control). Tab, Shift+Tab and the
+// browse keys ride the OS input path (screen-reader/send-keys.ps1); every other key is WebDriver-injected,
+// and each key is recorded with its path.
 import { browser, $, expect } from '@wdio/globals'
 import { spawnSync } from 'node:child_process'
 import { appendFileSync, existsSync, readFileSync, statSync, writeFileSync } from 'node:fs'
@@ -91,14 +93,18 @@ async function bringToForeground(preFocusRow?: string): Promise<{ activated: boo
   // would drag the activation window in with it — where NVDA announces the WebView2 host window's own
   // title, an OS-owned string carrying a host path that the ingest scrub then flags. The narrower
   // window keeps the record's 0-security_finding baseline intact.
+  // The reset cycle stays on the INJECTED path: an injected Tab from the last control lands on the host-chrome
+  // BODY stop, while an OS Tab from it may skip that stop and wrap to Minimize, so an OS-path cycle can run past
+  // its cap without ever reading BODY (measured 2026-09-30: ten OS Tabs, no BODY, and the first row's Tab then
+  // landed on it). The rows' own Tabs ride the OS path from the BODY this leaves focused.
   if (preFocusRow) stamp(preFocusRow, 'the first focus event after load (Tab)')
-  await tab()
+  await injectKeys('Tab')
   const firstTabTarget = await activeName()
   const firstTabProbe = await activeProbe()
   let tabsToStart = 1
   if (firstTabTarget !== 'BODY') {
     for (let i = 1; i < 10; i += 1) {
-      await tab()
+      await injectKeys('Tab')
       tabsToStart += 1
       if ((await activeName()) === 'BODY') break
     }
@@ -352,19 +358,52 @@ async function waitForDialogGone(): Promise<void> {
   })
 }
 
+/** Every key the leg sends is recorded with its input path, so the parser can bind each row to the path that drove it. */
+function keyRecord(key: string, input: 'os' | 'webdriver'): void {
+  appendFileSync(actionsPath, JSON.stringify({ ts: new Date().toISOString(), id: '@key', key, input }) + '\n')
+}
+
+/** Picker text, Enter, Space, Escape and the picker's arrows stay WebDriver-injected. */
+async function injectKeys(value: string | string[]): Promise<void> {
+  keyRecord(Array.isArray(value) ? value.join('+') : value, 'webdriver')
+  await browser.keys(value)
+}
+
+type OsKey = 'Tab' | 'ShiftTab' | 'h' | 'd' | 'ArrowDown'
+
+/**
+ * Tab, Shift+Tab and the browse keys go through the OS input path: after the window's first burst NVDA hears
+ * no WebDriver-injected focus move in this driver-launched host, and its browse mode listens only to its own
+ * keyboard hook. The script refuses (exit 4) unless Conductor holds the foreground, and a refusal fails the
+ * row rather than falling back to an injected key, which would grade a path the row did not claim.
+ */
+async function osKey(key: OsKey): Promise<void> {
+  keyRecord(key, 'os')
+  const script = join(here, 'screen-reader', 'send-keys.ps1')
+  const result = spawnSync('powershell.exe', ['-NoProfile', '-ExecutionPolicy', 'Bypass', '-File', script, '-Key', key], {
+    stdio: 'ignore',
+    windowsHide: true,
+    timeout: 20_000,
+  })
+  if (result.status !== 0) {
+    const why = result.status === 4 ? 'Conductor did not hold the OS foreground; nothing was sent' : 'the key was not delivered'
+    throw new Error(`send-keys.ps1 -Key ${key} exited ${result.status ?? result.signal ?? 'without a status'}: ${why}`)
+  }
+}
+
 async function tab(): Promise<void> {
-  await browser.keys('Tab')
+  await osKey('Tab')
 }
 
 async function shiftTab(): Promise<void> {
-  await browser.keys(['Shift', 'Tab'])
+  await osKey('ShiftTab')
 }
 
-async function browseKey(key: string): Promise<void> {
-  // Browse-mode commands are attempted only from a non-editable control, so a key that never reaches NVDA
-  // is harmless to the page (it would type into an input otherwise).
+async function browseKey(key: 'h' | 'd' | 'ArrowDown'): Promise<void> {
+  // Browse-mode commands are attempted only from a non-editable control; in the picker input the key
+  // would type into it instead.
   if (await activeIsCombobox()) return
-  await browser.keys(key)
+  await osKey(key)
 }
 
 if (subject === 'live') {
@@ -398,40 +437,40 @@ if (subject === 'live') {
         await browser.waitUntil(activeIsCombobox, { timeout: 5_000, timeoutMsg: 'Tab did not reach the picker input' })
       })
       await act('S0-16', 'type "zzz" (filter miss), then Backspace ×3', async () => {
-        await browser.keys('zzz')
+        await injectKeys('zzz')
         const empty = await $('[class~="picker__empty"]')
         await browser.waitUntil(async () => empty.isDisplayed().catch(() => false), {
           timeout: 5_000,
           timeoutMsg: 'the picker never showed its filter-miss prose',
         })
-        for (let i = 0; i < 3; i += 1) await browser.keys('Backspace')
+        for (let i = 0; i < 3; i += 1) await injectKeys('Backspace')
         await browser.waitUntil(async () => !(await empty.isDisplayed().catch(() => false)), {
           timeout: 5_000,
           timeoutMsg: 'the filter-miss prose did not clear',
         })
       })
       await act('S0-04', 'ArrowDown', async () => {
-        await browser.keys('ArrowDown')
+        await injectKeys('ArrowDown')
         await browser.waitUntil(async () => (await activeDescendantText()).includes('halo-breathing-encoding'), {
           timeout: 5_000,
           timeoutMsg: 'ArrowDown did not move the active option to halo-breathing-encoding',
         })
       })
       await act('S0-05', 'ArrowDown', async () => {
-        await browser.keys('ArrowDown')
+        await injectKeys('ArrowDown')
         await browser.waitUntil(async () => (await activeDescendantText()).includes('halo-hue-encoding'), {
           timeout: 5_000,
           timeoutMsg: 'ArrowDown did not move the active option to halo-hue-encoding',
         })
       })
       await act('S0-06', 'ArrowUp ×2 to "Suite — all scenarios", Enter', async () => {
-        await browser.keys('ArrowUp')
-        await browser.keys('ArrowUp')
+        await injectKeys('ArrowUp')
+        await injectKeys('ArrowUp')
         await browser.waitUntil(async () => (await activeDescendantText()).includes('Suite'), {
           timeout: 5_000,
           timeoutMsg: 'ArrowUp did not return to the suite option',
         })
-        await browser.keys('Enter')
+        await injectKeys('Enter')
         const chosen = await $('[role="option"][aria-current="true"]')
         await browser.waitUntil(async () => (await chosen.getText().catch(() => '')).includes('selected'), {
           timeout: 5_000,
@@ -461,7 +500,7 @@ if (subject === 'live') {
       await act('S1-01', 'Shift+Tab to Start, Enter', async () => {
         await shiftTab()
         await expectActive('Start')
-        await browser.keys('Enter')
+        await injectKeys('Enter')
         await expectPhaseLine('Conductor · live', 15_000)
       })
       // No re-activation here: the sidecar spawn now suppresses its console, so the run start no longer
@@ -510,7 +549,7 @@ if (subject === 'live') {
       await act('S2-05', 'Space', async () => {
         const checkbox = await $('[role="alertdialog"] input[type="checkbox"]')
         const rollup = await $('[role="status"]')
-        await browser.keys('Space')
+        await injectKeys('Space')
         await browser.waitUntil(async () => checkbox.isSelected(), {
           timeout: 5_000,
           timeoutMsg: 'Space did not toggle the focused checklist row',
@@ -525,7 +564,7 @@ if (subject === 'live') {
         stamp('S2-08', 'the phase line returns to live in the same instant (shared window)')
         await shiftTab()
         await expectActive('Proceed')
-        await browser.keys('Enter')
+        await injectKeys('Enter')
         await waitForDialogGone()
         await expectActive('Start')
         await expectPhaseLine('Conductor · live', 10_000)
@@ -541,7 +580,7 @@ if (subject === 'live') {
       await act('S3-01', 'Tab to Stop, Enter', async () => {
         await tab()
         await expectActive('Stop')
-        await browser.keys('Enter')
+        await injectKeys('Enter')
         await expectPhaseLine('Conductor · aborted', 10_000)
       })
       await act('S3-02', 'Shift+Tab', async () => {
@@ -557,7 +596,7 @@ if (subject === 'live') {
         // then "Conductor · aborted" inside one second), so the two rows share a window.
         const before = stamp('S3-04', 'Escape (NoGo); focus restores to Start')
         stamp('S3-05', 'the Aborted stage and the report reload follow in the same instant (shared window)')
-        await browser.keys('Escape')
+        await injectKeys('Escape')
         await waitForDialogGone()
         await expectActive('Start')
         const summary = await $('[class~="report__summary"]')

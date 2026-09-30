@@ -1080,3 +1080,10 @@ Was: "the static gates over committed data" as the whole set.
 **Why:** Gitignored, uncommitted session scripts also read both handles (guarded the wdio way) for the 2026-09-30 SR controls, so "only reader" was literally false. Narrowed by the overseer's ruling so the claim stays true going forward with no dated clutter. The arch registry carries STANDING committed readers and binders: a one-off session script is recorded in security rule (b) and chunk evidence, never here.
 **Kept:** No arch row for `WEBVIEW2_BROWSER_EXECUTABLE_FOLDER` and no Ports or trust-boundary edit for the one-off `:4445` binder — rejected by the overseer (founder-delegated); a successor that COMMITS a reader or binder registers it then.
 **Ref:** .andromeda/runs/2026-09-30T13-50-58-wrap/
+
+## 2026-09-30-the-sr-pass-regrades-on-the-os-input-path — the SR leg's spawned children gain the key-send script
+**Section:** §Cross-cutting Patterns → Trust boundary
+**Change:** was "the screen-reader suites additionally spawn the host NVDA … and a fixed-argv PowerShell window-activation script, neither of which opens a listener (measured 2026-09-02)"; now they also spawn, per key, a fixed-argv PowerShell key-send script (`send-keys.ps1`, a closed `-Key` set, foreground-guarded — rule (b)'s eighth governed form), none of the three opening a listener (measured 2026-09-02; the key-send script 2026-09-30). No port, env handle or artifact path is added; the loopback-only claim is unchanged.
+**Why:** the committed spawn the chunk shipped, registered where the leg's children are listed, on the founder's live ratification of the eighth form (relayed by the overseer). Per the standing registration rule (committed readers and binders register when committed), a committed spawn registers here now.
+**Kept:** §Occupied Resources unchanged — the script binds nothing and reads no env handle.
+**Ref:** .andromeda/runs/2026-09-30T15-22-00-wrap/
