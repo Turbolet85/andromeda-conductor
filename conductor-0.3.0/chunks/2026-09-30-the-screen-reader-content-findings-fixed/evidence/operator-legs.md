@@ -59,3 +59,12 @@ naming the dir, the OTLP bind on loopback 4317/4318), and stopped by this sessio
 | `msedgewebview2.exe` created during the session | the legs' apps | none survives |
 
 Loopback after the last leg: no listener on 4317, 4318, 4444 or 4445.
+
+## Operator pass (2026-09-30, on the operator's word; no window opened)
+
+| # | entry | exit | atoms read |
+|---|---|---|---|
+| 30 | `gate.py hygiene` | 0 | `hygiene: clean — read 32 (runs 30 · evidence 2) · trails 12 not read · binary 0 not read by P1` |
+| — | the operator pre-CI commit | 0 | `dfa4f87` — `chore(2026-09-30-the-screen-reader-content-findings-fixed): operator pre-CI commit, for the run this chunk's verdict reads` |
+| 31 | the guarded push | 0 | `PUSHED_SHA=dfa4f87e7e98cddae3e477966b0f8aadc5b906af` (`d7da5d0..dfa4f87` on `build/conductor-0.3.0`) |
+| 32 | `ci.py conclusion --sha HEAD --wait 1200` | 0 | `dfa4f87e7e98 verdict: green · checks 3/3 · wall 566 s · runs CI#36770454038 completed/success` |

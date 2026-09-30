@@ -1,0 +1,906 @@
+[
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-30T20:19:03Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"conductor-0.3.0/chunks/2026-09-30-the-screen-reader-content-findings-fixed",
+"--run-dir",
+".andromeda/runs/2026-09-30T20-18-56-wrap",
+"--marker",
+"2026-09-30-the-screen-reader-content-findings-fixed"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\conductor · base d7da5d07 (the parent of the oldest pre-CI commit dfa4f87e) · lists new 3 · modify 8 · derived 0 · record 3",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"recorded in-intent crates/conductor-tauri/ui/src/srOnly.ts",
+"recorded companion crates/conductor-tauri/ui/test/a11y/operator-hold.e2e.ts",
+"recorded widening crates/conductor-tauri/ui/test/a11y/screen-reader/parse-nvda-log.ts",
+"scope: clean — changed 13 · listed 10 · recorded 3 (companion 1 · mechanical 0 · in-intent 1 · widening 1) · absorbed 0 · excluded 40"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\conductor",
+"base": "d7da5d07b94e5a7552dc5340f30b68b5920bd822",
+"base_why": "the parent of the oldest pre-CI commit dfa4f87e",
+"counts": {
+"changed": 13,
+"listed": 10,
+"recorded": 3,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 1,
+"mechanical": 0,
+"in-intent": 1,
+"widening": 1
+},
+"excluded": 40,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-30T20:38:47Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-09-30-the-screen-reader-content-findings-fixed/plan.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T20-18-56-wrap",
+"--marker",
+"2026-09-30-the-screen-reader-content-findings-fixed",
+"--skip",
+"7:frontend half dist unchanged since its green run at slot 4a (no ui/src edit after it; dfa4f87 carries the same src) and it raises a window"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-09-30-the-screen-reader-content-findings-fixed · entries 32",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-content-findings-fixed\\wrap-2026-09-30T20-18-56 · bound: GNU timeout",
+"delta docs 49 · python 1",
+"prose L221-233: These are the gates /implement runs. - **Rust gates:** the PREREQ's two gates run in full,… (963 chars)",
+"  1 unit        green · exit 0 · 29.68s · 140957 B → 1.log · bash scripts/agent-run.sh run --unit",
+"  2 lint        green · exit 0 · 0.81s · 72 B → 2.log · cargo clippy --workspace --all-targets -- -D warnings",
+"  3 build       green · exit 0 · 13.58s · 4874 B → 3.log · cd crates/conductor-tauri/ui && npm run build",
+"  4 lint        green · exit 0 · 1.76s · 65 B → 4.log · cd crates/conductor-tauri/ui && npm run typecheck:e2e",
+"  5 unit        green · exit 0 · 0.78s · 1758 B → 5.log · cd crates/conductor-tauri/ui && npm run a11y:ownership",
+"  6 probe       green · exit 0 · 0.14s · 43 B → 6.log · d=$(\"$CONDUCTOR_MSEDGEDRIVER\" --version | grep -oE '[0-9]+… (288 chars)",
+"  7 self-verify not run — skipped: frontend half dist unchanged since its green run at slot 4a (no ui/src edit after it; dfa4f87 carries the same src) and it raises a window · CONDUCTOR_A11Y_STRICT=1 bash scripts/agent-run.sh run --e2… (59 chars)",
+"  8 probe       red · exit 1 ✗ (exit 0) · exit 0 · 0.13s · 165 B → 8.log · { git diff --name-only d7da5d0 -- crates scripts contracts… (459 chars)",
+"  9 probe       green · exit 0 · 0.07s · 0 B → 9.log · git diff --numstat d7da5d0 -- crates/conductor-tauri/ui/te… (202 chars)",
+" 10 probe       green · exit 0 · 0.06s · 2 B → 10.log · grep -c 'spawnSync(' crates/conductor-tauri/ui/test/a11y/s… (77 chars)",
+" 11 probe       green · exit 1 · 0.06s · 2 B → 11.log · grep -c -- \"'-Command'\" crates/conductor-tauri/ui/test/a11… (80 chars)",
+" 12 probe       green · exit 1 · 0.23s · 2 B → 12.log · { git diff d7da5d0 -- crates/conductor-tauri/ui/src; git l… (193 chars)",
+" 13 build       not run — leg operator (the letter drives it) · rm -f runs/sr-leg/nvda-pass.json",
+" 14 e2e         not run — leg operator (the letter drives it) · cd crates/conductor-tauri/ui && npm run a11y:sr-empty",
+" 15 e2e         not run — leg operator (the letter drives it) · cd crates/conductor-tauri/ui && npm run a11y:sr-error",
+" 16 probe       not run — leg operator (the letter drives it) · PATH=\"/d/dev/projects/andromeda-pulse/target/release:$PATH… (253 chars)",
+" 17 e2e         not run — leg operator (the letter drives it) · cd crates/conductor-tauri/ui && PATH=\"/d/dev/projects/andr… (153 chars)",
+" 18 build       not run — leg operator (the letter drives it) · mkdir -p conductor-0.3.0/chunks/2026-09-30-the-screen-read… (224 chars)",
+" 19 probe       green · exit 0 · 0.1s · 3 B → 19.log · f=conductor-0.3.0/chunks/2026-09-30-the-screen-reader-cont… (457 chars)",
+" 20 probe       green · exit 0 · 0.09s · 24 B → 20.log · jq -r '\"rows \" + (.rows | length | tostring) + \" not-run-h… (234 chars)",
+" 21 probe       green · exit 0 · 0.1s · 21 B → 21.log · jq -r '\"focus-nonexpected \" + ([.rows[] | select(.class ==… (229 chars)",
+" 22 probe       green · exit 0 · 0.09s · 19 B → 22.log · jq -r '\"not-expected \" + ([.rows[] | select(.outcome != \"a… (274 chars)",
+" 23 probe       green · exit 0 · 0.09s · 36 B → 23.log · f=conductor-0.3.0/chunks/2026-09-30-the-screen-reader-cont… (403 chars)",
+" 24 probe       green · exit 0 · 0.07s · 3 B → 24.log · grep -cE '^\\| (E0-0[1579]|E0-08|S0-(0[89]|1[0-5])|S1-02|S2… (199 chars)",
+" 25 probe       green · exit 0 · 0.07s · 0 B → 25.log · git diff --stat d7da5d0 -- conductor-0.3.0/chunks/2026-09-… (102 chars)",
+" 26 probe       green · exit 1 · 0.11s · 2 B → 26.log · test -d conductor-0.3.0/chunks/2026-09-30-the-screen-reade… (314 chars)",
+" 27 probe       green · exit 1 · 0.09s · 2 B → 27.log · test -f runs/logs/conductor-tauri.jsonl && cat runs/logs/c… (206 chars)",
+" 28 probe       green · exit 1 · 0.11s · 2 B → 28.log · netstat -ano | grep -cE \":(4444|4445) +[^ ]+ +LISTENING\"",
+" 29 probe       green · exit 1 · 0.34s · 2 B → 29.log · tasklist | grep -ciE \"^(msedgedriver|conductor-tauri|nvda|… (87 chars)",
+" 30 probe       not run — leg operator (the letter drives it) · python -X utf8 C:/Users/turbo/.claude/skills/andromeda-too… (84 chars)",
+" 31 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (112 chars)",
+" 32 probe       not run — leg operator (the letter drives it) · python -X utf8 C:/Users/turbo/.claude/skills/andromeda-too… (108 chars)",
+"entries 32 · green 21 · red 1 (8) · recorded 0 · timeout 0 · not-run 10"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-09-30-the-screen-reader-content-findings-fixed",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-09-30-the-screen-reader-content-findings-fixed\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-content-findings-fixed\\wrap-2026-09-30T20-18-56",
+"delta": {
+"docs": [
+".andromeda/a11y-plan-amendments.md",
+".andromeda/a11y-plan.md",
+".andromeda/design-system-amendments.md",
+".andromeda/design-system.md",
+".andromeda/friction-log.ndjson",
+".andromeda/layout-templates-amendments.md",
+".andromeda/layout-templates.md",
+".andromeda/state.yaml",
+".andromeda/test-plan-amendments.md",
+".andromeda/test-plan.md",
+".claude/docs/a11y-summary.md",
+".claude/docs/tests-summary.md",
+".claude/rules/a11y.md",
+".claude/rules/testing.md",
+".claude/rules/verification-harness.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/chunks/2026-09-30-the-screen-reader-content-findings-fixed/evidence/operator-legs.md",
+"conductor-0.3.0/working-route.md",
+".andromeda/runs/2026-09-30T20-18-56-wrap/a11y-plan-entry.md",
+".andromeda/runs/2026-09-30T20-18-56-wrap/cascade-2026-09-30-the-screen-reader-content-findings-fixed.json",
+".andromeda/runs/2026-09-30T20-18-56-wrap/cascade-dispositions.md",
+".andromeda/runs/2026-09-30T20-18-56-wrap/cascade-patterns.toml",
+".andromeda/runs/2026-09-30T20-18-56-wrap/curation.md",
+".andromeda/runs/2026-09-30T20-18-56-wrap/design-system-entry.md",
+".andromeda/runs/2026-09-30T20-18-56-wrap/detectors-a11y-plan.yaml",
+".andromeda/runs/2026-09-30T20-18-56-wrap/detectors-arch.yaml",
+".andromeda/runs/2026-09-30T20-18-56-wrap/detectors-design-system.yaml",
+".andromeda/runs/2026-09-30T20-18-56-wrap/detectors-layout-templates.yaml",
+".andromeda/runs/2026-09-30T20-18-56-wrap/detectors-obs-plan.yaml",
+".andromeda/runs/2026-09-30T20-18-56-wrap/detectors-security-plan.yaml",
+".andromeda/runs/2026-09-30T20-18-56-wrap/detectors-test-plan.yaml",
+".andromeda/runs/2026-09-30T20-18-56-wrap/evolve-2026-09-30-the-screen-reader-content-findings-fixed.json",
+".andromeda/runs/2026-09-30T20-18-56-wrap/fanout-results.md",
+".andromeda/runs/2026-09-30T20-18-56-wrap/gate-2026-09-30-the-screen-reader-content-findings-fixed.json",
+".andromeda/runs/2026-09-30T20-18-56-wrap/health-2026-09-30-the-screen-reader-content-findings-fixed.json",
+".andromeda/runs/2026-09-30T20-18-56-wrap/layout-templates-entry.md",
+".andromeda/runs/2026-09-30T20-18-56-wrap/prompt-a11y-plan.txt",
+".andromeda/runs/2026-09-30T20-18-56-wrap/prompt-architecture.txt",
+".andromeda/runs/2026-09-30T20-18-56-wrap/prompt-design-system.txt",
+".andromeda/runs/2026-09-30T20-18-56-wrap/prompt-layout-templates.txt",
+".andromeda/runs/2026-09-30T20-18-56-wrap/prompt-obs-plan.txt",
+".andromeda/runs/2026-09-30T20-18-56-wrap/prompt-security-plan.txt",
+".andromeda/runs/2026-09-30T20-18-56-wrap/prompt-test-plan.txt",
+".andromeda/runs/2026-09-30T20-18-56-wrap/registry-2026-09-30-the-screen-reader-content-findings-fixed.json",
+".andromeda/runs/2026-09-30T20-18-56-wrap/registry-m.json",
+".andromeda/runs/2026-09-30T20-18-56-wrap/route-no-marker.json",
+".andromeda/runs/2026-09-30T20-18-56-wrap/splice-2026-09-30-the-screen-reader-content-findings-fixed.json",
+".andromeda/runs/2026-09-30T20-18-56-wrap/test-plan-entry.md",
+"conductor-0.3.0/chunks/2026-09-30-the-screen-reader-content-findings-fixed/report.md"
+],
+"python": [
+".andromeda/runs/2026-09-30T20-18-56-wrap/carry-e010.py"
+]
+},
+"unmapped": [],
+"prose": [
+{
+"from": 221,
+"to": 233,
+"text": "These are the gates /implement runs. - **Rust gates:** the PREREQ's two gates run in full, without a `defer`. The chunk has zero Rust delta, but the   PREREQ is exactly their re-run. - **UI gate:** this is a UI chunk, and the project's headful self-verify is the strict routine `--e2e` arm, so it is   listed with `role = 'self-verify'`. - **Operator entries:** the three `sr*` legs are `operator` entries, each on the operator's quiet-desktop slot, and   the live one also on the `:4317` grant. Each entry's note states its length. - **Liveness probe:** the live leg is preceded by the non-priming liveness probe (the sidecar on `PATH`, and   pulse-app's OTLP port answering). It is never `boot`. - **CI:** the chunk changes code the CI `a11y` job re-runs, so the operator pass commits, pushes behind a clean-tree   guard, and reads CI. - **Smoke:** there is no boot-path change, so no separate `status` smoke. The strict `--e2e` arm is the UI's standing   gate."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run --unit",
+"run_sha8": "c5d2a008",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-content-findings-fixed\\wrap-2026-09-30T20-18-56\\1.log",
+"bytes": 140957,
+"log_sha8": "5212eb68",
+"exit": 0,
+"seconds": 29.68,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-content-findings-fixed\\wrap-2026-09-30T20-18-56\\2.log",
+"bytes": 72,
+"log_sha8": "80a72ab0",
+"exit": 0,
+"seconds": 0.81,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "build",
+"run": "cd crates/conductor-tauri/ui && npm run build",
+"run_sha8": "80eb6ef7",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-content-findings-fixed\\wrap-2026-09-30T20-18-56\\3.log",
+"bytes": 4874,
+"log_sha8": "4ba62e1f",
+"exit": 0,
+"seconds": 13.58,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "cd crates/conductor-tauri/ui && npm run typecheck:e2e",
+"run_sha8": "ed7b10f9",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-content-findings-fixed\\wrap-2026-09-30T20-18-56\\4.log",
+"bytes": 65,
+"log_sha8": "cea9a430",
+"exit": 0,
+"seconds": 1.76,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "cd crates/conductor-tauri/ui && npm run a11y:ownership",
+"run_sha8": "e833c843",
+"expect": [
+"exit 0",
+"contains 11 claims · 9 owned (5 operator-local, carve-out) · 2 n/a-by-construction · 0 recorded gaps",
+"last line ownership: every claim resolved"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-content-findings-fixed\\wrap-2026-09-30T20-18-56\\5.log",
+"bytes": 1758,
+"log_sha8": "c11f4196",
+"exit": 0,
+"seconds": 0.78,
+"readings": [
+"exit 0 ✓",
+"contains '11 claims · 9 owned (5 operator-local, carve-out) · 2 n/a-by-construction · 0 recorded gaps' ✓",
+"last line 'ownership: every claim resolved' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "d=$(\"$CONDUCTOR_MSEDGEDRIVER\" --version | grep -oE '[0-9]+(\\.[0-9]+){3}'); r=$(reg query 'HKLM\\SOFTWARE\\WOW6432Node\\Microsoft\\EdgeUpdate\\Clients\\{F3017226-FE2A-4295-8BDF-00C3A9A7E4C5}' //v pv | grep -oE '[0-9]+(\\.[0-9]+){3}'); echo \"driver $d runtime $r\"; test -n \"$d\" && test \"$d\" = \"$r\"",
+"run_sha8": "342e374d",
+"expect": [
+"exit 0",
+"contains driver "
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-content-findings-fixed\\wrap-2026-09-30T20-18-56\\6.log",
+"bytes": 43,
+"log_sha8": "987e6204",
+"exit": 0,
+"seconds": 0.14,
+"readings": [
+"exit 0 ✓",
+"contains 'driver ' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "self-verify",
+"run": "CONDUCTOR_A11Y_STRICT=1 bash scripts/agent-run.sh run --e2e",
+"run_sha8": "bcfd469f",
+"expect": [
+"exit 0",
+"contains [a11y] verdict asserted — 0 failed",
+"contains (expected 2)"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — skipped: frontend half dist unchanged since its green run at slot 4a (no ui/src edit after it; dfa4f87 carries the same src) and it raises a window"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "{ git diff --name-only d7da5d0 -- crates scripts contracts scenarios .github Cargo.lock Cargo.toml; git ls-files --others --exclude-standard crates scripts contracts scenarios .github; } | grep -vE '^crates/conductor-tauri/ui/(src/components/(CoverageMatrix\\.tsx|Titlebar\\.tsx|Titlebar\\.css|Footer\\.tsx|Footer\\.css|OperatorPauseDialog\\.tsx)|src/App\\.tsx|test/a11y/(accessibility\\.e2e\\.ts|screen-reader\\.e2e\\.ts|screen-reader/(rows\\.ts|nvda-pass-spec\\.md)))$' ",
+"run_sha8": "d01381e0",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-content-findings-fixed\\wrap-2026-09-30T20-18-56\\8.log",
+"bytes": 165,
+"log_sha8": "6c6c00ce",
+"exit": 0,
+"seconds": 0.13,
+"readings": [
+"exit 1 ✗ (exit 0)",
+"no output ✗ (165 B)"
+],
+"survivors": [],
+"outcome": "red · exit 1 ✗ (exit 0)"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "git diff --numstat d7da5d0 -- crates/conductor-tauri/ui/test/a11y/screen-reader/send-keys.ps1 crates/conductor-tauri/ui/test/a11y/screen-reader/activate-window.ps1 crates/conductor-tauri/ui/wdio.conf.ts",
+"run_sha8": "66ef052d",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-content-findings-fixed\\wrap-2026-09-30T20-18-56\\9.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.07,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "grep -c 'spawnSync(' crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"run_sha8": "a721502f",
+"expect": [
+"exit 0",
+"last line 2"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-content-findings-fixed\\wrap-2026-09-30T20-18-56\\10.log",
+"bytes": 2,
+"log_sha8": "53c234e5",
+"exit": 0,
+"seconds": 0.06,
+"readings": [
+"exit 0 ✓",
+"last line '2' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "grep -c -- \"'-Command'\" crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+"run_sha8": "d9119c1d",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-content-findings-fixed\\wrap-2026-09-30T20-18-56\\11.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.06,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "{ git diff d7da5d0 -- crates/conductor-tauri/ui/src; git ls-files --others --exclude-standard -z crates/conductor-tauri/ui/src | xargs -0 -r cat; } | grep -cE '^\\+?.*(opentelemetry|OTLP|4318)' ",
+"run_sha8": "13c4aa5c",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-content-findings-fixed\\wrap-2026-09-30T20-18-56\\12.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.23,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "build",
+"run": "rm -f runs/sr-leg/nvda-pass.json",
+"run_sha8": "dc16980c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 14,
+"role": "e2e",
+"run": "cd crates/conductor-tauri/ui && npm run a11y:sr-empty",
+"run_sha8": "9df94041",
+"expect": [
+"exit 0",
+"contains Spec Files:\t 1 passed, 1 total"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 15,
+"role": "e2e",
+"run": "cd crates/conductor-tauri/ui && npm run a11y:sr-error",
+"run_sha8": "7e9c4c64",
+"expect": [
+"exit 0",
+"contains Spec Files:\t 1 passed, 1 total"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "PATH=\"/d/dev/projects/andromeda-pulse/target/release:$PATH\"; command -v andromeda-pulse-mcp >/dev/null && echo \"sidecar on PATH\"; powershell -NoProfile -Command \"(Test-NetConnection 127.0.0.1 -Port 4317 -WarningAction SilentlyContinue).TcpTestSucceeded\"",
+"run_sha8": "6e54ab5a",
+"expect": [
+"exit 0",
+"contains sidecar on PATH",
+"last line True"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 17,
+"role": "e2e",
+"run": "cd crates/conductor-tauri/ui && PATH=\"/d/dev/projects/andromeda-pulse/target/release:$PATH\" CONDUCTOR_SCENARIOS_DIR=runs/sr-leg/scenarios npm run a11y:sr",
+"run_sha8": "e4b839a7",
+"expect": [
+"exit 0",
+"contains Spec Files:\t 1 passed, 1 total"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 18,
+"role": "build",
+"run": "mkdir -p conductor-0.3.0/chunks/2026-09-30-the-screen-reader-content-findings-fixed/evidence && cp runs/sr-leg/nvda-pass.json conductor-0.3.0/chunks/2026-09-30-the-screen-reader-content-findings-fixed/evidence/nvda-pass.json",
+"run_sha8": "93c5eca7",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "f=conductor-0.3.0/chunks/2026-09-30-the-screen-reader-content-findings-fixed/evidence/nvda-pass.json; test -f \"$f\" && jq -r '[.rows[] | select((.outcome | IN(\"announced-as-expected\",\"announced-differently\",\"not-announced\",\"not-run-here\",\"subject-absent\") | not) or (.arm | IN(\"agent\",\"operator\") | not) or (.input | IN(\"os\",\"webdriver\",\"mixed\",\"none\") | not) or ((.heard | tostring | contains(\"host-path>\")) and (.security_finding == null)))] | length' \"$f\"",
+"run_sha8": "ede1214e",
+"expect": [
+"exit 0",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-content-findings-fixed\\wrap-2026-09-30T20-18-56\\19.log",
+"bytes": 3,
+"log_sha8": "13bf7b30",
+"exit": 0,
+"seconds": 0.1,
+"readings": [
+"exit 0 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "jq -r '\"rows \" + (.rows | length | tostring) + \" not-run-here \" + ([.rows[] | select(.outcome == \"not-run-here\")] | length | tostring)' conductor-0.3.0/chunks/2026-09-30-the-screen-reader-content-findings-fixed/evidence/nvda-pass.json",
+"run_sha8": "f4f8a55e",
+"expect": [
+"exit 0",
+"last line rows 51 not-run-here 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-content-findings-fixed\\wrap-2026-09-30T20-18-56\\20.log",
+"bytes": 24,
+"log_sha8": "ebc67aca",
+"exit": 0,
+"seconds": 0.09,
+"readings": [
+"exit 0 ✓",
+"last line 'rows 51 not-run-here 0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "jq -r '\"focus-nonexpected \" + ([.rows[] | select(.class == \"focus\" and .outcome != \"announced-as-expected\")] | length | tostring)' conductor-0.3.0/chunks/2026-09-30-the-screen-reader-content-findings-fixed/evidence/nvda-pass.json",
+"run_sha8": "c6798df4",
+"expect": [
+"exit 0",
+"last line focus-nonexpected 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-content-findings-fixed\\wrap-2026-09-30T20-18-56\\21.log",
+"bytes": 21,
+"log_sha8": "087f79af",
+"exit": 0,
+"seconds": 0.1,
+"readings": [
+"exit 0 ✓",
+"last line 'focus-nonexpected 0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "jq -r '\"not-expected \" + ([.rows[] | select(.outcome != \"announced-as-expected\" and .outcome != \"subject-absent\")] | map(.id) | if length == 0 then \"none\" else join(\",\") end)' conductor-0.3.0/chunks/2026-09-30-the-screen-reader-content-findings-fixed/evidence/nvda-pass.json",
+"run_sha8": "3aeb6248",
+"expect": [
+"exit 0",
+"last line not-expected none"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-content-findings-fixed\\wrap-2026-09-30T20-18-56\\22.log",
+"bytes": 19,
+"log_sha8": "76c09d7b",
+"exit": 0,
+"seconds": 0.09,
+"readings": [
+"exit 0 ✓",
+"last line 'not-expected none' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "f=conductor-0.3.0/chunks/2026-09-30-the-screen-reader-content-findings-fixed/evidence/nvda-pass.json; jq -r '\"one-configuration \" + ([.subjects.live.recorded_at, .subjects.empty.recorded_at, .subjects.error.recorded_at] | map(. != null and . > \"2026-09-30T16:28:34Z\") | all | tostring) + \" review \" + ((.operator_review != null and (.operator_review.reviewed_at // \"\") >= \"2026-09-30\") | tostring)' \"$f\"",
+"run_sha8": "66b6aa54",
+"expect": [
+"exit 0",
+"last line one-configuration true review true"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-content-findings-fixed\\wrap-2026-09-30T20-18-56\\23.log",
+"bytes": 36,
+"log_sha8": "c1967052",
+"exit": 0,
+"seconds": 0.09,
+"readings": [
+"exit 0 ✓",
+"last line 'one-configuration true review true' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "grep -cE '^\\| (E0-0[1579]|E0-08|S0-(0[89]|1[0-5])|S1-02|S2-06|S3-0[67]|T-01) \\| (product fix|re-token|re-action)[^|]* \\| [^|]+ \\|$' crates/conductor-tauri/ui/test/a11y/screen-reader/nvda-pass-spec.md",
+"run_sha8": "360c9224",
+"expect": [
+"exit 0",
+"last line 18"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-content-findings-fixed\\wrap-2026-09-30T20-18-56\\24.log",
+"bytes": 3,
+"log_sha8": "7ee29791",
+"exit": 0,
+"seconds": 0.07,
+"readings": [
+"exit 0 ✓",
+"last line '18' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 25,
+"role": "probe",
+"run": "git diff --stat d7da5d0 -- conductor-0.3.0/chunks/2026-09-30-the-sr-pass-regrades-on-the-os-input-path",
+"run_sha8": "a36ccada",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-content-findings-fixed\\wrap-2026-09-30T20-18-56\\25.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.07,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 26,
+"role": "probe",
+"run": "test -d conductor-0.3.0/chunks/2026-09-30-the-screen-reader-content-findings-fixed/evidence && find conductor-0.3.0/chunks/2026-09-30-the-screen-reader-content-findings-fixed/evidence -type f -exec cat {} + | grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|/home/|/Users/|%APPDATA%|\\.rustup|\\.cargo[\\\\/]\"",
+"run_sha8": "5c66e6ca",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-content-findings-fixed\\wrap-2026-09-30T20-18-56\\26.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.11,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 27,
+"role": "probe",
+"run": "test -f runs/logs/conductor-tauri.jsonl && cat runs/logs/conductor-tauri.jsonl $(test -f runs/sr-leg/logs/conductor-tauri.jsonl && echo runs/sr-leg/logs/conductor-tauri.jsonl) | grep -c '^thread.*panicked' ",
+"run_sha8": "74e60147",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-content-findings-fixed\\wrap-2026-09-30T20-18-56\\27.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.09,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 28,
+"role": "probe",
+"run": "netstat -ano | grep -cE \":(4444|4445) +[^ ]+ +LISTENING\"",
+"run_sha8": "18636ec5",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-content-findings-fixed\\wrap-2026-09-30T20-18-56\\28.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.11,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 29,
+"role": "probe",
+"run": "tasklist | grep -ciE \"^(msedgedriver|conductor-tauri|nvda|tauri-driver|pulse-app)\\.exe\"",
+"run_sha8": "9e8e5d89",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-09-30-the-screen-reader-content-findings-fixed\\wrap-2026-09-30T20-18-56\\29.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.34,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 30,
+"role": "probe",
+"run": "python -X utf8 C:/Users/turbo/.claude/skills/andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "f0648308",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 31,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD && echo \"PUSHED_SHA=$(git rev-parse HEAD)\"",
+"run_sha8": "6bf569fe",
+"expect": [
+"exit 0",
+"contains PUSHED_SHA="
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 32,
+"role": "probe",
+"run": "python -X utf8 C:/Users/turbo/.claude/skills/andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1200",
+"run_sha8": "0d290d69",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-30T20:39:08Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-09-30T20-18-56-wrap",
+"--marker",
+"2026-09-30-the-screen-reader-content-findings-fixed"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\conductor · planes rust, ts",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P2 · P3 rust · P3 ts — each fired on its synthetic known positive",
+"hygiene: clean — read 33 (runs 32 · evidence 1) · trails 9 not read · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\conductor",
+"planes": [
+"rust",
+"ts"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 32,
+"evidence": 1,
+"trails": 9,
+"binary": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-09-30T20:39:08Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"conductor-0.3.0/chunks/2026-09-30-the-screen-reader-content-findings-fixed",
+"--run-dir",
+".andromeda/runs/2026-09-30T20-18-56-wrap",
+"--marker",
+"2026-09-30-the-screen-reader-content-findings-fixed"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\conductor · base d7da5d07 (the parent of the oldest pre-CI commit dfa4f87e) · lists new 3 · modify 8 · derived 0 · record 3",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"recorded in-intent crates/conductor-tauri/ui/src/srOnly.ts",
+"recorded companion crates/conductor-tauri/ui/test/a11y/operator-hold.e2e.ts",
+"recorded widening crates/conductor-tauri/ui/test/a11y/screen-reader/parse-nvda-log.ts",
+"scope: clean — changed 13 · listed 10 · recorded 3 (companion 1 · mechanical 0 · in-intent 1 · widening 1) · absorbed 0 · excluded 87"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\conductor",
+"base": "d7da5d07b94e5a7552dc5340f30b68b5920bd822",
+"base_why": "the parent of the oldest pre-CI commit dfa4f87e",
+"counts": {
+"changed": 13,
+"listed": 10,
+"recorded": 3,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 1,
+"mechanical": 0,
+"in-intent": 1,
+"widening": 1
+},
+"excluded": 87,
+"unparsed": 0,
+"widening_without_word": 0
+}
+}
+]

@@ -1,0 +1,27 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-09-30T20:39:07Z",
+"argv": [
+"flip",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-09-30-the-screen-reader-content-findings-fixed",
+"--run-dir",
+".andromeda/runs/2026-09-30T20-18-56-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"claimed 0 — gate no-op (no entry carries chunk 2026-09-30-the-screen-reader-content-findings-fixed)",
+"pool: unclaimed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

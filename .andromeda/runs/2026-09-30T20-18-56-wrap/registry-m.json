@@ -1,0 +1,26 @@
+[
+{
+"tool": "registry",
+"v": "1.1",
+"sha8": "c6c20a84",
+"ts": "2026-09-30T20:22:36Z",
+"argv": [
+"contracts",
+"--master",
+".andromeda/a11y-plan.md",
+"--out",
+".andromeda/runs/2026-09-30T20-18-56-wrap/x.md",
+"--run-dir",
+".andromeda/runs/2026-09-30T20-18-56-wrap",
+"--marker",
+"m"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 3,
+"stdout": [],
+"stderr": "NOT MIGRATED — read §3. A11y Assertion Harness Contract in the body",
+"wrote": [],
+"before": null,
+"after": null
+}
+]

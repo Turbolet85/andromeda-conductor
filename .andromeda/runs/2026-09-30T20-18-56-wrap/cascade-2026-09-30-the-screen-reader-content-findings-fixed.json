@@ -1,0 +1,279 @@
+[
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "1550f3bc",
+"ts": "2026-09-30T20:31:36Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-09-30T20-18-56-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-09-30T20-18-56-wrap",
+"--marker",
+"2026-09-30-the-screen-reader-content-findings-fixed"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"baseline d7da5d07 (pre-CI parent — the oldest of 1 pre-CI commit(s), dfa4f87e)",
+"notshippeddom · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control a11y-plan.md:320 (prose)",
+"footerunbuilt · 0 rows (control fired) — a statement about this pattern, not the masters · control design-system.md:265…",
+"nofooterstrip · 0 rows (control fired) — a statement about this pattern, not the masters · control a11y-plan.md:356 (pr…",
+"tworegions · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control layout-templates.md:158 (prose)",
+"nocontentinfo · 0 rows (control fired) — a statement about this pattern, not the masters · control layout-templates.md:…",
+"holdstep · 0 rows (control fired) — a statement about this pattern, not the masters · control layout-templates.md:75 (f…",
+"heightspacesm · 0 rows (control fired) — a statement about this pattern, not the masters · control layout-templates.md:…",
+"onecanary · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:307 (prose)",
+"nooskeystay · new 0 · standing 1 · leaf 2 · curation 1 · base 0 · control test-plan.md:307 (prose)",
+"calib · new 0 · standing 1 · leaf 0 · curation 1 · base 0 · control layout-templates.md:99 (fenced)",
+"windowfooter · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control design-system.md:265 (prose)",
+".claude/rules/a11y.md:19 notshippeddom leaf …tatus strip — designed, NOT in the shipped DOM as of 2026-09-02: the measu…",
+".claude/rules/a11y.md:19 tworegions leaf …t is `banner` + `main` + two `region`s; a route-owned gap), `banner` (framele…",
+".andromeda/a11y-plan.md:113 nooskeystay standing …only browse rows with no OS key in their window stay operator finding…",
+"CLAUDE.md:132 nooskeystay curation @c2525/5046 …th, so only a row with no OS key in its window stays unreached]**. (con…",
+".claude/rules/a11y.md:39 nooskeystay leaf @c1522/4407 …nly browse rows with no OS key in their window stay findings, ne…",
+".claude/docs/a11y-summary.md:27 nooskeystay leaf …ed and only rows with no OS key in their window stay operator finding…",
+".andromeda/layout-templates.md:245 calib standing   coverage  77 Pass · 1 Calib · 1 Fail · 1 Manual · 1 Residual · 1 Bl…",
+".claude/docs/session-learnings.md:291 calib curation …te tally (`55 Pass · 1 Calib · 1 Fail · 1 Manual · 1 Residual · 1…",
+".andromeda/design-system.md:265 windowfooter standing edited …ticked count (the window footer strip SHIPPED 2026-09-30 …",
+".andromeda/layout-templates.md:154 windowfooter standing edited … 2026-09-02; the window footer strip shipped 2026-09-3…",
+"notshippeddom · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control a11y-plan.md:320 (prose)",
+"footerunbuilt · 0 rows (control fired) — a statement about this pattern, not the masters · control design-system.md:265…",
+"nofooterstrip · 0 rows (control fired) — a statement about this pattern, not the masters · control a11y-plan.md:356 (pr…",
+"tworegions · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control layout-templates.md:158 (prose)",
+"nocontentinfo · 0 rows (control fired) — a statement about this pattern, not the masters · control layout-templates.md:…",
+"holdstep · 0 rows (control fired) — a statement about this pattern, not the masters · control layout-templates.md:75 (f…",
+"heightspacesm · 0 rows (control fired) — a statement about this pattern, not the masters · control layout-templates.md:…",
+"onecanary · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:307 (prose)",
+"nooskeystay · new 0 · standing 1 · leaf 2 · curation 1 · base 0 · control test-plan.md:307 (prose)",
+"calib · new 0 · standing 1 · leaf 0 · curation 1 · base 0 · control layout-templates.md:99 (fenced)",
+"windowfooter · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control design-system.md:265 (prose)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "d7da5d07b94e5a7552dc5340f30b68b5920bd822",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), dfa4f87e",
+"counts": {
+"notshippeddom": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"footerunbuilt": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"nofooterstrip": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"tworegions": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"nocontentinfo": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"holdstep": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"heightspacesm": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"onecanary": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"nooskeystay": {
+"new": 0,
+"standing": 1,
+"leaf": 2,
+"curation": 1,
+"base": 0
+},
+"calib": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 1,
+"base": 0
+},
+"windowfooter": {
+"new": 0,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "1550f3bc",
+"ts": "2026-09-30T20:32:08Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-09-30T20-18-56-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-09-30T20-18-56-wrap",
+"--marker",
+"2026-09-30-the-screen-reader-content-findings-fixed"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"baseline d7da5d07 (pre-CI parent — the oldest of 1 pre-CI commit(s), dfa4f87e)",
+"notshippeddom · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control a11y-plan.md:320 (prose)",
+"footerunbuilt · 0 rows (control fired) — a statement about this pattern, not the masters · control design-system.md:265…",
+"nofooterstrip · 0 rows (control fired) — a statement about this pattern, not the masters · control a11y-plan.md:356 (pr…",
+"tworegions · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control layout-templates.md:158 (prose)",
+"nocontentinfo · 0 rows (control fired) — a statement about this pattern, not the masters · control layout-templates.md:…",
+"holdstep · 0 rows (control fired) — a statement about this pattern, not the masters · control layout-templates.md:75 (f…",
+"heightspacesm · 0 rows (control fired) — a statement about this pattern, not the masters · control layout-templates.md:…",
+"onecanary · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:307 (prose)",
+"nooskeystay · new 0 · standing 0 · leaf 2 · curation 1 · base 0 · control test-plan.md:307 (prose)",
+"calib · new 0 · standing 1 · leaf 0 · curation 1 · base 0 · control layout-templates.md:99 (fenced)",
+"windowfooter · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control design-system.md:265 (prose)",
+".claude/rules/a11y.md:19 notshippeddom leaf …tatus strip — designed, NOT in the shipped DOM as of 2026-09-02: the measu…",
+".claude/rules/a11y.md:19 tworegions leaf …t is `banner` + `main` + two `region`s; a route-owned gap), `banner` (framele…",
+"CLAUDE.md:132 nooskeystay curation @c2525/5046 …th, so only a row with no OS key in its window stays unreached]**. (con…",
+".claude/rules/a11y.md:39 nooskeystay leaf @c1522/4407 …nly browse rows with no OS key in their window stay findings, ne…",
+".claude/docs/a11y-summary.md:27 nooskeystay leaf …ed and only rows with no OS key in their window stay operator finding…",
+".andromeda/layout-templates.md:245 calib standing   coverage  77 Pass · 1 Calib · 1 Fail · 1 Manual · 1 Residual · 1 Bl…",
+".claude/docs/session-learnings.md:291 calib curation …te tally (`55 Pass · 1 Calib · 1 Fail · 1 Manual · 1 Residual · 1…",
+".andromeda/design-system.md:265 windowfooter standing edited …ticked count (the window footer strip SHIPPED 2026-09-30 …",
+".andromeda/layout-templates.md:154 windowfooter standing edited … 2026-09-02; the window footer strip shipped 2026-09-3…",
+"notshippeddom · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control a11y-plan.md:320 (prose)",
+"footerunbuilt · 0 rows (control fired) — a statement about this pattern, not the masters · control design-system.md:265…",
+"nofooterstrip · 0 rows (control fired) — a statement about this pattern, not the masters · control a11y-plan.md:356 (pr…",
+"tworegions · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control layout-templates.md:158 (prose)",
+"nocontentinfo · 0 rows (control fired) — a statement about this pattern, not the masters · control layout-templates.md:…",
+"holdstep · 0 rows (control fired) — a statement about this pattern, not the masters · control layout-templates.md:75 (f…",
+"heightspacesm · 0 rows (control fired) — a statement about this pattern, not the masters · control layout-templates.md:…",
+"onecanary · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:307 (prose)",
+"nooskeystay · new 0 · standing 0 · leaf 2 · curation 1 · base 0 · control test-plan.md:307 (prose)",
+"calib · new 0 · standing 1 · leaf 0 · curation 1 · base 0 · control layout-templates.md:99 (fenced)",
+"windowfooter · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control design-system.md:265 (prose)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "d7da5d07b94e5a7552dc5340f30b68b5920bd822",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), dfa4f87e",
+"counts": {
+"notshippeddom": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"footerunbuilt": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"nofooterstrip": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"tworegions": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"nocontentinfo": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"holdstep": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"heightspacesm": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"onecanary": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"nooskeystay": {
+"new": 0,
+"standing": 0,
+"leaf": 2,
+"curation": 1,
+"base": 0
+},
+"calib": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 1,
+"base": 0
+},
+"windowfooter": {
+"new": 0,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]

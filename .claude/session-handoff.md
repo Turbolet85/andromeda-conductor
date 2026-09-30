@@ -1,52 +1,40 @@
 # Session Handoff
 
-**Last Updated:** 2026-09-30T16:25Z
+**Last Updated:** 2026-09-30T20:37Z
 **Branch:** `build/conductor-0.3.0` · 0 ahead of `origin/build/conductor-0.3.0` as read at this wrap's Setup
-(HEAD `ff4f571` = the chunk base; no operator pre-CI commit this chunk)
+(HEAD `dfa4f87` = the operator pre-CI commit, CI#36770454038 green; the wrap commit lands on top and is pushed)
 **Status:** clean
-**Last Commit:** 2026-09-30-the-sr-pass-regrades-on-the-os-input-path — the wrap commit
+**Last Commit:** 2026-09-30-the-screen-reader-content-findings-fixed — the wrap commit
 
 ## Position
-- Done: `2026-09-30-the-sr-pass-regrades-on-the-os-input-path`.
-  - C1 resolved the confound to the INPUT PATH: in one session under the leg's own driver launch, injected Tabs
-    were heard 0/5 and 0/4, OS Tabs 5/5.
-  - Branch H-R, on the founder's «Да делай»: `send-keys.ps1` is committed, and rule (b) goes from seven to eight
-    forms.
-  - All three subjects regraded on the OS path. The focus-row red went from 24 to 2; both remaining rows are
-    content findings (a missing P-ID).
-  - The record is `evidence/nvda-pass.json`, with the operator review transcribed.
-- Next: "The screen-reader content findings fixed". It was minted on relay `conductor-wrap-osinput-2026-09-30` §3,
-  at the head of the tail, and carries `PREREQ: close rust gate deferral`. It owns the two routed reds.
+- Done: `2026-09-30-the-screen-reader-content-findings-fixed`. The regrade grades all 51 SR rows: 49
+  announced-as-expected and 2 subject-absent, on one bundle and one configuration.
+  - It closed the 18 findings, the two routed reds (`focus-nonexpected 0`) and the PREREQ Rust gate deferral.
+  - Product changes: the coverage row is named by its cells, the phase line is the single `h1`, the `contentinfo`
+    footer strip shipped, and the count is named by visually-hidden text.
+- Next: "Full-gate regression over the moved surfaces", the first markerless entry. It now also carries E0-10: that
+  row's subject-absent reason is falsified (the ENVIRONMENT-SUSPECT banner was heard), and the operator review
+  graded it a finding.
 
 ## Work done
-- The harness key path: Tab, Shift+Tab and `h` / `d` / ArrowDown now go through OS `SendInput`, guarded to the
-  foreground app. The reset cycle stays injected, and every row records its input path.
-- Two harness defects were fixed in-chunk and re-fired on granted slots: the OS-path reset cycle, and NVDA's stuck
-  Shift.
-- The last fix was validated by a 9-key probe. The live sr leg is green.
+- The SR leg now drives every browse row on the OS path and runs T-01 as a second, un-stopped run after a 170 s
+  quiet window.
+- The parser calibrates NVDA's log clock per session from the stimulus pairs. This was a widening on the operator's
+  word. Known limitation: a single key send slower than 300 ms can cross the step line on its own.
+- There were two harness defects, one per leg, each fixed and re-fired once.
 
 ## Drift resolved
-- 11 amendments over 4 masters (a11y-plan · test-plan · security-plan · architecture); 5 escalations (A1, S1–S4,
-  boundary widening) resolved on the founder's live ratification, as relayed.
-- 6 leaves re-derived: `rules/a11y.md`, `rules/security.md`, `docs/a11y-summary.md`, `docs/tests-summary.md`,
-  `docs/gotchas.md`, CLAUDE.md generated warnings.
-- Founder ruling at the wrap: arm K is RETIRED — "not run — founder ruling, cause already isolated by C1"
-  (a11y-plan §3, evidence, scope.md).
+- 23 body edits over 4 masters (a11y-plan · layout-templates · test-plan · design-system), each sidecar-logged.
+- E1 escalation (the test-plan §11 carve-out for the in-session quiet window) was resolved on the operator's word.
+- 5 leaves re-derived: `rules/a11y.md`, `rules/testing.md`, `docs/a11y-summary.md`, `docs/tests-summary.md`, and
+  one clause of `rules/verification-harness.md` corrected in place.
+- Gate treatment (operator): the delta guard is red on exactly the three scope-recorded files, accepted as recorded.
 
 ## Notes
-- Last failed command: none.
-- Curation: 2 corrections (CLAUDE.md T1 2026-08-22 clause (3); `verification-harness.md` clause (5)) · T2 +1
-  `a11y.md` · T2 +1 `verification-harness.md` · T3 +1.
-- Deferred learnings: `recurrence-despite-learning: CLAUDE.md USER:session-learnings 2026-09-17 (grep -c counts
-  LINES on multi-KB lines)` — it recurred at this wrap's P1 site sweep.
-- Relay correction carried: T-01 is a live-class `not-run-here` row by design (the live subject is stopped). It needs
-  a second, un-stopped live session, not a browse key.
-- Epoch 5 now holds 10 entries (6 frozen, 4 markerless). A boundary would restore the diagnose/audit cadence; the
+- Last failed command: none open.
+- Curation: T2 +3 `a11y.md`, plus 1 correction in `verification-harness.md` (`:59`, speech-window clock).
+- Epoch 5 holds 10 entries (7 frozen, 3 markerless). A boundary would restore the diagnose/audit cadence; the
   split is the operator's call.
-- Host: census at baseline (SearchHost's own 7), no 4444/4445/4317/4318 listener; both pulse-apps this session
-  started are stopped. The session scripts (`driver-os-walk.ps1`, `shift-probe.ps1`) and the run snapshots stay in
-  the gitignored `runs/sr-control/`.
-- Health: see the wrap card.
-
-## Session End Status
-Completed normally at 2026-09-30 20:06:00
+- Host: no NVDA, conductor-tauri, driver or pulse-app process; no 4317/4318/4444/4445 listener. Each pulse-app
+  launched this session was stopped by this session. `CONDUCTOR_NVDA` is not set in the session; the operator
+  supplies the portable path per invocation.

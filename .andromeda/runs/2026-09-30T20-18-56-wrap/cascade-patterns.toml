@@ -1,0 +1,52 @@
+[[pattern]]
+id = "notshippeddom"
+fixed = 'NOT in the shipped DOM'
+ignore_case = true
+
+[[pattern]]
+id = "footerunbuilt"
+fixed = 'footer strip is unbuilt'
+ignore_case = true
+
+[[pattern]]
+id = "nofooterstrip"
+fixed = 'no footer strip'
+ignore_case = true
+
+[[pattern]]
+id = "tworegions"
+regex = 'two `?region`?s'
+ignore_case = true
+
+[[pattern]]
+id = "nocontentinfo"
+regex = 'no `contentinfo`'
+ignore_case = true
+
+[[pattern]]
+id = "holdstep"
+fixed = 'HOLD step 14'
+
+[[pattern]]
+id = "heightspacesm"
+regex = 'height `?space-sm`?'
+ignore_case = true
+
+[[pattern]]
+id = "onecanary"
+fixed = 'one preflight canary'
+ignore_case = true
+
+[[pattern]]
+id = "nooskeystay"
+regex = 'no OS key in (its|their) window (stay|stays)'
+ignore_case = true
+
+[[pattern]]
+id = "calib"
+fixed = '1 Calib'
+
+[[pattern]]
+id = "windowfooter"
+fixed = 'window footer strip'
+ignore_case = true
