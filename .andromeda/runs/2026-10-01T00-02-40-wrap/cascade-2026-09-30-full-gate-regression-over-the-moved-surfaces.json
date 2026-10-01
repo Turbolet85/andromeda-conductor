@@ -1,0 +1,179 @@
+[
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "1550f3bc",
+"ts": "2026-10-01T00:09:33Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-01T00-02-40-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-01T00-02-40-wrap",
+"--marker",
+"2026-09-30-full-gate-regression-over-the-moved-surfaces"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"baseline 84f3b27f (pre-CI parent — the oldest of 1 pre-CI commit(s), fb5e69a8)",
+"first-naming · new 0 · standing 0 · leaf 2 · curation 0 · base 0 · control test-plan.md:151 (prose)",
+"dir-order · new 0 · standing 0 · leaf 3 · curation 0 · base 0 · control test-plan.md:151 (prose)",
+"determinate · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control test-plan.md:151 (prose)",
+"find-by-pid · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:151 (pros…",
+"run-same-carry · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:151 (p…",
+"take-first · new 0 · standing 0 · leaf 3 · curation 0 · base 0 · control test-plan.md:151 (prose)",
+".claude/rules/verification-harness.md:19 first-naming leaf …ID resolves to the first scenario naming it in directory or…",
+".claude/docs/commands.md:12 first-naming leaf …rns); a P-ID picks the first scenario naming it in directory order, so n…",
+".claude/rules/verification-harness.md:19 dir-order leaf …enario naming it in directory order, so name the scenario wher…",
+".claude/docs/commands.md:12 dir-order leaf …t scenario naming it in directory order, so name the scenario where several…",
+".claude/docs/commands.md:18 dir-order leaf …ral scenarios resolves to the first in directory order — name the scenario).",
+".claude/rules/testing.md:38 determinate leaf … <s>` (a P-ID target is determinate only where one scenario names it). Co…",
+".claude/rules/verification-harness.md:19 take-first leaf …nv-defaults; a P-ID resolves to the first scenario naming it …",
+".claude/docs/commands.md:12 take-first leaf …d seed governs); a P-ID picks the first scenario naming it in directory or…",
+".claude/docs/commands.md:18 take-first leaf …ed by several scenarios resolves to the first in directory order — name th…",
+"first-naming · new 0 · standing 0 · leaf 2 · curation 0 · base 0 · control test-plan.md:151 (prose)",
+"dir-order · new 0 · standing 0 · leaf 3 · curation 0 · base 0 · control test-plan.md:151 (prose)",
+"determinate · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control test-plan.md:151 (prose)",
+"find-by-pid · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:151 (pros…",
+"run-same-carry · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:151 (p…",
+"take-first · new 0 · standing 0 · leaf 3 · curation 0 · base 0 · control test-plan.md:151 (prose)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "84f3b27f69c07bbb8ffcc73f19a7f373c45b4723",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), fb5e69a8",
+"counts": {
+"first-naming": {
+"new": 0,
+"standing": 0,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"dir-order": {
+"new": 0,
+"standing": 0,
+"leaf": 3,
+"curation": 0,
+"base": 0
+},
+"determinate": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"find-by-pid": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"run-same-carry": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"take-first": {
+"new": 0,
+"standing": 0,
+"leaf": 3,
+"curation": 0,
+"base": 0
+}
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "1550f3bc",
+"ts": "2026-10-01T00:10:14Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-01T00-02-40-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-01T00-02-40-wrap",
+"--marker",
+"2026-09-30-full-gate-regression-over-the-moved-surfaces"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"baseline 84f3b27f (pre-CI parent — the oldest of 1 pre-CI commit(s), fb5e69a8)",
+"first-naming · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:151 (pro…",
+"dir-order · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:151 (prose)",
+"determinate · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:151 (pros…",
+"find-by-pid · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:151 (pros…",
+"run-same-carry · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:151 (p…",
+"take-first · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:151 (prose)",
+"first-naming · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:151 (pro…",
+"dir-order · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:151 (prose)",
+"determinate · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:151 (pros…",
+"find-by-pid · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:151 (pros…",
+"run-same-carry · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:151 (p…",
+"take-first · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:151 (prose)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "84f3b27f69c07bbb8ffcc73f19a7f373c45b4723",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), fb5e69a8",
+"counts": {
+"first-naming": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"dir-order": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"determinate": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"find-by-pid": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"run-same-carry": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"take-first": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]

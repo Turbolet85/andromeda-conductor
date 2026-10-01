@@ -1,0 +1,80 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-10-01T00:11:00Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-01T00-02-40-wrap/test-plan-entry.md",
+"--lines",
+"9",
+"--run-dir",
+".andromeda/runs/2026-10-01T00-02-40-wrap",
+"--marker",
+"2026-09-30-full-gate-regression-over-the-moved-surfaces"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+9 at line 733 · lines 732→741 · bytes 125673→127269 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-01T00-02-40-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 732,
+"bytes": 125673,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 741,
+"bytes": 127269
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-10-01T00:11:00Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-01T00-02-40-wrap/security-plan-entry.md",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-10-01T00-02-40-wrap",
+"--marker",
+"2026-09-30-full-gate-regression-over-the-moved-surfaces"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+6 at line 502 · lines 501→507 · bytes 88710→89709 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-01T00-02-40-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 501,
+"bytes": 88710,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 507,
+"bytes": 89709
+}
+}
+]

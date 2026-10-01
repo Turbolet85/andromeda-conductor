@@ -1,0 +1,162 @@
+[
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-10-01T00:05:43Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-01T00-02-40-wrap",
+"--marker",
+"2026-09-30-full-gate-regression-over-the-moved-surfaces"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"appended 2 record(s) · friction-log.ndjson lines 2776→2778 · bytes 3407078→3408745 · term lf",
+"ts 2026-10-01T00:05:33Z · clock 2026-10-01T00:05:43Z · bound 2026-09-30T23:47:33Z (line 2776)",
+"ids 2026-10-01T00:05:33Z-a … 2026-10-01T00:05:33Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 2776,
+"bytes": 3407078,
+"terminator": "LF",
+"bound": "2026-09-30T23:47:33Z"
+},
+"after": {
+"lines": 2778,
+"bytes": 3408745
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-10-01T00:11:19Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-01T00-02-40-wrap",
+"--marker",
+"2026-09-30-full-gate-regression-over-the-moved-surfaces"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"appended 2 record(s) · friction-log.ndjson lines 2778→2780 · bytes 3408745→3411062 · term lf",
+"ts 2026-10-01T00:11:08Z · clock 2026-10-01T00:11:19Z · bound 2026-10-01T00:05:33Z (line 2778)",
+"ids 2026-10-01T00:11:08Z-a … 2026-10-01T00:11:08Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 2778,
+"bytes": 3408745,
+"terminator": "LF",
+"bound": "2026-10-01T00:05:33Z"
+},
+"after": {
+"lines": 2780,
+"bytes": 3411062
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-10-01T00:12:23Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-01T00-02-40-wrap",
+"--marker",
+"2026-09-30-full-gate-regression-over-the-moved-surfaces"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"appended 2 record(s) · friction-log.ndjson lines 2780→2782 · bytes 3411062→3412390 · term lf",
+"ts 2026-10-01T00:12:13Z · clock 2026-10-01T00:12:22Z · bound 2026-10-01T00:11:08Z (line 2780)",
+"ids 2026-10-01T00:12:13Z-a … 2026-10-01T00:12:13Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 2780,
+"bytes": 3411062,
+"terminator": "LF",
+"bound": "2026-10-01T00:11:08Z"
+},
+"after": {
+"lines": 2782,
+"bytes": 3412390
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-10-01T00:13:03Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-01T00-02-40-wrap",
+"--marker",
+"2026-09-30-full-gate-regression-over-the-moved-surfaces"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 2782→2783 · bytes 3412390→3413233 · term lf",
+"ts 2026-10-01T00:12:57Z · clock 2026-10-01T00:13:03Z · bound 2026-10-01T00:12:13Z (line 2782)",
+"ids 2026-10-01T00:12:57Z-a"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 2782,
+"bytes": 3412390,
+"terminator": "LF",
+"bound": "2026-10-01T00:12:13Z"
+},
+"after": {
+"lines": 2783,
+"bytes": 3413233
+}
+}
+]

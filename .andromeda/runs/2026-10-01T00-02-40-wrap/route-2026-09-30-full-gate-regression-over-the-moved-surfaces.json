@@ -1,0 +1,125 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-01T00:30:18Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-09-30-full-gate-regression-over-the-moved-surfaces",
+"--run-dir",
+".andromeda/runs/2026-10-01T00-02-40-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"flip master-route.md:165 - 2026-09-30-full-gate-regression-over-the-moved-surfaces pending -> complete"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-01T00:30:18Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-09-30-full-gate-regression-over-the-moved-surfaces",
+"--date",
+"2026-10-01",
+"--run-dir",
+".andromeda/runs/2026-10-01T00-02-40-wrap",
+"--dry-run"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"pin :73 strip CARRY: 836ch \"CARRY: conductor-emit's public docs link\"",
+"pin :73 strip CARRY: 1069ch \"CARRY: `npm run knip` in `crates/conduct\"",
+"pin :73 strip CARRY: 519ch \"CARRY: `conductor run <P-ID>` and the ha\"",
+"pin :73 strip CARRY: 743ch \"CARRY: `.github/workflows/ci.yml`'s comm\"",
+"pin :73 strip CARRY ( 806ch \"CARRY (2026-09-30-the-screen-reader-cont\"",
+"pin next markerless :75 holds BLOCKED-ON:×1 · CONTEXT:×1 · CARRY (×1",
+"73 · 2026-09-30-full-gate-regression-over-the-moved-surfaces · strip 5 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 73,
+"marker": "2026-09-30-full-gate-regression-over-the-moved-surfaces",
+"blocks": 5,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-01T00:30:25Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-09-30-full-gate-regression-over-the-moved-surfaces",
+"--date",
+"2026-10-01",
+"--run-dir",
+".andromeda/runs/2026-10-01T00-02-40-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"pin :73 strip CARRY: 836ch \"CARRY: conductor-emit's public docs link\"",
+"pin :73 strip CARRY: 1069ch \"CARRY: `npm run knip` in `crates/conduct\"",
+"pin :73 strip CARRY: 519ch \"CARRY: `conductor run <P-ID>` and the ha\"",
+"pin :73 strip CARRY: 743ch \"CARRY: `.github/workflows/ci.yml`'s comm\"",
+"pin :73 strip CARRY ( 806ch \"CARRY (2026-09-30-the-screen-reader-cont\"",
+"pin next markerless :75 holds BLOCKED-ON:×1 · CONTEXT:×1 · CARRY (×1",
+"73 · 2026-09-30-full-gate-regression-over-the-moved-surfaces · strip 5 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+".\\conductor-0.3.0\\route-archive.md",
+".\\conductor-0.3.0\\working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 73,
+"marker": "2026-09-30-full-gate-regression-over-the-moved-surfaces",
+"blocks": 5,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

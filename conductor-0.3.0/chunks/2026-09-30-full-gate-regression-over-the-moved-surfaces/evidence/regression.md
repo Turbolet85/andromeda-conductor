@@ -57,8 +57,23 @@ tauri/custom-protocol`) over `84f3b27` plus this chunk's working tree; the SR re
 | 37 | **slot C / C'** live `npm run a11y:sr` | 0 | first fire graded S2-01, S2-07 off (harness defect, below); re-fire 1 passing (5 m 52.6 s), `Spec Files:` 1 passed |
 | 38 | evidence copy | 0 | `nvda-pass.json` + `live-suite/{h,b1,b2,a}.jsonl` |
 
-Entries 39–47 (the record and hygiene probes) and 48–50 (hygiene, push, CI read) are recorded in the implement
-report and the operator pass.
+Entries 39–47 (the record and hygiene probes) ran green through the gate tool after the evidence copy:
+`rows 51 not-run-here 0 absent S1-05` · `announced-as-expected os` · `not-expected none` ·
+`one-configuration true review true` · closed sets 0 · host-path hits 0 · panics 0 · 4444/4445 listeners 0 · started
+images 0.
+
+## Operator pass (entries 48–50), driven by this session on the overseer's word
+
+| # | entry | exit | atoms / reading |
+|---|---|---|---|
+| 48 | `gate.py hygiene` | 0 | `hygiene: clean — read 36 (runs 30 · evidence 6)` |
+| — | operator pre-CI commit | 0 | `fb5e69a chore(2026-09-30-full-gate-regression-over-the-moved-surfaces): operator pre-CI commit, for the run this chunk's verdict reads`; tree clean after |
+| 49 | guarded push | 0 | `PUSHED_SHA=fb5e69a8d68ed236b03f89ac1a505af50a20996e` — `84f3b27..fb5e69a` onto `build/conductor-0.3.0` |
+| 50 | `ci.py conclusion --sha HEAD --wait 1200` | 0 | `verdict: green · checks 3/3 · wall 696 s · runs CI#36793057095 completed/success` |
+
+CI#36793057095 on `fb5e69a` (the final HEAD of the pass, the only pre-CI commit): Rust gate · Frontend gate · A11y gate
+all success; the `a11y` job on image `windows-2022` 20260927.320.1 with a coherent WebView2 runtime / msedgedriver pair
+131.0.2903.86 at High integrity.
 
 ## Live suite (entry 35)
 

@@ -1,0 +1,24 @@
+[[pattern]]
+id = "first-naming"
+fixed = "first scenario naming"
+
+[[pattern]]
+id = "dir-order"
+fixed = "directory order"
+
+[[pattern]]
+id = "determinate"
+regex = 'determinate(ly)?( run| only where)'
+
+[[pattern]]
+id = "find-by-pid"
+fixed = "find_by_pid"
+
+[[pattern]]
+id = "run-same-carry"
+regex = 'making `run` do the same'
+
+[[pattern]]
+id = "take-first"
+regex = '(take|takes|picks?|resolves? to) the first'
+ignore_case = true

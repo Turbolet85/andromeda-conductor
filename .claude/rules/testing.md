@@ -35,7 +35,7 @@ Path-scoped rules for Rust test code (in-crate `#[cfg(test)]` modules + crate-lo
 - Mock the live Pulse with the `stub_pulse_mcp` stub (in-process duplex + the real child-spawn path for the spawn/`.env()` coverage; rmcp was removed 2026-06-27 and is absent from `Cargo.lock`) — the stub MUST be faithful to Pulse's RAW `tools/call` result shape, and never fake Pulse's *reaction* as a CI verdict; the live leg is local/operator-gated only.
 
 ## Running
-- Full: `scripts/agent-run.sh run` (or `cargo nextest run --workspace --profile ci`). Single seam: `cargo nextest run -p conductor-<seam>`. One scenario: `conductor run <scenario> --seed <s>` (a P-ID target is determinate only where one scenario names it). Coverage: `cargo llvm-cov nextest --lcov --fail-under-lines 60`.
+- Full: `scripts/agent-run.sh run` (or `cargo nextest run --workspace --profile ci`). Single seam: `cargo nextest run -p conductor-<seam>`. One scenario: `conductor run <scenario> --seed <s>` (a P-ID target resolves only where one scenario names it; one that several scenarios name is refused, naming them). Coverage: `cargo llvm-cov nextest --lcov --fail-under-lines 60`.
 
 ## Quality gates
 - Zero-flakiness: NEVER set nextest `retries` > 0 — a flake means a real determinism break; quarantine + fix. **A runner-dependent result is in this class** — green under one runner and red under the other is a shared-state defect to remove at the cause, never a runner to pin to. Never lower the coverage threshold to pass; never run the live-Pulse leg as a CI gate.
