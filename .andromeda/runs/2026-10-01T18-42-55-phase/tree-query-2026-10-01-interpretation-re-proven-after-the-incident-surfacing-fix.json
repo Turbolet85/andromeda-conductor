@@ -1,0 +1,83 @@
+[
+{
+"sql": "SELECT name, kind, file, def_line FROM symbol WHERE name IN ('canary_attempts','mask_workspace_key','print_pulse_witnesses','capture_2026_09_30','rule_section') ORDER BY name, file",
+"rows": 5,
+"result": [
+{
+"name": "canary_attempts",
+"kind": "fn",
+"file": "crates/conductor-run/tests/real_model_common/mod.rs",
+"def_line": 65
+},
+{
+"name": "canary_attempts",
+"kind": "fn",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"def_line": 432
+},
+{
+"name": "capture_2026_09_30",
+"kind": "fn",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"def_line": 1935
+},
+{
+"name": "mask_workspace_key",
+"kind": "fn",
+"file": "crates/conductor-run/tests/real_model_common/mod.rs",
+"def_line": 188
+},
+{
+"name": "rule_section",
+"kind": "fn",
+"file": "crates/conductor-run/tests/real_model_common/mod.rs",
+"def_line": 14
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'canary_attempts' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 7,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 55
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 the_canary_s_three_tokens_are_counted().",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1015
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 the_canary_s_three_tokens_are_counted().",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1023
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 paired().",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1241
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 the_pinned_capture_is_blocked_on_every_further_grade().",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1611
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 each_series_drive_grades_as_the_ledger_records().",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1826
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 each_2026_09_30_drive_grades_as_the_ledger_records().",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 2033
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

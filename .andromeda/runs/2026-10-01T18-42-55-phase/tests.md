@@ -1,0 +1,36 @@
+# tests extract
+
+## Relevance
+relevant — the chunk adds a pre-registered real-model series, digest-pinned captures, harvest-tier grading and a series verdict test, all of which test-plan governs (§3 `run`, §6 Real-model interpretation leg, §7, §9 Live-Pulse scenarios, §10, §11).
+
+## Constraints
+- The real-model leg fires only through `scripts/agent-run.sh run --live real-model`. It is operator-gated and never a CI leg, and it runs only as the pre-stated series of `contracts/pulse-real-model-leg-posture.md`. That series is fixed before its first drive. Every drive is recorded and never replaced. Only a Conductor-side environment or pipeline fault may be re-fired, and only once. Pickup is recorded as a measurement, never budgeted (per test-plan §6 Real-model interpretation leg; §9 Live-Pulse scenarios; §11 CI).
+- §3 requires the `--live real-model` firing order: `conductor preconditions --for real-model-interpretation`, then the capture-binary pre-build, then the non-recursive removal of the three `runs/live-suite/rm*` files, then `rule_record` into `rm-capture.txt` BEFORE the leg, then `live_leg rm real-model-interpretation`, then the `real_model_live` capture. A non-zero exit before the leg stops the arm, so no counted drive is spent. Whether that ordering still holds at HEAD is research's question (per test-plan §3 `run`).
+- The interpretation claim is graded at the HARVEST tier in `crates/conductor-run/tests/real_model_harvest.rs` (default suite), over the drive's scrubbed capture and against a rule whose span is recorded into the capture ahead of the leg and asserted to predate it. The outcome mapping is fixed: `Identified → (Pass, Pass)`, `NotIdentified → (CalibrationRegion, ManualCheck)`, nothing to grade → `(null, Blocked)`. The recorded 2026-09-23 rule must remain a byte-exact prefix of any appended rule (per test-plan §6 Real-model interpretation leg).
+- Every committed capture is held by a sha256 digest pin over its LF-normalized content and is graded from the file only after the digest matches. A one-byte tamper arm must show the pin can fail, naming the file and never the text. A source arm holds that no committed capture text sits in test source (per test-plan §6 Real-model interpretation leg).
+- Captures are evidence, never fixtures. They are read-only, `CARGO_MANIFEST_DIR`-anchored, digest-checked before any grade reads them, and never copied elsewhere as a fixture (per test-plan §7).
+- The capture's test-binary readers of `CONDUCTOR_RUNS_DIR` and the `ANDROMEDA_PULSE_DATA_DIR` value (including `workspace_key()` deriving the mask key from the data dir's basename) resolve through the shared `conductor-run/tests/capture_paths` guard. Their mandated negative test is `capture_paths_guard`. A fresh data-dir leaf must stay a directory that this guard accepts (per test-plan §1 Coverage scope, security-vector trigger, fifth class).
+- §10 requires zero flakiness: no nextest `retries`, and a result that is green under one runner and red under the other is a defect to remove at its cause. New harvest/verdict tests must be green under BOTH nextest and `cargo test` (per test-plan §10 Zero-flakiness budget).
+
+## Patterns to follow
+- Synthetic harvest arms cover every outcome plus the extraction, token-surface, host-path-mask, workspace-key-mask and rendering-witness arms (per test-plan §6). If research finds that Pulse `a2addb3`'s L4 schema change moves what the rank-1 extraction reads, the hermetic fix is a new synthetic extraction arm in the default suite that lands before d1. Whether the current extraction already parses the new L4 output is research's question.
+- Series verdicts are stated by a harvest test over the pinned captures. The prior series' outcomes (2026-09-23 `NoAttributableIncident → Blocked`; 2026-09-29 one `NotIdentified`; 2026-09-30 none graded) are recorded as `v3-09` not met (per test-plan §6). The new series follows the same shape. A ref test asserting `Identified` plus the real-model witnesses is written only if the pass condition holds.
+- Live capture targets sit behind the EMPTY `live-pulse` cargo feature (zero package nodes, `Cargo.lock` unchanged), alongside `lifecycle_live.rs` / `live_suite.rs` / `real_model_live.rs`. Any new live-side test target joins that gated set rather than the default suite (per test-plan §9 Live-Pulse scenarios).
+- §11 E2E treats a harness-level wait that reproduces a documented SUT-side precondition (a quiet window between drives) as part of the leg's firing form, not synchronisation. Such a window is stated in the pre-registered series, never added as an in-test `sleep` (per test-plan §11 E2E).
+
+## Anti-patterns to avoid
+- NEVER run the live-Pulse / real-model leg as a CI gate, and never fake Pulse's reaction as a verdict. The synthetic harvest arms prove the grading only, never `v3-09` (per test-plan §11 CI; §11 Test Strategy).
+- NEVER use retry-until-pass or retry-once. A graded `NotIdentified` is never replaced, and no drive goes past the fixed count (per test-plan §10 Zero-flakiness budget; §11 Quality; §9 Live-Pulse scenarios "never replaced").
+- NEVER treat `Blocked` / `ManualCheck` / `CalibrationRegion` as a non-zero process exit. They are envelope states. Only a hard `Fail` is a non-zero exit (per test-plan §11 E2E).
+
+## Contract bindings
+- tests ↔ contracts (posture doc): the series' count, pass condition and re-fire rule live in `contracts/pulse-real-model-leg-posture.md` and must be fixed before d1. The harvest tier asserts the rule predates the drive (per test-plan §6; §9).
+- tests ↔ security: captures enter evidence only through the scrub chain, and the capture readers go through the `capture_paths` guard (per test-plan §1 security-vector trigger, fifth class; binds security-plan §Input Validation).
+- tests ↔ obs: §3 states that `--live real-model` adds no port, env var or `CONDUCTOR_*` handle and leaves the envelope, the `status` disk read and the JSONL shapes untouched, so §3 and obs-plan §3 agree. The chunk must keep that true (per test-plan §3 `run`).
+- tests ↔ wrap amendment: test-plan §6 lists the real-model series by date (2026-09-23, 2026-09-29, 2026-09-30). That list will lack this series once it runs. The masters are read-only in this chunk, so this is a wrap-time amendment candidate, not an implement edit (per test-plan §6 Real-model interpretation leg).
+
+## Acceptance criteria contributions
+- `cargo nextest run -p conductor-run --test real_model_harvest` and `cargo test -p conductor-run --test real_model_harvest` both pass, including the new series' digest pins and its verdict test (per test-plan §10 Zero-flakiness budget; §6 Real-model interpretation leg).
+- Over the new captures: every capture's sha256 pin matches before grading, the tamper arm still fails on a one-byte change without echoing text, and the source arm still finds no capture text in test source (per test-plan §6 Real-model interpretation leg).
+- `capture_paths_guard` passes under both runners, unchanged (per test-plan §1 security-vector trigger, fifth class).
+- No `.github/workflows/` change runs the real-model or live leg. Every drive is fired only through `scripts/agent-run.sh run --live real-model` (per test-plan §9 Live-Pulse scenarios; §11 CI).

@@ -630,6 +630,10 @@ fn print_pulse_witnesses(leg_start_ms: Option<i64>, emission_ms: Option<i64>) {
             &["created", "deduped", "severity", "priority_tier"][..],
         ),
         (
+            "interpretation.incident.skipped",
+            &["skip_reason", "decision", "severity", "digest_kind"][..],
+        ),
+        (
             "interpretation.inference.error",
             &["error_category", "recovery_action", "model_tier"][..],
         ),

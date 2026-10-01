@@ -56,7 +56,10 @@ use real_model_common::{
     canary_attempts as pair_canary_attempts, elide_fingerprints, mask_host_paths,
     mask_workspace_key, rule_section, sweep_window, workspace_rendering,
 };
-use real_model_series::{Drive, EVIDENCE, EVIDENCE_2026_09_30, SERIES, SERIES_2026_09_30};
+use real_model_series::{
+    Drive, EVIDENCE, EVIDENCE_2026_09_30, EVIDENCE_2026_10_01, SERIES, SERIES_2026_09_30,
+    SERIES_2026_10_01,
+};
 
 // ---- rule: begin ----
 // The grading rule for the real-model interpretation leg, fixed before the drive
@@ -1357,6 +1360,73 @@ fn the_next_canary_storm_s_prompt_is_never_the_previous_one_s() {
 }
 
 #[test]
+fn a_dismissal_carries_pulse_s_stated_skip_reason() {
+    // From Pulse `a2addb3` every parsed generation logs one of created / deduped / skipped.
+    let [tick, assemble] = cue_tick("18:00:00.000", "tier1", "retry_storm");
+    let lines = [
+        tick,
+        assemble,
+        prompt("18:00:00.010"),
+        parse_ok("18:00:05.000"),
+        log(
+            "18:00:05.010",
+            "interpretation.incident.skipped",
+            serde_json::json!({
+                "skip_reason": "decision_dismiss",
+                "decision": "dismiss",
+                "severity": "low",
+                "digest_kind": "cue",
+            }),
+        ),
+        prompt("18:00:06.000"),
+    ];
+    let out = paired(&lines);
+    assert!(
+        out[0].starts_with(&format!("{CANARY}{DISMISSED} ")),
+        "{out:?}"
+    );
+    assert!(out[0].ends_with(" skip_reason=decision_dismiss"), "{out:?}");
+}
+
+#[test]
+fn a_surfacing_and_the_pre_fix_dismissal_carry_no_skip_reason() {
+    let [tick, assemble] = cue_tick("18:10:00.000", "tier1", "retry_storm");
+    let surfaced = [
+        tick.clone(),
+        assemble.clone(),
+        prompt("18:10:00.010"),
+        parse_ok("18:10:05.000"),
+        created("18:10:05.010"),
+        prompt("18:10:06.000"),
+    ];
+    let out = paired(&surfaced);
+    assert!(
+        out[0].starts_with(&format!("{CANARY}{SURFACED} ")),
+        "{out:?}"
+    );
+    assert!(out[0].ends_with(" skip_reason=none"), "{out:?}");
+    // Before `a2addb3` Pulse logged no outcome line for a dismissal.
+    let pre_fix = [
+        tick,
+        assemble,
+        prompt("18:10:00.010"),
+        parse_ok("18:10:05.000"),
+        prompt("18:10:06.000"),
+    ];
+    let out = paired(&pre_fix);
+    assert!(
+        out[0].starts_with(&format!("{CANARY}{DISMISSED} ")),
+        "{out:?}"
+    );
+    assert!(out[0].ends_with(" skip_reason=none"), "{out:?}");
+}
+
+#[test]
+fn the_capture_prints_pulse_s_no_incident_outcome() {
+    assert!(include_str!("real_model_live.rs").contains("\"interpretation.incident.skipped\""));
+}
+
+#[test]
 fn a_fingerprint_is_elided_and_a_stamp_a_seed_and_a_det_prefix_are_not() {
     let fp = ["12dcd67b", "34e41302", "ed9cd723", "dd1e28cf"].concat();
     assert_eq!(
@@ -1689,6 +1759,12 @@ fn no_committed_capture_text_sits_in_test_source() {
     }
     for drive in &SERIES_2026_09_30 {
         captures.push((drive.label.to_string(), capture_2026_09_30(drive)));
+    }
+    for drive in &SERIES_2026_10_01 {
+        captures.push((
+            format!("2026-10-01 {}", drive.label),
+            capture_2026_10_01(drive),
+        ));
     }
     let mut checked = 0;
     for (label, text) in &captures {
@@ -2092,6 +2168,226 @@ fn v3_09_is_not_met_by_the_2026_09_30_series() {
     assert_eq!(graded, []);
     let met = !graded.is_empty() && graded.iter().all(|(_, g)| *g == Grade::Identified);
     assert!(!met, "the 2026-09-30 series does not meet v3-09");
+}
+
+// ---- the 2026-10-01 series (plan step 12) -----------------------------------------------------------
+
+/// A 2026-10-01 drive's committed capture, digest-checked.
+fn capture_2026_10_01(drive: &Drive) -> String {
+    pinned(
+        &format!("{EVIDENCE_2026_10_01}/{}", drive.file),
+        drive.sha256,
+    )
+}
+
+/// The digest of the series' contract section, recorded in the attempt ledger before `d1` fired.
+const SERIES_2026_10_01_RULE_SHA256: &str =
+    "0232afb1c302c49e408c92246ebfb6090c64c06ef81dea782a4af7656422e841";
+
+#[test]
+fn the_2026_10_01_series_rule_was_fixed_before_d1() {
+    let contract = committed("contracts/pulse-real-model-leg-posture.md");
+    let section =
+        contract_section(&contract, "## The 2026-10-01 series").expect("the section exists");
+    let recorded = committed(&format!("{EVIDENCE_2026_10_01}/attempt-ledger.md"))
+        .lines()
+        .find_map(|l| {
+            l.strip_prefix("pre-registration sha256: ")
+                .map(str::to_owned)
+        })
+        .expect("the ledger recorded the pre-registration digest");
+    assert_eq!(recorded, SERIES_2026_10_01_RULE_SHA256);
+    assert_eq!(
+        check_digest(
+            "contracts/pulse-real-model-leg-posture.md",
+            &section,
+            SERIES_2026_10_01_RULE_SHA256
+        ),
+        Ok(())
+    );
+}
+
+#[test]
+fn each_2026_10_01_capture_matches_its_pinned_digest() {
+    for drive in &SERIES_2026_10_01 {
+        let name = format!("{EVIDENCE_2026_10_01}/{}", drive.file);
+        let text = committed(&name);
+        assert_eq!(
+            check_digest(&name, &text, drive.sha256),
+            Ok(()),
+            "{}",
+            drive.label
+        );
+    }
+}
+
+#[test]
+fn each_2026_10_01_drive_recorded_the_current_rule_before_it_fired() {
+    let current =
+        rule_section(include_str!("real_model_harvest.rs")).expect("this file carries its rule");
+    for drive in &SERIES_2026_10_01 {
+        let recorded = rule_section(&capture_2026_10_01(drive))
+            .expect("the capture opens with the rule record");
+        assert_eq!(
+            recorded, current,
+            "{}: the rule moved after the drive",
+            drive.label
+        );
+    }
+}
+
+/// The leaf of the series' data dir, which is Pulse's workspace key under that launch.
+const KEY_2026_10_01: &str = "rm-surfacing-series";
+
+#[test]
+fn the_2026_10_01_captures_carry_no_fingerprint_and_no_workspace_key() {
+    // The capture's own elision and key mask, found to have left nothing in any capture — save one
+    // stated residual: `elide_fingerprints` keeps an all-digit run by design (stamps, seeds), and d3
+    // printed one all-digit `fingerprint_hex` prefix twice (the suggested and the autonomous detection
+    // of one storm Conductor's own canary emitted — synthetic content, no real data). It is counted
+    // here so it can neither grow nor go unseen.
+    for drive in &SERIES_2026_10_01 {
+        let committed = capture_2026_10_01(drive);
+        assert_eq!(elide_fingerprints(&committed), committed, "{}", drive.label);
+        assert!(
+            !committed.contains(KEY_2026_10_01),
+            "{}: the workspace key",
+            drive.label
+        );
+        let all_digit_prefixes = committed
+            .split("fingerprint_hex=")
+            .skip(1)
+            .filter(|rest| {
+                let run: String = rest
+                    .chars()
+                    .take_while(char::is_ascii_alphanumeric)
+                    .collect();
+                !run.is_empty() && run.chars().all(|c| c.is_ascii_digit())
+            })
+            .count();
+        let residual = if drive.label == "d3" { 2 } else { 0 };
+        assert_eq!(all_digit_prefixes, residual, "{}", drive.label);
+    }
+}
+
+/// What the rule measured on each 2026-10-01 drive: its route, its rank-1 grade, the three further
+/// grades and the canary tokens the capture printed.
+fn measured_2026_10_01(label: &str) -> (Route, Grade, [Outcome; 3], CanaryAttempts) {
+    let none = Outcome::Blocked("no attributable incident");
+    let surfaced_twice = CanaryAttempts {
+        surfaced: 2,
+        dismissed: 0,
+        pipeline_fault: 0,
+    };
+    match label {
+        "d1" => (
+            Route::ReadBack,
+            Grade::Identified,
+            [
+                Outcome::Pass,
+                Outcome::Pass,
+                Outcome::Blocked("no prior same-scope incident to retrieve"),
+            ],
+            surfaced_twice,
+        ),
+        "d2" => (
+            Route::ReadBack,
+            Grade::NoAttributableIncident,
+            [none; 3],
+            surfaced_twice,
+        ),
+        "d3" => (
+            Route::ReadBack,
+            Grade::NotIdentified,
+            [Outcome::Pass; 3],
+            surfaced_twice,
+        ),
+        other => panic!("no measurement recorded for {other}"),
+    }
+}
+
+#[test]
+fn each_2026_10_01_drive_grades_as_the_ledger_records() {
+    for drive in &SERIES_2026_10_01 {
+        let (route_, grade_, further, tokens) = measured_2026_10_01(drive.label);
+        let committed = capture_2026_10_01(drive);
+        let block = capture_block(&committed);
+        assert_eq!(route(block), route_, "{}", drive.label);
+        assert_eq!(grade(block), grade_, "{}", drive.label);
+        assert_eq!(
+            [structure(block), steps(block), retrieval(block)],
+            further,
+            "{}",
+            drive.label
+        );
+        assert_eq!(canary_attempts(block), tokens, "{}", drive.label);
+        assert!(
+            trace_conforms(block),
+            "{}: the trace witness set",
+            drive.label
+        );
+        assert!(real_model_witnessed(block), "{}", drive.label);
+        assert!(launch_cwd_clear(block), "{}", drive.label);
+    }
+}
+
+#[test]
+fn the_2026_10_01_envelopes_carry_the_eleven_keys() {
+    for drive in &SERIES_2026_10_01 {
+        let committed = capture_2026_10_01(drive);
+        let line = capture_block(&committed)
+            .lines()
+            .find_map(|l| l.strip_prefix("envelope: "))
+            .filter(|rest| rest.starts_with('{'))
+            .expect("every drive printed its envelope");
+        let value: serde_json::Value = serde_json::from_str(line).expect("the envelope parses");
+        let mut keys: Vec<&str> = value
+            .as_object()
+            .expect("the envelope is an object")
+            .keys()
+            .map(String::as_str)
+            .collect();
+        keys.sort_unstable();
+        assert_eq!(keys, ENVELOPE_KEYS_SORTED, "{}", drive.label);
+        let record: RunRecord = serde_json::from_str(line).expect("the closed sets");
+        assert_eq!(record.scenario, "real-model-interpretation");
+        assert_eq!(record.verdict, None, "{}: declare-only", drive.label);
+        assert!(
+            matches!(
+                record.state,
+                ReportState::ManualCheck | ReportState::Blocked
+            ),
+            "{}",
+            drive.label
+        );
+    }
+}
+
+#[test]
+fn v3_09_is_not_met_by_the_2026_10_01_series() {
+    // The pass condition (posture contract, The drive series (a), carried into The 2026-10-01 series):
+    // met only if at least one drive is graded AND every graded drive reads Identified. d1 and d3
+    // attributed an incident on the read-back route; d3 reads NotIdentified, so v3-09 is not met —
+    // recorded, never replaced by a further drive.
+    let graded: Vec<(&str, Grade)> = SERIES_2026_10_01
+        .iter()
+        .map(|d| (d.label, capture_2026_10_01(d)))
+        .filter_map(|(label, text)| {
+            let block = capture_block(&text);
+            (route(block) == Route::ReadBack && attributed_report(block).is_ok())
+                .then(|| (label, grade(block)))
+        })
+        .collect();
+    assert_eq!(
+        graded,
+        [("d1", Grade::Identified), ("d3", Grade::NotIdentified)]
+    );
+    assert_eq!(
+        row(Grade::NotIdentified),
+        (Some(Verdict::CalibrationRegion), ReportState::ManualCheck)
+    );
+    let met = !graded.is_empty() && graded.iter().all(|(_, g)| *g == Grade::Identified);
+    assert!(!met, "the 2026-10-01 series does not meet v3-09");
 }
 
 // ---- the workspace-key mask (the capture's fourth scrub stage) -------------------------------------

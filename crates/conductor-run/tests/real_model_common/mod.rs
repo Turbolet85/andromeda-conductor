@@ -36,6 +36,9 @@ const PARSE: &str = "interpretation.json.parse";
 const CREATED: &str = "interpretation.incident.created";
 const ERROR: &str = "interpretation.inference.error";
 const SKIPPED: &str = "interpretation.inference.skipped";
+/// Pulse's no-incident outcome for a parsed generation (from Pulse `a2addb3`) — a different line from
+/// `SKIPPED`, which is a pipeline skip before inference.
+const INCIDENT_SKIPPED: &str = "interpretation.incident.skipped";
 
 fn target(line: &Value) -> &str {
     line.get("target")
@@ -63,6 +66,9 @@ fn field(line: &Value, key: &str) -> String {
 /// kind was measured wrong at drives b1 and b2 (2026-09-29): a tier-2 tick a few seconds after the
 /// canary's closed its segment before the parse, reading a surfacing and a dismissal as faults.
 /// Stated limit: a digest Pulse's queue replaces before inference pairs with the replacing one.
+///
+/// Each line ends with its inference's `skip_reason` — Pulse's own stated cause of a no-incident
+/// outcome — or `none` when the segment logs none. Recorded only: the rule reads the first token.
 pub fn canary_attempts(lines: &[&Value]) -> Vec<String> {
     let cue_ticks: Vec<(usize, String)> = lines
         .iter()
@@ -112,6 +118,8 @@ pub fn canary_attempts(lines: &[&Value]) -> Vec<String> {
         let parse = first(PARSE).map(|v| field(v, "parse_outcome"));
         let faulted = skipped_first || first(ERROR).is_some() || first(SKIPPED).is_some();
         let outcome = first(CREATED);
+        let skip_reason =
+            first(INCIDENT_SKIPPED).map_or("none".to_string(), |v| field(v, "skip_reason"));
         let token = match (prompt, parse.as_deref(), faulted, outcome) {
             (Some(_), Some("ok"), false, Some(_)) => SURFACED,
             (Some(_), Some("ok"), false, None) => DISMISSED,
@@ -123,7 +131,7 @@ pub fn canary_attempts(lines: &[&Value]) -> Vec<String> {
             .map(|v| field(v, "cue_priority_tier"))
             .unwrap_or_default();
         out.push(format!(
-            "{CANARY}{token} t={} cue_kind={kind} cue_priority_tier={tier} parse={} created={} deduped={}",
+            "{CANARY}{token} t={} cue_kind={kind} cue_priority_tier={tier} parse={} created={} deduped={} skip_reason={skip_reason}",
             lines[*at]
                 .get("timestamp")
                 .and_then(Value::as_str)

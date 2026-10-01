@@ -1,0 +1,28 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-01T18:43:10Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-01T18-42-55-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 2 of 32 entries · freight blocks 3 · rows are an INDEX, not the text",
+"75 · BLOCKED-ON: · 285 chars · BLOCKED-ON: Pulse's \"Real-model incident surfacing\" entry committed and pushed — clears …",
+"75 · CONTEXT: · 476 chars · CONTEXT: the 2026-09-30 series graded 0 drives — d1 canary-blocked, and in d2 and d3 the re…",
+"75 · CARRY ( · 440 chars · CARRY (2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir): build BOTH `pulse-app…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

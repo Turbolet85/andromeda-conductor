@@ -375,6 +375,89 @@ confirmation between drives (2026-09-30); the grant is recorded against each dri
 **The key rendering.** On a graded drive the capture's `pulse-report workspace rendering:` witness must read
 `verbatim` or `absent`; any other reading is recorded beside that drive's grade as contamination.
 
+## The 2026-10-01 series
+
+[added 2026-10-01 (2026-10-01-interpretation-re-proven-after-the-incident-surfacing-fix, implement, before any drive
+of this series). The 2026-09-29 and 2026-09-30 records above are unedited.]
+
+**Provenance.** The founder's ruling of 2026-09-30, relayed by the overseer: the real model's dismissals are fixed in
+Pulse 0.3.0, and a third pre-registered series follows. The 2026-09-30 series graded no drive — its `d1` was
+canary-blocked, and in `d2` and `d3` the real model dismissed the scenario's own storm digest. The design below
+repeats that series' design (the overseer's ruling, made under founder delegation) and was ratified by the overseer
+at this chunk's plan review on 2026-10-01.
+
+**Pulse coordinates**, re-pinned for this series to andromeda-pulse committed HEAD `a2addb3`
+(`a2addb3755b3029cb79809b96efdd2522749b179`), read with `git show`, never from its working tree:
+- **The surfacing fix.** `crates/interpretation/src/schema.json` orders `decision` and `severity` after `hypotheses`,
+  so constrained generation emits the decision after the analysis; `PROMPT_VERSION_PRIMARY` is `v2.3`
+  (`crates/interpretation/src/schema.rs`); and the digest's OVERALL line reads
+  `OVERALL: {degraded|anomalous|nominal} ({n} active incident(s); {m} cue(s))`
+  (`crates/triage/src/digest/assembler.rs`), so a cue-bearing tier-1 digest reads `anomalous` where it read `nominal`.
+- **The no-incident outcome.** Every parsed generation logs exactly one of created, deduped or skipped. The skip is
+  the target `interpretation.incident.skipped` (`pulse-app/src/inference_runtime.rs`, message
+  `incident producer skipped`) with the fields `skip_reason` (`model_resolution_summary`, `decision_dismiss`,
+  `severity_none` or `no_cue`, written by Pulse's code, never by the model), `decision`, `severity` and
+  `digest_kind`, all four allowlisted (`pulse-app/src/observability.rs`). A `watch` decision creates an incident.
+- **Unchanged:** the `L4Output` struct and its `Hypothesis` fields (`schema.rs`), and the `## Hypotheses` render
+  (`crates/interpretation/src/markdown.rs`), so the rank-1 rule reads the same entry shape; `retrieve_report` still
+  derives `degraded_mode` from parsing that struct.
+- **The workspace key** and its publication under the data dir are unchanged (`crates/workspace-detector` is
+  byte-identical from `fcc31b2`), and `app.boot.workspace_key` logs its `workspace_root_basename`.
+- **The scrubber** keeps its eight arms with unchanged sources (`crates/security/src/scrubber.rs`) and now masks only
+  a secret's matched span inside a larger value. A letters-only leaf is touched only after a keyed word (`password`,
+  `passwd`, `secret`, `token` and the like) followed directly by whitespace, `=` or `:`.
+
+**The dir.** ONE fresh data dir, `%TEMP%/pulse-legs/rm-surfacing-series`, under the one-parent convention. Its leaf
+carries no digit, no `@`, no vendor prefix and no keyed word. All three drives use it. None reuses `rm-clean-series`,
+whose corpus holds the 2026-09-30 incidents and would reach the model as `## Previously Seen` matches.
+
+**The binaries.** `pulse-app` AND the MCP sidecar are built from a clean `a2addb3` tree — the build inputs (`crates`,
+`pulse-app`, `Cargo.toml`, `Cargo.lock`) carry no uncommitted or untracked change — and each is proven before `d1`:
+- `pulse-app` by content: `incident producer skipped` present, ` active-bypass incident(s); ` absent;
+- the sidecar by the same pair where its exe carries the new string, and otherwise by build provenance: the clean
+  inputs, the build command, its sha256 and an mtime after the commit, and a sha256 different from the `fcc31b2`
+  build's.
+
+Which arm held for the sidecar is recorded in the chunk's attempt ledger.
+
+**The drives.** Exactly three identical drives, `d1`, `d2`, `d3`, each the full leg through the existing
+operator-gated arm (`run --live real-model`), with the canary and the capture as committed at this section's
+landing.
+
+**The pass condition** is §The drive series (a), unchanged: `v3-09` is met only if at least one drive is GRADED
+(route `ReadBack` with an attributed incident) and every graded drive reads `Identified` under the unchanged rank-1
+rule. A graded `NotIdentified` means not met, is recorded, and is never replaced.
+
+**The canary.** A canary-blocked drive is a measurement, never graded.
+
+**Re-fires.** Only a drive whose canary reads `pipeline-fault` from Pulse's own log (no parse `ok` for its
+cue-bearing digest, or an inference error or skip) may be re-fired, once, uncounted. No other outcome re-fires.
+
+**No fourth drive**, whatever `d1`-`d3` read.
+
+**The quiet windows** are §The drive series (c): at least 150 s after the LAST incident any earlier drive formed,
+and otherwise at least 90 s.
+
+**The launch posture** is §The launch posture, every term: `ANDROMEDA_PULSE_DATA_DIR` names the new dir, the model
+paths are set (`ANDROMEDA_PULSE_MODEL_PATH`, `ANDROMEDA_PULSE_LLAMA_CUDA_BIN_PATH`), deterministic L4 is absent, and
+no bootstrap-window override is set. One launch serves the three drives. Before `d1` the booted posture is confirmed
+from Pulse's own log: `inference_mode` `real`, `app.boot.workspace_key`'s `workspace_root_basename` equal to the
+leaf, and 0 `triage.baseline.bootstrap_window.override` lines. Who launches `pulse-app` is the operator's word at the
+slot.
+
+**The slots.** The Pulse build and the model runs on `:4317` are the operator's slots. Each grant is recorded in the
+chunk's attempt ledger against what it covered.
+
+**Recorded, never graded.** Pulse's `skip_reason` for each digest it did not surface, and the `prompt_version` it
+logged, witness the fix live and are never inputs to a grade. The capture prints Pulse's
+`interpretation.incident.skipped` lines fields-only through its scrub chain, and each `canary:` line ends with its
+inference's `skip_reason`; the rule reads only the first token after `canary: ` and is byte-identical to the one the
+2026-09-30 series recorded.
+
+**The key rendering.** §The 2026-09-30 series' clause, unchanged: on a graded drive the capture's
+`pulse-report workspace rendering:` witness must read `verbatim` or `absent`; any other reading is recorded beside
+that drive's grade as contamination.
+
 ## The quiet window and serialization
 
 Real-model legs are **serialized**, never merely ordered: each rides its own quiet window, because the SUT

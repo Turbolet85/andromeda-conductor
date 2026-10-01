@@ -1,0 +1,1 @@
+2026-10-01-interpretation-re-proven-after-the-incident-surfacing-fix · pending · Interpretation re-proven after Pulse's incident-surfacing fix — a third pre-registered real-model series for v3-09 on a fresh letters-only data dir, against Pulse a2addb3 · → conductor-0.3.0/chunks/2026-10-01-interpretation-re-proven-after-the-incident-surfacing-fix/
