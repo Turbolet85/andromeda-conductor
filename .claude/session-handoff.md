@@ -41,3 +41,6 @@
   diagnose/audit cadence — the split is the operator's call.
 - Host: no `pulse-app`, sidecar, `conductor` or `llama-cli` process; no `:4317`/`:4318` listener. A `cargo clean`
   pair from another session was running at 20:38Z and was left alone.
+
+## Session End Status
+Completed normally at 2026-10-01 23:37:32

@@ -12,6 +12,7 @@
 mod client;
 mod error;
 mod exception;
+mod identity;
 mod latency;
 mod logs;
 mod message;
@@ -27,9 +28,12 @@ pub use error::EmitError;
 pub use exception::{
     ExceptionSpec, FingerprintVariant, Frame, exception_trace_request, fingerprint,
 };
+pub use identity::rekey_trace_identity;
 pub use latency::{LatencyOp, LatencyProfile, latency_trace_request};
 pub use logs::{Severity, severity_logs_request};
 pub use message::{DEFAULT_SERVICE_NAME, trace_request};
+/// The trace export every builder here returns, named for callers that hold one between build and export.
+pub use opentelemetry_proto::tonic::collector::trace::v1::ExportTraceServiceRequest;
 pub use pii::{PiiCategory, PiiCorpus, pii_logs_request, pii_trace_request};
 pub use rate::{RateCurve, rate_trace_request};
 pub use span_tree::{ErrorPlacement, error_trace_request};

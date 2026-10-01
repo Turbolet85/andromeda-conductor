@@ -12,11 +12,12 @@
 
 use conductor_core::{EmissionShape, FingerprintVariantSpec, PiiCategorySpec, Scenario, Signal};
 use conductor_emit::{
-    DEFAULT_SERVICE_NAME, EmitError, ErrorPlacement, ExceptionSpec, FingerprintVariant, Frame,
-    LatencyOp, LatencyProfile, LogsEmitter, PiiCategory, PiiCorpus, RateCurve, ServiceTopology,
-    Severity, TraceEmitter, error_trace_request, exception_trace_request, latency_trace_request,
-    pii_logs_request, pii_trace_request, rate_trace_request, service_topology_request,
-    severity_logs_request, trace_request,
+    DEFAULT_SERVICE_NAME, EmitError, ErrorPlacement, ExceptionSpec, ExportTraceServiceRequest,
+    FingerprintVariant, Frame, LatencyOp, LatencyProfile, LogsEmitter, PiiCategory, PiiCorpus,
+    RateCurve, ServiceTopology, Severity, TraceEmitter, error_trace_request,
+    exception_trace_request, latency_trace_request, pii_logs_request, pii_trace_request,
+    rate_trace_request, rekey_trace_identity, service_topology_request, severity_logs_request,
+    trace_request,
 };
 use conductor_timeline::EmissionPoint;
 
@@ -52,17 +53,28 @@ pub struct Dispatcher<'a> {
     endpoint: &'a str,
     traces: TraceEmitter,
     logs: Option<LogsEmitter>,
+    identity_salt: Option<u64>,
 }
 
 impl<'a> Dispatcher<'a> {
     /// Connect the trace egress for `scenario`. The logs client stays unconnected until a
     /// logs-emitting phase is first reached (the laziness `coarse_emit` established).
-    pub async fn connect(scenario: &'a Scenario, endpoint: &'a str) -> Result<Self, EmitError> {
+    ///
+    /// `identity_salt` selects the span-identity tier. `None` keeps identity seed-pure — the tier the
+    /// `dispatch_wire__*` goldens pin. `Some(salt)` re-keys every trace export's ids under a
+    /// per-execution salt ([`rekey_trace_identity`]), so two drives of one scenario at one seed never
+    /// replay a `(trace_id, span_id)` a span store still holds; content stays seed-pure either way.
+    pub async fn connect(
+        scenario: &'a Scenario,
+        endpoint: &'a str,
+        identity_salt: Option<u64>,
+    ) -> Result<Self, EmitError> {
         Ok(Self {
             scenario,
             endpoint,
             traces: TraceEmitter::connect(endpoint).await?,
             logs: None,
+            identity_salt,
         })
     }
 
@@ -90,8 +102,7 @@ impl<'a> Dispatcher<'a> {
                     self.logs().await?.export(request).await?;
                 }
                 Signal::Traces | Signal::Metrics => {
-                    self.traces
-                        .export(trace_request(DEFAULT_SERVICE_NAME, seed, &phase.name))
+                    self.export_traces(trace_request(DEFAULT_SERVICE_NAME, seed, &phase.name))
                         .await?;
                 }
             },
@@ -115,13 +126,12 @@ impl<'a> Dispatcher<'a> {
                 } else {
                     trace_request(DEFAULT_SERVICE_NAME, seed, &phase.name)
                 };
-                self.traces.export(request).await?;
+                self.export_traces(request).await?;
             }
             EmissionShape::Exception { variants } => {
                 let variant = variants[point.occurrence as usize % variants.len()];
                 let spec = wire_variant(variant).derive(&base_exception());
-                self.traces
-                    .export(exception_trace_request(DEFAULT_SERVICE_NAME, seed, &spec))
+                self.export_traces(exception_trace_request(DEFAULT_SERVICE_NAME, seed, &spec))
                     .await?;
             }
             EmissionShape::Severity { severities } => {
@@ -145,8 +155,7 @@ impl<'a> Dispatcher<'a> {
                     profile,
                     samples: *samples as usize,
                 }];
-                self.traces
-                    .export(latency_trace_request(DEFAULT_SERVICE_NAME, seed, &ops))
+                self.export_traces(latency_trace_request(DEFAULT_SERVICE_NAME, seed, &ops))
                     .await?;
             }
             EmissionShape::Pii { categories } => {
@@ -158,8 +167,7 @@ impl<'a> Dispatcher<'a> {
                         self.logs().await?.export(request).await?;
                     }
                     Signal::Traces | Signal::Metrics => {
-                        self.traces
-                            .export(pii_trace_request(DEFAULT_SERVICE_NAME, &corpus, &wire))
+                        self.export_traces(pii_trace_request(DEFAULT_SERVICE_NAME, &corpus, &wire))
                             .await?;
                     }
                 }
@@ -171,14 +179,13 @@ impl<'a> Dispatcher<'a> {
             } => {
                 let curve = RateCurve::ramp(*from_rate, *to_rate, *windows as usize)
                     .ok_or_else(|| unrealizable("ramp windows must be non-zero"))?;
-                self.traces
-                    .export(rate_trace_request(
-                        DEFAULT_SERVICE_NAME,
-                        seed,
-                        &curve,
-                        &phase.name,
-                    ))
-                    .await?;
+                self.export_traces(rate_trace_request(
+                    DEFAULT_SERVICE_NAME,
+                    seed,
+                    &curve,
+                    &phase.name,
+                ))
+                .await?;
             }
             EmissionShape::Breathing {
                 center_rate,
@@ -193,14 +200,13 @@ impl<'a> Dispatcher<'a> {
                     *windows as usize,
                 )
                 .ok_or_else(|| unrealizable("breathing curve bounds"))?;
-                self.traces
-                    .export(rate_trace_request(
-                        DEFAULT_SERVICE_NAME,
-                        seed,
-                        &curve,
-                        &phase.name,
-                    ))
-                    .await?;
+                self.export_traces(rate_trace_request(
+                    DEFAULT_SERVICE_NAME,
+                    seed,
+                    &curve,
+                    &phase.name,
+                ))
+                .await?;
             }
             EmissionShape::Topology {
                 services,
@@ -216,17 +222,28 @@ impl<'a> Dispatcher<'a> {
                         ErrorPlacement::DeepChild { depth: d as usize }
                     }
                 });
-                self.traces
-                    .export(service_topology_request(
-                        &topology,
-                        seed,
-                        placement,
-                        ERROR_MESSAGE,
-                    ))
-                    .await?;
+                self.export_traces(service_topology_request(
+                    &topology,
+                    seed,
+                    placement,
+                    ERROR_MESSAGE,
+                ))
+                .await?;
             }
         }
         Ok(())
+    }
+
+    /// Export one trace request, re-keyed first when this dispatcher carries an identity salt. Logs
+    /// never pass here: the span store keys on `(trace_id, span_id)`, log records on a timestamp.
+    async fn export_traces(
+        &mut self,
+        mut request: ExportTraceServiceRequest,
+    ) -> Result<(), EmitError> {
+        if let Some(salt) = self.identity_salt {
+            rekey_trace_identity(&mut request, salt);
+        }
+        self.traces.export(request).await
     }
 
     /// The logs egress, connected on first use — a scenario that never emits a log record never

@@ -1,0 +1,1 @@
+2026-10-01-per-run-span-identity-in-the-real-model-harness · pending · per-run span identity — two same-seed real-model drives inside one Pulse buffer window both land · → conductor-0.3.0/chunks/2026-10-01-per-run-span-identity-in-the-real-model-harness/

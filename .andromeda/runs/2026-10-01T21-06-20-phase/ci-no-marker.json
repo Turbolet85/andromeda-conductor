@@ -1,0 +1,82 @@
+[
+{
+"tool": "ci",
+"v": "1.0",
+"sha8": "bf89b279",
+"ts": "2026-10-01T21:06:26Z",
+"argv": [
+"conclusion",
+"--sha",
+"2c97d3b3726b4e00a2f64956d3b62ed815b43cde",
+"--run-dir",
+".andromeda/runs/2026-10-01T21-06-20-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"repo Turbolet85/andromeda-conductor (the push remote `origin`)",
+"2c97d3b3726b verdict: in progress · checks 3/3 · runs CI#36926075951 in_progress/-",
+"runs: CI#36926075951 push in_progress/-",
+"running 2: oldest A11y gate (routine arm · axe · contrast · violation JSON) 157 s",
+"run open: CI#36926075951 in_progress"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"repo": "Turbolet85/andromeda-conductor",
+"host": "github.com",
+"repo_source": "the push remote `origin`",
+"names": [],
+"shas": [
+{
+"sha": "2c97d3b3726b4e00a2f64956d3b62ed815b43cde",
+"word": "in progress",
+"polls": [
+"in progress"
+]
+}
+]
+}
+},
+{
+"tool": "ci",
+"v": "1.0",
+"sha8": "bf89b279",
+"ts": "2026-10-01T21:35:44Z",
+"argv": [
+"conclusion",
+"--sha",
+"2c97d3b3726b4e00a2f64956d3b62ed815b43cde",
+"--run-dir",
+".andromeda/runs/2026-10-01T21-06-20-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"repo Turbolet85/andromeda-conductor (the push remote `origin`)",
+"2c97d3b3726b verdict: green · checks 3/3 · wall 697 s · runs CI#36926075951 completed/success",
+"runs: CI#36926075951 push completed/success"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"repo": "Turbolet85/andromeda-conductor",
+"host": "github.com",
+"repo_source": "the push remote `origin`",
+"names": [],
+"shas": [
+{
+"sha": "2c97d3b3726b4e00a2f64956d3b62ed815b43cde",
+"word": "green",
+"polls": [
+"green"
+]
+}
+]
+}
+}
+]

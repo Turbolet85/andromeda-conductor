@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-01T21:07:23Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-10-01-per-run-span-identity-in-the-real-model-harness",
+"--expect-prefix",
+"Per-run span identity in the real-model harness",
+"--record-file",
+".andromeda/runs/2026-10-01T21-06-20-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-10-01T21-06-20-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:77 - [2026-10-01-per-run-span-identity-in-the-real-model-harness]",
+"record master-route.md:167 - appended under `## conductor-0.3.0`",
+"promoted 2026-10-01-per-run-span-identity-in-the-real-model-harness - working-route:77 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+".\\conductor-0.3.0\\working-route.md",
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+}
+]

@@ -1,0 +1,29 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-01T21:06:35Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-01T21-06-20-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 3 of 34 entries · freight blocks 4 · rows are an INDEX, not the text",
+"77 · EVIDENCE: · 544 chars · EVIDENCE: measured at `2026-10-01-interpretation-re-proven-after-the-incident-surfacing-fi…",
+"77 · CONTEXT: · 228 chars · CONTEXT: the fix makes each drive's identity unique, or enforces a measured minimum gap, wi…",
+"79 · CONTEXT: · 603 chars · CONTEXT: `ANDROMEDA_PULSE_L4_DETERMINISTIC`, a fresh data dir; `pulse-app` + `andromeda-pul…",
+"79 · BLOCKED-ON: · 89 chars · BLOCKED-ON: Pulse's \"Conductor return\" relaying sha S — clears when the overseer relays S"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

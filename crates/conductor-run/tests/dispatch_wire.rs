@@ -121,13 +121,21 @@ fn service_names(reqs: &[ExportTraceServiceRequest]) -> Vec<String> {
         .collect()
 }
 
+/// Drive a scenario through the real dispatcher into a fresh loopback stub. The bare form is the
+/// seed-pure identity tier the goldens pin; `salt = …` is the per-execution tier production uses.
 macro_rules! drive_scenario {
-    ($scenario:expr) => {{
+    ($scenario:expr) => {
+        drive_scenario!(@drive $scenario, None)
+    };
+    ($scenario:expr, salt = $salt:expr) => {
+        drive_scenario!(@drive $scenario, Some($salt))
+    };
+    (@drive $scenario:expr, $identity_salt:expr) => {{
         let (addr, traces, logs) = start_stub().await;
         let endpoint = format!("http://{}", addr);
         let scenario = $scenario;
         let timeline = PhaseTimeline::from(&scenario);
-        let mut dispatcher = Dispatcher::connect(&scenario, &endpoint)
+        let mut dispatcher = Dispatcher::connect(&scenario, &endpoint, $identity_salt)
             .await
             .expect("connect stub");
         run_timeline_with(&timeline, scenario.seed, async |point| {
@@ -466,6 +474,100 @@ async fn the_same_seed_reproduces_the_same_stream() {
     other.seed = 999;
     let (c, _) = drive_scenario!(other);
     assert_ne!(ids(&a), ids(&c), "a different seed diverges");
+}
+
+/// The d2 replay, at the dispatcher tier: two drives of one scenario at one seed, as two
+/// executions inside one span-store retention window would make them. Pulse keys its span store on
+/// `(trace_id, span_id)` and refuses a whole batch carrying a held pair, so the per-execution salt
+/// must leave the two drives no pair in common while moving nothing else.
+#[tokio::test(flavor = "current_thread", start_paused = true)]
+async fn two_same_seed_drives_inside_one_window_share_no_span_identity() {
+    let two_phase = || {
+        let mut s = scenario(phase(
+            5000,
+            EmissionSpec::shaped(
+                Signal::Traces,
+                5,
+                EmissionShape::Exception {
+                    variants: vec![
+                        FingerprintVariantSpec::Identical,
+                        FingerprintVariantSpec::Path,
+                    ],
+                },
+            ),
+        ));
+        s.phases.push(PhaseSpec {
+            name: "linked".to_string(),
+            ..phase(
+                4000,
+                EmissionSpec::shaped(
+                    Signal::Traces,
+                    4,
+                    EmissionShape::Error {
+                        depth: 2,
+                        error_percent: 50,
+                    },
+                ),
+            )
+        });
+        s
+    };
+    let pairs = |reqs: &[ExportTraceServiceRequest]| {
+        all_spans(reqs)
+            .iter()
+            .map(|s| (s.trace_id.clone(), s.span_id.clone()))
+            .collect::<Vec<_>>()
+    };
+    let exception_content = |reqs: &[ExportTraceServiceRequest]| {
+        all_spans(reqs)
+            .iter()
+            .flat_map(|s| s.events.iter())
+            .filter(|e| e.name == "exception")
+            .flat_map(|e| e.attributes.iter())
+            .filter(|kv| kv.key == "exception.type" || kv.key == "exception.stacktrace")
+            .filter_map(|kv| kv.value.as_ref().and_then(|v| v.value.clone()))
+            .collect::<Vec<_>>()
+    };
+
+    let (a, _) = drive_scenario!(two_phase(), salt = 1_759_354_000_000);
+    let (b, _) = drive_scenario!(two_phase(), salt = 1_759_354_420_000);
+
+    let (pa, pb) = (pairs(&a), pairs(&b));
+    assert!(!pa.is_empty(), "drive A put spans on the wire");
+    assert_eq!(pa.len(), pb.len(), "both drives emit the same span count");
+    let union: std::collections::BTreeSet<_> = pa.iter().chain(pb.iter()).cloned().collect();
+    assert_eq!(
+        union.len(),
+        pa.len() + pb.len(),
+        "two same-seed executions share no (trace_id, span_id) pair — Pulse's span-store key"
+    );
+
+    let content_a = exception_content(&a);
+    assert_eq!(
+        content_a.len(),
+        10,
+        "five exception events, type + stacktrace each"
+    );
+    assert_eq!(
+        content_a,
+        exception_content(&b),
+        "the fingerprint preimage sequence is unchanged across executions"
+    );
+
+    let spans_b = all_spans(&b);
+    let ids_b: std::collections::BTreeSet<&Vec<u8>> = spans_b.iter().map(|s| &s.span_id).collect();
+    let children: Vec<_> = spans_b
+        .iter()
+        .filter(|s| !s.parent_span_id.is_empty())
+        .collect();
+    assert!(!children.is_empty(), "the Error phase exercises linkage");
+    assert!(
+        children.iter().all(|s| ids_b.contains(&s.parent_span_id)),
+        "every child in drive B names a parent drive B emitted"
+    );
+
+    let (a_again, _) = drive_scenario!(two_phase(), salt = 1_759_354_000_000);
+    assert_eq!(pa, pairs(&a_again), "one salt reproduces one identity");
 }
 
 /// Freeze what the dispatcher actually puts on the wire for the committed storm fixture. The test

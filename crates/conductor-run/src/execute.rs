@@ -85,9 +85,13 @@ pub async fn execute_scenario<R: PauseResolver>(
     let emitted_ms = now_ms();
     let journal_emitted_at = now_rfc3339();
     let timeline = PhaseTimeline::from(scenario);
-    let mut dispatcher = Dispatcher::connect(scenario, DEFAULT_OTLP_ENDPOINT)
-        .await
-        .context("OTLP emission egress")?;
+    // Per-execution span identity on the canary's `now_ms()` basis (canary.rs): Pulse keys spans on
+    // `(trace_id, span_id)`, so a same-seed re-drive inside its retention window must not replay ids.
+    // The `as` reinterprets the sign bit only; any value is a valid salt.
+    let mut dispatcher =
+        Dispatcher::connect(scenario, DEFAULT_OTLP_ENDPOINT, Some(emitted_ms as u64))
+            .await
+            .context("OTLP emission egress")?;
     let mut occupy_failure: Option<FaultError> = None;
     run_timeline_observed(
         &timeline,
