@@ -127,7 +127,11 @@ the non-`conhost` rows equal the pre-series baseline, no listener on `:4317` or 
   `.andromeda/cache/p5-controls/2026-10-01T18-42-55-phase/` (sha256 unchanged, `285bb3ce…` and `96a7d53a…`), a
   `.MOVED.md` note each left in its place, both recorded in `scope-record.md` as a widening on that word; re-run:
   `hygiene: clean`, 37 files read.
-- Entry 37: on the overseer's explicit word, the agent made the operator pre-CI commit and ran the guarded push.
+- Entry 37: on the overseer's explicit word, the agent made the operator pre-CI commit `3791d37`
+  (`3791d370274187757106fbe20540340b90e20b16`); the guarded push printed
+  `PUSHED_SHA=3791d370274187757106fbe20540340b90e20b16` (`1fe46a1..3791d37` on `build/conductor-0.3.0`).
+- Entry 38, `ci.py conclusion --sha HEAD --wait 1500`: `verdict: green · checks 3/3 · wall 572 s · runs
+  CI#36921742915 completed/success`.
 
 ## Status smoke (plan entry 32), fired by hand after d3
 

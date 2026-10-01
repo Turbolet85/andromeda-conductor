@@ -1,0 +1,32 @@
+[[pattern]]
+id = "series-0930"
+fixed = '2026-09-30 series'
+
+[[pattern]]
+id = "then-0930"
+fixed = 'then 2026-09-30'
+
+[[pattern]]
+id = "fcc31b2"
+fixed = 'fcc31b2'
+
+[[pattern]]
+id = "residual"
+fixed = 'stated residual'
+ignore_case = true
+
+[[pattern]]
+id = "fp-shaped"
+fixed = 'fingerprint-shaped'
+
+[[pattern]]
+id = "read-none"
+fixed = 'read none'
+
+[[pattern]]
+id = "re-pinned"
+fixed = 're-pinned'
+
+[[pattern]]
+id = "graded-none"
+regex = 'graded (none|0 drives|no drive)'

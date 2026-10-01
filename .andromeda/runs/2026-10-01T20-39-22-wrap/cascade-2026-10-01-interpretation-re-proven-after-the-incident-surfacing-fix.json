@@ -1,0 +1,125 @@
+[
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "1550f3bc",
+"ts": "2026-10-01T20:49:15Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-01T20-39-22-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-01T20-39-22-wrap",
+"--marker",
+"2026-10-01-interpretation-re-proven-after-the-incident-surfacing-fix"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"baseline 1fe46a10 (pre-CI parent — the oldest of 1 pre-CI commit(s), 3791d370)",
+"series-0930 · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control architecture.md:182 (prose)",
+"then-0930 · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:182 (pro…",
+"fcc31b2 · new 1 · standing 2 · leaf 0 · curation 0 · base 0 · control architecture.md:182 (prose)",
+"residual · new 0 · standing 3 · leaf 2 · curation 0 · base 0 · control architecture.md:113 (prose)",
+"fp-shaped · new 0 · standing 2 · leaf 3 · curation 0 · base 0 · control security-plan.md:121 (prose)",
+"read-none · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control security-plan.md:335 (prose)",
+"re-pinned · new 1 · standing 1 · leaf 0 · curation 2 · base 0 · control architecture.md:85 (prose)",
+"graded-none · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:336 (prose)",
+".andromeda/security-plan.md:335 series-0930 standing edited @c1135/2853 …port body; the 2026-09-30 series read none; th…",
+".andromeda/test-plan.md:336 series-0930 standing edited @c2707/3410 …edger.md`); the 2026-09-30 series (three drives on…",
+".andromeda/architecture.md:182 fcc31b2 new …D `e98d838` (re-pinned `fcc31b2` 2026-09-30, `a2addb3` 2026-10-01), while n…",
+".andromeda/security-plan.md:121 fcc31b2 standing edited @c2807/4086 …space_key`, at `fcc31b2`, unchanged at `a2addb3`) …",
+".andromeda/test-plan.md:336 fcc31b2 standing edited @c2782/3410 …data dir, Pulse `fcc31b2`) graded none — d1 canary-blo…",
+".andromeda/architecture.md:113 residual standing @c4347/4364 …ps its one `fingerprint_hex` prefix as a stated residual).",
+".andromeda/security-plan.md:335 residual standing edited @c2036/2853 …<fingerprint>`. Stated residual: the FROZEN 2026-…",
+".andromeda/test-plan.md:336 residual standing edited @c2101/3410 … its prefix as a stated residual, and the 2026-10-01 …",
+".claude/rules/security.md:10 residual leaf …rprint_hex` prefix as a stated residual. Staging a corpus row directly to i…",
+".claude/docs/security-summary.md:24 residual leaf …9-22 file keeping one `fingerprint_hex` prefix as a stated residual |",
+".andromeda/security-plan.md:121 fp-shaped standing edited @c1758/4086 …ngerprints` (a fingerprint-shaped token — eight …",
+".andromeda/security-plan.md:335 fp-shaped standing edited @c819/2853 …rprints`, every fingerprint-shaped token elided —…",
+".claude/rules/security.md:10 fp-shaped leaf …de_fingerprints` (every fingerprint-shaped token). The 2026-09-29 BREACH o…",
+".claude/rules/security.md:18 fp-shaped leaf @c1604/2273 …ingerprints` (every fingerprint-shaped token), fields-only wit…",
+".claude/docs/security-summary.md:11 fp-shaped leaf @c1685/2281 …gerprints` (every fingerprint-shaped token), fields-onl…",
+".andromeda/security-plan.md:335 read-none new @c1153/2853 … 2026-09-30 series read none; the 2026-10-01 series' d1 and …",
+".andromeda/architecture.md:85 re-pinned standing @c1386/2532 …ms()` rather than re-pinned as a literal) — the sub-tier …",
+".andromeda/architecture.md:182 re-pinned new …read at HEAD `e98d838` (re-pinned `fcc31b2` 2026-09-30, `a2addb3` 2026-10…",
+"CLAUDE.md:132 re-pinned curation @c3816/5046 …y whenever the entry is re-pinned or moved, because no gate will. Recurre…",
+".claude/rules/security.md:53 re-pinned curation @c5226/7363 …nd still cannot be re-pinned. **CLOSED 2026-09-05 (`2026-0…",
+".andromeda/test-plan.md:336 graded-none standing edited @c2792/3410 …ulse `fcc31b2`) graded none — d1 canary-blocked, d…",
+"series-0930 · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control architecture.md:182 (prose)",
+"then-0930 · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:182 (pro…",
+"fcc31b2 · new 1 · standing 2 · leaf 0 · curation 0 · base 0 · control architecture.md:182 (prose)",
+"residual · new 0 · standing 3 · leaf 2 · curation 0 · base 0 · control architecture.md:113 (prose)",
+"fp-shaped · new 0 · standing 2 · leaf 3 · curation 0 · base 0 · control security-plan.md:121 (prose)",
+"read-none · new 1 · standing 0 · leaf 0 · curation 0 · base 0 · control security-plan.md:335 (prose)",
+"re-pinned · new 1 · standing 1 · leaf 0 · curation 2 · base 0 · control architecture.md:85 (prose)",
+"graded-none · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:336 (prose)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "1fe46a10948647938168d45da4b21d34bd47de3e",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), 3791d370",
+"counts": {
+"series-0930": {
+"new": 0,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"then-0930": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"fcc31b2": {
+"new": 1,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"residual": {
+"new": 0,
+"standing": 3,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"fp-shaped": {
+"new": 0,
+"standing": 2,
+"leaf": 3,
+"curation": 0,
+"base": 0
+},
+"read-none": {
+"new": 1,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"re-pinned": {
+"new": 1,
+"standing": 1,
+"leaf": 0,
+"curation": 2,
+"base": 0
+},
+"graded-none": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]

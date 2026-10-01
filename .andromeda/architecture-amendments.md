@@ -1087,3 +1087,12 @@ Was: "the static gates over committed data" as the whole set.
 **Why:** the committed spawn the chunk shipped, registered where the leg's children are listed, on the founder's live ratification of the eighth form (relayed by the overseer). Per the standing registration rule (committed readers and binders register when committed), a committed spawn registers here now.
 **Kept:** §Occupied Resources unchanged — the script binds nothing and reads no env handle.
 **Ref:** .andromeda/runs/2026-09-30T15-22-00-wrap/
+
+## 2026-10-01-interpretation-re-proven-after-the-incident-surfacing-fix — the posture contract's third series and its re-pin
+**Section:** §Occupied Resources → On-disk artifacts (`contracts/pulse-real-model-leg-posture.md`) · §Standard Contracts (the corpus-text exception's summary)
+**Change:**
+- The posture-contract row names three drive series — 2026-09-29, 2026-09-30, 2026-10-01, each an add-only section fixed before its first drive. Was: two ("2026-09-29, then 2026-09-30").
+- Its provenance clause: Pulse coordinates read at HEAD `e98d838`, re-pinned `fcc31b2` 2026-09-30 and `a2addb3` 2026-10-01. Was: the 2026-09-30 re-pin alone ("the scrubber fix").
+- The §Standard Contracts summary of security-plan's Data Protection record names a second residual beside the frozen 2026-09-22 file's: the graded 2026-10-01 d3 capture's all-digit synthetic prefix, which `elide_fingerprints` keeps by definition — overseer-ruled, founder ratification pending.
+**Why:** the chunk added the 2026-10-01 series add-only to the contract against Pulse `a2addb3`; the summary must not cite security-plan as saying less than it now says. The row's edit is byte-negative so §Occupied Resources stays within the registry-size target.
+**Ref:** .andromeda/runs/2026-10-01T20-39-22-wrap/

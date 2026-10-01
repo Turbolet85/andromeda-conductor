@@ -505,3 +505,15 @@ It states the standing rule "a binary is never executed before its signature ver
 **Change:** The row names the `run` target (a scenario name or a P-ID) beside the seed/scenario flags, the `run_id` positional and the `preconditions --for` scenario name. A P-ID that several scenarios name is refused BEFORE any scenario load — an `anyhow` harness fault naming the P-ID, the count and the matching scenario file stems (never a path), `error:` + `hint:` at exit 1; the harness's `SCENARIO=` inherits it; a single-owner P-ID still resolves. Was: the first `read_dir` match, taken silently.
 **Why:** The refusal narrows what the boundary admits — no new crossing, no write, no new value reaching an argv, shell or path — so it records validation rather than widening it; the row already justified `--for`'s parse refusal by "a P-ID can name several scenarios".
 **Ref:** .andromeda/runs/2026-10-01T00-02-40-wrap/
+
+## 2026-10-01-interpretation-re-proven-after-the-incident-surfacing-fix — the capture's skip witness; an all-digit residual pending the founder
+**Section:** §Input Validation (the real-model capture ingest row) · §Security Anti-Patterns → Data Protection (the corpus.db ban's capture exception)
+**Change:**
+- The ingest row: since 2026-10-01 the capture also prints Pulse's `interpretation.incident.skipped` lines fields-only (`skip_reason`, `decision`, `severity`, `digest_kind` — closed enums Pulse's code writes, allowlisted on its side) and ends each `canary:` line with its inference's `skip_reason`, through the unchanged four-stage chain.
+- The elision guarantee now states its definition: a fingerprint-shaped token is eight or more lowercase hex digits holding at least one letter, so an all-digit run passes. Was: "a fingerprint-shaped token prints as `<fingerprint>`" / "every fingerprint-shaped token elided", read as covering every fingerprint value.
+- The `workspace_key` coordinate: at `fcc31b2`, unchanged at `a2addb3`. The key-leaf fallback and the 0-occurrence rendering measurement now cite the 2026-09-30 and 2026-10-01 series.
+- The report-body enumeration: the 2026-10-01 series' d1 and d3 captures carry one report body each, d2 none.
+- A second residual: the GRADED 2026-10-01 `rm-capture-d3.txt` carries one all-digit 8-character `fingerprint_hex` prefix on two lines (the preflight canary's synthetic storm), counted exactly by the harvest; no elision code changed. Recorded as overseer-ruled, founder ratification PENDING.
+**Why:** escalated under playbook `:124` (Boundary widening). The overseer ruled the residual and held that a delegate does not decide whether it is a widening, so it is recorded neither as ratified nor as a breach; the founder's word is asked beside `v3-09`'s next step, and a later wrap records it.
+**Kept:** the 2026-09-22 residual sentence and its frozen-evidence basis, unchanged; the 2026-09-30 clauses as true history.
+**Ref:** .andromeda/runs/2026-10-01T20-39-22-wrap/
