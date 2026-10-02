@@ -49,6 +49,8 @@
 
 use std::path::Path;
 
+mod evidence_pin;
+
 /// One delegated bound: which Pulse target carries it, which field holds the duration, and the
 /// budget in milliseconds. The field is part of the identity, not a detail — see the module doc.
 #[derive(Debug, Clone, Copy, PartialEq)]
@@ -309,9 +311,164 @@ fn tick_offset_ms(sample: &HueSample, ticks: &[i64]) -> Option<f64> {
         .map(|t| (sample.at_ms - t) as f64)
 }
 
+/// `halo-hue-encoding`'s `healthy-baseline` phase length — the offset from the one
+/// `timeline.execute` start to phase-2 start in `contracts/pulse-p025-measurement-contract.md`
+/// §The grading rule.
+const P025_PHASE_TWO_OFFSET_MS: i64 = 30_000;
+
+/// The P-025 leg window from a frozen self-obs journal: `[timeline.execute new + 30 000 ms,
+/// scenario.run close]`. Keyed on the span AND its `span_event`, since every child line carries
+/// `"parent":"<span>"` too (testing.md 2026-10-01). `None` unless exactly one of each is present.
+fn p025_window(selfobs: &str) -> Option<(i64, i64)> {
+    let stamps = |span: &str, event: &str| -> Vec<i64> {
+        selfobs
+            .lines()
+            .filter_map(|l| serde_json::from_str::<serde_json::Value>(l).ok())
+            .filter(|v| {
+                v.get("span").and_then(serde_json::Value::as_str) == Some(span)
+                    && v.get("span_event").and_then(serde_json::Value::as_str) == Some(event)
+            })
+            .filter_map(|v| v.get("timestamp_ms").and_then(serde_json::Value::as_i64))
+            .collect()
+    };
+    match (
+        stamps("timeline.execute", "new").as_slice(),
+        stamps("scenario.run", "close").as_slice(),
+    ) {
+        ([start], [close]) => Some((start + P025_PHASE_TWO_OFFSET_MS, *close)),
+        _ => None,
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// The derivation reproduces the 2026-09-29 leg's hand-derived window from that leg's own
+    /// committed self-obs — the known positive the round's window rests on.
+    #[test]
+    fn round_the_p025_window_derives_from_frozen_self_obs() {
+        let selfobs = evidence_pin::committed(
+            "conductor-0.3.0/chunks/2026-09-29-hue-shift-budget-graded-hard/evidence/h.jsonl",
+        );
+        assert_eq!(
+            p025_window(&selfobs),
+            Some((1_790_716_226_860, 1_790_716_380_720))
+        );
+    }
+
+    #[test]
+    fn round_a_self_obs_without_one_start_and_one_close_yields_no_window() {
+        let start = r#"{"span":"timeline.execute","span_event":"new","timestamp_ms":1000}"#;
+        let child = r#"{"parent":"timeline.execute","span":"emit.batch","span_event":"new","timestamp_ms":1500}"#;
+        let close = r#"{"span":"scenario.run","span_event":"close","timestamp_ms":90000}"#;
+        assert_eq!(
+            p025_window(&[start, child, close].join("\n")),
+            Some((31_000, 90_000))
+        );
+        assert_eq!(p025_window(&[child, close].join("\n")), None);
+        assert_eq!(p025_window(&[start, start, close].join("\n")), None);
+    }
+
+    // ---- the P-075 round, 2026-10-02, Pulse S `03ec944` (round-request assertions 3-6) ----
+    // One `pulse-app` launch, deterministic L4, fresh data dir, the compact widget visible and no
+    // desktop input. Each slice is Pulse's log between its leg's pre-leg count and the next leg's,
+    // filtered by target; run ids, counts and the censuses are in `evidence/round-ledger.md`.
+
+    const ROUND_EVIDENCE: &str =
+        "conductor-0.3.0/chunks/2026-10-02-p-075-assert-round-against-pulse/evidence/";
+
+    fn round_lines(name: &str, sha256: &str) -> Vec<String> {
+        evidence_pin::pinned(&format!("{ROUND_EVIDENCE}{name}"), sha256)
+            .lines()
+            .map(str::to_owned)
+            .collect()
+    }
+
+    /// ROUND-REQUEST ASSERTION 3 (P-025), AS MEASURED: leg H's window, derived from its frozen
+    /// self-obs by the contract's §The grading rule, holds a 438.24 ms rise (`autonomous`) and a
+    /// 478.56 ms fall (`none`); the worst is 478.56 ms against 2 000 ms. The rise's start instant lands
+    /// 38.24 ms from its incident's creation line.
+    #[test]
+    fn p075_round_assertion_3_p025_hue_update() {
+        let selfobs = evidence_pin::pinned(
+            &format!("{ROUND_EVIDENCE}h.jsonl"),
+            "21c6520a5a0d10014d871a8a4a6120ab8054514d5d4097244d6909d7b3824332",
+        );
+        let window = p025_window(&selfobs).expect("one start and one close");
+        assert_eq!(window, (1_790_918_907_230, 1_790_919_061_263));
+        let lines = round_lines(
+            "pulse-h.jsonl",
+            "62791cd31ff2cdc40e2c15dfe801365c120cf5c9c75bb9d0a619603750942851",
+        );
+        let bound = bounds()[0];
+        assert_eq!(
+            grade_in_window(&lines, &bound, window),
+            Ok(478.557_861_328_125)
+        );
+        let rises = tiered_hue_samples_in_window(&lines, &bound, window);
+        assert_eq!(rises.len(), 1, "one rise in the window: {rises:?}");
+        let error = incident_anchor_error_ms(&rises[0], &lines).expect("a fresh incident precedes");
+        assert!(error <= P025_ANCHOR_TOLERANCE_MS, "anchor error {error}ms");
+        assert!(
+            (error - 38.236).abs() < 0.01,
+            "the measured anchor error: {error}"
+        );
+    }
+
+    /// ROUND-REQUEST ASSERTION 4 (P-027), AS MEASURED: leg D's slice holds two first-sighting
+    /// discovery samples (489.07 ms at `discovered_count: 2`, 605.26 ms at 1); worst 605.26 ms
+    /// against 5 000 ms.
+    #[test]
+    fn p075_round_assertion_4_p027_discovery() {
+        let lines = round_lines(
+            "pulse-d.jsonl",
+            "a5ffacd9df730a91d9853c620bbcf96587aade04e16c2ed22948cd7162f86c7f",
+        );
+        assert_eq!(grade(&lines, &bounds()[1]), Ok(605.262_207_031_25));
+    }
+
+    /// ROUND-REQUEST ASSERTION 5 (P-037), AS MEASURED: leg R's slice holds one render sample, 0 ms in
+    /// `value`, carrying `degraded_mode: false` — fired by the Report webview's own selection, no click.
+    #[test]
+    fn p075_round_assertion_5_p037_report_render() {
+        let lines = round_lines(
+            "pulse-r.jsonl",
+            "75e8de2942418d5bffb9ea4b806edc338fc185223ba164b88252f8feb2849576",
+        );
+        assert_eq!(grade(&lines, &bounds()[2]), Ok(0.0));
+    }
+
+    /// ROUND-REQUEST ASSERTION 6 (P-045), AS MEASURED: leg F's slice holds 163 counter-refresh
+    /// samples; the worst is 5.0 ms against 1 000 ms.
+    #[test]
+    fn p075_round_assertion_6_p045_counter_refresh() {
+        let lines = round_lines(
+            "pulse-f.jsonl",
+            "57776de49989020ec58d61eacb3eac680f2fac747f515b58dbc1945327275565",
+        );
+        assert_eq!(observations(&lines, &bounds()[3]).len(), 163);
+        assert_eq!(grade(&lines, &bounds()[3]), Ok(5.0));
+    }
+
+    #[test]
+    fn p075_round_slices_digest_pin_fails_on_a_tampered_byte() {
+        let name = format!("{ROUND_EVIDENCE}pulse-r.jsonl");
+        let text = evidence_pin::committed(&name);
+        let pin = "75e8de2942418d5bffb9ea4b806edc338fc185223ba164b88252f8feb2849576";
+        assert!(evidence_pin::check_digest(&name, &text, pin).is_ok());
+        let tampered = text.replacen("\"value\":0", "\"value\":9", 1);
+        assert_ne!(tampered, text, "the tamper landed");
+        assert!(evidence_pin::check_digest(&name, &tampered, pin).is_err());
+    }
+
+    #[test]
+    fn round_a_tampered_byte_fails_the_digest_pin() {
+        let text = "{\"target\":\"metric.findings.counter_refresh_ms\"}\n";
+        let pin = evidence_pin::sha256_hex(text);
+        assert!(evidence_pin::check_digest("synthetic", text, &pin).is_ok());
+        assert!(evidence_pin::check_digest("synthetic", &text.replace("ms", "MS"), &pin).is_err());
+    }
 
     /// A SYNTHETIC line in Pulse's on-disk shape — used to exercise the parser, never presented as
     /// leg evidence. The real captures land in this module as verbatim `leg_*_lines()` functions

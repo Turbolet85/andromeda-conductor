@@ -1,19 +1,30 @@
 //! The span-landing witness — operator/local only, never a CI gate.
 //!
 //! Gated behind `--features live-pulse` (the `live_suite.rs` precedent). It drives nothing: it reads
-//! two frozen self-obs journals of same-seed `conductor run` drives (`runs/live-suite/span-a.jsonl`,
-//! `span-b.jsonl`) and the live `pulse-app`'s own log, and grades whether both drives' spans LANDED
-//! in Pulse's span store inside one retention window. Pulse keys that store on `(trace_id, span_id)`
-//! and refuses a whole batch carrying a held pair, logging `duckdb.append` with a `reject_reason` and
-//! counting `buffer.tick` `append_rejections` — so a replayed identity is visible on that surface.
+//! two frozen self-obs journals of same-seed `conductor run` drives (`runs/span-landing/span-a.jsonl`,
+//! `span-b.jsonl` — their own harness-owned subdir, which the `--live` suite's `live-suite/*.jsonl`
+//! clear cannot reach) and the live `pulse-app`'s own log, and grades whether both drives' spans
+//! LANDED in Pulse's span store inside one retention window. Pulse keys that store on
+//! `(trace_id, span_id)` and refuses a whole batch carrying a held pair, logging `duckdb.append` with
+//! a `reject_reason` and counting `buffer.tick` `append_rejections` — so a replayed identity is
+//! visible on that surface.
 //!
-//! FIRING FORM, after both drives and both freezes:
+//! FIRING FORM. Before drive A, clear the two named files — non-recursive, no handle expanded:
+//!
+//! ```text
+//! rm -f runs/span-landing/span-a.jsonl runs/span-landing/span-b.jsonl
+//! ```
+//!
+//! freeze each drive with `mkdir -p runs/span-landing && cp logs/agent-latest.jsonl
+//! runs/span-landing/span-{a,b}.jsonl`, and after both:
 //!
 //! ```text
 //! cargo test -q -p conductor-run --features live-pulse --test span_landing_live -- --nocapture
 //! ```
 //!
-//! with `ANDROMEDA_PULSE_DATA_DIR` naming the live `pulse-app`'s dir. It prints ONE summary line of
+//! with `ANDROMEDA_PULSE_DATA_DIR` naming the live `pulse-app`'s dir. A pair outside the live Pulse
+//! log's own span is refused as STALE and never graded — which also covers a skipped clear and a
+//! `CONDUCTOR_RUNS_DIR` other than the literal `runs/` the clear names. It prints ONE summary line of
 //! integers — never a Pulse line, a path or a fingerprint — and panics with the same field set on a
 //! FAIL. Every guard rejection keeps `capture_paths`' path-free text.
 
@@ -21,9 +32,40 @@
 
 mod capture_paths;
 
-use std::path::Path;
+use std::path::{Path, PathBuf};
 
 use serde_json::Value;
+
+/// The span pair's own harness-owned subdir under the runs dir.
+fn span_dir(runs: &Path) -> PathBuf {
+    runs.join("span-landing")
+}
+
+/// Refuse a pair that does not belong to the live Pulse launch: both drive instants must sit inside
+/// the span of Pulse's own log, A before B. The reason carries integers only.
+fn pair_is_current(
+    a_ms: i64,
+    b_ms: i64,
+    pulse_first_ms: i64,
+    pulse_last_ms: i64,
+) -> Result<(), String> {
+    if a_ms < pulse_first_ms {
+        return Err(format!(
+            "stale pair: drive A {a_ms} precedes the live Pulse log's first line {pulse_first_ms}"
+        ));
+    }
+    if b_ms > pulse_last_ms {
+        return Err(format!(
+            "stale pair: drive B {b_ms} follows the live Pulse log's last line {pulse_last_ms}"
+        ));
+    }
+    if a_ms >= b_ms {
+        return Err(format!(
+            "stale pair: drive A {a_ms} is not before drive B {b_ms}"
+        ));
+    }
+    Ok(())
+}
 
 /// What one frozen drive journal carries: its run and its scenario emission instant.
 struct Drive {
@@ -35,8 +77,13 @@ struct Drive {
 /// `timeline.execute` span-`new` line — the scenario's emission instant (the canary's `emit.batch`
 /// lines precede it).
 fn drive(runs: &Path, leg: &str) -> Result<Drive, String> {
-    let body = std::fs::read_to_string(runs.join("live-suite").join(format!("span-{leg}.jsonl")))
-        .map_err(|e| format!("span-{leg} journal unreadable: {}", e.kind()))?;
+    let body =
+        std::fs::read_to_string(span_dir(runs).join(format!("span-{leg}.jsonl"))).map_err(|e| {
+            format!(
+                "span-landing/span-{leg}.jsonl journal unreadable: {}",
+                e.kind()
+            )
+        })?;
     let lines: Vec<Value> = body
         .lines()
         .filter_map(|l| serde_json::from_str(l).ok())
@@ -154,6 +201,9 @@ fn both_same_seed_drives_land_inside_one_retention_window() {
     let a = drive(&runs, "a").unwrap_or_else(|e| fail(e));
     let b = drive(&runs, "b").unwrap_or_else(|e| fail(e));
     let pulse = pulse_lines().unwrap_or_else(|e| fail(e));
+    // `pulse_lines` refuses an empty log and sorts by stamp, so both ends exist.
+    let (first_ms, last_ms) = (pulse[0].0, pulse[pulse.len() - 1].0);
+    pair_is_current(a.emitted_ms, b.emitted_ms, first_ms, last_ms).unwrap_or_else(|e| fail(e));
 
     let reject_lines = pulse
         .iter()
@@ -199,4 +249,38 @@ fn both_same_seed_drives_land_inside_one_retention_window() {
     }
     // One write, leading newline: libtest's `-q` progress marks share this stdout.
     print!("\nspan-landing: PASS {summary}\n");
+}
+
+#[test]
+fn the_span_pair_resolves_under_its_own_subdir() {
+    let runs = capture_paths::runs_dir_from(&capture_paths::workspace_root(), None)
+        .expect("the default runs dir resolves");
+    let dir = span_dir(&runs);
+    assert!(dir.ends_with("runs/span-landing"), "{}", dir.display());
+    assert!(
+        !dir.components().any(|c| c.as_os_str() == "live-suite"),
+        "the pair no longer shares the --live suite's capture dir"
+    );
+}
+
+#[test]
+fn a_pair_older_than_the_live_pulse_log_is_refused() {
+    assert_eq!(
+        pair_is_current(1_000, 2_000, 5_000, 9_000),
+        Err("stale pair: drive A 1000 precedes the live Pulse log's first line 5000".to_string())
+    );
+    assert_eq!(
+        pair_is_current(6_000, 9_500, 5_000, 9_000),
+        Err("stale pair: drive B 9500 follows the live Pulse log's last line 9000".to_string())
+    );
+    assert_eq!(
+        pair_is_current(7_000, 6_000, 5_000, 9_000),
+        Err("stale pair: drive A 7000 is not before drive B 6000".to_string())
+    );
+}
+
+#[test]
+fn a_pair_inside_the_live_pulse_log_is_current() {
+    assert_eq!(pair_is_current(5_000, 9_000, 5_000, 9_000), Ok(()));
+    assert_eq!(pair_is_current(6_000, 8_000, 5_000, 9_000), Ok(()));
 }

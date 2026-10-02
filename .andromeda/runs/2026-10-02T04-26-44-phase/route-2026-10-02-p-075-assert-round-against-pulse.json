@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-02T04:28:19Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-10-02-p-075-assert-round-against-pulse",
+"--expect-prefix",
+"The P-075 assert round against Pulse",
+"--record-file",
+".andromeda/runs/2026-10-02T04-26-44-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-10-02T04-26-44-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:79 - [2026-10-02-p-075-assert-round-against-pulse]",
+"record master-route.md:168 - appended under `## conductor-0.3.0`",
+"promoted 2026-10-02-p-075-assert-round-against-pulse - working-route:79 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+".\\conductor-0.3.0\\working-route.md",
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+}
+]

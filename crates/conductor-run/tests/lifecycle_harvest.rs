@@ -62,10 +62,14 @@
 //! TEST-ONLY affordance: nothing here is wired into the run path, and nothing harvested reaches a
 //! Conductor artifact.
 
+use std::collections::HashMap;
+
 use conductor_run::{
     AUTO_RESOLVE_IDLE_SECONDS, LifecycleObservation, LifecycleVerdict, attribute_by_liveness,
     evaluate_lifecycle, select_resolve_target,
 };
+
+mod evidence_pin;
 
 /// The RAW `query_incident_list` result the live sidecar returned, verbatim from the 2026-09-01 leg.
 /// Pinned because the item key is the thing that silently broke four earlier legs.
@@ -206,4 +210,249 @@ fn the_same_drop_without_liveness_is_unattributable() {
 fn the_control_path_cannot_grade_a_single_incident_leg() {
     let (seen, _) = leg_observation();
     assert_eq!(evaluate_lifecycle(&seen, 6), LifecycleVerdict::NoControl);
+}
+
+// ---- the P-075 round, 2026-10-02, Pulse S 03ec944 (round-request assertions 1 and 2) ----
+//
+// `tests/p075_round_live.rs` prints one block of `p075-round:` lines (integers, booleans, closed
+// words); the committed copy is graded here from its file, behind its digest pin. An absent sample is
+// UNGRADED, never met (round-request §Grading posture).
+
+/// One assertion's grade at its measured value.
+#[derive(Debug, Clone, PartialEq)]
+enum RoundGrade {
+    Pass,
+    Fail(String),
+    Ungraded(String),
+}
+
+/// Every `key=value` token of the capture's `p075-round:` lines.
+fn round_fields(capture: &str) -> HashMap<String, String> {
+    capture
+        .lines()
+        .filter_map(|line| line.strip_prefix("p075-round: "))
+        .flat_map(str::split_whitespace)
+        .filter_map(|token| token.split_once('='))
+        .map(|(k, v)| (k.to_string(), v.to_string()))
+        .collect()
+}
+
+fn field<'a>(fields: &'a HashMap<String, String>, key: &str) -> &'a str {
+    fields.get(key).map_or("absent", String::as_str)
+}
+
+/// Assertion 1 — read-back content fidelity: Conductor's fingerprint is a member of the incident's
+/// `fingerprint_refs`, the incident opened after the storm's emission instant, and `retrieve_report`
+/// returned `degraded_mode: false`. A storm that met an already-open incident deduped into it, and
+/// a dedupe never writes `fingerprint_hashes` (Pulse `inference_runtime.rs:830-858` at S), so a
+/// non-empty set at open makes the reading UNGRADED rather than a FAIL.
+fn grade_assertion_1(fields: &HashMap<String, String>) -> RoundGrade {
+    let open = field(fields, "active_at_open");
+    if open != "0" {
+        return RoundGrade::Ungraded(format!("active_at_open={open}"));
+    }
+    if field(fields, "incident_id") == "none" {
+        return RoundGrade::Ungraded("no incident opened after the storm".to_string());
+    }
+    let wanted = [
+        ("fingerprint_in_refs", "true"),
+        ("opened_after_emission", "true"),
+        ("degraded_mode", "false"),
+    ];
+    if let Some((key, _)) = wanted.iter().find(|(k, _)| field(fields, k) == "absent") {
+        return RoundGrade::Ungraded(format!("{key} absent"));
+    }
+    let failed: Vec<String> = wanted
+        .iter()
+        .filter(|(k, want)| field(fields, k) != *want)
+        .map(|(k, _)| format!("{k}={}", field(fields, k)))
+        .collect();
+    if failed.is_empty() {
+        RoundGrade::Pass
+    } else {
+        RoundGrade::Fail(failed.join(" "))
+    }
+}
+
+/// Assertion 2 — runtime-state fidelity: `mark_incident_resolved` applied and the incident left the
+/// active set while its telemetry was fresh, the attribution `attribute_by_liveness` grades.
+fn grade_assertion_2(fields: &HashMap<String, String>) -> RoundGrade {
+    match field(fields, "verdict") {
+        "absent" | "NoControl" => {
+            RoundGrade::Ungraded(format!("verdict={}", field(fields, "verdict")))
+        }
+        "ProvenByLiveness" if field(fields, "resolved_left_active_set") == "true" => {
+            RoundGrade::Pass
+        }
+        other => RoundGrade::Fail(format!(
+            "verdict={other} resolved_left_active_set={}",
+            field(fields, "resolved_left_active_set")
+        )),
+    }
+}
+
+/// A capture in the leg's print format, every graded field set to the passing value.
+fn synthetic_round(overrides: &[(&str, &str)]) -> HashMap<String, String> {
+    let mut capture = String::from(
+        "\np075-round: active_at_open=0\n\
+         p075-round: incident_id=1 opened_after_emission=true opened_minus_emitted_ms=41250\n\
+         p075-round: fingerprint_refs=4 det_members=3 fingerprint_in_refs=true\n\
+         p075-round: degraded_mode=false\n\
+         p075-round: resolve_before=1 resolved_left_active_set=true idle_ms=812 verdict=ProvenByLiveness\n\
+         p075-round: end\n",
+    );
+    for (key, value) in overrides {
+        let start = capture
+            .find(&format!("{key}="))
+            .expect("the key is in the format");
+        let end = capture[start..]
+            .find([' ', '\n'])
+            .map_or(capture.len(), |at| start + at);
+        capture.replace_range(start..end, &format!("{key}={value}"));
+    }
+    round_fields(&capture)
+}
+
+#[test]
+fn round_a_full_capture_parses_every_field() {
+    let fields = synthetic_round(&[]);
+    assert_eq!(field(&fields, "fingerprint_refs"), "4");
+    assert_eq!(field(&fields, "det_members"), "3");
+    assert_eq!(field(&fields, "idle_ms"), "812");
+    assert_eq!(field(&fields, "missing"), "absent");
+}
+
+#[test]
+fn round_assertion_1_passes_only_when_all_three_hold() {
+    assert_eq!(grade_assertion_1(&synthetic_round(&[])), RoundGrade::Pass);
+}
+
+#[test]
+fn round_assertion_1_a_fingerprint_missing_from_the_refs_is_a_fail() {
+    assert_eq!(
+        grade_assertion_1(&synthetic_round(&[("fingerprint_in_refs", "false")])),
+        RoundGrade::Fail("fingerprint_in_refs=false".to_string())
+    );
+}
+
+#[test]
+fn round_assertion_1_a_degraded_report_is_a_fail() {
+    assert_eq!(
+        grade_assertion_1(&synthetic_round(&[("degraded_mode", "true")])),
+        RoundGrade::Fail("degraded_mode=true".to_string())
+    );
+}
+
+#[test]
+fn round_assertion_1_an_incident_open_at_the_start_is_ungraded_never_a_fail() {
+    assert_eq!(
+        grade_assertion_1(&synthetic_round(&[
+            ("active_at_open", "1"),
+            ("fingerprint_in_refs", "false"),
+        ])),
+        RoundGrade::Ungraded("active_at_open=1".to_string())
+    );
+}
+
+#[test]
+fn round_assertion_1_no_incident_is_ungraded() {
+    assert_eq!(
+        grade_assertion_1(&synthetic_round(&[("incident_id", "none")])),
+        RoundGrade::Ungraded("no incident opened after the storm".to_string())
+    );
+}
+
+#[test]
+fn round_assertion_1_an_absent_report_reading_is_ungraded_never_met() {
+    assert_eq!(
+        grade_assertion_1(&synthetic_round(&[("degraded_mode", "absent")])),
+        RoundGrade::Ungraded("degraded_mode absent".to_string())
+    );
+}
+
+#[test]
+fn round_assertion_2_passes_on_a_liveness_attributed_resolve() {
+    assert_eq!(grade_assertion_2(&synthetic_round(&[])), RoundGrade::Pass);
+}
+
+#[test]
+fn round_assertion_2_a_still_active_incident_is_a_fail() {
+    assert_eq!(
+        grade_assertion_2(&synthetic_round(&[
+            ("verdict", "StillActive"),
+            ("resolved_left_active_set", "false"),
+        ])),
+        RoundGrade::Fail("verdict=StillActive resolved_left_active_set=false".to_string())
+    );
+}
+
+#[test]
+fn round_assertion_2_a_stale_resolve_is_a_fail_not_a_pass() {
+    assert_eq!(
+        grade_assertion_2(&synthetic_round(&[("verdict", "Unattributable")])),
+        RoundGrade::Fail("verdict=Unattributable resolved_left_active_set=true".to_string())
+    );
+}
+
+#[test]
+fn round_assertion_2_no_resolve_is_ungraded() {
+    assert_eq!(
+        grade_assertion_2(&synthetic_round(&[("verdict", "absent")])),
+        RoundGrade::Ungraded("verdict=absent".to_string())
+    );
+    assert_eq!(
+        grade_assertion_2(&synthetic_round(&[("verdict", "NoControl")])),
+        RoundGrade::Ungraded("verdict=NoControl".to_string())
+    );
+}
+
+/// The round's committed P-075 leg capture (2026-10-02, Pulse S `03ec944`, deterministic L4, fresh
+/// data dir, the leg fired first on the launch). Run ids, pre-leg counts and the censuses are in
+/// `evidence/round-ledger.md`.
+const ROUND_CAPTURE: &str =
+    "conductor-0.3.0/chunks/2026-10-02-p-075-assert-round-against-pulse/evidence/p075-leg.txt";
+const ROUND_CAPTURE_SHA256: &str =
+    "85773fb075f5bf7ac199613c9db5f0523f38a7f11a181595721515aace7a4e72";
+
+fn round_capture() -> HashMap<String, String> {
+    round_fields(&evidence_pin::pinned(ROUND_CAPTURE, ROUND_CAPTURE_SHA256))
+}
+
+/// ROUND-REQUEST ASSERTION 1, AS MEASURED: Conductor's 32-hex fingerprint is a member of incident
+/// 1's `fingerprint_refs` (4 refs, 3 of them the `det-*` constants), the incident opened 46 ms after
+/// the storm's emission instant on an empty active set, and `retrieve_report` returned
+/// `degraded_mode: false`.
+#[test]
+fn p075_round_assertion_1_read_back_content_fidelity() {
+    let fields = round_capture();
+    assert_eq!(field(&fields, "fingerprint_refs"), "4");
+    assert_eq!(field(&fields, "det_members"), "3");
+    assert_eq!(grade_assertion_1(&fields), RoundGrade::Pass);
+}
+
+/// ROUND-REQUEST ASSERTION 2, AS MEASURED: `mark_incident_resolved` removed incident 1 from the
+/// active set 12 ms after its last emission — far inside the 120 s the auto-resolver requires.
+#[test]
+fn p075_round_assertion_2_runtime_state_fidelity() {
+    let fields = round_capture();
+    assert_eq!(field(&fields, "resolve_before"), "1");
+    assert_eq!(field(&fields, "idle_ms"), "12");
+    assert_eq!(grade_assertion_2(&fields), RoundGrade::Pass);
+}
+
+#[test]
+fn p075_round_capture_digest_pin_fails_on_a_tampered_byte() {
+    let text = evidence_pin::committed(ROUND_CAPTURE);
+    assert!(evidence_pin::check_digest(ROUND_CAPTURE, &text, ROUND_CAPTURE_SHA256).is_ok());
+    let tampered = text.replacen("degraded_mode=false", "degraded_mode=falsE", 1);
+    assert_ne!(tampered, text, "the tamper landed");
+    assert!(evidence_pin::check_digest(ROUND_CAPTURE, &tampered, ROUND_CAPTURE_SHA256).is_err());
+}
+
+#[test]
+fn round_a_tampered_byte_fails_the_digest_pin() {
+    let text = "p075-round: end\n";
+    let pin = evidence_pin::sha256_hex(text);
+    assert!(evidence_pin::check_digest("synthetic", text, &pin).is_ok());
+    assert!(evidence_pin::check_digest("synthetic", "p075-round: enD\n", &pin).is_err());
 }

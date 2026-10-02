@@ -1,0 +1,12 @@
+
+running 1 test
+
+p075-round: active_at_open=0
+p075-round: incident_id=1 opened_after_emission=true opened_minus_emitted_ms=46
+p075-round: fingerprint_refs=4 det_members=3 fingerprint_in_refs=true
+p075-round: degraded_mode=false
+p075-round: resolve_before=1 resolved_left_active_set=true idle_ms=12 verdict=ProvenByLiveness
+p075-round: end
+.
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 10.08s
+

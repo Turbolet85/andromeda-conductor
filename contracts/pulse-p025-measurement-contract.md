@@ -23,6 +23,11 @@ states the grading rule in §The grading rule before any leg is driven against i
                     prior pin was Pulse HEAD 83d4060, captured 2026-09-13, with provenance "Conductor
                     MEASUREMENT, not a transcribed SUT record". Every coordinate was re-read at 226554a; six
                     claims no longer held as written and carry dated corrections below.]
+                   [re-read 2026-10-02 (2026-10-02-p-075-assert-round-against-pulse, before the round) at
+                    Pulse S = 03ec944, the build the P-075 round grades. Add-only: the 226554a pin and every
+                    clause above stand as written. Three coordinates moved and carry dated `[at S]` notes
+                    below. The formula, the witnessed-only per-service rule, the 60 000 clamp and
+                    `xtask/src/hue_shift.rs:41` hold unchanged at S. §The grading rule is byte-unchanged.]
 
 Read the provenance line as a bound on trust: the measurements are Conductor's own and are reproducible from
 its committed captures, while every Pulse coordinate cited below is a reading of the SUT at the pinned HEAD
@@ -47,6 +52,9 @@ superseded so a reader cannot grade the wrong one.
 meaning changed. Emit site `crates/ui-bridge/src/telemetry.rs:278-282`; allowlist entry
 `pulse-app/src/observability.rs:989-992`. The ceiling is now also a clamp: `canvas/frame-metrics.ts:28-40`
 sets a value over 60 000 to 60 000, and `telemetry.rs:75,84` rejects one over 60 000.]
+[at S `03ec944`, 2026-10-02: the hue emit moved to `crates/ui-bridge/src/telemetry.rs:316-320` (its resolver
+`:310-324` still calls `validate_duration_ms`, `DURATION_MS_MAX = 60_000.0` at `:75`); the allowlist entry moved
+to `pulse-app/src/observability.rs:992-995`. Fields and meaning unchanged.]
 
 Two properties of the emission are part of the ask, not incidental:
 
@@ -103,6 +111,9 @@ retired effect reached for `last_seen_unix_nano`: it was the only per-service in
 [corrected 2026-09-29 (c): at `226554a` `ServiceListItem` carries `tier_effective_at_unix_nano: Option<i64>`
 (`crates/triage/src/lifecycle/registry.rs:54-69`), derived by the pure replay
 `triage::contract::tier_effective_at` (`tier_effective.rs:23-63`).]
+[at S `03ec944`, 2026-10-02: `ServiceListItem` moved to `crates/triage/src/lifecycle/registry.rs:56-71`, the field
+at `:70` (the first-sighting change `87fe658` added lines above it); the field and `tier_effective.rs:23-63` are
+unchanged.]
 [corrected 2026-09-29 (d): "that site held both timestamps" was true of the RISE only at `83d4060` —
 `list_active()` excludes resolved records, so the fall's instant was not in hand there. It is true at
 `226554a`: one `list_for_workspace` snapshot, Resolved rows included (`crates/triage/src/incident/registry.rs:76-80`),

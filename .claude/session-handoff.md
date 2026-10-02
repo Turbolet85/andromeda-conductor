@@ -47,3 +47,6 @@ was `163e0f6`, the operator pre-CI commit (CI#36942272745 green 3/3). The wrap c
   diagnose/audit cadence; the split is the operator's call.
 - **Host:** no `pulse-app`, sidecar or `conductor` process is running, and nothing listens on `:4317` / `:4318`.
   Another session's `pulse-app` debug nextest was left to that session.
+
+## Session End Status
+Completed normally at 2026-10-02 02:36:24

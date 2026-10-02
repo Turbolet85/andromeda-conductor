@@ -1,0 +1,28 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-02T04:27:18Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-02T04-26-44-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 2 of 34 entries · freight blocks 3 · rows are an INDEX, not the text",
+"79 · CONTEXT: · 603 chars · CONTEXT: `ANDROMEDA_PULSE_L4_DETERMINISTIC`, a fresh data dir; `pulse-app` + `andromeda-pul…",
+"79 · BLOCKED-ON: · 89 chars · BLOCKED-ON: Pulse's \"Conductor return\" relaying sha S — clears when the overseer relays S",
+"79 · CARRY: · 459 chars · CARRY: give the span-landing witness inputs (`span-{a,b}.jsonl`, today a second, operator-loc…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

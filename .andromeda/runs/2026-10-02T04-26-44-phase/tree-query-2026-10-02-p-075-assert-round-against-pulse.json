@@ -1,0 +1,175 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name IN ('probe_resolve_lifecycle','attribute_by_liveness','emit_canary_storm','canary_spec') AND callee_kind = 'fn' ORDER BY callee_name, file, line",
+"rows": 33,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 36
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 lifecycle/tests/liveness_attribution_turns_on_the_idle_threshold_exactly().",
+"file": "crates/conductor-run/src/lifecycle.rs",
+"line": 167
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 lifecycle/tests/liveness_attribution_turns_on_the_idle_threshold_exactly().",
+"file": "crates/conductor-run/src/lifecycle.rs",
+"line": 176
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"file": "crates/conductor-run/tests/lifecycle_harvest.rs",
+"line": 65
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 the_live_leg_resolve_is_attributed_by_liveness().",
+"file": "crates/conductor-run/tests/lifecycle_harvest.rs",
+"line": 186
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 the_same_drop_without_liveness_is_unattributable().",
+"file": "crates/conductor-run/tests/lifecycle_harvest.rs",
+"line": 197
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"file": "crates/conductor-run/tests/lifecycle_live.rs",
+"line": 38
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 canary/canary_storm_specs().",
+"file": "crates/conductor-run/src/canary.rs",
+"line": 188
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 canary/canary_storm_specs().",
+"file": "crates/conductor-run/src/canary.rs",
+"line": 189
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 canary/tests/the_deterministic_canary_is_one_storm_of_the_shipped_shape().",
+"file": "crates/conductor-run/src/canary.rs",
+"line": 459
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 canary/tests/the_real_model_canary_is_three_distinct_storms_ninety_seconds_apart().",
+"file": "crates/conductor-run/src/canary.rs",
+"line": 475
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 28
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"file": "crates/conductor-run/tests/canary_obs_witness.rs",
+"line": 14
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"file": "crates/conductor-run/tests/canary_obs_witness.rs",
+"line": 45
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"file": "crates/conductor-run/tests/canary_wire.rs",
+"line": 24
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 captured_storm_spans().",
+"file": "crates/conductor-run/tests/canary_wire.rs",
+"line": 36
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"file": "crates/conductor-run/tests/canary_wire.rs",
+"line": 130
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"file": "crates/conductor-run/tests/canary_wire.rs",
+"line": 131
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"file": "crates/conductor-run/tests/canary_wire.rs",
+"line": 157
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"file": "crates/conductor-run/tests/canary_wire.rs",
+"line": 208
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 public_api_paths_are_stable().",
+"file": "crates/conductor-run/tests/composition_root.rs",
+"line": 21
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"file": "crates/conductor-run/tests/lifecycle_live.rs",
+"line": 38
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 canary/emit_canary_storms().",
+"file": "crates/conductor-run/src/canary.rs",
+"line": 205
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 29
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"file": "crates/conductor-run/tests/canary_obs_witness.rs",
+"line": 14
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"file": "crates/conductor-run/tests/canary_obs_witness.rs",
+"line": 45
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"file": "crates/conductor-run/tests/canary_wire.rs",
+"line": 24
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 captured_storm_spans().",
+"file": "crates/conductor-run/tests/canary_wire.rs",
+"line": 37
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"file": "crates/conductor-run/tests/canary_wire.rs",
+"line": 158
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"file": "crates/conductor-run/tests/canary_wire.rs",
+"line": 208
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"file": "crates/conductor-run/tests/lifecycle_live.rs",
+"line": 38
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 37
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"file": "crates/conductor-run/tests/lifecycle_live.rs",
+"line": 39
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]
