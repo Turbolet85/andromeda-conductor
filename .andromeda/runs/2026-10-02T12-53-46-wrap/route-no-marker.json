@@ -1,0 +1,161 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-02T13:09:39Z",
+"argv": [
+"route.py",
+"markerless",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-02T12-53-46-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · 81 lines · 34 entries · 33 stamped · 1 markerless · 29 separators",
+"81 · Version close on measured evidence · freight 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-02T13:09:40Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-02T12-53-46-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 1 of 34 entries · freight blocks 0 · rows are an INDEX, not the text",
+"no freight block on a markerless entry matched (81 lines read) — an empty listing is a verdict, not an absence proof"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-02T13:09:40Z",
+"argv": [
+"route.py",
+"epoch",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-02T12-53-46-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · 5 epoch headers · 34 entries · freeze state joined to 154 master records",
+"10 · Epoch 1 — Foundation: the measurements the … · entries 5 · markerless 0 · frozen complete 5 · pending 0",
+"21 · Epoch 2 — Scenario assertion hygiene · entries 5 · markerless 0 · frozen complete 5 · pending 0",
+"32 · Epoch 3 — The a11y capability's terminal · entries 4 · markerless 0 · frozen complete 4 · pending 0",
+"41 · Epoch 4 — Live proof against a real Pulse · entries 8 · markerless 0 · frozen complete 8 · pending 0",
+"58 · Epoch 5 — Polish & ship · entries 12 · markerless 1 · frozen complete 10 · pending 1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-02T13:10:32Z",
+"argv": [
+"route.py",
+"markerless",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-02T12-53-46-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · 87 lines · 37 entries · 33 stamped · 4 markerless · 32 separators",
+"81 · Captured fingerprint values elided · freight 1",
+"83 · The P-075 re-round on incident events · freight 2",
+"85 · A fourth pre-registered real-model series for `v3-09` · freight 2",
+"87 · Version close on measured evidence · freight 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-02T13:10:33Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-02T12-53-46-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 4 of 37 entries · freight blocks 5 · rows are an INDEX, not the text",
+"81 · CONTEXT: · 640 chars · CONTEXT: founder ruling 2026-10-02, live, relayed by the overseer («Так все что планировали…",
+"83 · BLOCKED-ON: · 275 chars · BLOCKED-ON: Pulse \"incident events readable through MCP\" — clears when Pulse relays a sh…",
+"83 · CONTEXT: · 207 chars · CONTEXT: founder ruling 2026-10-02 (as above), entry 2 of 3, minted ahead of the version cl…",
+"85 · BLOCKED-ON: · 137 chars · BLOCKED-ON: Pulse \"retry-storm interpretation names its retry cause\" (the founder's word…",
+"85 · CONTEXT: · 324 chars · CONTEXT: founder ruling 2026-10-02 (as above), entry 3 of 3 — `v3-09` is NOT deferred; no s…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-02T13:16:53Z",
+"argv": [
+"route.py",
+"epoch",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-02T12-53-46-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · 5 epoch headers · 37 entries · freeze state joined to 154 master records",
+"10 · Epoch 1 — Foundation: the measurements the … · entries 5 · markerless 0 · frozen complete 5 · pending 0",
+"21 · Epoch 2 — Scenario assertion hygiene · entries 5 · markerless 0 · frozen complete 5 · pending 0",
+"32 · Epoch 3 — The a11y capability's terminal · entries 4 · markerless 0 · frozen complete 4 · pending 0",
+"41 · Epoch 4 — Live proof against a real Pulse · entries 8 · markerless 0 · frozen complete 8 · pending 0",
+"58 · Epoch 5 — Polish & ship · entries 15 · markerless 4 · frozen complete 10 · pending 1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

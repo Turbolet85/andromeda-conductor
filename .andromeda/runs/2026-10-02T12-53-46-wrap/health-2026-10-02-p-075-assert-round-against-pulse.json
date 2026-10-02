@@ -1,0 +1,169 @@
+[
+{
+"tool": "health",
+"v": "1.0",
+"sha8": "a1bbe341",
+"ts": "2026-10-02T13:08:55Z",
+"argv": [
+"check",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-02T12-53-46-wrap",
+"--marker",
+"2026-10-02-p-075-assert-round-against-pulse"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"pre-flight · ✓ · CLAUDE.md at ./CLAUDE.md",
+"check 1 · ⚠ · CLAUDE.md 138/200 lines · T1 47.8 KB · 9 of 17 bullets over 600 B (+40.3 KB)",
+"  line 127 · 2147 B",
+"  line 128 · 18364 B",
+"  line 129 · 2722 B",
+"  line 130 · 964 B",
+"  line 131 · 12793 B",
+"  line 132 · 5078 B",
+"  line 133 · 2022 B",
+"  line 134 · 1127 B",
+"  line 136 · 1485 B",
+"check 2 · ✓ · 20 markers · 10 starts · 0 orphan / mismatch / unclosed",
+"check 4 · ⚠ · 7 rule files · frontmatter 5/5 parsed · always-loaded 2 (53.7 KB)",
+"  a11y.md 16.3 KB · paths 6 · 6 Session Additions, 2 over 1.5 KB",
+"  frontend.md 20.8 KB · paths 5 · 12 Session Additions, 5 over 1.5 KB",
+"  host-win32.md 21.4 KB · always loaded · 18 Session Additions, 1 over 1.5 KB",
+"  observability.md 7.7 KB · paths 2 · 2 Session Additions, 0 over 1.5 KB",
+"  security.md 32.3 KB · always loaded · 9 Session Additions, 2 over 1.5 KB",
+"  testing.md 84.1 KB · paths 5 · 49 Session Additions, 20 over 1.5 KB · past the read cap",
+"  verification-harness.md 78.0 KB · paths 4 · 33 Session Additions, 13 over 1.5 KB · past the read cap",
+"check 5 · ✓ · core docs 5/5",
+"check 8 · INDETERMINATE: 2/2 entries satisfied by the root .gitignore (fragment: unread)",
+"  INDETERMINATE: fragment arm — no --stack given (one of: go, node, python, rust)",
+"check 9 · ✓ · plans 6/6 by name · summaries 5/5 by name",
+"check 10 · ✓ · .andromeda/master-route.md present",
+"check 11 · ✓ · seeded 2/2 · planes rust, ts · pipeline 4/4 · behind py 0 · sql 0 · cookbook 0",
+"check 13 · INDETERMINATE: no --style given (architecture's Development Style)",
+"check 14 · ✓ · pointer table 22 entries (threshold 5)",
+"checks run: 6 ✓ / 2 ⚠ / 0 – · INDETERMINATE: 2 (renders ⚠) · the letter's hand reads: 3 · 6 · 7 · 12"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"claude_md": "CLAUDE.md",
+"check1": {
+"status": "⚠",
+"lines": 138,
+"t1_bytes": 48916,
+"bullets": 17,
+"over": 9,
+"excess": 41302
+},
+"check2": {
+"status": "✓",
+"markers": 20,
+"problems": []
+},
+"check4": {
+"status": "⚠",
+"files": {
+"a11y.md": {
+"bytes": 16739,
+"frontmatter": "ok",
+"paths": true,
+"sa": 6,
+"sa_over": 2,
+"read_cap": false
+},
+"frontend.md": {
+"bytes": 21253,
+"frontmatter": "ok",
+"paths": true,
+"sa": 12,
+"sa_over": 5,
+"read_cap": false
+},
+"host-win32.md": {
+"bytes": 21890,
+"frontmatter": "absent",
+"paths": false,
+"sa": 18,
+"sa_over": 1,
+"read_cap": false
+},
+"observability.md": {
+"bytes": 7871,
+"frontmatter": "ok",
+"paths": true,
+"sa": 2,
+"sa_over": 0,
+"read_cap": false
+},
+"security.md": {
+"bytes": 33052,
+"frontmatter": "absent",
+"paths": false,
+"sa": 9,
+"sa_over": 2,
+"read_cap": false
+},
+"testing.md": {
+"bytes": 86099,
+"frontmatter": "ok",
+"paths": true,
+"sa": 49,
+"sa_over": 20,
+"read_cap": true
+},
+"verification-harness.md": {
+"bytes": 79858,
+"frontmatter": "ok",
+"paths": true,
+"sa": 33,
+"sa_over": 13,
+"read_cap": true
+}
+},
+"always_loaded_bytes": 54942
+},
+"check5": {
+"status": "✓",
+"missing": []
+},
+"check8": {
+"status": "INDETERMINATE:",
+"missing": [],
+"indeterminate": [],
+"stack": null
+},
+"check9": {
+"status": "✓",
+"missing": []
+},
+"check10": {
+"status": "✓",
+"present": true
+},
+"check11": {
+"status": "✓",
+"planes": [
+"rust",
+"ts"
+],
+"currency": {
+"scripts/code-graph.py": 0,
+"scripts/code-graph-views.sql": 0,
+"scripts/code-graph-cookbook.md": 0
+}
+},
+"check13": {
+"status": "INDETERMINATE:"
+},
+"check14": {
+"status": "✓",
+"entries": 22
+}
+}
+}
+]

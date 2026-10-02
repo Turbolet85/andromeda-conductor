@@ -1,0 +1,832 @@
+[
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-10-02T12:53:55Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"conductor-0.3.0/chunks/2026-10-02-p-075-assert-round-against-pulse",
+"--run-dir",
+".andromeda/runs/2026-10-02T12-53-46-wrap",
+"--marker",
+"2026-10-02-p-075-assert-round-against-pulse"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\conductor · base e1092ce5 (the parent of the oldest pre-CI commit 2a494804) · lists new 2 · modify 4 · derived 0 · record 1",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"recorded in-intent crates/conductor-run/tests/evidence_pin/mod.rs",
+"list conductor-0.3.0/chunks/2026-10-02-p-075-assert-round-against-pulse/evidence/ (dir) ×0",
+"scope: clean — changed 6 · listed 5 · recorded 1 (companion 0 · mechanical 0 · in-intent 1 · widening 0) · absorbed 0 · excluded 46"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\conductor",
+"base": "e1092ce5c52ffdbf12a995d31399615af0e58495",
+"base_why": "the parent of the oldest pre-CI commit 2a494804",
+"counts": {
+"changed": 6,
+"listed": 5,
+"recorded": 1,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 1,
+"widening": 0
+},
+"excluded": 46,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-10-02T13:16:28Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-10-02-p-075-assert-round-against-pulse/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-02T12-53-46-wrap",
+"--marker",
+"2026-10-02-p-075-assert-round-against-pulse"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-10-02-p-075-assert-round-against-pulse · entries 32",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-p-075-assert-round-against-pulse\\wrap-2026-10-02T12-53-46 · bound: GNU timeout",
+"delta docs 34",
+"prose L260-277: - **Ordinary gates.** The non-operator gates run in /implement P2 and the wrap light gate.… (1532 chars)",
+"  1 unit        green · exit 0 · 1.9s · 3347 B → 1.log · cargo nextest run -p conductor-run --test lifecycle_harves… (72 chars)",
+"  2 unit        green · exit 0 · 1.22s · 4424 B → 2.log · cargo nextest run -p conductor-run --test delegated_timing… (79 chars)",
+"  3 unit        green · exit 0 · 4.19s · 28624 B → 3.log · cargo test -p conductor-run",
+"  4 lint        green · exit 0 · 0.82s · 72 B → 4.log · cargo clippy -p conductor-run --features live-pulse --all-… (80 chars)",
+"  5 unit        green · exit 0 · 0.54s · 457 B → 5.log · cargo test -p conductor-run --features live-pulse --test s… (139 chars)",
+"  6 unit        green · exit 0 · 14.93s · 140962 B → 6.log · cargo nextest run --workspace --profile ci",
+"  7 unit        green · exit 0 · 1.93s · 1392 B → 7.log · cargo test --workspace --doc",
+"  8 lint        green · exit 0 · 1.1s · 72 B → 8.log · cargo clippy --workspace --all-targets -- -D warnings",
+"  9 lint        green · exit 0 · 0.5s · 0 B → 9.log · cargo fmt --all --check",
+" 10 probe       green · exit 0 · 0.08s · 0 B → 10.log · git diff --numstat e1092ce -- crates/conductor-run/src/ cr… (531 chars)",
+" 11 probe       green · exit 0 · 0.07s · 4 B → 11.log · grep -c \"^name = \" Cargo.lock",
+" 12 probe       green · exit 0 · 0.37s · 0 B → 12.log · git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+" 13 probe       green · exit 0 · 251.43s · 2085 B → 13.log · cargo audit",
+" 14 probe       green · exit 0 · 9.16s · 236395 B → 14.log · cargo deny check advisories bans licenses sources",
+" 15 probe       not run — leg operator (the letter drives it) · powershell.exe -NoProfile -Command 'Get-CimInstance Win32_… (252 chars)",
+" 16 probe       not run — leg operator (the letter drives it) · sha256sum /d/dev/projects/andromeda-pulse/target/release/p… (141 chars)",
+" 17 probe       not run — leg operator (the letter drives it) · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (159 chars)",
+" 18 probe       not run — leg operator (the letter drives it) · wc -l < \"$(ls -t \"$(cygpath -u \"$ANDROMEDA_PULSE_DATA_DIR\"… (100 chars)",
+" 19 e2e         not run — leg live (the letter drives it) · mkdir -p runs && PATH=/d/dev/projects/andromeda-pulse/targ… (277 chars)",
+" 20 probe       not run — leg operator (the letter drives it) · grep -c \"^p075-round: end$\" conductor-0.3.0/chunks/2026-10… (116 chars)",
+" 21 probe       not run — leg operator (the letter drives it) · sleep 150",
+" 22 e2e         not run — leg live (the letter drives it) · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (180 chars)",
+" 23 probe       not run — leg operator (the letter drives it) · cp logs/agent-latest.jsonl conductor-0.3.0/chunks/2026-10-… (110 chars)",
+" 24 e2e         not run — leg live (the letter drives it) · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (194 chars)",
+" 25 e2e         not run — leg live (the letter drives it) · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (184 chars)",
+" 26 e2e         not run — leg live (the letter drives it) · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (187 chars)",
+" 27 smoke       not run — leg operator (the letter drives it) · bash scripts/agent-run.sh status <id>",
+" 28 probe       green · exit 1 · 0.11s · 2 B → 28.log · ls conductor-0.3.0/chunks/2026-10-02-p-075-assert-round-ag… (276 chars)",
+" 29 probe       green · exit 1 · 0.07s · 2 B → 29.log · grep -cE \"[0-9a-f]{16,}\" conductor-0.3.0/chunks/2026-10-02… (113 chars)",
+" 30 probe       not run — leg operator (the letter drives it) · python -X utf8 C:/Users/turbo/.claude/skills/andromeda-too… (84 chars)",
+" 31 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (112 chars)",
+" 32 probe       not run — leg operator (the letter drives it) · python -X utf8 C:/Users/turbo/.claude/skills/andromeda-too… (108 chars)",
+"entries 32 · green 16 · red 0 · recorded 0 · timeout 0 · not-run 16"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-02-p-075-assert-round-against-pulse",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-10-02-p-075-assert-round-against-pulse\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-p-075-assert-round-against-pulse\\wrap-2026-10-02T12-53-46",
+"delta": {
+"docs": [
+".andromeda/architecture-amendments.md",
+".andromeda/architecture.md",
+".andromeda/friction-log.ndjson",
+".andromeda/obs-plan-amendments.md",
+".andromeda/obs-plan.md",
+".andromeda/security-plan-amendments.md",
+".andromeda/security-plan.md",
+".andromeda/state.yaml",
+".andromeda/test-plan-amendments.md",
+".andromeda/test-plan.md",
+".claude/docs/security-summary.md",
+".claude/docs/tests-summary.md",
+".claude/rules/security.md",
+".claude/rules/verification-harness.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+".andromeda/runs/2026-10-02T12-53-46-wrap/architecture-entry.md",
+".andromeda/runs/2026-10-02T12-53-46-wrap/cascade-2026-10-02-p-075-assert-round-against-pulse.json",
+".andromeda/runs/2026-10-02T12-53-46-wrap/cascade-dispositions.md",
+".andromeda/runs/2026-10-02T12-53-46-wrap/cascade-patterns.toml",
+".andromeda/runs/2026-10-02T12-53-46-wrap/curation.md",
+".andromeda/runs/2026-10-02T12-53-46-wrap/evolve-2026-10-02-p-075-assert-round-against-pulse.json",
+".andromeda/runs/2026-10-02T12-53-46-wrap/fanout-results.md",
+".andromeda/runs/2026-10-02T12-53-46-wrap/gate-2026-10-02-p-075-assert-round-against-pulse.json",
+".andromeda/runs/2026-10-02T12-53-46-wrap/health-2026-10-02-p-075-assert-round-against-pulse.json",
+".andromeda/runs/2026-10-02T12-53-46-wrap/obs-plan-entry.md",
+".andromeda/runs/2026-10-02T12-53-46-wrap/registry-2026-10-02-p-075-assert-round-against-pulse.json",
+".andromeda/runs/2026-10-02T12-53-46-wrap/route-no-marker.json",
+".andromeda/runs/2026-10-02T12-53-46-wrap/security-plan-entry.md",
+".andromeda/runs/2026-10-02T12-53-46-wrap/splice-2026-10-02-p-075-assert-round-against-pulse.json",
+".andromeda/runs/2026-10-02T12-53-46-wrap/sweep-out.txt",
+".andromeda/runs/2026-10-02T12-53-46-wrap/test-plan-entry.md",
+"conductor-0.3.0/chunks/2026-10-02-p-075-assert-round-against-pulse/evidence/operator-pass.md",
+"conductor-0.3.0/chunks/2026-10-02-p-075-assert-round-against-pulse/report.md"
+]
+},
+"unmapped": [],
+"prose": [
+{
+"from": 260,
+"to": 277,
+"text": "- **Ordinary gates.** The non-operator gates run in /implement P2 and the wrap light gate. - **The live block (steps 8–11).** It is the operator's slot, driven by the agent only after the slot is granted and   the hands-off instruction is relayed (step 7). It is never fired by the gate tool.   - Its legs are `leg = 'live'`.   - Its readings (census, hashes, pre-leg counts, freezes, quiet windows, end-line check) are `leg = 'operator'`: one     point-in-time reading each, recorded in `evidence/round-ledger.md` and never re-run by the wrap. Pulse's binary     may be rebuilt by another session afterwards.   - Each leg is preceded by its non-priming `conductor preconditions` probe. There is no `boot` entry anywhere. - **Launching `pulse-app`** is step 8's agent act on the slot (memory \"Agent may launch pulse-app when directed\"). It   is not an entry, and its stop is the agent's at step 10, by PID + CreationDate. - **Evidence producers.**   - `evidence/p075-leg.txt` and `evidence/h.jsonl` are produced by entries carrying `artifact`.   - `pulse-{h,d,r,f}.jsonl` and `round-ledger.md` are hand-authored records written at steps 10–11 from the round's     outputs. They are slices of the live data dir, which no re-run can reproduce.   - What re-runs is the two harvest targets, which grade the digest-pinned files. - **Self-verify:** none. No Conductor UI surface or `ui/dist` input changes. - **CI:** read by the operator pass. The prior wrap's run took 559 s wall (CI#36946764116, Setup 5a), so   `--wait 1200` covers it."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "unit",
+"run": "cargo nextest run -p conductor-run --test lifecycle_harvest --profile ci",
+"run_sha8": "8244d4bd",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-p-075-assert-round-against-pulse\\wrap-2026-10-02T12-53-46\\1.log",
+"bytes": 3347,
+"log_sha8": "a8dd3872",
+"exit": 0,
+"seconds": 1.9,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "unit",
+"run": "cargo nextest run -p conductor-run --test delegated_timing_harvest --profile ci",
+"run_sha8": "5780eff4",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-p-075-assert-round-against-pulse\\wrap-2026-10-02T12-53-46\\2.log",
+"bytes": 4424,
+"log_sha8": "7b335d75",
+"exit": 0,
+"seconds": 1.22,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "cargo test -p conductor-run",
+"run_sha8": "988a9d64",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-p-075-assert-round-against-pulse\\wrap-2026-10-02T12-53-46\\3.log",
+"bytes": 28624,
+"log_sha8": "be82db01",
+"exit": 0,
+"seconds": 4.19,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "lint",
+"run": "cargo clippy -p conductor-run --features live-pulse --all-targets -- -D warnings",
+"run_sha8": "c3608109",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-p-075-assert-round-against-pulse\\wrap-2026-10-02T12-53-46\\4.log",
+"bytes": 72,
+"log_sha8": "45f75b19",
+"exit": 0,
+"seconds": 0.82,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "cargo test -p conductor-run --features live-pulse --test span_landing_live -- --skip both_same_seed_drives_land_inside_one_retention_window",
+"run_sha8": "e0046bee",
+"expect": [
+"exit 0",
+"contains test result: ok. 3 passed"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-p-075-assert-round-against-pulse\\wrap-2026-10-02T12-53-46\\5.log",
+"bytes": 457,
+"log_sha8": "907d6c1c",
+"exit": 0,
+"seconds": 0.54,
+"readings": [
+"exit 0 ✓",
+"contains 'test result: ok. 3 passed' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-p-075-assert-round-against-pulse\\wrap-2026-10-02T12-53-46\\6.log",
+"bytes": 140962,
+"log_sha8": "7487d17b",
+"exit": 0,
+"seconds": 14.93,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "unit",
+"run": "cargo test --workspace --doc",
+"run_sha8": "5d8797c2",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-p-075-assert-round-against-pulse\\wrap-2026-10-02T12-53-46\\7.log",
+"bytes": 1392,
+"log_sha8": "843ecd14",
+"exit": 0,
+"seconds": 1.93,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-p-075-assert-round-against-pulse\\wrap-2026-10-02T12-53-46\\8.log",
+"bytes": 72,
+"log_sha8": "641fe5d2",
+"exit": 0,
+"seconds": 1.1,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-p-075-assert-round-against-pulse\\wrap-2026-10-02T12-53-46\\9.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.5,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "git diff --numstat e1092ce -- crates/conductor-run/src/ crates/conductor-run/Cargo.toml crates/conductor-run/tests/lifecycle_live.rs crates/conductor-run/tests/real_model_harvest.rs crates/conductor-core/ crates/conductor-cli/ crates/conductor-tauri/ crates/conductor-verify/ crates/conductor-emit/ crates/conductor-report/ crates/conductor-timeline/ crates/conductor-faults/ scripts/ scenarios/ Cargo.toml Cargo.lock .github/ contracts/pulse-capabilities.toml contracts/pulse-run-contract.toml contracts/scenario-audit-ledger.toml",
+"run_sha8": "e33d94cd",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-p-075-assert-round-against-pulse\\wrap-2026-10-02T12-53-46\\10.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.08,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "grep -c \"^name = \" Cargo.lock",
+"run_sha8": "6aadf857",
+"expect": [
+"exit 0",
+"last line 562"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-p-075-assert-round-against-pulse\\wrap-2026-10-02T12-53-46\\11.log",
+"bytes": 4,
+"log_sha8": "9db3b992",
+"exit": 0,
+"seconds": 0.07,
+"readings": [
+"exit 0 ✓",
+"last line '562' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+"run_sha8": "85122344",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-p-075-assert-round-against-pulse\\wrap-2026-10-02T12-53-46\\12.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.37,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-p-075-assert-round-against-pulse\\wrap-2026-10-02T12-53-46\\13.log",
+"bytes": 2085,
+"log_sha8": "22010a17",
+"exit": 0,
+"seconds": 251.43,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-p-075-assert-round-against-pulse\\wrap-2026-10-02T12-53-46\\14.log",
+"bytes": 236395,
+"log_sha8": "09e10c61",
+"exit": 0,
+"seconds": 9.16,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "powershell.exe -NoProfile -Command 'Get-CimInstance Win32_Process | Where-Object { $_.Name -match \"pulse-app|andromeda-pulse-mcp|conductor\" } | Select-Object ProcessId,ParentProcessId,Name,CreationDate | Format-Table -AutoSize | Out-String -Width 200' ",
+"run_sha8": "2f572092",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "sha256sum /d/dev/projects/andromeda-pulse/target/release/pulse-app.exe /d/dev/projects/andromeda-pulse/target/release/andromeda-pulse-mcp.exe",
+"run_sha8": "9b8cc5eb",
+"expect": [
+"exit 0",
+"contains 8f2377e1e529b9b6c68a11b14879afc274e3fee579e15477bf9525c7efa761ab",
+"contains d898a3b806098344cb22c814502cdfcd1d8f084f8704c1a8b2875ff66f85302a"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 cargo run -q -p conductor-cli --bin conductor -- preconditions",
+"run_sha8": "02a3b7dd",
+"expect": [
+"exit 0",
+"contains [PRECONDITION] every live-Pulse precondition is satisfied"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "wc -l < \"$(ls -t \"$(cygpath -u \"$ANDROMEDA_PULSE_DATA_DIR\")\"/logs/agent-latest.jsonl.* | head -n 1)\"",
+"run_sha8": "639ebdcc",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 19,
+"role": "e2e",
+"run": "mkdir -p runs && PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH cargo test -q -p conductor-run --features live-pulse --test p075_round_live -- --nocapture > conductor-0.3.0/chunks/2026-10-02-p-075-assert-round-against-pulse/evidence/p075-leg.txt 2> runs/p075-leg.err",
+"run_sha8": "ce39a880",
+"expect": [
+"exit 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg live (the letter drives it)"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "grep -c \"^p075-round: end$\" conductor-0.3.0/chunks/2026-10-02-p-075-assert-round-against-pulse/evidence/p075-leg.txt",
+"run_sha8": "4f81ea95",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "sleep 150",
+"run_sha8": "8ab61411",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 22,
+"role": "e2e",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 cargo run -q -p conductor-cli --bin conductor -- run halo-hue-encoding --agent-mode",
+"run_sha8": "499d2172",
+"expect": [
+"lacks [BLOCKED]",
+"contains halo-hue-encoding"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg live (the letter drives it)"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "cp logs/agent-latest.jsonl conductor-0.3.0/chunks/2026-10-02-p-075-assert-round-against-pulse/evidence/h.jsonl",
+"run_sha8": "712180a2",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 24,
+"role": "e2e",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 cargo run -q -p conductor-cli --bin conductor -- run service-constellation-discovery --agent-mode",
+"run_sha8": "2448aff0",
+"expect": [
+"lacks [BLOCKED]",
+"contains service-constellation-discovery"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg live (the letter drives it)"
+},
+{
+"n": 25,
+"role": "e2e",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 cargo run -q -p conductor-cli --bin conductor -- run report-render-surface --agent-mode",
+"run_sha8": "13f1db19",
+"expect": [
+"lacks [BLOCKED]",
+"contains report-render-surface"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg live (the letter drives it)"
+},
+{
+"n": 26,
+"role": "e2e",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 cargo run -q -p conductor-cli --bin conductor -- run findings-counter-refresh --agent-mode",
+"run_sha8": "98dbc8c2",
+"expect": [
+"lacks [BLOCKED]",
+"contains findings-counter-refresh"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg live (the letter drives it)"
+},
+{
+"n": 27,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status <id>",
+"run_sha8": "4849b302",
+"expect": [
+"exit 0",
+"contains \"scenario\": \"findings-counter-refresh\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 28,
+"role": "probe",
+"run": "ls conductor-0.3.0/chunks/2026-10-02-p-075-assert-round-against-pulse/evidence/round-ledger.md >/dev/null && cat conductor-0.3.0/chunks/2026-10-02-p-075-assert-round-against-pulse/evidence/* | grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|/home/|/Users/|%APPDATA%\"",
+"run_sha8": "87b085f9",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-p-075-assert-round-against-pulse\\wrap-2026-10-02T12-53-46\\28.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.11,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 29,
+"role": "probe",
+"run": "grep -cE \"[0-9a-f]{16,}\" conductor-0.3.0/chunks/2026-10-02-p-075-assert-round-against-pulse/evidence/p075-leg.txt",
+"run_sha8": "afe7ed7e",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-p-075-assert-round-against-pulse\\wrap-2026-10-02T12-53-46\\29.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.07,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 30,
+"role": "probe",
+"run": "python -X utf8 C:/Users/turbo/.claude/skills/andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "f0648308",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 31,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD && echo \"PUSHED_SHA=$(git rev-parse HEAD)\"",
+"run_sha8": "6bf569fe",
+"expect": [
+"exit 0",
+"contains PUSHED_SHA="
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 32,
+"role": "probe",
+"run": "python -X utf8 C:/Users/turbo/.claude/skills/andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1200",
+"run_sha8": "0d290d69",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-10-02T13:16:59Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-10-02T12-53-46-wrap",
+"--marker",
+"2026-10-02-p-075-assert-round-against-pulse"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\conductor · planes rust, ts",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P2 · P3 rust · P3 ts — each fired on its synthetic known positive",
+"hygiene: clean — read 18 (runs 17 · evidence 1) · trails 8 not read · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\conductor",
+"planes": [
+"rust",
+"ts"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 17,
+"evidence": 1,
+"trails": 8,
+"binary": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-10-02T13:17:09Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"conductor-0.3.0/chunks/2026-10-02-p-075-assert-round-against-pulse",
+"--run-dir",
+".andromeda/runs/2026-10-02T12-53-46-wrap",
+"--marker",
+"2026-10-02-p-075-assert-round-against-pulse"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\conductor · base e1092ce5 (the parent of the oldest pre-CI commit 2a494804) · lists new 2 · modify 4 · derived 0 · record 1",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"recorded in-intent crates/conductor-run/tests/evidence_pin/mod.rs",
+"list conductor-0.3.0/chunks/2026-10-02-p-075-assert-round-against-pulse/evidence/ (dir) ×0",
+"scope: clean — changed 6 · listed 5 · recorded 1 (companion 0 · mechanical 0 · in-intent 1 · widening 0) · absorbed 0 · excluded 77"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\conductor",
+"base": "e1092ce5c52ffdbf12a995d31399615af0e58495",
+"base_why": "the parent of the oldest pre-CI commit 2a494804",
+"counts": {
+"changed": 6,
+"listed": 5,
+"recorded": 1,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 1,
+"widening": 0
+},
+"excluded": 77,
+"unparsed": 0,
+"widening_without_word": 0
+}
+}
+]

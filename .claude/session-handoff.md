@@ -1,52 +1,56 @@
 # Session Handoff
 
-**Last Updated:** 2026-10-02T00:16Z
-**Branch:** `build/conductor-0.3.0` · 0 ahead of `origin/build/conductor-0.3.0` as read at this wrap's Setup. HEAD at Setup
-was `163e0f6`, the operator pre-CI commit (CI#36942272745 green 3/3). The wrap commit lands on top and is pushed.
+**Last Updated:** 2026-10-02T13:11Z
+**Branch:** `build/conductor-0.3.0`, 0 ahead of `origin/build/conductor-0.3.0` as read at this wrap's Setup.
+- HEAD at Setup was `2a49480`, the operator pre-CI commit (CI#36970919487 green 3/3).
+- The wrap commit lands on top of it and is pushed.
+
 **Status:** clean
-**Last Commit:** 2026-10-01-per-run-span-identity-in-the-real-model-harness — the wrap commit
+**Last Commit:** 2026-10-02-p-075-assert-round-against-pulse — the wrap commit
 
 ## Position
-- **Done:** `2026-10-01-per-run-span-identity-in-the-real-model-harness`. Production span identity is now salted per
-  execution: `execute_scenario`'s `std::time` `emitted_ms` passes through `Dispatcher::connect(…, Some(_))` to
-  `rekey_trace_identity`. Content stays seed-pure.
-  - CI proof: the `dispatch_wire` two-drive test, which goes RED when the re-key is removed.
-  - Live proof: the `span_landing_live` witness PASSED against Pulse `a2addb3`. Two same-seed drives 253 507 ms apart,
-    inside the 600 s retention, read 0 rejects.
-  - This repays the d2 premise of the 2026-10-01 series. A fourth series, if the founder rules one, need not
-    re-derive it.
-- **Awaiting the founder (unchanged):**
-  1. `v3-09`'s next step: a fourth series, deferral at the version close, or revisiting the retry-token bar.
-  2. The d3 capture's all-digit `fingerprint_hex` prefix, whose ratification is still pending.
-- **Next:** "The P-075 assert round against Pulse", still BLOCKED-ON Pulse's "Conductor return" relaying sha S. It now
-  carries the runs/live-suite subdir CARRY. After it: "Version close on measured evidence".
+- **Done:** `2026-10-02-p-075-assert-round-against-pulse`. All six P-075 assertions were graded `[PASS]` at Pulse S
+  `03ec944`, none of them UNGRADED.
+  - The tests holding them are `lifecycle_harvest::p075_round_assertion_{1,2}_*` and
+    `delegated_timing_harvest::tests::p075_round_assertion_{3..6}_*`.
+  - For Pulse's `ref`: the evidence is `chunks/2026-10-02-p-075-assert-round-against-pulse/evidence/` (report §Outcome).
+- **The span pair moved** to its own `runs/span-landing/`, guarded by a stale-pair refusal. This discharges the
+  live-suite CARRY.
+- **Founder ruling 2026-10-02, live, relayed by the overseer:** «ничего не переносим» (nothing gets deferred). Both
+  open founder items are now closed:
+  - **`v3-09` is NOT deferred.** A fourth series is minted.
+  - **The d3 `fingerprint_hex` residual is FIXED, not ratified.**
+- **Next:** "Captured fingerprint values elided". It is the only unblocked markerless entry. After it come:
+  1. "The P-075 re-round on incident events" — BLOCKED-ON Pulse "incident events readable through MCP".
+  2. "A fourth pre-registered real-model series for `v3-09`" — BLOCKED-ON Pulse "retry-storm interpretation names its
+     retry cause".
+  3. "Version close on measured evidence".
 
 ## Work done
-- Shipped `conductor_emit::rekey_trace_identity` (+5 unit tests), the required `identity_salt` connect parameter,
-  the two-drive `dispatch_wire` test and the operator-gated `span_landing_live` witness.
-- In the operator pass, `pulse-app` was launched by the agent on the overseer's 20-minute slot and stopped by PID +
-  CreationDate. Ports were released and the census is empty.
+- Added the `p075_round_live` gated leg, the digest-pinned graders with tamper arms, the `evidence_pin` module and the
+  span-landing move.
+- No `src/`, script, scenario, manifest or dependency changed.
 
 ## Drift resolved
-- 18 amendments applied: architecture ×4 (Determinism discipline · run-contract identity passage · runs/live-suite
-  second writer · tree line), security-plan ×6 (the span_landing_live reader set / ingest row) and test-plan ×7
-  (§2 / §4 / §6 / §7 / §8 / §9 / §11).
-- 1 escalation resolved: D-arch-collision on `runs/live-suite/`. The overseer ruled to register the second writer now
-  and carry the move.
-- arch §Occupied Resources was held at the registry-size target (38112 B).
-- Leaves re-derived: tests-summary, security-summary, gotchas, CLAUDE.md warnings, and the bodies of rules/testing and
-  rules/security.
+- **12 amendments applied, 0 escalations:**
+  - architecture ×4: the `runs/span-landing/` registration, the live-suite second writer dropped, the tree line, and
+    the [Read-Back Dependency Posture] passage re-measured at S;
+  - security-plan ×1: the span-landing ingest row;
+  - test-plan ×5: §2 ×2, §5 re-grade, §6 `:335` "permanently degraded" retired, and §9 gated set;
+  - obs-plan ×2: §4 Fingerprint-storm check, and Delegated-timing re-graded at S.
+- **Arch registries held within target:** §Established Decisions is 38097 B and §Occupied Resources is 38111 B,
+  against 38115 B.
+- **Leaves re-derived:** tests-summary, security-summary, and the rules/security body.
 
 ## Notes
 - **Last failed command:** none open.
-- **Overseer act:** the advisory-db stray `RUSTSEC-0000-0000.md` (a matrix-sdk-crypto placeholder) was moved to the
-  overseer scratchpad, kept and not deleted. Entry 15 was then re-run green.
-- **Curation:** 1 correction (the rules/testing 2026-06-18 seed/identity entry) and T2 +1 (a span-name grep also matches
-  child lines).
-- **Epoch 5** has grown to 12 entries (10 complete after this flip, 2 markerless). A boundary would restore the
-  diagnose/audit cadence; the split is the operator's call.
-- **Host:** no `pulse-app`, sidecar or `conductor` process is running, and nothing listens on `:4317` / `:4318`.
-  Another session's `pulse-app` debug nextest was left to that session.
-
-## Session End Status
-Completed normally at 2026-10-02 02:36:24
+- **The route changed** on the founder's ruling: three entries were minted ahead of the version close, in the
+  founder's order.
+- **Epoch 5 now has 15 entries:** 11 complete after this flip and 4 markerless. A boundary would restore the
+  diagnose/audit cadence. The split is the operator's call.
+- **Curation:** T2 +1 in verification-harness, on reading a gating predicate's definition before planning a precondition.
+- **Deferred learnings:**
+  - recurrence-despite-learning: the CLAUDE.md token-proxy entry (as extended 2026-09-06, "a pattern WIDER than the one
+    that reads naturally"). This wrap's first cascade sweep still keyed on `permanently` and missed "permanent".
+- **Host:** at wrap time (12:55Z), no `pulse-app`, sidecar or `conductor` process was running. Nothing was listening on
+  `:4317` / `:4318`.

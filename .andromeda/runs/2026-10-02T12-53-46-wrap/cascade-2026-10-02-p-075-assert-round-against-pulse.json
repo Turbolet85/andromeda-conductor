@@ -1,0 +1,215 @@
+[
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "1550f3bc",
+"ts": "2026-10-02T13:05:19Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-02T12-53-46-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-02T12-53-46-wrap",
+"--marker",
+"2026-10-02-p-075-assert-round-against-pulse"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"baseline e1092ce5 (pre-CI parent — the oldest of 1 pre-CI commit(s), 2a494804)",
+"ls-span · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:122 (pros…",
+"second-writer · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:171 …",
+"move-route · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:171 (pr…",
+"span-pair · new 1 · standing 2 · leaf 0 · curation 0 · base 0 · control architecture.md:171 (prose)",
+"perm-degraded · new 0 · standing 0 · leaf 0 · curation 1 · base 0 · control test-plan.md:335 (prose)",
+"no-check · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:315 (prose)",
+"leg1-cite · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:64 (pros…",
+"hex-0bdd · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:64 (prose)",
+".andromeda/architecture.md:172 span-pair new - `runs/span-landing/span-{a,b}.jsonl` — the span-landing pass's drive jou…",
+".andromeda/architecture.md:249 span-pair standing edited …ing operator pass's span-{a,b}.jsonl — the two named files cl…",
+".andromeda/security-plan.md:122 span-pair standing edited …`runs/span-landing/span-{a,b}.jsonl` under `CONDUCTOR_RUNS_D…",
+"CLAUDE.md:128 perm-degraded curation @c17558/18256 …spec master states an always-degraded claim (0 hits over the seven)…",
+"ls-span · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:122 (pros…",
+"second-writer · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:171 …",
+"move-route · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:171 (pr…",
+"span-pair · new 1 · standing 2 · leaf 0 · curation 0 · base 0 · control architecture.md:171 (prose)",
+"perm-degraded · new 0 · standing 0 · leaf 0 · curation 1 · base 0 · control test-plan.md:335 (prose)",
+"no-check · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:315 (prose)",
+"leg1-cite · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:64 (pros…",
+"hex-0bdd · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:64 (prose)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "e1092ce5c52ffdbf12a995d31399615af0e58495",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), 2a494804",
+"counts": {
+"ls-span": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"second-writer": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"move-route": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"span-pair": {
+"new": 1,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"perm-degraded": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 1,
+"base": 0
+},
+"no-check": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"leg1-cite": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"hex-0bdd": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+}
+}
+},
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "1550f3bc",
+"ts": "2026-10-02T13:06:00Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-02T12-53-46-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-02T12-53-46-wrap",
+"--marker",
+"2026-10-02-p-075-assert-round-against-pulse"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"baseline e1092ce5 (pre-CI parent — the oldest of 1 pre-CI commit(s), 2a494804)",
+"ls-span · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:122 (pros…",
+"second-writer · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:171 …",
+"move-route · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:171 (pr…",
+"span-pair · new 1 · standing 2 · leaf 0 · curation 0 · base 0 · control architecture.md:171 (prose)",
+"perm-degraded · new 0 · standing 0 · leaf 1 · curation 1 · base 0 · control test-plan.md:335 (prose)",
+"no-check · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:315 (prose)",
+"leg1-cite · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:64 (pros…",
+"hex-0bdd · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:64 (prose)",
+".andromeda/architecture.md:172 span-pair new - `runs/span-landing/span-{a,b}.jsonl` — the span-landing pass's drive jou…",
+".andromeda/architecture.md:249 span-pair standing edited …ing operator pass's span-{a,b}.jsonl — the two named files cl…",
+".andromeda/security-plan.md:122 span-pair standing edited …`runs/span-landing/span-{a,b}.jsonl` under `CONDUCTOR_RUNS_D…",
+"CLAUDE.md:128 perm-degraded curation @c17558/18256 …spec master states an always-degraded claim (0 hits over the seven)…",
+".claude/docs/tests-summary.md:22 perm-degraded leaf …checks declare-only (permanent `degraded_mode`); the live proof is…",
+"ls-span · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:122 (pros…",
+"second-writer · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:171 …",
+"move-route · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:171 (pr…",
+"span-pair · new 1 · standing 2 · leaf 0 · curation 0 · base 0 · control architecture.md:171 (prose)",
+"perm-degraded · new 0 · standing 0 · leaf 1 · curation 1 · base 0 · control test-plan.md:335 (prose)",
+"no-check · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:315 (prose)",
+"leg1-cite · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:64 (pros…",
+"hex-0bdd · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:64 (prose)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "e1092ce5c52ffdbf12a995d31399615af0e58495",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), 2a494804",
+"counts": {
+"ls-span": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"second-writer": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"move-route": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"span-pair": {
+"new": 1,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"perm-degraded": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 1,
+"base": 0
+},
+"no-check": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"leg1-cite": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"hex-0bdd": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]

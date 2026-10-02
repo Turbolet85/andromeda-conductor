@@ -1,0 +1,39 @@
+# Cascade step-2 sweep — every amendment of this pass (A1-A3, AR1, SR1, T1/T2/TR1-TR3, O1, OR1).
+# Retired claims: the span pair lives under live-suite/ as a second writer; retrieve_report is permanently
+# degraded under deterministic L4; no shipped check computes the emitted-vs-read-back fingerprint match;
+# the arch posture's 2026-09-10 leg1 citation and its hex value (replaced by the S 03ec944 measurement).
+
+[[pattern]]
+id = "ls-span"
+regex = 'live-suite/span|live-suite/\{?span'
+
+[[pattern]]
+id = "second-writer"
+regex = 'second,? operator-local writer|second operator-local writer'
+ignore_case = true
+
+[[pattern]]
+id = "move-route"
+fixed = 'move route-owned'
+
+[[pattern]]
+id = "span-pair"
+fixed = 'span-{a,b}'
+
+[[pattern]]
+id = "perm-degraded"
+regex = 'permanent(ly)?[^.]{0,40}degraded|always[- ]degraded|degraded[^.]{0,20}in this mode|degraded[^.]{0,30}(every|each) read-back under deterministic'
+ignore_case = true
+
+[[pattern]]
+id = "no-check"
+regex = 'shipped check computes|no shipped check computes'
+ignore_case = true
+
+[[pattern]]
+id = "leg1-cite"
+fixed = 'leg1-2026-09-10T19-32-57-092'
+
+[[pattern]]
+id = "hex-0bdd"
+fixed = '0bddf438'
