@@ -1,0 +1,44 @@
+# Cascade sweep — the retired claims of 2026-10-02-captured-fingerprint-values-elided.
+# The claim: two stated residuals of the real-model capture's fingerprint elision (the frozen 2026-09-22 file's
+# prefix, the graded 2026-10-01 d3 all-digit prefix), founder ratification pending, and the elider passing every
+# all-digit run "by definition" (now only an UNKEYED one passes).
+
+[[pattern]]
+id = "ratif-pending"
+fixed = "ratification pending"
+ignore_case = true
+
+[[pattern]]
+id = "keeps-prefix"
+regex = 'keep(s|ing) its (one )?(un-elided )?(storm )?(`fingerprint_hex` )?prefix'
+ignore_case = true
+
+[[pattern]]
+id = "by-definition"
+regex = 'by (its own |that tool.s )?definition'
+ignore_case = true
+
+[[pattern]]
+id = "counts-exactly"
+fixed = "counts exactly"
+ignore_case = true
+
+[[pattern]]
+id = "d3-residual"
+regex = 'd3 (residual|capture.s all-digit|capture one all-digit)'
+ignore_case = true
+
+[[pattern]]
+id = "all-digit-pass"
+regex = 'all-digit (run )?(is not one|passes|prefix|8-character)'
+ignore_case = true
+
+[[pattern]]
+id = "frozen-never"
+fixed = "frozen evidence is never edited"
+ignore_case = true
+
+[[pattern]]
+id = "stated-resid"
+regex = 'stated residual'
+ignore_case = true

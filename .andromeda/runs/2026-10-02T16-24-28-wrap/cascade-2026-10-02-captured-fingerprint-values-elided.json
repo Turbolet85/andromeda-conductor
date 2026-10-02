@@ -1,0 +1,147 @@
+[
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "1550f3bc",
+"ts": "2026-10-02T16:32:38Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-02T16-24-28-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-02T16-24-28-wrap",
+"--marker",
+"2026-10-02-captured-fingerprint-values-elided"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 3,
+"stdout": [
+"baseline 31f9d92f (pre-CI parent — the oldest of 1 pre-CI commit(s), 6e7a3452)",
+"copy-name · control UNFIRED over the seven masters at 31f9d92f"
+],
+"stderr": "control: copy-name never fired over the seven masters' pre-pass text (31f9d92f) — a sweep runs a positive control or refuses; drop the pattern or control it by hand",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "1550f3bc",
+"ts": "2026-10-02T16:32:51Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-02T16-24-28-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-02T16-24-28-wrap",
+"--marker",
+"2026-10-02-captured-fingerprint-values-elided"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"baseline 31f9d92f (pre-CI parent — the oldest of 1 pre-CI commit(s), 6e7a3452)",
+"ratif-pending · new 0 · standing 0 · leaf 2 · curation 0 · base 0 · control architecture.md:113 (prose)",
+"keeps-prefix · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:113 (prose)",
+"by-definition · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:53 (prose)",
+"counts-exactly · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:33…",
+"d3-residual · new 1 · standing 1 · leaf 2 · curation 0 · base 0 · control architecture.md:113 (prose)",
+"all-digit-pass · new 2 · standing 0 · leaf 3 · curation 0 · base 0 · control security-plan.md:121 (prose)",
+"frozen-never · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control security-plan.md:336 (prose)",
+"stated-resid · new 2 · standing 0 · leaf 2 · curation 0 · base 0 · control architecture.md:113 (prose)",
+".claude/rules/security.md:10 ratif-pending leaf …verseer-ruled, founder ratification PENDING. Staging a corpus row dire…",
+".claude/docs/security-summary.md:24 ratif-pending leaf …ynthetic prefix (overseer-ruled, founder ratification pending) |",
+".claude/rules/security.md:10 keeps-prefix leaf …frozen 2026-09-22 file keeps its one `fingerprint_hex` prefix as a stat…",
+".andromeda/architecture.md:53 by-definition standing @c2618/2971 …erator-confirmed by definition, and `StaticOnly` / `N…",
+".andromeda/architecture.md:113 d3-residual standing edited @c4362/4477 …ded 2026-10-01 d3 capture's all-digit prefix — …",
+".andromeda/test-plan.md:336 d3-residual new @c2332/4485 …ss — the 2026-10-01 d3 capture's all-digit prefix re-elided an…",
+".claude/rules/security.md:10 d3-residual leaf … the graded 2026-10-01 d3 capture one all-digit synthetic prefix (the ca…",
+".claude/docs/security-summary.md:24 d3-residual leaf …he graded 2026-10-01 d3 capture one all-digit synthetic prefix (o…",
+".andromeda/architecture.md:113 all-digit-pass new @c4375/4477 …0-01 d3 capture's all-digit prefix — were fixed 2026-10-…",
+".andromeda/test-plan.md:336 all-digit-pass new @c2345/4485 …10-01 d3 capture's all-digit prefix re-elided and its pin m…",
+".claude/rules/security.md:10 all-digit-pass leaf …int-shaped token — an all-digit run is not one and passes). The 2026-…",
+".claude/rules/security.md:18 all-digit-pass leaf @c1634/2659 …shaped token — an all-digit run is not one and passes), f…",
+".claude/docs/security-summary.md:11 all-digit-pass leaf @c1792/2882 …aped token — an all-digit run is not one and passe…",
+".andromeda/security-plan.md:336 frozen-never standing edited @c2288/3070 …exception to \"frozen evidence is never edited…",
+".andromeda/architecture.md:113 stated-resid new @c4281/4477 … copy elided; both stated residuals — the frozen 2026-09-2…",
+".andromeda/security-plan.md:336 stated-resid new @c2105/3070 …>`. Both formerly stated residuals were FIXED on 2026-10-…",
+".claude/rules/security.md:10 stated-resid leaf …print_hex` prefix as a stated residual, and the graded 2026-10-01 d3 ca…",
+".claude/docs/security-summary.md:24 stated-resid leaf …int_hex` prefix as a stated residual, and the graded 2026-10-01 …",
+"ratif-pending · new 0 · standing 0 · leaf 2 · curation 0 · base 0 · control architecture.md:113 (prose)",
+"keeps-prefix · new 0 · standing 0 · leaf 1 · curation 0 · base 0 · control architecture.md:113 (prose)",
+"by-definition · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:53 (prose)",
+"counts-exactly · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:33…",
+"d3-residual · new 1 · standing 1 · leaf 2 · curation 0 · base 0 · control architecture.md:113 (prose)",
+"all-digit-pass · new 2 · standing 0 · leaf 3 · curation 0 · base 0 · control security-plan.md:121 (prose)",
+"frozen-never · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control security-plan.md:336 (prose)",
+"stated-resid · new 2 · standing 0 · leaf 2 · curation 0 · base 0 · control architecture.md:113 (prose)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "31f9d92f6f8235963b9781554c9b95570007ea7d",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), 6e7a3452",
+"counts": {
+"ratif-pending": {
+"new": 0,
+"standing": 0,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"keeps-prefix": {
+"new": 0,
+"standing": 0,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"by-definition": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"counts-exactly": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"d3-residual": {
+"new": 1,
+"standing": 1,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"all-digit-pass": {
+"new": 2,
+"standing": 0,
+"leaf": 3,
+"curation": 0,
+"base": 0
+},
+"frozen-never": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"stated-resid": {
+"new": 2,
+"standing": 0,
+"leaf": 2,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]

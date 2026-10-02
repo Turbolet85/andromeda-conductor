@@ -1,0 +1,131 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-10-02T16:35:24Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-02T16-24-28-wrap/security-plan-entry.md",
+"--lines",
+"14",
+"--after-line",
+"541",
+"--expect-last-prefix",
+"**Ref:**",
+"--run-dir",
+".andromeda/runs/2026-10-02T16-24-28-wrap",
+"--marker",
+"2026-10-02-captured-fingerprint-values-elided"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+14 at line 542 · lines 541→555 · bytes 95291→97701 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-02T16-24-28-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 541,
+"bytes": 95291,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 555,
+"bytes": 97701
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-10-02T16:35:28Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-02T16-24-28-wrap/architecture-entry.md",
+"--lines",
+"6",
+"--after-line",
+"1121",
+"--expect-last-prefix",
+"**Ref:**",
+"--run-dir",
+".andromeda/runs/2026-10-02T16-24-28-wrap",
+"--marker",
+"2026-10-02-captured-fingerprint-values-elided"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+6 at line 1122 · lines 1121→1127 · bytes 191608→192581 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-02T16-24-28-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 1121,
+"bytes": 191608,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1127,
+"bytes": 192581
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-10-02T16:35:31Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-02T16-24-28-wrap/test-plan-entry.md",
+"--lines",
+"10",
+"--after-line",
+"781",
+"--expect-last-prefix",
+"**Ref:**",
+"--run-dir",
+".andromeda/runs/2026-10-02T16-24-28-wrap",
+"--marker",
+"2026-10-02-captured-fingerprint-values-elided"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+10 at line 782 · lines 781→791 · bytes 133272→134809 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-02T16-24-28-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 781,
+"bytes": 133272,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 791,
+"bytes": 134809
+}
+}
+]

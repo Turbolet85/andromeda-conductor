@@ -1,0 +1,648 @@
+[
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-10-02T16:24:36Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"conductor-0.3.0/chunks/2026-10-02-captured-fingerprint-values-elided",
+"--run-dir",
+".andromeda/runs/2026-10-02T16-24-28-wrap",
+"--marker",
+"2026-10-02-captured-fingerprint-values-elided"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\conductor · base 31f9d92f (the parent of the oldest pre-CI commit 6e7a3452) · lists new 1 · modify 10 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"scope: clean — changed 3 · listed 3 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 43"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\conductor",
+"base": "31f9d92f6f8235963b9781554c9b95570007ea7d",
+"base_why": "the parent of the oldest pre-CI commit 6e7a3452",
+"counts": {
+"changed": 3,
+"listed": 3,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 43,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-10-02T16:56:33Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-10-02-captured-fingerprint-values-elided/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-02T16-24-28-wrap",
+"--marker",
+"2026-10-02-captured-fingerprint-values-elided"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-10-02-captured-fingerprint-values-elided · entries 21",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-captured-fingerprint-values-elided\\wrap-2026-10-02T16-24-28 · bound: GNU timeout",
+"delta docs 35 · python 2",
+"prose L160-168: - **No boot-path or live leg in this chunk.** Nothing a harness verb produces changes, so … (759 chars)",
+"  1 unit        green · exit 0 · 10.1s · 12441 B → 1.log · cargo nextest run -p conductor-run --test real_model_harve… (73 chars)",
+"  2 unit        green · exit 0 · 4.34s · 28767 B → 2.log · cargo test -p conductor-run",
+"  3 lint        green · exit 0 · 4.89s · 72 B → 3.log · cargo clippy -p conductor-run --features live-pulse --all-… (80 chars)",
+"  4 unit        green · exit 0 · 29.01s · 141223 B → 4.log · cargo nextest run --workspace --profile ci",
+"  5 unit        green · exit 0 · 2.62s · 1392 B → 5.log · cargo test --workspace --doc",
+"  6 lint        green · exit 0 · 5.53s · 72 B → 6.log · cargo clippy --workspace --all-targets -- -D warnings",
+"  7 lint        green · exit 0 · 0.52s · 0 B → 7.log · cargo fmt --all --check",
+"  8 probe       green · exit 0 · 0.13s · 2 B → 8.log · git show 31f9d92:conductor-0.3.0/chunks/2026-09-22-interpr… (306 chars)",
+"  9 probe       green · exit 123 · 0.65s · 0 B → 9.log · git show 31f9d92:conductor-0.3.0/chunks/2026-09-22-interpr… (340 chars)",
+" 10 probe       green · exit 0 · 0.11s · 0 B → 10.log · cmp conductor-0.3.0/chunks/2026-09-22-interpretation-prove… (215 chars)",
+" 11 probe       green · exit 0 · 0.22s · 2 B → 11.log · git diff --numstat 31f9d92 -- conductor-0.3.0/chunks/2026-… (268 chars)",
+" 12 probe       green · exit 0 · 0.12s · 2 B → 12.log · git diff --numstat 31f9d92 -- conductor-0.3.0/chunks/2026-… (556 chars)",
+" 13 probe       green · exit 0 · 0.12s · 14 B → 13.log · python -X utf8 -c \"import json,sys; [json.load(open(p, enc… (351 chars)",
+" 14 probe       green · exit 0 · 0.08s · 0 B → 14.log · git diff --numstat 31f9d92 -- crates/conductor-core crates… (330 chars)",
+" 15 probe       green · exit 0 · 0.9s · 4 B → 15.log · grep -c \"^name = \" Cargo.lock",
+" 16 probe       green · exit 0 · 3.69s · 0 B → 16.log · git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+" 17 probe       green · exit 0 · 858.38s · 1897 B → 17.log · cargo audit",
+" 18 probe       green · exit 0 · 45.03s · 236395 B → 18.log · cargo deny check advisories bans licenses sources",
+" 19 probe       not run — leg operator (the letter drives it) · python -X utf8 C:/Users/turbo/.claude/skills/andromeda-too… (84 chars)",
+" 20 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (112 chars)",
+" 21 probe       not run — leg operator (the letter drives it) · python -X utf8 C:/Users/turbo/.claude/skills/andromeda-too… (108 chars)",
+"entries 21 · green 18 · red 0 · recorded 0 · timeout 0 · not-run 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-02-captured-fingerprint-values-elided",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-10-02-captured-fingerprint-values-elided\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-captured-fingerprint-values-elided\\wrap-2026-10-02T16-24-28",
+"delta": {
+"docs": [
+".andromeda/architecture-amendments.md",
+".andromeda/architecture.md",
+".andromeda/friction-log.ndjson",
+".andromeda/security-plan-amendments.md",
+".andromeda/security-plan.md",
+".andromeda/state.yaml",
+".andromeda/test-plan-amendments.md",
+".andromeda/test-plan.md",
+".claude/docs/security-summary.md",
+".claude/rules/host-win32.md",
+".claude/rules/security.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/chunks/2026-10-02-captured-fingerprint-values-elided/evidence/operator-pass.md",
+"conductor-0.3.0/working-route.md",
+".andromeda/runs/2026-10-02T16-24-28-wrap/architecture-entry.md",
+".andromeda/runs/2026-10-02T16-24-28-wrap/cascade-2026-10-02-captured-fingerprint-values-elided.json",
+".andromeda/runs/2026-10-02T16-24-28-wrap/cascade-dispositions.md",
+".andromeda/runs/2026-10-02T16-24-28-wrap/cascade-patterns.toml",
+".andromeda/runs/2026-10-02T16-24-28-wrap/curation.md",
+".andromeda/runs/2026-10-02T16-24-28-wrap/detectors-a11y-plan.yaml",
+".andromeda/runs/2026-10-02T16-24-28-wrap/detectors-arch.yaml",
+".andromeda/runs/2026-10-02T16-24-28-wrap/detectors-design-system.yaml",
+".andromeda/runs/2026-10-02T16-24-28-wrap/detectors-layout-templates.yaml",
+".andromeda/runs/2026-10-02T16-24-28-wrap/detectors-obs-plan.yaml",
+".andromeda/runs/2026-10-02T16-24-28-wrap/detectors-security-plan.yaml",
+".andromeda/runs/2026-10-02T16-24-28-wrap/detectors-test-plan.yaml",
+".andromeda/runs/2026-10-02T16-24-28-wrap/evolve-2026-10-02-captured-fingerprint-values-elided.json",
+".andromeda/runs/2026-10-02T16-24-28-wrap/fanout-results.md",
+".andromeda/runs/2026-10-02T16-24-28-wrap/gate-2026-10-02-captured-fingerprint-values-elided.json",
+".andromeda/runs/2026-10-02T16-24-28-wrap/registry-2026-10-02-captured-fingerprint-values-elided.json",
+".andromeda/runs/2026-10-02T16-24-28-wrap/route-no-marker.json",
+".andromeda/runs/2026-10-02T16-24-28-wrap/security-plan-entry.md",
+".andromeda/runs/2026-10-02T16-24-28-wrap/splice-2026-10-02-captured-fingerprint-values-elided.json",
+".andromeda/runs/2026-10-02T16-24-28-wrap/test-plan-entry.md",
+"conductor-0.3.0/chunks/2026-10-02-captured-fingerprint-values-elided/report.md"
+],
+"python": [
+".andromeda/runs/2026-10-02T16-24-28-wrap/apply_bodies.py",
+".andromeda/runs/2026-10-02T16-24-28-wrap/apply_leaves.py"
+]
+},
+"unmapped": [],
+"prose": [
+{
+"from": 160,
+"to": 168,
+"text": "- **No boot-path or live leg in this chunk.** Nothing a harness verb produces changes, so there is no smoke entry and   no live entry. The live producer `real_model_live.rs` is compiled by the `live-pulse` clippy entry and never   driven. - **The value checks re-derive both values from `31f9d92`**, the chunk base, which is immutable. They print only   file paths or counts. - **The operator pass** fires hygiene → the pre-CI commit → push → CI read, as the project's recent chunks do. - **`evidence/census.md` is written by step 8, not produced by an entry.** It is the chunk's record of the step-1 red   and the step-8 green. Every property it records is held on re-run by a listed entry: the unit entry, plus the   value-absence, `cmp` and numstat probes."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "unit",
+"run": "cargo nextest run -p conductor-run --test real_model_harvest --profile ci",
+"run_sha8": "70507ea4",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-captured-fingerprint-values-elided\\wrap-2026-10-02T16-24-28\\1.log",
+"bytes": 12441,
+"log_sha8": "20539484",
+"exit": 0,
+"seconds": 10.1,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "unit",
+"run": "cargo test -p conductor-run",
+"run_sha8": "988a9d64",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-captured-fingerprint-values-elided\\wrap-2026-10-02T16-24-28\\2.log",
+"bytes": 28767,
+"log_sha8": "851a6a51",
+"exit": 0,
+"seconds": 4.34,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "lint",
+"run": "cargo clippy -p conductor-run --features live-pulse --all-targets -- -D warnings",
+"run_sha8": "c3608109",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-captured-fingerprint-values-elided\\wrap-2026-10-02T16-24-28\\3.log",
+"bytes": 72,
+"log_sha8": "f792d25d",
+"exit": 0,
+"seconds": 4.89,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-captured-fingerprint-values-elided\\wrap-2026-10-02T16-24-28\\4.log",
+"bytes": 141223,
+"log_sha8": "b40bd5cb",
+"exit": 0,
+"seconds": 29.01,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "unit",
+"run": "cargo test --workspace --doc",
+"run_sha8": "5d8797c2",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-captured-fingerprint-values-elided\\wrap-2026-10-02T16-24-28\\5.log",
+"bytes": 1392,
+"log_sha8": "d5a0f513",
+"exit": 0,
+"seconds": 2.62,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-captured-fingerprint-values-elided\\wrap-2026-10-02T16-24-28\\6.log",
+"bytes": 72,
+"log_sha8": "bdbe2831",
+"exit": 0,
+"seconds": 5.53,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-captured-fingerprint-values-elided\\wrap-2026-10-02T16-24-28\\7.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.52,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "git show 31f9d92:conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/evidence/rm-capture.txt 31f9d92:conductor-0.3.0/chunks/2026-10-01-interpretation-re-proven-after-the-incident-surfacing-fix/evidence/rm-capture-d3.txt | grep -o 'fingerprint_hex=[0-9a-f][0-9a-f]*' | cut -d= -f2 | sort -u | wc -l",
+"run_sha8": "b8f39108",
+"expect": [
+"exit 0",
+"last line 2"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-captured-fingerprint-values-elided\\wrap-2026-10-02T16-24-28\\8.log",
+"bytes": 2,
+"log_sha8": "53c234e5",
+"exit": 0,
+"seconds": 0.13,
+"readings": [
+"exit 0 ✓",
+"last line '2' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "git show 31f9d92:conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/evidence/rm-capture.txt 31f9d92:conductor-0.3.0/chunks/2026-10-01-interpretation-re-proven-after-the-incident-surfacing-fix/evidence/rm-capture-d3.txt | grep -o 'fingerprint_hex=[0-9a-f][0-9a-f]*' | cut -d= -f2 | sort -u | xargs -n1 git grep --untracked -l -F -e",
+"run_sha8": "c060a096",
+"expect": [
+"exit 123",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-captured-fingerprint-values-elided\\wrap-2026-10-02T16-24-28\\9.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 123,
+"seconds": 0.65,
+"readings": [
+"exit 123 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "cmp conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/evidence/rm-capture.txt conductor-0.3.0/chunks/2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir/evidence/rm-capture-2026-09-22-elided.txt",
+"run_sha8": "04ebd23e",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-captured-fingerprint-values-elided\\wrap-2026-10-02T16-24-28\\10.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.11,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "git diff --numstat 31f9d92 -- conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/evidence/rm-capture.txt conductor-0.3.0/chunks/2026-10-01-interpretation-re-proven-after-the-incident-surfacing-fix/evidence/rm-capture-d3.txt | awk '$1 == 2 && $2 == 2' | wc -l",
+"run_sha8": "63d1806b",
+"expect": [
+"exit 0",
+"last line 2"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-captured-fingerprint-values-elided\\wrap-2026-10-02T16-24-28\\11.log",
+"bytes": 2,
+"log_sha8": "53c234e5",
+"exit": 0,
+"seconds": 0.22,
+"readings": [
+"exit 0 ✓",
+"last line '2' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "git diff --numstat 31f9d92 -- conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/report.md conductor-0.3.0/chunks/2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir/plan.md conductor-0.3.0/chunks/2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir/research.md .andromeda/runs/2026-09-30T04-48-49-implement/gate-2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir.json .andromeda/runs/2026-09-30T07-22-03-wrap/gate-2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir.json | awk '$1 == $2 && $1 > 0' | wc -l",
+"run_sha8": "81ad22d3",
+"expect": [
+"exit 0",
+"last line 5"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-captured-fingerprint-values-elided\\wrap-2026-10-02T16-24-28\\12.log",
+"bytes": 2,
+"log_sha8": "f0b5c2c2",
+"exit": 0,
+"seconds": 0.12,
+"readings": [
+"exit 0 ✓",
+"last line '5' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "python -X utf8 -c \"import json,sys; [json.load(open(p, encoding='utf-8')) for p in sys.argv[1:]]; print('trails parse')\" .andromeda/runs/2026-09-30T04-48-49-implement/gate-2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir.json .andromeda/runs/2026-09-30T07-22-03-wrap/gate-2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir.json",
+"run_sha8": "d5e30fb6",
+"expect": [
+"exit 0",
+"last line trails parse"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-captured-fingerprint-values-elided\\wrap-2026-10-02T16-24-28\\13.log",
+"bytes": 14,
+"log_sha8": "d774b863",
+"exit": 0,
+"seconds": 0.12,
+"readings": [
+"exit 0 ✓",
+"last line 'trails parse' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "git diff --numstat 31f9d92 -- crates/conductor-core crates/conductor-cli crates/conductor-tauri crates/conductor-verify crates/conductor-emit crates/conductor-report crates/conductor-timeline crates/conductor-faults crates/conductor-run/src crates/conductor-run/Cargo.toml Cargo.toml Cargo.lock scripts scenarios contracts .github",
+"run_sha8": "153a2a5c",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-captured-fingerprint-values-elided\\wrap-2026-10-02T16-24-28\\14.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.08,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "grep -c \"^name = \" Cargo.lock",
+"run_sha8": "6aadf857",
+"expect": [
+"exit 0",
+"last line 562"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-captured-fingerprint-values-elided\\wrap-2026-10-02T16-24-28\\15.log",
+"bytes": 4,
+"log_sha8": "9db3b992",
+"exit": 0,
+"seconds": 0.9,
+"readings": [
+"exit 0 ✓",
+"last line '562' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+"run_sha8": "85122344",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-captured-fingerprint-values-elided\\wrap-2026-10-02T16-24-28\\16.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 3.69,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-captured-fingerprint-values-elided\\wrap-2026-10-02T16-24-28\\17.log",
+"bytes": 1897,
+"log_sha8": "a237366e",
+"exit": 0,
+"seconds": 858.38,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-02-captured-fingerprint-values-elided\\wrap-2026-10-02T16-24-28\\18.log",
+"bytes": 236395,
+"log_sha8": "09e10c61",
+"exit": 0,
+"seconds": 45.03,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "python -X utf8 C:/Users/turbo/.claude/skills/andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "f0648308",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD && echo \"PUSHED_SHA=$(git rev-parse HEAD)\"",
+"run_sha8": "6bf569fe",
+"expect": [
+"exit 0",
+"contains PUSHED_SHA="
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "python -X utf8 C:/Users/turbo/.claude/skills/andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1200",
+"run_sha8": "0d290d69",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-10-02T16:57:17Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-10-02T16-24-28-wrap",
+"--marker",
+"2026-10-02-captured-fingerprint-values-elided"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\conductor · planes rust, ts",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P2 · P3 rust · P3 ts — each fired on its synthetic known positive",
+"hygiene: clean — read 24 (runs 23 · evidence 1) · trails 7 not read · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\conductor",
+"planes": [
+"rust",
+"ts"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 23,
+"evidence": 1,
+"trails": 7,
+"binary": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-10-02T16:57:19Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"conductor-0.3.0/chunks/2026-10-02-captured-fingerprint-values-elided",
+"--run-dir",
+".andromeda/runs/2026-10-02T16-24-28-wrap",
+"--marker",
+"2026-10-02-captured-fingerprint-values-elided"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\conductor · base 31f9d92f (the parent of the oldest pre-CI commit 6e7a3452) · lists new 1 · modify 10 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"scope: clean — changed 3 · listed 3 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 77"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\conductor",
+"base": "31f9d92f6f8235963b9781554c9b95570007ea7d",
+"base_why": "the parent of the oldest pre-CI commit 6e7a3452",
+"counts": {
+"changed": 3,
+"listed": 3,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 77,
+"unparsed": 0,
+"widening_without_word": 0
+}
+}
+]
