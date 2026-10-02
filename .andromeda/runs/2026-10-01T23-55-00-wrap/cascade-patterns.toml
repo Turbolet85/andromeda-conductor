@@ -1,0 +1,47 @@
+# Cascade sweep — the claims this pass retired or restated (2026-10-01-per-run-span-identity-in-the-real-model-harness)
+
+# A2: a colliding span row is logged-and-skipped (retired: the whole batch is rejected)
+[[pattern]]
+id = "logskip"
+regex = 'logs?-and-skips?|skips? (a|the|one) colliding'
+ignore_case = true
+
+[[pattern]]
+id = "colliding"
+fixed = "colliding row"
+
+# A2: the stale Pulse schema citation
+[[pattern]]
+id = "schema38"
+fixed = "schema.rs:38"
+
+# A1: span identity as a pure function of seed (now true only on the unsalted tier)
+[[pattern]]
+id = "spanident"
+regex = 'span identity|identity is a (deterministic|pure) function of|same-seed|seed-pure'
+ignore_case = true
+
+[[pattern]]
+id = "sameseed"
+fixed = "same scenario + seed"
+
+# A3/A4: runs/live-suite as harness-only
+[[pattern]]
+id = "livesuite"
+fixed = "live-suite"
+
+# S1/S2/S4/S5: the CONDUCTOR_RUNS_DIR / data-dir test-binary reader enumerations
+[[pattern]]
+id = "readers"
+regex = 'THREE test-binary readers|all three resolve|two operator-gated `live-pulse` captures|test-binary VALUE reader\b'
+
+# test-plan §12 note: the two-arg connect signature
+[[pattern]]
+id = "connect"
+fixed = "Dispatcher::connect"
+
+# T3: the quiet-window class enumeration
+[[pattern]]
+id = "quietwin"
+fixed = "quiet window"
+ignore_case = true

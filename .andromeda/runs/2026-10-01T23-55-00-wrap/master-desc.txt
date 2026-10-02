@@ -1,0 +1,1 @@
+per-run span identity — production re-keys span ids per execution; two same-seed drives inside one Pulse retention window both land (CI two-drive test + live witness, deterministic posture)

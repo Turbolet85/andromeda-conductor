@@ -1,0 +1,860 @@
+[
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-10-01T23:54:57Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"conductor-0.3.0/chunks/2026-10-01-per-run-span-identity-in-the-real-model-harness",
+"--run-dir",
+".andromeda/runs/2026-10-01T23-55-00-wrap",
+"--marker",
+"2026-10-01-per-run-span-identity-in-the-real-model-harness"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\conductor · base 2c97d3b3 (the parent of the oldest pre-CI commit 163e0f67) · lists new 4 · modify 4 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"scope: clean — changed 6 · listed 6 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 37"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\conductor",
+"base": "2c97d3b3726b4e00a2f64956d3b62ed815b43cde",
+"base_why": "the parent of the oldest pre-CI commit 163e0f67",
+"counts": {
+"changed": 6,
+"listed": 6,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 37,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-10-02T00:30:03Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-10-01-per-run-span-identity-in-the-real-model-harness/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-01T23-55-00-wrap",
+"--marker",
+"2026-10-01-per-run-span-identity-in-the-real-model-harness"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"shell C:\\Program Files\\Git\\bin\\bash.exe (from $SHELL; -c, non-login)",
+"root D:\\dev\\projects\\conductor · marker 2026-10-01-per-run-span-identity-in-the-real-model-harness · entries 32",
+"logs C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-01-per-run-span-identity-in-the-real-model-harness\\wrap-2026-10-01T23-55-00 · bound: GNU timeout",
+"delta docs 54",
+"prose L179-184: The gates below run in /implement P2 and the wrap light gate, except those marked `leg = '… (623 chars)",
+"prose L186-189: One control MUTATES source, so it is not an entry: step 5's red-before-green run. /impleme… (368 chars)",
+"  1 unit        green · exit 0 · 14.79s · 18429 B → 1.log · cargo nextest run -p conductor-emit --profile ci",
+"  2 unit        green · exit 0 · 13.35s · 14016 B → 2.log · cargo test -p conductor-emit",
+"  3 unit        green · exit 0 · 3.23s · 2190 B → 3.log · cargo nextest run -p conductor-run --test dispatch_wire --… (68 chars)",
+"  4 unit        green · exit 0 · 0.8s · 1346 B → 4.log · cargo test -p conductor-run --test dispatch_wire",
+"  5 lint        green · exit 0 · 12.64s · 73 B → 5.log · cargo clippy -p conductor-run --features live-pulse --all-… (80 chars)",
+"  6 unit        green · exit 0 · 384.71s · 138167 B → 6.log · cargo nextest run --workspace --profile ci",
+"  7 unit        green · exit 0 · 2.67s · 1392 B → 7.log · cargo test --workspace --doc",
+"  8 lint        green · exit 0 · 7.12s · 72 B → 8.log · cargo clippy --workspace --all-targets -- -D warnings",
+"  9 lint        green · exit 0 · 0.5s · 0 B → 9.log · cargo fmt --all --check",
+" 10 probe       green · exit 0 · 0.07s · 0 B → 10.log · git diff --numstat 2c97d3b -- crates/conductor-run/tests/s… (110 chars)",
+" 11 probe       green · exit 0 · 0.08s · 0 B → 11.log · git diff --numstat 2c97d3b -- crates/conductor-emit/src/cl… (441 chars)",
+" 12 probe       green · exit 1 · 0.19s · 2 B → 12.log · grep -c \"conductor-core\" crates/conductor-emit/Cargo.toml",
+" 13 probe       green · exit 1 · 0.07s · 2 B → 13.log · grep -c \"tracing::\" crates/conductor-emit/src/identity.rs",
+" 14 probe       green · exit 0 · 0.18s · 4 B → 14.log · grep -c \"^name = \" Cargo.lock",
+" 15 probe       green · exit 0 · 0.82s · 0 B → 15.log · git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+" 16 probe       green · exit 0 · 382.27s · 1897 B → 16.log · cargo audit",
+" 17 probe       green · exit 0 · 17.91s · 236395 B → 17.log · cargo deny check advisories bans licenses sources",
+" 18 probe       not run — leg operator (the letter drives it) · powershell.exe -NoProfile -Command 'Get-CimInstance Win32_… (252 chars)",
+" 19 probe       not run — leg operator (the letter drives it) · sha256sum /d/dev/projects/andromeda-pulse/target/release/p… (141 chars)",
+" 20 probe       not run — leg operator (the letter drives it) · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (159 chars)",
+" 21 e2e         not run — leg operator (the letter drives it) · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (186 chars)",
+" 22 probe       not run — leg operator (the letter drives it) · mkdir -p runs/live-suite && cp logs/agent-latest.jsonl run… (83 chars)",
+" 23 probe       not run — leg operator (the letter drives it) · sleep 180",
+" 24 probe       not run — leg operator (the letter drives it) · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (159 chars)",
+" 25 e2e         not run — leg operator (the letter drives it) · PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH … (186 chars)",
+" 26 probe       not run — leg operator (the letter drives it) · mkdir -p runs/live-suite && cp logs/agent-latest.jsonl run… (83 chars)",
+" 27 e2e         not run — leg operator (the letter drives it) · cargo test -q -p conductor-run --features live-pulse --tes… (92 chars)",
+" 28 smoke       not run — leg operator (the letter drives it) · bash scripts/agent-run.sh status <id>",
+" 29 probe       green · exit 1 · 0.11s · 2 B → 29.log · ls conductor-0.3.0/chunks/2026-10-01-per-run-span-identity… (308 chars)",
+" 30 probe       not run — leg operator (the letter drives it) · python -X utf8 C:/Users/turbo/.claude/skills/andromeda-too… (84 chars)",
+" 31 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (112 chars)",
+" 32 probe       not run — leg operator (the letter drives it) · python -X utf8 C:/Users/turbo/.claude/skills/andromeda-too… (108 chars)",
+"entries 32 · green 18 · red 0 · recorded 0 · timeout 0 · not-run 14"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-01-per-run-span-identity-in-the-real-model-harness",
+"plan": "D:\\dev\\projects\\conductor\\conductor-0.3.0\\chunks\\2026-10-01-per-run-span-identity-in-the-real-model-harness\\plan.md",
+"root": "D:\\dev\\projects\\conductor",
+"shell": "C:\\Program Files\\Git\\bin\\bash.exe",
+"out_dir": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-01-per-run-span-identity-in-the-real-model-harness\\wrap-2026-10-01T23-55-00",
+"delta": {
+"docs": [
+".andromeda/architecture-amendments.md",
+".andromeda/architecture.md",
+".andromeda/friction-log.ndjson",
+".andromeda/security-plan-amendments.md",
+".andromeda/security-plan.md",
+".andromeda/state.yaml",
+".andromeda/test-plan-amendments.md",
+".andromeda/test-plan.md",
+".claude/docs/gotchas.md",
+".claude/docs/security-summary.md",
+".claude/docs/tests-summary.md",
+".claude/rules/security.md",
+".claude/rules/testing.md",
+".claude/session-handoff.md",
+"CLAUDE.md",
+"conductor-0.3.0/chunks/2026-10-01-per-run-span-identity-in-the-real-model-harness/evidence/witness-ledger.md",
+"conductor-0.3.0/working-route.md",
+".andromeda/runs/2026-10-01T23-55-00-wrap/.detectors-a11y-plan.yaml",
+".andromeda/runs/2026-10-01T23-55-00-wrap/.detectors-arch.yaml",
+".andromeda/runs/2026-10-01T23-55-00-wrap/.detectors-design-system.yaml",
+".andromeda/runs/2026-10-01T23-55-00-wrap/.detectors-layout-templates.yaml",
+".andromeda/runs/2026-10-01T23-55-00-wrap/.detectors-obs-plan.yaml",
+".andromeda/runs/2026-10-01T23-55-00-wrap/.detectors-security-plan.yaml",
+".andromeda/runs/2026-10-01T23-55-00-wrap/.detectors-test-plan.yaml",
+".andromeda/runs/2026-10-01T23-55-00-wrap/.prompt-a11y-plan.md",
+".andromeda/runs/2026-10-01T23-55-00-wrap/.prompt-architecture.md",
+".andromeda/runs/2026-10-01T23-55-00-wrap/.prompt-design-system.md",
+".andromeda/runs/2026-10-01T23-55-00-wrap/.prompt-layout-templates.md",
+".andromeda/runs/2026-10-01T23-55-00-wrap/.prompt-obs-plan.md",
+".andromeda/runs/2026-10-01T23-55-00-wrap/.prompt-security-plan.md",
+".andromeda/runs/2026-10-01T23-55-00-wrap/.prompt-test-plan.md",
+".andromeda/runs/2026-10-01T23-55-00-wrap/.reg-a11y-plan.log",
+".andromeda/runs/2026-10-01T23-55-00-wrap/.reg-architecture.log",
+".andromeda/runs/2026-10-01T23-55-00-wrap/.reg-design-system.log",
+".andromeda/runs/2026-10-01T23-55-00-wrap/.reg-layout-templates.log",
+".andromeda/runs/2026-10-01T23-55-00-wrap/.reg-obs-plan.log",
+".andromeda/runs/2026-10-01T23-55-00-wrap/.reg-security-plan.log",
+".andromeda/runs/2026-10-01T23-55-00-wrap/.reg-test-plan.log",
+".andromeda/runs/2026-10-01T23-55-00-wrap/.sweep.txt",
+".andromeda/runs/2026-10-01T23-55-00-wrap/architecture-entry.md",
+".andromeda/runs/2026-10-01T23-55-00-wrap/cascade-2026-10-01-per-run-span-identity-in-the-real-model-harness.json",
+".andromeda/runs/2026-10-01T23-55-00-wrap/cascade-dispositions.md",
+".andromeda/runs/2026-10-01T23-55-00-wrap/cascade-patterns.toml",
+".andromeda/runs/2026-10-01T23-55-00-wrap/curation.md",
+".andromeda/runs/2026-10-01T23-55-00-wrap/evolve-2026-10-01-per-run-span-identity-in-the-real-model-harness.json",
+".andromeda/runs/2026-10-01T23-55-00-wrap/fanout-results.md",
+".andromeda/runs/2026-10-01T23-55-00-wrap/gate-2026-10-01-per-run-span-identity-in-the-real-model-harness.json",
+".andromeda/runs/2026-10-01T23-55-00-wrap/health-2026-10-01-per-run-span-identity-in-the-real-model-harness.json",
+".andromeda/runs/2026-10-01T23-55-00-wrap/registry-2026-10-01-per-run-span-identity-in-the-real-model-harness.json",
+".andromeda/runs/2026-10-01T23-55-00-wrap/route-no-marker.json",
+".andromeda/runs/2026-10-01T23-55-00-wrap/security-plan-entry.md",
+".andromeda/runs/2026-10-01T23-55-00-wrap/splice-2026-10-01-per-run-span-identity-in-the-real-model-harness.json",
+".andromeda/runs/2026-10-01T23-55-00-wrap/test-plan-entry.md",
+"conductor-0.3.0/chunks/2026-10-01-per-run-span-identity-in-the-real-model-harness/report.md"
+]
+},
+"unmapped": [],
+"prose": [
+{
+"from": 179,
+"to": 184,
+"text": "The gates below run in /implement P2 and the wrap light gate, except those marked `leg = 'operator'`, which the operator pass fires once, in order (steps 7-15). The live witness has no harness verb (it mints no `agent-run` verb or selector — arch §Occupied Resources, layout-templates §cli Primary screens), so its leg entries invoke `conductor` and the witness test binary directly in their firing form. The non-priming liveness probe preceding each drive is `conductor preconditions`, never `boot`. `pulse-app` is booted for the leg on the operator's word and stopped by the agent at step 13 (named in each leg's `note`)."
+},
+{
+"from": 186,
+"to": 189,
+"text": "One control MUTATES source, so it is not an entry: step 5's red-before-green run. /implement removes the re-key call from `dispatch.rs` ONCE, records the two-drive test's RED reading, restores the call and records the GREEN reading, both in `evidence/revert-red.md`. The light gate re-runs the non-mutating `dispatch_wire` entries, which guard the property thereafter."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "unit",
+"run": "cargo nextest run -p conductor-emit --profile ci",
+"run_sha8": "7ee6a83d",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-01-per-run-span-identity-in-the-real-model-harness\\wrap-2026-10-01T23-55-00\\1.log",
+"bytes": 18429,
+"log_sha8": "d425dc17",
+"exit": 0,
+"seconds": 14.79,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "unit",
+"run": "cargo test -p conductor-emit",
+"run_sha8": "108a6e80",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-01-per-run-span-identity-in-the-real-model-harness\\wrap-2026-10-01T23-55-00\\2.log",
+"bytes": 14016,
+"log_sha8": "f0b2e794",
+"exit": 0,
+"seconds": 13.35,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "cargo nextest run -p conductor-run --test dispatch_wire --profile ci",
+"run_sha8": "a11a4258",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-01-per-run-span-identity-in-the-real-model-harness\\wrap-2026-10-01T23-55-00\\3.log",
+"bytes": 2190,
+"log_sha8": "aae55357",
+"exit": 0,
+"seconds": 3.23,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "cargo test -p conductor-run --test dispatch_wire",
+"run_sha8": "dcfe4efb",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-01-per-run-span-identity-in-the-real-model-harness\\wrap-2026-10-01T23-55-00\\4.log",
+"bytes": 1346,
+"log_sha8": "3e710d0e",
+"exit": 0,
+"seconds": 0.8,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "lint",
+"run": "cargo clippy -p conductor-run --features live-pulse --all-targets -- -D warnings",
+"run_sha8": "c3608109",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-01-per-run-span-identity-in-the-real-model-harness\\wrap-2026-10-01T23-55-00\\5.log",
+"bytes": 73,
+"log_sha8": "dd5e57f0",
+"exit": 0,
+"seconds": 12.64,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-01-per-run-span-identity-in-the-real-model-harness\\wrap-2026-10-01T23-55-00\\6.log",
+"bytes": 138167,
+"log_sha8": "14db2874",
+"exit": 0,
+"seconds": 384.71,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "unit",
+"run": "cargo test --workspace --doc",
+"run_sha8": "5d8797c2",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-01-per-run-span-identity-in-the-real-model-harness\\wrap-2026-10-01T23-55-00\\7.log",
+"bytes": 1392,
+"log_sha8": "f7eced83",
+"exit": 0,
+"seconds": 2.67,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-01-per-run-span-identity-in-the-real-model-harness\\wrap-2026-10-01T23-55-00\\8.log",
+"bytes": 72,
+"log_sha8": "f69e0cf6",
+"exit": 0,
+"seconds": 7.12,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-01-per-run-span-identity-in-the-real-model-harness\\wrap-2026-10-01T23-55-00\\9.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.5,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "git diff --numstat 2c97d3b -- crates/conductor-run/tests/snapshots/ crates/conductor-timeline/tests/snapshots/",
+"run_sha8": "4c6a75ee",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-01-per-run-span-identity-in-the-real-model-harness\\wrap-2026-10-01T23-55-00\\10.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.07,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "git diff --numstat 2c97d3b -- crates/conductor-emit/src/client.rs crates/conductor-emit/src/exception.rs crates/conductor-emit/src/span_tree.rs crates/conductor-emit/Cargo.toml crates/conductor-run/Cargo.toml Cargo.toml Cargo.lock crates/conductor-core/ crates/conductor-cli/ crates/conductor-tauri/ crates/conductor-verify/ crates/conductor-report/ crates/conductor-timeline/ crates/conductor-faults/ scripts/ scenarios/ contracts/ .github/",
+"run_sha8": "2506d9db",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-01-per-run-span-identity-in-the-real-model-harness\\wrap-2026-10-01T23-55-00\\11.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.08,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "grep -c \"conductor-core\" crates/conductor-emit/Cargo.toml",
+"run_sha8": "51f00743",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-01-per-run-span-identity-in-the-real-model-harness\\wrap-2026-10-01T23-55-00\\12.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.19,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "grep -c \"tracing::\" crates/conductor-emit/src/identity.rs",
+"run_sha8": "c495e936",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-01-per-run-span-identity-in-the-real-model-harness\\wrap-2026-10-01T23-55-00\\13.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.07,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "grep -c \"^name = \" Cargo.lock",
+"run_sha8": "6aadf857",
+"expect": [
+"exit 0",
+"last line 562"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-01-per-run-span-identity-in-the-real-model-harness\\wrap-2026-10-01T23-55-00\\14.log",
+"bytes": 4,
+"log_sha8": "9db3b992",
+"exit": 0,
+"seconds": 0.18,
+"readings": [
+"exit 0 ✓",
+"last line '562' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "git -C \"$CARGO_HOME/advisory-db\" status --porcelain",
+"run_sha8": "85122344",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-01-per-run-span-identity-in-the-real-model-harness\\wrap-2026-10-01T23-55-00\\15.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.82,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-01-per-run-span-identity-in-the-real-model-harness\\wrap-2026-10-01T23-55-00\\16.log",
+"bytes": 1897,
+"log_sha8": "c2b0d3ed",
+"exit": 0,
+"seconds": 382.27,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": null,
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-01-per-run-span-identity-in-the-real-model-harness\\wrap-2026-10-01T23-55-00\\17.log",
+"bytes": 236395,
+"log_sha8": "09e10c61",
+"exit": 0,
+"seconds": 17.91,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "powershell.exe -NoProfile -Command 'Get-CimInstance Win32_Process | Where-Object { $_.Name -match \"pulse-app|andromeda-pulse-mcp|conductor\" } | Select-Object ProcessId,ParentProcessId,Name,CreationDate | Format-Table -AutoSize | Out-String -Width 200' ",
+"run_sha8": "2f572092",
+"expect": [],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "sha256sum /d/dev/projects/andromeda-pulse/target/release/pulse-app.exe /d/dev/projects/andromeda-pulse/target/release/andromeda-pulse-mcp.exe",
+"run_sha8": "9b8cc5eb",
+"expect": [
+"exit 0",
+"contains 6476568e0173bd187ff0616af2c777ed2a7d60e4b21d923ad02768cd8625e281",
+"contains 29f35540e2fb25bcae3760c24f898a096453253146da1986aafcdcf64cc2a6da"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 cargo run -q -p conductor-cli --bin conductor -- preconditions",
+"run_sha8": "02a3b7dd",
+"expect": [
+"exit 0",
+"contains [PRECONDITION] every live-Pulse precondition is satisfied"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 21,
+"role": "e2e",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 cargo run -q -p conductor-cli --bin conductor -- run exception-event-capture --agent-mode",
+"run_sha8": "2daf7c59",
+"expect": [
+"lacks [BLOCKED]",
+"contains exception-event-capture"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "mkdir -p runs/live-suite && cp logs/agent-latest.jsonl runs/live-suite/span-a.jsonl",
+"run_sha8": "a68aabe0",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "sleep 180",
+"run_sha8": "a798b3f7",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 cargo run -q -p conductor-cli --bin conductor -- preconditions",
+"run_sha8": "02a3b7dd",
+"expect": [
+"exit 0",
+"contains [PRECONDITION] every live-Pulse precondition is satisfied"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 25,
+"role": "e2e",
+"run": "PATH=/d/dev/projects/andromeda-pulse/target/release:$PATH CARGO_INCREMENTAL=0 CARGO_BUILD_JOBS=2 cargo run -q -p conductor-cli --bin conductor -- run exception-event-capture --agent-mode",
+"run_sha8": "2daf7c59",
+"expect": [
+"lacks [BLOCKED]",
+"contains exception-event-capture"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 26,
+"role": "probe",
+"run": "mkdir -p runs/live-suite && cp logs/agent-latest.jsonl runs/live-suite/span-b.jsonl",
+"run_sha8": "80eff578",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 27,
+"role": "e2e",
+"run": "cargo test -q -p conductor-run --features live-pulse --test span_landing_live -- --nocapture",
+"run_sha8": "81af9c7e",
+"expect": [
+"exit 0",
+"contains span-landing: PASS run_ids=2",
+"contains reject_lines=0 append_rejections=0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 28,
+"role": "smoke",
+"run": "bash scripts/agent-run.sh status <id>",
+"run_sha8": "4849b302",
+"expect": [
+"exit 0",
+"contains \"scenario\": \"exception-event-capture\""
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 29,
+"role": "probe",
+"run": "ls conductor-0.3.0/chunks/2026-10-01-per-run-span-identity-in-the-real-model-harness/evidence/witness-ledger.md >/dev/null && cat conductor-0.3.0/chunks/2026-10-01-per-run-span-identity-in-the-real-model-harness/evidence/* | grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|/home/|/Users/|%APPDATA%\"",
+"run_sha8": "2a05f50d",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "C:\\Users\\turbo\\AppData\\Local\\Temp\\andromeda-gate\\2026-10-01-per-run-span-identity-in-the-real-model-harness\\wrap-2026-10-01T23-55-00\\29.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.11,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 30,
+"role": "probe",
+"run": "python -X utf8 C:/Users/turbo/.claude/skills/andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "f0648308",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 31,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD && echo \"PUSHED_SHA=$(git rev-parse HEAD)\"",
+"run_sha8": "6bf569fe",
+"expect": [
+"exit 0",
+"contains PUSHED_SHA="
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 32,
+"role": "probe",
+"run": "python -X utf8 C:/Users/turbo/.claude/skills/andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1500",
+"run_sha8": "a31bb5e4",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-10-02T00:30:23Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-10-01T23-55-00-wrap",
+"--marker",
+"2026-10-01-per-run-span-identity-in-the-real-model-harness"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\conductor · planes rust, ts",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P2 · P3 rust · P3 ts — each fired on its synthetic known positive",
+"hygiene: clean — read 38 (runs 37 · evidence 1) · trails 8 not read · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\conductor",
+"planes": [
+"rust",
+"ts"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 37,
+"evidence": 1,
+"trails": 8,
+"binary": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-10-02T00:30:27Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"conductor-0.3.0/chunks/2026-10-01-per-run-span-identity-in-the-real-model-harness",
+"--run-dir",
+".andromeda/runs/2026-10-01T23-55-00-wrap",
+"--marker",
+"2026-10-01-per-run-span-identity-in-the-real-model-harness"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"root D:\\dev\\projects\\conductor · base 2c97d3b3 (the parent of the oldest pre-CI commit 163e0f67) · lists new 4 · modify 4 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"scope: clean — changed 6 · listed 6 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 88"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "D:\\dev\\projects\\conductor",
+"base": "2c97d3b3726b4e00a2f64956d3b62ed815b43cde",
+"base_why": "the parent of the oldest pre-CI commit 163e0f67",
+"counts": {
+"changed": 6,
+"listed": 6,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 88,
+"unparsed": 0,
+"widening_without_word": 0
+}
+}
+]

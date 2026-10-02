@@ -1,0 +1,106 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-02T00:14:46Z",
+"argv": [
+"route.py",
+"markerless",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-01T23-55-00-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · 81 lines · 34 entries · 32 stamped · 2 markerless · 29 separators",
+"79 · The P-075 assert round against Pulse · freight 2",
+"81 · Version close on measured evidence · freight 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-02T00:14:48Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-01T23-55-00-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 2 of 34 entries · freight blocks 2 · rows are an INDEX, not the text",
+"79 · CONTEXT: · 603 chars · CONTEXT: `ANDROMEDA_PULSE_L4_DETERMINISTIC`, a fresh data dir; `pulse-app` + `andromeda-pul…",
+"79 · BLOCKED-ON: · 89 chars · BLOCKED-ON: Pulse's \"Conductor return\" relaying sha S — clears when the overseer relays S"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-02T00:14:49Z",
+"argv": [
+"route.py",
+"epoch",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-01T23-55-00-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · 5 epoch headers · 34 entries · freeze state joined to 153 master records",
+"10 · Epoch 1 — Foundation: the measurements the … · entries 5 · markerless 0 · frozen complete 5 · pending 0",
+"21 · Epoch 2 — Scenario assertion hygiene · entries 5 · markerless 0 · frozen complete 5 · pending 0",
+"32 · Epoch 3 — The a11y capability's terminal · entries 4 · markerless 0 · frozen complete 4 · pending 0",
+"41 · Epoch 4 — Live proof against a real Pulse · entries 8 · markerless 0 · frozen complete 8 · pending 0",
+"58 · Epoch 5 — Polish & ship · entries 12 · markerless 2 · frozen complete 9 · pending 1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-02T00:15:06Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-01T23-55-00-wrap"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 2 of 34 entries · freight blocks 3 · rows are an INDEX, not the text",
+"79 · CONTEXT: · 603 chars · CONTEXT: `ANDROMEDA_PULSE_L4_DETERMINISTIC`, a fresh data dir; `pulse-app` + `andromeda-pul…",
+"79 · BLOCKED-ON: · 89 chars · BLOCKED-ON: Pulse's \"Conductor return\" relaying sha S — clears when the overseer relays S",
+"79 · CARRY: · 459 chars · CARRY: give the span-landing witness inputs (`span-{a,b}.jsonl`, today a second, operator-loc…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

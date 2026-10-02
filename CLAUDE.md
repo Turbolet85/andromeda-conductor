@@ -41,7 +41,7 @@ Conductor is a desktop control-panel app (Tauri 2) over a headless-drivable Rust
 - **Self-obs never exports OTLP:** the only OTLP is the PRODUCT fault stream to Pulse `:4317`; self-observation is `tracing` JSON to stderr/file (no OTel SDK), every line carrying `run_id`; zero unlogged panics (`std::panic::set_hook`).
 - **Wall-clock from `std::time`:** journal/report stamps use `std::time::SystemTime`/`Instant`, never tokio's virtual clock (scheduling-only) — journal-relative SLO math depends on it.
 - **Status is never color-alone:** pair every Verdict/ReportState with its text label + glyph (desktop) or ASCII prefix `[PASS]`/`[FAIL]`/`[HOLD]`/`[BLOCKED]` (cli); color encodes run state, never decoration.
-- **Determinism is the bar:** same scenario+seed ⇒ same stream shape; loopback gRPC/MCP stubs only in tests (`start_paused` for scheduling); zero-flakiness — no nextest retries.
+- **Determinism is the bar:** same scenario+seed ⇒ same stream shape (span identity alone is salted per execution on the production path; the unsalted dispatcher tier stays seed-pure); loopback gRPC/MCP stubs only in tests (`start_paused` for scheduling); zero-flakiness — no nextest retries.
 <!-- GENERATED:setup:warnings end -->
 
 ## Where to Look

@@ -31,6 +31,12 @@ _Documented architectural traps from `.andromeda/architecture.md` + the 6 specia
 **Fix if broken:** Re-stamp from `std::time`; invalidate affected runs.
 **References:** architecture.md §Cross-cutting Patterns (Determinism discipline); security-plan §Logging; test-plan §11 (Test Data).
 
+## A same-seed re-drive replays span identity unless the production salt reaches it
+**What breaks:** every builder draws `(trace_id, span_id)` from its per-slot seed, and Pulse's span store keys on that pair and rejects the WHOLE batch on a replay — so a second same-seed drive inside Pulse's retention window lands nothing.
+**How to avoid:** the production path passes `execute_scenario`'s `std::time` `emitted_ms` as `Dispatcher::connect(…, Some(salt))`, and every trace export is re-keyed by `conductor_emit::rekey_trace_identity`. Never mix a salt into `emission_seed`: the per-slot seed also draws CONTENT (the PII corpus a live harvest re-derives, latency, rate), and only identity may move.
+**Fix if broken:** restore the salt at the connect site; `dispatch_wire`'s two-drive test goes RED without the re-key.
+**References:** architecture.md §Cross-cutting Patterns (Determinism discipline) / §Occupied Resources (`contracts/pulse-run-contract.toml`); test-plan §6 / §7 / §8.
+
 ## tonic 0.14 moved prost codegen to tonic-prost-build
 **What breaks:** tonic 0.14 split codegen into the `tonic-prost-build` crate; build scripts mining Pulse's prior-art injectors (which predate the split) won't compile against the old build-script API.
 **How to avoid:** Use `tonic-prost-build` in build scripts; budget a small adjustment when porting Pulse's `inject_demo.rs` / `load_profiles.rs` patterns.

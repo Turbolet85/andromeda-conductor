@@ -93,7 +93,26 @@ span-landing: PASS run_ids=2 delta_ms=253507 retention_ms=600000 reject_lines=0 
 - Entry 29, the evidence host-path probe over `revert-red.md` and this ledger: green, count `0` at exit 1.
 - Entry 30, `gate.py hygiene`: exit 0, `hygiene: clean`, with every control firing on its synthetic known positive.
 
-## Remaining operator entries
+## Advisory-db currency (entry 15), re-run after an overseer act
 
-Still owed: the operator's pre-CI commit, entry 31 (the push behind the clean-tree guard) and entry 32 (the CI
-read). Those acts move history, so they are the operator's.
+- The first run (implement P2) read red. Its one porcelain row was an untracked placeholder-id advisory
+  (`RUSTSEC-0000-0000.md`, for the crate `matrix-sdk-crypto`, which neither project uses) left beside the advisory
+  that later received a real id.
+- **Overseer act:** the overseer MOVED that file out of the shared advisory-db copy into the overseer's scratchpad.
+  It was kept, not deleted.
+- The re-run was green: no output at exit 0, and HEAD == FETCH_HEAD (`6de44551`). The `cargo audit` reading (1279
+  advisories · 562 crates · 7 allowed · exit 0) therefore stands on a verified-current copy. A fresh clone read the
+  same figures.
+
+## Operator entries: pre-CI commit, push, CI read
+
+These were made by the agent ON THE OPERATOR'S EXPLICIT WORD ("the OPERATOR PASS on my word"). They are the
+operator's acts.
+
+- **Pre-CI commit:** `163e0f6`, `chore(2026-10-01-per-run-span-identity-in-the-real-model-harness): operator pre-CI
+  commit, for the run this chunk's verdict reads` (parent `2c97d3b`). The tree was clean after it.
+- **Entry 31, the push behind the clean-tree guard:** exit 0, `2c97d3b..163e0f6 HEAD -> build/conductor-0.3.0`.
+  - Atom `contains PUSHED_SHA=`: held, `PUSHED_SHA=163e0f67b8b73eaf04b9a7f4893f4677d7bcfa38`.
+- **Entry 32, `ci.py conclusion --sha HEAD --wait 1500`:** exit 0, polled 22× over 657 s.
+  - Atom `contains verdict: green`: held, `163e0f67b8b7 verdict: green · checks 3/3 · wall 649 s`.
+  - The run is **CI#36942272745** (push, completed/success), and the overseer verified it.

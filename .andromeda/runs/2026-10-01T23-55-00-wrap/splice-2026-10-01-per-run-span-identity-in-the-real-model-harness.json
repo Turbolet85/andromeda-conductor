@@ -1,0 +1,119 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-10-02T00:12:39Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-01T23-55-00-wrap/architecture-entry.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-10-01T23-55-00-wrap",
+"--marker",
+"2026-10-01-per-run-span-identity-in-the-real-model-harness"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+10 at line 1099 · lines 1098→1108 · bytes 186400→189052 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-01T23-55-00-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 1098,
+"bytes": 186400,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1108,
+"bytes": 189052
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-10-02T00:12:48Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-01T23-55-00-wrap/security-plan-entry.md",
+"--lines",
+"12",
+"--run-dir",
+".andromeda/runs/2026-10-01T23-55-00-wrap",
+"--marker",
+"2026-10-01-per-run-span-identity-in-the-real-model-harness"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+12 at line 520 · lines 519→531 · bytes 91746→93829 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-01T23-55-00-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 519,
+"bytes": 91746,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 531,
+"bytes": 93829
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-10-02T00:12:51Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-01T23-55-00-wrap/test-plan-entry.md",
+"--lines",
+"15",
+"--run-dir",
+".andromeda/runs/2026-10-01T23-55-00-wrap",
+"--marker",
+"2026-10-01-per-run-span-identity-in-the-real-model-harness"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+15 at line 751 · lines 750→765 · bytes 128672→130890 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-01T23-55-00-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 750,
+"bytes": 128672,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 765,
+"bytes": 130890
+}
+}
+]
