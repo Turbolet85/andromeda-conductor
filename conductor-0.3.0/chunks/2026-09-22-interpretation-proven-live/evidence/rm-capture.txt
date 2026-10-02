@@ -253,8 +253,8 @@ pulse-log interpretation.incident.created: 0
 pulse-log interpretation.inference.error: 0
 pulse-log interpretation.inference.skipped: 0
 pulse-log triage.pattern.storm.detected: 2
-pulse-log   triage.pattern.storm.detected t=2026-09-23T07:40:24.991Z severity_hint=suggested occurrence_count=5 fingerprint_hex=8cb9c5d5
-pulse-log   triage.pattern.storm.detected t=2026-09-23T07:40:24.999Z severity_hint=autonomous occurrence_count=10 fingerprint_hex=8cb9c5d5
+pulse-log   triage.pattern.storm.detected t=2026-09-23T07:40:24.991Z severity_hint=suggested occurrence_count=5 fingerprint_hex=<fingerprint>
+pulse-log   triage.pattern.storm.detected t=2026-09-23T07:40:24.999Z severity_hint=autonomous occurrence_count=10 fingerprint_hex=<fingerprint>
 pulse-log heartbeat ingest.tick (15 s): 44
 creating digest prompt_version: unknown
 .

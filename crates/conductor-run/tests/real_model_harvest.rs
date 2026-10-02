@@ -1447,6 +1447,28 @@ fn a_fingerprint_is_elided_and_a_stamp_a_seed_and_a_det_prefix_are_not() {
         "- `det-span-<fingerprint>`",
         "the canned-evidence prefix survives, so the witness still reads it"
     );
+    let digits = ["1357", "2468"].concat();
+    assert_eq!(
+        elide_fingerprints(&format!("storm fingerprint_hex={digits} count=12")),
+        "storm fingerprint_hex=<fingerprint> count=12",
+        "a keyed value is a fingerprint whatever its characters"
+    );
+    for kept in [
+        "storm fingerprint_hex=<fingerprint> count=12",
+        "storm fingerprint_hex= count=12",
+        "fingerprint_hex=",
+    ] {
+        assert_eq!(elide_fingerprints(kept), kept);
+    }
+}
+
+#[test]
+fn un_elided_keyed_values_counts_a_planted_value() {
+    let digits = ["1357", "2468"].concat();
+    let line = |value: &str| format!("storm severity_hint=autonomous fingerprint_hex={value}\n");
+    assert_eq!(un_elided_keyed_values(&line(&digits)), 1);
+    assert_eq!(un_elided_keyed_values(&line("<fingerprint>")), 0);
+    assert_eq!(un_elided_keyed_values(&line("")), 0);
 }
 
 // ---- producer/grader agreement --------------------------------------------------------------------
@@ -1582,13 +1604,15 @@ fn capture_block(committed: &str) -> &str {
 
 // ---- the 2026-09-23 capture (step 14) --------------------------------------------------------------
 
-/// The 2026-09-23 drive's capture as graded: the frozen [`FROZEN_CAPTURE`] passed once through
-/// `elide_fingerprints` (its storm prefix), otherwise byte-identical.
+/// The 2026-09-23 drive's capture as graded and pinned: [`FROZEN_CAPTURE`] passed once through
+/// `elide_fingerprints` (its storm prefix), otherwise byte-identical. The original has carried the same
+/// bytes since it was elided in place on 2026-10-02 under the founder's ruling.
 const ELIDED_CAPTURE: &str = "conductor-0.3.0/chunks/2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir/evidence/rm-capture-2026-09-22-elided.txt";
 const ELIDED_CAPTURE_SHA256: &str =
     "d57c2613698a3182862f370cb49968c185f606911cf50d33d4841ec62bb9c8b1";
 
-/// The frozen original, never edited; it keeps its storm prefix.
+/// The original capture, frozen save once: elided in place on 2026-10-02 under the founder's ruling, so
+/// it no longer keeps its storm prefix.
 const FROZEN_CAPTURE: &str =
     "conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/evidence/rm-capture.txt";
 
@@ -1711,14 +1735,13 @@ fn the_elided_capture_matches_its_pinned_digest() {
 }
 
 #[test]
-fn the_elided_copy_is_the_frozen_capture_through_the_rule() {
-    // The copy is exactly what the capture's own elision makes of the frozen file, and nothing is left
-    // for it to elide. The frozen file keeps its prefix: the copy is the only graded form.
+fn the_frozen_capture_is_elided_in_place_and_equals_the_graded_copy() {
+    // The original, elided in place, is byte-identical to the graded copy, and the capture's own elision
+    // has nothing left to do on it. The copy stays the pinned form.
     let frozen = committed(FROZEN_CAPTURE);
     let copy = committed(ELIDED_CAPTURE);
-    assert_eq!(copy, elide_fingerprints(&frozen));
-    assert_eq!(elide_fingerprints(&copy), copy);
-    assert_ne!(copy, frozen, "the frozen original still carries its prefix");
+    assert_eq!(frozen, copy);
+    assert_eq!(elide_fingerprints(&frozen), frozen);
 }
 
 #[test]
@@ -2241,11 +2264,9 @@ const KEY_2026_10_01: &str = "rm-surfacing-series";
 
 #[test]
 fn the_2026_10_01_captures_carry_no_fingerprint_and_no_workspace_key() {
-    // The capture's own elision and key mask, found to have left nothing in any capture — save one
-    // stated residual: `elide_fingerprints` keeps an all-digit run by design (stamps, seeds), and d3
-    // printed one all-digit `fingerprint_hex` prefix twice (the suggested and the autonomous detection
-    // of one storm Conductor's own canary emitted — synthetic content, no real data). It is counted
-    // here so it can neither grow nor go unseen.
+    // The capture's own elision and key mask, found to have left nothing in any capture. d3 once kept an
+    // all-digit `fingerprint_hex` prefix that the unkeyed rule passes as a stamp would be; the keyed rule
+    // elides it, d3 was re-elided on 2026-10-02 under the founder's ruling, and no drive is an exception.
     for drive in &SERIES_2026_10_01 {
         let committed = capture_2026_10_01(drive);
         assert_eq!(elide_fingerprints(&committed), committed, "{}", drive.label);
@@ -2265,9 +2286,73 @@ fn the_2026_10_01_captures_carry_no_fingerprint_and_no_workspace_key() {
                 !run.is_empty() && run.chars().all(|c| c.is_ascii_digit())
             })
             .count();
-        let residual = if drive.label == "d3" { 2 } else { 0 };
-        assert_eq!(all_digit_prefixes, residual, "{}", drive.label);
+        assert_eq!(all_digit_prefixes, 0, "{}", drive.label);
     }
+}
+
+// ---- every committed capture -----------------------------------------------------------------------
+
+/// The committed real-model captures — every `conductor-0.3.0/chunks/*/evidence/rm-capture*.txt` —
+/// pinned by count, so a walk that finds nothing can never pass.
+const COMMITTED_CAPTURES: usize = 14;
+
+/// Every committed real-model capture, repo-relative and sorted.
+fn committed_captures() -> Vec<String> {
+    let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
+    let chunks = "conductor-0.3.0/chunks";
+    let mut names = Vec::new();
+    for chunk in std::fs::read_dir(root.join(chunks)).expect("the chunks dir is readable") {
+        let chunk = chunk.expect("a chunk entry").file_name();
+        let evidence = format!("{chunks}/{}/evidence", chunk.to_string_lossy());
+        let Ok(files) = std::fs::read_dir(root.join(&evidence)) else {
+            continue;
+        };
+        for file in files {
+            let file = file.expect("an evidence entry").file_name();
+            let file = file.to_string_lossy();
+            if file.starts_with("rm-capture") && file.ends_with(".txt") {
+                names.push(format!("{evidence}/{file}"));
+            }
+        }
+    }
+    names.sort();
+    names
+}
+
+/// How many `fingerprint_hex=` values in `text` are not the placeholder: the value is the ASCII
+/// alphanumeric run directly after the `=`, and an empty run is not one.
+fn un_elided_keyed_values(text: &str) -> usize {
+    text.split("fingerprint_hex=")
+        .skip(1)
+        .filter(|rest| {
+            rest.bytes()
+                .next()
+                .is_some_and(|b| b.is_ascii_alphanumeric())
+        })
+        .count()
+}
+
+#[test]
+fn every_committed_capture_carries_no_un_elided_fingerprint_value() {
+    // No committed capture keeps a `fingerprint_hex` value, whatever its characters, and the capture's
+    // own elision has nothing left to do on any of them. A failure names the file and the count, never
+    // the value.
+    let names = committed_captures();
+    assert_eq!(names.len(), COMMITTED_CAPTURES, "{names:#?}");
+    let failures: Vec<String> = names
+        .iter()
+        .filter_map(|name| {
+            let text = committed(name);
+            let values = un_elided_keyed_values(&text);
+            let fixed = elide_fingerprints(&text) == text;
+            (values > 0 || !fixed).then(|| {
+                format!(
+                    "{name}: {values} un-elided keyed values, a fixed point of the elision: {fixed}"
+                )
+            })
+        })
+        .collect();
+    assert!(failures.is_empty(), "{failures:#?}");
 }
 
 /// What the rule measured on each 2026-10-01 drive: its route, its rank-1 grade, the three further

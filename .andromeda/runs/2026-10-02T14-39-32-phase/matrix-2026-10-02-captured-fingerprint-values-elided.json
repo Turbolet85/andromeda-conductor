@@ -1,0 +1,29 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-10-02T15:35:20Z",
+"argv": [
+"coverage",
+"--dir",
+"conductor-0.3.0",
+"--run-dir",
+".andromeda/runs/2026-10-02T14-39-32-phase",
+"--marker",
+"2026-10-02-captured-fingerprint-values-elided"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"verified 10/11 · deferred 1 · planned 0 · implemented 0 · unclaimed 0",
+"claimed-unfinished: none",
+"done-test: YES — every entry verified|deferred and unclaimed 0",
+"chunks referenced: 10 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

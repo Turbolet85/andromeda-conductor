@@ -511,8 +511,8 @@ pulse-log interpretation.inference.skipped: 0
 pulse-log triage.pattern.storm.detected: 8
 pulse-log   triage.pattern.storm.detected t=2026-10-01T20:01:48.433Z severity_hint=suggested occurrence_count=5 fingerprint_hex=<fingerprint> scenario_storm=false
 pulse-log   triage.pattern.storm.detected t=2026-10-01T20:01:48.439Z severity_hint=autonomous occurrence_count=10 fingerprint_hex=<fingerprint> scenario_storm=false
-pulse-log   triage.pattern.storm.detected t=2026-10-01T20:03:18.455Z severity_hint=suggested occurrence_count=5 fingerprint_hex=78050064 scenario_storm=false
-pulse-log   triage.pattern.storm.detected t=2026-10-01T20:03:18.461Z severity_hint=autonomous occurrence_count=10 fingerprint_hex=78050064 scenario_storm=false
+pulse-log   triage.pattern.storm.detected t=2026-10-01T20:03:18.455Z severity_hint=suggested occurrence_count=5 fingerprint_hex=<fingerprint> scenario_storm=false
+pulse-log   triage.pattern.storm.detected t=2026-10-01T20:03:18.461Z severity_hint=autonomous occurrence_count=10 fingerprint_hex=<fingerprint> scenario_storm=false
 pulse-log   triage.pattern.storm.detected t=2026-10-01T20:04:48.472Z severity_hint=suggested occurrence_count=5 fingerprint_hex=<fingerprint> scenario_storm=false
 pulse-log   triage.pattern.storm.detected t=2026-10-01T20:04:48.478Z severity_hint=autonomous occurrence_count=10 fingerprint_hex=<fingerprint> scenario_storm=false
 pulse-log   triage.pattern.storm.detected t=2026-10-01T20:04:51.027Z severity_hint=suggested occurrence_count=5 fingerprint_hex=<fingerprint> scenario_storm=true

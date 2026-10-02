@@ -1,0 +1,1 @@
+2026-10-02-captured-fingerprint-values-elided · pending · Captured fingerprint values elided — both real-model capture residuals fixed, never ratified · → conductor-0.3.0/chunks/2026-10-02-captured-fingerprint-values-elided/

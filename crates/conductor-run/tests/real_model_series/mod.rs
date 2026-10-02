@@ -92,6 +92,6 @@ pub const SERIES_2026_10_01: [Drive; 3] = [
     Drive {
         label: "d3",
         file: "rm-capture-d3.txt",
-        sha256: "148da3c59975980b8a278fe0a7e3a26a0392bfcc0328a487d557ed40572d8442",
+        sha256: "b49bfe68c0210a2b4c50edbf54257c63980a95a133fcd6641f28e23a2d630015",
     },
 ];

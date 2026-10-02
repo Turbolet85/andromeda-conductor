@@ -1,0 +1,122 @@
+[
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-10-02T15:45:48Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-02T15-37-06-implement",
+"--marker",
+"2026-10-02-captured-fingerprint-values-elided"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 2874→2875 · bytes 3501023→3502079 · term lf",
+"ts 2026-10-02T15:45:38Z · clock 2026-10-02T15:45:45Z · bound 2026-10-02T15:35:40Z (line 2874)",
+"ids 2026-10-02T15:45:38Z-a"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 2874,
+"bytes": 3501023,
+"terminator": "LF",
+"bound": "2026-10-02T15:35:40Z"
+},
+"after": {
+"lines": 2875,
+"bytes": 3502079
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-10-02T16:09:25Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-02T15-37-06-implement",
+"--marker",
+"2026-10-02-captured-fingerprint-values-elided"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"appended 2 record(s) · friction-log.ndjson lines 2875→2877 · bytes 3502079→3503687 · term lf",
+"ts 2026-10-02T16:09:16Z · clock 2026-10-02T16:09:24Z · bound 2026-10-02T15:45:38Z (line 2875)",
+"ids 2026-10-02T16:09:16Z-a … 2026-10-02T16:09:16Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 2875,
+"bytes": 3502079,
+"terminator": "LF",
+"bound": "2026-10-02T15:45:38Z"
+},
+"after": {
+"lines": 2877,
+"bytes": 3503687
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-10-02T16:09:41Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-02T15-37-06-implement",
+"--marker",
+"2026-10-02-captured-fingerprint-values-elided"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 2877→2878 · bytes 3503687→3504368 · term lf",
+"ts 2026-10-02T16:09:34Z · clock 2026-10-02T16:09:39Z · bound 2026-10-02T16:09:16Z (line 2877)",
+"ids 2026-10-02T16:09:34Z-a"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 2877,
+"bytes": 3503687,
+"terminator": "LF",
+"bound": "2026-10-02T16:09:16Z"
+},
+"after": {
+"lines": 2878,
+"bytes": 3504368
+}
+}
+]

@@ -55,7 +55,7 @@ obs-plan §4 Critical Path 1 and §11.
 
 2. **The elided 2026-09-22 copy.** Write `evidence/rm-capture-2026-09-22-elided.txt` in this chunk's folder. It is
    the frozen `conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/evidence/rm-capture.txt`, LF-normalized,
-   with exactly the change `elide_fingerprints` makes: its two `fingerprint_hex=8cb9c5d5` tokens (`:256-257`) become
+   with exactly the change `elide_fingerprints` makes: its two `fingerprint_hex=<fingerprint>` tokens (`:256-257`) become
    `fingerprint_hex=<fingerprint>`. Never edit or rename the frozen file.
 
 3. **Harvest: grade from digest-pinned files** (`crates/conductor-run/tests/real_model_harvest.rs`, OUTSIDE the rule
@@ -282,7 +282,7 @@ run = 'cargo fmt --all --check'
 role = 'lint'
 
 [[gate]]
-run = 'grep -rlE "Credit Card Issue|8cb9c5d5|2026-09-29T17-19-35-933" crates/ | grep -c .'
+run = 'grep -rlE "Credit Card Issue|<fingerprint>|2026-09-29T17-19-35-933" crates/ | grep -c .'
 role = 'probe'
 new = true
 baseline = 'red — 2 at exit 0 on the untouched tree (9785405): crates/conductor-run/tests/real_model_harvest.rs and real_model_series/mod.rs — the recorded BREACH, owned by THIS chunk (scope items 1 and 3)'
@@ -450,7 +450,7 @@ note = "After the push entry. CI#36635281444 first-failed at +592 s, and the pri
 ```
 
 ## Acceptance Criteria
-- (security) Test source carries no committed-capture text after the chunk. Both entries pass: `grep -rlE "Credit Card Issue|8cb9c5d5|2026-09-29T17-19-35-933" crates/ | grep -c .` and the harvest arm `no_committed_capture_text_sits_in_test_source`. Every pinned capture is held by a sha256 digest, with no MD5/SHA-1 (per security-plan §Security Anti-Patterns → Data Protection).
+- (security) Test source carries no committed-capture text after the chunk. Both entries pass: `grep -rlE "Credit Card Issue|<fingerprint>|2026-09-29T17-19-35-933" crates/ | grep -c .` and the harvest arm `no_committed_capture_text_sits_in_test_source`. Every pinned capture is held by a sha256 digest, with no MD5/SHA-1 (per security-plan §Security Anti-Patterns → Data Protection).
 - (tests) `cargo nextest run -p conductor-run --test real_model_harvest --profile ci` and `cargo test -p conductor-run --test real_model_harvest` both pass. Five things hold. Every grade, route, witness and envelope assertion reads the committed file's CONTENT after its digest matches. `a_one_byte_change_to_a_pinned_capture_fails_its_digest` shows the pin CAN fail, naming the file and not the text. `the_elided_copy_is_the_frozen_capture_through_the_rule` holds. The frozen 2026-09-22 file is byte-unchanged over `9785405`. (per test-plan §6 Real-model interpretation leg; §7 Self-bootstrapping requirement; §10)
 - (security) The graded 2026-09-23 capture carries no fingerprint-shaped token. The elided copy passes `elide_fingerprints` unchanged. The frozen original keeps its prefix, as a stated residual for the wrap's BREACH-line amendment (per security-plan §Input Validation, the real-model capture ingest row).
 - (security) The workspace-key mask is proven hermetically by the seven mask arms in the default suite. `cargo nextest run -p conductor-run --test capture_paths_guard --profile ci` stays green. `cargo clippy -p conductor-run --features live-pulse --all-targets -- -D warnings` passes. After the series, `cat …/evidence/rm-capture-d*.txt | grep -c "rm-clean-series"` reads 0 (per security-plan §Input Validation, the real-model capture ingest row; test-plan §1 fifth class).

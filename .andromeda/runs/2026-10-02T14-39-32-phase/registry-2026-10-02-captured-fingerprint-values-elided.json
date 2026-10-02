@@ -1,0 +1,98 @@
+[
+{
+"tool": "registry",
+"v": "1.1",
+"sha8": "c6c20a84",
+"ts": "2026-10-02T14:42:32Z",
+"argv": [
+"contracts",
+"--master",
+".andromeda/architecture.md",
+"--out",
+".andromeda/runs/2026-10-02T14-39-32-phase/arch-contracts.md",
+"--run-dir",
+".andromeda/runs/2026-10-02T14-39-32-phase",
+"--marker",
+"2026-10-02-captured-fingerprint-values-elided"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 3,
+"stdout": [],
+"stderr": "NOT MIGRATED — read §Infrastructure Patterns in the body",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "registry",
+"v": "1.1",
+"sha8": "c6c20a84",
+"ts": "2026-10-02T14:42:33Z",
+"argv": [
+"contracts",
+"--master",
+".andromeda/test-plan.md",
+"--out",
+".andromeda/runs/2026-10-02T14-39-32-phase/tests-contracts.md",
+"--run-dir",
+".andromeda/runs/2026-10-02T14-39-32-phase",
+"--marker",
+"2026-10-02-captured-fingerprint-values-elided"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 3,
+"stdout": [],
+"stderr": "NOT MIGRATED — read §3. Test Harness Contract in the body",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "registry",
+"v": "1.1",
+"sha8": "c6c20a84",
+"ts": "2026-10-02T14:42:35Z",
+"argv": [
+"contracts",
+"--master",
+".andromeda/obs-plan.md",
+"--out",
+".andromeda/runs/2026-10-02T14-39-32-phase/obs-contracts.md",
+"--run-dir",
+".andromeda/runs/2026-10-02T14-39-32-phase",
+"--marker",
+"2026-10-02-captured-fingerprint-values-elided"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 3,
+"stdout": [],
+"stderr": "NOT MIGRATED — read §3. Observability Harness Contract in the body",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "registry",
+"v": "1.1",
+"sha8": "c6c20a84",
+"ts": "2026-10-02T14:42:37Z",
+"argv": [
+"contracts",
+"--master",
+".andromeda/a11y-plan.md",
+"--out",
+".andromeda/runs/2026-10-02T14-39-32-phase/a11y-contracts.md",
+"--run-dir",
+".andromeda/runs/2026-10-02T14-39-32-phase",
+"--marker",
+"2026-10-02-captured-fingerprint-values-elided"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 3,
+"stdout": [],
+"stderr": "NOT MIGRATED — read §3. A11y Assertion Harness Contract in the body",
+"wrote": [],
+"before": null,
+"after": null
+}
+]

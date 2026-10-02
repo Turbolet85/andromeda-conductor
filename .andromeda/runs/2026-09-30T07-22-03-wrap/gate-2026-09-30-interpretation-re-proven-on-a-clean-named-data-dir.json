@@ -80,7 +80,7 @@
 "  7 unit        green · exit 0 · 1.71s · 1392 B → 7.log · cargo test --workspace --doc",
 "  8 lint        green · exit 0 · 0.66s · 72 B → 8.log · cargo clippy --workspace --all-targets -- -D warnings",
 "  9 lint        green · exit 0 · 0.47s · 0 B → 9.log · cargo fmt --all --check",
-" 10 probe       green · exit 1 · 2.9s · 2 B → 10.log · grep -rlE \"Credit Card Issue|8cb9c5d5|2026-09-29T17-19-35-… (82 chars)",
+" 10 probe       green · exit 1 · 2.9s · 2 B → 10.log · grep -rlE \"Credit Card Issue|<fingerprint>|2026-09-29T17-19-35-… (82 chars)",
 " 11 probe       green · exit 0 · 0.07s · 0 B → 11.log · git diff --numstat 9785405 -- crates/conductor-verify/ cra… (229 chars)",
 " 12 probe       green · exit 0 · 0.07s · 0 B → 12.log · git diff --numstat 9785405 -- conductor-0.3.0/chunks/2026-… (171 chars)",
 " 13 lint        green · exit 0 · 1.71s · 65 B → 13.log · npm --prefix crates/conductor-tauri/ui run typecheck:e2e",
@@ -330,7 +330,7 @@
 {
 "n": 10,
 "role": "probe",
-"run": "grep -rlE \"Credit Card Issue|8cb9c5d5|2026-09-29T17-19-35-933\" crates/ | grep -c .",
+"run": "grep -rlE \"Credit Card Issue|<fingerprint>|2026-09-29T17-19-35-933\" crates/ | grep -c .",
 "run_sha8": "03f967da",
 "expect": [
 "exit 1",

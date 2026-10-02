@@ -49,7 +49,7 @@
 - `…/2026-09-29-…/evidence/attempt-ledger.md:18-32` and `report.md:31` — the key is the data dir's BASENAME
   (`rm-20260923-093840`). The scrubber matched its digit run.
 - `conductor-0.3.0/chunks/2026-09-22-interpretation-proven-live/evidence/rm-capture.txt:256-257` — the two storm
-  lines carry `fingerprint_hex=8cb9c5d5`, which is fingerprint-shaped under `elide_fingerprints` (8 lowercase hex,
+  lines carry `fingerprint_hex=<fingerprint>`, which is fingerprint-shaped under `elide_fingerprints` (8 lowercase hex,
   letters present).
 - `contracts/pulse-real-model-leg-posture.md` §The drive series (`:213-321`) — the 2026-09-29 series:
   pre-registered, pass condition (a), decision rule (b), quiet window (c), launch posture per stage (d), slot (e),

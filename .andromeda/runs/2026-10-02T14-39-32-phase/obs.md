@@ -1,0 +1,31 @@
+# obs extract
+
+## Relevance
+partial — the chunk is a committed-evidence scrub (security's domain). obs-plan has no clause naming `elide_fingerprints`, the capture scrub chain or the frozen/d3 residuals (0 hits for `elide` in obs-plan). Its stake is that the fix adds no self-obs surface, that it leaves the eleven-key envelope's `fingerprints` field and the redaction layer's ownership unmoved, and that it does not break the harvest-tier fingerprint checks obs-plan cites.
+
+## Constraints
+- obs-plan §4 (Headless deterministic run → Real-model posture, 2026-09-22) requires the real-model path to add NO critical path, span name or span attribute. Its interpretation is graded at the harvest tier (`real_model_harvest.rs`) over the SCRUBBED capture, never through the envelope. A re-elision of the graded d3 capture, and any change to the elider, stays a harvest-tier/test-tier change with no span or field added.
+- obs-plan §4 (Fingerprint-storm scenario → `verify.readback_fingerprints`) requires `fingerprints_read_back_count` to stay a COUNT. It names `lifecycle_harvest::p075_round_assertion_1_read_back_content_fidelity` as the ONE test-tier check that grades the emitted fingerprint's membership in `fingerprint_refs`, and that check reads the P-075 round's digest-pinned capture. Under the WIDER P4 reading (every committed fingerprint value), eliding values in digest-pinned evidence the P-075 graders read would remove the very value assertion 1 compares. Whether the P-075 evidence falls inside the census, and whether assertion 1 reads an elided field, are research's questions.
+- obs-plan §6 (Log format JSON schema / Required fields) and §3 (Log format JSON schema) fix `fingerprints` as one of the eleven required envelope keys (an array, possibly empty), owned by test-plan §3. The chunk must not drop or rename that key and must not change its type. Whether any committed `runs/<run_id>.jsonl` envelope is inside the wider census is research's question. An elided value inside the array keeps the key present.
+- obs-plan §11 (PII Scrubbing) requires single-location ownership of the self-obs field-allowlist and value scrub in `conductor-core::redact`, applied at the PROCESSOR stage. The capture elider is a separate, test-tier ingest scrub (security-plan owns its chain). The chunk must not fold fingerprint elision into the self-obs redaction layer, because that would alter the processor-stage allowlist semantics. Where `elide_fingerprints` lives today is research's question.
+- obs-plan §4 (Real-model posture) records that each canary storm logs only the existing message-borne `canary fingerprint computed` line. That line lands in the self-obs stream (`logs/*.jsonl`), not in a committed capture. If the census widens to self-obs artifacts that are committed anywhere, the line's value is in play. Whether any committed self-obs file carries it is research's question.
+- obs-plan §11 (PII Scrubbing, standing warning, 2026-09-02 → 2026-09-04) holds that an enumeration of scrub sites bounds only the sites it names, never every channel. The chunk's "no committed capture carries a value" claim therefore rests on the census derivation (the probe, its class definition and its exclusions), not on the two named residual sites.
+
+## Patterns to follow
+- obs-plan §4 (Fingerprint-storm → `verify.readback_fingerprints`): a fingerprint comparison is computed in-process at the test tier over a digest-pinned capture, never through a span or the envelope. Re-express the residual-holding harvest arm the same way: a test-tier assertion of "zero un-elided values" over the pinned file.
+- obs-plan §4 (Real-model posture): grading reads the scrubbed capture file at the harvest tier. A re-elided d3 capture keeps its graded verdict when the grader never reads the elided value. Research confirms that the grader does not read it.
+- obs-plan §11 (Logs): a scrub replaces a value with a placeholder and keeps the key, as the `<redacted>` mask does for host paths. This matches the capture's existing `<fingerprint>` placeholder convention (scope census), which leaves the `fingerprint_hex=` key standing.
+
+## Anti-patterns to avoid
+- obs-plan §11 (Spans / Logs; §4 attribute-allowlist note): never add a span attribute or log field to witness the elision. A field outside `conductor-core::redact::ALLOWLISTED_FIELDS` is dropped at the processor stage and emits nothing. A witness count rides the allowlisted `message` field, or better, stays at the test tier.
+- obs-plan §11 (PII Scrubbing): never weaken or bypass the field-allowlist / value-scrub layer while widening the elider. The two scrubs are distinct, and neither substitutes for the other.
+
+## Contract bindings
+- obs ↔ security: security-plan §Security Anti-Patterns → Data Protection owns the capture scrub chain (`mask_workspace_key` + `redact_value` + `mask_host_paths` + `elide_fingerprints`) and the residual wording. obs-plan §11 owns only the self-obs redaction layer. The chunk's fix lands on security's side of that line.
+- obs ↔ tests: the `fingerprints` envelope key is test-plan §3's binding schema (obs-plan §6 reproduces it). The P-075 assertion-1 membership check (obs-plan §4) is a test-tier consumer of fingerprint VALUES in digest-pinned evidence. Under the wider P4 reading it is the binding most at risk.
+
+## Acceptance criteria contributions
+- (obs) The fix adds no span name, span attribute or log field. `conductor-core::redact::ALLOWLISTED_FIELDS` is unchanged by the chunk (per obs-plan §4 Real-model posture; §11 Spans / PII Scrubbing).
+- (obs) The eleven-key run-report envelope is unchanged: `fingerprints` is still present as an array in every envelope the chunk touches or regenerates, so the run-journal conformance gate stays green (per obs-plan §6 Required fields).
+- (obs) `lifecycle_harvest::p075_round_assertion_1_read_back_content_fidelity` stays `[PASS]` after the change, so the emitted-vs-read-back membership check obs-plan cites still has the value it compares (per obs-plan §4 Fingerprint-storm → `verify.readback_fingerprints`).
+- (obs) The re-elided graded d3 capture keeps its graded verdict at the harvest tier, with the moved sha256 pin updated in the same change (per obs-plan §4 Real-model posture).

@@ -1,0 +1,75 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'elide_fingerprints' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 13,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 55
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 a_fingerprint_is_elided_and_a_stamp_a_seed_and_a_det_prefix_are_not().",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1432
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 a_fingerprint_is_elided_and_a_stamp_a_seed_and_a_det_prefix_are_not().",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1442
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 a_fingerprint_is_elided_and_a_stamp_a_seed_and_a_det_prefix_are_not().",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1445
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 the_elided_copy_is_the_frozen_capture_through_the_rule().",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1718
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 the_elided_copy_is_the_frozen_capture_through_the_rule().",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1719
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 the_series_captures_carry_no_fingerprint().",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1830
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 the_series_captures_carry_no_fingerprint().",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1833
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 the_2026_09_30_captures_carry_no_fingerprint_and_no_workspace_key().",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 2054
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 the_2026_10_01_captures_carry_no_fingerprint_and_no_workspace_key().",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 2250
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 the_later_scrub_stages_leave_the_placeholder_intact().",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 2465
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 the_later_scrub_stages_leave_the_placeholder_intact().",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 2466
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 a_path_valued_workspace_leaks_neither_its_key_nor_its_path().",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 2479
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

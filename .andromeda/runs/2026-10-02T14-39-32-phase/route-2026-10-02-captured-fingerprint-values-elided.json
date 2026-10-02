@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-02T14:41:52Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-10-02-captured-fingerprint-values-elided",
+"--expect-prefix",
+"Captured fingerprint values elided",
+"--record-file",
+".andromeda/runs/2026-10-02T14-39-32-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-10-02T14-39-32-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:81 - [2026-10-02-captured-fingerprint-values-elided]",
+"record master-route.md:169 - appended under `## conductor-0.3.0`",
+"promoted 2026-10-02-captured-fingerprint-values-elided - working-route:81 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+".\\conductor-0.3.0\\working-route.md",
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+}
+]

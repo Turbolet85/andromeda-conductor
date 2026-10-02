@@ -1,0 +1,62 @@
+[
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-10-02T14:53:46Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"conductor-0.3.0/chunks/2026-10-02-captured-fingerprint-values-elided/research.md",
+"--run-dir",
+".andromeda/runs/2026-10-02T14-39-32-phase",
+"--marker",
+"2026-10-02-captured-fingerprint-values-elided"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 6 items (new 1 · modify 5 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 6,
+"unparsed": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-10-02T14:59:38Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"conductor-0.3.0/chunks/2026-10-02-captured-fingerprint-values-elided/research.md",
+"--run-dir",
+".andromeda/runs/2026-10-02T14-39-32-phase",
+"--marker",
+"2026-10-02-captured-fingerprint-values-elided"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 11 items (new 1 · modify 10 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 11,
+"unparsed": 0
+}
+}
+]

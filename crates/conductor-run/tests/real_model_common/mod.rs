@@ -149,12 +149,23 @@ pub fn canary_attempts(lines: &[&Value]) -> Vec<String> {
     out
 }
 
-/// Replace every fingerprint-shaped token with `<fingerprint>`: a run of eight or more lowercase hex
-/// digits holding at least one letter, with no ASCII alphanumeric on either side. The committed
-/// captures carry no fingerprint (security-plan §Input Validation, the real-model capture ingest row);
-/// an all-digit run — a nanosecond stamp, a seed — is never one, and a `det-` prefix before a ref
-/// survives, so the canned-evidence witness still reads.
+/// What the capture prints in place of a fingerprint.
+const FINGERPRINT_PLACEHOLDER: &str = "<fingerprint>";
+
+/// The key the capture renders Pulse's storm fingerprint under.
+const FINGERPRINT_KEY: &str = "fingerprint_hex=";
+
+/// Replace every fingerprint with `<fingerprint>`, by two rules. Keyed: the value after each
+/// `fingerprint_hex=` — the ASCII alphanumeric run directly after the `=` — whatever its characters,
+/// because a keyed value is a fingerprint even when its prefix happens to be all digits. Unkeyed: every
+/// fingerprint-shaped token, a run of eight or more lowercase hex digits holding at least one letter,
+/// with no ASCII alphanumeric on either side; an unkeyed all-digit run is a nanosecond stamp or a seed
+/// and is never one, and a `det-` prefix before a ref survives, so the canned-evidence witness still
+/// reads. The committed captures carry no fingerprint (security-plan §Input Validation, the real-model
+/// capture ingest row). Idempotent: an existing placeholder and an empty keyed value are left as they
+/// are.
 pub fn elide_fingerprints(text: &str) -> String {
+    let text = &elide_keyed_fingerprints(text);
     let bytes = text.as_bytes();
     let is_hex = |b: u8| b.is_ascii_digit() || (b'a'..=b'f').contains(&b);
     let mut out = String::with_capacity(text.len());
@@ -168,7 +179,7 @@ pub fn elide_fingerprints(text: &str) -> String {
             let run = &bytes[i..end];
             if bounded_after && run.len() >= 8 && run.iter().any(|b| b.is_ascii_lowercase()) {
                 out.push_str(&text[copied..i]);
-                out.push_str("<fingerprint>");
+                out.push_str(FINGERPRINT_PLACEHOLDER);
                 copied = end;
             }
             i = end;
@@ -177,6 +188,24 @@ pub fn elide_fingerprints(text: &str) -> String {
         }
     }
     out.push_str(&text[copied..]);
+    out
+}
+
+/// The keyed rule of [`elide_fingerprints`].
+fn elide_keyed_fingerprints(text: &str) -> String {
+    let mut out = String::with_capacity(text.len());
+    let mut rest = text;
+    while let Some(at) = rest.find(FINGERPRINT_KEY) {
+        let value_at = at + FINGERPRINT_KEY.len();
+        out.push_str(&rest[..value_at]);
+        let after = &rest[value_at..];
+        let run = after.bytes().take_while(u8::is_ascii_alphanumeric).count();
+        if run > 0 {
+            out.push_str(FINGERPRINT_PLACEHOLDER);
+        }
+        rest = &after[run..];
+    }
+    out.push_str(rest);
     out
 }
 
