@@ -1,0 +1,14 @@
+
+running 1 test
+
+p075-round: active_at_open=0
+p075-round: incident_id=1 opened_after_emission=true opened_minus_emitted_ms=30
+p075-round: fingerprint_refs=4 det_members=3 fingerprint_in_refs=true
+p075-round: degraded_mode=false
+p075-round: before_total=1 before_truncated=false before_first=created before_has_resolved=false before_sequence=created before_outside_vocabulary=0
+p075-round: resolve_before=1 resolved_left_active_set=true idle_ms=0 verdict=ProvenByLiveness
+p075-round: after_total=2 after_truncated=false after_first=created after_last=resolved after_sequence=created,resolved after_outside_vocabulary=0 resolve_window_ns=287711 resolved_minus_sent_ns=63395 received_minus_resolved_ns=224316
+p075-round: end
+.
+test result: ok. 1 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 10.03s
+

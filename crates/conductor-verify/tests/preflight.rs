@@ -9,8 +9,8 @@ use common::{StubConfig, bounded, serve_stub};
 use conductor_core::{ReportState, RunContractStatus, UnmetTerm, redact_value};
 use conductor_verify::{
     CanaryMarker, CanaryOutcome, CanaryPoll, ContractManifest, MARK_INCIDENT_RESOLVED,
-    QUERY_INCIDENT_LIST, READBACK_TOOLS, RETRIEVE_REPORT, RETRIEVE_TELEMETRY_SLICE, ReadbackClient,
-    ReadyState, ToolPresence, run_preflight,
+    QUERY_INCIDENT_LIST, READBACK_TOOLS, RETRIEVE_INCIDENT_EVENTS, RETRIEVE_REPORT,
+    RETRIEVE_TELEMETRY_SLICE, ReadbackClient, ReadyState, ToolPresence, run_preflight,
 };
 
 /// The canary's emission instant for the stub legs. The default stub reports `i64::MAX`, so every
@@ -136,6 +136,41 @@ async fn an_absent_required_tool_is_blocked() {
     assert!(
         precondition.contains(MARK_INCIDENT_RESOLVED),
         "{precondition}"
+    );
+}
+
+/// A sidecar predating the incident-events tool blocks on the SAME missing-tool precondition as any
+/// other absent pinned tool — pinning a fifth name adds no precondition of its own.
+#[tokio::test(flavor = "current_thread")]
+async fn a_sidecar_without_the_incident_events_tool_blocks_on_the_existing_precondition() {
+    let config = StubConfig {
+        tools: vec![
+            QUERY_INCIDENT_LIST.to_string(),
+            RETRIEVE_REPORT.to_string(),
+            RETRIEVE_TELEMETRY_SLICE.to_string(),
+            MARK_INCIDENT_RESOLVED.to_string(),
+        ],
+        ..StubConfig::default()
+    };
+    let ready = drive(config).await;
+    assert!(!ready.ready);
+    assert_eq!(ready.report_state(), ReportState::Blocked);
+    assert_eq!(
+        ready.required_tools[RETRIEVE_INCIDENT_EVENTS],
+        ToolPresence::Absent
+    );
+    let precondition = ready.blocked_precondition.expect("a precondition");
+    assert!(
+        precondition.contains("required tool(s) absent"),
+        "{precondition}"
+    );
+    assert!(
+        precondition.contains(RETRIEVE_INCIDENT_EVENTS),
+        "{precondition}"
+    );
+    assert!(
+        !precondition.contains(MARK_INCIDENT_RESOLVED),
+        "only the missing tool is named: {precondition}"
     );
 }
 

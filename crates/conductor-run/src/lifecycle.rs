@@ -115,17 +115,44 @@ pub async fn probe_resolve_lifecycle(
     client: &ReadbackClient,
     resolve: i64,
 ) -> Result<LifecycleObservation, VerifyError> {
+    Ok(probe_resolve_lifecycle_timed(client, resolve).await?.0)
+}
+
+/// The resolve call's wall-clock window: `std::time` epoch nanoseconds read immediately before the
+/// request is sent and immediately after its response arrives. Pulse stamps its `resolved` event
+/// inside the call, so that stamp lies within `[sent, received]`.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub struct ResolveWindow {
+    pub sent_unix_nanos: i64,
+    pub received_unix_nanos: i64,
+}
+
+/// [`probe_resolve_lifecycle`] plus the resolve call's [`ResolveWindow`]. The window is read from
+/// `std::time`, never tokio's clock, because it is compared against a stamp the SUT took from the
+/// host clock.
+pub async fn probe_resolve_lifecycle_timed(
+    client: &ReadbackClient,
+    resolve: i64,
+) -> Result<(LifecycleObservation, ResolveWindow), VerifyError> {
     let before = active_incident_ids(client).await?;
     // The incident id is NOT in `conductor-core::redact::ALLOWLISTED_FIELDS`, so it rides the
     // allowlisted `message` rather than a span attribute the processor stage would drop.
     tracing::info!(message = %format!("resolve-lifecycle: resolving incident {resolve}"));
+    let sent_unix_nanos = crate::execute::now_unix_nanos();
     let _ = client.resolve_incident(resolve).await?;
+    let received_unix_nanos = crate::execute::now_unix_nanos();
     let after = active_incident_ids(client).await?;
-    Ok(LifecycleObservation {
-        before,
-        resolved: resolve,
-        after,
-    })
+    Ok((
+        LifecycleObservation {
+            before,
+            resolved: resolve,
+            after,
+        },
+        ResolveWindow {
+            sent_unix_nanos,
+            received_unix_nanos,
+        },
+    ))
 }
 
 /// The active incident ids from a `query_incident_list` result.
@@ -264,6 +291,68 @@ mod tests {
         assert!(
             ids.is_empty(),
             "an empty corpus yields an empty set, got {ids:?}"
+        );
+    }
+
+    /// 2020-09-13 in epoch nanoseconds: a stamp below it is a constant or the pre-epoch error path,
+    /// never a read of the host clock.
+    const EPOCH_FLOOR_NANOS: i64 = 1_600_000_000_000_000_000;
+
+    #[tokio::test(flavor = "current_thread")]
+    async fn the_timed_probe_brackets_the_resolve_call_with_wall_clock_stamps() {
+        let (client_io, server_io) = tokio::io::duplex(8192);
+        let server = tokio::spawn(serve_incident_list(server_io, vec![41, 42]));
+        let client = ReadbackClient::connect_transport(client_io)
+            .await
+            .expect("the stub session initializes");
+
+        let (_, window) = probe_resolve_lifecycle_timed(&client, 42)
+            .await
+            .expect("the timed probe completes");
+
+        drop(client);
+        server.abort();
+
+        assert!(
+            window.sent_unix_nanos > EPOCH_FLOOR_NANOS,
+            "sent stamp reads the host clock: {window:?}"
+        );
+        assert!(
+            window.received_unix_nanos > EPOCH_FLOOR_NANOS,
+            "received stamp reads the host clock: {window:?}"
+        );
+        assert!(
+            window.sent_unix_nanos <= window.received_unix_nanos,
+            "the window is ordered: {window:?}"
+        );
+    }
+
+    #[tokio::test(flavor = "current_thread")]
+    async fn the_shipped_probe_returns_the_timed_probes_observation() {
+        let (client_io, server_io) = tokio::io::duplex(8192);
+        let server = tokio::spawn(serve_incident_list(server_io, vec![41, 42]));
+        let client = ReadbackClient::connect_transport(client_io)
+            .await
+            .expect("the stub session initializes");
+
+        let shipped = probe_resolve_lifecycle(&client, 42)
+            .await
+            .expect("the shipped probe completes");
+        let (timed, _) = probe_resolve_lifecycle_timed(&client, 42)
+            .await
+            .expect("the timed probe completes");
+
+        drop(client);
+        server.abort();
+
+        assert_eq!(shipped, timed);
+        assert_eq!(
+            shipped,
+            LifecycleObservation {
+                before: vec![41, 42],
+                resolved: 42,
+                after: vec![41, 42],
+            }
         );
     }
 }

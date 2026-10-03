@@ -3,7 +3,7 @@
 //! [`ReadbackClient`] spawns the Pulse MCP sidecar over stdio (hardened, see [`crate::spawn`]) and
 //! speaks line-delimited JSON-RPC directly (see [`crate::jsonrpc`]), pinning the protocol version to
 //! Pulse's hand-rolled `2024-11-05` in the `initialize` handshake. It exposes a typed surface over the
-//! four consumed read-back tools whose calls return the RAW [`serde_json::Value`] result — because
+//! five consumed read-back tools whose calls return the RAW [`serde_json::Value`] result — because
 //! Pulse returns un-enveloped tool payloads (no MCP `{content:[…]}`), which rmcp's typed client
 //! rejects (architecture §Established Decisions [MCP Read-Back Client], reversed at the
 //! 2026-06-27 read-back-result-shape-adapter chunk).
@@ -19,11 +19,12 @@ use crate::error::VerifyError;
 use crate::jsonrpc::JsonRpcSession;
 use crate::spawn;
 
-/// The four Pulse read-back tools Conductor consumes (architecture §Occupied Resources).
+/// The five Pulse read-back tools Conductor consumes (architecture §Occupied Resources).
 pub const QUERY_INCIDENT_LIST: &str = "query_incident_list";
 pub const RETRIEVE_REPORT: &str = "retrieve_report";
 pub const RETRIEVE_TELEMETRY_SLICE: &str = "retrieve_telemetry_slice";
 pub const MARK_INCIDENT_RESOLVED: &str = "mark_incident_resolved";
+pub const RETRIEVE_INCIDENT_EVENTS: &str = "retrieve_incident_events";
 
 /// The protocol version Conductor pins in the `initialize` handshake — Pulse's hand-rolled server
 /// version. The preflight gate asserts the server negotiates this exact value (never the silent
@@ -186,5 +187,16 @@ impl ReadbackClient {
     pub async fn resolve_incident(&self, incident_id: i64) -> Result<Value, VerifyError> {
         self.mark_incident_resolved(Some(json!({ "incident_id": incident_id })))
             .await
+    }
+
+    /// `retrieve_incident_events` by id — one incident's lifecycle events, oldest first (raw
+    /// `{incident_id, events: [{event_kind, occurred_unix_nano}], total, truncated}`). An unknown id is
+    /// a JSON-RPC error, never an empty `events`.
+    pub async fn retrieve_incident_events(&self, incident_id: i64) -> Result<Value, VerifyError> {
+        self.call_tool(
+            RETRIEVE_INCIDENT_EVENTS,
+            Some(json!({ "incident_id": incident_id })),
+        )
+        .await
     }
 }

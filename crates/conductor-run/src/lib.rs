@@ -34,7 +34,8 @@ pub use drive::{RunEvent, RunStage, drive_run};
 pub use envelope::{classify_run, persist, read_envelope};
 pub use execute::{ScenarioOutcome, execute_scenario};
 pub use lifecycle::{
-    AUTO_RESOLVE_IDLE_SECONDS, LifecycleObservation, LifecycleVerdict, attribute_by_liveness,
-    evaluate_lifecycle, probe_resolve_lifecycle, select_resolve_target,
+    AUTO_RESOLVE_IDLE_SECONDS, LifecycleObservation, LifecycleVerdict, ResolveWindow,
+    attribute_by_liveness, evaluate_lifecycle, probe_resolve_lifecycle,
+    probe_resolve_lifecycle_timed, select_resolve_target,
 };
 pub use preconditions::{observe_preconditions, observe_preconditions_for};

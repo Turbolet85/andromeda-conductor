@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-02T22:29:09Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-10-02-p-075-re-round-on-incident-events",
+"--expect-prefix",
+"The P-075 re-round on incident events",
+"--record-file",
+".andromeda/runs/2026-10-02T22-27-37-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-10-02T22-27-37-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:83 - [2026-10-02-p-075-re-round-on-incident-events]",
+"record master-route.md:170 - appended under `## conductor-0.3.0`",
+"promoted 2026-10-02-p-075-re-round-on-incident-events - working-route:83 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+".\\conductor-0.3.0\\working-route.md",
+".\\.andromeda\\master-route.md"
+],
+"before": null,
+"after": null
+}
+]

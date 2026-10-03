@@ -1,0 +1,1 @@
+2026-10-03-p-075-re-round-on-incident-events · pending · P-075 re-round against Pulse S2 cdb6c1e — seven assertions graded hard, incident events read back through MCP · → conductor-0.3.0/chunks/2026-10-03-p-075-re-round-on-incident-events/

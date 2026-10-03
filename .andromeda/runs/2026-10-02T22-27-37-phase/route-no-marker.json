@@ -1,0 +1,30 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-02T22:27:53Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-02T22-27-37-phase"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 3 of 37 entries · freight blocks 5 · rows are an INDEX, not the text",
+"83 · BLOCKED-ON: · 275 chars · BLOCKED-ON: Pulse \"incident events readable through MCP\" — clears when Pulse relays a sh…",
+"83 · CONTEXT: · 207 chars · CONTEXT: founder ruling 2026-10-02 (as above), entry 2 of 3, minted ahead of the version cl…",
+"83 · CARRY ( · 359 chars · CARRY (from the `2026-10-02-captured-fingerprint-values-elided` wrap, overseer relay 2026-10…",
+"85 · BLOCKED-ON: · 137 chars · BLOCKED-ON: Pulse \"retry-storm interpretation names its retry cause\" (the founder's word…",
+"85 · CONTEXT: · 324 chars · CONTEXT: founder ruling 2026-10-02 (as above), entry 3 of 3 — `v3-09` is NOT deferred; no s…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

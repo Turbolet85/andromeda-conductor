@@ -462,6 +462,101 @@ mod tests {
         assert!(evidence_pin::check_digest(&name, &tampered, pin).is_err());
     }
 
+    // ---- the P-075 re-round, 2026-10-03, Pulse S2 `cdb6c1e` (round-request assertions 3-6) ----
+    // One `pulse-app` launch on the Linux host (deterministic L4, `WEBKIT_DISABLE_DMABUF_RENDERER=1`,
+    // fresh data dir), the compact widget visible and no desktop input; slices cut exactly as the
+    // prior round's, and the run ids, counts and censuses are in that chunk's `evidence/round-ledger.md`.
+
+    const REROUND_EVIDENCE: &str =
+        "conductor-0.3.0/chunks/2026-10-03-p-075-re-round-on-incident-events/evidence/";
+
+    fn reround_lines(name: &str, sha256: &str) -> Vec<String> {
+        evidence_pin::pinned(&format!("{REROUND_EVIDENCE}{name}"), sha256)
+            .lines()
+            .map(str::to_owned)
+            .collect()
+    }
+
+    /// ROUND-REQUEST ASSERTION 3 (P-025), AS MEASURED AT S2: leg H's window holds one sample, a
+    /// 128.45 ms rise (`autonomous`) whose start instant lands 0.55 ms from its incident's creation
+    /// line; the leg's 930.82 ms fall is stamped 13 s after `scenario.run` closed, outside the window
+    /// the contract's grading rule defines.
+    #[test]
+    fn p075_reround_assertion_3_p025_hue_update() {
+        let selfobs = evidence_pin::pinned(
+            &format!("{REROUND_EVIDENCE}h.jsonl"),
+            "5eea3c19012ccb05b83775de6119b429f79b924f1ce80b473c9f76044fedf01d",
+        );
+        let window = p025_window(&selfobs).expect("one start and one close");
+        assert_eq!(window, (1_791_068_892_902, 1_791_069_043_736));
+        let lines = reround_lines(
+            "pulse-h.jsonl",
+            "cdc2ecc3dc1170fa617878e309ebdcee9007609dca9ba7868719cb1b05e0f2a9",
+        );
+        let bound = bounds()[0];
+        assert_eq!(
+            grade_in_window(&lines, &bound, window),
+            Ok(128.450_195_312_5)
+        );
+        let rises = tiered_hue_samples_in_window(&lines, &bound, window);
+        assert_eq!(rises.len(), 1, "one rise in the window: {rises:?}");
+        let error = incident_anchor_error_ms(&rises[0], &lines).expect("a fresh incident precedes");
+        assert!(error <= P025_ANCHOR_TOLERANCE_MS, "anchor error {error}ms");
+        assert!(
+            (error - 0.550).abs() < 0.01,
+            "the measured anchor error: {error}"
+        );
+    }
+
+    /// ROUND-REQUEST ASSERTION 4 (P-027), AS MEASURED AT S2: leg D's slice holds two first-sighting
+    /// discovery samples (672.27 ms at `discovered_count: 2`, 715.54 ms at 1); worst 715.54 ms
+    /// against 5 000 ms.
+    #[test]
+    fn p075_reround_assertion_4_p027_discovery() {
+        let lines = reround_lines(
+            "pulse-d.jsonl",
+            "18e443b4f9f3a51b623788dd130de011abe5ce648e27a9ea30c21327949ce6e8",
+        );
+        assert_eq!(observations(&lines, &bounds()[1]).len(), 2);
+        assert_eq!(grade(&lines, &bounds()[1]), Ok(715.539_306_640_625));
+    }
+
+    /// ROUND-REQUEST ASSERTION 5 (P-037), AS MEASURED AT S2: leg R's slice holds one render sample,
+    /// 0 ms in `value`, carrying `degraded_mode: false` — fired by the Report webview's own
+    /// selection, no click.
+    #[test]
+    fn p075_reround_assertion_5_p037_report_render() {
+        let lines = reround_lines(
+            "pulse-r.jsonl",
+            "3f6c13c19f8d8100fdb137e2b8b8c2dbbe14c510a2f25e5cd6427147d86954d5",
+        );
+        assert_eq!(observations(&lines, &bounds()[2]).len(), 1);
+        assert_eq!(grade(&lines, &bounds()[2]), Ok(0.0));
+    }
+
+    /// ROUND-REQUEST ASSERTION 6 (P-045), AS MEASURED AT S2: leg F's slice holds 118 counter-refresh
+    /// samples; the worst is 1.0 ms against 1 000 ms.
+    #[test]
+    fn p075_reround_assertion_6_p045_counter_refresh() {
+        let lines = reround_lines(
+            "pulse-f.jsonl",
+            "498496d70b80311c10ba742fe524a68cad61f5113e58c845b0ba8e7e8c5b5c03",
+        );
+        assert_eq!(observations(&lines, &bounds()[3]).len(), 118);
+        assert_eq!(grade(&lines, &bounds()[3]), Ok(1.000_000_000_232_830_6));
+    }
+
+    #[test]
+    fn p075_reround_slices_digest_pin_fails_on_a_tampered_byte() {
+        let name = format!("{REROUND_EVIDENCE}pulse-r.jsonl");
+        let text = evidence_pin::committed(&name);
+        let pin = "3f6c13c19f8d8100fdb137e2b8b8c2dbbe14c510a2f25e5cd6427147d86954d5";
+        assert!(evidence_pin::check_digest(&name, &text, pin).is_ok());
+        let tampered = text.replacen("\"value\":0", "\"value\":9", 1);
+        assert_ne!(tampered, text, "the tamper landed");
+        assert!(evidence_pin::check_digest(&name, &tampered, pin).is_err());
+    }
+
     #[test]
     fn round_a_tampered_byte_fails_the_digest_pin() {
         let text = "{\"target\":\"metric.findings.counter_refresh_ms\"}\n";

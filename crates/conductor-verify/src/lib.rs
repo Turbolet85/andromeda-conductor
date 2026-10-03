@@ -6,7 +6,7 @@
 //! injection-metacharacter rejection — the rmcp STDIO injection class, security-plan §Anti-Patterns),
 //! READS the negotiated protocol version back from the `initialize` result and holds it against
 //! Pulse's hand-rolled `2024-11-05` (architecture §Established Decisions [MCP Read-Back Client]), and
-//! exposes a typed surface over the four consumed read-back tools.
+//! exposes a typed surface over the five consumed read-back tools.
 //!
 //! A failed spawn / handshake / call is a typed [`VerifyError`] value (`Result::Err`) — a harness
 //! fault, never a verification verdict; a protocol-version difference or an absent tool is reported as
@@ -41,8 +41,8 @@ mod spawn;
 mod verdict;
 
 pub use client::{
-    MARK_INCIDENT_RESOLVED, QUERY_INCIDENT_LIST, RETRIEVE_REPORT, RETRIEVE_TELEMETRY_SLICE,
-    ReadbackClient,
+    MARK_INCIDENT_RESOLVED, QUERY_INCIDENT_LIST, RETRIEVE_INCIDENT_EVENTS, RETRIEVE_REPORT,
+    RETRIEVE_TELEMETRY_SLICE, ReadbackClient,
 };
 pub use conductor_core::ClaimClass;
 pub use error::VerifyError;

@@ -1,0 +1,202 @@
+[
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-10-03T22:23:22Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-03T22-20-49-phase",
+"--marker",
+"2026-10-03-p-075-re-round-on-incident-events"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"appended 2 record(s) · friction-log.ndjson lines 2911→2913 · bytes 3533025→3535133 · term lf",
+"ts 2026-10-03T22:23:12Z · clock 2026-10-03T22:23:22Z · bound 2026-10-03T22:19:20Z (line 2911)",
+"ids 2026-10-03T22:23:12Z-a … 2026-10-03T22:23:12Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 2911,
+"bytes": 3533025,
+"terminator": "LF",
+"bound": "2026-10-03T22:19:20Z"
+},
+"after": {
+"lines": 2913,
+"bytes": 3535133
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-10-03T22:29:38Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-03T22-20-49-phase",
+"--marker",
+"2026-10-03-p-075-re-round-on-incident-events"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"appended 2 record(s) · friction-log.ndjson lines 2913→2915 · bytes 3535133→3537627 · term lf",
+"ts 2026-10-03T22:29:27Z · clock 2026-10-03T22:29:38Z · bound 2026-10-03T22:23:12Z (line 2913)",
+"ids 2026-10-03T22:29:27Z-a … 2026-10-03T22:29:27Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 2913,
+"bytes": 3535133,
+"terminator": "LF",
+"bound": "2026-10-03T22:23:12Z"
+},
+"after": {
+"lines": 2915,
+"bytes": 3537627
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-10-03T22:35:39Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-03T22-20-49-phase",
+"--marker",
+"2026-10-03-p-075-re-round-on-incident-events"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"appended 2 record(s) · friction-log.ndjson lines 2915→2917 · bytes 3537627→3539844 · term lf",
+"ts 2026-10-03T22:35:26Z · clock 2026-10-03T22:35:39Z · bound 2026-10-03T22:29:27Z (line 2915)",
+"ids 2026-10-03T22:35:26Z-a … 2026-10-03T22:35:26Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 2915,
+"bytes": 3537627,
+"terminator": "LF",
+"bound": "2026-10-03T22:29:27Z"
+},
+"after": {
+"lines": 2917,
+"bytes": 3539844
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-10-03T22:43:22Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-03T22-20-49-phase",
+"--marker",
+"2026-10-03-p-075-re-round-on-incident-events"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 2917→2918 · bytes 3539844→3540838 · term lf",
+"ts 2026-10-03T22:43:14Z · clock 2026-10-03T22:43:22Z · bound 2026-10-03T22:35:26Z (line 2917)",
+"ids 2026-10-03T22:43:14Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 2917,
+"bytes": 3539844,
+"terminator": "LF",
+"bound": "2026-10-03T22:35:26Z"
+},
+"after": {
+"lines": 2918,
+"bytes": 3540838
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-10-03T22:51:54Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-03T22-20-49-phase",
+"--marker",
+"2026-10-03-p-075-re-round-on-incident-events"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"appended 3 record(s) · friction-log.ndjson lines 2918→2921 · bytes 3540838→3543562 · term lf",
+"ts 2026-10-03T22:51:37Z · clock 2026-10-03T22:51:54Z · bound 2026-10-03T22:43:14Z (line 2918)",
+"ids 2026-10-03T22:51:37Z-a … 2026-10-03T22:51:37Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 2918,
+"bytes": 3540838,
+"terminator": "LF",
+"bound": "2026-10-03T22:43:14Z"
+},
+"after": {
+"lines": 2921,
+"bytes": 3543562
+}
+}
+]

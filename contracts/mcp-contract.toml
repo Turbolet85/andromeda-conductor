@@ -13,4 +13,5 @@ required_tools = [
     "retrieve_report",
     "retrieve_telemetry_slice",
     "mark_incident_resolved",
+    "retrieve_incident_events",
 ]

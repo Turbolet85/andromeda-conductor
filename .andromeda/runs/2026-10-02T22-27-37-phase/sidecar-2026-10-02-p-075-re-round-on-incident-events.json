@@ -1,0 +1,303 @@
+[
+{
+"tool": "sidecar",
+"v": "1.2",
+"sha8": "1872a4a3",
+"ts": "2026-10-02T22:32:56Z",
+"argv": [
+"summary",
+"--file",
+"D:/dev/projects/conductor/.andromeda/architecture-amendments.md",
+"--run-dir",
+"D:/dev/projects/conductor/.andromeda/runs/2026-10-02T22-27-37-phase",
+"--marker",
+"2026-10-02-p-075-re-round-on-incident-events"
+],
+"cwd": "D:\\dev\\projects\\conductor\\.andromeda\\runs\\2026-10-02T22-27-37-phase",
+"exit": 0,
+"stdout": [
+"bytes 192581 · whole-read bound 120000 · OVER",
+"entries 153 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 1 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 192581,
+"entries": 153,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.2",
+"sha8": "1872a4a3",
+"ts": "2026-10-02T22:32:57Z",
+"argv": [
+"summary",
+"--file",
+"D:/dev/projects/conductor/.andromeda/security-plan-amendments.md",
+"--run-dir",
+"D:/dev/projects/conductor/.andromeda/runs/2026-10-02T22-27-37-phase",
+"--marker",
+"2026-10-02-p-075-re-round-on-incident-events"
+],
+"cwd": "D:\\dev\\projects\\conductor\\.andromeda\\runs\\2026-10-02T22-27-37-phase",
+"exit": 0,
+"stdout": [
+"bytes 97701 · whole-read bound 120000 · within",
+"entries 69 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 97701,
+"entries": 69,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.2",
+"sha8": "1872a4a3",
+"ts": "2026-10-02T22:32:58Z",
+"argv": [
+"summary",
+"--file",
+"D:/dev/projects/conductor/.andromeda/design-system-amendments.md",
+"--run-dir",
+"D:/dev/projects/conductor/.andromeda/runs/2026-10-02T22-27-37-phase",
+"--marker",
+"2026-10-02-p-075-re-round-on-incident-events"
+],
+"cwd": "D:\\dev\\projects\\conductor\\.andromeda\\runs\\2026-10-02T22-27-37-phase",
+"exit": 0,
+"stdout": [
+"bytes 17949 · whole-read bound 120000 · within",
+"entries 18 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 17949,
+"entries": 18,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.2",
+"sha8": "1872a4a3",
+"ts": "2026-10-02T22:32:58Z",
+"argv": [
+"summary",
+"--file",
+"D:/dev/projects/conductor/.andromeda/layout-templates-amendments.md",
+"--run-dir",
+"D:/dev/projects/conductor/.andromeda/runs/2026-10-02T22-27-37-phase",
+"--marker",
+"2026-10-02-p-075-re-round-on-incident-events"
+],
+"cwd": "D:\\dev\\projects\\conductor\\.andromeda\\runs\\2026-10-02T22-27-37-phase",
+"exit": 0,
+"stdout": [
+"bytes 41523 · whole-read bound 120000 · within",
+"entries 34 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 41523,
+"entries": 34,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.2",
+"sha8": "1872a4a3",
+"ts": "2026-10-02T22:32:59Z",
+"argv": [
+"summary",
+"--file",
+"D:/dev/projects/conductor/.andromeda/test-plan-amendments.md",
+"--run-dir",
+"D:/dev/projects/conductor/.andromeda/runs/2026-10-02T22-27-37-phase",
+"--marker",
+"2026-10-02-p-075-re-round-on-incident-events"
+],
+"cwd": "D:\\dev\\projects\\conductor\\.andromeda\\runs\\2026-10-02T22-27-37-phase",
+"exit": 0,
+"stdout": [
+"bytes 134809 · whole-read bound 120000 · OVER",
+"entries 93 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 134809,
+"entries": 93,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.2",
+"sha8": "1872a4a3",
+"ts": "2026-10-02T22:33:00Z",
+"argv": [
+"summary",
+"--file",
+"D:/dev/projects/conductor/.andromeda/obs-plan-amendments.md",
+"--run-dir",
+"D:/dev/projects/conductor/.andromeda/runs/2026-10-02T22-27-37-phase",
+"--marker",
+"2026-10-02-p-075-re-round-on-incident-events"
+],
+"cwd": "D:\\dev\\projects\\conductor\\.andromeda\\runs\\2026-10-02T22-27-37-phase",
+"exit": 0,
+"stdout": [
+"bytes 62848 · whole-read bound 120000 · within",
+"entries 49 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 1 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 62848,
+"entries": 49,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.2",
+"sha8": "1872a4a3",
+"ts": "2026-10-02T22:33:01Z",
+"argv": [
+"summary",
+"--file",
+"D:/dev/projects/conductor/.andromeda/a11y-plan-amendments.md",
+"--run-dir",
+"D:/dev/projects/conductor/.andromeda/runs/2026-10-02T22-27-37-phase",
+"--marker",
+"2026-10-02-p-075-re-round-on-incident-events"
+],
+"cwd": "D:\\dev\\projects\\conductor\\.andromeda\\runs\\2026-10-02T22-27-37-phase",
+"exit": 0,
+"stdout": [
+"bytes 42216 · whole-read bound 120000 · within",
+"entries 27 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 42216,
+"entries": 27,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.2",
+"sha8": "1872a4a3",
+"ts": "2026-10-02T22:33:07Z",
+"argv": [
+"index",
+"--file",
+"D:/dev/projects/conductor/.andromeda/architecture-amendments.md",
+"--out",
+"D:/dev/projects/conductor/.andromeda/runs/2026-10-02T22-27-37-phase/arch-history-index.md",
+"--run-dir",
+"D:/dev/projects/conductor/.andromeda/runs/2026-10-02T22-27-37-phase",
+"--marker",
+"2026-10-02-p-075-re-round-on-incident-events"
+],
+"cwd": "D:\\dev\\projects\\conductor\\.andromeda\\runs\\2026-10-02T22-27-37-phase",
+"exit": 0,
+"stdout": [
+"wrote D:/dev/projects/conductor/.andromeda/runs/2026-10-02T22-27-37-phase/arch-history-index.md · 153 entries · 0 unparsed · 36453 B (the sidecar is 192581 B)"
+],
+"stderr": null,
+"wrote": [
+"D:/dev/projects/conductor/.andromeda/runs/2026-10-02T22-27-37-phase/arch-history-index.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "sidecar",
+"v": "1.2",
+"sha8": "1872a4a3",
+"ts": "2026-10-02T22:33:09Z",
+"argv": [
+"index",
+"--file",
+"D:/dev/projects/conductor/.andromeda/test-plan-amendments.md",
+"--out",
+"D:/dev/projects/conductor/.andromeda/runs/2026-10-02T22-27-37-phase/tests-history-index.md",
+"--run-dir",
+"D:/dev/projects/conductor/.andromeda/runs/2026-10-02T22-27-37-phase",
+"--marker",
+"2026-10-02-p-075-re-round-on-incident-events"
+],
+"cwd": "D:\\dev\\projects\\conductor\\.andromeda\\runs\\2026-10-02T22-27-37-phase",
+"exit": 0,
+"stdout": [
+"wrote D:/dev/projects/conductor/.andromeda/runs/2026-10-02T22-27-37-phase/tests-history-index.md · 93 entries · 0 unparsed · 25219 B (the sidecar is 134809 B)"
+],
+"stderr": null,
+"wrote": [
+"D:/dev/projects/conductor/.andromeda/runs/2026-10-02T22-27-37-phase/tests-history-index.md"
+],
+"before": null,
+"after": null
+}
+]

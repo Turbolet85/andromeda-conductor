@@ -158,5 +158,45 @@
 "lines": 2889,
 "bytes": 3513388
 }
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-10-02T17:01:31Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-02T16-24-28-wrap",
+"--marker",
+"2026-10-02-captured-fingerprint-values-elided"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"appended 2 record(s) · friction-log.ndjson lines 2889→2891 · bytes 3513388→3515068 · term lf",
+"ts 2026-10-02T17:01:15Z · clock 2026-10-02T17:01:30Z · bound 2026-10-02T16:39:05Z (line 2889)",
+"ids 2026-10-02T17:01:15Z-a … 2026-10-02T17:01:15Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+".\\.andromeda\\friction-log.ndjson"
+],
+"before": {
+"lines": 2889,
+"bytes": 3513388,
+"terminator": "LF",
+"bound": "2026-10-02T16:39:05Z"
+},
+"after": {
+"lines": 2891,
+"bytes": 3515068
+}
 }
 ]

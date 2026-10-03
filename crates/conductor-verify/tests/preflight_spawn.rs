@@ -15,6 +15,9 @@ use conductor_verify::{CanaryMarker, CanaryPoll, ContractManifest, preflight_boo
 const CANARY: &str = "conductor-canary-7f3a";
 /// Must match `stub_pulse_mcp.rs`'s `CANARY_FP` (the fidelity carrier).
 const CANARY_FP: &str = "0123456789abcdef";
+/// One nanosecond before the child stub's fixed `opened_at_unix_nano: 0`, so its incident reads as
+/// FRESH — freshness is strictly after the emission instant.
+const CANARY_EMITTED_AT: i64 = -1;
 
 fn manifest() -> ContractManifest {
     let path =
@@ -30,7 +33,7 @@ async fn live_child_spawn_preflight_is_ready() {
         command,
         &manifest(),
         &RunContractStatus::satisfied(),
-        &CanaryMarker::new(CANARY, CANARY_FP),
+        &CanaryMarker::new(CANARY, CANARY_FP, CANARY_EMITTED_AT),
         "/test/data-dir",
         CanaryPoll::immediate(),
     ))

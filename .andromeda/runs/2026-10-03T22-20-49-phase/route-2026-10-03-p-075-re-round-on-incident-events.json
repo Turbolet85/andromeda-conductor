@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-03T22:23:02Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-10-03-p-075-re-round-on-incident-events",
+"--expect-prefix",
+"The P-075 re-round on incident events",
+"--record-file",
+".andromeda/runs/2026-10-03T22-20-49-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-10-03T22-20-49-phase"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:83 - [2026-10-03-p-075-re-round-on-incident-events]",
+"record master-route.md:170 - appended under `## conductor-0.3.0`",
+"promoted 2026-10-03-p-075-re-round-on-incident-events - working-route:83 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+"./conductor-0.3.0/working-route.md",
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+}
+]

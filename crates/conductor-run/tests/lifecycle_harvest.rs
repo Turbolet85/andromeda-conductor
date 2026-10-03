@@ -291,6 +291,58 @@ fn grade_assertion_2(fields: &HashMap<String, String>) -> RoundGrade {
     }
 }
 
+/// Assertion 7 — the incident's lifecycle events read back through `retrieve_incident_events`.
+/// BEFORE the resolve: the first event is `created` and none is `resolved`. AFTER it: the first is
+/// still `created`, the last is `resolved`, and that event's stamp lies inside the resolve call's
+/// request→response window, inclusive at both ends (Pulse stamps `now` inside the call). Every event
+/// in both reads sits in the four-kind vocabulary. A truncated read could hide the last event, so it
+/// is UNGRADED rather than graded on a partial list.
+fn grade_assertion_7(fields: &HashMap<String, String>) -> RoundGrade {
+    let required = [
+        "before_first",
+        "before_has_resolved",
+        "after_first",
+        "after_last",
+        "before_outside_vocabulary",
+        "after_outside_vocabulary",
+    ];
+    if let Some(key) = required.iter().find(|k| field(fields, k) == "absent") {
+        return RoundGrade::Ungraded(format!("{key} absent"));
+    }
+    if let Some(key) = ["before_truncated", "after_truncated"]
+        .iter()
+        .find(|k| field(fields, k) == "true")
+    {
+        return RoundGrade::Ungraded(format!("{key}=true"));
+    }
+    let wanted = [
+        ("before_first", "created"),
+        ("before_has_resolved", "false"),
+        ("after_first", "created"),
+        ("after_last", "resolved"),
+        ("before_outside_vocabulary", "0"),
+        ("after_outside_vocabulary", "0"),
+    ];
+    let mut failed: Vec<String> = wanted
+        .iter()
+        .filter(|(k, want)| field(fields, k) != *want)
+        .map(|(k, _)| format!("{k}={}", field(fields, k)))
+        .collect();
+    if field(fields, "after_last") == "resolved" {
+        for key in ["resolved_minus_sent_ns", "received_minus_resolved_ns"] {
+            let inside = field(fields, key).parse::<i64>().is_ok_and(|ns| ns >= 0);
+            if !inside {
+                failed.push(format!("{key}={}", field(fields, key)));
+            }
+        }
+    }
+    if failed.is_empty() {
+        RoundGrade::Pass
+    } else {
+        RoundGrade::Fail(failed.join(" "))
+    }
+}
+
 /// A capture in the leg's print format, every graded field set to the passing value.
 fn synthetic_round(overrides: &[(&str, &str)]) -> HashMap<String, String> {
     let mut capture = String::from(
@@ -298,7 +350,9 @@ fn synthetic_round(overrides: &[(&str, &str)]) -> HashMap<String, String> {
          p075-round: incident_id=1 opened_after_emission=true opened_minus_emitted_ms=41250\n\
          p075-round: fingerprint_refs=4 det_members=3 fingerprint_in_refs=true\n\
          p075-round: degraded_mode=false\n\
+         p075-round: before_total=1 before_truncated=false before_first=created before_has_resolved=false before_sequence=created before_outside_vocabulary=0\n\
          p075-round: resolve_before=1 resolved_left_active_set=true idle_ms=812 verdict=ProvenByLiveness\n\
+         p075-round: after_total=2 after_truncated=false after_first=created after_last=resolved after_sequence=created,resolved after_outside_vocabulary=0 resolve_window_ns=4210000 resolved_minus_sent_ns=2105000 received_minus_resolved_ns=2105000\n\
          p075-round: end\n",
     );
     for (key, value) in overrides {
@@ -406,6 +460,79 @@ fn round_assertion_2_no_resolve_is_ungraded() {
     );
 }
 
+#[test]
+fn round_assertion_7_passes_on_the_canonical_capture() {
+    assert_eq!(grade_assertion_7(&synthetic_round(&[])), RoundGrade::Pass);
+}
+
+#[test]
+fn round_assertion_7_each_failing_shape_is_a_fail_naming_its_key() {
+    for (key, value) in [
+        ("before_first", "unknown"),
+        ("before_has_resolved", "true"),
+        ("after_first", "active"),
+        ("after_last", "active"),
+        ("resolved_minus_sent_ns", "-1"),
+        ("received_minus_resolved_ns", "-1"),
+        ("before_outside_vocabulary", "1"),
+        ("after_outside_vocabulary", "1"),
+    ] {
+        assert_eq!(
+            grade_assertion_7(&synthetic_round(&[(key, value)])),
+            RoundGrade::Fail(format!("{key}={value}")),
+            "{key}={value}"
+        );
+    }
+}
+
+/// The window bound is inclusive at both ends: Pulse stamps `now` inside the call, so a stamp equal
+/// to either edge is inside it.
+#[test]
+fn round_assertion_7_a_stamp_on_either_window_edge_passes() {
+    assert_eq!(
+        grade_assertion_7(&synthetic_round(&[("resolved_minus_sent_ns", "0")])),
+        RoundGrade::Pass
+    );
+    assert_eq!(
+        grade_assertion_7(&synthetic_round(&[("received_minus_resolved_ns", "0")])),
+        RoundGrade::Pass
+    );
+}
+
+/// With `resolved` last, an offset that could not be computed is a FAIL — the event is there and its
+/// placement is unproven. With anything else last, the offsets are never read.
+#[test]
+fn round_assertion_7_offsets_are_read_only_when_resolved_is_last() {
+    assert_eq!(
+        grade_assertion_7(&synthetic_round(&[("resolved_minus_sent_ns", "absent")])),
+        RoundGrade::Fail("resolved_minus_sent_ns=absent".to_string())
+    );
+    assert_eq!(
+        grade_assertion_7(&synthetic_round(&[
+            ("after_last", "active"),
+            ("resolved_minus_sent_ns", "absent"),
+            ("received_minus_resolved_ns", "absent"),
+        ])),
+        RoundGrade::Fail("after_last=active".to_string())
+    );
+}
+
+#[test]
+fn round_assertion_7_an_absent_field_is_ungraded_never_met() {
+    assert_eq!(
+        grade_assertion_7(&synthetic_round(&[("after_last", "absent")])),
+        RoundGrade::Ungraded("after_last absent".to_string())
+    );
+}
+
+#[test]
+fn round_assertion_7_a_truncated_read_is_ungraded_never_met() {
+    assert_eq!(
+        grade_assertion_7(&synthetic_round(&[("after_truncated", "true")])),
+        RoundGrade::Ungraded("after_truncated=true".to_string())
+    );
+}
+
 /// The round's committed P-075 leg capture (2026-10-02, Pulse S `03ec944`, deterministic L4, fresh
 /// data dir, the leg fired first on the launch). Run ids, pre-leg counts and the censuses are in
 /// `evidence/round-ledger.md`.
@@ -447,6 +574,72 @@ fn p075_round_capture_digest_pin_fails_on_a_tampered_byte() {
     let tampered = text.replacen("degraded_mode=false", "degraded_mode=falsE", 1);
     assert_ne!(tampered, text, "the tamper landed");
     assert!(evidence_pin::check_digest(ROUND_CAPTURE, &tampered, ROUND_CAPTURE_SHA256).is_err());
+}
+
+// ---- the P-075 re-round, 2026-10-03, Pulse S2 cdb6c1e (round-request assertions 1, 2 and 7) ----
+//
+// One fresh `pulse-app` launch on the Linux host (deterministic L4, `WEBKIT_DISABLE_DMABUF_RENDERER=1`
+// — the launch-posture deviation recorded in `evidence/round-ledger.md`), the leg fired first on it.
+
+const REROUND_CAPTURE: &str =
+    "conductor-0.3.0/chunks/2026-10-03-p-075-re-round-on-incident-events/evidence/p075-leg.txt";
+const REROUND_CAPTURE_SHA256: &str =
+    "aebc50ee41f3993929788bd424dcfae40cfaab26480efe29381ad93062aaafac";
+
+fn reround_capture() -> HashMap<String, String> {
+    round_fields(&evidence_pin::pinned(
+        REROUND_CAPTURE,
+        REROUND_CAPTURE_SHA256,
+    ))
+}
+
+/// ROUND-REQUEST ASSERTION 1, AS MEASURED AT S2: Conductor's fingerprint is a member of incident 1's
+/// `fingerprint_refs` (4 refs, 3 of them `det-*`), the incident opened 30 ms after the storm's
+/// emission instant on an empty active set, and `retrieve_report` returned `degraded_mode: false`.
+#[test]
+fn p075_reround_assertion_1_read_back_content_fidelity() {
+    let fields = reround_capture();
+    assert_eq!(field(&fields, "active_at_open"), "0");
+    assert_eq!(field(&fields, "fingerprint_refs"), "4");
+    assert_eq!(field(&fields, "det_members"), "3");
+    assert_eq!(field(&fields, "opened_minus_emitted_ms"), "30");
+    assert_eq!(grade_assertion_1(&fields), RoundGrade::Pass);
+}
+
+/// ROUND-REQUEST ASSERTION 2, AS MEASURED AT S2: `mark_incident_resolved` removed incident 1 from the
+/// active set 0 ms (sub-millisecond) after its last emission — far inside the auto-resolver's 120 s.
+#[test]
+fn p075_reround_assertion_2_runtime_state_fidelity() {
+    let fields = reround_capture();
+    assert_eq!(field(&fields, "resolve_before"), "1");
+    assert_eq!(field(&fields, "idle_ms"), "0");
+    assert_eq!(grade_assertion_2(&fields), RoundGrade::Pass);
+}
+
+/// ROUND-REQUEST ASSERTION 7, AS MEASURED AT S2: before the resolve the incident's events read
+/// `created` alone; after it, `created,resolved`, the `resolved` stamp 63 395 ns after the request
+/// was sent and 224 316 ns before the response arrived, inside a 287 711 ns window. No event read
+/// `unknown`, and neither read was truncated.
+#[test]
+fn p075_reround_assertion_7_incident_events_read_back() {
+    let fields = reround_capture();
+    assert_eq!(field(&fields, "before_sequence"), "created");
+    assert_eq!(field(&fields, "after_sequence"), "created,resolved");
+    assert_eq!(field(&fields, "resolve_window_ns"), "287711");
+    assert_eq!(field(&fields, "resolved_minus_sent_ns"), "63395");
+    assert_eq!(field(&fields, "received_minus_resolved_ns"), "224316");
+    assert_eq!(grade_assertion_7(&fields), RoundGrade::Pass);
+}
+
+#[test]
+fn p075_reround_capture_digest_pin_fails_on_a_tampered_byte() {
+    let text = evidence_pin::committed(REROUND_CAPTURE);
+    assert!(evidence_pin::check_digest(REROUND_CAPTURE, &text, REROUND_CAPTURE_SHA256).is_ok());
+    let tampered = text.replacen("after_last=resolved", "after_last=resolveD", 1);
+    assert_ne!(tampered, text, "the tamper landed");
+    assert!(
+        evidence_pin::check_digest(REROUND_CAPTURE, &tampered, REROUND_CAPTURE_SHA256).is_err()
+    );
 }
 
 #[test]

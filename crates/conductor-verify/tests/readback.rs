@@ -313,6 +313,104 @@ async fn the_by_id_wrapper_sends_the_one_field_argument_and_round_trips_the_raw_
     );
 }
 
+/// Drive one `retrieve_incident_events` read by id against a configured stub.
+async fn incident_events_with(config: StubConfig, incident_id: i64) -> Result<Value, VerifyError> {
+    let (client_io, server_io) = tokio::io::duplex(4096);
+    let server = tokio::spawn(serve_stub(server_io, config));
+    let client = bounded(ReadbackClient::connect_transport(client_io))
+        .await
+        .expect("client connects to the stub");
+    let result = bounded(client.retrieve_incident_events(incident_id)).await;
+    drop(client);
+    server.abort();
+    result
+}
+
+/// The read returns Pulse's RAW shape under its own key names, at the item level too — a stub that
+/// drifted to other keys would degrade every live reader to empty without failing a test
+/// (`.claude/rules/testing.md` 2026-09-01).
+#[tokio::test(flavor = "current_thread")]
+async fn incident_events_round_trip_pulses_raw_keys_in_order() {
+    let result = incident_events_with(StubConfig::default(), 42)
+        .await
+        .expect("a known incident reads Ok");
+    let mut keys: Vec<&str> = result
+        .as_object()
+        .expect("a raw object result")
+        .keys()
+        .map(String::as_str)
+        .collect();
+    keys.sort_unstable();
+    assert_eq!(keys, ["events", "incident_id", "total", "truncated"]);
+    assert_eq!(
+        result["incident_id"].as_i64(),
+        Some(42),
+        "echoes the id read"
+    );
+    assert_eq!(result["total"].as_i64(), Some(2));
+    assert_eq!(result["truncated"].as_bool(), Some(false));
+
+    let events = result["events"].as_array().expect("events is an array");
+    let kinds: Vec<&str> = events
+        .iter()
+        .map(|e| e["event_kind"].as_str().expect("event_kind is a string"))
+        .collect();
+    assert_eq!(kinds, ["created", "resolved"], "oldest first");
+    let stamps: Vec<i64> = events
+        .iter()
+        .map(|e| {
+            e["occurred_unix_nano"]
+                .as_i64()
+                .expect("occurred_unix_nano is an integer")
+        })
+        .collect();
+    assert_eq!(stamps, [1_700_000_000_050, 1_700_000_000_555]);
+    for event in events {
+        let mut item_keys: Vec<&str> = event
+            .as_object()
+            .expect("an event is an object")
+            .keys()
+            .map(String::as_str)
+            .collect();
+        item_keys.sort_unstable();
+        assert_eq!(item_keys, ["event_kind", "occurred_unix_nano"]);
+    }
+}
+
+#[tokio::test(flavor = "current_thread")]
+async fn an_incident_with_no_events_reads_an_empty_list_and_a_zero_total() {
+    let config = StubConfig {
+        incident_events: vec![],
+        ..StubConfig::default()
+    };
+    let result = incident_events_with(config, 1)
+        .await
+        .expect("a known incident reads Ok");
+    assert_eq!(result["events"].as_array().map(Vec::len), Some(0));
+    assert_eq!(result["total"].as_i64(), Some(0));
+}
+
+/// An unknown id is Pulse refusing the read, so it lands as the typed `JsonRpc` value — never a
+/// panic, and never an `Ok` an empty-events reader could mistake for "no lifecycle yet".
+#[tokio::test(flavor = "current_thread")]
+async fn an_unknown_incident_id_is_a_typed_json_rpc_value_never_ok() {
+    let config = StubConfig {
+        incident_events_unknown: true,
+        ..StubConfig::default()
+    };
+    let err = incident_events_with(config, 999)
+        .await
+        .expect_err("an unknown id surfaces as an error value");
+    let VerifyError::JsonRpc { code, message } = &err else {
+        panic!("an unknown id is a JSON-RPC error, not a transport fault: {err:?}");
+    };
+    assert_eq!(*code, -32603);
+    assert!(
+        message.contains("incident not found"),
+        "carries Pulse's own reason: {message}"
+    );
+}
+
 /// The wrapper is on the verdict/error wall's outcome side too — a refused write arrives as the same
 /// typed `JsonRpc` value here as it does through the raw-`Value` form.
 #[tokio::test(flavor = "current_thread")]

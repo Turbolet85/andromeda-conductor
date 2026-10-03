@@ -8,17 +8,19 @@ use std::path::Path;
 use serde::Deserialize;
 
 use crate::client::{
-    MARK_INCIDENT_RESOLVED, QUERY_INCIDENT_LIST, RETRIEVE_REPORT, RETRIEVE_TELEMETRY_SLICE,
+    MARK_INCIDENT_RESOLVED, QUERY_INCIDENT_LIST, RETRIEVE_INCIDENT_EVENTS, RETRIEVE_REPORT,
+    RETRIEVE_TELEMETRY_SLICE,
 };
 use crate::error::VerifyError;
 
-/// The four read-back tools Conductor's contract pins (arch §Occupied Resources) — the set a valid
+/// The five read-back tools Conductor's contract pins (arch §Occupied Resources) — the set a valid
 /// manifest must declare and the preflight gate asserts present.
-pub const READBACK_TOOLS: [&str; 4] = [
+pub const READBACK_TOOLS: [&str; 5] = [
     QUERY_INCIDENT_LIST,
     RETRIEVE_REPORT,
     RETRIEVE_TELEMETRY_SLICE,
     MARK_INCIDENT_RESOLVED,
+    RETRIEVE_INCIDENT_EVENTS,
 ];
 
 /// The pinned contract the preflight gate checks: the expected protocol version + required tools.

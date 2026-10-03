@@ -105,6 +105,11 @@ pub struct StubConfig {
     /// `updated_unix_nano <= ?2` and its dispatch stamps `now` fresh on every call, so the decline
     /// is reachable live only against a future-stamped row. Stub-proven, and recorded as such.
     pub resolve_declines: bool,
+    /// The `(event_kind, occurred_unix_nano)` rows `retrieve_incident_events` returns, oldest first.
+    pub incident_events: Vec<(String, i64)>,
+    /// When set, `retrieve_incident_events` answers with the JSON-RPC ERROR Pulse raises for an id
+    /// with no incident row — never an empty `events`.
+    pub incident_events_unknown: bool,
 }
 
 impl Default for StubConfig {
@@ -116,6 +121,7 @@ impl Default for StubConfig {
                 "retrieve_report",
                 "retrieve_telemetry_slice",
                 "mark_incident_resolved",
+                "retrieve_incident_events",
             ]
             .into_iter()
             .map(String::from)
@@ -133,6 +139,11 @@ impl Default for StubConfig {
             wire_log: None,
             decoy_before_nth_request: None,
             resolve_declines: false,
+            incident_events: vec![
+                ("created".into(), 1_700_000_000_050),
+                ("resolved".into(), 1_700_000_000_555),
+            ],
+            incident_events_unknown: false,
         }
     }
 }
@@ -200,6 +211,7 @@ where
         let calls_slice = method == "tools/call" && tool == Some("retrieve_telemetry_slice");
         let calls_report = method == "tools/call" && tool == Some("retrieve_report");
         let calls_resolve = method == "tools/call" && tool == Some("mark_incident_resolved");
+        let calls_events = method == "tools/call" && tool == Some("retrieve_incident_events");
 
         let resp = if config.query_errors && calls_query {
             json!({
@@ -214,6 +226,15 @@ where
                 "error": {
                     "code": -32603,
                     "message": "incident changed concurrently; resolution not applied",
+                },
+            })
+        } else if config.incident_events_unknown && calls_events {
+            json!({
+                "jsonrpc": "2.0",
+                "id": id,
+                "error": {
+                    "code": -32603,
+                    "message": "tool dispatch failed for `retrieve_incident_events`: incident not found",
                 },
             })
         } else {
@@ -275,6 +296,23 @@ where
                         .and_then(Value::as_i64)
                         .unwrap_or(1);
                     json!({ "resolved": true, "incident_id": requested })
+                }
+                "tools/call" if calls_events => {
+                    let requested = req
+                        .pointer("/params/arguments/incident_id")
+                        .and_then(Value::as_i64)
+                        .unwrap_or(1);
+                    let events: Vec<Value> = config
+                        .incident_events
+                        .iter()
+                        .map(|(kind, at)| json!({ "event_kind": kind, "occurred_unix_nano": at }))
+                        .collect();
+                    json!({
+                        "incident_id": requested,
+                        "total": events.len(),
+                        "events": events,
+                        "truncated": false,
+                    })
                 }
                 "tools/call" => json!({ "ok": true }),
                 _ => json!({}),
