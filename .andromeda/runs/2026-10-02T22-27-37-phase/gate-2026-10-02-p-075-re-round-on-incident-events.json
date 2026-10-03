@@ -1,0 +1,32 @@
+[
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-10-02T22:42:43Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"conductor-0.3.0/chunks/2026-10-02-p-075-re-round-on-incident-events/research.md",
+"--run-dir",
+".andromeda/runs/2026-10-02T22-27-37-phase",
+"--marker",
+"2026-10-02-p-075-re-round-on-incident-events"
+],
+"cwd": "D:\\dev\\projects\\conductor",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 13 items (new 1 · modify 12 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 13,
+"unparsed": 0
+}
+}
+]
