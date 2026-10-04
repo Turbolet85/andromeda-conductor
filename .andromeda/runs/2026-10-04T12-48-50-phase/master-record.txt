@@ -1,0 +1,1 @@
+2026-10-04-second-test-surface-corrective · pending · Second test-surface corrective — the delegated-timing harvest split under the size line, and the Epoch 5 audit's new emit/run mutation survivors killed · → conductor-0.3.0/chunks/2026-10-04-second-test-surface-corrective/

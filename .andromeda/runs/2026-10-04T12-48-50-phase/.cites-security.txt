@@ -1,0 +1,4 @@
+sidecar v1.3 · e8ec5c11
+not a marker: **2026-10-04T01-45-46-wrap** — history:3
+not a marker: **2026-10-04T01-45-46-wrap** — history:4
+cites: 25 · resolved 25 · UNRESOLVED 0 · not a marker 2

@@ -1,0 +1,196 @@
+[
+{
+"sql": "SELECT caller, callee_name, file, line FROM calls WHERE callee_name IN ('xor_in_place','rekey_trace_identity','emit_canary_storms','emit_canary_storm','canary_storm_specs') AND callee_kind = 'fn' ORDER BY callee_name, file, line",
+"rows": 31,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 canary/emit_canary().",
+"callee_name": "canary_storm_specs",
+"file": "crates/conductor-run/src/canary.rs",
+"line": 285
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 canary/tests/drive_storms().",
+"callee_name": "canary_storm_specs",
+"file": "crates/conductor-run/src/canary.rs",
+"line": 437
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 canary/tests/the_deterministic_canary_is_one_storm_of_the_shipped_shape().",
+"callee_name": "canary_storm_specs",
+"file": "crates/conductor-run/src/canary.rs",
+"line": 455
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 canary/tests/the_real_model_canary_is_three_distinct_storms_ninety_seconds_apart().",
+"callee_name": "canary_storm_specs",
+"file": "crates/conductor-run/src/canary.rs",
+"line": 469
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 canary/emit_canary_storms().",
+"callee_name": "emit_canary_storm",
+"file": "crates/conductor-run/src/canary.rs",
+"line": 205
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"callee_name": "emit_canary_storm",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 29
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"callee_name": "emit_canary_storm",
+"file": "crates/conductor-run/tests/canary_obs_witness.rs",
+"line": 14
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 the_wire_shape_witness_reaches_the_self_obs_artifact().",
+"callee_name": "emit_canary_storm",
+"file": "crates/conductor-run/tests/canary_obs_witness.rs",
+"line": 45
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"callee_name": "emit_canary_storm",
+"file": "crates/conductor-run/tests/canary_wire.rs",
+"line": 24
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 captured_storm_spans().",
+"callee_name": "emit_canary_storm",
+"file": "crates/conductor-run/tests/canary_wire.rs",
+"line": 37
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 the_whole_canary_emission_carries_unique_span_identity().",
+"callee_name": "emit_canary_storm",
+"file": "crates/conductor-run/tests/canary_wire.rs",
+"line": 158
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 storm_is_attributed_to_the_canary_service().",
+"callee_name": "emit_canary_storm",
+"file": "crates/conductor-run/tests/canary_wire.rs",
+"line": 208
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"callee_name": "emit_canary_storm",
+"file": "crates/conductor-run/tests/lifecycle_live.rs",
+"line": 38
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"callee_name": "emit_canary_storm",
+"file": "crates/conductor-run/tests/p075_round_live.rs",
+"line": 36
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 canary/emit_canary().",
+"callee_name": "emit_canary_storms",
+"file": "crates/conductor-run/src/canary.rs",
+"line": 299
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 canary/tests/drive_storms().",
+"callee_name": "emit_canary_storms",
+"file": "crates/conductor-run/src/canary.rs",
+"line": 438
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.2.0 identity/tests/rekey_preserves_parent_linkage_and_one_shared_trace_id().",
+"callee_name": "rekey_trace_identity",
+"file": "crates/conductor-emit/src/identity.rs",
+"line": 97
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.2.0 identity/tests/same_request_and_salt_rekey_identically().",
+"callee_name": "rekey_trace_identity",
+"file": "crates/conductor-emit/src/identity.rs",
+"line": 113
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.2.0 identity/tests/same_request_and_salt_rekey_identically().",
+"callee_name": "rekey_trace_identity",
+"file": "crates/conductor-emit/src/identity.rs",
+"line": 114
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.2.0 identity/tests/distinct_salts_share_no_identity().",
+"callee_name": "rekey_trace_identity",
+"file": "crates/conductor-emit/src/identity.rs",
+"line": 132
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.2.0 identity/tests/distinct_salts_share_no_identity().",
+"callee_name": "rekey_trace_identity",
+"file": "crates/conductor-emit/src/identity.rs",
+"line": 133
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.2.0 identity/tests/rekey_moves_no_content_byte().",
+"callee_name": "rekey_trace_identity",
+"file": "crates/conductor-emit/src/identity.rs",
+"line": 148
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.2.0 identity/tests/empty_parent_span_id_stays_empty().",
+"callee_name": "rekey_trace_identity",
+"file": "crates/conductor-emit/src/identity.rs",
+"line": 159
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.2.0 crate/",
+"callee_name": "rekey_trace_identity",
+"file": "crates/conductor-emit/src/lib.rs",
+"line": 30
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 dispatch/",
+"callee_name": "rekey_trace_identity",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 18
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 dispatch/impl#[`Dispatcher<'a>`]export_traces().",
+"callee_name": "rekey_trace_identity",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 243
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.2.0 identity/rekey_trace_identity().",
+"callee_name": "xor_in_place",
+"file": "crates/conductor-emit/src/identity.rs",
+"line": 36
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.2.0 identity/rekey_trace_identity().",
+"callee_name": "xor_in_place",
+"file": "crates/conductor-emit/src/identity.rs",
+"line": 37
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.2.0 identity/rekey_trace_identity().",
+"callee_name": "xor_in_place",
+"file": "crates/conductor-emit/src/identity.rs",
+"line": 38
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.2.0 identity/rekey_trace_identity().",
+"callee_name": "xor_in_place",
+"file": "crates/conductor-emit/src/identity.rs",
+"line": 40
+},
+{
+"caller": "rust-analyzer cargo conductor-emit 0.2.0 identity/rekey_trace_identity().",
+"callee_name": "xor_in_place",
+"file": "crates/conductor-emit/src/identity.rs",
+"line": 41
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

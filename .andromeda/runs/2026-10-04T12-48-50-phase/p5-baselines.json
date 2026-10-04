@@ -1,0 +1,92 @@
+{
+ "4": {
+  "verdict": "green",
+  "exit": 0,
+  "last": "",
+  "summary": ""
+ },
+ "5": {
+  "verdict": "green",
+  "exit": 0,
+  "last": "14",
+  "summary": ""
+ },
+ "6": {
+  "verdict": "red",
+  "exit": 1,
+  "last": "json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)",
+  "summary": ""
+ },
+ "7": {
+  "verdict": "green",
+  "exit": 0,
+  "last": "Running tests/delegated_timing_harvest.rs (target/debug/deps/delegated_timing_harvest-1fb8130154ad48ed)",
+  "summary": "test result: ok. 36 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.03s"
+ },
+ "8": {
+  "verdict": "green",
+  "exit": 0,
+  "last": "",
+  "summary": ""
+ },
+ "9": {
+  "verdict": "red",
+  "exit": 0,
+  "last": "Summary [   0.059s] 137 tests run: 137 passed, 0 skipped",
+  "summary": "Summary [   0.059s] 137 tests run: 137 passed, 0 skipped"
+ },
+ "10": {
+  "verdict": "red",
+  "exit": 0,
+  "last": "Summary [   0.032s] 50 tests run: 50 passed, 0 skipped",
+  "summary": "Summary [   0.032s] 50 tests run: 50 passed, 0 skipped"
+ },
+ "11": {
+  "verdict": "green",
+  "exit": 0,
+  "last": "3",
+  "summary": ""
+ },
+ "12": {
+  "verdict": "red",
+  "exit": 0,
+  "last": "Running unittests src/lib.rs (target/debug/deps/conductor_emit-28db0d8cde7e48e1)",
+  "summary": "test result: ok. 137 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s"
+ },
+ "13": {
+  "verdict": "red",
+  "exit": 0,
+  "last": "Running unittests src/lib.rs (target/debug/deps/conductor_run-0e807f50c7465536)",
+  "summary": "test result: ok. 50 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.02s"
+ },
+ "14": {
+  "verdict": "red",
+  "exit": 0,
+  "last": "0",
+  "summary": ""
+ },
+ "15": {
+  "verdict": "green",
+  "exit": 1,
+  "last": "0",
+  "summary": ""
+ },
+ "16": {
+  "verdict": "green",
+  "exit": 0,
+  "last": "",
+  "summary": ""
+ },
+ "17": {
+  "verdict": "green",
+  "exit": 1,
+  "last": "0",
+  "summary": ""
+ },
+ "19": {
+  "verdict": "green",
+  "exit": 0,
+  "last": "",
+  "summary": ""
+ }
+}

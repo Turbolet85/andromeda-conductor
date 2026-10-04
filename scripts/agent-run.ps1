@@ -371,12 +371,17 @@ switch ($args[0]) {
             '' {
                 Invoke-EnsureFrontend
                 & $Cargo nextest run --workspace --profile ci
+                if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
                 & $Cargo test --workspace --doc
+                if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
                 & $Cargo clippy --workspace --all-targets -- -D warnings
+                if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
                 # The feature-gated targets (the stub child, the live legs): no other verb or CI step
                 # builds them, so without these lines they rot behind a green suite.
                 & $Cargo clippy -p conductor-verify --features stub-server --all-targets -- -D warnings
+                if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
                 & $Cargo clippy -p conductor-run --features live-pulse --all-targets -- -D warnings
+                if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
                 if ($env:SCENARIO) {
                     # --agent-mode: JSON self-obs to logs/agent-latest.jsonl + never block on an operator pause.
                     # --seed rides ONLY an explicitly set SEED — files-over-env-defaults precedence

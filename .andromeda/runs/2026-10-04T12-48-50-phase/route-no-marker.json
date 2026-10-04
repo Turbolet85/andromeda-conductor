@@ -1,0 +1,29 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-04T12:49:35Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-04T12-48-50-phase"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 3 of 40 entries · freight blocks 4 · rows are an INDEX, not the text",
+"90 · CONTEXT: · 983 chars · CONTEXT: founder ruling 2026-10-04 (\"A\", agreed with overseer1; overseer relay at the `2026…",
+"90 · CARRY: · 576 chars · CARRY: obs-plan §10's `cargo clippy` failure-condition line reads \"warnings treated as CI ann…",
+"92 · BLOCKED-ON: · 137 chars · BLOCKED-ON: Pulse \"retry-storm interpretation names its retry cause\" (the founder's word…",
+"92 · CONTEXT: · 324 chars · CONTEXT: founder ruling 2026-10-02 (as above), entry 3 of 3 — `v3-09` is NOT deferred; no s…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

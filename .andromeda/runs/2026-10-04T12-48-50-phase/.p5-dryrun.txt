@@ -1,0 +1,35 @@
+gate v1.7 · 1d6015ef
+shell /usr/bin/bash (from $SHELL; -c, non-login)
+root <repo-root> · marker 2026-10-04-second-test-surface-corrective · entries 25
+logs <os-temp>/andromeda-gate/2026-10-04-second-test-surface-corrective/run-20261004T141853Z · bound: GNU timeout
+delta docs 43
+prose L156-162: Every entry below runs from the project root. There is no boot-path or live leg in this ch… (769 chars)
+prose L164-170: **One-shot mutating controls — run ONCE at /implement, never gate entries** (validation ch… (726 chars)
+prose L172-177: - IC1 `replace ^= with |= in xor_in_place` — `mkdir -p target/inverse-control && f=crates/… (2277 chars)
+prose L179-180: The sed patterns, the `grep -cF` counts and the `&` escaping were dry-run at P4 against th… (215 chars)
+  1 probe       not run — dry-run · A="${CARGO_HOME:-$HOME/.cargo}/advisory-db" && git -C "$A"… (116 chars)
+  2 lint        not run — dry-run · cargo fmt --all --check
+  3 unit        not run — dry-run · cargo nextest run -p conductor-run --test delegated_timing… (79 chars)
+  4 probe       not run — dry-run · diff <(git show dab66dca930fab865917d47a9aeb91f1dd5ffc79:c… (376 chars)
+  5 probe       not run — dry-run · cargo nextest list -p conductor-run --test delegated_timin… (552 chars)
+  6 probe       not run — dry-run · tokei -o json crates/conductor-run/tests/delegated_timing_… (318 chars)
+  7 unit        not run — dry-run · cargo test -p conductor-run --test delegated_timing_harves… (59 chars)
+  8 probe       not run — dry-run · git diff --quiet dab66dca930fab865917d47a9aeb91f1dd5ffc79 … (227 chars)
+  9 unit        not run — dry-run · cargo nextest run -p conductor-emit --lib --profile ci
+ 10 unit        not run — dry-run · cargo nextest run -p conductor-run --lib --profile ci
+ 11 probe       not run — dry-run · python -X utf8 -c "import pathlib; a=pathlib.Path('crates/… (292 chars)
+ 12 unit        not run — dry-run · cargo test -p conductor-emit --lib
+ 13 unit        not run — dry-run · cargo test -p conductor-run --lib
+ 14 probe       not run — dry-run · python -X utf8 -c "import re,pathlib; t=pathlib.Path('scri… (242 chars)
+ 15 probe       not run — dry-run · git diff dab66dca930fab865917d47a9aeb91f1dd5ffc79 -- scrip… (108 chars)
+ 16 probe       not run — dry-run · git diff --quiet dab66dca930fab865917d47a9aeb91f1dd5ffc79 … (106 chars)
+ 17 probe       not run — dry-run · grep -c planted_lint crates/conductor-emit/src/identity.rs
+ 18 integration not run — dry-run · bash scripts/agent-run.sh run
+ 19 probe       not run — dry-run · git diff --quiet dab66dca930fab865917d47a9aeb91f1dd5ffc79 … (147 chars)
+ 20 probe       not run — dry-run · grep -c '^\[\[package\]\]' Cargo.lock
+ 21 probe       not run — dry-run · cargo audit
+ 22 probe       not run — dry-run · cargo deny check advisories bans licenses sources
+ 23 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-too… (84 chars)
+ 24 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (112 chars)
+ 25 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-too… (108 chars)
+entries 25 · green 0 · red 0 · recorded 0 · timeout 0 · not-run 25

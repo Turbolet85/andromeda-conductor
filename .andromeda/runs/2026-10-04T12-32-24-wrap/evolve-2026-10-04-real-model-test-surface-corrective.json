@@ -158,5 +158,45 @@
 "lines": 2996,
 "bytes": 3611762
 }
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-10-04T12:47:07Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-04T12-32-24-wrap",
+"--marker",
+"2026-10-04-real-model-test-surface-corrective"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 2996→2997 · bytes 3611762→3612823 · term lf",
+"ts 2026-10-04T12:47:00Z · clock 2026-10-04T12:47:07Z · bound 2026-10-04T12:45:05Z (line 2996)",
+"ids 2026-10-04T12:47:00Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 2996,
+"bytes": 3611762,
+"terminator": "LF",
+"bound": "2026-10-04T12:45:05Z"
+},
+"after": {
+"lines": 2997,
+"bytes": 3612823
+}
 }
 ]

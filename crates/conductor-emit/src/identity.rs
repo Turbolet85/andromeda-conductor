@@ -155,6 +155,16 @@ mod tests {
     }
 
     #[test]
+    fn rekey_under_one_salt_twice_restores_every_id() {
+        let original = deep_request();
+        let mut twice = original.clone();
+        rekey_trace_identity(&mut twice, 0xC0FFEE);
+        assert_ne!(twice, original);
+        rekey_trace_identity(&mut twice, 0xC0FFEE);
+        assert_eq!(twice, original);
+    }
+
+    #[test]
     fn empty_parent_span_id_stays_empty() {
         let mut req = deep_request();
         rekey_trace_identity(&mut req, 7);

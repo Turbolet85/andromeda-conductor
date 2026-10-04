@@ -431,15 +431,32 @@ mod tests {
         (traces, requests, arrived)
     }
 
-    /// Emit one posture's canary storms against a stub; yields the export count and the virtual
-    /// instant each storm's first occurrence arrived, relative to the first.
-    async fn drive_storms(posture: L4Posture) -> (usize, Vec<std::time::Duration>) {
+    /// Emit one posture's canary storms against a stub; yields the export count, the virtual
+    /// instant each storm's first occurrence arrived relative to the first, the virtual time from
+    /// the call to the first arrival, and every captured `(trace_id, span_id)` pair.
+    async fn drive_storms(
+        posture: L4Posture,
+    ) -> (
+        usize,
+        Vec<std::time::Duration>,
+        std::time::Duration,
+        std::collections::BTreeSet<(Vec<u8>, Vec<u8>)>,
+    ) {
         let (mut traces, requests, arrived) = stub_collector().await;
         let specs = canary_storm_specs("ConductorCanary_1", posture);
+        let called = tokio::time::Instant::now();
         emit_canary_storms(&mut traces, &specs, 7)
             .await
             .expect("the storms are emitted");
-        let count = requests.lock().unwrap().len();
+        let requests = requests.lock().unwrap().clone();
+        let count = requests.len();
+        let identities = requests
+            .iter()
+            .flat_map(|r| &r.resource_spans)
+            .flat_map(|r| &r.scope_spans)
+            .flat_map(|s| &s.spans)
+            .map(|s| (s.trace_id.clone(), s.span_id.clone()))
+            .collect();
         let arrived = arrived.lock().unwrap().clone();
         let storm = usize::try_from(CANARY_STORM_COUNT).expect("a small count");
         let first = arrived[0];
@@ -448,7 +465,7 @@ mod tests {
             .step_by(storm)
             .map(|at| at.duration_since(first))
             .collect();
-        (count, starts)
+        (count, starts, first.duration_since(called), identities)
     }
 
     #[tokio::test(flavor = "current_thread", start_paused = true)]
@@ -460,7 +477,7 @@ mod tests {
             fingerprint(&canary_spec("ConductorCanary_1")),
             "the deterministic storm is the shipped canary, unchanged"
         );
-        let (count, starts) = drive_storms(L4Posture::Deterministic).await;
+        let (count, starts, _, _) = drive_storms(L4Posture::Deterministic).await;
         assert_eq!(count, 12, "one storm of CANARY_STORM_COUNT occurrences");
         assert_eq!(starts, vec![std::time::Duration::ZERO]);
     }
@@ -476,7 +493,7 @@ mod tests {
             fingerprint(&canary_spec("ConductorCanary_1")),
             "the first storm is the shipped canary"
         );
-        let (count, starts) = drive_storms(L4Posture::RealModel).await;
+        let (count, starts, _, _) = drive_storms(L4Posture::RealModel).await;
         assert_eq!(count, 36, "three storms of CANARY_STORM_COUNT occurrences");
         assert_eq!(starts.len(), 3);
         for (n, start) in starts.iter().enumerate() {
@@ -486,6 +503,28 @@ mod tests {
                 "storm {n} opens {start:?} after the first, expected {expected:?}"
             );
         }
+    }
+
+    #[tokio::test(flavor = "current_thread", start_paused = true)]
+    async fn the_first_storm_leaves_at_the_call_with_no_gap_before_it() {
+        let (_, _, to_first, _) = drive_storms(L4Posture::RealModel).await;
+        assert!(
+            to_first < std::time::Duration::from_secs(1),
+            "storm 0 arrived {to_first:?} after the call; the gap belongs between storms only"
+        );
+    }
+
+    #[tokio::test(flavor = "current_thread", start_paused = true)]
+    async fn every_real_model_canary_occurrence_carries_its_own_span_identity() {
+        // Span identity is a function of the seed alone, so 36 distinct pairs means the three
+        // storms' seed ranges (7..=18, 19..=30, 31..=42) never overlap.
+        let (count, _, _, identities) = drive_storms(L4Posture::RealModel).await;
+        assert_eq!(count, 36);
+        assert_eq!(
+            identities.len(),
+            36,
+            "one span identity per canary occurrence"
+        );
     }
 
     /// Drive the warm-up pre-roll against a stub collector; yields the emission count and the

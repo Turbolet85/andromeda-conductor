@@ -36,3 +36,6 @@
     moved the session cwd (fourth consecutive session).
   - recurrence-despite-learning: host-win32.md §Transports (documents through the Write tool) — a `cat >> file`
     heredoc append to a run-dir record was attempted and blocked by the PreToolUse guard.
+
+## Session End Status
+Completed normally at 2026-10-04 16:19:52
