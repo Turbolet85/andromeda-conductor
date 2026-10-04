@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-04T00:43:25Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-10-04-host-portable-tauri-ipc-tests",
+"--expect-prefix",
+"Host-portable Tauri IPC tests",
+"--record-file",
+".andromeda/runs/2026-10-04T00-42-39-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-10-04T00-42-39-phase"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:85 - [2026-10-04-host-portable-tauri-ipc-tests]",
+"record master-route.md:171 - appended under `## conductor-0.3.0`",
+"promoted 2026-10-04-host-portable-tauri-ipc-tests - working-route:85 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+"./conductor-0.3.0/working-route.md",
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+}
+]

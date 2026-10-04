@@ -406,15 +406,19 @@ mod tests {
             .expect("mock webview builds")
     }
 
-    /// One dispatched IPC request. The `url` MUST be the mock webview's real origin
-    /// (`http://tauri.localhost`) — any other value fails dispatch with "Plugin not found"
-    /// (`.claude/rules/testing.md` 2026-06-27), so both call sites share this one construction.
-    fn request(cmd: &str, body: InvokeBody) -> InvokeRequest {
+    /// One dispatched IPC request. The `url` is the dispatching window's own URL, which Tauri
+    /// resolves per host through `tauri_protocol_url` (`tauri://localhost` on Linux/macOS,
+    /// `http://tauri.localhost` on Windows/Android) — the value its local-origin check compares
+    /// against. Any other origin resolves as remote and fails with `"<cmd> not allowed. Plugin not
+    /// found"` (`.claude/rules/testing.md` 2026-06-27), so both call sites share this one construction.
+    fn request(window: &MockWindow, cmd: &str, body: InvokeBody) -> InvokeRequest {
         InvokeRequest {
             cmd: cmd.into(),
             callback: CallbackFn(0),
             error: CallbackFn(1),
-            url: "http://tauri.localhost".parse().unwrap(),
+            url: window
+                .url()
+                .expect("the mock webview reports its own app URL"),
             body,
             headers: Default::default(),
             invoke_key: INVOKE_KEY.to_string(),
@@ -422,7 +426,7 @@ mod tests {
     }
 
     fn invoke(window: &MockWindow, cmd: &str, body: InvokeBody) -> tauri::ipc::InvokeResponseBody {
-        get_ipc_response(window, request(cmd, body))
+        get_ipc_response(window, request(window, cmd, body))
             .unwrap_or_else(|e| panic!("command `{cmd}` dispatched with an error: {e}"))
     }
 
@@ -508,13 +512,19 @@ mod tests {
     }
 
     /// Dispatch a command that MUST fail, returning the rendered error. The sibling `invoke` panics
-    /// on an error response, so it cannot express "the failure is the assertion".
+    /// on an error response, so it cannot express "the failure is the assertion". An ACL refusal is
+    /// never the expected error: it means the handler never ran, so the caller would pass vacuously.
     fn invoke_expecting_error(window: &MockWindow, cmd: &str, body: InvokeBody) -> String {
-        let response = get_ipc_response(window, request(cmd, body));
-        match response {
+        let response = get_ipc_response(window, request(window, cmd, body));
+        let err = match response {
             Ok(_) => panic!("command `{cmd}` returned Ok where an error was required"),
             Err(err) => format!("{err:?}"),
-        }
+        };
+        assert!(
+            !err.contains(&format!("{cmd} not allowed")),
+            "command `{cmd}` was refused by the ACL/origin check, not failed by its handler: {err}"
+        );
+        err
     }
 
     /// The committed read-only scenario catalog under `tests/fixtures/`. The parameterised helpers
@@ -700,6 +710,27 @@ mod tests {
         let window = main_window(&app);
         let err = invoke_expecting_error(&window, "list_scenarios", InvokeBody::default());
         assert!(!err.is_empty(), "the failure surfaces a sanitized message");
+    }
+
+    #[test]
+    fn a_foreign_origin_is_refused_on_every_host() {
+        // The window-derived origin makes dispatch correct per host; this pins that the origin check
+        // still discriminates — an origin that is neither form of Tauri's protocol URL is remote on
+        // every host, and no capability admits a remote origin for an app command.
+        let app = test_app();
+        let window = main_window(&app);
+        let mut foreign = request(&window, "coverage_matrix", InvokeBody::default());
+        foreign.url = "https://example.invalid"
+            .parse()
+            .expect("the foreign origin parses as a URL");
+        let err = match get_ipc_response(&window, foreign) {
+            Ok(_) => panic!("a foreign-origin dispatch of `coverage_matrix` returned Ok"),
+            Err(err) => format!("{err:?}"),
+        };
+        assert!(
+            err.contains("coverage_matrix not allowed"),
+            "a foreign origin is refused by the ACL: {err}"
+        );
     }
 
     #[test]

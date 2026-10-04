@@ -1,0 +1,394 @@
+[
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "e8ec5c11",
+"ts": "2026-10-04T00:46:00Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/architecture-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T00-42-39-phase",
+"--marker",
+"2026-10-04-host-portable-tauri-ipc-tests"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"bytes 194966 · whole-read bound 120000 · OVER",
+"entries 154 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 1 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 194966,
+"entries": 154,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "e8ec5c11",
+"ts": "2026-10-04T00:46:00Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T00-42-39-phase",
+"--marker",
+"2026-10-04-host-portable-tauri-ipc-tests"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"bytes 99159 · whole-read bound 120000 · within",
+"entries 70 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 99159,
+"entries": 70,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "e8ec5c11",
+"ts": "2026-10-04T00:46:00Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T00-42-39-phase",
+"--marker",
+"2026-10-04-host-portable-tauri-ipc-tests"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"bytes 136696 · whole-read bound 120000 · OVER",
+"entries 94 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 136696,
+"entries": 94,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "e8ec5c11",
+"ts": "2026-10-04T00:46:00Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T00-42-39-phase",
+"--marker",
+"2026-10-04-host-portable-tauri-ipc-tests"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"bytes 64347 · whole-read bound 120000 · within",
+"entries 50 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 1 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 64347,
+"entries": 50,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "e8ec5c11",
+"ts": "2026-10-04T00:46:00Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/a11y-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T00-42-39-phase",
+"--marker",
+"2026-10-04-host-portable-tauri-ipc-tests"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"bytes 42216 · whole-read bound 120000 · within",
+"entries 27 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 42216,
+"entries": 27,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "e8ec5c11",
+"ts": "2026-10-04T00:46:05Z",
+"argv": [
+"index",
+"--file",
+".andromeda/architecture-amendments.md",
+"--out",
+".andromeda/runs/2026-10-04T00-42-39-phase/arch-history-index.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T00-42-39-phase",
+"--marker",
+"2026-10-04-host-portable-tauri-ipc-tests"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"wrote .andromeda/runs/2026-10-04T00-42-39-phase/arch-history-index.md · 154 entries · 0 unparsed · 36999 B (the sidecar is 194966 B)"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-10-04T00-42-39-phase/arch-history-index.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "e8ec5c11",
+"ts": "2026-10-04T00:46:05Z",
+"argv": [
+"index",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--out",
+".andromeda/runs/2026-10-04T00-42-39-phase/tests-history-index.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T00-42-39-phase",
+"--marker",
+"2026-10-04-host-portable-tauri-ipc-tests"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"wrote .andromeda/runs/2026-10-04T00-42-39-phase/tests-history-index.md · 94 entries · 0 unparsed · 25637 B (the sidecar is 136696 B)"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-10-04T00-42-39-phase/tests-history-index.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "e8ec5c11",
+"ts": "2026-10-04T00:47:36Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/architecture-amendments.md",
+"--history",
+".andromeda/runs/2026-10-04T00-42-39-phase/arch-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T00-42-39-phase",
+"--marker",
+"2026-10-04-host-portable-tauri-ipc-tests"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"cites: 13 · resolved 13 · UNRESOLVED 0 · not a marker 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 13,
+"UNRESOLVED": 0,
+"not a marker": 0,
+"cites": 13
+}
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "e8ec5c11",
+"ts": "2026-10-04T00:47:36Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--history",
+".andromeda/runs/2026-10-04T00-42-39-phase/security-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T00-42-39-phase",
+"--marker",
+"2026-10-04-host-portable-tauri-ipc-tests"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"cites: 12 · resolved 12 · UNRESOLVED 0 · not a marker 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 12,
+"UNRESOLVED": 0,
+"not a marker": 0,
+"cites": 12
+}
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "e8ec5c11",
+"ts": "2026-10-04T00:47:36Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--history",
+".andromeda/runs/2026-10-04T00-42-39-phase/tests-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T00-42-39-phase",
+"--marker",
+"2026-10-04-host-portable-tauri-ipc-tests"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"cites: 16 · resolved 16 · UNRESOLVED 0 · not a marker 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 16,
+"UNRESOLVED": 0,
+"not a marker": 0,
+"cites": 16
+}
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "e8ec5c11",
+"ts": "2026-10-04T00:47:36Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--history",
+".andromeda/runs/2026-10-04T00-42-39-phase/obs-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T00-42-39-phase",
+"--marker",
+"2026-10-04-host-portable-tauri-ipc-tests"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"not a marker: **kept** — history:6",
+"cites: 14 · resolved 14 · UNRESOLVED 0 · not a marker 1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 14,
+"UNRESOLVED": 0,
+"not a marker": 1,
+"cites": 14
+}
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "e8ec5c11",
+"ts": "2026-10-04T00:47:36Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/a11y-plan-amendments.md",
+"--history",
+".andromeda/runs/2026-10-04T00-42-39-phase/a11y-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T00-42-39-phase",
+"--marker",
+"2026-10-04-host-portable-tauri-ipc-tests"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"cites: 10 · resolved 10 · UNRESOLVED 0 · not a marker 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 10,
+"UNRESOLVED": 0,
+"not a marker": 0,
+"cites": 10
+}
+}
+]

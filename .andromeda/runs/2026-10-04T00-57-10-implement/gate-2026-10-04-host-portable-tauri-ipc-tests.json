@@ -1,0 +1,872 @@
+[
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-10-04T00:58:27Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-10-04-host-portable-tauri-ipc-tests/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T00-57-10-implement",
+"--marker",
+"2026-10-04-host-portable-tauri-ipc-tests"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root /home/turbolet/dev/projects/conductor · marker 2026-10-04-host-portable-tauri-ipc-tests · entries 17",
+"logs /tmp/andromeda-gate/2026-10-04-host-portable-tauri-ipc-tests/implement-2026-10-04T00-57-10 · bound: GNU timeout",
+"delta docs 35 · rust 2",
+"prose L70-73: No boot path or live leg this chunk: the change is test-only Rust, so there is no `smoke` … (432 chars)",
+"  1 build       green · exit 0 · 1.42s · 4618 B → 1.log · ( cd crates/conductor-tauri/ui && { [ -d node_modules ] ||… (87 chars)",
+"  2 unit        green · exit 0 · 1.56s · 4166 B → 2.log · cargo nextest run -p conductor-tauri --profile ci",
+"  3 probe       green · exit 0 · 0.0s · 2 B → 3.log · grep -cE '^retries = 0$' .config/nextest.toml",
+"  4 unit        green · exit 0 · 0.22s · 2454 B → 4.log · cargo test -p conductor-tauri",
+"  5 probe       green · exit 1 · 0.0s · 2 B → 5.log · grep -vhE '^\\s*//' crates/conductor-tauri/src/commands.rs … (142 chars)",
+"  6 build       green · exit 0 · 1.17s · 171 B → 6.log · cargo build -p conductor-tauri --bins",
+"  7 unit        green · exit 0 · 10.56s · 143791 B → 7.log · cargo nextest run --workspace --profile ci",
+"  8 lint        green · exit 0 · 0.69s · 171 B → 8.log · cargo clippy --workspace --all-targets -- -D warnings",
+"  9 lint        green · exit 0 · 0.28s · 0 B → 9.log · cargo fmt --all --check",
+" 10 probe       green · exit 1 · 0.01s · 2 B → 10.log · git diff --name-only f5076ad9becfc188098b2c6ae8979b6ef1ac2… (184 chars)",
+" 11 probe       green · exit 0 · 0.0s · 4 B → 11.log · grep -c \"^name = \" Cargo.lock",
+" 12 probe       green · exit 0 · 0.03s · 0 B → 12.log · git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --… (67 chars)",
+" 13 probe       green · exit 0 · 1.49s · 1901 B → 13.log · cargo audit",
+" 14 probe       green · exit 0 · 0.87s · 236863 B → 14.log · cargo deny check advisories bans licenses sources",
+" 15 probe       not run — leg operator (the letter drives it) · python -X utf8 \"$HOME\"/.claude/skills/andromeda-tools/scri… (77 chars)",
+" 16 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (112 chars)",
+" 17 probe       not run — leg operator (the letter drives it) · python -X utf8 \"$HOME\"/.claude/skills/andromeda-tools/scri… (101 chars)",
+"entries 17 · green 14 · red 0 · recorded 0 · timeout 0 · not-run 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-04-host-portable-tauri-ipc-tests",
+"plan": "/home/turbolet/dev/projects/conductor/conductor-0.3.0/chunks/2026-10-04-host-portable-tauri-ipc-tests/plan.md",
+"root": "/home/turbolet/dev/projects/conductor",
+"shell": "/usr/bin/bash",
+"out_dir": "/tmp/andromeda-gate/2026-10-04-host-portable-tauri-ipc-tests/implement-2026-10-04T00-57-10",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-03T23-44-32-wrap/evolve-2026-10-03-p-075-re-round-on-incident-events.json",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+".andromeda/runs/2026-10-04T00-42-39-phase/a11y-history.md",
+".andromeda/runs/2026-10-04T00-42-39-phase/a11y.md",
+".andromeda/runs/2026-10-04T00-42-39-phase/arch-history-index.md",
+".andromeda/runs/2026-10-04T00-42-39-phase/arch-history.md",
+".andromeda/runs/2026-10-04T00-42-39-phase/arch.md",
+".andromeda/runs/2026-10-04T00-42-39-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-04T00-42-39-phase/control-boundary-guard.txt",
+".andromeda/runs/2026-10-04T00-42-39-phase/control-retries.toml",
+".andromeda/runs/2026-10-04T00-42-39-phase/design.md",
+".andromeda/runs/2026-10-04T00-42-39-phase/evolve-2026-10-04-host-portable-tauri-ipc-tests.json",
+".andromeda/runs/2026-10-04T00-42-39-phase/gate-2026-10-04-host-portable-tauri-ipc-tests.json",
+".andromeda/runs/2026-10-04T00-42-39-phase/layouts.md",
+".andromeda/runs/2026-10-04T00-42-39-phase/master-record.txt",
+".andromeda/runs/2026-10-04T00-42-39-phase/matrix-2026-10-04-host-portable-tauri-ipc-tests.json",
+".andromeda/runs/2026-10-04T00-42-39-phase/obs-history.md",
+".andromeda/runs/2026-10-04T00-42-39-phase/obs.md",
+".andromeda/runs/2026-10-04T00-42-39-phase/planlint-2026-10-04-host-portable-tauri-ipc-tests.json",
+".andromeda/runs/2026-10-04T00-42-39-phase/registry-2026-10-04-host-portable-tauri-ipc-tests.json",
+".andromeda/runs/2026-10-04T00-42-39-phase/route-2026-10-04-host-portable-tauri-ipc-tests.json",
+".andromeda/runs/2026-10-04T00-42-39-phase/route-no-marker.json",
+".andromeda/runs/2026-10-04T00-42-39-phase/security-history.md",
+".andromeda/runs/2026-10-04T00-42-39-phase/security.md",
+".andromeda/runs/2026-10-04T00-42-39-phase/sidecar-2026-10-04-host-portable-tauri-ipc-tests.json",
+".andromeda/runs/2026-10-04T00-42-39-phase/tests-history-index.md",
+".andromeda/runs/2026-10-04T00-42-39-phase/tests-history.md",
+".andromeda/runs/2026-10-04T00-42-39-phase/tests.md",
+".andromeda/runs/2026-10-04T00-57-10-implement/evolve-2026-10-04-host-portable-tauri-ipc-tests.json",
+"conductor-0.3.0/chunks/2026-10-04-host-portable-tauri-ipc-tests/plan.md",
+"conductor-0.3.0/chunks/2026-10-04-host-portable-tauri-ipc-tests/research.md",
+"conductor-0.3.0/chunks/2026-10-04-host-portable-tauri-ipc-tests/scope.md"
+],
+"rust": [
+"crates/conductor-tauri/src/commands.rs",
+"crates/conductor-tauri/src/pause.rs"
+]
+},
+"unmapped": [],
+"prose": [
+{
+"from": 70,
+"to": 73,
+"text": "No boot path or live leg this chunk: the change is test-only Rust, so there is no `smoke` or `self-verify` entry (no UI or visual delta — `ui/dist` is only rebuilt as a compile precondition). The Linux leg is this dev host; the Windows leg is the operator pass's push and CI read (`windows-latest` `rust` job). Nextest's printed summary line is asserted alongside the exit for the crate leg, so the count proves no test was dropped."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "build",
+"run": "( cd crates/conductor-tauri/ui && { [ -d node_modules ] || npm ci; } && npm run build )",
+"run_sha8": "0671d680",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-host-portable-tauri-ipc-tests/implement-2026-10-04T00-57-10/1.log",
+"bytes": 4618,
+"log_sha8": "ef41f6e1",
+"exit": 0,
+"seconds": 1.42,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "unit",
+"run": "cargo nextest run -p conductor-tauri --profile ci",
+"run_sha8": "8d02d022",
+"expect": [
+"exit 0",
+"contains 27 tests run: 27 passed, 0 skipped"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-host-portable-tauri-ipc-tests/implement-2026-10-04T00-57-10/2.log",
+"bytes": 4166,
+"log_sha8": "245cf1da",
+"exit": 0,
+"seconds": 1.56,
+"readings": [
+"exit 0 ✓",
+"contains '27 tests run: 27 passed, 0 skipped' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "probe",
+"run": "grep -cE '^retries = 0$' .config/nextest.toml",
+"run_sha8": "ff8cd56b",
+"expect": [
+"exit 0",
+"last line 2"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-host-portable-tauri-ipc-tests/implement-2026-10-04T00-57-10/3.log",
+"bytes": 2,
+"log_sha8": "53c234e5",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '2' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "cargo test -p conductor-tauri",
+"run_sha8": "12572944",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-host-portable-tauri-ipc-tests/implement-2026-10-04T00-57-10/4.log",
+"bytes": 2454,
+"log_sha8": "3f4ac98a",
+"exit": 0,
+"seconds": 0.22,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "probe",
+"run": "grep -vhE '^\\s*//' crates/conductor-tauri/src/commands.rs crates/conductor-tauri/src/pause.rs | grep -cE 'tauri\\.localhost|tauri://localhost' ",
+"run_sha8": "6578329d",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-host-portable-tauri-ipc-tests/implement-2026-10-04T00-57-10/5.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.0,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "build",
+"run": "cargo build -p conductor-tauri --bins",
+"run_sha8": "c2b68379",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-host-portable-tauri-ipc-tests/implement-2026-10-04T00-57-10/6.log",
+"bytes": 171,
+"log_sha8": "55faab57",
+"exit": 0,
+"seconds": 1.17,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-host-portable-tauri-ipc-tests/implement-2026-10-04T00-57-10/7.log",
+"bytes": 143791,
+"log_sha8": "8cd29de6",
+"exit": 0,
+"seconds": 10.56,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-host-portable-tauri-ipc-tests/implement-2026-10-04T00-57-10/8.log",
+"bytes": 171,
+"log_sha8": "157aab16",
+"exit": 0,
+"seconds": 0.69,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-host-portable-tauri-ipc-tests/implement-2026-10-04T00-57-10/9.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.28,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "git diff --name-only f5076ad9becfc188098b2c6ae8979b6ef1ac2f69 -- crates Cargo.toml Cargo.lock deny.toml .config .github | grep -cvE '^crates/conductor-tauri/src/(commands|pause)\\.rs$' ",
+"run_sha8": "be32b342",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-host-portable-tauri-ipc-tests/implement-2026-10-04T00-57-10/10.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.01,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "grep -c \"^name = \" Cargo.lock",
+"run_sha8": "6aadf857",
+"expect": [
+"exit 0",
+"last line 562"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-host-portable-tauri-ipc-tests/implement-2026-10-04T00-57-10/11.log",
+"bytes": 4,
+"log_sha8": "9db3b992",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '562' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --porcelain",
+"run_sha8": "eab7a4cb",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-host-portable-tauri-ipc-tests/implement-2026-10-04T00-57-10/12.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.03,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-host-portable-tauri-ipc-tests/implement-2026-10-04T00-57-10/13.log",
+"bytes": 1901,
+"log_sha8": "e5e34fb0",
+"exit": 0,
+"seconds": 1.49,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-host-portable-tauri-ipc-tests/implement-2026-10-04T00-57-10/14.log",
+"bytes": 236863,
+"log_sha8": "ab74a8db",
+"exit": 0,
+"seconds": 0.87,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "python -X utf8 \"$HOME\"/.claude/skills/andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "a7051957",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD && echo \"PUSHED_SHA=$(git rev-parse HEAD)\"",
+"run_sha8": "6bf569fe",
+"expect": [
+"exit 0",
+"contains PUSHED_SHA="
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "python -X utf8 \"$HOME\"/.claude/skills/andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1500",
+"run_sha8": "458ed03a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-10-04T00:59:01Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-10-04-host-portable-tauri-ipc-tests/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T00-57-10-implement",
+"--marker",
+"2026-10-04-host-portable-tauri-ipc-tests",
+"--only",
+"2,5,9"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root /home/turbolet/dev/projects/conductor · marker 2026-10-04-host-portable-tauri-ipc-tests · entries 17",
+"logs /tmp/andromeda-gate/2026-10-04-host-portable-tauri-ipc-tests/implement-2026-10-04T00-57-10 · bound: GNU timeout",
+"delta docs 36 · rust 2",
+"prose L70-73: No boot path or live leg this chunk: the change is test-only Rust, so there is no `smoke` … (432 chars)",
+"  1 build       not run — excluded · ( cd crates/conductor-tauri/ui && { [ -d node_modules ] ||… (87 chars)",
+"  2 unit        green · exit 0 · 1.38s · 4166 B → 2.log · cargo nextest run -p conductor-tauri --profile ci",
+"  3 probe       not run — excluded · grep -cE '^retries = 0$' .config/nextest.toml",
+"  4 unit        not run — excluded · cargo test -p conductor-tauri",
+"  5 probe       green · exit 1 · 0.0s · 2 B → 5.log · grep -vhE '^\\s*//' crates/conductor-tauri/src/commands.rs … (142 chars)",
+"  6 build       not run — excluded · cargo build -p conductor-tauri --bins",
+"  7 unit        not run — excluded · cargo nextest run --workspace --profile ci",
+"  8 lint        not run — excluded · cargo clippy --workspace --all-targets -- -D warnings",
+"  9 lint        green · exit 0 · 0.28s · 0 B → 9.log · cargo fmt --all --check",
+" 10 probe       not run — excluded · git diff --name-only f5076ad9becfc188098b2c6ae8979b6ef1ac2… (184 chars)",
+" 11 probe       not run — excluded · grep -c \"^name = \" Cargo.lock",
+" 12 probe       not run — excluded · git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --… (67 chars)",
+" 13 probe       not run — excluded · cargo audit",
+" 14 probe       not run — excluded · cargo deny check advisories bans licenses sources",
+" 15 probe       not run — excluded · python -X utf8 \"$HOME\"/.claude/skills/andromeda-tools/scri… (77 chars)",
+" 16 probe       not run — excluded · git diff --quiet && git diff --cached --quiet && git push … (112 chars)",
+" 17 probe       not run — excluded · python -X utf8 \"$HOME\"/.claude/skills/andromeda-tools/scri… (101 chars)",
+"entries 17 · green 3 · red 0 · recorded 0 · timeout 0 · not-run 14"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-04-host-portable-tauri-ipc-tests",
+"plan": "/home/turbolet/dev/projects/conductor/conductor-0.3.0/chunks/2026-10-04-host-portable-tauri-ipc-tests/plan.md",
+"root": "/home/turbolet/dev/projects/conductor",
+"shell": "/usr/bin/bash",
+"out_dir": "/tmp/andromeda-gate/2026-10-04-host-portable-tauri-ipc-tests/implement-2026-10-04T00-57-10",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-03T23-44-32-wrap/evolve-2026-10-03-p-075-re-round-on-incident-events.json",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+".andromeda/runs/2026-10-04T00-42-39-phase/a11y-history.md",
+".andromeda/runs/2026-10-04T00-42-39-phase/a11y.md",
+".andromeda/runs/2026-10-04T00-42-39-phase/arch-history-index.md",
+".andromeda/runs/2026-10-04T00-42-39-phase/arch-history.md",
+".andromeda/runs/2026-10-04T00-42-39-phase/arch.md",
+".andromeda/runs/2026-10-04T00-42-39-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-04T00-42-39-phase/control-boundary-guard.txt",
+".andromeda/runs/2026-10-04T00-42-39-phase/control-retries.toml",
+".andromeda/runs/2026-10-04T00-42-39-phase/design.md",
+".andromeda/runs/2026-10-04T00-42-39-phase/evolve-2026-10-04-host-portable-tauri-ipc-tests.json",
+".andromeda/runs/2026-10-04T00-42-39-phase/gate-2026-10-04-host-portable-tauri-ipc-tests.json",
+".andromeda/runs/2026-10-04T00-42-39-phase/layouts.md",
+".andromeda/runs/2026-10-04T00-42-39-phase/master-record.txt",
+".andromeda/runs/2026-10-04T00-42-39-phase/matrix-2026-10-04-host-portable-tauri-ipc-tests.json",
+".andromeda/runs/2026-10-04T00-42-39-phase/obs-history.md",
+".andromeda/runs/2026-10-04T00-42-39-phase/obs.md",
+".andromeda/runs/2026-10-04T00-42-39-phase/planlint-2026-10-04-host-portable-tauri-ipc-tests.json",
+".andromeda/runs/2026-10-04T00-42-39-phase/registry-2026-10-04-host-portable-tauri-ipc-tests.json",
+".andromeda/runs/2026-10-04T00-42-39-phase/route-2026-10-04-host-portable-tauri-ipc-tests.json",
+".andromeda/runs/2026-10-04T00-42-39-phase/route-no-marker.json",
+".andromeda/runs/2026-10-04T00-42-39-phase/security-history.md",
+".andromeda/runs/2026-10-04T00-42-39-phase/security.md",
+".andromeda/runs/2026-10-04T00-42-39-phase/sidecar-2026-10-04-host-portable-tauri-ipc-tests.json",
+".andromeda/runs/2026-10-04T00-42-39-phase/tests-history-index.md",
+".andromeda/runs/2026-10-04T00-42-39-phase/tests-history.md",
+".andromeda/runs/2026-10-04T00-42-39-phase/tests.md",
+".andromeda/runs/2026-10-04T00-57-10-implement/evolve-2026-10-04-host-portable-tauri-ipc-tests.json",
+".andromeda/runs/2026-10-04T00-57-10-implement/gate-2026-10-04-host-portable-tauri-ipc-tests.json",
+"conductor-0.3.0/chunks/2026-10-04-host-portable-tauri-ipc-tests/plan.md",
+"conductor-0.3.0/chunks/2026-10-04-host-portable-tauri-ipc-tests/research.md",
+"conductor-0.3.0/chunks/2026-10-04-host-portable-tauri-ipc-tests/scope.md"
+],
+"rust": [
+"crates/conductor-tauri/src/commands.rs",
+"crates/conductor-tauri/src/pause.rs"
+]
+},
+"unmapped": [],
+"prose": [
+{
+"from": 70,
+"to": 73,
+"text": "No boot path or live leg this chunk: the change is test-only Rust, so there is no `smoke` or `self-verify` entry (no UI or visual delta — `ui/dist` is only rebuilt as a compile precondition). The Linux leg is this dev host; the Windows leg is the operator pass's push and CI read (`windows-latest` `rust` job). Nextest's printed summary line is asserted alongside the exit for the crate leg, so the count proves no test was dropped."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "build",
+"run": "( cd crates/conductor-tauri/ui && { [ -d node_modules ] || npm ci; } && npm run build )",
+"run_sha8": "0671d680",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "unit",
+"run": "cargo nextest run -p conductor-tauri --profile ci",
+"run_sha8": "8d02d022",
+"expect": [
+"exit 0",
+"contains 27 tests run: 27 passed, 0 skipped"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-host-portable-tauri-ipc-tests/implement-2026-10-04T00-57-10/2.log",
+"bytes": 4166,
+"log_sha8": "834d2584",
+"exit": 0,
+"seconds": 1.38,
+"readings": [
+"exit 0 ✓",
+"contains '27 tests run: 27 passed, 0 skipped' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "probe",
+"run": "grep -cE '^retries = 0$' .config/nextest.toml",
+"run_sha8": "ff8cd56b",
+"expect": [
+"exit 0",
+"last line 2"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "cargo test -p conductor-tauri",
+"run_sha8": "12572944",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "probe",
+"run": "grep -vhE '^\\s*//' crates/conductor-tauri/src/commands.rs crates/conductor-tauri/src/pause.rs | grep -cE 'tauri\\.localhost|tauri://localhost' ",
+"run_sha8": "6578329d",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-host-portable-tauri-ipc-tests/implement-2026-10-04T00-57-10/5.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.0,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "build",
+"run": "cargo build -p conductor-tauri --bins",
+"run_sha8": "c2b68379",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "unit",
+"run": "cargo nextest run --workspace --profile ci",
+"run_sha8": "bf6e813a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "lint",
+"run": "cargo clippy --workspace --all-targets -- -D warnings",
+"run_sha8": "196d9a67",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-host-portable-tauri-ipc-tests/implement-2026-10-04T00-57-10/9.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.28,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "git diff --name-only f5076ad9becfc188098b2c6ae8979b6ef1ac2f69 -- crates Cargo.toml Cargo.lock deny.toml .config .github | grep -cvE '^crates/conductor-tauri/src/(commands|pause)\\.rs$' ",
+"run_sha8": "be32b342",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "grep -c \"^name = \" Cargo.lock",
+"run_sha8": "6aadf857",
+"expect": [
+"exit 0",
+"last line 562"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --porcelain",
+"run_sha8": "eab7a4cb",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "python -X utf8 \"$HOME\"/.claude/skills/andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "a7051957",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD && echo \"PUSHED_SHA=$(git rev-parse HEAD)\"",
+"run_sha8": "6bf569fe",
+"expect": [
+"exit 0",
+"contains PUSHED_SHA="
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "python -X utf8 \"$HOME\"/.claude/skills/andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1500",
+"run_sha8": "458ed03a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.5",
+"sha8": "018a3122",
+"ts": "2026-10-04T00:59:30Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"conductor-0.3.0/chunks/2026-10-04-host-portable-tauri-ipc-tests",
+"--run-dir",
+".andromeda/runs/2026-10-04T00-57-10-implement",
+"--marker",
+"2026-10-04-host-portable-tauri-ipc-tests"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"root /home/turbolet/dev/projects/conductor · base HEAD (no pre-CI commit) · lists new 0 · modify 2 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"scope: clean — changed 2 · listed 2 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 36"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "/home/turbolet/dev/projects/conductor",
+"base": "HEAD",
+"base_why": "no pre-CI commit",
+"counts": {
+"changed": 2,
+"listed": 2,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 36,
+"unparsed": 0,
+"widening_without_word": 0
+}
+}
+]

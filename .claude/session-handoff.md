@@ -43,3 +43,6 @@
     times this session.
   - recurrence-despite-learning: the CLAUDE.md token-proxy entry as extended 2026-09-02 ("sweep for what the claim
     SAYS") — a count-keyed sweep found 7 of 15 tool-set sites.
+
+## Session End Status
+Completed normally at 2026-10-04 02:56:46

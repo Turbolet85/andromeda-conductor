@@ -1,0 +1,29 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-04T00:42:49Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-04T00-42-39-phase"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 3 of 38 entries · freight blocks 4 · rows are an INDEX, not the text",
+"85 · EVIDENCE: · 362 chars · EVIDENCE: the mock-webview origin `http://tauri.localhost` is hardcoded at `crates/conduct…",
+"85 · CONTEXT: · 101 chars · CONTEXT: founder ruling 2026-10-04, relayed by the overseer — its own entry, before the Ver…",
+"87 · BLOCKED-ON: · 137 chars · BLOCKED-ON: Pulse \"retry-storm interpretation names its retry cause\" (the founder's word…",
+"87 · CONTEXT: · 324 chars · CONTEXT: founder ruling 2026-10-02 (as above), entry 3 of 3 — `v3-09` is NOT deferred; no s…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

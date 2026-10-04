@@ -240,7 +240,9 @@ mod tests {
                 cmd: "resolve_operator_hold".into(),
                 callback: CallbackFn(0),
                 error: CallbackFn(1),
-                url: "http://tauri.localhost".parse().unwrap(),
+                url: window
+                    .url()
+                    .expect("the mock webview reports its own app URL"),
                 body: InvokeBody::Json(serde_json::json!({ "decision": "Go" })),
                 headers: Default::default(),
                 invoke_key: INVOKE_KEY.to_string(),

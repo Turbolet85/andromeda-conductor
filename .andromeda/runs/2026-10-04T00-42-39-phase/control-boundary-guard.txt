@@ -1,0 +1,3 @@
+crates/conductor-tauri/src/commands.rs
+crates/conductor-tauri/capabilities/default.json
+Cargo.lock
