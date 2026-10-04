@@ -1,0 +1,1 @@
+Real-model test-surface corrective — the real-model harvest split into child modules of one target with its series grading lifted into one harness, the secret-scan gate skipping only where no .git exists, and the stub-server and live-pulse targets linted by agent-run run

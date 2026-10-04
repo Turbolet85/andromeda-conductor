@@ -1,0 +1,121 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-04T12:46:38Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-10-04-real-model-test-surface-corrective",
+"--desc-file",
+".andromeda/runs/2026-10-04T12-32-24-wrap/master-desc.txt",
+"--run-dir",
+".andromeda/runs/2026-10-04T12-32-24-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"flip master-route.md:172 - 2026-10-04-real-model-test-surface-corrective pending -> complete - desc REWRITTEN from --desc-file"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-04T12:46:38Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-04-real-model-test-surface-corrective",
+"--date",
+"2026-10-04",
+"--run-dir",
+".andromeda/runs/2026-10-04T12-32-24-wrap",
+"--dry-run"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"pin :88 strip CONTEXT: 628ch \"CONTEXT: founder ruling 2026-10-04 (over\"",
+"pin :88 strip CARRY: 419ch \"CARRY: a gate that runs `cargo check --t\"",
+"pin next markerless :90 holds CONTEXT:×1 · CARRY:×1",
+"88 · 2026-10-04-real-model-test-surface-corrective · strip 2 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 88,
+"marker": "2026-10-04-real-model-test-surface-corrective",
+"blocks": 2,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-04T12:46:43Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-04-real-model-test-surface-corrective",
+"--date",
+"2026-10-04",
+"--run-dir",
+".andromeda/runs/2026-10-04T12-32-24-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"pin :88 strip CONTEXT: 628ch \"CONTEXT: founder ruling 2026-10-04 (over\"",
+"pin :88 strip CARRY: 419ch \"CARRY: a gate that runs `cargo check --t\"",
+"pin next markerless :90 holds CONTEXT:×1 · CARRY:×1",
+"88 · 2026-10-04-real-model-test-surface-corrective · strip 2 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+"./conductor-0.3.0/route-archive.md",
+"./conductor-0.3.0/working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 88,
+"marker": "2026-10-04-real-model-test-surface-corrective",
+"blocks": 2,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

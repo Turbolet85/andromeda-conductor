@@ -444,7 +444,7 @@ processes.
 | Unit tests | `cargo-nextest` JSON output + `logs/agent-latest.jsonl` | uploaded artifact (agent reads JSON for flake detection) |
 | Integration tests (end-to-end scenario) | logs + JSON status envelope per scenario | uploaded artifact + agent assertion (cargo-nextest `--message-format libtest-json`) |
 | Coverage | `cargo-llvm-cov --fail-under-lines 60` report | CI status (coverage gate) |
-| Repository-hygiene gates (2026-09-24) | `Secret-scan gate` / `Workflow env-context gate` nextest output; each hit is one line naming a repo-relative `path:line` (with its rule — never the matched text) or the workflow file, line and key; the `GITHUB_ENV context probe (assert)` step prints its own verdict line | the job log only — agent-readable there and NEVER written into a telemetry artifact (`logs/agent-latest.jsonl`, `runs/**`), the fmt-row discipline |
+| Repository-hygiene gates (2026-09-24) | `Secret-scan gate` / `Workflow env-context gate` nextest output; each hit is one line naming a repo-relative `path:line` (with its rule — never the matched text) or the workflow file, line and key; where the workspace root holds no `.git` entry (a VCS-less copy) the secret-scan gate prints instead one path-free skip line, `secret-scan gate: skipped — no git repository at the workspace root`, and passes, while a listing failure inside a repository stays red; the `GITHUB_ENV context probe (assert)` step prints its own verdict line | the job log only — agent-readable there and NEVER written into a telemetry artifact (`logs/agent-latest.jsonl`, `runs/**`), the fmt-row discipline |
 
 **CI-specific resource attributes:**
 - `deployment.environment`: `dev` (all branch builds, default)

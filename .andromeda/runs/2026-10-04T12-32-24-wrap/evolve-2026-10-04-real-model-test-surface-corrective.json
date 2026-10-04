@@ -1,0 +1,162 @@
+[
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-10-04T12:34:28Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-04T12-32-24-wrap",
+"--marker",
+"2026-10-04-real-model-test-surface-corrective"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 2986→2987 · bytes 3604263→3605257 · term lf",
+"ts 2026-10-04T12:34:22Z · clock 2026-10-04T12:34:28Z · bound 2026-10-04T12:18:53Z (line 2986)",
+"ids 2026-10-04T12:34:22Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 2986,
+"bytes": 3604263,
+"terminator": "LF",
+"bound": "2026-10-04T12:18:53Z"
+},
+"after": {
+"lines": 2987,
+"bytes": 3605257
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-10-04T12:42:51Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"4",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-04T12-32-24-wrap",
+"--marker",
+"2026-10-04-real-model-test-surface-corrective"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"appended 4 record(s) · friction-log.ndjson lines 2987→2991 · bytes 3605257→3608663 · term lf",
+"ts 2026-10-04T12:42:32Z · clock 2026-10-04T12:42:51Z · bound 2026-10-04T12:34:22Z (line 2987)",
+"ids 2026-10-04T12:42:32Z-a … 2026-10-04T12:42:32Z-d (4)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 2987,
+"bytes": 3605257,
+"terminator": "LF",
+"bound": "2026-10-04T12:34:22Z"
+},
+"after": {
+"lines": 2991,
+"bytes": 3608663
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-10-04T12:44:03Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-04T12-32-24-wrap",
+"--marker",
+"2026-10-04-real-model-test-surface-corrective"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"appended 3 record(s) · friction-log.ndjson lines 2991→2994 · bytes 3608663→3610325 · term lf",
+"ts 2026-10-04T12:43:54Z · clock 2026-10-04T12:44:03Z · bound 2026-10-04T12:42:32Z (line 2991)",
+"ids 2026-10-04T12:43:54Z-a … 2026-10-04T12:43:54Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 2991,
+"bytes": 3608663,
+"terminator": "LF",
+"bound": "2026-10-04T12:42:32Z"
+},
+"after": {
+"lines": 2994,
+"bytes": 3610325
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-10-04T12:45:13Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-04T12-32-24-wrap",
+"--marker",
+"2026-10-04-real-model-test-surface-corrective"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"appended 2 record(s) · friction-log.ndjson lines 2994→2996 · bytes 3610325→3611762 · term lf",
+"ts 2026-10-04T12:45:05Z · clock 2026-10-04T12:45:13Z · bound 2026-10-04T12:43:54Z (line 2994)",
+"ids 2026-10-04T12:45:05Z-a … 2026-10-04T12:45:05Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 2994,
+"bytes": 3610325,
+"terminator": "LF",
+"bound": "2026-10-04T12:43:54Z"
+},
+"after": {
+"lines": 2996,
+"bytes": 3611762
+}
+}
+]

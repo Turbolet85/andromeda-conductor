@@ -1,0 +1,42 @@
+# Cascade step-2 sweep — every amendment of this pass (T1-T4, O2-raise, R1, R2).
+# Retired wording + the mechanisms the amendments change.
+
+# T3: "keeping the leg out of default nextest / clippy / release builds" — the retired default-clippy phrasing
+[[pattern]]
+id = "default-clippy"
+fixed = 'default `nextest` / `clippy`'
+
+# T3: "invisible to the default lint pass"
+[[pattern]]
+id = "default-lint"
+fixed = 'default lint pass'
+
+# T3: the owed-lint-command mechanism, wherever restated (a leg OWES its own lint command)
+[[pattern]]
+id = "owes-lint"
+regex = '(?i)owes its own lint|own lint (command|line)|in-repo precedent'
+
+# T1/T2/T3: any site enumerating the bundled run's lint lines (the workspace clippy line)
+[[pattern]]
+id = "ws-clippy"
+fixed = 'clippy --workspace --all-targets'
+
+# T1/T2/T3: the two feature sets the new lines name
+[[pattern]]
+id = "feat-sets"
+regex = 'stub-server|--features live-pulse'
+
+# T4/R1/O2: the secret-scan gate's description, wherever restated
+[[pattern]]
+id = "secret-scan"
+regex = 'secret_scan_gate|[Ss]ecret-scan gate'
+
+# R1: the empty-subject mechanism the skip sits beside
+[[pattern]]
+id = "empty-subject"
+regex = 'empty subject|has no subject|lists no tracked files'
+
+# R2: the mutation copy-mode mechanism (cargo-mutants copy / VCS / unmeasurable)
+[[pattern]]
+id = "mutants-copy"
+regex = '(?i)copy-vcs|copy mode|unmutated (tree|baseline)'
