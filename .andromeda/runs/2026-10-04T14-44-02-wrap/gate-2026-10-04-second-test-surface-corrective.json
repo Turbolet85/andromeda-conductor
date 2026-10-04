@@ -1,0 +1,751 @@
+[
+{
+"tool": "gate",
+"v": "1.7",
+"sha8": "1d6015ef",
+"ts": "2026-10-04T14:44:18Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"conductor-0.3.0/chunks/2026-10-04-second-test-surface-corrective",
+"--run-dir",
+".andromeda/runs/2026-10-04T14-44-02-wrap",
+"--marker",
+"2026-10-04-second-test-surface-corrective"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"root /home/turbolet/dev/projects/conductor · base dab66dca (the parent of the oldest pre-CI commit 4c1e21a3) · lists new 5 · modify 4 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"list conductor-0.3.0/chunks/2026-10-04-second-test-surface-corrective/evidence/ (dir) ×0",
+"scope: clean — changed 8 · listed 8 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 52"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "/home/turbolet/dev/projects/conductor",
+"base": "dab66dca930fab865917d47a9aeb91f1dd5ffc79",
+"base_why": "the parent of the oldest pre-CI commit 4c1e21a3",
+"counts": {
+"changed": 8,
+"listed": 8,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 52,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.7",
+"sha8": "1d6015ef",
+"ts": "2026-10-04T14:57:38Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-10-04-second-test-surface-corrective/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T14-44-02-wrap",
+"--marker",
+"2026-10-04-second-test-surface-corrective"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root /home/turbolet/dev/projects/conductor · marker 2026-10-04-second-test-surface-corrective · entries 25",
+"logs /tmp/andromeda-gate/2026-10-04-second-test-surface-corrective/wrap-2026-10-04T14-44-02 · bound: GNU timeout",
+"delta docs 29",
+"prose L156-162: Every entry below runs from the project root. There is no boot-path or live leg in this ch… (769 chars)",
+"prose L164-170: **One-shot mutating controls — run ONCE at /implement, never gate entries** (validation ch… (726 chars)",
+"prose L172-177: - IC1 `replace ^= with |= in xor_in_place` — `mkdir -p target/inverse-control && f=crates/… (2277 chars)",
+"prose L179-180: The sed patterns, the `grep -cF` counts and the `&` escaping were dry-run at P4 against th… (215 chars)",
+"  1 probe       green · exit 0 · 0.05s · 0 B → 1.log · A=\"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" && git -C \"$A\"… (116 chars)",
+"  2 lint        green · exit 0 · 0.29s · 0 B → 2.log · cargo fmt --all --check",
+"  3 unit        green · exit 0 · 0.46s · 5675 B → 3.log · cargo nextest run -p conductor-run --test delegated_timing… (79 chars)",
+"  4 probe       green · exit 0 · 0.37s · 0 B → 4.log · diff <(git show dab66dca930fab865917d47a9aeb91f1dd5ffc79:c… (376 chars)",
+"  5 probe       green · exit 0 · 0.37s · 3 B → 5.log · cargo nextest list -p conductor-run --test delegated_timin… (552 chars)",
+"  6 probe       green · exit 0 · 0.02s · 358 B → 6.log · tokei -o json crates/conductor-run/tests/delegated_timing_… (318 chars)",
+"  7 unit        green · exit 0 · 0.18s · 3453 B → 7.log · cargo test -p conductor-run --test delegated_timing_harves… (59 chars)",
+"  8 probe       green · exit 0 · 0.01s · 0 B → 8.log · git diff --quiet dab66dca930fab865917d47a9aeb91f1dd5ffc79 … (227 chars)",
+"  9 unit        green · exit 0 · 0.42s · 16615 B → 9.log · cargo nextest run -p conductor-emit --lib --profile ci",
+" 10 unit        green · exit 0 · 0.41s · 6601 B → 10.log · cargo nextest run -p conductor-run --lib --profile ci",
+" 11 probe       green · exit 0 · 0.02s · 2 B → 11.log · python -X utf8 -c \"import pathlib; a=pathlib.Path('crates/… (292 chars)",
+" 12 unit        green · exit 0 · 0.15s · 11321 B → 12.log · cargo test -p conductor-emit --lib",
+" 13 unit        green · exit 0 · 0.17s · 4731 B → 13.log · cargo test -p conductor-run --lib",
+" 14 probe       green · exit 0 · 0.02s · 2 B → 14.log · python -X utf8 -c \"import re,pathlib; t=pathlib.Path('scri… (242 chars)",
+" 15 probe       green · exit 1 · 0.01s · 2 B → 15.log · git diff dab66dca930fab865917d47a9aeb91f1dd5ffc79 -- scrip… (108 chars)",
+" 16 probe       green · exit 0 · 0.0s · 0 B → 16.log · git diff --quiet dab66dca930fab865917d47a9aeb91f1dd5ffc79 … (106 chars)",
+" 17 probe       green · exit 1 · 0.0s · 2 B → 17.log · grep -c planted_lint crates/conductor-emit/src/identity.rs",
+" 18 integration green · exit 0 · 12.47s · 153318 B → 18.log · bash scripts/agent-run.sh run",
+" 19 probe       green · exit 0 · 0.01s · 0 B → 19.log · git diff --quiet dab66dca930fab865917d47a9aeb91f1dd5ffc79 … (147 chars)",
+" 20 probe       green · exit 0 · 0.0s · 4 B → 20.log · grep -c '^\\[\\[package\\]\\]' Cargo.lock",
+" 21 probe       green · exit 0 · 1.72s · 1901 B → 21.log · cargo audit",
+" 22 probe       green · exit 0 · 0.85s · 236863 B → 22.log · cargo deny check advisories bans licenses sources",
+" 23 probe       not run — leg operator (the letter drives it) · python -X utf8 /home/turbolet/.claude/skills/andromeda-too… (84 chars)",
+" 24 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (112 chars)",
+" 25 probe       not run — leg operator (the letter drives it) · python -X utf8 /home/turbolet/.claude/skills/andromeda-too… (108 chars)",
+"entries 25 · green 22 · red 0 · recorded 0 · timeout 0 · not-run 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-04-second-test-surface-corrective",
+"plan": "/home/turbolet/dev/projects/conductor/conductor-0.3.0/chunks/2026-10-04-second-test-surface-corrective/plan.md",
+"root": "/home/turbolet/dev/projects/conductor",
+"shell": "/usr/bin/bash",
+"out_dir": "/tmp/andromeda-gate/2026-10-04-second-test-surface-corrective/wrap-2026-10-04T14-44-02",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/obs-plan-amendments.md",
+".andromeda/obs-plan.md",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md",
+".andromeda/state.yaml",
+".andromeda/test-plan-amendments.md",
+".andromeda/test-plan.md",
+".claude/docs/session-learnings.md",
+".claude/docs/tests-summary.md",
+".claude/rules/verification-harness.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/chunks/2026-10-04-second-test-surface-corrective/evidence/operator-pass.md",
+".andromeda/runs/2026-10-04T14-44-02-wrap/a11y-plan-contracts.md",
+".andromeda/runs/2026-10-04T14-44-02-wrap/architecture-contracts.md",
+".andromeda/runs/2026-10-04T14-44-02-wrap/cascade-2026-10-04-second-test-surface-corrective.json",
+".andromeda/runs/2026-10-04T14-44-02-wrap/cascade-dispositions.md",
+".andromeda/runs/2026-10-04T14-44-02-wrap/cascade-patterns.toml",
+".andromeda/runs/2026-10-04T14-44-02-wrap/curation.md",
+".andromeda/runs/2026-10-04T14-44-02-wrap/evolve-2026-10-04-second-test-surface-corrective.json",
+".andromeda/runs/2026-10-04T14-44-02-wrap/fanout-results.md",
+".andromeda/runs/2026-10-04T14-44-02-wrap/gate-2026-10-04-second-test-surface-corrective.json",
+".andromeda/runs/2026-10-04T14-44-02-wrap/obs-plan-contracts.md",
+".andromeda/runs/2026-10-04T14-44-02-wrap/obs-plan-entry.md",
+".andromeda/runs/2026-10-04T14-44-02-wrap/registry-2026-10-04-second-test-surface-corrective.json",
+".andromeda/runs/2026-10-04T14-44-02-wrap/route-no-marker.json",
+".andromeda/runs/2026-10-04T14-44-02-wrap/splice-2026-10-04-second-test-surface-corrective.json",
+".andromeda/runs/2026-10-04T14-44-02-wrap/test-plan-contracts.md",
+".andromeda/runs/2026-10-04T14-44-02-wrap/test-plan-entry.md",
+"conductor-0.3.0/chunks/2026-10-04-second-test-surface-corrective/report.md"
+]
+},
+"unmapped": [],
+"prose": [
+{
+"from": 156,
+"to": 162,
+"text": "Every entry below runs from the project root. There is no boot-path or live leg in this chunk: no Pulse, no `pulse-app`, no `SCENARIO`. So there is no `smoke` entry, and there is no UI/visual surface, so no `self-verify`. `crates/conductor-run/src/canary.rs` sits on the preflight path, but this chunk edits only its inline `#[cfg(test)]` module and leaves every production body unchanged (an acceptance criterion). `agent-run.ps1`'s `''` arm is the `run` verb, not `boot`. test-plan declares no boot-smoke trigger list: a python sweep for `smoke` over `test-plan.md` and its `contracts/test-plan/*.md` keys at P5 found only `cli_smoke`, a render smoke and the manual-smoke ban. The mutation instrument is NOT a gate: test-plan §9 limits it to the epoch-boundary audit."
+},
+{
+"from": 164,
+"to": 170,
+"text": "**One-shot mutating controls — run ONCE at /implement, never gate entries** (validation check 4 (6): the light gate re-runs entries verbatim, and a control that mutates source is never one). Each runs from the project root after steps 6 and 7 are green. Each copies its file into the gitignored `target/inverse-control/` (or `target/carry/`) and restores it through a `trap` on exit. Its full output goes into `evidence/inverse-controls.md` or `evidence/carry-measurement.md`, and the listed NON-MUTATING guards below re-prove the restoration on every re-run: the restore guard `last line 3`, the planted-lint guard `last line 0`, and the library suites, which fail on any residue because the mutated code fails the new tests."
+},
+{
+"from": 172,
+"to": 177,
+"text": "- IC1 `replace ^= with |= in xor_in_place` — `mkdir -p target/inverse-control && f=crates/conductor-emit/src/identity.rs && cp \"$f\" target/inverse-control/identity.rs.bak && trap 'cp target/inverse-control/identity.rs.bak crates/conductor-emit/src/identity.rs' EXIT && sed -i 's/\\*byte ^= m;/*byte |= m;/' \"$f\" && test \"$(grep -cF '*byte |= m;' \"$f\")\" = 1 && { cargo nextest run -p conductor-emit --lib --profile ci -E 'test(=identity::tests::rekey_under_one_salt_twice_restores_every_id)'; test $? -eq 100; }` — killed when it exits 0 with a `FAIL [` line naming `identity::tests::rekey_under_one_salt_twice_restores_every_id` (nextest exit 100 = tests failed; 101 would be a build failure, which proves nothing). - IC2 `replace ^= with &= in xor_in_place` — IC1 with the replacement `*byte \\&= m;` (the `&` escaped: an unescaped `&` re-inserts the match) and the count check on `*byte &= m;`; same test, same reading. - IC3 `replace > with >= in emit_canary_storms` — IC1's shape on `crates/conductor-run/src/canary.rs` (backup `canary.rs.bak`), `sed -i 's/if n > 0 {/if n >= 0 {/'`, count check on `if n >= 0 {`, filter `test(=canary::tests::the_first_storm_leaves_at_the_call_with_no_gap_before_it)` under `cargo nextest run -p conductor-run --lib --profile ci`. - IC4 `replace * with + in emit_canary_storms` — IC3's shape with `sed -i 's/n \\* CANARY_STORM_COUNT/n + CANARY_STORM_COUNT/'`, count check on `n + CANARY_STORM_COUNT`, filter `test(=canary::tests::every_real_model_canary_occurrence_carries_its_own_span_identity)`. - IC5 `replace * with / in emit_canary_storms` — IC4 with `sed -i 's/n \\* CANARY_STORM_COUNT/n \\/ CANARY_STORM_COUNT/'` and the count check on `n / CANARY_STORM_COUNT`. - CARRY-sh — `mkdir -p target/carry && f=crates/conductor-emit/src/identity.rs && cp \"$f\" target/carry/identity.rs.bak && trap 'cp target/carry/identity.rs.bak crates/conductor-emit/src/identity.rs' EXIT && printf '\\n#[allow(dead_code)]\\nfn planted_lint(v: &[u8]) -> bool {\\n    v.len() == 0\\n}\\n' >> \"$f\" && { bash scripts/agent-run.sh run; test $? -eq 101; }`. It is measured when it exits 0 with clippy's `len_zero` error line (`length comparison to zero`) printed at the workspace clippy line. Record the bare exit (101) and that printed line verbatim, host paths elided."
+},
+{
+"from": 179,
+"to": 180,
+"text": "The sed patterns, the `grep -cF` counts and the `&` escaping were dry-run at P4 against the base (one match each). `target/inverse-control/` and `target/carry/` are gitignored (`git check-ignore -q`, exit 0, at P5)."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "probe",
+"run": "A=\"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" && git -C \"$A\" clean -fdq && test -z \"$(git -C \"$A\" status --porcelain)\"",
+"run_sha8": "5946f6f6",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-second-test-surface-corrective/wrap-2026-10-04T14-44-02/1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.05,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-second-test-surface-corrective/wrap-2026-10-04T14-44-02/2.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.29,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "cargo nextest run -p conductor-run --test delegated_timing_harvest --profile ci",
+"run_sha8": "5780eff4",
+"expect": [
+"exit 0",
+"contains 36 tests run: 36 passed, 0 skipped"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-second-test-surface-corrective/wrap-2026-10-04T14-44-02/3.log",
+"bytes": 5675,
+"log_sha8": "edb498b6",
+"exit": 0,
+"seconds": 0.46,
+"readings": [
+"exit 0 ✓",
+"contains '36 tests run: 36 passed, 0 skipped' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "probe",
+"run": "diff <(git show dab66dca930fab865917d47a9aeb91f1dd5ffc79:crates/conductor-run/tests/delegated_timing_harvest.rs | awk '/#\\[test\\]/{t=1;next} t&&/fn /{match($0,/fn [a-z0-9_]+/);print substr($0,RSTART+3,RLENGTH-3);t=0}' | sort) <(cargo nextest list -p conductor-run --test delegated_timing_harvest --message-format oneline 2>/dev/null | awk '{print $2}' | sed 's/.*:://' | sort)",
+"run_sha8": "6524fdde",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-second-test-surface-corrective/wrap-2026-10-04T14-44-02/4.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.37,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "probe",
+"run": "cargo nextest list -p conductor-run --test delegated_timing_harvest --message-format oneline 2>/dev/null | grep -cE 'delegated_timing_harvest tests::(p075_round_assertion_|p075_reround_assertion_|p025_the_graded_leg_meets_its_two_second_budget_at_its_real_value|p025_the_re_driven_leg_measures_tick_quantization_not_update_latency|p027_constellation_discovery_meets_its_five_second_budget|p037_report_render_meets_its_two_second_budget|p045_counter_refresh_meets_its_one_second_budget|p025_hue_update_is_recorded_over_budget_never_asserted_as_a_pass)' ",
+"run_sha8": "b8e9fc60",
+"expect": [
+"exit 0",
+"last line 14"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-second-test-surface-corrective/wrap-2026-10-04T14-44-02/5.log",
+"bytes": 3,
+"log_sha8": "9a92adbc",
+"exit": 0,
+"seconds": 0.37,
+"readings": [
+"exit 0 ✓",
+"last line '14' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "tokei -o json crates/conductor-run/tests/delegated_timing_harvest.rs crates/conductor-run/tests/delegated_timing_grading | python -X utf8 -c \"import json,sys; r=json.load(sys.stdin)['Rust']['reports']; [print(x['name'], x['stats']['code']) for x in r]; print('over_800', sum(1 for x in r if x['stats']['code'] > 800))\"",
+"run_sha8": "1805f987",
+"expect": [
+"exit 0",
+"last line over_800 0"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-second-test-surface-corrective/wrap-2026-10-04T14-44-02/6.log",
+"bytes": 358,
+"log_sha8": "5910c758",
+"exit": 0,
+"seconds": 0.02,
+"readings": [
+"exit 0 ✓",
+"last line 'over_800 0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "unit",
+"run": "cargo test -p conductor-run --test delegated_timing_harvest",
+"run_sha8": "e052dba1",
+"expect": [
+"exit 0",
+"contains test result: ok. 36 passed; 0 failed"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-second-test-surface-corrective/wrap-2026-10-04T14-44-02/7.log",
+"bytes": 3453,
+"log_sha8": "28787031",
+"exit": 0,
+"seconds": 0.18,
+"readings": [
+"exit 0 ✓",
+"contains 'test result: ok. 36 passed; 0 failed' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "git diff --quiet dab66dca930fab865917d47a9aeb91f1dd5ffc79 -- ':(glob)conductor-0.3.0/chunks/**/evidence/**' ':(exclude)conductor-0.3.0/chunks/2026-10-04-second-test-surface-corrective/**' crates/conductor-run/tests/evidence_pin",
+"run_sha8": "5136a8dd",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-second-test-surface-corrective/wrap-2026-10-04T14-44-02/8.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "unit",
+"run": "cargo nextest run -p conductor-emit --lib --profile ci",
+"run_sha8": "6dba87c2",
+"expect": [
+"exit 0",
+"contains 138 tests run: 138 passed"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-second-test-surface-corrective/wrap-2026-10-04T14-44-02/9.log",
+"bytes": 16615,
+"log_sha8": "0bee92e2",
+"exit": 0,
+"seconds": 0.42,
+"readings": [
+"exit 0 ✓",
+"contains '138 tests run: 138 passed' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "unit",
+"run": "cargo nextest run -p conductor-run --lib --profile ci",
+"run_sha8": "123e1d7b",
+"expect": [
+"exit 0",
+"contains 52 tests run: 52 passed"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-second-test-surface-corrective/wrap-2026-10-04T14-44-02/10.log",
+"bytes": 6601,
+"log_sha8": "8ccc956b",
+"exit": 0,
+"seconds": 0.41,
+"readings": [
+"exit 0 ✓",
+"contains '52 tests run: 52 passed' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "python -X utf8 -c \"import pathlib; a=pathlib.Path('crates/conductor-emit/src/identity.rs').read_text(encoding='utf-8'); b=pathlib.Path('crates/conductor-run/src/canary.rs').read_text(encoding='utf-8'); print(a.count('*byte ^= m;') + b.count('if n > 0 {') + b.count('n * CANARY_STORM_COUNT'))\"",
+"run_sha8": "6f192666",
+"expect": [
+"exit 0",
+"last line 3"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-second-test-surface-corrective/wrap-2026-10-04T14-44-02/11.log",
+"bytes": 2,
+"log_sha8": "1121cfcc",
+"exit": 0,
+"seconds": 0.02,
+"readings": [
+"exit 0 ✓",
+"last line '3' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "unit",
+"run": "cargo test -p conductor-emit --lib",
+"run_sha8": "7c29af39",
+"expect": [
+"exit 0",
+"contains test result: ok. 138 passed"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-second-test-surface-corrective/wrap-2026-10-04T14-44-02/12.log",
+"bytes": 11321,
+"log_sha8": "62f5e05a",
+"exit": 0,
+"seconds": 0.15,
+"readings": [
+"exit 0 ✓",
+"contains 'test result: ok. 138 passed' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "unit",
+"run": "cargo test -p conductor-run --lib",
+"run_sha8": "3392f86e",
+"expect": [
+"exit 0",
+"contains test result: ok. 52 passed"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-second-test-surface-corrective/wrap-2026-10-04T14-44-02/13.log",
+"bytes": 4731,
+"log_sha8": "34a51de2",
+"exit": 0,
+"seconds": 0.17,
+"readings": [
+"exit 0 ✓",
+"contains 'test result: ok. 52 passed' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "python -X utf8 -c \"import re,pathlib; t=pathlib.Path('scripts/agent-run.ps1').read_text(encoding='utf-8'); m=re.search(r\\\"\\n\\s*'' \\{\\n(.*?)\\n\\s*break\\n\\\", t, re.S); print(m.group(1).count('if (\\$LASTEXITCODE -ne 0) { exit \\$LASTEXITCODE }'))\"",
+"run_sha8": "214279d7",
+"expect": [
+"exit 0",
+"last line 5"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-second-test-surface-corrective/wrap-2026-10-04T14-44-02/14.log",
+"bytes": 2,
+"log_sha8": "f0b5c2c2",
+"exit": 0,
+"seconds": 0.02,
+"readings": [
+"exit 0 ✓",
+"last line '5' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "git diff dab66dca930fab865917d47a9aeb91f1dd5ffc79 -- scripts/agent-run.ps1 | grep -v '^--- ' | grep -c '^-' ",
+"run_sha8": "4dd19d7e",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-second-test-surface-corrective/wrap-2026-10-04T14-44-02/15.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.01,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "git diff --quiet dab66dca930fab865917d47a9aeb91f1dd5ffc79 -- scripts/agent-run.sh .github/workflows/ci.yml",
+"run_sha8": "9daeade2",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-second-test-surface-corrective/wrap-2026-10-04T14-44-02/16.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "grep -c planted_lint crates/conductor-emit/src/identity.rs",
+"run_sha8": "e2937a0c",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-second-test-surface-corrective/wrap-2026-10-04T14-44-02/17.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.0,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run",
+"run_sha8": "21443cdf",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-second-test-surface-corrective/wrap-2026-10-04T14-44-02/18.log",
+"bytes": 153318,
+"log_sha8": "6f24c5d1",
+"exit": 0,
+"seconds": 12.47,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "git diff --quiet dab66dca930fab865917d47a9aeb91f1dd5ffc79 -- Cargo.lock Cargo.toml crates/conductor-run/Cargo.toml crates/conductor-emit/Cargo.toml",
+"run_sha8": "aa08c511",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-second-test-surface-corrective/wrap-2026-10-04T14-44-02/19.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "grep -c '^\\[\\[package\\]\\]' Cargo.lock",
+"run_sha8": "6fba78b3",
+"expect": [
+"exit 0",
+"last line 562"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-second-test-surface-corrective/wrap-2026-10-04T14-44-02/20.log",
+"bytes": 4,
+"log_sha8": "9db3b992",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '562' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-second-test-surface-corrective/wrap-2026-10-04T14-44-02/21.log",
+"bytes": 1901,
+"log_sha8": "e5e34fb0",
+"exit": 0,
+"seconds": 1.72,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-second-test-surface-corrective/wrap-2026-10-04T14-44-02/22.log",
+"bytes": 236863,
+"log_sha8": "ab74a8db",
+"exit": 0,
+"seconds": 0.85,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "python -X utf8 /home/turbolet/.claude/skills/andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "c6e5fd28",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD && echo \"PUSHED_SHA=$(git rev-parse HEAD)\"",
+"run_sha8": "6bf569fe",
+"expect": [
+"exit 0",
+"contains PUSHED_SHA="
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 25,
+"role": "probe",
+"run": "python -X utf8 /home/turbolet/.claude/skills/andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1500",
+"run_sha8": "edbce705",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.7",
+"sha8": "1d6015ef",
+"ts": "2026-10-04T14:57:51Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-10-04T14-44-02-wrap",
+"--marker",
+"2026-10-04-second-test-surface-corrective"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"root /home/turbolet/dev/projects/conductor · case exact · planes rust, ts",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P2 · P3 rust · P3 ts — each fired on its synthetic known positive",
+"hygiene: clean — read 18 (runs 17 · evidence 1) · trails 7 not read · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "/home/turbolet/dev/projects/conductor",
+"case": "exact",
+"planes": [
+"rust",
+"ts"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 17,
+"evidence": 1,
+"trails": 7,
+"binary": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.7",
+"sha8": "1d6015ef",
+"ts": "2026-10-04T14:57:54Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"conductor-0.3.0/chunks/2026-10-04-second-test-surface-corrective",
+"--run-dir",
+".andromeda/runs/2026-10-04T14-44-02-wrap",
+"--marker",
+"2026-10-04-second-test-surface-corrective"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"root /home/turbolet/dev/projects/conductor · base dab66dca (the parent of the oldest pre-CI commit 4c1e21a3) · lists new 5 · modify 4 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"list conductor-0.3.0/chunks/2026-10-04-second-test-surface-corrective/evidence/ (dir) ×0",
+"scope: clean — changed 8 · listed 8 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 79"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "/home/turbolet/dev/projects/conductor",
+"base": "dab66dca930fab865917d47a9aeb91f1dd5ffc79",
+"base_why": "the parent of the oldest pre-CI commit 4c1e21a3",
+"counts": {
+"changed": 8,
+"listed": 8,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 79,
+"unparsed": 0,
+"widening_without_word": 0
+}
+}
+]

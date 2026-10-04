@@ -1,0 +1,110 @@
+[
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "e387d64c",
+"ts": "2026-10-04T14:56:26Z",
+"argv": [
+"route.py",
+"cursor",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-04T14-44-02-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"version conductor-0.3.0 · dir present · master master-route.md",
+"version dir conductor-0.3.0/ — at --root, beside .andromeda/, never inside it",
+"records 159 · complete 158 · pending 1 · 2026-10-04-second-test-surface-corrective · gated 0",
+"done 2026-10-04-real-model-test-surface-corrective",
+"next working-route.md:92 · A fourth pre-registered real-model series for `v3-09` · markerless 2 of 40 entries",
+"BLOCKED-ON at an annotation position · working-route.md:92 · BLOCKED-ON: Pulse \"retry-storm interpretation names its retr… (137 chars) — take-up or skip is the letter's, not the tool's",
+"half-promote 0 of 38 stamped lines vs 159 master records (anchored `{marker} · `, whole file)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "e387d64c",
+"ts": "2026-10-04T14:56:26Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-04T14-44-02-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 2 of 40 entries · freight blocks 2 · rows are an INDEX, not the text",
+"92 · BLOCKED-ON: · 137 chars · BLOCKED-ON: Pulse \"retry-storm interpretation names its retry cause\" (the founder's word…",
+"92 · CONTEXT: · 324 chars · CONTEXT: founder ruling 2026-10-02 (as above), entry 3 of 3 — `v3-09` is NOT deferred; no s…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "e387d64c",
+"ts": "2026-10-04T14:56:26Z",
+"argv": [
+"route.py",
+"markerless",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-04T14-44-02-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · 94 lines · 40 entries · 38 stamped · 2 markerless · 34 separators",
+"92 · A fourth pre-registered real-model series for `v3-09` · freight 2",
+"94 · Version close on measured evidence · freight 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "e387d64c",
+"ts": "2026-10-04T14:56:26Z",
+"argv": [
+"route.py",
+"epoch",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-04T14-44-02-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · 6 epoch headers · 40 entries · freeze state joined to 159 master records",
+"10 · Epoch 1 — Foundation: the measurements the … · entries 5 · markerless 0 · frozen complete 5 · pending 0",
+"21 · Epoch 2 — Scenario assertion hygiene · entries 5 · markerless 0 · frozen complete 5 · pending 0",
+"32 · Epoch 3 — The a11y capability's terminal · entries 4 · markerless 0 · frozen complete 4 · pending 0",
+"41 · Epoch 4 — Live proof against a real Pulse · entries 8 · markerless 0 · frozen complete 8 · pending 0",
+"58 · Epoch 5 — Polish & ship · entries 14 · markerless 0 · frozen complete 14 · pending 0",
+"87 · Epoch 5b — Version close · entries 4 · markerless 2 · frozen complete 1 · pending 1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

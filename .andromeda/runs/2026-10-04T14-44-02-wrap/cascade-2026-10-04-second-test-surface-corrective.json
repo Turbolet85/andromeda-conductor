@@ -1,0 +1,102 @@
+[
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "bd37779c",
+"ts": "2026-10-04T14:52:24Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-04T14-44-02-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-04T14-44-02-wrap",
+"--marker",
+"2026-10-04-second-test-surface-corrective"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"baseline dab66dca (pre-CI parent — the oldest of 1 pre-CI commit(s), 4c1e21a3)",
+"nonblocking · new 0 · standing 1 · leaf 0 · curation 1 · base 0 · control test-plan.md:432 (prose)",
+"ci-annotations · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:443 (pr…",
+"clippy-warn-soft · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:443 (…",
+"hardfail-only · new 0 · standing 2 · leaf 2 · curation 0 · base 0 · control test-plan.md:64 (prose)",
+"psnative · new 2 · standing 2 · leaf 1 · curation 0 · base 0 · control registries/contracts/test-plan/5-command-impleme…",
+"caller-preempt · new 0 · standing 3 · leaf 2 · curation 0 · base 0 · control layout-templates.md:196 (prose)",
+".andromeda/test-plan.md:432 nonblocking standing @c45/2184 …ition (audit tier, non-blocking):** where the epoch-boundar…",
+".claude/docs/session-learnings.md:366 nonblocking curation …turns IMMEDIATELY (non-blocking UI). Progress streams over …",
+".andromeda/test-plan.md:64 hardfail-only standing edited … = all checks Pass; non-zero = at least one hard `Fail`, or —…",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:12 hardfail-only standing edited …s`; non-zero = …",
+".claude/rules/testing.md:42 hardfail-only leaf …d envelope states, NOT non-zero exits — only a hard `Fail` exits non-ze…",
+".claude/rules/verification-harness.md:19 hardfail-only leaf @c824/2028 … = all `Pass`; non-zero = a hard `Fail` (nextes…",
+".andromeda/obs-plan.md:490 psnative new …, where the step's own `$PSNativeCommandUseErrorActionPreference` turns the no…",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:11 psnative new @c1314/3052 …ing `$PSNativeComman…",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:15 psnative standing @c3455/6321 …g `$PSNativeCom…",
+".andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md:6 psnative standing …$PSNa…",
+".claude/docs/commands.md:30 psnative leaf @c1448/2046 …: a caller setting `$PSNativeCommandUseErrorActionPreference = $…",
+".andromeda/layout-templates.md:196 caller-preempt standing @c136/2723 …ether with the invoking environment, since a cal…",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:15 caller-preempt standing @c3363/6321 …e INVOKIN…",
+".andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md:6 caller-preempt standing",
+".claude/rules/verification-harness.md:17 caller-preempt leaf …together with the invoking environment, since a caller pr…",
+".claude/docs/commands.md:30 caller-preempt leaf @c1407/2046 … TOGETHER with the invoking environment: a caller setting …",
+"nonblocking · new 0 · standing 1 · leaf 0 · curation 1 · base 0 · control test-plan.md:432 (prose)",
+"ci-annotations · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:443 (pr…",
+"clippy-warn-soft · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:443 (…",
+"hardfail-only · new 0 · standing 2 · leaf 2 · curation 0 · base 0 · control test-plan.md:64 (prose)",
+"psnative · new 2 · standing 2 · leaf 1 · curation 0 · base 0 · control registries/contracts/test-plan/5-command-impleme…",
+"caller-preempt · new 0 · standing 3 · leaf 2 · curation 0 · base 0 · control layout-templates.md:196 (prose)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "dab66dca930fab865917d47a9aeb91f1dd5ffc79",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), 4c1e21a3",
+"counts": {
+"nonblocking": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 1,
+"base": 0
+},
+"ci-annotations": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"clippy-warn-soft": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"hardfail-only": {
+"new": 0,
+"standing": 2,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"psnative": {
+"new": 2,
+"standing": 2,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"caller-preempt": {
+"new": 0,
+"standing": 3,
+"leaf": 2,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]

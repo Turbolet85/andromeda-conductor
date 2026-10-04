@@ -19,3 +19,30 @@ atoms `exit 0` and `contains hygiene: clean` hold.
 
 Pre-CI commit (the operator's act, on the word above): `git add -A` then
 `chore(2026-10-04-second-test-surface-corrective): operator pre-CI commit, for the run this chunk's verdict reads`.
+The first `git commit` attempt failed on a transient `.git/index.lock` (`Unable to create … index.lock: File exists`);
+an immediate check found no lock file and no git process, so the add and commit were re-run as-is and landed
+**`4c1e21a`**. Nothing else is in that commit beyond the tree this file and the implement report describe (60 files).
+
+## Gate 24 — `git diff --quiet && git diff --cached --quiet && git push origin HEAD && echo "PUSHED_SHA=$(git rev-parse HEAD)"`
+
+Exit 0. `dab66dc..4c1e21a  HEAD -> build/conductor-0.3.0`, printed
+`PUSHED_SHA=4c1e21a35e6b63f4f4dccaddc4ed931ea91e238a` — atoms `exit 0` and `contains PUSHED_SHA=` hold.
+
+## Gate 25 — `python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1500`
+
+Exit 0 (fired under `timeout 1680`, the entry's own bound):
+
+```
+4c1e21a35e6b verdict: green · checks 3/3 · wall 689 s · runs CI#37209452847 completed/success
+```
+
+Atoms `exit 0` and `contains verdict: green` hold. Read from the run itself (`gh run view 37209452847`, the a11y job's
+full log through the jobs API):
+
+- `rust` job: success — step "Test + lint (dogfood agent-run)" success, i.e. `.\scripts\agent-run.ps1 run`'s bundled
+  default ran GREEN through the five new `$LASTEXITCODE` checks (workspace nextest `1207 tests run: 1207 passed,
+  0 skipped`). This is the ps1 change's GREEN path only; its red path stays unmeasured (`carry-measurement.md` §3).
+- `a11y` job: success — routine arm `19 passing` · `2 skipped` · `Spec Files: 1 passed, 1 total`, and the harness's own
+  line `[a11y] verdict asserted - 0 failed | 2 skipped (expected 2) | driven session present` — the expected-skip SET
+  unchanged (the two live-hold subjects).
+- `frontend` job: success.

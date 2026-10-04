@@ -1,0 +1,33 @@
+# Cascade step-2 sweep — the retired claims of this pass, by wording AND by what they assert.
+# 1. clippy warnings are non-blocking / mere CI annotations (obs-plan §10 :490, §9 :443)
+# 2. the bundled default / `run` is non-zero only on a hard Fail (test-plan §1 :64, key file :12)
+# 3. the ps1 bundled default blocks only when its CALLER sets the native-command preference
+
+[[pattern]]
+id = "nonblocking"
+regex = 'non-blocking'
+ignore_case = true
+
+[[pattern]]
+id = "ci-annotations"
+regex = 'CI annotations?'
+ignore_case = true
+
+[[pattern]]
+id = "clippy-warn-soft"
+regex = 'clippy[^\n]{0,80}(warnings? (treated|only|are)|visible to agent|annotat)'
+ignore_case = true
+
+[[pattern]]
+id = "hardfail-only"
+regex = 'non-zero (=|means|exit)[^\n]{0,40}hard `?Fail'
+ignore_case = true
+
+[[pattern]]
+id = "psnative"
+fixed = 'PSNativeCommandUseErrorActionPreference'
+
+[[pattern]]
+id = "caller-preempt"
+regex = '(caller|invoking environment)[^\n]{0,80}(preempt|native-command)'
+ignore_case = true

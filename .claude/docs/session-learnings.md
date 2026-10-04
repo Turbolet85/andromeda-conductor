@@ -1,6 +1,23 @@
 # Session Learnings
 
 _This file is curated by `/wrap-session`. Learnings captured here are too detailed or specific for CLAUDE.md but worth preserving as reference material for future sessions._
+## 2026-10-04 — tokei's reading of a `tests/*.rs` file can be nearly all code, so a size forecast scaled from it overshoots
+
+The audit's size line (`sizes.over_800`) is measured with tokei, and a split's forecast is naturally scaled from that
+reading. Splitting `delegated_timing_harvest.rs` showed the base reading is not a line count of the file: tokei 14.0.0
+read the base as 1130 code / 0 comments / 12 blanks over 1222 raw lines, while the five split files read 872 / 50 / 95.
+The forecast root (≈490) came in at 310. Nothing was lost — a normalized line-multiset comparison of base against split
+differed only by the module wiring, three `//!` lines, three `use super::*;` and one rustfmt re-wrap. Why tokei
+mis-classifies the base is recorded, not established (the file holds long raw-string literals of captured JSON, a
+plausible trigger).
+
+So when a split is forecast or judged from tokei: re-read every resulting file with the same instrument, and compare
+CONTENT by a line multiset before reading a code-line drop as lost content. Where an audit lists a file over the size
+line, treat the figure as tokei's classification, not a line count — check its comments/blanks columns before trusting
+the margin.
+
+---
+
 ## 2026-09-30 — A sweep over the masters needs `-oiE … | wc -l`, and an escaped pipe under `-E` is a literal
 
 Two grep mechanics returned confident wrong counts in one site sweep over the spec masters. First, under `grep -E` the sequence backslash-pipe is a LITERAL pipe character, not alternation, so a pattern written in BRE habit (`a\|b`) matched nothing and every master read 0 — a false absence. Second, `grep -c` counts LINES, and the masters carry multi-KB single lines holding several occurrences each, so a count read as sites under-counted (the Tier-1 2026-09-17 entry already names this, and it recurred). The form that answers the site question is `grep -oiE 'a|b' {file} | wc -l` for occurrences, plus `grep -noiE '.{0,90}(a|b).{0,60}'` to read each hit in context before dispositioning it.

@@ -440,7 +440,7 @@ processes.
 
 | Stage | Telemetry produced | Consumer |
 |-------|---------------------|----------|
-| Lint / typecheck | `cargo clippy` warnings to stderr; `cargo fmt --all --check` unified diff to stdout (shipped 2026-09-09 as the `rust` job's own early step at index 2, not colocated with clippy) | CI annotations (structured stderr for agent parsing); the fmt diff's `Diff in {file}` lines are agent-readable from the job log and are NOT written into any telemetry artifact (they carry absolute host paths, which §9's log-conformance check rejects) |
+| Lint / typecheck | `cargo clippy` warnings to stderr; `cargo fmt --all --check` unified diff to stdout (shipped 2026-09-09 as the `rust` job's own early step at index 2, not colocated with clippy) | clippy: the `run` bundled default's exit — a `-D warnings` lint fails it and with it the `rust` job's dogfood step (blocking, §10), its stderr agent-readable from the job log; the fmt diff's `Diff in {file}` lines are agent-readable from the job log and are NOT written into any telemetry artifact (they carry absolute host paths, which §9's log-conformance check rejects) |
 | Unit tests | `cargo-nextest` JSON output + `logs/agent-latest.jsonl` | uploaded artifact (agent reads JSON for flake detection) |
 | Integration tests (end-to-end scenario) | logs + JSON status envelope per scenario | uploaded artifact + agent assertion (cargo-nextest `--message-format libtest-json`) |
 | Coverage | `cargo-llvm-cov --fail-under-lines 60` report | CI status (coverage gate) |
@@ -487,7 +487,7 @@ SLO enforcement: agent reads runs.db rows post-run and asserts `latency_ms <= sl
 - Any unlogged panic detected (CI gate: zero-unlogged-panics)
 - CI log conformance gate: any runs.db / journal row with missing required fields or leaked absolute paths
 - `cargo-audit` red flag (supply-chain audit gate)
-- `cargo clippy` warnings treated as CI annotations (non-blocking at Minimal, but visible to agent)
+- A `cargo clippy … -- -D warnings` lint red — BLOCKING at Minimal: any lint warning fails `agent-run run`'s bundled default, which stops at its first non-zero cargo line in both shells — `agent-run.sh` by `set -euo pipefail` (as measured at `2026-10-04-second-test-surface-corrective` `evidence/carry-measurement.md`: a planted clippy-only lint ended the run at exit 101 on the workspace clippy line, its nextest and doctest lines green), `agent-run.ps1` by a `$LASTEXITCODE` check after each of its five cargo lines (its red path unmeasured — the Linux dev host has no `pwsh`). So it fails the `rust` job's dogfood step, where the step's own `$PSNativeCommandUseErrorActionPreference` turns the non-zero cargo line into a terminating error (recorded witness CI#34689135760, a nextest red; no clippy-only red has reached CI). The `--e2e` arm runs no clippy line, so a lint never fails the `a11y` job
 - `cargo-llvm-cov --fail-under-lines 60` coverage gate (Minimal threshold)
 - A repository-hygiene gate red — a secret-shaped string or file name in the workspace (`Secret-scan gate`), an undeclared `env.X` workflow read (`Workflow env-context gate`), or the env expression context dropping a `GITHUB_ENV` key (`GITHUB_ENV context probe (assert)`)
 

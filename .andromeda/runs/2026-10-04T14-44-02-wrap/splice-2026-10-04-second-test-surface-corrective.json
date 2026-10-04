@@ -1,0 +1,80 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "bcb97ef6",
+"ts": "2026-10-04T14:54:20Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-04T14-44-02-wrap/obs-plan-entry.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-10-04T14-44-02-wrap",
+"--marker",
+"2026-10-04-second-test-surface-corrective"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+10 at line 373 · lines 372→382 · bytes 65820→67569 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-04T14-44-02-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 372,
+"bytes": 65820,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 382,
+"bytes": 67569
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "bcb97ef6",
+"ts": "2026-10-04T14:54:20Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-04T14-44-02-wrap/test-plan-entry.md",
+"--lines",
+"9",
+"--run-dir",
+".andromeda/runs/2026-10-04T14-44-02-wrap",
+"--marker",
+"2026-10-04-second-test-surface-corrective"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+9 at line 830 · lines 829→838 · bytes 142574→144357 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-04T14-44-02-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 829,
+"bytes": 142574,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 838,
+"bytes": 144357
+}
+}
+]
