@@ -195,7 +195,7 @@ Every status above is **paired with an ASCII text prefix** (`[PASS]` / `[HOLD]` 
 ```
 $ conductor run error-baseline-spike --seed 424242
 CONDUCTOR  run error-baseline-spike  seed 424242           <- header: bold + ANSI 117 (color-id-cyan map) title; metadata dimmed (ANSI 146)
-preflight  protocol 2024-11-05  tools 4/4  canary ok        <- readiness line; identifiers in ANSI 117; [OK] prefix carries it for NO_COLOR
+preflight  protocol 2024-11-05  tools <present>/<required>  canary ok   <- readiness line; <required> = the pinned manifest's `required_tools` set (`contracts/mcp-contract.toml`), never a baked count; identifiers in ANSI 117; [OK] prefix carries it for NO_COLOR
 
 [ENVIRONMENT-SUSPECT] scenario "…" phase "…" sustains        <- run-level load-envelope caption: printed ONCE per run, above the
   emission longer than the proven-good storm window of …s      verdict lines it qualifies; ANSI 246 (Residual-mute reuse, no new
@@ -230,7 +230,7 @@ run report → runs/2026-06-14T13-02-….md                     <- terminator: a
 ```
 $ conductor suite --seed 424242
 CONDUCTOR  suite  (manifest set)  seed 424242                 <- header (bold + ANSI 117); width detected dynamically
-preflight  protocol 2024-11-05  tools 4/4  canary ok        <- [OK] readiness gate before any scenario trusts read-back
+preflight  protocol 2024-11-05  tools <present>/<required>  canary ok   <- [OK] readiness gate before any scenario trusts read-back (<required> = the pinned `required_tools` set)
 
   P-ID    scenario               state      slo    latency  fingerprints   <- comfy-table 6 cols; header row dim; widths from terminal
   ─────────────────────────────────────────────────────────────────────

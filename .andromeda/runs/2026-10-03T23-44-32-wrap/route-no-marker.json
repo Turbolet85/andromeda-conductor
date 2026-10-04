@@ -1,0 +1,134 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-04T00:38:10Z",
+"argv": [
+"route.py",
+"markerless",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-03T23-44-32-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · 87 lines · 37 entries · 35 stamped · 2 markerless · 32 separators",
+"85 · A fourth pre-registered real-model series for `v3-09` · freight 2",
+"87 · Version close on measured evidence · freight 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-04T00:38:10Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-03T23-44-32-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 2 of 37 entries · freight blocks 2 · rows are an INDEX, not the text",
+"85 · BLOCKED-ON: · 137 chars · BLOCKED-ON: Pulse \"retry-storm interpretation names its retry cause\" (the founder's word…",
+"85 · CONTEXT: · 324 chars · CONTEXT: founder ruling 2026-10-02 (as above), entry 3 of 3 — `v3-09` is NOT deferred; no s…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-04T00:38:10Z",
+"argv": [
+"route.py",
+"epoch",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-03T23-44-32-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · 5 epoch headers · 37 entries · freeze state joined to 156 master records",
+"10 · Epoch 1 — Foundation: the measurements the … · entries 5 · markerless 0 · frozen complete 5 · pending 0",
+"21 · Epoch 2 — Scenario assertion hygiene · entries 5 · markerless 0 · frozen complete 5 · pending 0",
+"32 · Epoch 3 — The a11y capability's terminal · entries 4 · markerless 0 · frozen complete 4 · pending 0",
+"41 · Epoch 4 — Live proof against a real Pulse · entries 8 · markerless 0 · frozen complete 8 · pending 0",
+"58 · Epoch 5 — Polish & ship · entries 15 · markerless 2 · frozen complete 12 · pending 1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-04T00:39:01Z",
+"argv": [
+"route.py",
+"markerless",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-03T23-44-32-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · 89 lines · 38 entries · 35 stamped · 3 markerless · 33 separators",
+"85 · Host-portable Tauri IPC tests · freight 2",
+"87 · A fourth pre-registered real-model series for `v3-09` · freight 2",
+"89 · Version close on measured evidence · freight 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-04T00:40:17Z",
+"argv": [
+"route.py",
+"epoch",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-03T23-44-32-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · 5 epoch headers · 38 entries · freeze state joined to 156 master records",
+"10 · Epoch 1 — Foundation: the measurements the … · entries 5 · markerless 0 · frozen complete 5 · pending 0",
+"21 · Epoch 2 — Scenario assertion hygiene · entries 5 · markerless 0 · frozen complete 5 · pending 0",
+"32 · Epoch 3 — The a11y capability's terminal · entries 4 · markerless 0 · frozen complete 4 · pending 0",
+"41 · Epoch 4 — Live proof against a real Pulse · entries 8 · markerless 0 · frozen complete 8 · pending 0",
+"58 · Epoch 5 — Polish & ship · entries 16 · markerless 3 · frozen complete 12 · pending 1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

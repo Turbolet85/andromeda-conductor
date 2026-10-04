@@ -1,0 +1,167 @@
+[
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "1550f3bc",
+"ts": "2026-10-04T00:33:20Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-03T23-44-32-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-03T23-44-32-wrap",
+"--marker",
+"2026-10-03-p-075-re-round-on-incident-events"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 2,
+"stdout": [],
+"stderr": "[[pattern]] #2 (not-ours-to-build): `id` is 1-16 chars of A-Z a-z 0-9 _ . -",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "1550f3bc",
+"ts": "2026-10-04T00:33:30Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-03T23-44-32-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-03T23-44-32-wrap",
+"--marker",
+"2026-10-03-p-075-re-round-on-incident-events"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"baseline 6a9ff7cd (pre-CI parent — the oldest of 1 pre-CI commit(s), e6e1eefa)",
+"no-mcp-tool · new 2 · standing 0 · leaf 0 · curation 0 · base 0 · control architecture.md:64 (prose)",
+"not-ours · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:64 (prose)",
+"residual-cand · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:64 (…",
+"events-table · new 10 · standing 2 · leaf 0 · curation 0 · base 0 · control architecture.md:64 (prose)",
+"four-tools · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:155 (pr…",
+"all-four-absent · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:16…",
+"eight-tools · new 0 · standing 0 · leaf 0 · curation 1 · base 0 · control architecture.md:93 (prose)",
+"four-corpus · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:93 (pr…",
+"tools-4-of-4 · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control security-plan.md:381 (prose)",
+"four-name-enum · new 0 · standing 6 · leaf 0 · curation 1 · base 0 · control architecture.md:62 (prose)",
+".andromeda/architecture.md:64 no-mcp-tool new …t is NOT L4-authored — reached no MCP tool at Pulse HEAD `83d4060`; at S…",
+".andromeda/architecture.md:93 no-mcp-tool new @c1656/2894 … lifecycle table — reached no MCP tool at HEAD `83d4060` (me…",
+".andromeda/architecture.md:62 events-table new …_resolved` · `retrieve_incident_events`) against a pinned manifest; the…",
+".andromeda/architecture.md:64 events-table standing edited mixed ×2 …erministic L4. `incident_events` — the corpus tabl…",
+".andromeda/architecture.md:93 events-table standing edited mixed ×2 @c1599,1741/2894 …ool, and `incident_events` — the …",
+".andromeda/architecture.md:105 events-table new     \"retrieve_incident_events\":\"present\"",
+".andromeda/architecture.md:154 events-table new …telemetry_slice`, `mark_incident_resolved`, `retrieve_incident_events`.",
+".andromeda/security-plan.md:112 events-table new …resolved` · `retrieve_incident_events`, the fifth pinned 2026-10-03 o…",
+".andromeda/security-plan.md:125 events-table new …re; and the `retrieve_incident_events` by-id READ on the same path — …",
+".andromeda/test-plan.md:54 events-table new …K_TOOLS`; the `retrieve_incident_events` read joined it 2026-10-03); again…",
+".andromeda/test-plan.md:124 events-table new @c2718/3559 …d through `retrieve_incident_events` before and after the res…",
+".andromeda/test-plan.md:285 events-table new ×3 - **retrieve_incident_events** → added 2026-10-03 (Pulse S2 `cdb6c1e`):…",
+".andromeda/obs-plan.md:40 events-table new …nt_resolved`, `retrieve_incident_events` (a by-id read of an incident's lif…",
+".andromeda/obs-plan.md:499 events-table new ×2 …nt_resolved / retrieve_incident_events — the last a by-id read through …",
+".claude/docs/session-learnings.md:320 eight-tools curation …ad-back surface is 8 tools, not 4:** 4 live-buffer (`query_…",
+".andromeda/security-plan.md:381 tools-4-of-4 standing @c1750/2064 …ndition: null` / 4-of-4 tools / `data_dir: \"<redacte…",
+".andromeda/architecture.md:62 four-name-enum standing edited …degraded_mode` · `retrieve_telemetry_slice` · `mark_incid…",
+".andromeda/architecture.md:103-104 four-name-enum standing edited wrap     \"retrieve_telemetry_slice\":\"absent\", \"mark_i…",
+".andromeda/architecture.md:154 four-name-enum standing edited …degraded_mode`), `retrieve_telemetry_slice`, `mark_incid…",
+".andromeda/security-plan.md:112 four-name-enum standing edited …trieve_report` · `retrieve_telemetry_slice` · `mark_inc…",
+".andromeda/obs-plan.md:40 four-name-enum standing edited …`retrieve_report`, `retrieve_telemetry_slice`, `mark_incident…",
+".andromeda/obs-plan.md:499 four-name-enum standing edited … retrieve_report / retrieve_telemetry_slice / mark_incident_…",
+".claude/docs/session-learnings.md:320 four-name-enum curation …retrieve_report`/`retrieve_telemetry_slice`/`mark_incide…",
+"no-mcp-tool · new 2 · standing 0 · leaf 0 · curation 0 · base 0 · control architecture.md:64 (prose)",
+"not-ours · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:64 (prose)",
+"residual-cand · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:64 (…",
+"events-table · new 10 · standing 2 · leaf 0 · curation 0 · base 0 · control architecture.md:64 (prose)",
+"four-tools · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:155 (pr…",
+"all-four-absent · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:16…",
+"eight-tools · new 0 · standing 0 · leaf 0 · curation 1 · base 0 · control architecture.md:93 (prose)",
+"four-corpus · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:93 (pr…",
+"tools-4-of-4 · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control security-plan.md:381 (prose)",
+"four-name-enum · new 0 · standing 6 · leaf 0 · curation 1 · base 0 · control architecture.md:62 (prose)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "6a9ff7cd61bfec4ef7cc9113b66049d3a3a8e156",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), e6e1eefa",
+"counts": {
+"no-mcp-tool": {
+"new": 2,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"not-ours": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"residual-cand": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"events-table": {
+"new": 10,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"four-tools": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"all-four-absent": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"eight-tools": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 1,
+"base": 0
+},
+"four-corpus": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"tools-4-of-4": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"four-name-enum": {
+"new": 0,
+"standing": 6,
+"leaf": 0,
+"curation": 1,
+"base": 0
+}
+}
+}
+}
+]

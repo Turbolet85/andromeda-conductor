@@ -1,0 +1,121 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-04T00:40:24Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-10-03-p-075-re-round-on-incident-events",
+"--run-dir",
+".andromeda/runs/2026-10-03T23-44-32-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"flip master-route.md:170 - 2026-10-03-p-075-re-round-on-incident-events pending -> complete"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-04T00:40:24Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-03-p-075-re-round-on-incident-events",
+"--date",
+"2026-10-04",
+"--run-dir",
+".andromeda/runs/2026-10-03T23-44-32-wrap",
+"--dry-run"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"pin :83 strip BLOCKED-ON: 275ch \"BLOCKED-ON: Pulse \"incident events reada\"",
+"pin :83 strip CONTEXT: 207ch \"CONTEXT: founder ruling 2026-10-02 (as a\"",
+"pin :83 strip CARRY ( 359ch \"CARRY (from the `2026-10-02-captured-fin\"",
+"pin next markerless :85 holds EVIDENCE:×1 · CONTEXT:×1",
+"83 · 2026-10-03-p-075-re-round-on-incident-events · strip 3 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 83,
+"marker": "2026-10-03-p-075-re-round-on-incident-events",
+"blocks": 3,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-04T00:40:29Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-03-p-075-re-round-on-incident-events",
+"--date",
+"2026-10-04",
+"--run-dir",
+".andromeda/runs/2026-10-03T23-44-32-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"pin :83 strip BLOCKED-ON: 275ch \"BLOCKED-ON: Pulse \"incident events reada\"",
+"pin :83 strip CONTEXT: 207ch \"CONTEXT: founder ruling 2026-10-02 (as a\"",
+"pin :83 strip CARRY ( 359ch \"CARRY (from the `2026-10-02-captured-fin\"",
+"pin next markerless :85 holds EVIDENCE:×1 · CONTEXT:×1",
+"83 · 2026-10-03-p-075-re-round-on-incident-events · strip 3 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+"./conductor-0.3.0/route-archive.md",
+"./conductor-0.3.0/working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 83,
+"marker": "2026-10-03-p-075-re-round-on-incident-events",
+"blocks": 3,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

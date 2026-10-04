@@ -1,0 +1,50 @@
+# Cascade step-2 sweep for the 2026-10-03-p-075-re-round-on-incident-events wrap: the retired claims of this
+# pass, by their wording AND by what they say (the mechanism: unreachability, the tool count, the four-name set).
+
+[[pattern]]
+id = "no-mcp-tool"
+regex = 'reach(es|ed)? no MCP tool'
+ignore_case = true
+
+[[pattern]]
+id = "not-ours"
+regex = "not Conductor's to build"
+ignore_case = true
+
+[[pattern]]
+id = "residual-cand"
+regex = '0\.4\.0 residual candidate'
+ignore_case = true
+
+[[pattern]]
+id = "events-table"
+fixed = 'incident_events'
+
+[[pattern]]
+id = "four-tools"
+regex = '\bfour (consumed |registered |required |pinned |read-back |corpus )?(MCP )?tool'
+ignore_case = true
+
+[[pattern]]
+id = "all-four-absent"
+regex = 'all (four|4) tools'
+ignore_case = true
+
+[[pattern]]
+id = "eight-tools"
+regex = '\b(8|eight) tools'
+ignore_case = true
+
+[[pattern]]
+id = "four-corpus"
+regex = '\b(4|four) corpus tools'
+ignore_case = true
+
+[[pattern]]
+id = "tools-4-of-4"
+regex = 'tools 4/4|4-of-4 tools'
+ignore_case = true
+
+[[pattern]]
+id = "four-name-enum"
+regex = 'retrieve_telemetry_slice[^|\n]{0,40}mark_incident_resolved'

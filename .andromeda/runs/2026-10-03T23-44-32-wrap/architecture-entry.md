@@ -1,0 +1,11 @@
+
+## 2026-10-03-p-075-re-round-on-incident-events — the fifth pinned MCP tool and incident_events reachable at S2
+**Section:** §Established Decisions → [Read-Back Dependency Posture] (the required-tool list; the `incident_events` paragraph) · §Standard Contracts → Readiness gate (the live-surface count; the `incident_events` clause; the readiness-result sample) · §Occupied Resources → Interface routes / surfaces (MCP tools consumed; Route prefixes) · §Occupied Resources → Service / process names (Launched child process)
+**Change:**
+- The required / consumed / pinned MCP tool set is five: `query_incident_list` · `retrieve_report` · `retrieve_telemetry_slice` · `mark_incident_resolved` · `retrieve_incident_events`; the readiness sample's `required_tools` map carries all five; the route-equivalent sentence names "the consumed MCP tool names" with no count.
+- Was "`incident_events` … reaches no MCP tool at any width. Reaching it is a Pulse 0.4.0 residual candidate, not Conductor's to build" (per the 2026-10-02-p-075-assert-round-against-pulse entry's Kept); now it reached no MCP tool at Pulse HEAD `83d4060`, and at S2 `cdb6c1e` `retrieve_incident_events` reads it by id (oldest first, `resolved` stamped inside the `mark_incident_resolved` call), a pinned required tool since 2026-10-03. The Readiness-gate restatement retires with it.
+- The live read-back surface was 8 tools; it is 9 at S2 (4 live-buffer + 5 corpus; 8 at `83d4060`).
+- The PATH-miss sentence was "all four tools `absent`"; it now reads "every tool `absent`", and its tail was tightened to "so every operator-driven live leg's firing form carries a `PATH` prefix resolving it".
+- The `83d4060` provenance (the writer `persistence.rs::save_incident_event`, the corpus-side readers, zero `crates/mcp-server` references) and the read's evidence pointer moved here as history, to hold both registries within target: §Established Decisions 37991 B, §Occupied Resources 38083 B, against 38115 B.
+**Why:** Pulse S2 shipped the tool, and this chunk pinned it and read it live (round-request assertion 7 `[PASS]`). A Boundary widening: ratified on the founder's live word, relayed by the overseer 2026-10-03. A sidecar lacking the tool blocks on the existing `required tool(s) absent` precondition, so the named preconditions stay five.
+**Ref:** .andromeda/runs/2026-10-03T23-44-32-wrap/
