@@ -1,0 +1,5 @@
+## 2026-10-04T01-45-46-wrap — registry migration (U35): the a11y-plan Decisions Log leaves the body
+**Section:** a11y-plan §12 A11y Decisions Log · a11y-plan §6 Visual Design Verification
+**Change:** the log moved verbatim to a11y-plan-amendments-archive.md (1 entry, the 2026-06-14 initial generation). One lift: §6 gains a "Token-name drift" line after its Source-of-truth paragraph, stating that the phase loop's a11y pass flags a missing token when an upstream design Section 3 token name changes, and that every token the plan names is defined by design-system.md. The entry's other in-force items already stood in the body: the tier (§1), the tool pick (§2, §3), the focus and ARIA library decisions (§3 Bootstrap phases, §5), the retired reduced-motion emulation and the OS/GTK hook (§3, §6 Motion tokens), and macOS manual-only (§3). Its "Linux+xvfb in CI" clause is superseded, because the a11y job runs on `windows-2022` (§3, §9).
+**Why:** a Decisions Log is keyed by time. It is history, not current truth, so its in-force items now stand in the body.
+**Ref:** .andromeda/runs/2026-10-04T01-45-46-wrap/

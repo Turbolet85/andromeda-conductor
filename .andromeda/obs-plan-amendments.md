@@ -358,3 +358,9 @@ Now P-025 grades HARD at the harvest tier: PASS, worst 684.98 ms, from one grade
 **Why:** The pinned set grew this chunk, and the fresh round re-graded the delegated bounds on a new Pulse build and a new host platform; the `03ec944` grade stays as its own dated record.
 **Kept:** §1's `conductor-verify` row — it states no count, and frames the seam as read-back plus the one write, which stays true of a new read.
 **Ref:** .andromeda/runs/2026-10-03T23-44-32-wrap/
+
+## 2026-10-04T01-45-46-wrap — registry migration (U35): the obs-plan Decisions Log leaves the body
+**Section:** §12 Obs Decisions Log
+**Change:** the log moved verbatim to obs-plan-amendments-archive.md (1 entry: 2026-06-14, the initial plan). No lifts: everything in it that is still in force already stands in the body. Minimal tier: §1 Obs Scope Summary. No OTel SDK: §3 OTel SDK init. Logger: §3 Logging stack. Exporters (with the 2026-08-22 stderr and 2026-09-02 runs-dir-relative corrections): §3 Logging stack and Log file location. No metrics backend: §5 Metric Coverage. Error reporting: §2 Telemetry Strategy.
+**Why:** a Decisions Log is keyed by time. It is history, not current truth, and its in-force items now stand in the body.
+**Ref:** .andromeda/runs/2026-10-04T01-45-46-wrap/

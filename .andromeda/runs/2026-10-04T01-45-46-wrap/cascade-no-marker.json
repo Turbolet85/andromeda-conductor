@@ -1,0 +1,60 @@
+[
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "1550f3bc",
+"ts": "2026-10-04T01:53:52Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-04T01-45-46-wrap/cascade-patterns.toml",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-04T01-45-46-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"baseline 07c8f113 (head — no operator pre-CI commit for no-marker)",
+"sec12 · new 0 · standing 0 · leaf 0 · curation 1 · base 0 · control test-plan.md:87 (prose)",
+"declog · new 0 · standing 6 · leaf 0 · curation 0 · base 1 · control security-plan.md:225 (prose)",
+"CLAUDE.md:131 sec12 curation @c6860/12729 …s SIX, because test-plan §12 writes the command hyphenated (`cargo-audit 0.2…",
+".andromeda/security-plan.md:390 declog standing ## Security Decisions Log",
+".andromeda/design-system.md:402 declog standing ## Design Decisions Log",
+".andromeda/layout-templates.md:310 declog standing ## Decisions Log",
+".andromeda/test-plan.md:526 declog standing ## 12. Test Decisions Log",
+".andromeda/obs-plan.md:570 declog standing ## 12. Obs Decisions Log",
+".andromeda/a11y-plan.md:494 declog standing ## 12. A11y Decisions Log",
+".andromeda/playbook.md:129 declog base …ates Primary navigation + Decisions Log, a11y-plan §1 cli entity — the literal …",
+"sec12 · new 0 · standing 0 · leaf 0 · curation 1 · base 0 · control test-plan.md:87 (prose)",
+"declog · new 0 · standing 6 · leaf 0 · curation 0 · base 1 · control security-plan.md:225 (prose)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "07c8f113a4bbc501543b5d3d3792cff3eec982a5",
+"how": "head — no operator pre-CI commit for no-marker",
+"counts": {
+"sec12": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 1,
+"base": 0
+},
+"declog": {
+"new": 0,
+"standing": 6,
+"leaf": 0,
+"curation": 0,
+"base": 1
+}
+}
+}
+}
+]

@@ -1,0 +1,4 @@
+[[lift]]
+target = "## Anti-Patterns (NEVER do these)"
+after = "- NEVER converge on common \"safe\" choices across generations"
+text = """- NEVER give a credential a styled surface (a password / token / key field, a masked-secret chip, a "copy key" affordance) on either surface — Conductor owns no credentials, so no desktop-webview or cli output renders, masks or styles one."""

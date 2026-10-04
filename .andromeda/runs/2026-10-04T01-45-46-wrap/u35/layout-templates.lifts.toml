@@ -1,0 +1,19 @@
+[[lift]]
+target = "## Surface: desktop-webview"
+after = "**Expression level (this surface):** 0.3 — in-place CSS color transitions"
+text = """No pulse, blink or glow anywhere, on either surface: a verdict lamp resolves motionless over a `motion-micro` color transition, `Fail` is a motionless `status-fail` lamp, and `Blocked` (hollow ring), `ManualCheck` (neutral checkbox glyph) and `KnownResidual` (muted dashed dot) are each a distinct non-verdict state, none ever red."""
+
+[[lift]]
+target = "## Surface: desktop-webview"
+after = "Expression rationale: this is the design-system's single High-impact moment"
+text = """The High-impact moment fires only at the go/no-go hold. Under a reduced-motion preference both of its transitions are dropped — the dialog's `motion-micro` fade entrance and the count's `motion-micro` `count-nominal` → `count-hold` tint — and the freeze itself (the count stopping at the hold value) still carries the moment."""
+
+[[lift]]
+target = "## Surface: desktop-webview"
+after = "- **Multi-surface coordination:** the cli surface mirrors the SAME tokens"
+text = """- **Token discipline:** typography is referenced by role name only (Display / Heading / Body / Label / Code / Data), and color / spacing / radius / motion by token name only (`count-nominal`, `count-hold`, `count-blocked`, `status-fail`, `color-id-cyan`, `color-raised-1/2/3`, `border-subtle`, `border-emphasis`, `space-xs/sm/md/lg/xl`, `radius-sm/md/lg/full`, `motion-micro`, `ease-quiet`). Raw hex values and font names live in the design-system plan, never here; a px figure appears only as a border width beside its token or as a parenthetical reconciling a token's shipped value."""
+
+[[lift]]
+target = "## Surface: cli"
+after = "- **Multi-surface coordination:** same tokens by name as desktop-webview"
+text = """- **No URL coupling:** the two surfaces share no URL or deep-link surface — the desktop has no routes and the cli addresses runs by verb and `run_id`, never by URL."""

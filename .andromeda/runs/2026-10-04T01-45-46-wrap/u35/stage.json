@@ -1,0 +1,644 @@
+{
+ "schema": 1,
+ "project": "/home/turbolet/dev/projects/conductor",
+ "masters": {
+  "a11y-plan.md": {
+   "sha256": "9481983fd4b53b9865b66b8c88b53339209cb856af5288f40e03332a7d3e6433",
+   "bytes": 117189,
+   "terminator": "LF"
+  },
+  "architecture.md": {
+   "sha256": "9b5d128a21fc126a1a0f63e4a2a9f97cab8f71669615ef0b35812bab910f0292",
+   "bytes": 131771,
+   "terminator": "LF"
+  },
+  "design-system.md": {
+   "sha256": "1c05b67417983ae74e78a5b7341cc63c30918694e2727d22f20e25154a0ce3e8",
+   "bytes": 49690,
+   "terminator": "LF"
+  },
+  "layout-templates.md": {
+   "sha256": "1309d11ce9fea106153cf320cc358befaa0692b9844f014f3db1eb5e01d5a065",
+   "bytes": 62762,
+   "terminator": "LF"
+  },
+  "obs-plan.md": {
+   "sha256": "a2037e446f78fadd6f861b08579d40c529b2fb7f1cc902b4bb2a1488232a1c15",
+   "bytes": 96136,
+   "terminator": "LF"
+  },
+  "security-plan.md": {
+   "sha256": "4ec390ea97f9a71c92d7912f927af2a7d294433020450b08b4187c138de315a2",
+   "bytes": 111393,
+   "terminator": "LF"
+  },
+  "test-plan.md": {
+   "sha256": "8c73c9b658fabc5b8eb3ac84ab725f27c2687f7ca3edfd07051d78afe85d86fb",
+   "bytes": 203184,
+   "terminator": "LF"
+  }
+ },
+ "sections": [
+  {
+   "master": "a11y-plan.md",
+   "kind": "K",
+   "heading": "## 3. A11y Assertion Harness Contract",
+   "line": 206,
+   "end": 311,
+   "bytes": 26847,
+   "census": {
+    "dated": 0,
+    "h3": 9,
+    "bold": 0,
+    "dids": [],
+    "markers": [
+     "2026-09-02-screen-reader-manual-spec",
+     "2026-09-30-the-screen-reader-content-findings-fixed",
+     "2026-09-30-the-screen-reader-pass-grades-again-on-this-host",
+     "2026-09-30-the-sr-cause-isolated-on-this-host",
+     "2026-09-30-the-sr-pass-regrades-on-the-os-input-path"
+    ]
+   },
+   "units": [
+    {
+     "key": "A11y testing tool pick",
+     "slug": "a11y-testing-tool-pick",
+     "file": "contracts/a11y-plan/a11y-testing-tool-pick.md",
+     "line": 215,
+     "bytes": 2638,
+     "sha256": "b1c72eb1c3152342f6143eb200f158bb729356a0d6aff5d61464969988645a66",
+     "labels": [
+      "Primary tool per surface",
+      "Configuration"
+     ]
+    },
+    {
+     "key": "WCAG criteria mapping",
+     "slug": "wcag-criteria-mapping",
+     "file": "contracts/a11y-plan/wcag-criteria-mapping.md",
+     "line": 220,
+     "bytes": 1318,
+     "sha256": "28dc44cd3b87fdd14b9f668b498c8b19c72cd3263ecf3df177d414bbd10c9069",
+     "labels": [
+      "Tier coverage",
+      "Compliance trigger override"
+     ]
+    },
+    {
+     "key": "Structured violation JSON schema",
+     "slug": "structured-violation-json-schema",
+     "file": "contracts/a11y-plan/structured-violation-json-schema.md",
+     "line": 228,
+     "bytes": 2795,
+     "sha256": "ff6ec60c1fa65feb7775f087f3827c8e365ad292e9f14785370dca6024989db6",
+     "labels": []
+    },
+    {
+     "key": "Focus management test harness",
+     "slug": "focus-management-test-harness",
+     "file": "contracts/a11y-plan/focus-management-test-harness.md",
+     "line": 250,
+     "bytes": 1943,
+     "sha256": "3d1cea2d3d15293ee717eefbbc665619f50b9c1afc8f21e7857d35b1e08eee90",
+     "labels": [
+      "Driver",
+      "Pattern"
+     ]
+    },
+    {
+     "key": "Keyboard test harness",
+     "slug": "keyboard-test-harness",
+     "file": "contracts/a11y-plan/keyboard-test-harness.md",
+     "line": 255,
+     "bytes": 1379,
+     "sha256": "b8c861c40be4d88b4b572c4cab174015fdc1ae3000c5092f1d85acd1648d6eac",
+     "labels": [
+      "Sequences per ARIA pattern",
+      "Tooling"
+     ]
+    },
+    {
+     "key": "Screen reader test pattern",
+     "slug": "screen-reader-test-pattern",
+     "file": "contracts/a11y-plan/screen-reader-test-pattern.md",
+     "line": 266,
+     "bytes": 8209,
+     "sha256": "10ea19af74b6aaee83fb586f33dc0a6f1ade826fbe90e76c81a595923b3ace92",
+     "labels": [
+      "Per-surface test spec",
+      "Pass spec format (agent-produced rows, operator review recorded per row)",
+      "Supplemental to automated"
+     ]
+    },
+    {
+     "key": "Contrast verification harness",
+     "slug": "contrast-verification-harness",
+     "file": "contracts/a11y-plan/contrast-verification-harness.md",
+     "line": 272,
+     "bytes": 1561,
+     "sha256": "eadae5feabe7a7605ae37687edac3410f33ad85355562f81fe3de5fa7df0f747",
+     "labels": [
+      "Source-of-truth tokens",
+      "Verification tool",
+      "WCAG SC mapping"
+     ]
+    },
+    {
+     "key": "CI integration",
+     "slug": "ci-integration",
+     "file": "contracts/a11y-plan/ci-integration.md",
+     "line": 278,
+     "bytes": 2656,
+     "sha256": "5aed42db677660aa0c8de84c4154ba893fcaa8e6ac519dec470d6ac60f7270b8",
+     "labels": [
+      "Pipeline integration",
+      "Command",
+      "Artifact"
+     ]
+    },
+    {
+     "key": "Bootstrap phases (derive for route / setup-project)",
+     "slug": "bootstrap-phases-derive-for-route-setup-project",
+     "file": "contracts/a11y-plan/bootstrap-phases-derive-for-route-setup-project.md",
+     "line": 284,
+     "bytes": 4009,
+     "sha256": "e27a65ae2f87f5393dc039b2300edbdeb6713abbc04216dbfa4e09ca79d05809",
+     "labels": [
+      "a11y-tooling-install",
+      "focus-management-library-install",
+      "aria-component-library-install",
+      "contrast-verification-harness-setup",
+      "screen-reader-test-spec-setup",
+      "a11y-ci-gate-wire",
+      "violation-json-emission-wire"
+     ]
+    }
+   ]
+  },
+  {
+   "master": "a11y-plan.md",
+   "kind": "L",
+   "heading": "## 12. A11y Decisions Log",
+   "line": 587,
+   "end": 600,
+   "bytes": 3416,
+   "census": {
+    "dated": 1,
+    "h3": 0,
+    "bold": 1,
+    "dids": [],
+    "markers": []
+   },
+   "markers": []
+  },
+  {
+   "master": "architecture.md",
+   "kind": "K",
+   "heading": "## Infrastructure Patterns",
+   "line": 212,
+   "end": 257,
+   "bytes": 14588,
+   "census": {
+    "dated": 0,
+    "h3": 0,
+    "bold": 4,
+    "dids": [],
+    "markers": [
+     "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+     "2026-10-04-host-portable-tauri-ipc-tests"
+    ]
+   },
+   "units": [
+    {
+     "key": "Build system",
+     "slug": "build-system",
+     "file": "contracts/architecture/build-system.md",
+     "line": 214,
+     "bytes": 7203,
+     "sha256": "b9a594b3b43f3bd30d5ac30d43b4679962bf2d3ec21d8522e2678b7dbaa52ddb",
+     "labels": []
+    },
+    {
+     "key": "Deployment model",
+     "slug": "deployment-model",
+     "file": "contracts/architecture/deployment-model.md",
+     "line": 216,
+     "bytes": 1157,
+     "sha256": "733df2bdd28a73e82b382a5a552b2ac0e2c057d617d92c81d6a0e9c14b71dd96",
+     "labels": []
+    },
+    {
+     "key": "Directory structure (crate-per-seam Cargo workspace)",
+     "slug": "directory-structure-crate-per-seam-cargo-workspace",
+     "file": "contracts/architecture/directory-structure-crate-per-seam-cargo-workspace.md",
+     "line": 218,
+     "bytes": 4014,
+     "sha256": "7dfddbe15d1061d5d40d516d351e89a25b4b054189d600336ac3c0ceddb1de4b",
+     "labels": []
+    },
+    {
+     "key": "CI/CD approach",
+     "slug": "ci-cd-approach",
+     "file": "contracts/architecture/ci-cd-approach.md",
+     "line": 256,
+     "bytes": 2209,
+     "sha256": "6907301355fd1db5124e1e8fdee9495229e497862b9f5a6f9834dbcecfd1da45",
+     "labels": []
+    }
+   ]
+  },
+  {
+   "master": "design-system.md",
+   "kind": "L",
+   "heading": "## Design Decisions Log",
+   "line": 401,
+   "end": 413,
+   "bytes": 2011,
+   "census": {
+    "dated": 1,
+    "h3": 0,
+    "bold": 0,
+    "dids": [],
+    "markers": []
+   },
+   "markers": []
+  },
+  {
+   "master": "layout-templates.md",
+   "kind": "L",
+   "heading": "## Decisions Log",
+   "line": 304,
+   "end": 335,
+   "bytes": 5152,
+   "census": {
+    "dated": 1,
+    "h3": 0,
+    "bold": 8,
+    "dids": [],
+    "markers": []
+   },
+   "markers": []
+  },
+  {
+   "master": "obs-plan.md",
+   "kind": "K",
+   "heading": "## 3. Observability Harness Contract",
+   "line": 181,
+   "end": 270,
+   "bytes": 11766,
+   "census": {
+    "dated": 0,
+    "h3": 9,
+    "bold": 1,
+    "dids": [],
+    "markers": [
+     "2026-06-15-structured-logging-stack",
+     "2026-09-07-a11y-ci-gate",
+     "2026-09-07-dependency-polish"
+    ]
+   },
+   "units": [
+    {
+     "key": "OTel SDK init",
+     "slug": "otel-sdk-init",
+     "file": "contracts/obs-plan/otel-sdk-init.md",
+     "line": 185,
+     "bytes": 1995,
+     "sha256": "073670bebf7213ba89f17d617ccdedd476746075d33d85ae7a3e75ae5cade866",
+     "labels": [
+      "SDK packages",
+      "Init order",
+      "Logging init instead"
+     ]
+    },
+    {
+     "key": "Service identity",
+     "slug": "service-identity",
+     "file": "contracts/obs-plan/service-identity.md",
+     "line": 191,
+     "bytes": 570,
+     "sha256": "af996a3def81125c38cc97ea0323eb36c20f48f1c17f773b15d20b0fe810bb7c",
+     "labels": [
+      "service.name",
+      "service.version",
+      "deployment.environment",
+      "Resource attributes"
+     ]
+    },
+    {
+     "key": "Logging stack",
+     "slug": "logging-stack",
+     "file": "contracts/obs-plan/logging-stack.md",
+     "line": 198,
+     "bytes": 1220,
+     "sha256": "3cf805fec4a28f5bc53606f1d01b3d665634adf254f7fe6aa86b799f0e72bb54",
+     "labels": [
+      "Library",
+      "Format",
+      "Sink (CLI)",
+      "Sink (Tauri backend)",
+      "Sink (Tauri frontend)",
+      "Agent-mode flag"
+     ]
+    },
+    {
+     "key": "Log format JSON schema",
+     "slug": "log-format-json-schema",
+     "file": "contracts/obs-plan/log-format-json-schema.md",
+     "line": 207,
+     "bytes": 4226,
+     "sha256": "26e0d5f49faa23df6660834151ea85f9c9acefffb996e3a92cd11024392579fa",
+     "labels": [
+      "Two record shapes (clarified 2026-06-15-structured-logging-stack)"
+     ]
+    },
+    {
+     "key": "Log file location",
+     "slug": "log-file-location",
+     "file": "contracts/obs-plan/log-file-location.md",
+     "line": 231,
+     "bytes": 1051,
+     "sha256": "883c651f5fba5bf7f925b3048d0553ab61329e31be6f32ff977e903cb2469ae7",
+     "labels": [
+      "CLI",
+      "Tauri backend",
+      "Tauri frontend",
+      "Rotation",
+      "Paste-to-AI workflow"
+     ]
+    },
+    {
+     "key": "Snapshot / paste-to-AI integration",
+     "slug": "snapshot-paste-to-ai-integration",
+     "file": "contracts/obs-plan/snapshot-paste-to-ai-integration.md",
+     "line": 239,
+     "bytes": 354,
+     "sha256": "a5985d46ee75120b8a639f25e921255f0c153bca853b06e8a26399991af817da",
+     "labels": [
+      "Snapshot path",
+      "Snapshot trigger",
+      "Paste-to-AI surface"
+     ]
+    },
+    {
+     "key": "Correlation (no distributed tracing)",
+     "slug": "correlation-no-distributed-tracing",
+     "file": "contracts/obs-plan/correlation-no-distributed-tracing.md",
+     "line": 245,
+     "bytes": 1023,
+     "sha256": "f23e3e0952ba2a368a19d14e0b7dfada04199bb4227ac20f4f169b7f0b6d0776",
+     "labels": [
+      "No W3C trace context anywhere",
+      "HTTP",
+      "gRPC outbound (conductor-emit → Pulse)",
+      "IPC (Tauri command → conductor-core)",
+      "Internal async (tokio `current_thread`)"
+     ]
+    },
+    {
+     "key": "Heartbeat ticks",
+     "slug": "heartbeat-ticks",
+     "file": "contracts/obs-plan/heartbeat-ticks.md",
+     "line": 253,
+     "bytes": 439,
+     "sha256": "300307712df4dc3a006118c4e4de7bef502fdd816e900d03bbe0be0cfd3781b7",
+     "labels": [
+      "CLI",
+      "Tauri backend",
+      "Tauri frontend"
+     ]
+    },
+    {
+     "key": "Bootstrap phases (for downstream skills)",
+     "slug": "bootstrap-phases-for-downstream-skills",
+     "file": "contracts/obs-plan/bootstrap-phases-for-downstream-skills.md",
+     "line": 259,
+     "bytes": 756,
+     "sha256": "36148fb7283e45fa9e86ce7c190831c21bde6a5db061a37dec1db18063c7e217",
+     "labels": [
+      "logger-stack-install",
+      "service-identity-wire",
+      "log-format-schema-emit",
+      "run-id-correlation-wire",
+      "pii-scrubbing-wire",
+      "obs-ci-gate-wire"
+     ]
+    }
+   ]
+  },
+  {
+   "master": "obs-plan.md",
+   "kind": "L",
+   "heading": "## 12. Obs Decisions Log",
+   "line": 654,
+   "end": 665,
+   "bytes": 2128,
+   "census": {
+    "dated": 1,
+    "h3": 0,
+    "bold": 1,
+    "dids": [],
+    "markers": []
+   },
+   "markers": []
+  },
+  {
+   "master": "security-plan.md",
+   "kind": "L",
+   "heading": "## Security Decisions Log",
+   "line": 388,
+   "end": 413,
+   "bytes": 4470,
+   "census": {
+    "dated": 2,
+    "h3": 0,
+    "bold": 2,
+    "dids": [],
+    "markers": [
+     "2026-09-24-secret-scanning-ci-gate"
+    ]
+   },
+   "markers": [
+    {
+     "marker": "2026-09-24-secret-scanning-ci-gate",
+     "sidecar": true,
+     "archive": true
+    }
+   ]
+  },
+  {
+   "master": "test-plan.md",
+   "kind": "K",
+   "heading": "## 3. Test Harness Contract",
+   "line": 134,
+   "end": 221,
+   "bytes": 25576,
+   "census": {
+    "dated": 0,
+    "h3": 6,
+    "bold": 5,
+    "dids": [],
+    "markers": [
+     "2026-09-04-preconditions-probe-reads-path-handles-by-presence",
+     "2026-09-07-sr-findings-fixed"
+    ]
+   },
+   "units": [
+    {
+     "key": "5-command implementation",
+     "slug": "5-command-implementation",
+     "file": "contracts/test-plan/5-command-implementation.md",
+     "line": 141,
+     "bytes": 16029,
+     "sha256": "bd7a4f8ef7e4a4c2e1bd58b5a2f47aef4e3af1b2dfd79ef95beceeaa9631f104",
+     "labels": [
+      "boot",
+      "run",
+      "status",
+      "cleanup",
+      "logs"
+     ]
+    },
+    {
+     "key": "Status endpoint shape",
+     "slug": "status-endpoint-shape",
+     "file": "contracts/test-plan/status-endpoint-shape.md",
+     "line": 171,
+     "bytes": 1183,
+     "sha256": "dc7044e593cfbed903a9b135e13710a1fadb2119378bd788d6344d66bce8a093",
+     "labels": []
+    },
+    {
+     "key": "Log format",
+     "slug": "log-format",
+     "file": "contracts/test-plan/log-format.md",
+     "line": 186,
+     "bytes": 2668,
+     "sha256": "e9c869cf8f9f2a83666a6a91430fb91daf80acdfbc4ebb7c01a3c805f37a3b46",
+     "labels": [
+      "Format",
+      "Required fields",
+      "Agent parsing",
+      "Self-obs stream is a distinct artifact"
+     ]
+    },
+    {
+     "key": "PID file",
+     "slug": "pid-file",
+     "file": "contracts/test-plan/pid-file.md",
+     "line": 193,
+     "bytes": 335,
+     "sha256": "87b0069673c2951a351bf92f62fa3853bf78d90814f2d21d5ba242045b6a575c",
+     "labels": [
+      "Location",
+      "Lifecycle"
+     ]
+    },
+    {
+     "key": "Test data bootstrap",
+     "slug": "test-data-bootstrap",
+     "file": "contracts/test-plan/test-data-bootstrap.md",
+     "line": 198,
+     "bytes": 1527,
+     "sha256": "4f3e3571e2e0438f792866774347abfc8b4abc2d6c204d8246f90d779fd8a47c",
+     "labels": [
+      "Strategy",
+      "Mechanism",
+      "Per-test isolation",
+      "Cleanup"
+     ]
+    },
+    {
+     "key": "Bootstrap phases (derive for route / setup-project)",
+     "slug": "bootstrap-phases-derive-for-route-setup-project",
+     "file": "contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md",
+     "line": 205,
+     "bytes": 3132,
+     "sha256": "68ca5b537e7cba6c1e11c05a8af983d7edcaeabed8959b2ba4c8d3938260baff",
+     "labels": [
+      "test-runner-install",
+      "5-command-discipline-wire",
+      "status-endpoint-implement",
+      "log-format-bind-with-obs",
+      "pid-file-commitment-wire",
+      "test-data-bootstrap-wire",
+      "coverage-tooling-install",
+      "quality-gate-config-emit"
+     ]
+    }
+   ]
+  },
+  {
+   "master": "test-plan.md",
+   "kind": "L",
+   "heading": "## 12. Test Decisions Log",
+   "line": 593,
+   "end": 622,
+   "bytes": 21957,
+   "census": {
+    "dated": 2,
+    "h3": 0,
+    "bold": 1,
+    "dids": [],
+    "markers": [
+     "2026-08-20-read-back-seam-survivors-closed",
+     "2026-08-20-verifier-self-hardening",
+     "2026-09-03-conductor-run-composition-root-survivors-dispositioned",
+     "2026-09-03-conductor-tauri-survivors-dispositioned",
+     "2026-09-04-preconditions-probe-reads-path-handles-by-presence",
+     "2026-09-04-sidecar-spawn-without-a-console-window",
+     "2026-09-05-audit-corrective",
+     "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+     "2026-09-14-emit-scrubber-and-percentile-math-under-test"
+    ]
+   },
+   "markers": [
+    {
+     "marker": "2026-08-20-read-back-seam-survivors-closed",
+     "sidecar": true,
+     "archive": true
+    },
+    {
+     "marker": "2026-08-20-verifier-self-hardening",
+     "sidecar": true,
+     "archive": true
+    },
+    {
+     "marker": "2026-09-03-conductor-run-composition-root-survivors-dispositioned",
+     "sidecar": true,
+     "archive": true
+    },
+    {
+     "marker": "2026-09-03-conductor-tauri-survivors-dispositioned",
+     "sidecar": true,
+     "archive": true
+    },
+    {
+     "marker": "2026-09-04-preconditions-probe-reads-path-handles-by-presence",
+     "sidecar": true,
+     "archive": true
+    },
+    {
+     "marker": "2026-09-04-sidecar-spawn-without-a-console-window",
+     "sidecar": true,
+     "archive": true
+    },
+    {
+     "marker": "2026-09-05-audit-corrective",
+     "sidecar": true,
+     "archive": true
+    },
+    {
+     "marker": "2026-09-13-audit-debt-retired-before-epoch-1-closes",
+     "sidecar": true,
+     "archive": true
+    },
+    {
+     "marker": "2026-09-14-emit-scrubber-and-percentile-math-under-test",
+     "sidecar": true,
+     "archive": true
+    }
+   ]
+  }
+ ]
+}

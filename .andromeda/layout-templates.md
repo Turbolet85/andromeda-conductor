@@ -12,6 +12,8 @@ _Auth UX / security-gated flows intentionally deferred — Conductor owns no cre
 
 **Expression level (this surface):** 0.3 — in-place CSS color transitions (the count tint, the verdict-lamp resolve), subtle hover lift, 200ms fades at most. No animation library, no spring, no parallax, no staggered entrances (per design-system Motion).
 
+No pulse, blink or glow anywhere, on either surface: a verdict lamp resolves motionless over a `motion-micro` color transition, `Fail` is a motionless `status-fail` lamp, and `Blocked` (hollow ring), `ManualCheck` (neutral checkbox glyph) and `KnownResidual` (muted dashed dot) are each a distinct non-verdict state, none ever red.
+
 **Signature placement (Paused-count hold-point, named on ≥2 distinct components):**
 1. **Frameless titlebar count** (primary) — the run heartbeat ticks in place tinted `count-nominal`; on an operator-pause go/no-go it **freezes at the exact hold value**, tints `count-nominal` → `count-hold` over a single `motion-micro` color transition, the phase line beside it flips to "HOLD — operator pause", and on abort it stops and dims to `count-blocked`. The absence of motion is the event.
 2. **Operator-pause go/no-go dialog header** — the dialog opens carrying a frozen snapshot of the held count value (the same frozen number echoed from the titlebar, in `count-hold`), so the hold-point is legible at the exact moment of the proceed/abort decision, not only in the chrome above.
@@ -125,6 +127,8 @@ The console has no marketing "hero" — its hero is the **decision moment**: the
 
 Expression rationale: this is the design-system's single High-impact moment, and it is choreographed by the **absence** of motion — the freeze is the event. No flashing, no pulse; the held silence is the loudest thing on screen, which is the literal "Mission-control patience" personality at the 0.3 budget.
 
+The High-impact moment fires only at the go/no-go hold. Under a reduced-motion preference both of its transitions are dropped — the dialog's `motion-micro` fade entrance and the count's `motion-micro` `count-nominal` → `count-hold` tint — and the freeze itself (the count stopping at the hold value) still carries the moment.
+
 ### Component — Primary content block 1 (coverage matrix — dense single-row-per-P-ID)
 
 NOT a KPI-card grid (explicit Rejected Default) — a single dense list, Linear instrument-panel density: `color-raised-1` container, `radius-md`, `1px` `border-subtle` row dividers, row padding `space-md`, no shadows. Every row of the full wall renders — one row per capability in the manifest's accepted set, no virtualization — inside a bounded scroll container that is NOT itself a tab stop: the region has exactly ONE tab stop, the current row (roving focus — ArrowUp/ArrowDown ±1, clamped, Home/End to the first/last row; a row focused by any means becomes current), and focusing an off-screen row scrolls it into view. Each row, left to right:
@@ -163,6 +167,7 @@ The SAME primitive is designed to render in two contexts, and the distinction is
 - **Live channel:** one Tauri `Channel` streams live counters / target status backend → frontend; there is no polling/SSE/URL surface.
 - **Security guardrails honored at the layout level:** deny-by-default Tauri capabilities (only start/stop · picker · run-report · operator-pause commands + the one live-counter `Channel`); no remote-origin iframes; no `shell-open` with scenario-derived strings; Tauri ≥ 2.10.3.
 - **Multi-surface coordination:** the cli surface mirrors the SAME tokens by name (desktop CSS vars ↔ cli ANSI codes), adapted not forked — `count-nominal` ↔ ANSI 114, `count-hold` ↔ ANSI 179, `status-fail` ↔ ANSI 203, `count-blocked` ↔ ANSI 60, `color-id-cyan` ↔ ANSI 117.
+- **Token discipline:** typography is referenced by role name only (Display / Heading / Body / Label / Code / Data), and color / spacing / radius / motion by token name only (`count-nominal`, `count-hold`, `count-blocked`, `status-fail`, `color-id-cyan`, `color-raised-1/2/3`, `border-subtle`, `border-emphasis`, `space-xs/sm/md/lg/xl`, `radius-sm/md/lg/full`, `motion-micro`, `ease-quiet`). Raw hex values and font names live in the design-system plan, never here; a px figure appears only as a border width beside its token or as a parenthetical reconciling a token's shipped value.
 
 ---
 
@@ -298,38 +303,10 @@ P-IDs, `run_id`, slo_tier, latency_ms, and fingerprints render in the ID-cyan ma
 - **Headless invariant:** interactive `inquire` prompts always check `isatty` first; the agent-driven source-of-truth path is **never** gated on a prompt (an interactive gate there would silently break the release gate).
 - **Contrast discipline:** ANSI 117 cyan + 114 green chosen for legibility on dark terminals; dark-blue-on-black / dark-red-on-black avoided.
 - **Multi-surface coordination:** same tokens by name as desktop-webview, adapted not forked — `count-nominal` → ANSI 114, `count-hold` → ANSI 179, `status-fail` → ANSI 203, `count-blocked` → ANSI 60, `color-id-cyan` → ANSI 117, journal-text → ANSI 146. The signature (paused-count hold-point) and the status tier read identically across the CSS-var desktop and the ANSI cli.
+- **No URL coupling:** the two surfaces share no URL or deep-link surface — the desktop has no routes and the cli addresses runs by verb and `run_id`, never by URL.
 
 ---
 
 ## Decisions Log
 
-`2026-06-14` — Initial layout templates generated by `/andromeda-design` Phase 8
-
-**Surfaces covered:** desktop-webview (Tauri 2 frameless, React 19 / Tailwind v4.1 design tokens on `:root` / shadcn) + cli (`conductor-cli`: clap / owo-colors / indicatif / comfy-table / inquire, ANSI 256, TTY-gated, line-oriented).
-
-**Key layout choices:**
-- **desktop-webview:** single-station console, no router / no breakpoints / no browser nav — the frameless window IS the surface; the "screens" are one window in different run states (`idle` · `live` · `hold` · `aborted`, idle-with-report a sub-state of `idle` — the shipped `RunState` set, 2026-09-02). Coverage matrix is a dense single-row-per-P-ID list (Linear instrument-panel density), explicitly NOT a KPI-card grid. Borders-only depth (`border-subtle` seams, no shadow). "A control surface, not a dashboard."
-- **cli:** linear top-to-bottom stdout, verb-noun over the verb set `Commands` declares, no cursor manipulation / no full-screen redraw (ratatui omitted). Two `comfy-table` shapes with terminal-detected width — the 6-column results/SLO table (`run`/`suite`) and the 4-column coverage matrix (`coverage`); every status color paired with an ASCII bracket prefix.
-
-**Cross-surface IA decisions:**
-- Same design tokens by name across both surfaces, adapted not forked: desktop CSS vars ↔ cli ANSI codes (`count-nominal` ↔ ANSI 114, `count-hold` ↔ ANSI 179, `status-fail` ↔ ANSI 203, `count-blocked` ↔ ANSI 60, `color-id-cyan` ↔ ANSI 117, journal-text ↔ ANSI 146). The status tier maps 1:1 to typed run outcomes on both — the machine-verdict triad (`Pass` / `CalibrationRegion`-HOLD / `Fail`) plus the three non-verdict ReportStates (`ManualCheck` operator-checklist · `KnownResidual` pre-accepted gap · `Blocked` never-measured), so none silently collapses into `Fail`. No shared URL/deep-link surface — desktop has no routes; cli has no URL coupling.
-
-**Signature placement strategy (Paused-count hold-point):**
-- **desktop-webview:** (1) frameless-titlebar count freezes at the hold value `count-nominal` → `count-hold` (primary); (2) operator-pause dialog header echoes the frozen count at the decision point; (3) coverage-matrix header strip echoes the frozen step-index while held. The absence of motion is the signature.
-- **cli:** (1) `indicatif` heartbeat spinner STOPS in place at the hold (primary mirror); (2) bold hold-amber HOLD phase line above the `inquire` prompt carries the frozen count as text; (3) `comfy-table` summary caption echoes the frozen step-index while held. The stop — not a hide, not animate-to-100% — is the signature.
-
-**Motion trigger placement:**
-- The single design-system High-impact moment (the operator-pause freeze) fires only at the go/no-go hold — desktop: count freeze + `motion-micro` dialog fade + `motion-micro` count-tint color transition (both dropped under reduced-motion preference); cli: `indicatif` stop + hold-amber HOLD line. Verdict lamps (supporting convention) resolve motionless via a `motion-micro` color transition on both surfaces — never flashing. No pulse / blink / glow anywhere; `Fail` is a motionless `status-fail` lamp; `Blocked` (hollow ring), `ManualCheck` (neutral checkbox glyph) and `KnownResidual` (muted dashed dot) are each distinct non-verdict states, none ever red.
-
-**Responsive breakpoints (web/mobile only):**
-- N/A — desktop-bound single-station console (no responsive breakpoints, no web/mobile); cli is terminal-width-detected, never hardcoded.
-
-**Notable surface-specific deferrals:**
-- No auth/login/credential layouts — Conductor owns no credentials (local-only loopback tool); deferred as nonexistent, not as future work.
-- Desktop window-control specifics (Windows/Linux standard buttons vs. macOS traffic-light, double-click-to-maximize) follow OS convention at implementation time.
-- cli non-interactive policy specifics (how the headless path records a skipped operator-pause decision to the artifact) are an engine/config concern surfaced here only as the "never block the headless path" layout invariant.
-
-**Notes:**
-- Typography referenced by role name only (Display / Heading / Body / Label / Code / Data); color / spacing / radius referenced by token name only (`count-nominal`, `count-hold`, `count-blocked`, `status-fail`, `color-id-cyan`, `color-raised-1/2/3`, `border-subtle`, `border-emphasis`, `space-xs/sm/md/lg/xl`, `radius-sm/md/lg/full`, `motion-micro`, `ease-quiet`) — raw hex / font names / px live in the design-system plan, not here.
-- Accessibility behavior is stated as design/behavioral requirements (announce the HOLD flip and verdict changes; accessible names on icon-only controls; visible focus ring in `color-focus`; status never color-alone; honor reduced-motion / `NO_COLOR`); the a11y specialist derives the concrete attributes and conformance downstream.
-- Security guardrails honored at the layout level (deny-by-default Tauri capabilities, no remote-origin iframes, no `shell-open` with derived strings, Tauri ≥ 2.10.3; cli stderr sanitization, isatty-gated prompts) — no threat model or compliance content authored here.
+History: layout-templates-amendments.md (live); the log moved verbatim to layout-templates-amendments-archive.md (U35).

@@ -1,0 +1,87 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-10-04T01:51:03Z",
+"argv": [
+"delete",
+"--file",
+"/home/turbolet/dev/projects/conductor/conductor-0.3.0/working-route.md",
+"--line",
+"86",
+"--expect-prefix",
+"   ↓",
+"--run-dir",
+"/home/turbolet/dev/projects/conductor/.andromeda/runs/2026-10-04T01-45-46-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": "/home/turbolet/dev/projects/conductor/.andromeda/runs/2026-10-04T01-45-46-wrap/u35",
+"exit": 0,
+"stdout": [
+"delete working-route.md:-1 at line 86 · lines 89→88 · bytes 9974→9967 · term lf",
+"removed:    ↓",
+"last line now: Version close on measured evidence — every capability verified or deferred on "
+],
+"stderr": null,
+"wrote": [
+"/home/turbolet/dev/projects/conductor/conductor-0.3.0/working-route.md"
+],
+"before": {
+"lines": 89,
+"bytes": 9974,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 88,
+"bytes": 9967
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-10-04T01:51:04Z",
+"argv": [
+"append",
+"--file",
+"/home/turbolet/dev/projects/conductor/conductor-0.3.0/working-route.md",
+"--payload-file",
+"/home/turbolet/dev/projects/conductor/.andromeda/runs/2026-10-04T01-45-46-wrap/epoch5b-payload.txt",
+"--lines",
+"2",
+"--after-line",
+"85",
+"--expect-last-prefix",
+"[2026-10-04-host-portable-tauri-ipc-tests]",
+"--if-absent-prefix",
+"### Epoch 5b",
+"--run-dir",
+"/home/turbolet/dev/projects/conductor/.andromeda/runs/2026-10-04T01-45-46-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": "/home/turbolet/dev/projects/conductor/.andromeda/runs/2026-10-04T01-45-46-wrap/u35",
+"exit": 0,
+"stdout": [
+"append working-route.md:+2 at line 86 · lines 88→90 · bytes 9967→9999 · term lf",
+"last line now: Version close on measured evidence — every capability verified or deferred on "
+],
+"stderr": null,
+"wrote": [
+"/home/turbolet/dev/projects/conductor/conductor-0.3.0/working-route.md"
+],
+"before": {
+"lines": 88,
+"bytes": 9967,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 90,
+"bytes": 9999
+}
+}
+]

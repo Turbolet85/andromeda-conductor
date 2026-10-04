@@ -1,0 +1,19 @@
+# U35 lifts for a11y-plan — the §12 Decisions Log (1 entry, 2026-06-14 initial) leaves the body.
+# Swept item by item against the body:
+#   Tier Minimal (0) + justification            -> stands in §1 (A11y tier / Justification)
+#   axe-core 4.12.0 via @axe-core/webdriverio,
+#     Lighthouse secondary, axe DevTools not used -> stands in §2 invariants + §3 A11y testing tool pick + §11 Strategy
+#     ("Linux+xvfb in CI" is superseded: the a11y job runs on windows-2022 per §3 / §9)
+#   no focus library; Radix trap + Escape; explicit
+#     onCloseAutoFocus + restoreFocusTo restoration -> stands in §3 Bootstrap phases (focus-management-library-install) + §3 Focus harness + §5
+#   shadcn/ui over Radix as the ARIA library       -> stands in §3 Bootstrap phases (aria-component-library-install) + §2
+#   reduced-motion emulation retired API-wide; OS/GTK
+#     hook the only preference-exercising path       -> stands in §3 Configuration + §6 Motion tokens
+#   macOS manual-pass-only                          -> stands in §3 Configuration + Screen reader test pattern
+#   token-name drift flagged by the phase loop     -> NOT in the body: lifted below
+#     (all 21 design tokens the plan names are defined in design-system.md as read at this wrap; `--e2e` is a cli flag)
+
+[[lift]]
+target = "## 6. Visual Design Verification"
+after = "**Source-of-truth:** design token names"
+text = """**Token-name drift:** the phase loop's a11y pass flags a missing token whenever an upstream design Section 3 token name changes; every token name this plan references is defined by design-system.md."""

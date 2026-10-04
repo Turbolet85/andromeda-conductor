@@ -182,91 +182,7 @@ handled via boundary instrumentation only._
 
 This section specifies the concrete harness pattern for Conductor's deterministic, emission-journal-driven architecture.
 
-### OTel SDK init
-
-- **SDK packages:** NONE *initialized or used* for Conductor self-observation (creator-explicit mandate per upstream §6) — the invariant is **behavioral**: no OTel SDK is ever initialized/used for self-obs (which would spawn batch tasks + break `current_thread` determinism). `opentelemetry-proto 0.32.0` is the PRODUCT (fault telemetry emitted AT Pulse), not self-instrumentation. **Transitive note:** `opentelemetry` + `opentelemetry_sdk` are in the dep tree (dormant — never initialized; audit/deny-green); their mere presence does not violate the invariant. **The `default-features = false` follow-up is CLOSED, and its premise was measured false** (2026-09-07-dependency-polish). The trim shipped at the WORKSPACE `opentelemetry-proto` entry — cargo rejects a member disabling defaults on an inherited dep — so it covers BOTH dep sites (`conductor-emit` `[dependencies]` and `conductor-run` `[dev-dependencies]`, the latter previously riding `default = [full]` and re-unifying the fat set back on). It cannot drop the two SDK crates: at 0.32.0 the `trace` and `logs` features gate BOTH the generated message modules `conductor-emit` imports (`src/proto.rs`) AND the SDK transform modules (`src/transform/mod.rs`), and the crate declares `trace = [opentelemetry/trace, opentelemetry_sdk/trace]` — one flag, both jobs — so no trim preserving the raw-OTLP surface can shed them, as measured against the vendored `opentelemetry-proto-0.32.0` source with both crates confirmed still in `Cargo.lock` post-trim. What the trim does drop is `metrics`/`zpages`/`with-serde`/`internal-logs`, of which only `const-hex` actually left the tree (`base64` and `serde` have other dependents). The behavioural invariant is untouched throughout.
-- **Init order:** Not applicable (no SDK init)
-- **Logging init instead:** `tracing-subscriber::fmt().json().flatten_event(true).init()` at CLI bootstrap (`main` fn) + Tauri backend startup; must complete before any scenario logic
-
-### Service identity
-
-- **service.name:** Hardcoded `"conductor"` (CLI) or `"conductor-tauri"` (Tauri GUI) or `"conductor-ui"` (browser frontend); overrideable via `$CONDUCTOR_SERVICE_NAME` env var at runtime
-- **service.version:** Compile-time `env!("CARGO_PKG_VERSION")` from root `Cargo.toml`
-- **deployment.environment:** Runtime `std::env::var("CONDUCTOR_ENV").unwrap_or_else(|_| "local".into())`
-- **Resource attributes:** Emitted as flat fields on every JSONL log line via `tracing` structured fields (`service.name`, `service.version`, `deployment.environment`)
-
-### Logging stack
-
-- **Library:** `tracing` 0.1.44 (Rust async tracing facade) + `tracing-subscriber` 0.3.23 (JSON formatter + layer composition)
-- **Format:** JSONL (one JSON object per line) with schema from tests binding contract (Section 6)
-- **Sink (CLI):** JSON to stderr in dev / non-agent mode, JSON to file `logs/agent-latest.jsonl` under `--agent-mode` — a WRITER choice, never a format choice (one `JsonObsLayer` over every writer); no TTY detection
-- **Sink (Tauri backend):** file `conductor-tauri.jsonl` under `<runs_dir.parent()>/logs/` unconditionally (the directory rides `CONDUCTOR_RUNS_DIR` — Log file location below); stderr only as an open-failure fallback
-- **Sink (Tauri frontend):** browser `console.log(JSON.stringify(event))` sink; no network export (recursion guard)
-- **Agent-mode flag:** `--agent-mode` CLI flag redirects the JSON stream from stderr to the file (the format is JSON either way); agent mode is triggered by the flag OR the `CONDUCTOR_AGENT_MODE` env — a **read-only trigger** (`agent_mode = flag || env-set`) Conductor never WRITES (avoiding edition-2024 `unsafe std::env::set_var`; the harness/operator exports it). Observable mode is identical to "sets it internally"
-
-### Log format JSON schema
-
-Schema (binding contract from upstream-context Section 5 Test Plan Excerpt → Test Harness Contract Summary):
-```jsonl
-{
-  "journal_emitted_at": "ISO-8601 from std::time::SystemTime",
-  "read_back_observed_at": "ISO-8601 from std::time::SystemTime (null until read-back; null for blocked rows)",
-  "run_id": "YYYY-MM-DDTHH-MM-SS-<suffix> (filesystem-safe hyphen-delimited)",
-  "seed": "u64",
-  "scenario": "string",
-  "p_ids": ["P-001", "P-002", ...],
-  "verdict": "Pass | Fail | CalibrationRegion",
-  "state": "Pass | Fail | ManualCheck | KnownResidual | Blocked",
-  "latency_ms": "integer or null (null for blocked rows)",
-  "slo_tier": "<5s | <20s | <90s",
-  "fingerprints": ["fingerprint1", "fingerprint2", ...] or empty array
-}
-```
-Additional fields per scenario — an extension point of the envelope shape. Its only ever-named instance, `degraded_mode_response`, is RETIRED: measured 2026-09-06 with ZERO occurrences anywhere under `crates/` (`grep -c 'degraded_mode_response' crates/`), so it was never implemented and no scenario emits it. The extension point itself stands, and as of 2026-09-07 it IS exercised — by the a11y CI gate's violation record at `runs/a11y/<run_id>.jsonl`, which carries the eleven envelope keys PLUS the §9 resource tags `service.name` (`conductor-ui`) and `deployment.environment` (13 top-level keys measured locally, 15 under CI where `ci.run.id` + `git.commit.sha` join them), as measured at `conductor-0.2.0/chunks/2026-09-07-a11y-ci-gate/report.md`. Note what the extras are: resource TAGS on a harness artifact, not scenario-specific fields — the scenario record at `runs/<run_id>.jsonl` still carries the eleven alone. The superset is admitted deliberately: `conductor-run`'s `journal_conformance` asserts key PRESENCE (plus closed sets and host-path freedom), never key exclusivity, which is what lets one gate serve both shapes.
-- Agent-parseable via `jq` and `serde_json`
-- No absolute host paths, no internal struct names (redaction layer in Section 4 / Section 11)
-
-**Two record shapes (clarified 2026-06-15-structured-logging-stack):** the schema block above is the **Run-report envelope** — the scenario-result record (emission journal `runs/<run_id>.jsonl` + the `runs.db` `runs` row), populated by the report seam (Epoch 6) on scenario-result events. **The report seam writes a SECOND line shape onto that same journal (2026-08-21):** the per-check `CheckRecord` (`run_id` · `scenario` · `check_index` · `kind` · `verdict` · `state` · `latency_ms` · `deadline_ms` · `budget_ms`), mirrored into the `run_check` table; it is a finer GRAIN beneath the envelope, never an extension of it — the envelope's eleven fields are unchanged, and a blocked or declare-only scenario emits no check line at all. Format owned by test-plan §3 (§3 Log format, Agent parsing) — a typed parse discriminates the two. Both are report-seam records, so the self-obs-line split below is unaffected, and neither goes through the span-attribute field allowlist (that governs the self-obs line only). The foundational **self-obs log line** (every `tracing` line; stderr / `logs/agent-latest.jsonl`) carries a smaller base set: `timestamp_ms` (epoch millis from `std::time::SystemTime` — the self-obs line stamp; the envelope's `journal_emitted_at` ISO-8601 remains the SLO-math field), `level`, `target`, the service-identity fields (`service.name` / `service.version` / `deployment.environment`), and `run_id`. Service-identity + `run_id` are on **every** line; the envelope/result fields appear only on the scenario-result record. The implementation uses a small custom `tracing-subscriber` layer (stock `fmt().json()` cannot emit constant identity fields flat at the top level). That layer emits the self-obs line in **two variants over the same base set** (format owned by test-plan §3): the **event line**, and the **span-lifecycle line** adding `span` (the bounded §4 span name), `span_event` (`new` | `close`), an optional `parent`, and the span's own allowlisted attributes on the `new` line — so a §4 span materializes as real lines rather than being implicit. Both are self-obs lines; the two-record-shapes split above is unaffected.
-
-### Log file location
-
-- **CLI:** `logs/agent-latest.jsonl` (project root, relative to `CONDUCTOR_RUNS_DIR`) in agent mode; stderr in dev / non-agent mode
-- **Tauri backend:** `<runs_dir.parent()>/logs/conductor-tauri.jsonl` — the file NAME is fixed and the DIRECTORY rides `CONDUCTOR_RUNS_DIR` (`tauri_log_path()` = `runs_dir.parent()/logs`), so the sink moves with whoever set the handle: with it unset and the launch cwd at the repo root, the project-root `logs/conductor-tauri.jsonl` (measured 2026-09-01); on the a11y suites, per suite — `runs/logs/` (routine `--e2e` + `sr-empty`), `runs/driven/logs/` (the driven arm) and `runs/sr-leg/logs/` (`sr` / `sr-error`), each measured 2026-09-02
-- **Tauri frontend:** browser console JSON (paste-to-AI; no file persistence)
-- **Rotation:** N/A — Minimal tier, no retention/compliance requirement; logs are paste-to-AI artifacts, not persisted archives
-- **Paste-to-AI workflow:** user tails CLI output (`scripts/agent-run.sh | tail -f`) or copies browser console JSON to Claude Code / Claude web
-
-### Snapshot / paste-to-AI integration
-
-- **Snapshot path:** N/A (Minimal tier, no persistent OTLP snapshot API; Pulse is external)
-- **Snapshot trigger:** N/A
-- **Paste-to-AI surface:** structured JSONL logs (`logs/agent-latest.jsonl` or a stderr tail) + sanitized stderr + run report Markdown (per creator brief §6 "Control surface, not a dashboard")
-
-### Correlation (no distributed tracing)
-
-- **No W3C trace context anywhere** — no OTel SDK generates `trace_id`/`traceparent`; a local single-process harness doesn't need it. Within a run, the `tracing` span hierarchy + the `run_id` field correlate the lines.
-- **HTTP:** N/A (no HTTP server).
-- **gRPC outbound (conductor-emit → Pulse):** no context propagated. **The only OTLP Conductor speaks is the PRODUCT fault stream to Pulse on `:4317`; self-observation NEVER exports OTLP at all** (no SDK, no exporter, no `:4318` — `:4318` is unused per arch, exporting there is both a recursion trap and a dead port). Self-obs is stderr/file JSON only.
-- **IPC (Tauri command → conductor-core):** the envelope carries the **`run_id`** (correlation), not a `traceparent`; the command-handler `tracing` span is the parent of the core-operation spans.
-- **Internal async (tokio `current_thread`):** `tracing::Span::current()` within the single-threaded runtime preserves span context automatically; no cross-task boundary.
-
-### Heartbeat ticks
-
-- **CLI:** N/A (short-lived per-scenario, 5-120s typical execution; no long-running server)
-- **Tauri backend:** Optional every 30s `conductor.tick` event (active scenario count + emission counter) emitted via Tauri `Channel` to frontend UI state; NOT a telemetry span (unstructured counter data for UI rendering)
-- **Tauri frontend:** Per-scenario emission counter tick via `Channel` (UI state update, not telemetry)
-
-### Bootstrap phases (for downstream skills)
-
-Downstream skills (route, setup-project) derive:
-- **logger-stack-install:** `tracing 0.1.44` + `tracing-subscriber 0.3.23` + JSON formatter + file sink integration
-- **service-identity-wire:** `service.name` compile-time via `env!("CARGO_PKG_NAME")`; `deployment.environment` runtime via `$CONDUCTOR_ENV` env var
-- **log-format-schema-emit:** Emit JSON schema file (tests harness binding contract)
-- **run-id-correlation-wire:** Tauri IPC envelope carries `run_id` (correlation; no W3C `traceparent`)
-- **pii-scrubbing-wire:** Redaction layer on journal write + report generation (Section 4 / Section 11)
-- **obs-ci-gate-wire:** cargo-nextest JSON output + CI artifact upload (`logs/agent-latest.jsonl`)
-
----
+Contracts: .andromeda/registries/obs-plan-contracts.toml — ask registry.py contracts; read one contracts/obs-plan/{key}.md; never whole.
 
 ## 4. Span / Trace Coverage
 
@@ -653,13 +569,4 @@ SLO enforcement: agent reads runs.db rows post-run and asserts `latency_ms <= sl
 
 ## 12. Obs Decisions Log
 
-**2026-06-14** — Initial obs plan generated by `/andromeda-obs`
-
-- **Tier:** Minimal (0) — justified by: 9 workspace crates + 2 surfaces (Minimal surface count), 7 critical paths (tightly scoped), security tier Minimal (single-developer, loopback-only), tests tier Minimal (creator Brief mandates rigor via property/golden tests, not comprehensive instrumentation), 5 telemetry triggers all addressable within Minimal scope
-- **Key decisions:**
-  - **OTel SDK:** NONE for self-observation (hardcoded ban per creator brief upstream §6); `opentelemetry-proto 0.32.0` + `tonic 0.14.6` remain as PRODUCT (fault injection), not self-instrumentation
-  - **Structured Logger:** `tracing 0.1.44` + `tracing-subscriber 0.3.23` JSON formatter (only self-obs mechanism); no OTel SDK init; wall-clock timestamps from `std::time::SystemTime`/`Instant`
-  - **Exporter:** stderr JSONL (CLI dev / non-agent mode) + file `logs/agent-latest.jsonl` (CLI agent mode) + file `logs/conductor-tauri.jsonl` (Tauri backend) + browser console JSON (Tauri frontend); no network OTLP (determinism + recursion guard); paste-to-AI via agent-parseable JSON (no proprietary APM lock-in) _(corrected 2026-08-22 — the shipped exporter was never stdout; the original claim was false at source. See §3 Logging stack.)_ _(corrected 2026-09-02 — the Tauri backend file is runs-dir-relative, `runs_dir.parent()/logs/conductor-tauri.jsonl`: the project-root `logs/` only with `CONDUCTOR_RUNS_DIR` unset; measured at `runs/logs/`, `runs/sr-leg/logs/` and `runs/driven/logs/` on the a11y suites. See §3 Log file location.)_
-  - **Metrics:** No metrics backend (Minimal tier); performance budget is JSON field assertion (`latency_ms` + `slo_tier`) in JSONL + runs.db. Histogram bucketing (Section 5) is reserved for Phase 3 if escalated to Standard tier; not a Phase 1 obligation.
-  - **Error reporting:** `std::panic::set_hook()` + `anyhow` edge bridging; no external error-reporting platform at Minimal
-- **Open questions:** None — all scope fully addressed by obs-research catalog (all libraries named in Phase 2); no research gaps or deferred decisions
+History: obs-plan-amendments.md (live); the log moved verbatim to obs-plan-amendments-archive.md (U35).

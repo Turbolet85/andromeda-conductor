@@ -263,3 +263,15 @@ _Append-only changelog of amendments to `a11y-plan.md` (the body holds only curr
 - Pass spec format and §5: "the `contentinfo` footer are unbuilt" / "(no footer strip ships)" → the footer ships, not focusable, without the unticked count; the report-site render stays unbuilt.
 **Why:** this chunk discharged the route-owned landmark, heading and row-name findings and measured the browse-caret and clock mechanics the leg now relies on; the operator directed the footer and row-name fixes as spec-owned (`:548`, `:323`).
 **Ref:** .andromeda/runs/2026-09-30T20-18-56-wrap/
+
+## 2026-10-04T01-45-46-wrap — registry migration (U35): the a11y-plan Decisions Log leaves the body
+**Section:** a11y-plan §12 A11y Decisions Log · a11y-plan §6 Visual Design Verification
+**Change:** the log moved verbatim to a11y-plan-amendments-archive.md (1 entry, the 2026-06-14 initial generation). One lift: §6 gains a "Token-name drift" line after its Source-of-truth paragraph, stating that the phase loop's a11y pass flags a missing token when an upstream design Section 3 token name changes, and that every token the plan names is defined by design-system.md. The entry's other in-force items already stood in the body: the tier (§1), the tool pick (§2, §3), the focus and ARIA library decisions (§3 Bootstrap phases, §5), the retired reduced-motion emulation and the OS/GTK hook (§3, §6 Motion tokens), and macOS manual-only (§3). Its "Linux+xvfb in CI" clause is superseded, because the a11y job runs on `windows-2022` (§3, §9).
+**Why:** a Decisions Log is keyed by time. It is history, not current truth, so its in-force items now stand in the body.
+**Ref:** .andromeda/runs/2026-10-04T01-45-46-wrap/
+
+## 2026-10-04T01-45-46-wrap — citations of the retired A11y Decisions Log re-pointed to the body
+**Section:** §6 Target size tokens · §6 Motion tokens · §11 Strategy · §11 CI · a11y-plan §3 → A11y testing tool pick
+**Change:** every body citation of the Decisions Log that U35 moved to the archive now names the section holding that truth. A partial axe configuration (`enableRules` opt-in, a `runOnly` excluding default rules) needs a recorded decision, which is an `a11y-plan-amendments.md` entry — was "a Decisions Log entry". The OS/GTK reduced-motion hook cites §3 Configuration, and the reduced-motion shape assertion cites §6 Motion tokens alone — was "+ Decisions Log". §11 CI says the retired platform-dependent verdict was already dropped by §3 Configuration and §6 — was "§3 Configuration, §6 and §12".
+**Why:** after U35 no skill writes a Decisions Log entry, so a rule requiring one could never be met, and a citation into the archive points at cold history rather than current truth (the founder-delegated overseer directed the re-point).
+**Ref:** .andromeda/runs/2026-10-04T01-45-46-wrap/

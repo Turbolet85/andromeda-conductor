@@ -1,0 +1,34 @@
+# test-plan.md ## 3. Test Harness Contract — the keyed-contract index (U35). Ask registry.py contracts; never read whole.
+schema = 1
+master = "test-plan.md"
+section = "## 3. Test Harness Contract"
+
+[[row]]
+key = "5-command implementation"
+file = "contracts/test-plan/5-command-implementation.md"
+labels = ["boot", "run", "status", "cleanup", "logs"]
+
+[[row]]
+key = "Status endpoint shape"
+file = "contracts/test-plan/status-endpoint-shape.md"
+labels = []
+
+[[row]]
+key = "Log format"
+file = "contracts/test-plan/log-format.md"
+labels = ["Format", "Required fields", "Agent parsing", "Self-obs stream is a distinct artifact"]
+
+[[row]]
+key = "PID file"
+file = "contracts/test-plan/pid-file.md"
+labels = ["Location", "Lifecycle"]
+
+[[row]]
+key = "Test data bootstrap"
+file = "contracts/test-plan/test-data-bootstrap.md"
+labels = ["Strategy", "Mechanism", "Per-test isolation", "Cleanup"]
+
+[[row]]
+key = "Bootstrap phases (derive for route / setup-project)"
+file = "contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md"
+labels = ["test-runner-install", "5-command-discipline-wire", "status-endpoint-implement", "log-format-bind-with-obs", "pid-file-commitment-wire", "test-data-bootstrap-wire", "coverage-tooling-install", "quality-gate-config-emit"]

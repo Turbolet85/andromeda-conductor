@@ -1,0 +1,49 @@
+# obs-plan.md ## 3. Observability Harness Contract — the keyed-contract index (U35). Ask registry.py contracts; never read whole.
+schema = 1
+master = "obs-plan.md"
+section = "## 3. Observability Harness Contract"
+
+[[row]]
+key = "OTel SDK init"
+file = "contracts/obs-plan/otel-sdk-init.md"
+labels = ["SDK packages", "Init order", "Logging init instead"]
+
+[[row]]
+key = "Service identity"
+file = "contracts/obs-plan/service-identity.md"
+labels = ["service.name", "service.version", "deployment.environment", "Resource attributes"]
+
+[[row]]
+key = "Logging stack"
+file = "contracts/obs-plan/logging-stack.md"
+labels = ["Library", "Format", "Sink (CLI)", "Sink (Tauri backend)", "Sink (Tauri frontend)", "Agent-mode flag"]
+
+[[row]]
+key = "Log format JSON schema"
+file = "contracts/obs-plan/log-format-json-schema.md"
+labels = ["Two record shapes (clarified 2026-06-15-structured-logging-stack)"]
+
+[[row]]
+key = "Log file location"
+file = "contracts/obs-plan/log-file-location.md"
+labels = ["CLI", "Tauri backend", "Tauri frontend", "Rotation", "Paste-to-AI workflow"]
+
+[[row]]
+key = "Snapshot / paste-to-AI integration"
+file = "contracts/obs-plan/snapshot-paste-to-ai-integration.md"
+labels = ["Snapshot path", "Snapshot trigger", "Paste-to-AI surface"]
+
+[[row]]
+key = "Correlation (no distributed tracing)"
+file = "contracts/obs-plan/correlation-no-distributed-tracing.md"
+labels = ["No W3C trace context anywhere", "HTTP", "gRPC outbound (conductor-emit → Pulse)", "IPC (Tauri command → conductor-core)", "Internal async (tokio `current_thread`)"]
+
+[[row]]
+key = "Heartbeat ticks"
+file = "contracts/obs-plan/heartbeat-ticks.md"
+labels = ["CLI", "Tauri backend", "Tauri frontend"]
+
+[[row]]
+key = "Bootstrap phases (for downstream skills)"
+file = "contracts/obs-plan/bootstrap-phases-for-downstream-skills.md"
+labels = ["logger-stack-install", "service-identity-wire", "log-format-schema-emit", "run-id-correlation-wire", "pii-scrubbing-wire", "obs-ci-gate-wire"]

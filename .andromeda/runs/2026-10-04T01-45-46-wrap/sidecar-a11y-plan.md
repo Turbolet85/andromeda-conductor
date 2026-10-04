@@ -1,0 +1,5 @@
+## 2026-10-04T01-45-46-wrap — citations of the retired A11y Decisions Log re-pointed to the body
+**Section:** §6 Target size tokens · §6 Motion tokens · §11 Strategy · §11 CI · a11y-plan §3 → A11y testing tool pick
+**Change:** every body citation of the Decisions Log that U35 moved to the archive now names the section holding that truth. A partial axe configuration (`enableRules` opt-in, a `runOnly` excluding default rules) needs a recorded decision, which is an `a11y-plan-amendments.md` entry — was "a Decisions Log entry". The OS/GTK reduced-motion hook cites §3 Configuration, and the reduced-motion shape assertion cites §6 Motion tokens alone — was "+ Decisions Log". §11 CI says the retired platform-dependent verdict was already dropped by §3 Configuration and §6 — was "§3 Configuration, §6 and §12".
+**Why:** after U35 no skill writes a Decisions Log entry, so a rule requiring one could never be met, and a citation into the archive points at cold history rather than current truth (the founder-delegated overseer directed the re-point).
+**Ref:** .andromeda/runs/2026-10-04T01-45-46-wrap/
