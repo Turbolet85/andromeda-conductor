@@ -82,7 +82,7 @@ _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` hea
    ↓
 [2026-10-03-p-075-re-round-on-incident-events] The P-075 re-round on incident events — the round re-driven against Pulse with its incident lifecycle events read back through MCP and graded
    ↓
-[2026-10-04-host-portable-tauri-ipc-tests] Host-portable Tauri IPC tests — the six `conductor-tauri` mock-runtime tests pass on the Linux dev host as they do on Windows  EVIDENCE: the mock-webview origin `http://tauri.localhost` is hardcoded at `crates/conductor-tauri/src/commands.rs:417` and `pause.rs:243`; on the Linux dev host six tests fail with `Plugin not found`, identically at base `6a9ff7c` (measured at `conductor-0.3.0/chunks/2026-10-03-p-075-re-round-on-incident-events/report.md`, gate 27 — CI on Windows stays green)  CONTEXT: founder ruling 2026-10-04, relayed by the overseer — its own entry, before the Version close
+[2026-10-04-host-portable-tauri-ipc-tests] Host-portable Tauri IPC tests — the six `conductor-tauri` mock-runtime tests pass on the Linux dev host as they do on Windows
    ↓
 A fourth pre-registered real-model series for `v3-09` — interpretation re-proven once Pulse's retry-storm interpretation names its retry cause  BLOCKED-ON: Pulse "retry-storm interpretation names its retry cause" (the founder's wording) — clears when Pulse relays a sha shipping it  CONTEXT: founder ruling 2026-10-02 (as above), entry 3 of 3 — `v3-09` is NOT deferred; no series has met it yet (the third, 2026-10-01 at Pulse `a2addb3`, graded d1 `Identified` and d3 `NotIdentified`, its d2 spans refused for an identity replay, since repaid by `2026-10-01-per-run-span-identity-in-the-real-model-harness`)
    ↓

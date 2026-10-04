@@ -1,48 +1,39 @@
 # Session Handoff
 
-**Last Updated:** 2026-10-04T00:39Z
+**Last Updated:** 2026-10-04T01:27Z
 **Branch:** `build/conductor-0.3.0` · 0 ahead of `origin/build/conductor-0.3.0` as read at this wrap's Setup (HEAD
-`e6e1eef`, the operator pre-CI commit, CI#37162108538 green 3/3); the wrap commit lands on top and is pushed.
+`84a3759`, the operator pre-CI commit, CI#37166666634 green 3/3); the wrap commit lands on top and is pushed.
 **Status:** clean
-**Last Commit:** 2026-10-03-p-075-re-round-on-incident-events — the wrap commit
+**Last Commit:** 2026-10-04-host-portable-tauri-ipc-tests — the wrap commit
 
 ## Position
-- **Done:** `2026-10-03-p-075-re-round-on-incident-events`. All seven P-075 round-request assertions `[PASS]` against
-  Pulse S2 `cdb6c1e`, on this LINUX dev host (the founder's ruling); `retrieve_incident_events` pinned as the fifth
-  required MCP tool (founder-ratified Boundary widening). Evidence and graded ids: the chunk's `evidence/round-ledger.md`.
-- **Next:** `Host-portable Tauri IPC tests` — minted this wrap ahead of the blocked series, on the founder's ruling;
-  the only unblocked entry, so `/andromeda-phase` can promote it. Then:
+- **Done:** `2026-10-04-host-portable-tauri-ipc-tests`. The `conductor-tauri` mock-runtime IPC tests take their origin
+  from the dispatching window (`window.url()`), so they pass on Linux (27/27; workspace nextest 1197/1197) and on
+  Windows CI (1200/1200). The error-expecting helper now rejects an ACL refusal, and a new test pins that a foreign
+  origin is still refused.
+- **Next:** the only remaining entries are blocked or last:
   1. "A fourth pre-registered real-model series for `v3-09`": BLOCKED-ON Pulse "retry-storm interpretation names its
-     retry cause" (re-verified: Pulse HEAD is still `cdb6c1e`, nothing shipped).
+     retry cause" (re-verified: Pulse HEAD `5988a5f`, no sha shipping it). `/andromeda-phase` will HALT on promoting it.
   2. "Version close on measured evidence".
 
 ## Work done
-- Code: the fifth tool's pin + by-id read (`conductor-verify`), `probe_resolve_lifecycle_timed` + `ResolveWindow`
-  (`conductor-run`), the live leg's events lines, assertion 7's grader, seven digest-pinned graded ids.
-- The live round: one `pulse-app` launch, five legs, 150 s quiet windows; teardown exact (SIGTERM, census 0).
+- Test-only Rust in `crates/conductor-tauri/src/{commands,pause}.rs` `#[cfg(test)]` modules; no production, manifest,
+  lock, capability or CI change. An inverse control proved the new guard discriminates (old literal on Linux → 8 red).
 
 ## Drift resolved
-- **19 amendments applied, 1 escalation resolved** (the Boundary-widening group, ratified on the founder's live word):
-  architecture ×8 · security-plan ×2 · test-plan ×4 · obs-plan ×3 · layout-templates ×2.
-- Leaves re-derived: `.claude/docs/tests-summary.md`, `.claude/docs/security-summary.md`.
-- Arch registries trimmed back within target: 37991 B / 38083 B against 38115 B.
+- **1 amendment applied, 0 escalations:** architecture §Infrastructure Patterns → Build system — the 2026-09-01
+  custom-protocol origin measurement scoped to the Windows host; the origin stated per-OS. Six docs `proposals: []`.
+- Registries unchanged in size: §Established Decisions 37991 B / §Occupied Resources 38083 B against 38115 B.
 
 ## Notes
 - **Last failed command:** none open.
-- **Gate 27 (`cargo nextest run --workspace`) is red on Linux, not this chunk's:** six `conductor-tauri` mock-runtime
-  tests pin the Windows webview origin; identical at base `6a9ff7c`; CI (Windows) green. Owner: the new tail entry.
-- **Pulse finding (the overseer carries it):** S2's Linux `pulse-app` dies ~1.5 s in on Wayland "Error 71" (NVIDIA +
-  Hyprland + WebKitGTK 2.52.6) at its default posture; `WEBKIT_DISABLE_DMABUF_RENDERER=1` keeps it up.
-- **Host:** this is a Linux dev host (Omarchy). `cargo-audit` 0.22.2 is now installed; the code-graph is STALE
-  (python `duckdb` not installed) — the next phase rebuilds or reports it.
-- **Epoch 5 is at 16 entries:** a boundary would restore the diagnose/audit cadence. The split is the operator's call.
-- **Curation:** T2 +1 (verification-harness: the Linux launch recipe), T2 extended (testing: feature-gated targets),
-  2 corrections in place (testing: the mock origin is Windows-only; session-learnings: 9 tools at S2).
+- **Pending the founder's word (autonomous mode, not blocking):** Epoch 5 has grown to 16 entries. Recommended: mint
+  `### Epoch 5b` above the `v3-09` series entry so the completed Epoch 5 work reaches its diagnose/audit boundary.
+  The split stays undecided per the overseer.
+- **Host:** Linux dev host (Omarchy); `grep` is ugrep (refuses bounded-repeat + alternation patterns — sweep in
+  python). The code-graph is STALE (python `duckdb` not installed) — the next phase rebuilds or reports it.
+- **Curation:** T2 2 writes — testing.md mock-origin gotcha corrected in place (derive from `window.url()`);
+  host-win32.md `grep -i` entry extended (ugrep's complexity limit). 2 dup · 1 task-specific filtered.
 - **Deferred learnings:**
-  - recurrence-despite-learning: host-win32 2026-09-08 (the Bash cwd persists) — a `cd` moved the session cwd three
-    times this session.
-  - recurrence-despite-learning: the CLAUDE.md token-proxy entry as extended 2026-09-02 ("sweep for what the claim
-    SAYS") — a count-keyed sweep found 7 of 15 tool-set sites.
-
-## Session End Status
-Completed normally at 2026-10-04 02:56:46
+  - recurrence-despite-learning: host-win32.md 2026-09-08 (the Bash cwd persists) — a `cd {run_dir}` moved the session
+    cwd again this wrap (second consecutive session).

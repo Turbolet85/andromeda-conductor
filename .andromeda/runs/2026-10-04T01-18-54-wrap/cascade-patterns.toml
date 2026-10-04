@@ -1,0 +1,11 @@
+[[pattern]]
+id = "origin-literal"
+regex = 'tauri\.localhost'
+
+[[pattern]]
+id = "custom-protocol"
+fixed = 'custom-protocol'
+
+[[pattern]]
+id = "opened-on"
+regex = 'opened on `http'

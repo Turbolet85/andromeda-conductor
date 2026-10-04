@@ -1,0 +1,28 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-10-04T01:27:48Z",
+"argv": [
+"flip",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-10-04-host-portable-tauri-ipc-tests",
+"--run-dir",
+".andromeda/runs/2026-10-04T01-18-54-wrap",
+"--dry-run"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"claimed 0 — gate no-op (no entry carries chunk 2026-10-04-host-portable-tauri-ipc-tests)",
+"pool: unclaimed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

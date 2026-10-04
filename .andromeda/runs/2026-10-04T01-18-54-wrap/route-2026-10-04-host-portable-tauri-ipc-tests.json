@@ -1,0 +1,119 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-04T01:27:59Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-10-04-host-portable-tauri-ipc-tests",
+"--run-dir",
+".andromeda/runs/2026-10-04T01-18-54-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"flip master-route.md:171 - 2026-10-04-host-portable-tauri-ipc-tests pending -> complete"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-04T01:27:59Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-04-host-portable-tauri-ipc-tests",
+"--date",
+"2026-10-04",
+"--run-dir",
+".andromeda/runs/2026-10-04T01-18-54-wrap",
+"--dry-run"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"pin :85 strip EVIDENCE: 362ch \"EVIDENCE: the mock-webview origin `http:\"",
+"pin :85 strip CONTEXT: 101ch \"CONTEXT: founder ruling 2026-10-04, rela\"",
+"pin next markerless :87 holds BLOCKED-ON:×1 · CONTEXT:×1",
+"85 · 2026-10-04-host-portable-tauri-ipc-tests · strip 2 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 85,
+"marker": "2026-10-04-host-portable-tauri-ipc-tests",
+"blocks": 2,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-04T01:28:03Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-04-host-portable-tauri-ipc-tests",
+"--date",
+"2026-10-04",
+"--run-dir",
+".andromeda/runs/2026-10-04T01-18-54-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"pin :85 strip EVIDENCE: 362ch \"EVIDENCE: the mock-webview origin `http:\"",
+"pin :85 strip CONTEXT: 101ch \"CONTEXT: founder ruling 2026-10-04, rela\"",
+"pin next markerless :87 holds BLOCKED-ON:×1 · CONTEXT:×1",
+"85 · 2026-10-04-host-portable-tauri-ipc-tests · strip 2 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+"./conductor-0.3.0/route-archive.md",
+"./conductor-0.3.0/working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 85,
+"marker": "2026-10-04-host-portable-tauri-ipc-tests",
+"blocks": 2,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

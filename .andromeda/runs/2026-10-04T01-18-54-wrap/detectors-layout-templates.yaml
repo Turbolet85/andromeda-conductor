@@ -1,0 +1,12 @@
+- id: D-layout-surface
+  doc: layout-templates
+  invariant: a new user-facing surface / region the chunk adds is described in §Primary Surfaces / the wireframes (desktop-webview or cli).
+  check: agent-read — if the report adds a UI surface or region, confirm it maps to a §Wireframe entry; an undocumented surface is drift.
+  severity: warning
+- id: D-layout-derived-count
+  doc: layout-templates
+  invariant: a count / range / qualifier the doc states in a sample caption, wireframe or selector label matches the value the chunk's code now produces.
+  check: agent-read — for each entry in the report's `Counts / qualifiers this chunk moved` bullet, grep the doc for the OLD value in a caption / sample / wireframe / token label; a hit is drift (the doc bakes a value the code no longer produces). Prose naming the SET rather than a literal is correct and NOT a hit — the fix is always to name the set or update the sample, never to substitute a fresh literal that re-stales.
+  severity: warning
+
+# — test-plan —

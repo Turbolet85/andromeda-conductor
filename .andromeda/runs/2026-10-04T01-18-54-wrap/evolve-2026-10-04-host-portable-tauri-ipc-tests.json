@@ -1,0 +1,162 @@
+[
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-10-04T01:20:30Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-04T01-18-54-wrap",
+"--marker",
+"2026-10-04-host-portable-tauri-ipc-tests"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"appended 2 record(s) · friction-log.ndjson lines 2953→2955 · bytes 3573791→3575743 · term lf",
+"ts 2026-10-04T01:20:20Z · clock 2026-10-04T01:20:30Z · bound 2026-10-04T00:59:22Z (line 2953)",
+"ids 2026-10-04T01:20:20Z-a … 2026-10-04T01:20:20Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 2953,
+"bytes": 3573791,
+"terminator": "LF",
+"bound": "2026-10-04T00:59:22Z"
+},
+"after": {
+"lines": 2955,
+"bytes": 3575743
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-10-04T01:25:17Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-04T01-18-54-wrap",
+"--marker",
+"2026-10-04-host-portable-tauri-ipc-tests"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"appended 3 record(s) · friction-log.ndjson lines 2955→2958 · bytes 3575743→3579050 · term lf",
+"ts 2026-10-04T01:25:01Z · clock 2026-10-04T01:25:17Z · bound 2026-10-04T01:20:20Z (line 2955)",
+"ids 2026-10-04T01:25:01Z-a … 2026-10-04T01:25:01Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 2955,
+"bytes": 3575743,
+"terminator": "LF",
+"bound": "2026-10-04T01:20:20Z"
+},
+"after": {
+"lines": 2958,
+"bytes": 3579050
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-10-04T01:26:27Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-04T01-18-54-wrap",
+"--marker",
+"2026-10-04-host-portable-tauri-ipc-tests"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"appended 2 record(s) · friction-log.ndjson lines 2958→2960 · bytes 3579050→3580392 · term lf",
+"ts 2026-10-04T01:26:19Z · clock 2026-10-04T01:26:27Z · bound 2026-10-04T01:25:01Z (line 2958)",
+"ids 2026-10-04T01:26:19Z-a … 2026-10-04T01:26:19Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 2958,
+"bytes": 3579050,
+"terminator": "LF",
+"bound": "2026-10-04T01:25:01Z"
+},
+"after": {
+"lines": 2960,
+"bytes": 3580392
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-10-04T01:27:00Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-04T01-18-54-wrap",
+"--marker",
+"2026-10-04-host-portable-tauri-ipc-tests"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 2960→2961 · bytes 3580392→3581259 · term lf",
+"ts 2026-10-04T01:26:53Z · clock 2026-10-04T01:27:00Z · bound 2026-10-04T01:26:19Z (line 2960)",
+"ids 2026-10-04T01:26:53Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 2960,
+"bytes": 3580392,
+"terminator": "LF",
+"bound": "2026-10-04T01:26:19Z"
+},
+"after": {
+"lines": 2961,
+"bytes": 3581259
+}
+}
+]

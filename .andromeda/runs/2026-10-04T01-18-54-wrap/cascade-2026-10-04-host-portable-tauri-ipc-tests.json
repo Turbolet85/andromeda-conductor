@@ -1,0 +1,72 @@
+[
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "1550f3bc",
+"ts": "2026-10-04T01:24:16Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-04T01-18-54-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-04T01-18-54-wrap",
+"--marker",
+"2026-10-04-host-portable-tauri-ipc-tests"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"baseline f5076ad9 (pre-CI parent — the oldest of 1 pre-CI commit(s), 84a37591)",
+"origin-literal · new 0 · standing 1 · leaf 0 · curation 1 · base 0 · control architecture.md:214 (prose)",
+"custom-protocol · new 0 · standing 5 · leaf 1 · curation 3 · base 0 · control architecture.md:150 (prose)",
+"opened-on · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:214 (prose)",
+".andromeda/architecture.md:214 origin-literal standing edited mixed ×2 @c4804,4963/7144 … `http://tauri.localhost/` — t…",
+".claude/rules/testing.md:65 origin-literal curation @c805/2348 … MUST be `\"http://tauri.localhost\"` (the mock webview's…",
+".andromeda/architecture.md:150 custom-protocol standing …h `--features tauri/custom-protocol`; a bare `cargo build --re…",
+".andromeda/architecture.md:214 custom-protocol standing edited mixed ×4 @c4391,4769/7144 …n the **`custom-protocol` fea…",
+".andromeda/architecture.md:214 custom-protocol @c+4880,5235/7144",
+".andromeda/security-plan.md:370 custom-protocol standing …4r7); combined with custom-protocol origin confusion (CVE-202…",
+".andromeda/test-plan.md:155 custom-protocol standing ×2 @c1138,2754/6321 …eatures tauri/custom-protocol` → `npm run a11…",
+".andromeda/test-plan.md:464 custom-protocol standing …ld `--features tauri/custom-protocol` → seed the fixture runs dir…",
+".claude/rules/frontend.md:51 custom-protocol curation @c614/2581 …--features tauri/custom-protocol`, the profile being …",
+".claude/rules/verification-harness.md:57 custom-protocol curation ×2 …ecide it — the `custom-protocol` FEATURE does. `t…",
+".claude/rules/verification-harness.md:62 custom-protocol curation …--features tauri/custom-protocol`). Measured at `202…",
+".claude/docs/commands.md:30 custom-protocol leaf @c125/2046 …i --features tauri/custom-protocol` (the FEATURE, not the …",
+".andromeda/architecture.md:214 opened-on standing edited ×2 @c4696,4786/7144 …cfg=dev` and opened on `http://localhost:…",
+"origin-literal · new 0 · standing 1 · leaf 0 · curation 1 · base 0 · control architecture.md:214 (prose)",
+"custom-protocol · new 0 · standing 5 · leaf 1 · curation 3 · base 0 · control architecture.md:150 (prose)",
+"opened-on · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:214 (prose)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "f5076ad9becfc188098b2c6ae8979b6ef1ac2f69",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), 84a37591",
+"counts": {
+"origin-literal": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 1,
+"base": 0
+},
+"custom-protocol": {
+"new": 0,
+"standing": 5,
+"leaf": 1,
+"curation": 3,
+"base": 0
+},
+"opened-on": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]

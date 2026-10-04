@@ -1,0 +1,41 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-10-04T01:24:58Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-04T01-18-54-wrap/architecture-entry.md",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-10-04T01-18-54-wrap",
+"--marker",
+"2026-10-04-host-portable-tauri-ipc-tests"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+6 at line 1139 · lines 1138→1144 · bytes 194966→196135 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-04T01-18-54-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 1138,
+"bytes": 194966,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1144,
+"bytes": 196135
+}
+}
+]
