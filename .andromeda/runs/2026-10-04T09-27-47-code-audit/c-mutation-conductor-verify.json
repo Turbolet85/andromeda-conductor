@@ -1,0 +1,86 @@
+{
+ "unit": "conductor-verify",
+ "state": "complete",
+ "shard": null,
+ "unit_state": "complete 148/148",
+ "counts": {
+  "mutants": 148,
+  "caught": 109,
+  "missed": 13,
+  "not_measured": 2,
+  "timeout": 0,
+  "unviable": 24
+ },
+ "score": 89.34,
+ "score_formula": "caught/(caught+missed)",
+ "survivors": [
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:18:5",
+   "replace main with ()"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:37:60",
+   "replace || with && in main"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:58:9",
+   "delete match arm \"tools/call\" in stub_result"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:63:21",
+   "replace == with != in stub_result"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:75:28",
+   "replace == with != in stub_result"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:45:5",
+   "replace stub_result -> Value with Default::default()"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:51:9",
+   "delete match arm \"tools/list\" in stub_result"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:46:9",
+   "delete match arm \"initialize\" in stub_result"
+  ],
+  [
+   "crates/conductor-verify/src/spawn.rs:116:5",
+   "replace sidecar_resolves_on_path -> bool with true"
+  ],
+  [
+   "crates/conductor-verify/src/spawn.rs:116:5",
+   "replace sidecar_resolves_on_path -> bool with false"
+  ],
+  [
+   "crates/conductor-verify/src/spawn.rs:145:5",
+   "replace executable_extensions -> Vec<String> with vec![String::new()]"
+  ],
+  [
+   "crates/conductor-verify/src/spawn.rs:149:25",
+   "delete ! in executable_extensions"
+  ],
+  [
+   "crates/conductor-verify/src/spawn.rs:154:33",
+   "delete ! in executable_extensions"
+  ]
+ ],
+ "not_measured": [
+  [
+   "crates/conductor-verify/src/spawn.rs:41:5",
+   "replace console_suppressing_flags -> u32 with 0",
+   "cfg(windows)"
+  ],
+  [
+   "crates/conductor-verify/src/spawn.rs:41:5",
+   "replace console_suppressing_flags -> u32 with 1",
+   "cfg(windows)"
+  ]
+ ],
+ "timeouts": [],
+ "baseline_summary": "Success",
+ "start_time": "2026-10-04T09:43:42.572635586Z",
+ "end_time": "2026-10-04T09:45:35.705641711Z"
+}

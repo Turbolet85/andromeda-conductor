@@ -1,0 +1,594 @@
+{
+ "anchors": [
+  {
+   "chunk": "2026-09-18-real-model-leg-posture-and-grading-rule",
+   "consumer": "phase/research",
+   "consumer_id": "2026-09-18T07:23:26Z-a",
+   "artifact": "tree-db",
+   "quality": "thin",
+   "note": "plane rust, db_state fresh, 11 rows over two of three names; the third name is absent from the symbol view entirely - see the friction record",
+   "producer": null
+  },
+  {
+   "chunk": "2026-09-18-real-model-leg-posture-and-grading-rule",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-09-18T09:47:02Z-a",
+   "artifact": "implement-outcome",
+   "quality": "thin",
+   "note": "its OUTCOME stood (green, smoke skipped with a stated reason) and its deviations were present and justified, but it MIS-STATED two measurements it should have carried: the advisory baseline (compared today 1247 against 1243 of 2026-09-10, reaching past TWO newer recorded readings) and the 986 attribution (credited to the prior chunk, which records no count)",
+   "producer": "implement/smoke",
+   "producer_id": "2026-09-18T08:18:03Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "green"
+   ],
+   "producer_frictions": [],
+   "hypothesis": true
+  },
+  {
+   "chunk": "2026-09-18-real-model-leg-posture-and-grading-rule",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-09-18T10:08:41Z-a",
+   "artifact": "wrap-playbook",
+   "quality": "thin",
+   "note": "48 rules and none governed a NEW reader-less contracts/ member; the two nearest both carry a runtime-parsed qualifier that this class fails. The gap was anticipated by the chunk plan itself, which flagged the P-025 precedent as n=1",
+   "producer": null
+  },
+  {
+   "chunk": "2026-09-22-interpretation-proven-live",
+   "consumer": "phase/research",
+   "consumer_id": "2026-09-22T22:16:00Z-a",
+   "artifact": "extracts",
+   "quality": "thin",
+   "note": "the decisive signals (L4 conflict from layouts/arch/security/tests, the corpus-content item from security, the capture question from obs) were correct; design and layouts assumed a KnownResidual success row and arch/tests framed the second-digest need as given, both inherited from the posture and falsified at P3",
+   "producer": "phase/distill",
+   "producer_id": "2026-09-22T21:57:19Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "binding-unilateral"
+   ],
+   "producer_frictions": [
+    [
+     "2026-09-22T21:57:19Z-b",
+     "contract.skill-reference-drift"
+    ],
+    [
+     "2026-09-22T21:57:19Z-c",
+     "contract.extract-format"
+    ],
+    [
+     "2026-09-22T21:57:19Z-d",
+     "input.spec-source-gap"
+    ]
+   ],
+   "hypothesis": true
+  },
+  {
+   "chunk": "2026-09-22-interpretation-proven-live",
+   "consumer": "phase/plan",
+   "consumer_id": "2026-09-22T22:37:47Z-a",
+   "artifact": "research",
+   "quality": "thin",
+   "note": "one decisive SUT fact absent (the incident idle criterion) and one attribution fact (the incident list carries no service field) found at synthesis with 3 reads",
+   "producer": "phase/research",
+   "producer_id": "2026-09-22T22:16:00Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions"
+   ],
+   "producer_frictions": [
+    [
+     "2026-09-22T22:16:00Z-b",
+     "contract.premise-falsified"
+    ],
+    [
+     "2026-09-22T22:16:00Z-c",
+     "contract.premise-falsified"
+    ],
+    [
+     "2026-09-22T22:16:00Z-d",
+     "contract.premise-falsified"
+    ],
+    [
+     "2026-09-22T22:16:00Z-e",
+     "contract.premise-falsified"
+    ]
+   ],
+   "hypothesis": true
+  },
+  {
+   "chunk": "2026-09-22-interpretation-proven-live",
+   "consumer": "phase/validate",
+   "consumer_id": "2026-09-23T05:27:17Z-a",
+   "artifact": "plan",
+   "quality": "wrong",
+   "note": "every mechanical check passed at 555 lines, yet the operator review found 5 blockers (a canned-L4 Pulse could meet the criterion; model outcomes and environment faults crossed over; open-time attribution; a Blocked pin flipping v3-09; no --nocapture) plus 13 defects; after the fold the size check WARNS at 616 lines (54% over the guide)",
+   "producer": "phase/plan",
+   "producer_id": "2026-09-22T22:37:47Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:l4-posture-selector",
+    "designed-dialogue:capture-channel",
+    "designed-dialogue:identification-rule",
+    "authority-resolved:closed-enum garde skip per phase_spec precedent over the security extract blanket no-skip AC",
+    "authority-resolved:layouts selector-listing rule over the arch extract reading of the posture row as a no-flag rule",
+    "plan-oversize"
+   ],
+   "producer_frictions": [
+    [
+     "2026-09-22T22:37:47Z-b",
+     "input.research-thin"
+    ],
+    [
+     "2026-09-22T22:37:47Z-c",
+     "input.research-thin"
+    ]
+   ],
+   "hypothesis": true
+  },
+  {
+   "chunk": "2026-09-22-interpretation-proven-live",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-09-23T09:44:05Z-a",
+   "artifact": "wrap-playbook",
+   "quality": "thin",
+   "note": "no governing rule for S1/S2, S4 (rule 112's garde qualifier fails a closed unit enum) or S5; three rules minted with operator refinements",
+   "producer": null
+  },
+  {
+   "chunk": "2026-09-22-interpretation-proven-live",
+   "consumer": "wrap-session/route-resolve",
+   "consumer_id": "2026-09-23T09:51:34Z-a",
+   "artifact": "working-route",
+   "quality": "thin",
+   "note": "two pre-existing tail lines failed the route grammar (a one-space BLOCKED-ON, a CARRY 2 introducer)",
+   "producer": "phase/take-up",
+   "producer_id": "2026-09-22T21:43:50Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [],
+   "producer_frictions": [
+    [
+     "2026-09-22T21:43:50Z-b",
+     "input.out-of-pipeline-source"
+    ]
+   ],
+   "hypothesis": false
+  },
+  {
+   "chunk": null,
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-09-23T19:33:36Z-a",
+   "artifact": "handoff",
+   "quality": "thin",
+   "note": "Status clean, but tree carries an uncommitted post-wrap code-audit run dir + code-metrics append the handoff predates",
+   "producer": null
+  },
+  {
+   "chunk": "2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected",
+   "consumer": "phase/research",
+   "consumer_id": "2026-09-23T20:07:00Z-a",
+   "artifact": "tree-db",
+   "quality": "thin",
+   "note": "feature-gated test files (live-pulse) are not indexed; runs_dir/pulse_log resolved only to collisions, callers settled by grep",
+   "producer": null
+  },
+  {
+   "chunk": "2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected",
+   "consumer": "phase/plan",
+   "consumer_id": "2026-09-23T20:25:08Z-a",
+   "artifact": "research",
+   "quality": "thin",
+   "note": "line-granular claim sweep missed canary.rs:6-7 (tenth site) and two wrapped sites; the P4 multi-line probe found them",
+   "producer": "phase/research",
+   "producer_id": "2026-09-23T20:07:00Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions"
+   ],
+   "producer_frictions": [
+    [
+     "2026-09-23T20:07:00Z-b",
+     "tooling.graph-symbol-missing"
+    ]
+   ],
+   "hypothesis": true
+  },
+  {
+   "chunk": "2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected",
+   "consumer": "implement/code",
+   "consumer_id": "2026-09-23T20:42:32Z-a",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "step 2 prescribed rstest #[case] rows though rstest is not a conductor-run dev-dependency; operator caught it at invocation",
+   "producer": "phase/plan",
+   "producer_id": "2026-09-23T20:25:08Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:journal_conformance-coverage",
+    "designed-dialogue:claim-family-widening",
+    "authority-resolved:scope B3 miscount yielded to arch:197 contract-wide ordinal"
+   ],
+   "producer_frictions": [
+    [
+     "2026-09-23T20:25:08Z-b",
+     "input.research-thin"
+    ]
+   ],
+   "hypothesis": true
+  },
+  {
+   "chunk": "2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected",
+   "consumer": "implement/fix-loop",
+   "consumer_id": "2026-09-23T20:44:24Z-a",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "gate 14 not run by the tool: its ${S} shell-variable reference was read as a required env handle",
+   "producer": "phase/plan",
+   "producer_id": "2026-09-23T20:25:08Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:journal_conformance-coverage",
+    "designed-dialogue:claim-family-widening",
+    "authority-resolved:scope B3 miscount yielded to arch:197 contract-wide ordinal"
+   ],
+   "producer_frictions": [
+    [
+     "2026-09-23T20:25:08Z-b",
+     "input.research-thin"
+    ]
+   ],
+   "hypothesis": true
+  },
+  {
+   "chunk": "2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-09-23T20:58:44Z-a",
+   "artifact": "wrap-playbook",
+   "quality": "thin",
+   "note": ":134 route-entry clause failed for the unrouted journal_conformance residual; extended on operator approval",
+   "producer": null
+  },
+  {
+   "chunk": "2026-09-24-architecture-registries-compacted-under-the-read-cap",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-09-24T09:06:34Z-a",
+   "artifact": "wrap-playbook",
+   "quality": "thin",
+   "note": "no rule for registering a new operator instrument in the Stack row; minted this wrap",
+   "producer": null
+  },
+  {
+   "chunk": "2026-09-29-diagnostic-quality-cluster-off-the-drift-pin",
+   "consumer": "phase/take-up",
+   "consumer_id": "2026-09-29T06:18:09Z-a",
+   "artifact": "handoff",
+   "quality": "thin",
+   "note": "handoff Position Next names :57; the operator directive file outside the pipeline carried the take-up decision and the Pulse HEAD coordinate",
+   "producer": null
+  },
+  {
+   "chunk": "2026-09-29-diagnostic-quality-cluster-off-the-drift-pin",
+   "consumer": "phase/plan",
+   "consumer_id": "2026-09-29T06:41:01Z-a",
+   "artifact": "research",
+   "quality": "thin",
+   "note": "damper keying, cue latch, allowlist, and the live-leg wrapper budget were read at synthesis (P4 addenda), not at P3; all decided the multi-storm variant's viability",
+   "producer": "phase/research",
+   "producer_id": "2026-09-29T06:32:22Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions"
+   ],
+   "producer_frictions": [],
+   "hypothesis": true
+  },
+  {
+   "chunk": "2026-09-29-diagnostic-quality-cluster-off-the-drift-pin",
+   "consumer": "implement/code",
+   "consumer_id": "2026-09-29T06:59:06Z-a",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "step 4 extends the rule inside its markers without addressing rule_predates_the_drive's exact equality against the 2026-09-23 capture; step 3(a)'s per-section print would defeat the order check P-031 grades; P-031's missing/out-of-order outcome unspecified",
+   "producer": "phase/plan",
+   "producer_id": "2026-09-29T06:41:01Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:re-drive-policy",
+    "designed-dialogue:measurement-design",
+    "designed-dialogue:p-044-grading-basis",
+    "authority-resolved:test-plan section 9 fired-once yields to the founder ruling via D1, amendment expected at wrap"
+   ],
+   "producer_frictions": [],
+   "hypothesis": true
+  },
+  {
+   "chunk": "2026-09-29-diagnostic-quality-cluster-off-the-drift-pin",
+   "consumer": "wrap-session/curation",
+   "consumer_id": "2026-09-29T18:13:36Z-a",
+   "artifact": "conversation",
+   "quality": "thin",
+   "note": "resume at P2: the P1 window's conversation is gone, so only this window and the report's Decisions & corrections were scanned",
+   "producer": "implement/smoke",
+   "producer_id": "2026-09-29T07:07:16Z-a",
+   "producer_outcome": "soft-exit",
+   "producer_signals": [
+    "skipped"
+   ],
+   "producer_frictions": [],
+   "hypothesis": false
+  },
+  {
+   "chunk": "2026-09-29-dual-license-mit-or-apache-2-0",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-09-29T19:24:17Z-a",
+   "artifact": "drift-base",
+   "quality": "thin",
+   "note": "no detector covers a repo-root file-set change or a deny.toml policy description; all 3 amendments came from the plan's expected-amendments floor",
+   "producer": null
+  },
+  {
+   "chunk": "2026-09-29-dual-license-mit-or-apache-2-0",
+   "consumer": "wrap-session/gates",
+   "consumer_id": "2026-09-29T19:43:16Z-a",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "two probe forms (git diff worktree-vs-HEAD) are valid only before the operator pre-CI commit",
+   "producer": "phase/validate",
+   "producer_id": "2026-09-29T18:45:12Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "baseline-red-before-green"
+   ],
+   "producer_frictions": [
+    [
+     "2026-09-29T18:45:12Z-b",
+     "contract.mechanical-check"
+    ]
+   ],
+   "hypothesis": true
+  },
+  {
+   "chunk": "2026-09-29-hue-shift-budget-graded-hard",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-09-29T21:32:59Z-a",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "provenance pairing inverted; fall forecast measured false",
+   "producer": "phase/plan",
+   "producer_id": "2026-09-29T20:45:35Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:breach-rule-for-v3-08",
+    "designed-dialogue:rise-only-vs-healthy-tail",
+    "planlint-caught-atom-from-wording"
+   ],
+   "producer_frictions": [
+    [
+     "2026-09-29T20:45:35Z-b",
+     "retry.synthesis-rework"
+    ],
+    [
+     "2026-09-29T20:45:35Z-c",
+     "retry.synthesis-rework"
+    ]
+   ],
+   "hypothesis": true
+  },
+  {
+   "chunk": "2026-09-29-hue-shift-budget-graded-hard",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-09-29T21:39:38Z-a",
+   "artifact": "drift-base",
+   "quality": "thin",
+   "note": "no obs detector is written for a retired SUT-measurement claim; the obs agent filed the planned amendment under D-obs-instrumentation as nearest fit",
+   "producer": null
+  },
+  {
+   "chunk": "2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-09-30T07:25:34Z-a",
+   "artifact": "implement-outcome",
+   "quality": "thin",
+   "note": "implement's P4 report was superseded by the Part B series, the a11y witness redone on the new driver and the operator pass, all in this window",
+   "producer": "implement/smoke",
+   "producer_id": "2026-09-30T05:09:26Z-a",
+   "producer_outcome": "ok-degraded",
+   "producer_signals": [
+    "deferral-open"
+   ],
+   "producer_frictions": [],
+   "hypothesis": false
+  }
+ ],
+ "shapes": [
+  {
+   "shape": [
+    null,
+    "wrap-playbook",
+    "wrap-session/reconcile"
+   ],
+   "chunks": [
+    "2026-09-18-real-model-leg-posture-and-grading-rule",
+    "2026-09-22-interpretation-proven-live",
+    "2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected",
+    "2026-09-24-architecture-registries-compacted-under-the-read-cap"
+   ],
+   "k": 4,
+   "candidate": true
+  },
+  {
+   "shape": [
+    "phase/research",
+    "research",
+    "phase/plan"
+   ],
+   "chunks": [
+    "2026-09-22-interpretation-proven-live",
+    "2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected",
+    "2026-09-29-diagnostic-quality-cluster-off-the-drift-pin"
+   ],
+   "k": 3,
+   "candidate": true
+  },
+  {
+   "shape": [
+    null,
+    "tree-db",
+    "phase/research"
+   ],
+   "chunks": [
+    "2026-09-18-real-model-leg-posture-and-grading-rule",
+    "2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected"
+   ],
+   "k": 2,
+   "candidate": true
+  },
+  {
+   "shape": [
+    "implement/smoke",
+    "implement-outcome",
+    "wrap-session/report"
+   ],
+   "chunks": [
+    "2026-09-18-real-model-leg-posture-and-grading-rule",
+    "2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir"
+   ],
+   "k": 2,
+   "candidate": true
+  },
+  {
+   "shape": [
+    "phase/plan",
+    "plan",
+    "implement/code"
+   ],
+   "chunks": [
+    "2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected",
+    "2026-09-29-diagnostic-quality-cluster-off-the-drift-pin"
+   ],
+   "k": 2,
+   "candidate": true
+  },
+  {
+   "shape": [
+    null,
+    "drift-base",
+    "wrap-session/reconcile"
+   ],
+   "chunks": [
+    "2026-09-29-dual-license-mit-or-apache-2-0",
+    "2026-09-29-hue-shift-budget-graded-hard"
+   ],
+   "k": 2,
+   "candidate": true
+  },
+  {
+   "shape": [
+    "phase/distill",
+    "extracts",
+    "phase/research"
+   ],
+   "chunks": [
+    "2026-09-22-interpretation-proven-live"
+   ],
+   "k": 1,
+   "candidate": false
+  },
+  {
+   "shape": [
+    "phase/plan",
+    "plan",
+    "phase/validate"
+   ],
+   "chunks": [
+    "2026-09-22-interpretation-proven-live"
+   ],
+   "k": 1,
+   "candidate": false
+  },
+  {
+   "shape": [
+    "phase/take-up",
+    "working-route",
+    "wrap-session/route-resolve"
+   ],
+   "chunks": [
+    "2026-09-22-interpretation-proven-live"
+   ],
+   "k": 1,
+   "candidate": false
+  },
+  {
+   "shape": [
+    null,
+    "handoff",
+    "new-session/orientation"
+   ],
+   "chunks": [
+    null
+   ],
+   "k": 1,
+   "candidate": false
+  },
+  {
+   "shape": [
+    "phase/plan",
+    "plan",
+    "implement/fix-loop"
+   ],
+   "chunks": [
+    "2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected"
+   ],
+   "k": 1,
+   "candidate": false
+  },
+  {
+   "shape": [
+    null,
+    "handoff",
+    "phase/take-up"
+   ],
+   "chunks": [
+    "2026-09-29-diagnostic-quality-cluster-off-the-drift-pin"
+   ],
+   "k": 1,
+   "candidate": false
+  },
+  {
+   "shape": [
+    "implement/smoke",
+    "conversation",
+    "wrap-session/curation"
+   ],
+   "chunks": [
+    "2026-09-29-diagnostic-quality-cluster-off-the-drift-pin"
+   ],
+   "k": 1,
+   "candidate": false
+  },
+  {
+   "shape": [
+    "phase/validate",
+    "plan",
+    "wrap-session/gates"
+   ],
+   "chunks": [
+    "2026-09-29-dual-license-mit-or-apache-2-0"
+   ],
+   "k": 1,
+   "candidate": false
+  },
+  {
+   "shape": [
+    "phase/plan",
+    "plan",
+    "wrap-session/report"
+   ],
+   "chunks": [
+    "2026-09-29-hue-shift-budget-graded-hard"
+   ],
+   "k": 1,
+   "candidate": false
+  }
+ ]
+}

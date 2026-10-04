@@ -1,0 +1,35 @@
+{
+ "unit": "conductor-timeline",
+ "state": "complete",
+ "shard": null,
+ "unit_state": "complete 38/38",
+ "counts": {
+  "mutants": 38,
+  "caught": 30,
+  "missed": 3,
+  "not_measured": 0,
+  "timeout": 0,
+  "unviable": 5
+ },
+ "score": 90.91,
+ "score_formula": "caught/(caught+missed)",
+ "survivors": [
+  [
+   "crates/conductor-timeline/src/scheduler.rs:181:27",
+   "replace == with != in paced_slices"
+  ],
+  [
+   "crates/conductor-timeline/src/scheduler.rs:181:40",
+   "replace - with / in paced_slices"
+  ],
+  [
+   "crates/conductor-timeline/src/scheduler.rs:181:40",
+   "replace - with + in paced_slices"
+  ]
+ ],
+ "not_measured": [],
+ "timeouts": [],
+ "baseline_summary": "Success",
+ "start_time": "2026-10-04T09:35:12.032589952Z",
+ "end_time": "2026-10-04T09:35:52.852043954Z"
+}

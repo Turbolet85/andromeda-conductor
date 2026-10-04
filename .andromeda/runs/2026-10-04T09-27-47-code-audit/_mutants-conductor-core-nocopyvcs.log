@@ -1,0 +1,25 @@
+# excerpt (host paths scrubbed): cargo-mutants -p conductor-core copy mode, unmutated baseline
+FAIL [   0.007s] (350/371) conductor-core::secret_scan_gate the_workspace_holds_no_secret_shaped_string
+  stdout ───
+
+    running 1 test
+    test the_workspace_holds_no_secret_shaped_string ... FAILED
+
+    failures:
+
+    failures:
+        the_workspace_holds_no_secret_shaped_string
+
+    test result: FAILED. 0 passed; 1 failed; 0 ignored; 0 measured; 4 filtered out; finished in 0.00s
+
+  stderr ───
+
+    thread 'the_workspace_holds_no_secret_shaped_string' (3783386) panicked at crates/conductor-core/tests/secret_scan_gate.rs:185:5:
+    `git ls-files` exited exit status: 128 — the gate has no subject
+    note: run with `RUST_BACKTRACE=1` environment variable to display a backtrace
+
+  
+
+*** result: Failure(100)
+
+ERROR cargo test failed in an unmutated tree, so no mutants were tested

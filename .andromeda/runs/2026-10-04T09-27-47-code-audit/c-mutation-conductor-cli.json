@@ -1,0 +1,35 @@
+{
+ "unit": "conductor-cli",
+ "state": "complete",
+ "shard": null,
+ "unit_state": "complete 116/116",
+ "counts": {
+  "mutants": 116,
+  "caught": 94,
+  "missed": 3,
+  "not_measured": 0,
+  "timeout": 0,
+  "unviable": 19
+ },
+ "score": 96.91,
+ "score_formula": "caught/(caught+missed)",
+ "survivors": [
+  [
+   "crates/conductor-cli/src/cli.rs:78:45",
+   "replace && with || in scenario_name"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:161:5",
+   "replace stdout_color -> bool with false"
+  ],
+  [
+   "crates/conductor-cli/src/render.rs:171:5",
+   "replace stderr_color -> bool with false"
+  ]
+ ],
+ "not_measured": [],
+ "timeouts": [],
+ "baseline_summary": "Success",
+ "start_time": "2026-10-04T09:38:58.216769548Z",
+ "end_time": "2026-10-04T09:40:36.597386108Z"
+}

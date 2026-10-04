@@ -1,0 +1,146 @@
+{
+ "population": "jscpd --format rust over crates/ (Rust only)",
+ "pct": 2.98543807529343,
+ "duplicated_lines": 1226,
+ "total_lines": 41066,
+ "clones": 130,
+ "sources": 149,
+ "split": {
+  "src": {
+   "pairs": 56,
+   "lines": 510
+  },
+  "test": {
+   "pairs": 64,
+   "lines": 617
+  },
+  "mixed": {
+   "pairs": 10,
+   "lines": 99
+  }
+ },
+ "top": [
+  [
+   "conductor-run/tests/real_model_harvest.rs",
+   "conductor-run/tests/real_model_harvest.rs",
+   31
+  ],
+  [
+   "conductor-run/tests/real_model_live.rs",
+   "conductor-run/tests/span_landing_live.rs",
+   21
+  ],
+  [
+   "conductor-run/tests/real_model_harvest.rs",
+   "conductor-run/tests/real_model_harvest.rs",
+   18
+  ],
+  [
+   "conductor-core/src/scenario.rs",
+   "conductor-core/src/scenario.rs",
+   17
+  ],
+  [
+   "conductor-run/tests/real_model_harvest.rs",
+   "conductor-run/tests/real_model_harvest.rs",
+   16
+  ],
+  [
+   "conductor-run/tests/real_model_harvest.rs",
+   "conductor-run/tests/real_model_harvest.rs",
+   16
+  ],
+  [
+   "conductor-emit/src/latency.rs",
+   "conductor-emit/src/rate.rs",
+   15
+  ],
+  [
+   "conductor-emit/src/latency.rs",
+   "conductor-emit/src/rate.rs",
+   15
+  ],
+  [
+   "conductor-emit/src/span_tree.rs",
+   "conductor-emit/src/topology.rs",
+   15
+  ],
+  [
+   "conductor-core/src/expected.rs",
+   "conductor-verify/src/slo.rs",
+   14
+  ]
+ ],
+ "top_with_starts": [
+  [
+   "conductor-run/tests/real_model_harvest.rs",
+   "conductor-run/tests/real_model_harvest.rs",
+   31,
+   2147,
+   2422
+  ],
+  [
+   "conductor-run/tests/real_model_live.rs",
+   "conductor-run/tests/span_landing_live.rs",
+   21,
+   774,
+   161
+  ],
+  [
+   "conductor-run/tests/real_model_harvest.rs",
+   "conductor-run/tests/real_model_harvest.rs",
+   18,
+   2128,
+   2403
+  ],
+  [
+   "conductor-core/src/scenario.rs",
+   "conductor-core/src/scenario.rs",
+   17,
+   1210,
+   1446
+  ],
+  [
+   "conductor-run/tests/real_model_harvest.rs",
+   "conductor-run/tests/real_model_harvest.rs",
+   16,
+   1916,
+   2123
+  ],
+  [
+   "conductor-run/tests/real_model_harvest.rs",
+   "conductor-run/tests/real_model_harvest.rs",
+   16,
+   1916,
+   2398
+  ],
+  [
+   "conductor-emit/src/latency.rs",
+   "conductor-emit/src/rate.rs",
+   15,
+   75,
+   141
+  ],
+  [
+   "conductor-emit/src/latency.rs",
+   "conductor-emit/src/rate.rs",
+   15,
+   119,
+   154
+  ],
+  [
+   "conductor-emit/src/span_tree.rs",
+   "conductor-emit/src/topology.rs",
+   15,
+   107,
+   153
+  ],
+  [
+   "conductor-core/src/expected.rs",
+   "conductor-verify/src/slo.rs",
+   14,
+   168,
+   220
+  ]
+ ]
+}

@@ -1,0 +1,45 @@
+{
+ "formula": "commits(churn window) x max cognitive per file over the FULL rca population (fallback 0 for non-Rust)",
+ "top": [
+  [
+   "crates/conductor-run/tests/real_model_live.rs",
+   72.0
+  ],
+  [
+   "crates/conductor-verify/tests/common/mod.rs",
+   72.0
+  ],
+  [
+   "crates/conductor-run/tests/real_model_common/mod.rs",
+   52.0
+  ],
+  [
+   "crates/conductor-run/tests/real_model_harvest.rs",
+   32.0
+  ],
+  [
+   "crates/conductor-run/tests/lifecycle_harvest.rs",
+   30.0
+  ],
+  [
+   "crates/conductor-core/tests/workflow_env_gate.rs",
+   26.0
+  ],
+  [
+   "crates/conductor-run/src/dispatch.rs",
+   16.0
+  ],
+  [
+   "crates/conductor-verify/src/preflight.rs",
+   16.0
+  ],
+  [
+   "crates/conductor-run/tests/p075_round_live.rs",
+   14.0
+  ],
+  [
+   "crates/conductor-run/tests/span_landing_live.rs",
+   14.0
+  ]
+ ]
+}

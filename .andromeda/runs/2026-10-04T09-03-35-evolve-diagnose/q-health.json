@@ -1,0 +1,423 @@
+{
+ "epoch": "Epoch 5 - Polish & ship",
+ "version": "0.3.0",
+ "records": 413,
+ "step": 203,
+ "friction": 210,
+ "retracted_in_epoch": [],
+ "clause_retracted_in_epoch": {},
+ "malformed_ts_in_epoch": [],
+ "coverage": {
+  "2026-09-24-secret-scanning-ci-gate": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-09-29-unasserted-keyboard-and-focus-visible-claims-closed": {
+   "phase": [
+    "take-up"
+   ]
+  },
+  "None": {
+   "new-session": [
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation"
+   ]
+  },
+  "2026-09-30-mutation-gate-grades-every-tally-it-rests-on": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-09-30-the-screen-reader-pass-grades-again-on-this-host": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-09-30-the-sr-cause-isolated-on-this-host": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-09-30-the-sr-pass-regrades-on-the-os-input-path": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-09-30-the-screen-reader-content-findings-fixed": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-09-30-full-gate-regression-over-the-moved-surfaces": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-10-01-interpretation-re-proven-after-the-incident-surfacing-fix": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-10-01-per-run-span-identity-in-the-real-model-harness": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-10-02-p-075-assert-round-against-pulse": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-10-02-captured-fingerprint-values-elided": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-10-02-p-075-re-round-on-incident-events": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ]
+  },
+  "2026-10-03-p-075-re-round-on-incident-events": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-10-04-host-portable-tauri-ipc-tests": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  }
+ },
+ "friction_chunks_without_steps": [],
+ "untyped_by_step": {
+  "phase/take-up": [
+   0,
+   10
+  ],
+  "phase/research": [
+   4,
+   17
+  ],
+  "phase/validate": [
+   1,
+   22
+  ],
+  "implement/code": [
+   1,
+   10
+  ],
+  "wrap-session/report": [
+   2,
+   7
+  ],
+  "wrap-session/reconcile": [
+   3,
+   34
+  ],
+  "wrap-session/curation": [
+   0,
+   22
+  ],
+  "wrap-session/route-resolve": [
+   1,
+   7
+  ],
+  "wrap-session/gates": [
+   2,
+   14
+  ],
+  "phase/plan": [
+   1,
+   8
+  ],
+  "implement/fix-loop": [
+   3,
+   26
+  ],
+  "phase/distill": [
+   2,
+   17
+  ],
+  "new-session/orientation": [
+   4,
+   7
+  ],
+  "implement/None": [
+   0,
+   2
+  ],
+  "wrap-session/None": [
+   0,
+   3
+  ],
+  "phase/None": [
+   0,
+   4
+  ]
+ },
+ "problem_fact_fill": [
+  69,
+  203
+ ],
+ "id_fill": [
+  413,
+  413
+ ],
+ "outcomes": {
+  "implement/fix-loop:ok-degraded": 3,
+  "wrap-session/route-resolve:halted-resolved": 2,
+  "wrap-session/reconcile:halted-resolved": 5,
+  "phase/plan:soft-exit": 1,
+  "phase/validate:soft-exit": 1,
+  "phase/take-up:halted-resolved": 1,
+  "phase/research:ok-degraded": 2
+ }
+}

@@ -1,0 +1,90 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-10-04T11:41:39Z",
+"argv": [
+"append",
+"--dry-run",
+"--file",
+"conductor-0.3.0/working-route.md",
+"--payload-file",
+"/tmp/claude-1000/-home-turbolet-dev-projects-conductor/0281c709-3934-44b7-8789-f479db0ab4d2/scratchpad/route-payload.txt",
+"--lines",
+"2",
+"--after-line",
+"87",
+"--expect-last-prefix",
+"### Epoch 5b",
+"--if-absent-prefix",
+"Real-model test-surface corrective",
+"--run-dir",
+".andromeda/runs/2026-10-04T11-45-00-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"dry-run · would write working-route.md · lines 90→92 · bytes 9999→11259"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"lines": 90,
+"bytes": 9999,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 92,
+"bytes": 11259
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "5afc7864",
+"ts": "2026-10-04T11:41:43Z",
+"argv": [
+"append",
+"--file",
+"conductor-0.3.0/working-route.md",
+"--payload-file",
+"/tmp/claude-1000/-home-turbolet-dev-projects-conductor/0281c709-3934-44b7-8789-f479db0ab4d2/scratchpad/route-payload.txt",
+"--lines",
+"2",
+"--after-line",
+"87",
+"--expect-last-prefix",
+"### Epoch 5b",
+"--if-absent-prefix",
+"Real-model test-surface corrective",
+"--run-dir",
+".andromeda/runs/2026-10-04T11-45-00-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"append working-route.md:+2 at line 88 · lines 90→92 · bytes 9999→11259 · term lf",
+"last line now: Version close on measured evidence — every capability verified or deferred on "
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0/working-route.md"
+],
+"before": {
+"lines": 90,
+"bytes": 9999,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 92,
+"bytes": 11259
+}
+}
+]

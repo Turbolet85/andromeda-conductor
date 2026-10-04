@@ -1,0 +1,52 @@
+{
+  "epoch": "Epoch 4 - Live proof against a real Pulse",
+  "version": "conductor-0.3.0",
+  "problem_fact_pile": {"step_records_with_facts": 44, "step_records": 119, "facts_by_solution": "workaround/prohibition/removed-cause/deferred/overridden/unresolved read from the step records' problem field after the retraction filter"},
+  "pass_a_themes": [
+    {"theme": "T1 Bash guard hook / Bash transport forces a re-route (heredoc-to-file refused, doubled backslash refused or collapsed)", "n": 9, "nature": ["environment x8", "process x1"], "solution": "workaround",
+     "facts": ["2026-09-18T06:26:34Z-a#0", "2026-09-23T05:27:17Z-a#2", "2026-09-23T09:48:36Z-a#1", "2026-09-24T08:06:24Z-a#1", "2026-09-29T18:11:24Z-a#0", "2026-09-29T18:11:24Z-a#1", "2026-09-29T20:57:49Z-a#0", "2026-09-30T04:18:58Z-a#1", "2026-09-30T04:48:01Z-a#0"],
+     "typed_correlates": ["tooling.host-shell x5 (2026-09-23T05:27:17Z-c, 2026-09-23T07:56:00Z-c, 2026-09-24T06:34:29Z-b, 2026-09-29T17:37:55Z-f, 2026-09-29T18:37:32Z-c)", "tooling.hook-friction x2 (2026-09-24T08:06:24Z-b, 2026-09-29T20:57:49Z-c)"],
+     "prior_epoch": "Epoch 3: 2026-09-16T17:16:33Z-a#0, 2026-09-17T14:31:28Z-a#0 (host-shell class environment workarounds)", "above_threshold": true, "signature": "band-aid"},
+    {"theme": "T2 gate.py cannot drive an entry the letter says it drives (in-command ${VAR} read as an env handle; defer-keyed entry not voidable by --only; operator leg refused)", "n": 5, "nature": ["process x5"], "solution": "workaround",
+     "facts": ["2026-09-23T07:56:00Z-a#1", "2026-09-23T20:44:24Z-a#0", "2026-09-23T21:04:05Z-a#0", "2026-09-24T08:08:14Z-a#0", "2026-09-24T09:11:27Z-a#0"],
+     "typed_correlates": ["contract.skill-reference-drift 2026-09-23T07:56:00Z-b, 2026-09-24T08:08:14Z-c", "tooling.gate-deferral 2026-09-24T08:08:14Z-b", "untyped 2026-09-23T20:44:24Z-b"],
+     "prior_epoch": "Epoch 3: 2026-09-16T11:40:17Z-a#0 (defer not voidable, run by hand), 2026-09-16T19:18:09Z-a#0 ($NAME env predicate)", "above_threshold": true, "signature": "band-aid"},
+    {"theme": "T3 flip-compaction has no route.py verb; the letter prescribes one whole-file Write", "n": 3, "nature": ["process x3"], "solution": "workaround",
+     "facts": ["2026-09-18T10:18:22Z-a#0", "2026-09-23T09:59:23Z-a#1", "2026-09-24T09:11:27Z-a#1"],
+     "typed_correlates": ["contract.skill-reference-drift 2026-09-18T10:18:22Z-b"], "above_threshold": true, "signature": "band-aid"},
+    {"theme": "T4 distill extract validation vs the shapes distillers and the transport actually produce (No-domain-coverage floor, transport framing, item-grain anchors, hand decode)", "n": 6, "nature": ["process x5", "environment x1"], "solution": "workaround",
+     "facts": ["2026-09-18T07:16:39Z-a#0", "2026-09-18T07:16:39Z-a#1", "2026-09-22T21:57:19Z-a#0", "2026-09-23T20:03:51Z-a#0", "2026-09-24T06:28:31Z-a#0", "2026-09-24T06:28:31Z-a#1"],
+     "typed_correlates": ["contract.skill-reference-drift 2026-09-22T21:57:19Z-b, 2026-09-24T06:28:31Z-c", "contract.extract-format 2026-09-22T21:57:19Z-c, 2026-09-29T20:21:47Z-b", "contract.token-proxy-check 2026-09-29T06:24:21Z-b, 2026-09-30T04:28:12Z-c", "retry.distiller-respawn 2026-09-24T06:28:31Z-b, 2026-09-30T04:28:12Z-b"],
+     "prior_epoch": "Epoch 3: 2026-09-16T10:47:25Z-a#0 (extract host path rewritten at persist)", "above_threshold": true, "signature": "band-aid"},
+    {"theme": "T5 advisory-db local clone left untracked residue; moved aside by hand", "n_in_epoch": 1, "nature": ["environment"], "solution": "removed-cause",
+     "facts": ["2026-09-23T09:59:23Z-a#0"], "typed_correlates": ["tooling.light-gate-red 2026-09-23T09:59:23Z-b", "contract.skill-reference-drift 2026-09-29T19:02:06Z-b (same probe, FETCH_HEAD vs @{u})"],
+     "prior_epoch": "0.2.0 Epoch 6b: 2026-09-05T16:56:23Z-a (the residue that ended the 4-week deferral)", "later_lookback_read_only": "0.3.0 Epoch 5: 2026-10-01T23:22:23Z-a/-c", "above_threshold": true, "signature": "removed-cause observation"},
+    {"theme": "T6 rule files past the read cap shape routing and reading", "n": 2, "facts": ["2026-09-29T21:41:18Z-a#0", "2026-09-29T18:47:24Z-a#0"], "typed_correlates": ["ambiguity.tier-routing 2026-09-23T21:01:06Z-b, 2026-09-24T09:07:57Z-b"], "above_threshold": false},
+    {"theme": "T7 context ceiling forces condensation or deferral", "n": 2, "facts": ["2026-09-23T05:27:17Z-a#0 (deferred)", "2026-09-23T09:44:05Z-a#0"], "above_threshold": false},
+    {"theme": "T8 tool trails carry host paths the hygiene read does not open; rewritten by script", "n": 1, "facts": ["2026-09-29T18:22:32Z-a#0"], "typed_correlates": ["contract.structural-blind-spot 2026-09-29T18:22:32Z-b (second consecutive wrap)"], "above_threshold": false},
+    {"theme": "T9 light-gate probes anchored to HEAD go vacuous after the operator pre-CI commit", "n": 1, "facts": ["2026-09-29T19:43:16Z-a#0 (overridden)"], "typed_correlates": ["tooling.light-gate-red 2026-09-29T19:43:16Z-b"], "above_threshold": false},
+    {"theme": "T10 route grammar breaks repaired on the markerless tail", "n": 1, "facts": ["2026-09-23T09:51:34Z-a#0 (removed-cause)"], "typed_correlates": ["contract.grammar-irregularity x10"], "above_threshold": false}
+  ],
+  "pass_b_signatures": {
+    "band_aid": ["T1", "T2", "T3", "T4"],
+    "removed_cause_observation": ["T5"],
+    "chronic_degrade": [
+      {"type": "tooling.host-shell", "per_epoch": "0.2.0 E3:14 E4:13 E5:3 E6a:4 E6b:8 | 0.3.0 E1:10 E2:2 E3:2 E4:5 E5:9", "halted_ever": false},
+      {"type": "tooling.health-false-red", "per_epoch": "0.2.0 E1:1 E3:4 E4:1 E6a:1 | 0.3.0 E2:1 E4:5", "halted_ever": false},
+      {"type": "tooling.gate-deferral", "per_epoch": "0.2.0 E1:3 E2:9 E3:8 E5:4 E6a:2 E6b:2 | 0.3.0 E1:3 E3:2 E4:1 E5:6", "halted_ever": false}
+    ],
+    "override": [
+      {"rule": "phase take-up: a BLOCKED-ON head halts or is skipped", "facts": ["2026-09-29T06:18:09Z-a#0", "2026-09-30T04:18:58Z-a#0"], "halt_impact": "both steps halted-resolved (halted 1, halted 2)", "above_threshold": true}
+    ],
+    "override_single_rule_below_threshold": ["2026-09-23T05:27:17Z-a#1", "2026-09-23T07:56:00Z-a#0", "2026-09-23T09:44:05Z-a#3", "2026-09-23T20:42:32Z-a#0", "2026-09-29T07:06:57Z-a#0", "2026-09-29T18:11:24Z-a#2", "2026-09-29T19:43:16Z-a#0"],
+    "deferred_forever": [],
+    "deferrals_checked": [
+      {"fact": "2026-09-18T07:27:32Z-a#0", "closure": "routed to the drive chunk; disproved at 2026-09-22T22:16:00Z-c"},
+      {"fact": "2026-09-23T05:27:17Z-a#0", "closure": "2026-09-23T07:29:00Z-a consumed plan note 'binding P5 fold complete'"},
+      {"fact": "2026-09-23T09:44:05Z-a#2", "closure": "routed (CARRY / handoff named in the note); test-plan :335 applied 2026-10-02 per 2026-10-02T13:08:06Z-d"},
+      {"fact": "2026-09-23T09:51:34Z-a#1", "closure": "routed to the handoff; :335 closed 2026-10-02; residuals.md :11 has no later ledger record (routed, not orphaned)"},
+      {"fact": "2026-09-29T18:11:24Z-a#3", "closure": "routed as CARRYs to the v3-09 series entry, taken up 2026-09-30"},
+      {"fact": "friction 2026-09-24T09:08:57Z-b (deferred 1)", "closure": "routed to the handoff; no later ledger record"}
+    ]
+  }
+}

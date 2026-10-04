@@ -1,0 +1,8 @@
+{
+ "unit": "conductor-core",
+ "state": "baseline-test-failure",
+ "shard": "1/4",
+ "planned": 140,
+ "baseline_summary": "Failure",
+ "end_time": "2026-10-04T09:45:45.297386344Z"
+}

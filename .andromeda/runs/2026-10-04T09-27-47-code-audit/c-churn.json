@@ -1,0 +1,51 @@
+{
+ "population": "git log --numstat e799b9e0..HEAD -- crates/**/*.rs crates/**/*.ts crates/**/*.tsx",
+ "commits_in_window": 15,
+ "pct": 38.99,
+ "files_churned": 17,
+ "files_touched": 57,
+ "total_adds": 8037,
+ "churned_adds": 3134,
+ "top_touch_counts": [
+  [
+   "crates/conductor-run/tests/real_model_common/mod.rs",
+   4
+  ],
+  [
+   "crates/conductor-run/tests/real_model_harvest.rs",
+   4
+  ],
+  [
+   "crates/conductor-run/tests/real_model_live.rs",
+   4
+  ],
+  [
+   "crates/conductor-run/tests/real_model_series/mod.rs",
+   4
+  ],
+  [
+   "crates/conductor-tauri/ui/test/a11y/screen-reader.e2e.ts",
+   4
+  ],
+  [
+   "crates/conductor-run/tests/delegated_timing_harvest.rs",
+   3
+  ],
+  [
+   "crates/conductor-run/tests/lifecycle_harvest.rs",
+   3
+  ],
+  [
+   "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+   3
+  ],
+  [
+   "crates/conductor-tauri/ui/test/a11y/accessibility.e2e.ts",
+   3
+  ],
+  [
+   "crates/conductor-tauri/ui/test/a11y/screen-reader/parse-nvda-log.ts",
+   3
+  ]
+ ]
+}

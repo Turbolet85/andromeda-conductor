@@ -1,0 +1,66 @@
+{
+  "epoch": "Epoch 5 - Polish & ship",
+  "version": "conductor-0.3.0",
+  "prior_epoch_status": "Epoch 4 diagnosed immediately before this run (.andromeda/runs/2026-10-04T08-53-35-evolve-diagnose/); its themes are read here as prior-epoch recurrence only, never as inputs to a proposal's evidence",
+  "problem_fact_pile": {"step_records_with_facts": 69, "step_records": 203},
+  "pass_a_themes": [
+    {"theme": "T1 Bash guard hook refuses heredoc-to-file / doubled-backslash commands; re-routed to Write/Edit or a script file", "n": 13, "nature": ["environment x7", "process x6"], "solution": "workaround",
+     "facts": ["2026-09-30T10:06:53Z-a#0", "2026-09-30T11:58:22Z-a#0", "2026-09-30T12:12:11Z-a#0", "2026-09-30T13:00:34Z-a#0", "2026-09-30T21:35:57Z-a#0", "2026-09-30T23:47:14Z-a#0", "2026-10-01T00:31:13Z-a#1", "2026-10-01T19:09:56Z-a#0", "2026-10-01T19:14:05Z-a#0", "2026-10-01T21:54:30Z-a#0", "2026-10-02T05:04:49Z-a#0", "2026-10-04T00:36:13Z-a#0", "2026-10-04T01:25:01Z-a#1"],
+     "typed_correlates": ["tooling.host-shell guard-caught x5 (2026-09-30T12:27:10Z-d, 2026-09-30T13:00:34Z-b, 2026-09-30T15:19:02Z-f, 2026-09-30T20:51:18Z-c, 2026-10-02T16:09:16Z-b)", "recall.corpus-recurrence x4 (2026-09-24T14:38:54Z-c, 2026-09-30T12:38:16Z-b, 2026-09-30T14:05:45Z-c, 2026-10-01T00:12:13Z-b)", "recall.curated-rule-not-applied 2026-09-30T11:28:40Z-c"],
+     "prior_epoch": "Epoch 4 L1 (9 facts)", "host_note": "two facts (2026-10-04T00:36:13Z-a#0, 2026-10-04T01:25:01Z-a#1) are on the Linux host", "above_threshold": true, "signature": "band-aid"},
+    {"theme": "T2 a leading cd persists the Bash cwd (or is refused by a deny rule it cannot resolve)", "n": 6, "nature": ["environment x5", "process x1"], "solution": "workaround",
+     "facts": ["2026-09-30T11:47:29Z-a#1", "2026-09-30T14:29:09Z-a#0", "2026-10-03T22:29:27Z-a#0", "2026-10-03T22:35:26Z-a#1", "2026-10-04T00:50:46Z-a#1", "2026-10-04T00:57:52Z-a#0"],
+     "typed_correlates": ["tooling.host-shell 2026-10-02T16:27:07Z-b, 2026-10-02T22:36:15Z-c", "untyped 2026-09-30T20:57:42Z-c, 2026-10-03T23:30:42Z-e, 2026-10-04T00:47:47Z-b", "recall.corpus-recurrence 2026-10-02T16:37:24Z-b, 2026-10-04T00:37:48Z-b, 2026-10-04T01:25:01Z-b"],
+     "prior_epoch": "Epoch 4: 2026-09-24T06:34:29Z-b (host-shell), 2026-09-23T09:48:36Z-c (recall)", "above_threshold": true, "signature": "band-aid"},
+    {"theme": "T3 pipeline tool output piped through head/tail/grep against the letter's run-bare rule", "n": 8, "nature": ["process x8"], "solution": "workaround",
+     "facts": ["2026-09-30T08:00:38Z-a#0", "2026-09-30T08:59:06Z-a#0", "2026-09-30T14:23:10Z-a#0", "2026-09-30T14:40:29Z-a#0", "2026-09-30T20:51:18Z-a#0", "2026-10-01T19:05:05Z-a#0", "2026-10-01T21:14:43Z-a#0", "2026-10-01T21:30:01Z-a#0"],
+     "prior_epoch": "Epoch 4: 2026-09-29T20:21:47Z-a#0 (sidecar.py | grep | head), 2026-09-30T04:35:12Z-a#0 (code-graph result through tail)", "above_threshold": true, "signature": "band-aid"},
+    {"theme": "T4 run-dir hygiene: absolute host paths in pipeline-written scripts and trails rewritten by hand; a leak control first written into a committed run dir", "n": 3, "nature": ["process x3"], "solution": ["workaround x2", "removed-cause x1"],
+     "facts": ["2026-09-30T14:11:52Z-a#0", "2026-09-30T16:29:04Z-a#0", "2026-09-30T08:14:08Z-a#0"],
+     "typed_correlates": ["untyped 2026-09-30T16:29:04Z-c", "recall.corpus-recurrence 2026-10-01T20:53:57Z-c"],
+     "prior_epoch": "Epoch 4: 2026-09-29T18:22:32Z-a#0 + structural-blind-spot 2026-09-29T18:22:32Z-b", "above_threshold": true, "signature": "band-aid"},
+    {"theme": "T5 reconcile doc-agent prompts assembled by hand each wrap ({detectors_yaml} passed as a pointer; a multi-doc detector keyed to its first doc token)", "n": 3, "nature": ["process x3"], "solution": "workaround",
+     "facts": ["2026-09-30T11:27:00Z-a#0", "2026-10-02T16:35:43Z-a#0", "2026-10-04T01:25:01Z-a#0"],
+     "typed_correlates": ["contract.in-pass-correction 2026-10-02T16:35:43Z-c", "untyped 2026-09-30T16:20:57Z-e"],
+     "prior_epoch": "Epoch 4: contract.in-pass-correction 2026-09-30T07:39:08Z-c (same D-platform-claim first-token parse)", "above_threshold": true, "signature": "band-aid"},
+    {"theme": "T6 live legs driven outside gate.py (scratch sequencing scripts; a split entry; a misread flag)", "n": 4, "nature": ["process x4"], "solution": "workaround",
+     "facts": ["2026-09-30T13:49:13Z-a#0", "2026-10-02T05:51:08Z-a#0", "2026-10-03T22:51:37Z-a#0", "2026-10-03T23:30:42Z-a#3"],
+     "typed_correlates": ["untyped 2026-10-03T22:51:37Z-c", "untyped 2026-09-30T13:49:13Z-c"],
+     "prior_epoch": "Epoch 4 L2 (5 facts)", "above_threshold": true, "signature": "band-aid"},
+    {"theme": "T7 host tool absent or divergent (grep -i / du abort on Windows; duckdb absent, ugrep complexity limit on Linux)", "n": 5, "nature": ["environment x5"], "solution": "workaround",
+     "facts": ["2026-10-02T16:27:07Z-a#0", "2026-10-02T22:26:05Z-a#0", "2026-10-03T22:35:26Z-a#0", "2026-10-04T00:50:46Z-a#0", "2026-10-04T01:20:20Z-a#0"],
+     "typed_correlates": ["tooling.graph-unavailable x2", "tooling.graph-refresh-stale x2", "tooling.host-shell 2026-10-02T16:27:07Z-b, 2026-10-04T01:20:20Z-b"], "above_threshold": true, "signature": "band-aid"},
+    {"theme": "T8 parallel sessions share the host (foreground theft, CPU contention)", "n": 3, "nature": ["environment x2", "resources x1"], "solution": ["overridden", "removed-cause", "workaround"],
+     "facts": ["2026-09-30T10:56:19Z-a#1", "2026-09-30T20:05:40Z-a#2", "2026-10-01T23:22:23Z-a#0"],
+     "typed_correlates": ["tooling.environmental 2026-09-30T10:56:19Z-d, 2026-10-01T23:22:23Z-b"], "above_threshold": true, "signature": "band-aid"},
+    {"theme": "T9 operator launch handles not persisted; located by host search (CONDUCTOR_NVDA)", "n": 2, "facts": ["2026-09-30T12:27:10Z-a#0", "2026-09-30T13:27:04Z-a#0"],
+     "prior_epoch": "Epoch 4: tooling.environmental 2026-09-29T17:37:55Z-a (model env located by disk search) - a friction, not a problem fact", "above_threshold": false},
+    {"theme": "T10 advisory-db local clone residue", "n": 1, "facts": ["2026-10-01T23:22:23Z-a#1"], "typed_correlates": ["tooling.environmental 2026-10-01T23:22:23Z-c"],
+     "prior_epoch": "Epoch 4 L7 (2026-09-23T09:59:23Z-a#0); 0.2.0 Epoch 6b 2026-09-05T16:56:23Z-a", "above_threshold": true, "signature": "removed-cause observation (recurring across three epochs; this time left in place, not removed)"}
+  ],
+  "pass_b_signatures": {
+    "band_aid": ["T1", "T2", "T3", "T4", "T5", "T6", "T7", "T8"],
+    "removed_cause_observation": ["T10"],
+    "chronic_degrade": [
+      {"type": "tooling.host-shell", "per_epoch": "0.2.0 E3:14 E4:13 E5:3 E6a:4 E6b:8 | 0.3.0 E1:10 E2:2 E3:2 E4:5 E5:9", "halted_ever": false},
+      {"type": "tooling.gate-deferral", "per_epoch": "0.2.0 E1:3 E2:9 E3:8 E5:4 E6a:2 E6b:2 | 0.3.0 E1:3 E3:2 E4:1 E5:6", "halted_ever": false},
+      {"type": "tooling.environmental", "per_epoch": "0.2.0 E1:3 E2:3 E3:4 E4:1 E5:4 E6a:2 E6b:2 | 0.3.0 E3:1 E4:2 E5:6", "halted_ever": false},
+      {"type": "code-graph degradation (tooling.graph-symbol-missing / -unavailable / -refresh-stale; research ok-degraded derived-without-graph x2)", "per_epoch": "0.3.0 E4: symbol-missing 3 | E5: symbol-missing 2, unavailable 2, refresh-stale 2", "halted_ever": false}
+    ],
+    "override": [
+      {"rule": "a relayed directive or a delegate-recorded menu answer is superseded by the founder's later live word", "facts": ["2026-09-30T13:16:14Z-a#0", "2026-09-30T16:24:10Z-a#0", "2026-10-02T00:13:03Z-a#0", "2026-10-02T00:15:11Z-a#0", "2026-10-02T13:10:44Z-a#0", "2026-10-03T07:45:09Z-a#0", "2026-10-03T07:45:37Z-a#0"],
+       "correlates": ["untyped 2026-10-03T07:45:09Z-b", "operator-directive=thin 2026-09-30T12:40:34Z-a, 2026-09-30T16:09:11Z-a"], "halt_impact": "2026-10-03T07:45:09Z-a soft_exit 1; 2026-10-03T07:45:37Z-a halted 1", "above_threshold": true}
+    ],
+    "override_single_rule_below_threshold": ["2026-09-24T10:50:04Z-a#0", "2026-09-30T10:56:19Z-a#1", "2026-09-30T12:06:36Z-a#0", "2026-09-30T13:20:54Z-a#0", "2026-09-30T14:03:57Z-a#0", "2026-09-30T20:05:40Z-a#3", "2026-09-30T20:40:13Z-a#0", "2026-09-30T23:47:14Z-a#1", "2026-10-02T12:56:06Z-a#0", "2026-10-03T23:30:42Z-a#0"],
+    "override_recurring_note": "light-gate ASSERT red ratified by the operator: 2026-09-30T20:40:13Z-a#0 here, 2026-09-29T19:43:16Z-a#0 in Epoch 4 (n=1 in-epoch)",
+    "deferred_forever": [
+      {"fact": "friction 2026-09-30T14:05:45Z-b (deferred 2)", "what": "two measured host-tool learnings (Edge background relaunch; Write-tool backslash-u decode) deferred by the curation max-3 cap with no destination named", "closure_search": "no later ledger record and no working-route / route-archive CARRY names either", "n": 1, "above_threshold": false}
+    ],
+    "deferrals_checked": [
+      {"fact": "2026-09-30T10:56:19Z-a#0", "closure": "regrade carried to the wrap's owner pin and driven by the SR chunks of 2026-09-30"},
+      {"fact": "2026-09-30T20:40:13Z-a#1", "closure": "routed: --e2e skipped with the dist-unchanged reason; the full-gate regression chunk ran the a11y job"},
+      {"fact": "2026-10-01T20:24:02Z-a#0", "closure": "routed to the wrap; closed by 2026-10-01-per-run-span-identity-in-the-real-model-harness"},
+      {"fact": "2026-10-03T23:30:42Z-a#2", "closure": "left to the wrap to pin; closed by 2026-10-04-host-portable-tauri-ipc-tests"}
+    ]
+  }
+}

@@ -1,0 +1,287 @@
+{
+ "epoch": "Epoch 4 - Live proof against a real Pulse",
+ "version": "0.3.0",
+ "records": 255,
+ "step": 119,
+ "friction": 136,
+ "retracted_in_epoch": [],
+ "clause_retracted_in_epoch": {
+  "2026-09-23T09:51:34Z-d": [
+   "evidence named '.andromeda/runs/2026-09-23T08-03-55-wrap/route-2026-09-22-interpretation-proven-live.json', which does not exist; route.py ran without --marker, so the trail is 'route-no-marker.json' in the same run dir"
+  ],
+  "2026-09-23T09:51:34Z-e": [
+   "evidence named '.andromeda/runs/2026-09-23T08-03-55-wrap/route-2026-09-22-interpretation-proven-live.json', which does not exist; route.py ran without --marker, so the trail is 'route-no-marker.json' in the same run dir"
+  ],
+  "2026-09-23T09:51:34Z-f": [
+   "evidence named '.andromeda/runs/2026-09-23T08-03-55-wrap/route-2026-09-22-interpretation-proven-live.json', which does not exist; route.py ran without --marker, so the trail is 'route-no-marker.json' in the same run dir"
+  ]
+ },
+ "malformed_ts_in_epoch": [],
+ "coverage": {
+  "None": {
+   "new-session": [
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation",
+    "orientation"
+   ]
+  },
+  "2026-09-18-real-model-leg-posture-and-grading-rule": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-09-22-interpretation-proven-live": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-09-24-architecture-registries-compacted-under-the-read-cap": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-09-29-diagnostic-quality-cluster-off-the-drift-pin": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-09-29-dual-license-mit-or-apache-2-0": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-09-29-hue-shift-budget-graded-hard": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  },
+  "2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir": {
+   "phase": [
+    "distill",
+    "plan",
+    "research",
+    "take-up",
+    "validate"
+   ],
+   "implement": [
+    "code",
+    "fix-loop",
+    "smoke"
+   ],
+   "wrap-session": [
+    "curation",
+    "gates",
+    "reconcile",
+    "report",
+    "route-resolve"
+   ]
+  }
+ },
+ "friction_chunks_without_steps": [],
+ "untyped_by_step": {
+  "new-session/orientation": [
+   3,
+   19
+  ],
+  "phase/research": [
+   2,
+   13
+  ],
+  "wrap-session/report": [
+   0,
+   4
+  ],
+  "wrap-session/reconcile": [
+   4,
+   16
+  ],
+  "wrap-session/curation": [
+   0,
+   13
+  ],
+  "wrap-session/gates": [
+   0,
+   5
+  ],
+  "phase/take-up": [
+   1,
+   5
+  ],
+  "phase/distill": [
+   0,
+   10
+  ],
+  "phase/plan": [
+   0,
+   5
+  ],
+  "phase/validate": [
+   0,
+   10
+  ],
+  "implement/code": [
+   0,
+   10
+  ],
+  "implement/fix-loop": [
+   2,
+   17
+  ],
+  "wrap-session/route-resolve": [
+   1,
+   8
+  ],
+  "implement/smoke": [
+   1,
+   1
+  ]
+ },
+ "problem_fact_fill": [
+  44,
+  119
+ ],
+ "id_fill": [
+  255,
+  255
+ ],
+ "outcomes": {
+  "wrap-session/reconcile:halted-resolved": 3,
+  "phase/validate:ok-degraded": 1,
+  "phase/take-up:halted-resolved": 2,
+  "implement/fix-loop:ok-degraded": 1,
+  "implement/smoke:soft-exit": 1,
+  "wrap-session/curation:ok-degraded": 1,
+  "wrap-session/gates:halted-resolved": 1,
+  "implement/fix-loop:soft-exit": 1,
+  "implement/smoke:ok-degraded": 1
+ }
+}

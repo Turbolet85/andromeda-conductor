@@ -1,0 +1,119 @@
+{
+ "population": "rust-code-analysis kind==function spaces under crates/ (node_modules/target excluded); ceiling cognitive > 15; top sorted by COGNITIVE desc",
+ "cyclomatic_p50": 1.0,
+ "cyclomatic_p90": 4.0,
+ "cognitive_p50": 0.0,
+ "cognitive_p90": 1.0,
+ "over_ceiling": 8,
+ "max": {
+  "fn": "serve_stub",
+  "file": "conductor-verify/tests/common/mod.rs",
+  "val": 36.0
+ },
+ "functions": 3061,
+ "rs_files_scanned": 141,
+ "over_ceiling_list": [
+  [
+   "serve_stub",
+   "conductor-verify/tests/common/mod.rs",
+   36.0
+  ],
+  [
+   "shape_is_realizable",
+   "conductor-core/src/phase_spec.rs",
+   31.0
+  ],
+  [
+   "analyse",
+   "conductor-core/tests/workflow_env_gate.rs",
+   26.0
+  ],
+  [
+   "validate",
+   "conductor-core/src/run_contract.rs",
+   18.0
+  ],
+  [
+   "print_pulse_witnesses",
+   "conductor-run/tests/real_model_live.rs",
+   18.0
+  ],
+  [
+   "observe",
+   "conductor-verify/src/extract.rs",
+   17.0
+  ],
+  [
+   "dispatch",
+   "conductor-run/src/dispatch.rs",
+   16.0
+  ],
+  [
+   "run_preflight",
+   "conductor-verify/src/preflight.rs",
+   16.0
+  ]
+ ],
+ "top": [
+  [
+   "serve_stub",
+   "conductor-verify/tests/common/mod.rs",
+   36.0,
+   40.0
+  ],
+  [
+   "shape_is_realizable",
+   "conductor-core/src/phase_spec.rs",
+   31.0,
+   30.0
+  ],
+  [
+   "analyse",
+   "conductor-core/tests/workflow_env_gate.rs",
+   26.0,
+   14.0
+  ],
+  [
+   "print_pulse_witnesses",
+   "conductor-run/tests/real_model_live.rs",
+   18.0,
+   45.0
+  ],
+  [
+   "validate",
+   "conductor-core/src/run_contract.rs",
+   18.0,
+   16.0
+  ],
+  [
+   "observe",
+   "conductor-verify/src/extract.rs",
+   17.0,
+   13.0
+  ],
+  [
+   "dispatch",
+   "conductor-run/src/dispatch.rs",
+   16.0,
+   47.0
+  ],
+  [
+   "run_preflight",
+   "conductor-verify/src/preflight.rs",
+   16.0,
+   20.0
+  ],
+  [
+   "is_host_path_token",
+   "conductor-core/src/redact.rs",
+   15.0,
+   18.0
+  ],
+  [
+   "poll_once",
+   "conductor-run/tests/real_model_live.rs",
+   14.0,
+   18.0
+  ]
+ ]
+}

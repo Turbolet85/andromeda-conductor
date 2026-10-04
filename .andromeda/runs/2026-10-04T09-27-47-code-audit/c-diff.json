@@ -1,0 +1,405 @@
+{
+ "baseline": {
+  "sha": "e799b9e0a41e1a39302f4a99ccb36829f5f1b0b1",
+  "epoch": "Epoch 3 — The a11y capability's terminal",
+  "baseline_sha": "6861eb63439875520599180c5a726564e0f9884a",
+  "head_overshoot_commits": 3
+ },
+ "span": 2,
+ "unparseable_ledger_lines": 0,
+ "deltas": {
+  "duplication.pct": [
+   2.399483015369054,
+   2.98543807529343
+  ],
+  "complexity.over_ceiling": [
+   6,
+   8
+  ],
+  "dead.zero_ref_candidates": [
+   33,
+   33
+  ],
+  "sizes.file_max": [
+   1221,
+   2142
+  ],
+  "sizes.over_800": [
+   2,
+   4
+  ],
+  "coverage.line": [
+   94.7,
+   94.7
+  ],
+  "duplication.clones": [
+   104,
+   130
+  ],
+  "duplication.duplicated_lines": [
+   854,
+   1226
+  ],
+  "duplication.total_lines": [
+   35591,
+   41066
+  ],
+  "totals.loc": [
+   27569,
+   32147
+  ],
+  "totals.files": [
+   141,
+   150
+  ],
+  "graph.cycles": [
+   0,
+   0
+  ],
+  "graph.cross_unit_edges": [
+   16,
+   16
+  ],
+  "complexity.functions": [
+   2576,
+   3061
+  ],
+  "dead_web.total": [
+   12,
+   0
+  ],
+  "mutation.scores": {
+   "conductor-cli": [
+    96.94,
+    96.91
+   ],
+   "conductor-core": [
+    100.0,
+    100.0
+   ],
+   "conductor-emit": [
+    99.01,
+    97.09
+   ],
+   "conductor-faults": [
+    null,
+    95.83
+   ],
+   "conductor-report": [
+    null,
+    91.14
+   ],
+   "conductor-run": [
+    92.47,
+    90.29
+   ],
+   "conductor-tauri": [
+    90.32,
+    90.32
+   ],
+   "conductor-timeline": [
+    90.62,
+    90.91
+   ],
+   "conductor-verify": [
+    null,
+    89.34
+   ]
+  }
+ },
+ "monotonic": {
+  "duplication.pct": {
+   "values": [
+    2.6292969959739856,
+    2.399483015369054,
+    2.98543807529343
+   ],
+   "worse_d1": false,
+   "worse_d2": true,
+   "trend_break_d2": true,
+   "fires": false
+  },
+  "complexity.over_ceiling": {
+   "values": [
+    6,
+    6,
+    8
+   ],
+   "worse_d1": false,
+   "worse_d2": true,
+   "trend_break_d2": false,
+   "fires": false
+  },
+  "dead.zero_ref_candidates": {
+   "values": [
+    33,
+    33,
+    33
+   ],
+   "worse_d1": false,
+   "worse_d2": false,
+   "trend_break_d2": false,
+   "fires": false
+  },
+  "sizes.file_max": {
+   "values": [
+    1170,
+    1221,
+    2142
+   ],
+   "worse_d1": true,
+   "worse_d2": true,
+   "trend_break_d2": false,
+   "fires": true
+  },
+  "sizes.over_800": {
+   "values": [
+    1,
+    2,
+    4
+   ],
+   "worse_d1": true,
+   "worse_d2": true,
+   "trend_break_d2": false,
+   "fires": true
+  },
+  "coverage.line": {
+   "values": [
+    94.4,
+    94.7,
+    94.7
+   ],
+   "worse_d1": false,
+   "worse_d2": false,
+   "trend_break_d2": true,
+   "fires": false
+  }
+ },
+ "trend_breaks": {
+  "duplication": true,
+  "coverage": true,
+  "complexity": false,
+  "sizes": false,
+  "dead": false,
+  "mutation": false
+ },
+ "entrants": {
+  "duplication_top": [
+   [
+    "conductor-run/tests/real_model_harvest.rs",
+    "conductor-run/tests/real_model_harvest.rs",
+    31
+   ],
+   [
+    "conductor-run/tests/real_model_live.rs",
+    "conductor-run/tests/span_landing_live.rs",
+    21
+   ],
+   [
+    "conductor-run/tests/real_model_harvest.rs",
+    "conductor-run/tests/real_model_harvest.rs",
+    18
+   ],
+   [
+    "conductor-run/tests/real_model_harvest.rs",
+    "conductor-run/tests/real_model_harvest.rs",
+    16
+   ],
+   [
+    "conductor-run/tests/real_model_harvest.rs",
+    "conductor-run/tests/real_model_harvest.rs",
+    16
+   ]
+  ],
+  "hotspots": [
+   [
+    "crates/conductor-verify/tests/common/mod.rs",
+    72.0
+   ],
+   [
+    "crates/conductor-run/tests/lifecycle_harvest.rs",
+    30.0
+   ],
+   [
+    "crates/conductor-core/tests/workflow_env_gate.rs",
+    26.0
+   ],
+   [
+    "crates/conductor-run/src/dispatch.rs",
+    16.0
+   ],
+   [
+    "crates/conductor-verify/src/preflight.rs",
+    16.0
+   ],
+   [
+    "crates/conductor-run/tests/p075_round_live.rs",
+    14.0
+   ],
+   [
+    "crates/conductor-run/tests/span_landing_live.rs",
+    14.0
+   ]
+  ],
+  "complexity_top": [
+   [
+    "analyse",
+    "conductor-core/tests/workflow_env_gate.rs",
+    26.0,
+    14.0
+   ]
+  ],
+  "sizes_top": [
+   [
+    "crates/conductor-run/tests/real_model_live.rs",
+    651
+   ]
+  ],
+  "dead_top": [
+   [
+    "conductor-core obs/impl#[ObsWriter][`MakeWriter<'a>`]make_writer().",
+    "crates/conductor-core/src/obs.rs"
+   ],
+   [
+    "conductor-run dispatch/DispatchError#Emit#",
+    "crates/conductor-run/src/dispatch.rs"
+   ],
+   [
+    "conductor-core scenario_audit/impl#[ScenarioAuditLedger]default_path().",
+    "crates/conductor-core/src/scenario_audit.rs"
+   ]
+  ]
+ },
+ "survivors_new_vs_baseline_fileline": [
+  [
+   "crates/conductor-emit/src/identity.rs:49",
+   "replace ^= with |= in xor_in_place"
+  ],
+  [
+   "crates/conductor-emit/src/identity.rs:49",
+   "replace ^= with &= in xor_in_place"
+  ],
+  [
+   "crates/conductor-faults/src/port_occupier.rs:87",
+   "replace <impl Drop for PortOccupier>::drop with ()"
+  ],
+  [
+   "crates/conductor-report/src/coverage.rs:54",
+   "delete ! in CoverageMatrix::write"
+  ],
+  [
+   "crates/conductor-report/src/report.rs:185",
+   "replace == with != in scenario_block"
+  ],
+  [
+   "crates/conductor-report/src/report.rs:185",
+   "replace == with != in scenario_block"
+  ],
+  [
+   "crates/conductor-report/src/report.rs:202",
+   "replace budget -> String with String::new()"
+  ],
+  [
+   "crates/conductor-report/src/report.rs:185",
+   "replace && with || in scenario_block"
+  ],
+  [
+   "crates/conductor-report/src/report.rs:202",
+   "replace budget -> String with \"xyzzy\".into()"
+  ],
+  [
+   "crates/conductor-report/src/report.rs:264",
+   "replace match guard v.is_empty() with true in fingerprints"
+  ],
+  [
+   "crates/conductor-run/src/canary.rs:203",
+   "replace > with >= in emit_canary_storms"
+  ],
+  [
+   "crates/conductor-run/src/canary.rs:206",
+   "replace * with + in emit_canary_storms"
+  ],
+  [
+   "crates/conductor-run/src/canary.rs:206",
+   "replace * with / in emit_canary_storms"
+  ],
+  [
+   "crates/conductor-run/src/execute.rs:126",
+   "delete field degraded from struct Observation expression in execute_scenario"
+  ],
+  [
+   "crates/conductor-run/src/execute.rs:169",
+   "replace - with + in execute_scenario"
+  ],
+  [
+   "crates/conductor-run/src/execute.rs:169",
+   "replace - with / in execute_scenario"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:18",
+   "replace main with ()"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:37",
+   "replace || with && in main"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:58",
+   "delete match arm \"tools/call\" in stub_result"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:63",
+   "replace == with != in stub_result"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:75",
+   "replace == with != in stub_result"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:45",
+   "replace stub_result -> Value with Default::default()"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:51",
+   "delete match arm \"tools/list\" in stub_result"
+  ],
+  [
+   "crates/conductor-verify/src/bin/stub_pulse_mcp.rs:46",
+   "delete match arm \"initialize\" in stub_result"
+  ],
+  [
+   "crates/conductor-verify/src/spawn.rs:116",
+   "replace sidecar_resolves_on_path -> bool with true"
+  ],
+  [
+   "crates/conductor-verify/src/spawn.rs:116",
+   "replace sidecar_resolves_on_path -> bool with false"
+  ],
+  [
+   "crates/conductor-verify/src/spawn.rs:145",
+   "replace executable_extensions -> Vec<String> with vec![String::new()]"
+  ],
+  [
+   "crates/conductor-verify/src/spawn.rs:149",
+   "delete ! in executable_extensions"
+  ],
+  [
+   "crates/conductor-verify/src/spawn.rs:154",
+   "delete ! in executable_extensions"
+  ]
+ ],
+ "survivors_gone_vs_baseline_fileline": [
+  [
+   "crates/conductor-run/src/execute.rs:165",
+   "replace - with / in execute_scenario"
+  ],
+  [
+   "crates/conductor-run/src/execute.rs:122",
+   "delete field degraded from struct Observation expression in execute_scenario"
+  ],
+  [
+   "crates/conductor-run/src/execute.rs:165",
+   "replace - with + in execute_scenario"
+  ]
+ ]
+}

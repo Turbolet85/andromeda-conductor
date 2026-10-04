@@ -1,0 +1,80 @@
+{
+ "unit": "conductor-emit",
+ "state": "complete",
+ "shard": "1/4",
+ "unit_state": "complete 114/114 of shard 1/4",
+ "counts": {
+  "mutants": 114,
+  "caught": 100,
+  "missed": 3,
+  "not_measured": 0,
+  "timeout": 11,
+  "unviable": 0
+ },
+ "score": 97.09,
+ "score_formula": "caught/(caught+missed)",
+ "survivors": [
+  [
+   "crates/conductor-emit/src/identity.rs:49:15",
+   "replace ^= with |= in xor_in_place"
+  ],
+  [
+   "crates/conductor-emit/src/identity.rs:49:15",
+   "replace ^= with &= in xor_in_place"
+  ],
+  [
+   "crates/conductor-emit/src/latency.rs:111:10",
+   "replace < with <= in quantile"
+  ]
+ ],
+ "not_measured": [],
+ "timeouts": [
+  [
+   "crates/conductor-emit/src/exception.rs:321:5",
+   "replace skip_absolute_path -> usize with 0"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:321:5",
+   "replace skip_absolute_path -> usize with 1"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:326:11",
+   "replace += with -= in skip_absolute_path"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:328:11",
+   "replace += with -= in skip_absolute_path"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:331:11",
+   "replace += with -= in skip_absolute_path"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:331:11",
+   "replace += with *= in skip_absolute_path"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:341:5",
+   "replace skip_line_number_suffix -> usize with 0"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:341:5",
+   "replace skip_line_number_suffix -> usize with 1"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:341:7",
+   "replace += with -= in skip_line_number_suffix"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:343:11",
+   "replace += with *= in skip_line_number_suffix"
+  ],
+  [
+   "crates/conductor-emit/src/exception.rs:348:15",
+   "replace += with *= in skip_line_number_suffix"
+  ]
+ ],
+ "baseline_summary": "Success",
+ "start_time": "2026-10-04T09:45:45.879911576Z",
+ "end_time": "2026-10-04T09:48:31.429415278Z"
+}

@@ -1,0 +1,721 @@
+{
+ "anchors": [
+  {
+   "chunk": "2026-09-30-mutation-gate-grades-every-tally-it-rests-on",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-09-30T08:35:53Z-a",
+   "artifact": "implement-outcome",
+   "quality": "thin",
+   "note": "operator-requested 3-line P4 report named one deviation; loader grain + small additions came from session knowledge, not re-derivation",
+   "producer": "implement/smoke",
+   "producer_id": "2026-09-30T08:20:48Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "green",
+    "deferral-open"
+   ],
+   "producer_frictions": [],
+   "hypothesis": true
+  },
+  {
+   "chunk": "2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed",
+   "consumer": "phase/take-up",
+   "consumer_id": "2026-09-30T08:52:36Z-a",
+   "artifact": "working-entry",
+   "quality": "thin",
+   "note": "entry frames all four claims as unasserted; a take-up survey found 0 key handlers in ui/src, so three look unbuilt (tagged [inferred] for P3)",
+   "producer": null
+  },
+  {
+   "chunk": "2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed",
+   "consumer": "phase/plan",
+   "consumer_id": "2026-09-30T09:14:57Z-a",
+   "artifact": "research",
+   "quality": "thin",
+   "note": "written before the fork; the chosen driven-arm branch needed drive.rs abort polling, execute.rs hold firing, pause.rs labels and the checklist scenario set, read at P4",
+   "producer": "phase/research",
+   "producer_id": "2026-09-30T09:03:17Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions"
+   ],
+   "producer_frictions": [],
+   "hypothesis": true
+  },
+  {
+   "chunk": "2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed",
+   "consumer": "implement/fix-loop",
+   "consumer_id": "2026-09-30T10:56:19Z-a",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "entries 8/10/11 carry the atom 'Spec Files: 1 passed, 1 total' but wdio prints 'Spec Files:' + TAB + space — unsatisfiable by construction; the substantive exit/passing reads held",
+   "producer": "phase/plan",
+   "producer_id": "2026-09-30T09:14:57Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:build-vs-restate",
+    "designed-dialogue:key-map",
+    "designed-dialogue:driven-arm-slot",
+    "size-over-guide"
+   ],
+   "producer_frictions": [
+    [
+     "2026-09-30T09:14:57Z-b",
+     "input.research-thin"
+    ]
+   ],
+   "hypothesis": true
+  },
+  {
+   "chunk": "2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-09-30T11:16:10Z-a",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "three leg atoms carried a whitespace-collapsed literal",
+   "producer": "phase/plan",
+   "producer_id": "2026-09-30T09:14:57Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:build-vs-restate",
+    "designed-dialogue:key-map",
+    "designed-dialogue:driven-arm-slot",
+    "size-over-guide"
+   ],
+   "producer_frictions": [
+    [
+     "2026-09-30T09:14:57Z-b",
+     "input.research-thin"
+    ]
+   ],
+   "hypothesis": true
+  },
+  {
+   "chunk": "2026-09-30-the-screen-reader-pass-grades-again-on-this-host",
+   "consumer": "phase/plan",
+   "consumer_id": "2026-09-30T12:06:36Z-a",
+   "artifact": "research",
+   "quality": "wrong",
+   "note": "research first framed the object-model control on a UIA freeze stack that belonged to the pulse-app window; corrected at P4 from the vbufBase teardown lines",
+   "producer": "phase/research",
+   "producer_id": "2026-09-30T11:58:22Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "graph-not-applicable",
+    "unresolved-questions"
+   ],
+   "producer_frictions": [
+    [
+     "2026-09-30T11:58:22Z-b",
+     "contract.narrow-basis-claim"
+    ],
+    [
+     "2026-09-30T11:58:22Z-c",
+     "contract.premise-falsified"
+    ]
+   ],
+   "hypothesis": true
+  },
+  {
+   "chunk": "2026-09-30-the-screen-reader-pass-grades-again-on-this-host",
+   "consumer": "phase/validate",
+   "consumer_id": "2026-09-30T12:12:11Z-a",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "three check-4 REQUIRED-RESOLUTIONs (sr entries lacked artifact keys; the S1-01/security_finding criterion and the nvda.ini single-variable criterion named no entry) and a check-8 mechanism gap (no witness that NVDA applied the ini key) resolved pre-approval; full mechanical re-run after the edits",
+   "producer": "phase/plan",
+   "producer_id": "2026-09-30T12:06:36Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:control-design",
+    "designed-dialogue:remedy-posture",
+    "branch-forecast-red-by-construction"
+   ],
+   "producer_frictions": [
+    [
+     "2026-09-30T12:06:36Z-b",
+     "contract.narrow-basis-claim"
+    ]
+   ],
+   "hypothesis": true
+  },
+  {
+   "chunk": "2026-09-30-the-screen-reader-pass-grades-again-on-this-host",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-09-30T12:36:52Z-a",
+   "artifact": "wrap-playbook",
+   "quality": "thin",
+   "note": "no rule for a dated configuration-bound finding that extends a measured platform set; settled by recorded direction",
+   "producer": null
+  },
+  {
+   "chunk": "2026-09-30-the-screen-reader-pass-grades-again-on-this-host",
+   "consumer": "wrap-session/route-resolve",
+   "consumer_id": "2026-09-30T12:40:34Z-a",
+   "artifact": "operator-directive",
+   "quality": "thin",
+   "note": "relay named the slot as ':65', a line number this chunk's promotion had moved onto the chunk's own frozen line",
+   "producer": null
+  },
+  {
+   "chunk": "2026-09-30-the-sr-pass-regrades-on-the-os-input-path",
+   "consumer": "implement/fix-loop",
+   "consumer_id": "2026-09-30T15:19:02Z-b",
+   "artifact": "research",
+   "quality": "thin",
+   "note": "research noted the OS change reaches the start-of-document cycle but not that an OS Tab can skip the host-chrome BODY stop, nor NVDA's modifier tracking under injected Shift",
+   "producer": "phase/research",
+   "producer_id": "2026-09-30T14:29:09Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions"
+   ],
+   "producer_frictions": [],
+   "hypothesis": true
+  },
+  {
+   "chunk": "2026-09-30-the-sr-pass-regrades-on-the-os-input-path",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-09-30T16:09:11Z-a",
+   "artifact": "operator-directive",
+   "quality": "thin",
+   "note": "relay conductor-wrap-osinput-2026-09-30: its 31-id accepted list matched the record exactly; one premise mis-stated — T-01 listed with the reason 'no OS-path browse key' though it is a live-class notRun row by design; its K 'stays a desk task' line was superseded the same wrap by the founder's ruling retiring arm K",
+   "producer": null
+  },
+  {
+   "chunk": "2026-09-30-the-sr-pass-regrades-on-the-os-input-path",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-09-30T16:20:57Z-a",
+   "artifact": "report",
+   "quality": "thin",
+   "note": "its Counts bullet marked all five security-plan :367 'seven' hits as change; two are ordinals that stay true (the security doc-agent's reading), corrected in the report",
+   "producer": "wrap-session/report",
+   "producer_id": "2026-09-30T16:09:11Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [],
+   "producer_frictions": [],
+   "hypothesis": false
+  },
+  {
+   "chunk": "2026-09-30-the-screen-reader-content-findings-fixed",
+   "consumer": "implement/code",
+   "consumer_id": "2026-09-30T18:21:17Z-a",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "four plan-letter details did not survive contact with the code: S1-02 kept as a review row against the not-expected probe; footer height --space-sm cannot hold a 12px line; T-01's second run omits the canary quiet window; E0-08's stop token Blocked is satisfiable by the Scenario cell lamps-fixture-blocked",
+   "producer": "phase/plan",
+   "producer_id": "2026-09-30T16:54:13Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "authority-resolved:contentinfo reason-for-none yielded to a11y-plan:548 MUST",
+    "authority-resolved:T-01 second session yielded to a second run in one session"
+   ],
+   "producer_frictions": [
+    [
+     "2026-09-30T16:54:13Z-b",
+     "retry.synthesis-rework"
+    ]
+   ],
+   "hypothesis": true
+  },
+  {
+   "chunk": "2026-09-30-the-screen-reader-content-findings-fixed",
+   "consumer": "implement/fix-loop",
+   "consumer_id": "2026-09-30T20:05:40Z-a",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "Test Commands ran as written; gate 8's allowlist cannot admit the three recorded out-of-list files (red on exactly them); step 7's browse start positions assumed NVDA's caret sits at the document start from BODY, and the plan's slot lengths omitted the canary quiet window",
+   "producer": "phase/plan",
+   "producer_id": "2026-09-30T16:54:13Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "authority-resolved:contentinfo reason-for-none yielded to a11y-plan:548 MUST",
+    "authority-resolved:T-01 second session yielded to a second run in one session"
+   ],
+   "producer_frictions": [
+    [
+     "2026-09-30T16:54:13Z-b",
+     "retry.synthesis-rework"
+    ]
+   ],
+   "hypothesis": true
+  },
+  {
+   "chunk": "2026-09-30-the-screen-reader-content-findings-fixed",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-09-30T20:34:41Z-a",
+   "artifact": "wrap-playbook",
+   "quality": "thin",
+   "note": "no rule governs extending a ban's carve-out (test-plan §11) — escalated by unease",
+   "producer": null
+  },
+  {
+   "chunk": "2026-09-30-the-screen-reader-content-findings-fixed",
+   "consumer": "wrap-session/gates",
+   "consumer_id": "2026-09-30T20:40:13Z-a",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "the delta guard's allowlist cannot admit files recorded under fix-loop Trigger 3, so it reds on a sanctioned widening/companion/in-intent set; treated by the operator's ratification asked at the P2 halt",
+   "producer": "phase/plan",
+   "producer_id": "2026-09-30T16:54:13Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "authority-resolved:contentinfo reason-for-none yielded to a11y-plan:548 MUST",
+    "authority-resolved:T-01 second session yielded to a second run in one session"
+   ],
+   "producer_frictions": [
+    [
+     "2026-09-30T16:54:13Z-b",
+     "retry.synthesis-rework"
+    ]
+   ],
+   "hypothesis": true
+  },
+  {
+   "chunk": "2026-09-30-full-gate-regression-over-the-moved-surfaces",
+   "consumer": "phase/take-up",
+   "consumer_id": "2026-09-30T20:44:00Z-a",
+   "artifact": "ci-verdict",
+   "quality": "thin",
+   "note": "84f3b27 CI#36774237196 in progress at read",
+   "producer": null
+  },
+  {
+   "chunk": "2026-10-01-per-run-span-identity-in-the-real-model-harness",
+   "consumer": "phase/plan",
+   "consumer_id": "2026-10-01T21:30:01Z-a",
+   "artifact": "research",
+   "quality": "thin",
+   "note": "the live-witness fork, once decided, needed a new test file, the deterministic launch recipe and Pulse log line shapes, gathered at P4",
+   "producer": "phase/research",
+   "producer_id": "2026-10-01T21:21:19Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions"
+   ],
+   "producer_frictions": [
+    [
+     "2026-10-01T21:21:19Z-b",
+     "tooling.graph-symbol-missing"
+    ]
+   ],
+   "hypothesis": true
+  },
+  {
+   "chunk": "2026-10-01-per-run-span-identity-in-the-real-model-harness",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-01T21:54:30Z-a",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "step 3 names the request type in a helper signature without noting conductor-run holds opentelemetry-proto only as a dev-dependency; step 5 (ii) names an exception fingerprint ATTRIBUTE the wire does not carry",
+   "producer": "phase/plan",
+   "producer_id": "2026-10-01T21:30:01Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:live-witness",
+    "designed-dialogue:widening-classification",
+    "authority-resolved:shape-b-yielded-to-pulse-retention-evidence"
+   ],
+   "producer_frictions": [],
+   "hypothesis": true
+  },
+  {
+   "chunk": "2026-10-02-p-075-assert-round-against-pulse",
+   "consumer": "phase/validate",
+   "consumer_id": "2026-10-02T05:00:18Z-a",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "check 2 FAIL (a non-master Expected-amendments bullet), check 8 wrong verdict-arm name, check 6 size WARN 665 lines; all fixed in place, full set re-run twice",
+   "producer": "phase/plan",
+   "producer_id": "2026-10-02T04:52:01Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:report-window-opener",
+    "designed-dialogue:leg-set",
+    "designed-dialogue:carry-proof-depth",
+    "authority-resolved:2026-09-30 digest regime over 2026-09-29 verbatim-in-source",
+    "plan-oversize-643-lines"
+   ],
+   "producer_frictions": [],
+   "hypothesis": true
+  },
+  {
+   "chunk": "2026-10-02-p-075-assert-round-against-pulse",
+   "consumer": "phase/validate",
+   "consumer_id": "2026-10-02T05:00:18Z-a",
+   "artifact": "scope",
+   "quality": "wrong",
+   "note": "P-037 premise (render only while the Report window is open) falsified after approval",
+   "producer": "phase/research",
+   "producer_id": "2026-10-02T04:45:38Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "premise-corrected"
+   ],
+   "producer_frictions": [],
+   "hypothesis": true
+  },
+  {
+   "chunk": "2026-10-02-p-075-assert-round-against-pulse",
+   "consumer": "wrap-session/curation",
+   "consumer_id": "2026-10-02T13:09:15Z-a",
+   "artifact": "conversation",
+   "quality": "thin",
+   "note": "resume window: the implement conversation is gone; candidates came from the report's Decisions & corrections plus this window",
+   "producer": "implement/smoke",
+   "producer_id": "2026-10-02T05:51:28Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "recorded-not-rerun"
+   ],
+   "producer_frictions": [],
+   "hypothesis": true
+  },
+  {
+   "chunk": "2026-10-02-captured-fingerprint-values-elided",
+   "consumer": "phase/take-up",
+   "consumer_id": "2026-10-02T14:42:03Z-a",
+   "artifact": "working-entry",
+   "quality": "thin",
+   "note": "CONTEXT named two residual sites and delegated the census, but left the subject class (real-model capture vs every committed fingerprint value) unstated",
+   "producer": null
+  },
+  {
+   "chunk": "2026-10-02-captured-fingerprint-values-elided",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-10-02T16:35:43Z-a",
+   "artifact": "wrap-playbook",
+   "quality": "thin",
+   "note": "no rule covers retiring a stated scrub residual as FIXED under a ruling; :25 fails its host-path anchor, :149 its retired-by-measurement clause",
+   "producer": null
+  },
+  {
+   "chunk": null,
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-10-02T22:26:05Z-a",
+   "artifact": "matrix",
+   "quality": "thin",
+   "note": "v3-09 status deferred and its notes tail still says the founder's word is awaited and no fourth series is minted; the route's 2026-10-02 entry says v3-09 is NOT deferred, so coverage done-test YES rests on a status the founder ruling contradicts",
+   "producer": null
+  },
+  {
+   "chunk": "2026-10-02-p-075-re-round-on-incident-events",
+   "consumer": "phase/validate",
+   "consumer_id": "2026-10-03T07:45:37Z-a",
+   "artifact": "plan",
+   "quality": "missing",
+   "note": "never synthesized; the cancel arrived before P4 wrote it",
+   "producer": "phase/plan",
+   "producer_id": "2026-10-03T07:45:09Z-a",
+   "producer_outcome": "soft-exit",
+   "producer_signals": [
+    "designed-dialogue:boundary-widening-pin",
+    "designed-dialogue:predicted-fail-drive-or-hold",
+    "designed-dialogue:resolve-window-site"
+   ],
+   "producer_frictions": [
+    [
+     "2026-10-03T07:45:09Z-b",
+     null
+    ]
+   ],
+   "hypothesis": false
+  },
+  {
+   "chunk": null,
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-10-03T22:19:20Z-a",
+   "artifact": "handoff",
+   "quality": "thin",
+   "note": "Position Next predates a later cancelled P-075 phase (runs/2026-10-02T22-27-37-phase/cancel-record.md); Status clean vs an uncommitted phase run dir",
+   "producer": null
+  },
+  {
+   "chunk": null,
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-10-03T22:19:20Z-a",
+   "artifact": "working-route",
+   "quality": "thin",
+   "note": "P-075 head's BLOCKED-ON names a dependency the cancel record says is superseded (tool exists; round waits on Pulse S2)",
+   "producer": null
+  },
+  {
+   "chunk": "2026-10-03-p-075-re-round-on-incident-events",
+   "consumer": "phase/take-up",
+   "consumer_id": "2026-10-03T22:23:12Z-a",
+   "artifact": "handoff",
+   "quality": "thin",
+   "note": "does not record the 2026-10-03 cancelled promotion; the cancel record carried the replan inputs",
+   "producer": null
+  },
+  {
+   "chunk": "2026-10-03-p-075-re-round-on-incident-events",
+   "consumer": "implement/fix-loop",
+   "consumer_id": "2026-10-03T23:30:42Z-a",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "Test Commands ran as written; the launch env block lacked the display-backend handle this host needed, and gate 4 named a test that had not compiled since 2026-08-16",
+   "producer": "phase/plan",
+   "producer_id": "2026-10-03T22:43:14Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:round-host-founder-ruling",
+    "planlint-hits-resolved-at-authoring"
+   ],
+   "producer_frictions": [],
+   "hypothesis": true
+  }
+ ],
+ "shapes": [
+  {
+   "shape": [
+    "phase/research",
+    "research",
+    "phase/plan"
+   ],
+   "chunks": [
+    "2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed",
+    "2026-09-30-the-screen-reader-pass-grades-again-on-this-host",
+    "2026-10-01-per-run-span-identity-in-the-real-model-harness"
+   ],
+   "k": 3,
+   "candidate": true
+  },
+  {
+   "shape": [
+    "phase/plan",
+    "plan",
+    "implement/fix-loop"
+   ],
+   "chunks": [
+    "2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed",
+    "2026-09-30-the-screen-reader-content-findings-fixed",
+    "2026-10-03-p-075-re-round-on-incident-events"
+   ],
+   "k": 3,
+   "candidate": true
+  },
+  {
+   "shape": [
+    "phase/plan",
+    "plan",
+    "phase/validate"
+   ],
+   "chunks": [
+    "2026-09-30-the-screen-reader-pass-grades-again-on-this-host",
+    "2026-10-02-p-075-assert-round-against-pulse",
+    "2026-10-02-p-075-re-round-on-incident-events"
+   ],
+   "k": 3,
+   "candidate": true
+  },
+  {
+   "shape": [
+    null,
+    "wrap-playbook",
+    "wrap-session/reconcile"
+   ],
+   "chunks": [
+    "2026-09-30-the-screen-reader-pass-grades-again-on-this-host",
+    "2026-09-30-the-screen-reader-content-findings-fixed",
+    "2026-10-02-captured-fingerprint-values-elided"
+   ],
+   "k": 3,
+   "candidate": true
+  },
+  {
+   "shape": [
+    null,
+    "working-entry",
+    "phase/take-up"
+   ],
+   "chunks": [
+    "2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed",
+    "2026-10-02-captured-fingerprint-values-elided"
+   ],
+   "k": 2,
+   "candidate": true
+  },
+  {
+   "shape": [
+    "phase/plan",
+    "plan",
+    "implement/code"
+   ],
+   "chunks": [
+    "2026-09-30-the-screen-reader-content-findings-fixed",
+    "2026-10-01-per-run-span-identity-in-the-real-model-harness"
+   ],
+   "k": 2,
+   "candidate": true
+  },
+  {
+   "shape": [
+    "implement/smoke",
+    "implement-outcome",
+    "wrap-session/report"
+   ],
+   "chunks": [
+    "2026-09-30-mutation-gate-grades-every-tally-it-rests-on"
+   ],
+   "k": 1,
+   "candidate": false
+  },
+  {
+   "shape": [
+    "phase/plan",
+    "plan",
+    "wrap-session/report"
+   ],
+   "chunks": [
+    "2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed"
+   ],
+   "k": 1,
+   "candidate": false
+  },
+  {
+   "shape": [
+    null,
+    "operator-directive",
+    "wrap-session/route-resolve"
+   ],
+   "chunks": [
+    "2026-09-30-the-screen-reader-pass-grades-again-on-this-host"
+   ],
+   "k": 1,
+   "candidate": false
+  },
+  {
+   "shape": [
+    "phase/research",
+    "research",
+    "implement/fix-loop"
+   ],
+   "chunks": [
+    "2026-09-30-the-sr-pass-regrades-on-the-os-input-path"
+   ],
+   "k": 1,
+   "candidate": false
+  },
+  {
+   "shape": [
+    null,
+    "operator-directive",
+    "wrap-session/report"
+   ],
+   "chunks": [
+    "2026-09-30-the-sr-pass-regrades-on-the-os-input-path"
+   ],
+   "k": 1,
+   "candidate": false
+  },
+  {
+   "shape": [
+    "wrap-session/report",
+    "report",
+    "wrap-session/reconcile"
+   ],
+   "chunks": [
+    "2026-09-30-the-sr-pass-regrades-on-the-os-input-path"
+   ],
+   "k": 1,
+   "candidate": false
+  },
+  {
+   "shape": [
+    "phase/plan",
+    "plan",
+    "wrap-session/gates"
+   ],
+   "chunks": [
+    "2026-09-30-the-screen-reader-content-findings-fixed"
+   ],
+   "k": 1,
+   "candidate": false
+  },
+  {
+   "shape": [
+    null,
+    "ci-verdict",
+    "phase/take-up"
+   ],
+   "chunks": [
+    "2026-09-30-full-gate-regression-over-the-moved-surfaces"
+   ],
+   "k": 1,
+   "candidate": false
+  },
+  {
+   "shape": [
+    "phase/research",
+    "scope",
+    "phase/validate"
+   ],
+   "chunks": [
+    "2026-10-02-p-075-assert-round-against-pulse"
+   ],
+   "k": 1,
+   "candidate": false
+  },
+  {
+   "shape": [
+    "implement/smoke",
+    "conversation",
+    "wrap-session/curation"
+   ],
+   "chunks": [
+    "2026-10-02-p-075-assert-round-against-pulse"
+   ],
+   "k": 1,
+   "candidate": false
+  },
+  {
+   "shape": [
+    null,
+    "matrix",
+    "new-session/orientation"
+   ],
+   "chunks": [
+    null
+   ],
+   "k": 1,
+   "candidate": false
+  },
+  {
+   "shape": [
+    null,
+    "handoff",
+    "new-session/orientation"
+   ],
+   "chunks": [
+    null
+   ],
+   "k": 1,
+   "candidate": false
+  },
+  {
+   "shape": [
+    null,
+    "working-route",
+    "new-session/orientation"
+   ],
+   "chunks": [
+    null
+   ],
+   "k": 1,
+   "candidate": false
+  },
+  {
+   "shape": [
+    null,
+    "handoff",
+    "phase/take-up"
+   ],
+   "chunks": [
+    "2026-10-03-p-075-re-round-on-incident-events"
+   ],
+   "k": 1,
+   "candidate": false
+  }
+ ]
+}

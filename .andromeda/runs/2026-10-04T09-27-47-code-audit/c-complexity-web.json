@@ -1,0 +1,61 @@
+{
+ "population": "lizard (auto-detect .ts/.tsx) over crates/conductor-tauri/ui/src (no cognitive: field null)",
+ "functions": 86,
+ "cyclomatic_p50": 1,
+ "cyclomatic_p90": 4,
+ "cognitive_p50": null,
+ "cognitive_p90": null,
+ "over_ceiling": 1,
+ "top": [
+  [
+   "App",
+   "crates/conductor-tauri/ui/src/App.tsx",
+   24
+  ],
+  [
+   "onKeyDown",
+   "crates/conductor-tauri/ui/src/App.tsx",
+   13
+  ],
+  [
+   "lampForRecord",
+   "crates/conductor-tauri/ui/src/lamp.ts",
+   8
+  ],
+  [
+   "RunReport",
+   "crates/conductor-tauri/ui/src/components/RunReport.tsx",
+   7
+  ],
+  [
+   "onKeyDown",
+   "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+   6
+  ],
+  [
+   "(anonymous)",
+   "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+   6
+  ],
+  [
+   "(anonymous)",
+   "crates/conductor-tauri/ui/src/components/OperatorPauseDialog.tsx",
+   6
+  ],
+  [
+   "lampsByPId",
+   "crates/conductor-tauri/ui/src/App.tsx",
+   5
+  ],
+  [
+   "Titlebar",
+   "crates/conductor-tauri/ui/src/components/Titlebar.tsx",
+   4
+  ],
+  [
+   "(anonymous)",
+   "crates/conductor-tauri/ui/src/components/CoverageMatrix.tsx",
+   3
+  ]
+ ]
+}

@@ -1,0 +1,27 @@
+{
+ "unit": "conductor-faults",
+ "state": "complete",
+ "shard": null,
+ "unit_state": "complete 28/28",
+ "counts": {
+  "mutants": 28,
+  "caught": 23,
+  "missed": 1,
+  "not_measured": 0,
+  "timeout": 0,
+  "unviable": 4
+ },
+ "score": 95.83,
+ "score_formula": "caught/(caught+missed)",
+ "survivors": [
+  [
+   "crates/conductor-faults/src/port_occupier.rs:87:9",
+   "replace <impl Drop for PortOccupier>::drop with ()"
+  ]
+ ],
+ "not_measured": [],
+ "timeouts": [],
+ "baseline_summary": "Success",
+ "start_time": "2026-10-04T09:34:44.547132209Z",
+ "end_time": "2026-10-04T09:35:11.980785445Z"
+}
