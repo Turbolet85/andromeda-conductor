@@ -1,0 +1,56 @@
+[
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-10-04T12:09:42Z",
+"argv": [
+"coverage",
+"--dir",
+"conductor-0.3.0",
+"--run-dir",
+".andromeda/runs/2026-10-04T11-44-25-phase",
+"--marker",
+"2026-10-04-real-model-test-surface-corrective"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"verified 10/11 · deferred 1 · planned 0 · implemented 0 · unclaimed 0",
+"claimed-unfinished: none",
+"done-test: YES — every entry verified|deferred and unclaimed 0",
+"chunks referenced: 10 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.2",
+"sha8": "0753a5e6",
+"ts": "2026-10-04T12:09:43Z",
+"argv": [
+"audit",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-10-04-real-model-test-surface-corrective",
+"--plan",
+"conductor-0.3.0/chunks/2026-10-04-real-model-test-surface-corrective/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T11-44-25-phase"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"claimed by 2026-10-04-real-model-test-surface-corrective: 0 · ## Acceptance Criteria: line 312, 41 lines",
+"pool: unclaimed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

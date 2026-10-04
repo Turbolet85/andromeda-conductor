@@ -1,0 +1,641 @@
+[
+{
+"tool": "gate",
+"v": "1.6",
+"sha8": "9419d56e",
+"ts": "2026-10-04T12:18:21Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-10-04-real-model-test-surface-corrective/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T12-10-49-implement",
+"--marker",
+"2026-10-04-real-model-test-surface-corrective"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root /home/turbolet/dev/projects/conductor · marker 2026-10-04-real-model-test-surface-corrective · entries 24",
+"logs /tmp/andromeda-gate/2026-10-04-real-model-test-surface-corrective/implement-2026-10-04T12-10-49 · bound: GNU timeout",
+"delta docs 38 · rust 13 · unmapped 2",
+"prose L135-137: No smoke entry: this chunk has no boot path and no live leg (tests and the harness's lint … (259 chars)",
+"  1 probe       green · exit 0 · 0.02s · 0 B → 1.log · A=\"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" && git -C \"$A\"… (116 chars)",
+"  2 lint        green · exit 0 · 0.28s · 0 B → 2.log · cargo fmt --all --check",
+"  3 unit        green · exit 0 · 0.73s · 14698 B → 3.log · cargo nextest run -p conductor-run --test real_model_harve… (73 chars)",
+"  4 probe       green · exit 0 · 0.36s · 75 B → 4.log · comm -23 <(git show 1208ca5515f17e344296e8570c364d3d45f88b… (364 chars)",
+"  5 probe       green · exit 0 · 0.36s · 75 B → 5.log · comm -13 <(git show 1208ca5515f17e344296e8570c364d3d45f88b… (364 chars)",
+"  6 probe       green · exit 0 · 0.0s · 0 B → 6.log · diff <(git show 1208ca5515f17e344296e8570c364d3d45f88b4a:c… (300 chars)",
+"  7 probe       green · exit 0 · 0.0s · 0 B → 7.log · git diff --quiet 1208ca5515f17e344296e8570c364d3d45f88b4a … (183 chars)",
+"  8 unit        green · exit 0 · 0.15s · 8636 B → 8.log · cargo test -p conductor-run --test real_model_harvest",
+"  9 unit        green · exit 0 · 9.27s · 1227 B → 9.log · cargo nextest run -p conductor-core --test secret_scan_gat… (72 chars)",
+" 10 unit        green · exit 0 · 8.73s · 740 B → 10.log · cargo test -p conductor-core --test secret_scan_gate",
+" 11 integration green · exit 0 · 2.34s · 3615 B → 11.log · root=\"$PWD\" && d=\"$(mktemp -d)\" && trap 'rm -rf \"$d\"' EXIT… (309 chars)",
+" 12 lint        green · exit 0 · 0.17s · 72 B → 12.log · cargo clippy -p conductor-verify --features stub-server --… (84 chars)",
+" 13 lint        green · exit 0 · 0.59s · 167 B → 13.log · cargo clippy -p conductor-run --features live-pulse --all-… (80 chars)",
+" 14 probe       green · exit 0 · 0.02s · 2 B → 14.log · python -X utf8 -c \"import pathlib; ps=['scripts/agent-run.… (341 chars)",
+" 15 probe       green · exit 1 · 0.01s · 2 B → 15.log · git diff 1208ca5515f17e344296e8570c364d3d45f88b4a -- scrip… (128 chars)",
+" 16 probe       green · exit 0 · 0.0s · 0 B → 16.log · git diff --quiet 1208ca5515f17e344296e8570c364d3d45f88b4a … (85 chars)",
+" 17 integration green · exit 0 · 13.72s · 152710 B → 17.log · bash scripts/agent-run.sh run",
+" 18 probe       green · exit 0 · 0.01s · 0 B → 18.log · git diff --quiet 1208ca5515f17e344296e8570c364d3d45f88b4a … (182 chars)",
+" 19 probe       green · exit 0 · 0.0s · 4 B → 19.log · grep -c '^\\[\\[package\\]\\]' Cargo.lock",
+" 20 probe       green · exit 0 · 2.12s · 1901 B → 20.log · cargo audit",
+" 21 probe       green · exit 0 · 0.97s · 236863 B → 21.log · cargo deny check advisories bans licenses sources",
+" 22 probe       not run — leg operator (the letter drives it) · python -X utf8 \"$HOME\"/.claude/skills/andromeda-tools/scri… (77 chars)",
+" 23 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (112 chars)",
+" 24 probe       not run — leg operator (the letter drives it) · python -X utf8 \"$HOME\"/.claude/skills/andromeda-tools/scri… (101 chars)",
+"entries 24 · green 21 · red 0 · recorded 0 · timeout 0 · not-run 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-04-real-model-test-surface-corrective",
+"plan": "/home/turbolet/dev/projects/conductor/conductor-0.3.0/chunks/2026-10-04-real-model-test-surface-corrective/plan.md",
+"root": "/home/turbolet/dev/projects/conductor",
+"shell": "/usr/bin/bash",
+"out_dir": "/tmp/andromeda-gate/2026-10-04-real-model-test-surface-corrective/implement-2026-10-04T12-10-49",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+".andromeda/runs/2026-10-04T11-44-25-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-04T11-44-25-phase/a11y-history.md",
+".andromeda/runs/2026-10-04T11-44-25-phase/a11y.md",
+".andromeda/runs/2026-10-04T11-44-25-phase/arch-contracts.md",
+".andromeda/runs/2026-10-04T11-44-25-phase/arch-history-index.md",
+".andromeda/runs/2026-10-04T11-44-25-phase/arch-history.md",
+".andromeda/runs/2026-10-04T11-44-25-phase/arch.md",
+".andromeda/runs/2026-10-04T11-44-25-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-04T11-44-25-phase/design.md",
+".andromeda/runs/2026-10-04T11-44-25-phase/evolve-2026-10-04-real-model-test-surface-corrective.json",
+".andromeda/runs/2026-10-04T11-44-25-phase/gate-2026-10-04-real-model-test-surface-corrective.json",
+".andromeda/runs/2026-10-04T11-44-25-phase/layouts-history.md",
+".andromeda/runs/2026-10-04T11-44-25-phase/layouts.md",
+".andromeda/runs/2026-10-04T11-44-25-phase/master-record.txt",
+".andromeda/runs/2026-10-04T11-44-25-phase/matrix-2026-10-04-real-model-test-surface-corrective.json",
+".andromeda/runs/2026-10-04T11-44-25-phase/obs-contracts.md",
+".andromeda/runs/2026-10-04T11-44-25-phase/obs-history.md",
+".andromeda/runs/2026-10-04T11-44-25-phase/obs.md",
+".andromeda/runs/2026-10-04T11-44-25-phase/planlint-2026-10-04-real-model-test-surface-corrective.json",
+".andromeda/runs/2026-10-04T11-44-25-phase/registry-2026-10-04-real-model-test-surface-corrective.json",
+".andromeda/runs/2026-10-04T11-44-25-phase/route-2026-10-04-real-model-test-surface-corrective.json",
+".andromeda/runs/2026-10-04T11-44-25-phase/route-no-marker.json",
+".andromeda/runs/2026-10-04T11-44-25-phase/security-history.md",
+".andromeda/runs/2026-10-04T11-44-25-phase/security.md",
+".andromeda/runs/2026-10-04T11-44-25-phase/sidecar-2026-10-04-real-model-test-surface-corrective.json",
+".andromeda/runs/2026-10-04T11-44-25-phase/tests-contracts.md",
+".andromeda/runs/2026-10-04T11-44-25-phase/tests-history-index.md",
+".andromeda/runs/2026-10-04T11-44-25-phase/tests-history.md",
+".andromeda/runs/2026-10-04T11-44-25-phase/tests.md",
+".andromeda/runs/2026-10-04T11-44-25-phase/tree-query-2026-10-04-real-model-test-surface-corrective.json",
+".andromeda/runs/2026-10-04T12-10-49-implement/evolve-2026-10-04-real-model-test-surface-corrective.json",
+"conductor-0.3.0/chunks/2026-10-04-real-model-test-surface-corrective/plan.md",
+"conductor-0.3.0/chunks/2026-10-04-real-model-test-surface-corrective/research.md",
+"conductor-0.3.0/chunks/2026-10-04-real-model-test-surface-corrective/scope.md"
+],
+"rust": [
+"crates/conductor-core/tests/secret_scan_gate.rs",
+"crates/conductor-run/tests/real_model_common/mod.rs",
+"crates/conductor-run/tests/real_model_harvest.rs",
+"crates/conductor-run/tests/real_model_grading/canary_pairing.rs",
+"crates/conductor-run/tests/real_model_grading/capture_population.rs",
+"crates/conductor-run/tests/real_model_grading/capture_tokens.rs",
+"crates/conductor-run/tests/real_model_grading/mod.rs",
+"crates/conductor-run/tests/real_model_grading/scrub_and_sweep.rs",
+"crates/conductor-run/tests/real_model_grading/series_2026_09_29.rs",
+"crates/conductor-run/tests/real_model_grading/series_2026_09_30.rs",
+"crates/conductor-run/tests/real_model_grading/series_2026_10_01.rs",
+"crates/conductor-run/tests/real_model_grading/witnesses.rs",
+"crates/conductor-run/tests/real_model_grading/workspace_mask.rs"
+]
+},
+"unmapped": [
+"scripts/agent-run.ps1",
+"scripts/agent-run.sh"
+],
+"prose": [
+{
+"from": 135,
+"to": 137,
+"text": "No smoke entry: this chunk has no boot path and no live leg (tests and the harness's lint stage only). The `.ps1` half of step 8 cannot run on this Linux host (`command -v pwsh` → absent), so it is proven by CI's dogfood step, read in the operator pass below."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "probe",
+"run": "A=\"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" && git -C \"$A\" clean -fdq && test -z \"$(git -C \"$A\" status --porcelain)\"",
+"run_sha8": "5946f6f6",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-real-model-test-surface-corrective/implement-2026-10-04T12-10-49/1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.02,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-real-model-test-surface-corrective/implement-2026-10-04T12-10-49/2.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.28,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "cargo nextest run -p conductor-run --test real_model_harvest --profile ci",
+"run_sha8": "70507ea4",
+"expect": [
+"exit 0",
+"contains 104 tests run: 104 passed, 0 skipped"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-real-model-test-surface-corrective/implement-2026-10-04T12-10-49/3.log",
+"bytes": 14698,
+"log_sha8": "4bf6e224",
+"exit": 0,
+"seconds": 0.73,
+"readings": [
+"exit 0 ✓",
+"contains '104 tests run: 104 passed, 0 skipped' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "probe",
+"run": "comm -23 <(git show 1208ca5515f17e344296e8570c364d3d45f88b4a:crates/conductor-run/tests/real_model_harvest.rs | awk '/#\\[test\\]/{t=1;next} t&&/fn /{match($0,/fn [a-z0-9_]+/);print substr($0,RSTART+3,RLENGTH-3);t=0}' | sort) <(cargo nextest list -p conductor-run --test real_model_harvest --message-format oneline | awk '{print $2}' | sed 's/.*:://' | sort) | wc -l",
+"run_sha8": "f0196a23",
+"expect": [
+"exit 0",
+"last line 0"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-real-model-test-surface-corrective/implement-2026-10-04T12-10-49/4.log",
+"bytes": 75,
+"log_sha8": "a59298a8",
+"exit": 0,
+"seconds": 0.36,
+"readings": [
+"exit 0 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "probe",
+"run": "comm -13 <(git show 1208ca5515f17e344296e8570c364d3d45f88b4a:crates/conductor-run/tests/real_model_harvest.rs | awk '/#\\[test\\]/{t=1;next} t&&/fn /{match($0,/fn [a-z0-9_]+/);print substr($0,RSTART+3,RLENGTH-3);t=0}' | sort) <(cargo nextest list -p conductor-run --test real_model_harvest --message-format oneline | awk '{print $2}' | sed 's/.*:://' | sort) | wc -l",
+"run_sha8": "5476d4aa",
+"expect": [
+"exit 0",
+"last line 2"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-real-model-test-surface-corrective/implement-2026-10-04T12-10-49/5.log",
+"bytes": 75,
+"log_sha8": "0192ac31",
+"exit": 0,
+"seconds": 0.36,
+"readings": [
+"exit 0 ✓",
+"last line '2' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "diff <(git show 1208ca5515f17e344296e8570c364d3d45f88b4a:crates/conductor-run/tests/real_model_harvest.rs | sed -n '/^\\/\\/ ---- rule: begin ----$/,/^\\/\\/ ---- rule: end ----$/p') <(sed -n '/^\\/\\/ ---- rule: begin ----$/,/^\\/\\/ ---- rule: end ----$/p' crates/conductor-run/tests/real_model_harvest.rs)",
+"run_sha8": "2c469a51",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-real-model-test-surface-corrective/implement-2026-10-04T12-10-49/6.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "git diff --quiet 1208ca5515f17e344296e8570c364d3d45f88b4a -- ':(glob)conductor-0.3.0/chunks/**/evidence/rm-capture*.txt' ':(glob)conductor-0.3.0/chunks/**/evidence/attempt-ledger.md' ",
+"run_sha8": "165b8eea",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-real-model-test-surface-corrective/implement-2026-10-04T12-10-49/7.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "unit",
+"run": "cargo test -p conductor-run --test real_model_harvest",
+"run_sha8": "f936d446",
+"expect": [
+"exit 0",
+"contains test result: ok. 104 passed; 0 failed"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-real-model-test-surface-corrective/implement-2026-10-04T12-10-49/8.log",
+"bytes": 8636,
+"log_sha8": "d3e4e215",
+"exit": 0,
+"seconds": 0.15,
+"readings": [
+"exit 0 ✓",
+"contains 'test result: ok. 104 passed; 0 failed' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "unit",
+"run": "cargo nextest run -p conductor-core --test secret_scan_gate --profile ci",
+"run_sha8": "4a063019",
+"expect": [
+"exit 0",
+"contains 7 tests run: 7 passed, 0 skipped"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-real-model-test-surface-corrective/implement-2026-10-04T12-10-49/9.log",
+"bytes": 1227,
+"log_sha8": "d5be4549",
+"exit": 0,
+"seconds": 9.27,
+"readings": [
+"exit 0 ✓",
+"contains '7 tests run: 7 passed, 0 skipped' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "unit",
+"run": "cargo test -p conductor-core --test secret_scan_gate",
+"run_sha8": "983a8177",
+"expect": [
+"exit 0",
+"contains test result: ok. 7 passed; 0 failed"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-real-model-test-surface-corrective/implement-2026-10-04T12-10-49/10.log",
+"bytes": 740,
+"log_sha8": "12f77bf4",
+"exit": 0,
+"seconds": 8.73,
+"readings": [
+"exit 0 ✓",
+"contains 'test result: ok. 7 passed; 0 failed' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "integration",
+"run": "root=\"$PWD\" && d=\"$(mktemp -d)\" && trap 'rm -rf \"$d\"' EXIT && git ls-files -z --cached --others --exclude-standard | xargs -0 cp --parents -t \"$d\" && cd \"$d\" && test ! -e .git && CARGO_TARGET_DIR=\"$root/target/vcsless-copy\" cargo nextest run -p conductor-core --test secret_scan_gate --profile ci --no-capture",
+"run_sha8": "00120fe4",
+"expect": [
+"exit 0",
+"contains secret-scan gate: skipped — no git repository at the workspace root",
+"contains 7 tests run: 7 passed"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-real-model-test-surface-corrective/implement-2026-10-04T12-10-49/11.log",
+"bytes": 3615,
+"log_sha8": "ae3731c4",
+"exit": 0,
+"seconds": 2.34,
+"readings": [
+"exit 0 ✓",
+"contains 'secret-scan gate: skipped — no git repository at the workspace root' ✓",
+"contains '7 tests run: 7 passed' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "lint",
+"run": "cargo clippy -p conductor-verify --features stub-server --all-targets -- -D warnings",
+"run_sha8": "892512cb",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-real-model-test-surface-corrective/implement-2026-10-04T12-10-49/12.log",
+"bytes": 72,
+"log_sha8": "4cf86278",
+"exit": 0,
+"seconds": 0.17,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "lint",
+"run": "cargo clippy -p conductor-run --features live-pulse --all-targets -- -D warnings",
+"run_sha8": "c3608109",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-real-model-test-surface-corrective/implement-2026-10-04T12-10-49/13.log",
+"bytes": 167,
+"log_sha8": "e93da4da",
+"exit": 0,
+"seconds": 0.59,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "python -X utf8 -c \"import pathlib; ps=['scripts/agent-run.sh','scripts/agent-run.ps1']; ls=['clippy -p conductor-verify --features stub-server --all-targets -- -D warnings','clippy -p conductor-run --features live-pulse --all-targets -- -D warnings']; print(sum(pathlib.Path(p).read_text(encoding='utf-8').count(l) for p in ps for l in ls))\"",
+"run_sha8": "d9bb2550",
+"expect": [
+"exit 0",
+"last line 4"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-real-model-test-surface-corrective/implement-2026-10-04T12-10-49/14.log",
+"bytes": 2,
+"log_sha8": "7de1555d",
+"exit": 0,
+"seconds": 0.02,
+"readings": [
+"exit 0 ✓",
+"last line '4' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "git diff 1208ca5515f17e344296e8570c364d3d45f88b4a -- scripts/agent-run.sh scripts/agent-run.ps1 | grep -v '^--- ' | grep -c '^-'",
+"run_sha8": "f5115e70",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-real-model-test-surface-corrective/implement-2026-10-04T12-10-49/15.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.01,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "git diff --quiet 1208ca5515f17e344296e8570c364d3d45f88b4a -- .github/workflows/ci.yml",
+"run_sha8": "0badc1f0",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-real-model-test-surface-corrective/implement-2026-10-04T12-10-49/16.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run",
+"run_sha8": "21443cdf",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-real-model-test-surface-corrective/implement-2026-10-04T12-10-49/17.log",
+"bytes": 152710,
+"log_sha8": "a7bcbb25",
+"exit": 0,
+"seconds": 13.72,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "git diff --quiet 1208ca5515f17e344296e8570c364d3d45f88b4a -- Cargo.lock Cargo.toml crates/conductor-run/Cargo.toml crates/conductor-core/Cargo.toml crates/conductor-verify/Cargo.toml",
+"run_sha8": "08d7ce2a",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-real-model-test-surface-corrective/implement-2026-10-04T12-10-49/18.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "grep -c '^\\[\\[package\\]\\]' Cargo.lock",
+"run_sha8": "6fba78b3",
+"expect": [
+"exit 0",
+"last line 562"
+],
+"log": "/tmp/andromeda-gate/2026-10-04-real-model-test-surface-corrective/implement-2026-10-04T12-10-49/19.log",
+"bytes": 4,
+"log_sha8": "9db3b992",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '562' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-real-model-test-surface-corrective/implement-2026-10-04T12-10-49/20.log",
+"bytes": 1901,
+"log_sha8": "e5e34fb0",
+"exit": 0,
+"seconds": 2.12,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": null,
+"log": "/tmp/andromeda-gate/2026-10-04-real-model-test-surface-corrective/implement-2026-10-04T12-10-49/21.log",
+"bytes": 236863,
+"log_sha8": "ab74a8db",
+"exit": 0,
+"seconds": 0.97,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "python -X utf8 \"$HOME\"/.claude/skills/andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "a7051957",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD && echo \"PUSHED_SHA=$(git rev-parse HEAD)\"",
+"run_sha8": "6bf569fe",
+"expect": [
+"exit 0",
+"contains PUSHED_SHA="
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "python -X utf8 \"$HOME\"/.claude/skills/andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1500",
+"run_sha8": "458ed03a",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.6",
+"sha8": "9419d56e",
+"ts": "2026-10-04T12:19:01Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"conductor-0.3.0/chunks/2026-10-04-real-model-test-surface-corrective",
+"--run-dir",
+".andromeda/runs/2026-10-04T12-10-49-implement",
+"--marker",
+"2026-10-04-real-model-test-surface-corrective"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"root /home/turbolet/dev/projects/conductor · base HEAD (no pre-CI commit) · lists new 3 · modify 9 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"list crates/conductor-run/tests/real_model_grading/ (dir) ×10",
+"list crates/conductor-run/tests/real_model_rule/ (dir) ×0",
+"list crates/conductor-run/tests/real_model_harvest_*.rs (glob) ×0",
+"scope: clean — changed 15 · listed 15 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 10 · excluded 39"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": "/home/turbolet/dev/projects/conductor",
+"base": "HEAD",
+"base_why": "no pre-CI commit",
+"counts": {
+"changed": 15,
+"listed": 15,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 10
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 39,
+"unparsed": 0,
+"widening_without_word": 0
+}
+}
+]

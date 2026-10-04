@@ -1,0 +1,1 @@
+2026-10-04-real-model-test-surface-corrective · pending · Real-model test-surface corrective — the real-model harvest split by series with its grading lifted, the secret-scan gate skipping where no .git exists, and the stub-server test targets compiled by a gate · → conductor-0.3.0/chunks/2026-10-04-real-model-test-surface-corrective/

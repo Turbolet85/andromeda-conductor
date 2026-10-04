@@ -43,19 +43,25 @@
 //! series): the rule gains the P-031 / P-034 / P-044 grades and the canary's attempts, appended below
 //! the 2026-09-23 rule so that rule stays a byte-exact prefix (`rule_predates_the_drive`).
 
+mod evidence_pin;
 mod real_model_common;
+mod real_model_grading;
 
 use std::collections::BTreeSet;
 use std::path::Path;
 
-use conductor_core::{ENVELOPE_KEYS_SORTED, ReportState, RunRecord, Verdict};
+use conductor_core::{ReportState, Verdict};
+use evidence_pin::{check_digest, committed, pinned};
 mod real_model_series;
 
 use real_model_common::{
     DIGEST_ASSEMBLE, DIGEST_TICK, SWEEP_BOUND, WORKSPACE_KEY_PLACEHOLDER,
-    canary_attempts as pair_canary_attempts, elide_fingerprints, mask_host_paths,
+    canary_attempts as pair_canary_attempts, elide_fingerprints, envelope_record, mask_host_paths,
     mask_workspace_key, rule_section, sweep_window, workspace_rendering,
 };
+use real_model_grading::series_2026_09_29::series_capture;
+use real_model_grading::series_2026_09_30::capture_2026_09_30;
+use real_model_grading::series_2026_10_01::capture_2026_10_01;
 use real_model_series::{
     Drive, EVIDENCE, EVIDENCE_2026_09_30, EVIDENCE_2026_10_01, SERIES, SERIES_2026_09_30,
     SERIES_2026_10_01,
@@ -1056,482 +1062,6 @@ fn every_row_of_the_further_grades_is_reachable() {
     assert_eq!(reached.len(), 4, "P-031's four rows");
 }
 
-// ---- B1 and the launch witness --------------------------------------------------------------------
-
-#[test]
-fn a_canned_capture_is_never_the_real_model() {
-    let real = rank1("The conductor service is in a retry storm.");
-    assert!(real_model_witnessed(&real));
-
-    let canned_mode = real.replace(
-        &format!("{INFERENCE_MODE}real"),
-        &format!("{INFERENCE_MODE}deterministic"),
-    );
-    assert!(!real_model_witnessed(&canned_mode));
-
-    // The deterministic fixture's evidence refs (andromeda-pulse deterministic_inference.rs:68-72).
-    let canned_evidence = real.replace("- `ref-1`", "- `det-span-9f2c4a7e1b6d0358`");
-    assert!(!real_model_witnessed(&canned_evidence));
-}
-
-#[test]
-fn a_launch_whose_basename_carries_conductor_is_not_clear() {
-    let clear = rank1("The conductor service is in a retry storm.");
-    assert!(launch_cwd_clear(&clear));
-    let fouled = clear.replace(&format!("{LAUNCH_CWD}false"), &format!("{LAUNCH_CWD}true"));
-    assert!(!launch_cwd_clear(&fouled));
-}
-
-// ---- routes ---------------------------------------------------------------------------------------
-
-#[test]
-fn each_route_carries_its_own_trace_witness_set() {
-    let read_back = rank1("The conductor service is in a retry storm.");
-    assert_eq!(route(&read_back), Route::ReadBack);
-    assert!(trace_conforms(&read_back));
-
-    let no_read_back = read_back.replace(
-        "retrieve_report_witness=true",
-        "retrieve_report_witness=false",
-    );
-    assert_eq!(route(&no_read_back), Route::EmittedNoReadBack);
-    assert!(trace_conforms(&no_read_back));
-
-    let blocked = format!(
-        "{NO_EMISSION}\n{TRACE}spans=scenario.run,verify.readback.preflight wire_shape_lines=12 \
-         retrieve_report_witness=false\n"
-    );
-    assert_eq!(route(&blocked), Route::PreflightBlocked);
-    assert!(trace_conforms(&blocked));
-}
-
-#[test]
-fn a_read_back_route_missing_its_emission_span_does_not_conform() {
-    let broken =
-        rank1("The conductor service is in a retry storm.").replace("spans=emit.batch,", "spans=");
-    assert_eq!(route(&broken), Route::ReadBack);
-    assert!(!trace_conforms(&broken));
-}
-
-// ---- the host-path mask ---------------------------------------------------------------------------
-// The forms are BUILT, never spelled: this file's hygiene gate greps it for exactly these shapes.
-
-fn drive(tail: &str) -> String {
-    format!("{}{}{}{tail}", 'D', ':', '\\')
-}
-
-#[test]
-fn the_mask_covers_every_form_redact_value_misses() {
-    let long_path = format!("{}{}", "\\\\?\\", drive("data"));
-    let msys = format!("/{}/dev/pulse", 'd');
-    let cases = [
-        (format!("see `{}`", drive("data")), "see `<host-path>`"),
-        (format!("({})", drive("data")), "(<host-path>)"),
-        (
-            format!("path={} next", drive("data")),
-            "path=<host-path> next",
-        ),
-        (format!("at {long_path} end"), "at <host-path> end"),
-        (format!("under {msys}"), "under <host-path>"),
-    ];
-    for (input, want) in &cases {
-        let scrubbed = conductor_core::redact_value(input);
-        assert_eq!(mask_host_paths(&scrubbed), *want, "{input}");
-    }
-}
-
-#[test]
-fn the_mask_covers_the_named_roots() {
-    for root in [
-        format!("/{}/dev", "home"),
-        format!("/{}/dev", "Users"),
-        format!("%{}%", "APPDATA"),
-    ] {
-        assert_eq!(
-            mask_host_paths(&format!("x {root}/pulse y")),
-            "x <host-path> y",
-            "{root}"
-        );
-    }
-}
-
-#[test]
-fn the_mask_leaves_a_url_a_repo_path_and_a_span_ref_alone() {
-    for clean in [
-        "http://127.0.0.1:4317/v1/traces",
-        "crates/conductor-run/tests/real_model_harvest.rs",
-        "span:a/b/c",
-    ] {
-        assert_eq!(mask_host_paths(clean), clean);
-    }
-}
-
-// ---- the capture's attribution sweep --------------------------------------------------------------
-
-#[test]
-fn the_sweep_reads_an_incident_that_resolved_below_the_lowest_active_one() {
-    // Drive a3, 2026-09-29: at the capture's first poll only incident 6 was active — the canary's (4)
-    // and the one formed after the scenario's storm (5, inferred from the dense row ids) had
-    // auto-resolved at 16:41:34Z. A window anchored at the lowest ACTIVE id starts at 6 and never
-    // reads either; this one must.
-    let active_at_first_poll = [6_i64];
-    let window = sweep_window(active_at_first_poll.iter().copied().max());
-    for resolved in [4, 5] {
-        assert!(
-            window.contains(&resolved),
-            "incident {resolved} resolved before the poll and sits below the lowest active id; window {window:?}"
-        );
-    }
-    assert!(window.contains(&6), "the active incident is read too");
-}
-
-#[test]
-fn the_sweep_window_is_bounded_and_floored_at_one() {
-    assert_eq!(sweep_window(None), 1..1 + SWEEP_BOUND);
-    assert_eq!(sweep_window(Some(1)), 1..1 + SWEEP_BOUND);
-    let high = sweep_window(Some(200));
-    assert_eq!(high, 200 - (SWEEP_BOUND - 1)..201);
-    assert_eq!(high.end - high.start, SWEEP_BOUND);
-}
-
-// ---- the capture's canary pairing ------------------------------------------------------------------
-// Pulse log lines in the shapes measured at the 2026-09-29 series, fields only.
-
-fn log(t: &str, target: &str, fields: serde_json::Value) -> serde_json::Value {
-    serde_json::json!({ "timestamp": t, "target": target, "fields": fields })
-}
-
-fn cue_tick(t: &str, mode: &str, kind: &str) -> [serde_json::Value; 2] {
-    [
-        log(
-            t,
-            DIGEST_TICK,
-            serde_json::json!({ "mode": mode, "cue_present": true }),
-        ),
-        log(
-            t,
-            DIGEST_ASSEMBLE,
-            serde_json::json!({ "mode": mode, "cue_kind": kind, "cue_priority_tier": "autonomous" }),
-        ),
-    ]
-}
-
-fn prompt(t: &str) -> serde_json::Value {
-    log(
-        t,
-        "interpretation.prompt.assemble",
-        serde_json::json!({ "prompt_version": "v2.2" }),
-    )
-}
-
-fn parse_ok(t: &str) -> serde_json::Value {
-    log(
-        t,
-        "interpretation.json.parse",
-        serde_json::json!({ "parse_outcome": "ok" }),
-    )
-}
-
-fn created(t: &str) -> serde_json::Value {
-    log(
-        t,
-        "interpretation.incident.created",
-        serde_json::json!({ "created": true, "deduped": false }),
-    )
-}
-
-fn paired(lines: &[serde_json::Value]) -> Vec<String> {
-    let refs: Vec<&serde_json::Value> = lines.iter().collect();
-    pair_canary_attempts(&refs)
-}
-
-#[test]
-fn a_tier_2_tick_before_the_parse_does_not_turn_a_dismissal_into_a_fault() {
-    // b2 storm 1: its prompt assembled at once, a tier-2 error-rate tick came 3 s later, and its parse
-    // `ok` followed with no incident outcome.
-    let [tick, assemble] = cue_tick("17:20:21.152", "tier1", "retry_storm");
-    let [tier2, tier2_assemble] = cue_tick("17:20:24.244", "tier2", "error_rate_spike");
-    let lines = [
-        tick,
-        assemble,
-        prompt("17:20:21.182"),
-        tier2,
-        tier2_assemble,
-        parse_ok("17:20:28.180"),
-        prompt("17:20:28.180"),
-        parse_ok("17:20:35.510"),
-    ];
-    let out = paired(&lines);
-    assert!(
-        out[0].starts_with(&format!("{CANARY}{DISMISSED} ")),
-        "{out:?}"
-    );
-    assert_eq!(
-        out[1],
-        "canary other cue-bearing digests: 1 (error_rate_spike)"
-    );
-}
-
-#[test]
-fn a_tier_2_tick_before_the_parse_does_not_turn_a_surfacing_into_a_fault() {
-    // b1 storm 1: a tier-2 tick 0.95 s after the canary's, then its parse `ok` and an incident.
-    let [tick, assemble] = cue_tick("17:02:13.285", "tier1", "retry_storm");
-    let [tier2, tier2_assemble] = cue_tick("17:02:14.232", "tier2", "error_rate_spike");
-    let lines = [
-        tick,
-        assemble,
-        prompt("17:02:13.296"),
-        tier2,
-        tier2_assemble,
-        parse_ok("17:02:18.030"),
-        created("17:02:18.058"),
-        prompt("17:02:18.060"),
-    ];
-    assert!(paired(&lines)[0].starts_with(&format!("{CANARY}{SURFACED} ")));
-}
-
-#[test]
-fn an_earlier_digest_s_outcome_is_never_the_canary_s() {
-    // The canary's digest queued behind a running inference: that inference's parse and incident land
-    // after the canary's tick and before the canary's own prompt.
-    let [tick, assemble] = cue_tick("16:00:10.000", "tier1", "retry_storm");
-    let lines = [
-        prompt("16:00:08.000"),
-        tick,
-        assemble,
-        parse_ok("16:00:12.000"),
-        created("16:00:12.020"),
-        prompt("16:00:12.030"),
-        parse_ok("16:00:16.000"),
-    ];
-    assert!(paired(&lines)[0].starts_with(&format!("{CANARY}{DISMISSED} ")));
-}
-
-#[test]
-fn an_inference_error_or_a_skip_is_a_pipeline_fault() {
-    // a1's first fire: every inference errored `model_not_configured`.
-    let [tick, assemble] = cue_tick("15:57:36.798", "tier1", "retry_storm");
-    let errored = [
-        tick.clone(),
-        assemble.clone(),
-        prompt("15:57:36.810"),
-        log(
-            "15:57:36.810",
-            "interpretation.inference.error",
-            serde_json::json!({ "error_category": "model_not_configured" }),
-        ),
-    ];
-    assert!(paired(&errored)[0].starts_with(&format!("{CANARY}{PIPELINE_FAULT} ")));
-    // A digest skipped in backoff assembles no prompt at all.
-    let skipped = [
-        tick,
-        assemble,
-        log(
-            "15:57:40.000",
-            "interpretation.inference.skipped",
-            serde_json::json!({ "reason": "backoff_active" }),
-        ),
-    ];
-    assert!(paired(&skipped)[0].starts_with(&format!("{CANARY}{PIPELINE_FAULT} ")));
-}
-
-#[test]
-fn the_next_canary_storm_s_prompt_is_never_the_previous_one_s() {
-    // Storm 1's digest never reached inference; storm 2's did. Storm 1 is a fault, never storm 2's parse.
-    let [tick1, assemble1] = cue_tick("17:00:00.000", "tier1", "retry_storm");
-    let [tick2, assemble2] = cue_tick("17:01:30.000", "tier1", "retry_storm");
-    let lines = [
-        tick1,
-        assemble1,
-        tick2,
-        assemble2,
-        prompt("17:01:30.010"),
-        parse_ok("17:01:35.000"),
-    ];
-    let out = paired(&lines);
-    assert!(
-        out[0].starts_with(&format!("{CANARY}{PIPELINE_FAULT} ")),
-        "{out:?}"
-    );
-    assert!(
-        out[1].starts_with(&format!("{CANARY}{DISMISSED} ")),
-        "{out:?}"
-    );
-}
-
-#[test]
-fn a_dismissal_carries_pulse_s_stated_skip_reason() {
-    // From Pulse `a2addb3` every parsed generation logs one of created / deduped / skipped.
-    let [tick, assemble] = cue_tick("18:00:00.000", "tier1", "retry_storm");
-    let lines = [
-        tick,
-        assemble,
-        prompt("18:00:00.010"),
-        parse_ok("18:00:05.000"),
-        log(
-            "18:00:05.010",
-            "interpretation.incident.skipped",
-            serde_json::json!({
-                "skip_reason": "decision_dismiss",
-                "decision": "dismiss",
-                "severity": "low",
-                "digest_kind": "cue",
-            }),
-        ),
-        prompt("18:00:06.000"),
-    ];
-    let out = paired(&lines);
-    assert!(
-        out[0].starts_with(&format!("{CANARY}{DISMISSED} ")),
-        "{out:?}"
-    );
-    assert!(out[0].ends_with(" skip_reason=decision_dismiss"), "{out:?}");
-}
-
-#[test]
-fn a_surfacing_and_the_pre_fix_dismissal_carry_no_skip_reason() {
-    let [tick, assemble] = cue_tick("18:10:00.000", "tier1", "retry_storm");
-    let surfaced = [
-        tick.clone(),
-        assemble.clone(),
-        prompt("18:10:00.010"),
-        parse_ok("18:10:05.000"),
-        created("18:10:05.010"),
-        prompt("18:10:06.000"),
-    ];
-    let out = paired(&surfaced);
-    assert!(
-        out[0].starts_with(&format!("{CANARY}{SURFACED} ")),
-        "{out:?}"
-    );
-    assert!(out[0].ends_with(" skip_reason=none"), "{out:?}");
-    // Before `a2addb3` Pulse logged no outcome line for a dismissal.
-    let pre_fix = [
-        tick,
-        assemble,
-        prompt("18:10:00.010"),
-        parse_ok("18:10:05.000"),
-        prompt("18:10:06.000"),
-    ];
-    let out = paired(&pre_fix);
-    assert!(
-        out[0].starts_with(&format!("{CANARY}{DISMISSED} ")),
-        "{out:?}"
-    );
-    assert!(out[0].ends_with(" skip_reason=none"), "{out:?}");
-}
-
-#[test]
-fn the_capture_prints_pulse_s_no_incident_outcome() {
-    assert!(include_str!("real_model_live.rs").contains("\"interpretation.incident.skipped\""));
-}
-
-#[test]
-fn a_fingerprint_is_elided_and_a_stamp_a_seed_and_a_det_prefix_are_not() {
-    let fp = ["12dcd67b", "34e41302", "ed9cd723", "dd1e28cf"].concat();
-    assert_eq!(
-        elide_fingerprints(&format!("- `{fp}` and fingerprint_hex={}", &fp[..8])),
-        "- `<fingerprint>` and fingerprint_hex=<fingerprint>"
-    );
-    for kept in [
-        "opened_at_unix_nano=1790702606754859000",
-        "\"seed\":4317033",
-        "run_id: 2026-01-01T00-00-00-000",
-        "a deadbee word",
-        "prefix12dcd67b",
-    ] {
-        assert_eq!(elide_fingerprints(kept), kept);
-    }
-    assert_eq!(
-        elide_fingerprints("- `det-span-9f2c4a7e1b6d0358`"),
-        "- `det-span-<fingerprint>`",
-        "the canned-evidence prefix survives, so the witness still reads it"
-    );
-    let digits = ["1357", "2468"].concat();
-    assert_eq!(
-        elide_fingerprints(&format!("storm fingerprint_hex={digits} count=12")),
-        "storm fingerprint_hex=<fingerprint> count=12",
-        "a keyed value is a fingerprint whatever its characters"
-    );
-    for kept in [
-        "storm fingerprint_hex=<fingerprint> count=12",
-        "storm fingerprint_hex= count=12",
-        "fingerprint_hex=",
-    ] {
-        assert_eq!(elide_fingerprints(kept), kept);
-    }
-}
-
-#[test]
-fn un_elided_keyed_values_counts_a_planted_value() {
-    let digits = ["1357", "2468"].concat();
-    let line = |value: &str| format!("storm severity_hint=autonomous fingerprint_hex={value}\n");
-    assert_eq!(un_elided_keyed_values(&line(&digits)), 1);
-    assert_eq!(un_elided_keyed_values(&line("<fingerprint>")), 0);
-    assert_eq!(un_elided_keyed_values(&line("")), 0);
-}
-
-// ---- producer/grader agreement --------------------------------------------------------------------
-
-#[test]
-fn the_capture_prints_every_token_the_rule_reads() {
-    // The capture is feature-gated, so this default-suite target cannot call it; it can read its
-    // source — its own file and the shared module whose canary pairing it prints through. Each grammar
-    // literal the rule keys on must appear there verbatim.
-    let capture = [
-        include_str!("real_model_live.rs"),
-        include_str!("real_model_common/mod.rs"),
-    ]
-    .concat();
-    for token in [
-        EMISSION_INSTANT,
-        NO_EMISSION,
-        TRACE,
-        ATTRIBUTED,
-        AMBIGUOUS,
-        READ_BACK_FAILED,
-        END_OF_SECTIONS,
-        INFERENCE_MODE,
-        LAUNCH_CWD,
-        CORPUS_ROWS,
-        CANARY,
-        SURFACED,
-        DISMISSED,
-        PIPELINE_FAULT,
-    ] {
-        assert!(
-            capture.contains(&format!("\"{token}\"")),
-            "the capture prints {token:?}"
-        );
-    }
-    for key in [
-        "opened_at_unix_nano=",
-        "spans=",
-        "wire_shape_lines=",
-        "retrieve_report_witness=",
-    ] {
-        assert!(capture.contains(key), "the capture prints the {key} field");
-    }
-}
-
-#[test]
-fn the_capture_computes_the_dispatcher_s_own_exception() {
-    // Attribution keys on the scenario's cue fingerprint, which the capture computes from a
-    // transcription of the dispatcher's private base exception. Drift in either copy would attribute
-    // nothing; both must carry the same four literals.
-    let capture = include_str!("real_model_live.rs");
-    let dispatch = include_str!("../src/dispatch.rs");
-    for literal in [
-        r#""ValueError","#,
-        r#""conductor synthetic exception","#,
-        r#"Frame::new("conductor::worker::handle", "src/worker.rs", 42)"#,
-        r#"Frame::new("conductor::worker::parse", "src/worker.rs", 17)"#,
-    ] {
-        assert!(dispatch.contains(literal), "dispatch.rs carries {literal}");
-        assert!(capture.contains(literal), "the capture carries {literal}");
-    }
-}
-
 #[test]
 fn the_rule_section_is_extractable_and_bounded_by_its_markers() {
     let section = rule_section(include_str!("real_model_harvest.rs")).expect("markers present");
@@ -1548,46 +1078,6 @@ fn the_rule_section_is_extractable_and_bounded_by_its_markers() {
 // Every capture this harvest grades is a committed evidence file held by the sha256 of its LF-normalized
 // content; grading reads the file only after its digest matches. No capture text sits in test source
 // (security-plan §Security Anti-Patterns → Data Protection).
-
-/// The sha256 of `text`, lower hex.
-fn sha256_hex(text: &str) -> String {
-    use sha2::{Digest, Sha256};
-    Sha256::digest(text.as_bytes())
-        .iter()
-        .map(|b| format!("{b:02x}"))
-        .collect()
-}
-
-/// Hold a committed file's LF-normalized text to its pinned digest. The error names the repo-relative
-/// file and both digests, never the text.
-fn check_digest(name: &str, text: &str, expected: &str) -> Result<(), String> {
-    let actual = sha256_hex(text);
-    if actual == expected {
-        Ok(())
-    } else {
-        Err(format!(
-            "{name}: sha256 {actual} does not match its pinned {expected}"
-        ))
-    }
-}
-
-/// A committed file, read workspace-root anchored (a test binary's cwd is its own crate) and
-/// LF-normalized, so a digest is a property of the content and never of `core.autocrlf`.
-fn committed(name: &str) -> String {
-    let path = Path::new(env!("CARGO_MANIFEST_DIR"))
-        .join("../..")
-        .join(name);
-    std::fs::read_to_string(&path)
-        .expect("the committed file is readable")
-        .replace("\r\n", "\n")
-}
-
-/// A committed capture whose digest matches its pin — the only way the grading reads one.
-fn pinned(name: &str, sha256: &str) -> String {
-    let text = committed(name);
-    check_digest(name, &text, sha256).unwrap_or_else(|reason| panic!("{reason}"));
-    text
-}
 
 /// The block the capture printed after its rule record, from its first line to its last.
 fn capture_block(committed: &str) -> &str {
@@ -1657,11 +1147,7 @@ fn the_pinned_capture_witnesses_the_real_model_and_a_clear_launch() {
 fn the_pinned_envelope_carries_the_eleven_keys_and_the_closed_sets() {
     let committed = committed_capture();
     let block = capture_block(&committed);
-    let envelope = block
-        .lines()
-        .find_map(|l| l.strip_prefix("envelope: "))
-        .filter(|rest| rest.starts_with('{'));
-    let Some(line) = envelope else {
+    let Some(record) = envelope_record(block, ELIDED_CAPTURE) else {
         assert_eq!(
             route(block),
             Route::PreflightBlocked,
@@ -1669,17 +1155,6 @@ fn the_pinned_envelope_carries_the_eleven_keys_and_the_closed_sets() {
         );
         return;
     };
-    // A typed parse cannot prove a nullable key PRESENT, so the key set is checked on the value.
-    let value: serde_json::Value = serde_json::from_str(line).expect("the pinned envelope parses");
-    let mut keys: Vec<&str> = value
-        .as_object()
-        .expect("the envelope is an object")
-        .keys()
-        .map(String::as_str)
-        .collect();
-    keys.sort_unstable();
-    assert_eq!(keys, ENVELOPE_KEYS_SORTED);
-    let record: RunRecord = serde_json::from_str(line).expect("the closed verdict/state/tier sets");
     assert_eq!(record.scenario, "real-model-interpretation");
     assert_eq!(record.state, ReportState::Blocked);
     assert_eq!(record.verdict, None);
@@ -1764,18 +1239,58 @@ fn a_one_byte_change_to_a_pinned_capture_fails_its_digest() {
     }
 }
 
-#[test]
-fn no_committed_capture_text_sits_in_test_source() {
-    // Every report-section line of a pinned capture long enough to be prose (40 characters, never a
-    // `## ` header) is absent from the four real-model test sources. The count guard keeps the arm
-    // from passing over captures that rendered no report at all.
-    let sources = [
-        include_str!("real_model_harvest.rs"),
-        include_str!("real_model_series/mod.rs"),
-        include_str!("real_model_common/mod.rs"),
-        include_str!("real_model_live.rs"),
-    ]
-    .concat();
+/// The real-model test sources outside `real_model_grading/`.
+const SOURCES: [&str; 4] = [
+    include_str!("real_model_harvest.rs"),
+    include_str!("real_model_series/mod.rs"),
+    include_str!("real_model_common/mod.rs"),
+    include_str!("real_model_live.rs"),
+];
+
+/// Every module under `real_model_grading/`, by file name. A module missing here is unscanned, which
+/// `the_capture_text_arm_scans_every_grading_module` holds against the directory.
+const GRADING_MODULES: [(&str, &str); 10] = [
+    (
+        "canary_pairing.rs",
+        include_str!("real_model_grading/canary_pairing.rs"),
+    ),
+    (
+        "capture_population.rs",
+        include_str!("real_model_grading/capture_population.rs"),
+    ),
+    (
+        "capture_tokens.rs",
+        include_str!("real_model_grading/capture_tokens.rs"),
+    ),
+    ("mod.rs", include_str!("real_model_grading/mod.rs")),
+    (
+        "scrub_and_sweep.rs",
+        include_str!("real_model_grading/scrub_and_sweep.rs"),
+    ),
+    (
+        "series_2026_09_29.rs",
+        include_str!("real_model_grading/series_2026_09_29.rs"),
+    ),
+    (
+        "series_2026_09_30.rs",
+        include_str!("real_model_grading/series_2026_09_30.rs"),
+    ),
+    (
+        "series_2026_10_01.rs",
+        include_str!("real_model_grading/series_2026_10_01.rs"),
+    ),
+    (
+        "witnesses.rs",
+        include_str!("real_model_grading/witnesses.rs"),
+    ),
+    (
+        "workspace_mask.rs",
+        include_str!("real_model_grading/workspace_mask.rs"),
+    ),
+];
+
+/// Every pinned capture this harvest grades, labelled, each digest-checked.
+fn graded_captures() -> Vec<(String, String)> {
     let mut captures = vec![(ELIDED_CAPTURE.to_string(), committed_capture())];
     for drive in &SERIES {
         captures.push((drive.label.to_string(), series_capture(drive)));
@@ -1789,814 +1304,88 @@ fn no_committed_capture_text_sits_in_test_source() {
             capture_2026_10_01(drive),
         ));
     }
+    captures
+}
+
+/// A capture block's report-section lines long enough to be prose: 40 characters or more, never a `## `
+/// header.
+fn report_lines(block: &str) -> impl Iterator<Item = &str> {
+    block
+        .lines()
+        .skip_while(|l| !l.starts_with("## "))
+        .take_while(|l| *l != END_OF_SECTIONS)
+        .filter(|l| l.chars().count() >= 40 && !l.starts_with("## "))
+}
+
+/// The label of the first capture whose report prose sits in `sources`, or how many lines were checked.
+fn capture_text_in(sources: &str, captures: &[(String, String)]) -> Result<usize, String> {
     let mut checked = 0;
-    for (label, text) in &captures {
-        let block = capture_block(text);
-        let sections = block
-            .lines()
-            .skip_while(|l| !l.starts_with("## "))
-            .take_while(|l| *l != END_OF_SECTIONS);
-        for line in sections.filter(|l| l.chars().count() >= 40 && !l.starts_with("## ")) {
+    for (label, text) in captures {
+        for line in report_lines(capture_block(text)) {
             checked += 1;
-            assert!(
-                !sources.contains(line),
-                "{label}: a report line sits in test source"
-            );
-        }
-    }
-    assert!(checked > 0, "no report line was checked");
-}
-
-// ---- the 2026-09-29 drive series (step 10) ---------------------------------------------------------
-// Six captures against andromeda-pulse `e98d838` under the real-model posture on one long-lived data
-// dir, recorded one row each in `evidence/attempt-ledger.md`. Graded by the rule; nobody re-judges them.
-
-/// A series drive's committed capture, digest-checked.
-fn series_capture(drive: &Drive) -> String {
-    pinned(&format!("{EVIDENCE}/{}", drive.file), drive.sha256)
-}
-
-#[test]
-fn each_series_capture_matches_its_pinned_digest() {
-    for drive in &SERIES {
-        let name = format!("{EVIDENCE}/{}", drive.file);
-        let text = committed(&name);
-        assert_eq!(
-            check_digest(&name, &text, drive.sha256),
-            Ok(()),
-            "{}",
-            drive.label
-        );
-    }
-}
-
-#[test]
-fn each_series_drive_recorded_the_current_rule_before_it_fired() {
-    // The rule was not touched between the series and now, so every drive's pre-leg record equals it.
-    let current =
-        rule_section(include_str!("real_model_harvest.rs")).expect("this file carries its rule");
-    for drive in &SERIES {
-        let recorded =
-            rule_section(&series_capture(drive)).expect("the capture opens with the rule record");
-        assert_eq!(
-            recorded, current,
-            "{}: the rule moved after the drive",
-            drive.label
-        );
-    }
-}
-
-#[test]
-fn the_series_captures_carry_no_fingerprint() {
-    // Elided once after the series by a mirror of the capture's own rule; this is the Rust rule
-    // finding nothing left in any committed capture or the ledger.
-    let ledger = committed(&format!("{EVIDENCE}/attempt-ledger.md"));
-    assert_eq!(elide_fingerprints(&ledger), ledger, "the attempt ledger");
-    for drive in &SERIES {
-        let committed = series_capture(drive);
-        assert_eq!(elide_fingerprints(&committed), committed, "{}", drive.label);
-    }
-}
-
-/// What the rule measured on each drive: its route, its rank-1 grade, the three further grades and
-/// the canary tokens the capture printed (b1's and b2's `pipeline-fault` are the pairing artifacts
-/// the ledger corrects from Pulse's own log; the tokens are recorded as printed).
-fn measured(label: &str) -> (Route, Grade, [Outcome; 3], CanaryAttempts) {
-    let none = Outcome::Blocked("no attributable incident");
-    let tokens = |surfaced, dismissed, pipeline_fault| CanaryAttempts {
-        surfaced,
-        dismissed,
-        pipeline_fault,
-    };
-    match label {
-        "a1-pipeline-fault" => (
-            Route::PreflightBlocked,
-            Grade::NoAttributableIncident,
-            [none; 3],
-            tokens(0, 0, 1),
-        ),
-        "a1" => (
-            Route::PreflightBlocked,
-            Grade::NoAttributableIncident,
-            [none; 3],
-            tokens(0, 1, 0),
-        ),
-        "a2" => (
-            Route::EmittedNoReadBack,
-            Grade::NoAttributableIncident,
-            [none; 3],
-            tokens(1, 0, 0),
-        ),
-        "a3" => (
-            Route::ReadBack,
-            Grade::NoAttributableIncident,
-            [none; 3],
-            tokens(1, 0, 0),
-        ),
-        "b1" => (
-            Route::ReadBack,
-            Grade::NoAttributableIncident,
-            [none; 3],
-            tokens(0, 1, 1),
-        ),
-        "b2" => (
-            Route::ReadBack,
-            Grade::NotIdentified,
-            [Outcome::Pass; 3],
-            tokens(1, 0, 1),
-        ),
-        other => panic!("no measurement recorded for {other}"),
-    }
-}
-
-#[test]
-fn each_series_drive_grades_as_the_ledger_records() {
-    for drive in &SERIES {
-        let (route_, grade_, further, tokens) = measured(drive.label);
-        let committed = series_capture(drive);
-        let block = capture_block(&committed);
-        assert_eq!(route(block), route_, "{}", drive.label);
-        assert_eq!(grade(block), grade_, "{}", drive.label);
-        assert_eq!(
-            [structure(block), steps(block), retrieval(block)],
-            further,
-            "{}",
-            drive.label
-        );
-        assert_eq!(canary_attempts(block), tokens, "{}", drive.label);
-        assert!(
-            trace_conforms(block),
-            "{}: the trace witness set",
-            drive.label
-        );
-    }
-}
-
-#[test]
-fn every_series_drive_witnesses_the_real_model_and_a_clear_launch() {
-    for drive in &SERIES {
-        let committed = series_capture(drive);
-        let block = capture_block(&committed);
-        assert!(real_model_witnessed(block), "{}", drive.label);
-        assert!(launch_cwd_clear(block), "{}", drive.label);
-    }
-}
-
-#[test]
-fn the_series_envelopes_carry_the_eleven_keys() {
-    for drive in &SERIES {
-        let committed = series_capture(drive);
-        let Some(line) = capture_block(&committed)
-            .lines()
-            .find_map(|l| l.strip_prefix("envelope: "))
-            .filter(|rest| rest.starts_with('{'))
-        else {
-            continue;
-        };
-        let value: serde_json::Value = serde_json::from_str(line).expect("the envelope parses");
-        let mut keys: Vec<&str> = value
-            .as_object()
-            .expect("the envelope is an object")
-            .keys()
-            .map(String::as_str)
-            .collect();
-        keys.sort_unstable();
-        assert_eq!(keys, ENVELOPE_KEYS_SORTED, "{}", drive.label);
-        let record: RunRecord = serde_json::from_str(line).expect("the closed sets");
-        assert_eq!(record.scenario, "real-model-interpretation");
-        assert_eq!(record.verdict, None, "{}: declare-only", drive.label);
-    }
-}
-
-#[test]
-fn v3_09_is_not_met_by_the_series() {
-    // D1 (posture contract, The drive series (a)): met only if at least one drive is graded AND every
-    // graded drive reads Identified. A drive is graded when it attributed an incident on the read-back
-    // route. b2 alone did, and it reads NotIdentified — recorded, never replaced.
-    let captures: Vec<(&str, String)> = SERIES
-        .iter()
-        .map(|d| (d.label, series_capture(d)))
-        .collect();
-    let graded: Vec<(&str, Grade)> = captures
-        .iter()
-        .map(|(label, text)| (*label, capture_block(text)))
-        .filter(|(_, block)| route(block) == Route::ReadBack && attributed_report(block).is_ok())
-        .map(|(label, block)| (label, grade(block)))
-        .collect();
-    assert_eq!(graded, [("b2", Grade::NotIdentified)]);
-    assert_eq!(
-        row(Grade::NotIdentified),
-        (Some(Verdict::CalibrationRegion), ReportState::ManualCheck)
-    );
-    let met = !graded.is_empty() && graded.iter().all(|(_, g)| *g == Grade::Identified);
-    assert!(!met, "the series does not meet v3-09");
-}
-
-// ---- the 2026-09-30 series (plan steps 10-13) -------------------------------------------------------
-
-/// The digest of the series' contract section, recorded in the attempt ledger before `d1` fired.
-const SERIES_2026_09_30_RULE_SHA256: &str =
-    "0091fe6f876d05dfcaa4d454320a31426927d94cbcf13fe6d8095070a0753c19";
-
-/// A contract section, LF-normalized: its heading line up to the next `## ` heading.
-fn contract_section(text: &str, heading: &str) -> Option<String> {
-    let start = text.find(&format!("\n{heading}\n"))? + 1;
-    let rest = &text[start..];
-    let end = rest[1..].find("\n## ")? + 2;
-    Some(rest[..end].to_string())
-}
-
-#[test]
-fn the_2026_09_30_series_rule_was_fixed_before_d1() {
-    // The section's digest now, the digest the ledger recorded before d1, and the pin agree: any edit
-    // to the series' design after it was pre-registered fails here.
-    let contract = committed("contracts/pulse-real-model-leg-posture.md");
-    let section =
-        contract_section(&contract, "## The 2026-09-30 series").expect("the section exists");
-    let recorded = committed(&format!("{EVIDENCE_2026_09_30}/attempt-ledger.md"))
-        .lines()
-        .find_map(|l| {
-            l.strip_prefix("pre-registration sha256: ")
-                .map(str::to_owned)
-        })
-        .expect("the ledger recorded the pre-registration digest");
-    assert_eq!(recorded, SERIES_2026_09_30_RULE_SHA256);
-    assert_eq!(
-        check_digest(
-            "contracts/pulse-real-model-leg-posture.md",
-            &section,
-            SERIES_2026_09_30_RULE_SHA256
-        ),
-        Ok(())
-    );
-}
-
-/// A 2026-09-30 drive's committed capture, digest-checked.
-fn capture_2026_09_30(drive: &Drive) -> String {
-    pinned(
-        &format!("{EVIDENCE_2026_09_30}/{}", drive.file),
-        drive.sha256,
-    )
-}
-
-#[test]
-fn each_2026_09_30_capture_matches_its_pinned_digest() {
-    for drive in &SERIES_2026_09_30 {
-        let name = format!("{EVIDENCE_2026_09_30}/{}", drive.file);
-        let text = committed(&name);
-        assert_eq!(
-            check_digest(&name, &text, drive.sha256),
-            Ok(()),
-            "{}",
-            drive.label
-        );
-    }
-}
-
-#[test]
-fn each_2026_09_30_drive_recorded_the_current_rule_before_it_fired() {
-    let current =
-        rule_section(include_str!("real_model_harvest.rs")).expect("this file carries its rule");
-    for drive in &SERIES_2026_09_30 {
-        let recorded = rule_section(&capture_2026_09_30(drive))
-            .expect("the capture opens with the rule record");
-        assert_eq!(
-            recorded, current,
-            "{}: the rule moved after the drive",
-            drive.label
-        );
-    }
-}
-
-#[test]
-fn the_2026_09_30_captures_carry_no_fingerprint_and_no_workspace_key() {
-    // The capture's own elision and key mask, found to have left nothing in any capture. The ledger is
-    // not held to the elision: it carries sha256 digests and a Pulse commit sha by design, and the
-    // pre-registration digest must stay whole for `the_2026_09_30_series_rule_was_fixed_before_d1`.
-    for drive in &SERIES_2026_09_30 {
-        let committed = capture_2026_09_30(drive);
-        assert_eq!(elide_fingerprints(&committed), committed, "{}", drive.label);
-        assert!(
-            !committed.contains(KEY),
-            "{}: the workspace key",
-            drive.label
-        );
-    }
-}
-
-/// What the rule measured on each 2026-09-30 drive: its route, its rank-1 grade, the three further
-/// grades and the canary tokens the capture printed.
-fn measured_2026_09_30(label: &str) -> (Route, Grade, [Outcome; 3], CanaryAttempts) {
-    let none = Outcome::Blocked("no attributable incident");
-    let tokens = |surfaced, dismissed, pipeline_fault| CanaryAttempts {
-        surfaced,
-        dismissed,
-        pipeline_fault,
-    };
-    match label {
-        "d1" => (
-            Route::PreflightBlocked,
-            Grade::NoAttributableIncident,
-            [none; 3],
-            tokens(0, 3, 0),
-        ),
-        "d2" => (
-            Route::ReadBack,
-            Grade::NoAttributableIncident,
-            [none; 3],
-            tokens(2, 1, 0),
-        ),
-        "d3" => (
-            Route::ReadBack,
-            Grade::NoAttributableIncident,
-            [none; 3],
-            tokens(2, 0, 0),
-        ),
-        other => panic!("no measurement recorded for {other}"),
-    }
-}
-
-#[test]
-fn each_2026_09_30_drive_grades_as_the_ledger_records() {
-    for drive in &SERIES_2026_09_30 {
-        let (route_, grade_, further, tokens) = measured_2026_09_30(drive.label);
-        let committed = capture_2026_09_30(drive);
-        let block = capture_block(&committed);
-        assert_eq!(route(block), route_, "{}", drive.label);
-        assert_eq!(grade(block), grade_, "{}", drive.label);
-        assert_eq!(
-            [structure(block), steps(block), retrieval(block)],
-            further,
-            "{}",
-            drive.label
-        );
-        assert_eq!(canary_attempts(block), tokens, "{}", drive.label);
-        assert!(
-            trace_conforms(block),
-            "{}: the trace witness set",
-            drive.label
-        );
-        assert!(real_model_witnessed(block), "{}", drive.label);
-        assert!(launch_cwd_clear(block), "{}", drive.label);
-    }
-}
-
-#[test]
-fn the_2026_09_30_envelopes_carry_the_eleven_keys() {
-    for drive in &SERIES_2026_09_30 {
-        let committed = capture_2026_09_30(drive);
-        let line = capture_block(&committed)
-            .lines()
-            .find_map(|l| l.strip_prefix("envelope: "))
-            .filter(|rest| rest.starts_with('{'))
-            .expect("every drive printed its envelope");
-        let value: serde_json::Value = serde_json::from_str(line).expect("the envelope parses");
-        let mut keys: Vec<&str> = value
-            .as_object()
-            .expect("the envelope is an object")
-            .keys()
-            .map(String::as_str)
-            .collect();
-        keys.sort_unstable();
-        assert_eq!(keys, ENVELOPE_KEYS_SORTED, "{}", drive.label);
-        let record: RunRecord = serde_json::from_str(line).expect("the closed sets");
-        assert_eq!(record.scenario, "real-model-interpretation");
-        assert_eq!(record.verdict, None, "{}: declare-only", drive.label);
-        assert!(
-            matches!(
-                record.state,
-                ReportState::ManualCheck | ReportState::Blocked
-            ),
-            "{}",
-            drive.label
-        );
-    }
-}
-
-#[test]
-fn v3_09_is_not_met_by_the_2026_09_30_series() {
-    // The pass condition (posture contract, The drive series (a), carried into The 2026-09-30 series):
-    // met only if at least one drive is graded AND every graded drive reads Identified. No drive
-    // attributed an incident on the read-back route, so none is graded and v3-09 is not met — recorded,
-    // never replaced by a further drive.
-    let graded: Vec<(&str, Grade)> = SERIES_2026_09_30
-        .iter()
-        .map(|d| (d.label, capture_2026_09_30(d)))
-        .filter_map(|(label, text)| {
-            let block = capture_block(&text);
-            (route(block) == Route::ReadBack && attributed_report(block).is_ok())
-                .then(|| (label, grade(block)))
-        })
-        .collect();
-    assert_eq!(graded, []);
-    let met = !graded.is_empty() && graded.iter().all(|(_, g)| *g == Grade::Identified);
-    assert!(!met, "the 2026-09-30 series does not meet v3-09");
-}
-
-// ---- the 2026-10-01 series (plan step 12) -----------------------------------------------------------
-
-/// A 2026-10-01 drive's committed capture, digest-checked.
-fn capture_2026_10_01(drive: &Drive) -> String {
-    pinned(
-        &format!("{EVIDENCE_2026_10_01}/{}", drive.file),
-        drive.sha256,
-    )
-}
-
-/// The digest of the series' contract section, recorded in the attempt ledger before `d1` fired.
-const SERIES_2026_10_01_RULE_SHA256: &str =
-    "0232afb1c302c49e408c92246ebfb6090c64c06ef81dea782a4af7656422e841";
-
-#[test]
-fn the_2026_10_01_series_rule_was_fixed_before_d1() {
-    let contract = committed("contracts/pulse-real-model-leg-posture.md");
-    let section =
-        contract_section(&contract, "## The 2026-10-01 series").expect("the section exists");
-    let recorded = committed(&format!("{EVIDENCE_2026_10_01}/attempt-ledger.md"))
-        .lines()
-        .find_map(|l| {
-            l.strip_prefix("pre-registration sha256: ")
-                .map(str::to_owned)
-        })
-        .expect("the ledger recorded the pre-registration digest");
-    assert_eq!(recorded, SERIES_2026_10_01_RULE_SHA256);
-    assert_eq!(
-        check_digest(
-            "contracts/pulse-real-model-leg-posture.md",
-            &section,
-            SERIES_2026_10_01_RULE_SHA256
-        ),
-        Ok(())
-    );
-}
-
-#[test]
-fn each_2026_10_01_capture_matches_its_pinned_digest() {
-    for drive in &SERIES_2026_10_01 {
-        let name = format!("{EVIDENCE_2026_10_01}/{}", drive.file);
-        let text = committed(&name);
-        assert_eq!(
-            check_digest(&name, &text, drive.sha256),
-            Ok(()),
-            "{}",
-            drive.label
-        );
-    }
-}
-
-#[test]
-fn each_2026_10_01_drive_recorded_the_current_rule_before_it_fired() {
-    let current =
-        rule_section(include_str!("real_model_harvest.rs")).expect("this file carries its rule");
-    for drive in &SERIES_2026_10_01 {
-        let recorded = rule_section(&capture_2026_10_01(drive))
-            .expect("the capture opens with the rule record");
-        assert_eq!(
-            recorded, current,
-            "{}: the rule moved after the drive",
-            drive.label
-        );
-    }
-}
-
-/// The leaf of the series' data dir, which is Pulse's workspace key under that launch.
-const KEY_2026_10_01: &str = "rm-surfacing-series";
-
-#[test]
-fn the_2026_10_01_captures_carry_no_fingerprint_and_no_workspace_key() {
-    // The capture's own elision and key mask, found to have left nothing in any capture. d3 once kept an
-    // all-digit `fingerprint_hex` prefix that the unkeyed rule passes as a stamp would be; the keyed rule
-    // elides it, d3 was re-elided on 2026-10-02 under the founder's ruling, and no drive is an exception.
-    for drive in &SERIES_2026_10_01 {
-        let committed = capture_2026_10_01(drive);
-        assert_eq!(elide_fingerprints(&committed), committed, "{}", drive.label);
-        assert!(
-            !committed.contains(KEY_2026_10_01),
-            "{}: the workspace key",
-            drive.label
-        );
-        let all_digit_prefixes = committed
-            .split("fingerprint_hex=")
-            .skip(1)
-            .filter(|rest| {
-                let run: String = rest
-                    .chars()
-                    .take_while(char::is_ascii_alphanumeric)
-                    .collect();
-                !run.is_empty() && run.chars().all(|c| c.is_ascii_digit())
-            })
-            .count();
-        assert_eq!(all_digit_prefixes, 0, "{}", drive.label);
-    }
-}
-
-// ---- every committed capture -----------------------------------------------------------------------
-
-/// The committed real-model captures — every `conductor-0.3.0/chunks/*/evidence/rm-capture*.txt` —
-/// pinned by count, so a walk that finds nothing can never pass.
-const COMMITTED_CAPTURES: usize = 14;
-
-/// Every committed real-model capture, repo-relative and sorted.
-fn committed_captures() -> Vec<String> {
-    let root = Path::new(env!("CARGO_MANIFEST_DIR")).join("../..");
-    let chunks = "conductor-0.3.0/chunks";
-    let mut names = Vec::new();
-    for chunk in std::fs::read_dir(root.join(chunks)).expect("the chunks dir is readable") {
-        let chunk = chunk.expect("a chunk entry").file_name();
-        let evidence = format!("{chunks}/{}/evidence", chunk.to_string_lossy());
-        let Ok(files) = std::fs::read_dir(root.join(&evidence)) else {
-            continue;
-        };
-        for file in files {
-            let file = file.expect("an evidence entry").file_name();
-            let file = file.to_string_lossy();
-            if file.starts_with("rm-capture") && file.ends_with(".txt") {
-                names.push(format!("{evidence}/{file}"));
+            if sources.contains(line) {
+                return Err(label.clone());
             }
         }
     }
-    names.sort();
-    names
+    Ok(checked)
 }
 
-/// How many `fingerprint_hex=` values in `text` are not the placeholder: the value is the ASCII
-/// alphanumeric run directly after the `=`, and an empty run is not one.
-fn un_elided_keyed_values(text: &str) -> usize {
-    text.split("fingerprint_hex=")
-        .skip(1)
-        .filter(|rest| {
-            rest.bytes()
+/// The scanned sources, with `planted` appended to the grading module named `into`.
+fn scanned_sources(into: &str, planted: &str) -> String {
+    let mut sources = SOURCES.concat();
+    for (name, text) in GRADING_MODULES {
+        sources.push_str(text);
+        if name == into {
+            sources.push_str(planted);
+        }
+    }
+    sources
+}
+
+#[test]
+fn no_committed_capture_text_sits_in_test_source() {
+    // Every report-section line of a pinned capture long enough to be prose is absent from the real-model
+    // test sources: the four above and every grading module. The count guard keeps the arm from passing
+    // over captures that rendered no report at all.
+    match capture_text_in(&scanned_sources("", ""), &graded_captures()) {
+        Ok(checked) => assert!(checked > 0, "no report line was checked"),
+        Err(label) => panic!("{label}: a report line sits in test source"),
+    }
+}
+
+#[test]
+fn the_capture_text_arm_scans_every_grading_module() {
+    let dir = Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/real_model_grading");
+    let on_disk: BTreeSet<String> = std::fs::read_dir(&dir)
+        .expect("the grading modules' dir is readable")
+        .map(|entry| entry.expect("a grading module entry").file_name())
+        .map(|name| name.to_string_lossy().into_owned())
+        .filter(|name| name.ends_with(".rs"))
+        .collect();
+    let scanned: BTreeSet<String> = GRADING_MODULES
+        .iter()
+        .map(|(name, _)| (*name).to_string())
+        .collect();
+    assert_eq!(on_disk, scanned);
+}
+
+#[test]
+fn a_report_line_planted_in_a_grading_module_is_caught() {
+    // The inverse control: a report line read from a committed capture at run time, appended to an
+    // in-memory copy of one grading module, is caught — and the same sources without it are clean.
+    let captures = graded_captures();
+    let (label, planted) = captures
+        .iter()
+        .find_map(|(label, text)| {
+            report_lines(capture_block(text))
                 .next()
-                .is_some_and(|b| b.is_ascii_alphanumeric())
+                .map(|line| (label.clone(), format!("\n{line}\n")))
         })
-        .count()
-}
-
-#[test]
-fn every_committed_capture_carries_no_un_elided_fingerprint_value() {
-    // No committed capture keeps a `fingerprint_hex` value, whatever its characters, and the capture's
-    // own elision has nothing left to do on any of them. A failure names the file and the count, never
-    // the value.
-    let names = committed_captures();
-    assert_eq!(names.len(), COMMITTED_CAPTURES, "{names:#?}");
-    let failures: Vec<String> = names
-        .iter()
-        .filter_map(|name| {
-            let text = committed(name);
-            let values = un_elided_keyed_values(&text);
-            let fixed = elide_fingerprints(&text) == text;
-            (values > 0 || !fixed).then(|| {
-                format!(
-                    "{name}: {values} un-elided keyed values, a fixed point of the elision: {fixed}"
-                )
-            })
-        })
-        .collect();
-    assert!(failures.is_empty(), "{failures:#?}");
-}
-
-/// What the rule measured on each 2026-10-01 drive: its route, its rank-1 grade, the three further
-/// grades and the canary tokens the capture printed.
-fn measured_2026_10_01(label: &str) -> (Route, Grade, [Outcome; 3], CanaryAttempts) {
-    let none = Outcome::Blocked("no attributable incident");
-    let surfaced_twice = CanaryAttempts {
-        surfaced: 2,
-        dismissed: 0,
-        pipeline_fault: 0,
-    };
-    match label {
-        "d1" => (
-            Route::ReadBack,
-            Grade::Identified,
-            [
-                Outcome::Pass,
-                Outcome::Pass,
-                Outcome::Blocked("no prior same-scope incident to retrieve"),
-            ],
-            surfaced_twice,
-        ),
-        "d2" => (
-            Route::ReadBack,
-            Grade::NoAttributableIncident,
-            [none; 3],
-            surfaced_twice,
-        ),
-        "d3" => (
-            Route::ReadBack,
-            Grade::NotIdentified,
-            [Outcome::Pass; 3],
-            surfaced_twice,
-        ),
-        other => panic!("no measurement recorded for {other}"),
-    }
-}
-
-#[test]
-fn each_2026_10_01_drive_grades_as_the_ledger_records() {
-    for drive in &SERIES_2026_10_01 {
-        let (route_, grade_, further, tokens) = measured_2026_10_01(drive.label);
-        let committed = capture_2026_10_01(drive);
-        let block = capture_block(&committed);
-        assert_eq!(route(block), route_, "{}", drive.label);
-        assert_eq!(grade(block), grade_, "{}", drive.label);
-        assert_eq!(
-            [structure(block), steps(block), retrieval(block)],
-            further,
-            "{}",
-            drive.label
-        );
-        assert_eq!(canary_attempts(block), tokens, "{}", drive.label);
-        assert!(
-            trace_conforms(block),
-            "{}: the trace witness set",
-            drive.label
-        );
-        assert!(real_model_witnessed(block), "{}", drive.label);
-        assert!(launch_cwd_clear(block), "{}", drive.label);
-    }
-}
-
-#[test]
-fn the_2026_10_01_envelopes_carry_the_eleven_keys() {
-    for drive in &SERIES_2026_10_01 {
-        let committed = capture_2026_10_01(drive);
-        let line = capture_block(&committed)
-            .lines()
-            .find_map(|l| l.strip_prefix("envelope: "))
-            .filter(|rest| rest.starts_with('{'))
-            .expect("every drive printed its envelope");
-        let value: serde_json::Value = serde_json::from_str(line).expect("the envelope parses");
-        let mut keys: Vec<&str> = value
-            .as_object()
-            .expect("the envelope is an object")
-            .keys()
-            .map(String::as_str)
-            .collect();
-        keys.sort_unstable();
-        assert_eq!(keys, ENVELOPE_KEYS_SORTED, "{}", drive.label);
-        let record: RunRecord = serde_json::from_str(line).expect("the closed sets");
-        assert_eq!(record.scenario, "real-model-interpretation");
-        assert_eq!(record.verdict, None, "{}: declare-only", drive.label);
-        assert!(
-            matches!(
-                record.state,
-                ReportState::ManualCheck | ReportState::Blocked
-            ),
-            "{}",
-            drive.label
-        );
-    }
-}
-
-#[test]
-fn v3_09_is_not_met_by_the_2026_10_01_series() {
-    // The pass condition (posture contract, The drive series (a), carried into The 2026-10-01 series):
-    // met only if at least one drive is graded AND every graded drive reads Identified. d1 and d3
-    // attributed an incident on the read-back route; d3 reads NotIdentified, so v3-09 is not met —
-    // recorded, never replaced by a further drive.
-    let graded: Vec<(&str, Grade)> = SERIES_2026_10_01
-        .iter()
-        .map(|d| (d.label, capture_2026_10_01(d)))
-        .filter_map(|(label, text)| {
-            let block = capture_block(&text);
-            (route(block) == Route::ReadBack && attributed_report(block).is_ok())
-                .then(|| (label, grade(block)))
-        })
-        .collect();
+        .expect("a capture rendered a report line");
     assert_eq!(
-        graded,
-        [("d1", Grade::Identified), ("d3", Grade::NotIdentified)]
+        capture_text_in(&scanned_sources("witnesses.rs", &planted), &captures),
+        Err(label)
     );
-    assert_eq!(
-        row(Grade::NotIdentified),
-        (Some(Verdict::CalibrationRegion), ReportState::ManualCheck)
-    );
-    let met = !graded.is_empty() && graded.iter().all(|(_, g)| *g == Grade::Identified);
-    assert!(!met, "the 2026-10-01 series does not meet v3-09");
-}
-
-// ---- the workspace-key mask (the capture's fourth scrub stage) -------------------------------------
-// Synthetic; the key is a letters-only leaf like the series' data dir.
-
-const KEY: &str = "rm-clean-series";
-
-#[test]
-fn the_mask_replaces_a_raw_key_in_a_body_line() {
-    assert_eq!(
-        mask_workspace_key("the dir rm-clean-series holds the corpus\n", Some(KEY)),
-        "the dir <workspace-key> holds the corpus\n"
-    );
-}
-
-#[test]
-fn the_mask_replaces_the_key_in_a_previously_seen_suffix() {
-    assert_eq!(
-        mask_workspace_key(
-            "## Previously Seen\n\n- incident #3 @ 1790699962319180900 — Disk Pressure (rm-clean-series)\n",
-            Some(KEY)
-        ),
-        "## Previously Seen\n\n- incident #3 @ 1790699962319180900 — Disk Pressure (<workspace-key>)\n"
-    );
-}
-
-#[test]
-fn the_mask_replaces_a_scrubber_rendered_workspace_value() {
-    assert_eq!(
-        mask_workspace_key(
-            "## Project Context\n\nworkspace=[redacted: credit_card]\n",
-            Some(KEY)
-        ),
-        "## Project Context\n\nworkspace=<workspace-key>\n"
-    );
-}
-
-#[test]
-fn the_mask_replaces_the_workspace_line_without_a_key() {
-    assert_eq!(
-        mask_workspace_key("workspace=rm-clean-series\r\n  workspace=anything\n", None),
-        "workspace=<workspace-key>\r\n  workspace=<workspace-key>\n"
-    );
-    assert_eq!(
-        mask_workspace_key("rm-clean-series stays\n", None),
-        "rm-clean-series stays\n"
-    );
-}
-
-#[test]
-fn the_mask_only_replaces_a_neighbour_bounded_key() {
-    assert_eq!(
-        mask_workspace_key(
-            "alphabet alpha alpha-beta alpha.txt beta_alpha (alpha)",
-            Some("alpha")
-        ),
-        "alphabet <workspace-key> alpha-beta alpha.txt beta_alpha (<workspace-key>)"
-    );
-}
-
-#[test]
-fn the_mask_is_idempotent() {
-    let text = "## Project Context\n\nworkspace=rm-clean-series\n\n## Previously Seen\n\n- incident #2 @ 1 — Disk Pressure (rm-clean-series)\n";
-    let once = mask_workspace_key(text, Some(KEY));
-    assert!(!once.contains(KEY));
-    assert_eq!(mask_workspace_key(&once, Some(KEY)), once);
-    assert_eq!(mask_workspace_key(&once, None), once);
-}
-
-#[test]
-fn the_later_scrub_stages_leave_the_placeholder_intact() {
-    let masked = mask_workspace_key(
-        "workspace=rm-clean-series\n- seen (rm-clean-series)\n",
-        Some(KEY),
-    );
-    assert_eq!(elide_fingerprints(&masked), masked);
-    let piped = elide_fingerprints(&mask_host_paths(&conductor_core::redact_value(&masked)));
-    assert_eq!(
-        piped.matches(WORKSPACE_KEY_PLACEHOLDER).count(),
-        2,
-        "{piped}"
-    );
-}
-
-#[test]
-fn a_path_valued_workspace_leaks_neither_its_key_nor_its_path() {
-    // Pulse stamps the workspace as a path, so a Previously Seen suffix carries the whole path: the
-    // mask takes the leaf, and the host-path stage takes the rest.
-    let text = "workspace=\\\\?\\X:\\tmp\\pulse-legs\\rm-clean-series\n- incident #2 @ 1 — Disk Pressure (\\\\?\\X:\\tmp\\pulse-legs\\rm-clean-series)\n";
-    let piped = elide_fingerprints(&mask_host_paths(&conductor_core::redact_value(
-        &mask_workspace_key(text, Some(KEY)),
-    )));
-    assert!(!piped.contains(KEY), "{piped}");
-    assert!(!piped.contains("pulse-legs"), "{piped}");
-    assert!(piped.starts_with("workspace=<workspace-key>\n"), "{piped}");
-}
-
-#[test]
-fn the_rendering_witness_classifies_without_the_value() {
-    let context = |value: &str| format!("## Project Context\n\nworkspace={value}\n");
-    assert_eq!(workspace_rendering(&context(KEY), Some(KEY)), "verbatim");
-    // Pulse stamps a path; its leaf is the key.
-    assert_eq!(
-        workspace_rendering(&context("/tmp/pulse-legs/rm-clean-series"), Some(KEY)),
-        "verbatim"
-    );
-    assert_eq!(
-        workspace_rendering(
-            &context(r"\\?\X:\tmp\pulse-legs\rm-clean-series"),
-            Some(KEY)
-        ),
-        "verbatim"
-    );
-    assert_eq!(
-        workspace_rendering(&context("/tmp/rm-clean-series/logs"), Some(KEY)),
-        "scrubbed"
-    );
-    assert_eq!(
-        workspace_rendering(&context("[redacted: credit_card]"), Some(KEY)),
-        "scrubbed"
-    );
-    assert_eq!(workspace_rendering(&context(KEY), None), "unknown-key");
-    assert_eq!(
-        workspace_rendering("## Evidence\n\n- none\n", Some(KEY)),
-        "absent"
-    );
+    assert!(capture_text_in(&scanned_sources("witnesses.rs", ""), &captures).is_ok_and(|n| n > 0));
 }

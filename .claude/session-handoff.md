@@ -34,3 +34,6 @@
 - **Deferred learnings:**
   - recurrence-despite-learning: host-win32.md 2026-09-08 (the Bash cwd persists) — a `cd` into the run dir moved the
     session cwd twice at the prior wrap (third consecutive session).
+
+## Session End Status
+Completed normally at 2026-10-04 14:10:29

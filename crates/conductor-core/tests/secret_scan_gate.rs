@@ -169,10 +169,16 @@ fn repo_root() -> PathBuf {
     Path::new(env!("CARGO_MANIFEST_DIR")).join("../..")
 }
 
-fn workspace_files() -> Vec<String> {
+/// The workspace as git lists it, or `None` where `root` holds no `.git` entry — a VCS-less copy (the
+/// cargo-mutants default) has no repository to enumerate. Decided before any spawn; a `.git` FILE (a
+/// worktree, a submodule) counts as a repository, so a listing failure inside one still fails the gate.
+fn workspace_files(root: &Path) -> Option<Vec<String>> {
+    if !root.join(".git").exists() {
+        return None;
+    }
     let output = Command::new("git")
         .arg("-C")
-        .arg(repo_root())
+        .arg(root)
         .args([
             "ls-files",
             "-z",
@@ -187,12 +193,14 @@ fn workspace_files() -> Vec<String> {
         "`git ls-files` exited {} — the gate has no subject",
         output.status
     );
-    String::from_utf8(output.stdout)
-        .expect("git prints UTF-8 paths")
-        .split('\0')
-        .filter(|p| !p.is_empty())
-        .map(str::to_owned)
-        .collect()
+    Some(
+        String::from_utf8(output.stdout)
+            .expect("git prints UTF-8 paths")
+            .split('\0')
+            .filter(|p| !p.is_empty())
+            .map(str::to_owned)
+            .collect(),
+    )
 }
 
 /// Reads every listed file that exists and is text. A tracked file deleted in the worktree has nothing to scan;
@@ -279,7 +287,10 @@ fn samples() -> Vec<(&'static str, String)> {
 
 #[test]
 fn the_workspace_holds_no_secret_shaped_string() {
-    let paths = workspace_files();
+    let Some(paths) = workspace_files(&repo_root()) else {
+        eprintln!("secret-scan gate: skipped — no git repository at the workspace root");
+        return;
+    };
     assert!(
         !paths.is_empty(),
         "`git ls-files` listed nothing — the gate would pass vacuously"
@@ -407,4 +418,48 @@ fn the_allowlist_is_graded_as_an_exact_set_in_both_directions() {
         rendered.contains("allowlist rot") && rendered.contains("fixtures/gone.md"),
         "the rot failure must name the stale entry, got: {rendered}"
     );
+}
+
+/// A fresh directory under the OS temp dir, removed when the guard drops — on a panic too.
+struct ScratchDir(PathBuf);
+
+impl ScratchDir {
+    fn new(tag: &str) -> Self {
+        let nanos = std::time::SystemTime::now()
+            .duration_since(std::time::UNIX_EPOCH)
+            .map_or(0, |d| d.as_nanos());
+        let dir = std::env::temp_dir().join(format!(
+            "secret-scan-gate-{tag}-{}-{nanos}",
+            std::process::id()
+        ));
+        std::fs::create_dir(&dir).expect("a fresh scratch dir");
+        Self(dir)
+    }
+}
+
+impl Drop for ScratchDir {
+    fn drop(&mut self) {
+        let _ = std::fs::remove_dir_all(&self.0);
+    }
+}
+
+#[test]
+fn a_tree_with_no_git_entry_is_skipped_without_a_spawn() {
+    let dir = ScratchDir::new("no-git");
+    assert!(!dir.0.join(".git").exists());
+    assert_eq!(workspace_files(&dir.0), None);
+}
+
+#[test]
+#[should_panic(expected = "the gate has no subject")]
+fn a_listing_failure_inside_a_repository_still_fails() {
+    // A `.git` FILE naming a gitdir that does not exist: the entry is present, so the tree is not skipped,
+    // and `git ls-files` exits non-zero on it.
+    let dir = ScratchDir::new("broken-gitdir");
+    std::fs::write(
+        dir.0.join(".git"),
+        format!("gitdir: {}\n", dir.0.join("missing").display()),
+    )
+    .expect("the .git file is written");
+    workspace_files(&dir.0);
 }

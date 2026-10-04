@@ -1,0 +1,29 @@
+[
+{
+"tool": "route",
+"v": "1.5",
+"sha8": "9fc8708e",
+"ts": "2026-10-04T11:45:52Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-04T11-44-25-phase"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 3 of 39 entries · freight blocks 4 · rows are an INDEX, not the text",
+"88 · CONTEXT: · 628 chars · CONTEXT: founder ruling 2026-10-04 (overseer relay, the 2026-10-04T11-45-00 0-pending wrap)…",
+"88 · CARRY: · 419 chars · CARRY: a gate that runs `cargo check --tests` with the `stub-server` feature set — `conductor…",
+"90 · BLOCKED-ON: · 137 chars · BLOCKED-ON: Pulse \"retry-storm interpretation names its retry cause\" (the founder's word…",
+"90 · CONTEXT: · 324 chars · CONTEXT: founder ruling 2026-10-02 (as above), entry 3 of 3 — `v3-09` is NOT deferred; no s…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

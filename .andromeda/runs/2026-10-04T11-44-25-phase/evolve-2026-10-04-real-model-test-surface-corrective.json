@@ -1,0 +1,202 @@
+[
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-10-04T11:46:08Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--run-dir",
+".andromeda/runs/2026-10-04T11-44-25-phase",
+"--marker",
+"2026-10-04-real-model-test-surface-corrective",
+"--records-file",
+"-"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 2969→2970 · bytes 3588407→3589672 · term lf",
+"ts 2026-10-04T11:46:01Z · clock 2026-10-04T11:46:08Z · bound 2026-10-04T11:43:50Z (line 2969)",
+"ids 2026-10-04T11:46:01Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 2969,
+"bytes": 3588407,
+"terminator": "LF",
+"bound": "2026-10-04T11:43:50Z"
+},
+"after": {
+"lines": 2970,
+"bytes": 3589672
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-10-04T11:52:14Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--run-dir",
+".andromeda/runs/2026-10-04T11-44-25-phase",
+"--marker",
+"2026-10-04-real-model-test-surface-corrective",
+"--records-file",
+"-"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"appended 3 record(s) · friction-log.ndjson lines 2970→2973 · bytes 3589672→3592726 · term lf",
+"ts 2026-10-04T11:52:00Z · clock 2026-10-04T11:52:14Z · bound 2026-10-04T11:46:01Z (line 2970)",
+"ids 2026-10-04T11:52:00Z-a … 2026-10-04T11:52:00Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 2970,
+"bytes": 3589672,
+"terminator": "LF",
+"bound": "2026-10-04T11:46:01Z"
+},
+"after": {
+"lines": 2973,
+"bytes": 3592726
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-10-04T11:58:47Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--run-dir",
+".andromeda/runs/2026-10-04T11-44-25-phase",
+"--marker",
+"2026-10-04-real-model-test-surface-corrective",
+"--records-file",
+"-"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"appended 3 record(s) · friction-log.ndjson lines 2973→2976 · bytes 3592726→3595584 · term lf",
+"ts 2026-10-04T11:58:36Z · clock 2026-10-04T11:58:47Z · bound 2026-10-04T11:52:00Z (line 2973)",
+"ids 2026-10-04T11:58:36Z-a … 2026-10-04T11:58:36Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 2973,
+"bytes": 3592726,
+"terminator": "LF",
+"bound": "2026-10-04T11:52:00Z"
+},
+"after": {
+"lines": 2976,
+"bytes": 3595584
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-10-04T12:06:22Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--run-dir",
+".andromeda/runs/2026-10-04T11-44-25-phase",
+"--marker",
+"2026-10-04-real-model-test-surface-corrective",
+"--records-file",
+"-"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"appended 3 record(s) · friction-log.ndjson lines 2976→2979 · bytes 3595584→3598142 · term lf",
+"ts 2026-10-04T12:06:11Z · clock 2026-10-04T12:06:22Z · bound 2026-10-04T11:58:36Z (line 2976)",
+"ids 2026-10-04T12:06:11Z-a … 2026-10-04T12:06:11Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 2976,
+"bytes": 3595584,
+"terminator": "LF",
+"bound": "2026-10-04T11:58:36Z"
+},
+"after": {
+"lines": 2979,
+"bytes": 3598142
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "df8fc62a",
+"ts": "2026-10-04T12:10:11Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--run-dir",
+".andromeda/runs/2026-10-04T11-44-25-phase",
+"--marker",
+"2026-10-04-real-model-test-surface-corrective",
+"--records-file",
+"-"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"appended 3 record(s) · friction-log.ndjson lines 2979→2982 · bytes 3598142→3600521 · term lf",
+"ts 2026-10-04T12:10:00Z · clock 2026-10-04T12:10:11Z · bound 2026-10-04T12:06:11Z (line 2979)",
+"ids 2026-10-04T12:10:00Z-a … 2026-10-04T12:10:00Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 2979,
+"bytes": 3598142,
+"terminator": "LF",
+"bound": "2026-10-04T12:06:11Z"
+},
+"after": {
+"lines": 2982,
+"bytes": 3600521
+}
+}
+]

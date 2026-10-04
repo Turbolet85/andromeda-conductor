@@ -1,0 +1,63 @@
+[
+{
+"tool": "gate",
+"v": "1.6",
+"sha8": "9419d56e",
+"ts": "2026-10-04T11:57:44Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"conductor-0.3.0/chunks/2026-10-04-real-model-test-surface-corrective/research.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T11-44-25-phase",
+"--marker",
+"2026-10-04-real-model-test-surface-corrective"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"UNPARSED: research.md:43 — not the derived form (§Scope) · - derived `crates/conductor-run/tests/real_model_harvest_*.r…",
+"scope lists: UNPARSED 1 · parsed 11 items (new 2 · modify 9 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 11,
+"unparsed": 1
+}
+},
+{
+"tool": "gate",
+"v": "1.6",
+"sha8": "9419d56e",
+"ts": "2026-10-04T11:57:49Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"conductor-0.3.0/chunks/2026-10-04-real-model-test-surface-corrective/research.md",
+"--run-dir",
+".andromeda/runs/2026-10-04T11-44-25-phase",
+"--marker",
+"2026-10-04-real-model-test-surface-corrective"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 12 items (new 3 · modify 9 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 12,
+"unparsed": 0
+}
+}
+]

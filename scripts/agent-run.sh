@@ -319,6 +319,10 @@ case "${1:-}" in
         "$CARGO" nextest run --workspace --profile ci
         "$CARGO" test --workspace --doc
         "$CARGO" clippy --workspace --all-targets -- -D warnings
+        # The feature-gated targets (the stub child, the live legs): no other verb or CI step builds
+        # them, so without these lines they rot behind a green suite.
+        "$CARGO" clippy -p conductor-verify --features stub-server --all-targets -- -D warnings
+        "$CARGO" clippy -p conductor-run --features live-pulse --all-targets -- -D warnings
         # Optional scenario leg: SCENARIO=<name|P-ID> [SEED=<n>] scripts/agent-run.sh run
         # --agent-mode: JSON self-obs to logs/agent-latest.jsonl + never block on an operator pause.
         # --seed rides ONLY an explicitly set SEED — files-over-env-defaults precedence (arch

@@ -1,6 +1,7 @@
 //! Shared by the real-model capture (`real_model_live.rs`) and its harvest (`real_model_harvest.rs`),
 //! and used by both: the grading rule's span extractor and the host-path mask. A `tests/`
 //! subdirectory module, so it is never a test target of its own.
+#![allow(dead_code)]
 
 /// The grading rule's two marker LINES. Matched as whole lines, so prose that quotes a marker inside
 /// a longer line can never open or close a span.
@@ -350,4 +351,25 @@ fn host_path_starts_at(chars: &[char], i: usize) -> bool {
 
 fn ends_host_path(c: char) -> bool {
     c.is_whitespace() || matches!(c, '`' | '"' | '\'' | ')' | ']' | '}' | '>')
+}
+
+/// The envelope a capture block printed (its first `envelope: ` line, when that line holds an object),
+/// typed — or `None` when the block printed none. The key set is held to the eleven envelope keys on the
+/// `Value` first, because a typed parse cannot prove a nullable key present; `label` names the capture in
+/// a failure.
+pub fn envelope_record(block: &str, label: &str) -> Option<conductor_core::RunRecord> {
+    let line = block
+        .lines()
+        .find_map(|l| l.strip_prefix("envelope: "))
+        .filter(|rest| rest.starts_with('{'))?;
+    let value: Value = serde_json::from_str(line).expect("the envelope parses");
+    let mut keys: Vec<&str> = value
+        .as_object()
+        .expect("the envelope is an object")
+        .keys()
+        .map(String::as_str)
+        .collect();
+    keys.sort_unstable();
+    assert_eq!(keys, conductor_core::ENVELOPE_KEYS_SORTED, "{label}");
+    Some(serde_json::from_str(line).expect("the closed verdict/state/tier sets"))
 }
