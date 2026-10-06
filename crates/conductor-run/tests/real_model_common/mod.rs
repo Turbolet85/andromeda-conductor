@@ -307,8 +307,10 @@ pub fn sweep_window(highest_seen: Option<i64>) -> std::ops::Range<i64> {
 /// it: a backticked ref, `(D:\…`, `path=D:\…`, the `\\?\D:\…` long-path form, and an MSYS root such
 /// as `/d/…`. Applied after it, this catches a drive-letter path (`X:\` or `X:/`, word-anchored so a
 /// `scheme://` URL is never matched, the `\\?\` prefix included), an MSYS root (`/x/` whose left
-/// neighbour is not `[A-Za-z0-9_./-]`), and `/home/`, `/Users/` or `%APPDATA%`, each up to the next
-/// whitespace, backtick, quote or closing bracket. A repo-relative path carries none of these.
+/// neighbour is not `[A-Za-z0-9_./-]`), and `/home/`, `/Users/`, `%APPDATA%`, `/tmp/` or `/var/tmp/`,
+/// each up to the next whitespace, backtick, quote or closing bracket. A repo-relative path carries none
+/// of these. The two temp roots are here because `redact_value` names neither: a temp-rooted data dir
+/// would otherwise reach a `## Previously Seen` suffix with its parent intact.
 pub fn mask_host_paths(text: &str) -> String {
     let chars: Vec<char> = text.chars().collect();
     let mut out = String::with_capacity(text.len());
@@ -343,7 +345,7 @@ fn host_path_starts_at(chars: &[char], i: usize) -> bool {
         && at(i + 1).is_some_and(|c| c.is_ascii_alphabetic())
         && at(i + 2) == Some('/')
         && msys_neighbour_ok;
-    let named = ["/home/", "/Users/", "%APPDATA%"]
+    let named = ["/home/", "/Users/", "%APPDATA%", "/tmp/", "/var/tmp/"]
         .iter()
         .any(|token| token.chars().enumerate().all(|(k, t)| at(i + k) == Some(t)));
     (long_path_prefix && drive_at(i + 4)) || (word_boundary && drive_at(i)) || msys_root || named

@@ -351,6 +351,7 @@ mod tests {
             .collect()
     }
 
+    // andromeda:walks-tree — the catalog loader reads every scenario file in the scenarios dir.
     /// The live gate: every `Auto` claim in the committed classification either has a scenario in the
     /// committed catalog or is pinned — exactly, in both directions.
     #[test]

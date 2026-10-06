@@ -87,6 +87,7 @@ pub fn validate_selection(catalog: &[ScenarioSummary], selection: &str) -> bool 
 mod tests {
     use super::*;
 
+    // andromeda:walks-tree — lists and reads every scenario file in the scenarios dir.
     /// The committed catalog at the workspace root — the real fixture (every entry must parse and
     /// every P-ID it names must be one the committed capability manifest claims).
     fn catalog() -> Vec<ScenarioSummary> {

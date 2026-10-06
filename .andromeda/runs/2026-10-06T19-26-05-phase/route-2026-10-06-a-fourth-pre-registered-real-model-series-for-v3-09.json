@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "699f7ef0",
+"ts": "2026-10-06T19:28:35Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09",
+"--expect-prefix",
+"A fourth pre-registered real-model series for `v3-09`",
+"--record-file",
+".andromeda/runs/2026-10-06T19-26-05-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-10-06T19-26-05-phase"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:92 - [2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09]",
+"record master-route.md:174 - appended under `## conductor-0.3.0`",
+"promoted 2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09 - working-route:92 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+"./conductor-0.3.0/working-route.md",
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+}
+]

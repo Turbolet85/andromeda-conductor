@@ -95,3 +95,26 @@ pub const SERIES_2026_10_01: [Drive; 3] = [
         sha256: "b49bfe68c0210a2b4c50edbf54257c63980a95a133fcd6641f28e23a2d630015",
     },
 ];
+
+/// The 2026-10-06 series' committed captures (`contracts/pulse-real-model-leg-posture.md`, The 2026-10-06
+/// series), relative to the workspace root.
+pub const EVIDENCE_2026_10_06: &str = "conductor-0.3.0/chunks/2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09/evidence";
+
+/// The 2026-10-06 series: three drives on one fresh letters-only data dir, against andromeda-pulse `5f77859`.
+pub const SERIES_2026_10_06: [Drive; 3] = [
+    Drive {
+        label: "d1",
+        file: "rm-capture-d1.txt",
+        sha256: "27a1222e5f7cce189c8dbe72a74bbd41309d1fcfee4ceec9ad47b74638b9da69",
+    },
+    Drive {
+        label: "d2",
+        file: "rm-capture-d2.txt",
+        sha256: "fb77ce86f21329c33b1a4fa4291c75682a14f05d9709f07acce8bb1b1490c192",
+    },
+    Drive {
+        label: "d3",
+        file: "rm-capture-d3.txt",
+        sha256: "12fcffb39dfccbad58eec1215b569e8b13e901ed5c8963d784abe864d689a8ae",
+    },
+];

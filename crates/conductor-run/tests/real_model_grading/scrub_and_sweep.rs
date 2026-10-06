@@ -35,6 +35,8 @@ fn the_mask_covers_the_named_roots() {
         format!("/{}/dev", "home"),
         format!("/{}/dev", "Users"),
         format!("%{}%", "APPDATA"),
+        format!("/{}/dev", "tmp"),
+        format!("/{}/{}/dev", "var", "tmp"),
     ] {
         assert_eq!(
             mask_host_paths(&format!("x {root}/pulse y")),

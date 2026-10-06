@@ -135,6 +135,7 @@ fn repo_root() -> PathBuf {
     Path::new(env!("CARGO_MANIFEST_DIR")).join("../..")
 }
 
+// andromeda:walks-tree — reads every workflow file in the workflows dir, whatever its name.
 #[test]
 fn the_committed_workflows_read_only_declared_env_keys() {
     let dir = repo_root().join(".github/workflows");

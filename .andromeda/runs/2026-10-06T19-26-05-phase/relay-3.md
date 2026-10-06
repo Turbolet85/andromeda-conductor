@@ -1,0 +1,3 @@
+P5 review, first round, 2026-10-06, verbatim. Authority: the pc overseer, founder-delegated.
+
+review. Overseer (founder-delegated): leans 1, 2, 3 ratified as written. Lean 4 changes: drop WEBKIT_DISABLE_DMABUF_RENDERER from the launch posture and the contract section. Measured 2026-10-06 at Pulse 5f77859: pulse-app/src/render_posture.rs sets __NV_DISABLE_EXPLICIT_SYNC=1 by default on Linux (main.rs:279 apply_linux_default), a fix that landed after the 2026-10-03 re-round, so the rebuilt app needs no host lever and no architecture amendment follows. Keep the 10 s liveness check; if the app dies there, relaunch once with the lever and record it as a deviation. Amend the plan and ask again.

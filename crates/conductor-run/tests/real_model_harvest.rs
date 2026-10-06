@@ -62,9 +62,10 @@ use real_model_common::{
 use real_model_grading::series_2026_09_29::series_capture;
 use real_model_grading::series_2026_09_30::capture_2026_09_30;
 use real_model_grading::series_2026_10_01::capture_2026_10_01;
+use real_model_grading::series_2026_10_06::capture_2026_10_06;
 use real_model_series::{
-    Drive, EVIDENCE, EVIDENCE_2026_09_30, EVIDENCE_2026_10_01, SERIES, SERIES_2026_09_30,
-    SERIES_2026_10_01,
+    Drive, EVIDENCE, EVIDENCE_2026_09_30, EVIDENCE_2026_10_01, EVIDENCE_2026_10_06, SERIES,
+    SERIES_2026_09_30, SERIES_2026_10_01, SERIES_2026_10_06,
 };
 
 // ---- rule: begin ----
@@ -1249,7 +1250,7 @@ const SOURCES: [&str; 4] = [
 
 /// Every module under `real_model_grading/`, by file name. A module missing here is unscanned, which
 /// `the_capture_text_arm_scans_every_grading_module` holds against the directory.
-const GRADING_MODULES: [(&str, &str); 10] = [
+const GRADING_MODULES: [(&str, &str); 11] = [
     (
         "canary_pairing.rs",
         include_str!("real_model_grading/canary_pairing.rs"),
@@ -1280,6 +1281,10 @@ const GRADING_MODULES: [(&str, &str); 10] = [
         include_str!("real_model_grading/series_2026_10_01.rs"),
     ),
     (
+        "series_2026_10_06.rs",
+        include_str!("real_model_grading/series_2026_10_06.rs"),
+    ),
+    (
         "witnesses.rs",
         include_str!("real_model_grading/witnesses.rs"),
     ),
@@ -1302,6 +1307,12 @@ fn graded_captures() -> Vec<(String, String)> {
         captures.push((
             format!("2026-10-01 {}", drive.label),
             capture_2026_10_01(drive),
+        ));
+    }
+    for drive in &SERIES_2026_10_06 {
+        captures.push((
+            format!("2026-10-06 {}", drive.label),
+            capture_2026_10_06(drive),
         ));
     }
     captures
@@ -1354,6 +1365,7 @@ fn no_committed_capture_text_sits_in_test_source() {
     }
 }
 
+// andromeda:walks-tree — lists the grading modules' dir, so an unlisted module file moves the result.
 #[test]
 fn the_capture_text_arm_scans_every_grading_module() {
     let dir = Path::new(env!("CARGO_MANIFEST_DIR")).join("tests/real_model_grading");

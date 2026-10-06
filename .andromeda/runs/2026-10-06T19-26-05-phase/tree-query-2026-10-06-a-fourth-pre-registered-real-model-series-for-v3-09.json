@@ -1,0 +1,228 @@
+[
+{
+"sql": "SELECT name, kind, file, def_line FROM symbol WHERE name IN ('pre_registered','v3_09_met','mask_host_paths','contract_section','committed_captures','rekey_trace_identity','execute_scenario') ORDER BY name",
+"rows": 7,
+"result": [
+{
+"name": "committed_captures",
+"kind": "fn",
+"file": "crates/conductor-run/tests/real_model_grading/capture_population.rs",
+"def_line": 11
+},
+{
+"name": "contract_section",
+"kind": "fn",
+"file": "crates/conductor-run/tests/real_model_grading/mod.rs",
+"def_line": 141
+},
+{
+"name": "execute_scenario",
+"kind": "fn",
+"file": "crates/conductor-run/src/execute.rs",
+"def_line": 43
+},
+{
+"name": "mask_host_paths",
+"kind": "fn",
+"file": "crates/conductor-run/tests/real_model_common/mod.rs",
+"def_line": 311
+},
+{
+"name": "pre_registered",
+"kind": "fn",
+"file": "crates/conductor-run/tests/real_model_grading/mod.rs",
+"def_line": 150
+},
+{
+"name": "rekey_trace_identity",
+"kind": "fn",
+"file": "crates/conductor-emit/src/identity.rs",
+"def_line": 26
+},
+{
+"name": "v3_09_met",
+"kind": "fn",
+"file": "crates/conductor-run/tests/real_model_grading/mod.rs",
+"def_line": 136
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller_name, callee_name, file, line FROM calls WHERE callee_name IN ('mask_host_paths','rekey_trace_identity','pre_registered','v3_09_met') AND callee_kind = 'fn' ORDER BY callee_name, file, line",
+"rows": 28,
+"result": [
+{
+"caller_name": "the_mask_covers_every_form_redact_value_misses",
+"callee_name": "mask_host_paths",
+"file": "crates/conductor-run/tests/real_model_grading/scrub_and_sweep.rs",
+"line": 27
+},
+{
+"caller_name": "the_mask_covers_the_named_roots",
+"callee_name": "mask_host_paths",
+"file": "crates/conductor-run/tests/real_model_grading/scrub_and_sweep.rs",
+"line": 39
+},
+{
+"caller_name": "the_mask_leaves_a_url_a_repo_path_and_a_span_ref_alone",
+"callee_name": "mask_host_paths",
+"file": "crates/conductor-run/tests/real_model_grading/scrub_and_sweep.rs",
+"line": 53
+},
+{
+"caller_name": "the_later_scrub_stages_leave_the_placeholder_intact",
+"callee_name": "mask_host_paths",
+"file": "crates/conductor-run/tests/real_model_grading/workspace_mask.rs",
+"line": 78
+},
+{
+"caller_name": "a_path_valued_workspace_leaks_neither_its_key_nor_its_path",
+"callee_name": "mask_host_paths",
+"file": "crates/conductor-run/tests/real_model_grading/workspace_mask.rs",
+"line": 91
+},
+{
+"caller_name": "crate",
+"callee_name": "mask_host_paths",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 58
+},
+{
+"caller_name": "series_2026_09_30",
+"callee_name": "pre_registered",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_09_30.rs",
+"line": 6
+},
+{
+"caller_name": "the_2026_09_30_series_rule_was_fixed_before_d1",
+"callee_name": "pre_registered",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_09_30.rs",
+"line": 22
+},
+{
+"caller_name": "series_2026_10_01",
+"callee_name": "pre_registered",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_10_01.rs",
+"line": 5
+},
+{
+"caller_name": "the_2026_10_01_series_rule_was_fixed_before_d1",
+"callee_name": "pre_registered",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_10_01.rs",
+"line": 24
+},
+{
+"caller_name": "rekey_preserves_parent_linkage_and_one_shared_trace_id",
+"callee_name": "rekey_trace_identity",
+"file": "crates/conductor-emit/src/identity.rs",
+"line": 97
+},
+{
+"caller_name": "same_request_and_salt_rekey_identically",
+"callee_name": "rekey_trace_identity",
+"file": "crates/conductor-emit/src/identity.rs",
+"line": 113
+},
+{
+"caller_name": "same_request_and_salt_rekey_identically",
+"callee_name": "rekey_trace_identity",
+"file": "crates/conductor-emit/src/identity.rs",
+"line": 114
+},
+{
+"caller_name": "distinct_salts_share_no_identity",
+"callee_name": "rekey_trace_identity",
+"file": "crates/conductor-emit/src/identity.rs",
+"line": 132
+},
+{
+"caller_name": "distinct_salts_share_no_identity",
+"callee_name": "rekey_trace_identity",
+"file": "crates/conductor-emit/src/identity.rs",
+"line": 133
+},
+{
+"caller_name": "rekey_moves_no_content_byte",
+"callee_name": "rekey_trace_identity",
+"file": "crates/conductor-emit/src/identity.rs",
+"line": 148
+},
+{
+"caller_name": "rekey_under_one_salt_twice_restores_every_id",
+"callee_name": "rekey_trace_identity",
+"file": "crates/conductor-emit/src/identity.rs",
+"line": 160
+},
+{
+"caller_name": "rekey_under_one_salt_twice_restores_every_id",
+"callee_name": "rekey_trace_identity",
+"file": "crates/conductor-emit/src/identity.rs",
+"line": 162
+},
+{
+"caller_name": "empty_parent_span_id_stays_empty",
+"callee_name": "rekey_trace_identity",
+"file": "crates/conductor-emit/src/identity.rs",
+"line": 169
+},
+{
+"caller_name": "crate",
+"callee_name": "rekey_trace_identity",
+"file": "crates/conductor-emit/src/lib.rs",
+"line": 30
+},
+{
+"caller_name": "dispatch",
+"callee_name": "rekey_trace_identity",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 18
+},
+{
+"caller_name": "export_traces",
+"callee_name": "rekey_trace_identity",
+"file": "crates/conductor-run/src/dispatch.rs",
+"line": 243
+},
+{
+"caller_name": "series_2026_09_29",
+"callee_name": "v3_09_met",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_09_29.rs",
+"line": 6
+},
+{
+"caller_name": "v3_09_is_not_met_by_the_series",
+"callee_name": "v3_09_met",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_09_29.rs",
+"line": 123
+},
+{
+"caller_name": "series_2026_09_30",
+"callee_name": "v3_09_met",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_09_30.rs",
+"line": 6
+},
+{
+"caller_name": "v3_09_is_not_met_by_the_2026_09_30_series",
+"callee_name": "v3_09_met",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_09_30.rs",
+"line": 118
+},
+{
+"caller_name": "series_2026_10_01",
+"callee_name": "v3_09_met",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_10_01.rs",
+"line": 5
+},
+{
+"caller_name": "v3_09_is_not_met_by_the_2026_10_01_series",
+"callee_name": "v3_09_met",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_10_01.rs",
+"line": 144
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

@@ -285,6 +285,7 @@ fn samples() -> Vec<(&'static str, String)> {
     ]
 }
 
+// andromeda:walks-tree — reads every file git lists in the workspace, by content and by name.
 #[test]
 fn the_workspace_holds_no_secret_shaped_string() {
     let Some(paths) = workspace_files(&repo_root()) else {

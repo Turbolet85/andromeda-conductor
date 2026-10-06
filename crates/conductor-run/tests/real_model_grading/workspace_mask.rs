@@ -98,6 +98,29 @@ fn a_path_valued_workspace_leaks_neither_its_key_nor_its_path() {
 }
 
 #[test]
+fn a_posix_path_valued_workspace_leaks_neither_its_key_nor_its_path() {
+    // The same claim on a POSIX host, home-rooted and temp-rooted, through the capture's chain in its
+    // order. The roots are built, never spelled.
+    for root in [
+        format!("/{}/someone/.cache", "home"),
+        format!("/{}", "tmp"),
+        format!("/{}/{}", "var", "tmp"),
+    ] {
+        let path = format!("{root}/pulse-legs/{KEY}");
+        let text = format!("workspace={path}\n- incident #2 @ 1 — Disk Pressure ({path}) again\n");
+        let piped = elide_fingerprints(&mask_host_paths(&conductor_core::redact_value(
+            &mask_workspace_key(&text, Some(KEY)),
+        )));
+        assert!(!piped.contains(KEY), "{root}: {piped}");
+        for segment in ["pulse-legs", "someone", ".cache", "tmp", "var", "home"] {
+            assert!(!piped.contains(segment), "{root}: {segment}: {piped}");
+        }
+        assert!(piped.starts_with("workspace=<workspace-key>\n"), "{piped}");
+        assert!(piped.ends_with(" again\n"), "{piped}");
+    }
+}
+
+#[test]
 fn the_rendering_witness_classifies_without_the_value() {
     let context = |value: &str| format!("## Project Context\n\nworkspace={value}\n");
     assert_eq!(workspace_rendering(&context(KEY), Some(KEY)), "verbatim");

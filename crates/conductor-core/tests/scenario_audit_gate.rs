@@ -28,6 +28,7 @@ fn ledger() -> ScenarioAuditLedger {
         .expect("the committed scenario audit ledger loads")
 }
 
+// andromeda:walks-tree — the catalog loader reads every scenario file in the scenarios dir.
 fn catalog() -> Vec<Scenario> {
     let manifest = CapabilityManifest::load(&repo_root().join("contracts/pulse-capabilities.toml"))
         .expect("the committed capability manifest loads");

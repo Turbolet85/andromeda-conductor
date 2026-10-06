@@ -450,6 +450,7 @@ mod tests {
         Path::new(env!("CARGO_MANIFEST_DIR")).join("../../scenarios")
     }
 
+    // andromeda:walks-tree — enumerates and reads every scenario file in the scenarios dir.
     fn committed_catalog() -> Vec<Scenario> {
         let root = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("../..");
         let capabilities =

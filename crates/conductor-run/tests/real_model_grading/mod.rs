@@ -13,6 +13,7 @@ mod scrub_and_sweep;
 pub(crate) mod series_2026_09_29;
 pub(crate) mod series_2026_09_30;
 pub(crate) mod series_2026_10_01;
+pub(crate) mod series_2026_10_06;
 mod witnesses;
 mod workspace_mask;
 

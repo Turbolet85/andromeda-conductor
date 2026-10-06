@@ -1,0 +1,64 @@
+# Operator relay: the phase start, Conductor's fourth v3-09 series (2026-10-06)
+
+From the pc overseer (founder-delegated). Every fact is `measured 2026-10-06 at Pulse 5f77859` unless it says
+`hypothesis:`. Re-derive what you rely on; these save you the search, they do not replace it.
+
+## 1. The block on this entry
+
+- Pulse HEAD is `5f77859` on `chore/migrate-pulse-to-v3`, pushed and level with origin. Its route holds, complete,
+  `2026-10-04-retry-storm-interpretation-names-its-cause`, the TRIGGER framing chunk, the rank-1 chunk and the model
+  change. Read Pulse with `git show 5f77859:<path>`, never from its working tree.
+- The block's two wordings reconcile at this sha. The route line's "retry-storm interpretation names its retry cause"
+  is the complete Pulse chunk named above. The overseer's wrap note "Pulse's prompt-framing entry and the restored model"
+  is the TRIGGER framing chunk plus a settled model; the restored Llama was then REPLACED by the founder's pick (section 2),
+  so "the restored model" now reads "the shipped model".
+- Founder ruling 2026-10-04: a blocked route head is taken up and its block is carried as the acceptance gate. So the
+  entry is taken up now, and whether Pulse's interpretation names the retry cause is what this series measures.
+- Pulse's own rank-1 bar read `FAIL · rank1 34/40` (bar 36) on the previous model, Llama 3.2 3B, at prompt v2.5
+  (`andromeda-pulse-0.3.0/chunks/2026-10-04-l4-rank-1-hypothesis-names-the-retry-on-every-storm-shape/report.md:113`).
+- The shipped model was replaced after that. No Pulse artifact reads the shipped model on that bar: the search
+  `E4B|gemma` against `/40|retry|rank-1|storm` over the three 2026-10-05 chunks' `evidence/*.md` and `report.md` returns
+  no E4B reading (gemma-4-E2B read 40/40 as a record-only comparator, `…chosen-by-measurement/evidence/confirmation.md:61`).
+  So this series is the first reading of the shipped model. Pre-register with that in view; do not assume a pass.
+
+## 2. What the series grades now
+
+- Model: `gemma-4-E4B-it-Q4_K_M.gguf` (sha256 `85a896a0…ab87`) in `~/dev/projects/andromeda-pulse/AI-Model/`.
+- Prompts: `PROMPT_VERSION_PRIMARY` `v2.5`, `PROMPT_VERSION_FALLBACK` `v1.4-fallback`, `PROMPT_VERSION_REFLECTION`
+  `v1.4-reflection` (`crates/interpretation/src/schema.rs:34`, `:42`, `:55`).
+- argv (`pulse-app/src/llamacli_inference.rs:462-489`): `-c 8192` (`LLAMA_CLI_CTX_SIZE`, `:114`), `-rea off`,
+  `--temp 1.0 --top-p 0.95 --top-k 64 --min-p 0`, and `--grammar-file` with the committed GBNF. Generation is no longer
+  constrained through `--json-schema-file`.
+- Leg env: `. ~/dev/projects/additional/pc-overseer/l4-env.sh` (model path and the llama.cpp b9305 CUDA binary).
+- The GPU leg runs TONIGHT before the founder sleeps, or tomorrow in daytime; never at night. Plan the leg so it can
+  start as early in the implement as its inputs allow.
+
+## 3. Contract coordinates that moved (`contracts/pulse-real-model-leg-posture.md`)
+
+- `:148-149` cites `assembler.rs:664-673`, `:261-276` and `prompt.rs:229-235`; `:257` cites `assembler.rs:676-679`;
+  `:392` says `PROMPT_VERSION_PRIMARY` is `v2.3`.
+- At `5f77859`, `crates/triage/src/digest/assembler.rs`: `render_payload` `:629`, the `OVERALL:` line `:673`, the
+  `TRIGGER: ` line `:680` (`TRIGGER_LINE_PREFIX` `:608`), `SERVICES` `:685`, `ATTENTION CUES:` `:697`,
+  `CORPUS MATCHES:` `:708`, the cue composition comment `:261`.
+- The digest now carries a `TRIGGER: ` line under `OVERALL` (Pulse's own test expects `TRIGGER: Retry storm`,
+  `assembler.rs:1186`). The contract's stated limit at `:146-150` ("the cue line itself satisfies the rule") was written
+  before that line existed: decide in the plan how the grading rule reads it, and say so in the pre-registration.
+
+## 4. Carried pre-directions (recorded by the overseer 2026-10-05; apply where the plan has the step)
+
+- A pre-leg env check: the model env is present, and the NVIDIA driver major equals the runtime's major.
+- The supply-chain gate: clear advisory-db residue or pass a fresh `--db`.
+- Any architecture draft is measured with `scripts/arch-registry-check.py measure`.
+- The round's point-in-time steps are keyed `leg = 'round'`.
+
+## 5. The walks-tree marks (0 in Conductor today)
+
+Tests that read files no name grep finds take the comment token `andromeda:walks-tree`, once each. Candidates, each
+found on disk: `crates/conductor-core/tests/secret_scan_gate.rs`, `workflow_env_gate.rs` and `scenario_audit_gate.rs`,
+`crates/conductor-report/tests/matrix_ledger_gate.rs`, `crates/conductor-run/tests/real_model_grading/capture_population.rs`,
+and the inline tests in `crates/conductor-core/src/drift.rs` and `load_envelope.rs`. Whether each one truly walks the
+tree is yours to confirm before marking.
+
+## 6. Not this phase
+
+The setup re-run for the pending `U02` (the Bash pre-cd guard) waits for the seam after this chunk's wrap.
