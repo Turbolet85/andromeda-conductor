@@ -220,3 +220,33 @@ performed by the agent on that word, then stop before the wrap.
 - Entry 45, `python -X utf8 "$HOME"/.claude/skills/andromeda-tools/scripts/gate.py hygiene`, fired bare at
   20:43:55Z before the commit: exit 0; atom `contains hygiene: clean` held (1 hit) — `hygiene: clean`, 59 files read
   (runs 43, evidence 7, inputs 9), 15 trails and 7 verbatim input copies not read by P1, 0 host paths kept.
+- Entry 46: on the overseer's explicit word, the agent made the operator pre-CI commit `9df683d`
+  (`9df683d14b6c92b27e7f250fed3549e4a72fb3eb`, 83 files) and fired the entry as written at 20:44:19Z: the clean-tree
+  guard held, exit 0, and the push printed `PUSHED_SHA=9df683d14b6c92b27e7f250fed3549e4a72fb3eb`
+  (`0b07b2c..9df683d` on `build/conductor-0.3.0`); atom `contains PUSHED_SHA=` held.
+- Entry 47, `ci.py conclusion --sha HEAD --wait 1500`, fired after the push: exit 0 (the tool printed a verdict);
+  atom `contains verdict: green` **did NOT hold** — `verdict: red · checks 3/3 · first-fail +629 s`, run
+  CI#37528717687 `completed/failure`, polled 22 times over 651 s. Read from the run's own job records and the failed
+  job's own log (job 112492269092), not from the summary:
+  - the Rust gate and the Frontend gate concluded `success`;
+  - the A11y gate concluded `failure` on ONE step, step 17 `Upload a11y violation record`. Its log reads the
+    artifact's 445 bytes uploaded and its digest printed, then `Failed to FinalizeArtifact: Unable to make request:
+    ECONNRESET` at 20:54:52Z — a reset connection on the artifact service's finalize call;
+  - every other step of that job concluded `success` or `skipped`: the routine arm printed its driven-session
+    banner, `19 passing`, `2 skipped` (the two expected live-hold subjects) and `Spec Files: 1 passed, 1 total`,
+    and the journal-conformance step ran 8 of 8.
+  No re-run was fired: the overseer's word covered the read, and a re-run is the operator's call. The CI acceptance
+  is NOT met at this reading; the wrap has not run.
+- Entry 47, second reading, on the overseer's word (the chunk's inputs record it as I22). The overseer verified
+  the first reading on GitHub as a runner network flake and re-ran the failed job themself
+  (`gh run rerun 37528717687 --failed`); the agent fired no re-run. The same entry, fired again by the agent at
+  20:57Z over the same pushed HEAD `9df683d`: exit 0; atom `contains verdict: green` **held** —
+  `verdict: green · checks 3/3 · wall 1436 s · runs CI#37528717687 completed/success`, polled 24 times over 712 s.
+  Read from the run's own records: attempt 2 of run 37528717687, `completed/success` on
+  `9df683d14b6c92b27e7f250fed3549e4a72fb3eb`; its three job records each conclude `success` with no failed step.
+  The A11y job ran again in full (job 112497470672, 0 error lines): the driven-session banner, `19 passing`,
+  `2 skipped`, `Spec Files: 1 passed, 1 total`, the journal-conformance step 8 of 8, and step
+  `Upload a11y violation record` concluding `success` with the artifact finalized.
+- Both readings stand as recorded: the first red on an artifact-service connection reset in one upload step, the
+  second green on the same sha after the operator's re-run of that job. No commit separates them. The run id the CI
+  acceptance names is CI#37528717687 (attempt 2).

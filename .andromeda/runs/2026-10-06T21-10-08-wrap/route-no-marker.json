@@ -1,0 +1,110 @@
+[
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "699f7ef0",
+"ts": "2026-10-06T21:16:49Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-06T21-10-08-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 1 of 40 entries · freight blocks 0 · rows are an INDEX, not the text",
+"no freight block on a markerless entry matched (94 lines read) — an empty listing is a verdict, not an absence proof"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "699f7ef0",
+"ts": "2026-10-06T21:16:49Z",
+"argv": [
+"route.py",
+"epoch",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-06T21-10-08-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · 6 epoch headers · 40 entries · freeze state joined to 160 master records",
+"10 · Epoch 1 — Foundation: the measurements the … · entries 5 · markerless 0 · frozen complete 5 · pending 0",
+"21 · Epoch 2 — Scenario assertion hygiene · entries 5 · markerless 0 · frozen complete 5 · pending 0",
+"32 · Epoch 3 — The a11y capability's terminal · entries 4 · markerless 0 · frozen complete 4 · pending 0",
+"41 · Epoch 4 — Live proof against a real Pulse · entries 8 · markerless 0 · frozen complete 8 · pending 0",
+"58 · Epoch 5 — Polish & ship · entries 14 · markerless 0 · frozen complete 14 · pending 0",
+"87 · Epoch 5b — Version close · entries 4 · markerless 1 · frozen complete 2 · pending 1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "699f7ef0",
+"ts": "2026-10-06T21:26:07Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-06T21-10-08-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 2 of 41 entries · freight blocks 3 · rows are an INDEX, not the text",
+"94 · BLOCKED-ON: · 193 chars · BLOCKED-ON: Pulse \"the L4 rank-1 hypothesis names the triggering cue's service\" (the ove…",
+"94 · CONTEXT: · 816 chars · CONTEXT: founder ruling 2026-10-06 (his own word, live, relayed by the overseer; inputs I23…",
+"94 · CARRY: · 311 chars · CARRY: the tenth tree-walking test — the inline test in `crates/conductor-tauri/src/commands.…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "699f7ef0",
+"ts": "2026-10-06T21:26:08Z",
+"argv": [
+"route.py",
+"epoch",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-06T21-10-08-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · 6 epoch headers · 41 entries · freeze state joined to 160 master records",
+"10 · Epoch 1 — Foundation: the measurements the … · entries 5 · markerless 0 · frozen complete 5 · pending 0",
+"21 · Epoch 2 — Scenario assertion hygiene · entries 5 · markerless 0 · frozen complete 5 · pending 0",
+"32 · Epoch 3 — The a11y capability's terminal · entries 4 · markerless 0 · frozen complete 4 · pending 0",
+"41 · Epoch 4 — Live proof against a real Pulse · entries 8 · markerless 0 · frozen complete 8 · pending 0",
+"58 · Epoch 5 — Polish & ship · entries 14 · markerless 0 · frozen complete 14 · pending 0",
+"87 · Epoch 5b — Version close · entries 5 · markerless 2 · frozen complete 2 · pending 1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

@@ -1,0 +1,6 @@
+
+## 2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09 — the posture-contract entry gains the fourth series and its pin
+**Section:** §Occupied Resources — On-disk artifacts (the `contracts/pulse-real-model-leg-posture.md` entry)
+**Change:** The entry's series enumeration was "2026-09-29, 2026-09-30, 2026-10-01"; it now ends `2026-10-06`. Its pin parenthetical was "(re-pinned `fcc31b2` 2026-09-30, `a2addb3` 2026-10-01)"; it now reads "(re-pinned per series, `5f77859` at 2026-10-06)" — the body names the base HEAD `e98d838` and the latest pin only, and the two earlier per-series pins stay recorded in this sidecar's earlier entries and in the contract's own dated sections. The contract's fourth section is add-only (111 added, 0 deleted) and carries one in-section corrected note on its binary proof. §Occupied Resources measures 38086 B of the 38115 B target after this pass.
+**Why:** the fourth pre-registered series ran against Pulse `5f77859`; the entry still enumerated three series and ended its pin list at `a2addb3`. The earlier pins left the body because the section had 32 B of headroom and both additions verbatim would have reached the threshold exactly. Standing consequence: this entry's pin parenthetical names the latest pin only; a later series replaces it rather than appending.
+**Ref:** .andromeda/runs/2026-10-06T21-10-08-wrap/

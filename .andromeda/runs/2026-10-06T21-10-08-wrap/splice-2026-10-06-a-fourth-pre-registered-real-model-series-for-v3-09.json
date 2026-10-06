@@ -1,0 +1,238 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "e9ac70c7",
+"ts": "2026-10-06T21:23:31Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-06T21-10-08-wrap/architecture-entry-1.md",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-10-06T21-10-08-wrap",
+"--marker",
+"2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+6 at line 1145 · lines 1144→1150 · bytes 196135→197509 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-06T21-10-08-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 1144,
+"bytes": 196135,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1150,
+"bytes": 197509
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "e9ac70c7",
+"ts": "2026-10-06T21:23:31Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-06T21-10-08-wrap/architecture-entry-2.md",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-10-06T21-10-08-wrap",
+"--marker",
+"2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+6 at line 1151 · lines 1150→1156 · bytes 197509→199034 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-06T21-10-08-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 1150,
+"bytes": 197509,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1156,
+"bytes": 199034
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "e9ac70c7",
+"ts": "2026-10-06T21:23:32Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-06T21-10-08-wrap/security-plan-entry.md",
+"--lines",
+"10",
+"--run-dir",
+".andromeda/runs/2026-10-06T21-10-08-wrap",
+"--marker",
+"2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+10 at line 583 · lines 582→592 · bytes 102609→104540 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-06T21-10-08-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 582,
+"bytes": 102609,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 592,
+"bytes": 104540
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "e9ac70c7",
+"ts": "2026-10-06T21:23:32Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-06T21-10-08-wrap/test-plan-entry.md",
+"--lines",
+"7",
+"--run-dir",
+".andromeda/runs/2026-10-06T21-10-08-wrap",
+"--marker",
+"2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+7 at line 839 · lines 838→845 · bytes 144357→145972 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-06T21-10-08-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 838,
+"bytes": 144357,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 845,
+"bytes": 145972
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "e9ac70c7",
+"ts": "2026-10-06T21:23:32Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-06T21-10-08-wrap/obs-plan-entry.md",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-10-06T21-10-08-wrap",
+"--marker",
+"2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+6 at line 383 · lines 382→388 · bytes 67569→68823 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-06T21-10-08-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 382,
+"bytes": 67569,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 388,
+"bytes": 68823
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "e9ac70c7",
+"ts": "2026-10-06T21:26:07Z",
+"argv": [
+"append",
+"--file",
+"conductor-0.3.0/working-route.md",
+"--payload-file",
+".andromeda/runs/2026-10-06T21-10-08-wrap/route-entry.txt",
+"--lines",
+"2",
+"--after-line",
+"93",
+"--run-dir",
+".andromeda/runs/2026-10-06T21-10-08-wrap",
+"--marker",
+"2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"append working-route.md:+2 at line 94 · lines 94→96 · bytes 10519→11996 · term lf",
+"last line now: Version close on measured evidence — every capability verified or deferred on "
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0/working-route.md"
+],
+"before": {
+"lines": 94,
+"bytes": 10519,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 96,
+"bytes": 11996
+}
+}
+]

@@ -1,0 +1,6 @@
+
+## 2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09 — the real-model posture gains a live observation at Pulse `5f77859`
+**Section:** §4 Span / Trace Coverage → Scenario: Headless deterministic scenario run with MCP read-back verification → Real-model posture
+**Change:** Add-only, after the 2026-09-29 series' sentence, which stands. The 2026-10-06 series (Pulse `5f77859`; Pulse's own log read `model_identity` `gemma-4-E4B-it-Q4_K_M` and `prompt_version` `v2.5`) observed the chain live again: all three drives' envelopes landed `ManualCheck` with `verdict` null and the eleven keys, and the chunk added no span, log line or field. The bullet now also states that the capture's `canary:` count is not the storm count: the canary fires three storms per drive and the capture prints two `canary:` lines, the third storm landing at the scenario's emission instant so that its digest's tick falls after it — as measured at that chunk's attempt ledger.
+**Why:** the bullet's live record stopped at the 2026-09-29 series, and a reader pairing the capture's two `canary:` lines with the "three-storm canary" named in the same bullet would read a missing storm where none is missing.
+**Ref:** .andromeda/runs/2026-10-06T21-10-08-wrap/

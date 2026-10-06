@@ -1,0 +1,50 @@
+# The retired wordings and mechanisms of this pass's eleven amendments (architecture 6, security-plan 4 sites,
+# test-plan 1, obs-plan 1), derived after the last amendment was authored.
+
+[[pattern]]
+id = "llama-model"
+fixed = 'Llama-3.2-3B'
+
+[[pattern]]
+id = "3b-llm"
+regex = '\b3B (LLM|model)\b|\bLlama\b'
+
+[[pattern]]
+id = "pin-list"
+fixed = 're-pinned `fcc31b2`'
+
+[[pattern]]
+id = "pin-a2addb3"
+fixed = 'a2addb3'
+
+[[pattern]]
+id = "series-enum"
+fixed = '2026-09-29, 2026-09-30, 2026-10-01'
+
+[[pattern]]
+id = "series-pair"
+regex = '2026-09-30 and 2026-10-01 series'
+
+[[pattern]]
+id = "series-last"
+fixed = '2026-10-01 series'
+
+[[pattern]]
+id = "report-bodies"
+regex = 'carr(y|ies) one report body'
+
+[[pattern]]
+id = "mask-fn"
+fixed = 'mask_host_paths'
+
+[[pattern]]
+id = "named-roots"
+fixed = '%APPDATA%'
+
+[[pattern]]
+id = "canary-storms"
+regex = 'three-storm|`canary:` line'
+
+[[pattern]]
+id = "l4-inference"
+regex = 'L4 (llama\.cpp|inference|model)|real-model inference'

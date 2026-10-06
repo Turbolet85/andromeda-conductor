@@ -836,3 +836,10 @@ Already in the body, not lifted: the Minimal tier and its justification (§1), c
 **Why:** before this chunk the ps1 bundled default blocked on a red cargo line only when its caller set the native-command preference; the measured sh behaviour already contradicted the hard-`Fail`-only exit wording.
 **Kept:** the `--e2e` capture-then-print caveat (a caller setting the preference preempts the printed verdict) stands — the `--e2e` arm is unchanged.
 **Ref:** .andromeda/runs/2026-10-04T14-44-02-wrap/
+
+## 2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09 — the real-model leg records the fourth series' verdict
+**Section:** §6 E2E Test Strategy → Scenario: Fingerprint-storm → Real-model interpretation leg
+**Change:** The bullet's series record ended at the 2026-10-01 series; it now closes with the 2026-10-06 series: three drives in one sitting, Pulse `5f77859`, its shipped model `gemma-4-E4B-it-Q4_K_M`, the rule byte-identical, the first series on the Linux dev host; all three graded — d1 `Identified`, d2 `Identified`, d3 `NotIdentified` — so `v3-09` stays not met (`v3_09_is_not_met_by_the_2026_10_06_series`; no ref test, no fourth drive). Beside the verdict: 6 of 6 classified canary digests and the scenario's digest in all three drives surfaced, and every rank-1 statement carried a retry token. A closing sentence names the series set as the posture contract's dated sections, never a count restated in this bullet.
+**Why:** the fourth pre-registered series ran and the bullet's enumeration no longer matched the harvest, which now states a fourth verdict. d3's rank 1 names the retry storm and the service only inside the hyphenated canary identity, which the unchanged rule separates from `conductor`. The founder ruled the same day (his own word, relayed by the overseer) that `v3-09` is neither relaxed nor deferred: Pulse is fixed, then a fifth series runs.
+**Kept:** the bullet's arm description is unchanged — it names the host-path-mask arm set, never the mask's roots, so the two temp-root arms needed no edit here.
+**Ref:** .andromeda/runs/2026-10-06T21-10-08-wrap/

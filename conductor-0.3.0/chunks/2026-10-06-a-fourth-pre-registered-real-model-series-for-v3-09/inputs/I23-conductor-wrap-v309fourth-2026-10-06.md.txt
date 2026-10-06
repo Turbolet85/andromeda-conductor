@@ -1,0 +1,50 @@
+# Operator relay: the fourth-series wrap, Conductor (2026-10-06)
+
+From the pc overseer (founder-delegated). Facts are `measured 2026-10-06` unless marked.
+
+## 1. The report
+
+- **`v3-09` NOT MET by the 2026-10-06 series, under the byte-identical rule.** d1 `Identified`, d2 `Identified`, d3
+  `NotIdentified`. Read by the overseer in the captures: d3's rank 1 is "Retry storm: Conductor-Canary experiencing a retry
+  storm" (`evidence/rm-capture-d3.txt:426`) — the retry named, the storm attributed to the canary. No ref, no fourth drive.
+- **State the measured gain BESIDE the verdict, never as a softening of it:** 6 of 6 canary digests and 3 of 3 scenario
+  digests surfaced, and all three rank-1 statements carry the retry facet the trigger framing asks for.
+- **The pre-d1 amendment of the binary proof was the overseer's ruling**, made before any drive, with both digests in the
+  ledger. The matrix acceptance and the plan's security criterion that still say `--grammar-file` present are a disproved
+  premise, as your report says: correct them to the measured proof.
+- **CI:** two readings on `9df683d` (CI#37528717687). Attempt 1 red: the A11y job's `Upload a11y violation record` step,
+  `FinalizeArtifact … ECONNRESET`, with Rust and Frontend green and the a11y arm itself passing. The overseer re-ran the
+  failed job; the second reading is the one you recorded. A runner network flake, recorded as such.
+- **The pre-CI commit and the push were made on the operator's explicit word**, as in every chunk this version.
+
+## 2. Route-resolve
+
+**FOUNDER RULING 2026-10-06 ~22:50, live, his own word** (the overseer put three options; he picked the first, «думаю а»):
+`v3-09` is neither relaxed nor deferred — Pulse is fixed, then a fifth series runs. Rejected by him: relaxing the rule to the
+retry facet alone; deferring `v3-09` at the version close on four measured series.
+
+Mint ONE entry at the head of the markerless tail, before "Version close on measured evidence":
+
+- **A fifth pre-registered real-model series for `v3-09`** — the same three-drive design and the same rule, against the Pulse
+  sha that ships the fix. BLOCKED-ON Pulse "the L4 rank-1 hypothesis names the triggering cue's service" (the overseer's
+  working title; Pulse mints its own wording) — the block clears when the overseer relays that sha.
+  Measured basis for the entry's CONTEXT: Pulse's `TRIGGER: ` line names the signal and no scope
+  (`crates/triage/src/digest/assembler.rs:680` at `5f77859`), and prompt `v2.5` obliges rank 1 to name only that signal; the
+  service reaches the model on the cue line and the `SERVICES` rows, uninstructed.
+- CARRY on that entry: the tenth walker, the inline test in `conductor-tauri/src/commands.rs`, takes its
+  `andromeda:walks-tree` mark there (this chunk held that crate byte-unchanged).
+
+"Version close" stays last. `v3-09` stays NOT deferred in the matrix; how it reads between this chunk and the fifth series
+is the skill's own mechanics.
+
+## 3. Curation
+
+- `verification-harness.md` 2026-10-03, "a launch on this host carries the WebKit lever": narrow it to Pulse builds older
+  than `2099998` (2026-10-04), which made `__NV_DISABLE_EXPLICIT_SYNC=1` the app's own Linux default. This series launched
+  with no lever and stayed up.
+- The proof lesson is yours to word: a content proof by a flag literal can read 0 on a correct release build, because the
+  compiler may build a short literal from immediates. Take a two-sided control on both binaries before pre-registering one.
+
+## 4. After the wrap
+
+At the seam, before anything else: `/andromeda-setup-project` for the pending `U02` (the Bash pre-cd guard).

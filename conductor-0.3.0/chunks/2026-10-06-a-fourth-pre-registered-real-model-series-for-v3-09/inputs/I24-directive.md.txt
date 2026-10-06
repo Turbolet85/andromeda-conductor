@@ -1,0 +1,3 @@
+The wrap directive (the /andromeda-wrap-session arguments), 2026-10-06, verbatim.
+
+Run it whole (56 %); the 85 % and 90 % alarms are expected, stop only at 95 %. Directive (overseer, founder-delegated): verified: CI green on 9df683d (attempt 2 of CI#37528717687, read on GitHub by me). Read ~/dev/projects/additional/pc-overseer/relays/conductor-wrap-v309fourth-2026-10-06.md first and snapshot it: the report facts, a FOUNDER RULING of tonight for the route resolve (fix Pulse, then a fifth series; mint that one entry BLOCKED-ON Pulse, with the tenth walker as its CARRY), two curation notes, and the U02 setup re-run at the seam after this wrap.

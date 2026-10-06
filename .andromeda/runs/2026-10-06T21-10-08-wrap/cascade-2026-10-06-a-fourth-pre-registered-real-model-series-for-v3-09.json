@@ -1,0 +1,206 @@
+[
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "43eb863f",
+"ts": "2026-10-06T21:20:18Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-06T21-10-08-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-06T21-10-08-wrap",
+"--marker",
+"2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 2,
+"stdout": [],
+"stderr": "[[pattern]] #12 (real-model-inference): `id` is 1-16 chars of A-Z a-z 0-9 _ . -",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "43eb863f",
+"ts": "2026-10-06T21:20:32Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-06T21-10-08-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-06T21-10-08-wrap",
+"--marker",
+"2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"baseline 0b07b2c4 (pre-CI parent — the oldest of 1 pre-CI commit(s), 9df683d1)",
+"llama-model · new 0 · standing 0 · leaf 0 · curation 2 · base 0 · control architecture.md:70 (prose)",
+"3b-llm · new 0 · standing 0 · leaf 0 · curation 2 · base 0 · case-variants +1 · control architecture.md:70 (prose)",
+"pin-list · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:184 (pros…",
+"pin-a2addb3 · new 0 · standing 2 · leaf 1 · curation 1 · base 0 · control architecture.md:184 (prose)",
+"series-enum · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:184 (prose)",
+"series-pair · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:121 (…",
+"series-last · new 0 · standing 2 · leaf 1 · curation 1 · base 0 · control security-plan.md:121 (prose)",
+"report-bodies · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control security-plan.md:338 (prose)",
+"mask-fn · new 0 · standing 2 · leaf 3 · curation 0 · base 0 · control security-plan.md:121 (prose)",
+"named-roots · new 1 · standing 5 · leaf 2 · curation 4 · base 0 · control architecture.md:201 (prose)",
+"canary-storms · new 0 · standing 4 · leaf 1 · curation 0 · base 0 · control architecture.md:70 (prose)",
+"l4-inference · new 1 · standing 3 · leaf 0 · curation 3 · base 0 · control architecture.md:70 (prose)",
+".claude/rules/verification-harness.md:47 llama-model curation @c329/15330 …*L4 llama.cpp Llama-3.2-3B inference decides…",
+".claude/docs/session-learnings.md:336 llama-model curation …0s) → L4 llama.cpp Llama-3.2-3B inference (Dismiss/Severity…",
+".claude/rules/verification-harness.md:47 3b-llm curation ×2 @c329,421/15330 …L4 llama.cpp Llama-3.2-3B inference decide…",
+".claude/docs/session-learnings.md:336 3b-llm curation …-60s) → L4 llama.cpp Llama-3.2-3B inference (Dismiss/Severity) →…",
+".andromeda/security-plan.md:121 pin-a2addb3 standing edited @c3821/5329 … unchanged at `a2addb3` and at `5f77859`) — so…",
+".andromeda/test-plan.md:260 pin-a2addb3 standing edited @c3402/5148 …ata dir, Pulse `a2addb3`, the rule byte-identical)…",
+".claude/rules/verification-harness.md:67 pin-a2addb3 curation ×2 …b2` only — from `a2addb3` every parsed generation log…",
+".claude/docs/tests-summary.md:22 pin-a2addb3 leaf @c1497/2011 …01 series (Pulse `a2addb3`) graded d1 `Identified` and d…",
+".andromeda/architecture.md:184 series-enum standing edited … the drive series (2026-09-29, 2026-09-30, 2026-10-01, 2026…",
+".andromeda/security-plan.md:338 series-last standing edited @c1223/3144 …read none; the 2026-10-01 series' d1 and d3 ca…",
+".andromeda/test-plan.md:260 series-last standing edited @c3327/5148 …edger.md`); the 2026-10-01 series (three drives on…",
+".claude/rules/verification-harness.md:67 series-last curation … lines across the 2026-10-01 series; read a no-incident …",
+".claude/docs/tests-summary.md:22 series-last leaf @c1471/2011 …ded none, and the 2026-10-01 series (Pulse `a2addb3`) gr…",
+".andromeda/security-plan.md:338 report-bodies standing edited mixed ×3 @c1161,1261/3144 … capture carries one report bo…",
+".andromeda/security-plan.md:338 report-bodies @c+1344/3144",
+".andromeda/security-plan.md:121 mask-fn standing edited @c1711/5329 …t_value`, then `mask_host_paths` (its named roots …",
+".andromeda/security-plan.md:338 mask-fn standing edited @c772/3144 …edact_value` + `mask_host_paths` + `elide_fingerpri…",
+".claude/rules/security.md:10 mask-fn leaf …key` + `redact_value` + `mask_host_paths` + `elide_fingerprints` (every `fin…",
+".claude/rules/security.md:18 mask-fn leaf @c1557/2735 … + `redact_value` + `mask_host_paths` + `elide_fingerprints` (ev…",
+".claude/docs/security-summary.md:11 mask-fn leaf @c1715/2958 …`redact_value` + `mask_host_paths` + `elide_fingerprints`…",
+".andromeda/architecture.md:201 named-roots standing …l platform default (`%APPDATA%\\andromeda-pulse` on Windows · `$XDG…",
+".andromeda/security-plan.md:120 named-roots standing …(any drive-letter / `%APPDATA%` / `/Users` / `/home` token → `<ho…",
+".andromeda/security-plan.md:121 named-roots new @c1771/5329 …ome/`, `/Users/`, `%APPDATA%` and, since 2026-10-06, `/tmp…",
+".andromeda/security-plan.md:123 named-roots standing …e platform default (`%APPDATA%\\andromeda-pulse` on Windows · `$XD…",
+".andromeda/obs-plan.md:459 named-roots standing … `/home` / `/Users` / `%APPDATA%` / `~/.cargo` / `.rustup`) in any fie…",
+".andromeda/obs-plan.md:523 named-roots standing …r, `/home`, `/Users`, `%APPDATA%`, `~/.cargo`, `.rustup`, backtrace fi…",
+".claude/rules/host-win32.md:130 named-roots curation @c2762/3544 …, `/Users/` and `%APPDATA%` inside the quoted gate st…",
+".claude/rules/testing.md:80 named-roots curation …g host-path anchors (`%APPDATA%`, `/Users/`, `/home/`, `.cargo`, `.ru…",
+".claude/docs/session-learnings.md:339 named-roots curation …a-dir defaults to `%APPDATA%\\andromeda-pulse`. RetryStorm t…",
+".claude/docs/session-learnings.md:345 named-roots curation …ome/`, `/Users/`, `%APPDATA%`, `.cargo/`, `.rustup/`… — so …",
+".claude/rules/observability.md:29 named-roots leaf …, `/home`, `/Users`, `%APPDATA%`, `~/.cargo`, `.rustup`, backtrace …",
+".claude/docs/obs-summary.md:30 named-roots leaf …r, `/home`, `/Users`, `%APPDATA%`, `~/.cargo`, `.rustup`, backtrace fi…",
+".andromeda/architecture.md:70 canary-storms standing edited @c3738/9916 … that with the three-storm canary (Readiness g…",
+".andromeda/security-plan.md:121 canary-storms standing edited ×2 @c1303,1563/5329 … line, the `canary:` lines and `scen…",
+".andromeda/test-plan.md:260 canary-storms standing edited @c1507/5148 …on` rides each `canary:` line as a trailing fiel…",
+".andromeda/obs-plan.md:221 canary-storms standing edited mixed ×2 @c1336,1896/2072 … — and its three-storm real-model c…",
+".claude/docs/tests-summary.md:22 canary-storms leaf @c1939/2011 … 2026-10-01 each `canary:` line carries Pulse's `skip_…",
+".andromeda/architecture.md:70 l4-inference standing edited mixed ×2 @c2102,2195/9916 …ence) → **L4 llama.cpp inference …",
+".andromeda/architecture.md:93 l4-inference standing edited mixed ×2 @c1353,2343/2891 …eside the L4 model's `evidence_re…",
+".andromeda/architecture.md:200 l4-inference new …ned `L4Output` for the real-model inference, which is what makes a liv…",
+".andromeda/obs-plan.md:231 l4-inference standing …efs` was fed from the L4 model's `evidence_refs` alone — a constant `…",
+".claude/rules/verification-harness.md:47 l4-inference curation ×2 @c316,11502/15330 …dence) → **L4 llama.cpp Llama-3.2-…",
+".claude/docs/session-learnings.md:336 l4-inference curation …(cadence 20-60s) → L4 llama.cpp Llama-3.2-3B inference (Di…",
+".claude/docs/session-learnings.md:337 l4-inference curation …_refs` carries the L4 model's `evidence_refs` — a constant…",
+"llama-model · new 0 · standing 0 · leaf 0 · curation 2 · base 0 · control architecture.md:70 (prose)",
+"3b-llm · new 0 · standing 0 · leaf 0 · curation 2 · base 0 · case-variants +1 · control architecture.md:70 (prose)",
+"pin-list · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:184 (pros…",
+"pin-a2addb3 · new 0 · standing 2 · leaf 1 · curation 1 · base 0 · control architecture.md:184 (prose)",
+"series-enum · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:184 (prose)",
+"series-pair · 0 rows (control fired) — a statement about this pattern, not the masters · control security-plan.md:121 (…",
+"series-last · new 0 · standing 2 · leaf 1 · curation 1 · base 0 · control security-plan.md:121 (prose)",
+"report-bodies · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control security-plan.md:338 (prose)",
+"mask-fn · new 0 · standing 2 · leaf 3 · curation 0 · base 0 · control security-plan.md:121 (prose)",
+"named-roots · new 1 · standing 5 · leaf 2 · curation 4 · base 0 · control architecture.md:201 (prose)",
+"canary-storms · new 0 · standing 4 · leaf 1 · curation 0 · base 0 · control architecture.md:70 (prose)",
+"l4-inference · new 1 · standing 3 · leaf 0 · curation 3 · base 0 · control architecture.md:70 (prose)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "0b07b2c475576b523ecc467c9a6ffec36e91216c",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), 9df683d1",
+"counts": {
+"llama-model": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 2,
+"base": 0
+},
+"3b-llm": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 2,
+"base": 0
+},
+"pin-list": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"pin-a2addb3": {
+"new": 0,
+"standing": 2,
+"leaf": 1,
+"curation": 1,
+"base": 0
+},
+"series-enum": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"series-pair": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"series-last": {
+"new": 0,
+"standing": 2,
+"leaf": 1,
+"curation": 1,
+"base": 0
+},
+"report-bodies": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"mask-fn": {
+"new": 0,
+"standing": 2,
+"leaf": 3,
+"curation": 0,
+"base": 0
+},
+"named-roots": {
+"new": 1,
+"standing": 5,
+"leaf": 2,
+"curation": 4,
+"base": 0
+},
+"canary-storms": {
+"new": 0,
+"standing": 4,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"l4-inference": {
+"new": 1,
+"standing": 3,
+"leaf": 0,
+"curation": 3,
+"base": 0
+}
+}
+}
+}
+]
