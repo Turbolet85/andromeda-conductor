@@ -49,20 +49,20 @@ Conductor is a desktop control-panel app (Tauri 2) over a headless-drivable Rust
 | Topic | Source |
 |---|---|
 | Architecture decisions | `.andromeda/architecture.md` |
-| Directory tree · resource registry | `.andromeda/architecture.md` §Infrastructure Patterns / §Occupied Resources |
+| Directory tree · resource registry | `.andromeda/architecture.md` §Infrastructure Patterns (keyed: `.andromeda/registries/architecture-contracts.toml`, one file per key) / §Occupied Resources |
 | Build plan / chunk route | `.andromeda/master-route.md` · the active version's `working-route.md` (master-route's last `## {project}-{version}` heading) |
 | Code map / impact (symbols · callers · crate deps) | `.andromeda/cache/{plane}/tree.db` — one DB per plane (`rust` · `ts`); query via `scripts/code-graph.py query <run_dir> <marker> "<sql>" <plane>` (plane REQUIRED — two are detected); schema + templates in `scripts/code-graph-cookbook.md` |
 | MCP read-back contract + preflight gate | `.andromeda/architecture.md` §Standard Contracts |
-| Run-report envelope | `.andromeda/architecture.md` §Standard Contracts · `.andromeda/test-plan.md` §3 |
+| Run-report envelope | `.andromeda/architecture.md` §Standard Contracts · `.andromeda/test-plan.md` §3 (keyed: `.andromeda/registries/test-plan-contracts.toml`) |
 | Scenario config validation | `.andromeda/security-plan.md` §Input Validation |
 | Dependency security / cargo-audit | `.andromeda/security-plan.md` §Dependency Security |
 | Subprocess-spawn hardening | `.andromeda/security-plan.md` §Security Anti-Patterns |
 | Design tokens / palette / typography | `.andromeda/design-system.md` §Color Palette / §Typography |
 | Layout / surfaces (desktop + cli) | `.andromeda/layout-templates.md` |
-| Test harness (5-command) | `.andromeda/test-plan.md` §3 |
+| Test harness (5-command) | `.andromeda/test-plan.md` §3 (keyed: `.andromeda/registries/test-plan-contracts.toml`, one file per key) |
 | CI integration / quality gates | `.andromeda/test-plan.md` §9 / §10 |
-| Observability / log JSON schema | `.andromeda/obs-plan.md` §3 / §6 |
-| WCAG / a11y harness | `.andromeda/a11y-plan.md` §3 |
+| Observability / log JSON schema | `.andromeda/obs-plan.md` §3 (keyed: `.andromeda/registries/obs-plan-contracts.toml`, one file per key) / §6 |
+| WCAG / a11y harness | `.andromeda/a11y-plan.md` §3 (keyed: `.andromeda/registries/a11y-plan-contracts.toml`, one file per key) |
 | Determinism discipline | `.andromeda/architecture.md` §Cross-cutting Patterns |
 | Coverage matrix (manifest set) | `contracts/pulse-capabilities.toml` · `.andromeda/input.md` §Coverage classification |
 | Agent harness commands | `scripts/agent-run.sh` · `.claude/rules/verification-harness.md` |
