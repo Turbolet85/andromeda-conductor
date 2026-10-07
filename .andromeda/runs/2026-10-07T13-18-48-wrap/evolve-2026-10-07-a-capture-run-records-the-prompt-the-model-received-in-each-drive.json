@@ -118,5 +118,45 @@
 "lines": 3120,
 "bytes": 3738927
 }
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "d8c8c8b2",
+"ts": "2026-10-07T13:36:32Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-07T13-18-48-wrap",
+"--marker",
+"2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 3120→3121 · bytes 3738927→3740108 · term lf",
+"ts 2026-10-07T13:36:32Z · clock 2026-10-07T13:36:32Z · bound 2026-10-07T13:34:25Z (line 3120)",
+"ids 2026-10-07T13:36:32Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 3120,
+"bytes": 3738927,
+"terminator": "LF",
+"bound": "2026-10-07T13:34:25Z"
+},
+"after": {
+"lines": 3121,
+"bytes": 3740108
+}
 }
 ]

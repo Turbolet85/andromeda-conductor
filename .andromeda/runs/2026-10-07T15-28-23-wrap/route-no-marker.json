@@ -1,0 +1,60 @@
+[
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "1b5a5c62",
+"ts": "2026-10-07T15:30:33Z",
+"argv": [
+"route.py",
+"cursor",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-07T15-28-23-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"version conductor-0.3.0 · dir present · master master-route.md",
+"version dir conductor-0.3.0/ — at --root, beside .andromeda/, never inside it",
+"records 162 · complete 162 · pending 0 · gated 0",
+"done 2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive",
+"next working-route.md:98 · A sixth pre-registered real-model series for `v3-09` · markerless 2 of 43 entries",
+"BLOCKED-ON at an annotation position · working-route.md:98 · BLOCKED-ON: Pulse \"The L4 probe reproduces the canary-histor… (290 chars) — take-up or skip is the letter's, not the tool's",
+"half-promote 0 of 41 stamped lines vs 162 master records (anchored `{marker} · `, whole file)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "1b5a5c62",
+"ts": "2026-10-07T15:32:02Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-07T15-28-23-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 2 of 43 entries · freight blocks 6 · rows are an INDEX, not the text",
+"98 · BLOCKED-ON: · 290 chars · BLOCKED-ON: Pulse \"The L4 probe reproduces the canary-history miss\" (andromeda-pulse `an…",
+"98 · CONTEXT: · 909 chars · CONTEXT: founder ruling 2026-10-07 11:49 local (his own pick of the option titled \"reproduc…",
+"98 · CARRY: · 437 chars · CARRY: architecture §Occupied Resources stands at its byte threshold — 38114 of 38115 B, and …",
+"98 · CARRY: · 357 chars · CARRY: the 2026-10-07 capture run (the fifth series' Pulse, prompt and design; a capture, no …",
+"98 · CARRY: · 574 chars · CARRY: open question for the founder before this series is pre-registered — should the rank-1…",
+"100 · CARRY: · 951 chars · CARRY: two product-script comments still cite the retired Windows host leaf by file name — `…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]
