@@ -1,0 +1,7 @@
+
+## 2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09 — the 2026-10-07 series' dated verdict
+**Section:** §6 E2E Test Strategy → Scenario: Fingerprint-storm, the `Real-model interpretation leg` bullet
+**Change:** one dated record added after the 2026-10-06 series' and before the closing sentence that names the series set: the 2026-10-07 series (three drives in one sitting, Pulse `f70be92`, prompt `v2.6`, the same model, the design and the rule byte-identical) graded all three — d1 `Identified`, d2 `Identified`, d3 `NotIdentified` — so `v3-09` stays not met (`v3_09_is_not_met_by_the_2026_10_07_series`; no ref test, no fourth drive). It is the same split on the same drive as the 2026-10-06 series at prompt `v2.5`, which three drives per series do not separate; the real model again surfaced 6 of 6 classified canary digests and the scenario's digest in all three drives, and every rank-1 statement carried a retry token. The 2026-10-06 record stands as written.
+**Why:** the bullet's per-series record stopped at 2026-10-06 while the harvest gained the 2026-10-07 series' module and verdict test. A second not-met on the same drive, after the Pulse sentence written for it, is the fact the next reader of this leg needs first.
+**Kept:** no count entered the body. The series set is still named as the posture contract's dated sections, and the capture and test populations stay unstated.
+**Ref:** .andromeda/runs/2026-10-07T09-46-39-wrap/

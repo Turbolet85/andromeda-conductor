@@ -1,0 +1,192 @@
+[
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "8d842833",
+"ts": "2026-10-07T10:09:40Z",
+"argv": [
+"flip",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+"--run-dir",
+".andromeda/runs/2026-10-07T09-46-39-wrap",
+"--dry-run"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 3,
+"stdout": [
+"claimed by 2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09: 1 · to flip 0 · already verified 0 · below 1",
+"coverage-incomplete: v3-09 (planned, ref null)",
+"nothing written — the gate's release valves (finish the test, or unclaim) are the wrap's"
+],
+"stderr": "coverage-incomplete: v3-09",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "8d842833",
+"ts": "2026-10-07T10:09:40Z",
+"argv": [
+"unclaim",
+"--dir",
+"conductor-0.3.0",
+"--id",
+"v3-09",
+"--run-dir",
+".andromeda/runs/2026-10-07T09-46-39-wrap",
+"--marker",
+"2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+"--dry-run"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"unclaim v3-09: chunk 2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09 → null · status planned kept",
+"dry-run: nothing written",
+"pool: unclaimed 1 [v3-09]"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v3-09",
+"chunk": "2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+"status": "planned",
+"method": "dynamic-external",
+"ref": "null",
+"acceptance": "A pre-stated series of exactly three drives (d1, d2, d3) on ONE fresh data dir whose leaf (`rm-fifth-series`) carries no… (4460 chars)",
+"notes_chars": 23455
+},
+"after": {
+"id": "v3-09",
+"chunk": null,
+"status": "planned",
+"method": "dynamic-external",
+"ref": "null",
+"acceptance": "A pre-stated series of exactly three drives (d1, d2, d3) on ONE fresh data dir whose leaf (`rm-fifth-series`) carries no… (4460 chars)",
+"notes_chars": 23455
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "8d842833",
+"ts": "2026-10-07T10:09:56Z",
+"argv": [
+"unclaim",
+"--dir",
+"conductor-0.3.0",
+"--id",
+"v3-09",
+"--run-dir",
+".andromeda/runs/2026-10-07T09-46-39-wrap",
+"--marker",
+"2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"unclaim v3-09: chunk 2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09 → null · status planned kept",
+"wrote conductor-0.3.0/verification-matrix.json · 1 entry changed",
+"pool: unclaimed 1 [v3-09]"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0/verification-matrix.json"
+],
+"before": {
+"id": "v3-09",
+"chunk": "2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+"status": "planned",
+"method": "dynamic-external",
+"ref": "null",
+"acceptance": "A pre-stated series of exactly three drives (d1, d2, d3) on ONE fresh data dir whose leaf (`rm-fifth-series`) carries no… (4460 chars)",
+"notes_chars": 23455
+},
+"after": {
+"id": "v3-09",
+"chunk": null,
+"status": "planned",
+"method": "dynamic-external",
+"ref": "null",
+"acceptance": "A pre-stated series of exactly three drives (d1, d2, d3) on ONE fresh data dir whose leaf (`rm-fifth-series`) carries no… (4460 chars)",
+"notes_chars": 23455
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "8d842833",
+"ts": "2026-10-07T10:09:56Z",
+"argv": [
+"note",
+"--dir",
+"conductor-0.3.0",
+"--id",
+"v3-09",
+"--text-file",
+".andromeda/runs/2026-10-07T09-46-39-wrap/note-v3-09.md",
+"--run-dir",
+".andromeda/runs/2026-10-07T09-46-39-wrap",
+"--marker",
+"2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"note v3-09: +2346 chars (total 25803) · status planned · ref/acceptance untouched",
+"wrote conductor-0.3.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0/verification-matrix.json"
+],
+"before": {
+"id": "v3-09",
+"chunk": null,
+"status": "planned",
+"method": "dynamic-external",
+"ref": "null",
+"acceptance": "A pre-stated series of exactly three drives (d1, d2, d3) on ONE fresh data dir whose leaf (`rm-fifth-series`) carries no… (4460 chars)",
+"notes_chars": 23455
+},
+"after": {
+"id": "v3-09",
+"chunk": null,
+"status": "planned",
+"method": "dynamic-external",
+"ref": "null",
+"acceptance": "A pre-stated series of exactly three drives (d1, d2, d3) on ONE fresh data dir whose leaf (`rm-fifth-series`) carries no… (4460 chars)",
+"notes_chars": 25803
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "8d842833",
+"ts": "2026-10-07T10:09:56Z",
+"argv": [
+"flip",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+"--run-dir",
+".andromeda/runs/2026-10-07T09-46-39-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"claimed 0 — gate no-op (no entry carries chunk 2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09)",
+"pool: unclaimed 1 [v3-09]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

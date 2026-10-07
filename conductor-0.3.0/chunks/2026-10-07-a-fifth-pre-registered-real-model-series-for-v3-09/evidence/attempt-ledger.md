@@ -261,6 +261,7 @@ position on the one shared dir, so it moves together with everything else positi
 the earlier incidents in the corpus, the app's uptime, the canary's history — and six drives cannot separate them.
 No drive varied the row count at a fixed position, so the table does not say the rows cause the miss.
 
+## The walker's mark (plan step 15)
 
 `crates/conductor-tauri/src/commands.rs` carries one added comment line above `fixture_scenarios_dir`'s doc
 comment: the `andromeda:walks-tree` token and one clause. The file differs from `29adafa` by 1 added and 0 deleted
@@ -300,3 +301,12 @@ the wrap.
 - Entry 46, `python -X utf8 "$HOME"/.claude/skills/andromeda-tools/scripts/gate.py hygiene`, fired bare at
   08:21:02Z before the commit: exit 0; atom `contains hygiene: clean` held (1 hit) — `hygiene: clean`, 55 files read
   (runs 40, evidence 7, inputs 8), 14 trails and 6 verbatim input copies not read by P1, 0 host paths kept.
+- Entry 47: on the overseer's explicit word, the agent made the operator pre-CI commit `ca52914`
+  (`ca529144a0f587f5872c58650836a36c92de6a7a`, 70 files) and fired the entry as written at 08:21:28Z: the clean-tree
+  guard held, exit 0, and the push printed `PUSHED_SHA=ca529144a0f587f5872c58650836a36c92de6a7a`
+  (`29adafa..ca52914` on `build/conductor-0.3.0`); atom `contains PUSHED_SHA=` held.
+- Entry 48, `ci.py conclusion --sha HEAD --wait 1800`, fired after the push at 08:21:36Z, ended 08:30:56Z: exit 0;
+  atom `contains verdict: green` **held** on the first reading — `verdict: green · checks 3/3 · wall 549 s`, run
+  CI#37593230851 `completed/success` on `ca529144a0f587f5872c58650836a36c92de6a7a`, polled 19 times over 560 s.
+  No re-run was fired; the one runner-flake re-run the overseer allowed was not needed. The run id the CI
+  acceptance names is CI#37593230851.

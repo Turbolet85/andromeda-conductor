@@ -1,0 +1,121 @@
+[
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "1f4f95b3",
+"ts": "2026-10-07T10:10:22Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+"--run-dir",
+".andromeda/runs/2026-10-07T09-46-39-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"flip master-route.md:175 - 2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09 pending -> complete"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "1f4f95b3",
+"ts": "2026-10-07T10:10:22Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+"--date",
+"2026-10-07",
+"--run-dir",
+".andromeda/runs/2026-10-07T09-46-39-wrap",
+"--dry-run"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"pin :94 strip BLOCKED-ON: 193ch \"BLOCKED-ON: Pulse \"the L4 rank-1 hypothe\"",
+"pin :94 strip CONTEXT: 816ch \"CONTEXT: founder ruling 2026-10-06 (his \"",
+"pin :94 strip CARRY: 311ch \"CARRY: the tenth tree-walking test — the\"",
+"pin next markerless :96 holds BLOCKED-ON:×1 · CONTEXT:×1 · CARRY:×1",
+"94 · 2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09 · strip 3 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 94,
+"marker": "2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+"blocks": 3,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "1f4f95b3",
+"ts": "2026-10-07T10:10:29Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+"--date",
+"2026-10-07",
+"--run-dir",
+".andromeda/runs/2026-10-07T09-46-39-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"pin :94 strip BLOCKED-ON: 193ch \"BLOCKED-ON: Pulse \"the L4 rank-1 hypothe\"",
+"pin :94 strip CONTEXT: 816ch \"CONTEXT: founder ruling 2026-10-06 (his \"",
+"pin :94 strip CARRY: 311ch \"CARRY: the tenth tree-walking test — the\"",
+"pin next markerless :96 holds BLOCKED-ON:×1 · CONTEXT:×1 · CARRY:×1",
+"94 · 2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09 · strip 3 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+"./conductor-0.3.0/route-archive.md",
+"./conductor-0.3.0/working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 94,
+"marker": "2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+"blocks": 3,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

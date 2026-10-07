@@ -1,0 +1,81 @@
+[
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "1f4f95b3",
+"ts": "2026-10-07T10:04:23Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-07T09-46-39-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 1 of 41 entries · freight blocks 0 · rows are an INDEX, not the text",
+"no freight block on a markerless entry matched (96 lines read) — an empty listing is a verdict, not an absence proof"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "1f4f95b3",
+"ts": "2026-10-07T10:04:23Z",
+"argv": [
+"route.py",
+"epoch",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-07T09-46-39-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · 6 epoch headers · 41 entries · freeze state joined to 161 master records",
+"10 · Epoch 1 — Foundation: the measurements the … · entries 5 · markerless 0 · frozen complete 5 · pending 0",
+"21 · Epoch 2 — Scenario assertion hygiene · entries 5 · markerless 0 · frozen complete 5 · pending 0",
+"32 · Epoch 3 — The a11y capability's terminal · entries 4 · markerless 0 · frozen complete 4 · pending 0",
+"41 · Epoch 4 — Live proof against a real Pulse · entries 8 · markerless 0 · frozen complete 8 · pending 0",
+"58 · Epoch 5 — Polish & ship · entries 14 · markerless 0 · frozen complete 14 · pending 0",
+"87 · Epoch 5b — Version close · entries 5 · markerless 1 · frozen complete 3 · pending 1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "1f4f95b3",
+"ts": "2026-10-07T10:07:57Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-07T09-46-39-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 2 of 42 entries · freight blocks 3 · rows are an INDEX, not the text",
+"96 · BLOCKED-ON: · 290 chars · BLOCKED-ON: Pulse \"The L4 probe reproduces the canary-history miss\" (andromeda-pulse `an…",
+"96 · CONTEXT: · 909 chars · CONTEXT: founder ruling 2026-10-07 11:49 local (his own pick of the option titled \"reproduc…",
+"96 · CARRY: · 281 chars · CARRY: architecture §Occupied Resources stands at its byte threshold — 38115 of 38115 B, `scr…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

@@ -1,0 +1,193 @@
+[
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "b56ded6b",
+"ts": "2026-10-07T09:59:52Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-07T09-46-39-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-07T09-46-39-wrap",
+"--marker",
+"2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 3,
+"stdout": [
+"baseline 29adafa1 (pre-CI parent — the oldest of 1 pre-CI commit(s), ca529144)",
+"fourth-series · control UNFIRED over the seven masters at 29adafa1"
+],
+"stderr": "control: fourth-series never fired over the seven masters' pre-pass text (29adafa1) — a sweep runs a positive control or refuses; drop the pattern or control it by hand",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "b56ded6b",
+"ts": "2026-10-07T10:00:07Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-07T09-46-39-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-07T09-46-39-wrap",
+"--marker",
+"2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"baseline 29adafa1 (pre-CI parent — the oldest of 1 pre-CI commit(s), ca529144)",
+"pin-5f77859 · new 0 · standing 3 · leaf 1 · curation 3 · base 0 · control architecture.md:184 (prose)",
+"series-0610 · new 0 · standing 4 · leaf 1 · curation 0 · base 0 · control security-plan.md:121 (prose)",
+"series-list · new 1 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:184 (prose)",
+"one-handle · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:203 (pr…",
+"sets-nor-reads · new 0 · standing 2 · leaf 0 · curation 0 · base 3 · control architecture.md:203 (prose)",
+"registered-only · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:184 (prose)",
+"ns-claim · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:204 (pros…",
+"boot-target · new 0 · standing 1 · leaf 0 · curation 1 · base 0 · control architecture.md:203 (prose)",
+"emit-fn-name · new 0 · standing 1 · leaf 0 · curation 1 · base 0 · control architecture.md:203 (prose)",
+"report-body · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control security-plan.md:338 (prose)",
+"prompt-v25 · new 1 · standing 1 · leaf 0 · curation 0 · base 0 · control obs-plan.md:221 (prose)",
+"not-met-0610 · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:260 (prose)",
+".andromeda/security-plan.md:121 pin-5f77859 standing edited @c3835/5397 …`a2addb3`, at `5f77859` and at `f70be92`) — so…",
+".andromeda/test-plan.md:260 pin-5f77859 standing edited @c4545/5827 …sitting, Pulse `5f77859`, its shipped model `gemma…",
+".andromeda/obs-plan.md:221 pin-5f77859 standing edited @c1504/2445 … series (Pulse `5f77859`; Pulse's own log read `mod…",
+".claude/rules/verification-harness.md:47 pin-5f77859 curation @c615/15556 … since Pulse `5f77859` the shipped L4 model …",
+".claude/rules/verification-harness.md:73 pin-5f77859 curation …, and a build at `5f77859` launched with no lever stayed…",
+".claude/docs/session-learnings.md:336 pin-5f77859 curation …then; since Pulse `5f77859` the shipped L4 model is `gemma-…",
+".claude/docs/tests-summary.md:22 pin-5f77859 leaf @c1919/2152 …06 series (Pulse `5f77859`, its shipped model `gemma-4-E…",
+".andromeda/security-plan.md:121 series-0610 standing edited @c4485/5397 …s each (on the 2026-10-06 series, the first on…",
+".andromeda/security-plan.md:338 series-0610 standing edited @c1302/3197 …, d2 none; the 2026-10-06 series' d1, d2 and d…",
+".andromeda/test-plan.md:260 series-0610 standing edited mixed ×2 @c4490,5419/5827 ….md`). The 2026-10-06 series (three …",
+".andromeda/obs-plan.md:221 series-0610 standing edited @c1478/2445 …ted` line). The 2026-10-06 series (Pulse `5f77859`;…",
+".claude/docs/tests-summary.md:22 series-0610 leaf @c1893/2152 …witness), and the 2026-10-06 series (Pulse `5f77859`, it…",
+".andromeda/architecture.md:184 series-list standing edited …09-29, 2026-09-30, 2026-10-01, 2026-10-06, 2026-10-07 — eac…",
+".andromeda/security-plan.md:121 series-list new ×2 @c3967,4371/5397 …the 2026-09-30, 2026-10-01, 2026-10-06 and 2026-10…",
+".andromeda/architecture.md:203 sets-nor-reads standing edited … handle Conductor neither SETS nor READS**, registered b…",
+".andromeda/architecture.md:204 sets-nor-reads standing edited … shell. Conductor neither SETS nor READS either; registe…",
+".andromeda/playbook.md:137 sets-nor-reads base …handle — one Conductor neither SETS nor READS — into arch §Occupied Res…",
+".andromeda/playbook.md:139 sets-nor-reads base …honest: that Conductor neither sets nor reads it, WHICH shipped artifac…",
+".andromeda/playbook.md:145 sets-nor-reads base …ause is \"one Conductor neither SETS nor READS\", and it FAILS the moment…",
+".andromeda/architecture.md:184 registered-only standing edited …`). It NAMES only already-registered environment handle…",
+".andromeda/test-plan.md:391 boot-target standing @c2223/5892 …g for the TARGET `triage.baseline.bootstrap_window.overri…",
+".claude/rules/verification-harness.md:60 boot-target curation @c4702/5170 …r the TARGET `triage.baseline.bootstrap_wind…",
+".andromeda/test-plan.md:391 emit-fn-name standing @c2340/5892 …) — never for the emitting function name, which appears …",
+".claude/rules/verification-harness.md:60 emit-fn-name curation @c4818/5170 …NEVER for the emitting function name `warn_…",
+".andromeda/security-plan.md:338 report-body standing edited ×2 @c1267,1350/3197 …tures carry one report body each, d2 n…",
+".andromeda/test-plan.md:260 prompt-v25 new @c5448/5827 …6 series at prompt `v2.5`, which three drives per series do not…",
+".andromeda/obs-plan.md:221 prompt-v25 standing edited @c1598/2445 …prompt_version` `v2.5`) observed the chain live agai…",
+".andromeda/test-plan.md:260 not-met-0610 standing edited @c4764/5827 …stays not met (`v3_09_is_not_met_by_the_2026_10_0…",
+"pin-5f77859 · new 0 · standing 3 · leaf 1 · curation 3 · base 0 · control architecture.md:184 (prose)",
+"series-0610 · new 0 · standing 4 · leaf 1 · curation 0 · base 0 · control security-plan.md:121 (prose)",
+"series-list · new 1 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:184 (prose)",
+"one-handle · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:203 (pr…",
+"sets-nor-reads · new 0 · standing 2 · leaf 0 · curation 0 · base 3 · control architecture.md:203 (prose)",
+"registered-only · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:184 (prose)",
+"ns-claim · 0 rows (control fired) — a statement about this pattern, not the masters · control architecture.md:204 (pros…",
+"boot-target · new 0 · standing 1 · leaf 0 · curation 1 · base 0 · control architecture.md:203 (prose)",
+"emit-fn-name · new 0 · standing 1 · leaf 0 · curation 1 · base 0 · control architecture.md:203 (prose)",
+"report-body · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control security-plan.md:338 (prose)",
+"prompt-v25 · new 1 · standing 1 · leaf 0 · curation 0 · base 0 · control obs-plan.md:221 (prose)",
+"not-met-0610 · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:260 (prose)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "29adafa143b58d3c296762af6ed59270ec5e4558",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), ca529144",
+"counts": {
+"pin-5f77859": {
+"new": 0,
+"standing": 3,
+"leaf": 1,
+"curation": 3,
+"base": 0
+},
+"series-0610": {
+"new": 0,
+"standing": 4,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"series-list": {
+"new": 1,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"one-handle": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"sets-nor-reads": {
+"new": 0,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 3
+},
+"registered-only": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"ns-claim": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"boot-target": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 1,
+"base": 0
+},
+"emit-fn-name": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 1,
+"base": 0
+},
+"report-body": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"prompt-v25": {
+"new": 1,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"not-met-0610": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]

@@ -1,0 +1,50 @@
+# The pattern set of this pass, derived from every amendment before the first grep.
+
+[[pattern]]
+id = "pin-5f77859"
+fixed = '5f77859'
+
+[[pattern]]
+id = "series-0610"
+fixed = '2026-10-06 series'
+
+[[pattern]]
+id = "series-list"
+regex = '2026-10-01,? (and )?2026-10-06'
+
+[[pattern]]
+id = "one-handle"
+fixed = 'one registered handle'
+ignore_case = true
+
+[[pattern]]
+id = "sets-nor-reads"
+regex = 'neither (sets|SETS) nor (reads|READS)'
+
+[[pattern]]
+id = "registered-only"
+fixed = 'already-registered environment handles'
+
+[[pattern]]
+id = "ns-claim"
+fixed = 'namespace claim is made'
+
+[[pattern]]
+id = "boot-target"
+fixed = 'triage.baseline.bootstrap_window.override'
+
+[[pattern]]
+id = "emit-fn-name"
+fixed = 'emitting function name'
+
+[[pattern]]
+id = "report-body"
+fixed = 'one report body each'
+
+[[pattern]]
+id = "prompt-v25"
+fixed = 'v2.5'
+
+[[pattern]]
+id = "not-met-0610"
+fixed = 'v3_09_is_not_met_by_the_2026_10_06_series'
