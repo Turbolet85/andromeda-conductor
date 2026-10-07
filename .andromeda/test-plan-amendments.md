@@ -850,3 +850,14 @@ Already in the body, not lifted: the Minimal tier and its justification (§1), c
 **Why:** the bullet's per-series record stopped at 2026-10-06 while the harvest gained the 2026-10-07 series' module and verdict test. A second not-met on the same drive, after the Pulse sentence written for it, is the fact the next reader of this leg needs first.
 **Kept:** no count entered the body. The series set is still named as the posture contract's dated sections, and the capture and test populations stay unstated.
 **Ref:** .andromeda/runs/2026-10-07T09-46-39-wrap/
+
+## 2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive — the capture run's dated record; the series rule keeps its wording and names one exception
+**Section:** §2 Test Strategy → Agent-runnable invariants → Deterministic · §6 E2E Test Strategy → Scenario: Fingerprint-storm, the `Real-model interpretation leg` bullet · §9 CI Integration → Live-Pulse scenarios
+**Change:**
+- Three sites said the `run --live real-model` selector is "driven only as the pre-stated series" of the posture contract. Each keeps that rule and adds "and once, on 2026-10-07, as that contract's pre-registered capture run, which states no verdict"; §9 adds that the run "re-fires only as its own section says".
+- §6 gains one dated record after the 2026-10-07 series': the capture run (three drives in one sitting, the series' Pulse, model, prompt and byte-identical rule; its contract section applies no pass condition) states NO `v3-09` verdict. Its three drives each attributed an incident on the read-back route and read `Identified`, recorded as observations and held by the `…2026_10_07_capture_run…` harvest tests, which import no verdict arm and carry no ref test; `v3-09` stays not met on the 2026-10-07 series' record.
+- The closing sentence was "The series set is the posture contract's dated sections"; now "dated series sections", and it says the capture-run section is not a series.
+- The 2026-10-07 series' evidence pointer said "the 2026-10-07 chunk's"; it now names that chunk by marker, since two chunks carry the date.
+**Why:** a pre-registered run that is not a series now sits in the contract, so "only as the pre-stated series" was false as worded and "dated sections" no longer named only series. The plan left to this wrap whether the wording covered the run; it did not, and the smallest true statement is the rule plus its one dated record.
+**Kept:** the keyed contract `5-command implementation` is unchanged: "no counted drive of the series is spent" states no only-claim and holds for every series drive. No count entered the body. Per-drive detail, the d3 position's rate (2 misses of 3 live runs) and the observation that d2's rank-1 statement quotes the cue's `scope_id` while placing the storm in the canary service stay in the chunk's report and ledger. The rule was not widened to a class of capture runs.
+**Ref:** .andromeda/runs/2026-10-07T13-18-48-wrap/

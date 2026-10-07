@@ -1,0 +1,54 @@
+[
+{
+"tool": "inputs",
+"v": "1.0",
+"sha8": "0404fdd3",
+"ts": "2026-10-07T13:18:57Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"conductor-0.3.0/chunks/2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive",
+"--run-dir",
+".andromeda/runs/2026-10-07T13-18-48-wrap",
+"--marker",
+"2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/pc-overseer/relays/conductor-phase-capture-2026-10-07.md",
+"I1 cited scope.md:8 · scope.md:20 · scope.md:59 · scope.md:75 · scope.md:79 · scope.md:85 · scope.md:112 · scope.md:113 · scope.md:114 · scope.md:149 · scope.md:167 · scope.md:201 · research.md:17 · plan.md:17 · plan.md:31 · plan.md:109 · plan.md:160 · plan.md:675 · plan.md:683",
+"I2 n/a — a message has no live source · copy message · message: the pc overseer (founder-delegated), 2026-10-07, the /andromeda-phase invocation",
+"I2 cited scope.md:20 · scope.md:79 · scope.md:167 · research.md:19 · plan.md:17 · plan.md:109",
+"I3 unchanged · copy no-repo · ../additional/pc-overseer/relays/conductor-wrap-capture-2026-10-07.md",
+"I3 cited scope.md:7 · scope.md:84 · scope.md:112 · scope.md:149 · research.md:20 · plan.md:697",
+"I6 unchanged · pointer committed@48714f09 · ../andromeda-pulse:pulse-app/src/llamacli_inference.rs",
+"I6 cited scope.md:150 · research.md:21 · research.md:61 · research.md:105 · plan.md:663",
+"I8 n/a — a message has no live source · copy message · message: the pc overseer (founder-delegated), 2026-10-07, the P5 review answer",
+"I8 cited scope.md:35 · scope.md:42 · scope.md:45 · scope.md:165 · scope.md:170 · research.md:23 · research.md:118 · research.md:120 · research.md:166 · plan.md:99 · plan.md:112 · plan.md:664 · plan.md:688 · plan.md:718",
+"I9 n/a — a message has no live source · copy message · message: the pc overseer (founder-delegated), 2026-10-07 14:28 local, the answer to the go request asked immediately before the launch",
+"I9 UNCITED",
+"I10 n/a — a message has no live source · copy message · message: the pc overseer (founder-delegated), 2026-10-07, after the implement report; the directive sentences of the message, verbatim — an excerpt: the message's one further sentence is the overseer's own reading of the operator's folder and is not copied",
+"I10 UNCITED",
+"inputs: 7 entries — unchanged 3 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 4 · uncited 2 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 7,
+"counts": {
+"unchanged": 3,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 4
+},
+"uncited": 2,
+"unparsed": 0
+}
+}
+]

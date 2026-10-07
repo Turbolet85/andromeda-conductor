@@ -275,6 +275,13 @@ The three grades as the harvest read them, each beside its creating digest's cor
 | d2 | `Identified` | 3 | 1 |
 | d3 | `Identified` | 6 | 2 |
 
+One observation beside these grades, recorded at the wrap on the overseer's word (founder-delegated, 2026-10-07);
+it changes no rule, pin or test. d2's first hypothesis reads: "retry_storm scope_id=conductor is actively
+occurring in conductor-canary." It quotes the cue's `scope_id` value and still places the storm in the canary
+service. The rank-1 rule asks for `conductor` as a whole word and a retry token; both are present, so the rule
+grades it `Identified`. Whether the rule should reject that case is an open question for the founder before the
+sixth series; it is carried on that route entry.
+
 Three drives fired, none re-fired, none replaced, no fourth. All three attributed an incident on the read-back
 route and all three read `Identified`: **no drive missed.** That is this run's finding, reported as such, and the
 run is delivered as pre-registered. Key rendering: `verbatim` on all three drives, so none is recorded as
@@ -344,3 +351,12 @@ one further sentence, the overseer's own reading of the operator's folder; it is
   13:04:28Z before the commit: exit 0; atom `contains hygiene: clean` held (1 hit) — `hygiene: clean`, 52 files read
   (runs 37, evidence 7, inputs 8), 13 trails and 6 verbatim input copies not read by P1, 0 host paths kept. It was
   fired once more after this record was written, and the commit was made only on that second `clean`.
+- Entry 42: on the overseer's explicit word, the agent made the operator pre-CI commit `15fab57`
+  (`15fab57095a35b7951bc2b099465426d50a4e73c`, 65 files) and fired the entry as written at 13:05:05Z: the clean-tree
+  guard held, exit 0, and the push printed `PUSHED_SHA=15fab57095a35b7951bc2b099465426d50a4e73c`
+  (`6987764..15fab57` on `build/conductor-0.3.0`); atom `contains PUSHED_SHA=` held. This record and entry 43's
+  were written after the push, so they ride the wrap's commit, not the pre-CI one.
+- Entry 43, `ci.py conclusion --sha HEAD --wait 1800`, fired after the push at 13:05:13Z, ended 13:17:39Z: exit 0;
+  atom `contains verdict: green` **held** on the first reading — `verdict: green · checks 3/3 · wall 745 s`, run
+  CI#37625765074 `completed/success` on `15fab57095a35b7951bc2b099465426d50a4e73c`, polled 25 times over 746 s. No
+  re-run was fired. The run id the CI acceptance names is CI#37625765074.

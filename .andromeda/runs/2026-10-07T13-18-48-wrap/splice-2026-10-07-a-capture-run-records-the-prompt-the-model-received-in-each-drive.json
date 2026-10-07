@@ -1,0 +1,166 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "3b12f994",
+"ts": "2026-10-07T13:32:22Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-07T13-18-48-wrap/architecture-payload.md",
+"--lines",
+"10",
+"--expect-last-prefix",
+"**Ref:**",
+"--run-dir",
+".andromeda/runs/2026-10-07T13-18-48-wrap",
+"--marker",
+"2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+10 at line 1175 · lines 1174→1184 · bytes 202321→204432 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-07T13-18-48-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 1174,
+"bytes": 202321,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1184,
+"bytes": 204432
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "3b12f994",
+"ts": "2026-10-07T13:32:22Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-07T13-18-48-wrap/security-plan-payload.md",
+"--lines",
+"12",
+"--expect-last-prefix",
+"**Ref:**",
+"--run-dir",
+".andromeda/runs/2026-10-07T13-18-48-wrap",
+"--marker",
+"2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+12 at line 604 · lines 603→615 · bytes 106244→108530 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-07T13-18-48-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 603,
+"bytes": 106244,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 615,
+"bytes": 108530
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "3b12f994",
+"ts": "2026-10-07T13:32:22Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-07T13-18-48-wrap/test-plan-payload.md",
+"--lines",
+"11",
+"--expect-last-prefix",
+"**Ref:**",
+"--run-dir",
+".andromeda/runs/2026-10-07T13-18-48-wrap",
+"--marker",
+"2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+11 at line 853 · lines 852→863 · bytes 147440→149855 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-07T13-18-48-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 852,
+"bytes": 147440,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 863,
+"bytes": 149855
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "3b12f994",
+"ts": "2026-10-07T13:32:22Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-07T13-18-48-wrap/obs-plan-payload.md",
+"--lines",
+"9",
+"--expect-last-prefix",
+"**Ref:**",
+"--run-dir",
+".andromeda/runs/2026-10-07T13-18-48-wrap",
+"--marker",
+"2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+9 at line 395 · lines 394→403 · bytes 69775→71266 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-07T13-18-48-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 394,
+"bytes": 69775,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 403,
+"bytes": 71266
+}
+}
+]

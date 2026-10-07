@@ -1,0 +1,56 @@
+[
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "1f4f95b3",
+"ts": "2026-10-07T13:33:59Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-07T13-18-48-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 2 of 43 entries · freight blocks 3 · rows are an INDEX, not the text",
+"98 · BLOCKED-ON: · 290 chars · BLOCKED-ON: Pulse \"The L4 probe reproduces the canary-history miss\" (andromeda-pulse `an…",
+"98 · CONTEXT: · 909 chars · CONTEXT: founder ruling 2026-10-07 11:49 local (his own pick of the option titled \"reproduc…",
+"98 · CARRY: · 281 chars · CARRY: architecture §Occupied Resources stands at its byte threshold — 38115 of 38115 B, `scr…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "1f4f95b3",
+"ts": "2026-10-07T13:34:26Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-07T13-18-48-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 2 of 43 entries · freight blocks 5 · rows are an INDEX, not the text",
+"98 · BLOCKED-ON: · 290 chars · BLOCKED-ON: Pulse \"The L4 probe reproduces the canary-history miss\" (andromeda-pulse `an…",
+"98 · CONTEXT: · 909 chars · CONTEXT: founder ruling 2026-10-07 11:49 local (his own pick of the option titled \"reproduc…",
+"98 · CARRY: · 437 chars · CARRY: architecture §Occupied Resources stands at its byte threshold — 38114 of 38115 B, and …",
+"98 · CARRY: · 357 chars · CARRY: the 2026-10-07 capture run (the fifth series' Pulse, prompt and design; a capture, no …",
+"98 · CARRY: · 574 chars · CARRY: open question for the founder before this series is pre-registered — should the rank-1…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

@@ -1,0 +1,13 @@
+CLAUDE.md ecosystem curated:
+  Tier 1 (CLAUDE.md USER:session-learnings):  none
+  Tier 2 (.claude/rules/*):                   + verification-harness.md: "A drive's bracket read from its frozen self-obs stream ends BEFORE the capture test's own sidecar read-back — count a drive's Pulse lines by the bracket and name what the capture adds after it" (confidence 0.8)
+    Proof: all three drives of the 2026-10-07 capture run — three `mcp.tools.call.error` WARN lines each at 12:35:14.86Z, 12:44:42.89Z and 12:54:06.88Z, against bracket ends 12:35:14.643Z, 12:44:42.662Z and 12:54:06.677Z (the chunk's `evidence/attempt-ledger.md`, the drive table and the tie table). It changed how the ledger records those lines against the fifth series' in-window count. Signals: verified by measurement +0.4 · specific technical detail +0.2 · reached no other durable home +0.2 (dropped from the obs-plan amendment on purpose; not on the route, in no contract section).
+  Tier 3 (.claude/docs/session-learnings.md): none
+  Filters: 2 dup · 1 below threshold · 0 conflict · 0 deferred
+    dup: the Read tool clipping a multi-KB rule line (host-win32.md, Long single-line files — followed, not a recurrence).
+    dup, recurrence-despite-learning: host-win32.md §Transports (documents go through the Write tool) — a `cat` heredoc append to the attempt ledger was attempted and refused by the PreToolUse guard (→ handoff).
+    below threshold (0.0): snapshot only the directive sentences of an operator message that also carries a fact from a source the chunk's boundary forbids — one event, boundary-specific.
+  No-other-home: "A drive's bracket … ends BEFORE the capture test's own sidecar read-back" · "a GREEN audit reading needs the porcelain check too"
+  Extended: T2/security.md: "External supply-chain state DECAYS under a static dependency tree … (2026-08-09)" + "a GREEN reading needs the same check — `cargo audit` exits 0 with an unchanged advisory count over a copy holding pre-id-assignment leftovers" (confidence 0.8)
+    Proof: plan gate `git -C … advisory-db status --porcelain` read red (three untracked `RUSTSEC-0000-0000*.md` files) while `cargo audit` beside it read exit 0 and 1293 advisories; after the three leftovers were removed the audit read exit 0 and 1293 again (the chunk's `evidence/attempt-ledger.md`, The standing gates). Signals: verified by measurement, proven by a real gate red +0.4 · specific technical detail +0.2 · reached no other durable home +0.2 (the security-plan detector noted §Dependency Security does not state it; no body was amended for it).
+  CLAUDE.md size: 138/200 · T1 10.6 KB, 1 over 600 B

@@ -601,3 +601,15 @@ It states the standing rule "a binary is never executed before its signature ver
 **Why:** the 2026-10-07 series committed three more captures of the ratified class, through the unchanged chain: the workspace key (`rm-fifth-series`) occurs 0 times in them, the host-path probe over the chunk's evidence reads 0, and the key rendering reads `verbatim` on all three drives. Pulse's derivation file is unchanged at `f70be92`. The exception's scope and terms did not move, and no boundary widened.
 **Kept:** no handle inventory moved. Architecture registered two Pulse model handles at this wrap, and Conductor reads neither, so §Input Validation gains no row for them.
 **Ref:** .andromeda/runs/2026-10-07T09-46-39-wrap/
+
+## 2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive — the capture run joins the ingest row's dated records and the exception's inventory
+**Section:** §Input Validation, the real-model capture ingest row · §Security Anti-Patterns → Data Protection, the capture exception's inventory
+**Change:**
+- The Boundary cell said "one `evidence/rm-capture-{drive}.txt` per series drive since 2026-09-29"; now "per pre-registered drive since 2026-09-29 (a series' drive, or the 2026-10-07 capture run's)".
+- The launches whose detection fell back to the data dir were the 2026-09-30, 2026-10-01, 2026-10-06 and 2026-10-07 series'; the 2026-10-07 capture run's joins them, on a stated basis: the 2026-10-07 series' `pulse-app` by digest and its launch shape, and a boot line that read the data dir's leaf as the workspace basename.
+- The leaf-rendering measurement names the capture run beside the four series: its leaf occurs 0 times across its three captures, and each `## Previously Seen` suffix prints `<redacted>`.
+- The exception's inventory adds that the capture run's d1, d2 and d3 captures carry one report body each.
+- One dated clause follows the inventory: on that run an operator-owned recording of the model's argv ran beside the leg, outside this repository; no Conductor artifact holds or reads it, the attempt ledger names the operator's three files by sha256 and byte count and copies none, and no fact derived from a recorded prompt entered a committed file.
+**Why:** the run committed three more captures of the ratified class through the unchanged chain (the workspace key `rm-recorded-run` 0 times, the host-path probe 0, rendering `verbatim` on all three), and it is the first leg driven while a recording of the model's input existed on the host. The founder chose the operator's vehicle so that neither the capture exception nor the two-handle entry would move; the clause records that nothing crossed.
+**Kept:** the exception's scope and terms, the scrub chain, the `capture_paths` guards and every handle row are unchanged. §Dependency Security is unchanged: that `cargo audit` reads green over an advisory copy holding fetch residue is recorded in the chunk's report, not in a body.
+**Ref:** .andromeda/runs/2026-10-07T13-18-48-wrap/

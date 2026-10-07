@@ -1,0 +1,115 @@
+[
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "b56ded6b",
+"ts": "2026-10-07T13:29:34Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-07T13-18-48-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-07T13-18-48-wrap",
+"--marker",
+"2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"baseline 69877645 (pre-CI parent — the oldest of 1 pre-CI commit(s), 15fab570)",
+"pre-stated · new 0 · standing 4 · leaf 2 · curation 0 · base 0 · control architecture.md:70 (prose)",
+"only-as · new 0 · standing 4 · leaf 0 · curation 0 · base 0 · control architecture.md:70 (prose)",
+"chunk-ptr · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:260 (prose)",
+"series-0710 · new 0 · standing 4 · leaf 1 · curation 0 · base 0 · control security-plan.md:121 (prose)",
+"series-enum · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:184 (prose)",
+"per-series · new 0 · standing 1 · leaf 1 · curation 0 · base 1 · control security-plan.md:121 (prose)",
+"dated-sect · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:260 (prose)",
+".andromeda/architecture.md:70 pre-stated standing edited @c3290/10002 …en only as the pre-stated series its posture con…",
+".andromeda/test-plan.md:124 pre-stated standing edited @c1894/3657 …ven only as the pre-stated series of `contracts/pul…",
+".andromeda/test-plan.md:260 pre-stated standing edited @c394/6665 …iven only as the pre-stated series of `contracts/pul…",
+".andromeda/test-plan.md:391 pre-stated standing edited @c634/6033 …iven only as the pre-stated series of `contracts/pul…",
+".claude/docs/commands.md:12 pre-stated leaf … the posture contract's pre-stated series); an unknown selector exits 2. S…",
+".claude/docs/tests-summary.md:22 pre-stated leaf @c975/2255 …posture contract's pre-stated series and graded at the har…",
+".andromeda/architecture.md:70 only-as standing edited @c3271/10002 … leg now SHIPS, driven only as the pre-stated serie…",
+".andromeda/test-plan.md:124 only-as standing edited @c1875/3657 …ed capture poll, driven only as the pre-stated series …",
+".andromeda/test-plan.md:260 only-as standing edited @c375/6665 …; operator-gated, driven only as the pre-stated series …",
+".andromeda/test-plan.md:391 only-as standing edited @c615/6033 …er `a11y:driven`: driven only as the pre-stated series …",
+".andromeda/security-plan.md:121 series-0710 standing edited mixed ×4 @c4053,4115/5736 …10-06 and 2026-10-07 series' did…",
+".andromeda/security-plan.md:121 series-0710 @c+4629,4881/5736",
+".andromeda/security-plan.md:338 series-0710 standing edited @c1382/3778 …ach; so do the 2026-10-07 series' d1, d2 and d…",
+".andromeda/test-plan.md:260 series-0710 standing edited mixed ×3 @c5166,5955,6383/6665 …md`). The 2026-10-07 series (th…",
+".andromeda/obs-plan.md:221 series-0710 standing edited @c2077/3025 …edger.md`). The 2026-10-07 series (Pulse `f70be92`;…",
+".claude/docs/tests-summary.md:22 series-0710 leaf @c2037/2255 …fied`, as did the 2026-10-07 series (Pulse `f70be92`, pr…",
+".andromeda/security-plan.md:121 series-enum standing edited ×2 @c4026,4602/5736 …2026-09-30, 2026-10-01, 2026-10-06 and…",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:15 per-series standing @c1832/6321 … no counted d…",
+".andromeda/playbook.md:316 per-series base ×2 …eries list, the latest per-series Pulse pin), security-plan's capture-in…",
+".claude/docs/security-summary.md:11 per-series leaf @c2190/3052 …ure-{drive}.txt` per series drive since 2026-09-29). T…",
+"pre-stated · new 0 · standing 4 · leaf 2 · curation 0 · base 0 · control architecture.md:70 (prose)",
+"only-as · new 0 · standing 4 · leaf 0 · curation 0 · base 0 · control architecture.md:70 (prose)",
+"chunk-ptr · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:260 (prose)",
+"series-0710 · new 0 · standing 4 · leaf 1 · curation 0 · base 0 · control security-plan.md:121 (prose)",
+"series-enum · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:184 (prose)",
+"per-series · new 0 · standing 1 · leaf 1 · curation 0 · base 1 · control security-plan.md:121 (prose)",
+"dated-sect · 0 rows (control fired) — a statement about this pattern, not the masters · control test-plan.md:260 (prose)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "69877645c135265378358bcbb5a84de2111c2199",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), 15fab570",
+"counts": {
+"pre-stated": {
+"new": 0,
+"standing": 4,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"only-as": {
+"new": 0,
+"standing": 4,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"chunk-ptr": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"series-0710": {
+"new": 0,
+"standing": 4,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"series-enum": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"per-series": {
+"new": 0,
+"standing": 1,
+"leaf": 1,
+"curation": 0,
+"base": 1
+},
+"dated-sect": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]

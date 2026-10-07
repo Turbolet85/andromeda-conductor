@@ -1,0 +1,29 @@
+# Cascade step 2 — the pattern set of this pass, derived from every amendment before the first sweep.
+
+[[pattern]]
+id = "pre-stated"
+fixed = 'pre-stated series'
+
+[[pattern]]
+id = "only-as"
+regex = 'driven only as|only as the pre-'
+
+[[pattern]]
+id = "chunk-ptr"
+fixed = "the 2026-10-07 chunk"
+
+[[pattern]]
+id = "series-0710"
+fixed = '2026-10-07 series'
+
+[[pattern]]
+id = "series-enum"
+regex = '2026-10-01, 2026-10-06'
+
+[[pattern]]
+id = "per-series"
+regex = 'per series drive|per-series|counted drive of the series'
+
+[[pattern]]
+id = "dated-sect"
+fixed = 'dated sections'

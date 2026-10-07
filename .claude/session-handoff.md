@@ -1,59 +1,58 @@
 # Session Handoff
 
-**Last Updated:** 2026-10-07T11:51Z
+**Last Updated:** 2026-10-07T13:34Z
 **Branch:** `build/conductor-0.3.0` · 0 ahead of `origin/build/conductor-0.3.0` as read at this wrap's Setup (HEAD
-`3afe4f6`, session 182's commit, pushed); this wrap's commit lands on top and is pushed.
+`15fab57`, the operator pre-CI commit, pushed); this wrap's commit lands on top and is pushed.
 **Status:** clean
-**Last Commit:** no chunk wrapped — `chore(route): operator-requested adaptation — 0-pending wrap` (session 183).
-Last chunk commit: `b55f346`, the fifth series' wrap.
+**Last Commit:** `2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive` — wrap (session 184).
 
 ## Position
-- **Done (last chunk):** `2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09` — `v3-09` NOT MET, 2 of 3
-  (d1, d2 `Identified`; d3 `NotIdentified`) at Pulse `f70be92`, prompt `v2.6`. Recorded, never replaced.
+- **Done:** `2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive` — a capture run, no
+  `v3-09` verdict. Three drives in one sitting at Pulse `f70be92`, prompt `v2.6`, the operator's recording
+  pass-through as the model binary; d1, d2, d3 read `Identified` as observations. No drive missed, so the d3
+  position stands at 2 misses of 3 live runs, a rate. CI#37625765074 green on `15fab57`.
 - **Next, `### Epoch 5b — Version close`, in order:**
-  1. `working-route.md:96` "A capture run records the prompt the model received in each drive" — minted at this
-     wrap. **No launch, and no plan that fixes the vehicle, before the founder's own word on the vehicle** (its first
-     `CARRY:`). The GPU slot is the overseer's go.
-  2. `:98` a sixth `v3-09` series — BLOCKED-ON Pulse "The L4 probe reproduces the canary-history miss"; standing.
-  3. `:100` "Version close on measured evidence".
+  1. `working-route.md:98` a sixth `v3-09` series — BLOCKED-ON Pulse "The L4 probe reproduces the canary-history
+     miss"; re-read at this wrap: Pulse's record still `pending` at `48714f0`. Standing.
+  2. `:100` "Version close on measured evidence".
 
 ## Work done
-- A 0-pending wrap: the pc overseer's route adaptation (relay `conductor-wrap-capture-2026-10-07.md`). One entry
-  inserted ahead of the sixth series; the sixth series' line moved `:96` → `:98` byte-identical. No source, master,
-  contract or matrix write.
-- The relay's facts were re-derived in the Pulse repo and hold; the table is in the adaptation record.
+- The contract gained `## The 2026-10-07 capture run` (add-only, digest fixed before d1); the harvest gained the
+  run's module, three pins and six tests, no verdict test; the ledger carries each drive's bracket and stamps.
+- Operator pass on the overseer's word: hygiene clean, pre-CI commit `15fab57`, guarded push, CI green.
 
 ## Drift resolved
-- none — this path runs no report and no fan-out. One escalation, resolved with the overseer (below). Record:
-  `.andromeda/runs/2026-10-07T11-44-55-wrap/adaptation-record.md`.
+- 14 proposals from four detectors (architecture 2, security-plan 5, test-plan 5, obs-plan 2); 13 applied as 11
+  body edits, 1 rejected, 0 escalations. Three leaves re-derived (`commands.md`, `tests-summary.md`,
+  `security-summary.md`). Record: `.andromeda/runs/2026-10-07T13-18-48-wrap/fanout-results.md`.
+- The "driven only as the pre-stated series" rule (architecture `:70`, test-plan §2, §6, §9) was KEPT, with the
+  2026-10-07 capture run named as its one dated, verdict-less record. No class of capture runs was minted.
 
 ## Notes
 - **Last failed command:** none open.
-- **The capture's vehicle is OPEN.** The founder's verbatim 13:13 word («единственный вариант переделать так чтоб
-  билдер сам смог прочитать дайджест») covers the builder reading the digest, not how. The overseer agreed at this
-  wrap that `.andromeda/security-plan.md:338` and `.andromeda/architecture.md:204` both bind and that a delegate
-  cannot ratify a widening, and is asking the founder between two vehicles: (A) the recording pass-through is the
-  operator's (operator env file, captures in the operator's folder; Conductor neither sets nor reads the handle,
-  the leg discloses the posture); (B) a Conductor leg feature, both clauses amended on his word.
-- **Overseer-provisional on that entry:** it is a capture, never a `v3-09` verdict; captured prompts stay on this
-  host, committed evidence is derived facts only. The founder's later word supersedes either.
-- **Pulse today:** its reproduction reading read not reproduced (199 of 200 `identifies` = `both`, 10 shapes × 20);
-  the chunk is `pending` and uncommitted there, no remedy exists. Pulse's working tree differs from `f70be92` in
-  `pulse-app/examples/l4_decision_probe.rs`, so the capture builds from the sha, not the tree.
-- **`v3-09` matrix status:** `planned`, un-claimed. The capture does not claim it.
-- **Architecture §Occupied Resources: 38115 B**, re-measured (`scripts/arch-registry-check.py measure --file
-  .andromeda/architecture.md`; the bare `measure` form exits 2). Vehicle (B) would edit `:204` inside it.
+- **Open question for the founder, before the sixth series is pre-registered** (a `CARRY:` on `:98`): d2's first
+  hypothesis quotes `scope_id=conductor` and still places the storm in `conductor-canary`; the rank-1 rule grades
+  it `Identified`. Should the rule reject that case? No rule changed at this wrap (the overseer's directive).
+- **The overseer's own reading of the operator's capture folder is in no committed file** — the boundary of this
+  chunk. Input I10 holds the operator-pass directive as an excerpt for that reason.
+- **Architecture registries after this wrap:** §Occupied Resources 38114 B, §Established Decisions 38068 B, of
+  38115 B (`scripts/arch-registry-check.py measure --file .andromeda/architecture.md`). The posture-contract
+  entry now names record kinds; the series dates live in the sidecar.
+- **Advisory-db:** three pre-id-assignment leftovers were removed from the cargo home's copy at implement; the
+  copy read clean and at the remote's head afterwards.
+- **No raw fan-out twins** for the three empty detector returns: each verbatim return carried a home-rooted path
+  (the prompts named documents by absolute path). Their stripped substance is in `fanout-results.md`.
+- **The data dir `rm-recorded-run`** stays under the cache dir's `pulse-legs`, beside the two earlier ones.
 - **Founder ruling 2026-10-07 11:49** (carried): reproduce, then fix, then a sixth series.
 - **Surfaced, no owner yet (carried):** a11y-plan's reproduced envelope schema types `verdict` with no null arm,
   while every real-model envelope reads `verdict` null.
-- **Left as directed (carried):** the 2026-08-22 Tier-1 bullet (5078 B, over the cap) and
-  `.claude/rules/host-win32.md` — the pipeline overseer's door (PC35). **Curation conflict (carried):** that entry
-  opens "This host is Windows-only"; the dev host is Linux. The operator's to re-word.
+- **Left as directed (carried):** the 2026-08-22 Tier-1 bullet (over the cap) and `.claude/rules/host-win32.md` —
+  the pipeline overseer's door (PC35). **Curation conflict (carried):** that entry opens "This host is
+  Windows-only"; the dev host is Linux. The operator's to re-word.
 - **Host:** Linux dev host (Omarchy); `grep` is ugrep. Run the harness as `bash scripts/agent-run.sh`.
-- **Curation this wrap:** one candidate, rejected at exactly 0.6 (Filter 4); no tier write.
-- **Deferred learnings (carried from the fifth series' wrap):**
-  - recurrence-despite-learning: CLAUDE.md 2026-08-21 (verify the artifact, not the exit code) — an anchored Edit
-    dropped a heading from the attempt ledger and reported success; the pre-CI commit carried it until that wrap.
-
-## Session End Status
-Completed normally at 2026-10-07 14:23:49
+- **Curation this wrap:** T2 1 (`verification-harness.md`: a drive's bracket ends before the capture's own
+  read-back) · extended T2/`security.md` (a green audit reading needs the porcelain check too).
+- **Deferred learnings:**
+  - recurrence-despite-learning (carried): CLAUDE.md 2026-08-21 (verify the artifact, not the exit code).
+  - recurrence-despite-learning: `host-win32.md` §Transports — a `cat` heredoc append to a committed document
+    was attempted at implement; the PreToolUse guard refused it.
