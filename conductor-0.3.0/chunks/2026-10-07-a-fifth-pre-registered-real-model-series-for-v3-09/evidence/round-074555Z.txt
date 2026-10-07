@@ -1,0 +1,49 @@
+  1 probe       not run — excluded · git -C "$HOME/dev/projects/andromeda-pulse" merge-base --i… (84 chars)
+  2 probe       not run — excluded · git -C "$HOME/dev/projects/andromeda-pulse" rev-list --cou… (74 chars)
+  3 probe       not run — excluded · git -C "$HOME/dev/projects/andromeda-pulse" status --porce… (104 chars)
+  4 probe       not run — excluded · git -C "$HOME/dev/projects/andromeda-pulse" rev-parse HEAD
+  5 probe       not run — excluded · (cd "$HOME/dev/projects/andromeda-pulse/target/release" &&… (397 chars)
+  6 build       not run — excluded · (cd "$HOME/dev/projects/andromeda-pulse" && . "$HOME/dev/p… (138 chars)
+  7 build       not run — excluded · (cd "$HOME/dev/projects/andromeda-pulse" && . "$HOME/dev/p… (187 chars)
+  8 probe       not run — excluded · (cd "$HOME/dev/projects/andromeda-pulse/target/release" &&… (271 chars)
+  9 probe       not run — excluded · (cd "$HOME/dev/projects/andromeda-pulse/target/release" &&… (397 chars)
+ 10 probe       not run — excluded · test -f "$ANDROMEDA_PULSE_MODEL_PATH" && test -x "$ANDROME… (115 chars)
+ 11 probe       not run — excluded · sha256sum "$ANDROMEDA_PULSE_MODEL_PATH" | cut -d" " -f1
+ 12 probe       not run — excluded · k=$(grep -oE '[0-9]+\.[0-9]+' /proc/driver/nvidia/version … (241 chars)
+ 13 probe       not run — excluded · ls -1 "$HOME/.cache/pulse-legs" 2>/dev/null; test ! -e "$H… (118 chars)
+ 14 probe       green · exit 0 · 0.03s · 236 B → 14.log · ps -eo pid=,ppid=,etimes=,comm= | grep -E 'pulse-app|andro… (131 chars)
+ 15 probe       green · exit 0 · 0.18s · 829 B → 15.log · PATH="$HOME/dev/projects/andromeda-pulse/target/release:$P… (157 chars)
+ 16 e2e         green · exit 0 · 362.08s · 36638 B → 16.log · PATH="$HOME/dev/projects/andromeda-pulse/target/release:$P… (326 chars)
+ 17 probe       not run — excluded · sleep 180
+ 18 probe       not run — excluded · ps -eo pid=,ppid=,etimes=,comm= | grep -E 'pulse-app|andro… (131 chars)
+ 19 probe       not run — excluded · PATH="$HOME/dev/projects/andromeda-pulse/target/release:$P… (157 chars)
+ 20 e2e         not run — excluded · PATH="$HOME/dev/projects/andromeda-pulse/target/release:$P… (326 chars)
+ 21 probe       not run — excluded · sleep 180
+ 22 probe       not run — excluded · ps -eo pid=,ppid=,etimes=,comm= | grep -E 'pulse-app|andro… (131 chars)
+ 23 probe       not run — excluded · PATH="$HOME/dev/projects/andromeda-pulse/target/release:$P… (157 chars)
+ 24 e2e         not run — excluded · PATH="$HOME/dev/projects/andromeda-pulse/target/release:$P… (326 chars)
+ 25 probe       not run — excluded · ps -eo pid=,ppid=,etimes=,comm= | grep -E 'pulse-app|andro… (131 chars)
+ 26 unit        not run — excluded · cargo nextest run -p conductor-run --test real_model_harve… (73 chars)
+ 27 unit        not run — excluded · cargo test -p conductor-run
+ 28 unit        not run — excluded · cargo test -p conductor-tauri
+ 29 unit        not run — excluded · cargo nextest run -p conductor-run --test capture_paths_gu… (74 chars)
+ 30 unit        not run — excluded · bash scripts/agent-run.sh run
+ 31 lint        not run — excluded · cargo fmt --all --check
+ 32 probe       not run — excluded · grep -c "^name = " Cargo.lock
+ 33 probe       not run — excluded · diff <(git show 29adafa:crates/conductor-run/tests/real_mo… (267 chars)
+ 34 probe       not run — excluded · git diff --numstat 29adafa -- contracts/pulse-real-model-l… (104 chars)
+ 35 probe       not run — excluded · grep -oE '(ANDROMEDA|CONDUCTOR)_[A-Z0-9_]+' contracts/puls… (103 chars)
+ 36 probe       not run — excluded · git diff --numstat 29adafa -- crates/conductor-verify/ cra… (383 chars)
+ 37 probe       not run — excluded · grep -rl --include='*.rs' 'andromeda:walks-tree' crates | … (63 chars)
+ 38 probe       not run — excluded · git diff --numstat 29adafa -- crates/conductor-tauri/src/c… (95 chars)
+ 39 probe       not run — excluded · git diff --numstat 29adafa -- conductor-0.3.0/chunks/2026-… (437 chars)
+ 40 probe       not run — excluded · git -C "${CARGO_HOME:-$HOME/.cargo}/advisory-db" status --… (67 chars)
+ 41 probe       not run — excluded · cargo audit
+ 42 probe       not run — excluded · cargo deny check advisories bans licenses sources
+ 43 probe       not run — excluded · ls conductor-0.3.0/chunks/2026-10-07-a-fifth-pre-registere… (327 chars)
+ 44 probe       not run — excluded · ls conductor-0.3.0/chunks/2026-10-07-a-fifth-pre-registere… (272 chars)
+ 45 smoke       not run — excluded · bash scripts/agent-run.sh status <id>
+ 46 probe       not run — excluded · python -X utf8 "$HOME"/.claude/skills/andromeda-tools/scri… (77 chars)
+ 47 probe       not run — excluded · git diff --quiet && git diff --cached --quiet && git push … (112 chars)
+ 48 probe       not run — excluded · python -X utf8 "$HOME"/.claude/skills/andromeda-tools/scri… (101 chars)
+round: COMPLETE · legs fired 1/1 · entries 48 · green 3 · red 0 · recorded 0 · timeout 0 · indeterminate 0 · not-run 45

@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "1f4f95b3",
+"ts": "2026-10-07T07:11:29Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+"/home/turbolet/dev/projects/conductor",
+"--chunk",
+"2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+"--expect-prefix",
+"A fifth pre-registered real-model series for `v3-09`",
+"--record-file",
+"/home/turbolet/dev/projects/conductor/.andromeda/runs/2026-10-07T07-09-15-phase/master-record.txt",
+"--run-dir",
+"/home/turbolet/dev/projects/conductor/.andromeda/runs/2026-10-07T07-09-15-phase"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:94 - [2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09]",
+"record master-route.md:175 - appended under `## conductor-0.3.0`",
+"promoted 2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09 - working-route:94 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+"/home/turbolet/dev/projects/conductor/conductor-0.3.0/working-route.md",
+"/home/turbolet/dev/projects/conductor/.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+}
+]

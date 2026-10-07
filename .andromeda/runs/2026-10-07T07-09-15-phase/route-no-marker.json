@@ -1,0 +1,28 @@
+[
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "1f4f95b3",
+"ts": "2026-10-07T07:10:21Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+"/home/turbolet/dev/projects/conductor",
+"--run-dir",
+"/home/turbolet/dev/projects/conductor/.andromeda/runs/2026-10-07T07-09-15-phase"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 2 of 41 entries · freight blocks 3 · rows are an INDEX, not the text",
+"94 · BLOCKED-ON: · 193 chars · BLOCKED-ON: Pulse \"the L4 rank-1 hypothesis names the triggering cue's service\" (the ove…",
+"94 · CONTEXT: · 816 chars · CONTEXT: founder ruling 2026-10-06 (his own word, live, relayed by the overseer; inputs I23…",
+"94 · CARRY: · 311 chars · CARRY: the tenth tree-walking test — the inline test in `crates/conductor-tauri/src/commands.…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

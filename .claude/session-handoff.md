@@ -47,3 +47,6 @@
 - **Deferred learnings:**
   - recurrence-despite-learning: host-win32.md 2026-09-08 (the Bash cwd persists) — a `cd` at the head of one probe
     moved the session cwd again (sixth consecutive session).
+
+## Session End Status
+Completed normally at 2026-10-07 09:37:44

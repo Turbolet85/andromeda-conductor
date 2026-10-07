@@ -1,0 +1,3 @@
+Received after the implement report, verbatim:
+
+"overseer (founder-delegated): implement verified in the captures: d1 and d2 name conductor with scope_id=conductor, d3 reads Active Retry Storm Detected on conductor-canary; NOT MET stands. Measured by me across BOTH series: the miss is the drive whose creating digest retrieved 6 corpus rows (d3 both times); the drives with 1 and 3 rows passed, 4 of 4. Record that table in the report as a measured covariate, not a cause. Go: the operator pass as planned: hygiene (46), the pre-CI commit and guarded push (47), the CI read (48); one runner flake you may re-run once. Report the verdict and stop before the wrap; the founder rules on v3-09 meanwhile."

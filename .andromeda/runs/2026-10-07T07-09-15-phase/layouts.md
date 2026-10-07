@@ -1,0 +1,35 @@
+# layouts extract
+
+## Relevance
+partial — the chunk creates and modifies NO surface element on either surface; it only CONSUMES the cli surface's shipped `--live real-model` path (and its leading `conductor preconditions --for` probe) three times, so the cli surface's shape rules bind how the drives are invoked and read. The desktop-webview surface is untouched (item 8 adds a test-source token in `conductor-tauri`, no rendered element).
+
+## Constraints
+- The series' three drives go through the existing selector form: layout-templates requires `--live real-model` to stay a third-token selector of `--live` running the ONE leg `real-model-interpretation` — never a sixth harness command and never a new stage flag (per layout-templates §Surface: cli → Primary screens (commands), the `scripts/agent-run.{sh,ps1}` entry).
+- The leg leads with the non-priming probe under the real-model posture, and an unmet subject REFUSES at exit 1 with one host-path-free `[PRECONDITION]` line per unsatisfied subject and no leg fired (per layout-templates §Surface: cli → Primary screens (commands), the `scripts/agent-run.{sh,ps1}` entry). How the series counts a refused invocation is the posture contract's question, not this plan's.
+- Under `--for` a real-model scenario the L4 handle is graded for ABSENCE (either side's truthiness rule declaring it makes the subject unmet), and `--for` takes a scenario NAME — a `P-NNN`-shaped value is a usage error at exit 2 (per layout-templates §Surface: cli → Primary screens (commands), the `conductor preconditions` entry). The chunk's pre-leg env check must be read against that posture, not the deterministic default.
+- `[PRECONDITION]` has two reachable arms (per-unmet-subject lines, or the single satisfied line) and mints no `Verdict`, no `ReportState` and no per-P-ID row (per layout-templates §Surface: cli → Primary screens (commands), the `conductor preconditions` entry). A ledger entry recording the probe must not key on the bracket label as failure-only.
+- The per-P-ID lamp set is closed at six and the run-level qualifier set is `[ENVIRONMENT-SUSPECT]` + `[PRECONDITION]` (per layout-templates §Surface: cli → Component — Primary content block 2 (verdict / report-state lines)). The series' grade vocabulary (`Identified` / `NotIdentified`) therefore lives in the harvest test and the evidence tree, never as a new bracket label or lamp on cli stdout.
+- The headless agent-driven path is never gated on a prompt (per layout-templates §Surface: cli → IA notes, Headless invariant). The overseer's go before the launch is asked in conversation, outside the harness — it must not become an interactive gate inside `scripts/agent-run.sh`.
+- Error output goes to stderr as `error:` / `hint:` lines sanitized of absolute host paths (per layout-templates §Surface: cli → Component — Footer / terminator + error output). The chunk's fresh home-rooted data dir is exactly such a path; whether the harness already keeps it out of every printed line on this Linux host is research's question.
+
+## Patterns to follow
+- Refusal vs skip, two classes: an incomplete live-Pulse environment refuses (exit 1), a missing host-tool handle skips its own leg (exit 0) (per layout-templates §Surface: cli → Primary screens (commands), the `scripts/agent-run.{sh,ps1}` entry) — read a drive's non-run by which class produced it.
+- Unknown `--live` selector prints the usage line and exits 2 before any probe, in both shells (per layout-templates §Surface: cli → Primary screens (commands), the `scripts/agent-run.{sh,ps1}` entry) — a mistyped drive invocation is distinguishable from a refusal by its exit and its line.
+- Pipe discipline: raw artifact data on stdout, human messages on stderr, ANSI auto-stripped when piped (per layout-templates §Surface: cli → IA notes, Pipe discipline) — capture a drive's harness output with the two streams kept apart.
+- Extra per-check grain is carried by the indented plain-text detail line under a verdict line in `runs/<run_id>.md`, with no new column, label or ANSI entry (per layout-templates §Surface: cli → Component — Primary content block 2 (verdict / report-state lines), Per-check detail region) — the precedent if any drive detail is ever wanted in a report rather than in `evidence/`.
+
+## Anti-patterns to avoid
+- Adding a command, stage flag or further selector to the harness shells for the fifth series — the selector set is fixed (per layout-templates §Surface: cli → Primary screens (commands), the `scripts/agent-run.{sh,ps1}` entry).
+- Adding a column, bracket label or state to cli stdout to surface the series grade — output structure is stable across versions because downstream agents parse it (per layout-templates §Surface: cli → IA notes, Command model).
+- Reading a `[PRECONDITION]` line as a verdict, or its presence alone as a refusal (per layout-templates §Surface: cli → Component — Primary content block 2 (verdict / report-state lines)).
+
+## Contract bindings
+- layouts ↔ tests: layout-templates states the two harness shells ship at identical semantics and names test-plan §3 as that rule's owner (per layout-templates §Surface: cli → Primary screens (commands), the `scripts/agent-run.{sh,ps1}` entry); the series runs the `.sh` leg on the Linux host. What test-plan §3 itself says is the tests extractor's to state.
+- layouts ↔ security: layout-templates defers error-output sanitization to the security plan without a section anchor (per layout-templates §Surface: cli → Component — Footer / terminator + error output); the host-path rule's content is the security extractor's to state.
+- layouts ↔ the posture contract: layout-templates describes the `--for` probe grading handles under the scenario's declared `l4_posture` (per layout-templates §Surface: cli → Primary screens (commands), the `conductor preconditions` entry); which handles the posture contract names, and whether `ANDROMEDA_PULSE_MODEL_PATH` / `ANDROMEDA_PULSE_LLAMA_CUDA_BIN_PATH` are among the probe's subjects, is NOT stated in this plan — research's question.
+
+## Acceptance criteria contributions
+- (layouts) Every drive is invoked as `bash scripts/agent-run.sh run --live real-model`, and the chunk's diff against base `29adafa` adds no command, stage flag or selector to `scripts/agent-run.{sh,ps1}` (per layout-templates §Surface: cli → Primary screens (commands)).
+- (layouts) The chunk's diff adds no bracket label, table column, lamp state or ANSI entry to cli stdout; the per-P-ID label set stays the six (per layout-templates §Surface: cli → Component — Primary content block 2 (verdict / report-state lines)).
+- (layouts) No interactive prompt is introduced on the harness path; the go-before-launch is recorded as an operator exchange, not a harness gate (per layout-templates §Surface: cli → IA notes).
+- (layouts) Any `[PRECONDITION]` or `error:` / `hint:` line quoted into the chunk's attempt ledger or report carries no absolute host path (per layout-templates §Surface: cli → Component — Footer / terminator + error output).

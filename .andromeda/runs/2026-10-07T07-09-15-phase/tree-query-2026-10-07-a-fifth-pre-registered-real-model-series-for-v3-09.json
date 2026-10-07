@@ -1,0 +1,136 @@
+[
+{
+"sql": "SELECT caller_name, callee_name, file, line FROM calls WHERE callee_name IN ('v3_09_met','pre_registered','fixture_scenarios_dir','capture_2026_10_06') AND callee_kind = 'fn' ORDER BY callee_name, file, line",
+"rows": 21,
+"result": [
+{
+"caller_name": "the_2026_10_06_envelopes_carry_the_eleven_keys",
+"callee_name": "capture_2026_10_06",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_10_06.rs",
+"line": 93
+},
+{
+"caller_name": "crate",
+"callee_name": "capture_2026_10_06",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 64
+},
+{
+"caller_name": "graded_captures",
+"callee_name": "capture_2026_10_06",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1314
+},
+{
+"caller_name": "the_committed_scenarios_fixture_stays_loadable",
+"callee_name": "fixture_scenarios_dir",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 559
+},
+{
+"caller_name": "resolve_selection_loads_the_whole_suite_for_the_sentinel",
+"callee_name": "fixture_scenarios_dir",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 631
+},
+{
+"caller_name": "resolve_selection_loads_exactly_one_for_a_named_scenario",
+"callee_name": "fixture_scenarios_dir",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 648
+},
+{
+"caller_name": "load_all_reads_every_committed_fixture_scenario",
+"callee_name": "fixture_scenarios_dir",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 666
+},
+{
+"caller_name": "series_2026_09_30",
+"callee_name": "pre_registered",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_09_30.rs",
+"line": 6
+},
+{
+"caller_name": "the_2026_09_30_series_rule_was_fixed_before_d1",
+"callee_name": "pre_registered",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_09_30.rs",
+"line": 22
+},
+{
+"caller_name": "series_2026_10_01",
+"callee_name": "pre_registered",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_10_01.rs",
+"line": 5
+},
+{
+"caller_name": "the_2026_10_01_series_rule_was_fixed_before_d1",
+"callee_name": "pre_registered",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_10_01.rs",
+"line": 24
+},
+{
+"caller_name": "series_2026_10_06",
+"callee_name": "pre_registered",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_10_06.rs",
+"line": 5
+},
+{
+"caller_name": "the_2026_10_06_series_rule_was_fixed_before_d1",
+"callee_name": "pre_registered",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_10_06.rs",
+"line": 24
+},
+{
+"caller_name": "series_2026_09_29",
+"callee_name": "v3_09_met",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_09_29.rs",
+"line": 6
+},
+{
+"caller_name": "v3_09_is_not_met_by_the_series",
+"callee_name": "v3_09_met",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_09_29.rs",
+"line": 123
+},
+{
+"caller_name": "series_2026_09_30",
+"callee_name": "v3_09_met",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_09_30.rs",
+"line": 6
+},
+{
+"caller_name": "v3_09_is_not_met_by_the_2026_09_30_series",
+"callee_name": "v3_09_met",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_09_30.rs",
+"line": 118
+},
+{
+"caller_name": "series_2026_10_01",
+"callee_name": "v3_09_met",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_10_01.rs",
+"line": 5
+},
+{
+"caller_name": "v3_09_is_not_met_by_the_2026_10_01_series",
+"callee_name": "v3_09_met",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_10_01.rs",
+"line": 144
+},
+{
+"caller_name": "series_2026_10_06",
+"callee_name": "v3_09_met",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_10_06.rs",
+"line": 5
+},
+{
+"caller_name": "v3_09_is_not_met_by_the_2026_10_06_series",
+"callee_name": "v3_09_met",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_10_06.rs",
+"line": 130
+}
+],
+"db_state": "regenerated",
+"plane": "rust"
+}
+]

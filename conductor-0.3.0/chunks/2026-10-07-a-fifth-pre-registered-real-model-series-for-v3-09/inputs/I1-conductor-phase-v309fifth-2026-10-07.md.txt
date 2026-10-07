@@ -1,0 +1,51 @@
+# Operator relay: the phase start, Conductor's fifth v3-09 series (2026-10-07)
+
+From the pc overseer (founder-delegated). Facts are `measured 2026-10-07 at Pulse 1a2e509` unless marked `hypothesis:`.
+The overseer's phase directive names the Pulse sha to pin (the wrap commit on top of `1a2e509`; no product file differs
+between them). Re-derive what you rely on.
+
+## 1. The block clears
+
+- Pulse shipped "The L4 first hypothesis names the triggering service" (chunk
+  `2026-10-06-l4-first-hypothesis-names-the-triggering-service`, complete in Pulse's route). CI on its code commit `1a2e509`
+  reads success: `ci#37580684260`, `secret-scan#37580684315`.
+- What shipped: ONE static sentence appended to `TRIGGER_FRAMING_INSTRUCTION`
+  (`crates/interpretation/src/prompt.rs:93`, the sentence at `:101-104`): the first hypothesis must name the cue line's
+  `scope_id` value exactly as written and must not attribute the signal to a service whose name merely contains it.
+- Prompt lineage: `PROMPT_VERSION_PRIMARY` `v2.6`, `PROMPT_VERSION_FALLBACK` `v1.5-fallback`, `PROMPT_VERSION_REFLECTION`
+  `v1.5-reflection` (`crates/interpretation/src/schema.rs:35`, `:44`, `:59`).
+- `crates/triage` did not change since `5f77859`, so the digest and every `assembler.rs` coordinate your contract's
+  2026-10-06 section pins still hold; the trigger line still carries the kind label alone. The model file, the argv and
+  the committed GBNF are unchanged too. `git diff --stat 5f77859 1a2e509 -- crates pulse-app xtask` lists five files:
+  `prompt.rs`, `schema.rs`, `pulse-app/examples/l4_decision_probe.rs`, `pulse-app/tests/unit_inference_runtime.rs`, and
+  `pulse-app/ui/package-lock.json` (three npm advisories fixed at source in a separate chunk).
+
+## 2. What Pulse's own reading does and does not tell you
+
+- Pulse's pre-registered probe reading (240 generations, your `identifies_cause` rule as the grader) read PASS: the shipped
+  arm 40/40 on four ordinary storm shapes and 20/20 on two sibling shapes (`conductor` beside `conductor-canary`, one with
+  earlier canary incidents as corpus rows).
+- **The baseline arm (prompt `v2.5`, what your fourth series ran against) read 38/40 and 20/20 on the same probe.** So the
+  probe did not reproduce the miss your d3 hit, and Pulse's reading does not establish that the sentence fixes it.
+- Consequence for your pre-registration: this series is the ONLY end-to-end reading of the fix. Do not assume a pass, and
+  do not read a pass as proof beyond its three drives. Keep the design and the rule byte-identical to the fourth series.
+
+## 3. Carried into this chunk
+
+- The tenth walker (`crates/conductor-tauri/src/commands.rs`, inline test) takes its `andromeda:walks-tree` mark here
+  (the entry's CARRY).
+- From the fourth series' wrap, unowned until now: architecture's posture-contract entry says the contract names only
+  registered handles, yet `ANDROMEDA_PULSE_MODEL_PATH` and `ANDROMEDA_PULSE_LLAMA_CUDA_BIN_PATH` are absent from
+  architecture. Settle it in this chunk's plan (register them, or correct the clause), as an expected amendment.
+- The binary proof: the fourth series proved `pulse-app` by the grammar rule name `hypotheses-item-statement-kv`. That
+  string does not distinguish a `1a2e509` build from a `5f77859` one. Pick a content proof this change introduces and take
+  a two-sided control on both binaries BEFORE pre-registering it (your own lesson of 2026-10-06): Pulse's
+  `target/release` holds the `5f77859` build today.
+- The pre-leg checks stand as in the fourth series: model env present, model sha256 equals the pinned digest, NVIDIA
+  driver major equals the runtime's, a fresh home-rooted data dir (a new leaf; the fourth series' dir
+  `~/.cache/pulse-legs/rm-trigger-series` stays untouched as evidence).
+
+## 4. The GPU
+
+The founder opened the GPU for today (2026-10-07 07:42 local, his own word). The three drives run in one sitting; ask the
+overseer for the go before the launch as before, and do not start a sitting that would run into the night.

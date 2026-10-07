@@ -527,6 +527,7 @@ mod tests {
         err
     }
 
+    // andromeda:walks-tree — the catalog loader lists and reads every scenario file in the fixture dir.
     /// The committed read-only scenario catalog under `tests/fixtures/`. The parameterised helpers
     /// take `dir` directly and never read the process CWD, so a committed directory is subject
     /// enough — no temp dir, no `unsafe` env mutation.

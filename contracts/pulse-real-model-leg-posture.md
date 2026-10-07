@@ -569,6 +569,121 @@ at night.
 `pulse-report workspace rendering:` witness must read `verbatim` or `absent`; any other reading is recorded beside
 that drive's grade as contamination.
 
+## The 2026-10-07 series
+
+[added 2026-10-07 (2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09, implement, before any drive of
+this series). The 2026-09-29, 2026-09-30, 2026-10-01 and 2026-10-06 records above are unedited. The series keeps
+this name whatever day its drives fire.]
+
+**Provenance.** The founder's ruling this series serves: 2026-10-06, `v3-09` is neither relaxed nor deferred —
+Pulse is fixed, then this series runs. The design below repeats the 2026-10-06 series' design and was ratified by
+the overseer, under founder delegation, at this chunk's plan review on 2026-10-07. It is the second series on the
+Linux dev host.
+
+**Pulse coordinates**, re-pinned for this series to andromeda-pulse committed HEAD `f70be92`
+(`f70be92c2ca13c951330efeffd725e62a484610c`; its code commit is `1a2e509`, and no product file differs between the
+two), read with `git show`, never from its working tree. The earlier sections' coordinates are dated records and
+keep their own pins.
+- **The trigger line**, unchanged. The digest carries a `TRIGGER: ` line under `OVERALL`, rendered from the FIRST
+  cue's cause label (`crates/triage/src/digest/assembler.rs` `render_payload`, `TRIGGER_LINE_PREFIX`;
+  `crates/triage/src/contract.rs` `cue_cause_label`). For a retry-storm cue it reads `TRIGGER: Retry storm` — the
+  cause label alone, with no scope.
+- **The trigger-framing instruction**, appended to every tier's prompt (`crates/interpretation/src/prompt.rs`
+  `TRIGGER_FRAMING_INSTRUCTION`). It keeps the text the 2026-10-06 section quotes and ends with one new sentence:
+  "When the digest carries a TRIGGER line, that line names the signal this output describes: the title, the symptom
+  and the first hypothesis must be about that signal, and the first hypothesis statement must name that signal in
+  the TRIGGER line's own words. Treat any other abnormal metric on the same service as a cause or an effect of that
+  signal, never as a separate first hypothesis. CORPUS MATCHES lines are OTHER incidents, past or still open on
+  another signal, given for context only; never describe one of them as the current signal. When the cue line under
+  ATTENTION CUES carries a scope_id, the first hypothesis statement must name that scope_id value exactly as written
+  there, and must not attribute the signal to anything else, including a service whose name merely contains it."
+- **The cue line.** Under `ATTENTION CUES` a cue that has a scope renders as its kind label, a space, and
+  `scope_id=` followed by the value (`crates/triage/src/digest/assembler.rs` `cue_summary`; the label from
+  `crates/triage/src/cue/classify.rs` `cue_kind_label`). For the scenario's storm it reads
+  `retry_storm scope_id=conductor`.
+- **The grounded title.** `grounded_output` (`pulse-app/src/inference_runtime.rs`) rewrites only the incident's
+  `title`, to the cue's cause label, a colon and the model's own title. `hypotheses` are stored as the model wrote
+  them, so the grounding cannot satisfy the rank-1 rule.
+- **Byte-unchanged from `5f77859`:** everything under `crates/triage`; the report render
+  (`crates/interpretation/src/markdown.rs`); the no-incident outcome, which still logs
+  `interpretation.incident.skipped` with its closed `skip_reason`; the workspace key
+  (`crates/workspace-detector/src/contract.rs` `workspace_key`); the argv (`pulse-app/src/llamacli_inference.rs`
+  `build_llama_cli_args`); and the embedded grammar (`pulse-app/src/l4-output.gbnf`). Between the two commits the
+  product tree moves in five files: `prompt.rs` and `schema.rs` of `crates/interpretation`, one example, one unit
+  test and the UI's package lock.
+
+**What is graded.** The model file `gemma-4-E4B-it-Q4_K_M.gguf`, sha256
+`85a896a047553e842f25297ee5b031d64ff30147d9c4af17b1e4b394cd1fab87` (unchanged from the 2026-10-06 series), under the
+prompt versions `v2.6` (primary), `v1.5-fallback` and `v1.5-reflection` (`crates/interpretation/src/schema.rs`).
+Pulse's own reading of the change graded 240 generations by this contract's rank-1 rule: its shipped arm met its
+bar, and so did its baseline arm on the 2026-10-06 prompt. So that reading does not show the new sentence fixes the
+2026-10-06 `d3` miss, and a pass is not assumed.
+
+**The rule and the stated limit.** The rank-1 rule is byte-identical to the one every prior series recorded: the
+rank-1 statement must name `conductor` as a whole word AND a retry token. Stated limit for this series: both facets
+now reach the model under an instruction. The retry token is on the trigger line and on the cue line, with rank 1
+told to use the trigger's words; `conductor` is on the cue line as its `scope_id` value, with rank 1 told to name
+that value exactly as written and not a service whose name merely contains it. So `Identified` means the shipped
+model followed both instructions over a cue line that carries both facets verbatim. It is not inference of an
+unstated cause. A rank 1 that names the service only inside the canary identity `conductor-canary` grades
+`NotIdentified`, as it did on 2026-10-06. A met series is three drives and is not read as proof beyond them.
+
+**The dir.** ONE fresh data dir, leaf `rm-fifth-series`, under the one-parent convention's `pulse-legs` in the
+user's cache dir, home-rooted on this host as the 2026-10-06 series' dir was. The app is launched from the dir, so
+its leaf reaches the prompt: the leaf carries no digit, no `@`, no vendor prefix, no keyed word and neither word of
+the grading rule. All three drives use it, and no prior series' dir is reused.
+
+**The binaries.** `pulse-app` AND the MCP sidecar are built from a clean `f70be92` tree — the build inputs (`crates`,
+`pulse-app`, `Cargo.toml`, `Cargo.lock`) carry no uncommitted or untracked change — and each is proven before `d1`.
+The proof was measured on both builds, the `5f77859` binaries and then the rebuilt ones, before this section was
+written:
+- `pulse-app` by content, each string counted as one run of bytes in the binary. Present — two strings of the
+  sentence the commit adds: `must name that scope_id value exactly as` reads 0 on the `5f77859` build and 1 on the
+  rebuilt one, and `whose name merely contains it` reads 0 and 1. Absent — the two retired version literals:
+  `v1.4-fallback` reads 1 on the `5f77859` build and 0 on the rebuilt one, and `v1.4-reflection` reads 1 and 0;
+- the sidecar by build provenance: the clean inputs at `f70be92`, its build command at exit 0, and an mtime after
+  `1a2e509`'s commit time. None of the moved text is in that binary — all four strings read 0 on both builds — so
+  its sha256 is not required to move, and it did not: the rebuilt sidecar hashes the same as the `5f77859` one.
+
+Both binaries' digests, before and after, are in the chunk's attempt ledger.
+
+**The drives.** Exactly three identical drives, `d1`, `d2`, `d3`, each the full leg through the existing
+operator-gated arm (`run --live real-model`), with the canary and the capture as committed at this section's
+landing, fired in one sitting.
+
+**The pass condition** is §The drive series (a), unchanged: `v3-09` is met only if at least one drive is GRADED
+(route `ReadBack` with an attributed incident) and every graded drive reads `Identified` under the unchanged rank-1
+rule. A graded `NotIdentified` means not met, is recorded, and is never replaced.
+
+**The canary.** A canary-blocked drive is a measurement, never graded.
+
+**Re-fires.** Only a drive whose canary reads `pipeline-fault` from Pulse's own log (no parse `ok` for its
+cue-bearing digest, or an inference error or skip) may be re-fired, once, uncounted. No other outcome re-fires.
+
+**No fourth drive**, whatever `d1`-`d3` read.
+
+**The quiet windows** are §The drive series (c): at least 150 s after the LAST incident any earlier drive formed,
+and otherwise at least 90 s.
+
+**The launch posture** is §The launch posture, every term: `ANDROMEDA_PULSE_DATA_DIR` names the new dir, the model
+paths are set (`ANDROMEDA_PULSE_MODEL_PATH`, `ANDROMEDA_PULSE_LLAMA_CUDA_BIN_PATH`), deterministic L4 is absent, and
+no bootstrap-window override is set. One launch of the `f70be92` build serves the three drives, from a working
+directory outside this repository. Before `d1` the booted posture is confirmed from Pulse's own log:
+`inference_mode` `real`, the `model_identity` it logged, `app.boot.workspace_key`'s `workspace_root_basename` equal
+to the leaf, and 0 `triage.baseline.bootstrap_window.override` lines. On the overseer's word (2026-10-07) the AGENT
+launches `pulse-app` for this series and stops it after the last drive.
+
+**The slots.** The overseer granted the two Pulse builds, the launch and the model runs on `:4317` for this chunk
+(2026-10-07), and the founder opened the GPU for 2026-10-07; each grant is recorded in the chunk's attempt ledger
+against what it covered. A GPU drive never runs at night.
+
+**Recorded, never graded.** Pulse's `skip_reason` for each digest it did not surface, the `prompt_version` and the
+`model_identity` it logged, and pickup. None is an input to a grade.
+
+**The key rendering.** §The 2026-09-30 series' clause, unchanged: on a graded drive the capture's
+`pulse-report workspace rendering:` witness must read `verbatim` or `absent`; any other reading is recorded beside
+that drive's grade as contamination.
+
 ## The quiet window and serialization
 
 Real-model legs are **serialized**, never merely ordered: each rides its own quiet window, because the SUT
