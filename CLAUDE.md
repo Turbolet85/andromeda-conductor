@@ -108,7 +108,7 @@ On-demand references in `.claude/docs/` (Claude reads when relevant):
 
 Path-scoped rules in `.claude/rules/` (auto-load when matching files touched):
 - `security.md` · `testing.md` · `observability.md` · `a11y.md` · `frontend.md` · `verification-harness.md`
-- `host-win32.md` — Windows/MSYS host recipes (unconditional; serves the host, not the stack)
+- `host-linux.md` — host recipes for the Bash tool on this host (unconditional; serves the host, not the stack)
 
 For complete Andromeda documentation: `/andromeda-help`
 <!-- GENERATED:setup:deeper-topics end -->

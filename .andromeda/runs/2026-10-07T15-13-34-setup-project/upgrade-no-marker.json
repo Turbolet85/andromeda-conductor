@@ -1,0 +1,256 @@
+[
+{
+"tool": "upgrade",
+"v": "1.6",
+"sha8": "814083ff",
+"ts": "2026-10-07T15:23:59Z",
+"argv": [
+"apply",
+"--root",
+".",
+"--id",
+"U04",
+"--sort",
+".andromeda/runs/2026-10-07T15-13-34-setup-project/host-reseed.json",
+"--run-dir",
+".andromeda/runs/2026-10-07T15-13-34-setup-project"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"wrote b32a9ece05a83470dfe32e4fdf37d9af  .claude/backup/host-win32.md.pre-setup-2026-10-07T15-13-34-setup-project",
+"wrote 9e3bb665ae24aed4c72633ac37a8cf90  .andromeda/runs/2026-10-07T15-13-34-setup-project/host-reseed-dropped.md",
+"wrote ecd0eafe4fbb554dcb7ce263fa76c66e  .claude/rules/verification-harness.md",
+"wrote 02860591efcc6044ff687ee53b1dcf88  .claude/docs/session-learnings.md",
+"wrote 8bf9a4d5c75ca4df6d6e25edeeb9b80b  .claude/rules/host-linux.md",
+"removed  .claude/rules/host-win32.md",
+"U04: re-seeded .claude/rules/host-win32.md (rendered for win32) → .claude/rules/host-linux.md · 22851 B → 3490 B every turn",
+"U04: 22 items · 18438 B found on disk where the sort says — keep 3 · learnings 16 · verification-harness.md 1 · drop 2",
+"still naming host-win32.md: 3 line(s) — CLAUDE.md:111 · .claude/rules/testing.md:91 · .claude/rules/verification-harnes…"
+],
+"stderr": null,
+"wrote": [
+"./.claude/backup/host-win32.md.pre-setup-2026-10-07T15-13-34-setup-project",
+".andromeda/runs/2026-10-07T15-13-34-setup-project/host-reseed-dropped.md",
+"./.claude/rules/verification-harness.md",
+"./.claude/docs/session-learnings.md",
+"./.claude/rules/host-linux.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"items": 22,
+"bytes": {
+"all": 18438,
+"keep": 630,
+"drop": 560,
+"moved": 17248
+},
+"sort": [
+{
+"n": 1,
+"lines": [
+65,
+65
+],
+"bytes": 142,
+"to": "keep"
+},
+{
+"n": 2,
+"lines": [
+66,
+77
+],
+"bytes": 1224,
+"to": "learnings"
+},
+{
+"n": 3,
+"lines": [
+78,
+89
+],
+"bytes": 1196,
+"to": "learnings"
+},
+{
+"n": 4,
+"lines": [
+90,
+101
+],
+"bytes": 1204,
+"to": "learnings"
+},
+{
+"n": 5,
+"lines": [
+102,
+114
+],
+"bytes": 1270,
+"to": "learnings"
+},
+{
+"n": 6,
+"lines": [
+115,
+128
+],
+"bytes": 1470,
+"to": "learnings"
+},
+{
+"n": 7,
+"lines": [
+130,
+130
+],
+"bytes": 3568,
+"to": "learnings"
+},
+{
+"n": 8,
+"lines": [
+131,
+131
+],
+"bytes": 926,
+"to": "learnings"
+},
+{
+"n": 9,
+"lines": [
+132,
+132
+],
+"bytes": 1035,
+"to": "learnings"
+},
+{
+"n": 10,
+"lines": [
+133,
+133
+],
+"bytes": 582,
+"to": "learnings"
+},
+{
+"n": 11,
+"lines": [
+134,
+134
+],
+"bytes": 984,
+"to": "learnings"
+},
+{
+"n": 12,
+"lines": [
+135,
+135
+],
+"bytes": 755,
+"to": ".claude/rules/verification-harness.md"
+},
+{
+"n": 13,
+"lines": [
+136,
+136
+],
+"bytes": 1081,
+"to": "learnings"
+},
+{
+"n": 14,
+"lines": [
+137,
+137
+],
+"bytes": 551,
+"to": "learnings"
+},
+{
+"n": 15,
+"lines": [
+138,
+138
+],
+"bytes": 277,
+"to": "keep"
+},
+{
+"n": 16,
+"lines": [
+139,
+139
+],
+"bytes": 369,
+"to": "learnings"
+},
+{
+"n": 17,
+"lines": [
+140,
+140
+],
+"bytes": 211,
+"to": "drop"
+},
+{
+"n": 18,
+"lines": [
+141,
+141
+],
+"bytes": 349,
+"to": "drop"
+},
+{
+"n": 19,
+"lines": [
+142,
+142
+],
+"bytes": 286,
+"to": "learnings"
+},
+{
+"n": 20,
+"lines": [
+143,
+143
+],
+"bytes": 509,
+"to": "learnings"
+},
+{
+"n": 21,
+"lines": [
+144,
+144
+],
+"bytes": 238,
+"to": "learnings"
+},
+{
+"n": 22,
+"lines": [
+145,
+145
+],
+"bytes": 211,
+"to": "keep"
+}
+],
+"still_naming": [
+"CLAUDE.md:111",
+".claude/rules/testing.md:91",
+".claude/rules/verification-harness.md:66"
+]
+}
+}
+]

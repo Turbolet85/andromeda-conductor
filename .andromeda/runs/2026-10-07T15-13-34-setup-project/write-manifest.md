@@ -1,0 +1,12 @@
+35215c25ca55424b9e6387a4df8a15aa  .claude/backup/CLAUDE.md.pre-setup-2026-10-07T15-13-34
+b32a9ece05a83470dfe32e4fdf37d9af  .claude/backup/host-win32.md.pre-setup-2026-10-07T15-13-34-setup-project
+e89ad9b4d94fda119c4056d38d7a7ecc  .andromeda/runs/2026-10-07T15-13-34-setup-project/materialization-plan.md
+5ea6e917a36df757cc62794b2fa86156  .andromeda/runs/2026-10-07T15-13-34-setup-project/host-reseed.json
+3efb43aef5d4a03d1e32c756a153dfa8  .andromeda/runs/2026-10-07T15-13-34-setup-project/host-reseed.md
+9e3bb665ae24aed4c72633ac37a8cf90  .andromeda/runs/2026-10-07T15-13-34-setup-project/host-reseed-dropped.md
+bcbc6aa0ce8fa8f9dbbabebc8a90d124  .andromeda/runs/2026-10-07T15-13-34-setup-project/validation-log.md
+7c84b25037f9537c0bb73183405be32f  .andromeda/runs/2026-10-07T15-13-34-setup-project/removed.md
+ecd0eafe4fbb554dcb7ce263fa76c66e  .claude/rules/verification-harness.md
+02860591efcc6044ff687ee53b1dcf88  .claude/docs/session-learnings.md
+8bf9a4d5c75ca4df6d6e25edeeb9b80b  .claude/rules/host-linux.md
+a359f96b059daddce56ef5b3fd19fd5b  CLAUDE.md
