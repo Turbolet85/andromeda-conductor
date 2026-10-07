@@ -1,0 +1,86 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "3b12f994",
+"ts": "2026-10-07T11:49:39Z",
+"argv": [
+"append",
+"--file",
+"conductor-0.3.0/working-route.md",
+"--payload-file",
+".andromeda/runs/2026-10-07T11-44-55-wrap/route-entry.txt",
+"--lines",
+"2",
+"--after-line",
+"95",
+"--expect-last-prefix",
+"   ↓",
+"--run-dir",
+".andromeda/runs/2026-10-07T11-44-55-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"dry-run · would write working-route.md · lines 98→100 · bytes 11909→16211"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"lines": 98,
+"bytes": 11909,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 100,
+"bytes": 16211
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "3b12f994",
+"ts": "2026-10-07T11:49:47Z",
+"argv": [
+"append",
+"--file",
+"conductor-0.3.0/working-route.md",
+"--payload-file",
+".andromeda/runs/2026-10-07T11-44-55-wrap/route-entry.txt",
+"--lines",
+"2",
+"--after-line",
+"95",
+"--expect-last-prefix",
+"   ↓",
+"--run-dir",
+".andromeda/runs/2026-10-07T11-44-55-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"append working-route.md:+2 at line 96 · lines 98→100 · bytes 11909→16211 · term lf",
+"last line now: Version close on measured evidence — every capability verified or deferred on "
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0/working-route.md"
+],
+"before": {
+"lines": 98,
+"bytes": 11909,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 100,
+"bytes": 16211
+}
+}
+]

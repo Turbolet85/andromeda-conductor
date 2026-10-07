@@ -1,0 +1,195 @@
+[
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "1f4f95b3",
+"ts": "2026-10-07T11:45:06Z",
+"argv": [
+"route.py",
+"cursor",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-07T11-44-55-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"version conductor-0.3.0 · dir present · master master-route.md",
+"version dir conductor-0.3.0/ — at --root, beside .andromeda/, never inside it",
+"records 161 · complete 161 · pending 0 · gated 0",
+"done 2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+"next working-route.md:96 · A sixth pre-registered real-model series for `v3-09` · markerless 2 of 42 entries",
+"BLOCKED-ON at an annotation position · working-route.md:96 · BLOCKED-ON: Pulse \"The L4 probe reproduces the canary-histor… (290 chars) — take-up or skip is the letter's, not the tool's",
+"half-promote 0 of 40 stamped lines vs 161 master records (anchored `{marker} · `, whole file)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "1f4f95b3",
+"ts": "2026-10-07T11:45:06Z",
+"argv": [
+"route.py",
+"markerless",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-07T11-44-55-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · 98 lines · 42 entries · 40 stamped · 2 markerless · 36 separators",
+"96 · A sixth pre-registered real-model series for `v3-09` · freight 3",
+"98 · Version close on measured evidence · freight 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "1f4f95b3",
+"ts": "2026-10-07T11:45:06Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-07T11-44-55-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 2 of 42 entries · freight blocks 3 · rows are an INDEX, not the text",
+"96 · BLOCKED-ON: · 290 chars · BLOCKED-ON: Pulse \"The L4 probe reproduces the canary-history miss\" (andromeda-pulse `an…",
+"96 · CONTEXT: · 909 chars · CONTEXT: founder ruling 2026-10-07 11:49 local (his own pick of the option titled \"reproduc…",
+"96 · CARRY: · 281 chars · CARRY: architecture §Occupied Resources stands at its byte threshold — 38115 of 38115 B, `scr…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "1f4f95b3",
+"ts": "2026-10-07T11:45:06Z",
+"argv": [
+"route.py",
+"epoch",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-07T11-44-55-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · 6 epoch headers · 42 entries · freeze state joined to 161 master records",
+"10 · Epoch 1 — Foundation: the measurements the … · entries 5 · markerless 0 · frozen complete 5 · pending 0",
+"21 · Epoch 2 — Scenario assertion hygiene · entries 5 · markerless 0 · frozen complete 5 · pending 0",
+"32 · Epoch 3 — The a11y capability's terminal · entries 4 · markerless 0 · frozen complete 4 · pending 0",
+"41 · Epoch 4 — Live proof against a real Pulse · entries 8 · markerless 0 · frozen complete 8 · pending 0",
+"58 · Epoch 5 — Polish & ship · entries 14 · markerless 0 · frozen complete 14 · pending 0",
+"87 · Epoch 5b — Version close · entries 6 · markerless 2 · frozen complete 4 · pending 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "1f4f95b3",
+"ts": "2026-10-07T11:49:47Z",
+"argv": [
+"route.py",
+"markerless",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-07T11-44-55-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · 100 lines · 43 entries · 40 stamped · 3 markerless · 37 separators",
+"96 · A capture run records the prompt the model received in each drive · freight 3",
+"98 · A sixth pre-registered real-model series for `v3-09` · freight 3",
+"100 · Version close on measured evidence · freight 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "1f4f95b3",
+"ts": "2026-10-07T11:49:47Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-07T11-44-55-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 3 of 43 entries · freight blocks 6 · rows are an INDEX, not the text",
+"96 · CONTEXT: · 1992 chars · CONTEXT: founder ruling 2026-10-07 13:13 local, by dialog, relayed verbatim by the pc over…",
+"96 · CARRY: · 1686 chars · CARRY: the vehicle is open, and no launch precedes the founder's own word on it, given here …",
+"96 · CARRY: · 368 chars · CARRY: architecture §Occupied Resources stands at its byte threshold — 38115 B, re-measured a…",
+"98 · BLOCKED-ON: · 290 chars · BLOCKED-ON: Pulse \"The L4 probe reproduces the canary-history miss\" (andromeda-pulse `an…",
+"98 · CONTEXT: · 909 chars · CONTEXT: founder ruling 2026-10-07 11:49 local (his own pick of the option titled \"reproduc…",
+"98 · CARRY: · 281 chars · CARRY: architecture §Occupied Resources stands at its byte threshold — 38115 of 38115 B, `scr…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "1f4f95b3",
+"ts": "2026-10-07T11:49:47Z",
+"argv": [
+"route.py",
+"cursor",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-07T11-44-55-wrap"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"version conductor-0.3.0 · dir present · master master-route.md",
+"version dir conductor-0.3.0/ — at --root, beside .andromeda/, never inside it",
+"records 161 · complete 161 · pending 0 · gated 0",
+"done 2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+"next working-route.md:96 · A capture run records the prompt the model received in e… (65 chars) · markerless 3 of 43 entries",
+"BLOCKED-ON at an annotation position · working-route.md:98 · BLOCKED-ON: Pulse \"The L4 probe reproduces the canary-histor… (290 chars) — take-up or skip is the letter's, not the tool's",
+"half-promote 0 of 40 stamped lines vs 161 master records (anchored `{marker} · `, whole file)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]
