@@ -1,0 +1,42 @@
+[
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "d8c8c8b2",
+"ts": "2026-10-07T10:19:00Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-07T10-14-47-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"appended 3 record(s) · friction-log.ndjson lines 3089→3092 · bytes 3705772→3708489 · term lf",
+"ts 2026-10-07T10:17:50Z · clock 2026-10-07T10:19:00Z · bound 2026-10-07T10:11:01Z (line 3089)",
+"ids 2026-10-07T10:17:50Z-a … 2026-10-07T10:17:50Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 3089,
+"bytes": 3705772,
+"terminator": "LF",
+"bound": "2026-10-07T10:11:01Z"
+},
+"after": {
+"lines": 3092,
+"bytes": 3708489
+}
+}
+]

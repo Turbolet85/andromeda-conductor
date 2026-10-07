@@ -186,5 +186,45 @@
 "lines": 3087,
 "bytes": 3704010
 }
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "d8c8c8b2",
+"ts": "2026-10-07T10:11:01Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-07T09-46-39-wrap",
+"--marker",
+"2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"appended 2 record(s) · friction-log.ndjson lines 3087→3089 · bytes 3704010→3705772 · term lf",
+"ts 2026-10-07T10:11:01Z · clock 2026-10-07T10:11:01Z · bound 2026-10-07T10:08:24Z (line 3087)",
+"ids 2026-10-07T10:11:01Z-a … 2026-10-07T10:11:01Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 3087,
+"bytes": 3704010,
+"terminator": "LF",
+"bound": "2026-10-07T10:08:24Z"
+},
+"after": {
+"lines": 3089,
+"bytes": 3705772
+}
 }
 ]
