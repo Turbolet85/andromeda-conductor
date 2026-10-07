@@ -1,0 +1,99 @@
+[
+{
+"tool": "ci",
+"v": "1.0",
+"sha8": "bce1ea9a",
+"ts": "2026-10-07T11:55:06Z",
+"argv": [
+"conclusion",
+"--sha",
+"69877645c135265378358bcbb5a84de2111c2199",
+"--sha",
+"3afe4f662f7a1e11981f749dbdcfa524297d3c76",
+"--sha",
+"b55f346c08eba222c24fd0be13cdbb84522a2f36",
+"--run-dir",
+".andromeda/runs/2026-10-07T11-54-53-phase"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"repo Turbolet85/andromeda-conductor (the push remote `origin`)",
+"69877645c135 verdict: in progress · checks 3/3 · runs CI#37617071200 in_progress/-",
+"3afe4f662f7a verdict: green · checks 3/3 · wall 588 s · runs CI#37606657057 completed/success",
+"b55f346c08eb verdict: not green · checks 3/3 · wall 656 s · runs CI#37605669051 completed/cancelled"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"repo": "Turbolet85/andromeda-conductor",
+"host": "github.com",
+"repo_source": "the push remote `origin`",
+"names": [],
+"shas": [
+{
+"sha": "69877645c135265378358bcbb5a84de2111c2199",
+"word": "in progress",
+"polls": [
+"in progress"
+]
+},
+{
+"sha": "3afe4f662f7a1e11981f749dbdcfa524297d3c76",
+"word": "green",
+"polls": [
+"green"
+]
+},
+{
+"sha": "b55f346c08eba222c24fd0be13cdbb84522a2f36",
+"word": "not green",
+"polls": [
+"not green"
+]
+}
+]
+}
+},
+{
+"tool": "ci",
+"v": "1.0",
+"sha8": "bce1ea9a",
+"ts": "2026-10-07T12:18:09Z",
+"argv": [
+"conclusion",
+"--sha",
+"69877645c135265378358bcbb5a84de2111c2199",
+"--run-dir",
+".andromeda/runs/2026-10-07T11-54-53-phase"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"repo Turbolet85/andromeda-conductor (the push remote `origin`)",
+"69877645c135 verdict: green · checks 3/3 · wall 693 s · runs CI#37617071200 completed/success",
+"runs: CI#37617071200 push completed/success"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"repo": "Turbolet85/andromeda-conductor",
+"host": "github.com",
+"repo_source": "the push remote `origin`",
+"names": [],
+"shas": [
+{
+"sha": "69877645c135265378358bcbb5a84de2111c2199",
+"word": "green",
+"polls": [
+"green"
+]
+}
+]
+}
+}
+]

@@ -1,0 +1,62 @@
+# Operator relay: a 0-pending wrap, Conductor (2026-10-07) — a capture run ahead of the sixth series
+
+From the pc overseer (founder-delegated; the founder is away until late evening, so items marked PROVISIONAL are the
+overseer's and he can overrule them). Facts are `measured 2026-10-07` unless marked `hypothesis:`. Re-derive what you rely on.
+
+## 1. Context correction (what happened since your last wrap)
+
+- Pulse's chunk "The L4 probe reproduces the canary-history miss" ran its pre-registered reproduction reading today,
+  12:44-13:06 local: the shipped prompt (`v2.6`) over eight new sibling shapes that vary the corpus block alone (count, kind
+  mix, position, fingerprint, title form, scope mix), 20 generations each, plus two controls. **Verdict: NOT REPRODUCED** —
+  199 of 200 name `conductor` (recounted by the overseer from Pulse's
+  `target/l4-decision-probe/repro-20261007T104447Z/runs.json`). The chunk stopped at its pre-registered stop; nothing is
+  committed in Pulse; no remedy exists.
+- So the corpus block alone does not carry the miss your d3 hit twice. What the real d3 prompt held is still unread: the
+  digest exists only cell-encrypted in the two series' data dirs.
+
+## 2. The founder's ruling, and how it is carried out
+
+**FOUNDER, 2026-10-07 13:13 local, by dialog, his own words (Russian):** «единственный вариант переделать так чтоб билдер сам
+смог прочитать дайджест». He was offered a decryption he would run himself and declined it (he is away from the machine).
+
+- **What it is not:** leave to read the OS credential store. The corpus-key read stays refused and is not routed around,
+  by a tool or otherwise.
+- **How it is carried out (the overseer's mechanism; a technical fork, re-derive it):** Pulse hands the prompt to the model
+  binary on argv (`-p`, Pulse `pulse-app/src/llamacli_inference.rs:491`; the argv builder ends `--grammar-file <path> -p
+  <prompt>`). The binary path from `ANDROMEDA_PULSE_LLAMA_CUDA_BIN_PATH` is canonicalized and asserted a regular file
+  (`:285`, `:599-626`); `ANDROMEDA_PULSE_L4_ALLOW_ROOT` is unset on this host. So a real-model leg can point that handle at
+  a shim (a regular executable file) that records its argv and then execs the real `llama-cli` with the same argv. No
+  Pulse file changes and no key is read.
+- `hypothesis:` the shim changes nothing the model sees (same binary, same argv, same environment). The plan proves it or
+  says what it could not prove (a two-sided control: the recorded argv replayed by hand yields a well-formed generation).
+
+## 3. Adaptation item, for your disposition
+
+One new route entry AHEAD of "A sixth pre-registered real-model series for `v3-09`". Working title: **"A capture run records
+the prompt the model received in each drive"** (wording yours). Its shape:
+
+- Three drives, one fresh home-rooted data dir, the same design as the fifth series, Pulse pinned at the sha the fifth
+  series ran (`f70be92`; Pulse HEAD `48714f0` differs from it in docs and route only — verify with a diff over
+  `crates pulse-app xtask`), the shim on.
+- **PROVISIONAL (overseer): it is pre-registered as a CAPTURE, not as a `v3-09` verdict.** Its grades are recorded as
+  observations beside the captures. A 3-of-3 here does not make `v3-09` MET and a miss does not count against it: the
+  verdict stays the sixth series, after Pulse's remedy. Reason: a third run of the same design read as a verdict would be
+  retry-until-pass.
+- What it must deliver: for every model invocation of every drive, the exact prompt bytes and the full argv, tied to the
+  drive, the digest it belongs to (the creating digest of the scenario above all) and the generation's grade; all
+  invocations, the fallback and reflection prompts included if they fire.
+- **PROVISIONAL (overseer): the captured prompts stay on this host,** under the run's data dir (or a sibling of it), never
+  committed and never pasted into a report, a card or a relay. Committed evidence carries derived facts only: byte counts,
+  sha256 per prompt, line counts per digest section, which sections differ between drives. This is a widening of what a
+  leg records, on the founder's own word for the builder's eyes; it is not a widening of what the repository holds. If your
+  Boundary-widening rule reads it otherwise, stop and ask the overseer.
+- The capture's reader is the Pulse builder: name the path it reads in your report so the overseer can relay it.
+- If no drive misses, that is a finding, reported as such: the captures are still delivered (three passing prompts tell
+  Pulse what a real digest holds), and the overseer decides the next run.
+
+## 4. Pinning: anchors only
+
+- Head of the tail: the capture run. It needs the GPU, open in daytime today (the founder's 07:42 word) and closed at
+  night; ask the overseer for the go before the launch.
+- Behind it, unchanged: the sixth series (still BLOCKED-ON Pulse's chunk), then "Version close on measured evidence".
+- The byte-limit CARRY on architecture §Occupied Resources applies to this chunk too if it registers anything there.

@@ -1,0 +1,31 @@
+[
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "1f4f95b3",
+"ts": "2026-10-07T11:55:06Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-07T11-54-53-phase"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 3 of 43 entries · freight blocks 6 · rows are an INDEX, not the text",
+"96 · CONTEXT: · 1992 chars · CONTEXT: founder ruling 2026-10-07 13:13 local, by dialog, relayed verbatim by the pc over…",
+"96 · CARRY: · 1686 chars · CARRY: the vehicle is open, and no launch precedes the founder's own word on it, given here …",
+"96 · CARRY: · 368 chars · CARRY: architecture §Occupied Resources stands at its byte threshold — 38115 B, re-measured a…",
+"98 · BLOCKED-ON: · 290 chars · BLOCKED-ON: Pulse \"The L4 probe reproduces the canary-history miss\" (andromeda-pulse `an…",
+"98 · CONTEXT: · 909 chars · CONTEXT: founder ruling 2026-10-07 11:49 local (his own pick of the option titled \"reproduc…",
+"98 · CARRY: · 281 chars · CARRY: architecture §Occupied Resources stands at its byte threshold — 38115 of 38115 B, `scr…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

@@ -684,6 +684,80 @@ against what it covered. A GPU drive never runs at night.
 `pulse-report workspace rendering:` witness must read `verbatim` or `absent`; any other reading is recorded beside
 that drive's grade as contamination.
 
+## The 2026-10-07 capture run
+
+[added 2026-10-07 (2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive, implement, before
+any drive of this run). The 2026-09-29, 2026-09-30, 2026-10-01, 2026-10-06 and 2026-10-07 series records above are
+unedited. The run keeps this name whatever day its drives fire.]
+
+**Provenance.** The founder's ruling this run serves: 2026-10-07, Pulse's builder must be able to read the digest
+itself — the prompt each generation received — and the corpus-key read stays refused. The founder picked the
+vehicle the same day: the operator's wrapper around the model binary, not a Conductor feature. The run's shape
+below is the overseer's, under founder delegation, fixed at this chunk's plan review on 2026-10-07.
+
+**Not a verdict.** This run is a capture. Its drives are graded by the unchanged rank-1 rule, and each grade is an
+observation recorded beside its capture. No reading of those grades makes `v3-09` met or not met: three
+`Identified` do not meet it, and a `NotIdentified` does not count against it. §The drive series (a) is not applied
+to this run, and the verdict stays a later pre-registered series. If no drive misses, that is a finding, and the
+run is still delivered.
+
+**The launch posture note.** For this run the launching shell's model-binary handle
+(`ANDROMEDA_PULSE_LLAMA_CUDA_BIN_PATH`) names the operator's recording pass-through: an operator-owned file that
+records the argv Pulse hands the model binary and then runs the real `llama-cli` with the same argv. The leg
+neither set that handle nor read what the pass-through recorded. What it recorded sits in the operator's folder, is
+read by Pulse's builder alone and enters no Conductor artifact. Every other term is §The launch posture:
+`ANDROMEDA_PULSE_DATA_DIR` names the new dir, `ANDROMEDA_PULSE_MODEL_PATH` is the 2026-10-07 series' model,
+deterministic L4 is absent, and no bootstrap-window override is set. One launch serves the three drives, from a
+working directory outside this repository. Before `d1` the booted posture is confirmed from Pulse's own log:
+`interpretation.model.load` `load_status` `loaded`, `inference_mode` `real`, the `model_identity` it logged,
+`app.boot.workspace_key`'s `workspace_root_basename` equal to the leaf, and 0
+`triage.baseline.bootstrap_window.override` lines.
+
+**Pulse coordinates and what is graded** are §The 2026-10-07 series', unchanged: andromeda-pulse `f70be92`
+(`f70be92c2ca13c951330efeffd725e62a484610c`); the model file `gemma-4-E4B-it-Q4_K_M.gguf`, sha256
+`85a896a047553e842f25297ee5b031d64ff30147d9c4af17b1e4b394cd1fab87`; the prompt versions `v2.6` (primary),
+`v1.5-fallback` and `v1.5-reflection`; and the rank-1 rule, byte-identical. Nothing is built for this run. The two
+binaries are that series' `f70be92` builds, held by digest and re-read before `d1`:
+- `pulse-app`, sha256 `df1676477222776d3e95edae7d219a4d421f2311ea8f17863233630c1ed8ba4a`;
+- `andromeda-pulse-mcp`, sha256 `6175fc36be6577b195470f136a124fe8690e4029745f3651ab46ce19043ad2a9`.
+
+**The dir.** ONE fresh data dir, leaf `rm-recorded-run`, under the one-parent convention's `pulse-legs` in the
+user's cache dir, home-rooted on this host as the 2026-10-07 series' dir was. The app is launched from the dir, so
+its leaf reaches the prompt: the leaf carries no digit, no `@`, no vendor prefix, no keyed word and neither word of
+the grading rule. All three drives use it, and no earlier dir is reused.
+
+**The drives.** Exactly three identical drives, `d1`, `d2`, `d3`, each the full leg through the existing
+operator-gated arm (`run --live real-model`), with the canary and the capture as committed at this section's
+landing, fired in one sitting.
+
+**The canary.** A canary-blocked drive is a measurement, never graded.
+
+**Re-fires.** Only a drive whose canary reads `pipeline-fault` from Pulse's own log may be re-fired, once,
+uncounted. No other outcome re-fires. Under this launch an inference error, an inference skip or a failed spawn in
+a drive's window stops the sitting and is reported to the overseer before any re-fire, because it may be the
+pass-through's.
+
+**No fourth drive**, whatever `d1`-`d3` read, and no drive is replaced.
+
+**The quiet windows** are §The drive series (c): at least 150 s after the LAST incident any earlier drive formed,
+and otherwise at least 90 s.
+
+**Recorded, never graded.** Pulse's `skip_reason` for each digest it did not surface, the `prompt_version` and the
+`model_identity` it logged, and pickup. None is an input to a grade.
+
+**The key rendering.** §The 2026-09-30 series' clause, unchanged: on a graded drive the capture's
+`pulse-report workspace rendering:` witness must read `verbatim` or `absent`; any other reading is recorded beside
+that drive's grade as contamination.
+
+**The tie.** Each drive's start and end instants are recorded in the attempt ledger, read from the first and the
+last `timestamp_ms` of that drive's frozen self-obs stream; each committed capture prints the stamp of every prompt
+assembly in its window. Time is the whole tie between a drive and what the pass-through recorded: the ledger gives
+brackets and stamps, never a count of what the operator's folder holds.
+
+**The slots.** The overseer's go precedes the launch. The agent launches `pulse-app` for this run and stops it
+after the last drive. A GPU drive never runs at night. Each grant is recorded in the chunk's attempt ledger against
+what it covered.
+
 ## The quiet window and serialization
 
 Real-model legs are **serialized**, never merely ordered: each rides its own quiet window, because the SUT

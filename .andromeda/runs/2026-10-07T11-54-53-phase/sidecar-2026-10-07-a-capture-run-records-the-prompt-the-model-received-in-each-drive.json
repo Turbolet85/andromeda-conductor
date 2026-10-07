@@ -1,0 +1,468 @@
+[
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "604c92a1",
+"ts": "2026-10-07T11:59:04Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/architecture-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-07T11-54-53-phase",
+"--marker",
+"2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"bytes 202321 · whole-read bound 120000 · OVER",
+"entries 159 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 1 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 202321,
+"entries": 159,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "604c92a1",
+"ts": "2026-10-07T11:59:04Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-07T11-54-53-phase",
+"--marker",
+"2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"bytes 106244 · whole-read bound 120000 · within",
+"entries 75 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 106244,
+"entries": 75,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "604c92a1",
+"ts": "2026-10-07T11:59:04Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/design-system-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-07T11-54-53-phase",
+"--marker",
+"2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"bytes 19071 · whole-read bound 120000 · within",
+"entries 19 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 19071,
+"entries": 19,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "604c92a1",
+"ts": "2026-10-07T11:59:04Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/layout-templates-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-07T11-54-53-phase",
+"--marker",
+"2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"bytes 43381 · whole-read bound 120000 · within",
+"entries 36 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 43381,
+"entries": 36,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "604c92a1",
+"ts": "2026-10-07T11:59:04Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-07T11-54-53-phase",
+"--marker",
+"2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"bytes 147440 · whole-read bound 120000 · OVER",
+"entries 100 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 147440,
+"entries": 100,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "604c92a1",
+"ts": "2026-10-07T11:59:04Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-07T11-54-53-phase",
+"--marker",
+"2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"bytes 69775 · whole-read bound 120000 · within",
+"entries 55 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 1 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 69775,
+"entries": 55,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "604c92a1",
+"ts": "2026-10-07T11:59:04Z",
+"argv": [
+"summary",
+"--file",
+".andromeda/a11y-plan-amendments.md",
+"--run-dir",
+".andromeda/runs/2026-10-07T11-54-53-phase",
+"--marker",
+"2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"bytes 44479 · whole-read bound 120000 · within",
+"entries 29 · off-form 0 · over-cap (3000 B, not yet archived) 0 · consolidation set 0",
+"supersedes: prunable 0 · UNRESOLVED 0 · AMBIGUOUS 0",
+"UNPARSED: 0 block(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"bytes": 44479,
+"entries": 29,
+"off_form": 0,
+"set": 0,
+"prunable": 0,
+"unparsed": []
+}
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "604c92a1",
+"ts": "2026-10-07T11:59:10Z",
+"argv": [
+"index",
+"--file",
+".andromeda/architecture-amendments.md",
+"--out",
+".andromeda/runs/2026-10-07T11-54-53-phase/arch-history-index.md",
+"--run-dir",
+".andromeda/runs/2026-10-07T11-54-53-phase",
+"--marker",
+"2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"wrote .andromeda/runs/2026-10-07T11-54-53-phase/arch-history-index.md · 159 entries · 0 unparsed · 38260 B (the sidecar is 202321 B)"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-10-07T11-54-53-phase/arch-history-index.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "604c92a1",
+"ts": "2026-10-07T11:59:10Z",
+"argv": [
+"index",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--out",
+".andromeda/runs/2026-10-07T11-54-53-phase/tests-history-index.md",
+"--run-dir",
+".andromeda/runs/2026-10-07T11-54-53-phase",
+"--marker",
+"2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"wrote .andromeda/runs/2026-10-07T11-54-53-phase/tests-history-index.md · 100 entries · 0 unparsed · 27205 B (the sidecar is 147440 B)"
+],
+"stderr": null,
+"wrote": [
+".andromeda/runs/2026-10-07T11-54-53-phase/tests-history-index.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "604c92a1",
+"ts": "2026-10-07T12:06:10Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/architecture-amendments.md",
+"--history",
+".andromeda/runs/2026-10-07T11-54-53-phase/arch-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-07T11-54-53-phase",
+"--marker",
+"2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"cites: 32 · resolved 32 · UNRESOLVED 0 · not a marker 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 32,
+"UNRESOLVED": 0,
+"not a marker": 0,
+"cites": 32
+}
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "604c92a1",
+"ts": "2026-10-07T12:06:11Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--history",
+".andromeda/runs/2026-10-07T11-54-53-phase/security-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-07T11-54-53-phase",
+"--marker",
+"2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"not a marker: **2026-10-04T01-45-46-wrap** — history:38",
+"not a marker: **2026-10-04T01-45-46-wrap** — history:39",
+"not a marker: **Kept** — history:42",
+"cites: 39 · resolved 39 · UNRESOLVED 0 · not a marker 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 39,
+"UNRESOLVED": 0,
+"not a marker": 3,
+"cites": 39
+}
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "604c92a1",
+"ts": "2026-10-07T12:06:11Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--history",
+".andromeda/runs/2026-10-07T11-54-53-phase/tests-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-07T11-54-53-phase",
+"--marker",
+"2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"not a marker: **2026-10-04T01-45-46-wrap** — history:31",
+"cites: 32 · resolved 32 · UNRESOLVED 0 · not a marker 1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 32,
+"UNRESOLVED": 0,
+"not a marker": 1,
+"cites": 32
+}
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "604c92a1",
+"ts": "2026-10-07T12:06:11Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--history",
+".andromeda/runs/2026-10-07T11-54-53-phase/obs-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-07T11-54-53-phase",
+"--marker",
+"2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"cites: 29 · resolved 29 · UNRESOLVED 0 · not a marker 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 29,
+"UNRESOLVED": 0,
+"not a marker": 0,
+"cites": 29
+}
+},
+{
+"tool": "sidecar",
+"v": "1.3",
+"sha8": "604c92a1",
+"ts": "2026-10-07T12:06:11Z",
+"argv": [
+"cites",
+"--file",
+".andromeda/layout-templates-amendments.md",
+"--history",
+".andromeda/runs/2026-10-07T11-54-53-phase/layouts-history.md",
+"--run-dir",
+".andromeda/runs/2026-10-07T11-54-53-phase",
+"--marker",
+"2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"not a marker: **2026-10-04T01-45-46-wrap** — history:20",
+"cites: 17 · resolved 17 · UNRESOLVED 0 · not a marker 1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"resolved": 17,
+"UNRESOLVED": 0,
+"not a marker": 1,
+"cites": 17
+}
+}
+]

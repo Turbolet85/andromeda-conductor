@@ -8,6 +8,7 @@
 
 mod canary_pairing;
 mod capture_population;
+pub(crate) mod capture_run_2026_10_07;
 mod capture_tokens;
 mod scrub_and_sweep;
 pub(crate) mod series_2026_09_29;

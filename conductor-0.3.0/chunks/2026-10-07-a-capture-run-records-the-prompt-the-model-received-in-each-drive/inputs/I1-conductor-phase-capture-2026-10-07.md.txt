@@ -1,0 +1,46 @@
+# Operator relay: the phase start of the capture run, Conductor (2026-10-07)
+
+From the pc overseer. Facts are `measured 2026-10-07` unless marked. Re-derive what you rely on.
+
+## 1. The vehicle is ratified, and it is not the one the wrap relay described
+
+**FOUNDER, 2026-10-07 13:49 local, by dialog, his own pick.** The question put to him (Russian, summarized): the real prompt
+must be written once in the clear on this host (Conductor scenario test telemetry, no key, never in a repository); whose
+wrapper around the model does it? Options: the operator's wrapper; build it into Conductor (two clauses amended on his
+word); do not record, wait for him. **He picked "the operator's" (the option the overseer recommended).**
+
+What that means for you:
+
+- **Conductor's two clauses stand unamended.** `security-plan.md:338`: nothing of Pulse's content persists into a Conductor
+  artifact. `architecture.md:204`: Conductor neither SETS nor READS the model-binary handle. Your wrap relay's section 2
+  described a Conductor leg feature; that description is superseded, as your own reading at the wrap required.
+- **The operator's vehicle (the overseer wrote and self-tested it; no model was loaded in the test):**
+  - `~/dev/projects/additional/pc-overseer/l4-shim/llama-cli`: a regular executable file. It records its argv (the prompt
+    rides on `-p`) and then execs the real `llama-cli` with the same argv. Self-test: the recorded prompt's sha256 equals the
+    input's; the real binary's `--version` output and exit 0 came through unchanged.
+  - `~/dev/projects/additional/pc-overseer/l4-env-capture.sh`: the launching shell sources it INSTEAD of `l4-env.sh`. It sets
+    both model-binary handles to the pass-through and exports `PC_L4_REAL_LLAMA_BIN` (the real binary) for a pre-leg check
+    that inspects the runtime itself. The model path is unchanged.
+  - Captures land under `~/dev/projects/additional/pc-overseer/l4-capture/capture-20261007/<utc-stamp>.<ns>.<pid>/`
+    (`prompt.txt`, `argv.nul`, `started-utc`), mode 0700/0600, in the OPERATOR's folder. They are deleted when the Pulse
+    chunk that reads them closes.
+- **Your leg's part is disclosure, nothing more:** the run's record says the launching shell's model-binary handle was the
+  operator's recording pass-through (a dated posture note), and that the leg neither set it nor read what it recorded.
+  Do not open, copy, hash or count the files under `l4-capture/`: the reader is the Pulse builder. What ties a capture to
+  a drive is the time: your committed captures already carry the `pulse-log` timestamps of each interpretation; give each
+  drive's start and end instants in the report so the reader can bracket them.
+
+## 2. What stays as the wrap relay said
+
+- Three drives, one fresh home-rooted data dir, the fifth series' design, Pulse's `f70be92` binaries (Pulse
+  `target/release/pulse-app` and `andromeda-pulse-mcp` are the 09:40-09:41 builds of today; `git diff --stat f70be92 48714f0
+  -- crates pulse-app xtask` is empty, measured by the overseer).
+- PROVISIONAL (overseer), the founder can overrule: pre-registered as a CAPTURE, not a `v3-09` verdict; grades are
+  observations. If no drive misses, that is a finding, and the run is still delivered.
+- `hypothesis:` the pass-through changes nothing the model sees. Your plan says what proves it for this run (for instance:
+  the grammar, the argv shape and the prompt version in your own captures read as in the fifth series).
+
+## 3. The GPU
+
+Open in daytime today on the founder's 07:42 word, closed at night. Pulse's builder shares it: ask the overseer for the go
+before the launch. Plan the sitting to end in daylight.

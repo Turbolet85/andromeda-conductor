@@ -1,0 +1,36 @@
+# layouts extract
+
+## Relevance
+partial — the chunk creates and modifies no surface element (no region, component, focus stop or output line); it only DRIVES the cli surface's operator-gated `--live real-model` path three times, and its written outputs (the pre-registered record, the attempt ledger, the report, the committed captures) are not surfaces the layout plan templates.
+
+## Constraints
+- The three drives enter through the harness's existing `run --live real-model` shape: layout-templates §cli Primary screens (commands) requires `real-model` to be a third-token selector of `--live` — never a sixth command and never a new stage flag — so the capture run takes that entry as it stands and adds none beside it.
+- layout-templates §cli Primary screens (commands) requires the `--live real-model` leg to lead with the non-priming `conductor preconditions --for real-model-interpretation` probe and to REFUSE at exit 1 when a subject is unmet, with no leg fired; a refused launch is therefore not a drive and carries no grade. How a refusal counts against "three drives, none replaced or added" is the plan's question, not this domain's.
+- layout-templates §cli Primary screens (commands) requires the `--for` probe to grade the handles under the scenario's declared posture, the L4 flag read for ABSENCE under `real-model`. The chunk's one launch delta is the env file the launching shell sources; whether that file leaves the probe's subjects satisfiable (exit 0 reachable) is research's question.
+- layout-templates §cli Component — Primary content block 2 (verdict / report-state lines) requires the per-P-ID bracket-label set to stay closed at six and the run-level qualifier set to stay `[ENVIRONMENT-SUSPECT]` + `[PRECONDITION]`; a capture run whose grades are "observations" mints no new label, lamp or `ReportState` on any surface.
+- layout-templates §cli Component — Primary content block 2 (verdict / report-state lines) requires both arms of `[PRECONDITION]` to be read as reachable (the satisfied line carries the same bracket); a ledger entry transcribing a pre-leg probe must not treat the bracket as failure-only.
+- layout-templates §cli IA notes requires the agent-driven path never to be gated on an interactive prompt (the `isatty` check precedes every `inquire` prompt); the drives run headless and no step of the sitting may introduce a prompt into that path.
+- layout-templates §cli Component — Footer / terminator + error output requires cli stderr to stay free of absolute host paths, internal struct names and stack traces; the chunk's home-rooted data dir and the operator's folder paths must not come to appear in any Conductor-printed line. Whether the shipped refusal and error lines already hold that under the new launch env is research's question.
+
+## Patterns to follow
+- Refusal versus skip are two distinct outcome classes: an incomplete live-Pulse environment REFUSES at exit 1, a missing host-tool handle SKIPS its own leg at exit 0 — per layout-templates §cli Primary screens (commands). Record each pre-leg outcome in the ledger under the class the harness printed.
+- Read the harness's PRINTED verdict rather than its exit code alone where the plan says the exit code cannot separate outcomes — per layout-templates §cli Primary screens (commands), the `--e2e` precedent; applied here as: record what each drive printed, not only its status.
+- Each drive's on-disk destination is named by the single closing terminator line (`run report → runs/<run_id>.md`) — per layout-templates §cli Component — Footer / terminator + error output. Whether a drive's start and end instants are read from that artifact, the journal or the pulse-log is research's question (scope item 5).
+- Per-check detail lives as one indented plain-text line per expected check beneath the P-ID verdict line in `runs/<run_id>.md` (ordinal, comparison kind, verdict, `latency_ms`, deadline) — per layout-templates §cli Component — Primary content block 2 (verdict / report-state lines). Whether the capture run's observation grade is read from that region or from the harvest module is research's question.
+- Pipe discipline when a drive's output is captured to a file: raw artifact data on stdout, human messages on stderr, ANSI auto-stripped when piped — per layout-templates §cli IA notes.
+
+## Anti-patterns to avoid
+- Adding a verb, a stage flag or a further `--live` selector for the capture (e.g. a "capture" mode) — per layout-templates §cli Primary screens (commands), the selector set is `--live [real-model]` and an unknown selector is a usage error at exit 2 before any probe.
+- Minting a bracket label, a lamp state or a table column to mark a run as a capture or a grade as an observation — per layout-templates §cli Component — Primary content block 2 (verdict / report-state lines) (set closed at six) and layout-templates §cli IA notes (a new `comfy-table` column without `--format` is a breaking change for parsing agents).
+- Rendering anything of this run in the desktop-webview console — per layout-templates §Surface: desktop-webview · Primary screens, the surface is one window in four run states with no further screen; the chunk adds no state, region or component there.
+
+## Contract bindings
+- layouts ↔ security: the sanitized `error:` / `hint:` stderr shape and the host-path-free `[PRECONDITION]` lines (layout-templates §cli Component — Footer / terminator + error output; §cli Primary screens (commands)) bind to the security plan's error-handling and artifact-hygiene rules — the binding that matters here because the launch env names operator-folder paths.
+- layouts ↔ tests: `scripts/agent-run.{sh,ps1}` ship at identical semantics per test-plan §3 (cited at layout-templates §cli Primary screens (commands)); the chunk runs the `.sh` shell only and edits neither, so parity is preserved only if both stay untouched.
+- layouts ↔ a11y: every status paired with its ASCII prefix so it survives `NO_COLOR` / piping (layout-templates §Surface: cli, signature placement note) — binds only if a drive's cli output is transcribed into the ledger, where the prefix, not the color, is what survives.
+
+## Acceptance criteria contributions
+- (layouts) Each of d1..d3 is launched through `bash scripts/agent-run.sh run --live real-model`, and `git diff 6987764 -- scripts/agent-run.sh scripts/agent-run.ps1` is empty — no verb, stage flag or selector added (per layout-templates §cli Primary screens (commands)).
+- (layouts) Any launch the leading `conductor preconditions --for real-model-interpretation` probe refuses is recorded in the attempt ledger as a refusal with its printed `[PRECONDITION]` lines' subjects named, never as a graded drive (per layout-templates §cli Primary screens (commands)).
+- (layouts) The chunk's diff from `6987764` adds no bracket label, lamp state, `ReportState` or results-table column on either surface — the capture's grades appear as observations in the ledger and report only (per layout-templates §cli Component — Primary content block 2 (verdict / report-state lines)).
+- (layouts) `git diff 6987764 -- crates/conductor-tauri/ui` is empty — no desktop-webview region, component or focus stop is added or moved (per layout-templates §Surface: desktop-webview · Primary screens).

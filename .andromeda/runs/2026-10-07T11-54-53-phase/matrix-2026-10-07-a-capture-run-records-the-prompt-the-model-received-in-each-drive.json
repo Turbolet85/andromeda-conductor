@@ -1,0 +1,57 @@
+[
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "8d842833",
+"ts": "2026-10-07T12:23:15Z",
+"argv": [
+"coverage",
+"--dir",
+"conductor-0.3.0",
+"--run-dir",
+".andromeda/runs/2026-10-07T11-54-53-phase",
+"--marker",
+"2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"verified 10/11 · deferred 0 · planned 1 · implemented 0 · unclaimed 1",
+"unclaimed: v3-09",
+"claimed-unfinished: none",
+"done-test: NO — 1 not verified|deferred · unclaimed 1",
+"chunks referenced: 10 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "8d842833",
+"ts": "2026-10-07T12:23:15Z",
+"argv": [
+"audit",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive",
+"--plan",
+"conductor-0.3.0/chunks/2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-07T11-54-53-phase"
+],
+"cwd": "/home/turbolet/dev/projects/conductor",
+"exit": 0,
+"stdout": [
+"claimed by 2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive: 0 · ## Acceptance Criteria: line 577, 70 lines",
+"pool: unclaimed 1 [v3-09]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

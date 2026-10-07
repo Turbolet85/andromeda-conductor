@@ -59,15 +59,16 @@ use real_model_common::{
     canary_attempts as pair_canary_attempts, elide_fingerprints, envelope_record, mask_host_paths,
     mask_workspace_key, rule_section, sweep_window, workspace_rendering,
 };
+use real_model_grading::capture_run_2026_10_07::capture_run_2026_10_07;
 use real_model_grading::series_2026_09_29::series_capture;
 use real_model_grading::series_2026_09_30::capture_2026_09_30;
 use real_model_grading::series_2026_10_01::capture_2026_10_01;
 use real_model_grading::series_2026_10_06::capture_2026_10_06;
 use real_model_grading::series_2026_10_07::capture_2026_10_07;
 use real_model_series::{
-    Drive, EVIDENCE, EVIDENCE_2026_09_30, EVIDENCE_2026_10_01, EVIDENCE_2026_10_06,
-    EVIDENCE_2026_10_07, SERIES, SERIES_2026_09_30, SERIES_2026_10_01, SERIES_2026_10_06,
-    SERIES_2026_10_07,
+    CAPTURE_RUN_2026_10_07, Drive, EVIDENCE, EVIDENCE_2026_09_30, EVIDENCE_2026_10_01,
+    EVIDENCE_2026_10_06, EVIDENCE_2026_10_07, EVIDENCE_CAPTURE_RUN_2026_10_07, SERIES,
+    SERIES_2026_09_30, SERIES_2026_10_01, SERIES_2026_10_06, SERIES_2026_10_07,
 };
 
 // ---- rule: begin ----
@@ -1252,7 +1253,7 @@ const SOURCES: [&str; 4] = [
 
 /// Every module under `real_model_grading/`, by file name. A module missing here is unscanned, which
 /// `the_capture_text_arm_scans_every_grading_module` holds against the directory.
-const GRADING_MODULES: [(&str, &str); 12] = [
+const GRADING_MODULES: [(&str, &str); 13] = [
     (
         "canary_pairing.rs",
         include_str!("real_model_grading/canary_pairing.rs"),
@@ -1260,6 +1261,10 @@ const GRADING_MODULES: [(&str, &str); 12] = [
     (
         "capture_population.rs",
         include_str!("real_model_grading/capture_population.rs"),
+    ),
+    (
+        "capture_run_2026_10_07.rs",
+        include_str!("real_model_grading/capture_run_2026_10_07.rs"),
     ),
     (
         "capture_tokens.rs",
@@ -1325,6 +1330,12 @@ fn graded_captures() -> Vec<(String, String)> {
         captures.push((
             format!("2026-10-07 {}", drive.label),
             capture_2026_10_07(drive),
+        ));
+    }
+    for drive in &CAPTURE_RUN_2026_10_07 {
+        captures.push((
+            format!("2026-10-07 capture {}", drive.label),
+            capture_run_2026_10_07(drive),
         ));
     }
     captures

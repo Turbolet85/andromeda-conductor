@@ -54,3 +54,6 @@ Last chunk commit: `b55f346`, the fifth series' wrap.
 - **Deferred learnings (carried from the fifth series' wrap):**
   - recurrence-despite-learning: CLAUDE.md 2026-08-21 (verify the artifact, not the exit code) — an anchored Edit
     dropped a heading from the attempt ledger and reported success; the pre-CI commit carried it until that wrap.
+
+## Session End Status
+Completed normally at 2026-10-07 14:23:49

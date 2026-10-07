@@ -142,3 +142,27 @@ pub const SERIES_2026_10_07: [Drive; 3] = [
         sha256: "cdc403cbcab2b2e92bbd28e5e14fda9880c42406b492e151e18a259071c33815",
     },
 ];
+
+/// The 2026-10-07 capture run's committed captures (`contracts/pulse-real-model-leg-posture.md`, The
+/// 2026-10-07 capture run), relative to the workspace root.
+pub const EVIDENCE_CAPTURE_RUN_2026_10_07: &str = "conductor-0.3.0/chunks/2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive/evidence";
+
+/// The 2026-10-07 capture run: three drives on one fresh letters-only data dir, against andromeda-pulse
+/// `f70be92`. A capture, never a series: its grades are observations.
+pub const CAPTURE_RUN_2026_10_07: [Drive; 3] = [
+    Drive {
+        label: "d1",
+        file: "rm-capture-d1.txt",
+        sha256: "e9262bc5988dedb6e8b3f83c2df30cd77efe132805a4ca9f6205f085d9d3b16f",
+    },
+    Drive {
+        label: "d2",
+        file: "rm-capture-d2.txt",
+        sha256: "775b1126da7e13e65575c18dbbf768f83854aa805687c2ecf39e88d68d8a415e",
+    },
+    Drive {
+        label: "d3",
+        file: "rm-capture-d3.txt",
+        sha256: "0a83022a2dd68a5d4760a02bc25869989ad75247c8f0df11dd96a487e79d6988",
+    },
+];
