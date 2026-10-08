@@ -1,0 +1,95 @@
+[
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bd649850",
+"ts": "2026-10-08T08:30:16Z",
+"argv": [
+"note",
+"--dir",
+"conductor-0.3.0",
+"--id",
+"v3-09",
+"--text-file",
+"./.andromeda/runs/2026-10-08T08-27-45-wrap/note-v3-09.md",
+"--run-dir",
+"./.andromeda/runs/2026-10-08T08-27-45-wrap",
+"--marker",
+"no-marker",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v3-09: +1081 chars (total 32037) · status verified · ref/acceptance untouched",
+"dry-run: nothing written"
+],
+"stderr": null,
+"wrote": [],
+"before": {
+"id": "v3-09",
+"chunk": "2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09",
+"status": "verified",
+"method": "dynamic-external",
+"ref": "crates/conductor-run/tests/real_model_grading/series_2026_10_07_sixth.rs::v3_09_ref_identified_with_the_real_model_witne… (141 chars)",
+"acceptance": "A pre-stated series of exactly three drives (d1, d2, d3) on ONE fresh data dir whose leaf (`rm-sixth-series`) carries no… (5379 chars)",
+"notes_chars": 30954
+},
+"after": {
+"id": "v3-09",
+"chunk": "2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09",
+"status": "verified",
+"method": "dynamic-external",
+"ref": "crates/conductor-run/tests/real_model_grading/series_2026_10_07_sixth.rs::v3_09_ref_identified_with_the_real_model_witne… (141 chars)",
+"acceptance": "A pre-stated series of exactly three drives (d1, d2, d3) on ONE fresh data dir whose leaf (`rm-sixth-series`) carries no… (5379 chars)",
+"notes_chars": 32037
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bd649850",
+"ts": "2026-10-08T08:30:28Z",
+"argv": [
+"note",
+"--dir",
+"conductor-0.3.0",
+"--id",
+"v3-09",
+"--text-file",
+"./.andromeda/runs/2026-10-08T08-27-45-wrap/note-v3-09.md",
+"--run-dir",
+"./.andromeda/runs/2026-10-08T08-27-45-wrap",
+"--marker",
+"no-marker"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v3-09: +1081 chars (total 32037) · status verified · ref/acceptance untouched",
+"wrote conductor-0.3.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0/verification-matrix.json"
+],
+"before": {
+"id": "v3-09",
+"chunk": "2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09",
+"status": "verified",
+"method": "dynamic-external",
+"ref": "crates/conductor-run/tests/real_model_grading/series_2026_10_07_sixth.rs::v3_09_ref_identified_with_the_real_model_witne… (141 chars)",
+"acceptance": "A pre-stated series of exactly three drives (d1, d2, d3) on ONE fresh data dir whose leaf (`rm-sixth-series`) carries no… (5379 chars)",
+"notes_chars": 30954
+},
+"after": {
+"id": "v3-09",
+"chunk": "2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09",
+"status": "verified",
+"method": "dynamic-external",
+"ref": "crates/conductor-run/tests/real_model_grading/series_2026_10_07_sixth.rs::v3_09_ref_identified_with_the_real_model_witne… (141 chars)",
+"acceptance": "A pre-stated series of exactly three drives (d1, d2, d3) on ONE fresh data dir whose leaf (`rm-sixth-series`) carries no… (5379 chars)",
+"notes_chars": 32037
+}
+}
+]
