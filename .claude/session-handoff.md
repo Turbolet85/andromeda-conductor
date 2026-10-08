@@ -59,3 +59,29 @@
     committed document was attempted at the prior chunk's implement; the PreToolUse guard refused it.
   - recurrence-despite-learning: `host-linux.md` §Paths — a `cd` into the sibling Pulse repo was attempted at
     this wrap's premise re-read; the PreToolUse guard refused it, and the read ran on absolute paths.
+
+## In flight — implement done, Parts A-C (2026-10-08T07:04Z; a note by /andromeda-implement, the next wrap replaces it)
+- **Chunk pending, uncommitted:** `2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09` (promoted from
+  `working-route.md:98` by the phase of 2026-10-07; chunk base `902d12c`). The Position block above predates it.
+- **Part A (2026-10-07, plan steps 1-9)** stands as recorded: both Pulse binaries built at `f18c631` (product
+  inputs equal the pin `9bfefb8`), the contract section `## The 2026-10-07 sixth series` FROZEN with its digest in
+  the chunk's `evidence/attempt-ledger.md`, the leaf `rm-sixth-series`.
+- **Part B (2026-10-08, on the founder's go of 07:05 local, inputs I18 and I19):** d1, d2 and d3 fired in one
+  sitting, 06:28:59Z to 06:54:37Z, each `round: COMPLETE`; nothing re-fired, no fourth drive; `pulse-app` stopped
+  by its recorded PID, post-census 0 processes and 0 listeners.
+- **Part C:** the three captures pinned and graded by the unchanged rule: d1, d2, d3 `Identified`, so the
+  pre-registered verdict is **`v3-09` MET**, on three drives and no wider. The ref test exists and the matrix
+  reads `v3-09` `implemented`. The standing gates read 16 of 16 green; `gate.py scope` reads `clean`.
+- **Surfaced for the operator:** the captures of d1 and d2 print a third `canary:` token `pipeline-fault`;
+  Pulse's own log shows that storm parsed and deduped, so the re-fire clause did not apply. The ledger's section
+  on it has the stamps and the capture-side cause.
+- **Next:** the OPERATOR PASS — plan entries 44 (hygiene), 45 (the pre-CI commit, then the guarded push) and 46
+  (the CI read). The agent performs none of them without the operator's explicit word. Then the wrap.
+- **For the wrap, the operator's ruling of 2026-10-07 (the chunk's input I17):** the model-text quote on this
+  chunk's frozen route line is outside the scoped exception's letter; replace it with a pointer to the evidence
+  file, widen nothing.
+- **Run dirs:** `.andromeda/runs/2026-10-07T21-01-07-implement` (Part A) and
+  `.andromeda/runs/2026-10-08T06-27-28-implement` (Parts B and C).
+
+## Session End Status
+Completed normally at 2026-10-07 23:33:34

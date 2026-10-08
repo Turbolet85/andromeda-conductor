@@ -1,0 +1,111 @@
+[
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "0eeb593c",
+"ts": "2026-10-07T21:00:16Z",
+"argv": [
+"coverage",
+"--dir",
+"conductor-0.3.0",
+"--run-dir",
+".andromeda/runs/2026-10-07T20-31-56-phase",
+"--marker",
+"2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"verified 10/11 · deferred 0 · planned 1 · implemented 0 · unclaimed 1",
+"unclaimed: v3-09",
+"claimed-unfinished: none",
+"done-test: NO — 1 not verified|deferred · unclaimed 1",
+"chunks referenced: 10 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "0eeb593c",
+"ts": "2026-10-07T21:00:16Z",
+"argv": [
+"claim",
+"--dir",
+"conductor-0.3.0",
+"--id",
+"v3-09",
+"--chunk",
+"2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09",
+"--acceptance-file",
+".andromeda/runs/2026-10-07T20-31-56-phase/acceptance-v3-09.md",
+"--note-file",
+".andromeda/runs/2026-10-07T20-31-56-phase/note-v3-09.md",
+"--run-dir",
+".andromeda/runs/2026-10-07T20-31-56-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claim v3-09 → chunk 2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09 (was null; status planned kept)",
+"acceptance: A pre-stated series of exactly three drives (d1, d2, d3) on ONE fresh … (4460 chars)",
+"         → A pre-stated series of exactly three drives (d1, d2, d3) on ONE fresh … (5379 chars)",
+"notes: +3297 chars (total 29102)",
+"wrote conductor-0.3.0/verification-matrix.json · 1 entry changed",
+"pool: unclaimed 0"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0/verification-matrix.json"
+],
+"before": {
+"id": "v3-09",
+"chunk": null,
+"status": "planned",
+"method": "dynamic-external",
+"ref": "null",
+"acceptance": "A pre-stated series of exactly three drives (d1, d2, d3) on ONE fresh data dir whose leaf (`rm-fifth-series`) carries no… (4460 chars)",
+"notes_chars": 25803
+},
+"after": {
+"id": "v3-09",
+"chunk": "2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09",
+"status": "planned",
+"method": "dynamic-external",
+"ref": "null",
+"acceptance": "A pre-stated series of exactly three drives (d1, d2, d3) on ONE fresh data dir whose leaf (`rm-sixth-series`) carries no… (5379 chars)",
+"notes_chars": 29102
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "0eeb593c",
+"ts": "2026-10-07T21:00:16Z",
+"argv": [
+"audit",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09",
+"--plan",
+"conductor-0.3.0/chunks/2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-07T20-31-56-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09: 1 · ## Acceptance Criteria: line 650, 66 lines",
+"v3-09: cited in ## Acceptance Criteria (line 651)",
+"pool: unclaimed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

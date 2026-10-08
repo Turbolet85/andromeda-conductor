@@ -6,7 +6,7 @@ use crate::*;
 
 /// The committed real-model captures — every `conductor-0.3.0/chunks/*/evidence/rm-capture*.txt` —
 /// pinned by count, so a walk that finds nothing can never pass.
-const COMMITTED_CAPTURES: usize = 23;
+const COMMITTED_CAPTURES: usize = 26;
 
 // andromeda:walks-tree — walks every chunk's evidence dir for capture files, whatever their names.
 /// Every committed real-model capture, repo-relative and sorted.

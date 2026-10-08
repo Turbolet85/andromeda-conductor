@@ -1,0 +1,50 @@
+# Operator relay: the phase start of the sixth `v3-09` series, Conductor (2026-10-07)
+
+From the pc overseer. Facts are `measured 2026-10-07` unless marked `hypothesis:`. Re-derive what you rely on.
+
+## 1. The block clears
+
+- Pulse shipped the remedy: commit **`9bfefb8`** on `chore/migrate-pulse-to-v3` (the pre-CI commit that carries the product
+  change), CI run `ci#37668429742` success on its second attempt (attempt 1: an unrelated boot-smoke death and a coverage
+  job that hung in a runner's apt step; the overseer cancelled and re-ran the unfinished jobs). Pulse's wrap commit lands on
+  top of it and changes no product file; pin the sha the overseer names in the phase directive and verify with a diff over
+  `crates pulse-app xtask`.
+- What shipped (`crates/triage/src/digest/retrieval.rs`, `assembler.rs`): on a digest whose cue carries a `scope_id`, the
+  corpus block keeps that scope's own matches and whatever the fingerprint arm keeps, and drops other scopes'. A digest
+  with no cue, or a cue with no `scope_id`, selects as before. The prompt lineage is unchanged (`v2.6`); the trigger line
+  still carries the kind label alone; the model file, the argv and the grammar are unchanged.
+- How it was measured, so your pre-registration does not overstate it: replays of the three scenario prompts your capture
+  run recorded, through Pulse's probe. Before the remedy the three read 36 of 40, 11 of 20 and 36 of 40 first hypotheses
+  that name the right service; with the remedy 40, 40 and 40 of 40. One capture run, three prompts, measured on the
+  probe's arm, which composes byte for byte what the product path composes on those prompts. **No generation has run on
+  the shipped tree: your series is its first live reading.**
+
+## 2. The founder's rulings on this series (20:08 local today, by dialog, his own picks)
+
+- **One last series.** The sixth, by the pre-registered design and rule, unchanged. MET if every graded drive reads
+  `Identified`.
+- **If it does not pass, there is no seventh.** `v3-09` then leaves 0.3.0 for 0.4.0, where he wants quality judged
+  differently (his words: «чтоб кондуктор умел спавнить продолжительную серию разных событий и логировать как на них
+  реагирует модель, а потом логи анализировать»), and Conductor 0.3.0 closes at 10 of 11 with that as the measured basis and
+  a named owner. Write this stop rule into the pre-registration BEFORE the launch, so that the outcome cannot shape it.
+- **Conductor closes first:** after this series the next entry is the version close, either way.
+- **The grading rule is not changed.** The open question on the route entry (should the rule reject a statement that
+  quotes `scope_id=conductor` yet places the storm in the sibling) is closed for 0.3.0 as "unchanged": the overseer told
+  the founder so before his picks and he did not object; it is the overseer's decision, his to overrule. The weakness is
+  recorded for 0.4.0 (a structured answer field or a semantic grader), not patched here.
+
+## 3. Carried into this chunk
+
+- The byte-limit CARRY on architecture §Occupied Resources.
+- The capture run's facts stand as recorded: its drives were observations; this series is the verdict.
+- The pass-through is NOT used: source the plain `l4-env.sh`. Nothing records prompts in this series.
+- The binary proof: `9bfefb8` differs from `f70be92` in product code, so pick a content proof this change introduces and
+  take the two-sided control on both builds before pre-registering it, as before. Pulse's `target/release` holds the
+  `f70be92` builds until you rebuild; build from a CLEAN Pulse tree at the pinned sha.
+- A fresh home-rooted data dir, a new leaf; the three earlier leaves stay untouched.
+
+## 4. The GPU and the pace
+
+The GPU is closed tonight. The phase and Part A are CPU work and may run at any hour; the sitting waits for the next
+daytime go, which the overseer gives after the founder's morning word or his standing daytime rule. No bound and no
+hurry: the founder asked for a measured pace.

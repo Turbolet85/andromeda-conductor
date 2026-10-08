@@ -1,0 +1,1 @@
+2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09 · pending · the sixth and last pre-registered three-drive real-model series for v3-09, against Pulse 9bfefb8 (the corpus block narrowed to the triggering scope), its stop rule pre-registered before the launch · → conductor-0.3.0/chunks/2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09/

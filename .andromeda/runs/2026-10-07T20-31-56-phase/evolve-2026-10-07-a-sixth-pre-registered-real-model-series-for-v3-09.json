@@ -1,0 +1,202 @@
+[
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "1d16bdcd",
+"ts": "2026-10-07T20:37:13Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-07T20-31-56-phase",
+"--marker",
+"2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 3127→3128 · bytes 3745130→3746945 · term lf",
+"ts 2026-10-07T20:37:00Z · clock 2026-10-07T20:37:13Z · bound 2026-10-07T20:30:51Z (line 3127)",
+"ids 2026-10-07T20:37:00Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 3127,
+"bytes": 3745130,
+"terminator": "LF",
+"bound": "2026-10-07T20:30:51Z"
+},
+"after": {
+"lines": 3128,
+"bytes": 3746945
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "1d16bdcd",
+"ts": "2026-10-07T20:44:55Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-07T20-31-56-phase",
+"--marker",
+"2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 3128→3129 · bytes 3746945→3748636 · term lf",
+"ts 2026-10-07T20:44:43Z · clock 2026-10-07T20:44:55Z · bound 2026-10-07T20:37:00Z (line 3128)",
+"ids 2026-10-07T20:44:43Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 3128,
+"bytes": 3746945,
+"terminator": "LF",
+"bound": "2026-10-07T20:37:00Z"
+},
+"after": {
+"lines": 3129,
+"bytes": 3748636
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "1d16bdcd",
+"ts": "2026-10-07T20:49:42Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"4",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-07T20-31-56-phase",
+"--marker",
+"2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"appended 4 record(s) · friction-log.ndjson lines 3129→3133 · bytes 3748636→3752266 · term lf",
+"ts 2026-10-07T20:49:13Z · clock 2026-10-07T20:49:42Z · bound 2026-10-07T20:44:43Z (line 3129)",
+"ids 2026-10-07T20:49:13Z-a … 2026-10-07T20:49:13Z-d (4)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 3129,
+"bytes": 3748636,
+"terminator": "LF",
+"bound": "2026-10-07T20:44:43Z"
+},
+"after": {
+"lines": 3133,
+"bytes": 3752266
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "1d16bdcd",
+"ts": "2026-10-07T20:56:33Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-07T20-31-56-phase",
+"--marker",
+"2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 3133→3134 · bytes 3752266→3753519 · term lf",
+"ts 2026-10-07T20:56:19Z · clock 2026-10-07T20:56:33Z · bound 2026-10-07T20:49:13Z (line 3133)",
+"ids 2026-10-07T20:56:19Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 3133,
+"bytes": 3752266,
+"terminator": "LF",
+"bound": "2026-10-07T20:49:13Z"
+},
+"after": {
+"lines": 3134,
+"bytes": 3753519
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "1d16bdcd",
+"ts": "2026-10-07T21:00:38Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-07T20-31-56-phase",
+"--marker",
+"2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"appended 2 record(s) · friction-log.ndjson lines 3134→3136 · bytes 3753519→3755517 · term lf",
+"ts 2026-10-07T21:00:24Z · clock 2026-10-07T21:00:38Z · bound 2026-10-07T20:56:19Z (line 3134)",
+"ids 2026-10-07T21:00:24Z-a … 2026-10-07T21:00:24Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 3134,
+"bytes": 3753519,
+"terminator": "LF",
+"bound": "2026-10-07T20:56:19Z"
+},
+"after": {
+"lines": 3136,
+"bytes": 3755517
+}
+}
+]

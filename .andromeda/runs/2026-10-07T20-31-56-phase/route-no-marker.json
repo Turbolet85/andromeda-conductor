@@ -1,0 +1,31 @@
+[
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "1b5a5c62",
+"ts": "2026-10-07T20:33:24Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-07T20-31-56-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 2 of 43 entries · freight blocks 6 · rows are an INDEX, not the text",
+"98 · BLOCKED-ON: · 290 chars · BLOCKED-ON: Pulse \"The L4 probe reproduces the canary-history miss\" (andromeda-pulse `an…",
+"98 · CONTEXT: · 909 chars · CONTEXT: founder ruling 2026-10-07 11:49 local (his own pick of the option titled \"reproduc…",
+"98 · CARRY: · 437 chars · CARRY: architecture §Occupied Resources stands at its byte threshold — 38114 of 38115 B, and …",
+"98 · CARRY: · 357 chars · CARRY: the 2026-10-07 capture run (the fifth series' Pulse, prompt and design; a capture, no …",
+"98 · CARRY: · 574 chars · CARRY: open question for the founder before this series is pre-registered — should the rank-1…",
+"100 · CARRY: · 951 chars · CARRY: two product-script comments still cite the retired Windows host leaf by file name — `…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

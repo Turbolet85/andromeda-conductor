@@ -1,0 +1,42 @@
+# Operator relay: the go for Part B of the sixth `v3-09` series, Conductor (2026-10-08)
+
+From the pc overseer. Facts are `measured 2026-10-08` unless marked otherwise. Re-derive what you rely on.
+
+## 1. The go
+
+- **The founder's word on the GPU is given**: by dialog at 07:05 local today he picked "Да, запускай" for the sixth series
+  (three drives on the real model, about 30 minutes of GPU, daytime). This is the go the plan's step 10 waits for.
+- You re-enter `/andromeda-implement` in a fresh window (you were cleared at 23:33 on 2026-10-07 after Part A). Part A's
+  record is on disk: run dir `.andromeda/runs/2026-10-07T21-01-07-implement/`, the chunk's ledger, and the "In flight" note
+  you wrote into `.claude/session-handoff.md`. Read them; do not redo Part A, but re-read what the plan says the sitting's
+  shell must re-read (the env checks and `pulse-app`'s digest, expected `44f28608…428d` as Part A recorded).
+
+## 2. What I measured at 08:26 local, before sending this
+
+- GPU idle: 32 C, 44 W, 0 % utilisation, 879 MiB used by the desktop only; coolant 32.5 C.
+- No listener on `:4317` or `:4318`; no `pulse-app` and no `llama-cli` process.
+- Conductor: HEAD `902d12c`, the chunk uncommitted in the tree, `~/.cache/pulse-legs/rm-sixth-series` empty (0 entries).
+- Pulse moved since Part A: its HEAD is now `18a872d` (a setup commit: the host rule leaf re-seeded for Linux, `CLAUDE.md`
+  pointer lines, a run dir). `hypothesis:` it touches no build input; verify with your own diff over the build inputs
+  against `9bfefb8` before the launch, and do NOT rebuild `pulse-app` if the diff is empty — the pre-registered digest is of
+  the binary Part A built.
+
+## 3. A pipeline deploy landed between Part A and Part B (overseer1, 08:25 local)
+
+- Implement's letters and `gate-contract.md` are untouched. `gate.py` stays v1.12; only its sha8 moved (hygiene's
+  added-lines read now calls `_lib/gitio.hunks`). **The stamp's sha8 in Part B's trail will differ from Part A's: expected,
+  not drift.** Record it once, do not chase it.
+- What changed is the wrap (a generated last report section, a citation sweep that stops for the operator's word). That is
+  for the wrap's own relay, not for this run.
+
+## 4. Unchanged, restated because the window is fresh
+
+- Plain `l4-env.sh`. Nothing records prompts. No capture pass-through.
+- The pre-registered section `## The 2026-10-07 sixth series` is frozen (digest `01cf94c5…4fb5` in the ledger). It carries
+  the stop rule: last series, no seventh. Three drives, one fresh data dir, 180 s quiet windows, no retry-until-pass, no
+  fourth drive. Grade by the unchanged rule; write the verdict test either way and the ref test only if met.
+- Model text stays inside the chunk's `evidence/` tree: never in the report's prose, a route line, the handoff or a commit
+  message. (The quote on the frozen route line is the wrap's to replace with a pointer — input I17.)
+- If anything before the launch reads other than the plan expects (a moved digest, a busy port, a foreign process on the
+  GPU), stop and say so; do not launch around it.
+- After d3: stop the app, post-census, then Part C, and stop for the operator pass as the skill says. No commit of yours.

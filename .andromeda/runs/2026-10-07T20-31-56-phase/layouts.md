@@ -1,0 +1,36 @@
+# layouts extract
+
+## Relevance
+partial — the chunk creates and modifies no surface element; it DRIVES the cli surface's existing operator-gated `run --live real-model` leg three times (scope item 6), so only the cli entry-point and label-set mandates bind, as hold-the-line constraints. The desktop-webview surface is untouched and the plan's §Surface: desktop-webview carries nothing for this chunk.
+
+## Constraints
+- layout-templates §Surface: cli → Primary screens (commands), the `scripts/agent-run.{sh,ps1}` entry, requires the real-model leg to be reached as a third-token SELECTOR of `--live` (`run --live real-model`), never as a sixth harness command and never as a new stage flag. The sixth series therefore adds no verb, flag or selector; a series-specific entry point would be a layout change this chunk does not own.
+- layout-templates §Surface: cli → Primary screens (commands), the `scripts/agent-run.{sh,ps1}` entry, requires both shells to ship at identical semantics. The chunk drives the `.sh` leg on the Linux host; if research finds any reason to touch either script, the other moves with it. Whether either script needs a touch at all is research's question (scope names none).
+- layout-templates §Surface: cli → Primary screens (commands), the `scripts/agent-run.{sh,ps1}` entry, requires the `--live real-model` leg to LEAD with the posture-graded preconditions probe and to REFUSE (non-zero, one host-path-free `[PRECONDITION]` line per unmet subject, no leg fired) when a subject is unmet. A refused launch is a refusal of the environment, not a drive.
+- layout-templates §Surface: cli → Primary screens (commands), the `conductor preconditions` entry, requires the L4 handle to be graded for ABSENCE under a `--for` real-model scenario, and requires both arms of the `[PRECONDITION]` caption (unmet lines / the single satisfied line) to be read as shipped behaviour — the bracket label alone is not a failure signal. Whether the launch shell that sources the plain `l4-env.sh` (scope item 4) satisfies that absence grading at the pinned Pulse sha is research's question.
+- layout-templates §Surface: cli → Component — Primary content block 2 (verdict / report-state lines) requires the per-P-ID bracket-label set to stay closed at six and the run-level non-lamp qualifier set to stay as the plan names it. The series verdict (`Identified` / `NotIdentified`), the stop rule and the "NOT MET" outcome are harvest-test and ledger facts; none may surface as a new bracket label, lamp or `ReportState` on cli stdout or in the Markdown report.
+- layout-templates §Surface: cli → IA notes (Command model) requires the cli output structure to stay stable across versions because downstream agents parse it; a new results-table column without a `--format` flag is a breaking change. The series' capture and harvest path must read what the leg already prints and writes, adding no column.
+- layout-templates §Surface: cli → IA notes (Headless invariant) requires the agent-driven source-of-truth path to be never gated on an interactive prompt. The founder's "go" before the sitting (scope item 6) is an operator act OUTSIDE the cli; it must not be realized as an `inquire` gate or any stdin wait inside the leg.
+
+## Patterns to follow
+- The selector-of-`--live` shape: one existing selector picks the single real-model leg, an unknown selector is a usage refusal before any probe (per layout-templates §Surface: cli → Primary screens (commands), the `scripts/agent-run.{sh,ps1}` entry). The three drives reuse it verbatim.
+- The refusal / skip / strict three-outcome contrast for a non-fired leg (per layout-templates §Surface: cli → Primary screens (commands), the `scripts/agent-run.{sh,ps1}` entry): the attempt ledger's wording for a launch that did not fire should name which class it was, in the plan's own terms.
+- The indented-detail-line precedent for per-check grain in `runs/<run_id>.md` — detail rides beneath the verdict line, no new column, label or token (per layout-templates §Surface: cli → Component — Primary content block 2 (verdict / report-state lines), Per-check detail region). Anything the series reads from a drive's Markdown report is read in that shape.
+- Pipe discipline — data on stdout, human messages on stderr, ANSI stripped when piped, ASCII bracket prefixes carrying state (per layout-templates §Surface: cli → IA notes (Pipe discipline)). A harness transcript quoted into the ledger is keyed on the bracket prefix text, never on colour.
+
+## Anti-patterns to avoid
+- Minting a sixth harness command, a new stage flag or a series-specific selector to run the sixth series (banned by layout-templates §Surface: cli → Primary screens (commands), the `scripts/agent-run.{sh,ps1}` entry).
+- Surfacing the series verdict or the stop rule as a seventh lamp, a new bracket label or a new `ReportState` (banned by layout-templates §Surface: cli → Component — Primary content block 2 (verdict / report-state lines)).
+- Blocking the headless leg on a prompt to obtain the go (banned by layout-templates §Surface: cli → IA notes (Headless invariant) and §Surface: cli → Component — Hero / signature output, the `inquire` `isatty` gate).
+
+## Contract bindings
+- layouts ↔ tests: the plan ties the two-shell identical-semantics claim and the 5-command harness shape to test-plan §3 (layout-templates §Surface: cli → Primary screens (commands), the `scripts/agent-run.{sh,ps1}` entry). The drives' entry point is that harness contract's, not a layout choice.
+- layouts ↔ security: cli error output is required sanitized "per the security plan" — no absolute host paths, internal struct names or stack traces on stderr (layout-templates §Surface: cli → Component — Footer / terminator + error output). It meets this chunk at the home-rooted data dir (scope item 5) and at any harness text carried into `evidence/`.
+- layouts ↔ a11y: the plan states that NO_COLOR / piping compliance derives from the always-printed ASCII prefix (layout-templates §Surface: cli, signature-placement closing paragraph). No new status text is added by this chunk, so the binding is hold-only.
+- layouts ↔ design: (none) — no token, ANSI entry or colour mapping is added or moved.
+
+## Acceptance criteria contributions
+- (layouts) Each of d1..d3 is launched through the existing `run --live real-model` selector, and the chunk's diff against its base adds no verb, stage flag or selector to `scripts/agent-run.{sh,ps1}` or the cli verb set (per layout-templates §Surface: cli → Primary screens (commands)).
+- (layouts) The chunk's diff adds no bracket label, lamp, `ReportState` or results-table column: the per-P-ID label set stays six and the non-lamp qualifier set stays as named (per layout-templates §Surface: cli → Component — Primary content block 2 (verdict / report-state lines); §Surface: cli → IA notes (Command model)).
+- (layouts) A launch the leading probe refuses (non-zero exit, `[PRECONDITION]` lines, no leg fired) is recorded as a refusal and never as a graded drive (per layout-templates §Surface: cli → Primary screens (commands), the `scripts/agent-run.{sh,ps1}` entry).
+- (layouts) No drive waits on an interactive prompt inside the leg; the go is taken outside the cli before the launch (per layout-templates §Surface: cli → IA notes (Headless invariant)).

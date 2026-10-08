@@ -65,10 +65,12 @@ use real_model_grading::series_2026_09_30::capture_2026_09_30;
 use real_model_grading::series_2026_10_01::capture_2026_10_01;
 use real_model_grading::series_2026_10_06::capture_2026_10_06;
 use real_model_grading::series_2026_10_07::capture_2026_10_07;
+use real_model_grading::series_2026_10_07_sixth::capture_2026_10_07_sixth;
 use real_model_series::{
     CAPTURE_RUN_2026_10_07, Drive, EVIDENCE, EVIDENCE_2026_09_30, EVIDENCE_2026_10_01,
-    EVIDENCE_2026_10_06, EVIDENCE_2026_10_07, EVIDENCE_CAPTURE_RUN_2026_10_07, SERIES,
-    SERIES_2026_09_30, SERIES_2026_10_01, SERIES_2026_10_06, SERIES_2026_10_07,
+    EVIDENCE_2026_10_06, EVIDENCE_2026_10_07, EVIDENCE_2026_10_07_SIXTH,
+    EVIDENCE_CAPTURE_RUN_2026_10_07, SERIES, SERIES_2026_09_30, SERIES_2026_10_01,
+    SERIES_2026_10_06, SERIES_2026_10_07, SERIES_2026_10_07_SIXTH,
 };
 
 // ---- rule: begin ----
@@ -1253,7 +1255,7 @@ const SOURCES: [&str; 4] = [
 
 /// Every module under `real_model_grading/`, by file name. A module missing here is unscanned, which
 /// `the_capture_text_arm_scans_every_grading_module` holds against the directory.
-const GRADING_MODULES: [(&str, &str); 13] = [
+const GRADING_MODULES: [(&str, &str); 14] = [
     (
         "canary_pairing.rs",
         include_str!("real_model_grading/canary_pairing.rs"),
@@ -1296,6 +1298,10 @@ const GRADING_MODULES: [(&str, &str); 13] = [
         include_str!("real_model_grading/series_2026_10_07.rs"),
     ),
     (
+        "series_2026_10_07_sixth.rs",
+        include_str!("real_model_grading/series_2026_10_07_sixth.rs"),
+    ),
+    (
         "witnesses.rs",
         include_str!("real_model_grading/witnesses.rs"),
     ),
@@ -1336,6 +1342,12 @@ fn graded_captures() -> Vec<(String, String)> {
         captures.push((
             format!("2026-10-07 capture {}", drive.label),
             capture_run_2026_10_07(drive),
+        ));
+    }
+    for drive in &SERIES_2026_10_07_SIXTH {
+        captures.push((
+            format!("2026-10-07 sixth {}", drive.label),
+            capture_2026_10_07_sixth(drive),
         ));
     }
     captures

@@ -1,0 +1,136 @@
+[
+{
+"sql": "SELECT caller_name, callee_name, file, line FROM calls WHERE callee_name IN ('v3_09_met','pre_registered','contract_section') AND callee_kind = 'fn' AND callee_file LIKE '%real_model_grading/mod.rs' ORDER BY callee_name, file, line",
+"rows": 21,
+"result": [
+{
+"caller_name": "pre_registered",
+"callee_name": "contract_section",
+"file": "crates/conductor-run/tests/real_model_grading/mod.rs",
+"line": 155
+},
+{
+"caller_name": "capture_run_2026_10_07",
+"callee_name": "pre_registered",
+"file": "crates/conductor-run/tests/real_model_grading/capture_run_2026_10_07.rs",
+"line": 6
+},
+{
+"caller_name": "the_2026_10_07_capture_run_record_was_fixed_before_d1",
+"callee_name": "pre_registered",
+"file": "crates/conductor-run/tests/real_model_grading/capture_run_2026_10_07.rs",
+"line": 25
+},
+{
+"caller_name": "series_2026_09_30",
+"callee_name": "pre_registered",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_09_30.rs",
+"line": 6
+},
+{
+"caller_name": "the_2026_09_30_series_rule_was_fixed_before_d1",
+"callee_name": "pre_registered",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_09_30.rs",
+"line": 22
+},
+{
+"caller_name": "series_2026_10_01",
+"callee_name": "pre_registered",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_10_01.rs",
+"line": 5
+},
+{
+"caller_name": "the_2026_10_01_series_rule_was_fixed_before_d1",
+"callee_name": "pre_registered",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_10_01.rs",
+"line": 24
+},
+{
+"caller_name": "series_2026_10_06",
+"callee_name": "pre_registered",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_10_06.rs",
+"line": 5
+},
+{
+"caller_name": "the_2026_10_06_series_rule_was_fixed_before_d1",
+"callee_name": "pre_registered",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_10_06.rs",
+"line": 24
+},
+{
+"caller_name": "series_2026_10_07",
+"callee_name": "pre_registered",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_10_07.rs",
+"line": 5
+},
+{
+"caller_name": "the_2026_10_07_series_rule_was_fixed_before_d1",
+"callee_name": "pre_registered",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_10_07.rs",
+"line": 24
+},
+{
+"caller_name": "series_2026_09_29",
+"callee_name": "v3_09_met",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_09_29.rs",
+"line": 6
+},
+{
+"caller_name": "v3_09_is_not_met_by_the_series",
+"callee_name": "v3_09_met",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_09_29.rs",
+"line": 123
+},
+{
+"caller_name": "series_2026_09_30",
+"callee_name": "v3_09_met",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_09_30.rs",
+"line": 6
+},
+{
+"caller_name": "v3_09_is_not_met_by_the_2026_09_30_series",
+"callee_name": "v3_09_met",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_09_30.rs",
+"line": 118
+},
+{
+"caller_name": "series_2026_10_01",
+"callee_name": "v3_09_met",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_10_01.rs",
+"line": 5
+},
+{
+"caller_name": "v3_09_is_not_met_by_the_2026_10_01_series",
+"callee_name": "v3_09_met",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_10_01.rs",
+"line": 144
+},
+{
+"caller_name": "series_2026_10_06",
+"callee_name": "v3_09_met",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_10_06.rs",
+"line": 5
+},
+{
+"caller_name": "v3_09_is_not_met_by_the_2026_10_06_series",
+"callee_name": "v3_09_met",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_10_06.rs",
+"line": 130
+},
+{
+"caller_name": "series_2026_10_07",
+"callee_name": "v3_09_met",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_10_07.rs",
+"line": 5
+},
+{
+"caller_name": "v3_09_is_not_met_by_the_2026_10_07_series",
+"callee_name": "v3_09_met",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_10_07.rs",
+"line": 130
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

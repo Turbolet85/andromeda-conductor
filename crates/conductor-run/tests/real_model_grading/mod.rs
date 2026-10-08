@@ -16,6 +16,7 @@ pub(crate) mod series_2026_09_30;
 pub(crate) mod series_2026_10_01;
 pub(crate) mod series_2026_10_06;
 pub(crate) mod series_2026_10_07;
+pub(crate) mod series_2026_10_07_sixth;
 mod witnesses;
 mod workspace_mask;
 
