@@ -1,0 +1,38 @@
+[
+  {
+    "id": "I1",
+    "kind": "relay",
+    "repo": null,
+    "path": "../additional/pc-overseer/relays/conductor-phase-pairing-2026-10-08.md",
+    "form": "copy",
+    "state": "no-repo",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "49546d86ae828e9faca5cb14e8a3d49e013f5b17b3f17ea2951ff6653f86efd2",
+    "copy": "I1-conductor-phase-pairing-2026-10-08.md.txt",
+    "link": false,
+    "read_at": "2026-10-08T08:36:03Z",
+    "step": "phase:P1",
+    "why": "the overseer relay for this phase: the bounds of the founder pick, the stamps of d1 and d2, and the three questions the plan answers"
+  },
+  {
+    "id": "I2",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the operator, the /andromeda-phase invocation arguments, 2026-10-08",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "a683162c611edb3a65773fb2731dfb1bffb1659c6082c953df9c3b6b9fc5a8e4",
+    "copy": "I2-relay-1.md.txt",
+    "link": false,
+    "read_at": "2026-10-08T08:36:08Z",
+    "step": "phase:P1",
+    "why": "the operator directive at take-up: read the relay first, stop if only a live drive proves the fix, the plan answers the relay section 3 questions"
+  }
+]

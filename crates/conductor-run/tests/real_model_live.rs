@@ -38,7 +38,7 @@ use conductor_core::redact_value;
 use conductor_emit::{ExceptionSpec, Frame, fingerprint};
 use conductor_verify::{ReadbackClient, VerifyError};
 use real_model_common::{
-    DIGEST_ASSEMBLE, DIGEST_TICK, canary_attempts, elide_fingerprints, mask_host_paths,
+    DIGEST_ASSEMBLE, DIGEST_TICK, canary_attempts, elide_fingerprints, iso_ms, mask_host_paths,
     mask_workspace_key, rule_section, sweep_window, workspace_rendering,
 };
 use serde_json::{Value, json};
@@ -718,14 +718,10 @@ fn print_pulse_witnesses(leg_start_ms: Option<i64>, emission_ms: Option<i64>) {
         rows.as_deref().unwrap_or("unknown")
     ));
 
-    // The canary's attempts: the retry-storm cue-bearing digests before the scenario's emission
-    // instant (the whole window when it never emitted).
-    let before: Vec<&Value> = window
-        .iter()
-        .copied()
-        .filter(|v| emission_ms.is_none_or(|emitted| stamp(v).is_some_and(|at| at < emitted)))
-        .collect();
-    for line in canary_attempts(&before) {
+    // The canary's attempts: the retry-storm cue-bearing digests ticked before the scenario's
+    // emission instant (every one when it never emitted), each paired with its inference wherever in
+    // the window that is stamped.
+    for line in canary_attempts(&window, emission_ms) {
         emit(&line);
     }
 }
@@ -768,27 +764,4 @@ fn render_value(value: &Value) -> String {
         Value::String(s) => s.clone(),
         other => other.to_string(),
     }
-}
-
-/// `YYYY-MM-DDTHH:MM:SS[.fff…]Z` → epoch milliseconds (Pulse's log stamp; UTC).
-fn iso_ms(stamp: &str) -> Option<i64> {
-    let num = |range: std::ops::Range<usize>| stamp.get(range)?.parse::<i64>().ok();
-    let (year, month, day) = (num(0..4)?, num(5..7)?, num(8..10)?);
-    let (hour, minute, second) = (num(11..13)?, num(14..16)?, num(17..19)?);
-    let fraction = stamp
-        .get(19..)?
-        .strip_prefix('.')
-        .map(|f| f.trim_end_matches('Z'))
-        .unwrap_or("");
-    let millis = format!("{fraction:0<3}")
-        .get(..3)
-        .and_then(|m| m.parse::<i64>().ok())?;
-    // Days from the civil date (Howard Hinnant's algorithm), 1970-01-01 = day 0.
-    let y = if month <= 2 { year - 1 } else { year };
-    let era = y.div_euclid(400);
-    let yoe = y - era * 400;
-    let doy = (153 * ((month + 9) % 12) + 2) / 5 + day - 1;
-    let doe = yoe * 365 + yoe / 4 - yoe / 100 + doy;
-    let days = era * 146_097 + doe - 719_468;
-    Some((((days * 24 + hour) * 60 + minute) * 60 + second) * 1_000 + millis)
 }

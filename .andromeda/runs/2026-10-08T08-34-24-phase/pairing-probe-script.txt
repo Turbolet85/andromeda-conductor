@@ -1,0 +1,181 @@
+"""Read-only probe: port the capture's canary pairing and replay it over the sixth series' recorded Pulse log.
+
+Prints fields only (target, stamp, closed-enum fields the pairing reads). No fingerprint, no model text, no path.
+"""
+import calendar
+import json
+import os
+import re
+import sys
+import time
+
+LOG = os.path.expanduser("~/.cache/pulse-legs/rm-sixth-series/logs/agent-latest.jsonl.2026-10-08")
+EVID = "conductor-0.3.0/chunks/2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09/evidence"
+
+TICK = "digest.runtime.cadence_tick"
+ASSEMBLE = "digest.assemble.request"
+PROMPT = "interpretation.prompt.assemble"
+PARSE = "interpretation.json.parse"
+CREATED = "interpretation.incident.created"
+ERROR = "interpretation.inference.error"
+SKIPPED = "interpretation.inference.skipped"
+INC_SKIPPED = "interpretation.incident.skipped"
+STORM = "triage.pattern.storm.detected"
+
+
+def iso_ms(s):
+    m = re.match(r"(\d{4})-(\d\d)-(\d\d)T(\d\d):(\d\d):(\d\d)(?:\.(\d+))?Z?$", s or "")
+    if not m:
+        return None
+    y, mo, d, h, mi, se = (int(x) for x in m.groups()[:6])
+    frac = (m.group(7) or "") .ljust(3, "0")[:3]
+    return calendar.timegm((y, mo, d, h, mi, se)) * 1000 + int(frac)
+
+
+def target(v):
+    return v.get("target") or ""
+
+
+def field(v, k):
+    f = (v.get("fields") or {}).get(k)
+    if f is None:
+        return ""
+    if isinstance(f, str):
+        return f
+    return json.dumps(f)
+
+
+def stamp(v):
+    return iso_ms(v.get("timestamp"))
+
+
+def pair(lines, eligible):
+    """The pairing. `eligible(v)` says whether a cue tick is selected; every line is visible to the pairing."""
+    cue = []
+    for at, v in enumerate(lines):
+        if target(v) == TICK and field(v, "cue_present") == "true":
+            kind = next((field(x, "cue_kind") for x in lines[at + 1:] if target(x) == ASSEMBLE), "")
+            cue.append((at, kind))
+    out, other = [], []
+    for k, (at, kind) in enumerate(cue):
+        if not eligible(lines[at]):
+            continue
+        if kind != "retry_storm":
+            other.append(kind or "unknown")
+            continue
+        bound = next((n for n, kd in cue[k + 1:] if kd == "retry_storm"), len(lines))
+        seg = lines[at + 1:bound]
+        p = next((i for i, x in enumerate(seg) if target(x) == PROMPT), None)
+        skipped_first = any(target(x) == SKIPPED for x in seg[: p if p is not None else len(seg)])
+        if p is None:
+            inf = []
+        else:
+            after = lines[at + 1 + p + 1:]
+            end = next((i for i, x in enumerate(after) if target(x) == PROMPT), len(after))
+            inf = after[:end]
+        first = lambda name: next((x for x in inf if target(x) == name), None)
+        parse = first(PARSE)
+        parse_o = field(parse, "parse_outcome") if parse is not None else None
+        faulted = skipped_first or first(ERROR) is not None or first(SKIPPED) is not None
+        outcome = first(CREATED)
+        sk = first(INC_SKIPPED)
+        skip_reason = field(sk, "skip_reason") if sk is not None else "none"
+        if p is not None and parse_o == "ok" and not faulted:
+            token = "surfaced" if outcome is not None else "dismissed"
+        else:
+            token = "pipeline-fault"
+        tier = next((field(x, "cue_priority_tier") for x in lines[at + 1:] if target(x) == ASSEMBLE), "")
+        out.append(
+            "canary: %s t=%s cue_kind=%s cue_priority_tier=%s parse=%s created=%s deduped=%s skip_reason=%s"
+            % (
+                token,
+                lines[at].get("timestamp", "unknown"),
+                kind,
+                tier,
+                parse_o if parse_o is not None else "none",
+                field(outcome, "created") if outcome is not None else "none",
+                field(outcome, "deduped") if outcome is not None else "none",
+                skip_reason,
+            )
+        )
+    out.append("canary other cue-bearing digests: %d (%s)" % (len(other), ",".join(other)))
+    return out
+
+
+def main():
+    lines = []
+    bad = 0
+    with open(LOG, encoding="utf-8", errors="replace") as fh:
+        for raw in fh:
+            try:
+                lines.append(json.loads(raw))
+            except ValueError:
+                bad += 1
+    print("log lines parsed %d · unparsed %d" % (len(lines), bad))
+    for d in ("d1", "d2", "d3"):
+        cap = open("%s/rm-capture-%s.txt" % (EVID, d), encoding="utf-8").read().split("\n")
+        emitted = int(next(l for l in cap if l.startswith("emission_instant_ms: ")).split(": ")[1])
+        run_id = next(l for l in cap if l.startswith("run_id: ")).split(": ")[1]
+        win_line = next(l for l in cap if l.startswith("pulse-log window: "))
+        printed = [l for l in cap if l.startswith("canary")]
+        # leg start: the run id's own stamp (the capture uses the first self-obs line's timestamp_ms).
+        m = re.match(r"(\d{4})-(\d\d)-(\d\d)T(\d\d)-(\d\d)-(\d\d)-(\d+)", run_id)
+        y, mo, dd, h, mi, se, ms = (int(x) for x in m.groups())
+        start = calendar.timegm((y, mo, dd, h, mi, se)) * 1000 + ms
+        # one drive's window only: stop at the next drive's start (the capture ran right after its own leg).
+        window = [v for v in lines if stamp(v) is not None and stamp(v) >= start]
+        print("\n=== %s · run %s · emitted %d (%s) · leg start ~%d" % (
+            d, run_id, emitted, time.strftime("%H:%M:%S", time.gmtime(emitted / 1000)) + ".%03d" % (emitted % 1000), start))
+        print("capture says: %s · probe window to end of log: %d lines" % (win_line, len(window)))
+        # The capture ran at the leg's end; bound the window at emitted + 6 min to stay inside this drive.
+        end = emitted + 150_000
+        window = [v for v in window if stamp(v) < end]
+        before = [v for v in window if stamp(v) < emitted]
+        old = pair(before, lambda v: True)
+        new = pair(window, lambda v: stamp(v) is not None and stamp(v) < emitted)
+        print("OLD (filter, then pair) equals the committed capture's canary lines: %s" % (old == printed))
+        for l in old:
+            print("  old  " + l)
+        for l in printed:
+            print("  file " + l)
+        for l in new:
+            print("  new  " + l)
+        naive = pair(window, lambda v: True)
+        print("  naive whole-window pairing would print %d lines:" % len(naive))
+        for l in naive:
+            print("  naive " + l)
+        # fields-only order listing around the instant
+        print("  -- order of the pairing's lines from emitted-1s to emitted+13s (file order):")
+        keys = {
+            TICK: ["mode", "cue_present"],
+            ASSEMBLE: ["mode", "cue_kind", "cue_priority_tier"],
+            PROMPT: [],
+            PARSE: ["parse_outcome"],
+            CREATED: ["created", "deduped"],
+            ERROR: [],
+            SKIPPED: ["reason"],
+            INC_SKIPPED: ["skip_reason"],
+            STORM: ["severity_hint"],
+        }
+        prev = None
+        for n, v in enumerate(window):
+            s = stamp(v)
+            if s is None or s < emitted - 1000 or s > emitted + 13000:
+                continue
+            t = target(v)
+            if t not in keys:
+                continue
+            if t == TICK and field(v, "cue_present") != "true":
+                continue
+            mono = "" if prev is None or s >= prev else "  <-- stamp earlier than the previous listed line"
+            prev = s
+            print("  #%d %+7d ms %s %s %s%s" % (
+                n, s - emitted, v.get("timestamp"), t,
+                " ".join("%s=%s" % (k, field(v, k)) for k in keys[t]), mono))
+        # whole-window monotonicity of stamps
+        inversions = sum(1 for a, b in zip(window, window[1:]) if stamp(b) < stamp(a))
+        print("  stamp inversions between adjacent lines in the window: %d of %d" % (inversions, len(window) - 1))
+
+
+if __name__ == "__main__":
+    sys.exit(main())

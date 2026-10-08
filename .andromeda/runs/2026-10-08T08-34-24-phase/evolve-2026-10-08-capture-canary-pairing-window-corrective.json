@@ -1,0 +1,202 @@
+[
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "d7ef3462",
+"ts": "2026-10-08T08:37:11Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-08T08-34-24-phase",
+"--marker",
+"2026-10-08-capture-canary-pairing-window-corrective"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"appended 2 record(s) · friction-log.ndjson lines 3157→3159 · bytes 3777103→3779034 · term lf",
+"ts 2026-10-08T08:36:56Z · clock 2026-10-08T08:37:11Z · bound 2026-10-08T08:33:45Z (line 3157)",
+"ids 2026-10-08T08:36:56Z-a … 2026-10-08T08:36:56Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 3157,
+"bytes": 3777103,
+"terminator": "LF",
+"bound": "2026-10-08T08:33:45Z"
+},
+"after": {
+"lines": 3159,
+"bytes": 3779034
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "d7ef3462",
+"ts": "2026-10-08T08:43:23Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"1",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-08T08-34-24-phase",
+"--marker",
+"2026-10-08-capture-canary-pairing-window-corrective"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"appended 1 record(s) · friction-log.ndjson lines 3159→3160 · bytes 3779034→3780867 · term lf",
+"ts 2026-10-08T08:43:03Z · clock 2026-10-08T08:43:23Z · bound 2026-10-08T08:36:56Z (line 3159)",
+"ids 2026-10-08T08:43:03Z-a"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 3159,
+"bytes": 3779034,
+"terminator": "LF",
+"bound": "2026-10-08T08:36:56Z"
+},
+"after": {
+"lines": 3160,
+"bytes": 3780867
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "d7ef3462",
+"ts": "2026-10-08T08:49:47Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-08T08-34-24-phase",
+"--marker",
+"2026-10-08-capture-canary-pairing-window-corrective"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"appended 3 record(s) · friction-log.ndjson lines 3160→3163 · bytes 3780867→3784536 · term lf",
+"ts 2026-10-08T08:49:17Z · clock 2026-10-08T08:49:47Z · bound 2026-10-08T08:43:03Z (line 3160)",
+"ids 2026-10-08T08:49:17Z-a … 2026-10-08T08:49:17Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 3160,
+"bytes": 3780867,
+"terminator": "LF",
+"bound": "2026-10-08T08:43:03Z"
+},
+"after": {
+"lines": 3163,
+"bytes": 3784536
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "d7ef3462",
+"ts": "2026-10-08T08:55:19Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"3",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-08T08-34-24-phase",
+"--marker",
+"2026-10-08-capture-canary-pairing-window-corrective"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"appended 3 record(s) · friction-log.ndjson lines 3163→3166 · bytes 3784536→3787340 · term lf",
+"ts 2026-10-08T08:55:00Z · clock 2026-10-08T08:55:19Z · bound 2026-10-08T08:49:17Z (line 3163)",
+"ids 2026-10-08T08:55:00Z-a … 2026-10-08T08:55:00Z-c (3)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 3163,
+"bytes": 3784536,
+"terminator": "LF",
+"bound": "2026-10-08T08:49:17Z"
+},
+"after": {
+"lines": 3166,
+"bytes": 3787340
+}
+},
+{
+"tool": "evolve",
+"v": "1.0",
+"sha8": "d7ef3462",
+"ts": "2026-10-08T08:58:34Z",
+"argv": [
+"append",
+"--root",
+".",
+"--count",
+"2",
+"--records-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-08T08-34-24-phase",
+"--marker",
+"2026-10-08-capture-canary-pairing-window-corrective"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"appended 2 record(s) · friction-log.ndjson lines 3166→3168 · bytes 3787340→3789721 · term lf",
+"ts 2026-10-08T08:58:17Z · clock 2026-10-08T08:58:34Z · bound 2026-10-08T08:55:00Z (line 3166)",
+"ids 2026-10-08T08:58:17Z-a … 2026-10-08T08:58:17Z-b (2)"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/friction-log.ndjson"
+],
+"before": {
+"lines": 3166,
+"bytes": 3787340,
+"terminator": "LF",
+"bound": "2026-10-08T08:55:00Z"
+},
+"after": {
+"lines": 3168,
+"bytes": 3789721
+}
+}
+]

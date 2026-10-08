@@ -68,9 +68,22 @@ fn field(line: &Value, key: &str) -> String {
 /// canary's closed its segment before the parse, reading a surfacing and a dismissal as faults.
 /// Stated limit: a digest Pulse's queue replaces before inference pairs with the replacing one.
 ///
+/// `emission_ms`, the scenario's emission instant, SELECTS ticks and never cuts the lines: a
+/// cue-bearing tick prints its line (or is counted among the other kinds) only when its own stamp
+/// parses and is strictly earlier than the instant, and every tick is selected when there is none.
+/// Every tick, selected or not, still bounds a segment, and a selected tick's pairing reads its
+/// inference wherever those lines are stamped: a canary digest ticked milliseconds before the instant
+/// assembles its prompt after it, and dropping the later lines read a deduped surfacing as a fault
+/// (measured at d1 and d2 of the 2026-10-07 sixth series). The scenario's own storm digest ticks
+/// after the instant, so it gets no line and closes the last canary's segment. Stated limit: a
+/// canary tick stamped at or after the instant gets no line either.
+///
 /// Each line ends with its inference's `skip_reason` — Pulse's own stated cause of a no-incident
 /// outcome — or `none` when the segment logs none. Recorded only: the rule reads the first token.
-pub fn canary_attempts(lines: &[&Value]) -> Vec<String> {
+pub fn canary_attempts(lines: &[&Value], emission_ms: Option<i64>) -> Vec<String> {
+    let selected = |tick: &Value| {
+        emission_ms.is_none_or(|emitted| stamp_ms(tick).is_some_and(|at| at < emitted))
+    };
     let cue_ticks: Vec<(usize, String)> = lines
         .iter()
         .enumerate()
@@ -87,6 +100,9 @@ pub fn canary_attempts(lines: &[&Value]) -> Vec<String> {
     let mut out = Vec::new();
     let mut other_kinds: Vec<String> = Vec::new();
     for (k, (at, kind)) in cue_ticks.iter().enumerate() {
+        if !selected(lines[*at]) {
+            continue;
+        }
         if kind != "retry_storm" {
             other_kinds.push(if kind.is_empty() {
                 "unknown".to_string()
@@ -148,6 +164,35 @@ pub fn canary_attempts(lines: &[&Value]) -> Vec<String> {
         other_kinds.join(",")
     ));
     out
+}
+
+fn stamp_ms(line: &Value) -> Option<i64> {
+    line.get("timestamp")
+        .and_then(Value::as_str)
+        .and_then(iso_ms)
+}
+
+/// `YYYY-MM-DDTHH:MM:SS[.fff…]Z` → epoch milliseconds (Pulse's log stamp; UTC).
+pub fn iso_ms(stamp: &str) -> Option<i64> {
+    let num = |range: std::ops::Range<usize>| stamp.get(range)?.parse::<i64>().ok();
+    let (year, month, day) = (num(0..4)?, num(5..7)?, num(8..10)?);
+    let (hour, minute, second) = (num(11..13)?, num(14..16)?, num(17..19)?);
+    let fraction = stamp
+        .get(19..)?
+        .strip_prefix('.')
+        .map(|f| f.trim_end_matches('Z'))
+        .unwrap_or("");
+    let millis = format!("{fraction:0<3}")
+        .get(..3)
+        .and_then(|m| m.parse::<i64>().ok())?;
+    // Days from the civil date (Howard Hinnant's algorithm), 1970-01-01 = day 0.
+    let y = if month <= 2 { year - 1 } else { year };
+    let era = y.div_euclid(400);
+    let yoe = y - era * 400;
+    let doy = (153 * ((month + 9) % 12) + 2) / 5 + day - 1;
+    let doe = yoe * 365 + yoe / 4 - yoe / 100 + doy;
+    let days = era * 146_097 + doe - 719_468;
+    Some((((days * 24 + hour) * 60 + minute) * 60 + second) * 1_000 + millis)
 }
 
 /// What the capture prints in place of a fingerprint.

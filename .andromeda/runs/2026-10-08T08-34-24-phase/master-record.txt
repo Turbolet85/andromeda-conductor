@@ -1,0 +1,1 @@
+2026-10-08-capture-canary-pairing-window-corrective · pending · the real-model capture's canary pairing reads a selected digest's inference across the emission instant, pinned on the sixth series' recorded shapes; no live drive, nothing recorded re-rendered · → conductor-0.3.0/chunks/2026-10-08-capture-canary-pairing-window-corrective/

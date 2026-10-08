@@ -1,0 +1,40 @@
+# Operator relay: the phase of the capture pairing-window corrective, Conductor (2026-10-08)
+
+From the pc overseer. Facts are `measured 2026-10-08` unless marked otherwise. Re-derive what you rely on.
+
+## 1. Why this chunk exists
+
+The founder's own pick by dialog at 10:25 local today: "Починить в 0.3.0", to the question whether the capture's
+pairing-window race is fixed in 0.3.0. My lean had been to leave and record it; he chose the fix. The entry
+(`conductor-0.3.0/working-route.md:100`, minted at `39e197b`) carries the finding's facts and the bounds of his pick.
+
+## 2. The bounds (his pick's wording: a separate small chunk, the harness change and its tests, no GPU)
+
+- **Small.** The change is the canary pairing in the real-model capture (`real_model_live.rs`'s canary block, the
+  `at < emitted` filter; `canary_attempts` in `real_model_common/mod.rs`) and the tests that pin it. No scenario, script,
+  manifest or shipped-crate change. If research finds the honest fix is wider than that, stop at the plan review and say so.
+- **No GPU, no live series.** `hypothesis:` the fix is provable on recorded lines — a fixture built from the stamps the
+  sixth series' ledger and captures hold (d1: tick 4 ms before the instant, prompt 1 ms after, parse `ok`, `deduped`; d2:
+  2 ms and 2 ms; d3 as a two-line control). If you conclude that only a live drive proves it, do not plan one: stop and
+  tell me, because a GPU run needs the founder's new word.
+- **Nothing recorded is re-rendered.** Committed captures keep what they printed; the frozen chunks stay byte for byte; the
+  harvest's pins on those printed tokens stay as they are (they pin what was printed, and it was printed).
+- **The rule is untouched.** The decision rule and every pre-registered series section stay byte for byte; `v3-09` stays
+  verified on the sixth series and is not re-read by this chunk. The rule counts emissions and never reads these tokens.
+- **The contract** already carries one dated correction of this pairing (2026-09-29, under "The canary classification");
+  this is a second, add-only.
+
+## 3. What I want the plan to answer explicitly
+
+- What the classifier prints, after the fix, for a canary storm whose tick precedes the emission instant by milliseconds:
+  the outcome Pulse's own log bears out. And for the scenario's OWN storm digest: it must still never print as a canary.
+  State how the two are told apart when their stamps sit 5-6 s apart (d1: canary prompt 06:32:46.356Z, scenario prompt
+  06:32:52.168Z) and Pulse's lines carry no digest identity.
+- A failing-first control: the new test reads `pipeline-fault` on the recorded d1 and d2 shapes before the change.
+- That architecture §Occupied Resources (38,114 of 38,115 B) and §Established Decisions (38,082 B) are not grown; an
+  amendment that grows either frees bytes there first.
+
+## 4. Order and pace
+
+After this chunk: the version close, the last entry. Unhurried (the founder's word). This chunk claims no capability
+(the adaptation minted an entry only); if you think it should, say so at the review rather than adding one.

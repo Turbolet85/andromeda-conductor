@@ -1,0 +1,115 @@
+log lines parsed 25988 · unparsed 0
+
+=== d1 · run 2026-10-08T06-29-01-231 · emitted 1791441166355 (06:32:46.355) · leg start ~1791440941231
+capture says: pulse-log window: 6000 lines since the leg's first self-obs line · probe window to end of log: 25563 lines
+OLD (filter, then pair) equals the committed capture's canary lines: True
+  old  canary: surfaced t=2026-10-08T06:29:46.347Z cue_kind=retry_storm cue_priority_tier=autonomous parse=ok created=true deduped=false skip_reason=none
+  old  canary: surfaced t=2026-10-08T06:31:16.344Z cue_kind=retry_storm cue_priority_tier=autonomous parse=ok created=false deduped=true skip_reason=none
+  old  canary: pipeline-fault t=2026-10-08T06:32:46.351Z cue_kind=retry_storm cue_priority_tier=autonomous parse=none created=none deduped=none skip_reason=none
+  old  canary other cue-bearing digests: 0 ()
+  file canary: surfaced t=2026-10-08T06:29:46.347Z cue_kind=retry_storm cue_priority_tier=autonomous parse=ok created=true deduped=false skip_reason=none
+  file canary: surfaced t=2026-10-08T06:31:16.344Z cue_kind=retry_storm cue_priority_tier=autonomous parse=ok created=false deduped=true skip_reason=none
+  file canary: pipeline-fault t=2026-10-08T06:32:46.351Z cue_kind=retry_storm cue_priority_tier=autonomous parse=none created=none deduped=none skip_reason=none
+  file canary other cue-bearing digests: 0 ()
+  new  canary: surfaced t=2026-10-08T06:29:46.347Z cue_kind=retry_storm cue_priority_tier=autonomous parse=ok created=true deduped=false skip_reason=none
+  new  canary: surfaced t=2026-10-08T06:31:16.344Z cue_kind=retry_storm cue_priority_tier=autonomous parse=ok created=false deduped=true skip_reason=none
+  new  canary: surfaced t=2026-10-08T06:32:46.351Z cue_kind=retry_storm cue_priority_tier=autonomous parse=ok created=false deduped=true skip_reason=none
+  new  canary other cue-bearing digests: 0 ()
+  naive whole-window pairing would print 5 lines:
+  naive canary: surfaced t=2026-10-08T06:29:46.347Z cue_kind=retry_storm cue_priority_tier=autonomous parse=ok created=true deduped=false skip_reason=none
+  naive canary: surfaced t=2026-10-08T06:31:16.344Z cue_kind=retry_storm cue_priority_tier=autonomous parse=ok created=false deduped=true skip_reason=none
+  naive canary: surfaced t=2026-10-08T06:32:46.351Z cue_kind=retry_storm cue_priority_tier=autonomous parse=ok created=false deduped=true skip_reason=none
+  naive canary: surfaced t=2026-10-08T06:32:51.361Z cue_kind=retry_storm cue_priority_tier=autonomous parse=ok created=true deduped=false skip_reason=none
+  naive canary other cue-bearing digests: 0 ()
+  -- order of the pairing's lines from emitted-1s to emitted+13s (file order):
+  #3707     -13 ms 2026-10-08T06:32:46.342Z triage.pattern.storm.detected severity_hint=suggested
+  #3723      -8 ms 2026-10-08T06:32:46.347Z triage.pattern.storm.detected severity_hint=autonomous
+  #3743      -4 ms 2026-10-08T06:32:46.351Z digest.runtime.cadence_tick mode=tier1 cue_present=true
+  #3744      -4 ms 2026-10-08T06:32:46.351Z digest.assemble.request mode=tier1 cue_kind=retry_storm cue_priority_tier=autonomous
+  #3761      +1 ms 2026-10-08T06:32:46.356Z interpretation.prompt.assemble 
+  #3806   +2501 ms 2026-10-08T06:32:48.856Z triage.pattern.storm.detected severity_hint=suggested
+  #3870   +5002 ms 2026-10-08T06:32:51.357Z triage.pattern.storm.detected severity_hint=autonomous
+  #3886   +5006 ms 2026-10-08T06:32:51.361Z digest.runtime.cadence_tick mode=tier1 cue_present=true
+  #3887   +5006 ms 2026-10-08T06:32:51.361Z digest.assemble.request mode=tier1 cue_kind=retry_storm cue_priority_tier=autonomous
+  #3922   +5779 ms 2026-10-08T06:32:52.134Z interpretation.json.parse parse_outcome=ok
+  #3926   +5813 ms 2026-10-08T06:32:52.168Z interpretation.incident.created created=false deduped=true
+  #3928   +5813 ms 2026-10-08T06:32:52.168Z interpretation.prompt.assemble 
+  #4011  +11707 ms 2026-10-08T06:32:58.062Z interpretation.json.parse parse_outcome=ok
+  #4015  +11765 ms 2026-10-08T06:32:58.120Z interpretation.incident.created created=true deduped=false
+  stamp inversions between adjacent lines in the window: 1 of 6200
+
+=== d2 · run 2026-10-08T06-39-06-798 · emitted 1791441771853 (06:42:51.853) · leg start ~1791441546798
+capture says: pulse-log window: 6029 lines since the leg's first self-obs line · probe window to end of log: 15864 lines
+OLD (filter, then pair) equals the committed capture's canary lines: True
+  old  canary: surfaced t=2026-10-08T06:39:51.837Z cue_kind=retry_storm cue_priority_tier=autonomous parse=ok created=true deduped=false skip_reason=none
+  old  canary: surfaced t=2026-10-08T06:41:21.844Z cue_kind=retry_storm cue_priority_tier=autonomous parse=ok created=false deduped=true skip_reason=none
+  old  canary: pipeline-fault t=2026-10-08T06:42:51.851Z cue_kind=retry_storm cue_priority_tier=autonomous parse=none created=none deduped=none skip_reason=none
+  old  canary other cue-bearing digests: 0 ()
+  file canary: surfaced t=2026-10-08T06:39:51.837Z cue_kind=retry_storm cue_priority_tier=autonomous parse=ok created=true deduped=false skip_reason=none
+  file canary: surfaced t=2026-10-08T06:41:21.844Z cue_kind=retry_storm cue_priority_tier=autonomous parse=ok created=false deduped=true skip_reason=none
+  file canary: pipeline-fault t=2026-10-08T06:42:51.851Z cue_kind=retry_storm cue_priority_tier=autonomous parse=none created=none deduped=none skip_reason=none
+  file canary other cue-bearing digests: 0 ()
+  new  canary: surfaced t=2026-10-08T06:39:51.837Z cue_kind=retry_storm cue_priority_tier=autonomous parse=ok created=true deduped=false skip_reason=none
+  new  canary: surfaced t=2026-10-08T06:41:21.844Z cue_kind=retry_storm cue_priority_tier=autonomous parse=ok created=false deduped=true skip_reason=none
+  new  canary: surfaced t=2026-10-08T06:42:51.851Z cue_kind=retry_storm cue_priority_tier=autonomous parse=ok created=false deduped=true skip_reason=none
+  new  canary other cue-bearing digests: 0 ()
+  naive whole-window pairing would print 5 lines:
+  naive canary: surfaced t=2026-10-08T06:39:51.837Z cue_kind=retry_storm cue_priority_tier=autonomous parse=ok created=true deduped=false skip_reason=none
+  naive canary: surfaced t=2026-10-08T06:41:21.844Z cue_kind=retry_storm cue_priority_tier=autonomous parse=ok created=false deduped=true skip_reason=none
+  naive canary: surfaced t=2026-10-08T06:42:51.851Z cue_kind=retry_storm cue_priority_tier=autonomous parse=ok created=false deduped=true skip_reason=none
+  naive canary: surfaced t=2026-10-08T06:42:56.859Z cue_kind=retry_storm cue_priority_tier=autonomous parse=ok created=true deduped=false skip_reason=none
+  naive canary other cue-bearing digests: 3 (error_rate_spike,error_rate_spike,error_rate_spike)
+  -- order of the pairing's lines from emitted-1s to emitted+13s (file order):
+  #3602     -10 ms 2026-10-08T06:42:51.843Z triage.pattern.storm.detected severity_hint=suggested
+  #3618      -6 ms 2026-10-08T06:42:51.847Z triage.pattern.storm.detected severity_hint=autonomous
+  #3638      -2 ms 2026-10-08T06:42:51.851Z digest.runtime.cadence_tick mode=tier1 cue_present=true
+  #3639      -2 ms 2026-10-08T06:42:51.851Z digest.assemble.request mode=tier1 cue_kind=retry_storm cue_priority_tier=autonomous
+  #3658      +2 ms 2026-10-08T06:42:51.855Z interpretation.prompt.assemble 
+  #3683    +730 ms 2026-10-08T06:42:52.583Z digest.runtime.cadence_tick mode=tier2 cue_present=true
+  #3684    +730 ms 2026-10-08T06:42:52.583Z digest.assemble.request mode=tier2 cue_kind=error_rate_spike cue_priority_tier=suggested
+  #3731   +2500 ms 2026-10-08T06:42:54.353Z triage.pattern.storm.detected severity_hint=suggested
+  #3778   +5001 ms 2026-10-08T06:42:56.854Z triage.pattern.storm.detected severity_hint=autonomous
+  #3794   +5006 ms 2026-10-08T06:42:56.859Z digest.runtime.cadence_tick mode=tier1 cue_present=true
+  #3795   +5006 ms 2026-10-08T06:42:56.859Z digest.assemble.request mode=tier1 cue_kind=retry_storm cue_priority_tier=autonomous
+  #3836   +6325 ms 2026-10-08T06:42:58.178Z interpretation.json.parse parse_outcome=ok
+  #3840   +6358 ms 2026-10-08T06:42:58.211Z interpretation.incident.created created=false deduped=true
+  #3842   +6358 ms 2026-10-08T06:42:58.211Z interpretation.prompt.assemble 
+  #3923  +12232 ms 2026-10-08T06:43:04.085Z interpretation.json.parse parse_outcome=ok
+  #3927  +12290 ms 2026-10-08T06:43:04.143Z interpretation.incident.created created=true deduped=false
+  #3929  +12290 ms 2026-10-08T06:43:04.143Z interpretation.prompt.assemble 
+  stamp inversions between adjacent lines in the window: 0 of 6233
+
+=== d3 · run 2026-10-08T06-48-35-676 · emitted 1791442340721 (06:52:20.721) · leg start ~1791442115676
+capture says: pulse-log window: 6183 lines since the leg's first self-obs line · probe window to end of log: 6581 lines
+OLD (filter, then pair) equals the committed capture's canary lines: True
+  old  canary: surfaced t=2026-10-08T06:49:20.714Z cue_kind=retry_storm cue_priority_tier=autonomous parse=ok created=true deduped=false skip_reason=none
+  old  canary: surfaced t=2026-10-08T06:50:50.721Z cue_kind=retry_storm cue_priority_tier=autonomous parse=ok created=false deduped=true skip_reason=none
+  old  canary other cue-bearing digests: 4 (error_rate_spike,error_rate_spike,error_rate_spike,error_rate_spike)
+  file canary: surfaced t=2026-10-08T06:49:20.714Z cue_kind=retry_storm cue_priority_tier=autonomous parse=ok created=true deduped=false skip_reason=none
+  file canary: surfaced t=2026-10-08T06:50:50.721Z cue_kind=retry_storm cue_priority_tier=autonomous parse=ok created=false deduped=true skip_reason=none
+  file canary other cue-bearing digests: 4 (error_rate_spike,error_rate_spike,error_rate_spike,error_rate_spike)
+  new  canary: surfaced t=2026-10-08T06:49:20.714Z cue_kind=retry_storm cue_priority_tier=autonomous parse=ok created=true deduped=false skip_reason=none
+  new  canary: surfaced t=2026-10-08T06:50:50.721Z cue_kind=retry_storm cue_priority_tier=autonomous parse=ok created=false deduped=true skip_reason=none
+  new  canary other cue-bearing digests: 4 (error_rate_spike,error_rate_spike,error_rate_spike,error_rate_spike)
+  naive whole-window pairing would print 5 lines:
+  naive canary: surfaced t=2026-10-08T06:49:20.714Z cue_kind=retry_storm cue_priority_tier=autonomous parse=ok created=true deduped=false skip_reason=none
+  naive canary: surfaced t=2026-10-08T06:50:50.721Z cue_kind=retry_storm cue_priority_tier=autonomous parse=ok created=false deduped=true skip_reason=none
+  naive canary: surfaced t=2026-10-08T06:52:20.732Z cue_kind=retry_storm cue_priority_tier=autonomous parse=ok created=false deduped=true skip_reason=none
+  naive canary: surfaced t=2026-10-08T06:52:25.725Z cue_kind=retry_storm cue_priority_tier=autonomous parse=ok created=true deduped=false skip_reason=none
+  naive canary other cue-bearing digests: 6 (error_rate_spike,error_rate_spike,error_rate_spike,error_rate_spike,error_rate_spike,error_rate_spike)
+  -- order of the pairing's lines from emitted-1s to emitted+13s (file order):
+  #3722      -1 ms 2026-10-08T06:52:20.720Z triage.pattern.storm.detected severity_hint=suggested
+  #3735      +4 ms 2026-10-08T06:52:20.725Z triage.pattern.storm.detected severity_hint=autonomous
+  #3755     +11 ms 2026-10-08T06:52:20.732Z digest.runtime.cadence_tick mode=tier1 cue_present=true
+  #3756     +11 ms 2026-10-08T06:52:20.732Z digest.assemble.request mode=tier1 cue_kind=retry_storm cue_priority_tier=autonomous
+  #3772     +15 ms 2026-10-08T06:52:20.736Z interpretation.prompt.assemble 
+  #3831   +2501 ms 2026-10-08T06:52:23.222Z triage.pattern.storm.detected severity_hint=suggested
+  #3882   +5000 ms 2026-10-08T06:52:25.721Z triage.pattern.storm.detected severity_hint=autonomous
+  #3898   +5004 ms 2026-10-08T06:52:25.725Z digest.runtime.cadence_tick mode=tier1 cue_present=true
+  #3899   +5004 ms 2026-10-08T06:52:25.725Z digest.assemble.request mode=tier1 cue_kind=retry_storm cue_priority_tier=autonomous
+  #3932   +6015 ms 2026-10-08T06:52:26.736Z interpretation.json.parse parse_outcome=ok
+  #3936   +6048 ms 2026-10-08T06:52:26.769Z interpretation.incident.created created=false deduped=true
+  #3938   +6048 ms 2026-10-08T06:52:26.769Z interpretation.prompt.assemble 
+  #4019  +11882 ms 2026-10-08T06:52:32.603Z interpretation.json.parse parse_outcome=ok
+  #4023  +11940 ms 2026-10-08T06:52:32.661Z interpretation.incident.created created=true deduped=false
+  stamp inversions between adjacent lines in the window: 0 of 6374

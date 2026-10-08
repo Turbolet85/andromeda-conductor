@@ -1,0 +1,27 @@
+[
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bd649850",
+"ts": "2026-10-08T09:03:59Z",
+"argv": [
+"show",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-10-08-capture-canary-pairing-window-corrective",
+"--run-dir",
+".andromeda/runs/2026-10-08T08-58-57-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-10-08-capture-canary-pairing-window-corrective: 0",
+"pool: unclaimed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

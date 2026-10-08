@@ -318,6 +318,18 @@ Stated limits, fixed with the grades:
   `error_rate_spike` tick 0.95 s and 3 s after a canary tick closed its segment before the parse, so a surfacing
   (b1) and a dismissal (b2) printed as `pipeline-fault`. Those captures keep what they printed; the attempt ledger
   records each storm's outcome from Pulse's own log. The decision rule counts emissions, never these tokens.]
+  [corrected 2026-10-08 (2026-10-08-capture-canary-pairing-window-corrective, implement): the pairing first read
+  only the lines stamped before the emission instant. Measured at d1 and d2 of the 2026-10-07 sixth series
+  (2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09, its `evidence/attempt-ledger.md`), the third
+  canary storm's tick fell 4 ms and 2 ms before the instant and its prompt assembly 1 ms and 2 ms after it, so
+  that storm printed `pipeline-fault` where Pulse's own log reads it parsed `ok` and deduped. From this
+  correction the selection is unchanged (a cue-bearing tick stamped before the instant; the whole window when
+  the scenario never emitted) and the pairing of a selected digest reads its inference wherever those lines are
+  stamped, its prompt still the first before the next retry-storm tick. The scenario's own storm digest ticks
+  after the instant, so it never prints as a canary and it closes the last canary's segment. A canary tick
+  stamped at or after the instant still gets no line, as at d3 (11 ms after). Those captures keep what they
+  printed. The proof is a default-suite test over lines built from the recorded stamps, with no drive. The
+  decision rule counts emissions, never these tokens.]
 
 ## The 2026-09-30 series
 

@@ -1,0 +1,595 @@
+[
+{
+"tool": "gate",
+"v": "1.12",
+"sha8": "bdf1c88a",
+"ts": "2026-10-08T09:04:11Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-10-08-capture-canary-pairing-window-corrective/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-08T08-58-57-implement",
+"--marker",
+"2026-10-08-capture-canary-pairing-window-corrective"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-08-capture-canary-pairing-window-corrective · entries 21",
+"logs $TMPDIR/andromeda-gate/2026-10-08-capture-canary-pairing-window-corrective/implement-2026-10-08T08-58-57 · bound: GNU timeout",
+"delta docs 42 · rust 3 · unmapped 4",
+"walk-class rust 9 (crates/conductor-core/src/drift.rs, crates/conductor-core/src/load_envelope.rs, crates/conductor-core/src/scenario_catalog.rs, +6 in the trail) · uncommitted 49",
+"prose L134-137: No smoke entry and no live leg: this chunk has no boot path and drives nothing, so a statu… (452 chars)",
+"  1 probe       green · exit 0 · 0.02s · 0 B → 1.log · git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --… (67 chars)",
+"  2 lint        green · exit 0 · 0.29s · 0 B → 2.log · cargo fmt --all --check",
+"  3 unit        green · exit 0 · 0.48s · 20483 B → 3.log · cargo nextest run -p conductor-run --test real_model_harve… (73 chars)",
+"  4 unit        green · exit 0 · 0.5s · 36663 B → 4.log · cargo test -p conductor-run",
+"  5 probe       green · exit 0 · 0.0s · 0 B → 5.log · F=conductor-0.3.0/chunks/2026-10-08-capture-canary-pairing… (266 chars)",
+"  6 probe       green · exit 1 · 0.01s · 2 B → 6.log · git diff 39e197b145c44c16375edcffadd416e6e7be503d -- contr… (128 chars)",
+"  7 probe       green · exit 0 · 0.01s · 2 B → 7.log · git diff -U0 39e197b145c44c16375edcffadd416e6e7be503d -- c… (116 chars)",
+"  8 probe       green · exit 0 · 0.01s · 2 B → 8.log · git diff -U0 39e197b145c44c16375edcffadd416e6e7be503d -- c… (128 chars)",
+"  9 probe       green · exit 0 · 0.01s · 0 B → 9.log · git diff --quiet 39e197b145c44c16375edcffadd416e6e7be503d … (454 chars)",
+" 10 probe       green · exit 0 · 0.01s · 0 B → 10.log · git diff --quiet 39e197b145c44c16375edcffadd416e6e7be503d … (162 chars)",
+" 11 probe       green · exit 1 · 0.01s · 2 B → 11.log · git diff 39e197b145c44c16375edcffadd416e6e7be503d -- crate… (116 chars)",
+" 12 integration green · exit 0 · 13.79s · 159458 B → 12.log · bash scripts/agent-run.sh run",
+" 13 probe       green · exit 0 · 0.0s · 4 B → 13.log · grep -c '^\\[\\[package\\]\\]' Cargo.lock",
+" 14 probe       green · exit 0 · 1.53s · 1901 B → 14.log · cargo audit",
+" 15 probe       green · exit 0 · 0.03s · 0 B → 15.log · git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --… (67 chars)",
+" 16 probe       green · exit 0 · 0.84s · 236863 B → 16.log · cargo deny check advisories bans licenses sources",
+" 17 probe       green · exit 0 · 0.05s · 250 B → 17.log · python -X utf8 scripts/arch-registry-check.py measure --fi… (87 chars)",
+" 18 probe       green · exit 1 · 0.0s · 2 B → 18.log · ls conductor-0.3.0/chunks/2026-10-08-capture-canary-pairin… (306 chars)",
+" 19 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ga… (71 chars)",
+" 20 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (112 chars)",
+" 21 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ci… (95 chars)",
+"entries 21 · green 18 · red 0 · recorded 0 · timeout 0 · not-run 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-08-capture-canary-pairing-window-corrective",
+"plan": "./conductor-0.3.0/chunks/2026-10-08-capture-canary-pairing-window-corrective/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-08-capture-canary-pairing-window-corrective/implement-2026-10-08T08-58-57",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".claude/session-handoff.md",
+"conductor-0.3.0/working-route.md",
+"contracts/pulse-real-model-leg-posture.md",
+".andromeda/runs/2026-10-08T08-34-24-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-08T08-34-24-phase/a11y.md",
+".andromeda/runs/2026-10-08T08-34-24-phase/arch-contracts.md",
+".andromeda/runs/2026-10-08T08-34-24-phase/arch-history-index.md",
+".andromeda/runs/2026-10-08T08-34-24-phase/arch-history.md",
+".andromeda/runs/2026-10-08T08-34-24-phase/arch.md",
+".andromeda/runs/2026-10-08T08-34-24-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-08T08-34-24-phase/design.md",
+".andromeda/runs/2026-10-08T08-34-24-phase/evolve-2026-10-08-capture-canary-pairing-window-corrective.json",
+".andromeda/runs/2026-10-08T08-34-24-phase/gate-2026-10-08-capture-canary-pairing-window-corrective.json",
+".andromeda/runs/2026-10-08T08-34-24-phase/inputs-2026-10-08-capture-canary-pairing-window-corrective.json",
+".andromeda/runs/2026-10-08T08-34-24-phase/layouts.md",
+".andromeda/runs/2026-10-08T08-34-24-phase/master-record.txt",
+".andromeda/runs/2026-10-08T08-34-24-phase/matrix-2026-10-08-capture-canary-pairing-window-corrective.json",
+".andromeda/runs/2026-10-08T08-34-24-phase/obs-contracts.md",
+".andromeda/runs/2026-10-08T08-34-24-phase/obs-history.md",
+".andromeda/runs/2026-10-08T08-34-24-phase/obs.md",
+".andromeda/runs/2026-10-08T08-34-24-phase/pairing-probe-script.txt",
+".andromeda/runs/2026-10-08T08-34-24-phase/pairing-probe.txt",
+".andromeda/runs/2026-10-08T08-34-24-phase/planlint-2026-10-08-capture-canary-pairing-window-corrective.json",
+".andromeda/runs/2026-10-08T08-34-24-phase/registry-2026-10-08-capture-canary-pairing-window-corrective.json",
+".andromeda/runs/2026-10-08T08-34-24-phase/relay-1.md",
+".andromeda/runs/2026-10-08T08-34-24-phase/route-2026-10-08-capture-canary-pairing-window-corrective.json",
+".andromeda/runs/2026-10-08T08-34-24-phase/route-no-marker.json",
+".andromeda/runs/2026-10-08T08-34-24-phase/security-history.md",
+".andromeda/runs/2026-10-08T08-34-24-phase/security.md",
+".andromeda/runs/2026-10-08T08-34-24-phase/sidecar-2026-10-08-capture-canary-pairing-window-corrective.json",
+".andromeda/runs/2026-10-08T08-34-24-phase/tests-contracts.md",
+".andromeda/runs/2026-10-08T08-34-24-phase/tests-history-index.md",
+".andromeda/runs/2026-10-08T08-34-24-phase/tests-history.md",
+".andromeda/runs/2026-10-08T08-34-24-phase/tests.md",
+".andromeda/runs/2026-10-08T08-34-24-phase/tree-query-2026-10-08-capture-canary-pairing-window-corrective.json",
+".andromeda/runs/2026-10-08T08-58-57-implement/evolve-2026-10-08-capture-canary-pairing-window-corrective.json",
+"conductor-0.3.0/chunks/2026-10-08-capture-canary-pairing-window-corrective/evidence/failing-first.md",
+"conductor-0.3.0/chunks/2026-10-08-capture-canary-pairing-window-corrective/plan.md",
+"conductor-0.3.0/chunks/2026-10-08-capture-canary-pairing-window-corrective/research.md",
+"conductor-0.3.0/chunks/2026-10-08-capture-canary-pairing-window-corrective/scope.md"
+],
+"rust": [
+"crates/conductor-run/tests/real_model_common/mod.rs",
+"crates/conductor-run/tests/real_model_grading/canary_pairing.rs",
+"crates/conductor-run/tests/real_model_live.rs"
+]
+},
+"unmapped": [
+"conductor-0.3.0/chunks/2026-10-08-capture-canary-pairing-window-corrective/inputs/.gitattributes",
+"conductor-0.3.0/chunks/2026-10-08-capture-canary-pairing-window-corrective/inputs/I1-conductor-phase-pairing-2026-10-08.md.txt",
+"conductor-0.3.0/chunks/2026-10-08-capture-canary-pairing-window-corrective/inputs/I2-relay-1.md.txt",
+"conductor-0.3.0/chunks/2026-10-08-capture-canary-pairing-window-corrective/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"crates/conductor-core/src/drift.rs",
+"crates/conductor-core/src/load_envelope.rs",
+"crates/conductor-core/src/scenario_catalog.rs",
+"crates/conductor-core/tests/scenario_audit_gate.rs",
+"crates/conductor-core/tests/secret_scan_gate.rs",
+"crates/conductor-core/tests/workflow_env_gate.rs",
+"crates/conductor-run/tests/real_model_grading/capture_population.rs",
+"crates/conductor-run/tests/real_model_harvest.rs",
+"crates/conductor-tauri/src/commands.rs"
+]
+},
+"uncommitted": 49,
+"problem": null
+},
+"prose": [
+{
+"from": 134,
+"to": 137,
+"text": "No smoke entry and no live leg: this chunk has no boot path and drives nothing, so a status read would print a prior run's envelope and prove nothing (`.claude/rules/verification-harness.md`, the 2026-09-11 extension). Step 4's failing-first run is a one-shot measurement and is not an entry, because it cannot be re-run after step 5; the entry that reads its record is. Every git-reading entry names the chunk base, since the operator pass moves HEAD."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "probe",
+"run": "git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --porcelain",
+"run_sha8": "eab7a4cb",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-capture-canary-pairing-window-corrective/implement-2026-10-08T08-58-57/1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.02,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-08-capture-canary-pairing-window-corrective/implement-2026-10-08T08-58-57/2.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.29,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "unit",
+"run": "cargo nextest run -p conductor-run --test real_model_harvest --profile ci",
+"run_sha8": "70507ea4",
+"expect": [
+"exit 0",
+"contains 139 tests run: 139 passed, 0 skipped"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-capture-canary-pairing-window-corrective/implement-2026-10-08T08-58-57/3.log",
+"bytes": 20483,
+"log_sha8": "0dfe6a91",
+"exit": 0,
+"seconds": 0.48,
+"readings": [
+"exit 0 ✓",
+"contains '139 tests run: 139 passed, 0 skipped' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "unit",
+"run": "cargo test -p conductor-run",
+"run_sha8": "988a9d64",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-08-capture-canary-pairing-window-corrective/implement-2026-10-08T08-58-57/4.log",
+"bytes": 36663,
+"log_sha8": "7f80c8cb",
+"exit": 0,
+"seconds": 0.5,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "probe",
+"run": "F=conductor-0.3.0/chunks/2026-10-08-capture-canary-pairing-window-corrective/evidence/failing-first.md && grep -q 'canary: pipeline-fault t=2026-10-08T06:32:46\\.351Z .*parse=none' \"$F\" && grep -q 'canary: pipeline-fault t=2026-10-08T06:42:51\\.851Z .*parse=none' \"$F\"",
+"run_sha8": "99378c11",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-08-capture-canary-pairing-window-corrective/implement-2026-10-08T08-58-57/5.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "git diff 39e197b145c44c16375edcffadd416e6e7be503d -- contracts/pulse-real-model-leg-posture.md | grep -v '^--- ' | grep -c '^-' ",
+"run_sha8": "671ba4fd",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-capture-canary-pairing-window-corrective/implement-2026-10-08T08-58-57/6.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.01,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "git diff -U0 39e197b145c44c16375edcffadd416e6e7be503d -- contracts/pulse-real-model-leg-posture.md | grep -c '^@@ ' ",
+"run_sha8": "c9666b7f",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-capture-canary-pairing-window-corrective/implement-2026-10-08T08-58-57/7.log",
+"bytes": 2,
+"log_sha8": "4355a46b",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓",
+"last line '1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "git diff -U0 39e197b145c44c16375edcffadd416e6e7be503d -- contracts/pulse-real-model-leg-posture.md | grep -c '^@@ -320,0 +321,' ",
+"run_sha8": "f6729689",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-capture-canary-pairing-window-corrective/implement-2026-10-08T08-58-57/8.log",
+"bytes": 2,
+"log_sha8": "4355a46b",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓",
+"last line '1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "git diff --quiet 39e197b145c44c16375edcffadd416e6e7be503d -- ':(glob)conductor-0.3.0/chunks/**' ':(exclude)conductor-0.3.0/chunks/2026-10-08-capture-canary-pairing-window-corrective/**' crates/conductor-run/tests/real_model_harvest.rs crates/conductor-run/tests/real_model_series crates/conductor-run/tests/evidence_pin ':(glob)crates/conductor-run/tests/real_model_grading/**' ':(exclude)crates/conductor-run/tests/real_model_grading/canary_pairing.rs' ",
+"run_sha8": "e2ca452a",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-08-capture-canary-pairing-window-corrective/implement-2026-10-08T08-58-57/9.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "git diff --quiet 39e197b145c44c16375edcffadd416e6e7be503d -- Cargo.lock Cargo.toml ':(glob)crates/*/Cargo.toml' ':(glob)crates/*/src/**' scripts scenarios .github",
+"run_sha8": "ad92c343",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-08-capture-canary-pairing-window-corrective/implement-2026-10-08T08-58-57/10.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "git diff 39e197b145c44c16375edcffadd416e6e7be503d -- crates/conductor-run/tests | grep -cE '^\\+.*(env::var|var_os)' ",
+"run_sha8": "24e4bcd4",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-capture-canary-pairing-window-corrective/implement-2026-10-08T08-58-57/11.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.01,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run",
+"run_sha8": "21443cdf",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-08-capture-canary-pairing-window-corrective/implement-2026-10-08T08-58-57/12.log",
+"bytes": 159458,
+"log_sha8": "f5a010c3",
+"exit": 0,
+"seconds": 13.79,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "grep -c '^\\[\\[package\\]\\]' Cargo.lock",
+"run_sha8": "6fba78b3",
+"expect": [
+"exit 0",
+"last line 562"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-capture-canary-pairing-window-corrective/implement-2026-10-08T08-58-57/13.log",
+"bytes": 4,
+"log_sha8": "9db3b992",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '562' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-08-capture-canary-pairing-window-corrective/implement-2026-10-08T08-58-57/14.log",
+"bytes": 1901,
+"log_sha8": "ff225959",
+"exit": 0,
+"seconds": 1.53,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --porcelain",
+"run_sha8": "eab7a4cb",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-capture-canary-pairing-window-corrective/implement-2026-10-08T08-58-57/15.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.03,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-08-capture-canary-pairing-window-corrective/implement-2026-10-08T08-58-57/16.log",
+"bytes": 236863,
+"log_sha8": "ab74a8db",
+"exit": 0,
+"seconds": 0.84,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "python -X utf8 scripts/arch-registry-check.py measure --file .andromeda/architecture.md",
+"run_sha8": "f7cd1f30",
+"expect": [
+"exit 0",
+"contains §Occupied Resources: 38114 B",
+"contains §Established Decisions: 38082 B"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-capture-canary-pairing-window-corrective/implement-2026-10-08T08-58-57/17.log",
+"bytes": 250,
+"log_sha8": "940f4a50",
+"exit": 0,
+"seconds": 0.05,
+"readings": [
+"exit 0 ✓",
+"contains '§Occupied Resources: 38114 B' ✓",
+"contains '§Established Decisions: 38082 B' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "ls conductor-0.3.0/chunks/2026-10-08-capture-canary-pairing-window-corrective/evidence/failing-first.md >/dev/null && cat conductor-0.3.0/chunks/2026-10-08-capture-canary-pairing-window-corrective/evidence/* | grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|/home/|/Users/|/root/|/tmp/|%APPDATA%\"",
+"run_sha8": "00b76013",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-capture-canary-pairing-window-corrective/implement-2026-10-08T08-58-57/18.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.0,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "3c62df70",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD && echo \"PUSHED_SHA=$(git rev-parse HEAD)\"",
+"run_sha8": "6bf569fe",
+"expect": [
+"exit 0",
+"contains PUSHED_SHA="
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1500",
+"run_sha8": "b9014dfb",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.12",
+"sha8": "bdf1c88a",
+"ts": "2026-10-08T09:05:02Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"conductor-0.3.0/chunks/2026-10-08-capture-canary-pairing-window-corrective",
+"--run-dir",
+".andromeda/runs/2026-10-08T08-58-57-implement",
+"--marker",
+"2026-10-08-capture-canary-pairing-window-corrective"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base HEAD (no pre-CI commit) · lists new 1 · modify 4 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"list conductor-0.3.0/chunks/2026-10-08-capture-canary-pairing-window-corrective/evidence/ (dir) ×0",
+"scope: clean — changed 4 · listed 4 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 47"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "HEAD",
+"base_why": "no pre-CI commit",
+"counts": {
+"changed": 4,
+"listed": 4,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 47,
+"unparsed": 0,
+"widening_without_word": 0
+}
+}
+]

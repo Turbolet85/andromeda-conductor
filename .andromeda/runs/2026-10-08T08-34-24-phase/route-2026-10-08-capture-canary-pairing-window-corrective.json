@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "4cd6b692",
+"ts": "2026-10-08T08:36:53Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-10-08-capture-canary-pairing-window-corrective",
+"--expect-prefix",
+"Capture canary pairing-window corrective",
+"--record-file",
+".andromeda/runs/2026-10-08T08-34-24-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-10-08T08-34-24-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:100 - [2026-10-08-capture-canary-pairing-window-corrective]",
+"record master-route.md:178 - appended under `## conductor-0.3.0`",
+"promoted 2026-10-08-capture-canary-pairing-window-corrective - working-route:100 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+"./conductor-0.3.0/working-route.md",
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+}
+]

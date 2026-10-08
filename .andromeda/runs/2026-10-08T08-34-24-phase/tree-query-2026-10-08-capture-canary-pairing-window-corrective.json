@@ -1,0 +1,60 @@
+[
+{
+"sql": "SELECT symbol, crate, kind, file FROM symbol WHERE name IN ('canary_attempts','iso_ms') AND kind <> 'meta'",
+"rows": 2,
+"result": [
+{
+"symbol": "rust-analyzer cargo conductor-run 0.2.0 canary_attempts().",
+"crate": "conductor-run",
+"kind": "fn",
+"file": "crates/conductor-run/tests/real_model_harvest.rs"
+},
+{
+"symbol": "rust-analyzer cargo conductor-run 0.2.0 real_model_common/canary_attempts().",
+"crate": "conductor-run",
+"kind": "fn",
+"file": "crates/conductor-run/tests/real_model_common/mod.rs"
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'canary_attempts' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 6,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 real_model_grading/canary_pairing/paired().",
+"file": "crates/conductor-run/tests/real_model_grading/canary_pairing.rs",
+"line": 52
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 real_model_grading/impl#[Series]drives_grade_as_the_ledger_records().",
+"file": "crates/conductor-run/tests/real_model_grading/mod.rs",
+"line": 104
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 58
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 the_canary_s_three_tokens_are_counted().",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1030
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 the_canary_s_three_tokens_are_counted().",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1038
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 the_pinned_capture_is_blocked_on_every_further_grade().",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1186
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]
