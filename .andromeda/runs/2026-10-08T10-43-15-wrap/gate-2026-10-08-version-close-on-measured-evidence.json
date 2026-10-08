@@ -1,0 +1,894 @@
+[
+{
+"tool": "gate",
+"v": "1.13",
+"sha8": "3870f1a7",
+"ts": "2026-10-08T10:43:45Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"conductor-0.3.0/chunks/2026-10-08-version-close-on-measured-evidence",
+"--run-dir",
+".andromeda/runs/2026-10-08T10-43-15-wrap",
+"--marker",
+"2026-10-08-version-close-on-measured-evidence"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base fb48cee4 (the parent of the oldest pre-CI commit 42daf3e4) · lists new 2 · modify 3 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"scope: clean — changed 3 · listed 3 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 54"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "fb48cee4c549f902b3ff100cd781353125e882f5",
+"base_why": "the parent of the oldest pre-CI commit 42daf3e4",
+"counts": {
+"changed": 3,
+"listed": 3,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 54,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.13",
+"sha8": "3870f1a7",
+"ts": "2026-10-08T11:01:49Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.3.0/chunks/2026-10-08-version-close-on-measured-evidence/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-08T10-43-15-wrap",
+"--marker",
+"2026-10-08-version-close-on-measured-evidence",
+"--skip",
+"27:the entry asserts the pre-amendment bytes (38114 B) by the plan's own note; this wrap's P2 amendment moved the section to 38108 B, measured by the same command beside the gate"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-08-version-close-on-measured-evidence · entries 30",
+"logs $TMPDIR/andromeda-gate/2026-10-08-version-close-on-measured-evidence/wrap-2026-10-08T10-43-15 · bound: GNU timeout",
+"delta docs 50",
+"walk-class rust 9 (crates/conductor-core/src/drift.rs, crates/conductor-core/src/load_envelope.rs, crates/conductor-core/src/scenario_catalog.rs, +6 in the trail) · uncommitted 50",
+"prose L129-135: No smoke entry and no live leg: this chunk has no boot path and drives nothing; its one ed… (695 chars)",
+"  1 probe       green · exit 0 · 0.03s · 0 B → 1.log · git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --… (67 chars)",
+"  2 probe       green · exit 0 · 0.06s · 219 B → 2.log · python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ma… (96 chars)",
+"  3 probe       green · exit 1 · 0.01s · 2 B → 3.log · git diff fb48cee4c549f902b3ff100cd781353125e882f5 -- scrip… (185 chars)",
+"  4 probe       green · exit 0 · 0.01s · 2 B → 4.log · git diff -U0 fb48cee4c549f902b3ff100cd781353125e882f5 -- s… (131 chars)",
+"  5 probe       green · exit 1 · 0.0s · 2 B → 5.log · test -f scripts/agent-run.ps1 && test -f scripts/a11y-toke… (155 chars)",
+"  6 probe       green · exit 0 · 0.0s · 2 B → 6.log · grep -c -F '(.claude/rules/verification-harness.md, 2026-0… (86 chars)",
+"  7 probe       green · exit 0 · 0.0s · 2 B → 7.log · grep -c -F '(.claude/docs/session-learnings.md, the 2026-0… (111 chars)",
+"  8 probe       green · exit 0 · 0.01s · 0 B → 8.log · git diff --quiet fb48cee4c549f902b3ff100cd781353125e882f5 … (400 chars)",
+"  9 probe       green · exit 1 · 0.01s · 2 B → 9.log · git diff fb48cee4c549f902b3ff100cd781353125e882f5 -- contr… (128 chars)",
+" 10 probe       green · exit 1 · 0.01s · 2 B → 10.log · git diff -U0 fb48cee4c549f902b3ff100cd781353125e882f5 -- c… (158 chars)",
+" 11 probe       green · exit 0 · 0.01s · 2 B → 11.log · git diff -U0 fb48cee4c549f902b3ff100cd781353125e882f5 -- c… (116 chars)",
+" 12 probe       green · exit 0 · 0.0s · 2 B → 12.log · grep -c -F '[corrected 2026-10-08 (2026-10-08-version-clos… (124 chars)",
+" 13 probe       green · exit 0 · 0.0s · 2 B → 13.log · grep -c -F '«Нет, исправить фразу (Recommended)»' conducto… (144 chars)",
+" 14 probe       green · exit 0 · 0.0s · 3 B → 14.log · grep -o -E '^\\| `v3-(0[1-9]|1[01])` \\|' conductor-0.3.0/ch… (152 chars)",
+" 15 probe       green · exit 0 · 0.0s · 3 B → 15.log · grep -c -E '^\\| `v3-' conductor-0.3.0/chunks/2026-10-08-ve… (116 chars)",
+" 16 probe       green · exit 0 · 0.0s · 2 B → 16.log · grep -o '«' conductor-0.3.0/chunks/2026-10-08-version-clos… (123 chars)",
+" 17 probe       green · exit 1 · 0.0s · 2 B → 17.log · ls conductor-0.3.0/chunks/2026-10-08-version-close-on-meas… (218 chars)",
+" 18 probe       green · exit 1 · 0.0s · 2 B → 18.log · ls conductor-0.3.0/chunks/2026-10-08-version-close-on-meas… (294 chars)",
+" 19 lint        green · exit 0 · 0.36s · 0 B → 19.log · cargo fmt --all --check",
+" 20 unit        green · exit 0 · 10.59s · 1130 B → 20.log · cargo nextest run -p conductor-core --test secret_scan_gat… (72 chars)",
+" 21 unit        green · exit 0 · 0.47s · 20483 B → 21.log · cargo nextest run -p conductor-run --test real_model_harve… (73 chars)",
+" 22 integration green · exit 0 · 13.75s · 159268 B → 22.log · bash scripts/agent-run.sh run",
+" 23 probe       green · exit 0 · 0.0s · 4 B → 23.log · grep -c '^\\[\\[package\\]\\]' Cargo.lock",
+" 24 probe       green · exit 0 · 1.73s · 1901 B → 24.log · cargo audit",
+" 25 probe       green · exit 0 · 0.03s · 0 B → 25.log · git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --… (67 chars)",
+" 26 probe       green · exit 0 · 0.86s · 236863 B → 26.log · cargo deny check advisories bans licenses sources",
+" 27 probe       not run — skipped: the entry asserts the pre-amendment bytes (38114 B) by the plan's own note; this wrap's P2 amendment moved the section to 38108 B · python -X utf8 scripts/arch-registry-check.py measure --fi… (87 chars)",
+" 28 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ga… (71 chars)",
+" 29 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (112 chars)",
+" 30 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ci… (95 chars)",
+"entries 30 · green 26 · red 0 · recorded 0 · timeout 0 · not-run 4"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-08-version-close-on-measured-evidence",
+"plan": "./conductor-0.3.0/chunks/2026-10-08-version-close-on-measured-evidence/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-08-version-close-on-measured-evidence/wrap-2026-10-08T10-43-15",
+"delta": {
+"docs": [
+".andromeda/architecture-amendments.md",
+".andromeda/architecture.md",
+".andromeda/friction-log.ndjson",
+".andromeda/obs-plan-amendments.md",
+".andromeda/obs-plan.md",
+".andromeda/registries/contracts/architecture/directory-structure-crate-per-seam-cargo-workspace.md",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md",
+".andromeda/residuals.md",
+".andromeda/security-plan-amendments.md",
+".andromeda/security-plan.md",
+".andromeda/state.yaml",
+".andromeda/test-plan-amendments.md",
+".claude/docs/conventions.md",
+".claude/docs/security-summary.md",
+".claude/rules/security.md",
+".claude/rules/verification-harness.md",
+".claude/session-handoff.md",
+"CLAUDE.md",
+"conductor-0.3.0/chunks/2026-10-08-version-close-on-measured-evidence/evidence/operator-pass.md",
+".andromeda/runs/2026-10-08T10-43-15-wrap/.raw-fanout-design-system.md",
+".andromeda/runs/2026-10-08T10-43-15-wrap/.raw-fanout-layout-templates.md",
+".andromeda/runs/2026-10-08T10-43-15-wrap/a11y-plan-contracts.md",
+".andromeda/runs/2026-10-08T10-43-15-wrap/arch-drafts/disposition-ledger.toml",
+".andromeda/runs/2026-10-08T10-43-15-wrap/arch-drafts/established-decisions.md",
+".andromeda/runs/2026-10-08T10-43-15-wrap/arch-drafts/moved-history.md",
+".andromeda/runs/2026-10-08T10-43-15-wrap/arch-drafts/occupied-resources.md",
+".andromeda/runs/2026-10-08T10-43-15-wrap/architecture-contracts.md",
+".andromeda/runs/2026-10-08T10-43-15-wrap/architecture-entry.md",
+".andromeda/runs/2026-10-08T10-43-15-wrap/cascade-2026-10-08-version-close-on-measured-evidence.json",
+".andromeda/runs/2026-10-08T10-43-15-wrap/cascade-dispositions.md",
+".andromeda/runs/2026-10-08T10-43-15-wrap/cascade-patterns.toml",
+".andromeda/runs/2026-10-08T10-43-15-wrap/citation-dispositions.md",
+".andromeda/runs/2026-10-08T10-43-15-wrap/cites-2026-10-08-version-close-on-measured-evidence.json",
+".andromeda/runs/2026-10-08T10-43-15-wrap/evolve-2026-10-08-version-close-on-measured-evidence.json",
+".andromeda/runs/2026-10-08T10-43-15-wrap/fanout-results.md",
+".andromeda/runs/2026-10-08T10-43-15-wrap/gate-2026-10-08-version-close-on-measured-evidence.json",
+".andromeda/runs/2026-10-08T10-43-15-wrap/inputs-2026-10-08-version-close-on-measured-evidence.json",
+".andromeda/runs/2026-10-08T10-43-15-wrap/new-text.md",
+".andromeda/runs/2026-10-08T10-43-15-wrap/obs-plan-contracts.md",
+".andromeda/runs/2026-10-08T10-43-15-wrap/obs-plan-entry.md",
+".andromeda/runs/2026-10-08T10-43-15-wrap/registry-2026-10-08-version-close-on-measured-evidence.json",
+".andromeda/runs/2026-10-08T10-43-15-wrap/residual-direction.txt",
+".andromeda/runs/2026-10-08T10-43-15-wrap/residual-verdict.txt",
+".andromeda/runs/2026-10-08T10-43-15-wrap/residual-webview-host.txt",
+".andromeda/runs/2026-10-08T10-43-15-wrap/route-no-marker.json",
+".andromeda/runs/2026-10-08T10-43-15-wrap/security-plan-entry.md",
+".andromeda/runs/2026-10-08T10-43-15-wrap/splice-2026-10-08-version-close-on-measured-evidence.json",
+".andromeda/runs/2026-10-08T10-43-15-wrap/test-plan-contracts.md",
+".andromeda/runs/2026-10-08T10-43-15-wrap/test-plan-entry.md",
+"conductor-0.3.0/chunks/2026-10-08-version-close-on-measured-evidence/report.md"
+]
+},
+"unmapped": [],
+"walk_class": {
+"marked": {
+"rust": [
+"crates/conductor-core/src/drift.rs",
+"crates/conductor-core/src/load_envelope.rs",
+"crates/conductor-core/src/scenario_catalog.rs",
+"crates/conductor-core/tests/scenario_audit_gate.rs",
+"crates/conductor-core/tests/secret_scan_gate.rs",
+"crates/conductor-core/tests/workflow_env_gate.rs",
+"crates/conductor-run/tests/real_model_grading/capture_population.rs",
+"crates/conductor-run/tests/real_model_harvest.rs",
+"crates/conductor-tauri/src/commands.rs"
+]
+},
+"uncommitted": 50,
+"problem": null
+},
+"prose": [
+{
+"from": 129,
+"to": 135,
+"text": "No smoke entry and no live leg: this chunk has no boot path and drives nothing; its one edit to a harness shell is a comment line, and the test plan declares no boot-smoke trigger list. Four entries hold step 6's block: the contract loses no line, has one hunk, has it only at the end of its Regime section, and that hunk opens with this chunk's dated note. No mutation run: the instrument belongs to the epoch-boundary code audit (test-plan §9 Scoped mutation audit). The two `.ps1` files cannot be executed on this host, which carries no `pwsh`; their only executing proof is the CI run the operator pass reads. Every git-reading entry names the chunk base, since the operator pass moves HEAD."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "probe",
+"run": "git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --porcelain",
+"run_sha8": "eab7a4cb",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-version-close-on-measured-evidence/wrap-2026-10-08T10-43-15/1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.03,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-tools/scripts/matrix.py coverage --dir conductor-0.3.0",
+"run_sha8": "f2aa2f61",
+"expect": [
+"exit 0",
+"contains verified 11/11 · deferred 0 · planned 0 · implemented 0 · unclaimed 0",
+"contains done-test: YES"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-version-close-on-measured-evidence/wrap-2026-10-08T10-43-15/2.log",
+"bytes": 219,
+"log_sha8": "36947888",
+"exit": 0,
+"seconds": 0.06,
+"readings": [
+"exit 0 ✓",
+"contains 'verified 11/11 · deferred 0 · planned 0 · implemented 0 · unclaimed 0' ✓",
+"contains 'done-test: YES' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "probe",
+"run": "git diff fb48cee4c549f902b3ff100cd781353125e882f5 -- scripts/agent-run.ps1 scripts/a11y-token-witness.ps1 | grep -E '^[+-]' | grep -vE '^(\\+\\+\\+|---) ' | grep -cvE '^[+-][[:space:]]*#' ",
+"run_sha8": "a1d5f876",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-version-close-on-measured-evidence/wrap-2026-10-08T10-43-15/3.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.01,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "probe",
+"run": "git diff -U0 fb48cee4c549f902b3ff100cd781353125e882f5 -- scripts/agent-run.ps1 scripts/a11y-token-witness.ps1 | grep -cE '^\\+[^+]' ",
+"run_sha8": "9b08bc3e",
+"expect": [
+"exit 0",
+"last line 2"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-version-close-on-measured-evidence/wrap-2026-10-08T10-43-15/4.log",
+"bytes": 2,
+"log_sha8": "53c234e5",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓",
+"last line '2' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "probe",
+"run": "test -f scripts/agent-run.ps1 && test -f scripts/a11y-token-witness.ps1 && cat scripts/agent-run.ps1 scripts/a11y-token-witness.ps1 | grep -c 'host-win32' ",
+"run_sha8": "bd698e7c",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-version-close-on-measured-evidence/wrap-2026-10-08T10-43-15/5.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.0,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "grep -c -F '(.claude/rules/verification-harness.md, 2026-09-16)' scripts/agent-run.ps1",
+"run_sha8": "7462524f",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-version-close-on-measured-evidence/wrap-2026-10-08T10-43-15/6.log",
+"bytes": 2,
+"log_sha8": "4355a46b",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "grep -c -F '(.claude/docs/session-learnings.md, the 2026-09-11 host-leaf entry)' scripts/a11y-token-witness.ps1",
+"run_sha8": "8cb3925b",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-version-close-on-measured-evidence/wrap-2026-10-08T10-43-15/7.log",
+"bytes": 2,
+"log_sha8": "4355a46b",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "git diff --quiet fb48cee4c549f902b3ff100cd781353125e882f5 -- Cargo.lock Cargo.toml crates scenarios .github ':(glob)contracts/**' ':(exclude)contracts/pulse-real-model-leg-posture.md' ':(glob)scripts/**' ':(exclude)scripts/agent-run.ps1' ':(exclude)scripts/a11y-token-witness.ps1' ':(glob)conductor-0.3.0/chunks/**' ':(exclude)conductor-0.3.0/chunks/2026-10-08-version-close-on-measured-evidence/**' ",
+"run_sha8": "1ab6d6cc",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-08-version-close-on-measured-evidence/wrap-2026-10-08T10-43-15/8.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "git diff fb48cee4c549f902b3ff100cd781353125e882f5 -- contracts/pulse-real-model-leg-posture.md | grep -v '^--- ' | grep -c '^-' ",
+"run_sha8": "225956b5",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-version-close-on-measured-evidence/wrap-2026-10-08T10-43-15/9.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.01,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "git diff -U0 fb48cee4c549f902b3ff100cd781353125e882f5 -- contracts/pulse-real-model-leg-posture.md | grep '^@@ ' | grep -cvE '^@@ -(49,0 \\+50|50,0 \\+51)[, ]' ",
+"run_sha8": "70fc60b1",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-version-close-on-measured-evidence/wrap-2026-10-08T10-43-15/10.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.01,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "git diff -U0 fb48cee4c549f902b3ff100cd781353125e882f5 -- contracts/pulse-real-model-leg-posture.md | grep -c '^@@ ' ",
+"run_sha8": "ba6b3e8b",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-version-close-on-measured-evidence/wrap-2026-10-08T10-43-15/11.log",
+"bytes": 2,
+"log_sha8": "4355a46b",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓",
+"last line '1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "grep -c -F '[corrected 2026-10-08 (2026-10-08-version-close-on-measured-evidence,' contracts/pulse-real-model-leg-posture.md",
+"run_sha8": "1d268809",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-version-close-on-measured-evidence/wrap-2026-10-08T10-43-15/12.log",
+"bytes": 2,
+"log_sha8": "4355a46b",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "probe",
+"run": "grep -c -F '«Нет, исправить фразу (Recommended)»' conductor-0.3.0/chunks/2026-10-08-version-close-on-measured-evidence/evidence/version-close.md",
+"run_sha8": "127f1248",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-08-version-close-on-measured-evidence/wrap-2026-10-08T10-43-15/13.log",
+"bytes": 2,
+"log_sha8": "4355a46b",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "probe",
+"run": "grep -o -E '^\\| `v3-(0[1-9]|1[01])` \\|' conductor-0.3.0/chunks/2026-10-08-version-close-on-measured-evidence/evidence/version-close.md | sort -u | wc -l",
+"run_sha8": "a8f7b6ce",
+"expect": [
+"exit 0",
+"last line 11"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-version-close-on-measured-evidence/wrap-2026-10-08T10-43-15/14.log",
+"bytes": 3,
+"log_sha8": "25d4f2a8",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '11' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "probe",
+"run": "grep -c -E '^\\| `v3-' conductor-0.3.0/chunks/2026-10-08-version-close-on-measured-evidence/evidence/version-close.md",
+"run_sha8": "69e749d2",
+"expect": [
+"exit 0",
+"last line 11"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-version-close-on-measured-evidence/wrap-2026-10-08T10-43-15/15.log",
+"bytes": 3,
+"log_sha8": "25d4f2a8",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '11' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "probe",
+"run": "grep -o '«' conductor-0.3.0/chunks/2026-10-08-version-close-on-measured-evidence/evidence/next-version-direction.md | wc -l",
+"run_sha8": "c36776ed",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-version-close-on-measured-evidence/wrap-2026-10-08T10-43-15/16.log",
+"bytes": 2,
+"log_sha8": "4355a46b",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "ls conductor-0.3.0/chunks/2026-10-08-version-close-on-measured-evidence/evidence/version-close.md >/dev/null && ls conductor-0.3.0/chunks/2026-10-08-version-close-on-measured-evidence/evidence/ | grep -c '^rm-capture' ",
+"run_sha8": "66be946d",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-version-close-on-measured-evidence/wrap-2026-10-08T10-43-15/17.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.0,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "ls conductor-0.3.0/chunks/2026-10-08-version-close-on-measured-evidence/evidence/version-close.md >/dev/null && cat conductor-0.3.0/chunks/2026-10-08-version-close-on-measured-evidence/evidence/* | grep -cE \"\\b[A-Za-z]:[\\\\/]|(^|[^A-Za-z0-9_./-])/[A-Za-z]/|/home/|/Users/|/root/|/tmp/|%APPDATA%\"",
+"run_sha8": "cd9f143e",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-version-close-on-measured-evidence/wrap-2026-10-08T10-43-15/18.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.0,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 19,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-08-version-close-on-measured-evidence/wrap-2026-10-08T10-43-15/19.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.36,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 20,
+"role": "unit",
+"run": "cargo nextest run -p conductor-core --test secret_scan_gate --profile ci",
+"run_sha8": "4a063019",
+"expect": [
+"exit 0",
+"contains 7 tests run: 7 passed, 0 skipped"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-version-close-on-measured-evidence/wrap-2026-10-08T10-43-15/20.log",
+"bytes": 1130,
+"log_sha8": "9a1c324e",
+"exit": 0,
+"seconds": 10.59,
+"readings": [
+"exit 0 ✓",
+"contains '7 tests run: 7 passed, 0 skipped' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 21,
+"role": "unit",
+"run": "cargo nextest run -p conductor-run --test real_model_harvest --profile ci",
+"run_sha8": "70507ea4",
+"expect": [
+"exit 0",
+"contains 139 tests run: 139 passed, 0 skipped"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-version-close-on-measured-evidence/wrap-2026-10-08T10-43-15/21.log",
+"bytes": 20483,
+"log_sha8": "9423f4ad",
+"exit": 0,
+"seconds": 0.47,
+"readings": [
+"exit 0 ✓",
+"contains '139 tests run: 139 passed, 0 skipped' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 22,
+"role": "integration",
+"run": "bash scripts/agent-run.sh run",
+"run_sha8": "21443cdf",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-08-version-close-on-measured-evidence/wrap-2026-10-08T10-43-15/22.log",
+"bytes": 159268,
+"log_sha8": "82b8c9fc",
+"exit": 0,
+"seconds": 13.75,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "grep -c '^\\[\\[package\\]\\]' Cargo.lock",
+"run_sha8": "6fba78b3",
+"expect": [
+"exit 0",
+"last line 562"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-version-close-on-measured-evidence/wrap-2026-10-08T10-43-15/23.log",
+"bytes": 4,
+"log_sha8": "9db3b992",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '562' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-08-version-close-on-measured-evidence/wrap-2026-10-08T10-43-15/24.log",
+"bytes": 1901,
+"log_sha8": "ff225959",
+"exit": 0,
+"seconds": 1.73,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 25,
+"role": "probe",
+"run": "git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --porcelain",
+"run_sha8": "eab7a4cb",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-08-version-close-on-measured-evidence/wrap-2026-10-08T10-43-15/25.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.03,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 26,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-08-version-close-on-measured-evidence/wrap-2026-10-08T10-43-15/26.log",
+"bytes": 236863,
+"log_sha8": "ab74a8db",
+"exit": 0,
+"seconds": 0.86,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 27,
+"role": "probe",
+"run": "python -X utf8 scripts/arch-registry-check.py measure --file .andromeda/architecture.md",
+"run_sha8": "f7cd1f30",
+"expect": [
+"exit 0",
+"contains §Occupied Resources: 38114 B",
+"contains §Established Decisions: 38082 B"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — skipped: the entry asserts the pre-amendment bytes (38114 B) by the plan's own note; this wrap's P2 amendment moved the section to 38108 B"
+},
+{
+"n": 28,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "3c62df70",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 29,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin HEAD && echo \"PUSHED_SHA=$(git rev-parse HEAD)\"",
+"run_sha8": "6bf569fe",
+"expect": [
+"exit 0",
+"contains PUSHED_SHA="
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 30,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1500",
+"run_sha8": "b9014dfb",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.13",
+"sha8": "3870f1a7",
+"ts": "2026-10-08T11:02:11Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-10-08T10-43-15-wrap",
+"--marker",
+"2026-10-08-version-close-on-measured-evidence"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust, ts · base fb48cee4 (the parent of the oldest pre-CI commit 42daf3e4)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust · P3 ts — each fired on its synthetic known positive",
+"hygiene: clean — read 80 (runs 70 · evidence 3 · inputs 7) · trails 24 not read · copies 5 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust",
+"ts"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 70,
+"evidence": 3,
+"inputs": 7,
+"trails": 24,
+"copies": 5,
+"kept": 0,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.13",
+"sha8": "3870f1a7",
+"ts": "2026-10-08T11:02:26Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"conductor-0.3.0/chunks/2026-10-08-version-close-on-measured-evidence",
+"--run-dir",
+".andromeda/runs/2026-10-08T10-43-15-wrap",
+"--marker",
+"2026-10-08-version-close-on-measured-evidence"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base fb48cee4 (the parent of the oldest pre-CI commit 42daf3e4) · lists new 2 · modify 3 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"scope: clean — changed 3 · listed 3 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 105"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "fb48cee4c549f902b3ff100cd781353125e882f5",
+"base_why": "the parent of the oldest pre-CI commit 42daf3e4",
+"counts": {
+"changed": 3,
+"listed": 3,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 105,
+"unparsed": 0,
+"widening_without_word": 0
+}
+}
+]

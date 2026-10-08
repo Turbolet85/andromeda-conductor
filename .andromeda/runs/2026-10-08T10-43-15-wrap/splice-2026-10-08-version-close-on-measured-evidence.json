@@ -1,0 +1,322 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1bc626dd",
+"ts": "2026-10-08T10:46:58Z",
+"argv": [
+"append",
+"--file",
+"conductor-0.3.0/chunks/2026-10-08-version-close-on-measured-evidence/report.md",
+"--payload-file",
+".andromeda/runs/2026-10-08T10-43-15-wrap/new-text.md",
+"--lines",
+"11",
+"--if-absent-prefix",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-10-08T10-43-15-wrap",
+"--marker",
+"2026-10-08-version-close-on-measured-evidence"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append report.md:+11 at line 297 · lines 296→307 · bytes 26743→27325 · term lf",
+"last line now: added: 230"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0/chunks/2026-10-08-version-close-on-measured-evidence/report.md"
+],
+"before": {
+"lines": 296,
+"bytes": 26743,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 307,
+"bytes": 27325
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1bc626dd",
+"ts": "2026-10-08T10:57:55Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-08T10-43-15-wrap/architecture-entry.md",
+"--lines",
+"11",
+"--run-dir",
+".andromeda/runs/2026-10-08T10-43-15-wrap",
+"--marker",
+"2026-10-08-version-close-on-measured-evidence"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+11 at line 1196 · lines 1195→1206 · bytes 206990→209174 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-08T10-43-15-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 1195,
+"bytes": 206990,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1206,
+"bytes": 209174
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1bc626dd",
+"ts": "2026-10-08T10:57:55Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-08T10-43-15-wrap/security-plan-entry.md",
+"--lines",
+"7",
+"--run-dir",
+".andromeda/runs/2026-10-08T10-43-15-wrap",
+"--marker",
+"2026-10-08-version-close-on-measured-evidence"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+7 at line 627 · lines 626→633 · bytes 110510→112253 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-08T10-43-15-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 626,
+"bytes": 110510,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 633,
+"bytes": 112253
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1bc626dd",
+"ts": "2026-10-08T10:57:55Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-08T10-43-15-wrap/test-plan-entry.md",
+"--lines",
+"7",
+"--run-dir",
+".andromeda/runs/2026-10-08T10-43-15-wrap",
+"--marker",
+"2026-10-08-version-close-on-measured-evidence"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+7 at line 885 · lines 884→891 · bytes 154650→155815 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-08T10-43-15-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 884,
+"bytes": 154650,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 891,
+"bytes": 155815
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1bc626dd",
+"ts": "2026-10-08T10:57:56Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-08T10-43-15-wrap/obs-plan-entry.md",
+"--lines",
+"6",
+"--run-dir",
+".andromeda/runs/2026-10-08T10-43-15-wrap",
+"--marker",
+"2026-10-08-version-close-on-measured-evidence"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+6 at line 425 · lines 424→430 · bytes 76009→76877 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-08T10-43-15-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 424,
+"bytes": 76009,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 430,
+"bytes": 76877
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1bc626dd",
+"ts": "2026-10-08T11:00:14Z",
+"argv": [
+"append",
+"--file",
+".andromeda/residuals.md",
+"--payload-file",
+".andromeda/runs/2026-10-08T10-43-15-wrap/residual-direction.txt",
+"--lines",
+"2",
+"--if-absent-prefix",
+"2026-10-08-version-close-on-measured-evidence · open · The founder's direction",
+"--run-dir",
+".andromeda/runs/2026-10-08T10-43-15-wrap",
+"--marker",
+"2026-10-08-version-close-on-measured-evidence"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append residuals.md:+2 at line 16 · lines 15→17 · bytes 10924→12343 · term lf",
+"last line now: 2026-10-08-version-close-on-measured-evidence · open · The founder's direction"
+],
+"stderr": null,
+"wrote": [
+".andromeda/residuals.md"
+],
+"before": {
+"lines": 15,
+"bytes": 10924,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 17,
+"bytes": 12343
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1bc626dd",
+"ts": "2026-10-08T11:00:15Z",
+"argv": [
+"append",
+"--file",
+".andromeda/residuals.md",
+"--payload-file",
+".andromeda/runs/2026-10-08T10-43-15-wrap/residual-verdict.txt",
+"--lines",
+"2",
+"--if-absent-prefix",
+"2026-10-08-version-close-on-measured-evidence · open · The run-report envelope",
+"--run-dir",
+".andromeda/runs/2026-10-08T10-43-15-wrap",
+"--marker",
+"2026-10-08-version-close-on-measured-evidence"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append residuals.md:+2 at line 18 · lines 17→19 · bytes 12343→14077 · term lf",
+"last line now: 2026-10-08-version-close-on-measured-evidence · open · The run-report envelope"
+],
+"stderr": null,
+"wrote": [
+".andromeda/residuals.md"
+],
+"before": {
+"lines": 17,
+"bytes": 12343,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 19,
+"bytes": 14077
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1bc626dd",
+"ts": "2026-10-08T11:00:15Z",
+"argv": [
+"append",
+"--file",
+".andromeda/residuals.md",
+"--payload-file",
+".andromeda/runs/2026-10-08T10-43-15-wrap/residual-webview-host.txt",
+"--lines",
+"2",
+"--if-absent-prefix",
+"2026-10-08-version-close-on-measured-evidence · open · Which webview legs",
+"--run-dir",
+".andromeda/runs/2026-10-08T10-43-15-wrap",
+"--marker",
+"2026-10-08-version-close-on-measured-evidence"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append residuals.md:+2 at line 20 · lines 19→21 · bytes 14077→14854 · term lf",
+"last line now: 2026-10-08-version-close-on-measured-evidence · open · Which webview legs the "
+],
+"stderr": null,
+"wrote": [
+".andromeda/residuals.md"
+],
+"before": {
+"lines": 19,
+"bytes": 14077,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 21,
+"bytes": 14854
+}
+}
+]

@@ -882,3 +882,10 @@ Already in the body, not lifted: the Minimal tier and its justification (§1), c
 **Why:** the bullet described the d1 and d2 `pipeline-fault` line as a reading of the capture's own pairing window, and that window is no longer how the harness pairs; the founder ruled the fix into 0.3.0 (by dialog on 2026-10-08, relayed verbatim by the pc overseer). Standing rule for later chunks: a claim about this fix carries the limit of its proof until a drive measures the capture's print.
 **Kept:** the sixth series' sentence is left as written — it is a statement about committed captures and stays true. No test count and no capture count entered the body; the arms are named as the module's set. `v3-09` is untouched: met on the sixth series' three drives, read no wider.
 **Ref:** .andromeda/runs/2026-10-08T09-20-25-wrap/
+
+## 2026-10-08-version-close-on-measured-evidence — the PowerShell red path's stale reason retired
+**Section:** §3 → 5-command implementation (the `run` label, Command body)
+**Change:** was "its red path is read from the script, not measured (the Linux dev host has no `pwsh`)"; now "its red path is read from the script, not measured — no leg has driven it", with the reading beside it: the Linux dev host has carried `pwsh` 7.6.6 since 2026-10-06, as measured at this chunk's `evidence/version-close.md`, where the script was parsed and never executed, so a missing shell is no longer the reason. The green-path sentence (CI#37209452847) is unchanged.
+**Why:** the reason was measured false at this chunk's implement. The limit itself stands: nobody drove the red path at the version close, on the operator's word that no unplanned leg runs there. A host statement in a master is a dated reading, so a chunk that leans on "this host lacks a tool" re-measures it first.
+**Kept:** the red path stays unmeasured, and no claim is made that the PowerShell harness runs on the Linux host: a parse is not a run.
+**Ref:** .andromeda/runs/2026-10-08T10-43-15-wrap/

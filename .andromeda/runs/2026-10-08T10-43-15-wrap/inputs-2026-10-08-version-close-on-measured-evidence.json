@@ -1,0 +1,50 @@
+[
+{
+"tool": "inputs",
+"v": "1.0",
+"sha8": "8bb004ac",
+"ts": "2026-10-08T10:43:45Z",
+"argv": [
+"verify",
+"--chunk-dir",
+"conductor-0.3.0/chunks/2026-10-08-version-close-on-measured-evidence",
+"--run-dir",
+".andromeda/runs/2026-10-08T10-43-15-wrap",
+"--marker",
+"2026-10-08-version-close-on-measured-evidence"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"I1 unchanged · copy no-repo · ../additional/pc-overseer/relays/conductor-phase-versionclose-2026-10-08.md",
+"I1 cited scope.md:11 · scope.md:23 · scope.md:39 · scope.md:44 · scope.md:47 · scope.md:53 · scope.md:54 · scope.md:71 · scope.md:145 · scope.md:149 · scope.md:151 · scope.md:155 · scope.md:158 · scope.md:169 · scope.md:170 · research.md:8 · plan.md:15 · plan.md:23 · plan.md:45 · plan.md:427 · plan.md:430 · plan.md:465 · plan.md:483",
+"I2 n/a — a message has no live source · copy message · message: the operator, the /andromeda-phase invocation arguments, 2026-10-08",
+"I2 cited scope.md:48 · scope.md:145 · scope.md:149 · scope.md:170 · research.md:9 · plan.md:29 · plan.md:465",
+"I3 n/a — a message has no live source · copy message · message: the operator, answers to the two P4 forks, 2026-10-08",
+"I3 cited scope.md:117 · scope.md:166 · research.md:11 · research.md:191 · research.md:194 · plan.md:23 · plan.md:458 · plan.md:465 · plan.md:480",
+"I4 unchanged · copy no-repo · ../additional/pc-overseer/relays/conductor-versionclose-ruling-2026-10-08.md",
+"I4 cited scope.md:48 · scope.md:119 · scope.md:128 · scope.md:145 · scope.md:147 · scope.md:187 · research.md:11 · research.md:95 · research.md:108 · research.md:119 · research.md:150 · research.md:153 · research.md:192 · research.md:197 · plan.md:8 · plan.md:27 · plan.md:80 · plan.md:114 · plan.md:412 · plan.md:460 · plan.md:463 · plan.md:466 · plan.md:473 · plan.md:475 · plan.md:479 · plan.md:495 · plan.md:511 · plan.md:516 · plan.md:527",
+"I5 n/a — a message has no live source · copy message · message: the operator, the word at the P5 review, 2026-10-08",
+"I5 cited scope.md:120 · scope.md:128 · research.md:12 · research.md:95 · research.md:192 · research.md:198 · plan.md:8 · plan.md:463 · plan.md:466",
+"inputs: 5 entries — unchanged 2 · drifted 0 · vanished 0 · broken 0 · altered 0 · unreachable 0 · n/a 3 · uncited 0 · unparsed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"entries": 5,
+"counts": {
+"unchanged": 2,
+"drifted": 0,
+"vanished": 0,
+"broken": 0,
+"altered": 0,
+"unreachable": 0,
+"n/a": 3
+},
+"uncited": 0,
+"unparsed": 0
+}
+}
+]

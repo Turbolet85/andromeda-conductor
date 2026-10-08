@@ -1,0 +1,123 @@
+[
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "4cd6b692",
+"ts": "2026-10-08T11:02:27Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-10-08-version-close-on-measured-evidence",
+"--run-dir",
+".andromeda/runs/2026-10-08T10-43-15-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"flip master-route.md:179 - 2026-10-08-version-close-on-measured-evidence pending -> complete"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "4cd6b692",
+"ts": "2026-10-08T11:02:27Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-08-version-close-on-measured-evidence",
+"--date",
+"2026-10-08",
+"--run-dir",
+".andromeda/runs/2026-10-08T10-43-15-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :102 strip CARRY: 951ch \"CARRY: two product-script comments still\"",
+"pin :102 strip CARRY: 679ch \"CARRY: the close states one known except\"",
+"pin :102 strip CARRY: 340ch \"CARRY: architecture §Occupied Resources \"",
+"pin :102 strip CARRY: 1849ch \"CARRY: architecture and two leaves say n\"",
+"pin no markerless entry -- nothing can receive a migrated pin",
+"102 · 2026-10-08-version-close-on-measured-evidence · strip 4 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 102,
+"marker": "2026-10-08-version-close-on-measured-evidence",
+"blocks": 4,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "4cd6b692",
+"ts": "2026-10-08T11:02:44Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-08-version-close-on-measured-evidence",
+"--date",
+"2026-10-08",
+"--run-dir",
+".andromeda/runs/2026-10-08T10-43-15-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :102 strip CARRY: 951ch \"CARRY: two product-script comments still\"",
+"pin :102 strip CARRY: 679ch \"CARRY: the close states one known except\"",
+"pin :102 strip CARRY: 340ch \"CARRY: architecture §Occupied Resources \"",
+"pin :102 strip CARRY: 1849ch \"CARRY: architecture and two leaves say n\"",
+"pin no markerless entry -- nothing can receive a migrated pin",
+"102 · 2026-10-08-version-close-on-measured-evidence · strip 4 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+"./conductor-0.3.0/route-archive.md",
+"./conductor-0.3.0/working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 102,
+"marker": "2026-10-08-version-close-on-measured-evidence",
+"blocks": 4,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

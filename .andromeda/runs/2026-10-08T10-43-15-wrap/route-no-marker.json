@@ -1,0 +1,107 @@
+[
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "4cd6b692",
+"ts": "2026-10-08T10:59:31Z",
+"argv": [
+"route.py",
+"markerless",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-08T10-43-15-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"working-route.md · 102 lines · 44 entries · 44 stamped · 0 markerless · 38 separators",
+"no markerless entry matched (102 lines read) — an empty listing is a verdict, not an absence proof"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "4cd6b692",
+"ts": "2026-10-08T10:59:31Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-08T10-43-15-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 0 of 44 entries · freight blocks 0 · rows are an INDEX, not the text",
+"no freight block on a markerless entry matched (102 lines read) — an empty listing is a verdict, not an absence proof"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "4cd6b692",
+"ts": "2026-10-08T10:59:31Z",
+"argv": [
+"route.py",
+"cursor",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-08T10-43-15-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"version conductor-0.3.0 · dir present · master master-route.md",
+"version dir conductor-0.3.0/ — at --root, beside .andromeda/, never inside it",
+"records 165 · complete 164 · pending 1 · 2026-10-08-version-close-on-measured-evidence · gated 0",
+"done 2026-10-08-capture-canary-pairing-window-corrective",
+"next — none (44 entries, 0 markerless · gated 0); the version-done test is the letter's",
+"half-promote 0 of 44 stamped lines vs 165 master records (anchored `{marker} · `, whole file)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "4cd6b692",
+"ts": "2026-10-08T10:59:31Z",
+"argv": [
+"route.py",
+"epoch",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-08T10-43-15-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"working-route.md · 6 epoch headers · 44 entries · freeze state joined to 165 master records",
+"10 · Epoch 1 — Foundation: the measurements the … · entries 5 · markerless 0 · frozen complete 5 · pending 0",
+"21 · Epoch 2 — Scenario assertion hygiene · entries 5 · markerless 0 · frozen complete 5 · pending 0",
+"32 · Epoch 3 — The a11y capability's terminal · entries 4 · markerless 0 · frozen complete 4 · pending 0",
+"41 · Epoch 4 — Live proof against a real Pulse · entries 8 · markerless 0 · frozen complete 8 · pending 0",
+"58 · Epoch 5 — Polish & ship · entries 14 · markerless 0 · frozen complete 14 · pending 0",
+"87 · Epoch 5b — Version close · entries 8 · markerless 0 · frozen complete 7 · pending 1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

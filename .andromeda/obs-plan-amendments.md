@@ -422,3 +422,9 @@ The §9 row's clippy consumer was "CI annotations"; it is now the bundled defaul
 **Why:** the bullet stated in the present tense that a digest ticked just before the instant prints `pipeline-fault` because its prompt assembly lies outside the capture's pairing window; the harness no longer pairs that way, by the founder's ruling that the fix lands in 0.3.0 (given by dialog on 2026-10-08, relayed verbatim by the pc overseer). Standing rule for later chunks: a claim about this fix carries the limit of its proof until a drive measures the capture's print.
 **Kept:** the earlier clause is left as written and re-scoped by the note, in the form the posture contract uses for a dated correction. The selection sentence (one `canary:` line per retry-storm digest ticked before the instant) is unchanged and still true. The rule that a canary's outcome is read from Pulse's own log, never from the printed token, stands.
 **Ref:** .andromeda/runs/2026-10-08T09-20-25-wrap/
+
+## 2026-10-08-version-close-on-measured-evidence — §10's clippy line drops the stale `pwsh` reason
+**Section:** §10 SLO Invariants & Telemetry Budgets → Build / deploy failure conditions, the `cargo clippy … -- -D warnings` line
+**Change:** the parenthesis was "(its red path unmeasured — the Linux dev host has no `pwsh`)"; it now reads "(its red path unmeasured — no leg has driven it; …)", followed by the reading: `pwsh` 7.6.6 on the Linux dev host since 2026-10-06, as measured at this chunk's `evidence/version-close.md`, where the script was parsed and never executed. The rest of the line stands.
+**Why:** the same sentence as test-plan §3's `run` contract, retired by the same measurement in the same pass, so the two plans agree. The limit stands: no leg has driven the PowerShell red path.
+**Ref:** .andromeda/runs/2026-10-08T10-43-15-wrap/

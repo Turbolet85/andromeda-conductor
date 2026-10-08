@@ -1,0 +1,141 @@
+[
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "01b568a2",
+"ts": "2026-10-08T10:55:32Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-08T10-43-15-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-08T10-43-15-wrap",
+"--marker",
+"2026-10-08-version-close-on-measured-evidence"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline fb48cee4 (pre-CI parent — the oldest of 1 pre-CI commit(s), 42daf3e4)",
+"rust-read · new 0 · standing 4 · leaf 3 · curation 0 · base 3 · control architecture.md:183 (prose)",
+"two-members · new 0 · standing 1 · leaf 2 · curation 0 · base 0 · control registries/contracts/architecture/directory-s…",
+"runtime-read · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · case-variants +3 · control architecture.md:183 (pros…",
+"posture-file · new 1 · standing 5 · leaf 0 · curation 0 · base 2 · control architecture.md:184 (prose)",
+"own-face · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:183 (prose)",
+"no-pwsh · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:490 (prose)",
+"red-path · new 0 · standing 2 · leaf 2 · curation 3 · base 0 · control obs-plan.md:490 (prose)",
+"pwsh · new 0 · standing 4 · leaf 0 · curation 3 · base 0 · control security-plan.md:383 (prose)",
+".andromeda/architecture.md:183 rust-read standing …racts/` member with **NO Rust reader** — addressed OUTWARD to the SU…",
+".andromeda/architecture.md:184 rust-read standing edited …cts/` member with **NO Rust reader** but a test-tier digest h…",
+".andromeda/security-plan.md:116 rust-read standing … · `CONDUCTOR_NVDA`): no Rust code reads either | the `UNSAFE_PATH`…",
+".andromeda/security-plan.md:328 rust-read standing @c420/2354 …`CONDUCTOR_NVDA`: no Rust code reads either, so their eq…",
+".andromeda/playbook.md:229 rust-read base …artifact under `contracts/` with NO Rust reader AT ALL — no `default_path()`,",
+".andromeda/playbook.md:240 rust-read base … regime (\"the one member no Rust code reads\") — retire it by naming the SET …",
+".andromeda/playbook.md:243 rust-read base … (\"the FIRST member with no Rust reader\") is not a uniqueness claim and stay…",
+"CLAUDE.md:14 rust-read leaf …-025 measurement contract + the real-model leg posture (the two members no Rust code reads)",
+".claude/rules/security.md:18 rust-read leaf @c266/2829 …are the exceptions: no Rust code reads either, so their duty is…",
+".claude/docs/conventions.md:9 rust-read leaf …sture — the two members no Rust code reads) · `runs/` (journals + reports…",
+".andromeda/registries/contracts/architecture/directory-structure-crate-per-seam-cargo-workspace.md:30 two-members standing edited",
+"CLAUDE.md:14 two-members leaf …25 measurement contract + the real-model leg posture (the two members no Rust code reads)",
+".claude/docs/conventions.md:9 two-members leaf …al-model leg posture — the two members no Rust code reads) · `runs/` (j…",
+".andromeda/architecture.md:183 runtime-read standing …ride handle, and the runtime-read regime the four manifests above…",
+".andromeda/architecture.md:184 posture-file standing edited - `contracts/pulse-real-model-leg-posture.md` — the real-mo…",
+".andromeda/architecture.md:204 posture-file standing …committed `contracts/pulse-real-model-leg-posture.md` names both.…",
+".andromeda/security-plan.md:113 posture-file new @c3771/4630 …dle. **`contracts/pulse-real-model-leg-posture.md` is NOT…",
+".andromeda/test-plan.md:124 posture-file standing @c1926/3657 …ies of `contracts/pulse-real-model-leg-posture.md` (and …",
+".andromeda/test-plan.md:260 posture-file standing @c426/9309 …ies of `contracts/pulse-real-model-leg-posture.md` — and …",
+".andromeda/test-plan.md:391 posture-file standing @c666/6180 …ies of `contracts/pulse-real-model-leg-posture.md` (fixed…",
+".andromeda/playbook.md:246 posture-file base     `contracts/pulse-real-model-leg-posture.md` (this chunk) — the recurre…",
+".andromeda/playbook.md:316 posture-file base …series under `contracts/pulse-real-model-leg-posture.md`, and a detector …",
+".andromeda/architecture.md:183 own-face standing …ed_at` · `provenance` on its own face. It is the FIRST `contracts/` m…",
+".andromeda/obs-plan.md:490 red-path standing edited …ive cargo lines (its red path unmeasured — no leg has driven it; t…",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:11 red-path standing edited @c1668/3296 …s red pa…",
+".claude/docs/session-learnings.md:377 red-path curation …w among 151. Heuristic anchors also latch onto shared paths and",
+".claude/docs/session-learnings.md:691 red-path curation …H the plain and colored paths deterministically, independent o…",
+".claude/docs/session-learnings.md:711 red-path curation … So the coarse measured path (emit→read-back→classify) is wire…",
+".claude/rules/verification-harness.md:19 red-path leaf @c1159/2510 …nce 2026-10-04; red path unmeasured on the Linux de…",
+".claude/docs/tests-summary.md:13 red-path leaf …eck (since 2026-10-04, red path unmeasured) — so a lint warning fails `…",
+".andromeda/security-plan.md:383 pwsh standing @c1840/2064 …:07:17→17:08:04Z · pwsh 17:11:16→17:12:03Z), zero `skipped p…",
+".andromeda/test-plan.md:387 pwsh standing …`if: always()` + `shell: pwsh`, invoking `scripts/webview2-cause-probe.ps1` …",
+".andromeda/obs-plan.md:490 pwsh standing edited … dev host has carried `pwsh` 7.6.6 since 2026-10-06, as measured at th…",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md:11 pwsh standing edited @c1771/3296 …d `pwsh` 7.6…",
+".claude/rules/security.md:55 pwsh curation …`rm -f \"$DIR\"/*.jsonl` (pwsh: `Remove-Item (Join-Path $Dir '*.jsonl')`), ma…",
+".claude/docs/session-learnings.md:635 pwsh curation ×2 …eck for the default pwsh shell), but a MULTI-command pwsh block…",
+".claude/docs/session-learnings.md:994 pwsh curation …exercised in a bare `pwsh -Command` and passed; the script itself …",
+"rust-read · new 0 · standing 4 · leaf 3 · curation 0 · base 3 · control architecture.md:183 (prose)",
+"two-members · new 0 · standing 1 · leaf 2 · curation 0 · base 0 · control registries/contracts/architecture/directory-s…",
+"runtime-read · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · case-variants +3 · control architecture.md:183 (pros…",
+"posture-file · new 1 · standing 5 · leaf 0 · curation 0 · base 2 · control architecture.md:184 (prose)",
+"own-face · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control architecture.md:183 (prose)",
+"no-pwsh · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:490 (prose)",
+"red-path · new 0 · standing 2 · leaf 2 · curation 3 · base 0 · control obs-plan.md:490 (prose)",
+"pwsh · new 0 · standing 4 · leaf 0 · curation 3 · base 0 · control security-plan.md:383 (prose)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "fb48cee4c549f902b3ff100cd781353125e882f5",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), 42daf3e4",
+"counts": {
+"rust-read": {
+"new": 0,
+"standing": 4,
+"leaf": 3,
+"curation": 0,
+"base": 3
+},
+"two-members": {
+"new": 0,
+"standing": 1,
+"leaf": 2,
+"curation": 0,
+"base": 0
+},
+"runtime-read": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"posture-file": {
+"new": 1,
+"standing": 5,
+"leaf": 0,
+"curation": 0,
+"base": 2
+},
+"own-face": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"no-pwsh": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"red-path": {
+"new": 0,
+"standing": 2,
+"leaf": 2,
+"curation": 3,
+"base": 0
+},
+"pwsh": {
+"new": 0,
+"standing": 4,
+"leaf": 0,
+"curation": 3,
+"base": 0
+}
+}
+}
+}
+]

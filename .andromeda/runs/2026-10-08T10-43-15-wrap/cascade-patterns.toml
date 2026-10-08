@@ -1,0 +1,35 @@
+# Cascade sweep patterns — derived from every amendment of this pass (five), before the first grep.
+# The reader claim (architecture row, key line), its mechanism phrasing, the freed sentence, the pwsh reason.
+
+[[pattern]]
+id = "rust-read"
+regex = 'no rust (code )?read'
+ignore_case = true
+
+[[pattern]]
+id = "two-members"
+fixed = 'the two members'
+
+[[pattern]]
+id = "runtime-read"
+fixed = 'runtime-read'
+
+[[pattern]]
+id = "posture-file"
+fixed = 'pulse-real-model-leg-posture'
+
+[[pattern]]
+id = "own-face"
+fixed = 'on its own face'
+
+[[pattern]]
+id = "no-pwsh"
+fixed = 'has no `pwsh`'
+
+[[pattern]]
+id = "red-path"
+fixed = 'red path'
+
+[[pattern]]
+id = "pwsh"
+fixed = 'pwsh'
