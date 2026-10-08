@@ -1,0 +1,117 @@
+[
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "4cd6b692",
+"ts": "2026-10-08T09:34:27Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-10-08-capture-canary-pairing-window-corrective",
+"--run-dir",
+".andromeda/runs/2026-10-08T09-20-25-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"flip master-route.md:178 - 2026-10-08-capture-canary-pairing-window-corrective pending -> complete"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "4cd6b692",
+"ts": "2026-10-08T09:34:27Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-08-capture-canary-pairing-window-corrective",
+"--date",
+"2026-10-08",
+"--run-dir",
+".andromeda/runs/2026-10-08T09-20-25-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :100 strip CARRY: 2091ch \"CARRY: the real-model capture's `canary:\"",
+"pin next markerless :102 holds CARRY:×4",
+"100 · 2026-10-08-capture-canary-pairing-window-corrective · strip 1 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 100,
+"marker": "2026-10-08-capture-canary-pairing-window-corrective",
+"blocks": 1,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "4cd6b692",
+"ts": "2026-10-08T09:34:33Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-08-capture-canary-pairing-window-corrective",
+"--date",
+"2026-10-08",
+"--run-dir",
+".andromeda/runs/2026-10-08T09-20-25-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :100 strip CARRY: 2091ch \"CARRY: the real-model capture's `canary:\"",
+"pin next markerless :102 holds CARRY:×4",
+"100 · 2026-10-08-capture-canary-pairing-window-corrective · strip 1 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+"./conductor-0.3.0/route-archive.md",
+"./conductor-0.3.0/working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 100,
+"marker": "2026-10-08-capture-canary-pairing-window-corrective",
+"blocks": 1,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

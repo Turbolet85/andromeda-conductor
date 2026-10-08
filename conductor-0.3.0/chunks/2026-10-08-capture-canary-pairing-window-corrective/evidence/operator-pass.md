@@ -24,3 +24,32 @@ Atoms `exit 0` and `contains hygiene: clean` hold. No row was printed, so nothin
 
 Re-read once after this record was written, so the record itself is in the set the commit carries: exit 0,
 `hygiene: clean — read 41 (runs 35 · evidence 2 · inputs 4)`, the other counts unchanged.
+
+Pre-CI commit (the operator's act, on the word above): `git add -A`, then
+`chore(2026-10-08-capture-canary-pairing-window-corrective): operator pre-CI commit, for the run this chunk's verdict reads`.
+It landed **`9b4a0b8`** on the first attempt: 52 files, of which four sit outside the pipeline's own folders — the
+three test files and the contract. The tree read clean after it (`git status --short`, 0 rows).
+
+## Entry 20 — `git diff --quiet && git diff --cached --quiet && git push origin HEAD && echo "PUSHED_SHA=$(git rev-parse HEAD)"`
+
+Exit 0. `39e197b..9b4a0b8  HEAD -> build/conductor-0.3.0`, printed
+`PUSHED_SHA=9b4a0b847361b1a98996dbbb80d65b0da887b9d1`. Atoms `exit 0` and `contains PUSHED_SHA=` hold. Read back
+from the remote afterwards: `git ls-remote origin refs/heads/build/conductor-0.3.0` prints the same sha.
+
+## Entry 21 — `python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1500`
+
+Exit 0 (fired under `timeout 1680`, the entry's own bound):
+
+```
+ci v1.0 · a1c08692
+repo Turbolet85/andromeda-conductor (the push remote `origin`) · polled 22× over 651 s
+9b4a0b847361 verdict: green · checks 3/3 · wall 651 s · runs CI#37754365520 completed/success
+runs: CI#37754365520 push completed/success
+```
+
+Atoms `exit 0` and `contains verdict: green` hold. The run the CI acceptance names is **CI#37754365520**. Read
+from the run itself (`gh run view 37754365520 --json headSha,conclusion,status,jobs`): head sha
+`9b4a0b847361b1a98996dbbb80d65b0da887b9d1`, status completed, conclusion success, and each of its three jobs
+(`rust`, `frontend`, `a11y`) concluded success. The jobs' logs were not read.
+
+The pass ends here on the operator's word: the wrap is not started.

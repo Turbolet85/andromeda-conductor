@@ -1,0 +1,12 @@
+
+## 2026-10-08-capture-canary-pairing-window-corrective — the capture's canary pairing reads across the emission instant; the sixth series' `pipeline-fault` reading re-scoped as its record
+**Section:** §4 Span / Trace Coverage → Scenario: Headless deterministic scenario run with MCP read-back verification, the `Real-model posture` bullet
+**Change:**
+- The bullet gains one bracketed dated note (2026-10-08) directly after the sixth series' `pipeline-fault` clause and before the sentence that a canary's outcome is read from Pulse's own log.
+- The note says: the `pipeline-fault` reading is the capture as it stood through the 2026-10-07 sixth series and stays as that series' measured record, its committed captures keeping the tokens they printed. From this chunk the pairing reads a selected digest's inference across the emission instant: the instant selects which cue-bearing ticks print (a tick whose own stamp parses and is strictly earlier than it) and no longer drops the lines stamped at or after it, so a canary digest ticked just before the instant prints its log-borne outcome — on the sixth series' d1 and d2 shapes, `surfaced` with `parse=ok created=false deduped=true`.
+- The two-line case stands: a canary tick stamped at or after the instant still gets no line.
+- The limit of the proof is in the body: measured on in-test lines built from the sixth series' recorded stamps and line kinds, with a failing-first reading; what the capture binary prints on a next real drive is unmeasured until someone drives it.
+- The chunk added no span name, span attribute, log line, allowlist entry or envelope key.
+**Why:** the bullet stated in the present tense that a digest ticked just before the instant prints `pipeline-fault` because its prompt assembly lies outside the capture's pairing window; the harness no longer pairs that way, by the founder's ruling that the fix lands in 0.3.0 (given by dialog on 2026-10-08, relayed verbatim by the pc overseer). Standing rule for later chunks: a claim about this fix carries the limit of its proof until a drive measures the capture's print.
+**Kept:** the earlier clause is left as written and re-scoped by the note, in the form the posture contract uses for a dated correction. The selection sentence (one `canary:` line per retry-storm digest ticked before the instant) is unchanged and still true. The rule that a canary's outcome is read from Pulse's own log, never from the printed token, stands.
+**Ref:** .andromeda/runs/2026-10-08T09-20-25-wrap/

@@ -1,0 +1,26 @@
+[[pattern]]
+id = "pairing-window"
+fixed = 'pairing window'
+ignore_case = true
+
+[[pattern]]
+id = "pipeline-fault"
+fixed = 'pipeline-fault'
+
+[[pattern]]
+id = "line-per"
+regex = 'canary:. line per'
+
+[[pattern]]
+id = "emission-inst"
+fixed = 'emission instant'
+ignore_case = true
+
+[[pattern]]
+id = "prompt-assembly"
+fixed = 'prompt assembly'
+ignore_case = true
+
+[[pattern]]
+id = "third-line"
+regex = 'third .canary:. line'

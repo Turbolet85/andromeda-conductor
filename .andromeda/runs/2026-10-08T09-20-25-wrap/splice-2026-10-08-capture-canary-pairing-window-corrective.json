@@ -1,0 +1,160 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1bc626dd",
+"ts": "2026-10-08T09:23:09Z",
+"argv": [
+"append",
+"--file",
+"conductor-0.3.0/chunks/2026-10-08-capture-canary-pairing-window-corrective/report.md",
+"--payload-file",
+".andromeda/runs/2026-10-08T09-20-25-wrap/new-text.md",
+"--lines",
+"53",
+"--if-absent-prefix",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-10-08T09-20-25-wrap",
+"--marker",
+"2026-10-08-capture-canary-pairing-window-corrective"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append report.md:+53 at line 274 · lines 273→326 · bytes 23626→26374 · term lf",
+"last line now: added: 41 · 721-724"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0/chunks/2026-10-08-capture-canary-pairing-window-corrective/report.md"
+],
+"before": {
+"lines": 273,
+"bytes": 23626,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 326,
+"bytes": 26374
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1bc626dd",
+"ts": "2026-10-08T09:31:14Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-08T09-20-25-wrap/obs-plan-entry.md",
+"--lines",
+"12",
+"--run-dir",
+".andromeda/runs/2026-10-08T09-20-25-wrap",
+"--marker",
+"2026-10-08-capture-canary-pairing-window-corrective"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+12 at line 413 · lines 412→424 · bytes 73491→76009 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-08T09-20-25-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 412,
+"bytes": 73491,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 424,
+"bytes": 76009
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1bc626dd",
+"ts": "2026-10-08T09:31:14Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+".andromeda/runs/2026-10-08T09-20-25-wrap/test-plan-entry.md",
+"--lines",
+"11",
+"--run-dir",
+".andromeda/runs/2026-10-08T09-20-25-wrap",
+"--marker",
+"2026-10-08-capture-canary-pairing-window-corrective"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+11 at line 874 · lines 873→884 · bytes 152255→154650 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-08T09-20-25-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 873,
+"bytes": 152255,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 884,
+"bytes": 154650
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1bc626dd",
+"ts": "2026-10-08T09:32:09Z",
+"argv": [
+"append",
+"--file",
+".claude/rules/testing.md",
+"--payload-file",
+".andromeda/runs/2026-10-08T09-20-25-wrap/curation-t2-testing.txt",
+"--lines",
+"1",
+"--run-dir",
+".andromeda/runs/2026-10-08T09-20-25-wrap",
+"--marker",
+"2026-10-08-capture-canary-pairing-window-corrective"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append testing.md:+1 at line 96 · lines 95→96 · bytes 87477→87872 · term lf",
+"last line now: - 2026-10-08: **`cargo nextest run --profile ci` is fail-fast in this repo, so a"
+],
+"stderr": null,
+"wrote": [
+".claude/rules/testing.md"
+],
+"before": {
+"lines": 95,
+"bytes": 87477,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 96,
+"bytes": 87872
+}
+}
+]

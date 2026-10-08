@@ -1,0 +1,98 @@
+[
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "01b568a2",
+"ts": "2026-10-08T09:29:38Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-08T09-20-25-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-08T09-20-25-wrap",
+"--marker",
+"2026-10-08-capture-canary-pairing-window-corrective"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline 39e197b1 (pre-CI parent — the oldest of 1 pre-CI commit(s), 9b4a0b84)",
+"pairing-window · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control test-plan.md:260 (prose)",
+"pipeline-fault · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control test-plan.md:260 (prose)",
+"line-per · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control obs-plan.md:221 (prose)",
+"emission-inst · new 1 · standing 4 · leaf 0 · curation 0 · base 0 · control architecture.md:62 (prose)",
+"prompt-assembly · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control obs-plan.md:221 (prose)",
+"third-line · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:260 (prose)",
+".andromeda/test-plan.md:260 pairing-window standing edited @c7641/9309 … capture's own pairing window that Pulse's log …",
+".andromeda/obs-plan.md:221 pairing-window standing edited @c2298/5334 … the capture's pairing window, whatever Pulse di…",
+".andromeda/test-plan.md:260 pipeline-fault standing edited @c7593/9309 … line reading `pipeline-fault`, a reading of th…",
+".andromeda/obs-plan.md:221 pipeline-fault standing edited mixed ×2 @c2227,2683/5334 …n reading `pipeline-fault` because…",
+".andromeda/obs-plan.md:221 line-per standing edited @c1897/5334 …ture prints one `canary:` line per retry-storm digest …",
+".andromeda/architecture.md:62 emission-inst standing … **AFTER the storm's emission instant** — to prove the data-dir/w…",
+".andromeda/architecture.md:64 emission-inst standing …Conductor stamps the emission instant from `std::time` and compar…",
+".andromeda/architecture.md:93 emission-inst standing @c392/2891 …FTER the storm's emission instant — to prove the data-…",
+".andromeda/test-plan.md:260 emission-inst new @c8060/9309 …ference across the emission instant: the instant selects the…",
+".andromeda/obs-plan.md:221 emission-inst standing edited mixed ×2 @c1963,2948/5334 …scenario's emission instant, the th…",
+".andromeda/obs-plan.md:221 prompt-assembly standing edited @c2255/5334 …t` because its prompt assembly lies outside the…",
+".andromeda/test-plan.md:260 third-line standing edited @c7563/9309 … and d2 print a third `canary:` line reading `pipel…",
+"pairing-window · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control test-plan.md:260 (prose)",
+"pipeline-fault · new 0 · standing 2 · leaf 0 · curation 0 · base 0 · control test-plan.md:260 (prose)",
+"line-per · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control obs-plan.md:221 (prose)",
+"emission-inst · new 1 · standing 4 · leaf 0 · curation 0 · base 0 · control architecture.md:62 (prose)",
+"prompt-assembly · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control obs-plan.md:221 (prose)",
+"third-line · new 0 · standing 1 · leaf 0 · curation 0 · base 0 · control test-plan.md:260 (prose)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "39e197b145c44c16375edcffadd416e6e7be503d",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), 9b4a0b84",
+"counts": {
+"pairing-window": {
+"new": 0,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"pipeline-fault": {
+"new": 0,
+"standing": 2,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"line-per": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"emission-inst": {
+"new": 1,
+"standing": 4,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"prompt-assembly": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"third-line": {
+"new": 0,
+"standing": 1,
+"leaf": 0,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]

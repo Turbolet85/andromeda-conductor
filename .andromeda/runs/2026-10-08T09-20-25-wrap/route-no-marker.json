@@ -1,0 +1,136 @@
+[
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "4cd6b692",
+"ts": "2026-10-08T09:32:33Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-08T09-20-25-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 1 of 44 entries · freight blocks 3 · rows are an INDEX, not the text",
+"102 · CARRY: · 951 chars · CARRY: two product-script comments still cite the retired Windows host leaf by file name — `…",
+"102 · CARRY: · 679 chars · CARRY: the close states one known exception to the scope `.andromeda/security-plan.md:338` s…",
+"102 · CARRY: · 340 chars · CARRY: architecture §Occupied Resources stands at its byte threshold — 38114 of 38115 B, and…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "4cd6b692",
+"ts": "2026-10-08T09:32:33Z",
+"argv": [
+"route.py",
+"markerless",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-08T09-20-25-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"working-route.md · 102 lines · 44 entries · 43 stamped · 1 markerless · 38 separators",
+"102 · Version close on measured evidence · freight 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "4cd6b692",
+"ts": "2026-10-08T09:32:34Z",
+"argv": [
+"route.py",
+"cursor",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-08T09-20-25-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"version conductor-0.3.0 · dir present · master master-route.md",
+"version dir conductor-0.3.0/ — at --root, beside .andromeda/, never inside it",
+"records 164 · complete 163 · pending 1 · 2026-10-08-capture-canary-pairing-window-corrective · gated 0",
+"done 2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09",
+"next working-route.md:102 · Version close on measured evidence · markerless 1 of 44 entries",
+"half-promote 0 of 43 stamped lines vs 164 master records (anchored `{marker} · `, whole file)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "4cd6b692",
+"ts": "2026-10-08T09:32:34Z",
+"argv": [
+"route.py",
+"epoch",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-08T09-20-25-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"working-route.md · 6 epoch headers · 44 entries · freeze state joined to 164 master records",
+"10 · Epoch 1 — Foundation: the measurements the … · entries 5 · markerless 0 · frozen complete 5 · pending 0",
+"21 · Epoch 2 — Scenario assertion hygiene · entries 5 · markerless 0 · frozen complete 5 · pending 0",
+"32 · Epoch 3 — The a11y capability's terminal · entries 4 · markerless 0 · frozen complete 4 · pending 0",
+"41 · Epoch 4 — Live proof against a real Pulse · entries 8 · markerless 0 · frozen complete 8 · pending 0",
+"58 · Epoch 5 — Polish & ship · entries 14 · markerless 0 · frozen complete 14 · pending 0",
+"87 · Epoch 5b — Version close · entries 8 · markerless 1 · frozen complete 6 · pending 1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "4cd6b692",
+"ts": "2026-10-08T09:32:57Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-08T09-20-25-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 1 of 44 entries · freight blocks 4 · rows are an INDEX, not the text",
+"102 · CARRY: · 951 chars · CARRY: two product-script comments still cite the retired Windows host leaf by file name — `…",
+"102 · CARRY: · 679 chars · CARRY: the close states one known exception to the scope `.andromeda/security-plan.md:338` s…",
+"102 · CARRY: · 340 chars · CARRY: architecture §Occupied Resources stands at its byte threshold — 38114 of 38115 B, and…",
+"102 · CARRY: · 1849 chars · CARRY: architecture and two leaves say no Rust code reads `contracts/pulse-real-model-leg-p…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]
