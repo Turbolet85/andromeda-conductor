@@ -1,0 +1,20 @@
+CLAUDE.md ecosystem curated:
+  Tier 1 (CLAUDE.md USER:session-learnings):  none
+  Tier 2 (.claude/rules/*):
+    ~ verification-harness.md (correction, in place): the 2026-06-27 entry's 2026-09-29 tag said "the interpretation claim stays unverified"; it now says the claim stayed unverified through the 2026-10-07 series, with a `[corrected 2026-10-08 …]` tag naming the sixth series' three-drive verdict.
+      Proof: the harvest's verdict over the three pinned captures (`v3_09_is_met_by_the_2026_10_07_sixth_series`, 133 of 133 at the wrap's light gate); the chunk's report, Outcome; found by the cascade sweep's `unverified` row at `.claude/rules/verification-harness.md:47` (chars 2689-3089).
+    ~ verification-harness.md (correction, in place): the 2026-09-06 entry's clause (c) said "real-model formation is UNMEASURED … so whether it lands inside the window is unknown"; it now says that was so when written, with a `[corrected 2026-10-08 …]` tag carrying the measured range and its host and model.
+      Proof: Pulse's own log stamps in the chunk's `evidence/attempt-ledger.md` — each drive's first canary storm from its Autonomous line to its incident's creation (6.7 s, 6.0 s, 5.3 s) and d2's scenario storm behind two queued digests (13.4 s); each drive's second storm, 90 s later, deduped against the first's incident; found by the cascade sweep's `unmeasured` / `formation` row at `.claude/rules/verification-harness.md:60` (chars 1112-1512).
+    + security.md (extension, in place): the 2026-08-09 supply-chain entry gains "Extended 2026-10-08: read the porcelain again AFTER the audit — `cargo audit`'s own fetch can leave that residue, so a clean reading taken before it does not cover the scan."
+      Proof: at implement the plan's porcelain entry read 0 lines, the audit entry then fetched, and the porcelain read after the block showed one untracked pre-id-assignment file beside its tracked twin; the reading was discarded and entries for the porcelain, `cargo audit` and `cargo deny` were re-fired over a clean copy (the chunk's ledger, the standing-gates section; report, Deviations). Signals: verified by measurement +0.4 · specific technical detail +0.2 · load-bearing for the next entry +0.2 (the version close runs the supply-chain gate before any release build) = 0.8.
+  Tier 3 (.claude/docs/session-learnings.md): none
+  Filters: 2 dup · 0 task-specific · 0 conflict · 0 deferred · 3 below the confidence threshold
+    - dup: the operator pass's commit and push stay the operator's acts on his explicit word (CLAUDE.md, the 2026-10-01 bullet) — followed, no recurrence.
+    - dup: model text stays inside `evidence/` (security.md, the scoped exception) — followed in every committed file.
+    - below threshold (0.6 exactly, rejected): "a printed `canary:` token is a claim about the capture's window; read a canary's outcome from Pulse's own log" — verified by measurement +0.4, technical detail +0.2; no conditional signal applies: this wrap amended it into obs-plan and test-plan and carried it on the version-close entry.
+    - below threshold (0.4): print only parsed fields when reading a capture for closed facts — a transform whose no-match path echoes the line printed model text to a terminal once (measurement +0.4, technical detail +0.2, could be task-specific -0.2).
+    - below threshold (0.2): a capture's first `## Hypotheses` is inside its rule record; slice after the rule's end marker (technical detail +0.2).
+  Load-bearing: "read the porcelain again after the audit" → Version close on measured evidence
+  Extended: T2/security.md: "2026-08-09: External supply-chain state DECAYS under a static dependency tree" + "read the porcelain again AFTER the audit"
+  Recurrence-despite-learning (→ handoff, Deferred learnings): `.claude/rules/host-linux.md` §Transports — a document append through a shell heredoc was attempted at this wrap's P2; the PreToolUse guard refused it and the text went through the Edit tool.
+  CLAUDE.md size: 138/200 · T1 6.1 KB, 0 over 600 B

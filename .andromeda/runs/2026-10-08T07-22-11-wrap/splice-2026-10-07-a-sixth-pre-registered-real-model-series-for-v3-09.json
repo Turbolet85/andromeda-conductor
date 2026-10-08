@@ -1,0 +1,207 @@
+[
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1bc626dd",
+"ts": "2026-10-08T07:28:06Z",
+"argv": [
+"append",
+"--file",
+"conductor-0.3.0/chunks/2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09/report.md",
+"--payload-file",
+".andromeda/runs/2026-10-08T07-22-11-wrap/new-text.md",
+"--lines",
+"50",
+"--if-absent-prefix",
+"## New text, by line",
+"--run-dir",
+".andromeda/runs/2026-10-08T07-22-11-wrap",
+"--marker",
+"2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append report.md:+50 at line 375 · lines 374→424 · bytes 33937→37277 · term lf",
+"last line now:   - 188-192 «Drive {»"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.3.0/chunks/2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09/report.md"
+],
+"before": {
+"lines": 374,
+"bytes": 33937,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 424,
+"bytes": 37277
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1bc626dd",
+"ts": "2026-10-08T07:41:03Z",
+"argv": [
+"append",
+"--file",
+".andromeda/architecture-amendments.md",
+"--payload-file",
+"/tmp/claude-1000/~-dev-projects-conductor/bc9031de-c0e6-4db3-8fd1-e67344125027/scratchpad/architecture-payload.md",
+"--lines",
+"11",
+"--expect-last-prefix",
+"**Ref:**",
+"--run-dir",
+".andromeda/runs/2026-10-08T07-22-11-wrap",
+"--marker",
+"2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append architecture-amendments.md:+11 at line 1185 · lines 1184→1195 · bytes 204432→206990 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-08T07-22-11-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/architecture-amendments.md"
+],
+"before": {
+"lines": 1184,
+"bytes": 204432,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 1195,
+"bytes": 206990
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1bc626dd",
+"ts": "2026-10-08T07:41:03Z",
+"argv": [
+"append",
+"--file",
+".andromeda/security-plan-amendments.md",
+"--payload-file",
+"/tmp/claude-1000/~-dev-projects-conductor/bc9031de-c0e6-4db3-8fd1-e67344125027/scratchpad/security-plan-payload.md",
+"--lines",
+"11",
+"--expect-last-prefix",
+"**Ref:**",
+"--run-dir",
+".andromeda/runs/2026-10-08T07-22-11-wrap",
+"--marker",
+"2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append security-plan-amendments.md:+11 at line 616 · lines 615→626 · bytes 108530→110510 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-08T07-22-11-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/security-plan-amendments.md"
+],
+"before": {
+"lines": 615,
+"bytes": 108530,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 626,
+"bytes": 110510
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1bc626dd",
+"ts": "2026-10-08T07:41:03Z",
+"argv": [
+"append",
+"--file",
+".andromeda/test-plan-amendments.md",
+"--payload-file",
+"/tmp/claude-1000/~-dev-projects-conductor/bc9031de-c0e6-4db3-8fd1-e67344125027/scratchpad/test-plan-payload.md",
+"--lines",
+"10",
+"--expect-last-prefix",
+"**Ref:**",
+"--run-dir",
+".andromeda/runs/2026-10-08T07-22-11-wrap",
+"--marker",
+"2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append test-plan-amendments.md:+10 at line 864 · lines 863→873 · bytes 149855→152255 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-08T07-22-11-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/test-plan-amendments.md"
+],
+"before": {
+"lines": 863,
+"bytes": 149855,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 873,
+"bytes": 152255
+}
+},
+{
+"tool": "splice",
+"v": "1.0",
+"sha8": "1bc626dd",
+"ts": "2026-10-08T07:41:03Z",
+"argv": [
+"append",
+"--file",
+".andromeda/obs-plan-amendments.md",
+"--payload-file",
+"/tmp/claude-1000/~-dev-projects-conductor/bc9031de-c0e6-4db3-8fd1-e67344125027/scratchpad/obs-plan-payload.md",
+"--lines",
+"9",
+"--expect-last-prefix",
+"**Ref:**",
+"--run-dir",
+".andromeda/runs/2026-10-08T07-22-11-wrap",
+"--marker",
+"2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"append obs-plan-amendments.md:+9 at line 404 · lines 403→412 · bytes 71266→73491 · term lf",
+"last line now: **Ref:** .andromeda/runs/2026-10-08T07-22-11-wrap/"
+],
+"stderr": null,
+"wrote": [
+".andromeda/obs-plan-amendments.md"
+],
+"before": {
+"lines": 403,
+"bytes": 71266,
+"terminator": "LF",
+"final_terminator": true
+},
+"after": {
+"lines": 412,
+"bytes": 73491
+}
+}
+]

@@ -1,0 +1,58 @@
+[
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "4cd6b692",
+"ts": "2026-10-08T07:44:23Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-08T07-22-11-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 1 of 43 entries · freight blocks 4 · rows are an INDEX, not the text",
+"100 · CARRY: · 951 chars · CARRY: two product-script comments still cite the retired Windows host leaf by file name — `…",
+"100 · CARRY: · 973 chars · CARRY: the real-model capture's `canary:` classifier pairs only Pulse lines stamped before t…",
+"100 · CARRY: · 746 chars · CARRY: one rank-1 model statement stands outside `evidence/` in a frozen chunk's report — `c…",
+"100 · CARRY: · 340 chars · CARRY: architecture §Occupied Resources stands at its byte threshold — 38114 of 38115 B, and…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "4cd6b692",
+"ts": "2026-10-08T07:44:23Z",
+"argv": [
+"route.py",
+"epoch",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-08T07-22-11-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"working-route.md · 6 epoch headers · 43 entries · freeze state joined to 163 master records",
+"10 · Epoch 1 — Foundation: the measurements the … · entries 5 · markerless 0 · frozen complete 5 · pending 0",
+"21 · Epoch 2 — Scenario assertion hygiene · entries 5 · markerless 0 · frozen complete 5 · pending 0",
+"32 · Epoch 3 — The a11y capability's terminal · entries 4 · markerless 0 · frozen complete 4 · pending 0",
+"41 · Epoch 4 — Live proof against a real Pulse · entries 8 · markerless 0 · frozen complete 8 · pending 0",
+"58 · Epoch 5 — Polish & ship · entries 14 · markerless 0 · frozen complete 14 · pending 0",
+"87 · Epoch 5b — Version close · entries 7 · markerless 1 · frozen complete 5 · pending 1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

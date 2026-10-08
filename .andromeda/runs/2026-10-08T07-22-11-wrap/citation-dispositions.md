@@ -1,0 +1,11 @@
+sweep: base: blame — no earlier sweep; each citing line's own last commit · re-pointed 1 · changed 0 · stretched 0 · first sweep: "YES, the first sweep is written, my word as this wrap operator: apply --first (110 to 157), re-point 111 to 158 and 114 to 161 by hand (I read ci.yml 157, 158, 161: they are the three lines), and disposition Cargo.toml:154 as holds - stands (it cites the Pulse manifest; at Pulse 18a872d line 154 opens that pin comment block)." — the operator, 2026-10-08
+
+The tool's write (no row is printed for a written move; from the trail): `.andromeda/test-plan.md:426` `.github/workflows/ci.yml:110` → `157`, read back digits-only. Line 157 read: the `cargo llvm-cov report --lcov … --ignore-filename-regex '[\\/]tests[\\/]'` line the citing sentence describes.
+
+out-of-range .andromeda/architecture.md:20 Cargo.toml:154 — the file held 89 lines at the base → holds — stands. Read: the citing sentence is "Version-matched to the SUT's own pin (`andromeda-pulse Cargo.toml:154`)"; it cites Pulse's manifest, another repository's file (261 lines), not this tree's 89-line `Cargo.toml`. At Pulse `18a872d` line 154 opens the fingerprint-hash pin's comment block (read by the operator and by the agent). The number stays; the row prints `held` at later sweeps.
+moved .andromeda/test-plan.md:426 .github/workflows/ci.yml:111 → 158 — listed, not written: naked → holds — re-pointed by hand to 158. Read: line 158 is the `cargo llvm-cov report --cobertura … --ignore-filename-regex '[\\/]tests[\\/]'` line.
+moved .andromeda/test-plan.md:426 .github/workflows/ci.yml:114 → 161 — listed, not written: naked → holds — re-pointed by hand to 161. Read: line 161 is the `run: cargo llvm-cov report --fail-under-lines 60 --ignore-filename-regex '[\\/]tests[\\/]'` line.
+
+`unresolved` 49: listed by `map` only (the list shown to the operator at the stop is in this wrap's conversation; the rows are in the trail `cites-…json`). No disposition is owed on them (citation-contract.md §Classes): 42 name a file that is not in this repository ("no such file here"), 7 a name that fits several files here.
+
+The hand re-points are the digits alone on the one citing line (`…ci.yml:157`/`:158`/`:161`); no other byte of test-plan.md moved (`git diff --stat`: 1 insertion, 1 deletion — the one line).

@@ -404,3 +404,31 @@ lines with `HEAD` equal to `FETCH_HEAD`, and entries 38-40 were fired again thro
 reading that stands: `cargo audit` exit 0, 1294 advisories loaded, 562 crate dependencies, 7 allowed warnings
 (6 `unmaintained`, 1 `unsound`); the porcelain 0 lines after it as before it; `cargo deny` `advisories ok, bans ok,
 licenses ok, sources ok`.
+
+The block was fired once more, whole, after this ledger's last edit of that pass (07:03:57Z): 16 of 16 green with
+the same counts, the advisory-db porcelain 0 lines before and after. The scope read (`gate.py scope`) read
+`scope: clean — changed 6 · listed 6`.
+
+## The operator pass (plan entries 44-46), on the operator's word
+
+The operator, 2026-10-08 at about 09:06 local, in this implement session after its report (the chunk's inputs
+record it as I20): the operator pass — hygiene, the pre-CI commit and guarded push, the CI read — performed by the
+agent on that explicit word, then stop before the wrap, which the operator sends. In the same word the operator
+states he verified the verdict himself: the section digest re-derived, the harvest 133 of 133 by his own run, each
+rank-1 statement's two facets with no hypothesis naming the canary, and the third canary storm of d1 and d2 parsed
+`ok` and deduped in Pulse's log lines, so no re-fire was owed. The commit and the push are the operator's acts,
+made by the agent on his word.
+
+- Entry 44, `python -X utf8 ~/.claude/skills/andromeda-tools/scripts/gate.py hygiene`, fired bare at 07:07:00Z
+  before the commit: exit 0; atom `contains hygiene: clean` held (1 hit) — `hygiene: clean`, 63 files read (runs 45,
+  evidence 7, inputs 11), 17 trails and 9 verbatim input copies not read by P1, 0 host paths kept.
+- Entry 45: on the operator's explicit word, the agent made the operator pre-CI commit `e3fa847`
+  (`e3fa847239e075a8d9627fa9496b51c6840b62ae`, 77 files) and fired the entry as written at 07:07:14Z: the
+  clean-tree guard held, exit 0, and the push printed `PUSHED_SHA=e3fa847239e075a8d9627fa9496b51c6840b62ae`
+  (`902d12c..e3fa847` on `build/conductor-0.3.0`); atom `contains PUSHED_SHA=` held.
+- Entry 46, `ci.py conclusion --sha HEAD --wait 1800`, fired after the push at 07:07:21Z, ended 07:19:14Z: exit 0;
+  atom `contains verdict: green` **held** on the first reading — `verdict: green · checks 3/3 · wall 703 s`, run
+  CI#37741509455 `completed/success` on `e3fa847239e075a8d9627fa9496b51c6840b62ae`, polled 24 times over 713 s. No
+  re-run was fired. The run id the CI acceptance names is CI#37741509455.
+
+This section was written after the push, so it rides the wrap's commit, not the pre-CI one.

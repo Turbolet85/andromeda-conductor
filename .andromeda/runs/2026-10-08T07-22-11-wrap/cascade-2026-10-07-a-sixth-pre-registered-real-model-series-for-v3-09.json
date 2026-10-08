@@ -1,0 +1,170 @@
+[
+{
+"tool": "cascade",
+"v": "1.1",
+"sha8": "01b568a2",
+"ts": "2026-10-08T07:38:17Z",
+"argv": [
+"sweep",
+"--patterns-file",
+".andromeda/runs/2026-10-08T07-22-11-wrap/cascade-patterns.toml",
+"--run-dir",
+".andromeda/runs/2026-10-08T07-22-11-wrap",
+"--marker",
+"2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"baseline 902d12c8 (pre-CI parent — the oldest of 1 pre-CI commit(s), e3fa8472)",
+"unverified · new 0 · standing 0 · leaf 0 · curation 3 · base 0 · control architecture.md:70 (prose)",
+"not-met · new 0 · standing 2 · leaf 1 · curation 0 · base 1 · control architecture.md:70 (prose)",
+"v3-09 · new 0 · standing 3 · leaf 1 · curation 0 · base 1 · control architecture.md:70 (prose)",
+"old-pin · new 0 · standing 3 · leaf 1 · curation 0 · base 0 · control architecture.md:184 (prose)",
+"unmeasured · new 0 · standing 5 · leaf 2 · curation 5 · base 3 · control test-plan.md:231 (prose)",
+"pickup · new 0 · standing 3 · leaf 0 · curation 0 · base 0 · control architecture.md:184 (prose)",
+"formation · new 0 · standing 3 · leaf 0 · curation 1 · base 0 · control architecture.md:184 (prose)",
+"two-lines · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:221 (prose)",
+"tick-after · new 0 · standing 4 · leaf 0 · curation 0 · base 0 · control architecture.md:62 (prose)",
+"canary-lines · new 0 · standing 3 · leaf 1 · curation 0 · base 0 · control security-plan.md:121 (prose)",
+".claude/rules/frontend.md:51 unverified curation @c65/2581 …r been EXECUTED is unverified, whatever its static gates sa…",
+".claude/rules/verification-harness.md:47 unverified curation @c2889/15556 …n claim stays unverified]**. (live-pulse-e2e…",
+".claude/docs/session-learnings.md:238 unverified curation …g agent's remit is unverified by construction — each /androm…",
+".andromeda/test-plan.md:81 not-met standing … therefore stands OWED, not met. — **Source:** Creator Brief Must-Work (\"E…",
+".andromeda/test-plan.md:260 not-met standing edited ×6 @c3131,3369,3728,4853,5393/7985 … (`v3-09` not met; cause in tha…",
+".andromeda/test-plan.md:260 not-met @c+6368/7985",
+".andromeda/playbook.md:163 not-met base …, not on a frequency: n=1 at minting, so the usual recurrence bar is not met by",
+".claude/docs/tests-summary.md:22 not-met leaf @c2224/2497 …entical) — `v3-09` not met by any series; the 2026-10-07 cap…",
+".andromeda/architecture.md:70 v3-09 standing edited @c4107/10016 …series then met `v3-09` on three drives, read no wide…",
+".andromeda/test-plan.md:260 v3-09 standing edited mixed ×10 @c3124,3356,3715,4840/7985 …Check)` (`v3-09` not met; cause…",
+".andromeda/test-plan.md:260 v3-09 @c+5380,5848,6109,6355,6934,7806/7985",
+".andromeda/obs-plan.md:221 v3-09 standing edited mixed ×3 @c2564,3070,4079/4124 …-series-for-v3-09` chunk's `evidence/a…",
+".andromeda/playbook.md:318 v3-09 base …it to architecture's one `v3-09` verdict statement, which changes a locked decis…",
+".claude/docs/tests-summary.md:22 v3-09 leaf @c2217/2497 … byte-identical) — `v3-09` not met by any series; the 2026-10-…",
+".andromeda/security-plan.md:121 old-pin standing edited @c3908/6133 … `5f77859`, at `f70be92` and at `9bfefb8`) — so th…",
+".andromeda/test-plan.md:260 old-pin standing edited mixed ×2 @c5221,7349/7985 …ting, Pulse `f70be92`, prompt `v2.6`, th…",
+".andromeda/obs-plan.md:221 old-pin standing edited ×2 @c2720,3194/4124 …series (Pulse `f70be92`; Pulse's own log read `…",
+".claude/docs/tests-summary.md:22 old-pin leaf @c2149/2497 …-07 series (Pulse `f70be92`, prompt `v2.6`, the design and t…",
+".andromeda/test-plan.md:231 unmeasured standing @c4346/14239 … PATCH (53 vs 66, unmeasured as a cause and named here as…",
+".andromeda/test-plan.md:387 unmeasured standing …bid; Linux + `xvfb` is unmeasured target-state, while the same leg als…",
+".andromeda/obs-plan.md:490 unmeasured standing …go lines (its red path unmeasured — the Linux dev host has no `pwsh`). …",
+".andromeda/a11y-plan.md:424 unmeasured standing @c1691/5247 …pen and its holder unmeasured\" — that defect was measured …",
+".andromeda/registries/contracts/a11y-plan/screen-reader-test-pattern.md:3 unmeasured standing @c5232/5989 …is unmeasure…",
+"CLAUDE.md:135 unmeasured curation …t all sit DOWNSTREAM of an unmeasured premise is weaker than the outcome it replaces…",
+".claude/rules/testing.md:90 unmeasured curation … after the failure are UNMEASURED, not passing (the sibling of the est…",
+".claude/rules/verification-harness.md:60 unmeasured curation @c1312/5170 … formation is UNMEASURED **[corrected 2026-09…",
+".claude/rules/verification-harness.md:65 unmeasured curation @c928/2200 …in the catalog unmeasured for the life of the …",
+".claude/docs/session-learnings.md:1052 unmeasured curation …ort path. Recorded UNMEASURED for that cell rather than \"pi…",
+".andromeda/playbook.md:142 unmeasured base …uld leave the inversion unmeasured. **Check rule `Boundary widening` FIRST …",
+".andromeda/playbook.md:149 unmeasured base …tatus the master marks `unmeasured` / `OPEN` / `untested as of this writing…",
+".andromeda/playbook.md:168 unmeasured base     \"152+ runtime … unmeasured\" and test-plan §9's \"…is OPEN … untested as o…",
+".claude/rules/verification-harness.md:19 unmeasured leaf @c1168/2510 …10-04; red path unmeasured on the Linux dev host)…",
+".claude/docs/tests-summary.md:13 unmeasured leaf … 2026-10-04, red path unmeasured) — so a lint warning fails `run` who…",
+".andromeda/architecture.md:184 pickup standing edited …l-model formation or pickup budget exists — the ~110 s figure is…",
+".andromeda/test-plan.md:260 pickup standing edited @c2966/7985 …ide, so neither a pickup nor a formation figure was mea…",
+".andromeda/test-plan.md:391 pickup standing edited mixed ×2 @c993,1264/6180 …n says — its pickup recorded per attributi…",
+".andromeda/architecture.md:184 formation standing edited …26-10-07), while no real-model formation or pickup budget exi…",
+".andromeda/test-plan.md:260 formation standing edited @c2979/7985 …r a pickup nor a formation figure was measured; the …",
+".andromeda/test-plan.md:391 formation standing edited @c1075/6180 …budgeted, and no real-model formation figure contrac…",
+".claude/rules/verification-harness.md:60 formation curation @c1288/5170 … window, while real-model formation is UNMEASU…",
+".andromeda/architecture.md:62 tick-after standing …t **AFTER the storm's emission instant** — to prove the data-dir/wor…",
+".andromeda/architecture.md:64 tick-after standing … Conductor stamps the emission instant from `std::time` and compares…",
+".andromeda/architecture.md:93 tick-after standing @c392/2891 …AFTER the storm's emission instant — to prove the data-di…",
+".andromeda/obs-plan.md:221 tick-after standing edited ×2 @c1963,2071/4124 …he scenario's emission instant, the third st…",
+".andromeda/security-plan.md:121 canary-lines standing edited ×2 @c1362,1622/6133 …` line, the `canary:` lines and `scen…",
+".andromeda/test-plan.md:260 canary-lines standing edited mixed ×2 @c1606,7569/7985 …rides each `canary:` line as a trai…",
+".andromeda/obs-plan.md:221 canary-lines standing edited @c1896/4124 …ture prints one `canary:` line per retry-storm dig…",
+".claude/docs/tests-summary.md:22 canary-lines leaf @c2425/2497 …e 2026-10-01 each `canary:` line carries Pulse's `skip_…",
+"unverified · new 0 · standing 0 · leaf 0 · curation 3 · base 0 · control architecture.md:70 (prose)",
+"not-met · new 0 · standing 2 · leaf 1 · curation 0 · base 1 · control architecture.md:70 (prose)",
+"v3-09 · new 0 · standing 3 · leaf 1 · curation 0 · base 1 · control architecture.md:70 (prose)",
+"old-pin · new 0 · standing 3 · leaf 1 · curation 0 · base 0 · control architecture.md:184 (prose)",
+"unmeasured · new 0 · standing 5 · leaf 2 · curation 5 · base 3 · control test-plan.md:231 (prose)",
+"pickup · new 0 · standing 3 · leaf 0 · curation 0 · base 0 · control architecture.md:184 (prose)",
+"formation · new 0 · standing 3 · leaf 0 · curation 1 · base 0 · control architecture.md:184 (prose)",
+"two-lines · 0 rows (control fired) — a statement about this pattern, not the masters · control obs-plan.md:221 (prose)",
+"tick-after · new 0 · standing 4 · leaf 0 · curation 0 · base 0 · control architecture.md:62 (prose)",
+"canary-lines · new 0 · standing 3 · leaf 1 · curation 0 · base 0 · control security-plan.md:121 (prose)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"baseline": "902d12c84beaf140937eca1b1d08d187462e2dea",
+"how": "pre-CI parent — the oldest of 1 pre-CI commit(s), e3fa8472",
+"counts": {
+"unverified": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 3,
+"base": 0
+},
+"not-met": {
+"new": 0,
+"standing": 2,
+"leaf": 1,
+"curation": 0,
+"base": 1
+},
+"v3-09": {
+"new": 0,
+"standing": 3,
+"leaf": 1,
+"curation": 0,
+"base": 1
+},
+"old-pin": {
+"new": 0,
+"standing": 3,
+"leaf": 1,
+"curation": 0,
+"base": 0
+},
+"unmeasured": {
+"new": 0,
+"standing": 5,
+"leaf": 2,
+"curation": 5,
+"base": 3
+},
+"pickup": {
+"new": 0,
+"standing": 3,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"formation": {
+"new": 0,
+"standing": 3,
+"leaf": 0,
+"curation": 1,
+"base": 0
+},
+"two-lines": {
+"new": 0,
+"standing": 0,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"tick-after": {
+"new": 0,
+"standing": 4,
+"leaf": 0,
+"curation": 0,
+"base": 0
+},
+"canary-lines": {
+"new": 0,
+"standing": 3,
+"leaf": 1,
+"curation": 0,
+"base": 0
+}
+}
+}
+}
+]

@@ -1,0 +1,151 @@
+[
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "4cd6b692",
+"ts": "2026-10-08T07:46:40Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09",
+"--date",
+"2026-10-08",
+"--run-dir",
+".andromeda/runs/2026-10-08T07-22-11-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 3,
+"stdout": [],
+"stderr": "2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09: its record is 'pending' -- compact runs AFTER the flip",
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "4cd6b692",
+"ts": "2026-10-08T07:46:51Z",
+"argv": [
+"route.py",
+"flip",
+"--root",
+".",
+"--chunk",
+"2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09",
+"--run-dir",
+".andromeda/runs/2026-10-08T07-22-11-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"flip master-route.md:177 - 2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09 pending -> complete"
+],
+"stderr": null,
+"wrote": [
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "4cd6b692",
+"ts": "2026-10-08T07:46:51Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09",
+"--date",
+"2026-10-08",
+"--run-dir",
+".andromeda/runs/2026-10-08T07-22-11-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :98 strip BLOCKED-ON: 290ch \"BLOCKED-ON: Pulse \"The L4 probe reproduc\"",
+"pin :98 strip CONTEXT: 909ch \"CONTEXT: founder ruling 2026-10-07 11:49\"",
+"pin :98 strip CARRY: 437ch \"CARRY: architecture §Occupied Resources \"",
+"pin :98 strip CARRY: 357ch \"CARRY: the 2026-10-07 capture run (the f\"",
+"pin :98 strip CARRY: 673ch \"CARRY: open question for the founder bef\"",
+"pin next markerless :100 holds CARRY:×4",
+"98 · 2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09 · strip 5 block(s) · archive APPEND",
+"dry-run - would archive 1 and compact 1 line(s)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 98,
+"marker": "2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09",
+"blocks": 5,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+},
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "4cd6b692",
+"ts": "2026-10-08T07:46:56Z",
+"argv": [
+"route.py",
+"compact",
+"--root",
+".",
+"--chunk",
+"2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09",
+"--date",
+"2026-10-08",
+"--run-dir",
+".andromeda/runs/2026-10-08T07-22-11-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"pin :98 strip BLOCKED-ON: 290ch \"BLOCKED-ON: Pulse \"The L4 probe reproduc\"",
+"pin :98 strip CONTEXT: 909ch \"CONTEXT: founder ruling 2026-10-07 11:49\"",
+"pin :98 strip CARRY: 437ch \"CARRY: architecture §Occupied Resources \"",
+"pin :98 strip CARRY: 357ch \"CARRY: the 2026-10-07 capture run (the f\"",
+"pin :98 strip CARRY: 673ch \"CARRY: open question for the founder bef\"",
+"pin next markerless :100 holds CARRY:×4",
+"98 · 2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09 · strip 5 block(s) · archive APPEND",
+"compacted 1 complete line(s) -> route-archive.md (1 archived, 0 already there)"
+],
+"stderr": null,
+"wrote": [
+"./conductor-0.3.0/route-archive.md",
+"./conductor-0.3.0/working-route.md"
+],
+"before": null,
+"after": null,
+"extra": {
+"targets": [
+{
+"n": 98,
+"marker": "2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09",
+"blocks": 5,
+"archived": false
+}
+],
+"skips": [],
+"kept_notes": []
+}
+}
+]

@@ -1,0 +1,45 @@
+# Cascade step 2's pattern set, derived from every amendment of this pass before the first grep.
+# architecture.md:70 — "So the interpretation claim stays unverified (`v3-09` not met)" retired.
+[[pattern]]
+id = "unverified"
+fixed = 'unverified'
+
+[[pattern]]
+id = "not-met"
+fixed = 'not met'
+
+[[pattern]]
+id = "v3-09"
+fixed = 'v3-09'
+
+# architecture.md:184 — the latest per-series pin `f70be92` replaced.
+[[pattern]]
+id = "old-pin"
+fixed = 'f70be92'
+
+# architecture.md:184 and test-plan.md:391 — "no … pickup figure exists" / "formation AND pickup both still UNMEASURED".
+[[pattern]]
+id = "unmeasured"
+fixed = 'UNMEASURED'
+ignore_case = true
+
+[[pattern]]
+id = "pickup"
+fixed = 'pickup'
+
+[[pattern]]
+id = "formation"
+regex = 'real-model formation|formation figure|formation AND'
+
+# obs-plan.md:221 — "the capture prints two `canary:` lines … its digest's tick falls after it" retired as general.
+[[pattern]]
+id = "two-lines"
+regex = 'prints two|two `canary:`|two canary'
+
+[[pattern]]
+id = "tick-after"
+regex = 'tick falls after|emission instant'
+
+[[pattern]]
+id = "canary-lines"
+fixed = '`canary:` line'

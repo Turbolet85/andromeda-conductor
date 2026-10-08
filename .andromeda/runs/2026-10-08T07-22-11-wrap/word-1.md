@@ -1,0 +1,7 @@
+The operator's word at this wrap's first-sweep stop (2026-10-08, in the wrap's window, after the map's list was shown), verbatim:
+
+1. YES, the first sweep is written, my word as this wrap operator: apply --first (110 to 157), re-point 111 to 158 and 114 to 161 by hand (I read ci.yml 157, 158, 161: they are the three lines), and disposition Cargo.toml:154 as holds - stands (it cites the Pulse manifest; at Pulse 18a872d line 154 opens that pin comment block). 2. Do NOT touch the frozen capture-run report.md here: pin a CARRY on the version-close entry saying one rank-1 model statement stands in that report outside evidence/ and the founder rules on it; no quote in the CARRY. 3. The minimal amendment, both clauses, as you recommend; if architecture.md:184 cannot stay byte-neutral, CARRY that one instead. Go on with the fan-out.
+
+The wrap's invocation arguments (2026-10-08), verbatim:
+
+FIRST read ~/dev/projects/additional/pc-overseer/relays/conductor-wrap-v309sixth-2026-10-08.md. Whole wrap in this window (47.0 % measured). First wrap on the new letter: the P2 citation sweep stops at "no earlier sweep" and waits for my word, show me its list. Mint no entry; the pairing-window finding is a CARRY on the version-close entry; do not attribute the pass to the remedy; I17 (route-line quote to a pointer) is owed; model text stays in evidence/. Report the readings the relay lists in the final message.
