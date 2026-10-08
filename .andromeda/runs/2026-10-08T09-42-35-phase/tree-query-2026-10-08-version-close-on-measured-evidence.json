@@ -1,0 +1,158 @@
+[
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'pre_registered' AND callee_kind = 'fn' ORDER BY file, line",
+"rows": 12,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 real_model_grading/capture_run_2026_10_07/",
+"file": "crates/conductor-run/tests/real_model_grading/capture_run_2026_10_07.rs",
+"line": 6
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 real_model_grading/capture_run_2026_10_07/the_2026_10_07_capture_run_record_was_fixed_before_d1().",
+"file": "crates/conductor-run/tests/real_model_grading/capture_run_2026_10_07.rs",
+"line": 25
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 real_model_grading/series_2026_09_30/",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_09_30.rs",
+"line": 6
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 real_model_grading/series_2026_09_30/the_2026_09_30_series_rule_was_fixed_before_d1().",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_09_30.rs",
+"line": 22
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 real_model_grading/series_2026_10_01/",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_10_01.rs",
+"line": 5
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 real_model_grading/series_2026_10_01/the_2026_10_01_series_rule_was_fixed_before_d1().",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_10_01.rs",
+"line": 24
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 real_model_grading/series_2026_10_06/",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_10_06.rs",
+"line": 5
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 real_model_grading/series_2026_10_06/the_2026_10_06_series_rule_was_fixed_before_d1().",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_10_06.rs",
+"line": 24
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 real_model_grading/series_2026_10_07/",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_10_07.rs",
+"line": 5
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 real_model_grading/series_2026_10_07/the_2026_10_07_series_rule_was_fixed_before_d1().",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_10_07.rs",
+"line": 24
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 real_model_grading/series_2026_10_07_sixth/",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_10_07_sixth.rs",
+"line": 6
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 real_model_grading/series_2026_10_07_sixth/the_2026_10_07_sixth_series_rule_was_fixed_before_d1().",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_10_07_sixth.rs",
+"line": 25
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name = 'committed' AND callee_kind = 'fn' AND callee_file LIKE '%evidence_pin/mod.rs' ORDER BY file, line",
+"rows": 16,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 tests/round_the_p025_window_derives_from_frozen_self_obs().",
+"file": "crates/conductor-run/tests/delegated_timing_harvest.rs",
+"line": 62
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 tests/p075_round_slices_digest_pin_fails_on_a_tampered_byte().",
+"file": "crates/conductor-run/tests/delegated_timing_harvest.rs",
+"line": 168
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 tests/p075_reround_slices_digest_pin_fails_on_a_tampered_byte().",
+"file": "crates/conductor-run/tests/delegated_timing_harvest.rs",
+"line": 263
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 evidence_pin/pinned().",
+"file": "crates/conductor-run/tests/evidence_pin/mod.rs",
+"line": 45
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 p075_round_capture_digest_pin_fails_on_a_tampered_byte().",
+"file": "crates/conductor-run/tests/lifecycle_harvest.rs",
+"line": 571
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 p075_reround_capture_digest_pin_fails_on_a_tampered_byte().",
+"file": "crates/conductor-run/tests/lifecycle_harvest.rs",
+"line": 635
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 real_model_grading/capture_population/every_committed_capture_carries_no_un_elided_fingerprint_value().",
+"file": "crates/conductor-run/tests/real_model_grading/capture_population.rs",
+"line": 57
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 real_model_grading/impl#[Series]captures_match_their_pins().",
+"file": "crates/conductor-run/tests/real_model_grading/mod.rs",
+"line": 50
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 real_model_grading/pre_registered().",
+"file": "crates/conductor-run/tests/real_model_grading/mod.rs",
+"line": 155
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 real_model_grading/pre_registered().",
+"file": "crates/conductor-run/tests/real_model_grading/mod.rs",
+"line": 157
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 real_model_grading/series_2026_09_29/the_series_captures_carry_no_fingerprint().",
+"file": "crates/conductor-run/tests/real_model_grading/series_2026_09_29.rs",
+"line": 34
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 53
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 the_elided_capture_matches_its_pinned_digest().",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1210
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 the_frozen_capture_is_elided_in_place_and_equals_the_graded_copy().",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1221
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 the_frozen_capture_is_elided_in_place_and_equals_the_graded_copy().",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1222
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 a_one_byte_change_to_a_pinned_capture_fails_its_digest().",
+"file": "crates/conductor-run/tests/real_model_harvest.rs",
+"line": 1232
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

@@ -1,0 +1,53 @@
+# Operator relay: the founder's ruling on the contract's readers, and one overrule (2026-10-08)
+
+From the pc overseer. Facts are `measured 2026-10-08`. Re-derive what you rely on.
+
+## 1. The founder's ruling (dialog, answered 12:10:57 local today, his own pick)
+
+The question as I put it to him, in his language, verbatim:
+
+> В контракте Conductor с Pulse (файл с условиями прогонов на настоящей модели) написано: «никакой Rust-код этот файл не
+> читает; если начнёт читать во время работы, на файл ложатся все обязанности входной границы» (проверки, ограничения
+> размера и прочее). На деле с 30 сентября его читает тестовый помощник: считает sha256 каждого замороженного раздела,
+> чтобы поймать правку задним числом. Поставляемый код файл не читает. Считается ли такое чтение тем, из-за которого
+> включаются обязанности входной границы?
+
+His pick, verbatim: **«Нет, исправить фразу (Recommended)»**. The option's text as he saw it:
+
+> Тестовое хеширование не считается чтением во время работы: содержимое не разбирается и на поведение продукта не
+> влияет. В контракт добавляется датированная поправка «поставляемый код не читает; тестовый помощник сверяет разделы по
+> sha256, обязанности не включаются», то же в план безопасности и архитектуру. Цена: небольшая правка документов в
+> закрывающем чанке, кода нет.
+
+The two options he did not pick: "yes, the duties attach" (the helper would need input-boundary handling — one more
+development chunk) and "leave it until 0.4.0".
+
+What this means, in my words (the ruling is his, this paragraph is mine): a test-tier digest read of the posture contract
+is NOT the runtime read the `## Regime` notice names; the committed-manifest input-boundary duties do not attach to it.
+The record is corrected to say what is true: no shipped code reads the file; a test helper holds each dated section by
+sha256 and parses nothing from it. The notice itself stands for a real runtime read: were shipped code to read or parse
+the file, the duties attach in full.
+
+## 2. Where it lands
+
+- **The contract** (`contracts/pulse-real-model-leg-posture.md`, `## Regime`): one dated add-only block at the section's
+  end, as your step 6 plans. It edits and removes no existing line; no digest-pinned section moves.
+- **The close record**: your step 6's retitled section, in his relayed words.
+- **The masters** (architecture's registry row and key-file line, security-plan's fixed-path-manifests row or a dated
+  note beside it, and the leaves): the wrap's, quoting him. Your reading that the helper sits outside the row by the
+  row's own word "parsed" now has his ruling behind it; the per-reader rule is satisfied by recording this reader.
+- No code change. The helper is not touched.
+
+## 3. One overrule: the historical ordinal stays
+
+Your plan frees bytes in architecture §Occupied Resources by dropping "FIRST" from the P-025 row. **Do not.**
+`.andromeda/playbook.md:243` says a historical ordinal "is not a uniqueness claim and stays as written", confirmed with the
+user on 2026-09-18. A rule he confirmed is not mine to waive, and nothing in today's ruling touches it.
+
+So, at the wrap: keep both ordinals as written; make the posture row's correction as small as it can honestly be (the
+kind and tier of the reader can live in the contract's dated block and in security-plan, which the row may point at),
+and free whatever bytes it still needs anywhere that is neither an ordinal nor a phrase a rule pins. If the section
+cannot take a true sentence without breaking the ordinal rule or the byte threshold, STOP at the wrap and show me the
+arithmetic; I take it to the founder.
+
+Re-plan the note in your plan's Implementation notes accordingly and show me the changed lines before I approve.

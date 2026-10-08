@@ -1,0 +1,3 @@
+The operator's word at the P5 review, 2026-10-08, verbatim.
+
+Not yes yet: two inputs change the plan. Read ~/dev/projects/additional/pc-overseer/relays/conductor-versionclose-ruling-2026-10-08.md. (1) The founder answered the boundary question by dialog at 12:10 today: a test-tier digest read does NOT attach the input-boundary duties, correct the sentence. So step 6 is no longer conditional: the contract gets its dated add-only block and the close record carries his words. (2) I overrule dropping FIRST: playbook.md:243 keeps a historical ordinal as written, confirmed with the user. Free the bytes elsewhere or shrink the correction; if neither is honest, the wrap stops and shows me. Re-plan and show me the changed lines.

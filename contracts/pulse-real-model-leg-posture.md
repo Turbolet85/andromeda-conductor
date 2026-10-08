@@ -48,6 +48,14 @@ the chunk that drives the leg. Nothing in this file is parsed at runtime, so non
 input-boundary duties attach to it; were a future chunk to make it runtime-read, those duties would attach in
 full and this line is the notice that they do.
 
+[corrected 2026-10-08 (2026-10-08-version-close-on-measured-evidence, on the founder's ruling by dialog,
+2026-10-08, relayed by the pc overseer): the sentence "No Rust code reads it" is false as written since the
+2026-09-30 series. No shipped code reads this file; a test helper in `conductor-run`'s real-model harvest holds
+each dated section by sha256 and parses nothing from it. That digest hold is not the runtime read this
+section's notice names, so the committed-manifest input-boundary duties do not attach to it. The notice stands
+as written for a real runtime read: were shipped code to read or parse this file, those duties would attach in
+full.]
+
 ## The launch posture
 
 Each term is stated in the run contract's own vocabulary, so that what Conductor can and cannot observe is

@@ -1,0 +1,92 @@
+[
+{
+"tool": "gate",
+"v": "1.13",
+"sha8": "3870f1a7",
+"ts": "2026-10-08T10:01:43Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"conductor-0.3.0/chunks/2026-10-08-version-close-on-measured-evidence/research.md",
+"--run-dir",
+".andromeda/runs/2026-10-08T09-42-35-phase",
+"--marker",
+"2026-10-08-version-close-on-measured-evidence"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 5 items (new 2 · modify 3 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 5,
+"unparsed": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.13",
+"sha8": "3870f1a7",
+"ts": "2026-10-08T10:04:12Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"conductor-0.3.0/chunks/2026-10-08-version-close-on-measured-evidence/research.md",
+"--run-dir",
+".andromeda/runs/2026-10-08T09-42-35-phase",
+"--marker",
+"2026-10-08-version-close-on-measured-evidence"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 4 items (new 2 · modify 2 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 4,
+"unparsed": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.13",
+"sha8": "3870f1a7",
+"ts": "2026-10-08T10:16:36Z",
+"argv": [
+"scope",
+"--lists-only",
+"--research",
+"conductor-0.3.0/chunks/2026-10-08-version-close-on-measured-evidence/research.md",
+"--run-dir",
+".andromeda/runs/2026-10-08T09-42-35-phase",
+"--marker",
+"2026-10-08-version-close-on-measured-evidence"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"control: lists · glob · record — each fired on its synthetic known positive",
+"scope lists: parsed 5 items (new 2 · modify 3 · derived 0)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"items": 5,
+"unparsed": 0
+}
+}
+]

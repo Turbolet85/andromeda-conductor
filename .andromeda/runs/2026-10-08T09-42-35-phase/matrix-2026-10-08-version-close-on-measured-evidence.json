@@ -1,0 +1,57 @@
+[
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bd649850",
+"ts": "2026-10-08T10:17:56Z",
+"argv": [
+"coverage",
+"--dir",
+"conductor-0.3.0",
+"--run-dir",
+".andromeda/runs/2026-10-08T09-42-35-phase",
+"--marker",
+"2026-10-08-version-close-on-measured-evidence"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"verified 11/11 · deferred 0 · planned 0 · implemented 0 · unclaimed 0",
+"claimed-unfinished: none",
+"done-test: YES — every entry verified|deferred and unclaimed 0",
+"chunks referenced: 11 distinct"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bd649850",
+"ts": "2026-10-08T10:17:56Z",
+"argv": [
+"audit",
+"--dir",
+"conductor-0.3.0",
+"--chunk",
+"2026-10-08-version-close-on-measured-evidence",
+"--plan",
+"conductor-0.3.0/chunks/2026-10-08-version-close-on-measured-evidence/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-08T09-42-35-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed by 2026-10-08-version-close-on-measured-evidence: 0 · ## Acceptance Criteria: line 375, 66 lines",
+"ledger-note entries (P7.3's input, not claim citations): v3-09 (line 520)",
+"pool: unclaimed 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

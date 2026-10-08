@@ -157,7 +157,7 @@ try {
 # token for the account, so a scheduled task's `RunLevel Limited` had nothing to drop to and was a
 # silent no-op. These readings stay because they also say whether THIS launch's label survived.
 # Keys are PROBED in the provider form the cmdlet needs and REPORTED in the colon-free reg.exe form —
-# `HKLM:\` satisfies the host-path gate's drive-letter anchor and `HKLM\` does not (host-win32.md).
+# `HKLM:\` satisfies the host-path gate's drive-letter anchor and `HKLM\` does not (.claude/docs/session-learnings.md, the 2026-09-11 host-leaf entry).
 # Each key is read in its OWN try, and the property is probed with PSObject.Properties rather than
 # member access: under Set-StrictMode -Version Latest, `.$v` on a result lacking the property throws
 # PropertyNotFoundException, which aborted this loop after the first key in probe run 35103823579 and

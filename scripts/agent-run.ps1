@@ -227,7 +227,7 @@ function Invoke-LiveSuite {
 # One capture-binary test invocation for the real-model leg, its child's own bytes appended to the
 # capture files. RUST_LOG never rides a test invocation, and the env is process-wide when this script is
 # dot-invoked, so it is saved, removed and restored. Start-Process without -Wait, then WaitForExit(),
-# waits on the child alone (host-win32.md); the files are written with .NET's BOM-less UTF-8 because a
+# waits on the child alone (.claude/rules/verification-harness.md, 2026-09-16); the files are written with .NET's BOM-less UTF-8 because a
 # powershell.exe 5.1 redirect (>, *>, Out-File, Set-Content) writes UTF-16.
 function Invoke-CaptureTest([string[]]$TestArgs, [string]$CapPath, [string]$ErrPath) {
     $utf8 = New-Object System.Text.UTF8Encoding $false

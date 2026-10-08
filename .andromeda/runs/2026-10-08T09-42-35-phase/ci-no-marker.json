@@ -1,0 +1,82 @@
+[
+{
+"tool": "ci",
+"v": "1.0",
+"sha8": "a1c08692",
+"ts": "2026-10-08T09:42:42Z",
+"argv": [
+"conclusion",
+"--sha",
+"fb48cee4c549f902b3ff100cd781353125e882f5",
+"--run-dir",
+".andromeda/runs/2026-10-08T09-42-35-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"repo Turbolet85/andromeda-conductor (the push remote `origin`)",
+"fb48cee4c549 verdict: in progress · checks 3/3 · runs CI#37757646506 in_progress/-",
+"runs: CI#37757646506 push in_progress/-",
+"running 2: oldest Rust gate (build · test · lint · supply-chain · coverage) 462 s",
+"run open: CI#37757646506 in_progress"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"repo": "Turbolet85/andromeda-conductor",
+"host": "github.com",
+"repo_source": "the push remote `origin`",
+"names": [],
+"shas": [
+{
+"sha": "fb48cee4c549f902b3ff100cd781353125e882f5",
+"word": "in progress",
+"polls": [
+"in progress"
+]
+}
+]
+}
+},
+{
+"tool": "ci",
+"v": "1.0",
+"sha8": "a1c08692",
+"ts": "2026-10-08T09:55:41Z",
+"argv": [
+"conclusion",
+"--sha",
+"fb48cee4c549f902b3ff100cd781353125e882f5",
+"--run-dir",
+".andromeda/runs/2026-10-08T09-42-35-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"repo Turbolet85/andromeda-conductor (the push remote `origin`)",
+"fb48cee4c549 verdict: green · checks 3/3 · wall 601 s · runs CI#37757646506 completed/success",
+"runs: CI#37757646506 push completed/success"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"repo": "Turbolet85/andromeda-conductor",
+"host": "github.com",
+"repo_source": "the push remote `origin`",
+"names": [],
+"shas": [
+{
+"sha": "fb48cee4c549f902b3ff100cd781353125e882f5",
+"word": "green",
+"polls": [
+"green"
+]
+}
+]
+}
+}
+]

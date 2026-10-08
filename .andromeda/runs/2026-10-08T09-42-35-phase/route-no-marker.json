@@ -1,0 +1,29 @@
+[
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "4cd6b692",
+"ts": "2026-10-08T09:42:42Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-08T09-42-35-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 1 of 44 entries · freight blocks 4 · rows are an INDEX, not the text",
+"102 · CARRY: · 951 chars · CARRY: two product-script comments still cite the retired Windows host leaf by file name — `…",
+"102 · CARRY: · 679 chars · CARRY: the close states one known exception to the scope `.andromeda/security-plan.md:338` s…",
+"102 · CARRY: · 340 chars · CARRY: architecture §Occupied Resources stands at its byte threshold — 38114 of 38115 B, and…",
+"102 · CARRY: · 1849 chars · CARRY: architecture and two leaves say no Rust code reads `contracts/pulse-real-model-leg-p…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

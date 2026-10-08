@@ -60,3 +60,6 @@ Two amendments, both the plan's expected ones and routine: obs-plan §4 (Real-mo
     refused by the PreToolUse guard at the 2026-10-08 sixth-series wrap.
   - recurrence-despite-learning (carried): `host-linux.md` §Paths — a `cd` into the sibling Pulse repo, refused by
     the guard at the 2026-10-07 wrap.
+
+## Session End Status
+Completed normally at 2026-10-08 12:18:42

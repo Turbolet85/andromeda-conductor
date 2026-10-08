@@ -1,0 +1,69 @@
+# Operator relay: the phase of the version close, Conductor 0.3.0 (2026-10-08)
+
+From the pc overseer. Facts are `measured 2026-10-08` unless marked otherwise. Re-derive what you rely on.
+
+## 1. Where the version stands
+
+- HEAD = `origin/build/conductor-0.3.0` = `fb48cee`; 0 pending in the master route; the matrix reads 11 of 11 `verified`,
+  0 deferred. "Version close on measured evidence" (`conductor-0.3.0/working-route.md:102`) is the only entry left and
+  carries four `CARRY` blocks.
+- A pipeline deploy landed between the last wrap and this phase (gate.py v1.13 and the phase, implement and wrap letters;
+  hygiene's P1 also refuses a HOME path under the project root, form word in-root, fixed by `gate.py respell`). Follow the
+  letters as installed; a tool's sha8 that differs from the last chunk's trail is expected.
+
+## 2. Three sentences the close must carry, in the record a reader of the version will open
+
+1. **`v3-09` is verified on the sixth pre-registered series, three drives, and no wider. The pass is NOT attributed to the
+   Pulse-side remedy**: no prompt was recorded in that series, and the capture run on the pre-remedy build also read three
+   `Identified`. The third position's live record on this host stays as you stated it (2 misses of 4 live runs).
+2. **The capture's pairing-window fix is proven on lines built from the sixth series' recorded stamps**, with a
+   failing-first reading. What the capture binary prints on a next real drive is unmeasured until someone drives it; a
+   canary tick stamped at or after the emission instant still gets no line.
+3. **One known exception to "model text lives only in `evidence/`"**: one rank-1 model statement stands in the frozen
+   capture-run chunk's `report.md`. The founder ruled it stays (dialog, 10:25 local today, "Оставить как есть"). State the
+   exception without quoting the statement.
+
+Also known and not closed by 0.3.0, to be named as limits and not as debts of this version: the grading rule grades
+`Identified` a rank 1 that names `conductor` as a whole word and also names the canary (left unchanged for 0.3.0 by the
+operator, told to the founder before his rulings; the sixth series did not lean on it — no hypothesis named the canary).
+
+## 3. The four `CARRY` blocks
+
+- **Two product-script comments cite the retired `host-win32.md`** (`scripts/agent-run.ps1:230`,
+  `scripts/a11y-token-witness.ps1:160`): re-point each to where its lesson lives now (the entry names both homes), a
+  comment-only change. Mine to decide as operator; no founder word needed.
+- **The known exception**: sentence 3 above.
+- **Architecture at its byte threshold** (§Occupied Resources 38,114 of 38,115 B; §Established Decisions 38,082 B): any
+  amendment that grows either frees bytes there first. Plan the freeing explicitly if the next block needs it.
+- **"No Rust code reads the posture contract"** is said at four sites (architecture's registry row and its key-file line,
+  `CLAUDE.md:14`, `conventions.md:9`), yet `pre_registered` at `real_model_grading/mod.rs:155` reads it (six callers).
+  Correct the four sites to what is true. The security-plan question pinned with it (does the fixed-path-manifests row owe
+  that test-binary reader a row): research it and bring me your reading at the plan review. **If the honest answer changes
+  what a boundary clause permits, do not write it on your own reading or mine — I take it to the founder.**
+
+## 4. What the close must NOT do without the founder's word
+
+- No merge into `main`, no tag, no release, no version bump that publishes anything, no branch deletion. If the pipeline's
+  close has such a step, plan it as a stop that waits for his word and say so at the review.
+- No GPU run, no live drive.
+- No new development entry. After the close this line stops (his word of 20:41 local on 2026-10-07: finish what is
+  decided, then conceptual design).
+
+## 5. The founder's direction for the next version — check that Conductor's record holds it
+
+His words by dialog on 2026-10-07, about how analysis quality is to be judged from 0.4.0 on:
+
+> «в принципе с механической точки зрения все работает, но нормально понять насколько качество действительно соответствует
+> не получится просто на банальном шторме повторов, то есть чтоб оценить по номальному надо чтоб кондуктор умел спавнить
+> продолжительную серию разных событий и логировать как на них реагирует модель, а потом логи анализировать»
+
+Check whether Conductor's next-version intent (or whatever the pipeline names the home of a next version's direction)
+records this in his words. If it does not, the close records it there verbatim, marked as his, with nothing of mine or
+yours mixed into the quote. Proposals that are NOT his (a sanctioned capture path; expected answers per event; structured
+fields in the model's answer or a semantic grader; the unmeasured live print of the corrected classifier) go beside it
+under a heading that says whose they are.
+
+## 6. Pace
+
+Unhurried, his word. No optional spend-heavy act without the question it answers stated first. If the close's own letter
+calls for an evolve diagnosis or a code audit, say at the plan review what each costs and what question it answers.

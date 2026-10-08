@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.6",
+"sha8": "4cd6b692",
+"ts": "2026-10-08T09:45:34Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-10-08-version-close-on-measured-evidence",
+"--expect-prefix",
+"Version close on measured evidence",
+"--record-file",
+".andromeda/runs/2026-10-08T09-42-35-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-10-08T09-42-35-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:102 - [2026-10-08-version-close-on-measured-evidence]",
+"record master-route.md:179 - appended under `## conductor-0.3.0`",
+"promoted 2026-10-08-version-close-on-measured-evidence - working-route:102 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+"./conductor-0.3.0/working-route.md",
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+}
+]
