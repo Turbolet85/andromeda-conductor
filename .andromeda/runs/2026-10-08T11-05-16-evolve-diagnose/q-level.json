@@ -1,0 +1,1133 @@
+{
+ "epoch": "Epoch 5b - Version close",
+ "pass_a": {
+  "pile": 61,
+  "themes": [
+   {
+    "theme": "L1 cd moves or is refused as the session cwd",
+    "n": 2,
+    "facts": [
+     {
+      "id": "2026-10-04T11:52:00Z-a",
+      "index": 0,
+      "chunk": "2026-10-04-real-model-test-surface-corrective",
+      "step": "phase/distill",
+      "outcome": "ok",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "a `cd` into the run dir for the extract probe moved the session cwd (host-win32.md 2026-09-08 rule, the handoff's deferred recurrence); re-anchored to the repo root and switched to absolute paths"
+     },
+     {
+      "id": "2026-10-07T15:33:43Z-d",
+      "index": 0,
+      "chunk": null,
+      "step": "wrap-session/route-resolve",
+      "outcome": "ok",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "the cwd guard refused a cd into the sibling Pulse repo during the BLOCKED-ON premise re-read; the same read ran with absolute paths"
+     }
+    ]
+   },
+   {
+    "theme": "L2 file-target heredoc refused by the Bash guard",
+    "n": 3,
+    "facts": [
+     {
+      "id": "2026-10-07T09:50:38Z-a",
+      "index": 2,
+      "chunk": "2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+      "step": "wrap-session/report",
+      "outcome": "ok",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "a scratchpad probe script written by a cat heredoc was blocked by the Bash guard; written with the Write tool and run by path"
+     },
+     {
+      "id": "2026-10-07T12:58:54Z-a",
+      "index": 0,
+      "chunk": "2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive",
+      "step": "implement/code",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "a PreToolUse Bash guard refused a cat heredoc append to the attempt ledger; every later ledger append went through the Edit tool or a python read-modify-write"
+     },
+     {
+      "id": "2026-10-08T10:01:50Z-a",
+      "index": 0,
+      "chunk": "2026-10-08-version-close-on-measured-evidence",
+      "step": "phase/research",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "a scratchpad script was first written with a cat heredoc to a file, which the PreToolUse guard refused; re-authored through the Write tool (host-linux.md Transports, a recurrence of a deferred learning)"
+     }
+    ]
+   },
+   {
+    "theme": "L3 the tool shell grep is not the host grep",
+    "n": 3,
+    "facts": [
+     {
+      "id": "2026-10-04T12:55:43Z-a",
+      "index": 0,
+      "chunk": "2026-10-04-second-test-surface-corrective",
+      "step": "phase/distill",
+      "outcome": "ok",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "a ugrep sweep excluding .andromeda/runs/ by a '^./' anchored grep -v kept those lines (ugrep prints paths without ./); re-swept with a python git-ls-files scan from a scratchpad script"
+     },
+     {
+      "id": "2026-10-07T08:16:31Z-a",
+      "index": 0,
+      "chunk": "2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+      "step": "implement/code",
+      "outcome": "ok",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "the Bash tool's grep is a shell function: plan entry 5 was fired with `command grep` in place of the entry's bare grep; entries 8-13 were then fired verbatim from scratchpad script files run by plain bash"
+     },
+     {
+      "id": "2026-10-07T21:09:27Z-a",
+      "index": 0,
+      "chunk": "2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09",
+      "step": "implement/code",
+      "outcome": "ok",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "the hand-fired binary-control entries were run with the host grep binary (command grep) instead of the entry's bare grep, because in the Bash tool grep is a shell function over an embedded ugrep and the gate tool's own shell would run the host binary"
+     }
+    ]
+   },
+   {
+    "theme": "L4 run-bare rule: tool output filtered or redirected",
+    "n": 4,
+    "facts": [
+     {
+      "id": "2026-10-07T07:20:06Z-a",
+      "index": 1,
+      "chunk": "2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+      "step": "phase/distill",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the five sidecar.py cites calls were read through a grep and tail filter instead of bare; the summary line and every not-a-marker row were still in the output"
+     },
+     {
+      "id": "2026-10-07T07:25:33Z-a",
+      "index": 0,
+      "chunk": "2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+      "step": "phase/research",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "registry.py contracts and code-graph.py query were read through tail and cut filters instead of bare; the exit was taken from PIPESTATUS and the verdict lines were in the output"
+     },
+     {
+      "id": "2026-10-07T12:06:24Z-a",
+      "index": 1,
+      "chunk": "2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive",
+      "step": "phase/distill",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the five sidecar cites listings were filtered through grep and tail to keep 160 resolved rows out of the window, against the run-bare rule; the summary lines and the not-a-marker rows were read and the trail holds each listing whole"
+     },
+     {
+      "id": "2026-10-07T12:18:07Z-a",
+      "index": 0,
+      "chunk": "2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive",
+      "step": "phase/plan",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the second and third fence dry-runs were redirected to a scratchpad log and read by pattern and last line, against the run-bare rule; the first was read whole"
+     }
+    ]
+   },
+   {
+    "theme": "L5 work done during fan-out waits, ahead of the step order",
+    "n": 5,
+    "facts": [
+     {
+      "id": "2026-10-07T07:25:33Z-a",
+      "index": 1,
+      "chunk": "2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+      "step": "phase/research",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "most P3 reads (the harness rule in full, the prior series' chunk docs, Pulse at the shipped sha, the old-binary control) ran while the P2 batches were still out, as read-only work between the snapshot pairs; every write waited for the batch"
+     },
+     {
+      "id": "2026-10-07T10:03:04Z-a",
+      "index": 0,
+      "chunk": "2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+      "step": "wrap-session/reconcile",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the security-plan, test-plan and obs-plan bodies were applied while the architecture detector was still running and before the dispositions were written to fanout-results.md; no proposal collided, and the dispositions were written before any sidecar entry"
+     },
+     {
+      "id": "2026-10-07T12:10:03Z-a",
+      "index": 0,
+      "chunk": "2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive",
+      "step": "phase/research",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "research's read-only reads were made during the two fan-out waits, before P2's validation finished; every P3 write (the snapshots, the graph trace, scope and research) came after the stage-2 path check"
+     },
+     {
+      "id": "2026-10-07T20:49:13Z-a",
+      "index": 1,
+      "chunk": "2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09",
+      "step": "phase/research",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "read-only research reads were made while the two P2 batches ran; nothing was written to the tree until each path check had passed"
+     },
+     {
+      "id": "2026-10-08T08:43:03Z-a",
+      "index": 0,
+      "chunk": "2026-10-08-capture-canary-pairing-window-corrective",
+      "step": "phase/distill",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "while each batch ran, the wait was spent on read-only reads that belong to the research step (its reference, the pairing function, the existing pairing tests, the capture-text source arm); nothing was written between the snapshots"
+     }
+    ]
+   },
+   {
+    "theme": "L6 scripted byte-exact write in place of the prescribed anchored Edit or Write",
+    "n": 4,
+    "facts": [
+     {
+      "id": "2026-10-04T12:17:12Z-a",
+      "index": 0,
+      "chunk": "2026-10-04-real-model-test-surface-corrective",
+      "step": "implement/code",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "verbatim family moves carved by a python script reading the base commit's file (asserted equal to the working copy first) instead of hand Edit/Write, so moved bytes stay exact"
+     },
+     {
+      "id": "2026-10-04T14:26:21Z-a",
+      "index": 0,
+      "chunk": "2026-10-04-second-test-surface-corrective",
+      "step": "implement/code",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "moved the harvest families through a python line-range script (git show of the base) instead of Edit/Write, so the move is byte-exact by construction; the script's writes bypassed the PostToolUse rustfmt hook, so rustfmt ran by hand on the one rewrapped child file"
+     },
+     {
+      "id": "2026-10-07T10:17:50Z-a",
+      "index": 0,
+      "chunk": null,
+      "step": "wrap-session/curation",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the tier writes are prescribed as anchored Edit / Write; eight bullets of 1-18 KB on single lines had to move whole and unretyped, so a read-modify-write by path from a Write-tool script did both files, followed by a separate read-back against HEAD"
+     },
+     {
+      "id": "2026-10-08T08:58:17Z-a",
+      "index": 0,
+      "chunk": "2026-10-08-capture-canary-pairing-window-corrective",
+      "step": "phase/validate",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the eight baseline keys were written into plan.md by one scripted replace with a uniqueness assert per anchor, not by eight anchored Edits"
+     }
+    ]
+   },
+   {
+    "theme": "L7 fan-out prompt path form (absolute vs project-relative)",
+    "n": 3,
+    "facts": [
+     {
+      "id": "2026-10-07T07:20:06Z-a",
+      "index": 0,
+      "chunk": "2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+      "step": "phase/distill",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the history prompt's sidecar and index paths were substituted as absolute paths, where fan-out.md defines them project-relative; chosen because the agents' file reads take absolute paths"
+     },
+     {
+      "id": "2026-10-07T12:06:24Z-a",
+      "index": 0,
+      "chunk": "2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive",
+      "step": "phase/distill",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the history prompt carries its sidecar and index paths relative; one line naming the project root was appended to the otherwise verbatim prompt so a fresh agent could resolve them"
+     },
+     {
+      "id": "2026-10-07T13:32:49Z-a",
+      "index": 0,
+      "chunk": "2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive",
+      "step": "wrap-session/reconcile",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "no raw twin was written for the three empty returns stripping changed: each verbatim return carries a home-rooted path (the prompts named the documents by absolute path), which the run-dir hygiene read refuses; the stripped substance went to fanout-results.md instead"
+     }
+    ]
+   },
+   {
+    "theme": "L8 the harness rule file is past the read cap",
+    "n": 2,
+    "facts": [
+     {
+      "id": "2026-10-07T12:58:54Z-a",
+      "index": 1,
+      "chunk": "2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive",
+      "step": "implement/code",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the harness rule file is 76 multi-KB lines, which the Read tool clips per line; it was folded into a scratchpad copy and read in two pages"
+     },
+     {
+      "id": "2026-10-07T20:49:13Z-a",
+      "index": 0,
+      "chunk": "2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09",
+      "step": "phase/research",
+      "outcome": "ok",
+      "nature": "resources",
+      "solution": "workaround",
+      "note": "the harness rule file is past the read cap; its 39 dated entries were indexed and 24 read whole, 15 by index line only, where the letter asks offset-bounded reads of every span; the slot in research.md says which"
+     }
+    ]
+   },
+   {
+    "theme": "OBS removed-cause: advisory-db fetch residue",
+    "n": 2,
+    "facts": [
+     {
+      "id": "2026-10-07T13:01:34Z-a",
+      "index": 0,
+      "chunk": "2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive",
+      "step": "implement/fix-loop",
+      "outcome": "ok",
+      "nature": "environment",
+      "solution": "removed-cause",
+      "note": "entry 35 read red on three untracked pre-id-assignment advisory files left in the cargo home's advisory-db copy; after reading the copy's HEAD against FETCH_HEAD and the live remote head and diffing each leftover against its tracked twin, the three files were removed by name outside the repository, as scope item 11 allows"
+     },
+     {
+      "id": "2026-10-08T07:01:30Z-a",
+      "index": 0,
+      "chunk": "2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09",
+      "step": "implement/fix-loop",
+      "outcome": "ok",
+      "nature": "environment",
+      "solution": "removed-cause",
+      "note": "cargo audit's own fetch left one untracked pre-id-assignment advisory file in the local advisory-db copy after the porcelain entry had read clean; removed that one named file (equal to its tracked renamed twin apart from the id) and re-ran entries 38-40 over a clean copy"
+     }
+    ]
+   },
+   {
+    "theme": "below: route.py clips the BLOCKED-ON text",
+    "n": 2,
+    "facts": [
+     {
+      "id": "2026-10-06T19:24:16Z-a",
+      "index": 0,
+      "chunk": null,
+      "step": "new-session/orientation",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the letter asks for the block's premise as written and printed, but route.py cursor and pins both clip the 137-char BLOCKED-ON text with an ellipsis; read line 92 by offset in python to get the full clause"
+     },
+     {
+      "id": "2026-10-07T07:07:21Z-a",
+      "index": 0,
+      "chunk": null,
+      "step": "new-session/orientation",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "route.py pins clips the BLOCKED-ON row of working-route.md:94 mid-parenthesis (193 chars, about 90 shown), so the clause naming the clearing event was read by a python slice of the line rather than from the tool row"
+     }
+    ]
+   },
+   {
+    "theme": "below: inputs.py has no verb for the use",
+    "n": 2,
+    "facts": [
+     {
+      "id": "2026-10-07T09:50:38Z-a",
+      "index": 0,
+      "chunk": "2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+      "step": "wrap-session/report",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "inputs.py snap takes no wrap step, so the wrap relay read at this step is named in the report as read live with its sha256 instead of a snapshot"
+     },
+     {
+      "id": "2026-10-07T12:23:15Z-a",
+      "index": 1,
+      "chunk": "2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive",
+      "step": "phase/validate",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "inputs.py has no verb that withdraws a snapshot, so the manifest was rewritten by a script in the tool's own serialization (round-trip checked before and after) and verify re-run clean"
+     }
+    ]
+   },
+   {
+    "theme": "below: a not-green CI row with no failed check, not taken to HALT",
+    "n": 2,
+    "facts": [
+     {
+      "id": "2026-10-07T11:58:34Z-a",
+      "index": 0,
+      "chunk": "2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive",
+      "step": "phase/take-up",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "a not-green CI row on the flip commit was not taken to the HALT-and-ask arm: gh run view showed two jobs success and one cancelled by the workflow's cancel-in-progress with no failed step, so no failing subject existed; recorded in scope as read and named for the review card"
+     },
+     {
+      "id": "2026-10-07T20:37:00Z-a",
+      "index": 0,
+      "chunk": "2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09",
+      "step": "phase/take-up",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "promotion.md asks a HALT-and-ask for a not-green CI row that does not intersect the chunk; the 717bbf3 row has no failed check (a concurrency cancel), so it was recorded in scope as read and unowned and routed to the P5 review card instead of halting P1"
+     }
+    ]
+   },
+   {
+    "theme": "below: arch-registry-check.py argument form",
+    "n": 2,
+    "facts": [
+     {
+      "id": "2026-10-07T11:51:25Z-a",
+      "index": 1,
+      "chunk": null,
+      "step": "wrap-session/route-resolve",
+      "outcome": "halted-resolved",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the bare arch-registry-check measure form a standing CARRY quotes exits 2 (it needs --file or --rev); ran it with --file on the architecture master and quoted that form in the new CARRY"
+     },
+     {
+      "id": "2026-10-08T09:45:46Z-a",
+      "index": 0,
+      "chunk": "2026-10-08-version-close-on-measured-evidence",
+      "step": "phase/take-up",
+      "outcome": "ok",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "arch-registry-check.py measure refused an absolute --file as a harness fault (a path argument must be repo-relative); re-run with the repo-relative path from the project root"
+     }
+    ]
+   },
+   {
+    "theme": "below: architecture registry byte headroom",
+    "n": 2,
+    "facts": [
+     {
+      "id": "2026-10-07T10:03:04Z-a",
+      "index": 1,
+      "chunk": "2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+      "step": "wrap-session/reconcile",
+      "outcome": "ok",
+      "nature": "resources",
+      "solution": "removed-cause",
+      "note": "the architecture registry section had 29 B of headroom for a 360 B registration; two redundancies (a sentence test-plan carries, three self-restating clauses) were removed from bullets this chunk did not otherwise touch"
+     },
+     {
+      "id": "2026-10-08T11:03:05Z-a",
+      "index": 0,
+      "chunk": "2026-10-08-version-close-on-measured-evidence",
+      "step": "wrap-session/gates",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "The plan's registry-measure entry asserts 38114 B, true until the wrap's own amendment; at the light gate it would read red on the wrap's planned edit. It was passed --skip with that reason and the same command was run beside the gate (38108 B and 38082 B, within target)."
+     }
+    ]
+   },
+   {
+    "theme": "below: prohibitions (three, three subjects)",
+    "n": 3,
+    "facts": [
+     {
+      "id": "2026-10-07T11:51:25Z-a",
+      "index": 0,
+      "chunk": null,
+      "step": "wrap-session/route-resolve",
+      "outcome": "halted-resolved",
+      "nature": "process",
+      "solution": "prohibition",
+      "note": "a boundary widening whose vehicle only a delegate had named: the new entry's CARRY bars any launch until the founder's own word on the vehicle arrives, on the overseer's answer"
+     },
+     {
+      "id": "2026-10-07T12:23:15Z-a",
+      "index": 2,
+      "chunk": "2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive",
+      "step": "phase/validate",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "prohibition",
+      "note": "a constraint was added to the plan: no verbatim copy of the pass-through or either env file in inputs or anywhere else"
+     },
+     {
+      "id": "2026-10-07T20:56:19Z-a",
+      "index": 0,
+      "chunk": "2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09",
+      "step": "phase/plan",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "prohibition",
+      "note": "the operator added a guard with the first answer: the Pulse build waits for the word that the sibling repository's wrap is committed, because that tree is dirty until then; the plan carries it as step 1 and as a rejected approach"
+     }
+    ]
+   },
+   {
+    "theme": "below: singles",
+    "n": 20,
+    "facts": [
+     {
+      "id": "2026-10-04T12:06:11Z-a",
+      "index": 0,
+      "chunk": "2026-10-04-real-model-test-surface-corrective",
+      "step": "phase/plan",
+      "outcome": "ok",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "a mktemp + rm -rf compound probing git's broken-gitdir behaviour was denied by the permission layer; re-run granularly in the session scratchpad and target/phase-probe with no recursive delete"
+     },
+     {
+      "id": "2026-10-04T13:01:29Z-a",
+      "index": 1,
+      "chunk": "2026-10-04-second-test-surface-corrective",
+      "step": "phase/research",
+      "outcome": "ok",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "gh api …/jobs/{id}/logs refused to print (terminal escape sequences); read the failed dogfood log with gh run view --log-failed instead"
+     },
+     {
+      "id": "2026-10-04T14:14:47Z-a",
+      "index": 0,
+      "chunk": "2026-10-04-second-test-surface-corrective",
+      "step": "phase/plan",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the AskUserQuestion round was held 58 min with no answer through the session's dialog driver; the overseer answered both forks in a following message and P4 resumed in the same run dir"
+     },
+     {
+      "id": "2026-10-06T20:38:27Z-a",
+      "index": 0,
+      "chunk": "2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09",
+      "step": "implement/code",
+      "outcome": "halted-resolved",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "ran step 5's two Pulse release builds concurrently with steps 2-4 instead of after them, to reach the GPU leg inside the founder's waking window; pre-registration still preceded d1"
+     },
+     {
+      "id": "2026-10-06T20:38:27Z-a",
+      "index": 2,
+      "chunk": "2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09",
+      "step": "implement/code",
+      "outcome": "halted-resolved",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "step 12's red-first reading: d3's route was pre-set to the value d1 and d2 measured and held by the arm's assertion, not read off a failure line"
+     },
+     {
+      "id": "2026-10-06T20:40:48Z-a",
+      "index": 0,
+      "chunk": "2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09",
+      "step": "implement/fix-loop",
+      "outcome": "ok",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "the rebuilt pulse-app does not hold the 14-byte argv literal contiguously (the compiler builds it from two immediates), so the content proof used a rule name of the embedded grammar instead, on the overseer's word, before any drive"
+     },
+     {
+      "id": "2026-10-07T08:16:31Z-a",
+      "index": 1,
+      "chunk": "2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+      "step": "implement/code",
+      "outcome": "ok",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "foreground sleep is blocked in the tool shell: the 10 s liveness wait and the waits on each backgrounded round used a python sleep loop on an end-marker file"
+     },
+     {
+      "id": "2026-10-07T08:16:31Z-a",
+      "index": 2,
+      "chunk": "2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+      "step": "implement/code",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "plan step 6 words the dir clause 'home-rooted for the 2026-10-06 section's reason'; that reason no longer holds, so the section says 'as the 2026-10-06 series' dir was' and the report carries the deviation"
+     },
+     {
+      "id": "2026-10-07T09:50:38Z-a",
+      "index": 1,
+      "chunk": "2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+      "step": "wrap-session/report",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "removed-cause",
+      "note": "the ledger's walker's-mark heading was missing in the pushed pre-CI commit (dropped by the covariate insertion); restored at this step, outside the report's own work"
+     },
+     {
+      "id": "2026-10-07T15:33:43Z-a",
+      "index": 0,
+      "chunk": null,
+      "step": "wrap-session/curation",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the Tier-3 write rule says insert at the TOP of session-learnings.md; the re-tiered 2026-08-22 entry was inserted inside the block of the eight earlier moved Tier-1 entries, in origin-date order, because the directive said to re-tier it as the other eight were"
+     },
+     {
+      "id": "2026-10-07T20:30:51Z-a",
+      "index": 0,
+      "chunk": null,
+      "step": "new-session/orientation",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the health call's --stack value: a grep of architecture.md for the letter's phrase (primary language) returned no line, so rust was taken from CLAUDE.md's Stack line instead of from architecture.md; --style was read from architecture.md:220 as documented"
+     },
+     {
+      "id": "2026-10-08T08:49:17Z-a",
+      "index": 0,
+      "chunk": "2026-10-08-capture-canary-pairing-window-corrective",
+      "step": "phase/research",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the replay script and its output were saved into the run dir under a .txt name, the script included, to keep a python file out of the committed run dir where extension-keyed readers of the tree would meet it"
+     },
+     {
+      "id": "2026-10-08T08:55:00Z-a",
+      "index": 0,
+      "chunk": "2026-10-08-capture-canary-pairing-window-corrective",
+      "step": "phase/plan",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "removed-cause",
+      "note": "the plan Generated stamp was estimated three minutes ahead instead of read; the stamp-ahead PostToolUse hook refused the write result; the clock was read and the stamp corrected in one edit"
+     },
+     {
+      "id": "2026-10-08T08:58:17Z-a",
+      "index": 1,
+      "chunk": "2026-10-08-capture-canary-pairing-window-corrective",
+      "step": "phase/validate",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the known-positive controls for the record grep, the three contract-diff entries and the handle grep were minted in the session scratchpad, not the run dir; the baseline strings say so and carry each verdict"
+     },
+     {
+      "id": "2026-10-08T09:03:18Z-a",
+      "index": 0,
+      "chunk": "2026-10-08-capture-canary-pairing-window-corrective",
+      "step": "implement/code",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "the plan step 4 command ran under the ci profile, which cancels at the first failure and printed 43/139 tests run; the same command was re-run with --no-fail-fast to measure every test (139 run, 137 passed, 2 failed) and both readings were recorded in evidence/failing-first.md"
+     },
+     {
+      "id": "2026-10-08T09:54:50Z-a",
+      "index": 0,
+      "chunk": "2026-10-08-version-close-on-measured-evidence",
+      "step": "phase/distill",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "H2 printed one UNRESOLVED cite in arch-history (a marker composed from a sidecar heading whose marker is a bare date and whose title follows a dash); the entry was read at its line and stands, so the agent was not re-spawned and the file was left as written"
+     },
+     {
+      "id": "2026-10-08T10:01:50Z-a",
+      "index": 1,
+      "chunk": "2026-10-08-version-close-on-measured-evidence",
+      "step": "phase/research",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "matrix.py show without a filter exits 2 by design; the 11 entries were read with one --id call each into scratchpad files"
+     },
+     {
+      "id": "2026-10-08T10:17:56Z-a",
+      "index": 1,
+      "chunk": "2026-10-08-version-close-on-measured-evidence",
+      "step": "phase/validate",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "a second git grep carried literal exclude pathspecs with a glob character and excluded nothing; the hits were read and every one sat in a frozen chunk folder, which was the fact wanted"
+     },
+     {
+      "id": "2026-10-08T10:27:37Z-a",
+      "index": 0,
+      "chunk": "2026-10-08-version-close-on-measured-evidence",
+      "step": "implement/fix-loop",
+      "outcome": "ok",
+      "nature": "environment",
+      "solution": "workaround",
+      "note": "The plan says the two ps1 files cannot be executed on this host for want of pwsh; pwsh 7.6.6 is installed since 2026-10-06. An unplanned parse-only token comparison was run beside the gate tool, the close record's sentence repeating the premise was corrected, and no script was executed."
+     },
+     {
+      "id": "2026-10-08T11:00:19Z-a",
+      "index": 0,
+      "chunk": "2026-10-08-version-close-on-measured-evidence",
+      "step": "wrap-session/route-resolve",
+      "outcome": "ok",
+      "nature": "process",
+      "solution": "workaround",
+      "note": "The letter's idempotence form for a residual append is --if-absent-prefix on the origin marker and the open status alone; three open lines share that prefix, so the second and third would have been skipped. Each append used a longer prefix that includes the line's own opening words."
+     }
+    ]
+   }
+  ],
+  "prior_epoch_recurrence_read": {
+   "L1": [
+    "2026-09-30T11:47:29Z-a",
+    "2026-09-30T14:29:09Z-a",
+    "2026-10-03T22:29:27Z-a",
+    "2026-10-03T22:35:26Z-a",
+    "2026-10-04T00:50:46Z-a",
+    "2026-10-04T00:57:52Z-a"
+   ],
+   "L2": [
+    "2026-09-30T10:06:53Z-a",
+    "2026-09-30T21:35:57Z-a",
+    "2026-10-01T19:14:05Z-a",
+    "2026-10-01T21:54:30Z-a",
+    "2026-10-02T05:04:49Z-a",
+    "2026-10-04T00:36:13Z-a",
+    "2026-10-04T01:25:01Z-a"
+   ],
+   "L3": [
+    "2026-10-04T01:20:20Z-a"
+   ],
+   "L4": [
+    "2026-09-30T08:00:38Z-a",
+    "2026-09-30T08:59:06Z-a",
+    "2026-09-30T14:23:10Z-a",
+    "2026-09-30T14:40:29Z-a",
+    "2026-09-30T20:51:18Z-a",
+    "2026-10-01T19:05:05Z-a",
+    "2026-10-01T21:30:01Z-a"
+   ],
+   "L5": [],
+   "L6": "keyword hits in the previous epoch read: none of the same theme",
+   "L7": [
+    "2026-09-30T11:47:29Z-a",
+    "2026-09-15T14:12:09Z-a",
+    "2026-09-12T12:53:58Z-a"
+   ],
+   "L8": [
+    "2026-09-29T21:41:18Z-a"
+   ],
+   "OBS advisory-db": [
+    "2026-10-01T23:22:23Z-a"
+   ]
+  }
+ },
+ "pass_b": {
+  "band_aid": [
+   "L1",
+   "L2",
+   "L3",
+   "L4",
+   "L5",
+   "L6",
+   "L7",
+   "L8"
+  ],
+  "chronic_degrade": {
+   "rule": "a tooling.* specific recurring across >= 2 epochs with zero halted/soft-exit records in any epoch",
+   "tooling_per_epoch": {
+    "tooling.hook-friction": {
+     "conductor-0.2.0 | Epoch 1 - Foundation: re-aim at the SUT": 3,
+     "conductor-0.2.0 | Epoch 3 - Live proof: the five families": 1,
+     "conductor-0.2.0 | Epoch 4 - Lifecycle & delegated timing": 2,
+     "conductor-0.2.0 | Epoch 6a - Verification follow-ups": 3,
+     "conductor-0.2.0 | Epoch 6b - Polish & ship": 1,
+     "conductor-0.3.0 | Epoch 4 - Live proof against a real Pulse": 2,
+     "conductor-0.3.0 | Epoch 5b - Version close": 2
+    },
+    "tooling.environmental": {
+     "conductor-0.2.0 | Epoch 1 - Foundation: re-aim at the SUT": 3,
+     "conductor-0.2.0 | Epoch 2 - Live-path enablement": 3,
+     "conductor-0.2.0 | Epoch 3 - Live proof: the five families": 4,
+     "conductor-0.2.0 | Epoch 4 - Lifecycle & delegated timing": 1,
+     "conductor-0.2.0 | Epoch 5 - Verification surfaces": 4,
+     "conductor-0.2.0 | Epoch 6a - Verification follow-ups": 2,
+     "conductor-0.2.0 | Epoch 6b - Polish & ship": 2,
+     "conductor-0.3.0 | Epoch 3 - The a11y capability's terminal": 1,
+     "conductor-0.3.0 | Epoch 4 - Live proof against a real Pulse": 2,
+     "conductor-0.3.0 | Epoch 5 - Polish & ship": 6,
+     "conductor-0.3.0 | Epoch 5b - Version close": 2
+    },
+    "tooling.commit-mechanics": {
+     "conductor-0.2.0 | Epoch 1 - Foundation: re-aim at the SUT": 1,
+     "conductor-0.2.0 | Epoch 4 - Lifecycle & delegated timing": 1,
+     "conductor-0.2.0 | Epoch 5 - Verification surfaces": 1,
+     "conductor-0.2.0 | Epoch 6a - Verification follow-ups": 1,
+     "conductor-0.2.0 | Epoch 6b - Polish & ship": 2,
+     "conductor-0.3.0 | Epoch 2 - Scenario assertion hygiene": 1,
+     "conductor-0.3.0 | Epoch 5 - Polish & ship": 3
+    },
+    "tooling.health-false-red": {
+     "conductor-0.2.0 | Epoch 1 - Foundation: re-aim at the SUT": 1,
+     "conductor-0.2.0 | Epoch 3 - Live proof: the five families": 4,
+     "conductor-0.2.0 | Epoch 4 - Lifecycle & delegated timing": 1,
+     "conductor-0.2.0 | Epoch 6a - Verification follow-ups": 1,
+     "conductor-0.3.0 | Epoch 2 - Scenario assertion hygiene": 1,
+     "conductor-0.3.0 | Epoch 4 - Live proof against a real Pulse": 5
+    },
+    "tooling.headless-skip": {
+     "conductor-0.2.0 | Epoch 1 - Foundation: re-aim at the SUT": 3,
+     "conductor-0.2.0 | Epoch 3 - Live proof: the five families": 1,
+     "conductor-0.2.0 | Epoch 4 - Lifecycle & delegated timing": 2
+    },
+    "tooling.gate-deferral": {
+     "conductor-0.2.0 | Epoch 1 - Foundation: re-aim at the SUT": 3,
+     "conductor-0.2.0 | Epoch 2 - Live-path enablement": 9,
+     "conductor-0.2.0 | Epoch 3 - Live proof: the five families": 8,
+     "conductor-0.2.0 | Epoch 5 - Verification surfaces": 4,
+     "conductor-0.2.0 | Epoch 6a - Verification follow-ups": 2,
+     "conductor-0.2.0 | Epoch 6b - Polish & ship": 2,
+     "conductor-0.3.0 | Epoch 1 - Foundation: the measurements the closures rest on": 3,
+     "conductor-0.3.0 | Epoch 3 - The a11y capability's terminal": 2,
+     "conductor-0.3.0 | Epoch 4 - Live proof against a real Pulse": 1,
+     "conductor-0.3.0 | Epoch 5 - Polish & ship": 6
+    },
+    "tooling.harness-friction": {
+     "conductor-0.2.0 | Epoch 2 - Live-path enablement": 2,
+     "conductor-0.2.0 | Epoch 3 - Live proof: the five families": 2,
+     "conductor-0.2.0 | Epoch 6b - Polish & ship": 1
+    },
+    "tooling.host-shell": {
+     "conductor-0.2.0 | Epoch 3 - Live proof: the five families": 14,
+     "conductor-0.2.0 | Epoch 4 - Lifecycle & delegated timing": 13,
+     "conductor-0.2.0 | Epoch 5 - Verification surfaces": 3,
+     "conductor-0.2.0 | Epoch 6a - Verification follow-ups": 4,
+     "conductor-0.2.0 | Epoch 6b - Polish & ship": 8,
+     "conductor-0.3.0 | Epoch 1 - Foundation: the measurements the closures rest on": 10,
+     "conductor-0.3.0 | Epoch 2 - Scenario assertion hygiene": 2,
+     "conductor-0.3.0 | Epoch 3 - The a11y capability's terminal": 2,
+     "conductor-0.3.0 | Epoch 4 - Live proof against a real Pulse": 5,
+     "conductor-0.3.0 | Epoch 5 - Polish & ship": 9,
+     "conductor-0.3.0 | Epoch 5b - Version close": 6
+    },
+    "tooling.output-cap-overflow": {
+     "conductor-0.2.0 | Epoch 4 - Lifecycle & delegated timing": 2,
+     "conductor-0.2.0 | Epoch 5 - Verification surfaces": 5,
+     "conductor-0.2.0 | Epoch 6a - Verification follow-ups": 2,
+     "conductor-0.2.0 | Epoch 6b - Polish & ship": 10,
+     "conductor-0.3.0 | Epoch 1 - Foundation: the measurements the closures rest on": 2,
+     "conductor-0.3.0 | Epoch 2 - Scenario assertion hygiene": 1,
+     "conductor-0.3.0 | Epoch 5 - Polish & ship": 1,
+     "conductor-0.3.0 | Epoch 5b - Version close": 2
+    },
+    "tooling.graph-unavailable": {
+     "conductor-0.2.0 | Epoch 4 - Lifecycle & delegated timing": 1,
+     "conductor-0.3.0 | Epoch 5 - Polish & ship": 2
+    },
+    "tooling.long-line-edit": {
+     "conductor-0.2.0 | Epoch 5 - Verification surfaces": 3,
+     "conductor-0.2.0 | Epoch 6a - Verification follow-ups": 8,
+     "conductor-0.2.0 | Epoch 6b - Polish & ship": 6,
+     "conductor-0.3.0 | Epoch 5 - Polish & ship": 2
+    },
+    "tooling.light-gate-red": {
+     "conductor-0.2.0 | Epoch 5 - Verification surfaces": 1,
+     "conductor-0.3.0 | Epoch 3 - The a11y capability's terminal": 1,
+     "conductor-0.3.0 | Epoch 4 - Live proof against a real Pulse": 2,
+     "conductor-0.3.0 | Epoch 5 - Polish & ship": 2
+    },
+    "tooling.subprocess-bounds": {
+     "conductor-0.2.0 | Epoch 6a - Verification follow-ups": 1,
+     "conductor-0.2.0 | Epoch 6b - Polish & ship": 1,
+     "conductor-0.3.0 | Epoch 3 - The a11y capability's terminal": 1
+    },
+    "tooling.result-not-run-stable": {
+     "conductor-0.2.0 | Epoch 6b - Polish & ship": 6,
+     "conductor-0.3.0 | Epoch 1 - Foundation: the measurements the closures rest on": 2,
+     "conductor-0.3.0 | Epoch 2 - Scenario assertion hygiene": 2,
+     "conductor-0.3.0 | Epoch 3 - The a11y capability's terminal": 1,
+     "conductor-0.3.0 | Epoch 5 - Polish & ship": 1
+    },
+    "tooling.graph-symbol-missing": {
+     "conductor-0.3.0 | Epoch 4 - Live proof against a real Pulse": 3,
+     "conductor-0.3.0 | Epoch 5 - Polish & ship": 2,
+     "conductor-0.3.0 | Epoch 5b - Version close": 1
+    },
+    "tooling.graph-refresh-stale": {
+     "conductor-0.3.0 | Epoch 5 - Polish & ship": 2
+    }
+   },
+   "hits_present_in_target_epoch": [
+    "tooling.host-shell",
+    "tooling.hook-friction",
+    "tooling.output-cap-overflow",
+    "tooling.graph-symbol-missing"
+   ],
+   "excluded": {
+    "tooling.environmental": "halted records exist in two earlier epochs (0.2.0 Epoch 5, 0.3.0 Epoch 4)"
+   },
+   "ok_degraded_step_records_in_target_epoch": 0
+  },
+  "deferred_forever": {
+   "deferred_facts": 0,
+   "deferral_open_signals": 0,
+   "gate_deferral_frictions": 0,
+   "hits": []
+  },
+  "override": {
+   "facts": [
+    {
+     "id": "2026-10-04T13:01:29Z-a",
+     "index": 0,
+     "chunk": "2026-10-04-second-test-surface-corrective",
+     "step": "phase/research",
+     "outcome": "ok",
+     "nature": "process",
+     "solution": "overridden",
+     "note": "test-plan §9 limits cargo-mutants to the epoch-boundary audit; the overseer's take-up directive asked for a live per-chunk measurement, run scoped by file and function into target/phase-mutants"
+    },
+    {
+     "id": "2026-10-06T19:49:18Z-a",
+     "index": 0,
+     "chunk": "2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09",
+     "step": "phase/plan",
+     "outcome": "ok",
+     "nature": "process",
+     "solution": "overridden",
+     "note": "the directive's no heavy runs at night was corrected by the overseer inside the fork answers to only GPU runs barred at night; scope item 6 and the plan's ordering were rewritten to defer nothing but the drives"
+    },
+    {
+     "id": "2026-10-06T19:56:00Z-a",
+     "index": 0,
+     "chunk": "2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09",
+     "step": "phase/validate",
+     "outcome": "ok",
+     "nature": "process",
+     "solution": "overridden",
+     "note": "the operator changed lean 4 at the review: the host rendering lever was dropped from the launch posture and the contract section, kept only as one recorded relaunch if the app dies in its first 10 s; the plan was amended in place and the whole mechanical set re-run before the second prompt, which was issued as text"
+    },
+    {
+     "id": "2026-10-06T20:38:27Z-a",
+     "index": 1,
+     "chunk": "2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09",
+     "step": "implement/code",
+     "outcome": "halted-resolved",
+     "nature": "product-logic",
+     "solution": "overridden",
+     "note": "the pre-registered section was amended once before d1 on the overseer's word, against the plan's 'never edited afterwards': its content proof named a string the compiler does not keep contiguous"
+    },
+    {
+     "id": "2026-10-07T07:37:08Z-a",
+     "index": 0,
+     "chunk": "2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+     "step": "phase/validate",
+     "outcome": "ok",
+     "nature": "process",
+     "solution": "overridden",
+     "note": "the review's single yes carried a directive changing one step's arm (a death of the app on this host stops and is reported before the one relaunch); the plan was edited after the word to fold it, and the whole mechanical set was re-run after the edit rather than before the word"
+    },
+    {
+     "id": "2026-10-07T10:08:24Z-a",
+     "index": 0,
+     "chunk": "2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+     "step": "wrap-session/route-resolve",
+     "outcome": "halted-resolved",
+     "nature": "process",
+     "solution": "overridden",
+     "note": "the authority rule reads a relayed summary on a trajectory fork as provisional; the direction named the entry not provisional as the founder's own pick, so the entry carries no provisional word and records the option's title as his pick with its content marked as the overseer's summary"
+    },
+    {
+     "id": "2026-10-07T10:17:50Z-a",
+     "index": 1,
+     "chunk": null,
+     "step": "wrap-session/curation",
+     "outcome": "ok",
+     "nature": "process",
+     "solution": "overridden",
+     "note": "curation-guide says wrap never auto-promotes over-cap Tier-1 entries and Filter 5 caps a wrap at three; the operator directed this wrap to re-tier eight existing entries in one pass, so neither applied"
+    },
+    {
+     "id": "2026-10-07T12:23:15Z-a",
+     "index": 0,
+     "chunk": "2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive",
+     "step": "phase/validate",
+     "outcome": "ok",
+     "nature": "process",
+     "solution": "overridden",
+     "note": "the operator ruled at the review that three operator files snapshotted at P3 must not be committed (a public repository); the copies and their manifest entries were removed and the files recorded by sha256 and byte count in research.md"
+    },
+    {
+     "id": "2026-10-08T07:44:54Z-a",
+     "index": 0,
+     "chunk": "2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09",
+     "step": "wrap-session/route-resolve",
+     "outcome": "ok",
+     "nature": "process",
+     "solution": "overridden",
+     "note": "a frozen route line was edited outside the flip-compaction: the one-sentence model-text quote in its last CARRY block was replaced by a pointer to the capture file, on the operator's ruling recorded as the chunk's input I17 and restated in the wrap's arguments; done before the flip so the archive receives the pointer"
+    },
+    {
+     "id": "2026-10-08T10:17:56Z-a",
+     "index": 0,
+     "chunk": "2026-10-08-version-close-on-measured-evidence",
+     "step": "phase/validate",
+     "outcome": "ok",
+     "nature": "process",
+     "solution": "overridden",
+     "note": "the operator overruled the plan's lean to drop a historical ordinal from a registry row to pay for a correction; the plan was re-synthesized with both ordinals kept and the bytes found in a by-reference rewrite of a repeated sentence"
+    }
+   ],
+   "per_step_per_epoch": {
+    "phase/validate": {
+     "conductor-0.2.0 | Epoch 1 - Foundation: re-aim at the SUT": 1,
+     "conductor-0.2.0 | Epoch 2 - Live-path enablement": 2,
+     "conductor-0.2.0 | Epoch 3 - Live proof: the five families": 1,
+     "conductor-0.2.0 | Epoch 5 - Verification surfaces": 6,
+     "conductor-0.2.0 | Epoch 6b - Polish & ship": 4,
+     "conductor-0.3.0 | Epoch 4 - Live proof against a real Pulse": 1,
+     "conductor-0.3.0 | Epoch 5 - Polish & ship": 2,
+     "conductor-0.3.0 | Epoch 5b - Version close": 4
+    },
+    "implement/code": {
+     "conductor-0.2.0 | Epoch 1 - Foundation: re-aim at the SUT": 1,
+     "conductor-0.2.0 | Epoch 3 - Live proof: the five families": 1,
+     "conductor-0.3.0 | Epoch 1 - Foundation: the measurements the closures rest on": 1,
+     "conductor-0.3.0 | Epoch 4 - Live proof against a real Pulse": 1,
+     "conductor-0.3.0 | Epoch 5b - Version close": 1
+    },
+    "wrap-session/reconcile": {
+     "conductor-0.2.0 | Epoch 1 - Foundation: re-aim at the SUT": 1,
+     "conductor-0.2.0 | Epoch 2 - Live-path enablement": 2,
+     "conductor-0.2.0 | Epoch 3 - Live proof: the five families": 1,
+     "conductor-0.2.0 | Epoch 5 - Verification surfaces": 1,
+     "conductor-0.2.0 | Epoch 6b - Polish & ship": 1,
+     "conductor-0.3.0 | Epoch 4 - Live proof against a real Pulse": 2,
+     "conductor-0.3.0 | Epoch 5 - Polish & ship": 2
+    },
+    "wrap-session/route-resolve": {
+     "conductor-0.2.0 | Epoch 2 - Live-path enablement": 2,
+     "conductor-0.2.0 | Epoch 3 - Live proof: the five families": 2,
+     "conductor-0.2.0 | Epoch 5 - Verification surfaces": 1,
+     "conductor-0.3.0 | Epoch 1 - Foundation: the measurements the closures rest on": 2,
+     "conductor-0.3.0 | Epoch 5 - Polish & ship": 3,
+     "conductor-0.3.0 | Epoch 5b - Version close": 2
+    },
+    "wrap-session/report": {
+     "conductor-0.2.0 | Epoch 2 - Live-path enablement": 1,
+     "conductor-0.2.0 | Epoch 3 - Live proof: the five families": 1,
+     "conductor-0.2.0 | Epoch 6b - Polish & ship": 3,
+     "conductor-0.3.0 | Epoch 1 - Foundation: the measurements the closures rest on": 1,
+     "conductor-0.3.0 | Epoch 5 - Polish & ship": 1
+    },
+    "wrap-session/gates": {
+     "conductor-0.2.0 | Epoch 2 - Live-path enablement": 1,
+     "conductor-0.2.0 | Epoch 6b - Polish & ship": 1,
+     "conductor-0.3.0 | Epoch 1 - Foundation: the measurements the closures rest on": 1,
+     "conductor-0.3.0 | Epoch 4 - Live proof against a real Pulse": 1,
+     "conductor-0.3.0 | Epoch 5 - Polish & ship": 1
+    },
+    "implement/fix-loop": {
+     "conductor-0.2.0 | Epoch 4 - Lifecycle & delegated timing": 1,
+     "conductor-0.2.0 | Epoch 6b - Polish & ship": 1,
+     "conductor-0.3.0 | Epoch 4 - Live proof against a real Pulse": 2,
+     "conductor-0.3.0 | Epoch 5 - Polish & ship": 4
+    },
+    "phase/plan": {
+     "conductor-0.2.0 | Epoch 4 - Lifecycle & delegated timing": 1,
+     "conductor-0.2.0 | Epoch 5 - Verification surfaces": 1,
+     "conductor-0.2.0 | Epoch 6a - Verification follow-ups": 1,
+     "conductor-0.3.0 | Epoch 5 - Polish & ship": 3,
+     "conductor-0.3.0 | Epoch 5b - Version close": 1
+    },
+    "new-session/orientation": {
+     "conductor-0.2.0 | Epoch 5 - Verification surfaces": 1
+    },
+    "phase/take-up": {
+     "conductor-0.2.0 | Epoch 5 - Verification surfaces": 1,
+     "conductor-0.2.0 | Epoch 6b - Polish & ship": 2,
+     "conductor-0.3.0 | Epoch 4 - Live proof against a real Pulse": 2,
+     "conductor-0.3.0 | Epoch 5 - Polish & ship": 1
+    },
+    "phase/research": {
+     "conductor-0.3.0 | Epoch 5b - Version close": 1
+    },
+    "wrap-session/curation": {
+     "conductor-0.3.0 | Epoch 5b - Version close": 1
+    }
+   },
+   "hit": "phase/validate: 4 facts over 4 chunks in the target epoch; 2 in the previous epoch"
+  }
+ },
+ "unresolved_facts": [
+  {
+   "id": "2026-10-06T19:42:07Z-a",
+   "index": 0,
+   "chunk": "2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09",
+   "step": "phase/research",
+   "outcome": "ok",
+   "nature": "process",
+   "solution": "unresolved",
+   "note": "the research evolve playbook was read after research.md was written and before the scope premise closure was applied to scope.md, so the last part of the step ran with its criteria in the window"
+  },
+  {
+   "id": "2026-10-08T09:45:46Z-a",
+   "index": 1,
+   "chunk": "2026-10-08-version-close-on-measured-evidence",
+   "step": "phase/take-up",
+   "outcome": "ok",
+   "nature": "process",
+   "solution": "unresolved",
+   "note": "two Bash calls opened with a bare cd into the project root, which host-linux.md Paths says to keep inside a subshell; the cwd was already that dir so nothing moved and the guard did not fire"
+  }
+ ],
+ "epoch_order": [
+  "conductor-0.1.0 | Epoch 9 - Desktop control panel",
+  "conductor-0.2.0 | Epoch 1 - Foundation: re-aim at the SUT",
+  "conductor-0.2.0 | Epoch 2 - Live-path enablement",
+  "conductor-0.2.0 | ",
+  "conductor-0.2.0 | Epoch 3 - Live proof: the five families",
+  "conductor-0.2.0 | Epoch 4 - Lifecycle & delegated timing",
+  "conductor-0.2.0 | Epoch 5 - Verification surfaces",
+  "conductor-0.2.0 | Epoch 6a - Verification follow-ups",
+  "conductor-0.2.0 | Epoch 6b - Polish & ship",
+  "conductor-0.3.0 | Epoch 1 - Foundation: the measurements the closures rest on",
+  "conductor-0.3.0 | Epoch 2 - Scenario assertion hygiene",
+  "conductor-0.3.0 | Epoch 3 - The a11y capability's terminal",
+  "conductor-0.3.0 | Epoch 4 - Live proof against a real Pulse",
+  "conductor-0.3.0 | Epoch 5 - Polish & ship",
+  "conductor-0.3.0 | Epoch 5b - Version close"
+ ]
+}

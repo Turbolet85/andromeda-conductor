@@ -1,0 +1,605 @@
+{
+ "epoch": "Epoch 5b - Version close",
+ "verdict_anchors": [
+  {
+   "anchor": "consumed-verdict",
+   "chunk": null,
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-10-04T11:39:36Z-a",
+   "artifact": "handoff",
+   "quality": "thin",
+   "note": "Status clean and the Evolve note (Epochs 4/5 undiagnosed) are superseded by post-wrap work: two evolve-diagnose runs targeting Epochs 4 and 5 plus a code-audit run, all untracked",
+   "operator_pass": null,
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "producer_note": null,
+   "producer_frictions": []
+  },
+  {
+   "anchor": "consumed-verdict",
+   "chunk": null,
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-10-04T11:39:36Z-a",
+   "artifact": "matrix",
+   "quality": "thin",
+   "note": "done-test YES rests on v3-09 deferred, while working-route:88 CONTEXT records the 2026-10-02 founder ruling that v3-09 is NOT deferred",
+   "operator_pass": null,
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "producer_note": null,
+   "producer_frictions": []
+  },
+  {
+   "anchor": "consumed-verdict",
+   "chunk": "2026-10-04-real-model-test-surface-corrective",
+   "consumer": "phase/research",
+   "consumer_id": "2026-10-04T11:58:36Z-a",
+   "artifact": "tree-db",
+   "quality": "thin",
+   "note": "rust plane fresh, 38 rows; feature-gated targets (real_model_live.rs) are not indexed, so its rule_section caller came from grep",
+   "operator_pass": null,
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "producer_note": null,
+   "producer_frictions": []
+  },
+  {
+   "anchor": "consumed-verdict",
+   "chunk": "2026-10-04-second-test-surface-corrective",
+   "consumer": "phase/validate",
+   "consumer_id": "2026-10-04T14:19:25Z-a",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "P4 draft listed six source-mutating controls as gate entries and two cargo-stderr-polluted probes; all fixed at P5 before the review",
+   "operator_pass": null,
+   "producer": "phase/plan",
+   "producer_id": "2026-10-04T14:14:47Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:ps1-exit-propagation",
+    "designed-dialogue:kill-proof-form"
+   ],
+   "producer_note": "431 lines, 15 criteria, 33 gate entries incl. 5 inverse controls; links no matrix cap (0 unclaimed); planlint 0 hits; graph citations all concrete",
+   "producer_frictions": []
+  },
+  {
+   "anchor": "consumed-verdict",
+   "chunk": "2026-10-04-second-test-surface-corrective",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-10-04T14:54:29Z-a",
+   "artifact": "report",
+   "quality": "thin",
+   "note": "its Harness / gate surface bullet over-claimed 'with that line's exit, whoever calls it' — false under a caller setting the native-command preference; the test-plan detector inherited it, the layout-templates detector refuted it; corrected in place, dated",
+   "operator_pass": null,
+   "producer": "wrap-session/report",
+   "producer_id": "2026-10-04T14:46:18Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "carry-quoted-verbatim"
+   ],
+   "producer_note": "carry-measurement.md embedded as a blockquote, round-trip checked equal",
+   "producer_frictions": []
+  },
+  {
+   "anchor": "consumed-verdict",
+   "chunk": "2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09",
+   "consumer": "phase/take-up",
+   "consumer_id": "2026-10-06T19:28:35Z-a",
+   "artifact": "working-entry",
+   "quality": "thin",
+   "note": "one title line plus two freight blocks; the series design, the model, the host and the ordering all came from the relay and the directive",
+   "operator_pass": null,
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "producer_note": null,
+   "producer_frictions": []
+  },
+  {
+   "anchor": "consumed-verdict",
+   "chunk": "2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-06T20:38:27Z-a",
+   "artifact": "plan",
+   "quality": "wrong",
+   "note": "step 2 and gate entry 8 fix a pulse-app content proof (the argv literal present) that a correct build cannot satisfy",
+   "operator_pass": null,
+   "producer": "phase/plan",
+   "producer_id": "2026-10-06T19:49:18Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:data-dir-parent-on-this-host",
+    "designed-dialogue:pulse-build-and-launch-authority",
+    "authority-resolved:the relay question on how the rule reads the trigger line yielded to the standing acceptance, rule byte-identical"
+   ],
+   "producer_note": "383 prose lines, 46 gate entries, 17 criteria; fence dry-run parsed on the first fire, live-legs dry-run reads legs 3, planlint 0 hits; 3 graph citations, none soft",
+   "producer_frictions": [
+    "2026-10-06T19:49:18Z-b UNTYPED"
+   ]
+  },
+  {
+   "anchor": "consumed-verdict",
+   "chunk": "2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09",
+   "consumer": "implement/code",
+   "consumer_id": "2026-10-06T20:38:27Z-a",
+   "artifact": "research",
+   "quality": "thin",
+   "note": "the walks-tree candidate list and Files to modify missed scenario_catalog.rs's inline tests",
+   "operator_pass": null,
+   "producer": "phase/research",
+   "producer_id": "2026-10-06T19:42:07Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "unresolved-questions"
+   ],
+   "producer_note": "3 open questions carried: 2 plan-decision (the data dir parent on this host; the build and launch authority), 1 implementation-scope (which walks-tree candidates truly walk); scope lists parsed 15 items on the first fire",
+   "producer_frictions": [
+    "2026-10-06T19:42:07Z-b contract.narrow-basis-claim"
+   ]
+  },
+  {
+   "anchor": "consumed-verdict",
+   "chunk": "2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09",
+   "consumer": "implement/fix-loop",
+   "consumer_id": "2026-10-06T20:40:48Z-a",
+   "artifact": "plan",
+   "quality": "wrong",
+   "note": "46 of 47 entries ran as written; entry 8's atom (the argv literal present in the rebuilt binary) is unsatisfiable on a correct build",
+   "operator_pass": null,
+   "producer": "phase/plan",
+   "producer_id": "2026-10-06T19:49:18Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:data-dir-parent-on-this-host",
+    "designed-dialogue:pulse-build-and-launch-authority",
+    "authority-resolved:the relay question on how the rule reads the trigger line yielded to the standing acceptance, rule byte-identical"
+   ],
+   "producer_note": "383 prose lines, 46 gate entries, 17 criteria; fence dry-run parsed on the first fire, live-legs dry-run reads legs 3, planlint 0 hits; 3 graph citations, none soft",
+   "producer_frictions": [
+    "2026-10-06T19:49:18Z-b UNTYPED"
+   ]
+  },
+  {
+   "anchor": "consumed-verdict",
+   "chunk": "2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-10-06T21:24:08Z-a",
+   "artifact": "report",
+   "quality": "thin",
+   "note": "lacked two fourth-series facts the security row's dated measurements needed (the workspace-detector diff and the suffix rendering); added before apply",
+   "operator_pass": null,
+   "producer": "wrap-session/report",
+   "producer_id": "2026-10-06T21:13:39Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [],
+   "producer_note": "every Changes family from session knowledge; three master sweeps located the expected-amendment sites and the registry headroom before authoring",
+   "producer_frictions": []
+  },
+  {
+   "anchor": "consumed-verdict",
+   "chunk": "2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-10-06T21:24:08Z-a",
+   "artifact": "wrap-playbook",
+   "quality": "thin",
+   "note": "no rule covers a dated series-record extension; the plan's approved expected amendments settled every proposal",
+   "operator_pass": null,
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "producer_note": null,
+   "producer_frictions": []
+  },
+  {
+   "anchor": "consumed-verdict",
+   "chunk": "2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09",
+   "consumer": "wrap-session/gates",
+   "consumer_id": "2026-10-06T21:28:29Z-a",
+   "artifact": "plan",
+   "quality": "wrong",
+   "note": "16 of 16 non-leg entries re-ran green; one operator entry's recorded result is red by construction (the argv-literal content proof), carried as a recorded treatment on the overseer's word",
+   "operator_pass": null,
+   "producer": "phase/plan",
+   "producer_id": "2026-10-06T19:49:18Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "designed-dialogue:data-dir-parent-on-this-host",
+    "designed-dialogue:pulse-build-and-launch-authority",
+    "authority-resolved:the relay question on how the rule reads the trigger line yielded to the standing acceptance, rule byte-identical"
+   ],
+   "producer_note": "383 prose lines, 46 gate entries, 17 criteria; fence dry-run parsed on the first fire, live-legs dry-run reads legs 3, planlint 0 hits; 3 graph citations, none soft",
+   "producer_frictions": [
+    "2026-10-06T19:49:18Z-b UNTYPED"
+   ]
+  },
+  {
+   "anchor": "consumed-verdict",
+   "chunk": null,
+   "consumer": "new-session/orientation",
+   "consumer_id": "2026-10-07T07:07:21Z-a",
+   "artifact": "handoff",
+   "quality": "wrong",
+   "note": "Position Next names /andromeda-setup-project for U02 as the step at the seam; HEAD 29adafa is that setup commit and upgrade detect reads U02 ok",
+   "operator_pass": null,
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "producer_note": null,
+   "producer_frictions": []
+  },
+  {
+   "anchor": "consumed-verdict",
+   "chunk": "2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+   "consumer": "wrap-session/report",
+   "consumer_id": "2026-10-07T09:50:38Z-a",
+   "artifact": "conversation",
+   "quality": "thin",
+   "note": "compacted between the operator pass and this wrap; the summary stood in and the ledger and the plan's gate block were re-read whole",
+   "operator_pass": null,
+   "producer": "implement/smoke",
+   "producer_id": "2026-10-07T08:18:58Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "recorded-not-rerun"
+   ],
+   "producer_note": "the plan's smoke is a leg = operator entry driven once by hand at P2; P3 did not re-drive it",
+   "producer_frictions": [
+    "2026-10-07T08:18:58Z-b contract.narrow-basis-claim"
+   ]
+  },
+  {
+   "anchor": "consumed-verdict",
+   "chunk": "2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-10-07T10:03:04Z-a",
+   "artifact": "wrap-playbook",
+   "quality": "thin",
+   "note": "one rule governed the handle registration; no rule covers a real-model series' dated-record extension (9 of 11 proposals), settled by the plan's approved expected amendments",
+   "operator_pass": null,
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "producer_note": null,
+   "producer_frictions": []
+  },
+  {
+   "anchor": "consumed-verdict",
+   "chunk": "2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+   "consumer": "wrap-session/curation",
+   "consumer_id": "2026-10-07T10:04:11Z-a",
+   "artifact": "conversation",
+   "quality": "thin",
+   "note": "compacted; the report's Decisions and the overseer's wrap relay carried the candidates",
+   "operator_pass": null,
+   "producer": "implement/smoke",
+   "producer_id": "2026-10-07T08:18:58Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "recorded-not-rerun"
+   ],
+   "producer_note": "the plan's smoke is a leg = operator entry driven once by hand at P2; P3 did not re-drive it",
+   "producer_frictions": [
+    "2026-10-07T08:18:58Z-b contract.narrow-basis-claim"
+   ]
+  },
+  {
+   "anchor": "consumed-verdict",
+   "chunk": "2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-10-07T13:32:49Z-a",
+   "artifact": "wrap-playbook",
+   "quality": "thin",
+   "note": "the real-model series dated-record rule names a SERIES and did not govern a pre-registered run that is not one; the accurate-this-chunk-addition rule carried all 13 applied proposals",
+   "operator_pass": null,
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "producer_note": null,
+   "producer_frictions": []
+  },
+  {
+   "anchor": "consumed-verdict",
+   "chunk": "2026-10-08-capture-canary-pairing-window-corrective",
+   "consumer": "phase/research",
+   "consumer_id": "2026-10-08T08:49:17Z-a",
+   "artifact": "tree-db",
+   "quality": "thin",
+   "note": "two queries, 2 and 6 rows; the by-name calls query mixed two same-named functions and the feature-gated capture file is not indexed, so its call and its stamp parser came from a name grep",
+   "operator_pass": null,
+   "producer": null,
+   "producer_id": null,
+   "producer_outcome": null,
+   "producer_signals": null,
+   "producer_note": null,
+   "producer_frictions": []
+  },
+  {
+   "anchor": "consumed-verdict",
+   "chunk": "2026-10-08-capture-canary-pairing-window-corrective",
+   "consumer": "phase/plan",
+   "consumer_id": "2026-10-08T08:55:00Z-a",
+   "artifact": "research",
+   "quality": "thin",
+   "note": "it held every stamp around the three instants but not the inference stamps of the first two storms of d3, which the two-line control shape needed",
+   "operator_pass": null,
+   "producer": "phase/research",
+   "producer_id": "2026-10-08T08:49:17Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "control-reproduced-committed-captures"
+   ],
+   "producer_note": "a line-for-line port of the pairing, replayed over the recorded Pulse log, printed the same canary lines as all three committed captures under the pre-fix composition; the file lists parsed at the first firing; 0 open questions",
+   "producer_frictions": [
+    "2026-10-08T08:49:17Z-b tooling.graph-symbol-missing",
+    "2026-10-08T08:49:17Z-c contract.premise-falsified"
+   ]
+  },
+  {
+   "anchor": "consumed-verdict",
+   "chunk": "2026-10-08-capture-canary-pairing-window-corrective",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-10-08T09:31:14Z-a",
+   "artifact": "report",
+   "quality": "thin",
+   "note": "one sweep count in the Spec claims disproved bullet was taken with a width-bounded pattern and under-read by one site; the architecture detector named the missing site; corrected in place, no proposal rested on it",
+   "operator_pass": null,
+   "producer": "wrap-session/report",
+   "producer_id": "2026-10-08T09:23:18Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "new-text-generated",
+    "new-text-rows:40"
+   ],
+   "producer_note": "the listing pasted by splice.py as the last section, 53 lines, no line typed or edited after",
+   "producer_frictions": []
+  },
+  {
+   "anchor": "consumed-verdict",
+   "chunk": "2026-10-08-version-close-on-measured-evidence",
+   "consumer": "wrap-session/reconcile",
+   "consumer_id": "2026-10-08T10:58:04Z-a",
+   "artifact": "report",
+   "quality": "thin",
+   "note": "one site list (the verdict null-arm family) was taken over three masters and under-ran by two sites the detectors found",
+   "operator_pass": null,
+   "producer": "wrap-session/report",
+   "producer_id": "2026-10-08T10:46:58Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "new-text-generated",
+    "new-text-rows:0"
+   ],
+   "producer_note": "listing: 3 files, 3 added ranges, 10 lines, 0 blocks; pasted by splice.py as the last section, nothing typed after",
+   "producer_frictions": [
+    "2026-10-08T10:46:58Z-b contract.detector-fact-gap",
+    "2026-10-08T10:46:58Z-c UNTYPED"
+   ]
+  },
+  {
+   "anchor": "consumed-verdict",
+   "chunk": "2026-10-08-version-close-on-measured-evidence",
+   "consumer": "wrap-session/gates",
+   "consumer_id": "2026-10-08T11:03:05Z-a",
+   "artifact": "plan",
+   "quality": "thin",
+   "note": "30 entries: 26 green, 0 red, 3 operator legs re-verified from evidence, 1 skipped with its reason because its expect atom pins the pre-amendment registry bytes",
+   "operator_pass": null,
+   "producer": "phase/validate",
+   "producer_id": "2026-10-08T10:17:56Z-a",
+   "producer_outcome": "ok",
+   "producer_signals": [
+    "known-verdict-control-caught-a-guard-defect"
+   ],
+   "producer_note": "a must-pass control for a new hunk-anchor guard read red: git anchors a multi-line insertion past the blank line that follows it; the pattern was widened to both anchors before the review",
+   "producer_frictions": [
+    "2026-10-08T10:17:56Z-b contract.mechanical-check"
+   ]
+  }
+ ],
+ "input_friction_anchors": [
+  {
+   "id": "2026-10-04T11:39:36Z-b",
+   "chunk": null,
+   "at": "new-session/orientation",
+   "type": "input.handoff-git-mismatch",
+   "what": "handoff Status clean, but the tree carries 3 untracked post-wrap run dirs (evolve-diagnose 08:53 and 09:03 for Epochs 4 and 5, code-audit 09:27) and a code-metrics.ndjson append beyond the expected Session End Status hook line"
+  },
+  {
+   "id": "2026-10-04T14:26:21Z-b",
+   "chunk": "2026-10-04-second-test-surface-corrective",
+   "at": "implement/code",
+   "type": "input.plan-step-ambiguous",
+   "what": "step 3 asks for byte-verbatim test bodies while the fmt gate requires them dedented by 4 (out of mod tests) and one statement re-wrapped by rustfmt; resolved as whitespace-only, recorded as a deviation in the report"
+  },
+  {
+   "id": "2026-10-04T14:54:29Z-c",
+   "chunk": "2026-10-04-second-test-surface-corrective",
+   "at": "wrap-session/reconcile",
+   "type": "input.report-insufficient",
+   "what": "the report's Harness / gate surface bullet (and evidence/carry-measurement.md §3, written at implement) said the ps1 default stops 'with that line's exit, whoever calls it'; under CI's preference the line throws first (exit 1); caught by a doc-agent's commentary on layout-templates.md:196, report corrected, evidence left as committed"
+  },
+  {
+   "id": "2026-10-06T19:24:16Z-b",
+   "chunk": null,
+   "at": "new-session/orientation",
+   "type": "input.handoff-git-mismatch",
+   "what": "handoff Status reads clean while git status shows 3 modified and 1 untracked path with HEAD == upstream: the post-commit gates friction append, its evolve trail json, an untracked health trail json in the wrap run dir, and a Session End Status stamp a hook appended to the handoff two days after the wrap; the documented transient names a lone friction append only"
+  },
+  {
+   "id": "2026-10-06T19:28:35Z-b",
+   "chunk": "2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09",
+   "at": "phase/take-up",
+   "type": "input.carry-context-gap",
+   "what": "the CONTEXT block on working-route.md:92 cites a founder ruling by the words as above, entry 3 of 3, and its antecedent sat on entry 1 of 3, since flip-compacted to route-archive.md; resolved by a python offset read of the archive"
+  },
+  {
+   "id": "2026-10-06T20:38:27Z-b",
+   "chunk": "2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09",
+   "at": "implement/code",
+   "type": "input.research-files-wrong",
+   "what": "a ninth walks-tree walker (conductor-core scenario_catalog.rs inline tests) sat outside research's eight candidates and both lists; marked as a recorded in-intent edit; a tenth (conductor-tauri commands.rs inline test over a committed fixture dir) left unmarked because a plan gate holds that crate byte-unchanged"
+  },
+  {
+   "id": "2026-10-06T21:24:08Z-c",
+   "chunk": "2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09",
+   "at": "wrap-session/reconcile",
+   "type": "input.report-insufficient",
+   "what": "the report omitted the workspace-detector byte-identity at the new Pulse HEAD and the POSIX suffix rendering, both needed to extend security-plan's dated row; one Cross-project bullet added mid-pass"
+  },
+  {
+   "id": "2026-10-07T07:07:21Z-b",
+   "chunk": null,
+   "at": "new-session/orientation",
+   "type": "input.handoff-git-mismatch",
+   "what": "The handoff Position still names /andromeda-setup-project for the pending U02 as next-before-anything; git HEAD 29adafa is chore(setup-project) upgrade U02, pushed, and upgrade.py detect reads U02 ok with 0 for setup. The setup run committed without touching the handoff, so its first Next rung was already spent at session start."
+  },
+  {
+   "id": "2026-10-07T07:37:08Z-b",
+   "chunk": "2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+   "at": "phase/validate",
+   "type": "input.out-of-pipeline-source",
+   "what": "The sibling repository's CI verdict on the commit the series pins read in progress at take-up and settled red on one job only by a second hand read at P5; no step of the letter re-reads a sibling CI run, the fact is not snappable as an input (a run id, not a file), and it changed one plan step through the review."
+  },
+  {
+   "id": "2026-10-08T08:55:00Z-b",
+   "chunk": "2026-10-08-capture-canary-pairing-window-corrective",
+   "at": "phase/plan",
+   "type": "input.research-thin",
+   "what": "research.md and its saved replay output held no stamps for the inference lines of the first two canary storms of d3; the plan step that builds the two-line control shape needed them, and a second fields-only read of the recorded Pulse log was made during synthesis"
+  },
+  {
+   "id": "2026-10-08T08:58:17Z-b",
+   "chunk": "2026-10-08-capture-canary-pairing-window-corrective",
+   "at": "phase/validate",
+   "type": "input.out-of-pipeline-source",
+   "what": "the file order of the pairing lines around each emission instant, which decides the fixture and the design, lives only in the sixth series recorded Pulse log under the cache dir of that series; inputs.py snap refused it at 8160899 bytes over its 1048576-byte cap, so it was read in place and only a fields-only replay output was saved in the run dir"
+  },
+  {
+   "id": "2026-10-08T09:31:14Z-b",
+   "chunk": "2026-10-08-capture-canary-pairing-window-corrective",
+   "at": "wrap-session/reconcile",
+   "type": "input.report-insufficient",
+   "what": "the report's Spec claims disproved bullet stated 7 hits and 3 posture-contract sites for the no-Rust-reader claim, from a grep whose pattern required 60 characters before and 40 after the match; the unbounded grep reads 8 hits and 4 sites, the missed one a registry key file whose hit sits near its line end; the architecture detector surfaced it from its own keyed-contract render"
+  },
+  {
+   "id": "2026-10-08T10:24:24Z-b",
+   "chunk": "2026-10-08-version-close-on-measured-evidence",
+   "at": "implement/code",
+   "type": "input.plan-step-ambiguous",
+   "what": "Step 1 shortens each ledger ref to its first clause up to its first dash; v3-10's ref holds no dash and v3-03's first dash sits near the end of a 1291-char ref, so the rule gives the whole ref for one and nearly the whole for the other. v3-10 was written whole and v3-03 cut at its first semicolon clause with the configuration and arms kept; surfaced in the P4 report."
+  },
+  {
+   "id": "2026-10-08T10:58:04Z-b",
+   "chunk": "2026-10-08-version-close-on-measured-evidence",
+   "at": "wrap-session/reconcile",
+   "type": "input.report-insufficient",
+   "what": "The report listed nine sites for the envelope schema typing verdict with no null arm; the architecture and test-plan detectors each found one more by their own sweeps (a third spelling in test-plan section 1, the prose set form in architecture Standard Contracts). The first list had been greped over three masters, not seven. The report gained a dated note and the whole family is in fanout-results."
+  }
+ ],
+ "shapes": [
+  {
+   "producer": "wrap-session/report",
+   "artifact": "report",
+   "consumer": "wrap-session/reconcile",
+   "chunks": [
+    "2026-10-04-second-test-surface-corrective",
+    "2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09",
+    "2026-10-08-capture-canary-pairing-window-corrective",
+    "2026-10-08-version-close-on-measured-evidence"
+   ],
+   "k": 4
+  },
+  {
+   "producer": "phase/plan",
+   "artifact": "plan",
+   "consumer": "phase/validate",
+   "chunks": [
+    "2026-10-04-second-test-surface-corrective"
+   ],
+   "k": 1
+  },
+  {
+   "producer": "phase/plan",
+   "artifact": "plan",
+   "consumer": "implement/code",
+   "chunks": [
+    "2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09"
+   ],
+   "k": 1
+  },
+  {
+   "producer": "phase/research",
+   "artifact": "research",
+   "consumer": "implement/code",
+   "chunks": [
+    "2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09"
+   ],
+   "k": 1
+  },
+  {
+   "producer": "phase/plan",
+   "artifact": "plan",
+   "consumer": "implement/fix-loop",
+   "chunks": [
+    "2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09"
+   ],
+   "k": 1
+  },
+  {
+   "producer": "phase/plan",
+   "artifact": "plan",
+   "consumer": "wrap-session/gates",
+   "chunks": [
+    "2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09"
+   ],
+   "k": 1
+  },
+  {
+   "producer": "implement/smoke",
+   "artifact": "conversation",
+   "consumer": "wrap-session/report",
+   "chunks": [
+    "2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09"
+   ],
+   "k": 1
+  },
+  {
+   "producer": "implement/smoke",
+   "artifact": "conversation",
+   "consumer": "wrap-session/curation",
+   "chunks": [
+    "2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09"
+   ],
+   "k": 1
+  },
+  {
+   "producer": "phase/research",
+   "artifact": "research",
+   "consumer": "phase/plan",
+   "chunks": [
+    "2026-10-08-capture-canary-pairing-window-corrective"
+   ],
+   "k": 1
+  },
+  {
+   "producer": "phase/validate",
+   "artifact": "plan",
+   "consumer": "wrap-session/gates",
+   "chunks": [
+    "2026-10-08-version-close-on-measured-evidence"
+   ],
+   "k": 1
+  }
+ ]
+}

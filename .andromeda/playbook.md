@@ -244,6 +244,15 @@ becomes a new rule here. Format owned by /andromeda-wrap-session (`references/am
     user on 2026-09-18 (2026-09-18-real-model-leg-posture-and-grading-rule wrap). n=2 for the class:
     `contracts/pulse-p025-measurement-contract.md` (2026-09-13, escalated with no rule minted) and
     `contracts/pulse-real-model-leg-posture.md` (this chunk) — the recurrence condition for minting.
+    Dated note, 2026-10-08 (added on the founder's word by dialog that day, relayed by the pc overseer; it records a
+    ruling already made, widens nothing and changes no sentence above) — the class's second member,
+    `contracts/pulse-real-model-leg-posture.md`, has had a test-tier digest hold since the 2026-09-30 series. A
+    `conductor-run` test helper (`pre_registered`) holds each of its dated sections by a sha256 pin and parses nothing
+    from it; no shipped code reads the file. The founder ruled on 2026-10-08, his pick verbatim «Нет, исправить фразу
+    (Recommended)», that such a hold is not the runtime read the contract's `## Regime` notice names and attaches no
+    input-boundary duty; the duties attach in full if shipped code ever reads or parses the file. The ruling stands
+    written in that contract's `[corrected 2026-10-08 …]` block under `## Regime` and in security-plan §Input
+    Validation's fixed-path manifests row.
 - pattern: a chunk adds a POSTURE-CONDITIONAL grading arm to an existing `ANDROMEDA_PULSE_*` READ-SET handle — the
     same declaration-only read of Conductor's own environment, gaining a requirement that ONLY NARROWS what passes
     (an absence requirement under a named posture) — and a security detector proposes updating the §Input Validation

@@ -1,0 +1,281 @@
+{
+ "epoch": "Epoch 5b - Version close",
+ "untyped_records": 20,
+ "clusters": [
+  {
+   "cluster": "U1 first-fire invocation form refused (candidate, n=3 in-epoch)",
+   "n": 3,
+   "records": [
+    {
+     "id": "2026-10-04T12:50:16Z-b",
+     "chunk": "2026-10-04-second-test-surface-corrective",
+     "step": "phase/take-up",
+     "impact": {
+      "retries": 1
+     },
+     "what": "the first structural read of the working entry opened .andromeda/working-route.md (FileNotFoundError); the working route lives in the version dir conductor-0.3.0/"
+    },
+    {
+     "id": "2026-10-07T07:25:33Z-b",
+     "chunk": "2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+     "step": "phase/research",
+     "impact": {
+      "retries": 1
+     },
+     "what": "The project's registry-size probe refused an absolute --file path with its own harness-fault line (a path argument must be repo-relative) and was re-fired with the repo-relative spelling; the session's own rule is absolute paths for every call, so the first form was the habitual one."
+    },
+    {
+     "id": "2026-10-08T08:36:56Z-b",
+     "chunk": "2026-10-08-capture-canary-pairing-window-corrective",
+     "step": "phase/take-up",
+     "impact": {
+      "retries": 1
+     },
+     "what": "the CARRY and the relay cite scripts/arch-registry-check.py measure with no argument; the bare call exits with a usage error (one of --rev or --file is required) and was re-fired with --file .andromeda/architecture.md"
+    }
+   ]
+  },
+  {
+   "cluster": "U2 relayed or operator direction read two ways against the letter (candidate, n=2 + 1 previous epoch)",
+   "n": 2,
+   "records": [
+    {
+     "id": "2026-10-08T08:30:38Z-b",
+     "chunk": null,
+     "step": "wrap-session/route-resolve",
+     "impact": {
+      "extra_reads": 2,
+      "dialogue_rounds": 0
+     },
+     "what": "the relayed direction read both ways on whether the minted entry adds a requirement (a requirements.md line and a ledger entry, route-resolve's requirement step): it said no new requirement beyond this fix, and the invocation said change nothing else; decided entry-only from the route's own precedent (44 entries against 11 capabilities, no Requirement line in any earlier adaptation commit) and named the decision for the operator to overrule"
+    },
+    {
+     "id": "2026-10-08T10:58:04Z-c",
+     "chunk": "2026-10-08-version-close-on-measured-evidence",
+     "step": "wrap-session/reconcile",
+     "impact": {
+      "extra_reads": 3,
+      "dialogue_rounds": 0
+     },
+     "what": "An operator wrap directive said to apply a pre-existing schema correction if a detector proposed it with report-held coordinates; two plan-bind detectors did propose it, each stating its own trigger was unmet, and playbook rules 46 and 300 (user-confirmed) dismiss exactly that shape and route the family to a residual. The rule was followed and the directive's own residual arm taken, with no halt; five proposals dismissed, the directive's apply arm not exercised."
+    }
+   ]
+  },
+  {
+   "cluster": "below: stamp-ahead hook on an estimated Generated stamp (n=2)",
+   "n": 2,
+   "records": [
+    {
+     "id": "2026-10-06T19:49:18Z-b",
+     "chunk": "2026-10-06-a-fourth-pre-registered-real-model-series-for-v3-09",
+     "step": "phase/plan",
+     "impact": {
+      "retries": 1
+     },
+     "what": "plan.md's Generated stamp was authored as an estimate five minutes ahead of the clock; the stamp-ahead PostToolUse hook blocked the write's follow-up, and the stamp was replaced with a date -u reading"
+    },
+    {
+     "id": "2026-10-08T08:55:00Z-c",
+     "chunk": "2026-10-08-capture-canary-pairing-window-corrective",
+     "step": "phase/plan",
+     "impact": {
+      "retries": 1
+     },
+     "what": "a Generated stamp in plan.md was written from an estimate (08:58Z) while the clock read 08:54Z; the stamp-ahead hook blocked on it and one corrective edit followed"
+    }
+   ]
+  },
+  {
+   "cluster": "below: a CI fact take-up needs that ci.py does not print (n=2)",
+   "n": 2,
+   "records": [
+    {
+     "id": "2026-10-07T07:11:30Z-b",
+     "chunk": "2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+     "step": "phase/take-up",
+     "impact": {
+      "retries": 1
+     },
+     "what": "The premise re-check needed a sibling repository's CI verdict by sha; ci.py reads this project's push remote only, so the read went through a hand gh api call. Its owner/repo placeholder resolved from the working directory to this project, returned 422 No commit found, and was re-fired with the sibling's slug read from its remote."
+    },
+    {
+     "id": "2026-10-07T11:58:34Z-b",
+     "chunk": "2026-10-07-a-capture-run-records-the-prompt-the-model-received-in-each-drive",
+     "step": "phase/take-up",
+     "impact": {
+      "extra_reads": 1
+     },
+     "what": "ci.py printed a not-green row without naming the non-success checks, and the P1 disposition asks whether the row's failing subject intersects the chunk; a run cancelled by a superseding push has no failing subject, so the letter's two arms did not cover it and one provider call outside the tool was needed to read the job conclusions."
+    }
+   ]
+  },
+  {
+   "cluster": "below: a plan entry its consumer step cannot satisfy as written (n=2)",
+   "n": 2,
+   "records": [
+    {
+     "id": "2026-10-08T09:03:18Z-b",
+     "chunk": "2026-10-08-capture-canary-pairing-window-corrective",
+     "step": "implement/code",
+     "impact": {
+      "retries": 1
+     },
+     "what": "plan step 4 predicted the summary line 139 tests run: 137 passed, 2 failed for cargo nextest run --profile ci; that profile is fail-fast, so the listed command printed 43/139 tests run: 41 passed, 2 failed and left 96 tests unrun, and the step's stop rule (any other test red) could not be read from it without a second --no-fail-fast call"
+    },
+    {
+     "id": "2026-10-08T11:03:05Z-c",
+     "chunk": "2026-10-08-version-close-on-measured-evidence",
+     "step": "wrap-session/gates",
+     "impact": {
+      "extra_reads": 1
+     },
+     "what": "A plan gate entry carried an expect atom on a value the plan itself expected the wrap to change (a registry byte count), so the wrap's verbatim re-run had no green arm for it: neither a defer, a leg, nor a not-this-chunk red fits. The skip arm was used with the reason recorded."
+    }
+   ]
+  },
+  {
+   "cluster": "single: matrix done-test vs route freight",
+   "n": 1,
+   "records": [
+    {
+     "id": "2026-10-04T11:39:36Z-c",
+     "chunk": null,
+     "step": "new-session/orientation",
+     "impact": {
+      "extra_reads": 2
+     },
+     "what": "matrix coverage done-test reads YES because v3-09 is status deferred (note dated 2026-10-01), while the head route entry's CONTEXT freight records the 2026-10-02 founder ruling that v3-09 is NOT deferred; surfaced, not resolved"
+    }
+   ]
+  },
+  {
+   "cluster": "single: ladder rung 4 has no CARRY decision-gate clause",
+   "n": 1,
+   "records": [
+    {
+     "id": "2026-10-07T11:54:09Z-b",
+     "chunk": null,
+     "step": "new-session/orientation",
+     "impact": {
+      "extra_reads": 1
+     },
+     "what": "The first markerless entry carries an operator decision gate in a CARRY block, not a BLOCKED-ON; the ladder's rung 4 has a clause for a BLOCKED-ON head only, so the suggestion to run phase was qualified from the entry's own text and the handoff."
+    }
+   ]
+  },
+  {
+   "cluster": "single: auto-mode classifier returned no verdict",
+   "n": 1,
+   "records": [
+    {
+     "id": "2026-10-07T08:16:31Z-c",
+     "chunk": "2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+     "step": "implement/code",
+     "impact": {
+      "retries": 2
+     },
+     "what": "the harness's auto-mode classifier returned no verdict on two read-only Bash probes during the series (d3's capture read, the rule-type read); each was retried once as-is and ran"
+    }
+   ]
+  },
+  {
+   "cluster": "single: anchored Edit dropped a heading, no gate caught it",
+   "n": 1,
+   "records": [
+    {
+     "id": "2026-10-07T09:50:38Z-d",
+     "chunk": "2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+     "step": "wrap-session/report",
+     "impact": {
+      "retries": 1
+     },
+     "what": "an anchored Edit that inserted the covariate section into the ledger at implement removed the next section's heading line; hygiene, the pre-CI commit and CI all passed over it and the pushed evidence lacked the heading until this wrap"
+    }
+   ]
+  },
+  {
+   "cluster": "single: detectors cited a basis outside the report (typed elsewhere as contract.false-positive-proposal)",
+   "n": 1,
+   "records": [
+    {
+     "id": "2026-10-07T10:03:04Z-c",
+     "chunk": "2026-10-07-a-fifth-pre-registered-real-model-series-for-v3-09",
+     "step": "wrap-session/reconcile",
+     "impact": {
+      "reformulations": 7
+     },
+     "what": "7 of 11 proposals carried a basis outside the report (capture line numbers, posture-contract lines, a sibling-repo git diff, the registry check script) against the prompt's own ban; each was rejected as proposed and raised by the orchestrator from the report's fact"
+    }
+   ]
+  },
+  {
+   "cluster": "single: Tier-3 write form has no promotion case",
+   "n": 1,
+   "records": [
+    {
+     "id": "2026-10-07T10:17:50Z-c",
+     "chunk": null,
+     "step": "wrap-session/curation",
+     "impact": {},
+     "what": "the Tier-3 write form (top insert, heading dated the write) has no case for promoting an existing dated Tier-1 entry: which date heads it, how the Tier-1 lead points at it, and whether the lead keeps a confidence figure are unstated; resolved as a heading dated the move naming the origin date, a lead keeping the origin date with a pointer by heading text, and no confidence on the lead"
+    }
+   ]
+  },
+  {
+   "cluster": "single: git grep exclusion pathspecs excluded nothing",
+   "n": 1,
+   "records": [
+    {
+     "id": "2026-10-08T09:45:46Z-b",
+     "chunk": "2026-10-08-version-close-on-measured-evidence",
+     "step": "phase/take-up",
+     "impact": {
+      "extra_reads": 0
+     },
+     "what": "a git grep for the retired host leaf carried exclusion pathspecs written as shell globs that excluded nothing, so about 130 hit lines from frozen chunk folders came back where two script lines were wanted"
+    }
+   ]
+  },
+  {
+   "cluster": "single: a master section cited by number is a pointer line",
+   "n": 1,
+   "records": [
+    {
+     "id": "2026-10-08T10:24:24Z-c",
+     "chunk": "2026-10-08-version-close-on-measured-evidence",
+     "step": "implement/code",
+     "impact": {
+      "extra_reads": 6
+     },
+     "what": "Step 5 cites a limit at test-plan section 3 (the run contract); the master's section 3 body is a pointer line and the sentence lives in the keyed registry file 5-command-implementation.md. Confirming the cited sentence before writing it took six probe calls against the master before the key file was read."
+    }
+   ]
+  },
+  {
+   "cluster": "single: wrap relay cannot be snapshotted (typed elsewhere as contract.structural-blind-spot)",
+   "n": 1,
+   "records": [
+    {
+     "id": "2026-10-08T10:46:58Z-c",
+     "chunk": "2026-10-08-version-close-on-measured-evidence",
+     "step": "wrap-session/report",
+     "impact": {
+      "retries": 1
+     },
+     "what": "The wrap relay the operator named as the first read could not be snapshotted: inputs.py snap exits 2 on --step wrap (choices phase:P1, phase:P3, implement). The relay was read live and the report carries its name and its sha256 at the read instead of an inputs id."
+    }
+   ]
+  }
+ ],
+ "previous_epoch_lookback": {
+  "U2": [
+   {
+    "id": "2026-10-03T07:45:09Z-b",
+    "what": "The P4 AskUserQuestion recorded 'drive on S' for the predicted-FAIL fork while the founder's live word was HOLD; the overseer corrected it mid-turn, so a menu answer relayed through a delegate was not the decider's word"
+   }
+  ],
+  "stamp-ahead": [],
+  "ci-reach": [],
+  "plan-entry": "not searched by keyword; none read"
+ }
+}
