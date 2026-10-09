@@ -12,7 +12,7 @@ Conductor's window retired — window crate, frontend and a11y CI jobs, window s
    ↓
 Panel-shaped types retired — channel payload, desktop envelope read, picker summary, dialog-row limit, window log sink, webview fixtures leave; command line reaches every function (v4-01, v4-09)
    ↓
-Linux-only base CI — one Linux job keeping test, coverage-floor, zero-retry, supply-chain, secret-scan, static, own-log conformance and unlogged-panic gates; Windows runners, PowerShell harness twin leave (v4-07)
+Linux-only base CI — one Linux job keeping test, coverage-floor, zero-retry, supply-chain, secret-scan, static, own-log conformance and unlogged-panic gates; Windows runners, PowerShell harness twin leave (v4-07)  CARRY: the matrix-ledger gate reads both capability-line forms the route contract allows, the bolded id and the bare id, and still fails on a requirements file that declares none (measured: crates/conductor-report/tests/matrix_ledger_gate.rs:49-56 reads the bolded form only and its discrimination arm pins that; the contract is verification-matrix-contract.md:35; origin: push run 37932450560 red on d227e59; no requirement id, a gate's own repair; per the operator's direction relayed by the pc overseer, 2026-10-09)
    ↓
 Fast feedback on Linux — every CI leg run locally before a push, builds cached, fast checks apart from slow, one run's wall-clock recorded (v4-07)
    ↓

@@ -1,39 +1,47 @@
 # Session Handoff
 
-**Last Updated:** 2026-10-09T12:50Z
-**Branch:** `build/conductor-0.4.0`, created from `build/conductor-0.3.0` at `97dea7f`. The route commit is its first
-commit; it is pushed to `origin` with upstream set.
+**Last Updated:** 2026-10-09T13:26Z
+**Branch:** `build/conductor-0.4.0` · 0 ahead of `origin/build/conductor-0.4.0` as read at this wrap's Setup
 **Status:** clean
-**Last Commit:** the 0.4.0 route. No chunk wrapped, no phase started.
+**Last Commit:** no-marker — operator-requested adaptation, 0-pending wrap; beneath it, the 0.4.0 capability ids put
+into the project's declaring form
 
 ## Position
-- **Done:** 0.3.0 is closed on record (11 of 11 verified). The 0.4.0 route is derived and approved by the operator
-  (the pc overseer) at its third Phase 4: 24 requirements `v4-01`…`v4-24`, 61 entries in 8 epochs, the matrix at 24
-  `planned`.
-- **Next:** the route's first entry, `Conductor's window retired` (`conductor-0.4.0/working-route.md:11`). No phase
-  is started. The first chunk waits for the founder's word.
+- **Done:** 0.3.0 is closed on record (11 of 11 verified). The 0.4.0 route stands: 24 requirements `v4-01`…`v4-24`,
+  61 entries in 8 epochs, the matrix at 24 `planned`. No chunk wrapped, no phase started.
+- **Next:** the route's first entry, `Conductor's window retired` (`conductor-0.4.0/working-route.md:11`). The first
+  chunk waits for the founder's word.
 - **Not done at the 0.3.0 close, each still waiting for his word:** no merge into `main`, no tag, no release, no
   publishing version bump, no branch deletion.
 
 ## Work done
-- The branch, and `conductor-0.4.0/intent.md` — the operator's file, copied byte for byte and never edited here. He
-  edited it twice during the run; it reads md5 `a80d72713e750b238f8ae0ed16e23fe9`.
-- The route run `.andromeda/runs/2026-10-09T11-43-59-route/`, three passes from Phase A (the first two kept whole
-  under `first/` and `second/`): `vision.md`, `requirements.md`, `working-route.md`, `verification-matrix.json`.
-- `.andromeda/master-route.md`: the heading `## conductor-0.4.0`, no record.
-- `.andromeda/residuals.md`: lines 17, 19 and 21 flipped to `absorbed`; line 11 flipped to `dropped` with its
-  premise correction. No line is `open`.
-- The commit and the push were made on the operator's explicit word, after he read the tree.
+- `conductor-0.4.0/requirements.md`: the 24 capability lines read `- **v4-NN** · …`, the form this project's ledger
+  gate reads. Id markup only; a commit of its own, outside the wrap.
+- `conductor-0.4.0/working-route.md:15`: a `CARRY:` on `Linux-only base CI`, the ledger gate's own repair, no
+  requirement id.
+- The record: `.andromeda/runs/2026-10-09T13-23-15-wrap/adaptation-record.md`, with the relay beside it.
 
 ## Drift resolved
-None. A route amends no master. The seven masters still describe the 0.3.0 system, by design; each changes at the
-wrap of the chunk that removes what it describes.
+None. This path runs no report and no fan-out; no master changed.
 
 ## Open residuals
-None in `.andromeda/residuals.md`. `requirements.md` re-carries none.
+None in `.andromeda/residuals.md`.
 
 ## Notes
 - **Last failed command:** none open.
+- **The red on `d227e59`, and its owners.** Push run `37932450560` failed in the Rust gate on one test,
+  `conductor-report::matrix_ledger_gate every_requirement_capability_has_exactly_one_matrix_entry`: the route wrote
+  the capability ids bare, the form its contract allows, and this project's gate reads the bolded form only. Repaired
+  by the commit `fix(route): conductor 0.4.0 capability ids take the project's declaring form — id markup only`,
+  directly beneath this wrap's commit; the gate reads 4 of 4 green on the dev host. The CI verdict of the push that
+  carries it was not measured when this was written. The first `/andromeda-phase` reads every commit from `355a678`
+  through `HEAD` and will meet `d227e59` red: it is this one, repaired, and the gate's narrowness is owned by the
+  `CARRY:` above.
+- **An exception to the 2026-08-10 rule, on a delegate word.** `requirements.md` is immutable; this one edit was made
+  on the word of the pc overseer as operator, founder-delegated, not the founder's own. His later word supersedes it.
+  Reason and byte proof are in the adaptation record.
+- **The next route run writes bare ids again** (the route letter's template). Until the `CARRY:` is built, a new
+  version's `requirements.md` turns this gate red the same way.
 - **Two lines owed on Pulse's side, the operator's to carry:** the door offering the engine's memory and database
   size, and the notification record. The entries `Engine memory and database growth read through the door` and
   `Notification record read through the door` are not built before Pulse's line exists.
@@ -41,9 +49,8 @@ None in `.andromeda/residuals.md`. `requirements.md` re-carries none.
   0.3.0 pin, which leaves with the single-list form.
 - **Provisional in the intent until the founder's own word:** F2b (`v4-11`), and who the large model is in F12
   (`v4-23`).
-- **Phase 5, one check carried on the operator's acceptance:** the two-host path's reachability entry sits in Epoch
-  6, not Foundation. The reason is in the run dir's `final-validation.md`.
-- **Plans:** what Phase 1 opened and did not is `plans-not-opened.md` in the run dir.
+- **Phase 5 of the route, one check carried on the operator's acceptance:** the two-host path's reachability entry
+  sits in Epoch 6, not Foundation. The reason is in `.andromeda/runs/2026-10-09T11-43-59-route/final-validation.md`.
 - **Outside the tree:** the GitHub default branch was `build/conductor-0.3.0` as the 2026-10-08 relay reported. Not
   re-measured here. No pull request was opened for 0.4.0.
 - **Data dirs:** `~/.cache/pulse-legs/` was not touched. No Pulse was launched.

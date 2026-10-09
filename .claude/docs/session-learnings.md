@@ -229,6 +229,8 @@ _Moved whole from `CLAUDE.md` `USER:session-learnings` on 2026-10-07 (operator-r
 
 **Extended 2026-08-19 (connection-lifecycle-live-proof): the grain can be a SUB-CLAUSE — an acceptance whose outcome mechanism measured intact carried one descriptor ("with a recovery transition") that is structurally unsatisfiable, because bind status is per-process and recovery is a process replacement (no FSM transition out of ReceiverFailed exists to log). Same channel at sub-clause grain: reword the descriptor to the measured mechanism, keep the outcome (the SUT's own rebind, pinned), PREMISE-CORRECTION in `notes` — operator-pre-ratified in the wrap directives and resolved at the coverage gate.** (confidence 0.7)
 
+**Extended 2026-10-09: one recorded exception stands, and its shape is the only one — 0.4.0's `requirements.md` had its capability ids put into this project's bolded declaring form by a commit of its own outside every skill, on the operator's delegate word, id markup only, on the day the file was born and before any chunk or ledger note rested on it; such an exception is the operator's to give and is recorded with its byte proof, never taken by a skill and never a change of what a requirement says.**
+
 ---
 
 ## 2026-10-07 — Tier-1 entry of 2026-08-09, moved whole: before asserting that document A says X, grep A

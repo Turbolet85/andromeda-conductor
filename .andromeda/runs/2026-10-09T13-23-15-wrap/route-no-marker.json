@@ -1,0 +1,85 @@
+[
+{
+"tool": "route",
+"v": "1.7",
+"sha8": "470db3a8",
+"ts": "2026-10-09T13:25:18Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-09T13-23-15-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 61 of 61 entries · freight blocks 1 · rows are an INDEX, not the text",
+"15 · CARRY: · 518 chars · CARRY: the matrix-ledger gate reads both capability-line forms the route contract allows, the…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.7",
+"sha8": "470db3a8",
+"ts": "2026-10-09T13:25:18Z",
+"argv": [
+"route.py",
+"cursor",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-09T13-23-15-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"version conductor-0.4.0 · dir present · master master-route.md",
+"version dir conductor-0.4.0/ — at --root, beside .andromeda/, never inside it",
+"records 165 · complete 165 · pending 0 · gated 0",
+"done 2026-10-08-version-close-on-measured-evidence",
+"next working-route.md:11 · Conductor's window retired · markerless 61 of 61 entries",
+"half-promote 0 of 0 stamped lines vs 165 master records (anchored `{marker} · `, whole file)"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "route",
+"v": "1.7",
+"sha8": "470db3a8",
+"ts": "2026-10-09T13:25:18Z",
+"argv": [
+"route.py",
+"epoch",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-09T13-23-15-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"working-route.md · 8 epoch headers · 61 entries · freeze state joined to 165 master records",
+"10 · Epoch 1 — Foundation: a console program on … · entries 7 · markerless 7 · frozen complete 0 · pending 0",
+"25 · Epoch 2 — One way to describe a run · entries 5 · markerless 5 · frozen complete 0 · pending 0",
+"36 · Epoch 3 — The reaction on the timeline · entries 9 · markerless 9 · frozen complete 0 · pending 0",
+"55 · Epoch 4 — Regression proofs through the door · entries 7 · markerless 7 · frozen complete 0 · pending 0",
+"70 · Epoch 5 — What leaves with the old form · entries 8 · markerless 8 · frozen complete 0 · pending 0",
+"87 · Epoch 6 — The network and the credentials · entries 8 · markerless 8 · frozen complete 0 · pending 0",
+"104 · Epoch 7 — The living world and the long run · entries 9 · markerless 9 · frozen complete 0 · pending 0",
+"123 · Epoch 8 — Polish & ship · entries 8 · markerless 8 · frozen complete 0 · pending 0"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]
