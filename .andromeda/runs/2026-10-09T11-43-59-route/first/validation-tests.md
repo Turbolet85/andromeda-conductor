@@ -1,0 +1,17 @@
+# Tests validation — route draft
+
+## Insert
+- Between `Run read from the command line` and `Accepted capability set re-based`: **"Harness verbs on the one form — boot proves the door's gate; run, status, cleanup, logs drive and read the one form's run record (v4-09, v4-12)"** (epoch: `Epoch 3`)
+  Reason: Per test-plan §3 Test Harness Contract (key files `5-command implementation` and `Status endpoint shape`, both unopened in Phase 1), every agent-run command is defined over what this version replaces — `boot` over the shared-machine probe and sidecar gate, `run` over the single-list catalog, `status` and `cleanup` over the eleven-field envelope and its tables — and no draft entry re-subjects them, so `boot` cannot report ready against a door-only engine (read at `scripts/agent-run.sh`'s `boot` arm, not run). It follows the gate and record it wraps and precedes Epoch 4, whose regression runs must be harness-runnable; this re-subjects the harness delivered at `2026-06-23-5-command-agent-run-harness`, it does not re-install it.
+
+## Reorder
+- Move `Load bound re-measured` before `Living background`
+  Reason: Per test-plan §1 Coverage triggers (chaos-test: bounded profiles, never load) and §6's cli-row `[ENVIRONMENT-SUSPECT]` caption, a run past the load envelope is no evidence about the engine, and the standing envelope asserts a ten-minute sustained window (`contracts/pulse-load-envelope.toml`). The first graded healthy hour therefore needs the re-measured bound in force before it.
+- Move `Spawned sidecar and shared-machine gate retired` before `Old verdict vocabulary retired`
+  Reason: Per test-plan §6 Drivers per surface (cli row) and §3 key `5-command implementation`, the single-list run path's CI-runnable legs reach their Blocked spine through this gate (`conductor-run/src/canary.rs` `preflight` → `ReadbackClient::connect`), and the model and window scenarios call it too. Retiring the gate ahead of its last users forces their tests to be re-cut for an interim state — the same last-user rule the draft already applies to the vocabulary.
+
+## Rewrite
+- `Linux-only base CI and harness`: "one Linux job, builds cached, fast checks apart, wall-clock recorded; Windows runners and the PowerShell harness twin leave" → "one Linux job, every leg run locally, builds cached, fast checks apart, wall-clock recorded; Windows runners, PowerShell twin leave"
+  Reason: Per test-plan §9 (Pipeline structure; Matrix builds), CI's stages are the harness's own `run` selectors on three Windows-hosted jobs the Linux dev host could not reproduce, so this chunk is where every leg first runs locally before a push — the one fast-feedback term the line omits. The other tests bootstrap items (runner, fixtures, coverage tooling, quality-gate config) stand delivered since 0.1.0 (`2026-06-16-test-framework-fixtures-coverage-tooling`, `2026-06-27-ci-quality-gate-config`) and need no chunk.
+- `Engine-backed check pipe reachable`: "one command-line run: canary to the engine's receiver, read through the door, recorded green verdict" → "one command-line run, CI-or-local leg stated: canary via receiver and door, recorded green verdict"
+  Reason: Per test-plan §9 Live-Pulse scenarios and §11 → CI, every engine-backed leg is operator/local and banned from CI, and §10's zero-retry budget rests on a seed-determinism an engine does not give. This chunk replaces that posture, so its acceptance should state where the new gate runs — the home every later engine-backed chunk (Epochs 3–8, the two-host path included) lands its assertions in.

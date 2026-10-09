@@ -1,0 +1,320 @@
+{
+  "schema_version": 1,
+  "version": "conductor-0.4.0",
+  "source": "intent",
+  "id_scheme": "{vN}-NN",
+  "capabilities": [
+    {
+      "id": "v4-01",
+      "title": "Conductor's own window is gone",
+      "requirement": "no crate depends on the window toolkit; no type, limit, fixture or sink exists for a panel; no gate boots a window or audits one; every function Conductor has is reachable from the command line; the masters say in plain words that Conductor has no interface",
+      "observed_gap": "the crate `conductor-tauri` (59 files, about 7000 lines, 3200 of them accessibility tests); the CI jobs `frontend` and `a11y`; three window scripts and the e2e and a11y arms of the run script; thirteen master and leaf files about design, layout and accessibility. Outside that crate, types shaped for the panel: the run-event channel payload, an envelope read \"for the desktop report\", a catalogue summary \"for the picker\", a text limit sized for one dialog row, a Tauri log sink, two webview fixtures with three tests.",
+      "verification": {
+        "method": "unit",
+        "acceptance": "The whole program builds and passes its full gate with the window toolkit absent from its dependency graph, and no check anywhere starts a window or audits one. What must still hold without the window: every function Conductor had — describing, starting, following, reading and cleaning up a run, and the capability coverage view — is exercised from the command line in that same gate, and the masters say in plain words that Conductor has no interface.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v4-02",
+      "title": "Everything that grades Pulse's local model is gone",
+      "requirement": "no scenario, contract, launch term, posture, verdict, report state, test or script names a model of Pulse's, real or canned; none of it is run or extended; the records of what was measured stay as history, marked closed with the model they graded",
+      "observed_gap": "the real-model scenario, its posture contract of 936 lines with six pre-registered series, eighteen test files (about 4900 lines), a live leg in the run script. And the other half, which the first assembly missed: the deterministic stand-in for the model is a launch term (`l4-deterministic`), a posture enum (`L4Posture`, in 13 source files), an environment handle; a verdict exists for \"the model's weighting\" (`CalibrationRegion`, in 22 source files) and a report state for Pulse's degraded mode (`KnownResidual`, in 12 source files); eight scenarios have the model as their subject (the three severity tiers, the degraded-mode report, project-context grounding, the cadence configuration, the run contract's canned mode, the real-model interpretation).",
+      "verification": {
+        "method": "unit",
+        "acceptance": "A search of the tree for anything that names a model of Pulse's, real or canned, among scenarios, contracts, launch terms, postures, verdicts, report states, tests and scripts finds only the dated records of what was measured, each marked closed with the model it graded. What must still hold without it: every detection the engine keeps is still proven by a run, and the full gate is green with no model term anywhere in the path a run takes.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v4-03",
+      "title": "Everything that grades Pulse's window is gone",
+      "requirement": "Conductor grades nothing a human must look at: no hold, no checklist, no manual state or lamp, no drive-and-observe class, no contract or harvest about a window's timing, no scenario whose subject is a window; a run needs no person from its first line to its last",
+      "observed_gap": "seven scenarios have Pulse's window as their subject (the halo's hue and breathing, the findings counter, the Investigate buttons, the report's render surface, the constellation's live-only truth and its discovery); a measurement contract of 302 lines and a delegated-timing harvest of five files (about 1240 lines) grade how fast the window paints; an operator hold stops a run for a human to look (`pause.rs` in the core and the command line, about 500 lines), fed by a `[[checklist]]` schema; a state and a lamp exist for a claim \"with no programmatic verdict\" (`ManualCheck` in 24 source files, `[MANUAL]`); sixteen capabilities are classified \"drive and observe\".",
+      "verification": {
+        "method": "unit",
+        "acceptance": "A run of every kind completes from its first line to its last with no person present and nothing waiting for one, and the tree holds no hold, no checklist, no manual state or lamp, no drive-and-observe class, no contract or harvest about a window's timing and no scenario whose subject is a window. What must still hold without them: every outcome a run reports is one a machine gave, and a run with nothing to grade still ends with a stated outcome that is not a failure.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v4-04",
+      "title": "Everything that assumes a shared machine is gone",
+      "requirement": "nothing in Conductor reads a file of the engine's, starts a process of the engine's, binds a port of the engine's or requires a directory, a key or an environment in common with it; the address and the credentials of the engine are given to a run; no scenario, fault, contract term, precondition or suite has a shared machine as its subject; in development both programs run on one machine through the same network path as on two",
+      "observed_gap": "emission goes to the fixed address `http://127.0.0.1:4317`, plain, with no credential and no setting for another (`conductor-emit/src/client.rs:23`). Conductor spawns Pulse's sidecar from its own `PATH` and passes it a data directory; the gate before a run requires that directory to equal the live Pulse's, a workspace key, three environment handles read in \"the shell that also launches pulse-app\", and a walk of `PATH`. A fault binds Pulse's port on Conductor's own host. Five scenarios have that shared machine as their subject (the receiver's lifecycle and its port conflict, the connection tracker, the health domains, the workspace-key reconciliation). The run contract has terms for a shared data directory, a built sidecar and an enabled MCP. **Twelve test files (about 3800 lines) hold the real proofs of the detections that survive — and they read Pulse's log file from that shared disk.** The live suite launches three legs against an operator-started application, two of them about the window and the model.",
+      "verification": {
+        "method": "e2e",
+        "acceptance": "A run against an engine succeeds given only that engine's address and credentials, on one machine and on two through the same network path, while Conductor reads no file of the engine's, starts no process of the engine's, binds no port of the engine's and shares no directory, key or environment with it; no scenario, fault, contract term, precondition or suite has a shared machine as its subject. What must still hold without the shared machine: every proof of a kept detection that used to read the engine's log file has a run read through the door in its place, and that run existed before the proof left.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v4-05",
+      "title": "The short-run time model is gone",
+      "requirement": "time is judged per event on the run's one timeline, how long after an event's onset the engine reported it; no tier, no per-scenario latency and no exception list for one remains; the load a run may put on the engine is re-measured against the engine as it is now, with its store on disk, and bounds a run of hours",
+      "observed_gap": "a closed set of tiers (under 5, 20 and 90 seconds) is a field of every scenario and a column of every run (`SloTier`, in 24 source files); latency is one number per scenario, read-back minus emission; twelve scenarios already exceed every tier and are pinned as exceptions in an audit ledger; the load envelope bounds an emitting phase and a scenario at ten minutes on the premise of a stall in Pulse's in-memory store.",
+      "verification": {
+        "method": "e2e",
+        "acceptance": "Every run reports its timing per event — how long after an event's onset the engine reported it — and no tier, no per-scenario latency and no exception list for one appears in a run description, a run record or a report. The load a run is held to is a figure measured against the engine with its store on disk, and it admits a run of hours. What must still hold without the tiers: a run that exceeds the measured load bound is still told apart from evidence about the engine.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v4-06",
+      "title": "The capability set follows Pulse's current record",
+      "requirement": "the accepted set, its classification and its coverage record are derived from Pulse's re-based capability record and name no capability Pulse has retired; every run and every event in a schedule names the capability of the engine it exercises; the pinned references are Pulse's current ones; where Pulse's record is not yet written, Conductor's stays unbuilt rather than guessed",
+      "observed_gap": "the accepted set is pinned at Pulse `v0.3.0`, P-001…P-082 (`contracts/pulse-capabilities.toml`), with a test that P-083 is rejected; 82 hard-coded classification rows, a list of unbacked ids, drift gates and `coverage-matrix.md` stand on it; a scenario may not load without a `P-` id from it; four pinned copies of Pulse's 0.2–0.3 records sit in `.andromeda/refs/` (its capability spec of 852 lines, its sidecar contract, an audit, a matrix). Pulse's 0.4.0 retires part of the 82 with its window, its model and its desktop, re-bases the record id by id (its R11), and adds P-083 onward.",
+      "verification": {
+        "method": "unit",
+        "acceptance": "Conductor's accepted set, its classification and its coverage record match Pulse's re-based capability record entry for entry and name no capability Pulse has retired; every run and every scheduled event names the capability of the engine it exercises; the pinned references are Pulse's current ones; nothing in the set was written before Pulse's record existed. What must still hold without the old pin: a run that names a capability outside the set is refused, a capability claimed as automatically checked has a run that names it, and at the version's close the two projects' sets agree.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v4-07",
+      "title": "The other operating systems are gone",
+      "requirement": "Conductor builds, tests and runs on Linux alone and holds no script or CI leg for another system",
+      "observed_gap": "the `rust` CI job runs on a Windows runner with a frontend-bundle step; `agent-run.ps1` (456 lines) twins the run script.",
+      "verification": {
+        "method": "unit",
+        "acceptance": "Conductor builds, passes its full gate and completes a run on Linux, and neither the tree nor its hosted checks hold a script or a leg for another operating system. What must still hold without the other systems: every gate the earlier hosted checks enforced — tests, the coverage floor, zero retries, supply chain, secret scan, the static gates and the own-log gates — is still enforced, and each can be run on the developer's host before a push.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v4-08",
+      "title": "The records say what Conductor is",
+      "requirement": "every record a newcomer or an agent reads first describes a console harness that drives an engine on another host over a network with credentials it holds; no rule instructs what this version removes or forbids what it adds",
+      "observed_gap": "`CLAUDE.md` opens \"a desktop control-panel app (Tauri 2) over a headless-drivable Rust core … local-only, no network service of its own\"; `.andromeda/project.yaml` says a harness for Pulse's \"60 claimed capabilities\"; `.andromeda/input.md` says it verifies \"via an operator checklist where the reaction is visual\" and \"Runs next to a real Pulse instance on the dev host\"; architecture places it beside Pulse in three places; the security rule every agent loads says \"local-only loopback tool, no network service, no secrets\", which F2b contradicts; three records describe Pulse's credential store.",
+      "verification": {
+        "method": "manual",
+        "acceptance": "Each record a newcomer or an agent reads first — the project's instructions, its description, its brief, the architecture and security masters and the always-loaded rules — describes a console harness that drives an engine on another host over a network with credentials it holds, and a reading of every rule finds none that instructs a thing this version removes or forbids a thing it adds. What must still hold: the dated history of what earlier versions were stays readable as history.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v4-09",
+      "title": "A program without a window",
+      "requirement": "Conductor is a console program; a run is started, followed and read from the command line",
+      "observed_gap": "a Tauri crate with its own interface beside `conductor-cli`.",
+      "verification": {
+        "method": "e2e",
+        "acceptance": "A run is started, followed while it runs and read after it ends from the command line alone, and every status it shows is carried by a text label.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v4-10",
+      "title": "The stream goes over a network",
+      "requirement": "Conductor sends its stream to an engine on another host, with a token over an encrypted channel; the same path is used when both run on one machine; it never sends a token to another host over a plain channel, and it refuses an engine whose identity it cannot verify; what it verifies the engine against is given to a run together with the address, and where that comes from is stated",
+      "observed_gap": "R4's fixed local address.",
+      "verification": {
+        "method": "e2e",
+        "acceptance": "A run sends its stream to an engine on another host with a token over an encrypted channel, and the same path carries a run when both programs are on one machine. A token is never sent to another host over a plain channel, and an engine whose identity cannot be verified is refused before anything is sent to it. What the engine is verified against is given to the run together with the address, and where it comes from is stated.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v4-11",
+      "title": "Conductor holds credentials now",
+      "requirement": "the engine's token and the door's credential are given at run time and are never written to a run description, a run record, a journal, a report or a log; a run against an engine it cannot authenticate to is reported as blocked, not as a failed check; where a run reads its credentials from is stated, and it is never the repository; the engine's address is not a secret, but it is kept out of every committed artifact as a host path is today, and a run's record names its engine by the label the operator gave it; Conductor holds no credential of a model's; the security master rates Conductor for what it now is",
+      "observed_gap": "Conductor has never held a secret; its security plan rates it a minimal-tier local utility that persists only its own synthetic data.",
+      "verification": {
+        "method": "integration",
+        "acceptance": "After a run against an engine that admitted it, neither the engine's token nor the door's credential appears in the run description, the run record, the journal, the report, the logs or what the console printed. A run whose credential the engine rejects is reported as blocked, not as a failed check. The place a run reads its credentials from is stated and is outside the repository. The engine's address appears in no committed artifact, and a run's record names its engine by the label the operator gave it. Conductor holds no credential of a model's, and the security master rates Conductor as a program that holds credentials and reaches another host.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v4-12",
+      "title": "The reaction is read through the door an agent uses",
+      "requirement": "Conductor reads the engine's reaction through the door the investigating agent uses, and the engine's one-line status as the panel module does, so every run also proves the door and the network receiver; the gate before a run proves through that path that the engine is reachable, that it admits Conductor, and that a canary event sent now comes back as a finding; the one write the door keeps is used where a run needs it and named as a write; a run states the engine state it starts from, and what the engine already held is told apart from what the run raised; every claim about the engine is made against the engine, and a check that runs without one claims only Conductor's own behaviour and says so; checks that need an engine run where an engine is — the dev host and the two-host run — and leave run records, while Conductor's CI runs only what claims Conductor alone and holds no credential of an engine's; admission is the engine owner's consent, and Conductor sends nothing to an engine that has not admitted it, so an engine that watches a real product is never a target by accident; besides findings and the status line, Conductor reads through the door the record of each notification the engine raised",
+      "observed_gap": "R4's spawned sidecar; a pinned contract for its stdio protocol and five tools; one of the tools writes (it marks an incident resolved) and Conductor's lifecycle tests use it.",
+      "verification": {
+        "method": "e2e",
+        "acceptance": "Every reading of the engine — its findings, its one-line status and the record of each notification it raised — comes through the door the investigating agent uses. Before a run, a gate proves through that path that the engine is reachable, that it admits Conductor, and that a canary event sent now comes back as a finding; each unmet proof is reported under its own name, and nothing is sent to an engine that has not admitted Conductor. A run's record states the engine state it started from and tells what the engine already held apart from what the run raised; the door's one write is used only where a run needs it and is named as a write. Checks that need an engine run on the dev host and on the two-host run and leave run records; the hosted checks run only what claims Conductor's own behaviour, say so, and hold no credential of an engine's.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v4-13",
+      "title": "Several services that call each other",
+      "requirement": "a world of three to five named services with call links between them, each carrying a version; a fault can be placed in one service and be felt in another",
+      "observed_gap": "every shape but `topology` emits as the one service `conductor`; a phase has no service of its own; the `topology` shape draws one linear chain with at most one failing span.",
+      "verification": {
+        "method": "integration",
+        "acceptance": "A run's world holds three to five named services with call links between them, each carrying a version, and a fault placed in one service shows in the telemetry of another service that calls it.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v4-14",
+      "title": "A living background",
+      "requirement": "a traffic curve with a compressed \"day\", ordinary noise, harmless errors at a low rate, so that silence from the watcher on a healthy hour means something",
+      "observed_gap": "between a scenario's events nothing happens.",
+      "verification": {
+        "method": "integration",
+        "acceptance": "Between a run's events the world keeps emitting a traffic curve with a compressed day, ordinary noise and harmless errors at a low rate, the same stream for the same seed; a healthy hour of it sent to an engine is graded nothing reported.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v4-15",
+      "title": "Events on a schedule, several at once",
+      "requirement": "one timeline for the whole run; events are scheduled on it and may overlap; the first long run holds four families: a silent death, a slow creep, periodic spikes, and a break after a change, the last as a new version of a service that starts failing",
+      "observed_gap": "a scenario is one ordered list of phases; two events on different services cannot overlap; a slow ramp leaves in one export; the suite runs scenarios back to back with no shared timeline.",
+      "verification": {
+        "method": "integration",
+        "acceptance": "A whole run has one timeline, and events scheduled on it overlap across services. The first long run holds the four families: a silent death, a slow creep, periodic spikes, and a break after a change delivered as a new version of a service that starts failing. For the slow families the reading not reported is recorded as the measured starting point, not as a miss.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v4-16",
+      "title": "One way to describe a run",
+      "requirement": "a run is a world and a schedule of declared events, and that is the only form; each detection the engine still claims has a SHORT run in that form as its regression proof, its stimulus one scheduled event, its truth declared, its reaction read through the door; the three unclear subjects follow Pulse's re-based record (v4-06): what the engine still claims and Conductor can exercise from another host gets a run, what needs a hand on the engine's host leaves; the single-list scenario form and every file in it are gone",
+      "observed_gap": "37 scenario files in the single-list form; by subject 7 are about Pulse's window, 8 about its model, 5 about the shared machine, 14 about a detection the engine keeps, 3 unclear (an acknowledge click in Pulse's window, a \"previously seen\" line in its report, a hot reload by an operator's hand). 35 of the 37 assert nothing at read-back; the two that do check the word `error`, and the audit ledger records both as not discriminating.",
+      "verification": {
+        "method": "e2e",
+        "acceptance": "A run is described only as a world and a schedule of declared events. Every detection the engine still claims has a short run in that form — one scheduled event, its truth declared, its reaction read through the door — and each of the three unclear subjects either has such a run or is gone, as Pulse's re-based record decides. The single-list scenario form and every file in it are gone. What must still hold without them: no proof of a kept detection was lost, because each had its replacing run before its old form left.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v4-17",
+      "title": "The schedule says what is true",
+      "requirement": "every scheduled event declares what it is, in which service, from which minute, and what a correct reaction names; a healthy stretch declares that nothing should be reported",
+      "observed_gap": "a scenario has no field for the expected cause or the expected service; a known cause lives in a comment; \"nothing should surface\" cannot be declared.",
+      "verification": {
+        "method": "unit",
+        "acceptance": "Every scheduled event declares what it is, in which service, from which minute, and what a correct reaction names; every healthy stretch declares that nothing should be reported; a run description that lacks any of these is refused.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v4-18",
+      "title": "A proof discriminates",
+      "requirement": "every regression run has a paired control that differs from it in exactly one declared thing and is graded differently; for a detection, the control is the same world without the event, graded \"nothing reported\"; for a subject whose correct reaction is silence — a suppression, a floor — the control keeps the event and removes what should silence it, and is graded \"reported\"; a run whose assertion would also hold in its control is refused when the run is described, not recorded afterwards",
+      "observed_gap": "the two live assertions pass for any stimulus; the audit ledger exists to record that.",
+      "verification": {
+        "method": "unit",
+        "acceptance": "Every regression run has a paired control that differs from it in exactly one declared thing, and the two are graded differently. For a detection, the same world without the event is graded nothing reported. For a subject whose correct reaction is silence, the control keeps the event, removes what should silence it, and is graded reported. A run whose assertion would also hold in its control is refused when the run is described.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v4-19",
+      "title": "The reaction is logged against the timeline",
+      "requirement": "a run keeps, per reaction, when the engine spoke and the structured facts it named (service, version, kind of finding, error identity, evidence identifiers); the content boundary is restated for a world whose facts are Conductor's own names coming back, and the exception written for the model's text is closed with v4-02",
+      "observed_gap": "a run record keeps a verdict, instants and fingerprints, and no text of the reaction; the security plan forbids persisting Pulse's corpus content, with one scrubbed exception written for the model's text.",
+      "verification": {
+        "method": "e2e",
+        "acceptance": "A run's record keeps, for each reaction, when the engine spoke and the structured facts it named — service, version, kind of finding, error identity, evidence identifiers — placed on the run's timeline. The content boundary is stated for a world whose facts are Conductor's own names coming back, and the exception once written for a model's text no longer exists.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v4-20",
+      "title": "Grading lays the two timelines together",
+      "requirement": "for a whole run: which planted events were caught, how many minutes after their onset, how many reports came during healthy stretches per hour, and whether each report named the declared service and cause; the two timelines are laid together on one stated time base; the difference between the two hosts' clocks is measured, and a verdict it could change is reported as such; the verdicts that remain are the ones a machine can give",
+      "observed_gap": "grading is a set of per-scenario checks against one read-back taken after the scenario ends.",
+      "verification": {
+        "method": "integration",
+        "acceptance": "For a whole run the grading states which planted events were caught, how many minutes after their onset, how many reports came per hour of healthy stretch, and whether each report named the declared service and cause, with both timelines laid on one stated time base. The difference between the two hosts' clocks is measured, and a verdict that difference could change is reported as such. Every verdict is one a machine gave.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v4-21",
+      "title": "Hours, on a processor, at any hour",
+      "requirement": "a run of ten hours or more against the console engine, with no GPU; it also reads the engine's memory against its 1 GB target and the growth of its database file, through the door, as part of the engine's own state, never from a file or a process of the engine's; the run's own record, journal and log are written as the run goes, stay bounded in memory, and their size on disk over ten hours is bounded and stated; a run interrupted at any hour leaves a readable record of what happened until then",
+      "observed_gap": "R5's ten-minute bound; the longest tier is 90 s; the real-model leg needed a GPU and quiet windows.",
+      "verification": {
+        "method": "e2e",
+        "acceptance": "A run of ten hours or more completes against the console engine on a host with no graphics processor and ends with its graded timeline. It reads the engine's memory against the one-gigabyte target and the growth of its database file through the door, as part of the engine's own state, never from a file or a process of the engine's. The run's own record, journal and log are written as the run goes, stay bounded in memory, and stay within a stated bound on disk over the ten hours. A run interrupted at any hour leaves a readable record of everything that happened until then.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v4-22",
+      "title": "A recorded run can be played again",
+      "requirement": "a run's emitted stream can be replayed to the engine faster than it was recorded and give the same reactions, so a change to the engine is measured in minutes",
+      "observed_gap": "a reading cannot be repeated without driving the whole thing live.",
+      "verification": {
+        "method": "e2e",
+        "acceptance": "The emitted stream of a recorded run, replayed to the engine faster than it was recorded, produces the same reactions as the original run.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v4-23",
+      "title": "The end-to-end scenario of the pair",
+      "requirement": "Conductor rolls out a \"bad version\" of one service in its world, to an engine on another host; it reads that the status line and the report name the service, the version and the new error; a large model, given the report and the door, names the planted cause, and Conductor records that answer against the declared truth; the large model is an agent the developer already runs, connected to the door the way a developer connects it; Conductor does not start it and holds no model credential: for a run it hands out the report and the door to ask, and it takes the agent's answer back through a command, bounded in size and scrubbed before it is recorded; the engine calls no model; the answer is a reading recorded over planted faults, never a gate that can fail a build",
+      "observed_gap": null,
+      "verification": {
+        "method": "e2e",
+        "acceptance": "On a real two-host run Conductor rolls out a bad version of one service in its world; the engine's status line and its report name the service, the version and the new error; the developer's own agent, given the report and the door, names the planted cause, and Conductor records that answer against the declared truth. The answer comes back through a command, bounded in size and scrubbed before it is recorded; Conductor starts no agent and holds no model credential, and the engine calls no model. The answer is recorded as a reading and can fail no build.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    },
+    {
+      "id": "v4-24",
+      "title": "No survivor",
+      "requirement": "at the close the tree is asked again what stands that exists only for a window (Conductor's or Pulse's), for Pulse's local model, for a shared machine, for another operating system or for a human in the loop, and the answer is nothing",
+      "observed_gap": null,
+      "verification": {
+        "method": "manual",
+        "acceptance": "At the close the question is asked of the whole tree — what stands that exists only for a window, Conductor's or Pulse's, for Pulse's local model, for a shared machine, for another operating system or for a human in the loop — and the recorded answer, with the search that produced it, is nothing. What must still hold: the full gate is green and every other capability of this version is verified on measured evidence.",
+        "ref": null,
+        "status": "planned"
+      },
+      "chunk": null
+    }
+  ]
+}

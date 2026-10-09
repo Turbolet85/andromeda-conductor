@@ -177,3 +177,5 @@ marker = {date}-{slug} (e.g. 2026-06-04-otlp-http-ingest), minted at promotion.
 2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09 · complete · the sixth and last pre-registered three-drive real-model series for v3-09, against Pulse 9bfefb8 (the corpus block narrowed to the triggering scope), its stop rule pre-registered before the launch · → conductor-0.3.0/chunks/2026-10-07-a-sixth-pre-registered-real-model-series-for-v3-09/
 2026-10-08-capture-canary-pairing-window-corrective · complete · the real-model capture's canary pairing reads a selected digest's inference across the emission instant, pinned on the sixth series' recorded shapes; no live drive, nothing recorded re-rendered · → conductor-0.3.0/chunks/2026-10-08-capture-canary-pairing-window-corrective/
 2026-10-08-version-close-on-measured-evidence · complete · Version close on measured evidence — the 11 capabilities stated on their measured basis, the carried corrections made, the next version's direction recorded · → conductor-0.3.0/chunks/2026-10-08-version-close-on-measured-evidence/
+
+## conductor-0.4.0
