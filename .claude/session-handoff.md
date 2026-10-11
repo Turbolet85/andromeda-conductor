@@ -66,3 +66,6 @@ None in `.andromeda/residuals.md`.
     by the PreToolUse guard at the 2026-10-08 sixth-series wrap.
   - recurrence-despite-learning: `host-linux.md` §Paths — a `cd` into the sibling Pulse repo, refused by the guard
     at the 2026-10-07 wrap.
+
+## Session End Status
+Completed normally at 2026-10-11 09:59:33

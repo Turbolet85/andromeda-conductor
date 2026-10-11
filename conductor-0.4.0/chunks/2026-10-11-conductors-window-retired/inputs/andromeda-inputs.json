@@ -1,0 +1,38 @@
+[
+  {
+    "id": "I1",
+    "kind": "relay",
+    "repo": null,
+    "path": "../additional/pc-overseer/relays/conductor-phase-window-retired-2026-10-11.md",
+    "form": "copy",
+    "state": "no-repo",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "9de88af30783ba107880dee6c775d0369b81f9052bb76ff80cc18c369761131d",
+    "copy": "I1-conductor-phase-window-retired-2026-10-11.md.txt",
+    "link": false,
+    "read_at": "2026-10-11T01:53:10Z",
+    "step": "phase:P1",
+    "why": "the pc overseer phase directive for this chunk: the d227e59 red is owned by the CARRY on Linux-only base CI; the removal list is closed and research adds what exists only for the window; Pulse-facing reads stay; size cut proposed at P4; boundaries; the P5 card"
+  },
+  {
+    "id": "I2",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the operator, in the /andromeda-phase invocation, 2026-10-11",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "db6e460ac0a589b06cddfee5efa2faa00d929727fda5ff744e6996790435c475",
+    "copy": "I2-relay-1.md.txt",
+    "link": false,
+    "read_at": "2026-10-11T01:53:14Z",
+    "step": "phase:P1",
+    "why": "the founder word the handoff waits for was given 2026-10-09: code starts on both projects, one builder at a time; fold the relay file; stop at P5 for the operator yes"
+  }
+]

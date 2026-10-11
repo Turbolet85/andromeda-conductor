@@ -1,0 +1,33 @@
+# layouts extract
+
+## Relevance
+partial. The chunk builds no layout; it retires a whole surface. layout-templates §Surface: desktop-webview describes the window that leaves, and §Surface: cli is the surface that must keep working unchanged.
+
+## Constraints
+- The whole of layout-templates §Surface: desktop-webview (primary screens, wireframes, titlebar, navigation, go/no-go dialog, coverage matrix, run-report view, operator-checklist, footer, IA notes) is target state for the surface this chunk removes. Phase amends no spec source (scope B6), so the section is left as it is now and becomes an expected amendment for the wrap, which records the surface as retired. It is never edited here (per layout-templates §Surface: desktop-webview).
+- After the removal, cli is the only interactive surface. layout-templates §cli Component — Primary navigation (verb structure) requires the verb set to be whatever `Commands` in `crates/conductor-cli/src/cli.rs` declares: flat, one level deep, with verb-prefixed help. The chunk adds no verb (scope B5), so the verb set must come out of the chunk unchanged (per layout-templates §cli Component — Primary navigation (verb structure)).
+- Scope B4 asks for the window's functions to be listed against the command line's verbs. layout-templates §desktop-webview Component — Primary navigation (single-station run control) lists the window's functions: pick scenario/suite, Start, Stop, the live counters over the `Channel`, operator-pause go/no-go, and the run-report view. layout-templates §cli Primary screens (commands) lists the counterparts the plan intends: `run`/`suite` for pick+start, the `indicatif` heartbeat for the live counters, the `inquire` hold for go/no-go, `report` for the report view and `coverage` for the matrix. The plan names no cli counterpart for a mid-run Stop. Whether the code already gives Stop a command-line entry is research's question (per layout-templates §cli Primary screens (commands)).
+- The CLI mirror of the hold-point signature (the spinner stops in place, and a `HOLD — operator pause` line prints above the `inquire` confirm) is how the go/no-go stays reachable once the dialog leaves. The removal must leave it as it is (per layout-templates §cli Component — Hero / signature output (Paused-count hold-point — CLI mirror)).
+- Headless invariant: every `inquire` prompt checks `isatty` first, and the agent-driven path never blocks on a prompt. Taking the webview arms out of `scripts/agent-run.{sh,ps1}` must keep this true (per layout-templates §cli IA notes).
+- `scripts/agent-run.{sh,ps1}` ship at identical semantics in both shells. The `--e2e` stage and the host-tool skip arm (`CONDUCTOR_MSEDGEDRIVER` / `CONDUCTOR_NVDA`, plus the `CONDUCTOR_A11Y_STRICT` third outcome) are the webview parts of that description. The remaining stage flags (`--unit`, `--integration`, `--live [real-model]`, the bundled default) keep identical semantics in both shells (per layout-templates §cli Primary screens (commands), the `scripts/agent-run.{sh,ps1}` item).
+- The coverage roll-up caption is described as "rendered identically on all three surfaces", and the webview receives `unbacked` from the `unbacked_auto` command. With the webview gone, the caption stays on cli and the Markdown artifact, sourced from `conductor_core::UNBACKED_AUTO`. Whether `unbacked_auto` or any other source of that caption lives only in the window crate is research's question (per layout-templates §cli Primary screens (commands), the `conductor coverage` item).
+
+## Patterns to follow
+- "Adapted per surface, never forked" (layout-templates §cli Component — Primary content block 2 and §cli IA notes). Each surface's leg of a shared convention stands alone: the webview run-report banner's binding of the non-lamp qualifier pair leaves, while cli `[ENVIRONMENT-SUSPECT]` / `[PRECONDITION]` and the Markdown banner stay as they are.
+- Twin-shell parity with an explicit usage refusal (layout-templates §cli Primary screens (commands), the `--live` selector). An unknown selector prints a usage line and exits 2 before any probe, in both shells. This is the existing shape for how a shell reacts to an argument it does not accept.
+- The cli output contract: raw data on stdout, sanitized `error:` / `hint:` on stderr, ASCII bracket prefixes so the signal is never color-only (per layout-templates §cli Component — Footer / terminator + error output).
+
+## Anti-patterns to avoid
+- Changing cli output structure as a side effect of the removal. Downstream agents parse it, and a shape change without a `--format` flag is breaking (per layout-templates §cli IA notes, Command model).
+- Putting an interactive gate on the headless `agent-run` path, for example by moving a window-only confirm into the shell (per layout-templates §cli IA notes, Headless invariant).
+
+## Contract bindings
+- layouts ↔ a11y: the desktop-webview focus order, roving tab stop, landmark set and SR-row evidence (layout-templates §desktop-webview Component — Primary content block 1 and §Component — Footer) leave with the surface, together with the a11y plan's webview harness. The cli binding stays: ASCII prefixes, `NO_COLOR` and `TERM=dumb` (layout-templates §cli Component — Header / banner).
+- layouts ↔ tests: the `--e2e` stage's printed-verdict assertion (`Spec Files:` count, skip markers, driven-session banner) in layout-templates §cli Primary screens (commands) ties to test-plan §3's five-command harness. Both descriptions leave together.
+- layouts ↔ security: the layout-level guardrails (deny-by-default Tauri capabilities, no remote iframes, no `shell-open`, Tauri ≥ 2.10.3) in layout-templates §desktop-webview IA notes leave with the crate. That ties to the scope's `deny.toml` Tauri-tree item.
+
+## Acceptance criteria contributions
+- `conductor --help` lists the same verb set before and after the chunk: no verb removed, none added (per layout-templates §cli Component — Primary navigation (verb structure)).
+- `conductor coverage` still ends in its roll-up caption, including the `(N unbacked)` qualifier when N > 0, with the same text before and after the removal (per layout-templates §cli Primary screens (commands)).
+- `conductor run <scenario>` on non-TTY stdin reaches its operator pause without blocking, and records the decision to the artifact (per layout-templates §cli Component — Hero / signature output (Paused-count hold-point — CLI mirror)).
+- `scripts/agent-run.sh` and `scripts/agent-run.ps1` accept the same remaining stage flags (`--unit`, `--integration`, `--live`, `--live real-model`, default) and behave the same in both shells, with no webview stage left in either (per layout-templates §cli Primary screens (commands)).

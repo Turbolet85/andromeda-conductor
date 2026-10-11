@@ -1,0 +1,100 @@
+[
+{
+"tool": "ci",
+"v": "1.2",
+"sha8": "72093aa2",
+"ts": "2026-10-11T01:52:38Z",
+"argv": [
+"conclusion",
+"--sha",
+"321dc8f2b1545ae713da3e0e2cf78c8b6cc7c3c6",
+"--sha",
+"7a2b8e5e47b3ac57787489fe624e20a3f283509f",
+"--sha",
+"9e8b30f9f61c00ad19140daa45fed1a61c30f712",
+"--sha",
+"f6fdf49cf4f522082ebff2a258f0efb372d11a88",
+"--sha",
+"d227e593ce29d9b826b31d5b2759707a84b8a3aa",
+"--sha",
+"97dea7feed93509071a5813d408c6f05a0f5e8aa",
+"--sha",
+"355a6788e1c2578e18eddc4b8841dc5e39c03ea1",
+"--run-dir",
+".andromeda/runs/2026-10-11T01-52-22-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"repo Turbolet85/andromeda-conductor (the push remote `origin`)",
+"321dc8f2b154 verdict: green · checks 3/3 · wall 687 s · runs CI#38039792389 completed/success",
+"7a2b8e5e47b3 verdict: green · checks 3/3 · wall 699 s · runs CI#37990683772 completed/success",
+"9e8b30f9f61c verdict: green · checks 3/3 · wall 687 s · runs CI#37937147976 completed/success",
+"f6fdf49cf4f5 verdict: untested — pushed under a later tip",
+"d227e593ce29 verdict: red · checks 3/3 · first-fail +310 s Rust gate (build · test · lint · supply-chain · coverage) · … · red by: Rust gate (build · test · lint · supply-chain · coverage)=failure · run CI#37932450560=failure",
+"97dea7feed93 verdict: green · checks 3/3 · wall 691 s · runs CI#37770212262 completed/success",
+"355a6788e1c2 verdict: green · checks 3/3 · wall 696 s · runs CI#37767498147 completed/success"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"repo": "Turbolet85/andromeda-conductor",
+"host": "github.com",
+"repo_source": "the push remote `origin`",
+"names": [],
+"shas": [
+{
+"sha": "321dc8f2b1545ae713da3e0e2cf78c8b6cc7c3c6",
+"word": "green",
+"polls": [
+"green"
+]
+},
+{
+"sha": "7a2b8e5e47b3ac57787489fe624e20a3f283509f",
+"word": "green",
+"polls": [
+"green"
+]
+},
+{
+"sha": "9e8b30f9f61c00ad19140daa45fed1a61c30f712",
+"word": "green",
+"polls": [
+"green"
+]
+},
+{
+"sha": "f6fdf49cf4f522082ebff2a258f0efb372d11a88",
+"word": "untested — pushed under a later tip",
+"polls": [
+"none recorded"
+]
+},
+{
+"sha": "d227e593ce29d9b826b31d5b2759707a84b8a3aa",
+"word": "red",
+"polls": [
+"red"
+]
+},
+{
+"sha": "97dea7feed93509071a5813d408c6f05a0f5e8aa",
+"word": "green",
+"polls": [
+"green"
+]
+},
+{
+"sha": "355a6788e1c2578e18eddc4b8841dc5e39c03ea1",
+"word": "green",
+"polls": [
+"green"
+]
+}
+]
+}
+}
+]

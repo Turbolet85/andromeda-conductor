@@ -1,5 +1,0 @@
-{
-  "$schema": "./node_modules/knip/schema.json",
-  "entry": ["test/a11y/**/*.e2e.ts"],
-  "ignoreDependencies": ["@wdio/local-runner", "axe-core", "lighthouse"]
-}

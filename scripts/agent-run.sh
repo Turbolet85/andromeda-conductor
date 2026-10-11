@@ -8,7 +8,7 @@
 #   boot     — MCP preflight readiness gate (conductor preflight --json; ready:true ⇒ exit 0,
 #              ready:false ⇒ non-zero gate + dependent scenarios report Blocked)
 #   run      — nextest + doctest + clippy (+ optional SCENARIO=/SEED= leg); stage flags
-#              --unit | --integration | --e2e | --live [real-model] (default: the full bundled gate),
+#              --unit | --integration | --live [real-model] (default: the full bundled gate),
 #              test-plan §9. --live is the operator-gated live-Pulse suite: never a CI gate, never
 #              reachable bare; `--live real-model` selects its one real-model leg instead of the suite
 #   status   — read the Run-report envelope from runs/<run_id>.jsonl (latest run if id omitted)
@@ -21,7 +21,6 @@ set -euo pipefail
 
 CARGO="${CARGO:-cargo}"
 RUNS_DIR="${CONDUCTOR_RUNS_DIR:-runs}"
-UI_DIR="crates/conductor-tauri/ui"
 RUN_CONTRACT="contracts/pulse-run-contract.toml"
 
 # Read a bare `key = <integer>` term from the pinned run contract. A missing term is fatal, never
@@ -49,13 +48,6 @@ preflight_budget_sec() {
   printf '%s' "$(( warmup_ms / 1000 + poll + 30 ))"
 }
 
-# conductor-tauri's generate_context! resolves build.frontendDist (ui/dist) at COMPILE time, so the
-# webview bundle must exist before any workspace cargo build/nextest/clippy compiles conductor-tauri
-# (Epoch 9 frameless-window-shell). Install deps only when missing; always rebuild the bundle.
-ensure_frontend() {
-  ( cd "$UI_DIR" && { [ -d node_modules ] || npm ci; } && npm run build )
-}
-
 # A run_id is a filesystem-safe hyphen-delimited stamp; reject anything else before it reaches a path
 # join or a sqlite3 statement (security-plan §Input Validation — no string-concat SQL on raw input).
 valid_run_id() { [[ "$1" =~ ^[0-9A-Za-z._-]+$ ]]; }
@@ -68,7 +60,7 @@ valid_run_id() { [[ "$1" =~ ^[0-9A-Za-z._-]+$ ]]; }
 LIVE_LOG="$(dirname "$RUNS_DIR")/logs/agent-latest.jsonl"
 LIVE_CAPTURE_DIR="$RUNS_DIR/live-suite"
 
-# Total wall clock ≈ 12-15 min (B1 ~60s · B2 ~135s · quiet 150s · A ~215s · a11y ~3-4 min): each
+# Total wall clock ≈ 12-15 min (B1 ~60s · B2 ~135s · quiet 150s · A ~215s): each
 # preflight pays the contract's warm-up before its poll starts, and a NOT-ready gate pays the whole
 # poll floor. Per-leg budget = the preflight budget + the scenario's own phases + margin.
 live_leg_budget_sec() { printf '%s' "$(( $(preflight_budget_sec) + ${1:-0} + 60 ))"; }
@@ -133,15 +125,6 @@ live_suite() {
 
   live_leg a auto-resolve-idle-window "$(live_leg_budget_sec 180)"
 
-  # The driven a11y arm fires its own preflight canary; leg A's canary has already resolved by A's
-  # read-back, so no extra window is needed. It self-skips at exit 0 when no native WebDriver resolves
-  # (wdio.conf.ts guards CONDUCTOR_MSEDGEDRIVER), which is a SKIP, not a refusal — a host-tool handle
-  # and a live-Pulse handle are different classes.
-  echo "[live] driven a11y arm"
-  ensure_frontend
-  "$CARGO" build --release -p conductor-tauri --features tauri/custom-protocol
-  ( cd "$UI_DIR" && npm run a11y:driven )
-
   echo "[live] suite complete — captures under $LIVE_CAPTURE_DIR"
   echo "[live] bootstrap posture: leg A's empty-active-set arm needs the silence evaluator disarmed."
   echo "[live] The operator's pulse-app launch carries ANDROMEDA_PULSE_BASELINE_BOOTSTRAP_SECONDS=86399."
@@ -149,8 +132,6 @@ live_suite() {
   echo "[live] for leg H — the storm path consults no baseline. Conductor never sets it; confirm which"
   echo "[live] posture booted by grepping Pulse's log for the TARGET triage.baseline.bootstrap_window.override"
   echo "[live] (level WARN, reason=\"env_override\", resolved_seconds) — the emitting fn name is not in the log."
-  echo "[live] stop form: the wdio arm self-terminates via onComplete -> tauriDriver.kill(); after an"
-  echo "[live] interrupted run: taskkill /F /IM msedgedriver.exe /IM conductor-tauri.exe (+ the node CLI)."
   echo "[live] pulse-app is NOT stopped here — the operator started it and stops it."
 }
 
@@ -246,76 +227,11 @@ case "${1:-}" in
     ;;
 
   run)
-    # The routine arm's expected skips: the two specs whose subject needs a raised hold (the
-    # operator-pause dialog and the operator-checklist rows). Measured 2026-09-07: 10 passing,
-    # 2 pending of 12. A THIRD skip is a failure — a fixture-seeding failure on a runner surfaces
-    # exactly that way, and a context-skip is never a pass (test-plan §6).
-    A11Y_EXPECTED_SKIPS=2
-
-    # The --e2e leg's EXIT CODE cannot separate a full pass from a total skip: the wdio handle guard
-    # is DESIGNED to skip at exit 0, so `$?` alone asserts nothing (measured 2026-09-02 —
-    # .claude/rules/verification-harness.md §Session Additions). The PRINTED verdict is the gate.
-    assert_a11y_verdict() {
-      local log="$1" spec_line failed skips
-      # (1) evidence — without the driven-session banner no session ever attached.
-      if ! grep -qE '^\[webview2 [^]]*windows' "$log"; then
-        case "${CONDUCTOR_A11Y_STRICT:-}" in
-          1|true)
-            echo "error: CONDUCTOR_A11Y_STRICT is set but no driven session attached — the leg proved nothing." >&2
-            return 1 ;;
-        esac
-        echo "[a11y] leg skipped (no driven session) — exit 0 preserved for an unconfigured host"
-        return 0
-      fi
-      # (2) red — `Spec Files:` counts FILES, and omits the `failed` term entirely when none failed.
-      spec_line=$(grep -a 'Spec Files:' "$log" | tail -1)
-      if [ -z "$spec_line" ]; then
-        echo "error: wdio printed no 'Spec Files:' summary — the runner did not complete." >&2
-        return 1
-      fi
-      failed=$(printf '%s' "$spec_line" | grep -oE '[0-9]+ failed' | grep -oE '[0-9]+' || true)
-      failed=${failed:-0}
-      if [ "$failed" -gt 0 ]; then
-        echo "error: a11y suite RED — ${failed} spec file(s) failed." >&2
-        return 1
-      fi
-      # (3) whitelist — mocha prints no pending SUMMARY line, so the skip tally is the per-spec
-      # pending markers themselves (measured 2026-09-07).
-      skips=$(grep -acE '^\[webview2 [^]]*\]    - ' "$log" || true)
-      if [ "$skips" -gt "$A11Y_EXPECTED_SKIPS" ]; then
-        echo "error: ${skips} skipped spec(s), expected at most ${A11Y_EXPECTED_SKIPS} (the two live-hold subjects)." >&2
-        echo "       A third skip means a subject the arm seeds was absent — a context-skip is never a pass." >&2
-        return 1
-      fi
-      echo "[a11y] verdict asserted — 0 failed · ${skips} skipped (expected ${A11Y_EXPECTED_SKIPS}) · driven session present"
-    }
-
     # Stage flags partition the CI gate (test-plan §9); no flag = the full bundled gate.
     case "${2:-}" in
-      --unit)        ensure_frontend; "$CARGO" nextest run --workspace --profile ci ;;
-      --integration) ensure_frontend; "$CARGO" nextest run --workspace --profile ci -E 'kind(test)' ;;
-      # test-plan §3/§9: --e2e IS the tauri-driver `wdio run` leg. The bundle must be built before the
-      # compile (generate_context! resolves frontendDist at compile time), and the binary must embed
-      # it rather than loading tauri.conf.json's devUrl. What decides that is the `custom-protocol`
-      # FEATURE, not the profile: tauri's build.rs computes `dev = !custom_protocol` and tauri-build
-      # reads it back through DEP_TAURI_DEV, so a bare `--release` build still loads localhost:5173
-      # (measured 2026-09-01). The leg skips at exit 0 when no native WebDriver resolves (wdio.conf.ts).
-      --e2e)
-        ensure_frontend
-        "$CARGO" build --release -p conductor-tauri --features tauri/custom-protocol
-        # Captured to a file, then asserted: the exit code is read from the BARE command (never
-        # through a pipe, which reports the pipeline's last stage), and the printed verdict is what
-        # decides the gate.
-        mkdir -p "$RUNS_DIR"
-        a11y_log="$RUNS_DIR/a11y-e2e.log"
-        e2e_rc=0
-        ( cd "$UI_DIR" && npm run a11y ) > "$a11y_log" 2>&1 || e2e_rc=$?
-        cat "$a11y_log"
-        [ "$e2e_rc" -eq 0 ] || { echo "error: wdio exited ${e2e_rc}" >&2; exit "$e2e_rc"; }
-        assert_a11y_verdict "$a11y_log"
-        ;;
+      --unit)        "$CARGO" nextest run --workspace --profile ci ;;
+      --integration) "$CARGO" nextest run --workspace --profile ci -E 'kind(test)' ;;
       "")
-        ensure_frontend
         "$CARGO" nextest run --workspace --profile ci
         "$CARGO" test --workspace --doc
         "$CARGO" clippy --workspace --all-targets -- -D warnings
@@ -336,8 +252,8 @@ case "${1:-}" in
         fi
         ;;
       # test-plan §9: the operator-gated live suite. NEVER a CI gate and never reachable from a bare
-      # `run` — a live leg drives a real Pulse. Composes H → B1 → B2 → quiet window → A → the driven a11y
-      # arm, in that order, because each leg's outcome depends on the incident state the previous one
+      # `run` — a live leg drives a real Pulse. Composes H → B1 → B2 → quiet window → A, in
+      # that order, because each leg's outcome depends on the incident state the previous one
       # left (see live_leg_order below). The optional THIRD token selects the real-model leg instead;
       # an unknown one is a usage error, printed before any probe runs.
       --live)
@@ -347,7 +263,7 @@ case "${1:-}" in
           *) echo "usage: $0 run --live [real-model]" >&2; exit 2 ;;
         esac
         ;;
-      *) echo "usage: $0 run [--unit|--integration|--e2e|--live [real-model]]" >&2; exit 2 ;;
+      *) echo "usage: $0 run [--unit|--integration|--live [real-model]]" >&2; exit 2 ;;
     esac
     ;;
 
@@ -395,7 +311,7 @@ case "${1:-}" in
     ;;
 
   *)
-    echo "Usage: $0 {boot|run [--unit|--integration|--e2e|--live [real-model]]|status [run_id]|cleanup [run_id]|logs [run_id]}" >&2
+    echo "Usage: $0 {boot|run [--unit|--integration|--live [real-model]]|status [run_id]|cleanup [run_id]|logs [run_id]}" >&2
     exit 2
     ;;
 esac

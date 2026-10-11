@@ -4,7 +4,7 @@
 #
 # Mirrors agent-run.sh — same 5 commands, same semantics. Conductor has NO daemon and NO inbound
 # listener: boot is a preflight gate, status reads disk artifacts, there is no PID file.
-#   boot, run [--unit|--integration|--e2e|--live [real-model]], status [run_id], cleanup [run_id], logs [run_id]
+#   boot, run [--unit|--integration|--live [real-model]], status [run_id], cleanup [run_id], logs [run_id]
 #   --live is the operator-gated live-Pulse suite: never a CI gate, never reachable from a bare `run`;
 #   `--live real-model` selects its one real-model leg instead of the suite
 # Run with: .\scripts\agent-run.ps1 boot
@@ -14,7 +14,6 @@ Set-StrictMode -Version Latest
 
 $Cargo = if ($env:CARGO) { $env:CARGO } else { 'cargo' }
 $RunsDir = if ($env:CONDUCTOR_RUNS_DIR) { $env:CONDUCTOR_RUNS_DIR } else { 'runs' }
-$UiDir = 'crates/conductor-tauri/ui'
 $Arg1 = if ($args.Count -ge 2) { $args[1] } else { '' }
 # The `run --live` selector — the THIRD token. Bound by count, like $Arg1: StrictMode Latest refuses an
 # out-of-bounds index.
@@ -43,66 +42,8 @@ function Get-PreflightBudgetSec {
     [int]([math]::Floor($warmupMs / 1000) + $poll + 30)
 }
 
-# conductor-tauri's generate_context! resolves build.frontendDist (ui/dist) at COMPILE time, so the
-# webview bundle must exist before any workspace cargo build/nextest/clippy compiles conductor-tauri.
-function Invoke-EnsureFrontend {
-    Push-Location $UiDir
-    try {
-        if (-not (Test-Path 'node_modules')) {
-            & npm ci
-            if ($LASTEXITCODE -ne 0) { throw "npm ci failed ($LASTEXITCODE)" }
-        }
-        & npm run build
-        if ($LASTEXITCODE -ne 0) { throw "npm run build failed ($LASTEXITCODE)" }
-    } finally { Pop-Location }
-}
-
 # A run_id is a filesystem-safe hyphen-delimited stamp; reject anything else before it reaches a path
 # join or a sqlite3 statement (security-plan §Input Validation — no string-concat SQL on raw input).
-# The routine arm's expected skips: the two specs whose subject needs a raised hold (the operator-pause
-# dialog and the operator-checklist rows). Measured 2026-09-07: 10 passing, 2 pending of 12. A THIRD skip
-# is a failure — a fixture-seeding failure on a runner surfaces exactly that way, and a context-skip is
-# never a pass (test-plan §6).
-$A11yExpectedSkips = 2
-
-# The --e2e leg's EXIT CODE cannot separate a full pass from a total skip: the wdio handle guard is
-# DESIGNED to skip at exit 0, so the exit code alone asserts nothing (measured 2026-09-02 —
-# .claude/rules/verification-harness.md §Session Additions). The PRINTED verdict is the gate.
-# Identical semantics to agent-run.sh's assert_a11y_verdict (test-plan §3 5-command-discipline-wire).
-function Assert-A11yVerdict([string]$LogPath) {
-    $lines = Get-Content $LogPath
-    # (1) evidence — without the driven-session banner no session ever attached.
-    if (-not ($lines | Select-String -Pattern '^\[webview2 [^\]]*windows' -Quiet)) {
-        if ($env:CONDUCTOR_A11Y_STRICT -in @('1', 'true')) {
-            [Console]::Error.WriteLine('error: CONDUCTOR_A11Y_STRICT is set but no driven session attached - the leg proved nothing.')
-            exit 1
-        }
-        Write-Output '[a11y] leg skipped (no driven session) - exit 0 preserved for an unconfigured host'
-        return
-    }
-    # (2) red — `Spec Files:` counts FILES, and omits the `failed` term entirely when none failed.
-    $specLine = $lines | Select-String -Pattern 'Spec Files:' | Select-Object -Last 1
-    if (-not $specLine) {
-        [Console]::Error.WriteLine("error: wdio printed no 'Spec Files:' summary - the runner did not complete.")
-        exit 1
-    }
-    $failed = 0
-    if ($specLine.Line -match '(\d+)\s+failed') { $failed = [int]$Matches[1] }
-    if ($failed -gt 0) {
-        [Console]::Error.WriteLine("error: a11y suite RED - $failed spec file(s) failed.")
-        exit 1
-    }
-    # (3) whitelist — mocha prints no pending SUMMARY line, so the skip tally is the per-spec pending
-    # markers themselves (measured 2026-09-07).
-    $skips = ($lines | Select-String -Pattern '^\[webview2 [^\]]*\]    - ').Count
-    if ($skips -gt $A11yExpectedSkips) {
-        [Console]::Error.WriteLine("error: $skips skipped spec(s), expected at most $A11yExpectedSkips (the two live-hold subjects).")
-        [Console]::Error.WriteLine('       A third skip means a subject the arm seeds was absent - a context-skip is never a pass.')
-        exit 1
-    }
-    Write-Output "[a11y] verdict asserted - 0 failed | $skips skipped (expected $A11yExpectedSkips) | driven session present"
-}
-
 function Test-RunId([string]$Id) { $Id -match '^[0-9A-Za-z._-]+$' }
 
 # The newest run's id — the lexicographically greatest <run_id>.jsonl stem (run_ids sort by time).
@@ -198,20 +139,6 @@ function Invoke-LiveSuite {
 
     Invoke-LiveLeg 'a' 'auto-resolve-idle-window' (Get-LiveLegBudgetSec 180)
 
-    # The driven a11y arm fires its own preflight canary; leg A's canary has already resolved by A's
-    # read-back, so no extra window is needed. It self-skips at exit 0 when no native WebDriver resolves
-    # (wdio.conf.ts guards CONDUCTOR_MSEDGEDRIVER) — a SKIP, not a refusal: a host-tool handle and a
-    # live-Pulse handle are different classes.
-    Write-Output '[live] driven a11y arm'
-    Invoke-EnsureFrontend
-    & $Cargo build --release -p conductor-tauri --features tauri/custom-protocol
-    if ($LASTEXITCODE -ne 0) { throw "cargo build --release failed ($LASTEXITCODE)" }
-    Push-Location $UiDir
-    try {
-        & npm run a11y:driven
-        if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-    } finally { Pop-Location }
-
     Write-Output "[live] suite complete - captures under $LiveCaptureDir"
     Write-Output '[live] bootstrap posture: leg A''s empty-active-set arm needs the silence evaluator disarmed.'
     Write-Output '[live] The operator''s pulse-app launch carries ANDROMEDA_PULSE_BASELINE_BOOTSTRAP_SECONDS=86399.'
@@ -219,8 +146,6 @@ function Invoke-LiveSuite {
     Write-Output '[live] for leg H - the storm path consults no baseline. Conductor never sets it; confirm which'
     Write-Output '[live] posture booted by grepping Pulse''s log for the TARGET triage.baseline.bootstrap_window.override'
     Write-Output '[live] (level WARN, reason="env_override", resolved_seconds) - the emitting fn name is not in the log.'
-    Write-Output '[live] stop form: the wdio arm self-terminates via onComplete -> tauriDriver.kill(); after an'
-    Write-Output '[live] interrupted run: taskkill /F /IM msedgedriver.exe /IM conductor-tauri.exe (+ the node CLI).'
     Write-Output '[live] pulse-app is NOT stopped here - the operator started it and stops it.'
 }
 
@@ -340,36 +265,9 @@ switch ($args[0]) {
     'run' {
         # Stage flags partition the CI gate (test-plan §9); no flag = the full bundled gate.
         switch ($Arg1) {
-            '--unit'        { Invoke-EnsureFrontend; & $Cargo nextest run --workspace --profile ci; break }
-            '--integration' { Invoke-EnsureFrontend; & $Cargo nextest run --workspace --profile ci -E 'kind(test)'; break }
-            # test-plan §3/§9: --e2e IS the tauri-driver `wdio run` leg. The bundle must be built before
-            # the compile (generate_context! resolves frontendDist at compile time), and the binary must
-            # embed it rather than loading tauri.conf.json's devUrl. What decides that is the
-            # `custom-protocol` FEATURE, not the profile: tauri's build.rs computes `dev = !custom_protocol`
-            # and tauri-build reads it back through DEP_TAURI_DEV, so a bare `--release` build still loads
-            # localhost:5173 (measured 2026-09-01). The leg skips at exit 0 with no native WebDriver.
-            '--e2e' {
-                Invoke-EnsureFrontend
-                & $Cargo build --release -p conductor-tauri --features tauri/custom-protocol
-                if ($LASTEXITCODE -ne 0) { throw "cargo build --release failed ($LASTEXITCODE)" }
-                # Captured to a file, then asserted: the exit code is read from the BARE command, and
-                # the PRINTED verdict is what decides the gate (see Assert-A11yVerdict).
-                New-Item -ItemType Directory -Force -Path $RunsDir | Out-Null
-                # Absolute: the redirect below runs after Push-Location $UiDir, where a repo-relative
-                # path would resolve against the ui package instead.
-                $a11yLog = Join-Path (Join-Path (Get-Location) $RunsDir) 'a11y-e2e.log'
-                Push-Location $UiDir
-                try {
-                    & npm run a11y *> $a11yLog
-                    $e2eRc = $LASTEXITCODE
-                } finally { Pop-Location }
-                Get-Content $a11yLog
-                if ($e2eRc -ne 0) { [Console]::Error.WriteLine("error: wdio exited $e2eRc"); exit $e2eRc }
-                Assert-A11yVerdict -LogPath $a11yLog
-                break
-            }
+            '--unit'        { & $Cargo nextest run --workspace --profile ci; break }
+            '--integration' { & $Cargo nextest run --workspace --profile ci -E 'kind(test)'; break }
             '' {
-                Invoke-EnsureFrontend
                 & $Cargo nextest run --workspace --profile ci
                 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
                 & $Cargo test --workspace --doc
@@ -395,8 +293,8 @@ switch ($args[0]) {
                 break
             }
             # test-plan §9: the operator-gated live suite. NEVER a CI gate and never reachable from a
-            # bare `run` — a live leg drives a real Pulse. Composes H -> B1 -> B2 -> quiet window -> A ->
-            # the driven a11y arm, in that order, because each leg's outcome depends on the incident
+            # bare `run` — a live leg drives a real Pulse. Composes H -> B1 -> B2 -> quiet window -> A, in
+            # that order, because each leg's outcome depends on the incident
             # state the previous one left. The optional THIRD token selects the real-model leg instead;
             # an unknown one is a usage error, printed before any probe runs.
             '--live' {
@@ -407,7 +305,7 @@ switch ($args[0]) {
                 }
                 break
             }
-            default { [Console]::Error.WriteLine('usage: .\agent-run.ps1 run [--unit|--integration|--e2e|--live [real-model]]'); exit 2 }
+            default { [Console]::Error.WriteLine('usage: .\agent-run.ps1 run [--unit|--integration|--live [real-model]]'); exit 2 }
         }
     }
     'status' {
@@ -450,7 +348,7 @@ switch ($args[0]) {
         Get-Content $journal
     }
     default {
-        [Console]::Error.WriteLine('Usage: .\agent-run.ps1 {boot|run [--unit|--integration|--e2e|--live [real-model]]|status [run_id]|cleanup [run_id]|logs [run_id]}')
+        [Console]::Error.WriteLine('Usage: .\agent-run.ps1 {boot|run [--unit|--integration|--live [real-model]]|status [run_id]|cleanup [run_id]|logs [run_id]}')
         exit 2
     }
 }

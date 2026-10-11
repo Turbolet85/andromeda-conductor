@@ -1,0 +1,1 @@
+Operator directive for this phase: read ~/dev/projects/additional/pc-overseer/relays/conductor-phase-window-retired-2026-10-11.md first and fold it as an input. The founder word your handoff waits for was given on 2026-10-09 (code starts on both projects, one builder at a time; Pulse has taken eleven chunks since). At P5 print the plan card and stop for my yes.

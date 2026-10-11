@@ -16,11 +16,8 @@ __pycache__/
 # --- Conductor run artifacts (synthetic per-run journals/reports/runs.db — generated, not tracked) ---
 /runs/
 
-# --- Self-observation logs (ephemeral, truncated per invocation — agent-latest.jsonl / conductor-tauri.jsonl, the sibling of /runs/) ---
+# --- Self-observation logs (ephemeral, truncated per invocation — agent-latest.jsonl, the sibling of /runs/) ---
 /logs/
-# The webview self-verify leg launches the app with the ui package as its cwd, so the Tauri backend's
-# sink lands here instead of the repo root (measured 2026-09-01, the leg's first execution).
-crates/conductor-tauri/ui/logs/
 
 # --- Secrets / env (Conductor owns no secrets — guardrail) ---
 # Mirrors the secret-file-name class crates/conductor-core/tests/secret_scan_gate.rs detects, so the ignore
@@ -43,17 +40,9 @@ id_ed25519*
 .claude/backup/
 .claude/settings.local.json
 
-# --- Frontend (crates/conductor-tauri/ui — npm + Vite) ---
-# package-lock.json IS committed (deterministic install + npm-audit reproducibility — mirrors Cargo.lock).
-node_modules/
-crates/conductor-tauri/ui/dist/
-
-# --- Tauri (crates/conductor-tauri — tauri-build regenerates gen/schemas/ on every compile) ---
-crates/conductor-tauri/gen/
-
 # --- SUT fallout: Pulse emits Specta/TauRPC bindings relative to ITS cwd, so any live probe launching
-# pulse-app from this root writes /ui/src/bindings/ here. Foreign artifacts, never Conductor's; the
-# root /ui/ is unrelated to the GUI's crates/conductor-tauri/ui/. Recurrence-proof for every future arm.
+# pulse-app from this root writes /ui/src/bindings/ here. Foreign artifacts, never Conductor's.
+# Recurrence-proof for every future arm.
 /ui/
 
 # --- cargo-mutants scratch output. Written to the repo root by any bare `cargo mutants` invocation

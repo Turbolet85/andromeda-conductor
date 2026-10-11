@@ -1,0 +1,639 @@
+[
+{
+"sql": "SELECT r.callee_name, r.callee_kind, r.callee_crate, r.callee_file, COUNT(*) AS tauri_sites, (SELECT COUNT(*) FROM refs o WHERE o.callee = r.callee AND o.file NOT LIKE 'crates/conductor-tauri/%' AND o.file <> r.callee_file) AS other_sites FROM refs r WHERE r.file LIKE 'crates/conductor-tauri/%' AND r.callee_crate <> 'conductor-tauri' AND r.callee_kind IN ('fn','type','term') GROUP BY r.callee, r.callee_name, r.callee_kind, r.callee_crate, r.callee_file ORDER BY other_sites, r.callee_name",
+"rows": 57,
+"result": [
+{
+"callee_name": "count",
+"callee_kind": "term",
+"callee_crate": "conductor-run",
+"callee_file": "crates/conductor-run/src/drive.rs",
+"tauri_sites": 3,
+"other_sites": 0
+},
+{
+"callee_name": "name",
+"callee_kind": "term",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario_catalog.rs",
+"tauri_sites": 1,
+"other_sites": 0
+},
+{
+"callee_name": "stage",
+"callee_kind": "term",
+"callee_crate": "conductor-run",
+"callee_file": "crates/conductor-run/src/drive.rs",
+"tauri_sites": 3,
+"other_sites": 0
+},
+{
+"callee_name": "Aborted",
+"callee_kind": "type",
+"callee_crate": "conductor-run",
+"callee_file": "crates/conductor-run/src/drive.rs",
+"tauri_sites": 3,
+"other_sites": 1
+},
+{
+"callee_name": "SUITE_SELECTION",
+"callee_kind": "term",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario_catalog.rs",
+"tauri_sites": 3,
+"other_sites": 1
+},
+{
+"callee_name": "ScenarioSummary",
+"callee_kind": "type",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario_catalog.rs",
+"tauri_sites": 3,
+"other_sites": 1
+},
+{
+"callee_name": "default_path",
+"callee_kind": "fn",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/capability_manifest.rs",
+"tauri_sites": 2,
+"other_sites": 1
+},
+{
+"callee_name": "validate_selection",
+"callee_kind": "fn",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario_catalog.rs",
+"tauri_sites": 2,
+"other_sites": 1
+},
+{
+"callee_name": "RunEvent",
+"callee_kind": "type",
+"callee_crate": "conductor-run",
+"callee_file": "crates/conductor-run/src/drive.rs",
+"tauri_sites": 6,
+"other_sites": 2
+},
+{
+"callee_name": "RunStage",
+"callee_kind": "type",
+"callee_crate": "conductor-run",
+"callee_file": "crates/conductor-run/src/drive.rs",
+"tauri_sites": 4,
+"other_sites": 2
+},
+{
+"callee_name": "Stderr",
+"callee_kind": "type",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/obs.rs",
+"tauri_sites": 1,
+"other_sites": 2
+},
+{
+"callee_name": "default_path",
+"callee_kind": "fn",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/load_envelope.rs",
+"tauri_sites": 1,
+"other_sites": 2
+},
+{
+"callee_name": "label",
+"callee_kind": "fn",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/pause.rs",
+"tauri_sites": 1,
+"other_sites": 2
+},
+{
+"callee_name": "list_scenarios",
+"callee_kind": "fn",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario_catalog.rs",
+"tauri_sites": 1,
+"other_sites": 2
+},
+{
+"callee_name": "load",
+"callee_kind": "fn",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/load_envelope.rs",
+"tauri_sites": 1,
+"other_sites": 3
+},
+{
+"callee_name": "mint_run_id",
+"callee_kind": "fn",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/obs.rs",
+"tauri_sites": 2,
+"other_sites": 3
+},
+{
+"callee_name": "from_toml_str_with",
+"callee_kind": "fn",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"tauri_sites": 1,
+"other_sites": 4
+},
+{
+"callee_name": "is_suspect",
+"callee_kind": "fn",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/load_envelope.rs",
+"tauri_sites": 1,
+"other_sites": 4
+},
+{
+"callee_name": "latest_run_id",
+"callee_kind": "fn",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/run_journal.rs",
+"tauri_sites": 1,
+"other_sites": 4
+},
+{
+"callee_name": "preflight",
+"callee_kind": "fn",
+"callee_crate": "conductor-run",
+"callee_file": "crates/conductor-run/src/canary.rs",
+"tauri_sites": 1,
+"other_sites": 4
+},
+{
+"callee_name": "ChecklistItem",
+"callee_kind": "type",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"tauri_sites": 3,
+"other_sites": 5
+},
+{
+"callee_name": "File",
+"callee_kind": "type",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/obs.rs",
+"tauri_sites": 2,
+"other_sites": 5
+},
+{
+"callee_name": "cause",
+"callee_kind": "fn",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/load_envelope.rs",
+"tauri_sites": 1,
+"other_sites": 5
+},
+{
+"callee_name": "classify_run",
+"callee_kind": "fn",
+"callee_crate": "conductor-run",
+"callee_file": "crates/conductor-run/src/envelope.rs",
+"tauri_sites": 1,
+"other_sites": 5
+},
+{
+"callee_name": "drive_run",
+"callee_kind": "fn",
+"callee_crate": "conductor-run",
+"callee_file": "crates/conductor-run/src/drive.rs",
+"tauri_sites": 1,
+"other_sites": 5
+},
+{
+"callee_name": "label",
+"callee_kind": "fn",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/load_envelope.rs",
+"tauri_sites": 3,
+"other_sites": 5
+},
+{
+"callee_name": "observation",
+"callee_kind": "term",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"tauri_sites": 2,
+"other_sites": 5
+},
+{
+"callee_name": "read_envelope",
+"callee_kind": "fn",
+"callee_crate": "conductor-run",
+"callee_file": "crates/conductor-run/src/envelope.rs",
+"tauri_sites": 1,
+"other_sites": 5
+},
+{
+"callee_name": "NoGo",
+"callee_kind": "type",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/pause.rs",
+"tauri_sites": 3,
+"other_sites": 6
+},
+{
+"callee_name": "induced",
+"callee_kind": "term",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"tauri_sites": 2,
+"other_sites": 6
+},
+{
+"callee_name": "p_id",
+"callee_kind": "term",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/pause.rs",
+"tauri_sites": 2,
+"other_sites": 6
+},
+{
+"callee_name": "scenario",
+"callee_kind": "term",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/pause.rs",
+"tauri_sites": 1,
+"other_sites": 6
+},
+{
+"callee_name": "step",
+"callee_kind": "term",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/pause.rs",
+"tauri_sites": 2,
+"other_sites": 7
+},
+{
+"callee_name": "allow_no_go",
+"callee_kind": "term",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/pause.rs",
+"tauri_sites": 2,
+"other_sites": 8
+},
+{
+"callee_name": "load",
+"callee_kind": "fn",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/capability_manifest.rs",
+"tauri_sites": 2,
+"other_sites": 8
+},
+{
+"callee_name": "prompt",
+"callee_kind": "term",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/pause.rs",
+"tauri_sites": 2,
+"other_sites": 8
+},
+{
+"callee_name": "sanitize_error",
+"callee_kind": "fn",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/redact.rs",
+"tauri_sites": 21,
+"other_sites": 8
+},
+{
+"callee_name": "checklist",
+"callee_kind": "term",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/pause.rs",
+"tauri_sites": 3,
+"other_sites": 9
+},
+{
+"callee_name": "resolve_under",
+"callee_kind": "fn",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/config_path.rs",
+"tauri_sites": 8,
+"other_sites": 9
+},
+{
+"callee_name": "scenario_files",
+"callee_kind": "fn",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario_catalog.rs",
+"tauri_sites": 1,
+"other_sites": 9
+},
+{
+"callee_name": "Go",
+"callee_kind": "type",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/pause.rs",
+"tauri_sites": 4,
+"other_sites": 10
+},
+{
+"callee_name": "PauseResolver",
+"callee_kind": "type",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/pause.rs",
+"tauri_sites": 2,
+"other_sites": 10
+},
+{
+"callee_name": "read_run_journal",
+"callee_kind": "fn",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/run_journal.rs",
+"tauri_sites": 1,
+"other_sites": 10
+},
+{
+"callee_name": "UNBACKED_AUTO",
+"callee_kind": "term",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/drift.rs",
+"tauri_sites": 2,
+"other_sites": 11
+},
+{
+"callee_name": "init_observability",
+"callee_kind": "fn",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/obs.rs",
+"tauri_sites": 2,
+"other_sites": 11
+},
+{
+"callee_name": "ObsSink",
+"callee_kind": "type",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/obs.rs",
+"tauri_sites": 5,
+"other_sites": 14
+},
+{
+"callee_name": "LoadEnvelope",
+"callee_kind": "type",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/load_envelope.rs",
+"tauri_sites": 4,
+"other_sites": 17
+},
+{
+"callee_name": "CapabilityRow",
+"callee_kind": "type",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/coverage.rs",
+"tauri_sites": 2,
+"other_sites": 18
+},
+{
+"callee_name": "HoldPoint",
+"callee_kind": "type",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/pause.rs",
+"tauri_sites": 5,
+"other_sites": 22
+},
+{
+"callee_name": "Decision",
+"callee_kind": "type",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/pause.rs",
+"tauri_sites": 14,
+"other_sites": 25
+},
+{
+"callee_name": "coverage_matrix",
+"callee_kind": "fn",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/coverage.rs",
+"tauri_sites": 2,
+"other_sites": 25
+},
+{
+"callee_name": "name",
+"callee_kind": "term",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"tauri_sites": 1,
+"other_sites": 26
+},
+{
+"callee_name": "CapabilityManifest",
+"callee_kind": "type",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/capability_manifest.rs",
+"tauri_sites": 11,
+"other_sites": 32
+},
+{
+"callee_name": "EnvelopeStatus",
+"callee_kind": "type",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/load_envelope.rs",
+"tauri_sites": 4,
+"other_sites": 56
+},
+{
+"callee_name": "PId",
+"callee_kind": "type",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"tauri_sites": 2,
+"other_sites": 63
+},
+{
+"callee_name": "Scenario",
+"callee_kind": "type",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/scenario.rs",
+"tauri_sites": 7,
+"other_sites": 82
+},
+{
+"callee_name": "RunRecord",
+"callee_kind": "type",
+"callee_crate": "conductor-core",
+"callee_file": "crates/conductor-core/src/run_record.rs",
+"tauri_sites": 3,
+"other_sites": 83
+}
+],
+"db_state": "regenerated",
+"plane": "rust"
+},
+{
+"sql": "SELECT caller, file, line FROM calls WHERE callee_name IN ('drive_run','read_envelope','list_scenarios','validate_selection') AND callee_kind = 'fn' ORDER BY callee_name, file, line",
+"rows": 33,
+"result": [
+{
+"caller": "rust-analyzer cargo conductor-cli 0.2.0 path7_the_two_surfaces_write_an_equal_envelope_into_one_runs_db().",
+"file": "crates/conductor-cli/tests/cross_surface_parity.rs",
+"line": 101
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 drive/tests/drive_run_streams_progress_then_blocked_and_persists().",
+"file": "crates/conductor-run/src/drive.rs",
+"line": 122
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 drive/tests/drive_run_honors_abort_before_the_first_scenario().",
+"file": "crates/conductor-run/src/drive.rs",
+"line": 155
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 drive/tests/drive_run_reports_an_abort_raised_during_the_last_scenario().",
+"file": "crates/conductor-run/src/drive.rs",
+"line": 178
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 envelope/tests/",
+"file": "crates/conductor-run/src/envelope.rs",
+"line": 77
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 envelope/tests/an_over_envelope_run_is_environment_suspect_not_fail().",
+"file": "crates/conductor-run/src/envelope.rs",
+"line": 164
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 envelope/tests/an_in_envelope_run_records_its_standing_too().",
+"file": "crates/conductor-run/src/envelope.rs",
+"line": 221
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 32
+},
+{
+"caller": "rust-analyzer cargo conductor-tauri 0.2.0 commands/run_thread().",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 336
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 drift/tests/the_committed_catalog_matches_the_unbacked_ledger().",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 360
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 crate/",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 74
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 scenario_catalog/tests/catalog().",
+"file": "crates/conductor-core/src/scenario_catalog.rs",
+"line": 97
+},
+{
+"caller": "rust-analyzer cargo conductor-tauri 0.2.0 commands/list_scenarios_impl().",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 147
+},
+{
+"caller": "rust-analyzer cargo conductor-tauri 0.2.0 commands/tests/test_app().",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 389
+},
+{
+"caller": "rust-analyzer cargo conductor-tauri 0.2.0 main().",
+"file": "crates/conductor-tauri/src/main.rs",
+"line": 22
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 envelope/tests/read_envelope_round_trips_what_persist_wrote_and_is_none_for_an_unknown_run().",
+"file": "crates/conductor-run/src/envelope.rs",
+"line": 99
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 envelope/tests/read_envelope_round_trips_what_persist_wrote_and_is_none_for_an_unknown_run().",
+"file": "crates/conductor-run/src/envelope.rs",
+"line": 103
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 envelope/tests/read_envelope_round_trips_what_persist_wrote_and_is_none_for_an_unknown_run().",
+"file": "crates/conductor-run/src/envelope.rs",
+"line": 108
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 crate/",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 33
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 public_api_paths_are_stable().",
+"file": "crates/conductor-run/tests/composition_root.rs",
+"line": 28
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 persist_and_read_envelope_round_trip_through_the_public_paths().",
+"file": "crates/conductor-run/tests/composition_root.rs",
+"line": 98
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 persist_and_read_envelope_round_trip_through_the_public_paths().",
+"file": "crates/conductor-run/tests/composition_root.rs",
+"line": 106
+},
+{
+"caller": "rust-analyzer cargo conductor-run 0.2.0 the_persisted_standing_round_trips_through_the_production_reader().",
+"file": "crates/conductor-run/tests/envelope_fixture.rs",
+"line": 143
+},
+{
+"caller": "rust-analyzer cargo conductor-tauri 0.2.0 commands/run_envelope().",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 252
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 crate/",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 75
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 scenario_catalog/tests/validate_selection_accepts_suite_name_and_pid().",
+"file": "crates/conductor-core/src/scenario_catalog.rs",
+"line": 115
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 scenario_catalog/tests/validate_selection_accepts_suite_name_and_pid().",
+"file": "crates/conductor-core/src/scenario_catalog.rs",
+"line": 116
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 scenario_catalog/tests/validate_selection_accepts_suite_name_and_pid().",
+"file": "crates/conductor-core/src/scenario_catalog.rs",
+"line": 123
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 scenario_catalog/tests/validate_selection_rejects_unknown().",
+"file": "crates/conductor-core/src/scenario_catalog.rs",
+"line": 129
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 scenario_catalog/tests/validate_selection_rejects_unknown().",
+"file": "crates/conductor-core/src/scenario_catalog.rs",
+"line": 130
+},
+{
+"caller": "rust-analyzer cargo conductor-core 0.2.0 scenario_catalog/tests/validate_selection_rejects_unknown().",
+"file": "crates/conductor-core/src/scenario_catalog.rs",
+"line": 131
+},
+{
+"caller": "rust-analyzer cargo conductor-tauri 0.2.0 commands/",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 18
+},
+{
+"caller": "rust-analyzer cargo conductor-tauri 0.2.0 commands/start_run().",
+"file": "crates/conductor-tauri/src/commands.rs",
+"line": 272
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

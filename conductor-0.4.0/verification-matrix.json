@@ -15,7 +15,8 @@
         "ref": null,
         "status": "planned"
       },
-      "chunk": null
+      "chunk": null,
+      "notes": "2026-10-11 (2026-10-11-conductors-window-retired, phase P5): not claimed — not provable by this chunk. It proves two clauses of the acceptance: the program builds and passes its full gate with the window toolkit absent from its graph, and no check starts or audits a window (gates: lock census, standalone sweep, workflow census, CI green on its push). Two clauses stay open. Four functions have no command-line entry once the window goes (the catalogue listing, a graceful mid-run stop, a past run's load-envelope standing, a hold's checklist items; research.md §Function reach); they are owned by `Panel-shaped types retired`, which also lists v4-01. The masters' plain restatement is owned by `Run read from the command line` and `Records restated`."
     },
     {
       "id": "v4-02",
@@ -119,7 +120,8 @@
         "ref": null,
         "status": "planned"
       },
-      "chunk": null
+      "chunk": null,
+      "notes": "2026-10-11 (2026-10-11-conductors-window-retired, phase P5): not claimed — not provable by this chunk. The chunk removes the window beside the command line and changes no verb (`crates/conductor-cli/src/cli.rs` held byte-identical to 321dc8f). The acceptance's legs are carried by `Panel-shaped types retired`, `Run read from the command line`, `Harness verbs on the one form`, `Own log over a run of hours` and `Run written as it goes`, each of which lists v4-09."
     },
     {
       "id": "v4-10",

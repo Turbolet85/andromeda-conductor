@@ -8,7 +8,7 @@ _verbatim line to route-archive.md); markerless lines stay mutable._
 _Chunks separated by `   ↓` within an epoch; only `### Epoch K — {name}` headers are structural._
 
 ### Epoch 1 — Foundation: a console program on Linux, read through the door
-Conductor's window retired — window crate, frontend and a11y CI jobs, window scripts, webview arms, driver spawn forms, fetched-driver class, Tauri-tree audit exceptions leave (v4-01, v4-09)
+[2026-10-11-conductors-window-retired] Conductor's window retired — window crate, frontend and a11y CI jobs, window scripts, webview arms, driver spawn forms, fetched-driver class, Tauri-tree audit exceptions leave (v4-01, v4-09)
    ↓
 Panel-shaped types retired — channel payload, desktop envelope read, picker summary, dialog-row limit, window log sink, webview fixtures leave; command line reaches every function (v4-01, v4-09)
    ↓

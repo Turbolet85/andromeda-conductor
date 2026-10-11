@@ -1,0 +1,33 @@
+# design extract
+
+## Relevance
+partial — the chunk retires the whole `desktop-webview` surface the plan specifies, and builds no new rendering. What design governs here is what must survive on the `cli` surface, plus the plan sections the removal makes untrue. Phase does not amend those sections; the wrap does.
+
+## Constraints
+- design-system §Surface: cli §Tokens (platform-specific) requires every per-P-ID status to carry an ASCII bracket prefix from the closed set `[PASS]`/`[HOLD]`/`[FAIL]`/`[MANUAL]`/`[RESIDUAL]`/`[BLOCKED]`, with colour only alongside it. The run-level captions `[ENVIRONMENT-SUSPECT]` and `[PRECONDITION]` sit outside the lamp column. After the window goes, the cli is the only place status is shown, so the removal must leave this rendering intact. Research must answer whether any label/glyph/colour mapping the cli uses is shared with, or lives in, code that leaves with `crates/conductor-tauri`.
+- design-system §Surface: cli §Tokens (platform-specific) requires the `owo-colors` styling to be gated per stream: `std::io::IsTerminal` AND `NO_COLOR` unset AND `TERM != dumb`. With that gate, piped output carries no ANSI. Removing the window must not change it.
+- design-system §Motion (High-impact moments) gives the signature a CLI mirror: the `indicatif` spinner STOPS in place (it is not hidden) under a bold amber `HOLD — operator pause` line. With the frameless-titlebar placement gone, the cli placement is the signature's only remaining home. The removal must not delete or weaken it.
+- design-system §Surface: cli §Component Patterns (pattern 2) requires the operator-pause `inquire` prompt to be `isatty`-gated, and it must never block the headless path. Under scope B4, any function that loses the window's go/no-go dialog as its only entry point gets its console form within this pattern. Research must answer whether the cli already reaches that function.
+- design-system §Typography (Surface-conditional guidance) makes the cli's face the terminal's own font. design-system §Spacing and §Border Radius (Surface-conditional) apply their tokens to `desktop-webview` only. So no font asset, spacing token or radius token needs to move to a surviving crate. The Fontsource WOFF2 set and the `:root` token bundle can leave with the ui tree.
+- design-system §Surface: cli §Tokens (platform-specific) currently says the ANSI 246 recessive tier is bound "by name as `var(--status-residual)`" on the webview. After this chunk that cross-surface parity clause has no webview side. Research must answer whether any test holds cli↔webview token or label parity: it would lose a side, and it must be retired or moved, never silenced.
+
+## Patterns to follow
+- If a removed arm needs a message, use the cli error-output shape: `error: <short>` + `hint: <fix>` to stderr, sanitized, with `error:` in ANSI 203 and `hint:` in ANSI 246, each tty-gated on stderr. Add no new colours (per design-system §Surface: cli §Component Patterns, pattern 5). B5 still forbids a new command word.
+- Keep using the verdict/report-state line form for per-P-ID results: glyph + P-ID + label + timing, colour paired with the text prefix (per design-system §Surface: cli §Component Patterns, pattern 4).
+- Keep the closed `comfy-table` shapes: the 6-column results/SLO table, and the separate 4-column `conductor coverage` matrix with no state column. Column widths come from the terminal, never hardcoded (per design-system §Surface: cli §Component Patterns, pattern 3).
+
+## Anti-patterns to avoid
+- Leaving any surviving cli status as colour alone, or putting emoji into piped output while rendering code is untangled from the window crate (per design-system §Per-Surface Bans, cli).
+- Hiding the progress spinner, or animating it to 100%, at the operator-pause. It must stop in place (per design-system §Per-Surface Bans, cli · §Rejected Defaults).
+- Silencing a lint or a parity test so that a webview-only design primitive can stay in a surviving crate. Panel-shaped leftovers belong to `Panel-shaped types retired` (scope B1) and are named there, not suppressed (per design-system §Self-Validation Protocol §4 Token Test: no orphaned tokens without a surface).
+
+## Contract bindings
+- design ↔ a11y: today only the webview a11y legs (axe `color-contrast`, focus-ring computed-style asserts) check the token contrast in design-system §Color Palette §Text Hierarchy and the focus ring in §Depth Strategy, and both leave with the `a11y` job. The binding that survives is not-colour-alone on the cli bracket prefixes (a11y §Use of Color SC 1.4.1 ↔ design-system §Surface: cli §Platform-Specific Notes).
+- design ↔ security: design-system §Typography (Loading) has fonts vendored as Fontsource WOFF2 with no CDN, the same posture as security §Dependencies' npm `package-lock.json` rule. Both leave with `crates/conductor-tauri/ui`. design-system §Surface: desktop-webview §Platform-Specific Notes repeats the Tauri capability/iframe/`shell-open` guardrails; that cross-reference also becomes untrue.
+- design ↔ wrap amendments (scope B6): these design-system sections describe what this chunk removes, and become untrue once it lands: §Surface: desktop-webview (whole); §Typography (Display row's titlebar, Loading); §Spacing, §Border Radius and the §Motion tokens (webview-only); §Depth Strategy rationale (the Tauri installer); §Iconography (Lucide React, the titlebar controls); §Brand Identity's per-surface expression line; §Per-Surface Bans desktop-webview; and the `var(--status-residual)` clause in §Surface: cli §Tokens. The console design restatement belongs to `Run read from the command line` (`working-route.md:47`), not to this chunk.
+
+## Acceptance criteria contributions
+- Run with `NO_COLOR=1` (or piped), the cli's run/suite result lines and coverage output still carry the bracket prefix set and caption labels, contain zero ANSI escape bytes, and contain no emoji (per design-system §Surface: cli §Tokens (platform-specific)).
+- Whatever cli tests hold the status-prefix set, the per-stream colour gate and the stop-not-hide hold-point pass unchanged after the removal, and none is deleted or `#[ignore]`d to make the tree build. Which tests those are is research's question (per design-system §Surface: cli §Component Patterns).
+- After the removal, `git ls-files` lists no design-token stylesheet, no vendored `.woff2` font and no `@fontsource`/`tailwindcss`/`lucide-react` manifest entry (per design-system §Surface: desktop-webview).
+- P4's expected-amendments list names the design-system sections listed under Contract bindings (per design-system §Surface: desktop-webview).

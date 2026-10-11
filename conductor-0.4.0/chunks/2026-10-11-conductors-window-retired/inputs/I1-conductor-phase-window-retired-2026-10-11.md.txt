@@ -1,0 +1,31 @@
+# Phase directive — Conductor 0.4.0, first chunk: `Conductor's window retired` (2026-10-11)
+
+From the pc overseer, the operator. `measured` lines were read by me; re-derive what you rely on. Nothing here is this
+chunk's design.
+
+1. **What Setup's CI read will meet.** measured today: CI is green on the last three commits of the build branch
+   (`9e8b30f` CI#37937147976, `7a2b8e5` CI#37990683772, `321dc8f` CI#38039792389, 3 of 3 checks each). The red a
+   history read surfaces on `d227e59` (push run 37932450560) is the route commit's own: the matrix-ledger gate read
+   only the bolded id form; `f6fdf49` re-spelled the ids (markup only) and the adaptation wrap `9e8b30f` records the
+   operator's word in its `adaptation-record.md`. It is not a red to carry into this chunk; the gate's own repair is
+   the carry on `Linux-only base CI`.
+2. **This is the first chunk of a version that removes before it builds.** The entry's list is closed (the window
+   crate, the frontend and a11y CI jobs, the window scripts, the webview arms, the driver spawn forms, the
+   fetched-driver class, the Tauri-tree audit exceptions). Research measures each against the tree and adds what the
+   list missed that exists ONLY for the window; what has another consumer is named with that consumer and left, with
+   the entry that removes it.
+3. **"Every function Conductor has is reachable from the command line" is v4-01's own clause and the next entry's
+   subject** (`Panel-shaped types retired`). Say at P5 which functions lose their only entry point when the window
+   goes, and whether this chunk or the next gives each its command; nothing is left unreachable between the two.
+4. **What Conductor reads of Pulse stays as it is in this chunk.** measured today in Pulse at `d3e694d2`
+   (`build/andromeda-pulse-0.4.0`): a console engine exists (`andromeda-pulse-engine`, commands `run` and `version`)
+   with a door on a Unix-domain socket under its data dir, owner only; the stdio sidecar still stands and leaves two
+   entries later; the door's surface is PROVISIONAL, the founder's word owed. Nothing here is re-pointed at the door
+   or the engine: that is `Engine read through the door`'s (`conductor-0.4.0/working-route.md:19`) and its neighbours'. If removing the window forces a touch of
+   the Pulse-facing path, stop at P4 and say where.
+5. **Size.** If the removal does not fit one chunk, propose the cut at P4 — a first chunk that ends with a tree that
+   builds, tests and passes its CI with no window crate — and what the second holds.
+6. **Boundaries.** A new listening socket, place on disk, credential or command word halts for my word. Ports 4317 /
+   4318 are shared with Pulse's builder on this host: ask before a run that binds them.
+7. **At P5** say what `planlint` check 4 listed, show v4-01's and v4-09's concretization against their acceptance,
+   print the plan card and stop for my `yes`.
