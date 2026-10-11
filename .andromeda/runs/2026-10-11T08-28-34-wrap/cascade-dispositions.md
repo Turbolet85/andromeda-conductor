@@ -1,0 +1,630 @@
+# Cascade dispositions — 2026-10-11-conductors-window-retired
+
+Listing: `cascade.py sweep --patterns-file .andromeda/runs/2026-10-11T08-28-34-wrap/cascade-patterns.toml` (cascade v1.2), baseline `321dc8f2`.
+total (27 patterns) · 607 rows over 35 files
+per class · new 42/9 · standing 79/14 · leaf 233/17 · curation 181/8 · base 72/2
+
+Search: 27 patterns over the retired claims — the window crate and its names (`tauri`, `GUI`, `desktop`, `control-panel`, `frontend`),
+its driver stack and legs (`webview`, `--e2e`, `wdio`, `msedgedriver`, `NVDA`, ports 4444/4445, `sr*`, `a11y:driven`, `send-keys`, the token scripts),
+its CI jobs and egress (`a11y` / `frontend` job, `Authenticode`, the third dependency class, non-loopback egress), its handles (`A11Y_STRICT`,
+`E2E_SEED_DIR`), its IPC (`Channel`, `tauri::command`, mock runtime), its counts (nine members / both bins, 16 + 9, `MPL-2.0`, eight governed
+forms) and its speech-log ingest — each pattern spanning the whole of every master, the registry files, the three curation homes, the two
+judgment bases and every leaf. Each control fired on the pre-pass masters (the listing's per-pattern lines).
+Undispositioned rows: 0.
+
+## Rows
+
+- .andromeda/architecture.md:4 tauri new … is the release gate (the Tauri GUI shell retired 2026-10-11, intent R1). A sce… → no change — this pass's own retirement text
+- .andromeda/architecture.md:53 tauri new …lit at compile time. The Tauri GUI bin it also served retired 2026-10-11 (inte… → no change — this pass's own retirement text
+- .andromeda/architecture.md:54 tauri standing edited …ed 2026-10-11:** the Tauri 2 IPC `Channel` for in-app live updates… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/architecture.md:164 tauri standing edited ×2 - `logs/conductor-tauri.jsonl` — no writer since 2026-10-11 (it… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/architecture.md:210 tauri new …-drivable Rust core (its Tauri 2 control panel retired 2026-10-11, intent R1)… → no change — this pass's own retirement text
+- .andromeda/security-plan.md:175 tauri standing edited mixed ×2 …cargo-deny`. The `tauri` ≥ 2.10.3 floor (CVE-2026-42184… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/security-plan.md:176 tauri new …-window-retired` (the 16 Tauri-tree ignores and the `MPL-2.0` allow left wit… → no change — this pass's own retirement text
+- .andromeda/security-plan.md:184 tauri standing edited …s (`crates/conductor-tauri/ui/package-lock.json` left whole with… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/security-plan.md:369 tauri new ×2 …(pinned ≥ 1.94.1). The `tauri` ≥ 2.10.3 floor retired 2026-10-11 with the… → no change — this pass's own retirement text
+- .andromeda/test-plan.md:182 tauri standing edited …estored-for-conductor-tauri`). `cli_smoke`, inside the same owning p… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/test-plan.md:204 tauri standing edited ×2 …— a package with no `tauri` dependency in any section, as measure… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/test-plan.md:419 tauri standing edited @c1361/2221 … arms, `conductor-tauri`'s 2026-09-03 triple (retired wi… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/test-plan.md:423 tauri standing edited ×2 …0-11 with `conductor-tauri`:** its triple left with the crate; th… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/obs-plan.md:75 tauri standing edited ×2 - Sink (Tauri backend; no writer since 2026-10-11 — its caller left … → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/obs-plan.md:99 tauri standing edited ×2 - Tauri backend (no writer since 2026-10-11; the sink goes at `Panel… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/obs-plan.md:396 tauri standing edited ×2 - Sink (Tauri backend; no writer since 2026-10-11 — its caller left… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/registries/contracts/architecture/build-system.md:1 tauri standing edited ×3 @c2376/4181 …ctor-tauri` GUI bi… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/registries/contracts/architecture/deployment-model.md:1 tauri standing edited …sh`. The Tauri 2 bundler and … → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/registries/contracts/obs-plan/log-file-location.md:4 tauri standing edited ×2 - **Tauri backend:** `<runs_di… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/registries/contracts/obs-plan/logging-stack.md:6 tauri standing edited ×2 - **Sink (Tauri backend):** no wri… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/registries/contracts/test-plan/log-format.md:6 tauri standing edited ×2 …st.jsonl`; Tauri backend: `logs/con… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/registries/obs-plan-contracts.toml:19 tauri standing edited …(CLI)", "Sink (Tauri backend)", "Agent-mode fla… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/registries/obs-plan-contracts.toml:29 tauri standing edited …els = ["CLI", "Tauri backend", "Rotation", "Pas… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .claude/rules/frontend.md:44 tauri curation ×8 …2026-06-24: `conductor-tauri`'s `tauri::generate_context!` resolves `bu… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/frontend.md:45 tauri curation ×2 … live data source (the Tauri `Channel`, Epoch-9 ch4) is wired, drive it… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/frontend.md:47 tauri curation …his dialog opens from a Tauri `Channel`, so it has no Radix `Trigger` to r… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/frontend.md:48 tauri curation ×2 …gh a thin read-only `#[tauri::command]` that returns the core type dire… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/frontend.md:50 tauri curation …o@0.6.1` + `@crabnebula/tauri-driver@2.0.9` + `webdriverio@9` + `@wdio/*` … → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/frontend.md:51 tauri curation ×2 @c608,2033/2581 …needs `--features tauri/custom-protocol`, the profile b… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/observability.md:40 tauri curation ×5 …-26: Instrument a `#[tauri::command]` with a MANUAL `let _span = t… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/security.md:50 tauri curation ×5 …06-24: Standing up the Tauri 2 tree (`tauri`/`wry`/`tao`/`webview2-com`… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/security.md:51 tauri curation ×2 - 2026-06-26: Tauri 2 app-defined `#[tauri::command]`s (registered via `… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/testing.md:52 tauri curation ×2 @c779,1232/2412 …red-for-conductor-tauri): `CARGO_BIN_EXE_<name>` is set … → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/testing.md:63 tauri curation ×4 - 2026-06-26: A Tauri `#[tauri::command]` that drives the async engine on… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/testing.md:64 tauri curation ×3 …he library fn behind a Tauri `#[tauri::command]` / `PauseResolver` ITSEL… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/testing.md:65 tauri curation ×7 @c15,144,216,345,904,934,1142/2514 …026-06-27: `tauri::test` mock-runtime… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/testing.md:76 tauri curation …n the CLI: it drove the Tauri composition into its OWN `TempDir` and assert… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/testing.md:77 tauri curation ×3 …utants over `conductor-tauri` took **4 m 18 s at `--jobs 2`** (a per-mut… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/testing.md:78 tauri curation @c1336/2089 …g empty. (conductor-tauri survivors dispositioned) **Extended 2… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/testing.md:84 tauri curation …s the `conductor-cli` / Tauri edge resolves it under the current dir "never… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:45 tauri curation …lies to the Epoch-9 Tauri boot/readiness surface. (5-command-a… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:57 tauri curation ×6 …o run -p conductor-tauri` in DEBUG loads `tauri.conf.json`'… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:58 tauri curation ×7 @c1125,1182,1353,2438/5898 …e tree — `tauri-driver`, `msedge… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:59 tauri curation @c248/5090 …dow launched by tauri-driver (a background process)… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:62 tauri curation …-release --features tauri/custom-protocol`). Measured at `2026… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:194 tauri curation ×3 …rument]` across the Tauri command handlers returned zero and w… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:325 tauri curation …:show_compact_widget` in its Tauri `setup`, so on a fresh data dir → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:387 tauri curation …dir` resolved to the Tauri command's and `capture` to `obs.rs` te… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:623 tauri curation …T compile `conductor-tauri`, so no frontend bundle is needed. A `… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:641 tauri curation ## 2026-06-27 — Tauri operator-pause resolver bridge: an async cor… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:643 tauri curation ×3 …ew WITHOUT blocking Tauri's event loop. `resolve(hold)` `arm`s… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:645 tauri curation ×3 …-test caller is the Tauri run thread (the CLI calls `execute_s… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:651 tauri curation ×3 …eport` verb and the Tauri `run_report` command share ONE reade… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:653 tauri curation … `Serialize`, so the Tauri command returns it directly with **no … → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:657 tauri curation …s) + driving it under Tauri on a background current_thread runtime → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:659 tauri curation ×2 …LOW the bins (`{cli,tauri} → conductor-run → {core,timeline,em… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:661 tauri curation ×6 …ng the engine under Tauri needs a core-owned `current_thread` … → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:665 tauri curation … debug build of the workspace + Tauri tree needs ~33–37 GB of disk → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:667 tauri curation ×3 …nding up `conductor-tauri` as a real Tauri 2 app pulls in the … → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:669 tauri curation ×2 … build -p conductor-tauri`, deny/audit) each fit — it's the *c… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:685 tauri curation …all arm. The Epoch-9 Tauri go/no-go dialog will extend the SAME e… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:709 tauri curation …nce for Epoch-9: the Tauri GUI is the second composition root and… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:898 tauri curation …duration_ms`** — the Tauri webview's per-frame render metric, emi… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:916 tauri curation …-cli` and `conductor-tauri`, which have `src/main.rs` and no `src… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .andromeda/playbook.md:33 tauri base ×2 … "arch originally pinned tauri 2.10.1 → bump to ≥2.10.3") as a current gap. Ve… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:60 tauri base … chunks (ch2–ch5) + Epoch-9 Tauri, which consume these same hardened entry points. → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:63 tauri base … Pre-empts re-fire on Epoch-8 ch4/ch5 (more verbs/flags) + Epoch-9 Tauri commands. → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:67 tauri base ×2 …s proposes registering a Tauri framework capability PERMISSION (`core:window:a… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:69 tauri base ×5 …ismiss — over-reach, the Tauri-capability-perm flavor of the CLI-verb/command … → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:70 tauri base ×3 … on a frontend call to a Tauri BUILT-IN framework command (e.g. `getCurrentWin… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:72 tauri base ×5 …and handler (the obs §4 `tauri.command.*` spans ship WITH the start/stop/picke… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:73 tauri base ×2 …gistering a Conductor `#[tauri::command]` NAME (e.g. list_scenarios / start_ru… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:75 tauri base ×5 …ismiss — over-reach, the Tauri-command-name + internal-module + frontend-compo… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:76 tauri base ×5 … D-a11y-surface) flags a Tauri `#[tauri::command]` / `Channel` handler for lac… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:78 tauri base ×5 …: dismiss/document — the Tauri-command WRAPPER (thread + Channel plumbing + pa… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:79 tauri base ×3 …ion fires on a read-only Tauri query `#[tauri::command]` (e.g. list_scenarios … → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:81 tauri base …observability.md (manual `tauri.command.*` span + `count`/`latency_ms`, both allo… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:82 tauri base …Channel` INSTANCE (a 2nd `tauri::ipc::Channel<T>` carrying a distinct backend→fro… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:84 tauri base ×2 …t-INSTANCE flavor of the Tauri-command-name (2026-06-26) + library-symbol / CL… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:85 tauri base ×2 …ies in `crates/conductor-tauri/ui` (non-shipping test/build tooling — e.g. the… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:93 tauri base @c3496/3895 …4/-0195/-0204 with no Tauri bump). Note the CI consequence when this … → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:94 tauri base ×3 …dding a new Conductor `#[tauri::command]` NAME to security-plan §Threat Model'… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:96 tauri base ×2 …6-26 established that `#[tauri::command]`s registered via `invoke_handler`/`ge… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:111 tauri base ×2 …AL `tracing::info_span!("tauri.command.<name>").entered()` guard is mandated … → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:115 tauri base …lely by `crates/conductor-tauri/ui/wdio.conf.ts` (never by a Conductor binary) b… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:121 tauri base … SET by `crates/conductor-tauri/ui/wdio.conf.ts` and READ by a `conductor-run` T… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:140 tauri base …read by `crates/conductor-tauri/ui/wdio.conf.ts` AND by the harness shells, neve… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/drift-base.md:70 tauri base … Security (audit-green; toolchain ≥1.94.1; tauri ≥2.10.3; Cargo.lock committed). → judgment base — never a cascade edit; routed to the propose→approve channel
+- CLAUDE.md:7 tauri leaf …s a desktop control-panel app (Tauri 2) over a headless-drivable Rust core — a scenario-driven … → leaf — re-derived (step 3)
+- CLAUDE.md:9 tauri leaf …ndled` SQLite index · optional Tauri 2 + React 19 GUI · local-only, no network service of its o… → leaf — re-derived (step 3)
+- CLAUDE.md:12 tauri leaf …e-per-seam workspace members (core + timeline/emit/faults/verify/report + run + cli/tauri bins) → leaf — re-derived (step 3)
+- CLAUDE.md:29 tauri leaf ×2 - **`conductor-tauri`** — Tauri 2 GUI bin (commands + live-counter `Channel`; React 19 webvi… → leaf — re-derived (step 3)
+- CLAUDE.md:34 tauri leaf …ies over the ONE WebdriverIO + tauri-driver stack; the screen-reader leg additionally spawns t… → leaf — re-derived (step 3)
+- CLAUDE.md:38 tauri leaf …merge without `cargo-audit` (+ `cargo-deny`) green; hold toolchain ≥1.94.1 and `tauri` ≥2.10.3. → leaf — re-derived (step 3)
+- CLAUDE.md:82 tauri leaf - `cargo build --release` — local release binary (Tauri 2 bundle is convenience) → leaf — re-derived (step 3)
+- CLAUDE.md:89 tauri leaf …release gate) and the optional Tauri GUI call identically (for every deterministic-posture sce… → leaf — re-derived (step 3)
+- .claude/rules/a11y.md:3 tauri leaf   - "crates/conductor-tauri/**/*.tsx" → leaf — re-derived (step 3)
+- .claude/rules/a11y.md:4 tauri leaf   - "crates/conductor-tauri/**/*.jsx" → leaf — re-derived (step 3)
+- .claude/rules/a11y.md:5 tauri leaf   - "crates/conductor-tauri/**/*.css" → leaf — re-derived (step 3)
+- .claude/rules/a11y.md:6 tauri leaf   - "crates/conductor-tauri/ui/**" → leaf — re-derived (step 3)
+- .claude/rules/a11y.md:13 tauri leaf …or the desktop-webview UI (Tauri 2 React 19 + Tailwind v4.1 + shadcn/ui). The cli … → leaf — re-derived (step 3)
+- .claude/rules/a11y.md:24 tauri leaf …n: the hold arrives over a Tauri `Channel`, so there is no Radix `Trigger` and foc… → leaf — re-derived (step 3)
+- .claude/rules/a11y.md:25 tauri leaf … data in `crates/conductor-tauri/ui/test/a11y/claim-ownership.ts` and held to real… → leaf — re-derived (step 3)
+- .claude/rules/a11y.md:39 tauri leaf ×3 @c77,1011,3792/4789 …ests' `@crabnebula/tauri-driver` + WebdriverIO session — TH… → leaf — re-derived (step 3)
+- .claude/rules/frontend.md:3 tauri leaf   - "crates/conductor-tauri/**/*.tsx" → leaf — re-derived (step 3)
+- .claude/rules/frontend.md:4 tauri leaf   - "crates/conductor-tauri/**/*.jsx" → leaf — re-derived (step 3)
+- .claude/rules/frontend.md:5 tauri leaf   - "crates/conductor-tauri/**/*.ts" → leaf — re-derived (step 3)
+- .claude/rules/frontend.md:6 tauri leaf   - "crates/conductor-tauri/**/*.css" → leaf — re-derived (step 3)
+- .claude/rules/frontend.md:7 tauri leaf   - "crates/conductor-tauri/ui/**" → leaf — re-derived (step 3)
+- .claude/rules/frontend.md:12 tauri leaf Path-scoped rules for the Tauri 2 desktop-webview UI. The GUI is convenience on… → leaf — re-derived (step 3)
+- .claude/rules/frontend.md:17 tauri leaf ×2 …) + Lucide React icons. Tauri 2 (≥2.10.3) frameless window (`decorations:fa… → leaf — re-derived (step 3)
+- .claude/rules/frontend.md:28 tauri leaf - One Tauri `Channel` streams live counters / target status backend→frontend — … → leaf — re-derived (step 3)
+- .claude/rules/frontend.md:32 tauri leaf ×2 - Deny-by-default Tauri capabilities (only start/stop · picker · run-report … → leaf — re-derived (step 3)
+- .claude/rules/observability.md:14 tauri leaf …ten_event(true)`); init at `main`/Tauri startup before any scenario logic. → leaf — re-derived (step 3)
+- .claude/rules/observability.md:17 tauri leaf ×3 …onl` (`--agent-mode`); Tauri backend → `conductor-tauri.jsonl` under `… → leaf — re-derived (step 3)
+- .claude/rules/observability.md:21 tauri leaf …nductor"` / `"conductor-tauri"` / `"conductor-ui"` (override `$CONDUCTOR_… → leaf — re-derived (step 3)
+- .claude/rules/observability.md:24 tauri leaf …,ramp,port_occupier}`, `tauri.command.*`. Never high-cardinality span nam… → leaf — re-derived (step 3)
+- .claude/rules/security.md:27 tauri leaf ×2 @c2079,2345/3343 … `crates/conductor-tauri/ui/test/a11y/screen-reader/send-k… → leaf — re-derived (step 3)
+- .claude/rules/security.md:33 tauri leaf …tar-rs CVE-2026-33056); `tauri` ≥2.10.3 (origin-confusion CVE-2026-42184); kee… → leaf — re-derived (step 3)
+- .claude/rules/security.md:35 tauri leaf …ntend (`crates/conductor-tauri/ui`, npm — cargo-audit/deny do NOT cover it): `… → leaf — re-derived (step 3)
+- .claude/rules/security.md:39 tauri leaf …enums collapse to `anyhow` only at `conductor-cli` / `#[tauri::command]` edges. → leaf — re-derived (step 3)
+- .claude/rules/security.md:40 tauri leaf …e operator (cli stderr / Tauri returns) or into run-report artifacts (`<run_id… → leaf — re-derived (step 3)
+- .claude/rules/security.md:43 tauri leaf ## Tauri GUI (§Code Patterns) → leaf — re-derived (step 3)
+- .claude/rules/security.md:45 tauri leaf … plugin with scenario-derived strings; no remote-origin iframes; Tauri ≥2.10.3. → leaf — re-derived (step 3)
+- .claude/rules/testing.md:18 tauri leaf …go-llvm-cov; **bundler:** tauri-cli (host tool, floor 2.11.4 — outside `Cargo.l… → leaf — re-derived (step 3)
+- .claude/docs/a11y-summary.md:11 tauri leaf …the tests' `@crabnebula/tauri-driver` + WebdriverIO session + Lighthouse 13… → leaf — re-derived (step 3)
+- .claude/docs/a11y-summary.md:23 tauri leaf …driverio` + Lighthouse + colorjs.io (reuse tests' tauri-driver/WebdriverIO). → leaf — re-derived (step 3)
+- .claude/docs/a11y-summary.md:39 tauri leaf - **Reuse the tests' tauri-driver/WebdriverIO** session (ONE webview stack c… → leaf — re-derived (step 3)
+- .claude/docs/commands.md:8 tauri leaf ×4 - `cargo tauri build` — optional Tauri 2 GUI bundle (convenience only). Needs … → leaf — re-derived (step 3)
+- .claude/docs/commands.md:30 tauri leaf ×5 @c102,119,350,522,1231/2046 …e -p conductor-tauri --features tauri/custom-pro… → leaf — re-derived (step 3)
+- .claude/docs/conventions.md:9 tauri leaf …ctor-cli` and `conductor-tauri` bins) · `scenarios/` (config files, each nami… → leaf — re-derived (step 3)
+- .claude/docs/conventions.md:28 tauri leaf ×2 …e on mismatch; internal Tauri 2 `#[tauri::command]` + one `Channel`. REST… → leaf — re-derived (step 3)
+- .claude/docs/conventions.md:34 tauri leaf …`ConfigError`); `anyhow` only at `conductor-cli` / `#[tauri::command]` edges. → leaf — re-derived (step 3)
+- .claude/docs/gotchas.md:60 tauri leaf ×2 …er the ONE WebdriverIO + tauri-driver stack: their driver stack binds loopbac… → leaf — re-derived (step 3)
+- .claude/docs/gotchas.md:64 tauri leaf ## Tauri generate_context! resolves ui/dist at compile time → leaf — re-derived (step 3)
+- .claude/docs/gotchas.md:65 tauri leaf ×5 …hat breaks:** `conductor-tauri`'s `tauri::generate_context!` reads `tauri.con… → leaf — re-derived (step 3)
+- .claude/docs/gotchas.md:66 tauri leaf ×3 …ld` in `crates/conductor-tauri/ui`) before the cargo gate — wired as the `ens… → leaf — re-derived (step 3)
+- .claude/docs/obs-summary.md:12 tauri leaf ×3 …-mode`) / stderr (dev); Tauri backend → `conductor-tauri.jsonl` under `ru… → leaf — re-derived (step 3)
+- .claude/docs/obs-summary.md:14 tauri leaf …ort-lived per-scenario); Tauri backend optional 30s `conductor.tick` via `Ch… → leaf — re-derived (step 3)
+- .claude/docs/obs-summary.md:25 tauri leaf …`conductor` / `conductor-tauri` / `conductor-ui` (override `$CONDUCTOR_SERVI… → leaf — re-derived (step 3)
+- .claude/docs/security-summary.md:13 tauri leaf - Tauri IPC → deny-by-default capabilities; no `shell-open` with derived… → leaf — re-derived (step 3)
+- .claude/docs/security-summary.md:31 tauri leaf …d npm tree (`conductor-tauri/ui`): `npm audit --omit=dev` clean (produc… → leaf — re-derived (step 3)
+- .claude/docs/security-summary.md:44 tauri leaf ×2 …— **done** (1.95.0); `tauri` ≥2.10.3 (origin-confusion CVE-2026-4218… → leaf — re-derived (step 3)
+- .claude/docs/stack.md:12 tauri leaf …is a gRPC client + MCP client + Tauri IPC host; no HTTP/network service of its own. → leaf — re-derived (step 3)
+- .claude/docs/stack.md:23 tauri leaf ….10.9, already locked via `tauri-codegen` / `wry`) — a TEST-only `conductor-run` d… → leaf — re-derived (step 3)
+- .claude/docs/stack.md:34 tauri leaf ×2 … Lucide React icons + **`@tauri-apps/api`** (window/IPC client). Package manage… → leaf — re-derived (step 3)
+- .claude/docs/stack.md:35 tauri leaf ×3 - **Tauri 2** (≥ 2.10.3 per security-plan; resolves 2.11.x) frameless window (`d… → leaf — re-derived (step 3)
+- .claude/docs/stack.md:39 tauri leaf …. Webview E2E: @crabnebula/tauri-driver 2.0.9 + WebdriverIO (headful Windows WebVi… → leaf — re-derived (step 3)
+- .claude/docs/stack.md:42 tauri leaf … grain) + committed `package-lock.json` for the `conductor-tauri/ui` frontend tree. → leaf — re-derived (step 3)
+- .claude/docs/stack.md:47 tauri leaf ×3 …s/agent-run.sh`; optional Tauri 2 GUI bundle, produced by the host `tauri-cli` … → leaf — re-derived (step 3)
+- .claude/docs/tests-summary.md:27 tauri leaf ×3 …composition behind the Tauri `start_run` command — no `tauri::*` item) … → leaf — re-derived (step 3)
+- .claude/docs/tests-summary.md:46 tauri leaf ×2 @c206,239/4463 …live sidecar's) · tauri::test mock runtime (IPC) · tauri… → leaf — re-derived (step 3)
+- .claude/docs/workflow.md:36 tauri leaf …and the release gate; the Tauri GUI is a thin shell over the same core. Every f… → leaf — re-derived (step 3)
+- .claude/docs/workflow.md:43 tauri leaf …mitted) → optional `cargo tauri build`. Dynamic end-to-end proof against a live… → leaf — re-derived (step 3)
+- .andromeda/architecture.md:57 webview standing edited @c1948/2348 … and the routine webview a11y leg left with the wind… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/architecture.md:205 webview standing edited …026-10-11, when the webview a11y legs, their driver ports `4444… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/design-system.md:3 webview new …ts window — the `desktop-webview` surface — was retired 2026-10-11 (`2026-10… → no change — this pass's own retirement text
+- .andromeda/design-system.md:113 webview standing ## Surface: desktop-webview → no change — the retired section's heading over its one-line stub
+- .andromeda/layout-templates.md:7 webview new …s window — the `desktop-webview` surface — was retired 2026-10-11 (`2026-… → no change — this pass's own retirement text
+- .andromeda/layout-templates.md:11 webview standing ## Surface: desktop-webview → no change — the retired section's heading over its one-line stub
+- .andromeda/layout-templates.md:39 webview standing edited …rompt. The `--e2e` webview stage left with the window (2026-… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/test-plan.md:205 webview new …-sequence assertion, the webview render leg and the mock-runtime command-dispa… → no change — this pass's own retirement text
+- .andromeda/test-plan.md:385 webview new …No OS matrix exists. The webview leg's hosted-runner and dev-host capability f… → no change — this pass's own retirement text
+- .andromeda/registries/contracts/architecture/ci-cd-approach.md:1 webview standing edited … routine webview leg, its `jo… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/registries/contracts/test-plan/5-command-implementation.md:15 webview new @c2531/2921 …-e2e` webview stage l… → no change — this pass's own retirement text
+- CLAUDE.md:121 webview curation ×2 …ies — the dev-only `--e2e` webview leg's driver stack also binds loopback `4444`/`44… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/a11y.md:45 webview curation …hat created a session at WebView2 runtime 153 on the dev host, and on hosted… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/frontend.md:44 webview curation … COMPILE time — so the webview bundle MUST be built (`npm run build` in … → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/frontend.md:45 webview curation …a **run-state-driven** webview component before its live data source (th… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/frontend.md:47 webview curation - 2026-06-26: When the webview renders the six verdict/report-state lamps… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/frontend.md:48 webview curation …ification/table in the webview, single-source it through a thin read-onl… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/frontend.md:50 webview curation …e harness drove a real WebView2 session headfully on this Windows host, … → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/frontend.md:51 webview curation ×2 @c1069,2355/2581 … against the wry/WebView2 context while the identica… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/frontend.md:52 webview curation - 2026-09-02: **In a webview spec, assert against the RUNTIME representat… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/frontend.md:55 webview curation ×2 - 2026-09-17: **In a webview spec, an expectation that interpolates th… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/observability.md:40 webview curation …rrors returned to the webview go through `conductor_core::sanitize_… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/security.md:50 webview curation ×2 …(`tauri`/`wry`/`tao`/`webview2-com`/gtk) trips `cargo deny check` on … → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/testing.md:63 webview curation …ssertion + tauri-driver webview parity) DEFERS to the sequenced Epoch-9 G… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/testing.md:64 webview curation … defer only the Channel/webview leg. (operator-pause-go-no-go-dialog chun… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/testing.md:65 webview curation ×4 @c413,426,466,856/2514 …assets()))`, a webview via `WebviewWindowBuilde… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/testing.md:75 webview curation …trip.** Measured on the webview coverage lamps: `/runs/` is gitignored, s… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/testing.md:87 webview curation ×3 … Measured twice on the WebView2 session probe. (a) msedgedriver create… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:58 webview curation ×8 @c871,1657,1877,2398/5898 …ed at the webview `--e2e` leg (… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:59 webview curation @c2032/5090 …op freezes the webview until every WebDriver cal… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:118 webview curation ×2 …tartTime** — every WebView2-hosting desktop app spawns child… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:146 webview curation …erted a mechanism ("WebView2 150+ hardening for elevated hosts"… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:172 webview curation ×2 …for the Linux-only webview E2E job is macOS-specific ("no WK… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:194 webview curation …xtended 2026-09-01 (webview-self-verify): the sharpest miss is … → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:206 webview curation …ity (`browserName: "webview2"`) that selects the driver's host-… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:641 webview curation …e: an async core seam ↔ webview across the background run thread → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:643 webview curation ×2 …wer comes from the webview — so the resolver bridges thread … → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:667 webview curation … full Tauri/wry/tao/webview2-com/windows-* tree (hundreds of cr… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:852 webview curation …ing this wrong. The `sut-load-envelope` chunk deferred a webview → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:898 webview curation …n_ms`** — the Tauri webview's per-frame render metric, emitted … → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:1059 webview curation `WEBVIEW2_BROWSER_EXECUTABLE_FOLDER`, latest/second-latest majo… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .andromeda/playbook.md:76 webview base …-runtime (or tauri-driver webview) test, where the chunk drives the command's l… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:78 webview base …runtime frame assertion + webview parity) belongs to the sequenced tauri-driver… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:111 webview base …andated on the **desktop-webview** (:49) and **ipc-internal** (:50) rows, both… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:117 webview base …SEDGEDRIVER` (2026-09-01-webview-self-verify-windows-host) and `CONDUCTOR_NVDA… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:148 webview base ×4 …026-09-08-hosted-runner-webview2-session` (escalated and operator-ratified)… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/drift-base.md:84 webview base …s is described in §Primary Surfaces / the wireframes (desktop-webview or cli). → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/drift-base.md:173 webview base   # Added 2026-09-01 (webview-self-verify-windows-host, operator-approved): a… → judgment base — never a cascade edit; routed to the propose→approve channel
+- CLAUDE.md:29 webview leaf …*`conductor-tauri`** — Tauri 2 GUI bin (commands + live-counter `Channel`; React 19 webview). → leaf — re-derived (step 3)
+- CLAUDE.md:34 webview leaf ×4 …n cleanup), and the dev-only webview a11y legs' driver ports (`4444`/`4445`) live and die… → leaf — re-derived (step 3)
+- .claude/rules/a11y.md:13 webview leaf …ped rules for the desktop-webview UI (Tauri 2 React 19 + Tailwind v4.1 + shadcn/… → leaf — re-derived (step 3)
+- .claude/rules/a11y.md:39 webview leaf ×2 @c2013,3669/4789 …DA host only) (ONE webview-automation stack — Linux+xvfb rem… → leaf — re-derived (step 3)
+- .claude/rules/frontend.md:12 webview leaf … for the Tauri 2 desktop-webview UI. The GUI is convenience only — the cli/h… → leaf — re-derived (step 3)
+- .claude/rules/frontend.md:14 webview leaf …t-templates.md` (desktop-webview surface). Reference design tokens by NAME; … → leaf — re-derived (step 3)
+- .claude/rules/frontend.md:33 webview leaf …`AlertDialog`. Style the webview scrollbar; suppress the Chromium context me… → leaf — re-derived (step 3)
+- .claude/rules/security.md:27 webview leaf @c323/3343 …red the `a11y` job's WebView2 Evergreen install, and that step no… → leaf — re-derived (step 3)
+- .claude/rules/security.md:32 webview leaf …WAPPED, never grown: the WebView2 Evergreen bootstrapper it replaced retired… → leaf — re-derived (step 3)
+- .claude/docs/a11y-summary.md:11 webview leaf ×4 …tomated tools (desktop-webview):** axe-core 4.12.0 via `@axe-core/webd… → leaf — re-derived (step 3)
+- .claude/docs/a11y-summary.md:14 webview leaf ×3 @c826,1857,2420/3158 …— and is RED at WebView2 session creation **[prem… → leaf — re-derived (step 3)
+- .claude/docs/a11y-summary.md:27 webview leaf …focus row last heard on WebView2 152.0.4191.66, 2026-09-07; on 154.0.4258… → leaf — re-derived (step 3)
+- .claude/docs/a11y-summary.md:39 webview leaf …driverIO** session (ONE webview stack carrying three suite families — rou… → leaf — re-derived (step 3)
+- .claude/docs/a11y-summary.md:41 webview leaf …bKitGTK fallback to OS/GTK level); macOS WKWebView stays manual-pass-only. → leaf — re-derived (step 3)
+- .claude/docs/commands.md:30 webview leaf ×3 @c2,650,1779/2046 - Webview E2E: `agent-run.{sh,ps1} run --e2e` → ensure-fr… → leaf — re-derived (step 3)
+- .claude/docs/gotchas.md:60 webview leaf …d listener. The dev-only webview a11y legs are the one qualification — the rou… → leaf — re-derived (step 3)
+- .claude/docs/gotchas.md:65 webview leaf …ctor-tauri` FAILS if the webview bundle isn't built first (`ui/dist` is git-ig… → leaf — re-derived (step 3)
+- .claude/docs/security-summary.md:16 webview leaf …'s HTTPS fetch of the WebView2 Evergreen bootstrapper, taken only bel… → leaf — re-derived (step 3)
+- .claude/docs/security-summary.md:30 webview leaf ×2 … the CI-time-fetched WebView2 Evergreen bootstrapper, admitted by … → leaf — re-derived (step 3)
+- .claude/docs/stack.md:33 webview leaf ## Frontend (desktop-webview GUI — convenience surface) → leaf — re-derived (step 3)
+- .claude/docs/stack.md:39 webview leaf ×2 …ate deps (test-plan §4). Webview E2E: @crabnebula/tauri-driver 2.0.9 + Webdri… → leaf — re-derived (step 3)
+- .claude/docs/tests-summary.md:7 webview leaf …ease-gate surface (cli; webview/IPC are convenience), no persistent user … → leaf — re-derived (step 3)
+- .claude/docs/tests-summary.md:46 webview leaf ×3 @c265,488,827/4463 …er/WebdriverIO (webview — three suite families ove… → leaf — re-derived (step 3)
+- .claude/docs/tests-summary.md:47 webview leaf …t runner for the React webview (GUI is convenience; CLI is the gate) — r… → leaf — re-derived (step 3)
+- .andromeda/layout-templates.md:39 e2e-arm standing edited …ctive prompt. The `--e2e` webview stage left with the window… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/registries/contracts/test-plan/5-command-implementation.md:15 e2e-arm standing edited @c2524/2921 … `--e2e` … → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- CLAUDE.md:121 e2e-arm curation …ED binaries — the dev-only `--e2e` webview leg's driver stack also binds loopback `4444… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/a11y.md:45 e2e-arm curation …rsions before firing an `--e2e` leg — the refusal only surfaces after the fu… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/frontend.md:53 e2e-arm curation …l), which the routine `--e2e` arm catches. Read the filtered count with … → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:57 e2e-arm curation …hells now use for `--e2e`]**, so `npm run build` is necessar… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:58 e2e-arm curation ×4 @c880,948,1595,3547/5898 … webview `--e2e` leg (2026-09-02… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:62 e2e-arm curation ×4 …r rebuild — only `--e2e` does — so an app change is invis… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- CLAUDE.md:34 e2e-arm leaf … the harness, on the routine `--e2e` arm, the operator-local `a11y:driven` arm and the opera… → leaf — re-derived (step 3)
+- .claude/rules/a11y.md:39 e2e-arm leaf @c186/4789 …ttended routine arm (`--e2e`; axe, contrast, not-color-alone, reduced… → leaf — re-derived (step 3)
+- .claude/rules/security.md:18 e2e-arm leaf @c560/2829 …or not-a-file ⇒ the `--e2e` leg / the `sr*` suites skip at exit 0… → leaf — re-derived (step 3)
+- .claude/rules/verification-harness.md:19 e2e-arm leaf @c1448/2574 …`--integration`/`--e2e`/`--live`. `--live` is the op… → leaf — re-derived (step 3)
+- .claude/docs/a11y-summary.md:14 e2e-arm leaf @c142/3158 … `agent-run.ps1 run --e2e` under `CONDUCTOR_A11Y_STRICT` + the… → leaf — re-derived (step 3)
+- .claude/docs/a11y-summary.md:39 e2e-arm leaf …ite families — routine `--e2e`, driven `a11y:driven`, screen-reader `a11y… → leaf — re-derived (step 3)
+- .claude/docs/commands.md:12 e2e-arm leaf …un [--unit|--integration|--e2e|--live [real-model]]` — nextest + doctest + cl… → leaf — re-derived (step 3)
+- .claude/docs/commands.md:30 e2e-arm leaf ×2 @c39,1249/2046 …t-run.{sh,ps1} run --e2e` → ensure-frontend → `cargo build … → leaf — re-derived (step 3)
+- .claude/docs/gotchas.md:60 e2e-arm leaf …ification — the routine `--e2e` arm, the operator-local `a11y:driven` arm and … → leaf — re-derived (step 3)
+- .claude/docs/tests-summary.md:46 e2e-arm leaf @c325/4463 …one stack: routine `--e2e`, driven `a11y:driven`, screen-read… → leaf — re-derived (step 3)
+- .andromeda/architecture.md:184 wdio new …setter since its setter `wdio.conf.ts` left (2026-10-11), so the seeding test … → no change — this pass's own retirement text
+- .andromeda/security-plan.md:112 wdio new …setter since its setter `wdio.conf.ts` left, 2026-10-11) | a harness-owned re… → no change — this pass's own retirement text
+- .andromeda/security-plan.md:314 wdio standing edited @c658/2079 …no setter since `wdio.conf.ts` left (2026-10-11), and … → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/security-plan.md:356 wdio new @c2453/3498 …only driver stack's `wdio.conf.ts` spawns and `send-keys.ps1`) an… → no change — this pass's own retirement text
+- .andromeda/test-plan.md:83 wdio new …d has had no setter since `wdio.conf.ts` left (2026-10-11), so no Rust path-traver… → no change — this pass's own retirement text
+- .claude/rules/frontend.md:50 wdio curation …` + `webdriverio@9` + `@wdio/*` + `tsx`, per a11y-plan §3.5) is DISPLAY-GAT… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/frontend.md:51 wdio curation ×10 @c205,922,1150,1560,1674,1696,1802/2581 … shipped `wdio.conf.ts` for the… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/frontend.md:52 wdio curation …g the stylesheet. (2) `@wdio/globals`' `expect` has NO two-arg `expect(valu… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/frontend.md:54 wdio curation ×4 @c197,230,701,1142/2347 … plugin reads `wdio.conf.ts` and returns only `@… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/frontend.md:55 wdio curation …ot fail — and because `@wdio/globals`' `expect` has no message argument, th… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/testing.md:75 wdio curation ×2 …ject from the harness: `wdio.conf.ts` copies the fixture into a gitignore… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:53 wdio curation @c2206/2903 …or run` — a GUI/wdio driven leg whose app calls `st… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:58 wdio curation ×2 @c1049,3563/5898 …rminating via wdio's `onComplete` → `tauriD… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:59 wdio curation @c3906/5090 … not supply.** `wdio.conf.ts` gives `sr-empty` and … → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:61 wdio curation …ise); the tell in a wdio leg is a count assertion off by exactl… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:62 wdio curation …ty,-error}` invoke `wdio run` directly; the release binary and … → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:70 wdio curation …` / `-f` paths, as `wdio.conf.ts` does — it resolves relative o… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .andromeda/playbook.md:87 wdio base …ode→@opentelemetry/core + @wdio/mocha-framework→mocha→serialize-javascript, none f… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:115 wdio base ×2 …rates/conductor-tauri/ui/wdio.conf.ts` (never by a Conductor binary) behind th… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:121 wdio base ×2 …rates/conductor-tauri/ui/wdio.conf.ts` and READ by a `conductor-run` TEST bina… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:123 wdio base ×3 …binary reads it) and the wdio-edge `isFile` + shell-metacharacter guard has no… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:140 wdio base …crates/conductor-tauri/ui/wdio.conf.ts` AND by the harness shells, never by a shi… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:142 wdio base ×3 … to canonicalize and the wdio-edge `isFile` + shell-metacharacter guard has no… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .claude/rules/security.md:18 wdio leaf ×4 @c328,677,853,1023/2829 …ischarged at the wdio harness edge (existence + `isF… → leaf — re-derived (step 3)
+- .claude/docs/a11y-summary.md:14 wdio leaf @c3111/3158 …y. Rides the tests' `wdio run` leg, surfaced via the `logs` comm… → leaf — re-derived (step 3)
+- .claude/docs/a11y-summary.md:28 wdio leaf …**a11y-ci-gate-wire** — `wdio run` a11y step via the 5-command `logs`, opera… → leaf — re-derived (step 3)
+- .claude/docs/commands.md:30 wdio leaf @c511/2046 … record to render) → `wdio run` (tauri-driver). Headless under `xvfb`… → leaf — re-derived (step 3)
+- .claude/docs/security-summary.md:11 wdio leaf ×2 @c205,311/3111 …s-only (read by `wdio.conf.ts`, never by a Conductor b… → leaf — re-derived (step 3)
+- .claude/docs/tests-summary.md:46 wdio leaf @c4382/4463 … TS member, not the wdio legs alone; it runs no test framework,… → leaf — re-derived (step 3)
+- .andromeda/architecture.md:57 msedgedriver new @c1910/2348 …d `a11y` jobs, the msedgedriver pin gate and the routine we… → no change — this pass's own retirement text
+- .andromeda/architecture.md:143 msedgedriver standing edited …ob-scoped `https://msedgedriver.microsoft.com` fetch retir… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/architecture.md:205 msedgedriver standing edited …d the `a11y` job's msedgedriver fetch left with the window… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/security-plan.md:82 msedgedriver new …e project: the CI-only msedgedriver fetch retired 2026-10-11 with the … → no change — this pass's own retirement text
+- .andromeda/security-plan.md:179 msedgedriver new …17 the version-pinned msedgedriver, admitted by a pre-execution Authe… → no change — this pass's own retirement text
+- .andromeda/test-plan.md:83 msedgedriver standing edited …handles (`CONDUCTOR_MSEDGEDRIVER`, `CONDUCTOR_NVDA`) and the `… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/registries/contracts/architecture/build-system.md:1 msedgedriver standing edited @c633/4181 …its msedgedrive… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .claude/rules/a11y.md:45 msedgedriver curation …n unchanged `CONDUCTOR_MSEDGEDRIVER`, so read both versions before firi… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/testing.md:87 msedgedriver curation …w2 session probe. (a) msedgedriver creates TWO `scoped_dir` siblings… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:58 msedgedriver curation ×6 @c978,1141,1322/5898 …CONDUCTOR_MSEDGEDRIVER`; unset … → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:59 msedgedriver curation @c4190/5090 …`, `CONDUCTOR_MSEDGEDRIVER` and the three `… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:61 msedgedriver curation …VDA` · `CONDUCTOR_MSEDGEDRIVER` · `CONDUCTOR_SCENARIOS_… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:66 msedgedriver curation @c1490/2170 … no hits for `msedgedriver` / `session not … → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:146 msedgedriver curation …iteral subject** — msedgedriver returns `DevToolsActivePor… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:375 msedgedriver curation …g bullets often share wording: `CONDUCTOR_MSEDGEDRIVER` and → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:1010 msedgedriver curation …t the BROWSER, not itself.** msedgedriver's log recommends → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .andromeda/playbook.md:117 msedgedriver base …f the class: `CONDUCTOR_MSEDGEDRIVER` (2026-09-01-webview-self-verify-win… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:123 msedgedriver base … it differs (`CONDUCTOR_MSEDGEDRIVER` / `CONDUCTOR_NVDA` never reach Rust… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:145 msedgedriver base …s to resolve `CONDUCTOR_MSEDGEDRIVER`, because GitHub's `${{ env.* }}` ex… → judgment base — never a cascade edit; routed to the propose→approve channel
+- CLAUDE.md:34 msedgedriver leaf ×2 …etch of the version-pinned msedgedriver from `msedgedriver.microsoft.com`, admitted … → leaf — re-derived (step 3)
+- .claude/rules/a11y.md:39 msedgedriver leaf ×2 @c2647,3807/4789 … under `CONDUCTOR_MSEDGEDRIVER`, unset ⇒ skip at exit 0… → leaf — re-derived (step 3)
+- .claude/rules/security.md:18 msedgedriver leaf @c211/2829 …ersal). `CONDUCTOR_MSEDGEDRIVER` and `CONDUCTOR_NVDA` are th… → leaf — re-derived (step 3)
+- .claude/rules/security.md:27 msedgedriver leaf ×3 @c667,703,3062/3343 … at `CONDUCTOR_MSEDGEDRIVER` is the version-pinn… → leaf — re-derived (step 3)
+- .claude/rules/security.md:32 msedgedriver leaf ×2 …17 the version-pinned msedgedriver the `a11y` job fetches — that is … → leaf — re-derived (step 3)
+- .claude/docs/commands.md:30 msedgedriver leaf ×2 @c733,1979/2046 … when `CONDUCTOR_MSEDGEDRIVER` names a driver — unset… → leaf — re-derived (step 3)
+- .claude/docs/security-summary.md:11 msedgedriver leaf @c143/3111 …rde). `CONDUCTOR_MSEDGEDRIVER` and `CONDUCTOR_NVDA` a… → leaf — re-derived (step 3)
+- .claude/docs/security-summary.md:30 msedgedriver leaf …ew2 runtime, fetches msedgedriver for THAT version and fails whe… → leaf — re-derived (step 3)
+- .claude/docs/tests-summary.md:46 msedgedriver leaf @c1801/4463 … under `CONDUCTOR_MSEDGEDRIVER`, one of two members mea… → leaf — re-derived (step 3)
+- .andromeda/architecture.md:152 nvda standing edited …sole-window/evidence/nvda-pass.json`). The program is a fixed NAME… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/security-plan.md:356 nvda standing edited ×2 @c1092,1326/3498 …ndow/evidence/nvda-pass.json`: SR row S1-01's… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/test-plan.md:83 nvda standing edited …DGEDRIVER`, `CONDUCTOR_NVDA`) and the `CONDUCTOR_A11Y_STRICT` flag los… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/obs-plan.md:522 nvda standing edited ×2 …reen reader spoke it (NVDA, SR pass row S1-01), and only the a11y l… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/obs-plan.md:547 nvda new …-a-console-window/evidence/nvda-pass.json`) retired with the window on 2026-10-11,… → no change — this pass's own retirement text
+- .claude/rules/a11y.md:44 nvda curation ×4 …ice in one chunk against NVDA. (a) The four `role="alert"` load-error nodes … → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/a11y.md:46 nvda curation ×2 …nd release it only after NVDA has handled the key it modifies** — one batche… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/a11y.md:47 nvda curation ×2 - 2026-09-30: **NVDA's browse caret follows the last DOM focus, and NVDA bind… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/a11y.md:48 nvda curation … on a role-less element — NVDA spoke a named count's bare digits — so name such… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/a11y.md:49 nvda curation - 2026-09-30: **An NVDA started while another window holds the foreground can st… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:58 nvda curation ×2 @c2904,2911/5898 …eg's to stop (NVDA: `nvda -q`, polled to ab… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:59 nvda curation ×11 @c179,315,685,782,916/5090 …ed at the NVDA leg (screen-reade… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:61 nvda curation …handles (`CONDUCTOR_NVDA` · `CONDUCTOR_MSEDGEDRIVER` · `CONDUCT… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:63 nvda curation ×2 - 2026-09-07: **`nvda-pass.json` is CUMULATIVE PER SUBJECT, s… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:68 nvda curation ×2 …2026-09-30: **Read NVDA's `-l 12` log by its entry HEADERS, … → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:70 nvda curation ×2 …*Pass the portable NVDA ABSOLUTE `-c` / `-f` paths, as `wdio… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:174 nvda curation …ists for the stack"; NVDA's built-in speech log (every utterance, … → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:376 nvda curation `CONDUCTOR_NVDA` both "SKIP at exit 0 with a host-path-free precond… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .andromeda/playbook.md:117 nvda base …dows-host) and `CONDUCTOR_NVDA` (2026-09-02-screen-reader-manual-spec). Confirmed… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:120 nvda base …easured 2026-09-02 at the NVDA leg, SR pass row S1-01; D-obs-redaction ×2 + D-sec… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:123 nvda base …SEDGEDRIVER` / `CONDUCTOR_NVDA` never reach Rust at all; this class reaches Rust … → judgment base — never a cascade edit; routed to the propose→approve channel
+- CLAUDE.md:34 nvda leaf ×2 … additionally spawns the host NVDA named by `CONDUCTOR_NVDA`, a fixed-argv PowerShell window… → leaf — re-derived (step 3)
+- .claude/rules/a11y.md:22 nvda leaf …he picker's type-ahead and NVDA browse mode own them) and never a platform shortcut… → leaf — re-derived (step 3)
+- .claude/rules/a11y.md:39 nvda leaf ×13 @c956,1044,1075,1099,1707,1751,1928,1992,3547/4789 …-error`; NVDA's own speech l… → leaf — re-derived (step 3)
+- .claude/rules/security.md:18 nvda leaf ×2 @c240,476/2829 …VER` and `CONDUCTOR_NVDA` are the exceptions: no Rust code re… → leaf — re-derived (step 3)
+- .claude/rules/security.md:23 nvda leaf …re (2026-09-02, spoken by NVDA) — and the live re-run measured that pane gone (… → leaf — re-derived (step 3)
+- .claude/docs/a11y-summary.md:14 nvda leaf @c2524/3158 … need a live Pulse / NVDA and stay operator/local. Since 2026-09… → leaf — re-derived (step 3)
+- .claude/docs/a11y-summary.md:27 nvda leaf ×5 …spec + the agent-driven NVDA leg (NVDA's own speech log graded by the `sr… → leaf — re-derived (step 3)
+- .claude/docs/a11y-summary.md:35 nvda leaf …on is supplemental only (NVDA agent-driven via its speech log, VoiceOver / O… → leaf — re-derived (step 3)
+- .claude/docs/commands.md:30 nvda leaf ×3 @c1064,1099,2006/2046 …ror` / `a11y:sr` (NVDA's speech log under `CONDUCTOR_NV… → leaf — re-derived (step 3)
+- .claude/docs/gotchas.md:60 nvda leaf ×2 …tionally spawns the host NVDA named by `CONDUCTOR_NVDA`, a fixed-argv PowerShe… → leaf — re-derived (step 3)
+- .claude/docs/security-summary.md:11 nvda leaf ×2 @c172,388/3111 …` and `CONDUCTOR_NVDA` are harness-only (read by `wdio… → leaf — re-derived (step 3)
+- .claude/docs/tests-summary.md:46 nvda leaf ×3 @c385,420,2662/4463 … `a11y:sr*` with NVDA's speech log under `CONDUCTOR_… → leaf — re-derived (step 3)
+- .andromeda/architecture.md:205 driver-ports standing edited ×2 …eir driver ports `4444`/`4445` and the `a11y` job's mse… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- CLAUDE.md:121 driver-ports curation ×2 …tack also binds loopback `4444`/`4445` for the harness's lifetime; and "no UI a… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .andromeda/drift-base.md:42 driver-ports base ×2 …llision, not a registration). Ports include `:4317` / `4444` / `4445`. → judgment base — never a cascade edit; routed to the propose→approve channel
+- CLAUDE.md:34 driver-ports leaf ×2 … a11y legs' driver ports (`4444`/`4445`) live and die with the harness, on the routi… → leaf — re-derived (step 3)
+- .claude/rules/security.md:27 driver-ports leaf @c2985/3343 …n the registered `:4445` (arm W), and the existing `sr-empt… → leaf — re-derived (step 3)
+- .claude/docs/gotchas.md:60 driver-ports leaf ×2 … stack binds loopback `4444`/`4445` for the harness's lifetime and tea… → leaf — re-derived (step 3)
+- .andromeda/test-plan.md:83 a11y-strict new …DA`) and the `CONDUCTOR_A11Y_STRICT` flag lost every reader on 2026-10-11 w… → no change — this pass's own retirement text
+- .claude/rules/verification-harness.md:58 a11y-strict curation @c4676/5898 …d. `CONDUCTOR_A11Y_STRICT` additionally make… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .andromeda/playbook.md:142 a11y-strict base … occurrence: `CONDUCTOR_A11Y_STRICT` (2026-09-07-a11y-ci-gate). Confirmed … → judgment base — never a cascade edit; routed to the propose→approve channel
+- .claude/rules/a11y.md:39 a11y-strict leaf @c2395/4789 …-07 under `CONDUCTOR_A11Y_STRICT` — which makes an unresolved ho… → leaf — re-derived (step 3)
+- .claude/docs/a11y-summary.md:14 a11y-strict leaf ×2 @c166,2772/3158 …nder `CONDUCTOR_A11Y_STRICT` + the reused `journal… → leaf — re-derived (step 3)
+- .claude/docs/commands.md:30 a11y-strict leaf @c1916/2046 … Setting `CONDUCTOR_A11Y_STRICT=1` (the CI posture) makes an … → leaf — re-derived (step 3)
+- .andromeda/architecture.md:57 a11y-job new @c1893/2348 … the `frontend` and `a11y` jobs, the msedgedriver pin gate and … → no change — this pass's own retirement text
+- .andromeda/architecture.md:143 a11y-job standing edited …2026-10-11 with the `a11y` job, so the loopback-only client mo… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/architecture.md:205 a11y-job standing edited …444`/`4445` and the `a11y` job's msedgedriver fetch left with … → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/security-plan.md:82 a11y-job standing edited …2026-10-11 with the `a11y` job (count 1 → 0). Co-location is f… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/security-plan.md:83 a11y-job new …age; the `frontend` and `a11y` jobs, with the npm audit and the fetched-bi… → no change — this pass's own retirement text
+- .andromeda/security-plan.md:179 a11y-job new … third-party binary the `a11y` job acquired (since 2026-09-17 the version… → no change — this pass's own retirement text
+- .andromeda/test-plan.md:385 a11y-job new …est`: the `frontend` and `a11y` jobs left with the window on 2026-10-11 (the … → no change — this pass's own retirement text
+- .andromeda/registries/contracts/architecture/build-system.md:1 a11y-job standing edited @c584/4181 … (the `a11y` job's … → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/registries/contracts/architecture/ci-cd-approach.md:1 a11y-job standing edited …end` and `a11y` jobs — the r… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/registries/contracts/obs-plan/log-format-json-schema.md:19 a11y-job new …t with the `a11y` job on 2026-10-11… → no change — this pass's own retirement text
+- .claude/docs/session-learnings.md:176 a11y-job curation …green CI run of the a11y job after a push"), never as a standi… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:178 a11y-job curation … that mattered — no a11y job exists in the workflow — was neve… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- CLAUDE.md:34 a11y-job leaf …nary and no dev-host leg: the `a11y` job's HTTPS fetch of the version-pinned msedgedriver f… → leaf — re-derived (step 3)
+- .claude/rules/security.md:27 a11y-job leaf @c310/3343 …d: it registered the `a11y` job's WebView2 Evergreen install, an… → leaf — re-derived (step 3)
+- .claude/rules/security.md:32 a11y-job leaf …pinned msedgedriver the `a11y` job fetches — that is in NO lockfile and tha… → leaf — re-derived (step 3)
+- .claude/docs/security-summary.md:16 a11y-job leaf …o shipped binary: the `a11y` job's HTTPS fetch of the WebView2 Everg… → leaf — re-derived (step 3)
+- .claude/docs/stack.md:39 a11y-job leaf … the dev host and CI's `windows-2022` `a11y` job; Linux + xvfb is target-state). → leaf — re-derived (step 3)
+- .andromeda/security-plan.md:184 frontend-job new …v` gate left with the `frontend` job; Cargo is the one audited ecosys… → no change — this pass's own retirement text
+- .andromeda/security-plan.md:83 npm standing edited …`a11y` jobs, with the npm audit and the fetched-binary surface, lef… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/security-plan.md:184 npm standing edited ×3 **Frontend (npm) supply chain — RETIRED 2026-10-11:** no npm tre… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .claude/rules/frontend.md:44 npm curation …w bundle MUST be built (`npm run build` in `crates/conductor-tauri/ui`) befo… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/frontend.md:46 npm curation …e runtime dep (`cmdk`), `npm audit` 0 — satisfies a11y "use shadcn Command, … → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/frontend.md:51 npm curation ×2 @c1830,2462/2581 …ts` fall OUTSIDE `npm run build`'s `tsc --noEmit` automa… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/frontend.md:54 npm curation ×2 @c1707,1862/2347 …osed of them, so `npm run knip` now exits 0 and is a gat… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:57 npm curation … for `--e2e`]**, so `npm run build` is necessary-but-insufficien… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:62 npm curation …` run intervenes.** `npm run a11y:sr{,-empty,-error}` invoke `wd… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:460 npm curation …neric (constant-time compare, rate limiting, XSS, `npm audit`) where → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .andromeda/playbook.md:75 npm base …in package.json + gated by npm audit), and frontend-component-styling is below the … → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:85 npm base ×3 …s (escalate) fires on new npm devDependencies in `crates/conductor-tauri/ui` (no… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:87 npm base ×6 …gate amendment — gate on `npm audit --omit=dev` (production deps strictly clean)… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .claude/rules/a11y.md:25 npm leaf …s` and held to reality by `npm run a11y:ownership` — which FAILS if a named owner's … → leaf — re-derived (step 3)
+- .claude/rules/a11y.md:39 npm leaf ×2 @c526,902/4789 …or-only driven arm (`npm run a11y:driven`; ONE live run over its o… → leaf — re-derived (step 3)
+- .claude/rules/security.md:32 npm leaf ×2 …Rust crate graph and the npm tree (2026-09-08): a CI-time-fetched third-party… → leaf — re-derived (step 3)
+- .claude/rules/security.md:35 npm leaf ×3 …tes/conductor-tauri/ui`, npm — cargo-audit/deny do NOT cover it): `npm audit … → leaf — re-derived (step 3)
+- .claude/docs/a11y-summary.md:14 npm leaf ×2 @c681,2842/3158 …` and enforced by `npm run a11y:ownership`). Its first pus… → leaf — re-derived (step 3)
+- .claude/docs/commands.md:30 npm leaf ×2 @c933,1010/2046 …t-run`, never CI): `npm run a11y:driven` (the live-Pulse hold … → leaf — re-derived (step 3)
+- .claude/docs/gotchas.md:66 npm leaf …id:** Build the frontend (`npm run build` in `crates/conductor-tauri/ui`) before t… → leaf — re-derived (step 3)
+- .claude/docs/security-summary.md:31 npm leaf ×2 - Frontend npm tree (`conductor-tauri/ui`): `npm audit --omit=dev` clea… → leaf — re-derived (step 3)
+- .claude/docs/stack.md:34 npm leaf ×2 …lient). Package manager **npm** (`package-lock.json` committed, `npm audit --omit… → leaf — re-derived (step 3)
+- .claude/docs/stack.md:42 npm leaf …toml`) for the Rust tree; `npm audit --omit=dev` (0 production-vuln gate; dev-only t… → leaf — re-derived (step 3)
+- .claude/docs/tests-summary.md:46 npm leaf ×2 @c4196,4339/4463 …nce 2026-09-17 — `npm run a11y:ownership` (`tsx test/a11… → leaf — re-derived (step 3)
+- .andromeda/architecture.md:4 gui standing edited …lease gate (the Tauri GUI shell retired 2026-10-11, intent R1). A sce… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/architecture.md:53 gui new …t compile time. The Tauri GUI bin it also served retired 2026-10-11 (intent R1, … → no change — this pass's own retirement text
+- .andromeda/test-plan.md:134 gui standing …nd the release gate; the GUI is a thin shell over the same core commands** (u… → amended — a GUI-shell claim the detectors missed, fixed in this pass after the sweep
+- .andromeda/test-plan.md:205 gui new - **The GUI test-harness leg retired with the window (2026-10-11):** the `Channel`-… → no change — this pass's own retirement text
+- .andromeda/obs-plan.md:209 gui standing @c726/5334 …from the suite or the GUI, which keep the deterministic gate), with… → amended — "reached from the suite or the GUI", fixed in this pass after the sweep
+- .andromeda/registries/contracts/architecture/build-system.md:1 gui standing edited @c2383/4181 …tauri` GUI bin, its `ta… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/registries/contracts/architecture/deployment-model.md:1 gui standing edited …r and the GUI installer set it … → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- CLAUDE.md:132 gui curation - 2026-08-22: Agent-driven GUI verification is the DEFAULT — the operator's eyes are for jud… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/frontend.md:50 gui curation …-06-27: The desktop a11y/GUI E2E harness (`axe-core@4.12.0` via `@axe-core/w… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/testing.md:63 gui curation ×2 …urface equivalence. The GUI integration leg (`tauri::test` mock-runtime fr… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/testing.md:64 gui curation ×2 …mpt — defers to the ch9 GUI mock-runtime harness. Refines the 2026-06-26 G… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/testing.md:65 gui curation @c69/2514 … to land the deferred GUI-integration command tests (the ch4/ch7/ch… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:47 gui curation @c10750/15762 …pulse-app` is a GUI-subsystem binary that never at… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:53 gui curation ×3 @c867,934,2202/2903 …tor-attended GUI leg affordable, and the … → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:57 gui curation …An operator-attended GUI leg has a launch recipe of its own, and… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:168 gui curation …d whole: agent-driven GUI verification is the default, and a platfo… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:172 gui curation …ed — and agent-driven GUI verification is the DEFAULT.** **[correct… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:643 gui curation The GUI is the third `conductor_core::PauseResolver` shell (after th… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:645 gui curation …r::proceed()`) so the GUI injects the `TauriResolver`; its ONLY non… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:659 gui curation …caffold deferred real GUI execution; ch4 made `start_run` drive the… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:709 gui curation …or Epoch-9: the Tauri GUI is the second composition root and reuses… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:853 gui curation …th the consequence "a GUI user sees no envelope signal" — real user… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .andromeda/playbook.md:69 gui base …lows (security-plan §Tauri GUI's domain — the security detector validates the ACL t… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:76 gui base ×2 - pattern: a GUI-integration-tier test detector (D-tests-coverage / D-a11y-surfac… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:78 gui base ×4 …eterministically, and the GUI integration leg (mock-runtime frame assertion + we… → judgment base — never a cascade edit; routed to the propose→approve channel
+- CLAUDE.md:9 gui leaf …ndled` SQLite index · optional Tauri 2 + React 19 GUI · local-only, no network service of its own. → leaf — re-derived (step 3)
+- CLAUDE.md:29 gui leaf - **`conductor-tauri`** — Tauri 2 GUI bin (commands + live-counter `Channel`; React 19 webview). → leaf — re-derived (step 3)
+- CLAUDE.md:89 gui leaf …e gate) and the optional Tauri GUI call identically (for every deterministic-posture scenario; a… → leaf — re-derived (step 3)
+- .claude/rules/frontend.md:12 gui leaf ×2 … desktop-webview UI. The GUI is convenience only — the cli/headless path is t… → leaf — re-derived (step 3)
+- .claude/rules/security.md:43 gui leaf ## Tauri GUI (§Code Patterns) → leaf — re-derived (step 3)
+- .claude/docs/commands.md:8 gui leaf … build` — optional Tauri 2 GUI bundle (convenience only). Needs the host `tauri-cl… → leaf — re-derived (step 3)
+- .claude/docs/security-summary.md:44 gui leaf …on CVE-2026-42184) — required bump, dormant until the Tauri GUI (Epoch 9). → leaf — re-derived (step 3)
+- .claude/docs/stack.md:33 gui leaf ## Frontend (desktop-webview GUI — convenience surface) → leaf — re-derived (step 3)
+- .claude/docs/stack.md:47 gui leaf …-run.sh`; optional Tauri 2 GUI bundle, produced by the host `tauri-cli` bundler that… → leaf — re-derived (step 3)
+- .claude/docs/tests-summary.md:47 gui leaf …r for the React webview (GUI is convenience; CLI is the gate) — re-run resea… → leaf — re-derived (step 3)
+- .claude/docs/workflow.md:36 gui leaf …e release gate; the Tauri GUI is a thin shell over the same core. Every feature m… → leaf — re-derived (step 3)
+- .andromeda/architecture.md:210 control-panel new …ust core (its Tauri 2 control panel retired 2026-10-11, intent R1) — … → no change — this pass's own retirement text
+- .andromeda/test-plan.md:77 control-panel standing edited ×2 …he Creator Brief's control-panel-LAUNCHED half retired wit… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/test-plan.md:89 control-panel standing edited ×2 …ario runs from the control panel AND headless"), narrowed … → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/test-plan.md:289 control-panel standing edited …tion trigger). The control-panel-LAUNCHED half retired with … → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- CLAUDE.md:7 control-panel leaf Conductor is a desktop control-panel app (Tauri 2) over a headless-drivable Rust core — … → leaf — re-derived (step 3)
+- .claude/docs/tests-summary.md:27 control-panel leaf …`conductor` bin. The control-panel-LAUNCHED half of this path is D… → leaf — re-derived (step 3)
+- .andromeda/security-plan.md:179 third-class new **The third dependency class — RETIRED 2026-10-11 (0 members):** the CI… → no change — this pass's own retirement text
+- .andromeda/security-plan.md:247 third-class new … re-open the now-empty third dependency class and add a CI non-loopbac… → no change — this pass's own retirement text
+- .andromeda/security-plan.md:249 third-class standing edited …open the now-empty third dependency class (§Dependency Sec… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .claude/rules/security.md:32 third-class leaf - A **THIRD dependency class** exists beside the Rust crate graph and the… → leaf — re-derived (step 3)
+- .claude/docs/security-summary.md:30 third-class leaf - A third dependency class (2026-09-08) sits outside every lockfil… → leaf — re-derived (step 3)
+- .claude/docs/session-learnings.md:1029 rule-b-forms curation … this wrap's own cascade: a sweep for `six governed forms` → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- CLAUDE.md:34 rule-b-forms leaf …send-keys.ps1` — rule (b)'s eighth form — none opening a listener). "No UI automation" … → leaf — re-derived (step 3)
+- .claude/rules/security.md:27 rule-b-forms leaf ×2 @c1955,3304/3343 … composing. The EIGHTH arrived 2026-09-30 (escalate… → leaf — re-derived (step 3)
+- .andromeda/security-plan.md:179 authenticode new …ed by a pre-execution Authenticode gate) left with that job, so the a… → no change — this pass's own retirement text
+- .andromeda/security-plan.md:190 authenticode new …-binary class and its Authenticode gate retired 2026-10-11). Optional… → no change — this pass's own retirement text
+- CLAUDE.md:34 authenticode leaf …admitted by a pre-execution Authenticode gate (registered 2026-09-17, operator-ratified… → leaf — re-derived (step 3)
+- .claude/rules/security.md:27 authenticode leaf ×2 @c963,3103/3343 …e-execution `Get-AuthenticodeSignature` check (`Vali… → leaf — re-derived (step 3)
+- .claude/rules/security.md:32 authenticode leaf …ntrol is pre-execution Authenticode verification. Membership was SWAPPE… → leaf — re-derived (step 3)
+- .claude/docs/security-summary.md:30 authenticode leaf …ted by pre-execution Authenticode verification alone. Version po… → leaf — re-derived (step 3)
+- .andromeda/architecture.md:143 ci-egress new - No non-loopback egress: the CI-job-scoped `https://msedgedriver.microsof… → no change — this pass's own retirement text
+- .andromeda/security-plan.md:82 ci-egress standing edited …ost harness leg. No non-loopback egress remains in the projec… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/security-plan.md:247 ci-egress new …ncy class and add a CI non-loopback egress where none remains (Secret-sc… → no change — this pass's own retirement text
+- .andromeda/security-plan.md:249 ci-egress standing edited …ecurity) and add a CI non-loopback egress where none remains. → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .claude/docs/security-summary.md:16 ci-egress leaf …ot a verdict. The one non-loopback egress in the project is CI-only… → leaf — re-derived (step 3)
+- .andromeda/architecture.md:54 ipc-channel standing edited …-11:** the Tauri 2 IPC `Channel` for in-app live updates lef… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .claude/rules/frontend.md:48 ipc-channel curation …h a thin read-only `#[tauri::command]` that returns the core type di… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/observability.md:40 ipc-channel curation ×2 …6: Instrument a `#[tauri::command]` with a MANUAL `let _span… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/security.md:51 ipc-channel curation …auri 2 app-defined `#[tauri::command]`s (registered via `invoke_hand… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/testing.md:63 ipc-channel curation ×2 …26-06-26: A Tauri `#[tauri::command]` that drives the async engine… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/testing.md:64 ipc-channel curation … fn behind a Tauri `#[tauri::command]` / `PauseResolver` ITSELF needs… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:194 ipc-channel curation … not stack with `#[tauri::command]` — so the token could on… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:643 ipc-channel curation ×3 …go`) over a **2nd IPC `Channel<HoldPrompt>`** passed to … → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:661 ipc-channel curation ×2 …tern: the sync `#[tauri::command] start_run` spawns a `s… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .andromeda/playbook.md:67 ipc-channel base …ded no new Conductor `#[tauri::command]` / `Channel` / port / socket / endp… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:70 ipc-channel base …lements NO Conductor `#[tauri::command]` handler of its own and leaks nothi… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:73 ipc-channel base ×2 …stering a Conductor `#[tauri::command]` NAME (e.g. list_scenarios / star… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:76 ipc-channel base …rface) flags a Tauri `#[tauri::command]` / `Channel` handler for lacking a … → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:79 ipc-channel base …ead-only Tauri query `#[tauri::command]` (e.g. list_scenarios / coverage_ma… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:82 ipc-channel base …gistering an additional IPC `Channel` INSTANCE (a 2nd `tauri::ipc::Channel<… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:84 ipc-channel base …unters" stays TRUE (the live-counter Channel still exists; the new Channel … → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:94 ipc-channel base ×2 …ing a new Conductor `#[tauri::command]` NAME to security-plan §Threat Mo… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:96 ipc-channel base …-26 established that `#[tauri::command]`s registered via `invoke_handler`/`… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:111 ipc-channel base …50) rows, both about `#[tauri::command]` handlers (mechanism corrected 202… → judgment base — never a cascade edit; routed to the propose→approve channel
+- CLAUDE.md:29 ipc-channel leaf …nductor-tauri`** — Tauri 2 GUI bin (commands + live-counter `Channel`; React 19 webview). → leaf — re-derived (step 3)
+- .claude/rules/security.md:39 ipc-channel leaf …collapse to `anyhow` only at `conductor-cli` / `#[tauri::command]` edges. → leaf — re-derived (step 3)
+- .claude/rules/security.md:44 ipc-channel leaf …cker · run-report view · operator-pause + the one live-counter `Channel`. → leaf — re-derived (step 3)
+- .claude/docs/conventions.md:28 ipc-channel leaf …h; internal Tauri 2 `#[tauri::command]` + one `Channel`. REST/GraphQL/… → leaf — re-derived (step 3)
+- .claude/docs/conventions.md:34 ipc-channel leaf …gError`); `anyhow` only at `conductor-cli` / `#[tauri::command]` edges. → leaf — re-derived (step 3)
+- .andromeda/test-plan.md:25 nine-members standing …t the upper boundary: 9 workspace crates plus several capability surf… → amended — the "9 workspace crates" tier literal (test-plan#2 proposal), applied after the sweep as the member set
+- .claude/docs/session-learnings.md:659 nine-members curation ×2 …run`, consumed by BOTH bins. The placement is forced by… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- CLAUDE.md:27 nine-members leaf …`drive_run` + the fault-phase occupier guard; → `conductor-faults`) shared by both bins. → leaf — re-derived (step 3)
+- .claude/docs/conventions.md:9 nine-members leaf markup …ayout: `crates/` (**9** workspace members — 7 seam/library crat… → leaf — re-derived (step 3)
+- .andromeda/security-plan.md:176 deny-counts new …-tree ignores and the `MPL-2.0` allow left with their subject; `Apache… → no change — this pass's own retirement text
+- .andromeda/registries/contracts/architecture/build-system.md:1 deny-counts standing edited @c2631/4181 …he `MPL-2.0` al… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .claude/rules/security.md:50 deny-counts curation …-macro-error`) + the `MPL-2.0` and `Apache-2.0 WITH LLVM-exception` … → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .andromeda/architecture.md:152 speech-log standing edited …le-window/evidence/nvda-pass.json`). The program is a fixed … → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/security-plan.md:356 speech-log standing edited @c1092/3498 …indow/evidence/nvda-pass.json`: SR row S1-01's … → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/obs-plan.md:522 speech-log standing edited …sole-window/evidence/nvda-pass.json` (S1-01's `heard` lost `<hos… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/obs-plan.md:547 speech-log new …-console-window/evidence/nvda-pass.json`) retired with the window on 2026-10… → no change — this pass's own retirement text
+- .claude/rules/verification-harness.md:59 speech-log curation @c2826/5090 …e mode]** The speech log is the evidence chan… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:63 speech-log curation ×2 - 2026-09-07: **`nvda-pass.json` is CUMULATIVE PER SUBJ… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:174 speech-log curation …"; NVDA's built-in speech log (every utterance, timestamped)… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/a11y.md:39 speech-log leaf ×3 @c967,1044,3573/4789 …ror`; NVDA's own speech log graded against `crates/co… → leaf — re-derived (step 3)
+- .claude/rules/security.md:18 speech-log leaf @c1054/2829 …. The screen-reader speech log the `sr*` leg ingests is untru… → leaf — re-derived (step 3)
+- .claude/docs/a11y-summary.md:27 speech-log leaf …n NVDA leg (NVDA's own speech log graded by the `sr*` suites, `CONDUCT… → leaf — re-derived (step 3)
+- .claude/docs/a11y-summary.md:35 speech-log leaf …VDA agent-driven via its speech log, VoiceOver / Orca manual-declared). → leaf — re-derived (step 3)
+- .claude/docs/commands.md:30 speech-log leaf @c1071/2046 …/ `a11y:sr` (NVDA's speech log under `CONDUCTOR_NVDA`, unset ⇒… → leaf — re-derived (step 3)
+- .claude/docs/security-summary.md:11 speech-log leaf @c1275/3111 … The `sr*` leg's speech-log ingest is a boundary of it… → leaf — re-derived (step 3)
+- .claude/docs/tests-summary.md:46 speech-log leaf @c392/4463 …y:sr*` with NVDA's speech log under `CONDUCTOR_NVDA`; Linu… → leaf — re-derived (step 3)
+- .andromeda/security-plan.md:356 send-keys standing edited mixed ×2 @c2479,2521/3498 …pawns and `send-keys.ps1`) and for… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- CLAUDE.md:34 send-keys leaf … fixed-argv key-send script `send-keys.ps1` — rule (b)'s eighth form — none opening a list… → leaf — re-derived (step 3)
+- .claude/rules/a11y.md:39 send-keys leaf @c1247/4789 … the OS input path (`send-keys.ps1`, `SendInput`, foreground-guard… → leaf — re-derived (step 3)
+- .claude/rules/security.md:27 send-keys leaf ×3 @c1260,1364,2112/3343 …: `scripts/a11y-limited-token-launch.ps1` — a `ru… → leaf — re-derived (step 3)
+- .claude/docs/a11y-summary.md:27 send-keys leaf …the OS input path via `send-keys.ps1`, so browse rows driven there are … → leaf — re-derived (step 3)
+- .claude/docs/gotchas.md:60 send-keys leaf …d-guarded fixed-argv key-send script `send-keys.ps1` (none opens a listener). → leaf — re-derived (step 3)
+- .claude/docs/tests-summary.md:46 send-keys leaf @c2312/4463 …he OS input path (`send-keys.ps1`), so the rows they drive… → leaf — re-derived (step 3)
+- .andromeda/test-plan.md:46 sr-legs standing edited …by the operator-local `sr` leg's absence of the console-pane observ… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .claude/rules/a11y.md:47 sr-legs curation …path focus change, so an `sr*` browse row is walked FORWARD from a focused c… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/a11y.md:49 sr-legs curation …ng to change"), so start `sr*` legs on a cleared desktop and treat such a se… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:59 sr-legs curation ×4 @c3841,3927,3942,4004/5090 …the live `sr` subject needs a … → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:60 sr-legs curation @c3983/5551 …-gate arm, the driven a11y hold) are unaffected … → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:61 sr-legs curation - 2026-09-07: **The `sr` LIVE subject needs the sidecar on `P… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:62 sr-legs curation ×2 …2026-09-07: **The `sr*` suites never rebuild — only `--e2… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:63 sr-legs curation …tures taken after `sr-error` runs showed `E0-06 not-announce… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:68 sr-legs curation … headers. And each `sr*` leg deletes the previous session's … → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:174 sr-legs curation …th now exists — the `sr*` legs send Tab / Shift+Tab / the brows… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- CLAUDE.md:34 sr-legs leaf ×2 …2e` arm, the operator-local `a11y:driven` arm and the operator-local `sr*` screen-reader … → leaf — re-derived (step 3)
+- .claude/rules/a11y.md:39 sr-legs leaf ×4 @c534,927,945,2562/4789 …en arm (`npm run a11y:driven`; ONE live run over its … → leaf — re-derived (step 3)
+- .claude/rules/security.md:18 sr-legs leaf ×2 @c577,1069/2829 …`--e2e` leg / the `sr*` suites skip at exit 0). A THIRD c… → leaf — re-derived (step 3)
+- .claude/rules/security.md:27 sr-legs leaf ×2 @c2132,3018/3343 …nd-keys.ps1`, the `sr*` legs' per-key OS input spawn in … → leaf — re-derived (step 3)
+- .claude/rules/testing.md:25 sr-legs leaf …me-seed drives, the live `sr` leg's 170 s before T-01's second run — both wai… → leaf — re-derived (step 3)
+- .claude/rules/verification-harness.md:19 sr-legs leaf @c1832/2574 …indow → A) → the driven a11y arm, freezing each leg'… → leaf — re-derived (step 3)
+- .claude/docs/a11y-summary.md:14 sr-legs leaf @c2493/3158 …ard/focus half) and `sr*` arms need a live Pulse / NVDA and s… → leaf — re-derived (step 3)
+- .claude/docs/a11y-summary.md:27 sr-legs leaf …peech log graded by the `sr*` suites, `CONDUCTOR_NVDA`, the operator revi… → leaf — re-derived (step 3)
+- .claude/docs/a11y-summary.md:39 sr-legs leaf ×2 …utine `--e2e`, driven `a11y:driven`, screen-reader `a11y:sr*` — Linux+… → leaf — re-derived (step 3)
+- .claude/docs/commands.md:30 sr-legs leaf ×4 @c941,1023,1041,1134/2046 … CI): `npm run a11y:driven` (the live-Pulse hold… → leaf — re-derived (step 3)
+- .claude/docs/gotchas.md:60 sr-legs leaf ×2 …rm, the operator-local `a11y:driven` arm and the operator-local `sr*` scree… → leaf — re-derived (step 3)
+- .claude/docs/security-summary.md:11 sr-legs leaf @c1263/3111 …p when unset. The `sr*` leg's speech-log ingest is a boun… → leaf — re-derived (step 3)
+- .claude/docs/tests-summary.md:46 sr-legs leaf ×3 @c341,2234,2524/4463 …-e2e`, driven `a11y:driven`, screen-reader `a11y… → leaf — re-derived (step 3)
+- .andromeda/architecture.md:57 frontend new @c1879/2348 … the only job: the `frontend` and `a11y` jobs, the msedgedriver… → no change — this pass's own retirement text
+- .andromeda/security-plan.md:83 frontend new … steps / coverage; the `frontend` and `a11y` jobs, with the npm audit and … → no change — this pass's own retirement text
+- .andromeda/security-plan.md:184 frontend standing edited ×2 **Frontend (npm) supply chain — RETIRED 2026-10-11:** no np… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/test-plan.md:385 frontend new …n `windows-latest`: the `frontend` and `a11y` jobs left with the window on 20… → no change — this pass's own retirement text
+- .andromeda/obs-plan.md:45 frontend standing …instrumentation hooks | Frontend instrumentation hooks | Exporter | Servic… → no change — a generic table column header
+- .andromeda/obs-plan.md:47 frontend standing …vice) | N/A (no browser frontend) | Stderr JSONL + file sink in agent mode… → no change — "no browser frontend" on the cli row is a true claim
+- .andromeda/registries/contracts/architecture/build-system.md:1 frontend standing edited ×2 @c2410/4181 …ld` frontend-bu… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/registries/contracts/architecture/ci-cd-approach.md:1 frontend new … pair). The `frontend` and `a11y` jobs —… → no change — this pass's own retirement text
+- .claude/rules/frontend.md:44 frontend curation ×3 …build.frontendDist` (`ui/dist`) at COMPILE time — so the webview bun… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/testing.md:52 frontend curation @c2007/2412 …it also proves the frontend-bundle build order on a cold com… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/testing.md:85 frontend curation @c488/2468 …s now — `rust` and `frontend` on `windows-latest`, plus `a11y… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:62 frontend curation ×2 …lease binary and `ui/dist` are built by the harness's `-… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:623 frontend curation …uctor-tauri`, so no frontend bundle is needed. A `shell: bash`… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:661 frontend curation …d as a command ARG (frontend `new Channel()` → `channel.onmess… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .andromeda/playbook.md:70 frontend base …strumentation fires on a frontend call to a Tauri BUILT-IN framework command (… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:72 frontend base …r Epoch-9 chunks), NOT a frontend call into Tauri's framework-internal window … → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:73 frontend base …:scenario_catalog), or a frontend COMPONENT PACKAGE / component-styling decisi… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:75 frontend base ×6 …ame + internal-module + frontend-component-package flavor of the establishe… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:82 frontend base …rying a distinct backend→frontend stream, e.g. the operator-hold prompt) into … → judgment base — never a cascade edit; routed to the propose→approve channel
+- CLAUDE.md:110 frontend leaf …· `testing.md` · `observability.md` · `a11y.md` · `frontend.md` · `verification-harness.md` → leaf — re-derived (step 3)
+- .claude/rules/frontend.md:10 frontend leaf # Frontend Rules → leaf — re-derived (step 3)
+- .claude/rules/frontend.md:28 frontend leaf …/ target status backend→frontend — no polling/SSE/URL surface. Conductor MU… → leaf — re-derived (step 3)
+- .claude/rules/observability.md:17 frontend leaf …red 2026-09-02); Tauri frontend → browser `console.log` JSON only (NO … → leaf — re-derived (step 3)
+- .claude/rules/security.md:35 frontend leaf ×2 - Frontend (`crates/conductor-tauri/ui`, npm — cargo-audit/deny do NOT co… → leaf — re-derived (step 3)
+- .claude/docs/commands.md:30 frontend leaf @c55/2046 … run --e2e` → ensure-frontend → `cargo build --release -p conducto… → leaf — re-derived (step 3)
+- .claude/docs/design-summary.md:44 frontend leaf …plates.md`. Path-scoped rules: `.claude/rules/frontend.md` + `a11y.md`. → leaf — re-derived (step 3)
+- .claude/docs/gotchas.md:64 frontend leaf ## Tauri generate_context! resolves ui/dist at compile time → leaf — re-derived (step 3)
+- .claude/docs/gotchas.md:65 frontend leaf ×2 … `build.frontendDist` (`ui/dist`) at COMPILE time — so any workspace `carg… → leaf — re-derived (step 3)
+- .claude/docs/gotchas.md:66 frontend leaf ×2 …w to avoid:** Build the frontend (`npm run build` in `crates/conductor-tau… → leaf — re-derived (step 3)
+- .claude/docs/gotchas.md:67 frontend leaf **Fix if broken:** Run the frontend build, then re-run the cargo gate. → leaf — re-derived (step 3)
+- .claude/docs/gotchas.md:68 frontend leaf …cture.md §Infrastructure Patterns (Build system); `.claude/rules/frontend.md`. → leaf — re-derived (step 3)
+- .claude/docs/obs-summary.md:12 frontend leaf …ured 2026-09-02); Tauri frontend → browser `console.log` JSON (no network… → leaf — re-derived (step 3)
+- .claude/docs/security-summary.md:31 frontend leaf - Frontend npm tree (`conductor-tauri/ui`): `npm audit --omit=dev` cl… → leaf — re-derived (step 3)
+- .claude/docs/stack.md:33 frontend leaf ## Frontend (desktop-webview GUI — convenience surface) → leaf — re-derived (step 3)
+- .claude/docs/stack.md:35 frontend leaf ×3 …rate_context!` resolves `ui/dist` at COMPILE time, so the frontend builds be… → leaf — re-derived (step 3)
+- .claude/docs/stack.md:42 frontend leaf …ain) + committed `package-lock.json` for the `conductor-tauri/ui` frontend tree. → leaf — re-derived (step 3)
+- .claude/docs/tests-summary.md:47 frontend leaf …the gate) — re-run research if frontend unit coverage is later required. → leaf — re-derived (step 3)
+- .andromeda/architecture.md:24 desktop standing …bile framework | N/A | Desktop-only, host-bound (holds `:4317`, reads l… → no change — a host-platform note ("Desktop-only, host-bound"), not the window
+- .andromeda/design-system.md:3 desktop new …ace.** Its window — the `desktop-webview` surface — was retired 2026-10-11 (… → no change — this pass's own retirement text
+- .andromeda/design-system.md:113 desktop standing ## Surface: desktop-webview → no change — the retired section's heading over its one-line stub
+- .andromeda/layout-templates.md:7 desktop new …ce.** Its window — the `desktop-webview` surface — was retired 2026-10-11… → no change — this pass's own retirement text
+- .andromeda/layout-templates.md:11 desktop standing ## Surface: desktop-webview → no change — the retired section's heading over its one-line stub
+- .andromeda/test-plan.md:54 desktop standing edited …no tui, no mobile, no desktop surface — security excerpt confirms "… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/obs-plan.md:254 desktop standing ×2 @c3492,4070/5625 …e, fired with no desktop input), P-045 worst 5.0ms of … → no change — Pulse-side measurement wording ("no desktop input")
+- CLAUDE.md:125 desktop curation …rries a text label + glyph (desktop) or `[PASS]`/`[FAIL]`/`[HOLD]`/`[BLOCKED]` prefix (… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/a11y.md:49 desktop curation … `sr*` legs on a cleared desktop and treat such a session as void, never gra… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/frontend.md:47 desktop curation …(its module doc names "desktop" as a reuse target alongside cli/Markdown… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/frontend.md:50 desktop curation - 2026-06-27: The desktop a11y/GUI E2E harness (`axe-core@4.12.0` via `@a… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/frontend.md:51 desktop curation @c2548/2581 …pted — see `security.md`). (desktop-a11y-harness-setup chunk) → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/testing.md:65 desktop curation @c2481/2514 …erred leg (zero-retry bar). (desktop-a11y-harness-setup chunk) → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:53 desktop curation @c2107/2903 …ed 2026-09-01 (desktop-a11y-sweep): (a) binds to… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/verification-harness.md:59 desktop curation @c4573/5090 …on on the same desktop takes the foreground too … → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:118 desktop curation …ry WebView2-hosting desktop app spawns children under the one `… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:172 desktop curation …s at all, while the desktop shell's own framework documents a W… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:729 desktop curation …cli table + Epoch-9 desktop view — not the classification model… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/docs/session-learnings.md:743 desktop curation …he cli Epoch 8, the desktop Epoch 9) **reuse one resolver and n… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .andromeda/playbook.md:87 desktop base …h the user on 2026-06-27 (desktop-a11y-harness-setup wrap; implement chose "Dev… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:111 desktop base …ard is mandated on the **desktop-webview** (:49) and **ipc-internal** (:50) ro… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/drift-base.md:84 desktop base …s is described in §Primary Surfaces / the wireframes (desktop-webview or cli). → judgment base — never a cascade edit; routed to the propose→approve channel
+- CLAUDE.md:7 desktop leaf Conductor is a desktop control-panel app (Tauri 2) over a headless-drivable Rust core — a scen… → leaf — re-derived (step 3)
+- CLAUDE.md:43 desktop leaf … with its text label + glyph (desktop) or ASCII prefix `[PASS]`/`[FAIL]`/`[HOLD]`/`[BLOCKED]… → leaf — re-derived (step 3)
+- CLAUDE.md:61 desktop leaf | Layout / surfaces (desktop + cli) | `.andromeda/layout-templates.md` | → leaf — re-derived (step 3)
+- .claude/rules/a11y.md:13 desktop leaf Path-scoped rules for the desktop-webview UI (Tauri 2 React 19 + Tailwind v4.1 + … → leaf — re-derived (step 3)
+- .claude/rules/frontend.md:12 desktop leaf …ed rules for the Tauri 2 desktop-webview UI. The GUI is convenience only — t… → leaf — re-derived (step 3)
+- .claude/rules/frontend.md:14 desktop leaf …da/layout-templates.md` (desktop-webview surface). Reference design tokens b… → leaf — re-derived (step 3)
+- .claude/docs/a11y-summary.md:11 desktop leaf - **Automated tools (desktop-webview):** axe-core 4.12.0 via `@axe-core/we… → leaf — re-derived (step 3)
+- .claude/docs/stack.md:33 desktop leaf ## Frontend (desktop-webview GUI — convenience surface) → leaf — re-derived (step 3)
+- .andromeda/test-plan.md:205 mock-runtime standing edited … render leg and the mock-runtime command-dispatch tier have n… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .claude/rules/testing.md:63 mock-runtime curation …on leg (`tauri::test` mock-runtime frame assertion + tauri-driver we… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/testing.md:64 mock-runtime curation …defers to the ch9 GUI mock-runtime harness. Refines the 2026-06-26 G… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .claude/rules/testing.md:65 mock-runtime curation ×2 @c28,504/2514 …: `tauri::test` mock-runtime is how to land the def… → curation home — never edited by the cascade; routed to P3 (in-place extension) or the operator
+- .andromeda/playbook.md:76 mock-runtime base …lacking a `tauri::test` mock-runtime (or tauri-driver webview) test, where… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .andromeda/playbook.md:78 mock-runtime base …he GUI integration leg (mock-runtime frame assertion + webview parity) bel… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .claude/docs/tests-summary.md:46 mock-runtime leaf @c218/4463 …'s) · tauri::test mock runtime (IPC) · tauri-driver/Webd… → leaf — re-derived (step 3)
+- .andromeda/architecture.md:184 e2e-seed standing edited - `CONDUCTOR_E2E_SEED_DIR` — a repo-relative fixture runs dir R… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/security-plan.md:51 e2e-seed standing edited …binary — `CONDUCTOR_E2E_SEED_DIR`) (Occupied Resources: Enviro… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/security-plan.md:112 e2e-seed standing edited | `CONDUCTOR_E2E_SEED_DIR` (test-binary only — READ only by `c… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/security-plan.md:209 e2e-seed standing edited ×3 … scope: `CONDUCTOR_E2E_SEED_DIR` reaches Rust only in a TE… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/security-plan.md:242 e2e-seed standing edited …R_SEED`, `CONDUCTOR_E2E_SEED_DIR` — a test-binary handle with… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/security-plan.md:314 e2e-seed standing edited ×3 @c366,1082,1864/2079 … `CONDUCTOR_E2E_SEED_DIR` IS read by … → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/test-plan.md:83 e2e-seed standing edited … trigger. `CONDUCTOR_E2E_SEED_DIR` is READ only by `crates/conduct… → no change — an amended line; the token stands only inside its retirement wording or a kept history clause (read)
+- .andromeda/playbook.md:123 e2e-seed base …t occurrence: `CONDUCTOR_E2E_SEED_DIR` (2026-09-02-cross-surface-envelope-par… → judgment base — never a cascade edit; routed to the propose→approve channel
+- .claude/rules/security.md:18 e2e-seed leaf @c652/2829 …26-09-02: `CONDUCTOR_E2E_SEED_DIR` is SET by `wdio.conf.ts` and … → leaf — re-derived (step 3)
+- .claude/docs/security-summary.md:11 e2e-seed leaf @c1055/3111 …idual. `CONDUCTOR_E2E_SEED_DIR` is a third class (2026-0… → leaf — re-derived (step 3)
+
+## Routing — curation homes and judgment bases (never cascade edits)
+
+- `CLAUDE.md` USER:session-learnings — the 2026-09-01 correction on the Scope-law entry (the `--e2e` leg's 4444/4445 bind) and the status-never-colour-alone entry's "(desktop)" glyph clause → P3, in-place extension. The 2026-08-22 agent-driven-verification entry states a principle the retirement leaves true → no extension.
+- `.claude/rules/*` `## Session Additions` (frontend 30 · verification-harness 43 · testing 26 · a11y 11 · security 5 · observability 3) and `.claude/docs/session-learnings.md` (58): dated records of the retired surface, not standing claims of current truth; frontend.md / a11y.md now say "the entries below are history" → no extension; surfaced to the operator in the console report.
+- `.andromeda/drift-base.md` (5): D-arch-collision · D-security-deps · D-layout-surface edited on the operator's approval (dated comments); the 2026-09-01 D-platform-claim origin comment is history → no change.
+- `.andromeda/playbook.md` (67): rules whose subject left (Tauri commands / capabilities / IPC, wdio-edge handles, npm devDependencies) stay verbatim as dormant precedents — the playbook grows by approved appends and is superseded only through its own door; the operator chose no change.

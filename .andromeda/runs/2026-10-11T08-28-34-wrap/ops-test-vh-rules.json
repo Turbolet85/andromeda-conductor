@@ -1,0 +1,12 @@
+{
+ "testing.md": [
+  {"sub": ["; **bundler:** tauri-cli (host tool, floor 2.11.4 — outside `Cargo.lock`, like the other external CLIs).", "."]},
+  {"sub": ["- E2E selectors: role / data-testid / text + brand anchors (", "- E2E selectors: text + brand anchors ("]},
+  {"sub": ["`[PRECONDITION]` probe), `role=\"alertdialog\"`, `aria-live`, \"HOLD — operator pause\"", "`[PRECONDITION]` probe), \"HOLD — operator pause\""]}
+ ],
+ "verification-harness.md": [
+  {"sub": ["Stage flags `--unit`/`--integration`/`--e2e`/`--live`.", "Stage flags `--unit`/`--integration`/`--live` (`--e2e` left with the window, 2026-10-11, and falls to the unknown-token `usage:` exit 2)."]},
+  {"sub": ["→ B1 → B2 → a 150s quiet window → A) → the driven a11y arm, freezing", "→ B1 → B2 → a 150s quiet window → A), freezing"]},
+  {"sub": [" A missing HOST-TOOL handle still SKIPS its leg at exit 0 — an incomplete live-Pulse env refuses, a missing host tool skips.", ""]}
+ ]
+}

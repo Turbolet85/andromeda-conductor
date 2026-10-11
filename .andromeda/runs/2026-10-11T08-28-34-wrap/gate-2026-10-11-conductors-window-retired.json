@@ -1,0 +1,1040 @@
+[
+{
+"tool": "gate",
+"v": "1.14",
+"sha8": "e8e4a72c",
+"ts": "2026-10-11T08:28:51Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"conductor-0.4.0/chunks/2026-10-11-conductors-window-retired",
+"--run-dir",
+".andromeda/runs/2026-10-11T08-28-34-wrap",
+"--marker",
+"2026-10-11-conductors-window-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base 321dc8f2 (the parent of the oldest pre-CI commit f6bc1ea2) · lists new 0 · modify 12 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"list crates/conductor-tauri/ (dir) ×59",
+"scope: clean — changed 70 · listed 70 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 59 · excluded 55"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "321dc8f2b1545ae713da3e0e2cf78c8b6cc7c3c6",
+"base_why": "the parent of the oldest pre-CI commit f6bc1ea2",
+"counts": {
+"changed": 70,
+"listed": 70,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 59
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 55,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.14",
+"sha8": "e8e4a72c",
+"ts": "2026-10-11T08:34:28Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"conductor-0.4.0/chunks/2026-10-11-conductors-window-retired",
+"--run-dir",
+".andromeda/runs/2026-10-11T08-28-34-wrap",
+"--marker",
+"2026-10-11-conductors-window-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base 321dc8f2 (the parent of the oldest pre-CI commit f6bc1ea2) · lists new 0 · modify 12 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"list crates/conductor-tauri/ (dir) ×59",
+"scope: clean — changed 70 · listed 70 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 59 · excluded 66"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "321dc8f2b1545ae713da3e0e2cf78c8b6cc7c3c6",
+"base_why": "the parent of the oldest pre-CI commit f6bc1ea2",
+"counts": {
+"changed": 70,
+"listed": 70,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 59
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 66,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.14",
+"sha8": "e8e4a72c",
+"ts": "2026-10-11T09:15:09Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.4.0/chunks/2026-10-11-conductors-window-retired/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-11T08-28-34-wrap",
+"--marker",
+"2026-10-11-conductors-window-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-11-conductors-window-retired · entries 26",
+"logs $TMPDIR/andromeda-gate/2026-10-11-conductors-window-retired/wrap-2026-10-11T08-28-34 · bound: GNU timeout",
+"delta docs 135 · python 1 · unmapped 2",
+"walk-class rust 8 (crates/conductor-core/src/drift.rs, crates/conductor-core/src/load_envelope.rs, crates/conductor-core/src/scenario_catalog.rs, +5 in the trail) · uncommitted 138",
+"prose L119-128: No boot path changes and no live leg runs in this chunk, so there is no smoke or live entr… (1073 chars)",
+"  1 probe       green · exit 0 · 0.0s · 0 B → 1.log · test ! -e crates/conductor-tauri && test ! -e scripts/a11y… (173 chars)",
+"  2 build       green · exit 0 · 0.17s · 72 B → 2.log · cargo build --workspace --locked",
+"  3 probe       green · exit 0 · 0.01s · 2 B → 3.log · comm -13 <(git show 321dc8f2b1545ae713da3e0e2cf78c8b6cc7c3… (210 chars)",
+"  4 probe       red · last line '270' ✗ (last: '268') · exit 0 · 0.0s · 4 B → 4.log · awk '/^name = /' Cargo.lock | wc -l",
+"  5 probe       green · exit 1 · 0.0s · 2 B → 5.log · grep -c -E '^name = \"(tauri|tauri-[a-z-]+|wry|tao|tao-macr… (179 chars)",
+"  6 build       green · exit 0 · 0.65s · 576 B → 6.log · for p in conductor-core conductor-timeline conductor-emit … (225 chars)",
+"  7 probe       green · exit 1 · 0.01s · 0 B → 7.log · git grep -n -E 'conductor-tauri|tauri::|^tauri(-build)? =|… (277 chars)",
+"  8 probe       green · exit 0 · 0.0s · 2 B → 8.log · awk '/^jobs:/{j=1;next} /^[^ ]/{j=0} j && /^  [a-z0-9_-]+:… (104 chars)",
+"  9 probe       green · exit 0 · 0.0s · 3 B → 9.log · grep -c -E 'name: (Formatting gate|Secret-scan gate|Workfl… (360 chars)",
+" 10 probe       green · exit 1 · 0.0s · 2 B → 10.log · grep -c 'continue-on-error' .github/workflows/ci.yml",
+" 11 probe       green · exit 0 · 0.0s · 2 B → 11.log · grep -c -E '^\\s+if:' .github/workflows/ci.yml",
+" 12 probe       green · exit 0 · 0.0s · 0 B → 12.log · git diff --quiet 321dc8f2b1545ae713da3e0e2cf78c8b6cc7c3c6 … (92 chars)",
+" 13 lint        green · exit 0 · 0.0s · 0 B → 13.log · bash -n scripts/agent-run.sh",
+" 14 lint        green · exit 0 · 0.41s · 2 B → 14.log · pwsh -NoProfile -Command '$e = $null; $null = [System.Mana… (178 chars)",
+" 15 lint        green · exit 0 · 0.3s · 0 B → 15.log · cargo fmt --all --check",
+" 16 unit        green · exit 0 · 11.67s · 150798 B → 16.log · bash scripts/agent-run.sh run",
+" 17 unit        green · exit 0 · 10.69s · 103762 B → 17.log · cargo test --workspace --lib --bins --tests",
+" 18 unit        green · exit 0 · 10.6s · 149292 B → 18.log · cargo llvm-cov nextest --workspace --profile ci --no-repor… (59 chars)",
+" 19 probe       green · exit 0 · 0.79s · 15912 B → 19.log · cargo llvm-cov report --fail-under-lines 60 --ignore-filen… (85 chars)",
+" 20 probe       green · exit 0 · 0.02s · 0 B → 20.log · git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --… (67 chars)",
+" 21 probe       green · exit 0 · 1.46s · 258 B → 21.log · cargo audit",
+" 22 probe       green · exit 0 · 0.03s · 0 B → 22.log · git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --… (67 chars)",
+" 23 probe       green · exit 0 · 0.76s · 6468 B → 23.log · cargo deny check advisories bans licenses sources",
+" 24 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ga… (71 chars)",
+" 25 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (86 chars)",
+" 26 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ci… (95 chars)",
+"entries 26 · green 22 · red 1 (4) · recorded 0 · timeout 0 · not-run 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-11-conductors-window-retired",
+"plan": "./conductor-0.4.0/chunks/2026-10-11-conductors-window-retired/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-11-conductors-window-retired/wrap-2026-10-11T08-28-34",
+"delta": {
+"docs": [
+".andromeda/a11y-plan-amendments.md",
+".andromeda/a11y-plan.md",
+".andromeda/architecture-amendments.md",
+".andromeda/architecture.md",
+".andromeda/design-system-amendments.md",
+".andromeda/design-system.md",
+".andromeda/drift-base.md",
+".andromeda/friction-log.ndjson",
+".andromeda/layout-templates-amendments.md",
+".andromeda/layout-templates.md",
+".andromeda/obs-plan-amendments.md",
+".andromeda/obs-plan.md",
+".andromeda/registries/a11y-plan-contracts.toml",
+".andromeda/registries/contracts/a11y-plan/a11y-testing-tool-pick.md",
+".andromeda/registries/contracts/a11y-plan/bootstrap-phases-derive-for-route-setup-project.md",
+".andromeda/registries/contracts/a11y-plan/ci-integration.md",
+".andromeda/registries/contracts/a11y-plan/contrast-verification-harness.md",
+".andromeda/registries/contracts/a11y-plan/focus-management-test-harness.md",
+".andromeda/registries/contracts/a11y-plan/keyboard-test-harness.md",
+".andromeda/registries/contracts/a11y-plan/screen-reader-test-pattern.md",
+".andromeda/registries/contracts/a11y-plan/structured-violation-json-schema.md",
+".andromeda/registries/contracts/a11y-plan/wcag-criteria-mapping.md",
+".andromeda/registries/contracts/architecture/build-system.md",
+".andromeda/registries/contracts/architecture/ci-cd-approach.md",
+".andromeda/registries/contracts/architecture/deployment-model.md",
+".andromeda/registries/contracts/architecture/directory-structure-crate-per-seam-cargo-workspace.md",
+".andromeda/registries/contracts/obs-plan/bootstrap-phases-for-downstream-skills.md",
+".andromeda/registries/contracts/obs-plan/correlation-no-distributed-tracing.md",
+".andromeda/registries/contracts/obs-plan/heartbeat-ticks.md",
+".andromeda/registries/contracts/obs-plan/log-file-location.md",
+".andromeda/registries/contracts/obs-plan/log-format-json-schema.md",
+".andromeda/registries/contracts/obs-plan/logging-stack.md",
+".andromeda/registries/contracts/obs-plan/otel-sdk-init.md",
+".andromeda/registries/contracts/obs-plan/service-identity.md",
+".andromeda/registries/contracts/test-plan/5-command-implementation.md",
+".andromeda/registries/contracts/test-plan/bootstrap-phases-derive-for-route-setup-project.md",
+".andromeda/registries/contracts/test-plan/log-format.md",
+".andromeda/registries/contracts/test-plan/test-data-bootstrap.md",
+".andromeda/registries/obs-plan-contracts.toml",
+".andromeda/runs/2026-10-11T07-59-46-implement/gate-2026-10-11-conductors-window-retired.json",
+".andromeda/security-plan-amendments.md",
+".andromeda/security-plan.md",
+".andromeda/state.yaml",
+".andromeda/test-plan-amendments.md",
+".andromeda/test-plan.md",
+".claude/docs/a11y-summary.md",
+".claude/docs/commands.md",
+".claude/docs/conventions.md",
+".claude/docs/design-summary.md",
+".claude/docs/gotchas.md",
+".claude/docs/obs-summary.md",
+".claude/docs/security-summary.md",
+".claude/docs/session-learnings.md",
+".claude/docs/stack.md",
+".claude/docs/tests-summary.md",
+".claude/docs/workflow.md",
+".claude/rules/a11y.md",
+".claude/rules/frontend.md",
+".claude/rules/observability.md",
+".claude/rules/security.md",
+".claude/rules/testing.md",
+".claude/rules/verification-harness.md",
+".claude/session-handoff.md",
+"CLAUDE.md",
+"conductor-0.4.0/chunks/2026-10-11-conductors-window-retired/evidence/operator-pass.md",
+"conductor-0.4.0/working-route.md",
+".andromeda/runs/2026-10-11T08-28-34-wrap/.raw-fanout-a11y-plan.md",
+".andromeda/runs/2026-10-11T08-28-34-wrap/.raw-fanout-layout-templates.md",
+".andromeda/runs/2026-10-11T08-28-34-wrap/.raw-fanout-obs-plan.md",
+".andromeda/runs/2026-10-11T08-28-34-wrap/a11y-plan-contracts.md",
+".andromeda/runs/2026-10-11T08-28-34-wrap/a11y-plan-entry-1.md",
+".andromeda/runs/2026-10-11T08-28-34-wrap/architecture-contracts.md",
+".andromeda/runs/2026-10-11T08-28-34-wrap/architecture-entry-1.md",
+".andromeda/runs/2026-10-11T08-28-34-wrap/architecture-entry-2.md",
+".andromeda/runs/2026-10-11T08-28-34-wrap/cascade-2026-10-11-conductors-window-retired.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/cascade-dispositions.md",
+".andromeda/runs/2026-10-11T08-28-34-wrap/cascade-patterns.toml",
+".andromeda/runs/2026-10-11T08-28-34-wrap/cascade-sweep-listing.txt",
+".andromeda/runs/2026-10-11T08-28-34-wrap/citation-dispositions.md",
+".andromeda/runs/2026-10-11T08-28-34-wrap/cites-2026-10-11-conductors-window-retired.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/curation.md",
+".andromeda/runs/2026-10-11T08-28-34-wrap/design-system-entry-1.md",
+".andromeda/runs/2026-10-11T08-28-34-wrap/evolve-2026-10-11-conductors-window-retired.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/expected-amendments-sweep.txt",
+".andromeda/runs/2026-10-11T08-28-34-wrap/fanout-results.md",
+".andromeda/runs/2026-10-11T08-28-34-wrap/gate-2026-10-11-conductors-window-retired.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/health-2026-10-11-conductors-window-retired.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/inputs-2026-10-11-conductors-window-retired.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/layout-templates-entry-1.md",
+".andromeda/runs/2026-10-11T08-28-34-wrap/leaf-a11y-body.md",
+".andromeda/runs/2026-10-11T08-28-34-wrap/leaf-frontend-body.md",
+".andromeda/runs/2026-10-11T08-28-34-wrap/new-text.md",
+".andromeda/runs/2026-10-11T08-28-34-wrap/obs-plan-contracts.md",
+".andromeda/runs/2026-10-11T08-28-34-wrap/obs-plan-entry-1.md",
+".andromeda/runs/2026-10-11T08-28-34-wrap/ops-5-command.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/ops-a11y-keys.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/ops-a11y-plan.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/ops-arch-keys.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/ops-architecture-2.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/ops-architecture.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/ops-claude-md-2.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/ops-claude-md.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/ops-design-system.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/ops-docs.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/ops-drift-base.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/ops-layout-templates-2.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/ops-layout-templates.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/ops-leaf-fixes.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/ops-obs-keys.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/ops-obs-plan-2.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/ops-obs-plan-3.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/ops-obs-plan.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/ops-obs-rule.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/ops-security-plan.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/ops-sweep-fixes.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/ops-test-keys.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/ops-test-plan-2.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/ops-test-plan.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/ops-test-vh-rules.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/ops-vh-rule.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/registry-2026-10-11-conductors-window-retired.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/relay-1.md",
+".andromeda/runs/2026-10-11T08-28-34-wrap/route-no-marker.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/security-plan-entry-1.md",
+".andromeda/runs/2026-10-11T08-28-34-wrap/security-plan-entry-2.md",
+".andromeda/runs/2026-10-11T08-28-34-wrap/spec-5-command.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/spec-architecture.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/spec-obs-plan.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/spec-security-plan.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/spec-test-plan-2.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/spec-test-plan.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/splice-2026-10-11-conductors-window-retired.json",
+".andromeda/runs/2026-10-11T08-28-34-wrap/test-plan-contracts.md",
+".andromeda/runs/2026-10-11T08-28-34-wrap/test-plan-entry-1.md",
+"conductor-0.4.0/chunks/2026-10-11-conductors-window-retired/report.md"
+],
+"python": [
+".andromeda/runs/2026-10-11T08-28-34-wrap/sweep.py"
+]
+},
+"unmapped": [
+"conductor-0.4.0/chunks/2026-10-11-conductors-window-retired/inputs/andromeda-inputs.json",
+"conductor-0.4.0/chunks/2026-10-11-conductors-window-retired/inputs/I3-relay-1.md.txt"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"crates/conductor-core/src/drift.rs",
+"crates/conductor-core/src/load_envelope.rs",
+"crates/conductor-core/src/scenario_catalog.rs",
+"crates/conductor-core/tests/scenario_audit_gate.rs",
+"crates/conductor-core/tests/secret_scan_gate.rs",
+"crates/conductor-core/tests/workflow_env_gate.rs",
+"crates/conductor-run/tests/real_model_grading/capture_population.rs",
+"crates/conductor-run/tests/real_model_harvest.rs"
+]
+},
+"uncommitted": 138,
+"problem": null
+},
+"prose": [
+{
+"from": 119,
+"to": 128,
+"text": "No boot path changes and no live leg runs in this chunk, so there is no smoke or live entry. The harness's `status` verb is untouched, and the `--live` arm is edited but never fired, because ports 4317/4318 are shared with Pulse's builder (`inputs#I1` §6). Every entry below binds only `:0` ports. The one reach to `127.0.0.1:4317` in the default suite is the preconditions probe's TCP connect, which binds nothing (research.md §Files inspected). The PowerShell twin is measured by a parse here and run whole by CI's dogfood step on its Windows runner. There is no headful self-verify: the chunk removes the only UI. The removed `--e2e` token's refusal is proven by the census (`--e2e` appears nowhere in either shell, so only the existing unknown-token `usage:` branch can take it), never by firing it: on the untouched tree the same call would build the release bundle and start the e2e leg. `evidence/lock-delta.md` and `evidence/supply-chain.md` are written by step 11 from the outputs of the lock, audit and deny entries below, so no entry carries `artifact` for them."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "probe",
+"run": "test ! -e crates/conductor-tauri && test ! -e scripts/a11y-limited-token-launch.ps1 && test ! -e scripts/a11y-token-witness.ps1 && test ! -e scripts/webview2-cause-probe.ps1",
+"run_sha8": "9a5d276b",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-11-conductors-window-retired/wrap-2026-10-11T08-28-34/1.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "build",
+"run": "cargo build --workspace --locked",
+"run_sha8": "4b0b16e3",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-11-conductors-window-retired/wrap-2026-10-11T08-28-34/2.log",
+"bytes": 72,
+"log_sha8": "fecede7c",
+"exit": 0,
+"seconds": 0.17,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "probe",
+"run": "comm -13 <(git show 321dc8f2b1545ae713da3e0e2cf78c8b6cc7c3c6:Cargo.lock | awk '/^name = /{n=$3} /^version = /{print n, $3}' | sort) <(awk '/^name = /{n=$3} /^version = /{print n, $3}' Cargo.lock | sort) | wc -l",
+"run_sha8": "be22a9fe",
+"expect": [
+"exit 0",
+"last line 0"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-11-conductors-window-retired/wrap-2026-10-11T08-28-34/3.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "probe",
+"run": "awk '/^name = /' Cargo.lock | wc -l",
+"run_sha8": "3162ba32",
+"expect": [
+"exit 0",
+"last line 270"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-11-conductors-window-retired/wrap-2026-10-11T08-28-34/4.log",
+"bytes": 4,
+"log_sha8": "fa3d6d93",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '270' ✗ (last: '268')"
+],
+"survivors": [],
+"outcome": "red · last line '270' ✗ (last: '268')"
+},
+{
+"n": 5,
+"role": "probe",
+"run": "grep -c -E '^name = \"(tauri|tauri-[a-z-]+|wry|tao|tao-macros|webview2-com|webview2-com-sys|gtk|gtk-sys|gdk|gdk-sys|webkit2gtk|webkit2gtk-sys|javascriptcore-rs|soup3)\"$' Cargo.lock",
+"run_sha8": "37704fc8",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-11-conductors-window-retired/wrap-2026-10-11T08-28-34/5.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.0,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "build",
+"run": "for p in conductor-core conductor-timeline conductor-emit conductor-faults conductor-verify conductor-report conductor-run; do cargo build -p \"$p\" --lib --locked || exit 1; done && cargo build -p conductor-cli --bins --locked",
+"run_sha8": "6f99157d",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-11-conductors-window-retired/wrap-2026-10-11T08-28-34/6.log",
+"bytes": 576,
+"log_sha8": "895fea9a",
+"exit": 0,
+"seconds": 0.65,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "git grep -n -E 'conductor-tauri|tauri::|^tauri(-build)? =|wdio|msedgedriver|CONDUCTOR_(MSEDGEDRIVER|NVDA|A11Y_STRICT)|EDGEWEBDRIVER|WEBVIEW2_|ensure_frontend|EnsureFrontend|--e2e|a11y:driven' -- .github Cargo.toml deny.toml .gitignore scripts/agent-run.sh scripts/agent-run.ps1",
+"run_sha8": "5cee5525",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-11-conductors-window-retired/wrap-2026-10-11T08-28-34/7.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.01,
+"readings": [
+"exit 1 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "awk '/^jobs:/{j=1;next} /^[^ ]/{j=0} j && /^  [a-z0-9_-]+:$/{n++} END{print n}' .github/workflows/ci.yml",
+"run_sha8": "b226c029",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-11-conductors-window-retired/wrap-2026-10-11T08-28-34/8.log",
+"bytes": 2,
+"log_sha8": "4355a46b",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "grep -c -E 'name: (Formatting gate|Secret-scan gate|Workflow env-context gate|Coverage-completeness gate|Scenario-assertion audit gate|Supply-chain — cargo audit|Supply-chain — cargo deny|Obs conformance \\+ zero-unlogged-panics gate|Run-journal conformance gate|Test \\+ lint \\(dogfood agent-run\\)|Upload obs self-observation artifact)' .github/workflows/ci.yml",
+"run_sha8": "cefefa10",
+"expect": [
+"exit 0",
+"last line 11"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-11-conductors-window-retired/wrap-2026-10-11T08-28-34/9.log",
+"bytes": 3,
+"log_sha8": "25d4f2a8",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '11' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "grep -c 'continue-on-error' .github/workflows/ci.yml",
+"run_sha8": "4d716a06",
+"expect": [
+"exit 1",
+"last line 0"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-11-conductors-window-retired/wrap-2026-10-11T08-28-34/10.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 1,
+"seconds": 0.0,
+"readings": [
+"exit 1 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "probe",
+"run": "grep -c -E '^\\s+if:' .github/workflows/ci.yml",
+"run_sha8": "c1ac59bd",
+"expect": [
+"exit 0",
+"last line 3"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-11-conductors-window-retired/wrap-2026-10-11T08-28-34/11.log",
+"bytes": 2,
+"log_sha8": "1121cfcc",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '3' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "probe",
+"run": "git diff --quiet 321dc8f2b1545ae713da3e0e2cf78c8b6cc7c3c6 -- crates/conductor-cli/src/cli.rs",
+"run_sha8": "5f6e3912",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-11-conductors-window-retired/wrap-2026-10-11T08-28-34/12.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "lint",
+"run": "bash -n scripts/agent-run.sh",
+"run_sha8": "5895b51a",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-11-conductors-window-retired/wrap-2026-10-11T08-28-34/13.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "lint",
+"run": "pwsh -NoProfile -Command '$e = $null; $null = [System.Management.Automation.Language.Parser]::ParseFile((Resolve-Path scripts/agent-run.ps1).Path, [ref]$null, [ref]$e); $e.Count'",
+"run_sha8": "abb59e0c",
+"expect": [
+"exit 0",
+"last line 0"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-11-conductors-window-retired/wrap-2026-10-11T08-28-34/14.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 0,
+"seconds": 0.41,
+"readings": [
+"exit 0 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-11-conductors-window-retired/wrap-2026-10-11T08-28-34/15.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.3,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run",
+"run_sha8": "21443cdf",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-11-conductors-window-retired/wrap-2026-10-11T08-28-34/16.log",
+"bytes": 150798,
+"log_sha8": "35630435",
+"exit": 0,
+"seconds": 11.67,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "unit",
+"run": "cargo test --workspace --lib --bins --tests",
+"run_sha8": "b2c90191",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-11-conductors-window-retired/wrap-2026-10-11T08-28-34/17.log",
+"bytes": 103762,
+"log_sha8": "93582504",
+"exit": 0,
+"seconds": 10.69,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "unit",
+"run": "cargo llvm-cov nextest --workspace --profile ci --no-report",
+"run_sha8": "42122532",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-11-conductors-window-retired/wrap-2026-10-11T08-28-34/18.log",
+"bytes": 149292,
+"log_sha8": "27c0f98a",
+"exit": 0,
+"seconds": 10.6,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "cargo llvm-cov report --fail-under-lines 60 --ignore-filename-regex '[\\\\/]tests[\\\\/]'",
+"run_sha8": "af9f253a",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-11-conductors-window-retired/wrap-2026-10-11T08-28-34/19.log",
+"bytes": 15912,
+"log_sha8": "720e08e2",
+"exit": 0,
+"seconds": 0.79,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --porcelain",
+"run_sha8": "eab7a4cb",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-11-conductors-window-retired/wrap-2026-10-11T08-28-34/20.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.02,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-11-conductors-window-retired/wrap-2026-10-11T08-28-34/21.log",
+"bytes": 258,
+"log_sha8": "7bf0063e",
+"exit": 0,
+"seconds": 1.46,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --porcelain",
+"run_sha8": "eab7a4cb",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-11-conductors-window-retired/wrap-2026-10-11T08-28-34/22.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.03,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": [
+"exit 0",
+"lacks advisory-not-detected",
+"lacks license-not-encountered"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-11-conductors-window-retired/wrap-2026-10-11T08-28-34/23.log",
+"bytes": 6468,
+"log_sha8": "5eaf82ff",
+"exit": 0,
+"seconds": 0.76,
+"readings": [
+"exit 0 ✓",
+"lacks 'advisory-not-detected' ✓",
+"lacks 'license-not-encountered' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "3c62df70",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 25,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin build/conductor-0.4.0",
+"run_sha8": "8e03f911",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 26,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1500",
+"run_sha8": "b9014dfb",
+"expect": [
+"exit 0",
+"contains verdict: green",
+"lacks A11y gate",
+"lacks Frontend gate"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.14",
+"sha8": "e8e4a72c",
+"ts": "2026-10-11T09:15:39Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-10-11T08-28-34-wrap",
+"--marker",
+"2026-10-11-conductors-window-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust · base 321dc8f2 (the parent of the oldest pre-CI commit f6bc1ea2)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust — each fired on its synthetic known positive",
+"P1 .andromeda/runs/2026-10-11T08-28-34-wrap/.raw-fanout-a11y-plan.md:109 ×4 · in-root",
+"P1 .andromeda/runs/2026-10-11T08-28-34-wrap/fanout-results.md:1054 ×4 · in-root",
+"in-root: a home path under the root in 2 files — respell: gate.py respell --file {path} (the root prefix dropped, never ~/)",
+"hygiene: refused 2 files — P1 2 · P2 0 · P3 0 · read 120 (runs 112 · evidence 3 · inputs 5) · trails 22 not read · copies 3 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust"
+],
+"rows": [
+"P1 .andromeda/runs/2026-10-11T08-28-34-wrap/.raw-fanout-a11y-plan.md:109 ×4 · in-root",
+"P1 .andromeda/runs/2026-10-11T08-28-34-wrap/fanout-results.md:1054 ×4 · in-root"
+],
+"counts": {
+"P1": 2,
+"P2": 0,
+"P3": 0,
+"runs": 112,
+"evidence": 3,
+"inputs": 5,
+"trails": 22,
+"copies": 3,
+"kept": 0,
+"binary": 0,
+"in_root": 2
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.14",
+"sha8": "e8e4a72c",
+"ts": "2026-10-11T09:15:44Z",
+"argv": [
+"respell",
+"--file",
+".andromeda/runs/2026-10-11T08-28-34-wrap/.raw-fanout-a11y-plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-11T08-28-34-wrap",
+"--marker",
+"2026-10-11-conductors-window-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"respelled .andromeda/runs/2026-10-11T08-28-34-wrap/.raw-fanout-a11y-plan.md ×4 · −152 B · 2a188c6c→8579c0c1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"path": ".andromeda/runs/2026-10-11T08-28-34-wrap/.raw-fanout-a11y-plan.md",
+"occurrences": 4,
+"bytes": 152,
+"before": "2a188c6c",
+"after": "8579c0c1"
+}
+},
+{
+"tool": "gate",
+"v": "1.14",
+"sha8": "e8e4a72c",
+"ts": "2026-10-11T09:15:45Z",
+"argv": [
+"respell",
+"--file",
+".andromeda/runs/2026-10-11T08-28-34-wrap/fanout-results.md",
+"--run-dir",
+".andromeda/runs/2026-10-11T08-28-34-wrap",
+"--marker",
+"2026-10-11-conductors-window-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"respelled .andromeda/runs/2026-10-11T08-28-34-wrap/fanout-results.md ×4 · −152 B · f216662b→ce746e62"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"path": ".andromeda/runs/2026-10-11T08-28-34-wrap/fanout-results.md",
+"occurrences": 4,
+"bytes": 152,
+"before": "f216662b",
+"after": "ce746e62"
+}
+},
+{
+"tool": "gate",
+"v": "1.14",
+"sha8": "e8e4a72c",
+"ts": "2026-10-11T09:15:45Z",
+"argv": [
+"hygiene",
+"--run-dir",
+".andromeda/runs/2026-10-11T08-28-34-wrap",
+"--marker",
+"2026-10-11-conductors-window-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · case exact · planes rust · base 321dc8f2 (the parent of the oldest pre-CI commit f6bc1ea2)",
+"control: P1 drive · P1 device · P1 home · P1 users · P1 root · P1 msys · P1 wsl · P1 tmp · P1 in-root home · P1 in-root drive · P2 · P3 rust — each fired on its synthetic known positive",
+"hygiene: clean — read 120 (runs 112 · evidence 3 · inputs 5) · trails 22 not read · copies 3 not read by P1 — 0 host paths kept · binary 0 not read by P1"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"case": "exact",
+"planes": [
+"rust"
+],
+"rows": [],
+"counts": {
+"P1": 0,
+"P2": 0,
+"P3": 0,
+"runs": 112,
+"evidence": 3,
+"inputs": 5,
+"trails": 22,
+"copies": 3,
+"kept": 0,
+"binary": 0,
+"in_root": 0
+},
+"indeterminate": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.14",
+"sha8": "e8e4a72c",
+"ts": "2026-10-11T09:15:45Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"conductor-0.4.0/chunks/2026-10-11-conductors-window-retired",
+"--run-dir",
+".andromeda/runs/2026-10-11T08-28-34-wrap",
+"--marker",
+"2026-10-11-conductors-window-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base 321dc8f2 (the parent of the oldest pre-CI commit f6bc1ea2) · lists new 0 · modify 12 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"list crates/conductor-tauri/ (dir) ×59",
+"scope: clean — changed 70 · listed 70 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 59 · excluded 190"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "321dc8f2b1545ae713da3e0e2cf78c8b6cc7c3c6",
+"base_why": "the parent of the oldest pre-CI commit f6bc1ea2",
+"counts": {
+"changed": 70,
+"listed": 70,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 59
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 190,
+"unparsed": 0,
+"widening_without_word": 0
+}
+}
+]

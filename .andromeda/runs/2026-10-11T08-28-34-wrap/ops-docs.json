@@ -1,0 +1,192 @@
+{
+ "commands.md": [
+  {
+   "sub": [
+    "- `cargo tauri build` — optional Tauri 2 GUI bundle (convenience only). Needs the host `tauri-cli` (`cargo install tauri-cli --locked`, floor 2.11.4) — it is not a lockfile dependency. Emits the msi + nsis installer set under gitignored `target/release/bundle/`.\n",
+    ""
+   ]
+  },
+  {
+   "sub": [
+    "`agent-run.sh run [--unit|--integration|--e2e|--live [real-model]]`",
+    "`agent-run.sh run [--unit|--integration|--live [real-model]]`"
+   ]
+  },
+  {
+   "sub": [
+    "- Webview E2E: `agent-run.{sh,ps1} run --e2e` → ensure-frontend → `cargo build --release -p conductor-tauri --features tauri/custom-protocol` (the FEATURE, not the profile, embeds the bundle) → seed the fixture runs dir (the committed `crates/conductor-run/tests/fixtures/lamps-journal.jsonl` copied into the gitignored `runs/e2e-fixture/`, with the tauri-driver spawn carrying `CONDUCTOR_RUNS_DIR=runs/e2e-fixture` — `/runs/` is gitignored, so without a seed the coverage rows have no run record to render) → `wdio run` (tauri-driver). Headless under `xvfb` on a Linux host (the TARGET CI arrangement; `ci.yml` runs two `windows-latest` jobs and no webview-E2E job, measured 2026-09-06); headful on the Windows host when `CONDUCTOR_MSEDGEDRIVER` names a driver — unset or not-a-file ⇒ the leg skips at exit 0 with the fetch recipe. macOS has no WebDriver. Operator-local siblings over the same stack (never `agent-run`, never CI): `npm run a11y:driven` (the live-Pulse hold dialog) and the screen-reader leg `npm run a11y:sr-empty` / `a11y:sr-error` / `a11y:sr` (NVDA's speech log under `CONDUCTOR_NVDA`, unset ⇒ skip at exit 0; the `sr` subject needs the live-Pulse firing form and fires one canary) — all from `crates/conductor-tauri/ui`. **The `--e2e` arm asserts the PRINTED verdict, not its exit code** (both shells, identical semantics, since 2026-09-07 — a property of the scripts TOGETHER with the invoking environment: a caller setting `$PSNativeCommandUseErrorActionPreference = $true` preempts the capture-then-print and the verdict never prints, measured 2026-09-07): the exit alone cannot separate a full pass from a total skip, so it requires zero on the `Spec Files:` failed count, a skip tally within the expected-skip SET (a third skip is a failure), and the `[webview2 … windows]` driven-session banner — and it emits one violation record per run at `runs/a11y/<run_id>.jsonl`. Setting `CONDUCTOR_A11Y_STRICT=1` (the CI posture) makes an unresolved `CONDUCTOR_MSEDGEDRIVER` / `CONDUCTOR_NVDA` exit NON-ZERO instead of skipping.\n",
+    ""
+   ]
+  }
+ ],
+ "conventions.md": [
+  {
+   "sub": [
+    "(**9** workspace members — 7 seam/library crates + the `conductor-cli` and `conductor-tauri` bins)",
+    "(**8** workspace members — 7 seam/library crates + the `conductor-cli` bin)"
+   ]
+  },
+  {
+   "sub": [
+    "; internal Tauri 2 `#[tauri::command]` + one `Channel`. REST",
+    ". REST"
+   ]
+  },
+  {
+   "sub": [
+    "`anyhow` only at `conductor-cli` / `#[tauri::command]` edges.",
+    "`anyhow` only at the `conductor-cli` edge."
+   ]
+  }
+ ],
+ "gotchas.md": [
+  {
+   "sub": [
+    "**How to avoid:** It is an intentional in-host fault only (P-003); `cleanup` releases the `TcpListener` bind. Conductor's SHIPPED binaries otherwise open NO inbound listener. The dev-only webview a11y legs are the one qualification — the routine `--e2e` arm, the operator-local `a11y:driven` arm and the operator-local `sr*` screen-reader suites, three suite families over the ONE WebdriverIO + tauri-driver stack: their driver stack binds loopback `4444`/`4445` for the harness's lifetime and tears them down with itself — never in `conductor-cli` / `conductor-tauri`. The screen-reader leg additionally spawns the host NVDA named by `CONDUCTOR_NVDA`, a fixed-argv PowerShell window-activation script and, per key, the foreground-guarded fixed-argv key-send script `send-keys.ps1` (none opens a listener).",
+    "**How to avoid:** It is an intentional in-host fault only (P-003); `cleanup` releases the `TcpListener` bind. Conductor's SHIPPED binaries otherwise open NO inbound listener. No dev-only harness leg binds a port since 2026-10-11: the webview a11y legs and their driver ports `4444`/`4445` left with the window."
+   ]
+  },
+  {
+   "sub": [
+    "\n## Tauri generate_context! resolves ui/dist at compile time\n**What breaks:** `conductor-tauri`'s `tauri::generate_context!` reads `tauri.conf.json`'s `build.frontendDist` (`ui/dist`) at COMPILE time — so any workspace `cargo build`/`nextest`/`clippy` that compiles `conductor-tauri` FAILS if the webview bundle isn't built first (`ui/dist` is git-ignored → regenerated per environment). A bare `cargo build` does NOT run `beforeBuildCommand` (only the Tauri CLI does).\n**How to avoid:** Build the frontend (`npm run build` in `crates/conductor-tauri/ui`) before the cargo gate — wired as the `ensure_frontend` step in `scripts/agent-run.{sh,ps1}` (the `run` verb) + the CI Rust job. Also gitignore `crates/conductor-tauri/gen/` (tauri-build regenerates it each compile) and keep valid `bundle.icon` files present (PNG + ICO — `generate_context!` validates them at compile time).\n**Fix if broken:** Run the frontend build, then re-run the cargo gate.\n**References:** architecture.md §Infrastructure Patterns (Build system); `.claude/rules/frontend.md`.\n",
+    ""
+   ]
+  }
+ ],
+ "obs-summary.md": [
+  {
+   "sub": [
+    "- **Log sink:** cli → `logs/agent-latest.jsonl` (`--agent-mode`) / stderr (dev); Tauri backend → `conductor-tauri.jsonl` under `runs_dir.parent()/logs/` (the directory rides `CONDUCTOR_RUNS_DIR` — project-root `logs/` only with it unset; per-suite `runs/logs/` · `runs/driven/logs/` · `runs/sr-leg/logs/` on the a11y suites, measured 2026-09-02); Tauri frontend → browser `console.log` JSON (no network exporter — recursion guard).",
+    "- **Log sink:** cli → `logs/agent-latest.jsonl` (`--agent-mode`) / stderr (dev); Tauri backend → `conductor-tauri.jsonl` with no writer since 2026-10-11 (the sink goes at `Panel-shaped types retired`)."
+   ]
+  },
+  {
+   "sub": [
+    "- **Heartbeat:** N/A for cli (short-lived per-scenario); Tauri backend optional 30s `conductor.tick` via `Channel` (UI state, NOT telemetry).",
+    "- **Heartbeat:** N/A for cli (short-lived per-scenario)."
+   ]
+  },
+  {
+   "sub": [
+    "`service.name` = `conductor` / `conductor-tauri` / `conductor-ui`",
+    "`service.name` = `conductor`"
+   ]
+  }
+ ],
+ "workflow.md": [
+  {
+   "sub": [
+    "; the Tauri GUI is a thin shell over the same core.",
+    "."
+   ]
+  },
+  {
+   "sub": [
+    " → optional `cargo tauri build`",
+    ""
+   ]
+  }
+ ],
+ "stack.md": [
+  {
+   "sub": [
+    "Conductor is a gRPC client + MCP client + Tauri IPC host;",
+    "Conductor is a gRPC client + MCP client;"
+   ]
+  },
+  {
+   "sub": [
+    "(0.10.9, already locked via `tauri-codegen` / `wry`)",
+    "(0.10.9, locked by its own dev edge since 2026-10-11)"
+   ]
+  },
+  {
+   "sub": [
+    "## Frontend (desktop-webview GUI — convenience surface)\n- **React 19.x** + **Vite 8.0.16** (`@vitejs/plugin-react`; Preact 10.x size fallback) + **Tailwind CSS v4.1** (Oxide via `@tailwindcss/vite`; tokens on `:root`, not `@theme` — v4 tree-shakes non-namespace tokens) + **shadcn/ui** (Radix Primitives) + Lucide React icons + **`@tauri-apps/api`** (window/IPC client). Package manager **npm** (`package-lock.json` committed, `npm audit --omit=dev` gate); SPA under `crates/conductor-tauri/ui/`.\n- **Tauri 2** (≥ 2.10.3 per security-plan; resolves 2.11.x) frameless window (`decorations:false`) via **`tauri-build`** — `generate_context!` resolves `ui/dist` at COMPILE time, so the frontend builds before any workspace cargo compile of `conductor-tauri` (the `ensure_frontend` step in `agent-run.{sh,ps1}` + CI). Fonts: JetBrains Mono + IBM Plex Sans (self-hosted WOFF2 via Fontsource).",
+    "## Frontend\n- None since 2026-10-11: the desktop-webview GUI (React 19 / Vite / Tailwind / Tauri 2) left with the window; the cli is the one surface."
+   ]
+  },
+  {
+   "sub": [
+    "- **Test:** cargo-nextest (pinned runner; zero-retry `ci` profile in `.config/nextest.toml`) + `cargo test --doc`; dev-test stack rstest 0.26 · proptest 1.x · insta 1.x · assert_cmd 2 · assert_fs 1 · predicates 3 · regex 1.12 (`conductor-core` only, for the repository-hygiene gates — already locked transitively, no new package); coverage cargo-llvm-cov (needs the `llvm-tools-preview` toolchain component). External CLI-tool versions are reference floors; `Cargo.lock` is authoritative for crate deps (test-plan §4). Webview E2E: @crabnebula/tauri-driver 2.0.9 + WebdriverIO (headful Windows WebView2 — the dev host and CI's `windows-2022` `a11y` job; Linux + xvfb is target-state).",
+    "- **Test:** cargo-nextest (pinned runner; zero-retry `ci` profile in `.config/nextest.toml`) + `cargo test --doc`; dev-test stack rstest 0.26 · proptest 1.x · insta 1.x · assert_cmd 2 · assert_fs 1 · predicates 3 · regex 1.12 (`conductor-core` only, for the repository-hygiene gates — already locked transitively, no new package); coverage cargo-llvm-cov (needs the `llvm-tools-preview` toolchain component). External CLI-tool versions are reference floors; `Cargo.lock` is authoritative for crate deps (test-plan §4)."
+   ]
+  },
+  {
+   "sub": [
+    "- **Supply chain:** cargo-audit 0.22.2 + cargo-deny 0.19.8 (`deny.toml`) for the Rust tree; `npm audit --omit=dev` (0 production-vuln gate; dev-only test-tooling advisories accepted at dev-tree grain) + committed `package-lock.json` for the `conductor-tauri/ui` frontend tree.",
+    "- **Supply chain:** cargo-audit 0.22.2 + cargo-deny 0.19.8 (`deny.toml`) for the Rust tree. No npm tree remains (2026-10-11)."
+   ]
+  },
+  {
+   "sub": [
+    "- Local-only: `cargo build --release` → `conductor-cli` run beside Pulse via `scripts/agent-run.sh`; optional Tauri 2 GUI bundle, produced by the host `tauri-cli` bundler that no lockfile resolves (floor 2.11.4; the `tauri` CRATE 2.11.3 is a different artifact) as the msi + nsis installer set. No Docker/K8s/serverless/cloud.",
+    "- Local-only: `cargo build --release` → `conductor-cli` run beside Pulse via `scripts/agent-run.sh`. No Docker/K8s/serverless/cloud."
+   ]
+  }
+ ],
+ "tests-summary.md": [
+  {
+   "sub": [
+    "(cli; webview/IPC are convenience)",
+    "(cli)"
+   ]
+  },
+  {
+   "sub": [
+    "(`conductor_run::{preflight, drive_run}`, the composition behind the Tauri `start_run` command — no `tauri::*` item)",
+    "(`conductor_run::{preflight, drive_run}`)"
+   ]
+  },
+  {
+   "sub": [
+    "- **Per-surface drivers:** assert_cmd (cli release gate) · the hand-rolled JSON-RPC `stub_pulse_mcp` (MCP, CI — rmcp removed 2026-06-27; the stub's incident item key is `incident_id`, the live sidecar's) · tauri::test mock runtime (IPC) · tauri-driver/WebdriverIO (webview — three suite families over the one stack: routine `--e2e`, driven `a11y:driven`, screen-reader `a11y:sr*` with NVDA's speech log under `CONDUCTOR_NVDA`; Linux+xvfb remains an unrun TARGET arrangement — the shipped webview-E2E CI job is `a11y` on `windows-2022` since 2026-09-17 (moved from `windows-2025`; GREEN there — 0 failing, only the expected-skip SET skipped — on a coherent 131.0.2903.86 driver/runtime pair at High integrity, run 35208593666 and since (CI#36681853843). Its first push-triggered run happened 2026-09-08, run 34209940695, RED at WebView2 session creation **[premise-corrected 2026-09-17: configuration-bound — the endpoint does NOT open on `windows-2025` at runtime 152/153 and DOES open on hosted `windows-2022` at a coherent 131.0.2903.86 driver/runtime pair at High integrity; run 35192876641 created a session and ran the arm 11 passing / 1 failing / 2 skipped, `:397` passing, the single red `:384` a counting-basis defect (12 visits / 6 distinct).]** — the hosted image's runtime opens no remote-debugging endpoint **[premise-corrected 2026-09-17: configuration-bound — the endpoint does NOT open on `windows-2025` at runtime 152/153 and DOES open on hosted `windows-2022` at a coherent 131.0.2903.86 driver/runtime pair at High integrity; run 35192876641 created a session and ran the arm 11 passing / 1 failing / 2 skipped, `:397` passing, the single red `:384` a counting-basis defect (12 visits / 6 distinct).]**, measured driver-independent), headful on the Windows DEV HOST under `CONDUCTOR_MSEDGEDRIVER`, one of two members measured to drive a session — the other being the hosted `windows-2022` runner at a coherent 131.0.2903.86 pair (2026-09-17) — a cross-major driver/runtime pair measured working on the dev host 2026-09-02, the refresh being the operator's host task; macOS driver-less). Screen-reader browse-mode rows are agent-untestable only where no OS-level key is sent in the row's window: since 2026-09-30 the `sr*` legs send Tab / Shift+Tab / the browse keys through the OS input path (`send-keys.ps1`), so the rows they drive are agent-graded (WebDriver-injected keys still never reach browse mode); since the 2026-09-30 regrade no browse row is left without an OS key (`not-run-here 0`), the live `sr` subject runs a second un-stopped run (T-01) after a 170 s quiet window — two preflight canaries — and the pass record is graded with NVDA's log clock calibrated per session from the stimulus pairs (a stretch over 300 ms above the baseline shifted, a non-step stretch voiding the session; one slow key send can cross the line alone — a known limitation). A live-Pulse leg is operator/local only and may ride a cargo-feature gate (`--features live-pulse`), which owes its own clippy line — since 2026-10-04 that line and the `stub-server` one run in `agent-run run`'s bundled default, so CI's dogfood step compiles and lints the gated targets (never runs them); the gated SET includes `span_landing_live.rs` (2026-10-01), whose operator pass waits a 180 s SUT-side quiet window between its two same-seed drives and whose pair lives under `runs/span-landing/` (cleared by name before drive A, a stale pair refused), and `p075_round_live.rs` (2026-10-02), the P-075 round leg, whose grades sit at the harvest tier — six at Pulse S `03ec944` (`p075_round_assertion_*`) and seven at Pulse S2 `cdb6c1e` (`p075_reround_assertion_*`, 2026-10-03, adding the incident's lifecycle events read through `retrieve_incident_events` around the timed resolve), in `lifecycle_harvest` / `delegated_timing_harvest` — `mark_incident_resolved` re-graded `ProvenByLiveness` at both. The `dispatch_wire__*` goldens drive the UNSALTED dispatcher (`identity_salt: None`), the seed-pure identity tier; the salt is injected, never read inside the `conductor-emit` re-key primitive. Beside the driver legs, the `ui/` TS surface carries one driver-free, Pulse-free static gate since 2026-09-17 — `npm run a11y:ownership` (`tsx test/a11y/check-claim-ownership.ts`), operator-local and in no CI step — so §4's proving mechanism is the SET of npm legs that EXECUTE a TS member, not the wdio legs alone; it runs no test framework, leaving the decision below unchanged.",
+    "- **Per-surface drivers:** assert_cmd (cli release gate) · the hand-rolled JSON-RPC `stub_pulse_mcp` (MCP, CI — rmcp removed 2026-06-27; the stub's incident item key is `incident_id`, the live sidecar's). The `tauri::test` mock runtime and the tauri-driver / WebdriverIO webview legs (routine `--e2e`, driven `a11y:driven`, screen-reader `sr*`) left with the window on 2026-10-11, with the `a11y` CI job. A live-Pulse leg is operator/local only and may ride a cargo-feature gate (`--features live-pulse`), which owes its own clippy line — since 2026-10-04 that line and the `stub-server` one run in `agent-run run`'s bundled default, so CI's dogfood step compiles and lints the gated targets (never runs them); the gated SET includes `span_landing_live.rs` (2026-10-01), whose operator pass waits a 180 s SUT-side quiet window between its two same-seed drives and whose pair lives under `runs/span-landing/` (cleared by name before drive A, a stale pair refused), and `p075_round_live.rs` (2026-10-02), the P-075 round leg, whose grades sit at the harvest tier — six at Pulse S `03ec944` (`p075_round_assertion_*`) and seven at Pulse S2 `cdb6c1e` (`p075_reround_assertion_*`, 2026-10-03, adding the incident's lifecycle events read through `retrieve_incident_events` around the timed resolve), in `lifecycle_harvest` / `delegated_timing_harvest` — `mark_incident_resolved` re-graded `ProvenByLiveness` at both. The `dispatch_wire__*` goldens drive the UNSALTED dispatcher (`identity_salt: None`), the seed-pure identity tier; the salt is injected, never read inside the `conductor-emit` re-key primitive."
+   ]
+  },
+  {
+   "sub": [
+    "- **Open:** no JS/TS unit runner for the React webview (GUI is convenience; CLI is the gate) — re-run research if frontend unit coverage is later required.\n",
+    ""
+   ]
+  }
+ ],
+ "security-summary.md": [
+  {
+   "sub": [
+    "- CLI args + the RUST-READ `CONDUCTOR_*` env path handles → `std::fs::canonicalize` + bounds-check at the CLI edge (outside garde). `CONDUCTOR_MSEDGEDRIVER` and `CONDUCTOR_NVDA` are harness-only (read by `wdio.conf.ts`, never by a Conductor binary) → existence + `isFile` + shell-metacharacter rejection at the wdio edge, then an array-form spawn (the driver path as an argv element, the NVDA path as the program of a fixed-argv detached spawn). The canonicalize duty binds per READER, not per handle (2026-09-06): `CONDUCTOR_RUNS_DIR` also has TEST-binary readers — `conductor-run/tests/journal_conformance.rs` and the three operator-gated `live-pulse` readers `live_suite.rs` / `real_model_live.rs` / `span_landing_live.rs` (2026-10-01) — which since `2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected` (the span-landing witness from birth) resolve it through the shared `conductor-run/tests/capture_paths` guard (`resolve_under`: absolute / `..` rejected, path-free reasons), so none carries a residual. `CONDUCTOR_E2E_SEED_DIR` is a third class (2026-09-02) — harness-SET, TEST-read, never read by a shipped binary; a repo-relative constant carried in the spawn's env map, guarded by neither rule, a no-op when unset. The `sr*` leg's speech-log ingest is a boundary of its own: untrusted third-party text, bounded and host-path-scrubbed before the evidence record is committed. So is the real-model capture ingest (2026-09-22): untrusted SUT output — an MCP re-read plus Pulse's own log, the latter read through `ANDROMEDA_PULSE_DATA_DIR`'s value, canonicalized and required to be a directory first (the same guard) — passed through `mask_workspace_key` + `redact_value` + `mask_host_paths` (named roots `/home/`, `/Users/`, `%APPDATA%` and, since 2026-10-06, `/tmp/` and `/var/tmp/`) + `elide_fingerprints` (every `fingerprint_hex=` value whatever its class, and every unkeyed fingerprint-shaped token — an unkeyed all-digit run, a stamp or a seed, passes), fields-only (since 2026-10-01 also Pulse's `interpretation.incident.skipped` lines), before the committed per-chunk capture (`evidence/rm-capture.txt`; one `evidence/rm-capture-{drive}.txt` per pre-registered drive since 2026-09-29 — a series' drive, or the 2026-10-07 capture run's). The span-landing witness (`span_landing_live`, 2026-10-01) is a second Pulse-log ingest through the same data-dir guard: its two frozen journals under `runs/span-landing/`, one bounded decode per line, `e.kind()`-only failures, a stale pair refused before grading, and ONE integers-only `span-landing: PASS|FAIL …` line out — never a Pulse line, path, key or fingerprint, and nothing from the ingest committed. The verbatim report body it prints carries Pulse's rendering of the workspace key (a PATH on Pulse's side), which the capture masks as `<workspace-key>` since 2026-09-30, printing only a class-only rendering witness. The sidecar spawn suppresses the child's console window on Windows (`CREATE_NO_WINDOW` under `#[cfg(windows)]`, shipped 2026-09-04), closing the measured host-path disclosure the pane title carried.",
+    "- CLI args + the RUST-READ `CONDUCTOR_*` env path handles → `std::fs::canonicalize` + bounds-check at the CLI edge (outside garde). The canonicalize duty binds per READER, not per handle (2026-09-06): `CONDUCTOR_RUNS_DIR` also has TEST-binary readers — `conductor-run/tests/journal_conformance.rs` and the three operator-gated `live-pulse` readers `live_suite.rs` / `real_model_live.rs` / `span_landing_live.rs` (2026-10-01) — which since `2026-09-23-real-model-capture-path-handles-guarded-and-stale-read-back-texts-corrected` (the span-landing witness from birth) resolve it through the shared `conductor-run/tests/capture_paths` guard (`resolve_under`: absolute / `..` rejected, path-free reasons), so none carries a residual. `CONDUCTOR_E2E_SEED_DIR` is TEST-read, never read by a shipped binary, with no setter since 2026-10-11 — an unset no-op. The real-model capture ingest (2026-09-22) is a boundary of its own: untrusted SUT output — an MCP re-read plus Pulse's own log, the latter read through `ANDROMEDA_PULSE_DATA_DIR`'s value, canonicalized and required to be a directory first (the same guard) — passed through `mask_workspace_key` + `redact_value` + `mask_host_paths` (named roots `/home/`, `/Users/`, `%APPDATA%` and, since 2026-10-06, `/tmp/` and `/var/tmp/`) + `elide_fingerprints` (every `fingerprint_hex=` value whatever its class, and every unkeyed fingerprint-shaped token — an unkeyed all-digit run, a stamp or a seed, passes), fields-only (since 2026-10-01 also Pulse's `interpretation.incident.skipped` lines), before the committed per-chunk capture (`evidence/rm-capture.txt`; one `evidence/rm-capture-{drive}.txt` per pre-registered drive since 2026-09-29 — a series' drive, or the 2026-10-07 capture run's). The span-landing witness (`span_landing_live`, 2026-10-01) is a second Pulse-log ingest through the same data-dir guard: its two frozen journals under `runs/span-landing/`, one bounded decode per line, `e.kind()`-only failures, a stale pair refused before grading, and ONE integers-only `span-landing: PASS|FAIL …` line out — never a Pulse line, path, key or fingerprint, and nothing from the ingest committed. The verbatim report body it prints carries Pulse's rendering of the workspace key (a PATH on Pulse's side), which the capture masks as `<workspace-key>` since 2026-09-30, printing only a class-only rendering witness. The sidecar spawn suppresses the child's console window on Windows (`CREATE_NO_WINDOW` under `#[cfg(windows)]`, shipped 2026-09-04), closing the measured host-path disclosure the pane title carried."
+   ]
+  },
+  {
+   "sub": [
+    "- Tauri IPC → deny-by-default capabilities; no `shell-open` with derived strings; no remote-origin iframes.\n",
+    ""
+   ]
+  },
+  {
+   "sub": [
+    "- OTLP/gRPC egress → loopback `:4317` only; refused transport ⇒ `Result::Err` (harness fault), not a verdict. The one non-loopback egress in the project is CI-only, CONDITIONAL, and reaches no shipped binary: the `a11y` job's HTTPS fetch of the WebView2 Evergreen bootstrapper, taken only below the 152 runtime floor (2026-09-08; floor-conditional 2026-09-12).",
+    "- OTLP/gRPC egress → loopback `:4317` only; refused transport ⇒ `Result::Err` (harness fault), not a verdict. No non-loopback egress remains: the CI-only driver fetch retired with the `a11y` job on 2026-10-11."
+   ]
+  },
+  {
+   "sub": [
+    "- A third dependency class (2026-09-08) sits outside every lockfile gate: the CI-time-fetched WebView2 Evergreen bootstrapper, admitted by pre-execution Authenticode verification alone. Version posture since 2026-09-12 is the DRIVER is pinned to the runtime (2026-09-17) — the gate reads the image's WebView2 runtime, fetches msedgedriver for THAT version and fails when the majors differ, so the version is DERIVED and cannot drift. The class's member was SWAPPED, never grown: the Evergreen bootstrapper retired with its install step, and the `≥ 152` floor is retired as falsified — not necessary, not sufficient, and destructive on the working configuration. Pinned-once-the-job-gates is MET, by the route that exists; the versioned Standalone Installer it originally named does not exist as described.",
+    "- The third dependency class (a CI-time-fetched binary outside every lockfile gate) holds 0 members since 2026-10-11: the `a11y` job's version-pinned msedgedriver and its Authenticode gate left with the job."
+   ]
+  },
+  {
+   "sub": [
+    "- Frontend npm tree (`conductor-tauri/ui`): `npm audit --omit=dev` clean (production-dep strict; dev-only test-tooling advisories accepted at dev-tree grain) + `package-lock.json` committed; fonts vendored (no CDN). cargo-audit/deny are Rust-only.",
+    "- No npm tree remains — the `conductor-tauri/ui` tree and its `npm audit` gate left with the window (2026-10-11); cargo-audit/deny cover the one ecosystem."
+   ]
+  },
+  {
+   "sub": [
+    "; `tauri` ≥2.10.3 (origin-confusion CVE-2026-42184) — required bump, dormant until the Tauri GUI (Epoch 9).",
+    "; the `tauri` ≥2.10.3 floor retired with the crate (2026-10-11)."
+   ]
+  }
+ ]
+}

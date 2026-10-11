@@ -1,0 +1,9 @@
+{
+ "test-plan.md": [
+  {"sub": ["the source of truth and the release gate; the GUI is a thin shell over the same core commands**", "the source of truth and the release gate** (the GUI shell retired 2026-10-11)"]},
+  {"sub": ["this is Minimal at the upper boundary: 9 workspace crates plus several capability surfaces", "this is Minimal at the upper boundary: the workspace's crate-per-seam members (the set `Cargo.toml [workspace] members` declares) plus several capability surfaces"]}
+ ],
+ "obs-plan.md": [
+  {"sub": ["(a real-model scenario reached from the suite or the GUI, which keep the deterministic gate)", "(a real-model scenario reached from the suite, which keeps the deterministic gate)"]}
+ ]
+}

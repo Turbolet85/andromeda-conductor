@@ -9,7 +9,7 @@ _Mirrors `.andromeda/architecture.md` §Stack and Technologies. Convenience refe
 - **rand_chacha 0.9 (`ChaCha8Rng`) + rand_core 0.9 (`SeedableRng`)** — seedable, platform-stable PRNG; the timeline scheduler's sole non-determinism (seeded per-gap jitter), `seed_from_u64` for cross-platform/version-stable reproducibility.
 
 ## Core Frameworks
-- **No backend/web framework** — Conductor is a gRPC client + MCP client + Tauri IPC host; no HTTP/network service of its own.
+- **No backend/web framework** — Conductor is a gRPC client + MCP client; no HTTP/network service of its own.
 - **OTLP emission:** opentelemetry-proto 0.32.0 (`gen-tonic` + trace/metrics/logs) — raw hand-built message structs for byte-level fault control.
 - **gRPC transport:** tonic 0.14.6 + tonic-prost 0.14.6 + prost 0.14 (codegen via `tonic-prost-build`).
 - **MCP read-back client:** hand-rolled line-delimited JSON-RPC over tokio child stdio (rmcp removed 2026-06-27 — Pulse's `tools/call` is non-MCP-compliant); protocol `2024-11-05` read from the `initialize` result; raw `serde_json::Value` tool results.
@@ -20,7 +20,7 @@ _Mirrors `.andromeda/architecture.md` §Stack and Technologies. Convenience refe
 
 ## Data Storage
 - **blake3 1.8.6** (`blake3 = "1"`) — exception-fingerprint derivation in `conductor-emit`; a NORMAL (non-dev) dep, version-matched to Pulse's own pin because Conductor recomputes the SUT's derivation, not its own
-- **sha2 0.10** (0.10.9, already locked via `tauri-codegen` / `wry`) — a TEST-only `conductor-run` dev-dependency for the real-model harvest's sha256 digest pins over committed capture evidence; no new package, and blake3 stays the only shipped hashing dependency
+- **sha2 0.10** (0.10.9, locked by its own dev edge since 2026-10-11) — a TEST-only `conductor-run` dev-dependency for the real-model harvest's sha256 digest pins over committed capture evidence; no new package, and blake3 stays the only shipped hashing dependency
 - **rusqlite 0.38.0 + libsqlite3-sys 0.36.0** (`bundled` SQLite 3.50.4, JSON1) — synchronous embedded `runs.db` index, raw SQL, no ORM/migrations.
 - On-disk artifacts: per-run `<run_id>.jsonl` emission journal + `<run_id>.md` report under `runs/`.
 
@@ -30,21 +30,20 @@ _Mirrors `.andromeda/architecture.md` §Stack and Technologies. Convenience refe
 ## Observability (self-observation — NOT OTel)
 - **tracing 0.1.44 + tracing-subscriber 0.3.23** (JSON formatter) — the ONLY self-obs mechanism. No OTel SDK for self-observation (opentelemetry-proto is the PRODUCT fault stream, not self-instrumentation).
 
-## Frontend (desktop-webview GUI — convenience surface)
-- **React 19.x** + **Vite 8.0.16** (`@vitejs/plugin-react`; Preact 10.x size fallback) + **Tailwind CSS v4.1** (Oxide via `@tailwindcss/vite`; tokens on `:root`, not `@theme` — v4 tree-shakes non-namespace tokens) + **shadcn/ui** (Radix Primitives) + Lucide React icons + **`@tauri-apps/api`** (window/IPC client). Package manager **npm** (`package-lock.json` committed, `npm audit --omit=dev` gate); SPA under `crates/conductor-tauri/ui/`.
-- **Tauri 2** (≥ 2.10.3 per security-plan; resolves 2.11.x) frameless window (`decorations:false`) via **`tauri-build`** — `generate_context!` resolves `ui/dist` at COMPILE time, so the frontend builds before any workspace cargo compile of `conductor-tauri` (the `ensure_frontend` step in `agent-run.{sh,ps1}` + CI). Fonts: JetBrains Mono + IBM Plex Sans (self-hosted WOFF2 via Fontsource).
+## Frontend
+- None since 2026-10-11: the desktop-webview GUI (React 19 / Vite / Tailwind / Tauri 2) left with the window; the cli is the one surface.
 - **cli surface:** clap 4.5 + owo-colors 4.x gated by `std::io::IsTerminal` (per stream: stdout and stderr decide independently) + indicatif 0.18 + comfy-table 7 + inquire 0.9.
 
 ## Development & CI
-- **Test:** cargo-nextest (pinned runner; zero-retry `ci` profile in `.config/nextest.toml`) + `cargo test --doc`; dev-test stack rstest 0.26 · proptest 1.x · insta 1.x · assert_cmd 2 · assert_fs 1 · predicates 3 · regex 1.12 (`conductor-core` only, for the repository-hygiene gates — already locked transitively, no new package); coverage cargo-llvm-cov (needs the `llvm-tools-preview` toolchain component). External CLI-tool versions are reference floors; `Cargo.lock` is authoritative for crate deps (test-plan §4). Webview E2E: @crabnebula/tauri-driver 2.0.9 + WebdriverIO (headful Windows WebView2 — the dev host and CI's `windows-2022` `a11y` job; Linux + xvfb is target-state).
+- **Test:** cargo-nextest (pinned runner; zero-retry `ci` profile in `.config/nextest.toml`) + `cargo test --doc`; dev-test stack rstest 0.26 · proptest 1.x · insta 1.x · assert_cmd 2 · assert_fs 1 · predicates 3 · regex 1.12 (`conductor-core` only, for the repository-hygiene gates — already locked transitively, no new package); coverage cargo-llvm-cov (needs the `llvm-tools-preview` toolchain component). External CLI-tool versions are reference floors; `Cargo.lock` is authoritative for crate deps (test-plan §4).
 - **Lint/format:** clippy + rustfmt. Module-graph audit: cargo-modules / cargo-rail (optional).
 - **Operator instruments (host Python 3):** resolved by no lockfile and pinned by no toolchain file — the code-graph pipeline (`scripts/code-graph.py` + `scripts/scip_pb2.py` + `scripts/requirements.txt`, since 2026-06-18), the mutation-tally gate (`scripts/mutation-gate.py` + `scripts/mutation-roster.toml`, since 2026-09-13; a stdlib `selftest` verb over the committed `scripts/fixtures/mutation-gate/` since 2026-09-30) and the architecture-registry check (`scripts/arch-registry-check.py`, stdlib only, since 2026-09-24). None is CI-invoked; none adds a sixth `agent-run` command.
-- **Supply chain:** cargo-audit 0.22.2 + cargo-deny 0.19.8 (`deny.toml`) for the Rust tree; `npm audit --omit=dev` (0 production-vuln gate; dev-only test-tooling advisories accepted at dev-tree grain) + committed `package-lock.json` for the `conductor-tauri/ui` frontend tree.
+- **Supply chain:** cargo-audit 0.22.2 + cargo-deny 0.19.8 (`deny.toml`) for the Rust tree. No npm tree remains (2026-10-11).
 - **A11y:** axe-core 4.12.0 + @axe-core/webdriverio + Lighthouse 13.0.3 + colorjs.io 0.6.1 (operator/local-gated).
 - **CI:** GitHub Actions — `cargo fmt --all --check` / `cargo build` / nextest / clippy + the static gates, each its own presence-guarded named step — over committed data (coverage-completeness · scenario-assertion audit) and repository hygiene (secret scan · workflow env-context, beside the `GITHUB_ENV context probe` pair) — + audit/deny + coverage. Dynamic live-Pulse proof is an operator/local gate, not CI.
 
 ## Infrastructure
-- Local-only: `cargo build --release` → `conductor-cli` run beside Pulse via `scripts/agent-run.sh`; optional Tauri 2 GUI bundle, produced by the host `tauri-cli` bundler that no lockfile resolves (floor 2.11.4; the `tauri` CRATE 2.11.3 is a different artifact) as the msi + nsis installer set. No Docker/K8s/serverless/cloud.
+- Local-only: `cargo build --release` → `conductor-cli` run beside Pulse via `scripts/agent-run.sh`. No Docker/K8s/serverless/cloud.
 - Ports: egress OTLP/gRPC to `127.0.0.1:4317` (`:4318` unused); no inbound listener (the `:4317` port-occupier fault is the sole deliberate bind).
 
 ## Third-party services

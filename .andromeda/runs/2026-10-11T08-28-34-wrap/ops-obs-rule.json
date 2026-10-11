@@ -1,0 +1,7 @@
+[
+ {"sub": ["init at `main`/Tauri startup before any scenario logic.", "init at `main` before any scenario logic."]},
+ {"sub": ["Cross-surface parity is asserted by comparing the `runs.db` envelope", "In-process ↔ headless parity is asserted by comparing the `runs.db` envelope"]},
+ {"sub": ["Tauri backend → `conductor-tauri.jsonl` under `runs_dir.parent()/logs/` (the directory rides `CONDUCTOR_RUNS_DIR`: the project-root `logs/` only with it unset; `runs/logs/` · `runs/driven/logs/` · `runs/sr-leg/logs/` on the a11y suites, measured 2026-09-02); Tauri frontend → browser `console.log` JSON only (NO browser OTLP exporter — recursion guard).", "Tauri backend → `conductor-tauri.jsonl` under `runs_dir.parent()/logs/`, with no writer since 2026-10-11 (the sink goes at `Panel-shaped types retired`)."]},
+ {"sub": ["`service.name` = `\"conductor\"` / `\"conductor-tauri\"` / `\"conductor-ui\"` (override", "`service.name` = `\"conductor\"` (override"]},
+ {"sub": ["`fault.{silence,ramp,port_occupier}`, `tauri.command.*`. Never", "`fault.{silence,ramp,port_occupier}`. Never"]}
+]

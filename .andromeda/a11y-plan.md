@@ -9,6 +9,8 @@ setup-project per D26 cross-cutting), a11y-pass per-phase, combine +
 _Do not edit during phase loop runs (a11y-pass / combine / `/implement`).
 Manual edits between runs are fine._
 
+**Conductor has no interface.** Its window was retired 2026-10-11 (`2026-10-11-conductors-window-retired`, intent R1), and with it the one assertable a11y surface; the cli is not-assertable (no DOM or widget tree).
+
 _**Agent-driven invariant:** every WCAG criterion described in this
 plan MUST have at least one agent-runnable verification path
 (axe-core JSON / pa11y JSON / Lighthouse a11y category JSON / WAVE
@@ -21,472 +23,56 @@ supplemental, never sole. ARIA additions require semantic HTML first
 
 ## 1. A11y Scope Summary
 
-_[ALL tiers — VERBATIM copy from a11y-scope.md]_
-
-**A11y tier:** `Minimal (0)`
-_Justification: One assertable UI surface (desktop-webview Tauri control panel; the cli surface is not-assertable and the project has no web/HTTP, mobile, or native-toolkit surface) with four must-be-accessible paths (scenario pick/start, operator-pause go/no-go, run-report view, operator-checklist) — at the lower band of the Minimal 2-5 path range. Security tier is Minimal (single-developer local-only no-cloud no-auth utility), and both tests tier (Minimal at the upper boundary) and obs tier (Minimal) are Minimal — a11y matches its upstream tiers with no ±1 divergence. There are zero WCAG compliance triggers and no creator-set WCAG mandate (target user is a single solo developer-operator with no a11y-priority population); the only triggers detected are token-driven (visual-discrimination from six state-color tokens, motion-sensitive from reduced-motion binding) which mandate specific assertions but do not escalate the tier._
-
-**A11y scope (entities needing assertions):**
-
-- **Entity:** Operator-pause go/no-go dialog (Proceed / Abort)
-  - **Source:** design excerpt's User-Facing Error Surfaces + ARIA-Relevant Component Patterns ("Operator-pause go/no-go dialog"); layout excerpt's Focus Management Anchors (run-console-HOLD)
-  - **Assertability:** assertable
-  - **Reason if not fully assertable:** N/A
-
-- **Entity:** Verdict / report-state lamp (six states: `Pass` / `CalibrationRegion` / `Fail` / `Blocked` / `Manual` / `Residual`)
-  - **Source:** design excerpt's User-Facing Error Surfaces (`Fail` lamp) + ARIA-Relevant Component Patterns ("Verdict / report-state lamp")
-  - **Assertability:** assertable
-  - **Reason if not fully assertable:** N/A
-
-- **Entity:** Coverage matrix (single-row-per-P-ID list)
-  - **Source:** design excerpt's ARIA-Relevant Component Patterns ("Coverage matrix") + Loading/Error/Empty State Patterns (Coverage-matrix empty state)
-  - **Assertability:** assertable
-  - **Reason if not fully assertable:** N/A
-
-- **Entity:** Operator-checklist (`ManualCheck` render — checkbox-per-item)
-  - **Source:** design excerpt's User-Facing Error Surfaces ("Operator-checklist") + ARIA-Relevant Component Patterns ("Operator-checklist"); creator brief excerpt's Must-Work Scenarios (Run report surface)
-  - **Assertability:** assertable
-  - **Reason if not fully assertable:** N/A
-
-- **Entity:** Scenario / suite picker + start/stop (combobox/listbox over shadcn `Command`/`Select`)
-  - **Source:** design excerpt's ARIA-Relevant Component Patterns ("Scenario / suite picker + start/stop"); arch excerpt's Project Intent Summary critical paths hint (scenario/suite picker action, start/stop)
-  - **Assertability:** assertable
-  - **Reason if not fully assertable:** N/A
-
-- **Entity:** Button (titlebar min/close, start/stop, Proceed/Abort — icon-only controls)
-  - **Source:** design excerpt's ARIA-Relevant Component Patterns ("Button"); layout excerpt's Focus Management Anchors (desktop-webview window controls)
-  - **Assertability:** assertable
-  - **Reason if not fully assertable:** N/A
-
-- **Entity:** Form input (scenario / seed fields — textbox)
-  - **Source:** design excerpt's ARIA-Relevant Component Patterns ("Form input")
-  - **Assertability:** assertable
-  - **Reason if not fully assertable:** N/A
-
-- **Entity:** Run-report view (run-states as shipped: `idle` / `live` / `hold` / `aborted`, with idle-with-report a sub-state of `idle` — the retired "report-terminal" name; measured 2026-09-02; live emission counters + target status streaming display)
-  - **Source:** layout excerpt's Layout Types per Surface (desktop-webview four run-states); arch excerpt's Project Intent Summary critical paths hint (run-report view, live emission counters via Tauri `Channel`); design excerpt's Loading/Error/Empty State Patterns (run-report empty / in-progress states, paused-count hold-point)
-  - **Assertability:** assertable
-  - **Reason if not fully assertable:** N/A
-
-- **Entity:** conductor-cli (`agent-run` headless binary — the WHOLE `conductor` verb surface, whichever verbs `Commands` declares, so the not-assertable verdict stays true as the surface grows rather than restaling on each addition)
-  - **Source:** arch excerpt's Stack ("conductor-cli `agent-run` headless binary") + Surfaces (headless CLI/`agent-run`); design excerpt's Surfaces (cli); layout excerpt's Layout Types per Surface (cli)
-  - **Assertability:** not-assertable
-  - **Reason if not fully assertable:** CLI line-oriented terminal surface — no DOM / native widget tree; a11y tools (axe / Lighthouse / pa11y) have no applicability per arch excerpt's Stack. Manual keyboard/terminal discipline + ASCII status prefixes / NO_COLOR text-paired output is fallback only. Excluded from Sections 2 and 4.
-
-Cross-check against security plan excerpt's A11y Compliance Triggers: "No a11y compliance triggers in security plan" — no regulated-surface → WCAG SC mandate to bind. No boundary-only zones: arch excerpt's Surfaces confirms "No web/HTTP surface — Conductor exposes no HTTP/network service of its own" and Tauri capabilities are deny-by-default with "no remote-origin iframe affecting a11y selectors" (tests excerpt's Coverage Triggers, Vector 3) — so no third-party iframe / CAPTCHA / vendor-widget boundary zone exists.
-
-**A11y surfaces & assistive tech reach:**
-
-- **Surface:** desktop-webview (Tauri 2 bundled webview / React 19 + Tailwind v4.1 + shadcn/ui over Radix Primitives; frameless window, no responsive breakpoints)
-  - **Source:** arch excerpt's Stack (Tauri 2 desktop shell) + Surfaces (Tauri 2 desktop webview GUI); design excerpt's Surfaces (desktop-webview)
-  - **Automated tool reach:** axe-core via `@axe-core/webdriverio` against the embedded webview (injected into the tests §6 `@crabnebula/tauri-driver` / WebdriverIO session) + Lighthouse a11y category where a Chromium-backed driver is available; per design excerpt's Surfaces "axe-core + Lighthouse + screen reader (NVDA / VoiceOver) against the webview DOM." Native menubar / system dialogs are out of scope by design (arch excerpt's Stack: "no native OS toasts by design, so no OS-level notification a11y surface").
-  - **Screen-reader verification (supplemental):** NVDA (Windows) is AGENT-DRIVEN — its own speech log (`-l 12`) over the same tauri-driver / WebdriverIO session, the operator reviewing the graded record (measured 2026-09-02, v2-23); VoiceOver (macOS) / Orca (Linux) remain manual and declared not-runnable-on-this-host (no pass claimed) — desktop-bound Windows/macOS/Linux target per design excerpt's Surfaces; all supplemental to automated, never sole. No TalkBack/mobile SR (arch excerpt's Surfaces: "No mobile surface").
-  - **ARIA roles inventory:** interactive component roles — `alertdialog` (operator-pause), `button` (titlebar / start-stop / Proceed-Abort), `combobox`/`listbox` (scenario/suite picker), `textbox` (scenario/seed form inputs), `checkbox` + group/region (operator-checklist); live region roles — `status` / `aria-live` (verdict/report-state lamp, live emission counters, HOLD phase-line `aria-live="assertive"`); list/listitem (or table semantics) for the coverage matrix; landmark roles NOT explicitly assigned in layouts — per layout excerpt's Heading Hierarchy Anchors, Heading role on phase line, Label role on footer status strip, frameless titlebar `data-tauri-drag-region`; main / banner / contentinfo equivalents derived in this plan (Section 4).
-  - **Service identity tagging:** `service.name` = `"conductor-tauri"` (Tauri GUI) or `"conductor-ui"` (browser frontend), overrideable via `$CONDUCTOR_SERVICE_NAME`; `deployment.environment` = `CONDUCTOR_ENV` (fallback `"local"`) — per obs excerpt's Service Identity. A11y violation artifacts tag with these resource attributes for cross-correlation.
-  - **Notes:** The Tauri webview a11y tree is driven via the tests §6 `@crabnebula/tauri-driver` (WebDriver) session — axe injects through `@axe-core/webdriverio` into that session, not a separate CDP attach (arch excerpt's Stack). Single frameless window with four run-STATES (as shipped: `idle` / `live` / `hold` / `aborted`, idle-with-report a sub-state of `idle` — measured 2026-09-02), not four routes — no router, no breakpoints (layout excerpt's Layout Types) → no route-change focus surface, all state transitions are in-place. Coverage matrix: every manifest row renders (no virtualization ships), so off-screen rows stay in the accessibility tree and are reached by focus scroll-into-view (design excerpt's ARIA-Relevant Component Patterns). VoiceOver macOS has no automated SR test — manual pass required.
-
-(cli surface omitted here — flagged not-assertable in Section 1: no DOM / native widget tree, no automated a11y tool reach per arch excerpt's Stack and design excerpt's Surfaces.)
-
-**A11y assertion harness specification:**
-
-- **A11y testing tool pick:** Per-surface tool reach (Section 2): **axe-core via `@axe-core/webdriverio`** injected into the tests plan §6 `@crabnebula/tauri-driver` + WebdriverIO session + Lighthouse a11y category as the candidate set for the single assertable surface (desktop-webview). Note: the arch excerpt names no browser driver, but **tests §6 added `@crabnebula/tauri-driver` + WebdriverIO for webview E2E** — so the tests' E2E-driver-reuse binding IS satisfiable; this plan reuses that driver (axe injected via `@axe-core/webdriverio`) rather than standing up a parallel puppeteer/CDP stack.
-- **WCAG criteria mapping:** Minimal tier (see Section 6) → baseline only: **SC 2.1.1 Keyboard** + **SC 1.4.3 Contrast (Minimum)** + **SC 2.4.3 Focus Order**. Design-token-backed non-text minima also in baseline reach from design excerpt's A11y-Relevant Design Tokens: SC 1.4.11 Non-text Contrast 3:1 (`--count-nominal`, `--color-focus` tokens annotated to serve it) and SC 1.4.1 Use of Color / not-color-alone (every state token carries a text-label + glyph supplement). SC 2.3.3 Animation from Interactions is bound by design's global reduced-motion rule. No AA/AAA escalation triggers present (Section 5 = None) — tier label stays Minimal, no trigger-pulled AAA SCs added.
-- **Structured violation JSON schema:** Binding contract — a11y violation events align to obs excerpt's Log Format JSON Schema (obs Section 6), reproduced verbatim:
-  ```jsonl
-  {
-    "journal_emitted_at": "ISO-8601 from std::time::SystemTime",
-    "read_back_observed_at": "ISO-8601 from std::time::SystemTime (null until read-back; null for blocked rows)",
-    "run_id": "YYYY-MM-DDTHH-MM-SS-<suffix> (filesystem-safe hyphen-delimited)",
-    "seed": "u64",
-    "scenario": "string",
-    "p_ids": ["P-001", "P-002", ...],
-    "verdict": "Pass | Fail | CalibrationRegion",
-    "state": "Pass | Fail | ManualCheck | KnownResidual | Blocked",
-    "latency_ms": "integer or null (null for blocked rows)",
-    "slo_tier": "<5s | <20s | <90s",
-    "fingerprints": ["fingerprint1", "fingerprint2", ...] or empty array
-  }
-  ```
-  A11y emissions align to this obs schema (a11y narrows; obs fixed the schema). Per tests excerpt's Status JSON shape constraint, artifacts MUST NOT leak absolute host paths or internal seam-crate struct names — a11y violation artifacts inherit that constraint. WCAG-violation field mapping onto this envelope is defined in Section 3 (Structured violation JSON schema) without diverging from the obs contract.
-- **Focus management test harness:** Reuse the tests §6 `@crabnebula/tauri-driver` + WebdriverIO session (the arch excerpt named no driver, but tests added one). Candidate reach is WebdriverIO `browser.keys()` Tab tracking against the Tauri webview; focus anchors to assert from layout excerpt's Focus Management Anchors: modal focus trap on run-console-HOLD (shadcn AlertDialog / Radix, dimmed/inert console, visible `--color-focus` ring on trapped region, in-trap targets = the operator-checklist checkbox rows when declared, then Proceed/Abort), focus restoration on dialog close (explicit `onCloseAutoFocus` + `restoreFocusTo` contract — NOT a Radix default; see §5), keyboard-first global focus ring on every interactive control with `--border-emphasis` on active picker item so focus is never color-only. Obs has no focus spans yet (obs excerpt's Focus-Relevant Span Coverage: "No focus-relevant spans"); this plan recommends focus.shift / focus.trap.enter / focus.trap.exit / focus.restore for obs to add later.
-- **Keyboard test harness:** Scripted key sequences against the desktop-webview only. From design excerpt's ARIA-Relevant Component Patterns keyboard contracts: dialog Tab/Shift+Tab cycle within trap across the in-trap checklist rows then Proceed/Abort + Space toggles a focused checklist row + Enter/Space activate Proceed/Abort + Escape per convention; button Enter/Space; picker Arrow-navigate + Enter-select + Escape-close + type-ahead; checklist Space toggles a row; coverage-matrix keyboard-first row navigation; first-class start/stop/proceed/abort shortcuts (layout excerpt's Focus Management Anchors). CLI keyboard verification is manual only and out of harness scope (not-assertable surface).
-- **Screen reader test pattern:** agent-driven via NVDA's speech log; the operator reviews; Tab / Shift+Tab / the browse keys ride the OS input path (`send-keys.ps1`), so browse rows driven there are agent-graded and a browse row with no OS key in its window would be an operator finding — none is left since the 2026-09-30 regrade (`not-run-here 0`; §3 Per-surface test spec) (supplemental, never sole). The NVDA (Windows) pass against the webview DOM is produced by the `sr*` leg over the one tauri-driver / WebdriverIO stack (measured 2026-09-02); VoiceOver (macOS) / Orca (Linux) are declared not-runnable-on-this-host. Must-announce items as SHIPPED: empty-state real prose — `No scenarios found.` (empty CATALOG, `App.tsx`, row E0-01) and `No scenarios match.` (the PICKER's filter-miss, announced from a persistently-mounted `aria-live="polite"` region sited outside `Command.List`, row S0-16, SC 4.1.3; measured 2026-09-04) and `No run yet` — two empty states plus the filter miss, three strings, three rows, none the other's, the live state carried by the titlebar label (`Conductor · live`) + count with no "Run in progress" prose and nothing announced as Fail, HOLD phase-line via `aria-live="assertive"`, frozen count value (does not blank/keep running), verdict lamp `aria-live` status announcement, operator-checklist unticked-count roll-up. NVDA's built-in log is the automated SR driver for the stack (the earlier "no automated SR tool" verdict is retired).
-- **Contrast verification harness:** Programmatic contrast assertion reading design excerpt's A11y-Relevant Design Tokens (binding — this plan reproduces token names verbatim) — emits machine-verifiable ratio assertions per WCAG SC 1.4.3 (AA 4.5:1 normal / 3:1 large) and SC 1.4.11 (3:1 non-text). Token pairs to assert (foreground / background, verbatim from design excerpt): `--text-primary`/`--color-base` (SC 1.4.3 4.5:1 normal-text), `--text-secondary`/`--color-raised-1`, `--text-tertiary`/`--color-base`, `--text-muted`/`--color-inset`, `--color-id-cyan`/`--color-base`, `--count-nominal`/`--color-base` (SC 1.4.11 3:1 non-text status), `--count-hold`/`--color-base`, `--status-fail`/`--color-base`, `--color-focus`/`--color-base` (SC 1.4.11 3:1 non-text focus indicator), `--status-residual`/`--color-raised-1` + `--status-residual`/`--color-base` (SC 1.4.3 4.5:1 — the token colours TEXT on both its non-lamp surfaces, the envelope banner and the out-of-scope Mode cell). Focus-ring tokens `--color-focus` + `--border-emphasis` (selection vs focus distinction). Candidate: axe-core color-contrast rule against rendered DOM + custom assertion reading the named token pairs. Raw values stay in design-system.md (`[NO_RAW_DESIGN_VALUES]`); names are the cross-skill anchor.
-- **CI integration:** GitHub Actions (arch excerpt's CI/CD Platform) currently runs `cargo fmt --all --check` + `cargo build` + cargo-nextest/`cargo test` (incl. golden) + `cargo clippy` plus the `a11y` job's Pulse-free routine webview leg — "Formatting, build + test gating, plus the Pulse-free routine a11y webview leg; dynamic scenario proof REQUIRING A LIVE PULSE remains a local operator gate" (arch §Stack, as amended 2026-09-07). The desktop-webview a11y check therefore lands as BOTH — a CI gate for the ROUTINE arm (job `a11y`, `runs-on: windows-2022` since 2026-09-17, moved from `windows-2025`; its first push-triggered run HAS now happened — run 34209940695, `event: push` on `build/conductor-0.2.0`, 2026-09-08 — and was RED at WebView2 session creation **[premise-corrected 2026-09-17 — bound to its configuration: RED at session creation was measured on `windows-2025` at runtime 152/153. On hosted `windows-2022` at a coherent 131.0.2903.86 pair a session IS created and the arm reaches its assertions — run 35192876641: hosted `windows-2022` at a COHERENT 131.0.2903.86 msedgedriver+WebView2-runtime pair, High integrity — `DevToolsActivePort` in 1 s, WebDriver session created (`status 200`, banner `[webview2 131.0.2903.86 windows]`), routine arm 11 passing / 1 failing / 2 skipped; the single red `:384` is a counting-basis defect in the assertion (12 visits / 6 distinct), not an a11y defect.]**, so the job was exercised but not green on that configuration. **It IS green as of 2026-09-17** — 12 passing / 0 failing / 2 skipped on hosted `windows-2022` at a coherent 131.0.2903.86 driver/runtime pair at High integrity with the driver pinned from the image's own runtime, the `journal_conformance` gate run and the record uploaded, as measured at run 35208593666 (a11y job `success`); stated with its configuration, because the next image bump can move any of those terms. **[the earlier probe reading: run 35192876641 — hosted `windows-2022` at a COHERENT 131.0.2903.86 msedgedriver+WebView2-runtime pair, High integrity — `DevToolsActivePort` in 1 s, WebDriver session created (`status 200`, banner `[webview2 131.0.2903.86 windows]`), routine arm 11 passing / 1 failing / 2 skipped; the single red `:384` is a counting-basis defect in the assertion (12 visits / 6 distinct), not an a11y defect. SC 2.4.3 (`:397`) PASSES on runtime 131. What remains owed is the `:384` assertion's counting basis, not a session that cannot be created.]**) and an operator/local gate for the `driven` and `sr*` arms, which need a live Pulse / NVDA (the one webview-automation stack running on the measured platform SET — Linux under `xvfb` AND headfully on the Windows WebView2 host (both arms driven there 2026-09-01 against WebView2 151.0.4129.107; all three suite families — the `sr*` screen-reader leg included — driven there 2026-09-02 against WebView2 152.0.4191.53 under a 151 msedgedriver, a measured unsupported-but-working cross-major pair), macOS alone staying manual-pass-only; `ubuntu-latest`+`xvfb` is the CI ARRANGEMENT, not a capability bound, and the HOLD-dependent keyboard/focus half — trap entry, containment, restoration — plus the real-keypress shortcuts and live coverage-matrix row navigation run in the operator-only driven arm, while the hold-free pair (SC 2.1.1 reachability, SC 2.4.3 focus order) rides the routine arm since 2026-09-07, joined 2026-09-30 by the SC 2.4.7 ring, idle-with-report row navigation and the key-map declaration — Section 9). Tests' 5-command harness contract names (boot / run / status / cleanup / logs — tests excerpt's Test Harness Contract) is the binding command surface a11y integration reuses; Section 9 specifies the `logs` command emits a11y results. No `npm test` lane exists in the Rust-first stack (arch excerpt's Stack).
-
-**Critical paths (must-be-accessible):**
-
-(cli / headless `conductor run` paths and tests' security-vector / build-gate coverage triggers are excluded — not-assertable, no rendered-UI surface. The only accessible surface is the Tauri 2 desktop-webview control panel, per creator brief excerpt's Must-Work Scenarios.)
-
-- **Path:** Scenario/suite pick → start run (operator launches a scenario or suite from the control panel)
-  - **Surfaces involved:** desktop-webview
-  - **Required ARIA roles:** `combobox`/`listbox` (picker, `aria-expanded` / `aria-activedescendant`), `button` (start/stop, `aria-label` on icon-only), `textbox` (seed field, associated label)
-  - **Required focus order:** focus reaches picker input (visible `--color-focus` ring) → Arrow-navigate options with type-ahead → Enter selects → focus to start control → activate; active picker item carries `--border-emphasis` so focus is never color-only
-  - **Required WCAG SC coverage per tier (Minimal):** SC 2.1.1 Keyboard / SC 2.4.3 Focus Order / SC 1.4.3 Contrast (Minimum) (baseline); plus SC 4.1.2 Name/Role/Value (icon-only `aria-label`) and SC 1.4.1 Use of Color (disabled options not color-alone) inherent to the named patterns
-  - **Source:** creator brief excerpt's Must-Work Scenarios ("Control panel (minimal UI) — scenario/suite picker, start/stop…"); arch excerpt's Project Intent critical paths hint; design excerpt's ARIA-Relevant Component Patterns (picker)
-
-- **Path:** Operator-pause go/no-go (HOLD) → Proceed or Abort
-  - **Surfaces involved:** desktop-webview
-  - **Required ARIA roles:** `alertdialog` (`aria-modal`, focus trap), `button` (Proceed / Abort), live region `aria-live="assertive"` on the phase-line HOLD flip
-  - **Required focus order:** focus moves into the dialog trap on open (over dimmed/inert console) → Tab/Shift+Tab cycle within trap across the operator-checklist `checkbox` rows (present when the hold declares `[[checklist]]` items; Space toggles a focused row, `aria-checked` per row, unticked roll-up announced via `role="status"`/`aria-live`) and then Proceed/Abort → Enter/Space activates → Escape per convention → focus restored on close to the recorded hold invoker via the dialog's explicit `onCloseAutoFocus` contract; the invoker stays focusable (`aria-disabled`, never the native `disabled` attribute) so it remains a valid restore target; Proceed disabled/in-flight during async committed step (announced via aria-disabled)
-  - **Required WCAG SC coverage per tier (Minimal):** SC 2.1.1 Keyboard / SC 2.4.3 Focus Order / SC 1.4.3 Contrast (baseline); plus SC 2.1.2 No Keyboard Trap (trap must be escapable), SC 4.1.2 Name/Role/Value, and SC 2.3.3 Animation from Interactions (dialog fade + count tint dropped under reduced-motion) inherent to the named patterns
-  - **Source:** creator brief excerpt's Must-Work Scenarios ("operator pauses … pause with an explicit instruction and resume on confirmation"); design excerpt's User-Facing Error Surfaces + ARIA-Relevant Component Patterns (operator-pause dialog); layout excerpt's Focus Management Anchors (run-console-HOLD)
-
-- **Path:** View run report — verdict/state outcomes + emission journal cross-reference (idle → live → idle-with-report states; the shipped `RunState` set is `idle` / `live` / `hold` / `aborted`)
-  - **Surfaces involved:** desktop-webview
-  - **Required ARIA roles:** table semantics for the P-ID coverage matrix (`aria-current` + a `--border-emphasis` edge on the current row), `status` / `aria-live` for verdict lamp + live emission counters; real-prose empty/in-progress states
-  - **Required focus order:** keyboard-first row navigation across the coverage matrix (roving row focus, one tab stop); off-screen rows (every row renders, no virtualization) reached by focus scroll-into-view; live count updates announced via `aria-live` without stealing focus; empty/in-progress prose announced (not as a Fail)
-  - **Required WCAG SC coverage per tier (Minimal):** SC 2.1.1 Keyboard / SC 2.4.3 Focus Order / SC 1.4.3 Contrast (baseline); plus SC 1.4.1 Use of Color (six verdict/state treatments each text-paired, not color-alone), SC 1.4.11 Non-text Contrast (status lamps 3:1), and SC 4.1.3 Status Messages (aria-live verdict/count) inherent to the named patterns
-  - **Source:** creator brief excerpt's Must-Work Scenarios ("Run report surface" + live counters/target status); design excerpt's ARIA-Relevant Component Patterns (lamp, coverage matrix) + Loading/Error/Empty State Patterns; arch excerpt's Project Intent critical paths hint (run-report view, live emission counters via Tauri `Channel`)
-
-- **Path:** Operator-checklist (`ManualCheck`) — tick yes/no items for claims with no programmatic read-back
-  - **Surfaces involved:** desktop-webview
-  - **Required ARIA roles:** `checkbox` per item within a group/region container (`aria-checked` per row), unticked-count roll-up announced; each item exposes induced-state + expected-observation text; `ManualCheck` lamp links to this checklist
-  - **Required focus order:** keyboard-first; Space toggles a focused row; unticked-count footer roll-up reachable so an incomplete pass is not mistaken for a finished run
-  - **Required WCAG SC coverage per tier (Minimal):** SC 2.1.1 Keyboard / SC 2.4.3 Focus Order / SC 1.4.3 Contrast (baseline); plus SC 1.4.1 Use of Color (neutral-lavender checkbox glyph paired with text), SC 4.1.2 Name/Role/Value, and SC 4.1.3 Status Messages (unticked-count roll-up) inherent to the named patterns
-  - **Source:** creator brief excerpt's Must-Work Scenarios ("manual-check items render as an operator checklist … with induced state + expected observation"); design excerpt's User-Facing Error Surfaces + ARIA-Relevant Component Patterns (operator-checklist)
-
-(Note: tests excerpt's Critical Paths are predominantly headless `conductor run` / coverage-matrix-gate / both-surface-parity flows with no rendered-UI surface — not-assertable, excluded. Both-surface-parity's a11y-relevant half (the GUI-launched run rendering the same accessible envelope) is covered within the three desktop-webview paths above; tests excerpt's Coverage Trigger "Cross-surface coordination" names axe-core/pa11y on the desktop-webview confirming this.)
-
-**A11y triggers:**
-
-- **Trigger type:** visual-discrimination
-  - **Source:** design excerpt's A11y-Relevant Design Tokens — State color tokens (six color-coded states: `--count-nominal` success, `--count-hold` warning, `--status-fail` error, `--count-blocked` info/blocked, `--status-manual` info/manual, `--status-residual` info/residual) + Verdict/report-state lamp with "six distinct visual+text treatments" (design excerpt's ARIA-Relevant Component Patterns)
-  - **Required assertion:** axe-core color-contrast rule across the named foreground/background token pairs in Section 3 + machine-verifiable not-color-alone assertion that every state carries its text label (`Pass`/`HOLD`/`Fail`/`Blocked`/`Manual`/`Residual`) + glyph supplement (SC 1.4.1 Use of Color, SC 1.4.3 Contrast, SC 1.4.11 Non-text Contrast). This is a design-token-driven assertion, not a creator/compliance directive, so it does NOT escalate tier above Minimal.
-  - **Non-lamp reuse of a state token (do not over-match the six-label assertion):** `--status-residual` also tints the coverage-matrix **out-of-scope Mode cell** (webview `.cov__mode--out-of-scope`; cli ANSI 246; Markdown emphasis). That cell is a **coverage-mode classification, not a seventh lamp state** — the lamp column is untouched and `Residual` keeps its dashed-ring glyph there. Its not-color-alone signal is its own always-rendered `not-conductors` label (no glyph supplement), so the six-label assertion above must key on the **lamp** display labels and must not treat a token-tinted Mode cell as an uncovered state. Contrast still applies: the pair is asserted like any other in Section 3.
-
-- **Trigger type:** motion-sensitive (token-driven only; no creator vestibular ask)
-  - **Source:** design excerpt's A11y-Relevant Design Tokens — Motion/transition tokens (`--motion-micro`, `--ease-quiet`) + global reduced-motion-preference rule "drops all animations/transitions (binding with a11y SC 2.3.3, including the held-count tint transition)"; design's Paused-count hold-point ("all accompanying color transitions are dropped under reduced-motion preference")
-  - **Required assertion:** verify that under `prefers-reduced-motion`, the count tint (green → amber → slate-violet), status-light color transition, and operator-pause dialog fade are all dropped (the `--color-focus` ring is an untransitioned `outline`, so it has no fade to drop) (SC 2.3.3 Animation from Interactions). Creator brief names no motion-sickness/vestibular requirement (creator brief excerpt's A11y Anti-Patterns = N/A), so this is token-binding only and does not escalate tier.
-
-Cross-input check against expected triggers:
-- WCAG compliance regime → wcag-mapping: **none** — security plan excerpt's A11y Compliance Triggers = "No a11y compliance triggers."
-- Hardened tier → regulated-compliance: **none** — security_tier = Minimal (passed variable + security plan excerpt's Security Tier).
-- Vestibular ask → motion-sensitive: only the token-driven half present (no creator vestibular language); recorded above as token-binding.
-- I18n / RTL → multi-language: **none** — no language/RTL tokens in design excerpt; arch excerpt's Project Intent target users = solo developer, no international population.
-- Explicit a11y scenario → screen-reader-priority / keyboard-only / cognitive: **none explicit** — creator brief excerpt's Rigor Hints: "No explicit WCAG target named," no blind/low-vision/cognitive user population; arch excerpt's Project Intent: "No a11y-priority user signals present." (Keyboard-first design exists structurally but is not a creator priority ask.)
-- Multi-platform touch → target-size: **none** — arch excerpt's Surfaces: "No mobile surface — Desktop-only, host-bound"; design excerpt's Target size tokens: no dedicated tap-target tokens (desktop pointer + keyboard, no touch surface).
-- Many state colors → visual-discrimination: **yes** (recorded above).
-
-This tier is the SINGLE SOURCE OF TRUTH for how much accessibility
-rigor downstream skills (a11y-pass per phase + cross-cutting reads
-from route / setup-project) should apply.
+Retired 2026-10-11 with the window (intent R1): no assertable surface remains. `conductor-cli`, the one surface, is not-assertable — no DOM or widget tree; its ASCII status prefixes and NO_COLOR text pairing are output-stream discipline, not an a11y verification path. The full section, dated measurements included, is last at `321dc8f`.
 
 ---
 
 ## 2. A11y Strategy
 
-_[ALL tiers — POUR principles signal pyramid + agent-runnable invariants]_
-
-**A11y signal pyramid (per tier — POUR principles):**
-
-| Principle | Coverage focus | Tier-specific depth |
-|-----------|---------------|---------------------|
-| Perceivable | Color contrast (`--text-primary`/`--color-base` 4.5:1, `--count-nominal`/`--color-base` 3:1) / not-color-alone six-state lamps / real-prose empty states | Minimal: SC 1.4.3 + SC 1.4.11 + SC 1.4.1 via axe-core `color-contrast` + colorjs.io token-name assertion |
-| Operable | Keyboard-first nav (picker Arrow/Enter, checklist Space, dialog Tab-trap+Escape) / focus trap on run-console-HOLD / focus restoration | Minimal: SC 2.1.1 + SC 2.4.3 + SC 2.1.2 via WebdriverIO `browser.keys()` over tauri-driver |
-| Understandable | Form labels (scenario/seed `<label>` + textbox) / aria-describedby hint/error association / in-progress prose never downgraded to Fail | Minimal: SC 4.1.2 + SC 3.3.2 within named patterns (no AA escalation) |
-| Robust | shadcn/ui-over-Radix semantic primitives / `alertdialog` / `aria-live` status / list-listitem coverage matrix | Minimal: SC 4.1.2 + SC 4.1.3 + SC 1.3.1 via axe-core `button-name`/`aria-*`/`list` rules |
-| Cognitive | (N/A — no cognitive trigger; tier ≠ Comprehensive; security_tier=Minimal) | Not present |
-
-**Agent-runnable invariants (apply across all WCAG SCs):**
-- Every WCAG SC has at least one machine-verifiable verification path — axe-core v4.12.0 `AxeResults.violations[]` JSON (`@axe-core/webdriverio` over the tests' tauri-driver/WebdriverIO session) / Lighthouse v13.0.3 a11y-category JSON, all aligned to obs Section 6 envelope
-- No manual screen reader / keyboard / contrast as ONLY method — NVDA/VoiceOver/Orca are supplemental to the axe-core + colorjs.io + WebdriverIO-keyboard automated baseline
-- No ARIA additions on top of non-semantic HTML — `<button>` for start/stop/Proceed/Abort, shadcn `Command`/`Select` (Radix) for picker, native checkbox for checklist
-- No WCAG conformance claim without machine-verifiable evidence (axe-core / pa11y / Lighthouse / colorjs.io JSON)
-- No vendor-locked a11y tool as ONLY method — axe DevTools browser extension (UI-only) explicitly NOT used; JSON-producing axe-core library is the engine
-
-**Naming conventions** (cross-section anchors):
-- **WCAG SC IDs:** primary anchor (`SC 1.4.3`, `SC 2.1.1`, `SC 2.4.3`, `SC 4.1.2`, `SC 1.4.11`, `SC 1.4.1`, `SC 4.1.3`, `SC 2.3.3`)
-- **ARIA roles:** per WAI-ARIA Authoring Practices Guide (`https://www.w3.org/WAI/ARIA/apg/`)
-- **Design tokens:** verbatim names per binding contract (`--text-primary` / `--color-base` / `--color-focus` / `--border-emphasis` / `--count-nominal` / `--motion-micro`; raw values stay in design-system.md per `[NO_RAW_DESIGN_VALUES]`)
-- **Resource attributes:** `service.name` = `"conductor-tauri"` / `"conductor-ui"`, `deployment.environment` = `CONDUCTOR_ENV` (fallback `"local"`) per obs Section 3 Service Identity (binding)
+Retired 2026-10-11 with the window (`2026-10-11-conductors-window-retired`, intent R1); its full text, dated measurements included, is last at `321dc8f`.
 
 ---
 
 ## 3. A11y Assertion Harness Contract
 
-_[ALL tiers — central agent-driven mechanism; Section consumed by
-setup-project to materialize a11y CI gates + axe-core integration +
-contrast verification harness + screen reader test specs]_
-
-This section specifies the SPECIFIC contract for how a11y assertions
-run from CI / dev / and emit machine-parseable violation JSON.
+Retired 2026-10-11 with the window (`2026-10-11-conductors-window-retired`, intent R1); its full text, dated measurements included, is last at `321dc8f`. Each key below is a one-line retirement stub.
 
 Contracts: .andromeda/registries/a11y-plan-contracts.toml — ask registry.py contracts; read one contracts/a11y-plan/{key}.md; never whole.
 
 ## 4. ARIA Patterns & Roles
 
-_[ALL tiers]_
-
-**Per-surface landmark roles inventory:**
-
-| Surface | Required landmarks | Optional landmarks |
-|---------|-------------------|-------------------|
-| desktop-webview (Tauri frameless window) | `main` (run-console/report body), `contentinfo` (footer status strip — Label role; **SHIPPED 2026-09-30** as the top-level `footer.footer`, not focusable, not a live region — the measured landmark set is `banner` + `main` + the `region`s + `contentinfo`, one `main` and one `contentinfo`, as measured at the routine arm's landmark spec and SR row S0-14, `conductor-0.3.0/chunks/2026-09-30-the-screen-reader-content-findings-fixed/evidence/nvda-pass.json`) | `banner` (frameless titlebar region, `data-tauri-drag-region`) |
-| cli | (not-assertable — non-DOM line-oriented stdout; no ARIA / landmarks) | n/a |
-
-(Landmark roles are NOT explicitly assigned in layouts — layout excerpt's Heading Hierarchy Anchors. This plan derives WCAG SC 1.3.1 + SC 2.4.6 defaults: single `h1`-equivalent on the phase-line Heading role per state, `main` for the console/report body, `contentinfo` for the footer status strip; the frameless titlebar carries `banner`. Both SHIPPED 2026-09-30: the phase line renders as `h1.type-heading.titlebar__label` (was a `span`; the `aria-live` switch and the drag region kept), asserted by the routine arm's single-level-1-heading spec and SR row S0-11, and the `contentinfo` strip by the routine arm's one-`main`-one-`contentinfo` spec. No `navigation` landmark — single frameless window with four in-place run-STATES, not routes; no router, no nav region.)
-
-**Per-component pattern catalog** (cross-reference upstream-context
-Section 3 ARIA-Relevant Component Patterns):
-
-| Pattern | ARIA role | Key states | Keyboard contract | WCAG SCs | Tool reach (desktop-webview) |
-|---------|-----------|------------|-------------------|----------|------------------------------|
-| Operator-pause dialog | `alertdialog` + `aria-modal="true"` (shadcn AlertDialog/Radix) | `aria-labelledby` (header: frozen-count + step index); Proceed `aria-disabled` in-flight | Tab/Shift+Tab cycle in trap; Enter/Space activate Proceed/Abort; Escape per convention | 4.1.2, 2.1.2, 2.4.3, 2.3.3 | axe-core `aria-*` + WebdriverIO Tab/Escape trap assertion |
-| Button (titlebar / start-stop / Proceed-Abort) | `button` (semantic `<button>`) | `aria-label` on every icon-only control; in-flight/unavailable is `aria-disabled` + a guarded `onClick` for the start/stop control (it must stay in the tab order to remain a valid focus-restore target for the operator-pause dialog — the native `disabled` attribute is banned there; both spellings render identically per the design tokens, and the `aria-disabled` switch alone is NOT the SC 2.4.3 remedy) | Enter / Space activate | 4.1.2, 1.4.1, 2.4.3 | axe-core `button-name` + WebdriverIO Enter/Space |
-| Verdict / report-state lamp | `status` (live-region) or text with accessible name | paired text label always present (`Pass`/`HOLD`/`Fail`/`Blocked`/`Manual`/`Residual`); `aria-live` on state change; six visual+text treatments; `Fail` held motionless | non-interactive (no key contract) except `ManualCheck` lamp links to checklist | 4.1.3, 1.4.1, 1.4.11 | axe-core `aria-live`/contrast + colorjs.io 3:1 lamp pairs |
-| Run-level load-envelope banner (run-report view path) | none — non-interactive text qualifier (a `<p>` inside the run-report region), deliberately NOT a lamp role | the envelope `label` always rendered in the DOM plus its optional `cause`; recessive `--status-residual` tint that is never the sole signal; **omitted entirely** when the run stayed in-envelope; outside the lamp column and not one of the six lamp states | non-interactive (no key contract) | 1.4.3, 1.4.1 | colorjs.io `--status-residual` pairs (§6) + DOM text-content. **Rendered-DOM axe RUNS on the routine arm** (as measured 2026-09-02) — the arm's seed writes an over-envelope `run_envelope` row through the production writer (`cargo test -p conductor-run --test envelope_fixture` under `CONDUCTOR_E2E_SEED_DIR`), so the banner's state is produced there: the label spec asserts (its `this.skip()` guard is gone) and axe under `wcag2a`/`wcag2aa`/`wcag21aa` is clean against that DOM state. Runnability is not platform-bound — it holds across the arm's measured platform set (Linux under `xvfb`, and headfully on the Windows WebView2 host, where this pass ran on WebView2 152.0.4191.53). `conductor_run::read_envelope`'s round-trip + the Tauri mock-runtime IPC test remain the non-DOM path |
-| Coverage matrix (single-row-per-P-ID) | table semantics (`table aria-label="Coverage rows"`, one `tr.cov__row` per P-ID) | the current row `aria-current="true"` + a `--border-emphasis` left edge, distinct from the `--color-focus` ring; each row named by its OWN four cells through `aria-labelledby` (P-ID · Capability · Mode · Status, per-matrix `useId` ids), so the focused row announces its P-ID and status — never a composed `aria-label`; empty state real prose; every row rendered (no virtualization), off-screen rows reached by focus scroll-into-view | roving row focus through one tab stop: ArrowUp/ArrowDown ±1 (clamped), Home/End | 1.3.1, 2.1.1, 2.4.3, 4.1.2 | axe-core table/`aria-*` rules + WebdriverIO row-nav + the row-name spec over WebDriver's computed label (routine arm) |
-| Operator-checklist (`ManualCheck`) | `checkbox` per item, group/region container. **Two render sites:** the run-report terminal state, and inside the run-console-HOLD `alertdialog` when the hold declares `[[checklist]]` items — in the latter as a SIBLING of the dialog's `Description` (never inside the `aria-describedby` target, where interactive rows read as flat prose) and within the dialog's focus trap | `aria-checked` per row; unticked-count roll-up announced; each item exposes induced-state + expected-observation text | Space toggles a focused row | 4.1.2, 4.1.3, 1.4.1 | axe-core `aria-*`/`label` + WebdriverIO Space-toggle |
-| Scenario / suite picker | `combobox` / `listbox` (shadcn `Command`/`Select` over Radix) | `aria-expanded` / `aria-activedescendant`; disabled options not color-alone; `--color-focus` ring on input | Arrow navigate; Enter select; Escape close; type-ahead | 4.1.2, 2.1.1, 1.4.1 | axe-core `aria-*` + WebdriverIO Arrow/Enter/Escape |
-| Form input (scenario / seed) | `textbox` (semantic `<input>`) | associated `<label>`; `--color-focus` ring on focus; error/hint via `aria-describedby` | standard text-entry | 3.3.2, 4.1.2 | axe-core `label`/`aria-describedby` |
-
-**Naming convention:** ARIA role names per WAI-ARIA Authoring
-Practices Guide. Semantic HTML first (`<button>` for start/stop/Proceed/Abort, `<input>` for scenario/seed fields, native checkbox for checklist rows, `<main>`/`<footer>`); ARIA second (only where HTML semantics insufficient — `alertdialog`/`aria-modal` via shadcn AlertDialog, `status`/`aria-live` on the lamp, `combobox` via shadcn `Command`/`Select`).
-
-(cli surface skipped — not-assertable per Section 1; no DOM/ARIA reach.)
-
-(See `## 11. A11y Anti-Patterns` § ARIA for ARIA-level bans.)
+Retired 2026-10-11 with the window (`2026-10-11-conductors-window-retired`, intent R1); its full text, dated measurements included, is last at `321dc8f`.
 
 ---
 
 ## 5. Keyboard Navigation
 
-_[SKIP if `a11y_tier=Minimal` AND no UI surface — desktop-webview UI surface present, so INCLUDED]_
-
-**Focus order per layout** (cross-reference upstream-context Section 4 Focus Management Anchors):
-- **run-console-idle:** titlebar window controls (icon-only, derived accessible names) → scenario/suite picker input (`--color-focus` ring) → Arrow-navigate options + type-ahead → Enter selects → seed `textbox` → start control → activate. Active picker item carries `--border-emphasis` so focus is never color-only (SC 2.4.3). **Asserted UNATTENDED on the routine arm since 2026-09-07** (`2026-09-07-sr-findings-fixed`): SC 2.1.1 reachability of every idle-console control and SC 2.4.3 order — first Tab reaches "Minimize window", then "Close window" — with no `tabindex > 0` introduced; only the HOLD trap/restoration assertions remain operator-only driven.
-- **run-console-live:** keyboard-first row navigation across the coverage matrix through ONE tab stop — a roving row focus: the current `tr.cov__row` alone carries `tabindex="0"` + `aria-current="true"` (the others `-1`), ArrowDown/ArrowUp move ±1 (clamped, no wrap), Home/End jump to the first/last row, and a row focused by any means becomes current; every manifest row renders (no virtualization), so an off-screen row is reached by focus scroll-into-view; live emission counter updates announced via `aria-live` without stealing focus (SC 4.1.3). **Owner: the operator-only DRIVEN arm** (`npm run a11y:driven` → `operator-hold.e2e.ts`: ArrowDown ×2 / ArrowUp while live, and the count update leaving focus on the row); in its place the routine arm's row-navigation spec asserts the SAME `CoverageMatrix` component, which renders in every run state — see §11 *Strategy*.
-- **run-console-HOLD:** focus moves into the `alertdialog` trap on open over the dimmed/inert console → Tab/Shift+Tab cycle within the trap across the operator-checklist `checkbox` rows (present when the hold declares `[[checklist]]` items) and then Proceed/Abort → Enter/Space activates → focus restored to the triggering control on close (SC 2.4.3, SC 2.1.2). **Owner: the operator-only DRIVEN arm** (`npm run a11y:driven` → `operator-hold.e2e.ts`), which needs a live Pulse — see §11 *Strategy* for what gates in its place.
-- **idle-with-report** (the retired "run-report-terminal" name): keyboard-first coverage-matrix row navigation (the roving row focus above); the current row marked `aria-current="true"` (a plain table row is no selectable-row composite, so not `aria-selected`) + a 2px `--border-emphasis` left edge on its first cell, distinct from the `--color-focus` ring; operator-checklist `checkbox` rows reachable at the dialog site (the report-site render is unbuilt, 2026-09-02); the unticked-count roll-up reachable as the checklist view's own `role=status` line (the footer strip ships since 2026-09-30 but is not focusable and does not carry the unticked count). **Owner: the routine arm** (CI's `a11y` job) — one tab stop, Arrow/Home/End moves in DOM order, End reaching a row that was outside the scroll region, the `aria-current` edge distinct from the ring, axe clean on the navigated state.
-
-**Skip links:**
-- Not applicable — single frameless window with four in-place run-STATES (no router, no routes, no repeated nav blocks to bypass per layout excerpt's Layout Types). SC 2.4.1 Bypass Blocks has no repeated-block target on this single-region console; `main` landmark provides the primary-content anchor instead.
-
-**Focus trap (modals / overlays):**
-- run-console-HOLD operator-pause `alertdialog` (shadcn AlertDialog / Radix): focus moves into the trap on open; Tab cycles within across the operator-checklist `checkbox` rows (when the hold declares `[[checklist]]` items) and then Proceed/Abort; Shift+Tab cycles backward; Escape closes (trap MUST be escapable — SC 2.1.2 No Keyboard Trap); focus restores to the triggering control on close — via the dialog's explicit `onCloseAutoFocus` + `restoreFocusTo` contract, NOT a Radix default (no `Trigger` exists on a Channel-opened hold; as measured 2026-09-01 Radix restored to `<body>`). **Owner: the operator-only DRIVEN arm** (`npm run a11y:driven` → `operator-hold.e2e.ts`), which asserts trap entry, containment in both directions, Space toggle and Escape→NoGo; see §11 *Strategy* for what gates in its place.
-- Per WCAG SC 2.1.2 No Keyboard Trap + SC 2.4.3 Focus Order.
-
-**Focus restoration:**
-- Operator-pause dialog close → focus to the recorded hold invoker, via the dialog's explicit `onCloseAutoFocus` + `restoreFocusTo` contract and NOT a Radix default (the Channel-opened hold has no `Trigger`; as measured 2026-09-01 Radix restored to `<body>`), the invoker kept focusable via `aria-disabled` so it stays a valid target (layout excerpt's Focus Management Anchors). **Owner: the operator-only DRIVEN arm** (`npm run a11y:driven` → `operator-hold.e2e.ts`), which asserts the restored target is the invoker and never `<body>`; see §11 *Strategy* for what gates in its place.
-- No route-change focus surface — four run-STATES are in-place transitions, not navigations; the `aria-live="assertive"` phase-line flip announces HOLD (interrupting, per the operator-pause path requirement — not the default polite live region) without a focus move that steals from the trap.
-
-**Per-surface keyboard shortcuts:**
-- First-class start / stop / proceed / abort shortcuts on a modifier map: **Ctrl+Enter** starts (and proceeds inside the hold dialog), **Ctrl+.** stops, **Escape** aborts (Radix's own dismiss → No-Go). Start/stop come from ONE in-webview `window` keydown listener dispatching to the SAME `start()` / `stop()` handlers and guards as the buttons (it stands down on a repeat, on Alt/Shift/Meta, without Ctrl, and while a hold is raised); Proceed from the dialog's own `onKeyDown`. Each control declares its key via `aria-keyshortcuts`, and a visible, non-focusable hint line (`run-controls__hint`) names all four actions. Must not conflict with assistive-tech or platform shortcuts: single letters, Ctrl+W and Alt+F4 stay unbound (the picker's type-ahead and NVDA browse mode keep them). (Creator brief names no additional explicit shortcut asks beyond these first-class controls.) **Owner: the operator-only DRIVEN arm** — real keypresses in one live run (Ctrl+Enter from a matrix row starts it, Ctrl+. stops it, Escape resolves hold 1 No-Go, Ctrl+Enter proceeds hold 2), decisions graded from the backend log; in its place the routine key-map spec asserts the whole declared `aria-keyshortcuts` set and the hint line — see §11 *Strategy*.
-
-**Test harness pattern:** scripted Tab / Shift+Tab / Arrow / Enter / Space / Escape sequences via WebdriverIO `browser.keys()` over the `@crabnebula/tauri-driver` session per `## 3. A11y Assertion Harness Contract` § Keyboard test harness, reading `document.activeElement` (`browser.execute(...)`) after each key; asserts SC 2.1.1 / SC 2.4.3 / SC 2.1.2 / SC 2.4.7.
-
-(cli keyboard verification is manual-only, out of harness scope — not-assertable surface, no focus-trap concept; `inquire` confirm is `isatty`-gated and headless skips the prompt.)
-
-(See `## 11. A11y Anti-Patterns` § Keyboard for keyboard-level bans.)
+Retired 2026-10-11 with the window (`2026-10-11-conductors-window-retired`, intent R1); its full text, dated measurements included, is last at `321dc8f`.
 
 ---
 
 ## 6. Visual Design Verification
 
-_[ALL tiers — BINDING to design tokens from upstream-context Section 3]_
-
-**Source-of-truth:** design token names from upstream-context Section 3 A11y-Relevant Design Tokens. Reproduced verbatim; no invented tokens; no contradiction of design's token names. Raw values stay in design-system.md (`[NO_RAW_DESIGN_VALUES]`); names are the cross-skill anchor.
-
-**Token-name drift:** the phase loop's a11y pass flags a missing token whenever an upstream design Section 3 token name changes; every token name this plan references is defined by design-system.md.
-
-### Color contrast pairs
-
-For each foreground/background token pair from upstream-context Section 3:
-
-| Foreground token | Background token | Context | WCAG SC | Required ratio |
-|------------------|------------------|---------|---------|----------------|
-| `--text-primary` | `--color-base` | phase-line headline / primary labels (body/heading text) | SC 1.4.3 (AA) | 4.5:1 |
-| `--text-secondary` | `--color-raised-1` | run-report body prose on raised card | SC 1.4.3 (AA) | 4.5:1 |
-| `--text-tertiary` | `--color-base` | metadata / timestamps / captions / empty-state prose (small text) | SC 1.4.3 (AA) | 4.5:1 |
-| `--text-muted` | `--color-inset` | disabled labels / input placeholders | SC 1.4.3 (AA) | 4.5:1 |
-| `--color-id-cyan` | `--color-base` | monospace status-tier text (count / P-IDs / run_id / SLO timings / fingerprints) | SC 1.4.3 (AA) | 4.5:1 |
-| `--count-nominal` | `--color-base` | nominal-green / `Pass` status (non-text status indicator) | SC 1.4.11 (AA) | 3:1 |
-| `--count-hold` | `--color-base` | hold-amber `CalibrationRegion` / HOLD status | SC 1.4.11 (AA) | 3:1 |
-| `--status-fail` | `--color-base` | `Fail` verdict text / lamp | SC 1.4.11 (AA) | 3:1 |
-| `--color-focus` | `--color-base` | focus indicator ring (non-text focus indicator) | SC 1.4.11 (AA) | 3:1 |
-| `--status-residual` | `--color-raised-1` | run-level load-envelope banner label + cause on the raised run-report card (§1 non-lamp reuse) | SC 1.4.3 (AA) | 4.5:1 |
-| `--status-residual` | `--color-base` | coverage-matrix out-of-scope Mode cell (§1 non-lamp reuse) | SC 1.4.3 (AA) | 4.5:1 |
-
-The two `--status-residual` rows are **SC 1.4.3 at 4.5:1, not the 3:1 a non-text indicator owes**, because on both of its non-lamp surfaces the token colours TEXT (the always-rendered label that carries the signal). They are what §1's "Contrast still applies: the pair is asserted like any other in Section 3" resolves to. Added 2026-09-02 with the desktop load-envelope banner. The pair is no longer that banner's ONLY asserting coverage: as of 2026-09-02 the routine arm also runs rendered-DOM axe plus a text-label (not-color-alone) assertion against the seeded over-envelope state, so this pair is the render-INDEPENDENT half of a two-part coverage.
-
-**Verification:** axe-core v4.12.0 `color-contrast` rule (rendered-DOM ratios after Tailwind compiles tokens) + `colorjs.io` v0.6.1 token-name checker (`new Color(fg).contrast(bg, "WCAG21")`) resolving each named pair from the compiled CSS custom properties; emits machine-readable PASS/FAIL JSON per token pair with WCAG SC reference, folded into the obs Section 6 envelope.
-
-### Focus ring tokens
-
-- **Tokens:** `--color-focus` (single focus-ring color, rendered as an inset ring) + `--border-emphasis` (active/selected-item border-emphasis marking the focused/selected coverage-matrix row and active picker item — selection indicator distinct from the focus-ring color).
-- **WCAG SC:** SC 2.4.7 Focus Visible (AA — focus indicator visible on every interactive control) + SC 1.4.11 Non-text Contrast (AA — `--color-focus` ring meets 3:1 against `--color-base`).
-- **Verification:** `colorjs.io` token-name checker emits the `--color-focus`/`--color-base` 3:1 ring-contrast assertion + asserts the `--border-emphasis` selection-vs-focus distinction (focus never color-only); WebdriverIO `browser.execute` asserts the ring is present on `document.activeElement`.
-
-### Target size tokens
-
-- **Tokens:** no dedicated minimum-target-size tokens in design-system — interactive sizing is expressed through the icon-size grid token + `--space-sm` container-padding token (bounding titlebar controls, status lamps, picker/dialog actions), not named tap-target tokens.
-- **WCAG SC:** SC 2.5.8 Target Size (Minimum, AA 24×24 CSS px) — desktop pointer + keyboard surface only; no touch surface (arch excerpt: "No mobile surface"), so SC 2.5.5 (AAA 44×44) is not a tier requirement.
-- **Verification:** the axe-core v4.12.0 `target-size` rule is `wcag22aa`-tagged, so it is NOT lit by the configured baseline `withTags(['wcag2a','wcag2aa','wcag21aa'])` scope (`wcag22aa` stays unset per § A11y testing tool pick / Bootstrap phases) — it does not run as part of the Minimal gate. If ever wanted, it would require an explicit per-rule `enableRules: ['target-size']` opt-in (a partial-configuration choice that per § 11 CI needs a recorded decision — an `a11y-plan-amendments.md` entry); it stays a non-gating supplemental, not a Minimal-baseline gate (no target-size trigger — Section 5), against the icon-size-grid + `--space-sm`-derived control bounds.
-
-### Motion tokens
-
-- **Tokens:** `--motion-micro` (micro-interaction / state-transition duration — control hover-background lift, in-place status-light color transition, count tint green → amber → slate-violet at the hold) + `--ease-quiet` (primary easing curve). No dedicated reduced-motion override token — a global reduced-motion-preference rule drops all animations/transitions.
-- **WCAG SC:** SC 2.3.3 Animation from Interactions (motion disabled via `prefers-reduced-motion: reduce`) + SC 2.3.1 Three Flashes (the `Fail` lamp is held motionless — no flashing).
-- **Verification:** the compiled `@media (prefers-reduced-motion: reduce)` rule, asserted PER-DECLARATION (universal `*` selector, `animation-name: none`, `transition: none`, both `!important`) — **not** by emulating the preference, because `browser.emulate('prefers-reduced-motion', 'reduce')` DOES NOT EXIST: webdriverio 9.x declares exactly six emulate scopes (`clock` / `geolocation` / `userAgent` / `device` / `colorScheme` / `onLine`), so there is no reduced-motion scope under WebKitGTK/Linux, msedgedriver+WebView2/Windows or macOS alike (**as measured 2026-09-01**, `webdriverio/build/commands/browser/emulate.d.ts`). The honest limit: this proves the rule SHIPS and is correctly shaped, NOT that the OS preference was exercised — SC 2.3.3 conformance is not claimed from it alone, and the OS/GTK-level hook (`gtk-enable-animations=0` / a documented `CONDUCTOR_TEST_REDUCED_MOTION` test hook) is the only preference-exercising path on EVERY platform, not a WebKitGTK-only fallback. Formerly this read `browser.execute(() => getComputedStyle(el).transitionDuration / animationName)` to assert the count tint, focus-ring fade-in, status-light transition, and operator-pause dialog fade all collapse to none/0s; emits `{ element, prop, value, reduced_motion_respected }` JSON. **The superseded framing, kept for provenance:** it was recorded as platform-dependent (the one caveat of reusing the WebDriver stack), with the Chromium half qualified thus: **as measured 2026-09-01** on the Windows WebView2 host, the tauri-driver session DOES connect BiDi (`ws://127.0.0.1:4445`), but script evaluation over that channel answers `Page/Frame is not ready` indefinitely against the wry/WebView2 context while the identical calls over classic WebDriver return normally — so the session runs with `wdio:enforceWebDriverClassic`. Whether `browser.emulate` itself works under classic on WebView2 was then **recorded, not established** — and is now SETTLED the other way: the scope does not exist on any driver, so the platform question was never the real one. On WebKitGTK (Linux Tauri) where media-feature emulation may be unavailable, fall back to launching the webview with the preference set at the OS/GTK level (`gtk-enable-animations=0` / a documented `CONDUCTOR_TEST_REDUCED_MOTION` test hook) — see §3 Configuration. Enforcement is CSS-native via Tailwind v4.1 `motion-reduce:` variant + `@theme`-defined `--motion-micro`/`--ease-quiet` (no framer-motion in stack); a single emulation set persists across the four in-place run-STATES (no routes, no per-navigation reset).
-
-### State color tokens (not-color-alone)
-
-**State-naming crosswalk (display label ↔ obs envelope enum — binding for the DOM-text assertion + obs join).** The six lamp states are named three ways (display label rendered in DOM text-content; obs `verdict` enum; obs `state` enum). The not-color-alone assertion targets the DISPLAY LABEL; the obs artifact records the ENUM value — downstream MUST use this table to join a failing lamp back to its journal row:
-
-| Display label (DOM text) | obs `verdict` enum | obs `state` enum |
-|--------------------------|--------------------|------------------|
-| `Pass` | `Pass` | `Pass` |
-| `HOLD` | `CalibrationRegion` | `ManualCheck` (the default `CalibrationRegion → ManualCheck` mapping) — but the LAMP is chosen **verdict-first**: `verdict == CalibrationRegion` ⇒ HOLD lamp regardless of `state`. Identify/join HOLD on the `verdict`, never on `state` (a `ManualCheck` state with NO verdict is the `Manual` lamp). |
-| `Fail` | `Fail` | `Fail` |
-| `Blocked` | (n/a — no verdict) | `Blocked` |
-| `Manual` | (n/a — no verdict; a `ManualCheck` state WITH `verdict == CalibrationRegion` is the HOLD lamp, not Manual) | `ManualCheck` |
-| `Residual` | (n/a — no verdict; a `KnownResidual` state WITH `verdict == CalibrationRegion` is the HOLD lamp, not Residual — verdict-first) | `KnownResidual` |
-
-- **Tokens:** `--count-nominal` (success / `Pass`) / `--count-hold` (warning / `CalibrationRegion` / HOLD) / `--status-fail` (error / `Fail`) / `--count-blocked` (info / `Blocked`) / `--status-manual` (info/manual / `Manual`) / `--status-residual` (info/residual / `Residual`).
-- **WCAG SC:** SC 1.4.1 Use of Color (A — six states not conveyed by color alone; each carries a text label + glyph supplement: `Pass`+filled-dot / `HOLD`+amber-filled-lamp+phase-line-swap / `Fail`+filled-lamp-motionless / `Blocked`+hollow-ring / `Manual`+checkbox-glyph / `Residual`+dashed-ring).
-- **Verification:** custom not-color-alone assertion that every state carries its text label (`Pass`/`HOLD`/`Fail`/`Blocked`/`Manual`/`Residual`) + glyph supplement, machine-verifiable via DOM text-content + axe-core; folded into the obs Section 6 envelope.
-
-### Typography tokens (readability)
-
-- **Tokens:** `--font-mono` (monospace status/code — count / P-IDs / run_id / SLO timings / fingerprints / JSONL journal) + `--font-sans` (body/UI prose + display-heading — phase line / labels / run-report prose). Typography roles/weights/sizes/line-heights/tracking are table rows in design-system, not named CSS custom properties; only the two font-family tokens are emitted as `@theme` tokens.
-- **WCAG SC:** SC 1.4.12 Text Spacing (AA — text adjustable without loss of content) — supported by the design's line-height/letter-spacing/word-spacing minima held in design-system. SC 1.4.8 Visual Presentation (AAA) is not a Minimal-baseline requirement (no escalation trigger).
-- **Verification:** supplemental — only the two font-family tokens are machine-assertable as `@theme` tokens; line-height/letter-spacing/word-spacing values stay in design-system (not a11y-owned). No axe-core typography gate in the Minimal baseline.
-
-(See `## 11. A11y Anti-Patterns` § Visual for visual-level bans.)
+Retired 2026-10-11 with the window (`2026-10-11-conductors-window-retired`, intent R1); its full text, dated measurements included, is last at `321dc8f`.
 
 ---
 
 ## 9. CI Integration
 
-_[ALL tiers]_
-
-**Platform:** GitHub Actions (arch excerpt's CI/CD Platform) — the webview a11y path (axe via tauri-driver/WebdriverIO) is TARGETED at an **`ubuntu-latest` + `xvfb` runner alongside tests' webview E2E**; the a11y path's ROUTINE arm is CI-wired since 2026-09-07 as job `a11y` on `windows-2022` (moved 2026-09-17 from `windows-2025`; the CI ARRANGEMENT the *A11y CI gate* entry shipped; its first push-triggered run happened 2026-09-08 — run 34209940695 — and was RED at WebView2 session creation **[premise-corrected 2026-09-17 — bound to its configuration: RED at session creation was measured on `windows-2025` at runtime 152/153. On hosted `windows-2022` at a coherent 131.0.2903.86 pair a session IS created and the arm reaches its assertions — run 35192876641: hosted `windows-2022` at a COHERENT 131.0.2903.86 msedgedriver+WebView2-runtime pair, High integrity — `DevToolsActivePort` in 1 s, WebDriver session created (`status 200`, banner `[webview2 131.0.2903.86 windows]`), routine arm 11 passing / 1 failing / 2 skipped; the single red `:384` is a counting-basis defect in the assertion (12 visits / 6 distinct), not an a11y defect.]**), while tests' own webview-E2E job and the `ubuntu-latest`+`xvfb` variant remain absent and target-state; the driven and screen-reader arms stay operator/local-gated and the runner is owned by the *A11y CI gate* route entry (one webview-automation stack; that is the CI ARRANGEMENT, not the leg's only platform — the same stack drives headfully on the Windows WebView2 host, measured 2026-09-01), not a separate Windows-CDP runner.
-
-**Per-pipeline-stage a11y artifacts:**
-
-| Stage | A11y tool | Artifact | Consumer |
-|-------|-----------|----------|----------|
-| Lint | (no `eslint-plugin-jsx-a11y` lane mandated — Rust-first stack, no `npm test` lane) | n/a | n/a |
-| Unit | cargo-nextest / cargo test / golden (no UI a11y tests at unit layer) | n/a | n/a |
-| E2E (operator/local-gated) — THREE suite families over the one stack: the unattended ROUTINE arm (`agent-run run --e2e`: axe-core v4.12.0 via `@axe-core/webdriverio` + colorjs.io v0.6.1 token pairs in both declared themes + not-color-alone + the compiled reduced-motion rule + the hold-free Operable pair (SC 2.1.1 keyboard reachability, SC 2.4.3 focus order asserting no `tabindex > 0`, added 2026-09-07) + since 2026-09-30 the SC 2.4.7 visible-ring spec, the idle-with-report coverage-matrix row-navigation spec and the shortcut key-map declaration spec; no live Pulse; the arm SEEDS its own committed fixture subject through the production writer, so the per-P-ID verdict lamps AND the load-envelope banner (label + axe) are asserted for real; the rule stands that a spec whose DOM state the seeded subject cannot produce context-skips, never passing green, but no routine-arm spec does so today) and the operator-only DRIVEN arm (`npm run a11y:driven`: ONE live run over its own seeded two-scenario catalog, two holds — WebdriverIO keyboard: Ctrl+Enter start and Ctrl+. stop as real keypresses, live coverage-matrix row navigation, trap entry, Tab/Shift+Tab containment, Space toggle, `role=status` announce, Escape→NoGo, focus restoration to the invoking row, Ctrl+Enter Proceed; decisions graded from the backend log — REQUIRING a live Pulse plus its full firing form, tests §6), and the operator-only SCREEN-READER leg (`npm run a11y:sr` / `a11y:sr-empty` / `a11y:sr-error`: NVDA's own speech log graded against the per-state spec, `CONDUCTOR_NVDA` as the host-tool handle — unset ⇒ skip at exit 0 — the operator reviewing the record; Windows + NVDA host only; tests §6). The ROUTINE arm is CI-wired since 2026-09-07 (job `a11y`, `windows-2022` since 2026-09-17, moved from `windows-2025`; green — 0 failing, only the expected-skip SET skipped — on a coherent 131.0.2903.86 pair at High integrity, run 35208593666 and since (CI#36681853843, 2026-09-30); its first push-triggered run happened 2026-09-08, run 34209940695, RED at WebView2 session creation **[premise-corrected 2026-09-17 — bound to its configuration: RED at session creation was measured on `windows-2025` at runtime 152/153. On hosted `windows-2022` at a coherent 131.0.2903.86 pair a session IS created and the arm reaches its assertions — run 35192876641: hosted `windows-2022` at a COHERENT 131.0.2903.86 msedgedriver+WebView2-runtime pair, High integrity — `DevToolsActivePort` in 1 s, WebDriver session created (`status 200`, banner `[webview2 131.0.2903.86 windows]`), routine arm 11 passing / 1 failing / 2 skipped; the single red `:384` is a counting-basis defect in the assertion (12 visits / 6 distinct), not an a11y defect.]**); the driven and screen-reader arms are not. Lighthouse v13.0.3 | structured violation JSON (axe `violations[]` + ratio assertions + keyboard PASS/FAIL) | `actions/upload-artifact` + per-PR diff |
-| Aggregation | custom aggregator folding into obs Section 6 envelope | combined WCAG SC coverage JSON (per surface + per SC) | uploaded artifact |
-
-**Pipeline integration:**
-
-- A11y runs reuse tests' binding 5-command harness discipline (boot / run / status / cleanup / logs — tests excerpt's Test Harness Contract Summary). No `npm test` lane exists in the Rust-first stack, so the a11y JSON step **rides the tests' `wdio run` webview-E2E job** (tauri-driver/WebdriverIO on `ubuntu-latest` + `xvfb`): it runs `@axe-core/webdriverio` + colorjs.io + WebdriverIO-keyboard against the launched Tauri webview and emits results through the **`logs`** command of the 5-command contract.
-- The no-live-Pulse ROUTINE checks land as a **CI gate** since 2026-09-07 (job `a11y`, `windows-2022` since 2026-09-17, via `agent-run.ps1 run --e2e` invoked through its entry point `scripts/a11y-token-witness.ps1` directly at the step's native High integrity; the `scripts/a11y-limited-token-launch.ps1` launch that stood here from 2026-09-16 now serves only the job's driver-alone diagnostics) — and since `2026-09-07-sr-findings-fixed` they include the HOLD-FREE keyboard pair (SC 2.1.1 reachability, SC 2.4.3 focus order) and since 2026-09-30 the SC 2.4.7 ring, coverage-matrix row-navigation and key-map declaration specs, so "keyboard/focus" no longer means "live-Pulse-requiring"; the HOLD-dependent keyboard/focus half (trap, restoration) plus the real-keypress shortcuts and live row navigation in the `driven` arm remain the **operator/local gate** — dynamic scenario proof requires a live Pulse ("Formatting, build + test gating, plus the Pulse-free routine a11y webview leg; dynamic scenario proof REQUIRING A LIVE PULSE remains a local operator gate", arch as amended 2026-09-07 — per arch excerpt's Pipeline note); the static-DOM a11y checks (axe / contrast / keyboard against the launched webview) run on the same Linux+xvfb `wdio run` job as tests' webview E2E.
-- **Readiness before every axe analysis** (since 2026-09-30). `@axe-core/webdriverio` 4.12.1 opens every `analyze()` with `execute(() => document.readyState === 'complete')` raced against a hard 1 000 ms `FRAME_LOAD_TIMEOUT`, and ANY miss — a late `true` included — throws `Page/Frame is not ready`: the library's catch-all, of which a BiDi evaluation failure (§6 Motion tokens, 2026-09-01) is one cause and a busy main thread another. A classic-WebDriver execute queues behind the page's synchronous JavaScript, and right after `#root` first mounts the webview's main thread is busy for ~1-2 s — CI#36635281444's red, where the probe answered `true` 1 173 ms after it was sent (as measured in that run's log). So `axeFindings()` first waits (`browser.waitUntil`, 30 s bound, 250 ms interval) until that same probe answers `true` in under `RESPONSIVE_MS = 250` ms, then analyzes ONCE — a bounded explicit signal, never a retry of `analyze()`, a sleep or a skip. The standing arm `axe completes over a 1.5 s main-thread stall` witnesses it: the next read of `document.readyState` blocks the main thread for 1 500 ms and removes itself. As measured on the dev host at a coherent 154.0.4258.37 pair, with the wait bypassed that arm fails with `Page/Frame is not ready` and with it restored it passes (twice); CI#36681853843 ran it green on `windows-2022` 20260920.314.1 at a coherent 131.0.2903.86 pair (record: `conductor-0.3.0/chunks/2026-09-30-interpretation-re-proven-on-a-clean-named-data-dir/evidence/race-witness.md`). A stall scheduled by timer cannot stand in: its `setTimeout` fires before the scheduling execute's response is delivered, so that call absorbs the whole stall and axe's probe meets an idle thread — measured green with the wait bypassed (stall 1 500 ms, the next probe's round trip 17.7 ms).
-- Per-PR diff (new violations vs base branch); fail the gate on new WCAG AA violations (`violations.length > 0` → non-zero exit).
-- WCAG criterion coverage report (per surface + per SC pass/fail history) for the desktop-webview surface; cli surface excluded (not-assertable).
-
-**CI-specific resource attributes** (set via CI env per obs Section 3 binding):
-- `service.name` = `"conductor-tauri"` / `"conductor-ui"`, `deployment.environment` = `CONDUCTOR_ENV` (fallback `"local"`), plus `ci.run.id` / `git.commit.sha` — a11y artifacts tag with the same OpenTelemetry resource attributes as obs traces for cross-correlation. Artifacts MUST NOT leak absolute host paths or internal seam-crate struct names (inherited from tests' Status JSON constraint).
-
-**Artifact retention:** GitHub Actions default (typically 14-90 days), aligned with tests' CI patterns.
-
-(See `## 11. A11y Anti-Patterns` § CI for CI-level bans.)
+Retired 2026-10-11 with the window (`2026-10-11-conductors-window-retired`, intent R1); its full text, dated measurements included, is last at `321dc8f`.
 
 ---
 
 ## 10. SLO Invariants & A11y Budgets
 
-_[ALL tiers]_
-
-**Always-required SLO invariant (every tier):**
-- **Zero WCAG AA violations** on the four must-be-accessible paths (Section 4 ARIA Patterns + Section 5 Keyboard Navigation): scenario pick/start, operator-pause go/no-go, run-report view, operator-checklist. Specifically zero violations of SC 2.1.1 / SC 1.4.3 / SC 2.4.3 baseline + SC 1.4.11 / SC 1.4.1 / SC 4.1.2 / SC 4.1.3 / SC 2.1.2 / SC 1.3.1 / SC 2.4.7 / SC 3.3.2. NO retry-once policies for a11y violations — masks real failures (parallel to tests' zero-flakiness: "Do NOT set cargo-nextest `retries` > 0").
-
-**Standard+ invariants:** (N/A — tier = Minimal.)
-
-**Comprehensive invariants:** (N/A — tier = Minimal; no WCAG 2.2 AAA / cognitive-accessibility requirements.)
-
-**Performance budget per a11y CI run:**
-- axe-core duration < 30s for the single desktop-webview surface (Minimal — one surface, no `wcag22aa` rules).
-- Total a11y operator/local gate bounded so it does not dominate the live-Pulse operator session, budgeted PER ARM: the routine arm (axe-core + colorjs.io token pairs + not-color-alone + the compiled reduced-motion RULE assertion — not emulation, which has no driver support — plus the hold-free Operable pair, SC 2.1.1 + SC 2.4.3, added 2026-09-07) stays fast and unattended; the operator-only driven arm carries a 15-minute mocha ceiling (raised from 60s, because wdio enforces `mochaOpts.timeout` itself and the hold sits ~50s behind preflight's canary poll), and its quiet-window precondition costs two 12-minute runs when violated.
-
-**Cross-input parallel:** tests' zero-flakiness budget (Quality Gates Summary — "flaky tests are NOT tolerated… quarantined immediately and fixed") ↔ a11y' zero-WCAG-AA-violations invariant. Both reflect agent-driven discipline that retry-once policies mask real signals. A11y artifacts share the obs Section 6 envelope + service identity for cross-correlation with the `runs.db` row / JSONL journal.
-
-**Build / deploy failure conditions:**
-- Any new WCAG AA violation detected on a must-be-accessible path (`violations.length > 0` → non-zero exit on the operator/local gate).
-- not-color-alone assertion failure (any of the six state tokens missing its text label + glyph).
-- Reduced-motion assertion failure (any of count tint / status-light transition / dialog fade not dropped under `prefers-reduced-motion: reduce`).
-
-(See `## 11. A11y Anti-Patterns` § SLO for SLO-budget bans.)
+Retired 2026-10-11 with the window (`2026-10-11-conductors-window-retired`, intent R1); its full text, dated measurements included, is last at `321dc8f`.
 
 ---
 
 ## 11. A11y Anti-Patterns (NEVER do these)
 
-_[ALL tiers — single source of truth for all a11y bans]_
+Retired 2026-10-11 with the window (`2026-10-11-conductors-window-retired`, intent R1); its full text, dated measurements included, is last at `321dc8f`.
 
-### Strategy
-
-- **CARVE-OUT, recorded 2026-09-07:** the CI gate carries the PERCEIVABLE half only — axe under `wcag2a`/`wcag2aa`/`wcag21aa`, the colorjs.io token-pair ratios, not-color-alone and the compiled reduced-motion rule. **NARROWED 2026-09-07 (`2026-09-07-sr-findings-fixed`): the carve-out is now the HOLD-DEPENDENT Operable half only.** The routine arm carries a hold-free keyboard path — SC 2.1.1 keyboard reachability of the idle console's controls and SC 2.4.3 focus order per §5 run-console-idle (first Tab reaches "Minimize window", then "Close window", asserting no `tabindex > 0`) — green locally at 12 passing / 2 skipped with the expected-skip SET unchanged — a reading pinned to the WebView2 runtime in effect, not a standing green: re-measured 2026-09-16 on a dev host floated to Evergreen 153.0.4234.32, this very pair is the half that REGRESSED (10 passing / 2 failing / 2 skipped, the two failures being exactly SC 2.1.1 reachability and SC 2.4.3 focus order), while session creation itself came up on 153. Both were ASSERTION defects rather than a platform property — one walk waiting on a `BODY` sentinel this webview's focus cycle need not contain — and both were fixed 2026-09-17; the pair is now environment-independent, measured green on two configurations differing in runtime major, driver major and coherence. This retires three prior readings: that the routine arm carries ZERO `browser.keys` calls; that the Operable half lives ENTIRELY in `operator-hold.e2e.ts`; and the condition "until a hold-free keyboard path exists on the routine arm", which is now met. It also retires the selection rationale that "the sequential-focus start-point defect is open and its holder unmeasured" — that defect was measured ABSENT at HEAD (`initialFocus` BODY, first Tab → "Minimize window" at focusable index 0/5, `tabsToStart` 5 over 5 focusables = a full cycle). What REMAINS operator-local is the hold-dependent half — focus trap entry/containment and restoration — which needs a live Pulse and stays barred from CI by test-plan §11 and architecture §Established Decisions [CI/CD]. The rule below still binds the harness as a WHOLE (routine + driven together). **The CI PROOF of the routine pair is DISCHARGED (2026-09-17):** the hold-free Operable pair — SC 2.1.1 reachability and SC 2.4.3 focus order — is green in continuous integration on the measured configuration, hosted `windows-2022` at a coherent 131.0.2903.86 msedgedriver/WebView2-runtime pair at High integrity with the driver pinned from the image's own runtime, at 12 passing / 0 failing / 2 skipped, as measured at run 35208593666 (headSha `fc4a9c2`, a11y job `success`). Each term of that configuration is load-bearing and the next image bump can move any of them, which is why the proof is stated with its configuration rather than as a bare verdict. The earlier red at WebView2 session creation was measured on hosted `windows-2025` at runtime 152/153 and remains that configuration's fact. **OWNER of the hold-dependent half, and what gates in its place (2026-09-17, `2026-09-17-keyboard-and-focus-order-coverage-ownership`):** the trap-entry, containment and focus-restoration claims are owned by the operator-only DRIVEN arm — `npm run a11y:driven` → `operator-hold.e2e.ts` — which continuous integration does not run and structurally cannot, because the hold fires only behind a preflight-ready live Pulse (test-plan §11, architecture §Established Decisions [CI/CD]). In its place CI gates three things, none of which is a substitute for the assertions themselves and all of which are stated as such: the routine arm's two subject-absence markers hold the expected-skip SET at exactly two under `CONDUCTOR_A11Y_STRICT`, so a third skip or a skipped-green run fails rather than passes; the committed claim→owner enumeration (`crates/conductor-tauri/ui/test/a11y/claim-ownership.ts`) names this arm as the single owner of each of those claims; and its checker (`npm run a11y:ownership`) fails if the named owner's spec is missing or asserts nothing, so the attribution cannot rot into a title that covers nothing. What CI does NOT do is assert trap or restoration behaviour — that remains operator-local, and this paragraph is the record of that, not a claim to have closed it. **Extended 2026-09-30 (`2026-09-30-unasserted-keyboard-and-focus-visible-claims-closed`):** the driven arm also owns two further claims, each with its own in-place gate — run-console-live coverage-matrix row navigation, in whose place the routine arm's row-navigation spec asserts the SAME `CoverageMatrix` component (rendered in every run state); and the first-class shortcuts as real keypresses, in whose place the routine key-map spec asserts the whole declared `aria-keyshortcuts` set and the visible hint line (a Start keypress there would start a real run). The in-place statement is now DATA the checker enforces: every owned row whose owner CI does not run carries an `inPlace` text, and `npm run a11y:ownership` fails a carve-out row that states nothing. SC 2.4.7's visible `--color-focus` ring and idle-with-report row navigation are routine-owned and CI-gated. The enumeration reads `11 claims · 9 owned (5 operator-local, carve-out) · 2 n/a-by-construction · 0 recorded gaps`.
-- NEVER skip POUR principle coverage at the Minimal tier (e.g., Operable keyboard assertions without Perceivable contrast verification) — both axe-core `color-contrast` and WebdriverIO-keyboard must run on every must-be-accessible path.
-- NEVER claim WCAG conformance without machine-verifiable evidence (axe-core `AxeResults` JSON / Lighthouse a11y JSON / pa11y JSON / colorjs.io ratio JSON).
-- NEVER use partial axe-core configuration (`runOnly` excluding default rules like `color-contrast`) without a recorded decision — an `a11y-plan-amendments.md` entry.
-- NEVER use the axe DevTools browser extension (UI-only) as the engine — the JSON-producing axe-core library over `@axe-core/webdriverio` (the tests' tauri-driver session) is the source of truth.
-
-### ARIA
-
-- NEVER use ARIA on non-semantic HTML (`role="button"` on `<div>` instead of `<button>`) — semantic HTML first; start/stop/Proceed/Abort are `<button>`, scenario/seed fields are `<input>`, checklist rows are native checkbox.
-- NEVER overuse `aria-label` — scenario/seed fields use a visible `<label>`; `aria-label` is reserved for the icon-only titlebar/start-stop/Proceed-Abort controls where no visible label is feasible.
-- NEVER set conflicting ARIA states (`aria-hidden="true"` on a focusable Proceed/Abort button; `role="presentation"` on the `main`/`contentinfo` landmark).
-- NEVER hand-roll `alertdialog`/`combobox` semantics over raw `<div>`s — use the shadcn AlertDialog / `Command` / `Select` over Radix Primitives that ship the roles + focus behavior.
-
-### Keyboard
-
-- NEVER create keyboard traps — the run-console-HOLD `alertdialog` MUST be Escape-escapable (SC 2.1.2); Tab/Shift+Tab cycling without an exit is banned.
-- NEVER omit focus styles — `:focus { outline: none }` without the `--color-focus` ring replacement is an SC 2.4.7 violation; every interactive control shows the visible ring.
-- NEVER set `tabindex` > 0 (creates non-natural focus order) — the picker → seed → start order and coverage-matrix row order rely on natural DOM/Radix order.
-- NEVER let live emission counter `aria-live` updates steal focus from the operator during a live run or from the HOLD dialog trap.
-
-### Visual
-
-- NEVER convey state by color alone — the six verdict/report-state lamps (`Pass`/`HOLD`/`Fail`/`Blocked`/`Manual`/`Residual`) MUST each carry their text label + glyph supplement (SC 1.4.1).
-- NEVER ship foreground/background pairs below WCAG minimum — `--text-primary`/`--color-base` etc. below 4.5:1 (SC 1.4.3) or `--count-nominal`/`--color-base` / `--color-focus`/`--color-base` below 3:1 (SC 1.4.11) fail the colorjs.io gate.
-- NEVER autoplay motion without `prefers-reduced-motion: reduce` respect — the count tint, status-light transition, and operator-pause dialog fade MUST drop under reduced-motion (SC 2.3.3); the `--color-focus` ring is an untransitioned `outline` and carries no fade.
-- NEVER render the empty/in-progress run-report as a gray decorative skeleton — use real prose (the shipped `No scenarios found.` — empty catalog — / `No scenarios match.` — the picker's filter miss, measured 2026-09-04 — / `No run yet`; the live state is carried by the titlebar label `Conductor · live` + count, no "Run in progress" prose ships — measured 2026-09-02) so screen readers announce it, and never downgrade in-progress to a Fail.
-
-### Screen Reader
-
-- NEVER hide important content from assistive tech — `aria-hidden="true"` on the verdict/report-state lamp, live emission counters, or HOLD phase-line, or `display: none` without an alternative, breaks the `aria-live` announcements those nodes depend on (SC 4.1.2, SC 4.1.3).
-- NEVER add excessive ARIA noise (`role="presentation"` overuse / redundant labels) — each six-state lamp carries ONE accessible name + `aria-live`, not a duplicated `<label>` + `title` + `aria-label`; redundant labels make NVDA / VoiceOver / Orca double-announce.
-- NEVER skip landmark roles — the desktop-webview frameless window MUST expose `main` (console / report body) + `contentinfo` (footer status strip); a window without landmarks fails SC 1.3.1 and leaves NVDA / VoiceOver / Orca with no navigation anchor.
-- NEVER drop off-screen coverage-matrix rows from the accessibility tree — every manifest row renders today (no virtualization), and any future virtualization MUST keep every P-ID row reachable / announceable (SC 1.3.1, SC 4.1.2), or screen-reader users lose rows that sighted users can scroll to.
-
-### Cognitive
-
-(N/A — no cognitive trigger; tier ≠ Comprehensive)
-
-### Motion
-
-- NEVER autoplay motion without `prefers-reduced-motion: reduce` respect (SC 2.3.3 AAA) — the global reduced-motion rule MUST drop the `--motion-micro`/`--ease-quiet`-driven transitions.
-- NEVER flash content > 3 times per second (SC 2.3.1 A) — the `Fail` lamp resolves in place and motionless (no flashing/pulsing), held muted per "no alarm".
-- NEVER use motion as the ONLY signal for the hold-point — the paused-count freeze + phase-line text swap ("HOLD — operator pause") + `aria-live="assertive"` carry the state without relying on the count-tint transition.
-- NEVER rely on framer-motion or a runtime JS motion library for the reduced-motion drop — enforcement is CSS-native via the Tailwind v4.1 `motion-reduce:` variant + `@theme` tokens (no framer-motion in the stack).
-
-### CI
-
-- NEVER ship lint-only a11y without runtime axe-core / pa11y / Lighthouse — the Rust-first stack has no `eslint-plugin-jsx-a11y` lane, so the runtime axe-core step (via tauri-driver/WebdriverIO) is the only a11y catch and MUST run.
-- NEVER skip a11y on CI/operator-gate failure — the a11y step is a FAIL-fast gate (`violations.length > 0` → non-zero exit), not a warning. **The mechanism, shipped 2026-09-07:** the exit code alone cannot enforce this, because the leg's host-tool guard is designed to skip at exit 0 — so CI declares `CONDUCTOR_A11Y_STRICT`, which makes an unresolved handle exit non-zero instead of skipping, and both harness shells additionally assert the runner's PRINTED verdict (the `Spec Files:` failed count, the per-spec skip tally against the expected-skip SET, and the driven-session banner). A skipped-green run and a real pass are otherwise indistinguishable.
-- NEVER answer `Page/Frame is not ready` with a retry of `analyze()`, a `sleep`, a skip, a mocha/nextest `retries`, `continue-on-error` or a vendored patch of axe's `FRAME_LOAD_TIMEOUT` — each hides the readiness race instead of removing it. The routine arm waits on the same readiness probe answering inside axe's budget (§9), and its standing stall arm must fail whenever that wait stops covering a 1.5 s stall; a witness stall is bound to the probe's own evaluation, never scheduled by timer (a timer-scheduled stall is absorbed by the call that schedules it — measured 2026-09-30).
-- NEVER use human-only NVDA/VoiceOver/Orca review without the machine axe-core/colorjs.io/WebdriverIO output — manual SR is supplemental only.
-- NEVER stand up a second browser-automation stack (puppeteer/CDP) for a11y — axe injects via `@axe-core/webdriverio` into the tests' `@crabnebula/tauri-driver`/WebdriverIO session (ONE webview-automation stack — on Linux+xvfb and, measured 2026-09-01, on the Windows WebView2 host). macOS (WKWebView, no WebDriver) stays manual-pass-only; NO assertion in this harness is platform-dependent — `browser.emulate('prefers-reduced-motion')` is not a webdriverio 9.x scope on ANY driver (six exist: `clock` / `geolocation` / `userAgent` / `device` / `colorScheme` / `onLine`, as measured 2026-09-01), so the gate asserts the compiled `@media (prefers-reduced-motion: reduce)` rule's shape instead (§6 Motion tokens). This was the last site still carrying the retired platform-dependent verdict that §3 Configuration and §6 had already dropped.
-
-### SLO
-
-- NEVER use a retry-once policy for a11y violations — masks real failures (parallel to tests' zero-flakiness "Do NOT set cargo-nextest `retries` > 0").
-- NEVER define a soft a11y SLO — a new WCAG AA violation, a not-color-alone failure, or a reduced-motion-not-dropped failure MUST fail the operator/local gate.
-- NEVER skip the per-PR diff (regression detection) for the desktop-webview surface — new violations vs base branch gate the PR.
-- NEVER let a11y artifacts leak absolute host paths or internal seam-crate struct names into the obs Section 6 envelope (inherited from tests' Status JSON constraint).
-
-### Universal (agent-driven specific)
-
-- NEVER use manual screen reader / keyboard / contrast as the ONLY method — NVDA/VoiceOver/Orca + manual keyboard are supplemental to the axe-core + colorjs.io + WebdriverIO-keyboard automated baseline.
-- NEVER use a vendor-locked a11y tool as the ONLY method (axe DevTools extension UI-only / Stark plugin without machine output / Tenable.io UI-only without API) — JSON-emitting tooling only.
-- NEVER introduce an inaccessible captcha / paywall / modal that breaks the keyboard navigation chain — the operator-pause `alertdialog` is the only modal and it is Escape-escapable with focus restoration.
-- NEVER claim WCAG conformance without machine-verifiable evidence (axe-core JSON / pa11y JSON / Lighthouse JSON / colorjs.io ratio JSON aligned to obs Section 6).
 - NEVER treat the cli surface as accessibility-assertable — it is not-assertable (no DOM / widget tree); its ASCII status prefixes + NO_COLOR text-pairing are output-stream discipline, not an ARIA a11y verification path.
 
 ---

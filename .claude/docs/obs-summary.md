@@ -9,9 +9,9 @@ _Distilled from `.andromeda/obs-plan.md`. setup-project Phase 3. wrap-session do
 ## Harness contract (§3) — bound to the test harness
 - **Logger:** `tracing` 0.1.44 + `tracing-subscriber` 0.3.23 (`fmt().json().flatten_event(true)`).
 - **OTel SDK:** NONE for self-observation (the only OTLP is the PRODUCT fault stream to Pulse `:4317`).
-- **Log sink:** cli → `logs/agent-latest.jsonl` (`--agent-mode`) / stderr (dev); Tauri backend → `conductor-tauri.jsonl` under `runs_dir.parent()/logs/` (the directory rides `CONDUCTOR_RUNS_DIR` — project-root `logs/` only with it unset; per-suite `runs/logs/` · `runs/driven/logs/` · `runs/sr-leg/logs/` on the a11y suites, measured 2026-09-02); Tauri frontend → browser `console.log` JSON (no network exporter — recursion guard).
+- **Log sink:** cli → `logs/agent-latest.jsonl` (`--agent-mode`) / stderr (dev); Tauri backend → `conductor-tauri.jsonl` with no writer since 2026-10-11 (the sink goes at `Panel-shaped types retired`).
 - **Log format:** JSONL, one object per line (custom `tracing-subscriber` layer). Two shapes: the **self-obs base line** (every line) — `timestamp_ms` (`std::time`), `level`, `target`, service-identity, `run_id`; the **Run-report envelope** — `journal_emitted_at`, `read_back_observed_at`, `run_id`, `seed`, `scenario`, `p_ids`, `verdict`, `state`, `latency_ms`, `slo_tier`, `fingerprints` (schema owned by test-plan §3). The report seam writes a SECOND line shape onto that same journal — the per-check `CheckRecord` (`run_id`, `scenario`, `check_index`, `kind`, `verdict`, `state`, `latency_ms`, `deadline_ms`, `budget_ms`), a finer GRAIN beneath the envelope, never an extension of it; a typed parse discriminates the two, and neither report-seam shape passes through the span-attribute allowlist. The self-obs line has two variants over its base set: the **event line** and the **span-lifecycle line** (`span`, `span_event` `new`/`close`, optional `parent`, plus the span's allowlisted attributes on `new`).
-- **Heartbeat:** N/A for cli (short-lived per-scenario); Tauri backend optional 30s `conductor.tick` via `Channel` (UI state, NOT telemetry).
+- **Heartbeat:** N/A for cli (short-lived per-scenario).
 - **Correlation:** the `run_id` field — NO W3C `trace_id`/`traceparent`. Cross-surface parity = `runs.db` envelope comparison.
 - **Status:** disk read (no endpoint) — bound to test-plan §3.
 
@@ -22,7 +22,7 @@ _Distilled from `.andromeda/obs-plan.md`. setup-project Phase 3. wrap-session do
 | `latency_ms` | ≤ `slo_tier` (`<5s`/`<20s`/`<90s`) | JSON field assertion at report-gen (no histogram backend) |
 
 ## Service identity
-- `service.name` = `conductor` / `conductor-tauri` / `conductor-ui` (override `$CONDUCTOR_SERVICE_NAME`).
+- `service.name` = `conductor` (override `$CONDUCTOR_SERVICE_NAME`).
 - `service.version` = `env!("CARGO_PKG_VERSION")`; `deployment.environment` = `$CONDUCTOR_ENV` (default `local`).
 - Emitted as flat per-line JSON fields — NOT OTel resource attributes.
 

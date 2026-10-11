@@ -1,6 +1,18 @@
 # Session Learnings
 
 _This file is curated by `/wrap-session`. Learnings captured here are too detailed or specific for CLAUDE.md but worth preserving as reference material for future sessions._
+## 2026-10-11 — Predict a lockfile prune by pruning, and prove it by the name+version set
+When a workspace member leaves, a reachability walk over the EXISTING resolve (`cargo metadata` from the remaining
+members) over-counts what survives: the old resolve's features are unified across every member, so optional edges
+that only the leaving member's features activated still read as reachable. Predict the post-prune package set by
+actually pruning in a scratch copy (`cargo metadata --offline` without `--locked` rewrites the lock against the
+existing resolution), never by walking the old one. And on a pure prune the lock diff still shows `+` lines: a
+crate dropping to a single version is re-written unqualified in every dependency list (`"syn 2.0.117"` → `"syn"`),
+so a non-zero insertion count is no evidence of an added package — compare the old and new `name version` pair
+sets, which is what proves "nothing added, nothing moved".
+
+---
+
 ## 2026-10-07 — A line-granular grep cannot date a clause inside a multi-KB single-line entry (host leaf entry of 2026-09-10)
 - 2026-09-10: **A line-granular grep cannot DATE a clause inside a multi-KB single-line entry — it collapses
   every dated extension the line carries into ONE hit.** This project's rule-file entries accumulate

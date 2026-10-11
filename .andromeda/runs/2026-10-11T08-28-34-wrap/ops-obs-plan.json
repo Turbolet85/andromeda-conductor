@@ -1,0 +1,206 @@
+[
+ {
+  "sub": [
+   "**Justification:** 9 workspace crates + 2 surfaces (CLI headless + Tauri desktop-webview GUI) places Conductor at the lower end of the module-count spectrum. Security tier is Minimal (single-developer, local-only, no cloud, zero network exposure beyond loopback MCP/gRPC client). 7 critical paths identified (Sections 4) — all tightly scoped to single-scenario execution. Creator Brief mandates \"production-grade verification rigor\" for determinism and assertion-policy split but achieves this via property/golden/contract tests, not comprehensive instrumentation. Tests tier is Minimal (0). Complexity facts: (a) no OTel SDK or exporter for self-observation (creator-explicit anti-pattern §6); (b) self-observation is structured tracing logs only (JSONL via `tracing-subscriber`); (c) paste-to-AI workflow via agent-parseable JSON (no proprietary APM); (d) Tauri frontend telemetry is console-JSON-only (no browser OTel SDK — recursion guard). Telemetry triggers: 5 total (chaos-instrumentation, perf-budget-instruments, cross-surface-trace-propagation, error-budget-SLO, creator-explicit-telemetry) — all addressable within Minimal scope.",
+   "**Justification:** The workspace's crate-per-seam members (`Cargo.toml [workspace] members`) + one surface (CLI headless) place Conductor at the lower end of the module-count spectrum. Security tier is Minimal (single-developer, local-only, no cloud, zero network exposure beyond loopback MCP/gRPC client). 7 critical paths identified (Sections 4) — all tightly scoped to single-scenario execution. Creator Brief mandates \"production-grade verification rigor\" for determinism and assertion-policy split but achieves this via property/golden/contract tests, not comprehensive instrumentation. Tests tier is Minimal (0). Complexity facts: (a) no OTel SDK or exporter for self-observation (creator-explicit anti-pattern §6); (b) self-observation is structured tracing logs only (JSONL via `tracing-subscriber`); (c) paste-to-AI workflow via agent-parseable JSON (no proprietary APM). Telemetry triggers: 5 total (chaos-instrumentation, perf-budget-instruments, cross-surface-trace-propagation, error-budget-SLO, creator-explicit-telemetry) — all addressable within Minimal scope."
+  ]
+ },
+ {
+  "sub": [
+   "| **conductor-tauri** | Workspace / Modules + Design System (desktop-webview surface) + Stack (Tauri 2, React 19) | Instrumentable | Tauri 2 GUI binary with React 19 frontend; `#[tauri::command]` for start/stop/picker/run-report/operator-pause actions; `Channel` for live emission counter streaming backend→frontend; frontend (browser) telemetry is **console JSON logging only** — no OTel JS SDK (recursion + determinism guard) |\n",
+   ""
+  ]
+ },
+ {
+  "sub": [
+   "| **desktop-webview** (Tauri 2 + React 19 + Tailwind + shadcn/ui on Windows/macOS/Linux) | Backend: manual `tracing::info_span!(\"tauri.command.<name>\").entered()` guards (the `#[tracing::instrument]` attribute does not stack with `#[tauri::command]`) on all EIGHT handlers — `list_scenarios()`, `coverage_matrix()`, `unbacked_auto()`, `run_report()`, `run_envelope()`, `start_run()`, `stop_run()`, `resolve_operator_hold()` (measured 2026-09-02); `tracing-subscriber` structured JSON logs to `conductor-tauri.jsonl` under `<runs_dir.parent()>/logs/` — the file name is fixed, the directory rides `CONDUCTOR_RUNS_DIR` (§3 Log file location; stderr only as an open-failure fallback); no HTTP framework (Tauri commands are local IPC, not HTTP) | Frontend: **console JSON logging only** — NO OTel JS SDK, NO `auto-instrumentations-web`, NO browser OTLP exporter (recursion + determinism guard); optional `web-vitals` numbers go to `console.log(JSON…)` for paste-to-AI, never exported | Backend file `conductor-tauri.jsonl` under `<runs_dir.parent()>/logs/` (unconditional; the directory rides `CONDUCTOR_RUNS_DIR`; stderr fallback); Frontend: browser `console.log` JSON only — NO network OTLP exporter, NO `:4318` (Pulse is gRPC `:4317`-only, `:4318` is unused per arch — exporting there is both a recursion trap and a dead port) | Compile-time: `env!(\"CARGO_PKG_NAME\")` = `conductor-tauri`; runtime override via `CONDUCTOR_SERVICE_NAME` env var; version from manifest | Tauri `#[tauri::command]` functions are IPC boundaries, not HTTP — instrument via a MANUAL `tracing::info_span!(\"tauri.command.<name>\").entered()` guard, never the `#[tracing::instrument]` attribute, which does not stack with the command macro (plain `tracing` spans → JSON log events, no OTel SDK); cross-surface correlation is the **`run_id`** envelope field (NOT a W3C `traceparent`); both-surface parity is asserted by comparing the `runs.db` envelope (same seed ⇒ same verdict/state), not by trace correlation; live-counter `Channel` emits unstructured heartbeat data (count tints) to UI state, not telemetry; **recursion guard: the frontend produces NO OTel spans and NO OTLP export — console JSON only** (the only OTLP in Conductor is the PRODUCT fault stream `conductor-emit` sends at Pulse on `:4317`) |\n",
+   ""
+  ]
+ },
+ {
+  "sub": [
+   "| **ipc-internal** (Tauri command → conductor-core boundary) | a manual `tracing::info_span!(\"tauri.command.<name>\").entered()` guard on each `#[tauri::command]` handler (the attribute does not stack with the command macro); the IPC envelope carries the **`run_id`** (correlation key — NOT a W3C `traceparent`); no framework auto-instrumentation (not HTTP/gRPC) | N/A (IPC is backend-only) | Same as parent surface (cli or desktop-webview depending on entry point) | Inherited from parent surface | Tauri commands are synchronous IPC (blocking RPC); span nesting: parent = command handler, child = core operations (a plain `tracing` span hierarchy rendered as JSON log events — no OTel SDK, no W3C trace context); the envelope carries `run_id` as the correlation key |\n",
+   ""
+  ]
+ },
+ {
+  "sub": [
+   "- **Tauri GUI:** `service.name` = `\"conductor-tauri\"`; same version/environment resolution as CLI\n",
+   ""
+  ]
+ },
+ {
+  "sub": [
+   "- **Frontend (browser in Tauri webview only):** `service.name` = `\"conductor-ui\"`; version from window global or manifest; environment inherited from backend Tauri env var\n",
+   ""
+  ]
+ },
+ {
+  "sub": [
+   "- Sink (Tauri frontend): browser console JSON logger (paste-to-AI; no network OTLP exporter for browser to avoid recursion)\n",
+   ""
+  ]
+ },
+ {
+  "sub": [
+   "- Tauri frontend: browser `console.log()` JSON (paste-to-AI; no file persistence for browser context)\n",
+   ""
+  ]
+ },
+ {
+  "sub": [
+   "- IPC (Tauri command → conductor-core): the envelope carries the **`run_id`** (correlation key), not a `traceparent`; the command-handler span is simply the parent of the core-operation spans (plain `tracing` nesting).\n",
+   ""
+  ]
+ },
+ {
+  "sub": [
+   "- Cross-surface parity (CLI vs Tauri) is asserted by comparing the `runs.db` envelope (same seed ⇒ same verdict/state), NOT by correlating traces.",
+   "- Cross-surface parity (the headless CLI vs the in-process `conductor_run` composition) is asserted by comparing the `runs.db` envelope (same seed ⇒ same verdict/state), NOT by correlating traces."
+  ]
+ },
+ {
+  "sub": [
+   "- Tauri backend: optional every 30s `conductor.tick` event (active scenario count + emission counter) emitted via Tauri `Channel` to frontend for live UI update; not a telemetry span (unstructured counter data)\n",
+   ""
+  ]
+ },
+ {
+  "sub": [
+   "- Tauri frontend: per-scenario emission counter tick via `Channel` (UI state update, not telemetry)\n",
+   ""
+  ]
+ },
+ {
+  "sub": [
+   "| **Headless deterministic scenario run with MCP read-back verification** | CLI (`conductor-cli`) + ipc-internal (core boundary) + persistent-storage (`runs.db` / JSONL journal) + boundary-only (MCP client to Pulse) | `scenario.run` (root) → `timeline.execute` → `emit.batch` (per emission) → `verify.readback` (MCP call) → `report.generate` → `db.insert_run` (final verdict write) | `run_id`, `seed`, `scenario`, `p_ids`, `verdict`, `state`, `latency_ms` (computed: `read_back_observed_at - journal_emitted_at`), `slo_tier`, `fingerprints` (array), `journal_emitted_at` (ISO-8601, wall-clock), `read_back_observed_at` (ISO-8601) | Tests excerpt §5 Critical Path 1 + Creator Brief §6 \"Emission journal as ground truth\" + \"MCP read-back as the observability surface\" |",
+   "| **Headless deterministic scenario run with MCP read-back verification** | CLI (`conductor-cli`) + persistent-storage (`runs.db` / JSONL journal) + boundary-only (MCP client to Pulse) | `scenario.run` (root) → `timeline.execute` → `emit.batch` (per emission) → `verify.readback` (MCP call) → `report.generate` → `db.insert_run` (final verdict write) | `run_id`, `seed`, `scenario`, `p_ids`, `verdict`, `state`, `latency_ms` (computed: `read_back_observed_at - journal_emitted_at`), `slo_tier`, `fingerprints` (array), `journal_emitted_at` (ISO-8601, wall-clock), `read_back_observed_at` (ISO-8601) | Tests excerpt §5 Critical Path 1 + Creator Brief §6 \"Emission journal as ground truth\" + \"MCP read-back as the observability surface\" |"
+  ]
+ },
+ {
+  "sub": [
+   "| **Both-surface parity (headless CLI + Tauri GUI same verdict for same seed)** | CLI + desktop-webview (Tauri command handler) + ipc-internal + persistent-storage + boundary-only (MCP) | CLI path: `scenario.run` (as in Path 1) | Tauri path: `tauri.command.start_run` → `scenario.run` (same instrumentation) | `run_id`, `seed`, `scenario`, `p_ids`, `verdict`, `state`, `latency_ms`, `slo_tier` | Tests excerpt §5 Critical Path 7 + Creator Brief §6 \"Both surfaces emit a journal\" |",
+   "| **In-process ↔ headless parity (same verdict for same seed)** | CLI + in-process core + persistent-storage + boundary-only (MCP) | CLI path: `scenario.run` (as in Path 1) | in-process path: `conductor_run::{preflight, drive_run}` → `scenario.run` (same instrumentation) | `run_id`, `seed`, `scenario`, `p_ids`, `verdict`, `state`, `latency_ms`, `slo_tier` | Tests excerpt §5 Critical Path 7 + Creator Brief §6 \"Both surfaces emit a journal\" |"
+  ]
+ },
+ {
+  "sub": [
+   "| **cross-surface-parity (NOT trace propagation)** | Design System Excerpt §3 (desktop-webview + cli surfaces) + Tests excerpt §5 Critical Path 7 (\"Both-surface parity\") | parity is the `runs.db` envelope comparison (same seed ⇒ same verdict/state/seed across the two surfaces) — NOT a W3C trace correlation; no OTel SDK, no `traceparent`; each surface tags its JSON lines with `run_id`, and the two runs are matched by `(scenario, seed)` |",
+   "| **cross-surface-parity (NOT trace propagation)** | Tests excerpt §5 Critical Path 7 (\"Both-surface parity\") | parity is the `runs.db` envelope comparison (same seed ⇒ same verdict/state/seed across the two arms (headless CLI, in-process composition)) — NOT a W3C trace correlation; no OTel SDK, no `traceparent`; each arm tags its JSON lines with `run_id`, and the two runs are matched by `(scenario, seed)` |"
+  ]
+ },
+ {
+  "sub": [
+   "| **multi-platform-exporter-compat** | Design System Excerpt §3 surfaces (Windows/macOS/Linux on both cli and desktop-webview) | CLI exporter: stderr + file `logs/agent-latest.jsonl` (platform-agnostic POSIX path, relative to `CONDUCTOR_RUNS_DIR`); Tauri desktop exporter: same backend + browser console (frontend); no platform-specific crash reporter (Minimal tier; Sentry/Crashlytics integration deferred to Phase 3 if escalated) |",
+   "| **multi-platform-exporter-compat** | Design System Excerpt §3 surfaces (Windows/macOS/Linux, cli) | CLI exporter: stderr + file `logs/agent-latest.jsonl` (platform-agnostic POSIX path, relative to `CONDUCTOR_RUNS_DIR`); no platform-specific crash reporter (Minimal tier; Sentry/Crashlytics integration deferred to Phase 3 if escalated) |"
+  ]
+ },
+ {
+  "sub": [
+   "| **error-budget-SLO** (Minimal tier: zero-unlogged-panics only) | Tests excerpt §5 Quality Gates \"Zero-flakiness statement\" + Creator Brief §6 Rigor Hints \"determinism hard quality bar\" | `std::panic::set_hook()` capture: if panic occurs, emit structured error log with backtrace (if available) and context; convert panic to `anyhow::Error` at binary edge (CLI: exit code 1 + sanitized error to stderr; Tauri: error dialog + return error to command handler) |",
+   "| **error-budget-SLO** (Minimal tier: zero-unlogged-panics only) | Tests excerpt §5 Quality Gates \"Zero-flakiness statement\" + Creator Brief §6 Rigor Hints \"determinism hard quality bar\" | `std::panic::set_hook()` capture: if panic occurs, emit structured error log with backtrace (if available) and context; convert panic to `anyhow::Error` at binary edge (CLI: exit code 1 + sanitized error to stderr) |"
+  ]
+ },
+ {
+  "sub": [
+   "| **desktop-webview** | NO auto-instrumentation — each `#[tauri::command]` handler opens a MANUAL `tracing::info_span!(\"tauri.command.<name>\").entered()` guard, because the `#[tracing::instrument]` ATTRIBUTE does not stack with the `#[tauri::command]` macro (which rewrites the fn signature for IPC arg-extraction); measured 8/8 sites 2026-09-02, names inside §11's bounded `tauri.command.*` set | IPC envelope `run_id` correlation (no `traceparent`) |\n",
+   ""
+  ]
+ },
+ {
+  "sub": [
+   "| **ipc-internal** | None (not HTTP/gRPC) | Manual `run_id` in Tauri command envelope (no W3C trace context) |\n",
+   ""
+  ]
+ },
+ {
+  "sub": [
+   "#### Scenario: Both-surface parity (headless CLI + Tauri GUI same verdict for same seed)",
+   "#### Scenario: In-process ↔ headless parity (same verdict for same seed)"
+  ]
+ },
+ {
+  "sub": [
+   "- **Surfaces involved:** CLI + desktop-webview (Tauri command handler) + ipc-internal + persistent-storage + boundary-only (MCP)",
+   "- **Surfaces involved:** CLI + in-process core + persistent-storage + boundary-only (MCP)"
+  ]
+ },
+ {
+  "sub": [
+   "  - Tauri path: `tauri.command.start_run` (root) → `scenario.run` (same instrumentation), lines tagged with the Tauri run's `run_id` (the envelope carries `run_id`, not a `traceparent`)",
+   "  - in-process path: `conductor_run::{preflight, drive_run}` → `scenario.run` (same instrumentation), lines tagged with that run's `run_id` (the envelope carries `run_id`, not a `traceparent`)"
+  ]
+ },
+ {
+  "sub": [
+   "- **Required log fields:** `run_id` (per-surface; the two runs are matched by `(scenario, seed)`, NOT by a shared trace), `seed`, `scenario`, `p_ids`, `verdict`, `state`, `latency_ms`, `slo_tier` — parity = identical `verdict`/`state` for the same seed across both surfaces, for a DETERMINISTIC-posture scenario; a real-model-posture scenario is outside parity by design (the Tauri path keeps the deterministic gate and records it scenario-level `Blocked` — test-plan §1 Critical Path 7)",
+   "- **Required log fields:** `run_id` (per-arm; the two runs are matched by `(scenario, seed)`, NOT by a shared trace), `seed`, `scenario`, `p_ids`, `verdict`, `state`, `latency_ms`, `slo_tier` — parity = identical `verdict`/`state` for the same seed across both arms, for a DETERMINISTIC-posture scenario; a real-model-posture scenario is outside parity by design (test-plan §1 Critical Path 7)"
+  ]
+ },
+ {
+  "sub": [
+   "- **Cleanup:** CLI root closes on CLI run completion; Tauri command handler root closes on IPC response return; both paths' scenario spans close after report generation; both write to `runs.db` with identical envelope (seed + verdict + state)",
+   "- **Cleanup:** CLI root closes on CLI run completion; both paths' scenario spans close after report generation; both write to `runs.db` with identical envelope (seed + verdict + state)"
+  ]
+ },
+ {
+  "sub": [
+   "| conductor-tauri | info | `RUST_LOG=info` |\n",
+   ""
+  ]
+ },
+ {
+  "sub": [
+   "- Console sink (Tauri frontend): `console.log()` JSON\n",
+   ""
+  ]
+ },
+ {
+  "sub": [
+   "- DB READ (`conductor_run::read_envelope` over `RunsDb::get_envelope`): a rusqlite READ boundary logs an `info!` line carrying `run_id` plus the outcome on the allowlisted `message` field, INSIDE the caller's `tauri.command.*` span, and mints **no `db.*` read span** — §11's bounded span-name set carries `db.insert_run` alone, and widening it with a `db.*` wildcard is deliberately not done (a `db.*` read span remains a design option for the entry that next touches `conductor-report`, where the in-repo DB-span convention is an attribute on the `RunsDb` method itself). Recorded 2026-09-02 on the operator's ruling at the live-per-P-ID-verdict-lamps wrap",
+   "- DB READ (`conductor_run::read_envelope` over `RunsDb::get_envelope`): a rusqlite READ boundary logs an `info!` line carrying `run_id` plus the outcome on the allowlisted `message` field, INSIDE the caller's span, and mints **no `db.*` read span** — §11's bounded span-name set carries `db.insert_run` alone, and widening it with a `db.*` wildcard is deliberately not done (a `db.*` read span remains a design option for the entry that next touches `conductor-report`, where the in-repo DB-span convention is an attribute on the `RunsDb` method itself). Recorded 2026-09-02 on the operator's ruling at the live-per-P-ID-verdict-lamps wrap"
+  ]
+ },
+ {
+  "sub": [
+   "| A11y violation record (`runs/a11y/<run_id>.jsonl`) | the `a11y` CI job (2026-09-07) | uploaded as CI artifact (`actions/upload-artifact@v4`, `if-no-files-found: warn`) | download + jq parse; conformance asserted in-job by `journal_conformance` under `CONDUCTOR_RUNS_DIR=runs/a11y` |\n",
+   ""
+  ]
+ },
+ {
+  "sub": [
+   "- **Zero unlogged panics:** Every `panic!()` MUST be captured by `std::panic::set_hook()` + logged via `tracing::error!(panic_msg, backtrace)` + converted to `anyhow::Error` at binary edge (CLI: exit code 1 + sanitized stderr; Tauri: error dialog + return error result). NO retry-once policies for panic handling — masks real failures. Parallel to tests' zero-flakiness (upstream §5).",
+   "- **Zero unlogged panics:** Every `panic!()` MUST be captured by `std::panic::set_hook()` + logged via `tracing::error!(panic_msg, backtrace)` + converted to `anyhow::Error` at binary edge (CLI: exit code 1 + sanitized stderr). NO retry-once policies for panic handling — masks real failures. Parallel to tests' zero-flakiness (upstream §5)."
+  ]
+ },
+ {
+  "sub": [
+   "- A `cargo clippy … -- -D warnings` lint red — BLOCKING at Minimal: any lint warning fails `agent-run run`'s bundled default, which stops at its first non-zero cargo line in both shells — `agent-run.sh` by `set -euo pipefail` (as measured at `2026-10-04-second-test-surface-corrective` `evidence/carry-measurement.md`: a planted clippy-only lint ended the run at exit 101 on the workspace clippy line, its nextest and doctest lines green), `agent-run.ps1` by a `$LASTEXITCODE` check after each of its five cargo lines (its red path unmeasured — no leg has driven it; the Linux dev host has carried `pwsh` 7.6.6 since 2026-10-06, as measured at the `2026-10-08-version-close-on-measured-evidence` chunk's `evidence/version-close.md`, where the script was parsed and never executed). So it fails the `rust` job's dogfood step, where the step's own `$PSNativeCommandUseErrorActionPreference` turns the non-zero cargo line into a terminating error (recorded witness CI#34689135760, a nextest red; no clippy-only red has reached CI). The `--e2e` arm runs no clippy line, so a lint never fails the `a11y` job",
+   "- A `cargo clippy … -- -D warnings` lint red — BLOCKING at Minimal: any lint warning fails `agent-run run`'s bundled default, which stops at its first non-zero cargo line in both shells — `agent-run.sh` by `set -euo pipefail` (as measured at `2026-10-04-second-test-surface-corrective` `evidence/carry-measurement.md`: a planted clippy-only lint ended the run at exit 101 on the workspace clippy line, its nextest and doctest lines green), `agent-run.ps1` by a `$LASTEXITCODE` check after each of its five cargo lines (its red path unmeasured — no leg has driven it; the Linux dev host has carried `pwsh` 7.6.6 since 2026-10-06, as measured at the `2026-10-08-version-close-on-measured-evidence` chunk's `evidence/version-close.md`, where the script was parsed and never executed). So it fails the `rust` job's dogfood step, where the step's own `$PSNativeCommandUseErrorActionPreference` turns the non-zero cargo line into a terminating error (recorded witness CI#34689135760, a nextest red; no clippy-only red has reached CI)."
+  ]
+ },
+ {
+  "sub": [
+   "- NEVER use high-cardinality span names (per-user-ID, per-trace-ID, per-path-with-user-input) — bounded span name set: scenario.run, timeline.execute*, emit.batch, emit.logs_batch, verify.readback*, report.generate, db.insert_run, fault.silence/ramp/port_occupier, tauri.command.*",
+   "- NEVER use high-cardinality span names (per-user-ID, per-trace-ID, per-path-with-user-input) — bounded span name set: scenario.run, timeline.execute*, emit.batch, emit.logs_batch, verify.readback*, report.generate, db.insert_run, fault.silence/ramp/port_occupier"
+  ]
+ },
+ {
+  "sub": [
+   "- NEVER assume the three application sites above bound every host-path channel — the standing warning, and the case that proved it. A MEASURED gap sat outside them (2026-09-02): the sidecar spawn (`Command::new(PULSE_MCP_PROGRAM)` with no creation flags) raised a console pane titled with the sidecar's absolute exe path that took the OS foreground ~200 ms after `Start`; a screen reader spoke it (NVDA, SR pass row S1-01), and only the a11y leg's own scrub (`<host-path>` + a `security_finding` flag) kept it out of the committed evidence. **That channel is now CLOSED (2026-09-04):** `build_command` applies `CREATE_NO_WINDOW` via `console_suppressing_flags()` under `#[cfg(windows)]` (`conductor-verify/src/spawn.rs`), so no pane is raised and none is spoken — as measured at `conductor-0.2.0/chunks/2026-09-04-sidecar-spawn-without-a-console-window/evidence/nvda-pass.json` (S1-01's `heard` lost `<host-path>`, `<host-path> terminal blank` and `pane`; 0 `security_finding` rows, 0 `<host-path>` placeholders), which SUPERSEDES the 2026-09-02 reading. The a11y leg's scrub is now a second line of defence rather than the only one. The warning itself stands unretired: the enumeration bounds the sites it names, never every channel",
+   "- NEVER assume the three application sites above bound every host-path channel — the standing warning, and the case that proved it. A MEASURED gap sat outside them (2026-09-02): the sidecar spawn (`Command::new(PULSE_MCP_PROGRAM)` with no creation flags) raised a console pane titled with the sidecar's absolute exe path that took the OS foreground ~200 ms after `Start`; a screen reader spoke it (NVDA, SR pass row S1-01), and only the a11y leg's own scrub (`<host-path>` + a `security_finding` flag) kept it out of the committed evidence. **That channel is now CLOSED (2026-09-04):** `build_command` applies `CREATE_NO_WINDOW` via `console_suppressing_flags()` under `#[cfg(windows)]` (`conductor-verify/src/spawn.rs`), so no pane is raised and none is spoken — as measured at `conductor-0.2.0/chunks/2026-09-04-sidecar-spawn-without-a-console-window/evidence/nvda-pass.json` (S1-01's `heard` lost `<host-path>`, `<host-path> terminal blank` and `pane`; 0 `security_finding` rows, 0 `<host-path>` placeholders), which SUPERSEDES the 2026-09-02 reading. The a11y leg's scrub was a second line of defence until that leg retired with the window (2026-10-11); `CREATE_NO_WINDOW` now stands alone on this channel. The warning itself stands unretired: the enumeration bounds the sites it names, never every channel"
+  ]
+ },
+ {
+  "sub": [
+   "- NEVER export any self-observation OTLP — not to `:4317` (the PRODUCT fault stream) and not to `:4318` (unused/dead per arch); self-obs is stderr/file/console JSON only, on every surface including the browser frontend (which produces NO OTel spans at all)",
+   "- NEVER export any self-observation OTLP — not to `:4317` (the PRODUCT fault stream) and not to `:4318` (unused/dead per arch); self-obs is stderr/file/console JSON only, on every surface"
+  ]
+ },
+ {
+  "sub": [
+   "- NEVER spawn an MCP sidecar via shell with operator-supplied input — fixed hard-coded program NAME resolved through the inherited `PATH` + `.env(...)` only (CVE-2026-30623 rmcp STDIO flaw, upstream §2) — and never with a visible console window: a flagless spawn publishes the resolved exe's absolute path as a foreground pane title (measured 2026-09-02). **The suppression is SHIPPED and test-held (2026-09-04):** `build_command` sets `CREATE_NO_WINDOW` through `console_suppressing_flags()` under `#[cfg(windows)]`, with a `#[cfg(windows)]` unit test pinning the flag value (`spawn.rs::the_sidecar_spawn_suppresses_the_child_console`); the applied flag itself is not assertable at the unit tier, so its effect is evidenced by the operator-local SR leg (test-plan §1 untestable zones)",
+   "- NEVER spawn an MCP sidecar via shell with operator-supplied input — fixed hard-coded program NAME resolved through the inherited `PATH` + `.env(...)` only (CVE-2026-30623 rmcp STDIO flaw, upstream §2) — and never with a visible console window: a flagless spawn publishes the resolved exe's absolute path as a foreground pane title (measured 2026-09-02). **The suppression is SHIPPED and test-held (2026-09-04):** `build_command` sets `CREATE_NO_WINDOW` through `console_suppressing_flags()` under `#[cfg(windows)]`, with a `#[cfg(windows)]` unit test pinning the flag value (`spawn.rs::the_sidecar_spawn_suppresses_the_child_console`); the applied flag itself is not assertable at the unit tier, and the operator-local SR leg that evidenced its effect (as measured at `conductor-0.2.0/chunks/2026-09-04-sidecar-spawn-without-a-console-window/evidence/nvda-pass.json`) retired with the window on 2026-10-11, so no standing leg evidences it now (test-plan §1 untestable zones)"
+  ]
+ }
+]

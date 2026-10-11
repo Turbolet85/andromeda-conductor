@@ -39,8 +39,9 @@ for the report to carry it (extend report-template) — never re-derive from git
 - id: D-arch-collision
   doc: arch
   invariant: a resource already registered in arch §Occupied Resources (a port, socket, env var, artifact path or process) gains no second owner — its registered owner / writer class still holds after the chunk.
-  check: agent-read — for each new or changed port / socket / env var / artifact path / process in the report's Changes, find its §Occupied Resources entry; a report naming an owner or writer other than the registered one is drift (a collision, not a registration). Ports include `:4317` / `4444` / `4445`.
+  check: agent-read — for each new or changed port / socket / env var / artifact path / process in the report's Changes, find its §Occupied Resources entry; a report naming an owner or writer other than the registered one is drift (a collision, not a registration). Ports include `:4317`.
   severity: escalate
+  # Edited 2026-10-11 (2026-10-11-conductors-window-retired, operator-approved): the dev-only driver ports 4444/4445 left with the window.
   # Added 2026-09-24 (2026-09-24-architecture-registries-compacted-under-the-read-cap, operator-approved; the CARRY
   # from operator relay CE-3): D-arch-resources states its invariant as REGISTRATION only, so a second owner of an
   # already-registered port, env var or socket passed it.
@@ -67,7 +68,8 @@ for the report to carry it (extend report-template) — never re-derive from git
 
 - id: D-security-deps
   doc: security-plan
-  invariant: every new dependency the chunk adds is allowed by §Dependency Security (audit-green; toolchain ≥1.94.1; tauri ≥2.10.3; Cargo.lock committed).
+  invariant: every new dependency the chunk adds is allowed by §Dependency Security (audit-green; toolchain ≥1.94.1; Cargo.lock committed).
+  # Edited 2026-10-11 (2026-10-11-conductors-window-retired, operator-approved): the tauri ≥2.10.3 floor retired with the crate.
   check: agent-read — check the report's new Dependencies against §Dependency Security; a banned/unvetted dependency or a missed required bump is drift.
   severity: escalate
 
@@ -81,7 +83,8 @@ for the report to carry it (extend report-template) — never re-derive from git
 # — layout-templates —
 - id: D-layout-surface
   doc: layout-templates
-  invariant: a new user-facing surface / region the chunk adds is described in §Primary Surfaces / the wireframes (desktop-webview or cli).
+  invariant: a new user-facing surface / region the chunk adds is described in §Primary Surfaces / the wireframes (cli).
+  # Edited 2026-10-11 (2026-10-11-conductors-window-retired, operator-approved): the desktop-webview surface retired.
   check: agent-read — if the report adds a UI surface or region, confirm it maps to a §Wireframe entry; an undocumented surface is drift.
   severity: warning
 

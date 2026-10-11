@@ -1,0 +1,10 @@
+{
+ "directory-structure-crate-per-seam-cargo-workspace.md": [
+  {"sub": ["# the dual license — every Cargo + npm manifest declares `MIT OR Apache-2.0`", "# the dual license — every Cargo manifest declares `MIT OR Apache-2.0`"]},
+  {"sub": ["│  ├─ webview2-cause-probe.ps1 # CI-only read-only diagnostic; invoked solely by ci.yml's a11y job, wired into neither harness shell, adds no 6th command\n│  ├─ a11y-limited-token-launch.ps1 # CI-only limited-token launcher for the a11y job's DRIVER-ALONE DIAGNOSTIC steps (runas /trustlevel); left the asserting step 2026-09-17; same qualifier — solely ci.yml's a11y job, neither harness shell, no 6th command\n│  ├─ a11y-token-witness.ps1   # CI-only entry point of the launched leg; witnesses the token it actually got before wdio starts; same qualifier\n", ""]},
+  {"sub": ["# runtime-agnostic engine library (usable outside Tauri)", "# runtime-agnostic engine library"]},
+  {"sub": ["the fault-phase occupier guard; → conductor-faults) — shared by both bins", "the fault-phase occupier guard; → conductor-faults) — used by the conductor-cli bin"]},
+  {"sub": ["│  ├─ conductor-cli/          # `agent-run` bin (#[tokio::main(flavor=\"current_thread\")] + anyhow)\n│  └─ conductor-tauri/        # Tauri 2 GUI bin (commands + Channel; owns its own runtime)", "│  └─ conductor-cli/          # `agent-run` bin (#[tokio::main(flavor=\"current_thread\")] + anyhow)"]},
+  {"sub": ["+ the static gates (over committed data · repository hygiene) + the a11y webview e2e gate", "+ the static gates (over committed data · repository hygiene)"]}
+ ]
+}

@@ -1,0 +1,10 @@
+
+## 2026-10-11-conductors-window-retired — the IPC input row, the wdio-edge handles and the speech-log ingest retired
+**Section:** §Input Validation (the boundary table's `CONDUCTOR_MSEDGEDRIVER` · `CONDUCTOR_NVDA` · `CONDUCTOR_E2E_SEED_DIR` · `CONDUCTOR_A11Y_STRICT` · speech-log ingest · CLI arguments · `#[tauri::command]` rows) · §Threat Model Summary → Attack surface (CLI input vector; Tauri IPC vector; port-bind vector) · §Error Handling (External responses; error format) · §Secret Management (Development; Secret scanning in CI; Secret-scan gate shape) · §Security Anti-Patterns → Input · Logging · §Bootstrap phases (input-validation-library-install · error-sanitization-wire) · preamble stack note
+**Change:**
+- The `#[tauri::command]` IPC row and the Tauri IPC attack vector retired; the external surface is `conductor-cli` stderr alone and `anyhow` collapses only at its edge; the CLI-arguments row no longer cites the Tauri row.
+- The `CONDUCTOR_MSEDGEDRIVER`, `CONDUCTOR_NVDA` and `CONDUCTOR_A11Y_STRICT` rows retired (no reader) and leave the CLI-input vector, the canonicalize ban, the development handle list and the bootstrap scope note. `CONDUCTOR_E2E_SEED_DIR` is a test-binary handle with no setter: its reader runs as an unset no-op, and its residual reads "sound only while nothing sets the handle and no shipped binary reads it" (was "the discipline lives at the wdio caller").
+- The screen-reader speech-log ingest row and the artifact ban's `nvda-pass.json` clause retired: no speech record is produced. The port-bind vector drops the driver legs' 4444/4445 listeners.
+- The secret-scan rationale reads "would re-open the now-empty third dependency class and add a CI egress where none remains" (was "a second member … a second egress"). The stack note reads a headless CLI workspace, one binary.
+**Why:** each retired row's reader, setter or subject left with the window (intent R1). Ratified with the boundary narrowings, by the operator in this wrap's question dialog.
+**Ref:** .andromeda/runs/2026-10-11T08-28-34-wrap/

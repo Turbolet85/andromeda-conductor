@@ -1,0 +1,12 @@
+
+## 2026-10-11-conductors-window-retired — the Tauri GUI shell retired: core + one CLI bin, no live channel
+**Section:** §Design Philosophy · §Stack and Technologies (Backend framework · Hashing / digest · Push / real-time · Desktop shell · Desktop frontend · Build / packaging · CI/CD rows) · §Established Decisions ([Async Runtime Flavor] · [Backend Framework] · [Accepted Capability Set] · [Error Handling] · [Module Boundaries] · [Workspace / Core Structure] · [Real-time Strategy] · [Deployment] · [CI/CD]) · §Conventions (Internal core↔UI · Error handling) · §Standard Contracts (Readiness gate · Live update channel) · §Project Intent (Product type · Growth model · Development Style) · §Inherited Defaults (Backend framework · Interface style · Deployment · Frontend · CI/CD)
+**Change:**
+- Was "core library + CLI bin + Tauri bin", the GUI "a thin shell over the same core"; now a runtime-agnostic core that `agent-run` drives through `conductor-cli`, the one binary crate. The workspace is eight members (was nine); the standalone sweep takes `--lib` for seven library crates and `--bins` for `conductor-cli` alone.
+- [Real-time Strategy] and the Live update channel contract retired: no live-update surface remains (was the Tauri 2 IPC `Channel`). The Push / real-time, Desktop shell and Desktop frontend rows, the Internal core↔UI convention and the Frontend inherited default left.
+- anyhow lives only at the `conductor-cli` edge; the binary load site of the capability manifest is `conductor-cli::paths` alone; [Async Runtime Flavor] keeps the CLI's `current_thread` and drops the Tauri arm; [Deployment] and Build / packaging drop the Tauri bundler.
+- [CI/CD] and the CI/CD row: one job, `rust`; the `frontend` and `a11y` jobs, the msedgedriver pin gate and the routine webview leg left, with the leg's hosted-runner and dev-host verdicts — removed, not re-measured.
+- Product type: "Desktop control-panel app (Tauri 2)" retired to "a headless-drivable Rust core (its control panel retired)"; `sha2` is locked by its own `conductor-run` dev edge.
+**Why:** the window crate left the tree (founder's ruling, intent R1). Reversing these locked decisions was ratified by the operator in this wrap's question dialog, on that ruling. The positive restatement of Conductor as a console program belongs to later route entries; this pass retires and does not rewrite.
+**Kept:** `drive_run`, `read_envelope` and `validate_selection` stay with test callers until `Panel-shaped types retired`.
+**Ref:** .andromeda/runs/2026-10-11T08-28-34-wrap/

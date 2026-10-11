@@ -1,0 +1,29 @@
+{
+ "heartbeat-ticks.md": [
+  {"sub": ["\n- **Tauri backend:** Optional every 30s `conductor.tick` event (active scenario count + emission counter) emitted via Tauri `Channel` to frontend UI state; NOT a telemetry span (unstructured counter data for UI rendering)\n- **Tauri frontend:** Per-scenario emission counter tick via `Channel` (UI state update, not telemetry)", ""]}
+ ],
+ "log-file-location.md": [
+  {"sub": ["— the file NAME is fixed and the DIRECTORY rides `CONDUCTOR_RUNS_DIR` (`tauri_log_path()` = `runs_dir.parent()/logs`), so the sink moves with whoever set the handle: with it unset and the launch cwd at the repo root, the project-root `logs/conductor-tauri.jsonl` (measured 2026-09-01); on the a11y suites, per suite — `runs/logs/` (routine `--e2e` + `sr-empty`), `runs/driven/logs/` (the driven arm) and `runs/sr-leg/logs/` (`sr` / `sr-error`), each measured 2026-09-02", "— the file NAME is fixed and the DIRECTORY rides `CONDUCTOR_RUNS_DIR`; no writer since 2026-10-11 (its caller, `tauri_log_path()`, left with the window), and the sink goes at `Panel-shaped types retired`"]},
+  {"sub": ["\n- **Tauri frontend:** browser console JSON (paste-to-AI; no file persistence)", ""]},
+  {"sub": ["user tails CLI output (`scripts/agent-run.sh | tail -f`) or copies browser console JSON to Claude Code / Claude web", "user tails CLI output (`scripts/agent-run.sh | tail -f`) to Claude Code / Claude web"]}
+ ],
+ "logging-stack.md": [
+  {"sub": ["- **Sink (Tauri backend):** file `conductor-tauri.jsonl` under `<runs_dir.parent()>/logs/` unconditionally", "- **Sink (Tauri backend):** no writer since 2026-10-11 (its caller left with the window; the sink goes at `Panel-shaped types retired`) — file `conductor-tauri.jsonl` under `<runs_dir.parent()>/logs/`"]},
+  {"sub": ["\n- **Sink (Tauri frontend):** browser `console.log(JSON.stringify(event))` sink; no network export (recursion guard)", ""]}
+ ],
+ "service-identity.md": [
+  {"sub": ["Hardcoded `\"conductor\"` (CLI) or `\"conductor-tauri\"` (Tauri GUI) or `\"conductor-ui\"` (browser frontend); overrideable", "Hardcoded `\"conductor\"`; overrideable"]}
+ ],
+ "otel-sdk-init.md": [
+  {"sub": ["at CLI bootstrap (`main` fn) + Tauri backend startup; must complete", "at CLI bootstrap (`main` fn); must complete"]}
+ ],
+ "correlation-no-distributed-tracing.md": [
+  {"sub": ["\n- **IPC (Tauri command → conductor-core):** the envelope carries the **`run_id`** (correlation), not a `traceparent`; the command-handler `tracing` span is the parent of the core-operation spans.", ""]}
+ ],
+ "bootstrap-phases-for-downstream-skills.md": [
+  {"sub": ["- **run-id-correlation-wire:** Tauri IPC envelope carries `run_id` (correlation; no W3C `traceparent`)", "- **run-id-correlation-wire:** the run envelope carries `run_id` (correlation; no W3C `traceparent`)"]}
+ ],
+ "log-format-json-schema.md": [
+  {"sub": ["The extension point itself stands, and as of 2026-09-07 it IS exercised — by the a11y CI gate's violation record at `runs/a11y/<run_id>.jsonl`, which carries the eleven envelope keys PLUS the §9 resource tags `service.name` (`conductor-ui`) and `deployment.environment` (13 top-level keys measured locally, 15 under CI where `ci.run.id` + `git.commit.sha` join them), as measured at `conductor-0.2.0/chunks/2026-09-07-a11y-ci-gate/report.md`. Note what the extras are: resource TAGS on a harness artifact, not scenario-specific fields — the scenario record at `runs/<run_id>.jsonl` still carries the eleven alone. The superset is admitted deliberately: `conductor-run`'s `journal_conformance` asserts key PRESENCE (plus closed sets and host-path freedom), never key exclusivity, which is what lets one gate serve both shapes.", "The extension point itself stands; from 2026-09-07 it was exercised by the a11y CI gate's violation record at `runs/a11y/<run_id>.jsonl` (the eleven keys plus two resource tags, as measured at `conductor-0.2.0/chunks/2026-09-07-a11y-ci-gate/report.md`), which left with the `a11y` job on 2026-10-11, so nothing exercises it now. `conductor-run`'s `journal_conformance` asserts key PRESENCE (plus closed sets and host-path freedom), never key exclusivity."]}
+ ]
+}

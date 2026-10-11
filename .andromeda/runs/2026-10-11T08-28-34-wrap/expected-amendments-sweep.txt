@@ -1,0 +1,30 @@
+E1 arch · .andromeda/architecture.md · 48
+E1 arch · .andromeda/registries/contracts/architecture/build-system.md · 1
+E1 arch · .andromeda/registries/contracts/architecture/ci-cd-approach.md · 1
+E1 arch · .andromeda/registries/contracts/architecture/deployment-model.md · 1
+E1 arch · .andromeda/registries/contracts/architecture/directory-structure-crate-per-seam-cargo-workspace.md · 5
+E1 arch · TOTAL architecture · 56 · pattern conductor-tauri|\bTauri\b|\btauri\b|4444|4445|msedgedriver|webview|WebView2|frontend|wdio
+E2 security · .andromeda/security-plan.md · 34
+E2 security · TOTAL security-plan · 34 · pattern \btauri\b|\bTauri\b|msedgedriver|wdio|Authenticode|rule \(b\)|npm audit|MPL-2\.0|LLVM-exception|tauri::command|speech[- ]log|CONDUCTOR_(MSEDGEDRIVER|NVDA)
+E3 tests · .andromeda/test-plan.md · 28
+E3 tests · .andromeda/registries/contracts/test-plan/5-command-implementation.md · 1
+E3 tests · .andromeda/registries/contracts/test-plan/log-format.md · 1
+E3 tests · TOTAL test-plan · 30 · pattern --e2e|conductor-tauri|tauri-cli|wdio|tauri-driver|`a11y` job|`frontend` job|conductor-tauri/ui|desktop-webview
+E4 obs · .andromeda/obs-plan.md · 21
+E4 obs · .andromeda/registries/contracts/obs-plan/log-file-location.md · 1
+E4 obs · .andromeda/registries/contracts/obs-plan/log-format-json-schema.md · 1
+E4 obs · .andromeda/registries/contracts/obs-plan/logging-stack.md · 1
+E4 obs · .andromeda/registries/contracts/obs-plan/service-identity.md · 1
+E4 obs · TOTAL obs-plan · 25 · pattern conductor-tauri|conductor-ui|desktop-webview|ipc-internal|tauri\.command|--e2e|a11y record
+E5 a11y · .andromeda/a11y-plan.md · 45
+E5 a11y · .andromeda/registries/contracts/a11y-plan/a11y-testing-tool-pick.md · 2
+E5 a11y · .andromeda/registries/contracts/a11y-plan/bootstrap-phases-derive-for-route-setup-project.md · 3
+E5 a11y · .andromeda/registries/contracts/a11y-plan/ci-integration.md · 2
+E5 a11y · .andromeda/registries/contracts/a11y-plan/focus-management-test-harness.md · 1
+E5 a11y · .andromeda/registries/contracts/a11y-plan/keyboard-test-harness.md · 1
+E5 a11y · .andromeda/registries/contracts/a11y-plan/screen-reader-test-pattern.md · 1
+E5 a11y · TOTAL a11y-plan · 55 · pattern wdio|CONDUCTOR_A11Y_STRICT|`a11y` job|webview|WebView2|claim-ownership|tauri-driver
+E6 design · .andromeda/design-system.md · 16
+E6 design · TOTAL design-system · 16 · pattern desktop-webview|status-residual|webview
+E7 layouts · .andromeda/layout-templates.md · 9
+E7 layouts · TOTAL layout-templates · 9 · pattern desktop-webview|--e2e|all three surfaces|webview

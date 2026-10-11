@@ -6,7 +6,7 @@ _Extracted from `.andromeda/architecture.md` §Conventions + §Data model conven
 - snake_case Rust source files and identifiers (Rust convention).
 - Crates named `conductor-<seam>` (kebab-case crate names, snake_case module paths).
 - On-disk artifacts use kebab-case Markdown filenames (e.g. `coverage-matrix.md`, the run report) and per-run JSONL journals stemmed by `run_id`.
-- Directory layout: `crates/` (**9** workspace members — 7 seam/library crates + the `conductor-cli` and `conductor-tauri` bins) · `scenarios/` (config files, each naming its P-IDs — a P-ID may be named by several) · `contracts/` (pinned MCP manifest + SUT capability manifest + SUT load envelope + SUT run contract + the scenario-assertion audit ledger + the P-025 measurement contract + the real-model leg posture — the two members no shipped code reads) · `runs/` (journals + reports + `runs.db`) · `scripts/` (`agent-run.{sh,ps1}`). See architecture.md §Infrastructure Patterns for the full tree.
+- Directory layout: `crates/` (**8** workspace members — 7 seam/library crates + the `conductor-cli` bin) · `scenarios/` (config files, each naming its P-IDs — a P-ID may be named by several) · `contracts/` (pinned MCP manifest + SUT capability manifest + SUT load envelope + SUT run contract + the scenario-assertion audit ledger + the P-025 measurement contract + the real-model leg posture — the two members no shipped code reads) · `runs/` (journals + reports + `runs.db`) · `scripts/` (`agent-run.{sh,ps1}`). See architecture.md §Infrastructure Patterns for the full tree.
 
 ## Identifier & scenario naming
 - Scenarios are keyed by Pulse capability P-ID, drawn from the SUT capability manifest's accepted set (`contracts/pulse-capabilities.toml`) — **"no scenario without a P-ID."**
@@ -25,13 +25,13 @@ _Extracted from `.andromeda/architecture.md` §Conventions + §Data model conven
 - Timestamps: wall-clock journal stamps come from `std::time::SystemTime`/`Instant` — **never tokio's virtual clock** (would break journal-relative SLO math).
 
 ## Interface / contract conventions
-- Three pinned interface surfaces, no network API of Conductor's own: outbound OTLP/gRPC to `127.0.0.1:4317`; inbound MCP read-back via a **hand-rolled line-delimited JSON-RPC client** over the sidecar's stdio (rmcp removed 2026-06-27 — Pulse's `tools/call` is non-MCP-compliant, returning the raw tool payload as the JSON-RPC `result`), version-pinned manifest + `initialize` preflight gate with the **blocked** state on mismatch; internal Tauri 2 `#[tauri::command]` + one `Channel`. REST/GraphQL/tRPC are N/A.
+- Three pinned interface surfaces, no network API of Conductor's own: outbound OTLP/gRPC to `127.0.0.1:4317`; inbound MCP read-back via a **hand-rolled line-delimited JSON-RPC client** over the sidecar's stdio (rmcp removed 2026-06-27 — Pulse's `tools/call` is non-MCP-compliant, returning the raw tool payload as the JSON-RPC `result`), version-pinned manifest + `initialize` preflight gate with the **blocked** state on mismatch. REST/GraphQL/tRPC are N/A.
 - Version negotiation reduces to reading the `initialize` result's `protocolVersion` — there is no client-library default to drift from; the contract manifest pins `2024-11-05`.
 - `run_id` timestamp form: filesystem-safe hyphen-delimited `YYYY-MM-DDTHH-MM-SS-<suffix>` (it's the `runs.db` PK + artifact stem; colons are illegal on Windows). In-payload instants use colon-delimited RFC-3339.
 - **Per-check record** (the second shared artifact shape): a graded check serializes as a nine-key `CheckRecord` — `run_id` · `scenario` · `check_index` · `kind` · `verdict` · `state` · `latency_ms` · `deadline_ms` · `budget_ms` — riding the per-run JSONL journal, the `run_check` table, and an indented per-check line in the Markdown report. The envelope's eleven-field shape is unchanged; a blocked or declare-only scenario emits ZERO check records.
 
 ## Error handling
-- Typed `thiserror` enums per seam (`EmitError`, `VerifyError`, `ContractMismatch`, `ConfigError`); `anyhow` only at `conductor-cli` / `#[tauri::command]` edges.
+- Typed `thiserror` enums per seam (`EmitError`, `VerifyError`, `ContractMismatch`, `ConfigError`); `anyhow` only at the `conductor-cli` edge.
 - The verdict/error wall: `enum Verdict { Pass, Fail, CalibrationRegion }` and `enum ReportState { Pass, Fail, ManualCheck, KnownResidual, Blocked }` are returned as `Ok(...)`; `Result::Err` means a harness fault (config parse, transport down, MCP unreachable). `tonic::Status` codes + MCP error responses are first-class verification inputs, never panics.
 - Scenario load-error mapping is **three-way**: `CoreError::Config` on a TOML parse failure OR a non-garde load-path check failure (`check_budgets`, `check_capabilities`); `CoreError::Validation` only on a garde failure (it is pinned `#[from] garde::Report` and structurally cannot carry a hand-written message). All three sit on the `Result::Err` side of the wall.
 

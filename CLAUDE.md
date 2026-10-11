@@ -4,12 +4,12 @@
 
 ## Overview
 <!-- GENERATED:setup:overview start -->
-Conductor is a desktop control-panel app (Tauri 2) over a headless-drivable Rust core — a scenario-driven OTLP fault-injection + verification harness that drives a live Pulse instance through its claimed capabilities (the SUT capability manifest's accepted set) on a deterministic seeded timeline and verifies each reaction within its SLO (programmatically via MCP read-back where one exists, via an operator checklist for visual claims). Personal/local: solo developer, no cloud, runs beside a real Pulse on the dev host.
+Conductor is a headless-drivable Rust core (its Tauri 2 control panel retired 2026-10-11) — a scenario-driven OTLP fault-injection + verification harness that drives a live Pulse instance through its claimed capabilities (the SUT capability manifest's accepted set) on a deterministic seeded timeline and verifies each reaction within its SLO (programmatically via MCP read-back where one exists, via an operator checklist for visual claims). Personal/local: solo developer, no cloud, runs beside a real Pulse on the dev host.
 
-**Stack:** Rust 2024 workspace (tokio `current_thread`) · OTLP via opentelemetry-proto/tonic to `127.0.0.1:4317` · MCP read-back via a hand-rolled JSON-RPC client · rusqlite/`bundled` SQLite index · optional Tauri 2 + React 19 GUI · local-only, no network service of its own.
+**Stack:** Rust 2024 workspace (tokio `current_thread`) · OTLP via opentelemetry-proto/tonic to `127.0.0.1:4317` · MCP read-back via a hand-rolled JSON-RPC client · rusqlite/`bundled` SQLite index · local-only, no network service of its own.
 
 **Key directories:**
-- `crates/` — the 9 crate-per-seam workspace members (core + timeline/emit/faults/verify/report + run + cli/tauri bins)
+- `crates/` — the 8 crate-per-seam workspace members (core + timeline/emit/faults/verify/report + run + the cli bin)
 - `scenarios/` — declarative scenario config (serde + garde), each naming its Pulse P-IDs (a P-ID may be named by several)
 - `contracts/` — pinned MCP contract manifest + the SUT capability manifest + the SUT load envelope + the SUT run contract + the scenario-assertion audit ledger + the P-025 measurement contract + the real-model leg posture (the two members no shipped code reads)
 - `runs/` — per-run JSONL journal + Markdown report + `runs.db` SQLite index
@@ -24,23 +24,22 @@ Conductor is a desktop control-panel app (Tauri 2) over a headless-drivable Rust
 - **`conductor-faults`** — fault helpers: ramps, silence, port-occupier, fingerprint-storm fault (the per-exception fingerprint primitive lives in `conductor-emit`).
 - **`conductor-verify`** — MCP read-back client (hand-rolled JSON-RPC over the sidecar's stdio), preflight gate, verdict logic.
 - **`conductor-report`** — JSONL emission journal + Markdown run report + `runs.db` (rusqlite) storage seam.
-- **`conductor-run`** — run composition root library (preflight + scenario execution + `persist` + the live-counter `drive_run` + the fault-phase occupier guard; → `conductor-faults`) shared by both bins.
+- **`conductor-run`** — run composition root library (preflight + scenario execution + `persist` + the live-counter `drive_run` + the fault-phase occupier guard; → `conductor-faults`) used by the cli bin.
 - **`conductor-cli`** — `agent-run` binary, headless source of truth + release gate.
-- **`conductor-tauri`** — Tauri 2 GUI bin (commands + live-counter `Channel`; React 19 webview).
 <!-- GENERATED:setup:modules end -->
 
 ## Critical Warnings (universal invariants)
 <!-- GENERATED:setup:warnings start -->
-- **Scope law + trust boundary:** every scenario carries a Pulse P-ID; Conductor's SHIPPED binaries open NO inbound listener — the `:4317` port-occupier is their sole deliberate bind (released on cleanup), and the dev-only webview a11y legs' driver ports (`4444`/`4445`) live and die with the harness, on the routine `--e2e` arm, the operator-local `a11y:driven` arm and the operator-local `sr*` screen-reader suites alike (three suite families over the ONE WebdriverIO + tauri-driver stack; the screen-reader leg additionally spawns the host NVDA named by `CONDUCTOR_NVDA`, a fixed-argv PowerShell window-activation script and, per key, the foreground-guarded fixed-argv key-send script `send-keys.ps1` — rule (b)'s eighth form — none opening a listener). "No UI automation" scopes to PULSE's UI; driving Conductor's OWN webview is in-scope. Never widen beyond the loopback gRPC/MCP-client model — the ONE registered exception is CI-only and reaches no shipped binary and no dev-host leg: the `a11y` job's HTTPS fetch of the version-pinned msedgedriver from `msedgedriver.microsoft.com`, admitted by a pre-execution Authenticode gate (registered 2026-09-17, operator-ratified; it REPLACED the WebView2 Evergreen bootstrapper fetch of 2026-09-08, so the count stays ONE, and its version derives from the image's own WebView2 runtime rather than floating always-latest).
+- **Scope law + trust boundary:** every scenario carries a Pulse P-ID; Conductor's SHIPPED binary opens NO inbound listener — the `:4317` port-occupier is its sole deliberate bind (released on cleanup). "No UI automation" scopes to PULSE's UI. Never widen beyond the loopback gRPC/MCP-client model — no exception remains: the dev-only webview driver legs (ports `4444`/`4445`) and the CI-only msedgedriver fetch retired with the window on 2026-10-11, so the loopback-only model holds for every shipped binary, harness leg and CI job.
 - **Accepted capability set is DATA:** which P-IDs a scenario may name comes from `contracts/pulse-capabilities.toml`, never a compile-time constant — garde asserts the `P-NNN` shape, the manifest asserts membership. A malformed/absent manifest is a `CoreError` harness fault with a named reason: never `Blocked`, never a silent widen. The coverage *classification* stays code-native, held set-equal to the manifest by `check_sut_drift` — so re-aiming at a newer Pulse is a manifest edit **plus** a classification row, never a silent gap. A second gate sits on a different axis: `check_scenario_backing` holds `UNBACKED_AUTO` (the `Auto` claims no scenario names) to exact-set equality against the catalog, so classifying a capability `Auto` can no longer stand in for verifying it.
 - **Verdict/error wall:** verification outcomes are typed VALUES (`Verdict`/`ReportState` as `Ok`); `Result::Err` is harness-faults only. Malformed child/transport input (`tonic::Status`, MCP errors) becomes a typed `Blocked`/`Fail`, never a panic.
 - **Preflight integrity:** never silently downgrade a preflight that RUNS — `agent-run boot` skips the preflight entirely when its leading `conductor preconditions` arm reports an unmet subject (a non-mutating probe, non-zero exit, every subject named). That skip is CONDITIONAL and not a downgrade: each handle is graded by the KIND of value it carries — the PATH-valued `ANDROMEDA_PULSE_DATA_DIR` by presence, the two flags by an affirmative `"true"`/`"1"` (the deterministic posture; under a real-model scenario's posture — `conductor preconditions --for` — the L4 flag must instead be ABSENT or falsy) — so `handles-declared` is satisfiable and `boot` reaches the gate (measured 2026-09-04: probe exit 0, then `ReadyState` with `ready:true` in both shells). `conductor preflight --json` remains a valid direct entry point. For an invoked gate — each of the gate's FIVE named preconditions (protocol≠`2024-11-05` / missing tool / no incident opened after the canary storm / app-sidecar workspace-key agreement / unmet run-contract terms) surfaces the distinct `Blocked` state with its own host-path-free string, never the generic corpus-empty one. Which run-contract terms bind is selected by the run's L4 posture, and a scenario declaring a posture other than its gate's is `Blocked` at scenario level — never a sixth precondition. A contract term whose truth lives on the SUT's side is recorded `declared-not-observable` and never blocks — blocking on it would claim a measurement Conductor cannot make.
-- **Supply chain:** keep `Cargo.lock` committed + un-drifted; never `cargo build --release` or merge without `cargo-audit` (+ `cargo-deny`) green; hold toolchain ≥1.94.1 and `tauri` ≥2.10.3.
+- **Supply chain:** keep `Cargo.lock` committed + un-drifted; never `cargo build --release` or merge without `cargo-audit` (+ `cargo-deny`) green; hold toolchain ≥1.94.1.
 - **Subprocess hardening:** spawn `andromeda-pulse-mcp` as a fixed hard-coded program NAME resolved through the inherited `PATH` (never operator-chosen) — the same const also has a NON-SPAWNING sibling resolution (`sidecar_resolves_on_path`, a directory walk returning a boolean-grade fact, never the resolved path); pass `ANDROMEDA_PULSE_DATA_DIR` only via `.env(...)` after rejecting injection metacharacters — never into argv/shell.
 - **Artifact hygiene:** never leak absolute host paths or internal struct names into logs / run-report / `runs.db` — sanitize at the `anyhow` edge + the tracing-subscriber field-allowlist.
 - **Self-obs never exports OTLP:** the only OTLP is the PRODUCT fault stream to Pulse `:4317`; self-observation is `tracing` JSON to stderr/file (no OTel SDK), every line carrying `run_id`; zero unlogged panics (`std::panic::set_hook`).
 - **Wall-clock from `std::time`:** journal/report stamps use `std::time::SystemTime`/`Instant`, never tokio's virtual clock (scheduling-only) — journal-relative SLO math depends on it.
-- **Status is never color-alone:** pair every Verdict/ReportState with its text label + glyph (desktop) or ASCII prefix `[PASS]`/`[FAIL]`/`[HOLD]`/`[BLOCKED]` (cli); color encodes run state, never decoration.
+- **Status is never color-alone:** pair every Verdict/ReportState with its ASCII prefix `[PASS]`/`[FAIL]`/`[HOLD]`/`[BLOCKED]` (cli); color encodes run state, never decoration.
 - **Determinism is the bar:** same scenario+seed ⇒ same stream shape (span identity alone is salted per execution on the production path; the unsalted dispatcher tier stays seed-pure); loopback gRPC/MCP stubs only in tests (`start_paused` for scheduling); zero-flakiness — no nextest retries.
 <!-- GENERATED:setup:warnings end -->
 
@@ -58,11 +57,11 @@ Conductor is a desktop control-panel app (Tauri 2) over a headless-drivable Rust
 | Dependency security / cargo-audit | `.andromeda/security-plan.md` §Dependency Security |
 | Subprocess-spawn hardening | `.andromeda/security-plan.md` §Security Anti-Patterns |
 | Design tokens / palette / typography | `.andromeda/design-system.md` §Color Palette / §Typography |
-| Layout / surfaces (desktop + cli) | `.andromeda/layout-templates.md` |
+| Layout / surfaces (cli) | `.andromeda/layout-templates.md` |
 | Test harness (5-command) | `.andromeda/test-plan.md` §3 (keyed: `.andromeda/registries/test-plan-contracts.toml`, one file per key) |
 | CI integration / quality gates | `.andromeda/test-plan.md` §9 / §10 |
 | Observability / log JSON schema | `.andromeda/obs-plan.md` §3 (keyed: `.andromeda/registries/obs-plan-contracts.toml`, one file per key) / §6 |
-| WCAG / a11y harness | `.andromeda/a11y-plan.md` §3 (keyed: `.andromeda/registries/a11y-plan-contracts.toml`, one file per key) |
+| WCAG / a11y harness (retired 2026-10-11 — no assertable surface) | `.andromeda/a11y-plan.md` |
 | Determinism discipline | `.andromeda/architecture.md` §Cross-cutting Patterns |
 | Coverage matrix (manifest set) | `contracts/pulse-capabilities.toml` · `.andromeda/input.md` §Coverage classification |
 | Agent harness commands | `scripts/agent-run.sh` · `.claude/rules/verification-harness.md` |
@@ -79,14 +78,14 @@ Conductor is a desktop control-panel app (Tauri 2) over a headless-drivable Rust
 - `cargo nextest run --workspace --profile ci` — unit + integration tests (machine-parseable)
 - `cargo clippy --workspace --all-targets -- -D warnings` — lint gate
 - `cargo audit` — supply-chain gate (must be green before release)
-- `cargo build --release` — local release binary (Tauri 2 bundle is convenience)
+- `cargo build --release` — local release binary
 
 See `.claude/docs/commands.md` for the full reference.
 <!-- GENERATED:setup:workflow end -->
 
 ## Architecture
 <!-- GENERATED:setup:architecture start -->
-Conductor is a modular monolith realized as a crate-per-seam Cargo workspace: the `Cargo.toml` dependency edges *are* the architecture, and a forbidden cross-seam dependency simply will not compile. All engine logic lives in runtime-agnostic library crates that both the headless `agent-run` path (the release gate) and the optional Tauri GUI call identically (for every deterministic-posture scenario; a real-model-posture scenario runs headless only) — headless-drivable core, thin shells.
+Conductor is a modular monolith realized as a crate-per-seam Cargo workspace: the `Cargo.toml` dependency edges *are* the architecture, and a forbidden cross-seam dependency simply will not compile. All engine logic lives in runtime-agnostic library crates that the headless `agent-run` path (the release gate) drives through `conductor-cli` — headless-drivable core, thin shell.
 
 Determinism is enforced in the runtime flavor: the timeline runs on a `current_thread` tokio runtime so the same scenario+seed always yields the same emission-stream shape. Verification outcomes are typed VALUES (`Verdict`/`ReportState`); `Result::Err` is reserved for Conductor's own harness faults, so the report classifies a model-backed SUT by matching types, not catching exceptions. Every SLO is measured journal-relative (`read_back_observed_at − journal_emitted_at`) against the on-disk JSONL journal — the agent-parseable ground truth.
 
@@ -107,7 +106,7 @@ On-demand references in `.claude/docs/` (Claude reads when relevant):
 - `session-learnings.md` — curated by `/wrap-session`
 
 Path-scoped rules in `.claude/rules/` (auto-load when matching files touched):
-- `security.md` · `testing.md` · `observability.md` · `a11y.md` · `frontend.md` · `verification-harness.md`
+- `security.md` · `testing.md` · `observability.md` · `verification-harness.md` · `a11y.md` / `frontend.md` (retired to stubs with the window, 2026-10-11)
 - `host-linux.md` — host recipes for the Bash tool on this host (unconditional; serves the host, not the stack)
 
 For complete Andromeda documentation: `/andromeda-help`
@@ -118,11 +117,11 @@ For complete Andromeda documentation: `/andromeda-help`
 <!-- USER:session-learnings start -->
 ## Session Learnings
 _This section is curated by `/wrap-session`. It accumulates universal (Tier 1) rules captured from work sessions — rules that apply to every file and every task. Do not edit manually during wrap-session runs — changes are preserved but wrap-session appends new entries here._
-- Scope law: no scenario without a Pulse P-ID; Conductor opens no inbound listener of its own (the `:4317` port-occupier is the sole deliberate bind). [corrected 2026-09-01: true of the SHIPPED binaries — the dev-only `--e2e` webview leg's driver stack also binds loopback `4444`/`4445` for the harness's lifetime; and "no UI automation" scopes to PULSE's UI, since driving Conductor's own webview is in-scope self-verification]
+- Scope law: no scenario without a Pulse P-ID; Conductor opens no inbound listener of its own (the `:4317` port-occupier is the sole deliberate bind), and "no UI automation" scopes to PULSE's UI. [corrected 2026-10-11: the dev-only webview legs' loopback `4444`/`4445` bind, carved out 2026-09-01, retired with Conductor's window — the occupier is again the only bind]
 - Verdict/error wall: verification outcomes are `Ok(Verdict/ReportState)`; `Result::Err` is harness-faults only — never panic on child/transport input.
 - Journal stamps come from `std::time::SystemTime`/`Instant`, never tokio's virtual clock.
 - Never `cargo build --release` or merge without `cargo-audit` (+ `cargo-deny`) green and a committed, un-drifted `Cargo.lock`.
-- Status is never color-alone — every Verdict/ReportState carries a text label + glyph (desktop) or `[PASS]`/`[FAIL]`/`[HOLD]`/`[BLOCKED]` prefix (cli).
+- Status is never color-alone — every Verdict/ReportState carries its `[PASS]`/`[FAIL]`/`[HOLD]`/`[BLOCKED]` prefix (cli). [corrected 2026-10-11: the desktop label + glyph form retired with the window]
 - 2026-06-14: Andromeda version builds run on a long-lived `build/conductor-<version>` branch; `main` fast-forwards only when the version is tagged complete — the branch unit is the version, not the task (specializes the global feature-branch rule). (confidence 0.8)
 - 2026-08-08: The code-graph is authoritative on call sites — query by `callee_name`, disambiguate by `callee_kind` / `callee_file`, and read a 0-row result as "no callers" only after a `symbol` probe by NAME confirms the symbol is indexed, cross-checking with grep and saying which basis the answer rests on (a "0 callers" claim made before 2026-09-02 is re-measured before reuse). Full text: `.claude/docs/session-learnings.md`, "Tier-1 entry of 2026-08-08".
 - 2026-08-09: Before asserting that document A says X, grep A — an anchor, an extract, a spec's target-state claim, a dictated citation or an "every"/"no" over a family is a hypothesis until the artifact that holds the fact confirms it, and a claim about an external system is checked on direction, representation, provenance, time, ownership, quantity and completion, never on existence alone. Full text: `.claude/docs/session-learnings.md`, "Tier-1 entry of 2026-08-09".

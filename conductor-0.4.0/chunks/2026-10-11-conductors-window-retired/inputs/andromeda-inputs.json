@@ -34,5 +34,23 @@
     "read_at": "2026-10-11T01:53:14Z",
     "step": "phase:P1",
     "why": "the founder word the handoff waits for was given 2026-10-09: code starts on both projects, one builder at a time; fold the relay file; stop at P5 for the operator yes"
+  },
+  {
+    "id": "I3",
+    "kind": "relay",
+    "repo": null,
+    "path": "message: the operator, in the /andromeda-wrap-session invocation, 2026-10-11 ~08:28Z",
+    "form": "copy",
+    "state": "message",
+    "commit": null,
+    "ref": null,
+    "upstream": null,
+    "claimed": null,
+    "sha256": "2095fbd671b7785f5eb3d61b311b2458ccd65d0e6561cfc6f3d7d8bb2e223859",
+    "copy": "I3-relay-1.md.txt",
+    "link": false,
+    "read_at": "2026-10-11T08:29:01Z",
+    "step": "wrap",
+    "why": "entry 4 red accepted as the plan prediction (measured 268 is the reading); the window crate, three scripts and ci.yml cut were removed by the founder by hand after the classifier refused them"
   }
 ]

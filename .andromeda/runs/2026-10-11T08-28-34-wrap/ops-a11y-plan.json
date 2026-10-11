@@ -1,0 +1,62 @@
+[
+ {
+  "sub": [
+   "Manual edits between runs are fine._\n",
+   "Manual edits between runs are fine._\n\n**Conductor has no interface.** Its window was retired 2026-10-11 (`2026-10-11-conductors-window-retired`, intent R1), and with it the one assertable a11y surface; the cli is not-assertable (no DOM or widget tree).\n"
+  ]
+ },
+ {
+  "stub": [
+   "## 1. A11y Scope Summary",
+   "Retired 2026-10-11 with the window (intent R1): no assertable surface remains. `conductor-cli`, the one surface, is not-assertable — no DOM or widget tree; its ASCII status prefixes and NO_COLOR text pairing are output-stream discipline, not an a11y verification path. The full section, dated measurements included, is last at `321dc8f`."
+  ]
+ },
+ {
+  "stub": [
+   "## 2. A11y Strategy",
+   "Retired 2026-10-11 with the window (`2026-10-11-conductors-window-retired`, intent R1); its full text, dated measurements included, is last at `321dc8f`."
+  ]
+ },
+ {
+  "sub": [
+   "_[ALL tiers — central agent-driven mechanism; Section consumed by\nsetup-project to materialize a11y CI gates + axe-core integration +\ncontrast verification harness + screen reader test specs]_\n\nThis section specifies the SPECIFIC contract for how a11y assertions\nrun from CI / dev / and emit machine-parseable violation JSON.\n\nContracts:",
+   "Retired 2026-10-11 with the window (`2026-10-11-conductors-window-retired`, intent R1); its full text, dated measurements included, is last at `321dc8f`. Each key below is a one-line retirement stub.\n\nContracts:"
+  ]
+ },
+ {
+  "stub": [
+   "## 4. ARIA Patterns & Roles",
+   "Retired 2026-10-11 with the window (`2026-10-11-conductors-window-retired`, intent R1); its full text, dated measurements included, is last at `321dc8f`."
+  ]
+ },
+ {
+  "stub": [
+   "## 5. Keyboard Navigation",
+   "Retired 2026-10-11 with the window (`2026-10-11-conductors-window-retired`, intent R1); its full text, dated measurements included, is last at `321dc8f`."
+  ]
+ },
+ {
+  "stub": [
+   "## 6. Visual Design Verification",
+   "Retired 2026-10-11 with the window (`2026-10-11-conductors-window-retired`, intent R1); its full text, dated measurements included, is last at `321dc8f`."
+  ]
+ },
+ {
+  "stub": [
+   "## 9. CI Integration",
+   "Retired 2026-10-11 with the window (`2026-10-11-conductors-window-retired`, intent R1); its full text, dated measurements included, is last at `321dc8f`."
+  ]
+ },
+ {
+  "stub": [
+   "## 10. SLO Invariants & A11y Budgets",
+   "Retired 2026-10-11 with the window (`2026-10-11-conductors-window-retired`, intent R1); its full text, dated measurements included, is last at `321dc8f`."
+  ]
+ },
+ {
+  "stub": [
+   "## 11. A11y Anti-Patterns (NEVER do these)",
+   "Retired 2026-10-11 with the window (`2026-10-11-conductors-window-retired`, intent R1); its full text, dated measurements included, is last at `321dc8f`.\n\n- NEVER treat the cli surface as accessibility-assertable — it is not-assertable (no DOM / widget tree); its ASCII status prefixes + NO_COLOR text-pairing are output-stream discipline, not an ARIA a11y verification path."
+  ]
+ }
+]

@@ -33,14 +33,14 @@ The "where am I" cursor is **derived** from `master-route.md`'s last `complete` 
 Don't skip session boundaries — they keep CLAUDE.md + project knowledge fresh.
 
 ## The agent-driven invariant
-The headless `scripts/agent-run.sh` path is the source of truth and the release gate; the Tauri GUI is a thin shell over the same core. Every feature must be harness-runnable by an agent reading exit codes + structured JSON — no human-in-the-loop checkpoints (the sole exception is the `drive+observe` operator checklist, which is a product feature, not a build step).
+The headless `scripts/agent-run.sh` path is the source of truth and the release gate. Every feature must be harness-runnable by an agent reading exit codes + structured JSON — no human-in-the-loop checkpoints (the sole exception is the `drive+observe` operator checklist, which is a product feature, not a build step).
 
 ## Code review
 - `.claude/agents/code-reviewer.md` is installed — invoke via "review this" / "does this make sense?".
 - For significant changes, check alignment with `.andromeda/architecture.md` §Established Decisions.
 
 ## Release process
-- `cargo build --release` (with `cargo audit` + `cargo deny` green, `Cargo.lock` committed) → optional `cargo tauri build`. Dynamic end-to-end proof against a live Pulse is an operator/local gate, not CI.
+- `cargo build --release` (with `cargo audit` + `cargo deny` green, `Cargo.lock` committed). Dynamic end-to-end proof against a live Pulse is an operator/local gate, not CI.
 
 ## Troubleshooting
 - Tests failing? → `.claude/rules/testing.md` + `.claude/rules/verification-harness.md`.

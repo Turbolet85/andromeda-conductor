@@ -1,0 +1,281 @@
+[
+ {
+  "line": 12,
+  "reps": [
+   [
+    "Conductor is a desktop/CLI Rust workspace (Tauri 2 GUI +",
+    "Conductor is a headless CLI Rust workspace (one binary,"
+   ]
+  ]
+ },
+ {
+  "line": 13,
+  "reps": [
+   [
+    "headless `conductor-cli`), not a web/API service.",
+    "`conductor-cli`), not a web/API service."
+   ]
+  ]
+ },
+ {
+  "line": 51,
+  "cut": [
+   [
+    "`CONDUCTOR_SEED`, and — dev-harness-only",
+    "— `CONDUCTOR_A11Y_STRICT`)",
+    "`CONDUCTOR_SEED`, and — a test-binary handle with no setter since 2026-10-11, never read by a shipped binary — `CONDUCTOR_E2E_SEED_DIR`)"
+   ]
+  ]
+ },
+ {
+  "del_lines": [
+   58,
+   61
+  ]
+ },
+ {
+  "line": 72,
+  "cut": [
+   [
+    " The dev-only webview driver legs",
+    "`conductor-cli` / `conductor-tauri`",
+    ""
+   ]
+  ]
+ },
+ {
+  "line": 84,
+  "cut": [
+   [
+    "; optional Tauri 2 GUI bundle",
+    "neither committed.",
+    "."
+   ]
+  ]
+ },
+ {
+  "line": 86,
+  "cut": [
+   [
+    " The one non-loopback egress in the project is CI-only",
+    "Operator-ratified 2026-09-17 on that measured net narrowing.",
+    " No non-loopback egress remains in the project: the CI-only msedgedriver fetch retired 2026-10-11 with the `a11y` job (count 1 → 0)."
+   ]
+  ]
+ },
+ {
+  "line": 87,
+  "whole": "- **CI/CD:** GitHub Actions runs one job, `rust` — `cargo fmt --all --check` (the early formatting gate, 2026-09-09) / `cargo build` / cargo-nextest (incl. golden tests) / `cargo clippy` / the secret-scan and workflow env-context gates (2026-09-24 — in-repo test targets, no fetched tool) / the `cargo audit` + `cargo deny` supply-chain steps / coverage; the `frontend` and `a11y` jobs, with the npm audit and the fetched-binary surface, left with the window on 2026-10-11. Dynamic end-to-end scenario proof requires a live Pulse and is an explicit operator/local gate, not a CI gate (Infrastructure Patterns: CI/CD approach; Established Decisions: CI/CD)"
+ },
+ {
+  "del_line": 116
+ },
+ {
+  "del_line": 117
+ },
+ {
+  "line": 118,
+  "whole": "| `CONDUCTOR_E2E_SEED_DIR` (test-binary only — READ only by `crates/conductor-run/tests/envelope_fixture.rs`, never by a Conductor binary; no setter since its setter `wdio.conf.ts` left, 2026-10-11) | a harness-owned repo-relative CONSTANT, never operator-supplied, carried only through a spawn's **env map** (never argv, never a shell) and joined under the workspace root by the test; unset ⇒ the seeding test is a NO-OP, now its only path. **Residual, recorded:** the test applies no `resolve_under`/canonicalize guard of its own — sound only while nothing sets the handle and no shipped binary reads it | the seeding test itself (`envelope_fixture.rs`), whose unset no-op path runs in every ordinary `cargo nextest` / `cargo test` execution |"
+ },
+ {
+  "del_line": 119
+ },
+ {
+  "del_line": 120
+ },
+ {
+  "line": 124,
+  "reps": [
+   [
+    "so neither the canonicalize duty above nor the Tauri row's `resolve_under` duty attaches to it;",
+    "so the canonicalize duty above does not attach to it;"
+   ]
+  ]
+ },
+ {
+  "del_line": 126
+ },
+ {
+  "line": 184,
+  "cut": [
+   [
+    "Specific pinned bumps from research:",
+    "measured 2.11.4 on first install 2026-09-10. ",
+    "The `tauri` ≥ 2.10.3 floor (CVE-2026-42184) and its bundler host-tool floor retired 2026-10-11 with the window: no `tauri` package remains in `Cargo.lock`. "
+   ]
+  ]
+ },
+ {
+  "line": 185,
+  "reps": [
+   [
+    "as of 2026-09-07 the set is **16 `[advisories] ignore` entries + 9 `[licenses] allow` entries**, reconciled against `deny.toml` at the `Dependency polish` chunk.",
+    "as of 2026-10-11 the set is **0 `[advisories] ignore` entries + 8 `[licenses] allow` entries**, reconciled against `deny.toml` at `2026-10-11-conductors-window-retired` (the 16 Tauri-tree ignores and the `MPL-2.0` allow left with their subject; `Apache-2.0 WITH LLVM-exception` stays for its current holders — `blake3`, `rustix`/`linux-raw-sys`, the `wasi`/`wit-bindgen`/`wasm-*` tree)."
+   ],
+   [
+    "the 16 + 9 counts above hold unchanged at 2026-09-29.",
+    "the 0 + 8 counts above are the 2026-10-11 reading."
+   ]
+  ]
+ },
+ {
+  "line": 188,
+  "whole": "**The third dependency class — RETIRED 2026-10-11 (0 members):** the CI-time-fetched third-party binary the `a11y` job acquired (since 2026-09-17 the version-pinned msedgedriver, admitted by a pre-execution Authenticode gate) left with that job, so the audited surface is again the Rust crate graph alone (`Cargo.lock`, scanned by `cargo-audit` + `cargo-deny`); its registration, version disposition and measurements are last at `321dc8f`. A job-time-fetched program re-opens the class only as an escalated, operator-ratified boundary widening."
+ },
+ {
+  "line": 191,
+  "reps": [
+   [
+    " or the Tauri IPC surface, since those are the live build/in-process boundaries.",
+    ", since that is the live build boundary."
+   ]
+  ]
+ },
+ {
+  "line": 193,
+  "whole": "**Frontend (npm) supply chain — RETIRED 2026-10-11:** no npm tree remains (`crates/conductor-tauri/ui/package-lock.json` left whole with the window; `git ls-files '*package.json'` → 0), and the `npm audit --omit=dev` gate left with the `frontend` job; Cargo is the one audited ecosystem."
+ },
+ {
+  "sub": [
+   "consumption-side signature verification IS an active control as of 2026-09-08 —\nthe `a11y` job's pre-execution Authenticode check on the fetched version-pinned\nmsedgedriver (see the third dependency class above; the control has been active\nsince 2026-09-08, its artifact swapped from the WebView2 Evergreen bootstrapper\n2026-09-17) — so this SKIP must not be\nread as \"no artifact-signature control is in play\".",
+   "and no consumption-side signature control remains\n(the fetched-binary class and its Authenticode gate retired 2026-10-11)."
+  ]
+ },
+ {
+  "line": 222,
+  "reps": [
+   [
+    "Three handles are out of this phase's scope, for TWO distinct reasons: `CONDUCTOR_MSEDGEDRIVER` / `CONDUCTOR_NVDA` never reach Rust at all and are validated at the wdio harness edge instead, while `CONDUCTOR_E2E_SEED_DIR` reaches Rust only in a TEST binary and never in a shipped one.",
+    "One handle is out of this phase's scope: `CONDUCTOR_E2E_SEED_DIR` reaches Rust only in a TEST binary and never in a shipped one (and has no setter since 2026-10-11)."
+   ]
+  ]
+ },
+ {
+  "line": 226,
+  "reps": [
+   [
+    "only at the `conductor-cli` / `#[tauri::command]` edges;",
+    "only at the `conductor-cli` edge;"
+   ]
+  ]
+ },
+ {
+  "line": 255,
+  "reps": [
+   [
+    "`CONDUCTOR_A11Y_STRICT` — a harness strictness flag, not a credential (flag-valued, never a path, never logged); `CONDUCTOR_MSEDGEDRIVER` — a local driver path, not a credential; `CONDUCTOR_NVDA` — a local screen-reader path, not a credential; `CONDUCTOR_E2E_SEED_DIR` — a repo-relative fixture runs dir chosen by the harness, not a credential)",
+    "`CONDUCTOR_E2E_SEED_DIR` — a test-binary handle with no setter since 2026-10-11, not a credential)"
+   ]
+  ]
+ },
+ {
+  "line": 260,
+  "reps": [
+   [
+    "which would have been a second third-dependency-class member and a second CI egress",
+    "which would re-open the now-empty third dependency class and add a CI non-loopback egress where none remains"
+   ]
+  ]
+ },
+ {
+  "line": 262,
+  "reps": [
+   [
+    "because it would add a second member to the third dependency class (§Dependency Security) and a second CI non-loopback egress.",
+    "because it would re-open the now-empty third dependency class (§Dependency Security) and add a CI non-loopback egress where none remains."
+   ]
+  ]
+ },
+ {
+  "line": 278,
+  "whole": "**External responses (to the operator):** sanitized — no stack"
+ },
+ {
+  "sub": [
+   "\"external\" surface is the `conductor-cli` stderr and the `#[tauri::command]`\nreturn values to the bundled webview; the type-erased `anyhow` edge must not",
+   "\"external\" surface is the `conductor-cli` stderr alone; the type-erased `anyhow` edge must not"
+  ]
+ },
+ {
+  "line": 294,
+  "reps": [
+   [
+    "to `anyhow` only at the `conductor-cli` / `#[tauri::command]` boundaries",
+    "to `anyhow` only at the `conductor-cli` boundary"
+   ]
+  ]
+ },
+ {
+  "line": 328,
+  "cut": [
+   [
+    "THREE reserved-namespace path handles sit outside this rule, in two classes.",
+    "`CONDUCTOR_E2E_SEED_DIR` IS read by Rust",
+    "ONE reserved-namespace path handle sits outside this rule: `CONDUCTOR_E2E_SEED_DIR` IS read by Rust"
+   ]
+  ],
+  "reps": [
+   [
+    "the repo-relative discipline lives at the wdio caller that sets it, and the seeding test",
+    "it has had no setter since `wdio.conf.ts` left (2026-10-11), and the seeding test"
+   ]
+  ]
+ },
+ {
+  "line": 364,
+  "reps": [
+   [
+    " via `conductor-cli` stderr or `#[tauri::command]` returns —",
+    " via `conductor-cli` stderr —"
+   ]
+  ]
+ },
+ {
+  "line": 365,
+  "reps": [
+   [
+    ", incl. `nvda-pass.json`, whose `heard` text is transcribed third-party speech scrubbed to `<host-path>` before it is written)",
+    ")"
+   ]
+  ]
+ },
+ {
+  "line": 370,
+  "reps": [
+   [
+    "so the flag VALUE is unit-held and its APPLICATION is evidenced by the operator-local SR leg (test-plan §1 untestable zones).",
+    "so the flag VALUE is unit-held and its APPLICATION was evidenced by the operator-local SR leg until that leg retired with the window (2026-10-11; test-plan §1 untestable zones)."
+   ]
+  ],
+  "cut": [
+   [
+    "**(b) any HARNESS spawn**",
+    "the eighth form (`send-keys.ps1`) is a separate ratification.",
+    "**(b) any HARNESS spawn** on the ROUTINE `scripts/agent-run.{sh,ps1}` path — ONE governed form since 2026-10-11, never a shell string and never an `eval`-equivalent: the fifth, the TEARDOWN spawn, where the shells invoke the repo-built `conductor` binary as a fixed program with a fixed verb and the operator-supplied `<run_id>` as a SEPARATE argv word (`conductor cleanup <run_id>`), admitted only after each shell's own run-id rejection (`valid_run_id` / `Test-RunId`), never assembled into a shell string and never as the program (operator-ratified 2026-09-06 as a deliberate, net-reducing boundary widening that replaced a `sqlite3`-CLI spawn). Forms 1–4 and 8 (the dev-only driver stack's `wdio.conf.ts` spawns and `send-keys.ps1`) and form 7 (`scripts/a11y-limited-token-launch.ps1`) retired 2026-10-11 with their files, the sixth retired 2026-09-17, and no ordinal is reused: the driver-stack and CI-workflow loci hold no governed form, and the network-arriving-PROGRAM property has no carrier (ratified by the operator on the founder's ruling R1 at that chunk's wrap; the retired registrations are last at `321dc8f`). A NINTH form escalates like every one before it and never becomes routine. An operator-supplied VALUE appears only as a separate element of an **array-form argv**, after rejection, never inside a shell string and never as the program. A spawn from a cargo TEST binary sits outside rule (b) — recorded 2026-09-24 for `crates/conductor-core/tests/secret_scan_gate.rs`'s `git -C <repo root> ls-files -z --cached --others --exclude-standard`, a fixed PATH-resolved program with a fixed argv and no operator-supplied value; like the test binaries' `CARGO_BIN_EXE_*` spawns it composes nothing and adds no governed form."
+   ]
+  ]
+ },
+ {
+  "del_line": 371
+ },
+ {
+  "del_line": 372
+ },
+ {
+  "del_line": 373
+ },
+ {
+  "line": 381,
+  "cut": [
+   [
+    " The dev-only driver stack's harness-lifetime loopback ports",
+    "are absent from `conductor-cli` / `conductor-tauri`.",
+    ""
+   ]
+  ]
+ },
+ {
+  "line": 386,
+  "whole": "- NEVER skip bumping a pinned dependency flagged by research — the toolchain ≥ 1.94.1 (tar-rs) is the standing FLOOR, and it is met (pinned ≥ 1.94.1). The `tauri` ≥ 2.10.3 floor retired 2026-10-11 with the crate: no `tauri` package is in `Cargo.lock`."
+ }
+]

@@ -2,43 +2,33 @@
 
 _Distilled from `.andromeda/design-system.md` + `.andromeda/layout-templates.md`. setup-project Phase 3. wrap-session does not modify._
 
+**Conductor has no interface:** its window — the `desktop-webview` surface — retired 2026-10-11
+(`2026-10-11-conductors-window-retired`, intent R1). The cli is the one surface it renders; the webview's typography,
+spacing, depth, radius, motion, iconography and component sections are one-line stubs, their text at `321dc8f`.
+
 ## Brand identity
-**Mission-control patience — armed, nominal, go/no-go.** A single-operator console that stays calm and resolute under load: terse status callouts, no alarm in the tone even on a Fail. "A control surface, not a dashboard" — terminal density, dark-default, cool blue-cast Tokyo-Night slate. Explicitly NOT a Grafana/Datadog KPI tile wall. **Signature:** the *Paused-count hold-point* — the frozen heartbeat at the operator-pause (the absence of motion is the event). **Expression level 0.3** (functional motion only — CSS transitions, no animation library).
+**Mission-control patience — armed, nominal, go/no-go.** A single-operator console that stays calm and resolute under load: terse status callouts, no alarm in the tone even on a Fail. "A control surface, not a dashboard." **Signature:** the *Paused-count hold-point* — on the cli, the `indicatif` spinner STOPS in place (never hides, never animates to 100%) at an operator hold. **Expression level 0.3** (honest progress feedback only).
 
-## Key design tokens (selected — dark defaults; full table in design-system.md)
-| Token | Value | Use |
+## Key tokens (the cli's ANSI map binds the palette by name)
+| Token | ANSI | Use |
 |---|---|---|
-| `--color-base` | `#1A1B26` | console ground (Tokyo-Night slate) |
-| `--count-nominal` | `#7EE787` | on-timeline heartbeat + `Pass` |
-| `--count-hold` | `#E3B341` | operator-pause HOLD + `CalibrationRegion` |
-| `--status-fail` | `#F85149` | `Fail` (held muted, no flashing) |
-| `--count-blocked` | `#565F89` | `Blocked` (never measured) |
-| `--color-id-cyan` | `#7DCFFF` | reserved mono status tier + focus ring |
+| `count-nominal` | 114 | on-timeline heartbeat + `Pass` |
+| `count-hold` | 179 | operator-pause HOLD + `CalibrationRegion` |
+| `status-fail` | 203 | `Fail` (no blink) |
+| `count-blocked` | 60 | `Blocked` (never measured) |
+| `color-id-cyan` | 117 | P-IDs / run_id / SLO timings / fingerprints |
+| `status-residual` | 246 | `KnownResidual` + the shared recessive tier (`hint:`, the out-of-scope Mode cell, `[ENVIRONMENT-SUSPECT]`, `[PRECONDITION]`) |
 
-### Typography
-- **Status tier (reserved):** JetBrains Mono — count / P-IDs / run_id / SLO timings / fingerprints (in `--color-id-cyan`).
-- **Prose / phase line:** IBM Plex Sans. Self-hosted WOFF2 via Fontsource (no runtime CDN). Inter/Roboto/Arial banned.
-
-### Spacing & motion
-- **Base unit:** 4px (developer-tool density). **Motion:** `--motion-micro` 150ms + `--motion-heartbeat` 1600ms (the live paused-count breath), `--ease-quiet` (no overshoot); reduced-motion drops ALL transitions. Depth is borders-only (`--border-subtle` seams, no drop shadows).
-
-## Primary surfaces
-- **Run console** — one frameless window in the shipped run-states `idle` / `live` / `hold` / `aborted` (idle-with-report a sub-state of `idle`; measured 2026-09-02) (no router, no breakpoints).
-- **cli** — the verb set `Commands` declares (layout-templates §cli Primary screens enumerates it), line-oriented (clap + owo-colors + indicatif + comfy-table + inquire), ANSI 256 TTY-gated.
-
-## Component patterns
-- **Frameless titlebar + paused-count heartbeat** — the signature's primary placement (freezes/tints/resumes).
-- **Operator-pause go/no-go dialog** — shadcn `AlertDialog`, gates every committed timeline step.
-- **Coverage matrix** — dense single-row-per-P-ID list (NOT a KPI-card grid), every row rendered (no virtualization) behind ONE roving tab stop — the current row, `aria-current` + a `--border-emphasis` edge, distinct from the `--color-focus` outline ring; its Mode cell renders one of four classifications, the out-of-scope one recessive via `--status-residual` ↔ ANSI 246 ↔ Markdown emphasis (never `--status-fail`/`--count-blocked`, and never a lamp). Its roll-up caption qualifies the auto term with `(N unbacked)` — plain text, no token, a qualifier on that summand and never a fifth one, omitted at zero.
-- **Verdict/report-state lamp** — six visually distinct treatments (`Pass`/`CalibrationRegion`/`Fail` filled dots · `Blocked` hollow ring · `Manual` checkbox · `Residual` dashed dot), always text-paired. The lamp tokens are the lamps' — but `--status-residual` is also the shared recessive tier for two NON-lamp uses (the cli `hint:` label, the out-of-scope Mode cell).
-- **Operator-checklist** — the `ManualCheck` render (induced state + expected observation, ticked y/n) — the drive+observe surface.
+## The cli surface
+- The verb set `Commands` declares (layout-templates §cli Primary screens enumerates it), line-oriented (clap + owo-colors + indicatif + comfy-table + inquire), ANSI TTY-gated per stream, NO_COLOR / `TERM=dumb` honored.
+- Status is never colour-alone: every per-P-ID line carries its bracket prefix (`[PASS]`/`[HOLD]`/`[FAIL]`/`[MANUAL]`/`[RESIDUAL]`/`[BLOCKED]`); the run-level captions sit outside the lamp column.
+- The coverage table is 4 columns with a roll-up caption; its `(N unbacked)` qualifies the auto term, never a fifth summand, omitted at zero.
 
 ## Universal bans
-- No generic fonts (Inter/Roboto/Arial/system-ui); no purple-gradient-on-white "AI gradient" + glassmorphism.
-- No KPI-card-grid "dashboard"; no color purely for decoration (color = Verdict/ReportState).
-- No flashing/pulsing on `Fail`; no progress bar that hides/animates-to-100% on the operator-pause (it freezes).
-- No mono-everywhere — mono is the reserved status tier only.
+- No KPI-card-grid "dashboard"; no colour purely for decoration (colour = Verdict/ReportState).
+- No flashing/pulsing on `Fail`; no progress spinner that hides or animates-to-100% on the operator-pause.
+- No emoji in piped output; never block the headless path on a prompt.
 
 ---
 
-**Full plans:** `.andromeda/design-system.md` + `.andromeda/layout-templates.md`. Path-scoped rules: `.claude/rules/frontend.md` + `a11y.md`.
+**Full plans:** `.andromeda/design-system.md` + `.andromeda/layout-templates.md`. Path-scoped rules `.claude/rules/frontend.md` + `a11y.md` are retirement stubs.

@@ -1,0 +1,12 @@
+{
+ "bootstrap-phases-derive-for-route-setup-project.md": [
+  {"sub": [" (Windows/Linux dev-OS targets; the identical `.sh`/`.ps1` semantics include the webview E2E leg, which runs on Linux+`xvfb` AND headfully on the Windows dev host (`CONDUCTOR_MSEDGEDRIVER`-gated) — only macOS lacks a WebDriver).", " (Windows/Linux dev-OS targets)."]},
+  {"sub": [", toolchain ≥ 1.94.1, `tauri` ≥ 2.10.3.", ", toolchain ≥ 1.94.1."]}
+ ],
+ "log-format.md": [
+  {"sub": ["(cli: stderr / `logs/agent-latest.jsonl`; Tauri backend: `logs/conductor-tauri.jsonl`)", "(cli: stderr / `logs/agent-latest.jsonl`; Tauri backend: `logs/conductor-tauri.jsonl`, with no writer since 2026-10-11 — the sink goes at `Panel-shaped types retired`)"]}
+ ],
+ "test-data-bootstrap.md": [
+  {"sub": ["so the CLI and the Tauri mock-runtime write to the same file `runs.db`.", "so the CLI subprocess and the in-process `conductor_run` arm write to the same file `runs.db`."]}
+ ]
+}

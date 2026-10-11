@@ -1,0 +1,22 @@
+{
+ "verification-harness.md": [
+  {
+   "sub": [
+    "Stage flags `--unit`/`--integration`/`--e2e`/`--live`.",
+    "Stage flags `--unit`/`--integration`/`--live` (`--e2e` left with the window, 2026-10-11, and falls to the unknown-token `usage:` exit 2)."
+   ]
+  },
+  {
+   "sub": [
+    "a 150s quiet window → A) → the driven a11y arm, freezing",
+    "a 150s quiet window → A), freezing"
+   ]
+  },
+  {
+   "sub": [
+    " A missing HOST-TOOL handle still SKIPS its leg at exit 0 — an incomplete live-Pulse env refuses, a missing host tool skips.",
+    ""
+   ]
+  }
+ ]
+}

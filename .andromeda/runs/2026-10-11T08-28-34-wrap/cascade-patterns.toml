@@ -1,0 +1,121 @@
+# Cascade step-2 sweep — 2026-10-11-conductors-window-retired. Each pattern names a retired claim by its tokens AND
+# by its verbs/phrasings (the window, its driver stack, its CI jobs, its egress, its handles, its counts).
+[[pattern]]
+id = 'tauri'
+regex = '\btauri\b'
+ignore_case = true
+
+[[pattern]]
+id = 'webview'
+fixed = 'webview'
+ignore_case = true
+
+[[pattern]]
+id = 'e2e-arm'
+fixed = '--e2e'
+
+[[pattern]]
+id = 'wdio'
+fixed = 'wdio'
+ignore_case = true
+
+[[pattern]]
+id = 'msedgedriver'
+fixed = 'msedgedriver'
+ignore_case = true
+
+[[pattern]]
+id = 'nvda'
+fixed = 'NVDA'
+ignore_case = true
+
+[[pattern]]
+id = 'driver-ports'
+regex = '\b444[45]\b'
+
+[[pattern]]
+id = 'a11y-strict'
+fixed = 'A11Y_STRICT'
+
+[[pattern]]
+id = 'a11y-job'
+regex = '`a11y` (CI )?job|a11y job'
+
+[[pattern]]
+id = 'frontend-job'
+regex = '`frontend` job|frontend job'
+
+[[pattern]]
+id = 'npm'
+regex = '\bnpm\b'
+
+[[pattern]]
+id = 'gui'
+regex = '\bGUI\b'
+
+[[pattern]]
+id = 'control-panel'
+regex = 'control[- ]panel'
+ignore_case = true
+
+[[pattern]]
+id = 'third-class'
+regex = 'third[- ]dependency[- ]class'
+ignore_case = true
+
+[[pattern]]
+id = 'rule-b-forms'
+regex = '(eight|EIGHT) (governed )?forms|eighth (governed )?form|EIGHTH|governed forms'
+
+[[pattern]]
+id = 'authenticode'
+fixed = 'Authenticode'
+
+[[pattern]]
+id = 'ci-egress'
+regex = 'non-loopback (egress|outbound)|network exception|THIRD outbound'
+
+[[pattern]]
+id = 'ipc-channel'
+regex = 'IPC `?Channel|live-counter `?Channel|tauri::command'
+
+[[pattern]]
+id = 'nine-members'
+regex = '\bnine\b (workspace )?(members|crates)|9 workspace|9-member|both bins|two bins'
+ignore_case = true
+
+[[pattern]]
+id = 'deny-counts'
+regex = '16 `\[advisories\]|16 \+ 9|MPL-2\.0'
+
+[[pattern]]
+id = 'speech-log'
+regex = 'speech[- ]log|nvda-pass'
+ignore_case = true
+
+[[pattern]]
+id = 'send-keys'
+regex = 'send-keys|limited-token|token-witness|webview2-cause'
+
+[[pattern]]
+id = 'sr-legs'
+regex = '`sr\*?`|sr-empty|sr-error|a11y:driven|driven a11y'
+
+[[pattern]]
+id = 'frontend'
+regex = '\bfrontend\b|ensure_frontend|ui/dist'
+ignore_case = true
+
+[[pattern]]
+id = 'desktop'
+regex = '\bdesktop\b'
+ignore_case = true
+
+[[pattern]]
+id = 'mock-runtime'
+regex = 'mock[- ]runtime|get_ipc_response'
+ignore_case = true
+
+[[pattern]]
+id = 'e2e-seed'
+fixed = 'E2E_SEED_DIR'

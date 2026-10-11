@@ -1,0 +1,4 @@
+[
+ {"sub_all": ["- Sink (Tauri backend): file `conductor-tauri.jsonl` under `<runs_dir.parent()>/logs/` unconditionally", "- Sink (Tauri backend; no writer since 2026-10-11 — its caller left with the window, and the sink goes at `Panel-shaped types retired`): file `conductor-tauri.jsonl` under `<runs_dir.parent()>/logs/`", 2]},
+ {"sub": ["- Tauri backend: `<runs_dir.parent()>/logs/conductor-tauri.jsonl` (the directory rides", "- Tauri backend (no writer since 2026-10-11; the sink goes at `Panel-shaped types retired`): `<runs_dir.parent()>/logs/conductor-tauri.jsonl` (the directory rides"]}
+]

@@ -1,0 +1,147 @@
+[
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "a0f3749c",
+"ts": "2026-10-11T09:15:29Z",
+"argv": [
+"flip",
+"--dir",
+"conductor-0.4.0",
+"--chunk",
+"2026-10-11-conductors-window-retired",
+"--run-dir",
+".andromeda/runs/2026-10-11T08-28-34-wrap",
+"--dry-run"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed 0 — gate no-op (no entry carries chunk 2026-10-11-conductors-window-retired)",
+"pool: unclaimed 24 [v4-01 v4-02 v4-03 v4-04 v4-05 v4-06 v4-07 v4-08 v4-09 v4-10 v4-11 v4-12 v4-13 v4-14 v4-15 v4-16 v4-17 v4-18 v4-19 v4-20 v4-21 v4-22 v4-23 v4-24]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "a0f3749c",
+"ts": "2026-10-11T09:15:29Z",
+"argv": [
+"flip",
+"--dir",
+"conductor-0.4.0",
+"--chunk",
+"2026-10-11-conductors-window-retired",
+"--run-dir",
+".andromeda/runs/2026-10-11T08-28-34-wrap"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"claimed 0 — gate no-op (no entry carries chunk 2026-10-11-conductors-window-retired)",
+"pool: unclaimed 24 [v4-01 v4-02 v4-03 v4-04 v4-05 v4-06 v4-07 v4-08 v4-09 v4-10 v4-11 v4-12 v4-13 v4-14 v4-15 v4-16 v4-17 v4-18 v4-19 v4-20 v4-21 v4-22 v4-23 v4-24]"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "a0f3749c",
+"ts": "2026-10-11T09:15:34Z",
+"argv": [
+"note",
+"--dir",
+"conductor-0.4.0",
+"--id",
+"v4-01",
+"--text-file",
+".andromeda/runs/2026-10-11T08-28-34-wrap/note-v4-01.md",
+"--run-dir",
+".andromeda/runs/2026-10-11T08-28-34-wrap",
+"--marker",
+"2026-10-11-conductors-window-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v4-01: +761 chars (total 1515) · status planned · ref/acceptance untouched",
+"wrote conductor-0.4.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.4.0/verification-matrix.json"
+],
+"before": {
+"id": "v4-01",
+"chunk": null,
+"status": "planned",
+"method": "unit",
+"ref": "null",
+"acceptance": "The whole program builds and passes its full gate with the window toolkit absent from its dependency graph, and no check… (453 chars)",
+"notes_chars": 752
+},
+"after": {
+"id": "v4-01",
+"chunk": null,
+"status": "planned",
+"method": "unit",
+"ref": "null",
+"acceptance": "The whole program builds and passes its full gate with the window toolkit absent from its dependency graph, and no check… (453 chars)",
+"notes_chars": 1515
+}
+},
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "a0f3749c",
+"ts": "2026-10-11T09:15:34Z",
+"argv": [
+"note",
+"--dir",
+"conductor-0.4.0",
+"--id",
+"v4-09",
+"--text-file",
+".andromeda/runs/2026-10-11T08-28-34-wrap/note-v4-09.md",
+"--run-dir",
+".andromeda/runs/2026-10-11T08-28-34-wrap",
+"--marker",
+"2026-10-11-conductors-window-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"note v4-09: +542 chars (total 1008) · status planned · ref/acceptance untouched",
+"wrote conductor-0.4.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.4.0/verification-matrix.json"
+],
+"before": {
+"id": "v4-09",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "A run is started, followed while it runs and read after it ends from the command line alone, and every status it shows i… (146 chars)",
+"notes_chars": 464
+},
+"after": {
+"id": "v4-09",
+"chunk": null,
+"status": "planned",
+"method": "e2e",
+"ref": "null",
+"acceptance": "A run is started, followed while it runs and read after it ends from the command line alone, and every status it shows i… (146 chars)",
+"notes_chars": 1008
+}
+}
+]
