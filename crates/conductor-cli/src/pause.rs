@@ -19,7 +19,8 @@ use inquire::Confirm;
 
 use crate::render;
 
-/// The interactive resolver: prints the `[HOLD]` phase-line above an `inquire` confirm and maps the
+/// The interactive resolver: prints the `[HOLD]` phase-line and the hold's checklist items above an
+/// `inquire` confirm and maps the
 /// operator's answer to a [`Decision`]. Holds the live run spinner (when one exists) so the heartbeat
 /// freezes at its current count for the duration of the prompt.
 pub struct PromptResolver {
@@ -34,6 +35,9 @@ impl PauseResolver for PromptResolver {
     async fn resolve(&self, hold: &HoldPoint) -> Decision {
         let render_and_prompt = || {
             eprintln!("{}", render::hold_line(hold));
+            for line in render::hold_checklist_lines(hold) {
+                eprintln!("{line}");
+            }
             confirm(hold)
         };
         match &self.spinner {

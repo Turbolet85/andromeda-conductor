@@ -1,4 +1,5 @@
-//! The clap verb surface — `conductor run` / `suite` / `report` / `preflight` / `coverage`.
+//! The clap verb surface — `conductor scenarios` / `run` / `suite` / `report` / `preflight` /
+//! `coverage`.
 
 use clap::{Parser, Subcommand};
 
@@ -18,6 +19,8 @@ pub struct Cli {
 
 #[derive(Subcommand)]
 pub enum Commands {
+    /// List the scenario catalogue (name, P-IDs, SLO tier).
+    Scenarios,
     /// Run one scenario by name or Pulse P-ID.
     Run {
         /// Scenario name (e.g. `error-baseline-spike`) or Pulse P-ID (e.g. `P-009`).

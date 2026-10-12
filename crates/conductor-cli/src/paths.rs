@@ -7,7 +7,9 @@
 use std::path::{Path, PathBuf};
 
 use anyhow::Context as _;
-use conductor_core::{CapabilityManifest, LoadEnvelope, Scenario, resolve_under, scenario_files};
+use conductor_core::{
+    CapabilityManifest, LoadEnvelope, Scenario, ScenarioSummary, resolve_under, scenario_files,
+};
 
 /// The resolved artifact + config locations for a CLI invocation.
 pub struct Paths {
@@ -39,6 +41,16 @@ impl Paths {
     /// The SUT capability set every scenario this invocation loads is checked against.
     fn capabilities(&self) -> anyhow::Result<CapabilityManifest> {
         Ok(CapabilityManifest::load(&self.capability_manifest_path)?)
+    }
+
+    /// The catalogue's identity listing — every scenario checked against the capability manifest, as
+    /// every load is, so an absent/malformed manifest or scenario is a harness fault.
+    pub fn list_scenarios(&self) -> anyhow::Result<Vec<ScenarioSummary>> {
+        let capabilities = self.capabilities()?;
+        Ok(conductor_core::list_scenarios(
+            &self.scenarios_dir,
+            &capabilities,
+        )?)
     }
 
     /// The pinned load envelope this invocation's run is judged against. A fixed in-repo path (no

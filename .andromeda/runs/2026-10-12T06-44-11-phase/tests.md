@@ -1,0 +1,36 @@
+# tests extract
+
+## Relevance
+relevant — the chunk removes two test files the plan names in its committed-fixture set, touches the `drive_run` path the parity leg drives, retires a test-only env reader the coverage triggers name, keeps a garde bound under test, and adds command-line entries the cli surface's driver must reach.
+
+## Constraints
+- Cross-surface parity is a mandated leg: test-plan §5 (Cross-module patterns, "Cross-surface parity") requires an IN-PROCESS arm calling `conductor_run::{preflight, drive_run}` beside the assert_cmd `conductor run` arm, both writing one `TempDir` `runs.db` and asserting identical verdict/state/seed for a deterministic-posture scenario+seed. If `drive_run` is deleted or re-shaped, an in-process arm must remain. Whether `cross_surface_parity.rs` can switch to another in-process entry without weakening Critical Path 7 is research's question. Any change to the named symbol goes to the wrap's amendments, not this chunk's plan text.
+- Every committed fixture is held by a production-path round-trip: test-plan §7 (Self-bootstrapping requirement) names `crates/conductor-run/tests/lamps_fixture.rs` (lamp collision) and `envelope_fixture.rs` (over-envelope breach and its persisted standing) as members of that set, and lists `crates/conductor-run/tests/fixtures/` in the sanctioned provenance set. Removing them must leave no committed fixture without a round-trip test. Whether `tests/fixtures/` has other consumers (journal copies read through the production reader, `conductor_run::persist` seeding) is research's question.
+- `CONDUCTOR_E2E_SEED_DIR`'s only mandated coverage is the seeder test's unset no-op path, run in every ordinary suite, per test-plan §1 (Coverage triggers, Vector 1). Retiring its only reader (`envelope_fixture.rs`) retires that coverage item. The trigger text then owes a wrap amendment and must not be left pointing at a deleted file.
+- The `[[checklist]]` text bound stays a garde trust-boundary rule with a negative test: test-plan §1 (Coverage triggers, Vector 2) requires negative tests asserting garde rejects over-bound config at load. Whatever P4 decides about the number or its justification, an over-bound item must still be rejected at load as a test-asserted fact.
+- New command-line entries are tested through the real binary: test-plan §6 (Drivers per surface, cli row) requires assert_cmd + predicates + an assert_fs sandbox, asserting the exit code and the text-paired status labels (the closed six plus the non-lamp caption set). Per test-plan §5 (Driver(s)), a test in the package that owns the bin binds through `env!("CARGO_BIN_EXE_conductor")`.
+- Per test-plan §3 Test data bootstrap (Per-test isolation), a CLI-edge test of a verb that writes no run artifacts (a catalogue listing is the likely case) sets `CONDUCTOR_RUNS_DIR` NOT AT ALL, because `resolve_under` rejects an absolute `temp.path()` before the verb dispatches. Only a verb that writes artifacts gets the `TempDir` handle.
+- The new verbs are `conductor` binary verbs, not harness commands: test-plan §3 5-command implementation (`run`, CI stage selectors) holds the 5-command discipline, so the chunk adds no sixth `agent-run.{sh,ps1}` command. Per test-plan §10 (Zero-flakiness budget), every new or edited test must also be green under both `cargo nextest` and `cargo test -p <crate>`. A runner-dependent result is a defect.
+
+## Patterns to follow
+- Per test-plan §2 (Agent-runnable invariants), a graceful mid-run stop test uses `#[tokio::test(flavor = "current_thread", start_paused = true)]` + `tokio::time::advance` for scheduling. Journal stamps stay on `std::time`.
+- Per test-plan §4 (Conventions; Fixture pattern at unit level), unit tests go in an inline `#[cfg(test)] mod tests`, with rstest `#[case]` tables for valid/invalid matrices (the checklist-bound edge: at-bound accepted, bound+1 rejected).
+- Per test-plan §7 (Self-bootstrapping requirement), if a past run's load-envelope standing gets a CLI reader, its test seeds the `runs.db` row through the production WRITER (`conductor_run::persist`), never a hand-populated DB. Any committed input it keeps must be held by a round-trip that asserts meaning, not just parseability.
+- Per test-plan §3 5-command implementation (`status`), a reader of a run's journal selects the NEWEST ENVELOPE line by the envelope-only `seed` key, never the file's last line. This applies to any re-homed envelope read that touches the journal.
+
+## Anti-patterns to avoid
+- NEVER use `sleep(N)` to synchronise inside a test (test-plan §11 E2E). A graceful-stop test waits on an explicit signal: the exit code, a journal line or an envelope `state`.
+- NEVER treat `Blocked`/`ManualCheck`/`KnownResidual`/`CalibrationRegion` as a non-zero process exit (test-plan §11 E2E). A new verb that prints a past run's standing or a hold's items exits non-zero only on a hard `Fail` or a harness fault.
+- NEVER lower the coverage threshold to pass the build (test-plan §11 Quality). Removing the two fixture tests and the panel types must leave `--fail-under-lines 60` green on its own.
+
+## Contract bindings
+- tests §3 Log format (Self-obs stream is a distinct artifact) ↔ obs-plan §3: both hold the Tauri backend's `logs/conductor-tauri.jsonl` row marked "no writer since 2026-10-11 — the sink goes at `Panel-shaped types retired`". The row retires in both through the wrap's amendments, not a phase edit. The cli's `logs/agent-latest.jsonl` sink (`ObsSink::File`) stays.
+- tests §1 Coverage triggers Vector 1 ↔ security-plan §Input Validation: both record `CONDUCTOR_E2E_SEED_DIR` as a setter-less test-binary reader. Its retirement must land in both.
+- tests §1 Coverage triggers Vector 2 ↔ security-plan §Input Validation: the `[[checklist]]` `MAX_CHECKLIST_TEXT` bound is one rule with two homes (the garde rule and its negative test).
+- tests §3 5-command implementation ↔ obs-plan §3: the new verbs or flags must leave the envelope, the `status` disk read and the JSONL shapes untouched, so the two sections still agree. If they change any shape, that agreement must be re-checked.
+
+## Acceptance criteria contributions
+- `cargo nextest run --workspace --profile ci` exits 0, and `cargo test -p` exits 0 for every touched crate (`conductor-core`, `conductor-run`, `conductor-cli`), with no test file left referencing a removed type or fixture (per test-plan §10 Zero-flakiness budget).
+- `crates/conductor-cli/tests/cross_surface_parity.rs` still asserts identical `verdict`/`state`/`seed` from an in-process arm and the headless `conductor run` arm for one deterministic-posture scenario+seed, and is green (per test-plan §5 Cross-module patterns, "Cross-surface parity").
+- Each new command-line entry (catalogue listing, graceful mid-run stop, past-run load-envelope standing, and the hold's checklist items or their named non-function ruling) has at least one assert_cmd test against the real `conductor` binary. Each test asserts the exit code and stdout text, and none sets `CONDUCTOR_RUNS_DIR` for a verb that writes nothing (per test-plan §6 Drivers per surface).
+- A scenario whose `[[checklist]]` item text exceeds the bound is rejected at load as a harness fault, and an item exactly at the bound loads, both test-asserted (per test-plan §1 Coverage triggers, Vector 2).

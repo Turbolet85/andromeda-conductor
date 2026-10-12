@@ -1,0 +1,36 @@
+[
+{
+"tool": "route",
+"v": "1.7",
+"sha8": "7e4cd318",
+"ts": "2026-10-12T06:45:41Z",
+"argv": [
+"route.py",
+"promote",
+"--root",
+".",
+"--chunk",
+"2026-10-12-panel-shaped-types-retired",
+"--expect-prefix",
+"Panel-shaped types retired",
+"--record-file",
+".andromeda/runs/2026-10-12T06-44-11-phase/master-record.txt",
+"--run-dir",
+".andromeda/runs/2026-10-12T06-44-11-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"stamp working-route.md:13 - [2026-10-12-panel-shaped-types-retired]",
+"record master-route.md:183 - appended under `## conductor-0.4.0`",
+"promoted 2026-10-12-panel-shaped-types-retired - working-route:13 frozen - master record appended"
+],
+"stderr": null,
+"wrote": [
+"./conductor-0.4.0/working-route.md",
+"./.andromeda/master-route.md"
+],
+"before": null,
+"after": null
+}
+]

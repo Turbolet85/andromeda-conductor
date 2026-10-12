@@ -77,9 +77,8 @@ impl SloTier {
 
 /// One operator-checklist item: what Conductor drove, and the observation the operator confirms.
 ///
-/// The pair is a contract, not free prose (design-system §Surface: desktop-webview / Component
-/// Patterns 7; a11y-plan §1 Critical paths requires each item expose both texts as accessible
-/// content), so both halves are required and bounded — they render as one dialog row.
+/// The pair is a contract, not free prose: both halves are required, and both are bounded because
+/// they are untrusted scenario text the CLI hold prints as one terminal line each.
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize, Validate)]
 pub struct ChecklistItem {
     /// What Conductor drove — the induced state the observation is judged against.
@@ -90,8 +89,9 @@ pub struct ChecklistItem {
     pub observation: String,
 }
 
-/// Upper bound on a [`ChecklistItem`] text half — each renders as one dialog row, so an unbounded
-/// string is a render defect rather than a useful declaration.
+/// Upper bound on a [`ChecklistItem`] text half — a bound on untrusted scenario text enforced at load
+/// (security-plan §Input Validation); each half prints as one terminal line at the CLI hold, so an
+/// unbounded string is a render defect rather than a useful declaration.
 pub const MAX_CHECKLIST_TEXT: usize = 200;
 
 /// A scenario: its identity plus its declarative per-phase emission spec.
@@ -966,6 +966,62 @@ expected = "Receiving"
         assert_eq!(s.expected[0].kind, ComparisonKind::Contains);
         assert_eq!(s.expected[0].class, ClaimClass::Hard);
         assert_eq!(s.expected[0].expected, "Receiving");
+    }
+
+    fn checklist_toml(induced: &str, observation: &str, with_expected: bool) -> String {
+        let expected = if with_expected {
+            "\n[[expected]]\nkind = \"Contains\"\nclass = \"Hard\"\nexpected = \"Receiving\"\n"
+        } else {
+            ""
+        };
+        format!(
+            "name = \"x\"\np_ids = [\"P-026\"]\nseed = 1\nslo_tier = \"<5s\"\njitter_ms = 0\n\n[[phases]]\nname = \"p\"\ngap_ms = 1\n\n[[checklist]]\ninduced = \"{induced}\"\nobservation = \"{observation}\"\n{expected}"
+        )
+    }
+
+    #[test]
+    fn a_checklist_half_at_the_bound_loads() {
+        let at_bound = "a".repeat(MAX_CHECKLIST_TEXT);
+        let s = Scenario::from_toml_str(&checklist_toml(&at_bound, &at_bound, false))
+            .expect("halves of exactly MAX_CHECKLIST_TEXT chars load");
+        assert_eq!(s.checklist.len(), 1);
+        assert_eq!(s.checklist[0].induced.chars().count(), MAX_CHECKLIST_TEXT);
+        assert_eq!(
+            s.checklist[0].observation.chars().count(),
+            MAX_CHECKLIST_TEXT
+        );
+    }
+
+    #[rstest]
+    #[case::induced_over(true, MAX_CHECKLIST_TEXT + 1)]
+    #[case::observation_over(false, MAX_CHECKLIST_TEXT + 1)]
+    #[case::induced_empty(true, 0)]
+    #[case::observation_empty(false, 0)]
+    fn an_out_of_bound_checklist_half_is_a_validation_fault(
+        #[case] on_induced: bool,
+        #[case] len: usize,
+    ) {
+        let bad = "a".repeat(len);
+        let good = "observe the halo";
+        let toml = if on_induced {
+            checklist_toml(&bad, good, false)
+        } else {
+            checklist_toml(good, &bad, false)
+        };
+        let err = Scenario::from_toml_str(&toml).unwrap_err();
+        assert!(
+            matches!(err, crate::CoreError::Validation(_)),
+            "a {len}-char half is rejected by garde at load, got {err:?}"
+        );
+    }
+
+    #[test]
+    fn a_checklist_beside_expected_checks_is_a_config_fault() {
+        let err = Scenario::from_toml_str(&checklist_toml("drove", "observe", true)).unwrap_err();
+        assert!(
+            matches!(err, crate::CoreError::Config(_)),
+            "a checklist beside expected checks is a load-time harness fault, got {err:?}"
+        );
     }
 
     #[test]

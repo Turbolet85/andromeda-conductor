@@ -1,0 +1,1941 @@
+[
+{
+"tool": "gate",
+"v": "1.15",
+"sha8": "01bedf67",
+"ts": "2026-10-12T07:21:41Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-12T07-12-14-implement",
+"--marker",
+"2026-10-12-panel-shaped-types-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-12-panel-shaped-types-retired · entries 24",
+"logs $TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14 · bound: GNU timeout",
+"delta docs 50 · rust 24 · unmapped 10",
+"walk-class rust 8 (crates/conductor-core/src/drift.rs, crates/conductor-core/src/load_envelope.rs, crates/conductor-core/src/scenario_catalog.rs, +5 in the trail) · uncommitted 84",
+"prose L212-215: No live leg: every new entry is proven hermetically on the Blocked spine or at the unit ti… (393 chars)",
+"  1 build       green · exit 0 · 0.28s · 72 B → 1.log · cargo build --workspace --locked",
+"  2 probe       green · exit 0 · 0.02s · 2 B → 2.log · comm -13 <(git show 06190485ec74ac07b1c797fbde6dc9441e60db… (210 chars)",
+"  3 probe       green · exit 0 · 0.01s · 4 B → 3.log · awk '/^name = /' Cargo.lock | wc -l",
+"  4 build       green · exit 0 · 3.56s · 1847 B → 4.log · for p in conductor-core conductor-timeline conductor-emit … (225 chars)",
+"  5 probe       green · exit 1 · 0.01s · 0 B → 5.log · git grep -n -E 'RunEvent|RunStage|validate_selection|SUITE… (190 chars)",
+"  6 probe       green · exit 1 · 0.01s · 0 B → 6.log · git grep -l 'conductor-tauri\\.jsonl' -- crates ':!crates/c… (103 chars)",
+"  7 probe       green · exit 1 · 0.01s · 0 B → 7.log · git grep -n -i -E 'tauri|webview|picker|\\bgui\\b|dialog row… (458 chars)",
+"  8 probe       green · exit 0 · 0.0s · 2 B → 8.log · grep -c -E '^    Scenarios,?$|^    Scenarios \\{' crates/co… (80 chars)",
+"  9 probe       green · exit 0 · 0.0s · 2 B → 9.log · grep -c -E '^tokio = .*\"signal\"' crates/conductor-cli/Carg… (64 chars)",
+" 10 probe       green · exit 0 · 0.0s · 2 B → 10.log · grep -l -F '**Conductor has no interface.**' .andromeda/de… (135 chars)",
+" 11 lint        green · exit 0 · 0.32s · 0 B → 11.log · cargo fmt --all --check",
+" 12 unit        green · exit 0 · 34.04s · 154355 B → 12.log · bash scripts/agent-run.sh run",
+" 13 unit        green · exit 0 · 13.72s · 103985 B → 13.log · cargo test --workspace --lib --bins --tests",
+" 14 e2e         green · exit 0 · 0.17s · 12846 B → 14.log · cargo run -q -p conductor-cli --locked -- scenarios",
+" 15 e2e         green · exit 0 · 0.13s · 1141 B → 15.log · cargo run -q -p conductor-cli --locked -- --help",
+" 16 unit        green · exit 0 · 29.16s · 151259 B → 16.log · cargo llvm-cov nextest --workspace --profile ci --no-repor… (59 chars)",
+" 17 probe       green · exit 0 · 1.49s · 16116 B → 17.log · cargo llvm-cov report --fail-under-lines 60 --ignore-filen… (85 chars)",
+" 18 probe       green · exit 0 · 0.02s · 0 B → 18.log · git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --… (67 chars)",
+" 19 probe       green · exit 0 · 2.51s · 258 B → 19.log · cargo audit",
+" 20 probe       green · exit 0 · 0.03s · 0 B → 20.log · git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --… (67 chars)",
+" 21 probe       green · exit 0 · 0.75s · 6468 B → 21.log · cargo deny check advisories bans licenses sources",
+" 22 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ga… (71 chars)",
+" 23 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (86 chars)",
+" 24 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ci… (95 chars)",
+"entries 24 · green 21 · red 0 · recorded 0 · timeout 0 · not-run 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-12-panel-shaped-types-retired",
+"plan": "./conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-11T08-28-34-wrap/evolve-2026-10-11-conductors-window-retired.json",
+".claude/session-handoff.md",
+"conductor-0.4.0/working-route.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/a11y.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/acceptance-v4-01.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/arch-contracts.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/arch-history-index.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/arch-history.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/arch.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-12T06-44-11-phase/controls.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/design-history.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/design.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/evolve-2026-10-12-panel-shaped-types-retired.json",
+".andromeda/runs/2026-10-12T06-44-11-phase/gate-2026-10-12-panel-shaped-types-retired.json",
+".andromeda/runs/2026-10-12T06-44-11-phase/inputs-2026-10-12-panel-shaped-types-retired.json",
+".andromeda/runs/2026-10-12T06-44-11-phase/layouts-history.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/layouts.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/master-record.txt",
+".andromeda/runs/2026-10-12T06-44-11-phase/matrix-2026-10-12-panel-shaped-types-retired.json",
+".andromeda/runs/2026-10-12T06-44-11-phase/note-v4-01.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/note-v4-09.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/obs-contracts.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/obs-history.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/obs.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/p5-card-1.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/p5-card-2.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/planlint-2026-10-12-panel-shaped-types-retired.json",
+".andromeda/runs/2026-10-12T06-44-11-phase/registry-2026-10-12-panel-shaped-types-retired.json",
+".andromeda/runs/2026-10-12T06-44-11-phase/relay-1.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/relay-2.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/relay-3.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/relay-4.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/route-2026-10-12-panel-shaped-types-retired.json",
+".andromeda/runs/2026-10-12T06-44-11-phase/route-no-marker.json",
+".andromeda/runs/2026-10-12T06-44-11-phase/security-history.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/security.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/sidecar-2026-10-12-panel-shaped-types-retired.json",
+".andromeda/runs/2026-10-12T06-44-11-phase/tests-contracts.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/tests-history-index.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/tests-history.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/tests.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/tree-query-2026-10-12-panel-shaped-types-retired.json",
+".andromeda/runs/2026-10-12T07-12-14-implement/evolve-2026-10-12-panel-shaped-types-retired.json",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/plan.md",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/research.md",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/scope.md"
+],
+"rust": [
+"crates/conductor-cli/Cargo.toml",
+"crates/conductor-cli/src/cli.rs",
+"crates/conductor-cli/src/commands/mod.rs",
+"crates/conductor-cli/src/commands/report.rs",
+"crates/conductor-cli/src/commands/suite.rs",
+"crates/conductor-cli/src/main.rs",
+"crates/conductor-cli/src/paths.rs",
+"crates/conductor-cli/src/pause.rs",
+"crates/conductor-cli/src/render.rs",
+"crates/conductor-cli/tests/cli_smoke.rs",
+"crates/conductor-cli/tests/cross_surface_parity.rs",
+"crates/conductor-core/src/lib.rs",
+"crates/conductor-core/src/obs.rs",
+"crates/conductor-core/src/pause.rs",
+"crates/conductor-core/src/scenario.rs",
+"crates/conductor-core/src/scenario_catalog.rs",
+"crates/conductor-run/src/drive.rs",
+"crates/conductor-run/src/envelope.rs",
+"crates/conductor-run/src/lib.rs",
+"crates/conductor-run/tests/composition_root.rs",
+"crates/conductor-run/tests/envelope_fixture.rs",
+"crates/conductor-run/tests/journal_conformance.rs",
+"crates/conductor-run/tests/lamps_fixture.rs",
+"crates/conductor-cli/src/commands/catalog.rs"
+]
+},
+"unmapped": [
+"conductor-0.4.0/verification-matrix.json",
+"crates/conductor-run/tests/fixtures/lamps-journal.jsonl",
+"crates/conductor-run/tests/fixtures/over-envelope.toml",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/inputs/.gitattributes",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/inputs/I1-relay-1.md.txt",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/inputs/I2-conductor-phase-panel-shaped-types-retired-2026-10-12.md.txt",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/inputs/I3-relay-2.md.txt",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/inputs/I4-relay-3.md.txt",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/inputs/I5-relay-4.md.txt",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"crates/conductor-core/src/drift.rs",
+"crates/conductor-core/src/load_envelope.rs",
+"crates/conductor-core/src/scenario_catalog.rs",
+"crates/conductor-core/tests/scenario_audit_gate.rs",
+"crates/conductor-core/tests/secret_scan_gate.rs",
+"crates/conductor-core/tests/workflow_env_gate.rs",
+"crates/conductor-run/tests/real_model_grading/capture_population.rs",
+"crates/conductor-run/tests/real_model_harvest.rs"
+]
+},
+"uncommitted": 84,
+"problem": null
+},
+"prose": [
+{
+"from": 212,
+"to": 215,
+"text": "No live leg: every new entry is proven hermetically on the Blocked spine or at the unit tier. No run binds `:4317` / `:4318` (`inputs#I2` §7). No smoke entry either: the chunk has no boot-path change, and a bare `status` would read a prior run's envelope. The operator pass's CI read is listed because v4-01's acceptance asks the full gate to pass, and CI is where it runs on a clean checkout."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "build",
+"run": "cargo build --workspace --locked",
+"run_sha8": "4b0b16e3",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/1.log",
+"bytes": 72,
+"log_sha8": "f2066ca2",
+"exit": 0,
+"seconds": 0.28,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "probe",
+"run": "comm -13 <(git show 06190485ec74ac07b1c797fbde6dc9441e60db2f:Cargo.lock | awk '/^name = /{n=$3} /^version = /{print n, $3}' | sort) <(awk '/^name = /{n=$3} /^version = /{print n, $3}' Cargo.lock | sort) | wc -l",
+"run_sha8": "933ce282",
+"expect": [
+"exit 0",
+"last line 0"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/2.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 0,
+"seconds": 0.02,
+"readings": [
+"exit 0 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "probe",
+"run": "awk '/^name = /' Cargo.lock | wc -l",
+"run_sha8": "3162ba32",
+"expect": [
+"exit 0",
+"last line 268"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/3.log",
+"bytes": 4,
+"log_sha8": "fa3d6d93",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓",
+"last line '268' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "build",
+"run": "for p in conductor-core conductor-timeline conductor-emit conductor-faults conductor-verify conductor-report conductor-run; do cargo build -p \"$p\" --lib --locked || exit 1; done && cargo build -p conductor-cli --bins --locked",
+"run_sha8": "6f99157d",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/4.log",
+"bytes": 1847,
+"log_sha8": "15afd9f1",
+"exit": 0,
+"seconds": 3.56,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "probe",
+"run": "git grep -n -E 'RunEvent|RunStage|validate_selection|SUITE_SELECTION|CONDUCTOR_E2E_SEED_DIR|envelope_fixture|lamps_fixture|lamps-journal\\.jsonl|over-envelope\\.toml' -- crates scripts .github",
+"run_sha8": "ad5246ba",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/5.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.01,
+"readings": [
+"exit 1 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "git grep -l 'conductor-tauri\\.jsonl' -- crates ':!crates/conductor-run/tests/operator_pause_harvest.rs'",
+"run_sha8": "a54ef3c5",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/6.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.01,
+"readings": [
+"exit 1 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "git grep -n -i -E 'tauri|webview|picker|\\bgui\\b|dialog row|desktop' -- crates/conductor-run/src/drive.rs crates/conductor-run/src/envelope.rs crates/conductor-run/src/lib.rs crates/conductor-core/src/scenario_catalog.rs crates/conductor-core/src/scenario.rs crates/conductor-core/src/obs.rs crates/conductor-core/src/pause.rs crates/conductor-cli/src/render.rs crates/conductor-cli/tests/cross_surface_parity.rs crates/conductor-run/tests/composition_root.rs",
+"run_sha8": "d5c4a8ec",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/7.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.01,
+"readings": [
+"exit 1 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "grep -c -E '^    Scenarios,?$|^    Scenarios \\{' crates/conductor-cli/src/cli.rs",
+"run_sha8": "31b50e5f",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/8.log",
+"bytes": 2,
+"log_sha8": "4355a46b",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "grep -c -E '^tokio = .*\"signal\"' crates/conductor-cli/Cargo.toml",
+"run_sha8": "b0fc51b6",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/9.log",
+"bytes": 2,
+"log_sha8": "4355a46b",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "grep -l -F '**Conductor has no interface.**' .andromeda/design-system.md .andromeda/layout-templates.md .andromeda/a11y-plan.md | wc -l",
+"run_sha8": "0cc13242",
+"expect": [
+"exit 0",
+"last line 3"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/10.log",
+"bytes": 2,
+"log_sha8": "1121cfcc",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '3' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/11.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.32,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run",
+"run_sha8": "21443cdf",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/12.log",
+"bytes": 154355,
+"log_sha8": "ab903219",
+"exit": 0,
+"seconds": 34.04,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "unit",
+"run": "cargo test --workspace --lib --bins --tests",
+"run_sha8": "b2c90191",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/13.log",
+"bytes": 103985,
+"log_sha8": "40a8a157",
+"exit": 0,
+"seconds": 13.72,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "e2e",
+"run": "cargo run -q -p conductor-cli --locked -- scenarios",
+"run_sha8": "bb529ce5",
+"expect": [
+"exit 0",
+"contains error-baseline-spike",
+"contains P-009",
+"contains scenarios"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/14.log",
+"bytes": 12846,
+"log_sha8": "91f0efa9",
+"exit": 0,
+"seconds": 0.17,
+"readings": [
+"exit 0 ✓",
+"contains 'error-baseline-spike' ✓",
+"contains 'P-009' ✓",
+"contains 'scenarios' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "e2e",
+"run": "cargo run -q -p conductor-cli --locked -- --help",
+"run_sha8": "03874cd8",
+"expect": [
+"exit 0",
+"contains scenarios"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/15.log",
+"bytes": 1141,
+"log_sha8": "9299a192",
+"exit": 0,
+"seconds": 0.13,
+"readings": [
+"exit 0 ✓",
+"contains 'scenarios' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "unit",
+"run": "cargo llvm-cov nextest --workspace --profile ci --no-report",
+"run_sha8": "42122532",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/16.log",
+"bytes": 151259,
+"log_sha8": "aa88a519",
+"exit": 0,
+"seconds": 29.16,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "cargo llvm-cov report --fail-under-lines 60 --ignore-filename-regex '[\\\\/]tests[\\\\/]'",
+"run_sha8": "af9f253a",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/17.log",
+"bytes": 16116,
+"log_sha8": "0e283a6b",
+"exit": 0,
+"seconds": 1.49,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --porcelain",
+"run_sha8": "eab7a4cb",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/18.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.02,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/19.log",
+"bytes": 258,
+"log_sha8": "7bf0063e",
+"exit": 0,
+"seconds": 2.51,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --porcelain",
+"run_sha8": "eab7a4cb",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/20.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.03,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": [
+"exit 0",
+"lacks advisory-not-detected",
+"lacks license-not-encountered"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/21.log",
+"bytes": 6468,
+"log_sha8": "5eaf82ff",
+"exit": 0,
+"seconds": 0.75,
+"readings": [
+"exit 0 ✓",
+"lacks 'advisory-not-detected' ✓",
+"lacks 'license-not-encountered' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "3c62df70",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin build/conductor-0.4.0",
+"run_sha8": "8e03f911",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1200",
+"run_sha8": "3221deca",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.15",
+"sha8": "01bedf67",
+"ts": "2026-10-12T07:24:13Z",
+"argv": [
+"scope",
+"--chunk-dir",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired",
+"--run-dir",
+".andromeda/runs/2026-10-12T07-12-14-implement",
+"--marker",
+"2026-10-12-panel-shaped-types-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"root . · base HEAD (no pre-CI commit) · lists new 1 · modify 26 · derived 0 · record 0",
+"control: lists · glob · record — each fired on its synthetic known positive; C1 · C2 held",
+"scope-record.md: absent — every out-of-list file reads unrecorded",
+"scope: clean — changed 26 · listed 26 · recorded 0 (companion 0 · mechanical 0 · in-intent 0 · widening 0) · absorbed 0 · excluded 60"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"root": ".",
+"base": "HEAD",
+"base_why": "no pre-CI commit",
+"counts": {
+"changed": 26,
+"listed": 26,
+"recorded": 0,
+"unrecorded": 0,
+"indet": 0,
+"absorbed": 0
+},
+"by_class": {
+"companion": 0,
+"mechanical": 0,
+"in-intent": 0,
+"widening": 0
+},
+"excluded": 60,
+"unparsed": 0,
+"widening_without_word": 0
+}
+},
+{
+"tool": "gate",
+"v": "1.15",
+"sha8": "01bedf67",
+"ts": "2026-10-12T07:26:36Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-12T07-12-14-implement",
+"--marker",
+"2026-10-12-panel-shaped-types-retired"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-12-panel-shaped-types-retired · entries 24",
+"logs $TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14 · bound: GNU timeout",
+"delta docs 52 · rust 24 · unmapped 10",
+"walk-class rust 8 (crates/conductor-core/src/drift.rs, crates/conductor-core/src/load_envelope.rs, crates/conductor-core/src/scenario_catalog.rs, +5 in the trail) · uncommitted 86",
+"prose L212-215: No live leg: every new entry is proven hermetically on the Blocked spine or at the unit ti… (393 chars)",
+"  1 build       green · exit 0 · 1.0s · 167 B → 1.2.log · cargo build --workspace --locked",
+"  2 probe       green · exit 0 · 0.01s · 2 B → 2.2.log · comm -13 <(git show 06190485ec74ac07b1c797fbde6dc9441e60db… (210 chars)",
+"  3 probe       green · exit 0 · 0.0s · 4 B → 3.2.log · awk '/^name = /' Cargo.lock | wc -l",
+"  4 build       green · exit 0 · 0.74s · 576 B → 4.2.log · for p in conductor-core conductor-timeline conductor-emit … (225 chars)",
+"  5 probe       green · exit 1 · 0.01s · 0 B → 5.2.log · git grep -n -E 'RunEvent|RunStage|validate_selection|SUITE… (190 chars)",
+"  6 probe       green · exit 1 · 0.01s · 0 B → 6.2.log · git grep -l 'conductor-tauri\\.jsonl' -- crates ':!crates/c… (103 chars)",
+"  7 probe       green · exit 1 · 0.01s · 0 B → 7.2.log · git grep -n -i -E 'tauri|webview|picker|\\bgui\\b|dialog row… (458 chars)",
+"  8 probe       green · exit 0 · 0.0s · 2 B → 8.2.log · grep -c -E '^    Scenarios,?$|^    Scenarios \\{' crates/co… (80 chars)",
+"  9 probe       green · exit 0 · 0.0s · 2 B → 9.2.log · grep -c -E '^tokio = .*\"signal\"' crates/conductor-cli/Carg… (64 chars)",
+" 10 probe       green · exit 0 · 0.0s · 2 B → 10.2.log · grep -l -F '**Conductor has no interface.**' .andromeda/de… (135 chars)",
+" 11 lint        green · exit 0 · 0.31s · 0 B → 11.2.log · cargo fmt --all --check",
+" 12 unit        green · exit 0 · 15.25s · 151939 B → 12.2.log · bash scripts/agent-run.sh run",
+" 13 unit        green · exit 0 · 11.5s · 104070 B → 13.2.log · cargo test --workspace --lib --bins --tests",
+" 14 e2e         green · exit 0 · 0.14s · 12846 B → 14.2.log · cargo run -q -p conductor-cli --locked -- scenarios",
+" 15 e2e         green · exit 0 · 0.13s · 1141 B → 15.2.log · cargo run -q -p conductor-cli --locked -- --help",
+" 16 unit        green · exit 0 · 12.65s · 150338 B → 16.2.log · cargo llvm-cov nextest --workspace --profile ci --no-repor… (59 chars)",
+" 17 probe       green · exit 0 · 1.51s · 16116 B → 17.2.log · cargo llvm-cov report --fail-under-lines 60 --ignore-filen… (85 chars)",
+" 18 probe       green · exit 0 · 0.02s · 0 B → 18.2.log · git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --… (67 chars)",
+" 19 probe       green · exit 0 · 1.47s · 258 B → 19.2.log · cargo audit",
+" 20 probe       green · exit 0 · 0.03s · 0 B → 20.2.log · git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --… (67 chars)",
+" 21 probe       green · exit 0 · 0.93s · 6468 B → 21.2.log · cargo deny check advisories bans licenses sources",
+" 22 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ga… (71 chars)",
+" 23 probe       not run — leg operator (the letter drives it) · git diff --quiet && git diff --cached --quiet && git push … (86 chars)",
+" 24 probe       not run — leg operator (the letter drives it) · python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ci… (95 chars)",
+"entries 24 · green 21 · red 0 · recorded 0 · timeout 0 · not-run 3"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-12-panel-shaped-types-retired",
+"plan": "./conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-11T08-28-34-wrap/evolve-2026-10-11-conductors-window-retired.json",
+".claude/session-handoff.md",
+"conductor-0.4.0/working-route.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/a11y.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/acceptance-v4-01.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/arch-contracts.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/arch-history-index.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/arch-history.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/arch.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-12T06-44-11-phase/controls.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/design-history.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/design.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/evolve-2026-10-12-panel-shaped-types-retired.json",
+".andromeda/runs/2026-10-12T06-44-11-phase/gate-2026-10-12-panel-shaped-types-retired.json",
+".andromeda/runs/2026-10-12T06-44-11-phase/inputs-2026-10-12-panel-shaped-types-retired.json",
+".andromeda/runs/2026-10-12T06-44-11-phase/layouts-history.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/layouts.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/master-record.txt",
+".andromeda/runs/2026-10-12T06-44-11-phase/matrix-2026-10-12-panel-shaped-types-retired.json",
+".andromeda/runs/2026-10-12T06-44-11-phase/note-v4-01.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/note-v4-09.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/obs-contracts.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/obs-history.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/obs.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/p5-card-1.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/p5-card-2.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/planlint-2026-10-12-panel-shaped-types-retired.json",
+".andromeda/runs/2026-10-12T06-44-11-phase/registry-2026-10-12-panel-shaped-types-retired.json",
+".andromeda/runs/2026-10-12T06-44-11-phase/relay-1.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/relay-2.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/relay-3.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/relay-4.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/route-2026-10-12-panel-shaped-types-retired.json",
+".andromeda/runs/2026-10-12T06-44-11-phase/route-no-marker.json",
+".andromeda/runs/2026-10-12T06-44-11-phase/security-history.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/security.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/sidecar-2026-10-12-panel-shaped-types-retired.json",
+".andromeda/runs/2026-10-12T06-44-11-phase/tests-contracts.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/tests-history-index.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/tests-history.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/tests.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/tree-query-2026-10-12-panel-shaped-types-retired.json",
+".andromeda/runs/2026-10-12T07-12-14-implement/evolve-2026-10-12-panel-shaped-types-retired.json",
+".andromeda/runs/2026-10-12T07-12-14-implement/gate-2026-10-12-panel-shaped-types-retired.json",
+".andromeda/runs/2026-10-12T07-12-14-implement/matrix-2026-10-12-panel-shaped-types-retired.json",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/plan.md",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/research.md",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/scope.md"
+],
+"rust": [
+"crates/conductor-cli/Cargo.toml",
+"crates/conductor-cli/src/cli.rs",
+"crates/conductor-cli/src/commands/mod.rs",
+"crates/conductor-cli/src/commands/report.rs",
+"crates/conductor-cli/src/commands/suite.rs",
+"crates/conductor-cli/src/main.rs",
+"crates/conductor-cli/src/paths.rs",
+"crates/conductor-cli/src/pause.rs",
+"crates/conductor-cli/src/render.rs",
+"crates/conductor-cli/tests/cli_smoke.rs",
+"crates/conductor-cli/tests/cross_surface_parity.rs",
+"crates/conductor-core/src/lib.rs",
+"crates/conductor-core/src/obs.rs",
+"crates/conductor-core/src/pause.rs",
+"crates/conductor-core/src/scenario.rs",
+"crates/conductor-core/src/scenario_catalog.rs",
+"crates/conductor-run/src/drive.rs",
+"crates/conductor-run/src/envelope.rs",
+"crates/conductor-run/src/lib.rs",
+"crates/conductor-run/tests/composition_root.rs",
+"crates/conductor-run/tests/envelope_fixture.rs",
+"crates/conductor-run/tests/journal_conformance.rs",
+"crates/conductor-run/tests/lamps_fixture.rs",
+"crates/conductor-cli/src/commands/catalog.rs"
+]
+},
+"unmapped": [
+"conductor-0.4.0/verification-matrix.json",
+"crates/conductor-run/tests/fixtures/lamps-journal.jsonl",
+"crates/conductor-run/tests/fixtures/over-envelope.toml",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/inputs/.gitattributes",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/inputs/I1-relay-1.md.txt",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/inputs/I2-conductor-phase-panel-shaped-types-retired-2026-10-12.md.txt",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/inputs/I3-relay-2.md.txt",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/inputs/I4-relay-3.md.txt",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/inputs/I5-relay-4.md.txt",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"crates/conductor-core/src/drift.rs",
+"crates/conductor-core/src/load_envelope.rs",
+"crates/conductor-core/src/scenario_catalog.rs",
+"crates/conductor-core/tests/scenario_audit_gate.rs",
+"crates/conductor-core/tests/secret_scan_gate.rs",
+"crates/conductor-core/tests/workflow_env_gate.rs",
+"crates/conductor-run/tests/real_model_grading/capture_population.rs",
+"crates/conductor-run/tests/real_model_harvest.rs"
+]
+},
+"uncommitted": 86,
+"problem": null
+},
+"prose": [
+{
+"from": 212,
+"to": 215,
+"text": "No live leg: every new entry is proven hermetically on the Blocked spine or at the unit tier. No run binds `:4317` / `:4318` (`inputs#I2` §7). No smoke entry either: the chunk has no boot-path change, and a bare `status` would read a prior run's envelope. The operator pass's CI read is listed because v4-01's acceptance asks the full gate to pass, and CI is where it runs on a clean checkout."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "build",
+"run": "cargo build --workspace --locked",
+"run_sha8": "4b0b16e3",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/1.2.log",
+"bytes": 167,
+"log_sha8": "33bcbdd1",
+"exit": 0,
+"seconds": 1.0,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 2,
+"role": "probe",
+"run": "comm -13 <(git show 06190485ec74ac07b1c797fbde6dc9441e60db2f:Cargo.lock | awk '/^name = /{n=$3} /^version = /{print n, $3}' | sort) <(awk '/^name = /{n=$3} /^version = /{print n, $3}' Cargo.lock | sort) | wc -l",
+"run_sha8": "933ce282",
+"expect": [
+"exit 0",
+"last line 0"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/2.2.log",
+"bytes": 2,
+"log_sha8": "9a271f2a",
+"exit": 0,
+"seconds": 0.01,
+"readings": [
+"exit 0 ✓",
+"last line '0' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 3,
+"role": "probe",
+"run": "awk '/^name = /' Cargo.lock | wc -l",
+"run_sha8": "3162ba32",
+"expect": [
+"exit 0",
+"last line 268"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/3.2.log",
+"bytes": 4,
+"log_sha8": "fa3d6d93",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '268' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 4,
+"role": "build",
+"run": "for p in conductor-core conductor-timeline conductor-emit conductor-faults conductor-verify conductor-report conductor-run; do cargo build -p \"$p\" --lib --locked || exit 1; done && cargo build -p conductor-cli --bins --locked",
+"run_sha8": "6f99157d",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/4.2.log",
+"bytes": 576,
+"log_sha8": "0e4a7268",
+"exit": 0,
+"seconds": 0.74,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 5,
+"role": "probe",
+"run": "git grep -n -E 'RunEvent|RunStage|validate_selection|SUITE_SELECTION|CONDUCTOR_E2E_SEED_DIR|envelope_fixture|lamps_fixture|lamps-journal\\.jsonl|over-envelope\\.toml' -- crates scripts .github",
+"run_sha8": "ad5246ba",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/5.2.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.01,
+"readings": [
+"exit 1 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "git grep -l 'conductor-tauri\\.jsonl' -- crates ':!crates/conductor-run/tests/operator_pause_harvest.rs'",
+"run_sha8": "a54ef3c5",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/6.2.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.01,
+"readings": [
+"exit 1 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "git grep -n -i -E 'tauri|webview|picker|\\bgui\\b|dialog row|desktop' -- crates/conductor-run/src/drive.rs crates/conductor-run/src/envelope.rs crates/conductor-run/src/lib.rs crates/conductor-core/src/scenario_catalog.rs crates/conductor-core/src/scenario.rs crates/conductor-core/src/obs.rs crates/conductor-core/src/pause.rs crates/conductor-cli/src/render.rs crates/conductor-cli/tests/cross_surface_parity.rs crates/conductor-run/tests/composition_root.rs",
+"run_sha8": "d5c4a8ec",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/7.2.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 1,
+"seconds": 0.01,
+"readings": [
+"exit 1 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "grep -c -E '^    Scenarios,?$|^    Scenarios \\{' crates/conductor-cli/src/cli.rs",
+"run_sha8": "31b50e5f",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/8.2.log",
+"bytes": 2,
+"log_sha8": "4355a46b",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "grep -c -E '^tokio = .*\"signal\"' crates/conductor-cli/Cargo.toml",
+"run_sha8": "b0fc51b6",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/9.2.log",
+"bytes": 2,
+"log_sha8": "4355a46b",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '1' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "grep -l -F '**Conductor has no interface.**' .andromeda/design-system.md .andromeda/layout-templates.md .andromeda/a11y-plan.md | wc -l",
+"run_sha8": "0cc13242",
+"expect": [
+"exit 0",
+"last line 3"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/10.2.log",
+"bytes": 2,
+"log_sha8": "1121cfcc",
+"exit": 0,
+"seconds": 0.0,
+"readings": [
+"exit 0 ✓",
+"last line '3' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 11,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/11.2.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.31,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 12,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run",
+"run_sha8": "21443cdf",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/12.2.log",
+"bytes": 151939,
+"log_sha8": "96fd9216",
+"exit": 0,
+"seconds": 15.25,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 13,
+"role": "unit",
+"run": "cargo test --workspace --lib --bins --tests",
+"run_sha8": "b2c90191",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/13.2.log",
+"bytes": 104070,
+"log_sha8": "4a7e5c07",
+"exit": 0,
+"seconds": 11.5,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 14,
+"role": "e2e",
+"run": "cargo run -q -p conductor-cli --locked -- scenarios",
+"run_sha8": "bb529ce5",
+"expect": [
+"exit 0",
+"contains error-baseline-spike",
+"contains P-009",
+"contains scenarios"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/14.2.log",
+"bytes": 12846,
+"log_sha8": "4037501d",
+"exit": 0,
+"seconds": 0.14,
+"readings": [
+"exit 0 ✓",
+"contains 'error-baseline-spike' ✓",
+"contains 'P-009' ✓",
+"contains 'scenarios' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 15,
+"role": "e2e",
+"run": "cargo run -q -p conductor-cli --locked -- --help",
+"run_sha8": "03874cd8",
+"expect": [
+"exit 0",
+"contains scenarios"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/15.2.log",
+"bytes": 1141,
+"log_sha8": "9299a192",
+"exit": 0,
+"seconds": 0.13,
+"readings": [
+"exit 0 ✓",
+"contains 'scenarios' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 16,
+"role": "unit",
+"run": "cargo llvm-cov nextest --workspace --profile ci --no-report",
+"run_sha8": "42122532",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/16.2.log",
+"bytes": 150338,
+"log_sha8": "6da6cb4c",
+"exit": 0,
+"seconds": 12.65,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "cargo llvm-cov report --fail-under-lines 60 --ignore-filename-regex '[\\\\/]tests[\\\\/]'",
+"run_sha8": "af9f253a",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/17.2.log",
+"bytes": 16116,
+"log_sha8": "3a53c105",
+"exit": 0,
+"seconds": 1.51,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --porcelain",
+"run_sha8": "eab7a4cb",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/18.2.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.02,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": null,
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/19.2.log",
+"bytes": 258,
+"log_sha8": "7bf0063e",
+"exit": 0,
+"seconds": 1.47,
+"readings": [
+"exit 0 ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --porcelain",
+"run_sha8": "eab7a4cb",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/20.2.log",
+"bytes": 0,
+"log_sha8": "e3b0c442",
+"exit": 0,
+"seconds": 0.03,
+"readings": [
+"exit 0 ✓",
+"no output ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": [
+"exit 0",
+"lacks advisory-not-detected",
+"lacks license-not-encountered"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/21.2.log",
+"bytes": 6468,
+"log_sha8": "5eaf82ff",
+"exit": 0,
+"seconds": 0.93,
+"readings": [
+"exit 0 ✓",
+"lacks 'advisory-not-detected' ✓",
+"lacks 'license-not-encountered' ✓"
+],
+"survivors": [],
+"outcome": "green"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "3c62df70",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin build/conductor-0.4.0",
+"run_sha8": "8e03f911",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1200",
+"run_sha8": "3221deca",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — leg operator (the letter drives it)"
+}
+]
+}
+},
+{
+"tool": "gate",
+"v": "1.15",
+"sha8": "01bedf67",
+"ts": "2026-10-12T07:26:48Z",
+"argv": [
+"run",
+"--plan",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/plan.md",
+"--run-dir",
+".andromeda/runs/2026-10-12T07-12-14-implement",
+"--marker",
+"2026-10-12-panel-shaped-types-retired",
+"--operator",
+"22"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"shell /usr/bin/bash (from $SHELL; -c, non-login)",
+"root . · marker 2026-10-12-panel-shaped-types-retired · entries 24",
+"logs $TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14 · bound: GNU timeout",
+"delta docs 52 · rust 24 · unmapped 10",
+"walk-class rust 8 (crates/conductor-core/src/drift.rs, crates/conductor-core/src/load_envelope.rs, crates/conductor-core/src/scenario_catalog.rs, +5 in the trail) · uncommitted 86",
+"prose L212-215: No live leg: every new entry is proven hermetically on the Blocked spine or at the unit ti… (393 chars)",
+"operator entry 22 · history tripwire: none of 7 forms matched — not a clearance",
+"  1 build       not run — excluded · cargo build --workspace --locked",
+"  2 probe       not run — excluded · comm -13 <(git show 06190485ec74ac07b1c797fbde6dc9441e60db… (210 chars)",
+"  3 probe       not run — excluded · awk '/^name = /' Cargo.lock | wc -l",
+"  4 build       not run — excluded · for p in conductor-core conductor-timeline conductor-emit … (225 chars)",
+"  5 probe       not run — excluded · git grep -n -E 'RunEvent|RunStage|validate_selection|SUITE… (190 chars)",
+"  6 probe       not run — excluded · git grep -l 'conductor-tauri\\.jsonl' -- crates ':!crates/c… (103 chars)",
+"  7 probe       not run — excluded · git grep -n -i -E 'tauri|webview|picker|\\bgui\\b|dialog row… (458 chars)",
+"  8 probe       not run — excluded · grep -c -E '^    Scenarios,?$|^    Scenarios \\{' crates/co… (80 chars)",
+"  9 probe       not run — excluded · grep -c -E '^tokio = .*\"signal\"' crates/conductor-cli/Carg… (64 chars)",
+" 10 probe       not run — excluded · grep -l -F '**Conductor has no interface.**' .andromeda/de… (135 chars)",
+" 11 lint        not run — excluded · cargo fmt --all --check",
+" 12 unit        not run — excluded · bash scripts/agent-run.sh run",
+" 13 unit        not run — excluded · cargo test --workspace --lib --bins --tests",
+" 14 e2e         not run — excluded · cargo run -q -p conductor-cli --locked -- scenarios",
+" 15 e2e         not run — excluded · cargo run -q -p conductor-cli --locked -- --help",
+" 16 unit        not run — excluded · cargo llvm-cov nextest --workspace --profile ci --no-repor… (59 chars)",
+" 17 probe       not run — excluded · cargo llvm-cov report --fail-under-lines 60 --ignore-filen… (85 chars)",
+" 18 probe       not run — excluded · git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --… (67 chars)",
+" 19 probe       not run — excluded · cargo audit",
+" 20 probe       not run — excluded · git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --… (67 chars)",
+" 21 probe       not run — excluded · cargo deny check advisories bans licenses sources",
+" 22 probe       green · exit 0 · 0.3s · 446 B → 22.log · history: unmoved · python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ga… (71 chars)",
+" 23 probe       not run — excluded · git diff --quiet && git diff --cached --quiet && git push … (86 chars)",
+" 24 probe       not run — excluded · python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ci… (95 chars)",
+"entries 24 · green 1 · red 0 · recorded 0 · timeout 0 · not-run 23"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null,
+"extra": {
+"marker": "2026-10-12-panel-shaped-types-retired",
+"plan": "./conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/plan.md",
+"root": ".",
+"shell": "/usr/bin/bash",
+"out_dir": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14",
+"delta": {
+"docs": [
+".andromeda/friction-log.ndjson",
+".andromeda/master-route.md",
+".andromeda/runs/2026-10-11T08-28-34-wrap/evolve-2026-10-11-conductors-window-retired.json",
+".claude/session-handoff.md",
+"conductor-0.4.0/working-route.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/a11y-contracts.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/a11y.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/acceptance-v4-01.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/arch-contracts.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/arch-history-index.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/arch-history.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/arch.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/ci-no-marker.json",
+".andromeda/runs/2026-10-12T06-44-11-phase/controls.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/design-history.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/design.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/evolve-2026-10-12-panel-shaped-types-retired.json",
+".andromeda/runs/2026-10-12T06-44-11-phase/gate-2026-10-12-panel-shaped-types-retired.json",
+".andromeda/runs/2026-10-12T06-44-11-phase/inputs-2026-10-12-panel-shaped-types-retired.json",
+".andromeda/runs/2026-10-12T06-44-11-phase/layouts-history.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/layouts.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/master-record.txt",
+".andromeda/runs/2026-10-12T06-44-11-phase/matrix-2026-10-12-panel-shaped-types-retired.json",
+".andromeda/runs/2026-10-12T06-44-11-phase/note-v4-01.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/note-v4-09.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/obs-contracts.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/obs-history.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/obs.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/p5-card-1.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/p5-card-2.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/planlint-2026-10-12-panel-shaped-types-retired.json",
+".andromeda/runs/2026-10-12T06-44-11-phase/registry-2026-10-12-panel-shaped-types-retired.json",
+".andromeda/runs/2026-10-12T06-44-11-phase/relay-1.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/relay-2.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/relay-3.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/relay-4.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/route-2026-10-12-panel-shaped-types-retired.json",
+".andromeda/runs/2026-10-12T06-44-11-phase/route-no-marker.json",
+".andromeda/runs/2026-10-12T06-44-11-phase/security-history.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/security.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/sidecar-2026-10-12-panel-shaped-types-retired.json",
+".andromeda/runs/2026-10-12T06-44-11-phase/tests-contracts.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/tests-history-index.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/tests-history.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/tests.md",
+".andromeda/runs/2026-10-12T06-44-11-phase/tree-query-2026-10-12-panel-shaped-types-retired.json",
+".andromeda/runs/2026-10-12T07-12-14-implement/evolve-2026-10-12-panel-shaped-types-retired.json",
+".andromeda/runs/2026-10-12T07-12-14-implement/gate-2026-10-12-panel-shaped-types-retired.json",
+".andromeda/runs/2026-10-12T07-12-14-implement/matrix-2026-10-12-panel-shaped-types-retired.json",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/plan.md",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/research.md",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/scope.md"
+],
+"rust": [
+"crates/conductor-cli/Cargo.toml",
+"crates/conductor-cli/src/cli.rs",
+"crates/conductor-cli/src/commands/mod.rs",
+"crates/conductor-cli/src/commands/report.rs",
+"crates/conductor-cli/src/commands/suite.rs",
+"crates/conductor-cli/src/main.rs",
+"crates/conductor-cli/src/paths.rs",
+"crates/conductor-cli/src/pause.rs",
+"crates/conductor-cli/src/render.rs",
+"crates/conductor-cli/tests/cli_smoke.rs",
+"crates/conductor-cli/tests/cross_surface_parity.rs",
+"crates/conductor-core/src/lib.rs",
+"crates/conductor-core/src/obs.rs",
+"crates/conductor-core/src/pause.rs",
+"crates/conductor-core/src/scenario.rs",
+"crates/conductor-core/src/scenario_catalog.rs",
+"crates/conductor-run/src/drive.rs",
+"crates/conductor-run/src/envelope.rs",
+"crates/conductor-run/src/lib.rs",
+"crates/conductor-run/tests/composition_root.rs",
+"crates/conductor-run/tests/envelope_fixture.rs",
+"crates/conductor-run/tests/journal_conformance.rs",
+"crates/conductor-run/tests/lamps_fixture.rs",
+"crates/conductor-cli/src/commands/catalog.rs"
+]
+},
+"unmapped": [
+"conductor-0.4.0/verification-matrix.json",
+"crates/conductor-run/tests/fixtures/lamps-journal.jsonl",
+"crates/conductor-run/tests/fixtures/over-envelope.toml",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/inputs/.gitattributes",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/inputs/I1-relay-1.md.txt",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/inputs/I2-conductor-phase-panel-shaped-types-retired-2026-10-12.md.txt",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/inputs/I3-relay-2.md.txt",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/inputs/I4-relay-3.md.txt",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/inputs/I5-relay-4.md.txt",
+"conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/inputs/andromeda-inputs.json"
+],
+"walk_class": {
+"marked": {
+"rust": [
+"crates/conductor-core/src/drift.rs",
+"crates/conductor-core/src/load_envelope.rs",
+"crates/conductor-core/src/scenario_catalog.rs",
+"crates/conductor-core/tests/scenario_audit_gate.rs",
+"crates/conductor-core/tests/secret_scan_gate.rs",
+"crates/conductor-core/tests/workflow_env_gate.rs",
+"crates/conductor-run/tests/real_model_grading/capture_population.rs",
+"crates/conductor-run/tests/real_model_harvest.rs"
+]
+},
+"uncommitted": 86,
+"problem": null
+},
+"prose": [
+{
+"from": 212,
+"to": 215,
+"text": "No live leg: every new entry is proven hermetically on the Blocked spine or at the unit tier. No run binds `:4317` / `:4318` (`inputs#I2` §7). No smoke entry either: the chunk has no boot-path change, and a bare `status` would read a prior run's envelope. The operator pass's CI read is listed because v4-01's acceptance asks the full gate to pass, and CI is where it runs on a clean checkout."
+}
+],
+"entries": [
+{
+"n": 1,
+"role": "build",
+"run": "cargo build --workspace --locked",
+"run_sha8": "4b0b16e3",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 2,
+"role": "probe",
+"run": "comm -13 <(git show 06190485ec74ac07b1c797fbde6dc9441e60db2f:Cargo.lock | awk '/^name = /{n=$3} /^version = /{print n, $3}' | sort) <(awk '/^name = /{n=$3} /^version = /{print n, $3}' Cargo.lock | sort) | wc -l",
+"run_sha8": "933ce282",
+"expect": [
+"exit 0",
+"last line 0"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 3,
+"role": "probe",
+"run": "awk '/^name = /' Cargo.lock | wc -l",
+"run_sha8": "3162ba32",
+"expect": [
+"exit 0",
+"last line 268"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 4,
+"role": "build",
+"run": "for p in conductor-core conductor-timeline conductor-emit conductor-faults conductor-verify conductor-report conductor-run; do cargo build -p \"$p\" --lib --locked || exit 1; done && cargo build -p conductor-cli --bins --locked",
+"run_sha8": "6f99157d",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 5,
+"role": "probe",
+"run": "git grep -n -E 'RunEvent|RunStage|validate_selection|SUITE_SELECTION|CONDUCTOR_E2E_SEED_DIR|envelope_fixture|lamps_fixture|lamps-journal\\.jsonl|over-envelope\\.toml' -- crates scripts .github",
+"run_sha8": "ad5246ba",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 6,
+"role": "probe",
+"run": "git grep -l 'conductor-tauri\\.jsonl' -- crates ':!crates/conductor-run/tests/operator_pause_harvest.rs'",
+"run_sha8": "a54ef3c5",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 7,
+"role": "probe",
+"run": "git grep -n -i -E 'tauri|webview|picker|\\bgui\\b|dialog row|desktop' -- crates/conductor-run/src/drive.rs crates/conductor-run/src/envelope.rs crates/conductor-run/src/lib.rs crates/conductor-core/src/scenario_catalog.rs crates/conductor-core/src/scenario.rs crates/conductor-core/src/obs.rs crates/conductor-core/src/pause.rs crates/conductor-cli/src/render.rs crates/conductor-cli/tests/cross_surface_parity.rs crates/conductor-run/tests/composition_root.rs",
+"run_sha8": "d5c4a8ec",
+"expect": [
+"exit 1",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 8,
+"role": "probe",
+"run": "grep -c -E '^    Scenarios,?$|^    Scenarios \\{' crates/conductor-cli/src/cli.rs",
+"run_sha8": "31b50e5f",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 9,
+"role": "probe",
+"run": "grep -c -E '^tokio = .*\"signal\"' crates/conductor-cli/Cargo.toml",
+"run_sha8": "b0fc51b6",
+"expect": [
+"exit 0",
+"last line 1"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 10,
+"role": "probe",
+"run": "grep -l -F '**Conductor has no interface.**' .andromeda/design-system.md .andromeda/layout-templates.md .andromeda/a11y-plan.md | wc -l",
+"run_sha8": "0cc13242",
+"expect": [
+"exit 0",
+"last line 3"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 11,
+"role": "lint",
+"run": "cargo fmt --all --check",
+"run_sha8": "2d009b4c",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 12,
+"role": "unit",
+"run": "bash scripts/agent-run.sh run",
+"run_sha8": "21443cdf",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 13,
+"role": "unit",
+"run": "cargo test --workspace --lib --bins --tests",
+"run_sha8": "b2c90191",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 14,
+"role": "e2e",
+"run": "cargo run -q -p conductor-cli --locked -- scenarios",
+"run_sha8": "bb529ce5",
+"expect": [
+"exit 0",
+"contains error-baseline-spike",
+"contains P-009",
+"contains scenarios"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 15,
+"role": "e2e",
+"run": "cargo run -q -p conductor-cli --locked -- --help",
+"run_sha8": "03874cd8",
+"expect": [
+"exit 0",
+"contains scenarios"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 16,
+"role": "unit",
+"run": "cargo llvm-cov nextest --workspace --profile ci --no-report",
+"run_sha8": "42122532",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 17,
+"role": "probe",
+"run": "cargo llvm-cov report --fail-under-lines 60 --ignore-filename-regex '[\\\\/]tests[\\\\/]'",
+"run_sha8": "af9f253a",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 18,
+"role": "probe",
+"run": "git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --porcelain",
+"run_sha8": "eab7a4cb",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 19,
+"role": "probe",
+"run": "cargo audit",
+"run_sha8": "317b8907",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 20,
+"role": "probe",
+"run": "git -C \"${CARGO_HOME:-$HOME/.cargo}/advisory-db\" status --porcelain",
+"run_sha8": "eab7a4cb",
+"expect": [
+"exit 0",
+"no output"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 21,
+"role": "probe",
+"run": "cargo deny check advisories bans licenses sources",
+"run_sha8": "d01d7049",
+"expect": [
+"exit 0",
+"lacks advisory-not-detected",
+"lacks license-not-encountered"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 22,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-tools/scripts/gate.py hygiene",
+"run_sha8": "3c62df70",
+"expect": [
+"exit 0",
+"contains hygiene: clean"
+],
+"log": "$TMPDIR/andromeda-gate/2026-10-12-panel-shaped-types-retired/implement-2026-10-12T07-12-14/22.log",
+"bytes": 446,
+"log_sha8": "d29e29d8",
+"exit": 0,
+"seconds": 0.3,
+"readings": [
+"exit 0 ✓",
+"contains 'hygiene: clean' ✓"
+],
+"survivors": [],
+"operator": true,
+"witness": "history: unmoved",
+"outcome": "green"
+},
+{
+"n": 23,
+"role": "probe",
+"run": "git diff --quiet && git diff --cached --quiet && git push origin build/conductor-0.4.0",
+"run_sha8": "8e03f911",
+"expect": null,
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+},
+{
+"n": 24,
+"role": "probe",
+"run": "python -X utf8 ~/.claude/skills/andromeda-tools/scripts/ci.py conclusion --sha HEAD --wait 1200",
+"run_sha8": "3221deca",
+"expect": [
+"exit 0",
+"contains verdict: green"
+],
+"log": null,
+"bytes": null,
+"log_sha8": null,
+"exit": null,
+"seconds": null,
+"readings": [],
+"survivors": null,
+"outcome": "not run — excluded"
+}
+],
+"operator": {
+"n": 22,
+"tripwire": []
+}
+}
+}
+]

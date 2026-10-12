@@ -89,8 +89,66 @@ fn help_lists_the_verbs() {
                 .and(predicate::str::contains("suite"))
                 .and(predicate::str::contains("report"))
                 .and(predicate::str::contains("preflight"))
-                .and(predicate::str::contains("coverage")),
+                .and(predicate::str::contains("coverage"))
+                .and(predicate::str::contains("scenarios")),
         );
+}
+
+/// The catalogue listing loads through the manifest-checked path and writes nothing, so no
+/// `CONDUCTOR_RUNS_DIR` is set (test-plan §3 Test data bootstrap).
+#[test]
+fn scenarios_lists_the_catalogue() {
+    let dir = TempDir::new().unwrap();
+    copy_scenario(&dir, "error-baseline-spike");
+    copy_scenario(&dir, "latency-regression");
+
+    let assert = conductor(&dir).arg("scenarios").assert().success();
+    let output = assert.get_output();
+    let stdout = String::from_utf8(output.stdout.clone()).unwrap();
+    let stderr = String::from_utf8(output.stderr.clone()).unwrap();
+    for token in [
+        "error-baseline-spike",
+        "P-009",
+        "latency-regression",
+        "P-011",
+    ] {
+        assert!(stdout.contains(token), "missing {token:?}: {stdout}");
+    }
+    assert_eq!(
+        stdout.lines().last(),
+        Some("2 scenarios"),
+        "the roll-up line closes the listing: {stdout}"
+    );
+    assert!(
+        !stdout.contains('\u{1b}'),
+        "piped listing carries no ANSI escapes: {stdout:?}"
+    );
+    let sandbox = dir.path().to_str().unwrap();
+    assert!(
+        !stdout.contains(sandbox) && !stderr.contains(sandbox),
+        "the listing leaks no host path"
+    );
+    assert!(
+        !dir.path().join("runs").exists(),
+        "a listing writes no run artifact"
+    );
+}
+
+#[test]
+fn scenarios_with_an_absent_capability_manifest_is_a_harness_fault() {
+    let dir = TempDir::new().unwrap();
+    copy_scenario(&dir, "error-baseline-spike");
+    let mut cmd = conductor(&dir);
+    std::fs::remove_file(dir.path().join("contracts/pulse-capabilities.toml")).unwrap();
+
+    let assert = cmd.arg("scenarios").assert().failure().code(1);
+    let stderr = String::from_utf8(assert.get_output().stderr.clone()).unwrap();
+    assert!(stderr.contains("error:"), "{stderr}");
+    assert!(stderr.contains("hint:"), "{stderr}");
+    assert!(
+        !stderr.contains(dir.path().to_str().unwrap()),
+        "the sanitized edge must not leak the host path: {stderr}"
+    );
 }
 
 #[test]
@@ -405,7 +463,69 @@ fn report_renders_the_latest_run() {
     conductor(&dir).args(["report"]).assert().success().stdout(
         predicate::str::contains("Run report")
             .and(predicate::str::contains(run_id))
-            .and(predicate::str::contains("[BLOCKED]")),
+            .and(predicate::str::contains("[BLOCKED]"))
+            .and(predicate::str::contains("[ENVIRONMENT-SUSPECT]").not()),
+    );
+}
+
+/// A past run's stored load-envelope standing reaches `report`: a run judged environment-suspect
+/// prints its caption once above the unchanged table.
+#[test]
+fn report_prints_the_stored_envelope_caption_for_a_suspect_run() {
+    let dir = TempDir::new().unwrap();
+    copy_scenario(&dir, "error-baseline-spike");
+    // Repo-relative and non-default, so the runs dir both verbs read is the one this test staged.
+    const RUNS: &str = "suspect-runs";
+
+    let mut run = conductor(&dir);
+    // Staged after `conductor()` copies the committed envelope: a sustained-storm ceiling below the
+    // scenario's 90 s baseline phase, so the run is classified environment-suspect at load.
+    let envelope_path = dir.path().join("contracts/pulse-load-envelope.toml");
+    let committed = std::fs::read_to_string(&envelope_path).unwrap();
+    assert!(committed.contains("max_sustained_storm_ms = 600000"));
+    std::fs::write(
+        &envelope_path,
+        committed.replace(
+            "max_sustained_storm_ms = 600000",
+            "max_sustained_storm_ms = 60000",
+        ),
+    )
+    .unwrap();
+    run.env("CONDUCTOR_RUNS_DIR", RUNS)
+        .args(["run", "error-baseline-spike"])
+        .assert()
+        .success()
+        .stdout(predicate::str::contains("[ENVIRONMENT-SUSPECT]"));
+
+    let assert = conductor(&dir)
+        .env("CONDUCTOR_RUNS_DIR", RUNS)
+        .arg("report")
+        .assert()
+        .success();
+    let stdout = String::from_utf8(assert.get_output().stdout.clone()).unwrap();
+    assert_eq!(
+        stdout.matches("[ENVIRONMENT-SUSPECT]").count(),
+        1,
+        "the stored caption prints exactly once: {stdout}"
+    );
+    for header in [
+        "P-IDs",
+        "Scenario",
+        "State",
+        "SLO",
+        "Latency",
+        "Fingerprints",
+    ] {
+        assert!(
+            stdout.contains(header),
+            "the table header is unchanged: {stdout}"
+        );
+    }
+    let caption_at = stdout.find("[ENVIRONMENT-SUSPECT]").unwrap();
+    let table_at = stdout.find("P-IDs").unwrap();
+    assert!(
+        caption_at < table_at,
+        "the caption sits above the table: {stdout}"
     );
 }
 

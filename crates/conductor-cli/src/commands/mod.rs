@@ -1,5 +1,6 @@
 //! The three verb handlers + their shared persist / render / exit-code helpers.
 
+mod catalog;
 mod cleanup;
 mod coverage;
 mod preconditions;
@@ -8,6 +9,7 @@ mod report;
 mod run;
 mod suite;
 
+pub use catalog::scenarios;
 pub use cleanup::cleanup;
 pub use coverage::coverage;
 pub use preconditions::preconditions;

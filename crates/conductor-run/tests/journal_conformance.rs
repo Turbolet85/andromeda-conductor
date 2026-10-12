@@ -13,8 +13,8 @@
 //! hand-listed, so they cannot drift from the structs; the arity pins below are what make a field
 //! added or removed to the contract fail HERE, loudly.
 //!
-//! Subjects: the committed lamps fixture, a journal produced in-test through the production writer
-//! `conductor_run::persist`, and — when `CONDUCTOR_RUNS_DIR` is set — every journal in that
+//! Subjects: a journal produced in-test through the production writer `conductor_run::persist`,
+//! and — when `CONDUCTOR_RUNS_DIR` is set — every journal in that
 //! directory. That last is how the CI step reuses this gate over a real produced artifact instead of
 //! re-listing the schema in `jq`. Unset, the gate asserts over its own subjects only.
 
@@ -151,16 +151,6 @@ fn the_two_registered_shapes_carry_their_contract_arity() {
         "the per-check record is nine keys (arch §Standard Contracts): {:?}",
         check_keys()
     );
-}
-
-#[test]
-fn the_committed_fixture_journal_conforms() {
-    let path = format!(
-        "{}/tests/fixtures/lamps-journal.jsonl",
-        env!("CARGO_MANIFEST_DIR")
-    );
-    let rows = assert_journal_conforms(Path::new(&path), "the committed lamps journal");
-    assert!(rows > 0, "the fixture has rows to judge");
 }
 
 /// The production writer's own output, carrying BOTH registered shapes plus the rows whose nulls a

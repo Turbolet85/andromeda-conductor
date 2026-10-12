@@ -1,0 +1,27 @@
+[
+{
+"tool": "route",
+"v": "1.7",
+"sha8": "7e4cd318",
+"ts": "2026-10-12T06:44:25Z",
+"argv": [
+"route.py",
+"pins",
+"--root",
+".",
+"--run-dir",
+".andromeda/runs/2026-10-12T06-44-11-phase"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"working-route.md · markerless 60 of 61 entries · freight blocks 2 · rows are an INDEX, not the text",
+"13 · CARRY: · 670 chars · CARRY: four functions lost their only entry point when the window left (2026-10-11-conductors…",
+"15 · CARRY: · 518 chars · CARRY: the matrix-ledger gate reads both capability-line forms the route contract allows, the…"
+],
+"stderr": null,
+"wrote": [],
+"before": null,
+"after": null
+}
+]

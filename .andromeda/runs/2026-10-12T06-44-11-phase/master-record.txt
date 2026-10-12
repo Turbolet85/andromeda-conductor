@@ -1,0 +1,1 @@
+2026-10-12-panel-shaped-types-retired · pending · Panel-shaped types retired — the panel types, limit, sink and fixtures leave; four functions get a command-line entry · → conductor-0.4.0/chunks/2026-10-12-panel-shaped-types-retired/

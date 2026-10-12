@@ -71,8 +71,5 @@ pub use scenario::{ChecklistItem, MAX_CHECKLIST_TEXT, PId, Scenario, SloTier};
 pub use scenario_audit::{
     LiveAssertion, OverTier, ScenarioAuditLedger, carries_retired_gloss, check_scenario_audit,
 };
-pub use scenario_catalog::{
-    SUITE_SELECTION, ScenarioSummary, list_scenarios, load_catalog, scenario_files,
-    validate_selection,
-};
+pub use scenario_catalog::{ScenarioSummary, list_scenarios, load_catalog, scenario_files};
 pub use verdict::Verdict;

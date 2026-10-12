@@ -1,0 +1,466 @@
+[
+{
+"sql": "SELECT callee_name, callee_kind, file, line FROM refs WHERE callee_name IN ('drive_run','RunEvent','RunStage','read_envelope','list_scenarios','validate_selection','SUITE_SELECTION','ScenarioSummary','MAX_CHECKLIST_TEXT','hold_line','envelope_caption','scenario_files','load_catalog') ORDER BY callee_name, file, line",
+"rows": 76,
+"result": [
+{
+"callee_name": "MAX_CHECKLIST_TEXT",
+"callee_kind": "term",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 69
+},
+{
+"callee_name": "MAX_CHECKLIST_TEXT",
+"callee_kind": "term",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 85
+},
+{
+"callee_name": "MAX_CHECKLIST_TEXT",
+"callee_kind": "term",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 88
+},
+{
+"callee_name": "RunEvent",
+"callee_kind": "type",
+"file": "crates/conductor-run/src/drive.rs",
+"line": 64
+},
+{
+"callee_name": "RunEvent",
+"callee_kind": "type",
+"file": "crates/conductor-run/src/drive.rs",
+"line": 67
+},
+{
+"callee_name": "RunEvent",
+"callee_kind": "type",
+"file": "crates/conductor-run/src/drive.rs",
+"line": 82
+},
+{
+"callee_name": "RunEvent",
+"callee_kind": "type",
+"file": "crates/conductor-run/src/drive.rs",
+"line": 105
+},
+{
+"callee_name": "RunEvent",
+"callee_kind": "type",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 32
+},
+{
+"callee_name": "RunEvent",
+"callee_kind": "type",
+"file": "crates/conductor-run/tests/composition_root.rs",
+"line": 42
+},
+{
+"callee_name": "RunStage",
+"callee_kind": "type",
+"file": "crates/conductor-run/src/drive.rs",
+"line": 22
+},
+{
+"callee_name": "RunStage",
+"callee_kind": "type",
+"file": "crates/conductor-run/src/drive.rs",
+"line": 68
+},
+{
+"callee_name": "RunStage",
+"callee_kind": "type",
+"file": "crates/conductor-run/src/drive.rs",
+"line": 83
+},
+{
+"callee_name": "RunStage",
+"callee_kind": "type",
+"file": "crates/conductor-run/src/drive.rs",
+"line": 96
+},
+{
+"callee_name": "RunStage",
+"callee_kind": "type",
+"file": "crates/conductor-run/src/drive.rs",
+"line": 101
+},
+{
+"callee_name": "RunStage",
+"callee_kind": "type",
+"file": "crates/conductor-run/src/drive.rs",
+"line": 103
+},
+{
+"callee_name": "RunStage",
+"callee_kind": "type",
+"file": "crates/conductor-run/src/drive.rs",
+"line": 137
+},
+{
+"callee_name": "RunStage",
+"callee_kind": "type",
+"file": "crates/conductor-run/src/drive.rs",
+"line": 138
+},
+{
+"callee_name": "RunStage",
+"callee_kind": "type",
+"file": "crates/conductor-run/src/drive.rs",
+"line": 168
+},
+{
+"callee_name": "RunStage",
+"callee_kind": "type",
+"file": "crates/conductor-run/src/drive.rs",
+"line": 186
+},
+{
+"callee_name": "RunStage",
+"callee_kind": "type",
+"file": "crates/conductor-run/src/drive.rs",
+"line": 203
+},
+{
+"callee_name": "RunStage",
+"callee_kind": "type",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 32
+},
+{
+"callee_name": "RunStage",
+"callee_kind": "type",
+"file": "crates/conductor-run/tests/composition_root.rs",
+"line": 43
+},
+{
+"callee_name": "SUITE_SELECTION",
+"callee_kind": "term",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 74
+},
+{
+"callee_name": "SUITE_SELECTION",
+"callee_kind": "term",
+"file": "crates/conductor-core/src/scenario_catalog.rs",
+"line": 79
+},
+{
+"callee_name": "SUITE_SELECTION",
+"callee_kind": "term",
+"file": "crates/conductor-core/src/scenario_catalog.rs",
+"line": 115
+},
+{
+"callee_name": "ScenarioSummary",
+"callee_kind": "type",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 74
+},
+{
+"callee_name": "ScenarioSummary",
+"callee_kind": "type",
+"file": "crates/conductor-core/src/scenario_catalog.rs",
+"line": 44
+},
+{
+"callee_name": "ScenarioSummary",
+"callee_kind": "type",
+"file": "crates/conductor-core/src/scenario_catalog.rs",
+"line": 50
+},
+{
+"callee_name": "ScenarioSummary",
+"callee_kind": "type",
+"file": "crates/conductor-core/src/scenario_catalog.rs",
+"line": 78
+},
+{
+"callee_name": "ScenarioSummary",
+"callee_kind": "type",
+"file": "crates/conductor-core/src/scenario_catalog.rs",
+"line": 92
+},
+{
+"callee_name": "drive_run",
+"callee_kind": "fn",
+"file": "crates/conductor-cli/tests/cross_surface_parity.rs",
+"line": 101
+},
+{
+"callee_name": "drive_run",
+"callee_kind": "fn",
+"file": "crates/conductor-run/src/drive.rs",
+"line": 122
+},
+{
+"callee_name": "drive_run",
+"callee_kind": "fn",
+"file": "crates/conductor-run/src/drive.rs",
+"line": 155
+},
+{
+"callee_name": "drive_run",
+"callee_kind": "fn",
+"file": "crates/conductor-run/src/drive.rs",
+"line": 178
+},
+{
+"callee_name": "drive_run",
+"callee_kind": "fn",
+"file": "crates/conductor-run/src/envelope.rs",
+"line": 77
+},
+{
+"callee_name": "drive_run",
+"callee_kind": "fn",
+"file": "crates/conductor-run/src/envelope.rs",
+"line": 164
+},
+{
+"callee_name": "drive_run",
+"callee_kind": "fn",
+"file": "crates/conductor-run/src/envelope.rs",
+"line": 221
+},
+{
+"callee_name": "drive_run",
+"callee_kind": "fn",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 32
+},
+{
+"callee_name": "envelope_caption",
+"callee_kind": "fn",
+"file": "crates/conductor-cli/src/commands/run.rs",
+"line": 32
+},
+{
+"callee_name": "envelope_caption",
+"callee_kind": "fn",
+"file": "crates/conductor-cli/src/commands/suite.rs",
+"line": 39
+},
+{
+"callee_name": "envelope_caption",
+"callee_kind": "fn",
+"file": "crates/conductor-cli/src/render.rs",
+"line": 699
+},
+{
+"callee_name": "envelope_caption",
+"callee_kind": "fn",
+"file": "crates/conductor-cli/src/render.rs",
+"line": 703
+},
+{
+"callee_name": "hold_line",
+"callee_kind": "fn",
+"file": "crates/conductor-cli/src/pause.rs",
+"line": 35
+},
+{
+"callee_name": "hold_line",
+"callee_kind": "fn",
+"file": "crates/conductor-cli/src/render.rs",
+"line": 692
+},
+{
+"callee_name": "list_scenarios",
+"callee_kind": "fn",
+"file": "crates/conductor-core/src/drift.rs",
+"line": 360
+},
+{
+"callee_name": "list_scenarios",
+"callee_kind": "fn",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 74
+},
+{
+"callee_name": "list_scenarios",
+"callee_kind": "fn",
+"file": "crates/conductor-core/src/scenario_catalog.rs",
+"line": 97
+},
+{
+"callee_name": "load_catalog",
+"callee_kind": "fn",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 74
+},
+{
+"callee_name": "load_catalog",
+"callee_kind": "fn",
+"file": "crates/conductor-core/tests/scenario_audit_gate.rs",
+"line": 18
+},
+{
+"callee_name": "load_catalog",
+"callee_kind": "fn",
+"file": "crates/conductor-core/tests/scenario_audit_gate.rs",
+"line": 34
+},
+{
+"callee_name": "read_envelope",
+"callee_kind": "fn",
+"file": "crates/conductor-run/src/envelope.rs",
+"line": 99
+},
+{
+"callee_name": "read_envelope",
+"callee_kind": "fn",
+"file": "crates/conductor-run/src/envelope.rs",
+"line": 103
+},
+{
+"callee_name": "read_envelope",
+"callee_kind": "fn",
+"file": "crates/conductor-run/src/envelope.rs",
+"line": 108
+},
+{
+"callee_name": "read_envelope",
+"callee_kind": "fn",
+"file": "crates/conductor-run/src/lib.rs",
+"line": 33
+},
+{
+"callee_name": "read_envelope",
+"callee_kind": "fn",
+"file": "crates/conductor-run/tests/composition_root.rs",
+"line": 28
+},
+{
+"callee_name": "read_envelope",
+"callee_kind": "fn",
+"file": "crates/conductor-run/tests/composition_root.rs",
+"line": 98
+},
+{
+"callee_name": "read_envelope",
+"callee_kind": "fn",
+"file": "crates/conductor-run/tests/composition_root.rs",
+"line": 106
+},
+{
+"callee_name": "read_envelope",
+"callee_kind": "fn",
+"file": "crates/conductor-run/tests/envelope_fixture.rs",
+"line": 143
+},
+{
+"callee_name": "scenario_files",
+"callee_kind": "fn",
+"file": "crates/conductor-cli/src/paths.rs",
+"line": 9
+},
+{
+"callee_name": "scenario_files",
+"callee_kind": "fn",
+"file": "crates/conductor-cli/src/paths.rs",
+"line": 81
+},
+{
+"callee_name": "scenario_files",
+"callee_kind": "fn",
+"file": "crates/conductor-cli/src/paths.rs",
+"line": 131
+},
+{
+"callee_name": "scenario_files",
+"callee_kind": "fn",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 74
+},
+{
+"callee_name": "scenario_files",
+"callee_kind": "fn",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 458
+},
+{
+"callee_name": "scenario_files",
+"callee_kind": "fn",
+"file": "crates/conductor-core/src/load_envelope.rs",
+"line": 624
+},
+{
+"callee_name": "scenario_files",
+"callee_kind": "fn",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 1111
+},
+{
+"callee_name": "scenario_files",
+"callee_kind": "fn",
+"file": "crates/conductor-core/src/scenario.rs",
+"line": 1473
+},
+{
+"callee_name": "scenario_files",
+"callee_kind": "fn",
+"file": "crates/conductor-core/src/scenario_catalog.rs",
+"line": 46
+},
+{
+"callee_name": "scenario_files",
+"callee_kind": "fn",
+"file": "crates/conductor-core/src/scenario_catalog.rs",
+"line": 67
+},
+{
+"callee_name": "scenario_files",
+"callee_kind": "fn",
+"file": "crates/conductor-core/tests/scenario_audit_gate.rs",
+"line": 217
+},
+{
+"callee_name": "validate_selection",
+"callee_kind": "fn",
+"file": "crates/conductor-core/src/lib.rs",
+"line": 75
+},
+{
+"callee_name": "validate_selection",
+"callee_kind": "fn",
+"file": "crates/conductor-core/src/scenario_catalog.rs",
+"line": 115
+},
+{
+"callee_name": "validate_selection",
+"callee_kind": "fn",
+"file": "crates/conductor-core/src/scenario_catalog.rs",
+"line": 116
+},
+{
+"callee_name": "validate_selection",
+"callee_kind": "fn",
+"file": "crates/conductor-core/src/scenario_catalog.rs",
+"line": 123
+},
+{
+"callee_name": "validate_selection",
+"callee_kind": "fn",
+"file": "crates/conductor-core/src/scenario_catalog.rs",
+"line": 129
+},
+{
+"callee_name": "validate_selection",
+"callee_kind": "fn",
+"file": "crates/conductor-core/src/scenario_catalog.rs",
+"line": 130
+},
+{
+"callee_name": "validate_selection",
+"callee_kind": "fn",
+"file": "crates/conductor-core/src/scenario_catalog.rs",
+"line": 131
+}
+],
+"db_state": "fresh",
+"plane": "rust"
+}
+]

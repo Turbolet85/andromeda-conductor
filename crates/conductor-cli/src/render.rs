@@ -16,8 +16,8 @@ use std::time::Duration;
 
 use comfy_table::{Cell, Color, ContentArrangement, Table, presets};
 use conductor_core::{
-    CoverageMode, EnvelopeStatus, HoldPoint, Lamp, PreconditionsStatus, RunRecord, UNBACKED_AUTO,
-    coverage_matrix,
+    CoverageMode, EnvelopeStatus, HoldPoint, Lamp, PreconditionsStatus, RunRecord, ScenarioSummary,
+    UNBACKED_AUTO, coverage_matrix,
 };
 use conductor_report::coverage_rollup;
 use indicatif::{ProgressBar, ProgressDrawTarget, ProgressStyle};
@@ -90,10 +90,33 @@ pub fn status_line(record: &RunRecord) -> String {
 }
 
 /// The operator-pause hold phase-line — the `[HOLD]` signature (amber overlay, prefix always
-/// present) with the hold's scenario / P-ID / step. Rendered above the interactive prompt (the CLI
-/// mirror of the desktop titlebar hold signature).
+/// present) with the hold's scenario / P-ID / step. Rendered above the interactive prompt.
 pub fn hold_line(hold: &HoldPoint) -> String {
     hold_line_styled(hold, stdout_color())
+}
+
+/// The hold's `[[checklist]]` items as indented plain detail lines beneath the `[HOLD]` line — two
+/// per item, what Conductor drove and what the operator should observe. No bracket label and no
+/// color: they qualify the hold line, they are not a status of their own.
+pub fn hold_checklist_lines(hold: &HoldPoint) -> Vec<String> {
+    hold.checklist
+        .iter()
+        .flat_map(|item| {
+            [
+                format!("  induced: {}", item.induced),
+                format!("  observe: {}", item.observation),
+            ]
+        })
+        .collect()
+}
+
+/// The stderr notice a first Ctrl-C during `conductor suite` prints.
+pub const STOP_REQUESTED: &str =
+    "stopping after the running scenario finishes — press Ctrl-C again to end now";
+
+/// The stderr line a stopped suite ends on: how many of its scenarios completed and were kept.
+pub fn suite_stopped_line(kept: usize, total: usize) -> String {
+    format!("suite stopped: {kept} of {total} scenarios kept")
 }
 
 /// The run-level load-envelope caption, or `None` for an in-envelope run (which needs no caveat).
@@ -118,6 +141,21 @@ pub fn preconditions_caption(status: &PreconditionsStatus) -> Option<String> {
 /// The per-run results table — one row per check, the blocked row em-dashing its never-measured cells.
 pub fn results_table(records: &[RunRecord]) -> String {
     results_table_styled(records, stdout_color())
+}
+
+/// The catalogue listing — one row per scenario: its name, the P-IDs it exercises, its SLO tier. A
+/// static table with no verdict/state column (nothing has run), sized to the terminal.
+pub fn scenarios_table(summaries: &[ScenarioSummary]) -> String {
+    scenarios_table_styled(summaries, stdout_color())
+}
+
+/// The plain roll-up line beneath the catalogue listing — the scenario count, singular for one.
+pub fn scenarios_rollup(count: usize) -> String {
+    if count == 1 {
+        "1 scenario".to_string()
+    } else {
+        format!("{count} scenarios")
+    }
 }
 
 /// The static coverage matrix — every accepted capability by mode (the definition-of-done
@@ -259,6 +297,32 @@ fn results_table_styled(records: &[RunRecord], color: bool) -> String {
             Cell::new(wire(serde_json::to_value(rec.slo_tier))),
             Cell::new(latency(rec.latency_ms)),
             Cell::new(fingerprints(&rec.fingerprints)),
+        ]);
+    }
+    table.to_string()
+}
+
+fn scenarios_table_styled(summaries: &[ScenarioSummary], color: bool) -> String {
+    let mut table = Table::new();
+    table
+        .load_preset(presets::UTF8_FULL)
+        .set_content_arrangement(ContentArrangement::Dynamic)
+        .set_header(vec!["Scenario", "P-IDs", "SLO"]);
+    // comfy-table's own tty probe would drop cell styling under capture; see `coverage_table_styled`.
+    if color {
+        table.enforce_styling();
+    }
+    for s in summaries {
+        let p_ids = s
+            .p_ids
+            .iter()
+            .map(|p| p.0.as_str())
+            .collect::<Vec<_>>()
+            .join(" ");
+        table.add_row(vec![
+            Cell::new(&s.name),
+            tint(Cell::new(p_ids), ID_CYAN, color),
+            Cell::new(wire(serde_json::to_value(s.slo_tier))),
         ]);
     }
     table.to_string()
@@ -660,6 +724,70 @@ mod tests {
             line.contains('\u{1b}'),
             "colored hold line must carry an escape: {line:?}"
         );
+    }
+
+    #[test]
+    fn hold_checklist_lines_render_two_indented_plain_lines_per_item_in_order() {
+        assert!(
+            hold_checklist_lines(&hold()).is_empty(),
+            "a hold with no items adds no line"
+        );
+
+        let mut with_items = hold();
+        with_items.checklist = vec![
+            conductor_core::ChecklistItem {
+                induced: "a sustained error storm".to_string(),
+                observation: "the halo turns amber".to_string(),
+            },
+            conductor_core::ChecklistItem {
+                induced: "the storm stops".to_string(),
+                observation: "the halo settles".to_string(),
+            },
+        ];
+        assert_eq!(
+            hold_checklist_lines(&with_items),
+            vec![
+                "  induced: a sustained error storm",
+                "  observe: the halo turns amber",
+                "  induced: the storm stops",
+                "  observe: the halo settles",
+            ]
+        );
+        for line in hold_checklist_lines(&with_items) {
+            assert!(!line.contains('\u{1b}') && !line.contains('['), "{line:?}");
+        }
+    }
+
+    #[test]
+    fn scenarios_rollup_is_singular_for_one_and_plural_otherwise() {
+        assert_eq!(scenarios_rollup(1), "1 scenario");
+        assert_eq!(scenarios_rollup(2), "2 scenarios");
+    }
+
+    #[test]
+    fn scenarios_table_plain_lists_identity_without_escapes() {
+        let summaries = vec![ScenarioSummary {
+            name: "error-baseline-spike".to_string(),
+            p_ids: vec![PId("P-009".to_string()), PId("P-010".to_string())],
+            slo_tier: SloTier::Tier5s,
+        }];
+        let table = scenarios_table_styled(&summaries, false);
+        for token in [
+            "Scenario",
+            "P-IDs",
+            "SLO",
+            "error-baseline-spike",
+            "P-009 P-010",
+            "<5s",
+        ] {
+            assert!(table.contains(token), "missing {token:?}: {table}");
+        }
+        assert!(!table.contains('\u{1b}'), "{table:?}");
+        assert!(
+            !table.contains("State"),
+            "a listing carries no verdict/state column"
+        );
+        assert!(scenarios_table_styled(&summaries, true).contains('\u{1b}'));
     }
 
     /// The tty decision is three conditions ANDed, and each one has to be able to veto on its own —

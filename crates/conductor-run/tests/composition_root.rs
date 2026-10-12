@@ -1,7 +1,7 @@
 //! The composition root's PUBLIC surface, asserted from outside the crate.
 //!
 //! `conductor-run` was split into sibling modules along its named seams; every item stays reachable
-//! at its original `conductor_run::` path through the crate root's re-exports. Both bins and the
+//! at its original `conductor_run::` path through the crate root's re-exports. The cli bin and the
 //! other test binaries call these paths, and `architecture.md` §Standard Contracts cites
 //! `conductor_run::observe_preconditions` by path in prose — so a module move that silently renamed
 //! one would falsify a spec claim no compiler error would surface. An integration test sees only
@@ -40,8 +40,7 @@ fn public_api_paths_are_stable() {
     let _: Option<conductor_run::DispatchError> = None;
     let _: Option<conductor_run::LifecycleObservation> = None;
     let _: Option<conductor_run::LifecycleVerdict> = None;
-    let _: Option<conductor_run::RunEvent> = None;
-    let _: conductor_run::RunStage = conductor_run::RunStage::Aborted;
+    let _: Option<conductor_run::DriveOutcome> = None;
 
     // The async entry points, referenced through a never-awaited binding so the paths are checked
     // without driving a runtime.
@@ -61,7 +60,7 @@ fn public_api_paths_are_stable() {
 
 /// `persist` and `attribute_by_liveness` carry the two remaining public signatures, exercised rather
 /// than merely named: an envelope written through the production writer reads back through
-/// `read_envelope`, which is the path the a11y fixtures and both shells depend on.
+/// `read_envelope`, which is the path `conductor report` reads a past run's standing through.
 #[test]
 fn persist_and_read_envelope_round_trip_through_the_public_paths() {
     let dir = assert_fs::TempDir::new().unwrap();

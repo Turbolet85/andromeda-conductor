@@ -1,4 +1,5 @@
-//! `conductor report [<run_id>]` — render a persisted run's report from its JSONL journal.
+//! `conductor report [<run_id>]` — render a persisted run's report from its JSONL journal, under the
+//! run's stored load-envelope caption when it was environment-suspect.
 
 use std::process::ExitCode;
 
@@ -17,6 +18,10 @@ pub fn report(run_id: Option<&str>, paths: &Paths) -> anyhow::Result<ExitCode> {
     let records = conductor_core::read_run_journal(&paths.runs_dir, &run_id)?;
     println!("Run report {}", render::paint(&run_id, render::ID_CYAN));
     println!();
+    let standing = conductor_run::read_envelope(&paths.runs_dir, &run_id)?;
+    if let Some(caption) = standing.as_ref().and_then(render::envelope_caption) {
+        println!("{caption}");
+    }
     println!("{}", render::results_table(&records));
     Ok(ExitCode::SUCCESS)
 }

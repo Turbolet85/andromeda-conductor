@@ -1,0 +1,49 @@
+[
+{
+"tool": "matrix",
+"v": "1.4",
+"sha8": "bf298da7",
+"ts": "2026-10-12T07:22:41Z",
+"argv": [
+"implement",
+"--dir",
+"conductor-0.4.0",
+"--chunk",
+"2026-10-12-panel-shaped-types-retired",
+"--id",
+"v4-01",
+"--ref-file",
+"-",
+"--run-dir",
+".andromeda/runs/2026-10-12T07-12-14-implement"
+],
+"cwd": ".",
+"exit": 0,
+"stdout": [
+"implement v4-01 · status planned → implemented · ref bash scripts/agent-run.sh run (nextest ci profile + doctest + clippy -D warnings… (1201 chars)",
+"wrote conductor-0.4.0/verification-matrix.json · 1 entry changed"
+],
+"stderr": null,
+"wrote": [
+"conductor-0.4.0/verification-matrix.json"
+],
+"before": {
+"id": "v4-01",
+"chunk": "2026-10-12-panel-shaped-types-retired",
+"status": "planned",
+"method": "unit",
+"ref": "null",
+"acceptance": "The whole program builds and passes its full gate with the window toolkit absent from its dependency graph, and no check… (2035 chars)",
+"notes_chars": 2165
+},
+"after": {
+"id": "v4-01",
+"chunk": "2026-10-12-panel-shaped-types-retired",
+"status": "implemented",
+"method": "unit",
+"ref": "bash scripts/agent-run.sh run (nextest ci profile + doctest + clippy -D warnings) with `cargo run -p conductor-cli -- sc… (1201 chars)",
+"acceptance": "The whole program builds and passes its full gate with the window toolkit absent from its dependency graph, and no check… (2035 chars)",
+"notes_chars": 2165
+}
+}
+]

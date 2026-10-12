@@ -7,10 +7,10 @@
 //! resolution is a VALUE, never a `Result::Err` (the verdict/error wall): a no-go is an operator
 //! decision, not a harness fault.
 //!
-//! The abstraction lives in the core so both thin shells drive the *same* mechanism: the headless
+//! The abstraction lives in the core so every resolver drives the *same* mechanism: the headless
 //! [`HeadlessResolver`] (shipped here) never blocks — it answers immediately and the run records the
-//! decision (the agent path is never gated on a prompt); the CLI `inquire` prompt (Epoch 8) and the
-//! Tauri go/no-go dialog (Epoch 9) implement [`PauseResolver`] later. The pause is wall-clock time
+//! decision (the agent path is never gated on a prompt); the CLI's interactive `inquire` prompt
+//! implements [`PauseResolver`] in `conductor-cli`. The pause is wall-clock time
 //! *outside* the seeded virtual clock, so it never perturbs the emission-stream shape (architecture
 //! §Design Philosophy: determinism under a seed).
 
@@ -96,8 +96,7 @@ pub struct HoldResolution {
 }
 
 /// How a [`HoldPoint`] is answered — the seam between the core hold mechanism and a shell's go/no-go
-/// surface, so the headless path, the CLI prompt, and the Tauri dialog all drive the one
-/// [`resolve_hold`].
+/// surface, so the headless path and the CLI prompt both drive the one [`resolve_hold`].
 ///
 /// Declared with `-> impl Future` rather than `async fn` so the public trait does not trip the
 /// `async_fn_in_trait` lint; implementors may write `async fn`.
@@ -241,7 +240,7 @@ mod tests {
 
     #[test]
     fn hold_point_round_trips_through_json() {
-        let h = hold("Observe the desktop toast");
+        let h = hold("Observe the incident notification");
         let json = serde_json::to_string(&h).unwrap();
         let back: HoldPoint = serde_json::from_str(&json).unwrap();
         assert_eq!(h, back);

@@ -11,8 +11,8 @@ use conductor_report::{JournalWriter, RunReport, RunsDb};
 
 /// Persist a run's records across the three artifacts: the JSONL journal (append), the `runs.db`
 /// index (one row per scenario, plus one row per graded check), and a single Markdown report for the
-/// run. Shared by both shells so the CLI and the GUI write an identical envelope for the same
-/// scenario+seed (test-plan Path 7).
+/// run. Shared by `conductor run` and the suite driver, so one scenario+seed writes an identical
+/// envelope whichever path drove it (test-plan Path 7).
 ///
 /// `checks` carries the per-check grain behind the rows; it is empty when nothing was graded (a
 /// blocked run, or an all-declare-only suite).
@@ -38,12 +38,12 @@ pub fn persist(
     Ok(())
 }
 
-/// Read back a run's load-envelope standing — the run-level qualifier the desktop run-report renders.
+/// Read back a run's load-envelope standing — the run-level qualifier `conductor report` prints above
+/// a past run's table.
 ///
-/// The read-side counterpart to [`persist`]'s `insert_envelope`. It lives here, not in the GUI shell,
-/// because `conductor-tauri` has no `conductor-report` edge and the composition root already owns the
-/// `RunsDb` seam (arch §Established Decisions [Module Boundaries]). A run that recorded no envelope row
-/// yields `None` — an absence, never an `Err` (arch §Conventions — Error handling).
+/// The read-side counterpart to [`persist`]'s `insert_envelope`, beside it because the composition
+/// root owns the `RunsDb` seam (arch §Established Decisions [Module Boundaries]). A run that recorded
+/// no envelope row yields `None` — an absence, never an `Err` (arch §Conventions — Error handling).
 pub fn read_envelope(runs_dir: &Path, run_id: &str) -> anyhow::Result<Option<EnvelopeStatus>> {
     let db = RunsDb::open(runs_dir)?;
     let status = db.get_envelope(run_id)?;
@@ -173,7 +173,8 @@ mod tests {
             || false,
         )
         .await
-        .expect("an envelope breach is never a harness Err");
+        .expect("an envelope breach is never a harness Err")
+        .records;
 
         // distinct from Fail: the qualifier never rewrites a check state
         assert!(

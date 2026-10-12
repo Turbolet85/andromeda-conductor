@@ -1,19 +1,16 @@
 //! Cross-surface envelope parity — test-plan §5/§6 Path 7, verification-matrix v2-25.
 //!
-//! Lives in `conductor-cli` because this package declares `[[bin]] name = "conductor"`: Cargo builds
-//! a package's own bins for that package's test targets and sets `CARGO_BIN_EXE_conductor`, so the
-//! CLI arm resolves through a declared dependency edge instead of `assert_cmd`'s `legacy_cargo_bin`
-//! fallback to whatever `target/debug/` happened to contain. In `conductor-tauri` — where this test
-//! used to live — that variable is never set (Cargo sets it per DECLARING package) and no edge to
-//! `conductor-cli` exists, so a fresh target dir made the whole crate's suite abort in an unmutated
-//! tree. Same reason `conductor-verify/tests/preflight_spawn.rs` reaches `stub_pulse_mcp` this way.
+//! The two arms are the in-process suite composition (`conductor_run::{preflight, drive_run}`, what
+//! `conductor suite` drives) and the real `conductor run` binary. The test lives in `conductor-cli`
+//! because this package declares `[[bin]] name = "conductor"`: Cargo builds a package's own bins for
+//! that package's test targets and sets `CARGO_BIN_EXE_conductor`, so the binary arm resolves through
+//! a declared dependency edge instead of `assert_cmd`'s `legacy_cargo_bin` fallback to whatever
+//! `target/debug/` happened to contain. Same reason `conductor-verify/tests/preflight_spawn.rs`
+//! reaches `stub_pulse_mcp` this way.
 //!
 //! Its own test binary, one test — `cargo test` gives each `tests/*.rs` a process and nextest is
 //! already process-per-test, so the `set_var` below is provably alone under BOTH runners
 //! (test-plan §11).
-//!
-//! The Tauri arm drives `conductor_run::{preflight, drive_run}` — the same composition `start_run`'s
-//! background thread runs — and needs no `tauri::*` item, which is why the test carries over whole.
 
 use conductor_core::{
     EnvelopeStatus, HeadlessResolver, ReportState, Scenario, latest_run_id, read_run_journal,
@@ -50,12 +47,12 @@ fn stage_repo_root(dir: &assert_fs::TempDir, scenario_stem: &str) {
 
 #[tokio::test(flavor = "current_thread")]
 async fn path7_the_two_surfaces_write_an_equal_envelope_into_one_runs_db() {
-    // The two arms are the mandated pair — the SAME conductor_run composition start_run's thread
-    // runs, and the `assert_cmd` CLI subprocess — pointed at ONE runs dir so a single runs.db holds
-    // both rows.
+    // The two arms are the mandated pair — the in-process conductor_run composition `suite` drives,
+    // and the `assert_cmd` CLI subprocess — pointed at ONE runs dir so a single runs.db holds both
+    // rows.
     //
     // The comparison is BETWEEN THE TWO PERSISTED ENVELOPES, never each against a literal: this
-    // test used to assert the Tauri row against hand-written expectations while a comment claimed
+    // test used to assert one arm's row against hand-written expectations while a comment claimed
     // cli_smoke proved the other side, which is two tests each matching their own expectation in
     // two different databases — not parity.
     //
@@ -90,8 +87,8 @@ async fn path7_the_two_surfaces_write_an_equal_envelope_into_one_runs_db() {
         .expect("the shared runs dir reads")
         .expect("the CLI arm persisted a run");
 
-    // --- Tauri arm: the composition start_run's background thread runs, same scenario + seed,
-    // into the SAME runs dir. Captured after the CLI arm so latest_run_id above is unambiguous.
+    // --- In-process arm: the composition `conductor suite` drives, same scenario + seed, into the
+    // SAME runs dir. Captured after the CLI arm so latest_run_id above is unambiguous.
     // SAFETY: this test binary holds exactly one test, so nothing else in the process reads env
     // concurrently, and it is set before any runtime or thread reads it; the CLI arm passes the
     // same value through the child's own .env instead.
@@ -99,10 +96,10 @@ async fn path7_the_two_surfaces_write_an_equal_envelope_into_one_runs_db() {
     let pf = conductor_run::preflight(&dir.path().join("contracts/mcp-contract.toml"))
         .await
         .unwrap();
-    conductor_run::drive_run(
+    let inproc_outcome = conductor_run::drive_run(
         &pf,
         std::slice::from_ref(&scenario),
-        "run-path7-tauri",
+        "run-path7-inproc",
         &runs_dir,
         &EnvelopeStatus::InEnvelope,
         &HeadlessResolver::proceed(),
@@ -111,47 +108,56 @@ async fn path7_the_two_surfaces_write_an_equal_envelope_into_one_runs_db() {
     )
     .await
     .expect("the blocked spine is infallible");
+    assert_eq!(
+        inproc_outcome.records.len(),
+        1,
+        "the in-process arm drove one scenario"
+    );
+    assert!(
+        !inproc_outcome.stopped,
+        "nothing stopped the in-process arm"
+    );
 
     // --- The comparison. Each arm's envelope is read back from its own journal in the one dir.
     assert_ne!(
-        cli_run_id, "run-path7-tauri",
+        cli_run_id, "run-path7-inproc",
         "each run carries its own identity"
     );
     let cli = read_run_journal(&runs_dir, &cli_run_id).expect("the CLI arm's journal reads");
-    let tauri =
-        read_run_journal(&runs_dir, "run-path7-tauri").expect("the Tauri arm's journal reads");
+    let inproc = read_run_journal(&runs_dir, "run-path7-inproc")
+        .expect("the in-process arm's journal reads");
     assert_eq!(cli.len(), 1, "one scenario ⇒ one envelope per arm");
-    assert_eq!(tauri.len(), 1);
-    let (cli, tauri) = (&cli[0], &tauri[0]);
+    assert_eq!(inproc.len(), 1);
+    let (cli, inproc) = (&cli[0], &inproc[0]);
 
     // Rendered as one string so a failure names every field that diverged, not just the first.
     let divergences: Vec<String> = [
         (
             "verdict",
             format!("{:?}", cli.verdict),
-            format!("{:?}", tauri.verdict),
+            format!("{:?}", inproc.verdict),
         ),
         (
             "state",
             format!("{:?}", cli.state),
-            format!("{:?}", tauri.state),
+            format!("{:?}", inproc.state),
         ),
-        ("seed", cli.seed.to_string(), tauri.seed.to_string()),
-        ("scenario", cli.scenario.clone(), tauri.scenario.clone()),
+        ("seed", cli.seed.to_string(), inproc.seed.to_string()),
+        ("scenario", cli.scenario.clone(), inproc.scenario.clone()),
         (
             "p_ids",
             format!("{:?}", cli.p_ids),
-            format!("{:?}", tauri.p_ids),
+            format!("{:?}", inproc.p_ids),
         ),
         (
             "slo_tier",
             format!("{:?}", cli.slo_tier),
-            format!("{:?}", tauri.slo_tier),
+            format!("{:?}", inproc.slo_tier),
         ),
     ]
     .into_iter()
     .filter(|(_, c, t)| c != t)
-    .map(|(field, c, t)| format!("{field}: cli={c} tauri={t}"))
+    .map(|(field, c, t)| format!("{field}: cli={c} inproc={t}"))
     .collect();
     assert_eq!(
         divergences.join(" | "),
@@ -172,7 +178,7 @@ async fn path7_the_two_surfaces_write_an_equal_envelope_into_one_runs_db() {
     assert!(cli.verdict.is_none(), "a blocked row carries no verdict");
 
     // Each arm wrote its OWN journal — parity is field equality, never artifact identity.
-    for id in [cli_run_id.as_str(), "run-path7-tauri"] {
+    for id in [cli_run_id.as_str(), "run-path7-inproc"] {
         assert!(
             runs_dir.join(format!("{id}.jsonl")).is_file(),
             "{id} has its own journal"

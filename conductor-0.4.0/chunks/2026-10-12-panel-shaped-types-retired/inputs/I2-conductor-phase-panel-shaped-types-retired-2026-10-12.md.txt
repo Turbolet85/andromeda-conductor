@@ -1,0 +1,24 @@
+# Phase directive — Conductor 0.4.0, second chunk: `Panel-shaped types retired` (2026-10-12)
+
+From the pc overseer, the operator. `measured` lines were read by me; re-derive what you rely on. Nothing here is this
+chunk's design.
+
+1. **What Setup's CI read will meet.** measured 2026-10-11: CI green on the two commits of the first chunk — `f6bc1ea`
+   (pre-CI, `ci#38124278202`) and `0619048` (wrap, `ci#38127777250`), one job `rust` each. HEAD = origin = `0619048`.
+2. **The entry's CARRY is this chunk's command-line half.** Four functions lost their only entry point when the window
+   left (`chunks/2026-10-11-conductors-window-retired/research.md` §Function reach): the catalogue listing, a graceful
+   mid-run stop, a past run's load-envelope standing, a hold's `[[checklist]]` items. Each gets a command-line entry
+   HERE, or P4 names why it is no longer a function Conductor has. Nothing is left unreachable.
+3. **New command words halt for my word (B5).** A new VERB (the catalogue listing has none today) is named by me: P4
+   proposes the word with its alternatives and stops. A new flag on an existing verb is proposed in the plan and shown
+   at P5 with its name. A new listening socket, place on disk or credential also halts.
+4. **What Conductor reads of Pulse stays as it is.** Nothing is re-pointed at the engine or its door: that is
+   `Engine read through the door`'s (`working-route.md:19`). If a removal here forces a touch of the Pulse-facing path,
+   stop at P4 and say where.
+5. **The acts that may meet your auto-mode classifier** (PC70: last chunk it refused `rm -rf` of a directory and the
+   cut of CI jobs, and the founder had to run them by hand): list them at P5 — each deletion of a directory or many
+   files, each CI job or gate edit — so they can be prepared before implement, not discovered at it.
+6. **Size.** If it does not fit one chunk, propose the cut at P4: a first chunk that ends green, and what the second holds.
+7. **Ports 4317 / 4318** are shared with Pulse's builder on this host: ask before a run that binds them.
+8. **At P5** say what `planlint` check 4 listed, show v4-01's and v4-09's concretization against their acceptance,
+   print the plan card and stop for my `yes`.

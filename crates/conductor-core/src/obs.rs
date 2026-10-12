@@ -56,8 +56,8 @@ impl ServiceIdentity {
 }
 
 /// Where the self-observation JSON stream is written: the default operator-facing `stderr`, or a
-/// truncating JSON file (the cli's `logs/agent-latest.jsonl` in `--agent-mode`, the Tauri backend's
-/// `logs/conductor-tauri.jsonl`) — obs-plan §3 dual sink. A file sink keeps the machine stream off
+/// truncating JSON file (the cli's `logs/agent-latest.jsonl` in `--agent-mode`) — obs-plan §3 dual
+/// sink. A file sink keeps the machine stream off
 /// stderr, so a piped agent reads a clean stderr (the `error:`/`hint:` summary only).
 #[derive(Debug, Clone)]
 pub enum ObsSink {

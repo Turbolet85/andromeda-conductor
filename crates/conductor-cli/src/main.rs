@@ -63,7 +63,7 @@ fn hint_for(err: &anyhow::Error) -> &'static str {
         .collect::<Vec<_>>()
         .join(" ");
     if chain.contains("no scenario matches") {
-        "list scenarios in scenarios/, or pass a P-ID like P-009"
+        "list them with `conductor scenarios`, or pass a P-ID like P-009"
     } else if chain.contains(" is named by ") {
         "pass one of the named scenarios instead of the P-ID"
     } else if chain.contains("contract manifest") {
@@ -78,6 +78,7 @@ fn hint_for(err: &anyhow::Error) -> &'static str {
 async fn dispatch(cli: Cli, run_id: &str, agent_mode: bool) -> anyhow::Result<ExitCode> {
     let paths = paths::Paths::resolve()?;
     match cli.command {
+        Commands::Scenarios => commands::scenarios(&paths),
         Commands::Run { target, seed } => {
             commands::run(&target, seed, &paths, run_id, agent_mode).await
         }
